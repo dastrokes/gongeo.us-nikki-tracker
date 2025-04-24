@@ -1,0 +1,52 @@
+{
+  "name": "nikki-resonance",
+  "version": "1.0.0",
+  "description": "Infinity Nikki Resonance Tracker",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxi dev --host 0.0.0.0",
+    "start": "nuxt start",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "format": "prettier --write .",
+    "prepare": "husky",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "gen": "node scripts/generate-outfit-index.js"
+  },
+  "keywords": [
+    "nuxt",
+    "vue",
+    "ssr",
+    "tailwind",
+    "pinia",
+    "naive-ui"
+  ],
+  "author": "dastrokes",
+  "dependencies": {
+    "@formkit/auto-animate": "0.8.2",
+    "@nuxt/eslint": "1.3.0",
+    "@nuxtjs/tailwindcss": "6.13.2",
+    "@pinia/nuxt": "0.11.0",
+    "@vicons/antd": "0.13.0",
+    "@vueuse/nuxt": "13.1.0",
+    "axios": "1.8.4",
+    "eslint": "9.25.1",
+    "naive-ui": "2.41.0",
+    "nuxt": "3.16.2",
+    "nuxtjs-naive-ui": "1.0.2"
+  },
+  "devDependencies": {
+    "@types/node": "20.11.24",
+    "@vicons/fa": "0.13.0",
+    "husky": "9.1.7",
+    "prettier": "3.2.5",
+    "sass": "1.87.0",
+    "typescript": "5.3.3",
+    "unplugin-auto-import": "19.1.2",
+    "unplugin-vue-components": "28.5.0"
+  }
+}

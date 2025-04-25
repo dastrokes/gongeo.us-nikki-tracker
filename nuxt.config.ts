@@ -31,6 +31,23 @@ export default defineNuxtConfig({
     ],
   },
 
+  'naive-ui': {
+    themeOverrides: {
+      common: {
+        primaryColor: '#007bff',
+        successColor: '#28a745',
+        warningColor: '#ffc107',
+        errorColor: '#dc3545',
+        infoColor: '#17a2b8',
+
+        textColor1: '#212529',
+        bodyColor: '#f8f9fa',
+        cardColor: '#ffffff',
+        borderColor: '#dee2e6',
+      },
+    },
+  },
+
   build: {
     transpile: ['naive-ui', 'vueuc'],
   },

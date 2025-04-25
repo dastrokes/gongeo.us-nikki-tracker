@@ -1,9 +1,12 @@
 <template>
-  <n-config-provider :theme="theme">
+  <n-config-provider
+    :theme="lightTheme"
+    :theme-overrides="themeOverrides"
+  >
     <n-message-provider>
       <n-dialog-provider>
         <n-notification-provider>
-          <div class="min-h-screen bg-gray-50">
+          <div class="min-h-screen">
             <NuxtLayout>
               <NuxtPage />
             </NuxtLayout>
@@ -15,16 +18,16 @@
 </template>
 
 <script setup lang="ts">
-  import { useUserStore } from '~/stores/user'
+  import { lightTheme } from 'naive-ui'
+  // import { darkTheme } from 'naive-ui'
+  import { NConfigProvider, type GlobalThemeOverrides } from 'naive-ui'
 
-  // Initialize user store
-  const userStore = useUserStore()
+  const themeOverrides: GlobalThemeOverrides = {
+    common: {
+    },
+    Button: {
+    },
+  }
 
-  // For now, we'll use the light theme by default
-  const theme = ref(null)
-
-  // Initialize user auth state
-  onMounted(async () => {
-    await userStore.auth()
-  })
+  const theme = ref(lightTheme)
 </script>

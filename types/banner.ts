@@ -14,5 +14,5 @@ export interface Banner {
 }
 
 export interface BannerData {
-  [key: string]: Banner
+  [key: number]: Banner
 }

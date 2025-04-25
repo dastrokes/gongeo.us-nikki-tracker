@@ -1,21 +1,36 @@
+export interface JsonData {
+  code: number
+  info: string
+  request_id: string
+  banner_id: number
+  data: {
+    title: string[]
+    datas: [string, string][]
+    end: boolean
+  }
+}
+
+export type PullRecord = [string, string]
+
 export interface PullItem {
   itemId: string
   itemName: string
   itemType: string
   outfitId: string
-  rarity: 4 | 5
+  rarity: number
   outfitName: string
   pullsToObtain: number
   obtainedAt: string
   bannerId: number
   obtained: boolean
   pullIndex: number
+  duplicate: boolean
 }
 
 export interface OutfitStatus {
   id: string
   name: string
-  rarity: 4 | 5
+  rarity: number
   items: {
     id: string
     name: string
@@ -40,10 +55,23 @@ export interface BannerStats {
 }
 
 export interface ProcessedBanner {
+  isComplete: boolean
   pulls: PullItem[]
   outfits: OutfitStatus[]
   stats: BannerStats
   bannerId: number
   bannerName: string
   bannerType: number
+}
+
+export interface PullState {
+  processedPulls: Record<string, ProcessedBanner>
+  isProcessing: boolean
+  isLoading: boolean
+  error: string | null
+  totalPulls: number
+  total4StarItems: number
+  total5StarItems: number
+  avg5StarPulls: number
+  avg4StarPulls: number
 }

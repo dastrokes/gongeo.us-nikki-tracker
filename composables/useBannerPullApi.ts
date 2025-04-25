@@ -6,18 +6,17 @@ import { BANNER_DATA } from '~/data/banners'
 
 export enum Region {
   EUROPE = 'EUROPE',
-  ASIA = 'ASIA',
-  TW = 'TW',
   AMERICA = 'AMERICA',
   CHINA = 'CHINA',
+  TW = 'TW',
+  ASIA = 'ASIA',
 }
 
 export const REGION_URLS = {
-  [Region.AMERICA]: 'https://X6us-clickhouse.infoldgames.com/v1/tlog',
   [Region.EUROPE]: 'https://x6en-clickhouse.infoldgames.com/v1/tlog',
+  [Region.AMERICA]: 'https://X6us-clickhouse.infoldgames.com/v1/tlog',
   [Region.CHINA]: 'https://x6cn-clickhouse.nuanpaper.com/v1/tlog',
   [Region.TW]: 'https://X6tw-clickhouse.infoldgames.com/v1/tlog',
-
   [Region.ASIA]: 'https://X6asia-clickhouse.infoldgames.com/v1/tlog',
 } as const
 
@@ -29,20 +28,18 @@ export const REGION_LABELS = {
   [Region.ASIA]: 'Asia',
 } as const
 
-// Constants for retry configuration
+// Constants
+const REQUEST_DELAY = 1000 // 1 second delay between requests
 const MAX_RETRIES = 3
-const INITIAL_RETRY_DELAY = 1000
-const REQUEST_INTERVAL = 1000
+const INITIAL_RETRY_DELAY = 2000
 
-let lastRequestTime = 0
-
-const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
-
-// Default headers for all requests
+// Default headers
 const DEFAULT_HEADERS = {
   Accept: '*/*',
   'X-Client-Info': 'X6Game/UE5-CL-0 Windows/10.0.19045.1.256.64bit',
 }
+
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
 // Create axios instance with default config
 const createApi = (baseURL: string) =>
@@ -63,7 +60,6 @@ const retryRequest = async <T>(
     if (
       !(error instanceof AxiosError) ||
       !error.response ||
-      error.response.status >= 500 ||
       retryCount >= MAX_RETRIES
     ) {
       throw error
@@ -78,31 +74,119 @@ const retryRequest = async <T>(
 export const useBannerPullApi = () => {
   const loading = ref(false)
   const error = ref<string | null>(null)
+  const progress = ref<{ banner: number; page: number } | null>(null)
   const userStore = useUserStore()
 
   // Get current API instance based on selected region
   const getApi = () => {
     const region = userStore.getSelectedRegion as Region
-    const api = createApi(REGION_URLS[region])
-
-    // Add request interceptor for throttling
-    api.interceptors.request.use(async (config) => {
-      const now = Date.now()
-      const timeSinceLastRequest = now - lastRequestTime
-
-      if (timeSinceLastRequest < REQUEST_INTERVAL) {
-        await sleep(REQUEST_INTERVAL - timeSinceLastRequest)
-      }
-
-      lastRequestTime = Date.now()
-      return config
-    })
-
-    return api
+    return createApi(REGION_URLS[region])
   }
 
   const setRegion = (region: Region) => {
     userStore.setRegion(region)
+  }
+
+  // Query a single page for a banner
+  const queryBannerPage = async (
+    bannerId: number,
+    page: number,
+    authToken: string
+  ): Promise<QueryResponse> => {
+    const response = await retryRequest(() =>
+      getApi().get<QueryResponse>('/query', {
+        params: {
+          page: page.toString(),
+          args: bannerId,
+          name: 'gacha',
+          etime: Math.floor(Date.now() / 1000).toString(),
+        },
+        headers: {
+          'X-Authority': authToken,
+        },
+      })
+    ).then((response) => response.data)
+
+    // Add banner_id to the response
+    response.banner_id = bannerId
+    return response
+  }
+
+  // Query all pages for a single banner
+  const queryBannerHistory = async (
+    bannerId: number,
+    authToken: string
+  ): Promise<QueryResponse[]> => {
+    const results: QueryResponse[] = []
+    let page = 1
+    let isEnd = false
+
+    while (!isEnd) {
+      progress.value = { banner: bannerId, page }
+
+      const response = await queryBannerPage(bannerId, page, authToken)
+
+      if (response.code !== 0) {
+        throw new Error(response.info || 'Failed to fetch banner data')
+      }
+
+      results.push(response)
+      isEnd = response.data.end
+      page++
+
+      if (!isEnd) {
+        await sleep(REQUEST_DELAY)
+      }
+    }
+
+    return results
+  }
+
+  // Main function to fetch all banner history
+  const fetchPullHistory = async () => {
+    const authToken = userStore.getAuthToken
+    if (!authToken) {
+      error.value = 'Not authenticated'
+      return null
+    }
+
+    loading.value = true
+    error.value = null
+    progress.value = null
+
+    try {
+      const bannerIds = Object.values(BANNER_DATA)
+        .map((banner) => banner.bannerId)
+        .filter((id) => id !== 1) // Exclude permanent banner
+
+      const allResults = []
+
+      for (const bannerId of bannerIds) {
+        try {
+          const bannerResults = await queryBannerHistory(bannerId, authToken)
+          allResults.push({ bannerId, results: bannerResults })
+
+          // Delay between banners
+          if (bannerId !== bannerIds[bannerIds.length - 1]) {
+            await sleep(REQUEST_DELAY)
+          }
+        } catch (e) {
+          console.error(`Failed to fetch banner ${bannerId}:`, e)
+          // Continue with other banners even if one fails
+          continue
+        }
+      }
+
+      return allResults
+    } catch (e) {
+      error.value = axios.isAxiosError(e)
+        ? e.response?.data?.info || e.message
+        : 'Failed to fetch pull history'
+      return null
+    } finally {
+      loading.value = false
+      progress.value = null
+    }
   }
 
   const verifyAuth = async (cookieData: CookieData) => {
@@ -137,63 +221,10 @@ export const useBannerPullApi = () => {
     }
   }
 
-  const fetchPullHistory = async (page: number = 1) => {
-    const authToken = userStore.getAuthToken
-    if (!authToken) {
-      error.value = 'Not authenticated'
-      return null
-    }
-
-    loading.value = true
-    error.value = null
-
-    try {
-      // Get all banner IDs except the permanent banner (ID: '1')
-      const bannerIds = Object.keys(BANNER_DATA).filter((id) => id !== '1')
-
-      // Make sequential requests for each banner
-      const responses = []
-      for (const bannerId of bannerIds) {
-        const response = await retryRequest(() =>
-          getApi().get<QueryResponse>('/query', {
-            params: {
-              page: page.toString(),
-              args: bannerId,
-              name: 'gacha',
-              etime: Math.floor(Date.now() / 1000).toString(),
-            },
-            headers: {
-              'X-Authority': authToken,
-            },
-          })
-        )
-        responses.push(response)
-      }
-
-      // Find the first successful response (code === 0)
-      const successfulResponse = responses.find(
-        (response) => response.data.code === 0
-      )
-
-      if (successfulResponse) {
-        return successfulResponse.data
-      } else {
-        error.value = 'No successful responses from any banner'
-        return null
-      }
-    } catch (e) {
-      error.value = axios.isAxiosError(e)
-        ? e.response?.data?.info || e.message
-        : 'Failed to fetch pull history'
-      return null
-    } finally {
-      loading.value = false
-    }
-  }
-
   return {
     loading,
     error,
+    progress,
     verifyAuth,
     fetchPullHistory,
     selectedRegion: computed(() => userStore.getSelectedRegion),

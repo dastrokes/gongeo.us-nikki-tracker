@@ -3,7 +3,7 @@ declare module '*.json' {
     code: number
     info: string
     request_id: string
-    banner_id: string
+    banner_id: number
     data: {
       title: string[]
       datas: [string, string][]

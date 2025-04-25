@@ -1,3 +1,5 @@
+import type { PullRecord } from './pull'
+
 export interface CookieData {
   roleid: string
   token: string
@@ -11,19 +13,14 @@ export interface VerifyResponse {
   data: string
 }
 
-export interface GachaRecord {
-  time: string
-  GachaResult: string
-}
-
 export interface QueryResponse {
   code: number
   info: string
   request_id: string
-  banner_id: string
+  banner_id: number
   data: {
     title: string[]
-    datas: [string, string][]
+    datas: PullRecord[]
     end: boolean
   }
 }

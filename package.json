@@ -34,19 +34,23 @@
     "@vicons/antd": "0.13.0",
     "@vueuse/nuxt": "13.1.0",
     "axios": "1.8.4",
-    "eslint": "9.25.1",
     "naive-ui": "2.41.0",
     "nuxt": "3.16.2",
     "nuxtjs-naive-ui": "1.0.2"
   },
   "devDependencies": {
     "@types/node": "20.11.24",
+    "@typescript-eslint/eslint-plugin": "8.31.0",
+    "@typescript-eslint/parser": "8.31.0",
     "@vicons/fa": "0.13.0",
+    "eslint": "9.25.1",
+    "eslint-config-prettier": "10.1.2",
     "husky": "9.1.7",
     "prettier": "3.2.5",
     "sass": "1.87.0",
     "typescript": "5.3.3",
     "unplugin-auto-import": "19.1.2",
-    "unplugin-vue-components": "28.5.0"
+    "unplugin-vue-components": "28.5.0",
+    "vue-eslint-parser": "10.1.3"
   }
 }

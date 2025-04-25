@@ -1,10 +1,9 @@
 <template>
-  <div class="bg-slate-50/30 pt-6">
-    <div class="max-w-7xl mx-auto p-4 space-y-4">
+    <div class="max-w-7xl mx-auto pt-12 space-y-4">
       <!-- Stats Header -->
       <n-card
         v-if="Object.keys(processedPulls).length > 0"
-        class="bg-white rounded-xl"
+        class="rounded-xl"
       >
         <div class="flex items-center justify-between">
           <div class="flex-grow grid grid-cols-5 gap-8">
@@ -85,7 +84,7 @@
       <!-- Banner List -->
       <n-spin :show="loading">
         <template #description>
-          <div class="text-gray-600">Loading pull history...</div>
+          <div class="text-xl text-neutral-800">Loading resonance history...</div>
         </template>
         <div
           v-if="!loading"
@@ -97,7 +96,10 @@
               :key="banner.bannerId"
             >
               <n-card
-                v-show="showEmptyBanners || banner.pulls.length > 0"
+                v-show="
+                  ( showEmptyBanners || banner.pulls.length > 0) &&
+                  banner.bannerId != 1
+                "
                 class="banner-card rounded-xl"
               >
                 <div>
@@ -341,36 +343,21 @@
             v-if="Object.keys(processedPulls).length === 0"
             class="text-center rounded-xl"
           >
-            <div class="text-xl text-gray-600">No pull history available</div>
+            <div class="text-xl text-neutral-800">No resonance history available</div>
           </n-card>
         </div>
       </n-spin>
     </div>
-  </div>
 </template>
 
 <script setup lang="ts">
-  import { ref, computed, onMounted } from 'vue'
+  import { ref, computed } from 'vue'
   import { storeToRefs } from 'pinia'
   import { Cog, ChartBarRegular, CheckCircle, Star } from '@vicons/fa'
   import { BANNER_DATA } from '~/data/banners'
   import { usePullStore } from '~/stores/pull'
   import { useUserStore } from '~/stores/user'
-
-  interface ProcessedPull {
-    itemId: string
-    itemName: string
-    itemType: string
-    outfitId: string
-    rarity: number
-    outfitName: string
-    pullsToObtain: number
-    obtainedAt: string | null
-    bannerId: string
-    obtained: boolean
-    pullIndex: number
-    duplicate: boolean
-  }
+  import type { PullItem } from '~/types/pull'
 
   const pullStore = usePullStore()
   const userStore = useUserStore()
@@ -414,14 +401,14 @@
   const showEmptyBanners = ref(false)
 
   // Function to load missing items for a banner
-  const loadMissingItems = async (bannerId: string) => {
+  const loadMissingItems = async (bannerId: number) => {
     if (showMissingPieces.value[bannerId]) {
       await addMissingItems(bannerId)
     }
   }
 
   // Function to filter pulls based on UI toggles
-  const filterPulls = (pulls: ProcessedPull[], bannerId: string) => {
+  const filterPulls = (pulls: PullItem[], bannerId: number) => {
     return pulls.filter((pull) => {
       // When show4StarItems is false, hide 4★ items
       if (pull.rarity === 4 && !show4StarItems.value[bannerId]) {
@@ -433,11 +420,11 @@
     })
   }
 
-  const getOutfitItems = (items: ProcessedPull[], outfitId: string) => {
+  const getOutfitItems = (items: PullItem[], outfitId: string) => {
     return items.filter((item) => item.outfitId === outfitId)
   }
 
-  const hasBothRarities = (bannerId: string) => {
+  const hasBothRarities = (bannerId: number) => {
     const banner = BANNER_DATA[bannerId]
     if (!banner) return false
     // Banner type 2 has both 4★ and 5★
@@ -450,17 +437,6 @@
       (banner) => banner.outfits.length > 1
     )
   }
-
-  onMounted(async () => {
-    if (pullStore.totalPulls === 0) {
-      // Only load mock data in development mode
-      if (process.env.NODE_ENV === 'development') {
-        await pullStore.loadJsonData()
-      } else {
-        await pullStore.loadAllPulls()
-      }
-    }
-  })
 </script>
 
 <style lang="scss" scoped></style>

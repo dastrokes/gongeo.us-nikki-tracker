@@ -7,60 +7,61 @@
       has-sider
       position="absolute"
     >
-      <transition
-        enter-active-class="transition duration-300 ease-in-out transform"
-        leave-active-class="transition duration-300 ease-in-out transform"
-        enter-from-class="-translate-y-full opacity-0"
-        enter-to-class="translate-y-0 opacity-100"
-        leave-from-class="translate-y-0 opacity-100"
-        leave-to-class="-translate-y-full opacity-0"
+      <n-layout-sider
+        collapse-mode="width"
+        :native-scrollbar="false"
+        :collapsed-width="60"
+        :width="200"
+        :collapsed="collapsed"
+        show-trigger
+        @collapse="collapsed = true"
+        @expand="collapsed = false"
       >
-        <n-layout-header
-          v-show="showHeader"
-          bordered
-          class="fixed top-0 left-0 right-0 bg-white z-50 h-12"
+        <n-menu
+          :collapsed="collapsed"
+          :collapsed-width="60"
+          :collapsed-icon-size="16"
+          :options="menuOptions"
+          class="pt-12"
+        />
+      </n-layout-sider>
+
+      <n-layout>
+        <transition
+          enter-active-class="transition duration-300 ease-in-out transform"
+          leave-active-class="transition duration-300 ease-in-out transform"
+          enter-from-class="-translate-y-full opacity-0"
+          enter-to-class="translate-y-0 opacity-100"
+          leave-from-class="translate-y-0 opacity-100"
+          leave-to-class="-translate-y-full opacity-0"
         >
-          <div class="max-w-7xl mx-auto">
-            <div class="flex row h-12 items-center">
+          <n-layout-header
+            v-show="showHeader"
+            class="fixed top-0 right-0 z-50 h-12"
+          >
+            <div class="flex row h-12 items-center pl-6">
               <NuxtLink
                 to="/"
-                class="text-xl font-bold text-gray-900 w-64"
+                class="text-xl font-bold text-gray-900 w-96"
               >
-                Nikki Resonance
+                Infinity Nikki Resonance Tracker
               </NuxtLink>
-              <n-menu
-                mode="horizontal"
-                :options="menuOptions"
-                class="hidden sm:flex"
-              />
-
-              <div class="flex items-center">
-                <n-button
-                  quaternary
-                  circle
-                  class="ml-3"
-                >
-                  <template #icon>
-                    <n-icon><User /></n-icon>
-                  </template>
-                </n-button>
-              </div>
             </div>
-          </div>
-        </n-layout-header>
-      </transition>
+          </n-layout-header>
+        </transition>
 
-      <n-scrollbar
-        class="flex-1 overflow-hidden"
-        @scroll="onScroll"
-      >
-        <div
-          ref="scrollContainer"
-          class="h-full overflow-y-auto px-4 py-6"
+        <n-scrollbar
+          class="flex-1 overflow-hidden bg-rose-100"
+          @scroll="onScroll"
         >
-          <slot />
-        </div>
-      </n-scrollbar>
+          <div
+            ref="scrollContainer"
+            class="h-full overflow-y-auto px-4 py-6"
+          >
+            <slot />
+          </div>
+        </n-scrollbar>
+      </n-layout>
     </n-layout>
   </n-layout>
 </template>
@@ -69,32 +70,37 @@
   import {
     NLayout,
     NLayoutHeader,
+    NLayoutSider,
     NMenu,
-    NButton,
     NIcon,
     type MenuOption,
   } from 'naive-ui'
-  import { User } from '@vicons/fa'
+  import { FileImport, Book } from '@vicons/fa'
   import { h, ref } from 'vue'
   import { NuxtLink } from '#components'
+
+  function renderIcon(icon: Component) {
+    return () => h(NIcon, null, { default: () => h(icon) })
+  }
 
   const menuOptions: MenuOption[] = [
     {
       label: () =>
-        h(NuxtLink, { to: '/tracker' }, { default: () => 'Banner Tracker' }),
-      key: 'tracker',
+        h(NuxtLink, { to: '/import' }, { default: () => 'Import Data' }),
+      key: 'import',
+      icon: renderIcon(FileImport),
     },
     {
       label: () =>
-        h(NuxtLink, { to: '/import' }, { default: () => 'Import Data' }),
-      key: 'import',
+        h(NuxtLink, { to: '/tracker' }, { default: () => 'Resonance Tracker' }),
+      key: 'tracker',
+      icon: renderIcon(Book),
     },
   ]
 
   const showHeader = ref(true)
-  // const showDrawer = ref(false)
+  const collapsed = ref(false)
   const lastScrollPosition = ref(0)
-
   const scrollContainer = ref<HTMLElement | null>(null)
 
   const onScroll = (e: Event) => {

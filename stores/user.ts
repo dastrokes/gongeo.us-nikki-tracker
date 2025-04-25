@@ -23,7 +23,7 @@ export const useUserStore = defineStore('user', {
     isAuthenticated: false,
     loading: false,
     authToken: null,
-    selectedRegion: Region.EUROPE,
+    selectedRegion: Region.AMERICA,
   }),
 
   getters: {
@@ -34,8 +34,6 @@ export const useUserStore = defineStore('user', {
   },
 
   actions: {
-    async auth() {},
-
     setAuthToken(token: string | null) {
       this.authToken = token
     },

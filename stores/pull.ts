@@ -1,86 +1,15 @@
 import { defineStore } from 'pinia'
 import type { BannerData } from '~/types/banner'
-import type { Outfit, OutfitItem } from '~/types/outfit'
+import type { Outfit } from '~/types/outfit'
 import { BANNER_DATA } from '~/data/banners'
 import OUTFIT_DATA, { type OutfitKey } from '~/data/outfits'
-
-interface JsonData {
-  code: number
-  info: string
-  request_id: string
-  banner_id: string
-  data: {
-    title: string[]
-    datas: [string, string][]
-    end: boolean
-  }
-}
-
-interface PullRecord {
-  bannerId: string
-  itemId: string
-  time: string
-}
-
-interface ProcessedPull {
-  bannerId: string
-  itemId: string
-  itemName: string
-  itemType: string
-  outfitId: string
-  rarity: number
-  outfitName: string
-  pullsToObtain: number
-  obtainedAt: string | null
-  obtained: boolean
-  pullIndex: number
-  duplicate: boolean
-}
-
-interface OutfitStatus {
-  id: string
-  name: string
-  rarity: number
-  items: OutfitItem[]
-  isComplete: boolean
-  totalItems: number
-  obtainedItems: number
-}
-
-interface BannerStats {
-  lastPull: string | null
-  totalPulls: number
-  totalItems: number
-  pity4Star: number
-  pity5Star: number
-  avg4StarPulls: number
-  avg5StarPulls: number
-  total4StarItems: number
-  total5StarItems: number
-  isComplete: boolean
-}
-
-interface ProcessedBanner {
-  isComplete: boolean
-  pulls: ProcessedPull[]
-  outfits: OutfitStatus[]
-  stats: BannerStats
-  bannerId: string
-  bannerName: string
-  bannerType: number
-}
-
-interface PullState {
-  processedPulls: Record<string, ProcessedBanner>
-  isProcessing: boolean
-  isLoading: boolean
-  error: string | null
-  totalPulls: number
-  total4StarItems: number
-  total5StarItems: number
-  avg5StarPulls: number
-  avg4StarPulls: number
-}
+import type {
+  JsonData,
+  PullRecord,
+  PullItem,
+  ProcessedBanner,
+  PullState,
+} from '~/types/pull'
 
 export const usePullStore = defineStore('pull', {
   state: (): PullState => ({
@@ -143,7 +72,7 @@ export const usePullStore = defineStore('pull', {
       this.avg4StarPulls = 0
     },
 
-    getBannerOutfitIds(bannerId: string) {
+    getBannerOutfitIds(bannerId: number) {
       const banner = (BANNER_DATA as BannerData)[bannerId]
       if (!banner) return { outfit4StarId: [], outfit5StarId: [] }
       return {
@@ -161,7 +90,7 @@ export const usePullStore = defineStore('pull', {
       }
     },
 
-    getBannerName(bannerId: string): string {
+    getBannerName(bannerId: number): string {
       const banner = (BANNER_DATA as BannerData)[bannerId]
       return banner ? banner.bannerName : 'Unknown Banner'
     },
@@ -175,7 +104,7 @@ export const usePullStore = defineStore('pull', {
       try {
         const jsonData = (await import('../data/mock.json'))
           .default as unknown as JsonData[]
-        const pullsByBanner: Record<string, PullRecord[]> = {}
+        const pullsByBanner: Record<number, PullRecord[]> = {}
 
         jsonData.forEach((data) => {
           const bannerId = data.banner_id
@@ -185,11 +114,7 @@ export const usePullStore = defineStore('pull', {
 
           // Process each pull data entry
           data.data.datas.forEach(([time, itemId]) => {
-            pullsByBanner[bannerId].push({
-              bannerId,
-              itemId,
-              time,
-            })
+            pullsByBanner[bannerId].push([time, itemId] as PullRecord)
           })
         })
 
@@ -220,7 +145,7 @@ export const usePullStore = defineStore('pull', {
       }
     },
 
-    async processPullsData(pullsByBanner: Record<string, PullRecord[]>) {
+    async processPullsData(pullsByBanner: Record<number, PullRecord[]>) {
       if (this.isProcessing) return
 
       this.isProcessing = true
@@ -291,7 +216,7 @@ export const usePullStore = defineStore('pull', {
               total5StarItems: 0,
               isComplete: false,
             },
-            bannerId: bannerInfo.bannerId,
+            bannerId: bannerId,
             bannerName: bannerInfo.bannerName,
             bannerType: bannerInfo.bannerType,
             isComplete: false,
@@ -319,7 +244,7 @@ export const usePullStore = defineStore('pull', {
           const pulls = pullsByBanner[bannerId] || []
           const processedPulls = [...pulls].reverse()
           const itemObtained: Record<string, boolean> = {}
-          const firstObtainInfo: Record<string, ProcessedPull> = {}
+          const firstObtainInfo: Record<string, PullItem> = {}
           const currentBanner = bannerPulls[bannerId]
 
           processedPulls.forEach((pull, index) => {
@@ -327,36 +252,35 @@ export const usePullStore = defineStore('pull', {
             currentPity[bannerId][4]++
             currentPity[bannerId][5]++
 
-            const itemInfo = itemToOutfitMap[pull.itemId]
+            const [time, itemId] = pull
+            const itemInfo = itemToOutfitMap[itemId]
             if (itemInfo) {
               const { outfitId, rarity, outfit } = itemInfo
-              const itemData = outfit.items.find(
-                (item) => item.id === pull.itemId
-              )
+              const itemData = outfit.items.find((item) => item.id === itemId)
               if (!itemData) return
 
               const pullsToObtain = currentPity[bannerId][rarity]
               currentPity[bannerId][rarity] = 0
 
-              const pullInfo: ProcessedPull = {
-                itemId: pull.itemId,
+              const pullInfo: PullItem = {
+                itemId,
                 itemName: itemData.name,
                 itemType: itemData.type,
                 outfitId,
-                rarity,
+                rarity: rarity as number,
                 outfitName: outfit.name,
                 pullsToObtain,
-                obtainedAt: pull.time,
-                bannerId: pull.bannerId,
+                obtainedAt: time,
+                bannerId: bannerId,
                 obtained: true,
                 pullIndex: index + 1,
-                duplicate: itemObtained[pull.itemId] || false,
+                duplicate: itemObtained[itemId] || false,
               }
 
-              if (!firstObtainInfo[pull.itemId]) {
-                firstObtainInfo[pull.itemId] = pullInfo
+              if (!firstObtainInfo[itemId]) {
+                firstObtainInfo[itemId] = pullInfo
               }
-              itemObtained[pull.itemId] = true
+              itemObtained[itemId] = true
               currentBanner.pulls.unshift(pullInfo)
               currentBanner.stats.totalItems++
 
@@ -372,7 +296,7 @@ export const usePullStore = defineStore('pull', {
             }
 
             if (!currentBanner.stats.lastPull) {
-              currentBanner.stats.lastPull = pull.time
+              currentBanner.stats.lastPull = time
             }
           })
 
@@ -384,26 +308,25 @@ export const usePullStore = defineStore('pull', {
           if (bannerType === 1) {
             // Permanent
             stats.total5StarItems = currentPulls.filter(
-              (item: ProcessedPull) => item.rarity === 5 && item.obtained
+              (item: PullItem) => item.rarity === 5 && item.obtained
             ).length
             const fiveStarPulls = currentPulls.filter(
-              (item: ProcessedPull) => item.rarity === 5 && item.obtained
+              (item: PullItem) => item.rarity === 5 && item.obtained
             )
             stats.avg5StarPulls =
               fiveStarPulls.length > 0
                 ? fiveStarPulls.reduce(
-                    (sum: number, item: ProcessedPull) =>
-                      sum + item.pullsToObtain,
+                    (sum: number, item: PullItem) => sum + item.pullsToObtain,
                     0
                   ) / fiveStarPulls.length
                 : 0
           } else if (bannerType === 2) {
             // Limited 5★ with 4★
             const fourStarPulls = currentPulls.filter(
-              (item: ProcessedPull) => item.rarity === 4 && item.obtained
+              (item: PullItem) => item.rarity === 4 && item.obtained
             )
             const fiveStarPulls = currentPulls.filter(
-              (item: ProcessedPull) => item.rarity === 5 && item.obtained
+              (item: PullItem) => item.rarity === 5 && item.obtained
             )
 
             stats.total4StarItems = fourStarPulls.length
@@ -412,30 +335,27 @@ export const usePullStore = defineStore('pull', {
             stats.avg4StarPulls =
               fourStarPulls.length > 0
                 ? fourStarPulls.reduce(
-                    (sum: number, item: ProcessedPull) =>
-                      sum + item.pullsToObtain,
+                    (sum: number, item: PullItem) => sum + item.pullsToObtain,
                     0
                   ) / fourStarPulls.length
                 : 0
             stats.avg5StarPulls =
               fiveStarPulls.length > 0
                 ? fiveStarPulls.reduce(
-                    (sum: number, item: ProcessedPull) =>
-                      sum + item.pullsToObtain,
+                    (sum: number, item: PullItem) => sum + item.pullsToObtain,
                     0
                   ) / fiveStarPulls.length
                 : 0
           } else if (bannerType === 3) {
             // Limited 4★
             const fourStarPulls = currentPulls.filter(
-              (item: ProcessedPull) => item.rarity === 4 && item.obtained
+              (item: PullItem) => item.rarity === 4 && item.obtained
             )
             stats.total4StarItems = fourStarPulls.length
             stats.avg4StarPulls =
               fourStarPulls.length > 0
                 ? fourStarPulls.reduce(
-                    (sum: number, item: ProcessedPull) =>
-                      sum + item.pullsToObtain,
+                    (sum: number, item: PullItem) => sum + item.pullsToObtain,
                     0
                   ) / fourStarPulls.length
                 : 0
@@ -485,7 +405,7 @@ export const usePullStore = defineStore('pull', {
       }
     },
 
-    async addMissingItems(bannerId: string) {
+    async addMissingItems(bannerId: number) {
       const bannerInfo = (BANNER_DATA as BannerData)[bannerId]
       if (!bannerInfo) return
 
@@ -505,7 +425,7 @@ export const usePullStore = defineStore('pull', {
             total5StarItems: 0,
             isComplete: false,
           },
-          bannerId: bannerInfo.bannerId,
+          bannerId: bannerId,
           bannerName: bannerInfo.bannerName,
           bannerType: bannerInfo.bannerType,
           isComplete: false,
@@ -557,11 +477,11 @@ export const usePullStore = defineStore('pull', {
               itemName: item.name,
               itemType: item.type,
               outfitId: outfit.id,
-              rarity: outfit.rarity,
+              rarity: outfit.rarity as number,
               outfitName: outfit.name,
               pullsToObtain: 0,
               obtainedAt: null,
-              bannerId,
+              bannerId: bannerId,
               obtained: false,
               pullIndex: 0,
               duplicate: false,

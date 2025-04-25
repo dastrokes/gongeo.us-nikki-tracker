@@ -36,7 +36,7 @@ export const BANNER_DATA: BannerData = {
     bannerId: 4,
     bannerName: "Croaker's Whisper",
     bannerType: 3,
-    outfit4StarId: [],
+    outfit4StarId: ['S0153'],
     outfit5StarId: [],
     runs: [],
   },
@@ -45,7 +45,7 @@ export const BANNER_DATA: BannerData = {
     bannerName: 'Bubbling Affections',
     bannerType: 2,
     outfit4StarId: ['S0107'],
-    outfit5StarId: ['S0153'],
+    outfit5StarId: [''],
     runs: [],
   },
   6: {

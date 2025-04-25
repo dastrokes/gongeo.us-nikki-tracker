@@ -23,10 +23,8 @@
   import { NConfigProvider, type GlobalThemeOverrides } from 'naive-ui'
 
   const themeOverrides: GlobalThemeOverrides = {
-    common: {
-    },
-    Button: {
-    },
+    common: {},
+    Button: {},
   }
 
   const theme = ref(lightTheme)

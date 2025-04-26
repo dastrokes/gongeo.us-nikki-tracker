@@ -11,6 +11,34 @@ export const useBannerPullData = () => {
   const currentPage = ref(1)
   const error = ref<string | null>(null)
 
+  const processJsonImport = async (jsonData: Array<{
+    banner_id: number
+    data: {
+      datas: Array<[string, string]>
+    }
+  }>) => {
+    const jsonPullsData = jsonData.reduce(
+      (acc: Record<number, PullRecord[]>, data) => {
+        const bannerId = data.banner_id
+        if (!acc[bannerId]) {
+          acc[bannerId] = []
+        }
+        data.data.datas.forEach(([time, itemId]) => {
+          acc[bannerId].push([time, itemId] as PullRecord)
+        })
+        return acc
+      },
+      {}
+    )
+
+    // Save to IndexedDB asynchronously without awaiting
+    const { savePullData } = useIndexedDB()
+    savePullData(jsonPullsData)
+
+    await pullStore.processPullsData(jsonPullsData)
+    return jsonPullsData
+  }
+
   const fetchData = async () => {
     if (isLoading.value) return
 
@@ -38,6 +66,10 @@ export const useBannerPullData = () => {
         }
       })
 
+      // Save to IndexedDB asynchronously without awaiting
+      const { savePullData } = useIndexedDB()
+      savePullData(pullsByBanner)
+
       // Process the data in the store
       await pullStore.processPullsData(pullsByBanner)
     } catch (e) {
@@ -62,5 +94,6 @@ export const useBannerPullData = () => {
     error,
     fetchData,
     fetchAllData,
+    processJsonImport,
   }
 }

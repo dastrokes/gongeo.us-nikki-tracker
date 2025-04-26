@@ -6,20 +6,45 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
 
   // Add global CSS files
-  css: ['~/assets/styles/global.scss'],
+  css: ['~/assets/styles/global.scss', '~/assets/styles/tailwind.scss'],
 
   modules: [
     '@nuxt/eslint',
-    'nuxtjs-naive-ui',
     '@nuxtjs/tailwindcss',
     '@pinia/nuxt',
     '@vueuse/nuxt',
+    '@bg-dev/nuxt-naiveui',
+    '@nuxt/image',
+    '@nuxt/icon',
   ],
 
+  image: {
+    dir: 'assets/images',
+    provider: 'ipx',
+    presets: {
+      item: {
+        modifiers: {
+          format: 'webp',
+          width: 400,
+          height: 400,
+          fit: 'cover',
+          quality: 80,
+        },
+      },
+    },
+    screens: {
+      xs: 320,
+      sm: 640,
+      md: 768,
+      lg: 1024,
+      xl: 1280,
+      xxl: 1536,
+      '2xl': 1536,
+    },
+  },
+
   components: {
-    dirs: [
-      '~/components', // Limit scanning to only necessary folders
-    ],
+    dirs: ['~/components'],
   },
 
   vite: {
@@ -31,26 +56,7 @@ export default defineNuxtConfig({
     ],
   },
 
-  'naive-ui': {
-    themeOverrides: {
-      common: {
-        primaryColor: '#007bff',
-        successColor: '#28a745',
-        warningColor: '#ffc107',
-        errorColor: '#dc3545',
-        infoColor: '#17a2b8',
-
-        textColor1: '#212529',
-        bodyColor: '#f8f9fa',
-        cardColor: '#ffffff',
-        borderColor: '#dee2e6',
-      },
-    },
-  },
-
-  build: {
-    transpile: ['naive-ui', 'vueuc'],
-  },
+  logLevel: 'silent',
 
   compatibilityDate: '2025-04-22',
 })

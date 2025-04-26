@@ -13,7 +13,6 @@
   import { usePullStore } from '~/stores/pull'
   import { useUserStore } from '~/stores/user'
   import { Paste, Check } from '@vicons/fa'
-  import type { PullRecord } from '~/types/pull'
 
   const consoleScript = `console.log(JSON.stringify({
   roleid: [...document.querySelectorAll('div')].find(el => el.textContent.startsWith('UID:'))?.textContent.replace('UID:', '').trim(),
@@ -45,6 +44,7 @@
     fetchAllData,
     isLoading: isFetching,
     error: fetchError,
+    processJsonImport,
   } = useBannerPullData()
   const pullStore = usePullStore()
 
@@ -125,22 +125,7 @@
         // Reset current store state
         pullStore.reset()
 
-        // Process the imported data
-        const jsonPullsData = jsonData.reduce(
-          (acc: Record<number, PullRecord[]>, data) => {
-            const bannerId = data.banner_id
-            if (!acc[bannerId]) {
-              acc[bannerId] = []
-            }
-            data.data.datas.forEach(([time, itemId]) => {
-              acc[bannerId].push([time, itemId] as PullRecord)
-            })
-            return acc
-          },
-          {}
-        )
-
-        await pullStore.processPullsData(jsonPullsData)
+        await processJsonImport(jsonData)
 
         message.success('Data imported successfully!')
         router.push('/tracker')
@@ -301,7 +286,7 @@
                       :code="consoleScript"
                       word-wrap
                       language="javascript"
-                      class="font-mono text-xs whitespace-pre rounded"
+                      class="w-96 font-mono text-xs whitespace-pre rounded"
                     />
                   </template>
                 </n-popconfirm>
@@ -392,22 +377,22 @@
                   </n-button>
                 </n-space>
               </n-space>
+              <n-form-item label="ID">
+                <n-input
+                  v-model:value="formData.id"
+                  placeholder="Game UID, always displayed in bottom corner of the screen"
+                />
+              </n-form-item>
               <n-form-item label="Role ID">
                 <n-input
                   v-model:value="formData.roleid"
-                  placeholder="Enter role ID"
+                  placeholder="momoNid from cookie, not to be confused with UID"
                 />
               </n-form-item>
               <n-form-item label="Token">
                 <n-input
                   v-model:value="formData.token"
-                  placeholder="Enter token"
-                />
-              </n-form-item>
-              <n-form-item label="ID">
-                <n-input
-                  v-model:value="formData.id"
-                  placeholder="Enter ID"
+                  placeholder="momoToken from cookie, starts with eyJh..."
                 />
               </n-form-item>
             </n-space>

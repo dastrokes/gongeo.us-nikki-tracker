@@ -118,6 +118,10 @@ export const usePullStore = defineStore('pull', {
           })
         })
 
+        // Save to IndexedDB asynchronously without awaiting
+        const { savePullData } = useIndexedDB()
+        savePullData(pullsByBanner)
+
         await this.processPullsData(pullsByBanner)
       } catch (err) {
         this.error =
@@ -149,12 +153,14 @@ export const usePullStore = defineStore('pull', {
       if (this.isProcessing) return
 
       this.isProcessing = true
-      this.totalPulls = Object.values(pullsByBanner).reduce(
-        (sum, pulls) => sum + pulls.length,
-        0
-      )
 
       try {
+        // Update total pulls
+        this.totalPulls = Object.values(pullsByBanner).reduce(
+          (sum, pulls) => sum + pulls.length,
+          0
+        )
+
         const bannerPulls: Record<string, ProcessedBanner> = {}
         const currentPity: Record<string, Record<number, number>> = {}
         let total4Star = 0
@@ -178,7 +184,7 @@ export const usePullStore = defineStore('pull', {
           > = {}
 
           // Process 4★ outfits
-          ;(bannerInfo.outfit4StarId || []).forEach((id) => {
+          ;(bannerInfo.outfit4StarId || []).forEach((id: string) => {
             const outfit = this.getOutfitData(id)
             outfitLookup[4].set(id, outfit)
             if (outfit) {
@@ -189,7 +195,7 @@ export const usePullStore = defineStore('pull', {
           })
 
           // Process 5★ outfits
-          ;(bannerInfo.outfit5StarId || []).forEach((id) => {
+          ;(bannerInfo.outfit5StarId || []).forEach((id: string) => {
             const outfit = this.getOutfitData(id)
             outfitLookup[5].set(id, outfit)
             if (outfit) {
@@ -270,7 +276,7 @@ export const usePullStore = defineStore('pull', {
                 rarity: rarity as number,
                 outfitName: outfit.name,
                 pullsToObtain,
-                obtainedAt: time,
+                obtainedAt: time || '',
                 bannerId: bannerId,
                 obtained: true,
                 pullIndex: index + 1,
@@ -480,7 +486,7 @@ export const usePullStore = defineStore('pull', {
               rarity: outfit.rarity as number,
               outfitName: outfit.name,
               pullsToObtain: 0,
-              obtainedAt: null,
+              obtainedAt: '',
               bannerId: bannerId,
               obtained: false,
               pullIndex: 0,
@@ -488,6 +494,28 @@ export const usePullStore = defineStore('pull', {
             })
           }
         }
+      }
+    },
+
+    async loadSavedPulls() {
+      if (this.isLoading) return
+
+      this.isLoading = true
+      this.error = null
+
+      try {
+        const { loadPullData } = useIndexedDB()
+        const savedPulls = await loadPullData()
+
+        if (savedPulls) {
+          await this.processPullsData(savedPulls)
+        }
+      } catch (err) {
+        this.error =
+          err instanceof Error ? err.message : 'Failed to load saved pulls'
+        throw err
+      } finally {
+        this.isLoading = false
       }
     },
   },

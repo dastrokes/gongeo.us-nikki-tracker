@@ -1,5 +1,4 @@
 import { ref, computed } from 'vue'
-import axios, { AxiosError } from 'axios'
 import type { CookieData, VerifyResponse, QueryResponse } from '~/types/api'
 import { useUserStore } from '~/stores/user'
 import { BANNER_DATA } from '~/data/banners'
@@ -41,14 +40,6 @@ const DEFAULT_HEADERS = {
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
-// Create axios instance with default config
-const createApi = (baseURL: string) =>
-  axios.create({
-    baseURL,
-    timeout: 10000,
-    headers: DEFAULT_HEADERS,
-  })
-
 // Helper function for exponential backoff retries
 const retryRequest = async <T>(
   requestFn: () => Promise<T>,
@@ -57,11 +48,7 @@ const retryRequest = async <T>(
   try {
     return await requestFn()
   } catch (error) {
-    if (
-      !(error instanceof AxiosError) ||
-      !error.response ||
-      retryCount >= MAX_RETRIES
-    ) {
+    if (retryCount >= MAX_RETRIES) {
       throw error
     }
 
@@ -77,10 +64,10 @@ export const useBannerPullApi = () => {
   const progress = ref<{ banner: number; page: number } | null>(null)
   const userStore = useUserStore()
 
-  // Get current API instance based on selected region
-  const getApi = () => {
+  // Get current API base URL based on selected region
+  const getBaseUrl = () => {
     const region = userStore.getSelectedRegion as Region
-    return createApi(REGION_URLS[region])
+    return REGION_URLS[region]
   }
 
   const setRegion = (region: Region) => {
@@ -94,7 +81,9 @@ export const useBannerPullApi = () => {
     authToken: string
   ): Promise<QueryResponse> => {
     const response = await retryRequest(() =>
-      getApi().get<QueryResponse>('/query', {
+      $fetch<QueryResponse>('/query', {
+        baseURL: getBaseUrl(),
+        method: 'GET',
         params: {
           page: page.toString(),
           args: bannerId,
@@ -102,10 +91,11 @@ export const useBannerPullApi = () => {
           etime: Math.floor(Date.now() / 1000).toString(),
         },
         headers: {
+          ...DEFAULT_HEADERS,
           'X-Authority': authToken,
         },
       })
-    ).then((response) => response.data)
+    )
 
     // Add banner_id to the response
     response.banner_id = bannerId
@@ -163,8 +153,14 @@ export const useBannerPullApi = () => {
 
       for (const bannerId of bannerIds) {
         try {
-          const bannerResults = await queryBannerHistory(bannerId, authToken)
-          allResults.push({ bannerId, results: bannerResults })
+          const { data } = await useAsyncData(
+            `banner-${bannerId}`,
+            () => queryBannerHistory(bannerId, authToken)
+          )
+          
+          if (data.value) {
+            allResults.push({ bannerId, results: data.value })
+          }
 
           // Delay between banners
           if (bannerId !== bannerIds[bannerIds.length - 1]) {
@@ -179,9 +175,7 @@ export const useBannerPullApi = () => {
 
       return allResults
     } catch (e) {
-      error.value = axios.isAxiosError(e)
-        ? e.response?.data?.info || e.message
-        : 'Failed to fetch pull history'
+      error.value = e instanceof Error ? e.message : 'Failed to fetch pull history'
       return null
     } finally {
       loading.value = false
@@ -194,27 +188,31 @@ export const useBannerPullApi = () => {
     error.value = null
 
     try {
-      const { data } = await retryRequest(() =>
-        getApi().get<VerifyResponse>('/verify', {
-          params: {
-            token: cookieData.token,
-            roleid: cookieData.roleid,
-            id: cookieData.id,
-          },
-        })
+      const { data } = await useAsyncData<VerifyResponse>(
+        'verify-auth',
+        () => retryRequest(() =>
+          $fetch<VerifyResponse>('/verify', {
+            baseURL: getBaseUrl(),
+            method: 'GET',
+            params: {
+              token: cookieData.token,
+              roleid: cookieData.roleid,
+              id: cookieData.id,
+            },
+            headers: DEFAULT_HEADERS
+          })
+        )
       )
 
-      if (data.code === 0) {
-        userStore.setAuthToken(data.data)
+      if (data.value?.code === 0) {
+        userStore.setAuthToken(data.value.data)
         return true
       } else {
-        error.value = data.info
+        error.value = data.value?.info || 'Verification failed'
         return false
       }
     } catch (e) {
-      error.value = axios.isAxiosError(e)
-        ? e.response?.data?.info || e.message
-        : 'Failed to verify authentication'
+      error.value = e instanceof Error ? e.message : 'Failed to verify authentication'
       return false
     } finally {
       loading.value = false

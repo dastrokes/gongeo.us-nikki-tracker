@@ -10,16 +10,16 @@
       <n-layout-sider
         collapse-mode="width"
         :native-scrollbar="false"
-        :collapsed-width="60"
+        :collapsed-width="isMobileScreen ? 0 : 60"
         :width="200"
-        :collapsed="collapsed"
-        show-trigger
-        @collapse="collapsed = true"
-        @expand="collapsed = false"
+        :collapsed="!showSider"
+        :show-trigger="!isMobileScreen"
+        @collapse="showSider = false"
+        @expand="showSider = true"
       >
         <n-menu
-          :collapsed="collapsed"
-          :collapsed-width="60"
+          :collapsed="!showSider"
+          :collapsed-width="isMobileScreen ? 0 : 60"
           :collapsed-icon-size="16"
           :options="menuOptions"
           class="pt-12"
@@ -39,19 +39,32 @@
             v-show="showHeader"
             class="fixed top-0 right-0 z-50 h-12"
           >
-            <div class="flex row h-12 items-center pl-6">
-              <NuxtLink
-                to="/"
-                class="text-xl font-bold text-gray-900 w-96"
-              >
-                Infinity Nikki Resonance Tracker
-              </NuxtLink>
+            <div class="flex h-12 items-center justify-between px-2">
+              <div class="flex items-center gap-2">
+                <n-button
+                  quaternary
+                  class="sm:hidden"
+                  @click="showSider = !showSider"
+                >
+                  <template #icon>
+                    <n-icon>
+                      <bars />
+                    </n-icon>
+                  </template>
+                </n-button>
+                <NuxtLink
+                  to="/"
+                  class="text-xl font-bold pl-2"
+                >
+                  Nikki Tracker
+                </NuxtLink>
+              </div>
             </div>
           </n-layout-header>
         </transition>
 
         <n-scrollbar
-          class="flex-1 overflow-hidden bg-rose-100"
+          class="flex-1 overflow-hidden bg-rose-50"
           @scroll="onScroll"
         >
           <div
@@ -73,10 +86,11 @@
     NLayoutSider,
     NMenu,
     NIcon,
+    NButton,
     type MenuOption,
   } from 'naive-ui'
-  import { FileImport, Book } from '@vicons/fa'
-  import { h, ref } from 'vue'
+  import { FileImport, Book, Bars } from '@vicons/fa'
+  import { h, ref, onMounted, onUnmounted } from 'vue'
   import { NuxtLink } from '#components'
 
   function renderIcon(icon: Component) {
@@ -99,9 +113,25 @@
   ]
 
   const showHeader = ref(true)
-  const collapsed = ref(false)
+  const showSider = ref(false)
   const lastScrollPosition = ref(0)
   const scrollContainer = ref<HTMLElement | null>(null)
+
+  // Add mobile screen detection
+  const isMobileScreen = ref(false)
+
+  const updateScreenSize = () => {
+    isMobileScreen.value = window.innerWidth < 640 // 640px is Tailwind's 'sm' breakpoint
+  }
+
+  onMounted(() => {
+    updateScreenSize()
+    window.addEventListener('resize', updateScreenSize)
+  })
+
+  onUnmounted(() => {
+    window.removeEventListener('resize', updateScreenSize)
+  })
 
   const onScroll = (e: Event) => {
     const target = e.target as HTMLElement

@@ -3,35 +3,64 @@
     <!-- Stats Header -->
     <n-card
       v-if="Object.keys(processedPulls).length > 0"
-      class="rounded-xl"
+      size="small"
+      class="rounded-xl bg-stone-100"
     >
       <div class="flex items-center justify-between">
-        <div class="flex-grow grid grid-cols-5 gap-8">
-          <n-statistic
-            label="Total Pulls"
-            :value="globalStats.totalPulls"
-          />
-          <n-statistic
-            label="5★ Total Pulls"
-            :value="globalStats.total5StarItems"
-            class="text-amber-600"
-          />
-          <n-statistic
-            label="5★ Avg Pulls"
-            :value="globalStats.avg5StarPulls.toFixed(1)"
-            class="text-amber-600"
-          />
-          <n-statistic
-            label="4★ Total Pulls"
-            :value="globalStats.total4StarItems"
-            class="text-blue-600"
-          />
-          <n-statistic
-            label="4★ Avg Pulls"
-            :value="globalStats.avg4StarPulls.toFixed(1)"
-            class="text-blue-600"
-          />
+        <div
+          class="flex-grow grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4"
+        >
+          <n-card
+            size="small"
+            class="text-center rounded-md"
+          >
+            <div class="text-sm text-gray-600">Total Pulls</div>
+            <div class="text-xl font-medium mt-1">
+              {{ globalStats.totalPulls }}
+            </div>
+          </n-card>
+
+          <n-card
+            size="small"
+            class="text-center rounded-md"
+          >
+            <div class="text-sm text-gray-600">5★ Total Pulls</div>
+            <div class="text-xl font-medium mt-1">
+              {{ globalStats.total5StarItems }}
+            </div>
+          </n-card>
+
+          <n-card
+            size="small"
+            class="text-center rounded-md"
+          >
+            <div class="text-sm text-gray-600">5★ Avg Pulls</div>
+            <div class="text-xl font-medium mt-1">
+              {{ globalStats.avg5StarPulls.toFixed(1) }}
+            </div>
+          </n-card>
+
+          <n-card
+            size="small"
+            class="text-center rounded-md"
+          >
+            <div class="text-sm text-gray-600">4★ Total Pulls</div>
+            <div class="text-xl font-medium mt-1">
+              {{ globalStats.total4StarItems }}
+            </div>
+          </n-card>
+
+          <n-card
+            size="small"
+            class="text-center rounded-md"
+          >
+            <div class="text-sm text-gray-600">4★ Avg Pulls</div>
+            <div class="text-xl font-medium mt-1">
+              {{ globalStats.avg4StarPulls.toFixed(1) }}
+            </div>
+          </n-card>
         </div>
+
         <div class="shrink-0 ml-4">
           <n-popover trigger="click">
             <template #trigger>
@@ -100,11 +129,12 @@
                 (showEmptyBanners || banner.pulls.length > 0) &&
                 banner.bannerId != 1
               "
-              class="banner-card rounded-xl"
+              size="small"
+              class="rounded-xl bg-stone-100"
             >
               <div>
                 <!-- Banner Header -->
-                <div class="flex items-center mb-4">
+                <div class="flex items-center mb-2">
                   <div class="flex-grow flex flex-wrap items-center gap-4">
                     <h3 class="text-lg font-medium break-words">
                       {{ banner.bannerName }}
@@ -290,13 +320,8 @@
                   >
                     <ItemCard
                       v-for="pull in filterPulls(banner.pulls, banner.bannerId)"
-                      :key="pull.itemId"
-                      :item-id="pull.itemId"
-                      :rarity="pull.rarity"
-                      :obtained="pull.obtained"
-                      :pulls-to-obtain="pull.pullsToObtain"
-                      :duplicate="pull.duplicate"
-                      :pull-index="pull.pullIndex"
+                      :key="pull.pullIndex"
+                      :item="pull"
                     />
                   </div>
                 </template>
@@ -306,7 +331,7 @@
                   <div
                     v-for="outfit in banner.outfits"
                     :key="outfit.id"
-                    class="mb-4"
+                    class="mb-2"
                   >
                     <div
                       class="grid grid-cols-5 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-2"
@@ -316,13 +341,8 @@
                           getOutfitItems(banner.pulls, outfit.id),
                           banner.bannerId
                         )"
-                        :key="pull.itemId"
-                        :item-id="pull.itemId"
-                        :rarity="pull.rarity"
-                        :obtained="pull.obtained"
-                        :pulls-to-obtain="pull.pullsToObtain"
-                        :duplicate="pull.duplicate"
-                        :pull-index="pull.pullIndex"
+                        :key="pull.pullIndex"
+                        :item="pull"
                       />
                     </div>
                   </div>
@@ -334,7 +354,7 @@
 
         <n-card
           v-if="Object.keys(processedPulls).length === 0"
-          class="text-center rounded-xl"
+          class="text-center rounded-md rounded-xl"
         >
           <div class="text-xl text-neutral-800">
             No resonance history available

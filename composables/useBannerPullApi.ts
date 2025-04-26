@@ -153,11 +153,10 @@ export const useBannerPullApi = () => {
 
       for (const bannerId of bannerIds) {
         try {
-          const { data } = await useAsyncData(
-            `banner-${bannerId}`,
-            () => queryBannerHistory(bannerId, authToken)
+          const { data } = await useAsyncData(`banner-${bannerId}`, () =>
+            queryBannerHistory(bannerId, authToken)
           )
-          
+
           if (data.value) {
             allResults.push({ bannerId, results: data.value })
           }
@@ -175,7 +174,8 @@ export const useBannerPullApi = () => {
 
       return allResults
     } catch (e) {
-      error.value = e instanceof Error ? e.message : 'Failed to fetch pull history'
+      error.value =
+        e instanceof Error ? e.message : 'Failed to fetch pull history'
       return null
     } finally {
       loading.value = false
@@ -188,9 +188,8 @@ export const useBannerPullApi = () => {
     error.value = null
 
     try {
-      const { data } = await useAsyncData<VerifyResponse>(
-        'verify-auth',
-        () => retryRequest(() =>
+      const { data } = await useAsyncData<VerifyResponse>('verify-auth', () =>
+        retryRequest(() =>
           $fetch<VerifyResponse>('/verify', {
             baseURL: getBaseUrl(),
             method: 'GET',
@@ -199,7 +198,7 @@ export const useBannerPullApi = () => {
               roleid: cookieData.roleid,
               id: cookieData.id,
             },
-            headers: DEFAULT_HEADERS
+            headers: DEFAULT_HEADERS,
           })
         )
       )
@@ -212,7 +211,8 @@ export const useBannerPullApi = () => {
         return false
       }
     } catch (e) {
-      error.value = e instanceof Error ? e.message : 'Failed to verify authentication'
+      error.value =
+        e instanceof Error ? e.message : 'Failed to verify authentication'
       return false
     } finally {
       loading.value = false

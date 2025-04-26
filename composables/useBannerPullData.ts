@@ -11,12 +11,14 @@ export const useBannerPullData = () => {
   const currentPage = ref(1)
   const error = ref<string | null>(null)
 
-  const processJsonImport = async (jsonData: Array<{
-    banner_id: number
-    data: {
-      datas: Array<[string, string]>
-    }
-  }>) => {
+  const processJsonImport = async (
+    jsonData: Array<{
+      banner_id: number
+      data: {
+        datas: Array<[string, string]>
+      }
+    }>
+  ) => {
     const jsonPullsData = jsonData.reduce(
       (acc: Record<number, PullRecord[]>, data) => {
         const bannerId = data.banner_id

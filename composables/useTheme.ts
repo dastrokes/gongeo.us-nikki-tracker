@@ -7,7 +7,8 @@ export const useTheme = () => {
   const userStore = useUserStore()
 
   const toggleTheme = () => {
-    const newTheme: Theme = userStore.getCurrentTheme === 'light' ? 'dark' : 'light'
+    const newTheme: Theme =
+      userStore.getCurrentTheme === 'light' ? 'dark' : 'light'
     userStore.setTheme(newTheme)
   }
 
@@ -15,7 +16,7 @@ export const useTheme = () => {
     userStore.initializeTheme()
   }
 
-  const naiveTheme = computed<GlobalTheme | null>(() => 
+  const naiveTheme = computed<GlobalTheme | null>(() =>
     userStore.getCurrentTheme === 'dark' ? darkTheme : lightTheme
   )
 
@@ -27,4 +28,4 @@ export const useTheme = () => {
     setTheme: userStore.setTheme,
     initTheme,
   }
-} 
+}

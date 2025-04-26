@@ -23,9 +23,12 @@ export interface UserState {
 export const useUserStore = defineStore('user', {
   state: (): UserState => {
     // Initialize theme from localStorage or system preference immediately
-    const savedTheme = typeof window !== 'undefined' ? localStorage.getItem('theme') as Theme | null : null
+    const savedTheme =
+      typeof window !== 'undefined'
+        ? (localStorage.getItem('theme') as Theme | null)
+        : null
     const initialTheme = savedTheme || 'light'
-    
+
     return {
       currentUser: null,
       isAuthenticated: false,
@@ -58,7 +61,7 @@ export const useUserStore = defineStore('user', {
       if (typeof window !== 'undefined') {
         localStorage.setItem('theme', newTheme)
       }
-      
+
       // Update user profile if exists
       if (this.currentUser?.preferences) {
         this.currentUser.preferences.theme = newTheme
@@ -66,7 +69,10 @@ export const useUserStore = defineStore('user', {
     },
 
     initializeTheme() {
-      const savedTheme = typeof window !== 'undefined' ? localStorage.getItem('theme') as Theme | null : null
+      const savedTheme =
+        typeof window !== 'undefined'
+          ? (localStorage.getItem('theme') as Theme | null)
+          : null
       if (savedTheme) {
         this.setTheme(savedTheme)
       } else {

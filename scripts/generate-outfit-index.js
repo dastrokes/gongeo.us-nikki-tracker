@@ -15,17 +15,17 @@ if (!fs.existsSync(OUTFITS_DIR)) {
 // Get all .ts files in the outfits directory except index.ts
 const outfitFiles = fs
   .readdirSync(OUTFITS_DIR)
-  .filter(file => file.endsWith('.ts') && file !== 'index.ts')
-  .map(file => path.parse(file).name)
+  .filter((file) => file.endsWith('.ts') && file !== 'index.ts')
+  .map((file) => path.parse(file).name)
   .sort()
 
 // Generate the content for index.ts
 const content = `${outfitFiles
-  .map(file => `import ${file} from './${file}';`)
+  .map((file) => `import ${file} from './${file}';`)
   .join('\n')}
 
 const OUTFIT_DATA = {
-${outfitFiles.map(file => `  ${file},`).join('\n')}
+${outfitFiles.map((file) => `  ${file},`).join('\n')}
 } as const;
 
 export type OutfitKey = keyof typeof OUTFIT_DATA;
@@ -35,4 +35,4 @@ export default OUTFIT_DATA;
 // Write the content to index.ts
 fs.writeFileSync(path.join(OUTFITS_DIR, 'index.ts'), content)
 
-console.log('Successfully updated data/outfits/index.ts') 
+console.log('Successfully updated data/outfits/index.ts')

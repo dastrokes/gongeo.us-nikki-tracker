@@ -14,7 +14,9 @@ export function useIndexedDB() {
   let dbPromise: Promise<IDBPDatabase> | null = null
   let lastSavePromise: Promise<void> | null = null
 
-  const hasData = computed(() => data.value && Object.keys(data.value).length > 0)
+  const hasData = computed(
+    () => data.value && Object.keys(data.value).length > 0
+  )
 
   const getDB = () => {
     if (!dbPromise) {
@@ -60,7 +62,10 @@ export function useIndexedDB() {
     }
   }
 
-  const loadPullData = async (): Promise<Record<number, PullRecord[]> | null> => {
+  const loadPullData = async (): Promise<Record<
+    number,
+    PullRecord[]
+  > | null> => {
     try {
       // Wait for any pending save to complete before loading
       if (lastSavePromise) {
@@ -102,6 +107,6 @@ export function useIndexedDB() {
     isSaving,
     savePullData,
     loadPullData,
-    clearPullData
+    clearPullData,
   }
-} 
+}

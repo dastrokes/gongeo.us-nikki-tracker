@@ -145,11 +145,11 @@ export const usePullStore = defineStore('pull', {
       try {
         const { fetchAllData } = useBannerPullData()
         const responses = await fetchAllData()
-        
+
         if (responses) {
           // Transform the data into the format expected by processPullsData
           const pullsByBanner: Record<number, PullRecord[]> = {}
-          
+
           responses.forEach((response) => {
             const { bannerId, results } = response
             if (results && Array.isArray(results)) {
@@ -163,7 +163,7 @@ export const usePullStore = defineStore('pull', {
               })
             }
           })
-          
+
           await this.processPullsData(pullsByBanner, 'API')
         }
       } catch (err) {
@@ -174,7 +174,10 @@ export const usePullStore = defineStore('pull', {
       }
     },
 
-    async processPullsData(pullsByBanner: Record<number, PullRecord[]>, source: DataSource) {
+    async processPullsData(
+      pullsByBanner: Record<number, PullRecord[]>,
+      source: DataSource
+    ) {
       if (this.isProcessing) return
 
       if (source !== 'LOCAL') {
@@ -325,7 +328,10 @@ export const usePullStore = defineStore('pull', {
                 // Track first item of each rarity
                 if (rarity === 4 && !currentBanner.stats.first4StarItemId) {
                   currentBanner.stats.first4StarItemId = itemId
-                } else if (rarity === 5 && !currentBanner.stats.first5StarItemId) {
+                } else if (
+                  rarity === 5 &&
+                  !currentBanner.stats.first5StarItemId
+                ) {
                   currentBanner.stats.first5StarItemId = itemId
                 }
                 firstObtainInfo[itemId] = pullInfo
@@ -469,7 +475,9 @@ export const usePullStore = defineStore('pull', {
         this.globalStats.avg4StarPulls =
           fourStarCount > 0 ? fourStarPullsToObtain / fourStarCount : 0
         this.globalStats.avg4StarOnlyPulls =
-          fourStarOnlyCount > 0 ? fourStarOnlyPullsToObtain / fourStarOnlyCount : 0
+          fourStarOnlyCount > 0
+            ? fourStarOnlyPullsToObtain / fourStarOnlyCount
+            : 0
 
         this.processedPulls = bannerPulls
 
@@ -489,7 +497,7 @@ export const usePullStore = defineStore('pull', {
       const { sendUserBannerStats } = useUserBannerStats()
       const userStore = useUserStore()
       const uid = userStore.uid
-      
+
       if (!uid) return
 
       for (const [bannerId, banner] of Object.entries(this.processedPulls)) {

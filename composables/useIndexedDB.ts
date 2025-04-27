@@ -47,7 +47,21 @@ export function useIndexedDB() {
       lastSavePromise = (async () => {
         try {
           const db = await getDB()
-          await db.put(STORE_NAME, pullsByBanner, STORE_NAME)
+          // Check if data already exists
+          const existingData = await db.get(STORE_NAME, STORE_NAME)
+          
+          // Create a clean copy of the data using JSON parse/stringify to remove any non-serializable content
+          const cleanData = JSON.parse(JSON.stringify(pullsByBanner))
+          
+          // If data exists, merge with existing data
+          if (existingData) {
+            // Merge the data, new data takes precedence
+            const mergedData = { ...existingData, ...cleanData }
+            await db.put(STORE_NAME, mergedData, STORE_NAME)
+          } else {
+            // If no existing data, just save the new data
+            await db.put(STORE_NAME, cleanData, STORE_NAME)
+          }
         } finally {
           isSaving.value = false
         }

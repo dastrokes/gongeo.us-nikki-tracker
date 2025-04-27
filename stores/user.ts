@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { Region } from '~/composables/useBannerPullApi'
+import { setWithExpiry, getWithExpiry, removeItem } from '~/utils/localStorage'
 
 export type Theme = 'light' | 'dark'
 
@@ -13,53 +14,67 @@ export interface UserProfile {
 
 export interface UserState {
   currentUser: UserProfile | null
-  isAuthenticated: boolean
-  loading: boolean
-  authToken: string | null
   selectedRegion: Region
   theme: Theme
+  uid: string | null
+  authToken: string | null
 }
 
 export const useUserStore = defineStore('user', {
   state: (): UserState => {
     // Initialize theme from localStorage or system preference immediately
-    const savedTheme =
-      typeof window !== 'undefined'
-        ? (localStorage.getItem('theme') as Theme | null)
-        : null
+    const savedTheme = typeof window !== 'undefined'
+      ? getWithExpiry<Theme>('theme')
+      : null
     const initialTheme = savedTheme || 'light'
+
+    // Initialize or generate UID
+    const savedUid = typeof window !== 'undefined'
+      ? getWithExpiry<string>('uid')
+      : null
+    
+    // Initialize auth token
+    const savedToken = typeof window !== 'undefined'
+      ? getWithExpiry<string>('authToken')
+      : null
 
     return {
       currentUser: null,
-      isAuthenticated: false,
-      loading: false,
-      authToken: null,
       selectedRegion: Region.AMERICA,
       theme: initialTheme,
+      uid: savedUid,
+      authToken: savedToken,
     }
   },
 
   getters: {
     user: (state) => state.currentUser,
-    isLoggedIn: (state) => state.isAuthenticated,
-    getAuthToken: (state) => state.authToken,
     getSelectedRegion: (state) => state.selectedRegion,
     getCurrentTheme: (state) => state.theme,
+    getUid: (state) => state.uid,
+    getAuthToken: (state) => state.authToken,
   },
 
   actions: {
-    setAuthToken(token: string | null) {
-      this.authToken = token
-    },
-
     setRegion(region: Region) {
       this.selectedRegion = region
+    },
+
+    initializeTheme() {
+      const savedTheme = typeof window !== 'undefined'
+        ? getWithExpiry<Theme>('theme')
+        : null
+      if (savedTheme) {
+        this.setTheme(savedTheme)
+      } else {
+        this.setTheme('light')
+      }
     },
 
     setTheme(newTheme: Theme) {
       this.theme = newTheme
       if (typeof window !== 'undefined') {
-        localStorage.setItem('theme', newTheme)
+        setWithExpiry('theme', newTheme)
       }
 
       // Update user profile if exists
@@ -68,15 +83,21 @@ export const useUserStore = defineStore('user', {
       }
     },
 
-    initializeTheme() {
-      const savedTheme =
-        typeof window !== 'undefined'
-          ? (localStorage.getItem('theme') as Theme | null)
-          : null
-      if (savedTheme) {
-        this.setTheme(savedTheme)
-      } else {
-        this.setTheme('light')
+    setUid(uid: string) {
+      this.uid = uid
+      if (typeof window !== 'undefined') {
+        setWithExpiry('uid', uid)
+      }
+    },
+
+    setAuthToken(token: string | null) {
+      this.authToken = token
+      if (typeof window !== 'undefined') {
+        if (token) {
+          setWithExpiry('authToken', token)
+        } else {
+          removeItem('authToken')
+        }
       }
     },
   },

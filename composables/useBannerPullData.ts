@@ -37,7 +37,7 @@ export const useBannerPullData = () => {
     const { savePullData } = useIndexedDB()
     savePullData(jsonPullsData)
 
-    await pullStore.processPullsData(jsonPullsData)
+    await pullStore.processPullsData(jsonPullsData, 'JSON')
     return jsonPullsData
   }
 
@@ -73,7 +73,7 @@ export const useBannerPullData = () => {
       savePullData(pullsByBanner)
 
       // Process the data in the store
-      await pullStore.processPullsData(pullsByBanner)
+      await pullStore.processPullsData(pullsByBanner, 'API')
     } catch (e) {
       error.value =
         e instanceof Error ? e.message : 'Failed to fetch pull history'

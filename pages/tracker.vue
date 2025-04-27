@@ -1,120 +1,249 @@
 <template>
-  <div class="max-w-7xl mx-auto pt-12 space-y-4">
-    <!-- Stats Header -->
-    <n-card
-      v-if="Object.keys(processedPulls).length > 0"
-      size="small"
-      class="rounded-xl bg-stone-100"
-    >
-      <div class="flex items-center justify-between">
-        <div
-          class="flex-grow grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4"
-        >
-          <n-card
-            size="small"
-            class="text-center rounded-md"
+  <div class="max-w-7xl mx-auto space-y-4">
+    <!-- Loading State -->
+    <template v-if="loading">
+      <!-- Stats Header Skeleton -->
+      <n-card
+        size="small"
+        class="rounded-xl bg-pink-100"
+      >
+        <div class="flex items-center justify-between">
+          <div
+            class="flex-grow grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-4"
           >
-            <div class="text-sm text-gray-600">Total Pulls</div>
-            <div class="text-xl font-medium mt-1">
-              {{ globalStats.totalPulls }}
-            </div>
-          </n-card>
-
-          <n-card
-            size="small"
-            class="text-center rounded-md"
-          >
-            <div class="text-sm text-gray-600">5★ Total Pulls</div>
-            <div class="text-xl font-medium mt-1">
-              {{ globalStats.total5StarItems }}
-            </div>
-          </n-card>
-
-          <n-card
-            size="small"
-            class="text-center rounded-md"
-          >
-            <div class="text-sm text-gray-600">5★ Avg Pulls</div>
-            <div class="text-xl font-medium mt-1">
-              {{ globalStats.avg5StarPulls.toFixed(1) }}
-            </div>
-          </n-card>
-
-          <n-card
-            size="small"
-            class="text-center rounded-md"
-          >
-            <div class="text-sm text-gray-600">4★ Total Pulls</div>
-            <div class="text-xl font-medium mt-1">
-              {{ globalStats.total4StarItems }}
-            </div>
-          </n-card>
-
-          <n-card
-            size="small"
-            class="text-center rounded-md"
-          >
-            <div class="text-sm text-gray-600">4★ Avg Pulls</div>
-            <div class="text-xl font-medium mt-1">
-              {{ globalStats.avg4StarPulls.toFixed(1) }}
-            </div>
-          </n-card>
+            <n-card
+              v-for="i in 7"
+              :key="i"
+              size="small"
+              class="text-center rounded-md"
+            >
+              <n-skeleton
+                text
+                :repeat="2"
+              />
+            </n-card>
+          </div>
+          <div class="ml-4 flex space-x-2 shrink-0">
+            <n-skeleton
+              circle
+              width="24px"
+              height="24px"
+            />
+            <n-skeleton
+              circle
+              width="24px"
+              height="24px"
+            />
+          </div>
         </div>
+      </n-card>
 
-        <div class="shrink-0 ml-4">
-          <n-popover trigger="click">
-            <template #trigger>
-              <n-button
-                size="small"
-                quaternary
-                circle
-                class="text-gray-500 hover:text-gray-700"
-              >
-                <template #icon>
-                  <n-icon>
-                    <cog />
-                  </n-icon>
-                </template>
-              </n-button>
-            </template>
-            <div class="p-4 min-w-[200px]">
-              <div class="space-y-4">
-                <div class="flex items-center justify-between">
-                  <n-switch
-                    v-if="hasMultipleOutfits()"
-                    v-model:value="combineOutfits"
-                  >
-                    <template #checked>Combined</template>
-                    <template #unchecked>Separated</template>
-                  </n-switch>
-                  <span
-                    v-if="hasMultipleOutfits()"
-                    class="text-sm text-gray-600 ml-3"
-                  >
-                    Outfit Display
-                  </span>
-                </div>
-                <div class="flex items-center justify-between">
-                  <n-switch v-model:value="showEmptyBanners">
-                    <template #checked>Show</template>
-                    <template #unchecked>Hide</template>
-                  </n-switch>
-                  <span class="text-sm text-gray-600 ml-3">
-                    Empty Banners
-                  </span>
+      <!-- Banner Cards Skeleton -->
+      <div class="space-y-4">
+        <n-card
+          v-for="i in 2"
+          :key="i"
+          size="small"
+          class="rounded-xl bg-pink-100"
+        >
+          <div class="space-y-4">
+            <!-- Banner Header Skeleton -->
+            <div class="flex items-center justify-between">
+              <div class="flex-grow flex flex-wrap items-center gap-4">
+                <n-skeleton
+                  text
+                  style="width: 180px"
+                />
+                <div class="flex gap-2">
+                  <n-skeleton
+                    text
+                    style="width: 120px"
+                  />
+                  <n-skeleton
+                    text
+                    style="width: 120px"
+                  />
                 </div>
               </div>
+              <div class="ml-4 flex space-x-2 shrink-0">
+                <n-skeleton
+                  circle
+                  width="24px"
+                  height="24px"
+                />
+                <n-skeleton
+                  circle
+                  width="24px"
+                  height="24px"
+                />
+              </div>
             </div>
-          </n-popover>
-        </div>
+            <!-- Items Grid Skeleton -->
+            <div
+              class="grid grid-cols-5 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-2"
+            >
+              <n-skeleton
+                v-for="j in 20"
+                :key="j"
+                class="rounded-md"
+                height="120px"
+                width="120px"
+              />
+            </div>
+          </div>
+        </n-card>
       </div>
-    </n-card>
+    </template>
 
-    <!-- Banner List -->
-    <n-spin :show="loading">
-      <template #description>
-        <div class="text-xl text-neutral-800">Loading resonance history...</div>
-      </template>
+    <!-- Content (only show when not loading) -->
+    <div v-show="!loading">
+      <!-- Stats Header -->
+      <n-card
+        v-if="Object.keys(processedPulls).length > 0"
+        size="small"
+        class="rounded-xl bg-pink-100"
+      >
+        <div class="flex items-center justify-between">
+          <div
+            class="flex-grow grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-4"
+          >
+            <n-card
+              size="small"
+              class="text-center rounded-md"
+            >
+              <div class="text-sm text-gray-600">Total Pulls</div>
+              <div class="text-xl font-medium mt-1">
+                {{ globalStats.totalPulls }}
+              </div>
+            </n-card>
+
+            <n-card
+              size="small"
+              class="text-center rounded-md"
+            >
+              <div class="text-sm text-gray-600">5★ Total Pulls</div>
+              <div class="text-xl font-medium mt-1">
+                {{ globalStats.total5StarItems }}
+              </div>
+            </n-card>
+
+            <n-card
+              size="small"
+              class="text-center rounded-md"
+            >
+              <div class="text-sm text-gray-600">5★ Avg Pulls</div>
+              <div class="text-xl font-medium mt-1">
+                {{ globalStats.avg5StarPulls.toFixed(1) }}
+              </div>
+            </n-card>
+
+            <n-card
+              size="small"
+              class="text-center rounded-md"
+            >
+              <div class="text-sm text-gray-600">4★ Mixed Total</div>
+              <div class="text-xl font-medium mt-1">
+                {{ globalStats.total4StarItems }}
+              </div>
+            </n-card>
+
+            <n-card
+              size="small"
+              class="text-center rounded-md"
+            >
+              <div class="text-sm text-gray-600">4★ Mixed Avg</div>
+              <div class="text-xl font-medium mt-1">
+                {{ globalStats.avg4StarPulls.toFixed(1) }}
+              </div>
+            </n-card>
+
+            <n-card
+              size="small"
+              class="text-center rounded-md"
+            >
+              <div class="text-sm text-gray-600">4★ Only Total</div>
+              <div class="text-xl font-medium mt-1">
+                {{ globalStats.total4StarOnlyItems }}
+              </div>
+            </n-card>
+
+            <n-card
+              size="small"
+              class="text-center rounded-md"
+            >
+              <div class="text-sm text-gray-600">4★ Only Avg</div>
+              <div class="text-xl font-medium mt-1">
+                {{ globalStats.avg4StarOnlyPulls.toFixed(1) }}
+              </div>
+            </n-card>
+          </div>
+
+          <div class="ml-4 flex space-x-2 shrink-0 export-exclude">
+            <!-- Export Button -->
+            <n-button
+              size="small"
+              quaternary
+              circle
+              class="text-gray-500 hover:text-gray-700"
+              :loading="exporting"
+              @click="exportPNG"
+            >
+              <template #icon>
+                <n-icon>
+                  <download />
+                </n-icon>
+              </template>
+            </n-button>
+
+            <n-popover trigger="click">
+              <template #trigger>
+                <n-button
+                  size="small"
+                  quaternary
+                  circle
+                  class="text-gray-500 hover:text-gray-700"
+                >
+                  <template #icon>
+                    <n-icon>
+                      <cog />
+                    </n-icon>
+                  </template>
+                </n-button>
+              </template>
+              <div class="p-4 min-w-[200px]">
+                <div class="space-y-4">
+                  <div class="flex items-center justify-between">
+                    <n-switch
+                      v-if="hasMultipleOutfits()"
+                      v-model:value="combineOutfits"
+                    >
+                      <template #checked>Combined</template>
+                      <template #unchecked>Separated</template>
+                    </n-switch>
+                    <span
+                      v-if="hasMultipleOutfits()"
+                      class="text-sm text-gray-600 ml-3"
+                    >
+                      Outfit Display
+                    </span>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <n-switch v-model:value="showEmptyBanners">
+                      <template #checked>Show</template>
+                      <template #unchecked>Hide</template>
+                    </n-switch>
+                    <span class="text-sm text-gray-600 ml-3">
+                      Empty Banners
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </n-popover>
+          </div>
+        </div>
+      </n-card>
+
+      <!-- Banner List -->
       <div
         v-if="!loading"
         class="space-y-4"
@@ -130,7 +259,7 @@
                 banner.bannerId != 1
               "
               size="small"
-              class="rounded-xl bg-stone-100"
+              class="rounded-xl bg-pink-100"
             >
               <div>
                 <!-- Banner Header -->
@@ -167,7 +296,7 @@
                       </template>
                     </div>
                   </div>
-                  <div class="ml-4 flex space-x-2 shrink-0">
+                  <div class="ml-4 flex space-x-2 shrink-0 export-exclude">
                     <!-- Stats Button -->
                     <n-popover
                       v-if="banner.stats.totalPulls > 0"
@@ -213,14 +342,14 @@
                           >
                             <span class="text-sm">5★ Pity</span>
                             <span class="font-medium">{{
-                              banner.stats.pity5Star.toFixed(1)
+                              banner.stats.pity5Star
                             }}</span>
                           </div>
                           <div
                             v-if="hasBothRarities(banner.bannerId)"
                             class="flex justify-between"
                           >
-                            <span class="text-sm">4★ Total</span>
+                            <span class="text-sm">4★ Mixed Total</span>
                             <span class="font-medium text-blue-600">{{
                               banner.stats.total4StarItems
                             }}</span>
@@ -229,21 +358,27 @@
                             v-if="hasBothRarities(banner.bannerId)"
                             class="flex justify-between"
                           >
-                            <span class="text-sm">4★ Average</span>
+                            <span class="text-sm">4★ Mixed Avg</span>
                             <span class="font-medium text-blue-600">{{
-                              banner.stats.avg4StarPulls
+                              banner.stats.avg4StarPulls.toFixed(1)
                             }}</span>
                           </div>
                           <div
-                            v-if="
-                              hasBothRarities(banner.bannerId) &&
-                              !banner.isComplete
-                            "
+                            v-if="is4StarOnlyBanner(banner.bannerId)"
                             class="flex justify-between"
                           >
-                            <span class="text-sm">4★ Pity</span>
-                            <span class="font-medium">{{
-                              banner.stats.pity4Star
+                            <span class="text-sm">4★ Only Total</span>
+                            <span class="font-medium text-blue-600">{{
+                              banner.stats.total4StarItems
+                            }}</span>
+                          </div>
+                          <div
+                            v-if="is4StarOnlyBanner(banner.bannerId)"
+                            class="flex justify-between"
+                          >
+                            <span class="text-sm">4★ Only Average</span>
+                            <span class="font-medium text-blue-600">{{
+                              banner.stats.avg4StarPulls.toFixed(1)
                             }}</span>
                           </div>
                           <div
@@ -361,43 +496,56 @@
           </div>
         </n-card>
       </div>
-    </n-spin>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-  import { ref, computed } from 'vue'
+  import { ref, onMounted } from 'vue'
   import { storeToRefs } from 'pinia'
-  import { Cog, ChartBarRegular, CheckCircle, Star } from '@vicons/fa'
+  import { Cog, ChartBarRegular, CheckCircle, Star, Download } from '@vicons/fa'
+  import { toPng } from 'html-to-image'
+  import { useMessage } from 'naive-ui'
   import { BANNER_DATA } from '~/data/banners'
   import { usePullStore } from '~/stores/pull'
-  import { useUserStore } from '~/stores/user'
+  import { useIndexedDB } from '~/composables/useIndexedDB'
   import type { PullItem } from '~/types/pull'
 
+  const message = useMessage()
   const pullStore = usePullStore()
-  const userStore = useUserStore()
-  const {
-    processedPulls,
-    totalPulls,
-    total4StarItems,
-    total5StarItems,
-    avg4StarPulls,
-    avg5StarPulls,
-  } = storeToRefs(pullStore)
-  const { isProcessing, addMissingItems } = pullStore
+  const { processedPulls, globalStats } = storeToRefs(pullStore)
+  const { data, hasData, loadPullData } = useIndexedDB()
 
-  const loading = computed(() => userStore.loading || isProcessing)
+  const initialized = ref(false)
+  const loading = ref(true)
 
-  const globalStats = computed(() => ({
-    totalPulls: totalPulls.value,
-    total4StarItems: total4StarItems.value,
-    total5StarItems: total5StarItems.value,
-    avg4StarPulls: avg4StarPulls.value,
-    avg5StarPulls: avg5StarPulls.value,
-  }))
+  onMounted(async () => {
+    if (!initialized.value) {
+      try {
+        // Check if we have data in IndexedDB
+        loading.value = true
+        await loadPullData()
+        if (hasData.value) {
+          await pullStore.processPullsData(data.value, 'LOCAL')
+        } else {
+          // If no data, redirect to import page
+          message.warning(
+            'No resonance data found. Please import your data first.'
+          )
+          navigateTo('/import')
+        }
+      } catch (error) {
+        console.error('Failed to load resonance data:', error)
+        message.error('Failed to load resonance data. Please try again.')
+      } finally {
+        initialized.value = true
+        loading.value = false
+      }
+    }
+  })
 
-  // Initialize toggle states
-  const { show4Stars, showMissing } = (() => {
+  // Helper functions and constants
+  const initializeToggleStates = () => {
     const show4Stars: Record<string, boolean> = {}
     const showMissing: Record<string, boolean> = {}
 
@@ -408,31 +556,6 @@
     }
 
     return { show4Stars, showMissing }
-  })()
-
-  const show4StarItems = ref(show4Stars)
-  const showMissingPieces = ref(showMissing)
-  const combineOutfits = ref(false)
-  const showEmptyBanners = ref(false)
-
-  // Function to load missing items for a banner
-  const loadMissingItems = async (bannerId: number) => {
-    if (showMissingPieces.value[bannerId]) {
-      await addMissingItems(bannerId)
-    }
-  }
-
-  // Function to filter pulls based on UI toggles
-  const filterPulls = (pulls: PullItem[], bannerId: number) => {
-    return pulls.filter((pull) => {
-      // When show4StarItems is false, hide 4★ items
-      if (pull.rarity === 4 && !show4StarItems.value[bannerId]) {
-        return false
-      }
-      // Show all items (both obtained and missing) when showMissingPieces is true
-      // Only show obtained items when showMissingPieces is false
-      return showMissingPieces.value[bannerId] || pull.obtained
-    })
   }
 
   const getOutfitItems = (items: PullItem[], outfitId: string) => {
@@ -446,11 +569,87 @@
     return banner.bannerType === 2
   }
 
+  const is4StarOnlyBanner = (bannerId: number) => {
+    const banner = BANNER_DATA[bannerId]
+    if (!banner) return false
+    // Banner type 3 is 4★ only
+    return banner.bannerType === 3
+  }
+
+  // Initialize toggle states
+  const { show4Stars, showMissing } = initializeToggleStates()
+
+  const show4StarItems = ref(show4Stars)
+  const showMissingPieces = ref(showMissing)
+  const combineOutfits = ref(false)
+  const showEmptyBanners = ref(false)
+  const exporting = ref(false)
+
+  // Function to load missing items for a banner
+  const loadMissingItems = async (bannerId: number) => {
+    if (showMissingPieces.value[bannerId]) {
+      await pullStore.addMissingItems(bannerId)
+    }
+  }
+
+  // Function to filter pulls based on UI toggles
+  const filterPulls = (pulls: PullItem[], bannerId: number) => {
+    return pulls.filter((pull) => {
+      // When show4StarItems is false, hide 4★ items only in type 2 banners
+      if (
+        pull.rarity === 4 &&
+        !show4StarItems.value[bannerId] &&
+        hasBothRarities(bannerId)
+      ) {
+        return false
+      }
+      // Show all items (both obtained and missing) when showMissingPieces is true
+      // Only show obtained items when showMissingPieces is false
+      return showMissingPieces.value[bannerId] || pull.obtained
+    })
+  }
+
   // Update hasMultipleOutfits to be a global check
   const hasMultipleOutfits = () => {
     return Object.values(processedPulls.value).some(
       (banner) => banner.outfits.length > 1
     )
+  }
+
+  const exportPNG = async () => {
+    try {
+      exporting.value = true
+      const trackerElement = document.querySelector('.max-w-7xl') as HTMLElement
+      if (!trackerElement) {
+        throw new Error('Tracker element not found')
+      }
+
+      const filter = (node: HTMLElement) => {
+        const exclusionClasses = ['export-exclude']
+        return !exclusionClasses.some((classname) =>
+          node.classList?.contains(classname)
+        )
+      }
+
+      const dataUrl = await toPng(trackerElement, {
+        quality: 1,
+        backgroundColor: '#fdf2f8',
+        filter: filter,
+      })
+
+      // Create a link element and trigger download
+      const link = document.createElement('a')
+      link.download = `nikki-resonance-tracker-${new Date().toISOString().split('T')[0]}.png`
+      link.href = dataUrl
+      link.click()
+
+      message.success('Tracker exported successfully!')
+    } catch (error) {
+      console.error('Export failed:', error)
+      message.error('Failed to export tracker. Please try again.')
+    } finally {
+      exporting.value = false
+    }
   }
 </script>
 

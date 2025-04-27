@@ -18,6 +18,13 @@ export default defineNuxtConfig({
     '@nuxt/icon',
   ],
 
+  runtimeConfig: {
+    public: {
+      supabaseUrl: process.env.NUXT_SUPABASE_URL,
+      supabaseKey: process.env.NUXT_SUPABASE_KEY,
+    },
+  },
+
   image: {
     dir: 'assets/images',
     provider: 'ipx',

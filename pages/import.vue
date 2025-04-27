@@ -144,6 +144,7 @@
 
       if (success) {
         message.success('Authentication successful!')
+        userStore.setUid(formData.value.roleid)
         try {
           await fetchAllData()
           router.push('/tracker')
@@ -161,7 +162,7 @@
 </script>
 
 <template>
-  <div class="max-w-7xl mx-auto pt-12 space-y-4">
+  <div class="max-w-7xl mx-auto space-y-4">
     <n-card
       class="rounded-xl"
       no-title
@@ -377,22 +378,22 @@
                   </n-button>
                 </n-space>
               </n-space>
-              <n-form-item label="ID">
-                <n-input
-                  v-model:value="formData.id"
-                  placeholder="Game UID, always displayed in bottom corner of the screen"
-                />
-              </n-form-item>
-              <n-form-item label="Role ID">
+              <n-form-item label="UID">
                 <n-input
                   v-model:value="formData.roleid"
-                  placeholder="momoNid from cookie, not to be confused with UID"
+                  placeholder="In-game UID"
                 />
               </n-form-item>
-              <n-form-item label="Token">
+              <n-form-item label="Momo ID">
+                <n-input
+                  v-model:value="formData.id"
+                  placeholder="momoNid from cookie"
+                />
+              </n-form-item>
+              <n-form-item label="Momo Token">
                 <n-input
                   v-model:value="formData.token"
-                  placeholder="momoToken from cookie, starts with eyJh..."
+                  placeholder="momoToken from cookie"
                 />
               </n-form-item>
             </n-space>

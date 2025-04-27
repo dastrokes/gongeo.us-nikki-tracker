@@ -49,9 +49,13 @@ export interface BannerStats {
   pity5Star: number
   avg4StarPulls: number
   avg5StarPulls: number
+  avg4StarOnlyPulls: number
   total4StarItems: number
   total5StarItems: number
+  total4StarOnlyItems: number
   isComplete: boolean
+  first4StarItemId: string | null
+  first5StarItemId: string | null
 }
 
 export interface ProcessedBanner {
@@ -64,14 +68,21 @@ export interface ProcessedBanner {
   bannerType: number
 }
 
-export interface PullState {
-  processedPulls: Record<string, ProcessedBanner>
-  isProcessing: boolean
-  isLoading: boolean
-  error: string | null
+export interface GlobalStats {
   totalPulls: number
   total4StarItems: number
   total5StarItems: number
+  total4StarOnlyItems: number
   avg5StarPulls: number
   avg4StarPulls: number
+  avg4StarOnlyPulls: number
+}
+
+export interface PullState {
+  processedPulls: Record<string, ProcessedBanner>
+  rawPullData: Record<number, PullRecord[]>
+  globalStats: GlobalStats
+  isProcessing: boolean
+  isLoading: boolean
+  error: string | null
 }

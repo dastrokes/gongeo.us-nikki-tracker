@@ -3,7 +3,11 @@ export interface StorageItem<T> {
   expiry: number
 }
 
-export const setWithExpiry = <T>(key: string, value: T, ttl: number = 24 * 60 * 60 * 1000) => {
+export const setWithExpiry = <T>(
+  key: string,
+  value: T,
+  ttl: number = 24 * 60 * 60 * 1000
+) => {
   const item: StorageItem<T> = {
     value: value,
     expiry: new Date().getTime() + ttl,
@@ -22,9 +26,14 @@ export const getWithExpiry = <T>(key: string): T | null => {
     if (!itemStr) return null
 
     const item = JSON.parse(itemStr) as StorageItem<T>
-    
+
     // Validate the shape of parsed data
-    if (!item || typeof item !== 'object' || !('value' in item) || !('expiry' in item)) {
+    if (
+      !item ||
+      typeof item !== 'object' ||
+      !('value' in item) ||
+      !('expiry' in item)
+    ) {
       console.warn(`Invalid data structure in localStorage for key "${key}"`)
       localStorage.removeItem(key)
       return null
@@ -35,7 +44,7 @@ export const getWithExpiry = <T>(key: string): T | null => {
       localStorage.removeItem(key)
       return null
     }
-    
+
     return item.value
   } catch (error) {
     console.error(`Failed to parse localStorage key "${key}":`, error)
@@ -56,7 +65,7 @@ export const removeItem = (key: string): void => {
 export const cleanupExpiredItems = (): void => {
   try {
     const now = new Date().getTime()
-    
+
     for (let i = 0; i < localStorage.length; i++) {
       const key = localStorage.key(i)
       if (!key) continue
@@ -66,7 +75,12 @@ export const cleanupExpiredItems = (): void => {
 
       try {
         const item = JSON.parse(itemStr) as StorageItem<unknown>
-        if (item && typeof item === 'object' && 'expiry' in item && now > item.expiry) {
+        if (
+          item &&
+          typeof item === 'object' &&
+          'expiry' in item &&
+          now > item.expiry
+        ) {
           localStorage.removeItem(key)
         }
       } catch {
@@ -78,4 +92,4 @@ export const cleanupExpiredItems = (): void => {
     console.error('Failed to cleanup expired items:', error)
     throw error
   }
-} 
+}

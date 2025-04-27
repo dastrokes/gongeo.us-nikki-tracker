@@ -23,20 +23,17 @@ export interface UserState {
 export const useUserStore = defineStore('user', {
   state: (): UserState => {
     // Initialize theme from localStorage or system preference immediately
-    const savedTheme = typeof window !== 'undefined'
-      ? getWithExpiry<Theme>('theme')
-      : null
+    const savedTheme =
+      typeof window !== 'undefined' ? getWithExpiry<Theme>('theme') : null
     const initialTheme = savedTheme || 'light'
 
     // Initialize or generate UID
-    const savedUid = typeof window !== 'undefined'
-      ? getWithExpiry<string>('uid')
-      : null
-    
+    const savedUid =
+      typeof window !== 'undefined' ? getWithExpiry<string>('uid') : null
+
     // Initialize auth token
-    const savedToken = typeof window !== 'undefined'
-      ? getWithExpiry<string>('authToken')
-      : null
+    const savedToken =
+      typeof window !== 'undefined' ? getWithExpiry<string>('authToken') : null
 
     return {
       currentUser: null,
@@ -61,9 +58,8 @@ export const useUserStore = defineStore('user', {
     },
 
     initializeTheme() {
-      const savedTheme = typeof window !== 'undefined'
-        ? getWithExpiry<Theme>('theme')
-        : null
+      const savedTheme =
+        typeof window !== 'undefined' ? getWithExpiry<Theme>('theme') : null
       if (savedTheme) {
         this.setTheme(savedTheme)
       } else {

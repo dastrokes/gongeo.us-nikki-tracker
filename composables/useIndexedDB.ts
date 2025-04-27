@@ -49,10 +49,10 @@ export function useIndexedDB() {
           const db = await getDB()
           // Check if data already exists
           const existingData = await db.get(STORE_NAME, STORE_NAME)
-          
+
           // Create a clean copy of the data using JSON parse/stringify to remove any non-serializable content
           const cleanData = JSON.parse(JSON.stringify(pullsByBanner))
-          
+
           // If data exists, merge with existing data
           if (existingData) {
             // Merge the data, new data takes precedence

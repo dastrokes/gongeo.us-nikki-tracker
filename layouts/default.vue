@@ -103,27 +103,29 @@
 
   const route = useRoute()
   const router = useRouter()
-  
-  const menuOptions = computed<MenuOption[]>(() => [
-    {
-      label: 'Import Data',
-      key: 'import',
-      icon: renderIcon(FileImport),
-    },
-    {
-      label: 'Resonance Tracker',
-      key: 'tracker',
-      icon: renderIcon(Book),
-    },
-    {
-      label: 'FAQ',
-      key: 'faq',
-      icon: renderIcon(QuestionCircleRegular),
-    },
-  ].map(option => ({
-    ...option,
-    active: route.path.startsWith(`/${option.key}`),
-  })))
+
+  const menuOptions = computed<MenuOption[]>(() =>
+    [
+      {
+        label: 'Import Data',
+        key: 'import',
+        icon: renderIcon(FileImport),
+      },
+      {
+        label: 'Resonance Tracker',
+        key: 'tracker',
+        icon: renderIcon(Book),
+      },
+      {
+        label: 'FAQ',
+        key: 'faq',
+        icon: renderIcon(QuestionCircleRegular),
+      },
+    ].map((option) => ({
+      ...option,
+      active: route.path.startsWith(`/${option.key}`),
+    }))
+  )
 
   // Handle menu selection
   const handleMenuSelect = (key: string) => {

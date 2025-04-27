@@ -32,30 +32,30 @@
   // Theme overrides for both light and dark modes
   const themeOverrides: GlobalThemeOverrides = {
     common: {
-      primaryColor: '#F43F5E',      // Rose-500
-      primaryColorHover: '#FB7185',  // Rose-400
-      primaryColorPressed: '#E11D48',// Rose-600
-      primaryColorSuppl: '#FB7185',  // Rose-400
+      primaryColor: '#F43F5E', // Rose-500
+      primaryColorHover: '#FB7185', // Rose-400
+      primaryColorPressed: '#E11D48', // Rose-600
+      primaryColorSuppl: '#FB7185', // Rose-400
 
-      infoColor: '#8B5CF6',         // Violet-500 (complementary)
-      infoColorHover: '#A78BFA',    // Violet-400
-      infoColorPressed: '#7C3AED',  // Violet-600
-      infoColorSuppl: '#A78BFA',    // Violet-400
+      infoColor: '#8B5CF6', // Violet-500 (complementary)
+      infoColorHover: '#A78BFA', // Violet-400
+      infoColorPressed: '#7C3AED', // Violet-600
+      infoColorSuppl: '#A78BFA', // Violet-400
 
-      successColor: '#FDA4AF',      // Rose-300
-      successColorHover: '#FECDD3',  // Rose-200
+      successColor: '#FDA4AF', // Rose-300
+      successColorHover: '#FECDD3', // Rose-200
       successColorPressed: '#FB7185', // Rose-400
-      successColorSuppl: '#FECDD3',  // Rose-200
+      successColorSuppl: '#FECDD3', // Rose-200
 
-      warningColor: '#F59E0B',      // Amber-500
-      warningColorHover: '#FBBF24',  // Amber-400
+      warningColor: '#F59E0B', // Amber-500
+      warningColorHover: '#FBBF24', // Amber-400
       warningColorPressed: '#D97706', // Amber-600
-      warningColorSuppl: '#FBBF24',  // Amber-400
+      warningColorSuppl: '#FBBF24', // Amber-400
 
-      errorColor: '#EF4444',        // Red-500
-      errorColorHover: '#F87171',   // Red-400
-      errorColorPressed: '#DC2626',  // Red-600
-      errorColorSuppl: '#F87171',   // Red-400
+      errorColor: '#EF4444', // Red-500
+      errorColorHover: '#F87171', // Red-400
+      errorColorPressed: '#DC2626', // Red-600
+      errorColorSuppl: '#F87171', // Red-400
 
       borderRadius: '12px',
       fontFamily: 'Inter, system-ui, -apple-system, sans-serif',
@@ -75,7 +75,7 @@
     },
     Input: {
       borderRadius: '12px',
-      borderFocus: '#F43F5E',  // Updated to rose
+      borderFocus: '#F43F5E', // Updated to rose
       boxShadowFocus: '0 0 0 2px rgba(244, 63, 94, 0.2)', // Updated to rose
     },
     Select: {

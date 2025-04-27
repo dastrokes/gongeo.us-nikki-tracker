@@ -3,6 +3,7 @@ import type { BannerData } from '~/types/banner'
 import type { Outfit } from '~/types/outfit'
 import { BANNER_DATA } from '~/data/banners'
 import OUTFIT_DATA, { type OutfitKey } from '~/data/outfits'
+import { useUserBannerStats } from '~/composables/useSupabase'
 import type {
   JsonData,
   PullRecord,
@@ -10,18 +11,26 @@ import type {
   ProcessedBanner,
   PullState,
 } from '~/types/pull'
+import { useUserStore } from '~/stores/user'
+
+export type DataSource = 'API' | 'JSON' | 'LOCAL'
 
 export const usePullStore = defineStore('pull', {
   state: (): PullState => ({
     processedPulls: {},
+    rawPullData: {},
+    globalStats: {
+      totalPulls: 0,
+      total4StarItems: 0,
+      total5StarItems: 0,
+      total4StarOnlyItems: 0,
+      avg5StarPulls: 0,
+      avg4StarPulls: 0,
+      avg4StarOnlyPulls: 0,
+    },
     isProcessing: false,
     isLoading: false,
     error: null,
-    totalPulls: 0,
-    total4StarItems: 0,
-    total5StarItems: 0,
-    avg5StarPulls: 0,
-    avg4StarPulls: 0,
   }),
 
   getters: {
@@ -45,13 +54,7 @@ export const usePullStore = defineStore('pull', {
     hasError: (state) => !!state.error,
     isLoadingOrProcessing: (state) => state.isLoading || state.isProcessing,
 
-    globalStats: (state) => ({
-      totalPulls: state.totalPulls,
-      total4StarItems: state.total4StarItems,
-      total5StarItems: state.total5StarItems,
-      avg5StarPulls: state.avg5StarPulls,
-      avg4StarPulls: state.avg4StarPulls,
-    }),
+    getGlobalStats: (state) => state.globalStats,
   },
 
   actions: {
@@ -62,14 +65,19 @@ export const usePullStore = defineStore('pull', {
     reset() {
       // Reset all state properties to their initial values
       this.processedPulls = {}
+      this.rawPullData = {}
+      this.globalStats = {
+        totalPulls: 0,
+        total4StarItems: 0,
+        total5StarItems: 0,
+        total4StarOnlyItems: 0,
+        avg5StarPulls: 0,
+        avg4StarPulls: 0,
+        avg4StarOnlyPulls: 0,
+      }
       this.isProcessing = false
       this.isLoading = false
       this.error = null
-      this.totalPulls = 0
-      this.total4StarItems = 0
-      this.total5StarItems = 0
-      this.avg5StarPulls = 0
-      this.avg4StarPulls = 0
     },
 
     getBannerOutfitIds(bannerId: number) {
@@ -118,11 +126,7 @@ export const usePullStore = defineStore('pull', {
           })
         })
 
-        // Save to IndexedDB asynchronously without awaiting
-        const { savePullData } = useIndexedDB()
-        savePullData(pullsByBanner)
-
-        await this.processPullsData(pullsByBanner)
+        await this.processPullsData(pullsByBanner, 'JSON')
       } catch (err) {
         this.error =
           err instanceof Error ? err.message : 'Failed to load json data'
@@ -140,7 +144,28 @@ export const usePullStore = defineStore('pull', {
 
       try {
         const { fetchAllData } = useBannerPullData()
-        await fetchAllData()
+        const responses = await fetchAllData()
+        
+        if (responses) {
+          // Transform the data into the format expected by processPullsData
+          const pullsByBanner: Record<number, PullRecord[]> = {}
+          
+          responses.forEach((response) => {
+            const { bannerId, results } = response
+            if (results && Array.isArray(results)) {
+              results.forEach((result) => {
+                if (result.data?.datas) {
+                  if (!pullsByBanner[bannerId]) {
+                    pullsByBanner[bannerId] = []
+                  }
+                  pullsByBanner[bannerId].push(...result.data.datas)
+                }
+              })
+            }
+          })
+          
+          await this.processPullsData(pullsByBanner, 'API')
+        }
       } catch (err) {
         this.error = err instanceof Error ? err.message : 'Failed to load pulls'
         throw err
@@ -149,14 +174,20 @@ export const usePullStore = defineStore('pull', {
       }
     },
 
-    async processPullsData(pullsByBanner: Record<number, PullRecord[]>) {
+    async processPullsData(pullsByBanner: Record<number, PullRecord[]>, source: DataSource) {
       if (this.isProcessing) return
 
+      if (source !== 'LOCAL') {
+        const { savePullData } = useIndexedDB()
+        savePullData(pullsByBanner)
+      }
+
       this.isProcessing = true
+      this.rawPullData = pullsByBanner
 
       try {
         // Update total pulls
-        this.totalPulls = Object.values(pullsByBanner).reduce(
+        this.globalStats.totalPulls = Object.values(pullsByBanner).reduce(
           (sum, pulls) => sum + pulls.length,
           0
         )
@@ -165,10 +196,13 @@ export const usePullStore = defineStore('pull', {
         const currentPity: Record<string, Record<number, number>> = {}
         let total4Star = 0
         let total5Star = 0
+        let total4StarOnly = 0
         let fiveStarPullsToObtain = 0
         let fourStarPullsToObtain = 0
+        let fourStarOnlyPullsToObtain = 0
         let fiveStarCount = 0
         let fourStarCount = 0
+        let fourStarOnlyCount = 0
 
         // Single loop to process all banner-related operations
         Object.values(BANNER_DATA as BannerData).forEach((bannerInfo) => {
@@ -218,9 +252,13 @@ export const usePullStore = defineStore('pull', {
               pity5Star: 0,
               avg4StarPulls: 0,
               avg5StarPulls: 0,
+              avg4StarOnlyPulls: 0,
               total4StarItems: 0,
               total5StarItems: 0,
+              total4StarOnlyItems: 0,
               isComplete: false,
+              first4StarItemId: null,
+              first5StarItemId: null,
             },
             bannerId: bannerId,
             bannerName: bannerInfo.bannerName,
@@ -283,7 +321,13 @@ export const usePullStore = defineStore('pull', {
                 duplicate: itemObtained[itemId] || false,
               }
 
-              if (!firstObtainInfo[itemId]) {
+              if (!itemObtained[itemId]) {
+                // Track first item of each rarity
+                if (rarity === 4 && !currentBanner.stats.first4StarItemId) {
+                  currentBanner.stats.first4StarItemId = itemId
+                } else if (rarity === 5 && !currentBanner.stats.first5StarItemId) {
+                  currentBanner.stats.first5StarItemId = itemId
+                }
                 firstObtainInfo[itemId] = pullInfo
               }
               itemObtained[itemId] = true
@@ -337,6 +381,15 @@ export const usePullStore = defineStore('pull', {
 
             stats.total4StarItems = fourStarPulls.length
             stats.total5StarItems = fiveStarPulls.length
+            stats.total4StarOnlyItems = 0 // Reset for type 2 banners
+
+            // Add to global counters for mixed banner 4★ items
+            total4Star += fourStarPulls.length
+            fourStarPullsToObtain += fourStarPulls.reduce(
+              (sum: number, item: PullItem) => sum + item.pullsToObtain,
+              0
+            )
+            fourStarCount += fourStarPulls.length
 
             stats.avg4StarPulls =
               fourStarPulls.length > 0
@@ -352,13 +405,26 @@ export const usePullStore = defineStore('pull', {
                     0
                   ) / fiveStarPulls.length
                 : 0
+            stats.avg4StarOnlyPulls = 0 // Reset for type 2 banners
           } else if (bannerType === 3) {
             // Limited 4★
             const fourStarPulls = currentPulls.filter(
               (item: PullItem) => item.rarity === 4 && item.obtained
             )
-            stats.total4StarItems = fourStarPulls.length
-            stats.avg4StarPulls =
+            stats.total4StarItems = 0 // Reset mixed banner stats
+            stats.total5StarItems = 0 // Reset 5★ stats
+            stats.total4StarOnlyItems = fourStarPulls.length
+            stats.avg4StarPulls = 0 // Reset mixed banner stats
+            stats.avg5StarPulls = 0 // Reset 5★ stats
+
+            total4StarOnly += fourStarPulls.length
+            fourStarOnlyPullsToObtain += fourStarPulls.reduce(
+              (sum: number, item: PullItem) => sum + item.pullsToObtain,
+              0
+            )
+            fourStarOnlyCount += fourStarPulls.length
+
+            stats.avg4StarOnlyPulls =
               fourStarPulls.length > 0
                 ? fourStarPulls.reduce(
                     (sum: number, item: PullItem) => sum + item.pullsToObtain,
@@ -395,19 +461,59 @@ export const usePullStore = defineStore('pull', {
         })
 
         // Update global stats
-        this.total5StarItems = total5Star
-        this.total4StarItems = total4Star
-        this.avg5StarPulls =
+        this.globalStats.total5StarItems = total5Star
+        this.globalStats.total4StarItems = total4Star
+        this.globalStats.total4StarOnlyItems = total4StarOnly
+        this.globalStats.avg5StarPulls =
           fiveStarCount > 0 ? fiveStarPullsToObtain / fiveStarCount : 0
-        this.avg4StarPulls =
+        this.globalStats.avg4StarPulls =
           fourStarCount > 0 ? fourStarPullsToObtain / fourStarCount : 0
+        this.globalStats.avg4StarOnlyPulls =
+          fourStarOnlyCount > 0 ? fourStarOnlyPullsToObtain / fourStarOnlyCount : 0
 
         this.processedPulls = bannerPulls
+
+        // Only send analytics if data is from API and there are actual pulls
+        if (source === 'API') {
+          await this.sendUserBannerStats()
+        }
       } catch (err) {
         this.error =
           err instanceof Error ? err.message : 'Failed to process pulls data'
       } finally {
         this.isProcessing = false
+      }
+    },
+
+    async sendUserBannerStats() {
+      const { sendUserBannerStats } = useUserBannerStats()
+      const userStore = useUserStore()
+      const uid = userStore.uid
+      
+      if (!uid) return
+
+      for (const [bannerId, banner] of Object.entries(this.processedPulls)) {
+        // Only send analytics for banners that have actual pull data
+        if (banner.stats.totalPulls === 0) continue
+
+        const analyticsData = {
+          uid,
+          banner_id: Number(bannerId),
+          banner_type: banner.bannerType,
+          total_pulls: banner.stats.totalPulls,
+          total_4star_items: banner.stats.total4StarItems,
+          total_5star_items: banner.stats.total5StarItems,
+          total_4star_only_items: banner.stats.total4StarOnlyItems,
+          avg_4star_pulls: banner.stats.avg4StarPulls,
+          avg_5star_pulls: banner.stats.avg5StarPulls,
+          avg_4star_only_pulls: banner.stats.avg4StarOnlyPulls,
+          last_pull_time: banner.stats.lastPull,
+          first_4star_item_id: banner.stats.first4StarItemId,
+          first_5star_item_id: banner.stats.first5StarItemId,
+          updated_at: new Date().toISOString(),
+        }
+
+        await sendUserBannerStats(analyticsData)
       }
     },
 
@@ -427,8 +533,12 @@ export const usePullStore = defineStore('pull', {
             pity5Star: 0,
             avg4StarPulls: 0,
             avg5StarPulls: 0,
+            avg4StarOnlyPulls: 0,
             total4StarItems: 0,
             total5StarItems: 0,
+            total4StarOnlyItems: 0,
+            first4StarItemId: null,
+            first5StarItemId: null,
             isComplete: false,
           },
           bannerId: bannerId,
@@ -508,7 +618,7 @@ export const usePullStore = defineStore('pull', {
         const savedPulls = await loadPullData()
 
         if (savedPulls) {
-          await this.processPullsData(savedPulls)
+          await this.processPullsData(savedPulls, 'LOCAL')
         }
       } catch (err) {
         this.error =

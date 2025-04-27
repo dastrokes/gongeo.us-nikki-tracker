@@ -78,7 +78,7 @@ export const useBannerPullApi = () => {
   const queryBannerPage = async (
     bannerId: number,
     page: number,
-    authToken: string
+    token: string
   ): Promise<QueryResponse> => {
     const response = await retryRequest(() =>
       $fetch<QueryResponse>('/query', {
@@ -92,7 +92,7 @@ export const useBannerPullApi = () => {
         },
         headers: {
           ...DEFAULT_HEADERS,
-          'X-Authority': authToken,
+          'X-Authority': token,
         },
       })
     )
@@ -105,7 +105,7 @@ export const useBannerPullApi = () => {
   // Query all pages for a single banner
   const queryBannerHistory = async (
     bannerId: number,
-    authToken: string
+    token: string
   ): Promise<QueryResponse[]> => {
     const results: QueryResponse[] = []
     let page = 1
@@ -114,7 +114,7 @@ export const useBannerPullApi = () => {
     while (!isEnd) {
       progress.value = { banner: bannerId, page }
 
-      const response = await queryBannerPage(bannerId, page, authToken)
+      const response = await queryBannerPage(bannerId, page, token)
 
       if (response.code !== 0) {
         throw new Error(response.info || 'Failed to fetch banner data')
@@ -134,8 +134,8 @@ export const useBannerPullApi = () => {
 
   // Main function to fetch all banner history
   const fetchPullHistory = async () => {
-    const authToken = userStore.getAuthToken
-    if (!authToken) {
+    const token = userStore.getAuthToken
+    if (!token) {
       error.value = 'Not authenticated'
       return null
     }
@@ -147,18 +147,15 @@ export const useBannerPullApi = () => {
     try {
       const bannerIds = Object.values(BANNER_DATA)
         .map((banner) => banner.bannerId)
-        .filter((id) => id !== 1) // Exclude permanent banner
+        .filter((id) => id == 16) // Exclude permanent banner
 
       const allResults = []
 
       for (const bannerId of bannerIds) {
         try {
-          const { data } = await useAsyncData(`banner-${bannerId}`, () =>
-            queryBannerHistory(bannerId, authToken)
-          )
-
-          if (data.value) {
-            allResults.push({ bannerId, results: data.value })
+          const results = await queryBannerHistory(bannerId, token)
+          if (results) {
+            allResults.push({ bannerId, results })
           }
 
           // Delay between banners
@@ -188,26 +185,25 @@ export const useBannerPullApi = () => {
     error.value = null
 
     try {
-      const { data } = await useAsyncData<VerifyResponse>('verify-auth', () =>
-        retryRequest(() =>
-          $fetch<VerifyResponse>('/verify', {
-            baseURL: getBaseUrl(),
-            method: 'GET',
-            params: {
-              token: cookieData.token,
-              roleid: cookieData.roleid,
-              id: cookieData.id,
-            },
-            headers: DEFAULT_HEADERS,
-          })
-        )
+      const response = await retryRequest(() =>
+        $fetch<VerifyResponse>('/verify', {
+          baseURL: getBaseUrl(),
+          method: 'GET',
+          params: {
+            token: cookieData.token,
+            roleid: cookieData.roleid,
+            id: cookieData.id,
+          },
+          headers: DEFAULT_HEADERS,
+        })
       )
 
-      if (data.value?.code === 0) {
-        userStore.setAuthToken(data.value.data)
+      if (response?.code === 0) {
+        userStore.setAuthToken(response.data)
+        userStore.setUid(cookieData.roleid)
         return true
       } else {
-        error.value = data.value?.info || 'Verification failed'
+        error.value = response?.info || 'Verification failed'
         return false
       }
     } catch (e) {

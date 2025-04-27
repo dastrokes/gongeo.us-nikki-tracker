@@ -27,14 +27,9 @@ export default defineNuxtConfig({
 
   image: {
     dir: 'public',
-    provider: process.env.NODE_ENV === 'production' ? 'netlify' : 'ipx', // use ipx only when not in production
-    providers: {
-      netlify: {
-        provider: 'ipx',
-        options: {
-          baseURL: 'https://gongeous.netlify.app',
-        },
-      },
+    provider: process.env.NODE_ENV === 'production' ? 'static' : 'ipx',
+    static: {
+      baseURL: process.env.NUXT_PUBLIC_SITE_URL || 'https://gongeous.netlify.app/',
     },
     presets: {
       item: {

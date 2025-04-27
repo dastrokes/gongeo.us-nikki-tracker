@@ -1,6 +1,7 @@
 <script setup lang="ts">
   import { ref, computed } from 'vue'
   import type { CookieData } from '~/types/api'
+  import type { PullRecord } from '~/types/pull'
   import {
     useBannerPullApi,
     Region,
@@ -136,20 +137,13 @@
     if (importMethod.value === 'json' && jsonFile.value) {
       try {
         const fileContent = await jsonFile.value.text()
-        const jsonData = JSON.parse(fileContent) as Array<{
-          banner_id: number
-          data: {
-            datas: Array<[string, string]>
-          }
-        }>
+        const jsonData = JSON.parse(fileContent) as Record<number, PullRecord[]>
 
         // Reset current store state
         pullStore.reset()
 
         await processJsonImport(jsonData)
-
         message.success('Data imported successfully!')
-        router.push('/tracker')
       } catch (e) {
         message.error(
           'Failed to import JSON file: ' +
@@ -168,7 +162,6 @@
         userStore.setUid(formData.value.roleid)
         try {
           await fetchAllData()
-          router.push('/tracker')
         } catch {
           message.error(fetchError.value || 'Failed to fetch pull history')
         }
@@ -231,7 +224,7 @@
             <div>
               <div class="mb-2">Select your game server region.</div>
               <n-select
-                :value="userStore.getSelectedRegion"
+                :value="userStore.getRegion"
                 :options="regionOptions"
                 placeholder="Select your region"
                 @update:value="userStore.setRegion"
@@ -250,7 +243,7 @@
               </n-icon>
             </template>
             <div>
-              <div v-if="userStore.getSelectedRegion === Region.CHINA">
+              <div v-if="userStore.getRegion === Region.CHINA">
                 Go to
                 <a
                   class="text-blue-600 hover:text-blue-800 underline"

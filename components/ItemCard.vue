@@ -90,15 +90,7 @@
   const props = defineProps<Props>()
 
   const imageUrl = computed(() => {
-    try {
-      return new URL(
-        `/assets/images/${props.item.itemId}.webp`,
-        import.meta.url
-      ).href
-    } catch (error) {
-      console.warn(`Failed to load image for item ${props.item.itemId}:`, error)
-      return '' // Return empty string if image not found
-    }
+    return `/images/${props.item.itemId}.webp`
   })
 </script>
 

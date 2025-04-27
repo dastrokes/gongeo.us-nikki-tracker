@@ -14,7 +14,7 @@ export interface UserProfile {
 
 export interface UserState {
   currentUser: UserProfile | null
-  selectedRegion: Region
+  region: Region
   theme: Theme
   uid: string | null
   authToken: string | null
@@ -37,7 +37,7 @@ export const useUserStore = defineStore('user', {
 
     return {
       currentUser: null,
-      selectedRegion: Region.AMERICA,
+      region: Region.AMERICA,
       theme: initialTheme,
       uid: savedUid,
       authToken: savedToken,
@@ -46,7 +46,7 @@ export const useUserStore = defineStore('user', {
 
   getters: {
     user: (state) => state.currentUser,
-    getSelectedRegion: (state) => state.selectedRegion,
+    getRegion: (state) => state.region,
     getCurrentTheme: (state) => state.theme,
     getUid: (state) => state.uid,
     getAuthToken: (state) => state.authToken,
@@ -54,7 +54,7 @@ export const useUserStore = defineStore('user', {
 
   actions: {
     setRegion(region: Region) {
-      this.selectedRegion = region
+      this.region = region
     },
 
     initializeTheme() {

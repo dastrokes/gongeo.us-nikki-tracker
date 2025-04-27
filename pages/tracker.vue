@@ -587,7 +587,6 @@
       if (hasData.value) {
         await pullStore.processPullsData(data.value, 'LOCAL')
       } else {
-        console.log('No data found')
         loading.value = false
         // Wait 3 seconds before redirecting
         setTimeout(() => {

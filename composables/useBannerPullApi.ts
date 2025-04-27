@@ -66,7 +66,7 @@ export const useBannerPullApi = () => {
 
   // Get current API base URL based on selected region
   const getBaseUrl = () => {
-    const region = userStore.getSelectedRegion as Region
+    const region = userStore.getRegion as Region
     return REGION_URLS[region]
   }
 
@@ -221,7 +221,7 @@ export const useBannerPullApi = () => {
     progress,
     verifyAuth,
     fetchPullHistory,
-    selectedRegion: computed(() => userStore.getSelectedRegion),
+    region: computed(() => userStore.getRegion),
     setRegion,
   }
 }

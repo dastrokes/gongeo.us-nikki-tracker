@@ -26,14 +26,22 @@ export default defineNuxtConfig({
   },
 
   image: {
-    dir: 'assets/images',
-    provider: 'ipx',
+    dir: 'public',
+    provider: process.env.NODE_ENV === 'production' ? 'netlify' : 'ipx', // use ipx only when not in production
+    providers: {
+      netlify: {
+        provider: 'ipx',
+        options: {
+          baseURL: 'https://gongeous.netlify.app',
+        },
+      },
+    },
     presets: {
       item: {
         modifiers: {
           format: 'webp',
-          width: 400,
-          height: 400,
+          width: 200,
+          height: 200,
           fit: 'cover',
           quality: 80,
         },
@@ -50,6 +58,10 @@ export default defineNuxtConfig({
     },
   },
 
+  nitro: {
+    preset: 'netlify',
+  },
+
   components: {
     dirs: ['~/components'],
   },
@@ -64,5 +76,5 @@ export default defineNuxtConfig({
   },
 
   logLevel: 'silent',
-  compatibilityDate: '2025-04-26',
+  compatibilityDate: '2025-04-27',
 })

@@ -56,6 +56,7 @@ export default defineNuxtConfig({
       xxl: 1536,
       '2xl': 1536,
     },
+    format: ['webp', 'jpg', 'png', 'gif'],
   },
 
   nitro: {

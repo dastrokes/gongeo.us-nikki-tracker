@@ -497,15 +497,16 @@ export const usePullStore = defineStore('pull', {
       const { sendUserBannerStats } = useUserBannerStats()
       const userStore = useUserStore()
       const uid = userStore.uid
+      const region = userStore.region
 
       if (!uid) return
 
-      for (const [bannerId, banner] of Object.entries(this.processedPulls)) {
-        // Only send analytics for banners that have actual pull data
-        if (banner.stats.totalPulls === 0) continue
-
-        const analyticsData = {
+      // Collect all analytics data first
+      const analyticsDataArray = Object.entries(this.processedPulls)
+        .filter(([_, banner]) => banner.stats.totalPulls > 0)
+        .map(([bannerId, banner]) => ({
           uid,
+          region,
           banner_id: Number(bannerId),
           banner_type: banner.bannerType,
           total_pulls: banner.stats.totalPulls,
@@ -519,9 +520,11 @@ export const usePullStore = defineStore('pull', {
           first_4star_item_id: banner.stats.first4StarItemId,
           first_5star_item_id: banner.stats.first5StarItemId,
           updated_at: new Date().toISOString(),
-        }
+        }))
 
-        await sendUserBannerStats(analyticsData)
+      // Send all data in a single batch
+      if (analyticsDataArray.length > 0) {
+        await sendUserBannerStats(analyticsDataArray)
       }
     },
 

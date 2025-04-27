@@ -2,6 +2,7 @@ import { createClient } from '@supabase/supabase-js'
 
 export interface UserBannerStats extends Record<string, unknown> {
   uid: string
+  region: string
   banner_id: number
   banner_type: number
   total_pulls: number
@@ -20,6 +21,7 @@ export interface UserBannerStats extends Record<string, unknown> {
 /*
 CREATE TABLE user_banner_stats (
   uid TEXT NOT NULL,
+  region TEXT NOT NULL,
   banner_id INTEGER NOT NULL,
   banner_type INTEGER NOT NULL,
   total_pulls INTEGER NOT NULL,
@@ -63,15 +65,36 @@ const createSupabaseClient = () => {
   return supabaseInstance
 }
 
+const hashUid = async (uid: string): Promise<string> => {
+  // Convert the string to a Uint8Array
+  const encoder = new TextEncoder();
+  const data = encoder.encode(uid);
+  
+  // Use the Web Crypto API to hash the data
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+  
+  // Convert the hash to a hex string
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+  
+  return hashHex;
+}
+
 export const useUserBannerStats = () => {
-  const sendUserBannerStats = async (data: UserBannerStats) => {
+  const sendUserBannerStats = async (data: UserBannerStats[]) => {
     try {
       const supabase = createSupabaseClient()
-      const { error } = await supabase.from('user_banner_stats').upsert(data, {
+      // Since hashUid is now async, we need to await each hash operation
+      const hashedDataPromises = data.map(async item => ({ 
+        ...item, 
+        uid: await hashUid(item.uid) 
+      }));
+      const hashedData = await Promise.all(hashedDataPromises);
+      
+      const { error } = await supabase.from('user_banner_stats').upsert(hashedData, {
         onConflict: 'uid,banner_id',
         ignoreDuplicates: false,
       })
-
       if (error) throw error
       return true
     } catch (error) {

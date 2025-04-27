@@ -2,10 +2,12 @@ import { ref } from 'vue'
 import { useBannerPullApi } from './useBannerPullApi'
 import { usePullStore } from '~/stores/pull'
 import type { PullRecord } from '~/types/pull'
+import { useRouter } from 'vue-router'
 
 export const useBannerPullData = () => {
   const { fetchPullHistory, progress } = useBannerPullApi()
   const pullStore = usePullStore()
+  const router = useRouter()
 
   const isFetching = ref(false)
   const currentPage = ref(1)
@@ -17,6 +19,7 @@ export const useBannerPullData = () => {
     savePullData(jsonData)
 
     await pullStore.processPullsData(jsonData, 'JSON')
+    router.push('/tracker')
     return jsonData
   }
 
@@ -53,6 +56,7 @@ export const useBannerPullData = () => {
 
       // Process the data in the store
       await pullStore.processPullsData(pullsByBanner, 'API')
+      router.push('/tracker')
     } catch (e) {
       error.value =
         e instanceof Error ? e.message : 'Failed to fetch pull history'

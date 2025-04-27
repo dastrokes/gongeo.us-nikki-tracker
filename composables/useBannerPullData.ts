@@ -4,47 +4,26 @@ import { usePullStore } from '~/stores/pull'
 import type { PullRecord } from '~/types/pull'
 
 export const useBannerPullData = () => {
-  const { fetchPullHistory } = useBannerPullApi()
+  const { fetchPullHistory, progress } = useBannerPullApi()
   const pullStore = usePullStore()
 
-  const isLoading = ref(false)
+  const isFetching = ref(false)
   const currentPage = ref(1)
   const error = ref<string | null>(null)
 
-  const processJsonImport = async (
-    jsonData: Array<{
-      banner_id: number
-      data: {
-        datas: Array<[string, string]>
-      }
-    }>
-  ) => {
-    const jsonPullsData = jsonData.reduce(
-      (acc: Record<number, PullRecord[]>, data) => {
-        const bannerId = data.banner_id
-        if (!acc[bannerId]) {
-          acc[bannerId] = []
-        }
-        data.data.datas.forEach(([time, itemId]) => {
-          acc[bannerId].push([time, itemId] as PullRecord)
-        })
-        return acc
-      },
-      {}
-    )
-
+  const processJsonImport = async (jsonData: Record<number, PullRecord[]>) => {
     // Save to IndexedDB asynchronously without awaiting
     const { savePullData } = useIndexedDB()
-    savePullData(jsonPullsData)
+    savePullData(jsonData)
 
-    await pullStore.processPullsData(jsonPullsData, 'JSON')
-    return jsonPullsData
+    await pullStore.processPullsData(jsonData, 'JSON')
+    return jsonData
   }
 
   const fetchData = async () => {
-    if (isLoading.value) return
+    if (isFetching.value) return
 
-    isLoading.value = true
+    isFetching.value = true
     error.value = null
 
     try {
@@ -78,7 +57,7 @@ export const useBannerPullData = () => {
       error.value =
         e instanceof Error ? e.message : 'Failed to fetch pull history'
     } finally {
-      isLoading.value = false
+      isFetching.value = false
     }
   }
 
@@ -91,11 +70,12 @@ export const useBannerPullData = () => {
   }
 
   return {
-    isLoading,
+    isFetching,
     currentPage,
     error,
     fetchData,
     fetchAllData,
     processJsonImport,
+    progress,
   }
 }

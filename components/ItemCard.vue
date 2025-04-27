@@ -32,6 +32,7 @@
           :src="imageUrl"
           :alt="item.itemId"
           class="w-full h-full object-cover"
+          provider="netlify"
           preset="item"
           loading="lazy"
           :placeholder="[50, 50, 75]"

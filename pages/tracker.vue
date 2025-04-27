@@ -180,20 +180,69 @@
 
           <div class="ml-4 flex space-x-2 shrink-0 export-exclude">
             <!-- Export Button -->
-            <n-button
-              size="small"
-              quaternary
-              circle
-              class="text-gray-500 hover:text-gray-700"
-              :loading="exporting"
-              @click="exportPNG"
+
+            <n-tooltip
+              placement="top"
+              :theme-overrides="{
+                common: {
+                  borderRadius: '8px',
+                },
+                peers: {
+                  Popover: {
+                    color: '#ffffff',
+                    textColor: '#000000',
+                    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.12)',
+                  },
+                },
+              }"
+              trigger="hover"
+              ><template #trigger>
+                <n-button
+                  size="small"
+                  quaternary
+                  circle
+                  :loading="exporting"
+                  @click="exportPNG"
+                >
+                  <template #icon>
+                    <n-icon>
+                      <file-image-regular />
+                    </n-icon>
+                  </template> </n-button
+              ></template>
+              Export as PNG image
+            </n-tooltip>
+            <n-tooltip
+              placement="top"
+              :theme-overrides="{
+                common: {
+                  borderRadius: '8px',
+                },
+                peers: {
+                  Popover: {
+                    color: '#ffffff',
+                    textColor: '#000000',
+                    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.12)',
+                  },
+                },
+              }"
+              trigger="hover"
             >
-              <template #icon>
-                <n-icon>
-                  <download />
-                </n-icon>
-              </template>
-            </n-button>
+              <template #trigger>
+                <n-button
+                  size="small"
+                  quaternary
+                  circle
+                  @click="exportJSON"
+                >
+                  <template #icon>
+                    <n-icon>
+                      <file-export />
+                    </n-icon>
+                  </template> </n-button
+              ></template>
+              Export as JSON for later import
+            </n-tooltip>
 
             <n-popover trigger="click">
               <template #trigger>
@@ -492,7 +541,10 @@
           class="text-center rounded-md rounded-xl"
         >
           <div class="text-xl text-neutral-800">
-            No resonance history available
+            No resonance history available.
+          </div>
+          <div class="text-xl text-neutral-800">
+            Please import your resonance data first.
           </div>
         </n-card>
       </div>
@@ -503,42 +555,50 @@
 <script setup lang="ts">
   import { ref, onMounted } from 'vue'
   import { storeToRefs } from 'pinia'
-  import { Cog, ChartBarRegular, CheckCircle, Star, Download } from '@vicons/fa'
+  import {
+    Cog,
+    ChartBarRegular,
+    CheckCircle,
+    Star,
+    FileImageRegular,
+    FileExport,
+  } from '@vicons/fa'
   import { toPng } from 'html-to-image'
   import { useMessage } from 'naive-ui'
   import { BANNER_DATA } from '~/data/banners'
   import { usePullStore } from '~/stores/pull'
   import { useIndexedDB } from '~/composables/useIndexedDB'
   import type { PullItem } from '~/types/pull'
+  import { useRouter } from 'nuxt/app'
 
+  const router = useRouter()
   const message = useMessage()
   const pullStore = usePullStore()
   const { processedPulls, globalStats } = storeToRefs(pullStore)
   const { data, hasData, loadPullData } = useIndexedDB()
 
-  const initialized = ref(false)
   const loading = ref(true)
 
   onMounted(async () => {
-    if (!initialized.value) {
-      try {
-        // Check if we have data in IndexedDB
-        loading.value = true
-        await loadPullData()
-        if (hasData.value) {
-          await pullStore.processPullsData(data.value, 'LOCAL')
-        } else {
-          // If no data, redirect to import page
-          message.warning(
-            'No resonance data found. Please import your data first.'
-          )
-          navigateTo('/import')
-        }
-      } catch (error) {
-        console.error('Failed to load resonance data:', error)
-        message.error('Failed to load resonance data. Please try again.')
-      } finally {
-        initialized.value = true
+    try {
+      // Check if we have data in IndexedDB
+      loading.value = true
+      await loadPullData()
+      if (hasData.value) {
+        await pullStore.processPullsData(data.value, 'LOCAL')
+      } else {
+        console.log('No data found')
+        loading.value = false
+        // Wait 3 seconds before redirecting
+        setTimeout(() => {
+          router.push('/import')
+        }, 3000)
+      }
+    } catch (error) {
+      console.error('Failed to load resonance data:', error)
+      message.error('Failed to load resonance data. Please try again.')
+    } finally {
+      if (hasData.value) {
         loading.value = false
       }
     }
@@ -631,10 +691,22 @@
         )
       }
 
+      // Get the actual content width and height
+      const contentWidth = trackerElement.scrollWidth
+      const contentHeight = trackerElement.scrollHeight
+
       const dataUrl = await toPng(trackerElement, {
         quality: 1,
         backgroundColor: '#fdf2f8',
         filter: filter,
+        width: contentWidth,
+        height: contentHeight,
+        style: {
+          transform: 'none', // Prevent any transform that might cause offset
+          position: 'relative', // Ensure proper positioning
+          left: '0',
+          top: '0',
+        },
       })
 
       // Create a link element and trigger download
@@ -647,6 +719,34 @@
     } catch (error) {
       console.error('Export failed:', error)
       message.error('Failed to export tracker. Please try again.')
+    } finally {
+      exporting.value = false
+    }
+  }
+
+  const exportJSON = async () => {
+    try {
+      exporting.value = true
+      const jsonData = pullStore.rawPullData
+
+      // Create a Blob with the JSON data
+      const blob = new Blob([JSON.stringify(jsonData, null, 2)], {
+        type: 'application/json',
+      })
+
+      // Create a link element and trigger download
+      const link = document.createElement('a')
+      link.download = `nikki-resonance-data-${new Date().toISOString().split('T')[0]}.json`
+      link.href = URL.createObjectURL(blob)
+      link.click()
+
+      // Clean up the URL object
+      URL.revokeObjectURL(link.href)
+
+      message.success('Data exported successfully!')
+    } catch (error) {
+      console.error('Export failed:', error)
+      message.error('Failed to export data. Please try again.')
     } finally {
       exporting.value = false
     }

@@ -64,6 +64,5 @@ export default defineNuxtConfig({
   },
 
   logLevel: 'silent',
-
-  compatibilityDate: '2025-04-22',
+  compatibilityDate: '2025-04-26',
 })

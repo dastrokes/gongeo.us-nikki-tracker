@@ -93,7 +93,13 @@
     NButton,
     type MenuOption,
   } from 'naive-ui'
-  import { FileImport, Book, Bars, QuestionCircleRegular, Globe } from '@vicons/fa'
+  import {
+    FileImport,
+    Book,
+    Bars,
+    QuestionCircleRegular,
+    Globe,
+  } from '@vicons/fa'
   import { h, ref, onMounted, onUnmounted, computed } from 'vue'
   import { NuxtLink } from '#components'
   import { useRoute, useRouter } from '#app'

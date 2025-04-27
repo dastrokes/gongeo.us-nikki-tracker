@@ -67,17 +67,17 @@ const createSupabaseClient = () => {
 
 const hashUid = async (uid: string): Promise<string> => {
   // Convert the string to a Uint8Array
-  const encoder = new TextEncoder();
-  const data = encoder.encode(uid);
-  
+  const encoder = new TextEncoder()
+  const data = encoder.encode(uid)
+
   // Use the Web Crypto API to hash the data
-  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-  
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data)
+
   // Convert the hash to a hex string
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-  const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-  
-  return hashHex;
+  const hashArray = Array.from(new Uint8Array(hashBuffer))
+  const hashHex = hashArray.map((b) => b.toString(16).padStart(2, '0')).join('')
+
+  return hashHex
 }
 
 export const useUserBannerStats = () => {
@@ -85,16 +85,18 @@ export const useUserBannerStats = () => {
     try {
       const supabase = createSupabaseClient()
       // Since hashUid is now async, we need to await each hash operation
-      const hashedDataPromises = data.map(async item => ({ 
-        ...item, 
-        uid: await hashUid(item.uid) 
-      }));
-      const hashedData = await Promise.all(hashedDataPromises);
-      
-      const { error } = await supabase.from('user_banner_stats').upsert(hashedData, {
-        onConflict: 'uid,banner_id',
-        ignoreDuplicates: false,
-      })
+      const hashedDataPromises = data.map(async (item) => ({
+        ...item,
+        uid: await hashUid(item.uid),
+      }))
+      const hashedData = await Promise.all(hashedDataPromises)
+
+      const { error } = await supabase
+        .from('user_banner_stats')
+        .upsert(hashedData, {
+          onConflict: 'uid,banner_id',
+          ignoreDuplicates: false,
+        })
       if (error) throw error
       return true
     } catch (error) {

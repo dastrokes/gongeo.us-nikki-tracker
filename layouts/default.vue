@@ -29,7 +29,9 @@
               to="/"
               class="pl-2 font-bold text-xl"
             >
-              <span class="text-2xl font-serif italic transform scale-y-130">gongeo.us</span>
+              <span class="text-2xl font-serif italic transform scale-y-130"
+                >gongeo.us</span
+              >
             </NuxtLink>
           </div>
           <div class="flex items-center pr-4">

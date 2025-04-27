@@ -1,6 +1,8 @@
 <template>
   <div class="relative min-h-[80vh]">
-    <div class="flex flex-col min-h-[80vh] items-center justify-center text-center">
+    <div
+      class="flex flex-col min-h-[80vh] items-center justify-center text-center"
+    >
       <h2
         class="text-4xl font-bold font-serif italic my-8 transform scale-y-130"
       >

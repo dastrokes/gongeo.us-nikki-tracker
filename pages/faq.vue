@@ -1,7 +1,33 @@
 <script setup lang="ts">
   import { Discord } from '@vicons/fa'
 
-  const faqs = []
+  const faqs = [
+    {
+      question: 'Will I get banned for using this?',
+      answer:
+        'This is a third party tool and it is ultimately up to Infold. However, similar tools are widely used in other games and in Chinese community of Inifinity Nikki.',
+    },
+    {
+      question: 'What data are you storing?',
+      answer:
+        'We only store raw pull data in your browser. We do not store any personal information including your cookies.',
+    },
+    {
+      question: 'All banners are processed but no pulls are showing?',
+      answer:
+        'Please double check the region and cookie you are sending are correct.',
+    },
+    {
+      question: 'Permanent banner Distant Sea is not showing?',
+      answer:
+        'Permanent banners records are available in game. It would also take longer to process, so far now it is not available.',
+    },
+    {
+      question: 'How do I export my pull history?',
+      answer:
+        'You can export your pull history by clicking the "Export" button on the top right corner of the page.',
+    },
+  ]
 </script>
 
 <template>
@@ -20,8 +46,9 @@
             v-for="(faq, index) in faqs"
             :key="index"
             :title="faq.question"
+            class="text-gray-600 dark:text-gray-300"
           >
-            <div class="prose dark:prose-invert max-w-none">
+            <div class="max-w-none text-sm">
               <p>{{ faq.answer }}</p>
             </div>
           </n-collapse-item>

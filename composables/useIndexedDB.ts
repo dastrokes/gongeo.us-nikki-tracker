@@ -2,7 +2,7 @@ import type { PullRecord } from '~/types/pull'
 import { ref, computed } from 'vue'
 import { openDB, type IDBPDatabase } from 'idb'
 
-const DB_NAME = 'nikkiResonanceDB'
+const DB_NAME = 'gongeousDB'
 const DB_VERSION = 1
 const STORE_NAME = 'pullsByBanner'
 

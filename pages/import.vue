@@ -211,6 +211,50 @@
             </div>
           </n-step>
 
+          <!-- JSON Import Step -->
+          <n-step
+            v-show="importMethod === 'json'"
+            title="JSON Import"
+          >
+            <template #icon>
+              <n-icon>
+                <Check />
+              </n-icon>
+            </template>
+            <div>
+              <div class="mb-2">
+                Import from a previously exported JSON file.
+              </div>
+              <n-upload
+                accept=".json"
+                :max="1"
+                :show-file-list="false"
+                @change="handleFileChange"
+              >
+                <n-button>Select JSON File</n-button>
+              </n-upload>
+              <div
+                v-if="jsonFile"
+                class="mt-2 text-sm text-gray-600"
+              >
+                Selected file: {{ jsonFile.name }}
+              </div>
+            </div>
+          </n-step>
+
+          <!-- Game Import Step -->
+          <n-step
+            v-show="importMethod === 'game'"
+            title="Game Import"
+          >
+            <template #icon>
+              <n-icon>
+                <Check />
+              </n-icon>
+            </template>
+            <div>Import directly from the game using your browser.</div>
+          </n-step>
+
           <!-- Region Select Step -->
           <n-step
             v-show="importMethod === 'game'"
@@ -313,50 +357,6 @@
               </ol>
               <div class="text-sm text-amber-600">
                 Note: Never share these cookie values with anyone else!
-              </div>
-            </div>
-          </n-step>
-
-          <!-- Game Import Step -->
-          <n-step
-            v-show="importMethod === 'game'"
-            title="Game Import"
-          >
-            <template #icon>
-              <n-icon>
-                <Check />
-              </n-icon>
-            </template>
-            <div>Import directly from the game using your browser.</div>
-          </n-step>
-
-          <!-- JSON Import Step -->
-          <n-step
-            v-show="importMethod === 'json'"
-            title="JSON Import"
-          >
-            <template #icon>
-              <n-icon>
-                <Check />
-              </n-icon>
-            </template>
-            <div>
-              <div class="mb-2">
-                Import from a previously exported JSON file.
-              </div>
-              <n-upload
-                accept=".json"
-                :max="1"
-                :show-file-list="false"
-                @change="handleFileChange"
-              >
-                <n-button>Select JSON File</n-button>
-              </n-upload>
-              <div
-                v-if="jsonFile"
-                class="mt-2 text-sm text-gray-600"
-              >
-                Selected file: {{ jsonFile.name }}
               </div>
             </div>
           </n-step>

@@ -6,7 +6,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
 
   // Add global CSS files
-  css: ['~/assets/styles/global.scss', '~/assets/styles/tailwind.scss'],
+  css: ['~/assets/styles/global.scss'],
 
   modules: [
     '@nuxt/eslint',
@@ -32,17 +32,6 @@ export default defineNuxtConfig({
       baseURL:
         process.env.NUXT_PUBLIC_SITE_URL || 'https://gongeous.netlify.app/',
     },
-    presets: {
-      item: {
-        modifiers: {
-          format: 'webp',
-          width: 200,
-          height: 200,
-          fit: 'cover',
-          quality: 80,
-        },
-      },
-    },
     screens: {
       xs: 320,
       sm: 640,
@@ -52,7 +41,6 @@ export default defineNuxtConfig({
       xxl: 1536,
       '2xl': 1536,
     },
-    format: ['webp', 'jpg', 'png', 'gif'],
   },
 
   nitro: {

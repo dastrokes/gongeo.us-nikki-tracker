@@ -27,10 +27,11 @@
             </n-button>
             <NuxtLink
               to="/"
-              class="pl-2 font-bold text-xl"
+              class="pl-2"
             >
-              <span class="text-2xl font-serif italic transform scale-y-130"
-                >gongeo.us</span
+              <span
+                class="text-xl font-bold font-sans transform scale-y-130 leading-none"
+                >a gongeous website</span
               >
             </NuxtLink>
           </div>
@@ -45,17 +46,21 @@
       <n-layout-sider
         collapse-mode="width"
         :native-scrollbar="false"
-        :collapsed-width="isMobileScreen ? 0 : 48"
+        :collapsed-width="48"
         :width="200"
         :collapsed="!showSider"
-        class="fixed top-0 left-0 h-full w-64 shadow-lg z-10 bg-gradient-to-b from-sky-100 via-purple-100 to-pink-100"
+        class="fixed top-0 left-0 h-full shadow-lg z-10 bg-gradient-to-b from-sky-100 via-purple-100 to-pink-100 transition-all duration-300"
+        :class="{
+          'w-48 -translate-x-full sm:translate-x-0': !showSider,
+          'w-64 translate-x-0': showSider,
+        }"
         @collapse="showSider = false"
         @expand="showSider = true"
       >
         <n-menu
           class="mt-12"
           :collapsed="!showSider"
-          :collapsed-width="isMobileScreen ? 0 : 48"
+          :collapsed-width="48"
           :collapsed-icon-size="16"
           :icon-size="16"
           :indent="16"
@@ -74,12 +79,58 @@
       >
         <div
           ref="scrollContainer"
-          class="h-full overflow-y-hidden px-0 py-16"
+          class="h-full px-0 py-16"
         >
           <slot />
         </div>
       </n-scrollbar>
     </n-layout-content>
+    <transition
+      enter-active-class="transition duration-300 ease-in-out transform"
+      leave-active-class="transition duration-300 ease-in-out transform"
+      enter-from-class="translate-y-full opacity-0"
+      enter-to-class="translate-y-0 opacity-100"
+      leave-from-class="translate-y-0 opacity-100"
+      leave-to-class="translate-y-full opacity-0"
+    >
+      <n-layout-footer
+        v-show="showFooter"
+        class="text-center text-sm text-gray-600 py-2 fixed bottom-0 left-0 right-0 bg-transparent"
+      >
+        <n-tooltip
+          trigger="hover"
+          placement="top"
+          :theme-overrides="{
+            common: {
+              borderRadius: '8px',
+            },
+            peers: {
+              Popover: {
+                color: '#ffffff',
+                textColor: '#000000',
+                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.12)',
+              },
+            },
+          }"
+        >
+          <template #trigger>
+            <p class="cursor-help">
+              © 2025 a gongeous website © Infold Games All Rights Reserved.
+            </p>
+          </template>
+          <div class="max-w-xs text-left">
+            <p>
+              This is an independent fan project, not affiliated with or
+              endorsed by Infold/Paper Games.
+            </p>
+            <p class="mt-1">
+              All game assets, content, and trademarks belong to their
+              respective owners.
+            </p>
+          </div>
+        </n-tooltip>
+      </n-layout-footer>
+    </transition>
   </n-layout>
 </template>
 
@@ -91,6 +142,8 @@
     NMenu,
     NIcon,
     NButton,
+    NLayoutFooter,
+    NTooltip,
     type MenuOption,
   } from 'naive-ui'
   import {
@@ -99,8 +152,9 @@
     Bars,
     QuestionCircleRegular,
     Globe,
+    CalendarAlt,
   } from '@vicons/fa'
-  import { h, ref, onMounted, onUnmounted, computed } from 'vue'
+  import { h, ref, computed } from 'vue'
   import { NuxtLink } from '#components'
   import { useRoute, useRouter } from '#app'
   import UserProfile from '~/components/UserProfile.vue'
@@ -131,6 +185,11 @@
         disabled: true,
       },
       {
+        label: 'Banner History',
+        key: 'banner',
+        icon: renderIcon(CalendarAlt),
+      },
+      {
         label: 'FAQ',
         key: 'faq',
         icon: renderIcon(QuestionCircleRegular),
@@ -144,40 +203,26 @@
   // Handle menu selection
   const handleMenuSelect = (key: string) => {
     router.push(`/${key}`)
-    if (isMobileScreen.value) {
+    if (window.innerWidth < 640) {
       showSider.value = false
     }
   }
 
   const showHeader = ref(true)
   const showSider = ref(false)
+  const showFooter = ref(true)
   const lastScrollPosition = ref(0)
   const scrollContainer = ref<HTMLElement | null>(null)
-
-  // Add mobile screen detection
-  const isMobileScreen = ref(false)
-
-  const updateScreenSize = () => {
-    isMobileScreen.value = window.innerWidth < 640 // 640px is Tailwind's 'sm' breakpoint
-  }
-
-  onMounted(() => {
-    updateScreenSize()
-    window.addEventListener('resize', updateScreenSize)
-  })
-
-  onUnmounted(() => {
-    window.removeEventListener('resize', updateScreenSize)
-  })
 
   const onScroll = (e: Event) => {
     const target = e.target as HTMLElement
     const currentScrollPosition = target.scrollTop
+    const scrollHeight = target.scrollHeight
+    const clientHeight = target.clientHeight
 
-    // Show header at the top and when scrolling up
-    showHeader.value =
-      currentScrollPosition < 100 ||
-      currentScrollPosition < lastScrollPosition.value
+    // Show footer when near the bottom (within 150px)
+    showFooter.value =
+      scrollHeight - (currentScrollPosition + clientHeight) < 150
 
     lastScrollPosition.value = currentScrollPosition
   }

@@ -308,7 +308,7 @@
                 banner.bannerId != 1
               "
               size="small"
-              class="rounded-xl bg-pink-100"
+              class="rounded-xl bg-pink-100 min-h-[150px] lg:min-h-[180px]"
             >
               <div>
                 <!-- Banner Header -->
@@ -365,7 +365,7 @@
                           </template>
                         </n-button>
                       </template>
-                      <div class="p-4 min-w-[280px]">
+                      <div class="p-4 w-[200px]">
                         <div class="space-y-2">
                           <div class="flex justify-between">
                             <span class="text-sm">Total Pulls</span>
@@ -499,9 +499,7 @@
 
                 <!-- Combined Outfits View -->
                 <template v-if="combineOutfits">
-                  <div
-                    class="grid grid-cols-5 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-2"
-                  >
+                  <div class="grid grid-cols-5 lg:grid-cols-10 gap-2">
                     <ItemCard
                       v-for="pull in filterPulls(banner.pulls, banner.bannerId)"
                       :key="pull.pullIndex"
@@ -517,9 +515,7 @@
                     :key="outfit.id"
                     class="mb-2"
                   >
-                    <div
-                      class="grid grid-cols-5 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-2"
-                    >
+                    <div class="grid grid-cols-5 lg:grid-cols-10 gap-2">
                       <ItemCard
                         v-for="pull in filterPulls(
                           getOutfitItems(banner.pulls, outfit.id),
@@ -710,7 +706,7 @@
 
       // Create a link element and trigger download
       const link = document.createElement('a')
-      link.download = `nikki-resonance-tracker-${new Date().toISOString().split('T')[0]}.png`
+      link.download = `gongeous-${new Date().toISOString().split('T')[0]}.png`
       link.href = dataUrl
       link.click()
 
@@ -726,10 +722,15 @@
   const exportJSON = async () => {
     try {
       exporting.value = true
-      const jsonData = pullStore.rawPullData
+      const rawData = pullStore.rawPullData
+
+      // Filter out banners with 0 pulls
+      const filteredData = Object.fromEntries(
+        Object.entries(rawData).filter(([_, pulls]) => pulls.length > 0)
+      )
 
       // Create a Blob with the JSON data
-      const blob = new Blob([JSON.stringify(jsonData, null, 2)], {
+      const blob = new Blob([JSON.stringify(filteredData, null, 2)], {
         type: 'application/json',
       })
 

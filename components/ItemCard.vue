@@ -18,7 +18,7 @@
       <n-card
         :class="[
           'item-card relative overflow-hidden rounded-md transition-all duration-300 ease-in-out aspect-square',
-          'ring-1 hover:scale-[1.02]',
+          'ring-1 hover:scale-[1.01]',
           item.rarity === 5
             ? 'rarity-5 ring-amber-200/30 hover:ring-amber-200/80'
             : 'rarity-4 ring-blue-200/30 hover:ring-blue-200/80',
@@ -27,22 +27,21 @@
         :bordered="false"
         size="small"
         content-style="padding: 0;"
+        class="min-h-[80px] lg:min-h-[100px] aspect-square"
       >
         <nuxt-img
           :src="imageUrl"
           :alt="item.itemId"
-          class="w-full h-full object-cover"
-          provider="netlify"
-          preset="item"
+          class="w-full h-full object-cover aspect-square"
+          :provider="imageProvider"
+          format="webp"
+          width="200"
+          height="200"
+          fit="cover"
+          quality="80"
           loading="lazy"
-          :placeholder="[50, 50, 75]"
-        >
-          <template #placeholder>
-            <div class="flex items-center justify-center h-full">
-              <n-spin size="small" />
-            </div>
-          </template>
-        </nuxt-img>
+          sizes="(max-width: 200px) 100px, 200px"
+        />
         <n-tag
           v-if="item.obtained"
           size="tiny"
@@ -91,7 +90,11 @@
   const props = defineProps<Props>()
 
   const imageUrl = computed(() => {
-    return `/images/${props.item.itemId}.webp`
+    return `/images/items/${props.item.itemId}.webp`
+  })
+
+  const imageProvider = computed(() => {
+    return process.env.NODE_ENV === 'development' ? 'ipx' : 'netlify'
   })
 </script>
 

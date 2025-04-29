@@ -67,7 +67,7 @@ export const BANNER_DATA: BannerData = {
   5: {
     bannerId: 5,
     bannerName: 'Bubbling Affections',
-    bannerType: 2,
+    bannerType: 3,
     outfit4StarId: ['S0107'],
     outfit5StarId: [],
     runs: [
@@ -86,7 +86,7 @@ export const BANNER_DATA: BannerData = {
     outfit5StarId: ['S0129'],
     runs: [
       {
-        version: '1.2.1',
+        version: '1.1.1',
         start: '2024-12-29',
         end: '2025-01-23',
       },
@@ -100,7 +100,7 @@ export const BANNER_DATA: BannerData = {
     outfit5StarId: [],
     runs: [
       {
-        version: '1.2.2',
+        version: '1.1.2',
         start: '2025-01-12',
         end: '2025-01-23',
       },
@@ -114,7 +114,7 @@ export const BANNER_DATA: BannerData = {
     outfit5StarId: [],
     runs: [
       {
-        version: '1.2.2',
+        version: '1.1.2',
         start: '2025-01-12',
         end: '2025-01-23',
       },
@@ -128,7 +128,7 @@ export const BANNER_DATA: BannerData = {
     outfit5StarId: ['S0117'],
     runs: [
       {
-        version: '1.3.1',
+        version: '1.2.1',
         start: '2025-01-24',
         end: '2025-02-25',
       },
@@ -142,7 +142,7 @@ export const BANNER_DATA: BannerData = {
     outfit5StarId: ['S0001'],
     runs: [
       {
-        version: '1.3.1',
+        version: '1.2.1',
         start: '2025-01-24',
         end: '2025-02-25',
       },
@@ -156,7 +156,7 @@ export const BANNER_DATA: BannerData = {
     outfit5StarId: [],
     runs: [
       {
-        version: '1.3.2',
+        version: '1.2.2',
         start: '2025-02-13',
         end: '2025-02-25',
       },
@@ -170,7 +170,7 @@ export const BANNER_DATA: BannerData = {
     outfit5StarId: [],
     runs: [
       {
-        version: '1.3.2',
+        version: '1.2.2',
         start: '2025-02-13',
         end: '2025-02-25',
       },
@@ -184,7 +184,7 @@ export const BANNER_DATA: BannerData = {
     outfit5StarId: ['S0183'],
     runs: [
       {
-        version: '1.4.1',
+        version: '1.3.1',
         start: '2025-02-25',
         end: '2025-03-25',
       },
@@ -198,7 +198,7 @@ export const BANNER_DATA: BannerData = {
     outfit5StarId: [],
     runs: [
       {
-        version: '1.4.2',
+        version: '1.3.2',
         start: '2025-03-11',
         end: '2025-03-25',
       },
@@ -212,7 +212,7 @@ export const BANNER_DATA: BannerData = {
     outfit5StarId: [],
     runs: [
       {
-        version: '1.4.2',
+        version: '1.3.2',
         start: '2025-03-11',
         end: '2025-03-25',
       },
@@ -226,7 +226,7 @@ export const BANNER_DATA: BannerData = {
     outfit5StarId: ['S0223'],
     runs: [
       {
-        version: '1.5.1',
+        version: '1.4.1',
         start: '2025-03-25',
         end: '2025-04-28',
       },
@@ -240,7 +240,7 @@ export const BANNER_DATA: BannerData = {
     outfit5StarId: [],
     runs: [
       {
-        version: '1.5.2',
+        version: '1.4.2',
         start: '2025-04-08',
         end: '2025-04-28',
       },
@@ -254,9 +254,37 @@ export const BANNER_DATA: BannerData = {
     outfit5StarId: [],
     runs: [
       {
-        version: '1.5.2',
+        version: '1.4.2',
         start: '2025-04-08',
         end: '2025-04-28',
+      },
+    ],
+  },
+  19: {
+    bannerId: 19,
+    bannerName: 'Eternal Snow',
+    bannerType: 2,
+    outfit4StarId: ['S0208'],
+    outfit5StarId: ['S0162'],
+    runs: [
+      {
+        version: '1.5.1',
+        start: '2025-04-29',
+        end: '2025-05-28',
+      },
+    ],
+  },
+  20: {
+    bannerId: 20,
+    bannerName: 'Unfading Heart',
+    bannerType: 2,
+    outfit4StarId: ['S0113'],
+    outfit5StarId: ['S0178'],
+    runs: [
+      {
+        version: '1.5.1',
+        start: '2025-04-29',
+        end: '2025-05-28',
       },
     ],
   },

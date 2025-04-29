@@ -18,6 +18,7 @@ logs
 .fleet
 .idea
 .husky
+.netlify
 
 # Local env files
 .env

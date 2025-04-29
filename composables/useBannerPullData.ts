@@ -18,7 +18,7 @@ export const useBannerPullData = () => {
     const { savePullData } = useIndexedDB()
     savePullData(jsonData)
 
-    await pullStore.processPullsData(jsonData, 'JSON')
+    await pullStore.processPullsData(jsonData)
     router.push('/tracker')
     return jsonData
   }
@@ -55,7 +55,17 @@ export const useBannerPullData = () => {
       savePullData(pullsByBanner)
 
       // Process the data in the store
-      await pullStore.processPullsData(pullsByBanner, 'API')
+      await pullStore.processPullsData(pullsByBanner)
+
+      // Send analytics only for API data if there are actual pulls
+      if (
+        Object.values(pullStore.processedPulls).some(
+          (banner) => banner.stats.totalPulls > 0
+        )
+      ) {
+        await pullStore.sendUserBannerStats()
+      }
+
       router.push('/tracker')
     } catch (e) {
       error.value =

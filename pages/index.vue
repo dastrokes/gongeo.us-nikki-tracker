@@ -57,7 +57,7 @@
     isLoading.value = true
     try {
       await loadPullData()
-      usePullStore().processPullsData(data.value, 'LOCAL')
+      usePullStore().processPullsData(data.value)
     } catch (error) {
       console.error('Failed to load data:', error)
     } finally {

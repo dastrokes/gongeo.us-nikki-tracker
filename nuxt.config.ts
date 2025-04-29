@@ -5,6 +5,24 @@ import Components from 'unplugin-vue-components/vite'
 export default defineNuxtConfig({
   devtools: { enabled: true },
 
+  app: {
+    head: {
+      htmlAttrs: {
+        lang: 'en',
+      },
+      title: 'Infinity Nikki Resonance Tracker',
+      meta: [
+        { charset: 'utf-8' },
+        { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+        {
+          name: 'description',
+          content:
+            'Track your Infinity Nikki resonance history and statistics. A fan-made tool for Infinity Nikki players.',
+        },
+      ],
+    },
+  },
+
   // Add global CSS files
   css: ['~/assets/styles/global.scss'],
 
@@ -63,7 +81,4 @@ export default defineNuxtConfig({
       }),
     ],
   },
-
-  logLevel: 'silent',
-  compatibilityDate: '2025-04-27',
 })

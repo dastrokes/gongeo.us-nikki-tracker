@@ -21,6 +21,7 @@
               text
               class="w-12"
               @click="showSider = !showSider"
+              aria-label="Toggle navigation menu"
               ><n-icon>
                 <bars />
               </n-icon>

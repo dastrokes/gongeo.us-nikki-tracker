@@ -2,6 +2,9 @@
   publish = "dist"
   functions = ".netlify/functions"
 
+[build.environment]
+  NODE_VERSION = "20"
+
 # Redirect API calls to serverless function
 [[redirects]]
   from = "/api/*"

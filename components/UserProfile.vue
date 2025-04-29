@@ -4,7 +4,10 @@
     :options="dropdownOptions"
     @select="handleSelect"
   >
-    <n-button text>
+    <n-button
+      text
+      aria-label="User profile menu"
+    >
       <template #icon>
         <n-icon size="20">
           <user />

@@ -13,8 +13,6 @@ import type {
 } from '~/types/pull'
 import { useUserStore } from '~/stores/user'
 
-export type DataSource = 'API' | 'JSON' | 'LOCAL'
-
 export const usePullStore = defineStore('pull', {
   state: (): PullState => ({
     processedPulls: {},
@@ -103,87 +101,8 @@ export const usePullStore = defineStore('pull', {
       return banner ? banner.bannerName : 'Unknown Banner'
     },
 
-    async loadJsonData() {
-      if (this.isLoading) return
-
-      this.isLoading = true
-      this.error = null
-
-      try {
-        const jsonData = (await import('../data/mock.json'))
-          .default as unknown as JsonData[]
-        const pullsByBanner: Record<number, PullRecord[]> = {}
-
-        jsonData.forEach((data) => {
-          const bannerId = data.banner_id
-          if (!pullsByBanner[bannerId]) {
-            pullsByBanner[bannerId] = []
-          }
-
-          // Process each pull data entry
-          data.data.datas.forEach(([time, itemId]) => {
-            pullsByBanner[bannerId].push([time, itemId] as PullRecord)
-          })
-        })
-
-        await this.processPullsData(pullsByBanner, 'JSON')
-      } catch (err) {
-        this.error =
-          err instanceof Error ? err.message : 'Failed to load json data'
-        throw err
-      } finally {
-        this.isLoading = false
-      }
-    },
-
-    async loadAllPulls() {
-      if (this.isLoading) return
-
-      this.isLoading = true
-      this.error = null
-
-      try {
-        const { fetchAllData } = useBannerPullData()
-        const responses = await fetchAllData()
-
-        if (responses) {
-          // Transform the data into the format expected by processPullsData
-          const pullsByBanner: Record<number, PullRecord[]> = {}
-
-          responses.forEach((response) => {
-            const { bannerId, results } = response
-            if (results && Array.isArray(results)) {
-              results.forEach((result) => {
-                if (result.data?.datas) {
-                  if (!pullsByBanner[bannerId]) {
-                    pullsByBanner[bannerId] = []
-                  }
-                  pullsByBanner[bannerId].push(...result.data.datas)
-                }
-              })
-            }
-          })
-
-          await this.processPullsData(pullsByBanner, 'API')
-        }
-      } catch (err) {
-        this.error = err instanceof Error ? err.message : 'Failed to load pulls'
-        throw err
-      } finally {
-        this.isLoading = false
-      }
-    },
-
-    async processPullsData(
-      pullsByBanner: Record<number, PullRecord[]>,
-      source: DataSource
-    ) {
+    async processPullsData(pullsByBanner: Record<number, PullRecord[]>) {
       if (this.isProcessing) return
-
-      if (source !== 'LOCAL') {
-        const { savePullData } = useIndexedDB()
-        savePullData(pullsByBanner)
-      }
 
       this.isProcessing = true
       this.rawPullData = pullsByBanner
@@ -480,11 +399,6 @@ export const usePullStore = defineStore('pull', {
             : 0
 
         this.processedPulls = bannerPulls
-
-        // Only send analytics if data is from API and there are actual pulls
-        if (source === 'API') {
-          await this.sendUserBannerStats()
-        }
       } catch (err) {
         this.error =
           err instanceof Error ? err.message : 'Failed to process pulls data'
@@ -615,28 +529,6 @@ export const usePullStore = defineStore('pull', {
             })
           }
         }
-      }
-    },
-
-    async loadSavedPulls() {
-      if (this.isLoading) return
-
-      this.isLoading = true
-      this.error = null
-
-      try {
-        const { loadPullData } = useIndexedDB()
-        const savedPulls = await loadPullData()
-
-        if (savedPulls) {
-          await this.processPullsData(savedPulls, 'LOCAL')
-        }
-      } catch (err) {
-        this.error =
-          err instanceof Error ? err.message : 'Failed to load saved pulls'
-        throw err
-      } finally {
-        this.isLoading = false
       }
     },
   },

@@ -581,7 +581,7 @@
       loading.value = true
       await loadPullData()
       if (hasData.value) {
-        await pullStore.processPullsData(data.value, 'LOCAL')
+        await pullStore.processPullsData(data.value)
       } else {
         loading.value = false
         // Wait 3 seconds before redirecting

@@ -19,7 +19,38 @@ export default defineNuxtConfig({
           content:
             'Track your Infinity Nikki resonance history and statistics. A fan-made tool for Infinity Nikki players.',
         },
+        { name: 'robots', content: 'index, follow' },
+        { name: 'author', content: 'dastrokes' },
+        { name: 'keywords', content: 'Infinity Nikki, resonance tracker, pull tracker, gacha tracker, game tools, Nikki game' },
+        
+        // Canonical URL
+        { property: 'og:site_name', content: 'Infinity Nikki Resonance Tracker' },
+        { rel: 'canonical', href: process.env.NUXT_PUBLIC_SITE_URL || 'https://gongeous.netlify.app/' },
       ],
+      link: [
+        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      ],
+      script: [
+        {
+          type: 'application/ld+json',
+          children: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'WebApplication',
+            'name': 'Infinity Nikki Resonance Tracker',
+            'description': 'Track your Infinity Nikki resonance history and statistics. A fan-made tool for Infinity Nikki players.',
+            'url': process.env.NUXT_PUBLIC_SITE_URL || 'https://gongeous.netlify.app/',
+            'applicationCategory': 'Game Tool',
+            'operatingSystem': 'Any',
+            'browserRequirements': 'Requires JavaScript. Requires HTML5.',
+            'author': {
+              '@type': 'Person',
+              'name': 'dastrokes'
+            },
+            'inLanguage': 'en',
+            'isFree': true
+          })
+        }
+      ]
     },
   },
 

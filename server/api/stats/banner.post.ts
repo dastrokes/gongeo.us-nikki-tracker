@@ -1,32 +1,32 @@
 import { createClient } from '@supabase/supabase-js'
 
 export default defineEventHandler(async (event) => {
-  // Get the request body
-  const body = await readBody(event)
-
-  // Validate the request body
-  if (!Array.isArray(body)) {
-    throw createError({
-      statusCode: 400,
-      message: 'Invalid request body - expected array of banner stats',
-    })
-  }
-
-  const config = useRuntimeConfig()
-
-  // Create Supabase client with service role key (secure server-side only)
-  const supabase = createClient(
-    config.supabaseUrl as string,
-    config.supabaseServiceKey as string,
-    {
-      auth: {
-        persistSession: false,
-        autoRefreshToken: false,
-      },
-    }
-  )
-
   try {
+    // Get the request body
+    const body = await readBody(event)
+
+    // Validate the request body
+    if (!Array.isArray(body)) {
+      throw createError({
+        statusCode: 400,
+        message: 'Invalid request body - expected array of banner stats',
+      })
+    }
+
+    const config = useRuntimeConfig()
+
+    // Create Supabase client with service role key (secure server-side only)
+    const supabase = createClient(
+      config.supabaseUrl as string,
+      config.supabaseServiceKey as string,
+      {
+        auth: {
+          persistSession: false,
+          autoRefreshToken: false,
+        },
+      }
+    )
+
     // Hash UIDs server-side
     const hashedDataPromises = body.map(async (item) => ({
       ...item,

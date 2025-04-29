@@ -3,12 +3,15 @@ import type { UserBannerStats } from '~/types'
 export const useUserBannerStats = () => {
   const sendUserBannerStats = async (data: UserBannerStats[]) => {
     try {
-      await $fetch('/api/stats/banner', {
+      const response = await $fetch('/api/stats/banner', {
         method: 'POST',
         body: data,
+        headers: {
+          'Content-Type': 'application/json',
+        },
       })
 
-      return true
+      return response.success === true
     } catch (error) {
       console.error('Error sending banner stats:', error)
       return false

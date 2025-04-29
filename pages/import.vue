@@ -90,6 +90,7 @@
   const handlePasteFromClipboard = async () => {
     try {
       const clipboardText = await navigator.clipboard.readText()
+      manualPasteInput.value = clipboardText
       const parsedData = JSON.parse(clipboardText) as CookieData
 
       if (!parsedData.roleid || !parsedData.token || !parsedData.id) {

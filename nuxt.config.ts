@@ -19,9 +19,13 @@ export default defineNuxtConfig({
   ],
 
   runtimeConfig: {
+    // Private keys that are exposed to the server
+    supabaseUrl: process.env.NUXT_SUPABASE_URL,
+    supabaseServiceKey: process.env.NUXT_SUPABASE_SERVICE_KEY,
+
+    // Public keys that are exposed to the client
     public: {
       supabaseUrl: process.env.NUXT_SUPABASE_URL,
-      supabaseKey: process.env.NUXT_SUPABASE_KEY,
     },
   },
 

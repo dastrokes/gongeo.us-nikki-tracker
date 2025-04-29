@@ -28,9 +28,9 @@ export const REGION_LABELS = {
 } as const
 
 // Constants
-const REQUEST_DELAY = 1000 // 1 second delay between requests
+const REQUEST_DELAY = 500
 const MAX_RETRIES = 3
-const INITIAL_RETRY_DELAY = 2000
+const INITIAL_RETRY_DELAY = 1000
 
 // Default headers
 const DEFAULT_HEADERS = {

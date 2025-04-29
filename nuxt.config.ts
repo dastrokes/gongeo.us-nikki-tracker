@@ -109,10 +109,10 @@ export default defineNuxtConfig({
   },
 
   nitro: {
-    preset: 'netlify',
+    preset: 'netlify-legacy',
   },
 
-  compatibilityDate: '2024-05-07',
+  compatibilityDate: '2024-04-03',
 
   components: {
     dirs: ['~/components'],

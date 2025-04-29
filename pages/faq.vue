@@ -10,7 +10,17 @@
     {
       question: 'What data are you storing?',
       answer:
-        'We only store raw pull data in your browser. We do not store any personal information including your cookies.',
+        'Your pull statistics will be stored in your browser. We do not store any personal information including your cookies.',
+    },
+    {
+      question: 'What data is will be sent to the server?',
+      answer:
+        'Your pull statistics will be sent to the server to calculate global pull statistics. This data will include your hashed UID, your pull statistics for each banner and the timestamp of the data.',
+    },
+    {
+      question: 'Do I need to run the script to get cookies?',
+      answer:
+        'No, you can go to the Dev Tools -> Application -> Cookies -> https://pearpal.infoldgames.com/ -> cookie-name to get the cookies and fill in the form manually.',
     },
     {
       question: 'All banners are processed but no pulls are showing?',
@@ -25,7 +35,7 @@
     {
       question: 'How do I export my pull history?',
       answer:
-        'You can export your pull history by clicking the "Export" button on the top right corner of the page.',
+        'You can export your pull history to PNG image or JSON file. You can use the JSON file to import your pull history in case your browser data is removed.',
     },
   ]
 </script>
@@ -57,7 +67,7 @@
         <n-space justify="center">
           <n-button
             tag="a"
-            href="https://discord.gg/rRnkB9HQ"
+            href="https://discord.gg/K92RAEvCXx"
             target="_blank"
           >
             <template #icon>

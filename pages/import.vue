@@ -77,6 +77,7 @@
 
   const importMethod = ref<'game' | 'json'>('game')
   const jsonFile = ref<File | null>(null)
+  const submitGlobalStats = ref(true)
 
   const handleFileChange = (data: {
     file: UploadFileInfo
@@ -144,6 +145,17 @@
         pullStore.reset()
 
         await processJsonImport(jsonData)
+
+        // Send analytics only if enabled and there are actual pulls
+        if (
+          submitGlobalStats.value &&
+          Object.values(pullStore.processedPulls).some(
+            (banner) => banner.stats.totalPulls > 0
+          )
+        ) {
+          await pullStore.sendUserBannerStats()
+        }
+
         message.success('Data imported successfully!')
       } catch (e) {
         message.error(
@@ -174,6 +186,8 @@
       message.error('Invalid form data')
     }
   }
+
+  const cookieMethod = ref<'console' | 'manual'>('console')
 </script>
 
 <template>
@@ -323,6 +337,32 @@
                 <Check />
               </n-icon>
             </template>
+            <div class="space-y-4">
+              <div>Choose how you want to get your cookie data:</div>
+              <n-radio-group
+                v-model:value="cookieMethod"
+                name="cookieMethod"
+              >
+                <n-space vertical>
+                  <n-radio value="console"
+                    >Using Console Method (Recommended)</n-radio
+                  >
+                  <n-radio value="manual">Manual Input</n-radio>
+                </n-space>
+              </n-radio-group>
+            </div>
+          </n-step>
+
+          <!-- Console Method Step -->
+          <n-step
+            v-show="importMethod === 'game' && cookieMethod === 'console'"
+            title="Console Method"
+          >
+            <template #icon>
+              <n-icon>
+                <Check />
+              </n-icon>
+            </template>
             <div class="space-y-2">
               <div>Follow these steps to get your cookie data:</div>
               <ol class="list-decimal list-inside space-y-2">
@@ -331,7 +371,7 @@
                   and select "Inspect")
                 </li>
                 <li>Go to the "Console" tab</li>
-                <li class="flex items-center gap-2">
+                <li>
                   Copy and paste the following code into the console:
                   <n-popconfirm
                     :show-arrow="false"
@@ -341,7 +381,7 @@
                     @positive-click="copyToClipboard"
                   >
                     <template #trigger>
-                      <n-button>Copy Code</n-button>
+                      <n-button size="small">Copy Code</n-button>
                     </template>
                     <template #default>
                       <n-code
@@ -356,17 +396,7 @@
                 <li>Copy the output (it should look like a JSON string)</li>
                 <li>Paste it in the text area below</li>
               </ol>
-              <div class="text-sm text-amber-600">
-                Note: Never share these cookie values with anyone else!
-              </div>
-            </div>
-          </n-step>
-        </n-steps>
-
-        <div class="mt-8">
-          <template v-if="importMethod === 'game'">
-            <n-form>
-              <n-space vertical>
+              <div class="mt-4">
                 <n-input
                   v-model:value="manualPasteInput"
                   type="textarea"
@@ -375,7 +405,7 @@
                   class="w-80"
                 />
                 <n-space
-                  class="flex"
+                  class="flex mt-2"
                   align="center"
                 >
                   <n-space class="flex">
@@ -396,7 +426,58 @@
                       Paste from Clipboard
                     </n-button>
                   </n-space>
+                  <div class="text-sm text-amber-600">
+                    Note: Never share these cookie values with anyone else!
+                  </div>
                 </n-space>
+              </div>
+            </div>
+          </n-step>
+
+          <!-- Manual Method Step -->
+          <n-step
+            v-show="importMethod === 'game' && cookieMethod === 'manual'"
+            title="Manual Input"
+          >
+            <template #icon>
+              <n-icon>
+                <Check />
+              </n-icon>
+            </template>
+            <div class="space-y-2">
+              <div>Follow these steps to manually input your cookie data:</div>
+              <ol class="list-decimal list-inside space-y-2">
+                <li>
+                  Open your browser's Developer Tools (Press F12 or right-click
+                  and select "Inspect")
+                </li>
+                <li>Go to the "Application" tab</li>
+                <li>
+                  In the left sidebar, expand "Cookies" and select the Pearpal
+                  website
+                </li>
+                <li>
+                  Find and copy the values for:
+                  <ul class="list-disc list-inside ml-4">
+                    <li>momoNid (for ID field)</li>
+                    <li>momoToken (for Token field)</li>
+                  </ul>
+                </li>
+                <li>
+                  For UID, go to your Pearpal profile and copy your UID number
+                </li>
+              </ol>
+              <div class="text-sm text-amber-600">
+                Note: Never share these cookie values with anyone else!
+              </div>
+            </div>
+          </n-step>
+        </n-steps>
+
+        <div class="mt-4">
+          <template v-if="importMethod === 'game'">
+            <n-form>
+              <n-space vertical>
                 <n-form-item label="UID">
                   <n-input
                     v-model:value="formData.roleid"
@@ -417,18 +498,31 @@
                 </n-form-item>
               </n-space>
             </n-form>
+            <n-space
+              align="center"
+              justify="center"
+              class="w-full flex"
+            >
+              <n-checkbox
+                v-model:checked="submitGlobalStats"
+                class="flex-shrink-0 mr-4"
+              >
+                Submit data for global stats
+              </n-checkbox>
+              <n-button
+                type="primary"
+                :loading="loading || isFetching"
+                class="flex-grow"
+                @click="handleSubmit"
+              >
+                {{
+                  isFetching
+                    ? `Fetching resonance data, please wait...`
+                    : 'Submit and Import Pull History'
+                }}
+              </n-button>
+            </n-space>
           </template>
-          <n-button
-            class="mt-4"
-            type="primary"
-            block
-            :loading="loading || isFetching"
-            @click="handleSubmit"
-          >
-            {{
-              isFetching ? `Fetching resonance data, please wait...` : 'Submit'
-            }}
-          </n-button>
         </div>
       </template>
 

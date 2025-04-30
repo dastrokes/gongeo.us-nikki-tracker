@@ -20,8 +20,8 @@
             <n-button
               text
               class="w-12"
-              @click="showSider = !showSider"
               aria-label="Toggle navigation menu"
+              @click="showSider = !showSider"
               ><n-icon>
                 <bars />
               </n-icon>
@@ -75,17 +75,38 @@
 
     <n-layout-content>
       <n-scrollbar
+        ref="scrollbarRef"
         class="flex-1 overflow-hidden bg-pink-50"
         @scroll="onScroll"
       >
-        <div
-          ref="scrollContainer"
-          class="h-full px-0 py-16"
-        >
+        <div class="h-full pt-16 pb-10">
           <slot />
         </div>
       </n-scrollbar>
     </n-layout-content>
+
+    <!-- Scroll to top button -->
+    <transition
+      enter-active-class="transition duration-300 ease-in-out transform"
+      leave-active-class="transition duration-300 ease-in-out transform"
+      enter-from-class="translate-y-full opacity-0"
+      enter-to-class="translate-y-0 opacity-100"
+      leave-from-class="translate-y-0 opacity-100"
+      leave-to-class="translate-y-full opacity-0"
+    >
+      <n-button
+        v-show="showScrollTop"
+        circle
+        size="small"
+        class="fixed bottom-10 right-10 z-50 bg-white shadow-lg hover:bg-gray-100"
+        @click="scrollToTop"
+      >
+        <n-icon size="small">
+          <arrow-up />
+        </n-icon>
+      </n-button>
+    </transition>
+
     <transition
       enter-active-class="transition duration-300 ease-in-out transform"
       leave-active-class="transition duration-300 ease-in-out transform"
@@ -154,6 +175,7 @@
     QuestionCircleRegular,
     Globe,
     CalendarAlt,
+    ArrowUp,
   } from '@vicons/fa'
   import { h, ref, computed } from 'vue'
   import { NuxtLink } from '#components'
@@ -212,14 +234,27 @@
   const showHeader = ref(true)
   const showSider = ref(false)
   const showFooter = ref(true)
+  const showScrollTop = ref(false)
   const lastScrollPosition = ref(0)
-  const scrollContainer = ref<HTMLElement | null>(null)
+  const scrollbarRef = ref<HTMLElement | null>(null)
+
+  const scrollToTop = () => {
+    if (scrollbarRef.value) {
+      scrollbarRef.value.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+      })
+    }
+  }
 
   const onScroll = (e: Event) => {
     const target = e.target as HTMLElement
     const currentScrollPosition = target.scrollTop
     const scrollHeight = target.scrollHeight
     const clientHeight = target.clientHeight
+
+    // Show scroll to top button when scrolled down more than 300px
+    showScrollTop.value = currentScrollPosition > 500
 
     // Show footer when near the bottom (within 150px)
     showFooter.value =

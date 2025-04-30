@@ -35,7 +35,6 @@ const INITIAL_RETRY_DELAY = 1000
 // Default headers
 const DEFAULT_HEADERS = {
   Accept: '*/*',
-  'X-Client-Info': 'X6Game/UE5-CL-0 Windows/10.0.19045.1.256.64bit',
 }
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))

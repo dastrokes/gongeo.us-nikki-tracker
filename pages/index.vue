@@ -12,27 +12,27 @@
       </p>
       <div class="flex gap-4">
         <n-button
-          v-if="isLoading"
+          v-if="loading"
           type="primary"
           size="large"
-          :loading="isLoading"
+          :loading="loading"
         >
           Loading...
         </n-button>
         <n-button
-          v-if="!isLoading && hasData"
+          v-if="!loading && hasData"
           type="primary"
           size="large"
-          :loading="isLoading"
+          :loading="loading"
           @click="router.push('/tracker')"
         >
           Go to Tracker
         </n-button>
         <n-button
-          v-if="!isLoading && !hasData"
+          v-if="!loading && !hasData"
           type="primary"
           size="large"
-          :loading="isLoading"
+          :loading="loading"
           @click="router.push('/import')"
         >
           Import Your Data
@@ -51,17 +51,17 @@
 
   const router = useRouter()
   const { data, hasData, loadPullData } = useIndexedDB()
-  const isLoading = ref(true)
+  const loading = ref(true)
 
   onMounted(async () => {
-    isLoading.value = true
+    loading.value = true
     try {
       await loadPullData()
       usePullStore().processPullsData(data.value)
     } catch (error) {
       console.error('Failed to load data:', error)
     } finally {
-      isLoading.value = false
+      loading.value = false
     }
   })
 </script>

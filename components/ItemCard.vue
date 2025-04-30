@@ -71,7 +71,7 @@
         <div class="text-sm text-gray-400">{{ item.itemType }}</div>
         <div
           v-if="item.obtained"
-          class="text-sm mt-1"
+          class="text-sm mt-1 text-gray-600"
         >
           Pull #{{ item.pullIndex }}
         </div>

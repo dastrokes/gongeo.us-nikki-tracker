@@ -40,7 +40,7 @@
 </script>
 
 <template>
-  <div class="max-w-7xl mx-auto space-y-4 p-4">
+  <div class="max-w-7xl mx-auto space-y-4">
     <n-card class="rounded-xl">
       <n-timeline
         :icon-size="30"

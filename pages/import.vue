@@ -448,7 +448,7 @@
           processing
         />
         <div class="text-center mt-4 text-xl text-gray-500">
-          Processing banner {{ progress?.banner || 0 }} of
+          Processing banner {{ (progress?.banner ?? 0) - 1 || 0 }} of
           {{ Object.values(bannerData).filter((b) => b.bannerId !== 1).length }}
         </div>
         <div class="text-center mt-4 text-xl text-gray-500">

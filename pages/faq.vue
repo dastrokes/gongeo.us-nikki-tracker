@@ -41,7 +41,7 @@
 </script>
 
 <template>
-  <div class="max-w-7xl h-[80vh] mx-auto space-y-4">
+  <div class="max-w-7xl mx-auto space-y-4">
     <n-card
       class="rounded-xl"
       no-title

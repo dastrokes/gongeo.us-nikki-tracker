@@ -27,7 +27,7 @@
         :bordered="false"
         size="small"
         content-style="padding: 0;"
-        class="min-h-[80px] lg:min-h-[100px] aspect-square"
+        class="min-h-[60px] lg:min-h-[100px] aspect-square"
       >
         <nuxt-img
           :src="imageUrl"

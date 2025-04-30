@@ -146,16 +146,6 @@
 
         await processJsonImport(jsonData)
 
-        // Send analytics only if enabled and there are actual pulls
-        if (
-          submitGlobalStats.value &&
-          Object.values(pullStore.processedPulls).some(
-            (banner) => banner.stats.totalPulls > 0
-          )
-        ) {
-          await pullStore.sendUserBannerStats()
-        }
-
         message.success('Data imported successfully!')
       } catch (e) {
         message.error(
@@ -175,6 +165,16 @@
         userStore.setUid(formData.value.roleid)
         try {
           await fetchAllData()
+
+          // Send analytics only if enabled and there are actual pulls
+          if (
+            submitGlobalStats.value &&
+            Object.values(pullStore.processedPulls).some(
+              (banner) => banner.stats.totalPulls > 0
+            )
+          ) {
+            await pullStore.sendUserBannerStats()
+          }
         } catch {
           message.error(fetchError.value || 'Failed to fetch pull history')
         }

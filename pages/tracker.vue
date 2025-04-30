@@ -259,7 +259,7 @@
                   </template>
                 </n-button>
               </template>
-              <div class="p-4 min-w-[200px]">
+              <div class="min-w-[200px]">
                 <div class="space-y-4">
                   <div class="flex items-center justify-between">
                     <n-switch
@@ -308,12 +308,12 @@
                 banner.bannerId != 1
               "
               size="small"
-              class="rounded-xl bg-pink-100 min-h-[150px] lg:min-h-[180px]"
+              class="rounded-xl bg-pink-100 min-h-[180px]"
             >
               <div>
                 <!-- Banner Header -->
-                <div class="flex items-center mb-2">
-                  <div class="flex-grow flex flex-wrap items-center gap-4">
+                <div class="flex items-center">
+                  <div class="flex-grow flex flex-wrap items-center gap-2">
                     <h3 class="text-lg font-medium break-words">
                       {{ banner.bannerName }}
                     </h3>
@@ -327,7 +327,8 @@
                             :type="outfit.rarity === 5 ? 'warning' : 'info'"
                             :bordered="false"
                             round
-                            class="px-3"
+                            size="small"
+                            class="px-2"
                           >
                             <span class="align-top"
                               >{{ outfit.name }} {{ outfit.rarity }}</span
@@ -460,7 +461,7 @@
                           </template>
                         </n-button>
                       </template>
-                      <div class="p-4 min-w-[200px]">
+                      <div class="min-w-[200px]">
                         <div class="space-y-4">
                           <div
                             v-if="hasBothRarities(banner.bannerId)"
@@ -512,8 +513,14 @@
                 <template v-else>
                   <div
                     v-for="outfit in banner.outfits"
+                    v-show="
+                      filterPulls(
+                        getOutfitItems(banner.pulls, outfit.id),
+                        banner.bannerId
+                      ).length > 0
+                    "
                     :key="outfit.id"
-                    class="mb-2"
+                    class="mt-2"
                   >
                     <div class="grid grid-cols-5 lg:grid-cols-10 gap-2">
                       <ItemCard
@@ -541,6 +548,10 @@
           </div>
           <div class="text-xl text-neutral-800">
             Please import your resonance data first.
+          </div>
+          <div class="text-xl text-neutral-800">
+            Redirecting to import page in
+            <span class="font-bold">{{ countdown }}</span> seconds...
           </div>
         </n-card>
       </div>
@@ -574,6 +585,7 @@
   const { data, hasData, loadPullData } = useIndexedDB()
 
   const loading = ref(true)
+  const countdown = ref(5)
 
   onMounted(async () => {
     try {
@@ -584,10 +596,14 @@
         await pullStore.processPullsData(data.value)
       } else {
         loading.value = false
-        // Wait 3 seconds before redirecting
-        setTimeout(() => {
-          router.push('/import')
-        }, 3000)
+        // Start countdown
+        const timer = setInterval(() => {
+          countdown.value--
+          if (countdown.value <= 0) {
+            clearInterval(timer)
+            router.push('/import')
+          }
+        }, 1000)
       }
     } catch (error) {
       console.error('Failed to load resonance data:', error)

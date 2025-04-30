@@ -57,15 +57,6 @@ export const useBannerPullData = () => {
       // Process the data in the store
       await pullStore.processPullsData(pullsByBanner)
 
-      // Send analytics only for API data if there are actual pulls
-      if (
-        Object.values(pullStore.processedPulls).some(
-          (banner) => banner.stats.totalPulls > 0
-        )
-      ) {
-        await pullStore.sendUserBannerStats()
-      }
-
       router.push('/tracker')
     } catch (e) {
       error.value =

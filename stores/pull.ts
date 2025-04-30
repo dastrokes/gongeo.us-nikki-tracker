@@ -190,7 +190,7 @@ export const usePullStore = defineStore('pull', {
           bannerPulls[bannerId] = initialBanner
 
           // Pre-populate outfit data
-          ;[...outfitLookup[4].entries(), ...outfitLookup[5].entries()].forEach(
+          ;[...outfitLookup[5].entries(), ...outfitLookup[4].entries()].forEach(
             ([outfitId, outfitData]) => {
               if (outfitData) {
                 bannerPulls[bannerId].outfits.push({

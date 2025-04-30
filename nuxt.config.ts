@@ -76,7 +76,6 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     '@bg-dev/nuxt-naiveui',
     '@nuxt/image',
-    '@nuxt/icon',
   ],
 
   runtimeConfig: {
@@ -112,7 +111,7 @@ export default defineNuxtConfig({
     preset: 'netlify-legacy',
   },
 
-  compatibilityDate: '2024-04-03',
+  compatibilityDate: '2025-02-01',
 
   components: {
     dirs: ['~/components'],

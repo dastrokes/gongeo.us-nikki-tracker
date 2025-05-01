@@ -4,16 +4,7 @@ import { setWithExpiry, getWithExpiry, removeItem } from '~/utils/localStorage'
 
 export type Theme = 'light' | 'dark'
 
-export interface UserProfile {
-  id: string
-  preferences?: {
-    theme: Theme
-    language: string
-  }
-}
-
 export interface UserState {
-  currentUser: UserProfile | null
   region: Region
   theme: Theme
   uid: string | null
@@ -22,12 +13,12 @@ export interface UserState {
 
 export const useUserStore = defineStore('user', {
   state: (): UserState => {
-    // Initialize theme from localStorage or system preference immediately
+    // Initialize theme
     const savedTheme =
       typeof window !== 'undefined' ? getWithExpiry<Theme>('theme') : null
     const initialTheme = savedTheme || 'light'
 
-    // Initialize or generate UID
+    // Initialize UID
     const savedUid =
       typeof window !== 'undefined' ? getWithExpiry<string>('uid') : null
 
@@ -36,7 +27,6 @@ export const useUserStore = defineStore('user', {
       typeof window !== 'undefined' ? getWithExpiry<string>('authToken') : null
 
     return {
-      currentUser: null,
       region: Region.AMERICA,
       theme: initialTheme,
       uid: savedUid,
@@ -45,7 +35,6 @@ export const useUserStore = defineStore('user', {
   },
 
   getters: {
-    user: (state) => state.currentUser,
     getRegion: (state) => state.region,
     getCurrentTheme: (state) => state.theme,
     getUid: (state) => state.uid,
@@ -53,6 +42,21 @@ export const useUserStore = defineStore('user', {
   },
 
   actions: {
+    reset() {
+      // Clear store state
+      this.region = Region.AMERICA
+      this.theme = 'light'
+      this.uid = null
+      this.authToken = null
+
+      // Clear local storage
+      if (typeof window !== 'undefined') {
+        removeItem('theme')
+        removeItem('uid')
+        removeItem('authToken')
+      }
+    },
+
     setRegion(region: Region) {
       this.region = region
     },
@@ -71,11 +75,6 @@ export const useUserStore = defineStore('user', {
       this.theme = newTheme
       if (typeof window !== 'undefined') {
         setWithExpiry('theme', newTheme)
-      }
-
-      // Update user profile if exists
-      if (this.currentUser?.preferences) {
-        this.currentUser.preferences.theme = newTheme
       }
     },
 

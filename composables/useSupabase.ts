@@ -6,7 +6,14 @@ export const useUserBannerStats = () => {
     method: string,
     path: string
   ) => {
-    const secret = process.env.GONGEOUS_APP_SECRET || 'your-secret-key'
+    const secret = process.env.GONGEOUS_APP_SECRET
+    if (!secret) {
+      throw new Error('GONGEOUS_APP_SECRET environment variable is not set')
+    }
+    console.log(new Date().toISOString())
+    console.log('timestamp', timestamp)
+    console.log('method', method)
+    console.log('path', path)
     const encoder = new TextEncoder()
     const key = await crypto.subtle.importKey(
       'raw',

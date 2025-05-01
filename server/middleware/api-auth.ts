@@ -30,7 +30,7 @@ export default defineEventHandler(async (event) => {
   }
 
   // Verify signature
-  const secret = process.env.APP_SECRET || 'your-secret-key'
+  const secret = process.env.GONGEOUS_APP_SECRET || 'your-secret-key'
   const expectedSignature = crypto
     .createHmac('sha256', secret)
     .update(`${timestamp}:${event.method}:${event.path}`)

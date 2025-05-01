@@ -7,7 +7,7 @@ export const useUserBannerStats = () => {
     path: string
   ) => {
     const config = useRuntimeConfig()
-    const secret = config.gongeousSecretKey || 'secret-key'
+    const secret = config.public.gongeousSecretKey || 'secret-key'
     console.log('secret', secret)
 
     const encoder = new TextEncoder()

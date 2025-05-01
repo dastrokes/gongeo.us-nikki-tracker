@@ -54,6 +54,7 @@
         negativeText: 'No',
         onPositiveClick: async () => {
           await clearPullData()
+          userStore.reset()
           pullStore.reset()
           window.location.reload()
         },

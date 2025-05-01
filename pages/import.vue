@@ -176,7 +176,11 @@
                 (banner) => banner.stats.totalPulls > 0
               )
             ) {
-              await pullStore.sendUserBannerStats()
+              try {
+                await pullStore.sendUserBannerStats()
+              } catch {
+                message.error('Failed to submit global stats')
+              }
             }
           } catch {
             message.error(fetchError.value || 'Failed to fetch pull history')
@@ -224,7 +228,7 @@
               >
                 <n-space>
                   <n-radio value="game">Import from Game</n-radio>
-                  <n-radio value="json">Import from JSON</n-radio>
+                  <n-radio value="json">Import from File</n-radio>
                 </n-space>
               </n-radio-group>
             </div>
@@ -242,7 +246,7 @@
             </template>
             <div>
               <div class="mb-2">
-                Import from a previously exported JSON file.
+                Import from a previously exported nikki-resonance-data file.
               </div>
               <n-upload
                 accept=".json"
@@ -293,7 +297,7 @@
           <!-- Pearpal Login Step -->
           <n-step
             v-show="importMethod === 'game'"
-            title="Login to Pearpal"
+            title="Login to Pearpal Website"
           >
             <template #icon>
               <n-icon>
@@ -302,26 +306,26 @@
             </template>
             <div>
               <div v-if="userStore.getRegion === Region.CHINA">
-                Go to
+                Open
                 <a
                   class="text-blue-600 hover:text-blue-800 underline"
                   href="https://myl.nuanpaper.com/home"
                   target="_blank"
-                  >Pearpal</a
+                  >Pearpal Website</a
                 >
-                and login with your Infold account if you aren't already logged
-                in.
+                in a <b>new tab</b> and login with your Infold account if you
+                aren't already logged in.
               </div>
               <div v-else>
-                Go to
+                Open
                 <a
                   class="text-blue-600 hover:text-blue-800 underline"
                   href="https://pearpal.infoldgames.com/en/home"
                   target="_blank"
-                  >Pearpal</a
+                  >Pearpal Website</a
                 >
-                and login with your Infold account if you aren't already logged
-                in.
+                in a <b>new tab</b> and login with your Infold account if you
+                aren't already logged in.
               </div>
             </div>
           </n-step>
@@ -329,7 +333,7 @@
           <!-- Get Cookie Data Step -->
           <n-step
             v-show="importMethod === 'game'"
-            title="Get Cookie Data"
+            title="Get Cookie Data From Pearpal Website"
           >
             <template #icon>
               <n-icon>
@@ -365,6 +369,7 @@
             <div class="space-y-2">
               <div>Follow these steps to get your cookie data:</div>
               <ol class="list-decimal list-inside space-y-2">
+                <li>Make sure you are logged in and is on Pearpal Website</li>
                 <li>
                   Open your browser's Developer Tools (Press F12 or right-click
                   and select "Inspect")
@@ -392,15 +397,21 @@
                     </template>
                   </n-popconfirm>
                 </li>
-                <li>Copy the output (it should look like a JSON string)</li>
-                <li>Paste it in the text area below</li>
+                <li>
+                  Copy the output text (it should look like the example in the
+                  input area below)
+                </li>
+                <li>
+                  Come back to gongeo.us, paste the output text in the input
+                  area below
+                </li>
               </ol>
               <div class="mt-4">
                 <n-input
                   v-model:value="manualPasteInput"
                   type="textarea"
                   :rows="3"
-                  placeholder="Paste your JSON data here"
+                  placeholder='{"roleid":"123456","token":"eyJhabc123xyz456.eyJhdef789ghi000.abc123def789","id":"654321"}'
                   class="w-80"
                 />
                 <n-space

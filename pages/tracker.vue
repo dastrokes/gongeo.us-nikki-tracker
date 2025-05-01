@@ -241,7 +241,7 @@
                     </n-icon>
                   </template> </n-button
               ></template>
-              Export as JSON for later import
+              Export for File Import option in Import page
             </n-tooltip>
 
             <n-popover trigger="click">

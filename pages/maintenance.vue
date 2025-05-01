@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Discord } from '@vicons/fa'
+  import { Discord, Reddit } from '@vicons/fa'
 </script>
 
 <template>
@@ -25,13 +25,23 @@
       >
         <n-button
           tag="a"
-          href="https://discord.gg/K92RAEvCXx"
+          href="https://discord.gg/qymsW3j4Zw"
           target="_blank"
         >
           <template #icon>
             <n-icon><Discord /></n-icon>
           </template>
-          Join Discord
+          Discord
+        </n-button>
+        <n-button
+          tag="a"
+          href="https://www.reddit.com/user/dastrokes/"
+          target="_blank"
+        >
+          <template #icon>
+            <n-icon><Reddit /></n-icon>
+          </template>
+          Reddit
         </n-button>
       </n-space>
     </n-card>

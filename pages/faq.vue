@@ -1,41 +1,46 @@
 <script setup lang="ts">
-  import { Discord } from '@vicons/fa'
+  import { Discord, Reddit } from '@vicons/fa'
 
   const faqs = [
     {
       question: 'Will I get banned for using this?',
       answer:
-        'This is a third party tool and it is ultimately up to Infold. However, similar tools are widely used in other games and in Chinese community of Inifinity Nikki.',
+        'This is a third-party tool, so it is ultimately up to Infold. However, similar tools are commonly used in other gacha games and in the Chinese community of Infinity Nikki (小黑盒 游创工坊).',
     },
     {
       question: 'What data are you storing?',
       answer:
-        'Your pull statistics will be stored in your browser. We do not store any personal information including your cookies.',
+        'Your pull history is stored locally in your browser, so the next time you visit the site, it will be there unless you clear your browser data. We do not collect any personal information, including the cookies you submitted.',
     },
     {
-      question: 'What data is will be sent to the server?',
+      question: 'What data is sent to the server?',
       answer:
-        'Your pull statistics will be sent to the server to calculate global pull statistics. This data will include your hashed UID, your pull statistics for each banner and the timestamp of the data.',
+        'Only your pull statistics are sent to help calculate global stats. This includes a hashed version of your UID, your pulls for each banner, and the timestamps.',
     },
     {
-      question: 'Do I need to run the script to get cookies?',
+      question: 'Does it work if I play on mobile or PS5?',
       answer:
-        'No, you can go to the Dev Tools -> Application -> Cookies -> https://pearpal.infoldgames.com/ -> cookie-name to get the cookies and fill in the form manually.',
+        'Yes, it does not matter which platform you play on, as long as you log into the Pearpal website on PC using the same account. If you want to do the import on mobile, you will need a browser extension to access cookies, since Developer Tools are not available on mobile.',
     },
     {
-      question: 'All banners are processed but no pulls are showing?',
+      question: 'Do I need to run a script to get my cookies?',
       answer:
-        'Please double check the region and cookie you are sending are correct.',
+        'No, you can get them manually. Open Dev Tools, go to Application > Cookies > https://pearpal.infoldgames.com/, and look for the cookie names you need.',
     },
     {
-      question: 'Permanent banner Distant Sea is not showing?',
+      question: 'All banners were processed, but no pulls are showing?',
       answer:
-        'Permanent banners records are available in game. It would also take longer to process, so far now it is not available.',
+        'Please check that your region and cookie values are correct. Make sure the UID and ID from the cookies are not mixed up.',
     },
     {
-      question: 'How do I export my pull history?',
+      question: 'Why is the Distant Sea banner not showing?',
       answer:
-        'You can export your pull history to PNG image or JSON file. You can use the JSON file to import your pull history in case your browser data is removed.',
+        'Pull data for permanent banners Distant Sea availabe in game, it also take longer to process due to the large amount of pulls. It is not included currently on purpose.',
+    },
+    {
+      question: 'How can I export my pull history?',
+      answer:
+        'You can export your pull history as a PNG image or a JSON file. If your browser data is cleared, you can use the JSON file to restore your history.',
     },
   ]
 </script>
@@ -67,13 +72,23 @@
         <n-space justify="center">
           <n-button
             tag="a"
-            href="https://discord.gg/K92RAEvCXx"
+            href="https://discord.gg/qymsW3j4Zw"
             target="_blank"
           >
             <template #icon>
               <n-icon><Discord /></n-icon>
             </template>
-            Join Discord
+            Discord
+          </n-button>
+          <n-button
+            tag="a"
+            href="https://www.reddit.com/user/dastrokes/"
+            target="_blank"
+          >
+            <template #icon>
+              <n-icon><Reddit /></n-icon>
+            </template>
+            Reddit
           </n-button>
         </n-space>
       </div>

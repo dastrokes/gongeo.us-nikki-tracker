@@ -7,7 +7,6 @@
     Region,
     REGION_LABELS,
   } from '~/composables/useBannerPullApi'
-  import { useRouter } from 'vue-router'
   import { useMessage } from 'naive-ui'
   import type { UploadFileInfo } from 'naive-ui'
   import { useBannerPullData } from '~/composables/useBannerPullData'
@@ -38,7 +37,6 @@
   })
   const manualPasteInput = ref('')
   const currentStep = ref(0)
-  const router = useRouter()
   const message = useMessage()
   const { verifyAuth, loading, error } = useBannerPullApi()
   const userStore = useUserStore()
@@ -85,6 +83,8 @@
   }) => {
     if (data.file.file) {
       jsonFile.value = data.file.file
+    } else {
+      jsonFile.value = null
     }
   }
 
@@ -136,7 +136,11 @@
   }
 
   const handleSubmit = async () => {
-    if (importMethod.value === 'json' && jsonFile.value) {
+    if (importMethod.value === 'json') {
+      if (!jsonFile.value) {
+        message.warning('No JSON file selected')
+        return
+      }
       try {
         const fileContent = await jsonFile.value.text()
         const jsonData = JSON.parse(fileContent) as Record<number, PullRecord[]>
@@ -154,36 +158,36 @@
         )
       }
       return
-    }
+    } else {
+      try {
+        const cookieData: CookieData = formData.value
+        const success = await verifyAuth(cookieData)
 
-    try {
-      const cookieData: CookieData = formData.value
-      const success = await verifyAuth(cookieData)
+        if (success) {
+          message.success('Authentication successful!')
+          userStore.setUid(formData.value.roleid)
+          try {
+            await fetchAllData()
 
-      if (success) {
-        message.success('Authentication successful!')
-        userStore.setUid(formData.value.roleid)
-        try {
-          await fetchAllData()
-
-          // Send analytics only if enabled and there are actual pulls
-          if (
-            submitGlobalStats.value &&
-            Object.values(pullStore.processedPulls).some(
-              (banner) => banner.stats.totalPulls > 0
-            )
-          ) {
-            await pullStore.sendUserBannerStats()
+            // Send analytics only if enabled and there are actual pulls
+            if (
+              submitGlobalStats.value &&
+              Object.values(pullStore.processedPulls).some(
+                (banner) => banner.stats.totalPulls > 0
+              )
+            ) {
+              await pullStore.sendUserBannerStats()
+            }
+          } catch {
+            message.error(fetchError.value || 'Failed to fetch pull history')
           }
-        } catch {
-          message.error(fetchError.value || 'Failed to fetch pull history')
+        } else {
+          message.error(error.value || 'Authentication failed')
         }
-      } else {
-        message.error(error.value || 'Authentication failed')
+      } catch (error) {
+        console.error(error)
+        message.error('Invalid form data')
       }
-    } catch (error) {
-      console.error(error)
-      message.error('Invalid form data')
     }
   }
 
@@ -243,17 +247,12 @@
               <n-upload
                 accept=".json"
                 :max="1"
-                :show-file-list="false"
+                :show-file-list="true"
+                class="w-96"
                 @change="handleFileChange"
               >
                 <n-button>Select JSON File</n-button>
               </n-upload>
-              <div
-                v-if="jsonFile"
-                class="mt-2 text-sm text-gray-600"
-              >
-                Selected file: {{ jsonFile.name }}
-              </div>
             </div>
           </n-step>
 
@@ -457,6 +456,16 @@
                   website
                 </li>
                 <li>
+                  Alternatively, you can use a browser extension for cookies
+                  like
+                  <a
+                    class="text-blue-600 hover:text-blue-800 underline"
+                    href="https://cookie-editor.com/"
+                    target="_blank"
+                    >Cookie Editor</a
+                  >
+                </li>
+                <li>
                   Find and copy the values for:
                   <ul class="list-disc list-inside ml-4">
                     <li>momoNid (for ID field)</li>
@@ -500,15 +509,30 @@
             </n-form>
             <n-space
               align="center"
-              justify="center"
-              class="w-full flex"
-            >
-              <n-checkbox
-                v-model:checked="submitGlobalStats"
-                class="flex-shrink-0 mr-4"
+              class="w-full flex mb-4"
+              >Submit data for global stats
+              <n-switch
+                v-model:value="submitGlobalStats"
+                class="flex-shrink-0"
+              />
+            </n-space>
+            <n-space class="w-full flex ml-4">
+              <n-button
+                type="primary"
+                :loading="loading || isFetching"
+                class="flex-grow"
+                @click="handleSubmit"
               >
-                Submit data for global stats
-              </n-checkbox>
+                {{
+                  isFetching
+                    ? `Fetching resonance data, please wait...`
+                    : 'Submit and Import Pull History'
+                }}
+              </n-button>
+            </n-space>
+          </template>
+          <template v-else>
+            <n-space class="w-full flex ml-4">
               <n-button
                 type="primary"
                 :loading="loading || isFetching"

@@ -1,4 +1,4 @@
-import type { UserBannerStats } from '~/types'
+import type { UserBannerStats } from '~/types/stats'
 
 export const useUserBannerStats = () => {
   const sendUserBannerStats = async (data: UserBannerStats[]) => {

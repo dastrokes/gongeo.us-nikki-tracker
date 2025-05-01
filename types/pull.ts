@@ -53,6 +53,9 @@ export interface BannerStats {
   total4StarItems: number
   total5StarItems: number
   total4StarOnlyItems: number
+  total4StarPulls: number
+  total5StarPulls: number
+  total4StarOnlyPulls: number
   isComplete: boolean
   first4StarItemId: string | null
   first5StarItemId: string | null

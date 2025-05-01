@@ -5,7 +5,6 @@ import { BANNER_DATA } from '~/data/banners'
 import OUTFIT_DATA, { type OutfitKey } from '~/data/outfits'
 import { useUserBannerStats } from '~/composables/useSupabase'
 import type {
-  JsonData,
   PullRecord,
   PullItem,
   ProcessedBanner,
@@ -178,6 +177,9 @@ export const usePullStore = defineStore('pull', {
               total4StarItems: 0,
               total5StarItems: 0,
               total4StarOnlyItems: 0,
+              total4StarPulls: 0,
+              total5StarPulls: 0,
+              total4StarOnlyPulls: 0,
               isComplete: false,
               first4StarItemId: null,
               first5StarItemId: null,
@@ -288,12 +290,13 @@ export const usePullStore = defineStore('pull', {
             const fiveStarPulls = currentPulls.filter(
               (item: PullItem) => item.rarity === 5 && item.obtained
             )
+            stats.total5StarPulls = fiveStarPulls.reduce(
+              (sum: number, item: PullItem) => sum + item.pullsToObtain,
+              0
+            )
             stats.avg5StarPulls =
               fiveStarPulls.length > 0
-                ? fiveStarPulls.reduce(
-                    (sum: number, item: PullItem) => sum + item.pullsToObtain,
-                    0
-                  ) / fiveStarPulls.length
+                ? stats.total5StarPulls / fiveStarPulls.length
                 : 0
           } else if (bannerType === 2) {
             // Limited 5★ with 4★
@@ -316,19 +319,22 @@ export const usePullStore = defineStore('pull', {
             )
             fourStarCount += fourStarPulls.length
 
+            stats.total4StarPulls = fourStarPulls.reduce(
+              (sum: number, item: PullItem) => sum + item.pullsToObtain,
+              0
+            )
             stats.avg4StarPulls =
               fourStarPulls.length > 0
-                ? fourStarPulls.reduce(
-                    (sum: number, item: PullItem) => sum + item.pullsToObtain,
-                    0
-                  ) / fourStarPulls.length
+                ? stats.total4StarPulls / fourStarPulls.length
                 : 0
+
+            stats.total5StarPulls = fiveStarPulls.reduce(
+              (sum: number, item: PullItem) => sum + item.pullsToObtain,
+              0
+            )
             stats.avg5StarPulls =
               fiveStarPulls.length > 0
-                ? fiveStarPulls.reduce(
-                    (sum: number, item: PullItem) => sum + item.pullsToObtain,
-                    0
-                  ) / fiveStarPulls.length
+                ? stats.total5StarPulls / fiveStarPulls.length
                 : 0
             stats.avg4StarOnlyPulls = 0 // Reset for type 2 banners
           } else if (bannerType === 3) {
@@ -348,13 +354,13 @@ export const usePullStore = defineStore('pull', {
               0
             )
             fourStarOnlyCount += fourStarPulls.length
-
+            stats.total4StarOnlyPulls = fourStarPulls.reduce(
+              (sum: number, item: PullItem) => sum + item.pullsToObtain,
+              0
+            )
             stats.avg4StarOnlyPulls =
               fourStarPulls.length > 0
-                ? fourStarPulls.reduce(
-                    (sum: number, item: PullItem) => sum + item.pullsToObtain,
-                    0
-                  ) / fourStarPulls.length
+                ? stats.total4StarOnlyPulls / fourStarPulls.length
                 : 0
           }
 
@@ -427,9 +433,9 @@ export const usePullStore = defineStore('pull', {
           total_4star_items: banner.stats.total4StarItems,
           total_5star_items: banner.stats.total5StarItems,
           total_4star_only_items: banner.stats.total4StarOnlyItems,
-          avg_4star_pulls: banner.stats.avg4StarPulls,
-          avg_5star_pulls: banner.stats.avg5StarPulls,
-          avg_4star_only_pulls: banner.stats.avg4StarOnlyPulls,
+          total_4star_pulls: banner.stats.total4StarPulls,
+          total_5star_pulls: banner.stats.total5StarPulls,
+          total_4star_only_pulls: banner.stats.total4StarOnlyPulls,
           last_pull_time: banner.stats.lastPull,
           first_4star_item_id: banner.stats.first4StarItemId,
           first_5star_item_id: banner.stats.first5StarItemId,
@@ -462,9 +468,12 @@ export const usePullStore = defineStore('pull', {
             total4StarItems: 0,
             total5StarItems: 0,
             total4StarOnlyItems: 0,
+            total4StarPulls: 0,
+            total5StarPulls: 0,
+            total4StarOnlyPulls: 0,
+            isComplete: false,
             first4StarItemId: null,
             first5StarItemId: null,
-            isComplete: false,
           },
           bannerId: bannerId,
           bannerName: bannerInfo.bannerName,

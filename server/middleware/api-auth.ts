@@ -32,7 +32,6 @@ export default defineEventHandler(async (event) => {
   // Verify signature
   const config = useRuntimeConfig()
   const secret = config.public.gongeousSecretKey || 'secret-key'
-  console.log('secret', secret)
   const expectedSignature = crypto
     .createHmac('sha256', secret as string)
     .update(`${timestamp}:${event.method}:${event.path}`)

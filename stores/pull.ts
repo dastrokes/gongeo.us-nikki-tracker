@@ -3,7 +3,7 @@ import type { BannerData } from '~/types/banner'
 import type { Outfit } from '~/types/outfit'
 import { BANNER_DATA } from '~/data/banners'
 import OUTFIT_DATA, { type OutfitKey } from '~/data/outfits'
-import { useUserBannerStats } from '~/composables/useSupabase'
+import { useUserBannerStats } from '~/composables/server/useSupabase'
 import type {
   PullRecord,
   PullItem,

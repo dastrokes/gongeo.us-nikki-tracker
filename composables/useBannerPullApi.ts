@@ -28,7 +28,7 @@ export const REGION_LABELS = {
 } as const
 
 // Constants
-const REQUEST_DELAY = 500
+const REQUEST_DELAY = 1000
 const MAX_RETRIES = 3
 const INITIAL_RETRY_DELAY = 1000
 

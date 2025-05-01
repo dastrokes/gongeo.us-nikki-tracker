@@ -6,7 +6,7 @@ export const useUserBannerStats = () => {
     method: string,
     path: string
   ) => {
-    const secret = process.env.APP_SECRET || 'your-secret-key'
+    const secret = process.env.GONGEOUS_APP_SECRET || 'your-secret-key'
     const encoder = new TextEncoder()
     const key = await crypto.subtle.importKey(
       'raw',

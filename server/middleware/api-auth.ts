@@ -30,11 +30,23 @@ export default defineEventHandler(async (event) => {
   }
 
   // Verify signature
-  const secret = process.env.GONGEOUS_APP_SECRET || 'your-secret-key'
+  const secret = process.env.GONGEOUS_APP_SECRET
+  if (!secret) {
+    throw new Error('GONGEOUS_APP_SECRET environment variable is not set')
+  }
+
+  console.log(new Date().toISOString())
+  console.log('timestamp', timestamp)
+  console.log('event.method', event.method)
+  console.log('event.path', event.path)
+  console.log('signature', signature)
+
   const expectedSignature = crypto
     .createHmac('sha256', secret)
     .update(`${timestamp}:${event.method}:${event.path}`)
     .digest('hex')
+
+  console.log('expectedSignature', expectedSignature)
 
   if (signature !== expectedSignature) {
     throw createError({

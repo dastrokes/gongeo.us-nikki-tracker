@@ -8,7 +8,6 @@ export const useUserBannerStats = () => {
   ) => {
     const config = useRuntimeConfig()
     const secret = config.public.gongeousSecretKey || 'secret-key'
-    console.log('secret', secret)
 
     const encoder = new TextEncoder()
     const key = await crypto.subtle.importKey(

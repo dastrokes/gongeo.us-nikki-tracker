@@ -34,18 +34,16 @@ export default defineEventHandler(async (event) => {
     }))
     const hashedData = await Promise.all(hashedDataPromises)
 
-    const { error } = await supabase
-      .from('user_banner_stats')
-      .upsert(hashedData, {
-        onConflict: 'uid,banner_id',
-        ignoreDuplicates: false,
-      })
+    const { error } = await supabase.from('banner_stats').upsert(hashedData, {
+      onConflict: 'uid,banner_id',
+      ignoreDuplicates: false,
+    })
 
     if (error) throw error
 
     return { success: true }
   } catch (error) {
-    console.error('Error sending to user_banner_stats:', error)
+    console.error('Error sending to banner_stats:', error)
     throw createError({
       statusCode: 500,
       message: 'Failed to update banner stats',

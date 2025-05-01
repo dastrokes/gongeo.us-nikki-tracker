@@ -166,7 +166,7 @@ export const usePullStore = defineStore('pull', {
             pulls: [],
             outfits: [],
             stats: {
-              lastPull: null,
+              lastPull: new Date(0).toISOString(),
               totalPulls: 0,
               totalItems: 0,
               pity4Star: 0,
@@ -273,7 +273,7 @@ export const usePullStore = defineStore('pull', {
             }
 
             if (!currentBanner.stats.lastPull) {
-              currentBanner.stats.lastPull = time
+              currentBanner.stats.lastPull = time || new Date(0).toISOString()
             }
           })
 
@@ -430,15 +430,29 @@ export const usePullStore = defineStore('pull', {
           banner_id: Number(bannerId),
           banner_type: banner.bannerType,
           total_pulls: banner.stats.totalPulls,
-          total_4star_items: banner.stats.total4StarItems,
+          total_4star_items:
+            banner.stats.total4StarItems + banner.stats.total4StarOnlyItems,
           total_5star_items: banner.stats.total5StarItems,
-          total_4star_only_items: banner.stats.total4StarOnlyItems,
-          total_4star_pulls: banner.stats.total4StarPulls,
+          total_4star_pulls:
+            banner.stats.total4StarPulls + banner.stats.total4StarOnlyPulls,
           total_5star_pulls: banner.stats.total5StarPulls,
-          total_4star_only_pulls: banner.stats.total4StarOnlyPulls,
+          pulls_4star: banner.pulls
+            .filter((pull) => pull.rarity === 4)
+            .map((pull) => ({
+              item_id: pull.itemId,
+              pulls_to_obtain: pull.pullsToObtain,
+              obtained_at: pull.obtainedAt,
+              pull_index: pull.pullIndex,
+            })),
+          pulls_5star: banner.pulls
+            .filter((pull) => pull.rarity === 5)
+            .map((pull) => ({
+              item_id: pull.itemId,
+              pulls_to_obtain: pull.pullsToObtain,
+              obtained_at: pull.obtainedAt,
+              pull_index: pull.pullIndex,
+            })),
           last_pull_time: banner.stats.lastPull,
-          first_4star_item_id: banner.stats.first4StarItemId,
-          first_5star_item_id: banner.stats.first5StarItemId,
           updated_at: new Date().toISOString(),
         }))
 
@@ -457,7 +471,7 @@ export const usePullStore = defineStore('pull', {
           pulls: [],
           outfits: [],
           stats: {
-            lastPull: null,
+            lastPull: new Date(0).toISOString(),
             totalPulls: 0,
             totalItems: 0,
             pity4Star: 0,

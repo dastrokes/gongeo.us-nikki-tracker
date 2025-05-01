@@ -13,6 +13,7 @@ export interface JsonData {
 export type PullRecord = [string, string]
 
 export interface PullItem {
+  pullIndex: number
   itemId: string
   itemName: string
   itemType: string
@@ -23,7 +24,6 @@ export interface PullItem {
   obtainedAt: string
   bannerId: number
   obtained: boolean
-  pullIndex: number
   duplicate: boolean
 }
 
@@ -42,7 +42,7 @@ export interface OutfitStatus {
 }
 
 export interface BannerStats {
-  lastPull: string | null
+  lastPull: string
   totalPulls: number
   totalItems: number
   pity4Star: number

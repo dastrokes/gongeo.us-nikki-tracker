@@ -95,7 +95,7 @@
       const parsedData = JSON.parse(clipboardText) as CookieData
 
       if (!parsedData.roleid || !parsedData.token || !parsedData.id) {
-        throw new Error('Invalid JSON format')
+        throw new Error('Invalid file format')
       }
 
       formData.value = {
@@ -117,7 +117,7 @@
       const parsedData = JSON.parse(manualPasteInput.value) as CookieData
 
       if (!parsedData.roleid || !parsedData.token || !parsedData.id) {
-        throw new Error('Invalid JSON format')
+        throw new Error('Invalid file format')
       }
 
       formData.value = {
@@ -130,7 +130,7 @@
     } catch (error) {
       console.error(error)
       message.error(
-        "Failed to parse input data. Please ensure it's valid JSON."
+        "Failed to parse input data. Please ensure it's valid file format."
       )
     }
   }
@@ -138,7 +138,7 @@
   const handleSubmit = async () => {
     if (importMethod.value === 'json') {
       if (!jsonFile.value) {
-        message.warning('No JSON file selected')
+        message.warning('No file selected')
         return
       }
       try {
@@ -153,7 +153,7 @@
         message.success('Data imported successfully!')
       } catch (e) {
         message.error(
-          'Failed to import JSON file: ' +
+          'Failed to import file: ' +
             (e instanceof Error ? e.message : 'Unknown error')
         )
       }
@@ -234,10 +234,10 @@
             </div>
           </n-step>
 
-          <!-- JSON Import Step -->
+          <!-- File Import Step -->
           <n-step
             v-show="importMethod === 'json'"
-            title="JSON Import"
+            title="File Import"
           >
             <template #icon>
               <n-icon>
@@ -255,7 +255,7 @@
                 class="w-96"
                 @change="handleFileChange"
               >
-                <n-button>Select JSON File</n-button>
+                <n-button>Select File</n-button>
               </n-upload>
             </div>
           </n-step>

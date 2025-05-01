@@ -6,12 +6,20 @@ export interface UserBannerStats extends Record<string, unknown> {
   total_pulls: number
   total_4star_items: number
   total_5star_items: number
-  total_4star_only_items: number
   total_4star_pulls: number
   total_5star_pulls: number
-  total_4star_only_pulls: number
-  first_4star_item_id: string | null
-  first_5star_item_id: string | null
-  last_pull_time: string | null
+  pulls_4star: {
+    pull_index: number
+    item_id: string
+    pulls_to_obtain: number
+    obtained_at: string
+  }[]
+  pulls_5star: {
+    pull_index: number
+    item_id: string
+    pulls_to_obtain: number
+    obtained_at: string
+  }[]
+  last_pull_time: string
   updated_at: string
 }

@@ -34,10 +34,12 @@ export default defineEventHandler(async (event) => {
     }))
     const hashedData = await Promise.all(hashedDataPromises)
 
-    const { error } = await supabase.from('banner_stats').upsert(hashedData, {
-      onConflict: 'uid,region,banner_id',
-      ignoreDuplicates: false,
-    })
+    const { error } = await supabase
+      .from('user_banner_stats')
+      .upsert(hashedData, {
+        onConflict: 'uid,region,banner_id',
+        ignoreDuplicates: false,
+      })
 
     if (error) throw error
 

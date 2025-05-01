@@ -35,7 +35,7 @@ export default defineEventHandler(async (event) => {
     const hashedData = await Promise.all(hashedDataPromises)
 
     const { error } = await supabase.from('banner_stats').upsert(hashedData, {
-      onConflict: 'uid,banner_id',
+      onConflict: 'uid,region,banner_id',
       ignoreDuplicates: false,
     })
 

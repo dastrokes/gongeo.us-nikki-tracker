@@ -272,9 +272,8 @@ export const usePullStore = defineStore('pull', {
               }
             }
 
-            if (!currentBanner.stats.lastPull) {
-              currentBanner.stats.lastPull = time || new Date(0).toISOString()
-            }
+            // Always update lastPull with the most recent pull time
+            currentBanner.stats.lastPull = time || currentBanner.stats.lastPull
           })
 
           // 4. Calculate banner-specific stats
@@ -443,7 +442,8 @@ export const usePullStore = defineStore('pull', {
               pulls_to_obtain: pull.pullsToObtain,
               obtained_at: pull.obtainedAt,
               pull_index: pull.pullIndex,
-            })),
+            }))
+            .reverse(),
           pulls_5star: banner.pulls
             .filter((pull) => pull.rarity === 5)
             .map((pull) => ({
@@ -451,7 +451,8 @@ export const usePullStore = defineStore('pull', {
               pulls_to_obtain: pull.pullsToObtain,
               obtained_at: pull.obtainedAt,
               pull_index: pull.pullIndex,
-            })),
+            }))
+            .reverse(),
           last_pull_time: banner.stats.lastPull,
           updated_at: new Date().toISOString(),
         }))

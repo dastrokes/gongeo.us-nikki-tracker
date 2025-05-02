@@ -5,7 +5,7 @@
       <!-- Stats Header Skeleton -->
       <n-card
         size="small"
-        class="rounded-xl bg-pink-100"
+        class="rounded-xl bg-purple-50/50"
       >
         <div class="flex items-center justify-between">
           <div
@@ -44,7 +44,7 @@
           v-for="i in 2"
           :key="i"
           size="small"
-          class="rounded-xl bg-pink-100"
+          class="rounded-xl bg-purple-50/50"
         >
           <div class="space-y-4">
             <!-- Banner Header Skeleton -->
@@ -101,7 +101,7 @@
       <n-card
         v-if="Object.keys(processedPulls).length > 0"
         size="small"
-        class="rounded-xl bg-pink-100"
+        class="rounded-xl bg-purple-50/50"
       >
         <div class="flex items-center justify-between">
           <div
@@ -308,7 +308,7 @@
                 banner.bannerId != 1
               "
               size="small"
-              class="rounded-xl bg-pink-100 min-h-[180px]"
+              class="rounded-xl bg-purple-50/50 min-h-[180px]"
             >
               <div>
                 <!-- Banner Header -->
@@ -500,7 +500,7 @@
 
                 <!-- Combined Outfits View -->
                 <template v-if="combineOutfits">
-                  <div class="grid grid-cols-5 lg:grid-cols-10 gap-2">
+                  <div class="grid grid-cols-5 lg:grid-cols-10 gap-2 mt-2">
                     <ItemCard
                       v-for="pull in filterPulls(banner.pulls, banner.bannerId)"
                       :key="pull.pullIndex"
@@ -520,18 +520,16 @@
                       ).length > 0
                     "
                     :key="outfit.id"
-                    class="mt-2"
+                    class="grid grid-cols-5 lg:grid-cols-10 gap-2 mt-2"
                   >
-                    <div class="grid grid-cols-5 lg:grid-cols-10 gap-2">
-                      <ItemCard
-                        v-for="pull in filterPulls(
-                          getOutfitItems(banner.pulls, outfit.id),
-                          banner.bannerId
-                        )"
-                        :key="pull.pullIndex"
-                        :item="pull"
-                      />
-                    </div>
+                    <ItemCard
+                      v-for="pull in filterPulls(
+                        getOutfitItems(banner.pulls, outfit.id),
+                        banner.bannerId
+                      )"
+                      :key="pull.pullIndex"
+                      :item="pull"
+                    />
                   </div>
                 </template>
               </div>

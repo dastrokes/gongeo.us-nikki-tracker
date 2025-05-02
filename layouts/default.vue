@@ -32,7 +32,7 @@
             >
               <span
                 class="text-xl font-bold font-sans transform scale-y-130 leading-none"
-                >a gongeous website</span
+                >gongeo.us</span
               >
             </NuxtLink>
           </div>
@@ -137,7 +137,7 @@
         >
           <template #trigger>
             <p class="cursor-help">
-              © 2025 a gongeous website © Infold Games All Rights Reserved.
+              © 2025 gongeo.us © Infold Games All Rights Reserved.
             </p>
           </template>
           <div class="max-w-xs text-left">
@@ -176,6 +176,7 @@
     Globe,
     CalendarAlt,
     ArrowUp,
+    ShieldAlt,
   } from '@vicons/fa'
   import { h, ref, computed } from 'vue'
   import { NuxtLink } from '#components'
@@ -216,6 +217,11 @@
         label: 'FAQ',
         key: 'faq',
         icon: renderIcon(QuestionCircleRegular),
+      },
+      {
+        label: 'Privacy Policy',
+        key: 'privacy',
+        icon: renderIcon(ShieldAlt),
       },
     ].map((option) => ({
       ...option,

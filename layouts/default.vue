@@ -172,11 +172,11 @@
     FileImport,
     Book,
     Bars,
-    QuestionCircleRegular,
+    QuestionCircle,
     Globe,
     CalendarAlt,
     ArrowUp,
-    ShieldAlt,
+    InfoCircle,
   } from '@vicons/fa'
   import { h, ref, computed } from 'vue'
   import { NuxtLink } from '#components'
@@ -216,12 +216,12 @@
       {
         label: 'FAQ',
         key: 'faq',
-        icon: renderIcon(QuestionCircleRegular),
+        icon: renderIcon(QuestionCircle),
       },
       {
-        label: 'Privacy Policy',
-        key: 'privacy',
-        icon: renderIcon(ShieldAlt),
+        label: 'About',
+        key: 'about',
+        icon: renderIcon(InfoCircle),
       },
     ].map((option) => ({
       ...option,

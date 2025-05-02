@@ -1,8 +1,13 @@
 <template>
   <div class="max-w-7xl mx-auto space-y-4">
-    <div v-if="loading">
+    <n-card
+      v-if="loading"
+      size="small"
+      class="rounded-xl bg-purple-50/50"
+      no-title
+    >
       <!-- Summary Cards Skeleton -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
         <div class="bg-white p-6 rounded-lg shadow">
           <NSkeleton
             height="24px"
@@ -34,6 +39,12 @@
           <NSkeleton
             height="32px"
             width="40%"
+          />
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow">
+          <NSkeleton
+            height="24px"
+            width="60%"
             class="mb-2"
           />
           <NSkeleton
@@ -44,23 +55,46 @@
       </div>
 
       <!-- Charts Skeleton -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div
-          class="bg-white p-6 rounded-lg shadow"
-          v-for="i in 4"
-          :key="i"
-        >
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="col-span-1 sm:col-span-3 bg-white p-6 rounded-lg shadow">
           <NSkeleton
             height="24px"
             width="40%"
             class="mb-4"
           />
-          <NSkeleton height="300px" />
+          <NSkeleton height="200px" />
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow">
+          <NSkeleton
+            height="24px"
+            width="40%"
+            class="mb-4"
+          />
+          <NSkeleton height="200px" />
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow">
+          <NSkeleton
+            height="24px"
+            width="40%"
+            class="mb-4"
+          />
+          <NSkeleton height="200px" />
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow">
+          <NSkeleton
+            height="24px"
+            width="40%"
+            class="mb-4"
+          />
+          <NSkeleton height="200px" />
         </div>
       </div>
-    </div>
+    </n-card>
 
-    <div v-else>
+    <n-card
+      v-else
+      class="rounded-xl"
+    >
       <!-- Summary Cards -->
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
         <div class="bg-white p-6 rounded-lg shadow">
@@ -127,7 +161,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </n-card>
   </div>
 </template>
 

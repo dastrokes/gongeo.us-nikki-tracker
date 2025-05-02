@@ -205,7 +205,6 @@
         label: 'Global Data',
         key: 'global',
         icon: renderIcon(Globe),
-        disabled: true,
       },
       {
         label: 'Banner History',

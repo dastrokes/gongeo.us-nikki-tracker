@@ -257,6 +257,10 @@
             </template>
             <div class="space-y-2">
               <div>Follow these steps to manually input your cookie data:</div>
+              <div>
+                (Using Google Chrome as an example, exact names might vary for
+                other browsers but steps will be similar)
+              </div>
               <ol class="list-decimal list-inside space-y-2">
                 <li>
                   Open your browser's Developer Tools (Press F12 or right-click
@@ -280,8 +284,8 @@
                 <li>
                   Find and copy the values for:
                   <ul class="list-disc list-inside ml-4">
-                    <li>momoNid (for ID field)</li>
-                    <li>momoToken (for Token field)</li>
+                    <li>momoNid (for Momo ID field)</li>
+                    <li>momoToken (for Momo Token field)</li>
                   </ul>
                 </li>
                 <li>
@@ -393,7 +397,7 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, computed } from 'vue'
+  import { ref, computed, watch } from 'vue'
   import type { CookieData } from '~/types/api'
   import type { PullRecord } from '~/types/pull'
   import {
@@ -520,7 +524,6 @@
         id: parsedData.id,
       }
       message.success('Data pasted successfully!')
-      manualPasteInput.value = '' // Clear the input after successful paste
     } catch (error) {
       console.error(error)
       message.error(
@@ -590,4 +593,32 @@
   }
 
   const cookieMethod = ref<'console' | 'manual'>('console')
+
+  // Add watch for manual paste input
+  watch(manualPasteInput, (newValue) => {
+    if (newValue) {
+      try {
+        const parsedData = JSON.parse(newValue) as CookieData
+
+        if (!parsedData.roleid || !parsedData.token || !parsedData.id) {
+          throw new Error('Invalid file format')
+        }
+
+        formData.value = {
+          roleid: parsedData.roleid,
+          token: parsedData.token,
+          id: parsedData.id,
+        }
+        message.success('Data pasted successfully!')
+      } catch (error) {
+        // Don't show error message on every keystroke
+        if (newValue.length > 10) {
+          // Only show error if input is reasonably long
+          message.error(
+            "Failed to parse input data. Please ensure it's valid file format."
+          )
+        }
+      }
+    }
+  })
 </script>

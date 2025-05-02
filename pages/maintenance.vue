@@ -1,11 +1,8 @@
-<script setup lang="ts">
-  import { Discord, Reddit } from '@vicons/fa'
-</script>
-
 <template>
   <div class="max-w-7xl mx-auto space-y-4">
     <n-card
-      class="rounded-xl"
+      size="small"
+      class="rounded-xl bg-purple-50/50"
       no-title
     >
       <div class="text-center mb-12">
@@ -47,3 +44,7 @@
     </n-card>
   </div>
 </template>
+
+<script setup lang="ts">
+  import { Discord, Reddit } from '@vicons/fa'
+</script>

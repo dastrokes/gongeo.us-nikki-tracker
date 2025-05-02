@@ -1,207 +1,8 @@
-<script setup lang="ts">
-  import { ref, computed } from 'vue'
-  import type { CookieData } from '~/types/api'
-  import type { PullRecord } from '~/types/pull'
-  import {
-    useBannerPullApi,
-    Region,
-    REGION_LABELS,
-  } from '~/composables/useBannerPullApi'
-  import { useMessage } from 'naive-ui'
-  import type { UploadFileInfo } from 'naive-ui'
-  import { useBannerPullData } from '~/composables/useBannerPullData'
-  import { usePullStore } from '~/stores/pull'
-  import { useUserStore } from '~/stores/user'
-  import { Paste, Check } from '@vicons/fa'
-  import { BANNER_DATA } from '~/data/banners'
-
-  const consoleScript = `console.log(JSON.stringify({
-  roleid: [...document.querySelectorAll('div')].find(el => el.textContent.startsWith('UID:'))?.textContent.replace('UID:', '').trim(),
-  token: document.cookie.match(/momoToken=([^;]+)/)?.[1],
-  id: document.cookie.match(/momoNid=([^;]+)/)?.[1]
-}));`
-
-  const copyToClipboard = async () => {
-    try {
-      await window?.navigator?.clipboard?.writeText(consoleScript)
-      message.success('Code copied to clipboard!')
-    } catch {
-      message.error('Failed to copy code to clipboard')
-    }
-  }
-
-  const formData = ref({
-    roleid: '',
-    token: '',
-    id: '',
-  })
-  const manualPasteInput = ref('')
-  const currentStep = ref(0)
-  const message = useMessage()
-  const { verifyAuth, loading, error } = useBannerPullApi()
-  const userStore = useUserStore()
-  const {
-    fetchAllData,
-    isFetching,
-    error: fetchError,
-    processJsonImport,
-    progress,
-  } = useBannerPullData()
-  const pullStore = usePullStore()
-
-  // Make BANNER_DATA available in template
-  const bannerData = BANNER_DATA
-
-  // Calculate progress percentage for the progress bar
-  const progressPercentage = computed(() => {
-    if (!progress.value || !progress.value.banner) return 0
-
-    // Get all banner IDs except permanent banner (id 1)
-    const bannerIds = Object.values(BANNER_DATA)
-      .map((banner) => banner.bannerId)
-      .filter((id) => id !== 1)
-
-    // Find the index of the current banner
-    const currentBannerIndex = bannerIds.indexOf(progress.value.banner)
-
-    // Calculate percentage based on current banner index and total banners
-    return Math.round(((currentBannerIndex + 1) / bannerIds.length) * 100)
-  })
-
-  const regionOptions = Object.entries(REGION_LABELS).map(([value, label]) => ({
-    label,
-    value: value as Region,
-  }))
-
-  const importMethod = ref<'game' | 'json'>('game')
-  const jsonFile = ref<File | null>(null)
-  const submitGlobalStats = ref(true)
-
-  const handleFileChange = (data: {
-    file: UploadFileInfo
-    fileList: UploadFileInfo[]
-  }) => {
-    if (data.file.file) {
-      jsonFile.value = data.file.file
-    } else {
-      jsonFile.value = null
-    }
-  }
-
-  const handlePasteFromClipboard = async () => {
-    try {
-      const clipboardText = await navigator.clipboard.readText()
-      manualPasteInput.value = clipboardText
-      const parsedData = JSON.parse(clipboardText) as CookieData
-
-      if (!parsedData.roleid || !parsedData.token || !parsedData.id) {
-        throw new Error('Invalid file format')
-      }
-
-      formData.value = {
-        roleid: parsedData.roleid,
-        token: parsedData.token,
-        id: parsedData.id,
-      }
-      message.success('Data pasted successfully!')
-    } catch (error) {
-      console.error(error)
-      message.error(
-        'Failed to parse clipboard data. Please paste manually or fill in the form.'
-      )
-    }
-  }
-
-  const handleManualPaste = () => {
-    try {
-      const parsedData = JSON.parse(manualPasteInput.value) as CookieData
-
-      if (!parsedData.roleid || !parsedData.token || !parsedData.id) {
-        throw new Error('Invalid file format')
-      }
-
-      formData.value = {
-        roleid: parsedData.roleid,
-        token: parsedData.token,
-        id: parsedData.id,
-      }
-      message.success('Data pasted successfully!')
-      manualPasteInput.value = '' // Clear the input after successful paste
-    } catch (error) {
-      console.error(error)
-      message.error(
-        "Failed to parse input data. Please ensure it's valid file format."
-      )
-    }
-  }
-
-  const handleSubmit = async () => {
-    if (importMethod.value === 'json') {
-      if (!jsonFile.value) {
-        message.warning('No file selected')
-        return
-      }
-      try {
-        const fileContent = await jsonFile.value.text()
-        const jsonData = JSON.parse(fileContent) as Record<number, PullRecord[]>
-
-        // Reset current store state
-        pullStore.reset()
-
-        await processJsonImport(jsonData)
-
-        message.success('Data imported successfully!')
-      } catch (e) {
-        message.error(
-          'Failed to import file: ' +
-            (e instanceof Error ? e.message : 'Unknown error')
-        )
-      }
-      return
-    } else {
-      try {
-        const cookieData: CookieData = formData.value
-        const success = await verifyAuth(cookieData)
-
-        if (success) {
-          message.success('Authentication successful!')
-          userStore.setUid(formData.value.roleid)
-          try {
-            await fetchAllData()
-
-            // Send analytics only if enabled and there are actual pulls
-            if (
-              submitGlobalStats.value &&
-              Object.values(pullStore.processedPulls).some(
-                (banner) => banner.stats.totalPulls > 0
-              )
-            ) {
-              try {
-                await pullStore.sendUserBannerStats()
-              } catch {
-                message.error('Failed to submit global stats')
-              }
-            }
-          } catch {
-            message.error(fetchError.value || 'Failed to fetch pull history')
-          }
-        } else {
-          message.error(error.value || 'Authentication failed')
-        }
-      } catch (error) {
-        console.error(error)
-        message.error('Invalid form data')
-      }
-    }
-  }
-
-  const cookieMethod = ref<'console' | 'manual'>('console')
-</script>
-
 <template>
   <div class="max-w-7xl mx-auto space-y-4">
     <n-card
-      class="rounded-xl"
+      size="small"
+      class="rounded-xl bg-purple-50/50"
       no-title
     >
       <!-- Show steps only when not fetching -->
@@ -527,7 +328,7 @@
                 class="flex-shrink-0"
               />
             </n-space>
-            <n-space class="w-full flex ml-4">
+            <n-space class="w-full flex">
               <n-button
                 type="primary"
                 :loading="loading || isFetching"
@@ -543,7 +344,7 @@
             </n-space>
           </template>
           <template v-else>
-            <n-space class="w-full flex ml-4">
+            <n-space class="w-full flex">
               <n-button
                 type="primary"
                 :loading="loading || isFetching"
@@ -590,3 +391,203 @@
     </n-card>
   </div>
 </template>
+
+<script setup lang="ts">
+  import { ref, computed } from 'vue'
+  import type { CookieData } from '~/types/api'
+  import type { PullRecord } from '~/types/pull'
+  import {
+    useBannerPullApi,
+    Region,
+    REGION_LABELS,
+  } from '~/composables/useBannerPullApi'
+  import { useMessage } from 'naive-ui'
+  import type { UploadFileInfo } from 'naive-ui'
+  import { useBannerPullData } from '~/composables/useBannerPullData'
+  import { usePullStore } from '~/stores/pull'
+  import { useUserStore } from '~/stores/user'
+  import { Paste, Check } from '@vicons/fa'
+  import { BANNER_DATA } from '~/data/banners'
+
+  const consoleScript = `console.log(JSON.stringify({
+  roleid: [...document.querySelectorAll('div')].find(el => el.textContent.startsWith('UID:'))?.textContent.replace('UID:', '').trim(),
+  token: document.cookie.match(/momoToken=([^;]+)/)?.[1],
+  id: document.cookie.match(/momoNid=([^;]+)/)?.[1]
+}));`
+
+  const copyToClipboard = async () => {
+    try {
+      await window?.navigator?.clipboard?.writeText(consoleScript)
+      message.success('Code copied to clipboard!')
+    } catch {
+      message.error('Failed to copy code to clipboard')
+    }
+  }
+
+  const formData = ref({
+    roleid: '',
+    token: '',
+    id: '',
+  })
+  const manualPasteInput = ref('')
+  const currentStep = ref(0)
+  const message = useMessage()
+  const { verifyAuth, loading, error } = useBannerPullApi()
+  const userStore = useUserStore()
+  const {
+    fetchAllData,
+    isFetching,
+    error: fetchError,
+    processJsonImport,
+    progress,
+  } = useBannerPullData()
+  const pullStore = usePullStore()
+
+  // Make BANNER_DATA available in template
+  const bannerData = BANNER_DATA
+
+  // Calculate progress percentage for the progress bar
+  const progressPercentage = computed(() => {
+    if (!progress.value || !progress.value.banner) return 0
+
+    // Get all banner IDs except permanent banner (id 1)
+    const bannerIds = Object.values(BANNER_DATA)
+      .map((banner) => banner.bannerId)
+      .filter((id) => id !== 1)
+
+    // Find the index of the current banner
+    const currentBannerIndex = bannerIds.indexOf(progress.value.banner)
+
+    // Calculate percentage based on current banner index and total banners
+    return Math.round(((currentBannerIndex + 1) / bannerIds.length) * 100)
+  })
+
+  const regionOptions = Object.entries(REGION_LABELS).map(([value, label]) => ({
+    label,
+    value: value as Region,
+  }))
+
+  const importMethod = ref<'game' | 'json'>('game')
+  const jsonFile = ref<File | null>(null)
+  const submitGlobalStats = ref(true)
+
+  const handleFileChange = (data: {
+    file: UploadFileInfo
+    fileList: UploadFileInfo[]
+  }) => {
+    if (data.file.file) {
+      jsonFile.value = data.file.file
+    } else {
+      jsonFile.value = null
+    }
+  }
+
+  const handlePasteFromClipboard = async () => {
+    try {
+      const clipboardText = await navigator.clipboard.readText()
+      manualPasteInput.value = clipboardText
+      const parsedData = JSON.parse(clipboardText) as CookieData
+
+      if (!parsedData.roleid || !parsedData.token || !parsedData.id) {
+        throw new Error('Invalid file format')
+      }
+
+      formData.value = {
+        roleid: parsedData.roleid,
+        token: parsedData.token,
+        id: parsedData.id,
+      }
+      message.success('Data pasted successfully!')
+    } catch (error) {
+      console.error(error)
+      message.error(
+        'Failed to parse clipboard data. Please paste manually or fill in the form.'
+      )
+    }
+  }
+
+  const handleManualPaste = () => {
+    try {
+      const parsedData = JSON.parse(manualPasteInput.value) as CookieData
+
+      if (!parsedData.roleid || !parsedData.token || !parsedData.id) {
+        throw new Error('Invalid file format')
+      }
+
+      formData.value = {
+        roleid: parsedData.roleid,
+        token: parsedData.token,
+        id: parsedData.id,
+      }
+      message.success('Data pasted successfully!')
+      manualPasteInput.value = '' // Clear the input after successful paste
+    } catch (error) {
+      console.error(error)
+      message.error(
+        "Failed to parse input data. Please ensure it's valid file format."
+      )
+    }
+  }
+
+  const handleSubmit = async () => {
+    if (importMethod.value === 'json') {
+      if (!jsonFile.value) {
+        message.warning('No file selected')
+        return
+      }
+      try {
+        const fileContent = await jsonFile.value.text()
+        const jsonData = JSON.parse(fileContent) as Record<number, PullRecord[]>
+
+        // Reset current store state
+        pullStore.reset()
+
+        await processJsonImport(jsonData)
+
+        message.success('Data imported successfully!')
+      } catch (e) {
+        message.error(
+          'Failed to import file: ' +
+            (e instanceof Error ? e.message : 'Unknown error')
+        )
+      }
+      return
+    } else {
+      try {
+        const cookieData: CookieData = formData.value
+        const success = await verifyAuth(cookieData)
+
+        if (success) {
+          message.success('Authentication successful!')
+          userStore.setUid(formData.value.roleid)
+          try {
+            await fetchAllData()
+
+            // Send analytics only if enabled and there are actual pulls
+            if (
+              submitGlobalStats.value &&
+              Object.values(pullStore.processedPulls).some(
+                (banner) => banner.stats.totalPulls > 0
+              )
+            ) {
+              try {
+                await pullStore.sendUserBannerStats()
+              } catch {
+                message.error('Failed to submit global stats')
+              }
+            }
+          } catch {
+            message.error(fetchError.value || 'Failed to fetch pull history')
+          }
+        } else {
+          message.error(error.value || 'Authentication failed')
+        }
+      } catch (error) {
+        console.error(error)
+        message.error('Invalid form data')
+      }
+    }
+  }
+
+  const cookieMethod = ref<'console' | 'manual'>('console')
+</script>

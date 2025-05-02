@@ -37,7 +37,7 @@
       primaryColorPressed: '#E11D48', // Rose-600
       primaryColorSuppl: '#FB7185', // Rose-400
 
-      infoColor: '#8B5CF6', // Violet-500 (complementary)
+      infoColor: '#8B5CF6', // Violet-500
       infoColorHover: '#A78BFA', // Violet-400
       infoColorPressed: '#7C3AED', // Violet-600
       infoColorSuppl: '#A78BFA', // Violet-400

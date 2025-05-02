@@ -1,47 +1,10 @@
-<script setup lang="ts">
-  import { BANNER_DATA } from '~/data/banners'
-  import { Gift, Star } from '@vicons/fa'
-  import OUTFIT_DATA from '~/data/outfits'
-  import { computed } from 'vue'
-
-  // Sort banners by ID in descending order (newest first)
-  const sortedBanners = computed(() => {
-    return Object.values(BANNER_DATA)
-      .filter((banner) => banner.bannerId !== 1) // Exclude permanent banner
-      .sort((a, b) => b.bannerId - a.bannerId)
-  })
-
-  // Get banner type color
-  const getBannerTypeColor = (type: number) => {
-    switch (type) {
-      case 1:
-        return 'default'
-      case 2:
-        return 'warning'
-      case 3:
-        return 'info'
-      default:
-        return 'default'
-    }
-  }
-
-  // Get outfit name by ID
-  const getOutfitName = (outfitId: string) => {
-    return OUTFIT_DATA[outfitId as keyof typeof OUTFIT_DATA]?.name || outfitId
-  }
-
-  const imageUrl = (bannerId: number) => {
-    return `/images/banners/${bannerId}.webp`
-  }
-
-  const imageProvider = computed(() => {
-    return process.env.NODE_ENV === 'development' ? 'ipx' : 'netlify'
-  })
-</script>
-
 <template>
   <div class="max-w-7xl mx-auto space-y-4">
-    <n-card class="rounded-xl">
+    <n-card
+      size="small"
+      class="rounded-xl bg-purple-50/50"
+      no-title
+    >
       <n-timeline
         :icon-size="30"
         size="large"
@@ -137,6 +100,47 @@
     </n-card>
   </div>
 </template>
+
+<script setup lang="ts">
+  import { BANNER_DATA } from '~/data/banners'
+  import { Gift, Star } from '@vicons/fa'
+  import OUTFIT_DATA from '~/data/outfits'
+  import { computed } from 'vue'
+
+  // Sort banners by ID in descending order (newest first)
+  const sortedBanners = computed(() => {
+    return Object.values(BANNER_DATA)
+      .filter((banner) => banner.bannerId !== 1) // Exclude permanent banner
+      .sort((a, b) => b.bannerId - a.bannerId)
+  })
+
+  // Get banner type color
+  const getBannerTypeColor = (type: number) => {
+    switch (type) {
+      case 1:
+        return 'default'
+      case 2:
+        return 'warning'
+      case 3:
+        return 'info'
+      default:
+        return 'default'
+    }
+  }
+
+  // Get outfit name by ID
+  const getOutfitName = (outfitId: string) => {
+    return OUTFIT_DATA[outfitId as keyof typeof OUTFIT_DATA]?.name || outfitId
+  }
+
+  const imageUrl = (bannerId: number) => {
+    return `/images/banners/${bannerId}.webp`
+  }
+
+  const imageProvider = computed(() => {
+    return process.env.NODE_ENV === 'development' ? 'ipx' : 'netlify'
+  })
+</script>
 
 <style scoped>
   .prose {

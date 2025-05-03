@@ -2,7 +2,7 @@
   <div class="max-w-7xl mx-auto space-y-4">
     <n-card
       size="small"
-      class="rounded-xl bg-purple-50/50"
+      class="rounded-xl bg-purple-50"
       no-title
     >
       <!-- Show steps only when not fetching -->
@@ -199,6 +199,11 @@
                   </n-popconfirm>
                 </li>
                 <li>
+                  If you get a warning saying "Warning: Don't paste code into
+                  the devtools console", type "Allow pasting" and hit enter or
+                  switch to manual input method if you prefer
+                </li>
+                <li>
                   Copy the output text (it should look like the example in the
                   input area below)
                 </li>
@@ -206,6 +211,9 @@
                   Come back to gongeo.us, paste the output text in the input
                   area below
                 </li>
+                <div class="text-sm text-amber-600">
+                  Note: Never share these cookie values with anyone else!
+                </div>
               </ol>
               <div class="mt-4">
                 <n-input
@@ -237,9 +245,6 @@
                       Paste from Clipboard
                     </n-button>
                   </n-space>
-                  <div class="text-sm text-amber-600">
-                    Note: Never share these cookie values with anyone else!
-                  </div>
                 </n-space>
               </div>
             </div>
@@ -614,6 +619,7 @@
         // Don't show error message on every keystroke
         if (newValue.length > 10) {
           // Only show error if input is reasonably long
+          console.warn(`Invalid data input`, error)
           message.error(
             "Failed to parse input data. Please ensure it's valid file format."
           )

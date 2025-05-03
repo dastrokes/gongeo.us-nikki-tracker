@@ -2,53 +2,53 @@ import type { Outfit } from '~/types/outfit'
 
 const outfit: Outfit = {
   id: 'S0166',
-  name: 'Starfall Radiance',
+  name: 'outfit.S0166.name',
   rarity: 5,
   items: [
     {
       id: '1020100166',
-      type: 'Hair',
-      name: 'Milky Way Ripple',
+      type: 'hair',
+      name: 'item.1020100166.name',
     },
     {
       id: '1020900166',
-      type: 'Dresses',
-      name: 'Celestial Nightfall',
+      type: 'dresses',
+      name: 'item.1020900166.name',
     },
     {
       id: '1020500166',
-      type: 'Socks',
-      name: 'River of Stars',
+      type: 'socks',
+      name: 'item.1020500166.name',
     },
     {
       id: '1020600166',
-      type: 'Shoes',
-      name: 'Star Dance',
+      type: 'shoes',
+      name: 'item.1020600166.name',
     },
     {
       id: '1020710166',
-      type: 'Hair Accessories',
-      name: 'Stellar Waves',
+      type: 'hairAccessories',
+      name: 'item.1020710166.name',
     },
     {
       id: '1020720166',
-      type: 'Headwear',
-      name: 'Mumbled Dream',
+      type: 'headwear',
+      name: 'item.1020720166.name',
     },
     {
       id: '1020730166',
-      type: 'Earrings',
-      name: 'Stars of Oath',
+      type: 'earrings',
+      name: 'item.1020730166.name',
     },
     {
       id: '1020740166',
-      type: 'Neckwear',
-      name: 'Stardust Trail',
+      type: 'neckwear',
+      name: 'item.1020740166.name',
     },
     {
       id: '1020770166',
-      type: 'Gloves',
-      name: 'Turning Palm',
+      type: 'gloves',
+      name: 'item.1020770166.name',
     },
   ],
 }

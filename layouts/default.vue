@@ -20,14 +20,14 @@
             <n-button
               text
               class="w-12"
-              aria-label="Toggle navigation menu"
+              :aria-label="t('accessibility.toggle_menu')"
               @click="showSider = !showSider"
               ><n-icon>
                 <bars />
               </n-icon>
             </n-button>
             <NuxtLink
-              to="/"
+              :to="localePath('/')"
               class="pl-2"
             >
               <span
@@ -36,7 +36,8 @@
               >
             </NuxtLink>
           </div>
-          <div class="flex items-center pr-4">
+          <div class="flex gap-4 pr-4">
+            <LanguageSwitcher />
             <UserProfile />
           </div>
         </div>
@@ -88,13 +89,14 @@
                 href="https://discord.gg/qymsW3j4Zw"
                 target="_blank"
                 class="text-gray-600 hover:text-gray-900"
+                :aria-label="t('accessibility.join_discord')"
               >
                 <template #icon>
                   <n-icon><Discord /></n-icon>
                 </template>
               </n-button>
             </template>
-            Discord
+            {{ t('common.discord') }}
           </n-tooltip>
           <n-tooltip
             trigger="hover"
@@ -107,6 +109,7 @@
                 href="https://ko-fi.com/dastrokes"
                 target="_blank"
                 class="text-gray-600 hover:text-gray-900"
+                :aria-label="t('accessibility.support_ko_fi')"
               >
                 <template #icon>
                   <n-icon>
@@ -124,7 +127,7 @@
                 </template>
               </n-button>
             </template>
-            Ko-fi
+            {{ t('common.ko_fi') }}
           </n-tooltip>
         </div>
       </n-layout-sider>
@@ -156,6 +159,7 @@
         circle
         size="small"
         class="fixed bottom-10 right-10 z-50 bg-white shadow-lg hover:bg-gray-100"
+        :aria-label="t('common.scroll_to_top')"
         @click="scrollToTop"
       >
         <n-icon size="small">
@@ -194,17 +198,15 @@
         >
           <template #trigger>
             <p class="cursor-help">
-              © 2025 gongeo.us © Infold Games All Rights Reserved.
+              {{ t('common.copyright') }}
             </p>
           </template>
           <div class="max-w-xs text-left">
             <p>
-              This is an independent fan project, not affiliated with or
-              endorsed by Infold/Paper Games.
+              {{ t('common.disclaimer.content') }}
             </p>
             <p class="mt-1">
-              All game assets, content, and trademarks belong to their
-              respective owners.
+              {{ t('common.disclaimer.rights') }}
             </p>
           </div>
         </n-tooltip>
@@ -240,6 +242,10 @@
   import { NuxtLink } from '#components'
   import { useRoute, useRouter } from '#app'
   import UserProfile from '~/components/UserProfile.vue'
+  import LanguageSwitcher from '~/components/LanguageSwitcher.vue'
+
+  const { t } = useI18n()
+  const localePath = useLocalePath()
 
   function renderIcon(icon: Component) {
     return () => h(NIcon, null, { default: () => h(icon) })
@@ -251,33 +257,33 @@
   const menuOptions = computed<MenuOption[]>(() =>
     [
       {
-        label: 'Resonance Tracker',
+        label: t('navigation.resonance_tracker'),
         key: 'tracker',
         icon: renderIcon(Book),
       },
       {
-        label: 'Import Data',
+        label: t('navigation.import_data'),
         key: 'import',
         icon: renderIcon(FileImport),
       },
       {
-        label: 'Global Data',
+        label: t('navigation.global_data'),
         key: 'global',
         icon: renderIcon(Globe),
         disabled: true,
       },
       {
-        label: 'Banner History',
+        label: t('navigation.banner_history'),
         key: 'banner',
         icon: renderIcon(CalendarAlt),
       },
       {
-        label: 'FAQ',
+        label: t('navigation.faq'),
         key: 'faq',
         icon: renderIcon(QuestionCircle),
       },
       {
-        label: 'About',
+        label: t('navigation.about'),
         key: 'about',
         icon: renderIcon(InfoCircle),
       },
@@ -289,7 +295,7 @@
 
   // Handle menu selection
   const handleMenuSelect = (key: string) => {
-    router.push(`/${key}`)
+    router.push(localePath(`/${key}`))
     if (window.innerWidth < 640) {
       showSider.value = false
     }
@@ -333,7 +339,7 @@
     height: calc(100vh - 48px);
   }
 
-  :deep(.n-menu-item.n-menu-item--active) {
-    background-color: rgba(255, 255, 255, 0.3);
+  :deep(.n-menu-item-content-header) {
+    margin-left: 16px;
   }
 </style>

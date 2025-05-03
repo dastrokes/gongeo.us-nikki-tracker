@@ -2,53 +2,53 @@ import type { Outfit } from '~/types/outfit'
 
 const outfit: Outfit = {
   id: 'S0056',
-  name: 'Shark Mirage',
+  name: 'outfit.S0056.name',
   rarity: 5,
   items: [
     {
       id: '1020100056',
-      type: 'Hair',
-      name: 'Dancing Waves',
+      type: 'hair',
+      name: 'item.1020100056.name',
     },
     {
       id: '1020300056',
-      type: 'Tops',
-      name: 'Set Sail',
+      type: 'tops',
+      name: 'item.1020300056.name',
     },
     {
       id: '1020410056',
-      type: 'Bottoms',
-      name: 'Riding the Breeze',
+      type: 'bottoms',
+      name: 'item.1020410056.name',
     },
     {
       id: '1020500056',
-      type: 'Socks',
-      name: 'Shallow Reflections',
+      type: 'socks',
+      name: 'item.1020500056.name',
     },
     {
       id: '1020600056',
-      type: 'Shoes',
-      name: 'Gentle Ripples',
+      type: 'shoes',
+      name: 'item.1020600056.name',
     },
     {
       id: '1020710056',
-      type: 'Hair Accessories',
-      name: 'Guiding Star',
+      type: 'hairAccessories',
+      name: 'item.1020710056.name',
     },
     {
       id: '1020720056',
-      type: 'Headwear',
-      name: 'Drifting Sharkfin',
+      type: 'headwear',
+      name: 'item.1020720056.name',
     },
     {
       id: '1020770056',
-      type: 'Gloves',
-      name: 'Deep Sea Adventure',
+      type: 'gloves',
+      name: 'item.1020770056.name',
     },
     {
       id: '1020940056',
       type: 'Unknown',
-      name: 'Whispering Breeze',
+      name: 'item.1020940056.name',
     },
   ],
 }

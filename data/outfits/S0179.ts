@@ -2,48 +2,48 @@ import type { Outfit } from '~/types/outfit'
 
 const outfit: Outfit = {
   id: 'S0179',
-  name: 'Pink Ribbon Waltz',
+  name: 'outfit.S0179.name',
   rarity: 5,
   items: [
     {
       id: '1020100179',
-      type: 'Hair',
-      name: 'Soft Moonlight',
+      type: 'hair',
+      name: 'item.1020100179.name',
     },
     {
       id: '1020900179',
-      type: 'Dresses',
-      name: 'Dream in Pink',
+      type: 'dresses',
+      name: 'item.1020900179.name',
     },
     {
       id: '1020500179',
-      type: 'Socks',
-      name: 'Dreamed Steps',
+      type: 'socks',
+      name: 'item.1020500179.name',
     },
     {
       id: '1020600179',
-      type: 'Shoes',
-      name: 'Rosecrown Dance',
+      type: 'shoes',
+      name: 'item.1020600179.name',
     },
     {
       id: '1020710179',
-      type: 'Hair Accessories',
-      name: 'Dancing Ribbon',
+      type: 'hairAccessories',
+      name: 'item.1020710179.name',
     },
     {
       id: '1020730179',
-      type: 'Earrings',
-      name: 'Gentle Ripple',
+      type: 'earrings',
+      name: 'item.1020730179.name',
     },
     {
       id: '1020740179',
-      type: 'Neckwear',
-      name: 'Rippled Gleam',
+      type: 'neckwear',
+      name: 'item.1020740179.name',
     },
     {
       id: '1020770179',
-      type: 'Gloves',
-      name: 'Scattered Lights',
+      type: 'gloves',
+      name: 'item.1020770179.name',
     },
   ],
 }

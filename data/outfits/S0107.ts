@@ -2,53 +2,53 @@ import type { Outfit } from '~/types/outfit'
 
 const outfit: Outfit = {
   id: 'S0107',
-  name: 'Dreamy Glimmer',
+  name: 'outfit.S0107.name',
   rarity: 5,
   items: [
     {
       id: '1020100107',
-      type: 'Hair',
-      name: 'Radiant Sparkle',
+      type: 'hair',
+      name: 'item.1020100107.name',
     },
     {
       id: '1020900107',
-      type: 'Dresses',
-      name: 'Tail of Purity',
+      type: 'dresses',
+      name: 'item.1020900107.name',
     },
     {
       id: '1020200107',
-      type: 'Outerwear',
-      name: 'Soft White',
+      type: 'outerwear',
+      name: 'item.1020200107.name',
     },
     {
       id: '1020500107',
-      type: 'Socks',
-      name: 'Crystal Bubbles',
+      type: 'socks',
+      name: 'item.1020500107.name',
     },
     {
       id: '1020600107',
-      type: 'Shoes',
-      name: 'Danger Ahead',
+      type: 'shoes',
+      name: 'item.1020600107.name',
     },
     {
       id: '1020730107',
-      type: 'Earrings',
-      name: 'Waterway Storm',
+      type: 'earrings',
+      name: 'item.1020730107.name',
     },
     {
       id: '1020740107',
-      type: 'Neckwear',
-      name: 'Gleaming Traces',
+      type: 'neckwear',
+      name: 'item.1020740107.name',
     },
     {
       id: '1020760107',
-      type: 'Chokers',
-      name: 'Floating Tie',
+      type: 'chokers',
+      name: 'item.1020760107.name',
     },
     {
       id: '1020770107',
-      type: 'Gloves',
-      name: 'Shadowless Corner',
+      type: 'gloves',
+      name: 'item.1020770107.name',
     },
   ],
 }

@@ -2,48 +2,48 @@ import type { Outfit } from '~/types/outfit'
 
 const outfit: Outfit = {
   id: 'S0208',
-  name: 'Rosy Reverie',
+  name: 'outfit.S0208.name',
   rarity: 4,
   items: [
     {
       id: '1020100208',
-      type: 'Hair',
-      name: 'Mystic Stardust',
+      type: 'hair',
+      name: 'item.1020100208.name',
     },
     {
       id: '1020900208',
-      type: 'Dresses',
-      name: 'Rosy Dance',
+      type: 'dresses',
+      name: 'item.1020900208.name',
     },
     {
       id: '1020500208',
-      type: 'Socks',
-      name: 'Scented Shadows',
+      type: 'socks',
+      name: 'item.1020500208.name',
     },
     {
       id: '1020600208',
-      type: 'Shoes',
-      name: 'Journey to Tomorrow',
+      type: 'shoes',
+      name: 'item.1020600208.name',
     },
     {
       id: '1020710208',
-      type: 'Hair Accessories',
-      name: "Yesterday's Bloom",
+      type: 'hairAccessories',
+      name: 'item.1020710208.name',
     },
     {
       id: '1020730208',
-      type: 'Earrings',
-      name: 'Speechless',
+      type: 'earrings',
+      name: 'item.1020730208.name',
     },
     {
       id: '1020740208',
-      type: 'Neckwear',
-      name: 'Shattered Reflections',
+      type: 'neckwear',
+      name: 'item.1020740208.name',
     },
     {
       id: '1020770208',
-      type: 'Gloves',
-      name: 'Silent Reverie',
+      type: 'gloves',
+      name: 'item.1020770208.name',
     },
   ],
 }

@@ -2,53 +2,53 @@ import type { Outfit } from '~/types/outfit'
 
 const outfit: Outfit = {
   id: 'S0093',
-  name: 'Blossoming Stars',
+  name: 'outfit.S0093.name',
   rarity: 5,
   items: [
     {
       id: '1020100093',
-      type: 'Hair',
-      name: 'Blooming Pact',
+      type: 'hair',
+      name: 'item.1020100093.name',
     },
     {
       id: '1020900093',
-      type: 'Dresses',
-      name: 'Starry Splendor',
+      type: 'dresses',
+      name: 'item.1020900093.name',
     },
     {
       id: '1020500093',
-      type: 'Socks',
-      name: 'Imminent Bloom',
+      type: 'socks',
+      name: 'item.1020500093.name',
     },
     {
       id: '1020600093',
-      type: 'Shoes',
-      name: 'Starry Pathway',
+      type: 'shoes',
+      name: 'item.1020600093.name',
     },
     {
       id: '1020710093',
-      type: 'Hair Accessories',
-      name: 'Starlit Dreams',
+      type: 'hairAccessories',
+      name: 'item.1020710093.name',
     },
     {
       id: '1020720093',
-      type: 'Headwear',
-      name: 'Bloom Together',
+      type: 'headwear',
+      name: 'item.1020720093.name',
     },
     {
       id: '1020730093',
-      type: 'Earrings',
-      name: 'Astral Petals',
+      type: 'earrings',
+      name: 'item.1020730093.name',
     },
     {
       id: '1020740093',
-      type: 'Neckwear',
-      name: 'Blossom Promenade',
+      type: 'neckwear',
+      name: 'item.1020740093.name',
     },
     {
       id: '1020750093',
-      type: 'Bracelets',
-      name: 'Distant Twinkle',
+      type: 'bracelets',
+      name: 'item.1020750093.name',
     },
   ],
 }

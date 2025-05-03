@@ -2,48 +2,48 @@ import type { Outfit } from '~/types/outfit'
 
 const outfit: Outfit = {
   id: 'S0096',
-  name: 'Midnight Vigil',
+  name: 'outfit.S0096.name',
   rarity: 5,
   items: [
     {
       id: '1020100096',
-      type: 'Hair',
-      name: 'Sunlit Crown',
+      type: 'hair',
+      name: 'item.1020100096.name',
     },
     {
       id: '1020200096',
-      type: 'Outerwear',
-      name: 'Brilliant Starlight',
+      type: 'outerwear',
+      name: 'item.1020200096.name',
     },
     {
       id: '1020300096',
-      type: 'Tops',
-      name: 'Pure Determination',
+      type: 'tops',
+      name: 'item.1020300096.name',
     },
     {
       id: '1020410096',
-      type: 'Bottoms',
-      name: 'Breezy Sails',
+      type: 'bottoms',
+      name: 'item.1020410096.name',
     },
     {
       id: '1020500096',
-      type: 'Socks',
-      name: 'Day \\u0026 Night',
+      type: 'socks',
+      name: 'item.1020500096.name',
     },
     {
       id: '1020600096',
-      type: 'Shoes',
-      name: 'Vigil Song',
+      type: 'shoes',
+      name: 'item.1020600096.name',
     },
     {
       id: '1020720096',
-      type: 'Headwear',
-      name: 'Azure Wings',
+      type: 'headwear',
+      name: 'item.1020720096.name',
     },
     {
       id: '1020730096',
-      type: 'Earrings',
-      name: 'Bold Starlight',
+      type: 'earrings',
+      name: 'item.1020730096.name',
     },
   ],
 }

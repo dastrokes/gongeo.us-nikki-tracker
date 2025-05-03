@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { Region } from '~/composables/useBannerPullApi'
-import { setWithExpiry, getWithExpiry, removeItem } from '~/utils/localStorage'
+import { set, get, remove } from '~/utils/cookie'
 
 export type Theme = 'light' | 'dark'
 
@@ -14,17 +14,14 @@ export interface UserState {
 export const useUserStore = defineStore('user', {
   state: (): UserState => {
     // Initialize theme
-    const savedTheme =
-      typeof window !== 'undefined' ? getWithExpiry<Theme>('theme') : null
+    const savedTheme = get('theme') as Theme
     const initialTheme = savedTheme || 'light'
 
     // Initialize UID
-    const savedUid =
-      typeof window !== 'undefined' ? getWithExpiry<string>('uid') : null
+    const savedUid = get('uid')
 
     // Initialize auth token
-    const savedToken =
-      typeof window !== 'undefined' ? getWithExpiry<string>('authToken') : null
+    const savedToken = get('authToken')
 
     return {
       region: Region.AMERICA,
@@ -49,12 +46,10 @@ export const useUserStore = defineStore('user', {
       this.uid = null
       this.authToken = null
 
-      // Clear local storage
-      if (typeof window !== 'undefined') {
-        removeItem('theme')
-        removeItem('uid')
-        removeItem('authToken')
-      }
+      // Clear cookies
+      remove('theme')
+      remove('uid')
+      remove('authToken')
     },
 
     setRegion(region: Region) {
@@ -62,8 +57,7 @@ export const useUserStore = defineStore('user', {
     },
 
     initializeTheme() {
-      const savedTheme =
-        typeof window !== 'undefined' ? getWithExpiry<Theme>('theme') : null
+      const savedTheme = get('theme') as Theme
       if (savedTheme) {
         this.setTheme(savedTheme)
       } else {
@@ -73,26 +67,20 @@ export const useUserStore = defineStore('user', {
 
     setTheme(newTheme: Theme) {
       this.theme = newTheme
-      if (typeof window !== 'undefined') {
-        setWithExpiry('theme', newTheme)
-      }
+      set('theme', newTheme)
     },
 
     setUid(uid: string) {
       this.uid = uid
-      if (typeof window !== 'undefined') {
-        setWithExpiry('uid', uid)
-      }
+      set('uid', uid)
     },
 
     setAuthToken(token: string | null) {
       this.authToken = token
-      if (typeof window !== 'undefined') {
-        if (token) {
-          setWithExpiry('authToken', token)
-        } else {
-          removeItem('authToken')
-        }
+      if (token) {
+        set('authToken', token)
+      } else {
+        remove('authToken')
       }
     },
   },

@@ -21,15 +21,19 @@
             </template>
             <div>
               <div class="mb-2">
-                Choose how you want to import your pull history.
+                {{ $t('import.choose_method_desc') }}
               </div>
               <n-radio-group
                 v-model:value="importMethod"
                 name="importMethod"
               >
                 <n-space>
-                  <n-radio value="game">Import from Game</n-radio>
-                  <n-radio value="json">Import from File</n-radio>
+                  <n-radio value="game">{{
+                    $t('import.import_from_game')
+                  }}</n-radio>
+                  <n-radio value="json">{{
+                    $t('import.import_from_file')
+                  }}</n-radio>
                 </n-space>
               </n-radio-group>
             </div>
@@ -38,7 +42,7 @@
           <!-- File Import Step -->
           <n-step
             v-show="importMethod === 'json'"
-            title="File Import"
+            :title="$t('import.file_import')"
           >
             <template #icon>
               <n-icon>
@@ -47,7 +51,7 @@
             </template>
             <div>
               <div class="mb-2">
-                Import from a previously exported nikki-resonance-data file.
+                {{ $t('import.file_import_desc') }}
               </div>
               <n-upload
                 accept=".json"
@@ -56,7 +60,7 @@
                 class="w-96"
                 @change="handleFileChange"
               >
-                <n-button>Select File</n-button>
+                <n-button>{{ $t('import.select_file') }}</n-button>
               </n-upload>
             </div>
           </n-step>
@@ -64,20 +68,20 @@
           <!-- Game Import Step -->
           <n-step
             v-show="importMethod === 'game'"
-            title="Game Import"
+            :title="$t('import.game_import')"
           >
             <template #icon>
               <n-icon>
                 <Check />
               </n-icon>
             </template>
-            <div>Import directly from the game using your browser.</div>
+            <div>{{ $t('import.game_import_desc') }}</div>
           </n-step>
 
           <!-- Region Select Step -->
           <n-step
             v-show="importMethod === 'game'"
-            title="Select Region"
+            :title="$t('import.select_region')"
           >
             <template #icon>
               <n-icon>
@@ -85,11 +89,11 @@
               </n-icon>
             </template>
             <div>
-              <div class="mb-2">Select your game server region.</div>
+              <div class="mb-2">{{ $t('import.select_region_desc') }}</div>
               <n-select
                 :value="userStore.getRegion"
                 :options="regionOptions"
-                placeholder="Select your region"
+                :placeholder="$t('import.select_region_desc')"
                 @update:value="userStore.setRegion"
               />
             </div>
@@ -98,7 +102,7 @@
           <!-- Pearpal Login Step -->
           <n-step
             v-show="importMethod === 'game'"
-            title="Login to Pearpal Website"
+            :title="$t('import.login_pearpal')"
           >
             <template #icon>
               <n-icon>
@@ -107,26 +111,22 @@
             </template>
             <div>
               <div v-if="userStore.getRegion === Region.CHINA">
-                Open
+                {{ $t('import.login_pearpal_desc') }}
                 <a
                   class="text-blue-600 hover:text-blue-800 underline"
                   href="https://myl.nuanpaper.com/home"
                   target="_blank"
-                  >Pearpal Website</a
+                  >美鸭梨</a
                 >
-                in a <b>new tab</b> and login with your Infold account if you
-                aren't already logged in.
               </div>
               <div v-else>
-                Open
+                {{ $t('import.login_pearpal_desc') }}
                 <a
                   class="text-blue-600 hover:text-blue-800 underline"
                   href="https://pearpal.infoldgames.com/en/home"
                   target="_blank"
                   >Pearpal Website</a
                 >
-                in a <b>new tab</b> and login with your Infold account if you
-                aren't already logged in.
               </div>
             </div>
           </n-step>
@@ -134,7 +134,7 @@
           <!-- Get Cookie Data Step -->
           <n-step
             v-show="importMethod === 'game'"
-            title="Get Cookie Data From Pearpal Website"
+            :title="$t('import.get_cookie')"
           >
             <template #icon>
               <n-icon>
@@ -142,16 +142,18 @@
               </n-icon>
             </template>
             <div class="space-y-4">
-              <div>Choose how you want to get your cookie data:</div>
+              <div>{{ $t('import.get_cookie_desc') }}</div>
               <n-radio-group
                 v-model:value="cookieMethod"
                 name="cookieMethod"
               >
                 <n-space vertical>
-                  <n-radio value="console"
-                    >Using Console Method (Recommended)</n-radio
-                  >
-                  <n-radio value="manual">Manual Input</n-radio>
+                  <n-radio value="console">{{
+                    $t('import.console_method')
+                  }}</n-radio>
+                  <n-radio value="manual">{{
+                    $t('import.manual_input')
+                  }}</n-radio>
                 </n-space>
               </n-radio-group>
             </div>
@@ -160,7 +162,7 @@
           <!-- Console Method Step -->
           <n-step
             v-show="importMethod === 'game' && cookieMethod === 'console'"
-            title="Console Method"
+            :title="$t('import.console_method')"
           >
             <template #icon>
               <n-icon>
@@ -168,16 +170,13 @@
               </n-icon>
             </template>
             <div class="space-y-2">
-              <div>Follow these steps to get your cookie data:</div>
+              <div>{{ $t('import.console_steps.title') }}</div>
               <ol class="list-decimal list-inside space-y-2">
-                <li>Make sure you are logged in and is on Pearpal Website</li>
+                <li>{{ $t('import.console_steps.step1') }}</li>
+                <li>{{ $t('import.console_steps.step2') }}</li>
+                <li>{{ $t('import.console_steps.step3') }}</li>
                 <li>
-                  Open your browser's Developer Tools (Press F12 or right-click
-                  and select "Inspect")
-                </li>
-                <li>Go to the "Console" tab</li>
-                <li>
-                  Copy and paste the following code into the console:
+                  {{ $t('import.console_steps.step4') }}
                   <n-popconfirm
                     :show-arrow="false"
                     :show-icon="false"
@@ -186,7 +185,9 @@
                     @positive-click="copyToClipboard"
                   >
                     <template #trigger>
-                      <n-button size="small">Copy Code</n-button>
+                      <n-button size="small">{{
+                        $t('import.actions.copy_code')
+                      }}</n-button>
                     </template>
                     <template #default>
                       <n-code
@@ -198,21 +199,11 @@
                     </template>
                   </n-popconfirm>
                 </li>
-                <li>
-                  If you get a warning saying "Warning: Don't paste code into
-                  the devtools console", type "Allow pasting" and hit enter or
-                  switch to manual input method if you prefer
-                </li>
-                <li>
-                  Copy the output text (it should look like the example in the
-                  input area below)
-                </li>
-                <li>
-                  Come back to gongeo.us, paste the output text in the input
-                  area below
-                </li>
+                <li>{{ $t('import.console_steps.step5') }}</li>
+                <li>{{ $t('import.console_steps.step6') }}</li>
+                <li>{{ $t('import.console_steps.step7') }}</li>
                 <div class="text-sm text-amber-600">
-                  Note: Never share these cookie values with anyone else!
+                  {{ $t('import.security_note') }}
                 </div>
               </ol>
               <div class="mt-4">
@@ -220,7 +211,7 @@
                   v-model:value="manualPasteInput"
                   type="textarea"
                   :rows="3"
-                  placeholder='{"roleid":"123456","token":"eyJhabc123xyz456.eyJhdef789ghi000.abc123def789","id":"654321"}'
+                  placeholder="{'roleid':'123456','token':'eyJhabc123xyz456.eyJhdef789ghi000.abc123def789','id':'654321'}"
                   class="w-80"
                 />
                 <n-space
@@ -233,7 +224,7 @@
                       :disabled="!manualPasteInput"
                       @click="handleManualPaste"
                     >
-                      Parse Input
+                      {{ $t('import.actions.parse_input') }}
                     </n-button>
                     <n-button
                       secondary
@@ -242,7 +233,7 @@
                       <template #icon>
                         <n-icon><Paste /></n-icon>
                       </template>
-                      Paste from Clipboard
+                      {{ $t('import.actions.paste_from_clipboard') }}
                     </n-button>
                   </n-space>
                 </n-space>
@@ -253,7 +244,7 @@
           <!-- Manual Method Step -->
           <n-step
             v-show="importMethod === 'game' && cookieMethod === 'manual'"
-            title="Manual Input"
+            :title="$t('import.manual_input')"
           >
             <template #icon>
               <n-icon>
@@ -261,44 +252,26 @@
               </n-icon>
             </template>
             <div class="space-y-2">
-              <div>Follow these steps to manually input your cookie data:</div>
-              <div>
-                (Using Google Chrome as an example, exact names might vary for
-                other browsers but steps will be similar)
-              </div>
+              <div>{{ $t('import.manual_steps.title') }}</div>
+              <div>{{ $t('import.manual_steps.note') }}</div>
               <ol class="list-decimal list-inside space-y-2">
+                <li>{{ $t('import.manual_steps.step1') }}</li>
+                <li>{{ $t('import.manual_steps.step2') }}</li>
+                <li>{{ $t('import.manual_steps.step3') }}</li>
+                <li>{{ $t('import.manual_steps.step4') }}</li>
                 <li>
-                  Open your browser's Developer Tools (Press F12 or right-click
-                  and select "Inspect")
-                </li>
-                <li>Go to the "Application" tab</li>
-                <li>
-                  In the left sidebar, expand "Cookies" and select the Pearpal
-                  website
-                </li>
-                <li>
-                  Alternatively, you can use a browser extension for cookies
-                  like
-                  <a
-                    class="text-blue-600 hover:text-blue-800 underline"
-                    href="https://cookie-editor.com/"
-                    target="_blank"
-                    >Cookie Editor</a
-                  >
-                </li>
-                <li>
-                  Find and copy the values for:
+                  {{ $t('import.manual_steps.step5') }}
                   <ul class="list-disc list-inside ml-4">
-                    <li>momoNid (for Momo ID field)</li>
-                    <li>momoToken (for Momo Token field)</li>
+                    <li>{{ $t('import.manual_steps.step5_items.momo_id') }}</li>
+                    <li>
+                      {{ $t('import.manual_steps.step5_items.momo_token') }}
+                    </li>
                   </ul>
                 </li>
-                <li>
-                  For UID, go to your Pearpal profile and copy your UID number
-                </li>
+                <li>{{ $t('import.manual_steps.step6') }}</li>
               </ol>
               <div class="text-sm text-amber-600">
-                Note: Never share these cookie values with anyone else!
+                {{ $t('import.security_note') }}
               </div>
             </div>
           </n-step>
@@ -308,22 +281,22 @@
           <template v-if="importMethod === 'game'">
             <n-form>
               <n-space vertical>
-                <n-form-item label="UID">
+                <n-form-item :label="$t('import.form.uid')">
                   <n-input
                     v-model:value="formData.roleid"
-                    placeholder="In-game UID"
+                    :placeholder="$t('import.form.uid_placeholder')"
                   />
                 </n-form-item>
-                <n-form-item label="Momo ID">
+                <n-form-item :label="$t('import.form.momo_id')">
                   <n-input
                     v-model:value="formData.id"
-                    placeholder="momoNid from cookie"
+                    :placeholder="$t('import.form.momo_id_placeholder')"
                   />
                 </n-form-item>
-                <n-form-item label="Momo Token">
+                <n-form-item :label="$t('import.form.momo_token')">
                   <n-input
                     v-model:value="formData.token"
-                    placeholder="momoToken from cookie"
+                    :placeholder="$t('import.form.momo_token_placeholder')"
                   />
                 </n-form-item>
               </n-space>
@@ -331,7 +304,7 @@
             <n-space
               align="center"
               class="w-full flex mb-4"
-              >Submit data for global stats
+              >{{ $t('import.form.submit_global_stats') }}
               <n-switch
                 v-model:value="submitGlobalStats"
                 class="flex-shrink-0"
@@ -346,8 +319,8 @@
               >
                 {{
                   isFetching
-                    ? `Fetching resonance data, please wait...`
-                    : 'Submit and Import Pull History'
+                    ? $t('import.form.fetching')
+                    : $t('import.form.submit_button')
                 }}
               </n-button>
             </n-space>
@@ -362,8 +335,8 @@
               >
                 {{
                   isFetching
-                    ? `Fetching resonance data, please wait...`
-                    : 'Submit and Import Pull History'
+                    ? $t('import.form.fetching')
+                    : $t('import.form.submit_button')
                 }}
               </n-button>
             </n-space>
@@ -387,14 +360,20 @@
           processing
         />
         <div class="text-center mt-4 text-xl text-gray-500">
-          Processing banner {{ (progress?.banner ?? 0) - 1 || 0 }} of
-          {{ Object.values(bannerData).filter((b) => b.bannerId !== 1).length }}
+          {{
+            $t('import.progress.processing_banner', {
+              current: (progress?.banner ?? 0) - 1 || 0,
+              total: Object.values(bannerData).filter((b) => b.bannerId !== 1)
+                .length,
+            })
+          }}
         </div>
         <div class="text-center mt-4 text-xl text-gray-500">
-          Fetching resonance data:
-          <span class="font-bold">{{
-            bannerData[progress?.banner || 0]?.bannerName || ''
-          }}</span>
+          {{
+            $t('import.progress.fetching_data', {
+              banner: bannerData[progress?.banner || 0]?.bannerName || '',
+            })
+          }}
         </div>
       </div>
     </n-card>
@@ -402,7 +381,7 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, computed, watch } from 'vue'
+  import { ref, computed, watch, onMounted } from 'vue'
   import type { CookieData } from '~/types/api'
   import type { PullRecord } from '~/types/pull'
   import {
@@ -451,6 +430,53 @@
     progress,
   } = useBannerPullData()
   const pullStore = usePullStore()
+
+  // Function to determine region based on timezone
+  const determineRegionFromTimezone = () => {
+    const timezone = Intl.DateTimeFormat()
+      .resolvedOptions()
+      .timeZone.toLowerCase()
+
+    if (
+      timezone.includes('asia') ||
+      timezone.includes('tokyo') ||
+      timezone.includes('seoul') ||
+      timezone.includes('singapore')
+    ) {
+      return Region.ASIA
+    } else if (
+      timezone.includes('china') ||
+      timezone.includes('shanghai') ||
+      timezone.includes('beijing')
+    ) {
+      return Region.CHINA
+    } else if (
+      timezone.includes('europe') ||
+      timezone.includes('london') ||
+      timezone.includes('paris') ||
+      timezone.includes('berlin')
+    ) {
+      return Region.EUROPE
+    } else if (
+      timezone.includes('america') ||
+      timezone.includes('new_york') ||
+      timezone.includes('los_angeles') ||
+      timezone.includes('chicago')
+    ) {
+      return Region.AMERICA
+    } else if (timezone.includes('taipei') || timezone.includes('hong_kong')) {
+      return Region.TW
+    }
+
+    // Default to America if no match
+    return Region.AMERICA
+  }
+
+  // Set initial region based on timezone when component is mounted
+  onMounted(() => {
+    const region = determineRegionFromTimezone()
+    userStore.setRegion(region)
+  })
 
   // Make BANNER_DATA available in template
   const bannerData = BANNER_DATA

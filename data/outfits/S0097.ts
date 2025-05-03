@@ -2,53 +2,53 @@ import type { Outfit } from '~/types/outfit'
 
 const outfit: Outfit = {
   id: 'S0097',
-  name: 'Enduring Bond',
+  name: 'outfit.S0097.name',
   rarity: 5,
   items: [
     {
       id: '1020100097',
-      type: 'Hair',
-      name: 'Sly Breeze',
+      type: 'hair',
+      name: 'item.1020100097.name',
     },
     {
       id: '1020900097',
-      type: 'Dresses',
-      name: 'Silent Midnight',
+      type: 'dresses',
+      name: 'item.1020900097.name',
     },
     {
       id: '1020500097',
-      type: 'Socks',
-      name: 'Mystic Whisper',
+      type: 'socks',
+      name: 'item.1020500097.name',
     },
     {
       id: '1020600097',
-      type: 'Shoes',
-      name: 'Toward the Night',
+      type: 'shoes',
+      name: 'item.1020600097.name',
     },
     {
       id: '1020710097',
-      type: 'Hair Accessories',
-      name: 'Midnight Mirage',
+      type: 'hairAccessories',
+      name: 'item.1020710097.name',
     },
     {
       id: '1020760097',
-      type: 'Chokers',
-      name: 'Starfall Path',
+      type: 'chokers',
+      name: 'item.1020760097.name',
     },
     {
       id: '1020770097',
-      type: 'Gloves',
-      name: 'Stealing Moonlight',
+      type: 'gloves',
+      name: 'item.1020770097.name',
     },
     {
       id: '1020920097',
-      type: 'Face Decorations',
-      name: 'Shadowed Wings',
+      type: 'faceDecorations',
+      name: 'item.1020920097.name',
     },
     {
       id: '1020950097',
-      type: 'Backpieces',
-      name: 'Enigmatic Trail',
+      type: 'backpieces',
+      name: 'item.1020950097.name',
     },
   ],
 }

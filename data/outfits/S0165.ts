@@ -52,7 +52,7 @@ const outfit: Outfit = {
     },
     {
       id: '1020960165',
-      type: 'Unknown',
+      type: 'rings',
       name: 'item.1020960165.name',
     },
   ],

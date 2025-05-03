@@ -52,7 +52,7 @@ const outfit: Outfit = {
     },
     {
       id: '1020940058',
-      type: 'Unknown',
+      type: 'pendants',
       name: 'item.1020940058.name',
     },
   ],

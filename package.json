@@ -15,7 +15,7 @@
     "prepare": "husky",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "gen": "node scripts/generate-outfit-index.js"
+    "gen": "node scripts/dev/generate-outfit-index.js"
   },
   "keywords": [
     "nuxt",

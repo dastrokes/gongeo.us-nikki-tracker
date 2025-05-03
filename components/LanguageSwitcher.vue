@@ -7,6 +7,7 @@
     <n-button
       text
       class="flex items-center"
+      aria-label="Language switcher"
     >
       <n-icon size="20">
         <Language />

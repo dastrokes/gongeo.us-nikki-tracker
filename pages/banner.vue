@@ -41,7 +41,7 @@
                         round
                       >
                         <span class="align-top"
-                          >{{ getOutfitName(outfitId) }} 5</span
+                          >{{ t(getOutfitName(outfitId)) }} 5</span
                         >
                         <span class="ml-1"
                           ><n-icon><Star /></n-icon
@@ -59,7 +59,7 @@
                         round
                       >
                         <span class="align-top"
-                          >{{ getOutfitName(outfitId) }} 4</span
+                          >{{ t(getOutfitName(outfitId)) }} 4</span
                         >
                         <span class="ml-1"
                           ><n-icon><Star /></n-icon
@@ -106,6 +106,9 @@
   import { Gift, Star } from '@vicons/fa'
   import OUTFIT_DATA from '~/data/outfits'
   import { computed } from 'vue'
+  import { useI18n } from 'vue-i18n'
+
+  const { t } = useI18n()
 
   // Sort banners by ID in descending order (newest first)
   const sortedBanners = computed(() => {

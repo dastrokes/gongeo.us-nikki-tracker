@@ -2,53 +2,53 @@ import type { Outfit } from '~/types/outfit'
 
 const outfit: Outfit = {
   id: 'S0132',
-  name: 'Adventure Ride',
+  name: 'outfit.S0132.name',
   rarity: 5,
   items: [
     {
       id: '1020100132',
-      type: 'Hair',
-      name: 'Faint Shadow',
+      type: 'hair',
+      name: 'item.1020100132.name',
     },
     {
       id: '1020300132',
-      type: 'Tops',
-      name: 'Joyful Melody',
+      type: 'tops',
+      name: 'item.1020300132.name',
     },
     {
       id: '1020410132',
-      type: 'Bottoms',
-      name: 'Blissful Sunlight',
+      type: 'bottoms',
+      name: 'item.1020410132.name',
     },
     {
       id: '1020600132',
-      type: 'Shoes',
-      name: 'Ready to Depart',
+      type: 'shoes',
+      name: 'item.1020600132.name',
     },
     {
       id: '1020720132',
-      type: 'Headwear',
-      name: 'Star Tassels',
+      type: 'headwear',
+      name: 'item.1020720132.name',
     },
     {
       id: '1020730132',
-      type: 'Earrings',
-      name: 'Generous Anthem',
+      type: 'earrings',
+      name: 'item.1020730132.name',
     },
     {
       id: '1020740132',
-      type: 'Neckwear',
-      name: 'Spinning Joy',
+      type: 'neckwear',
+      name: 'item.1020740132.name',
     },
     {
       id: '1020760132',
-      type: 'Chokers',
-      name: 'Calming Melody',
+      type: 'chokers',
+      name: 'item.1020760132.name',
     },
     {
       id: '1020770132',
-      type: 'Gloves',
-      name: "Playful Tune's End",
+      type: 'gloves',
+      name: 'item.1020770132.name',
     },
   ],
 }

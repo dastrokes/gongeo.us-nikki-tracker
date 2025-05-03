@@ -2,53 +2,53 @@ import type { Outfit } from '~/types/outfit'
 
 const outfit: Outfit = {
   id: 'S0197',
-  name: 'Spectral Mist',
+  name: 'outfit.S0197.name',
   rarity: 5,
   items: [
     {
       id: '1020100197',
-      type: 'Hair',
-      name: 'Silver Sonata',
+      type: 'hair',
+      name: 'item.1020100197.name',
     },
     {
       id: '1020900197',
-      type: 'Dresses',
-      name: 'Midnight Roses',
+      type: 'dresses',
+      name: 'item.1020900197.name',
     },
     {
       id: '1020200197',
-      type: 'Outerwear',
-      name: 'Enchanting Dance',
+      type: 'outerwear',
+      name: 'item.1020200197.name',
     },
     {
       id: '1020500197',
-      type: 'Socks',
-      name: 'Searching for Light',
+      type: 'socks',
+      name: 'item.1020500197.name',
     },
     {
       id: '1020600197',
-      type: 'Shoes',
-      name: 'Shadowed Melody',
+      type: 'shoes',
+      name: 'item.1020600197.name',
     },
     {
       id: '1020720197',
-      type: 'Headwear',
-      name: 'Flowing Chant',
+      type: 'headwear',
+      name: 'item.1020720197.name',
     },
     {
       id: '1020730197',
-      type: 'Earrings',
-      name: 'Floral Echoes',
+      type: 'earrings',
+      name: 'item.1020730197.name',
     },
     {
       id: '1020760197',
-      type: 'Chokers',
-      name: "Night's Resonance",
+      type: 'chokers',
+      name: 'item.1020760197.name',
     },
     {
       id: '1020770197',
-      type: 'Gloves',
-      name: 'Star Rhythm Poem',
+      type: 'gloves',
+      name: 'item.1020770197.name',
     },
   ],
 }

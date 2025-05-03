@@ -2,53 +2,53 @@ import type { Outfit } from '~/types/outfit'
 
 const outfit: Outfit = {
   id: 'S0227',
-  name: 'Whispers of Bliss',
+  name: 'outfit.S0227.name',
   rarity: 5,
   items: [
     {
       id: '1020100227',
-      type: 'Hair',
-      name: 'Lavender Threads',
+      type: 'hair',
+      name: 'item.1020100227.name',
     },
     {
       id: '1020900227',
-      type: 'Dresses',
-      name: 'Twin Blossoms',
+      type: 'dresses',
+      name: 'item.1020900227.name',
     },
     {
       id: '1020500227',
-      type: 'Socks',
-      name: 'Wild Delights',
+      type: 'socks',
+      name: 'item.1020500227.name',
     },
     {
       id: '1020600227',
-      type: 'Shoes',
-      name: 'Steps of Spring',
+      type: 'shoes',
+      name: 'item.1020600227.name',
     },
     {
       id: '1020710227',
-      type: 'Hair Accessories',
-      name: 'Dew Kiss',
+      type: 'hairAccessories',
+      name: 'item.1020710227.name',
     },
     {
       id: '1020720227',
-      type: 'Headwear',
-      name: 'Butterfly Traces',
+      type: 'headwear',
+      name: 'item.1020720227.name',
     },
     {
       id: '1020750227',
-      type: 'Bracelets',
-      name: 'Bloom Whispers',
+      type: 'bracelets',
+      name: 'item.1020750227.name',
     },
     {
       id: '1020740227',
-      type: 'Neckwear',
-      name: 'Pure Message',
+      type: 'neckwear',
+      name: 'item.1020740227.name',
     },
     {
       id: '1020780227',
-      type: 'Handhelds',
-      name: 'Noon Reverie',
+      type: 'handhelds',
+      name: 'item.1020780227.name',
     },
   ],
 }

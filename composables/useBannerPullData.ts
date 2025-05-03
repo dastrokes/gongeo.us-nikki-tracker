@@ -8,6 +8,7 @@ export const useBannerPullData = () => {
   const { fetchPullHistory, progress } = useBannerPullApi()
   const pullStore = usePullStore()
   const router = useRouter()
+  const localePath = useLocalePath()
 
   const isFetching = ref(false)
   const currentPage = ref(1)
@@ -19,7 +20,7 @@ export const useBannerPullData = () => {
     savePullData(jsonData)
 
     await pullStore.processPullsData(jsonData)
-    router.push('/tracker')
+    router.push(localePath('/tracker'))
     return jsonData
   }
 
@@ -57,7 +58,7 @@ export const useBannerPullData = () => {
       // Process the data in the store
       await pullStore.processPullsData(pullsByBanner)
 
-      router.push('/tracker')
+      router.push(localePath('/tracker'))
     } catch (e) {
       error.value =
         e instanceof Error ? e.message : 'Failed to fetch pull history'

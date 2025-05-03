@@ -2,53 +2,53 @@ import type { Outfit } from '~/types/outfit'
 
 const outfit: Outfit = {
   id: 'S0126',
-  name: 'Flutter Storm',
+  name: 'outfit.S0126.name',
   rarity: 5,
   items: [
     {
       id: '1020100126',
-      type: 'Hair',
-      name: 'Fluttermist Isle',
+      type: 'hair',
+      name: 'item.1020100126.name',
     },
     {
       id: '1020900126',
-      type: 'Dresses',
-      name: 'Fluttering Twist',
+      type: 'dresses',
+      name: 'item.1020900126.name',
     },
     {
       id: '1020500126',
-      type: 'Socks',
-      name: 'Windborne Memories',
+      type: 'socks',
+      name: 'item.1020500126.name',
     },
     {
       id: '1020600126',
-      type: 'Shoes',
-      name: 'Offshore Breeze',
+      type: 'shoes',
+      name: 'item.1020600126.name',
     },
     {
       id: '1020720126',
-      type: 'Headwear',
-      name: 'Frigid Branches',
+      type: 'headwear',
+      name: 'item.1020720126.name',
     },
     {
       id: '1020730126',
-      type: 'Earrings',
-      name: 'Windhowl Tears',
+      type: 'earrings',
+      name: 'item.1020730126.name',
     },
     {
       id: '1020740126',
-      type: 'Neckwear',
-      name: 'Silent Perch',
+      type: 'neckwear',
+      name: 'item.1020740126.name',
     },
     {
       id: '1020760126',
-      type: 'Chokers',
-      name: 'Sealing Cocoon',
+      type: 'chokers',
+      name: 'item.1020760126.name',
     },
     {
       id: '1020770126',
-      type: 'Gloves',
-      name: 'Delicate Wings',
+      type: 'gloves',
+      name: 'item.1020770126.name',
     },
   ],
 }

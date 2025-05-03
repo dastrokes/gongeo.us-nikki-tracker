@@ -2,53 +2,53 @@ import type { Outfit } from '~/types/outfit'
 
 const outfit: Outfit = {
   id: 'S0114',
-  name: 'Pastoral Dance',
+  name: 'outfit.S0114.name',
   rarity: 5,
   items: [
     {
       id: '1020100114',
-      type: 'Hair',
-      name: 'Silken Braids',
+      type: 'hair',
+      name: 'item.1020100114.name',
     },
     {
       id: '1020900114',
-      type: 'Dresses',
-      name: 'Blossom Dance',
+      type: 'dresses',
+      name: 'item.1020900114.name',
     },
     {
       id: '1020200114',
-      type: 'Outerwear',
-      name: 'Drifting Tassels',
+      type: 'outerwear',
+      name: 'item.1020200114.name',
     },
     {
       id: '1020500114',
-      type: 'Socks',
-      name: "Field's Embrace",
+      type: 'socks',
+      name: 'item.1020500114.name',
     },
     {
       id: '1020600114',
-      type: 'Shoes',
-      name: 'Forest Steps',
+      type: 'shoes',
+      name: 'item.1020600114.name',
     },
     {
       id: '1020710114',
-      type: 'Hair Accessories',
-      name: 'Curled Horns',
+      type: 'hairAccessories',
+      name: 'item.1020710114.name',
     },
     {
       id: '1020720114',
-      type: 'Headwear',
-      name: 'Fresh Buds',
+      type: 'headwear',
+      name: 'item.1020720114.name',
     },
     {
       id: '1020730114',
-      type: 'Earrings',
-      name: 'Bells Chiming',
+      type: 'earrings',
+      name: 'item.1020730114.name',
     },
     {
       id: '1020740114',
-      type: 'Neckwear',
-      name: 'Echoing Bell',
+      type: 'neckwear',
+      name: 'item.1020740114.name',
     },
   ],
 }

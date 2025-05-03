@@ -81,7 +81,36 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     '@bg-dev/nuxt-naiveui',
     '@nuxt/image',
+    '@nuxtjs/i18n',
   ],
+
+  i18n: {
+    langDir: 'locales',
+    locales: [
+      {
+        code: 'en',
+        iso: 'en-US',
+        name: 'English',
+        files: ['en/common.json', 'en/outfit.json'],
+      },
+      {
+        code: 'zh',
+        iso: 'zh-CN',
+        name: '中文',
+        files: ['zh/common.json', 'zh/outfit.json'],
+      },
+    ],
+    defaultLocale: 'en',
+    strategy: 'prefix_except_default',
+    lazy: true,
+    detectBrowserLanguage: {
+      useCookie: true,
+      cookieKey: 'i18n_redirected',
+      redirectOn: 'no prefix',
+      alwaysRedirect: false,
+      fallbackLocale: 'en',
+    },
+  },
 
   runtimeConfig: {
     supabaseUrl: process.env.SUPABASE_DATABASE_URL,

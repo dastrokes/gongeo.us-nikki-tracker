@@ -98,21 +98,23 @@
           <section class="mb-8">
             <h2 class="text-xl font-semibold mb-4">Analytics and Tracking</h2>
             <p>
-              This website uses GoatCounter, a privacy-friendly analytics tool,
-              to collect anonymous usage statistics. GoatCounter:
-            </p>
-            <ul class="list-disc list-inside ml-4 mt-2">
-              <li>Does not use cookies or store any personal data</li>
-              <li>Does not track individual users or create user profiles</li>
-              <li>
-                Only collects basic information like page views and referrers
-              </li>
-              <li>Is open source and self-hosted</li>
-            </ul>
-            <p class="mt-4">
-              If you have an ad blocker or privacy extension enabled, you may
-              see a "Failed to load resource" error for GoatCounter. This is
-              normal and won't affect the functionality of the website.
+              We use
+              <a
+                href="https://www.goatcounter.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                >GoatCounter</a
+              >, a privacy-friendly analytics service, to track website
+              interactions. It collects anonymized data like page views,
+              referring sites, and basic browser information, without using
+              cookies or personal identifiers. This helps us improve the website
+              experience. For more details, see
+              <a
+                href="https://www.goatcounter.com/privacy"
+                target="_blank"
+                rel="noopener noreferrer"
+                >GoatCounter's privacy policy</a
+              >.
             </p>
           </section>
 

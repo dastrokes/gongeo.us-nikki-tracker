@@ -2,48 +2,48 @@ import type { Outfit } from '~/types/outfit'
 
 const outfit: Outfit = {
   id: 'S0123',
-  name: 'Dream Banquet',
+  name: 'outfit.S0123.name',
   rarity: 5,
   items: [
     {
       id: '1020100123',
-      type: 'Hair',
-      name: 'Whispers of Breeze',
+      type: 'hair',
+      name: 'item.1020100123.name',
     },
     {
       id: '1020900123',
-      type: 'Dresses',
-      name: 'Song of Solitude',
+      type: 'dresses',
+      name: 'item.1020900123.name',
     },
     {
       id: '1020500123',
-      type: 'Socks',
-      name: 'Faded Reverie',
+      type: 'socks',
+      name: 'item.1020500123.name',
     },
     {
       id: '1020600123',
-      type: 'Shoes',
-      name: 'Time Traveler',
+      type: 'shoes',
+      name: 'item.1020600123.name',
     },
     {
       id: '1020720123',
-      type: 'Headwear',
-      name: 'Eternal Strings',
+      type: 'headwear',
+      name: 'item.1020720123.name',
     },
     {
       id: '1020730123',
-      type: 'Earrings',
-      name: 'When Candles Cry',
+      type: 'earrings',
+      name: 'item.1020730123.name',
     },
     {
       id: '1020760123',
-      type: 'Chokers',
-      name: 'By the Window',
+      type: 'chokers',
+      name: 'item.1020760123.name',
     },
     {
       id: '1020770123',
-      type: 'Gloves',
-      name: 'Gentle Glow',
+      type: 'gloves',
+      name: 'item.1020770123.name',
     },
   ],
 }

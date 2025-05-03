@@ -558,10 +558,6 @@
                   // Toggle visibility
                   meta.hidden = !meta.hidden
 
-                  // Update labels visibility based on dataset visibility
-                  const labels = chart.data.labels
-                  const datasets = chart.data.datasets
-
                   // Update the chart
                   chart.update()
                 },
@@ -592,6 +588,36 @@
                 backgroundColor: 'rgba(217, 119, 6, 0.5)', // amber-600
                 borderColor: 'rgba(217, 119, 6, 1)', // amber-600
                 borderWidth: 1,
+                yAxisID: 'y',
+                hidden: false,
+                showLine: false,
+                skipNull: true,
+                parsing: {
+                  xAxisKey: 'x',
+                  yAxisKey: 'y',
+                },
+                legend: {
+                  display: false,
+                },
+              },
+              {
+                label: 'Probability',
+                data: Object.values(
+                  data.value.five_star_pulls_distribution
+                ).map((value, index, array) => {
+                  const total = array.reduce((sum, val) => sum + val, 0)
+                  const cumulative = array
+                    .slice(0, index + 1)
+                    .reduce((sum, val) => sum + val, 0)
+                  return (cumulative / total) * 100
+                }),
+                type: 'line',
+                borderColor: 'rgba(217, 119, 6, 0.4)', // purple-600 with lower opacity
+                backgroundColor: 'rgba(217, 119, 6, 0.05)', // purple-600 with very low opacity
+                borderWidth: 2,
+                pointRadius: 0,
+                yAxisID: 'y1',
+                cubicInterpolationMode: 'monotone',
               },
             ],
           },
@@ -601,11 +627,43 @@
             scales: {
               y: {
                 beginAtZero: true,
+                position: 'left',
+                title: {
+                  display: true,
+                  text: 'Number of Pulls',
+                },
+              },
+              y1: {
+                beginAtZero: true,
+                position: 'right',
+                max: 100,
+                title: {
+                  display: true,
+                  text: 'Probability (%)',
+                },
+                grid: {
+                  drawOnChartArea: false,
+                },
               },
             },
             plugins: {
+              legend: {
+                display: false,
+              },
               background: {
                 color: '#f5f3ff',
+              },
+              tooltip: {
+                callbacks: {
+                  label: function (context) {
+                    const label = context.dataset.label || ''
+                    const value = context.raw
+                    if (label.includes('Probability')) {
+                      return `${label}: ${value.toFixed(2)}%`
+                    }
+                    return `${label}: ${value}`
+                  },
+                },
               },
             },
           },
@@ -629,6 +687,36 @@
                 backgroundColor: 'rgba(37, 99, 235, 0.5)', // blue-600
                 borderColor: 'rgba(37, 99, 235, 1)', // blue-600
                 borderWidth: 1,
+                yAxisID: 'y',
+                hidden: false,
+                showLine: false,
+                skipNull: true,
+                parsing: {
+                  xAxisKey: 'x',
+                  yAxisKey: 'y',
+                },
+                legend: {
+                  display: false,
+                },
+              },
+              {
+                label: 'Probability',
+                data: Object.values(
+                  data.value.four_star_pulls_distribution_banner_type_2
+                ).map((value, index, array) => {
+                  const total = array.reduce((sum, val) => sum + val, 0)
+                  const cumulative = array
+                    .slice(0, index + 1)
+                    .reduce((sum, val) => sum + val, 0)
+                  return (cumulative / total) * 100
+                }),
+                type: 'line',
+                borderColor: 'rgba(147, 51, 234, 0.4)', // purple-600 with lower opacity
+                backgroundColor: 'rgba(147, 51, 234, 0.05)', // purple-600 with very low opacity
+                borderWidth: 2,
+                pointRadius: 0,
+                yAxisID: 'y1',
+                cubicInterpolationMode: 'monotone',
               },
             ],
           },
@@ -638,11 +726,43 @@
             scales: {
               y: {
                 beginAtZero: true,
+                position: 'left',
+                title: {
+                  display: true,
+                  text: 'Number of Pulls',
+                },
+              },
+              y1: {
+                beginAtZero: true,
+                position: 'right',
+                max: 100,
+                title: {
+                  display: true,
+                  text: 'Probability (%)',
+                },
+                grid: {
+                  drawOnChartArea: false,
+                },
               },
             },
             plugins: {
+              legend: {
+                display: false,
+              },
               background: {
                 color: '#f5f3ff',
+              },
+              tooltip: {
+                callbacks: {
+                  label: function (context) {
+                    const label = context.dataset.label || ''
+                    const value = context.raw
+                    if (label.includes('Probability')) {
+                      return `${label}: ${value.toFixed(2)}%`
+                    }
+                    return `${label}: ${value}`
+                  },
+                },
               },
             },
           },
@@ -666,6 +786,36 @@
                 backgroundColor: 'rgba(37, 99, 235, 0.5)', // blue-600
                 borderColor: 'rgba(37, 99, 235, 1)', // blue-600
                 borderWidth: 1,
+                yAxisID: 'y',
+                hidden: false,
+                showLine: false,
+                skipNull: true,
+                parsing: {
+                  xAxisKey: 'x',
+                  yAxisKey: 'y',
+                },
+                legend: {
+                  display: false,
+                },
+              },
+              {
+                label: 'Probability',
+                data: Object.values(
+                  data.value.four_star_pulls_distribution_banner_type_3
+                ).map((value, index, array) => {
+                  const total = array.reduce((sum, val) => sum + val, 0)
+                  const cumulative = array
+                    .slice(0, index + 1)
+                    .reduce((sum, val) => sum + val, 0)
+                  return (cumulative / total) * 100
+                }),
+                type: 'line',
+                borderColor: 'rgba(147, 51, 234, 0.4)', // purple-600 with lower opacity
+                backgroundColor: 'rgba(147, 51, 234, 0.05)', // purple-600 with very low opacity
+                borderWidth: 2,
+                pointRadius: 0,
+                yAxisID: 'y1',
+                cubicInterpolationMode: 'monotone',
               },
             ],
           },
@@ -675,11 +825,43 @@
             scales: {
               y: {
                 beginAtZero: true,
+                position: 'left',
+                title: {
+                  display: true,
+                  text: 'Number of Pulls',
+                },
+              },
+              y1: {
+                beginAtZero: true,
+                position: 'right',
+                max: 100,
+                title: {
+                  display: true,
+                  text: 'Probability (%)',
+                },
+                grid: {
+                  drawOnChartArea: false,
+                },
               },
             },
             plugins: {
+              legend: {
+                display: false,
+              },
               background: {
                 color: '#f5f3ff',
+              },
+              tooltip: {
+                callbacks: {
+                  label: function (context) {
+                    const label = context.dataset.label || ''
+                    const value = context.raw
+                    if (label.includes('Probability')) {
+                      return `${label}: ${value.toFixed(2)}%`
+                    }
+                    return `${label}: ${value}`
+                  },
+                },
               },
             },
           },

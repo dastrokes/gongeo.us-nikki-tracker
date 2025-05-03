@@ -2,48 +2,48 @@ import type { Outfit } from '~/types/outfit'
 
 const outfit: Outfit = {
   id: 'S0113',
-  name: 'Celestial Whispers',
+  name: 'outfit.S0113.name',
   rarity: 4,
   items: [
     {
       id: '1020100113',
-      type: 'Hair',
-      name: 'Celestial Chronicles',
+      type: 'hair',
+      name: 'item.1020100113.name',
     },
     {
       id: '1020900113',
-      type: 'Dresses',
-      name: 'Adventures of Dreams',
+      type: 'dresses',
+      name: 'item.1020900113.name',
     },
     {
       id: '1020600113',
-      type: 'Shoes',
-      name: 'Stellar Pathway',
+      type: 'shoes',
+      name: 'item.1020600113.name',
     },
     {
       id: '1020710113',
-      type: 'Hair Accessories',
-      name: 'Nostalgic Dream',
+      type: 'hairAccessories',
+      name: 'item.1020710113.name',
     },
     {
       id: '1020720113',
-      type: 'Headwear',
-      name: 'Nocturne Flight',
+      type: 'headwear',
+      name: 'item.1020720113.name',
     },
     {
       id: '1020730113',
-      type: 'Earrings',
-      name: 'Starfall Melody',
+      type: 'earrings',
+      name: 'item.1020730113.name',
     },
     {
       id: '1020750113',
-      type: 'Bracelets',
-      name: 'Tangible Dream',
+      type: 'bracelets',
+      name: 'item.1020750113.name',
     },
     {
       id: '1020760113',
-      type: 'Chokers',
-      name: "Cloud's Apology",
+      type: 'chokers',
+      name: 'item.1020760113.name',
     },
   ],
 }

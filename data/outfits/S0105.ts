@@ -2,53 +2,53 @@ import type { Outfit } from '~/types/outfit'
 
 const outfit: Outfit = {
   id: 'S0105',
-  name: 'Enchanted Writing',
+  name: 'outfit.S0105.name',
   rarity: 5,
   items: [
     {
       id: '1020100105',
-      type: 'Hair',
-      name: 'Lingering Thoughts',
+      type: 'hair',
+      name: 'item.1020100105.name',
     },
     {
       id: '1020900105',
-      type: 'Dresses',
-      name: 'Ceaseless Reverie',
+      type: 'dresses',
+      name: 'item.1020900105.name',
     },
     {
       id: '1020200105',
-      type: 'Outerwear',
-      name: 'Graceful Radiance',
+      type: 'outerwear',
+      name: 'item.1020200105.name',
     },
     {
       id: '1020500105',
-      type: 'Socks',
-      name: 'Drifting Strokes',
+      type: 'socks',
+      name: 'item.1020500105.name',
     },
     {
       id: '1020600105',
-      type: 'Shoes',
-      name: 'Whimsy Taps',
+      type: 'shoes',
+      name: 'item.1020600105.name',
     },
     {
       id: '1020720105',
-      type: 'Headwear',
-      name: 'Dreambound Writing',
+      type: 'headwear',
+      name: 'item.1020720105.name',
     },
     {
       id: '1020730105',
-      type: 'Earrings',
-      name: 'Smooth Scribbles',
+      type: 'earrings',
+      name: 'item.1020730105.name',
     },
     {
       id: '1020770105',
-      type: 'Gloves',
-      name: 'Flowing Script',
+      type: 'gloves',
+      name: 'item.1020770105.name',
     },
     {
       id: '1020920105',
-      type: 'Face Decorations',
-      name: 'Thoughtful Reading',
+      type: 'faceDecorations',
+      name: 'item.1020920105.name',
     },
   ],
 }

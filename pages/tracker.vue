@@ -111,7 +111,9 @@
               size="small"
               class="text-center rounded-md"
             >
-              <div class="text-sm text-gray-600">Total Pulls</div>
+              <div class="text-sm text-gray-600">
+                {{ t('tracker.stats.total_pulls') }}
+              </div>
               <div class="text-xl font-medium mt-1">
                 {{ globalStats.totalPulls }}
               </div>
@@ -121,7 +123,9 @@
               size="small"
               class="text-center rounded-md"
             >
-              <div class="text-sm text-gray-600">5★ Total Pulls</div>
+              <div class="text-sm text-gray-600">
+                {{ t('tracker.stats.total_5star') }}
+              </div>
               <div class="text-xl font-medium mt-1">
                 {{ globalStats.total5StarItems }}
               </div>
@@ -131,7 +135,9 @@
               size="small"
               class="text-center rounded-md"
             >
-              <div class="text-sm text-gray-600">5★ Avg Pulls</div>
+              <div class="text-sm text-gray-600">
+                {{ t('tracker.stats.avg_5star') }}
+              </div>
               <div class="text-xl font-medium mt-1">
                 {{ globalStats.avg5StarPulls.toFixed(1) }}
               </div>
@@ -141,7 +147,9 @@
               size="small"
               class="text-center rounded-md"
             >
-              <div class="text-sm text-gray-600">4★ Mixed Total</div>
+              <div class="text-sm text-gray-600">
+                {{ t('tracker.stats.total_4star_mixed') }}
+              </div>
               <div class="text-xl font-medium mt-1">
                 {{ globalStats.total4StarItems }}
               </div>
@@ -151,7 +159,9 @@
               size="small"
               class="text-center rounded-md"
             >
-              <div class="text-sm text-gray-600">4★ Mixed Avg</div>
+              <div class="text-sm text-gray-600">
+                {{ t('tracker.stats.avg_4star_mixed') }}
+              </div>
               <div class="text-xl font-medium mt-1">
                 {{ globalStats.avg4StarPulls.toFixed(1) }}
               </div>
@@ -161,7 +171,9 @@
               size="small"
               class="text-center rounded-md"
             >
-              <div class="text-sm text-gray-600">4★ Only Total</div>
+              <div class="text-sm text-gray-600">
+                {{ t('tracker.stats.total_4star_only') }}
+              </div>
               <div class="text-xl font-medium mt-1">
                 {{ globalStats.total4StarOnlyItems }}
               </div>
@@ -171,7 +183,9 @@
               size="small"
               class="text-center rounded-md"
             >
-              <div class="text-sm text-gray-600">4★ Only Avg</div>
+              <div class="text-sm text-gray-600">
+                {{ t('tracker.stats.avg_4star_only') }}
+              </div>
               <div class="text-xl font-medium mt-1">
                 {{ globalStats.avg4StarOnlyPulls.toFixed(1) }}
               </div>
@@ -210,7 +224,7 @@
                     </n-icon>
                   </template> </n-button
               ></template>
-              Export as PNG image
+              {{ t('tracker.export.png') }}
             </n-tooltip>
             <n-tooltip
               placement="top"
@@ -241,7 +255,7 @@
                     </n-icon>
                   </template> </n-button
               ></template>
-              Export for File Import option in Import page
+              {{ t('tracker.export.json') }}
             </n-tooltip>
 
             <n-popover trigger="click">
@@ -266,23 +280,31 @@
                       v-if="hasMultipleOutfits()"
                       v-model:value="combineOutfits"
                     >
-                      <template #checked>Combined</template>
-                      <template #unchecked>Separated</template>
+                      <template #checked>{{
+                        t('tracker.banner.settings.combined')
+                      }}</template>
+                      <template #unchecked>{{
+                        t('tracker.banner.settings.separated')
+                      }}</template>
                     </n-switch>
                     <span
                       v-if="hasMultipleOutfits()"
                       class="text-sm text-gray-600 ml-3"
                     >
-                      Outfit Display
+                      {{ t('tracker.banner.settings.outfit_display') }}
                     </span>
                   </div>
                   <div class="flex items-center justify-between">
                     <n-switch v-model:value="showEmptyBanners">
-                      <template #checked>Show</template>
-                      <template #unchecked>Hide</template>
+                      <template #checked>{{
+                        t('tracker.banner.settings.show')
+                      }}</template>
+                      <template #unchecked>{{
+                        t('tracker.banner.settings.hide')
+                      }}</template>
                     </n-switch>
                     <span class="text-sm text-gray-600 ml-3">
-                      Empty Banners
+                      {{ t('tracker.banner.settings.empty_banners') }}
                     </span>
                   </div>
                 </div>
@@ -331,7 +353,7 @@
                             class="px-2"
                           >
                             <span class="align-top"
-                              >{{ outfit.name }} {{ outfit.rarity }}</span
+                              >{{ t(outfit.name) }} {{ outfit.rarity }}</span
                             >
                             <span class="ml-1"
                               ><n-icon><star /></n-icon
@@ -470,11 +492,15 @@
                             <n-switch
                               v-model:value="show4StarItems[banner.bannerId]"
                             >
-                              <template #checked>Show</template>
-                              <template #unchecked>Hide</template>
+                              <template #checked>{{
+                                t('tracker.banner.settings.show')
+                              }}</template>
+                              <template #unchecked>{{
+                                t('tracker.banner.settings.hide')
+                              }}</template>
                             </n-switch>
                             <span class="text-sm text-gray-600 ml-3">
-                              4★ Items
+                              {{ t('tracker.banner.settings.show_4star') }}
                             </span>
                           </div>
                           <div
@@ -485,11 +511,15 @@
                               v-model:value="showMissingPieces[banner.bannerId]"
                               @update:value="loadMissingItems(banner.bannerId)"
                             >
-                              <template #checked>Show</template>
-                              <template #unchecked>Hide</template>
+                              <template #checked>{{
+                                t('tracker.banner.settings.show')
+                              }}</template>
+                              <template #unchecked>{{
+                                t('tracker.banner.settings.hide')
+                              }}</template>
                             </n-switch>
                             <span class="text-sm text-gray-600 ml-3">
-                              Missing Pieces
+                              {{ t('tracker.banner.settings.show_missing') }}
                             </span>
                           </div>
                         </div>
@@ -542,14 +572,13 @@
           class="text-center rounded-md rounded-xl"
         >
           <div class="text-xl text-neutral-800">
-            No resonance history available.
+            {{ t('tracker.no_data.title') }}
           </div>
           <div class="text-xl text-neutral-800">
-            Please import your resonance data first.
+            {{ t('tracker.no_data.subtitle') }}
           </div>
           <div class="text-xl text-neutral-800">
-            Redirecting to import page in
-            <span class="font-bold">{{ countdown }}</span> seconds...
+            {{ t('tracker.no_data.redirect', { countdown }) }}
           </div>
         </n-card>
       </div>
@@ -560,6 +589,7 @@
 <script setup lang="ts">
   import { ref, onMounted } from 'vue'
   import { storeToRefs } from 'pinia'
+  import { useI18n } from 'vue-i18n'
   import {
     Cog,
     ChartBarRegular,
@@ -578,9 +608,11 @@
 
   const router = useRouter()
   const message = useMessage()
+  const { t } = useI18n()
   const pullStore = usePullStore()
   const { processedPulls, globalStats } = storeToRefs(pullStore)
   const { data, hasData, loadPullData } = useIndexedDB()
+  const localePath = useLocalePath()
 
   const loading = ref(true)
   const countdown = ref(5)
@@ -599,7 +631,7 @@
           countdown.value--
           if (countdown.value <= 0) {
             clearInterval(timer)
-            router.push('/import')
+            router.push(localePath('/import'))
           }
         }, 1000)
       }
@@ -724,10 +756,10 @@
       link.href = dataUrl
       link.click()
 
-      message.success('Tracker exported successfully!')
+      message.success(t('tracker.export.success'))
     } catch (error) {
       console.error('Export failed:', error)
-      message.error('Failed to export tracker. Please try again.')
+      message.error(t('tracker.export.error'))
     } finally {
       exporting.value = false
     }

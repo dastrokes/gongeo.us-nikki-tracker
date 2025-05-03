@@ -2,48 +2,48 @@ import type { Outfit } from '~/types/outfit'
 
 const outfit: Outfit = {
   id: 'S0092',
-  name: 'Sweet Jazz Nights',
+  name: 'outfit.S0092.name',
   rarity: 5,
   items: [
     {
       id: '1020100092',
-      type: 'Hair',
-      name: 'Mellifluous Melody',
+      type: 'hair',
+      name: 'item.1020100092.name',
     },
     {
       id: '1020900092',
-      type: 'Dresses',
-      name: 'Chuckle Trainee',
+      type: 'dresses',
+      name: 'item.1020900092.name',
     },
     {
       id: '1020500092',
-      type: 'Socks',
-      name: 'Soft Bibcoon Socks',
+      type: 'socks',
+      name: 'item.1020500092.name',
     },
     {
       id: '1020600092',
-      type: 'Shoes',
-      name: 'Unending Dance',
+      type: 'shoes',
+      name: 'item.1020600092.name',
     },
     {
       id: '1020710092',
-      type: 'Hair Accessories',
-      name: 'Intermission',
+      type: 'hairAccessories',
+      name: 'item.1020710092.name',
     },
     {
       id: '1020720092',
-      type: 'Headwear',
-      name: 'Sleepless Night',
+      type: 'headwear',
+      name: 'item.1020720092.name',
     },
     {
       id: '1020730092',
-      type: 'Earrings',
-      name: 'Bibcoon Pompoms',
+      type: 'earrings',
+      name: 'item.1020730092.name',
     },
     {
       id: '1020750092',
-      type: 'Bracelets',
-      name: 'Unfulfilled Wish',
+      type: 'bracelets',
+      name: 'item.1020750092.name',
     },
   ],
 }

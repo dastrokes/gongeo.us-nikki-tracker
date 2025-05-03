@@ -2,58 +2,58 @@ import type { Outfit } from '~/types/outfit'
 
 const outfit: Outfit = {
   id: 'S0165',
-  name: 'Crystal Poems',
+  name: 'outfit.S0165.name',
   rarity: 5,
   items: [
     {
       id: '1020100165',
-      type: 'Hair',
-      name: 'Silver Glow',
+      type: 'hair',
+      name: 'item.1020100165.name',
     },
     {
       id: '1020900165',
-      type: 'Dresses',
-      name: 'Winter Reflection',
+      type: 'dresses',
+      name: 'item.1020900165.name',
     },
     {
       id: '1020500165',
-      type: 'Socks',
-      name: 'Pearly Flowers',
+      type: 'socks',
+      name: 'item.1020500165.name',
     },
     {
       id: '1020600165',
-      type: 'Shoes',
-      name: 'Trace of Snow',
+      type: 'shoes',
+      name: 'item.1020600165.name',
     },
     {
       id: '1020710165',
-      type: 'Hair Accessories',
-      name: "Wind's Gift",
+      type: 'hairAccessories',
+      name: 'item.1020710165.name',
     },
     {
       id: '1020720165',
-      type: 'Headwear',
-      name: 'Crown of Frost',
+      type: 'headwear',
+      name: 'item.1020720165.name',
     },
     {
       id: '1020730165',
-      type: 'Earrings',
-      name: 'Nordic Rhyme',
+      type: 'earrings',
+      name: 'item.1020730165.name',
     },
     {
       id: '1020760165',
-      type: 'Chokers',
-      name: 'Frozen Vow',
+      type: 'chokers',
+      name: 'item.1020760165.name',
     },
     {
       id: '1020770165',
-      type: 'Gloves',
-      name: 'Freezing Moment',
+      type: 'gloves',
+      name: 'item.1020770165.name',
     },
     {
       id: '1020960165',
       type: 'Unknown',
-      name: 'Winter Collection',
+      name: 'item.1020960165.name',
     },
   ],
 }

@@ -1,0 +1,225 @@
+{
+  "navigation": {
+    "resonance_tracker": "共鸣记录",
+    "import_data": "导入数据",
+    "global_data": "全球数据",
+    "banner_history": "卡池历史",
+    "faq": "常见问题",
+    "about": "关于"
+  },
+  "index": {
+    "title": "gongeo.us",
+    "subtitle": "无限暖暖共鸣录",
+    "description": "记录您的无限暖暖共鸣历史和统计数据",
+    "loading": "加载中...",
+    "go_to_tracker": "前往记录",
+    "import_data": "导入数据"
+  },
+  "import": {
+    "choose_method": "选择导入方式",
+    "choose_method_desc": "选择您想要导入抽卡历史的方式。",
+    "import_from_game": "从游戏导入",
+    "import_from_file": "从文件导入",
+    "file_import": "文件导入",
+    "file_import_desc": "从之前导出的 nikki-resonance-data 文件导入。",
+    "select_file": "选择文件",
+    "game_import": "游戏导入",
+    "game_import_desc": "使用浏览器直接从游戏导入。",
+    "select_region": "选择服务器",
+    "select_region_desc": "选择您的游戏服务器区域。",
+    "login_pearpal": "登录美鸭梨网站",
+    "login_pearpal_desc": "在新标签页中打开美鸭梨网站，如果尚未登录，请使用您的叠纸账号登录。",
+    "get_cookie": "从美鸭梨网站获取 Cookie 数据",
+    "get_cookie_desc": "选择您想要获取 cookie 数据的方式：",
+    "console_method": "使用控制台方法（推荐）",
+    "manual_input": "手动输入",
+    "console_steps": {
+      "title": "按照以下步骤获取您的 cookie 数据：",
+      "step1": "确保您已登录并位于美鸭梨网站",
+      "step2": "打开浏览器的开发者工具（按 F12 或右键点击并选择\"检查\"）",
+      "step3": "转到\"控制台\"标签",
+      "step4": "将以下代码复制并粘贴到控制台中：",
+      "step5": "如果收到\"警告：不要在开发者工具控制台中粘贴代码\"的提示，请输入\"Allow pasting\"并按回车，或者如果您愿意，可以切换到手动输入方法",
+      "step6": "复制输出文本（它应该看起来像下面输入区域中的示例）",
+      "step7": "返回 gongeo.us，将输出文本粘贴到下面的输入区域中"
+    },
+    "manual_steps": {
+      "title": "按照以下步骤手动输入您的 cookie 数据：",
+      "note": "（以 Google Chrome 为例，其他浏览器的具体名称可能有所不同，但步骤类似）",
+      "step1": "打开浏览器的开发者工具（按 F12 或右键点击并选择\"检查\"）",
+      "step2": "转到\"应用程序\"标签",
+      "step3": "在左侧边栏中，展开\"Cookie\"并选择美鸭梨网站",
+      "step4": "或者，您可以使用 Cookie Editor 等浏览器扩展来管理 cookie",
+      "step5": "查找并复制以下值：",
+      "step5_items": {
+        "momo_id": "momoNid（用于 Momo ID 字段）",
+        "momo_token": "momoToken（用于 Momo Token 字段）"
+      },
+      "step6": "对于 UID，请前往您的美鸭梨个人资料并复制您的 UID 号码"
+    },
+    "security_note": "注意：切勿与他人分享这些 cookie 值！",
+    "form": {
+      "uid": "UID",
+      "uid_placeholder": "游戏内 UID",
+      "momo_id": "Momo ID",
+      "momo_id_placeholder": "来自 cookie 的 momoNid",
+      "momo_token": "Momo Token",
+      "momo_token_placeholder": "来自 cookie 的 momoToken",
+      "submit_global_stats": "提交数据用于全球统计",
+      "submit_button": "提交并导入抽卡历史",
+      "fetching": "正在获取共鸣数据，请稍候..."
+    },
+    "progress": {
+      "processing_banner": "正在处理第 {current} 个卡池，共 {total} 个",
+      "fetching_data": "正在获取共鸣数据：{banner}"
+    },
+    "actions": {
+      "copy_code": "复制代码",
+      "parse_input": "解析输入",
+      "paste_from_clipboard": "从剪贴板粘贴"
+    }
+  },
+  "tracker": {
+    "stats": {
+      "total_pulls": "总抽数",
+      "total_5star": "5★总抽数",
+      "avg_5star": "5★平均抽数",
+      "total_4star_mixed": "4★混合总数",
+      "avg_4star_mixed": "4★混合平均",
+      "total_4star_only": "4★单池总数",
+      "avg_4star_only": "4★单池平均"
+    },
+    "banner": {
+      "stats": {
+        "total_pulls": "总抽数",
+        "total_5star": "5★总数",
+        "avg_5star": "5★平均",
+        "pity_5star": "5★保底",
+        "total_4star_mixed": "4★混合总数",
+        "avg_4star_mixed": "4★混合平均",
+        "total_4star_only": "4★单池总数",
+        "avg_4star_only": "4★单池平均",
+        "last_pull": "最后抽卡"
+      },
+      "settings": {
+        "outfit_display": "套装显示",
+        "combined": "合并显示",
+        "separated": "分开显示",
+        "show_4star": "4★物品",
+        "show_missing": "缺失部件",
+        "show": "显示",
+        "hide": "隐藏",
+        "empty_banners": "空卡池"
+      }
+    },
+    "export": {
+      "png": "导出为PNG图片",
+      "json": "导出用于导入页面的文件导入选项",
+      "success": "记录导出成功！",
+      "error": "导出失败，请重试。"
+    },
+    "no_data": {
+      "title": "暂无共鸣记录。",
+      "subtitle": "请先导入您的共鸣数据。",
+      "redirect": "将在{countdown}秒后跳转到导入页面..."
+    }
+  },
+  "common": {
+    "pull": "第 {number} 抽",
+    "duplicate": "重复",
+    "obtained": "已获得",
+    "rarity": {
+      "4": "4★",
+      "5": "5★"
+    },
+    "discord": "Discord",
+    "ko_fi": "Ko-fi",
+    "scroll_to_top": "返回顶部",
+    "copyright": "© 2025 gongeo.us © 叠纸游戏 版权所有",
+    "disclaimer": {
+      "title": "关于本站",
+      "content": "这是一个独立的粉丝项目，与叠纸游戏无关，也不受其认可。",
+      "rights": "所有游戏资源、内容和商标均归其各自所有者所有。"
+    }
+  },
+  "items": {
+    "types": {
+      "dress": "连衣裙",
+      "dresses": "连衣裙",
+      "coat": "外套",
+      "outerwear": "外套",
+      "top": "上装",
+      "tops": "上装",
+      "bottom": "下装",
+      "bottoms": "下装",
+      "socks": "袜子",
+      "shoes": "鞋子",
+      "headwear": "头饰",
+      "hairAccessories": "发饰",
+      "earrings": "耳饰",
+      "necklace": "项链",
+      "neckwear": "颈饰",
+      "bracelet": "手饰",
+      "bracelets": "手饰",
+      "chokers": "颈链",
+      "gloves": "手套",
+      "handheld": "手持",
+      "handhelds": "手持",
+      "waist": "腰饰",
+      "face": "面部",
+      "faceDecorations": "面部装饰",
+      "hair": "发型",
+      "chestAccessories": "胸饰",
+      "pendants": "吊坠",
+      "backpieces": "背饰",
+      "rings": "戒指",
+      "armDecorations": "手臂装饰"
+    }
+  },
+  "accessibility": {
+    "toggle_menu": "切换导航菜单",
+    "join_discord": "加入我们的 Discord 社区",
+    "support_ko_fi": "在 Ko-fi 上支持我们"
+  },
+  "faq": {
+    "title": "常见问题",
+    "questions": {
+      "data_source": {
+        "question": "你们是如何获取数据的？",
+        "answer": "我们使用与游戏内抽卡历史页面相同的API来访问叠纸游戏存储卡池抽卡数据的服务器。要访问数据，我们需要使用您的账号cookie来验证叠纸游戏服务器。"
+      },
+      "ban_risk": {
+        "question": "使用这个工具会被封号吗？",
+        "answer": "这是一个第三方工具，所以总是存在一定风险，最终决定权在叠纸游戏手中。不过，类似的工具在其他抽卡游戏中广泛使用（如Paimon.moe、Starrailstation、wuwatracker等），在无限暖暖的中国社区（小黑盒、游创工坊）也有使用。请将此信息作为参考，自行判断。"
+      },
+      "data_storage": {
+        "question": "你们存储了什么数据？",
+        "answer": "您的抽卡历史记录存储在您的浏览器本地，所以下次访问网站时，除非您清除浏览器数据，否则数据会一直存在。我们不收集任何个人信息，包括您提交的cookie。"
+      },
+      "server_data": {
+        "question": "发送到服务器的数据是什么？",
+        "answer": "如果您选择参与，只有您的抽卡统计数据会被发送以帮助计算全球统计数据。这包括您的UID的哈希版本，以及您抽到的4星和5星物品的信息。"
+      },
+      "platform_support": {
+        "question": "如果我在手机或PS5上玩，这个工具能用吗？",
+        "answer": "是的，无论您在哪个平台玩，只要您使用相同的账号在PC上登录美鸭梨网站即可。如果您想在手机上导入，由于移动设备上没有开发者工具，您需要浏览器扩展来访问cookie。虽然我可以在Android的Firefox上导入，但这个过程不够用户友好，因此不推荐。"
+      },
+      "cookie_script": {
+        "question": "我需要运行脚本来获取cookie吗？",
+        "answer": "不需要，您可以手动获取。打开开发者工具，转到应用程序 > Cookie > https://pearpal.infoldgames.com/，然后查找您需要的cookie名称。有关更多详细信息，请查看导入页面中的手动输入说明。"
+      },
+      "no_pulls": {
+        "question": "所有卡池都已处理，但没有显示抽卡记录？",
+        "answer": "请检查您的服务器和cookie值是否正确。确保cookie中的UID和ID没有混淆。"
+      },
+      "permanent_banner": {
+        "question": "为什么永久卡池“遥远之海”没有显示？",
+        "answer": "永久卡池“遥远之海”的抽卡数据在游戏中是可用的，但由于抽卡数量庞大，处理时间更长，需要更多请求。目前是故意不包含的。"
+      },
+      "export": {
+        "question": "如何导出我的抽卡历史？",
+        "answer": "您可以将抽卡历史导出为PNG图片或JSON文件。如果您的浏览器数据被清除，您可以使用JSON文件恢复历史记录。"
+      }
+    }
+  }
+}

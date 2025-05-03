@@ -2,53 +2,53 @@ import type { Outfit } from '~/types/outfit'
 
 const outfit: Outfit = {
   id: 'S0033',
-  name: 'Fairytale Swan',
+  name: 'outfit.S0033.name',
   rarity: 5,
   items: [
     {
       id: '1020100033',
-      type: 'Hair',
-      name: 'Morning Sunlight',
+      type: 'hair',
+      name: 'item.1020100033.name',
     },
     {
       id: '1020900033',
-      type: 'Dresses',
-      name: 'Blooming Grace',
+      type: 'dresses',
+      name: 'item.1020900033.name',
     },
     {
       id: '1020500033',
-      type: 'Socks',
-      name: 'Interwoven with Love',
+      type: 'socks',
+      name: 'item.1020500033.name',
     },
     {
       id: '1020600033',
-      type: 'Shoes',
-      name: 'Ripple Tracker',
+      type: 'shoes',
+      name: 'item.1020600033.name',
     },
     {
       id: '1020710033',
-      type: 'Hair Accessories',
-      name: 'Fluttering Feathers',
+      type: 'hairAccessories',
+      name: 'item.1020710033.name',
     },
     {
       id: '1020730033',
-      type: 'Earrings',
-      name: 'Swaying Ode',
+      type: 'earrings',
+      name: 'item.1020730033.name',
     },
     {
       id: '1020760033',
-      type: 'Chokers',
-      name: 'Swan Sonata',
+      type: 'chokers',
+      name: 'item.1020760033.name',
     },
     {
       id: '1020770033',
-      type: 'Gloves',
-      name: 'Feathered Gleam',
+      type: 'gloves',
+      name: 'item.1020770033.name',
     },
     {
       id: '1020790033',
-      type: 'Rings',
-      name: 'Starry Guidance',
+      type: 'rings',
+      name: 'item.1020790033.name',
     },
   ],
 }

@@ -67,13 +67,15 @@
     </template>
     <template #default>
       <div class="text-center">
-        <div class="font-medium">{{ item.itemName }}</div>
-        <div class="text-sm text-gray-400">{{ item.itemType }}</div>
+        <div class="font-medium">{{ t(item.itemName) }}</div>
+        <div class="text-sm text-gray-400">
+          {{ t(`items.types.${item.itemType}`) }}
+        </div>
         <div
           v-if="item.obtained"
           class="text-sm mt-1 text-gray-600"
         >
-          Pull #{{ item.pullIndex }}
+          {{ t('common.pull', { number: item.pullIndex }) }}
         </div>
       </div>
     </template>
@@ -88,6 +90,7 @@
   }
 
   const props = defineProps<Props>()
+  const { t } = useI18n()
 
   const imageUrl = computed(() => {
     return `/images/items/${props.item.itemId}.webp`

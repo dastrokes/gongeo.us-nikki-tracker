@@ -30,21 +30,11 @@
           </template>
           Discord
         </n-button>
-        <n-button
-          tag="a"
-          href="https://www.reddit.com/user/dastrokes/"
-          target="_blank"
-        >
-          <template #icon>
-            <n-icon><Reddit /></n-icon>
-          </template>
-          Reddit
-        </n-button>
       </n-space>
     </n-card>
   </div>
 </template>
 
 <script setup lang="ts">
-  import { Discord, Reddit } from '@vicons/fa'
+  import { Discord } from '@vicons/fa'
 </script>

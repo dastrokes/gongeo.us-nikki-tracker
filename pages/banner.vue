@@ -2,7 +2,7 @@
   <div class="max-w-7xl mx-auto space-y-4">
     <n-card
       size="small"
-      class="rounded-xl bg-purple-50/50"
+      class="rounded-xl bg-purple-50"
       no-title
     >
       <n-timeline

@@ -5,7 +5,7 @@
       <!-- Stats Header Skeleton -->
       <n-card
         size="small"
-        class="rounded-xl bg-purple-50/50"
+        class="rounded-xl bg-purple-50"
       >
         <div class="flex items-center justify-between">
           <div
@@ -44,7 +44,7 @@
           v-for="i in 2"
           :key="i"
           size="small"
-          class="rounded-xl bg-purple-50/50"
+          class="rounded-xl bg-purple-50"
         >
           <div class="space-y-4">
             <!-- Banner Header Skeleton -->
@@ -101,7 +101,7 @@
       <n-card
         v-if="Object.keys(processedPulls).length > 0"
         size="small"
-        class="rounded-xl bg-purple-50/50"
+        class="rounded-xl bg-purple-50"
       >
         <div class="flex items-center justify-between">
           <div
@@ -308,7 +308,7 @@
                 banner.bannerId != 1
               "
               size="small"
-              class="rounded-xl bg-purple-50/50 min-h-[180px]"
+              class="rounded-xl bg-purple-50 min-h-[180px]"
             >
               <div>
                 <!-- Banner Header -->

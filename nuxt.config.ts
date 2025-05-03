@@ -62,6 +62,11 @@ export default defineNuxtConfig({
             isFree: true,
           }),
         },
+        {
+          'data-goatcounter': 'https://gongeous.goatcounter.com/count',
+          async: true,
+          src: '//gc.zgo.at/count.js',
+        },
       ],
     },
   },
@@ -84,6 +89,8 @@ export default defineNuxtConfig({
 
     public: {
       gongeousSecretKey: process.env.GONGEOUS_APP_SECRET,
+      supabaseUrl: process.env.SUPABASE_DATABASE_URL,
+      supabaseAnonKey: process.env.SUPABASE_ANON_KEY,
     },
   },
 

@@ -13,7 +13,12 @@
     >
       <n-layout-header
         v-show="showHeader"
-        class="fixed top-0 right-0 z-20 h-12 bg-gradient-to-r from-sky-100 via-purple-100 to-pink-100"
+        class="fixed top-0 right-0 z-20 h-12"
+        :style="{
+          background: isDark
+            ? 'linear-gradient(to right, rgb(12, 74, 110), rgb(88, 28, 135), rgb(115, 55, 137))'
+            : 'linear-gradient(to right, rgb(224, 242, 254), rgb(243, 232, 255), rgb(252, 231, 243))',
+        }"
       >
         <div class="flex h-12 items-center justify-between">
           <div class="flex items-center">
@@ -38,6 +43,7 @@
           </div>
           <div class="flex gap-4 pr-4">
             <LanguageSwitcher />
+            <ThemeSwitcher />
             <UserProfile />
           </div>
         </div>
@@ -51,7 +57,12 @@
         :collapsed-width="48"
         :width="200"
         :collapsed="!showSider"
-        class="fixed top-0 left-0 h-full shadow-lg z-10 bg-gradient-to-b from-sky-100 via-purple-100 to-pink-100 transition-all duration-300"
+        class="fixed top-0 left-0 h-full shadow-lg z-10 transition-all duration-300"
+        :style="{
+          background: isDark
+            ? 'linear-gradient(to bottom, rgb(12, 74, 110), rgb(88, 28, 135), rgb(115, 55, 137))'
+            : 'linear-gradient(to bottom, rgb(224, 242, 254), rgb(243, 232, 255), rgb(252, 231, 243))',
+        }"
         :class="{
           'w-48 -translate-x-full sm:translate-x-0': !showSider,
           'w-64 translate-x-0': showSider,
@@ -88,7 +99,11 @@
                 tag="a"
                 href="https://discord.gg/qymsW3j4Zw"
                 target="_blank"
-                class="text-gray-600 hover:text-gray-900"
+                :class="
+                  isDark
+                    ? 'text-gray-300 hover:text-gray-100'
+                    : 'text-gray-600 hover:text-gray-900'
+                "
                 :aria-label="t('accessibility.join_discord')"
               >
                 <template #icon>
@@ -108,7 +123,11 @@
                 tag="a"
                 href="https://ko-fi.com/dastrokes"
                 target="_blank"
-                class="text-gray-600 hover:text-gray-900"
+                :class="
+                  isDark
+                    ? 'text-gray-300 hover:text-gray-100'
+                    : 'text-gray-600 hover:text-gray-900'
+                "
                 :aria-label="t('accessibility.support_ko_fi')"
               >
                 <template #icon>
@@ -136,7 +155,10 @@
     <n-layout-content>
       <n-scrollbar
         ref="scrollbarRef"
-        class="flex-1 overflow-hidden bg-pink-50"
+        class="flex-1 overflow-hidden"
+        :style="{
+          background: isDark ? 'rgb(17, 24, 39)' : 'rgb(253, 242, 248)',
+        }"
         @scroll="onScroll"
       >
         <div class="h-full pt-16 pb-10">
@@ -158,7 +180,13 @@
         v-show="showScrollTop"
         circle
         size="small"
-        class="fixed bottom-10 right-10 z-50 bg-white shadow-lg hover:bg-gray-100"
+        class="fixed bottom-10 right-10 z-50 shadow-lg"
+        :style="{
+          background: isDark ? 'rgb(31, 41, 55)' : 'white',
+          '&:hover': {
+            background: isDark ? 'rgb(55, 65, 81)' : 'rgb(243, 244, 246)',
+          },
+        }"
         :aria-label="t('common.scroll_to_top')"
         @click="scrollToTop"
       >
@@ -178,7 +206,10 @@
     >
       <n-layout-footer
         v-show="showFooter"
-        class="text-center text-sm text-gray-600 py-2 fixed bottom-0 left-0 right-0 bg-transparent"
+        class="text-center text-sm py-2 fixed bottom-0 left-0 right-0 bg-transparent"
+        :style="{
+          color: isDark ? 'rgb(156, 163, 175)' : 'rgb(75, 85, 99)',
+        }"
       >
         <n-tooltip
           trigger="hover"
@@ -243,9 +274,12 @@
   import { useRoute, useRouter } from '#app'
   import UserProfile from '~/components/UserProfile.vue'
   import LanguageSwitcher from '~/components/LanguageSwitcher.vue'
+  import { useUserStore } from '~/stores/user'
 
   const { t } = useI18n()
   const localePath = useLocalePath()
+  const userStore = useUserStore()
+  const isDark = computed(() => userStore.getCurrentTheme === 'dark')
 
   function renderIcon(icon: Component) {
     return () => h(NIcon, null, { default: () => h(icon) })

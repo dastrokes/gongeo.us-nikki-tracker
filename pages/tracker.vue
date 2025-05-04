@@ -5,7 +5,8 @@
       <!-- Stats Header Skeleton -->
       <n-card
         size="small"
-        class="rounded-xl bg-purple-50"
+        class="rounded-xl"
+        :style="cardStyle"
       >
         <div class="flex items-center justify-between">
           <div
@@ -44,7 +45,8 @@
           v-for="i in 2"
           :key="i"
           size="small"
-          class="rounded-xl bg-purple-50"
+          class="rounded-xl"
+          :style="cardStyle"
         >
           <div class="space-y-4">
             <!-- Banner Header Skeleton -->
@@ -101,7 +103,8 @@
       <n-card
         v-if="Object.keys(processedPulls).length > 0"
         size="small"
-        class="rounded-xl bg-purple-50"
+        class="rounded-xl"
+        :style="cardStyle"
       >
         <div class="flex items-center justify-between">
           <div
@@ -111,7 +114,7 @@
               size="small"
               class="text-center rounded-md"
             >
-              <div class="text-sm text-gray-600">
+              <div class="text-sm text-gray-400">
                 {{ t('tracker.stats.total_pulls') }}
               </div>
               <div class="text-xl font-medium mt-1">
@@ -123,7 +126,7 @@
               size="small"
               class="text-center rounded-md"
             >
-              <div class="text-sm text-gray-600">
+              <div class="text-sm text-gray-400">
                 {{ t('tracker.stats.total_5star') }}
               </div>
               <div class="text-xl font-medium mt-1">
@@ -135,7 +138,7 @@
               size="small"
               class="text-center rounded-md"
             >
-              <div class="text-sm text-gray-600">
+              <div class="text-sm text-gray-400">
                 {{ t('tracker.stats.avg_5star') }}
               </div>
               <div class="text-xl font-medium mt-1">
@@ -147,7 +150,7 @@
               size="small"
               class="text-center rounded-md"
             >
-              <div class="text-sm text-gray-600">
+              <div class="text-sm text-gray-400">
                 {{ t('tracker.stats.total_4star_mixed') }}
               </div>
               <div class="text-xl font-medium mt-1">
@@ -159,7 +162,7 @@
               size="small"
               class="text-center rounded-md"
             >
-              <div class="text-sm text-gray-600">
+              <div class="text-sm text-gray-400">
                 {{ t('tracker.stats.avg_4star_mixed') }}
               </div>
               <div class="text-xl font-medium mt-1">
@@ -171,7 +174,7 @@
               size="small"
               class="text-center rounded-md"
             >
-              <div class="text-sm text-gray-600">
+              <div class="text-sm text-gray-400">
                 {{ t('tracker.stats.total_4star_only') }}
               </div>
               <div class="text-xl font-medium mt-1">
@@ -183,7 +186,7 @@
               size="small"
               class="text-center rounded-md"
             >
-              <div class="text-sm text-gray-600">
+              <div class="text-sm text-gray-400">
                 {{ t('tracker.stats.avg_4star_only') }}
               </div>
               <div class="text-xl font-medium mt-1">
@@ -289,7 +292,7 @@
                     </n-switch>
                     <span
                       v-if="hasMultipleOutfits()"
-                      class="text-sm text-gray-600 ml-3"
+                      class="text-sm text-gray-400 ml-3"
                     >
                       {{ t('tracker.banner.settings.outfit_display') }}
                     </span>
@@ -303,7 +306,7 @@
                         t('tracker.banner.settings.hide')
                       }}</template>
                     </n-switch>
-                    <span class="text-sm text-gray-600 ml-3">
+                    <span class="text-sm text-gray-400 ml-3">
                       {{ t('tracker.banner.settings.empty_banners') }}
                     </span>
                   </div>
@@ -330,7 +333,8 @@
                 banner.bannerId != 1
               "
               size="small"
-              class="rounded-xl bg-purple-50 min-h-[180px]"
+              class="rounded-xl min-h-[180px]"
+              :style="cardStyle"
             >
               <div>
                 <!-- Banner Header -->
@@ -499,7 +503,7 @@
                                 t('tracker.banner.settings.hide')
                               }}</template>
                             </n-switch>
-                            <span class="text-sm text-gray-600 ml-3">
+                            <span class="text-sm text-gray-400 ml-3">
                               {{ t('tracker.banner.settings.show_4star') }}
                             </span>
                           </div>
@@ -518,7 +522,7 @@
                                 t('tracker.banner.settings.hide')
                               }}</template>
                             </n-switch>
-                            <span class="text-sm text-gray-600 ml-3">
+                            <span class="text-sm text-gray-400 ml-3">
                               {{ t('tracker.banner.settings.show_missing') }}
                             </span>
                           </div>
@@ -605,6 +609,7 @@
   import { useIndexedDB } from '~/composables/useIndexedDB'
   import type { PullItem } from '~/types/pull'
   import { useRouter } from 'nuxt/app'
+  import { useCardStyle } from '~/composables/useCardStyle'
 
   const router = useRouter()
   const message = useMessage()
@@ -613,6 +618,7 @@
   const { processedPulls, globalStats } = storeToRefs(pullStore)
   const { data, hasData, loadPullData } = useIndexedDB()
   const localePath = useLocalePath()
+  const { cardStyle } = useCardStyle()
 
   const loading = ref(true)
   const countdown = ref(5)

@@ -124,6 +124,54 @@
       "redirect": "Redirecting to import page in {countdown} seconds..."
     }
   },
+  "common": {
+    "pull": "Pull #{number}",
+    "duplicate": "Duplicate",
+    "obtained": "Obtained",
+    "rarity": {
+      "4": "4★",
+      "5": "5★"
+    },
+    "discord": "Discord",
+    "ko_fi": "Ko-fi",
+    "scroll_to_top": "Scroll to top",
+    "copyright": "© 2025 gongeo.us © Infold Games All Rights Reserved",
+    "disclaimer": {
+      "title": "About this site",
+      "content": "This is an independent fan project, not affiliated with or endorsed by Infold/Paper Games.",
+      "rights": "All game assets, content, and trademarks belong to their respective owners."
+    }
+  },
+  "items": {
+    "types": {
+      "dresses": "Dresses",
+      "outerwear": "外套",
+      "tops": "Tops",
+      "bottoms": "Bottoms",
+      "socks": "Socks",
+      "shoes": "Shoes",
+      "headwear": "Headwear",
+      "hairAccessories": "Hair Accessories",
+      "earrings": "Earrings",
+      "neckwear": "Neckwear",
+      "bracelets": "Bracelets",
+      "chokers": "Chokers",
+      "gloves": "Gloves",
+      "handhelds": "Handhelds",
+      "faceDecorations": "Face Decorations",
+      "hair": "Hair",
+      "chestAccessories": "Chest Accessories",
+      "pendants": "Pendants",
+      "backpieces": "Backpieces",
+      "rings": "Rings",
+      "armDecorations": "Arm Decorations"
+    }
+  },
+  "accessibility": {
+    "toggle_menu": "Toggle navigation menu",
+    "join_discord": "Join our Discord community",
+    "support_ko_fi": "Support us on Ko-fi"
+  },
   "faq": {
     "title": "Frequently Asked Questions",
     "questions": {
@@ -159,58 +207,14 @@
         "question": "Why is the permanent banner Distant Sea not showing?",
         "answer": "Pull data for permanent banners Distant Sea is available in game, it also take longer time and many more requests to process due to the large amount of pulls. It is not included currently on purpose."
       },
+      "auto_update": {
+        "question": "Will the data auto update?",
+        "answer": "No, you will need to redo the import process for new banners only if you keep your data in browser or local storage. The website will also need to update to support data for new banners. Additionally, for security reasons, the cookie will likely expire after some time."
+      },
       "export": {
         "question": "How can I export my pull history?",
         "answer": "You can export your pull history as a PNG image or a JSON file. If your browser data is cleared, you can use the JSON file to restore your history."
       }
     }
-  },
-  "common": {
-    "pull": "Pull #{number}",
-    "duplicate": "Duplicate",
-    "obtained": "Obtained",
-    "rarity": {
-      "4": "4★",
-      "5": "5★"
-    },
-    "discord": "Discord",
-    "ko_fi": "Ko-fi",
-    "scroll_to_top": "Scroll to top",
-    "copyright": "© 2025 gongeo.us © Infold Games All Rights Reserved",
-    "disclaimer": {
-      "title": "About this site",
-      "content": "This is an independent fan project, not affiliated with or endorsed by Infold/Paper Games.",
-      "rights": "All game assets, content, and trademarks belong to their respective owners."
-    }
-  },
-  "items": {
-    "types": {
-      "dresses": "Dresses",
-      "tops": "Tops",
-      "bottoms": "Bottoms",
-      "socks": "Socks",
-      "shoes": "Shoes",
-      "headwear": "Headwear",
-      "hairAccessories": "Hair Accessories",
-      "earrings": "Earrings",
-      "necklace": "Necklace",
-      "neckwear": "Neckwear",
-      "bracelets": "Bracelets",
-      "chokers": "Chokers",
-      "gloves": "Gloves",
-      "handhelds": "Handhelds",
-      "faceDecorations": "Face Decorations",
-      "hair": "Hair",
-      "chestAccessories": "Chest Accessories",
-      "pendants": "Pendants",
-      "backpieces": "Backpieces",
-      "rings": "Rings",
-      "armDecorations": "Arm Decorations"
-    }
-  },
-  "accessibility": {
-    "toggle_menu": "Toggle navigation menu",
-    "join_discord": "Join our Discord community",
-    "support_ko_fi": "Support us on Ko-fi"
   }
 }

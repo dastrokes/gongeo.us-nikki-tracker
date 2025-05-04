@@ -3,12 +3,16 @@
     <n-card
       v-if="loading"
       size="small"
-      class="rounded-xlbg-purple-50"
+      class="rounded-xl"
+      :style="cardStyle"
       no-title
     >
       <!-- Summary Cards Skeleton -->
       <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-4">
-        <div class="bg-purple-50 p-6 rounded-lg shadow">
+        <n-card
+          class="rounded-lg"
+          :style="cardStyle"
+        >
           <NSkeleton
             height="24px"
             width="60%"
@@ -18,8 +22,11 @@
             height="32px"
             width="40%"
           />
-        </div>
-        <div class="bg-purple-50 p-6 rounded-lg shadow">
+        </n-card>
+        <n-card
+          class="rounded-lg"
+          :style="cardStyle"
+        >
           <NSkeleton
             height="24px"
             width="60%"
@@ -29,8 +36,11 @@
             height="32px"
             width="40%"
           />
-        </div>
-        <div class="bg-purple-50 p-6 rounded-lg shadow">
+        </n-card>
+        <n-card
+          class="rounded-lg"
+          :style="cardStyle"
+        >
           <NSkeleton
             height="24px"
             width="60%"
@@ -40,8 +50,11 @@
             height="32px"
             width="40%"
           />
-        </div>
-        <div class="bg-purple-50 p-6 rounded-lg shadow">
+        </n-card>
+        <n-card
+          class="rounded-lg"
+          :style="cardStyle"
+        >
           <NSkeleton
             height="24px"
             width="60%"
@@ -51,8 +64,11 @@
             height="32px"
             width="40%"
           />
-        </div>
-        <div class="bg-purple-50 p-6 rounded-lg shadow">
+        </n-card>
+        <n-card
+          class="rounded-lg"
+          :style="cardStyle"
+        >
           <NSkeleton
             height="24px"
             width="60%"
@@ -62,13 +78,14 @@
             height="32px"
             width="40%"
           />
-        </div>
+        </n-card>
       </div>
 
       <!-- Charts Skeleton -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div
-          class="col-span-1 sm:col-span-3 bg-purple-50 p-6 rounded-lg shadow"
+        <n-card
+          class="col-span-1 sm:col-span-3 rounded-lg"
+          :style="cardStyle"
         >
           <NSkeleton
             height="24px"
@@ -76,45 +93,58 @@
             class="mb-4"
           />
           <NSkeleton height="200px" />
-        </div>
-        <div class="bg-purple-50 p-6 rounded-lg shadow">
+        </n-card>
+        <n-card
+          class="rounded-lg"
+          :style="cardStyle"
+        >
           <NSkeleton
             height="24px"
             width="40%"
             class="mb-4"
           />
           <NSkeleton height="200px" />
-        </div>
-        <div class="bg-purple-50 p-6 rounded-lg shadow">
+        </n-card>
+        <n-card
+          class="rounded-lg"
+          :style="cardStyle"
+        >
           <NSkeleton
             height="24px"
             width="40%"
             class="mb-4"
           />
           <NSkeleton height="200px" />
-        </div>
-        <div class="bg-purple-50 p-6 rounded-lg shadow">
+        </n-card>
+        <n-card
+          class="rounded-lg"
+          :style="cardStyle"
+        >
           <NSkeleton
             height="24px"
             width="40%"
             class="mb-4"
           />
           <NSkeleton height="200px" />
-        </div>
+        </n-card>
       </div>
     </n-card>
 
     <n-card
       v-else
       class="rounded-xl"
+      :style="cardStyle"
     >
       <!-- Summary Cards -->
       <div
         v-show="!maximizedChart"
         class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-4"
       >
-        <div class="bg-purple-50 p-6 rounded-lg shadow">
-          <h3 class="text-md font-semibold mb-2">Total Pulls</h3>
+        <n-card
+          class="rounded-lg"
+          :style="cardStyle"
+        >
+          <h3 class="text-md text-gray-400 mb-2">Total Pulls</h3>
           <div class="text-2xl font-bold">
             <n-number-animation
               :from="0"
@@ -122,9 +152,12 @@
               :duration="1000"
             />
           </div>
-        </div>
-        <div class="bg-purple-50 p-6 rounded-lg shadow">
-          <h3 class="text-md font-semibold mb-2">Unique Users</h3>
+        </n-card>
+        <n-card
+          class="rounded-lg"
+          :style="cardStyle"
+        >
+          <h3 class="text-md text-gray-400 mb-2">Unique Users</h3>
           <div class="text-2xl font-bold">
             <n-number-animation
               :from="0"
@@ -132,9 +165,12 @@
               :duration="1000"
             />
           </div>
-        </div>
-        <div class="bg-purple-50 p-6 rounded-lg shadow">
-          <h3 class="text-sm font-semibold mb-2">Average Pulls for 5★</h3>
+        </n-card>
+        <n-card
+          class="rounded-lg"
+          :style="cardStyle"
+        >
+          <h3 class="text-sm text-gray-400 mb-2">Average Pulls for 5★</h3>
           <div class="text-2xl font-bold">
             <n-number-animation
               :from="0"
@@ -143,9 +179,12 @@
               :precision="2"
             />
           </div>
-        </div>
-        <div class="bg-purple-50 p-6 rounded-lg shadow">
-          <h3 class="text-sm font-semibold mb-2">Average for 4★ (5★ Banner)</h3>
+        </n-card>
+        <n-card
+          class="rounded-lg"
+          :style="cardStyle"
+        >
+          <h3 class="text-sm text-gray-400 mb-2">Average for 4★ (5★ Banner)</h3>
           <div class="text-2xl font-bold">
             <n-number-animation
               :from="0"
@@ -154,9 +193,12 @@
               :precision="2"
             />
           </div>
-        </div>
-        <div class="bg-purple-50 p-6 rounded-lg shadow">
-          <h3 class="text-sm font-semibold mb-2">Average for 4★ (4★ Banner)</h3>
+        </n-card>
+        <n-card
+          class="rounded-lg"
+          :style="cardStyle"
+        >
+          <h3 class="text-sm text-gray-400 mb-2">Average for 4★ (4★ Banner)</h3>
           <div class="text-2xl font-bold">
             <n-number-animation
               :from="0"
@@ -165,20 +207,21 @@
               :precision="2"
             />
           </div>
-        </div>
+        </n-card>
       </div>
 
       <!-- Charts -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         <!-- Pulls per Banner Chart -->
-        <div
+        <n-card
           v-show="!maximizedChart || maximizedChart === 'pullsPerBanner'"
           :class="[
-            'bg-purple-50 p-6 rounded-lg shadow transition-all duration-300',
+            'transition-all duration-300',
             maximizedChart === 'pullsPerBanner'
               ? 'col-span-1 sm:col-span-3'
               : 'col-span-1 sm:col-span-3',
           ]"
+          :style="cardStyle"
         >
           <div class="flex justify-between items-center mb-4">
             <h3 class="text-lg font-semibold">Pulls per Banner</h3>
@@ -205,26 +248,28 @@
           </div>
           <div
             :class="[
-              'transition-all duration-300 bg-purple-50',
+              'transition-all duration-300',
               maximizedChart === 'pullsPerBanner'
                 ? 'h-[calc(100vh-240px)]'
                 : 'h-[200px]',
             ]"
+            :style="cardStyle"
           >
             <canvas
               ref="pullsPerBannerChart"
-              class="bg-purple-50"
+              :style="cardStyle"
             />
           </div>
-        </div>
+        </n-card>
 
         <!-- 5★ Distribution Chart -->
-        <div
+        <n-card
           v-show="!maximizedChart || maximizedChart === 'fiveStar'"
           :class="[
-            'bg-purple-50 p-6 rounded-lg shadow transition-all duration-300',
+            'transition-all duration-300',
             maximizedChart === 'fiveStar' ? 'col-span-1 sm:col-span-3' : '',
           ]"
+          :style="cardStyle"
         >
           <div class="flex justify-between items-center mb-4">
             <h3 class="text-lg font-semibold">5★ Pulls Distribution</h3>
@@ -247,28 +292,30 @@
           </div>
           <div
             :class="[
-              'transition-all duration-300 bg-purple-50',
+              'transition-all duration-300',
               maximizedChart === 'fiveStar'
                 ? 'h-[calc(100vh-240px)]'
                 : 'h-[200px]',
             ]"
+            :style="cardStyle"
           >
             <canvas
               ref="fiveStarDistributionChart"
-              class="bg-purple-50"
+              :style="cardStyle"
             />
           </div>
-        </div>
+        </n-card>
 
         <!-- 4★ Distribution Type 2 Chart -->
-        <div
+        <n-card
           v-show="!maximizedChart || maximizedChart === 'fourStarType2'"
           :class="[
-            'bg-purple-50 p-6 rounded-lg shadow transition-all duration-300',
+            'transition-all duration-300',
             maximizedChart === 'fourStarType2'
               ? 'col-span-1 sm:col-span-3'
               : '',
           ]"
+          :style="cardStyle"
         >
           <div class="flex justify-between items-center mb-4">
             <h3 class="text-lg font-semibold">4★ Distribution (5★ Banner)</h3>
@@ -293,28 +340,30 @@
           </div>
           <div
             :class="[
-              'transition-all duration-300 bg-purple-50',
+              'transition-all duration-300',
               maximizedChart === 'fourStarType2'
                 ? 'h-[calc(100vh-240px)]'
                 : 'h-[200px]',
             ]"
+            :style="cardStyle"
           >
             <canvas
               ref="fourStarType2Chart"
-              class="bg-purple-50"
+              :style="cardStyle"
             />
           </div>
-        </div>
+        </n-card>
 
         <!-- 4★ Distribution Type 3 Chart -->
-        <div
+        <n-card
           v-show="!maximizedChart || maximizedChart === 'fourStarType3'"
           :class="[
-            'bg-purple-50 p-6 rounded-lg shadow transition-all duration-300',
+            'transition-all duration-300',
             maximizedChart === 'fourStarType3'
               ? 'col-span-1 sm:col-span-3'
               : '',
           ]"
+          :style="cardStyle"
         >
           <div class="flex justify-between items-center mb-4">
             <h3 class="text-lg font-semibold">4★ Distribution (4★ Banner)</h3>
@@ -339,33 +388,40 @@
           </div>
           <div
             :class="[
-              'transition-all duration-300 bg-purple-50',
+              'transition-all duration-300',
               maximizedChart === 'fourStarType3'
                 ? 'h-[calc(100vh-240px)]'
                 : 'h-[200px]',
             ]"
+            :style="cardStyle"
           >
             <canvas
               ref="fourStarType3Chart"
-              class="bg-purple-50"
+              :style="cardStyle"
             />
           </div>
-        </div>
+        </n-card>
       </div>
     </n-card>
   </div>
 </template>
 
 <script setup>
-  import { ref, onMounted, watchEffect } from 'vue'
+  import { ref, onMounted, watchEffect, computed } from 'vue'
   import Chart from 'chart.js/auto'
   import { NSkeleton, NNumberAnimation, NButton } from 'naive-ui'
   import { BANNER_DATA } from '~/data/banners'
   import { ExpandAlt, CompressAlt } from '@vicons/fa'
   import { useSupabaseClient } from '~/composables/useSupabaseClient'
+  import { useCardStyle } from '~/composables/useCardStyle'
+  import { useUserStore } from '~/stores/user'
 
   // Initialize Supabase client
   const supabase = useSupabaseClient()
+  const userStore = useUserStore()
+
+  // Add isDark computed property
+  const isDark = computed(() => userStore.getCurrentTheme === 'dark')
 
   // Global Chart.js configuration
   Chart.defaults.font.size = 12
@@ -397,7 +453,7 @@
   const uniqueUserCount = ref(0)
   const averagePullsTo5Star = ref(0)
   const averagePullsTo4StarType2 = ref(0)
-  const averagePullsTo4StarType3 = ref(0)
+  const averagePullsTo4StarType3 = ref(null)
 
   const pullsPerBannerChart = ref(null)
   const fiveStarDistributionChart = ref(null)
@@ -406,6 +462,18 @@
 
   const charts = ref([])
   const maximizedChart = ref(null)
+
+  const { cardStyle } = useCardStyle()
+
+  // Add computed property for chart background color
+  const chartBackgroundColor = computed(() => {
+    return isDark.value ? 'rgb(31, 41, 55)' : 'rgb(250, 245, 255)'
+  })
+
+  // Update Chart.js defaults
+  Chart.defaults.plugins.background = {
+    color: chartBackgroundColor.value,
+  }
 
   const fetchData = async () => {
     try {
@@ -502,7 +570,7 @@
             labels: bannerLabels,
             datasets: [
               {
-                label: 'Limited 5★ Banners',
+                label: 'Limited 5★',
                 data: Object.entries(data.value.pulls_per_banner).map(
                   ([bannerId, pulls]) => {
                     const banner = BANNER_DATA[parseInt(bannerId)]
@@ -515,7 +583,7 @@
                 stack: 'Stack 0',
               },
               {
-                label: 'Limited 4★ Banners',
+                label: 'Limited 4★',
                 data: Object.entries(data.value.pulls_per_banner).map(
                   ([bannerId, pulls]) => {
                     const banner = BANNER_DATA[parseInt(bannerId)]
@@ -568,7 +636,7 @@
                 },
               },
               background: {
-                color: '#f5f3ff',
+                color: chartBackgroundColor.value,
               },
             },
           },
@@ -651,7 +719,7 @@
                 display: false,
               },
               background: {
-                color: '#f5f3ff',
+                color: chartBackgroundColor.value,
               },
               tooltip: {
                 callbacks: {
@@ -750,7 +818,7 @@
                 display: false,
               },
               background: {
-                color: '#f5f3ff',
+                color: chartBackgroundColor.value,
               },
               tooltip: {
                 callbacks: {
@@ -849,7 +917,7 @@
                 display: false,
               },
               background: {
-                color: '#f5f3ff',
+                color: chartBackgroundColor.value,
               },
               tooltip: {
                 callbacks: {

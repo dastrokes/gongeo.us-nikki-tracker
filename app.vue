@@ -19,18 +19,17 @@
 </template>
 
 <script setup lang="ts">
-  import { darkTheme, type GlobalThemeOverrides } from 'naive-ui'
+  import { darkTheme, lightTheme, type GlobalThemeOverrides } from 'naive-ui'
   import { useUserStore } from '~/stores/user'
   import { computed, onMounted } from 'vue'
 
   // Initialize theme state
   const userStore = useUserStore()
-  const theme = computed(() =>
-    userStore.getCurrentTheme === 'dark' ? darkTheme : null
-  )
+  const isDark = computed(() => userStore.getCurrentTheme === 'dark')
+  const theme = computed(() => (isDark.value ? darkTheme : lightTheme))
 
   // Theme overrides for both light and dark modes
-  const themeOverrides: GlobalThemeOverrides = {
+  const themeOverrides = computed<GlobalThemeOverrides>(() => ({
     common: {
       primaryColor: '#F43F5E', // Rose-500
       primaryColorHover: '#FB7185', // Rose-400
@@ -61,22 +60,36 @@
       fontFamily: 'Inter, system-ui, -apple-system, sans-serif',
     },
     Button: {
-      textColor: '#4F4F4F',
+      textColor: isDark.value ? '#E5E7EB' : '#4F4F4F', // Gray-200 : Gray-700
       borderRadius: '12px',
       fontWeight: '600',
     },
     Card: {
       borderRadius: '16px',
-      color: 'rgba(255, 255, 255, 0.9)',
-      colorModal: 'rgba(255, 255, 255, 0.9)',
-      colorPopover: 'rgba(255, 255, 255, 0.9)',
-      colorEmbedded: 'rgba(255, 255, 255, 0.9)',
-      colorTarget: 'rgba(244, 63, 94, 0.1)', // Updated to match new rose color
+      color: isDark.value
+        ? 'rgba(31, 41, 55, 0.9)'
+        : 'rgba(255, 255, 255, 0.9)', // Gray-800 : White
+      colorModal: isDark.value
+        ? 'rgba(31, 41, 55, 0.9)'
+        : 'rgba(255, 255, 255, 0.9)',
+      colorPopover: isDark.value
+        ? 'rgba(31, 41, 55, 0.9)'
+        : 'rgba(255, 255, 255, 0.9)',
+      colorEmbedded: isDark.value
+        ? 'rgba(31, 41, 55, 0.9)'
+        : 'rgba(255, 255, 255, 0.9)',
+      colorTarget: isDark.value
+        ? 'rgba(244, 63, 94, 0.2)'
+        : 'rgba(244, 63, 94, 0.1)',
     },
     Input: {
       borderRadius: '12px',
-      borderFocus: '#F43F5E', // Updated to rose
-      boxShadowFocus: '0 0 0 2px rgba(244, 63, 94, 0.2)', // Updated to rose
+      borderFocus: '#F43F5E',
+      boxShadowFocus: '0 0 0 2px rgba(244, 63, 94, 0.2)',
+      color: isDark.value
+        ? 'rgba(31, 41, 55, 0.9)'
+        : 'rgba(255, 255, 255, 0.9)',
+      textColor: isDark.value ? '#E5E7EB' : '#4F4F4F',
     },
     Select: {
       peers: {
@@ -85,10 +98,28 @@
         },
       },
     },
-  }
+  }))
 
   // Ensure theme is initialized on client-side
   onMounted(() => {
     userStore.initializeTheme()
   })
 </script>
+
+<style>
+  :root {
+    --bg-primary: #ffffff;
+    --text-primary: #1f2937;
+    --text-secondary: #4b5563;
+  }
+
+  .dark {
+    --bg-primary: #111827;
+    --text-primary: #f9fafb;
+    --text-secondary: #e5e7eb;
+  }
+
+  body {
+    @apply bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-200;
+  }
+</style>

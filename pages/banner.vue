@@ -1,9 +1,8 @@
 <template>
-  <div class="max-w-7xl mx-auto space-y-4">
+  <div class="container mx-auto px-4 py-8">
     <n-card
-      size="small"
-      class="rounded-xl bg-purple-50"
-      no-title
+      class="rounded-xl"
+      :style="cardStyle"
     >
       <n-timeline
         :icon-size="30"
@@ -76,7 +75,7 @@
                   <nuxt-img
                     :src="imageUrl(banner.bannerId)"
                     :alt="banner.bannerName"
-                    class="rounded-lg shadow-lg w-full"
+                    class="rounded-lg w-full"
                     :provider="imageProvider"
                     format="webp"
                     width="500"
@@ -107,8 +106,11 @@
   import OUTFIT_DATA from '~/data/outfits'
   import { computed } from 'vue'
   import { useI18n } from 'vue-i18n'
+  import { useCardStyle } from '~/composables/useCardStyle'
 
   const { t } = useI18n()
+
+  const { cardStyle } = useCardStyle()
 
   // Sort banners by ID in descending order (newest first)
   const sortedBanners = computed(() => {
@@ -144,9 +146,3 @@
     return process.env.NODE_ENV === 'development' ? 'ipx' : 'netlify'
   })
 </script>
-
-<style scoped>
-  .prose {
-    @apply text-gray-600 dark:text-gray-300;
-  }
-</style>

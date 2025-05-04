@@ -6,7 +6,10 @@
       {{ $t('index.title') }}
     </h2>
     <h1 class="text-2xl font-bold mb-4">{{ $t('index.subtitle') }}</h1>
-    <p class="text-lg text-gray-600 mb-8">
+    <p
+      class="text-lg mb-8"
+      :class="isDark ? 'text-gray-300' : 'text-gray-600'"
+    >
       {{ $t('index.description') }}
     </p>
     <div class="flex gap-4">
@@ -45,7 +48,11 @@
   import { useRouter } from 'vue-router'
   import { useIndexedDB } from '~/composables/useIndexedDB'
   import { usePullStore } from '~/stores/pull'
-  import { onMounted, ref } from 'vue'
+  import { onMounted, ref, computed } from 'vue'
+  import { useUserStore } from '~/stores/user'
+
+  const userStore = useUserStore()
+  const isDark = computed(() => userStore.getCurrentTheme === 'dark')
 
   const localePath = useLocalePath()
 

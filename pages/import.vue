@@ -1,9 +1,8 @@
 <template>
-  <div class="max-w-7xl mx-auto space-y-4">
+  <div class="container mx-auto px-4 py-8">
     <n-card
-      size="small"
-      class="rounded-xl bg-purple-50"
-      no-title
+      class="rounded-xl"
+      :style="cardStyle"
     >
       <!-- Show steps only when not fetching -->
       <template v-if="!isFetching">
@@ -396,6 +395,7 @@
   import { useUserStore } from '~/stores/user'
   import { Paste, Check } from '@vicons/fa'
   import { BANNER_DATA } from '~/data/banners'
+  import { useCardStyle } from '~/composables/useCardStyle'
 
   const consoleScript = `console.log(JSON.stringify({
   roleid: [...document.querySelectorAll('div')].find(el => el.textContent.startsWith('UID:'))?.textContent.replace('UID:', '').trim(),
@@ -430,6 +430,7 @@
     progress,
   } = useBannerPullData()
   const pullStore = usePullStore()
+  const { cardStyle } = useCardStyle()
 
   // Function to determine region based on timezone
   const determineRegionFromTimezone = () => {

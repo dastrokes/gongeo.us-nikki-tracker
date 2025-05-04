@@ -1,9 +1,8 @@
 <template>
-  <div class="max-w-7xl mx-auto space-y-4">
+  <div class="container mx-auto px-4 py-8">
     <n-card
-      size="small"
-      class="rounded-xl bg-purple-50"
-      no-title
+      class="rounded-xl"
+      :style="cardStyle"
     >
       <div class="text-center mb-12">
         <h1 class="text-2xl font-bold mb-4">{{ t('faq.title') }}</h1>
@@ -63,6 +62,7 @@
 <script setup lang="ts">
   import { Discord } from '@vicons/fa'
   import { useI18n } from 'vue-i18n'
+  import { useCardStyle } from '~/composables/useCardStyle'
 
   const { t } = useI18n()
 
@@ -75,12 +75,9 @@
     cookie_script: {},
     no_pulls: {},
     permanent_banner: {},
+    auto_update: {},
     export: {},
   }
-</script>
 
-<style scoped>
-  .prose {
-    @apply text-gray-600 dark:text-gray-300;
-  }
-</style>
+  const { cardStyle } = useCardStyle()
+</script>

@@ -1,9 +1,8 @@
 <template>
-  <div class="max-w-7xl mx-auto space-y-4">
+  <div class="container mx-auto px-4 py-8">
     <n-card
-      size="small"
-      class="rounded-xl bg-purple-50"
-      no-title
+      class="rounded-xl"
+      :style="cardStyle"
     >
       <div class="text-center mb-12">
         <h1 class="text-2xl font-bold mb-4">Under Maintenance</h1>
@@ -37,4 +36,7 @@
 
 <script setup lang="ts">
   import { Discord } from '@vicons/fa'
+  import { useCardStyle } from '~/composables/useCardStyle'
+
+  const { cardStyle } = useCardStyle()
 </script>

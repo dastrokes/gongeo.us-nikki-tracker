@@ -20,8 +20,12 @@
           'item-card relative overflow-hidden rounded-md transition-all duration-300 ease-in-out aspect-square',
           'ring-1 hover:scale-[1.01]',
           item.rarity === 5
-            ? 'rarity-5 ring-amber-200/30 hover:ring-amber-200/80'
-            : 'rarity-4 ring-blue-200/30 hover:ring-blue-200/80',
+            ? isDark
+              ? 'rarity-5-dark ring-amber-900/30 hover:ring-amber-900/60'
+              : 'rarity-5 ring-amber-200/30 hover:ring-amber-200/80'
+            : isDark
+              ? 'rarity-4-dark ring-slate-400/20 hover:ring-slate-400/40'
+              : 'rarity-4 ring-blue-200/30 hover:ring-blue-200/80',
           { 'opacity-60 grayscale': !item.obtained },
         ]"
         :bordered="false"
@@ -84,6 +88,7 @@
 
 <script setup lang="ts">
   import type { PullItem } from '~/types/pull'
+  import { useUserStore } from '~/stores/user'
 
   interface Props {
     item: PullItem
@@ -91,6 +96,8 @@
 
   const props = defineProps<Props>()
   const { t } = useI18n()
+  const userStore = useUserStore()
+  const isDark = computed(() => userStore.getCurrentTheme === 'dark')
 
   const imageUrl = computed(() => {
     return `/images/items/${props.item.itemId}.webp`
@@ -109,6 +116,13 @@
     }
   }
 
+  .rarity-4-dark {
+    background: linear-gradient(to bottom right, #1e293b, #334155);
+    &:hover {
+      @apply shadow-[0_0_15px_0_rgba(51,65,85,0.5)];
+    }
+  }
+
   .rarity-5 {
     background: linear-gradient(to bottom right, #fff8e1, #ffcc80);
     &:hover {
@@ -116,36 +130,10 @@
     }
   }
 
-  .item-card {
-    will-change: transform;
-    backface-visibility: hidden;
-    -webkit-font-smoothing: subpixel-antialiased;
-    &::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      border-radius: 6px;
-      padding: 1px;
-      background: linear-gradient(
-        to bottom right,
-        rgba(255, 255, 255, 0.4),
-        rgba(255, 255, 255, 0.2)
-      );
-      -webkit-mask:
-        linear-gradient(#fff 0 0) content-box,
-        linear-gradient(#fff 0 0);
-      mask:
-        linear-gradient(#fff 0 0) content-box,
-        linear-gradient(#fff 0 0);
-      -webkit-mask-composite: xor;
-      mask-composite: exclude;
-      pointer-events: none;
-      opacity: 0;
-      transition: opacity 0.3s ease-in-out;
-    }
-
-    &:hover::before {
-      opacity: 1;
+  .rarity-5-dark {
+    background: linear-gradient(to bottom right, #451a03, #713f12);
+    &:hover {
+      @apply shadow-[0_0_15px_0_rgba(113,63,18,0.5)];
     }
   }
 </style>

@@ -15,7 +15,10 @@ export const useUserStore = defineStore('user', {
   state: (): UserState => {
     // Initialize theme
     const savedTheme = get('theme') as Theme
-    const initialTheme = savedTheme || 'light'
+    const systemPrefersDark =
+      typeof window !== 'undefined' &&
+      window.matchMedia('(prefers-color-scheme: dark)').matches
+    const initialTheme = savedTheme || (systemPrefersDark ? 'dark' : 'light')
 
     // Initialize UID
     const savedUid = get('uid')
@@ -61,7 +64,10 @@ export const useUserStore = defineStore('user', {
       if (savedTheme) {
         this.setTheme(savedTheme)
       } else {
-        this.setTheme('light')
+        const systemPrefersDark =
+          typeof window !== 'undefined' &&
+          window.matchMedia('(prefers-color-scheme: dark)').matches
+        this.setTheme(systemPrefersDark ? 'dark' : 'light')
       }
     },
 

@@ -322,7 +322,7 @@
         content: t('meta.description'),
       },
       {
-        property: 'baidu-site-verification',
+        name: 'baidu-site-verification',
         content: 'codeva-Zu4kVgaUNm',
       },
     ],

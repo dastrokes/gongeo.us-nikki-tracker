@@ -31,10 +31,10 @@
   // Theme overrides for both light and dark modes
   const themeOverrides = computed<GlobalThemeOverrides>(() => ({
     common: {
-      primaryColor: '#F43F5E', // Rose-500
-      primaryColorHover: '#FB7185', // Rose-400
-      primaryColorPressed: '#E11D48', // Rose-600
-      primaryColorSuppl: '#FB7185', // Rose-400
+      primaryColor: '#F43F5E', // Rose-400
+      primaryColorHover: '#FB7185', // Rose-300
+      primaryColorPressed: '#E11D48', // Rose-500
+      primaryColorSuppl: '#FB7185', // Rose-300
 
       infoColor: '#8B5CF6', // Violet-500
       infoColorHover: '#A78BFA', // Violet-400
@@ -57,12 +57,13 @@
       errorColorSuppl: '#F87171', // Red-400
 
       borderRadius: '12px',
-      fontFamily: 'Inter, system-ui, -apple-system, sans-serif',
+      fontFamily: 'Roboto, system-ui, -apple-system, sans-serif',
     },
     Button: {
-      textColor: isDark.value ? '#E5E7EB' : '#4F4F4F', // Gray-200 : Gray-700
+      textColorPrimary: '#f6f6f6',
+      textColorHoverPrimary: '#d6d6d6',
       borderRadius: '12px',
-      fontWeight: '600',
+      fontWeight: '500',
     },
     Card: {
       borderRadius: '16px',

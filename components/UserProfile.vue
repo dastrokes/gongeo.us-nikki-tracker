@@ -6,10 +6,12 @@
   >
     <n-button
       text
+      size="tiny"
+      class="flex items-center"
       aria-label="User profile menu"
     >
       <template #icon>
-        <n-icon size="20">
+        <n-icon>
           <user />
         </n-icon>
       </template>
@@ -28,7 +30,8 @@
   const userStore = useUserStore()
   const pullStore = usePullStore()
   const { clearPullData } = useIndexedDB()
-
+  const localePath = useLocalePath()
+  const router = useRouter()
   const dropdownOptions = computed(() => [
     {
       label: `User ID: ${userStore.uid || 'Not Set'}`,
@@ -56,7 +59,7 @@
           await clearPullData()
           userStore.reset()
           pullStore.reset()
-          window.location.reload()
+          router.push(localePath('/import'))
         },
       })
     }

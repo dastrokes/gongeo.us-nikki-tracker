@@ -35,8 +35,7 @@
               :to="localePath('/')"
               class="pl-2"
             >
-              <span
-                class="text-xl font-bold font-sans transform scale-y-130 leading-none"
+              <span class="text-xl font-bold font-sans leading-none"
                 >gongeo.us</span
               >
             </NuxtLink>
@@ -161,7 +160,7 @@
         }"
         @scroll="onScroll"
       >
-        <div class="h-full pt-16 pb-10">
+        <div class="h-full sm:mt-16 sm:mb-10 mt-12 mb-8">
           <slot />
         </div>
       </n-scrollbar>
@@ -178,9 +177,10 @@
     >
       <n-button
         v-show="showScrollTop"
+        ghost
         circle
         size="small"
-        class="fixed bottom-10 right-10 z-50 shadow-lg"
+        class="fixed bottom-8 right-8 z-50"
         :style="{
           background: isDark ? 'rgb(31, 41, 55)' : 'white',
           '&:hover': {
@@ -199,7 +199,7 @@
     <transition
       enter-active-class="transition duration-300 ease-in-out transform"
       leave-active-class="transition duration-300 ease-in-out transform"
-      enter-from-class="translate-y-full opacity-0"
+      enter-from-class="translate-y-0 opacity-0"
       enter-to-class="translate-y-0 opacity-100"
       leave-from-class="translate-y-0 opacity-100"
       leave-to-class="translate-y-full opacity-0"
@@ -288,6 +288,72 @@
   const route = useRoute()
   const router = useRouter()
 
+  const config = useRuntimeConfig()
+  const siteUrl = config.public.siteUrl || 'https://gongeous.netlify.app/'
+
+  useHead({
+    htmlAttrs: {
+      lang: 'en',
+    },
+    title: t('meta.title'),
+    meta: [
+      { charset: 'utf-8' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      {
+        name: 'description',
+        content: t('meta.description'),
+      },
+      { name: 'robots', content: 'index, follow' },
+      { name: 'author', content: 'dastrokes' },
+      {
+        name: 'keywords',
+        content: t('meta.keywords'),
+      },
+      {
+        property: 'og:site_name',
+        content: t('meta.title'),
+      },
+      {
+        property: 'og:title',
+        content: t('meta.title'),
+      },
+      {
+        property: 'og:description',
+        content: t('meta.description'),
+      },
+    ],
+    link: [
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'canonical', href: siteUrl },
+    ],
+    script: [
+      {
+        type: 'application/ld+json',
+        children: JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'WebApplication',
+          name: t('meta.title'),
+          description: t('meta.description'),
+          url: siteUrl,
+          applicationCategory: 'Game Tool',
+          operatingSystem: 'Any',
+          browserRequirements: 'Requires JavaScript. Requires HTML5.',
+          author: {
+            '@type': 'Person',
+            name: 'dastrokes',
+          },
+          inLanguage: 'en',
+          isFree: true,
+        }),
+      },
+      {
+        'data-goatcounter': 'https://gongeous.goatcounter.com/count',
+        async: true,
+        src: '//gc.zgo.at/count.js',
+      },
+    ],
+  })
+
   const menuOptions = computed<MenuOption[]>(() =>
     [
       {
@@ -304,7 +370,6 @@
         label: t('navigation.global_data'),
         key: 'global',
         icon: renderIcon(Globe),
-        disabled: true,
       },
       {
         label: t('navigation.banner_history'),

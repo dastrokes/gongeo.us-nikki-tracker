@@ -111,6 +111,7 @@
             class="flex-grow grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-4"
           >
             <n-card
+              :style="cardStyle"
               size="small"
               class="text-center rounded-md"
             >
@@ -123,6 +124,7 @@
             </n-card>
 
             <n-card
+              :style="cardStyle"
               size="small"
               class="text-center rounded-md"
             >
@@ -135,6 +137,7 @@
             </n-card>
 
             <n-card
+              :style="cardStyle"
               size="small"
               class="text-center rounded-md"
             >
@@ -147,6 +150,7 @@
             </n-card>
 
             <n-card
+              :style="cardStyle"
               size="small"
               class="text-center rounded-md"
             >
@@ -159,6 +163,7 @@
             </n-card>
 
             <n-card
+              :style="cardStyle"
               size="small"
               class="text-center rounded-md"
             >
@@ -171,6 +176,7 @@
             </n-card>
 
             <n-card
+              :style="cardStyle"
               size="small"
               class="text-center rounded-md"
             >
@@ -183,6 +189,7 @@
             </n-card>
 
             <n-card
+              :style="cardStyle"
               size="small"
               class="text-center rounded-md"
             >
@@ -216,7 +223,7 @@
               ><template #trigger>
                 <n-button
                   size="small"
-                  quaternary
+                  text
                   circle
                   :loading="exporting"
                   @click="exportPNG"
@@ -248,7 +255,7 @@
               <template #trigger>
                 <n-button
                   size="small"
-                  quaternary
+                  text
                   circle
                   @click="exportJSON"
                 >
@@ -265,7 +272,7 @@
               <template #trigger>
                 <n-button
                   size="small"
-                  quaternary
+                  text
                   circle
                   class="text-gray-500 hover:text-gray-700"
                 >
@@ -381,7 +388,7 @@
                       <template #trigger>
                         <n-button
                           size="small"
-                          quaternary
+                          text
                           circle
                           class="text-gray-500 hover:text-gray-700"
                         >
@@ -476,7 +483,7 @@
                       <template #trigger>
                         <n-button
                           size="small"
-                          quaternary
+                          text
                           circle
                           class="text-gray-500 hover:text-gray-700"
                         >
@@ -575,13 +582,13 @@
           v-if="Object.keys(processedPulls).length === 0"
           class="text-center rounded-md rounded-xl"
         >
-          <div class="text-xl text-neutral-800">
+          <div class="text-xl text-neutral-500">
             {{ t('tracker.no_data.title') }}
           </div>
-          <div class="text-xl text-neutral-800">
+          <div class="text-xl text-neutral-500">
             {{ t('tracker.no_data.subtitle') }}
           </div>
-          <div class="text-xl text-neutral-800">
+          <div class="text-xl text-neutral-500">
             {{ t('tracker.no_data.redirect', { countdown }) }}
           </div>
         </n-card>

@@ -45,12 +45,10 @@ export const useUserStore = defineStore('user', {
     reset() {
       // Clear store state
       this.region = Region.AMERICA
-      this.theme = 'light'
       this.uid = null
       this.authToken = null
 
       // Clear cookies
-      remove('theme')
       remove('uid')
       remove('authToken')
     },

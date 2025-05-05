@@ -37,8 +37,6 @@ export default defineEventHandler(async (event) => {
     .update(`${timestamp}:${event.method}:${event.path}`)
     .digest('hex')
 
-  console.log('expectedSignature', expectedSignature)
-
   if (signature !== expectedSignature) {
     throw createError({
       statusCode: 403,

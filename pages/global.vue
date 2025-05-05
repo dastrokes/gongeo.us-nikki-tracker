@@ -227,7 +227,7 @@
             <h3 class="text-lg font-semibold">Pulls per Banner</h3>
             <n-button
               size="tiny"
-              quaternary
+              text
               :type="
                 maximizedChart === 'pullsPerBanner' ? 'primary' : 'default'
               "
@@ -275,7 +275,7 @@
             <h3 class="text-lg font-semibold">5★ Pulls Distribution</h3>
             <n-button
               size="tiny"
-              quaternary
+              text
               :type="maximizedChart === 'fiveStar' ? 'primary' : 'default'"
               @click="toggleMaximize('fiveStar')"
             >
@@ -321,7 +321,7 @@
             <h3 class="text-lg font-semibold">4★ Distribution (5★ Banner)</h3>
             <n-button
               size="tiny"
-              quaternary
+              text
               :type="maximizedChart === 'fourStarType2' ? 'primary' : 'default'"
               @click="toggleMaximize('fourStarType2')"
             >
@@ -369,7 +369,7 @@
             <h3 class="text-lg font-semibold">4★ Distribution (4★ Banner)</h3>
             <n-button
               size="tiny"
-              quaternary
+              text
               :type="maximizedChart === 'fourStarType3' ? 'primary' : 'default'"
               @click="toggleMaximize('fourStarType3')"
             >
@@ -403,13 +403,57 @@
         </n-card>
       </div>
     </n-card>
+
+    <n-tooltip
+      v-if="selectedBanner"
+      trigger="manual"
+      :show="showTooltip"
+      :x="tooltipX"
+      :y="tooltipY"
+      placement="top"
+      :raw="true"
+      class="shadow-none rounded-lg"
+      @clickoutside="hideTooltip"
+    >
+      <template #trigger>
+        <div
+          class="fixed"
+          style="width: 0; height: 0"
+        />
+      </template>
+      <transition
+        name="tooltip"
+        appear
+        enter-active-class="transition ease-out duration-200"
+        enter-from-class="opacity-0 translate-y-[-10px] scale-95"
+        enter-to-class="opacity-100 translate-y-0 scale-100"
+        leave-active-class="transition ease-in duration-200"
+        leave-from-class="opacity-100 translate-y-0 scale-100"
+        leave-to-class="opacity-0 translate-y-[-10px] scale-95"
+      >
+        <div
+          v-if="showTooltip"
+          class="bg-[rgba(100,100,100,0.3)] rounded-lg p-2 origin-top"
+        >
+          <div class="text-xs text-center text-gray-400 mb-1">
+            {{ selectedBanner.name }}: {{ selectedBanner.pulls }} pulls
+          </div>
+          <nuxt-img
+            :src="`/images/banners/${selectedBanner.id}.webp`"
+            :alt="selectedBanner.name"
+            :placeholder="[200, 80]"
+            class="w-[200px] h-[80px] object-cover opacity-80 rounded"
+          />
+        </div>
+      </transition>
+    </n-tooltip>
   </div>
 </template>
 
 <script setup>
   import { ref, onMounted, watchEffect, computed } from 'vue'
   import Chart from 'chart.js/auto'
-  import { NSkeleton, NNumberAnimation, NButton } from 'naive-ui'
+  import { NSkeleton, NNumberAnimation, NButton, NTooltip } from 'naive-ui'
   import { BANNER_DATA } from '~/data/banners'
   import { ExpandAlt, CompressAlt } from '@vicons/fa'
   import { useSupabaseClient } from '~/composables/useSupabaseClient'
@@ -425,6 +469,9 @@
 
   // Global Chart.js configuration
   Chart.defaults.font.size = 12
+  Chart.defaults.font.family = 'Roboto, system-ui, -apple-system, sans-serif'
+  Chart.defaults.color = isDark.value ? '#f0f1f3' : '#797a7c'
+  Chart.defaults.backgroundColor = isDark.value ? '#1F2937' : '#FAF5FF'
   Chart.defaults.plugins.legend.display = false
   Chart.defaults.plugins.legend.position = 'top'
   Chart.defaults.plugins.legend.labels.boxWidth = 12
@@ -463,16 +510,59 @@
   const charts = ref([])
   const maximizedChart = ref(null)
 
+  // Add tooltip related refs
+  const showTooltip = ref(false)
+  const tooltipX = ref(0)
+  const tooltipY = ref(0)
+  const selectedBanner = ref(null)
+
   const { cardStyle } = useCardStyle()
 
-  // Add computed property for chart background color
-  const chartBackgroundColor = computed(() => {
-    return isDark.value ? 'rgb(31, 41, 55)' : 'rgb(250, 245, 255)'
-  })
+  // Hide tooltip function
+  const hideTooltip = () => {
+    showTooltip.value = false
+    selectedBanner.value = null
+  }
 
-  // Update Chart.js defaults
-  Chart.defaults.plugins.background = {
-    color: chartBackgroundColor.value,
+  // Handle chart click
+  const handleChartClick = (chart, event) => {
+    const points = chart.getElementsAtEventForMode(
+      event,
+      'nearest',
+      { intersect: true },
+      true
+    )
+
+    if (points.length) {
+      const firstPoint = points[0]
+      const bannerId = Object.keys(data.value.pulls_per_banner)[
+        firstPoint.index
+      ]
+      const banner = BANNER_DATA[parseInt(bannerId)]
+      const pulls = data.value.pulls_per_banner[bannerId]
+
+      // Get chart container position
+      const rect = chart.canvas.getBoundingClientRect()
+
+      // Calculate position relative to the clicked bar
+      const barPosition = chart.getDatasetMeta(firstPoint.datasetIndex).data[
+        firstPoint.index
+      ]
+
+      // Update tooltip data and position
+      selectedBanner.value = {
+        id: bannerId,
+        name: banner.bannerName,
+        pulls: pulls,
+      }
+
+      // Position tooltip above the bar
+      tooltipX.value = rect.left + barPosition.x
+      tooltipY.value = rect.top + barPosition.y - 10 // Offset above the bar
+      showTooltip.value = true
+    } else {
+      hideTooltip()
+    }
   }
 
   const fetchData = async () => {
@@ -600,6 +690,14 @@
           options: {
             responsive: true,
             maintainAspectRatio: false,
+            onHover: (event, elements) => {
+              event.native.target.style.cursor = elements.length
+                ? 'pointer'
+                : 'default'
+            },
+            onClick: (event, elements, chart) => {
+              handleChartClick(chart, event)
+            },
             scales: {
               y: {
                 beginAtZero: true,
@@ -631,12 +729,7 @@
                 },
               },
               tooltip: {
-                filter: function (tooltipItem) {
-                  return tooltipItem.raw !== null && tooltipItem.raw !== 0
-                },
-              },
-              background: {
-                color: chartBackgroundColor.value,
+                enabled: false,
               },
             },
           },
@@ -717,9 +810,6 @@
             plugins: {
               legend: {
                 display: false,
-              },
-              background: {
-                color: chartBackgroundColor.value,
               },
               tooltip: {
                 callbacks: {
@@ -817,9 +907,6 @@
               legend: {
                 display: false,
               },
-              background: {
-                color: chartBackgroundColor.value,
-              },
               tooltip: {
                 callbacks: {
                   label: function (context) {
@@ -915,9 +1002,6 @@
             plugins: {
               legend: {
                 display: false,
-              },
-              background: {
-                color: chartBackgroundColor.value,
               },
               tooltip: {
                 callbacks: {

@@ -78,7 +78,8 @@
             height="200"
             fit="cover"
             quality="100"
-            loading="lazy"
+            loading="eager"
+            fetchpriority="high"
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 75vw, 500px"
           />
         </div>

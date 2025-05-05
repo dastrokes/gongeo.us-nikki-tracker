@@ -407,20 +407,29 @@
                               banner.stats.totalPulls
                             }}</span>
                           </div>
-                          <div class="flex justify-between">
+                          <div
+                            v-if="hasBothRarities(banner.bannerId)"
+                            class="flex justify-between"
+                          >
                             <span class="text-sm">5★ Total</span>
                             <span class="font-medium text-amber-600">{{
                               banner.stats.total5StarItems
                             }}</span>
                           </div>
-                          <div class="flex justify-between">
+                          <div
+                            v-if="hasBothRarities(banner.bannerId)"
+                            class="flex justify-between"
+                          >
                             <span class="text-sm">5★ Average</span>
                             <span class="font-medium text-amber-600">{{
                               banner.stats.avg5StarPulls.toFixed(1)
                             }}</span>
                           </div>
                           <div
-                            v-if="!banner.isComplete"
+                            v-if="
+                              hasBothRarities(banner.bannerId) &&
+                              !banner.isComplete
+                            "
                             class="flex justify-between"
                           >
                             <span class="text-sm">5★ Pity</span>
@@ -452,7 +461,7 @@
                           >
                             <span class="text-sm">4★ Only Total</span>
                             <span class="font-medium text-blue-600">{{
-                              banner.stats.total4StarItems
+                              banner.stats.total4StarOnlyItems
                             }}</span>
                           </div>
                           <div
@@ -461,7 +470,7 @@
                           >
                             <span class="text-sm">4★ Only Average</span>
                             <span class="font-medium text-blue-600">{{
-                              banner.stats.avg4StarPulls.toFixed(1)
+                              banner.stats.avg4StarOnlyPulls.toFixed(1)
                             }}</span>
                           </div>
                           <div

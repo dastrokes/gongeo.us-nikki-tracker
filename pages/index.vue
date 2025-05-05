@@ -1,7 +1,7 @@
 <template>
   <div class="max-w-7xl mx-auto space-y-4">
     <n-card
-      class="rounded-xl pl-4"
+      class="rounded-xl"
       size="small"
       :style="cardStyle"
     >
@@ -17,27 +17,25 @@
       </p>
       <div class="flex gap-4">
         <n-button
-          v-if="loading"
+          v-if="status === 'pending' || status === 'idle'"
           type="primary"
           size="large"
-          :loading="loading"
+          loading
         >
           {{ $t('index.loading') }}
         </n-button>
         <n-button
-          v-if="!loading && hasData"
+          v-if="status === 'success' && hasData"
           type="primary"
           size="large"
-          :loading="loading"
           @click="router.push(localePath('/tracker'))"
         >
           {{ $t('index.go_to_tracker') }}
         </n-button>
         <n-button
-          v-if="!loading && !hasData"
+          v-if="(status === 'success' && !hasData) || status === 'error'"
           type="primary"
           size="large"
-          :loading="loading"
           @click="router.push(localePath('/import'))"
         >
           {{ $t('index.import_data') }}
@@ -46,7 +44,7 @@
     >
 
     <n-card
-      class="rounded-xl pl-4"
+      class="rounded-xl"
       size="small"
       :style="cardStyle"
     >
@@ -77,10 +75,9 @@
             width="500"
             height="200"
             fit="cover"
-            quality="100"
+            quality="80"
             loading="eager"
-            fetchpriority="high"
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 75vw, 500px"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 500px"
           />
         </div>
       </div>
@@ -93,7 +90,7 @@
   import { useRouter } from 'vue-router'
   import { useIndexedDB } from '~/composables/useIndexedDB'
   import { usePullStore } from '~/stores/pull'
-  import { onMounted, ref, computed } from 'vue'
+  import { computed } from 'vue'
   import { useUserStore } from '~/stores/user'
   import { BANNER_DATA } from '~/data/banners'
   import { HourglassHalf } from '@vicons/fa'
@@ -103,12 +100,32 @@
   const userStore = useUserStore()
   const isDark = computed(() => userStore.getCurrentTheme === 'dark')
   const { cardStyle } = useCardStyle()
+  const pullStore = usePullStore()
 
   const localePath = useLocalePath()
-
   const router = useRouter()
+
   const { data, hasData, loadPullData } = useIndexedDB()
-  const loading = ref(true)
+
+  // Use useAsyncData for client-side only data fetching
+  const { status } = useAsyncData(
+    'pullData',
+    async () => {
+      try {
+        await loadPullData()
+        if (data.value) {
+          pullStore.processPullsData(data.value)
+        }
+      } catch (error) {
+        console.error('Failed to load pull data:', error)
+        throw error
+      }
+    },
+    {
+      server: false,
+      immediate: import.meta.client,
+    }
+  )
 
   const currentBanners = computed(() => {
     return [BANNER_DATA[19], BANNER_DATA[20]]
@@ -123,7 +140,6 @@
   })
 
   const targetTime: number = new Date('2025-06-04T20:00:00Z').getTime()
-
   const remaining = ref<number>(targetTime - Date.now())
 
   const formattedTime = computed<string>(() => {
@@ -140,17 +156,7 @@
 
   let interval: ReturnType<typeof setInterval>
 
-  onMounted(async () => {
-    loading.value = true
-    try {
-      await loadPullData()
-      usePullStore().processPullsData(data.value)
-    } catch (error) {
-      console.error('Failed to load data:', error)
-    } finally {
-      loading.value = false
-    }
-
+  onMounted(() => {
     interval = setInterval(() => {
       remaining.value = targetTime - Date.now()
       if (remaining.value <= 0) {

@@ -1,11 +1,11 @@
 <template>
-  <div class="container mx-auto px-4 py-8">
+  <div class="max-w-7xl mx-auto space-y-4">
     <n-card
       class="rounded-xl"
       :style="cardStyle"
     >
       <n-timeline
-        :icon-size="30"
+        :icon-size="24"
         size="large"
       >
         <n-timeline-item
@@ -28,7 +28,7 @@
                   </n-text>
                 </div>
                 <div>
-                  <div class="flex flex-wrap gap-2">
+                  <div class="flex flex-row sm:flex-col gap-2">
                     <div
                       v-for="outfitId in banner.outfit5StarId"
                       :key="outfitId"
@@ -70,7 +70,7 @@
               </div>
               <div class="lg:col-span-3">
                 <div
-                  class="flex flex-col items-center space-y-1 min-h-[150px] sm:min-h-[180px] lg:min-h-[200px] max-w-2xl mx-auto"
+                  class="flex flex-col items-center space-y-1 min-h-[120px] sm:min-h-[180px] lg:min-h-[200px] max-w-2xl mx-auto"
                 >
                   <nuxt-img
                     :src="imageUrl(banner.bannerId)"
@@ -81,7 +81,7 @@
                     width="500"
                     height="200"
                     fit="cover"
-                    quality="80"
+                    quality="100"
                     loading="lazy"
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 75vw, 500px"
                   />

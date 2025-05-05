@@ -13,7 +13,11 @@
     "description": "Track your Infinity Nikki resonance history and statistics",
     "loading": "Loading...",
     "go_to_tracker": "Go to Tracker",
-    "import_data": "Import Your Data"
+    "import_data": "Import Your Data",
+    "current_banners": "Current Banners",
+    "time_left": "Time Left:",
+    "days": "days",
+    "hours": "hours"
   },
   "import": {
     "choose_method": "Choose Import Method",

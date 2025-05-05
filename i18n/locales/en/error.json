@@ -1,0 +1,9 @@
+{
+  "error": {
+    "defaultTitle": "Error",
+    "defaultMessage": "Something went wrong",
+    "notFound": "The page you are looking for does not exist.",
+    "unexpected": "An unexpected error occurred.",
+    "returnHome": "Return Home"
+  }
+}

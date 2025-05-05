@@ -6,10 +6,11 @@
   >
     <n-button
       text
+      size="tiny"
       class="flex items-center"
       aria-label="Language switcher"
     >
-      <n-icon size="20">
+      <n-icon>
         <Language />
       </n-icon>
     </n-button>

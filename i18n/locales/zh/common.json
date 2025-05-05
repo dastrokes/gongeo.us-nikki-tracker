@@ -13,7 +13,11 @@
     "description": "记录您的无限暖暖共鸣历史和统计数据",
     "loading": "加载中...",
     "go_to_tracker": "前往记录",
-    "import_data": "导入数据"
+    "import_data": "导入数据",
+    "current_banners": "当前卡池",
+    "time_left": "剩余时间:",
+    "days": "天",
+    "hours": "小时"
   },
   "import": {
     "choose_method": "选择导入方式",

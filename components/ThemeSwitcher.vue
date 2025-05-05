@@ -1,12 +1,13 @@
 <template>
   <n-button
-    quaternary
-    circle
-    @click="toggleTheme"
     class="theme-switcher"
+    aria-label="Toggle theme"
+    text
+    size="tiny"
+    @click="toggleTheme"
   >
     <template #icon>
-      <n-icon size="20">
+      <n-icon>
         <SunIcon v-if="isDark" />
         <MoonIcon v-else />
       </n-icon>

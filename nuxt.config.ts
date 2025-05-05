@@ -5,72 +5,6 @@ import Components from 'unplugin-vue-components/vite'
 export default defineNuxtConfig({
   devtools: { enabled: true },
 
-  app: {
-    head: {
-      htmlAttrs: {
-        lang: 'en',
-      },
-      title: 'Infinity Nikki Resonance Tracker',
-      meta: [
-        { charset: 'utf-8' },
-        { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-        {
-          name: 'description',
-          content:
-            'Track your Infinity Nikki resonance history and statistics. A fan-made tool for Infinity Nikki players.',
-        },
-        { name: 'robots', content: 'index, follow' },
-        { name: 'author', content: 'dastrokes' },
-        {
-          name: 'keywords',
-          content:
-            'Infinity Nikki, resonance tracker, pull tracker, gacha tracker, game tools, Nikki game',
-        },
-
-        // Canonical URL
-        {
-          property: 'og:site_name',
-          content: 'Infinity Nikki Resonance Tracker',
-        },
-        {
-          rel: 'canonical',
-          href:
-            process.env.NUXT_PUBLIC_SITE_URL || 'https://gongeous.netlify.app/',
-        },
-      ],
-      link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
-      script: [
-        {
-          type: 'application/ld+json',
-          children: JSON.stringify({
-            '@context': 'https://schema.org',
-            '@type': 'WebApplication',
-            name: 'Infinity Nikki Resonance Tracker',
-            description:
-              'Track your Infinity Nikki resonance history and statistics. A fan-made tool for Infinity Nikki players.',
-            url:
-              process.env.NUXT_PUBLIC_SITE_URL ||
-              'https://gongeous.netlify.app/',
-            applicationCategory: 'Game Tool',
-            operatingSystem: 'Any',
-            browserRequirements: 'Requires JavaScript. Requires HTML5.',
-            author: {
-              '@type': 'Person',
-              name: 'dastrokes',
-            },
-            inLanguage: 'en',
-            isFree: true,
-          }),
-        },
-        {
-          'data-goatcounter': 'https://gongeous.goatcounter.com/count',
-          async: true,
-          src: '//gc.zgo.at/count.js',
-        },
-      ],
-    },
-  },
-
   // Add global CSS files
   css: ['~/assets/styles/global.scss'],
 
@@ -82,6 +16,8 @@ export default defineNuxtConfig({
     '@bg-dev/nuxt-naiveui',
     '@nuxt/image',
     '@nuxtjs/i18n',
+    '@nuxtjs/sitemap',
+    '@nuxtjs/robots',
   ],
 
   i18n: {
@@ -91,13 +27,23 @@ export default defineNuxtConfig({
         code: 'en',
         iso: 'en-US',
         name: 'English',
-        files: ['en/common.json', 'en/outfit.json'],
+        files: [
+          'en/common.json',
+          'en/outfit.json',
+          'en/meta.json',
+          'en/error.json',
+        ],
       },
       {
         code: 'zh',
         iso: 'zh-CN',
         name: '中文',
-        files: ['zh/common.json', 'zh/outfit.json'],
+        files: [
+          'zh/common.json',
+          'zh/outfit.json',
+          'zh/meta.json',
+          'zh/error.json',
+        ],
       },
     ],
     defaultLocale: 'en',
@@ -120,7 +66,14 @@ export default defineNuxtConfig({
       gongeousSecretKey: process.env.GONGEOUS_APP_SECRET,
       supabaseUrl: process.env.SUPABASE_DATABASE_URL,
       supabaseAnonKey: process.env.SUPABASE_ANON_KEY,
+      siteUrl:
+        process.env.NUXT_PUBLIC_SITE_URL || 'https://gongeous.netlify.app/',
     },
+  },
+
+  site: {
+    url: process.env.NUXT_PUBLIC_SITE_URL || 'https://gongeous.netlify.app/',
+    name: 'gongeo.us Infinity Nikki Resonance Tracker',
   },
 
   image: {

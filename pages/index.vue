@@ -38,7 +38,7 @@
           size="large"
           @click="router.push(localePath('/import'))"
         >
-          {{ $t('index.import_data') }}
+          {{ $t('navigation.import_data') }}
         </n-button>
       </div></n-card
     >

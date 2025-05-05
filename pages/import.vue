@@ -26,7 +26,7 @@
                 v-model:value="importMethod"
                 name="importMethod"
               >
-                <n-space>
+                <n-space class="flex-wrap">
                   <n-radio value="game">{{
                     $t('import.import_from_game')
                   }}</n-radio>
@@ -56,7 +56,7 @@
                 accept=".json"
                 :max="1"
                 :show-file-list="true"
-                class="w-96"
+                class="w-full max-w-96"
                 @change="handleFileChange"
               >
                 <n-button>{{ $t('import.select_file') }}</n-button>
@@ -93,6 +93,7 @@
                 :value="userStore.getRegion"
                 :options="regionOptions"
                 :placeholder="$t('import.select_region_desc')"
+                class="max-w-full"
                 @update:value="userStore.setRegion"
               />
             </div>
@@ -193,7 +194,7 @@
                         :code="consoleScript"
                         word-wrap
                         language="javascript"
-                        class="w-96 font-mono text-xs whitespace-pre rounded"
+                        class="w-full max-w-96 font-mono text-xs whitespace-pre-wrap rounded"
                       />
                     </template>
                   </n-popconfirm>
@@ -201,7 +202,7 @@
                 <li>{{ $t('import.console_steps.step5') }}</li>
                 <li>{{ $t('import.console_steps.step6') }}</li>
                 <li>{{ $t('import.console_steps.step7') }}</li>
-                <div class="text-sm text-amber-600">
+                <div class="text-sm text-amber-600 break-words">
                   {{ $t('import.security_note') }}
                 </div>
               </ol>
@@ -211,13 +212,13 @@
                   type="textarea"
                   :rows="3"
                   placeholder="{'roleid':'123456','token':'eyJhabc123xyz456.eyJhdef789ghi000.abc123def789','id':'654321'}"
-                  class="w-80"
+                  class="w-full max-w-80"
                 />
                 <n-space
-                  class="flex mt-2"
+                  class="flex mt-2 flex-wrap"
                   align="center"
                 >
-                  <n-space class="flex">
+                  <n-space class="flex-wrap">
                     <n-button
                       secondary
                       :disabled="!manualPasteInput"
@@ -269,7 +270,7 @@
                 </li>
                 <li>{{ $t('import.manual_steps.step6') }}</li>
               </ol>
-              <div class="text-sm text-amber-600">
+              <div class="text-sm text-amber-600 break-words">
                 {{ $t('import.security_note') }}
               </div>
             </div>
@@ -280,30 +281,43 @@
           <template v-if="importMethod === 'game'">
             <n-form>
               <n-space vertical>
-                <n-form-item :label="$t('import.form.uid')">
+                <n-form-item
+                  :label="$t('import.form.uid')"
+                  class="w-full"
+                >
                   <n-input
                     v-model:value="formData.roleid"
                     :placeholder="$t('import.form.uid_placeholder')"
+                    class="max-w-full"
                   />
                 </n-form-item>
-                <n-form-item :label="$t('import.form.momo_id')">
+                <n-form-item
+                  :label="$t('import.form.momo_id')"
+                  class="w-full"
+                >
                   <n-input
                     v-model:value="formData.id"
                     :placeholder="$t('import.form.momo_id_placeholder')"
+                    class="max-w-full"
                   />
                 </n-form-item>
-                <n-form-item :label="$t('import.form.momo_token')">
+                <n-form-item
+                  :label="$t('import.form.momo_token')"
+                  class="w-full"
+                >
                   <n-input
                     v-model:value="formData.token"
                     :placeholder="$t('import.form.momo_token_placeholder')"
+                    class="max-w-full"
                   />
                 </n-form-item>
               </n-space>
             </n-form>
             <n-space
               align="center"
-              class="w-full flex mb-4"
-              >{{ $t('import.form.submit_global_stats') }}
+              class="w-full flex mb-4 flex-wrap"
+            >
+              <span>{{ $t('import.form.submit_global_stats') }}</span>
               <n-switch
                 v-model:value="submitGlobalStats"
                 class="flex-shrink-0"

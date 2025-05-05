@@ -266,7 +266,6 @@ export const usePullStore = defineStore('pull', {
                 fiveStarPullsToObtain += pullsToObtain
                 fiveStarCount++
               } else {
-                total4Star++
                 fourStarPullsToObtain += pullsToObtain
                 fourStarCount++
               }
@@ -280,7 +279,6 @@ export const usePullStore = defineStore('pull', {
           const bannerType = bannerInfo.bannerType || 1
           const stats = currentBanner.stats
           const currentPulls = currentBanner.pulls
-
           if (bannerType === 1) {
             // Permanent
             stats.total5StarItems = currentPulls.filter(
@@ -316,7 +314,6 @@ export const usePullStore = defineStore('pull', {
               (sum: number, item: PullItem) => sum + item.pullsToObtain,
               0
             )
-            fourStarCount += fourStarPulls.length
 
             stats.total4StarPulls = fourStarPulls.reduce(
               (sum: number, item: PullItem) => sum + item.pullsToObtain,

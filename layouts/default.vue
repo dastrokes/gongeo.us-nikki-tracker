@@ -160,7 +160,7 @@
         }"
         @scroll="onScroll"
       >
-        <div class="h-full sm:mt-16 sm:mb-10 mt-12 mb-8">
+        <div class="h-full sm:mt-16 mt-12 mb-10">
           <slot />
         </div>
       </n-scrollbar>

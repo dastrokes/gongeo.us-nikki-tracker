@@ -588,8 +588,13 @@
           <div class="text-xl text-neutral-500">
             {{ t('tracker.no_data.subtitle') }}
           </div>
-          <div class="text-xl text-neutral-500">
-            {{ t('tracker.no_data.redirect', { countdown }) }}
+          <div class="mt-4">
+            <n-button
+              type="primary"
+              @click="router.push(localePath('/import'))"
+            >
+              {{ t('navigation.import_data') }}
+            </n-button>
           </div>
         </n-card>
       </div>
@@ -628,7 +633,6 @@
   const { cardStyle } = useCardStyle()
 
   const loading = ref(true)
-  const countdown = ref(5)
 
   onMounted(async () => {
     try {
@@ -639,14 +643,6 @@
         await pullStore.processPullsData(data.value)
       } else {
         loading.value = false
-        // Start countdown
-        const timer = setInterval(() => {
-          countdown.value--
-          if (countdown.value <= 0) {
-            clearInterval(timer)
-            router.push(localePath('/import'))
-          }
-        }, 1000)
       }
     } catch (error) {
       console.error('Failed to load resonance data:', error)

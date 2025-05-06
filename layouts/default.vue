@@ -325,6 +325,10 @@
         name: 'baidu-site-verification',
         content: 'codeva-Zu4kVgaUNm',
       },
+      {
+        name: 'yandex-verification',
+        content: '8343c5759c772c9e',
+      },
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },

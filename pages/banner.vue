@@ -1,13 +1,11 @@
 <template>
   <div class="max-w-7xl mx-auto space-y-4">
     <n-card
-      class="rounded-xl"
+      size="small"
+      class="rounded-xl p-0 sm:p-2"
       :style="cardStyle"
     >
-      <n-timeline
-        :icon-size="24"
-        size="large"
-      >
+      <n-timeline :icon-size="20">
         <n-timeline-item
           v-for="banner in sortedBanners"
           :key="banner.bannerId"
@@ -27,44 +25,44 @@
                     {{ new Date(banner.runs[0].end).toLocaleDateString() }}
                   </n-text>
                 </div>
-                <div>
-                  <div class="flex flex-row sm:flex-col gap-2">
-                    <div
-                      v-for="outfitId in banner.outfit5StarId"
-                      :key="outfitId"
+                <div class="inline-flex flex-col gap-2 items-start">
+                  <div
+                    v-for="outfitId in banner.outfit5StarId"
+                    :key="outfitId"
+                    class="inline-flex flex-col"
+                  >
+                    <n-tag
+                      size="large"
+                      type="warning"
+                      :bordered="false"
+                      round
                     >
-                      <n-tag
-                        size="large"
-                        type="warning"
-                        :bordered="false"
-                        round
+                      <span class="align-top"
+                        >{{ t(getOutfitName(outfitId)) }} 5</span
                       >
-                        <span class="align-top"
-                          >{{ t(getOutfitName(outfitId)) }} 5</span
-                        >
-                        <span class="ml-1"
-                          ><n-icon><Star /></n-icon
-                        ></span>
-                      </n-tag>
-                    </div>
-                    <div
-                      v-for="outfitId in banner.outfit4StarId"
-                      :key="outfitId"
+                      <span class="ml-1"
+                        ><n-icon><Star /></n-icon
+                      ></span>
+                    </n-tag>
+                  </div>
+                  <div
+                    v-for="outfitId in banner.outfit4StarId"
+                    :key="outfitId"
+                    class="inline-flex flex-col"
+                  >
+                    <n-tag
+                      size="large"
+                      type="info"
+                      :bordered="false"
+                      round
                     >
-                      <n-tag
-                        size="large"
-                        type="info"
-                        :bordered="false"
-                        round
+                      <span class="align-top"
+                        >{{ t(getOutfitName(outfitId)) }} 4</span
                       >
-                        <span class="align-top"
-                          >{{ t(getOutfitName(outfitId)) }} 4</span
-                        >
-                        <span class="ml-1"
-                          ><n-icon><Star /></n-icon
-                        ></span>
-                      </n-tag>
-                    </div>
+                      <span class="ml-1"
+                        ><n-icon><Star /></n-icon
+                      ></span>
+                    </n-tag>
                   </div>
                 </div>
               </div>

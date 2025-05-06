@@ -7,42 +7,34 @@ const outfit: Outfit = {
   items: [
     {
       id: '1020100208',
-      type: 'hair',
       name: 'item.1020100208.name',
     },
     {
       id: '1020900208',
-      type: 'dresses',
       name: 'item.1020900208.name',
     },
     {
       id: '1020500208',
-      type: 'socks',
       name: 'item.1020500208.name',
     },
     {
       id: '1020600208',
-      type: 'shoes',
       name: 'item.1020600208.name',
     },
     {
       id: '1020710208',
-      type: 'hairAccessories',
       name: 'item.1020710208.name',
     },
     {
       id: '1020730208',
-      type: 'earrings',
       name: 'item.1020730208.name',
     },
     {
       id: '1020740208',
-      type: 'neckwear',
       name: 'item.1020740208.name',
     },
     {
       id: '1020770208',
-      type: 'gloves',
       name: 'item.1020770208.name',
     },
   ],

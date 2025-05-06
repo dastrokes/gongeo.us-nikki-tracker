@@ -5,126 +5,66 @@
       size="small"
       class="rounded-xl"
       :style="cardStyle"
-      no-title
     >
       <!-- Summary Cards Skeleton -->
-      <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-4">
+      <div class="grid grid-cols-2 md:grid-cols-6 gap-2 mb-2">
         <n-card
-          class="rounded-lg"
+          v-for="i in 6"
+          :key="i"
+          size="small"
+          class="text-center rounded-md"
           :style="cardStyle"
         >
           <NSkeleton
-            height="24px"
+            height="20px"
+            width="80%"
+            class="mb-2 mx-auto"
+          />
+          <NSkeleton
+            height="28px"
             width="60%"
-            class="mb-2"
-          />
-          <NSkeleton
-            height="32px"
-            width="40%"
-          />
-        </n-card>
-        <n-card
-          class="rounded-lg"
-          :style="cardStyle"
-        >
-          <NSkeleton
-            height="24px"
-            width="60%"
-            class="mb-2"
-          />
-          <NSkeleton
-            height="32px"
-            width="40%"
-          />
-        </n-card>
-        <n-card
-          class="rounded-lg"
-          :style="cardStyle"
-        >
-          <NSkeleton
-            height="24px"
-            width="60%"
-            class="mb-2"
-          />
-          <NSkeleton
-            height="32px"
-            width="40%"
-          />
-        </n-card>
-        <n-card
-          class="rounded-lg"
-          :style="cardStyle"
-        >
-          <NSkeleton
-            height="24px"
-            width="60%"
-            class="mb-2"
-          />
-          <NSkeleton
-            height="32px"
-            width="40%"
-          />
-        </n-card>
-        <n-card
-          class="rounded-lg"
-          :style="cardStyle"
-        >
-          <NSkeleton
-            height="24px"
-            width="60%"
-            class="mb-2"
-          />
-          <NSkeleton
-            height="32px"
-            width="40%"
+            class="mx-auto"
           />
         </n-card>
       </div>
 
       <!-- Charts Skeleton -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <!-- Main Chart Skeleton -->
         <n-card
-          class="col-span-1 sm:col-span-3 rounded-lg"
+          class="col-span-1 md:col-span-3 rounded-lg"
           :style="cardStyle"
         >
-          <NSkeleton
-            height="24px"
-            width="40%"
-            class="mb-4"
-          />
-          <NSkeleton height="200px" />
+          <div class="flex justify-between items-center mb-2">
+            <NSkeleton
+              height="24px"
+              width="200px"
+            />
+            <NSkeleton
+              height="24px"
+              width="24px"
+            />
+          </div>
+          <NSkeleton height="250px" />
         </n-card>
+
+        <!-- Distribution Charts Skeleton -->
         <n-card
+          v-for="i in 3"
+          :key="i"
           class="rounded-lg"
           :style="cardStyle"
         >
-          <NSkeleton
-            height="24px"
-            width="40%"
-            class="mb-4"
-          />
-          <NSkeleton height="200px" />
-        </n-card>
-        <n-card
-          class="rounded-lg"
-          :style="cardStyle"
-        >
-          <NSkeleton
-            height="24px"
-            width="40%"
-            class="mb-4"
-          />
-          <NSkeleton height="200px" />
-        </n-card>
-        <n-card
-          class="rounded-lg"
-          :style="cardStyle"
-        >
-          <NSkeleton
-            height="24px"
-            width="40%"
-            class="mb-4"
-          />
+          <div class="flex justify-between items-center mb-2">
+            <NSkeleton
+              height="24px"
+              width="200px"
+            />
+            <NSkeleton
+              height="24px"
+              width="24px"
+            />
+          </div>
           <NSkeleton height="200px" />
         </n-card>
       </div>
@@ -132,46 +72,50 @@
 
     <n-card
       v-else
+      size="small"
       class="rounded-xl"
       :style="cardStyle"
     >
       <!-- Summary Cards -->
       <div
         v-show="!maximizedChart"
-        class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-4"
+        class="grid grid-cols-2 md:grid-cols-6 gap-2 mb-2"
       >
         <n-card
-          class="rounded-lg"
+          size="small"
+          class="text-center rounded-md"
           :style="cardStyle"
         >
-          <h3 class="text-md text-gray-400 mb-2">Total Pulls</h3>
-          <div class="text-2xl font-bold">
+          <div class="text-sm text-gray-400">Total Pulls</div>
+          <div class="text-xl font-medium mt-1">
             <n-number-animation
               :from="0"
               :to="totalPulls"
-              :duration="1000"
+              :duration="3000"
             />
           </div>
         </n-card>
         <n-card
-          class="rounded-lg"
+          size="small"
+          class="text-center rounded-md"
           :style="cardStyle"
         >
-          <h3 class="text-md text-gray-400 mb-2">Unique Users</h3>
-          <div class="text-2xl font-bold">
+          <div class="text-sm text-gray-400">Unique Users</div>
+          <div class="text-xl font-medium mt-1">
             <n-number-animation
               :from="0"
               :to="uniqueUserCount"
-              :duration="1000"
+              :duration="2000"
             />
           </div>
         </n-card>
         <n-card
-          class="rounded-lg"
+          size="small"
+          class="text-center rounded-md"
           :style="cardStyle"
         >
-          <h3 class="text-sm text-gray-400 mb-2">Average Pulls for 5★</h3>
-          <div class="text-2xl font-bold">
+          <div class="text-sm text-gray-400">5★ Avg (5★ Banner)</div>
+          <div class="text-xl font-medium mt-1">
             <n-number-animation
               :from="0"
               :to="averagePullsTo5Star"
@@ -181,11 +125,12 @@
           </div>
         </n-card>
         <n-card
-          class="rounded-lg"
+          size="small"
+          class="text-center rounded-md"
           :style="cardStyle"
         >
-          <h3 class="text-sm text-gray-400 mb-2">Average for 4★ (5★ Banner)</h3>
-          <div class="text-2xl font-bold">
+          <div class="text-sm text-gray-400">4★ Avg (5★ Banner)</div>
+          <div class="text-xl font-medium mt-1">
             <n-number-animation
               :from="0"
               :to="averagePullsTo4StarType2"
@@ -195,17 +140,28 @@
           </div>
         </n-card>
         <n-card
-          class="rounded-lg"
+          size="small"
+          class="text-center rounded-md"
           :style="cardStyle"
         >
-          <h3 class="text-sm text-gray-400 mb-2">Average for 4★ (4★ Banner)</h3>
-          <div class="text-2xl font-bold">
+          <div class="text-sm text-gray-400">4★ Avg (4★ Banner)</div>
+          <div class="text-xl font-medium mt-1">
             <n-number-animation
               :from="0"
               :to="averagePullsTo4StarType3"
               :duration="1000"
               :precision="2"
             />
+          </div>
+        </n-card>
+        <n-card
+          size="small"
+          class="text-center rounded-md"
+          :style="cardStyle"
+        >
+          <div class="text-sm text-gray-400">Data as of</div>
+          <div class="text-xl font-medium mt-1">
+            {{ new Date(data.effective_date).toLocaleDateString() }}
           </div>
         </n-card>
       </div>
@@ -223,8 +179,8 @@
           ]"
           :style="cardStyle"
         >
-          <div class="flex justify-between items-center mb-4">
-            <h3 class="text-lg font-semibold">Pulls per Banner</h3>
+          <div class="flex justify-between items-center mb-2">
+            <n-h4 class="text-lg font-semibold">Pulls per Banner</n-h4>
             <n-button
               size="tiny"
               text
@@ -251,7 +207,7 @@
               'transition-all duration-300',
               maximizedChart === 'pullsPerBanner'
                 ? 'h-[calc(100vh-240px)]'
-                : 'h-[200px]',
+                : 'h-[250px]',
             ]"
             :style="cardStyle"
           >
@@ -271,8 +227,8 @@
           ]"
           :style="cardStyle"
         >
-          <div class="flex justify-between items-center mb-4">
-            <h3 class="text-lg font-semibold">5★ Pulls Distribution</h3>
+          <div class="flex justify-between items-center mb-2">
+            <n-h4 class="text-lg font-semibold">5★ Pulls Distribution</n-h4>
             <n-button
               size="tiny"
               text
@@ -317,8 +273,10 @@
           ]"
           :style="cardStyle"
         >
-          <div class="flex justify-between items-center mb-4">
-            <h3 class="text-lg font-semibold">4★ Distribution (5★ Banner)</h3>
+          <div class="flex justify-between items-center mb-2">
+            <n-h4 class="text-lg font-semibold"
+              >4★ Distribution (5★ Banner)</n-h4
+            >
             <n-button
               size="tiny"
               text
@@ -365,8 +323,10 @@
           ]"
           :style="cardStyle"
         >
-          <div class="flex justify-between items-center mb-4">
-            <h3 class="text-lg font-semibold">4★ Distribution (4★ Banner)</h3>
+          <div class="flex justify-between items-center mb-2">
+            <n-h4 class="text-lg font-semibold"
+              >4★ Distribution (4★ Banner)</n-h4
+            >
             <n-button
               size="tiny"
               text
@@ -424,12 +384,12 @@
       <transition
         name="tooltip"
         appear
-        enter-active-class="transition ease-out duration-200"
-        enter-from-class="opacity-0 translate-y-[-10px] scale-95"
+        enter-active-class="transition ease-out duration-300"
+        enter-from-class="opacity-0 translate-y-[-20px] scale-80"
         enter-to-class="opacity-100 translate-y-0 scale-100"
-        leave-active-class="transition ease-in duration-200"
+        leave-active-class="transition ease-in duration-300"
         leave-from-class="opacity-100 translate-y-0 scale-100"
-        leave-to-class="opacity-0 translate-y-[-10px] scale-95"
+        leave-to-class="opacity-0 translate-y-[-20px] scale-80"
       >
         <div
           v-if="showTooltip"
@@ -442,7 +402,7 @@
             :src="`/images/banners/${selectedBanner.id}.webp`"
             :alt="selectedBanner.name"
             :placeholder="[200, 80]"
-            class="w-[200px] h-[80px] object-cover opacity-80 rounded"
+            class="w-[200px] h-[80px] object-cover rounded"
           />
         </div>
       </transition>
@@ -702,6 +662,9 @@
               y: {
                 beginAtZero: true,
                 stacked: true,
+                ticks: {
+                  display: false,
+                },
               },
               x: {
                 stacked: true,
@@ -793,6 +756,9 @@
                   display: true,
                   text: 'Number of Pulls',
                 },
+                ticks: {
+                  display: false,
+                },
               },
               y1: {
                 beginAtZero: true,
@@ -804,6 +770,9 @@
                 },
                 grid: {
                   drawOnChartArea: false,
+                },
+                ticks: {
+                  display: false,
                 },
               },
             },
@@ -889,6 +858,9 @@
                   display: true,
                   text: 'Number of Pulls',
                 },
+                ticks: {
+                  display: false,
+                },
               },
               y1: {
                 beginAtZero: true,
@@ -900,6 +872,9 @@
                 },
                 grid: {
                   drawOnChartArea: false,
+                },
+                ticks: {
+                  display: false,
                 },
               },
             },
@@ -985,6 +960,9 @@
                   display: true,
                   text: 'Number of Pulls',
                 },
+                ticks: {
+                  display: false,
+                },
               },
               y1: {
                 beginAtZero: true,
@@ -996,6 +974,9 @@
                 },
                 grid: {
                   drawOnChartArea: false,
+                },
+                ticks: {
+                  display: false,
                 },
               },
             },

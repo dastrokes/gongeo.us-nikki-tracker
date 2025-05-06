@@ -10,10 +10,9 @@
   "index": {
     "title": "gongeo.us",
     "subtitle": "无限暖暖共鸣录",
-    "description": "记录您的无限暖暖共鸣历史和统计数据",
+    "description": "记录无限暖暖共鸣历史和统计数据",
     "loading": "加载中...",
-    "go_to_tracker": "前往记录",
-    "import_data": "导入数据",
+    "your_data": "您的数据",
     "current_banners": "当前卡池",
     "time_left": "剩余时间:",
     "days": "天",
@@ -86,6 +85,7 @@
   "tracker": {
     "stats": {
       "total_pulls": "总抽数",
+      "total_5star_4star": "5★ / 4★总数",
       "total_5star": "5★总抽数",
       "avg_5star": "5★平均抽数",
       "total_4star_mixed": "4★混合总数",
@@ -117,8 +117,8 @@
       }
     },
     "export": {
-      "png": "导出为PNG图片",
-      "json": "导出用于导入页面的文件导入选项",
+      "png": "导出图片",
+      "json": "导出文件",
       "success": "记录导出成功！",
       "error": "导出失败，请重试。"
     },
@@ -168,7 +168,8 @@
       "pendants": "挂坠",
       "backpieces": "背饰",
       "rings": "戒指",
-      "armDecorations": "臂饰"
+      "armDecorations": "臂饰",
+      "unknown": "未知"
     }
   },
   "accessibility": {

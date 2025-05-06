@@ -10,30 +10,36 @@
       >
         <div class="flex items-center justify-between">
           <div
-            class="flex-grow grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-4"
+            class="flex-grow grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2"
           >
             <n-card
-              v-for="i in 7"
+              v-for="i in 5"
               :key="i"
               size="small"
               class="text-center rounded-md"
+              :style="cardStyle"
             >
               <n-skeleton
                 text
-                :repeat="2"
+                class="mb-2"
+                :style="{ width: '80%', margin: '0 auto' }"
+              />
+              <n-skeleton
+                text
+                :style="{ width: '60%', margin: '0 auto' }"
               />
             </n-card>
           </div>
           <div class="ml-4 flex space-x-2 shrink-0">
             <n-skeleton
               circle
-              width="24px"
-              height="24px"
+              width="32px"
+              height="32px"
             />
             <n-skeleton
               circle
-              width="24px"
-              height="24px"
+              width="32px"
+              height="32px"
             />
           </div>
         </div>
@@ -42,7 +48,7 @@
       <!-- Banner Cards Skeleton -->
       <div class="space-y-4">
         <n-card
-          v-for="i in 2"
+          v-for="i in 3"
           :key="i"
           size="small"
           class="rounded-xl"
@@ -54,29 +60,29 @@
               <div class="flex-grow flex flex-wrap items-center gap-4">
                 <n-skeleton
                   text
-                  style="width: 180px"
+                  :style="{ width: '200px' }"
                 />
                 <div class="flex gap-2">
                   <n-skeleton
-                    text
-                    style="width: 120px"
+                    round
+                    :style="{ width: '120px', height: '24px' }"
                   />
                   <n-skeleton
-                    text
-                    style="width: 120px"
+                    round
+                    :style="{ width: '120px', height: '24px' }"
                   />
                 </div>
               </div>
               <div class="ml-4 flex space-x-2 shrink-0">
                 <n-skeleton
                   circle
-                  width="24px"
-                  height="24px"
+                  width="32px"
+                  height="32px"
                 />
                 <n-skeleton
                   circle
-                  width="24px"
-                  height="24px"
+                  width="32px"
+                  height="32px"
                 />
               </div>
             </div>
@@ -85,11 +91,14 @@
               class="grid grid-cols-5 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-2"
             >
               <n-skeleton
-                v-for="j in 20"
+                v-for="j in 10"
                 :key="j"
-                class="rounded-md"
-                height="120px"
-                width="120px"
+                class="rounded-lg"
+                :style="{
+                  height: '120px',
+                  width: '100%',
+                  minWidth: '80px',
+                }"
               />
             </div>
           </div>
@@ -98,7 +107,10 @@
     </template>
 
     <!-- Content (only show when not loading) -->
-    <div v-show="!loading">
+    <div
+      v-show="!loading"
+      class="png-export-container"
+    >
       <!-- Stats Header -->
       <n-card
         v-if="Object.keys(processedPulls).length > 0"
@@ -108,7 +120,7 @@
       >
         <div class="flex items-center justify-between">
           <div
-            class="flex-grow grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-4"
+            class="flex-grow grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2"
           >
             <n-card
               :style="cardStyle"
@@ -119,7 +131,11 @@
                 {{ t('tracker.stats.total_pulls') }}
               </div>
               <div class="text-xl font-medium mt-1">
-                {{ globalStats.totalPulls }}
+                <n-number-animation
+                  :from="0"
+                  :to="globalStats.totalPulls"
+                  :duration="3000"
+                />
               </div>
             </n-card>
 
@@ -129,10 +145,23 @@
               class="text-center rounded-md"
             >
               <div class="text-sm text-gray-400">
-                {{ t('tracker.stats.total_5star') }}
+                {{ t('tracker.stats.total_5star_4star') }}
               </div>
               <div class="text-xl font-medium mt-1">
-                {{ globalStats.total5StarItems }}
+                <n-number-animation
+                  :from="0"
+                  :to="globalStats.total5StarItems"
+                  :duration="3000"
+                />
+                /
+                <n-number-animation
+                  :from="0"
+                  :to="
+                    globalStats.total4StarItems +
+                    globalStats.total4StarOnlyItems
+                  "
+                  :duration="2000"
+                />
               </div>
             </n-card>
 
@@ -145,20 +174,11 @@
                 {{ t('tracker.stats.avg_5star') }}
               </div>
               <div class="text-xl font-medium mt-1">
-                {{ globalStats.avg5StarPulls.toFixed(1) }}
-              </div>
-            </n-card>
-
-            <n-card
-              :style="cardStyle"
-              size="small"
-              class="text-center rounded-md"
-            >
-              <div class="text-sm text-gray-400">
-                {{ t('tracker.stats.total_4star_mixed') }}
-              </div>
-              <div class="text-xl font-medium mt-1">
-                {{ globalStats.total4StarItems }}
+                <n-number-animation
+                  :from="0"
+                  :to="globalStats.avg5StarPulls"
+                  :duration="1000"
+                />
               </div>
             </n-card>
 
@@ -171,20 +191,11 @@
                 {{ t('tracker.stats.avg_4star_mixed') }}
               </div>
               <div class="text-xl font-medium mt-1">
-                {{ globalStats.avg4StarPulls.toFixed(1) }}
-              </div>
-            </n-card>
-
-            <n-card
-              :style="cardStyle"
-              size="small"
-              class="text-center rounded-md"
-            >
-              <div class="text-sm text-gray-400">
-                {{ t('tracker.stats.total_4star_only') }}
-              </div>
-              <div class="text-xl font-medium mt-1">
-                {{ globalStats.total4StarOnlyItems }}
+                <n-number-animation
+                  :from="0"
+                  :to="globalStats.avg4StarPulls"
+                  :duration="1000"
+                />
               </div>
             </n-card>
 
@@ -197,129 +208,116 @@
                 {{ t('tracker.stats.avg_4star_only') }}
               </div>
               <div class="text-xl font-medium mt-1">
-                {{ globalStats.avg4StarOnlyPulls.toFixed(1) }}
+                <n-number-animation
+                  :from="0"
+                  :to="globalStats.avg4StarOnlyPulls"
+                  :duration="1000"
+                />
               </div>
             </n-card>
-          </div>
 
-          <div class="ml-4 flex space-x-2 shrink-0 export-exclude">
-            <!-- Export Button -->
-
-            <n-tooltip
-              placement="top"
-              :theme-overrides="{
-                common: {
-                  borderRadius: '8px',
-                },
-                peers: {
-                  Popover: {
-                    color: '#ffffff',
-                    textColor: '#000000',
-                    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.12)',
-                  },
-                },
-              }"
-              trigger="hover"
-              ><template #trigger>
-                <n-button
-                  size="small"
-                  text
-                  circle
-                  :loading="exporting"
-                  @click="exportPNG"
-                >
-                  <template #icon>
-                    <n-icon>
-                      <file-image-regular />
-                    </n-icon>
-                  </template> </n-button
-              ></template>
-              {{ t('tracker.export.png') }}
-            </n-tooltip>
-            <n-tooltip
-              placement="top"
-              :theme-overrides="{
-                common: {
-                  borderRadius: '8px',
-                },
-                peers: {
-                  Popover: {
-                    color: '#ffffff',
-                    textColor: '#000000',
-                    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.12)',
-                  },
-                },
-              }"
-              trigger="hover"
+            <div
+              class="flex justify-end space-x-2 items-start mt-2 export-exclude"
             >
-              <template #trigger>
-                <n-button
-                  size="small"
-                  text
-                  circle
-                  @click="exportJSON"
-                >
-                  <template #icon>
-                    <n-icon>
-                      <file-export />
-                    </n-icon>
-                  </template> </n-button
-              ></template>
-              {{ t('tracker.export.json') }}
-            </n-tooltip>
+              <!-- Export Button -->
+              <n-popover trigger="click">
+                <template #trigger>
+                  <n-button
+                    size="small"
+                    text
+                    circle
+                    :loading="exporting"
+                    class="text-gray-500 hover:text-gray-700"
+                  >
+                    <template #icon>
+                      <n-icon>
+                        <file-export />
+                      </n-icon>
+                    </template>
+                  </n-button>
+                </template>
+                <div class="space-y-2">
+                  <n-button
+                    text
+                    class="text-gray-500 hover:text-gray-700"
+                    @click="exportPNG"
+                  >
+                    <template #icon>
+                      <n-icon>
+                        <file-image-regular />
+                      </n-icon>
+                    </template>
+                    {{ t('tracker.export.png') }}
+                  </n-button>
+                  <n-button
+                    block
+                    text
+                    class="text-gray-500 hover:text-gray-700"
+                    @click="exportJSON"
+                  >
+                    <template #icon>
+                      <n-icon>
+                        <file-export />
+                      </n-icon>
+                    </template>
+                    {{ t('tracker.export.json') }}
+                  </n-button>
+                </div>
+              </n-popover>
 
-            <n-popover trigger="click">
-              <template #trigger>
-                <n-button
-                  size="small"
-                  text
-                  circle
-                  class="text-gray-500 hover:text-gray-700"
-                >
-                  <template #icon>
-                    <n-icon>
-                      <cog />
-                    </n-icon>
-                  </template>
-                </n-button>
-              </template>
-              <div class="min-w-[200px]">
-                <div class="space-y-4">
-                  <div class="flex items-center justify-between">
-                    <n-switch
-                      v-if="hasMultipleOutfits()"
-                      v-model:value="combineOutfits"
-                    >
-                      <template #checked>{{
-                        t('tracker.banner.settings.combined')
-                      }}</template>
-                      <template #unchecked>{{
-                        t('tracker.banner.settings.separated')
-                      }}</template>
-                    </n-switch>
-                    <span
-                      v-if="hasMultipleOutfits()"
-                      class="text-sm text-gray-400 ml-3"
-                    >
-                      {{ t('tracker.banner.settings.outfit_display') }}
-                    </span>
-                  </div>
-                  <div class="flex items-center justify-between">
-                    <n-switch v-model:value="showEmptyBanners">
-                      <template #checked>{{
-                        t('tracker.banner.settings.show')
-                      }}</template>
-                      <template #unchecked>{{
-                        t('tracker.banner.settings.hide')
-                      }}</template>
-                    </n-switch>
-                    <span class="text-sm text-gray-400 ml-3">
-                      {{ t('tracker.banner.settings.empty_banners') }}
-                    </span>
+              <n-popover trigger="click">
+                <template #trigger>
+                  <n-button
+                    size="small"
+                    text
+                    circle
+                    class="text-gray-500 hover:text-gray-700"
+                  >
+                    <template #icon>
+                      <n-icon>
+                        <cog />
+                      </n-icon>
+                    </template>
+                  </n-button>
+                </template>
+                <div class="min-w-[200px]">
+                  <div class="space-y-4">
+                    <div class="flex items-center justify-between">
+                      <n-switch
+                        v-if="hasMultipleOutfits()"
+                        v-model:value="combineOutfits"
+                      >
+                        <template #checked>{{
+                          t('tracker.banner.settings.combined')
+                        }}</template>
+                        <template #unchecked>{{
+                          t('tracker.banner.settings.separated')
+                        }}</template>
+                      </n-switch>
+                      <span
+                        v-if="hasMultipleOutfits()"
+                        class="text-sm text-gray-400 ml-3"
+                      >
+                        {{ t('tracker.banner.settings.outfit_display') }}
+                      </span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                      <n-switch v-model:value="showEmptyBanners">
+                        <template #checked>{{
+                          t('tracker.banner.settings.show')
+                        }}</template>
+                        <template #unchecked>{{
+                          t('tracker.banner.settings.hide')
+                        }}</template>
+                      </n-switch>
+                      <span class="text-sm text-gray-400 ml-3">
+                        {{ t('tracker.banner.settings.empty_banners') }}
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </n-popover>
+              </n-popover>
+            </div>
           </div>
         </div>
       </n-card>
@@ -340,16 +338,16 @@
                 banner.bannerId != 1
               "
               size="small"
-              class="rounded-xl min-h-[180px]"
+              class="rounded-xl min-h-[150px] sm:min-h-[180px]"
               :style="cardStyle"
             >
               <div>
                 <!-- Banner Header -->
                 <div class="flex items-center">
                   <div class="flex-grow flex flex-wrap items-center gap-2">
-                    <h3 class="text-lg font-medium break-words">
+                    <n-h3 class="m-0 font-medium break-words">
                       {{ banner.bannerName }}
-                    </h3>
+                    </n-h3>
                     <div class="flex flex-wrap gap-2">
                       <template
                         v-for="outfit in banner.outfits"
@@ -738,7 +736,9 @@
   const exportPNG = async () => {
     try {
       exporting.value = true
-      const trackerElement = document.querySelector('.max-w-7xl') as HTMLElement
+      const trackerElement = document.querySelector(
+        '.png-export-container'
+      ) as HTMLElement
       if (!trackerElement) {
         throw new Error('Tracker element not found')
       }

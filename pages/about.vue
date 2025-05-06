@@ -1,19 +1,20 @@
 <template>
   <div class="max-w-7xl mx-auto space-y-4">
     <n-card
-      class="rounded-xl"
+      size="small"
+      class="rounded-xl p-0 sm:p-2"
       :style="cardStyle"
     >
       <div class="text-center mb-12">
-        <h1 class="text-2xl font-bold mb-4">Disclaimer and Privacy Policy</h1>
+        <n-h1 class="font-bold mb-4">Disclaimer and Privacy Policy</n-h1>
         <p class="mb-4">Last updated: {{ new Date().toLocaleDateString() }}</p>
       </div>
 
       <div>
         <section class="mb-8">
-          <h2 class="text-xl font-semibold mb-4">
+          <n-h2 class="font-semibold mb-4">
             Infinity Nikki Assets Disclaimer
-          </h2>
+          </n-h2>
           <p>
             gongeo.us is an independent fan-made platform with no affiliation,
             endorsement, or partnership with Infinity Nikki or Infold Games. All
@@ -29,9 +30,9 @@
         </section>
 
         <section class="mb-8">
-          <h2 class="text-xl font-semibold mb-4">
+          <n-h2 class="font-semibold mb-4">
             Data and Statistics Disclaimer
-          </h2>
+          </n-h2>
           <p>
             All gameplay statistics and data presented through gongeo.us are
             user-generated and shared voluntarily. They are not sourced from
@@ -46,7 +47,7 @@
         </section>
 
         <section class="mb-8">
-          <h2 class="text-xl font-semibold mb-4">Intellectual Property</h2>
+          <n-h2 class="font-semibold mb-4">Intellectual Property</n-h2>
           <p>
             gongeo.us is a standalone fan project. All Infinity Nikki-related
             trademarks, game content, and intellectual property remain the
@@ -65,9 +66,7 @@
         </section>
 
         <section class="mb-8">
-          <h2 class="text-xl font-semibold mb-4">
-            Data Collection and Storage
-          </h2>
+          <n-h2 class="font-semibold mb-4"> Data Collection and Storage </n-h2>
           <p>
             We collect minimal information to provide our service. We do not
             collect or store any personal information or cookies. Cookies and
@@ -83,7 +82,7 @@
         </section>
 
         <section class="mb-8">
-          <h2 class="text-xl font-semibold mb-4">Data Security</h2>
+          <n-h2 class="font-semibold mb-4">Data Security</n-h2>
           <p>
             Your data is stored locally in your browser. While we implement
             security measures, please note that no method of transmission over
@@ -92,7 +91,7 @@
         </section>
 
         <section class="mb-8">
-          <h2 class="text-xl font-semibold mb-4">Analytics and Tracking</h2>
+          <n-h2 class="font-semibold mb-4">Analytics and Tracking</n-h2>
           <p>
             We use
             <a

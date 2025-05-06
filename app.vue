@@ -3,7 +3,7 @@
     :theme="theme"
     :theme-overrides="themeOverrides"
   >
-    <n-message-provider>
+    <n-message-provider placement="bottom">
       <n-dialog-provider>
         <n-notification-provider>
           <NuxtLayout
@@ -87,9 +87,7 @@
       borderRadius: '12px',
       borderFocus: '#F43F5E',
       boxShadowFocus: '0 0 0 2px rgba(244, 63, 94, 0.2)',
-      color: isDark.value
-        ? 'rgba(31, 41, 55, 0.9)'
-        : 'rgba(255, 255, 255, 0.9)',
+      color: isDark.value ? 'rgb(75, 85, 99, 0.9)' : 'rgba(255, 255, 255, 0.9)',
       textColor: isDark.value ? '#E5E7EB' : '#4F4F4F',
     },
     Select: {

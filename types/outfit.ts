@@ -1,7 +1,6 @@
 export interface OutfitItem {
   id: string
   name: string
-  type: string
 }
 
 export interface Outfit {

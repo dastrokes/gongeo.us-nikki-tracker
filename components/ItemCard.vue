@@ -73,7 +73,7 @@
       <div class="text-center">
         <div class="font-medium">{{ t(item.itemName) }}</div>
         <div class="text-sm text-gray-400">
-          {{ t(`items.types.${item.itemType}`) }}
+          {{ t(`items.types.${itemType}`) }}
         </div>
         <div
           v-if="item.obtained"
@@ -89,6 +89,7 @@
 <script setup lang="ts">
   import type { PullItem } from '~/types/pull'
   import { useUserStore } from '~/stores/user'
+  import { getItemType } from '~/utils/itemType'
 
   interface Props {
     item: PullItem
@@ -98,6 +99,8 @@
   const { t } = useI18n()
   const userStore = useUserStore()
   const isDark = computed(() => userStore.getCurrentTheme === 'dark')
+
+  const itemType = computed(() => getItemType(props.item.itemId))
 
   const imageUrl = computed(() => {
     return `/images/items/${props.item.itemId}.webp`

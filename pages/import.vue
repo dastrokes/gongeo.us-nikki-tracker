@@ -1,12 +1,14 @@
 <template>
   <div class="max-w-7xl mx-auto space-y-4">
     <n-card
-      class="rounded-xl"
+      size="small"
+      class="rounded-xl p-0 sm:p-2"
       :style="cardStyle"
     >
       <!-- Show steps only when not fetching -->
       <template v-if="!isFetching">
         <n-steps
+          size="small"
           vertical
           :current="currentStep"
           @update:current="currentStep = $event"
@@ -131,7 +133,7 @@
             </div>
           </n-step>
 
-          <!-- Get Cookie Data Step -->
+          <!-- Get Cookie Step -->
           <n-step
             v-show="importMethod === 'game'"
             :title="$t('import.get_cookie')"
@@ -194,7 +196,7 @@
                         :code="consoleScript"
                         word-wrap
                         language="javascript"
-                        class="w-full max-w-96 font-mono text-xs whitespace-pre-wrap rounded"
+                        class="w-full max-w-60 font-mono text-xs whitespace-pre-wrap rounded"
                       />
                     </template>
                   </n-popconfirm>

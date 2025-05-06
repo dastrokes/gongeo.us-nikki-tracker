@@ -321,6 +321,10 @@
         property: 'og:description',
         content: t('meta.description'),
       },
+      {
+        name: 'baidu-site-verification',
+        content: 'codeva-Zu4kVgaUNm',
+      },
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },

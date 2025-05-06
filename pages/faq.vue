@@ -1,11 +1,12 @@
 <template>
   <div class="max-w-7xl mx-auto space-y-4">
     <n-card
-      class="rounded-xl"
+      size="small"
+      class="rounded-xl p-0 sm:p-2"
       :style="cardStyle"
     >
       <div class="text-center mb-12">
-        <h1 class="text-2xl font-bold mb-4">{{ t('faq.title') }}</h1>
+        <n-h1 class="font-bold mb-4">{{ t('faq.title') }}</n-h1>
       </div>
 
       <div class="space-y-6">

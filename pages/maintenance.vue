@@ -1,11 +1,12 @@
 <template>
   <div class="max-w-7xl mx-auto space-y-4">
     <n-card
-      class="rounded-xl"
+      size="small"
+      class="rounded-xl p-0 sm:p-2"
       :style="cardStyle"
     >
       <div class="text-center mb-12">
-        <h1 class="text-2xl font-bold mb-4">Under Maintenance</h1>
+        <n-h1 class="font-bold mb-4">Under Maintenance</n-h1>
         <p class="text-gray-600">
           We're currently performing some maintenance on our site to improve
           your experience.

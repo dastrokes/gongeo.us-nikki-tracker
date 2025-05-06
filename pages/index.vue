@@ -5,19 +5,19 @@
       class="rounded-xl p-0 sm:p-2"
       :style="cardStyle"
     >
-      <div class="flex flex-col">
+      <div class="flex flex-col text-center">
         <n-h1 class="font-bold font-sans">
           {{ $t('index.title') }}
         </n-h1>
         <n-h2 class="font-bold mt-0">{{ $t('index.subtitle') }}</n-h2>
-        <n-h4
+        <n-h3
           class="mt-0"
           :class="isDark ? 'text-gray-300' : 'text-gray-600'"
         >
           {{ $t('index.description') }}
-        </n-h4>
+        </n-h3>
       </div>
-      <div class="flex gap-4 opacity-90">
+      <div class="flex gap-4 opacity-90 justify-center items-center">
         <n-button
           v-if="status === 'pending' || status === 'idle'"
           type="primary"
@@ -62,7 +62,7 @@
       :style="cardStyle"
     >
       <div
-        class="flex flex-col sm:flex-row my-4 items-baseline space-y-4 space-x-4"
+        class="flex justify-center items-center sm:items-baseline flex-col sm:flex-row mb-4 space-y-4 space-x-4"
       >
         <div class="text-2xl font-bold font-sans">
           {{ $t('index.current_banners') }}

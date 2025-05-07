@@ -95,7 +95,9 @@
               </div>
             </div>
             <!-- Items Grid Skeleton -->
-            <div class="grid grid-cols-5 sm:grid-cols-10 gap-2">
+            <div
+              class="grid grid-cols-5 sm:grid-cols-8 lg:grid-cols-10 gap-2 mt-2"
+            >
               <n-skeleton
                 :repeat="10"
                 class="rounded-lg aspect-square w-full h-full"
@@ -548,7 +550,9 @@
 
                 <!-- Combined Outfits View -->
                 <template v-if="combineOutfits">
-                  <div class="grid grid-cols-5 lg:grid-cols-10 gap-2 mt-2">
+                  <div
+                    class="grid grid-cols-5 sm:grid-cols-8 lg:grid-cols-10 gap-2 mt-2"
+                  >
                     <ItemCard
                       v-for="pull in filterPulls(banner.pulls, banner.bannerId)"
                       :key="pull.pullIndex"
@@ -568,7 +572,7 @@
                       ).length > 0
                     "
                     :key="outfit.id"
-                    class="grid grid-cols-5 lg:grid-cols-10 gap-2 mt-2"
+                    class="grid grid-cols-5 sm:grid-cols-8 lg:grid-cols-10 gap-2 mt-2"
                   >
                     <ItemCard
                       v-for="pull in filterPulls(

@@ -398,7 +398,7 @@
           <div class="text-xs text-center text-gray-400 mb-1">
             {{ selectedBanner.name }}: {{ selectedBanner.pulls }} pulls
           </div>
-          <nuxt-img
+          <NuxtImg
             :src="`/images/banners/${selectedBanner.id}.webp`"
             :alt="selectedBanner.name"
             :placeholder="[200, 80]"

@@ -71,7 +71,7 @@
                   class="flex flex-col items-center space-y-1 max-w-2xl mx-auto"
                 >
                   <div
-                    class="w-full aspect-[5/2] min-h-[120px] sm:min-h-[180px] lg:min-h-[200px] relative overflow-hidden rounded-lg"
+                    class="w-full aspect-[5/2] min-h-[120px] sm:min-h-[200px] relative overflow-hidden rounded-lg"
                   >
                     <NuxtImg
                       :src="imageUrl(banner.bannerId)"

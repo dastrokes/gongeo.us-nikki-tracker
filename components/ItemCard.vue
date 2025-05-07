@@ -39,12 +39,10 @@
           class="w-full h-full object-cover aspect-square"
           :provider="imageProvider"
           format="webp"
-          width="200"
-          height="200"
           fit="cover"
           quality="80"
           loading="lazy"
-          sizes="(max-width: 200px) 100px, 200px"
+          sizes="(max-width: 640px) 80px, 120px"
         />
         <n-tag
           v-if="item.obtained"

@@ -78,7 +78,7 @@
                   >
                     <NuxtImg
                       :src="imageUrl(banner.bannerId)"
-                      :alt="banner.bannerId"
+                      :alt="banner.bannerId.toString()"
                       class="absolute inset-0 w-full h-full object-cover"
                       :provider="imageProvider"
                       format="webp"

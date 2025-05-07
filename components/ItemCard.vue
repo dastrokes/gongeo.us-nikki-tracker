@@ -21,11 +21,11 @@
           'ring-1 hover:scale-[1.01]',
           item.rarity === 5
             ? isDark
-              ? 'rarity-5-dark ring-amber-900/30 hover:ring-amber-900/60'
-              : 'rarity-5 ring-amber-200/30 hover:ring-amber-200/80'
+              ? 'bg-gradient-to-br from-[#713f12] to-[#451a03] hover:shadow-[0_0_15px_0_rgba(113,63,18,0.5)] ring-amber-900/30 hover:ring-amber-900/60'
+              : 'bg-gradient-to-br from-[#fff8e1] to-[#ffcc80] hover:shadow-[0_0_15px_0_rgba(255,204,128,0.5)] ring-amber-200/30 hover:ring-amber-200/80'
             : isDark
-              ? 'rarity-4-dark ring-slate-400/20 hover:ring-slate-400/40'
-              : 'rarity-4 ring-blue-200/30 hover:ring-blue-200/80',
+              ? 'bg-gradient-to-br from-[#334155] to-[#1e293b] hover:shadow-[0_0_15px_0_rgba(51,65,85,0.5)] ring-slate-400/20 hover:ring-slate-400/40'
+              : 'bg-gradient-to-br from-[#e3f2fd] to-[#bbdefb] hover:shadow-[0_0_15px_0_rgba(187,222,251,0.5)] ring-blue-200/30 hover:ring-blue-200/80',
           { 'opacity-60 grayscale': !item.obtained },
         ]"
         :bordered="false"
@@ -110,33 +110,3 @@
     return process.env.NODE_ENV === 'development' ? 'ipx' : 'netlify'
   })
 </script>
-
-<style lang="scss" scoped>
-  .rarity-4 {
-    background: linear-gradient(to bottom right, #e3f2fd, #bbdefb);
-    &:hover {
-      @apply shadow-[0_0_15px_0_rgba(187,222,251,0.5)];
-    }
-  }
-
-  .rarity-4-dark {
-    background: linear-gradient(to bottom right, #1e293b, #334155);
-    &:hover {
-      @apply shadow-[0_0_15px_0_rgba(51,65,85,0.5)];
-    }
-  }
-
-  .rarity-5 {
-    background: linear-gradient(to bottom right, #fff8e1, #ffcc80);
-    &:hover {
-      @apply shadow-[0_0_15px_0_rgba(255,204,128,0.5)];
-    }
-  }
-
-  .rarity-5-dark {
-    background: linear-gradient(to bottom right, #451a03, #713f12);
-    &:hover {
-      @apply shadow-[0_0_15px_0_rgba(113,63,18,0.5)];
-    }
-  }
-</style>

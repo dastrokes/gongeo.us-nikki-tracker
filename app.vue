@@ -6,10 +6,7 @@
     <n-message-provider placement="bottom">
       <n-dialog-provider>
         <n-notification-provider>
-          <NuxtLayout
-            :key="$route.fullPath"
-            :hydrate="true"
-          >
+          <NuxtLayout :hydrate="true">
             <NuxtPage />
           </NuxtLayout>
         </n-notification-provider>
@@ -106,21 +103,3 @@
     userStore.initializeTheme()
   })
 </script>
-
-<style>
-  :root {
-    --bg-primary: #ffffff;
-    --text-primary: #1f2937;
-    --text-secondary: #4b5563;
-  }
-
-  .dark {
-    --bg-primary: #111827;
-    --text-primary: #f9fafb;
-    --text-secondary: #e5e7eb;
-  }
-
-  body {
-    @apply bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-200;
-  }
-</style>

@@ -80,21 +80,21 @@
           </template>
         </n-tag>
       </div>
-      <div class="flex flex-col sm:flex-row gap-4 items-center">
-        <div class="flex flex-col sm:flex-row gap-4 flex-grow">
-          <nuxt-img
-            v-for="banner in currentBanners"
-            :key="banner.bannerId"
+      <div class="flex flex-col sm:flex-row gap-4">
+        <div
+          v-for="banner in currentBanners"
+          :key="banner.bannerId"
+          class="w-full sm:w-1/2 aspect-[5/2] relative overflow-hidden rounded-lg"
+        >
+          <NuxtImg
             :src="imageUrl(banner.bannerId)"
             :alt="banner.bannerName"
-            class="rounded-lg w-full"
+            class="absolute inset-0 w-full h-full object-cover"
             :provider="imageProvider"
             format="webp"
-            width="500"
-            height="200"
             fit="cover"
             quality="80"
-            loading="eager"
+            loading="lazy"
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 500px"
           />
         </div>

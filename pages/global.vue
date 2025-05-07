@@ -15,12 +15,12 @@
           class="text-center rounded-md"
           :style="cardStyle"
         >
-          <NSkeleton
+          <n-skeleton
             height="20px"
             width="80%"
             class="mb-2 mx-auto"
           />
-          <NSkeleton
+          <n-skeleton
             height="28px"
             width="60%"
             class="mx-auto"
@@ -36,16 +36,16 @@
           :style="cardStyle"
         >
           <div class="flex justify-between items-center mb-2">
-            <NSkeleton
+            <n-skeleton
               height="24px"
               width="200px"
             />
-            <NSkeleton
+            <n-skeleton
               height="24px"
               width="24px"
             />
           </div>
-          <NSkeleton height="250px" />
+          <n-skeleton height="250px" />
         </n-card>
 
         <!-- Distribution Charts Skeleton -->
@@ -56,16 +56,16 @@
           :style="cardStyle"
         >
           <div class="flex justify-between items-center mb-2">
-            <NSkeleton
+            <n-skeleton
               height="24px"
               width="200px"
             />
-            <NSkeleton
+            <n-skeleton
               height="24px"
               width="24px"
             />
           </div>
-          <NSkeleton height="200px" />
+          <n-skeleton height="200px" />
         </n-card>
       </div>
     </n-card>

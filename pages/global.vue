@@ -86,7 +86,9 @@
           class="text-center rounded-md"
           :style="cardStyle"
         >
-          <div class="text-sm text-gray-400">Total Pulls</div>
+          <div class="text-sm text-gray-400">
+            {{ $t('global.stats.total_pulls') }}
+          </div>
           <div class="text-xl font-medium mt-1">
             <n-number-animation
               :from="0"
@@ -100,7 +102,9 @@
           class="text-center rounded-md"
           :style="cardStyle"
         >
-          <div class="text-sm text-gray-400">Unique Users</div>
+          <div class="text-sm text-gray-400">
+            {{ $t('global.stats.unique_users') }}
+          </div>
           <div class="text-xl font-medium mt-1">
             <n-number-animation
               :from="0"
@@ -114,7 +118,9 @@
           class="text-center rounded-md"
           :style="cardStyle"
         >
-          <div class="text-sm text-gray-400">5★ Avg (5★ Banner)</div>
+          <div class="text-sm text-gray-400">
+            {{ $t('global.stats.avg_5star') }}
+          </div>
           <div class="text-xl font-medium mt-1">
             <n-number-animation
               :from="0"
@@ -129,7 +135,9 @@
           class="text-center rounded-md"
           :style="cardStyle"
         >
-          <div class="text-sm text-gray-400">4★ Avg (5★ Banner)</div>
+          <div class="text-sm text-gray-400">
+            {{ $t('global.stats.avg_4star_type2') }}
+          </div>
           <div class="text-xl font-medium mt-1">
             <n-number-animation
               :from="0"
@@ -144,7 +152,9 @@
           class="text-center rounded-md"
           :style="cardStyle"
         >
-          <div class="text-sm text-gray-400">4★ Avg (4★ Banner)</div>
+          <div class="text-sm text-gray-400">
+            {{ $t('global.stats.avg_4star_type3') }}
+          </div>
           <div class="text-xl font-medium mt-1">
             <n-number-animation
               :from="0"
@@ -159,7 +169,9 @@
           class="text-center rounded-md"
           :style="cardStyle"
         >
-          <div class="text-sm text-gray-400">Data as of</div>
+          <div class="text-sm text-gray-400">
+            {{ $t('global.stats.data_as_of') }}
+          </div>
           <div class="text-xl font-medium mt-1">
             {{ new Date(data.effective_date).toLocaleDateString() }}
           </div>
@@ -180,7 +192,9 @@
           :style="cardStyle"
         >
           <div class="flex justify-between items-center mb-2">
-            <n-h4 class="text-lg font-semibold">Pulls per Banner</n-h4>
+            <n-h4 class="text-lg font-semibold">{{
+              $t('global.charts.pulls_per_banner')
+            }}</n-h4>
             <n-button
               size="tiny"
               text
@@ -228,7 +242,9 @@
           :style="cardStyle"
         >
           <div class="flex justify-between items-center mb-2">
-            <n-h4 class="text-lg font-semibold">5★ Pulls Distribution</n-h4>
+            <n-h4 class="text-lg font-semibold">{{
+              $t('global.charts.five_star_distribution')
+            }}</n-h4>
             <n-button
               size="tiny"
               text
@@ -274,9 +290,9 @@
           :style="cardStyle"
         >
           <div class="flex justify-between items-center mb-2">
-            <n-h4 class="text-lg font-semibold"
-              >4★ Distribution (5★ Banner)</n-h4
-            >
+            <n-h4 class="text-lg font-semibold">{{
+              $t('global.charts.four_star_type2_distribution')
+            }}</n-h4>
             <n-button
               size="tiny"
               text
@@ -324,9 +340,9 @@
           :style="cardStyle"
         >
           <div class="flex justify-between items-center mb-2">
-            <n-h4 class="text-lg font-semibold"
-              >4★ Distribution (4★ Banner)</n-h4
-            >
+            <n-h4 class="text-lg font-semibold">{{
+              $t('global.charts.four_star_type3_distribution')
+            }}</n-h4>
             <n-button
               size="tiny"
               text
@@ -396,7 +412,8 @@
           class="bg-[rgba(100,100,100,0.3)] rounded-lg p-2 origin-top"
         >
           <div class="text-xs text-center text-gray-400 mb-1">
-            {{ selectedBanner.name }}: {{ selectedBanner.pulls }} pulls
+            {{ selectedBanner.name }}: {{ selectedBanner.pulls }}
+            {{ t('global.charts.pulls') }}
           </div>
           <NuxtImg
             :src="`/images/banners/${selectedBanner.id}.webp`"
@@ -412,13 +429,13 @@
 
 <script setup>
   import { ref, onMounted, watchEffect, computed } from 'vue'
-  import Chart from 'chart.js/auto'
   import { NSkeleton, NNumberAnimation, NButton, NTooltip } from 'naive-ui'
   import { BANNER_DATA } from '~/data/banners'
   import { ExpandAlt, CompressAlt } from '@vicons/fa'
   import { useSupabaseClient } from '~/composables/useSupabaseClient'
   import { useCardStyle } from '~/composables/useCardStyle'
   import { useUserStore } from '~/stores/user'
+  import Chart from 'chart.js/auto'
 
   // Initialize Supabase client
   const supabase = useSupabaseClient()
@@ -426,6 +443,9 @@
 
   // Add isDark computed property
   const isDark = computed(() => userStore.getCurrentTheme === 'dark')
+
+  // Initialize i18n
+  const { t } = useI18n()
 
   // Global Chart.js configuration
   Chart.defaults.font.size = 12
@@ -620,7 +640,7 @@
             labels: bannerLabels,
             datasets: [
               {
-                label: 'Limited 5★',
+                label: t('global.charts.limited_5star'),
                 data: Object.entries(data.value.pulls_per_banner).map(
                   ([bannerId, pulls]) => {
                     const banner = BANNER_DATA[parseInt(bannerId)]
@@ -633,7 +653,7 @@
                 stack: 'Stack 0',
               },
               {
-                label: 'Limited 4★',
+                label: t('global.charts.limited_4star'),
                 data: Object.entries(data.value.pulls_per_banner).map(
                   ([bannerId, pulls]) => {
                     const banner = BANNER_DATA[parseInt(bannerId)]
@@ -676,7 +696,7 @@
                 position: 'top',
                 labels: {
                   boxWidth: 12,
-                  padding: 20,
+                  padding: 10,
                   usePointStyle: true,
                 },
                 onClick: (e, legendItem, legend) => {
@@ -707,7 +727,7 @@
             labels: Object.keys(data.value.five_star_pulls_distribution),
             datasets: [
               {
-                label: '5★ Pulls',
+                label: t('global.charts.five_star_pulls'),
                 data: Object.values(data.value.five_star_pulls_distribution),
                 backgroundColor: 'rgba(217, 119, 6, 0.5)', // amber-600
                 borderColor: 'rgba(217, 119, 6, 1)', // amber-600
@@ -725,7 +745,7 @@
                 },
               },
               {
-                label: 'Probability',
+                label: t('global.charts.probability'),
                 data: Object.values(
                   data.value.five_star_pulls_distribution
                 ).map((value, index, array) => {
@@ -754,7 +774,7 @@
                 position: 'left',
                 title: {
                   display: true,
-                  text: 'Number of Pulls',
+                  text: t('global.charts.number_of_pulls'),
                 },
                 ticks: {
                   display: false,
@@ -766,7 +786,7 @@
                 max: 100,
                 title: {
                   display: true,
-                  text: 'Probability (%)',
+                  text: t('global.charts.probability'),
                 },
                 grid: {
                   drawOnChartArea: false,
@@ -785,7 +805,7 @@
                   label: function (context) {
                     const label = context.dataset.label || ''
                     const value = context.raw
-                    if (label.includes('Probability')) {
+                    if (label.includes(t('global.charts.probability'))) {
                       return `${label}: ${value.toFixed(2)}%`
                     }
                     return `${label}: ${value}`
@@ -807,7 +827,7 @@
             ),
             datasets: [
               {
-                label: '4★ Pulls (5★ Banner)',
+                label: t('global.charts.four_star_pulls_type2'),
                 data: Object.values(
                   data.value.four_star_pulls_distribution_banner_type_2
                 ),
@@ -827,7 +847,7 @@
                 },
               },
               {
-                label: 'Probability',
+                label: t('global.charts.probability'),
                 data: Object.values(
                   data.value.four_star_pulls_distribution_banner_type_2
                 ).map((value, index, array) => {
@@ -856,7 +876,7 @@
                 position: 'left',
                 title: {
                   display: true,
-                  text: 'Number of Pulls',
+                  text: t('global.charts.number_of_pulls'),
                 },
                 ticks: {
                   display: false,
@@ -868,7 +888,7 @@
                 max: 100,
                 title: {
                   display: true,
-                  text: 'Probability (%)',
+                  text: t('global.charts.probability'),
                 },
                 grid: {
                   drawOnChartArea: false,
@@ -887,7 +907,7 @@
                   label: function (context) {
                     const label = context.dataset.label || ''
                     const value = context.raw
-                    if (label.includes('Probability')) {
+                    if (label.includes(t('global.charts.probability'))) {
                       return `${label}: ${value.toFixed(2)}%`
                     }
                     return `${label}: ${value}`
@@ -909,7 +929,7 @@
             ),
             datasets: [
               {
-                label: '4★ Pulls (4★ Banner)',
+                label: t('global.charts.four_star_pulls_type3'),
                 data: Object.values(
                   data.value.four_star_pulls_distribution_banner_type_3
                 ),
@@ -929,7 +949,7 @@
                 },
               },
               {
-                label: 'Probability',
+                label: t('global.charts.probability'),
                 data: Object.values(
                   data.value.four_star_pulls_distribution_banner_type_3
                 ).map((value, index, array) => {
@@ -958,7 +978,7 @@
                 position: 'left',
                 title: {
                   display: true,
-                  text: 'Number of Pulls',
+                  text: t('global.charts.number_of_pulls'),
                 },
                 ticks: {
                   display: false,
@@ -970,7 +990,7 @@
                 max: 100,
                 title: {
                   display: true,
-                  text: 'Probability (%)',
+                  text: t('global.charts.probability'),
                 },
                 grid: {
                   drawOnChartArea: false,
@@ -989,7 +1009,7 @@
                   label: function (context) {
                     const label = context.dataset.label || ''
                     const value = context.raw
-                    if (label.includes('Probability')) {
+                    if (label.includes(t('global.charts.probability'))) {
                       return `${label}: ${value.toFixed(2)}%`
                     }
                     return `${label}: ${value}`

@@ -106,15 +106,13 @@
 </template>
 
 <script setup lang="ts">
+  import { computed } from 'vue'
   import { NButton } from 'naive-ui'
-  import { useRouter } from 'vue-router'
   import { useIndexedDB } from '~/composables/useIndexedDB'
   import { usePullStore } from '~/stores/pull'
-  import { computed } from 'vue'
   import { useUserStore } from '~/stores/user'
   import { BANNER_DATA } from '~/data/banners'
   import { HourglassHalf } from '@vicons/fa'
-  import { useI18n } from 'vue-i18n'
 
   const { t } = useI18n()
   const userStore = useUserStore()

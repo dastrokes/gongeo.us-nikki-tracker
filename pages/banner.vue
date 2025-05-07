@@ -103,11 +103,10 @@
 </template>
 
 <script setup lang="ts">
-  import { BANNER_DATA } from '~/data/banners'
-  import { Gift, Star } from '@vicons/fa'
-  import OUTFIT_DATA from '~/data/outfits'
   import { computed } from 'vue'
-  import { useI18n } from 'vue-i18n'
+  import { Gift, Star } from '@vicons/fa'
+  import { BANNER_DATA } from '~/data/banners'
+  import OUTFIT_DATA from '~/data/outfits'
   import { useCardStyle } from '~/composables/useCardStyle'
 
   const { t } = useI18n()

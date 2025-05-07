@@ -177,6 +177,30 @@
     "join_discord": "加入我们的 Discord 社区",
     "support_ko_fi": "在 Ko-fi 上支持我们"
   },
+  "global": {
+    "stats": {
+      "total_pulls": "总抽数",
+      "unique_users": "独立用户数",
+      "avg_5star": "5★平均（5★卡池）",
+      "avg_4star_type2": "4★平均（5★卡池）",
+      "avg_4star_type3": "4★平均（4★卡池）",
+      "data_as_of": "数据截至"
+    },
+    "charts": {
+      "pulls_per_banner": "各卡池抽数",
+      "five_star_distribution": "5★抽数分布",
+      "four_star_type2_distribution": "4★分布（5★卡池）",
+      "four_star_type3_distribution": "4★分布（4★卡池）",
+      "number_of_pulls": "抽数",
+      "probability": "概率（%）",
+      "limited_5star": "限定5★",
+      "limited_4star": "限定4★",
+      "five_star_pulls": "5★抽数",
+      "four_star_pulls_type2": "4★抽数（5★卡池）",
+      "four_star_pulls_type3": "4★抽数（4★卡池）",
+      "pulls": "抽"
+    }
+  },
   "faq": {
     "title": "常见问题",
     "questions": {

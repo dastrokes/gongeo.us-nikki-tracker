@@ -241,7 +241,7 @@
                 <div class="space-y-2">
                   <n-button
                     text
-                    class="text-gray-500 hover:text-gray-700"
+                    class="text-gray-400 hover:text-gray-600"
                     @click="exportPNG"
                   >
                     <template #icon>
@@ -254,7 +254,7 @@
                   <n-button
                     block
                     text
-                    class="text-gray-500 hover:text-gray-700"
+                    class="text-gray-400 hover:text-gray-600"
                     @click="exportJSON"
                   >
                     <template #icon>
@@ -625,14 +625,13 @@
     FileImageRegular,
     FileExport,
   } from '@vicons/fa'
-  import { toPng } from 'html-to-image'
   import { useMessage } from 'naive-ui'
   import { BANNER_DATA } from '~/data/banners'
-  import { usePullStore } from '~/stores/pull'
   import { useIndexedDB } from '~/composables/useIndexedDB'
+  import { usePullStore } from '~/stores/pull'
   import type { PullItem } from '~/types/pull'
-  import { useRouter } from 'nuxt/app'
   import { useCardStyle } from '~/composables/useCardStyle'
+  import { toPng } from 'html-to-image'
 
   const router = useRouter()
   const message = useMessage()
@@ -642,7 +641,8 @@
   const { data, hasData, loadPullData } = useIndexedDB()
   const localePath = useLocalePath()
   const { cardStyle } = useCardStyle()
-
+  const userStore = useUserStore()
+  const isDark = computed(() => userStore.getCurrentTheme === 'dark')
   const loading = ref(true)
 
   onMounted(async () => {
@@ -747,6 +747,18 @@
         throw new Error('Tracker element not found')
       }
 
+      const images = Array.from(trackerElement.querySelectorAll('img'))
+      await Promise.all(
+        images.map((img) =>
+          img.complete
+            ? Promise.resolve()
+            : new Promise((resolve) => (img.onload = resolve))
+        )
+      )
+
+      trackerElement.getBoundingClientRect()
+      await nextTick()
+
       const filter = (node: HTMLElement) => {
         const exclusionClasses = ['export-exclude']
         return !exclusionClasses.some((classname) =>
@@ -754,25 +766,23 @@
         )
       }
 
-      // Get the actual content width and height
       const contentWidth = trackerElement.scrollWidth
       const contentHeight = trackerElement.scrollHeight
 
       const dataUrl = await toPng(trackerElement, {
         quality: 1,
-        backgroundColor: '#fdf2f8',
+        backgroundColor: isDark.value ? '#1a202c' : '#fdf2f8',
         filter: filter,
         width: contentWidth,
         height: contentHeight,
         style: {
-          transform: 'none', // Prevent any transform that might cause offset
-          position: 'relative', // Ensure proper positioning
+          transform: 'none',
+          position: 'relative',
           left: '0',
           top: '0',
         },
       })
 
-      // Create a link element and trigger download
       const link = document.createElement('a')
       link.download = `gongeous-${new Date().toISOString().split('T')[0]}.png`
       link.href = dataUrl

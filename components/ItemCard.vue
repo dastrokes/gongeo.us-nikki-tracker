@@ -44,6 +44,7 @@
           fit="cover"
           quality="80"
           loading="lazy"
+          sizes="(max-width: 640px) 80px, 120px"
         />
         <n-tag
           v-if="item.obtained"

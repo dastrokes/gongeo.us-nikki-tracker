@@ -68,7 +68,7 @@
         }"
       >
         <n-menu
-          class="mt-12"
+          class="mt-12 [&_.n-menu-item-content-header]:pl-4"
           :collapsed="!showSider"
           :collapsed-width="48"
           :collapsed-icon-size="16"
@@ -282,10 +282,6 @@
     return () => h(NIcon, null, { default: () => h(icon) })
   }
 
-  function renderLabel(label: string) {
-    return () => h('div', { class: 'ml-4' }, label)
-  }
-
   const route = useRoute()
   const router = useRouter()
 
@@ -358,38 +354,37 @@
   const menuOptions = computed<MenuOption[]>(() =>
     [
       {
-        label: renderLabel(t('navigation.resonance_tracker')),
+        label: t('navigation.resonance_tracker'),
         key: 'tracker',
         icon: renderIcon(Book),
       },
       {
-        label: renderLabel(t('navigation.import_data')),
+        label: t('navigation.import_data'),
         key: 'import',
         icon: renderIcon(FileImport),
       },
       {
-        label: renderLabel(t('navigation.global_data')),
+        label: t('navigation.global_data'),
         key: 'global',
         icon: renderIcon(Globe),
       },
       {
-        label: renderLabel(t('navigation.banner_history')),
+        label: t('navigation.banner_history'),
         key: 'banner',
         icon: renderIcon(CalendarAlt),
       },
       {
-        label: renderLabel(t('navigation.faq')),
+        label: t('navigation.faq'),
         key: 'faq',
         icon: renderIcon(QuestionCircle),
       },
       {
-        label: renderLabel(t('navigation.about')),
+        label: t('navigation.about'),
         key: 'about',
         icon: renderIcon(InfoCircle),
       },
     ].map((option) => ({
       ...option,
-      active: route.path.startsWith(`/${option.key}`),
     }))
   )
 

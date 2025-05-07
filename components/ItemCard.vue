@@ -33,16 +33,17 @@
         content-style="padding: 0;"
         class="min-h-[60px] lg:min-h-[100px] aspect-square"
       >
-        <nuxt-img
+        <NuxtImg
           :src="imageUrl"
           :alt="item.itemId"
           class="w-full h-full object-cover aspect-square"
           :provider="imageProvider"
           format="webp"
+          width="120"
+          height="120"
           fit="cover"
           quality="80"
           loading="lazy"
-          sizes="(max-width: 640px) 80px, 120px"
         />
         <n-tag
           v-if="item.obtained"

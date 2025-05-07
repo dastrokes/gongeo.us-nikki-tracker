@@ -79,10 +79,11 @@
                       class="absolute inset-0 w-full h-full object-cover"
                       :provider="imageProvider"
                       format="webp"
+                      width="500"
+                      height="200"
                       fit="cover"
                       quality="100"
                       loading="lazy"
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 75vw, 500px"
                     />
                   </div>
                 </div>

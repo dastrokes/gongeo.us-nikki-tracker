@@ -348,7 +348,7 @@
                 <div class="flex items-center">
                   <div class="flex-grow flex flex-wrap items-center gap-2">
                     <n-h3 class="m-0 font-medium break-words">
-                      {{ banner.bannerName }}
+                      {{ t(`banner.${banner.bannerId}.name`) }}
                     </n-h3>
                     <div class="flex flex-wrap gap-2">
                       <template

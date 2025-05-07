@@ -6,7 +6,6 @@ export interface BannerRun {
 
 export interface Banner {
   bannerId: number
-  bannerName: string
   bannerType: 1 | 2 | 3
   outfit4StarId: string[]
   outfit5StarId: string[]

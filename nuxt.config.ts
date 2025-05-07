@@ -22,7 +22,8 @@ export default defineNuxtConfig({
   ],
 
   i18n: {
-    langDir: 'locales',
+    restructureDir: 'locales',
+    langDir: './',
     locales: [
       {
         code: 'en',

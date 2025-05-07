@@ -196,9 +196,12 @@
       "limited_5star": "限定5★",
       "limited_4star": "限定4★",
       "five_star_pulls": "5★抽数",
+      "four_star_pulls": "4★抽数",
       "four_star_pulls_type2": "4★抽数（5★卡池）",
       "four_star_pulls_type3": "4★抽数（4★卡池）",
-      "pulls": "抽"
+      "pulls": "抽",
+      "daily_pull_distribution": "每日抽数分布",
+      "date": "日期"
     }
   },
   "faq": {

@@ -63,11 +63,9 @@
             : 'linear-gradient(to bottom, rgb(224, 242, 254), rgb(243, 232, 255), rgb(252, 231, 243))',
         }"
         :class="{
-          'w-48 -translate-x-full sm:translate-x-0': !showSider,
-          'w-64 translate-x-0': showSider,
+          '-translate-x-full sm:-translate-x-0': !showSider,
+          'translate-x-0': showSider,
         }"
-        @collapse="showSider = false"
-        @expand="showSider = true"
       >
         <n-menu
           class="mt-12"
@@ -78,7 +76,7 @@
           :indent="16"
           :root-indent="16"
           :options="menuOptions"
-          :value="route.path.split('/')[1]"
+          :value="route.path.split('/').pop()"
           @update:value="handleMenuSelect"
         />
         <div
@@ -154,7 +152,7 @@
     <n-layout-content>
       <n-scrollbar
         ref="scrollbarRef"
-        class="flex-1 overflow-hidden"
+        class="flex-1 overflow-hidden h-[calc(100vh-48px)]"
         :style="{
           background: isDark ? 'rgb(17, 24, 39)' : 'rgb(253, 242, 248)',
         }"
@@ -284,6 +282,10 @@
     return () => h(NIcon, null, { default: () => h(icon) })
   }
 
+  function renderLabel(label: string) {
+    return () => h('div', { class: 'ml-4' }, label)
+  }
+
   const route = useRoute()
   const router = useRouter()
 
@@ -356,32 +358,32 @@
   const menuOptions = computed<MenuOption[]>(() =>
     [
       {
-        label: t('navigation.resonance_tracker'),
+        label: renderLabel(t('navigation.resonance_tracker')),
         key: 'tracker',
         icon: renderIcon(Book),
       },
       {
-        label: t('navigation.import_data'),
+        label: renderLabel(t('navigation.import_data')),
         key: 'import',
         icon: renderIcon(FileImport),
       },
       {
-        label: t('navigation.global_data'),
+        label: renderLabel(t('navigation.global_data')),
         key: 'global',
         icon: renderIcon(Globe),
       },
       {
-        label: t('navigation.banner_history'),
+        label: renderLabel(t('navigation.banner_history')),
         key: 'banner',
         icon: renderIcon(CalendarAlt),
       },
       {
-        label: t('navigation.faq'),
+        label: renderLabel(t('navigation.faq')),
         key: 'faq',
         icon: renderIcon(QuestionCircle),
       },
       {
-        label: t('navigation.about'),
+        label: renderLabel(t('navigation.about')),
         key: 'about',
         icon: renderIcon(InfoCircle),
       },
@@ -394,9 +396,7 @@
   // Handle menu selection
   const handleMenuSelect = (key: string) => {
     router.push(localePath(`/${key}`))
-    if (window.innerWidth < 640) {
-      showSider.value = false
-    }
+    showSider.value = false
   }
 
   const showHeader = ref(true)
@@ -424,20 +424,10 @@
     // Show scroll to top button when scrolled down more than 300px
     showScrollTop.value = currentScrollPosition > 500
 
-    // Show footer when near the bottom (within 150px)
+    // Show footer when near the bottom (within 100px)
     showFooter.value =
-      scrollHeight - (currentScrollPosition + clientHeight) < 150
+      scrollHeight - (currentScrollPosition + clientHeight) < 100
 
     lastScrollPosition.value = currentScrollPosition
   }
 </script>
-
-<style lang="scss" scoped>
-  .n-scroll-area {
-    height: calc(100vh - 48px);
-  }
-
-  :deep(.n-menu-item-content-header) {
-    margin-left: 16px;
-  }
-</style>

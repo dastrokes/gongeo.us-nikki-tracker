@@ -1,6 +1,6 @@
 <template>
   <n-button
-    class="theme-switcher"
+    class="transition-colors duration-200"
     aria-label="Toggle theme"
     text
     size="tiny"
@@ -28,9 +28,3 @@
     userStore.setTheme(newTheme)
   }
 </script>
-
-<style scoped>
-  .theme-switcher {
-    @apply transition-colors duration-200;
-  }
-</style>

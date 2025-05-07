@@ -310,6 +310,14 @@
         content: t('meta.keywords'),
       },
       {
+        name: 'baidu-site-verification',
+        content: 'codeva-Zu4kVgaUNm',
+      },
+      {
+        name: 'yandex-verification',
+        content: '8343c5759c772c9e',
+      },
+      {
         property: 'og:site_name',
         content: t('meta.title'),
       },
@@ -320,14 +328,6 @@
       {
         property: 'og:description',
         content: t('meta.description'),
-      },
-      {
-        name: 'baidu-site-verification',
-        content: 'codeva-Zu4kVgaUNm',
-      },
-      {
-        name: 'yandex-verification',
-        content: '8343c5759c772c9e',
       },
     ],
     link: [

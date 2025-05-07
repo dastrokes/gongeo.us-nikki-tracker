@@ -8,9 +8,11 @@
         class="rounded-xl"
         :style="cardStyle"
       >
-        <div class="flex items-center justify-between">
+        <div
+          class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
+        >
           <div
-            class="flex-grow grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2"
+            class="w-full grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2"
           >
             <n-card
               v-for="i in 5"
@@ -30,7 +32,7 @@
               />
             </n-card>
           </div>
-          <div class="ml-4 flex space-x-2 shrink-0">
+          <div class="flex space-x-2 shrink-0">
             <n-skeleton
               circle
               width="32px"
@@ -56,24 +58,30 @@
         >
           <div class="space-y-4">
             <!-- Banner Header Skeleton -->
-            <div class="flex items-center justify-between">
-              <div class="flex-grow flex flex-wrap items-center gap-4">
+            <div
+              class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
+            >
+              <div
+                class="w-full flex flex-col sm:flex-row items-start sm:items-center gap-4"
+              >
                 <n-skeleton
                   text
-                  :style="{ width: '200px' }"
+                  width="200px"
                 />
-                <div class="flex gap-2">
+                <div class="flex flex-wrap gap-2">
                   <n-skeleton
                     round
-                    :style="{ width: '120px', height: '24px' }"
+                    width="120px"
+                    height="24px"
                   />
                   <n-skeleton
                     round
-                    :style="{ width: '120px', height: '24px' }"
+                    width="120px"
+                    height="24px"
                   />
                 </div>
               </div>
-              <div class="ml-4 flex space-x-2 shrink-0">
+              <div class="flex space-x-2 shrink-0">
                 <n-skeleton
                   circle
                   width="32px"
@@ -87,18 +95,10 @@
               </div>
             </div>
             <!-- Items Grid Skeleton -->
-            <div
-              class="grid grid-cols-5 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-2"
-            >
+            <div class="grid grid-cols-5 sm:grid-cols-10 gap-2">
               <n-skeleton
-                v-for="j in 10"
-                :key="j"
-                class="rounded-lg"
-                :style="{
-                  height: '120px',
-                  width: '100%',
-                  minWidth: '80px',
-                }"
+                :repeat="10"
+                class="rounded-lg aspect-square w-full h-full"
               />
             </div>
           </div>

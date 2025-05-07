@@ -177,6 +177,30 @@
     "join_discord": "Join our Discord community",
     "support_ko_fi": "Support us on Ko-fi"
   },
+  "global": {
+    "stats": {
+      "total_pulls": "Total Pulls",
+      "unique_users": "Unique Users",
+      "avg_5star": "5★ Avg (5★ Banner)",
+      "avg_4star_type2": "4★ Avg (5★ Banner)",
+      "avg_4star_type3": "4★ Avg (4★ Banner)",
+      "data_as_of": "Data as of"
+    },
+    "charts": {
+      "pulls_per_banner": "Pulls per Banner",
+      "five_star_distribution": "5★ Pulls Distribution",
+      "four_star_type2_distribution": "4★ Distribution (5★ Banner)",
+      "four_star_type3_distribution": "4★ Distribution (4★ Banner)",
+      "number_of_pulls": "Number of Pulls",
+      "probability": "Probability (%)",
+      "limited_5star": "Limited 5★",
+      "limited_4star": "Limited 4★",
+      "five_star_pulls": "5★ Pulls",
+      "four_star_pulls_type2": "4★ Pulls (5★ Banner)",
+      "four_star_pulls_type3": "4★ Pulls (4★ Banner)",
+      "pulls": "pulls"
+    }
+  },
   "faq": {
     "title": "Frequently Asked Questions",
     "questions": {

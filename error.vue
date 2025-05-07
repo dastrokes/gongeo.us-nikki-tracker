@@ -23,8 +23,6 @@
 
 <script setup lang="ts">
   import type { NuxtError } from '#app'
-  import { useNuxtApp } from '#app'
-  import { useI18n } from 'vue-i18n'
 
   defineProps<{
     error: NuxtError

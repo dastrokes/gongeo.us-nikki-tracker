@@ -62,6 +62,8 @@
     Button: {
       textColorPrimary: '#f6f6f6',
       textColorHoverPrimary: '#d6d6d6',
+      textColorPressedPrimary: '#d6d6d6',
+      textColorFocusPrimary: '#969696',
       borderRadius: '12px',
       fontWeight: '500',
     },

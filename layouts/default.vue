@@ -271,7 +271,6 @@
   } from '@vicons/fa'
   import { h, ref, computed } from 'vue'
   import { NuxtLink } from '#components'
-  import { useRoute, useRouter } from '#app'
   import UserProfile from '~/components/UserProfile.vue'
   import LanguageSwitcher from '~/components/LanguageSwitcher.vue'
   import { useUserStore } from '~/stores/user'

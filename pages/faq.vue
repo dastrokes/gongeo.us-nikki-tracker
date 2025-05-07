@@ -62,7 +62,6 @@
 
 <script setup lang="ts">
   import { Discord } from '@vicons/fa'
-  import { useI18n } from 'vue-i18n'
   import { useCardStyle } from '~/composables/useCardStyle'
 
   const { t } = useI18n()

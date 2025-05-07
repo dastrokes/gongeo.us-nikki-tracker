@@ -10,7 +10,6 @@ import type { BannerData } from '~/types/banner'
 export const BANNER_DATA: BannerData = {
   1: {
     bannerId: 1,
-    bannerName: 'Distant Sea',
     bannerType: 1,
     outfit4StarId: [],
     outfit5StarId: ['S0145', 'S0165', 'S0093', 'S0033'],
@@ -24,7 +23,6 @@ export const BANNER_DATA: BannerData = {
   },
   2: {
     bannerId: 2,
-    bannerName: 'Butterfly Dream',
     bannerType: 2,
     outfit4StarId: ['S0164'],
     outfit5StarId: ['S0126'],
@@ -38,7 +36,6 @@ export const BANNER_DATA: BannerData = {
   },
   3: {
     bannerId: 3,
-    bannerName: 'Blooming Fantasy',
     bannerType: 2,
     outfit4StarId: ['S0163'],
     outfit5StarId: ['S0161'],
@@ -52,7 +49,6 @@ export const BANNER_DATA: BannerData = {
   },
   4: {
     bannerId: 4,
-    bannerName: "Croaker's Whisper",
     bannerType: 3,
     outfit4StarId: ['S0153'],
     outfit5StarId: [],
@@ -66,7 +62,6 @@ export const BANNER_DATA: BannerData = {
   },
   5: {
     bannerId: 5,
-    bannerName: 'Bubbling Affections',
     bannerType: 3,
     outfit4StarId: ['S0107'],
     outfit5StarId: [],
@@ -80,7 +75,6 @@ export const BANNER_DATA: BannerData = {
   },
   6: {
     bannerId: 6,
-    bannerName: 'Celestial Wishes',
     bannerType: 2,
     outfit4StarId: ['S0166'],
     outfit5StarId: ['S0129'],
@@ -94,7 +88,6 @@ export const BANNER_DATA: BannerData = {
   },
   7: {
     bannerId: 7,
-    bannerName: 'Ribbon Reverie',
     bannerType: 3,
     outfit4StarId: ['S0179'],
     outfit5StarId: [],
@@ -108,7 +101,6 @@ export const BANNER_DATA: BannerData = {
   },
   8: {
     bannerId: 8,
-    bannerName: 'Starlit Wishfin',
     bannerType: 3,
     outfit4StarId: ['S0181'],
     outfit5StarId: [],
@@ -122,7 +114,6 @@ export const BANNER_DATA: BannerData = {
   },
   9: {
     bannerId: 9,
-    bannerName: 'Skyward Bouquets',
     bannerType: 2,
     outfit4StarId: ['S0096'],
     outfit5StarId: ['S0117'],
@@ -136,7 +127,6 @@ export const BANNER_DATA: BannerData = {
   },
   10: {
     bannerId: 10,
-    bannerName: 'Fireworks Prelude',
     bannerType: 2,
     outfit4StarId: ['S0097'],
     outfit5StarId: ['S0001'],
@@ -150,7 +140,6 @@ export const BANNER_DATA: BannerData = {
   },
   11: {
     bannerId: 11,
-    bannerName: 'Blossom Silhouettes',
     bannerType: 3,
     outfit4StarId: ['S0227'],
     outfit5StarId: [],
@@ -164,7 +153,6 @@ export const BANNER_DATA: BannerData = {
   },
   12: {
     bannerId: 12,
-    bannerName: 'Breezy Melodies',
     bannerType: 3,
     outfit4StarId: ['S0228'],
     outfit5StarId: [],
@@ -178,7 +166,6 @@ export const BANNER_DATA: BannerData = {
   },
   13: {
     bannerId: 13,
-    bannerName: 'Lingering Finale',
     bannerType: 2,
     outfit4StarId: ['S0197'],
     outfit5StarId: ['S0183'],
@@ -192,7 +179,6 @@ export const BANNER_DATA: BannerData = {
   },
   14: {
     bannerId: 14,
-    bannerName: 'Time of Serenity',
     bannerType: 3,
     outfit4StarId: ['S0123'],
     outfit5StarId: [],
@@ -206,7 +192,6 @@ export const BANNER_DATA: BannerData = {
   },
   15: {
     bannerId: 15,
-    bannerName: 'Journey on Wind',
     bannerType: 3,
     outfit4StarId: ['S0132'],
     outfit5StarId: [],
@@ -220,7 +205,6 @@ export const BANNER_DATA: BannerData = {
   },
   16: {
     bannerId: 16,
-    bannerName: 'Into the Illusion',
     bannerType: 2,
     outfit4StarId: ['S0226'],
     outfit5StarId: ['S0223'],
@@ -234,7 +218,6 @@ export const BANNER_DATA: BannerData = {
   },
   17: {
     bannerId: 17,
-    bannerName: 'Dancing Shepherdess',
     bannerType: 3,
     outfit4StarId: ['S0114'],
     outfit5StarId: [],
@@ -248,7 +231,6 @@ export const BANNER_DATA: BannerData = {
   },
   18: {
     bannerId: 18,
-    bannerName: 'Magical Scribbles',
     bannerType: 3,
     outfit4StarId: ['S0105'],
     outfit5StarId: [],
@@ -262,7 +244,6 @@ export const BANNER_DATA: BannerData = {
   },
   19: {
     bannerId: 19,
-    bannerName: 'Eternal Snow',
     bannerType: 2,
     outfit4StarId: ['S0208'],
     outfit5StarId: ['S0162'],
@@ -276,7 +257,6 @@ export const BANNER_DATA: BannerData = {
   },
   20: {
     bannerId: 20,
-    bannerName: 'Unfading Heart',
     bannerType: 2,
     outfit4StarId: ['S0113'],
     outfit5StarId: ['S0178'],

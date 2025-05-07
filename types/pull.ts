@@ -16,7 +16,6 @@ export interface PullItem {
   pullIndex: number
   itemId: string
   itemName: string
-  itemType: string
   outfitId: string
   rarity: number
   outfitName: string
@@ -34,7 +33,6 @@ export interface OutfitStatus {
   items: {
     id: string
     name: string
-    type: string
   }[]
   isComplete: boolean
   totalItems: number
@@ -67,7 +65,6 @@ export interface ProcessedBanner {
   outfits: OutfitStatus[]
   stats: BannerStats
   bannerId: number
-  bannerName: string
   bannerType: number
 }
 

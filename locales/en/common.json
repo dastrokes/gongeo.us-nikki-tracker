@@ -196,9 +196,12 @@
       "limited_5star": "Limited 5★",
       "limited_4star": "Limited 4★",
       "five_star_pulls": "5★ Pulls",
+      "four_star_pulls": "4★ Pulls",
       "four_star_pulls_type2": "4★ Pulls (5★ Banner)",
       "four_star_pulls_type3": "4★ Pulls (4★ Banner)",
-      "pulls": "pulls"
+      "pulls": "pulls",
+      "daily_pull_distribution": "Daily Pull Distribution",
+      "date": "Date"
     }
   },
   "faq": {

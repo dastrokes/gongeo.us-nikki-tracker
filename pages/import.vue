@@ -386,7 +386,7 @@
         <div class="text-center mt-4 text-xl text-gray-500">
           {{
             $t('import.progress.fetching_data', {
-              banner: bannerData[progress?.banner || 0]?.bannerName || '',
+              banner: t(`banner.${progress?.banner || 0}.name`) || '',
             })
           }}
         </div>
@@ -412,6 +412,8 @@
   import { Paste, Check } from '@vicons/fa'
   import { BANNER_DATA } from '~/data/banners'
   import { useCardStyle } from '~/composables/useCardStyle'
+
+  const { t } = useI18n()
 
   const consoleScript = `console.log(JSON.stringify({
   roleid: [...document.querySelectorAll('div')].find(el => el.textContent.startsWith('UID:'))?.textContent.replace('UID:', '').trim(),

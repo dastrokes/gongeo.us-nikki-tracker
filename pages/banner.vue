@@ -5,12 +5,15 @@
       class="rounded-xl p-0 sm:p-2"
       :style="cardStyle"
     >
-      <n-timeline :icon-size="20">
+      <n-timeline
+        :icon-size="20"
+        size="large"
+      >
         <n-timeline-item
           v-for="banner in sortedBanners"
           :key="banner.bannerId"
           :type="getBannerTypeColor(banner.bannerType)"
-          :title="banner.bannerName"
+          :title="t(`banner.${banner.bannerId}.name`)"
         >
           <template #default>
             <div class="grid grid-cols-1 lg:grid-cols-4 gap-2">
@@ -75,7 +78,7 @@
                   >
                     <NuxtImg
                       :src="imageUrl(banner.bannerId)"
-                      :alt="banner.bannerName"
+                      :alt="banner.bannerId"
                       class="absolute inset-0 w-full h-full object-cover"
                       :provider="imageProvider"
                       format="webp"

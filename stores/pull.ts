@@ -95,11 +95,6 @@ export const usePullStore = defineStore('pull', {
       }
     },
 
-    getBannerName(bannerId: number): string {
-      const banner = (BANNER_DATA as BannerData)[bannerId]
-      return banner ? banner.bannerName : 'Unknown Banner'
-    },
-
     async processPullsData(pullsByBanner: Record<number, PullRecord[]>) {
       if (this.isProcessing) return
 
@@ -185,7 +180,6 @@ export const usePullStore = defineStore('pull', {
               first5StarItemId: null,
             },
             bannerId: bannerId,
-            bannerName: bannerInfo.bannerName,
             bannerType: bannerInfo.bannerType,
             isComplete: false,
           }
@@ -233,7 +227,6 @@ export const usePullStore = defineStore('pull', {
               const pullInfo: PullItem = {
                 itemId,
                 itemName: itemData.name,
-                itemType: itemData.type,
                 outfitId,
                 rarity: rarity as number,
                 outfitName: outfit.name,
@@ -488,7 +481,6 @@ export const usePullStore = defineStore('pull', {
             first5StarItemId: null,
           },
           bannerId: bannerId,
-          bannerName: bannerInfo.bannerName,
           bannerType: bannerInfo.bannerType,
           isComplete: false,
         }
@@ -537,7 +529,6 @@ export const usePullStore = defineStore('pull', {
             this.processedPulls[bannerId].pulls.push({
               itemId: item.id,
               itemName: item.name,
-              itemType: item.type,
               outfitId: outfit.id,
               rarity: outfit.rarity as number,
               outfitName: outfit.name,

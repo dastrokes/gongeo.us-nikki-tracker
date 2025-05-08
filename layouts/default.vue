@@ -68,7 +68,7 @@
         }"
       >
         <n-menu
-          class="mt-12 [&_.n-menu-item-content-header]:pl-4"
+          class="mt-12 [&_.n-menu-item-content-header]:pl-2"
           :collapsed="!showSider"
           :collapsed-width="48"
           :collapsed-icon-size="16"

@@ -68,7 +68,7 @@
       borderRadius: '16px',
       color: isDark.value
         ? 'rgba(31, 41, 55, 0.9)'
-        : 'rgba(255, 255, 255, 0.9)', // Gray-800 : White
+        : 'rgba(255, 255, 255, 0.9)',
       colorModal: isDark.value
         ? 'rgba(31, 41, 55, 0.9)'
         : 'rgba(255, 255, 255, 0.9)',
@@ -95,6 +95,16 @@
           borderRadius: '12px',
         },
       },
+    },
+    Menu: {
+      itemTextColorActive: 'currentColor',
+      itemTextColorActiveHover: 'currentColor',
+      itemColorActive: isDark.value
+        ? 'rgba(255, 255, 255, 0.09)'
+        : 'rgb(243, 243, 245)',
+      itemColorActiveHover: isDark.value
+        ? 'rgba(255, 255, 255, 0.09)'
+        : 'rgb(243, 243, 245)',
     },
   }))
 

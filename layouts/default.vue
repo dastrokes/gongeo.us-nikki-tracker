@@ -300,6 +300,10 @@
         content: t('meta.keywords'),
       },
       {
+        name: 'yandex-verification',
+        content: `8343c5759c772c9e`,
+      },
+      {
         property: 'og:site_name',
         content: t('meta.title'),
       },
@@ -314,7 +318,7 @@
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      { rel: 'canonical', href: siteUrl },
+      { rel: 'canonical', href: `${siteUrl}${localePath(route.path)}` },
     ],
     script: [
       {

@@ -33,11 +33,9 @@
             </n-button>
             <NuxtLink
               :to="localePath('/')"
-              class="pl-2"
+              class="pl-2 pb-2"
             >
-              <span class="text-xl font-bold font-sans leading-none"
-                >gongeo.us</span
-              >
+              <span class="text-xl font-bold font-sans">gongeo.us</span>
             </NuxtLink>
           </div>
           <div class="flex gap-4 pr-4">

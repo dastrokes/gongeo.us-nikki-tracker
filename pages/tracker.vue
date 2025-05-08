@@ -180,6 +180,7 @@
                   :from="0"
                   :to="globalStats.avg5StarPulls"
                   :duration="1000"
+                  :precision="2"
                 />
               </div>
             </n-card>
@@ -197,6 +198,7 @@
                   :from="0"
                   :to="globalStats.avg4StarPulls"
                   :duration="1000"
+                  :precision="2"
                 />
               </div>
             </n-card>
@@ -214,6 +216,7 @@
                   :from="0"
                   :to="globalStats.avg4StarOnlyPulls"
                   :duration="1000"
+                  :precision="2"
                 />
               </div>
             </n-card>
@@ -422,7 +425,7 @@
                           >
                             <span class="text-sm">5★ Average</span>
                             <span class="font-medium text-amber-600">{{
-                              banner.stats.avg5StarPulls.toFixed(1)
+                              banner.stats.avg5StarPulls.toFixed(2)
                             }}</span>
                           </div>
                           <div
@@ -452,7 +455,7 @@
                           >
                             <span class="text-sm">4★ Mixed Avg</span>
                             <span class="font-medium text-blue-600">{{
-                              banner.stats.avg4StarPulls.toFixed(1)
+                              banner.stats.avg4StarPulls.toFixed(2)
                             }}</span>
                           </div>
                           <div
@@ -470,7 +473,7 @@
                           >
                             <span class="text-sm">4★ Only Average</span>
                             <span class="font-medium text-blue-600">{{
-                              banner.stats.avg4StarOnlyPulls.toFixed(1)
+                              banner.stats.avg4StarOnlyPulls.toFixed(2)
                             }}</span>
                           </div>
                           <div

@@ -2,10 +2,10 @@
   "navigation": {
     "resonance_tracker": "共鸣记录",
     "import_data": "导入数据",
-    "global_data": "全球数据",
+    "global_data": "社区数据",
     "banner_history": "卡池历史",
     "faq": "常见问题",
-    "about": "关于"
+    "about": "关于本站"
   },
   "index": {
     "title": "gongeo.us",
@@ -264,7 +264,7 @@
     },
     "intellectualProperty": {
       "title": "知识产权声明",
-      "content": "gongeo.us为民间自发创作项目。与《无限暖暖》相关的所有商标、游戏内容、知识产权均归叠纸游戏及其授权方所有。",
+      "content": "gongeo.us为社区自发创作项目。与《无限暖暖》相关的所有商标、游戏内容、知识产权均归叠纸游戏及其授权方所有。",
       "siteContent": "除非特别标注，本站原创代码、界面设计及定制素材的著作权归属于gongeo.us，受相关版权法与知识产权法保护。未经书面授权，不得复制、二次利用或传播相关材料。",
       "usage": "本平台仅供个人非商业用途使用。"
     },

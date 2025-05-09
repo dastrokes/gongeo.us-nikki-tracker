@@ -14,8 +14,7 @@
     "format": "prettier --write .",
     "prepare": "husky",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
-    "gen": "node scripts/dev/generate-outfit-index.js"
+    "lint:fix": "eslint . --fix"
   },
   "keywords": [
     "nuxt",

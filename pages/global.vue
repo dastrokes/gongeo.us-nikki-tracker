@@ -409,10 +409,15 @@
       >
         <div
           v-if="showTooltip"
-          class="bg-[rgba(100,100,100,0.3)] rounded-lg p-2 origin-top"
+          class="rounded-lg p-2 origin-top bg-opacity-50"
+          :class="isDark ? 'bg-gray-400' : 'bg-gray-600'"
         >
-          <div class="text-xs text-center text-gray-400 mb-1">
-            {{ selectedBanner.name }}: {{ selectedBanner.pulls }}
+          <div
+            class="text-xs text-center mb-1"
+            :class="isDark ? 'text-gray-300' : 'text-gray-700'"
+          >
+            {{ selectedBanner.name }}:
+            <n-text class="font-bold">{{ selectedBanner.pulls }}</n-text>
             {{ t('global.charts.pulls') }}
           </div>
           <NuxtImg
@@ -453,24 +458,14 @@
   Chart.defaults.color = isDark.value ? '#f0f1f3' : '#797a7c'
   Chart.defaults.backgroundColor = isDark.value ? '#1F2937' : '#FAF5FF'
   Chart.defaults.plugins.legend.display = false
-  Chart.defaults.plugins.legend.position = 'top'
-  Chart.defaults.plugins.legend.labels.boxWidth = 12
-  Chart.defaults.plugins.legend.labels.padding = 20
-  Chart.defaults.plugins.tooltip.enabled = true
-  Chart.defaults.plugins.tooltip.mode = 'index'
-  Chart.defaults.plugins.tooltip.intersect = false
   Chart.defaults.plugins.tooltip.backgroundColor = 'rgba(0, 0, 0, 0.8)'
-  Chart.defaults.plugins.tooltip.padding = 8
   Chart.defaults.plugins.tooltip.cornerRadius = 4
-  Chart.defaults.plugins.tooltip.titleFont = { size: 14, weight: 'bold' }
-  Chart.defaults.plugins.tooltip.bodyFont = { size: 12 }
-  Chart.defaults.plugins.tooltip.footerFont = { size: 12 }
   Chart.defaults.elements.bar.borderRadius = 4
   Chart.defaults.elements.bar.borderSkipped = false
-  Chart.defaults.animation.duration = 800
-  Chart.defaults.animation.easing = 'easeInOutQuart'
-
-  // Remove grid lines
+  Chart.defaults.plugins.tooltip.mode = 'index'
+  Chart.defaults.plugins.tooltip.intersect = false
+  Chart.defaults.responsive = true
+  Chart.defaults.maintainAspectRatio = false
   Chart.defaults.scale.grid.display = false
   Chart.defaults.scale.grid.drawBorder = false
 
@@ -584,6 +579,73 @@
     maximizedChart.value = maximizedChart.value === chartId ? null : chartId
   }
 
+  const createDistributionChartOptions = () => {
+    return {
+      scales: {
+        y: {
+          beginAtZero: true,
+          position: 'left',
+          title: {
+            display: true,
+            text: t('global.charts.number_of_pulls'),
+          },
+          ticks: {
+            display: false,
+          },
+        },
+        y1: {
+          beginAtZero: true,
+          position: 'right',
+          max: 100,
+          title: {
+            display: true,
+            text: t('global.charts.probability'),
+          },
+          grid: {
+            drawOnChartArea: false,
+          },
+          ticks: {
+            display: false,
+          },
+        },
+      },
+      plugins: {
+        tooltip: {
+          callbacks: {
+            label: function (context) {
+              const label = context.dataset.label || ''
+              const value = context.raw
+              if (label.includes(t('global.charts.probability'))) {
+                return `${label}: ${value.toFixed(2)}%`
+              }
+              return `${label}: ${value}`
+            },
+          },
+        },
+      },
+    }
+  }
+
+  const createCumulativeProbabilityDataset = (data, color) => {
+    return {
+      label: t('global.charts.probability'),
+      data: Object.values(data).map((value, index, array) => {
+        const total = array.reduce((sum, val) => sum + val, 0)
+        const cumulative = array
+          .slice(0, index + 1)
+          .reduce((sum, val) => sum + val, 0)
+        return (cumulative / total) * 100
+      }),
+      type: 'line',
+      borderColor: color,
+      backgroundColor: color.replace('0.4', '0.05'),
+      borderWidth: 2,
+      pointRadius: 0,
+      yAxisID: 'y1',
+      cubicInterpolationMode: 'monotone',
+    }
+  }
+
   const createPullsPerBannerChart = (chartData) => {
     const bannerLabels = Object.keys(chartData).map((bannerId) => {
       const banner = BANNER_DATA[parseInt(bannerId)]
@@ -602,8 +664,6 @@
               return banner?.bannerType === 2 ? pulls : null
             }),
             backgroundColor: 'rgba(217, 119, 6, 0.5)', // amber-600
-            borderColor: 'rgba(217, 119, 6, 1)', // amber-600
-            borderWidth: 1,
             stack: 'Stack 0',
           },
           {
@@ -613,15 +673,11 @@
               return banner?.bannerType === 3 ? pulls : null
             }),
             backgroundColor: 'rgba(37, 99, 235, 0.5)', // blue-600
-            borderColor: 'rgba(37, 99, 235, 1)', // blue-600
-            borderWidth: 1,
             stack: 'Stack 0',
           },
         ],
       },
       options: {
-        responsive: true,
-        maintainAspectRatio: false,
         onHover: (event, elements) => {
           event.native.target.style.cursor = elements.length
             ? 'pointer'
@@ -647,8 +703,8 @@
             display: true,
             position: 'top',
             labels: {
-              boxWidth: 12,
-              padding: 10,
+              boxWidth: 8,
+              padding: 8,
               usePointStyle: true,
             },
             onClick: (e, legendItem, legend) => {
@@ -677,88 +733,16 @@
             label: t('global.charts.five_star_pulls'),
             data: Object.values(chartData),
             backgroundColor: 'rgba(217, 119, 6, 0.5)', // amber-600
-            borderColor: 'rgba(217, 119, 6, 1)', // amber-600
-            borderWidth: 1,
             yAxisID: 'y',
-            hidden: false,
-            showLine: false,
             skipNull: true,
-            parsing: {
-              xAxisKey: 'x',
-              yAxisKey: 'y',
-            },
-            legend: {
-              display: false,
-            },
           },
-          {
-            label: t('global.charts.probability'),
-            data: Object.values(chartData).map((value, index, array) => {
-              const total = array.reduce((sum, val) => sum + val, 0)
-              const cumulative = array
-                .slice(0, index + 1)
-                .reduce((sum, val) => sum + val, 0)
-              return (cumulative / total) * 100
-            }),
-            type: 'line',
-            borderColor: 'rgba(217, 119, 6, 0.4)', // purple-600 with lower opacity
-            backgroundColor: 'rgba(217, 119, 6, 0.05)', // purple-600 with very low opacity
-            borderWidth: 2,
-            pointRadius: 0,
-            yAxisID: 'y1',
-            cubicInterpolationMode: 'monotone',
-          },
+          createCumulativeProbabilityDataset(
+            chartData,
+            'rgba(217, 119, 6, 0.4)'
+          ),
         ],
       },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          y: {
-            beginAtZero: true,
-            position: 'left',
-            title: {
-              display: true,
-              text: t('global.charts.number_of_pulls'),
-            },
-            ticks: {
-              display: false,
-            },
-          },
-          y1: {
-            beginAtZero: true,
-            position: 'right',
-            max: 100,
-            title: {
-              display: true,
-              text: t('global.charts.probability'),
-            },
-            grid: {
-              drawOnChartArea: false,
-            },
-            ticks: {
-              display: false,
-            },
-          },
-        },
-        plugins: {
-          legend: {
-            display: false,
-          },
-          tooltip: {
-            callbacks: {
-              label: function (context) {
-                const label = context.dataset.label || ''
-                const value = context.raw
-                if (label.includes(t('global.charts.probability'))) {
-                  return `${label}: ${value.toFixed(2)}%`
-                }
-                return `${label}: ${value}`
-              },
-            },
-          },
-        },
-      },
+      options: createDistributionChartOptions(),
     })
   }
 
@@ -772,88 +756,16 @@
             label: t('global.charts.four_star_pulls_type2'),
             data: Object.values(chartData),
             backgroundColor: 'rgba(37, 99, 235, 0.5)', // blue-600
-            borderColor: 'rgba(37, 99, 235, 1)', // blue-600
-            borderWidth: 1,
             yAxisID: 'y',
-            hidden: false,
-            showLine: false,
             skipNull: true,
-            parsing: {
-              xAxisKey: 'x',
-              yAxisKey: 'y',
-            },
-            legend: {
-              display: false,
-            },
           },
-          {
-            label: t('global.charts.probability'),
-            data: Object.values(chartData).map((value, index, array) => {
-              const total = array.reduce((sum, val) => sum + val, 0)
-              const cumulative = array
-                .slice(0, index + 1)
-                .reduce((sum, val) => sum + val, 0)
-              return (cumulative / total) * 100
-            }),
-            type: 'line',
-            borderColor: 'rgba(147, 51, 234, 0.4)', // purple-600 with lower opacity
-            backgroundColor: 'rgba(147, 51, 234, 0.05)', // purple-600 with very low opacity
-            borderWidth: 2,
-            pointRadius: 0,
-            yAxisID: 'y1',
-            cubicInterpolationMode: 'monotone',
-          },
+          createCumulativeProbabilityDataset(
+            chartData,
+            'rgba(147, 51, 234, 0.4)'
+          ),
         ],
       },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          y: {
-            beginAtZero: true,
-            position: 'left',
-            title: {
-              display: true,
-              text: t('global.charts.number_of_pulls'),
-            },
-            ticks: {
-              display: false,
-            },
-          },
-          y1: {
-            beginAtZero: true,
-            position: 'right',
-            max: 100,
-            title: {
-              display: true,
-              text: t('global.charts.probability'),
-            },
-            grid: {
-              drawOnChartArea: false,
-            },
-            ticks: {
-              display: false,
-            },
-          },
-        },
-        plugins: {
-          legend: {
-            display: false,
-          },
-          tooltip: {
-            callbacks: {
-              label: function (context) {
-                const label = context.dataset.label || ''
-                const value = context.raw
-                if (label.includes(t('global.charts.probability'))) {
-                  return `${label}: ${value.toFixed(2)}%`
-                }
-                return `${label}: ${value}`
-              },
-            },
-          },
-        },
-      },
+      options: createDistributionChartOptions(),
     })
   }
 
@@ -867,88 +779,16 @@
             label: t('global.charts.four_star_pulls_type3'),
             data: Object.values(chartData),
             backgroundColor: 'rgba(37, 99, 235, 0.5)', // blue-600
-            borderColor: 'rgba(37, 99, 235, 1)', // blue-600
-            borderWidth: 1,
             yAxisID: 'y',
-            hidden: false,
-            showLine: false,
             skipNull: true,
-            parsing: {
-              xAxisKey: 'x',
-              yAxisKey: 'y',
-            },
-            legend: {
-              display: false,
-            },
           },
-          {
-            label: t('global.charts.probability'),
-            data: Object.values(chartData).map((value, index, array) => {
-              const total = array.reduce((sum, val) => sum + val, 0)
-              const cumulative = array
-                .slice(0, index + 1)
-                .reduce((sum, val) => sum + val, 0)
-              return (cumulative / total) * 100
-            }),
-            type: 'line',
-            borderColor: 'rgba(147, 51, 234, 0.4)', // purple-600 with lower opacity
-            backgroundColor: 'rgba(147, 51, 234, 0.05)', // purple-600 with very low opacity
-            borderWidth: 2,
-            pointRadius: 0,
-            yAxisID: 'y1',
-            cubicInterpolationMode: 'monotone',
-          },
+          createCumulativeProbabilityDataset(
+            chartData,
+            'rgba(147, 51, 234, 0.4)'
+          ),
         ],
       },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          y: {
-            beginAtZero: true,
-            position: 'left',
-            title: {
-              display: true,
-              text: t('global.charts.number_of_pulls'),
-            },
-            ticks: {
-              display: false,
-            },
-          },
-          y1: {
-            beginAtZero: true,
-            position: 'right',
-            max: 100,
-            title: {
-              display: true,
-              text: t('global.charts.probability'),
-            },
-            grid: {
-              drawOnChartArea: false,
-            },
-            ticks: {
-              display: false,
-            },
-          },
-        },
-        plugins: {
-          legend: {
-            display: false,
-          },
-          tooltip: {
-            callbacks: {
-              label: function (context) {
-                const label = context.dataset.label || ''
-                const value = context.raw
-                if (label.includes(t('global.charts.probability'))) {
-                  return `${label}: ${value.toFixed(2)}%`
-                }
-                return `${label}: ${value}`
-              },
-            },
-          },
-        },
-      },
+      options: createDistributionChartOptions(),
     })
   }
 

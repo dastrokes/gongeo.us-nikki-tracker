@@ -198,7 +198,7 @@
             :class="[
               'transition-all duration-300',
               maximizedChart === 'pullsPerBanner'
-                ? 'h-[calc(100vh-240px)]'
+                ? 'h-[calc(100vh-180px)]'
                 : 'h-[300px]',
             ]"
             :style="cardStyle"
@@ -248,7 +248,7 @@
             :class="[
               'transition-all duration-300',
               maximizedChart === 'fiveStar'
-                ? 'h-[calc(100vh-240px)]'
+                ? 'h-[calc(100vh-180px)]'
                 : 'h-[200px]',
             ]"
             :style="cardStyle"
@@ -296,7 +296,7 @@
             :class="[
               'transition-all duration-300',
               maximizedChart === 'fourStarType2'
-                ? 'h-[calc(100vh-240px)]'
+                ? 'h-[calc(100vh-180px)]'
                 : 'h-[200px]',
             ]"
             :style="cardStyle"
@@ -346,7 +346,7 @@
             :class="[
               'transition-all duration-300',
               maximizedChart === 'fourStarType3'
-                ? 'h-[calc(100vh-240px)]'
+                ? 'h-[calc(100vh-180px)]'
                 : 'h-[200px]',
             ]"
             :style="cardStyle"
@@ -396,7 +396,7 @@
             :class="[
               'transition-all duration-300',
               maximizedChart === 'firstItemDistribution'
-                ? 'h-[calc(100vh-240px)]'
+                ? 'h-[calc(100vh-180px)]'
                 : 'h-[200px]',
             ]"
             :style="cardStyle"
@@ -485,6 +485,7 @@
   const fourStarType2ChartOption = ref({})
   const fourStarType3ChartOption = ref({})
 
+  const isMobile = ref(window.innerWidth < 768)
   const maximizedChart = ref(null)
 
   // Add banner selector related refs
@@ -593,9 +594,6 @@
       ([_, pulls]) => pulls['5_star']
     )
 
-    // Check if mobile for axis label rotation
-    const isMobile = window.innerWidth < 768
-
     pullsPerBannerChartOption.value = {
       title: {
         text: t('global.charts.pulls_per_banner'),
@@ -665,7 +663,7 @@
       grid: {
         top: 80,
         bottom: 0,
-        left: '5%',
+        left: isMobile.value ? '0%' : '5%',
         right: 0,
         containLabel: true,
       },
@@ -677,7 +675,15 @@
         },
         axisLabel: {
           interval: 0,
-          rotate: isMobile ? 90 : 25,
+          rotate: isMobile.value ? 90 : 20,
+          formatter: function (value, index) {
+            if (
+              isMobile.value &&
+              BANNER_DATA[parseInt(index) + 2].bannerType === 3
+            )
+              return ''
+            return value
+          },
         },
         axisLine: {
           lineStyle: {
@@ -921,8 +927,7 @@
     const richLabels = {}
 
     // Get viewport width to detect mobile vs desktop
-    const imageSize =
-      window.innerWidth < 768 ? 30 : window.innerWidth < 1024 ? 40 : 80
+    const imageSize = isMobile.value ? 36 : 80
 
     // Create rich label for each item with loading image initially
     itemsData.forEach((itemId) => {
@@ -931,8 +936,7 @@
         width: imageSize,
         borderRadius: 8,
         borderColor: isDark.value ? '#4b5563' : '#e5e7eb',
-        borderWidth: 1,
-        opacity: 0.5,
+        borderWidth: isMobile.value ? 0 : 1,
         backgroundColor: {
           image: `/images/loading.webp`,
         },
@@ -966,7 +970,7 @@
       title: {
         text: t('global.charts.first_item_distribution'),
         left: 'center',
-        top: 0,
+        top: isMobile.value ? 40 : 0,
         textStyle: {
           color: isDark.value ? '#e4e5e7' : '#797a7c',
           fontSize: 16,
@@ -1007,7 +1011,7 @@
         left: 0,
         right: 0,
         bottom: 0,
-        top: 40,
+        top: isMobile.value ? 60 : 40,
         containLabel: true,
       },
       xAxis: {
@@ -1077,6 +1081,8 @@
 
   // Create a named function for the resize handler
   const handleResize = () => {
+    isMobile.value = window.innerWidth < 768
+
     if (data.value?.first_item_distribution && selectedBannerId.value) {
       createFirstItemDistributionChart(data.value.first_item_distribution)
     }

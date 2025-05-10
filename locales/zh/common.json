@@ -191,6 +191,7 @@
       "five_star_distribution": "5★抽数分布",
       "four_star_type2_distribution": "4★分布（5★卡池）",
       "four_star_type3_distribution": "4★分布（4★卡池）",
+      "first_item_distribution": "首件物品分布",
       "number_of_pulls": "抽数",
       "probability": "概率（%）",
       "limited_5star": "限定5★",
@@ -201,7 +202,9 @@
       "four_star_pulls_type3": "4★抽数（4★卡池）",
       "pulls": "抽",
       "daily_pull_distribution": "每日抽数分布",
-      "date": "日期"
+      "date": "日期",
+      "occurrences": "出现次数",
+      "percentage": "百分比"
     }
   },
   "faq": {

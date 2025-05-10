@@ -485,8 +485,12 @@
   const fourStarType2ChartOption = ref({})
   const fourStarType3ChartOption = ref({})
 
-  const isMobile = ref(window.innerWidth < 768)
+  const isMobile = ref(false)
   const maximizedChart = ref(null)
+
+  const checkMobile = () => {
+    isMobile.value = window?.innerWidth < 768
+  }
 
   // Add banner selector related refs
   const selectedBannerId = ref(Object.keys(BANNER_DATA).pop())
@@ -1081,7 +1085,7 @@
 
   // Create a named function for the resize handler
   const handleResize = () => {
-    isMobile.value = window.innerWidth < 768
+    checkMobile()
 
     if (data.value?.first_item_distribution && selectedBannerId.value) {
       createFirstItemDistributionChart(data.value.first_item_distribution)
@@ -1101,6 +1105,7 @@
   })
 
   onMounted(() => {
+    checkMobile()
     fetchData()
 
     // Add resize event listener to handle responsive chart

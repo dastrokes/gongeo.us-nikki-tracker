@@ -191,6 +191,7 @@
       "five_star_distribution": "5★ Pulls Distribution",
       "four_star_type2_distribution": "4★ Distribution (5★ Banner)",
       "four_star_type3_distribution": "4★ Distribution (4★ Banner)",
+      "first_item_distribution": "First Item Distribution",
       "number_of_pulls": "Number of Pulls",
       "probability": "Probability (%)",
       "limited_5star": "Limited 5★",
@@ -201,7 +202,9 @@
       "four_star_pulls_type3": "4★ Pulls (4★ Banner)",
       "pulls": "pulls",
       "daily_pull_distribution": "Daily Pull Distribution",
-      "date": "Date"
+      "date": "Date",
+      "occurrences": "Occurrences",
+      "percentage": "Percentage"
     }
   },
   "faq": {

@@ -19,6 +19,7 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     '@bg-dev/nuxt-naiveui',
     'nuxt-booster',
+    'nuxt-echarts',
   ],
 
   i18n: {
@@ -101,6 +102,12 @@ export default defineNuxtConfig({
       youtube: 'https://img.youtube.com',
       vimeo: 'https://i.vimeocdn.com',
     },
+  },
+
+  echarts: {
+    ssr: true,
+    charts: ['BarChart', 'LineChart'],
+    components: ['TooltipComponent', 'LegendComponent', 'GridComponent'],
   },
 
   nitro: {

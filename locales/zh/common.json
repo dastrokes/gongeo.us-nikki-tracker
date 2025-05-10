@@ -204,7 +204,8 @@
       "daily_pull_distribution": "每日抽数分布",
       "date": "日期",
       "occurrences": "出现次数",
-      "percentage": "百分比"
+      "percentage": "百分比",
+      "total": "总数"
     }
   },
   "faq": {

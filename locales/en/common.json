@@ -9,7 +9,7 @@
   },
   "index": {
     "title": "gongeo.us",
-    "subtitle": "Infinity\u00A0Nikki Resonance\u00A0Tracker",
+    "subtitle": "Infinity Nikki Resonance Tracker",
     "description": "Track Infinity Nikki Resonance History and Statistics",
     "loading": "Loading...",
     "your_data": "Your Data",
@@ -204,7 +204,8 @@
       "daily_pull_distribution": "Daily Pull Distribution",
       "date": "Date",
       "occurrences": "Occurrences",
-      "percentage": "Percentage"
+      "percentage": "Percentage",
+      "total": "Total"
     }
   },
   "faq": {

@@ -32,6 +32,7 @@
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         <!-- Main Chart Skeleton -->
         <n-card
+          size="small"
           class="col-span-1 md:col-span-3 rounded-lg"
           :style="cardStyle"
         >
@@ -45,13 +46,14 @@
               width="24px"
             />
           </div>
-          <n-skeleton height="250px" />
+          <n-skeleton height="300px" />
         </n-card>
 
         <!-- Distribution Charts Skeleton -->
         <n-card
           v-for="i in 3"
           :key="i"
+          size="small"
           class="rounded-lg"
           :style="cardStyle"
         >
@@ -183,6 +185,7 @@
         <!-- Pulls per Banner Chart -->
         <n-card
           v-show="!maximizedChart || maximizedChart === 'pullsPerBanner'"
+          size="small"
           :class="[
             'transition-all duration-300',
             maximizedChart === 'pullsPerBanner'
@@ -191,13 +194,19 @@
           ]"
           :style="cardStyle"
         >
-          <div class="flex justify-between items-center mb-2">
-            <n-h4 class="text-lg font-semibold">{{
-              $t('global.charts.pulls_per_banner')
-            }}</n-h4>
+          <div
+            :class="[
+              'transition-all duration-300',
+              maximizedChart === 'pullsPerBanner'
+                ? 'h-[calc(100vh-240px)]'
+                : 'h-[300px]',
+            ]"
+            :style="cardStyle"
+          >
             <n-button
               size="tiny"
               text
+              class="absolute top-4 right-4 z-10"
               :type="
                 maximizedChart === 'pullsPerBanner' ? 'primary' : 'default'
               "
@@ -215,16 +224,6 @@
                 </n-icon>
               </template>
             </n-button>
-          </div>
-          <div
-            :class="[
-              'transition-all duration-300',
-              maximizedChart === 'pullsPerBanner'
-                ? 'h-[calc(100vh-240px)]'
-                : 'h-[250px]',
-            ]"
-            :style="cardStyle"
-          >
             <VChart
               id="pullsPerBannerChart"
               ref="pullsPerBannerChart"
@@ -238,19 +237,26 @@
         <!-- 5★ Distribution Chart -->
         <n-card
           v-show="!maximizedChart || maximizedChart === 'fiveStar'"
+          size="small"
           :class="[
             'transition-all duration-300',
             maximizedChart === 'fiveStar' ? 'col-span-1 sm:col-span-3' : '',
           ]"
           :style="cardStyle"
         >
-          <div class="flex justify-between items-center mb-2">
-            <n-h4 class="text-lg font-semibold">{{
-              $t('global.charts.five_star_distribution')
-            }}</n-h4>
+          <div
+            :class="[
+              'transition-all duration-300',
+              maximizedChart === 'fiveStar'
+                ? 'h-[calc(100vh-240px)]'
+                : 'h-[200px]',
+            ]"
+            :style="cardStyle"
+          >
             <n-button
               size="tiny"
               text
+              class="absolute top-4 right-4 z-10"
               :type="maximizedChart === 'fiveStar' ? 'primary' : 'default'"
               @click="toggleMaximize('fiveStar')"
             >
@@ -264,16 +270,6 @@
                 </n-icon>
               </template>
             </n-button>
-          </div>
-          <div
-            :class="[
-              'transition-all duration-300',
-              maximizedChart === 'fiveStar'
-                ? 'h-[calc(100vh-240px)]'
-                : 'h-[200px]',
-            ]"
-            :style="cardStyle"
-          >
             <VChart
               id="fiveStarDistributionChart"
               ref="fiveStarDistributionChart"
@@ -287,6 +283,7 @@
         <!-- 4★ Distribution Type 2 Chart -->
         <n-card
           v-show="!maximizedChart || maximizedChart === 'fourStarType2'"
+          size="small"
           :class="[
             'transition-all duration-300',
             maximizedChart === 'fourStarType2'
@@ -295,13 +292,19 @@
           ]"
           :style="cardStyle"
         >
-          <div class="flex justify-between items-center mb-2">
-            <n-h4 class="text-lg font-semibold">{{
-              $t('global.charts.four_star_type2_distribution')
-            }}</n-h4>
+          <div
+            :class="[
+              'transition-all duration-300',
+              maximizedChart === 'fourStarType2'
+                ? 'h-[calc(100vh-240px)]'
+                : 'h-[200px]',
+            ]"
+            :style="cardStyle"
+          >
             <n-button
               size="tiny"
               text
+              class="absolute top-4 right-4 z-10"
               :type="maximizedChart === 'fourStarType2' ? 'primary' : 'default'"
               @click="toggleMaximize('fourStarType2')"
             >
@@ -317,16 +320,6 @@
                 </n-icon>
               </template>
             </n-button>
-          </div>
-          <div
-            :class="[
-              'transition-all duration-300',
-              maximizedChart === 'fourStarType2'
-                ? 'h-[calc(100vh-240px)]'
-                : 'h-[200px]',
-            ]"
-            :style="cardStyle"
-          >
             <VChart
               id="fourStarType2Chart"
               ref="fourStarType2Chart"
@@ -340,6 +333,7 @@
         <!-- 4★ Distribution Type 3 Chart -->
         <n-card
           v-show="!maximizedChart || maximizedChart === 'fourStarType3'"
+          size="small"
           :class="[
             'transition-all duration-300',
             maximizedChart === 'fourStarType3'
@@ -348,13 +342,19 @@
           ]"
           :style="cardStyle"
         >
-          <div class="flex justify-between items-center mb-2">
-            <n-h4 class="text-lg font-semibold">{{
-              $t('global.charts.four_star_type3_distribution')
-            }}</n-h4>
+          <div
+            :class="[
+              'transition-all duration-300',
+              maximizedChart === 'fourStarType3'
+                ? 'h-[calc(100vh-240px)]'
+                : 'h-[200px]',
+            ]"
+            :style="cardStyle"
+          >
             <n-button
               size="tiny"
               text
+              class="absolute top-4 right-4 z-10"
               :type="maximizedChart === 'fourStarType3' ? 'primary' : 'default'"
               @click="toggleMaximize('fourStarType3')"
             >
@@ -370,16 +370,6 @@
                 </n-icon>
               </template>
             </n-button>
-          </div>
-          <div
-            :class="[
-              'transition-all duration-300',
-              maximizedChart === 'fourStarType3'
-                ? 'h-[calc(100vh-240px)]'
-                : 'h-[200px]',
-            ]"
-            :style="cardStyle"
-          >
             <VChart
               id="fourStarType3Chart"
               ref="fourStarType3Chart"
@@ -393,6 +383,7 @@
         <!-- First Item Distribution Chart -->
         <n-card
           v-show="!maximizedChart || maximizedChart === 'firstItemDistribution'"
+          size="small"
           :class="[
             'transition-all duration-300',
             maximizedChart === 'firstItemDistribution'
@@ -401,43 +392,6 @@
           ]"
           :style="cardStyle"
         >
-          <div class="flex justify-between items-center mb-2">
-            <n-h4 class="text-lg font-semibold">{{
-              $t('global.charts.first_item_distribution')
-            }}</n-h4>
-            <div class="flex items-center gap-2">
-              <n-select
-                v-model:value="selectedBannerId"
-                :options="bannerOptions"
-                :show-checkmark="false"
-                size="small"
-                style="width: 200px"
-                @update:value="updateFirstItemChart"
-              />
-              <n-button
-                size="tiny"
-                text
-                :type="
-                  maximizedChart === 'firstItemDistribution'
-                    ? 'primary'
-                    : 'default'
-                "
-                @click="toggleMaximize('firstItemDistribution')"
-              >
-                <template #icon>
-                  <n-icon>
-                    <component
-                      :is="
-                        maximizedChart === 'firstItemDistribution'
-                          ? CompressAlt
-                          : ExpandAlt
-                      "
-                    />
-                  </n-icon>
-                </template>
-              </n-button>
-            </div>
-          </div>
           <div
             :class="[
               'transition-all duration-300',
@@ -447,6 +401,38 @@
             ]"
             :style="cardStyle"
           >
+            <n-select
+              v-model:value="selectedBannerId"
+              :options="bannerOptions"
+              :show-checkmark="false"
+              class="absolute top-2 right-12 z-10"
+              size="small"
+              style="width: 200px"
+              @update:value="updateFirstItemChart"
+            />
+            <n-button
+              size="tiny"
+              text
+              class="absolute top-4 right-4 z-10"
+              :type="
+                maximizedChart === 'firstItemDistribution'
+                  ? 'primary'
+                  : 'default'
+              "
+              @click="toggleMaximize('firstItemDistribution')"
+            >
+              <template #icon>
+                <n-icon>
+                  <component
+                    :is="
+                      maximizedChart === 'firstItemDistribution'
+                        ? CompressAlt
+                        : ExpandAlt
+                    "
+                  />
+                </n-icon>
+              </template>
+            </n-button>
             <VChart
               id="firstItemDistributionChart"
               ref="firstItemDistributionChart"
@@ -597,41 +583,60 @@
       return t(`banner.${banner.bannerId}.name`)
     })
 
-    const data5Star = Object.entries(chartData).map(([bannerId, pulls]) => {
-      const banner = BANNER_DATA[parseInt(bannerId)]
-      return banner?.bannerType === 2 ? pulls : 0
-    })
-
-    const data4Star = Object.entries(chartData).map(([bannerId, pulls]) => {
-      const banner = BANNER_DATA[parseInt(bannerId)]
-      return banner?.bannerType === 3 ? pulls : 0
-    })
+    const data3Star = Object.entries(chartData).map(
+      ([_, pulls]) => pulls['3_star']
+    )
+    const data4Star = Object.entries(chartData).map(
+      ([_, pulls]) => pulls['4_star']
+    )
+    const data5Star = Object.entries(chartData).map(
+      ([_, pulls]) => pulls['5_star']
+    )
 
     // Check if mobile for axis label rotation
     const isMobile = window.innerWidth < 768
 
     pullsPerBannerChartOption.value = {
+      title: {
+        text: t('global.charts.pulls_per_banner'),
+        left: 'center',
+        top: 10,
+        textStyle: {
+          color: isDark.value ? '#e4e5e7' : '#797a7c',
+          fontSize: 16,
+          fontWeight: 'bold',
+        },
+      },
       textStyle: {
         fontFamily: 'Roboto, system-ui, -apple-system, sans-serif',
         color: isDark.value ? '#e4e5e7' : '#797a7c',
       },
       tooltip: {
-        trigger: 'item',
+        trigger: 'axis',
         triggerOn: 'click',
+        confine: true,
         formatter: function (params) {
-          const bannerId = Object.keys(chartData)[params.dataIndex]
+          const bannerId = Object.keys(chartData)[params[0].dataIndex]
           const banner = BANNER_DATA[parseInt(bannerId)]
-          const pulls = chartData[bannerId]
+          const bannerData = chartData[bannerId]
 
           return `
             <div style="display: flex; flex-direction: column; align-items: center;">
-              <div style="margin-bottom: 5px; text-align: center;">
-                ${t(`banner.${banner.bannerId}.name`)}: <strong>${pulls}</strong> ${t('global.charts.pulls')}
+              <div style="margin-bottom: 5px; text-align: center; font-weight: bold;">
+                ${t(`banner.${banner.bannerId}.name`)}
+              </div>
+              <div style="margin-bottom: 5px; text-align: left;">
+                <span style="color: rgb(245, 158, 11)">★★★★★:</span> <strong>${bannerData['5_star']}</strong> (${((bannerData['5_star'] / bannerData.total) * 100).toFixed(1)}%)<br>
+                <span style="color: rgb(139, 92, 246)">★★★★:</span> <strong>${bannerData['4_star']}</strong> (${((bannerData['4_star'] / bannerData.total) * 100).toFixed(1)}%)<br>
+                <span style="color: rgb(107, 114, 128)">★★★:</span> <strong>${bannerData['3_star']}</strong> (${((bannerData['3_star'] / bannerData.total) * 100).toFixed(1)}%)
+              </div>
+              <div style="margin-top: 5px; text-align: center;">
+                ${t('global.charts.total')}: <strong>${bannerData.total}</strong>
               </div>
               <img 
                 src="/images/banners/${bannerId}.webp" 
                 alt="${t(`banner.${banner.bannerId}.name`)}" 
-                style="width: 200px; height: 80px; object-fit: cover; border-radius: 4px;"
+                style="width: 200px; height: 80px; object-fit: cover; border-radius: 4px; margin-top: 8px;"
               />
             </div>
           `
@@ -654,14 +659,11 @@
         },
         inactiveColor: isDark.value ? '#797a7c' : '#e4e5e7',
         icon: 'circle',
-        data: [
-          t('global.charts.limited_5star'),
-          t('global.charts.limited_4star'),
-        ],
-        top: 0,
+        data: ['★★★★★', '★★★★', '★★★'],
+        top: 40,
       },
       grid: {
-        top: 0,
+        top: 80,
         bottom: 0,
         left: '5%',
         right: 0,
@@ -694,23 +696,33 @@
       },
       series: [
         {
-          name: t('global.charts.limited_5star'),
+          name: '★★★★★',
           type: 'bar',
           stack: 'total',
           data: data5Star,
           itemStyle: {
             color: 'rgba(245, 158, 11, 0.5)', // amber-500
-            borderRadius: [4, 4, 0, 0],
+            borderRadius: [4, 4, 4, 4],
           },
         },
         {
-          name: t('global.charts.limited_4star'),
+          name: '★★★★',
           type: 'bar',
           stack: 'total',
           data: data4Star,
           itemStyle: {
-            color: 'rgb(139, 92, 246, 0.5)', // violet-500
-            borderRadius: [4, 4, 0, 0],
+            color: 'rgba(139, 92, 246, 0.5)', // violet-500
+            borderRadius: [4, 4, 4, 4],
+          },
+        },
+        {
+          name: '★★★',
+          type: 'bar',
+          stack: 'total',
+          data: data3Star,
+          itemStyle: {
+            color: 'rgba(20, 184, 166, 0.5)', // teal-500
+            borderRadius: [4, 4, 4, 4],
           },
         },
       ],
@@ -731,12 +743,28 @@
     })
 
     const chartOption = {
+      title: {
+        text:
+          chartType === 'fiveStar'
+            ? t('global.charts.five_star_distribution')
+            : chartType === 'fourStarType2'
+              ? t('global.charts.four_star_type2_distribution')
+              : t('global.charts.four_star_type3_distribution'),
+        left: 'left',
+        top: 0,
+        textStyle: {
+          color: isDark.value ? '#e4e5e7' : '#797a7c',
+          fontSize: 16,
+          fontWeight: 'bold',
+        },
+      },
       textStyle: {
         fontFamily: 'Roboto, system-ui, -apple-system, sans-serif',
         color: isDark.value ? '#e4e5e7' : '#797a7c',
       },
       tooltip: {
         trigger: 'axis',
+        confine: true,
         formatter: function (params) {
           const barData = params[0]
           const lineData = params[1]
@@ -770,8 +798,8 @@
       grid: {
         top: 0,
         bottom: 0,
-        left: '10%',
-        right: '10%',
+        left: 30,
+        right: 30,
         containLabel: true,
       },
       xAxis: {
@@ -893,25 +921,61 @@
     const richLabels = {}
 
     // Get viewport width to detect mobile vs desktop
-    const isMobile = window.innerWidth < 768
-    const imageSize = isMobile ? 40 : 80
+    const imageSize =
+      window.innerWidth < 768 ? 30 : window.innerWidth < 1024 ? 40 : 80
 
-    // Create rich label for each item
+    // Create rich label for each item with loading image initially
     itemsData.forEach((itemId) => {
       richLabels[`img${itemId}`] = {
         height: imageSize,
         width: imageSize,
+        borderRadius: 8,
+        borderColor: isDark.value ? '#4b5563' : '#e5e7eb',
+        borderWidth: 1,
+        opacity: 0.5,
         backgroundColor: {
-          image: `/images/items/${itemId}.webp?loading=lazy`,
+          image: `/images/loading.webp`,
         },
         align: 'center',
       }
+
+      // Preload the actual image
+      const img = new Image()
+      img.onload = () => {
+        // Update the chart with the loaded image
+        if (richLabels[`img${itemId}`]) {
+          richLabels[`img${itemId}`].backgroundColor.image =
+            `/images/items/${itemId}.webp`
+          // Force chart update
+          if (firstItemDistributionChart.value) {
+            firstItemDistributionChart.value.setOption({
+              xAxis: {
+                axisLabel: {
+                  rich: richLabels,
+                },
+              },
+            })
+          }
+        }
+      }
+      img.src = `/images/items/${itemId}.webp`
     })
 
     // Prepare option
     firstItemDistributionChartOption.value = {
+      title: {
+        text: t('global.charts.first_item_distribution'),
+        left: 'center',
+        top: 0,
+        textStyle: {
+          color: isDark.value ? '#e4e5e7' : '#797a7c',
+          fontSize: 16,
+          fontWeight: 'bold',
+        },
+      },
       tooltip: {
         trigger: 'item',
+        confine: true,
         formatter: function (params) {
           return `
             <div style="display: flex; flex-direction: column;">
@@ -943,7 +1007,7 @@
         left: 0,
         right: 0,
         bottom: 0,
-        top: 0,
+        top: 40,
         containLabel: true,
       },
       xAxis: {
@@ -988,7 +1052,7 @@
           data: data,
           itemStyle: {
             color: 'rgb(79, 70, 229, 0.5)', // indigo-600
-            borderRadius: [4, 4, 0, 0],
+            borderRadius: [4, 4, 4, 4],
           },
         },
       ],

@@ -107,7 +107,12 @@ export default defineNuxtConfig({
   echarts: {
     ssr: true,
     charts: ['BarChart', 'LineChart'],
-    components: ['TooltipComponent', 'LegendComponent', 'GridComponent'],
+    components: [
+      'TooltipComponent',
+      'LegendComponent',
+      'GridComponent',
+      'TitleComponent',
+    ],
   },
 
   nitro: {

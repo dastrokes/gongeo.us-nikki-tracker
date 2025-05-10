@@ -225,8 +225,11 @@
             ]"
             :style="cardStyle"
           >
-            <canvas
+            <VChart
+              id="pullsPerBannerChart"
               ref="pullsPerBannerChart"
+              :option="pullsPerBannerChartOption"
+              :autoresize="true"
               :style="cardStyle"
             />
           </div>
@@ -271,8 +274,11 @@
             ]"
             :style="cardStyle"
           >
-            <canvas
+            <VChart
+              id="fiveStarDistributionChart"
               ref="fiveStarDistributionChart"
+              :option="fiveStarDistributionChartOption"
+              :autoresize="true"
               :style="cardStyle"
             />
           </div>
@@ -321,8 +327,11 @@
             ]"
             :style="cardStyle"
           >
-            <canvas
+            <VChart
+              id="fourStarType2Chart"
               ref="fourStarType2Chart"
+              :option="fourStarType2ChartOption"
+              :autoresize="true"
               :style="cardStyle"
             />
           </div>
@@ -371,77 +380,96 @@
             ]"
             :style="cardStyle"
           >
-            <canvas
+            <VChart
+              id="fourStarType3Chart"
               ref="fourStarType3Chart"
+              :option="fourStarType3ChartOption"
+              :autoresize="true"
               :style="cardStyle"
+            />
+          </div>
+        </n-card>
+
+        <!-- First Item Distribution Chart -->
+        <n-card
+          v-show="!maximizedChart || maximizedChart === 'firstItemDistribution'"
+          :class="[
+            'transition-all duration-300',
+            maximizedChart === 'firstItemDistribution'
+              ? 'col-span-1 sm:col-span-3'
+              : 'col-span-1 sm:col-span-3',
+          ]"
+          :style="cardStyle"
+        >
+          <div class="flex justify-between items-center mb-2">
+            <n-h4 class="text-lg font-semibold">{{
+              $t('global.charts.first_item_distribution')
+            }}</n-h4>
+            <div class="flex items-center gap-2">
+              <n-select
+                v-model:value="selectedBannerId"
+                :options="bannerOptions"
+                :show-checkmark="false"
+                size="small"
+                style="width: 200px"
+                @update:value="updateFirstItemChart"
+              />
+              <n-button
+                size="tiny"
+                text
+                :type="
+                  maximizedChart === 'firstItemDistribution'
+                    ? 'primary'
+                    : 'default'
+                "
+                @click="toggleMaximize('firstItemDistribution')"
+              >
+                <template #icon>
+                  <n-icon>
+                    <component
+                      :is="
+                        maximizedChart === 'firstItemDistribution'
+                          ? CompressAlt
+                          : ExpandAlt
+                      "
+                    />
+                  </n-icon>
+                </template>
+              </n-button>
+            </div>
+          </div>
+          <div
+            :class="[
+              'transition-all duration-300',
+              maximizedChart === 'firstItemDistribution'
+                ? 'h-[calc(100vh-240px)]'
+                : 'h-[200px]',
+            ]"
+            :style="cardStyle"
+          >
+            <VChart
+              id="firstItemDistributionChart"
+              ref="firstItemDistributionChart"
+              :option="firstItemDistributionChartOption"
+              :autoresize="true"
+              :style="cardStyle"
+              @rendered="handleChartRendered"
             />
           </div>
         </n-card>
       </div>
     </n-card>
-
-    <n-tooltip
-      v-if="selectedBanner"
-      trigger="manual"
-      :show="showTooltip"
-      :x="tooltipX"
-      :y="tooltipY"
-      placement="top"
-      :raw="true"
-      class="shadow-none rounded-lg"
-      @clickoutside="hideTooltip"
-    >
-      <template #trigger>
-        <div
-          class="fixed"
-          style="width: 0; height: 0"
-        />
-      </template>
-      <transition
-        name="tooltip"
-        appear
-        enter-active-class="transition ease-out duration-300"
-        enter-from-class="opacity-0 translate-y-[-20px] scale-80"
-        enter-to-class="opacity-100 translate-y-0 scale-100"
-        leave-active-class="transition ease-in duration-300"
-        leave-from-class="opacity-100 translate-y-0 scale-100"
-        leave-to-class="opacity-0 translate-y-[-20px] scale-80"
-      >
-        <div
-          v-if="showTooltip"
-          class="rounded-lg p-2 origin-top bg-opacity-50"
-          :class="isDark ? 'bg-gray-400' : 'bg-gray-600'"
-        >
-          <div
-            class="text-xs text-center mb-1"
-            :class="isDark ? 'text-gray-300' : 'text-gray-700'"
-          >
-            {{ selectedBanner.name }}:
-            <n-text class="font-bold">{{ selectedBanner.pulls }}</n-text>
-            {{ t('global.charts.pulls') }}
-          </div>
-          <NuxtImg
-            :src="`/images/banners/${selectedBanner.id}.webp`"
-            :alt="selectedBanner.name"
-            :placeholder="[200, 80]"
-            class="w-[200px] h-[80px] object-cover rounded"
-          />
-        </div>
-      </transition>
-    </n-tooltip>
   </div>
 </template>
 
 <script setup>
-  import { ref, onMounted, watch, computed } from 'vue'
-  import { NSkeleton, NNumberAnimation, NButton, NTooltip } from 'naive-ui'
+  import { ref, onMounted, computed, onUnmounted, watch } from 'vue'
+  import { NSkeleton, NNumberAnimation, NButton, NSelect } from 'naive-ui'
   import { BANNER_DATA } from '~/data/banners'
   import { ExpandAlt, CompressAlt } from '@vicons/fa'
   import { useSupabaseClient } from '~/composables/useSupabaseClient'
   import { useCardStyle } from '~/composables/useCardStyle'
   import { useUserStore } from '~/stores/user'
-  import Chart from 'chart.js/auto'
-
   // Initialize Supabase client
   const supabase = useSupabaseClient()
   const userStore = useUserStore()
@@ -451,23 +479,6 @@
 
   // Initialize i18n
   const { t } = useI18n()
-
-  // Global Chart.js configuration
-  Chart.defaults.font.size = 12
-  Chart.defaults.font.family = 'Roboto, system-ui, -apple-system, sans-serif'
-  Chart.defaults.color = isDark.value ? '#f0f1f3' : '#797a7c'
-  Chart.defaults.backgroundColor = isDark.value ? '#1F2937' : '#FAF5FF'
-  Chart.defaults.plugins.legend.display = false
-  Chart.defaults.plugins.tooltip.backgroundColor = 'rgba(0, 0, 0, 0.8)'
-  Chart.defaults.plugins.tooltip.cornerRadius = 4
-  Chart.defaults.elements.bar.borderRadius = 4
-  Chart.defaults.elements.bar.borderSkipped = false
-  Chart.defaults.plugins.tooltip.mode = 'index'
-  Chart.defaults.plugins.tooltip.intersect = false
-  Chart.defaults.responsive = true
-  Chart.defaults.maintainAspectRatio = false
-  Chart.defaults.scale.grid.display = false
-  Chart.defaults.scale.grid.drawBorder = false
 
   const loading = ref(true)
   const data = ref(null)
@@ -481,64 +492,39 @@
   const fiveStarDistributionChart = ref(null)
   const fourStarType2Chart = ref(null)
   const fourStarType3Chart = ref(null)
+  const firstItemDistributionChart = ref(null)
+  const firstItemDistributionChartOption = ref({})
+  const pullsPerBannerChartOption = ref({})
+  const fiveStarDistributionChartOption = ref({})
+  const fourStarType2ChartOption = ref({})
+  const fourStarType3ChartOption = ref({})
 
-  const charts = ref([])
   const maximizedChart = ref(null)
 
-  // Add tooltip related refs
-  const showTooltip = ref(false)
-  const tooltipX = ref(0)
-  const tooltipY = ref(0)
-  const selectedBanner = ref(null)
+  // Add banner selector related refs
+  const selectedBannerId = ref(Object.keys(BANNER_DATA).pop())
+  const bannerOptions = computed(() => {
+    if (!data.value?.first_item_distribution) return []
 
-  const { cardStyle } = useCardStyle()
+    return Object.keys(data.value.first_item_distribution)
+      .map((id) => {
+        const banner = BANNER_DATA[parseInt(id)]
+        return {
+          label: t(`banner.${banner.bannerId}.name`),
+          value: id,
+        }
+      })
+      .reverse()
+  })
 
-  // Hide tooltip function
-  const hideTooltip = () => {
-    showTooltip.value = false
-    selectedBanner.value = null
-  }
-
-  // Handle chart click
-  const handleChartClick = (chart, event) => {
-    const points = chart.getElementsAtEventForMode(
-      event,
-      'nearest',
-      { intersect: true },
-      true
-    )
-
-    if (points.length) {
-      const firstPoint = points[0]
-      const bannerId = Object.keys(data.value.pulls_per_banner)[
-        firstPoint.index
-      ]
-      const banner = BANNER_DATA[parseInt(bannerId)]
-      const pulls = data.value.pulls_per_banner[bannerId]
-
-      // Get chart container position
-      const rect = chart.canvas.getBoundingClientRect()
-
-      // Calculate position relative to the clicked bar
-      const barPosition = chart.getDatasetMeta(firstPoint.datasetIndex).data[
-        firstPoint.index
-      ]
-
-      // Update tooltip data and position
-      selectedBanner.value = {
-        id: bannerId,
-        name: t(`banner.${banner.bannerId}.name`),
-        pulls: pulls,
-      }
-
-      // Position tooltip above the bar
-      tooltipX.value = rect.left + barPosition.x
-      tooltipY.value = rect.top + barPosition.y - 10 // Offset above the bar
-      showTooltip.value = true
-    } else {
-      hideTooltip()
+  // Function to manually update first item chart when banner selection changes
+  const updateFirstItemChart = (newBannerId) => {
+    if (data.value?.first_item_distribution && newBannerId) {
+      createFirstItemDistributionChart(data.value.first_item_distribution)
     }
   }
+
+  const { cardStyle } = useCardStyle()
 
   const fetchData = async () => {
     try {
@@ -568,6 +554,9 @@
         data.value.average_pulls_to_obtain_4star_banner_type_2
       averagePullsTo4StarType3.value =
         data.value.average_pulls_to_obtain_4star_banner_type_3
+
+      // Initialize all charts after data is loaded
+      initializeCharts()
     } catch (error) {
       console.error('Error fetching data:', error)
     } finally {
@@ -575,75 +564,31 @@
     }
   }
 
+  // New method to initialize all charts at once
+  const initializeCharts = () => {
+    if (!data.value) return
+
+    try {
+      createPullsPerBannerChart(data.value.pulls_per_banner)
+      createFiveStarDistributionChart(data.value.five_star_pulls_distribution)
+      createFourStarType2Chart(
+        data.value.four_star_pulls_distribution_banner_type_2
+      )
+      createFourStarType3Chart(
+        data.value.four_star_pulls_distribution_banner_type_3
+      )
+
+      // Add first item distribution chart
+      if (data.value.first_item_distribution && selectedBannerId.value) {
+        createFirstItemDistributionChart(data.value.first_item_distribution)
+      }
+    } catch (error) {
+      console.error('Error initializing charts:', error)
+    }
+  }
+
   const toggleMaximize = (chartId) => {
     maximizedChart.value = maximizedChart.value === chartId ? null : chartId
-  }
-
-  const createDistributionChartOptions = () => {
-    return {
-      scales: {
-        y: {
-          beginAtZero: true,
-          position: 'left',
-          title: {
-            display: true,
-            text: t('global.charts.number_of_pulls'),
-          },
-          ticks: {
-            display: false,
-          },
-        },
-        y1: {
-          beginAtZero: true,
-          position: 'right',
-          max: 100,
-          title: {
-            display: true,
-            text: t('global.charts.probability'),
-          },
-          grid: {
-            drawOnChartArea: false,
-          },
-          ticks: {
-            display: false,
-          },
-        },
-      },
-      plugins: {
-        tooltip: {
-          callbacks: {
-            label: function (context) {
-              const label = context.dataset.label || ''
-              const value = context.raw
-              if (label.includes(t('global.charts.probability'))) {
-                return `${label}: ${value.toFixed(2)}%`
-              }
-              return `${label}: ${value}`
-            },
-          },
-        },
-      },
-    }
-  }
-
-  const createCumulativeProbabilityDataset = (data, color) => {
-    return {
-      label: t('global.charts.probability'),
-      data: Object.values(data).map((value, index, array) => {
-        const total = array.reduce((sum, val) => sum + val, 0)
-        const cumulative = array
-          .slice(0, index + 1)
-          .reduce((sum, val) => sum + val, 0)
-        return (cumulative / total) * 100
-      }),
-      type: 'line',
-      borderColor: color,
-      backgroundColor: color.replace('0.4', '0.05'),
-      borderWidth: 2,
-      pointRadius: 0,
-      yAxisID: 'y1',
-      cubicInterpolationMode: 'monotone',
-    }
   }
 
   const createPullsPerBannerChart = (chartData) => {
@@ -652,218 +597,448 @@
       return t(`banner.${banner.bannerId}.name`)
     })
 
-    return new Chart(pullsPerBannerChart.value, {
-      type: 'bar',
-      data: {
-        labels: bannerLabels,
-        datasets: [
-          {
-            label: t('global.charts.limited_5star'),
-            data: Object.entries(chartData).map(([bannerId, pulls]) => {
-              const banner = BANNER_DATA[parseInt(bannerId)]
-              return banner?.bannerType === 2 ? pulls : null
-            }),
-            backgroundColor: 'rgba(217, 119, 6, 0.5)', // amber-600
-            stack: 'Stack 0',
-          },
-          {
-            label: t('global.charts.limited_4star'),
-            data: Object.entries(chartData).map(([bannerId, pulls]) => {
-              const banner = BANNER_DATA[parseInt(bannerId)]
-              return banner?.bannerType === 3 ? pulls : null
-            }),
-            backgroundColor: 'rgba(37, 99, 235, 0.5)', // blue-600
-            stack: 'Stack 0',
-          },
-        ],
-      },
-      options: {
-        onHover: (event, elements) => {
-          event.native.target.style.cursor = elements.length
-            ? 'pointer'
-            : 'default'
-        },
-        onClick: (event, elements, chart) => {
-          handleChartClick(chart, event)
-        },
-        scales: {
-          y: {
-            beginAtZero: true,
-            stacked: true,
-            ticks: {
-              display: false,
-            },
-          },
-          x: {
-            stacked: true,
-          },
-        },
-        plugins: {
-          legend: {
-            display: true,
-            position: 'top',
-            labels: {
-              boxWidth: 8,
-              padding: 8,
-              usePointStyle: true,
-            },
-            onClick: (e, legendItem, legend) => {
-              const index = legendItem.datasetIndex
-              const chart = legend.chart
-              const meta = chart.getDatasetMeta(index)
-              meta.hidden = !meta.hidden
-              chart.update()
-            },
-          },
-          tooltip: {
-            enabled: false,
-          },
-        },
-      },
+    const data5Star = Object.entries(chartData).map(([bannerId, pulls]) => {
+      const banner = BANNER_DATA[parseInt(bannerId)]
+      return banner?.bannerType === 2 ? pulls : 0
     })
+
+    const data4Star = Object.entries(chartData).map(([bannerId, pulls]) => {
+      const banner = BANNER_DATA[parseInt(bannerId)]
+      return banner?.bannerType === 3 ? pulls : 0
+    })
+
+    // Check if mobile for axis label rotation
+    const isMobile = window.innerWidth < 768
+
+    pullsPerBannerChartOption.value = {
+      textStyle: {
+        fontFamily: 'Roboto, system-ui, -apple-system, sans-serif',
+        color: isDark.value ? '#e4e5e7' : '#797a7c',
+      },
+      tooltip: {
+        trigger: 'item',
+        triggerOn: 'click',
+        formatter: function (params) {
+          const bannerId = Object.keys(chartData)[params.dataIndex]
+          const banner = BANNER_DATA[parseInt(bannerId)]
+          const pulls = chartData[bannerId]
+
+          return `
+            <div style="display: flex; flex-direction: column; align-items: center;">
+              <div style="margin-bottom: 5px; text-align: center;">
+                ${t(`banner.${banner.bannerId}.name`)}: <strong>${pulls}</strong> ${t('global.charts.pulls')}
+              </div>
+              <img 
+                src="/images/banners/${bannerId}.webp" 
+                alt="${t(`banner.${banner.bannerId}.name`)}" 
+                style="width: 200px; height: 80px; object-fit: cover; border-radius: 4px;"
+              />
+            </div>
+          `
+        },
+        backgroundColor: isDark.value
+          ? 'rgba(38, 38, 38, 0.8)'
+          : 'rgba(255, 255, 255, 0.9)',
+        borderColor: isDark.value ? '#555' : '#ddd',
+        borderWidth: 1,
+        padding: 10,
+        textStyle: {
+          color: isDark.value ? '#e4e5e7' : '#333',
+        },
+        extraCssText:
+          'box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); border-radius: 8px;',
+      },
+      legend: {
+        textStyle: {
+          color: isDark.value ? '#e4e5e7' : '#797a7c',
+        },
+        inactiveColor: isDark.value ? '#797a7c' : '#e4e5e7',
+        icon: 'circle',
+        data: [
+          t('global.charts.limited_5star'),
+          t('global.charts.limited_4star'),
+        ],
+        top: 0,
+      },
+      grid: {
+        top: 0,
+        bottom: 0,
+        left: '5%',
+        right: 0,
+        containLabel: true,
+      },
+      xAxis: {
+        type: 'category',
+        data: bannerLabels,
+        splitLine: {
+          show: false,
+        },
+        axisLabel: {
+          interval: 0,
+          rotate: isMobile ? 90 : 25,
+        },
+        axisLine: {
+          lineStyle: {
+            color: isDark.value ? '#797a7c' : '#e4e5e7',
+          },
+        },
+      },
+      yAxis: {
+        type: 'value',
+        splitLine: {
+          show: false,
+        },
+        axisLabel: {
+          show: false,
+        },
+      },
+      series: [
+        {
+          name: t('global.charts.limited_5star'),
+          type: 'bar',
+          stack: 'total',
+          data: data5Star,
+          itemStyle: {
+            color: 'rgba(245, 158, 11, 0.5)', // amber-500
+            borderRadius: [4, 4, 0, 0],
+          },
+        },
+        {
+          name: t('global.charts.limited_4star'),
+          type: 'bar',
+          stack: 'total',
+          data: data4Star,
+          itemStyle: {
+            color: 'rgb(139, 92, 246, 0.5)', // violet-500
+            borderRadius: [4, 4, 0, 0],
+          },
+        },
+      ],
+    }
+  }
+
+  const createDistributionChart = (chartData, chartType, color) => {
+    const labels = Object.keys(chartData)
+    const values = Object.values(chartData)
+
+    // Calculate cumulative probability
+    const cumulativeData = values.map((value, index, array) => {
+      const total = array.reduce((sum, val) => sum + val, 0)
+      const cumulative = array
+        .slice(0, index + 1)
+        .reduce((sum, val) => sum + val, 0)
+      return (cumulative / total) * 100
+    })
+
+    const chartOption = {
+      textStyle: {
+        fontFamily: 'Roboto, system-ui, -apple-system, sans-serif',
+        color: isDark.value ? '#e4e5e7' : '#797a7c',
+      },
+      tooltip: {
+        trigger: 'axis',
+        formatter: function (params) {
+          const barData = params[0]
+          const lineData = params[1]
+
+          return `
+            <div style="display: flex; flex-direction: column;">
+              <div style="font-weight: bold; margin-bottom: 5px;">
+                ${t('global.charts.number_of_pulls')}: ${barData.axisValue}
+              </div>
+              <div>
+                ${t('global.charts.occurrences')}: <strong>${barData.value}</strong>
+              </div>
+              <div>
+                ${t('global.charts.probability')}: <strong>${lineData.value.toFixed(2)}%</strong>
+              </div>
+            </div>
+          `
+        },
+        backgroundColor: isDark.value
+          ? 'rgba(38, 38, 38, 0.8)'
+          : 'rgba(255, 255, 255, 0.9)',
+        borderColor: isDark.value ? '#555' : '#ddd',
+        borderWidth: 1,
+        padding: 10,
+        textStyle: {
+          color: isDark.value ? '#e4e5e7' : '#333',
+        },
+        extraCssText:
+          'box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); border-radius: 8px;',
+      },
+      grid: {
+        top: 0,
+        bottom: 0,
+        left: '10%',
+        right: '10%',
+        containLabel: true,
+      },
+      xAxis: {
+        type: 'category',
+        data: labels,
+        axisLine: {
+          lineStyle: {
+            color: isDark.value ? '#797a7c' : '#e4e5e7',
+          },
+        },
+      },
+      yAxis: [
+        {
+          type: 'value',
+          name: t('global.charts.number_of_pulls'),
+          nameLocation: 'middle',
+          nameRotate: 90,
+          splitLine: {
+            show: false,
+          },
+          axisLabel: {
+            show: false,
+          },
+        },
+        {
+          type: 'value',
+          name: t('global.charts.probability'),
+          nameLocation: 'middle',
+          nameRotate: 270,
+          max: 100,
+          splitLine: {
+            show: false,
+          },
+          axisLabel: {
+            show: false,
+          },
+        },
+      ],
+      series: [
+        {
+          name:
+            chartType === 'fiveStar'
+              ? t('global.charts.five_star_pulls')
+              : chartType === 'fourStarType2'
+                ? t('global.charts.four_star_pulls_type2')
+                : t('global.charts.four_star_pulls_type3'),
+          type: 'bar',
+          data: values,
+          itemStyle: {
+            color: color,
+            borderRadius: [4, 4, 0, 0],
+          },
+        },
+        {
+          name: t('global.charts.probability'),
+          type: 'line',
+          yAxisIndex: 1,
+          smooth: true,
+          data: cumulativeData,
+          symbol: 'circle', // or 'rect', 'diamond', 'none', etc.
+          symbolSize: 3,
+          lineStyle: {
+            color: color.replace('0.8', '0.5'),
+          },
+          itemStyle: {
+            color: color.replace('0.8', '0.5'),
+          },
+        },
+      ],
+    }
+
+    return chartOption
   }
 
   const createFiveStarDistributionChart = (chartData) => {
-    return new Chart(fiveStarDistributionChart.value, {
-      type: 'bar',
-      data: {
-        labels: Object.keys(chartData),
-        datasets: [
-          {
-            label: t('global.charts.five_star_pulls'),
-            data: Object.values(chartData),
-            backgroundColor: 'rgba(217, 119, 6, 0.5)', // amber-600
-            yAxisID: 'y',
-            skipNull: true,
-          },
-          createCumulativeProbabilityDataset(
-            chartData,
-            'rgba(217, 119, 6, 0.4)'
-          ),
-        ],
-      },
-      options: createDistributionChartOptions(),
-    })
+    fiveStarDistributionChartOption.value = createDistributionChart(
+      chartData,
+      'fiveStar',
+      'rgba(245, 158, 11, 0.5)' // amber-500
+    )
   }
 
   const createFourStarType2Chart = (chartData) => {
-    return new Chart(fourStarType2Chart.value, {
-      type: 'bar',
-      data: {
-        labels: Object.keys(chartData),
-        datasets: [
-          {
-            label: t('global.charts.four_star_pulls_type2'),
-            data: Object.values(chartData),
-            backgroundColor: 'rgba(37, 99, 235, 0.5)', // blue-600
-            yAxisID: 'y',
-            skipNull: true,
-          },
-          createCumulativeProbabilityDataset(
-            chartData,
-            'rgba(147, 51, 234, 0.4)'
-          ),
-        ],
-      },
-      options: createDistributionChartOptions(),
-    })
+    fourStarType2ChartOption.value = createDistributionChart(
+      chartData,
+      'fourStarType2',
+      'rgb(139, 92, 246, 0.5)' // violet-500
+    )
   }
 
   const createFourStarType3Chart = (chartData) => {
-    return new Chart(fourStarType3Chart.value, {
-      type: 'bar',
-      data: {
-        labels: Object.keys(chartData),
-        datasets: [
-          {
-            label: t('global.charts.four_star_pulls_type3'),
-            data: Object.values(chartData),
-            backgroundColor: 'rgba(37, 99, 235, 0.5)', // blue-600
-            yAxisID: 'y',
-            skipNull: true,
-          },
-          createCumulativeProbabilityDataset(
-            chartData,
-            'rgba(147, 51, 234, 0.4)'
-          ),
-        ],
-      },
-      options: createDistributionChartOptions(),
-    })
+    fourStarType3ChartOption.value = createDistributionChart(
+      chartData,
+      'fourStarType3',
+      'rgb(139, 92, 246, 0.5)' // violet-500
+    )
   }
 
-  // Watch for data changes
-  watch(
-    [data, loading, isDark],
-    ([newData, isLoading, newIsDark], [_oldData, _oldLoading, _oldIsDark]) => {
-      if (isLoading) {
-        return
+  const createFirstItemDistributionChart = (chartData) => {
+    if (
+      !chartData ||
+      !selectedBannerId.value ||
+      !chartData[selectedBannerId.value]
+    ) {
+      return null
+    }
+
+    const bannerItems = chartData[selectedBannerId.value]
+
+    // Prepare data
+    const data = bannerItems.map((item) => ({
+      value: item.occurrences,
+      percentage: item.percentage,
+      itemId: item.first_item_id,
+    }))
+
+    // Prepare itemId to item mapping for labels
+    const itemsData = bannerItems.map((item) => item.first_item_id)
+    const richLabels = {}
+
+    // Get viewport width to detect mobile vs desktop
+    const isMobile = window.innerWidth < 768
+    const imageSize = isMobile ? 40 : 80
+
+    // Create rich label for each item
+    itemsData.forEach((itemId) => {
+      richLabels[`img${itemId}`] = {
+        height: imageSize,
+        width: imageSize,
+        backgroundColor: {
+          image: `/images/items/${itemId}.webp?loading=lazy`,
+        },
+        align: 'center',
       }
+    })
 
-      if (!newData) {
-        return
-      }
+    // Prepare option
+    firstItemDistributionChartOption.value = {
+      tooltip: {
+        trigger: 'item',
+        formatter: function (params) {
+          return `
+            <div style="display: flex; flex-direction: column;">
+              <div style="font-weight: bold; margin-bottom: 5px;">
+                ${t('item.' + params.data.itemId + '.name', params.data.itemId)}
+              </div>
+              <div>
+                ${t('global.charts.occurrences')}: <strong>${params.data.value}</strong>
+              </div>
+              <div>
+                ${t('global.charts.percentage')}: <strong>${params.data.percentage}%</strong>
+              </div>
+            </div>
+          `
+        },
+        backgroundColor: isDark.value
+          ? 'rgba(38, 38, 38, 0.8)'
+          : 'rgba(255, 255, 255, 0.9)',
+        borderColor: isDark.value ? '#555' : '#ddd',
+        borderWidth: 1,
+        padding: 10,
+        textStyle: {
+          color: isDark.value ? '#e4e5e7' : '#333',
+        },
+        extraCssText:
+          'box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); border-radius: 8px;',
+      },
+      grid: {
+        left: 0,
+        right: 0,
+        bottom: 0,
+        top: 0,
+        containLabel: true,
+      },
+      xAxis: {
+        type: 'category',
+        data: itemsData,
+        axisLabel: {
+          show: true,
+          formatter: function (value) {
+            return `{img${value}|}`
+          },
+          rich: richLabels,
+          interval: 0,
+          margin: imageSize / 4,
+        },
+        axisTick: {
+          show: false,
+        },
+        axisLine: {
+          show: false,
+        },
+      },
+      yAxis: {
+        type: 'value',
+        name: t('global.charts.occurrences'),
+        nameLocation: 'end',
+        nameGap: 10,
+        nameTextStyle: {
+          align: 'right',
+        },
+        axisLabel: {
+          show: false,
+        },
+        splitLine: {
+          show: false,
+        },
+      },
+      series: [
+        {
+          name: t('global.charts.occurrences'),
+          type: 'bar',
+          barWidth: '60%',
+          data: data,
+          itemStyle: {
+            color: 'rgb(79, 70, 229, 0.5)', // indigo-600
+            borderRadius: [4, 4, 0, 0],
+          },
+        },
+      ],
+    }
+  }
 
-      if (
-        !pullsPerBannerChart.value ||
-        !fiveStarDistributionChart.value ||
-        !fourStarType2Chart.value ||
-        !fourStarType3Chart.value
-      ) {
-        return
-      }
+  // Function to handle chart rendered event and add images
+  const handleChartRendered = () => {
+    // We don't need this anymore as we're setting the images in the chart options directly
+    if (
+      !firstItemDistributionChart.value ||
+      !data.value?.first_item_distribution ||
+      !selectedBannerId.value ||
+      !data.value.first_item_distribution[selectedBannerId.value]
+    ) {
+      return
+    }
 
-      // Clear existing charts
-      charts.value.forEach((chart) => {
-        if (chart) {
-          chart.destroy()
-        }
-      })
-      charts.value = []
+    // No need to modify the chart after it's rendered
+    // All configuration is done in createFirstItemDistributionChart
+  }
 
-      try {
-        // Update chart colors based on theme
-        Chart.defaults.color = newIsDark ? '#f0f1f3' : '#797a7c'
-        Chart.defaults.backgroundColor = newIsDark ? '#1F2937' : '#FAF5FF'
+  // Create a named function for the resize handler
+  const handleResize = () => {
+    if (data.value?.first_item_distribution && selectedBannerId.value) {
+      createFirstItemDistributionChart(data.value.first_item_distribution)
+    }
 
-        // Create new charts
-        charts.value.push(createPullsPerBannerChart(newData.pulls_per_banner))
-        charts.value.push(
-          createFiveStarDistributionChart(newData.five_star_pulls_distribution)
-        )
-        charts.value.push(
-          createFourStarType2Chart(
-            newData.four_star_pulls_distribution_banner_type_2
-          )
-        )
-        charts.value.push(
-          createFourStarType3Chart(
-            newData.four_star_pulls_distribution_banner_type_3
-          )
-        )
-      } catch (error) {
-        console.error('Error initializing charts:', error)
-      }
-    },
-    { deep: true }
-  )
+    // Update the pullsPerBannerChart when window is resized
+    if (data.value?.pulls_per_banner) {
+      createPullsPerBannerChart(data.value.pulls_per_banner)
+    }
+  }
 
-  watch(
-    [
-      pullsPerBannerChart,
-      fiveStarDistributionChart,
-      fourStarType2Chart,
-      fourStarType3Chart,
-    ],
-    ([pulls, fiveStar, type2, type3]) => {
-      if (pulls && fiveStar && type2 && type3 && data.value && !loading.value) {
-        data.value = { ...data.value }
-      }
-    },
-    { immediate: true }
-  )
+  // Watch for theme changes to update charts
+  watch(isDark, () => {
+    if (data.value && !loading.value) {
+      initializeCharts()
+    }
+  })
 
   onMounted(() => {
     fetchData()
+
+    // Add resize event listener to handle responsive chart
+    window.addEventListener('resize', handleResize)
+  })
+
+  // Clean up resize event listener on component unmount
+  onUnmounted(() => {
+    window.removeEventListener('resize', handleResize)
   })
 </script>

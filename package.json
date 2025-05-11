@@ -42,7 +42,6 @@
     "idb": "8.0.2",
     "naive-ui": "2.41.0",
     "nuxt": "3.15.4",
-    "nuxt-booster": "3.2.9",
     "nuxt-echarts": "0.3.0"
   },
   "devDependencies": {

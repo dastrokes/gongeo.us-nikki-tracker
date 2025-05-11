@@ -18,7 +18,6 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@vueuse/nuxt',
     '@bg-dev/nuxt-naiveui',
-    'nuxt-booster',
     'nuxt-echarts',
   ],
 
@@ -94,13 +93,6 @@ export default defineNuxtConfig({
       xl: 1280,
       xxl: 1536,
       '2xl': 1536,
-    },
-
-    domains: ['img.youtube.com', 'i.vimeocdn.com'],
-
-    alias: {
-      youtube: 'https://img.youtube.com',
-      vimeo: 'https://i.vimeocdn.com',
     },
   },
 

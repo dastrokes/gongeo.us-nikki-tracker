@@ -19,31 +19,12 @@
       </div>
       <div class="flex gap-4 opacity-90 justify-center items-center">
         <n-button
-          v-if="status === 'pending' || status === 'idle'"
-          type="primary"
-          size="large"
-          class="w-32"
-          loading
-        >
-          {{ $t('index.loading') }}
-        </n-button>
-        <n-button
-          v-if="status === 'success' && hasData"
           type="primary"
           size="large"
           class="w-32"
           @click="router.push(localePath('/tracker'))"
         >
           {{ $t('index.your_data') }}
-        </n-button>
-        <n-button
-          v-if="(status === 'success' && !hasData) || status === 'error'"
-          type="primary"
-          size="large"
-          class="w-32"
-          @click="router.push(localePath('/import'))"
-        >
-          {{ $t('navigation.import_data') }}
         </n-button>
         <n-button
           type="primary"
@@ -108,8 +89,6 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { NButton } from 'naive-ui'
-  import { useIndexedDB } from '~/composables/useIndexedDB'
-  import { usePullStore } from '~/stores/pull'
   import { useUserStore } from '~/stores/user'
   import { BANNER_DATA } from '~/data/banners'
   import { HourglassHalf } from '@vicons/fa'
@@ -118,25 +97,9 @@
   const userStore = useUserStore()
   const isDark = computed(() => userStore.getCurrentTheme === 'dark')
   const { cardStyle } = useCardStyle()
-  const pullStore = usePullStore()
 
   const localePath = useLocalePath()
   const router = useRouter()
-
-  const { data, hasData, loadPullData } = useIndexedDB()
-
-  // Use useLazyAsyncData to avoid blocking page load
-  const { status } = useLazyAsyncData('pullData', async () => {
-    try {
-      await loadPullData()
-      if (data.value) {
-        await pullStore.processPullsData(data.value)
-      }
-    } catch (error) {
-      console.error('Failed to load pull data:', error)
-      throw error
-    }
-  })
 
   const currentBanners = computed(() => {
     return [BANNER_DATA[19], BANNER_DATA[20]]

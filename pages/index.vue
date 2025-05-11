@@ -125,25 +125,18 @@
 
   const { data, hasData, loadPullData } = useIndexedDB()
 
-  // Use useAsyncData for client-side only data fetching
-  const { status } = useAsyncData(
-    'pullData',
-    async () => {
-      try {
-        await loadPullData()
-        if (data.value) {
-          pullStore.processPullsData(data.value)
-        }
-      } catch (error) {
-        console.error('Failed to load pull data:', error)
-        throw error
+  // Use useLazyAsyncData to avoid blocking page load
+  const { status } = useLazyAsyncData('pullData', async () => {
+    try {
+      await loadPullData()
+      if (data.value) {
+        await pullStore.processPullsData(data.value)
       }
-    },
-    {
-      server: false,
-      immediate: import.meta.client,
+    } catch (error) {
+      console.error('Failed to load pull data:', error)
+      throw error
     }
-  )
+  })
 
   const currentBanners = computed(() => {
     return [BANNER_DATA[19], BANNER_DATA[20]]
@@ -157,34 +150,17 @@
     return process.env.NODE_ENV === 'development' ? 'ipx' : 'netlify'
   })
 
-  const targetTime: number = new Date('2025-06-04T20:00:00Z').getTime()
-  const remaining = ref<number>(targetTime - Date.now())
+  // Static time calculation
+  const targetTime = new Date('2025-06-04T20:00:00Z')
+  const now = new Date()
+  const diffInHours = Math.max(
+    0,
+    (targetTime.getTime() - now.getTime()) / (1000 * 60 * 60)
+  )
+  const days = Math.floor(diffInHours / 24)
+  const hours = Math.floor(diffInHours % 24)
 
-  const formattedTime = computed<string>(() => {
-    if (remaining.value <= 0)
-      return `0 ${t('index.days')}, 0 ${t('index.hours')}`
-
-    const days = Math.floor(remaining.value / (1000 * 60 * 60 * 24))
-    const hours = Math.floor(
-      (remaining.value % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-    )
-
+  const formattedTime = computed(() => {
     return `${days} ${t('index.days')} ${hours} ${t('index.hours')}`
-  })
-
-  let interval: ReturnType<typeof setInterval>
-
-  onMounted(() => {
-    interval = setInterval(() => {
-      remaining.value = targetTime - Date.now()
-      if (remaining.value <= 0) {
-        remaining.value = 0
-        clearInterval(interval)
-      }
-    }, 1000)
-  })
-
-  onBeforeUnmount(() => {
-    clearInterval(interval)
   })
 </script>

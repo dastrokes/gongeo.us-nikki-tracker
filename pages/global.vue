@@ -199,7 +199,7 @@
               'transition-all duration-300',
               maximizedChart === 'pullsPerBanner'
                 ? 'h-[calc(100vh-180px)]'
-                : 'h-[300px]',
+                : 'h-[320px]',
             ]"
             :style="cardStyle"
           >
@@ -989,6 +989,9 @@
             <div style="display: flex; flex-direction: column;">
               <div style="font-weight: bold; margin-bottom: 5px;">
                 ${t('item.' + params.data.itemId + '.name', params.data.itemId)}
+              </div>
+              <div>
+                ${t('global.charts.type')}: <strong>${t(`items.types.${getItemType(params.data.itemId)}`)}</strong>
               </div>
               <div>
                 ${t('global.charts.occurrences')}: <strong>${params.data.value}</strong>

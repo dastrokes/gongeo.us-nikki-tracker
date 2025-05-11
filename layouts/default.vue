@@ -3,142 +3,129 @@
     has-sider
     position="absolute"
   >
-    <transition
-      enter-active-class="transition duration-300 ease-in-out transform"
-      leave-active-class="transition duration-300 ease-in-out transform"
-      enter-from-class="-translate-y-full opacity-0"
-      enter-to-class="translate-y-0 opacity-100"
-      leave-from-class="translate-y-0 opacity-100"
-      leave-to-class="-translate-y-full opacity-0"
+    <n-layout-header
+      class="fixed top-0 right-0 z-20 h-12"
+      :style="{
+        background: isDark
+          ? 'linear-gradient(to right, rgb(12, 74, 110), rgb(88, 28, 135), rgb(115, 55, 137))'
+          : 'linear-gradient(to right, rgb(224, 242, 254), rgb(243, 232, 255), rgb(252, 231, 243))',
+      }"
     >
-      <n-layout-header
-        v-show="showHeader"
-        class="fixed top-0 right-0 z-20 h-12"
-        :style="{
-          background: isDark
-            ? 'linear-gradient(to right, rgb(12, 74, 110), rgb(88, 28, 135), rgb(115, 55, 137))'
-            : 'linear-gradient(to right, rgb(224, 242, 254), rgb(243, 232, 255), rgb(252, 231, 243))',
+      <div class="flex h-12 items-center justify-between">
+        <div class="flex items-center">
+          <n-button
+            text
+            class="w-12"
+            :aria-label="t('accessibility.toggle_menu')"
+            @click="showSider = !showSider"
+            ><n-icon>
+              <bars />
+            </n-icon>
+          </n-button>
+          <NuxtLink
+            :to="localePath('/')"
+            class="pl-2"
+          >
+            <span class="text-xl font-bold font-sans leading-none"
+              >gongeo.us</span
+            >
+          </NuxtLink>
+        </div>
+        <div class="flex gap-4 pr-4">
+          <LanguageSwitcher />
+          <ThemeSwitcher />
+          <UserProfile />
+        </div>
+      </div>
+    </n-layout-header>
+
+    <n-layout-sider
+      collapse-mode="width"
+      :collapsed-width="48"
+      :width="200"
+      :collapsed="!showSider"
+      class="fixed top-0 left-0 h-full shadow-lg z-10 transition-all duration-300 ease-in-out transform"
+      :style="{
+        background: isDark
+          ? 'linear-gradient(to bottom, rgb(12, 74, 110), rgb(88, 28, 135), rgb(115, 55, 137))'
+          : 'linear-gradient(to bottom, rgb(224, 242, 254), rgb(243, 232, 255), rgb(252, 231, 243))',
+      }"
+      :class="{
+        '-translate-x-full sm:-translate-x-0': !showSider,
+        'translate-x-0': showSider,
+      }"
+    >
+      <n-menu
+        class="mt-12 [&_.n-menu-item-content-header]:pl-2"
+        :collapsed="!showSider"
+        :collapsed-width="48"
+        :collapsed-icon-size="16"
+        :icon-size="16"
+        :indent="16"
+        :root-indent="16"
+        :options="menuOptions"
+        :value="route.path.split('/').pop()"
+        @update:value="handleMenuSelect"
+      />
+      <div
+        class="absolute bottom-4 left-0 right-0 flex justify-center"
+        :class="{
+          'flex-col space-y-4': !showSider,
+          'space-x-4': showSider,
         }"
       >
-        <div class="flex h-12 items-center justify-between">
-          <div class="flex items-center">
+        <n-tooltip
+          trigger="hover"
+          placement="top"
+        >
+          <template #trigger>
             <n-button
               text
-              class="w-12"
-              :aria-label="t('accessibility.toggle_menu')"
-              @click="showSider = !showSider"
-              ><n-icon>
-                <bars />
-              </n-icon>
-            </n-button>
-            <NuxtLink
-              :to="localePath('/')"
-              class="pl-2"
+              tag="a"
+              href="https://discord.gg/qymsW3j4Zw"
+              target="_blank"
+              :class="
+                isDark
+                  ? 'text-gray-300 hover:text-gray-100'
+                  : 'text-gray-600 hover:text-gray-900'
+              "
+              :aria-label="t('accessibility.join_discord')"
             >
-              <span class="text-xl font-bold font-sans leading-none"
-                >gongeo.us</span
-              >
-            </NuxtLink>
-          </div>
-          <div class="flex gap-4 pr-4">
-            <LanguageSwitcher />
-            <ThemeSwitcher />
-            <UserProfile />
-          </div>
-        </div>
-      </n-layout-header>
-    </transition>
-
-    <transition name="slide">
-      <n-layout-sider
-        collapse-mode="width"
-        :native-scrollbar="false"
-        :collapsed-width="48"
-        :width="200"
-        :collapsed="!showSider"
-        class="fixed top-0 left-0 h-full shadow-lg z-10 transition-all duration-300"
-        :style="{
-          background: isDark
-            ? 'linear-gradient(to bottom, rgb(12, 74, 110), rgb(88, 28, 135), rgb(115, 55, 137))'
-            : 'linear-gradient(to bottom, rgb(224, 242, 254), rgb(243, 232, 255), rgb(252, 231, 243))',
-        }"
-        :class="{
-          '-translate-x-full sm:-translate-x-0': !showSider,
-          'translate-x-0': showSider,
-        }"
-      >
-        <n-menu
-          class="mt-12 [&_.n-menu-item-content-header]:pl-2"
-          :collapsed="!showSider"
-          :collapsed-width="48"
-          :collapsed-icon-size="16"
-          :icon-size="16"
-          :indent="16"
-          :root-indent="16"
-          :options="menuOptions"
-          :value="route.path.split('/').pop()"
-          @update:value="handleMenuSelect"
-        />
-        <div
-          class="absolute bottom-4 left-0 right-0 flex justify-center"
-          :class="{
-            'flex-col space-y-4': !showSider,
-            'space-x-4': showSider,
-          }"
+              <template #icon>
+                <n-icon><Discord /></n-icon>
+              </template>
+            </n-button>
+          </template>
+          {{ t('common.discord') }}
+        </n-tooltip>
+        <n-tooltip
+          trigger="hover"
+          placement="top"
         >
-          <n-tooltip
-            trigger="hover"
-            placement="top"
-          >
-            <template #trigger>
-              <n-button
-                text
-                tag="a"
-                href="https://discord.gg/qymsW3j4Zw"
-                target="_blank"
-                :class="
-                  isDark
-                    ? 'text-gray-300 hover:text-gray-100'
-                    : 'text-gray-600 hover:text-gray-900'
-                "
-                :aria-label="t('accessibility.join_discord')"
-              >
-                <template #icon>
-                  <n-icon><Discord /></n-icon>
-                </template>
-              </n-button>
-            </template>
-            {{ t('common.discord') }}
-          </n-tooltip>
-          <n-tooltip
-            trigger="hover"
-            placement="top"
-          >
-            <template #trigger>
-              <n-button
-                text
-                tag="a"
-                href="https://ko-fi.com/dastrokes"
-                target="_blank"
-                :class="
-                  isDark
-                    ? 'text-gray-300 hover:text-gray-100'
-                    : 'text-gray-600 hover:text-gray-900'
-                "
-                :aria-label="t('accessibility.support_ko_fi')"
-              >
-                <template #icon>
-                  <n-icon>
-                    <KoFi />
-                  </n-icon>
-                </template>
-              </n-button>
-            </template>
-            {{ t('common.ko_fi') }}
-          </n-tooltip>
-        </div>
-      </n-layout-sider>
-    </transition>
+          <template #trigger>
+            <n-button
+              text
+              tag="a"
+              href="https://ko-fi.com/dastrokes"
+              target="_blank"
+              :class="
+                isDark
+                  ? 'text-gray-300 hover:text-gray-100'
+                  : 'text-gray-600 hover:text-gray-900'
+              "
+              :aria-label="t('accessibility.support_ko_fi')"
+            >
+              <template #icon>
+                <n-icon>
+                  <KoFi />
+                </n-icon>
+              </template>
+            </n-button>
+          </template>
+          {{ t('common.ko_fi') }}
+        </n-tooltip>
+      </div>
+    </n-layout-sider>
 
     <n-layout-content
       ref="scrollbarRef"
@@ -150,83 +137,71 @@
       </div>
     </n-layout-content>
 
-    <!-- Scroll to top button -->
-    <transition
-      enter-active-class="transition duration-300 ease-in-out transform"
-      leave-active-class="transition duration-300 ease-in-out transform"
-      enter-from-class="translate-y-full opacity-0"
-      enter-to-class="translate-y-0 opacity-100"
-      leave-from-class="translate-y-0 opacity-100"
-      leave-to-class="translate-y-full opacity-0"
+    <n-layout-footer
+      class="text-center text-sm py-2 fixed bottom-0 left-0 right-0 bg-transparent transition-transform duration-300 ease-in-out"
+      :class="{
+        'translate-y-0': showFooter,
+        'translate-y-16': !showFooter,
+      }"
+      :style="{
+        color: isDark ? 'rgb(156, 163, 175)' : 'rgb(75, 85, 99)',
+      }"
     >
-      <n-button
-        v-show="showScrollTop"
-        ghost
-        circle
-        size="small"
-        class="fixed bottom-8 right-8 z-50"
-        :style="{
-          background: isDark ? 'rgb(31, 41, 55)' : 'white',
-          '&:hover': {
-            background: isDark ? 'rgb(55, 65, 81)' : 'rgb(243, 244, 246)',
+      <n-tooltip
+        trigger="hover"
+        placement="top"
+        :theme-overrides="{
+          common: {
+            borderRadius: '8px',
+          },
+          peers: {
+            Popover: {
+              color: '#ffffff',
+              textColor: '#000000',
+              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.12)',
+            },
           },
         }"
-        :aria-label="t('common.scroll_to_top')"
-        @click="scrollToTop"
       >
-        <n-icon size="small">
-          <arrow-up />
-        </n-icon>
-      </n-button>
-    </transition>
+        <template #trigger>
+          <p class="cursor-help">
+            {{ t('common.copyright') }}
+          </p>
+        </template>
+        <div class="max-w-xs text-left">
+          <p>
+            {{ t('common.disclaimer.content') }}
+          </p>
+          <p class="mt-1">
+            {{ t('common.disclaimer.rights') }}
+          </p>
+        </div>
+      </n-tooltip>
+    </n-layout-footer>
 
-    <transition
-      enter-active-class="transition duration-300 ease-in-out transform"
-      leave-active-class="transition duration-300 ease-in-out transform"
-      enter-from-class="translate-y-0 opacity-0"
-      enter-to-class="translate-y-0 opacity-100"
-      leave-from-class="translate-y-0 opacity-100"
-      leave-to-class="translate-y-full opacity-0"
+    <!-- Scroll to top button -->
+    <n-button
+      ghost
+      circle
+      size="small"
+      class="fixed bottom-8 right-8 z-50 transition-transform duration-300 ease-in-out"
+      :class="{
+        'translate-y-0': showScrollTop,
+        'translate-y-16': !showScrollTop,
+      }"
+      :style="{
+        background: isDark ? 'rgb(31, 41, 55)' : 'white',
+        '&:hover': {
+          background: isDark ? 'rgb(55, 65, 81)' : 'rgb(243, 244, 246)',
+        },
+      }"
+      :aria-label="t('common.scroll_to_top')"
+      @click="scrollToTop"
     >
-      <n-layout-footer
-        v-show="showFooter"
-        class="text-center text-sm py-2 fixed bottom-0 left-0 right-0 bg-transparent"
-        :style="{
-          color: isDark ? 'rgb(156, 163, 175)' : 'rgb(75, 85, 99)',
-        }"
-      >
-        <n-tooltip
-          trigger="hover"
-          placement="top"
-          :theme-overrides="{
-            common: {
-              borderRadius: '8px',
-            },
-            peers: {
-              Popover: {
-                color: '#ffffff',
-                textColor: '#000000',
-                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.12)',
-              },
-            },
-          }"
-        >
-          <template #trigger>
-            <p class="cursor-help">
-              {{ t('common.copyright') }}
-            </p>
-          </template>
-          <div class="max-w-xs text-left">
-            <p>
-              {{ t('common.disclaimer.content') }}
-            </p>
-            <p class="mt-1">
-              {{ t('common.disclaimer.rights') }}
-            </p>
-          </div>
-        </n-tooltip>
-      </n-layout-footer>
-    </transition>
+      <n-icon size="small">
+        <arrow-up />
+      </n-icon>
+    </n-button>
   </n-layout>
 </template>
 
@@ -385,7 +360,6 @@
     showSider.value = false
   }
 
-  const showHeader = ref(true)
   const showSider = ref(false)
   const showFooter = ref(true)
   const showScrollTop = ref(false)
@@ -405,8 +379,8 @@
     const scrollHeight = target.scrollHeight
     const clientHeight = target.clientHeight
 
-    // Show scroll to top button when scrolled down more than 300px
-    showScrollTop.value = currentScrollPosition > 500
+    // Show scroll to top button when scrolled down more than 1000px
+    showScrollTop.value = currentScrollPosition > 1000
 
     // Show footer when near the bottom (within 100px)
     showFooter.value =

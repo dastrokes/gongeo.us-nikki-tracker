@@ -110,7 +110,8 @@
   }
 
   const imageProvider = computed(() => {
-    return process.env.NUXT_PUBLIC_SITE_URL === 'https://gongeo.us'
+    return process.env.NUXT_PUBLIC_SITE_URL?.includes('gongeo.us') ||
+      process.env.NODE_ENV?.includes('netlify')
       ? 'netlify'
       : 'ipx'
   })

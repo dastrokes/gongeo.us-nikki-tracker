@@ -2,8 +2,8 @@ import { createError } from 'h3'
 import crypto from 'crypto'
 
 export default defineEventHandler(async (event) => {
-  // Only apply to API routes
-  if (!event.path.startsWith('/api/')) {
+  // Only apply to stats routes
+  if (!event.path.startsWith('/api/stats')) {
     return
   }
 

@@ -110,7 +110,9 @@
   }
 
   const imageProvider = computed(() => {
-    return process.env.NODE_ENV === 'development' ? 'ipx' : 'netlify'
+    return process.env.NUXT_PUBLIC_SITE_URL === 'https://gongeo.us'
+      ? 'netlify'
+      : 'ipx'
   })
 
   // Static time calculation

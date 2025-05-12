@@ -46,7 +46,7 @@
   },
   "devDependencies": {
     "@bg-dev/nuxt-naiveui": "next",
-    "@types/node": "20.11.24",
+    "@types/node": "22.15.0",
     "@typescript-eslint/eslint-plugin": "8.31.0",
     "@typescript-eslint/parser": "8.31.0",
     "@vicons/fa": "0.13.0",

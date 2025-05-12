@@ -358,6 +358,13 @@
   const handleMenuSelect = (key: string) => {
     router.push(localePath(`/${key}`))
     showSider.value = false
+    // Immediately scroll to top without animation
+    if (scrollbarRef.value) {
+      scrollbarRef.value.scrollTo({
+        top: 0,
+        behavior: 'instant',
+      })
+    }
   }
 
   const showSider = ref(false)

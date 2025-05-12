@@ -111,10 +111,12 @@
   import { BANNER_DATA } from '~/data/banners'
   import OUTFIT_DATA from '~/data/outfits'
   import { useCardStyle } from '~/composables/useCardStyle'
+  import { useImageProvider } from '~/composables/useImageProvider'
 
   const { t } = useI18n()
 
   const { cardStyle } = useCardStyle()
+  const { imageProvider } = useImageProvider()
 
   // Sort banners by ID in descending order (newest first)
   const sortedBanners = computed(() => {
@@ -145,11 +147,4 @@
   const imageUrl = (bannerId: number) => {
     return `/images/banners/${bannerId}.webp`
   }
-
-  const imageProvider = computed(() => {
-    return process.env.NUXT_PUBLIC_SITE_URL?.includes('gongeo.us') ||
-      process.env.NODE_ENV?.includes('netlify')
-      ? 'netlify'
-      : 'ipx'
-  })
 </script>

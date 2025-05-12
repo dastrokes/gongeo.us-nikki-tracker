@@ -92,11 +92,13 @@
   import { useUserStore } from '~/stores/user'
   import { BANNER_DATA } from '~/data/banners'
   import { HourglassHalf } from '@vicons/fa'
+  import { useImageProvider } from '~/composables/useImageProvider'
 
   const { t } = useI18n()
   const userStore = useUserStore()
   const isDark = computed(() => userStore.getCurrentTheme === 'dark')
   const { cardStyle } = useCardStyle()
+  const { imageProvider } = useImageProvider()
 
   const localePath = useLocalePath()
   const router = useRouter()
@@ -108,13 +110,6 @@
   const imageUrl = (bannerId: number) => {
     return `/images/banners/${bannerId}.webp`
   }
-
-  const imageProvider = computed(() => {
-    return process.env.NUXT_PUBLIC_SITE_URL?.includes('gongeo.us') ||
-      process.env.NODE_ENV?.includes('netlify')
-      ? 'netlify'
-      : 'ipx'
-  })
 
   // Static time calculation
   const targetTime = new Date('2025-06-04T20:00:00Z')

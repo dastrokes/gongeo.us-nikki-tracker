@@ -90,6 +90,7 @@
   import type { PullItem } from '~/types/pull'
   import { useUserStore } from '~/stores/user'
   import { getItemType } from '~/utils/itemType'
+  import { useImageProvider } from '~/composables/useImageProvider'
 
   interface Props {
     item: PullItem
@@ -102,14 +103,9 @@
 
   const itemType = computed(() => getItemType(props.item.itemId))
 
+  const { imageProvider } = useImageProvider()
+
   const imageUrl = computed(() => {
     return `/images/items/${props.item.itemId}.webp`
-  })
-
-  const imageProvider = computed(() => {
-    return process.env.NUXT_PUBLIC_SITE_URL?.includes('gongeo.us') ||
-      process.env.NODE_ENV?.includes('netlify')
-      ? 'netlify'
-      : 'ipx'
   })
 </script>

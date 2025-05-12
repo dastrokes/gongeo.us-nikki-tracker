@@ -678,6 +678,7 @@
           show: false,
         },
         axisLabel: {
+          margin: 12,
           interval: 0,
           rotate: isMobile.value ? 90 : 20,
           formatter: function (value, index) {
@@ -939,8 +940,6 @@
         height: imageSize,
         width: imageSize,
         borderRadius: 8,
-        borderColor: isDark.value ? '#4b5563' : '#e5e7eb',
-        borderWidth: isMobile.value ? 0 : 1,
         backgroundColor: {
           image: `/images/loading.webp`,
         },

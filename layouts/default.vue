@@ -55,75 +55,34 @@
         'translate-x-0': showSider,
       }"
     >
-      <n-menu
-        class="mt-12 [&_.n-menu-item-content-header]:pl-2"
-        :collapsed="!showSider"
-        :collapsed-width="48"
-        :collapsed-icon-size="16"
-        :icon-size="16"
-        :indent="16"
-        :root-indent="16"
-        :options="menuOptions"
-        :value="route.path.split('/').pop()"
-        @update:value="handleMenuSelect"
-      />
-      <div
-        class="absolute bottom-4 left-0 right-0 flex justify-center"
-        :class="{
-          'flex-col space-y-4': !showSider,
-          'space-x-4': showSider,
-        }"
-      >
-        <n-tooltip
-          trigger="hover"
-          placement="top"
-        >
-          <template #trigger>
-            <n-button
-              text
-              tag="a"
-              href="https://discord.gg/qymsW3j4Zw"
-              target="_blank"
-              :class="
-                isDark
-                  ? 'text-gray-300 hover:text-gray-100'
-                  : 'text-gray-600 hover:text-gray-900'
-              "
-              :aria-label="t('accessibility.join_discord')"
-            >
-              <template #icon>
-                <n-icon><Discord /></n-icon>
-              </template>
-            </n-button>
-          </template>
-          {{ t('common.discord') }}
-        </n-tooltip>
-        <n-tooltip
-          trigger="hover"
-          placement="top"
-        >
-          <template #trigger>
-            <n-button
-              text
-              tag="a"
-              href="https://ko-fi.com/dastrokes"
-              target="_blank"
-              :class="
-                isDark
-                  ? 'text-gray-300 hover:text-gray-100'
-                  : 'text-gray-600 hover:text-gray-900'
-              "
-              :aria-label="t('accessibility.support_ko_fi')"
-            >
-              <template #icon>
-                <n-icon>
-                  <KoFi />
-                </n-icon>
-              </template>
-            </n-button>
-          </template>
-          {{ t('common.ko_fi') }}
-        </n-tooltip>
+      <div class="flex flex-col h-full">
+        <!-- Top Menu -->
+        <n-menu
+          class="mt-12 [&_.n-menu-item-content-header]:pl-2"
+          :collapsed="!showSider"
+          :collapsed-width="48"
+          :collapsed-icon-size="16"
+          :icon-size="16"
+          :indent="16"
+          :root-indent="16"
+          :options="topMenuOptions"
+          :value="route.path.split('/').pop()"
+          @update:value="handleMenuSelect"
+        />
+
+        <!-- Spacer pushes the bottom menu to the bottom -->
+        <div class="mt-auto">
+          <n-menu
+            class="[&_.n-menu-item-content-header]:pl-2"
+            :collapsed="!showSider"
+            :collapsed-width="48"
+            :collapsed-icon-size="16"
+            :icon-size="16"
+            :indent="16"
+            :root-indent="16"
+            :options="bottomMenuOptions"
+          />
+        </div>
       </div>
     </n-layout-sider>
 
@@ -227,6 +186,7 @@
     ArrowUp,
     InfoCircle,
     Discord,
+    Magic,
   } from '@vicons/fa'
   import { h, ref, computed } from 'vue'
   import { NuxtLink } from '#components'
@@ -267,10 +227,6 @@
       {
         name: 'keywords',
         content: t('meta.keywords'),
-      },
-      {
-        name: 'yandex-verification',
-        content: `8343c5759c772c9e`,
       },
       {
         property: 'og:site_name',
@@ -317,7 +273,7 @@
     ],
   })
 
-  const menuOptions = computed<MenuOption[]>(() =>
+  const topMenuOptions = computed<MenuOption[]>(() =>
     [
       {
         label: t('navigation.resonance_tracker'),
@@ -348,6 +304,58 @@
         label: t('navigation.about'),
         key: 'about',
         icon: renderIcon(InfoCircle),
+      },
+    ].map((option) => ({
+      ...option,
+    }))
+  )
+
+  const bottomMenuOptions = computed<MenuOption[]>(() =>
+    [
+      {
+        label: () =>
+          h(
+            'a',
+            {
+              href: 'https://nuan5.pro',
+              target: '_blank',
+              rel: 'noopener noreferrer',
+              class: 'no-underline text-inherit',
+            },
+            t('navigation.nuan5pro')
+          ),
+        key: 'nuan5pro',
+        icon: renderIcon(Magic),
+      },
+      {
+        label: () =>
+          h(
+            'a',
+            {
+              href: 'https://discord.gg/qymsW3j4Zw',
+              target: '_blank',
+              rel: 'noopener noreferrer',
+              class: 'no-underline text-inherit',
+            },
+            t('navigation.discord')
+          ),
+        key: 'discord',
+        icon: renderIcon(Discord),
+      },
+      {
+        label: () =>
+          h(
+            'a',
+            {
+              href: 'https://ko-fi.com/dastrokes',
+              target: '_blank',
+              rel: 'noopener noreferrer',
+              class: 'no-underline text-inherit',
+            },
+            t('navigation.ko-fi')
+          ),
+        key: 'ko-fi',
+        icon: renderIcon(KoFi),
       },
     ].map((option) => ({
       ...option,

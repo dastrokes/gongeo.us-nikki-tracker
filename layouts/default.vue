@@ -26,9 +26,9 @@
             :to="localePath('/')"
             class="pl-2"
           >
-            <span class="text-xl font-bold font-sans leading-none"
-              >gongeo.us</span
-            >
+            <span class="text-xl font-bold font-sans leading-none">{{
+              t('navigation.title')
+            }}</span>
           </NuxtLink>
         </div>
         <div class="flex gap-4 pr-4">

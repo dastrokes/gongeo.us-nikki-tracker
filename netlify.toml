@@ -2,7 +2,7 @@
   publish = "dist"
 
 [build.environment]
-  NODE_VERSION = "22"
+  NODE_VERSION = "20.19.1"
 
 # Redirect API calls to serverless function
 [[redirects]]

@@ -17,7 +17,7 @@ export default defineEventHandler(async (event) => {
 
     // Create Supabase client with service role key (secure server-side only)
     const supabase = createClient(
-      config.supabaseUrl as string,
+      config.public.supabaseUrl as string,
       config.supabaseServiceKey as string,
       {
         auth: {

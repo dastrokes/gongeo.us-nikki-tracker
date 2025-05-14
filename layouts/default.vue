@@ -26,9 +26,11 @@
             :to="localePath('/')"
             class="pl-2"
           >
-            <span class="text-xl font-bold font-sans leading-none">{{
-              t('navigation.title')
-            }}</span>
+            <span
+              class="text-xl font-bold font-sans"
+              :class="locale === 'zh' ? 'align-baseline' : 'align-super'"
+              >{{ t('navigation.title') }}</span
+            >
           </NuxtLink>
         </div>
         <div class="flex gap-4 pr-4">
@@ -199,6 +201,7 @@
   const localePath = useLocalePath()
   const userStore = useUserStore()
   const isDark = computed(() => userStore.getCurrentTheme === 'dark')
+  const { locale } = useI18n()
 
   function renderIcon(icon: Component) {
     return () => h(NIcon, null, { default: () => h(icon) })

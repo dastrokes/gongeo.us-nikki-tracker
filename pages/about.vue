@@ -7,11 +7,6 @@
     >
       <div class="text-center mb-12">
         <n-h1 class="font-bold mb-4">{{ t('about.title') }}</n-h1>
-        <p class="mb-4">
-          {{
-            t('about.lastUpdated', { date: new Date().toLocaleDateString() })
-          }}
-        </p>
       </div>
 
       <div>

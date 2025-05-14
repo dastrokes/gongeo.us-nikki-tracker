@@ -591,27 +591,28 @@
             </n-card>
           </template>
         </div>
-
-        <n-card
-          v-if="Object.keys(processedPulls).length === 0"
-          class="text-center rounded-md rounded-xl"
-        >
-          <div class="text-xl text-neutral-500">
-            {{ t('tracker.no_data.title') }}
-          </div>
-          <div class="text-xl text-neutral-500">
-            {{ t('tracker.no_data.subtitle') }}
-          </div>
-          <div class="mt-4">
-            <n-button
-              type="primary"
-              @click="router.push(localePath('/import'))"
-            >
-              {{ t('navigation.import_data') }}
-            </n-button>
-          </div>
-        </n-card>
       </div>
+
+      <n-card
+        v-if="Object.keys(processedPulls).length === 0"
+        class="text-center rounded-md rounded-xl"
+        :style="cardStyle"
+      >
+        <div class="text-xl text-neutral-500">
+          {{ t('tracker.no_data.title') }}
+        </div>
+        <div class="text-xl text-neutral-500">
+          {{ t('tracker.no_data.subtitle') }}
+        </div>
+        <div class="mt-4">
+          <n-button
+            type="primary"
+            @click="router.push(localePath('/import'))"
+          >
+            {{ t('navigation.import_data') }}
+          </n-button>
+        </div>
+      </n-card>
     </div>
   </div>
 </template>

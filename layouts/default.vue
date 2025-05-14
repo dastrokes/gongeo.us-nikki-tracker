@@ -4,7 +4,7 @@
     position="absolute"
   >
     <n-layout-header
-      class="fixed top-0 right-0 z-20 h-12"
+      class="fixed top-0 right-0 z-50 h-12"
       :style="{
         background: isDark
           ? 'linear-gradient(to right, rgb(12, 74, 110), rgb(88, 28, 135), rgb(115, 55, 137))'
@@ -46,7 +46,7 @@
       :collapsed-width="48"
       :width="200"
       :collapsed="!showSider"
-      class="fixed top-0 left-0 h-full shadow-lg z-10 transition-all duration-300 ease-in-out transform"
+      class="fixed top-0 left-0 h-full shadow-lg z-40 transition-all duration-300 ease-in-out transform"
       :style="{
         background: isDark
           ? 'linear-gradient(to bottom, rgb(12, 74, 110), rgb(88, 28, 135), rgb(115, 55, 137))'
@@ -93,7 +93,7 @@
       :native-scrollbar="false"
       @scroll="onScroll"
     >
-      <div class="h-full py-12 sm:pt-16">
+      <div class="h-full py-16">
         <slot />
       </div>
     </n-layout-content>
@@ -140,12 +140,19 @@
       </n-tooltip>
     </n-layout-footer>
 
+    <div
+      v-if="showSider"
+      class="fixed inset-0 z-30 md:hidden"
+      :class="isDark ? 'bg-black/15' : 'bg-black/5'"
+      @click="showSider = false"
+    />
+
     <!-- Scroll to top button -->
     <n-button
       ghost
       circle
       size="small"
-      class="fixed bottom-8 right-8 z-50 transition-transform duration-300 ease-in-out"
+      class="fixed bottom-8 right-8 z-20 transition-transform duration-300 ease-in-out"
       :class="{
         'translate-y-0': showScrollTop,
         'translate-y-16': !showScrollTop,

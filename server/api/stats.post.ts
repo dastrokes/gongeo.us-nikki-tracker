@@ -1,6 +1,18 @@
 import { createClient } from '@supabase/supabase-js'
+import { isRateLimited } from '../utils/rateLimiter'
+import { hashUid } from '../utils/hash'
 
 export default defineEventHandler(async (event) => {
+  const ip = getRequestIP(event, { xForwardedFor: true }) || 'unknown'
+
+  // Check rate limit
+  if (isRateLimited(ip)) {
+    throw createError({
+      statusCode: 429,
+      message: 'Too many requests. Please try again later.',
+    })
+  }
+
   try {
     // Get the request body
     const body = await readBody(event)
@@ -52,12 +64,3 @@ export default defineEventHandler(async (event) => {
     })
   }
 })
-
-// Move hashUid to server-side
-const hashUid = async (uid: string): Promise<string> => {
-  const encoder = new TextEncoder()
-  const data = encoder.encode(uid)
-  const hashBuffer = await crypto.subtle.digest('SHA-256', data)
-  const hashArray = Array.from(new Uint8Array(hashBuffer))
-  return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('')
-}

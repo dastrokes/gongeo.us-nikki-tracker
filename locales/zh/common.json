@@ -72,7 +72,7 @@
       "momo_id_placeholder": "来自 cookie 的 momoNid",
       "momo_token": "Momo Token",
       "momo_token_placeholder": "来自 cookie 的 momoToken",
-      "submit_global_stats": "提交数据用于全球统计",
+      "submit_global_stats": "提交数据用于社区统计",
       "submit_button": "提交并导入抽卡历史",
       "fetching": "正在获取共鸣数据，请稍候..."
     },
@@ -85,12 +85,14 @@
       "parse_input": "解析输入",
       "paste_from_clipboard": "从剪贴板粘贴"
     },
-    "select_banners": "选择卡池",
-    "select_banners_desc": "仅选择您已抽过的卡池",
+    "select_banners": "选择您抽过的卡池",
+    "select_banners_desc": "无需再次导入已有数据",
     "banner_groups": {
       "quick_select": "快速选择",
       "all_banners": "所有卡池",
       "current_banners": "当前卡池",
+      "limited_banners": "限定卡池",
+      "permanent_banners": "常驻卡池",
       "individual": "单独选择"
     }
   },
@@ -118,6 +120,9 @@
         "last_pull": "最后抽卡"
       },
       "settings": {
+        "sort_order": "排序方式",
+        "latest_first": "新池优先",
+        "oldest_first": "旧池优先",
         "outfit_display": "套装显示",
         "combined": "合并显示",
         "separated": "分开显示",
@@ -238,7 +243,7 @@
       },
       "server_data": {
         "question": "发送到服务器的数据是什么？",
-        "answer": "如果您选择参与，只有您的抽卡统计数据会被发送以帮助计算全球统计数据。这包括您的UID的哈希版本，以及您抽到的4星和5星物品的信息。"
+        "answer": "如果您选择参与，只有您的抽卡统计数据会被发送以帮助计算社区统计数据。这包括您的UID的哈希版本，以及您抽到的4星和5星物品的信息。"
       },
       "platform_support": {
         "question": "如果我在手机或PS5上玩，这个工具能用吗？",
@@ -251,10 +256,6 @@
       "no_pulls": {
         "question": "所有卡池都已处理，但没有显示抽卡记录？",
         "answer": "请检查您的服务器和cookie值是否正确。确保cookie中的UID和ID没有混淆。"
-      },
-      "permanent_banner": {
-        "question": "为什么永久卡池\"遥远之海\"没有显示？",
-        "answer": "永久卡池\"遥远之海\"的抽卡数据在游戏中是可用的，但由于抽卡数量庞大，处理时间更长，需要更多请求。目前是故意不包含的。"
       },
       "auto_update": {
         "question": "数据会自动更新吗？",
@@ -288,7 +289,7 @@
     "dataCollection": {
       "title": "数据收集与存储",
       "content": "我们仅收集必要的基础服务数据：不索取、不存储任何个人身份信息或追踪cookie。用户提交的cookie及UID仅用于向Infold服务器验证账户并同步抽卡记录。",
-      "pullHistory": "抽卡历史数据将本地存储于您的浏览器中。若您选择参与数据共享，系统会统计您的抽卡记录（包含经哈希处理的UID及获取的4星/5星物品信息）用于全球概率分析。"
+      "pullHistory": "抽卡历史数据将本地存储于您的浏览器中。若您选择参与数据共享，系统会统计您的抽卡记录（包含经加密处理的UID以及获取的4星/5星物品信息）用于社区概率分析。"
     },
     "dataSecurity": {
       "title": "数据安全",

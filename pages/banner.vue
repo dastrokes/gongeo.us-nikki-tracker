@@ -120,9 +120,7 @@
 
   // Sort banners by ID in descending order (newest first)
   const sortedBanners = computed(() => {
-    return Object.values(BANNER_DATA)
-      .filter((banner) => banner.bannerId !== 1) // Exclude permanent banner
-      .sort((a, b) => b.bannerId - a.bannerId)
+    return Object.values(BANNER_DATA).sort((a, b) => b.bannerId - a.bannerId)
   })
 
   // Get banner type color

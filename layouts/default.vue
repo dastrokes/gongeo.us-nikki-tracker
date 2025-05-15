@@ -102,7 +102,7 @@
       class="text-center text-sm py-2 fixed bottom-0 left-0 right-0 bg-transparent transition-transform duration-300 ease-in-out"
       :class="{
         'translate-y-0': showFooter,
-        'translate-y-16': !showFooter,
+        'translate-y-12': !showFooter,
       }"
       :style="{
         color: isDark ? 'rgb(156, 163, 175)' : 'rgb(75, 85, 99)',

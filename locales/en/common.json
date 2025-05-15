@@ -85,12 +85,14 @@
       "parse_input": "Parse Input",
       "paste_from_clipboard": "Paste from Clipboard"
     },
-    "select_banners": "Select Banners",
-    "select_banners_desc": "Only select the banners you have pulled",
+    "select_banners": "Select Banners You Pulled",
+    "select_banners_desc": "No need to re-import if data is already available",
     "banner_groups": {
       "quick_select": "Quick Select",
       "all_banners": "All Banners",
       "current_banners": "Current Banners",
+      "limited_banners": "Limited Banners",
+      "permanent_banners": "Permanent Banners",
       "individual": "Individual Banners"
     }
   },
@@ -118,6 +120,9 @@
         "last_pull": "Last Pull"
       },
       "settings": {
+        "sort_order": "Sort Order",
+        "latest_first": "Latest First",
+        "oldest_first": "Oldest First",
         "outfit_display": "Outfit Display",
         "combined": "Combined",
         "separated": "Separated",
@@ -251,10 +256,6 @@
       "no_pulls": {
         "question": "All banners were processed, but no pulls are showing?",
         "answer": "Please check that your region and cookie values are correct. Make sure the UID and ID from the cookies are not mixed up."
-      },
-      "permanent_banner": {
-        "question": "Why is the permanent banner Distant Sea not showing?",
-        "answer": "Pull data for permanent banners Distant Sea is available in game, it also take longer time and many more requests to process due to the large amount of pulls. It is not included currently on purpose."
       },
       "auto_update": {
         "question": "Will the data auto update?",

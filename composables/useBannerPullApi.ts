@@ -75,9 +75,7 @@ export const useBannerPullApi = () => {
     try {
       const bannerIds =
         selectedBannerIds ||
-        Object.values(BANNER_DATA)
-          .map((banner) => banner.bannerId)
-          .filter((id) => id !== 1) // Exclude permanent banner
+        Object.values(BANNER_DATA).map((banner) => banner.bannerId)
 
       const allResults = []
 

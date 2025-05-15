@@ -288,6 +288,19 @@
                 <div class="min-w-[200px]">
                   <div class="space-y-4">
                     <div class="flex items-center justify-between">
+                      <n-switch v-model:value="sortBanner">
+                        <template #checked>{{
+                          t('tracker.banner.settings.oldest_first')
+                        }}</template>
+                        <template #unchecked>{{
+                          t('tracker.banner.settings.latest_first')
+                        }}</template>
+                      </n-switch>
+                      <span class="text-sm text-gray-400 ml-3">
+                        {{ t('tracker.banner.settings.sort_order') }}
+                      </span>
+                    </div>
+                    <div class="flex items-center justify-between">
                       <n-switch
                         v-if="hasMultipleOutfits()"
                         v-model:value="combineOutfits"
@@ -332,262 +345,255 @@
         v-if="!loading"
         class="space-y-4"
       >
-        <div class="space-y-4">
+        <div>
           <template
-            v-for="banner in Object.values(processedPulls)"
+            v-for="banner in sortedBanners"
             :key="banner.bannerId"
           >
             <n-card
-              v-show="
-                (showEmptyBanners || banner.pulls.length > 0) &&
-                banner.bannerId != 1
-              "
+              v-show="showEmptyBanners || banner.pulls.length > 0"
               size="small"
-              class="rounded-xl min-h-[150px] sm:min-h-[180px]"
+              class="rounded-xl min-h-[150px] sm:min-h-[180px] mt-4"
               :style="cardStyle"
             >
-              <div>
-                <!-- Banner Header -->
-                <div class="flex items-center">
-                  <div class="flex-grow flex flex-wrap items-center gap-2">
-                    <n-h3 class="m-0 font-medium break-words">
-                      {{ t(`banner.${banner.bannerId}.name`) }}
-                    </n-h3>
-                    <div class="flex flex-wrap gap-2">
-                      <template
-                        v-for="outfit in banner.outfits"
-                        :key="outfit.id"
-                      >
-                        <div class="flex items-center gap-2">
-                          <n-tag
-                            :type="outfit.rarity === 5 ? 'warning' : 'info'"
-                            :bordered="false"
-                            round
-                            size="small"
-                            class="px-2"
-                          >
-                            <span class="align-top"
-                              >{{ t(outfit.name) }} {{ outfit.rarity }}</span
-                            >
-                            <span class="ml-1"
-                              ><n-icon><star /></n-icon
-                            ></span>
-                            <span
-                              v-if="outfit.isComplete"
-                              class="ml-1"
-                              ><n-icon><check-circle /></n-icon
-                            ></span>
-                          </n-tag>
-                        </div>
-                      </template>
-                    </div>
-                  </div>
-                  <div class="ml-4 flex space-x-2 shrink-0 export-exclude">
-                    <!-- Stats Button -->
-                    <n-popover
-                      v-if="banner.stats.totalPulls > 0"
-                      trigger="click"
+              <!-- Banner Header -->
+              <div class="flex items-center">
+                <div class="flex-grow flex flex-wrap items-center gap-2">
+                  <n-h3 class="m-0 font-medium break-words">
+                    {{ t(`banner.${banner.bannerId}.name`) }}
+                  </n-h3>
+                  <div class="flex flex-wrap gap-2">
+                    <template
+                      v-for="outfit in banner.outfits"
+                      :key="outfit.id"
                     >
-                      <template #trigger>
-                        <n-button
+                      <div class="flex items-center gap-2">
+                        <n-tag
+                          :type="outfit.rarity === 5 ? 'warning' : 'info'"
+                          :bordered="false"
+                          round
                           size="small"
-                          text
-                          circle
-                          class="text-gray-500 hover:text-gray-700"
+                          class="px-2"
                         >
-                          <template #icon>
-                            <n-icon>
-                              <chart-bar-regular />
-                            </n-icon>
-                          </template>
-                        </n-button>
-                      </template>
-                      <div class="p-4 w-[200px]">
-                        <div class="space-y-2">
-                          <div class="flex justify-between">
-                            <span class="text-sm">Total Pulls</span>
-                            <span class="font-medium">{{
-                              banner.stats.totalPulls
-                            }}</span>
-                          </div>
-                          <div
-                            v-if="hasBothRarities(banner.bannerId)"
-                            class="flex justify-between"
+                          <span class="align-top"
+                            >{{ t(outfit.name) }} {{ outfit.rarity }}</span
                           >
-                            <span class="text-sm">5★ Total</span>
-                            <span class="font-medium text-amber-600">{{
-                              banner.stats.total5StarItems
-                            }}</span>
-                          </div>
-                          <div
-                            v-if="hasBothRarities(banner.bannerId)"
-                            class="flex justify-between"
-                          >
-                            <span class="text-sm">5★ Average</span>
-                            <span class="font-medium text-amber-600">{{
-                              banner.stats.avg5StarPulls.toFixed(2)
-                            }}</span>
-                          </div>
-                          <div
-                            v-if="
-                              hasBothRarities(banner.bannerId) &&
-                              !banner.isComplete
-                            "
-                            class="flex justify-between"
-                          >
-                            <span class="text-sm">5★ Pity</span>
-                            <span class="font-medium">{{
-                              banner.stats.pity5Star
-                            }}</span>
-                          </div>
-                          <div
-                            v-if="hasBothRarities(banner.bannerId)"
-                            class="flex justify-between"
-                          >
-                            <span class="text-sm">4★ Mixed Total</span>
-                            <span class="font-medium text-blue-600">{{
-                              banner.stats.total4StarItems
-                            }}</span>
-                          </div>
-                          <div
-                            v-if="hasBothRarities(banner.bannerId)"
-                            class="flex justify-between"
-                          >
-                            <span class="text-sm">4★ Mixed Avg</span>
-                            <span class="font-medium text-blue-600">{{
-                              banner.stats.avg4StarPulls.toFixed(2)
-                            }}</span>
-                          </div>
-                          <div
-                            v-if="is4StarOnlyBanner(banner.bannerId)"
-                            class="flex justify-between"
-                          >
-                            <span class="text-sm">4★ Only Total</span>
-                            <span class="font-medium text-blue-600">{{
-                              banner.stats.total4StarOnlyItems
-                            }}</span>
-                          </div>
-                          <div
-                            v-if="is4StarOnlyBanner(banner.bannerId)"
-                            class="flex justify-between"
-                          >
-                            <span class="text-sm">4★ Only Average</span>
-                            <span class="font-medium text-blue-600">{{
-                              banner.stats.avg4StarOnlyPulls.toFixed(2)
-                            }}</span>
-                          </div>
-                          <div
-                            v-if="banner.stats?.lastPull"
-                            class="flex justify-between"
-                          >
-                            <span class="text-sm">Last Pull</span>
-                            <span class="font-medium">{{
-                              new Date(
-                                banner.stats.lastPull
-                              ).toLocaleDateString()
-                            }}</span>
-                          </div>
-                        </div>
+                          <span class="ml-1"
+                            ><n-icon><star /></n-icon
+                          ></span>
+                          <span
+                            v-if="outfit.isComplete"
+                            class="ml-1"
+                            ><n-icon><check-circle /></n-icon
+                          ></span>
+                        </n-tag>
                       </div>
-                    </n-popover>
-                    <!-- Banner Settings Button -->
-                    <n-popover trigger="click">
-                      <template #trigger>
-                        <n-button
-                          size="small"
-                          text
-                          circle
-                          class="text-gray-500 hover:text-gray-700"
-                        >
-                          <template #icon>
-                            <n-icon>
-                              <cog />
-                            </n-icon>
-                          </template>
-                        </n-button>
-                      </template>
-                      <div class="min-w-[200px]">
-                        <div class="space-y-4">
-                          <div
-                            v-if="hasBothRarities(banner.bannerId)"
-                            class="flex items-center justify-between"
-                          >
-                            <n-switch
-                              v-model:value="show4StarItems[banner.bannerId]"
-                            >
-                              <template #checked>{{
-                                t('tracker.banner.settings.show')
-                              }}</template>
-                              <template #unchecked>{{
-                                t('tracker.banner.settings.hide')
-                              }}</template>
-                            </n-switch>
-                            <span class="text-sm text-gray-400 ml-3">
-                              {{ t('tracker.banner.settings.show_4star') }}
-                            </span>
-                          </div>
-                          <div
-                            v-if="banner.stats && !banner.stats.isComplete"
-                            class="flex items-center justify-between"
-                          >
-                            <n-switch
-                              v-model:value="showMissingPieces[banner.bannerId]"
-                              @update:value="loadMissingItems(banner.bannerId)"
-                            >
-                              <template #checked>{{
-                                t('tracker.banner.settings.show')
-                              }}</template>
-                              <template #unchecked>{{
-                                t('tracker.banner.settings.hide')
-                              }}</template>
-                            </n-switch>
-                            <span class="text-sm text-gray-400 ml-3">
-                              {{ t('tracker.banner.settings.show_missing') }}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    </n-popover>
+                    </template>
                   </div>
                 </div>
-
-                <!-- Combined Outfits View -->
-                <template v-if="combineOutfits">
-                  <div
-                    class="grid grid-cols-5 sm:grid-cols-8 lg:grid-cols-10 gap-2 mt-2"
+                <div class="ml-4 flex space-x-2 shrink-0 export-exclude">
+                  <!-- Stats Button -->
+                  <n-popover
+                    v-if="banner.stats.totalPulls > 0"
+                    trigger="click"
                   >
-                    <ItemCard
-                      v-for="pull in filterPulls(banner.pulls, banner.bannerId)"
-                      :key="pull.pullIndex"
-                      :item="pull"
-                    />
-                  </div>
-                </template>
-
-                <!-- Separated Outfits View -->
-                <template v-else>
-                  <div
-                    v-for="outfit in banner.outfits"
-                    v-show="
-                      filterPulls(
-                        getOutfitItems(banner.pulls, outfit.id),
-                        banner.bannerId
-                      ).length > 0
-                    "
-                    :key="outfit.id"
-                    class="grid grid-cols-5 sm:grid-cols-8 lg:grid-cols-10 gap-2 mt-2"
-                  >
-                    <ItemCard
-                      v-for="pull in filterPulls(
-                        getOutfitItems(banner.pulls, outfit.id),
-                        banner.bannerId
-                      )"
-                      :key="pull.pullIndex"
-                      :item="pull"
-                    />
-                  </div>
-                </template>
+                    <template #trigger>
+                      <n-button
+                        size="small"
+                        text
+                        circle
+                        class="text-gray-500 hover:text-gray-700"
+                      >
+                        <template #icon>
+                          <n-icon>
+                            <chart-bar-regular />
+                          </n-icon>
+                        </template>
+                      </n-button>
+                    </template>
+                    <div class="p-4 w-[200px]">
+                      <div class="space-y-2">
+                        <div class="flex justify-between">
+                          <span class="text-sm">Total Pulls</span>
+                          <span class="font-medium">{{
+                            banner.stats.totalPulls
+                          }}</span>
+                        </div>
+                        <div
+                          v-if="hasBothRarities(banner.bannerId)"
+                          class="flex justify-between"
+                        >
+                          <span class="text-sm">5★ Total</span>
+                          <span class="font-medium text-amber-600">{{
+                            banner.stats.total5StarItems
+                          }}</span>
+                        </div>
+                        <div
+                          v-if="hasBothRarities(banner.bannerId)"
+                          class="flex justify-between"
+                        >
+                          <span class="text-sm">5★ Average</span>
+                          <span class="font-medium text-amber-600">{{
+                            banner.stats.avg5StarPulls.toFixed(2)
+                          }}</span>
+                        </div>
+                        <div
+                          v-if="
+                            hasBothRarities(banner.bannerId) &&
+                            !banner.isComplete
+                          "
+                          class="flex justify-between"
+                        >
+                          <span class="text-sm">5★ Pity</span>
+                          <span class="font-medium">{{
+                            banner.stats.pity5Star
+                          }}</span>
+                        </div>
+                        <div
+                          v-if="hasBothRarities(banner.bannerId)"
+                          class="flex justify-between"
+                        >
+                          <span class="text-sm">4★ Mixed Total</span>
+                          <span class="font-medium text-blue-600">{{
+                            banner.stats.total4StarItems
+                          }}</span>
+                        </div>
+                        <div
+                          v-if="hasBothRarities(banner.bannerId)"
+                          class="flex justify-between"
+                        >
+                          <span class="text-sm">4★ Mixed Avg</span>
+                          <span class="font-medium text-blue-600">{{
+                            banner.stats.avg4StarPulls.toFixed(2)
+                          }}</span>
+                        </div>
+                        <div
+                          v-if="is4StarOnlyBanner(banner.bannerId)"
+                          class="flex justify-between"
+                        >
+                          <span class="text-sm">4★ Only Total</span>
+                          <span class="font-medium text-blue-600">{{
+                            banner.stats.total4StarOnlyItems
+                          }}</span>
+                        </div>
+                        <div
+                          v-if="is4StarOnlyBanner(banner.bannerId)"
+                          class="flex justify-between"
+                        >
+                          <span class="text-sm">4★ Only Average</span>
+                          <span class="font-medium text-blue-600">{{
+                            banner.stats.avg4StarOnlyPulls.toFixed(2)
+                          }}</span>
+                        </div>
+                        <div
+                          v-if="banner.stats?.lastPull"
+                          class="flex justify-between"
+                        >
+                          <span class="text-sm">Last Pull</span>
+                          <span class="font-medium">{{
+                            new Date(banner.stats.lastPull).toLocaleDateString()
+                          }}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </n-popover>
+                  <!-- Banner Settings Button -->
+                  <n-popover trigger="click">
+                    <template #trigger>
+                      <n-button
+                        size="small"
+                        text
+                        circle
+                        class="text-gray-500 hover:text-gray-700"
+                      >
+                        <template #icon>
+                          <n-icon>
+                            <cog />
+                          </n-icon>
+                        </template>
+                      </n-button>
+                    </template>
+                    <div class="min-w-[200px]">
+                      <div class="space-y-4">
+                        <div
+                          v-if="hasBothRarities(banner.bannerId)"
+                          class="flex items-center justify-between"
+                        >
+                          <n-switch
+                            v-model:value="show4StarItems[banner.bannerId]"
+                          >
+                            <template #checked>{{
+                              t('tracker.banner.settings.show')
+                            }}</template>
+                            <template #unchecked>{{
+                              t('tracker.banner.settings.hide')
+                            }}</template>
+                          </n-switch>
+                          <span class="text-sm text-gray-400 ml-3">
+                            {{ t('tracker.banner.settings.show_4star') }}
+                          </span>
+                        </div>
+                        <div
+                          v-if="banner.stats && !banner.stats.isComplete"
+                          class="flex items-center justify-between"
+                        >
+                          <n-switch
+                            v-model:value="showMissingPieces[banner.bannerId]"
+                            @update:value="loadMissingItems(banner.bannerId)"
+                          >
+                            <template #checked>{{
+                              t('tracker.banner.settings.show')
+                            }}</template>
+                            <template #unchecked>{{
+                              t('tracker.banner.settings.hide')
+                            }}</template>
+                          </n-switch>
+                          <span class="text-sm text-gray-400 ml-3">
+                            {{ t('tracker.banner.settings.show_missing') }}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </n-popover>
+                </div>
               </div>
+
+              <!-- Combined Outfits View -->
+              <template v-if="combineOutfits">
+                <div
+                  class="grid grid-cols-5 sm:grid-cols-8 lg:grid-cols-10 gap-2 mt-2"
+                >
+                  <ItemCard
+                    v-for="pull in filterPulls(banner.pulls, banner.bannerId)"
+                    :key="pull.pullIndex"
+                    :item="pull"
+                  />
+                </div>
+              </template>
+
+              <!-- Separated Outfits View -->
+              <template v-else>
+                <div
+                  v-for="outfit in banner.outfits"
+                  v-show="
+                    filterPulls(
+                      getOutfitItems(banner.pulls, outfit.id),
+                      banner.bannerId
+                    ).length > 0
+                  "
+                  :key="outfit.id"
+                  class="grid grid-cols-5 sm:grid-cols-8 lg:grid-cols-10 gap-2 mt-2"
+                >
+                  <ItemCard
+                    v-for="pull in filterPulls(
+                      getOutfitItems(banner.pulls, outfit.id),
+                      banner.bannerId
+                    )"
+                    :key="pull.pullIndex"
+                    :item="pull"
+                  />
+                </div>
+              </template>
             </n-card>
           </template>
         </div>
@@ -618,7 +624,7 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, onMounted } from 'vue'
+  import { ref, onMounted, computed } from 'vue'
   import { storeToRefs } from 'pinia'
   import {
     Cog,
@@ -689,8 +695,8 @@
   const hasBothRarities = (bannerId: number) => {
     const banner = BANNER_DATA[bannerId]
     if (!banner) return false
-    // Banner type 2 has both 4★ and 5★
-    return banner.bannerType === 2
+    // Banner type 1 and 2 has both 4★ and 5★
+    return banner.bannerType === 1 || banner.bannerType === 2
   }
 
   const is4StarOnlyBanner = (bannerId: number) => {
@@ -705,9 +711,20 @@
 
   const show4StarItems = ref(show4Stars)
   const showMissingPieces = ref(showMissing)
+  const sortBanner = ref(false)
   const combineOutfits = ref(false)
   const showEmptyBanners = ref(false)
   const exporting = ref(false)
+
+  // Function to sort banners
+  const sortedBanners = computed(() => {
+    const banners = Object.values(processedPulls.value)
+    return banners.sort((a, b) => {
+      const dateA = new Date(a.stats.lastPull).getTime()
+      const dateB = new Date(b.stats.lastPull).getTime()
+      return sortBanner.value ? dateB - dateA : dateA - dateB
+    })
+  })
 
   // Function to load missing items for a banner
   const loadMissingItems = async (bannerId: number) => {

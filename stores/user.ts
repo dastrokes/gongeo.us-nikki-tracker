@@ -1,8 +1,15 @@
 import { defineStore } from 'pinia'
-import { Region } from '~/composables/useBannerPullApi'
 import { set, get, remove } from '~/utils/cookie'
 
 export type Theme = 'light' | 'dark'
+
+export enum Region {
+  EUROPE = 'EUROPE',
+  AMERICA = 'AMERICA',
+  CHINA = 'CHINA',
+  TW = 'TW',
+  ASIA = 'ASIA',
+}
 
 export interface UserState {
   region: Region

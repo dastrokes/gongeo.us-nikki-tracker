@@ -1,15 +1,8 @@
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import type { CookieData, VerifyResponse, QueryResponse } from '~/types/api'
-import { useUserStore } from '~/stores/user'
+import { useUserStore, Region } from '~/stores/user'
 import { BANNER_DATA } from '~/data/banners'
-
-export enum Region {
-  EUROPE = 'EUROPE',
-  AMERICA = 'AMERICA',
-  CHINA = 'CHINA',
-  TW = 'TW',
-  ASIA = 'ASIA',
-}
+import { retryRequest, sleep } from '~/server/utils/retry'
 
 export const REGION_URLS = {
   [Region.EUROPE]: 'https://x6en-clickhouse.infoldgames.com/v1/tlog',
@@ -19,43 +12,7 @@ export const REGION_URLS = {
   [Region.ASIA]: 'https://X6asia-clickhouse.infoldgames.com/v1/tlog',
 } as const
 
-export const REGION_LABELS = {
-  [Region.AMERICA]: 'America',
-  [Region.EUROPE]: 'Europe',
-  [Region.CHINA]: 'China',
-  [Region.TW]: 'TW/HK/Macau',
-  [Region.ASIA]: 'Asia',
-} as const
-
-// Constants
 const REQUEST_DELAY = 1000
-const MAX_RETRIES = 3
-const INITIAL_RETRY_DELAY = 1000
-
-// Default headers
-const DEFAULT_HEADERS = {
-  Accept: '*/*',
-}
-
-const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
-
-// Helper function for exponential backoff retries
-const retryRequest = async <T>(
-  requestFn: () => Promise<T>,
-  retryCount = 0
-): Promise<T> => {
-  try {
-    return await requestFn()
-  } catch (error) {
-    if (retryCount >= MAX_RETRIES) {
-      throw error
-    }
-
-    const delay = INITIAL_RETRY_DELAY * Math.pow(2, retryCount)
-    await sleep(delay)
-    return retryRequest(requestFn, retryCount + 1)
-  }
-}
 
 export const useBannerPullApi = () => {
   const loading = ref(false)
@@ -69,68 +26,40 @@ export const useBannerPullApi = () => {
     return REGION_URLS[region]
   }
 
-  const setRegion = (region: Region) => {
-    userStore.setRegion(region)
-  }
+  // Verify authentication
+  const verifyAuth = async (cookieData: CookieData) => {
+    loading.value = true
+    error.value = null
 
-  // Query a single page for a banner
-  const queryBannerPage = async (
-    bannerId: number,
-    page: number,
-    token: string
-  ): Promise<QueryResponse> => {
-    const response = await retryRequest(() =>
-      $fetch<QueryResponse>('/query', {
-        baseURL: getBaseUrl(),
-        method: 'GET',
-        params: {
-          page: page.toString(),
-          args: bannerId,
-          name: 'gacha',
-          etime: Math.floor(Date.now() / 1000).toString(),
-        },
-        headers: {
-          ...DEFAULT_HEADERS,
-          'X-Authority': token,
-        },
-      })
-    )
+    try {
+      const response = await retryRequest(() =>
+        $fetch<VerifyResponse>('/verify', {
+          baseURL: getBaseUrl(),
+          method: 'GET',
+          params: {
+            token: cookieData.token,
+            roleid: cookieData.roleid,
+            id: cookieData.id,
+          },
+        })
+      )
 
-    // Add banner_id to the response
-    response.banner_id = bannerId
-    return response
-  }
-
-  // Query all pages for a single banner
-  const queryBannerHistory = async (
-    bannerId: number,
-    token: string
-  ): Promise<QueryResponse[]> => {
-    const results: QueryResponse[] = []
-    let page = 1
-    let isEnd = false
-
-    while (!isEnd) {
-      progress.value = { banner: bannerId, page }
-
-      const response = await queryBannerPage(bannerId, page, token)
-
-      if (response.code !== 0) {
-        throw new Error(response.info || 'Failed to fetch banner data')
+      if (response?.code === 0) {
+        userStore.setAuthToken(response.data)
+        userStore.setUid(cookieData.roleid)
+        return true
+      } else {
+        error.value = response?.info || 'Verification failed'
+        return false
       }
-
-      results.push(response)
-      isEnd = response.data.end
-      page++
-
-      if (!isEnd) {
-        await sleep(REQUEST_DELAY)
-      }
+    } catch (e) {
+      error.value =
+        e instanceof Error ? e.message : 'Failed to verify authentication'
+      return false
+    } finally {
+      loading.value = false
     }
-
-    return results
   }
-
   // Main function to fetch all banner history
   const fetchPullHistory = async () => {
     const token = userStore.getAuthToken
@@ -175,52 +104,70 @@ export const useBannerPullApi = () => {
       return null
     } finally {
       loading.value = false
-      progress.value = null
     }
   }
 
-  const verifyAuth = async (cookieData: CookieData) => {
-    loading.value = true
-    error.value = null
+  // Query all pages for a single banner
+  const queryBannerHistory = async (
+    bannerId: number,
+    token: string
+  ): Promise<QueryResponse[]> => {
+    const results: QueryResponse[] = []
+    let page = 1
+    let isEnd = false
 
-    try {
-      const response = await retryRequest(() =>
-        $fetch<VerifyResponse>('/verify', {
-          baseURL: getBaseUrl(),
-          method: 'GET',
-          params: {
-            token: cookieData.token,
-            roleid: cookieData.roleid,
-            id: cookieData.id,
-          },
-          headers: DEFAULT_HEADERS,
-        })
-      )
+    while (!isEnd) {
+      progress.value = { banner: bannerId, page }
 
-      if (response?.code === 0) {
-        userStore.setAuthToken(response.data)
-        userStore.setUid(cookieData.roleid)
-        return true
-      } else {
-        error.value = response?.info || 'Verification failed'
-        return false
+      const response = await queryBannerPage(bannerId, page, token)
+
+      if (response.code !== 0) {
+        throw new Error(response.info || 'Failed to fetch banner data')
       }
-    } catch (e) {
-      error.value =
-        e instanceof Error ? e.message : 'Failed to verify authentication'
-      return false
-    } finally {
-      loading.value = false
+
+      results.push(response)
+      isEnd = response.data.end
+      page++
+
+      if (!isEnd) {
+        await sleep(REQUEST_DELAY)
+      }
     }
+
+    return results
+  }
+
+  // Query a single page for a banner
+  const queryBannerPage = async (
+    bannerId: number,
+    page: number,
+    token: string
+  ): Promise<QueryResponse> => {
+    const response = await retryRequest(() =>
+      $fetch<QueryResponse>('/query', {
+        baseURL: getBaseUrl(),
+        method: 'GET',
+        params: {
+          page: page.toString(),
+          args: bannerId,
+          name: 'gacha',
+          etime: Math.floor(Date.now() / 1000).toString(),
+        },
+        headers: {
+          'X-Authority': token,
+        },
+      })
+    )
+
+    // Add banner_id to the response
+    response.banner_id = bannerId
+    return response
   }
 
   return {
     loading,
-    error,
     progress,
     verifyAuth,
     fetchPullHistory,
-    region: computed(() => userStore.getRegion),
-    setRegion,
   }
 }

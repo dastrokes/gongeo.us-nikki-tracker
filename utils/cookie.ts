@@ -1,5 +1,3 @@
-import { useCookie } from '#imports'
-
 export const set = (
   key: string,
   value: string,

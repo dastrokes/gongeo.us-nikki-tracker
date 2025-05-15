@@ -214,7 +214,7 @@
                   type="textarea"
                   :rows="3"
                   placeholder="{'roleid':'123456','token':'eyJhabc123xyz456.eyJhdef789ghi000.abc123def789','id':'654321'}"
-                  class="w-full max-w-80"
+                  class="w-full"
                 />
                 <n-space
                   class="flex mt-2 flex-wrap"
@@ -399,21 +399,25 @@
   import { ref, computed, watch, onMounted } from 'vue'
   import type { CookieData } from '~/types/api'
   import type { PullRecord } from '~/types/pull'
-  import {
-    useBannerPullApi,
-    Region,
-    REGION_LABELS,
-  } from '~/composables/useBannerPullApi'
+  import { useBannerPullApi } from '~/composables/useBannerPullApi'
   import { useMessage } from 'naive-ui'
   import type { UploadFileInfo } from 'naive-ui'
   import { useBannerPullData } from '~/composables/useBannerPullData'
   import { usePullStore } from '~/stores/pull'
-  import { useUserStore } from '~/stores/user'
+  import { useUserStore, Region } from '~/stores/user'
   import { Paste, Check } from '@vicons/fa'
   import { BANNER_DATA } from '~/data/banners'
   import { useCardStyle } from '~/composables/useCardStyle'
 
   const { t } = useI18n()
+
+  const REGION_LABELS = {
+    [Region.AMERICA]: 'America',
+    [Region.EUROPE]: 'Europe',
+    [Region.CHINA]: 'China',
+    [Region.TW]: 'TW/HK/Macau',
+    [Region.ASIA]: 'Asia',
+  } as const
 
   const consoleScript = `console.log(JSON.stringify({
   roleid: [...document.querySelectorAll('div')].find(el => el.textContent.startsWith('UID:'))?.textContent.replace('UID:', '').trim(),
@@ -438,15 +442,10 @@
   const manualPasteInput = ref('')
   const currentStep = ref(0)
   const message = useMessage()
-  const { verifyAuth, loading, error } = useBannerPullApi()
+  const { verifyAuth, loading } = useBannerPullApi()
   const userStore = useUserStore()
-  const {
-    fetchAllData,
-    isFetching,
-    error: fetchError,
-    processJsonImport,
-    progress,
-  } = useBannerPullData()
+  const { fetchAllData, isFetching, processJsonImport, progress } =
+    useBannerPullData()
   const pullStore = usePullStore()
   const { cardStyle } = useCardStyle()
 
@@ -555,7 +554,7 @@
     } catch (error) {
       console.error(error)
       message.error(
-        'Failed to parse clipboard data. Please paste manually or fill in the form.'
+        'Failed to parse clipboard data. Please paste manually or fill in the form'
       )
     }
   }
@@ -577,7 +576,7 @@
     } catch (error) {
       console.error(error)
       message.error(
-        "Failed to parse input data. Please ensure it's valid file format."
+        'Failed to parse input data. Please ensure it is valid file format'
       )
     }
   }
@@ -599,10 +598,7 @@
 
         message.success('Data imported successfully!')
       } catch (e) {
-        message.error(
-          'Failed to import file: ' +
-            (e instanceof Error ? e.message : 'Unknown error')
-        )
+        message.error('Failed to import file')
       }
       return
     } else {
@@ -630,10 +626,10 @@
               }
             }
           } catch {
-            message.error(fetchError.value || 'Failed to fetch pull history')
+            message.error('Failed to fetch pull history')
           }
         } else {
-          message.error(error.value || 'Authentication failed')
+          message.error('Authentication failed')
         }
       } catch (error) {
         console.error(error)

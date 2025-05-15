@@ -456,8 +456,9 @@
   import { useSupabaseClient } from '~/composables/useSupabaseClient'
   import { useCardStyle } from '~/composables/useCardStyle'
   import { useUserStore } from '~/stores/user'
+
   // Initialize Supabase client
-  const supabase = useSupabaseClient()
+  const supabase = useSupabaseClient('client')
   const userStore = useUserStore()
 
   // Add isDark computed property
@@ -517,7 +518,7 @@
 
   const { cardStyle } = useCardStyle()
 
-  const fetchData = async () => {
+  const fetchGlobalData = async () => {
     try {
       const { data: responseData, error } = await supabase.functions.invoke(
         'cache-json-data',
@@ -1108,7 +1109,7 @@
 
   onMounted(() => {
     checkMobile()
-    fetchData()
+    fetchGlobalData()
 
     // Add resize event listener to handle responsive chart
     window.addEventListener('resize', handleResize)

@@ -66,6 +66,7 @@ export default defineNuxtConfig({
     public: {
       supabaseUrl: process.env.SUPABASE_DATABASE_URL,
       supabaseAnonKey: process.env.SUPABASE_ANON_KEY,
+      gongeousApiKey: process.env.GONGEOUS_API_KEY,
       siteUrl:
         process.env.NUXT_PUBLIC_SITE_URL || 'https://gongeous.netlify.app/',
     },

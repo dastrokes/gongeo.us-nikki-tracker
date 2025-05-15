@@ -28,10 +28,10 @@
     error: NuxtError
   }>()
 
-  const nuxtApp = useNuxtApp()
+  const localePath = useLocalePath()
   const { t } = useI18n()
 
   const handleError = () => {
-    clearError({ redirect: nuxtApp.$localePath('/') })
+    clearError({ redirect: localePath('/') })
   }
 </script>

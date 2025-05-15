@@ -5,7 +5,7 @@ interface RateLimit {
 
 const rateLimits = new Map<string, RateLimit>()
 const WINDOW_MS = 60 * 1000 // 1 minute
-const MAX_REQUESTS = 1 // Maximum requests per minute
+const MAX_REQUESTS = 10 // Maximum requests per minute
 
 export function isRateLimited(ip: string): boolean {
   const now = Date.now()

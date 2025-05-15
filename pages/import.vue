@@ -843,9 +843,9 @@
       NTag,
       {
         round: true,
+        bordered: false,
         closable: true,
         type: bannerType === 3 ? 'info' : 'warning',
-        size: 'small',
         onMousedown: (e: FocusEvent) => {
           e.preventDefault()
         },

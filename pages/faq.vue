@@ -67,7 +67,6 @@
     platform_support: {},
     cookie_script: {},
     no_pulls: {},
-    permanent_banner: {},
     auto_update: {},
     export: {},
   }

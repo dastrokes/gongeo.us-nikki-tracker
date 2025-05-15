@@ -324,8 +324,8 @@
                     :validate-status="
                       selectedBanners.length > 0 ? 'success' : 'error'
                     "
+                    :show-checkmark="false"
                     multiple
-                    filterable
                     clearable
                     :render-label="renderBannerLabel"
                     :render-tag="renderBannerTag"
@@ -424,13 +424,18 @@
   import type { PullRecord } from '~/types/pull'
   import { useBannerPullApi } from '~/composables/useBannerPullApi'
   import { useMessage, NTag, NIcon } from 'naive-ui'
-  import type { UploadFileInfo, SelectOption } from 'naive-ui'
+  import type {
+    UploadFileInfo,
+    SelectOption,
+    SelectGroupOption,
+  } from 'naive-ui'
   import { useBannerPullData } from '~/composables/useBannerPullData'
   import { usePullStore } from '~/stores/pull'
   import { useUserStore, Region } from '~/stores/user'
   import { Paste, Check, CheckCircle } from '@vicons/fa'
   import { BANNER_DATA } from '~/data/banners'
   import { useCardStyle } from '~/composables/useCardStyle'
+  import type { VNodeChild } from 'vue'
 
   const { t } = useI18n()
 
@@ -616,13 +621,22 @@
   // Create banner options for the select component
   const allBannerIds = computed(() => {
     return Object.values(BANNER_DATA)
-      .filter((banner) => banner.bannerId !== 1) // Exclude permanent banner
       .map((banner) => banner.bannerId)
       .sort((a, b) => b - a) // Sort by bannerId in descending order
   })
 
   const newBannerIds = computed(() => {
-    return allBannerIds.value.slice(0, 2) // Get the 3 most recent banners
+    const now = new Date()
+    return allBannerIds.value.filter((bannerId) => {
+      const banner = BANNER_DATA[bannerId]
+      if (!banner || !banner.runs || banner.runs.length === 0) return false
+
+      const currentRun = banner.runs[banner.runs.length - 1] // Get the latest run
+      const startDate = new Date(currentRun.start)
+      const endDate = new Date(currentRun.end)
+
+      return now >= startDate && now <= endDate
+    })
   })
 
   const bannerOptions = computed(() => {
@@ -643,8 +657,13 @@
             type: 'quick',
           },
           {
-            label: t('import.banner_groups.all_banners'),
-            value: 'all',
+            label: t('import.banner_groups.limited_banners'),
+            value: 'limited',
+            type: 'quick',
+          },
+          {
+            label: t('import.banner_groups.permanent_banners'),
+            value: 'permanent',
             type: 'quick',
           },
         ],
@@ -665,6 +684,10 @@
         return allBannerIds.value
       } else if (value === 'current') {
         return [...newBannerIds.value]
+      } else if (value === 'limited') {
+        return allBannerIds.value.filter((id) => id !== 1)
+      } else if (value === 'permanent') {
+        return [1]
       } else if (typeof value === 'number') {
         return [...new Set([...acc, value])]
       }
@@ -778,12 +801,15 @@
   const renderBannerLabel = (
     option: SelectOption | SelectGroupOption,
     selected: boolean
-  ) => {
-    if (option.type === 'quick') {
+  ): VNodeChild => {
+    if ('type' in option && option.type === 'quick') {
       return h(
         NTag,
         {
           round: true,
+          size: 'small',
+          bordered: false,
+          type: 'default',
         },
         {
           default: () => [
@@ -799,7 +825,7 @@
 
     if (typeof option.value === 'number') {
       const banner = BANNER_DATA[option.value]
-      if (!banner) return option.label
+      if (!banner) return option.label as VNodeChild
       const bannerType = banner?.bannerType
 
       return [
@@ -808,8 +834,8 @@
           {
             round: true,
             size: 'small',
-            type: selected ? 'success' : bannerType === 3 ? 'info' : 'warning',
             bordered: false,
+            type: selected ? 'success' : bannerType === 3 ? 'info' : 'warning',
           },
           {
             default: () => [
@@ -824,7 +850,7 @@
       ]
     }
 
-    return option.label
+    return option.label as VNodeChild
   }
 
   // Add renderBannerTag function
@@ -834,17 +860,18 @@
   }: {
     option: SelectOption
     handleClose: () => void
-  }) => {
-    const banner = BANNER_DATA[option.value]
-    if (!banner) return option.label
+  }): VNodeChild => {
+    const banner = BANNER_DATA[(option?.value as number) || 0]
+    if (!banner) return option.label as VNodeChild
     const bannerType = banner?.bannerType
 
     return h(
       NTag,
       {
         round: true,
-        bordered: false,
+        size: 'small',
         closable: true,
+        bordered: false,
         type: bannerType === 3 ? 'info' : 'warning',
         onMousedown: (e: FocusEvent) => {
           e.preventDefault()
@@ -855,7 +882,7 @@
         },
       },
       {
-        default: () => option.label as string,
+        default: () => option.label as VNodeChild,
       }
     )
   }

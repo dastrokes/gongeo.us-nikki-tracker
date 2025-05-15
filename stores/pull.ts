@@ -102,12 +102,6 @@ export const usePullStore = defineStore('pull', {
       this.rawPullData = pullsByBanner
 
       try {
-        // Update total pulls
-        this.globalStats.totalPulls = Object.values(pullsByBanner).reduce(
-          (sum, pulls) => sum + pulls.length,
-          0
-        )
-
         const bannerPulls: Record<string, ProcessedBanner> = {}
         const currentPity: Record<string, Record<number, number>> = {}
         let total4Star = 0
@@ -254,13 +248,20 @@ export const usePullStore = defineStore('pull', {
               currentBanner.pulls.unshift(pullInfo)
               currentBanner.stats.totalItems++
 
-              if (rarity === 5) {
-                total5Star++
-                fiveStarPullsToObtain += pullsToObtain
-                fiveStarCount++
-              } else {
-                fourStarPullsToObtain += pullsToObtain
-                fourStarCount++
+              if (bannerInfo.bannerType !== 1) {
+                // Update total pulls
+                this.globalStats.totalPulls = Object.values(
+                  pullsByBanner
+                ).reduce((sum, pulls) => sum + pulls.length, 0)
+                if (rarity === 5) {
+                  total5Star++
+                  fiveStarPullsToObtain += pullsToObtain
+                  fiveStarCount++
+                } else if (rarity === 4) {
+                  total4Star++
+                  fourStarPullsToObtain += pullsToObtain
+                  fourStarCount++
+                }
               }
             }
 
@@ -274,16 +275,26 @@ export const usePullStore = defineStore('pull', {
           const currentPulls = currentBanner.pulls
           if (bannerType === 1) {
             // Permanent
-            stats.total5StarItems = currentPulls.filter(
-              (item: PullItem) => item.rarity === 5 && item.obtained
-            ).length
+            const fourStarPulls = currentPulls.filter(
+              (item: PullItem) => item.rarity === 4 && item.obtained
+            )
             const fiveStarPulls = currentPulls.filter(
               (item: PullItem) => item.rarity === 5 && item.obtained
+            )
+            stats.total4StarItems = fourStarPulls.length
+            stats.total5StarItems = fiveStarPulls.length
+            stats.total4StarPulls = fourStarPulls.reduce(
+              (sum: number, item: PullItem) => sum + item.pullsToObtain,
+              0
             )
             stats.total5StarPulls = fiveStarPulls.reduce(
               (sum: number, item: PullItem) => sum + item.pullsToObtain,
               0
             )
+            stats.avg4StarPulls =
+              fourStarPulls.length > 0
+                ? stats.total4StarPulls / fourStarPulls.length
+                : 0
             stats.avg5StarPulls =
               fiveStarPulls.length > 0
                 ? stats.total5StarPulls / fiveStarPulls.length
@@ -302,7 +313,6 @@ export const usePullStore = defineStore('pull', {
             stats.total4StarOnlyItems = 0 // Reset for type 2 banners
 
             // Add to global counters for mixed banner 4★ items
-            total4Star += fourStarPulls.length
             fourStarPullsToObtain += fourStarPulls.reduce(
               (sum: number, item: PullItem) => sum + item.pullsToObtain,
               0

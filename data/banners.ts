@@ -11,13 +11,13 @@ export const BANNER_DATA: BannerData = {
   1: {
     bannerId: 1,
     bannerType: 1,
-    outfit4StarId: [],
+    outfit4StarId: ['S0056', 'S0058', 'S0084', 'S0092'],
     outfit5StarId: ['S0145', 'S0165', 'S0093', 'S0033'],
     runs: [
       {
         version: '1.0.0',
         start: '2024-12-05',
-        end: '9999-12-31',
+        end: new Date().toISOString().split('T')[0],
       },
     ],
   },

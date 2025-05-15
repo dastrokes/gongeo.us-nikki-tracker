@@ -281,7 +281,7 @@
 
         <div class="mt-4">
           <template v-if="importMethod === 'game'">
-            <n-form>
+            <n-form :show-feedback="false">
               <n-space vertical>
                 <n-form-item
                   :label="$t('import.form.uid')"
@@ -313,11 +313,30 @@
                     class="max-w-full"
                   />
                 </n-form-item>
+                <n-form-item
+                  :label="$t('import.select_banners')"
+                  class="w-full"
+                >
+                  <n-select
+                    v-model:value="selectedBanners"
+                    :options="bannerOptions"
+                    :placeholder="$t('import.select_banners_desc')"
+                    :validate-status="
+                      selectedBanners.length > 0 ? 'success' : 'error'
+                    "
+                    multiple
+                    filterable
+                    clearable
+                    :render-label="renderBannerLabel"
+                    :render-tag="renderBannerTag"
+                    @update:value="handleBannerSelectionChange"
+                  />
+                </n-form-item>
               </n-space>
             </n-form>
             <n-space
               align="center"
-              class="w-full flex mb-4 flex-wrap"
+              class="w-full flex my-4 flex-wrap"
             >
               <span>{{ $t('import.form.submit_global_stats') }}</span>
               <n-switch
@@ -327,9 +346,11 @@
             </n-space>
             <n-space class="w-full flex">
               <n-button
+                v-if="importMethod === 'game'"
                 type="primary"
                 :loading="loading || isFetching"
                 class="flex-grow"
+                :disabled="isSubmitDisabled"
                 @click="handleSubmit"
               >
                 {{
@@ -343,10 +364,11 @@
           <template v-else>
             <n-space class="w-full flex">
               <n-button
+                v-if="importMethod === 'json'"
                 type="primary"
                 :loading="loading || isFetching"
                 class="flex-grow"
-                @click="handleSubmit"
+                @click="handleJsonSubmit"
               >
                 {{
                   isFetching
@@ -377,16 +399,17 @@
         <div class="text-center mt-4 text-xl text-gray-500">
           {{
             $t('import.progress.processing_banner', {
-              current: (progress?.banner ?? 0) - 1 || 0,
-              total: Object.values(bannerData).filter((b) => b.bannerId !== 1)
-                .length,
+              current: currentBannerIndex + 1 || 0,
+              total: selectedBanners.length,
             })
           }}
         </div>
         <div class="text-center mt-4 text-xl text-gray-500">
           {{
             $t('import.progress.fetching_data', {
-              banner: t(`banner.${progress?.banner || 0}.name`) || '',
+              banner: progress?.banner
+                ? t(`banner.${progress?.banner}.name`)
+                : '',
             })
           }}
         </div>
@@ -396,16 +419,16 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, computed, watch, onMounted } from 'vue'
+  import { ref, computed, watch, onMounted, h } from 'vue'
   import type { CookieData } from '~/types/api'
   import type { PullRecord } from '~/types/pull'
   import { useBannerPullApi } from '~/composables/useBannerPullApi'
-  import { useMessage } from 'naive-ui'
-  import type { UploadFileInfo } from 'naive-ui'
+  import { useMessage, NTag, NIcon } from 'naive-ui'
+  import type { UploadFileInfo, SelectOption } from 'naive-ui'
   import { useBannerPullData } from '~/composables/useBannerPullData'
   import { usePullStore } from '~/stores/pull'
   import { useUserStore, Region } from '~/stores/user'
-  import { Paste, Check } from '@vicons/fa'
+  import { Paste, Check, CheckCircle } from '@vicons/fa'
   import { BANNER_DATA } from '~/data/banners'
   import { useCardStyle } from '~/composables/useCardStyle'
 
@@ -420,10 +443,10 @@
   } as const
 
   const consoleScript = `console.log(JSON.stringify({
-  roleid: [...document.querySelectorAll('div')].find(el => el.textContent.startsWith('UID:'))?.textContent.replace('UID:', '').trim(),
-  token: document.cookie.match(/momoToken=([^;]+)/)?.[1],
-  id: document.cookie.match(/momoNid=([^;]+)/)?.[1]
-}));`
+    roleid: [...document.querySelectorAll('div')].find(el => el.textContent.startsWith('UID:'))?.textContent.replace('UID:', '').trim(),
+    token: document.cookie.match(/momoToken=([^;]+)/)?.[1],
+    id: document.cookie.match(/momoNid=([^;]+)/)?.[1]
+  }));`
 
   const copyToClipboard = async () => {
     try {
@@ -496,23 +519,29 @@
     userStore.setRegion(region)
   })
 
-  // Make BANNER_DATA available in template
-  const bannerData = BANNER_DATA
-
   // Calculate progress percentage for the progress bar
   const progressPercentage = computed(() => {
     if (!progress.value || !progress.value.banner) return 0
 
-    // Get all banner IDs except permanent banner (id 1)
-    const bannerIds = Object.values(BANNER_DATA)
-      .map((banner) => banner.bannerId)
-      .filter((id) => id !== 1)
+    // Get the index of current banner in selected banners
+    const currentBannerIndex = selectedBanners.value.indexOf(
+      progress.value.banner
+    )
 
-    // Find the index of the current banner
-    const currentBannerIndex = bannerIds.indexOf(progress.value.banner)
+    // If banner not found in selection or no banners selected, return 0
+    if (currentBannerIndex === -1 || selectedBanners.value.length === 0)
+      return 0
 
-    // Calculate percentage based on current banner index and total banners
-    return Math.round(((currentBannerIndex + 1) / bannerIds.length) * 100)
+    // Calculate percentage based on current banner index and total selected banners
+    return Math.round(
+      ((currentBannerIndex + 1) / selectedBanners.value.length) * 100
+    )
+  })
+
+  // Computed property for current banner index
+  const currentBannerIndex = computed(() => {
+    if (!progress.value?.banner) return -1
+    return selectedBanners.value.indexOf(progress.value.banner)
   })
 
   const regionOptions = Object.entries(REGION_LABELS).map(([value, label]) => ({
@@ -521,6 +550,7 @@
   }))
 
   const importMethod = ref<'game' | 'json'>('game')
+  const cookieMethod = ref<'console' | 'manual'>('console')
   const jsonFile = ref<File | null>(null)
   const submitGlobalStats = ref(true)
 
@@ -581,64 +611,139 @@
     }
   }
 
+  const selectedBanners = ref<number[]>([])
+
+  // Create banner options for the select component
+  const allBannerIds = computed(() => {
+    return Object.values(BANNER_DATA)
+      .filter((banner) => banner.bannerId !== 1) // Exclude permanent banner
+      .map((banner) => banner.bannerId)
+      .sort((a, b) => b - a) // Sort by bannerId in descending order
+  })
+
+  const newBannerIds = computed(() => {
+    return allBannerIds.value.slice(0, 2) // Get the 3 most recent banners
+  })
+
+  const bannerOptions = computed(() => {
+    const standardOptions = allBannerIds.value.map((bannerId) => ({
+      label: t(`banner.${bannerId}.name`),
+      value: bannerId,
+    }))
+
+    return [
+      {
+        type: 'group',
+        label: t('import.banner_groups.quick_select'),
+        key: 'quick_select',
+        children: [
+          {
+            label: t('import.banner_groups.current_banners'),
+            value: 'current',
+            type: 'quick',
+          },
+          {
+            label: t('import.banner_groups.all_banners'),
+            value: 'all',
+            type: 'quick',
+          },
+        ],
+      },
+      {
+        type: 'group',
+        label: t('import.banner_groups.individual'),
+        key: 'individual',
+        children: standardOptions,
+      },
+    ]
+  })
+
+  // Handle banner selection changes
+  const handleBannerSelectionChange = (values: (number | string)[]) => {
+    const processedValues = values.reduce<number[]>((acc, value) => {
+      if (value === 'all') {
+        return allBannerIds.value
+      } else if (value === 'current') {
+        return [...newBannerIds.value]
+      } else if (typeof value === 'number') {
+        return [...new Set([...acc, value])]
+      }
+      return acc
+    }, [])
+
+    selectedBanners.value = [...new Set(processedValues)].sort((a, b) => b - a)
+  }
+
+  const isSubmitDisabled = computed(() => {
+    const hasEmptyFields =
+      !formData.value.roleid.trim() ||
+      !formData.value.token.trim() ||
+      !formData.value.id.trim()
+    return (
+      selectedBanners.value.length === 0 ||
+      loading.value ||
+      isFetching.value ||
+      hasEmptyFields
+    )
+  })
+
   const handleSubmit = async () => {
-    if (importMethod.value === 'json') {
-      if (!jsonFile.value) {
-        message.warning('No file selected')
-        return
-      }
-      try {
-        const fileContent = await jsonFile.value.text()
-        const jsonData = JSON.parse(fileContent) as Record<number, PullRecord[]>
+    try {
+      const cookieData: CookieData = formData.value
+      const success = await verifyAuth(cookieData)
 
-        // Reset current store state
-        pullStore.reset()
+      if (success) {
+        message.success('Authentication successful!')
+        userStore.setUid(formData.value.roleid)
 
-        await processJsonImport(jsonData)
+        try {
+          await fetchAllData(selectedBanners.value)
 
-        message.success('Data imported successfully!')
-      } catch (e) {
-        message.error('Failed to import file')
-      }
-      return
-    } else {
-      try {
-        const cookieData: CookieData = formData.value
-        const success = await verifyAuth(cookieData)
-
-        if (success) {
-          message.success('Authentication successful!')
-          userStore.setUid(formData.value.roleid)
-          try {
-            await fetchAllData()
-
-            // Send analytics only if enabled and there are actual pulls
-            if (
-              submitGlobalStats.value &&
-              Object.values(pullStore.processedPulls).some(
-                (banner) => banner.stats.totalPulls > 0
-              )
-            ) {
-              try {
-                await pullStore.sendUserBannerStats()
-              } catch {
-                message.error('Failed to submit global stats')
-              }
+          // Send analytics only if enabled and there are actual pulls
+          if (
+            submitGlobalStats.value &&
+            Object.values(pullStore.processedPulls).some(
+              (banner) => banner.stats.totalPulls > 0
+            )
+          ) {
+            try {
+              await pullStore.sendUserBannerStats()
+            } catch {
+              message.error('Failed to submit global stats')
             }
-          } catch {
-            message.error('Failed to fetch pull history')
           }
-        } else {
-          message.error('Authentication failed')
+        } catch {
+          message.error('Failed to fetch pull history')
         }
-      } catch (error) {
-        console.error(error)
-        message.error('Invalid form data')
+      } else {
+        message.error('Authentication failed')
       }
+    } catch (error) {
+      console.error(error)
+      message.error('Invalid form data')
     }
   }
 
-  const cookieMethod = ref<'console' | 'manual'>('console')
+  const handleJsonSubmit = async () => {
+    if (!jsonFile.value) {
+      message.warning('No file selected')
+      return
+    }
+    try {
+      const fileContent = await jsonFile.value.text()
+      const jsonData = JSON.parse(fileContent) as Record<number, PullRecord[]>
+
+      // Reset current store state
+      pullStore.reset()
+
+      await processJsonImport(jsonData)
+
+      message.success('Data imported successfully!')
+    } catch (e) {
+      console.error(e)
+      message.error('Failed to import file')
+    }
+  }
 
   // Add watch for manual paste input
   watch(manualPasteInput, (newValue) => {
@@ -668,4 +773,90 @@
       }
     }
   })
+
+  // Add renderBannerLabel function
+  const renderBannerLabel = (
+    option: SelectOption | SelectGroupOption,
+    selected: boolean
+  ) => {
+    if (option.type === 'quick') {
+      return h(
+        NTag,
+        {
+          round: true,
+        },
+        {
+          default: () => [
+            h('span', { class: 'align-top' }, option.label as string),
+            selected &&
+              h('span', { class: 'ml-1' }, [
+                h(NIcon, null, { default: () => h(CheckCircle) }),
+              ]),
+          ],
+        }
+      )
+    }
+
+    if (typeof option.value === 'number') {
+      const banner = BANNER_DATA[option.value]
+      if (!banner) return option.label
+      const bannerType = banner?.bannerType
+
+      return [
+        h(
+          NTag,
+          {
+            round: true,
+            size: 'small',
+            type: selected ? 'success' : bannerType === 3 ? 'info' : 'warning',
+            bordered: false,
+          },
+          {
+            default: () => [
+              h('span', option.label as string),
+              selected &&
+                h('span', { class: 'ml-1' }, [
+                  h(NIcon, null, { default: () => h(CheckCircle) }),
+                ]),
+            ],
+          }
+        ),
+      ]
+    }
+
+    return option.label
+  }
+
+  // Add renderBannerTag function
+  const renderBannerTag = ({
+    option,
+    handleClose,
+  }: {
+    option: SelectOption
+    handleClose: () => void
+  }) => {
+    const banner = BANNER_DATA[option.value]
+    if (!banner) return option.label
+    const bannerType = banner?.bannerType
+
+    return h(
+      NTag,
+      {
+        round: true,
+        closable: true,
+        type: bannerType === 3 ? 'info' : 'warning',
+        size: 'small',
+        onMousedown: (e: FocusEvent) => {
+          e.preventDefault()
+        },
+        onClose: (e: MouseEvent) => {
+          e.stopPropagation()
+          handleClose()
+        },
+      },
+      {
+        default: () => option.label as string,
+      }
+    )
+  }
 </script>

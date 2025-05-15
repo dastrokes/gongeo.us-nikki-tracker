@@ -84,6 +84,14 @@
       "copy_code": "复制代码",
       "parse_input": "解析输入",
       "paste_from_clipboard": "从剪贴板粘贴"
+    },
+    "select_banners": "选择卡池",
+    "select_banners_desc": "仅选择您已抽过的卡池",
+    "banner_groups": {
+      "quick_select": "快速选择",
+      "all_banners": "所有卡池",
+      "current_banners": "当前卡池",
+      "individual": "单独选择"
     }
   },
   "tracker": {

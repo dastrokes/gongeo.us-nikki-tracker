@@ -1,5 +1,6 @@
 import { createError } from 'h3'
 import { verifyTimestamp, verifySignature } from '../utils/verify'
+import type { UserBannerStats } from '~/types/stats'
 
 export default defineEventHandler(async (event) => {
   // Only apply to stats routes
@@ -26,8 +27,9 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  // Verify signature
-  if (!verifySignature(signature, requestTime)) {
+  const body = await readBody<UserBannerStats[]>(event)
+
+  if (!verifySignature(signature, requestTime, body)) {
     throw createError({
       statusCode: 403,
       message: 'Forbidden - Invalid signature',

@@ -22,13 +22,13 @@ export const useBannerPullData = () => {
     return jsonData
   }
 
-  const fetchData = async () => {
+  const fetchData = async (selectedBannerIds?: number[]) => {
     if (isFetching.value) return
 
     isFetching.value = true
 
     try {
-      const responses = await fetchPullHistory()
+      const responses = await fetchPullHistory(selectedBannerIds)
       // Transform the data into the format expected by the store
       const pullsByBanner: Record<number, PullRecord[]> = {}
 
@@ -63,10 +63,10 @@ export const useBannerPullData = () => {
     }
   }
 
-  const fetchAllData = async () => {
+  const fetchAllData = async (selectedBannerIds?: number[]) => {
     pullStore.reset()
 
-    await fetchData()
+    await fetchData(selectedBannerIds)
   }
 
   return {

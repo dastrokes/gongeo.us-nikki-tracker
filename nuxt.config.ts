@@ -108,6 +108,9 @@ export default defineNuxtConfig({
 
   nitro: {
     preset: 'netlify-legacy',
+    future: {
+      nativeSWR: true,
+    },
   },
 
   compatibilityDate: '2025-02-01',
@@ -123,5 +126,8 @@ export default defineNuxtConfig({
         dts: true,
       }),
     ],
+    build: {
+      chunkSizeWarningLimit: 1000,
+    },
   },
 })

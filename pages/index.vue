@@ -77,7 +77,7 @@
             height="200"
             fit="cover"
             quality="80"
-            loading="lazy"
+            loading="eager"
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 75vw, 500px"
           />
         </div>

@@ -1,12 +1,15 @@
 import type { UserBannerStats } from '~/types/stats'
 
 export const useUserBannerStats = () => {
-  const generateSignature = async (timestamp: number) => {
+  const generateSignature = async (
+    timestamp: number,
+    payload: UserBannerStats[]
+  ) => {
     const config = useRuntimeConfig()
     const apiKey = config.public.gongeousApiKey || 'api-key'
     const encoder = new TextEncoder()
     const keyData = encoder.encode(apiKey)
-    const msgData = encoder.encode(`${timestamp}`)
+    const msgData = encoder.encode(`${timestamp}${JSON.stringify(payload)}`)
 
     const key = await crypto.subtle.importKey(
       'raw',
@@ -18,7 +21,6 @@ export const useUserBannerStats = () => {
 
     const signature = await crypto.subtle.sign('HMAC', key, msgData)
 
-    // Convert to hex string in the same format as Node's crypto
     return Array.from(new Uint8Array(signature))
       .map((b) => b.toString(16).padStart(2, '0'))
       .join('')
@@ -27,7 +29,7 @@ export const useUserBannerStats = () => {
   const sendUserBannerStats = async (data: UserBannerStats[]) => {
     try {
       const timestamp = Math.floor(Date.now() / 1000)
-      const signature = await generateSignature(timestamp)
+      const signature = await generateSignature(timestamp, data)
 
       const response = await $fetch('/api/stats', {
         method: 'POST',

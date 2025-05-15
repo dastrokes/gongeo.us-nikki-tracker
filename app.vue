@@ -89,13 +89,6 @@
       color: isDark.value ? 'rgb(75, 85, 99, 0.9)' : 'rgba(255, 255, 255, 0.9)',
       textColor: isDark.value ? '#E5E7EB' : '#4F4F4F',
     },
-    Select: {
-      peers: {
-        InternalSelection: {
-          borderRadius: '12px',
-        },
-      },
-    },
     Menu: {
       itemTextColorActive: 'currentColor',
       itemTextColorActiveHover: 'currentColor',

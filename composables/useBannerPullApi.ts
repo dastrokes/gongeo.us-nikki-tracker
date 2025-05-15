@@ -61,7 +61,7 @@ export const useBannerPullApi = () => {
     }
   }
   // Main function to fetch all banner history
-  const fetchPullHistory = async () => {
+  const fetchPullHistory = async (selectedBannerIds?: number[]) => {
     const token = userStore.getAuthToken
     if (!token) {
       error.value = 'Not authenticated'
@@ -73,9 +73,11 @@ export const useBannerPullApi = () => {
     progress.value = null
 
     try {
-      const bannerIds = Object.values(BANNER_DATA)
-        .map((banner) => banner.bannerId)
-        .filter((id) => id !== 1) // Exclude permanent banner
+      const bannerIds =
+        selectedBannerIds ||
+        Object.values(BANNER_DATA)
+          .map((banner) => banner.bannerId)
+          .filter((id) => id !== 1) // Exclude permanent banner
 
       const allResults = []
 

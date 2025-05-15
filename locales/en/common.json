@@ -84,6 +84,14 @@
       "copy_code": "Copy Code",
       "parse_input": "Parse Input",
       "paste_from_clipboard": "Paste from Clipboard"
+    },
+    "select_banners": "Select Banners",
+    "select_banners_desc": "Only select the banners you have pulled",
+    "banner_groups": {
+      "quick_select": "Quick Select",
+      "all_banners": "All Banners",
+      "current_banners": "Current Banners",
+      "individual": "Individual Banners"
     }
   },
   "tracker": {

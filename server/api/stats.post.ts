@@ -1,6 +1,6 @@
-import { createClient } from '@supabase/supabase-js'
 import { isRateLimited } from '../utils/rateLimiter'
 import { hashUid } from '../utils/hash'
+import { useSupabaseClient } from '../../composables/useSupabaseClient'
 
 export default defineEventHandler(async (event) => {
   const ip = getRequestIP(event, { xForwardedFor: true }) || 'unknown'
@@ -25,19 +25,8 @@ export default defineEventHandler(async (event) => {
       })
     }
 
-    const config = useRuntimeConfig()
-
-    // Create Supabase client with service role key (secure server-side only)
-    const supabase = createClient(
-      config.public.supabaseUrl as string,
-      config.supabaseServiceKey as string,
-      {
-        auth: {
-          persistSession: false,
-          autoRefreshToken: false,
-        },
-      }
-    )
+    // Use the shared Supabase client with server key
+    const supabase = useSupabaseClient('server')
 
     // Hash UIDs server-side
     const hashedDataPromises = body.map(async (item) => ({

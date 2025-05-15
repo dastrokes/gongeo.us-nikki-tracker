@@ -11,8 +11,6 @@ export const useBannerPullData = () => {
   const localePath = useLocalePath()
 
   const isFetching = ref(false)
-  const currentPage = ref(1)
-  const error = ref<string | null>(null)
 
   const processJsonImport = async (jsonData: Record<number, PullRecord[]>) => {
     // Save to IndexedDB asynchronously without awaiting
@@ -28,7 +26,6 @@ export const useBannerPullData = () => {
     if (isFetching.value) return
 
     isFetching.value = true
-    error.value = null
 
     try {
       const responses = await fetchPullHistory()
@@ -59,17 +56,14 @@ export const useBannerPullData = () => {
       await pullStore.processPullsData(pullsByBanner)
 
       router.push(localePath('/tracker'))
-    } catch (e) {
-      error.value =
-        e instanceof Error ? e.message : 'Failed to fetch pull history'
+    } catch (error) {
+      console.error(error)
     } finally {
       isFetching.value = false
     }
   }
 
   const fetchAllData = async () => {
-    currentPage.value = 1
-    error.value = null
     pullStore.reset()
 
     await fetchData()
@@ -77,8 +71,6 @@ export const useBannerPullData = () => {
 
   return {
     isFetching,
-    currentPage,
-    error,
     fetchData,
     fetchAllData,
     processJsonImport,

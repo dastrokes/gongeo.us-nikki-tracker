@@ -1,14 +1,26 @@
 import { createClient } from '@supabase/supabase-js'
 
-let supabaseInstance: ReturnType<typeof createClient> | null = null
+let clientInstance: ReturnType<typeof createClient> | null = null
+let serverInstance: ReturnType<typeof createClient> | null = null
 
-export const useSupabaseClient = () => {
-  if (!supabaseInstance) {
-    const config = useRuntimeConfig()
-    supabaseInstance = createClient(
+export const useSupabaseClient = (mode: 'client' | 'server' = 'client') => {
+  const config = useRuntimeConfig()
+
+  if (mode === 'server') {
+    if (!serverInstance) {
+      serverInstance = createClient(
+        config.public.supabaseUrl,
+        config.supabaseServiceKey
+      )
+    }
+    return serverInstance
+  }
+
+  if (!clientInstance) {
+    clientInstance = createClient(
       config.public.supabaseUrl,
       config.public.supabaseAnonKey
     )
   }
-  return supabaseInstance
+  return clientInstance
 }

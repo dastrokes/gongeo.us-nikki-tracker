@@ -25,6 +25,7 @@
           <NuxtLink
             :to="localePath('/')"
             class="pl-2"
+            @click.prevent="showSider = false"
           >
             <span
               class="text-xl font-bold font-sans"
@@ -163,7 +164,7 @@
           background: isDark ? 'rgb(55, 65, 81)' : 'rgb(243, 244, 246)',
         },
       }"
-      :aria-label="t('common.scroll_to_top')"
+      :aria-label="t('accessibility.scroll_to_top')"
       @click="scrollToTop"
     >
       <n-icon size="small">
@@ -278,7 +279,7 @@
       {
         'data-goatcounter': 'https://gongeous.goatcounter.com/count',
         async: true,
-        src: '//gc.zgo.at/count.js',
+        src: '/js/goatcounter.js',
       },
     ],
   })

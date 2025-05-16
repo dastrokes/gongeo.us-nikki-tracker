@@ -616,7 +616,6 @@
       },
       tooltip: {
         trigger: 'axis',
-        triggerOn: 'click',
         confine: true,
         formatter: function (params) {
           const bannerId = Object.keys(chartData)[params[0].dataIndex]
@@ -629,9 +628,9 @@
                 ${t(`banner.${banner.bannerId}.name`)}
               </div>
               <div style="margin-bottom: 5px; text-align: left;">
-                <span style="color: rgb(245, 158, 11)">★★★★★:</span> <strong>${bannerData['5_star']}</strong> (${((bannerData['5_star'] / bannerData.total) * 100).toFixed(1)}%)<br>
-                <span style="color: rgb(139, 92, 246)">★★★★:</span> <strong>${bannerData['4_star']}</strong> (${((bannerData['4_star'] / bannerData.total) * 100).toFixed(1)}%)<br>
-                <span style="color: rgb(107, 114, 128)">★★★:</span> <strong>${bannerData['3_star']}</strong> (${((bannerData['3_star'] / bannerData.total) * 100).toFixed(1)}%)
+                ${bannerData['5_star'] ? `<span style="color: rgb(245, 158, 11)">★★★★★:</span> <strong>${bannerData['5_star']}</strong> (${((bannerData['5_star'] / bannerData.total) * 100).toFixed(1)}%)<br>` : ''}
+                ${bannerData['4_star'] ? `<span style="color: rgb(139, 92, 246)">★★★★:</span> <strong>${bannerData['4_star']}</strong> (${((bannerData['4_star'] / bannerData.total) * 100).toFixed(1)}%)<br>` : ''}
+                ${bannerData['3_star'] ? `<span style="color: rgb(107, 114, 128)">★★★:</span> <strong>${bannerData['3_star']}</strong> (${((bannerData['3_star'] / bannerData.total) * 100).toFixed(1)}%)` : ''}
               </div>
               <div style="margin-top: 5px; text-align: center;">
                 ${t('global.charts.total')}: <strong>${bannerData.total}</strong>

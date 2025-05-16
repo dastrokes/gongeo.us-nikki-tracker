@@ -18,6 +18,12 @@
     cache-control = "public, max-age=31536000, immutable"
     access-control-allow-origin = "*"
 
+# Headers: Public JavaScript files
+[[headers]]
+  for = "/js/*"
+  [headers.values]
+    cache-control = "public, max-age=31536000, immutable"
+
 # Headers: Root HTML (no caching)
 [[headers]]
   for = "/"

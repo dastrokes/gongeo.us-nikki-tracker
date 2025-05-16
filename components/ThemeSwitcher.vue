@@ -1,7 +1,7 @@
 <template>
   <n-button
     class="transition-colors duration-200"
-    aria-label="Toggle theme"
+    :aria-label="t('accessibility.theme_switcher')"
     text
     size="tiny"
     @click="toggleTheme"
@@ -19,6 +19,7 @@
   import { computed } from 'vue'
   import { useUserStore } from '~/stores/user'
   import { Sun as SunIcon, Moon as MoonIcon } from '@vicons/fa'
+  const { t } = useI18n()
 
   const userStore = useUserStore()
   const isDark = computed(() => userStore.getCurrentTheme === 'dark')

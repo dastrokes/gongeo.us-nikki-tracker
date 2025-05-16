@@ -298,7 +298,20 @@
                         }}</template>
                       </n-switch>
                       <span class="text-sm text-gray-400 ml-3">
-                        {{ t('tracker.banner.settings.sort_order') }}
+                        {{ t('tracker.banner.settings.banner_order') }}
+                      </span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                      <n-switch v-model:value="sortItems">
+                        <template #checked>{{
+                          t('tracker.banner.settings.oldest_first')
+                        }}</template>
+                        <template #unchecked>{{
+                          t('tracker.banner.settings.latest_first')
+                        }}</template>
+                      </n-switch>
+                      <span class="text-sm text-gray-400 ml-3">
+                        {{ t('tracker.banner.settings.item_order') }}
                       </span>
                     </div>
                     <div class="flex items-center justify-between">
@@ -714,6 +727,7 @@
   const show4StarItems = ref(show4Stars)
   const showMissingPieces = ref(showMissing)
   const sortBanner = ref(false)
+  const sortItems = ref(false)
   const combineOutfits = ref(false)
   const showEmptyBanners = ref(false)
   const exporting = ref(false)
@@ -737,7 +751,7 @@
 
   // Function to filter pulls based on UI toggles
   const filterPulls = (pulls: PullItem[], bannerId: number) => {
-    return pulls.filter((pull) => {
+    let filteredPulls = pulls.filter((pull) => {
       // When show4StarItems is false, hide 4★ items only in type 2 banners
       if (
         pull.rarity === 4 &&
@@ -750,6 +764,15 @@
       // Only show obtained items when showMissingPieces is false
       return showMissingPieces.value[bannerId] || pull.obtained
     })
+
+    // Sort items based on pullIndex
+    filteredPulls = [...filteredPulls].sort((a, b) => {
+      return sortItems.value
+        ? a.pullIndex - b.pullIndex // Oldest first
+        : b.pullIndex - a.pullIndex // Latest first
+    })
+
+    return filteredPulls
   }
 
   // Update hasMultipleOutfits to be a global check

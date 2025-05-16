@@ -42,9 +42,7 @@
       size="small"
       :style="cardStyle"
     >
-      <div
-        class="flex justify-center items-center sm:items-baseline flex-col sm:flex-row mb-4 space-y-4 space-x-4"
-      >
+      <div class="flex justify-center items-center flex-col mb-4 space-y-2">
         <div class="text-2xl font-bold font-sans">
           {{ $t('index.current_banners') }}
         </div>
@@ -76,7 +74,7 @@
             width="500"
             height="200"
             fit="cover"
-            quality="80"
+            quality="100"
             loading="eager"
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 75vw, 500px"
           />

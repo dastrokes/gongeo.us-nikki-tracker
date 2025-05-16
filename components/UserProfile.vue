@@ -8,7 +8,7 @@
       text
       size="tiny"
       class="flex items-center"
-      aria-label="User profile menu"
+      :aria-label="t('accessibility.user_profile_menu')"
     >
       <template #icon>
         <n-icon>
@@ -26,6 +26,7 @@
   import { useIndexedDB } from '~/composables/useIndexedDB'
   import { usePullStore } from '~/stores/pull'
 
+  const { t } = useI18n()
   const dialog = useDialog()
   const userStore = useUserStore()
   const pullStore = usePullStore()
@@ -34,32 +35,29 @@
   const router = useRouter()
   const dropdownOptions = computed(() => [
     {
-      label: `User ID: ${userStore.uid || 'Not Set'}`,
+      label: t('common.user_profile.user_id', {
+        uid: userStore.uid || t('common.user_profile.guest'),
+      }),
       key: 'uid',
       disabled: true,
     },
     {
-      label: 'Clear Local Data',
+      label: t('common.user_profile.clear_data'),
       key: 'clear',
-      props: {
-        style: 'color: var(--n-item-text-color-error);',
-      },
     },
   ])
 
   const handleSelect = async (key: string) => {
     if (key === 'clear') {
       dialog.warning({
-        title: 'Clear Local Data',
-        content:
-          'Are you sure you want to clear all local data? This action cannot be undone.',
-        positiveText: 'Yes',
-        negativeText: 'No',
+        title: t('common.user_profile.clear_confirm.title'),
+        content: t('common.user_profile.clear_confirm.content'),
+        positiveText: t('common.captions.confirm'),
+        negativeText: t('common.captions.cancel'),
         onPositiveClick: async () => {
           await clearPullData()
           userStore.reset()
           pullStore.reset()
-          router.push(localePath('/import'))
         },
       })
     }

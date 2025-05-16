@@ -42,7 +42,7 @@
           width="120"
           height="120"
           fit="cover"
-          quality="80"
+          quality="100"
           loading="lazy"
           sizes="(max-width: 640px) 80px, 120px"
         />

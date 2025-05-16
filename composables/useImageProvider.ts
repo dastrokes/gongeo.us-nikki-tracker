@@ -10,11 +10,7 @@ export const useImageProvider = () => {
   })
 
   const imageProvider = computed(() =>
-    process.env.NODE_ENV === 'development'
-      ? 'ipx'
-      : isChina.value
-        ? 'ipx'
-        : 'netlify'
+    process.env.NODE_ENV === 'development' ? 'ipx' : 'netlify'
   )
 
   const getImageUrl = (path: string) => {

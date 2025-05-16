@@ -103,9 +103,9 @@
 
   const itemType = computed(() => getItemType(props.item.itemId))
 
-  const { imageProvider } = useImageProvider()
+  const { imageProvider, getImageUrl } = useImageProvider()
 
   const imageUrl = computed(() => {
-    return `/images/items/${props.item.itemId}.webp`
+    return getImageUrl(`/images/items/${props.item.itemId}.webp`)
   })
 </script>

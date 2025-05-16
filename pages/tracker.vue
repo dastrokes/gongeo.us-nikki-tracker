@@ -116,6 +116,7 @@
       <!-- Stats Header -->
       <n-card
         v-if="Object.keys(processedPulls).length > 0"
+        content-class="!p-2 sm:!p-4"
         size="small"
         class="rounded-xl"
         :style="cardStyle"
@@ -352,12 +353,13 @@
           >
             <n-card
               v-show="showEmptyBanners || banner.pulls.length > 0"
+              content-class="!p-2 sm:!p-4"
               size="small"
-              class="rounded-xl min-h-[150px] sm:min-h-[180px] mt-4"
+              class="rounded-xl min-h-[120px] sm:min-h-[180px] mt-4"
               :style="cardStyle"
             >
               <!-- Banner Header -->
-              <div class="flex items-center">
+              <div class="flex items-baseline">
                 <div class="flex-grow flex flex-wrap items-center gap-2">
                   <n-h3 class="m-0 font-medium break-words">
                     {{ t(`banner.${banner.bannerId}.name`) }}
@@ -391,7 +393,7 @@
                     </template>
                   </div>
                 </div>
-                <div class="ml-4 flex space-x-2 shrink-0 export-exclude">
+                <div class="flex space-x-2 export-exclude">
                   <!-- Stats Button -->
                   <n-popover
                     v-if="banner.stats.totalPulls > 0"
@@ -720,9 +722,9 @@
   const sortedBanners = computed(() => {
     const banners = Object.values(processedPulls.value)
     return banners.sort((a, b) => {
-      const dateA = new Date(a.stats.lastPull).getTime()
-      const dateB = new Date(b.stats.lastPull).getTime()
-      return sortBanner.value ? dateB - dateA : dateA - dateB
+      return sortBanner.value
+        ? a.bannerId - b.bannerId
+        : b.bannerId - a.bannerId
     })
   })
 

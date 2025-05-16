@@ -37,7 +37,7 @@
           :src="imageUrl"
           :alt="item.itemId"
           class="w-full h-full object-cover aspect-square"
-          :provider="imageProvider"
+          :provider="imageProvider || undefined"
           format="webp"
           width="120"
           height="120"

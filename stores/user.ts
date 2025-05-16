@@ -23,7 +23,7 @@ export const useUserStore = defineStore('user', {
     // Initialize theme
     const savedTheme = get('theme') as Theme
     const systemPrefersDark =
-      typeof window !== 'undefined' &&
+      import.meta.client &&
       window.matchMedia('(prefers-color-scheme: dark)').matches
     const initialTheme = savedTheme || (systemPrefersDark ? 'dark' : 'light')
 
@@ -70,7 +70,7 @@ export const useUserStore = defineStore('user', {
         this.setTheme(savedTheme)
       } else {
         const systemPrefersDark =
-          typeof window !== 'undefined' &&
+          import.meta.client &&
           window.matchMedia('(prefers-color-scheme: dark)').matches
         this.setTheme(systemPrefersDark ? 'dark' : 'light')
       }

@@ -33,7 +33,7 @@
         content-style="padding: 0;"
         class="min-h-[60px] sm:min-h-[100px] aspect-square"
       >
-        <NuxtImg
+        <DynamicImg
           :src="imageUrl"
           :alt="item.itemId"
           class="w-full h-full object-cover aspect-square"
@@ -42,7 +42,7 @@
           width="120"
           height="120"
           fit="cover"
-          quality="100"
+          :quality="100"
           loading="lazy"
           sizes="(max-width: 640px) 80px, 120px"
         />

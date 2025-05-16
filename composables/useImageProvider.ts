@@ -10,9 +10,6 @@ export const useImageProvider = () => {
   })
 
   const imageProvider = computed(() => {
-    if (isChina.value) {
-      return null // Bypass Nuxt Image processing for Chinese users
-    }
     return process.env.NODE_ENV === 'development' ? 'ipx' : 'netlify'
   })
 

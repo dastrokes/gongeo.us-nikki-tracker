@@ -76,7 +76,7 @@
                   <div
                     class="w-full aspect-[5/2] min-h-[120px] sm:min-h-[200px] relative overflow-hidden rounded-lg"
                   >
-                    <NuxtImg
+                    <DynamicImg
                       :src="imageUrl(banner.bannerId)"
                       :alt="banner.bannerId.toString()"
                       class="absolute inset-0 w-full h-full object-cover"
@@ -85,7 +85,7 @@
                       width="500"
                       height="200"
                       fit="cover"
-                      quality="100"
+                      :quality="100"
                       loading="lazy"
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 75vw, 500px"
                     />

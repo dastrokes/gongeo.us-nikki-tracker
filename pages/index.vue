@@ -65,7 +65,7 @@
           :key="banner.bannerId"
           class="w-full sm:w-1/2 aspect-[5/2] relative overflow-hidden rounded-lg"
         >
-          <NuxtImg
+          <DynamicImg
             :src="imageUrl(banner.bannerId)"
             :alt="banner.bannerId.toString()"
             class="absolute inset-0 w-full h-full object-cover"
@@ -74,7 +74,7 @@
             width="500"
             height="200"
             fit="cover"
-            quality="100"
+            :quality="100"
             loading="eager"
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 75vw, 500px"
           />

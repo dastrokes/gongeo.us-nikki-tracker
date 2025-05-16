@@ -114,10 +114,8 @@
   import { useImageProvider } from '~/composables/useImageProvider'
 
   const { t } = useI18n()
-
   const { cardStyle } = useCardStyle()
-  const { imageProvider } = useImageProvider()
-
+  const { imageProvider, getImageUrl } = useImageProvider()
   // Sort banners by ID in descending order (newest first)
   const sortedBanners = computed(() => {
     return Object.values(BANNER_DATA).sort((a, b) => b.bannerId - a.bannerId)
@@ -143,6 +141,6 @@
   }
 
   const imageUrl = (bannerId: number) => {
-    return `/images/banners/${bannerId}.webp`
+    return getImageUrl(`/images/banners/${bannerId}.webp`)
   }
 </script>

@@ -96,7 +96,7 @@
   const userStore = useUserStore()
   const isDark = computed(() => userStore.getCurrentTheme === 'dark')
   const { cardStyle } = useCardStyle()
-  const { imageProvider } = useImageProvider()
+  const { imageProvider, getImageUrl } = useImageProvider()
 
   const localePath = useLocalePath()
   const router = useRouter()
@@ -106,7 +106,7 @@
   })
 
   const imageUrl = (bannerId: number) => {
-    return `/images/banners/${bannerId}.webp`
+    return getImageUrl(`/images/banners/${bannerId}.webp`)
   }
 
   // Static time calculation

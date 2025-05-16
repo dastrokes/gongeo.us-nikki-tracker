@@ -121,8 +121,8 @@
       "settings": {
         "banner_order": "卡池排序",
         "item_order": "物品排序",
-        "latest_first": "新池优先",
-        "oldest_first": "旧池优先",
+        "latest_first": "最新优先",
+        "oldest_first": "最早优先",
         "outfit_display": "套装显示",
         "combined": "合并显示",
         "separated": "分开显示",

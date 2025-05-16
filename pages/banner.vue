@@ -80,7 +80,7 @@
                       :src="imageUrl(banner.bannerId)"
                       :alt="banner.bannerId.toString()"
                       class="absolute inset-0 w-full h-full object-cover"
-                      :provider="imageProvider"
+                      :provider="imageProvider || undefined"
                       format="webp"
                       width="500"
                       height="200"

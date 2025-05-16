@@ -15,7 +15,6 @@
     "title": "gongeo.us",
     "subtitle": "暖暖共鸣录",
     "description": "记录无限暖暖共鸣历史和统计数据",
-    "loading": "加载中...",
     "your_data": "您的数据",
     "current_banners": "当前卡池",
     "time_left": "剩余时间:",
@@ -120,7 +119,8 @@
         "last_pull": "最后抽卡"
       },
       "settings": {
-        "sort_order": "排序方式",
+        "banner_order": "卡池排序",
+        "item_order": "物品排序",
         "latest_first": "新池优先",
         "oldest_first": "旧池优先",
         "outfit_display": "套装显示",
@@ -130,7 +130,7 @@
         "show_missing": "缺失部件",
         "show": "显示",
         "hide": "隐藏",
-        "empty_banners": "空卡池"
+        "empty_banners": "未抽卡池"
       }
     },
     "export": {
@@ -141,8 +141,7 @@
     },
     "no_data": {
       "title": "暂无共鸣记录。",
-      "subtitle": "请先导入您的共鸣数据。",
-      "redirect": "将在{countdown}秒后跳转到导入页面..."
+      "subtitle": "请先导入您的共鸣数据。"
     }
   },
   "common": {
@@ -155,12 +154,25 @@
     },
     "discord": "Discord",
     "ko_fi": "Ko-fi",
-    "scroll_to_top": "返回顶部",
     "copyright": "© 2025 gongeo.us © 叠纸游戏 版权所有",
     "disclaimer": {
       "title": "关于本站",
       "content": "这是一个独立的粉丝项目，与叠纸游戏无关，也不受其认可。",
       "rights": "所有游戏资源、内容和商标均归其各自所有者所有。"
+    },
+    "captions": {
+      "confirm": "确认",
+      "cancel": "取消"
+    },
+    "user_profile": {
+      "menu_aria_label": "用户资料菜单",
+      "guest": "访客",
+      "user_id": "用户ID：{uid}",
+      "clear_data": "清除本地数据",
+      "clear_confirm": {
+        "title": "清除本地数据",
+        "content": "确定要清除所有本地数据吗？此操作无法撤消。"
+      }
     }
   },
   "items": {
@@ -192,7 +204,11 @@
   "accessibility": {
     "toggle_menu": "切换导航菜单",
     "join_discord": "加入我们的 Discord 社区",
-    "support_ko_fi": "在 Ko-fi 上支持我们"
+    "support_ko_fi": "在 Ko-fi 上支持我们",
+    "language_switcher": "切换语言",
+    "theme_switcher": "切换主题",
+    "user_profile_menu": "用户资料菜单",
+    "scroll_to_top": "回到顶部"
   },
   "global": {
     "stats": {

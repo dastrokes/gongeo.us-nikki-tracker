@@ -120,7 +120,8 @@
         "last_pull": "Last Pull"
       },
       "settings": {
-        "sort_order": "Sort Order",
+        "banner_order": "Banner Order",
+        "item_order": "Item Order",
         "latest_first": "Latest First",
         "oldest_first": "Oldest First",
         "outfit_display": "Outfit Display",
@@ -141,8 +142,7 @@
     },
     "no_data": {
       "title": "No resonance history available.",
-      "subtitle": "Please import your resonance data first.",
-      "redirect": "Redirecting to import page in {countdown} seconds..."
+      "subtitle": "Please import your resonance data first."
     }
   },
   "common": {
@@ -155,12 +155,25 @@
     },
     "discord": "Discord",
     "ko_fi": "Ko-fi",
-    "scroll_to_top": "Scroll to top",
     "copyright": "© 2025 gongeo.us © Infold Games All Rights Reserved",
     "disclaimer": {
       "title": "About this site",
       "content": "This is an independent fan project, not affiliated with or endorsed by Infold/Paper Games.",
       "rights": "All game assets, content, and trademarks belong to their respective owners."
+    },
+    "captions": {
+      "confirm": "Confirm",
+      "cancel": "Cancel"
+    },
+    "user_profile": {
+      "menu_aria_label": "User profile menu",
+      "guest": "Guest",
+      "user_id": "User ID: {uid}",
+      "clear_data": "Clear Local Data",
+      "clear_confirm": {
+        "title": "Clear Local Data",
+        "content": "Are you sure you want to clear all local data? This action cannot be undone."
+      }
     }
   },
   "items": {
@@ -192,7 +205,11 @@
   "accessibility": {
     "toggle_menu": "Toggle navigation menu",
     "join_discord": "Join our Discord community",
-    "support_ko_fi": "Support us on Ko-fi"
+    "support_ko_fi": "Support us on Ko-fi",
+    "language_switcher": "Language switcher",
+    "theme_switcher": "Toggle theme",
+    "user_profile_menu": "User profile menu",
+    "scroll_to_top": "Scroll to top"
   },
   "global": {
     "stats": {

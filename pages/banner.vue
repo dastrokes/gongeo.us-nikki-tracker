@@ -74,7 +74,7 @@
                   class="flex flex-col items-center space-y-1 max-w-2xl mx-auto"
                 >
                   <div
-                    class="w-full aspect-[5/2] min-h-[120px] sm:min-h-[200px] relative overflow-hidden rounded-lg"
+                    class="w-full aspect-[2/1] min-h-[140px] sm:min-h-[330px] relative overflow-hidden rounded-lg"
                   >
                     <DynamicImg
                       :src="`/images/banners/${banner.bannerId}.webp`"
@@ -82,7 +82,7 @@
                       class="absolute inset-0 w-full h-full object-cover"
                       format="webp"
                       width="500"
-                      height="200"
+                      height="250"
                       fit="cover"
                       :quality="100"
                       loading="lazy"

@@ -63,7 +63,7 @@
         <div
           v-for="banner in currentBanners"
           :key="banner.bannerId"
-          class="w-full sm:w-1/2 aspect-[5/2] relative overflow-hidden rounded-lg"
+          class="w-full sm:w-1/2 aspect-[2/1] relative overflow-hidden rounded-lg"
         >
           <DynamicImg
             :src="`/images/banners/${banner.bannerId}.webp`"
@@ -71,7 +71,7 @@
             class="absolute inset-0 w-full h-full object-cover"
             format="webp"
             width="500"
-            height="200"
+            height="250"
             fit="cover"
             :quality="100"
             loading="lazy"

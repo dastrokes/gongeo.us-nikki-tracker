@@ -621,6 +621,7 @@
       },
       tooltip: {
         trigger: 'axis',
+        triggerOn: 'click',
         confine: true,
         formatter: function (params) {
           const bannerId = Object.keys(chartData)[params[0].dataIndex]
@@ -987,7 +988,6 @@
       },
       tooltip: {
         trigger: 'item',
-        triggerOn: 'click',
         confine: true,
         formatter: function (params) {
           return `

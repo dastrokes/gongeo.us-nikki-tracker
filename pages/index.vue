@@ -66,16 +66,15 @@
           class="w-full sm:w-1/2 aspect-[5/2] relative overflow-hidden rounded-lg"
         >
           <DynamicImg
-            :src="imageUrl(banner.bannerId)"
+            :src="`/images/banners/${banner.bannerId}.webp`"
             :alt="banner.bannerId.toString()"
             class="absolute inset-0 w-full h-full object-cover"
-            :provider="imageProvider || undefined"
             format="webp"
             width="500"
             height="200"
             fit="cover"
             :quality="100"
-            loading="eager"
+            loading="lazy"
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 75vw, 500px"
           />
         </div>
@@ -90,24 +89,18 @@
   import { useUserStore } from '~/stores/user'
   import { BANNER_DATA } from '~/data/banners'
   import { HourglassHalf } from '@vicons/fa'
-  import { useImageProvider } from '~/composables/useImageProvider'
 
   const { t } = useI18n()
   const userStore = useUserStore()
   const isDark = computed(() => userStore.getCurrentTheme === 'dark')
   const { cardStyle } = useCardStyle()
-  const { imageProvider, getImageUrl } = useImageProvider()
 
   const localePath = useLocalePath()
   const router = useRouter()
 
   const currentBanners = computed(() => {
-    return [BANNER_DATA[19], BANNER_DATA[20]]
+    return [BANNER_DATA[19], BANNER_DATA[21]]
   })
-
-  const imageUrl = (bannerId: number) => {
-    return getImageUrl(`/images/banners/${bannerId}.webp`)
-  }
 
   // Static time calculation
   const targetTime = new Date('2025-06-04T20:00:00Z')

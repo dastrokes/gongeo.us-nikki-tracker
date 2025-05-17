@@ -10,16 +10,35 @@ export const useImageProvider = () => {
   })
 
   const imageProvider = computed(() => {
-    return process.env.NODE_ENV === 'development' ? 'ipx' : 'netlify'
+    return import.meta.dev ? 'ipx' : 'netlify'
   })
 
-  const getImageUrl = (path: string) => {
-    if (isChina.value) {
-      // Use custom CDN for Chinese users
-      const cleanPath = path.startsWith('/') ? path.slice(1) : path
-      return `https://static.gongeo.us/${cleanPath}`
+  const getImageUrl = (
+    path: string,
+    opts?: {
+      width?: number | string
+      height?: number | string
+      quality?: number
+      format?: string
+      fit?: string
     }
-    // For non-Chinese users, return the path as is for Netlify to handle
+  ) => {
+    const cleanPath = path.startsWith('/') ? path.slice(1) : path
+
+    if (isChina.value) {
+      const base = 'https://static.gongeo.us/image'
+      const params = new URLSearchParams({ src: `/${cleanPath}` })
+
+      if (opts?.width) params.append('w', String(opts.width))
+      if (opts?.height) params.append('h', String(opts.height))
+      if (opts?.quality) params.append('q', String(opts.quality))
+      if (opts?.format) params.append('f', opts.format)
+      if (opts?.fit) params.append('fit', opts.fit)
+
+      return `${base}?${params.toString()}`
+    }
+
+    // For Netlify (non-China), let NuxtImg handle transforms
     return path
   }
 

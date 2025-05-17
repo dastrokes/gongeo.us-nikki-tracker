@@ -506,7 +506,7 @@
                         >
                           <span class="text-sm">Last Pull</span>
                           <span class="font-medium">{{
-                            new Date(banner.stats.lastPull).toLocaleDateString()
+                            formatDate(banner.stats.lastPull)
                           }}</span>
                         </div>
                       </div>
@@ -668,6 +668,11 @@
   const userStore = useUserStore()
   const isDark = computed(() => userStore.getCurrentTheme === 'dark')
   const loading = ref(true)
+
+  const formatDate = (dateStr: string) => {
+    const date = new Date(dateStr)
+    return `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')}`
+  }
 
   onMounted(async () => {
     try {

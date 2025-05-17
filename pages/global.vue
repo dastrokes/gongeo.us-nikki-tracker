@@ -175,7 +175,7 @@
             {{ $t('global.stats.data_as_of') }}
           </div>
           <div class="text-xl font-medium mt-1">
-            {{ new Date(data.effective_date).toLocaleDateString() }}
+            {{ formatDate(data.effective_date) }}
           </div>
         </n-card>
       </div>
@@ -466,6 +466,11 @@
 
   // Initialize i18n
   const { t } = useI18n()
+
+  const formatDate = (dateStr) => {
+    const date = new Date(dateStr)
+    return `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')}`
+  }
 
   const loading = ref(true)
   const data = ref(null)
@@ -982,6 +987,7 @@
       },
       tooltip: {
         trigger: 'item',
+        triggerOn: 'click',
         confine: true,
         formatter: function (params) {
           return `

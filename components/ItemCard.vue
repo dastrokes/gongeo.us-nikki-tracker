@@ -34,10 +34,9 @@
         class="min-h-[60px] sm:min-h-[100px] aspect-square"
       >
         <DynamicImg
-          :src="imageUrl"
+          :src="`/images/items/${item.itemId}.webp`"
           :alt="item.itemId"
           class="w-full h-full object-cover aspect-square"
-          :provider="imageProvider || undefined"
           format="webp"
           width="120"
           height="120"
@@ -90,7 +89,6 @@
   import type { PullItem } from '~/types/pull'
   import { useUserStore } from '~/stores/user'
   import { getItemType } from '~/utils/itemType'
-  import { useImageProvider } from '~/composables/useImageProvider'
 
   interface Props {
     item: PullItem
@@ -102,10 +100,4 @@
   const isDark = computed(() => userStore.getCurrentTheme === 'dark')
 
   const itemType = computed(() => getItemType(props.item.itemId))
-
-  const { imageProvider, getImageUrl } = useImageProvider()
-
-  const imageUrl = computed(() => {
-    return getImageUrl(`/images/items/${props.item.itemId}.webp`)
-  })
 </script>

@@ -99,7 +99,7 @@
   const router = useRouter()
 
   const currentBanners = computed(() => {
-    return [BANNER_DATA[19], BANNER_DATA[21]]
+    return [BANNER_DATA[19], BANNER_DATA[20]]
   })
 
   // Static time calculation

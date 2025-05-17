@@ -23,9 +23,9 @@
                     depth="3"
                     class="text-sm"
                   >
-                    {{ new Date(banner.runs[0].start).toLocaleDateString() }}
+                    {{ formatDate(banner.runs[0].start) }}
                     -
-                    {{ new Date(banner.runs[0].end).toLocaleDateString() }}
+                    {{ formatDate(banner.runs[0].end) }}
                   </n-text>
                 </div>
                 <div class="inline-flex flex-col gap-2 items-start">
@@ -77,10 +77,9 @@
                     class="w-full aspect-[5/2] min-h-[120px] sm:min-h-[200px] relative overflow-hidden rounded-lg"
                   >
                     <DynamicImg
-                      :src="imageUrl(banner.bannerId)"
+                      :src="`/images/banners/${banner.bannerId}.webp`"
                       :alt="banner.bannerId.toString()"
                       class="absolute inset-0 w-full h-full object-cover"
-                      :provider="imageProvider || undefined"
                       format="webp"
                       width="500"
                       height="200"
@@ -111,11 +110,15 @@
   import { BANNER_DATA } from '~/data/banners'
   import OUTFIT_DATA from '~/data/outfits'
   import { useCardStyle } from '~/composables/useCardStyle'
-  import { useImageProvider } from '~/composables/useImageProvider'
 
   const { t } = useI18n()
   const { cardStyle } = useCardStyle()
-  const { imageProvider, getImageUrl } = useImageProvider()
+
+  const formatDate = (dateStr: string) => {
+    const date = new Date(dateStr)
+    return `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')}`
+  }
+
   // Sort banners by ID in descending order (newest first)
   const sortedBanners = computed(() => {
     return Object.values(BANNER_DATA).sort((a, b) => b.bannerId - a.bannerId)
@@ -138,9 +141,5 @@
   // Get outfit name by ID
   const getOutfitName = (outfitId: string) => {
     return OUTFIT_DATA[outfitId as keyof typeof OUTFIT_DATA]?.name || outfitId
-  }
-
-  const imageUrl = (bannerId: number) => {
-    return getImageUrl(`/images/banners/${bannerId}.webp`)
   }
 </script>

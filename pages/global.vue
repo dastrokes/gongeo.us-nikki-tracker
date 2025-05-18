@@ -621,7 +621,9 @@
       },
       tooltip: {
         trigger: 'axis',
-        triggerOn: 'click',
+        axisPointer: {
+          snap: true,
+        },
         confine: true,
         formatter: function (params) {
           const bannerId = Object.keys(chartData)[params[0].dataIndex]
@@ -641,9 +643,9 @@
               <div style="margin-top: 5px; text-align: center;">
                 ${t('global.charts.total')}: <strong>${bannerData.total}</strong>
               </div>
-              <img 
-                src="/images/banners/thumbnails/${bannerId}.webp" 
-                alt="${t(`banner.${banner.bannerId}.name`)}" 
+              <img
+                src="/images/banners/thumbnails/${bannerId}.webp"
+                alt="${t(`banner.${banner.bannerId}.name`)}"
                 style="width: 200px; height: 100px; object-fit: cover; border-radius: 4px; margin-top: 8px;"
               />
             </div>

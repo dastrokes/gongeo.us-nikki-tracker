@@ -46,7 +46,7 @@
       "step2": "Open your browser's Developer Tools (Press F12 or right-click and select \"Inspect\")",
       "step3": "Go to the \"Console\" tab",
       "step4": "Copy and paste the following code into the console and press enter:",
-      "step5": "If you get a warning saying \"Warning: Don't paste code into the devtools console\", type \"Allow pasting\" and hit enter or switch to manual input method if you prefer",
+      "step5": "If you get a warning saying \"Warning: Don't paste code into the devtools console\", type \"Allow pasting\" and hit enter",
       "step6": "Copy the output text (it should look like the example in the input area below)",
       "step7": "Come back to gongeo.us, paste the output text in the input area below"
     },

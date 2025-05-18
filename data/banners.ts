@@ -251,7 +251,7 @@ export const BANNER_DATA: BannerData = {
       {
         version: '1.5.1',
         start: '2025-04-29',
-        end: '2025-05-28',
+        end: '2025-06-12',
       },
     ],
   },
@@ -264,7 +264,7 @@ export const BANNER_DATA: BannerData = {
       {
         version: '1.5.1',
         start: '2025-04-29',
-        end: '2025-05-28',
+        end: '2025-06-12',
       },
     ],
   },

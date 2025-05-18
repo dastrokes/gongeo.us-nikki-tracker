@@ -103,7 +103,7 @@
   })
 
   // Static time calculation
-  const targetTime = new Date('2025-06-04T20:00:00Z')
+  const targetTime = new Date('2025-06-12T20:00:00Z')
   const now = new Date()
   const diffInHours = Math.max(
     0,

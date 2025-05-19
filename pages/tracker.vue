@@ -141,7 +141,7 @@
                   :to="globalStats.totalPulls"
                   :duration="3000"
                 />
-                <n-tooltip trigger="hover">
+                <n-tooltip :width="180">
                   <template #trigger>
                     <n-icon
                       class="export-exclude"
@@ -207,7 +207,7 @@
                 />
                 <n-tooltip
                   v-if="globalStats.avg5StarPulls > 0"
-                  trigger="hover"
+                  :width="180"
                 >
                   <template #trigger>
                     <DiceAnimation
@@ -249,7 +249,7 @@
                 />
                 <n-tooltip
                   v-if="globalStats.avg4StarPulls > 0"
-                  trigger="hover"
+                  :width="180"
                 >
                   <template #trigger>
                     <DiceAnimation
@@ -291,7 +291,7 @@
                 />
                 <n-tooltip
                   v-if="globalStats.avg4StarOnlyPulls > 0"
-                  trigger="hover"
+                  :width="180"
                 >
                   <template #trigger>
                     <DiceAnimation

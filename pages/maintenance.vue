@@ -6,13 +6,12 @@
       :style="cardStyle"
     >
       <div class="text-center mb-12">
-        <n-h1 class="font-bold mb-4">Under Maintenance</n-h1>
-        <p class="text-gray-600">
-          We're currently performing some maintenance on our site to improve
-          your experience.
+        <n-h1 class="font-bold mb-4">{{ $t('maintenance.title') }}</n-h1>
+        <p class="text-lg">
+          {{ $t('maintenance.message') }}
         </p>
-        <p class="text-gray-600">
-          We'll be back online shortly. Thank you for your patience!
+        <p class="text-lg">
+          {{ $t('maintenance.status') }}
         </p>
       </div>
 

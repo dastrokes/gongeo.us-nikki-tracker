@@ -104,7 +104,9 @@
       "total_4star_mixed": "4★混合总数",
       "avg_4star_mixed": "4★混合平均",
       "total_4star_only": "4★单池总数",
-      "avg_4star_only": "4★单池平均"
+      "avg_4star_only": "4★单池平均",
+      "luckier": "比 {percent}% 的暖暖共鸣录用户更幸运",
+      "more_pulls": "比 {percent}% 的暖暖共鸣录用户更多"
     },
     "banner": {
       "stats": {
@@ -154,7 +156,7 @@
     },
     "discord": "Discord",
     "ko_fi": "Ko-fi",
-    "copyright": "© 2025 暖暖共鸣录（gongeo.us） © 叠纸游戏 版权所有",
+    "copyright": "© 2025 暖暖共鸣录 © 叠纸游戏 版权所有",
     "disclaimer": {
       "title": "关于本站",
       "content": "这是一个独立的粉丝项目，与叠纸游戏无关，也不受其认可。",
@@ -162,7 +164,8 @@
     },
     "captions": {
       "confirm": "确认",
-      "cancel": "取消"
+      "cancel": "取消",
+      "loading": "加载中..."
     },
     "user_profile": {
       "menu_aria_label": "用户资料菜单",
@@ -315,5 +318,10 @@
       "title": "网站分析",
       "content": "我们采用GoatCounter（隐私优先型分析服务）监测网站访问情况。该服务仅收集匿名数据（如页面访问量、来源网站及基础浏览器信息），且不使用cookie或个人识别码。相关数据仅用于优化网站体验，详情请参阅GoatCounter隐私政策。"
     }
+  },
+  "maintenance": {
+    "title": "网站维护中",
+    "message": "我们正在对网站进行维护，以提供更好的服务体验。",
+    "status": "我们很快就会恢复在线。感谢您的耐心等待！"
   }
 }

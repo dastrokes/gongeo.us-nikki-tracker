@@ -15,7 +15,6 @@
     "title": "gongeo.us",
     "subtitle": "Infinity Nikki Resonance Tracker",
     "description": "Track Infinity Nikki Resonance History and Statistics",
-    "loading": "Loading...",
     "your_data": "Your Data",
     "current_banners": "Current Banners",
     "time_left": "Time Left:",
@@ -105,7 +104,9 @@
       "total_4star_mixed": "4★ Total (4★ Banner)",
       "avg_4star_mixed": "4★ Avg (5★ Banner)",
       "total_4star_only": "4★ Total (4★ Banner)",
-      "avg_4star_only": "4★ Avg (4★ Banner)"
+      "avg_4star_only": "4★ Avg (4★ Banner)",
+      "luckier": "Luckier than {percent}% of the gongeo.us Users",
+      "more_pulls": "More than {percent}% of the gongeo.us Users"
     },
     "banner": {
       "stats": {
@@ -163,7 +164,8 @@
     },
     "captions": {
       "confirm": "Confirm",
-      "cancel": "Cancel"
+      "cancel": "Cancel",
+      "loading": "Loading..."
     },
     "user_profile": {
       "menu_aria_label": "User profile menu",
@@ -316,5 +318,10 @@
       "title": "Analytics and Tracking",
       "content": "We use GoatCounter, a privacy-friendly analytics service, to track website interactions. It collects anonymized data like page views, referring sites, and basic browser information, without using cookies or personal identifiers. This helps us improve the website experience. For more details, see GoatCounter's privacy policy."
     }
+  },
+  "maintenance": {
+    "title": "Under Maintenance",
+    "message": "We're currently performing some maintenance on our site to improve your experience.",
+    "status": "We'll be back online shortly. Thank you for your patience!"
   }
 }

@@ -46,18 +46,6 @@
         <div class="text-2xl font-bold font-sans">
           {{ $t('index.current_banners') }}
         </div>
-        <n-tag
-          round
-          :bordered="false"
-          size="small"
-          >{{ $t('index.time_left') }} {{ formattedTime }}
-          <template #icon>
-            <n-icon
-              size="12"
-              :component="HourglassHalf"
-            />
-          </template>
-        </n-tag>
       </div>
       <div class="flex flex-col sm:flex-row gap-4">
         <div
@@ -65,6 +53,19 @@
           :key="banner.bannerId"
           class="w-full sm:w-1/2 aspect-[2/1] relative overflow-hidden rounded-lg"
         >
+          <n-tag
+            round
+            :bordered="false"
+            size="small"
+            class="absolute top-2 left-2 z-10 opacity-80 scale-90 sm:scale-100 origin-top-left"
+            >{{ $t('index.time_left') }} {{ formattedTime }}
+            <template #icon>
+              <n-icon
+                size="12"
+                :component="HourglassHalf"
+              />
+            </template>
+          </n-tag>
           <DynamicImg
             :src="`/images/banners/${banner.bannerId}.webp`"
             :alt="banner.bannerId.toString()"

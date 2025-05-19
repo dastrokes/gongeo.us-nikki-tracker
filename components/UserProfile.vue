@@ -31,8 +31,7 @@
   const userStore = useUserStore()
   const pullStore = usePullStore()
   const { clearPullData } = useIndexedDB()
-  const localePath = useLocalePath()
-  const router = useRouter()
+
   const dropdownOptions = computed(() => [
     {
       label: t('common.user_profile.user_id', {

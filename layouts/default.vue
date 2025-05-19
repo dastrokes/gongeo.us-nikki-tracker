@@ -112,18 +112,6 @@
       <n-tooltip
         trigger="hover"
         placement="top"
-        :theme-overrides="{
-          common: {
-            borderRadius: '8px',
-          },
-          peers: {
-            Popover: {
-              color: '#ffffff',
-              textColor: '#000000',
-              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.12)',
-            },
-          },
-        }"
       >
         <template #trigger>
           <p class="cursor-help">

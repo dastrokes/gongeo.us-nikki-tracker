@@ -523,7 +523,9 @@
                     <div class="p-4 w-[200px]">
                       <div class="space-y-2">
                         <div class="flex justify-between">
-                          <span class="text-sm">Total Pulls</span>
+                          <span class="text-sm">
+                            {{ t('tracker.banner.stats.total_pulls') }}
+                          </span>
                           <span class="font-medium">{{
                             banner.stats.totalPulls
                           }}</span>
@@ -532,7 +534,9 @@
                           v-if="hasBothRarities(banner.bannerId)"
                           class="flex justify-between"
                         >
-                          <span class="text-sm">5★ Total</span>
+                          <span class="text-sm">
+                            {{ t('tracker.banner.stats.total_5star') }}
+                          </span>
                           <span class="font-medium text-amber-600">{{
                             banner.stats.total5StarItems
                           }}</span>
@@ -541,7 +545,9 @@
                           v-if="hasBothRarities(banner.bannerId)"
                           class="flex justify-between"
                         >
-                          <span class="text-sm">5★ Average</span>
+                          <span class="text-sm">
+                            {{ t('tracker.banner.stats.avg_5star') }}
+                          </span>
                           <span class="font-medium text-amber-600">{{
                             banner.stats.avg5StarPulls.toFixed(2)
                           }}</span>
@@ -553,16 +559,34 @@
                           "
                           class="flex justify-between"
                         >
-                          <span class="text-sm">5★ Pity</span>
+                          <span class="text-sm">
+                            {{ t('tracker.banner.stats.pity_5star') }}
+                          </span>
                           <span class="font-medium">{{
                             banner.stats.pity5Star
+                          }}</span>
+                        </div>
+                        <div
+                          v-if="
+                            !hasBothRarities(banner.bannerId) &&
+                            !banner.isComplete
+                          "
+                          class="flex justify-between"
+                        >
+                          <span class="text-sm">
+                            {{ t('tracker.banner.stats.pity_4star') }}
+                          </span>
+                          <span class="font-medium">{{
+                            banner.stats.pity4Star
                           }}</span>
                         </div>
                         <div
                           v-if="hasBothRarities(banner.bannerId)"
                           class="flex justify-between"
                         >
-                          <span class="text-sm">4★ Mixed Total</span>
+                          <span class="text-sm">
+                            {{ t('tracker.banner.stats.total_4star_mixed') }}
+                          </span>
                           <span class="font-medium text-blue-600">{{
                             banner.stats.total4StarItems
                           }}</span>
@@ -571,7 +595,9 @@
                           v-if="hasBothRarities(banner.bannerId)"
                           class="flex justify-between"
                         >
-                          <span class="text-sm">4★ Mixed Avg</span>
+                          <span class="text-sm">
+                            {{ t('tracker.banner.stats.avg_4star_mixed') }}
+                          </span>
                           <span class="font-medium text-blue-600">{{
                             banner.stats.avg4StarPulls.toFixed(2)
                           }}</span>
@@ -580,7 +606,9 @@
                           v-if="is4StarOnlyBanner(banner.bannerId)"
                           class="flex justify-between"
                         >
-                          <span class="text-sm">4★ Only Total</span>
+                          <span class="text-sm">
+                            {{ t('tracker.banner.stats.total_4star_only') }}
+                          </span>
                           <span class="font-medium text-blue-600">{{
                             banner.stats.total4StarOnlyItems
                           }}</span>
@@ -589,18 +617,11 @@
                           v-if="is4StarOnlyBanner(banner.bannerId)"
                           class="flex justify-between"
                         >
-                          <span class="text-sm">4★ Only Average</span>
+                          <span class="text-sm">
+                            {{ t('tracker.banner.stats.avg_4star_only') }}
+                          </span>
                           <span class="font-medium text-blue-600">{{
                             banner.stats.avg4StarOnlyPulls.toFixed(2)
-                          }}</span>
-                        </div>
-                        <div
-                          v-if="banner.stats?.lastPull"
-                          class="flex justify-between"
-                        >
-                          <span class="text-sm">Last Pull</span>
-                          <span class="font-medium">{{
-                            formatDate(banner.stats.lastPull)
                           }}</span>
                         </div>
                       </div>
@@ -765,11 +786,6 @@
   const userStore = useUserStore()
   const isDark = computed(() => userStore.getCurrentTheme === 'dark')
   const loading = ref(true)
-
-  const formatDate = (dateStr: string) => {
-    const date = new Date(dateStr)
-    return `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')}`
-  }
 
   onMounted(async () => {
     try {

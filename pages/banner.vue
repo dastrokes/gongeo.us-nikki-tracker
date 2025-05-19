@@ -23,9 +23,15 @@
                     depth="3"
                     class="text-sm"
                   >
-                    {{ formatDate(banner.runs[0].start) }}
+                    <n-time
+                      :time="banner.runs[0].start"
+                      type="date"
+                    />
                     -
-                    {{ formatDate(banner.runs[0].end) }}
+                    <n-time
+                      :time="banner.runs[0].end"
+                      type="date"
+                    />
                   </n-text>
                 </div>
                 <div class="inline-flex flex-col gap-2 items-start">
@@ -113,11 +119,6 @@
 
   const { t } = useI18n()
   const { cardStyle } = useCardStyle()
-
-  const formatDate = (dateStr: string) => {
-    const date = new Date(dateStr)
-    return `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')}`
-  }
 
   // Sort banners by ID in descending order (newest first)
   const sortedBanners = computed(() => {

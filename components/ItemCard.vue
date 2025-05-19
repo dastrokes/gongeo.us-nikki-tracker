@@ -1,19 +1,5 @@
 <template>
-  <n-tooltip
-    placement="top"
-    :theme-overrides="{
-      common: {
-        borderRadius: '8px',
-      },
-      peers: {
-        Popover: {
-          color: '#ffffff',
-          textColor: '#000000',
-          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.12)',
-        },
-      },
-    }"
-  >
+  <n-tooltip placement="top">
     <template #trigger>
       <n-card
         :class="[
@@ -71,12 +57,12 @@
     <template #default>
       <div class="text-center">
         <div class="font-medium">{{ t(item.itemName) }}</div>
-        <div class="text-sm text-gray-400">
+        <div class="text-sm">
           {{ t(`items.types.${itemType}`) }}
         </div>
         <div
           v-if="item.obtained"
-          class="text-sm mt-1 text-gray-600"
+          class="text-sm mt-1"
         >
           {{ t('common.pull', { number: item.pullIndex }) }}
         </div>

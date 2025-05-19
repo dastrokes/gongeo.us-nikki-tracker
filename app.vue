@@ -99,6 +99,22 @@
         ? 'rgba(255, 255, 255, 0.09)'
         : 'rgb(243, 243, 245)',
     },
+    Tooltip: {
+      common: {
+        borderRadius: '8px',
+      },
+      peers: {
+        Popover: {
+          color: isDark.value
+            ? 'rgb(75, 85, 99, 0.9)'
+            : 'rgba(255, 255, 255, 0.9)',
+          textColor: isDark.value ? '#E5E7EB' : '#303030',
+          boxShadow: isDark.value
+            ? '0 2px 8px rgba(200, 200, 200, 0.12)'
+            : '0 2px 8px rgba(0, 0, 0, 0.12)',
+        },
+      },
+    },
   }))
 
   // Ensure theme is initialized on client-side

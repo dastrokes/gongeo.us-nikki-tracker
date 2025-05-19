@@ -133,12 +133,32 @@
               <div class="text-sm text-gray-400">
                 {{ t('tracker.stats.total_pulls') }}
               </div>
-              <div class="text-xl font-medium mt-1">
+              <div
+                class="text-xl font-medium mt-1 flex items-center justify-center gap-2"
+              >
                 <n-number-animation
                   :from="0"
                   :to="globalStats.totalPulls"
                   :duration="3000"
                 />
+                <n-tooltip trigger="hover">
+                  <template #trigger>
+                    <n-icon
+                      class="export-exclude"
+                      size="20"
+                      depth="3"
+                    >
+                      <users />
+                    </n-icon>
+                  </template>
+                  {{
+                    t('tracker.stats.more_pulls', {
+                      percent: getTotalPullsPercentile(
+                        globalStats.totalPulls
+                      ).toFixed(1),
+                    })
+                  }}
+                </n-tooltip>
               </div>
             </n-card>
 
@@ -176,13 +196,37 @@
               <div class="text-sm text-gray-400">
                 {{ t('tracker.stats.avg_5star') }}
               </div>
-              <div class="text-xl font-medium mt-1">
+              <div
+                class="text-xl font-medium mt-1 flex items-center justify-center gap-2"
+              >
                 <n-number-animation
                   :from="0"
                   :to="globalStats.avg5StarPulls"
                   :duration="1000"
                   :precision="2"
                 />
+                <n-tooltip
+                  v-if="globalStats.avg5StarPulls > 0"
+                  trigger="hover"
+                >
+                  <template #trigger>
+                    <DiceAnimation
+                      class="export-exclude"
+                      :final-value="
+                        getLuckDice(
+                          getAvg5StarPercentile(globalStats.avg5StarPulls)
+                        )
+                      "
+                    />
+                  </template>
+                  {{
+                    t('tracker.stats.luckier', {
+                      percent: getAvg5StarPercentile(
+                        globalStats.avg5StarPulls
+                      ).toFixed(1),
+                    })
+                  }}
+                </n-tooltip>
               </div>
             </n-card>
 
@@ -194,13 +238,37 @@
               <div class="text-sm text-gray-400">
                 {{ t('tracker.stats.avg_4star_mixed') }}
               </div>
-              <div class="text-xl font-medium mt-1">
+              <div
+                class="text-xl font-medium mt-1 flex items-center justify-center gap-2"
+              >
                 <n-number-animation
                   :from="0"
                   :to="globalStats.avg4StarPulls"
                   :duration="1000"
                   :precision="2"
                 />
+                <n-tooltip
+                  v-if="globalStats.avg4StarPulls > 0"
+                  trigger="hover"
+                >
+                  <template #trigger>
+                    <DiceAnimation
+                      class="export-exclude"
+                      :final-value="
+                        getLuckDice(
+                          getAvg4StarType2Percentile(globalStats.avg4StarPulls)
+                        )
+                      "
+                    />
+                  </template>
+                  {{
+                    t('tracker.stats.luckier', {
+                      percent: getAvg4StarType2Percentile(
+                        globalStats.avg4StarPulls
+                      ).toFixed(1),
+                    })
+                  }}
+                </n-tooltip>
               </div>
             </n-card>
 
@@ -212,13 +280,39 @@
               <div class="text-sm text-gray-400">
                 {{ t('tracker.stats.avg_4star_only') }}
               </div>
-              <div class="text-xl font-medium mt-1">
+              <div
+                class="text-xl font-medium mt-1 flex items-center justify-center gap-2"
+              >
                 <n-number-animation
                   :from="0"
                   :to="globalStats.avg4StarOnlyPulls"
                   :duration="1000"
                   :precision="2"
                 />
+                <n-tooltip
+                  v-if="globalStats.avg4StarOnlyPulls > 0"
+                  trigger="hover"
+                >
+                  <template #trigger>
+                    <DiceAnimation
+                      class="export-exclude"
+                      :final-value="
+                        getLuckDice(
+                          getAvg4StarType3Percentile(
+                            globalStats.avg4StarOnlyPulls
+                          )
+                        )
+                      "
+                    />
+                  </template>
+                  {{
+                    t('tracker.stats.luckier', {
+                      percent: getAvg4StarType3Percentile(
+                        globalStats.avg4StarOnlyPulls
+                      ).toFixed(1),
+                    })
+                  }}
+                </n-tooltip>
               </div>
             </n-card>
 
@@ -648,6 +742,7 @@
     Star,
     FileImageRegular,
     FileExport,
+    Users,
   } from '@vicons/fa'
   import { useMessage } from 'naive-ui'
   import { BANNER_DATA } from '~/data/banners'
@@ -656,6 +751,8 @@
   import type { PullItem } from '~/types/pull'
   import { useCardStyle } from '~/composables/useCardStyle'
   import { toPng } from 'html-to-image'
+  import { usePercentile } from '~/composables/usePercentile'
+  import DiceAnimation from '~/components/DiceAnimation.vue'
 
   const router = useRouter()
   const message = useMessage()
@@ -676,21 +773,18 @@
 
   onMounted(async () => {
     try {
-      // Check if we have data in IndexedDB
       loading.value = true
+
+      // Check if we have data in IndexedDB
       await loadPullData()
       if (hasData.value) {
         await pullStore.processPullsData(data.value)
-      } else {
-        loading.value = false
       }
+
+      loading.value = false
     } catch (error) {
       console.error('Failed to load resonance data:', error)
       message.error('Failed to load resonance data. Please try again.')
-    } finally {
-      if (hasData.value) {
-        loading.value = false
-      }
     }
   })
 
@@ -785,6 +879,22 @@
     return Object.values(processedPulls.value).some(
       (banner) => banner.outfits.length > 1
     )
+  }
+
+  const {
+    getAvg5StarPercentile,
+    getAvg4StarType2Percentile,
+    getAvg4StarType3Percentile,
+    getTotalPullsPercentile,
+  } = usePercentile()
+
+  const getLuckDice = (percentile: number) => {
+    if (percentile < 100 / 6) return 1
+    if (percentile < 200 / 6) return 2
+    if (percentile < 300 / 6) return 3
+    if (percentile < 400 / 6) return 4
+    if (percentile < 500 / 6) return 5
+    return 6
   }
 
   const exportPNG = async () => {

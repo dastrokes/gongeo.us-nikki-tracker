@@ -97,7 +97,6 @@ export const usePullStore = defineStore('pull', {
 
     async processPullsData(pullsByBanner: Record<number, PullRecord[]>) {
       if (this.isProcessing) return
-
       this.isProcessing = true
       this.rawPullData = pullsByBanner
 
@@ -253,14 +252,20 @@ export const usePullStore = defineStore('pull', {
                 this.globalStats.totalPulls = Object.values(
                   pullsByBanner
                 ).reduce((sum, pulls) => sum + pulls.length, 0)
-                if (rarity === 5) {
-                  total5Star++
-                  fiveStarPullsToObtain += pullsToObtain
-                  fiveStarCount++
-                } else if (rarity === 4) {
-                  total4Star++
-                  fourStarPullsToObtain += pullsToObtain
-                  fourStarCount++
+                if (bannerInfo.bannerType == 2) {
+                  if (rarity == 5) {
+                    total5Star++
+                    fiveStarPullsToObtain += pullsToObtain
+                    fiveStarCount++
+                  } else if (rarity == 4) {
+                    total4Star++
+                    fourStarPullsToObtain += pullsToObtain
+                    fourStarCount++
+                  }
+                } else if (bannerInfo.bannerType == 3) {
+                  total4StarOnly++
+                  fourStarOnlyPullsToObtain += pullsToObtain
+                  fourStarOnlyCount++
                 }
               }
             }
@@ -312,16 +317,11 @@ export const usePullStore = defineStore('pull', {
             stats.total5StarItems = fiveStarPulls.length
             stats.total4StarOnlyItems = 0 // Reset for type 2 banners
 
-            // Add to global counters for mixed banner 4★ items
-            fourStarPullsToObtain += fourStarPulls.reduce(
-              (sum: number, item: PullItem) => sum + item.pullsToObtain,
-              0
-            )
-
             stats.total4StarPulls = fourStarPulls.reduce(
               (sum: number, item: PullItem) => sum + item.pullsToObtain,
               0
             )
+
             stats.avg4StarPulls =
               fourStarPulls.length > 0
                 ? stats.total4StarPulls / fourStarPulls.length
@@ -347,12 +347,6 @@ export const usePullStore = defineStore('pull', {
             stats.avg4StarPulls = 0 // Reset mixed banner stats
             stats.avg5StarPulls = 0 // Reset 5★ stats
 
-            total4StarOnly += fourStarPulls.length
-            fourStarOnlyPullsToObtain += fourStarPulls.reduce(
-              (sum: number, item: PullItem) => sum + item.pullsToObtain,
-              0
-            )
-            fourStarOnlyCount += fourStarPulls.length
             stats.total4StarOnlyPulls = fourStarPulls.reduce(
               (sum: number, item: PullItem) => sum + item.pullsToObtain,
               0

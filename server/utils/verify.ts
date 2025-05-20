@@ -25,8 +25,7 @@ export function verifySignature(
   timestamp: number,
   payload: UserBannerStats[]
 ): boolean {
-  const config = useRuntimeConfig()
-  const apiKey = config.public.gongeousApiKey || 'api-key'
+  const apiKey = useRuntimeConfig().public.gongeousApiKey || 'api-key'
   const expectedSignature = generateSignature(timestamp, payload, apiKey)
   return signature === expectedSignature
 }

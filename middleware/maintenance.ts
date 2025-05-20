@@ -1,5 +1,5 @@
 export default defineNuxtRouteMiddleware(() => {
-  const isMaintenanceMode = process.env.MAINTENANCE === 'true'
+  const isMaintenanceMode = useRuntimeConfig().public.maintenance === 'true'
   const route = useRoute()
 
   // Allow the maintenance page itself to be accessed

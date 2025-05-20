@@ -177,6 +177,13 @@
         "title": "Clear Local Data",
         "content": "Are you sure you want to clear all local data? This action cannot be undone."
       }
+    },
+    "regions": {
+      "america": "America",
+      "europe": "Europe",
+      "china": "China",
+      "tw": "TW/HK/Macau",
+      "asia": "Asia"
     }
   },
   "items": {
@@ -255,7 +262,7 @@
       },
       "ban_risk": {
         "question": "Will I get banned for using this?",
-        "answer": "This is a third-party tool, so there is always some risk, though it is ultimately up to Infold Games. However, similar tools are widely used in other gacha games (Paimon.moe, Starrailstation, wuwatracker etc.) and also in the Chinese community of Infinity Nikki (小黑盒 游创工坊). Take this information as a reference, and make your own judgement."
+        "answer": "This is a third-party tool, so there is always some risk, though it is ultimately up to Infold Games. However, similar tools are widely used in other gacha games (Paimon.moe、Star Rail Station、WuWa Tracker etc.) and also in the Chinese community of Infinity Nikki (小黑盒 游创工坊). Take this information as a reference, and make your own judgement."
       },
       "data_storage": {
         "question": "What data are you storing?",
@@ -270,7 +277,7 @@
         "answer": "Yes, it does not matter which platform you play on, as long as you log into the Pearpal website on PC using the same account. If you want to do the import on mobile, you will need a browser extension to access cookies, since Developer Tools are not available on mobile, I am able to import using Firefox on Android but the process is not user-friendly thus not recommended."
       },
       "cookie_script": {
-        "question": "Do I need to run a script to get my cookies?",
+        "question": "Do I have to run a script to get my cookies?",
         "answer": "No, you can get them manually. Open Dev Tools, go to Application > Cookies > https://pearpal.infoldgames.com/, and look for the cookie names you need. Check manual input instructions in the import page for more details."
       },
       "no_pulls": {
@@ -289,35 +296,34 @@
   },
   "about": {
     "title": "Disclaimer and Privacy Policy",
-    "lastUpdated": "Last updated: {date}",
     "infinityNikkiAssets": {
-      "title": "Infinity Nikki Assets Disclaimer",
-      "content": "gongeo.us is an independent fan-made platform with no affiliation, endorsement, or partnership with Infinity Nikki or Infold Games. All official game assets, visuals, and content are the sole property of Infold Games and are used here for community and educational purposes only. We do not claim any rights to this content.",
-      "acknowledgment": "By using this platform, you acknowledge that it is unaffiliated with the game's developers and that you accept any risks involved with accessing unofficial or third-party content."
+      "title": "Platform and Content Disclaimer",
+      "content": "gongeo.us is an independent fan-operated platform and is not affiliated, endorsed, or partnered with Infinity Nikki or Infold Games. All official game assets, visuals, and related content are the exclusive property of Infold Games and are used here solely for community sharing and educational purposes. We do not claim any ownership or rights over this content.",
+      "acknowledgment": "By using this platform, you acknowledge its unofficial status and accept all risks associated with accessing third-party or unofficial content."
     },
     "dataAndStats": {
       "title": "Data and Statistics Disclaimer",
-      "content": "All gameplay statistics and data presented through gongeo.us are user-generated and shared voluntarily. They are not sourced from Infold Games and should not be interpreted as official game information. The data reflects only a subset of the player base and may not accurately represent the broader community or trends.",
-      "insights": "Insights offered are for informational use and should be viewed with an understanding of their community-driven nature."
+      "content": "All gameplay statistics and data presented on gongeo.us are voluntarily contributed by users and are not sourced from Infold Games. These data sets represent only a small portion of the player community and may not fully reflect overall player behavior or game trends.",
+      "insights": "Any insights or conclusions drawn from the data are for informational purposes only and should be considered in light of their community-driven nature."
     },
     "intellectualProperty": {
       "title": "Intellectual Property",
-      "content": "gongeo.us is a standalone fan project. All Infinity Nikki-related trademarks, game content, and intellectual property remain the rights of Infold Games and their licensors.",
-      "siteContent": "Unless otherwise specified, the site's original code, design, and custom assets are owned by the gongeo.us and protected under applicable copyright and intellectual property laws. You may not copy, reuse, or distribute this material without express permission.",
-      "usage": "This platform is provided \"as-is\" for personal and non-commercial use only."
+      "content": "gongeo.us is an independent fan project. All trademarks, game content, and intellectual property related to Infinity Nikki remain the sole property of Infold Games and their licensors.",
+      "siteContent": "Except where explicitly stated otherwise, all original code, site design, and custom assets on this platform are owned by gongeo.us and protected by applicable copyright and intellectual property laws. Unauthorized copying, reuse, or distribution is prohibited without written permission.",
+      "usage": "This platform is provided \"as-is\" and intended solely for personal, non-commercial use."
     },
     "dataCollection": {
       "title": "Data Collection and Storage",
-      "content": "We collect minimal information to provide our service. We do not collect or store any personal information or cookies. Cookies and UID you submitted will only be sent to Infold server to verify your account and retrieve your pull history.",
-      "pullHistory": "Your pull history is stored locally in your browser. Your pull statistics will be used to calculate global stats if you opt in. The pull statistics you send will include a hashed version of your UID, and the information of 4* and 5* items you pulled."
+      "content": "We collect only minimal data necessary to operate our service. We do not collect or store any personal information or tracking cookies. Any cookies and UID you provide are transmitted solely to Infold Games' servers to verify your account and retrieve your pull history.",
+      "pullHistory": "Your pull history data is stored locally in your browser. If you opt in to share data, your pull statistics—including a hashed version of your UID and details of 4-star and 5-star items pulled—will be used to calculate community-wide statistics."
     },
     "dataSecurity": {
       "title": "Data Security",
-      "content": "Your data is stored locally in your browser. While we implement security measures, please note that no method of transmission over the internet is 100% secure."
+      "content": "All user data is stored locally within your browser. While we take reasonable security measures, please be aware that no internet transmission can be guaranteed as completely secure."
     },
     "analytics": {
       "title": "Analytics and Tracking",
-      "content": "We use GoatCounter, a privacy-friendly analytics service, to track website interactions. It collects anonymized data like page views, referring sites, and basic browser information, without using cookies or personal identifiers. This helps us improve the website experience. For more details, see GoatCounter's privacy policy."
+      "content": "We utilize GoatCounter, a privacy-focused analytics service, to monitor website usage. It collects only anonymized information such as page views, referrer URLs, and basic browser data without using cookies or personal identifiers. This data helps us improve your experience. For more information, please see GoatCounter's privacy policy."
     }
   },
   "maintenance": {

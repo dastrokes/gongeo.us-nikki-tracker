@@ -69,6 +69,7 @@ export default defineNuxtConfig({
       gongeousApiKey: process.env.GONGEOUS_API_KEY,
       siteUrl:
         process.env.NUXT_PUBLIC_SITE_URL || 'https://gongeous.netlify.app/',
+      maintenance: process.env.NUXT_PUBLIC_MAINTENANCE || 'false',
     },
   },
 

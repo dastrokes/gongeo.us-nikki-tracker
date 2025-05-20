@@ -67,23 +67,19 @@ export default defineNuxtConfig({
       supabaseUrl: process.env.SUPABASE_DATABASE_URL,
       supabaseAnonKey: process.env.SUPABASE_ANON_KEY,
       gongeousApiKey: process.env.GONGEOUS_API_KEY,
-      siteUrl:
-        process.env.NUXT_PUBLIC_SITE_URL || 'https://gongeous.netlify.app/',
-      maintenance: process.env.NUXT_PUBLIC_MAINTENANCE || 'false',
+      siteUrl: process.env.NUXT_PUBLIC_SITE_URL,
     },
   },
 
   site: {
-    url: process.env.NUXT_PUBLIC_SITE_URL || 'https://gongeous.netlify.app/',
-    name: 'gongeo.us Infinity Nikki Resonance Tracker',
+    url: process.env.NUXT_PUBLIC_SITE_URL,
   },
 
   image: {
     dir: 'public',
     provider: process.env.NODE_ENV === 'development' ? 'ipx' : 'netlify',
     static: {
-      baseURL:
-        process.env.NUXT_PUBLIC_SITE_URL || 'https://gongeous.netlify.app/',
+      baseURL: process.env.NUXT_PUBLIC_SITE_URL,
     },
     screens: {
       xs: 320,

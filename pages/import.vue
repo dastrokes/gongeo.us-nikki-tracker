@@ -1,6 +1,7 @@
 <template>
   <div class="max-w-7xl mx-auto space-y-4">
     <n-card
+      v-if="!isMaintenanceMode"
       size="small"
       class="rounded-xl p-0 sm:p-2"
       :style="cardStyle"
@@ -415,6 +416,39 @@
         </div>
       </div>
     </n-card>
+
+    <n-card
+      v-if="isMaintenanceMode"
+      size="small"
+      class="rounded-xl p-0 sm:p-2"
+      :style="cardStyle"
+    >
+      <div class="text-center mb-12">
+        <n-h1 class="font-bold mb-4">{{ $t('maintenance.title') }}</n-h1>
+        <p class="text-lg">
+          {{ $t('maintenance.message') }}
+        </p>
+        <p class="text-lg">
+          {{ $t('maintenance.status') }}
+        </p>
+      </div>
+
+      <n-space
+        justify="center"
+        class="mt-12"
+      >
+        <n-button
+          tag="a"
+          href="https://discord.gg/qymsW3j4Zw"
+          target="_blank"
+        >
+          <template #icon>
+            <n-icon><Discord /></n-icon>
+          </template>
+          Discord
+        </n-button>
+      </n-space>
+    </n-card>
   </div>
 </template>
 
@@ -432,19 +466,20 @@
   import { useBannerPullData } from '~/composables/useBannerPullData'
   import { usePullStore } from '~/stores/pull'
   import { useUserStore, Region } from '~/stores/user'
-  import { Paste, Check, CheckCircle } from '@vicons/fa'
+  import { Paste, Check, CheckCircle, Discord } from '@vicons/fa'
   import { BANNER_DATA } from '~/data/banners'
   import { useCardStyle } from '~/composables/useCardStyle'
   import type { VNodeChild } from 'vue'
 
   const { t } = useI18n()
+  const isMaintenanceMode = true
 
   const REGION_LABELS = {
-    [Region.AMERICA]: 'America',
-    [Region.EUROPE]: 'Europe',
-    [Region.CHINA]: 'China',
-    [Region.TW]: 'TW/HK/Macau',
-    [Region.ASIA]: 'Asia',
+    [Region.AMERICA]: t('common.regions.america'),
+    [Region.EUROPE]: t('common.regions.europe'),
+    [Region.CHINA]: t('common.regions.china'),
+    [Region.TW]: t('common.regions.tw'),
+    [Region.ASIA]: t('common.regions.asia'),
   } as const
 
   const consoleScript = `console.log(JSON.stringify({

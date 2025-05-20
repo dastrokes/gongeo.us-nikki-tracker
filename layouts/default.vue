@@ -206,8 +206,7 @@
   const route = useRoute()
   const router = useRouter()
 
-  const config = useRuntimeConfig()
-  const siteUrl = config.public.siteUrl || 'https://gongeous.netlify.app/'
+  const siteUrl = useRuntimeConfig().public.siteUrl
 
   useHead({
     htmlAttrs: {

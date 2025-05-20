@@ -5,8 +5,7 @@ export const useUserBannerStats = () => {
     timestamp: number,
     payload: UserBannerStats[]
   ) => {
-    const config = useRuntimeConfig()
-    const apiKey = config.public.gongeousApiKey || 'api-key'
+    const apiKey = useRuntimeConfig().public.gongeousApiKey || 'api-key'
     const encoder = new TextEncoder()
     const keyData = encoder.encode(apiKey)
     const msgData = encoder.encode(`${timestamp}${JSON.stringify(payload)}`)

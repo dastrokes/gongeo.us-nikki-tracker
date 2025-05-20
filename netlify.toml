@@ -4,20 +4,6 @@
 [build.environment]
   NODE_VERSION = "20.19.1"
 
-# Redirect to maintenance page
-[[redirects]]
-  from = "/*"
-  to = "/maintenance"
-  status = 302
-  force = true
-
-# Redirect API calls to serverless function
-[[redirects]]
-  from = "/api/*"
-  to = "/.netlify/functions/server/:splat"
-  status = 200
-  force = true
-
 # Headers: Netlify Image CDN caching
 [[headers]]
   for = "/.netlify/images/*"

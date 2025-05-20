@@ -1,7 +1,8 @@
 import { defineEventHandler, sendRedirect, getRequestURL } from 'h3'
 
 export default defineEventHandler((event) => {
-  const isMaintenanceMode = useRuntimeConfig().public.maintenance === 'true'
+  const config = useRuntimeConfig()
+  const isMaintenanceMode = config.public.maintenance
 
   // Allow API requests and the maintenance page itself to go through
   const url = getRequestURL(event).pathname

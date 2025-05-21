@@ -96,6 +96,7 @@
                 :value="userStore.getRegion"
                 :options="regionOptions"
                 :placeholder="$t('import.select_region_desc')"
+                :show-checkmark="false"
                 class="max-w-full"
                 @update:value="userStore.setRegion"
               />
@@ -119,7 +120,7 @@
                   class="text-blue-600 hover:text-blue-800 underline"
                   href="https://myl.nuanpaper.com/home"
                   target="_blank"
-                  >美鸭梨</a
+                  >{{ $t('import.pearpal_website') }}</a
                 >
               </div>
               <div v-else>
@@ -128,7 +129,7 @@
                   class="text-blue-600 hover:text-blue-800 underline"
                   href="https://pearpal.infoldgames.com/en/home"
                   target="_blank"
-                  >Pearpal Website</a
+                  >{{ $t('import.pearpal_website') }}</a
                 >
               </div>
             </div>

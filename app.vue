@@ -99,6 +99,13 @@
         ? 'rgba(255, 255, 255, 0.09)'
         : 'rgb(243, 243, 245)',
     },
+    Select: {
+      peers: {
+        InternalSelectMenu: {
+          color: isDark.value ? '#3a424d' : '#faf5ff',
+        },
+      },
+    },
     Tooltip: {
       common: {
         borderRadius: '8px',

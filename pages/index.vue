@@ -53,7 +53,7 @@
           <div
             v-for="banner in current5StarBanners"
             :key="banner.bannerId"
-            class="w-full sm:w-1/2 aspect-[2/1] relative overflow-hidden rounded-lg"
+            class="w-full sm:w-1/2 aspect-[2/1] relative overflow-hidden rounded-xl"
           >
             <n-tag
               round
@@ -87,13 +87,13 @@
           <div
             v-for="banner in current4StarBanners"
             :key="banner.bannerId"
-            class="w-full sm:w-1/3 aspect-[2/1] relative overflow-hidden rounded-lg"
+            class="w-full sm:w-1/3 aspect-[2/1] relative overflow-hidden rounded-xl"
           >
             <n-tag
               round
               :bordered="false"
               size="small"
-              class="absolute top-2 right-2 z-10 opacity-80 scale-90 sm:scale-100 origin-top-left"
+              class="absolute top-1 right-1 z-10 opacity-80 scale-80 sm:scale-90 origin-top-right"
               >{{ $t('index.time_left') }} {{ formattedTime }}
               <template #icon>
                 <n-icon
@@ -107,7 +107,7 @@
               round
               :bordered="false"
               size="small"
-              class="absolute top-2 left-2 z-10 opacity-80 scale-90 sm:scale-100 origin-top-left"
+              class="absolute top-1 left-1 z-10 opacity-80 scale-80 sm:scale-90 origin-top-left"
               >{{ $t('index.rerun') }}
             </n-tag>
             <DynamicImg

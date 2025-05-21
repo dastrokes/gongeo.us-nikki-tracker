@@ -497,18 +497,16 @@
   }
 
   // Add banner selector related refs
-  const selectedBannerId = ref(Object.keys(BANNER_DATA).pop())
+  const selectedBannerId = ref(
+    Number(Object.keys(BANNER_DATA)[Object.keys(BANNER_DATA).length - 3])
+  )
   const bannerOptions = computed(() => {
-    if (!data.value?.first_item_distribution) return []
-
-    return Object.keys(data.value.first_item_distribution)
-      .map((id) => {
-        const banner = BANNER_DATA[parseInt(id)]
-        return {
-          label: t(`banner.${banner.bannerId}.name`),
-          value: id,
-        }
-      })
+    return Object.entries(BANNER_DATA)
+      .map(([id, banner]) => ({
+        label: t(`banner.${banner.bannerId}.name`),
+        value: Number(id),
+      }))
+      .filter((banner) => banner.value !== 21 && banner.value !== 22)
       .reverse()
   })
 

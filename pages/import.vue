@@ -485,7 +485,7 @@
   import type { VNodeChild } from 'vue'
 
   const { t } = useI18n()
-  const isMaintenanceMode = true
+  const isMaintenanceMode = false
 
   const REGION_LABELS = {
     [Region.AMERICA]: t('common.regions.america'),

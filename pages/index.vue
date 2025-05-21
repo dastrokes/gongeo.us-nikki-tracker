@@ -93,7 +93,7 @@
               round
               :bordered="false"
               size="small"
-              class="absolute top-2 left-2 z-10 opacity-80 scale-90 sm:scale-100 origin-top-left"
+              class="absolute top-2 right-2 z-10 opacity-80 scale-90 sm:scale-100 origin-top-left"
               >{{ $t('index.time_left') }} {{ formattedTime }}
               <template #icon>
                 <n-icon
@@ -107,7 +107,7 @@
               round
               :bordered="false"
               size="small"
-              class="absolute top-2 right-2 z-10 opacity-80 scale-90 sm:scale-100 origin-top-left"
+              class="absolute top-2 left-2 z-10 opacity-80 scale-90 sm:scale-100 origin-top-left"
               >{{ $t('index.rerun') }}
             </n-tag>
             <DynamicImg

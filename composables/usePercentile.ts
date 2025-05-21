@@ -1,29 +1,36 @@
 import percentileData from '~/data/percentile.json'
 
+// Define types for our data structure
+type PercentilePoint = [number, number] // [percentile, value]
+type PercentileData = {
+  generated_at: string
+  metrics: {
+    avg_5star_pulls: PercentilePoint[]
+    avg_4star_pulls_type2: PercentilePoint[]
+    avg_4star_pulls_type3: PercentilePoint[]
+    total_pulls_per_user: PercentilePoint[]
+  }
+}
+
+// Type assert our imported data
+const typedPercentileData = percentileData as PercentileData
+
 export const usePercentile = () => {
   const calculatePercentile = (
     value: number,
-    data: Record<string, number>
+    data: PercentilePoint[]
   ): number => {
-    const percentiles = Object.entries(data).map(([percentile, threshold]) => ({
-      percentile: Number(percentile),
-      threshold,
-    }))
+    // Data is already sorted by percentile in the new format
+    for (let i = 0; i < data.length; i++) {
+      const [percentile, threshold] = data[i]
 
-    // Sort by threshold ascending
-    percentiles.sort((a, b) => a.threshold - b.threshold)
-
-    // Find the first percentile where the value is less than the threshold
-    for (let i = 0; i < percentiles.length; i++) {
-      if (value <= percentiles[i].threshold) {
+      if (value <= threshold) {
         if (i === 0) return 0
 
         // Linear interpolation between percentiles
-        const prev = percentiles[i - 1]
-        const curr = percentiles[i]
-        const ratio =
-          (value - prev.threshold) / (curr.threshold - prev.threshold)
-        return prev.percentile + ratio * (curr.percentile - prev.percentile)
+        const [prevPercentile, prevThreshold] = data[i - 1]
+        const ratio = (value - prevThreshold) / (threshold - prevThreshold)
+        return prevPercentile + ratio * (percentile - prevPercentile)
       }
     }
 
@@ -32,22 +39,40 @@ export const usePercentile = () => {
 
   const getAvg5StarPercentile = (avg: number): number => {
     // Lower average is better, so we need to invert the percentile
-    return 100 - calculatePercentile(avg, percentileData.avg_5star_pulls)
+    return (
+      100 -
+      calculatePercentile(avg, typedPercentileData.metrics.avg_5star_pulls)
+    )
   }
 
   const getAvg4StarType2Percentile = (avg: number): number => {
     // Lower average is better, so we need to invert the percentile
-    return 100 - calculatePercentile(avg, percentileData.avg_4star_pulls_type2)
+    return (
+      100 -
+      calculatePercentile(
+        avg,
+        typedPercentileData.metrics.avg_4star_pulls_type2
+      )
+    )
   }
 
   const getAvg4StarType3Percentile = (avg: number): number => {
     // Lower average is better, so we need to invert the percentile
-    return 100 - calculatePercentile(avg, percentileData.avg_4star_pulls_type3)
+    return (
+      100 -
+      calculatePercentile(
+        avg,
+        typedPercentileData.metrics.avg_4star_pulls_type3
+      )
+    )
   }
 
   const getTotalPullsPercentile = (total: number): number => {
     // Higher total is more, so we don't need to invert
-    return calculatePercentile(total, percentileData.total_pulls_per_user)
+    return calculatePercentile(
+      total,
+      typedPercentileData.metrics.total_pulls_per_user
+    )
   }
 
   return {

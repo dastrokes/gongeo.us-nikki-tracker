@@ -227,14 +227,14 @@
   "global": {
     "stats": {
       "total_pulls": "Total Pulls",
-      "unique_users": "Unique Users",
+      "unique_users": "Total Stylists",
       "avg_5star": "5★ Avg (5★ Banner)",
       "avg_4star_type2": "4★ Avg (5★ Banner)",
       "avg_4star_type3": "4★ Avg (4★ Banner)",
       "data_as_of": "Data as of"
     },
     "charts": {
-      "pulls_per_banner": "Pulls per Banner",
+      "pulls_per_banner": "Pulls Per Banner",
       "five_star_distribution": "5★ Pulls Distribution",
       "four_star_type2_distribution": "4★ Distribution (5★ Banner)",
       "four_star_type3_distribution": "4★ Distribution (4★ Banner)",

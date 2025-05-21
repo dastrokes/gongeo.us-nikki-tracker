@@ -456,12 +456,10 @@
   import { NSkeleton, NNumberAnimation, NButton, NSelect } from 'naive-ui'
   import { BANNER_DATA } from '~/data/banners'
   import { ExpandAlt, CompressAlt } from '@vicons/fa'
-  import { useSupabaseClient } from '~/composables/useSupabaseClient'
   import { useCardStyle } from '~/composables/useCardStyle'
   import { useUserStore } from '~/stores/user'
 
-  // Initialize Supabase client
-  const supabase = useSupabaseClient('client')
+  // Initialize stores
   const userStore = useUserStore()
 
   // Add isDark computed property
@@ -520,20 +518,16 @@
 
   const fetchGlobalData = async () => {
     try {
-      const { data: responseData, error } = await supabase.functions.invoke(
-        'global-data',
-        {
-          method: 'GET',
-        }
-      )
+      const response = await fetch('/api/data')
 
-      if (error) {
-        console.error('Supabase function error:', error)
-        throw error
+      if (!response.ok) {
+        throw new Error(`API error: ${response.statusText}`)
       }
 
+      const responseData = await response.json()
+
       if (!responseData) {
-        throw new Error('No data received from function')
+        throw new Error('No data received from API')
       }
 
       data.value = responseData

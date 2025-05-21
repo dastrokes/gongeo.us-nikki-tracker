@@ -19,6 +19,8 @@
   "banner.18.name": "Magical Scribbles",
   "banner.19.name": "Eternal Snow",
   "banner.20.name": "Unfading Heart",
+  "banner.21.name": "Whispering Stream",
+  "banner.22.name": "Harvest Dream",
   "outfit.S0001.name": "Dance Till Dawn",
   "item.1020100001.name": "Signal of Time",
   "item.1020900001.name": "Honeyed Melody",
@@ -383,5 +385,7 @@
   "item.1020730228.name": "Fleeting Dreams",
   "item.1020760228.name": "Green Silhouette",
   "item.1020770228.name": "Ivory Lace",
-  "item.1020780228.name": "Dreamy Bouquet"
+  "item.1020780228.name": "Dreamy Bouquet",
+  "outfit.SA.name": "Water's Echo",
+  "outfit.SB.name": "Harvest's Blessing"
 }

@@ -56,7 +56,7 @@
     </template>
     <template #default>
       <div class="text-center">
-        <div class="font-medium">{{ t(item.itemName) }}</div>
+        <div class="font-medium">{{ t(`item.${item.itemId}.name`) }}</div>
         <div class="text-sm">
           {{ t(`items.types.${itemType}`) }}
         </div>

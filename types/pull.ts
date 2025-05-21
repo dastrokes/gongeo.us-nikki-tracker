@@ -15,10 +15,8 @@ export type PullRecord = [string, string]
 export interface PullItem {
   pullIndex: number
   itemId: string
-  itemName: string
   outfitId: string
   rarity: number
-  outfitName: string
   pullsToObtain: number
   obtainedAt: string
   bannerId: number
@@ -28,12 +26,8 @@ export interface PullItem {
 
 export interface OutfitStatus {
   id: string
-  name: string
   rarity: number
-  items: {
-    id: string
-    name: string
-  }[]
+  items: string[]
   isComplete: boolean
   totalItems: number
   obtainedItems: number

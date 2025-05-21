@@ -121,18 +121,16 @@ export const usePullStore = defineStore('pull', {
             4: new Map<string, Outfit | null>(),
             5: new Map<string, Outfit | null>(),
           }
-          const itemToOutfitMap: Record<
-            string,
-            { outfitId: string; rarity: number; outfit: Outfit }
-          > = {}
+          const itemToOutfitMap: Record<string, { outfit: Outfit }> = {}
 
           // Process 4★ outfits
           ;(bannerInfo.outfit4StarId || []).forEach((id: string) => {
             const outfit = this.getOutfitData(id)
             outfitLookup[4].set(id, outfit)
             if (outfit) {
-              outfit.items.forEach((item) => {
-                itemToOutfitMap[item.id] = { outfitId: id, rarity: 4, outfit }
+              outfit.rarity = 4
+              outfit.items.forEach((id) => {
+                itemToOutfitMap[id] = { outfit }
               })
             }
           })
@@ -142,8 +140,9 @@ export const usePullStore = defineStore('pull', {
             const outfit = this.getOutfitData(id)
             outfitLookup[5].set(id, outfit)
             if (outfit) {
-              outfit.items.forEach((item) => {
-                itemToOutfitMap[item.id] = { outfitId: id, rarity: 5, outfit }
+              outfit.rarity = 5
+              outfit.items.forEach((id) => {
+                itemToOutfitMap[id] = { outfit }
               })
             }
           })
@@ -184,7 +183,6 @@ export const usePullStore = defineStore('pull', {
               if (outfitData) {
                 bannerPulls[bannerId].outfits.push({
                   id: outfitId,
-                  name: outfitData.name,
                   rarity: outfitLookup[5].has(outfitId) ? 5 : 4,
                   items: outfitData.items,
                   isComplete: false,
@@ -210,19 +208,20 @@ export const usePullStore = defineStore('pull', {
             const [time, itemId] = pull
             const itemInfo = itemToOutfitMap[itemId]
             if (itemInfo) {
-              const { outfitId, rarity, outfit } = itemInfo
-              const itemData = outfit.items.find((item) => item.id === itemId)
+              const { outfit } = itemInfo
+              const itemData = outfit.items.find((id) => id === itemId)
               if (!itemData) return
+
+              const rarity = outfit.rarity
+              const outfitId = outfit.id
 
               const pullsToObtain = currentPity[bannerId][rarity]
               currentPity[bannerId][rarity] = 0
 
               const pullInfo: PullItem = {
                 itemId,
-                itemName: itemData.name,
                 outfitId,
                 rarity: rarity as number,
-                outfitName: outfit.name,
                 pullsToObtain,
                 obtainedAt: time || '',
                 bannerId: bannerId,
@@ -374,8 +373,8 @@ export const usePullStore = defineStore('pull', {
           currentBanner.outfits.forEach((outfit) => {
             const obtainedItems = pullsByOutfit[outfit.id] || new Set()
             outfit.obtainedItems = obtainedItems.size
-            outfit.isComplete = outfit.items.every((item) =>
-              obtainedItems.has(item.id)
+            outfit.isComplete = outfit.items.every((id) =>
+              obtainedItems.has(id)
             )
           })
 
@@ -498,7 +497,6 @@ export const usePullStore = defineStore('pull', {
           if (outfitData) {
             this.processedPulls[bannerId].outfits.push({
               id: outfitId,
-              name: outfitData.name,
               rarity: 4,
               items: outfitData.items,
               isComplete: false,
@@ -512,7 +510,6 @@ export const usePullStore = defineStore('pull', {
           if (outfitData) {
             this.processedPulls[bannerId].outfits.push({
               id: outfitId,
-              name: outfitData.name,
               rarity: 5,
               items: outfitData.items,
               isComplete: false,
@@ -528,14 +525,12 @@ export const usePullStore = defineStore('pull', {
           .filter((pull) => pull.outfitId === outfit.id)
           .map((pull) => pull.itemId)
 
-        for (const item of outfit.items) {
-          if (!obtainedItemIds.includes(item.id)) {
+        for (const id of outfit.items) {
+          if (!obtainedItemIds.includes(id)) {
             this.processedPulls[bannerId].pulls.push({
-              itemId: item.id,
-              itemName: item.name,
+              itemId: id,
               outfitId: outfit.id,
               rarity: outfit.rarity as number,
-              outfitName: outfit.name,
               pullsToObtain: 0,
               obtainedAt: '',
               bannerId: bannerId,

@@ -176,7 +176,7 @@
           </div>
           <div class="text-xl font-medium mt-1">
             <n-time
-              :time="data.effective_date"
+              :time="new Date(data.effective_date)"
               type="date"
             />
           </div>

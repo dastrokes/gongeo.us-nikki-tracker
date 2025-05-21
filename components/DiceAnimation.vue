@@ -1,17 +1,13 @@
 <template>
   <n-icon
     depth="3"
-    class="origin-center transform transition-transform duration-500 ease-in-out"
+    class="origin-center"
+    :component="isAnimating ? diceComponents[currentFace] : finalDice"
     :style="{
       transform: isAnimating ? `rotate(${rotation}deg)` : 'rotate(45deg)',
-      transition: 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
+      transition: 'transform 0.5s ease-in-out',
     }"
-  >
-    <component
-      :is="isAnimating ? diceComponents[currentFace] : finalDice"
-      class="transition-all duration-300 ease-in-out"
-    />
-  </n-icon>
+  />
 </template>
 
 <script setup lang="ts">
@@ -26,8 +22,8 @@
   } from '@vicons/fa'
 
   const props = defineProps<{
-    finalValue: number // 1-6 representing final dice value
-    animationDuration?: number // in milliseconds, defaults to 3000
+    finalValue: number
+    animationDuration?: number
   }>()
 
   const isAnimating = ref(false)
@@ -59,7 +55,7 @@
 
   onMounted(() => {
     isAnimating.value = true
-    faceInterval = setInterval(cycleDiceFaces, 500) // Faster face changes
+    faceInterval = setInterval(cycleDiceFaces, 500)
 
     // Stop after animation duration
     setTimeout(() => {

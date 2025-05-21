@@ -19,6 +19,8 @@
   "banner.18.name": "羽翎笔下的奇思",
   "banner.19.name": "若留于永雪之境",
   "banner.20.name": "我心不落",
+  "banner.21.name": "且听流水之音",
+  "banner.22.name": "点染丰饶之梦",
   "outfit.S0001.name": "绽响黎明前",
   "item.1020100001.name": "时光讯号",
   "item.1020900001.name": "蜜糖乐章",
@@ -383,5 +385,7 @@
   "item.1020730228.name": "驰风掠梦",
   "item.1020760228.name": "润绿剪影",
   "item.1020770228.name": "纤白蕾丝",
-  "item.1020780228.name": "白纱束花"
+  "item.1020780228.name": "白纱束花",
+  "outfit.SA.name": "逐水聆音",
+  "outfit.SB.name": "丰饶之赞"
 }

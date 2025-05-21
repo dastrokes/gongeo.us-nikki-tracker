@@ -108,7 +108,7 @@
       "total_4star_only": "4★平均（4★卡池）",
       "avg_4star_only": "4★总数（4★卡池）",
       "luckier": "比 {percent}% 的暖暖共鸣录用户更幸运",
-      "more_pulls": "比 {percent}% 的暖暖共鸣录用户更多"
+      "more_pulls": "多于 {percent}% 的暖暖共鸣录用户"
     },
     "banner": {
       "stats": {
@@ -227,7 +227,7 @@
   "global": {
     "stats": {
       "total_pulls": "总抽数",
-      "unique_users": "独立用户数",
+      "unique_users": "搭配师人数",
       "avg_5star": "5★平均（5★卡池）",
       "avg_4star_type2": "4★平均（5★卡池）",
       "avg_4star_type3": "4★平均（4★卡池）",

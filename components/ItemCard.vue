@@ -17,7 +17,7 @@
         :bordered="false"
         size="small"
         content-style="padding: 0;"
-        class="min-h-[60px] sm:min-h-[100px] aspect-square"
+        class="min-h-[60px] xl:min-h-[100px] aspect-square"
       >
         <DynamicImg
           :src="`/images/items/${item.itemId}.webp`"

@@ -54,7 +54,7 @@
           : 'linear-gradient(to bottom, rgb(224, 242, 254), rgb(243, 232, 255), rgb(252, 231, 243))',
       }"
       :class="{
-        '-translate-x-full sm:-translate-x-0': !showSider,
+        '-translate-x-full xl:-translate-x-0': !showSider,
         'translate-x-0': showSider,
       }"
     >
@@ -94,7 +94,7 @@
       :native-scrollbar="false"
       @scroll="onScroll"
     >
-      <div class="h-full py-14 sm:py-16 px-2 sm:px-0">
+      <div class="h-full py-14 sm:py-16 px-2">
         <slot />
       </div>
     </n-layout-content>
@@ -131,7 +131,7 @@
 
     <div
       v-if="showSider"
-      class="fixed inset-0 z-30 md:hidden"
+      class="fixed inset-0 z-30 xl:hidden"
       :class="isDark ? 'bg-black/15' : 'bg-black/5'"
       @click="showSider = false"
     />

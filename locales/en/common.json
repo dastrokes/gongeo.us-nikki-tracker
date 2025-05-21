@@ -139,6 +139,7 @@
     "export": {
       "png": "Export Image",
       "json": "Export File",
+      "generated_from": "Generated From",
       "success": "Tracker exported successfully!",
       "error": "Failed to export tracker. Please try again."
     },
@@ -274,7 +275,7 @@
       },
       "platform_support": {
         "question": "Will it work if I play on mobile or PS5?",
-        "answer": "Yes, it does not matter which platform you play on, as long as you log into the Pearpal website on PC using the same account. If you want to do the import on mobile, you will need a browser extension to access cookies, since Developer Tools are not available on mobile, I am able to import using Firefox on Android but the process is not user-friendly thus not recommended."
+        "answer": "Yes, it does not matter which platform you play on, as long as you log into the Pearpal website on PC using the same account. If you want to do the import on mobile, you will need a browser extension to access cookies, since Developer Tools are not available on mobile, although it is possible to import using Firefox on Android, the process is not user-friendly thus not recommended."
       },
       "cookie_script": {
         "question": "Do I have to run a script to get my cookies?",

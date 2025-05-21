@@ -316,8 +316,21 @@
               </div>
             </n-card>
 
+            <n-card
+              :style="cardStyle"
+              size="small"
+              class="text-center rounded-md"
+              :class="{ hidden: !exporting }"
+            >
+              <p class="text-sm text-gray-400">
+                {{ t('tracker.export.generated_from') }}
+              </p>
+              <p class="text-xl">gongeo.us</p>
+            </n-card>
+
             <div
               class="flex justify-end space-x-2 items-start mt-2 export-exclude"
+              :class="{ hidden: exporting }"
             >
               <!-- Export Button -->
               <n-popover trigger="click">
@@ -485,7 +498,8 @@
                           class="px-2"
                         >
                           <span class="align-top"
-                            >{{ t(outfit.name) }} {{ outfit.rarity }}</span
+                            >{{ t(`outfit.${outfit.id}.name`) }}
+                            {{ outfit.rarity }}</span
                           >
                           <span class="ml-1"
                             ><n-icon><star /></n-icon
@@ -916,6 +930,8 @@
   const exportPNG = async () => {
     try {
       exporting.value = true
+      await nextTick()
+
       const trackerElement = document.querySelector(
         '.png-export-container'
       ) as HTMLElement
@@ -970,6 +986,7 @@
       message.error(t('tracker.export.error'))
     } finally {
       exporting.value = false
+      await nextTick()
     }
   }
 

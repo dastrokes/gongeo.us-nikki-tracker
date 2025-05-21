@@ -18,21 +18,22 @@
           <template #default>
             <div class="grid grid-cols-1 lg:grid-cols-4 gap-2">
               <div class="lg:col-span-1">
-                <div class="mb-2">
-                  <n-text
-                    depth="3"
-                    class="text-sm"
-                  >
+                <div
+                  v-for="(run, index) in banner.runs"
+                  :key="index"
+                  class="mb-2 flex flex-col gap-1"
+                >
+                  <n-text depth="3">
+                    {{ run.version.slice(0, -2) }}
+
                     <n-time
-                      :time="banner.runs[0].start"
-                      type="date"
-                    />
+                      :time="new Date(run.start)"
+                      type="date" />
                     -
                     <n-time
-                      :time="banner.runs[0].end"
+                      :time="new Date(run.end)"
                       type="date"
-                    />
-                  </n-text>
+                  /></n-text>
                 </div>
                 <div class="inline-flex flex-col gap-2 items-start">
                   <div
@@ -47,7 +48,7 @@
                       round
                     >
                       <span class="align-top"
-                        >{{ t(getOutfitName(outfitId)) }} 5</span
+                        >{{ t(`outfit.${outfitId}.name`) }} 5</span
                       >
                       <span class="ml-1"
                         ><n-icon><Star /></n-icon
@@ -66,7 +67,7 @@
                       round
                     >
                       <span class="align-top"
-                        >{{ t(getOutfitName(outfitId)) }} 4</span
+                        >{{ t(`outfit.${outfitId}.name`) }} 4</span
                       >
                       <span class="ml-1"
                         ><n-icon><Star /></n-icon
@@ -114,7 +115,6 @@
   import { computed } from 'vue'
   import { Gift, Star } from '@vicons/fa'
   import { BANNER_DATA } from '~/data/banners'
-  import OUTFIT_DATA from '~/data/outfits'
   import { useCardStyle } from '~/composables/useCardStyle'
 
   const { t } = useI18n()
@@ -137,10 +137,5 @@
       default:
         return 'default'
     }
-  }
-
-  // Get outfit name by ID
-  const getOutfitName = (outfitId: string) => {
-    return OUTFIT_DATA[outfitId as keyof typeof OUTFIT_DATA]?.name || outfitId
   }
 </script>

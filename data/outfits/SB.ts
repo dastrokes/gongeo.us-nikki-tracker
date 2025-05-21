@@ -1,7 +1,7 @@
 import type { Outfit } from '~/types/outfit'
 
 const outfit: Outfit = {
-  id: 'S0001',
+  id: 'SB',
   items: [
     '1020100001',
     '1020900001',

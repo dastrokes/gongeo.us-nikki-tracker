@@ -1,13 +1,6 @@
-export interface OutfitItem {
-  id: string
-  name: string
-}
-
 export interface Outfit {
   id: string
-  name: string
-  rarity: number
-  items: OutfitItem[]
+  items: string[]
 }
 
 export type OutfitData = Outfit[]

@@ -447,6 +447,18 @@
           </template>
           Discord
         </n-button>
+        <n-button
+          tag="a"
+          href="https://ko-fi.com/dastrokes"
+          target="_blank"
+        >
+          <template #icon>
+            <n-icon>
+              <KoFi />
+            </n-icon>
+          </template>
+          Ko-fi
+        </n-button>
       </n-space>
     </n-card>
   </div>
@@ -467,6 +479,7 @@
   import { usePullStore } from '~/stores/pull'
   import { useUserStore, Region } from '~/stores/user'
   import { Paste, Check, CheckCircle, Discord } from '@vicons/fa'
+  import KoFi from '~/components/icons/KoFi.vue'
   import { BANNER_DATA } from '~/data/banners'
   import { useCardStyle } from '~/composables/useCardStyle'
   import type { VNodeChild } from 'vue'

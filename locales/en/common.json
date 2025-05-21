@@ -34,6 +34,7 @@
     "game_import_desc": "Import directly from the game using your browser.",
     "select_region": "Select Region",
     "select_region_desc": "Select your game server region.",
+    "pearpal_website": "Pearpal Website",
     "login_pearpal": "Login to Pearpal Website",
     "login_pearpal_desc": "Open Pearpal Website in a new tab and login with your Infold account if you aren't already logged in.",
     "get_cookie": "Get Cookie From Pearpal Website",

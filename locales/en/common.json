@@ -19,7 +19,8 @@
     "current_banners": "Current Banners",
     "time_left": "Time Left:",
     "days": "days",
-    "hours": "hours"
+    "hours": "hours",
+    "rerun": "Rerun"
   },
   "import": {
     "choose_method": "Choose Import Method",

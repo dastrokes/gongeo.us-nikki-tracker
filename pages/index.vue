@@ -47,37 +47,82 @@
           {{ $t('index.current_banners') }}
         </div>
       </div>
-      <div class="flex flex-col sm:flex-row gap-4">
-        <div
-          v-for="banner in currentBanners"
-          :key="banner.bannerId"
-          class="w-full sm:w-1/2 aspect-[2/1] relative overflow-hidden rounded-lg"
-        >
-          <n-tag
-            round
-            :bordered="false"
-            size="small"
-            class="absolute top-2 left-2 z-10 opacity-80 scale-90 sm:scale-100 origin-top-left"
-            >{{ $t('index.time_left') }} {{ formattedTime }}
-            <template #icon>
-              <n-icon
-                size="12"
-                :component="HourglassHalf"
-              />
-            </template>
-          </n-tag>
-          <DynamicImg
-            :src="`/images/banners/${banner.bannerId}.webp`"
-            :alt="banner.bannerId.toString()"
-            class="absolute inset-0 w-full h-full object-cover"
-            format="webp"
-            width="500"
-            height="250"
-            fit="cover"
-            :quality="100"
-            loading="lazy"
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 75vw, 500px"
-          />
+      <div class="flex flex-col gap-4">
+        <!-- 5 Star Banners -->
+        <div class="flex flex-col sm:flex-row gap-4">
+          <div
+            v-for="banner in current5StarBanners"
+            :key="banner.bannerId"
+            class="w-full sm:w-1/2 aspect-[2/1] relative overflow-hidden rounded-lg"
+          >
+            <n-tag
+              round
+              :bordered="false"
+              size="small"
+              class="absolute top-2 left-2 z-10 opacity-80 scale-90 sm:scale-100 origin-top-left"
+              >{{ $t('index.time_left') }} {{ formattedTime }}
+              <template #icon>
+                <n-icon
+                  size="12"
+                  :component="HourglassHalf"
+                />
+              </template>
+            </n-tag>
+            <DynamicImg
+              :src="`/images/banners/${banner.bannerId}.webp`"
+              :alt="banner.bannerId.toString()"
+              class="absolute inset-0 w-full h-full object-cover"
+              format="webp"
+              width="500"
+              height="250"
+              fit="cover"
+              :quality="100"
+              loading="lazy"
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 75vw, 500px"
+            />
+          </div>
+        </div>
+        <!-- 4 Star Banners -->
+        <div class="flex flex-col sm:flex-row gap-4">
+          <div
+            v-for="banner in current4StarBanners"
+            :key="banner.bannerId"
+            class="w-full sm:w-1/3 aspect-[2/1] relative overflow-hidden rounded-lg"
+          >
+            <n-tag
+              round
+              :bordered="false"
+              size="small"
+              class="absolute top-2 left-2 z-10 opacity-80 scale-90 sm:scale-100 origin-top-left"
+              >{{ $t('index.time_left') }} {{ formattedTime }}
+              <template #icon>
+                <n-icon
+                  size="12"
+                  :component="HourglassHalf"
+                />
+              </template>
+            </n-tag>
+            <n-tag
+              v-if="banner.runs.length > 1"
+              round
+              :bordered="false"
+              size="small"
+              class="absolute top-2 right-2 z-10 opacity-80 scale-90 sm:scale-100 origin-top-left"
+              >{{ $t('index.rerun') }}
+            </n-tag>
+            <DynamicImg
+              :src="`/images/banners/${banner.bannerId}.webp`"
+              :alt="banner.bannerId.toString()"
+              class="absolute inset-0 w-full h-full object-cover"
+              format="webp"
+              width="500"
+              height="250"
+              fit="cover"
+              :quality="100"
+              loading="lazy"
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 75vw, 500px"
+            />
+          </div>
         </div>
       </div>
     </n-card>
@@ -99,8 +144,12 @@
   const localePath = useLocalePath()
   const router = useRouter()
 
-  const currentBanners = computed(() => {
+  const current5StarBanners = computed(() => {
     return [BANNER_DATA[19], BANNER_DATA[20]]
+  })
+
+  const current4StarBanners = computed(() => {
+    return [BANNER_DATA[21], BANNER_DATA[22], BANNER_DATA[4]]
   })
 
   // Static time calculation

@@ -19,7 +19,8 @@
     "current_banners": "当前卡池",
     "time_left": "剩余时间:",
     "days": "天",
-    "hours": "小时"
+    "hours": "小时",
+    "rerun": "复刻"
   },
   "import": {
     "choose_method": "选择导入方式",

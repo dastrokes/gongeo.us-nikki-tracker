@@ -276,7 +276,7 @@ export const BANNER_DATA: BannerData = {
   21: {
     bannerId: 21,
     bannerType: 3,
-    outfit4StarId: ['SA'],
+    outfit4StarId: ['S0143'],
     outfit5StarId: [],
     runs: [
       {
@@ -289,7 +289,7 @@ export const BANNER_DATA: BannerData = {
   22: {
     bannerId: 22,
     bannerType: 3,
-    outfit4StarId: ['SB'],
+    outfit4StarId: ['S0167'],
     outfit5StarId: [],
     runs: [
       {

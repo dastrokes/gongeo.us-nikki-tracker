@@ -58,112 +58,18 @@
       </div>
       <div class="flex flex-col sm:flex-row gap-4">
         <div class="w-full sm:w-1/2">
-          <n-carousel
+          <BannerCarousel
             v-model:current-index="indexA"
-            class="rounded-xl"
-            dot-type="dot"
-            show-arrow
-            :show-dots="true"
-            :loop="true"
-            :transition-style="{
-              transitionDuration: '1000ms',
-              transitionTimingFunction: 'ease-in-out',
-            }"
-          >
-            <n-carousel-item
-              v-for="banner in fiveStarBanners"
-              :key="banner.bannerId"
-              class="rounded-xl aspect-[2/1]"
-            >
-              <n-tag
-                round
-                :bordered="false"
-                size="small"
-                class="absolute opacity-80 top-2 right-2 scale-90 sm:scale-100 origin-top-right"
-                >{{ $t('index.time_left') }} {{ formattedTime }}
-                <template #icon>
-                  <n-icon
-                    size="12"
-                    :component="HourglassHalf"
-                  />
-                </template>
-              </n-tag>
-              <n-tag
-                v-if="banner.runs.length > 1"
-                round
-                :bordered="false"
-                size="small"
-                class="absolute opacity-80 top-2 left-2 scale-90 sm:scale-100 origin-top-left"
-                >{{ $t('index.rerun') }}
-              </n-tag>
-              <DynamicImg
-                :src="`/images/banners/${banner.bannerId}.webp`"
-                :alt="banner.bannerId.toString()"
-                class="w-full h-full object-cover"
-                format="webp"
-                width="600"
-                height="300"
-                fit="cover"
-                :quality="100"
-                loading="lazy"
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 600px"
-              />
-            </n-carousel-item>
-          </n-carousel>
+            :banners="fiveStarBanners"
+            :formatted-time="formattedTime"
+          />
         </div>
         <div class="w-full sm:w-1/2">
-          <n-carousel
+          <BannerCarousel
             v-model:current-index="indexB"
-            class="rounded-xl"
-            dot-type="dot"
-            show-arrow
-            :show-dots="true"
-            :loop="true"
-            :transition-style="{
-              transitionDuration: '1000ms',
-              transitionTimingFunction: 'ease-in-out',
-            }"
-          >
-            <n-carousel-item
-              v-for="banner in fourStarBanners"
-              :key="banner.bannerId"
-              class="rounded-xl aspect-[2/1]"
-            >
-              <n-tag
-                round
-                :bordered="false"
-                size="small"
-                class="absolute opacity-80 top-2 right-2 scale-90 sm:scale-100 origin-top-right"
-                >{{ $t('index.time_left') }} {{ formattedTime }}
-                <template #icon>
-                  <n-icon
-                    size="12"
-                    :component="HourglassHalf"
-                  />
-                </template>
-              </n-tag>
-              <n-tag
-                v-if="banner.runs.length > 1"
-                round
-                :bordered="false"
-                size="small"
-                class="absolute opacity-80 top-2 left-2 scale-90 sm:scale-100 origin-top-left"
-                >{{ $t('index.rerun') }}
-              </n-tag>
-              <DynamicImg
-                :src="`/images/banners/${banner.bannerId}.webp`"
-                :alt="banner.bannerId.toString()"
-                class="w-full h-full object-cover"
-                format="webp"
-                width="600"
-                height="300"
-                fit="cover"
-                :quality="100"
-                loading="lazy"
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 600px"
-              />
-            </n-carousel-item>
-          </n-carousel>
+            :banners="fourStarBanners"
+            :formatted-time="formattedTime"
+          />
         </div>
       </div>
     </n-card>
@@ -175,7 +81,7 @@
   import { NButton } from 'naive-ui'
   import { useUserStore } from '~/stores/user'
   import { BANNER_DATA } from '~/data/banners'
-  import { HourglassHalf, Book, Globe } from '@vicons/fa'
+  import { Book, Globe } from '@vicons/fa'
 
   const { t } = useI18n()
   const userStore = useUserStore()

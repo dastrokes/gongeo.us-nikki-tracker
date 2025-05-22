@@ -20,8 +20,7 @@
       <div class="flex gap-4 opacity-90 justify-center items-center">
         <n-button
           type="primary"
-          size="large"
-          class="w-36"
+          size="medium"
           @click="router.push(localePath('/tracker'))"
         >
           <template #icon>
@@ -33,8 +32,7 @@
         </n-button>
         <n-button
           type="primary"
-          size="large"
-          class="w-36"
+          size="medium"
           @click="router.push(localePath('/global'))"
         >
           <template #icon>
@@ -57,14 +55,14 @@
         </div>
       </div>
       <div class="flex flex-col sm:flex-row gap-4">
-        <div class="w-full sm:w-1/2">
+        <div class="w-full sm:w-1/2 aspect-[2/1]">
           <BannerCarousel
             v-model:current-index="indexA"
             :banners="fiveStarBanners"
             :formatted-time="formattedTime"
           />
         </div>
-        <div class="w-full sm:w-1/2">
+        <div class="w-full sm:w-1/2 aspect-[2/1]">
           <BannerCarousel
             v-model:current-index="indexB"
             :banners="fourStarBanners"
@@ -97,7 +95,7 @@
   const indexA = ref(0)
   const indexB = ref(0)
 
-  let timer = null
+  let timer: NodeJS.Timeout | null = null
   const timeoutMs = 10000
 
   function startTimer() {

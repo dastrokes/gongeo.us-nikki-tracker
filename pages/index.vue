@@ -56,72 +56,126 @@
           {{ $t('index.current_banners') }}
         </div>
       </div>
-      <div class="flex flex-col gap-4">
-        <n-carousel
-          class="rounded-xl"
-          effect="slide"
-          :slides-per-view="isMobile ? 1 : 2"
-          :space-between="20"
-          :show-arrow="false"
-          dot-type="dot"
-          :show-dots="true"
-          dot-placement="left"
-          :autoplay="true"
-          :interval="10000"
-          draggable
-        >
-          <n-carousel-item
-            v-for="banner in allBanners"
-            :key="banner.bannerId"
-            class="rounded-xl aspect-[2/1]"
+      <div class="flex flex-col sm:flex-row gap-4">
+        <div class="w-full sm:w-1/2">
+          <n-carousel
+            v-model:current-index="indexA"
+            class="rounded-xl"
+            dot-type="dot"
+            show-arrow
+            :show-dots="true"
+            :loop="true"
+            :transition-style="{
+              transitionDuration: '1000ms',
+              transitionTimingFunction: 'ease-in-out',
+            }"
           >
-            <n-tag
-              round
-              :bordered="false"
-              size="small"
-              class="absolute opacity-80 bottom-2 right-2 scale-90 sm:scale-100 origin-bottom-right"
-              >{{ $t('index.time_left') }} {{ formattedTime }}
-              <template #icon>
-                <n-icon
-                  size="12"
-                  :component="HourglassHalf"
-                />
-              </template>
-            </n-tag>
-            <n-tag
-              v-if="banner.runs.length > 1"
-              round
-              :bordered="false"
-              size="small"
-              class="absolute opacity-80 top-2 left-2 scale-90 sm:scale-100 origin-top-left"
-              >{{ $t('index.rerun') }}
-            </n-tag>
-            <DynamicImg
-              :src="`/images/banners/${banner.bannerId}.webp`"
-              :alt="banner.bannerId.toString()"
-              class="w-full h-full object-cover"
-              format="webp"
-              width="600"
-              height="300"
-              fit="cover"
-              :quality="100"
-              loading="lazy"
-              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 600px"
-            />
-          </n-carousel-item>
-        </n-carousel>
+            <n-carousel-item
+              v-for="banner in fiveStarBanners"
+              :key="banner.bannerId"
+              class="rounded-xl aspect-[2/1]"
+            >
+              <n-tag
+                round
+                :bordered="false"
+                size="small"
+                class="absolute opacity-80 top-2 right-2 scale-90 sm:scale-100 origin-top-right"
+                >{{ $t('index.time_left') }} {{ formattedTime }}
+                <template #icon>
+                  <n-icon
+                    size="12"
+                    :component="HourglassHalf"
+                  />
+                </template>
+              </n-tag>
+              <n-tag
+                v-if="banner.runs.length > 1"
+                round
+                :bordered="false"
+                size="small"
+                class="absolute opacity-80 top-2 left-2 scale-90 sm:scale-100 origin-top-left"
+                >{{ $t('index.rerun') }}
+              </n-tag>
+              <DynamicImg
+                :src="`/images/banners/${banner.bannerId}.webp`"
+                :alt="banner.bannerId.toString()"
+                class="w-full h-full object-cover"
+                format="webp"
+                width="600"
+                height="300"
+                fit="cover"
+                :quality="100"
+                loading="lazy"
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 600px"
+              />
+            </n-carousel-item>
+          </n-carousel>
+        </div>
+        <div class="w-full sm:w-1/2">
+          <n-carousel
+            v-model:current-index="indexB"
+            class="rounded-xl"
+            dot-type="dot"
+            show-arrow
+            :show-dots="true"
+            :loop="true"
+            :transition-style="{
+              transitionDuration: '1000ms',
+              transitionTimingFunction: 'ease-in-out',
+            }"
+          >
+            <n-carousel-item
+              v-for="banner in fourStarBanners"
+              :key="banner.bannerId"
+              class="rounded-xl aspect-[2/1]"
+            >
+              <n-tag
+                round
+                :bordered="false"
+                size="small"
+                class="absolute opacity-80 top-2 right-2 scale-90 sm:scale-100 origin-top-right"
+                >{{ $t('index.time_left') }} {{ formattedTime }}
+                <template #icon>
+                  <n-icon
+                    size="12"
+                    :component="HourglassHalf"
+                  />
+                </template>
+              </n-tag>
+              <n-tag
+                v-if="banner.runs.length > 1"
+                round
+                :bordered="false"
+                size="small"
+                class="absolute opacity-80 top-2 left-2 scale-90 sm:scale-100 origin-top-left"
+                >{{ $t('index.rerun') }}
+              </n-tag>
+              <DynamicImg
+                :src="`/images/banners/${banner.bannerId}.webp`"
+                :alt="banner.bannerId.toString()"
+                class="w-full h-full object-cover"
+                format="webp"
+                width="600"
+                height="300"
+                fit="cover"
+                :quality="100"
+                loading="lazy"
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 600px"
+              />
+            </n-carousel-item>
+          </n-carousel>
+        </div>
       </div>
     </n-card>
   </div>
 </template>
 
 <script setup lang="ts">
-  import { computed, ref, onMounted, watch } from 'vue'
+  import { computed, onMounted, watch } from 'vue'
   import { NButton } from 'naive-ui'
   import { useUserStore } from '~/stores/user'
   import { BANNER_DATA } from '~/data/banners'
   import { HourglassHalf, Book, Globe } from '@vicons/fa'
-  import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
 
   const { t } = useI18n()
   const userStore = useUserStore()
@@ -131,39 +185,35 @@
   const localePath = useLocalePath()
   const router = useRouter()
 
-  // Initialize breakpoints
-  const breakpoints = useBreakpoints(breakpointsTailwind)
-  const isMobile = ref(false) // Default to false for SSR
+  const fiveStarBanners = [BANNER_DATA[20], BANNER_DATA[19]]
+  const fourStarBanners = [BANNER_DATA[21], BANNER_DATA[22], BANNER_DATA[4]]
 
-  onMounted(() => {
-    // Set up the reactive mobile detection only on client-side
-    isMobile.value = !breakpoints.greater('sm').value
-    watch(
-      () => breakpoints.greater('sm').value,
-      (isGreater) => {
-        isMobile.value = !isGreater
-      }
-    )
+  const indexA = ref(0)
+  const indexB = ref(0)
+
+  let timer = null
+  const timeoutMs = 10000
+
+  function startTimer() {
+    if (timer) clearTimeout(timer)
+    timer = setTimeout(() => {
+      indexA.value = (indexA.value + 1) % fiveStarBanners.length
+      indexB.value = (indexB.value + 1) % fourStarBanners.length
+      startTimer() // Schedule next update
+    }, timeoutMs)
+  }
+
+  // Watch for manual index changes
+  watch([indexA, indexB], () => {
+    startTimer()
   })
 
-  const allBanners = computed(() => {
-    const now = new Date()
-    return Object.values(BANNER_DATA)
-      .filter((banner) => {
-        if (!banner || !banner.runs || banner.runs.length === 0) return false
+  onMounted(() => {
+    startTimer()
+  })
 
-        const currentRun = banner.runs[banner.runs.length - 1] // Get the latest run
-        const startDate = new Date(currentRun.start)
-        const endDate = new Date(currentRun.end)
-
-        return now >= startDate && now <= endDate
-      })
-      .sort((a, b) => {
-        if (a.bannerType !== b.bannerType) {
-          return a.bannerType - b.bannerType
-        }
-        return b.bannerId - a.bannerId
-      })
+  onBeforeUnmount(() => {
+    if (timer) clearTimeout(timer)
   })
 
   // Static time calculation

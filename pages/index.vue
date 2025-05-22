@@ -21,22 +21,31 @@
         <n-button
           type="primary"
           size="large"
-          class="w-32"
+          class="w-36"
           @click="router.push(localePath('/tracker'))"
         >
+          <template #icon>
+            <n-icon>
+              <Book />
+            </n-icon>
+          </template>
           {{ $t('index.your_data') }}
         </n-button>
         <n-button
           type="primary"
           size="large"
-          class="w-32"
+          class="w-36"
           @click="router.push(localePath('/global'))"
         >
+          <template #icon>
+            <n-icon>
+              <Globe />
+            </n-icon>
+          </template>
           {{ $t('navigation.global_data') }}
         </n-button>
       </div></n-card
     >
-
     <n-card
       class="rounded-xl"
       size="small"
@@ -48,52 +57,29 @@
         </div>
       </div>
       <div class="flex flex-col gap-4">
-        <!-- 5 Star Banners -->
-        <div class="flex flex-col sm:flex-row gap-4">
-          <div
-            v-for="banner in current5StarBanners"
+        <n-carousel
+          class="rounded-xl"
+          effect="slide"
+          :slides-per-view="isMobile ? 1 : 2"
+          :space-between="20"
+          :show-arrow="false"
+          dot-type="dot"
+          :show-dots="true"
+          dot-placement="left"
+          :autoplay="true"
+          :interval="10000"
+          draggable
+        >
+          <n-carousel-item
+            v-for="banner in allBanners"
             :key="banner.bannerId"
-            class="w-full sm:w-1/2 aspect-[2/1] relative overflow-hidden rounded-xl"
+            class="rounded-xl aspect-[2/1]"
           >
             <n-tag
               round
               :bordered="false"
               size="small"
-              class="absolute top-2 left-2 z-10 opacity-80 scale-90 sm:scale-100 origin-top-left"
-              >{{ $t('index.time_left') }} {{ formattedTime }}
-              <template #icon>
-                <n-icon
-                  size="12"
-                  :component="HourglassHalf"
-                />
-              </template>
-            </n-tag>
-            <DynamicImg
-              :src="`/images/banners/${banner.bannerId}.webp`"
-              :alt="banner.bannerId.toString()"
-              class="absolute inset-0 w-full h-full object-cover"
-              format="webp"
-              width="500"
-              height="250"
-              fit="cover"
-              :quality="100"
-              loading="lazy"
-              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 75vw, 500px"
-            />
-          </div>
-        </div>
-        <!-- 4 Star Banners -->
-        <div class="flex flex-col sm:flex-row gap-4">
-          <div
-            v-for="banner in current4StarBanners"
-            :key="banner.bannerId"
-            class="w-full sm:w-1/3 aspect-[2/1] relative overflow-hidden rounded-xl"
-          >
-            <n-tag
-              round
-              :bordered="false"
-              size="small"
-              class="absolute top-1 right-1 z-10 opacity-80 scale-80 sm:scale-90 origin-top-right"
+              class="absolute opacity-80 bottom-2 right-2 scale-90 sm:scale-100 origin-bottom-right"
               >{{ $t('index.time_left') }} {{ formattedTime }}
               <template #icon>
                 <n-icon
@@ -107,34 +93,35 @@
               round
               :bordered="false"
               size="small"
-              class="absolute top-1 left-1 z-10 opacity-80 scale-80 sm:scale-90 origin-top-left"
+              class="absolute opacity-80 top-2 left-2 scale-90 sm:scale-100 origin-top-left"
               >{{ $t('index.rerun') }}
             </n-tag>
             <DynamicImg
               :src="`/images/banners/${banner.bannerId}.webp`"
               :alt="banner.bannerId.toString()"
-              class="absolute inset-0 w-full h-full object-cover"
+              class="w-full h-full object-cover"
               format="webp"
-              width="500"
-              height="250"
+              width="600"
+              height="300"
               fit="cover"
               :quality="100"
               loading="lazy"
-              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 75vw, 500px"
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 600px"
             />
-          </div>
-        </div>
+          </n-carousel-item>
+        </n-carousel>
       </div>
     </n-card>
   </div>
 </template>
 
 <script setup lang="ts">
-  import { computed } from 'vue'
+  import { computed, ref, onMounted, watch } from 'vue'
   import { NButton } from 'naive-ui'
   import { useUserStore } from '~/stores/user'
   import { BANNER_DATA } from '~/data/banners'
-  import { HourglassHalf } from '@vicons/fa'
+  import { HourglassHalf, Book, Globe } from '@vicons/fa'
+  import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
 
   const { t } = useI18n()
   const userStore = useUserStore()
@@ -144,12 +131,39 @@
   const localePath = useLocalePath()
   const router = useRouter()
 
-  const current5StarBanners = computed(() => {
-    return [BANNER_DATA[19], BANNER_DATA[20]]
+  // Initialize breakpoints
+  const breakpoints = useBreakpoints(breakpointsTailwind)
+  const isMobile = ref(false) // Default to false for SSR
+
+  onMounted(() => {
+    // Set up the reactive mobile detection only on client-side
+    isMobile.value = !breakpoints.greater('sm').value
+    watch(
+      () => breakpoints.greater('sm').value,
+      (isGreater) => {
+        isMobile.value = !isGreater
+      }
+    )
   })
 
-  const current4StarBanners = computed(() => {
-    return [BANNER_DATA[21], BANNER_DATA[22], BANNER_DATA[4]]
+  const allBanners = computed(() => {
+    const now = new Date()
+    return Object.values(BANNER_DATA)
+      .filter((banner) => {
+        if (!banner || !banner.runs || banner.runs.length === 0) return false
+
+        const currentRun = banner.runs[banner.runs.length - 1] // Get the latest run
+        const startDate = new Date(currentRun.start)
+        const endDate = new Date(currentRun.end)
+
+        return now >= startDate && now <= endDate
+      })
+      .sort((a, b) => {
+        if (a.bannerType !== b.bannerType) {
+          return a.bannerType - b.bannerType
+        }
+        return b.bannerId - a.bannerId
+      })
   })
 
   // Static time calculation

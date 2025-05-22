@@ -1,17 +1,33 @@
 <template>
   <n-carousel
     v-model:current-index="currentIndex"
-    class="rounded-xl"
-    dot-type="line"
     :show-arrow="false"
     :show-dots="true"
     trigger="hover"
+    :space-between="20"
     :loop="true"
+    effect="fade"
+    draggable
     :transition-style="{
       transitionDuration: '1000ms',
       transitionTimingFunction: 'ease-in-out',
     }"
   >
+    <template #dots="{ total, currentIndex: current, to }">
+      <div class="flex absolute bottom-2 left-2 gap-2 p-1 rounded-full">
+        <button
+          v-for="i in total"
+          :key="i"
+          :class="[
+            'w-2 h-2 rounded-full transition-all duration-300',
+            current === i - 1
+              ? 'bg-slate-50 scale-125'
+              : 'bg-slate-400 hover:bg-slate-200',
+          ]"
+          @click="to(i - 1)"
+        ></button>
+      </div>
+    </template>
     <n-carousel-item
       v-for="banner in banners"
       :key="banner.bannerId"
@@ -21,7 +37,7 @@
           round
           :bordered="false"
           size="small"
-          class="absolute opacity-80 top-2 right-2 scale-90 sm:scale-100 origin-top-right"
+          class="absolute opacity-80 bottom-2 right-2 scale-90 sm:scale-100 origin-bottom-right"
         >
           {{ $t('index.time_left') }} {{ formattedTime }}
 
@@ -65,6 +81,7 @@
   const props = defineProps<{
     banners: Banner[]
     formattedTime: string
+    currentIndex: number
   }>()
 
   const emit = defineEmits<{

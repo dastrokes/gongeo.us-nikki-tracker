@@ -452,15 +452,32 @@
 </template>
 
 <script setup>
-  import { ref, onMounted, computed, onUnmounted, watch } from 'vue'
+  import { ref, onMounted, computed, watch } from 'vue'
   import { NSkeleton, NNumberAnimation, NButton, NSelect } from 'naive-ui'
   import { BANNER_DATA } from '~/data/banners'
   import { ExpandAlt, CompressAlt } from '@vicons/fa'
   import { useCardStyle } from '~/composables/useCardStyle'
   import { useUserStore } from '~/stores/user'
+  import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
 
   // Initialize stores
   const userStore = useUserStore()
+
+  // Initialize breakpoints
+  // Initialize breakpoints
+  const breakpoints = useBreakpoints(breakpointsTailwind)
+  const isMobile = ref(false) // Default to false for SSR
+
+  onMounted(() => {
+    // Set up the reactive mobile detection only on client-side
+    isMobile.value = !breakpoints.greater('sm').value
+    watch(
+      () => breakpoints.greater('sm').value,
+      (isGreater) => {
+        isMobile.value = !isGreater
+      }
+    )
+  })
 
   // Add isDark computed property
   const isDark = computed(() => userStore.getCurrentTheme === 'dark')
@@ -487,12 +504,7 @@
   const fourStarType2ChartOption = ref({})
   const fourStarType3ChartOption = ref({})
 
-  const isMobile = ref(false)
   const maximizedChart = ref(null)
-
-  const checkMobile = () => {
-    isMobile.value = window?.innerWidth < 768
-  }
 
   // Add banner selector related refs
   const selectedBannerId = ref(
@@ -620,25 +632,25 @@
           const bannerData = chartData[bannerId]
 
           return `
-            <div style="display: flex; flex-direction: column; align-items: center;">
-              <div style="margin-bottom: 5px; text-align: center; font-weight: bold;">
-                ${t(`banner.${banner.bannerId}.name`)}
+              <div style="display: flex; flex-direction: column; align-items: center;">
+                <div style="margin-bottom: 5px; text-align: center; font-weight: bold;">
+                  ${t(`banner.${banner.bannerId}.name`)}
+                </div>
+                <div style="margin-bottom: 5px; text-align: left;">
+                  ${bannerData['5_star'] ? `<span style="color: rgb(245, 158, 11)">★★★★★:</span> <strong>${bannerData['5_star']}</strong> (${((bannerData['5_star'] / bannerData.total) * 100).toFixed(1)}%)<br>` : ''}
+                  ${bannerData['4_star'] ? `<span style="color: rgb(139, 92, 246)">★★★★:</span> <strong>${bannerData['4_star']}</strong> (${((bannerData['4_star'] / bannerData.total) * 100).toFixed(1)}%)<br>` : ''}
+                  ${bannerData['3_star'] ? `<span style="color: rgb(107, 114, 128)">★★★:</span> <strong>${bannerData['3_star']}</strong> (${((bannerData['3_star'] / bannerData.total) * 100).toFixed(1)}%)` : ''}
+                </div>
+                <div style="margin-top: 5px; text-align: center;">
+                  ${t('global.charts.total')}: <strong>${bannerData.total}</strong>
+                </div>
+                <img
+                  src="/images/banners/thumbnails/${bannerId}.webp"
+                  alt="${t(`banner.${banner.bannerId}.name`)}"
+                  style="width: 200px; height: 100px; object-fit: cover; border-radius: 4px; margin-top: 8px;"
+                />
               </div>
-              <div style="margin-bottom: 5px; text-align: left;">
-                ${bannerData['5_star'] ? `<span style="color: rgb(245, 158, 11)">★★★★★:</span> <strong>${bannerData['5_star']}</strong> (${((bannerData['5_star'] / bannerData.total) * 100).toFixed(1)}%)<br>` : ''}
-                ${bannerData['4_star'] ? `<span style="color: rgb(139, 92, 246)">★★★★:</span> <strong>${bannerData['4_star']}</strong> (${((bannerData['4_star'] / bannerData.total) * 100).toFixed(1)}%)<br>` : ''}
-                ${bannerData['3_star'] ? `<span style="color: rgb(107, 114, 128)">★★★:</span> <strong>${bannerData['3_star']}</strong> (${((bannerData['3_star'] / bannerData.total) * 100).toFixed(1)}%)` : ''}
-              </div>
-              <div style="margin-top: 5px; text-align: center;">
-                ${t('global.charts.total')}: <strong>${bannerData.total}</strong>
-              </div>
-              <img
-                src="/images/banners/thumbnails/${bannerId}.webp"
-                alt="${t(`banner.${banner.bannerId}.name`)}"
-                style="width: 200px; height: 100px; object-fit: cover; border-radius: 4px; margin-top: 8px;"
-              />
-            </div>
-          `
+            `
         },
         backgroundColor: isDark.value
           ? 'rgba(38, 38, 38, 0.8)'
@@ -778,18 +790,18 @@
           const lineData = params[1]
 
           return `
-            <div style="display: flex; flex-direction: column;">
-              <div style="font-weight: bold; margin-bottom: 5px;">
-                ${t('global.charts.number_of_pulls')}: ${barData.axisValue}
+              <div style="display: flex; flex-direction: column;">
+                <div style="font-weight: bold; margin-bottom: 5px;">
+                  ${t('global.charts.number_of_pulls')}: ${barData.axisValue}
+                </div>
+                <div>
+                  ${t('global.charts.occurrences')}: <strong>${barData.value}</strong>
+                </div>
+                <div>
+                  ${t('global.charts.probability')}: <strong>${lineData.value.toFixed(2)}%</strong>
+                </div>
               </div>
-              <div>
-                ${t('global.charts.occurrences')}: <strong>${barData.value}</strong>
-              </div>
-              <div>
-                ${t('global.charts.probability')}: <strong>${lineData.value.toFixed(2)}%</strong>
-              </div>
-            </div>
-          `
+            `
         },
         backgroundColor: isDark.value
           ? 'rgba(38, 38, 38, 0.8)'
@@ -982,21 +994,21 @@
         confine: true,
         formatter: function (params) {
           return `
-            <div style="display: flex; flex-direction: column;">
-              <div style="font-weight: bold; margin-bottom: 5px;">
-                ${t('item.' + params.data.itemId + '.name', params.data.itemId)}
+              <div style="display: flex; flex-direction: column;">
+                <div style="font-weight: bold; margin-bottom: 5px;">
+                  ${t('item.' + params.data.itemId + '.name', params.data.itemId)}
+                </div>
+                <div>
+                  ${t('global.charts.type')}: <strong>${t(`items.types.${getItemType(params.data.itemId)}`)}</strong>
+                </div>
+                <div>
+                  ${t('global.charts.occurrences')}: <strong>${params.data.value}</strong>
+                </div>
+                <div>
+                  ${t('global.charts.percentage')}: <strong>${params.data.percentage}%</strong>
+                </div>
               </div>
-              <div>
-                ${t('global.charts.type')}: <strong>${t(`items.types.${getItemType(params.data.itemId)}`)}</strong>
-              </div>
-              <div>
-                ${t('global.charts.occurrences')}: <strong>${params.data.value}</strong>
-              </div>
-              <div>
-                ${t('global.charts.percentage')}: <strong>${params.data.percentage}%</strong>
-              </div>
-            </div>
-          `
+            `
         },
         backgroundColor: isDark.value
           ? 'rgba(38, 38, 38, 0.8)'
@@ -1082,20 +1094,6 @@
     // All configuration is done in createFirstItemDistributionChart
   }
 
-  // Create a named function for the resize handler
-  const handleResize = () => {
-    checkMobile()
-
-    if (data.value?.first_item_distribution && selectedBannerId.value) {
-      createFirstItemDistributionChart(data.value.first_item_distribution)
-    }
-
-    // Update the pullsPerBannerChart when window is resized
-    if (data.value?.pulls_per_banner) {
-      createPullsPerBannerChart(data.value.pulls_per_banner)
-    }
-  }
-
   // Watch for theme changes to update charts
   watch(isDark, () => {
     if (data.value && !loading.value) {
@@ -1103,16 +1101,18 @@
     }
   })
 
-  onMounted(() => {
-    checkMobile()
-    fetchGlobalData()
+  // Watch for breakpoint changes to update responsive charts
+  watch(isMobile, () => {
+    if (data.value?.first_item_distribution && selectedBannerId.value) {
+      createFirstItemDistributionChart(data.value.first_item_distribution)
+    }
 
-    // Add resize event listener to handle responsive chart
-    window.addEventListener('resize', handleResize)
+    if (data.value?.pulls_per_banner) {
+      createPullsPerBannerChart(data.value.pulls_per_banner)
+    }
   })
 
-  // Clean up resize event listener on component unmount
-  onUnmounted(() => {
-    window.removeEventListener('resize', handleResize)
+  onMounted(() => {
+    fetchGlobalData()
   })
 </script>

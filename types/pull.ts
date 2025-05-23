@@ -20,8 +20,7 @@ export interface PullItem {
   pullsToObtain: number
   obtainedAt: string
   bannerId: number
-  obtained: boolean
-  duplicate: boolean
+  count: number
 }
 
 export interface OutfitStatus {

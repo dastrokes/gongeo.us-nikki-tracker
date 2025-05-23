@@ -206,6 +206,14 @@
             ]"
             :style="cardStyle"
           >
+            <n-select
+              v-model:value="selectedBannerType"
+              :options="bannerTypeOptions"
+              :show-checkmark="false"
+              class="absolute top-2 right-12 z-10 w-40"
+              size="small"
+              @update:value="updatePullsPerBannerChart"
+            />
             <n-button
               size="tiny"
               text
@@ -408,9 +416,8 @@
               v-model:value="selectedBannerId"
               :options="bannerOptions"
               :show-checkmark="false"
-              class="absolute top-2 right-12 z-10"
+              class="absolute top-2 right-12 z-10 w-40"
               size="small"
-              style="width: 200px"
               @update:value="updateFirstItemChart"
             />
             <n-button
@@ -530,6 +537,12 @@
   const selectedBannerId = ref(
     Number(Object.keys(BANNER_DATA)[Object.keys(BANNER_DATA).length - 1])
   )
+  const selectedBannerType = ref('all')
+  const bannerTypeOptions = computed(() => [
+    { label: t('global.charts.all_banners'), value: 'all' },
+    { label: t('global.charts.five_star_banners'), value: 2 },
+    { label: t('global.charts.four_star_banners'), value: 3 },
+  ])
   const bannerOptions = computed(() => {
     return Object.entries(BANNER_DATA)
       .map(([id, banner]) => ({
@@ -609,19 +622,38 @@
     maximizedChart.value = maximizedChart.value === chartId ? null : chartId
   }
 
+  // Function to manually update pulls per banner chart when banner type selection changes
+  const updatePullsPerBannerChart = () => {
+    if (data.value?.pulls_per_banner) {
+      createPullsPerBannerChart(data.value.pulls_per_banner)
+    }
+  }
+
   const createPullsPerBannerChart = (chartData) => {
-    const bannerLabels = Object.keys(chartData).map((bannerId) => {
+    // Filter banners based on selected type
+    const filteredChartData =
+      selectedBannerType.value === 'all'
+        ? chartData
+        : Object.fromEntries(
+            Object.entries(chartData).filter(
+              ([bannerId]) =>
+                BANNER_DATA[parseInt(bannerId)].bannerType ===
+                selectedBannerType.value
+            )
+          )
+
+    const bannerLabels = Object.keys(filteredChartData).map((bannerId) => {
       const banner = BANNER_DATA[parseInt(bannerId)]
       return t(`banner.${banner.bannerId}.name`)
     })
 
-    const data3Star = Object.entries(chartData).map(
+    const data3Star = Object.entries(filteredChartData).map(
       ([_, pulls]) => pulls['3_star']
     )
-    const data4Star = Object.entries(chartData).map(
+    const data4Star = Object.entries(filteredChartData).map(
       ([_, pulls]) => pulls['4_star']
     )
-    const data5Star = Object.entries(chartData).map(
+    const data5Star = Object.entries(filteredChartData).map(
       ([_, pulls]) => pulls['5_star']
     )
 
@@ -629,7 +661,7 @@
       title: {
         text: t('global.charts.pulls_per_banner'),
         left: 'center',
-        top: 10,
+        top: isMobile.value ? 35 : 0,
         textStyle: {
           color: isDark.value ? '#e4e5e7' : '#797a7c',
           fontSize: 16,
@@ -647,9 +679,9 @@
         },
         confine: true,
         formatter: function (params) {
-          const bannerId = Object.keys(chartData)[params[0].dataIndex]
+          const bannerId = Object.keys(filteredChartData)[params[0].dataIndex]
           const banner = BANNER_DATA[parseInt(bannerId)]
-          const bannerData = chartData[bannerId]
+          const bannerData = filteredChartData[bannerId]
 
           return `
               <div style="display: flex; flex-direction: column; align-items: center;">
@@ -691,10 +723,10 @@
         inactiveColor: isDark.value ? '#797a7c' : '#e4e5e7',
         icon: 'circle',
         data: ['★★★★★', '★★★★', '★★★'],
-        top: 40,
+        top: isMobile.value ? 60 : 40,
       },
       grid: {
-        top: 80,
+        top: isMobile.value ? 60 : 40,
         bottom: 0,
         left: isMobile.value ? '0%' : '5%',
         right: 0,
@@ -713,6 +745,7 @@
           formatter: function (value, index) {
             if (
               isMobile.value &&
+              selectedBannerType.value === 'all' &&
               BANNER_DATA[parseInt(index) + 2].bannerType === 3
             )
               return ''
@@ -1002,7 +1035,7 @@
       title: {
         text: t('global.charts.first_item_distribution'),
         left: 'center',
-        top: isMobile.value ? 40 : 0,
+        top: isMobile.value ? 35 : 0,
         textStyle: {
           color: isDark.value ? '#e4e5e7' : '#797a7c',
           fontSize: 16,

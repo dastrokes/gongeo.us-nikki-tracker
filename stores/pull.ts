@@ -196,7 +196,7 @@ export const usePullStore = defineStore('pull', {
           // 3. Process pulls for this banner
           const pulls = pullsByBanner[bannerId] || []
           const processedPulls = [...pulls].reverse()
-          const itemObtained: Record<string, boolean> = {}
+          const itemCount: Record<string, number> = {}
           const firstObtainInfo: Record<string, PullItem> = {}
           const currentBanner = bannerPulls[bannerId]
 
@@ -218,19 +218,21 @@ export const usePullStore = defineStore('pull', {
               const pullsToObtain = currentPity[bannerId][rarity]
               currentPity[bannerId][rarity] = 0
 
+              // Increment the item counter
+              itemCount[itemId] = (itemCount[itemId] || 0) + 1
+
               const pullInfo: PullItem = {
                 itemId,
                 outfitId,
-                rarity: rarity as number,
+                rarity,
                 pullsToObtain,
                 obtainedAt: time || '',
                 bannerId: bannerId,
-                obtained: true,
+                count: itemCount[itemId],
                 pullIndex: index + 1,
-                duplicate: itemObtained[itemId] || false,
               }
 
-              if (!itemObtained[itemId]) {
+              if (itemCount[itemId] === 1) {
                 // Track first item of each rarity
                 if (rarity === 4 && !currentBanner.stats.first4StarItemId) {
                   currentBanner.stats.first4StarItemId = itemId
@@ -242,7 +244,6 @@ export const usePullStore = defineStore('pull', {
                 }
                 firstObtainInfo[itemId] = pullInfo
               }
-              itemObtained[itemId] = true
               currentBanner.pulls.unshift(pullInfo)
               currentBanner.stats.totalItems++
 
@@ -280,10 +281,10 @@ export const usePullStore = defineStore('pull', {
           if (bannerType === 1) {
             // Permanent
             const fourStarPulls = currentPulls.filter(
-              (item: PullItem) => item.rarity === 4 && item.obtained
+              (item: PullItem) => item.rarity === 4 && item.count > 0
             )
             const fiveStarPulls = currentPulls.filter(
-              (item: PullItem) => item.rarity === 5 && item.obtained
+              (item: PullItem) => item.rarity === 5 && item.count > 0
             )
             stats.total4StarItems = fourStarPulls.length
             stats.total5StarItems = fiveStarPulls.length
@@ -306,10 +307,10 @@ export const usePullStore = defineStore('pull', {
           } else if (bannerType === 2) {
             // Limited 5★ with 4★
             const fourStarPulls = currentPulls.filter(
-              (item: PullItem) => item.rarity === 4 && item.obtained
+              (item: PullItem) => item.rarity === 4 && item.count > 0
             )
             const fiveStarPulls = currentPulls.filter(
-              (item: PullItem) => item.rarity === 5 && item.obtained
+              (item: PullItem) => item.rarity === 5 && item.count > 0
             )
 
             stats.total4StarItems = fourStarPulls.length
@@ -338,7 +339,7 @@ export const usePullStore = defineStore('pull', {
           } else if (bannerType === 3) {
             // Limited 4★
             const fourStarPulls = currentPulls.filter(
-              (item: PullItem) => item.rarity === 4 && item.obtained
+              (item: PullItem) => item.rarity === 4 && item.count > 0
             )
             stats.total4StarItems = 0 // Reset mixed banner stats
             stats.total5StarItems = 0 // Reset 5★ stats
@@ -365,7 +366,7 @@ export const usePullStore = defineStore('pull', {
             if (!pullsByOutfit[pull.outfitId]) {
               pullsByOutfit[pull.outfitId] = new Set()
             }
-            if (pull.obtained) {
+            if (pull.count > 0) {
               pullsByOutfit[pull.outfitId].add(pull.itemId)
             }
           })
@@ -534,9 +535,8 @@ export const usePullStore = defineStore('pull', {
               pullsToObtain: 0,
               obtainedAt: '',
               bannerId: bannerId,
-              obtained: false,
+              count: 0,
               pullIndex: 0,
-              duplicate: false,
             })
           }
         }

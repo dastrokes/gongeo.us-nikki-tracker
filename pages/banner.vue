@@ -6,15 +6,23 @@
       :style="cardStyle"
     >
       <n-timeline
-        :icon-size="20"
+        :icon-size="18"
         size="large"
       >
         <n-timeline-item
           v-for="banner in sortedBanners"
           :key="banner.bannerId"
           :type="getBannerTypeColor(banner.bannerType)"
-          :title="t(`banner.${banner.bannerId}.name`)"
         >
+          <template #header>
+            <n-gradient-text
+              :size="18"
+              class="m-0 font-medium break-words"
+              :type="banner.bannerType === 2 ? 'warning' : 'info'"
+            >
+              {{ t(`banner.${banner.bannerId}.name`) }}
+            </n-gradient-text>
+          </template>
           <template #default>
             <div class="grid grid-cols-1 lg:grid-cols-4 gap-2">
               <div class="lg:col-span-1">

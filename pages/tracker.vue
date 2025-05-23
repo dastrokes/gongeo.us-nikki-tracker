@@ -144,9 +144,9 @@
                 <n-tooltip :width="180">
                   <template #trigger>
                     <n-icon
-                      class="export-exclude"
                       size="20"
                       depth="3"
+                      :class="{ hidden: exporting }"
                     >
                       <users />
                     </n-icon>
@@ -211,7 +211,7 @@
                 >
                   <template #trigger>
                     <DiceAnimation
-                      class="export-exclude"
+                      :class="{ hidden: exporting }"
                       :final-value="
                         getLuckDice(
                           getAvg5StarPercentile(globalStats.avg5StarPulls)
@@ -253,7 +253,7 @@
                 >
                   <template #trigger>
                     <DiceAnimation
-                      class="export-exclude"
+                      :class="{ hidden: exporting }"
                       :final-value="
                         getLuckDice(
                           getAvg4StarType2Percentile(globalStats.avg4StarPulls)
@@ -295,7 +295,7 @@
                 >
                   <template #trigger>
                     <DiceAnimation
-                      class="export-exclude"
+                      :class="{ hidden: exporting }"
                       :final-value="
                         getLuckDice(
                           getAvg4StarType3Percentile(
@@ -329,7 +329,7 @@
             </n-card>
 
             <div
-              class="flex justify-end space-x-2 items-start mt-2 export-exclude"
+              class="flex justify-end space-x-2 items-center m-1 sm:-m-1"
               :class="{ hidden: exporting }"
             >
               <!-- Export Button -->
@@ -339,7 +339,6 @@
                     size="small"
                     text
                     circle
-                    :loading="exporting"
                     class="text-gray-500 hover:text-gray-700"
                   >
                     <template #icon>
@@ -349,7 +348,36 @@
                     </template>
                   </n-button>
                 </template>
-                <div class="space-y-2">
+                <div
+                  :class="{ hidden: !exporting }"
+                  class="space-y-2 w-28 text-center"
+                >
+                  <n-button
+                    text
+                    class="text-gray-400 hover:text-gray-600"
+                  >
+                    <template #icon>
+                      <n-icon
+                        ><spinner class="animate-spin"
+                      /></n-icon> </template
+                    >{{ t('tracker.export.in_progress') }}
+                  </n-button>
+
+                  <n-button
+                    text
+                    class="text-gray-400 hover:text-gray-600"
+                    @click="exportPNG"
+                  >
+                    <template #icon>
+                      <n-icon><spinner class="animate-spin" /></n-icon>
+                    </template>
+                    {{ t('tracker.export.exporting') }}
+                  </n-button>
+                </div>
+                <div
+                  :class="{ hidden: exporting }"
+                  class="space-y-2 w-28 text-center"
+                >
                   <n-button
                     text
                     class="text-gray-400 hover:text-gray-600"
@@ -473,49 +501,81 @@
           >
             <n-card
               v-show="showEmptyBanners || banner.pulls.length > 0"
-              content-class="!p-2 sm:!p-4"
+              content-class="!p-2 sm:!pt-2 sm:!p-4"
               size="small"
               class="rounded-xl min-h-[120px] sm:min-h-[180px] mt-4"
               :style="cardStyle"
             >
               <!-- Banner Header -->
-              <div class="flex items-baseline">
-                <div class="flex-grow flex flex-wrap items-center gap-2">
-                  <n-h3 class="m-0 font-medium break-words">
-                    {{ t(`banner.${banner.bannerId}.name`) }}
-                  </n-h3>
-                  <div class="flex flex-wrap gap-2">
-                    <template
-                      v-for="outfit in banner.outfits"
-                      :key="outfit.id"
-                    >
-                      <div class="flex items-center gap-2">
-                        <n-tag
-                          :type="outfit.rarity === 5 ? 'warning' : 'info'"
-                          :bordered="false"
-                          round
-                          size="small"
-                          class="px-2"
+              <div
+                class="w-full flex flex-col sm:flex-row sm:items-center gap-2"
+              >
+                <n-gradient-text
+                  :size="18"
+                  class="m-0 font-medium break-words"
+                  :type="banner.bannerType === 2 ? 'warning' : 'info'"
+                >
+                  {{ t(`banner.${banner.bannerId}.name`) }}
+                </n-gradient-text>
+                <div class="flex flex-wrap gap-2">
+                  <template
+                    v-for="outfit in banner.outfits"
+                    :key="outfit.id"
+                  >
+                    <div class="flex items-center gap-2">
+                      <n-tag
+                        :type="outfit.rarity === 5 ? 'warning' : 'info'"
+                        :bordered="false"
+                        round
+                        size="small"
+                        class="px-2"
+                      >
+                        <span class="align-top"
+                          >{{ t(`outfit.${outfit.id}.name`) }}
+                          {{ outfit.rarity }}</span
                         >
-                          <span class="align-top"
-                            >{{ t(`outfit.${outfit.id}.name`) }}
-                            {{ outfit.rarity }}</span
-                          >
-                          <span class="ml-1"
-                            ><n-icon><star /></n-icon
-                          ></span>
-                          <span
-                            v-if="outfit.isComplete"
-                            class="ml-1"
-                            ><n-icon><check-circle /></n-icon
-                          ></span>
-                        </n-tag>
-                      </div>
-                    </template>
+                        <span class="ml-1"
+                          ><n-icon><star /></n-icon
+                        ></span>
+                        <span
+                          v-if="outfit.isComplete"
+                          class="ml-1"
+                          ><n-icon><check-circle /></n-icon
+                        ></span>
+                      </n-tag>
+                    </div>
+                  </template>
+                </div>
+              </div>
+              <div class="absolute right-2 top-2 flex flex-row space-x-2">
+                <div
+                  class="flex justify-between gap-2 items-baseline text-md text-gray-400"
+                  :class="{ hidden: !exporting }"
+                >
+                  <div>
+                    <span>{{ t('tracker.banner.stats.total_pulls') }}:</span>
+                    <span
+                      class="ml-1 text-lg font-medium"
+                      :class="isDark ? 'text-gray-200' : 'text-gray-600'"
+                      >{{ banner.stats.totalPulls }}</span
+                    >
+                  </div>
+                  <div v-if="banner.bannerType === 2">
+                    <span>{{ t('tracker.banner.stats.avg_5star') }}:</span>
+                    <span class="text-amber-500 ml-1 text-lg font-medium">{{
+                      banner.stats.avg5StarPulls.toFixed(2)
+                    }}</span>
+                  </div>
+                  <div v-if="banner.bannerType === 3">
+                    <span>{{ t('tracker.banner.stats.avg_4star') }}:</span>
+                    <span class="text-blue-500 ml-1 text-lg font-medium">{{
+                      banner.stats.avg4StarOnlyPulls.toFixed(2)
+                    }}</span>
                   </div>
                 </div>
-                <div class="flex space-x-2 export-exclude">
-                  <!-- Stats Button -->
+
+                <!-- Stats Button -->
+                <div class="flex flex-row space-x-2 p-1">
                   <n-popover
                     v-if="banner.stats.totalPulls > 0"
                     trigger="click"
@@ -526,6 +586,7 @@
                         text
                         circle
                         class="text-gray-500 hover:text-gray-700"
+                        :class="{ hidden: exporting }"
                       >
                         <template #icon>
                           <n-icon>
@@ -534,7 +595,7 @@
                         </template>
                       </n-button>
                     </template>
-                    <div class="min-w-[200px]">
+                    <div class="min-w-[150px]">
                       <div class="space-y-2 p-2">
                         <div class="flex justify-between">
                           <span class="text-sm">
@@ -551,7 +612,7 @@
                           <span class="text-sm">
                             {{ t('tracker.banner.stats.total_5star') }}
                           </span>
-                          <span class="font-medium text-amber-600">{{
+                          <span class="font-medium text-amber-500">{{
                             banner.stats.total5StarItems
                           }}</span>
                         </div>
@@ -562,7 +623,7 @@
                           <span class="text-sm">
                             {{ t('tracker.banner.stats.avg_5star') }}
                           </span>
-                          <span class="font-medium text-amber-600">{{
+                          <span class="font-medium text-amber-500">{{
                             banner.stats.avg5StarPulls.toFixed(2)
                           }}</span>
                         </div>
@@ -599,9 +660,9 @@
                           class="flex justify-between"
                         >
                           <span class="text-sm">
-                            {{ t('tracker.banner.stats.total_4star_mixed') }}
+                            {{ t('tracker.banner.stats.total_4star') }}
                           </span>
-                          <span class="font-medium text-blue-600">{{
+                          <span class="font-medium text-blue-500">{{
                             banner.stats.total4StarItems
                           }}</span>
                         </div>
@@ -610,9 +671,9 @@
                           class="flex justify-between"
                         >
                           <span class="text-sm">
-                            {{ t('tracker.banner.stats.avg_4star_mixed') }}
+                            {{ t('tracker.banner.stats.avg_4star') }}
                           </span>
-                          <span class="font-medium text-blue-600">{{
+                          <span class="font-medium text-blue-500">{{
                             banner.stats.avg4StarPulls.toFixed(2)
                           }}</span>
                         </div>
@@ -621,9 +682,9 @@
                           class="flex justify-between"
                         >
                           <span class="text-sm">
-                            {{ t('tracker.banner.stats.total_4star_only') }}
+                            {{ t('tracker.banner.stats.total_4star') }}
                           </span>
-                          <span class="font-medium text-blue-600">{{
+                          <span class="font-medium text-blue-500">{{
                             banner.stats.total4StarOnlyItems
                           }}</span>
                         </div>
@@ -632,9 +693,9 @@
                           class="flex justify-between"
                         >
                           <span class="text-sm">
-                            {{ t('tracker.banner.stats.avg_4star_only') }}
+                            {{ t('tracker.banner.stats.avg_4star') }}
                           </span>
-                          <span class="font-medium text-blue-600">{{
+                          <span class="font-medium text-blue-500">{{
                             banner.stats.avg4StarOnlyPulls.toFixed(2)
                           }}</span>
                         </div>
@@ -649,6 +710,7 @@
                         text
                         circle
                         class="text-gray-500 hover:text-gray-700"
+                        :class="{ hidden: exporting }"
                       >
                         <template #icon>
                           <n-icon>
@@ -778,6 +840,7 @@
     FileImageRegular,
     FileExport,
     Users,
+    Spinner,
   } from '@vicons/fa'
   import { useMessage } from 'naive-ui'
   import { BANNER_DATA } from '~/data/banners'
@@ -971,20 +1034,12 @@
       trackerElement.getBoundingClientRect()
       await nextTick()
 
-      const filter = (node: HTMLElement) => {
-        const exclusionClasses = ['export-exclude']
-        return !exclusionClasses.some((classname) =>
-          node.classList?.contains(classname)
-        )
-      }
-
       const contentWidth = trackerElement.scrollWidth
       const contentHeight = trackerElement.scrollHeight
 
       const dataUrl = await toPng(trackerElement, {
         quality: 1,
         backgroundColor: isDark.value ? '#1a202c' : '#fdf2f8',
-        filter: filter,
         width: contentWidth,
         height: contentHeight,
         style: {

@@ -163,7 +163,6 @@
   },
   "common": {
     "pull": "Pull #{number}",
-    "duplicate": "Duplicate",
     "obtained": "Obtained",
     "rarity": {
       "4": "4★",
@@ -264,7 +263,10 @@
       "occurrences": "Occurrences",
       "percentage": "Percentage",
       "total": "Total",
-      "type": "Type"
+      "type": "Type",
+      "all_banners": "All Banners",
+      "five_star_banners": "5★ Banners",
+      "four_star_banners": "4★ Banners"
     }
   },
   "faq": {

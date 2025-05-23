@@ -1022,12 +1022,26 @@
         throw new Error('Tracker element not found')
       }
 
+      // Wait for all images to load
       const images = Array.from(trackerElement.querySelectorAll('img'))
       await Promise.all(
         images.map((img) =>
           img.complete
             ? Promise.resolve()
-            : new Promise((resolve) => (img.onload = resolve))
+            : new Promise((resolve) => {
+                const originalSrc = img.src
+                // Create a new image to force reload
+                const tempImg = new Image()
+                tempImg.onload = () => {
+                  img.src = originalSrc
+                  resolve(true)
+                }
+                tempImg.onerror = () => {
+                  console.error('Failed to load image:', originalSrc)
+                  resolve(false)
+                }
+                tempImg.src = originalSrc
+              })
         )
       )
 

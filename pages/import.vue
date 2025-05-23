@@ -117,7 +117,7 @@
               <div v-if="userStore.getRegion === Region.CHINA">
                 {{ $t('import.login_pearpal_desc') }}
                 <a
-                  class="text-blue-600 hover:text-blue-800 underline"
+                  class="text-blue-500 hover:text-blue-800 underline"
                   href="https://myl.nuanpaper.com/home"
                   target="_blank"
                   >{{ $t('import.pearpal_website') }}</a
@@ -126,7 +126,7 @@
               <div v-else>
                 {{ $t('import.login_pearpal_desc') }}
                 <a
-                  class="text-blue-600 hover:text-blue-800 underline"
+                  class="text-blue-500 hover:text-blue-800 underline"
                   href="https://pearpal.infoldgames.com/en/home"
                   target="_blank"
                   >{{ $t('import.pearpal_website') }}</a
@@ -206,7 +206,7 @@
                 <li>{{ $t('import.console_steps.step5') }}</li>
                 <li>{{ $t('import.console_steps.step6') }}</li>
                 <li>{{ $t('import.console_steps.step7') }}</li>
-                <div class="text-sm text-amber-600 break-words">
+                <div class="text-sm text-amber-500 break-words">
                   {{ $t('import.security_note') }}
                 </div>
               </ol>
@@ -274,7 +274,7 @@
                 </li>
                 <li>{{ $t('import.manual_steps.step6') }}</li>
               </ol>
-              <div class="text-sm text-amber-600 break-words">
+              <div class="text-sm text-amber-500 break-words">
                 {{ $t('import.security_note') }}
               </div>
             </div>

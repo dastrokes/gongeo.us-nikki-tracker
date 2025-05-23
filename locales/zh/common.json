@@ -1,15 +1,26 @@
 {
   "navigation": {
     "title": "暖暖共鸣录",
-    "resonance_tracker": "共鸣记录",
-    "import_data": "导入数据",
-    "global_data": "社区数据",
-    "banner_history": "卡池历史",
+    "subtitle": "暖暖共鸣录",
+    "tracker": "共鸣记录",
+    "import": "导入数据",
+    "global": "社区数据",
+    "banner": "卡池历史",
     "faq": "常见问题",
     "about": "关于本站",
     "nuan5pro": "无暖助手",
     "discord": "Discord",
     "ko-fi": "Ko-fi"
+  },
+  "meta": {
+    "description": {
+      "tracker": "追踪并分析您的无限暖暖共鸣抽卡历史，查看所有卡池中的5★和4★物品记录。与其他玩家比较您的抽卡运气。",
+      "import": "轻松导入您的无限暖暖共鸣抽卡记录，支持游戏数据和备份文件导入，并提供详细的操作指南。",
+      "global": "探索无限暖暖社区抽卡数据，包括卡池受欢迎程度、平均概率和抽卡分布统计。",
+      "banner": "查看完整的无限暖暖卡池历史记录，包含限定和常驻套装详情、复刻时间表及持续时间等信息。",
+      "faq": "关于暖暖共鸣录的常见问题解答，包括数据隐私、导入方式和使用指南等信息。",
+      "about": "了解暖暖共鸣录的相关信息，包括免责声明、隐私政策等信息。"
+    }
   },
   "index": {
     "title": "暖暖共鸣录",
@@ -102,7 +113,7 @@
       "total_pulls": "总抽数",
       "total_5star_4star": "5★ / 4★总数",
       "total_5star": "5★总抽数",
-      "avg_5star": "5★平均抽数",
+      "avg_5star": "5★平均（5★卡池）",
       "total_4star_mixed": "4★总数（5★卡池）",
       "avg_4star_mixed": "4★平均（5★卡池）",
       "total_4star_only": "4★平均（4★卡池）",

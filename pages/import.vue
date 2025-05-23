@@ -487,6 +487,27 @@
 
   const { t } = useI18n()
   const isMaintenanceMode = false
+  const localePath = useLocalePath()
+  const siteUrl = useRuntimeConfig().public.siteUrl
+
+  useHead({
+    title: t('navigation.import') + ' - ' + t('navigation.subtitle'),
+    meta: [
+      {
+        name: 'description',
+        content: t('meta.description.import'),
+      },
+      {
+        property: 'og:title',
+        content: t('navigation.import') + ' - ' + t('navigation.subtitle'),
+      },
+      {
+        property: 'og:description',
+        content: t('meta.description.import'),
+      },
+    ],
+    link: [{ rel: 'canonical', href: `${siteUrl}${localePath('/import')}` }],
+  })
 
   const REGION_LABELS = {
     [Region.AMERICA]: t('common.regions.america'),

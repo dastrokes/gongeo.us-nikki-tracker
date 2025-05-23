@@ -40,7 +40,7 @@
               <Globe />
             </n-icon>
           </template>
-          {{ $t('navigation.global_data') }}
+          {{ $t('navigation.global') }}
         </n-button>
       </div></n-card
     >

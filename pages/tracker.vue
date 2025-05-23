@@ -325,7 +325,7 @@
               <p class="text-sm text-gray-400">
                 {{ t('tracker.export.generated_from') }}
               </p>
-              <p class="text-xl">gongeo.us</p>
+              <p class="text-xl">{{ t('navigation.title') }}</p>
             </n-card>
 
             <div
@@ -759,7 +759,7 @@
             type="primary"
             @click="router.push(localePath('/import'))"
           >
-            {{ t('navigation.import_data') }}
+            {{ t('navigation.import') }}
           </n-button>
         </div>
       </n-card>
@@ -800,6 +800,26 @@
   const userStore = useUserStore()
   const isDark = computed(() => userStore.getCurrentTheme === 'dark')
   const loading = ref(true)
+  const siteUrl = useRuntimeConfig().public.siteUrl
+
+  useHead({
+    title: t('navigation.tracker') + ' - ' + t('navigation.subtitle'),
+    meta: [
+      {
+        name: 'description',
+        content: t('meta.description.tracker'),
+      },
+      {
+        property: 'og:title',
+        content: t('navigation.tracker') + ' - ' + t('navigation.subtitle'),
+      },
+      {
+        property: 'og:description',
+        content: t('meta.description.tracker'),
+      },
+    ],
+    link: [{ rel: 'canonical', href: `${siteUrl}${localePath('/tracker')}` }],
+  })
 
   onMounted(async () => {
     try {

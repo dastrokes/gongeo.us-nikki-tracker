@@ -1022,48 +1022,12 @@
         throw new Error('Tracker element not found')
       }
 
-      // Wait for all images to load
-      const images = Array.from(trackerElement.querySelectorAll('img'))
-      await Promise.all(
-        images.map((img) => {
-          if (img.complete) return Promise.resolve()
-
-          return new Promise<void>((resolve) => {
-            const onLoad = () => {
-              img.removeEventListener('load', onLoad)
-              img.removeEventListener('error', onError)
-              resolve()
-            }
-            const onError = () => {
-              console.error('Failed to load image:', img.src)
-              img.removeEventListener('load', onLoad)
-              img.removeEventListener('error', onError)
-              resolve()
-            }
-            img.addEventListener('load', onLoad)
-            img.addEventListener('error', onError)
-          })
-        })
-      )
-
-      // Force layout recalculation and wait for next render
-      trackerElement.getBoundingClientRect()
-      await nextTick()
-
       // Generate the PNG with fixed dimensions
       const dataUrl = await toPng(trackerElement, {
         quality: 1,
-        backgroundColor: isDark.value ? '#1a202c' : '#fdf2f8',
+        backgroundColor: isDark.value ? '#0f172a' : '#fafafa',
         width: trackerElement.scrollWidth,
         height: trackerElement.scrollHeight,
-        style: {
-          transform: 'none',
-          position: 'relative',
-          left: '0',
-          top: '0',
-        },
-        skipAutoScale: true,
-        pixelRatio: 1,
       })
 
       // Download the image

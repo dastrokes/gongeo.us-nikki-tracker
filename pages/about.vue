@@ -121,7 +121,7 @@
   const siteUrl = useRuntimeConfig().public.siteUrl
 
   useHead({
-    title: t('about.title') + ' - ' + t('navigation.subtitle'),
+    title: t('navigation.about') + ' - ' + t('navigation.subtitle'),
     meta: [
       {
         name: 'description',
@@ -129,7 +129,7 @@
       },
       {
         property: 'og:title',
-        content: t('about.title') + ' - ' + t('navigation.subtitle'),
+        content: t('navigation.about') + ' - ' + t('navigation.subtitle'),
       },
       {
         property: 'og:description',

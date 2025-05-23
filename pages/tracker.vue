@@ -534,8 +534,8 @@
                         </template>
                       </n-button>
                     </template>
-                    <div class="p-4 w-[200px]">
-                      <div class="space-y-2">
+                    <div class="min-w-[200px]">
+                      <div class="space-y-2 p-2">
                         <div class="flex justify-between">
                           <span class="text-sm">
                             {{ t('tracker.banner.stats.total_pulls') }}
@@ -911,7 +911,7 @@
       }
       // Show all items (both obtained and missing) when showMissingPieces is true
       // Only show obtained items when showMissingPieces is false
-      return showMissingPieces.value[bannerId] || pull.obtained
+      return showMissingPieces.value[bannerId] || pull.count > 0
     })
 
     // Sort items based on pullIndex

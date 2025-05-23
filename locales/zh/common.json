@@ -163,7 +163,6 @@
   },
   "common": {
     "pull": "第 {number} 抽",
-    "duplicate": "重复",
     "obtained": "已获得",
     "rarity": {
       "4": "4★",
@@ -264,7 +263,10 @@
       "occurrences": "出现次数",
       "percentage": "百分比",
       "total": "总数",
-      "type": "类型"
+      "type": "类型",
+      "all_banners": "所有卡池",
+      "five_star_banners": "5★卡池",
+      "four_star_banners": "4★卡池"
     }
   },
   "faq": {

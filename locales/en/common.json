@@ -125,7 +125,9 @@
       "stats": {
         "total_pulls": "Total Pulls",
         "total_5star": "5★ Total",
-        "avg_5star": "5★ Average",
+        "avg_5star": "5★ Avg",
+        "total_4star": "4★ Total",
+        "avg_4star": "4★ Avg",
         "pity_5star": "5★ Pity",
         "pity_4star": "4★ Pity",
         "total_4star_mixed": "4★ Total (5★ Banner)",
@@ -153,6 +155,8 @@
       "png": "Export Image",
       "json": "Export File",
       "generated_from": "Generated From",
+      "exporting": "Exporting...",
+      "in_progress": "In Progress...",
       "success": "Tracker exported successfully!",
       "error": "Failed to export tracker. Please try again."
     },

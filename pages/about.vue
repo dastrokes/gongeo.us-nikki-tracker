@@ -117,4 +117,25 @@
 
   const { t } = useI18n()
   const { cardStyle } = useCardStyle()
+  const localePath = useLocalePath()
+  const siteUrl = useRuntimeConfig().public.siteUrl
+
+  useHead({
+    title: t('about.title') + ' - ' + t('navigation.subtitle'),
+    meta: [
+      {
+        name: 'description',
+        content: t('meta.description.about'),
+      },
+      {
+        property: 'og:title',
+        content: t('about.title') + ' - ' + t('navigation.subtitle'),
+      },
+      {
+        property: 'og:description',
+        content: t('meta.description.about'),
+      },
+    ],
+    link: [{ rel: 'canonical', href: `${siteUrl}${localePath('/about')}` }],
+  })
 </script>

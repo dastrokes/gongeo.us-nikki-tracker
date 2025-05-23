@@ -274,22 +274,22 @@
   const topMenuOptions = computed<MenuOption[]>(() =>
     [
       {
-        label: t('navigation.resonance_tracker'),
+        label: t('navigation.tracker'),
         key: 'tracker',
         icon: renderIcon(Book),
       },
       {
-        label: t('navigation.import_data'),
+        label: t('navigation.import'),
         key: 'import',
         icon: renderIcon(FileImport),
       },
       {
-        label: t('navigation.global_data'),
+        label: t('navigation.global'),
         key: 'global',
         icon: renderIcon(Globe),
       },
       {
-        label: t('navigation.banner_history'),
+        label: t('navigation.banner'),
         key: 'banner',
         icon: renderIcon(CalendarAlt),
       },

@@ -1,19 +1,30 @@
 {
   "navigation": {
     "title": "gongeo.us",
-    "resonance_tracker": "Resonance Tracker",
-    "import_data": "Import Data",
-    "global_data": "Global Data",
-    "banner_history": "Banner History",
+    "subtitle": "Infinity Nikki Resonance Tracker",
+    "tracker": "Resonance Tracker",
+    "import": "Import Data",
+    "global": "Global Data",
+    "banner": "Banner History",
     "faq": "FAQ",
     "about": "About",
     "nuan5pro": "Nuan5.Pro",
     "discord": "Discord",
     "ko-fi": "Ko-fi"
   },
+  "meta": {
+    "description": {
+      "tracker": "Track and analyze your Infinity Nikki Resonance pull history, view all 5★ and 4★ items from your banners. Compare your luck with other players.",
+      "import": "Easily import your Infinity Nikki Resonance pull history from game data or backup files, with detailed step-by-step guides.",
+      "global": "Explore Infinity Nikki community pull data, including banner popularity, average drop rates, and pull distribution statistics.",
+      "banner": "View complete Infinity Nikki banner history, including limited and permanent outfit details, rerun schedules, and duration information.",
+      "faq": "Find answers to frequently asked questions about gongeo.us, including data privacy, import methods, and usage guidelines.",
+      "about": "Learn about gongeo.us, including disclaimers, privacy policy, and other important information."
+    }
+  },
   "index": {
     "title": "gongeo.us",
-    "subtitle": "Infinity Nikki Resonance Tracker",
+    "subtitle": "Infinity Nikki Resonance Tracker",
     "description": "Track Infinity Nikki Resonance History and Statistics",
     "your_data": "Your Data",
     "current_banners": "Current Banners",

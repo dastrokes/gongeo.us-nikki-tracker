@@ -119,6 +119,27 @@
 
   const { t } = useI18n()
   const { cardStyle } = useCardStyle()
+  const localePath = useLocalePath()
+  const siteUrl = useRuntimeConfig().public.siteUrl
+
+  useHead({
+    title: t('navigation.banner') + ' - ' + t('navigation.subtitle'),
+    meta: [
+      {
+        name: 'description',
+        content: t('meta.description.banner'),
+      },
+      {
+        property: 'og:title',
+        content: t('navigation.banner') + ' - ' + t('navigation.subtitle'),
+      },
+      {
+        property: 'og:description',
+        content: t('meta.description.banner'),
+      },
+    ],
+    link: [{ rel: 'canonical', href: `${siteUrl}${localePath('/banner')}` }],
+  })
 
   // Sort banners by ID in descending order (newest first)
   const sortedBanners = computed(() => {

@@ -58,6 +58,27 @@
   import KoFi from '~/components/icons/KoFi.vue'
 
   const { t } = useI18n()
+  const localePath = useLocalePath()
+  const siteUrl = useRuntimeConfig().public.siteUrl
+
+  useHead({
+    title: t('navigation.faq') + ' - ' + t('navigation.subtitle'),
+    meta: [
+      {
+        name: 'description',
+        content: t('meta.description.faq'),
+      },
+      {
+        property: 'og:title',
+        content: t('navigation.faq') + ' - ' + t('navigation.subtitle'),
+      },
+      {
+        property: 'og:description',
+        content: t('meta.description.tracker'),
+      },
+    ],
+    link: [{ rel: 'canonical', href: `${siteUrl}${localePath('/faq')}` }],
+  })
 
   const faqs = {
     data_source: {},

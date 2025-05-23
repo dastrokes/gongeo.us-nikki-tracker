@@ -174,7 +174,7 @@
           <div class="text-sm text-gray-400">
             {{ $t('global.stats.data_as_of') }}
           </div>
-          <div class="text-xl font-medium mt-1">
+          <div class="text-lg font-medium mt-1">
             <n-time
               :time="new Date(data.effective_date)"
               type="date"
@@ -464,7 +464,6 @@
   const userStore = useUserStore()
 
   // Initialize breakpoints
-  // Initialize breakpoints
   const breakpoints = useBreakpoints(breakpointsTailwind)
   const isMobile = ref(false) // Default to false for SSR
 
@@ -484,6 +483,27 @@
 
   // Initialize i18n
   const { t } = useI18n()
+  const localePath = useLocalePath()
+  const siteUrl = useRuntimeConfig().public.siteUrl
+
+  useHead({
+    title: t('navigation.global') + ' - ' + t('navigation.subtitle'),
+    meta: [
+      {
+        name: 'description',
+        content: t('meta.description.global'),
+      },
+      {
+        property: 'og:title',
+        content: t('navigation.global') + ' - ' + t('navigation.subtitle'),
+      },
+      {
+        property: 'og:description',
+        content: t('meta.description.global'),
+      },
+    ],
+    link: [{ rel: 'canonical', href: `${siteUrl}${localePath('/global')}` }],
+  })
 
   const loading = ref(true)
   const data = ref(null)

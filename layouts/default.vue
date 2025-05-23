@@ -91,6 +91,7 @@
 
     <n-layout-content
       ref="scrollbarRef"
+      :class="isDark ? '#0f172a' : '#fafafa'"
       :native-scrollbar="false"
       @scroll="onScroll"
     >

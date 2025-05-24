@@ -106,6 +106,19 @@
       "limited_banners": "Limited Banners",
       "permanent_banners": "Permanent Banners",
       "individual": "Individual Banners"
+    },
+    "messages": {
+      "code_copied": "Code copied to clipboard!",
+      "code_copy_failed": "Failed to copy code to clipboard",
+      "data_paste_success": "Data pasted successfully!",
+      "data_paste_failed": "Failed to parse input data. Please ensure it is valid format",
+      "auth_success": "Authentication successful!",
+      "auth_failed": "Authentication failed",
+      "stats_submit_failed": "Failed to submit global stats",
+      "fetch_history_failed": "Failed to fetch pull history",
+      "invalid_form": "Invalid form data",
+      "import_success": "Data imported successfully!",
+      "import_failed": "Failed to import file"
     }
   },
   "tracker": {
@@ -155,13 +168,14 @@
       "png": "Export Image",
       "json": "Export File",
       "generated_from": "Generated From",
-      "in_progress": "Image export in progress, please wait...",
-      "success": "Tracker exported successfully!",
-      "error": "Failed to export tracker. Please try again."
+      "in_progress": "Export in progress, please wait...",
+      "success": "Data exported successfully!",
+      "error": "Failed to export data. Please try again."
     },
     "no_data": {
       "title": "No resonance history available.",
-      "subtitle": "Please import your resonance data first."
+      "subtitle": "Please import your resonance data first.",
+      "error": "Failed to load data. Please try again."
     }
   },
   "common": {

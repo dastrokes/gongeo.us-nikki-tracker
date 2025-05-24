@@ -526,9 +526,9 @@
   const copyToClipboard = async () => {
     try {
       await window?.navigator?.clipboard?.writeText(consoleScript)
-      message.success('Code copied to clipboard!')
+      message.success(t('import.messages.code_copied'))
     } catch {
-      message.error('Failed to copy code to clipboard')
+      message.error(t('import.messages.code_copy_failed'))
     }
   }
 
@@ -655,12 +655,10 @@
         token: parsedData.token,
         id: parsedData.id,
       }
-      message.success('Data pasted successfully!')
+      message.success(t('import.messages.data_paste_success'))
     } catch (error) {
       console.error(error)
-      message.error(
-        'Failed to parse clipboard data. Please paste manually or fill in the form'
-      )
+      message.error(t('import.messages.data_paste_failed'))
     }
   }
 
@@ -677,12 +675,10 @@
         token: parsedData.token,
         id: parsedData.id,
       }
-      message.success('Data pasted successfully!')
+      message.success(t('import.messages.data_paste_success'))
     } catch (error) {
       console.error(error)
-      message.error(
-        'Failed to parse input data. Please ensure it is valid file format'
-      )
+      message.error(t('import.messages.data_paste_failed'))
     }
   }
 
@@ -786,7 +782,7 @@
       const success = await verifyAuth(cookieData)
 
       if (success) {
-        message.success('Authentication successful!')
+        message.success(t('import.messages.auth_success'))
         userStore.setUid(formData.value.roleid)
 
         try {
@@ -802,18 +798,18 @@
             try {
               await pullStore.sendUserBannerStats()
             } catch {
-              message.error('Failed to submit global stats')
+              message.error(t('import.messages.stats_submit_failed'))
             }
           }
         } catch {
-          message.error('Failed to fetch pull history')
+          message.error(t('import.messages.fetch_history_failed'))
         }
       } else {
-        message.error('Authentication failed')
+        message.error(t('import.messages.auth_failed'))
       }
     } catch (error) {
       console.error(error)
-      message.error('Invalid form data')
+      message.error(t('import.messages.invalid_form'))
     }
   }
 
@@ -831,10 +827,10 @@
 
       await processJsonImport(jsonData)
 
-      message.success('Data imported successfully!')
+      message.success(t('import.messages.import_success'))
     } catch (e) {
       console.error(e)
-      message.error('Failed to import file')
+      message.error(t('import.messages.import_failed'))
     }
   }
 
@@ -853,15 +849,13 @@
           token: parsedData.token,
           id: parsedData.id,
         }
-        message.success('Data pasted successfully!')
+        message.success(t('import.messages.data_paste_success'))
       } catch (error) {
         // Don't show error message on every keystroke
         if (newValue.length > 10) {
           // Only show error if input is reasonably long
           console.warn(`Invalid data input`, error)
-          message.error(
-            "Failed to parse input data. Please ensure it's valid file format."
-          )
+          message.error(t('import.messages.data_paste_failed'))
         }
       }
     }

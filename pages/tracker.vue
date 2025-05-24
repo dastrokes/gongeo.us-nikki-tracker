@@ -333,17 +333,21 @@
               class="flex justify-end space-x-2 items-center m-1 sm:-m-1"
             >
               <!-- Export Button -->
-              <n-popover trigger="click">
+              <n-popover
+                trigger="manual"
+                :show="showPopover"
+              >
                 <template #trigger>
                   <n-button
                     size="small"
                     text
                     circle
                     class="text-gray-500 hover:text-gray-700"
+                    @click="showPopover = !showPopover"
                   >
                     <template #icon>
                       <n-icon>
-                        <file-export />
+                        <download />
                       </n-icon>
                     </template>
                   </n-button>
@@ -488,7 +492,9 @@
                 >
                   {{ t(`banner.${banner.bannerId}.name`) }}
                 </n-gradient-text>
-                <div class="flex flex-wrap gap-2">
+                <div
+                  class="flex flex-wrap gap-2 w-full sm:w-[calc(100%-500px)]"
+                >
                   <template
                     v-for="outfit in banner.outfits"
                     :key="outfit.id"
@@ -801,7 +807,7 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, onMounted, computed } from 'vue'
+  import { ref, onMounted, computed, nextTick } from 'vue'
   import { storeToRefs } from 'pinia'
   import {
     Cog,
@@ -811,7 +817,7 @@
     FileImageRegular,
     FileExport,
     Users,
-    Spinner,
+    Download,
   } from '@vicons/fa'
   import { useMessage } from 'naive-ui'
   import { BANNER_DATA } from '~/data/banners'
@@ -835,6 +841,7 @@
   const isDark = computed(() => userStore.getCurrentTheme === 'dark')
   const siteUrl = useRuntimeConfig().public.siteUrl
   const loading = ref(true)
+  const showPopover = ref(false)
   const exporting = ref(false)
 
   useHead({
@@ -868,8 +875,8 @@
 
       loading.value = false
     } catch (error) {
-      console.error('Failed to load resonance data:', error)
-      message.error('Failed to load resonance data. Please try again.')
+      console.error('Failed to load data:', error)
+      message.error(t('tracker.no_data.error'))
     }
   })
 
@@ -984,11 +991,10 @@
   const exportPNG = async () => {
     if (exporting.value) return
     message.info(t('tracker.export.in_progress'))
+    exporting.value = true
+    showPopover.value = false
 
     try {
-      exporting.value = true
-      await nextTick()
-
       const trackerElement = document.querySelector(
         '.png-export-container'
       ) as HTMLElement
@@ -1018,23 +1024,16 @@
       message.error(t('tracker.export.error'))
     } finally {
       exporting.value = false
-      await nextTick()
     }
   }
 
   const exportJSON = async () => {
     if (exporting.value) return
+    message.info(t('tracker.export.in_progress'))
+    exporting.value = true
+    showPopover.value = false
 
     try {
-      // Set state before any operations
-      exporting.value = true
-
-      // Force a state update
-      await Promise.all([
-        nextTick(),
-        new Promise((resolve) => requestAnimationFrame(resolve)),
-      ])
-
       const rawData = pullStore.rawPullData
 
       // Filter out banners with 0 pulls
@@ -1056,19 +1055,12 @@
       // Clean up the URL object
       URL.revokeObjectURL(link.href)
 
-      message.success('Data exported successfully!')
+      message.success(t('tracker.export.success'))
     } catch (error) {
       console.error('Export failed:', error)
-      message.error('Failed to export data. Please try again.')
+      message.error(t('tracker.export.error'))
     } finally {
-      // Reset state
       exporting.value = false
-
-      // Force final state update
-      await Promise.all([
-        nextTick(),
-        new Promise((resolve) => requestAnimationFrame(resolve)),
-      ])
     }
   }
 </script>

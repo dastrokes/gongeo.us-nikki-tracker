@@ -673,13 +673,13 @@
         color: isDark.value ? '#e4e5e7' : '#797a7c',
       },
       tooltip: {
-        trigger: 'axis',
+        trigger: 'item',
         axisPointer: {
           snap: true,
         },
         confine: true,
         formatter: function (params) {
-          const bannerId = Object.keys(filteredChartData)[params[0].dataIndex]
+          const bannerId = Object.keys(filteredChartData)[params.dataIndex]
           const banner = BANNER_DATA[parseInt(bannerId)]
           const bannerData = filteredChartData[bannerId]
 
@@ -726,7 +726,7 @@
         top: isMobile.value ? 60 : 40,
       },
       grid: {
-        top: isMobile.value ? 60 : 40,
+        top: isMobile.value ? 70 : 50,
         bottom: 0,
         left: isMobile.value ? '0%' : '5%',
         right: 0,

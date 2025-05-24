@@ -982,8 +982,8 @@
   }
 
   const exportPNG = async () => {
-    message.info(t('tracker.export.in_progress'))
     if (exporting.value) return
+    message.info(t('tracker.export.in_progress'))
 
     try {
       exporting.value = true

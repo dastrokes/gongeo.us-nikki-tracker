@@ -155,8 +155,7 @@
       "png": "Export Image",
       "json": "Export File",
       "generated_from": "Generated From",
-      "exporting": "Exporting...",
-      "in_progress": "In Progress...",
+      "in_progress": "Image export in progress, please wait...",
       "success": "Tracker exported successfully!",
       "error": "Failed to export tracker. Please try again."
     },

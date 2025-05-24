@@ -1022,6 +1022,30 @@
     )
   }
 
+  const downloadImage = (dataUrl: string, filename: string) => {
+    return new Promise<void>((resolve, reject) => {
+      try {
+        fetch(dataUrl)
+          .then((res) => res.blob())
+          .then((blob) => {
+            const url = window.URL.createObjectURL(blob)
+            const a = document.createElement('a')
+            a.style.display = 'none'
+            a.href = url
+            a.download = filename
+            document.body.appendChild(a)
+            a.click()
+            window.URL.revokeObjectURL(url)
+            document.body.removeChild(a)
+            resolve()
+          })
+          .catch(reject)
+      } catch (err) {
+        reject(err)
+      }
+    })
+  }
+
   const exportPNG = async () => {
     try {
       exporting.value = true
@@ -1034,7 +1058,16 @@
         throw new Error('Tracker element not found')
       }
 
+      // Force a re-render by temporarily detaching and reattaching the element
+      const parent = trackerElement.parentNode
+      const nextSibling = trackerElement.nextSibling
+      parent?.removeChild(trackerElement)
+      parent?.insertBefore(trackerElement, nextSibling)
+
+      // Wait for all images to load
       await waitForImages(trackerElement)
+
+      // Small delay to ensure everything is rendered
       await new Promise((r) => setTimeout(r, 100))
 
       const dataUrl = await toPng(trackerElement, {
@@ -1042,21 +1075,12 @@
         backgroundColor: isDark.value ? '#0f172a' : '#fafafa',
         width: trackerElement.scrollWidth,
         height: trackerElement.scrollHeight,
+        canvasWidth: trackerElement.scrollWidth,
+        canvasHeight: trackerElement.scrollHeight,
       })
 
-      // Create a new blob from the data URL to ensure uniqueness
-      const response = await fetch(dataUrl)
-      const blob = await response.blob()
-      const uniqueUrl = URL.createObjectURL(blob)
-
-      // Download the image
-      const link = document.createElement('a')
-      link.download = `gongeous-${new Date().toISOString().split('T')[0]}.png`
-      link.href = uniqueUrl
-      link.click()
-
-      // Clean up the object URL after download
-      URL.revokeObjectURL(uniqueUrl)
+      const filename = `gongeous-${new Date().toISOString().split('T')[0]}.png`
+      await downloadImage(dataUrl, filename)
 
       message.success(t('tracker.export.success'))
     } catch (error) {

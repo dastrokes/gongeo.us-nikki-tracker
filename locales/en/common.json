@@ -347,7 +347,7 @@
   },
   "maintenance": {
     "title": "Under Maintenance",
-    "message": "We're currently performing some maintenance on our site to improve your experience.",
-    "status": "We'll be back online shortly. Thank you for your patience!"
+    "message": "We're currently performing some maintenance. Pull history import is temporarily unavailable.",
+    "status": "Service will be back shortly. Thank you for your patience!"
   }
 }

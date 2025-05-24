@@ -1004,6 +1004,7 @@
         backgroundColor: isDark.value ? '#0f172a' : '#fafafa',
         width: contentWidth,
         height: contentHeight,
+        includeQueryParams: true,
       })
 
       const link = document.createElement('a')

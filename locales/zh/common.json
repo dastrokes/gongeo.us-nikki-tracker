@@ -106,6 +106,19 @@
       "limited_banners": "限定卡池",
       "permanent_banners": "常驻卡池",
       "individual": "单独选择"
+    },
+    "messages": {
+      "code_copied": "代码已复制到剪贴板！",
+      "code_copy_failed": "复制代码到剪贴板失败",
+      "data_paste_success": "数据粘贴成功！",
+      "data_paste_failed": "解析输入数据失败。请确保格式正确",
+      "auth_success": "认证成功！",
+      "auth_failed": "认证失败",
+      "stats_submit_failed": "提交全局统计数据失败",
+      "fetch_history_failed": "获取抽卡历史记录失败",
+      "invalid_form": "表单数据无效",
+      "import_success": "数据导入成功！",
+      "import_failed": "导入文件失败"
     }
   },
   "tracker": {
@@ -155,13 +168,14 @@
       "png": "导出图片",
       "json": "导出文件",
       "generated_from": "生成自",
-      "in_progress": "图片导出中，请稍后...",
+      "in_progress": "导出中，请稍后...",
       "success": "记录导出成功！",
       "error": "导出失败，请重试。"
     },
     "no_data": {
       "title": "暂无共鸣记录。",
-      "subtitle": "请先导入您的共鸣数据。"
+      "subtitle": "请先导入您的共鸣数据。",
+      "error": "加载失败，请重试。"
     }
   },
   "common": {

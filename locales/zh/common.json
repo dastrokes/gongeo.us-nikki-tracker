@@ -155,8 +155,7 @@
       "png": "导出图片",
       "json": "导出文件",
       "generated_from": "生成自",
-      "exporting": "导出中...",
-      "in_progress": "请稍后...",
+      "in_progress": "图片导出中，请稍后...",
       "success": "记录导出成功！",
       "error": "导出失败，请重试。"
     },

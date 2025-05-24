@@ -144,9 +144,9 @@
                 <n-tooltip :width="180">
                   <template #trigger>
                     <n-icon
+                      v-show="!exporting"
                       size="20"
                       depth="3"
-                      :class="{ hidden: exporting }"
                     >
                       <users />
                     </n-icon>
@@ -211,7 +211,7 @@
                 >
                   <template #trigger>
                     <DiceAnimation
-                      :class="{ hidden: exporting }"
+                      v-show="!exporting"
                       :final-value="
                         getLuckDice(
                           getAvg5StarPercentile(globalStats.avg5StarPulls)
@@ -253,7 +253,7 @@
                 >
                   <template #trigger>
                     <DiceAnimation
-                      :class="{ hidden: exporting }"
+                      v-show="!exporting"
                       :final-value="
                         getLuckDice(
                           getAvg4StarType2Percentile(globalStats.avg4StarPulls)
@@ -295,7 +295,7 @@
                 >
                   <template #trigger>
                     <DiceAnimation
-                      :class="{ hidden: exporting }"
+                      v-show="!exporting"
                       :final-value="
                         getLuckDice(
                           getAvg4StarType3Percentile(
@@ -317,10 +317,10 @@
             </n-card>
 
             <n-card
+              v-show="exporting"
               :style="cardStyle"
               size="small"
               class="text-center rounded-md"
-              :class="{ hidden: !exporting }"
             >
               <p class="text-sm text-gray-400">
                 {{ t('tracker.export.generated_from') }}
@@ -329,8 +329,8 @@
             </n-card>
 
             <div
+              v-show="!exporting"
               class="flex justify-end space-x-2 items-center m-1 sm:-m-1"
-              :class="{ hidden: exporting }"
             >
               <!-- Export Button -->
               <n-popover trigger="click">
@@ -348,36 +348,7 @@
                     </template>
                   </n-button>
                 </template>
-                <div
-                  :class="{ hidden: !exporting }"
-                  class="space-y-2 w-28 text-center"
-                >
-                  <n-button
-                    text
-                    class="text-gray-400 hover:text-gray-600"
-                  >
-                    <template #icon>
-                      <n-icon
-                        ><spinner class="animate-spin"
-                      /></n-icon> </template
-                    >{{ t('tracker.export.in_progress') }}
-                  </n-button>
-
-                  <n-button
-                    text
-                    class="text-gray-400 hover:text-gray-600"
-                    @click="exportPNG"
-                  >
-                    <template #icon>
-                      <n-icon><spinner class="animate-spin" /></n-icon>
-                    </template>
-                    {{ t('tracker.export.exporting') }}
-                  </n-button>
-                </div>
-                <div
-                  :class="{ hidden: exporting }"
-                  class="space-y-2 w-28 text-center"
-                >
+                <div class="space-y-2 w-28 text-center">
                   <n-button
                     text
                     class="text-gray-400 hover:text-gray-600"
@@ -549,8 +520,8 @@
               </div>
               <div class="absolute right-2 top-2 flex flex-row space-x-2">
                 <div
+                  v-show="exporting"
                   class="flex justify-between gap-2 items-baseline text-md text-gray-400"
-                  :class="{ hidden: !exporting }"
                 >
                   <div>
                     <span>{{ t('tracker.banner.stats.total_pulls') }}:</span>
@@ -582,11 +553,11 @@
                   >
                     <template #trigger>
                       <n-button
+                        v-show="!exporting"
                         size="small"
                         text
                         circle
                         class="text-gray-500 hover:text-gray-700"
-                        :class="{ hidden: exporting }"
                       >
                         <template #icon>
                           <n-icon>
@@ -706,11 +677,11 @@
                   <n-popover trigger="click">
                     <template #trigger>
                       <n-button
+                        v-show="!exporting"
                         size="small"
                         text
                         circle
                         class="text-gray-500 hover:text-gray-700"
-                        :class="{ hidden: exporting }"
                       >
                         <template #icon>
                           <n-icon>
@@ -862,8 +833,9 @@
   const { cardStyle } = useCardStyle()
   const userStore = useUserStore()
   const isDark = computed(() => userStore.getCurrentTheme === 'dark')
-  const loading = ref(true)
   const siteUrl = useRuntimeConfig().public.siteUrl
+  const loading = ref(true)
+  const exporting = ref(false)
 
   useHead({
     title: t('navigation.tracker') + ' - ' + t('navigation.subtitle'),
@@ -942,7 +914,6 @@
   const sortItems = ref(false)
   const combineOutfits = ref(false)
   const showEmptyBanners = ref(false)
-  const exporting = ref(false)
 
   // Function to sort banners
   const sortedBanners = computed(() => {
@@ -1010,43 +981,10 @@
     return 6
   }
 
-  const waitForImages = async (container: HTMLElement) => {
-    const images = Array.from(container.querySelectorAll('img'))
-    await Promise.all(
-      images.map((img) => {
-        if (img.complete && img.naturalHeight !== 0) return Promise.resolve()
-        return new Promise((resolve) => {
-          img.onload = img.onerror = () => resolve(null)
-        })
-      })
-    )
-  }
-
-  const downloadImage = (dataUrl: string, filename: string) => {
-    return new Promise<void>((resolve, reject) => {
-      try {
-        fetch(dataUrl)
-          .then((res) => res.blob())
-          .then((blob) => {
-            const url = window.URL.createObjectURL(blob)
-            const a = document.createElement('a')
-            a.style.display = 'none'
-            a.href = url
-            a.download = filename
-            document.body.appendChild(a)
-            a.click()
-            window.URL.revokeObjectURL(url)
-            document.body.removeChild(a)
-            resolve()
-          })
-          .catch(reject)
-      } catch (err) {
-        reject(err)
-      }
-    })
-  }
-
   const exportPNG = async () => {
+    message.info(t('tracker.export.in_progress'))
+    if (exporting.value) return
+
     try {
       exporting.value = true
       await nextTick()
@@ -1058,29 +996,20 @@
         throw new Error('Tracker element not found')
       }
 
-      // Force a re-render by temporarily detaching and reattaching the element
-      const parent = trackerElement.parentNode
-      const nextSibling = trackerElement.nextSibling
-      parent?.removeChild(trackerElement)
-      parent?.insertBefore(trackerElement, nextSibling)
-
-      // Wait for all images to load
-      await waitForImages(trackerElement)
-
-      // Small delay to ensure everything is rendered
-      await new Promise((r) => setTimeout(r, 100))
+      const contentWidth = trackerElement.scrollWidth
+      const contentHeight = trackerElement.scrollHeight
 
       const dataUrl = await toPng(trackerElement, {
         quality: 1,
         backgroundColor: isDark.value ? '#0f172a' : '#fafafa',
-        width: trackerElement.scrollWidth,
-        height: trackerElement.scrollHeight,
-        canvasWidth: trackerElement.scrollWidth,
-        canvasHeight: trackerElement.scrollHeight,
+        width: contentWidth,
+        height: contentHeight,
       })
 
-      const filename = `gongeous-${new Date().toISOString().split('T')[0]}.png`
-      await downloadImage(dataUrl, filename)
+      const link = document.createElement('a')
+      link.download = `gongeous-${new Date().toISOString().split('T')[0]}.png`
+      link.href = dataUrl
+      link.click()
 
       message.success(t('tracker.export.success'))
     } catch (error) {
@@ -1093,8 +1022,18 @@
   }
 
   const exportJSON = async () => {
+    if (exporting.value) return
+
     try {
+      // Set state before any operations
       exporting.value = true
+
+      // Force a state update
+      await Promise.all([
+        nextTick(),
+        new Promise((resolve) => requestAnimationFrame(resolve)),
+      ])
+
       const rawData = pullStore.rawPullData
 
       // Filter out banners with 0 pulls
@@ -1121,7 +1060,14 @@
       console.error('Export failed:', error)
       message.error('Failed to export data. Please try again.')
     } finally {
+      // Reset state
       exporting.value = false
+
+      // Force final state update
+      await Promise.all([
+        nextTick(),
+        new Promise((resolve) => requestAnimationFrame(resolve)),
+      ])
     }
   }
 </script>

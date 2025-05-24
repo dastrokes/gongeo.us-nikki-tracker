@@ -1010,6 +1010,18 @@
     return 6
   }
 
+  const waitForImages = async (container: HTMLElement) => {
+    const images = Array.from(container.querySelectorAll('img'))
+    await Promise.all(
+      images.map((img) => {
+        if (img.complete && img.naturalHeight !== 0) return Promise.resolve()
+        return new Promise((resolve) => {
+          img.onload = img.onerror = () => resolve(null)
+        })
+      })
+    )
+  }
+
   const exportPNG = async () => {
     try {
       exporting.value = true
@@ -1022,7 +1034,9 @@
         throw new Error('Tracker element not found')
       }
 
-      // Generate the PNG with fixed dimensions
+      await waitForImages(trackerElement)
+      await new Promise((r) => setTimeout(r, 100))
+
       const dataUrl = await toPng(trackerElement, {
         quality: 1,
         backgroundColor: isDark.value ? '#0f172a' : '#fafafa',
@@ -1030,11 +1044,19 @@
         height: trackerElement.scrollHeight,
       })
 
+      // Create a new blob from the data URL to ensure uniqueness
+      const response = await fetch(dataUrl)
+      const blob = await response.blob()
+      const uniqueUrl = URL.createObjectURL(blob)
+
       // Download the image
       const link = document.createElement('a')
       link.download = `gongeous-${new Date().toISOString().split('T')[0]}.png`
-      link.href = dataUrl
+      link.href = uniqueUrl
       link.click()
+
+      // Clean up the object URL after download
+      URL.revokeObjectURL(uniqueUrl)
 
       message.success(t('tracker.export.success'))
     } catch (error) {

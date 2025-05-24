@@ -2,7 +2,7 @@ import type { H3Event } from 'h3'
 import { getRequestIP } from 'h3'
 import { isRateLimited } from '../utils/rateLimiter'
 
-const DATA_URL =
+const BASE_DATA_URL =
   'https://fimzdbqulflilnnopibz.supabase.co/storage/v1/object/sign/infinitynikkitracker/data.json?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzA1OTJmMWYxLWVhNWMtNDg3Ni1iYzk1LWRhNmVmOTU0YTE4MiJ9.eyJ1cmwiOiJpbmZpbml0eW5pa2tpdHJhY2tlci9kYXRhLmpzb24iLCJpYXQiOjE3NDYxNDEyMjIsImV4cCI6NDg2ODIwNTIyMn0.x2Fmx61_lNTHaqO1OsOxHRJYS9y3EXBi0wWry25z0rU'
 
 // Cache control for daily updates (24 hours)
@@ -52,8 +52,11 @@ export default defineEventHandler(async (event: H3Event) => {
       return { message: 'ok' }
     }
 
-    // Fetch data with 24h cache
-    const jsonData = await fetchJsonData(DATA_URL)
+    // Extract current UTC date for cache busting
+    const dateParam = new Date().toISOString().slice(0, 10)
+    const dataUrl = `${BASE_DATA_URL}&v=${dateParam}`
+
+    const jsonData = await fetchJsonData(dataUrl)
     setHeader(event, 'Cache-Control', CACHE_CONTROL)
     return jsonData
   } catch (error) {

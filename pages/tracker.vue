@@ -537,7 +537,9 @@
                       >{{ banner.stats.totalPulls }}</span
                     >
                   </div>
-                  <div v-if="banner.bannerType === 2">
+                  <div
+                    v-if="banner.bannerType === 1 || banner.bannerType === 2"
+                  >
                     <span>{{ t('tracker.banner.stats.avg_5star') }}:</span>
                     <span class="text-amber-500 ml-1 text-lg font-medium">{{
                       banner.stats.avg5StarPulls.toFixed(2)

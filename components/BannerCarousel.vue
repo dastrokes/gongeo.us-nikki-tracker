@@ -39,10 +39,10 @@
           size="small"
           class="absolute opacity-80 bottom-2 right-2 scale-90 sm:scale-100 origin-bottom-right"
         >
-          {{ $t('index.time_left') }} {{ formattedTime }}
-
+          {{ formattedTime }}
           <template #icon>
             <n-icon
+              class="ml-1"
               size="12"
               :component="HourglassHalf"
             />

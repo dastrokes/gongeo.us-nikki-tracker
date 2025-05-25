@@ -1,5 +1,6 @@
 <template>
   <n-layout
+    ref="target"
     has-sider
     position="absolute"
   >
@@ -193,6 +194,7 @@
   import LanguageSwitcher from '~/components/LanguageSwitcher.vue'
   import KoFi from '~/components/icons/KoFi.vue'
   import { useUserStore } from '~/stores/user'
+  import { useSwipe } from '@vueuse/core'
 
   const { t } = useI18n()
   const localePath = useLocalePath()
@@ -402,4 +404,15 @@
 
     lastScrollPosition.value = currentScrollPosition
   }
+
+  // Setup swipe handling
+  const target = ref<HTMLElement | null>(null)
+  const { direction } = useSwipe(target, {
+    threshold: 50,
+    onSwipe() {
+      if (direction.value === 'left' && showSider.value) {
+        showSider.value = false
+      }
+    },
+  })
 </script>

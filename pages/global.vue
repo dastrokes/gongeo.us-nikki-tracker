@@ -30,7 +30,7 @@
 
       <!-- Charts Skeleton -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <!-- Main Chart Skeleton -->
+        <!-- Pulls per Banner Chart Skeleton -->
         <n-card
           size="small"
           class="col-span-1 md:col-span-3 rounded-lg"
@@ -41,12 +41,18 @@
               height="24px"
               width="200px"
             />
-            <n-skeleton
-              height="24px"
-              width="24px"
-            />
+            <div class="flex items-center gap-2">
+              <n-skeleton
+                height="32px"
+                width="160px"
+              />
+              <n-skeleton
+                height="24px"
+                width="24px"
+              />
+            </div>
           </div>
-          <n-skeleton height="300px" />
+          <n-skeleton height="320px" />
         </n-card>
 
         <!-- Distribution Charts Skeleton -->
@@ -545,6 +551,7 @@
   ])
   const bannerOptions = computed(() => {
     return Object.entries(BANNER_DATA)
+      .filter(([id]) => id !== '1')
       .map(([id, banner]) => ({
         label: t(`banner.${banner.bannerId}.name`),
         value: Number(id),

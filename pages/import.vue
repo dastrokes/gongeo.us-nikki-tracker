@@ -513,8 +513,8 @@
     [Region.AMERICA]: t('common.regions.america'),
     [Region.EUROPE]: t('common.regions.europe'),
     [Region.CHINA]: t('common.regions.china'),
-    [Region.TW]: t('common.regions.tw'),
     [Region.ASIA]: t('common.regions.asia'),
+    [Region.TW]: t('common.regions.tw'),
   } as const
 
   const consoleScript = `console.log(JSON.stringify({

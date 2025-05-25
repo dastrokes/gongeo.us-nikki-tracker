@@ -9,39 +9,36 @@
         :style="cardStyle"
       >
         <div
-          class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
+          class="flex-grow grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2"
         >
-          <div
-            class="w-full grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2"
+          <n-card
+            v-for="i in 5"
+            :key="i"
+            size="small"
+            class="text-center rounded-md"
+            :style="cardStyle"
           >
-            <n-card
-              v-for="i in 5"
-              :key="i"
-              size="small"
-              class="text-center rounded-md"
-              :style="cardStyle"
-            >
-              <n-skeleton
-                text
-                class="mb-2"
-                :style="{ width: '80%', margin: '0 auto' }"
-              />
-              <n-skeleton
-                text
-                :style="{ width: '60%', margin: '0 auto' }"
-              />
-            </n-card>
-          </div>
-          <div class="flex space-x-2 shrink-0">
+            <n-skeleton
+              height="20px"
+              width="80%"
+              class="mb-2 mx-auto"
+            />
+            <n-skeleton
+              height="28px"
+              width="60%"
+              class="mx-auto"
+            />
+          </n-card>
+          <div class="flex justify-end space-x-2 items-center">
             <n-skeleton
               circle
-              width="32px"
-              height="32px"
+              width="24px"
+              height="24px"
             />
             <n-skeleton
               circle
-              width="32px"
-              height="32px"
+              width="24px"
+              height="24px"
             />
           </div>
         </div>
@@ -58,39 +55,38 @@
         >
           <div class="space-y-4">
             <!-- Banner Header Skeleton -->
-            <div
-              class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
-            >
+            <div class="flex items-center justify-between">
               <div
-                class="w-full flex flex-col sm:flex-row items-start sm:items-center gap-4"
+                class="flex flex-col sm:flex-row items-start sm:items-center gap-4"
               >
                 <n-skeleton
                   text
                   width="200px"
+                  height="30px"
                 />
                 <div class="flex flex-wrap gap-2">
                   <n-skeleton
                     round
                     width="120px"
-                    height="24px"
+                    height="20px"
                   />
                   <n-skeleton
                     round
                     width="120px"
-                    height="24px"
+                    height="20px"
                   />
                 </div>
               </div>
               <div class="flex space-x-2 shrink-0">
                 <n-skeleton
                   circle
-                  width="32px"
-                  height="32px"
+                  width="24px"
+                  height="24px"
                 />
                 <n-skeleton
                   circle
-                  width="32px"
-                  height="32px"
+                  width="24px"
+                  height="24px"
                 />
               </div>
             </div>
@@ -809,7 +805,7 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, onMounted, computed, nextTick } from 'vue'
+  import { ref, onMounted, computed } from 'vue'
   import { storeToRefs } from 'pinia'
   import {
     Cog,

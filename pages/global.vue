@@ -673,13 +673,10 @@
         color: isDark.value ? '#e4e5e7' : '#797a7c',
       },
       tooltip: {
-        trigger: 'item',
-        axisPointer: {
-          snap: true,
-        },
+        trigger: 'axis',
         confine: true,
         formatter: function (params) {
-          const bannerId = Object.keys(filteredChartData)[params.dataIndex]
+          const bannerId = Object.keys(filteredChartData)[params[0].dataIndex]
           const banner = BANNER_DATA[parseInt(bannerId)]
           const bannerData = filteredChartData[bannerId]
 
@@ -726,7 +723,7 @@
         top: isMobile.value ? 60 : 40,
       },
       grid: {
-        top: isMobile.value ? 70 : 50,
+        top: isMobile.value ? 80 : 60,
         bottom: 0,
         left: isMobile.value ? '0%' : '5%',
         right: 0,
@@ -806,9 +803,9 @@
     const labels = Object.keys(chartData)
     const values = Object.values(chartData)
 
-    // Calculate cumulative probability
+    const total = values.reduce((sum, val) => sum + val, 0)
+
     const cumulativeData = values.map((value, index, array) => {
-      const total = array.reduce((sum, val) => sum + val, 0)
       const cumulative = array
         .slice(0, index + 1)
         .reduce((sum, val) => sum + val, 0)
@@ -851,7 +848,10 @@
                   ${t('global.charts.occurrences')}: <strong>${barData.value}</strong>
                 </div>
                 <div>
-                  ${t('global.charts.probability')}: <strong>${lineData.value.toFixed(2)}%</strong>
+                  ${t('global.charts.probability')}: <strong>${((barData.value / total) * 100).toFixed(2)}%</strong>
+                </div>
+                <div>
+                  ${t('global.charts.cumulative_probability')}: <strong>${lineData.value.toFixed(2)}%</strong>
                 </div>
               </div>
             `
@@ -869,7 +869,7 @@
           'box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); border-radius: 8px;',
       },
       grid: {
-        top: 0,
+        top: 35,
         bottom: 0,
         left: 30,
         right: 30,
@@ -913,12 +913,7 @@
       ],
       series: [
         {
-          name:
-            chartType === 'fiveStar'
-              ? t('global.charts.five_star_pulls')
-              : chartType === 'fourStarType2'
-                ? t('global.charts.four_star_pulls_type2')
-                : t('global.charts.four_star_pulls_type3'),
+          name: t('global.charts.occurrences'),
           type: 'bar',
           data: values,
           itemStyle: {
@@ -927,18 +922,18 @@
           },
         },
         {
-          name: t('global.charts.probability'),
+          name: t('global.charts.cumulative_probability'),
           type: 'line',
           yAxisIndex: 1,
           smooth: true,
           data: cumulativeData,
-          symbol: 'circle', // or 'rect', 'diamond', 'none', etc.
+          symbol: 'circle',
           symbolSize: 3,
           lineStyle: {
-            color: color.replace('0.8', '0.5'),
+            color: color.replace('0.5', '0.3'),
           },
           itemStyle: {
-            color: color.replace('0.8', '0.5'),
+            color: color.replace('0.5', '0.3'),
           },
         },
       ],
@@ -1043,22 +1038,22 @@
         },
       },
       tooltip: {
-        trigger: 'item',
+        trigger: 'axis',
         confine: true,
         formatter: function (params) {
           return `
               <div style="display: flex; flex-direction: column;">
                 <div style="font-weight: bold; margin-bottom: 5px;">
-                  ${t('item.' + params.data.itemId + '.name', params.data.itemId)}
+                  ${t('item.' + params[0].data.itemId + '.name', params[0].data.itemId)}
                 </div>
                 <div>
-                  ${t('global.charts.type')}: <strong>${t(`items.types.${getItemType(params.data.itemId)}`)}</strong>
+                  ${t('global.charts.type')}: <strong>${t(`items.types.${getItemType(params[0].data.itemId)}`)}</strong>
                 </div>
                 <div>
-                  ${t('global.charts.occurrences')}: <strong>${params.data.value}</strong>
+                  ${t('global.charts.occurrences')}: <strong>${params[0].data.value}</strong>
                 </div>
                 <div>
-                  ${t('global.charts.percentage')}: <strong>${params.data.percentage}%</strong>
+                  ${t('global.charts.percentage')}: <strong>${params[0].data.percentage}%</strong>
                 </div>
               </div>
             `

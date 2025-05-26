@@ -62,6 +62,7 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     supabaseServiceKey: process.env.SUPABASE_SERVICE_ROLE_KEY,
+    supabaseStorageToken: process.env.SUPABASE_STORAGE_TOKEN,
 
     public: {
       supabaseUrl: process.env.SUPABASE_DATABASE_URL,

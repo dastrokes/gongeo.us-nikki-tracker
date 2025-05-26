@@ -96,7 +96,7 @@
       :native-scrollbar="false"
       @scroll="onScroll"
     >
-      <div class="h-full py-14 sm:py-16 px-2">
+      <div class="h-full px-2 py-14 sm:py-16">
         <slot />
       </div>
     </n-layout-content>

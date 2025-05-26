@@ -2,8 +2,11 @@ import type { H3Event } from 'h3'
 import { getRequestIP } from 'h3'
 import { isRateLimited } from '../utils/rateLimiter'
 
-const dataUrl =
-  'https://fimzdbqulflilnnopibz.supabase.co/storage/v1/object/sign/infinitynikkitracker/data.json'
+const config = useRuntimeConfig()
+const supabaseUrl = config.public.supabaseUrl
+const supabaseStorageToken = config.supabaseStorageToken
+
+const dataUrl = `${supabaseUrl}/storage/v1/object/sign/infinitynikkitracker/data.json?token=${supabaseStorageToken}`
 
 // Cache control for daily updates (24 hours)
 const CACHE_CONTROL = 'public, max-age=86400, immutable'

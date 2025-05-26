@@ -6,7 +6,7 @@ const dataUrl =
   'https://fimzdbqulflilnnopibz.supabase.co/storage/v1/object/sign/infinitynikkitracker/data.json'
 
 // Cache control for daily updates (24 hours)
-const CACHE_CONTROL = 'public, max-age=86400'
+const CACHE_CONTROL = 'public, max-age=86400, immutable'
 
 const fetchJsonData = async (url: string) => {
   const response = await fetch(url, {

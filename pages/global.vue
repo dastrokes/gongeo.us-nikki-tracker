@@ -39,18 +39,12 @@
           <div class="flex justify-between items-center mb-2">
             <n-skeleton
               height="24px"
-              width="200px"
+              width="160px"
             />
-            <div class="flex items-center gap-2">
-              <n-skeleton
-                height="32px"
-                width="160px"
-              />
-              <n-skeleton
-                height="24px"
-                width="24px"
-              />
-            </div>
+            <n-skeleton
+              height="24px"
+              width="24px"
+            />
           </div>
           <n-skeleton height="320px" />
         </n-card>
@@ -66,7 +60,7 @@
           <div class="flex justify-between items-center mb-2">
             <n-skeleton
               height="24px"
-              width="200px"
+              width="160px"
             />
             <n-skeleton
               height="24px"
@@ -984,10 +978,16 @@
 
     const bannerItems = chartData[selectedBannerId.value]
 
+    // Calculate total for percentage
+    const totalOccurrences = bannerItems.reduce(
+      (sum, item) => sum + item.occurrences,
+      0
+    )
+
     // Prepare data
     const data = bannerItems.map((item) => ({
       value: item.occurrences,
-      percentage: item.percentage,
+      percentage: ((item.occurrences / totalOccurrences) * 100).toFixed(2),
       itemId: item.first_item_id,
     }))
 

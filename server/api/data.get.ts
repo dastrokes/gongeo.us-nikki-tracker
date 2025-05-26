@@ -6,7 +6,7 @@ const dataUrl =
   'https://fimzdbqulflilnnopibz.supabase.co/storage/v1/object/sign/infinitynikkitracker/data.json?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzA1OTJmMWYxLWVhNWMtNDg3Ni1iYzk1LWRhNmVmOTU0YTE4MiJ9.eyJ1cmwiOiJpbmZpbml0eW5pa2tpdHJhY2tlci9kYXRhLmpzb24iLCJpYXQiOjE3NDYxNDEyMjIsImV4cCI6NDg2ODIwNTIyMn0.x2Fmx61_lNTHaqO1OsOxHRJYS9y3EXBi0wWry25z0rU'
 
 // Cache control for daily updates (24 hours)
-const CACHE_CONTROL = 'public, max-age=86400'
+const CACHE_CONTROL = 'public, max-age=86400, immutable'
 
 const fetchJsonData = async (url: string) => {
   const response = await fetch(url, {

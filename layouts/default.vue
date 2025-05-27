@@ -98,14 +98,14 @@
     >
       <div
         ref="contentRef"
-        class="h-full px-2 pt-14 sm:pt-16 pb-10"
+        class="h-full px-2 pt-14 sm:pt-16 pb-14 sm:pb-10"
       >
         <slot />
       </div>
     </n-layout-content>
 
     <n-layout-footer
-      class="text-center text-sm pb-2 fixed bottom-0 left-0 right-0 bg-transparent transition-transform duration-300 ease-in-out"
+      class="text-center text-sm mb-2 mx-12 sm:mr-0 fixed bottom-0 left-0 right-0 bg-transparent transition-transform duration-300 ease-in-out"
       :class="{
         'translate-y-0': showFooter,
         'translate-y-12': !showFooter,
@@ -146,7 +146,7 @@
       ghost
       circle
       size="small"
-      class="fixed bottom-8 right-8 z-20 transition-transform duration-300 ease-in-out"
+      class="fixed bottom-4 right-4 sm:bottom-8 sm:right-8 z-20 opacity-60 hover:opacity-100 transition-transform duration-300 ease-in-out"
       :class="{
         'translate-y-0': showScrollTop,
         'translate-y-16': !showScrollTop,

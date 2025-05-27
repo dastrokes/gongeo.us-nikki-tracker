@@ -201,7 +201,7 @@
             :class="[
               'transition-all duration-300',
               maximizedChart === 'pullsPerBanner'
-                ? 'h-[calc(100vh-200px)]'
+                ? 'h-[calc(100vh-210px)] sm:h-[calc(100vh-160px)]'
                 : 'h-[320px]',
             ]"
             :style="cardStyle"
@@ -259,7 +259,7 @@
             :class="[
               'transition-all duration-300',
               maximizedChart === 'fiveStar'
-                ? 'h-[calc(100vh-200px)]'
+                ? 'h-[calc(100vh-210px)] sm:h-[calc(100vh-160px)]'
                 : 'h-[200px]',
             ]"
             :style="cardStyle"
@@ -307,7 +307,7 @@
             :class="[
               'transition-all duration-300',
               maximizedChart === 'fourStarType2'
-                ? 'h-[calc(100vh-200px)]'
+                ? 'h-[calc(100vh-210px)] sm:h-[calc(100vh-160px)]'
                 : 'h-[200px]',
             ]"
             :style="cardStyle"
@@ -357,7 +357,7 @@
             :class="[
               'transition-all duration-300',
               maximizedChart === 'fourStarType3'
-                ? 'h-[calc(100vh-200px)]'
+                ? 'h-[calc(100vh-210px)] sm:h-[calc(100vh-160px)]'
                 : 'h-[200px]',
             ]"
             :style="cardStyle"
@@ -407,7 +407,7 @@
             :class="[
               'transition-all duration-300',
               maximizedChart === 'firstItemDistribution'
-                ? 'h-[calc(100vh-200px)]'
+                ? 'h-[calc(100vh-210px)] sm:h-[calc(100vh-160px)]'
                 : 'h-[200px]',
             ]"
             :style="cardStyle"

@@ -1,6 +1,6 @@
 <template>
   <n-layout
-    ref="target"
+    ref="layoutRef"
     has-sider
     position="absolute"
   >
@@ -96,13 +96,16 @@
       :native-scrollbar="false"
       @scroll="onScroll"
     >
-      <div class="h-full px-2 py-14 sm:py-16">
+      <div
+        ref="contentRef"
+        class="h-full px-2 pt-14 sm:pt-16 pb-10"
+      >
         <slot />
       </div>
     </n-layout-content>
 
     <n-layout-footer
-      class="text-center text-sm p-2 fixed bottom-0 left-0 right-0 bg-transparent transition-transform duration-300 ease-in-out"
+      class="text-center text-sm pb-2 fixed bottom-0 left-0 right-0 bg-transparent transition-transform duration-300 ease-in-out"
       :class="{
         'translate-y-0': showFooter,
         'translate-y-12': !showFooter,
@@ -194,7 +197,7 @@
   import LanguageSwitcher from '~/components/LanguageSwitcher.vue'
   import KoFi from '~/components/icons/KoFi.vue'
   import { useUserStore } from '~/stores/user'
-  import { useSwipe } from '@vueuse/core'
+  import { useSwipe, useResizeObserver } from '@vueuse/core'
 
   const { t } = useI18n()
   const localePath = useLocalePath()
@@ -381,6 +384,7 @@
   const showScrollTop = ref(false)
   const lastScrollPosition = ref(0)
   const scrollbarRef = ref<HTMLElement | null>(null)
+  const contentRef = ref<HTMLElement | null>(null)
 
   const scrollToTop = () => {
     scrollbarRef.value?.scrollTo({
@@ -400,14 +404,19 @@
 
     // Show footer when near the bottom (within 100px)
     showFooter.value =
-      scrollHeight - (currentScrollPosition + clientHeight) < 100
+      scrollHeight - (currentScrollPosition + clientHeight) < 100 ||
+      currentScrollPosition < 100
 
     lastScrollPosition.value = currentScrollPosition
   }
 
+  useResizeObserver(contentRef, () => {
+    showFooter.value = true
+  })
+
   // Setup swipe handling
-  const target = ref<HTMLElement | null>(null)
-  const { direction } = useSwipe(target, {
+  const layoutRef = ref<HTMLElement | null>(null)
+  const { direction } = useSwipe(layoutRef, {
     threshold: 50,
     onSwipe() {
       if (direction.value === 'left' && showSider.value) {

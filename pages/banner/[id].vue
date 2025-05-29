@@ -43,7 +43,7 @@
                   fit="cover"
                   :quality="100"
                   loading="lazy"
-                  sizes="(max-width: 640px) 100vw, 300px"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 800px"
                 />
               </div>
               <div class="space-y-2">

@@ -122,7 +122,9 @@
   },
   "tracker": {
     "stats": {
+      "title": "Pull Statistics",
       "total_pulls": "Total Pulls",
+      "no_pulls": "No pull history for this banner",
       "total_5star_4star": "5★ / 4★ Total",
       "total_5star": "5★ Total (5★ Banner)",
       "avg_5star": "5★ Avg (5★ Banner)",
@@ -177,6 +179,18 @@
       "error": "Failed to load data. Please try again."
     }
   },
+  "banner": {
+    "version": "Version",
+    "outfit": {
+      "level": {
+        "0": "Base",
+        "1": "Level 1",
+        "2": "Level 2",
+        "3": "Level 3"
+      }
+    },
+    "not_found": "Banner not found"
+  },
   "common": {
     "pull": "Pull #{number}",
     "obtained": "Obtained",
@@ -189,7 +203,7 @@
     "copyright": "© 2025 gongeo.us • © Infold Games All Rights Reserved",
     "disclaimer": {
       "title": "About this site",
-      "content": "This is an unofficial fan-made website. It is not affiliated with or endorsed by Infold Games.",
+      "content": "This is an unofficial fan-made website, not affiliated with or endorsed by Infold Games.",
       "rights": "All Infinity Nikki game assets, content, and trademarks belong to Infold Games and their respective owners."
     },
     "captions": {

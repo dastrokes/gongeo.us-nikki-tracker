@@ -32,44 +32,49 @@
       v-for="banner in banners"
       :key="banner.bannerId"
       class="rounded-xl aspect-[2/1]"
-      ><ClientOnly>
-        <n-tag
-          round
-          :bordered="false"
-          size="small"
-          class="absolute opacity-80 bottom-2 right-2 scale-90 sm:scale-100 origin-bottom-right"
+      ><NuxtLink
+        :to="localePath(`/banner/${banner.bannerId}`)"
+        class="hover:opacity-95 transition-opacity"
+        ><ClientOnly>
+          <n-tag
+            round
+            :bordered="false"
+            size="small"
+            class="absolute opacity-80 bottom-2 right-2 scale-90 sm:scale-100 origin-bottom-right"
+          >
+            {{ formattedTime }}
+            <template #icon>
+              <n-icon
+                class="ml-1"
+                size="12"
+                :component="HourglassHalf"
+              />
+            </template>
+          </n-tag>
+          <n-tag
+            v-if="banner.runs.length > 1"
+            round
+            :bordered="false"
+            size="small"
+            class="absolute opacity-80 top-2 left-2 scale-90 sm:scale-100 origin-top-left"
+          >
+            {{ $t('index.rerun') }}
+          </n-tag></ClientOnly
         >
-          {{ formattedTime }}
-          <template #icon>
-            <n-icon
-              class="ml-1"
-              size="12"
-              :component="HourglassHalf"
-            />
-          </template>
-        </n-tag>
-        <n-tag
-          v-if="banner.runs.length > 1"
-          round
-          :bordered="false"
-          size="small"
-          class="absolute opacity-80 top-2 left-2 scale-90 sm:scale-100 origin-top-left"
-        >
-          {{ $t('index.rerun') }}
-        </n-tag></ClientOnly
-      >
-      <DynamicImg
-        :src="`/images/banners/${banner.bannerId}.webp`"
-        :alt="banner.bannerId.toString()"
-        class="w-full h-full object-cover"
-        format="webp"
-        width="600"
-        height="300"
-        fit="cover"
-        :quality="100"
-        loading="lazy"
-        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 600px"
-      />
+
+        <DynamicImg
+          :src="`/images/banners/${banner.bannerId}.webp`"
+          :alt="banner.bannerId.toString()"
+          class="w-full h-full object-cover"
+          format="webp"
+          width="600"
+          height="300"
+          fit="cover"
+          :quality="100"
+          loading="lazy"
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 600px"
+        />
+      </NuxtLink>
     </n-carousel-item>
   </n-carousel>
 </template>
@@ -77,6 +82,7 @@
 <script setup lang="ts">
   import { HourglassHalf } from '@vicons/fa'
   import type { Banner } from '~/types/banner'
+  const localePath = useLocalePath()
 
   const props = defineProps<{
     banners: Banner[]

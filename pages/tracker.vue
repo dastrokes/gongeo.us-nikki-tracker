@@ -421,10 +421,7 @@
                       </span>
                     </div>
                     <div class="flex items-center justify-between">
-                      <n-switch
-                        v-if="hasMultipleOutfits()"
-                        v-model:value="combineOutfits"
-                      >
+                      <n-switch v-model:value="combineOutfits">
                         <template #checked>{{
                           t('tracker.banner.settings.combined')
                         }}</template>
@@ -432,10 +429,7 @@
                           t('tracker.banner.settings.separated')
                         }}</template>
                       </n-switch>
-                      <span
-                        v-if="hasMultipleOutfits()"
-                        class="text-sm text-gray-400 ml-3"
-                      >
+                      <span class="text-sm text-gray-400 ml-3">
                         {{ t('tracker.banner.settings.outfit_display') }}
                       </span>
                     </div>
@@ -478,48 +472,53 @@
               :style="cardStyle"
             >
               <!-- Banner Header -->
-              <div
-                class="w-full flex flex-col sm:flex-row sm:items-center gap-2"
+              <NuxtLink
+                :to="localePath(`/banner/${banner.bannerId}`)"
+                class="hover:opacity-95 transition-opacity"
               >
-                <n-gradient-text
-                  :size="18"
-                  class="m-0 font-medium break-words"
-                  :type="banner.bannerType === 2 ? 'warning' : 'info'"
-                >
-                  {{ t(`banner.${banner.bannerId}.name`) }}
-                </n-gradient-text>
                 <div
-                  class="flex flex-wrap gap-2 w-full sm:w-[calc(100%-500px)]"
+                  class="w-full flex flex-col sm:flex-row sm:items-center gap-2"
                 >
-                  <template
-                    v-for="outfit in banner.outfits"
-                    :key="outfit.id"
+                  <n-gradient-text
+                    :size="18"
+                    class="m-0 font-medium break-words"
+                    :type="banner.bannerType === 2 ? 'warning' : 'info'"
                   >
-                    <div class="flex items-center gap-2">
-                      <n-tag
-                        :type="outfit.rarity === 5 ? 'warning' : 'info'"
-                        :bordered="false"
-                        round
-                        size="small"
-                        class="px-2"
-                      >
-                        <span class="align-top"
-                          >{{ t(`outfit.${outfit.id}.name`) }}
-                          {{ outfit.rarity }}</span
+                    {{ t(`banner.${banner.bannerId}.name`) }}
+                  </n-gradient-text>
+
+                  <div
+                    class="flex flex-wrap gap-2 w-full sm:w-[calc(100%-500px)]"
+                  >
+                    <template
+                      v-for="outfit in banner.outfits"
+                      :key="outfit.id"
+                    >
+                      <div class="flex items-center gap-2">
+                        <n-tag
+                          :type="outfit.rarity === 5 ? 'warning' : 'info'"
+                          :bordered="false"
+                          round
+                          size="small"
+                          class="px-2 cursor-pointer"
                         >
-                        <span class="ml-1"
-                          ><n-icon><star /></n-icon
-                        ></span>
-                        <span
-                          v-if="outfit.isComplete"
-                          class="ml-1"
-                          ><n-icon><check-circle /></n-icon
-                        ></span>
-                      </n-tag>
-                    </div>
-                  </template>
-                </div>
-              </div>
+                          <span class="align-top"
+                            >{{ t(`outfit.${outfit.id}.name`) }}
+                            {{ outfit.rarity }}</span
+                          >
+                          <span class="ml-1"
+                            ><n-icon><star /></n-icon
+                          ></span>
+                          <span
+                            v-if="outfit.completion >= 1"
+                            class="ml-1"
+                            ><n-icon><check-circle /></n-icon
+                          ></span>
+                        </n-tag>
+                      </div>
+                    </template>
+                  </div></div
+              ></NuxtLink>
               <div class="absolute right-2 top-2 flex flex-row space-x-2">
                 <div
                   v-show="exporting"
@@ -571,7 +570,7 @@
                       </n-button>
                     </template>
                     <div class="min-w-[150px]">
-                      <div class="space-y-2 p-2">
+                      <div class="space-y-2 px-2 text-base">
                         <div class="flex justify-between">
                           <span class="text-sm">
                             {{ t('tracker.banner.stats.total_pulls') }}
@@ -581,7 +580,9 @@
                           }}</span>
                         </div>
                         <div
-                          v-if="hasBothRarities(banner.bannerId)"
+                          v-if="
+                            banner.bannerType === 1 || banner.bannerType === 2
+                          "
                           class="flex justify-between"
                         >
                           <span class="text-sm">
@@ -592,7 +593,9 @@
                           }}</span>
                         </div>
                         <div
-                          v-if="hasBothRarities(banner.bannerId)"
+                          v-if="
+                            banner.bannerType === 1 || banner.bannerType === 2
+                          "
                           class="flex justify-between"
                         >
                           <span class="text-sm">
@@ -604,8 +607,9 @@
                         </div>
                         <div
                           v-if="
-                            hasBothRarities(banner.bannerId) &&
-                            !banner.isComplete
+                            (banner.bannerType === 1 ||
+                              banner.bannerType === 2) &&
+                            banner.completion < 2
                           "
                           class="flex justify-between"
                         >
@@ -618,20 +622,8 @@
                         </div>
                         <div
                           v-if="
-                            !hasBothRarities(banner.bannerId) &&
-                            !banner.isComplete
+                            banner.bannerType === 1 || banner.bannerType === 2
                           "
-                          class="flex justify-between"
-                        >
-                          <span class="text-sm">
-                            {{ t('tracker.banner.stats.pity_4star') }}
-                          </span>
-                          <span class="font-medium">{{
-                            banner.stats.pity4Star
-                          }}</span>
-                        </div>
-                        <div
-                          v-if="hasBothRarities(banner.bannerId)"
                           class="flex justify-between"
                         >
                           <span class="text-sm">
@@ -642,7 +634,9 @@
                           }}</span>
                         </div>
                         <div
-                          v-if="hasBothRarities(banner.bannerId)"
+                          v-if="
+                            banner.bannerType === 1 || banner.bannerType === 2
+                          "
                           class="flex justify-between"
                         >
                           <span class="text-sm">
@@ -653,7 +647,7 @@
                           }}</span>
                         </div>
                         <div
-                          v-if="is4StarOnlyBanner(banner.bannerId)"
+                          v-if="banner.bannerType === 3"
                           class="flex justify-between"
                         >
                           <span class="text-sm">
@@ -664,7 +658,7 @@
                           }}</span>
                         </div>
                         <div
-                          v-if="is4StarOnlyBanner(banner.bannerId)"
+                          v-if="banner.bannerType === 3"
                           class="flex justify-between"
                         >
                           <span class="text-sm">
@@ -672,6 +666,19 @@
                           </span>
                           <span class="font-medium text-blue-500">{{
                             banner.stats.avg4StarOnlyPulls.toFixed(2)
+                          }}</span>
+                        </div>
+                        <div
+                          v-if="
+                            banner.bannerType === 3 && banner.completion < 2
+                          "
+                          class="flex justify-between"
+                        >
+                          <span class="text-sm">
+                            {{ t('tracker.banner.stats.pity_4star') }}
+                          </span>
+                          <span class="font-medium">{{
+                            banner.stats.pity4Star
                           }}</span>
                         </div>
                       </div>
@@ -697,7 +704,9 @@
                     <div class="min-w-[200px]">
                       <div class="space-y-4">
                         <div
-                          v-if="hasBothRarities(banner.bannerId)"
+                          v-if="
+                            banner.bannerType === 1 || banner.bannerType === 2
+                          "
                           class="flex items-center justify-between"
                         >
                           <n-switch
@@ -715,7 +724,7 @@
                           </span>
                         </div>
                         <div
-                          v-if="banner.stats && !banner.stats.isComplete"
+                          v-if="banner.stats && banner.stats.completion < 1"
                           class="flex items-center justify-between"
                         >
                           <n-switch
@@ -745,7 +754,7 @@
                   class="grid grid-cols-5 sm:grid-cols-8 lg:grid-cols-10 gap-2 mt-2"
                 >
                   <ItemCard
-                    v-for="pull in filterPulls(banner.pulls, banner.bannerId)"
+                    v-for="pull in filterPulls(banner.pulls, banner)"
                     :key="pull.pullIndex"
                     :item="pull"
                   />
@@ -757,10 +766,8 @@
                 <div
                   v-for="outfit in banner.outfits"
                   v-show="
-                    filterPulls(
-                      getOutfitItems(banner.pulls, outfit.id),
-                      banner.bannerId
-                    ).length > 0
+                    filterPulls(getOutfitItems(banner.pulls, outfit.id), banner)
+                      .length > 0
                   "
                   :key="outfit.id"
                   class="grid grid-cols-5 sm:grid-cols-8 lg:grid-cols-10 gap-2 mt-2"
@@ -768,7 +775,7 @@
                   <ItemCard
                     v-for="pull in filterPulls(
                       getOutfitItems(banner.pulls, outfit.id),
-                      banner.bannerId
+                      banner
                     )"
                     :key="pull.pullIndex"
                     :item="pull"
@@ -782,23 +789,27 @@
 
       <n-card
         v-if="Object.keys(processedPulls).length === 0"
-        class="text-center rounded-md rounded-xl"
+        class="text-center rounded-xl"
         :style="cardStyle"
       >
-        <div class="text-xl text-neutral-500">
-          {{ t('tracker.no_data.title') }}
-        </div>
-        <div class="text-xl text-neutral-500">
-          {{ t('tracker.no_data.subtitle') }}
-        </div>
-        <div class="mt-4">
-          <n-button
-            type="primary"
-            @click="router.push(localePath('/import'))"
+        <n-empty>
+          <template #default>
+            <div class="text-xl text-neutral-500">
+              {{ t('tracker.no_data.title') }}
+            </div>
+            <div class="text-xl text-neutral-500">
+              {{ t('tracker.no_data.subtitle') }}
+            </div></template
           >
-            {{ t('navigation.import') }}
-          </n-button>
-        </div>
+          <template #extra>
+            <n-button
+              type="primary"
+              @click="router.push(localePath('/import'))"
+            >
+              {{ t('navigation.import') }}
+            </n-button>
+          </template>
+        </n-empty>
       </n-card>
     </div>
   </div>
@@ -821,7 +832,7 @@
   import { BANNER_DATA } from '~/data/banners'
   import { useIndexedDB } from '~/composables/useIndexedDB'
   import { usePullStore } from '~/stores/pull'
-  import type { PullItem } from '~/types/pull'
+  import type { PullItem, ProcessedBanner } from '~/types/pull'
   import { useCardStyle } from '~/composables/useCardStyle'
   import { toPng } from 'html-to-image'
   import { usePercentile } from '~/composables/usePercentile'
@@ -896,20 +907,6 @@
     return items.filter((item) => item.outfitId === outfitId)
   }
 
-  const hasBothRarities = (bannerId: number) => {
-    const banner = BANNER_DATA[bannerId]
-    if (!banner) return false
-    // Banner type 1 and 2 has both 4★ and 5★
-    return banner.bannerType === 1 || banner.bannerType === 2
-  }
-
-  const is4StarOnlyBanner = (bannerId: number) => {
-    const banner = BANNER_DATA[bannerId]
-    if (!banner) return false
-    // Banner type 3 is 4★ only
-    return banner.bannerType === 3
-  }
-
   // Initialize toggle states
   const { show4Stars, showMissing } = initializeToggleStates()
 
@@ -938,19 +935,19 @@
   }
 
   // Function to filter pulls based on UI toggles
-  const filterPulls = (pulls: PullItem[], bannerId: number) => {
+  const filterPulls = (pulls: PullItem[], banner: ProcessedBanner) => {
     let filteredPulls = pulls.filter((pull) => {
       // When show4StarItems is false, hide 4★ items only in type 2 banners
       if (
         pull.rarity === 4 &&
-        !show4StarItems.value[bannerId] &&
-        hasBothRarities(bannerId)
+        !show4StarItems.value[banner.bannerId] &&
+        (banner.bannerType === 1 || banner.bannerType === 2)
       ) {
         return false
       }
       // Show all items (both obtained and missing) when showMissingPieces is true
       // Only show obtained items when showMissingPieces is false
-      return showMissingPieces.value[bannerId] || pull.count > 0
+      return showMissingPieces.value[banner.bannerId] || pull.count > 0
     })
 
     // Sort items based on pullIndex
@@ -961,13 +958,6 @@
     })
 
     return filteredPulls
-  }
-
-  // Update hasMultipleOutfits to be a global check
-  const hasMultipleOutfits = () => {
-    return Object.values(processedPulls.value).some(
-      (banner) => banner.outfits.length > 1
-    )
   }
 
   const {

@@ -27,7 +27,7 @@ export interface OutfitStatus {
   id: string
   rarity: number
   items: string[]
-  isComplete: boolean
+  completion: number
   totalItems: number
   obtainedItems: number
 }
@@ -47,13 +47,13 @@ export interface BannerStats {
   total4StarPulls: number
   total5StarPulls: number
   total4StarOnlyPulls: number
-  isComplete: boolean
+  completion: number
   first4StarItemId: string | null
   first5StarItemId: string | null
 }
 
 export interface ProcessedBanner {
-  isComplete: boolean
+  completion: number
   pulls: PullItem[]
   outfits: OutfitStatus[]
   stats: BannerStats

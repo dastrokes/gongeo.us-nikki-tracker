@@ -191,13 +191,13 @@
     Discord,
     Magic,
   } from '@vicons/fa'
-  import { h, ref, computed } from 'vue'
+  import { h, ref, computed, watch } from 'vue'
   import { NuxtLink } from '#components'
   import UserProfile from '~/components/UserProfile.vue'
   import LanguageSwitcher from '~/components/LanguageSwitcher.vue'
   import KoFi from '~/components/icons/KoFi.vue'
   import { useUserStore } from '~/stores/user'
-  import { useSwipe, useResizeObserver } from '@vueuse/core'
+  import { useSwipe } from '@vueuse/core'
 
   const { t } = useI18n()
   const localePath = useLocalePath()
@@ -366,17 +366,9 @@
     }))
   )
 
-  // Handle menu selection
   const handleMenuSelect = (key: string) => {
     router.push(localePath(`/${key}`))
     showSider.value = false
-    // Immediately scroll to top without animation
-    if (scrollbarRef.value) {
-      scrollbarRef.value.scrollTo({
-        top: 0,
-        behavior: 'instant',
-      })
-    }
   }
 
   const showSider = ref(false)
@@ -410,9 +402,20 @@
     lastScrollPosition.value = currentScrollPosition
   }
 
-  useResizeObserver(contentRef, () => {
-    showFooter.value = true
-  })
+  watch(
+    () => route.path,
+    () => {
+      // Show footer on route change
+      showFooter.value = true
+      // Scroll to top
+      if (scrollbarRef.value) {
+        scrollbarRef.value.scrollTo({
+          top: 0,
+          behavior: 'instant',
+        })
+      }
+    }
+  )
 
   // Setup swipe handling
   const layoutRef = ref<HTMLElement | null>(null)

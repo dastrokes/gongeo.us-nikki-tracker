@@ -329,6 +329,10 @@
   })
 
   onMounted(async () => {
+    if (Object.keys(processedPulls.value).length > 0) {
+      loading.value = false
+      return
+    }
     try {
       loading.value = true
       const pullData = await loadPullData()

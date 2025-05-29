@@ -88,7 +88,30 @@
                     }}</n-text>
                   </div>
                   <div
-                    v-if="bannerPulls && bannerPulls.stats.totalPulls > 0"
+                    v-if="loading"
+                    class="space-y-2 px-8 text-base"
+                  >
+                    <div
+                      v-for="i in banner.bannerType === 3 ? 4 : 6"
+                      :key="i"
+                      class="flex justify-between items-center"
+                    >
+                      <n-skeleton
+                        text
+                        :width="100"
+                        :sharp="false"
+                        size="small"
+                      />
+                      <n-skeleton
+                        text
+                        :width="40"
+                        :sharp="false"
+                        size="small"
+                      />
+                    </div>
+                  </div>
+                  <div
+                    v-else-if="bannerPulls && bannerPulls.stats.totalPulls > 0"
                     class="grid grid-cols-1 gap-2"
                   >
                     <div class="space-y-2 px-8 text-base">
@@ -274,23 +297,26 @@
 </template>
 
 <script setup lang="ts">
-  import { computed } from 'vue'
+  import { computed, ref } from 'vue'
   import { ArrowLeft, ChartBarRegular } from '@vicons/fa'
   import { BANNER_DATA } from '~/data/banners'
   import { useCardStyle } from '~/composables/useCardStyle'
   import { usePullStore } from '~/stores/pull'
   import { storeToRefs } from 'pinia'
+  import { useMessage } from 'naive-ui'
+  import { useIndexedDB } from '~/composables/useIndexedDB'
 
   const route = useRoute()
   const router = useRouter()
   const { t } = useI18n()
-  const userStore = useUserStore()
-  const isDark = computed(() => userStore.getCurrentTheme === 'dark')
   const { cardStyle } = useCardStyle()
   const localePath = useLocalePath()
   const siteUrl = useRuntimeConfig().public.siteUrl
   const pullStore = usePullStore()
   const { processedPulls } = storeToRefs(pullStore)
+  const loading = ref(true)
+  const message = useMessage()
+  const { loadPullData } = useIndexedDB()
 
   const banner = computed(() => {
     const bannerId = parseInt(route.params.id as string)
@@ -302,13 +328,19 @@
     return processedPulls.value[banner.value.bannerId]
   })
 
-  const highlight = computed(() => bannerPulls.value?.stats.totalPulls ?? 0)
-
-  const points = computed(() =>
-    banner.value.bannerType === 3
-      ? [5, 15, 25]
-      : [20, 40, 60, 80, 100, 120, 140, 180, 200, 230]
-  )
+  onMounted(async () => {
+    try {
+      loading.value = true
+      const pullData = await loadPullData()
+      if (pullData) {
+        await pullStore.processPullsData(pullData)
+      }
+      loading.value = false
+    } catch (error) {
+      console.error('Failed to load data:', error)
+      message.error(t('tracker.no_data.error'))
+    }
+  })
 
   useHead(() => ({
     title: banner.value

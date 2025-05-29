@@ -89,14 +89,14 @@
     if (props.rarity === 5) {
       if (props.completionData.completion >= 1) levels.push('0')
       if (totalPulls >= 180 && props.completionData.completion >= 1)
-        levels.push('1')
-      if (totalPulls >= 200 && props.completionData.completion >= 1)
-        levels.push('1')
-      if (totalPulls >= 230 && props.completionData.completion >= 2)
         levels.push('2')
+      if (totalPulls >= 200 && props.completionData.completion >= 1)
+        levels.push('3')
+      if (totalPulls >= 230 && props.completionData.completion >= 2)
+        levels.push('4')
     } else {
       if (props.completionData.completion >= 1) levels.push('0')
-      if (props.completionData.completion >= 2) levels.push('1')
+      if (props.completionData.completion >= 2) levels.push('2')
     }
 
     return levels
@@ -107,9 +107,11 @@
     const images = [baseImage]
 
     // Add level variants based on rarity
-    const maxLevel = props.rarity === 5 ? 3 : 1
+    const maxLevel = props.rarity === 5 ? 4 : 2
     for (let i = 1; i <= maxLevel; i++) {
-      images.push(`/images/outfits/${props.outfitId}_LV${i}.webp`)
+      if (i !== 1) {
+        images.push(`/images/outfits/${props.outfitId}_LV${i}.webp`)
+      }
     }
 
     return images

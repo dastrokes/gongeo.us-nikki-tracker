@@ -167,13 +167,13 @@ export const usePullStore = defineStore('pull', {
               total4StarPulls: 0,
               total5StarPulls: 0,
               total4StarOnlyPulls: 0,
-              isComplete: false,
+              completion: 0,
               first4StarItemId: null,
               first5StarItemId: null,
             },
             bannerId: bannerId,
             bannerType: bannerInfo.bannerType,
-            isComplete: false,
+            completion: 0,
           }
           bannerPulls[bannerId] = initialBanner
 
@@ -185,7 +185,7 @@ export const usePullStore = defineStore('pull', {
                   id: outfitId,
                   rarity: outfitLookup[5].has(outfitId) ? 5 : 4,
                   items: outfitData.items,
-                  isComplete: false,
+                  completion: 0,
                   totalItems: outfitData.items.length,
                   obtainedItems: 0,
                 })
@@ -374,14 +374,17 @@ export const usePullStore = defineStore('pull', {
           currentBanner.outfits.forEach((outfit) => {
             const obtainedItems = pullsByOutfit[outfit.id] || new Set()
             outfit.obtainedItems = obtainedItems.size
-            outfit.isComplete = outfit.items.every((id) =>
-              obtainedItems.has(id)
+            outfit.completion = Math.floor(
+              obtainedItems.size / outfit.totalItems
             )
           })
 
-          currentBanner.isComplete =
-            currentBanner.outfits.length > 0 &&
-            currentBanner.outfits.every((outfit) => outfit.isComplete)
+          currentBanner.completion = Math.floor(
+            currentBanner.outfits.reduce(
+              (sum, outfit) => sum + outfit.completion,
+              0
+            ) / currentBanner.outfits.length
+          )
         })
 
         // Update global stats
@@ -480,13 +483,13 @@ export const usePullStore = defineStore('pull', {
             total4StarPulls: 0,
             total5StarPulls: 0,
             total4StarOnlyPulls: 0,
-            isComplete: false,
+            completion: 0,
             first4StarItemId: null,
             first5StarItemId: null,
           },
           bannerId: bannerId,
           bannerType: bannerInfo.bannerType,
-          isComplete: false,
+          completion: 0,
         }
       }
 
@@ -500,7 +503,7 @@ export const usePullStore = defineStore('pull', {
               id: outfitId,
               rarity: 4,
               items: outfitData.items,
-              isComplete: false,
+              completion: 0,
               totalItems: outfitData.items.length,
               obtainedItems: 0,
             })
@@ -513,7 +516,7 @@ export const usePullStore = defineStore('pull', {
               id: outfitId,
               rarity: 5,
               items: outfitData.items,
-              isComplete: false,
+              completion: 0,
               totalItems: outfitData.items.length,
               obtainedItems: 0,
             })

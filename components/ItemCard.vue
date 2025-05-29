@@ -3,7 +3,7 @@
     <template #trigger>
       <n-card
         :class="[
-          'item-card relative overflow-hidden rounded-md transition-all duration-300 ease-in-out aspect-square ring-1',
+          'relative overflow-hidden rounded-md transition-all duration-300 ease-in-out aspect-square ring-1',
           ,
           item.rarity === 5
             ? isDark
@@ -35,7 +35,7 @@
           v-if="item.count > 0"
           size="tiny"
           :bordered="false"
-          class="absolute bottom-1 right-1 bg-black/40 text-white shadow-sm rounded-full text-xs opacity-80"
+          class="absolute bottom-1 right-1 scale-90 sm:scale-100 origin-bottom-right bg-black/40 text-white shadow-sm rounded-full text-xs opacity-80"
         >
           {{ item.pullsToObtain }}
         </n-tag>
@@ -43,7 +43,7 @@
           v-if="item.count > 1"
           size="tiny"
           :bordered="false"
-          class="absolute top-1 right-1 shadow-sm rounded-full text-xs"
+          class="absolute top-1 right-1 scale-90 sm:scale-100 origin-top-right shadow-sm rounded-full text-xs"
           :class="[
             item.rarity === 5
               ? 'bg-amber-500/80 text-amber-50 opacity-80'

@@ -42,7 +42,7 @@
                   height="300"
                   fit="cover"
                   :quality="100"
-                  loading="eager"
+                  loading="lazy"
                   sizes="(max-width: 640px) 100vw, 300px"
                 />
               </div>

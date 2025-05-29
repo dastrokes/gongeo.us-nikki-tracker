@@ -37,7 +37,7 @@
           loading="lazy"
         />
         <div
-          class="absolute top-0 right-0 scale-90 sm:scale-100 origin-top-right z-20"
+          class="absolute top-1 right-1 scale-90 sm:scale-100 origin-top-right z-20"
         >
           <n-tag
             round

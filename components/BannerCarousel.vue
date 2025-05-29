@@ -72,7 +72,7 @@
           fit="cover"
           :quality="100"
           loading="lazy"
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 600px"
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 800px"
         />
       </NuxtLink>
     </n-carousel-item>

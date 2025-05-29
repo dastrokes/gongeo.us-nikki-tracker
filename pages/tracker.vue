@@ -843,7 +843,7 @@
   const { t } = useI18n()
   const pullStore = usePullStore()
   const { processedPulls, globalStats } = storeToRefs(pullStore)
-  const { data, hasData, loadPullData } = useIndexedDB()
+  const { loadPullData } = useIndexedDB()
   const localePath = useLocalePath()
   const { cardStyle } = useCardStyle()
   const userStore = useUserStore()
@@ -873,13 +873,15 @@
   })
 
   onMounted(async () => {
+    if (Object.keys(processedPulls.value).length > 0) {
+      loading.value = false
+      return
+    }
     try {
       loading.value = true
-
-      // Check if we have data in IndexedDB
-      await loadPullData()
-      if (hasData.value) {
-        await pullStore.processPullsData(data.value)
+      const pullData = await loadPullData()
+      if (pullData) {
+        await pullStore.processPullsData(pullData)
       }
 
       loading.value = false

@@ -554,18 +554,13 @@
       .timeZone.toLowerCase()
 
     if (
-      timezone.includes('asia') ||
-      timezone.includes('tokyo') ||
-      timezone.includes('seoul') ||
-      timezone.includes('singapore')
-    ) {
-      return Region.ASIA
-    } else if (
       timezone.includes('china') ||
       timezone.includes('shanghai') ||
       timezone.includes('beijing')
     ) {
       return Region.CHINA
+    } else if (timezone.includes('taipei') || timezone.includes('hong_kong')) {
+      return Region.TW
     } else if (
       timezone.includes('europe') ||
       timezone.includes('london') ||
@@ -580,8 +575,13 @@
       timezone.includes('chicago')
     ) {
       return Region.AMERICA
-    } else if (timezone.includes('taipei') || timezone.includes('hong_kong')) {
-      return Region.TW
+    } else if (
+      timezone.includes('asia') ||
+      timezone.includes('tokyo') ||
+      timezone.includes('seoul') ||
+      timezone.includes('singapore')
+    ) {
+      return Region.ASIA
     }
 
     // Default to America if no match

@@ -160,7 +160,7 @@
       :aria-label="t('accessibility.scroll_to_top')"
       @click="scrollToTop"
     >
-      <n-icon size="small">
+      <n-icon>
         <arrow-up />
       </n-icon>
     </n-button>

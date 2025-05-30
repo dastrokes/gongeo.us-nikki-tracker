@@ -361,13 +361,13 @@ export const usePullStore = defineStore('pull', {
           stats.pity5Star = currentPity[bannerId][5]
 
           // Calculate outfit completion
-          const pullsByOutfit: Record<string, Set<string>> = {}
+          const pullsByOutfit: Record<string, Set<PullItem>> = {}
           currentBanner.pulls.forEach((pull) => {
             if (!pullsByOutfit[pull.outfitId]) {
               pullsByOutfit[pull.outfitId] = new Set()
             }
             if (pull.count > 0) {
-              pullsByOutfit[pull.outfitId].add(pull.itemId)
+              pullsByOutfit[pull.outfitId].add(pull)
             }
           })
 

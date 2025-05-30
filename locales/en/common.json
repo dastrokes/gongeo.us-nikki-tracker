@@ -134,6 +134,7 @@
       "code_copied": "Code copied to clipboard!",
       "code_copy_failed": "Failed to copy code to clipboard",
       "data_paste_success": "Data pasted successfully!",
+      "data_paste_success_no_uid": "Please copy and paste your UID manually",
       "data_paste_failed": "Failed to parse input data. Please ensure it is valid format",
       "auth_success": "Authentication successful!",
       "auth_failed": "Authentication failed",

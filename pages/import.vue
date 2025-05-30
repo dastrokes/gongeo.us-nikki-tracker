@@ -634,7 +634,7 @@
 
   const consoleScript = `console.log(JSON.stringify({roleid:[...document.querySelectorAll('div')].find(el=>el.textContent.startsWith('UID:'))?.textContent.replace('UID:','').trim(),token:document.cookie.match(/momoToken=([^;]+)/)?.[1],id:document.cookie.match(/momoNid=([^;]+)/)?.[1]}));`
 
-  const bookmarkScript = `javascript:(function(){if(location.hostname!=="pearpal.infoldgames.com" && location.hostname!=="myl.nuanpaper.com"){alert(${JSON.stringify(t('import.bookmark_script.invalid_site'))});return}const r=[...document.querySelectorAll("div")].find(e=>e.textContent.startsWith("UID:"))?.textContent.replace("UID:","").trim(),t=document.cookie.match(/momoToken=([^;]+)/)?.[1],i=document.cookie.match(/momoNid=([^;]+)/)?.[1],p=JSON.stringify({roleid:r,token:t,id:i}),f=document.createElement("form");Object.assign(f.style,{position:"fixed",top:"20%",left:"50%",transform:"translateX(-50%)",zIndex:9999,background:"white",padding:"12px",border:"1px solid #ccc",borderRadius:"8px",width:"80%",maxWidth:"400px",height:"260px",fontFamily:"sans-serif"});const a=document.createElement("textarea");a.value=p,a.readOnly=!0,Object.assign(a.style,{width:"100%",height:"200px",fontSize:"12px",padding:"8px",border:"1px solid #ccc",borderRadius:"4px"});function b(t){const e=document.createElement("button");return e.type="button",e.textContent=t,Object.assign(e.style,{fontSize:"12px",padding:"6px 8px",margin:"8px",marginRight:"0",border:"1px solid #ccc",borderRadius:"4px",float:"right",cursor:"pointer"}),e}const c=b(${JSON.stringify(t('import.bookmark_script.close'))}),o=b(${JSON.stringify(t('import.bookmark_script.copy'))});o.onclick=()=>{a.select(),document.execCommand("copy"),o.textContent=${JSON.stringify(t('import.bookmark_script.copied'))}},c.onclick=()=>{f.remove()},f.appendChild(a),f.appendChild(c),f.appendChild(o),document.body.appendChild(f)})();`
+  const bookmarkScript = `javascript:(function(){if(location.hostname!=="pearpal.infoldgames.com" && location.hostname!=="myl.nuanpaper.com"){alert(${JSON.stringify(t('import.bookmark_script.invalid_site'))});return}prompt('Cookie:',JSON.stringify({roleid:[...document.querySelectorAll('div')].find(el=>el.textContent.startsWith('UID:'))?.textContent.replace('UID:','').trim(),token:document.cookie.match(/momoToken=([^;]+)/)?.[1],id:document.cookie.match(/momoNid=([^;]+)/)?.[1]}));})();`
 
   const copyToClipboard = async (code: string) => {
     try {
@@ -959,7 +959,7 @@
 
         const parsedData = JSON.parse(newValue) as CookieData
 
-        if (!parsedData.roleid || !parsedData.token || !parsedData.id) {
+        if (!parsedData.token || !parsedData.id) {
           throw new Error('Invalid file format')
         }
 
@@ -968,7 +968,12 @@
           token: parsedData.token,
           id: parsedData.id,
         }
-        message.success(t('import.messages.data_paste_success'))
+        if (!parsedData.roleid) {
+          message.success(t('import.messages.data_paste_success'))
+          message.info(t('import.messages.data_paste_success_no_uid'))
+        } else {
+          message.success(t('import.messages.data_paste_success'))
+        }
       } catch (error) {
         // Don't show error message on every keystroke
         if (newValue.length > 10) {

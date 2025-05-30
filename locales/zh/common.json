@@ -135,6 +135,7 @@
       "code_copy_failed": "复制代码到剪贴板失败",
       "data_paste_success": "数据粘贴成功！",
       "data_paste_failed": "解析输入数据失败。请确保格式正确",
+      "data_paste_success_no_uid": "请手动复制并粘贴您的 UID",
       "auth_success": "认证成功！",
       "auth_failed": "认证失败",
       "stats_submit_failed": "提交全局统计数据失败",
@@ -366,7 +367,7 @@
       },
       "cookie_script": {
         "question": "我一定要运行脚本来获取cookie吗？",
-        "answer": "不，它们只是用更便捷的方式获取cookie，您可以手动获取它们，请在导入数据页面查看更多详细信息。但是，目前在移动端唯一可以获取cookie的方法是使用书签。"
+        "answer": "不，它们只是用更便捷的方式获取cookie，您可以手动获取它们，请在导入数据页面查看更多详细信息。但是，目前在移动端唯一可以获取cookie的方法是使用书签运行脚本。"
       },
       "no_pulls": {
         "question": "所有卡池都已处理，但没有显示抽卡记录？",

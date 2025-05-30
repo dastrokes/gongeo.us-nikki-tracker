@@ -49,35 +49,37 @@
     "login_pearpal_desc": "Open Pearpal Website in a new tab and login with your Infold account if you aren't already logged in.",
     "get_cookie": "Get Cookie From Pearpal Website",
     "get_cookie_desc": "Choose how you want to get your cookie data:",
-    "pearpal_cookie": "Pearpal Cookie",
+    "gongeous_cookie": "Gongeous Cookie",
     "bookmark_method": "Bookmark Method (Recommended)",
     "bookmark_method_mobile": "Bookmark Method",
     "console_method": "Console Method",
     "manual_input": "Manual Method",
     "title": "Follow these steps to get your cookie data:",
     "bookmark_steps": {
-      "step1": "Drag the \"Pearpal Cookie\" button to your bookmarks bar (only need to do once):",
+      "step1": "Drag the \"Pearpal Cookie\" button to your bookmarks bar (only needs to be done once):",
       "step2": "Switch to Pearpal Website in a different tab, make sure you are logged in",
       "step3": "Click the \"Pearpal Cookie\" bookmark while on the Pearpal Website",
       "step4": "Copy the output text in the popup (it should look like the example in the input area below)",
       "step5": "Come back here and paste the output text in the input area below",
-      "note": "Note: You can keep the bookmark to get cookie data the next time you import."
+      "tip": "Tip: You can keep the bookmark for getting cookie data the next time you import."
     },
     "bookmark_steps_mobile": {
-      "step1": "Copy the code below by tapping the copy button",
+      "step1": "Tap the \"Copy Code\" button and copy the code",
       "step2": "Create a new bookmark in your browser and name it \"Pearpal Cookie\"",
       "step3": "Edit the bookmark URL and replace it with the code you copied:",
       "step4": "Switch to Pearpal Website in a different tab, make sure you are logged in",
       "step5": "Tap the \"Pearpal Cookie\" bookmark while on the Pearpal Website",
+      "step5_android_chrome": "Start typing the bookmark name you saved (Gongeous Cookie) in the address bar",
+      "step5_android_chrome_2": "Select the bookmark from suggestions to run it",
       "step6": "Copy the output text in the popup (it should look like the example in the input area below)",
       "step7": "Come back here and paste the output text in the input area below",
-      "note": "Note: You can keep the bookmark to get cookie data the next time you import."
+      "tip": "Tip: You can keep the bookmark for getting cookie data the next time you import."
     },
     "console_steps": {
       "step1": "Switch to Pearpal Website in a different tab, make sure you are logged in",
       "step2": "Open your browser's Developer Tools (Press F12 or right-click and select \"Inspect\")",
       "step3": "Go to the \"Console\" tab",
-      "step4": "Copy and paste the following code into the console and press enter:",
+      "step4": "Tap the copy button, copy and paste the code into the console and press enter:",
       "step5": "If you get a warning saying \"Warning: Don't paste code into the devtools console\", type \"Allow pasting\" and hit enter",
       "step6": "Copy the output text in the console (it should look like the example in the input area below)",
       "step7": "Come back here and paste the output text in the input area below"
@@ -149,7 +151,7 @@
       "safari": "Apple Safari"
     },
     "check_compatibility": "Check Browser Compatibility",
-    "pc_recommended": "You are using a mobile device, for the best experience, we recommend using a PC browser for importing data."
+    "pc_recommended": "You are using a mobile device, you can import using the supported browsers listed below, other browsers are not tested and might not work. For the best experience, we recommend using a PC browser for importing data."
   },
   "tracker": {
     "stats": {

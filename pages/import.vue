@@ -220,6 +220,9 @@
                           <span class="font-medium">Android:</span>
                           <ul class="list-disc list-inside ml-4">
                             <li>
+                              {{ $t('import.supported_browsers_list.chrome') }}
+                            </li>
+                            <li>
                               {{ $t('import.supported_browsers_list.firefox') }}
                             </li>
                           </ul>
@@ -228,13 +231,13 @@
                           <span class="font-medium">iOS:</span>
                           <ul class="list-disc list-inside ml-4">
                             <li>
-                              {{ $t('import.supported_browsers_list.firefox') }}
+                              {{ $t('import.supported_browsers_list.safari') }}
                             </li>
                             <li>
                               {{ $t('import.supported_browsers_list.chrome') }}
                             </li>
                             <li>
-                              {{ $t('import.supported_browsers_list.safari') }}
+                              {{ $t('import.supported_browsers_list.firefox') }}
                             </li>
                           </ul>
                         </div>
@@ -243,37 +246,35 @@
                   </n-popover>
                   <li>
                     {{ $t('import.bookmark_steps_mobile.step1') }}
-                    <n-popconfirm
-                      :show-arrow="false"
-                      :show-icon="false"
-                      :positive-text="$t('import.actions.copy')"
-                      :negative-text="$t('import.actions.cancel')"
-                      @positive-click="copyToClipboard(bookmarkScript)"
+                    <n-button
+                      size="small"
+                      @click="showCodeDialog(bookmarkScript)"
                     >
-                      <template #trigger>
-                        <n-button size="small">{{
-                          $t('import.actions.copy_code')
-                        }}</n-button>
+                      <template #icon>
+                        <n-icon size="16"><Copy /></n-icon>
                       </template>
-                      <template #default>
-                        <n-code
-                          :code="bookmarkScript"
-                          word-wrap
-                          language="javascript"
-                          class="w-full max-w-60 font-mono text-xs whitespace-pre-wrap rounded"
-                        />
-                      </template>
-                    </n-popconfirm>
+                      {{ $t('import.actions.copy_code') }}
+                    </n-button>
                   </li>
                   <li>{{ $t('import.bookmark_steps_mobile.step2') }}</li>
                   <li>
                     {{ $t('import.bookmark_steps_mobile.step3') }}
                   </li>
                   <li>{{ $t('import.bookmark_steps_mobile.step4') }}</li>
-                  <li>{{ $t('import.bookmark_steps_mobile.step5') }}</li>
+                  <li v-if="isAndroid && isChrome">
+                    {{
+                      $t('import.bookmark_steps_mobile.step5_android_chrome')
+                    }}
+                  </li>
+                  <li v-if="isAndroid && isChrome">
+                    {{
+                      $t('import.bookmark_steps_mobile.step5_android_chrome_2')
+                    }}
+                  </li>
+                  <li v-else>{{ $t('import.bookmark_steps_mobile.step5') }}</li>
                   <li>{{ $t('import.bookmark_steps_mobile.step6') }}</li>
                   <li>{{ $t('import.bookmark_steps_mobile.step7') }}</li>
-                  <div>{{ $t('import.bookmark_steps.note') }}</div>
+                  <div>{{ $t('import.bookmark_steps.tip') }}</div>
                 </template>
                 <template v-else>
                   <li>
@@ -288,14 +289,14 @@
                       <template #icon>
                         <n-icon size="16"><Bookmark /></n-icon>
                       </template>
-                      {{ $t('import.pearpal_cookie') }}
+                      {{ $t('import.gongeous_cookie') }}
                     </n-button>
                   </li>
                   <li>{{ $t('import.bookmark_steps.step2') }}</li>
                   <li>{{ $t('import.bookmark_steps.step3') }}</li>
                   <li>{{ $t('import.bookmark_steps.step4') }}</li>
                   <li>{{ $t('import.bookmark_steps.step5') }}</li>
-                  <div>{{ $t('import.bookmark_steps.note') }}</div>
+                  <div>{{ $t('import.bookmark_steps.tip') }}</div>
                 </template>
                 <div class="text-sm text-amber-500 break-words">
                   {{ $t('import.security_note') }}
@@ -347,27 +348,12 @@
                 <li>{{ $t('import.console_steps.step3') }}</li>
                 <li>
                   {{ $t('import.console_steps.step4') }}
-                  <n-popconfirm
-                    :show-arrow="false"
-                    :show-icon="false"
-                    :positive-text="$t('import.actions.copy')"
-                    :negative-text="$t('import.actions.cancel')"
-                    @positive-click="copyToClipboard(consoleScript)"
+                  <n-button
+                    size="small"
+                    @click="showCodeDialog(consoleScript)"
                   >
-                    <template #trigger>
-                      <n-button size="small">{{
-                        $t('import.actions.copy_code')
-                      }}</n-button>
-                    </template>
-                    <template #default>
-                      <n-code
-                        :code="consoleScript"
-                        word-wrap
-                        language="javascript"
-                        class="w-full max-w-60 font-mono text-xs whitespace-pre-wrap rounded"
-                      />
-                    </template>
-                  </n-popconfirm>
+                    {{ $t('import.actions.copy_code') }}
+                  </n-button>
                 </li>
                 <li>{{ $t('import.console_steps.step5') }}</li>
                 <li>{{ $t('import.console_steps.step6') }}</li>
@@ -389,13 +375,6 @@
                   align="center"
                 >
                   <n-space class="flex-wrap">
-                    <n-button
-                      secondary
-                      :disabled="!manualPasteInput"
-                      @click="handleManualPaste"
-                    >
-                      {{ $t('import.actions.parse_input') }}
-                    </n-button>
                     <n-button
                       secondary
                       @click="handlePasteFromClipboard"
@@ -638,7 +617,7 @@
   import type { CookieData } from '~/types/api'
   import type { PullRecord } from '~/types/pull'
   import { useBannerPullApi } from '~/composables/useBannerPullApi'
-  import { useMessage, NTag, NIcon } from 'naive-ui'
+  import { useMessage, NTag, NIcon, NCode, useDialog } from 'naive-ui'
   import type {
     UploadFileInfo,
     SelectOption,
@@ -648,6 +627,7 @@
   import { usePullStore } from '~/stores/pull'
   import { useUserStore, Region } from '~/stores/user'
   import {
+    Copy,
     Paste,
     Check,
     CheckCircle,
@@ -661,10 +641,11 @@
   import type { VNodeChild } from 'vue'
 
   const { t } = useI18n()
+  const dialog = useDialog()
   const isMaintenanceMode = false
   const localePath = useLocalePath()
   const siteUrl = useRuntimeConfig().public.siteUrl
-  const { isMobileOrTablet } = useDevice()
+  const { isMobileOrTablet, isAndroid, isChrome } = useDevice()
 
   useHead({
     title: t('navigation.import') + ' - ' + t('navigation.subtitle'),
@@ -819,40 +800,7 @@
     try {
       const clipboardText = await navigator.clipboard.readText()
       manualPasteInput.value = clipboardText
-      const parsedData = JSON.parse(clipboardText) as CookieData
-
-      if (!parsedData.roleid || !parsedData.token || !parsedData.id) {
-        throw new Error('Invalid file format')
-      }
-
-      formData.value = {
-        roleid: parsedData.roleid,
-        token: parsedData.token,
-        id: parsedData.id,
-      }
-      message.success(t('import.messages.data_paste_success'))
-    } catch (error) {
-      console.error(error)
-      message.error(t('import.messages.data_paste_failed'))
-    }
-  }
-
-  const handleManualPaste = () => {
-    try {
-      const parsedData = JSON.parse(manualPasteInput.value) as CookieData
-
-      if (!parsedData.roleid || !parsedData.token || !parsedData.id) {
-        throw new Error('Invalid file format')
-      }
-
-      formData.value = {
-        roleid: parsedData.roleid,
-        token: parsedData.token,
-        id: parsedData.id,
-      }
-      message.success(t('import.messages.data_paste_success'))
-    } catch (error) {
-      console.error(error)
+    } catch {
       message.error(t('import.messages.data_paste_failed'))
     }
   }
@@ -1012,6 +960,10 @@
   watch(debouncedManualPasteInput, (newValue) => {
     if (newValue) {
       try {
+        if (!newValue.replace(/\s+/g, '')) {
+          throw new Error('No data in clipboard')
+        }
+
         const parsedData = JSON.parse(newValue) as CookieData
 
         if (!parsedData.roleid || !parsedData.token || !parsedData.id) {
@@ -1123,5 +1075,24 @@
         default: () => option.label as VNodeChild,
       }
     )
+  }
+
+  const showCodeDialog = (code: string) => {
+    dialog.create({
+      title: t('import.actions.copy_code'),
+      icon: () => h(NIcon, { size: 16 }, { default: () => h(Copy) }),
+      content: () =>
+        h('div', [
+          h(NCode, {
+            code,
+            language: 'javascript',
+            wordWrap: true,
+            class: 'w-full font-mono text-xs whitespace-pre-wrap rounded',
+          }),
+        ]),
+      positiveText: t('import.actions.copy'),
+      negativeText: t('import.actions.cancel'),
+      onPositiveClick: () => copyToClipboard(code),
+    })
   }
 </script>

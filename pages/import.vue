@@ -191,59 +191,17 @@
               <div>{{ $t('import.title') }}</div>
               <ol class="list-decimal list-inside space-y-2">
                 <template v-if="isMobileOrTablet">
-                  <n-popover
-                    trigger="click"
-                    :width="250"
-                    placement="bottom"
+                  <n-button
+                    size="small"
+                    class="ml-2"
+                    secondary
+                    @click="showCompatibilityDialog"
                   >
-                    <template #trigger>
-                      <n-button
-                        size="small"
-                        class="ml-2"
-                        secondary
-                      >
-                        <template #icon>
-                          <n-icon size="16"><ExclamationCircle /></n-icon>
-                        </template>
-                        {{ $t('import.check_compatibility') }}
-                      </n-button>
+                    <template #icon>
+                      <n-icon size="16"><ExclamationCircle /></n-icon>
                     </template>
-                    <div class="max-w-xs p-1">
-                      <div class="text-amber-500 mb-4">
-                        {{ $t('import.pc_recommended') }}
-                      </div>
-                      <div class="font-semibold mb-2">
-                        {{ $t('import.supported_browsers') }}
-                      </div>
-                      <div class="space-y-2">
-                        <div>
-                          <span class="font-medium">Android:</span>
-                          <ul class="list-disc list-inside ml-4">
-                            <li>
-                              {{ $t('import.supported_browsers_list.chrome') }}
-                            </li>
-                            <li>
-                              {{ $t('import.supported_browsers_list.firefox') }}
-                            </li>
-                          </ul>
-                        </div>
-                        <div>
-                          <span class="font-medium">iOS:</span>
-                          <ul class="list-disc list-inside ml-4">
-                            <li>
-                              {{ $t('import.supported_browsers_list.safari') }}
-                            </li>
-                            <li>
-                              {{ $t('import.supported_browsers_list.chrome') }}
-                            </li>
-                            <li>
-                              {{ $t('import.supported_browsers_list.firefox') }}
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-                  </n-popover>
+                    {{ $t('import.check_compatibility') }}
+                  </n-button>
                   <li>
                     {{ $t('import.bookmark_steps_mobile.step1') }}
                     <n-button
@@ -676,7 +634,7 @@
 
   const consoleScript = `console.log(JSON.stringify({roleid:[...document.querySelectorAll('div')].find(el=>el.textContent.startsWith('UID:'))?.textContent.replace('UID:','').trim(),token:document.cookie.match(/momoToken=([^;]+)/)?.[1],id:document.cookie.match(/momoNid=([^;]+)/)?.[1]}));`
 
-  const bookmarkScript = `javascript:(function(){prompt('Cookie:',JSON.stringify({roleid:[...document.querySelectorAll('div')].find(el=>el.textContent.startsWith('UID:'))?.textContent.replace('UID:','').trim(),token:document.cookie.match(/momoToken=([^;]+)/)?.[1],id:document.cookie.match(/momoNid=([^;]+)/)?.[1]}));})();`
+  const bookmarkScript = `javascript:(function(){if(location.hostname!=="pearpal.infoldgames.com" && location.hostname!=="myl.nuanpaper.com"){alert(${JSON.stringify(t('import.bookmark_script.invalid_site'))});return}const r=[...document.querySelectorAll("div")].find(e=>e.textContent.startsWith("UID:"))?.textContent.replace("UID:","").trim(),t=document.cookie.match(/momoToken=([^;]+)/)?.[1],i=document.cookie.match(/momoNid=([^;]+)/)?.[1],p=JSON.stringify({roleid:r,token:t,id:i}),f=document.createElement("form");Object.assign(f.style,{position:"fixed",top:"20%",left:"50%",transform:"translateX(-50%)",zIndex:9999,background:"white",padding:"12px",border:"1px solid #ccc",borderRadius:"8px",width:"80%",maxWidth:"400px",height:"260px",fontFamily:"sans-serif"});const a=document.createElement("textarea");a.value=p,a.readOnly=!0,Object.assign(a.style,{width:"100%",height:"200px",fontSize:"12px",padding:"8px",border:"1px solid #ccc",borderRadius:"4px"});function b(t){const e=document.createElement("button");return e.type="button",e.textContent=t,Object.assign(e.style,{fontSize:"12px",padding:"6px 8px",margin:"8px",marginRight:"0",border:"1px solid #ccc",borderRadius:"4px",float:"right",cursor:"pointer"}),e}const c=b(${JSON.stringify(t('import.bookmark_script.close'))}),o=b(${JSON.stringify(t('import.bookmark_script.copy'))});o.onclick=()=>{a.select(),document.execCommand("copy"),o.textContent=${JSON.stringify(t('import.bookmark_script.copied'))}},c.onclick=()=>{f.remove()},f.appendChild(a),f.appendChild(c),f.appendChild(o),document.body.appendChild(f)})();`
 
   const copyToClipboard = async (code: string) => {
     try {
@@ -803,6 +761,41 @@
     } catch {
       message.error(t('import.messages.data_paste_failed'))
     }
+  }
+
+  const showCompatibilityDialog = () => {
+    dialog.create({
+      title: t('import.supported_browsers'),
+      icon: () =>
+        h(NIcon, { size: 20 }, { default: () => h(ExclamationCircle) }),
+      contentClass: 'max-h-[30vh] overflow-y-auto',
+      content: () =>
+        h('div', { class: 'max-w-xs p-1' }, [
+          h(
+            'div',
+            { class: 'text-amber-500 mb-4' },
+            t('import.pc_recommended')
+          ),
+          h('div', { class: 'space-y-2' }, [
+            h('div', [
+              h('span', { class: 'font-medium' }, 'Android:'),
+              h('ul', { class: 'list-disc list-inside ml-4' }, [
+                h('li', t('import.supported_browsers_list.chrome')),
+                h('li', t('import.supported_browsers_list.firefox')),
+              ]),
+            ]),
+            h('div', [
+              h('span', { class: 'font-medium' }, 'iOS:'),
+              h('ul', { class: 'list-disc list-inside ml-4' }, [
+                h('li', t('import.supported_browsers_list.safari')),
+                h('li', t('import.supported_browsers_list.chrome')),
+                h('li', t('import.supported_browsers_list.firefox')),
+              ]),
+            ]),
+          ]),
+        ]),
+      positiveText: t('common.captions.ok'),
+    })
   }
 
   const selectedBanners = ref<number[]>([])
@@ -1080,7 +1073,8 @@
   const showCodeDialog = (code: string) => {
     dialog.create({
       title: t('import.actions.copy_code'),
-      icon: () => h(NIcon, { size: 16 }, { default: () => h(Copy) }),
+      icon: () => h(NIcon, { size: 20 }, { default: () => h(Copy) }),
+      contentClass: 'max-h-[30vh] overflow-y-auto',
       content: () =>
         h('div', [
           h(NCode, {

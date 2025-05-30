@@ -246,7 +246,10 @@
                     :outfit-id="outfitId"
                     :rarity="5"
                     :completion-data="{
-                      completion: bannerPulls?.completion || 0,
+                      completion:
+                        bannerPulls?.outfits.find(
+                          (outfit) => outfit.id === outfitId
+                        )?.completion || 0,
                       totalPulls: bannerPulls?.stats.totalPulls || 0,
                     }"
                   />
@@ -261,7 +264,10 @@
                     :outfit-id="outfitId"
                     :rarity="4"
                     :completion-data="{
-                      completion: bannerPulls?.completion || 0,
+                      completion:
+                        bannerPulls?.outfits.find(
+                          (outfit) => outfit.id === outfitId
+                        )?.completion || 0,
                       totalPulls: bannerPulls?.stats.totalPulls || 0,
                     }"
                   />

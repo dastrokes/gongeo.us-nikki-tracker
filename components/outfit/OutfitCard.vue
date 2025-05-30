@@ -13,7 +13,7 @@
     </div>
     <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
       <div
-        v-for="(image, index) in outfitImages"
+        v-for="(image, index) in Array.from(outfitImages.entries())"
         :key="index"
         class="relative aspect-[2/3] rounded-lg overflow-hidden transition-all duration-300 ease-in-out ring-1"
         :class="[
@@ -27,8 +27,8 @@
         ]"
       >
         <DynamicImg
-          :src="image"
-          :alt="`${t(`outfit.${outfitId}.name`)} ${index === 0 ? 'Base' : `LV${index}`}`"
+          :src="image[1]"
+          :alt="`${t(`outfit.${outfitId}.name`)} ${image[0] === 0 ? 'Base' : `LV${image[0]}`}`"
           class="absolute inset-0 w-full h-full object-contain z-10"
           format="webp"
           width="300"
@@ -45,13 +45,8 @@
             :bordered="false"
             :type="rarity === 5 ? 'warning' : 'info'"
           >
-            {{ t(`banner.outfit.level.${index}`) }}
-            <span
-              v-if="
-                completionData?.completion &&
-                getOutfitLevel.includes(index.toString())
-              "
-            >
+            {{ t(`banner.outfit.level.${image[0]}`) }}
+            <span v-if="getOutfitLevel.includes(image[0].toString())">
               <n-icon><CheckCircle /></n-icon>
             </span>
           </n-tag>
@@ -103,15 +98,13 @@
   })
 
   const outfitImages = computed(() => {
-    const baseImage = `/images/outfits/${props.outfitId}.webp`
-    const images = [baseImage]
+    const images = new Map<number, string>()
+    images.set(0, `/images/outfits/${props.outfitId}.webp`)
 
     // Add level variants based on rarity
     const maxLevel = props.rarity === 5 ? 4 : 2
-    for (let i = 1; i <= maxLevel; i++) {
-      if (i !== 1) {
-        images.push(`/images/outfits/${props.outfitId}_LV${i}.webp`)
-      }
+    for (let i = 2; i <= maxLevel; i++) {
+      images.set(i, `/images/outfits/${props.outfitId}_LV${i}.webp`)
     }
 
     return images

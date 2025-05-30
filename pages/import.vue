@@ -152,14 +152,180 @@
                 name="cookieMethod"
               >
                 <n-space vertical>
-                  <n-radio value="console">{{
-                    $t('import.console_method')
-                  }}</n-radio>
-                  <n-radio value="manual">{{
-                    $t('import.manual_input')
-                  }}</n-radio>
+                  <template v-if="isMobileOrTablet">
+                    <n-radio value="bookmark">{{
+                      $t('import.bookmark_method_mobile')
+                    }}</n-radio>
+                  </template>
+                  <template v-else>
+                    <n-radio value="bookmark">{{
+                      $t('import.bookmark_method')
+                    }}</n-radio>
+                    <n-radio value="console">{{
+                      $t('import.console_method')
+                    }}</n-radio>
+                    <n-radio value="manual">{{
+                      $t('import.manual_input')
+                    }}</n-radio>
+                  </template>
                 </n-space>
               </n-radio-group>
+            </div>
+          </n-step>
+
+          <!-- Bookmark Method Step -->
+          <n-step
+            v-show="importMethod === 'game' && cookieMethod === 'bookmark'"
+            :title="
+              isMobileOrTablet
+                ? $t('import.bookmark_method_mobile')
+                : $t('import.bookmark_method')
+            "
+          >
+            <template #icon>
+              <n-icon>
+                <Check />
+              </n-icon>
+            </template>
+            <div class="space-y-2">
+              <div>{{ $t('import.title') }}</div>
+              <ol class="list-decimal list-inside space-y-2">
+                <template v-if="isMobileOrTablet">
+                  <n-popover
+                    trigger="click"
+                    :width="250"
+                    placement="bottom"
+                  >
+                    <template #trigger>
+                      <n-button
+                        size="small"
+                        class="ml-2"
+                        secondary
+                      >
+                        <template #icon>
+                          <n-icon size="16"><ExclamationCircle /></n-icon>
+                        </template>
+                        {{ $t('import.check_compatibility') }}
+                      </n-button>
+                    </template>
+                    <div class="max-w-xs p-1">
+                      <div class="text-amber-500 mb-4">
+                        {{ $t('import.pc_recommended') }}
+                      </div>
+                      <div class="font-semibold mb-2">
+                        {{ $t('import.supported_browsers') }}
+                      </div>
+                      <div class="space-y-2">
+                        <div>
+                          <span class="font-medium">Android:</span>
+                          <ul class="list-disc list-inside ml-4">
+                            <li>
+                              {{ $t('import.supported_browsers_list.firefox') }}
+                            </li>
+                          </ul>
+                        </div>
+                        <div>
+                          <span class="font-medium">iOS:</span>
+                          <ul class="list-disc list-inside ml-4">
+                            <li>
+                              {{ $t('import.supported_browsers_list.firefox') }}
+                            </li>
+                            <li>
+                              {{ $t('import.supported_browsers_list.chrome') }}
+                            </li>
+                            <li>
+                              {{ $t('import.supported_browsers_list.safari') }}
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </n-popover>
+                  <li>
+                    {{ $t('import.bookmark_steps_mobile.step1') }}
+                    <n-popconfirm
+                      :show-arrow="false"
+                      :show-icon="false"
+                      :positive-text="$t('import.actions.copy')"
+                      :negative-text="$t('import.actions.cancel')"
+                      @positive-click="copyToClipboard(bookmarkScript)"
+                    >
+                      <template #trigger>
+                        <n-button size="small">{{
+                          $t('import.actions.copy_code')
+                        }}</n-button>
+                      </template>
+                      <template #default>
+                        <n-code
+                          :code="bookmarkScript"
+                          word-wrap
+                          language="javascript"
+                          class="w-full max-w-60 font-mono text-xs whitespace-pre-wrap rounded"
+                        />
+                      </template>
+                    </n-popconfirm>
+                  </li>
+                  <li>{{ $t('import.bookmark_steps_mobile.step2') }}</li>
+                  <li>
+                    {{ $t('import.bookmark_steps_mobile.step3') }}
+                  </li>
+                  <li>{{ $t('import.bookmark_steps_mobile.step4') }}</li>
+                  <li>{{ $t('import.bookmark_steps_mobile.step5') }}</li>
+                  <li>{{ $t('import.bookmark_steps_mobile.step6') }}</li>
+                  <li>{{ $t('import.bookmark_steps_mobile.step7') }}</li>
+                  <div>{{ $t('import.bookmark_steps.note') }}</div>
+                </template>
+                <template v-else>
+                  <li>
+                    {{ $t('import.bookmark_steps.step1') }}
+                    <n-button
+                      tag="a"
+                      :href="bookmarkScript"
+                      class="ml-2"
+                      size="small"
+                      @click.prevent
+                    >
+                      <template #icon>
+                        <n-icon size="16"><Bookmark /></n-icon>
+                      </template>
+                      {{ $t('import.pearpal_cookie') }}
+                    </n-button>
+                  </li>
+                  <li>{{ $t('import.bookmark_steps.step2') }}</li>
+                  <li>{{ $t('import.bookmark_steps.step3') }}</li>
+                  <li>{{ $t('import.bookmark_steps.step4') }}</li>
+                  <li>{{ $t('import.bookmark_steps.step5') }}</li>
+                  <div>{{ $t('import.bookmark_steps.note') }}</div>
+                </template>
+                <div class="text-sm text-amber-500 break-words">
+                  {{ $t('import.security_note') }}
+                </div>
+              </ol>
+              <div class="mt-4">
+                <n-input
+                  v-model:value="manualPasteInput"
+                  type="textarea"
+                  :rows="3"
+                  placeholder="{'roleid':'123456','token':'eyJhabc123xyz456.eyJhdef789ghi000.abc123def789','id':'654321'}"
+                  class="w-full"
+                />
+                <n-space
+                  class="flex mt-2 flex-wrap"
+                  align="center"
+                >
+                  <n-space class="flex-wrap">
+                    <n-button
+                      secondary
+                      @click="handlePasteFromClipboard"
+                    >
+                      <template #icon>
+                        <n-icon><Paste /></n-icon>
+                      </template>
+                      {{ $t('import.actions.paste_from_clipboard') }}
+                    </n-button>
+                  </n-space>
+                </n-space>
+              </div>
             </div>
           </n-step>
 
@@ -174,7 +340,7 @@
               </n-icon>
             </template>
             <div class="space-y-2">
-              <div>{{ $t('import.console_steps.title') }}</div>
+              <div>{{ $t('import.title') }}</div>
               <ol class="list-decimal list-inside space-y-2">
                 <li>{{ $t('import.console_steps.step1') }}</li>
                 <li>{{ $t('import.console_steps.step2') }}</li>
@@ -184,9 +350,9 @@
                   <n-popconfirm
                     :show-arrow="false"
                     :show-icon="false"
-                    positive-text="Copy"
-                    negative-text="Cancel"
-                    @positive-click="copyToClipboard"
+                    :positive-text="$t('import.actions.copy')"
+                    :negative-text="$t('import.actions.cancel')"
+                    @positive-click="copyToClipboard(consoleScript)"
                   >
                     <template #trigger>
                       <n-button size="small">{{
@@ -256,23 +422,24 @@
               </n-icon>
             </template>
             <div class="space-y-2">
-              <div>{{ $t('import.manual_steps.title') }}</div>
+              <div>{{ $t('import.title') }}</div>
               <div>{{ $t('import.manual_steps.note') }}</div>
               <ol class="list-decimal list-inside space-y-2">
                 <li>{{ $t('import.manual_steps.step1') }}</li>
                 <li>{{ $t('import.manual_steps.step2') }}</li>
                 <li>{{ $t('import.manual_steps.step3') }}</li>
                 <li>{{ $t('import.manual_steps.step4') }}</li>
+                <li>{{ $t('import.manual_steps.step5') }}</li>
                 <li>
-                  {{ $t('import.manual_steps.step5') }}
+                  {{ $t('import.manual_steps.step6') }}
                   <ul class="list-disc list-inside ml-4">
-                    <li>{{ $t('import.manual_steps.step5_items.momo_id') }}</li>
+                    <li>{{ $t('import.manual_steps.step6_items.momo_id') }}</li>
                     <li>
-                      {{ $t('import.manual_steps.step5_items.momo_token') }}
+                      {{ $t('import.manual_steps.step6_items.momo_token') }}
                     </li>
                   </ul>
                 </li>
-                <li>{{ $t('import.manual_steps.step6') }}</li>
+                <li>{{ $t('import.manual_steps.step7') }}</li>
               </ol>
               <div class="text-sm text-amber-500 break-words">
                 {{ $t('import.security_note') }}
@@ -467,6 +634,7 @@
 
 <script setup lang="ts">
   import { ref, computed, watch, onMounted, h } from 'vue'
+  import { useDebounce } from '@vueuse/core'
   import type { CookieData } from '~/types/api'
   import type { PullRecord } from '~/types/pull'
   import { useBannerPullApi } from '~/composables/useBannerPullApi'
@@ -479,7 +647,14 @@
   import { useBannerPullData } from '~/composables/useBannerPullData'
   import { usePullStore } from '~/stores/pull'
   import { useUserStore, Region } from '~/stores/user'
-  import { Paste, Check, CheckCircle, Discord } from '@vicons/fa'
+  import {
+    Paste,
+    Check,
+    CheckCircle,
+    Discord,
+    Bookmark,
+    ExclamationCircle,
+  } from '@vicons/fa'
   import KoFi from '~/components/icons/KoFi.vue'
   import { BANNER_DATA } from '~/data/banners'
   import { useCardStyle } from '~/composables/useCardStyle'
@@ -489,6 +664,7 @@
   const isMaintenanceMode = false
   const localePath = useLocalePath()
   const siteUrl = useRuntimeConfig().public.siteUrl
+  const { isMobileOrTablet } = useDevice()
 
   useHead({
     title: t('navigation.import') + ' - ' + t('navigation.subtitle'),
@@ -517,15 +693,13 @@
     [Region.TW]: t('common.regions.tw'),
   } as const
 
-  const consoleScript = `console.log(JSON.stringify({
-    roleid: [...document.querySelectorAll('div')].find(el => el.textContent.startsWith('UID:'))?.textContent.replace('UID:', '').trim(),
-    token: document.cookie.match(/momoToken=([^;]+)/)?.[1],
-    id: document.cookie.match(/momoNid=([^;]+)/)?.[1]
-  }));`
+  const consoleScript = `console.log(JSON.stringify({roleid:[...document.querySelectorAll('div')].find(el=>el.textContent.startsWith('UID:'))?.textContent.replace('UID:','').trim(),token:document.cookie.match(/momoToken=([^;]+)/)?.[1],id:document.cookie.match(/momoNid=([^;]+)/)?.[1]}));`
 
-  const copyToClipboard = async () => {
+  const bookmarkScript = `javascript:(function(){prompt('Cookie:',JSON.stringify({roleid:[...document.querySelectorAll('div')].find(el=>el.textContent.startsWith('UID:'))?.textContent.replace('UID:','').trim(),token:document.cookie.match(/momoToken=([^;]+)/)?.[1],id:document.cookie.match(/momoNid=([^;]+)/)?.[1]}));})();`
+
+  const copyToClipboard = async (code: string) => {
     try {
-      await window?.navigator?.clipboard?.writeText(consoleScript)
+      await window?.navigator?.clipboard?.writeText(code)
       message.success(t('import.messages.code_copied'))
     } catch {
       message.error(t('import.messages.code_copy_failed'))
@@ -538,6 +712,7 @@
     id: '',
   })
   const manualPasteInput = ref('')
+  const debouncedManualPasteInput = useDebounce(manualPasteInput, 500)
   const currentStep = ref(0)
   const message = useMessage()
   const { verifyAuth, loading } = useBannerPullApi()
@@ -625,7 +800,7 @@
   }))
 
   const importMethod = ref<'game' | 'json'>('game')
-  const cookieMethod = ref<'console' | 'manual'>('console')
+  const cookieMethod = ref<'bookmark' | 'console' | 'manual'>('bookmark')
   const jsonFile = ref<File | null>(null)
   const submitGlobalStats = ref(true)
 
@@ -834,8 +1009,7 @@
     }
   }
 
-  // Add watch for manual paste input
-  watch(manualPasteInput, (newValue) => {
+  watch(debouncedManualPasteInput, (newValue) => {
     if (newValue) {
       try {
         const parsedData = JSON.parse(newValue) as CookieData

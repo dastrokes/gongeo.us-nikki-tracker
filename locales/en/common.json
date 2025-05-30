@@ -89,7 +89,7 @@
       "step1": "Switch to Pearpal Website in a different tab, make sure you are logged in",
       "step2": "Open your browser's Developer Tools (Press F12 or right-click and select \"Inspect\")",
       "step3": "Go to the \"Application\" tab",
-      "step4": "In the left sidebar, expand \"Cookies\" and select the Pearpal website",
+      "step4": "In the left sidebar, expand \"Cookies\" and select the Pearpal Website",
       "step5": "Alternatively, you can use a browser extension for cookies like Cookie Editor",
       "step6": "Find and copy the values for:",
       "step6_items": {
@@ -151,7 +151,13 @@
       "safari": "Apple Safari"
     },
     "check_compatibility": "Check Browser Compatibility",
-    "pc_recommended": "You are using a mobile device, you can import using the supported browsers listed below, other browsers are not tested and might not work. For the best experience, we recommend using a PC browser for importing data."
+    "pc_recommended": "You are using a mobile device, you can import using the supported browsers listed below, other browsers are not tested and might not work. For the best experience, we recommend using a PC browser for importing data.",
+    "bookmark_script": {
+      "invalid_site": "Please use this bookmark on Pearpal Website",
+      "close": "Close",
+      "copy": "Copy",
+      "copied": "Copied!"
+    }
   },
   "tracker": {
     "stats": {
@@ -240,6 +246,7 @@
       "rights": "All Infinity Nikki game assets, content, and trademarks belong to Infold Games and their respective owners."
     },
     "captions": {
+      "ok": "OK",
       "confirm": "Confirm",
       "cancel": "Cancel",
       "loading": "Loading..."
@@ -355,6 +362,10 @@
       "platform_support": {
         "question": "Will it work if I play on mobile or PS5?",
         "answer": "Yes, no matter which platform you play on, you can import your data from PC or mobile. However, on mobile it might not work for all browsers, it is recommended to use PC for better experience, please check the import page for supported browsers and more details."
+      },
+      "cookie_script": {
+        "question": "Do I have to run a script to get my cookies?",
+        "answer": "No, they are just for convenience, you can get the cookies manually, check manual input instructions in the import page for more details. However, the only way to get the cookies on mobile now is to use the bookmark method."
       },
       "no_pulls": {
         "question": "All banners were processed, but no pulls are showing?",

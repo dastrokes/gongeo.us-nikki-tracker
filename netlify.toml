@@ -4,13 +4,6 @@
 [build.environment]
   NODE_VERSION = "20.19.1"
 
-[[redirects]]
-  from = "/stats/api/send"
-  to = "https://gongeous-umami.netlify.app/api/send"
-  status = 200
-  force = true
-  conditions = { method = ["POST"] }
-
 # Headers: Netlify Image CDN caching
 [[headers]]
   for = "/.netlify/images/*"

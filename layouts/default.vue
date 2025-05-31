@@ -277,8 +277,9 @@
       },
       {
         defer: true,
-        src: 'https://cloud.umami.is/script.js',
-        'data-website-id': '5bc1f48b-83fd-4e08-9749-85edb24de8aa',
+        src: '/js/stats.js',
+        'data-website-id': 'dd22ab5d-2045-4450-aaff-f513339b5ca6',
+        'data-host-url': '/stats',
       },
     ],
   })

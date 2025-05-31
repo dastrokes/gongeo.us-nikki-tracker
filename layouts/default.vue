@@ -271,11 +271,6 @@
         }),
       },
       {
-        'data-goatcounter': 'https://gongeous.goatcounter.com/count',
-        async: true,
-        src: '/js/goatcounter.js',
-      },
-      {
         async: true,
         defer: true,
         src: 'https://umami.gongeo.us/script.js',

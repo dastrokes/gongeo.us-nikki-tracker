@@ -412,7 +412,7 @@
     },
     "analytics": {
       "title": "Analytics and Tracking",
-      "content": "We utilize GoatCounter, a privacy-focused analytics service, to monitor website usage. It collects only anonymized information such as page views, referrer URLs, and basic browser data without using cookies or personal identifiers. This data helps us improve your experience. For more information, please see GoatCounter's privacy policy."
+      "content": "We utilize Umami, a privacy-focused analytics service, to monitor website usage. It collects only anonymized information such as page views, referrer URLs, and basic browser data without using cookies or personal identifiers. This data helps us improve your experience. For more information, please see Umami's privacy policy."
     }
   },
   "maintenance": {

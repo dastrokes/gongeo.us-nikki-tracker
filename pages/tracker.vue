@@ -472,53 +472,60 @@
               :style="cardStyle"
             >
               <!-- Banner Header -->
-              <NuxtLink
-                :to="localePath(`/banner/${banner.bannerId}`)"
-                class="hover:opacity-95 transition-opacity"
-              >
-                <div
-                  class="w-full flex flex-col sm:flex-row sm:items-center gap-2"
-                >
-                  <n-gradient-text
-                    :size="18"
-                    class="m-0 font-medium break-words"
-                    :type="banner.bannerType === 2 ? 'warning' : 'info'"
-                  >
-                    {{ t(`banner.${banner.bannerId}.name`) }}
-                  </n-gradient-text>
 
-                  <div
-                    class="flex flex-wrap gap-2 w-full sm:w-[calc(100%-500px)]"
-                  >
-                    <template
-                      v-for="outfit in banner.outfits"
-                      :key="outfit.id"
-                    >
-                      <div class="flex items-center gap-2">
-                        <n-tag
-                          :type="outfit.rarity === 5 ? 'warning' : 'info'"
-                          :bordered="false"
-                          round
-                          size="small"
-                          class="px-2 cursor-pointer"
-                        >
-                          <span class="align-top"
-                            >{{ t(`outfit.${outfit.id}.name`) }}
-                            {{ outfit.rarity }}</span
-                          >
-                          <span class="ml-1"
-                            ><n-icon><star /></n-icon
-                          ></span>
-                          <span
-                            v-if="outfit.completion >= 1"
-                            class="ml-1"
-                            ><n-icon><check-circle /></n-icon
-                          ></span>
-                        </n-tag>
-                      </div>
+              <div
+                class="w-full flex flex-col sm:flex-row sm:items-center gap-2"
+              >
+                <NuxtLink
+                  :to="localePath(`/banner/${banner.bannerId}`)"
+                  class="hover:opacity-95 transition-opacity"
+                >
+                  <n-tooltip trigger="hover">
+                    <template #trigger>
+                      <n-gradient-text
+                        :size="18"
+                        class="m-0 font-medium break-words"
+                        :type="banner.bannerType === 2 ? 'warning' : 'info'"
+                      >
+                        {{ t(`banner.${banner.bannerId}.name`) }}
+                      </n-gradient-text>
                     </template>
-                  </div></div
-              ></NuxtLink>
+                    {{ t('navigation.banner_detail') }}
+                  </n-tooltip>
+                </NuxtLink>
+
+                <div
+                  class="flex flex-wrap gap-2 w-full sm:w-[calc(100%-500px)]"
+                >
+                  <template
+                    v-for="outfit in banner.outfits"
+                    :key="outfit.id"
+                  >
+                    <div class="flex items-center gap-2">
+                      <n-tag
+                        :type="outfit.rarity === 5 ? 'warning' : 'info'"
+                        :bordered="false"
+                        round
+                        size="small"
+                        class="px-2"
+                      >
+                        <span class="align-top"
+                          >{{ t(`outfit.${outfit.id}.name`) }}
+                          {{ outfit.rarity }}</span
+                        >
+                        <span class="ml-1"
+                          ><n-icon><star /></n-icon
+                        ></span>
+                        <span
+                          v-if="outfit.completion >= 1"
+                          class="ml-1"
+                          ><n-icon><check-circle /></n-icon
+                        ></span>
+                      </n-tag>
+                    </div>
+                  </template>
+                </div>
+              </div>
               <div class="absolute right-2 top-2 flex flex-row space-x-2">
                 <div
                   v-show="exporting"

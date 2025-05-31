@@ -4,6 +4,13 @@
 [build.environment]
   NODE_VERSION = "20.19.1"
 
+[[redirects]]
+  from = "/stats/collect"
+  to = "https://gongeous-umami.netlify.app/api/collect"
+  status = 200
+  force = true
+  conditions = { method = ["POST", "GET"] }
+
 # Headers: Netlify Image CDN caching
 [[headers]]
   for = "/.netlify/images/*"

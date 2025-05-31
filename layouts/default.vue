@@ -92,20 +92,21 @@
 
     <n-layout-content
       ref="scrollbarRef"
+      class="mt-12"
       :class="isDark ? '#0f172a' : '#fafafa'"
       :native-scrollbar="false"
       @scroll="onScroll"
     >
       <div
         ref="contentRef"
-        class="h-full px-2 pt-14 sm:pt-16 pb-14 sm:pb-10"
+        class="h-full top-24 px-2 pt-2 sm:pt-4 pb-14 sm:pb-10"
       >
         <slot />
       </div>
     </n-layout-content>
 
     <n-layout-footer
-      class="text-center text-sm mb-2 mx-12 sm:mr-0 fixed bottom-0 left-0 right-0 bg-transparent transition-transform duration-300 ease-in-out"
+      class="text-center text-sm opacity-80 mb-2 mx-12 sm:mr-0 fixed bottom-0 left-0 right-0 bg-transparent transition-transform duration-300 ease-in-out"
       :class="{
         'translate-y-0': showFooter,
         'translate-y-12': !showFooter,
@@ -397,7 +398,7 @@
     // Show footer when near the bottom (within 100px)
     showFooter.value =
       scrollHeight - (currentScrollPosition + clientHeight) < 100 ||
-      currentScrollPosition < 100
+      currentScrollPosition < 50
 
     lastScrollPosition.value = currentScrollPosition
   }

@@ -11,6 +11,7 @@
       >
         <n-timeline-item
           v-for="banner in sortedBanners"
+          :id="banner.bannerId.toString()"
           :key="banner.bannerId"
           :type="getBannerTypeColor(banner.bannerType)"
         >
@@ -19,13 +20,18 @@
               :to="localePath(`/banner/${banner.bannerId}`)"
               class="hover:opacity-95 transition-opacity"
             >
-              <n-gradient-text
-                :size="18"
-                class="m-0 font-medium break-words"
-                :type="banner.bannerType === 2 ? 'warning' : 'info'"
-              >
-                {{ t(`banner.${banner.bannerId}.name`) }}
-              </n-gradient-text>
+              <n-tooltip trigger="hover">
+                <template #trigger>
+                  <n-gradient-text
+                    :size="18"
+                    class="m-0 font-medium break-words"
+                    :type="banner.bannerType === 2 ? 'warning' : 'info'"
+                  >
+                    {{ t(`banner.${banner.bannerId}.name`) }}
+                  </n-gradient-text>
+                </template>
+                {{ t('navigation.banner_detail') }}
+              </n-tooltip>
             </NuxtLink>
           </template>
           <template #default>
@@ -137,7 +143,7 @@
 </template>
 
 <script setup lang="ts">
-  import { computed } from 'vue'
+  import { computed, watchEffect } from 'vue'
   import { Gift, Star } from '@vicons/fa'
   import { BANNER_DATA } from '~/data/banners'
   import { useCardStyle } from '~/composables/useCardStyle'
@@ -146,10 +152,27 @@
   const { cardStyle } = useCardStyle()
   const localePath = useLocalePath()
   const siteUrl = useRuntimeConfig().public.siteUrl
+  const route = useRoute()
 
   // Sort banners by ID in descending order (newest first)
   const sortedBanners = computed(() => {
     return Object.values(BANNER_DATA).sort((a, b) => b.bannerId - a.bannerId)
+  })
+
+  watchEffect(async () => {
+    if (route.hash) {
+      const bannerId = route.hash.slice(1)
+
+      await new Promise(requestAnimationFrame)
+
+      const element = document.getElementById(bannerId)
+      if (element) {
+        element.scrollIntoView({
+          behavior: 'instant',
+          block: 'center',
+        })
+      }
+    }
   })
 
   // Get banner type color

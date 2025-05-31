@@ -276,6 +276,7 @@
         src: '/js/goatcounter.js',
       },
       {
+        async: true,
         defer: true,
         src: '/js/stats.js',
         'data-website-id': 'dd22ab5d-2045-4450-aaff-f513339b5ca6',

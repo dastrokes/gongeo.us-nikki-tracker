@@ -145,13 +145,11 @@
       "import_success": "数据导入成功！",
       "import_failed": "导入文件失败"
     },
-    "supported_browsers": "移动端支持的浏览器",
-    "unsupported_browsers": "移动端不支持的浏览器",
+    "supported_browsers": "支持的浏览器",
     "supported_browsers_list": {
       "chrome": "谷歌浏览器",
       "firefox": "火狐浏览器",
-      "edge": "微软 Edge 浏览器",
-      "safari": "苹果 Safari 浏览器"
+      "safari": "Safari浏览器"
     },
     "check_compatibility": "检查浏览器兼容性",
     "pc_recommended": "您正在使用移动设备，您可以使用以下浏览器导入数据，其他浏览器未经测试，可能无法正常工作。为获得最佳体验，建议使用电脑浏览器导入数据。",

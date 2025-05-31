@@ -145,8 +145,7 @@
       "import_success": "Data imported successfully!",
       "import_failed": "Failed to import file"
     },
-    "supported_browsers": "Supported Browsers on mobile",
-    "unsupported_browsers": "Unsupported Browsers on mobile",
+    "supported_browsers": "Supported Browsers",
     "supported_browsers_list": {
       "chrome": "Google Chrome",
       "firefox": "Mozilla Firefox",

@@ -275,6 +275,11 @@
         async: true,
         src: '/js/goatcounter.js',
       },
+      {
+        defer: true,
+        src: 'https://cloud.umami.is/script.js',
+        'data-website-id': '5bc1f48b-83fd-4e08-9749-85edb24de8aa',
+      },
     ],
   })
 

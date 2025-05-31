@@ -1,6 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
 import Components from 'unplugin-vue-components/vite'
+import { BANNER_DATA } from './data/banners'
 
 export default defineNuxtConfig({
   devtools: { enabled: false },
@@ -75,6 +76,12 @@ export default defineNuxtConfig({
 
   site: {
     url: process.env.NUXT_PUBLIC_SITE_URL,
+  },
+
+  sitemap: {
+    urls: Object.values(BANNER_DATA).map(
+      (banner) => `/banner/${banner.bannerId}`
+    ),
   },
 
   image: {

@@ -768,7 +768,7 @@
       title: t('import.supported_browsers'),
       icon: () =>
         h(NIcon, { size: 20 }, { default: () => h(ExclamationCircle) }),
-      contentClass: 'max-h-[30vh] overflow-y-auto',
+      contentClass: 'max-h-[50vh] overflow-y-auto',
       content: () =>
         h('div', { class: 'max-w-xs p-1' }, [
           h(
@@ -776,20 +776,20 @@
             { class: 'text-amber-500 mb-4' },
             t('import.pc_recommended')
           ),
-          h('div', { class: 'space-y-2' }, [
+          h('div', { class: 'grid grid-cols-2 gap-2' }, [
             h('div', [
               h('span', { class: 'font-medium' }, 'Android:'),
-              h('ul', { class: 'list-disc list-inside ml-4' }, [
+              h('ul', { class: 'list-disc list-inside' }, [
                 h('li', t('import.supported_browsers_list.chrome')),
                 h('li', t('import.supported_browsers_list.firefox')),
               ]),
             ]),
             h('div', [
               h('span', { class: 'font-medium' }, 'iOS:'),
-              h('ul', { class: 'list-disc list-inside ml-4' }, [
-                h('li', t('import.supported_browsers_list.safari')),
+              h('ul', { class: 'list-disc list-inside' }, [
                 h('li', t('import.supported_browsers_list.chrome')),
                 h('li', t('import.supported_browsers_list.firefox')),
+                h('li', t('import.supported_browsers_list.safari')),
               ]),
             ]),
           ]),
@@ -1079,7 +1079,7 @@
     dialog.create({
       title: t('import.actions.copy_code'),
       icon: () => h(NIcon, { size: 20 }, { default: () => h(Copy) }),
-      contentClass: 'max-h-[30vh] overflow-y-auto',
+      contentClass: 'max-h-[50vh] overflow-y-auto',
       content: () =>
         h('div', [
           h(NCode, {

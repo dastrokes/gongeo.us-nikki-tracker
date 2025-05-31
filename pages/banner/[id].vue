@@ -9,16 +9,23 @@
       <div>
         <div class="flex flex-col gap-2">
           <div class="flex items-center gap-2">
-            <n-button
-              size="small"
-              quaternary
-              circle
-              @click="router.push(localePath('/banner'))"
-            >
-              <template #icon>
-                <n-icon><ArrowLeft /></n-icon>
+            <n-tooltip trigger="hover">
+              <template #trigger>
+                <n-button
+                  size="small"
+                  quaternary
+                  circle
+                  @click="
+                    navigateTo(`${localePath('/banner')}#${banner.bannerId}`)
+                  "
+                >
+                  <template #icon>
+                    <n-icon><ArrowLeft /></n-icon>
+                  </template>
+                </n-button>
               </template>
-            </n-button>
+              {{ t('navigation.banner') }}
+            </n-tooltip>
             <n-gradient-text
               :size="18"
               class="m-0 font-medium break-words"

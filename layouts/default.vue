@@ -343,7 +343,7 @@
               rel: 'noopener noreferrer',
               class: 'no-underline text-inherit',
             },
-            t('navigation.discord')
+            t('common.discord')
           ),
         key: 'discord',
         icon: renderIcon(Discord),
@@ -358,7 +358,7 @@
               rel: 'noopener noreferrer',
               class: 'no-underline text-inherit',
             },
-            t('navigation.ko-fi')
+            t('common.ko_fi')
           ),
         key: 'ko-fi',
         icon: renderIcon(KoFi),

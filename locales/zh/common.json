@@ -9,9 +9,7 @@
     "banner_detail": "卡池详情",
     "faq": "常见问题",
     "about": "关于本站",
-    "nuan5pro": "无暖助手",
-    "discord": "Discord",
-    "ko-fi": "Ko-fi"
+    "nuan5pro": "无暖助手"
   },
   "meta": {
     "title": "暖暖共鸣录 - 无限暖暖共鸣历史追踪与抽卡数据分析",
@@ -236,8 +234,6 @@
     "not_found": "卡池未找到"
   },
   "common": {
-    "pull": "第 {number} 抽",
-    "obtained": "已获得",
     "rarity": {
       "4": "4★",
       "5": "5★"
@@ -275,6 +271,7 @@
     }
   },
   "items": {
+    "pull": "第 {number} 抽",
     "types": {
       "dresses": "裙子",
       "outerwear": "外套",

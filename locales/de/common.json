@@ -19,8 +19,8 @@
     "description": {
       "default": "Verfolge Infinity Nikki Resonanzverlauf und Statistiken. Ein Fan-betriebenes Tool für die Infinity Nikki Community.",
       "tracker": "Verfolge und analysiere deinen Infinity Nikki Resonanzverlauf und schaue dir alle 5★ und 4★ Stücke deiner Banner an. Vergleiche dein Glück mit dem anderer Spieler.",
-      "import": "Importiere deinen Infinity Nikki Resonanzverlauf und schaue dir alle 5★ und 4★ Stücke deiner Banner an. Vergleiche dein Glück mit dem anderer Spieler.",
-      "global": "Entdecke Infinity Nikki Community Resonanz-Daten, einschließlich Bannerbeliebtheit, durchschnittlichen Dropraten, und Verteilungsstatistiken gezogener Stücker.",
+      "import": "Importiere deinen Infinity Nikki Resonanzverlauf von Spieldateien oder Backup-Dateien, mit einer detaillierten Schritt-für-Schritt-Anleitung.",
+      "global": "Entdecke Infinity Nikki Community Resonanz-Daten, einschließlich Bannerbeliebtheit, durchschnittlichen Dropraten, und Verteilungsstatistiken gezogener Stücke.",
       "banner": "Schau dir den kompletten Infinity Nikki Bannerverlauf an, einschließlich limitierten und permanenten Outfitdetails, Wiederholungsplänen, und Dauer.",
       "faq": "Finde die Antworten auf häufig gestellte Fragen über gongeo.us, einschließlich Datenschutz, Importmethoden und Nutzungsrichtlinien.",
       "about": "Lerne mehr über gongeo.us, einschließlich Haftungsausschlüssen, Datenschutzbestimmungen und weitere wichtige Informationen."
@@ -63,7 +63,7 @@
       "step1": "Ziehe den \"Gongeous Cookie\"-Knopf in deine Lesezeichen-/Favoritenleiste (muss nur einmal getan werden):",
       "step2": "Wechsel zur Pearpal-Webseite in einem anderen Tab und stelle sicher, dass du dort angemeldet bist",
       "step3": "Klick auf das \"Gongeous Cookie\"-Lesezeichen, während du dich auf der Pearpal-Webseite befindest",
-      "step4": "Kopiere den im Popup ausgegebenen Text (er sollte so aussehen wie das Beispiel im Eingabefeld unten)",
+      "step4": "Kopiere den im Pop-up ausgegebenen Text (er sollte so aussehen wie das Beispiel im Eingabefeld unten)",
       "step5": "Komm wieder auf diese Seite und füge den ausgegebenen Text in das Eingabefeld unten ein",
       "tip": "Tipp: Du kannst das Lesezeichen für das nächste Importieren der Cookie-Daten behalten"
     },
@@ -73,15 +73,15 @@
       "step3": "Bearbeite die Lesezeichen-URL und ersetze sie durch den zuvor kopierten Code",
       "step4": "Wechsel zur Pearpal-Webseite in einem anderen Tab und stelle sicher, dass du dort angemeldet bist",
       "step5": "Tippe auf das \"Gongeous Cookie\"-Lesezeichen, während du dich auf der Pearpal-Webseite befindest",
-      "step5_android_chrome": "Tippe den Lesezeichen-Namen (Gongeous Cookie) in die Addressleiste ein",
+      "step5_android_chrome": "Tippe den Lesezeichen-Namen (Gongeous Cookie) in die Adressleiste ein",
       "step5_android_chrome_2": "Wähle das Lesezeichen von den Vorschlägen und führe es aus",
-      "step6": "Kopiere den im Popup ausgegebenen Text (er sollte so aussehen wie das Beispiel im Eingabefeld unten)",
+      "step6": "Kopiere den im Pop-up ausgegebenen Text (er sollte so aussehen wie das Beispiel im Eingabefeld unten)",
       "step7": "Komm wieder auf diese Seite und füge den ausgegebenen Text in das Eingabefeld unten ein",
       "tip": "Tipp: Du kannst das Lesezeichen für das nächste Importieren der Cookie-Daten behalten"
     },
     "console_steps": {
       "step1": "Wechsel zur Pearpal-Webseite in einem anderen Tab und stelle sicher, dass du dort angemeldet bist",
-      "step2": "Öffne die Entwicklertools deines Browsers (Drücke F12 oder rechtsklicke und wähle \"Untersuchen\" aus",
+      "step2": "Öffne die Entwicklertools deines Browsers (Drücke F12 oder rechtsklicke und wähle \"Untersuchen\" aus)",
       "step3": "Gehe zum \"Console\"-Tab",
       "step4": "Klicke auf den \"Code kopieren\"-Knopf, kopiere den Code, füge ihn in der Konsole ein und drücke Enter:",
       "step5": "Solltest du die folgende Warnung sehen: \"Warning: Don't paste code into the DevTools Console\", gebe \"allow pasting\" ein und drücke Enter",
@@ -91,7 +91,7 @@
     "manual_steps": {
       "note": "(Als Beispiel wird Google Chrome benutzt, genaue Bezeichnungen können je nach Browser abweichen, die zu nehmenden Schritte werden aber ähnlich sein)",
       "step1": "Wechsel zur Pearpal-Webseite in einem anderen Tab und stelle sicher, dass du dort angemeldet bist",
-      "step2": "Öffne die Entwicklertools deines Browsers (Drücke F12 oder rechtsklicke und wähle \"Untersuchen\" aus",
+      "step2": "Öffne die Entwicklertools deines Browsers (Drücke F12 oder rechtsklicke und wähle \"Untersuchen\" aus)",
       "step3": "Gehe zum \"Application\"-Tab",
       "step4": "Erweitere in der linken Randleiste den \"Cookies\"-Reiter und wähle die Pearpal-Webseite aus",
       "step5": "Alternativ kannst du auch eine Browser-Erweiterung für Cookies benutzen, wie Cookie Editor",
@@ -102,7 +102,7 @@
       },
       "step7": "Für die UID, öffne dein Pearpal-Profil und kopiere deine UID"
     },
-    "security_note": "Hinweis: Teile diese Cookiewerte niemals mit einer anderen Person!",
+    "security_note": "Hinweis: Teile diese Cookie-Werte niemals mit einer anderen Person!",
     "form": {
       "uid": "UID",
       "uid_placeholder": "UID vom Spiel",
@@ -202,7 +202,7 @@
         "combined": "Kombiniert",
         "separated": "Getrennt",
         "show_4star": "4★ Stücke",
-        "show_missing": "Fehlende Sstücke",
+        "show_missing": "Fehlende Stücke",
         "show": "Zeigen",
         "hide": "Verstecken",
         "empty_banners": "Leere Banner"
@@ -237,18 +237,18 @@
   },
   "common": {
     "pull": "Resonanz #{number}",
-    "obtained": "Obtained",
+    "obtained": "Erhalten",
     "rarity": {
       "4": "4★",
       "5": "5★"
     },
     "discord": "Discord",
     "ko_fi": "Ko-fi",
-    "copyright": "© 2025 gongeo.us • © Infold Games Alle Rechte vorbehalten",
+    "copyright": "© 2025 gongeo.us • © Infold Games alle Rechte vorbehalten",
     "disclaimer": {
       "title": "Über diese Seite",
       "content": "Dies ist eine inoffizielle, Fan-betriebene Webseite, die mit Infold Games nicht verbunden oder unterstützt ist.",
-      "rights": "All Infinity Nikki game assets, content, and trademarks belong to Infold Games and their respective owners. Alle Infinity Nikki Spielinhalte, Güter und Handelsmarken gehören Infold und den jeweiligen Eigentümern"
+      "rights": "Alle Infinity Nikki Spielinhalte, Güter und Handelsmarken gehören Infold und den jeweiligen Eigentümern."
     },
     "captions": {
       "ok": "OK",
@@ -292,7 +292,7 @@
       "handhelds": "Tragbares",
       "faceDecorations": "Gesichtsschmuck",
       "hair": "Haare",
-      "chestAccessories": "Brsutaccessories",
+      "chestAccessories": "Brustaccessories",
       "pendants": "Anhänger",
       "backpieces": "Rückenaccessoires",
       "rings": "Ringe",
@@ -302,17 +302,17 @@
   },
   "accessibility": {
     "toggle_menu": "Navigationsmenü ein-/ausschalten",
-    "join_discord": "Tritt unserer Discord Community bei",
+    "join_discord": "Tritt unserer Discord-Community bei",
     "support_ko_fi": "Unterstütze uns auf Ko-fi",
-    "language_switcher": "Sprachewechsler",
-    "theme_switcher": "Moduswechsler",
+    "language_switcher": "Sprache wechseln",
+    "theme_switcher": "Thema wechseln",
     "user_profile_menu": "Menü Benutzerprofil",
     "scroll_to_top": "Nach oben scrollen"
   },
   "global": {
     "stats": {
       "total_pulls": "Resonanzen gesamt",
-      "unique_users": "Stylists gesamt",
+      "unique_users": "Stylisten gesamt",
       "avg_5star": "5★ durchschn. (5★ Banner)",
       "avg_4star_type2": "4★ durchschn. (5★ Banner)",
       "avg_4star_type3": "4★ durchschn. (4★ Banner)",
@@ -320,7 +320,7 @@
     },
     "charts": {
       "pulls_per_banner": "Resonanzen pro Banner",
-      "five_star_distribution": "5★ Resonanzenverteilung",
+      "five_star_distribution": "5★ Resonanzverteilung",
       "four_star_type2_distribution": "4★ Verteilung (5★ Banner)",
       "four_star_type3_distribution": "4★ Verteilung (4★ Banner)",
       "first_item_distribution": "Verteilung des ersten Stückes",
@@ -334,7 +334,7 @@
       "four_star_pulls_type2": "4★ Resonanzen (5★ Banner)",
       "four_star_pulls_type3": "4★ Resonanzen (4★ Banner)",
       "pulls": "Resonanzen",
-      "daily_pull_distribution": "Verteilung Tägliche Resonanzen",
+      "daily_pull_distribution": "Tägliche Resonanz-Verteilung",
       "date": "Datum",
       "occurrences": "Häufigkeit",
       "percentage": "Prozent",
@@ -354,11 +354,11 @@
       },
       "ban_risk": {
         "question": "Werde ich für die Nutzung dieses Trackers gebannt werden?",
-        "answer": "Es handelt sich bei diesem Tracker um ein Drittpartei-Tool, also gibt es immer ein Risiko, allerdings liegt es letzendlich bei Infold Games. Jedoch sind ähnliche Tools in anderen Gacha-Spielen (Paimon.moe, Star Rail Station, WuWa Tracker, etc.) und auch in der chinesischen Community von Infinity Nikki (小黑盒 游创工坊) weit verbreitet. Zieh diese Information in Betracht und bilde damit dein eigenes Urteil."
+        "answer": "Es handelt sich bei diesem Tracker um ein Drittpartei-Tool, also gibt es immer ein Risiko, allerdings liegt es letztendlich bei Infold Games. Jedoch sind ähnliche Tools in anderen Gacha-Spielen (Paimon.moe, Star Rail Station, WuWa Tracker, etc.) und auch in der chinesischen Community von Infinity Nikki (小黑盒 游创工坊) weit verbreitet. Zieh diese Information in Betracht und bilde damit dein eigenes Urteil."
       },
       "data_storage": {
         "question": "Welche Daten speichert ihr?",
-        "answer": "Dein Resonanz-Verlauf wird lokal auf deinem Copmuter gespeichert, also wird er bei deinem nächsten Besuch der Webseite da sein, solange du deine Browser-Daten nicht gelöscht hast. Wir sammeln keine persönlichen Daten, einschließlich der von dir übermittelten Cookies."
+        "answer": "Dein Resonanz-Verlauf wird lokal auf deinem Computer gespeichert, also wird er bei deinem nächsten Besuch der Webseite da sein, solange du deine Browser-Daten nicht gelöscht hast. Wir sammeln keine persönlichen Daten, einschließlich der von dir übermittelten Cookies."
       },
       "server_data": {
         "question": "Welche Daten werden an den Server gesendet?",
@@ -366,7 +366,7 @@
       },
       "platform_support": {
         "question": "Funktioniert es auch, wenn ich auf dem Handy oder der PS5 spiele?",
-        "answer": "Ja, egal auf welcher Plattform du spielst, du kannst deine Daten über PC oder Handy importieren. Auf dem Handy wird es eventuell aber nicht mit allen Browsern funktionieren. Um eine bessere Erfahrung zu machen, wird empfohlen, den PC zu verwenden. Bitte prüfe die \"Daten importieren\"-Seite für untertstützte Browser und weitere Details."
+        "answer": "Ja, egal auf welcher Plattform du spielst, du kannst deine Daten über PC oder Handy importieren. Auf dem Handy wird es eventuell aber nicht mit allen Browsern funktionieren. Um eine bessere Erfahrung zu machen, wird empfohlen, den PC zu verwenden. Bitte prüfe die \"Daten importieren\"-Seite für unterstützte Browser und weitere Details."
       },
       "cookie_script": {
         "question": "Muss ich ein Script ausführen, um meine Cookies zu erhalten?",
@@ -374,7 +374,7 @@
       },
       "no_pulls": {
         "question": "Ich habe die Anweisungen für das Importieren befolgt und die Banner wurden verarbeitet, aber warum wird kein Resonanz-Verlauf angezeigt?",
-        "answer": "Überprüfe bitte noch einmal, dass deine Region und Cookiewerte korrekt sind. Stelle sicher, dass die UID und ID der Cookies nicht vertauscht sind."
+        "answer": "Überprüfe bitte noch einmal, dass deine Region und Cookie-Werte korrekt sind. Stelle sicher, dass die UID und ID der Cookies nicht vertauscht sind."
       },
       "auto_update": {
         "question": "Werden meine Resonanz-Daten automatisch aktualisiert?",
@@ -400,7 +400,7 @@
     },
     "intellectualProperty": {
       "title": "Geistiges Eigentum",
-      "content": "gongeo.us ist ein unabbhängiges Fanprojekt. Alle Warenzeichen, Spielinhalte und geistiges Eigentum im Zusammenhang mit Infinity Nikki bleiben das alleinige Eigentum von Infold Games und deren Lizenzgebern.",
+      "content": "gongeo.us ist ein unabhängiges Fanprojekt. Alle Warenzeichen, Spielinhalte und geistiges Eigentum im Zusammenhang mit Infinity Nikki bleiben das alleinige Eigentum von Infold Games und deren Lizenzgebern.",
       "siteContent": "Sofern nicht ausdrücklich anders angegeben, sind der gesamte Originalcode, das Website-Design und die benutzerdefinierten Elemente auf dieser Plattform Eigentum von gongeo.us und durch die geltenden Gesetze zum Urheberrecht und zum geistigen Eigentum geschützt. Unerlaubtes Kopieren, Wiederverwenden oder Verbreiten ist ohne schriftliche Genehmigung verboten.",
       "usage": "Diese Plattform wird \"so wie sie ist\" zur Verfügung gestellt und ist ausschließlich für den persönlichen, nicht-kommerziellen Gebrauch bestimmt."
     },

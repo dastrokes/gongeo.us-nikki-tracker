@@ -259,7 +259,7 @@
     "user_profile": {
       "menu_aria_label": "User profile menu",
       "guest": "Guest",
-      "user_id": "User ID: {uid}",
+      "user_id": "UID: {uid}",
       "clear_data": "Clear Local Data",
       "clear_confirm": {
         "title": "Clear Local Data",

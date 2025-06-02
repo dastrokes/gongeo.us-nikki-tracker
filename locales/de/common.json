@@ -60,19 +60,19 @@
     "manual_input": "Manual Method",
     "title": "Follow these steps to get your cookie data:",
     "bookmark_steps": {
-      "step1": "Drag the \"Pearpal Cookie\" button to your bookmarks bar (only needs to be done once):",
+      "step1": "Drag the \"Gongeous Cookie\" button to your bookmarks bar (only needs to be done once):",
       "step2": "Switch to Pearpal Website in a different tab, make sure you are logged in",
-      "step3": "Click the \"Pearpal Cookie\" bookmark while on the Pearpal Website",
+      "step3": "Click the \"Gongeous Cookie\" bookmark while on the Pearpal Website",
       "step4": "Copy the output text in the popup (it should look like the example in the input area below)",
       "step5": "Come back here and paste the output text in the input area below",
       "tip": "Tip: You can keep the bookmark for getting cookie data the next time you import"
     },
     "bookmark_steps_mobile": {
       "step1": "Tap the \"Copy Code\" button and copy the code",
-      "step2": "Create a new bookmark in your browser and name it \"Pearpal Cookie\"",
+      "step2": "Create a new bookmark in your browser and name it \"Gongeous Cookie\"",
       "step3": "Edit the bookmark URL and replace it with the code you copied",
       "step4": "Switch to Pearpal Website in a different tab, make sure you are logged in",
-      "step5": "Tap the \"Pearpal Cookie\" bookmark while on the Pearpal Website",
+      "step5": "Tap the \"Gongeous Cookie\" bookmark while on the Pearpal Website",
       "step5_android_chrome": "Start typing the bookmark name you saved (Gongeous Cookie) in the address bar",
       "step5_android_chrome_2": "Select the bookmark from suggestions to run it",
       "step6": "Copy the output text in the popup (it should look like the example in the input area below)",

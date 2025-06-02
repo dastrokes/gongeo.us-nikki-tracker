@@ -1,237 +1,237 @@
 {
   "navigation": {
     "title": "gongeo.us",
-    "subtitle": "Infinity Nikki Resonanztracker",
-    "tracker": "Resonanztracker",
-    "import": "Daten importieren",
-    "global": "Globale Daten",
-    "banner": "Bannerverlauf",
-    "banner_detail": "Bannerdetail",
+    "subtitle": "Infinity Nikki Resonance Tracker",
+    "tracker": "Resonance Tracker",
+    "import": "Import Data",
+    "global": "Global Data",
+    "banner": "Banner History",
+    "banner_detail": "Banner Detail",
     "faq": "FAQ",
-    "about": "Über gongeo.us",
+    "about": "About",
     "nuan5pro": "Nuan5.Pro"
   },
   "meta": {
-    "title": "Infinity Nikki Resonanztracker - Bannerverlauf & Statistiken",
-    "keywords": "Infinity Nikki, Resonanz Tracker, Resonanztracker, Pull Tracker, Pulltracker, Gacha Tracker, Gachatracker, Pull Verlauf, Pullverlauf, Ziehverlauf, Globale Statistiken, Globale Statistik, Community Statistiken, Community Statistik, Communitystatistiken, Communitystatistik, Gongeous",
+    "title": "Infinity Nikki Resonance Tracker - Banner Pull History & Stats",
+    "keywords": "Infinity Nikki, Resonance Tracker, Pull Tracker, Gacha Tracker, Pull History, Global Stats, Community Stats, Gongeous",
     "description": {
-      "default": "Verfolge Infinity Nikki Resonanzverlauf und Statistiken. Ein Fan-betriebenes Tool für die Infinity Nikki Community.",
-      "tracker": "Verfolge und analysiere deinen Infinity Nikki Resonanzverlauf und schaue dir alle 5★ und 4★ Stücke deiner Banner an. Vergleiche dein Glück mit dem anderer Spieler.",
-      "import": "Importiere deinen Infinity Nikki Resonanzverlauf von Spieldateien oder Backup-Dateien, mit einer detaillierten Schritt-für-Schritt-Anleitung.",
-      "global": "Entdecke Infinity Nikki Community Resonanz-Daten, einschließlich Bannerbeliebtheit, durchschnittlichen Dropraten, und Verteilungsstatistiken gezogener Stücke.",
-      "banner": "Schau dir den kompletten Infinity Nikki Bannerverlauf an, einschließlich limitierten und permanenten Outfitdetails, Wiederholungsplänen, und Dauer.",
-      "faq": "Finde die Antworten auf häufig gestellte Fragen über gongeo.us, einschließlich Datenschutz, Importmethoden und Nutzungsrichtlinien.",
-      "about": "Lerne mehr über gongeo.us, einschließlich Haftungsausschlüssen, Datenschutzbestimmungen und weitere wichtige Informationen."
+      "default": "Track Infinity Nikki Resonance Banner Pull History and Statistics. A fan-made tool for Infinity Nikki community.",
+      "tracker": "Track and analyze your Infinity Nikki Resonance pull history, view all 5★ and 4★ items from your banners. Compare your luck with other players.",
+      "import": "Easily import your Infinity Nikki Resonance pull history from game data or backup files, with detailed step-by-step guides.",
+      "global": "Explore Infinity Nikki community pull data, including banner popularity, average drop rates, and pull distribution statistics.",
+      "banner": "View complete Infinity Nikki banner history, including limited and permanent outfit details, rerun schedules, and duration information.",
+      "faq": "Find answers to frequently asked questions about gongeo.us, including data privacy, import methods, and usage guidelines.",
+      "about": "Learn about gongeo.us, including disclaimers, privacy policy, and other important information."
     }
   },
   "index": {
     "title": "gongeo.us",
-    "subtitle": "Infinity Nikki Resonanzracker",
-    "description": "Verfolge Infinity Nikki Resonanzverlauf und Statistiken",
-    "your_data": "Deine Daten",
-    "current_banners": "Aktuelle Banner",
-    "days": "Tage",
-    "hours": "Stunden",
-    "rerun": "Wiederholung"
+    "subtitle": "Infinity Nikki Resonance Tracker",
+    "description": "Track Infinity Nikki Resonance History and Statistics",
+    "your_data": "Your Data",
+    "current_banners": "Current Banners",
+    "days": "days",
+    "hours": "hours",
+    "rerun": "Rerun"
   },
   "import": {
-    "choose_method": "Wähle Importmethode",
-    "choose_method_desc": "Wähle aus, wie du deinen Resonanz-Verlauf importieren willst.",
-    "import_from_game": "Von Spiel importieren",
-    "import_from_file": "Von Datei importieren",
-    "file_import": "Von Datei importieren",
-    "file_import_desc": "Importiere aus einer zuvor exportierten nikki-resonance-data Datei.",
-    "select_file": "Datei auswählen",
-    "game_import": "Von Spiel importieren",
-    "game_import_desc": "Importiere über den Browser direkt aus dem Spiel.",
-    "select_region": "Region auswählen",
-    "select_region_desc": "Wähle deine Serverregion aus.",
-    "pearpal_website": "Pearpal-Webseite",
-    "login_pearpal": "Auf der Pearpal-Webseite anmelden",
-    "login_pearpal_desc": "Öffne die Pearpal-Webseite in einem neuen Tab und melde dich mit deinem Infold-Konto an, falls du das noch nicht hast.",
-    "get_cookie": "Cookie von der Pearpal-Webseite erhalten",
-    "get_cookie_desc": "Wähle aus, wie du deine Cookie-Daten willst:",
+    "choose_method": "Choose Import Method",
+    "choose_method_desc": "Choose how you want to import your pull history.",
+    "import_from_game": "Import from Game",
+    "import_from_file": "Import from File",
+    "file_import": "File Import",
+    "file_import_desc": "Import from a previously exported nikki-resonance-data file.",
+    "select_file": "Select File",
+    "game_import": "Game Import",
+    "game_import_desc": "Import directly from the game using your browser.",
+    "select_region": "Select Region",
+    "select_region_desc": "Select your game server region.",
+    "pearpal_website": "Pearpal Website",
+    "login_pearpal": "Login to Pearpal Website",
+    "login_pearpal_desc": "Open Pearpal Website in a new tab and login with your Infold account if you aren't already logged in.",
+    "get_cookie": "Get Cookie From Pearpal Website",
+    "get_cookie_desc": "Choose how you want to get your cookie data:",
     "gongeous_cookie": "Gongeous Cookie",
-    "bookmark_method": "Lesezeichen-Methode (empfohlen)",
-    "bookmark_method_mobile": "Lesezeichen-Methode",
-    "console_method": "Konsolen-Methode",
-    "manual_input": "Manualle Methode",
-    "title": "Befolge die folgenden Schritte, um deine Cookie-Daten zu erhalten:",
+    "bookmark_method": "Bookmark Method (Recommended)",
+    "bookmark_method_mobile": "Bookmark Method",
+    "console_method": "Console Method",
+    "manual_input": "Manual Method",
+    "title": "Follow these steps to get your cookie data:",
     "bookmark_steps": {
-      "step1": "Ziehe den \"Gongeous Cookie\"-Knopf in deine Lesezeichen-/Favoritenleiste (muss nur einmal getan werden):",
-      "step2": "Wechsel zur Pearpal-Webseite in einem anderen Tab und stelle sicher, dass du dort angemeldet bist",
-      "step3": "Klick auf das \"Gongeous Cookie\"-Lesezeichen, während du dich auf der Pearpal-Webseite befindest",
-      "step4": "Kopiere den im Pop-up ausgegebenen Text (er sollte so aussehen wie das Beispiel im Eingabefeld unten)",
-      "step5": "Komm wieder auf diese Seite und füge den ausgegebenen Text in das Eingabefeld unten ein",
-      "tip": "Tipp: Du kannst das Lesezeichen für das nächste Importieren der Cookie-Daten behalten"
+      "step1": "Drag the \"Gongeous Cookie\" button to your bookmarks bar (only needs to be done once):",
+      "step2": "Switch to Pearpal Website in a different tab, make sure you are logged in",
+      "step3": "Click the \"Gongeous Cookie\" bookmark while on the Pearpal Website",
+      "step4": "Copy the output text in the popup (it should look like the example in the input area below)",
+      "step5": "Come back here and paste the output text in the input area below",
+      "tip": "Tip: You can keep the bookmark for getting cookie data the next time you import"
     },
     "bookmark_steps_mobile": {
-      "step1": "Tippe auf den \"Code kopieren\"-Knopf und kopiere den Code",
-      "step2": "Erstelle ein neues Lesezeichen in deinem Browser und nenne es \"Gongeous Cookie\"",
-      "step3": "Bearbeite die Lesezeichen-URL und ersetze sie durch den zuvor kopierten Code",
-      "step4": "Wechsel zur Pearpal-Webseite in einem anderen Tab und stelle sicher, dass du dort angemeldet bist",
-      "step5": "Tippe auf das \"Gongeous Cookie\"-Lesezeichen, während du dich auf der Pearpal-Webseite befindest",
-      "step5_android_chrome": "Tippe den Lesezeichen-Namen (Gongeous Cookie) in die Adressleiste ein",
-      "step5_android_chrome_2": "Wähle das Lesezeichen von den Vorschlägen und führe es aus",
-      "step6": "Kopiere den im Pop-up ausgegebenen Text (er sollte so aussehen wie das Beispiel im Eingabefeld unten)",
-      "step7": "Komm wieder auf diese Seite und füge den ausgegebenen Text in das Eingabefeld unten ein",
-      "tip": "Tipp: Du kannst das Lesezeichen für das nächste Importieren der Cookie-Daten behalten"
+      "step1": "Tap the \"Copy Code\" button and copy the code",
+      "step2": "Create a new bookmark in your browser and name it \"Gongeous Cookie\"",
+      "step3": "Edit the bookmark URL and replace it with the code you copied",
+      "step4": "Switch to Pearpal Website in a different tab, make sure you are logged in",
+      "step5": "Tap the \"Gongeous Cookie\" bookmark while on the Pearpal Website",
+      "step5_android_chrome": "Start typing the bookmark name you saved (Gongeous Cookie) in the address bar",
+      "step5_android_chrome_2": "Select the bookmark from suggestions to run it",
+      "step6": "Copy the output text in the popup (it should look like the example in the input area below)",
+      "step7": "Come back here and paste the output text in the input area below",
+      "tip": "Tip: You can keep the bookmark for getting cookie data the next time you import"
     },
     "console_steps": {
-      "step1": "Wechsel zur Pearpal-Webseite in einem anderen Tab und stelle sicher, dass du dort angemeldet bist",
-      "step2": "Öffne die Entwicklertools deines Browsers (Drücke F12 oder rechtsklicke und wähle \"Untersuchen\" aus)",
-      "step3": "Gehe zum \"Console\"-Tab",
-      "step4": "Klicke auf den \"Code kopieren\"-Knopf, kopiere den Code, füge ihn in der Konsole ein und drücke Enter:",
-      "step5": "Solltest du die folgende Warnung sehen: \"Warning: Don't paste code into the DevTools Console\", gebe \"allow pasting\" ein und drücke Enter",
-      "step6": "Kopiere den ausgegebenen Text (er sollte so aussehen wie das Beispiel im Eingabefeld unten)",
-      "step7": "Komm wieder auf diese Seite und füge den ausgegebenen Text in das Eingabefeld unten ein"
+      "step1": "Switch to Pearpal Website in a different tab, make sure you are logged in",
+      "step2": "Open your browser's Developer Tools (Press F12 or right-click and select \"Inspect\")",
+      "step3": "Go to the \"Console\" tab",
+      "step4": "Click the \"Copy Code\" button, copy and paste the code into the console and press enter:",
+      "step5": "If you get a warning saying \"Warning: Don't paste code into the devtools console\", type \"allow pasting\" and hit enter",
+      "step6": "Copy the output text in the console (it should look like the example in the input area below)",
+      "step7": "Come back here and paste the output text in the input area below"
     },
     "manual_steps": {
-      "note": "(Als Beispiel wird Google Chrome benutzt, genaue Bezeichnungen können je nach Browser abweichen, die zu nehmenden Schritte werden aber ähnlich sein)",
-      "step1": "Wechsel zur Pearpal-Webseite in einem anderen Tab und stelle sicher, dass du dort angemeldet bist",
-      "step2": "Öffne die Entwicklertools deines Browsers (Drücke F12 oder rechtsklicke und wähle \"Untersuchen\" aus)",
-      "step3": "Gehe zum \"Application\"-Tab",
-      "step4": "Erweitere in der linken Randleiste den \"Cookies\"-Reiter und wähle die Pearpal-Webseite aus",
-      "step5": "Alternativ kannst du auch eine Browser-Erweiterung für Cookies benutzen, wie Cookie Editor",
-      "step6": "Finde und kopiere die Werte für:",
+      "note": "(Using Google Chrome as an example, exact names might vary for other browsers but steps will be similar)",
+      "step1": "Switch to Pearpal Website in a different tab, make sure you are logged in",
+      "step2": "Open your browser's Developer Tools (Press F12 or right-click and select \"Inspect\")",
+      "step3": "Go to the \"Application\" tab",
+      "step4": "In the left sidebar, expand \"Cookies\" and select the Pearpal Website",
+      "step5": "Alternatively, you can use a browser extension for cookies like Cookie Editor",
+      "step6": "Find and copy the values for:",
       "step6_items": {
-        "momo_id": "momoNid (für das Momo ID Feld)",
-        "momo_token": "momoToken (für das Momo Token Feld)"
+        "momo_id": "momoNid (for Momo ID field)",
+        "momo_token": "momoToken (for Momo Token field)"
       },
-      "step7": "Für die UID, öffne dein Pearpal-Profil und kopiere deine UID"
+      "step7": "For UID, go to your Pearpal profile and copy your UID number"
     },
-    "security_note": "Hinweis: Teile diese Cookie-Werte niemals mit einer anderen Person!",
+    "security_note": "Note: Never share these cookie values with anyone else!",
     "form": {
       "uid": "UID",
-      "uid_placeholder": "UID vom Spiel",
+      "uid_placeholder": "In-game UID",
       "momo_id": "Momo ID",
-      "momo_id_placeholder": "momoNid vom Cookie",
+      "momo_id_placeholder": "momoNid from cookie",
       "momo_token": "Momo Token",
-      "momo_token_placeholder": "momoToken vom Cookie",
-      "submit_global_stats": "Für globale Statistiken übermitteln",
-      "submit_button": "Resonanz-Verlauf importieren und übermitteln",
-      "fetching": "Resonanz-Daten werden gesammelt, bitte warten..."
+      "momo_token_placeholder": "momoToken from cookie",
+      "submit_global_stats": "Submit data for global stats",
+      "submit_button": "Submit and Import Pull History",
+      "fetching": "Fetching resonance data, please wait..."
     },
     "progress": {
-      "processing_banner": "Banner {current} von {total} wird verarbeitet",
-      "fetching_data": "Resonanz-Daten werden gesammelt: {banner}"
+      "processing_banner": "Processing banner {current} of {total}",
+      "fetching_data": "Fetching resonance data: {banner}"
     },
     "actions": {
-      "copy": "Kopieren",
-      "cancel": "Abbrechen",
-      "copy_code": "Code kopieren",
-      "paste_from_clipboard": "Aus Zwischenablage einfügen"
+      "copy": "Copy",
+      "cancel": "Cancel",
+      "copy_code": "Copy Code",
+      "paste_from_clipboard": "Paste from Clipboard"
     },
-    "select_banners": "Wähle die Banner aus, an denen du teilgenommen hast",
-    "select_banners_desc": "Braucht nicht erneut importiert werden, wenn Daten bereits verfügbar sind",
+    "select_banners": "Select Banners You Pulled",
+    "select_banners_desc": "No need to re-import if data is already available",
     "banner_groups": {
-      "quick_select": "Schnellauswahl",
-      "all_banners": "Alle Banner",
-      "current_banners": "Aktuelle Banner",
-      "limited_banners": "Limitierte Banner",
-      "permanent_banners": "Permanente Banner",
-      "individual": "Individuelle Banner"
+      "quick_select": "Quick Select",
+      "all_banners": "All Banners",
+      "current_banners": "Current Banners",
+      "limited_banners": "Limited Banners",
+      "permanent_banners": "Permanent Banners",
+      "individual": "Individual Banners"
     },
     "messages": {
-      "code_copied": "Der Code wurde in die Zwischenablage kopiert!",
-      "code_copy_failed": "Der Code konnte nicht in die Zwischenablage kopiert werden",
-      "data_paste_success": "Daten wurden erfolgreich eingefügt!",
-      "data_paste_success_no_uid": "Bitte kopiere und füge deine UID manuell ein",
-      "data_paste_failed": "Eingegebene Daten konnten nicht analysiert werden. Bitte stelle sicher, dass es sich um ein gültiges Format handelt",
-      "auth_success": "Authentifizierung erfolgreich!",
-      "auth_failed": "Authentifizierung fehlgeschlagen",
-      "stats_submit_failed": "Globale Statistiken konnten nicht übermittelt werden",
-      "fetch_history_failed": "Resonanz-Verlauf konnte nicht gesammelt werden",
-      "invalid_form": "Ungültige Angaben",
-      "import_success": "Daten wurden erfolgreich importiert!",
-      "import_failed": "Datei konnte nicht importiert werden"
+      "code_copied": "Code copied to clipboard!",
+      "code_copy_failed": "Failed to copy code to clipboard",
+      "data_paste_success": "Data pasted successfully!",
+      "data_paste_success_no_uid": "Please copy and paste your UID manually",
+      "data_paste_failed": "Failed to parse input data. Please ensure it is valid format",
+      "auth_success": "Authentication successful!",
+      "auth_failed": "Authentication failed",
+      "stats_submit_failed": "Failed to submit global stats",
+      "fetch_history_failed": "Failed to fetch pull history",
+      "invalid_form": "Invalid form data",
+      "import_success": "Data imported successfully!",
+      "import_failed": "Failed to import file"
     },
-    "supported_browsers": "Unterstützte Browser",
+    "supported_browsers": "Supported Browsers",
     "supported_browsers_list": {
       "chrome": "Google Chrome",
       "firefox": "Mozilla Firefox",
       "safari": "Apple Safari"
     },
-    "check_compatibility": "Überprüfe Browser-Kompatibilität",
-    "pc_recommended": "Du benutzt ein mobiles Gerät. Mit den unten aufgeführten Browsern kannst du deine Daten importieren. Andere Browser wurden nicht getestet und funktionieren möglicherweise nicht. Für das beste Ergebnis empfehlen wir die Verwendung eines PC-Browsers zum Importieren der Daten.",
+    "check_compatibility": "Check Browser Compatibility",
+    "pc_recommended": "You are using a mobile device, you can import using the supported browsers listed below, other browsers are not tested and might not work. For the best experience, we recommend using a PC browser for importing data.",
     "bookmark_script": {
-      "invalid_site": "Bitte benutze dieses Lesezeichen auf der Pearpal-Webseite",
-      "close": "Schließen",
-      "copy": "Kopieren",
-      "copied": "Kopiert!"
+      "invalid_site": "Please use this bookmark on Pearpal Website",
+      "close": "Close",
+      "copy": "Copy",
+      "copied": "Copied!"
     }
   },
   "tracker": {
     "stats": {
-      "title": "Resonanz-Statistiken",
-      "total_pulls": "Resonanzen ges.",
-      "no_pulls": "Kein Resonanz-Verlauf für dieses Banner",
-      "total_5star_4star": "5★ / 4★ gesamt",
-      "total_5star": "5★ gesamt (5★ Banner)",
-      "avg_5star": "5★ durchschn. (5★ Banner)",
-      "total_4star_mixed": "4★ gesamt (4★ Banner)",
-      "avg_4star_mixed": "4★ durchschn. (5★ Banner)",
-      "total_4star_only": "4★ gesamt (4★ Banner)",
-      "avg_4star_only": "4★ durchschn. (4★ Banner)",
-      "luckier": "Mehr Glück als {percent}% der gongeo.us Nutzer",
-      "more_pulls": "Mehr als {percent}% der gongeo.us Nutzer"
+      "title": "Pull Statistics",
+      "total_pulls": "Total Pulls",
+      "no_pulls": "No pull history for this banner",
+      "total_5star_4star": "5★ / 4★ Total",
+      "total_5star": "5★ Total (5★ Banner)",
+      "avg_5star": "5★ Avg (5★ Banner)",
+      "total_4star_mixed": "4★ Total (4★ Banner)",
+      "avg_4star_mixed": "4★ Avg (5★ Banner)",
+      "total_4star_only": "4★ Total (4★ Banner)",
+      "avg_4star_only": "4★ Avg (4★ Banner)",
+      "luckier": "Luckier than {percent}% of the gongeo.us users",
+      "more_pulls": "More than {percent}% of the gongeo.us users"
     },
     "banner": {
       "stats": {
-        "total_pulls": "Resonanzen gesamt",
-        "total_5star": "5★ gesamt",
-        "avg_5star": "5★ durchschn",
-        "total_4star": "4★ gesamt",
-        "avg_4star": "4★ durchschn.",
+        "total_pulls": "Total Pulls",
+        "total_5star": "5★ Total",
+        "avg_5star": "5★ Avg",
+        "total_4star": "4★ Total",
+        "avg_4star": "4★ Avg",
         "pity_5star": "5★ Pity",
         "pity_4star": "4★ Pity",
-        "total_4star_mixed": "4★ gesamt (5★ Banner)",
-        "avg_4star_mixed": "4★ durchschn. (5★ Banner)",
-        "total_4star_only": "4★ gesamt (4★ Banner)",
-        "avg_4star_only": "4★ durchschn. (4★ Banner)",
-        "last_pull": "Letzte Resonanz"
+        "total_4star_mixed": "4★ Total (5★ Banner)",
+        "avg_4star_mixed": "4★ Avg (5★ Banner)",
+        "total_4star_only": "4★ Total (4★ Banner)",
+        "avg_4star_only": "4★ Avg (4★ Banner)",
+        "last_pull": "Last Pull"
       },
       "settings": {
-        "banner_order": "Banner-Reihenfolge",
-        "item_order": "Stück-Reihenfolge",
-        "latest_first": "Neustes zuerst",
-        "oldest_first": "Ältestes zuerst",
-        "outfit_display": "Outfit-Anzeige",
-        "combined": "Kombiniert",
-        "separated": "Getrennt",
-        "show_4star": "4★ Stücke",
-        "show_missing": "Fehlende Stücke",
-        "show": "Zeigen",
-        "hide": "Verstecken",
-        "empty_banners": "Leere Banner"
+        "banner_order": "Banner Order",
+        "item_order": "Item Order",
+        "latest_first": "Latest First",
+        "oldest_first": "Oldest First",
+        "outfit_display": "Outfit Display",
+        "combined": "Combined",
+        "separated": "Separated",
+        "show_4star": "4★ Items",
+        "show_missing": "Missing Pieces",
+        "show": "Show",
+        "hide": "Hide",
+        "empty_banners": "Empty Banners"
       }
     },
     "export": {
-      "png": "Bild exp.",
-      "json": "Datei exp.",
-      "generated_from": "Generiert von",
-      "in_progress": "Wird exportiert, bitte warten...",
-      "success": "Daten wurden erfolgreich exportiert!",
-      "error": "Daten konnten nicht exportiert werden. Bitte versuche es erneut."
+      "png": "Export Image",
+      "json": "Export File",
+      "generated_from": "Generated From",
+      "in_progress": "Export in progress, please wait...",
+      "success": "Data exported successfully!",
+      "error": "Failed to export data. Please try again."
     },
     "no_data": {
-      "title": "Kein Resonanz-Verlauf verfügbar.",
-      "subtitle": "Bitte importiere zuerst deine Resonanz-Daten.",
-      "error": "Daten konnten nicht geladen werden. Bitte versuche es erneut."
+      "title": "No resonance history available.",
+      "subtitle": "Please import your resonance data first.",
+      "error": "Failed to load data. Please try again."
     }
   },
   "banner": {
     "version": "Version",
     "outfit": {
       "level": {
-        "0": "Basis",
-        "1": "Verschönerung",
+        "0": "Base",
+        "1": "Glowed Up",
         "2": "Evo 1",
         "3": "Evo 2",
         "4": "Evo 3"
       }
     },
-    "not_found": "Banner wurde nicht gefunden"
+    "not_found": "Banner not found"
   },
   "common": {
     "rarity": {
@@ -240,191 +240,191 @@
     },
     "discord": "Discord",
     "ko_fi": "Ko-fi",
-    "copyright": "© 2025 gongeo.us • © Infold Games alle Rechte vorbehalten",
+    "copyright": "© 2025 gongeo.us • © Infold Games All Rights Reserved",
     "disclaimer": {
-      "title": "Über diese Seite",
-      "content": "Dies ist eine inoffizielle, Fan-betriebene Webseite, die mit Infold Games nicht verbunden oder unterstützt ist.",
-      "rights": "Alle Infinity Nikki Spielinhalte, Güter und Handelsmarken gehören Infold und den jeweiligen Eigentümern."
+      "title": "About this site",
+      "content": "This is an unofficial fan-made website, not affiliated with or endorsed by Infold Games.",
+      "rights": "All Infinity Nikki game assets, content, and trademarks belong to Infold Games and their respective owners."
     },
     "captions": {
       "ok": "OK",
-      "confirm": "Bestätigen",
-      "cancel": "Abbrechen",
-      "loading": "Lädt..."
+      "confirm": "Confirm",
+      "cancel": "Cancel",
+      "loading": "Loading..."
     },
     "user_profile": {
-      "menu_aria_label": "Menü Benutzerprofil",
-      "guest": "Gast",
+      "menu_aria_label": "User profile menu",
+      "guest": "Guest",
       "user_id": "UID: {uid}",
-      "clear_data": "Lokale Daten löschen",
+      "clear_data": "Clear Local Data",
       "clear_confirm": {
-        "title": "Lokale Daten löschen",
-        "content": "Bist du dir sicher, dass du all deine lokalen Daten löschen willst? Diese Aktion kann nicht rückgängig gemacht werden."
+        "title": "Clear Local Data",
+        "content": "Are you sure you want to clear all local data? This action cannot be undone."
       }
     },
     "regions": {
-      "america": "Amerika",
-      "europe": "Europa",
+      "america": "America",
+      "europe": "Europe",
       "china": "China",
       "tw": "TW/HK/Macau",
-      "asia": "Asien"
+      "asia": "Asia"
     }
   },
   "items": {
-    "pull": "Resonanz #{number}",
+    "pull": "Pull #{number}",
     "types": {
-      "dresses": "Kleider",
-      "outerwear": "Außenbekleidung",
-      "tops": "Oberteile",
-      "bottoms": "Unterteile",
-      "socks": "Socken",
-      "shoes": "Schuhe",
-      "headwear": "Kopfbedeckung",
-      "hairAccessories": "Haaraccessoires",
-      "earrings": "Ohrringe",
-      "neckwear": "Halsbekleidung",
-      "bracelets": "Armbänder",
-      "chokers": "Halsbänder",
-      "gloves": "Handschuhe",
-      "handhelds": "Tragbares",
-      "faceDecorations": "Gesichtsschmuck",
-      "hair": "Haare",
-      "chestAccessories": "Brustaccessories",
-      "pendants": "Anhänger",
-      "backpieces": "Rückenaccessoires",
-      "rings": "Ringe",
-      "armDecorations": "Armschmuck",
-      "unknown": "Unbekannt"
+      "dresses": "Dresses",
+      "outerwear": "Outerwear",
+      "tops": "Tops",
+      "bottoms": "Bottoms",
+      "socks": "Socks",
+      "shoes": "Shoes",
+      "headwear": "Headwear",
+      "hairAccessories": "Hair Accessories",
+      "earrings": "Earrings",
+      "neckwear": "Neckwear",
+      "bracelets": "Bracelets",
+      "chokers": "Chokers",
+      "gloves": "Gloves",
+      "handhelds": "Handhelds",
+      "faceDecorations": "Face Decorations",
+      "hair": "Hair",
+      "chestAccessories": "Chest Accessories",
+      "pendants": "Pendants",
+      "backpieces": "Backpieces",
+      "rings": "Rings",
+      "armDecorations": "Arm Decorations",
+      "unknown": "Unknown"
     }
   },
   "accessibility": {
-    "toggle_menu": "Navigationsmenü ein-/ausschalten",
-    "join_discord": "Tritt unserer Discord-Community bei",
-    "support_ko_fi": "Unterstütze uns auf Ko-fi",
-    "language_switcher": "Sprache wechseln",
-    "theme_switcher": "Thema wechseln",
-    "user_profile_menu": "Menü Benutzerprofil",
-    "scroll_to_top": "Nach oben scrollen"
+    "toggle_menu": "Toggle navigation menu",
+    "join_discord": "Join our Discord community",
+    "support_ko_fi": "Support us on Ko-fi",
+    "language_switcher": "Language switcher",
+    "theme_switcher": "Toggle theme",
+    "user_profile_menu": "User profile menu",
+    "scroll_to_top": "Scroll to top"
   },
   "global": {
     "stats": {
-      "total_pulls": "Resonanzen gesamt",
-      "unique_users": "Stylisten gesamt",
-      "avg_5star": "5★ durchschn. (5★ Banner)",
-      "avg_4star_type2": "4★ durchschn. (5★ Banner)",
-      "avg_4star_type3": "4★ durchschn. (4★ Banner)",
-      "data_as_of": "Daten von"
+      "total_pulls": "Total Pulls",
+      "unique_users": "Total Stylists",
+      "avg_5star": "5★ Avg (5★ Banner)",
+      "avg_4star_type2": "4★ Avg (5★ Banner)",
+      "avg_4star_type3": "4★ Avg (4★ Banner)",
+      "data_as_of": "Data as of"
     },
     "charts": {
-      "pulls_per_banner": "Resonanzen pro Banner",
-      "five_star_distribution": "5★ Resonanzverteilung",
-      "four_star_type2_distribution": "4★ Verteilung (5★ Banner)",
-      "four_star_type3_distribution": "4★ Verteilung (4★ Banner)",
-      "first_item_distribution": "Verteilung des ersten Stückes",
-      "number_of_pulls": "Anzahl der Resonanzen",
-      "probability": "Wahrscheinlichkeit",
-      "cumulative_probability": "Kumulative Wahrscheinlichkeit",
-      "limited_5star": "Limitierte 5★",
-      "limited_4star": "Limitierte 4★",
-      "five_star_pulls": "5★ Resonanzen",
-      "four_star_pulls": "4★ Resonanzen",
-      "four_star_pulls_type2": "4★ Resonanzen (5★ Banner)",
-      "four_star_pulls_type3": "4★ Resonanzen (4★ Banner)",
-      "pulls": "Resonanzen",
-      "daily_pull_distribution": "Tägliche Resonanz-Verteilung",
-      "date": "Datum",
-      "occurrences": "Häufigkeit",
-      "percentage": "Prozent",
-      "total": "Gesamt",
-      "type": "Typ",
-      "all_banners": "Alle Banner",
-      "five_star_banners": "5★ Banner",
-      "four_star_banners": "4★ Banner"
+      "pulls_per_banner": "Pulls Per Banner",
+      "five_star_distribution": "5★ Pulls Distribution",
+      "four_star_type2_distribution": "4★ Distribution (5★ Banner)",
+      "four_star_type3_distribution": "4★ Distribution (4★ Banner)",
+      "first_item_distribution": "First Item Distribution",
+      "number_of_pulls": "Number of Pulls",
+      "probability": "Probability",
+      "cumulative_probability": "Cumulative Probability",
+      "limited_5star": "Limited 5★",
+      "limited_4star": "Limited 4★",
+      "five_star_pulls": "5★ Pulls",
+      "four_star_pulls": "4★ Pulls",
+      "four_star_pulls_type2": "4★ Pulls (5★ Banner)",
+      "four_star_pulls_type3": "4★ Pulls (4★ Banner)",
+      "pulls": "pulls",
+      "daily_pull_distribution": "Daily Pull Distribution",
+      "date": "Date",
+      "occurrences": "Occurrences",
+      "percentage": "Percentage",
+      "total": "Total",
+      "type": "Type",
+      "all_banners": "All Banners",
+      "five_star_banners": "5★ Banners",
+      "four_star_banners": "4★ Banners"
     }
   },
   "faq": {
-    "title": "Häufig gestellte Fragen",
+    "title": "Frequently Asked Questions",
     "questions": {
       "data_source": {
-        "question": "Woher bekommt ihr die Daten?",
-        "answer": "Wir benutzen dieselbe API wie die Seite mit dem Resonanz-Verlauf im Spiel, um auf den Server von Infold Games zuzugreifen, auf dem die Banner Resonanz-Daten gespeichert sind. Um auf deine Daten zugreifen zu können, müssen wir uns beim Server von Infold Games mit den Cookies deines Kontos authentifizieren."
+        "question": "How are you getting the data?",
+        "answer": "We are using the same API as the in-game pull history page to access Infold Games servers that store the banner pull data. To access the data, we need to authenticate with the Infold Games server using your account cookies."
       },
       "ban_risk": {
-        "question": "Werde ich für die Nutzung dieses Trackers gebannt werden?",
-        "answer": "Es handelt sich bei diesem Tracker um ein Drittpartei-Tool, also gibt es immer ein Risiko, allerdings liegt es letztendlich bei Infold Games. Jedoch sind ähnliche Tools in anderen Gacha-Spielen (Paimon.moe, Star Rail Station, WuWa Tracker, etc.) und auch in der chinesischen Community von Infinity Nikki (小黑盒 游创工坊) weit verbreitet. Zieh diese Information in Betracht und bilde damit dein eigenes Urteil."
+        "question": "Will I get banned for using this?",
+        "answer": "This is a third-party tool, so there is always some risk, though it is ultimately up to Infold Games. However, similar tools are widely used in other gacha games (Paimon.moe、Star Rail Station、WuWa Tracker etc.) and also in the Chinese community of Infinity Nikki (小黑盒 游创工坊). Take this information as a reference, and make your own judgement."
       },
       "data_storage": {
-        "question": "Welche Daten speichert ihr?",
-        "answer": "Dein Resonanz-Verlauf wird lokal auf deinem Computer gespeichert, also wird er bei deinem nächsten Besuch der Webseite da sein, solange du deine Browser-Daten nicht gelöscht hast. Wir sammeln keine persönlichen Daten, einschließlich der von dir übermittelten Cookies."
+        "question": "What data are you storing?",
+        "answer": "Your pull history is stored locally in your browser, so the next time you visit the site, it will be there unless you clear your browser data. We do not collect any personal information, including the cookies you submitted."
       },
       "server_data": {
-        "question": "Welche Daten werden an den Server gesendet?",
-        "answer": "Es werden nur deine Resonanz-Statistiken zur Berechnung der globalen Statistiken gesendet, wenn du dich dafür entscheidest. Das beinhaltet eine gehashte Version deiner UID und die Informationen über deine resonierten 4★ und 5★ Stücke."
+        "question": "What data is sent to the server?",
+        "answer": "Only your pull statistics are sent to help calculate global stats if you opt in. This includes a hashed version of your UID, and the information of 4★ and 5★ items you pulled."
       },
       "platform_support": {
-        "question": "Funktioniert es auch, wenn ich auf dem Handy oder der PS5 spiele?",
-        "answer": "Ja, egal auf welcher Plattform du spielst, du kannst deine Daten über PC oder Handy importieren. Auf dem Handy wird es eventuell aber nicht mit allen Browsern funktionieren. Um eine bessere Erfahrung zu machen, wird empfohlen, den PC zu verwenden. Bitte prüfe die \"Daten importieren\"-Seite für unterstützte Browser und weitere Details."
+        "question": "Will it work if I play on mobile or PS5?",
+        "answer": "Yes, no matter which platform you play on, you can import your data from PC or mobile. However, on mobile it might not work for all browsers, it is recommended to use PC for better experience, please check the import page for supported browsers and more details."
       },
       "cookie_script": {
-        "question": "Muss ich ein Script ausführen, um meine Cookies zu erhalten?",
-        "answer": "Nein, Scripts sind dafür nicht nötig, du kannst die Cookies auch manuell erhalten. Weitere Einzelheiten findest du in den Anweisungen für manuelle Eingabe auf der \"Daten importieren\"-Seite."
+        "question": "Do I have to run a script to get my cookies?",
+        "answer": "No, they are just for convenience, you can get the cookies manually, check manual input instructions in the import page for more details. However, the only way to get the cookies on mobile now is to use the bookmark method."
       },
       "no_pulls": {
-        "question": "Ich habe die Anweisungen für das Importieren befolgt und die Banner wurden verarbeitet, aber warum wird kein Resonanz-Verlauf angezeigt?",
-        "answer": "Überprüfe bitte noch einmal, dass deine Region und Cookie-Werte korrekt sind. Stelle sicher, dass die UID und ID der Cookies nicht vertauscht sind."
+        "question": "All banners were processed, but no pulls are showing?",
+        "answer": "Please check that your region and cookie values are correct. Make sure the UID and ID from the cookies are not mixed up."
       },
       "auto_update": {
-        "question": "Werden meine Resonanz-Daten automatisch aktualisiert?",
-        "answer": "Nein, deine Resonanz-Daten werden nicht automatisch aktualisiert. Die Webseite muss nach jedem Spiel-Update aktualisiert werden, um neue Banner zu unterstützen. Aus Sicherheitsgründen wird dein Cookie nach einiger Zeit ablaufen, also musst du den Importprozess wiederholen. Wenn du deine Daten jedoch in deinem Browser speicherst, musst du sie nur für neue Banner erneut importieren."
+        "question": "Will the data auto update?",
+        "answer": "No, you will need to redo the import process for new banners only if you keep your data in browser or local storage. The website will also need to update to support data for new banners. Additionally, for security reasons, the cookie will likely expire after some time."
       },
       "export": {
-        "question": "Wie kann ich meinen Resonanz-Verlauf exportieren?",
-        "answer": "Du kannst deinen Resonanz-Verlauf als PNG-Bilddatei oder JSON-Datei exportieren. Wenn deine Browserdaten gelöscht werden, kannst du die JSON-Datei benutzen, um deinen Verlauf wiederherzustellen."
+        "question": "How can I export my pull history?",
+        "answer": "You can export your pull history as a PNG image or a JSON file. If your browser data is cleared, you can use the JSON file to restore your history."
       }
     }
   },
   "about": {
-    "title": "Haftungsausschluss und Datenschutzerklärung",
+    "title": "Disclaimer and Privacy Policy",
     "infinityNikkiAssets": {
-      "title": "Haftungsausschluss für Plattform und Inhalte",
-      "content": "gongeo.us ist eine unabhängige, von Fans betriebene Plattform und ist weder mit Infinity Nikki noch mit Infold Games verbunden, noch wird sie von ihnen unterstützt, noch besteht eine Partnerschaft mit ihnen. Alle offiziellen Spielinhalte, Bildmaterialien, und zugehörigen Inhalte sind das ausschließliche Eigentum von Infold Games und werden hier ausschließlich für den Austausch der Community und zu Bildungszwecken verwendet. Wir erheben keinen Anspruch auf Eigentum oder Rechte an diesen Inhalten.",
-      "acknowledgment": "Durch die Nutzung dieser Plattform erkennen Sie ihren inoffiziellen Status an und akzeptieren alle Risiken, die mit dem Zugriff auf Inhalte Dritter oder inoffizielle Inhalte verbunden sind."
+      "title": "Platform and Content Disclaimer",
+      "content": "gongeo.us is an independent fan-operated platform and is not affiliated, endorsed, or partnered with Infinity Nikki or Infold Games. All official game assets, visuals, and related content are the exclusive property of Infold Games and are used here solely for community sharing and educational purposes. We do not claim any ownership or rights over this content.",
+      "acknowledgment": "By using this platform, you acknowledge its unofficial status and accept all risks associated with accessing third-party or unofficial content."
     },
     "dataAndStats": {
-      "title": "Haftungsausschluss Daten und Statistiken",
-      "content": "Alle Spielstatistiken und Daten, die auf gongeo.us präsentiert werden, sind freiwillige Beiträge der Nutzer und stammen nicht von Infold Games. Diese Datensätze repräsentieren nur einen kleinen Teil der Spielergemeinschaft und spiegeln möglicherweise nicht das gesamte Spielerverhalten oder Spieltrends wider.",
-      "insights": "Alle Erkenntnisse und Schlussfolgerungen, die aus den Daten gezogen werden, dienen nur zu Informationszwecken und sollten vor dem Hintergrund ihres gemeinschaftsbezogenen Charakters betrachtet werden."
+      "title": "Data and Statistics Disclaimer",
+      "content": "All gameplay statistics and data presented on gongeo.us are voluntarily contributed by users and are not sourced from Infold Games. These data sets represent only a small portion of the player community and may not fully reflect overall player behavior or game trends.",
+      "insights": "Any insights or conclusions drawn from the data are for informational purposes only and should be considered in light of their community-driven nature."
     },
     "intellectualProperty": {
-      "title": "Geistiges Eigentum",
-      "content": "gongeo.us ist ein unabhängiges Fanprojekt. Alle Warenzeichen, Spielinhalte und geistiges Eigentum im Zusammenhang mit Infinity Nikki bleiben das alleinige Eigentum von Infold Games und deren Lizenzgebern.",
-      "siteContent": "Sofern nicht ausdrücklich anders angegeben, sind der gesamte Originalcode, das Website-Design und die benutzerdefinierten Elemente auf dieser Plattform Eigentum von gongeo.us und durch die geltenden Gesetze zum Urheberrecht und zum geistigen Eigentum geschützt. Unerlaubtes Kopieren, Wiederverwenden oder Verbreiten ist ohne schriftliche Genehmigung verboten.",
-      "usage": "Diese Plattform wird \"so wie sie ist\" zur Verfügung gestellt und ist ausschließlich für den persönlichen, nicht-kommerziellen Gebrauch bestimmt."
+      "title": "Intellectual Property",
+      "content": "gongeo.us is an independent fan project. All trademarks, game content, and intellectual property related to Infinity Nikki remain the sole property of Infold Games and their licensors.",
+      "siteContent": "Except where explicitly stated otherwise, all original code, site design, and custom assets on this platform are owned by gongeo.us and protected by applicable copyright and intellectual property laws. Unauthorized copying, reuse, or distribution is prohibited without written permission.",
+      "usage": "This platform is provided \"as-is\" and intended solely for personal, non-commercial use."
     },
     "dataCollection": {
-      "title": "Datenerfassung und Datenspeicherung",
-      "content": "Wir sammeln nur minimale Daten, die für den Betrieb unseres Dienstes notwendig sind. Wir sammeln und speichern keine persönlichen Informationen oder Tracking-Cookies. Alle Cookies und UIDs, die Sie uns zur Verfügung stellen, werden ausschließlich an die Server von Infold Games übertragen, um Ihr Konto zu verifizieren und Ihren Resonanz-Verlauf abzurufen.",
-      "pullHistory": "Die Daten Ihres Resonanz-Verlaufs werden lokal in Ihrem Browser gespeichert. Wenn Sie sich für die Weitergabe von Daten entscheiden, werden Ihre Resonanz-Statistiken - einschließlich einer gehashten Version Ihrer UID und Details zu den abgefragten 4- und 5-Sterne-Artikeln - zur Berechnung der gemeinschaftsweiten Statistiken verwendet."
+      "title": "Data Collection and Storage",
+      "content": "We collect only minimal data necessary to operate our service. We do not collect or store any personal information or tracking cookies. Any cookies and UID you provide are transmitted solely to Infold Games' servers to verify your account and retrieve your pull history.",
+      "pullHistory": "Your pull history data is stored locally in your browser. If you opt in to share data, your pull statistics—including a hashed version of your UID and details of 4-star and 5-star items pulled—will be used to calculate community-wide statistics."
     },
     "dataSecurity": {
-      "title": "Datensicherheit",
-      "content": "Alle Nutzerdaten werden lokal in Ihrem Browser gespeichert. Auch wenn wir angemessene Sicherheitsmaßnahmen ergreifen, sollten Sie sich darüber im Klaren sein, dass keine Internetübertragung vollkommen sicher sein kann."
+      "title": "Data Security",
+      "content": "All user data is stored locally within your browser. While we take reasonable security measures, please be aware that no internet transmission can be guaranteed as completely secure."
     },
     "analytics": {
-      "title": "Analytik und Rückverfolgung",
-      "content": "Wir verwenden Umami, einen datenschutzfreundlichen Analysedienst, um die Nutzung der Website zu überwachen. Er sammelt nur anonymisierte Informationen wie Seitenaufrufe, Verweis-URLs und grundlegende Browserdaten, ohne Cookies oder persönliche Identifikatoren zu verwenden. Diese Daten helfen uns, Ihr Erlebnis zu verbessern. Weitere Informationen finden Sie in der Datenschutzrichtlinie von Umami."
+      "title": "Analytics and Tracking",
+      "content": "We utilize Umami, a privacy-focused analytics service, to monitor website usage. It collects only anonymized information such as page views, referrer URLs, and basic browser data without using cookies or personal identifiers. This data helps us improve your experience. For more information, please see Umami's privacy policy."
     }
   },
   "maintenance": {
-    "title": "Unter Wartung",
-    "message": "Wir führen derzeit einige Wartungsarbeiten durch. Der Import des Resonanz-Verlaufs ist vorübergehend nicht verfügbar.",
-    "status": "Der Dienst wird in Kürze wieder zur Verfügung stehen. Vielen Dank für deine Geduld!"
+    "title": "Under Maintenance",
+    "message": "We're currently performing some maintenance. Pull history import is temporarily unavailable.",
+    "status": "Service will be back shortly. Thank you for your patience!"
   },
   "error": {
     "defaultTitle": "Error",
-    "defaultMessage": "Etwas ist schiefgelaufen",
-    "notFound": "Die von dir gesuchte Seite existiert nicht.",
-    "unexpected": "Ein unerwarteter Fehler ist aufgetreten.",
-    "returnHome": "Zurück zur Startseite"
+    "defaultMessage": "Something went wrong",
+    "notFound": "The page you are looking for does not exist.",
+    "unexpected": "An unexpected error occurred.",
+    "returnHome": "Return Home"
   }
 }

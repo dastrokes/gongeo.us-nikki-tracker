@@ -9,9 +9,7 @@
     "banner_detail": "Banner Detail",
     "faq": "FAQ",
     "about": "About",
-    "nuan5pro": "Nuan5.Pro",
-    "discord": "Discord",
-    "ko-fi": "Ko-fi"
+    "nuan5pro": "Nuan5.Pro"
   },
   "meta": {
     "title": "Infinity Nikki Resonance Tracker - Banner Pull History & Stats",
@@ -236,8 +234,6 @@
     "not_found": "Banner not found"
   },
   "common": {
-    "pull": "Pull #{number}",
-    "obtained": "Obtained",
     "rarity": {
       "4": "4★",
       "5": "5★"
@@ -275,6 +271,7 @@
     }
   },
   "items": {
+    "pull": "Pull #{number}",
     "types": {
       "dresses": "Dresses",
       "outerwear": "Outerwear",

@@ -3,8 +3,8 @@ import type { BannerData } from '~/types/banner'
 /* 
  Banner Types: 
  1 - Permanent
- 2 - Limited 5* with 4*
- 3 - Limited 4*
+ 2 - Limited 5★ with 4★
+ 3 - Limited 4★
 */
 
 export const BANNER_DATA: BannerData = {

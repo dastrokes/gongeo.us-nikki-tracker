@@ -34,6 +34,12 @@ export default defineNuxtConfig({
         files: ['en/common.json', 'en/outfit.json'],
       },
       {
+        code: 'de',
+        iso: 'de-DE',
+        name: 'Deutsch',
+        files: ['de/common.json', 'de/outfit.json'],
+      },
+      {
         code: 'zh',
         iso: 'zh-CN',
         name: '中文',

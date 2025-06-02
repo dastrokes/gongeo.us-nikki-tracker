@@ -271,7 +271,7 @@
     }
   },
   "items": {
-    "pull": "第 {number} 抽",
+    "pull": "第 #{number} 抽",
     "types": {
       "dresses": "裙子",
       "outerwear": "外套",

@@ -9,9 +9,7 @@
     "banner_detail": "Bannerdetail",
     "faq": "FAQ",
     "about": "Über gongeo.us",
-    "nuan5pro": "Nuan5.Pro",
-    "discord": "Discord",
-    "ko-fi": "Ko-fi"
+    "nuan5pro": "Nuan5.Pro"
   },
   "meta": {
     "title": "Infinity Nikki Resonanztracker - Bannerverlauf & Statistiken",
@@ -236,8 +234,6 @@
     "not_found": "Banner wurde nicht gefunden"
   },
   "common": {
-    "pull": "Resonanz #{number}",
-    "obtained": "Erhalten",
     "rarity": {
       "4": "4★",
       "5": "5★"
@@ -275,6 +271,7 @@
     }
   },
   "items": {
+    "pull": "Resonanz #{number}",
     "types": {
       "dresses": "Kleider",
       "outerwear": "Außenbekleidung",

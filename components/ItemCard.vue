@@ -64,7 +64,7 @@
           v-if="item.count > 0"
           class="text-sm mt-1"
         >
-          {{ t('common.pull', { number: item.pullIndex }) }}
+          {{ t('items.pull', { number: item.pullIndex }) }}
         </div>
       </div>
     </template>

@@ -23,7 +23,7 @@
       "global": "Entdecke Infinity Nikki Community Resonanz-Daten, einschließlich Bannerbeliebtheit, durchschnittlichen Dropraten, und Verteilungsstatistiken gezogener Stücker.",
       "banner": "Schau dir den kompletten Infinity Nikki Bannerverlauf an, einschließlich limitierten und permanenten Outfitdetails, Wiederholungsplänen, und Dauer.",
       "faq": "Finde die Antworten auf häufig gestellte Fragen über gongeo.us, einschließlich Datenschutz, Importmethoden und Nutzungsrichtlinien.",
-      "about": "Lerne mehr über gongeo.us, einschließlich Haftungsausschlüssen, Datenschutzbestimmungen und weitere wichtige Informationen. "
+      "about": "Lerne mehr über gongeo.us, einschließlich Haftungsausschlüssen, Datenschutzbestimmungen und weitere wichtige Informationen."
     }
   },
   "index": {
@@ -52,7 +52,7 @@
     "login_pearpal": "Auf der Pearpal-Webseite anmelden",
     "login_pearpal_desc": "Öffne die Pearpal-Webseite in einem neuen Tab und melde dich mit deinem Infold-Konto an, falls du das noch nicht hast.",
     "get_cookie": "Cookie von der Pearpal-Webseite erhalten",
-    "get_cookie_desc": "Wähle aus, wie du deine Cookie-Daten  willst:",
+    "get_cookie_desc": "Wähle aus, wie du deine Cookie-Daten willst:",
     "gongeous_cookie": "Gongeous Cookie",
     "bookmark_method": "Lesezeichen-Methode (empfohlen)",
     "bookmark_method_mobile": "Lesezeichen-Methode",
@@ -136,17 +136,17 @@
     },
     "messages": {
       "code_copied": "Der Code wurde in die Zwischenablage kopiert!",
-      "code_copy_failed": "Der Code konnte nicht in die Zwischenablage kopiert werden.",
+      "code_copy_failed": "Der Code konnte nicht in die Zwischenablage kopiert werden",
       "data_paste_success": "Daten wurden erfolgreich eingefügt!",
       "data_paste_success_no_uid": "Bitte kopiere und füge deine UID manuell ein",
       "data_paste_failed": "Eingegebene Daten konnten nicht analysiert werden. Bitte stelle sicher, dass es sich um ein gültiges Format handelt",
       "auth_success": "Authentifizierung erfolgreich!",
-      "auth_failed": "Authentifizierung fehlgeschlagen.",
-      "stats_submit_failed": "Globale Statistiken konnten nicht übermittelt werden.",
-      "fetch_history_failed": "Resonanz-Verlauf konnte nicht gesammelt werden.",
+      "auth_failed": "Authentifizierung fehlgeschlagen",
+      "stats_submit_failed": "Globale Statistiken konnten nicht übermittelt werden",
+      "fetch_history_failed": "Resonanz-Verlauf konnte nicht gesammelt werden",
       "invalid_form": "Ungültige Angaben",
       "import_success": "Daten wurden erfolgreich importiert!",
-      "import_failed": "Datei konnte nicht importiert werden."
+      "import_failed": "Datei konnte nicht importiert werden"
     },
     "supported_browsers": "Unterstützte Browser",
     "supported_browsers_list": {
@@ -182,7 +182,7 @@
       "stats": {
         "total_pulls": "Resonanzen gesamt",
         "total_5star": "5★ gesamt",
-        "avg_5star": "5★ durchschn.",
+        "avg_5star": "5★ durchschn",
         "total_4star": "4★ gesamt",
         "avg_4star": "4★ durchschn.",
         "pity_5star": "5★ Pity",
@@ -218,7 +218,7 @@
     },
     "no_data": {
       "title": "Kein Resonanz-Verlauf verfügbar.",
-      "subtitle": "Bitte importiere zuerst deine Resonanz-Daten",
+      "subtitle": "Bitte importiere zuerst deine Resonanz-Daten.",
       "error": "Daten konnten nicht geladen werden. Bitte versuche es erneut."
     }
   },

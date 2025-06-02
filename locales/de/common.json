@@ -41,59 +41,59 @@
     "choose_method_desc": "Wähle aus, wie du deinen Resonanz-Verlauf importieren willst.",
     "import_from_game": "Von Spiel importieren",
     "import_from_file": "Von Datei importieren",
-    "file_import": "Datei-Import",
+    "file_import": "Von Datei importieren",
     "file_import_desc": "Importiere aus einer zuvor exportierten nikki-resonance-data Datei.",
     "select_file": "Datei auswählen",
-    "game_import": "Spiel-Import",
+    "game_import": "Von Spiel importieren",
     "game_import_desc": "Importiere über den Browser direkt aus dem Spiel.",
     "select_region": "Region auswählen",
     "select_region_desc": "Wähle deine Serverregion aus.",
     "pearpal_website": "Pearpal-Webseite",
     "login_pearpal": "Auf der Pearpal-Webseite anmelden",
-    "login_pearpal_desc": "Öffne die Pearpal-Webseite in einem neuen Tab und melde dich mit deinem Infold-Konto an falls du das noch nicht hast.",
-    "get_cookie": "Cookie von der Pearpal-Webseite bekommen",
-    "get_cookie_desc": "Wähle aus, wie du deine Cookie-Daten bekommen willst:",
+    "login_pearpal_desc": "Öffne die Pearpal-Webseite in einem neuen Tab und melde dich mit deinem Infold-Konto an, falls du das noch nicht hast.",
+    "get_cookie": "Cookie von der Pearpal-Webseite erhalten",
+    "get_cookie_desc": "Wähle aus, wie du deine Cookie-Daten  willst:",
     "gongeous_cookie": "Gongeous Cookie",
     "bookmark_method": "Lesezeichen-Methode (empfohlen)",
     "bookmark_method_mobile": "Lesezeichen-Methode",
     "console_method": "Konsolen-Methode",
     "manual_input": "Manualle Methode",
-    "title": "Befolge diese Schritte um deine Cookie-Daten zu bekommen:",
+    "title": "Befolge die folgenden Schritte, um deine Cookie-Daten zu erhalten:",
     "bookmark_steps": {
-      "step1": "Ziehe den \"Gongeous Cookie\" Knopf in deine Lesezeichen-/Favoritenleiste (muss nur einmal gemacht werden):",
-      "step2": "Wechsel zur Pearpal-Webseite in einem anderen Tab und stelle sicher, dass du angemeldet bist",
-      "step3": "Klick auf das \"Gongeous Cookie\" Lesezeichen während du auf der Pearpal-Webseite bist",
-      "step4": "Kopiere den im Popup ausgegeben Text (er sollte so aussehen wie das Beispiel im Eingabebereich unten)",
+      "step1": "Ziehe den \"Gongeous Cookie\"-Knopf in deine Lesezeichen-/Favoritenleiste (muss nur einmal getan werden):",
+      "step2": "Wechsel zur Pearpal-Webseite in einem anderen Tab und stelle sicher, dass du dort angemeldet bist",
+      "step3": "Klick auf das \"Gongeous Cookie\"-Lesezeichen, während du dich auf der Pearpal-Webseite befindest",
+      "step4": "Kopiere den im Popup ausgegeben Text (er sollte so aussehen wie das Beispiel im Eingabefeld unten)",
       "step5": "Komm wieder auf diese Seite und füge den ausgegebenen Text in das Eingabefeld unten ein",
       "tip": "Tipp: Du kannst das Lesezeichen für das nächste Importieren der Cookie-Daten behalten"
     },
     "bookmark_steps_mobile": {
-      "step1": "Tippe auf den \"Code kopieren\" Knopf und kopiere den Code",
+      "step1": "Tippe auf den \"Code kopieren\"-Knopf und kopiere den Code",
       "step2": "Erstelle ein neues Lesezeichen in deinem Browser und nenne es \"Gongeous Cookie\"",
       "step3": "Bearbeite die Lesezeichen-URL und ersetze sie durch den zuvor kopierten Code",
-      "step4": "Wechsel zur Pearpal-Webseite in einem anderen Tab und stelle sicher, dass du angemeldet bist",
-      "step5": "Tippe auf das \"Gongeous Cookie\" Lesezeichen während du auf der Pearpal-Webseite bist",
+      "step4": "Wechsel zur Pearpal-Webseite in einem anderen Tab und stelle sicher, dass du dort angemeldet bist",
+      "step5": "Tippe auf das \"Gongeous Cookie\"-Lesezeichen, während du dich auf der Pearpal-Webseite befindest",
       "step5_android_chrome": "Tippe den Lesezeichen-Namen (Gongeous Cookie) in die Addressleiste ein",
       "step5_android_chrome_2": "Wähle das Lesezeichen von den Vorschlägen und führe es aus",
-      "step6": "Kopiere den im Popup ausgegeben Text (er sollte so aussehen wie das Beispiel im Eingabebereich unten)",
+      "step6": "Kopiere den im Popup ausgegeben Text (er sollte so aussehen wie das Beispiel im Eingabefeld unten)",
       "step7": "Komm wieder auf diese Seite und füge den ausgegebenen Text in das Eingabefeld unten ein",
       "tip": "Tipp: Du kannst das Lesezeichen für das nächste Importieren der Cookie-Daten behalten"
     },
     "console_steps": {
-      "step1": "Wechsel zur Pearpal-Webseite in einem anderen Tab und stelle sicher, dass du angemeldet bist",
+      "step1": "Wechsel zur Pearpal-Webseite in einem anderen Tab und stelle sicher, dass du dort angemeldet bist",
       "step2": "Öffne die Entwicklertools deines Browsers (Drücke F12 oder rechtsklicke und wähle \"Untersuchen\" aus",
-      "step3": "Gehe zum \"Console\" Tab",
-      "step4": "Klicke auf den \"Code kopieren\" Knopf, kopiere den Code, füge ihn in der Konsole ein und drücke Enter:",
-      "step5": "Solltest du die folgende Warnung bekommen: \"Warning: Don't paste code into the DevTools Console\", tippe \"allow pasting\" ein und drücke Enter",
-      "step6": "Kopiere den ausgegeben Text (er sollte so aussehen wie das Beispiel im Eingabebereich unten)",
+      "step3": "Gehe zum \"Console\"-Tab",
+      "step4": "Klicke auf den \"Code kopieren\"-Knopf, kopiere den Code, füge ihn in der Konsole ein und drücke Enter:",
+      "step5": "Solltest du die folgende Warnung sehen: \"Warning: Don't paste code into the DevTools Console\", gebe \"allow pasting\" ein und drücke Enter",
+      "step6": "Kopiere den ausgegeben Text (er sollte so aussehen wie das Beispiel im Eingabefeld unten)",
       "step7": "Komm wieder auf diese Seite und füge den ausgegebenen Text in das Eingabefeld unten ein"
     },
     "manual_steps": {
       "note": "(Als Beispiel wird Google Chrome benutzt, genaue Bezeichnungen können je nach Browser abweichen, die zu nehmenden Schritte werden aber ähnlich sein)",
-      "step1": "Wechsel zur Pearpal-Webseite in einem anderen Tab und stelle sicher, dass du angemeldet bist",
+      "step1": "Wechsel zur Pearpal-Webseite in einem anderen Tab und stelle sicher, dass du dort angemeldet bist",
       "step2": "Öffne die Entwicklertools deines Browsers (Drücke F12 oder rechtsklicke und wähle \"Untersuchen\" aus",
-      "step3": "Gehe zum \"Application\" Tab",
-      "step4": "In der linken Randleiste erweitere \"Cookies\" und wähle die Pearpal-Webseite aus",
+      "step3": "Gehe zum \"Application\"-Tab",
+      "step4": "Erweitere in der linken Randleiste den \"Cookies\"-Reiter und wähle die Pearpal-Webseite aus",
       "step5": "Alternativ kannst du auch eine Browser-Erweiterung für Cookies benutzen, wie Cookie Editor",
       "step6": "Finde und kopiere die Werte für:",
       "step6_items": {
@@ -102,10 +102,10 @@
       },
       "step7": "Für die UID, öffne dein Pearpal-Profil und kopiere deine UID"
     },
-    "security_note": "Hinweis: Teile diese Cookie Werte niemals mit jemand anderem!",
+    "security_note": "Hinweis: Teile diese Cookiewerte niemals mit einer anderen Person!",
     "form": {
       "uid": "UID",
-      "uid_placeholder": "In-game UID",
+      "uid_placeholder": "UID vom Spiel",
       "momo_id": "Momo ID",
       "momo_id_placeholder": "momoNid vom Cookie",
       "momo_token": "Momo Token",
@@ -125,7 +125,7 @@
       "paste_from_clipboard": "Aus Zwischenablage einfügen"
     },
     "select_banners": "Wähle die Banner aus, an denen du teilgenommen hast",
-    "select_banners_desc": "Braucht nicht erneut importiert werden wenn Daten bereits verfügbar sind",
+    "select_banners_desc": "Braucht nicht erneut importiert werden, wenn Daten bereits verfügbar sind",
     "banner_groups": {
       "quick_select": "Schnellauswahl",
       "all_banners": "Alle Banner",
@@ -155,7 +155,7 @@
       "safari": "Apple Safari"
     },
     "check_compatibility": "Überprüfe Browser-Kompatibilität",
-    "pc_recommended": "Du benutzt ein mobiles Gerät. Mit den unten aufgeführten Browsern kannst du deine Daten importieren, andere Browser wurden nicht getestet und funktionieren möglicherweise nicht. Für das beste Ergebnis empfehlen wir die Verwendung eines PC-Browsers zum Importieren der Daten.",
+    "pc_recommended": "Du benutzt ein mobiles Gerät. Mit den unten aufgeführten Browsern kannst du deine Daten importieren. Andere Browser wurden nicht getestet und funktionieren möglicherweise nicht. Für das beste Ergebnis empfehlen wir die Verwendung eines PC-Browsers zum Importieren der Daten.",
     "bookmark_script": {
       "invalid_site": "Bitte benutze dieses Lesezeichen auf der Pearpal-Webseite",
       "close": "Schließen",
@@ -168,7 +168,7 @@
       "title": "Resonanz-Statistiken",
       "total_pulls": "Resonanzen gesamt",
       "no_pulls": "Kein Resonanz-Verlauf für dieses Banner",
-      "total_5star_4star": "5★ / 4★ insgesamt",
+      "total_5star_4star": "5★ / 4★ gesamt",
       "total_5star": "5★ gesamt (5★ Banner)",
       "avg_5star": "5★ durchschn. (5★ Banner)",
       "total_4star_mixed": "4★ gesamt (4★ Banner)",
@@ -176,7 +176,7 @@
       "total_4star_only": "4★ gesamt (4★ Banner)",
       "avg_4star_only": "4★ durchschn. (4★ Banner)",
       "luckier": "Mehr Glück als {percent}% der gongeo.us Nutzer",
-      "more_pulls": "Mehr Glück als {percent}% der gongeo.us Nutzer"
+      "more_pulls": "Mehr als {percent}% der gongeo.us Nutzer"
     },
     "banner": {
       "stats": {
@@ -259,7 +259,7 @@
     "user_profile": {
       "menu_aria_label": "Menü Benutzerprofil",
       "guest": "Gast",
-      "user_id": "User ID: {uid}",
+      "user_id": "UID: {uid}",
       "clear_data": "Lokale Daten löschen",
       "clear_confirm": {
         "title": "Lokale Daten löschen",
@@ -362,27 +362,27 @@
       },
       "server_data": {
         "question": "Welche Daten werden an den Server gesendet?",
-        "answer": "Only your pull statistics are sent to help calculate global stats if you opt in. . Es werden nur deine Resonanz-Statistiken zur Berechnung der globalen Statistiken gesendet, wenn du dich dafür entscheidest. Das beinhaltet eine gehashte Version deiner UID und die Informationen über deine resonierten 4★ und 5★ Stücke."
+        "answer": "Es werden nur deine Resonanz-Statistiken zur Berechnung der globalen Statistiken gesendet, wenn du dich dafür entscheidest. Das beinhaltet eine gehashte Version deiner UID und die Informationen über deine resonierten 4★ und 5★ Stücke."
       },
       "platform_support": {
         "question": "Funktioniert es auch, wenn ich auf dem Handy oder der PS5 spiele?",
-        "answer": "Ja, egal auf welcher Plattform du spielst, du kannst deine Daten über PC oder Handy importieren. Auf dem Handy wird es möglicherweise aber nicht mit allen Browsern funktionieren. Um eine bessere Erfahrung zu machen, wird empfohlen, den PC zu verwenden. Bitte prüfe die Import-Seite für untertstützte Browser und weitere Details."
+        "answer": "Ja, egal auf welcher Plattform du spielst, du kannst deine Daten über PC oder Handy importieren. Auf dem Handy wird es eventuell aber nicht mit allen Browsern funktionieren. Um eine bessere Erfahrung zu machen, wird empfohlen, den PC zu verwenden. Bitte prüfe die \"Daten importieren\"-Seite für untertstützte Browser und weitere Details."
       },
       "cookie_script": {
-        "question": "Muss ich ein Script ausführen, um meine Cookies zu bekommen?",
-        "answer": "Nein, Scripts sind nicht nötig dafür, du kannst die Cookies auch manuell bekommen. Weitere Einzelheiten findest du in den Anweisungen für manuelle Eingabe auf der Import-Seite."
+        "question": "Muss ich ein Script ausführen, um meine Cookies zu erhalten?",
+        "answer": "Nein, Scripts sind dafür nicht nötig, du kannst die Cookies auch manuell erhalten. Weitere Einzelheiten findest du in den Anweisungen für manuelle Eingabe auf der \"Daten importieren\"-Seite."
       },
       "no_pulls": {
-        "question": "I followed the import steps and saw the banners were processed, but why isn't any pull history showing? Ich habe die Anweisungen für das Importieren befolgt und die Banner wurden verarbeitet, aber warum wird kein Resonanz-Verlauf angezeigt?",
-        "answer": "PÜberprüfe bitte noch einmal, dass deine Region und Cookie-Werte korrekt sind. Stelle sicher, dass die UID und ID der Cookies nicht vertauscht sind."
+        "question": "Ich habe die Anweisungen für das Importieren befolgt und die Banner wurden verarbeitet, aber warum wird kein Resonanz-Verlauf angezeigt?",
+        "answer": "Überprüfe bitte noch einmal, dass deine Region und Cookiewerte korrekt sind. Stelle sicher, dass die UID und ID der Cookies nicht vertauscht sind."
       },
       "auto_update": {
         "question": "Werden meine Resonanz-Daten automatisch aktualisiert?",
-        "answer": "Nein, deine Resonanz-Daten werden nicht automatisch aktualisiert. Die Webseite muss nach jedem Spiel-Update aktualisiert werden, um neue Banner zu unterstützen. Aus Sicherheitsgründen wird dein Cookie nach einiger Zeit ablaufen, also musst du den Importprozess wiederholen. Wenn du deine Daten jedoch in deinem Browser speicherst, wirst du sie nur für neue Banner erneut importieren."
+        "answer": "Nein, deine Resonanz-Daten werden nicht automatisch aktualisiert. Die Webseite muss nach jedem Spiel-Update aktualisiert werden, um neue Banner zu unterstützen. Aus Sicherheitsgründen wird dein Cookie nach einiger Zeit ablaufen, also musst du den Importprozess wiederholen. Wenn du deine Daten jedoch in deinem Browser speicherst, musst du sie nur für neue Banner erneut importieren."
       },
       "export": {
         "question": "Wie kann ich meinen Resonanz-Verlauf exportieren?",
-        "answer": "Du kannst deinen Resonanz-Verlauf als PNG-Bilddatei oder JSON-Datei exportieren. Wenn deine Browserdaten gelöscht werden, kannst du die JSON-Datei benutzen, um deinen Verlauf wiederherzustellen. "
+        "answer": "Du kannst deinen Resonanz-Verlauf als PNG-Bilddatei oder JSON-Datei exportieren. Wenn deine Browserdaten gelöscht werden, kannst du die JSON-Datei benutzen, um deinen Verlauf wiederherzustellen."
       }
     }
   },

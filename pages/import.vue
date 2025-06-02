@@ -15,7 +15,7 @@
           @update:current="currentStep = $event"
         >
           <!-- Import Method Step -->
-          <n-step title="Choose Import Method">
+          <n-step :title="$t('import.choose_method')">
             <template #icon>
               <n-icon>
                 <Check />

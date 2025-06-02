@@ -74,7 +74,7 @@
       },
       {
         property: 'og:description',
-        content: t('meta.description.tracker'),
+        content: t('meta.description.faq'),
       },
     ],
     link: [{ rel: 'canonical', href: `${siteUrl}${localePath('/faq')}` }],

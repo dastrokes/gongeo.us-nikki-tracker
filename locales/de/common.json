@@ -63,7 +63,7 @@
       "step1": "Ziehe den \"Gongeous Cookie\"-Knopf in deine Lesezeichen-/Favoritenleiste (muss nur einmal getan werden):",
       "step2": "Wechsel zur Pearpal-Webseite in einem anderen Tab und stelle sicher, dass du dort angemeldet bist",
       "step3": "Klick auf das \"Gongeous Cookie\"-Lesezeichen, während du dich auf der Pearpal-Webseite befindest",
-      "step4": "Kopiere den im Popup ausgegeben Text (er sollte so aussehen wie das Beispiel im Eingabefeld unten)",
+      "step4": "Kopiere den im Popup ausgegebenen Text (er sollte so aussehen wie das Beispiel im Eingabefeld unten)",
       "step5": "Komm wieder auf diese Seite und füge den ausgegebenen Text in das Eingabefeld unten ein",
       "tip": "Tipp: Du kannst das Lesezeichen für das nächste Importieren der Cookie-Daten behalten"
     },
@@ -75,7 +75,7 @@
       "step5": "Tippe auf das \"Gongeous Cookie\"-Lesezeichen, während du dich auf der Pearpal-Webseite befindest",
       "step5_android_chrome": "Tippe den Lesezeichen-Namen (Gongeous Cookie) in die Addressleiste ein",
       "step5_android_chrome_2": "Wähle das Lesezeichen von den Vorschlägen und führe es aus",
-      "step6": "Kopiere den im Popup ausgegeben Text (er sollte so aussehen wie das Beispiel im Eingabefeld unten)",
+      "step6": "Kopiere den im Popup ausgegebenen Text (er sollte so aussehen wie das Beispiel im Eingabefeld unten)",
       "step7": "Komm wieder auf diese Seite und füge den ausgegebenen Text in das Eingabefeld unten ein",
       "tip": "Tipp: Du kannst das Lesezeichen für das nächste Importieren der Cookie-Daten behalten"
     },
@@ -85,7 +85,7 @@
       "step3": "Gehe zum \"Console\"-Tab",
       "step4": "Klicke auf den \"Code kopieren\"-Knopf, kopiere den Code, füge ihn in der Konsole ein und drücke Enter:",
       "step5": "Solltest du die folgende Warnung sehen: \"Warning: Don't paste code into the DevTools Console\", gebe \"allow pasting\" ein und drücke Enter",
-      "step6": "Kopiere den ausgegeben Text (er sollte so aussehen wie das Beispiel im Eingabefeld unten)",
+      "step6": "Kopiere den ausgegebenen Text (er sollte so aussehen wie das Beispiel im Eingabefeld unten)",
       "step7": "Komm wieder auf diese Seite und füge den ausgegebenen Text in das Eingabefeld unten ein"
     },
     "manual_steps": {
@@ -166,7 +166,7 @@
   "tracker": {
     "stats": {
       "title": "Resonanz-Statistiken",
-      "total_pulls": "Resonanzen gesamt",
+      "total_pulls": "Resonanzen ges.",
       "no_pulls": "Kein Resonanz-Verlauf für dieses Banner",
       "total_5star_4star": "5★ / 4★ gesamt",
       "total_5star": "5★ gesamt (5★ Banner)",
@@ -197,8 +197,8 @@
         "banner_order": "Banner-Reihenfolge",
         "item_order": "Stück-Reihenfolge",
         "latest_first": "Neustes zuerst",
-        "oldest_first": "Ältestes zuert",
-        "outfit_display": "Outfit-Darstellung",
+        "oldest_first": "Ältestes zuerst",
+        "outfit_display": "Outfit-Anzeige",
         "combined": "Kombiniert",
         "separated": "Getrennt",
         "show_4star": "4★ Stücke",
@@ -209,8 +209,8 @@
       }
     },
     "export": {
-      "png": "Bild exportieren",
-      "json": "Datei exportieren",
+      "png": "Bild exp.",
+      "json": "Datei exp.",
       "generated_from": "Generiert von",
       "in_progress": "Wird exportiert, bitte warten...",
       "success": "Daten wurden erfolgreich exportiert!",

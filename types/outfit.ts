@@ -1,6 +1,6 @@
 export interface Outfit {
   id: string
-  rarity: number
+  rarity?: number
   items: string[]
 }
 

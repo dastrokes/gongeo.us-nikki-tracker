@@ -225,7 +225,7 @@
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       {
         name: 'description',
-        content: t('meta.description'),
+        content: t('meta.description.default'),
       },
       { name: 'robots', content: 'index, follow' },
       { name: 'author', content: 'dastrokes' },
@@ -243,7 +243,7 @@
       },
       {
         property: 'og:description',
-        content: t('meta.description'),
+        content: t('meta.description.default'),
       },
     ],
     link: [
@@ -257,7 +257,7 @@
           '@context': 'https://schema.org',
           '@type': 'WebApplication',
           name: t('meta.title'),
-          description: t('meta.description'),
+          description: t('meta.description.default'),
           url: siteUrl,
           applicationCategory: 'Game Tool',
           operatingSystem: 'Any',

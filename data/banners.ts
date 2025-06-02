@@ -12,7 +12,7 @@ export const BANNER_DATA: BannerData = {
     bannerId: 1,
     bannerType: 1,
     outfit4StarId: ['S0056', 'S0058', 'S0084', 'S0092'],
-    outfit5StarId: ['S0145', 'S0165', 'S0093', 'S0033'],
+    outfit5StarId: ['S0033', 'S0093', 'S0145', 'S0165'],
     runs: [
       {
         version: '1.0.0',

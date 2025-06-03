@@ -109,7 +109,7 @@
       "momo_token": "Momo Token",
       "momo_token_placeholder": "momoToken vom Cookie",
       "submit_global_stats": "Für globale Statistiken übermitteln",
-      "submit_button": "Resonanz-Verlauf importieren und übermitteln",
+      "submit_button": "Übermitteln und Importieren",
       "fetching": "Resonanz-Daten werden gesammelt, bitte warten..."
     },
     "progress": {

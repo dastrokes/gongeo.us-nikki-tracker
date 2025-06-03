@@ -167,7 +167,7 @@
       "total_pulls": "总抽数",
       "no_pulls": "此卡池暂无抽卡记录",
       "total_5star_4star": "5★ / 4★总数",
-      "total_5star": "5★总抽数",
+      "total_5star": "5★总抽数（5★卡池）",
       "avg_5star": "5★平均（5★卡池）",
       "total_4star_mixed": "4★总数（5★卡池）",
       "avg_4star_mixed": "4★平均（5★卡池）",
@@ -271,7 +271,7 @@
     }
   },
   "items": {
-    "pull": "第 #{number} 抽",
+    "pull": "第 {number} 抽",
     "types": {
       "dresses": "裙子",
       "outerwear": "外套",

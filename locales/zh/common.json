@@ -167,11 +167,8 @@
       "total_pulls": "总抽数",
       "no_pulls": "此卡池暂无抽卡记录",
       "total_5star_4star": "5★ / 4★总数",
-      "total_5star": "5★总抽数（5★卡池）",
       "avg_5star": "5★平均（5★卡池）",
-      "total_4star_mixed": "4★总数（5★卡池）",
       "avg_4star_mixed": "4★平均（5★卡池）",
-      "total_4star_only": "4★平均（4★卡池）",
       "avg_4star_only": "4★总数（4★卡池）",
       "luckier": "比 {percent}% 的暖暖共鸣录用户更幸运",
       "more_pulls": "多于 {percent}% 的暖暖共鸣录用户"
@@ -184,12 +181,7 @@
         "total_4star": "4★总数",
         "avg_4star": "4★平均",
         "pity_5star": "5★已垫",
-        "pity_4star": "4★已垫",
-        "total_4star_mixed": "4★总数（5★卡池）",
-        "avg_4star_mixed": "4★平均（5★卡池）",
-        "total_4star_only": "4★总数（4★卡池）",
-        "avg_4star_only": "4★平均（4★卡池）",
-        "last_pull": "最后抽卡"
+        "pity_4star": "4★已垫"
       },
       "settings": {
         "banner_order": "卡池排序",
@@ -271,7 +263,7 @@
     }
   },
   "items": {
-    "pull": "第 #{number} 抽",
+    "pull": "第 {number} 抽",
     "types": {
       "dresses": "裙子",
       "outerwear": "外套",

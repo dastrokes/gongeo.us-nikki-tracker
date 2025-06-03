@@ -167,11 +167,8 @@
       "total_pulls": "Total Pulls",
       "no_pulls": "No pull history for this banner",
       "total_5star_4star": "5★ / 4★ Total",
-      "total_5star": "5★ Total (5★ Banner)",
       "avg_5star": "5★ Avg (5★ Banner)",
-      "total_4star_mixed": "4★ Total (4★ Banner)",
       "avg_4star_mixed": "4★ Avg (5★ Banner)",
-      "total_4star_only": "4★ Total (4★ Banner)",
       "avg_4star_only": "4★ Avg (4★ Banner)",
       "luckier": "Luckier than {percent}% of the gongeo.us users",
       "more_pulls": "More than {percent}% of the gongeo.us users"
@@ -184,12 +181,7 @@
         "total_4star": "4★ Total",
         "avg_4star": "4★ Avg",
         "pity_5star": "5★ Pity",
-        "pity_4star": "4★ Pity",
-        "total_4star_mixed": "4★ Total (5★ Banner)",
-        "avg_4star_mixed": "4★ Avg (5★ Banner)",
-        "total_4star_only": "4★ Total (4★ Banner)",
-        "avg_4star_only": "4★ Avg (4★ Banner)",
-        "last_pull": "Last Pull"
+        "pity_4star": "4★ Pity"
       },
       "settings": {
         "banner_order": "Banner Order",

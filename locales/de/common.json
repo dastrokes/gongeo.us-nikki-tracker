@@ -167,11 +167,8 @@
       "total_pulls": "Resonanzen ges.",
       "no_pulls": "Kein Resonanz-Verlauf für dieses Banner",
       "total_5star_4star": "5★ / 4★ gesamt",
-      "total_5star": "5★ gesamt (5★ Banner)",
       "avg_5star": "5★ durchschn. (5★ Banner)",
-      "total_4star_mixed": "4★ gesamt (4★ Banner)",
       "avg_4star_mixed": "4★ durchschn. (5★ Banner)",
-      "total_4star_only": "4★ gesamt (4★ Banner)",
       "avg_4star_only": "4★ durchschn. (4★ Banner)",
       "luckier": "Mehr Glück als {percent}% der gongeo.us Nutzer",
       "more_pulls": "Mehr als {percent}% der gongeo.us Nutzer"
@@ -184,12 +181,7 @@
         "total_4star": "4★ gesamt",
         "avg_4star": "4★ durchschn.",
         "pity_5star": "5★ Pity",
-        "pity_4star": "4★ Pity",
-        "total_4star_mixed": "4★ gesamt (5★ Banner)",
-        "avg_4star_mixed": "4★ durchschn. (5★ Banner)",
-        "total_4star_only": "4★ gesamt (4★ Banner)",
-        "avg_4star_only": "4★ durchschn. (4★ Banner)",
-        "last_pull": "Letzte Resonanz"
+        "pity_4star": "4★ Pity"
       },
       "settings": {
         "banner_order": "Banner-Reihenfolge",

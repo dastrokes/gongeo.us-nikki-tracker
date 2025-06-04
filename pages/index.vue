@@ -51,6 +51,22 @@
     >
       <div class="flex justify-center items-center flex-col mb-4 space-y-2">
         <div class="text-2xl font-bold font-sans">
+          <n-tooltip>
+            <template #trigger>
+              <n-button
+                size="small"
+                text
+                @click="router.push(localePath('/banner'))"
+              >
+                <template #icon>
+                  <n-icon>
+                    <CalendarAlt />
+                  </n-icon>
+                </template>
+              </n-button>
+            </template>
+            {{ $t('navigation.banner') }}
+          </n-tooltip>
           {{ $t('index.current_banners') }}
         </div>
       </div>
@@ -79,7 +95,7 @@
   import { NButton } from 'naive-ui'
   import { useUserStore } from '~/stores/user'
   import { BANNER_DATA } from '~/data/banners'
-  import { Book, Globe } from '@vicons/fa'
+  import { Book, Globe, CalendarAlt } from '@vicons/fa'
 
   const { t } = useI18n()
   const userStore = useUserStore()

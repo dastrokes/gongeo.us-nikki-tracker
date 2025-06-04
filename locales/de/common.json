@@ -101,6 +101,8 @@
       "step7": "Für die UID, öffne dein Pearpal-Profil und kopiere deine UID"
     },
     "security_note": "Hinweis: Teile diese Cookie-Werte niemals mit einer anderen Person!",
+    "data_note": "Important: It has been reported that pull data is only retained on the Infold server for 180 days. Data before {date} will become unavailable. As a result, the affected banner pull history may be incomplete.",
+    "banner_note": "For the banners affect including permanent banner, please do not re-import if you have already imported your data and have pull history before the cutoff date until further notice.",
     "form": {
       "uid": "UID",
       "uid_placeholder": "UID vom Spiel",

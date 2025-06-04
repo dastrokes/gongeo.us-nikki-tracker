@@ -51,12 +51,12 @@
                   >
                   <n-text depth="3">
                     <n-time
-                      :time="new Date(run.start)"
+                      :time="new Date(run.start + 'T00:00:00')"
                       type="date"
                     />
                     -
                     <n-time
-                      :time="new Date(run.end)"
+                      :time="new Date(run.end + 'T00:00:00')"
                       type="date"
                     />
                   </n-text>

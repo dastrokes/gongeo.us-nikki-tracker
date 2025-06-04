@@ -458,7 +458,7 @@
                   })
                 }}
               </div>
-              <div class="text-sm text-amber-500 font-medium break-words">
+              <div class="text-sm text-amber-500 break-words">
                 {{ $t('import.banner_note') }}
               </div></n-space
             >

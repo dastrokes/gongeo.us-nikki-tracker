@@ -444,12 +444,24 @@
               align="center"
               class="w-full flex my-4 flex-wrap"
             >
-              <span>{{ $t('import.form.submit_global_stats') }}</span>
+              <div>{{ $t('import.form.submit_global_stats') }}</div>
               <n-switch
                 v-model:value="submitGlobalStats"
                 class="flex-shrink-0"
               />
             </n-space>
+            <n-space class="w-full flex my-4">
+              <div class="text-sm text-amber-500 break-words">
+                {{
+                  $t('import.data_note', {
+                    date: daysAgoFormatted(180),
+                  })
+                }}
+              </div>
+              <div class="text-sm text-amber-500 font-medium break-words">
+                {{ $t('import.banner_note') }}
+              </div></n-space
+            >
             <n-space class="w-full flex">
               <n-button
                 v-if="importMethod === 'game'"
@@ -1093,5 +1105,13 @@
       negativeText: t('import.actions.cancel'),
       onPositiveClick: () => copyToClipboard(code),
     })
+  }
+
+  const daysAgoFormatted = (days: number) => {
+    const date = new Date(Date.now() - days * 24 * 60 * 60 * 1000)
+    const year = date.getFullYear()
+    const month = String(date.getMonth() + 1).padStart(2, '0')
+    const day = String(date.getDate()).padStart(2, '0')
+    return `${year}-${month}-${day}`
   }
 </script>

@@ -125,7 +125,7 @@ export const BANNER_DATA: BannerData = {
     runs: [
       {
         version: '1.2.1',
-        start: '2025-01-24',
+        start: '2025-01-23',
         end: '2025-02-25',
       },
     ],
@@ -138,7 +138,7 @@ export const BANNER_DATA: BannerData = {
     runs: [
       {
         version: '1.2.1',
-        start: '2025-01-24',
+        start: '2025-01-23',
         end: '2025-02-25',
       },
     ],
@@ -255,7 +255,7 @@ export const BANNER_DATA: BannerData = {
     runs: [
       {
         version: '1.5.1',
-        start: '2025-04-29',
+        start: '2025-04-28',
         end: '2025-06-12',
       },
     ],
@@ -268,7 +268,7 @@ export const BANNER_DATA: BannerData = {
     runs: [
       {
         version: '1.5.1',
-        start: '2025-04-29',
+        start: '2025-04-28',
         end: '2025-06-12',
       },
     ],

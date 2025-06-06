@@ -13,21 +13,26 @@ export const useBannerPullData = () => {
   const isFetching = ref(false)
 
   const processJsonImport = async (jsonData: Record<number, PullRecord[]>) => {
-    // Save to IndexedDB asynchronously without awaiting
-    const { savePullData } = useIndexedDB()
-    savePullData(jsonData)
+    const { loadPullData, savePullData, mergePullData } = useIndexedDB()
+    const existingData = (await loadPullData()) || {}
 
-    await pullStore.processPullsData(jsonData)
+    const mergedData = mergePullData(existingData, jsonData)
+    savePullData(mergedData)
+
+    await pullStore.processPullsData(mergedData)
     router.push(localePath('/tracker'))
-    return jsonData
   }
 
-  const fetchData = async (selectedBannerIds?: number[]) => {
+  const fetchPullData = async (selectedBannerIds?: number[]) => {
     if (isFetching.value) return
 
     isFetching.value = true
 
     try {
+      // First, load existing data from IndexedDB
+      const { loadPullData, savePullData, mergePullData } = useIndexedDB()
+      const existingData = (await loadPullData()) || {}
+
       const responses = await fetchPullHistory(selectedBannerIds)
       // Transform the data into the format expected by the store
       const pullsByBanner: Record<number, PullRecord[]> = {}
@@ -48,12 +53,13 @@ export const useBannerPullData = () => {
         }
       })
 
-      // Save to IndexedDB asynchronously without awaiting
-      const { savePullData } = useIndexedDB()
-      savePullData(pullsByBanner)
+      // Merge the new data with existing data from IndexedDB
+      const mergedData = mergePullData(existingData, pullsByBanner)
 
-      // Process the data in the store
-      await pullStore.processPullsData(pullsByBanner)
+      savePullData(mergedData)
+
+      // Process the merged data in the store
+      await pullStore.processPullsData(mergedData)
 
       router.push(localePath('/tracker'))
     } catch (error) {
@@ -63,16 +69,9 @@ export const useBannerPullData = () => {
     }
   }
 
-  const fetchAllData = async (selectedBannerIds?: number[]) => {
-    pullStore.reset()
-
-    await fetchData(selectedBannerIds)
-  }
-
   return {
     isFetching,
-    fetchData,
-    fetchAllData,
+    fetchPullData,
     processJsonImport,
     progress,
   }

@@ -31,6 +31,47 @@ export function useIndexedDB() {
     return dbPromise
   }
 
+  const mergePullData = (
+    existingData: Record<number, PullRecord[]>,
+    newData: Record<number, PullRecord[]>
+  ): Record<number, PullRecord[]> => {
+    const mergedData: Record<number, PullRecord[]> = { ...existingData }
+
+    Object.entries(newData).forEach(([bannerIdStr, newPulls]) => {
+      const bannerId = Number(bannerIdStr)
+      const existingPulls = mergedData[bannerId] ?? []
+
+      if (existingPulls.length === 0) {
+        mergedData[bannerId] = [...newPulls]
+        return
+      }
+
+      const existingNewest = existingPulls[0][0] // first = newest
+      const existingOldest = existingPulls.at(-1)![0] // last = oldest
+
+      const existingTimestamps = new Set(existingPulls.map(([ts]) => ts))
+
+      const toPrepend: PullRecord[] = []
+      const toAppend: PullRecord[] = []
+
+      for (const [timestamp, itemId] of newPulls) {
+        if (existingTimestamps.has(timestamp)) continue
+
+        if (timestamp > existingNewest) {
+          toPrepend.push([timestamp, itemId])
+        } else if (timestamp < existingOldest) {
+          toAppend.push([timestamp, itemId])
+        } else {
+          continue
+        }
+      }
+
+      mergedData[bannerId] = [...toPrepend, ...existingPulls, ...toAppend]
+    })
+
+    return mergedData
+  }
+
   const savePullData = async (pullsByBanner: Record<number, PullRecord[]>) => {
     // Update reactive state immediately
     data.value = pullsByBanner
@@ -122,5 +163,6 @@ export function useIndexedDB() {
     savePullData,
     loadPullData,
     clearPullData,
+    mergePullData,
   }
 }

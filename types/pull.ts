@@ -76,6 +76,4 @@ export interface PullState {
   rawPullData: Record<number, PullRecord[]>
   globalStats: GlobalStats
   isProcessing: boolean
-  isLoading: boolean
-  error: string | null
 }

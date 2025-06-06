@@ -101,8 +101,7 @@
       "step7": "Für die UID, öffne dein Pearpal-Profil und kopiere deine UID"
     },
     "security_note": "Hinweis: Teile diese Cookie-Werte niemals mit einer anderen Person!",
-    "data_note": "Achtung: Es wurde gemeldet, dass Resonanz-Daten nur für 180 Tage auf dem Infold-Server gespeichert werden. Daten vor {date} werden nicht mehr verfügbar sein. Daher kann der betroffene Banner-Verlauf unvollständig sein.",
-    "banner_note": "Bis auf Weiteres bitte nicht die Daten für betroffene Banner, einschließlich permanentem Banner, neu importieren, wenn du deine Daten bereits importiert und einen Resonanz-Verlauf vor dem Fristdatum hast.",
+    "data_note": "Achtung: Resonanz-Daten nur für 180 Tage auf dem Infold-Server gespeichert werden. Daten vor {date} werden nicht mehr verfügbar sein. Daher kann der betroffene Banner-Verlauf unvollständig sein.",
     "form": {
       "uid": "UID",
       "uid_placeholder": "UID vom Spiel",

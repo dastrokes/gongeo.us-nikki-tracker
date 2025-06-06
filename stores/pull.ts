@@ -26,8 +26,6 @@ export const usePullStore = defineStore('pull', {
       avg4StarOnlyPulls: 0,
     },
     isProcessing: false,
-    isLoading: false,
-    error: null,
   }),
 
   getters: {
@@ -55,10 +53,6 @@ export const usePullStore = defineStore('pull', {
   },
 
   actions: {
-    clearError() {
-      this.error = null
-    },
-
     reset() {
       // Reset all state properties to their initial values
       this.processedPulls = {}
@@ -73,8 +67,6 @@ export const usePullStore = defineStore('pull', {
         avg4StarOnlyPulls: 0,
       }
       this.isProcessing = false
-      this.isLoading = false
-      this.error = null
     },
 
     getBannerOutfitIds(bannerId: number) {
@@ -401,9 +393,8 @@ export const usePullStore = defineStore('pull', {
             : 0
 
         this.processedPulls = bannerPulls
-      } catch (err) {
-        this.error =
-          err instanceof Error ? err.message : 'Failed to process pulls data'
+      } catch (error) {
+        console.error(`Failed to process pulls data:`, error)
       } finally {
         this.isProcessing = false
       }

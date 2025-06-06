@@ -101,8 +101,7 @@
       "step7": "For UID, go to your Pearpal profile and copy your UID number"
     },
     "security_note": "Note: Never share these cookie values with anyone else!",
-    "data_note": "Important: It has been reported that pull data is only retained on the Infold server for 180 days. Data before {date} will become unavailable. As a result, the affected banner pull history may be incomplete.",
-    "banner_note": "For the banners affected including permanent banner, please do not re-import if you have already imported your data and have pull history before the cutoff date until further notice.",
+    "data_note": "Important: Pull data is only retained on the Infold server for 180 days. Data before {date} will become unavailable. As a result, the affected banner pull history may be incomplete.",
     "form": {
       "uid": "UID",
       "uid_placeholder": "In-game UID",

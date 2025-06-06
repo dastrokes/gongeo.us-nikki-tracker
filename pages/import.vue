@@ -457,9 +457,6 @@
                     date: daysAgoFormatted(180),
                   })
                 }}
-              </div>
-              <div class="text-sm text-amber-500 break-words">
-                {{ $t('import.banner_note') }}
               </div></n-space
             >
             <n-space class="w-full flex">
@@ -668,7 +665,7 @@
   const message = useMessage()
   const { verifyAuth, loading } = useBannerPullApi()
   const userStore = useUserStore()
-  const { fetchAllData, isFetching, processJsonImport, progress } =
+  const { fetchPullData, isFetching, processJsonImport, progress } =
     useBannerPullData()
   const pullStore = usePullStore()
   const { cardStyle } = useCardStyle()
@@ -914,7 +911,7 @@
         userStore.setUid(formData.value.roleid)
 
         try {
-          await fetchAllData(selectedBanners.value)
+          await fetchPullData(selectedBanners.value)
 
           // Send analytics only if enabled and there are actual pulls
           if (
@@ -949,9 +946,6 @@
     try {
       const fileContent = await jsonFile.value.text()
       const jsonData = JSON.parse(fileContent) as Record<number, PullRecord[]>
-
-      // Reset current store state
-      pullStore.reset()
 
       await processJsonImport(jsonData)
 

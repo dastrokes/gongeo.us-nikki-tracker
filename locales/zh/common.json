@@ -174,6 +174,12 @@
       "luckier": "比 {percent}% 的暖暖共鸣录用户更幸运",
       "more_pulls": "多于 {percent}% 的暖暖共鸣录用户"
     },
+    "manual_log": {
+      "apply_to_all": "Apply to All",
+      "save": "Save Outfit",
+      "success": "Outfit saved successfully!",
+      "error": "Failed to save outfit"
+    },
     "banner": {
       "stats": {
         "total_pulls": "总抽数",

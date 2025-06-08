@@ -111,7 +111,7 @@
     >
       <!-- Stats Header -->
       <n-card
-        v-if="Object.keys(processedPulls).length > 0"
+        v-if="Object.keys(rawPullData).length > 0"
         content-class="!p-2 sm:!p-4"
         size="small"
         class="rounded-xl"
@@ -135,7 +135,7 @@
                 <n-number-animation
                   :from="0"
                   :to="globalStats.totalPulls"
-                  :duration="3000"
+                  :duration="5000"
                 />
                 <n-tooltip :width="180">
                   <template #trigger>
@@ -179,7 +179,7 @@
                     globalStats.total4StarItems +
                     globalStats.total4StarOnlyItems
                   "
-                  :duration="2000"
+                  :duration="3000"
                 />
               </div>
             </n-card>
@@ -198,7 +198,7 @@
                 <n-number-animation
                   :from="0"
                   :to="globalStats.avg5StarPulls"
-                  :duration="1000"
+                  :duration="2000"
                   :precision="2"
                 />
                 <n-tooltip
@@ -240,7 +240,7 @@
                 <n-number-animation
                   :from="0"
                   :to="globalStats.avg4StarPulls"
-                  :duration="1000"
+                  :duration="2000"
                   :precision="2"
                 />
                 <n-tooltip
@@ -282,7 +282,7 @@
                 <n-number-animation
                   :from="0"
                   :to="globalStats.avg4StarOnlyPulls"
-                  :duration="1000"
+                  :duration="2000"
                   :precision="2"
                 />
                 <n-tooltip
@@ -691,6 +691,7 @@
                       </div>
                     </div>
                   </n-popover>
+
                   <!-- Banner Settings Button -->
                   <n-popover trigger="click">
                     <template #trigger>
@@ -795,7 +796,7 @@
       </div>
 
       <n-card
-        v-if="Object.keys(processedPulls).length === 0"
+        v-if="Object.keys(rawPullData).length === 0"
         class="text-center rounded-xl"
         :style="cardStyle"
       >
@@ -849,7 +850,7 @@
   const message = useMessage()
   const { t } = useI18n()
   const pullStore = usePullStore()
-  const { processedPulls, globalStats } = storeToRefs(pullStore)
+  const { processedPulls, globalStats, rawPullData } = storeToRefs(pullStore)
   const { loadPullData } = useIndexedDB()
   const localePath = useLocalePath()
   const { cardStyle } = useCardStyle()
@@ -888,7 +889,7 @@
       loading.value = true
       const pullData = await loadPullData()
       if (pullData) {
-        await pullStore.processPullsData(pullData)
+        await pullStore.processPullData(pullData)
       }
 
       loading.value = false

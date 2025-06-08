@@ -1,16 +1,8 @@
 import { defineStore } from 'pinia'
-import type { BannerData } from '~/types/banner'
-import type { Outfit } from '~/types/outfit'
+import type { PullRecord, PullState } from '~/types/pull'
+import { useBannerPullData } from '~/composables/useBannerPullData'
 import { BANNER_DATA } from '~/data/banners'
-import OUTFIT_DATA, { type OutfitKey } from '~/data/outfits'
-import { useUserBannerStats } from '~/composables/useUserBannerStats'
-import type {
-  PullRecord,
-  PullItem,
-  ProcessedBanner,
-  PullState,
-} from '~/types/pull'
-import { useUserStore } from '~/stores/user'
+import type { BannerData } from '~/types/banner'
 
 export const usePullStore = defineStore('pull', {
   state: (): PullState => ({
@@ -46,9 +38,6 @@ export const usePullStore = defineStore('pull', {
       }
     },
 
-    hasError: (state) => !!state.error,
-    isLoadingOrProcessing: (state) => state.isLoading || state.isProcessing,
-
     getGlobalStats: (state) => state.globalStats,
   },
 
@@ -69,385 +58,22 @@ export const usePullStore = defineStore('pull', {
       this.isProcessing = false
     },
 
-    getBannerOutfitIds(bannerId: number) {
-      const banner = (BANNER_DATA as BannerData)[bannerId]
-      if (!banner) return { outfit4StarId: [], outfit5StarId: [] }
-      return {
-        outfit4StarId: banner.outfit4StarId || [],
-        outfit5StarId: banner.outfit5StarId || [],
-      }
-    },
-
-    getOutfitData(outfitId: string): Outfit | null {
-      try {
-        return OUTFIT_DATA[outfitId as OutfitKey] || null
-      } catch (error) {
-        console.error(`Failed to load outfit ${outfitId}:`, error)
-        return null
-      }
-    },
-
-    async processPullsData(pullsByBanner: Record<number, PullRecord[]>) {
+    async processPullData(pullsByBanner: Record<number, PullRecord[]>) {
       if (this.isProcessing) return
       this.isProcessing = true
       this.rawPullData = pullsByBanner
 
       try {
-        const bannerPulls: Record<string, ProcessedBanner> = {}
-        const currentPity: Record<string, Record<number, number>> = {}
-        let total4Star = 0
-        let total5Star = 0
-        let total4StarOnly = 0
-        let fiveStarPullsToObtain = 0
-        let fourStarPullsToObtain = 0
-        let fourStarOnlyPullsToObtain = 0
-        let fiveStarCount = 0
-        let fourStarCount = 0
-        let fourStarOnlyCount = 0
+        const bannerPullData = useBannerPullData()
+        const { processedPulls, globalStats } =
+          bannerPullData.processBannerPullData(pullsByBanner)
 
-        // Single loop to process all banner-related operations
-        Object.values(BANNER_DATA as BannerData).forEach((bannerInfo) => {
-          const bannerId = bannerInfo.bannerId
-          // 1. Create outfit lookup maps for this banner
-          const outfitLookup = {
-            4: new Map<string, Outfit | null>(),
-            5: new Map<string, Outfit | null>(),
-          }
-          const itemToOutfitMap: Record<string, { outfit: Outfit }> = {}
-
-          // Process 4★ outfits
-          ;(bannerInfo.outfit4StarId || []).forEach((id: string) => {
-            const outfit = this.getOutfitData(id)
-            outfitLookup[4].set(id, outfit)
-            if (outfit) {
-              outfit.rarity = 4
-              outfit.items.forEach((id) => {
-                itemToOutfitMap[id] = { outfit }
-              })
-            }
-          })
-
-          // Process 5★ outfits
-          ;(bannerInfo.outfit5StarId || []).forEach((id: string) => {
-            const outfit = this.getOutfitData(id)
-            outfitLookup[5].set(id, outfit)
-            if (outfit) {
-              outfit.rarity = 5
-              outfit.items.forEach((id) => {
-                itemToOutfitMap[id] = { outfit }
-              })
-            }
-          })
-
-          // 2. Initialize banner data structures
-          currentPity[bannerId] = { 4: 0, 5: 0 }
-          const initialBanner: ProcessedBanner = {
-            pulls: [],
-            outfits: [],
-            stats: {
-              lastPull: new Date(0).toISOString(),
-              totalPulls: 0,
-              totalItems: 0,
-              pity4Star: 0,
-              pity5Star: 0,
-              avg4StarPulls: 0,
-              avg5StarPulls: 0,
-              avg4StarOnlyPulls: 0,
-              total4StarItems: 0,
-              total5StarItems: 0,
-              total4StarOnlyItems: 0,
-              total4StarPulls: 0,
-              total5StarPulls: 0,
-              total4StarOnlyPulls: 0,
-              completion: 0,
-              first4StarItemId: null,
-              first5StarItemId: null,
-            },
-            bannerId: bannerId,
-            bannerType: bannerInfo.bannerType,
-            completion: 0,
-          }
-          bannerPulls[bannerId] = initialBanner
-
-          // Pre-populate outfit data
-          ;[...outfitLookup[5].entries(), ...outfitLookup[4].entries()].forEach(
-            ([outfitId, outfitData]) => {
-              if (outfitData) {
-                bannerPulls[bannerId].outfits.push({
-                  id: outfitId,
-                  rarity: outfitLookup[5].has(outfitId) ? 5 : 4,
-                  items: outfitData.items,
-                  completion: 0,
-                  totalItems: outfitData.items.length,
-                  obtainedItems: 0,
-                })
-              }
-            }
-          )
-
-          // 3. Process pulls for this banner
-          const pulls = pullsByBanner[bannerId] || []
-          const processedPulls = [...pulls].reverse()
-          const itemCount: Record<string, number> = {}
-          const firstObtainInfo: Record<string, PullItem> = {}
-          const currentBanner = bannerPulls[bannerId]
-
-          processedPulls.forEach((pull, index) => {
-            currentBanner.stats.totalPulls++
-            currentPity[bannerId][4]++
-            currentPity[bannerId][5]++
-
-            const [time, itemId] = pull
-            const itemInfo = itemToOutfitMap[itemId]
-            if (itemInfo) {
-              const { outfit } = itemInfo
-              const itemData = outfit.items.find((id) => id === itemId)
-              if (!itemData) return
-
-              const rarity = outfit.rarity
-              const outfitId = outfit.id
-
-              const pullsToObtain = currentPity[bannerId][rarity]
-              currentPity[bannerId][rarity] = 0
-
-              // Increment the item counter
-              itemCount[itemId] = (itemCount[itemId] || 0) + 1
-
-              const pullInfo: PullItem = {
-                itemId,
-                outfitId,
-                rarity,
-                pullsToObtain,
-                obtainedAt: time || '',
-                bannerId: bannerId,
-                count: itemCount[itemId],
-                pullIndex: index + 1,
-              }
-
-              if (itemCount[itemId] === 1) {
-                // Track first item of each rarity
-                if (rarity === 4 && !currentBanner.stats.first4StarItemId) {
-                  currentBanner.stats.first4StarItemId = itemId
-                } else if (
-                  rarity === 5 &&
-                  !currentBanner.stats.first5StarItemId
-                ) {
-                  currentBanner.stats.first5StarItemId = itemId
-                }
-                firstObtainInfo[itemId] = pullInfo
-              }
-              currentBanner.pulls.unshift(pullInfo)
-              currentBanner.stats.totalItems++
-
-              if (bannerInfo.bannerType !== 1) {
-                // Update total pulls
-                this.globalStats.totalPulls = Object.values(
-                  pullsByBanner
-                ).reduce((sum, pulls) => sum + pulls.length, 0)
-                if (bannerInfo.bannerType == 2) {
-                  if (rarity == 5) {
-                    total5Star++
-                    fiveStarPullsToObtain += pullsToObtain
-                    fiveStarCount++
-                  } else if (rarity == 4) {
-                    total4Star++
-                    fourStarPullsToObtain += pullsToObtain
-                    fourStarCount++
-                  }
-                } else if (bannerInfo.bannerType == 3) {
-                  total4StarOnly++
-                  fourStarOnlyPullsToObtain += pullsToObtain
-                  fourStarOnlyCount++
-                }
-              }
-            }
-
-            // Always update lastPull with the most recent pull time
-            currentBanner.stats.lastPull = time || currentBanner.stats.lastPull
-          })
-
-          // 4. Calculate banner-specific stats
-          const bannerType = bannerInfo.bannerType || 1
-          const stats = currentBanner.stats
-          const currentPulls = currentBanner.pulls
-          if (bannerType === 1) {
-            // Permanent
-            const fourStarPulls = currentPulls.filter(
-              (item: PullItem) => item.rarity === 4 && item.count > 0
-            )
-            const fiveStarPulls = currentPulls.filter(
-              (item: PullItem) => item.rarity === 5 && item.count > 0
-            )
-            stats.total4StarItems = fourStarPulls.length
-            stats.total5StarItems = fiveStarPulls.length
-            stats.total4StarPulls = fourStarPulls.reduce(
-              (sum: number, item: PullItem) => sum + item.pullsToObtain,
-              0
-            )
-            stats.total5StarPulls = fiveStarPulls.reduce(
-              (sum: number, item: PullItem) => sum + item.pullsToObtain,
-              0
-            )
-            stats.avg4StarPulls =
-              fourStarPulls.length > 0
-                ? stats.total4StarPulls / fourStarPulls.length
-                : 0
-            stats.avg5StarPulls =
-              fiveStarPulls.length > 0
-                ? stats.total5StarPulls / fiveStarPulls.length
-                : 0
-          } else if (bannerType === 2) {
-            // Limited 5★ with 4★
-            const fourStarPulls = currentPulls.filter(
-              (item: PullItem) => item.rarity === 4 && item.count > 0
-            )
-            const fiveStarPulls = currentPulls.filter(
-              (item: PullItem) => item.rarity === 5 && item.count > 0
-            )
-
-            stats.total4StarItems = fourStarPulls.length
-            stats.total5StarItems = fiveStarPulls.length
-            stats.total4StarOnlyItems = 0 // Reset for type 2 banners
-
-            stats.total4StarPulls = fourStarPulls.reduce(
-              (sum: number, item: PullItem) => sum + item.pullsToObtain,
-              0
-            )
-
-            stats.avg4StarPulls =
-              fourStarPulls.length > 0
-                ? stats.total4StarPulls / fourStarPulls.length
-                : 0
-
-            stats.total5StarPulls = fiveStarPulls.reduce(
-              (sum: number, item: PullItem) => sum + item.pullsToObtain,
-              0
-            )
-            stats.avg5StarPulls =
-              fiveStarPulls.length > 0
-                ? stats.total5StarPulls / fiveStarPulls.length
-                : 0
-            stats.avg4StarOnlyPulls = 0 // Reset for type 2 banners
-          } else if (bannerType === 3) {
-            // Limited 4★
-            const fourStarPulls = currentPulls.filter(
-              (item: PullItem) => item.rarity === 4 && item.count > 0
-            )
-            stats.total4StarItems = 0 // Reset mixed banner stats
-            stats.total5StarItems = 0 // Reset 5★ stats
-            stats.total4StarOnlyItems = fourStarPulls.length
-            stats.avg4StarPulls = 0 // Reset mixed banner stats
-            stats.avg5StarPulls = 0 // Reset 5★ stats
-
-            stats.total4StarOnlyPulls = fourStarPulls.reduce(
-              (sum: number, item: PullItem) => sum + item.pullsToObtain,
-              0
-            )
-            stats.avg4StarOnlyPulls =
-              fourStarPulls.length > 0
-                ? stats.total4StarOnlyPulls / fourStarPulls.length
-                : 0
-          }
-
-          stats.pity4Star = currentPity[bannerId][4]
-          stats.pity5Star = currentPity[bannerId][5]
-
-          // Calculate outfit completion
-          const pullsByOutfit: Record<string, Set<PullItem>> = {}
-          currentBanner.pulls.forEach((pull) => {
-            if (!pullsByOutfit[pull.outfitId]) {
-              pullsByOutfit[pull.outfitId] = new Set()
-            }
-            if (pull.count > 0) {
-              pullsByOutfit[pull.outfitId].add(pull)
-            }
-          })
-
-          currentBanner.outfits.forEach((outfit) => {
-            const obtainedItems = pullsByOutfit[outfit.id] || new Set()
-            outfit.obtainedItems = obtainedItems.size
-            outfit.completion = Math.floor(
-              obtainedItems.size / outfit.totalItems
-            )
-          })
-
-          currentBanner.completion = Math.floor(
-            currentBanner.outfits.reduce(
-              (sum, outfit) => sum + outfit.completion,
-              0
-            ) / currentBanner.outfits.length
-          )
-        })
-
-        // Update global stats
-        this.globalStats.total5StarItems = total5Star
-        this.globalStats.total4StarItems = total4Star
-        this.globalStats.total4StarOnlyItems = total4StarOnly
-        this.globalStats.avg5StarPulls =
-          fiveStarCount > 0 ? fiveStarPullsToObtain / fiveStarCount : 0
-        this.globalStats.avg4StarPulls =
-          fourStarCount > 0 ? fourStarPullsToObtain / fourStarCount : 0
-        this.globalStats.avg4StarOnlyPulls =
-          fourStarOnlyCount > 0
-            ? fourStarOnlyPullsToObtain / fourStarOnlyCount
-            : 0
-
-        this.processedPulls = bannerPulls
+        this.processedPulls = processedPulls
+        this.globalStats = globalStats
       } catch (error) {
         console.error(`Failed to process pulls data:`, error)
       } finally {
         this.isProcessing = false
-      }
-    },
-
-    async sendUserBannerStats() {
-      const { sendUserBannerStats } = useUserBannerStats()
-      const userStore = useUserStore()
-      const uid = userStore.uid
-      const region = userStore.region
-
-      if (!uid) return
-
-      // Collect all analytics data first
-      const analyticsDataArray = Object.entries(this.processedPulls)
-        .filter(([_, banner]) => banner.stats.totalPulls > 0)
-        .map(([bannerId, banner]) => ({
-          uid,
-          region,
-          banner_id: Number(bannerId),
-          banner_type: banner.bannerType,
-          total_pulls: banner.stats.totalPulls,
-          total_4star_items:
-            banner.stats.total4StarItems + banner.stats.total4StarOnlyItems,
-          total_5star_items: banner.stats.total5StarItems,
-          total_4star_pulls:
-            banner.stats.total4StarPulls + banner.stats.total4StarOnlyPulls,
-          total_5star_pulls: banner.stats.total5StarPulls,
-          pulls_4star: banner.pulls
-            .filter((pull) => pull.rarity === 4)
-            .map((pull) => ({
-              item_id: pull.itemId,
-              pulls_to_obtain: pull.pullsToObtain,
-              obtained_at: pull.obtainedAt,
-              pull_index: pull.pullIndex,
-            }))
-            .reverse(),
-          pulls_5star: banner.pulls
-            .filter((pull) => pull.rarity === 5)
-            .map((pull) => ({
-              item_id: pull.itemId,
-              pulls_to_obtain: pull.pullsToObtain,
-              obtained_at: pull.obtainedAt,
-              pull_index: pull.pullIndex,
-            }))
-            .reverse(),
-          last_pull_time: banner.stats.lastPull,
-          updated_at: new Date().toISOString(),
-        }))
-
-      // Send all data in a single batch
-      if (analyticsDataArray.length > 0) {
-        await sendUserBannerStats(analyticsDataArray)
       }
     },
 
@@ -484,11 +110,11 @@ export const usePullStore = defineStore('pull', {
         }
       }
 
-      const { outfit4StarId, outfit5StarId } = this.getBannerOutfitIds(bannerId)
+      const { outfit4StarId, outfit5StarId } = getBannerOutfitIds(bannerId)
 
       if (!this.processedPulls[bannerId].outfits.length) {
         for (const outfitId of outfit4StarId) {
-          const outfitData = this.getOutfitData(outfitId)
+          const outfitData = getOutfitData(outfitId)
           if (outfitData) {
             this.processedPulls[bannerId].outfits.push({
               id: outfitId,
@@ -501,7 +127,7 @@ export const usePullStore = defineStore('pull', {
           }
         }
         for (const outfitId of outfit5StarId) {
-          const outfitData = this.getOutfitData(outfitId)
+          const outfitData = getOutfitData(outfitId)
           if (outfitData) {
             this.processedPulls[bannerId].outfits.push({
               id: outfitId,

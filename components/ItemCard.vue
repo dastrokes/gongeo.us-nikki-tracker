@@ -29,10 +29,11 @@
           fit="cover"
           :quality="100"
           loading="lazy"
+          placeholder="/images/loading.webp"
           sizes="(max-width: 640px) 80px, 120px"
         />
         <n-tag
-          v-if="item.count > 0"
+          v-if="item.count > 0 && item.obtainedAt !== 'manual'"
           size="tiny"
           :bordered="false"
           class="absolute bottom-1 right-1 scale-90 sm:scale-100 origin-bottom-right bg-black/40 text-white shadow-sm rounded-full text-xs opacity-80"
@@ -64,7 +65,9 @@
           v-if="item.count > 0"
           class="text-sm mt-1"
         >
-          {{ t('items.pull', { number: item.pullIndex }) }}
+          <n-text v-if="item.obtainedAt !== 'manual'">
+            {{ t('items.pull', { number: item.pullIndex }) }}
+          </n-text>
         </div>
       </div>
     </template>

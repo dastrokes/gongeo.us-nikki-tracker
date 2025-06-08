@@ -1,15 +1,3 @@
-export interface JsonData {
-  code: number
-  info: string
-  request_id: string
-  banner_id: number
-  data: {
-    title: string[]
-    datas: [string, string][]
-    end: boolean
-  }
-}
-
 export type PullRecord = [string, string]
 
 export interface PullItem {

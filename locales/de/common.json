@@ -374,12 +374,12 @@
         "answer": "This happens because pull history is only stored in the game for 180 days. After that, it is deleted from the game servers and becomes unavailable. To preserve your data, you can store it in your browser or export it for backup. This way, you can keep records that are no longer available in the game. If you import in the future, your existing data will be merged with the new data."
       },
       "no_pulls": {
-        "question": "I followed the import steps and saw the banners were processed, but why isn't any pull history showing?",
-        "answer": "Please double check that your region and cookie values are correct. Make sure the UID and ID from the cookies are not mixed up."
+        "question": "Ich habe die Anweisungen für das Importieren befolgt und die Banner wurden verarbeitet, aber warum wird kein Resonanz-Verlauf angezeigt?",
+        "answer": "Überprüfe bitte noch einmal, dass deine Region und Cookie-Werte korrekt sind. Stelle sicher, dass die UID und ID der Cookies nicht vertauscht sind."
       },
       "auto_update": {
-        "question": "Will my pull data update automatically?",
-        "answer": "No, your pull data will not update automatically. The website needs to be updated to support new banners after each game update. For security reasons, your cookie will expire after some time, so you'll need to re-import your data. However, if you store your data in your browser, you'll only need to re-import for new banners."
+        "question": "Werden meine Resonanz-Daten automatisch aktualisiert?",
+        "answer": "Nein, deine Resonanz-Daten werden nicht automatisch aktualisiert. Die Webseite muss nach jedem Spiel-Update aktualisiert werden, um neue Banner zu unterstützen. Aus Sicherheitsgründen wird dein Cookie nach einiger Zeit ablaufen, also musst du den Importprozess wiederholen. Wenn du deine Daten jedoch in deinem Browser speicherst, musst du sie nur für neue Banner erneut importieren."
       },
       "export": {
         "question": "Wie kann ich meinen Resonanz-Verlauf exportieren?",

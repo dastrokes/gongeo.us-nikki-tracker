@@ -59,7 +59,7 @@
                 accept=".json"
                 :max="1"
                 :show-file-list="true"
-                class="w-full max-w-96"
+                class="w-full max-w-xs"
                 @change="handleFileChange"
               >
                 <n-button>{{ $t('import.select_file') }}</n-button>
@@ -591,7 +591,6 @@
     SelectGroupOption,
   } from 'naive-ui'
   import { useBannerPullData } from '~/composables/useBannerPullData'
-  import { usePullStore } from '~/stores/pull'
   import { useUserStore, Region } from '~/stores/user'
   import {
     Copy,
@@ -606,6 +605,7 @@
   import { BANNER_DATA } from '~/data/banners'
   import { useCardStyle } from '~/composables/useCardStyle'
   import type { VNodeChild } from 'vue'
+  import { useUserBannerStats } from '~/composables/useUserBannerStats'
 
   const { t } = useI18n()
   const dialog = useDialog()
@@ -665,9 +665,13 @@
   const message = useMessage()
   const { verifyAuth, loading } = useBannerPullApi()
   const userStore = useUserStore()
-  const { fetchPullData, isFetching, processJsonImport, progress } =
-    useBannerPullData()
-  const pullStore = usePullStore()
+  const {
+    fetchBannerPullData,
+    processBannerPullData,
+    isFetching,
+    processJsonImport,
+    progress,
+  } = useBannerPullData()
   const { cardStyle } = useCardStyle()
 
   // Function to determine region based on timezone
@@ -910,20 +914,29 @@
         message.success(t('import.messages.auth_success'))
         userStore.setUid(formData.value.roleid)
 
-        try {
-          await fetchPullData(selectedBanners.value)
+        const { sendUserBannerStats } = useUserBannerStats()
 
-          // Send analytics only if enabled and there are actual pulls
-          if (
-            submitGlobalStats.value &&
-            Object.values(pullStore.processedPulls).some(
-              (banner) => banner.stats.totalPulls > 0
+        try {
+          const pullsByBanner = await fetchBannerPullData(selectedBanners.value)
+
+          if (pullsByBanner) {
+            const { processedPulls } = processBannerPullData(
+              pullsByBanner,
+              false
             )
-          ) {
-            try {
-              await pullStore.sendUserBannerStats()
-            } catch {
-              message.error(t('import.messages.stats_submit_failed'))
+
+            // Send analytics only if enabled and there are actual pulls
+            if (
+              submitGlobalStats.value &&
+              Object.values(processedPulls).some(
+                (banner) => banner.stats.totalPulls > 0
+              )
+            ) {
+              try {
+                await sendUserBannerStats(processedPulls)
+              } catch {
+                message.error(t('import.messages.stats_submit_failed'))
+              }
             }
           }
         } catch {

@@ -254,7 +254,7 @@
                     :completion-data="{
                       completion:
                         bannerPulls?.outfits.find(
-                          (outfit) => outfit.id === outfitId
+                          (outfit: Outfit) => outfit.id === outfitId
                         )?.completion || 0,
                       totalPulls: bannerPulls?.stats.totalPulls || 0,
                     }"
@@ -272,7 +272,7 @@
                     :completion-data="{
                       completion:
                         bannerPulls?.outfits.find(
-                          (outfit) => outfit.id === outfitId
+                          (outfit: Outfit) => outfit.id === outfitId
                         )?.completion || 0,
                       totalPulls: bannerPulls?.stats.totalPulls || 0,
                     }"
@@ -317,6 +317,7 @@
   import { storeToRefs } from 'pinia'
   import { useMessage } from 'naive-ui'
   import { useIndexedDB } from '~/composables/useIndexedDB'
+  import type { Outfit } from '~/types/outfit'
 
   const route = useRoute()
   const router = useRouter()
@@ -349,7 +350,7 @@
       loading.value = true
       const pullData = await loadPullData()
       if (pullData) {
-        await pullStore.processPullsData(pullData)
+        await pullStore.processPullData(pullData)
       }
       loading.value = false
     } catch (error) {

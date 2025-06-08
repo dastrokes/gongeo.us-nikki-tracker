@@ -93,9 +93,10 @@
           </div>
           <div class="text-xl font-medium mt-1">
             <n-number-animation
+              show-separator
               :from="0"
               :to="totalPulls"
-              :duration="3000"
+              :duration="5000"
             />
           </div>
         </n-card>
@@ -109,9 +110,10 @@
           </div>
           <div class="text-xl font-medium mt-1">
             <n-number-animation
+              show-separator
               :from="0"
               :to="uniqueUserCount"
-              :duration="2000"
+              :duration="3000"
             />
           </div>
         </n-card>
@@ -127,7 +129,7 @@
             <n-number-animation
               :from="0"
               :to="averagePullsTo5Star"
-              :duration="1000"
+              :duration="2000"
               :precision="2"
             />
           </div>
@@ -144,7 +146,7 @@
             <n-number-animation
               :from="0"
               :to="averagePullsTo4StarType2"
-              :duration="1000"
+              :duration="2000"
               :precision="2"
             />
           </div>
@@ -161,7 +163,7 @@
             <n-number-animation
               :from="0"
               :to="averagePullsTo4StarType3"
-              :duration="1000"
+              :duration="2000"
               :precision="2"
             />
           </div>
@@ -412,6 +414,25 @@
             ]"
             :style="cardStyle"
           >
+            <n-tooltip
+              v-if="checkBannerRuns"
+              :width="200"
+            >
+              <template #trigger>
+                <n-button
+                  size="tiny"
+                  text
+                  class="absolute top-4 left-4 z-10"
+                >
+                  <template #icon>
+                    <n-icon>
+                      <ExclamationCircle />
+                    </n-icon>
+                  </template>
+                </n-button>
+              </template>
+              {{ t('global.charts.first_item_distribution_tooltip') }}
+            </n-tooltip>
             <n-select
               v-model:value="selectedBannerId"
               :options="bannerOptions"
@@ -420,6 +441,7 @@
               size="small"
               @update:value="updateFirstItemChart"
             />
+
             <n-button
               size="tiny"
               text
@@ -462,7 +484,7 @@
   import { ref, onMounted, computed, watch } from 'vue'
   import { NSkeleton, NNumberAnimation, NButton, NSelect } from 'naive-ui'
   import { BANNER_DATA } from '~/data/banners'
-  import { ExpandAlt, CompressAlt } from '@vicons/fa'
+  import { ExpandAlt, CompressAlt, ExclamationCircle } from '@vicons/fa'
   import { useCardStyle } from '~/composables/useCardStyle'
   import { useUserStore } from '~/stores/user'
   import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
@@ -551,6 +573,25 @@
         value: Number(id),
       }))
       .reverse()
+  })
+
+  // Add computed property to check if banner has pulls older than 180 days
+  const checkBannerRuns = computed(() => {
+    if (!selectedBannerId.value || !BANNER_DATA[selectedBannerId.value])
+      return false
+
+    const banner = BANNER_DATA[selectedBannerId.value]
+    if (!banner.runs || banner.runs.length === 0) return false
+
+    // Check if any run of this banner started more than 180 days ago
+    const daysAgo180 = new Date()
+    daysAgo180.setDate(daysAgo180.getDate() - 180)
+
+    // Check each run to see if any of them started more than 180 days ago
+    return banner.runs.some((run) => {
+      const runStartDate = new Date(run.start)
+      return runStartDate < daysAgo180
+    })
   })
 
   // Function to manually update first item chart when banner selection changes
@@ -739,7 +780,7 @@
         axisLabel: {
           margin: 12,
           interval: 0,
-          rotate: isMobile.value ? 90 : 20,
+          rotate: isMobile.value ? 90 : 30,
           formatter: function (value, index) {
             if (
               isMobile.value &&

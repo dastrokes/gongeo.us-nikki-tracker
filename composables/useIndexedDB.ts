@@ -41,20 +41,43 @@ export function useIndexedDB() {
       const bannerId = Number(bannerIdStr)
       const existingPulls = mergedData[bannerId] ?? []
 
-      if (existingPulls.length === 0) {
-        mergedData[bannerId] = [...newPulls]
+      // Get manual entries from both data sets
+      const existingManualEntries = existingPulls.filter(
+        ([timestamp]) => timestamp === 'manual'
+      )
+      const newManualEntries = newPulls.filter(
+        ([timestamp]) => timestamp === 'manual'
+      )
+
+      // Get non-manual entries from both data sets
+      const existingNonManualEntries = existingPulls.filter(
+        ([timestamp]) => timestamp !== 'manual'
+      )
+      const newNonManualEntries = newPulls.filter(
+        ([timestamp]) => timestamp !== 'manual'
+      )
+
+      // If there are no existing non-manual entries
+      if (existingNonManualEntries.length === 0) {
+        mergedData[bannerId] = [
+          ...newNonManualEntries,
+          ...mergeManualEntries(existingManualEntries, newManualEntries),
+        ]
         return
       }
 
-      const existingNewest = existingPulls[0][0] // first = newest
-      const existingOldest = existingPulls.at(-1)![0] // last = oldest
+      const existingNewest = existingNonManualEntries[0][0] // first = newest
+      const existingOldest = existingNonManualEntries.at(-1)![0] // last = oldest
 
-      const existingTimestamps = new Set(existingPulls.map(([ts]) => ts))
+      const existingTimestamps = new Set(
+        existingNonManualEntries.map(([ts]) => ts)
+      )
 
       const toPrepend: PullRecord[] = []
       const toAppend: PullRecord[] = []
 
-      for (const [timestamp, itemId] of newPulls) {
+      // Process non-manual entries for merging
+      for (const [timestamp, itemId] of newNonManualEntries) {
         if (existingTimestamps.has(timestamp)) continue
 
         if (timestamp > existingNewest) {
@@ -66,10 +89,39 @@ export function useIndexedDB() {
         }
       }
 
-      mergedData[bannerId] = [...toPrepend, ...existingPulls, ...toAppend]
+      // Merge non-manual entries with manual entries
+      mergedData[bannerId] = [
+        ...toPrepend,
+        ...existingNonManualEntries,
+        ...toAppend,
+        ...mergeManualEntries(existingManualEntries, newManualEntries),
+      ]
     })
 
     return mergedData
+  }
+
+  // Helper function to merge manual entries, prioritizing new entries
+  const mergeManualEntries = (
+    existingManual: PullRecord[],
+    newManual: PullRecord[]
+  ): PullRecord[] => {
+    // If no new manual entries, return existing ones
+    if (newManual.length === 0) return existingManual
+
+    // If no existing manual entries, return new ones
+    if (existingManual.length === 0) return newManual
+
+    // Keep track of item IDs from new manual entries
+    const newManualItemIds = new Set(newManual.map(([_, itemId]) => itemId))
+
+    // Filter out existing manual entries that have been overridden by new ones
+    const filteredExistingManual = existingManual.filter(
+      ([_, itemId]) => !newManualItemIds.has(itemId)
+    )
+
+    // Combine filtered existing entries with all new entries
+    return [...filteredExistingManual, ...newManual]
   }
 
   const savePullData = async (pullsByBanner: Record<number, PullRecord[]>) => {

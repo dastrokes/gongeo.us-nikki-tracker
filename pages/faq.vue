@@ -17,7 +17,7 @@
             :title="t(`faq.questions.${key}.question`)"
             class="text-gray-600 dark:text-gray-300"
           >
-            <div class="max-w-none text-sm">
+            <div class="text-sm">
               <p>{{ t(`faq.questions.${key}.answer`) }}</p>
             </div>
           </n-collapse-item>
@@ -87,6 +87,7 @@
     server_data: {},
     platform_support: {},
     cookie_script: {},
+    data_loss: {},
     no_pulls: {},
     auto_update: {},
     export: {},

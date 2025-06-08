@@ -174,6 +174,12 @@
       "luckier": "Luckier than {percent}% of the gongeo.us users",
       "more_pulls": "More than {percent}% of the gongeo.us users"
     },
+    "manual_log": {
+      "apply_to_all": "Apply to All",
+      "save": "Save Outfit",
+      "success": "Outfit saved successfully!",
+      "error": "Failed to save outfit"
+    },
     "banner": {
       "stats": {
         "total_pulls": "Total Pulls",
@@ -332,7 +338,8 @@
       "type": "Type",
       "all_banners": "All Banners",
       "five_star_banners": "5★ Banners",
-      "four_star_banners": "4★ Banners"
+      "four_star_banners": "4★ Banners",
+      "first_item_distribution_tooltip": "This banner includes pulls older than 180 days, which are no longer available in game. As a result, the first item distribution data may be inaccurate."
     }
   },
   "faq": {
@@ -362,13 +369,17 @@
         "question": "Do I have to run a script to get my cookies?",
         "answer": "No, they are just for convenience, you can get the cookies manually, check manual input instructions in the import page for more details. However, the only way to get the cookies on mobile now is to use the bookmark method."
       },
+      "data_loss": {
+        "question": "Why is the data incomplete or missing for some banners?",
+        "answer": "This happens because pull history is only stored in the game for 180 days. After that, it is deleted from the game servers and becomes unavailable. To preserve your data, you can store it in your browser or export it for backup. This way, you can keep records that are no longer available in the game. If you import in the future, your existing data will be merged with the new data."
+      },
       "no_pulls": {
-        "question": "All banners were processed, but no pulls are showing?",
-        "answer": "Please check that your region and cookie values are correct. Make sure the UID and ID from the cookies are not mixed up."
+        "question": "I followed the import steps and saw the banners were processed, but why isn't any pull history showing?",
+        "answer": "Please double check that your region and cookie values are correct. Make sure the UID and ID from the cookies are not mixed up."
       },
       "auto_update": {
-        "question": "Will the data auto update?",
-        "answer": "No, you will need to redo the import process for new banners only if you keep your data in browser or local storage. The website will also need to update to support data for new banners. Additionally, for security reasons, the cookie will likely expire after some time."
+        "question": "Will my pull data update automatically?",
+        "answer": "No, your pull data will not update automatically. The website needs to be updated to support new banners after each game update. For security reasons, your cookie will expire after some time, so you'll need to re-import your data. However, if you store your data in your browser, you'll only need to re-import for new banners."
       },
       "export": {
         "question": "How can I export my pull history?",

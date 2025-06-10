@@ -204,6 +204,14 @@
         property: 'og:description',
         content: t('meta.description.banner'),
       },
+      {
+        property: 'twitter:title',
+        content: t('navigation.banner') + ' - ' + t('navigation.subtitle'),
+      },
+      {
+        property: 'twitter:description',
+        content: t('meta.description.banner'),
+      },
     ],
     link: [{ rel: 'canonical', href: `${siteUrl}${localePath('/banner')}` }],
   })

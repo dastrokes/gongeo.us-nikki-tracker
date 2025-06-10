@@ -631,6 +631,14 @@
         property: 'og:description',
         content: t('meta.description.import'),
       },
+      {
+        property: 'twitter:title',
+        content: t('navigation.import') + ' - ' + t('navigation.subtitle'),
+      },
+      {
+        property: 'twitter:description',
+        content: t('meta.description.import'),
+      },
     ],
     link: [{ rel: 'canonical', href: `${siteUrl}${localePath('/import')}` }],
   })

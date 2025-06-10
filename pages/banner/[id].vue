@@ -329,7 +329,7 @@
   const { processedPulls } = storeToRefs(pullStore)
   const loading = ref(true)
   const message = useMessage()
-  const { loadPullData } = useIndexedDB()
+  const { loadData } = useIndexedDB()
 
   const banner = computed(() => {
     const bannerId = parseInt(route.params.id as string)
@@ -348,9 +348,10 @@
     }
     try {
       loading.value = true
-      const pullData = await loadPullData()
-      if (pullData) {
-        await pullStore.processPullData(pullData)
+      const { pulls: pullData, edits: editData } = await loadData()
+
+      if (pullData && editData) {
+        await pullStore.processPullData(pullData, editData)
       }
       loading.value = false
     } catch (error) {

@@ -1,34 +1,64 @@
-import type { PullRecord } from '~/types/pull'
+import type { PullRecord, EditRecord } from '~/types/pull'
 import { ref, computed } from 'vue'
 import { openDB, type IDBPDatabase } from 'idb'
 
 const DB_NAME = 'gongeousDB'
-const DB_VERSION = 1
-const STORE_NAME = 'pullsByBanner'
+const DB_VERSION = 2
+const PULLS_STORE = 'pullsByBanner'
+const EDITS_STORE = 'editsByBanner'
 
 export function useIndexedDB() {
-  const isFinished = ref(false)
-  const data = ref<Record<number, PullRecord[]>>({})
+  const pullsData = ref<Record<number, PullRecord[]>>({})
+  const editsData = ref<Record<number, EditRecord[]>>({})
   const isSaving = ref(false)
 
   let dbPromise: Promise<IDBPDatabase> | null = null
   let lastSavePromise: Promise<void> | null = null
+  const DB_RETRY_INTERVAL_MS = 1000
+  const MAX_RETRIES = 3
 
-  const hasData = computed(
-    () => data.value && Object.keys(data.value).length > 0
-  )
-
-  const getDB = () => {
+  const getDB = async (retries = 0) => {
     if (!dbPromise) {
       dbPromise = openDB(DB_NAME, DB_VERSION, {
         upgrade(db) {
-          if (!db.objectStoreNames.contains(STORE_NAME)) {
-            db.createObjectStore(STORE_NAME)
+          if (!db.objectStoreNames.contains(PULLS_STORE)) {
+            db.createObjectStore(PULLS_STORE)
+          }
+
+          if (!db.objectStoreNames.contains(EDITS_STORE)) {
+            db.createObjectStore(EDITS_STORE)
           }
         },
       })
     }
-    return dbPromise
+
+    const db = await dbPromise
+
+    try {
+      // Transaction covering both stores
+      const storeNames = [PULLS_STORE, EDITS_STORE].filter((name) =>
+        db.objectStoreNames.contains(name)
+      )
+      const tx = db.transaction(storeNames, 'readonly')
+
+      // Minimal read ops on both stores
+      const ops = storeNames.map((name) => tx.objectStore(name).getAll())
+      await Promise.all(ops)
+
+      await tx.done
+      return db
+    } catch {
+      console.warn(`DB is unavailable, retry connection.`)
+
+      if (retries >= MAX_RETRIES) {
+        throw new Error('DB failed to connect after multiple retries.')
+      }
+
+      dbPromise = null
+      await new Promise((resolve) => setTimeout(resolve, DB_RETRY_INTERVAL_MS))
+
+      return getDB(retries + 1)
+    }
   }
 
   const mergePullData = (
@@ -41,43 +71,20 @@ export function useIndexedDB() {
       const bannerId = Number(bannerIdStr)
       const existingPulls = mergedData[bannerId] ?? []
 
-      // Get manual entries from both data sets
-      const existingManualEntries = existingPulls.filter(
-        ([timestamp]) => timestamp === 'manual'
-      )
-      const newManualEntries = newPulls.filter(
-        ([timestamp]) => timestamp === 'manual'
-      )
-
-      // Get non-manual entries from both data sets
-      const existingNonManualEntries = existingPulls.filter(
-        ([timestamp]) => timestamp !== 'manual'
-      )
-      const newNonManualEntries = newPulls.filter(
-        ([timestamp]) => timestamp !== 'manual'
-      )
-
-      // If there are no existing non-manual entries
-      if (existingNonManualEntries.length === 0) {
-        mergedData[bannerId] = [
-          ...newNonManualEntries,
-          ...mergeManualEntries(existingManualEntries, newManualEntries),
-        ]
+      if (existingPulls.length === 0) {
+        mergedData[bannerId] = [...newPulls]
         return
       }
 
-      const existingNewest = existingNonManualEntries[0][0] // first = newest
-      const existingOldest = existingNonManualEntries.at(-1)![0] // last = oldest
+      const existingNewest = existingPulls[0][0] // first = newest
+      const existingOldest = existingPulls.at(-1)![0] // last = oldest
 
-      const existingTimestamps = new Set(
-        existingNonManualEntries.map(([ts]) => ts)
-      )
+      const existingTimestamps = new Set(existingPulls.map(([ts]) => ts))
 
       const toPrepend: PullRecord[] = []
       const toAppend: PullRecord[] = []
 
-      // Process non-manual entries for merging
-      for (const [timestamp, itemId] of newNonManualEntries) {
+      for (const [timestamp, itemId] of newPulls) {
         if (existingTimestamps.has(timestamp)) continue
 
         if (timestamp > existingNewest) {
@@ -89,45 +96,19 @@ export function useIndexedDB() {
         }
       }
 
-      // Merge non-manual entries with manual entries
-      mergedData[bannerId] = [
-        ...toPrepend,
-        ...existingNonManualEntries,
-        ...toAppend,
-        ...mergeManualEntries(existingManualEntries, newManualEntries),
-      ]
+      mergedData[bannerId] = [...toPrepend, ...existingPulls, ...toAppend]
     })
 
     return mergedData
   }
 
-  // Helper function to merge manual entries, prioritizing new entries
-  const mergeManualEntries = (
-    existingManual: PullRecord[],
-    newManual: PullRecord[]
-  ): PullRecord[] => {
-    // If no new manual entries, return existing ones
-    if (newManual.length === 0) return existingManual
-
-    // If no existing manual entries, return new ones
-    if (existingManual.length === 0) return newManual
-
-    // Keep track of item IDs from new manual entries
-    const newManualItemIds = new Set(newManual.map(([_, itemId]) => itemId))
-
-    // Filter out existing manual entries that have been overridden by new ones
-    const filteredExistingManual = existingManual.filter(
-      ([_, itemId]) => !newManualItemIds.has(itemId)
-    )
-
-    // Combine filtered existing entries with all new entries
-    return [...filteredExistingManual, ...newManual]
-  }
-
-  const savePullData = async (pullsByBanner: Record<number, PullRecord[]>) => {
+  const saveData = async (
+    pullsByBanner: Record<number, PullRecord[]>,
+    editsByBanner: Record<number, EditRecord[]>
+  ) => {
     // Update reactive state immediately
-    data.value = pullsByBanner
-    isFinished.value = true
+    pullsData.value = pullsByBanner
+    editsData.value = editsByBanner
     isSaving.value = true
 
     try {
@@ -140,21 +121,25 @@ export function useIndexedDB() {
       lastSavePromise = (async () => {
         try {
           const db = await getDB()
-          // Check if data already exists
-          const existingData = await db.get(STORE_NAME, STORE_NAME)
 
-          // Create a clean copy of the data using JSON parse/stringify to remove any non-serializable content
-          const cleanData = JSON.parse(JSON.stringify(pullsByBanner))
+          // Check if pull data already exists
+          const existingData = await db.get(PULLS_STORE, PULLS_STORE)
+
+          // Create a clean copy of the pull data
+          const cleanPullData = JSON.parse(JSON.stringify(pullsByBanner))
 
           // If data exists, merge with existing data
           if (existingData) {
             // Merge the data, new data takes precedence
-            const mergedData = { ...existingData, ...cleanData }
-            await db.put(STORE_NAME, mergedData, STORE_NAME)
+            const mergedData = { ...existingData, ...cleanPullData }
+            await db.put(PULLS_STORE, mergedData, PULLS_STORE)
           } else {
             // If no existing data, just save the new data
-            await db.put(STORE_NAME, cleanData, STORE_NAME)
+            await db.put(PULLS_STORE, cleanPullData, PULLS_STORE)
           }
+
+          // Save edit data
+          await db.put(EDITS_STORE, editsByBanner, EDITS_STORE)
         } finally {
           isSaving.value = false
         }
@@ -163,16 +148,16 @@ export function useIndexedDB() {
       // Return the promise but don't wait for it
       return lastSavePromise
     } catch (error) {
-      console.error('Failed to save pull data:', error)
+      console.error('Failed to save data:', error)
       isSaving.value = false
       throw error
     }
   }
 
-  const loadPullData = async (): Promise<Record<
-    number,
-    PullRecord[]
-  > | null> => {
+  const loadData = async (): Promise<{
+    pulls: Record<number, PullRecord[]>
+    edits: Record<number, EditRecord[]>
+  }> => {
     try {
       // Wait for any pending save to complete before loading
       if (lastSavePromise) {
@@ -180,17 +165,23 @@ export function useIndexedDB() {
       }
 
       const db = await getDB()
-      const result = await db.get(STORE_NAME, STORE_NAME)
-      data.value = result
-      isFinished.value = true
-      return result
+      const pullsResult = await db.get(PULLS_STORE, PULLS_STORE)
+      const editsResult = await db.get(EDITS_STORE, EDITS_STORE)
+
+      pullsData.value = pullsResult
+      editsData.value = editsResult
+
+      return {
+        pulls: pullsResult || {},
+        edits: editsResult || {},
+      }
     } catch (error) {
-      console.error('Failed to load pull data:', error)
+      console.error('Failed to load data:', error)
       throw error
     }
   }
 
-  const clearPullData = async () => {
+  const clearData = async () => {
     try {
       // Wait for any pending save to complete before clearing
       if (lastSavePromise) {
@@ -198,23 +189,24 @@ export function useIndexedDB() {
       }
 
       const db = await getDB()
-      await db.clear(STORE_NAME)
-      data.value = {}
-      isFinished.value = true
+      await db.clear(PULLS_STORE)
+      await db.clear(EDITS_STORE)
+
+      pullsData.value = {}
+      editsData.value = {}
     } catch (error) {
-      console.error('Failed to clear pull data:', error)
+      console.error('Failed to clear data:', error)
       throw error
     }
   }
 
   return {
-    data,
-    hasData,
-    isFinished,
+    pullsData,
+    editsData,
     isSaving,
-    savePullData,
-    loadPullData,
-    clearPullData,
+    saveData,
+    loadData,
+    clearData,
     mergePullData,
   }
 }

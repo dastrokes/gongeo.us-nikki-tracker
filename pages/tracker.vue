@@ -111,7 +111,10 @@
     >
       <!-- Stats Header -->
       <n-card
-        v-if="Object.keys(rawPullData).length > 0"
+        v-if="
+          Object.keys(rawPullData).length > 0 ||
+          Object.keys(rawEditData).length > 0
+        "
         content-class="!p-2 sm:!p-4"
         size="small"
         class="rounded-xl"
@@ -796,7 +799,10 @@
       </div>
 
       <n-card
-        v-if="Object.keys(rawPullData).length === 0"
+        v-if="
+          Object.keys(rawPullData).length === 0 &&
+          Object.keys(rawEditData).length === 0
+        "
         class="text-center rounded-xl"
         :style="cardStyle"
       >
@@ -850,8 +856,9 @@
   const message = useMessage()
   const { t } = useI18n()
   const pullStore = usePullStore()
-  const { processedPulls, globalStats, rawPullData } = storeToRefs(pullStore)
-  const { loadPullData } = useIndexedDB()
+  const { processedPulls, globalStats, rawPullData, rawEditData } =
+    storeToRefs(pullStore)
+  const { loadData } = useIndexedDB()
   const localePath = useLocalePath()
   const { cardStyle } = useCardStyle()
   const userStore = useUserStore()
@@ -887,9 +894,10 @@
     }
     try {
       loading.value = true
-      const pullData = await loadPullData()
-      if (pullData) {
-        await pullStore.processPullData(pullData)
+      const { pulls: pullData, edits: editData } = await loadData()
+
+      if (pullData && editData) {
+        await pullStore.processPullData(pullData, editData)
       }
 
       loading.value = false

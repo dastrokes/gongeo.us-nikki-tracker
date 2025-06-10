@@ -606,10 +606,12 @@
   import { useCardStyle } from '~/composables/useCardStyle'
   import type { VNodeChild } from 'vue'
   import { useUserBannerStats } from '~/composables/useUserBannerStats'
+  import { useRouter } from 'vue-router'
 
   const { t } = useI18n()
   const dialog = useDialog()
   const isMaintenanceMode = false
+  const router = useRouter()
   const localePath = useLocalePath()
   const siteUrl = useRuntimeConfig().public.siteUrl
   const { isMobileOrTablet, isAndroid, isChrome } = useDevice()
@@ -627,6 +629,14 @@
       },
       {
         property: 'og:description',
+        content: t('meta.description.import'),
+      },
+      {
+        property: 'twitter:title',
+        content: t('navigation.import') + ' - ' + t('navigation.subtitle'),
+      },
+      {
+        property: 'twitter:description',
         content: t('meta.description.import'),
       },
     ],
@@ -918,12 +928,10 @@
 
         try {
           const pullsByBanner = await fetchBannerPullData(selectedBanners.value)
+          router.push(localePath('/tracker'))
 
           if (pullsByBanner) {
-            const { processedPulls } = processBannerPullData(
-              pullsByBanner,
-              false
-            )
+            const { processedPulls } = processBannerPullData(pullsByBanner)
 
             // Send analytics only if enabled and there are actual pulls
             if (
@@ -961,7 +969,7 @@
       const jsonData = JSON.parse(fileContent) as Record<number, PullRecord[]>
 
       await processJsonImport(jsonData)
-
+      router.push(localePath('/tracker'))
       message.success(t('import.messages.import_success'))
     } catch (e) {
       console.error(e)

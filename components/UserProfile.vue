@@ -30,7 +30,7 @@
   const dialog = useDialog()
   const userStore = useUserStore()
   const pullStore = usePullStore()
-  const { clearPullData } = useIndexedDB()
+  const { clearData } = useIndexedDB()
 
   const dropdownOptions = computed(() => [
     {
@@ -54,7 +54,7 @@
         positiveText: t('common.captions.confirm'),
         negativeText: t('common.captions.cancel'),
         onPositiveClick: async () => {
-          await clearPullData()
+          await clearData()
           userStore.reset()
           pullStore.reset()
         },

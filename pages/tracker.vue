@@ -883,6 +883,14 @@
         property: 'og:description',
         content: t('meta.description.tracker'),
       },
+      {
+        property: 'twitter:title',
+        content: t('navigation.tracker') + ' - ' + t('navigation.subtitle'),
+      },
+      {
+        property: 'twitter:description',
+        content: t('meta.description.tracker'),
+      },
     ],
     link: [{ rel: 'canonical', href: `${siteUrl}${localePath('/tracker')}` }],
   })

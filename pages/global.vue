@@ -530,6 +530,14 @@
         property: 'og:description',
         content: t('meta.description.global'),
       },
+      {
+        property: 'twitter:title',
+        content: t('navigation.global') + ' - ' + t('navigation.subtitle'),
+      },
+      {
+        property: 'twitter:description',
+        content: t('meta.description.global'),
+      },
     ],
     link: [{ rel: 'canonical', href: `${siteUrl}${localePath('/global')}` }],
   })

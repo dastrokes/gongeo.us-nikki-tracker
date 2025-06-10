@@ -76,6 +76,14 @@
         property: 'og:description',
         content: t('meta.description.faq'),
       },
+      {
+        property: 'twitter:title',
+        content: t('navigation.faq') + ' - ' + t('navigation.subtitle'),
+      },
+      {
+        property: 'twitter:description',
+        content: t('meta.description.faq'),
+      },
     ],
     link: [{ rel: 'canonical', href: `${siteUrl}${localePath('/faq')}` }],
   })

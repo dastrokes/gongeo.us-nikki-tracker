@@ -135,6 +135,14 @@
         property: 'og:description',
         content: t('meta.description.about'),
       },
+      {
+        property: 'twitter:title',
+        content: t('navigation.about') + ' - ' + t('navigation.subtitle'),
+      },
+      {
+        property: 'twitter:description',
+        content: t('meta.description.about'),
+      },
     ],
     link: [{ rel: 'canonical', href: `${siteUrl}${localePath('/about')}` }],
   })

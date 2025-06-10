@@ -1,4 +1,11 @@
-export type PullRecord = [string, string]
+export type PullRecord = [string, string] // [timestamp, itemId]
+
+export interface EditRecord {
+  itemId: string
+  outfitId: string
+  rarity: number
+  obtainedAt: string
+}
 
 export interface PullItem {
   pullIndex: number
@@ -36,8 +43,6 @@ export interface BannerStats {
   total5StarPulls: number
   total4StarOnlyPulls: number
   completion: number
-  first4StarItemId: string | null
-  first5StarItemId: string | null
 }
 
 export interface ProcessedBanner {
@@ -62,6 +67,7 @@ export interface GlobalStats {
 export interface PullState {
   processedPulls: Record<string, ProcessedBanner>
   rawPullData: Record<number, PullRecord[]>
+  rawEditData: Record<number, EditRecord[]>
   globalStats: GlobalStats
   isProcessing: boolean
 }

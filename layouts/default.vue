@@ -245,6 +245,30 @@
         property: 'og:description',
         content: t('meta.description.default'),
       },
+      {
+        property: 'og:image',
+        content: `${siteUrl}/og.png`,
+      },
+      {
+        name: 'twitter:card',
+        content: 'summary_large_image',
+      },
+      {
+        name: 'twitter:title',
+        content: t('meta.title'),
+      },
+      {
+        name: 'twitter:description',
+        content: t('meta.description.default'),
+      },
+      {
+        name: 'twitter:image',
+        content: `${siteUrl}/og.png`,
+      },
+      {
+        name: 'twitter:creator',
+        content: '@gongeo_us',
+      },
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },

@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import type { PullRecord, PullState } from '~/types/pull'
+import type { PullRecord, PullState, EditRecord } from '~/types/pull'
 import { useBannerPullData } from '~/composables/useBannerPullData'
 import { BANNER_DATA } from '~/data/banners'
 import type { BannerData } from '~/types/banner'
@@ -8,6 +8,7 @@ export const usePullStore = defineStore('pull', {
   state: (): PullState => ({
     processedPulls: {},
     rawPullData: {},
+    rawEditData: {},
     globalStats: {
       totalPulls: 0,
       total4StarItems: 0,
@@ -46,6 +47,7 @@ export const usePullStore = defineStore('pull', {
       // Reset all state properties to their initial values
       this.processedPulls = {}
       this.rawPullData = {}
+      this.rawEditData = {}
       this.globalStats = {
         totalPulls: 0,
         total4StarItems: 0,
@@ -58,15 +60,19 @@ export const usePullStore = defineStore('pull', {
       this.isProcessing = false
     },
 
-    async processPullData(pullsByBanner: Record<number, PullRecord[]>) {
+    async processPullData(
+      pullsByBanner: Record<number, PullRecord[]>,
+      editsByBanner: Record<number, EditRecord[]>
+    ) {
       if (this.isProcessing) return
       this.isProcessing = true
       this.rawPullData = pullsByBanner
+      this.rawEditData = editsByBanner
 
       try {
         const bannerPullData = useBannerPullData()
         const { processedPulls, globalStats } =
-          bannerPullData.processBannerPullData(pullsByBanner)
+          bannerPullData.processBannerPullData(pullsByBanner, editsByBanner)
 
         this.processedPulls = processedPulls
         this.globalStats = globalStats
@@ -101,8 +107,6 @@ export const usePullStore = defineStore('pull', {
             total5StarPulls: 0,
             total4StarOnlyPulls: 0,
             completion: 0,
-            first4StarItemId: null,
-            first5StarItemId: null,
           },
           bannerId: bannerId,
           bannerType: bannerInfo.bannerType,

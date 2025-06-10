@@ -6,30 +6,27 @@ import type {
   ProcessedBanner,
   GlobalStats,
   PullItem,
+  EditRecord,
 } from '~/types/pull'
 import type { BannerData } from '~/types/banner'
 import { BANNER_DATA } from '~/data/banners'
 import type { Outfit } from '~/types/outfit'
 import { getOutfitData } from '~/utils/utils'
-import { useRouter } from 'vue-router'
 
 export const useBannerPullData = () => {
-  const { fetchPullHistory, progress } = useBannerPullApi()
-  const pullStore = usePullStore()
-  const router = useRouter()
-  const localePath = useLocalePath()
-
   const isFetching = ref(false)
+  const { progress, fetchPullHistory } = useBannerPullApi()
+  const pullStore = usePullStore()
 
   const processJsonImport = async (jsonData: Record<number, PullRecord[]>) => {
-    const { loadPullData, savePullData, mergePullData } = useIndexedDB()
-    const existingData = (await loadPullData()) || {}
+    const { loadData, saveData, mergePullData } = useIndexedDB()
+    const { pulls: existingPullData, edits: existingEditData } =
+      await loadData()
 
-    const mergedData = mergePullData(existingData, jsonData)
-    savePullData(mergedData)
+    const mergedData = mergePullData(existingPullData, jsonData)
+    saveData(mergedData, existingEditData)
 
-    await pullStore.processPullData(mergedData)
-    router.push(localePath('/tracker'))
+    await pullStore.processPullData(mergedData, existingEditData)
   }
 
   const fetchBannerPullData = async (selectedBannerIds?: number[]) => {
@@ -39,10 +36,6 @@ export const useBannerPullData = () => {
     const pullsByBanner: Record<number, PullRecord[]> = {}
 
     try {
-      // First, load existing data from IndexedDB
-      const { loadPullData, savePullData, mergePullData } = useIndexedDB()
-      const existingData = (await loadPullData()) || {}
-
       const responses = await fetchPullHistory(selectedBannerIds)
       // Transform the data into the format expected by the store
 
@@ -62,14 +55,14 @@ export const useBannerPullData = () => {
         }
       })
 
-      // Merge the new data with existing data from IndexedDB
-      const mergedData = mergePullData(existingData, pullsByBanner)
-      savePullData(mergedData)
+      const { loadData, saveData, mergePullData } = useIndexedDB()
+      const { pulls: existingPullData, edits: existingEditData } =
+        await loadData()
 
-      // Process the merged data in the store
-      await pullStore.processPullData(mergedData)
+      const mergedData = mergePullData(existingPullData, pullsByBanner)
+      saveData(mergedData, existingEditData)
 
-      router.push(localePath('/tracker'))
+      await pullStore.processPullData(mergedData, existingEditData)
     } catch (error) {
       console.error(error)
     } finally {
@@ -81,8 +74,9 @@ export const useBannerPullData = () => {
 
   const processBannerPullData = (
     pullsByBanner: Record<number, PullRecord[]>,
-    calculateGlobalStats = true
+    editsByBanner?: Record<number, EditRecord[]>
   ) => {
+    const calculateStats = !!editsByBanner
     const processedPulls: Record<string, ProcessedBanner> = {}
     const currentPity: Record<string, Record<number, number>> = {}
     const globalStats: GlobalStats = {
@@ -160,8 +154,6 @@ export const useBannerPullData = () => {
           total5StarPulls: 0,
           total4StarOnlyPulls: 0,
           completion: 0,
-          first4StarItemId: null,
-          first5StarItemId: null,
         },
         bannerId: bannerId,
         bannerType: bannerInfo.bannerType,
@@ -187,26 +179,19 @@ export const useBannerPullData = () => {
 
       // 3. Process pulls for this banner
       const pulls = pullsByBanner[bannerId] || []
+
       const processedPullsArray = [...pulls].reverse()
-      const itemCount: Record<string, number> = {}
-      const firstObtainInfo: Record<string, PullItem> = {}
       const currentBanner = processedPulls[bannerId]
 
-      // Track a separate index for non-manual entries
       let pullIndex = 0
       processedPullsArray.forEach((pull) => {
         const [time, itemId] = pull
 
-        // Check if this is a manual entry
-        const manual = time === 'manual'
-
-        // Only increment stats for non-manual entries
-        if (!manual) {
-          currentBanner.stats.totalPulls++
-          currentPity[bannerId][4]++
-          currentPity[bannerId][5]++
-          pullIndex++
-        }
+        // Only increment stats for actual pulls (not manual or edit entries)
+        currentBanner.stats.totalPulls++
+        currentPity[bannerId][4]++
+        currentPity[bannerId][5]++
+        pullIndex++
 
         const itemInfo = itemToOutfitMap[itemId]
         if (itemInfo) {
@@ -214,50 +199,27 @@ export const useBannerPullData = () => {
           const itemData = outfit.items.find((id) => id === itemId)
           if (!itemData) return
 
-          const rarity = outfit.rarity || 3
+          const rarity = outfit.rarity || 0
           const outfitId = outfit.id
 
-          // Only calculate pullsToObtain for non-manual entries
-          const pullsToObtain = manual ? 0 : currentPity[bannerId][rarity]
-
-          // Only reset pity for non-manual entries
-          if (!manual) {
-            currentPity[bannerId][rarity] = 0
-          }
-
-          // Increment the item counter
-          itemCount[itemId] = (itemCount[itemId] || 0) + 1
+          const pullsToObtain = currentPity[bannerId][rarity]
+          currentPity[bannerId][rarity] = 0
 
           const pullInfo: PullItem = {
+            pullIndex,
             itemId,
             outfitId,
             rarity,
             pullsToObtain,
             obtainedAt: time,
             bannerId: bannerId,
-            count: itemCount[itemId],
-            pullIndex: manual ? 0 : pullIndex,
+            count: 0,
           }
 
-          if (itemCount[itemId] === 1) {
-            // Track first item of each rarity (only for non-manual entries)
-            if (!manual) {
-              if (rarity === 4 && !currentBanner.stats.first4StarItemId) {
-                currentBanner.stats.first4StarItemId = itemId
-              } else if (
-                rarity === 5 &&
-                !currentBanner.stats.first5StarItemId
-              ) {
-                currentBanner.stats.first5StarItemId = itemId
-              }
-            }
-            firstObtainInfo[itemId] = pullInfo
-          }
           currentBanner.pulls.unshift(pullInfo)
           currentBanner.stats.totalItems++
 
-          // Update global stats
-          if (calculateGlobalStats && !manual && bannerInfo.bannerType !== 1) {
+          if (calculateStats && bannerInfo.bannerType !== 1) {
             if (bannerInfo.bannerType === 2) {
               if (rarity === 5) {
                 total5Star++
@@ -276,10 +238,7 @@ export const useBannerPullData = () => {
           }
         }
 
-        // Always update lastPull with the most recent non-manual pull time
-        if (!manual) {
-          currentBanner.stats.lastPull = time || currentBanner.stats.lastPull
-        }
+        currentBanner.stats.lastPull = time || currentBanner.stats.lastPull
       })
 
       // 4. Calculate banner-specific stats
@@ -289,10 +248,10 @@ export const useBannerPullData = () => {
       if (bannerType === 1) {
         // Permanent
         const fourStarPulls = currentPulls.filter(
-          (item: PullItem) => item.rarity === 4 && item.count > 0
+          (item: PullItem) => item.rarity === 4
         )
         const fiveStarPulls = currentPulls.filter(
-          (item: PullItem) => item.rarity === 5 && item.count > 0
+          (item: PullItem) => item.rarity === 5
         )
         stats.total4StarItems = fourStarPulls.length
         stats.total5StarItems = fiveStarPulls.length
@@ -315,10 +274,10 @@ export const useBannerPullData = () => {
       } else if (bannerType === 2) {
         // Limited 5★ with 4★
         const fourStarPulls = currentPulls.filter(
-          (item: PullItem) => item.rarity === 4 && item.count > 0
+          (item: PullItem) => item.rarity === 4
         )
         const fiveStarPulls = currentPulls.filter(
-          (item: PullItem) => item.rarity === 5 && item.count > 0
+          (item: PullItem) => item.rarity === 5
         )
 
         stats.total4StarItems = fourStarPulls.length
@@ -347,7 +306,7 @@ export const useBannerPullData = () => {
       } else if (bannerType === 3) {
         // Limited 4★
         const fourStarPulls = currentPulls.filter(
-          (item: PullItem) => item.rarity === 4 && item.count > 0
+          (item: PullItem) => item.rarity === 4
         )
         stats.total4StarItems = 0 // Reset mixed banner stats
         stats.total5StarItems = 0 // Reset 5★ stats
@@ -367,38 +326,61 @@ export const useBannerPullData = () => {
 
       stats.pity4Star = currentPity[bannerId][4]
       stats.pity5Star = currentPity[bannerId][5]
-
-      // Calculate outfit completion
-      const pullsByOutfit: Record<string, Set<PullItem>> = {}
-      currentBanner.pulls.forEach((pull) => {
-        if (!pullsByOutfit[pull.outfitId]) {
-          pullsByOutfit[pull.outfitId] = new Set()
-        }
-        if (pull.count > 0) {
-          pullsByOutfit[pull.outfitId].add(pull)
-        }
-      })
-
-      currentBanner.outfits.forEach((outfit) => {
-        const obtainedItems = pullsByOutfit[outfit.id] || new Set()
-        outfit.obtainedItems = obtainedItems.size
-        outfit.completion = Math.floor(obtainedItems.size / outfit.totalItems)
-      })
-
-      currentBanner.completion = Math.floor(
-        currentBanner.outfits.reduce(
-          (sum, outfit) => sum + outfit.completion,
-          0
-        ) / currentBanner.outfits.length
-      )
     })
 
-    // Update global stats only if calculateGlobalStats is true
-    if (calculateGlobalStats) {
+    // Update stats only if calculateStats is true
+    if (calculateStats) {
+      Object.values(BANNER_DATA as BannerData).forEach((bannerInfo) => {
+        const bannerId = bannerInfo.bannerId
+
+        const itemCount: Record<string, number> = {}
+        const edits = editsByBanner?.[bannerId] || []
+        const currentBanner = processedPulls[bannerId]
+
+        // Calculate item count and outfit completion
+        let pullIndex = 0
+        edits.forEach((edit) => {
+          pullIndex--
+          const pullInfo: PullItem = {
+            bannerId,
+            pullIndex: pullIndex,
+            pullsToObtain: 0,
+            count: 0,
+            ...edit,
+          }
+
+          currentBanner.pulls.unshift(pullInfo)
+        })
+        const pullsByOutfit: Record<string, Set<PullItem>> = {}
+        currentBanner.pulls.forEach((pull) => {
+          itemCount[pull.itemId] = (itemCount[pull.itemId] || 0) + 1
+          pull.count = itemCount[pull.itemId]
+
+          if (!pullsByOutfit[pull.outfitId]) {
+            pullsByOutfit[pull.outfitId] = new Set()
+          }
+          if (pull.count > 0) {
+            pullsByOutfit[pull.outfitId].add(pull)
+          }
+        })
+
+        currentBanner.outfits.forEach((outfit) => {
+          const obtainedItems = pullsByOutfit[outfit.id] || new Set()
+          outfit.obtainedItems = obtainedItems.size
+          outfit.completion = Math.floor(obtainedItems.size / outfit.totalItems)
+        })
+
+        currentBanner.completion = Math.floor(
+          currentBanner.outfits.reduce(
+            (sum, outfit) => sum + outfit.completion,
+            0
+          ) / currentBanner.outfits.length
+        )
+      })
+
       globalStats.totalPulls = Object.values(pullsByBanner).reduce(
         (sum, pulls) => {
-          // Filter out manual entries when counting total pulls
-          return sum + pulls.filter((p) => p[0] !== 'manual').length
+          return sum + pulls.length
         },
         0
       )

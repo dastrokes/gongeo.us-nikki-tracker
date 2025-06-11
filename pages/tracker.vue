@@ -133,7 +133,7 @@
                 {{ t('tracker.stats.total_pulls') }}
               </div>
               <div
-                class="text-xl font-medium mt-1 flex items-center justify-center gap-2"
+                class="text-lg font-medium mt-1 flex items-center justify-center gap-2"
               >
                 <n-number-animation
                   :from="0"
@@ -169,7 +169,7 @@
               <div class="text-sm text-gray-400">
                 {{ t('tracker.stats.total_5star_4star') }}
               </div>
-              <div class="text-xl font-medium mt-1">
+              <div class="text-lg font-medium mt-1">
                 <n-number-animation
                   :from="0"
                   :to="globalStats.total5StarItems"
@@ -196,7 +196,7 @@
                 {{ t('tracker.stats.avg_5star') }}
               </div>
               <div
-                class="text-xl font-medium mt-1 flex items-center justify-center gap-2"
+                class="text-lg font-medium mt-1 flex items-center justify-center gap-2"
               >
                 <n-number-animation
                   :from="0"
@@ -238,7 +238,7 @@
                 {{ t('tracker.stats.avg_4star_mixed') }}
               </div>
               <div
-                class="text-xl font-medium mt-1 flex items-center justify-center gap-2"
+                class="text-lg font-medium mt-1 flex items-center justify-center gap-2"
               >
                 <n-number-animation
                   :from="0"
@@ -280,7 +280,7 @@
                 {{ t('tracker.stats.avg_4star_only') }}
               </div>
               <div
-                class="text-xl font-medium mt-1 flex items-center justify-center gap-2"
+                class="text-lg font-medium mt-1 flex items-center justify-center gap-2"
               >
                 <n-number-animation
                   :from="0"

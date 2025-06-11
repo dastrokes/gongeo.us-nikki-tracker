@@ -29,7 +29,7 @@
             @click.prevent="showSider = false"
           >
             <span
-              class="text-xl font-bold font-sans"
+              class="text-xl font-bold"
               :class="locale === 'zh' ? 'align-baseline' : 'align-super'"
               >{{ t('navigation.title') }}</span
             >
@@ -217,7 +217,7 @@
 
   useHead({
     htmlAttrs: {
-      lang: 'en',
+      lang: locale.value,
     },
     title: t('meta.title'),
     meta: [
@@ -264,6 +264,10 @@
       {
         name: 'twitter:image',
         content: `${siteUrl}/og.png`,
+      },
+      {
+        name: 'twitter:site',
+        content: '@gongeo_us',
       },
       {
         name: 'twitter:creator',
@@ -442,6 +446,14 @@
       }
     }
   )
+
+  watch(locale, (newLocale) => {
+    useHead({
+      htmlAttrs: {
+        lang: newLocale,
+      },
+    })
+  })
 
   // Setup swipe handling
   const layoutRef = ref<HTMLElement | null>(null)

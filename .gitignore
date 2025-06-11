@@ -30,3 +30,6 @@ scripts/dev
 # Cursor
 .cursor
 .cursorignore
+
+# Sentry Config File
+.env.sentry-build-plugin

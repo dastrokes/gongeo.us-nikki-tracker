@@ -196,8 +196,8 @@
         <n-card
           v-show="!maximizedChart || maximizedChart === 'pullsPerBanner'"
           size="small"
+          class="transition-all duration-300"
           :class="[
-            'transition-all duration-300',
             maximizedChart === 'pullsPerBanner'
               ? 'col-span-1 sm:col-span-3'
               : 'col-span-1 sm:col-span-3',
@@ -205,8 +205,8 @@
           :style="cardStyle"
         >
           <div
+            class="transition-all duration-300"
             :class="[
-              'transition-all duration-300',
               maximizedChart === 'pullsPerBanner'
                 ? 'h-[calc(100vh-210px)] sm:h-[calc(100vh-160px)]'
                 : 'h-[320px]',
@@ -256,15 +256,15 @@
         <n-card
           v-show="!maximizedChart || maximizedChart === 'fiveStar'"
           size="small"
+          class="transition-all duration-300"
           :class="[
-            'transition-all duration-300',
             maximizedChart === 'fiveStar' ? 'col-span-1 sm:col-span-3' : '',
           ]"
           :style="cardStyle"
         >
           <div
+            class="transition-all duration-300"
             :class="[
-              'transition-all duration-300',
               maximizedChart === 'fiveStar'
                 ? 'h-[calc(100vh-210px)] sm:h-[calc(100vh-160px)]'
                 : 'h-[200px]',
@@ -302,8 +302,8 @@
         <n-card
           v-show="!maximizedChart || maximizedChart === 'fourStarType2'"
           size="small"
+          class="transition-all duration-300"
           :class="[
-            'transition-all duration-300',
             maximizedChart === 'fourStarType2'
               ? 'col-span-1 sm:col-span-3'
               : '',
@@ -311,8 +311,8 @@
           :style="cardStyle"
         >
           <div
+            class="transition-all duration-300"
             :class="[
-              'transition-all duration-300',
               maximizedChart === 'fourStarType2'
                 ? 'h-[calc(100vh-210px)] sm:h-[calc(100vh-160px)]'
                 : 'h-[200px]',
@@ -352,8 +352,8 @@
         <n-card
           v-show="!maximizedChart || maximizedChart === 'fourStarType3'"
           size="small"
+          class="transition-all duration-300"
           :class="[
-            'transition-all duration-300',
             maximizedChart === 'fourStarType3'
               ? 'col-span-1 sm:col-span-3'
               : '',
@@ -361,8 +361,8 @@
           :style="cardStyle"
         >
           <div
+            class="transition-all duration-300"
             :class="[
-              'transition-all duration-300',
               maximizedChart === 'fourStarType3'
                 ? 'h-[calc(100vh-210px)] sm:h-[calc(100vh-160px)]'
                 : 'h-[200px]',
@@ -402,8 +402,8 @@
         <n-card
           v-show="!maximizedChart || maximizedChart === 'firstItemDistribution'"
           size="small"
+          class="transition-all duration-300"
           :class="[
-            'transition-all duration-300',
             maximizedChart === 'firstItemDistribution'
               ? 'col-span-1 sm:col-span-3'
               : 'col-span-1 sm:col-span-3',
@@ -411,8 +411,8 @@
           :style="cardStyle"
         >
           <div
+            class="transition-all duration-300"
             :class="[
-              'transition-all duration-300',
               maximizedChart === 'firstItemDistribution'
                 ? 'h-[calc(100vh-210px)] sm:h-[calc(100vh-160px)]'
                 : 'h-[200px]',

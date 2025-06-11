@@ -121,7 +121,8 @@
       "copy": "Kopieren",
       "cancel": "Abbrechen",
       "copy_code": "Code kopieren",
-      "paste_from_clipboard": "Aus Zwischenablage einfügen"
+      "paste_from_clipboard": "Aus Zwischenablage einfügen",
+      "select_all": "Alle auswählen"
     },
     "select_banners": "Wähle die Banner aus, an denen du teilgenommen hast",
     "select_banners_desc": "Braucht nicht erneut importiert werden, wenn Daten bereits verfügbar sind",

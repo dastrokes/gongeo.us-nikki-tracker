@@ -50,20 +50,20 @@
     "login_pearpal": "Login to Pearpal Website",
     "login_pearpal_desc": "Open Pearpal Website in a new tab and login with your Infold account if you aren't already logged in.",
     "get_cookie": "Get Cookie From Pearpal Website",
-    "get_cookie_desc": "Choose how you want to get your Cookie:",
+    "get_cookie_desc": "Choose how you want to get your cookie data:",
     "gongeous_cookie": "Gongeous Cookie",
     "bookmark_method": "Bookmark Method (Recommended)",
     "bookmark_method_mobile": "Bookmark Method",
     "console_method": "Console Method",
     "manual_input": "Manual Method",
-    "title": "Follow these steps to get your Cookie:",
+    "title": "Follow these steps to get your cookie data:",
     "bookmark_steps": {
       "step1": "Drag the \"Gongeous Cookie\" button to your bookmarks bar (only needs to be done once):",
       "step2": "Switch to Pearpal Website in a different tab, make sure you are logged in",
       "step3": "Click the \"Gongeous Cookie\" bookmark while on the Pearpal Website",
       "step4": "Copy the output text in the popup (it should look like the example in the input area below)",
       "step5": "Come back here and paste the output text in the input area below",
-      "tip": "Tip: You can keep the bookmark for getting Cookie the next time you import"
+      "tip": "Tip: You can keep the bookmark for getting cookie data the next time you import"
     },
     "bookmark_steps_mobile": {
       "step1": "Tap the \"Copy Code\" button and copy the code",
@@ -75,7 +75,7 @@
       "step5_android_chrome_2": "Select the bookmark from suggestions to run it",
       "step6": "Copy the output text in the popup (it should look like the example in the input area below)",
       "step7": "Come back here and paste the output text in the input area below",
-      "tip": "Tip: You can keep the bookmark for getting Cookie the next time you import"
+      "tip": "Tip: You can keep the bookmark for getting cookie data the next time you import"
     },
     "console_steps": {
       "step1": "Switch to Pearpal Website in a different tab, make sure you are logged in",
@@ -92,7 +92,7 @@
       "step2": "Open your browser's Developer Tools (Press F12 or right-click and select \"Inspect\")",
       "step3": "Go to the \"Application\" tab",
       "step4": "In the left sidebar, expand \"Cookies\" and select the Pearpal Website",
-      "step5": "Alternatively, you can use a browser extension for Cookies like Cookie Editor",
+      "step5": "Alternatively, you can use a browser extension for cookies like Cookie Editor",
       "step6": "Find and copy the values for:",
       "step6_items": {
         "momo_id": "momoNid (for Momo ID field)",
@@ -100,15 +100,15 @@
       },
       "step7": "For UID, go to your Pearpal profile and copy your UID number"
     },
-    "security_note": "Note: Never share these Cookie values with anyone else!",
+    "security_note": "Note: Never share these cookie values with anyone else!",
     "data_note": "Important: Pull data is only retained on the Infold server for 180 days. Data before {date} will become unavailable. As a result, the affected banner pull history may be incomplete.",
     "form": {
       "uid": "UID",
       "uid_placeholder": "In-game UID",
       "momo_id": "Momo ID",
-      "momo_id_placeholder": "momoNid from Cookie",
+      "momo_id_placeholder": "momoNid from cookie",
       "momo_token": "Momo Token",
-      "momo_token_placeholder": "momoToken from Cookie",
+      "momo_token_placeholder": "momoToken from cookie",
       "submit_global_stats": "Submit data for global stats",
       "submit_button": "Submit and Import Pull History",
       "fetching": "Fetching resonance data, please wait..."
@@ -121,8 +121,7 @@
       "copy": "Copy",
       "cancel": "Cancel",
       "copy_code": "Copy Code",
-      "paste_from_clipboard": "Paste from Clipboard",
-      "select_all": "Select All"
+      "paste_from_clipboard": "Paste from Clipboard"
     },
     "select_banners": "Select Banners You Pulled",
     "select_banners_desc": "No need to re-import if data is already available",
@@ -348,7 +347,7 @@
     "questions": {
       "data_source": {
         "question": "How are you getting the data?",
-        "answer": "We are using the same API as the in-game pull history page to access Infold Games servers that store the banner pull data. To access the data, we need to authenticate with the Infold Games server using your account Cookie."
+        "answer": "We are using the same API as the in-game pull history page to access Infold Games servers that store the banner pull data. To access the data, we need to authenticate with the Infold Games server using your account cookies."
       },
       "ban_risk": {
         "question": "Will I get banned for using this?",
@@ -356,7 +355,7 @@
       },
       "data_storage": {
         "question": "What data are you storing?",
-        "answer": "Your pull history is stored locally in your browser, so the next time you visit the site, it will be there unless you clear your browser data. We do not collect any personal information, including the Cookie you submitted."
+        "answer": "Your pull history is stored locally in your browser, so the next time you visit the site, it will be there unless you clear your browser data. We do not collect any personal information, including the cookies you submitted."
       },
       "server_data": {
         "question": "What data is sent to the server?",
@@ -367,8 +366,8 @@
         "answer": "Yes, no matter which platform you play on, you can import your data from PC or mobile. However, on mobile it might not work for all browsers, it is recommended to use PC for better experience, please check the import page for supported browsers and more details."
       },
       "cookie_script": {
-        "question": "Do I have to run a script to get my Cookie?",
-        "answer": "No, they are just for convenience, you can get the Cookie manually, check manual input instructions in the import page for more details. However, the only way to get the Cookie on mobile now is to use the bookmark method."
+        "question": "Do I have to run a script to get my cookies?",
+        "answer": "No, they are just for convenience, you can get the cookies manually, check manual input instructions in the import page for more details. However, the only way to get the cookies on mobile now is to use the bookmark method."
       },
       "data_loss": {
         "question": "Why is the data incomplete or missing for some banners?",
@@ -376,11 +375,11 @@
       },
       "no_pulls": {
         "question": "I followed the import steps and saw the banners were processed, but why isn't any pull history showing?",
-        "answer": "Please double check that your region and Cookie values are correct. Make sure the UID and ID from the Cookie are not mixed up."
+        "answer": "Please double check that your region and cookie values are correct. Make sure the UID and ID from the cookies are not mixed up."
       },
       "auto_update": {
         "question": "Will my pull data update automatically?",
-        "answer": "No, your pull data will not update automatically. The website needs to be updated to support new banners after each game update. For security reasons, your Cookie will expire after some time, so you'll need to re-import your data. However, if you store your data in your browser, you'll only need to re-import for new banners."
+        "answer": "No, your pull data will not update automatically. The website needs to be updated to support new banners after each game update. For security reasons, your cookie will expire after some time, so you'll need to re-import your data. However, if you store your data in your browser, you'll only need to re-import for new banners."
       },
       "export": {
         "question": "How can I export my pull history?",
@@ -408,7 +407,7 @@
     },
     "dataCollection": {
       "title": "Data Collection and Storage",
-      "content": "We collect only minimal data necessary to operate our service. We do not collect or store any personal information or tracking Cookie. Any Cookie and UID you provide are transmitted solely to Infold Games' servers to verify your account and retrieve your pull history.",
+      "content": "We collect only minimal data necessary to operate our service. We do not collect or store any personal information or tracking cookies. Any cookies and UID you provide are transmitted solely to Infold Games' servers to verify your account and retrieve your pull history.",
       "pullHistory": "Your pull history data is stored locally in your browser. If you opt in to share data, your pull statistics—including a hashed version of your UID and details of 4-star and 5-star items pulled—will be used to calculate community-wide statistics."
     },
     "dataSecurity": {
@@ -417,7 +416,7 @@
     },
     "analytics": {
       "title": "Analytics and Tracking",
-      "content": "We utilize Umami, a privacy-focused analytics service, to monitor website usage. It collects only anonymized information such as page views, referrer URLs, and basic browser data without using Cookie or personal identifiers. This data helps us improve your experience. For more information, please see Umami's privacy policy."
+      "content": "We utilize Umami, a privacy-focused analytics service, to monitor website usage. It collects only anonymized information such as page views, referrer URLs, and basic browser data without using cookies or personal identifiers. This data helps us improve your experience. For more information, please see Umami's privacy policy."
     }
   },
   "maintenance": {

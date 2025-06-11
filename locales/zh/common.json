@@ -50,20 +50,20 @@
     "login_pearpal": "登录美鸭梨网站",
     "login_pearpal_desc": "在新标签页中打开美鸭梨网站，如果尚未登录，请使用您的叠纸账号登录。",
     "get_cookie": "从美鸭梨网站获取 Cookie 数据",
-    "get_cookie_desc": "选择您想要获取 cookie 数据的方式：",
+    "get_cookie_desc": "选择您想要获取 Cookie 数据的方式：",
     "gongeous_cookie": "Gongeous Cookie",
     "bookmark_method": "书签方法（推荐）",
     "bookmark_method_mobile": "书签方法",
     "console_method": "控制台方法",
     "manual_input": "手动输入",
-    "title": "按照以下步骤获取您的 cookie 数据：",
+    "title": "按照以下步骤获取您的 Cookie 数据：",
     "bookmark_steps": {
       "step1": "将\"美鸭梨 Cookie\"书签拖动到书签栏（此步骤仅需执行一次）：",
       "step2": "切换到不同标签页的美鸭梨网站，确保您已登录",
       "step3": "在美鸭梨网站上点击\"美鸭梨 Cookie\"书签",
       "step4": "复制弹出窗口中的输出文本（它应该看起来像下面输入区域中的示例）",
       "step5": "返回暖暖共鸣录，将输出文本粘贴到下面的输入区域中",
-      "tip": "提示：您可以保留书签，便于将来数据导入时获取 cookie 数据"
+      "tip": "提示：您可以保留书签，便于将来数据导入时获取 Cookie 数据"
     },
     "bookmark_steps_mobile": {
       "step1": "点击\"复制代码\"按钮并复制其中代码",
@@ -75,7 +75,7 @@
       "step5_android_chrome_2": "从建议中选择书签以运行它",
       "step6": "复制弹出窗口中的输出文本（它应该看起来像下面输入区域中的示例）",
       "step7": "返回暖暖共鸣录，将输出文本粘贴到下面的输入区域中",
-      "tip": "提示：您可以保留书签，便于将来数据导入时获取 cookie 数据"
+      "tip": "提示：您可以保留书签，便于将来数据导入时获取 Cookie 数据"
     },
     "console_steps": {
       "step1": "切换到不同标签页的美鸭梨网站，确保您已登录",
@@ -92,7 +92,7 @@
       "step2": "打开浏览器的开发者工具（按 F12 或右键点击并选择\"检查\"）",
       "step3": "转到\"应用程序\"标签",
       "step4": "在左侧边栏中，展开\"Cookie\"并选择美鸭梨网站",
-      "step5": "或者，您可以使用 Cookie Editor 等浏览器扩展来管理 cookie",
+      "step5": "或者，您可以使用 Cookie Editor 等浏览器扩展来管理 Cookie",
       "step6": "查找并复制以下值：",
       "step6_items": {
         "momo_id": "momoNid（用于 Momo ID 字段）",
@@ -100,15 +100,15 @@
       },
       "step7": "对于 UID，请前往您的美鸭梨个人资料并复制您的 UID 号码"
     },
-    "security_note": "注意：切勿与他人分享这些 cookie 值！",
+    "security_note": "注意：切勿与他人分享这些 Cookie 值！",
     "data_note": "重要提示：叠纸服务器仅保留最近 180 天的抽卡数据。{date} 之前的数据将无法导入。因此，相关卡池的抽卡记录可能会不完整。",
     "form": {
       "uid": "UID",
       "uid_placeholder": "游戏内 UID",
       "momo_id": "Momo ID",
-      "momo_id_placeholder": "来自 cookie 的 momoNid",
+      "momo_id_placeholder": "来自 Cookie 的 momoNid",
       "momo_token": "Momo Token",
-      "momo_token_placeholder": "来自 cookie 的 momoToken",
+      "momo_token_placeholder": "来自 Cookie 的 momoToken",
       "submit_global_stats": "提交数据用于社区统计",
       "submit_button": "提交并导入抽卡历史",
       "fetching": "正在获取共鸣数据，请稍候..."
@@ -121,7 +121,8 @@
       "copy": "复制",
       "cancel": "取消",
       "copy_code": "复制代码",
-      "paste_from_clipboard": "从剪贴板粘贴"
+      "paste_from_clipboard": "从剪贴板粘贴",
+      "select_all": "全选"
     },
     "select_banners": "选择您抽过的卡池",
     "select_banners_desc": "无需再次导入已有数据",
@@ -347,7 +348,7 @@
     "questions": {
       "data_source": {
         "question": "你们是如何获取数据的？",
-        "answer": "我们通过调用叠纸游戏官方API获取数据，该接口与游戏内抽卡历史页面使用的接口一致。数据获取过程需要使用您的账号cookie进行服务器身份验证。"
+        "answer": "我们通过调用叠纸游戏官方API获取数据，该接口与游戏内抽卡历史页面使用的接口一致。数据获取过程需要使用您的账号 Cookie 进行服务器身份验证。"
       },
       "ban_risk": {
         "question": "使用这个工具会被封号吗？",
@@ -355,7 +356,7 @@
       },
       "data_storage": {
         "question": "你们会存储什么数据？",
-        "answer": "您的抽卡历史记录存储在您的浏览器本地，所以下次访问网站时，除非您清除浏览器数据，否则数据会一直存在。我们不收集任何个人信息，包括您提交的cookie。"
+        "answer": "您的抽卡历史记录存储在您的浏览器本地，所以下次访问网站时，除非您清除浏览器数据，否则数据会一直存在。我们不收集任何个人信息，包括您提交的 Cookie。"
       },
       "server_data": {
         "question": "发送到服务器的数据是什么？",
@@ -366,8 +367,8 @@
         "answer": "是的，无论您的游戏平台，您都可以在PC或移动端使用这个工具。但是，在移动端可能不适用于所有浏览器，因此更推荐在PC上使用，请在导入数据页面查看支持的浏览器和更多详细信息。"
       },
       "cookie_script": {
-        "question": "我一定要运行脚本来获取cookie吗？",
-        "answer": "不，它们只是用更便捷的方式获取cookie，您可以手动获取它们，请在导入数据页面查看更多详细信息。但是，目前在移动端唯一可以获取cookie的方法是使用书签运行脚本。"
+        "question": "我一定要运行脚本来获取 Cookie 吗？",
+        "answer": "不，它们只是用更便捷的方式获取 Cookie，您可以手动获取它们，请在导入数据页面查看更多详细信息。但是，目前在移动端唯一可以获取 Cookie 的方法是使用书签运行脚本。"
       },
       "data_loss": {
         "question": "为什么有些卡池的抽卡记录不完整或缺失？",
@@ -375,11 +376,11 @@
       },
       "no_pulls": {
         "question": "我按照导入步骤操作，看到卡池都已处理，但为什么没有显示抽卡记录？",
-        "answer": "请检查您的服务器地区选择和cookie值是否正确。确保cookie中的UID和ID没有混淆。"
+        "answer": "请检查您的服务器地区选择和 Cookie 值是否正确。确保 Cookie 中的 UID 和 ID 没有混淆。"
       },
       "auto_update": {
         "question": "我的抽卡数据会自动更新吗？",
-        "answer": "不会，您的抽卡数据不会自动更新。每次游戏更新后网站需要更新以支持新卡池的数据。出于安全原因，您的cookie可能会在一段时间后过期，因此您需要重新导入数据。但是，如果您将数据保存在浏览器中，您只需要导入新卡池的数据。"
+        "answer": "不会，您的抽卡数据不会自动更新。每次游戏更新后网站需要更新以支持新卡池的数据。出于安全原因，您的 Cookie 可能会在一段时间后过期，因此您需要重新导入数据。但是，如果您将数据保存在浏览器中，您只需要导入新卡池的数据。"
       },
       "export": {
         "question": "如何导出我的抽卡历史？",
@@ -407,7 +408,7 @@
     },
     "dataCollection": {
       "title": "数据收集与存储政策",
-      "content": "本站仅收集实现基础功能所需的最低限度数据。我们不会主动索取或存储任何个人身份信息，也不会使用任何形式的追踪 cookie。用户在提交 UID 与验证 cookie 时，仅用于向叠纸游戏的服务器验证身份并同步抽卡记录。",
+      "content": "本站仅收集实现基础功能所需的最低限度数据。我们不会主动索取或存储任何个人身份信息，也不会使用任何形式的追踪 Cookie。用户在提交 UID 与验证 Cookie 时，仅用于向叠纸游戏的服务器验证身份并同步抽卡记录。",
       "pullHistory": "用户的抽卡历史数据将默认保存在本地浏览器中。若用户选择参与数据共享，系统会对抽卡记录进行分析，用于社区概率统计。共享数据中仅包含经过加密处理的 UID 及相关的 4 星与 5 星物品信息，不涉及任何其他敏感内容。"
     },
     "dataSecurity": {
@@ -416,7 +417,7 @@
     },
     "analytics": {
       "title": "网站访问分析",
-      "content": "本站使用 Umami 提供网站访问统计服务，这是一种以隐私优先为原则的分析工具。该服务不会使用 cookie，也不会收集任何可识别个人身份的信息。所收集的数据仅限于访问量、来源网站以及基础浏览器类型，目的仅在于优化网站服务体验。有关详情，请参阅 Umami 的隐私政策页面。"
+      "content": "本站使用 Umami 提供网站访问统计服务，这是一种以隐私优先为原则的分析工具。该服务不会使用 Cookie，也不会收集任何可识别个人身份的信息。所收集的数据仅限于访问量、来源网站以及基础浏览器类型，目的仅在于优化网站服务体验。有关详情，请参阅 Umami 的隐私政策页面。"
     }
   },
   "maintenance": {

@@ -791,7 +791,7 @@
       title: t('import.supported_browsers'),
       icon: () =>
         h(NIcon, { size: 20 }, { default: () => h(ExclamationCircle) }),
-      contentClass: 'max-h-[50vh] overflow-y-auto',
+      contentClass: 'max-h-[50vh]',
       content: () =>
         h('div', { class: 'max-w-xs p-1' }, [
           h(
@@ -1106,7 +1106,7 @@
     dialog.create({
       title: t('import.actions.copy_code'),
       icon: () => h(NIcon, { size: 20 }, { default: () => h(Copy) }),
-      contentClass: 'max-h-[50vh] overflow-y-auto',
+      contentClass: 'max-h-[50vh]',
       content: () =>
         h('div', [
           h(NCode, {
@@ -1114,12 +1114,30 @@
             language: 'javascript',
             wordWrap: true,
             class: 'w-full font-mono text-xs whitespace-pre-wrap rounded',
+            id: 'code-to-copy',
           }),
         ]),
       positiveText: t('import.actions.copy'),
-      negativeText: t('import.actions.cancel'),
+      negativeText: t('import.actions.select_all'),
       onPositiveClick: () => copyToClipboard(code),
+      onNegativeClick: () => {
+        selectAllText()
+        return false
+      },
     })
+  }
+
+  const selectAllText = () => {
+    const codeEl = document.getElementById('code-to-copy')
+    if (codeEl) {
+      const range = document.createRange()
+      range.selectNodeContents(codeEl)
+      const selection = window.getSelection()
+      if (selection) {
+        selection.removeAllRanges()
+        selection.addRange(range)
+      }
+    }
   }
 
   const daysAgoFormatted = (days: number) => {

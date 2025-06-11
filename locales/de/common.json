@@ -175,10 +175,10 @@
       "more_pulls": "Mehr als {percent}% der gongeo.us Nutzer"
     },
     "manual_log": {
-      "apply_to_all": "Apply to All",
-      "save": "Save Outfit",
-      "success": "Outfit saved successfully!",
-      "error": "Failed to save outfit"
+      "apply_to_all": "Auf alles anwenden",
+      "save": "Outfit speichern",
+      "success": "Outfit wurde erfolgreich gespeichert!",
+      "error": "Outfit konnte nicht gespeichert werden"
     },
     "banner": {
       "stats": {
@@ -339,7 +339,7 @@
       "all_banners": "Alle Banner",
       "five_star_banners": "5★ Banner",
       "four_star_banners": "4★ Banner",
-      "first_item_distribution_tooltip": "This banner includes pulls older than 180 days, which are no longer available in game. As a result, the first item distribution data may be inaccurate."
+      "first_item_distribution_tooltip": "Dieses Banner enthält Resonanzen älter als 180 Tage, welche nicht mehr im Spiel verfügbar sind. Daher können die Daten der Erst-Stück-Verteilung ungenau sein."
     }
   },
   "faq": {
@@ -370,8 +370,8 @@
         "answer": "Nein, Scripts sind dafür nicht nötig, du kannst die Cookies auch manuell erhalten. Weitere Einzelheiten findest du in den Anweisungen für manuelle Eingabe auf der \"Daten importieren\"-Seite."
       },
       "data_loss": {
-        "question": "Why is the data incomplete or missing for some banners?",
-        "answer": "This happens because pull history is only stored in the game for 180 days. After that, it is deleted from the game servers and becomes unavailable. To preserve your data, you can store it in your browser or export it for backup. This way, you can keep records that are no longer available in the game. If you import in the future, your existing data will be merged with the new data."
+        "question": "Warum sind die Daten für einige Banner unvollständig oder fehlen?",
+        "answer": "Das liegt daran, dass der Resonanz-Verlauf nur für 180 Tage im Spiel gespeichert wird. Danach wird er von den Spielservern gelöscht und ist nicht mehr verfügbar. Um deine Daten zu bewahren, kannst du sie in deinem Browser speichern oder zur Sicherung exportieren. Auf diese Weise kannst du Datensätze aufbewahren, die nicht mehr im Spiel verfügbar sind. Wenn du in Zukunft exportierst, werden deine vorhandenen Daten mit den neuen Daten zusammengeführt."
       },
       "no_pulls": {
         "question": "Ich habe die Anweisungen für das Importieren befolgt und die Banner wurden verarbeitet, aber warum wird kein Resonanz-Verlauf angezeigt?",

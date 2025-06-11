@@ -3,8 +3,6 @@
     <template #trigger>
       <n-card
         :class="[
-          'relative overflow-hidden rounded-md transition-all duration-300 ease-in-out aspect-square ring-1',
-          ,
           item.rarity === 5
             ? isDark
               ? 'bg-gradient-to-br from-[#713f12] to-[#451a03] hover:shadow-[0_0_15px_0_rgba(113,63,18,0.5)] ring-amber-900/30 hover:ring-amber-900/60'
@@ -17,7 +15,7 @@
         :bordered="false"
         size="small"
         content-style="padding: 0;"
-        class="min-h-[60px] xl:min-h-[100px] aspect-square"
+        class="relative overflow-hidden rounded-md transition-all duration-300 ease-in-out aspect-square ring-1 min-h-[60px] xl:min-h-[100px] aspect-square"
       >
         <DynamicImg
           :src="`/images/items/${item.itemId}.webp`"

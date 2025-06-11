@@ -43,6 +43,7 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     '@bg-dev/nuxt-naiveui',
     'nuxt-echarts',
+    '@sentry/nuxt/module',
   ],
 
   i18n: {
@@ -139,5 +140,18 @@ export default defineNuxtConfig({
     build: {
       chunkSizeWarningLimit: 1000,
     },
+  },
+
+  sentry: {
+    sourceMapsUploadOptions: {
+      org: 'dastrokes',
+      project: 'gongeous',
+    },
+
+    autoInjectServerSentry: 'top-level-import',
+  },
+
+  sourcemap: {
+    client: 'hidden',
   },
 })

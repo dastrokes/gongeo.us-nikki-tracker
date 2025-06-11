@@ -70,18 +70,27 @@
           {{ $t('index.current_banners') }}
         </div>
       </div>
-      <div class="flex flex-col sm:flex-row gap-4">
-        <div class="w-full sm:w-1/2 aspect-[2/1]">
+      <div
+        v-if="leftBanners.length > 0"
+        class="flex flex-col sm:flex-row gap-4"
+      >
+        <div
+          class="w-full sm:w-1/2 aspect-[2/1]"
+          :class="[rightBanners.length > 0 ? '' : 'sm:mx-auto']"
+        >
           <BannerCarousel
             v-model:current-index="indexA"
-            :banners="fiveStarBanners"
+            :banners="leftBanners"
             :formatted-time="formattedTime"
           />
         </div>
-        <div class="w-full sm:w-1/2 aspect-[2/1]">
+        <div
+          v-if="rightBanners.length > 0"
+          class="w-full sm:w-1/2 aspect-[2/1]"
+        >
           <BannerCarousel
             v-model:current-index="indexB"
-            :banners="fourStarBanners"
+            :banners="rightBanners"
             :formatted-time="formattedTime"
           />
         </div>
@@ -95,6 +104,7 @@
   import { NButton } from 'naive-ui'
   import { useUserStore } from '~/stores/user'
   import { BANNER_DATA } from '~/data/banners'
+  import type { Banner } from '~/types/banner'
   import { Book, Globe, CalendarAlt } from '@vicons/fa'
 
   const { t } = useI18n()
@@ -105,8 +115,9 @@
   const localePath = useLocalePath()
   const router = useRouter()
 
-  const fiveStarBanners = [BANNER_DATA[20], BANNER_DATA[19]]
-  const fourStarBanners = [BANNER_DATA[21], BANNER_DATA[22], BANNER_DATA[4]]
+  const leftBanners = [BANNER_DATA[22]] as Banner[]
+  const rightBanners = [] as Banner[]
+  const targetTime = new Date('2025-07-07T20:00:00Z')
 
   const indexA = ref(0)
   const indexB = ref(0)
@@ -117,8 +128,8 @@
   function startTimer() {
     if (timer) clearTimeout(timer)
     timer = setTimeout(() => {
-      indexA.value = (indexA.value + 1) % fiveStarBanners.length
-      indexB.value = (indexB.value + 1) % fourStarBanners.length
+      indexA.value = (indexA.value + 1) % leftBanners.length
+      indexB.value = (indexB.value + 1) % rightBanners.length
       startTimer() // Schedule next update
     }, timeoutMs)
   }
@@ -137,7 +148,6 @@
   })
 
   // Static time calculation
-  const targetTime = new Date('2025-06-12T20:00:00Z')
   const now = new Date()
   const diffInHours = Math.max(
     0,

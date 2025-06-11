@@ -35,6 +35,7 @@
     "@nuxtjs/sitemap": "7.2.10",
     "@nuxtjs/tailwindcss": "6.13.2",
     "@pinia/nuxt": "0.11.0",
+    "@sentry/nuxt": "9.28.1",
     "@supabase/supabase-js": "2.49.4",
     "@vueuse/integrations": "13.1.0",
     "@vueuse/nuxt": "13.1.0",

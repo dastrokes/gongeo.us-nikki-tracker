@@ -175,6 +175,12 @@
       "luckier": "比 {percent}% 的暖暖共鸣录用户更幸运",
       "more_pulls": "多于 {percent}% 的暖暖共鸣录用户"
     },
+    "manual_log": {
+      "apply_to_all": "全部应用",
+      "save": "保存套装",
+      "success": "套装保存成功！",
+      "error": "套装保存失败"
+    },
     "banner": {
       "stats": {
         "total_pulls": "总抽数",

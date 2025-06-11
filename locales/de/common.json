@@ -121,7 +121,8 @@
       "copy": "Kopieren",
       "cancel": "Abbrechen",
       "copy_code": "Code kopieren",
-      "paste_from_clipboard": "Aus Zwischenablage einfügen"
+      "paste_from_clipboard": "Aus Zwischenablage einfügen",
+      "select_all": "Alle auswählen"
     },
     "select_banners": "Wähle die Banner aus, an denen du teilgenommen hast",
     "select_banners_desc": "Braucht nicht erneut importiert werden, wenn Daten bereits verfügbar sind",
@@ -173,6 +174,12 @@
       "avg_4star_only": "4★ durchschn. (4★ Banner)",
       "luckier": "Mehr Glück als {percent}% der gongeo.us Nutzer",
       "more_pulls": "Mehr als {percent}% der gongeo.us Nutzer"
+    },
+    "manual_log": {
+      "apply_to_all": "Auf alles anwenden",
+      "save": "Outfit speichern",
+      "success": "Outfit wurde erfolgreich gespeichert!",
+      "error": "Outfit konnte nicht gespeichert werden"
     },
     "banner": {
       "stats": {
@@ -332,7 +339,8 @@
       "type": "Typ",
       "all_banners": "Alle Banner",
       "five_star_banners": "5★ Banner",
-      "four_star_banners": "4★ Banner"
+      "four_star_banners": "4★ Banner",
+      "first_item_distribution_tooltip": "Dieses Banner enthält Resonanzen älter als 180 Tage, welche nicht mehr im Spiel verfügbar sind. Daher können die Daten der Erst-Stück-Verteilung ungenau sein."
     }
   },
   "faq": {
@@ -361,6 +369,10 @@
       "cookie_script": {
         "question": "Muss ich ein Script ausführen, um meine Cookie zu erhalten?",
         "answer": "Nein, Scripts sind dafür nicht nötig, du kannst die Cookie auch manuell erhalten. Weitere Einzelheiten findest du in den Anweisungen für manuelle Eingabe auf der \"Daten importieren\"-Seite."
+      },
+      "data_loss": {
+        "question": "Warum sind die Daten für einige Banner unvollständig oder fehlen?",
+        "answer": "Das liegt daran, dass der Resonanz-Verlauf nur für 180 Tage im Spiel gespeichert wird. Danach wird er von den Spielservern gelöscht und ist nicht mehr verfügbar. Um deine Daten zu bewahren, kannst du sie in deinem Browser speichern oder zur Sicherung exportieren. Auf diese Weise kannst du Datensätze aufbewahren, die nicht mehr im Spiel verfügbar sind. Wenn du in Zukunft exportierst, werden deine vorhandenen Daten mit den neuen Daten zusammengeführt."
       },
       "no_pulls": {
         "question": "Ich habe die Anweisungen für das Importieren befolgt und die Banner wurden verarbeitet, aber warum wird kein Resonanz-Verlauf angezeigt?",

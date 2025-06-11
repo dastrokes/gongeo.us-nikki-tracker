@@ -54,14 +54,12 @@
       errorColorSuppl: '#F87171', // Red-400
 
       borderRadius: '12px',
-      fontFamily: 'Roboto, system-ui, -apple-system, sans-serif',
     },
     Button: {
       textColorPrimary: '#f6f6f6',
       textColorHoverPrimary: '#d6d6d6',
       textColorPressedPrimary: '#d6d6d6',
       textColorFocusPrimary: '#969696',
-      borderRadius: '12px',
       fontWeight: '500',
     },
     Card: {
@@ -108,14 +106,14 @@
     },
     Tooltip: {
       common: {
-        borderRadius: '8px',
+        borderRadius: '12px',
       },
       peers: {
         Popover: {
           color: isDark.value
             ? 'rgb(75, 85, 99, 0.9)'
             : 'rgba(255, 255, 255, 0.9)',
-          textColor: isDark.value ? '#E5E7EB' : '#303030',
+          textColor: isDark.value ? '#e4e5e7' : '#5c5c5e',
           boxShadow: isDark.value
             ? '0 2px 8px rgba(200, 200, 200, 0.12)'
             : '0 2px 8px rgba(0, 0, 0, 0.12)',

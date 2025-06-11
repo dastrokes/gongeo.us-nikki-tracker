@@ -6,7 +6,7 @@
       :style="cardStyle"
     >
       <div class="flex flex-col text-center">
-        <n-h1 class="font-bold font-sans">
+        <n-h1 class="font-bold">
           {{ $t('index.title') }}
         </n-h1>
         <n-h2 class="font-bold mt-0">{{ $t('index.subtitle') }}</n-h2>
@@ -50,7 +50,7 @@
       :style="cardStyle"
     >
       <div class="flex justify-center items-center flex-col mb-4 space-y-2">
-        <div class="text-2xl font-bold font-sans">
+        <div class="text-2xl font-bold">
           <n-tooltip>
             <template #trigger>
               <n-button

@@ -92,7 +92,7 @@
       "step2": "Öffne die Entwicklertools deines Browsers (Drücke F12 oder rechtsklicke und wähle \"Untersuchen\" aus)",
       "step3": "Gehe zum \"Application\"-Tab",
       "step4": "Erweitere in der linken Randleiste den \"Cookies\"-Reiter und wähle die Pearpal-Webseite aus",
-      "step5": "Alternativ kannst du auch eine Browser-Erweiterung für Cookies benutzen, wie Cookie Editor",
+      "step5": "Alternativ kannst du auch eine Browser-Erweiterung für Cookie benutzen, wie Cookie Editor",
       "step6": "Finde und kopiere die Werte für:",
       "step6_items": {
         "momo_id": "momoNid (für das Momo ID Feld)",
@@ -340,7 +340,7 @@
     "questions": {
       "data_source": {
         "question": "Woher bekommt ihr die Daten?",
-        "answer": "Wir benutzen dieselbe API wie die Seite mit dem Resonanz-Verlauf im Spiel, um auf den Server von Infold Games zuzugreifen, auf dem die Banner Resonanz-Daten gespeichert sind. Um auf deine Daten zugreifen zu können, müssen wir uns beim Server von Infold Games mit den Cookies deines Kontos authentifizieren."
+        "answer": "Wir benutzen dieselbe API wie die Seite mit dem Resonanz-Verlauf im Spiel, um auf den Server von Infold Games zuzugreifen, auf dem die Banner Resonanz-Daten gespeichert sind. Um auf deine Daten zugreifen zu können, müssen wir uns beim Server von Infold Games mit den Cookie deines Kontos authentifizieren."
       },
       "ban_risk": {
         "question": "Werde ich für die Nutzung dieses Trackers gebannt werden?",
@@ -359,12 +359,12 @@
         "answer": "Ja, egal auf welcher Plattform du spielst, du kannst deine Daten über PC oder Handy importieren. Auf dem Handy wird es eventuell aber nicht mit allen Browsern funktionieren. Um eine bessere Erfahrung zu machen, wird empfohlen, den PC zu verwenden. Bitte prüfe die \"Daten importieren\"-Seite für unterstützte Browser und weitere Details."
       },
       "cookie_script": {
-        "question": "Muss ich ein Script ausführen, um meine Cookies zu erhalten?",
-        "answer": "Nein, Scripts sind dafür nicht nötig, du kannst die Cookies auch manuell erhalten. Weitere Einzelheiten findest du in den Anweisungen für manuelle Eingabe auf der \"Daten importieren\"-Seite."
+        "question": "Muss ich ein Script ausführen, um meine Cookie zu erhalten?",
+        "answer": "Nein, Scripts sind dafür nicht nötig, du kannst die Cookie auch manuell erhalten. Weitere Einzelheiten findest du in den Anweisungen für manuelle Eingabe auf der \"Daten importieren\"-Seite."
       },
       "no_pulls": {
         "question": "Ich habe die Anweisungen für das Importieren befolgt und die Banner wurden verarbeitet, aber warum wird kein Resonanz-Verlauf angezeigt?",
-        "answer": "Überprüfe bitte noch einmal, dass deine Region und Cookie-Werte korrekt sind. Stelle sicher, dass die UID und ID der Cookies nicht vertauscht sind."
+        "answer": "Überprüfe bitte noch einmal, dass deine Region und Cookie-Werte korrekt sind. Stelle sicher, dass die UID und ID der Cookie nicht vertauscht sind."
       },
       "auto_update": {
         "question": "Werden meine Resonanz-Daten automatisch aktualisiert?",
@@ -396,7 +396,7 @@
     },
     "dataCollection": {
       "title": "Datenerfassung und Datenspeicherung",
-      "content": "Wir sammeln nur minimale Daten, die für den Betrieb unseres Dienstes notwendig sind. Wir sammeln und speichern keine persönlichen Informationen oder Tracking-Cookies. Alle Cookies und UIDs, die Sie uns zur Verfügung stellen, werden ausschließlich an die Server von Infold Games übertragen, um Ihr Konto zu verifizieren und Ihren Resonanz-Verlauf abzurufen.",
+      "content": "Wir sammeln nur minimale Daten, die für den Betrieb unseres Dienstes notwendig sind. Wir sammeln und speichern keine persönlichen Informationen oder Tracking-Cookies. Alle Cookie und UIDs, die Sie uns zur Verfügung stellen, werden ausschließlich an die Server von Infold Games übertragen, um Ihr Konto zu verifizieren und Ihren Resonanz-Verlauf abzurufen.",
       "pullHistory": "Die Daten Ihres Resonanz-Verlaufs werden lokal in Ihrem Browser gespeichert. Wenn Sie sich für die Weitergabe von Daten entscheiden, werden Ihre Resonanz-Statistiken - einschließlich einer gehashten Version Ihrer UID und Details zu den abgefragten 4- und 5-Sterne-Artikeln - zur Berechnung der gemeinschaftsweiten Statistiken verwendet."
     },
     "dataSecurity": {
@@ -405,7 +405,7 @@
     },
     "analytics": {
       "title": "Analytik und Rückverfolgung",
-      "content": "Wir verwenden Umami, einen datenschutzfreundlichen Analysedienst, um die Nutzung der Website zu überwachen. Er sammelt nur anonymisierte Informationen wie Seitenaufrufe, Verweis-URLs und grundlegende Browserdaten, ohne Cookies oder persönliche Identifikatoren zu verwenden. Diese Daten helfen uns, Ihr Erlebnis zu verbessern. Weitere Informationen finden Sie in der Datenschutzrichtlinie von Umami."
+      "content": "Wir verwenden Umami, einen datenschutzfreundlichen Analysedienst, um die Nutzung der Website zu überwachen. Er sammelt nur anonymisierte Informationen wie Seitenaufrufe, Verweis-URLs und grundlegende Browserdaten, ohne Cookie oder persönliche Identifikatoren zu verwenden. Diese Daten helfen uns, Ihr Erlebnis zu verbessern. Weitere Informationen finden Sie in der Datenschutzrichtlinie von Umami."
     }
   },
   "maintenance": {

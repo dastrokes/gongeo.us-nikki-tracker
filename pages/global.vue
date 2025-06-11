@@ -73,16 +73,14 @@
     </n-card>
 
     <n-card
-      v-else
+      v-if="!loading"
+      v-show="!maximizedChart"
+      content-class="!p-2 sm:!p-4"
       size="small"
-      class="rounded-xl"
+      class="rounded-xl bg-gray-100 dark:bg-gray-800"
       :style="cardStyle"
     >
-      <!-- Summary Cards -->
-      <div
-        v-show="!maximizedChart"
-        class="grid grid-cols-2 md:grid-cols-6 gap-2 mb-2"
-      >
+      <div class="grid grid-cols-2 md:grid-cols-6 gap-2">
         <n-card
           size="small"
           class="text-center rounded-md"
@@ -91,7 +89,7 @@
           <div class="text-sm text-gray-400">
             {{ $t('global.stats.total_pulls') }}
           </div>
-          <div class="text-xl font-medium mt-1">
+          <div class="text-lg font-medium Cookie mt-1">
             <n-number-animation
               show-separator
               :from="0"
@@ -108,7 +106,7 @@
           <div class="text-sm text-gray-400">
             {{ $t('global.stats.unique_users') }}
           </div>
-          <div class="text-xl font-medium mt-1">
+          <div class="text-lg font-medium Cookie mt-1">
             <n-number-animation
               show-separator
               :from="0"
@@ -125,7 +123,7 @@
           <div class="text-sm text-gray-400">
             {{ $t('global.stats.avg_5star') }}
           </div>
-          <div class="text-xl font-medium mt-1">
+          <div class="text-lg font-medium Cookie mt-1">
             <n-number-animation
               :from="0"
               :to="averagePullsTo5Star"
@@ -142,7 +140,7 @@
           <div class="text-sm text-gray-400">
             {{ $t('global.stats.avg_4star_type2') }}
           </div>
-          <div class="text-xl font-medium mt-1">
+          <div class="text-lg font-medium Cookie mt-1">
             <n-number-animation
               :from="0"
               :to="averagePullsTo4StarType2"
@@ -159,7 +157,7 @@
           <div class="text-sm text-gray-400">
             {{ $t('global.stats.avg_4star_type3') }}
           </div>
-          <div class="text-xl font-medium mt-1">
+          <div class="text-lg font-medium Cookie mt-1">
             <n-number-animation
               :from="0"
               :to="averagePullsTo4StarType3"
@@ -176,7 +174,7 @@
           <div class="text-sm text-gray-400">
             {{ $t('global.stats.data_as_of') }}
           </div>
-          <div class="text-lg font-medium mt-1">
+          <div class="text-lg font-medium Cookie mt-1">
             <n-time
               :time="new Date(data.effective_date)"
               type="date"
@@ -184,8 +182,15 @@
           </div>
         </n-card>
       </div>
+    </n-card>
 
-      <!-- Charts -->
+    <n-card
+      v-if="!loading"
+      size="small"
+      class="rounded-xl"
+      :class="maximizedChart ? '!mt-0 !mb-0' : ''"
+      :style="cardStyle"
+    >
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         <!-- Pulls per Banner Chart -->
         <n-card
@@ -510,6 +515,14 @@
   // Add isDark computed property
   const isDark = computed(() => userStore.getCurrentTheme === 'dark')
 
+  // Create a minimal global chart text style
+  const getChartTextStyle = () => ({
+    fontFamily: getComputedStyle(document.documentElement).getPropertyValue(
+      '--font-family-default'
+    ),
+    color: isDark.value ? '#e4e5e7' : '#5c5c5e',
+  })
+
   // Initialize i18n
   const { t } = useI18n()
   const localePath = useLocalePath()
@@ -707,20 +720,19 @@
       ([_, pulls]) => pulls['5_star']
     )
 
+    const textStyle = getChartTextStyle()
+
     pullsPerBannerChartOption.value = {
+      textStyle: textStyle,
       title: {
         text: t('global.charts.pulls_per_banner'),
         left: 'center',
         top: isMobile.value ? 35 : 0,
         textStyle: {
-          color: isDark.value ? '#e4e5e7' : '#797a7c',
+          ...textStyle,
           fontSize: 16,
           fontWeight: 'bold',
         },
-      },
-      textStyle: {
-        fontFamily: 'Roboto, system-ui, -apple-system, sans-serif',
-        color: isDark.value ? '#e4e5e7' : '#797a7c',
       },
       tooltip: {
         trigger: 'axis',
@@ -752,22 +764,19 @@
             `
         },
         backgroundColor: isDark.value
-          ? 'rgba(38, 38, 38, 0.8)'
+          ? 'rgb(75, 85, 99, 0.9)'
           : 'rgba(255, 255, 255, 0.9)',
         borderColor: isDark.value ? '#555' : '#ddd',
         borderWidth: 1,
         padding: 10,
-        textStyle: {
-          color: isDark.value ? '#e4e5e7' : '#333',
-        },
-        extraCssText:
-          'box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); border-radius: 8px;',
+        textStyle: textStyle,
+        extraCssText: isDark.value
+          ? 'box-shadow: 0 2px 8px rgba(200, 200, 200, 0.12); border-radius: 8px;'
+          : 'box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12); border-radius: 8px;',
       },
       legend: {
-        textStyle: {
-          color: isDark.value ? '#e4e5e7' : '#797a7c',
-        },
-        inactiveColor: isDark.value ? '#797a7c' : '#e4e5e7',
+        textStyle: textStyle,
+        inactiveColor: isDark.value ? '#5c5c5e' : '#e4e5e7',
         icon: 'circle',
         data: ['★★★★★', '★★★★', '★★★'],
         top: isMobile.value ? 60 : 40,
@@ -801,7 +810,7 @@
         },
         axisLine: {
           lineStyle: {
-            color: isDark.value ? '#797a7c' : '#e4e5e7',
+            color: isDark.value ? '#5c5c5e' : '#e4e5e7',
           },
         },
       },
@@ -862,7 +871,10 @@
       return (cumulative / total) * 100
     })
 
+    const textStyle = getChartTextStyle()
+
     const chartOption = {
+      textStyle: textStyle,
       title: {
         text:
           chartType === 'fiveStar'
@@ -873,14 +885,10 @@
         left: 'left',
         top: 0,
         textStyle: {
-          color: isDark.value ? '#e4e5e7' : '#797a7c',
+          ...textStyle,
           fontSize: 16,
           fontWeight: 'bold',
         },
-      },
-      textStyle: {
-        fontFamily: 'Roboto, system-ui, -apple-system, sans-serif',
-        color: isDark.value ? '#e4e5e7' : '#797a7c',
       },
       tooltip: {
         trigger: 'axis',
@@ -907,16 +915,15 @@
             `
         },
         backgroundColor: isDark.value
-          ? 'rgba(38, 38, 38, 0.8)'
+          ? 'rgb(75, 85, 99, 0.9)'
           : 'rgba(255, 255, 255, 0.9)',
         borderColor: isDark.value ? '#555' : '#ddd',
         borderWidth: 1,
         padding: 10,
-        textStyle: {
-          color: isDark.value ? '#e4e5e7' : '#333',
-        },
-        extraCssText:
-          'box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); border-radius: 8px;',
+        textStyle: textStyle,
+        extraCssText: isDark.value
+          ? 'box-shadow: 0 2px 8px rgba(200, 200, 200, 0.12); border-radius: 8px;'
+          : 'box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12); border-radius: 8px;',
       },
       grid: {
         top: 35,
@@ -930,7 +937,7 @@
         data: labels,
         axisLine: {
           lineStyle: {
-            color: isDark.value ? '#797a7c' : '#e4e5e7',
+            color: isDark.value ? '#5c5c5e' : '#e4e5e7',
           },
         },
       },
@@ -1081,14 +1088,17 @@
       img.src = `/images/items/${itemId}.webp`
     })
 
+    const textStyle = getChartTextStyle()
+
     // Prepare option
     firstItemDistributionChartOption.value = {
+      textStyle: textStyle,
       title: {
         text: t('global.charts.first_item_distribution'),
         left: 'center',
         top: isMobile.value ? 35 : 0,
         textStyle: {
-          color: isDark.value ? '#e4e5e7' : '#797a7c',
+          ...textStyle,
           fontSize: 16,
           fontWeight: 'bold',
         },
@@ -1120,9 +1130,7 @@
         borderColor: isDark.value ? '#555' : '#ddd',
         borderWidth: 1,
         padding: 10,
-        textStyle: {
-          color: isDark.value ? '#e4e5e7' : '#333',
-        },
+        textStyle: textStyle,
         extraCssText:
           'box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); border-radius: 8px;',
       },

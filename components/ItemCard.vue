@@ -36,7 +36,7 @@
           v-if="item.count > 0 && item.pullsToObtain > 0"
           size="tiny"
           :bordered="false"
-          class="absolute bottom-1 right-1 scale-90 sm:scale-100 origin-bottom-right bg-black/40 text-white shadow-sm rounded-full text-xs opacity-80"
+          class="absolute bottom-1 right-1 scale-75 sm:scale-90 origin-bottom-right bg-black/40 text-white shadow-sm rounded-full text-xs opacity-80"
         >
           {{ item.pullsToObtain }}
         </n-tag>
@@ -44,7 +44,7 @@
           v-if="item.count > 1"
           size="tiny"
           :bordered="false"
-          class="absolute top-1 right-1 scale-90 sm:scale-100 origin-top-right shadow-sm rounded-full text-xs"
+          class="absolute top-1 right-1 scale-75 sm:scale-90 origin-top-right shadow-sm rounded-full text-xs"
           :class="[
             item.rarity === 5
               ? 'bg-amber-500/80 text-amber-50 opacity-80'

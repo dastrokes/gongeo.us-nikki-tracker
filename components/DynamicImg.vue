@@ -14,6 +14,7 @@
     width?: number | string
     height?: number | string
     loading?: 'lazy' | 'eager'
+    preload?: boolean
     format?: 'webp' | 'jpeg' | 'png'
     fit?: 'cover' | 'contain' | 'fill' | 'inside' | 'outside'
     quality?: number
@@ -92,6 +93,7 @@
     :fit="fit"
     :quality="quality"
     :loading="loading"
+    :preload="preload"
     :sizes="sizes"
   />
 </template>

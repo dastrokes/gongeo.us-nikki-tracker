@@ -904,9 +904,9 @@
 
   const isSubmitDisabled = computed(() => {
     const hasEmptyFields =
-      !formData.value.roleid.trim() ||
-      !formData.value.token.trim() ||
-      !formData.value.id.trim()
+      !formData.value.roleid?.trim() ||
+      !formData.value.token?.trim() ||
+      !formData.value.id?.trim()
     return (
       selectedBanners.value.length === 0 ||
       loading.value ||

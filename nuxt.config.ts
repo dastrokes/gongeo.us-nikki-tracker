@@ -42,8 +42,8 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@vueuse/nuxt',
     '@bg-dev/nuxt-naiveui',
-    'nuxt-echarts',
     '@sentry/nuxt/module',
+    'nuxt-echarts',
   ],
 
   i18n: {

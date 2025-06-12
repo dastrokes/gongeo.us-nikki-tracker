@@ -29,7 +29,7 @@
       </div>
     </template>
     <n-carousel-item
-      v-for="banner in banners"
+      v-for="(banner, index) in banners"
       :key="banner.bannerId"
       class="rounded-xl aspect-[2/1]"
       ><NuxtLink
@@ -71,7 +71,8 @@
           height="300"
           fit="cover"
           :quality="100"
-          loading="lazy"
+          :loading="index === 0 ? 'eager' : 'lazy'"
+          :preload="index === 0 ? true : false"
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 800px"
         />
       </NuxtLink>

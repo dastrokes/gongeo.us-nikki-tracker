@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-7xl mx-auto space-y-4">
+  <div class="max-w-7xl mx-auto space-y-2 sm:space-y-4">
     <n-card
       v-if="!isMaintenanceMode"
       size="small"

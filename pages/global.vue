@@ -578,7 +578,7 @@
 
   // Add banner selector related refs
   const selectedBannerId = ref(
-    Number(Object.keys(BANNER_DATA)[Object.keys(BANNER_DATA).length - 1])
+    Number(Object.keys(BANNER_DATA)[Object.keys(BANNER_DATA).length - 2])
   )
   const selectedBannerType = ref('all')
   const bannerTypeOptions = computed(() => [
@@ -588,7 +588,7 @@
   ])
   const bannerOptions = computed(() => {
     return Object.entries(BANNER_DATA)
-      .filter(([id]) => id !== '1')
+      .filter(([id]) => id !== '1' && id !== '23')
       .map(([id, banner]) => ({
         label: t(`banner.${banner.bannerId}.name`),
         value: Number(id),

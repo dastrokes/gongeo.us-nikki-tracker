@@ -106,7 +106,7 @@
     </n-layout-content>
 
     <n-layout-footer
-      class="text-center text-sm opacity-80 mb-2 mx-12 sm:mr-0 fixed bottom-0 left-0 right-0 bg-transparent transition-transform duration-300 ease-in-out"
+      class="text-center text-sm opacity-80 mb-2 fixed bottom-0 left-0 right-0 bg-transparent transition-transform duration-300 ease-in-out"
       :class="{
         'translate-y-0': showFooter,
         'translate-y-12': !showFooter,
@@ -120,7 +120,7 @@
         placement="top"
       >
         <template #trigger>
-          <p class="cursor-help">
+          <p class="cursor-help sm:mx-auto mx-12 max-w-sm">
             {{ t('common.copyright') }}
           </p>
         </template>

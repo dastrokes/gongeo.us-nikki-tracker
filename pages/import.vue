@@ -610,7 +610,7 @@
 
   const { t } = useI18n()
   const dialog = useDialog()
-  const isMaintenanceMode = true
+  const isMaintenanceMode = false
   const router = useRouter()
   const localePath = useLocalePath()
   const siteUrl = useRuntimeConfig().public.siteUrl

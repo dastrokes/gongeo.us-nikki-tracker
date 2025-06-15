@@ -18,7 +18,7 @@
           <template #header>
             <NuxtLink
               :to="localePath(`/banner/${banner.bannerId}`)"
-              class="hover:opacity-95 transition-opacity"
+              class="inline w-fit hover:opacity-95 transition-opacity"
             >
               <n-tooltip trigger="hover">
                 <template #trigger>

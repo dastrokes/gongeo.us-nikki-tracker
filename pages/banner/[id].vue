@@ -87,16 +87,18 @@
                 :style="cardStyle"
               >
                 <div class="space-y-2">
-                  <div class="flex items-center justify-center text-base gap-2">
+                  <div
+                    class="flex items-center justify-center text-base gap-2 text-gray-500"
+                  >
                     <n-icon><ChartBarRegular /></n-icon>
-                    <n-text class="font-medium">{{
+                    <n-text class="font-medium text-gray-500">{{
                       t('tracker.stats.title')
                     }}</n-text>
 
                     <DiceAnimation
                       v-if="
                         bannerPulls &&
-                        banner.bannerType === 2 &&
+                        (banner.bannerType === 1 || banner.bannerType === 2) &&
                         bannerPulls.stats.avg5StarPulls > 0
                       "
                       :percentile="

@@ -150,7 +150,7 @@
                       size="small"
                       text
                       circle
-                      class="text-gray-500 hover:text-gray-700"
+                      class="text-gray-500"
                     >
                       <n-icon
                         size="20"
@@ -302,7 +302,7 @@
                     size="small"
                     text
                     circle
-                    class="text-gray-500 hover:text-gray-700"
+                    class="text-gray-500"
                     @click="showPopover = !showPopover"
                   >
                     <template #icon>
@@ -347,7 +347,7 @@
                     size="small"
                     text
                     circle
-                    class="text-gray-500 hover:text-gray-700"
+                    class="text-gray-500"
                   >
                     <template #icon>
                       <n-icon>
@@ -542,7 +542,7 @@
                         size="small"
                         text
                         circle
-                        class="text-gray-500 hover:text-gray-700"
+                        class="text-gray-500"
                       >
                         <template #icon>
                           <n-icon>
@@ -675,7 +675,7 @@
                         size="small"
                         text
                         circle
-                        class="text-gray-500 hover:text-gray-700"
+                        class="text-gray-500"
                       >
                         <template #icon>
                           <n-icon>

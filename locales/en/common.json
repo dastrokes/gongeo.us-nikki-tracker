@@ -222,14 +222,6 @@
   },
   "banner": {
     "version": "Version",
-    "luck": {
-      "1": "Veil of the Dark",
-      "2": "Faded Starlight",
-      "3": "Whisper of Whim",
-      "4": "Echo of Wishes",
-      "5": "Miracle Resonance",
-      "6": "Blessing of Divinity"
-    },
     "outfit": {
       "level": {
         "0": "Base",

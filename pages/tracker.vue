@@ -140,15 +140,25 @@
                   :to="globalStats.totalPulls"
                   :duration="5000"
                 />
-                <n-tooltip :width="180">
+                <n-tooltip
+                  :width="180"
+                  trigger="click"
+                >
                   <template #trigger>
-                    <n-icon
+                    <n-button
                       v-show="!exporting"
-                      size="20"
-                      depth="3"
+                      size="small"
+                      text
+                      circle
+                      class="text-gray-500 hover:text-gray-700"
                     >
-                      <users />
-                    </n-icon>
+                      <n-icon
+                        size="20"
+                        depth="3"
+                      >
+                        <users />
+                      </n-icon>
+                    </n-button>
                   </template>
                   {{
                     t('tracker.stats.more_pulls', {
@@ -204,28 +214,11 @@
                   :duration="2000"
                   :precision="2"
                 />
-                <n-tooltip
+                <DiceAnimation
                   v-if="globalStats.avg5StarPulls > 0"
-                  :width="180"
-                >
-                  <template #trigger>
-                    <DiceAnimation
-                      v-show="!exporting"
-                      :final-value="
-                        getLuckDice(
-                          getAvg5StarPercentile(globalStats.avg5StarPulls)
-                        )
-                      "
-                    />
-                  </template>
-                  {{
-                    t('tracker.stats.luckier', {
-                      percent: getAvg5StarPercentile(
-                        globalStats.avg5StarPulls
-                      ).toFixed(1),
-                    })
-                  }}
-                </n-tooltip>
+                  v-show="!exporting"
+                  :percentile="getAvg5StarPercentile(globalStats.avg5StarPulls)"
+                />
               </div>
             </n-card>
 
@@ -246,28 +239,13 @@
                   :duration="2000"
                   :precision="2"
                 />
-                <n-tooltip
+                <DiceAnimation
                   v-if="globalStats.avg4StarPulls > 0"
-                  :width="180"
-                >
-                  <template #trigger>
-                    <DiceAnimation
-                      v-show="!exporting"
-                      :final-value="
-                        getLuckDice(
-                          getAvg4StarType2Percentile(globalStats.avg4StarPulls)
-                        )
-                      "
-                    />
-                  </template>
-                  {{
-                    t('tracker.stats.luckier', {
-                      percent: getAvg4StarType2Percentile(
-                        globalStats.avg4StarPulls
-                      ).toFixed(1),
-                    })
-                  }}
-                </n-tooltip>
+                  v-show="!exporting"
+                  :percentile="
+                    getAvg4StarType2Percentile(globalStats.avg4StarPulls)
+                  "
+                />
               </div>
             </n-card>
 
@@ -288,30 +266,13 @@
                   :duration="2000"
                   :precision="2"
                 />
-                <n-tooltip
+                <DiceAnimation
                   v-if="globalStats.avg4StarOnlyPulls > 0"
-                  :width="180"
-                >
-                  <template #trigger>
-                    <DiceAnimation
-                      v-show="!exporting"
-                      :final-value="
-                        getLuckDice(
-                          getAvg4StarType3Percentile(
-                            globalStats.avg4StarOnlyPulls
-                          )
-                        )
-                      "
-                    />
-                  </template>
-                  {{
-                    t('tracker.stats.luckier', {
-                      percent: getAvg4StarType3Percentile(
-                        globalStats.avg4StarOnlyPulls
-                      ).toFixed(1),
-                    })
-                  }}
-                </n-tooltip>
+                  v-show="!exporting"
+                  :percentile="
+                    getAvg4StarType3Percentile(globalStats.avg4StarOnlyPulls)
+                  "
+                />
               </div>
             </n-card>
 
@@ -481,7 +442,7 @@
               >
                 <NuxtLink
                   :to="localePath(`/banner/${banner.bannerId}`)"
-                  class="hover:opacity-95 transition-opacity"
+                  class="inline w-fit hover:opacity-95 transition-opacity"
                 >
                   <n-tooltip trigger="hover">
                     <template #trigger>
@@ -558,8 +519,19 @@
                   </div>
                 </div>
 
-                <!-- Stats Button -->
                 <div class="flex flex-row space-x-2 p-1">
+                  <DiceAnimation
+                    v-if="banner.stats.totalPulls > 0"
+                    :percentile="
+                      banner.bannerType === 3
+                        ? getAvg4StarType3Percentile(
+                            banner.stats.avg4StarOnlyPulls
+                          )
+                        : getAvg5StarPercentile(banner.stats.avg5StarPulls)
+                    "
+                  />
+
+                  <!-- Stats Button -->
                   <n-popover
                     v-if="banner.stats.totalPulls > 0"
                     trigger="click"
@@ -850,7 +822,6 @@
   import { useCardStyle } from '~/composables/useCardStyle'
   import { toPng } from 'html-to-image'
   import { usePercentile } from '~/composables/usePercentile'
-  import DiceAnimation from '~/components/DiceAnimation.vue'
 
   const router = useRouter()
   const message = useMessage()

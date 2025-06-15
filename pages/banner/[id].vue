@@ -92,6 +92,30 @@
                     <n-text class="font-medium">{{
                       t('tracker.stats.title')
                     }}</n-text>
+
+                    <DiceAnimation
+                      v-if="
+                        bannerPulls &&
+                        banner.bannerType === 2 &&
+                        bannerPulls.stats.avg5StarPulls > 0
+                      "
+                      :percentile="
+                        getAvg5StarPercentile(bannerPulls.stats.avg5StarPulls)
+                      "
+                    />
+
+                    <DiceAnimation
+                      v-if="
+                        bannerPulls &&
+                        banner.bannerType === 3 &&
+                        bannerPulls.stats.avg4StarOnlyPulls > 0
+                      "
+                      :percentile="
+                        getAvg4StarType3Percentile(
+                          bannerPulls.stats.avg4StarPulls
+                        )
+                      "
+                    />
                   </div>
                   <div
                     v-if="loading"
@@ -330,6 +354,8 @@
   const loading = ref(true)
   const message = useMessage()
   const { loadData } = useIndexedDB()
+
+  const { getAvg5StarPercentile, getAvg4StarType3Percentile } = usePercentile()
 
   const banner = computed(() => {
     const bannerId = parseInt(route.params.id as string)

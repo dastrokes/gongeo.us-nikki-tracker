@@ -352,7 +352,7 @@ export const useBannerPullData = () => {
           currentBanner.pulls.unshift(pullInfo)
         })
         const pullsByOutfit: Record<string, Set<PullItem>> = {}
-        currentBanner.pulls.forEach((pull) => {
+        currentBanner.pulls.reverse().forEach((pull) => {
           itemCount[pull.itemId] = (itemCount[pull.itemId] || 0) + 1
           pull.count = itemCount[pull.itemId]
 

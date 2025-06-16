@@ -34,6 +34,11 @@
   [headers.values]
     cache-control = "public, max-age=86400"
 
+[[headers]]
+  for = "/gongeous.js"
+  [headers.values]
+    cache-control = "public, max-age=86400"
+
 # Headers: Nuxt static assets
 [[headers]]
   for = "/_nuxt/*"

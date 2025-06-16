@@ -4,6 +4,12 @@
 [build.environment]
   NODE_VERSION = "20.19.1"
 
+[[redirects]]
+  from = "/umami-script.js"
+  to = "https://cloud.umami.is/script.js"
+  status = 200
+  force = true
+
 # Headers: Netlify Image CDN caching
 [[headers]]
   for = "/.netlify/images/*"

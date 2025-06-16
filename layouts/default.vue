@@ -301,8 +301,9 @@
       {
         async: true,
         defer: true,
-        src: 'https://umami.gongeo.us/script.js',
-        'data-website-id': 'dd22ab5d-2045-4450-aaff-f513339b5ca6',
+        src: '/umami-script.js',
+        'data-host-url': 'https://cloud.umami.is',
+        'data-website-id': '3347ba66-edad-40d6-95da-acd1ccb6cd54',
       },
     ],
   })

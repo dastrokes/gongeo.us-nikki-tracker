@@ -222,6 +222,14 @@
   },
   "banner": {
     "version": "Version",
+    "luck": {
+      "1": "Schleier des Dunklen",
+      "2": "Verblasstes Sternenlicht",
+      "3": "Flüstern der Wunder",
+      "4": "Echo der Wünsche",
+      "5": "Wunder-Resonanz",
+      "6": "Göttlicher Segen"
+    },
     "outfit": {
       "level": {
         "0": "Basis",

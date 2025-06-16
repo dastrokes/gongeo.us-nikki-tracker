@@ -5,8 +5,8 @@
   NODE_VERSION = "20.19.1"
 
 [[redirects]]
-  from = "/umami-script.js"
-  to = "https://cloud.umami.is/script.js"
+  from = "/umami/api/*"
+  to = "https://gongeous-umami.netlify.app/api/:splat"
   status = 200
   force = true
 

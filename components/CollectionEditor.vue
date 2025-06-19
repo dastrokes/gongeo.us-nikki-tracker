@@ -11,6 +11,26 @@
           :options="outfitOptions"
           @update:value="loadOutfitData"
         />
+        <n-tooltip :width="200">
+          <template #trigger>
+            <n-button
+              size="tiny"
+              text
+              class="ml-4 z-10"
+            >
+              <template #icon>
+                <n-icon>
+                  <ExclamationCircle />
+                </n-icon>
+              </template>
+            </n-button>
+          </template>
+          <div class="flex flex-col gap-2 text-sm">
+            {{ t('tracker.manual_log.description') }}
+            <br />
+            {{ t('tracker.manual_log.note') }}
+          </div>
+        </n-tooltip>
       </n-form-item>
 
       <template v-if="selectedOutfitId && selectedOutfit">
@@ -72,12 +92,12 @@
         </div>
 
         <!-- Bulk update section -->
-        <n-form-item
-          class="w-full"
+        <div
+          class="w-full flex flex-wrap justify-center items-center gap-4"
           :show-label="false"
           :show-feedback="false"
         >
-          <div class="flex justify-between items-center gap-2 space-x-2">
+          <div class="flex items-center gap-2">
             <n-rate
               v-model:value="bulkCount"
               clearable
@@ -103,43 +123,44 @@
             >
               {{ t('tracker.manual_log.apply_to_all') }}
             </n-button>
-
-            <!-- Evolution level selector (only for banner types 1 or 2 and 5★ outfits) -->
-            <div
-              v-if="showEvoLevels && selectedOutfit.rarity === 5"
-              class="flex items-center gap-2"
-            >
-              <span class="text-sm"
-                >{{ t('tracker.manual_log.evo_level') }}:</span
-              >
-              <n-tooltip placement="top">
-                <template #trigger>
-                  <n-rate
-                    v-model:value="outfitEvoLevel"
-                    :count="4"
-                    :default-value="0"
-                    size="medium"
-                    color="rgba(245, 158, 11, 0.8)"
-                  >
-                    <n-icon>
-                      <Magic />
-                    </n-icon>
-                  </n-rate>
-                </template>
-                <div class="text-center">
-                  {{
-                    t(
-                      `banner.outfit.level.${outfitEvoLevel === 1 ? '0' : outfitEvoLevel}`
-                    )
-                  }}
-                </div>
-              </n-tooltip>
-            </div>
           </div>
-        </n-form-item>
+
+          <!-- Evolution level selector (only for banner types 1 or 2 and 5★ outfits) -->
+          <div
+            v-if="showEvoLevels && selectedOutfit.rarity === 5"
+            class="flex items-center gap-2"
+          >
+            <span class="text-sm"
+              >{{ t('tracker.manual_log.evo_level') }}:</span
+            >
+            <n-tooltip placement="top">
+              <template #trigger>
+                <n-rate
+                  v-model:value="outfitEvoLevel"
+                  clearable
+                  :count="4"
+                  :default-value="0"
+                  size="medium"
+                  color="rgba(245, 158, 11, 0.8)"
+                >
+                  <n-icon>
+                    <Magic />
+                  </n-icon>
+                </n-rate>
+              </template>
+              <div class="text-center">
+                {{
+                  t(
+                    `banner.outfit.level.${outfitEvoLevel === 1 ? '0' : outfitEvoLevel}`
+                  )
+                }}
+              </div>
+            </n-tooltip>
+          </div>
+        </div>
 
         <!-- Action buttons -->
-        <div class="flex justify-end gap-2 mt-2">
+        <div class="flex justify-center gap-2 mt-4">
           <n-button @click="closeDialog">{{
             t('common.captions.cancel')
           }}</n-button>
@@ -168,7 +189,7 @@
   import { getItemType } from '~/utils/itemType'
   import { getBannerType } from '~/utils/bannerType'
   import type { PullRecord, EditRecord } from '~/types/pull'
-  import { Tshirt, Magic } from '@vicons/fa'
+  import { Tshirt, Magic, ExclamationCircle } from '@vicons/fa'
 
   const { t } = useI18n()
   const message = useMessage()

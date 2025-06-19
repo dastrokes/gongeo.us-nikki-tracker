@@ -36,6 +36,9 @@
                   <n-radio value="json">{{
                     $t('import.import_from_file')
                   }}</n-radio>
+                  <n-radio value="manual">{{
+                    t('tracker.manual_log.title')
+                  }}</n-radio>
                 </n-space>
               </n-radio-group>
             </div>
@@ -64,6 +67,39 @@
               >
                 <n-button>{{ $t('import.select_file') }}</n-button>
               </n-upload>
+            </div>
+          </n-step>
+
+          <!-- Manual Collection Step -->
+          <n-step
+            v-show="importMethod === 'manual'"
+            :title="t('tracker.manual_log.title')"
+          >
+            <template #icon>
+              <n-icon>
+                <Check />
+              </n-icon>
+            </template>
+            <div>
+              <div class="mb-2">
+                {{ t('tracker.manual_log.description') }}
+              </div>
+              <n-space vertical>
+                <n-select
+                  v-model:value="selectedManualBanner"
+                  :options="individualBannerOptions"
+                  :show-checkmark="false"
+                  :placeholder="t('tracker.manual_log.select_banner')"
+                  filterable
+                  class="w-full"
+                />
+                <n-button
+                  :disabled="!selectedManualBanner"
+                  @click="showCollectionEditor = true"
+                >
+                  {{ t('tracker.manual_log.open_editor') }}
+                </n-button>
+              </n-space>
             </div>
           </n-step>
 
@@ -476,10 +512,9 @@
               </n-button>
             </n-space>
           </template>
-          <template v-else>
+          <template v-else-if="importMethod === 'json'">
             <n-space class="w-full flex">
               <n-button
-                v-if="importMethod === 'json'"
                 type="primary"
                 :loading="loading || isFetching"
                 class="flex-grow"
@@ -490,6 +525,17 @@
                     ? $t('import.form.fetching')
                     : $t('import.form.submit_button')
                 }}
+              </n-button>
+            </n-space>
+          </template>
+          <template v-else-if="importMethod === 'manual'">
+            <n-space class="w-full flex">
+              <n-button
+                type="primary"
+                class="flex-grow"
+                @click="router.push(localePath('/tracker'))"
+              >
+                {{ t('navigation.tracker') }}
               </n-button>
             </n-space>
           </template>
@@ -575,6 +621,21 @@
         </n-button>
       </n-space>
     </n-card>
+
+    <!-- Collection Editor Modal -->
+    <n-modal
+      v-model:show="showCollectionEditor"
+      class="w-full max-w-5xl"
+      size="small"
+      transform-origin="center"
+    >
+      <template #default>
+        <CollectionEditor
+          :banner-id="selectedManualBanner"
+          @close="showCollectionEditor = false"
+        />
+      </template>
+    </n-modal>
   </div>
 </template>
 
@@ -582,9 +643,8 @@
   import { ref, computed, watch, onMounted, h } from 'vue'
   import { useDebounce } from '@vueuse/core'
   import type { CookieData } from '~/types/api'
-  import type { PullRecord } from '~/types/pull'
   import { useBannerPullApi } from '~/composables/useBannerPullApi'
-  import { useMessage, NTag, NIcon, NCode, useDialog } from 'naive-ui'
+  import { useMessage, NTag, NIcon, NCode, useDialog, NModal } from 'naive-ui'
   import type {
     UploadFileInfo,
     SelectOption,
@@ -607,6 +667,7 @@
   import type { VNodeChild } from 'vue'
   import { useUserBannerStats } from '~/composables/useUserBannerStats'
   import { useRouter } from 'vue-router'
+  import CollectionEditor from '~/components/CollectionEditor.vue'
 
   const { t } = useI18n()
   const dialog = useDialog()
@@ -615,6 +676,9 @@
   const localePath = useLocalePath()
   const siteUrl = useRuntimeConfig().public.siteUrl
   const { isMobileOrTablet, isAndroid, isChrome } = useDevice()
+  // Manual collection editor variables
+  const selectedManualBanner = ref<number | null>(null)
+  const showCollectionEditor = ref(false)
 
   useHead({
     title: t('navigation.import') + ' - ' + t('navigation.subtitle'),
@@ -761,7 +825,7 @@
     value: value as Region,
   }))
 
-  const importMethod = ref<'game' | 'json'>('game')
+  const importMethod = ref<'game' | 'json' | 'manual'>('game')
   const cookieMethod = ref<'bookmark' | 'console' | 'manual'>('bookmark')
   const jsonFile = ref<File | null>(null)
   const submitGlobalStats = ref(true)
@@ -844,6 +908,7 @@
     })
   })
 
+  // Banner options for game import (with groups)
   const bannerOptions = computed(() => {
     const standardOptions = allBannerIds.value.map((bannerId) => ({
       label: t(`banner.${bannerId}.name`),
@@ -880,6 +945,14 @@
         children: standardOptions,
       },
     ]
+  })
+
+  // Simple banner options for manual selection (only individual banners)
+  const individualBannerOptions = computed(() => {
+    return allBannerIds.value.map((bannerId) => ({
+      label: t(`banner.${bannerId}.name`),
+      value: bannerId,
+    }))
   })
 
   // Handle banner selection changes
@@ -966,7 +1039,31 @@
     }
     try {
       const fileContent = await jsonFile.value.text()
-      const jsonData = JSON.parse(fileContent) as Record<number, PullRecord[]>
+      const jsonData = JSON.parse(fileContent)
+
+      // Validate the JSON structure
+      if (typeof jsonData !== 'object' || jsonData === null) {
+        throw new Error('Invalid JSON format')
+      }
+
+      // Check if it's the new format with pulls/edits or legacy format
+      const hasPulls = 'pulls' in jsonData
+      const hasEdits = 'edits' in jsonData
+
+      if (hasPulls || hasEdits) {
+        // New format: { pulls: {...}, edits: {...} }
+        if (hasPulls && typeof jsonData.pulls !== 'object') {
+          throw new Error('Invalid JSON format')
+        }
+        if (hasEdits && typeof jsonData.edits !== 'object') {
+          throw new Error('Invalid JSON format')
+        }
+      } else {
+        // Legacy format: Record<number, PullRecord[]>
+        if (!Object.keys(jsonData).every((key) => !isNaN(Number(key)))) {
+          throw new Error('Invalid JSON format')
+        }
+      }
 
       await processJsonImport(jsonData)
       router.push(localePath('/tracker'))

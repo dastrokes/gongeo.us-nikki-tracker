@@ -178,7 +178,6 @@
     "manual_log": {
       "title": "Manual Import",
       "description": "Use this option only if you don't want to use the game import or you are missing some items from the game import.",
-      "note": "Note: Manually imported data will only be used to display outfit completion status and will not be included in personal or global stats calculations.",
       "open_editor": "Open Editor",
       "select_banner": "Select Banner",
       "apply_to_all": "Apply to All",

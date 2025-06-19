@@ -84,6 +84,9 @@
               <div class="mb-2">
                 {{ t('tracker.manual_log.description') }}
               </div>
+              <div class="mb-2">
+                {{ t('tracker.manual_log.note') }}
+              </div>
               <n-space vertical>
                 <n-select
                   v-model:value="selectedManualBanner"

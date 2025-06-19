@@ -239,8 +239,8 @@
     },
     "outfit": {
       "level": {
-        "0": "Unset",
-        "1": "Base",
+        "0": "Base",
+        "1": "Glowed Up",
         "2": "Evo 1",
         "3": "Evo 2",
         "4": "Evo 3"

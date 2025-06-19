@@ -98,23 +98,6 @@ export const usePullStore = defineStore('pull', {
       }
     },
 
-    setOutfitEvoLevel(bannerId: number, outfitId: string, evoLevel: number) {
-      if (!this.rawEvoData[bannerId]) {
-        this.rawEvoData[bannerId] = []
-      }
-
-      // Find existing record or create new one
-      const existingIndex = this.rawEvoData[bannerId].findIndex(
-        ([id]) => id === outfitId
-      )
-
-      if (existingIndex >= 0) {
-        this.rawEvoData[bannerId][existingIndex] = [outfitId, evoLevel]
-      } else {
-        this.rawEvoData[bannerId].push([outfitId, evoLevel])
-      }
-    },
-
     async addMissingItems(bannerId: number) {
       const bannerInfo = (BANNER_DATA as BannerData)[bannerId]
       if (!bannerInfo) return

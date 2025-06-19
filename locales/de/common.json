@@ -179,7 +179,8 @@
       "apply_to_all": "Auf alles anwenden",
       "save": "Outfit speichern",
       "success": "Outfit wurde erfolgreich gespeichert!",
-      "error": "Outfit konnte nicht gespeichert werden"
+      "error": "Outfit konnte nicht gespeichert werden",
+      "evo_level": "Evolution Level"
     },
     "banner": {
       "stats": {
@@ -201,9 +202,10 @@
         "separated": "Getrennt",
         "show_4star": "4★ Stücke",
         "show_missing": "Fehlende Stücke",
+        "duplicate_items": "Duplicate Items",
+        "empty_banners": "Leere Banner",
         "show": "Zeigen",
-        "hide": "Verstecken",
-        "empty_banners": "Leere Banner"
+        "hide": "Verstecken"
       }
     },
     "export": {

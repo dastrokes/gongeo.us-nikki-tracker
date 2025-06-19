@@ -582,7 +582,6 @@
   import { ref, computed, watch, onMounted, h } from 'vue'
   import { useDebounce } from '@vueuse/core'
   import type { CookieData } from '~/types/api'
-  import type { PullRecord } from '~/types/pull'
   import { useBannerPullApi } from '~/composables/useBannerPullApi'
   import { useMessage, NTag, NIcon, NCode, useDialog } from 'naive-ui'
   import type {
@@ -966,7 +965,31 @@
     }
     try {
       const fileContent = await jsonFile.value.text()
-      const jsonData = JSON.parse(fileContent) as Record<number, PullRecord[]>
+      const jsonData = JSON.parse(fileContent)
+
+      // Validate the JSON structure
+      if (typeof jsonData !== 'object' || jsonData === null) {
+        throw new Error('Invalid JSON format')
+      }
+
+      // Check if it's the new format with pulls/edits or legacy format
+      const hasPulls = 'pulls' in jsonData
+      const hasEdits = 'edits' in jsonData
+
+      if (hasPulls || hasEdits) {
+        // New format: { pulls: {...}, edits: {...} }
+        if (hasPulls && typeof jsonData.pulls !== 'object') {
+          throw new Error('Invalid JSON format')
+        }
+        if (hasEdits && typeof jsonData.edits !== 'object') {
+          throw new Error('Invalid JSON format')
+        }
+      } else {
+        // Legacy format: Record<number, PullRecord[]>
+        if (!Object.keys(jsonData).every((key) => !isNaN(Number(key)))) {
+          throw new Error('Invalid JSON format')
+        }
+      }
 
       await processJsonImport(jsonData)
       router.push(localePath('/tracker'))

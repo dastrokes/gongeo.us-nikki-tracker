@@ -1,14 +1,16 @@
 import { defineStore } from 'pinia'
-import type { PullRecord, PullState, EditRecord } from '~/types/pull'
+import type { PullRecord, PullState, EditRecord, EvoRecord } from '~/types/pull'
 import { useBannerPullData } from '~/composables/useBannerPullData'
 import { BANNER_DATA } from '~/data/banners'
 import type { BannerData } from '~/types/banner'
+import { getBannerOutfitIds, getOutfitData } from '~/utils/utils'
 
 export const usePullStore = defineStore('pull', {
   state: (): PullState => ({
     processedPulls: {},
     rawPullData: {},
     rawEditData: {},
+    rawEvoData: {},
     globalStats: {
       totalPulls: 0,
       total4StarItems: 0,
@@ -40,6 +42,16 @@ export const usePullStore = defineStore('pull', {
     },
 
     getGlobalStats: (state) => state.globalStats,
+
+    getOutfitEvoLevel: (state) => (bannerId: number, outfitId: string) => {
+      if (!state.rawEvoData[bannerId]) return 0
+
+      const evoRecord = state.rawEvoData[bannerId].find(
+        ([id]) => id === outfitId
+      )
+
+      return evoRecord ? evoRecord[1] : 0
+    },
   },
 
   actions: {
@@ -48,6 +60,7 @@ export const usePullStore = defineStore('pull', {
       this.processedPulls = {}
       this.rawPullData = {}
       this.rawEditData = {}
+      this.rawEvoData = {}
       this.globalStats = {
         totalPulls: 0,
         total4StarItems: 0,
@@ -62,12 +75,14 @@ export const usePullStore = defineStore('pull', {
 
     async processPullData(
       pullsByBanner: Record<number, PullRecord[]>,
-      editsByBanner: Record<number, EditRecord[]>
+      editsByBanner: Record<number, EditRecord[]>,
+      evoByBanner: Record<number, EvoRecord[]>
     ) {
       if (this.isProcessing) return
       this.isProcessing = true
       this.rawPullData = pullsByBanner
       this.rawEditData = editsByBanner
+      this.rawEvoData = evoByBanner
 
       try {
         const bannerPullData = useBannerPullData()
@@ -80,6 +95,23 @@ export const usePullStore = defineStore('pull', {
         console.error(`Failed to process pulls data:`, error)
       } finally {
         this.isProcessing = false
+      }
+    },
+
+    setOutfitEvoLevel(bannerId: number, outfitId: string, evoLevel: number) {
+      if (!this.rawEvoData[bannerId]) {
+        this.rawEvoData[bannerId] = []
+      }
+
+      // Find existing record or create new one
+      const existingIndex = this.rawEvoData[bannerId].findIndex(
+        ([id]) => id === outfitId
+      )
+
+      if (existingIndex >= 0) {
+        this.rawEvoData[bannerId][existingIndex] = [outfitId, evoLevel]
+      } else {
+        this.rawEvoData[bannerId].push([outfitId, evoLevel])
       }
     },
 
@@ -110,7 +142,6 @@ export const usePullStore = defineStore('pull', {
           },
           bannerId: bannerId,
           bannerType: bannerInfo.bannerType,
-          completion: 0,
         }
       }
 

@@ -201,9 +201,9 @@
         "separated": "Getrennt",
         "show_4star": "4★ Stücke",
         "show_missing": "Fehlende Stücke",
+        "empty_banners": "Leere Banner",
         "show": "Zeigen",
-        "hide": "Verstecken",
-        "empty_banners": "Leere Banner"
+        "hide": "Verstecken"
       }
     },
     "export": {

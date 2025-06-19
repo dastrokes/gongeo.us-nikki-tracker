@@ -176,10 +176,6 @@
       "more_pulls": "More than {percent}% of the gongeo.us users"
     },
     "manual_log": {
-      "title": "Manual Import",
-      "description": "Use this option only if you don't want to use the game import or you are missing some items from the game import.",
-      "open_editor": "Open Editor",
-      "select_banner": "Select Banner",
       "apply_to_all": "Apply to All",
       "save": "Save Outfit",
       "success": "Outfit saved successfully!",

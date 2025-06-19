@@ -118,6 +118,17 @@
                         )
                       "
                     />
+
+                    <n-button
+                      text
+                      size="small"
+                      class="text-gray-500"
+                      @click="showCollectionEditor = true"
+                    >
+                      <template #icon>
+                        <n-icon><Edit /></n-icon>
+                      </template>
+                    </n-button>
                   </div>
                   <div
                     v-if="loading"
@@ -185,7 +196,7 @@
                         v-if="
                           (banner.bannerType === 1 ||
                             banner.bannerType === 2) &&
-                          bannerPulls.completion < 2
+                          bannerPulls.stats.completion < 2
                         "
                         class="flex justify-between"
                       >
@@ -246,7 +257,8 @@
                       </div>
                       <div
                         v-if="
-                          banner.bannerType === 3 && bannerPulls.completion < 2
+                          banner.bannerType === 3 &&
+                          bannerPulls.stats.completion < 2
                         "
                         class="flex justify-between"
                       >
@@ -275,6 +287,7 @@
                   <OutfitCard
                     v-for="outfitId in banner.outfit5StarId"
                     :key="outfitId"
+                    :banner-id="banner.bannerId"
                     :outfit-id="outfitId"
                     :rarity="5"
                     :completion-data="{
@@ -293,6 +306,7 @@
                   <OutfitCard
                     v-for="outfitId in banner.outfit4StarId"
                     :key="outfitId"
+                    :banner-id="banner.bannerId"
                     :outfit-id="outfitId"
                     :rarity="4"
                     :completion-data="{
@@ -331,12 +345,27 @@
         </template>
       </n-empty>
     </n-card>
+
+    <!-- Collection Editor Modal -->
+    <n-modal
+      v-model:show="showCollectionEditor"
+      class="w-full max-w-5xl"
+      size="small"
+      transform-origin="center"
+    >
+      <template #default>
+        <CollectionEditor
+          :banner-id="banner.bannerId"
+          @close="showCollectionEditor = false"
+        />
+      </template>
+    </n-modal>
   </div>
 </template>
 
 <script setup lang="ts">
   import { computed, ref } from 'vue'
-  import { ArrowLeft, ChartBarRegular } from '@vicons/fa'
+  import { ArrowLeft, ChartBarRegular, Edit } from '@vicons/fa'
   import { BANNER_DATA } from '~/data/banners'
   import { useCardStyle } from '~/composables/useCardStyle'
   import { usePullStore } from '~/stores/pull'
@@ -356,6 +385,7 @@
   const loading = ref(true)
   const message = useMessage()
   const { loadData } = useIndexedDB()
+  const showCollectionEditor = ref(false)
 
   const { getAvg5StarPercentile, getAvg4StarType3Percentile } = usePercentile()
 
@@ -376,10 +406,14 @@
     }
     try {
       loading.value = true
-      const { pulls: pullData, edits: editData } = await loadData()
+      const {
+        pulls: pullData,
+        edits: editData,
+        evo: evoData,
+      } = await loadData()
 
       if (pullData && editData) {
-        await pullStore.processPullData(pullData, editData)
+        await pullStore.processPullData(pullData, editData, evoData)
       }
       loading.value = false
     } catch (error) {

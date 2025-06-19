@@ -142,6 +142,10 @@
                   :default-value="0"
                   size="medium"
                   color="rgba(245, 158, 11, 0.8)"
+                  @update:value="
+                    outfitEvoLevel =
+                      outfitEvoLevel === null ? 0 : outfitEvoLevel
+                  "
                 >
                   <n-icon>
                     <Magic />
@@ -149,11 +153,7 @@
                 </n-rate>
               </template>
               <div class="text-center">
-                {{
-                  t(
-                    `banner.outfit.level.${outfitEvoLevel === 1 ? '0' : outfitEvoLevel}`
-                  )
-                }}
+                {{ t(`banner.outfit.level.${outfitEvoLevel}`) }}
               </div>
             </n-tooltip>
           </div>
@@ -207,7 +207,7 @@
   const selectedBanner = ref<BannerData[number] | null>(null)
   const selectedOutfit = ref<(Outfit & { rarity: number }) | null>(null)
   const itemCounts = ref<Record<string, number>>({})
-  const outfitEvoLevel = ref(0) // 0: base, 1: level 1, 2: level 2, 3: level 3
+  const outfitEvoLevel = ref(0)
   const importedItemCounts = ref<Record<string, number>>({})
   const bulkCount = ref(0)
   const isSaving = ref(false)
@@ -461,7 +461,7 @@
       }
 
       // Update evolution levels if applicable and prepare updated evo data
-      const updatedEvoData = { ...existingEvoData }
+      let updatedEvoData = { ...existingEvoData }
 
       // Initialize the banner's evo data if it doesn't exist
       if (!updatedEvoData[bannerId]) {
@@ -469,24 +469,26 @@
       }
 
       if (showEvoLevels.value && selectedOutfit.value.rarity === 5) {
-        // Update the store
-        pullStore.setOutfitEvoLevel(
-          bannerId,
-          selectedOutfitId.value,
-          outfitEvoLevel.value
-        )
-
-        // Update our local copy of evo data
-        // First, remove any existing evo record for this outfit
+        // Remove any existing evo record for this outfit
         updatedEvoData[bannerId] = updatedEvoData[bannerId].filter(
           ([outfitId]) => outfitId !== selectedOutfitId.value
         )
 
         // Then add the new evo record
-        updatedEvoData[bannerId].push([
-          selectedOutfitId.value,
-          outfitEvoLevel.value,
-        ])
+        if (outfitEvoLevel.value !== 0) {
+          updatedEvoData[bannerId].push([
+            selectedOutfitId.value,
+            outfitEvoLevel.value,
+          ])
+        }
+
+        if (updatedEvoData[bannerId].length === 0) {
+          updatedEvoData = Object.fromEntries(
+            Object.entries(updatedEvoData).filter(
+              ([k]) => k !== bannerId.toString()
+            )
+          )
+        }
       }
 
       // Save to IndexedDB - ensure all data is serializable

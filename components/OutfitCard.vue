@@ -45,7 +45,7 @@
             :bordered="false"
             :type="rarity === 5 ? 'warning' : 'info'"
           >
-            {{ t(`banner.outfit.level.${image[0]}`) }}
+            {{ t(`banner.outfit.level.${image[0] === 0 ? '1' : image[0]}`) }}
             <span v-if="getOutfitLevel.includes(image[0].toString())">
               <n-icon><CheckCircle /></n-icon>
             </span>

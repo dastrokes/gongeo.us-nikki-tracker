@@ -179,7 +179,8 @@
       "apply_to_all": "全部应用",
       "save": "保存套装",
       "success": "套装保存成功！",
-      "error": "套装保存失败"
+      "error": "套装保存失败",
+      "evo_level": "Evolution Level"
     },
     "banner": {
       "stats": {
@@ -201,9 +202,10 @@
         "separated": "分开显示",
         "show_4star": "4★物品",
         "show_missing": "缺失部件",
+        "duplicate_items": "重复物品",
+        "empty_banners": "未抽卡池",
         "show": "显示",
-        "hide": "隐藏",
-        "empty_banners": "未抽卡池"
+        "hide": "隐藏"
       }
     },
     "export": {

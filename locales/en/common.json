@@ -179,7 +179,8 @@
       "apply_to_all": "Apply to All",
       "save": "Save Outfit",
       "success": "Outfit saved successfully!",
-      "error": "Failed to save outfit"
+      "error": "Failed to save outfit",
+      "evo_level": "Evolution Level"
     },
     "banner": {
       "stats": {
@@ -201,9 +202,10 @@
         "separated": "Separated",
         "show_4star": "4★ Items",
         "show_missing": "Missing Pieces",
+        "duplicate_items": "Duplicate Items",
+        "empty_banners": "Empty Banners",
         "show": "Show",
-        "hide": "Hide",
-        "empty_banners": "Empty Banners"
+        "hide": "Hide"
       }
     },
     "export": {

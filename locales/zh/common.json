@@ -176,6 +176,10 @@
       "more_pulls": "多于 {percent}% 的暖暖共鸣录用户"
     },
     "manual_log": {
+      "title": "手动导入",
+      "description": "仅在您不想使用游戏导入或在导入时缺少某些套装或部件时使用。",
+      "open_editor": "打开编辑器",
+      "select_banner": "选择卡池",
       "apply_to_all": "全部应用",
       "save": "保存套装",
       "success": "套装保存成功！",

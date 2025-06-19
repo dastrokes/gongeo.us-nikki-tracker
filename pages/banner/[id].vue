@@ -355,7 +355,7 @@
     >
       <template #default>
         <CollectionEditor
-          :banner-id="banner?.bannerId || null"
+          :banner-id="banner.bannerId"
           @close="showCollectionEditor = false"
         />
       </template>

@@ -31,7 +31,10 @@
           sizes="(max-width: 640px) 80px, 120px"
         />
         <n-tag
-          v-if="item.count > 0 && item.pullsToObtain > 0"
+          v-if="
+            pullStore.rawPullData &&
+            Object.keys(pullStore.rawPullData).length > 0
+          "
           size="tiny"
           :bordered="false"
           class="absolute bottom-1 right-1 scale-75 sm:scale-90 origin-bottom-right text-white shadow-sm rounded-full text-xs opacity-80"
@@ -43,7 +46,16 @@
             ),
           }"
         >
-          {{ item.pullsToObtain }}
+          <span v-if="item.count > 0 && item.pullsToObtain > 0">
+            {{ item.pullsToObtain }}
+          </span>
+          <n-icon
+            v-else
+            class="flex items-center justify-center"
+            size="8"
+          >
+            <Asterisk />
+          </n-icon>
         </n-tag>
         <n-tag
           v-if="item.count > 1"
@@ -70,9 +82,9 @@
           v-if="item.count > 0"
           class="text-sm mt-1"
         >
-          <n-text v-if="item.pullIndex > 0">
+          <span v-if="item.pullIndex > 0">
             {{ t('items.pull', { number: item.pullIndex }) }}
-          </n-text>
+          </span>
         </div>
       </div>
     </template>
@@ -82,8 +94,10 @@
 <script setup lang="ts">
   import type { PullItem } from '~/types/pull'
   import { useUserStore } from '~/stores/user'
+  import { usePullStore } from '~/stores/pull'
   import { getItemType } from '~/utils/itemType'
   import { getBannerType } from '~/utils/bannerType'
+  import { Asterisk } from '@vicons/fa'
 
   interface Props {
     item: PullItem
@@ -92,6 +106,7 @@
   const props = defineProps<Props>()
   const { t } = useI18n()
   const userStore = useUserStore()
+  const pullStore = usePullStore()
   const isDark = computed(() => userStore.getCurrentTheme === 'dark')
 
   const itemType = computed(() => getItemType(props.item.itemId))
@@ -99,21 +114,24 @@
   // Color coding function for pulls with 3 categories
   const getPullColor = (pulls: number, rarity: number, bannerId: number) => {
     const bannerType = getBannerType(bannerId)
-    const baseOpacity = isDark.value ? '0.5' : '0.75'
+    const baseOpacity = 0.5
 
     if (rarity === 5) {
       // 5-star items
+      if (pulls <= 0) return `rgba(156, 163, 175, ${baseOpacity})` // gray-400 - Default
       if (pulls <= 10) return `rgba(34, 197, 94, ${baseOpacity})` // green-500 - Good
       if (pulls <= 17) return `rgba(234, 179, 8, ${baseOpacity})` // yellow-500 - Average
       return `rgba(239, 68, 68, ${baseOpacity})` // red-500 - Bad
     } else if (rarity === 4) {
       if (bannerType === 2) {
         // 4-star type 2 items
+        if (pulls <= 0) return `rgba(156, 163, 175, ${baseOpacity})` // gray-400 - Default
         if (pulls <= 6) return `rgba(34, 197, 94, ${baseOpacity})` // green-500 - Good
         if (pulls <= 9) return `rgba(234, 179, 8, ${baseOpacity})` // yellow-500 - Average
         return `rgba(239, 68, 68, ${baseOpacity})` // red-500 - Bad
       } else {
         // 4-star type 3 items
+        if (pulls <= 0) return `rgba(156, 163, 175, ${baseOpacity})` // gray-400 - Default
         if (pulls <= 3) return `rgba(34, 197, 94, ${baseOpacity})` // green-500 - Good
         if (pulls <= 4) return `rgba(234, 179, 8, ${baseOpacity})` // yellow-500 - Average
         return `rgba(239, 68, 68, ${baseOpacity})` // red-500 - Bad

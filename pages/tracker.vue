@@ -398,6 +398,19 @@
                       </span>
                     </div>
                     <div class="flex items-center justify-between">
+                      <n-switch v-model:value="showDuplicates">
+                        <template #checked>{{
+                          t('tracker.banner.settings.show')
+                        }}</template>
+                        <template #unchecked>{{
+                          t('tracker.banner.settings.hide')
+                        }}</template>
+                      </n-switch>
+                      <span class="text-sm text-gray-400 ml-3">
+                        {{ t('tracker.banner.settings.duplicate_items') }}
+                      </span>
+                    </div>
+                    <div class="flex items-center justify-between">
                       <n-switch v-model:value="showEmptyBanners">
                         <template #checked>{{
                           t('tracker.banner.settings.show')
@@ -591,7 +604,7 @@
                           v-if="
                             (banner.bannerType === 1 ||
                               banner.bannerType === 2) &&
-                            banner.completion < 2
+                            banner.stats.completion < 2
                           "
                           class="flex justify-between"
                         >
@@ -652,7 +665,8 @@
                         </div>
                         <div
                           v-if="
-                            banner.bannerType === 3 && banner.completion < 2
+                            banner.bannerType === 3 &&
+                            banner.stats.completion < 2
                           "
                           class="flex justify-between"
                         >
@@ -666,6 +680,23 @@
                       </div>
                     </div>
                   </n-popover>
+
+                  <n-button
+                    v-show="!exporting"
+                    text
+                    size="small"
+                    class="text-gray-500"
+                    @click="
+                      () => {
+                        selectedBannerId = banner.bannerId
+                        showCollectionEditor = true
+                      }
+                    "
+                  >
+                    <template #icon>
+                      <n-icon><Edit /></n-icon>
+                    </template>
+                  </n-button>
 
                   <!-- Banner Settings Button -->
                   <n-popover trigger="click">
@@ -706,12 +737,12 @@
                             {{ t('tracker.banner.settings.show_4star') }}
                           </span>
                         </div>
-                        <div
-                          v-if="banner.stats && banner.stats.completion < 1"
-                          class="flex items-center justify-between"
-                        >
+                        <div class="flex items-center justify-between">
                           <n-switch
                             v-model:value="showMissingPieces[banner.bannerId]"
+                            :disabled="
+                              banner.stats && banner.stats.completion >= 1
+                            "
                             @update:value="loadMissingItems(banner.bannerId)"
                           >
                             <template #checked>{{
@@ -798,6 +829,21 @@
         </n-empty>
       </n-card>
     </div>
+
+    <!-- Collection Editor Modal -->
+    <n-modal
+      v-model:show="showCollectionEditor"
+      class="w-full max-w-5xl"
+      size="small"
+      transform-origin="center"
+    >
+      <template #default>
+        <CollectionEditor
+          :banner-id="selectedBannerId"
+          @close="showCollectionEditor = false"
+        />
+      </template>
+    </n-modal>
   </div>
 </template>
 
@@ -813,6 +859,7 @@
     FileExport,
     Users,
     Download,
+    Edit,
   } from '@vicons/fa'
   import { useMessage } from 'naive-ui'
   import { BANNER_DATA } from '~/data/banners'
@@ -838,6 +885,8 @@
   const loading = ref(true)
   const showPopover = ref(false)
   const exporting = ref(false)
+  const showCollectionEditor = ref(false)
+  const selectedBannerId = ref<number | null>(null)
 
   useHead({
     title: t('navigation.tracker') + ' - ' + t('navigation.subtitle'),
@@ -873,10 +922,14 @@
     }
     try {
       loading.value = true
-      const { pulls: pullData, edits: editData } = await loadData()
+      const {
+        pulls: pullData,
+        edits: editData,
+        evo: evoData,
+      } = await loadData()
 
       if (pullData && editData) {
-        await pullStore.processPullData(pullData, editData)
+        await pullStore.processPullData(pullData, editData, evoData)
       }
 
       loading.value = false
@@ -913,6 +966,7 @@
   const sortItems = ref(false)
   const combineOutfits = ref(false)
   const showEmptyBanners = ref(false)
+  const showDuplicates = ref(false)
 
   // Function to sort banners
   const sortedBanners = computed(() => {
@@ -942,6 +996,12 @@
       ) {
         return false
       }
+
+      // Hide duplicate items when showDuplicates is false
+      if (!showDuplicates.value && pull.count > 1) {
+        return false
+      }
+
       // Show all items (both obtained and missing) when showMissingPieces is true
       // Only show obtained items when showMissingPieces is false
       return showMissingPieces.value[banner.bannerId] || pull.count > 0
@@ -963,15 +1023,6 @@
     getAvg4StarType3Percentile,
     getTotalPullsPercentile,
   } = usePercentile()
-
-  const getLuckDice = (percentile: number) => {
-    if (percentile < 100 / 6) return 1
-    if (percentile < 200 / 6) return 2
-    if (percentile < 300 / 6) return 3
-    if (percentile < 400 / 6) return 4
-    if (percentile < 500 / 6) return 5
-    return 6
-  }
 
   const exportPNG = async () => {
     if (exporting.value) return
@@ -1019,15 +1070,31 @@
     showPopover.value = false
 
     try {
-      const rawData = pullStore.rawPullData
+      const rawPullData = pullStore.rawPullData
+      const rawEditData = pullStore.rawEditData
 
       // Filter out banners with 0 pulls
-      const filteredData = Object.fromEntries(
-        Object.entries(rawData).filter(([_, pulls]) => pulls.length > 0)
+      const filteredPullData = Object.fromEntries(
+        Object.entries(rawPullData).filter(([_, pulls]) => pulls.length > 0)
       )
 
+      const filteredEditData = Object.fromEntries(
+        Object.entries(rawEditData).filter(([_, edits]) => edits.length > 0)
+      )
+
+      // Determine what to export based on which data is available
+      let exportData
+      if (
+        Object.keys(filteredPullData).length === 0 &&
+        Object.keys(filteredEditData).length === 0
+      ) {
+        return
+      } else {
+        exportData = { pulls: filteredPullData, edits: filteredEditData }
+      }
+
       // Create a Blob with the JSON data
-      const blob = new Blob([JSON.stringify(filteredData, null, 2)], {
+      const blob = new Blob([JSON.stringify(exportData, null, 2)], {
         type: 'application/json',
       })
 

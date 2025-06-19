@@ -7,26 +7,69 @@ import type {
   GlobalStats,
   PullItem,
   EditRecord,
+  EvoRecord,
 } from '~/types/pull'
 import type { BannerData } from '~/types/banner'
 import { BANNER_DATA } from '~/data/banners'
-import type { Outfit } from '~/types/outfit'
-import { getOutfitData } from '~/utils/utils'
+import { getOutfitData, getBannerOutfitIds } from '~/utils/utils'
+
+// Utility function to derive outfitId from itemId
+const getOutfitIdFromItemId = (itemId: string): string => {
+  // Extract last 4 digits and prepend 'S'
+  const last4Digits = itemId.slice(-4)
+  return `S${last4Digits}`
+}
 
 export const useBannerPullData = () => {
   const isFetching = ref(false)
   const { progress, fetchPullHistory } = useBannerPullApi()
   const pullStore = usePullStore()
 
-  const processJsonImport = async (jsonData: Record<number, PullRecord[]>) => {
-    const { loadData, saveData, mergePullData } = useIndexedDB()
-    const { pulls: existingPullData, edits: existingEditData } =
-      await loadData()
+  const processJsonImport = async (
+    jsonData:
+      | Record<number, PullRecord[]>
+      | {
+          pulls?: Record<number, PullRecord[]>
+          edits?: Record<number, EditRecord[]>
+          evo?: Record<number, EvoRecord[]>
+        }
+  ) => {
+    const { loadData, saveData, mergePullData, mergeEditData } = useIndexedDB()
+    const {
+      pulls: existingPullData,
+      edits: existingEditData,
+      evo: existingEvoData,
+    } = await loadData()
 
-    const mergedData = mergePullData(existingPullData, jsonData)
-    saveData(mergedData, existingEditData)
+    // Handle the new export format that can include both pulls and edits
+    let pullsData: Record<number, PullRecord[]> = {}
+    let editsData: Record<number, EditRecord[]> = {}
+    let evoData: Record<number, EvoRecord[]> = {}
 
-    await pullStore.processPullData(mergedData, existingEditData)
+    if ('pulls' in jsonData || 'edits' in jsonData) {
+      // New format: { pulls: {...}, edits: {...}, evo: {...} }
+      pullsData = jsonData.pulls || {}
+      editsData = jsonData.edits || {}
+      evoData = jsonData.evo || {}
+    } else {
+      // Legacy format: Record<number, PullRecord[]>
+      pullsData = jsonData as Record<number, PullRecord[]>
+      editsData = {}
+      evoData = {}
+    }
+
+    const mergedPullsData = mergePullData(existingPullData, pullsData)
+    const mergedEditsData = mergeEditData(existingEditData, editsData)
+    // For evolution data, just use the latest data (no merge needed)
+    const mergedEvoData = { ...existingEvoData, ...evoData }
+
+    saveData(mergedPullsData, mergedEditsData, mergedEvoData)
+
+    await pullStore.processPullData(
+      mergedPullsData,
+      mergedEditsData,
+      mergedEvoData
+    )
   }
 
   const fetchBannerPullData = async (selectedBannerIds?: number[]) => {
@@ -56,13 +99,20 @@ export const useBannerPullData = () => {
       })
 
       const { loadData, saveData, mergePullData } = useIndexedDB()
-      const { pulls: existingPullData, edits: existingEditData } =
-        await loadData()
+      const {
+        pulls: existingPullData,
+        edits: existingEditData,
+        evo: existingEvoData,
+      } = await loadData()
 
       const mergedData = mergePullData(existingPullData, pullsByBanner)
-      saveData(mergedData, existingEditData)
+      saveData(mergedData, existingEditData, existingEvoData)
 
-      await pullStore.processPullData(mergedData, existingEditData)
+      await pullStore.processPullData(
+        mergedData,
+        existingEditData,
+        existingEvoData
+      )
     } catch (error) {
       console.error(error)
     } finally {
@@ -102,36 +152,12 @@ export const useBannerPullData = () => {
     // Single loop to process all banner-related operations
     Object.values(BANNER_DATA as BannerData).forEach((bannerInfo) => {
       const bannerId = bannerInfo.bannerId
-      // 1. Create outfit lookup maps for this banner
-      const outfitLookup = {
-        4: new Map<string, Outfit | null>(),
-        5: new Map<string, Outfit | null>(),
-      }
-      const itemToOutfitMap: Record<string, { outfit: Outfit }> = {}
 
-      // Process 4★ outfits
-      ;(bannerInfo.outfit4StarId || []).forEach((id: string) => {
-        const outfit = getOutfitData(id)
-        outfitLookup[4].set(id, outfit)
-        if (outfit) {
-          outfit.rarity = 4
-          outfit.items.forEach((id) => {
-            itemToOutfitMap[id] = { outfit }
-          })
-        }
-      })
+      // Get outfit IDs for this banner
+      const { outfit4StarId, outfit5StarId } = getBannerOutfitIds(bannerId)
 
-      // Process 5★ outfits
-      ;(bannerInfo.outfit5StarId || []).forEach((id: string) => {
-        const outfit = getOutfitData(id)
-        outfitLookup[5].set(id, outfit)
-        if (outfit) {
-          outfit.rarity = 5
-          outfit.items.forEach((id) => {
-            itemToOutfitMap[id] = { outfit }
-          })
-        }
-      })
+      const outfit4StarSet = new Set(outfit4StarId)
+      const outfit5StarSet = new Set(outfit5StarId)
 
       // 2. Initialize banner data structures
       currentPity[bannerId] = { 4: 0, 5: 0 }
@@ -157,25 +183,23 @@ export const useBannerPullData = () => {
         },
         bannerId: bannerId,
         bannerType: bannerInfo.bannerType,
-        completion: 0,
       }
       processedPulls[bannerId] = initialBanner
 
       // Pre-populate outfit data
-      ;[...outfitLookup[5].entries(), ...outfitLookup[4].entries()].forEach(
-        ([outfitId, outfitData]) => {
-          if (outfitData) {
-            processedPulls[bannerId].outfits.push({
-              id: outfitId,
-              rarity: outfitLookup[5].has(outfitId) ? 5 : 4,
-              items: outfitData.items,
-              completion: 0,
-              totalItems: outfitData.items.length,
-              obtainedItems: 0,
-            })
-          }
+      ;[...outfit5StarId, ...outfit4StarId].forEach((outfitId) => {
+        const outfitData = getOutfitData(outfitId)
+        if (outfitData) {
+          processedPulls[bannerId].outfits.push({
+            id: outfitId,
+            rarity: outfit5StarSet.has(outfitId) ? 5 : 4,
+            items: outfitData.items,
+            completion: 0,
+            totalItems: outfitData.items.length,
+            obtainedItems: 0,
+          })
         }
-      )
+      })
 
       // 3. Process pulls for this banner
       const pulls = pullsByBanner[bannerId] || []
@@ -193,15 +217,16 @@ export const useBannerPullData = () => {
         currentPity[bannerId][5]++
         pullIndex++
 
-        const itemInfo = itemToOutfitMap[itemId]
-        if (itemInfo) {
-          const { outfit } = itemInfo
-          const itemData = outfit.items.find((id) => id === itemId)
-          if (!itemData) return
+        const outfitId = getOutfitIdFromItemId(itemId)
+        let rarity = 0
 
-          const rarity = outfit.rarity || 0
-          const outfitId = outfit.id
+        if (outfit5StarSet.has(outfitId)) {
+          rarity = 5
+        } else if (outfit4StarSet.has(outfitId)) {
+          rarity = 4
+        }
 
+        if (rarity !== 0) {
           const pullsToObtain = currentPity[bannerId][rarity]
           currentPity[bannerId][rarity] = 0
 
@@ -333,6 +358,12 @@ export const useBannerPullData = () => {
       Object.values(BANNER_DATA as BannerData).forEach((bannerInfo) => {
         const bannerId = bannerInfo.bannerId
 
+        // Get outfit IDs for this banner
+        const { outfit4StarId, outfit5StarId } = getBannerOutfitIds(bannerId)
+
+        const outfit4StarSet = new Set(outfit4StarId)
+        const outfit5StarSet = new Set(outfit5StarId)
+
         const itemCount: Record<string, number> = {}
         const edits = editsByBanner?.[bannerId] || []
         const currentBanner = processedPulls[bannerId]
@@ -340,21 +371,36 @@ export const useBannerPullData = () => {
         // Calculate item count and outfit completion
         let pullIndex = 0
         edits.forEach((edit) => {
-          pullIndex--
-          const pullInfo: PullItem = {
-            bannerId,
-            pullIndex: pullIndex,
-            pullsToObtain: 0,
-            count: 0,
-            ...edit,
+          const [time, itemId] = edit
+
+          const outfitId = getOutfitIdFromItemId(itemId)
+          let rarity = 0
+
+          if (outfit5StarSet.has(outfitId)) {
+            rarity = 5
+          } else if (outfit4StarSet.has(outfitId)) {
+            rarity = 4
           }
 
-          currentBanner.pulls.unshift(pullInfo)
+          pullIndex--
+          const pullInfo: PullItem = {
+            pullIndex,
+            itemId,
+            outfitId,
+            rarity,
+            pullsToObtain: 0,
+            obtainedAt: time,
+            bannerId: bannerId,
+            count: 0,
+          }
+
+          currentBanner.pulls.push(pullInfo)
         })
         const pullsByOutfit: Record<string, Set<PullItem>> = {}
         currentBanner.pulls.reverse().forEach((pull) => {
           itemCount[pull.itemId] = (itemCount[pull.itemId] || 0) + 1
-          pull.count = itemCount[pull.itemId]
+          // Cap the count at 2 for each item
+          pull.count = Math.min(itemCount[pull.itemId], 2)
 
           if (!pullsByOutfit[pull.outfitId]) {
             pullsByOutfit[pull.outfitId] = new Set()
@@ -370,7 +416,7 @@ export const useBannerPullData = () => {
           outfit.completion = Math.floor(obtainedItems.size / outfit.totalItems)
         })
 
-        currentBanner.completion = Math.floor(
+        currentBanner.stats.completion = Math.floor(
           currentBanner.outfits.reduce(
             (sum, outfit) => sum + outfit.completion,
             0

@@ -58,6 +58,7 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
+  import { usePullStore } from '~/stores/pull'
   import { Star, CheckCircle } from '@vicons/fa'
 
   interface CompletionData {
@@ -66,6 +67,7 @@
   }
 
   const props = defineProps<{
+    bannerId: number
     outfitId: string
     rarity: 4 | 5
     completionData?: CompletionData
@@ -73,6 +75,7 @@
 
   const { t } = useI18n()
   const userStore = useUserStore()
+  const pullStore = usePullStore()
   const isDark = computed(() => userStore.getCurrentTheme === 'dark')
 
   const getOutfitLevel = computed(() => {
@@ -82,13 +85,30 @@
     const totalPulls = props.completionData.totalPulls
 
     if (props.rarity === 5) {
-      if (props.completionData.completion >= 1) levels.push('0')
-      if (totalPulls >= 180 && props.completionData.completion >= 1)
+      if (props.completionData.completion >= 1) {
+        levels.push('0')
+      }
+      if (
+        (totalPulls >= 180 ||
+          pullStore.getOutfitEvoLevel(props.bannerId, props.outfitId) >= 2) &&
+        props.completionData.completion >= 1
+      ) {
         levels.push('2')
-      if (totalPulls >= 200 && props.completionData.completion >= 1)
+      }
+      if (
+        (totalPulls >= 200 ||
+          pullStore.getOutfitEvoLevel(props.bannerId, props.outfitId) >= 3) &&
+        props.completionData.completion >= 1
+      ) {
         levels.push('3')
-      if (totalPulls >= 230 && props.completionData.completion >= 2)
+      }
+      if (
+        (totalPulls >= 230 ||
+          pullStore.getOutfitEvoLevel(props.bannerId, props.outfitId) >= 4) &&
+        props.completionData.completion >= 2
+      ) {
         levels.push('4')
+      }
     } else {
       if (props.completionData.completion >= 1) levels.push('0')
       if (props.completionData.completion >= 2) levels.push('2')

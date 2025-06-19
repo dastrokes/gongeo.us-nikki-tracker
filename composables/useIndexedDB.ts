@@ -1,15 +1,17 @@
-import type { PullRecord, EditRecord } from '~/types/pull'
-import { ref, computed } from 'vue'
+import type { PullRecord, EditRecord, EvoRecord } from '~/types/pull'
+import { ref } from 'vue'
 import { openDB, type IDBPDatabase } from 'idb'
 
 const DB_NAME = 'gongeousDB'
-const DB_VERSION = 2
+const DB_VERSION = 3
 const PULLS_STORE = 'pullsByBanner'
 const EDITS_STORE = 'editsByBanner'
+const EVO_STORE = 'evoByBanner'
 
 export function useIndexedDB() {
   const pullsData = ref<Record<number, PullRecord[]>>({})
   const editsData = ref<Record<number, EditRecord[]>>({})
+  const evoData = ref<Record<number, EvoRecord[]>>({})
   const isSaving = ref(false)
 
   let dbPromise: Promise<IDBPDatabase> | null = null
@@ -28,6 +30,10 @@ export function useIndexedDB() {
           if (!db.objectStoreNames.contains(EDITS_STORE)) {
             db.createObjectStore(EDITS_STORE)
           }
+
+          if (!db.objectStoreNames.contains(EVO_STORE)) {
+            db.createObjectStore(EVO_STORE)
+          }
         },
       })
     }
@@ -35,13 +41,13 @@ export function useIndexedDB() {
     const db = await dbPromise
 
     try {
-      // Transaction covering both stores
-      const storeNames = [PULLS_STORE, EDITS_STORE].filter((name) =>
+      // Transaction covering all stores
+      const storeNames = [PULLS_STORE, EDITS_STORE, EVO_STORE].filter((name) =>
         db.objectStoreNames.contains(name)
       )
       const tx = db.transaction(storeNames, 'readonly')
 
-      // Minimal read ops on both stores
+      // Minimal read ops on all stores
       const ops = storeNames.map((name) => tx.objectStore(name).getAll())
       await Promise.all(ops)
 
@@ -102,13 +108,49 @@ export function useIndexedDB() {
     return mergedData
   }
 
+  const mergeEditData = (
+    existingEdits: Record<number, EditRecord[]>,
+    newEdits: Record<number, EditRecord[]>
+  ): Record<number, EditRecord[]> => {
+    const mergedEdits: Record<number, EditRecord[]> = { ...existingEdits }
+
+    // Process each banner separately to reduce lookup map size
+    Object.entries(newEdits).forEach(([bannerIdStr, newEditRecords]) => {
+      const bannerId = parseInt(bannerIdStr)
+      const existingRecords = mergedEdits[bannerId] || []
+
+      // Create a map of existing edits by itemId for this banner only
+      const existingEditMap = new Map<string, EditRecord>()
+      existingRecords.forEach((edit) => {
+        existingEditMap.set(edit[1], edit)
+      })
+
+      // Process new edits for this banner
+      newEditRecords.forEach((newEdit) => {
+        const existingEdit = existingEditMap.get(newEdit[1])
+
+        if (!existingEdit) {
+          // New edit doesn't exist, add it
+          existingRecords.push(newEdit)
+        }
+        // If existing edit exists, keep the existing one (existing data takes priority)
+      })
+
+      mergedEdits[bannerId] = existingRecords
+    })
+
+    return mergedEdits
+  }
+
   const saveData = async (
     pullsByBanner: Record<number, PullRecord[]>,
-    editsByBanner: Record<number, EditRecord[]>
+    editsByBanner: Record<number, EditRecord[]>,
+    evoByBanner: Record<number, EvoRecord[]> = {}
   ) => {
     // Update reactive state immediately
     pullsData.value = pullsByBanner
     editsData.value = editsByBanner
+    evoData.value = evoByBanner
     isSaving.value = true
 
     try {
@@ -140,6 +182,9 @@ export function useIndexedDB() {
 
           // Save edit data
           await db.put(EDITS_STORE, editsByBanner, EDITS_STORE)
+
+          // Save evolution data
+          await db.put(EVO_STORE, evoByBanner, EVO_STORE)
         } finally {
           isSaving.value = false
         }
@@ -157,6 +202,7 @@ export function useIndexedDB() {
   const loadData = async (): Promise<{
     pulls: Record<number, PullRecord[]>
     edits: Record<number, EditRecord[]>
+    evo: Record<number, EvoRecord[]>
   }> => {
     try {
       // Wait for any pending save to complete before loading
@@ -167,13 +213,16 @@ export function useIndexedDB() {
       const db = await getDB()
       const pullsResult = await db.get(PULLS_STORE, PULLS_STORE)
       const editsResult = await db.get(EDITS_STORE, EDITS_STORE)
+      const evoResult = await db.get(EVO_STORE, EVO_STORE)
 
       pullsData.value = pullsResult
       editsData.value = editsResult
+      evoData.value = evoResult
 
       return {
         pulls: pullsResult || {},
         edits: editsResult || {},
+        evo: evoResult || {},
       }
     } catch (error) {
       console.error('Failed to load data:', error)
@@ -191,9 +240,11 @@ export function useIndexedDB() {
       const db = await getDB()
       await db.clear(PULLS_STORE)
       await db.clear(EDITS_STORE)
+      await db.clear(EVO_STORE)
 
       pullsData.value = {}
       editsData.value = {}
+      evoData.value = {}
     } catch (error) {
       console.error('Failed to clear data:', error)
       throw error
@@ -203,10 +254,12 @@ export function useIndexedDB() {
   return {
     pullsData,
     editsData,
+    evoData,
     isSaving,
     saveData,
     loadData,
     clearData,
     mergePullData,
+    mergeEditData,
   }
 }

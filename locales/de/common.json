@@ -176,6 +176,10 @@
       "more_pulls": "Mehr als {percent}% der gongeo.us Nutzer"
     },
     "manual_log": {
+      "title": "Manual Import",
+      "description": "Use this option only if you don't want to use the game import or you are missing some items from the game import.",
+      "open_editor": "Open Editor",
+      "select_banner": "Select Banner",
       "apply_to_all": "Auf alles anwenden",
       "save": "Outfit speichern",
       "success": "Outfit wurde erfolgreich gespeichert!",
@@ -202,6 +206,7 @@
         "separated": "Getrennt",
         "show_4star": "4★ Stücke",
         "show_missing": "Fehlende Stücke",
+        "duplicate_items": "Duplicate Items",
         "empty_banners": "Leere Banner",
         "show": "Zeigen",
         "hide": "Verstecken"

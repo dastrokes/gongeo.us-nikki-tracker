@@ -176,15 +176,16 @@
       "more_pulls": "Mehr als {percent}% der gongeo.us Nutzer"
     },
     "manual_log": {
-      "title": "Manual Import",
-      "description": "Use this option only if you don't want to use the game import or you are missing some items from the game import.",
-      "open_editor": "Open Editor",
-      "select_banner": "Select Banner",
+      "title": "Manuell importieren",
+      "description": "Benutze diese Option nur dann, wenn du den Spiel-Import nicht benutzen möchtest oder wenn einige Stücke vom Spiel-Import fehlen.",
+      "note": "Hinweis: Manuell importierte Daten werden nur verwendet, um den Outfit-Fertigstellungsgrad anzuzeigen und werden nicht in die persönlichen und globalen Statistikberechnungen aufgenommen.",
+      "open_editor": "Editor öffnen",
+      "select_banner": "Banner auswählen",
       "apply_to_all": "Auf alles anwenden",
       "save": "Outfit speichern",
       "success": "Outfit wurde erfolgreich gespeichert!",
       "error": "Outfit konnte nicht gespeichert werden",
-      "evo_level": "Evolution Level"
+      "evo_level": "Evolutionslevel"
     },
     "banner": {
       "stats": {
@@ -206,7 +207,7 @@
         "separated": "Getrennt",
         "show_4star": "4★ Stücke",
         "show_missing": "Fehlende Stücke",
-        "duplicate_items": "Duplicate Items",
+        "duplicate_items": "Doppelte Stücke",
         "empty_banners": "Leere Banner",
         "show": "Zeigen",
         "hide": "Verstecken"
@@ -238,7 +239,7 @@
     },
     "outfit": {
       "level": {
-        "0": "Unset",
+        "0": "Nicht ausgewählt",
         "1": "Basis",
         "2": "Evo 1",
         "3": "Evo 2",

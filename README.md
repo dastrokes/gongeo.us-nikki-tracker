@@ -1,75 +1,33 @@
-# Nuxt Minimal Starter
+# gongeo.us - Infinity Nikki Resonance Tracker
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+A web application for tracking and analyzing Infinity Nikki resonance history and statistics.
 
-## Setup
+<img src="public/og.png" width="600px">
 
-Make sure to install dependencies:
+## Connect With Us
 
-```bash
-# npm
-npm install
+- **Discord**: [Join our community](https://discord.gg/qymsW3j4Zw)
+- **Ko-fi**: [Support the project](https://ko-fi.com/dastrokes)
+- **X/Twitter**: [Follow for updates](https://x.com/gongeo_us)
 
-# pnpm
-pnpm install
+[![Deploys by Netlify](https://www.netlify.com/assets/badges/netlify-badge-color-accent.svg)](https://www.netlify.com)
 
-# yarn
-yarn install
+[![Crowdin | Agile localization for tech companies](https://badges.crowdin.net/badge/dark/crowdin-on-light.png)](https://crowdin.com/project/gongeous)
 
-# bun
-bun install
-```
+## Tech Stack
 
-## Development Server
+- [Nuxt 3](https://nuxt.com/) - Vue.js framework
+- [Vue 3](https://vuejs.org/) - JavaScript framework
+- [Naive UI](https://www.naiveui.com/) - Vue component library
+- [Tailwind CSS](https://tailwindcss.com/) - Utility-first CSS framework
+- [Pinia](https://pinia.vuejs.org/) - State management
+- [i18n](https://i18n.nuxtjs.org/) - Internationalization
+- [IndexedDB](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API) - Client-side storage
+- [Supabase](https://supabase.com/) - Backend and authentication
+- [ECharts](https://echarts.apache.org/) - Data visualization
 
-Start the development server on `http://localhost:3000`:
+## License
 
-```bash
-# npm
-npm run dev
+[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/dastrokes/gongeo.us-nikki-tracker/blob/master/LICENSE)
 
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+This project is a fan-made tool and is not affiliated with Infinity Nikki or Infold Games. All game assets and trademarks belong to their respective owners.

@@ -2,6 +2,37 @@ import type { Context, Config } from '@netlify/edge-functions'
 
 export const config: Config = {
   path: ['/*'],
+  excludedPath: [
+    '/', // homepage
+    '/about',
+    '/banner',
+    '/banner/*',
+    '/faq',
+    '/global',
+    '/import',
+    '/tracker',
+    '/zh',
+    '/zh/*',
+    '/de',
+    '/de/*',
+    // Add more locales as needed...
+
+    // Static Nuxt assets
+    '/_nuxt/**',
+
+    // Fonts and other internal assets
+    '/_fonts/**',
+
+    // Public images and static content
+    '/images/**',
+    '/.netlify/images', // Netlify Image CDN endpoint
+
+    // Other static files
+    '/favicon.ico',
+    '/robots.txt',
+    '/gongeous.js',
+    '/sitemap.xml',
+  ],
 }
 
 // Malicious bots only (strict, no legit crawlers included)

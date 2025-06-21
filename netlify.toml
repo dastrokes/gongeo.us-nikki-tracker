@@ -1,9 +1,9 @@
 [build]
-  environment = { NODE_OPTIONS = "--max-old-space-size=4096" }
   publish = "dist"
 
 [build.environment]
   NODE_VERSION = "20.19.1"
+  NODE_OPTIONS = "--max-old-space-size=4096"
 
 [[edge_functions]]
   path = "/*"

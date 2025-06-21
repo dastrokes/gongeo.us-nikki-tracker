@@ -7,7 +7,7 @@
 
 [[edge_functions]]
   path = "/*"
-  function = "block-bots"
+  function = "bots"
 
 # Headers: Netlify Image CDN caching
 [[headers]]

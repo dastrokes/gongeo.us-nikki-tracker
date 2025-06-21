@@ -2,7 +2,9 @@
 
 A web application for tracking and analyzing Infinity Nikki resonance history and statistics.
 
-<img src="public/og.png" width="600px">
+<a href="https://gongeo.us">
+  <img src="public/og.png" width="600px">
+</a>
 
 ## Connect With Us
 

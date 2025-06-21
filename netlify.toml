@@ -5,10 +5,6 @@
   NODE_VERSION = "20.19.1"
   NODE_OPTIONS = "--max-old-space-size=8192"
 
-[[edge_functions]]
-  path = "/*"
-  function = "bots"
-
 # Headers: Netlify Image CDN caching
 [[headers]]
   for = "/.netlify/images/*"

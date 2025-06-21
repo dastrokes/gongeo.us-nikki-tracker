@@ -26,7 +26,7 @@ export const useImageProvider = () => {
     const cleanPath = path.startsWith('/') ? path.slice(1) : path
 
     if (isChina.value) {
-      const base = 'https://static.gongeous.cn/image'
+      const base = 'https://static.gongeo.us/image'
       const params = new URLSearchParams({ src: `/${cleanPath}` })
 
       if (opts?.width) params.append('w', String(opts.width))

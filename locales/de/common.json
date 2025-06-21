@@ -435,8 +435,8 @@
       "content": "Wir verwenden Umami, einen datenschutzfreundlichen Analysedienst, um die Nutzung der Website zu überwachen. Er sammelt nur anonymisierte Informationen wie Seitenaufrufe, Verweis-URLs und grundlegende Browserdaten, ohne Cookie oder persönliche Identifikatoren zu verwenden. Diese Daten helfen uns, Ihr Erlebnis zu verbessern. Weitere Informationen finden Sie in der Datenschutzrichtlinie von Umami."
     },
     "errorMonitoring": {
-      "title": "Error Monitoring",
-      "message": "We use Sentry.io to track and fix technical errors. Sentry may collect limited technical data (like error details, browser info, and anonymized IP addresses) to help us maintain and improve the site. For more information, please see Sentry.io's privacy policy."
+      "title": "Fehlerüberwachung",
+      "message": "Wir verwenden Sentry.io, um technische Fehler zu verfolgen und zu beheben. Sentry kann begrenzte technische Daten (wie Fehlerdetails, Browserinformationen und anonymisierte IP-Adressen) sammeln, um uns bei der Wartung und Verbesserung der Website zu helfen. Weitere Informationen finden Sie in der Datenschutzrichtlinie von Sentry.io."
     }
   },
   "maintenance": {

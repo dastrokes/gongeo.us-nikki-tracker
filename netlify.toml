@@ -4,6 +4,10 @@
 [build.environment]
   NODE_VERSION = "20.19.1"
 
+[[edge_functions]]
+  path = "/*"
+  function = "block-bots"
+
 # Headers: Netlify Image CDN caching
 [[headers]]
   for = "/.netlify/images/*"

@@ -38,8 +38,8 @@
     try {
       const url = new URL(img.src)
 
-      // Only handle fallback for static.gongeo.us URLs
-      if (!url.hostname.includes('static.gongeo.us')) {
+      // Only handle fallback for static.gongeous.cn URLs
+      if (!url.hostname.includes('static.gongeous.cn')) {
         return
       }
 

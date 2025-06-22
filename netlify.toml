@@ -22,22 +22,22 @@
 [[headers]]
   for = "/robots.txt"
   [headers.values]
-    cache-control = "public, max-age=86400"
+    cache-control = "public, max-age=604800"
 
 [[headers]]
   for = "/favicon.ico"
   [headers.values]
-    cache-control = "public, max-age=86400"
+    cache-control = "public, max-age=604800"
 	
 [[headers]]
   for = "/apple-touch-icon*.png"
   [headers.values]
-    cache-control = "public, max-age=86400"	
+    cache-control = "public, max-age=604800"	
 
 [[headers]]
   for = "/gongeous.js"
   [headers.values]
-    cache-control = "public, max-age=86400"
+    cache-control = "public, max-age=604800"
 
 # Headers: Nuxt static assets
 [[headers]]

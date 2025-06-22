@@ -107,7 +107,8 @@ export default defineNuxtConfig({
   },
 
   echarts: {
-    ssr: true,
+    ssr: process.env.NODE_ENV === 'production',
+    renderer: 'canvas',
     charts: ['BarChart', 'LineChart'],
     components: [
       'TooltipComponent',
@@ -140,6 +141,18 @@ export default defineNuxtConfig({
     build: {
       chunkSizeWarningLimit: 1000,
     },
+    optimizeDeps: {
+      include: [
+        'echarts',
+        'echarts/core',
+        'echarts/charts',
+        'echarts/components',
+        'echarts/renderers',
+        '@vueuse/core',
+        '@vueuse/integrations',
+        'naive-ui',
+      ],
+    },
   },
 
   sentry: {
@@ -149,6 +162,8 @@ export default defineNuxtConfig({
     },
 
     autoInjectServerSentry: 'top-level-import',
+
+    enabled: process.env.NODE_ENV === 'production',
   },
 
   sourcemap: {

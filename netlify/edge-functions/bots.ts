@@ -28,10 +28,12 @@ export const config: Config = {
     '/.netlify/images', // Netlify Image CDN endpoint
 
     // Other static files
+    '/apple-touch-icon*.png',
     '/favicon.ico',
-    '/robots.txt',
     '/gongeous.js',
+    '/robots.txt',
     '/sitemap.xml',
+    '/og.png',
   ],
 }
 
@@ -84,6 +86,7 @@ const blockedKeywords = [
   'login',
   'logout',
   'mysql',
+  'opt',
   'pma',
   'php',
   'proxyheader',

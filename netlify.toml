@@ -28,6 +28,11 @@
   for = "/favicon.ico"
   [headers.values]
     cache-control = "public, max-age=86400"
+	
+[[headers]]
+  for = "/apple-touch-icon*.png"
+  [headers.values]
+    cache-control = "public, max-age=86400"	
 
 [[headers]]
   for = "/gongeous.js"

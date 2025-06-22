@@ -903,7 +903,7 @@
       const banner = BANNER_DATA[bannerId]
       if (!banner || !banner.runs || banner.runs.length === 0) return false
 
-      const currentRun = banner.runs[banner.runs.length - 1] // Get the latest run
+      const currentRun = banner.runs[0] // Get the first run only
       const startDate = new Date(currentRun.start)
       const endDate = new Date(currentRun.end)
 

@@ -476,7 +476,6 @@
               :option="firstItemDistributionChartOption"
               :autoresize="true"
               :style="cardStyle"
-              @rendered="handleChartRendered"
             />
           </div>
         </n-card>
@@ -1188,22 +1187,6 @@
         },
       ],
     }
-  }
-
-  // Function to handle chart rendered event and add images
-  const handleChartRendered = () => {
-    // We don't need this anymore as we're setting the images in the chart options directly
-    if (
-      !firstItemDistributionChart.value ||
-      !data.value?.first_item_distribution ||
-      !selectedBannerId.value ||
-      !data.value.first_item_distribution[selectedBannerId.value]
-    ) {
-      return
-    }
-
-    // No need to modify the chart after it's rendered
-    // All configuration is done in createFirstItemDistributionChart
   }
 
   // Watch for theme changes to update charts

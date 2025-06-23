@@ -50,7 +50,7 @@ export default defineNuxtConfig({
     restructureDir: 'locales',
     langDir: './',
     locales: i18nLocales,
-    defaultLocale: 'en',
+    defaultLocale: 'zh',
     strategy: 'prefix_except_default',
     lazy: true,
     detectBrowserLanguage: {
@@ -58,7 +58,7 @@ export default defineNuxtConfig({
       cookieKey: 'i18n_redirected',
       redirectOn: 'no prefix',
       alwaysRedirect: false,
-      fallbackLocale: 'en',
+      fallbackLocale: 'zh',
     },
   },
 
@@ -69,7 +69,7 @@ export default defineNuxtConfig({
   sitemap: {
     urls: Object.values(BANNER_DATA).flatMap((banner) =>
       i18nLocales.map(({ code }) => {
-        const prefix = code === 'en' ? '' : `/${code}`
+        const prefix = code === 'zh' ? '' : `/${code}`
         return {
           loc: `${prefix}/banner/${banner.bannerId}`,
         }

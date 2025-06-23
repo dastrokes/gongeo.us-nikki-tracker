@@ -10,7 +10,7 @@ export const useImageProvider = () => {
   })
 
   const imageProvider = computed(() => {
-    return 'ipx'
+    return 'ipxStatic'
   })
 
   const getImageUrl = (

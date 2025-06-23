@@ -25,6 +25,8 @@
     const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
     if (timezone.startsWith('Asia/Shanghai')) {
       showCdnImage.value = true
+    } else {
+      showCdnImage.value = false
     }
   })
 

@@ -73,7 +73,9 @@ const blockedKeywords = [
   'config',
   'console',
   'cpanel',
+  'credential',
   'crossdomain',
+  'db',
   'debug',
   'ecp',
   'elmah',
@@ -93,6 +95,7 @@ const blockedKeywords = [
   'owa',
   'pma',
   'php',
+  'properties',
   'proxyheader',
   'py',
   'root',
@@ -103,6 +106,7 @@ const blockedKeywords = [
   'shell',
   'sftp',
   'sql',
+  'ssh',
   'status',
   'swagger',
   'telescope',
@@ -116,6 +120,8 @@ const blockedKeywords = [
   'utility',
   'xdebug',
   'xmlrpc',
+  'yaml',
+  'yml',
 ]
 
 export default (

@@ -9,6 +9,7 @@ interface RequestContext {
   env: {
     SUPABASE_DATABASE_URL: string
     SUPABASE_SERVICE_ROLE_KEY: string
+    GONGEOUS_API_KEY: string
     [key: string]: string
   }
 }
@@ -64,7 +65,14 @@ export async function onRequestPost(context: RequestContext) {
     const body = (await request.json()) as UserBannerStats[]
 
     // Verify signature
-    if (!(await verifySignature(signature, requestTime, body))) {
+    if (
+      !(await verifySignature(
+        signature,
+        requestTime,
+        body,
+        env.GONGEOUS_API_KEY
+      ))
+    ) {
       return new Response(
         JSON.stringify({
           error: 'Forbidden - Invalid signature',

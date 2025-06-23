@@ -39,9 +39,11 @@ export async function generateSignature(
 export async function verifySignature(
   signature: string,
   timestamp: number,
-  payload: UserBannerStats[]
+  payload: UserBannerStats[],
+  apiKey?: string
 ): Promise<boolean> {
-  const apiKey = useRuntimeConfig().public.gongeousApiKey || 'api-key'
-  const expectedSignature = await generateSignature(timestamp, payload, apiKey)
+  // Use provided apiKey or default to 'api-key'
+  const key = apiKey || process.env.GONGEOUS_API_KEY || 'api-key'
+  const expectedSignature = await generateSignature(timestamp, payload, key)
   return signature === expectedSignature
 }

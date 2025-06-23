@@ -120,6 +120,7 @@ export async function onRequestPost(context: RequestContext) {
     return new Response(
       JSON.stringify({
         error: 'Failed to update banner stats',
+        message: error instanceof Error ? error.message : String(error),
       }),
       {
         status: 500,

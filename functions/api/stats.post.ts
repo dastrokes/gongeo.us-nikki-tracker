@@ -64,7 +64,7 @@ export async function onRequestPost(context: RequestContext) {
     const body = (await request.json()) as UserBannerStats[]
 
     // Verify signature
-    if (!verifySignature(signature, requestTime, body)) {
+    if (!(await verifySignature(signature, requestTime, body))) {
       return new Response(
         JSON.stringify({
           error: 'Forbidden - Invalid signature',

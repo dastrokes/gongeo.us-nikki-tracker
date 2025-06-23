@@ -1,4 +1,3 @@
-import crypto from 'crypto'
 import type { UserBannerStats } from '~/types/stats'
 
 export function verifyTimestamp(
@@ -9,23 +8,40 @@ export function verifyTimestamp(
   return Math.abs(currentTime - timestamp) <= maxAgeSeconds
 }
 
-export function generateSignature(
+export async function generateSignature(
   timestamp: number,
   payload: UserBannerStats[],
   apiKey: string
-): string {
-  return crypto
-    .createHmac('sha256', apiKey)
-    .update(`${timestamp}${JSON.stringify(payload)}`)
-    .digest('hex')
+): Promise<string> {
+  // Convert input to ArrayBuffer
+  const encoder = new TextEncoder()
+  const data = encoder.encode(`${timestamp}${JSON.stringify(payload)}`)
+  const keyData = encoder.encode(apiKey)
+
+  // Import the key
+  const key = await crypto.subtle.importKey(
+    'raw',
+    keyData,
+    { name: 'HMAC', hash: 'SHA-256' },
+    false,
+    ['sign']
+  )
+
+  // Sign the data
+  const signature = await crypto.subtle.sign('HMAC', key, data)
+
+  // Convert to hex string
+  return Array.from(new Uint8Array(signature))
+    .map((b) => b.toString(16).padStart(2, '0'))
+    .join('')
 }
 
-export function verifySignature(
+export async function verifySignature(
   signature: string,
   timestamp: number,
   payload: UserBannerStats[]
-): boolean {
+): Promise<boolean> {
   const apiKey = useRuntimeConfig().public.gongeousApiKey || 'api-key'
-  const expectedSignature = generateSignature(timestamp, payload, apiKey)
+  const expectedSignature = await generateSignature(timestamp, payload, apiKey)
   return signature === expectedSignature
 }

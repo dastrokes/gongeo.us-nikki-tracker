@@ -2,7 +2,7 @@
   import { ref, onMounted } from 'vue'
   import { useImageProvider } from '~/composables/useImageProvider'
 
-  const showCdnImage = ref(true)
+  const showCdnImage = ref(false)
 
   const { imageProvider, getImageUrl } = useImageProvider()
 

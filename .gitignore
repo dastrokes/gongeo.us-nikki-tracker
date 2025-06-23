@@ -19,6 +19,7 @@ logs
 .idea
 .husky
 .netlify
+.edgeone
 .vscode
 scripts/dev
 

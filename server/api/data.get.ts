@@ -69,3 +69,5 @@ export default defineEventHandler(async (event: H3Event) => {
     })
   }
 })
+
+export const prerender = true

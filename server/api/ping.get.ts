@@ -12,3 +12,5 @@ export default defineEventHandler((event) => {
   }
   return { status: 'ok' }
 })
+
+export const prerender = true

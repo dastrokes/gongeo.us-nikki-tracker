@@ -1,6 +1,8 @@
 import { isRateLimited } from '../utils/rateLimiter'
 import { hashUid } from '../utils/hash'
 import { useSupabaseClient } from '../../composables/useSupabaseClient'
+import { verifyTimestamp, verifySignature } from '../utils/verify'
+import type { UserBannerStats } from '~/types/stats'
 
 export default defineEventHandler(async (event) => {
   const ip = getRequestIP(event, { xForwardedFor: true }) || 'unknown'
@@ -13,9 +15,36 @@ export default defineEventHandler(async (event) => {
     })
   }
 
+  // Get signature and timestamp from headers
+  const signature = getHeader(event, 'x-signature')
+  const timestamp = getHeader(event, 'x-timestamp')
+
+  if (!signature || !timestamp) {
+    throw createError({
+      statusCode: 403,
+      message: 'Forbidden - Missing signature or timestamp',
+    })
+  }
+
+  const requestTime = parseInt(timestamp)
+  if (!verifyTimestamp(requestTime)) {
+    throw createError({
+      statusCode: 403,
+      message: 'Forbidden - Request expired',
+    })
+  }
+
   try {
     // Get the request body
-    const body = await readBody(event)
+    const body = await readBody<UserBannerStats[]>(event)
+
+    // Verify signature
+    if (!verifySignature(signature, requestTime, body)) {
+      throw createError({
+        statusCode: 403,
+        message: 'Forbidden - Invalid signature',
+      })
+    }
 
     // Validate the request body
     if (!Array.isArray(body)) {
@@ -53,3 +82,5 @@ export default defineEventHandler(async (event) => {
     })
   }
 })
+
+export const prerender = true

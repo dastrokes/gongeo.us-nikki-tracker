@@ -43,7 +43,7 @@ export async function verifySignature(
   apiKey?: string
 ): Promise<boolean> {
   // Use provided apiKey or default to 'api-key'
-  const key = apiKey || process.env.GONGEOUS_API_KEY || 'api-key'
+  const key = apiKey || 'api-key'
   const expectedSignature = await generateSignature(timestamp, payload, key)
   return signature === expectedSignature
 }

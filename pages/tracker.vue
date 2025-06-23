@@ -442,7 +442,6 @@
             :key="banner.bannerId"
           >
             <n-card
-              v-show="showEmptyBanners || banner.pulls.length > 0"
               content-class="!p-2 sm:!pt-2 sm:!p-4"
               size="small"
               class="rounded-xl min-h-[120px] sm:min-h-[180px] mt-4"
@@ -974,7 +973,14 @@
   // Function to sort banners
   const sortedBanners = computed(() => {
     const banners = Object.values(processedPulls.value)
-    return banners.sort((a, b) => {
+    // Filter out empty banners if showEmptyBanners is false
+    const filteredBanners = showEmptyBanners.value
+      ? banners
+      : banners.filter(
+          (banner) => banner.pulls.filter((pull) => pull.count > 0).length > 0
+        )
+
+    return filteredBanners.sort((a, b) => {
       return sortBanner.value
         ? a.bannerId - b.bannerId
         : b.bannerId - a.bannerId

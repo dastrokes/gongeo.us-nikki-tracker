@@ -711,9 +711,9 @@
   })
 
   const REGION_LABELS = {
+    [Region.CHINA]: t('common.regions.china'),
     [Region.AMERICA]: t('common.regions.america'),
     [Region.EUROPE]: t('common.regions.europe'),
-    [Region.CHINA]: t('common.regions.china'),
     [Region.ASIA]: t('common.regions.asia'),
     [Region.TW]: t('common.regions.tw'),
   } as const

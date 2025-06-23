@@ -743,7 +743,10 @@
                             :disabled="
                               banner.stats && banner.stats.completion >= 1
                             "
-                            @update:value="loadMissingItems(banner.bannerId)"
+                            @update:value="
+                              (value) =>
+                                loadMissingItems(value, banner.bannerId)
+                            "
                           >
                             <template #checked>{{
                               t('tracker.banner.settings.show')
@@ -979,8 +982,8 @@
   })
 
   // Function to load missing items for a banner
-  const loadMissingItems = async (bannerId: number) => {
-    if (showMissingPieces.value[bannerId]) {
+  const loadMissingItems = async (value: boolean, bannerId: number) => {
+    if (value) {
       await pullStore.addMissingItems(bannerId)
     }
   }

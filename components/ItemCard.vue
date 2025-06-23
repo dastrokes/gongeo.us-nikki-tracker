@@ -33,7 +33,8 @@
         <n-tag
           v-if="
             pullStore.rawPullData &&
-            Object.keys(pullStore.rawPullData).length > 0
+            Object.keys(pullStore.rawPullData).length > 0 &&
+            item.count > 0
           "
           size="tiny"
           :bordered="false"

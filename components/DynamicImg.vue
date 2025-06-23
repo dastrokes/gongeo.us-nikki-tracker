@@ -61,7 +61,7 @@
 
 <template>
   <img
-    v-if="isDev"
+    v-if="!isDev"
     :src="getImageUrl(src, { width, height, quality, format, fit })"
     :alt="alt"
     :class="className"

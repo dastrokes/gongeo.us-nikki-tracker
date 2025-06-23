@@ -7,8 +7,8 @@ import { createClient } from '@supabase/supabase-js'
 interface RequestContext {
   request: Request
   env: {
-    SUPABASE_URL: string
-    SUPABASE_SERVICE_KEY: string
+    SUPABASE_DATABASE_URL: string
+    SUPABASE_SERVICE_ROLE_KEY: string
     [key: string]: string
   }
 }
@@ -90,7 +90,10 @@ export async function onRequestPost(context: RequestContext) {
     }
 
     // Create Supabase client
-    const supabase = createClient(env.SUPABASE_URL, env.SUPABASE_SERVICE_KEY)
+    const supabase = createClient(
+      env.SUPABASE_DATABASE_URL,
+      env.SUPABASE_SERVICE_ROLE_KEY
+    )
 
     // Hash UIDs server-side
     const hashedDataPromises = body.map(async (item) => ({

@@ -3,7 +3,7 @@ import { isRateLimited } from '../utils/rateLimiter'
 interface RequestContext {
   request: Request
   env: {
-    SUPABASE_URL: string
+    SUPABASE_DATABASE_URL: string
     SUPABASE_STORAGE_TOKEN: string
     [key: string]: string
   }
@@ -51,8 +51,31 @@ export async function onRequestGet(context: RequestContext) {
       )
     }
 
+    // Validate environment variables
+    if (!env.SUPABASE_DATABASE_URL) {
+      throw new Error(
+        'SUPABASE_DATABASE_URL environment variable is not defined'
+      )
+    }
+
+    if (!env.SUPABASE_STORAGE_TOKEN) {
+      throw new Error(
+        'SUPABASE_STORAGE_TOKEN environment variable is not defined'
+      )
+    }
+
     // Construct the data URL
-    const dataUrl = `${env.SUPABASE_URL}/storage/v1/object/sign/infinitynikkitracker/data.json?token=${env.SUPABASE_STORAGE_TOKEN}`
+    const dataUrl = `${env.SUPABASE_DATABASE_URL}/storage/v1/object/sign/infinitynikkitracker/data.json?token=${env.SUPABASE_STORAGE_TOKEN}`
+
+    // Validate URL
+    try {
+      new URL(dataUrl)
+    } catch (error: unknown) {
+      console.error('Invalid URL constructed:', dataUrl)
+      throw new Error(
+        `Malformed URL: ${error instanceof Error ? error.message : 'Invalid URL format'}`
+      )
+    }
 
     // Set response headers
     const headers = {

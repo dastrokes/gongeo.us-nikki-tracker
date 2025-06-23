@@ -2,9 +2,9 @@
   import { ref, onMounted } from 'vue'
   import { useImageProvider } from '~/composables/useImageProvider'
 
-  const showCdnImage = ref(false)
+  const isDev = ref(false)
 
-  const { imageProvider, getImageUrl } = useImageProvider()
+  const { getImageUrl } = useImageProvider()
 
   defineProps<Props>()
   interface Props {
@@ -22,12 +22,7 @@
   }
 
   onMounted(() => {
-    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
-    if (timezone.startsWith('Asia/Shanghai')) {
-      showCdnImage.value = true
-    } else {
-      showCdnImage.value = false
-    }
+    isDev.value = import.meta.env.DEV
   })
 
   function fallback(e: Event) {
@@ -54,7 +49,7 @@
       const format = params.get('f') || 'webp'
       const fit = params.get('fit') || 'cover'
 
-      const newSrc = `/_ipx/f_${format}&q_${quality}&fit_${fit}&s_${width}x${height}${originalPath}`
+      const newSrc = `https://gongeo.us/.netlify/images?url=${encodeURIComponent(originalPath)}&w=${width}&h=${height}&fm=${format}&q=${quality}&fit=${fit}`
 
       img.src = newSrc
       img.dataset.fallback = 'true'
@@ -66,7 +61,7 @@
 
 <template>
   <img
-    v-if="showCdnImage"
+    v-if="isDev"
     :src="getImageUrl(src, { width, height, quality, format, fit })"
     :alt="alt"
     :class="className"
@@ -77,10 +72,10 @@
   />
   <NuxtImg
     v-else
-    :src="getImageUrl(src)"
+    :src="src"
     :alt="alt"
     :class="className"
-    :provider="imageProvider"
+    provider="ipx"
     :format="format"
     :width="width"
     :height="height"

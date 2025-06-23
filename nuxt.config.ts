@@ -91,7 +91,7 @@ export default defineNuxtConfig({
 
   image: {
     dir: 'public',
-    provider: 'ipxStatic',
+    provider: 'ipx',
     static: {
       baseURL: process.env.NUXT_PUBLIC_SITE_URL,
     },

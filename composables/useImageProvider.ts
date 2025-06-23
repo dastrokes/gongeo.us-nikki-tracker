@@ -6,11 +6,7 @@ export const useImageProvider = () => {
       const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
       return timezone.startsWith('Asia/Shanghai')
     }
-    return false
-  })
-
-  const imageProvider = computed(() => {
-    return 'ipxStatic'
+    return true
   })
 
   const getImageUrl = (
@@ -36,15 +32,22 @@ export const useImageProvider = () => {
       if (opts?.fit) params.append('fit', opts.fit)
 
       return `${base}?${params.toString()}`
-    }
+    } else {
+      const base = 'https://gongeo.us/.netlify/images'
+      const params = new URLSearchParams({ url: `/${cleanPath}` })
 
-    // For Netlify (non-China), let NuxtImg handle transforms
-    return path
+      if (opts?.width) params.append('w', String(opts.width))
+      if (opts?.height) params.append('h', String(opts.height))
+      if (opts?.quality) params.append('q', String(opts.quality))
+      if (opts?.format) params.append('f', opts.format)
+      if (opts?.fit) params.append('fit', opts.fit)
+
+      return `${base}?${params.toString()}`
+    }
   }
 
   return {
     isChina,
-    imageProvider,
     getImageUrl,
   }
 }

@@ -1,0 +1,76 @@
+{
+  "outputDirectory": "dist",
+  "headers": [
+    {
+      "source": "/.netlify/images/*",
+      "headers": [
+        {
+          "key": "cache-control",
+          "value": "public, max-age=31536000, immutable"
+        },
+        {
+          "key": "access-control-allow-origin",
+          "value": "*"
+        }
+      ]
+    },
+    {
+      "source": "/",
+      "headers": [
+        {
+          "key": "cache-control",
+          "value": "public, max-age=0, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/robots.txt",
+      "headers": [
+        {
+          "key": "cache-control",
+          "value": "public, max-age=604800"
+        }
+      ]
+    },
+    {
+      "source": "/favicon.ico",
+      "headers": [
+        {
+          "key": "cache-control",
+          "value": "public, max-age=604800"
+        }
+      ]
+    },
+    {
+      "source": "/apple-touch-icon*.png",
+      "headers": [
+        {
+          "key": "cache-control",
+          "value": "public, max-age=604800"
+        }
+      ]
+    },
+    {
+      "source": "/gongeous.js",
+      "headers": [
+        {
+          "key": "cache-control",
+          "value": "public, max-age=604800"
+        }
+      ]
+    },
+    {
+      "source": "/_nuxt/*",
+      "headers": [
+        {
+          "key": "cache-control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    }
+  ],
+  "buildEnv": {
+    "NODE_VERSION": "20.19.1",
+    "NODE_OPTIONS": "--max-old-space-size=8192"
+  }
+}

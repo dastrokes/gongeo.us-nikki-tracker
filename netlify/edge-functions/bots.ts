@@ -11,8 +11,8 @@ export const config: Config = {
     '/global',
     '/import',
     '/tracker',
-    '/zh',
-    '/zh/*',
+    '/en',
+    '/en/*',
     '/de',
     '/de/*',
     // Add more locales as needed...

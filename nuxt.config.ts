@@ -91,7 +91,7 @@ export default defineNuxtConfig({
 
   image: {
     dir: 'public',
-    provider: process.env.NODE_ENV === 'development' ? 'ipx' : 'netlify',
+    provider: 'ipx',
     static: {
       baseURL: process.env.NUXT_PUBLIC_SITE_URL,
     },
@@ -119,7 +119,6 @@ export default defineNuxtConfig({
   },
 
   nitro: {
-    preset: 'netlify',
     future: {
       nativeSWR: true,
     },

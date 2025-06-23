@@ -2,7 +2,7 @@
   import { ref, onMounted } from 'vue'
   import { useImageProvider } from '~/composables/useImageProvider'
 
-  const showCdnImage = ref(false)
+  const showCdnImage = ref(true)
 
   const { imageProvider, getImageUrl } = useImageProvider()
 
@@ -52,15 +52,7 @@
       const format = params.get('f') || 'webp'
       const fit = params.get('fit') || 'cover'
 
-      let newSrc = ''
-
-      if (import.meta.dev) {
-        // IPX format for development
-        newSrc = `/_ipx/f_${format}&q_${quality}&fit_${fit}&s_${width}x${height}${originalPath}`
-      } else {
-        // Netlify format for production
-        newSrc = `/.netlify/images?url=${encodeURIComponent(originalPath)}&w=${width}&h=${height}&fm=${format}&q=${quality}&fit=${fit}`
-      }
+      const newSrc = `/_ipx/f_${format}&q_${quality}&fit_${fit}&s_${width}x${height}${originalPath}`
 
       img.src = newSrc
       img.dataset.fallback = 'true'

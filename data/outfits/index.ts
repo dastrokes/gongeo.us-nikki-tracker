@@ -32,12 +32,14 @@ import S0179 from './S0179'
 import S0181 from './S0181'
 import S0183 from './S0183'
 import S0197 from './S0197'
+import S0198 from './S0198'
 import S0208 from './S0208'
 import S0216 from './S0216'
 import S0223 from './S0223'
 import S0226 from './S0226'
 import S0227 from './S0227'
 import S0228 from './S0228'
+import S0238 from './S0238'
 
 const OUTFIT_DATA = {
   S0001,
@@ -74,12 +76,14 @@ const OUTFIT_DATA = {
   S0181,
   S0183,
   S0197,
+  S0198,
   S0208,
   S0216,
   S0223,
   S0226,
   S0227,
   S0228,
+  S0238,
 } as const
 
 export type OutfitKey = keyof typeof OUTFIT_DATA

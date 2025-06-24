@@ -416,12 +416,11 @@ export const useBannerPullData = () => {
           outfit.completion = Math.floor(obtainedItems.size / outfit.totalItems)
         })
 
-        currentBanner.stats.completion = Math.floor(
-          currentBanner.outfits.reduce(
-            (sum, outfit) => sum + outfit.completion,
-            0
-          ) / currentBanner.outfits.length
-        )
+        const total = currentBanner.outfits.reduce((sum, outfit) => {
+          return sum + Math.min(outfit.completion, 2)
+        }, 0)
+        const average = total / currentBanner.outfits.length || 0
+        currentBanner.stats.completion = Math.floor(average)
       })
 
       globalStats.totalPulls = Object.values(pullsByBanner).reduce(

@@ -32,6 +32,11 @@ export const BANNER_DATA: BannerData = {
         start: '2024-12-05',
         end: '2024-12-18',
       },
+      {
+        version: '1.6.3',
+        start: '2025-06-23',
+        end: '2025-07-07',
+      },
     ],
   },
   3: {
@@ -308,6 +313,32 @@ export const BANNER_DATA: BannerData = {
       {
         version: '1.6.1',
         start: '2025-06-12',
+        end: '2025-07-07',
+      },
+    ],
+  },
+  24: {
+    bannerId: 24,
+    bannerType: 3,
+    outfit4StarId: ['S0198'],
+    outfit5StarId: [],
+    runs: [
+      {
+        version: '1.6.2',
+        start: '2025-06-23',
+        end: '2025-07-07',
+      },
+    ],
+  },
+  25: {
+    bannerId: 25,
+    bannerType: 3,
+    outfit4StarId: ['S0238'],
+    outfit5StarId: [],
+    runs: [
+      {
+        version: '1.6.2',
+        start: '2025-06-23',
         end: '2025-07-07',
       },
     ],

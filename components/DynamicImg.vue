@@ -49,7 +49,11 @@
       const format = params.get('f') || 'webp'
       const fit = params.get('fit') || 'cover'
 
-      const newSrc = `https://gongeo.us/.netlify/images?url=${encodeURIComponent(originalPath)}&w=${width}&h=${height}&fm=${format}&q=${quality}&fit=${fit}`
+      // Create the Netlify images URL
+      const netlifyUrl = `https://gongeo.us/.netlify/images?url=${encodeURIComponent(originalPath)}&w=${width}&h=${height}&fm=${format}&q=${quality}&fit=${fit}`
+
+      // Use the proxy for accessing Netlify images
+      const newSrc = `https://gongeous.cn/image-proxy/${encodeURIComponent(netlifyUrl)}`
 
       img.src = newSrc
       img.dataset.fallback = 'true'

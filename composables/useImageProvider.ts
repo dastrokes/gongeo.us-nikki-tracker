@@ -33,16 +33,20 @@ export const useImageProvider = () => {
 
       return `${base}?${params.toString()}`
     } else {
-      const base = 'https://gongeo.us/.netlify/images'
-      const params = new URLSearchParams({ url: `/${cleanPath}` })
+      // First create the Netlify Images URL
+      const netlifyBase = 'https://gongeo.us/.netlify/images'
+      const netlifyParams = new URLSearchParams({ url: `/${cleanPath}` })
 
-      if (opts?.width) params.append('w', String(opts.width))
-      if (opts?.height) params.append('h', String(opts.height))
-      if (opts?.quality) params.append('q', String(opts.quality))
-      if (opts?.format) params.append('f', opts.format)
-      if (opts?.fit) params.append('fit', opts.fit)
+      if (opts?.width) netlifyParams.append('w', String(opts.width))
+      if (opts?.height) netlifyParams.append('h', String(opts.height))
+      if (opts?.quality) netlifyParams.append('q', String(opts.quality))
+      if (opts?.format) netlifyParams.append('fm', opts.format)
+      if (opts?.fit) netlifyParams.append('fit', opts.fit)
 
-      return `${base}?${params.toString()}`
+      const netlifyUrl = `${netlifyBase}?${netlifyParams.toString()}`
+
+      // Then wrap it with the image proxy
+      return `https://gongeous.cn/image-proxy/${encodeURIComponent(netlifyUrl)}`
     }
   }
 

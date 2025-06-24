@@ -33,25 +33,33 @@ export const useImageProvider = () => {
 
       return `${base}?${params.toString()}`
     } else {
-      // First create the Netlify Images URL
+      // Create Netlify URL with the correct parameter order
       const netlifyBase = 'https://gongeo.us/.netlify/images'
-      const netlifyParams = new URLSearchParams({ url: `/${cleanPath}` })
+      // Start with width, height, format, quality, fit parameters first
+      const netlifyParams = new URLSearchParams()
 
       if (opts?.width) netlifyParams.append('w', String(opts.width))
       if (opts?.height) netlifyParams.append('h', String(opts.height))
-      if (opts?.quality) netlifyParams.append('q', String(opts.quality))
       if (opts?.format) netlifyParams.append('fm', opts.format)
+      if (opts?.quality) netlifyParams.append('q', String(opts.quality))
       if (opts?.fit) netlifyParams.append('fit', opts.fit)
 
-      const netlifyUrl = `${netlifyBase}?${netlifyParams.toString()}`
+      // Add the url parameter last
+      netlifyParams.append('url', `/${cleanPath}`)
 
-      // Then wrap it with the image proxy
+      const netlifyUrl = `${netlifyBase}?${netlifyParams.toString()}`
       return `https://gongeous.cn/image-proxy/${encodeURIComponent(netlifyUrl)}`
     }
+  }
+
+  // Function to get a proxied URL for any image with the correct parameter order
+  const getProxiedImageUrl = (originalUrl: string) => {
+    return `https://gongeous.cn/image-proxy/${encodeURIComponent(originalUrl)}`
   }
 
   return {
     isChina,
     getImageUrl,
+    getProxiedImageUrl,
   }
 }

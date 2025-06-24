@@ -49,10 +49,20 @@
       const format = params.get('f') || 'webp'
       const fit = params.get('fit') || 'cover'
 
-      // Create the Netlify images URL
-      const netlifyUrl = `https://gongeo.us/.netlify/images?url=${encodeURIComponent(originalPath)}&w=${width}&h=${height}&fm=${format}&q=${quality}&fit=${fit}`
+      // Create Netlify URL
+      const netlifyParams = new URLSearchParams()
 
-      // Use the proxy for accessing Netlify images
+      // Add parameters in the correct order
+      if (width) netlifyParams.append('w', width)
+      if (height) netlifyParams.append('h', height)
+      if (format) netlifyParams.append('fm', format)
+      if (quality) netlifyParams.append('q', quality)
+      if (fit) netlifyParams.append('fit', fit)
+
+      // Add the url parameter last
+      netlifyParams.append('url', originalPath)
+
+      const netlifyUrl = `https://gongeo.us/.netlify/images?${netlifyParams.toString()}`
       const newSrc = `https://gongeous.cn/image-proxy/${encodeURIComponent(netlifyUrl)}`
 
       img.src = newSrc

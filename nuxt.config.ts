@@ -2,7 +2,7 @@
 import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
 import Components from 'unplugin-vue-components/vite'
 import { BANNER_DATA } from './data/banners'
-import { defaultLocale, i18nLocales } from './locales/locales'
+import { defaultLocale, i18nLocales } from './locales/i18n.config'
 
 export default defineNuxtConfig({
   devtools: { enabled: false },

@@ -17,7 +17,7 @@
         content-style="padding: 0;"
         class="relative overflow-hidden rounded-md transition-all duration-300 ease-in-out aspect-square ring-1 min-h-[60px] xl:min-h-[100px] aspect-square"
       >
-        <DynamicImg
+        <NuxtImg
           :src="`/images/items/${item.itemId}.webp`"
           :alt="item.itemId"
           class="w-full h-full object-cover aspect-square"

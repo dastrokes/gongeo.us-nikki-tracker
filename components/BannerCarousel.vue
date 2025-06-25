@@ -62,7 +62,7 @@
           </n-tag></ClientOnly
         >
 
-        <DynamicImg
+        <NuxtImg
           :src="`/images/banners/${banner.bannerId}.webp`"
           :alt="banner.bannerId.toString()"
           class="w-full h-full object-cover"

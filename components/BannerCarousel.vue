@@ -67,13 +67,13 @@
           :alt="banner.bannerId.toString()"
           class="w-full h-full object-cover"
           format="webp"
-          width="600"
-          height="300"
+          width="1000"
+          height="500"
           fit="cover"
           :quality="100"
           :loading="index === 0 ? 'eager' : 'lazy'"
           :preload="index === 0 ? true : false"
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 800px"
+          sizes="400px sm:800px"
         />
       </NuxtLink>
     </n-carousel-item>

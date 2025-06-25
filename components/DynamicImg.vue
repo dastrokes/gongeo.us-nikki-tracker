@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { ref, onMounted } from 'vue'
+  import { ref } from 'vue'
   import { useImageProvider } from '~/composables/useImageProvider'
 
   const showCdnImage = ref(false)
@@ -21,12 +21,12 @@
     sizes?: string
   }
 
-  onMounted(() => {
-    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
-    if (timezone.startsWith('Asia/Shanghai')) {
-      showCdnImage.value = true
-    }
-  })
+  // onMounted(() => {
+  //   const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
+  //   if (timezone.startsWith('Asia/Shanghai')) {
+  //     showCdnImage.value = true
+  //   }
+  // })
 
   function fallback(e: Event) {
     const img = e.target as HTMLImageElement

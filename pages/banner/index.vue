@@ -123,7 +123,7 @@
                         fit="cover"
                         :quality="100"
                         loading="lazy"
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 800px"
+                        sizes="400px sm:800px"
                       />
                     </div>
                   </div>

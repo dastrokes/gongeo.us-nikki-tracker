@@ -34,7 +34,9 @@
           width="300"
           height="450"
           fit="cover"
+          :quality="100"
           loading="lazy"
+          sizes="300px"
         />
         <div
           class="absolute top-1 right-1 scale-90 sm:scale-100 origin-top-right z-20"

@@ -123,6 +123,9 @@ export default defineNuxtConfig({
     future: {
       nativeSWR: true,
     },
+    prerender: {
+      routes: ['/faq', '/about'],
+    },
   },
 
   compatibilityDate: '2025-02-01',

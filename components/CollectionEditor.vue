@@ -46,7 +46,7 @@
             >
               <n-tooltip>
                 <template #trigger>
-                  <DynamicImg
+                  <NuxtImg
                     :src="`/images/items/${itemId}.webp`"
                     :alt="itemId"
                     class="w-full aspect-square object-cover rounded-md"

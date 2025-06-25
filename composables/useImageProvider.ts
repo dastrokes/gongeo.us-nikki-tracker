@@ -2,10 +2,10 @@ import { computed } from 'vue'
 
 export const useImageProvider = () => {
   const isChina = computed(() => {
-    if (import.meta.client) {
-      const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
-      return timezone.startsWith('Asia/Shanghai')
-    }
+    // if (import.meta.client) {
+    //   const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
+    //   return timezone.startsWith('Asia/Shanghai')
+    // }
     return false
   })
 

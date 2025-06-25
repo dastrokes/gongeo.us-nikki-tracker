@@ -2,27 +2,7 @@
 import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
 import Components from 'unplugin-vue-components/vite'
 import { BANNER_DATA } from './data/banners'
-
-const i18nLocales = [
-  {
-    code: 'en',
-    iso: 'en-US',
-    name: 'English',
-    files: ['en/common.json', 'en/outfit.json'],
-  },
-  {
-    code: 'de',
-    iso: 'de-DE',
-    name: 'Deutsch',
-    files: ['de/common.json', 'de/outfit.json'],
-  },
-  {
-    code: 'zh',
-    iso: 'zh-CN',
-    name: '中文',
-    files: ['zh/common.json', 'zh/outfit.json'],
-  },
-]
+import { defaultLocale, i18nLocales } from './locales/locales'
 
 export default defineNuxtConfig({
   devtools: { enabled: false },
@@ -50,7 +30,7 @@ export default defineNuxtConfig({
     restructureDir: 'locales',
     langDir: './',
     locales: i18nLocales,
-    defaultLocale: 'en',
+    defaultLocale: defaultLocale,
     strategy: 'prefix_except_default',
     lazy: true,
     detectBrowserLanguage: {
@@ -58,7 +38,7 @@ export default defineNuxtConfig({
       cookieKey: 'i18n_redirected',
       redirectOn: 'no prefix',
       alwaysRedirect: false,
-      fallbackLocale: 'en',
+      fallbackLocale: defaultLocale,
     },
   },
 
@@ -69,7 +49,7 @@ export default defineNuxtConfig({
   sitemap: {
     urls: Object.values(BANNER_DATA).flatMap((banner) =>
       i18nLocales.map(({ code }) => {
-        const prefix = code === 'en' ? '' : `/${code}`
+        const prefix = code === defaultLocale ? '' : `/${code}`
         return {
           loc: `${prefix}/banner/${banner.bannerId}`,
         }
@@ -124,7 +104,7 @@ export default defineNuxtConfig({
       nativeSWR: true,
     },
     prerender: {
-      routes: ['/faq', '/about'],
+      routes: ['/', '/faq', '/about', '/banner'],
     },
   },
 

@@ -39,7 +39,7 @@
               <div
                 class="w-full aspect-[2/1] relative overflow-hidden rounded-lg"
               >
-                <DynamicImg
+                <NuxtImg
                   :src="`/images/banners/${banner.bannerId}.webp`"
                   :alt="banner.bannerId.toString()"
                   class="absolute inset-0 w-full h-full object-cover"

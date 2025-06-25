@@ -1,9 +1,18 @@
 import type { Context, Config } from '@netlify/edge-functions'
+import { i18nLocales, defaultLocale } from '../../locales/i18n.config'
+
+// Generate locale paths dynamically from i18nLocales
+const localePaths = i18nLocales
+  .filter((locale) => locale.code !== defaultLocale)
+  .flatMap((locale) => [
+    `/${locale.code}`,
+    `/${locale.code}/*`,
+  ]) as `/${string}`[]
 
 export const config: Config = {
   path: ['/*'],
   excludedPath: [
-    '/', // homepage
+    '/',
     '/about',
     '/banner',
     '/banner/*',
@@ -11,11 +20,8 @@ export const config: Config = {
     '/global',
     '/import',
     '/tracker',
-    '/zh',
-    '/zh/*',
-    '/de',
-    '/de/*',
-    // Add more locales as needed...
+
+    ...localePaths,
 
     // Static Nuxt assets
     '/_nuxt/**',
@@ -32,9 +38,9 @@ export const config: Config = {
     '/favicon.ico',
     '/gongeous.js',
     '/robots.txt',
-    '/sitemap.xml',
+    '/*sitemap*',
     '/og.png',
-  ],
+  ] as `/${string}`[],
 }
 
 // Malicious bots only (strict, no legit crawlers included)

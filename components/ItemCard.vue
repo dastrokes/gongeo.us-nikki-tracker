@@ -28,7 +28,7 @@
           :quality="100"
           loading="lazy"
           placeholder="/images/loading.webp"
-          sizes="(max-width: 640px) 80px, 120px"
+          sizes="80px sm:120px"
         />
         <n-tag
           v-if="

@@ -1,13 +1,12 @@
 import type { Context, Config } from '@netlify/edge-functions'
-import { i18nLocales, defaultLocale } from '../../locales/locales'
 
-// Generate locale paths dynamically from i18nLocales
-const localePaths = i18nLocales
-  .filter((locale) => locale.code !== defaultLocale)
-  .flatMap((locale) => [
-    `/${locale.code}`,
-    `/${locale.code}/*`,
-  ]) as `/${string}`[]
+// Define locales directly with just language codes
+const defaultLocale = 'en'
+const localeCodes = ['en', 'de', 'zh']
+
+const localePaths = localeCodes
+  .filter((code) => code !== defaultLocale)
+  .flatMap((code) => [`/${code}`, `/${code}/*`]) as `/${string}`[]
 
 export const config: Config = {
   path: ['/*'],

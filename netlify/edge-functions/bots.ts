@@ -1,5 +1,5 @@
 import type { Context, Config } from '@netlify/edge-functions'
-import { i18nLocales, defaultLocale } from '../../locales/i18n.config'
+import { i18nLocales, defaultLocale } from '../../locales/locales'
 
 // Generate locale paths dynamically from i18nLocales
 const localePaths = i18nLocales

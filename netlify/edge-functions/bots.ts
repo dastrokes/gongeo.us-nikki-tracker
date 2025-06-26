@@ -89,6 +89,7 @@ const blockedKeywords = [
   'helper',
   'info',
   'index',
+  'ipfs',
   'jenkins',
   'jmx',
   'log',

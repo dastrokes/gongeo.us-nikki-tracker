@@ -4,6 +4,7 @@
     <template v-if="loading">
       <!-- Stats Header Skeleton -->
       <n-card
+        content-class="!p-2 sm:!p-4"
         size="small"
         class="rounded-xl"
         :style="cardStyle"
@@ -24,7 +25,7 @@
               class="mb-2 mx-auto"
             />
             <n-skeleton
-              height="28px"
+              height="24px"
               width="60%"
               class="mx-auto"
             />
@@ -32,13 +33,13 @@
           <div class="flex justify-end space-x-2 items-center">
             <n-skeleton
               circle
-              width="24px"
-              height="24px"
+              width="18px"
+              height="18px"
             />
             <n-skeleton
               circle
-              width="24px"
-              height="24px"
+              width="18px"
+              height="18px"
             />
           </div>
         </div>
@@ -50,19 +51,20 @@
           v-for="i in 3"
           :key="i"
           size="small"
-          class="rounded-xl"
+          class="rounded-xl mt-4"
+          content-class="!p-2 sm:!p-4"
           :style="cardStyle"
         >
-          <div class="space-y-4">
+          <div class="space-y-2">
             <!-- Banner Header Skeleton -->
             <div class="flex items-center justify-between">
               <div
-                class="flex flex-col sm:flex-row items-start sm:items-center gap-4"
+                class="flex flex-col sm:flex-row items-start sm:items-center gap-2"
               >
                 <n-skeleton
                   text
-                  width="200px"
-                  height="30px"
+                  width="180px"
+                  height="20px"
                 />
                 <div class="flex flex-wrap gap-2">
                   <n-skeleton
@@ -80,20 +82,18 @@
               <div class="flex space-x-2 shrink-0">
                 <n-skeleton
                   circle
-                  width="24px"
-                  height="24px"
+                  width="18px"
+                  height="18px"
                 />
                 <n-skeleton
                   circle
-                  width="24px"
-                  height="24px"
+                  width="18px"
+                  height="18px"
                 />
               </div>
             </div>
             <!-- Items Grid Skeleton -->
-            <div
-              class="grid grid-cols-5 sm:grid-cols-8 lg:grid-cols-10 gap-2 mt-2"
-            >
+            <div class="grid grid-cols-5 sm:grid-cols-8 lg:grid-cols-10 gap-2">
               <n-skeleton
                 :repeat="10"
                 class="rounded-lg aspect-square w-full h-full"
@@ -106,7 +106,7 @@
 
     <!-- Content (only show when not loading) -->
     <div
-      v-show="!loading"
+      v-else
       class="png-export-container"
     >
       <!-- Stats Header -->
@@ -432,10 +432,7 @@
       </n-card>
 
       <!-- Banner List -->
-      <div
-        v-if="!loading"
-        class="space-y-4"
-      >
+      <div class="space-y-4">
         <div>
           <template
             v-for="banner in sortedBanners"
@@ -444,7 +441,7 @@
             <n-card
               content-class="!p-2 sm:!pt-2 sm:!p-4"
               size="small"
-              class="rounded-xl min-h-[120px] sm:min-h-[180px] mt-4"
+              class="rounded-xl min-h-[120px] sm:min-h-[160px] mt-4"
               :style="cardStyle"
             >
               <!-- Banner Header -->

@@ -11,7 +11,11 @@
           :options="outfitOptions"
           @update:value="loadOutfitData"
         />
-        <n-tooltip :width="200">
+        <n-tooltip
+          :width="250"
+          trigger="hover"
+          placement="top"
+        >
           <template #trigger>
             <n-button
               size="tiny"

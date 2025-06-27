@@ -1,7 +1,7 @@
 <template>
   <div class="flex items-center justify-center">
     <n-popover
-      :width="180"
+      :width="200"
       trigger="click"
     >
       <template #trigger>

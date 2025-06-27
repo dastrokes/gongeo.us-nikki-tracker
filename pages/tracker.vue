@@ -141,7 +141,7 @@
                   :duration="5000"
                 />
                 <n-tooltip
-                  :width="180"
+                  :width="200"
                   trigger="click"
                 >
                   <template #trigger>

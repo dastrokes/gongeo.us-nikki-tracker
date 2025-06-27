@@ -48,7 +48,7 @@
                 <template #trigger>
                   <NuxtImg
                     :src="`/images/items/${itemId}.webp`"
-                    :alt="itemId"
+                    :alt="t(`item.${itemId}.name`)"
                     class="w-full aspect-square object-cover rounded-md"
                     format="webp"
                     width="120"

@@ -115,7 +115,7 @@
                     >
                       <NuxtImg
                         :src="`/images/banners/${banner.bannerId}.webp`"
-                        :alt="banner.bannerId.toString()"
+                        :alt="t(`banner.${banner.bannerId}.name`)"
                         class="absolute inset-0 w-full h-full object-cover"
                         format="webp"
                         width="500"

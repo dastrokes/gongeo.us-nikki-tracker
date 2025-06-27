@@ -82,7 +82,7 @@
       "step2": "Öffne die Entwicklertools deines Browsers (Drücke F12 oder rechtsklicke und wähle \"Untersuchen\" aus)",
       "step3": "Gehe zum \"Console\"-Tab",
       "step4": "Klicke auf den \"Code kopieren\"-Knopf, kopiere den Code, füge ihn in der Konsole ein und drücke Enter:",
-      "step5": "Solltest du die folgende Warnung sehen: \"Warning: Don't paste code into the DevTools Console\", gebe \"allow pasting\" ein und drücke Enter",
+      "step5": "Solltest du eine Warnung sehen, gebe \"allow pasting\" oder \"Einfügen erlauben\" (je nach Browser und Spracheinstellung) und drücke die Enter-Taste",
       "step6": "Kopiere den ausgegebenen Text (er sollte so aussehen wie das Beispiel im Eingabefeld unten)",
       "step7": "Komm wieder auf diese Seite und füge den ausgegebenen Text in das Eingabefeld unten ein"
     },

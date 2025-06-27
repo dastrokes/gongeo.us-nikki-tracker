@@ -19,7 +19,7 @@
       >
         <NuxtImg
           :src="`/images/items/${item.itemId}.webp`"
-          :alt="item.itemId"
+          :alt="t(`item.${item.itemId}.name`)"
           class="w-full h-full object-cover aspect-square"
           format="webp"
           width="120"

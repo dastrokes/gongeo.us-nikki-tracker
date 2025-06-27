@@ -64,7 +64,7 @@
 
         <NuxtImg
           :src="`/images/banners/${banner.bannerId}.webp`"
-          :alt="banner.bannerId.toString()"
+          :alt="t(`banner.${banner.bannerId}.name`)"
           class="w-full h-full object-cover"
           format="webp"
           width="1000"
@@ -83,6 +83,8 @@
 <script setup lang="ts">
   import { HourglassHalf } from '@vicons/fa'
   import type { Banner } from '~/types/banner'
+
+  const { t } = useI18n()
   const localePath = useLocalePath()
 
   const props = defineProps<{

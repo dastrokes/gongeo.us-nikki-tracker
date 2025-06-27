@@ -116,6 +116,7 @@
       }"
     >
       <n-tooltip
+        :width="250"
         trigger="hover"
         placement="top"
       >

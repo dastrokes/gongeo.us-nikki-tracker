@@ -27,7 +27,6 @@
           fit="cover"
           :quality="100"
           loading="lazy"
-          placeholder="/images/loading.webp"
           sizes="80px sm:120px"
         />
         <n-tag

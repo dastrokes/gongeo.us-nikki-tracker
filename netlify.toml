@@ -38,6 +38,11 @@
   for = "/gongeous.js"
   [headers.values]
     cache-control = "public, max-age=604800"
+	
+[[headers]]
+  for = "/66641125bbad403d994c7d7af32e196b.txt"
+  [headers.values]
+    cache-control = "public, max-age=604800"
 
 # Headers: Nuxt static assets
 [[headers]]

@@ -3,7 +3,6 @@ import type { PullRecord, PullState, EditRecord, EvoRecord } from '~/types/pull'
 import { useBannerPullData } from '~/composables/useBannerPullData'
 import { BANNER_DATA } from '~/data/banners'
 import type { BannerData } from '~/types/banner'
-import { getBannerOutfitIds, getOutfitData } from '~/utils/utils'
 
 export const usePullStore = defineStore('pull', {
   state: (): PullState => ({
@@ -91,6 +90,12 @@ export const usePullStore = defineStore('pull', {
 
         this.processedPulls = processedPulls
         this.globalStats = globalStats
+
+        // Always add missing items for all banners during initial processing
+        Object.keys(BANNER_DATA).forEach((bannerIdStr) => {
+          const bannerId = parseInt(bannerIdStr)
+          this.addMissingItems(bannerId)
+        })
       } catch (error) {
         console.error(`Failed to process pulls data:`, error)
       } finally {
@@ -98,118 +103,43 @@ export const usePullStore = defineStore('pull', {
       }
     },
 
-    async addMissingItems(bannerId: number) {
+    addMissingItems(bannerId: number) {
       const bannerInfo = (BANNER_DATA as BannerData)[bannerId]
       if (!bannerInfo) return
 
-      if (!this.processedPulls[bannerId]) {
-        // Create a new banner object instead of directly mutating
-        this.processedPulls = {
-          ...this.processedPulls,
-          [bannerId]: {
-            pulls: [],
-            outfits: [],
-            stats: {
-              lastPull: new Date(0).toISOString(),
-              totalPulls: 0,
-              totalItems: 0,
-              pity4Star: 0,
-              pity5Star: 0,
-              avg4StarPulls: 0,
-              avg5StarPulls: 0,
-              avg4StarOnlyPulls: 0,
-              total4StarItems: 0,
-              total5StarItems: 0,
-              total4StarOnlyItems: 0,
-              total4StarPulls: 0,
-              total5StarPulls: 0,
-              total4StarOnlyPulls: 0,
-              completion: 0,
-            },
-            bannerId: bannerId,
-            bannerType: bannerInfo.bannerType,
-          },
-        }
-      }
-
-      const { outfit4StarId, outfit5StarId } = getBannerOutfitIds(bannerId)
       const currentBanner = this.processedPulls[bannerId]
-      let outfitsUpdated = false
-      const newOutfits = [...currentBanner.outfits]
+      if (!currentBanner) return
 
-      if (!currentBanner.outfits.length) {
-        for (const outfitId of outfit4StarId) {
-          const outfitData = getOutfitData(outfitId)
-          if (outfitData) {
-            newOutfits.push({
-              id: outfitId,
-              rarity: 4,
-              items: outfitData.items,
-              completion: 0,
-              totalItems: outfitData.items.length,
-              obtainedItems: 0,
-            })
-            outfitsUpdated = true
-          }
-        }
-        for (const outfitId of outfit5StarId) {
-          const outfitData = getOutfitData(outfitId)
-          if (outfitData) {
-            newOutfits.push({
-              id: outfitId,
-              rarity: 5,
-              items: outfitData.items,
-              completion: 0,
-              totalItems: outfitData.items.length,
-              obtainedItems: 0,
-            })
-            outfitsUpdated = true
-          }
-        }
-      }
+      const newPulls = [...currentBanner.pulls]
+      const existingItems = new Set(
+        currentBanner.pulls.map((pull) => pull.itemId)
+      )
 
-      // Update outfits if needed
-      if (outfitsUpdated) {
-        this.processedPulls = {
-          ...this.processedPulls,
-          [bannerId]: {
-            ...currentBanner,
-            outfits: newOutfits,
-          },
-        }
-      }
-
-      // Create a new array for pulls to add
-      const newPulls = []
-
-      for (const outfit of this.processedPulls[bannerId].outfits) {
-        const obtainedItemIds = this.processedPulls[bannerId].pulls
-          .filter((pull) => pull.outfitId === outfit.id)
-          .map((pull) => pull.itemId)
-
-        for (const id of outfit.items) {
-          if (!obtainedItemIds.includes(id)) {
+      // Add missing items for all outfits in this banner
+      currentBanner.outfits.forEach((outfit) => {
+        outfit.items.forEach((itemId) => {
+          if (!existingItems.has(itemId)) {
             newPulls.push({
-              itemId: id,
+              itemId,
               outfitId: outfit.id,
-              rarity: outfit.rarity as number,
+              rarity: outfit.rarity,
               pullsToObtain: 0,
               obtainedAt: '',
-              bannerId: bannerId,
+              bannerId,
               count: 0,
               pullIndex: 0,
             })
           }
-        }
-      }
+        })
+      })
 
-      // Only update if we have new pulls to add
-      if (newPulls.length > 0) {
+      // Update only if we added missing items
+      if (newPulls.length > currentBanner.pulls.length) {
         this.processedPulls = {
           ...this.processedPulls,
           [bannerId]: {
-            ...this.processedPulls[bannerId],
-            pulls: [...this.processedPulls[bannerId].pulls, ...newPulls],
+            ...currentBanner,
+            pulls: newPulls,
           },
         }
       }

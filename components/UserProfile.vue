@@ -25,6 +25,7 @@
   import { useUserStore } from '~/stores/user'
   import { useIndexedDB } from '~/composables/useIndexedDB'
   import { usePullStore } from '~/stores/pull'
+  import { useTrackerSettings } from '~/composables/useTrackerSettings'
 
   const { t } = useI18n()
   const dialog = useDialog()
@@ -57,6 +58,8 @@
           await clearData()
           userStore.reset()
           pullStore.reset()
+          const { resetToDefaults } = useTrackerSettings()
+          resetToDefaults()
         },
       })
     }

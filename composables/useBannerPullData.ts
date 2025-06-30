@@ -399,8 +399,8 @@ export const useBannerPullData = () => {
         const pullsByOutfit: Record<string, Set<PullItem>> = {}
         currentBanner.pulls.reverse().forEach((pull) => {
           itemCount[pull.itemId] = (itemCount[pull.itemId] || 0) + 1
-          // Cap the count at 2 for each item
-          pull.count = Math.min(itemCount[pull.itemId], 2)
+
+          pull.count = itemCount[pull.itemId]
 
           if (!pullsByOutfit[pull.outfitId]) {
             pullsByOutfit[pull.outfitId] = new Set()

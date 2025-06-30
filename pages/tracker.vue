@@ -216,7 +216,6 @@
                 />
                 <DiceAnimation
                   v-if="globalStats.avg5StarPulls > 0"
-                  v-show="!exporting"
                   :percentile="getAvg5StarPercentile(globalStats.avg5StarPulls)"
                 />
               </div>
@@ -241,7 +240,6 @@
                 />
                 <DiceAnimation
                   v-if="globalStats.avg4StarPulls > 0"
-                  v-show="!exporting"
                   :percentile="
                     getAvg4StarType2Percentile(globalStats.avg4StarPulls)
                   "
@@ -268,7 +266,6 @@
                 />
                 <DiceAnimation
                   v-if="globalStats.avg4StarOnlyPulls > 0"
-                  v-show="!exporting"
                   :percentile="
                     getAvg4StarType3Percentile(globalStats.avg4StarOnlyPulls)
                   "
@@ -296,6 +293,7 @@
               <n-popover
                 trigger="manual"
                 :show="showPopover"
+                @clickoutside="showPopover = false"
               >
                 <template #trigger>
                   <n-button
@@ -359,7 +357,7 @@
                 <div class="min-w-[200px]">
                   <div class="space-y-4">
                     <div class="flex items-center justify-between">
-                      <n-switch v-model:value="sortBanner">
+                      <n-switch v-model:value="settings.sortBanner">
                         <template #checked>{{
                           t('tracker.banner.settings.oldest_first')
                         }}</template>
@@ -372,7 +370,7 @@
                       </span>
                     </div>
                     <div class="flex items-center justify-between">
-                      <n-switch v-model:value="sortItems">
+                      <n-switch v-model:value="settings.sortItems">
                         <template #checked>{{
                           t('tracker.banner.settings.oldest_first')
                         }}</template>
@@ -385,7 +383,7 @@
                       </span>
                     </div>
                     <div class="flex items-center justify-between">
-                      <n-switch v-model:value="combineOutfits">
+                      <n-switch v-model:value="settings.combineOutfits">
                         <template #checked>{{
                           t('tracker.banner.settings.combined')
                         }}</template>
@@ -398,7 +396,20 @@
                       </span>
                     </div>
                     <div class="flex items-center justify-between">
-                      <n-switch v-model:value="showDuplicates">
+                      <n-switch v-model:value="settings.show4StarItems">
+                        <template #checked>{{
+                          t('tracker.banner.settings.show')
+                        }}</template>
+                        <template #unchecked>{{
+                          t('tracker.banner.settings.hide')
+                        }}</template>
+                      </n-switch>
+                      <span class="text-sm text-gray-400 ml-3">
+                        {{ t('tracker.banner.settings.show_4star') }}
+                      </span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                      <n-switch v-model:value="settings.showDuplicates">
                         <template #checked>{{
                           t('tracker.banner.settings.show')
                         }}</template>
@@ -411,7 +422,20 @@
                       </span>
                     </div>
                     <div class="flex items-center justify-between">
-                      <n-switch v-model:value="showEmptyBanners">
+                      <n-switch v-model:value="settings.showMissingPieces">
+                        <template #checked>{{
+                          t('tracker.banner.settings.show')
+                        }}</template>
+                        <template #unchecked>{{
+                          t('tracker.banner.settings.hide')
+                        }}</template>
+                      </n-switch>
+                      <span class="text-sm text-gray-400 ml-3">
+                        {{ t('tracker.banner.settings.show_missing') }}
+                      </span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                      <n-switch v-model:value="settings.showEmptyBanners">
                         <template #checked>{{
                           t('tracker.banner.settings.show')
                         }}</template>
@@ -693,82 +717,17 @@
                       <n-icon><Edit /></n-icon>
                     </template>
                   </n-button>
-
-                  <!-- Banner Settings Button -->
-                  <n-popover trigger="click">
-                    <template #trigger>
-                      <n-button
-                        v-show="!exporting"
-                        size="small"
-                        text
-                        circle
-                        class="text-gray-500"
-                      >
-                        <template #icon>
-                          <n-icon>
-                            <cog />
-                          </n-icon>
-                        </template>
-                      </n-button>
-                    </template>
-                    <div class="min-w-[200px]">
-                      <div class="space-y-4">
-                        <div
-                          v-if="
-                            banner.bannerType === 1 || banner.bannerType === 2
-                          "
-                          class="flex items-center justify-between"
-                        >
-                          <n-switch
-                            v-model:value="show4StarItems[banner.bannerId]"
-                          >
-                            <template #checked>{{
-                              t('tracker.banner.settings.show')
-                            }}</template>
-                            <template #unchecked>{{
-                              t('tracker.banner.settings.hide')
-                            }}</template>
-                          </n-switch>
-                          <span class="text-sm text-gray-400 ml-3">
-                            {{ t('tracker.banner.settings.show_4star') }}
-                          </span>
-                        </div>
-                        <div class="flex items-center justify-between">
-                          <n-switch
-                            v-model:value="showMissingPieces[banner.bannerId]"
-                            :disabled="
-                              banner.stats && banner.stats.completion >= 1
-                            "
-                            @update:value="
-                              (value) =>
-                                loadMissingItems(value, banner.bannerId)
-                            "
-                          >
-                            <template #checked>{{
-                              t('tracker.banner.settings.show')
-                            }}</template>
-                            <template #unchecked>{{
-                              t('tracker.banner.settings.hide')
-                            }}</template>
-                          </n-switch>
-                          <span class="text-sm text-gray-400 ml-3">
-                            {{ t('tracker.banner.settings.show_missing') }}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </n-popover>
                 </div>
               </div>
 
               <!-- Combined Outfits View -->
-              <template v-if="combineOutfits">
+              <template v-if="settings.combineOutfits">
                 <div
                   class="grid grid-cols-5 sm:grid-cols-8 lg:grid-cols-10 gap-2 mt-2"
                 >
                   <ItemCard
                     v-for="pull in filterPulls(banner.pulls, banner)"
-                    :key="pull.pullIndex"
+                    :key="`${pull.itemId}-${pull.count}`"
                     :item="pull"
                   />
                 </div>
@@ -790,7 +749,7 @@
                       getOutfitItems(banner.pulls, outfit.id),
                       banner
                     )"
-                    :key="pull.pullIndex"
+                    :key="`${pull.itemId}-${pull.count}`"
                     :item="pull"
                   />
                 </div>
@@ -861,7 +820,6 @@
     Edit,
   } from '@vicons/fa'
   import { useMessage } from 'naive-ui'
-  import { BANNER_DATA } from '~/data/banners'
   import { useIndexedDB } from '~/composables/useIndexedDB'
   import { usePullStore } from '~/stores/pull'
   import type { PullItem, ProcessedBanner } from '~/types/pull'
@@ -939,85 +897,74 @@
   })
 
   // Helper functions and constants
-  const initializeToggleStates = () => {
-    const show4Stars: Record<string, boolean> = {}
-    const showMissing: Record<string, boolean> = {}
-
-    // Initialize for each banner
-    for (const banner of Object.values(BANNER_DATA)) {
-      show4Stars[banner.bannerId] = false
-      showMissing[banner.bannerId] = false
-    }
-
-    return { show4Stars, showMissing }
-  }
-
   const getOutfitItems = (items: PullItem[], outfitId: string) => {
     return items.filter((item) => item.outfitId === outfitId)
   }
 
-  // Initialize toggle states
-  const { show4Stars, showMissing } = initializeToggleStates()
-
-  const show4StarItems = ref(show4Stars)
-  const showMissingPieces = ref(showMissing)
-  const sortBanner = ref(false)
-  const sortItems = ref(false)
-  const combineOutfits = ref(false)
-  const showEmptyBanners = ref(false)
-  const showDuplicates = ref(false)
+  // Display settings using composable
+  const { settings } = useTrackerSettings()
 
   // Function to sort banners
   const sortedBanners = computed(() => {
     const banners = Object.values(processedPulls.value)
     // Filter out empty banners if showEmptyBanners is false
-    const filteredBanners = showEmptyBanners.value
+    const filteredBanners = settings.value.showEmptyBanners
       ? banners
       : banners.filter(
           (banner) => banner.pulls.filter((pull) => pull.count > 0).length > 0
         )
 
     return filteredBanners.sort((a, b) => {
-      return sortBanner.value
+      return settings.value.sortBanner
         ? a.bannerId - b.bannerId
         : b.bannerId - a.bannerId
     })
   })
 
-  // Function to load missing items for a banner
-  const loadMissingItems = async (value: boolean, bannerId: number) => {
-    if (value) {
-      await pullStore.addMissingItems(bannerId)
-    }
-  }
-
-  // Function to filter pulls based on UI toggles
+  // Filter pulls based on UI toggles
   const filterPulls = (pulls: PullItem[], banner: ProcessedBanner) => {
     let filteredPulls = pulls.filter((pull) => {
       // When show4StarItems is false, hide 4★ items only in type 2 banners
       if (
         pull.rarity === 4 &&
-        !show4StarItems.value[banner.bannerId] &&
+        !settings.value.show4StarItems &&
         (banner.bannerType === 1 || banner.bannerType === 2)
       ) {
         return false
       }
 
       // Hide duplicate items when showDuplicates is false
-      if (!showDuplicates.value && pull.count > 1) {
+      if (!settings.value.showDuplicates && pull.count > 1) {
         return false
       }
 
       // Show all items (both obtained and missing) when showMissingPieces is true
       // Only show obtained items when showMissingPieces is false
-      return showMissingPieces.value[banner.bannerId] || pull.count > 0
+      return settings.value.showMissingPieces || pull.count > 0
     })
 
-    // Sort items based on pullIndex
+    // Sort items: missing items (count: 0) always last, then by pullIndex with stable sort
     filteredPulls = [...filteredPulls].sort((a, b) => {
-      return sortItems.value
+      // Missing items always go to the end
+      if (a.count === 0 && b.count > 0) return 1
+      if (a.count > 0 && b.count === 0) return -1
+
+      // Both are missing items, sort by itemId for stable order
+      if (a.count === 0 && b.count === 0) {
+        return a.itemId.localeCompare(b.itemId)
+      }
+
+      // Both are obtained items, sort by pullIndex according to user preference
+      const indexDiff = settings.value.sortItems
         ? a.pullIndex - b.pullIndex // Oldest first
         : b.pullIndex - a.pullIndex // Latest first
+
+      // If pullIndex is the same, use itemId for stable sort
+      if (indexDiff === 0) {
+        return a.itemId.localeCompare(b.itemId)
+      }
+
+      return indexDiff
     })
 
     return filteredPulls

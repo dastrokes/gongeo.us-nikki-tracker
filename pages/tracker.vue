@@ -1025,6 +1025,7 @@
     try {
       const rawPullData = pullStore.rawPullData
       const rawEditData = pullStore.rawEditData
+      const rawEvoData = pullStore.rawEvoData
 
       // Filter out banners with 0 pulls
       const filteredPullData = Object.fromEntries(
@@ -1035,15 +1036,24 @@
         Object.entries(rawEditData).filter(([_, edits]) => edits.length > 0)
       )
 
+      const filteredEvoData = Object.fromEntries(
+        Object.entries(rawEvoData).filter(([_, evo]) => evo.length > 0)
+      )
+
       // Determine what to export based on which data is available
       let exportData
       if (
         Object.keys(filteredPullData).length === 0 &&
-        Object.keys(filteredEditData).length === 0
+        Object.keys(filteredEditData).length === 0 &&
+        Object.keys(filteredEvoData).length === 0
       ) {
         return
       } else {
-        exportData = { pulls: filteredPullData, edits: filteredEditData }
+        exportData = {
+          pulls: filteredPullData,
+          edits: filteredEditData,
+          evo: filteredEvoData,
+        }
       }
 
       // Create a Blob with the JSON data

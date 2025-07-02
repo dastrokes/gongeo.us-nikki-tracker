@@ -642,7 +642,7 @@
       const response = await fetch('/api/data')
 
       if (!response.ok) {
-        throw new Error(`API error: ${response.statusText}`)
+        throw new Error(`Error fetching data from API`)
       }
 
       const responseData = await response.json()

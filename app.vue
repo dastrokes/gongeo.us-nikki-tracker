@@ -19,6 +19,7 @@
   import { darkTheme, lightTheme, type GlobalThemeOverrides } from 'naive-ui'
   import { useUserStore } from '~/stores/user'
   import { computed, onMounted } from 'vue'
+  import { useAuth } from '~/composables/useAuth'
 
   // Initialize theme state
   const userStore = useUserStore()
@@ -122,8 +123,12 @@
     },
   }))
 
+  // Initialize authentication
+  const { initAuth } = useAuth()
+
   // Ensure theme is initialized on client-side
-  onMounted(() => {
+  onMounted(async () => {
+    await initAuth()
     userStore.initializeTheme()
   })
 </script>

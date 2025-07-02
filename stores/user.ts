@@ -81,9 +81,13 @@ export const useUserStore = defineStore('user', {
       set('theme', newTheme)
     },
 
-    setUid(uid: string) {
+    setUid(uid: string | null) {
       this.uid = uid
-      set('uid', uid)
+      if (uid) {
+        set('uid', uid)
+      } else {
+        remove('uid')
+      }
     },
 
     setAuthToken(token: string | null) {

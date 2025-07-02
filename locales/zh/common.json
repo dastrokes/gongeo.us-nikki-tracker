@@ -271,8 +271,8 @@
       "menu_aria_label": "用户资料菜单",
       "guest": "访客",
       "user_id": "用户ID：{uid}",
-      "clear_data": "清除本地数据",
-      "clear_confirm": {
+      "clear_local_data": "清除本地数据",
+      "clear_local_confirm": {
         "title": "清除本地数据",
         "content": "确定要清除所有本地数据吗？此操作无法撤消。"
       }

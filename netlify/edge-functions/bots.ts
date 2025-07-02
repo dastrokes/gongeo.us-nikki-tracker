@@ -12,6 +12,7 @@ export const config: Config = {
   path: ['/*'],
   excludedPath: [
     '/',
+    '/login',
     '/about',
     '/banner',
     '/banner/*',

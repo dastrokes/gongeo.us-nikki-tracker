@@ -71,7 +71,7 @@ export default defineNuxtConfig({
 
   image: {
     dir: 'public',
-    provider: process.env.NODE_ENV === 'development' ? 'ipx' : 'netlify',
+    provider: process.env.NODE_ENV === 'production' ? 'netlify' : 'ipx',
     static: {
       baseURL: process.env.NUXT_PUBLIC_SITE_URL,
     },
@@ -87,7 +87,6 @@ export default defineNuxtConfig({
   },
 
   echarts: {
-    ssr: process.env.NODE_ENV === 'production',
     renderer: 'canvas',
     charts: ['BarChart', 'LineChart'],
     components: [

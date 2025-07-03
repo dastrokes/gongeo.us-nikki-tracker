@@ -9,8 +9,6 @@ interface SyncData {
   pulls: Record<number, PullRecord[]>
   edits: Record<number, EditRecord[]>
   evo: Record<number, EvoRecord[]>
-  timestamp: string
-  version: string
 }
 
 export const useDataSync = () => {
@@ -20,7 +18,6 @@ export const useDataSync = () => {
   const { saveData, loadData } = useIndexedDB()
 
   const BUCKET_NAME = 'gongeo.us'
-  const DATA_VERSION = '1.0'
 
   // Generate file path for user's data
   const getUserDataPath = (userId: string): string => {
@@ -51,8 +48,6 @@ export const useDataSync = () => {
         pulls: pullStore.rawPullData,
         edits: pullStore.rawEditData,
         evo: pullStore.rawEvoData,
-        timestamp: new Date().toISOString(),
-        version: DATA_VERSION,
       }
 
       // Check if there's any data to upload

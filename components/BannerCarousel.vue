@@ -47,8 +47,9 @@
               <n-icon
                 class="ml-1"
                 size="12"
-                :component="HourglassHalf"
-              />
+              >
+                <HourglassHalf />
+              </n-icon>
             </template>
           </n-tag>
           <n-tag

@@ -23,7 +23,7 @@
           />
         </n-button>
       </template>
-      <div class="grid grid-cols-1 gap-2">
+      <div class="flex flex-wrap gap-2">
         <div class="text-sm">
           {{
             t('tracker.stats.luckier', {
@@ -34,7 +34,7 @@
         <div
           v-for="i in 6"
           :key="i"
-          class="flex items-center gap-2 text-xs"
+          class="flex items-center gap-2 w-fit text-sm"
           :class="
             getLuckDice(props.percentile) === i ? 'font-bold' : 'opacity-50'
           "

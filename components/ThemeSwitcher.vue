@@ -7,10 +7,7 @@
     @click="toggleTheme"
   >
     <template #icon>
-      <n-icon>
-        <SunIcon v-if="isDark" />
-        <MoonIcon v-else />
-      </n-icon>
+      <n-icon :component="isDark ? SunIcon : MoonIcon" />
     </template>
   </n-button>
 </template>

@@ -16,7 +16,7 @@
     "keywords": "Infinity Nikki, Resonanz Tracker, Resonanztracker, Pull Tracker, Pulltracker, Gacha Tracker, Gachatracker, Pull Verlauf, Pullverlauf, Ziehverlauf, Globale Statistiken, Globale Statistik, Community Statistiken, Community Statistik, Communitystatistiken, Communitystatistik, Gongeous",
     "description": {
       "default": "Verfolge Infinity Nikki Resonanzverlauf und Statistiken. Ein Fan-betriebenes Tool für die Infinity Nikki Community.",
-      "login": "Sign in to gongeo.us with Discord to access your Infinity Nikki resonance tracker and sync data across devices.",
+      "login": "Melde dich bei gongeo.us mit Discord an, um auf deinen Infinity Nikki Resonanz-Verlauf zuzugreifen und Daten zwischen Geräten zu synchronisieren",
       "tracker": "Verfolge und analysiere deinen Infinity Nikki Resonanzverlauf und schaue dir alle 5★ und 4★ Stücke deiner Banner an. Vergleiche dein Glück mit dem anderer Spieler.",
       "import": "Importiere deinen Infinity Nikki Resonanzverlauf von Spieldateien oder Backup-Dateien, mit einer detaillierten Schritt-für-Schritt-Anleitung.",
       "global": "Entdecke Infinity Nikki Community Resonanz-Daten, einschließlich Bannerbeliebtheit, durchschnittlichen Dropraten, und Verteilungsstatistiken gezogener Stücke.",
@@ -36,15 +36,15 @@
     "rerun": "Wiederholung"
   },
   "login": {
-    "title": "Sign In",
-    "welcome_title": "Welcome to gongeo.us",
-    "welcome_description": "Sign in with Discord to sync your data across devices and access community features.",
-    "discord_permission_note": "We only request access to your Discord username and email.",
-    "signed_in_title": "Successfully Signed In!",
-    "welcome_back": "Welcome back, {name}!",
-    "go_to_tracker": "Go to Tracker",
-    "error_title": "Sign In Error",
-    "signin_error": "Failed to sign in with Discord. Please try again."
+    "title": "Anmelden",
+    "welcome_title": "Willkommen bei gongeo.us",
+    "welcome_description": "Melde dich mit Discord an, um deine Daten Geräte-übergreifend zu synchronisieren und auf Community-Features zuzugreifen",
+    "discord_permission_note": "Wir fordern nur Zugriff auf deinen Discord Benutzernamen und deine E-Mail-Adresse an.",
+    "signed_in_title": "Erfolgreich angemeldet!",
+    "welcome_back": "Willkommen zurück, {name}!",
+    "go_to_tracker": "Gehe zum Tracker",
+    "error_title": "Anmeldefehler",
+    "signin_error": "Anmeldung mit Discord fehlgeschlagen. Bitte versuche es erneut. "
   },
   "import": {
     "choose_method": "Wähle Importmethode",
@@ -286,37 +286,37 @@
       "clear_local_data": "Lokale Daten löschen",
       "clear_local_confirm": {
         "title": "Lokale Daten löschen",
-        "content": "Bist du dir sicher, dass du all deine lokalen Daten löschen willst? Diese Aktion kann nicht rückgängig gemacht werden."
+        "content": "Bist du dir sicher, dass du all deine lokalen Daten löschen möchtest? Diese Aktion kann nicht rückgängig gemacht werden."
       },
-      "sign_in_discord": "Sign in with Discord",
-      "sign_in_error": "Failed to sign in",
-      "sign_out": "Sign out",
-      "sign_out_success": "Successfully signed out",
-      "sign_out_error": "Failed to sign out",
-      "upload_data": "Upload to Cloud",
-      "sync_data": "Sync from Cloud",
+      "sign_in_discord": "Mit Discord anmelden",
+      "sign_in_error": "Anmeldung fehlgeschlagen",
+      "sign_out": "Abmelden",
+      "sign_out_success": "Erfolgreich abgemeldet",
+      "sign_out_error": "Abmeldung fehlgeschlagen",
+      "upload_data": "In die Cloud hochladen",
+      "sync_data": "Aus der Cloud synchronisieren",
       "sync": {
-        "upload_success": "Data uploaded to cloud successfully!",
-        "upload_error": "Failed to upload data.",
-        "sync_success": "Data synced successfully!",
-        "sync_error": "Failed to sync data.",
+        "upload_success": "Daten erfolgreich in die Cloud hochgeladen!",
+        "upload_error": "Datenupload fehlgeschlagen.",
+        "sync_success": "Daten erfolgreich synchronisiert!",
+        "sync_error": "Datensynchronisierung fehlgeschlagen.",
         "confirm_upload": {
-          "title": "Upload to Cloud",
-          "content": "This will upload your local data to cloud storage, overwriting any existing cloud data. Continue?"
+          "title": "In die Cloud hochladen",
+          "content": "Dies wird deine lokalen Daten auf den Cloud-Speicher hochladen und alle vorhandenen Cloud-Daten überschreiben. Fortfahren?"
         },
         "confirm_sync": {
-          "title": "Sync from Cloud",
-          "content": "This will sync your local data with cloud data by merging them together. Continue?"
+          "title": "Aus der Cloud synchronisieren",
+          "content": "Dies wird deine lokalen Daten mit deinen Cloud-Daten synchronisieren, indem sie zusammengeführt werden. Fortfahren?"
         }
       },
-      "clear_cloud_data": "Clear Cloud Data",
+      "clear_cloud_data": "Cloud-Daten löschen",
       "clear_cloud_confirm": {
-        "title": "Clear Cloud Data",
-        "content": "Are you sure you want to clear all your cloud data? This action cannot be undone and will permanently delete your data from cloud storage."
+        "title": "Cloud-Daten löschen",
+        "content": "Bist du dir sicher, dass du all deine Cloud-Daten löschen möchtest? Diese Aktion kann nicht rückgängig gemacht werden und wird deine Daten dauerhaft aus dem Cloud-Speicher entfernen."
       },
-      "clear_cloud_success": "Cloud data cleared successfully!",
-      "clear_cloud_error": "Failed to clear cloud data.",
-      "clear_success": "Data cleared successfully!"
+      "clear_cloud_success": "Cloud-Daten wurden erfolgreich gelöscht!",
+      "clear_cloud_error": "Cloud-Daten löschen fehlgeschlagen.",
+      "clear_success": "Daten wurden erfolgreich exportiert!"
     },
     "regions": {
       "america": "Amerika",

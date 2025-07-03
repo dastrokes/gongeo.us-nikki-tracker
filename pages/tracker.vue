@@ -156,7 +156,7 @@
                         size="20"
                         depth="3"
                       >
-                        <users />
+                        <Users />
                       </n-icon>
                     </n-button>
                   </template>
@@ -305,7 +305,7 @@
                   >
                     <template #icon>
                       <n-icon>
-                        <download />
+                        <Download />
                       </n-icon>
                     </template>
                   </n-button>
@@ -318,7 +318,7 @@
                   >
                     <template #icon>
                       <n-icon>
-                        <file-image-regular />
+                        <FileImageRegular />
                       </n-icon>
                     </template>
                     {{ t('tracker.export.png') }}
@@ -331,7 +331,7 @@
                   >
                     <template #icon>
                       <n-icon>
-                        <file-export />
+                        <FileExport />
                       </n-icon>
                     </template>
                     {{ t('tracker.export.json') }}
@@ -349,7 +349,7 @@
                   >
                     <template #icon>
                       <n-icon>
-                        <cog />
+                        <Cog />
                       </n-icon>
                     </template>
                   </n-button>
@@ -511,12 +511,12 @@
                           {{ outfit.rarity }}</span
                         >
                         <span class="ml-1"
-                          ><n-icon><star /></n-icon
+                          ><n-icon><Star /></n-icon
                         ></span>
                         <span
                           v-if="outfit.completion >= 1"
                           class="ml-1"
-                          ><n-icon><check-circle /></n-icon
+                          ><n-icon><CheckCircle /></n-icon
                         ></span>
                       </n-tag>
                     </div>
@@ -579,7 +579,7 @@
                       >
                         <template #icon>
                           <n-icon>
-                            <chart-bar-regular />
+                            <ChartBarRegular />
                           </n-icon>
                         </template>
                       </n-button>

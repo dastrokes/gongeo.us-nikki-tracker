@@ -117,7 +117,7 @@
     if (user.value && !loading.value) {
       // Small delay to show success message
       setTimeout(() => {
-        router.push(localePath('/'))
+        router.back()
       }, 3000)
     }
   })

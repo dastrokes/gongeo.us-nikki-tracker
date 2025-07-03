@@ -20,7 +20,7 @@
             :aria-label="t('accessibility.toggle_menu')"
             @click="showSider = !showSider"
             ><n-icon>
-              <bars />
+              <Bars />
             </n-icon>
           </n-button>
           <NuxtLink
@@ -163,7 +163,7 @@
       @click="scrollToTop"
     >
       <n-icon>
-        <arrow-up />
+        <ArrowUp />
       </n-icon>
     </n-button>
   </n-layout>

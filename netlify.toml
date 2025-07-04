@@ -18,6 +18,11 @@
   [headers.values]
     cache-control = "public, max-age=0, must-revalidate"
 
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    cache-control = "public, max-age=0, must-revalidate"
+
 # Headers: Static assets (1 week)
 [[headers]]
   for = "/robots.txt"

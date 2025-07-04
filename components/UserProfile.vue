@@ -31,12 +31,13 @@
   import { useDataSync } from '~/composables/useDataSync'
 
   const { t } = useI18n()
+  const localePath = useLocalePath()
   const dialog = useDialog()
   const message = useMessage()
   const userStore = useUserStore()
   const pullStore = usePullStore()
   const { clearData } = useIndexedDB()
-  const { user, signIn, signOut } = useAuth()
+  const { user, signOut } = useAuth()
   const { uploadData, syncData, clearCloudData } = useDataSync()
 
   // Remove auth initialization from here since it's done in app.vue
@@ -88,7 +89,7 @@
       })
     } else {
       // options.push({
-      //   label: t('common.user_profile.sign_in_discord'),
+      //   label: t('common.user_profile.sign_in'),
       //   key: 'signin',
       // })
     }
@@ -116,12 +117,8 @@
 
   const handleSelect = async (key: string): Promise<void> => {
     if (key === 'signin') {
-      try {
-        await signIn()
-      } catch (error) {
-        message.error(t('common.user_profile.sign_in_error'))
-        console.error('Discord sign in error:', error)
-      }
+      await navigateTo(`${localePath('/login')}`)
+      return
     }
 
     if (key === 'signout') {

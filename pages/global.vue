@@ -184,7 +184,7 @@
           <div class="text-lg font-medium Cookie mt-1">
             <n-time
               v-if="data?.effective_date"
-              :time="new Date(data.effective_date)"
+              :time="effectiveDate"
               type="date"
             />
             <n-time
@@ -200,7 +200,7 @@
     <!-- Charts - client-side -->
     <ClientOnly>
       <n-card
-        v-if="!loading"
+        v-if="!loading && data"
         size="small"
         class="rounded-xl"
         :class="maximizedChart ? '!mt-0 !mb-0' : ''"
@@ -589,13 +589,64 @@
     link: [{ rel: 'canonical', href: `${siteUrl}${localePath('/global')}` }],
   })
 
-  const loading = ref(true)
-  const data = ref(null)
-  const totalPulls = ref(0)
-  const uniqueUserCount = ref(0)
-  const averagePullsTo5Star = ref(0)
-  const averagePullsTo4StarType2 = ref(0)
-  const averagePullsTo4StarType3 = ref(0)
+  // Client-side only data fetching
+  const { data: globalData, status } = await useLazyAsyncData(
+    'global-data',
+    async () => {
+      const supabase = useSupabaseClient()
+
+      const { data: responseData, error: fetchError } =
+        await supabase.functions.invoke('get-global-data', {
+          method: 'GET',
+        })
+
+      if (fetchError) {
+        throw createError({
+          statusCode: 500,
+          statusMessage: `Error fetching data: ${fetchError.message}`,
+        })
+      }
+
+      if (!responseData) {
+        throw createError({
+          statusCode: 404,
+          statusMessage: 'No data received',
+        })
+      }
+
+      return responseData
+    },
+    {
+      server: false, // Client-side only
+      default: () => null,
+    }
+  )
+
+  // Use computed for data to maintain reactivity
+  const data = computed(() => globalData.value)
+  const loading = computed(() => {
+    // During SSR, always show loading since we're not fetching data server-side
+    if (!import.meta.client) return true
+    return status.value === 'pending'
+  })
+
+  // Computed values for stats
+  const totalPulls = computed(() => data.value?.total_pulls || 0)
+  const uniqueUserCount = computed(() => data.value?.unique_user_count || 0)
+  const averagePullsTo5Star = computed(
+    () => data.value?.average_pulls_to_obtain_5star || 0
+  )
+  const averagePullsTo4StarType2 = computed(
+    () => data.value?.average_pulls_to_obtain_4star_banner_type_2 || 0
+  )
+  const averagePullsTo4StarType3 = computed(
+    () => data.value?.average_pulls_to_obtain_4star_banner_type_3 || 0
+  )
+  const effectiveDate = computed(() =>
+    data.value?.effective_date
+      ? new Date(data.value.effective_date)
+      : new Date()
+  )
 
   const pullsPerBannerChart = ref(null)
   const fiveStarDistributionChart = ref(null)
@@ -657,48 +708,6 @@
   }
 
   const { cardStyle } = useCardStyle()
-
-  const fetchGlobalData = async () => {
-    try {
-      const supabase = useSupabaseClient()
-
-      const { data: responseData, error } = await supabase.functions.invoke(
-        'get-global-data',
-        {
-          method: 'GET',
-        }
-      )
-
-      if (error) {
-        throw new Error(`Error fetching data: ${error.message}`)
-      }
-
-      if (!responseData) {
-        throw new Error('No data received')
-      }
-
-      data.value = responseData
-
-      // Update reactive values
-      totalPulls.value = data.value.total_pulls
-      uniqueUserCount.value = data.value.unique_user_count
-      averagePullsTo5Star.value = data.value.average_pulls_to_obtain_5star
-      averagePullsTo4StarType2.value =
-        data.value.average_pulls_to_obtain_4star_banner_type_2
-      averagePullsTo4StarType3.value =
-        data.value.average_pulls_to_obtain_4star_banner_type_3
-
-      // initialize all charts - client-side
-      if (import.meta.client) {
-        await nextTick()
-        initializeCharts()
-      }
-    } catch (error) {
-      console.error('Error fetching data:', error)
-    } finally {
-      loading.value = false
-    }
-  }
 
   // initialize all charts - client-side
   const initializeCharts = () => {
@@ -1234,7 +1243,7 @@
 
   // Watch for theme changes to update charts
   watch(isDark, () => {
-    if (data.value && !loading.value) {
+    if (data.value && !loading.value && import.meta.client) {
       initializeCharts()
     }
   })
@@ -1250,7 +1259,24 @@
     }
   })
 
+  // Watch for data changes to initialize charts
+  watch(
+    () => [data.value, loading.value],
+    ([newData, isLoading]) => {
+      if (newData && !isLoading && import.meta.client) {
+        nextTick(() => {
+          initializeCharts()
+        })
+      }
+    },
+    { immediate: true }
+  )
+
   onMounted(() => {
-    fetchGlobalData()
+    if (data.value && !loading.value && import.meta.client) {
+      nextTick(() => {
+        initializeCharts()
+      })
+    }
   })
 </script>

@@ -39,7 +39,6 @@
     "title": "Anmelden",
     "welcome_title": "Willkommen bei gongeo.us",
     "welcome_description": "Melde dich mit Discord an, um deine Daten Geräte-übergreifend zu synchronisieren und auf Community-Features zuzugreifen",
-    "discord_permission_note": "Wir fordern nur Zugriff auf deinen Discord Benutzernamen und deine E-Mail-Adresse an.",
     "signed_in_title": "Erfolgreich angemeldet!",
     "welcome_back": "Willkommen zurück, {name}!",
     "go_to_tracker": "Gehe zum Tracker",

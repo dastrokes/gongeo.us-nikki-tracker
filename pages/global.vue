@@ -79,118 +79,126 @@
       </n-card>
     </template>
 
-    <template v-if="!loading">
-      <n-card
-        v-show="!maximizedChart"
-        content-class="!p-2 sm:!p-4"
-        size="small"
-        class="rounded-xl bg-gray-100 dark:bg-gray-800"
-        :style="cardStyle"
-      >
-        <div class="grid grid-cols-2 md:grid-cols-6 gap-2">
-          <n-card
-            size="small"
-            class="text-center rounded-md"
-            :style="cardStyle"
-          >
-            <div class="text-sm text-gray-400">
-              {{ $t('global.stats.total_pulls') }}
-            </div>
-            <div class="text-lg font-medium Cookie mt-1">
-              <n-number-animation
-                show-separator
-                :from="0"
-                :to="totalPulls"
-                :duration="5000"
-              />
-            </div>
-          </n-card>
-          <n-card
-            size="small"
-            class="text-center rounded-md"
-            :style="cardStyle"
-          >
-            <div class="text-sm text-gray-400">
-              {{ $t('global.stats.unique_users') }}
-            </div>
-            <div class="text-lg font-medium Cookie mt-1">
-              <n-number-animation
-                show-separator
-                :from="0"
-                :to="uniqueUserCount"
-                :duration="3000"
-              />
-            </div>
-          </n-card>
-          <n-card
-            size="small"
-            class="text-center rounded-md"
-            :style="cardStyle"
-          >
-            <div class="text-sm text-gray-400">
-              {{ $t('global.stats.avg_5star') }}
-            </div>
-            <div class="text-lg font-medium Cookie mt-1">
-              <n-number-animation
-                :from="0"
-                :to="averagePullsTo5Star"
-                :duration="2000"
-                :precision="2"
-              />
-            </div>
-          </n-card>
-          <n-card
-            size="small"
-            class="text-center rounded-md"
-            :style="cardStyle"
-          >
-            <div class="text-sm text-gray-400">
-              {{ $t('global.stats.avg_4star_type2') }}
-            </div>
-            <div class="text-lg font-medium Cookie mt-1">
-              <n-number-animation
-                :from="0"
-                :to="averagePullsTo4StarType2"
-                :duration="2000"
-                :precision="2"
-              />
-            </div>
-          </n-card>
-          <n-card
-            size="small"
-            class="text-center rounded-md"
-            :style="cardStyle"
-          >
-            <div class="text-sm text-gray-400">
-              {{ $t('global.stats.avg_4star_type3') }}
-            </div>
-            <div class="text-lg font-medium Cookie mt-1">
-              <n-number-animation
-                :from="0"
-                :to="averagePullsTo4StarType3"
-                :duration="2000"
-                :precision="2"
-              />
-            </div>
-          </n-card>
-          <n-card
-            size="small"
-            class="text-center rounded-md"
-            :style="cardStyle"
-          >
-            <div class="text-sm text-gray-400">
-              {{ $t('global.stats.data_as_of') }}
-            </div>
-            <div class="text-lg font-medium Cookie mt-1">
-              <n-time
-                :time="new Date(data.effective_date)"
-                type="date"
-              />
-            </div>
-          </n-card>
-        </div>
-      </n-card>
+    <!-- Summary Cards - server-side -->
+    <n-card
+      v-show="!loading && !maximizedChart"
+      content-class="!p-2 sm:!p-4"
+      size="small"
+      class="rounded-xl bg-gray-100 dark:bg-gray-800"
+      :style="cardStyle"
+    >
+      <div class="grid grid-cols-2 md:grid-cols-6 gap-2">
+        <n-card
+          size="small"
+          class="text-center rounded-md"
+          :style="cardStyle"
+        >
+          <div class="text-sm text-gray-400">
+            {{ $t('global.stats.total_pulls') }}
+          </div>
+          <div class="text-lg font-medium Cookie mt-1">
+            <n-number-animation
+              show-separator
+              :from="0"
+              :to="totalPulls"
+              :duration="5000"
+            />
+          </div>
+        </n-card>
+        <n-card
+          size="small"
+          class="text-center rounded-md"
+          :style="cardStyle"
+        >
+          <div class="text-sm text-gray-400">
+            {{ $t('global.stats.unique_users') }}
+          </div>
+          <div class="text-lg font-medium Cookie mt-1">
+            <n-number-animation
+              show-separator
+              :from="0"
+              :to="uniqueUserCount"
+              :duration="3000"
+            />
+          </div>
+        </n-card>
+        <n-card
+          size="small"
+          class="text-center rounded-md"
+          :style="cardStyle"
+        >
+          <div class="text-sm text-gray-400">
+            {{ $t('global.stats.avg_5star') }}
+          </div>
+          <div class="text-lg font-medium Cookie mt-1">
+            <n-number-animation
+              :from="0"
+              :to="averagePullsTo5Star"
+              :duration="2000"
+              :precision="2"
+            />
+          </div>
+        </n-card>
+        <n-card
+          size="small"
+          class="text-center rounded-md"
+          :style="cardStyle"
+        >
+          <div class="text-sm text-gray-400">
+            {{ $t('global.stats.avg_4star_type2') }}
+          </div>
+          <div class="text-lg font-medium Cookie mt-1">
+            <n-number-animation
+              :from="0"
+              :to="averagePullsTo4StarType2"
+              :duration="2000"
+              :precision="2"
+            />
+          </div>
+        </n-card>
+        <n-card
+          size="small"
+          class="text-center rounded-md"
+          :style="cardStyle"
+        >
+          <div class="text-sm text-gray-400">
+            {{ $t('global.stats.avg_4star_type3') }}
+          </div>
+          <div class="text-lg font-medium Cookie mt-1">
+            <n-number-animation
+              :from="0"
+              :to="averagePullsTo4StarType3"
+              :duration="2000"
+              :precision="2"
+            />
+          </div>
+        </n-card>
+        <n-card
+          size="small"
+          class="text-center rounded-md"
+          :style="cardStyle"
+        >
+          <div class="text-sm text-gray-400">
+            {{ $t('global.stats.data_as_of') }}
+          </div>
+          <div class="text-lg font-medium Cookie mt-1">
+            <n-time
+              v-if="data?.effective_date"
+              :time="new Date(data.effective_date)"
+              type="date"
+            />
+            <n-time
+              v-else
+              :time="new Date()"
+              type="date"
+            />
+          </div>
+        </n-card>
+      </div>
+    </n-card>
 
+    <!-- Charts - client-side -->
+    <ClientOnly>
       <n-card
         v-if="!loading"
         size="small"
@@ -494,7 +502,7 @@
           </n-card>
         </div>
       </n-card>
-    </template>
+    </ClientOnly>
   </div>
 </template>
 
@@ -510,12 +518,12 @@
   // Initialize stores
   const userStore = useUserStore()
 
-  // Initialize breakpoints
+  // Initialize breakpoints - safe for SSR
   const breakpoints = useBreakpoints(breakpointsTailwind)
-  const isMobile = ref(false) // Default to false for SSR
+  const isMobile = ref(false)
 
+  // Safe initialization for SSR
   onMounted(() => {
-    // Set up the reactive mobile detection only on client-side
     isMobile.value = !breakpoints.greater('sm').value
     watch(
       () => breakpoints.greater('sm').value,
@@ -528,13 +536,26 @@
   // Add isDark computed property
   const isDark = computed(() => userStore.getCurrentTheme === 'dark')
 
-  // Create a minimal global chart text style
-  const getChartTextStyle = () => ({
-    fontFamily: getComputedStyle(document.documentElement).getPropertyValue(
-      '--font-family-default'
-    ),
-    color: isDark.value ? '#e4e5e7' : '#5c5c5e',
-  })
+  // Create a safe global chart text style - only access DOM on client
+  const getChartTextStyle = () => {
+    // Guard against SSR
+    if (!import.meta.client) {
+      return {
+        fontFamily:
+          'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif',
+        color: isDark.value ? '#e4e5e7' : '#5c5c5e',
+      }
+    }
+
+    return {
+      fontFamily:
+        getComputedStyle(document.documentElement).getPropertyValue(
+          '--font-family-default'
+        ) ||
+        'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif',
+      color: isDark.value ? '#e4e5e7' : '#5c5c5e',
+    }
+  }
 
   // Initialize i18n
   const { t } = useI18n()
@@ -574,7 +595,7 @@
   const uniqueUserCount = ref(0)
   const averagePullsTo5Star = ref(0)
   const averagePullsTo4StarType2 = ref(0)
-  const averagePullsTo4StarType3 = ref(null)
+  const averagePullsTo4StarType3 = ref(0)
 
   const pullsPerBannerChart = ref(null)
   const fiveStarDistributionChart = ref(null)
@@ -667,8 +688,11 @@
       averagePullsTo4StarType3.value =
         data.value.average_pulls_to_obtain_4star_banner_type_3
 
-      // Initialize all charts after data is loaded
-      initializeCharts()
+      // initialize all charts - client-side
+      if (import.meta.client) {
+        await nextTick()
+        initializeCharts()
+      }
     } catch (error) {
       console.error('Error fetching data:', error)
     } finally {
@@ -676,9 +700,9 @@
     }
   }
 
-  // New method to initialize all charts at once
+  // initialize all charts - client-side
   const initializeCharts = () => {
-    if (!data.value) return
+    if (!data.value || !import.meta.client) return
 
     try {
       createPullsPerBannerChart(data.value.pulls_per_banner)
@@ -705,7 +729,7 @@
 
   // Function to manually update pulls per banner chart when banner type selection changes
   const updatePullsPerBannerChart = () => {
-    if (data.value?.pulls_per_banner) {
+    if (data.value?.pulls_per_banner && import.meta.client) {
       createPullsPerBannerChart(data.value.pulls_per_banner)
     }
   }

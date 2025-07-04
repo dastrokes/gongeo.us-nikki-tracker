@@ -639,16 +639,21 @@
 
   const fetchGlobalData = async () => {
     try {
-      const response = await fetch('/api/data')
+      const supabase = useSupabaseClient()
 
-      if (!response.ok) {
-        throw new Error(`Error fetching data from API`)
+      const { data: responseData, error } = await supabase.functions.invoke(
+        'get-global-data',
+        {
+          method: 'GET',
+        }
+      )
+
+      if (error) {
+        throw new Error(`Error fetching data: ${error.message}`)
       }
 
-      const responseData = await response.json()
-
       if (!responseData) {
-        throw new Error('No data received from API')
+        throw new Error('No data received')
       }
 
       data.value = responseData

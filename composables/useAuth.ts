@@ -16,6 +16,7 @@ export const useAuth = () => {
   const router = useRouter()
   const route = useRoute()
   const localePath = useLocalePath()
+  const { locale } = useI18n()
 
   // Use the global shared state
   const { user, loading, initialized } = globalAuthState
@@ -80,12 +81,12 @@ export const useAuth = () => {
   }
 
   // Sign in with Discord
-  const signIn = async (): Promise<void> => {
+  const signInWithDiscord = async (): Promise<void> => {
     loading.value = true
 
     try {
       // Get the site URL from runtime config
-      const redirectTo = `${window.location.origin}${localePath('/tracker')}`
+      const redirectTo = `${window.location.origin}${localePath('/')}`
 
       const { error: authError } = await supabase.auth.signInWithOAuth({
         provider: 'discord',
@@ -101,6 +102,111 @@ export const useAuth = () => {
       }
     } catch (err: unknown) {
       console.error('Sign in failed:', err)
+      throw err
+    } finally {
+      loading.value = false
+    }
+  }
+
+  // Sign in with Google
+  const signInWithGoogle = async (): Promise<void> => {
+    loading.value = true
+
+    try {
+      // Get the site URL from runtime config
+      const redirectTo = `${window.location.origin}${localePath('/')}`
+
+      const { error: authError } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo,
+          scopes: 'openid email profile',
+        },
+      })
+
+      if (authError) {
+        console.error('Google sign in error:', authError)
+        throw authError
+      }
+    } catch (err: unknown) {
+      console.error('Google sign in failed:', err)
+      throw err
+    } finally {
+      loading.value = false
+    }
+  }
+
+  // Sign in with email and password
+  const signInWithEmail = async (
+    email: string,
+    password: string
+  ): Promise<void> => {
+    loading.value = true
+
+    try {
+      const { error: authError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      })
+
+      if (authError) {
+        console.error('Email sign in error:', authError)
+        throw authError
+      }
+    } catch (err: unknown) {
+      console.error('Email sign in failed:', err)
+      throw err
+    } finally {
+      loading.value = false
+    }
+  }
+
+  // Sign up with email and password
+  const signUp = async (email: string, password: string): Promise<void> => {
+    loading.value = true
+
+    try {
+      const { error: authError } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          emailRedirectTo: `${window.location.origin}${localePath('/')}`,
+          data: {
+            lang: locale.value,
+          },
+        },
+      })
+
+      if (authError) {
+        console.error('Email sign up error:', authError)
+        throw authError
+      }
+    } catch (err: unknown) {
+      console.error('Sign up failed:', err)
+      throw err
+    } finally {
+      loading.value = false
+    }
+  }
+
+  // Reset password
+  const resetPassword = async (email: string): Promise<void> => {
+    loading.value = true
+
+    try {
+      const { error: authError } = await supabase.auth.resetPasswordForEmail(
+        email,
+        {
+          redirectTo: `${window.location.origin}${localePath('/login')}?type=recovery`,
+        }
+      )
+
+      if (authError) {
+        console.error('Password reset error:', authError)
+        throw authError
+      }
+    } catch (err: unknown) {
+      console.error('Password reset failed:', err)
       throw err
     } finally {
       loading.value = false
@@ -133,7 +239,11 @@ export const useAuth = () => {
     user: readonly(user),
     loading: readonly(loading),
     initAuth,
-    signIn,
+    signInWithDiscord,
+    signInWithGoogle,
+    signInWithEmail,
+    signUp,
+    resetPassword,
     signOut,
   }
 }

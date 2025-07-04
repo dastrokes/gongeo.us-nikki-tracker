@@ -514,6 +514,7 @@
   import { useCardStyle } from '~/composables/useCardStyle'
   import { useUserStore } from '~/stores/user'
   import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
+  import { getItemType } from '~/utils/itemType'
 
   // Initialize stores
   const userStore = useUserStore()

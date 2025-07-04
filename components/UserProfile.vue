@@ -88,10 +88,10 @@
         key: 'sync',
       })
     } else {
-      // options.push({
-      //   label: t('common.user_profile.sign_in'),
-      //   key: 'signin',
-      // })
+      options.push({
+        label: t('common.user_profile.sign_in'),
+        key: 'signin',
+      })
     }
 
     // Clear data option

@@ -281,7 +281,6 @@
     "user_profile": {
       "menu_aria_label": "Menü Benutzerprofil",
       "guest": "Gast",
-      "user_id": "UID: {uid}",
       "clear_local_data": "Lokale Daten löschen",
       "clear_local_confirm": {
         "title": "Lokale Daten löschen",

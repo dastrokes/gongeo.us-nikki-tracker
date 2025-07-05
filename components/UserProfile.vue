@@ -20,8 +20,16 @@
 </template>
 
 <script setup lang="ts">
-  import { User } from '@vicons/fa'
-  import { useDialog, useMessage } from 'naive-ui'
+  import {
+    User,
+    SignInAlt,
+    SignOutAlt,
+    Upload,
+    Sync,
+    TrashAlt,
+    Trash,
+  } from '@vicons/fa'
+  import { useDialog, useMessage, NIcon } from 'naive-ui'
   import type { DropdownOption } from 'naive-ui'
   import { useUserStore } from '~/stores/user'
   import { useIndexedDB } from '~/composables/useIndexedDB'
@@ -40,28 +48,28 @@
   const { user, signOut } = useAuth()
   const { uploadData, syncData, clearCloudData } = useDataSync()
 
-  // Remove auth initialization from here since it's done in app.vue
+  function renderIcon(icon: Component) {
+    return () => h(NIcon, null, { default: () => h(icon) })
+  }
 
   const dropdownOptions = computed((): DropdownOption[] => {
     const options: DropdownOption[] = []
 
     // User info section
     if (user.value) {
+      // Show username/email if logged in
       options.push({
-        label: t('common.user_profile.user_id', {
-          uid:
-            user.value.user_metadata?.custom_claims?.global_name ||
-            user.value.email ||
-            user.value.id.slice(0, 8),
-        }),
+        label: user.value.user_metadata?.name || user.value.email,
         key: 'uid',
+        icon: renderIcon(User),
       })
     } else {
+      // Show UID if not logged in but has UID, otherwise show guest
+      const localUid = userStore.getUid || t('common.user_profile.guest')
       options.push({
-        label: t('common.user_profile.user_id', {
-          uid: t('common.user_profile.guest'),
-        }),
+        label: localUid,
         key: 'uid',
+        icon: renderIcon(User),
       })
     }
 
@@ -70,6 +78,7 @@
       options.push({
         label: t('common.user_profile.sign_out'),
         key: 'signout',
+        icon: renderIcon(SignOutAlt),
       })
 
       // Sync options - only show when authenticated
@@ -81,16 +90,19 @@
       options.push({
         label: t('common.user_profile.upload_data'),
         key: 'upload',
+        icon: renderIcon(Upload),
       })
 
       options.push({
         label: t('common.user_profile.sync_data'),
         key: 'sync',
+        icon: renderIcon(Sync),
       })
     } else {
       options.push({
         label: t('common.user_profile.sign_in'),
         key: 'signin',
+        icon: renderIcon(SignInAlt),
       })
     }
 
@@ -104,12 +116,14 @@
       options.push({
         label: t('common.user_profile.clear_cloud_data'),
         key: 'clear-cloud',
+        icon: renderIcon(TrashAlt),
       })
     }
 
     options.push({
       label: t('common.user_profile.clear_local_data'),
       key: 'clear',
+      icon: renderIcon(Trash),
     })
 
     return options

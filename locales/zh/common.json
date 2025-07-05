@@ -327,7 +327,6 @@
     "user_profile": {
       "menu_aria_label": "用户资料菜单",
       "guest": "访客",
-      "user_id": "用户ID：{uid}",
       "clear_local_data": "清除本地数据",
       "clear_local_confirm": {
         "title": "清除本地数据",

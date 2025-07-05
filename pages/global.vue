@@ -183,7 +183,7 @@
           </div>
           <div class="text-lg font-medium Cookie mt-1">
             <n-time
-              v-if="data?.effective_date"
+              v-if="data?.d"
               :time="effectiveDate"
               type="date"
             />
@@ -594,31 +594,14 @@
   const { data: globalData, status } = await useLazyAsyncData(
     'global-data',
     async () => {
-      const supabase = useSupabaseClient()
-
-      const { data: responseData, error: fetchError } =
-        await supabase.functions.invoke('get-global-data', {
-          method: 'GET',
-        })
-
-      if (fetchError) {
-        throw createError({
-          statusCode: 500,
-          statusMessage: `Error fetching data: ${fetchError.message}`,
-        })
-      }
-
-      if (!responseData) {
-        throw createError({
-          statusCode: 404,
-          statusMessage: 'No data received',
-        })
-      }
-
-      return responseData
+      const response = await fetch(
+        'https://fimzdbqulflilnnopibz.supabase.co/storage/v1/object/public/gongeous/data.json'
+      )
+      if (!response.ok) throw new Error('Failed to fetch global data')
+      return await response.json()
     },
     {
-      server: false, // Client-side only
+      server: false,
       default: () => null,
     }
   )
@@ -631,22 +614,14 @@
     return status.value === 'pending'
   })
 
-  // Computed values for stats
-  const totalPulls = computed(() => data.value?.total_pulls || 0)
-  const uniqueUserCount = computed(() => data.value?.unique_user_count || 0)
-  const averagePullsTo5Star = computed(
-    () => data.value?.average_pulls_to_obtain_5star || 0
-  )
-  const averagePullsTo4StarType2 = computed(
-    () => data.value?.average_pulls_to_obtain_4star_banner_type_2 || 0
-  )
-  const averagePullsTo4StarType3 = computed(
-    () => data.value?.average_pulls_to_obtain_4star_banner_type_3 || 0
-  )
+  // Computed values for stats (updated for new data.json)
+  const totalPulls = computed(() => data.value?.t || 0)
+  const uniqueUserCount = computed(() => data.value?.u || 0)
+  const averagePullsTo5Star = computed(() => data.value?.a5 || 0)
+  const averagePullsTo4StarType2 = computed(() => data.value?.a4_2 || 0)
+  const averagePullsTo4StarType3 = computed(() => data.value?.a4_3 || 0)
   const effectiveDate = computed(() =>
-    data.value?.effective_date
-      ? new Date(data.value.effective_date)
-      : new Date()
+    data.value?.d ? new Date(data.value.d) : new Date()
   )
 
   const pullsPerBannerChart = ref(null)
@@ -703,8 +678,8 @@
 
   // Function to manually update first item chart when banner selection changes
   const updateFirstItemChart = (newBannerId) => {
-    if (data.value?.first_item_distribution && newBannerId) {
-      createFirstItemDistributionChart(data.value.first_item_distribution)
+    if (data.value?.f && newBannerId) {
+      createFirstItemDistributionChart(data.value.f)
     }
   }
 
@@ -715,18 +690,12 @@
     if (!data.value || !import.meta.client) return
 
     try {
-      createPullsPerBannerChart(data.value.pulls_per_banner)
-      createFiveStarDistributionChart(data.value.five_star_pulls_distribution)
-      createFourStarType2Chart(
-        data.value.four_star_pulls_distribution_banner_type_2
-      )
-      createFourStarType3Chart(
-        data.value.four_star_pulls_distribution_banner_type_3
-      )
-
-      // Add first item distribution chart
-      if (data.value.first_item_distribution && selectedBannerId.value) {
-        createFirstItemDistributionChart(data.value.first_item_distribution)
+      if (data.value.p) createPullsPerBannerChart(data.value.p)
+      if (data.value.f5) createFiveStarDistributionChart(data.value.f5)
+      if (data.value.f4_2) createFourStarType2Chart(data.value.f4_2)
+      if (data.value.f4_3) createFourStarType3Chart(data.value.f4_3)
+      if (data.value.f && selectedBannerId.value) {
+        createFirstItemDistributionChart(data.value.f)
       }
     } catch (error) {
       console.error('Error initializing charts:', error)
@@ -739,12 +708,14 @@
 
   // Function to manually update pulls per banner chart when banner type selection changes
   const updatePullsPerBannerChart = () => {
-    if (data.value?.pulls_per_banner && import.meta.client) {
-      createPullsPerBannerChart(data.value.pulls_per_banner)
+    if (data.value?.p && import.meta.client) {
+      createPullsPerBannerChart(data.value.p)
     }
   }
 
   const createPullsPerBannerChart = (chartData) => {
+    if (!chartData) return
+    // chartData: { [bannerId]: [3star, 4star, 5star] }
     // Filter banners based on selected type
     const filteredChartData =
       selectedBannerType.value === 'all'
@@ -762,15 +733,9 @@
       return t(`banner.${banner.bannerId}.name`)
     })
 
-    const data3Star = Object.entries(filteredChartData).map(
-      ([_, pulls]) => pulls['3_star']
-    )
-    const data4Star = Object.entries(filteredChartData).map(
-      ([_, pulls]) => pulls['4_star']
-    )
-    const data5Star = Object.entries(filteredChartData).map(
-      ([_, pulls]) => pulls['5_star']
-    )
+    const data3Star = Object.values(filteredChartData).map((arr) => arr[0])
+    const data4Star = Object.values(filteredChartData).map((arr) => arr[1])
+    const data5Star = Object.values(filteredChartData).map((arr) => arr[2])
 
     const textStyle = getChartTextStyle()
 
@@ -792,20 +757,20 @@
         formatter: function (params) {
           const bannerId = Object.keys(filteredChartData)[params[0].dataIndex]
           const banner = BANNER_DATA[parseInt(bannerId)]
-          const bannerData = filteredChartData[bannerId]
-
+          const pullsArr = filteredChartData[bannerId]
+          const total = pullsArr.reduce((a, b) => a + b, 0)
           return `
               <div style="display: flex; flex-direction: column; align-items: center;">
                 <div style="margin-bottom: 5px; text-align: center; font-weight: bold;">
                   ${t(`banner.${banner.bannerId}.name`)}
                 </div>
                 <div style="margin-bottom: 5px; text-align: left;">
-                  ${bannerData['5_star'] ? `<span style="color: rgb(245, 158, 11, 0.5)">★★★★★:</span> <strong>${bannerData['5_star']}</strong> (${((bannerData['5_star'] / bannerData.total) * 100).toFixed(1)}%)<br>` : ''}
-                  ${bannerData['4_star'] ? `<span style="color: rgb(139, 92, 246, 0.5)">★★★★:</span> <strong>${bannerData['4_star']}</strong> (${((bannerData['4_star'] / bannerData.total) * 100).toFixed(1)}%)<br>` : ''}
-                  ${bannerData['3_star'] ? `<span style="color: rgb(107, 114, 128, 0.5)">★★★:</span> <strong>${bannerData['3_star']}</strong> (${((bannerData['3_star'] / bannerData.total) * 100).toFixed(1)}%)` : ''}
+                  <span style="color: rgb(245, 158, 11, 0.5)">★★★★★:</span> <strong>${pullsArr[2]}</strong> (${((pullsArr[2] / total) * 100).toFixed(1)}%)<br>
+                  <span style="color: rgb(139, 92, 246, 0.5)">★★★★:</span> <strong>${pullsArr[1]}</strong> (${((pullsArr[1] / total) * 100).toFixed(1)}%)<br>
+                  <span style="color: rgb(107, 114, 128, 0.5)">★★★:</span> <strong>${pullsArr[0]}</strong> (${((pullsArr[0] / total) * 100).toFixed(1)}%)
                 </div>
                 <div style="margin-top: 5px; text-align: center;">
-                  ${t('global.charts.total')}: <strong>${bannerData.total}</strong>
+                  ${t('global.charts.total')}: <strong>${total}</strong>
                 </div>
                 <img
                   src="/images/banners/thumbnails/${bannerId}.webp"
@@ -1052,6 +1017,7 @@
   }
 
   const createFiveStarDistributionChart = (chartData) => {
+    if (!chartData) return
     fiveStarDistributionChartOption.value = createDistributionChart(
       chartData,
       'fiveStar',
@@ -1060,6 +1026,7 @@
   }
 
   const createFourStarType2Chart = (chartData) => {
+    if (!chartData) return
     fourStarType2ChartOption.value = createDistributionChart(
       chartData,
       'fourStarType2',
@@ -1068,6 +1035,7 @@
   }
 
   const createFourStarType3Chart = (chartData) => {
+    if (!chartData) return
     fourStarType3ChartOption.value = createDistributionChart(
       chartData,
       'fourStarType3',
@@ -1083,29 +1051,19 @@
     ) {
       return null
     }
-
     const bannerItems = chartData[selectedBannerId.value]
-
     // Calculate total for percentage
-    const totalOccurrences = bannerItems.reduce(
-      (sum, item) => sum + item.occurrences,
-      0
-    )
-
-    // Prepare data
-    const data = bannerItems.map((item) => ({
-      value: item.occurrences,
-      percentage: ((item.occurrences / totalOccurrences) * 100).toFixed(2),
-      itemId: item.first_item_id,
+    const totalOccurrences = bannerItems.reduce((sum, item) => sum + item.o, 0)
+    const dataArr = bannerItems.map((item) => ({
+      value: item.o,
+      percentage: ((item.o / totalOccurrences) * 100).toFixed(2),
+      itemId: item.i,
     }))
-
     // Prepare itemId to item mapping for labels
-    const itemsData = bannerItems.map((item) => item.first_item_id)
+    const itemsData = bannerItems.map((item) => item.i)
     const richLabels = {}
-
     // Get viewport width to detect mobile vs desktop
     const imageSize = isMobile.value ? 36 : 80
-
     // Create rich label for each item with loading image initially
     itemsData.forEach((itemId) => {
       richLabels[`img${itemId}`] = {
@@ -1117,7 +1075,6 @@
         },
         align: 'center',
       }
-
       // Preload the actual image
       const img = new Image()
       img.onload = () => {
@@ -1139,9 +1096,7 @@
       }
       img.src = `/images/items/${itemId}.webp`
     })
-
     const textStyle = getChartTextStyle()
-
     // Prepare option
     firstItemDistributionChartOption.value = {
       textStyle: textStyle,
@@ -1232,7 +1187,7 @@
           name: t('global.charts.occurrences'),
           type: 'bar',
           barWidth: '60%',
-          data: data,
+          data: dataArr,
           itemStyle: {
             color: 'rgb(79, 70, 229, 0.5)', // indigo-600
             borderRadius: [4, 4, 4, 4],
@@ -1251,12 +1206,12 @@
 
   // Watch for breakpoint changes to update responsive charts
   watch(isMobile, () => {
-    if (data.value?.first_item_distribution && selectedBannerId.value) {
-      createFirstItemDistributionChart(data.value.first_item_distribution)
+    if (data.value?.f && selectedBannerId.value) {
+      createFirstItemDistributionChart(data.value.f)
     }
 
-    if (data.value?.pulls_per_banner) {
-      createPullsPerBannerChart(data.value.pulls_per_banner)
+    if (data.value?.p) {
+      createPullsPerBannerChart(data.value.p)
     }
   })
 

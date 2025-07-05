@@ -16,7 +16,7 @@
     "keywords": "Infinity Nikki, Resonanz Tracker, Resonanztracker, Pull Tracker, Pulltracker, Gacha Tracker, Gachatracker, Pull Verlauf, Pullverlauf, Ziehverlauf, Globale Statistiken, Globale Statistik, Community Statistiken, Community Statistik, Communitystatistiken, Communitystatistik, Gongeous",
     "description": {
       "default": "Verfolge Infinity Nikki Resonanzverlauf und Statistiken. Ein Fan-betriebenes Tool für die Infinity Nikki Community.",
-      "login": "Melde dich bei gongeo.us mit Discord an, um auf deinen Infinity Nikki Resonanz-Verlauf zuzugreifen und Daten zwischen Geräten zu synchronisieren",
+      "login": "Sign in to gongeo.us with 3rd party account or email, upload data to cloud, sync data across devices.",
       "tracker": "Verfolge und analysiere deinen Infinity Nikki Resonanzverlauf und schaue dir alle 5★ und 4★ Stücke deiner Banner an. Vergleiche dein Glück mit dem anderer Spieler.",
       "import": "Importiere deinen Infinity Nikki Resonanzverlauf von Spieldateien oder Backup-Dateien, mit einer detaillierten Schritt-für-Schritt-Anleitung.",
       "global": "Entdecke Infinity Nikki Community Resonanz-Daten, einschließlich Bannerbeliebtheit, durchschnittlichen Dropraten, und Verteilungsstatistiken gezogener Stücke.",
@@ -38,12 +38,58 @@
   "login": {
     "title": "Anmelden",
     "welcome_title": "Willkommen bei gongeo.us",
-    "welcome_description": "Melde dich mit Discord an, um deine Daten Geräte-übergreifend zu synchronisieren und auf Community-Features zuzugreifen",
+    "welcome_description": "Sign in with 3rd party account or email to upload and sync your data.",
     "signed_in_title": "Erfolgreich angemeldet!",
     "welcome_back": "Willkommen zurück, {name}!",
     "go_to_tracker": "Gehe zum Tracker",
     "error_title": "Anmeldefehler",
-    "signin_error": "Anmeldung mit Discord fehlgeschlagen. Bitte versuche es erneut. "
+    "signin_error": "Failed to sign in. Please try again.",
+    "auth_options": "Authentication Options",
+    "sign_in_with_discord": "Sign in with Discord",
+    "sign_in_with_google": "Sign in with Google",
+    "sign_in_with_email": "Sign in with Email",
+    "sign_up_with_email": "Sign up with Email",
+    "email": "Email",
+    "password": "Password",
+    "confirm_password": "Confirm Password",
+    "sign_in": "Sign In",
+    "sign_up": "Sign Up",
+    "forgot_password": "Forgot Password?",
+    "reset_password": "Reset Password",
+    "reset_password_instructions": "Enter your email address and we'll send you a link to reset your password.",
+    "send_reset_email": "Send Reset Email",
+    "back_to_login": "Back to Login",
+    "set_new_password": "Set New Password",
+    "enter_new_password": "Enter your new password below.",
+    "new_password": "New Password",
+    "confirm_new_password": "Confirm New Password",
+    "update_password": "Update Password",
+    "no_account": "Don't have an account?",
+    "have_account": "Already have an account?",
+    "email_required": "Email is required",
+    "password_required": "Password is required",
+    "password_min_length": "Password must be at least 6 characters",
+    "passwords_dont_match": "Passwords don't match",
+    "invalid_email": "Please enter a valid email address",
+    "signup_success": "Account created successfully! Please check your email for verification.",
+    "signin_success": "Signed in successfully!",
+    "reset_success": "Password reset email sent! Please check your inbox.",
+    "email_signin_error": "Failed to sign in with email. Please check your credentials.",
+    "email_signup_error": "Failed to create account. Please try again.",
+    "reset_error": "Failed to send reset email. Please try again.",
+    "or": "or"
+  },
+  "email": {
+    "confirm_signup": {
+      "subject": "Confirm your signup",
+      "body": "Please click the link below to confirm your signup:",
+      "link": "Confirm your signup"
+    },
+    "reset_password": {
+      "subject": "Reset your password",
+      "body": "Please click the link below to reset your password:",
+      "link": "Reset your password"
+    }
   },
   "import": {
     "choose_method": "Wähle Importmethode",
@@ -286,7 +332,7 @@
         "title": "Lokale Daten löschen",
         "content": "Bist du dir sicher, dass du all deine lokalen Daten löschen möchtest? Diese Aktion kann nicht rückgängig gemacht werden."
       },
-      "sign_in_discord": "Mit Discord anmelden",
+      "sign_in": "Sign In",
       "sign_in_error": "Anmeldung fehlgeschlagen",
       "sign_out": "Abmelden",
       "sign_out_success": "Erfolgreich abgemeldet",

@@ -327,7 +327,6 @@
     "user_profile": {
       "menu_aria_label": "User profile menu",
       "guest": "Guest",
-      "user_id": "UID: {uid}",
       "clear_local_data": "Clear Local Data",
       "clear_local_confirm": {
         "title": "Clear Local Data",

@@ -11,6 +11,12 @@
     "about": "Über gongeo.us",
     "nuan5pro": "Nuan5.Pro"
   },
+  "social": {
+    "discord": "Werde Teil unserer Discord-Community",
+    "kofi": "Unterstütze uns auf Ko-fi",
+    "twitter": "Folge uns auf Twitter",
+    "email": "Nehme über E-Mail Kontakt zu uns auf"
+  },
   "meta": {
     "title": "Infinity Nikki Resonanztracker - Bannerverlauf & Statistiken",
     "keywords": "Infinity Nikki, Resonanz Tracker, Resonanztracker, Pull Tracker, Pulltracker, Gacha Tracker, Gachatracker, Pull Verlauf, Pullverlauf, Ziehverlauf, Globale Statistiken, Globale Statistik, Community Statistiken, Community Statistik, Communitystatistiken, Communitystatistik, Gongeous",
@@ -508,12 +514,13 @@
     },
     "dataCollection": {
       "title": "Datenerfassung und Datenspeicherung",
-      "content": "Wir sammeln nur minimale Daten, die für den Betrieb unseres Dienstes notwendig sind. Wir sammeln und speichern keine persönlichen Informationen oder Tracking-Cookies. Alle Cookie und UIDs, die Sie uns zur Verfügung stellen, werden ausschließlich an die Server von Infold Games übertragen, um Ihr Konto zu verifizieren und Ihren Resonanz-Verlauf abzurufen.",
-      "pullHistory": "Die Daten Ihres Resonanz-Verlaufs werden lokal in Ihrem Browser gespeichert. Wenn Sie sich für die Weitergabe von Daten entscheiden, werden Ihre Resonanz-Statistiken - einschließlich einer gehashten Version Ihrer UID und Details zu den abgefragten 4- und 5-Sterne-Artikeln - zur Berechnung der gemeinschaftsweiten Statistiken verwendet."
+      "content": "Wir sammeln nur Daten, die für den Betrieb unseres Dienstes absolut notwendig sind. Wir sammeln und speichern keine persönlichen Informationen oder Tracking-Cookies. Alle Cookies und UIDs, die Sie uns zur Verfügung stellen, werden ausschlißlich an die Server von Infold Games übertragen, um Ihr Konto zu verifizieren und Ihren Resonanz-Verlauf abzurufen.",
+      "pullHistory": "Ihr Resonanz-Verlauf wird lokal in Ihrem Browser gespeichert, sobald er importiert wurde. Für Cloud-Backups oder geräteübergreifenden Zugriff können Sie sich via Discord, Google, oder E-Mail anmelden, um Ihre Daten über den sicheren Cloudspeicher von Supabase zu synchronisieren. Sie können sich auch dazu entscheiden, anonymisierte Statistiken über Ihre 4-Sterne und 5-Sterne Resonanzen, zur Unterstützung der Erstellung von gemeinschaftsweiten Statistiken, beizutragen."
     },
-    "dataSecurity": {
-      "title": "Datensicherheit",
-      "content": "Alle Nutzerdaten werden lokal in Ihrem Browser gespeichert. Auch wenn wir angemessene Sicherheitsmaßnahmen ergreifen, sollten Sie sich darüber im Klaren sein, dass keine Internetübertragung vollkommen sicher sein kann."
+    "accountSecurity": {
+      "title": "Konto und Sicherheit",
+      "content": "Alle wesentlichen Funktionen bleiben vollständig zugänglich, ohne ein Benutzerkonto zu benötigen. Wenn Sie sich anmelden, wird die Authentifizierung sicher von Supabase verwaltet. Wir greifen niemals auf Ihre Anmeldedaten zurück oder speichern diese. Sie haben jederzeit volle Kontrolle über Ihre Daten, mit der Möglichkeit, diese zu teilen, hochzuladen, zu synchronisieren, oder zu löschen. Für eine dauerhafte Löschung Ihres Kontos kontaktieren Sie uns über Discord oder E-Mail.",
+      "security": "Während wir die notwendigen Sicherheitsmaßnahmen nach Industriestandards umsetzen, beachten Sie bitte, dass keine Internetübertragung als vollständig sicher gewährleistet werden kann."
     },
     "analytics": {
       "title": "Analytik und Rückverfolgung",

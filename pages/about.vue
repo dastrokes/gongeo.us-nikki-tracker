@@ -53,21 +53,16 @@
           <n-h2 class="font-semibold mb-4">{{
             t('about.dataCollection.title')
           }}</n-h2>
-          <p>
-            {{ t('about.dataCollection.content') }}
-          </p>
-          <p class="mt-4">
-            {{ t('about.dataCollection.pullHistory') }}
-          </p>
+          <p>{{ t('about.dataCollection.content') }}</p>
+          <p class="mt-4">{{ t('about.dataCollection.pullHistory') }}</p>
         </section>
 
         <section class="mb-8">
           <n-h2 class="font-semibold mb-4">{{
-            t('about.dataSecurity.title')
+            t('about.accountSecurity.title')
           }}</n-h2>
-          <p>
-            {{ t('about.dataSecurity.content') }}
-          </p>
+          <p>{{ t('about.accountSecurity.content') }}</p>
+          <p class="mt-4">{{ t('about.accountSecurity.security') }}</p>
         </section>
 
         <section class="mb-8">
@@ -79,41 +74,14 @@
           </p>
         </section>
 
-        <section class="mb-8">
-          <n-space justify="center">
-            <n-button
-              tag="a"
-              href="https://discord.gg/qymsW3j4Zw"
-              target="_blank"
-            >
-              <template #icon>
-                <n-icon><Discord /></n-icon>
-              </template>
-              Discord
-            </n-button>
-            <n-button
-              tag="a"
-              href="https://ko-fi.com/dastrokes"
-              target="_blank"
-            >
-              <template #icon>
-                <n-icon>
-                  <KoFi />
-                </n-icon>
-              </template>
-              Ko-fi
-            </n-button>
-          </n-space>
-        </section>
+        <SocialLinks />
       </div>
     </n-card>
   </div>
 </template>
 
 <script setup lang="ts">
-  import { Discord } from '@vicons/fa'
   import { useCardStyle } from '~/composables/useCardStyle'
-  import KoFi from '~/components/icons/KoFi.vue'
 
   const { t } = useI18n()
   const { cardStyle } = useCardStyle()

@@ -238,6 +238,7 @@ export const useAuth = () => {
   return {
     user: readonly(user),
     loading: readonly(loading),
+    initialized: readonly(initialized),
     initAuth,
     signInWithDiscord,
     signInWithGoogle,

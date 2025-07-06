@@ -12,10 +12,10 @@
     "nuan5pro": "Nuan5.Pro"
   },
   "social": {
-    "discord": "Join our Discord community",
-    "kofi": "Support us on Ko-fi",
-    "twitter": "Follow us on Twitter",
-    "email": "Contact us via email"
+    "discord": "Werde Teil unserer Discord-Community",
+    "kofi": "Unterstütze uns auf Ko-fi",
+    "twitter": "Folge uns auf Twitter",
+    "email": "Nehme über E-Mail Kontakt zu uns auf"
   },
   "meta": {
     "title": "Infinity Nikki Resonanztracker - Bannerverlauf & Statistiken",
@@ -514,13 +514,13 @@
     },
     "dataCollection": {
       "title": "Datenerfassung und Datenspeicherung",
-      "content": "We collect only the minimal data necessary to operate our service. We do not collect or store any personal information or tracking cookies. Any cookies or UIDs you provide are used solely to communicate with Infold Games server to verify your account and retrieve your pull history.",
-      "pullHistory": "Your pull history is stored locally in your browser once imported. For cloud backup or cross-device access, you may optionally sign in via Discord, Google, or email to sync your data through secure cloud storage provided by Supabase. You may also choose to contribute anonymized statistics about your 4-star and 5-star pulls to help generate community statistics."
+      "content": "Wir sammeln nur Daten, die für den Betrieb unseres Dienstes absolut notwendig sind. Wir sammeln und speichern keine persönlichen Informationen oder Tracking-Cookies. Alle Cookies und UIDs, die Sie uns zur Verfügung stellen, werden ausschlißlich an die Server von Infold Games übertragen, um Ihr Konto zu verifizieren und Ihren Resonanz-Verlauf abzurufen.",
+      "pullHistory": "Ihr Resonanz-Verlauf wird lokal in Ihrem Browser gespeichert, sobald er importiert wurde. Für Cloud-Backups oder geräteübergreifenden Zugriff können Sie sich via Discord, Google, oder E-Mail anmelden, um Ihre Daten über den sicheren Cloudspeicher von Supabase zu synchronisieren. Sie können sich auch dazu entscheiden, anonymisierte Statistiken über Ihre 4-Sterne und 5-Sterne Resonanzen, zur Unterstützung der Erstellung von gemeinschaftsweiten Statistiken, beizutragen."
     },
     "accountSecurity": {
-      "title": "Account and Security",
-      "content": "All essential features remain fully accessible without requiring an account. If you choose to sign in, authentication is securely handled by Supabase. We never access or store your login credentials. You have complete control of your data, with the ability to share, upload, sync or delete it at any time. For permanent account deletion, contact us through Discord or email.",
-      "security": "While we implement necessary security measures using industry standards, please be aware that no internet transmission can be guaranteed as completely secure."
+      "title": "Konto und Sicherheit",
+      "content": "Alle wesentlichen Funktionen bleiben vollständig zugänglich, ohne ein Benutzerkonto zu benötigen. Wenn Sie sich anmelden, wird die Authentifizierung sicher von Supabase verwaltet. Wir greifen niemals auf Ihre Anmeldedaten zurück oder speichern diese. Sie haben jederzeit volle Kontrolle über Ihre Daten, mit der Möglichkeit, diese zu teilen, hochzuladen, zu synchronisieren, oder zu löschen. Für eine dauerhafte Löschung Ihres Kontos kontaktieren Sie uns über Discord oder E-Mail.",
+      "security": "Während wir die notwendigen Sicherheitsmaßnahmen nach Industriestandards umsetzen, beachten Sie bitte, dass keine Internetübertragung als vollständig sicher gewährleistet werden kann."
     },
     "analytics": {
       "title": "Analytik und Rückverfolgung",

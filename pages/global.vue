@@ -1,83 +1,83 @@
 <template>
   <div class="max-w-7xl mx-auto space-y-2 sm:space-y-4">
-    <template v-if="loading">
-      <n-card
-        size="small"
-        class="rounded-xl"
-        content-class="!p-2 sm:!p-4"
-        :style="cardStyle"
-      >
-        <!-- Summary Cards Skeleton -->
-        <div class="grid grid-cols-2 md:grid-cols-6 gap-2">
-          <n-card
-            v-for="i in 6"
-            :key="i"
-            size="small"
-            class="text-center rounded-md"
-            :style="cardStyle"
-          >
+    <n-card
+      v-show="loading"
+      size="small"
+      class="rounded-xl"
+      content-class="!p-2 sm:!p-4"
+      :style="cardStyle"
+    >
+      <!-- Summary Cards Skeleton -->
+      <div class="grid grid-cols-2 md:grid-cols-6 gap-2">
+        <n-card
+          v-for="i in 6"
+          :key="i"
+          size="small"
+          class="text-center rounded-md"
+          :style="cardStyle"
+        >
+          <n-skeleton
+            height="20px"
+            width="80%"
+            class="mb-2 mx-auto"
+          />
+          <n-skeleton
+            height="24px"
+            width="60%"
+            class="mx-auto"
+          />
+        </n-card>
+      </div>
+    </n-card>
+
+    <!-- Charts Skeleton -->
+    <n-card
+      v-show="loading"
+      size="small"
+      class="rounded-xl"
+      :style="cardStyle"
+    >
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <!-- Pulls per Banner Chart Skeleton -->
+        <n-card
+          size="small"
+          class="col-span-1 md:col-span-3"
+          :style="cardStyle"
+        >
+          <div class="flex justify-center items-center mb-4">
             <n-skeleton
-              height="20px"
-              width="80%"
-              class="mb-2 mx-auto"
+              height="24px"
+              width="160px"
             />
             <n-skeleton
               height="24px"
-              width="60%"
-              class="mx-auto"
+              width="24px"
             />
-          </n-card>
-        </div>
-      </n-card>
+          </div>
+          <n-skeleton height="280px" />
+        </n-card>
 
-      <!-- Charts Skeleton -->
-      <n-card
-        size="small"
-        class="rounded-xl"
-        :style="cardStyle"
-      >
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <!-- Pulls per Banner Chart Skeleton -->
-          <n-card
-            size="small"
-            class="col-span-1 md:col-span-3"
-            :style="cardStyle"
-          >
-            <div class="flex justify-center items-center mb-4">
-              <n-skeleton
-                height="24px"
-                width="160px"
-              />
-              <n-skeleton
-                height="24px"
-                width="24px"
-              />
-            </div>
-            <n-skeleton height="280px" />
-          </n-card>
-
-          <!-- Distribution Charts Skeleton -->
-          <n-card
-            v-for="i in 3"
-            :key="i"
-            size="small"
-            :style="cardStyle"
-          >
-            <div class="flex justify-between items-center mb-4">
-              <n-skeleton
-                height="24px"
-                width="160px"
-              />
-              <n-skeleton
-                height="24px"
-                width="24px"
-              />
-            </div>
-            <n-skeleton height="160px" />
-          </n-card>
-        </div>
-      </n-card>
-    </template>
+        <!-- Distribution Charts Skeleton -->
+        <n-card
+          v-for="i in 3"
+          :key="i"
+          size="small"
+          :style="cardStyle"
+        >
+          <div class="flex justify-between items-center mb-4">
+            <n-skeleton
+              height="24px"
+              width="160px"
+            />
+            <n-skeleton
+              height="24px"
+              width="24px"
+            />
+          </div>
+          <n-skeleton height="160px" />
+        </n-card>
+      </div>
+    </n-card>
 
     <!-- Summary Cards - server-side -->
     <n-card
@@ -799,7 +799,7 @@
         top: isMobile.value ? 60 : 40,
       },
       grid: {
-        top: isMobile.value ? 80 : 60,
+        top: isMobile.value ? 120 : 60,
         bottom: 0,
         left: isMobile.value ? '0%' : '5%',
         right: 0,
@@ -815,13 +815,8 @@
           margin: 12,
           interval: 0,
           rotate: isMobile.value ? 90 : 30,
-          formatter: function (value, index) {
-            if (
-              isMobile.value &&
-              selectedBannerType.value === 'all' &&
-              BANNER_DATA[parseInt(index) + 2].bannerType === 3
-            )
-              return ''
+          formatter: function (value) {
+            if (isMobile.value && selectedBannerType.value === 'all') return ''
             return value
           },
         },

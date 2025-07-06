@@ -23,39 +23,14 @@
           </n-collapse-item>
         </n-collapse>
 
-        <n-space justify="center">
-          <n-button
-            tag="a"
-            href="https://discord.gg/qymsW3j4Zw"
-            target="_blank"
-          >
-            <template #icon>
-              <n-icon><Discord /></n-icon>
-            </template>
-            {{ t('common.discord') }}
-          </n-button>
-          <n-button
-            tag="a"
-            href="https://ko-fi.com/dastrokes"
-            target="_blank"
-          >
-            <template #icon>
-              <n-icon>
-                <KoFi />
-              </n-icon>
-            </template>
-            {{ t('common.ko_fi') }}
-          </n-button>
-        </n-space>
+        <SocialLinks />
       </div>
     </n-card>
   </div>
 </template>
 
 <script setup lang="ts">
-  import { Discord } from '@vicons/fa'
   import { useCardStyle } from '~/composables/useCardStyle'
-  import KoFi from '~/components/icons/KoFi.vue'
 
   const { t } = useI18n()
   const localePath = useLocalePath()

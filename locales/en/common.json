@@ -11,6 +11,12 @@
     "about": "About",
     "nuan5pro": "Nuan5.Pro"
   },
+  "social": {
+    "discord": "Join our Discord community",
+    "kofi": "Support us on Ko-fi",
+    "twitter": "Follow us on Twitter",
+    "email": "Contact us via email"
+  },
   "meta": {
     "title": "Infinity Nikki Resonance Tracker - Banner Pull History & Stats",
     "keywords": "Infinity Nikki, Resonance Tracker, Pull Tracker, Gacha Tracker, Pull History, Global Stats, Community Stats, Gongeous",
@@ -508,12 +514,13 @@
     },
     "dataCollection": {
       "title": "Data Collection and Storage",
-      "content": "We collect only minimal data necessary to operate our service. We do not collect or store any personal information or tracking Cookie. Any Cookie and UID you provide are transmitted solely to Infold Games' servers to verify your account and retrieve your pull history.",
-      "pullHistory": "Your pull history data is stored locally in your browser. If you opt in to share data, your pull statistics—including a hashed version of your UID and details of 4-star and 5-star items pulled—will be used to calculate community-wide statistics."
+      "content": "We collect only the minimal data necessary to operate our service. We do not collect or store any personal information or tracking cookies. Any cookies or UIDs you provide are used solely to communicate with Infold Games server to verify your account and retrieve your pull history.",
+      "pullHistory": "Your pull history is stored locally in your browser once imported. For cloud backup or cross-device access, you may optionally sign in via Discord, Google, or email to sync your data through secure cloud storage provided by Supabase. You may also choose to contribute anonymized statistics about your 4-star and 5-star pulls to help generate community statistics."
     },
-    "dataSecurity": {
-      "title": "Data Security",
-      "content": "All user data is stored locally within your browser. While we take reasonable security measures, please be aware that no internet transmission can be guaranteed as completely secure."
+    "accountSecurity": {
+      "title": "Account and Security",
+      "content": "All essential features remain fully accessible without requiring an account. If you choose to sign in, authentication is securely handled by Supabase. We never access or store your login credentials. You have complete control of your data, with the ability to share, upload, sync or delete it at any time. For permanent account deletion, contact us through Discord or email.",
+      "security": "While we implement necessary security measures using industry standards, please be aware that no internet transmission can be guaranteed as completely secure."
     },
     "analytics": {
       "title": "Analytics and Tracking",

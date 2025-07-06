@@ -596,33 +596,7 @@
         </p>
       </div>
 
-      <n-space
-        justify="center"
-        class="mt-12"
-      >
-        <n-button
-          tag="a"
-          href="https://discord.gg/qymsW3j4Zw"
-          target="_blank"
-        >
-          <template #icon>
-            <n-icon><Discord /></n-icon>
-          </template>
-          Discord
-        </n-button>
-        <n-button
-          tag="a"
-          href="https://ko-fi.com/dastrokes"
-          target="_blank"
-        >
-          <template #icon>
-            <n-icon>
-              <KoFi />
-            </n-icon>
-          </template>
-          Ko-fi
-        </n-button>
-      </n-space>
+      <SocialLinks />
     </n-card>
 
     <!-- Collection Editor Modal -->
@@ -660,11 +634,9 @@
     Paste,
     Check,
     CheckCircle,
-    Discord,
     Bookmark,
     ExclamationCircle,
   } from '@vicons/fa'
-  import KoFi from '~/components/icons/KoFi.vue'
   import { BANNER_DATA } from '~/data/banners'
   import { useCardStyle } from '~/composables/useCardStyle'
   import type { VNodeChild } from 'vue'

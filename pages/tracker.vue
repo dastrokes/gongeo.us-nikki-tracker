@@ -51,7 +51,7 @@
           v-for="i in 3"
           :key="i"
           size="small"
-          class="rounded-xl mt-4"
+          class="rounded-xl mt-2 sm:mt-4"
           content-class="!p-2 sm:!p-4"
           :style="cardStyle"
         >
@@ -465,7 +465,7 @@
             <n-card
               content-class="!p-2 sm:!pt-2 sm:!p-4"
               size="small"
-              class="rounded-xl min-h-[120px] sm:min-h-[160px] mt-4"
+              class="rounded-xl min-h-[120px] sm:min-h-[160px] mt-2 sm:mt-4"
               :style="cardStyle"
             >
               <!-- Banner Header -->

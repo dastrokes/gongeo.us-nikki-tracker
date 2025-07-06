@@ -1,0 +1,73 @@
+<template>
+  <n-space justify="center">
+    <n-tooltip>
+      <template #trigger>
+        <n-button
+          quaternary
+          tag="a"
+          href="https://discord.gg/qymsW3j4Zw"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <template #icon>
+            <n-icon><Discord /></n-icon>
+          </template>
+        </n-button>
+      </template>
+      {{ $t('social.discord') }}
+    </n-tooltip>
+    <n-tooltip>
+      <template #trigger>
+        <n-button
+          quaternary
+          tag="a"
+          href="https://ko-fi.com/dastrokes"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <template #icon>
+            <n-icon>
+              <KoFi />
+            </n-icon>
+          </template>
+        </n-button>
+      </template>
+      {{ $t('social.kofi') }}
+    </n-tooltip>
+    <n-tooltip>
+      <template #trigger>
+        <n-button
+          quaternary
+          tag="a"
+          href="https://twitter.com/gongeo_us"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <template #icon>
+            <n-icon><Twitter /></n-icon>
+          </template>
+        </n-button>
+      </template>
+      {{ $t('social.twitter') }}
+    </n-tooltip>
+    <n-tooltip>
+      <template #trigger>
+        <n-button
+          quaternary
+          tag="a"
+          href="mailto:contact@gongeo.us"
+        >
+          <template #icon>
+            <n-icon><Envelope /></n-icon>
+          </template>
+        </n-button>
+      </template>
+      {{ $t('social.email') }}
+    </n-tooltip>
+  </n-space>
+</template>
+
+<script setup lang="ts">
+  import { Discord, Twitter, Envelope } from '@vicons/fa'
+  import KoFi from '~/components/icons/KoFi.vue'
+</script>

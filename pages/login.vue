@@ -223,6 +223,8 @@
               </div>
             </n-collapse-item>
           </n-collapse>
+
+          <SocialLinks />
         </div>
       </div>
     </n-card>

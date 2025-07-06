@@ -813,12 +813,7 @@
         },
         axisLabel: {
           margin: 12,
-          interval: 0,
           rotate: isMobile.value ? 90 : 30,
-          formatter: function (value) {
-            if (isMobile.value && selectedBannerType.value === 'all') return ''
-            return value
-          },
         },
         axisLine: {
           lineStyle: {

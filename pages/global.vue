@@ -610,18 +610,11 @@
     link: [{ rel: 'canonical', href: `${siteUrl}${localePath('/global')}` }],
   })
 
-  // Client-side only data fetching
-  const { data: globalData, status } = await useLazyAsyncData(
-    'global-data',
-    async () => {
-      const response = await fetch(
-        'https://fimzdbqulflilnnopibz.supabase.co/storage/v1/object/public/gongeous/data.json'
-      )
-      if (!response.ok) throw new Error('Failed to fetch global data')
-      return await response.json()
-    },
+  // Data fetching
+  const { data: globalData, status } = await useFetch(
+    'https://fimzdbqulflilnnopibz.supabase.co/storage/v1/object/public/gongeous/data.json',
     {
-      server: false,
+      key: 'global-data',
       default: () => null,
     }
   )
@@ -629,7 +622,6 @@
   // Use computed for data to maintain reactivity
   const data = computed(() => globalData.value)
   const loading = computed(() => {
-    // During SSR, always show loading since we're not fetching data server-side
     if (!import.meta.client) return true
     return status.value === 'pending'
   })
@@ -1227,9 +1219,9 @@
 
   // Watch for data changes to initialize charts
   watch(
-    () => [data.value, loading.value],
-    ([newData, isLoading]) => {
-      if (newData && !isLoading && import.meta.client) {
+    () => data.value,
+    (newData) => {
+      if (newData && import.meta.client) {
         nextTick(() => {
           initializeCharts()
         })
@@ -1237,12 +1229,4 @@
     },
     { immediate: true }
   )
-
-  onMounted(() => {
-    if (data.value && !loading.value && import.meta.client) {
-      nextTick(() => {
-        initializeCharts()
-      })
-    }
-  })
 </script>

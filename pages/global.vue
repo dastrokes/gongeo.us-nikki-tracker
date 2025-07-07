@@ -539,27 +539,32 @@
   // Initialize stores
   const userStore = useUserStore()
 
-  // Initialize breakpoints - safe for SSR
+  // Initialize breakpoints
   const breakpoints = useBreakpoints(breakpointsTailwind)
   const isMobile = ref(false)
 
-  // Safe initialization for SSR
   onMounted(() => {
-    isMobile.value = !breakpoints.greater('sm').value
+    watchEffect(() => {
+      loading.value = status.value === 'pending'
+      isMobile.value = !breakpoints.greater('sm').value
+    })
+
     watch(
-      () => breakpoints.greater('sm').value,
-      (isGreater) => {
-        isMobile.value = !isGreater
-      }
+      [() => loading.value, () => isMobile.value, () => isDark.value],
+      () => {
+        if (data.value && import.meta.client) {
+          initializeCharts()
+        }
+      },
+      { immediate: true }
     )
   })
 
   // Add isDark computed property
   const isDark = computed(() => userStore.getCurrentTheme === 'dark')
 
-  // Create a safe global chart text style - only access DOM on client
+  // Chart text style utility
   const getChartTextStyle = () => {
-    // Guard against SSR
     if (!import.meta.client) {
       return {
         fontFamily:
@@ -621,10 +626,7 @@
 
   // Use computed for data to maintain reactivity
   const data = computed(() => globalData.value)
-  const loading = computed(() => {
-    if (!import.meta.client) return true
-    return status.value === 'pending'
-  })
+  const loading = ref(true)
 
   // Computed values for stats (updated for new data.json)
   const totalPulls = computed(() => data.value?.t || 0)
@@ -697,10 +699,8 @@
 
   const { cardStyle } = useCardStyle()
 
-  // initialize all charts - client-side
+  // initialize all charts
   const initializeCharts = () => {
-    if (!data.value || !import.meta.client) return
-
     try {
       if (data.value.p) createPullsPerBannerChart(data.value.p)
       if (data.value.f5) createFiveStarDistributionChart(data.value.f5)
@@ -1198,35 +1198,4 @@
       ],
     }
   }
-
-  // Watch for theme changes to update charts
-  watch(isDark, () => {
-    if (data.value && !loading.value && import.meta.client) {
-      initializeCharts()
-    }
-  })
-
-  // Watch for breakpoint changes to update responsive charts
-  watch(isMobile, () => {
-    if (data.value?.f && selectedBannerId.value) {
-      createFirstItemDistributionChart(data.value.f)
-    }
-
-    if (data.value?.p) {
-      createPullsPerBannerChart(data.value.p)
-    }
-  })
-
-  // Watch for data changes to initialize charts
-  watch(
-    () => data.value,
-    (newData) => {
-      if (newData && import.meta.client) {
-        nextTick(() => {
-          initializeCharts()
-        })
-      }
-    },
-    { immediate: true }
-  )
 </script>

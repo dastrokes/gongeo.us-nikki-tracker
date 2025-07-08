@@ -653,7 +653,7 @@ w<template>
 
   // Add banner selector related refs
   const selectedBannerId = ref(
-    Number(Object.keys(BANNER_DATA)[Object.keys(BANNER_DATA).length - 1])
+    Number(Object.keys(BANNER_DATA)[Object.keys(BANNER_DATA).length - 2])
   )
   const selectedBannerType = ref('all')
   const bannerTypeOptions = computed(() => [

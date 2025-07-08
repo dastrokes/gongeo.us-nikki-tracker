@@ -36,7 +36,7 @@
                 <n-button
                   type="primary"
                   size="large"
-                  @click="$router.push('/')"
+                  @click="navigateTo(`${localePath('/tracker')}`)"
                 >
                   {{ t('login.go_to_tracker') }}
                 </n-button>
@@ -532,8 +532,8 @@
   watchEffect(() => {
     if (user.value && !loading.value && !isRecoveryMode.value) {
       setTimeout(() => {
-        router.back()
-      }, 2000)
+        navigateTo(`${localePath('/')}`)
+      }, 3000)
     }
   })
 </script>

@@ -1,4 +1,4 @@
-<template>
+w<template>
   <div class="max-w-7xl mx-auto space-y-2 sm:space-y-4">
     <!-- Loading State -->
     <template v-if="loading">
@@ -663,7 +663,7 @@
   ])
   const bannerOptions = computed(() => {
     return Object.entries(BANNER_DATA)
-      .filter(([id]) => id !== '1')
+      .filter(([id]) => id !== '1' && id !== '26')
       .map(([id, banner]) => ({
         label: t(`banner.${banner.bannerId}.name`),
         value: Number(id),

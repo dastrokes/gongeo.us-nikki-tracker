@@ -1,4 +1,5 @@
-w<template>
+w
+<template>
   <div class="max-w-7xl mx-auto space-y-2 sm:space-y-4">
     <!-- Loading State -->
     <template v-if="loading">
@@ -653,7 +654,7 @@ w<template>
 
   // Add banner selector related refs
   const selectedBannerId = ref(
-    Number(Object.keys(BANNER_DATA)[Object.keys(BANNER_DATA).length - 2])
+    Number(Object.keys(BANNER_DATA)[Object.keys(BANNER_DATA).length - 1])
   )
   const selectedBannerType = ref('all')
   const bannerTypeOptions = computed(() => [
@@ -663,7 +664,7 @@ w<template>
   ])
   const bannerOptions = computed(() => {
     return Object.entries(BANNER_DATA)
-      .filter(([id]) => id !== '1' && id !== '26')
+      .filter(([id]) => id !== '1')
       .map(([id, banner]) => ({
         label: t(`banner.${banner.bannerId}.name`),
         value: Number(id),
@@ -826,6 +827,9 @@ w<template>
         axisLabel: {
           margin: 12,
           rotate: isMobile.value ? 90 : 30,
+          overflow: 'truncate',
+          width: 120,
+          formatter: (value) => value,
         },
         axisLine: {
           lineStyle: {

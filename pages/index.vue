@@ -115,9 +115,9 @@
   const localePath = useLocalePath()
   const router = useRouter()
 
-  const leftBanners = [BANNER_DATA[23], BANNER_DATA[2]] as Banner[]
-  const rightBanners = [BANNER_DATA[24], BANNER_DATA[25]] as Banner[]
-  const targetTime = new Date('2025-07-07T20:00:00Z')
+  const leftBanners = [BANNER_DATA[26]] as Banner[]
+  const rightBanners = [] as Banner[]
+  const targetTime = new Date('2025-07-29T20:00:00Z')
 
   const indexA = ref(0)
   const indexB = ref(0)

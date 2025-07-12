@@ -198,6 +198,7 @@
   import UserProfile from '~/components/UserProfile.vue'
   import LanguageSwitcher from '~/components/LanguageSwitcher.vue'
   import KoFi from '~/components/icons/KoFi.vue'
+  import Netlify from '~/components/icons/Netlify.vue'
   import { useUserStore } from '~/stores/user'
   import { useSwipe } from '@vueuse/core'
 
@@ -392,6 +393,21 @@
           ),
         key: 'ko-fi',
         icon: renderIcon(KoFi),
+      },
+      {
+        label: () =>
+          h(
+            'a',
+            {
+              href: 'https://www.netlify.com/',
+              target: '_blank',
+              rel: 'noopener noreferrer',
+              class: 'no-underline text-inherit',
+            },
+            'Built with Netlify'
+          ),
+        key: 'netlify',
+        icon: renderIcon(Netlify),
       },
     ].map((option) => ({
       ...option,

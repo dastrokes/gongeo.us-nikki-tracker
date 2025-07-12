@@ -114,7 +114,7 @@
     "login_pearpal_desc": "在新标签页中打开美鸭梨网站，如果尚未登录，请使用您的叠纸账号登录。",
     "get_cookie": "从美鸭梨网站获取 Cookie 数据",
     "get_cookie_desc": "选择您想要获取 Cookie 数据的方式：",
-    "gongeous_cookie": "Gongeous Cookie",
+    "gongeous_cookie": "美鸭梨 Cookie",
     "bookmark_method": "书签方法（推荐）",
     "bookmark_method_mobile": "书签方法",
     "console_method": "控制台方法",

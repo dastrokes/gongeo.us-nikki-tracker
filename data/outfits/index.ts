@@ -39,6 +39,8 @@ import S0223 from './S0223'
 import S0226 from './S0226'
 import S0227 from './S0227'
 import S0228 from './S0228'
+import S0231 from './S0231'
+import S0232 from './S0232'
 import S0238 from './S0238'
 
 const OUTFIT_DATA = {
@@ -83,6 +85,8 @@ const OUTFIT_DATA = {
   S0226,
   S0227,
   S0228,
+  S0231,
+  S0232,
   S0238,
 } as const
 

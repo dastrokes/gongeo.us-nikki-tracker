@@ -1,5 +1,7 @@
+w
 <template>
   <div class="max-w-7xl mx-auto space-y-2 sm:space-y-4">
+    <!-- Loading State -->
     <template v-if="loading">
       <n-card
         size="small"
@@ -55,7 +57,14 @@
             </div>
             <n-skeleton height="280px" />
           </n-card>
-
+        </div>
+      </n-card>
+      <n-card
+        size="small"
+        class="rounded-xl"
+        :style="cardStyle"
+      >
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
           <!-- Distribution Charts Skeleton -->
           <n-card
             v-for="i in 3"
@@ -79,430 +88,442 @@
       </n-card>
     </template>
 
-    <!-- Summary Cards - server-side -->
-    <n-card
-      v-show="!loading && !maximizedChart"
-      content-class="!p-2 sm:!p-4"
-      size="small"
-      class="rounded-xl bg-gray-100 dark:bg-gray-800"
-      :style="cardStyle"
-    >
-      <div class="grid grid-cols-2 md:grid-cols-6 gap-2">
-        <n-card
-          size="small"
-          class="text-center rounded-md"
-          :style="cardStyle"
-        >
-          <div class="text-sm text-gray-400">
-            {{ $t('global.stats.total_pulls') }}
-          </div>
-          <div class="text-lg font-medium Cookie mt-1">
-            <n-number-animation
-              show-separator
-              :from="0"
-              :to="totalPulls"
-              :duration="5000"
-            />
-          </div>
-        </n-card>
-        <n-card
-          size="small"
-          class="text-center rounded-md"
-          :style="cardStyle"
-        >
-          <div class="text-sm text-gray-400">
-            {{ $t('global.stats.unique_users') }}
-          </div>
-          <div class="text-lg font-medium Cookie mt-1">
-            <n-number-animation
-              show-separator
-              :from="0"
-              :to="uniqueUserCount"
-              :duration="3000"
-            />
-          </div>
-        </n-card>
-        <n-card
-          size="small"
-          class="text-center rounded-md"
-          :style="cardStyle"
-        >
-          <div class="text-sm text-gray-400">
-            {{ $t('global.stats.avg_5star') }}
-          </div>
-          <div class="text-lg font-medium Cookie mt-1">
-            <n-number-animation
-              :from="0"
-              :to="averagePullsTo5Star"
-              :duration="2000"
-              :precision="2"
-            />
-          </div>
-        </n-card>
-        <n-card
-          size="small"
-          class="text-center rounded-md"
-          :style="cardStyle"
-        >
-          <div class="text-sm text-gray-400">
-            {{ $t('global.stats.avg_4star_type2') }}
-          </div>
-          <div class="text-lg font-medium Cookie mt-1">
-            <n-number-animation
-              :from="0"
-              :to="averagePullsTo4StarType2"
-              :duration="2000"
-              :precision="2"
-            />
-          </div>
-        </n-card>
-        <n-card
-          size="small"
-          class="text-center rounded-md"
-          :style="cardStyle"
-        >
-          <div class="text-sm text-gray-400">
-            {{ $t('global.stats.avg_4star_type3') }}
-          </div>
-          <div class="text-lg font-medium Cookie mt-1">
-            <n-number-animation
-              :from="0"
-              :to="averagePullsTo4StarType3"
-              :duration="2000"
-              :precision="2"
-            />
-          </div>
-        </n-card>
-        <n-card
-          size="small"
-          class="text-center rounded-md"
-          :style="cardStyle"
-        >
-          <div class="text-sm text-gray-400">
-            {{ $t('global.stats.data_as_of') }}
-          </div>
-          <div class="text-lg font-medium Cookie mt-1">
-            <n-time
-              v-if="data?.d"
-              :time="effectiveDate"
-              type="date"
-            />
-            <n-time
-              v-else
-              :time="new Date()"
-              type="date"
-            />
-          </div>
-        </n-card>
-      </div>
-    </n-card>
-
-    <!-- Charts - client-side -->
-    <ClientOnly>
+    <div v-else>
+      <!-- Summary Cards -->
       <n-card
-        v-if="!loading && data"
+        v-show="!maximizedChart"
+        content-class="!p-2 sm:!p-4"
         size="small"
-        class="rounded-xl"
-        :class="maximizedChart ? '!mt-0 !mb-0' : ''"
+        class="rounded-xl bg-gray-100 dark:bg-gray-800"
         :style="cardStyle"
       >
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <!-- Pulls per Banner Chart -->
+        <div class="grid grid-cols-2 md:grid-cols-6 gap-2">
           <n-card
-            v-show="!maximizedChart || maximizedChart === 'pullsPerBanner'"
             size="small"
-            class="transition-all duration-300"
-            :class="[
-              maximizedChart === 'pullsPerBanner'
-                ? 'col-span-1 sm:col-span-3'
-                : 'col-span-1 sm:col-span-3',
-            ]"
+            class="text-center rounded-md"
             :style="cardStyle"
           >
-            <div
-              class="transition-all duration-300"
-              :class="[
-                maximizedChart === 'pullsPerBanner'
-                  ? 'h-[calc(100vh-210px)] sm:h-[calc(100vh-160px)]'
-                  : 'h-[320px]',
-              ]"
-              :style="cardStyle"
-            >
-              <n-select
-                v-model:value="selectedBannerType"
-                :options="bannerTypeOptions"
-                :show-checkmark="false"
-                class="absolute top-2 right-12 z-10 w-40"
-                size="small"
-                @update:value="updatePullsPerBannerChart"
-              />
-              <n-button
-                size="tiny"
-                text
-                class="absolute top-4 right-4 z-10"
-                :type="
-                  maximizedChart === 'pullsPerBanner' ? 'primary' : 'default'
-                "
-                @click="toggleMaximize('pullsPerBanner')"
-              >
-                <template #icon>
-                  <n-icon>
-                    <component
-                      :is="
-                        maximizedChart === 'pullsPerBanner'
-                          ? CompressAlt
-                          : ExpandAlt
-                      "
-                    />
-                  </n-icon>
-                </template>
-              </n-button>
-              <VChart
-                id="pullsPerBannerChart"
-                ref="pullsPerBannerChart"
-                :option="pullsPerBannerChartOption"
-                :autoresize="true"
-                :style="cardStyle"
+            <div class="text-sm text-gray-400">
+              {{ $t('global.stats.total_pulls') }}
+            </div>
+            <div class="text-lg font-medium Cookie mt-1">
+              <n-number-animation
+                show-separator
+                :from="0"
+                :to="totalPulls"
+                :duration="5000"
               />
             </div>
           </n-card>
-
-          <!-- 5★ Distribution Chart -->
           <n-card
-            v-show="!maximizedChart || maximizedChart === 'fiveStar'"
             size="small"
-            class="transition-all duration-300"
-            :class="[
-              maximizedChart === 'fiveStar' ? 'col-span-1 sm:col-span-3' : '',
-            ]"
+            class="text-center rounded-md"
             :style="cardStyle"
           >
-            <div
-              class="transition-all duration-300"
-              :class="[
-                maximizedChart === 'fiveStar'
-                  ? 'h-[calc(100vh-210px)] sm:h-[calc(100vh-160px)]'
-                  : 'h-[200px]',
-              ]"
-              :style="cardStyle"
-            >
-              <n-button
-                size="tiny"
-                text
-                class="absolute top-4 right-4 z-10"
-                :type="maximizedChart === 'fiveStar' ? 'primary' : 'default'"
-                @click="toggleMaximize('fiveStar')"
-              >
-                <template #icon>
-                  <n-icon>
-                    <component
-                      :is="
-                        maximizedChart === 'fiveStar' ? CompressAlt : ExpandAlt
-                      "
-                    />
-                  </n-icon>
-                </template>
-              </n-button>
-              <VChart
-                id="fiveStarDistributionChart"
-                ref="fiveStarDistributionChart"
-                :option="fiveStarDistributionChartOption"
-                :autoresize="true"
-                :style="cardStyle"
+            <div class="text-sm text-gray-400">
+              {{ $t('global.stats.unique_users') }}
+            </div>
+            <div class="text-lg font-medium Cookie mt-1">
+              <n-number-animation
+                show-separator
+                :from="0"
+                :to="uniqueUserCount"
+                :duration="3000"
               />
             </div>
           </n-card>
-
-          <!-- 4★ Distribution Type 2 Chart -->
           <n-card
-            v-show="!maximizedChart || maximizedChart === 'fourStarType2'"
             size="small"
-            class="transition-all duration-300"
-            :class="[
-              maximizedChart === 'fourStarType2'
-                ? 'col-span-1 sm:col-span-3'
-                : '',
-            ]"
+            class="text-center rounded-md"
             :style="cardStyle"
           >
-            <div
-              class="transition-all duration-300"
-              :class="[
-                maximizedChart === 'fourStarType2'
-                  ? 'h-[calc(100vh-210px)] sm:h-[calc(100vh-160px)]'
-                  : 'h-[200px]',
-              ]"
-              :style="cardStyle"
-            >
-              <n-button
-                size="tiny"
-                text
-                class="absolute top-4 right-4 z-10"
-                :type="
-                  maximizedChart === 'fourStarType2' ? 'primary' : 'default'
-                "
-                @click="toggleMaximize('fourStarType2')"
-              >
-                <template #icon>
-                  <n-icon>
-                    <component
-                      :is="
-                        maximizedChart === 'fourStarType2'
-                          ? CompressAlt
-                          : ExpandAlt
-                      "
-                    />
-                  </n-icon>
-                </template>
-              </n-button>
-              <VChart
-                id="fourStarType2Chart"
-                ref="fourStarType2Chart"
-                :option="fourStarType2ChartOption"
-                :autoresize="true"
-                :style="cardStyle"
+            <div class="text-sm text-gray-400">
+              {{ $t('global.stats.avg_5star') }}
+            </div>
+            <div class="text-lg font-medium Cookie mt-1">
+              <n-number-animation
+                :from="0"
+                :to="averagePullsTo5Star"
+                :duration="2000"
+                :precision="2"
               />
             </div>
           </n-card>
-
-          <!-- 4★ Distribution Type 3 Chart -->
           <n-card
-            v-show="!maximizedChart || maximizedChart === 'fourStarType3'"
             size="small"
-            class="transition-all duration-300"
-            :class="[
-              maximizedChart === 'fourStarType3'
-                ? 'col-span-1 sm:col-span-3'
-                : '',
-            ]"
+            class="text-center rounded-md"
             :style="cardStyle"
           >
-            <div
-              class="transition-all duration-300"
-              :class="[
-                maximizedChart === 'fourStarType3'
-                  ? 'h-[calc(100vh-210px)] sm:h-[calc(100vh-160px)]'
-                  : 'h-[200px]',
-              ]"
-              :style="cardStyle"
-            >
-              <n-button
-                size="tiny"
-                text
-                class="absolute top-4 right-4 z-10"
-                :type="
-                  maximizedChart === 'fourStarType3' ? 'primary' : 'default'
-                "
-                @click="toggleMaximize('fourStarType3')"
-              >
-                <template #icon>
-                  <n-icon>
-                    <component
-                      :is="
-                        maximizedChart === 'fourStarType3'
-                          ? CompressAlt
-                          : ExpandAlt
-                      "
-                    />
-                  </n-icon>
-                </template>
-              </n-button>
-              <VChart
-                id="fourStarType3Chart"
-                ref="fourStarType3Chart"
-                :option="fourStarType3ChartOption"
-                :autoresize="true"
-                :style="cardStyle"
+            <div class="text-sm text-gray-400">
+              {{ $t('global.stats.avg_4star_type2') }}
+            </div>
+            <div class="text-lg font-medium Cookie mt-1">
+              <n-number-animation
+                :from="0"
+                :to="averagePullsTo4StarType2"
+                :duration="2000"
+                :precision="2"
               />
             </div>
           </n-card>
-
-          <!-- First Item Distribution Chart -->
           <n-card
-            v-show="
-              !maximizedChart || maximizedChart === 'firstItemDistribution'
-            "
             size="small"
-            class="transition-all duration-300"
-            :class="[
-              maximizedChart === 'firstItemDistribution'
-                ? 'col-span-1 sm:col-span-3'
-                : 'col-span-1 sm:col-span-3',
-            ]"
+            class="text-center rounded-md"
             :style="cardStyle"
           >
-            <div
-              class="transition-all duration-300"
-              :class="[
-                maximizedChart === 'firstItemDistribution'
-                  ? 'h-[calc(100vh-210px)] sm:h-[calc(100vh-160px)]'
-                  : 'h-[200px]',
-              ]"
-              :style="cardStyle"
-            >
-              <n-tooltip
-                v-if="checkBannerRuns"
-                :width="200"
-              >
-                <template #trigger>
-                  <n-button
-                    size="tiny"
-                    text
-                    class="absolute top-4 left-4 z-10"
-                  >
-                    <template #icon>
-                      <n-icon>
-                        <ExclamationCircle />
-                      </n-icon>
-                    </template>
-                  </n-button>
-                </template>
-                {{ t('global.charts.first_item_distribution_tooltip') }}
-              </n-tooltip>
-              <n-select
-                v-model:value="selectedBannerId"
-                :options="bannerOptions"
-                :show-checkmark="false"
-                class="absolute top-2 right-12 z-10 w-40"
-                size="small"
-                @update:value="updateFirstItemChart"
+            <div class="text-sm text-gray-400">
+              {{ $t('global.stats.avg_4star_type3') }}
+            </div>
+            <div class="text-lg font-medium Cookie mt-1">
+              <n-number-animation
+                :from="0"
+                :to="averagePullsTo4StarType3"
+                :duration="2000"
+                :precision="2"
               />
-
-              <n-button
-                size="tiny"
-                text
-                class="absolute top-4 right-4 z-10"
-                :type="
-                  maximizedChart === 'firstItemDistribution'
-                    ? 'primary'
-                    : 'default'
-                "
-                @click="toggleMaximize('firstItemDistribution')"
-              >
-                <template #icon>
-                  <n-icon>
-                    <component
-                      :is="
-                        maximizedChart === 'firstItemDistribution'
-                          ? CompressAlt
-                          : ExpandAlt
-                      "
-                    />
-                  </n-icon>
-                </template>
-              </n-button>
-              <VChart
-                id="firstItemDistributionChart"
-                ref="firstItemDistributionChart"
-                :option="firstItemDistributionChartOption"
-                :autoresize="true"
-                :style="cardStyle"
+            </div>
+          </n-card>
+          <n-card
+            size="small"
+            class="text-center rounded-md"
+            :style="cardStyle"
+          >
+            <div class="text-sm text-gray-400">
+              {{ $t('global.stats.data_as_of') }}
+            </div>
+            <div class="text-lg font-medium Cookie mt-1">
+              <n-time
+                v-if="data?.d"
+                :time="effectiveDate"
+                type="date"
+              />
+              <n-time
+                v-else
+                :time="new Date()"
+                type="date"
               />
             </div>
           </n-card>
         </div>
       </n-card>
-    </ClientOnly>
+
+      <!-- Charts -->
+      <n-card
+        v-show="!maximizedChart || maximizedChart === 'pullsPerBanner'"
+        size="small"
+        class="rounded-xl mt-2 sm:mt-4"
+        :class="maximizedChart ? '!mt-0 !mb-0' : ''"
+        :style="cardStyle"
+      >
+        <!-- Pulls per Banner Chart -->
+        <n-card
+          size="small"
+          class="transition-all duration-300"
+          :class="[
+            maximizedChart === 'pullsPerBanner'
+              ? 'col-span-1 sm:col-span-3'
+              : 'col-span-1 sm:col-span-3',
+          ]"
+          :style="cardStyle"
+        >
+          <div
+            class="transition-all duration-300"
+            :class="[
+              maximizedChart === 'pullsPerBanner'
+                ? 'h-[calc(100vh-170px)] sm:h-[calc(100vh-160px)]'
+                : 'h-[320px]',
+            ]"
+            :style="cardStyle"
+          >
+            <n-select
+              v-model:value="selectedBannerType"
+              :options="bannerTypeOptions"
+              :show-checkmark="false"
+              class="absolute top-2 right-12 z-10 w-40"
+              size="small"
+              @update:value="updatePullsPerBannerChart"
+            />
+            <n-button
+              size="tiny"
+              text
+              class="absolute top-4 right-4 z-10"
+              :type="
+                maximizedChart === 'pullsPerBanner' ? 'primary' : 'default'
+              "
+              @click="toggleMaximize('pullsPerBanner')"
+            >
+              <template #icon>
+                <n-icon>
+                  <component
+                    :is="
+                      maximizedChart === 'pullsPerBanner'
+                        ? CompressAlt
+                        : ExpandAlt
+                    "
+                  />
+                </n-icon>
+              </template>
+            </n-button>
+            <VChart
+              id="pullsPerBannerChart"
+              ref="pullsPerBannerChart"
+              :option="pullsPerBannerChartOption"
+              :autoresize="true"
+              :style="cardStyle"
+            />
+          </div>
+        </n-card>
+      </n-card>
+
+      <n-card
+        v-show="
+          !maximizedChart ||
+          maximizedChart === 'fiveStar' ||
+          maximizedChart === 'fourStarType2' ||
+          maximizedChart === 'fourStarType3'
+        "
+        size="small"
+        class="rounded-xl mt-2 sm:mt-4"
+        content-class="grid grid-cols-1 md:grid-cols-3 gap-4"
+        :class="maximizedChart ? '!mt-0 !mb-0' : ''"
+        :style="cardStyle"
+      >
+        <!-- 5★ Distribution Chart -->
+        <n-card
+          v-show="!maximizedChart || maximizedChart === 'fiveStar'"
+          size="small"
+          class="transition-all duration-300"
+          :class="[
+            maximizedChart === 'fiveStar' ? 'col-span-1 sm:col-span-3' : '',
+          ]"
+          :style="cardStyle"
+        >
+          <div
+            class="transition-all duration-300"
+            :class="[
+              maximizedChart === 'fiveStar'
+                ? 'h-[calc(100vh-170px)] sm:h-[calc(100vh-160px)]'
+                : 'h-[200px]',
+            ]"
+            :style="cardStyle"
+          >
+            <n-button
+              size="tiny"
+              text
+              class="absolute top-4 right-4 z-10"
+              :type="maximizedChart === 'fiveStar' ? 'primary' : 'default'"
+              @click="toggleMaximize('fiveStar')"
+            >
+              <template #icon>
+                <n-icon>
+                  <component
+                    :is="
+                      maximizedChart === 'fiveStar' ? CompressAlt : ExpandAlt
+                    "
+                  />
+                </n-icon>
+              </template>
+            </n-button>
+            <VChart
+              id="fiveStarDistributionChart"
+              ref="fiveStarDistributionChart"
+              :option="fiveStarDistributionChartOption"
+              :autoresize="true"
+              :style="cardStyle"
+            />
+          </div>
+        </n-card>
+
+        <!-- 4★ Distribution Type 2 Chart -->
+        <n-card
+          v-show="!maximizedChart || maximizedChart === 'fourStarType2'"
+          size="small"
+          class="transition-all duration-300"
+          :class="[
+            maximizedChart === 'fourStarType2'
+              ? 'col-span-1 sm:col-span-3'
+              : '',
+          ]"
+          :style="cardStyle"
+        >
+          <div
+            class="transition-all duration-300"
+            :class="[
+              maximizedChart === 'fourStarType2'
+                ? 'h-[calc(100vh-170px)] sm:h-[calc(100vh-160px)]'
+                : 'h-[200px]',
+            ]"
+            :style="cardStyle"
+          >
+            <n-button
+              size="tiny"
+              text
+              class="absolute top-4 right-4 z-10"
+              :type="maximizedChart === 'fourStarType2' ? 'primary' : 'default'"
+              @click="toggleMaximize('fourStarType2')"
+            >
+              <template #icon>
+                <n-icon>
+                  <component
+                    :is="
+                      maximizedChart === 'fourStarType2'
+                        ? CompressAlt
+                        : ExpandAlt
+                    "
+                  />
+                </n-icon>
+              </template>
+            </n-button>
+            <VChart
+              id="fourStarType2Chart"
+              ref="fourStarType2Chart"
+              :option="fourStarType2ChartOption"
+              :autoresize="true"
+              :style="cardStyle"
+            />
+          </div>
+        </n-card>
+
+        <!-- 4★ Distribution Type 3 Chart -->
+        <n-card
+          v-show="!maximizedChart || maximizedChart === 'fourStarType3'"
+          size="small"
+          class="transition-all duration-300"
+          :class="[
+            maximizedChart === 'fourStarType3'
+              ? 'col-span-1 sm:col-span-3'
+              : '',
+          ]"
+          :style="cardStyle"
+        >
+          <div
+            class="transition-all duration-300"
+            :class="[
+              maximizedChart === 'fourStarType3'
+                ? 'h-[calc(100vh-170px)] sm:h-[calc(100vh-160px)]'
+                : 'h-[200px]',
+            ]"
+            :style="cardStyle"
+          >
+            <n-button
+              size="tiny"
+              text
+              class="absolute top-4 right-4 z-10"
+              :type="maximizedChart === 'fourStarType3' ? 'primary' : 'default'"
+              @click="toggleMaximize('fourStarType3')"
+            >
+              <template #icon>
+                <n-icon>
+                  <component
+                    :is="
+                      maximizedChart === 'fourStarType3'
+                        ? CompressAlt
+                        : ExpandAlt
+                    "
+                  />
+                </n-icon>
+              </template>
+            </n-button>
+            <VChart
+              id="fourStarType3Chart"
+              ref="fourStarType3Chart"
+              :option="fourStarType3ChartOption"
+              :autoresize="true"
+              :style="cardStyle"
+            />
+          </div>
+        </n-card>
+      </n-card>
+
+      <n-card
+        v-show="!maximizedChart || maximizedChart === 'firstItemDistribution'"
+        size="small"
+        class="rounded-xl mt-2 sm:mt-4"
+        :class="maximizedChart ? '!mt-0 !mb-0' : ''"
+        :style="cardStyle"
+      >
+        <!-- First Item Distribution Chart -->
+        <n-card
+          size="small"
+          class="transition-all duration-300"
+          :class="[
+            maximizedChart === 'firstItemDistribution'
+              ? 'col-span-1 sm:col-span-3'
+              : 'col-span-1 sm:col-span-3',
+          ]"
+          :style="cardStyle"
+        >
+          <div
+            class="transition-all duration-300"
+            :class="[
+              maximizedChart === 'firstItemDistribution'
+                ? 'h-[calc(100vh-170px)] sm:h-[calc(100vh-160px)]'
+                : 'h-[200px]',
+            ]"
+            :style="cardStyle"
+          >
+            <n-tooltip
+              v-if="checkBannerRuns"
+              :width="200"
+            >
+              <template #trigger>
+                <n-button
+                  size="tiny"
+                  text
+                  class="absolute top-4 left-4 z-10"
+                >
+                  <template #icon>
+                    <n-icon>
+                      <ExclamationCircle />
+                    </n-icon>
+                  </template>
+                </n-button>
+              </template>
+              {{ t('global.charts.first_item_distribution_tooltip') }}
+            </n-tooltip>
+            <n-select
+              v-model:value="selectedBannerId"
+              :options="bannerOptions"
+              :show-checkmark="false"
+              class="absolute top-2 right-12 z-10 w-40"
+              size="small"
+              @update:value="updateFirstItemChart"
+            />
+
+            <n-button
+              size="tiny"
+              text
+              class="absolute top-4 right-4 z-10"
+              :type="
+                maximizedChart === 'firstItemDistribution'
+                  ? 'primary'
+                  : 'default'
+              "
+              @click="toggleMaximize('firstItemDistribution')"
+            >
+              <template #icon>
+                <n-icon>
+                  <component
+                    :is="
+                      maximizedChart === 'firstItemDistribution'
+                        ? CompressAlt
+                        : ExpandAlt
+                    "
+                  />
+                </n-icon>
+              </template>
+            </n-button>
+            <VChart
+              id="firstItemDistributionChart"
+              ref="firstItemDistributionChart"
+              :option="firstItemDistributionChartOption"
+              :autoresize="true"
+              :style="cardStyle"
+            />
+          </div>
+        </n-card>
+      </n-card>
+    </div>
   </div>
 </template>
 
@@ -519,27 +540,32 @@
   // Initialize stores
   const userStore = useUserStore()
 
-  // Initialize breakpoints - safe for SSR
+  // Initialize breakpoints
   const breakpoints = useBreakpoints(breakpointsTailwind)
   const isMobile = ref(false)
 
-  // Safe initialization for SSR
   onMounted(() => {
-    isMobile.value = !breakpoints.greater('sm').value
+    watchEffect(() => {
+      loading.value = status.value === 'pending'
+      isMobile.value = !breakpoints.greater('sm').value
+    })
+
     watch(
-      () => breakpoints.greater('sm').value,
-      (isGreater) => {
-        isMobile.value = !isGreater
-      }
+      [() => loading.value, () => isMobile.value, () => isDark.value],
+      () => {
+        if (data.value && import.meta.client) {
+          initializeCharts()
+        }
+      },
+      { immediate: true }
     )
   })
 
   // Add isDark computed property
   const isDark = computed(() => userStore.getCurrentTheme === 'dark')
 
-  // Create a safe global chart text style - only access DOM on client
+  // Chart text style utility
   const getChartTextStyle = () => {
-    // Guard against SSR
     if (!import.meta.client) {
       return {
         fontFamily:
@@ -590,29 +616,18 @@
     link: [{ rel: 'canonical', href: `${siteUrl}${localePath('/global')}` }],
   })
 
-  // Client-side only data fetching
-  const { data: globalData, status } = await useLazyAsyncData(
-    'global-data',
-    async () => {
-      const response = await fetch(
-        'https://fimzdbqulflilnnopibz.supabase.co/storage/v1/object/public/gongeous/data.json'
-      )
-      if (!response.ok) throw new Error('Failed to fetch global data')
-      return await response.json()
-    },
+  // Data fetching
+  const { data: globalData, status } = await useFetch(
+    'https://fimzdbqulflilnnopibz.supabase.co/storage/v1/object/public/gongeous/data.json',
     {
-      server: false,
+      key: 'global-data',
       default: () => null,
     }
   )
 
   // Use computed for data to maintain reactivity
   const data = computed(() => globalData.value)
-  const loading = computed(() => {
-    // During SSR, always show loading since we're not fetching data server-side
-    if (!import.meta.client) return true
-    return status.value === 'pending'
-  })
+  const loading = ref(true)
 
   // Computed values for stats (updated for new data.json)
   const totalPulls = computed(() => data.value?.t || 0)
@@ -685,10 +700,8 @@
 
   const { cardStyle } = useCardStyle()
 
-  // initialize all charts - client-side
+  // initialize all charts
   const initializeCharts = () => {
-    if (!data.value || !import.meta.client) return
-
     try {
       if (data.value.p) createPullsPerBannerChart(data.value.p)
       if (data.value.f5) createFiveStarDistributionChart(data.value.f5)
@@ -799,7 +812,7 @@
         top: isMobile.value ? 60 : 40,
       },
       grid: {
-        top: isMobile.value ? 80 : 60,
+        top: isMobile.value ? 120 : 60,
         bottom: 0,
         left: isMobile.value ? '0%' : '5%',
         right: 0,
@@ -813,17 +826,10 @@
         },
         axisLabel: {
           margin: 12,
-          interval: 0,
           rotate: isMobile.value ? 90 : 30,
-          formatter: function (value, index) {
-            if (
-              isMobile.value &&
-              selectedBannerType.value === 'all' &&
-              BANNER_DATA[parseInt(index) + 2].bannerType === 3
-            )
-              return ''
-            return value
-          },
+          overflow: 'truncate',
+          width: 120,
+          formatter: (value) => value,
         },
         axisLine: {
           lineStyle: {
@@ -1196,43 +1202,4 @@
       ],
     }
   }
-
-  // Watch for theme changes to update charts
-  watch(isDark, () => {
-    if (data.value && !loading.value && import.meta.client) {
-      initializeCharts()
-    }
-  })
-
-  // Watch for breakpoint changes to update responsive charts
-  watch(isMobile, () => {
-    if (data.value?.f && selectedBannerId.value) {
-      createFirstItemDistributionChart(data.value.f)
-    }
-
-    if (data.value?.p) {
-      createPullsPerBannerChart(data.value.p)
-    }
-  })
-
-  // Watch for data changes to initialize charts
-  watch(
-    () => [data.value, loading.value],
-    ([newData, isLoading]) => {
-      if (newData && !isLoading && import.meta.client) {
-        nextTick(() => {
-          initializeCharts()
-        })
-      }
-    },
-    { immediate: true }
-  )
-
-  onMounted(() => {
-    if (data.value && !loading.value && import.meta.client) {
-      nextTick(() => {
-        initializeCharts()
-      })
-    }
-  })
 </script>

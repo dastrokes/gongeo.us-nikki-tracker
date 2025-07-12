@@ -85,30 +85,28 @@
 
     const levels = []
     const totalPulls = props.completionData.totalPulls
+    const manualEvoLevel = pullStore.getOutfitEvoLevel(
+      props.bannerId,
+      props.outfitId
+    )
 
     if (props.rarity === 5) {
       if (props.completionData.completion >= 1) {
         levels.push('0')
       }
       if (
-        (totalPulls >= 180 ||
-          pullStore.getOutfitEvoLevel(props.bannerId, props.outfitId) >= 2) &&
+        (totalPulls >= 180 || manualEvoLevel >= 2) &&
         props.completionData.completion >= 1
       ) {
         levels.push('2')
       }
       if (
-        (totalPulls >= 200 ||
-          pullStore.getOutfitEvoLevel(props.bannerId, props.outfitId) >= 3) &&
+        (totalPulls >= 230 || manualEvoLevel >= 3) &&
         props.completionData.completion >= 1
       ) {
         levels.push('3')
       }
-      if (
-        (totalPulls >= 230 ||
-          pullStore.getOutfitEvoLevel(props.bannerId, props.outfitId) >= 4) &&
-        props.completionData.completion >= 2
-      ) {
+      if (props.completionData.completion >= 2) {
         levels.push('4')
       }
     } else {

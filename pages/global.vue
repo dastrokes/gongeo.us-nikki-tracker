@@ -551,7 +551,7 @@ w
     })
 
     watch(
-      [() => loading.value, () => isMobile.value, () => isDark.value],
+      [data, () => isMobile.value, () => isDark.value],
       () => {
         if (data.value && import.meta.client) {
           initializeCharts()

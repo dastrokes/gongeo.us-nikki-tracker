@@ -304,7 +304,7 @@
         async: true,
         defer: true,
         src: '/gongeous.js',
-        'data-host-url': 'https://gongeous-api.netlify.app',
+        'data-host-url': 'https://api.gongeo.us',
         'data-website-id': 'dd22ab5d-2045-4450-aaff-f513339b5ca6',
       },
     ],

@@ -27,10 +27,12 @@ import S0164 from './S0164'
 import S0165 from './S0165'
 import S0166 from './S0166'
 import S0167 from './S0167'
+import S0175 from './S0175'
 import S0178 from './S0178'
 import S0179 from './S0179'
 import S0181 from './S0181'
 import S0183 from './S0183'
+import S0192 from './S0192'
 import S0197 from './S0197'
 import S0198 from './S0198'
 import S0208 from './S0208'
@@ -73,10 +75,12 @@ const OUTFIT_DATA = {
   S0165,
   S0166,
   S0167,
+  S0175,
   S0178,
   S0179,
   S0181,
   S0183,
+  S0192,
   S0197,
   S0198,
   S0208,

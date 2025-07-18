@@ -31,5 +31,8 @@ scripts/dev
 .cursor
 .cursorignore
 
+# Claude
+.claude
+
 # Sentry Config File
 .env.sentry-build-plugin

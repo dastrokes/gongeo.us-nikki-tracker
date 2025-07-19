@@ -654,7 +654,7 @@ w
 
   // Add banner selector related refs
   const selectedBannerId = ref(
-    Number(Object.keys(BANNER_DATA)[Object.keys(BANNER_DATA).length - 3])
+    Number(Object.keys(BANNER_DATA)[Object.keys(BANNER_DATA).length - 1])
   )
   const selectedBannerType = ref('all')
   const bannerTypeOptions = computed(() => [
@@ -664,7 +664,7 @@ w
   ])
   const bannerOptions = computed(() => {
     return Object.entries(BANNER_DATA)
-      .filter(([id]) => id !== '1' && id !== '27' && id !== '28')
+      .filter(([id]) => id !== '1')
       .map(([id, banner]) => ({
         label: t(`banner.${banner.bannerId}.name`),
         value: Number(id),
@@ -778,7 +778,7 @@ w
                   ${t(`banner.${banner.bannerId}.name`)}
                 </div>
                 <div style="margin-bottom: 5px; text-align: left;">
-                  <span style="color: rgb(245, 158, 11, 0.5)">★★★★★:</span> <strong>${pullsArr[2]}</strong> (${((pullsArr[2] / total) * 100).toFixed(1)}%)<br>
+                  ${banner.bannerType === 2 ? `<span style="color: rgb(245, 158, 11, 0.5)\">★★★★★:</span> <strong>${pullsArr[2]}</strong> (${((pullsArr[2] / total) * 100).toFixed(1)}%)<br>` : ''}
                   <span style="color: rgb(139, 92, 246, 0.5)">★★★★:</span> <strong>${pullsArr[1]}</strong> (${((pullsArr[1] / total) * 100).toFixed(1)}%)<br>
                   <span style="color: rgb(107, 114, 128, 0.5)">★★★:</span> <strong>${pullsArr[0]}</strong> (${((pullsArr[0] / total) * 100).toFixed(1)}%)
                 </div>

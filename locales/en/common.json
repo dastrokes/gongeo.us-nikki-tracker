@@ -188,7 +188,7 @@
       "select_all": "Select All"
     },
     "select_banners": "Select Banners You Pulled",
-    "select_banners_desc": "No need to re-import if data is already available",
+    "select_banners_desc": "No need to re-import",
     "banner_groups": {
       "quick_select": "Quick Select",
       "all_banners": "All Banners",

@@ -824,8 +824,10 @@
   import { usePullStore } from '~/stores/pull'
   import type { PullItem, ProcessedBanner } from '~/types/pull'
   import { useCardStyle } from '~/composables/useCardStyle'
-  import { toPng } from 'html-to-image'
   import { usePercentile } from '~/composables/usePercentile'
+  const CollectionEditor = defineAsyncComponent(
+    () => import('~/components/CollectionEditor.vue')
+  )
 
   const router = useRouter()
   const message = useMessage()
@@ -984,6 +986,8 @@
     showPopover.value = false
 
     try {
+      const { toPng } = await import('html-to-image')
+
       const trackerElement = document.querySelector(
         '.png-export-container'
       ) as HTMLElement

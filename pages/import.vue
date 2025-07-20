@@ -642,7 +642,9 @@
   import type { VNodeChild } from 'vue'
   import { useUserBannerStats } from '~/composables/useUserBannerStats'
   import { useRouter } from 'vue-router'
-  import CollectionEditor from '~/components/CollectionEditor.vue'
+  const CollectionEditor = defineAsyncComponent(
+    () => import('~/components/CollectionEditor.vue')
+  )
 
   const { t } = useI18n()
   const dialog = useDialog()

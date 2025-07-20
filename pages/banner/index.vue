@@ -214,6 +214,13 @@
 
   // Helper to toggle popover for a banner
   const togglePopover = (bannerId: number) => {
+    // Close all other popovers first
+    for (const id in showPopover) {
+      if (parseInt(id) !== bannerId) {
+        showPopover[id] = false
+      }
+    }
+    // Toggle the clicked popover
     showPopover[bannerId] = !showPopover[bannerId]
   }
 

@@ -13,7 +13,6 @@
 </template>
 
 <script setup lang="ts">
-  import { computed } from 'vue'
   import { useUserStore } from '~/stores/user'
   import { Sun as SunIcon, Moon as MoonIcon } from '@vicons/fa'
   const { t } = useI18n()

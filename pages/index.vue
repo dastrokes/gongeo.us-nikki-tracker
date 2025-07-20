@@ -101,7 +101,6 @@
 
 <script setup lang="ts">
   import { computed, onMounted, watch } from 'vue'
-  import { NButton } from 'naive-ui'
   import { useUserStore } from '~/stores/user'
   import { BANNER_DATA } from '~/data/banners'
   import type { Banner } from '~/types/banner'

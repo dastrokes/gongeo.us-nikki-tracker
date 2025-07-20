@@ -373,6 +373,9 @@
   import { useMessage } from 'naive-ui'
   import { useIndexedDB } from '~/composables/useIndexedDB'
   import type { Outfit } from '~/types/outfit'
+  const CollectionEditor = defineAsyncComponent(
+    () => import('~/components/CollectionEditor.vue')
+  )
 
   const route = useRoute()
   const router = useRouter()

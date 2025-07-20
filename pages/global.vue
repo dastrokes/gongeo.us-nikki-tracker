@@ -230,7 +230,7 @@ w
             class="transition-all duration-300"
             :class="[
               maximizedChart === 'pullsPerBanner'
-                ? 'h-[calc(100vh-170px)] sm:h-[calc(100vh-160px)]'
+                ? 'h-[calc(100vh-210px)] sm:h-[calc(100vh-160px)]'
                 : 'h-[320px]',
             ]"
             :style="cardStyle"
@@ -302,7 +302,7 @@ w
             class="transition-all duration-300"
             :class="[
               maximizedChart === 'fiveStar'
-                ? 'h-[calc(100vh-170px)] sm:h-[calc(100vh-160px)]'
+                ? 'h-[calc(100vh-210px)] sm:h-[calc(100vh-160px)]'
                 : 'h-[200px]',
             ]"
             :style="cardStyle"
@@ -350,7 +350,7 @@ w
             class="transition-all duration-300"
             :class="[
               maximizedChart === 'fourStarType2'
-                ? 'h-[calc(100vh-170px)] sm:h-[calc(100vh-160px)]'
+                ? 'h-[calc(100vh-210px)] sm:h-[calc(100vh-160px)]'
                 : 'h-[200px]',
             ]"
             :style="cardStyle"
@@ -400,7 +400,7 @@ w
             class="transition-all duration-300"
             :class="[
               maximizedChart === 'fourStarType3'
-                ? 'h-[calc(100vh-170px)] sm:h-[calc(100vh-160px)]'
+                ? 'h-[calc(100vh-210px)] sm:h-[calc(100vh-160px)]'
                 : 'h-[200px]',
             ]"
             :style="cardStyle"
@@ -457,7 +457,7 @@ w
             class="transition-all duration-300"
             :class="[
               maximizedChart === 'firstItemDistribution'
-                ? 'h-[calc(100vh-170px)] sm:h-[calc(100vh-160px)]'
+                ? 'h-[calc(100vh-210px)] sm:h-[calc(100vh-160px)]'
                 : 'h-[200px]',
             ]"
             :style="cardStyle"
@@ -882,8 +882,25 @@ w
   }
 
   const createDistributionChart = (chartData, chartType, color) => {
-    const labels = Object.keys(chartData)
-    const values = Object.values(chartData)
+    let labels = Object.keys(chartData)
+    let values = Object.values(chartData)
+
+    // For 4-star in 5-star banners only, group 12+ together
+    if (chartType === 'fourStarType2') {
+      const processedData = {}
+
+      Object.entries(chartData).forEach(([pullCount, occurrences]) => {
+        const pullNum = parseInt(pullCount)
+        if (pullNum >= 12) {
+          processedData['12+'] = (processedData['12+'] || 0) + occurrences
+        } else {
+          processedData[pullCount] = occurrences
+        }
+      })
+
+      labels = Object.keys(processedData)
+      values = Object.values(processedData)
+    }
 
     const total = values.reduce((sum, val) => sum + val, 0)
 

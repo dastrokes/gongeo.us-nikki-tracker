@@ -188,7 +188,7 @@
       "select_all": "Alle auswählen"
     },
     "select_banners": "Wähle die Banner aus, an denen du teilgenommen hast",
-    "select_banners_desc": "Braucht nicht erneut importiert werden, wenn Daten bereits verfügbar sind",
+    "select_banners_desc": "Braucht nicht erneut importiert werden",
     "banner_groups": {
       "quick_select": "Schnellauswahl",
       "all_banners": "Alle Banner",

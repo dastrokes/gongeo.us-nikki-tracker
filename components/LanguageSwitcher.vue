@@ -18,7 +18,6 @@
 </template>
 
 <script setup lang="ts">
-  import { computed } from 'vue'
   import { Language } from '@vicons/fa'
 
   const { locales, setLocale, t } = useI18n()

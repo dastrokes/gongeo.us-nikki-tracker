@@ -15,6 +15,49 @@
           :key="banner.bannerId"
           :type="getBannerTypeColor(banner.bannerType)"
         >
+          <template #icon>
+            <n-popover
+              trigger="manual"
+              :show="showPopover[banner.bannerId]"
+              placement="bottom"
+              :show-arrow="false"
+              :scrollable="true"
+              content-class="!p-1"
+            >
+              <template #trigger>
+                <n-button
+                  text
+                  :type="getBannerTypeColor(banner.bannerType)"
+                  @click="togglePopover(banner.bannerId)"
+                >
+                  <n-icon size="20">
+                    <Gift />
+                  </n-icon>
+                </n-button>
+              </template>
+              <div class="max-h-48 grid grid-cols-2 sm:grid-cols-3 gap-2 m-2">
+                <div
+                  v-for="b in sortedBanners"
+                  :key="b.bannerId"
+                  class="cursor-pointer hover:opacity-80 transition-opacity"
+                  @click="handleBannerClick(b.bannerId, banner.bannerId)"
+                >
+                  <div class="relative w-24 h-12 rounded overflow-hidden">
+                    <NuxtImg
+                      :src="`/images/banners/${b.bannerId}.webp`"
+                      :alt="t(`banner.${b.bannerId}.name`)"
+                      class="w-full h-full object-cover"
+                      format="webp"
+                      width="100"
+                      height="50"
+                      fit="cover"
+                      :quality="100"
+                      loading="lazy"
+                    />
+                  </div>
+                </div>
+              </div> </n-popover
+          ></template>
           <template #header>
             <NuxtLink
               :to="localePath(`/banner/${banner.bannerId}`)"
@@ -131,11 +174,6 @@
               </div>
             </div>
           </template>
-          <template #icon>
-            <n-icon>
-              <Gift />
-            </n-icon>
-          </template>
         </n-timeline-item>
       </n-timeline>
     </n-card>
@@ -143,7 +181,7 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, watchEffect } from 'vue'
+  import { computed, ref, watchEffect, nextTick, reactive } from 'vue'
   import { Gift, Star } from '@vicons/fa'
   import { BANNER_DATA } from '~/data/banners'
   import { useCardStyle } from '~/composables/useCardStyle'
@@ -157,6 +195,51 @@
   // Sort banners by ID in descending order (newest first)
   const sortedBanners = computed(() => {
     return Object.values(BANNER_DATA).sort((a, b) => b.bannerId - a.bannerId)
+  })
+
+  // Selected banner ID for popselect
+  const selectedBannerId = ref(sortedBanners.value[0]?.bannerId || 0)
+
+  // Popover visibility state for each banner
+  const showPopover = reactive<Record<number, boolean>>({})
+
+  // Initialize showPopover for all banners
+  watchEffect(() => {
+    for (const banner of sortedBanners.value) {
+      if (!(banner.bannerId in showPopover)) {
+        showPopover[banner.bannerId] = false
+      }
+    }
+  })
+
+  // Helper to toggle popover for a banner
+  const togglePopover = (bannerId: number) => {
+    showPopover[bannerId] = !showPopover[bannerId]
+  }
+
+  function handleBannerClick(bannerId: number, popoverId: number) {
+    showPopover[popoverId] = false
+    selectedBannerId.value = bannerId
+  }
+
+  // Scroll to specific banner
+  const scrollToBanner = (bannerId: number) => {
+    const element = document.getElementById(bannerId.toString())
+    if (element) {
+      element.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+      })
+    }
+  }
+
+  // Watch for selectedBannerId changes and scroll to the selected banner
+  watchEffect(() => {
+    if (selectedBannerId.value) {
+      nextTick(() => {
+        scrollToBanner(selectedBannerId.value)
+      })
+    }
   })
 
   watchEffect(async () => {

@@ -778,9 +778,9 @@ w
                   ${t(`banner.${banner.bannerId}.name`)}
                 </div>
                 <div style="margin-bottom: 5px; text-align: left;">
-                  ${banner.bannerType === 2 ? `<span style="color: rgb(245, 158, 11, 0.5)\">★★★★★:</span> <strong>${pullsArr[2]}</strong> (${((pullsArr[2] / total) * 100).toFixed(1)}%)<br>` : ''}
-                  <span style="color: rgb(139, 92, 246, 0.5)">★★★★:</span> <strong>${pullsArr[1]}</strong> (${((pullsArr[1] / total) * 100).toFixed(1)}%)<br>
-                  <span style="color: rgb(107, 114, 128, 0.5)">★★★:</span> <strong>${pullsArr[0]}</strong> (${((pullsArr[0] / total) * 100).toFixed(1)}%)
+                  ${banner.bannerType === 2 ? `<span style="color: rgb(245, 158, 11, 0.8)">★★★★★:</span> <strong>${pullsArr[2]}</strong> (${((pullsArr[2] / total) * 100).toFixed(1)}%)<br>` : ''}
+                  <span style="color: rgb(139, 92, 246, 0.8)">★★★★:</span> <strong>${pullsArr[1]}</strong> (${((pullsArr[1] / total) * 100).toFixed(1)}%)<br>
+                  <span style="color: rgb(107, 114, 128, 0.8)">★★★:</span> <strong>${pullsArr[0]}</strong> (${((pullsArr[0] / total) * 100).toFixed(1)}%)
                 </div>
                 <div style="margin-top: 5px; text-align: center;">
                   ${t('global.charts.total')}: <strong>${total}</strong>

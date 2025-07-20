@@ -188,7 +188,7 @@
       "select_all": "全选"
     },
     "select_banners": "选择您抽过的卡池",
-    "select_banners_desc": "无需再次导入已有数据",
+    "select_banners_desc": "无需重复导入已有数据",
     "banner_groups": {
       "quick_select": "快速选择",
       "all_banners": "所有卡池",

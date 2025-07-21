@@ -20,8 +20,7 @@
               trigger="manual"
               :show="showPopover[banner.bannerId]"
               placement="bottom"
-              :show-arrow="false"
-              :scrollable="true"
+              scrollable
               content-class="!p-1"
             >
               <template #trigger>
@@ -35,7 +34,7 @@
                   </n-icon>
                 </n-button>
               </template>
-              <div class="max-h-48 grid grid-cols-2 sm:grid-cols-3 gap-2 m-2">
+              <div class="max-h-48 grid grid-cols-2 sm:grid-cols-3 gap-2 m-1">
                 <div
                   v-for="b in sortedBanners"
                   :key="b.bannerId"
@@ -56,6 +55,7 @@
                     />
                   </div>
                 </div>
+                <div class="h-px col-span-2 sm:col-span-3"></div>
               </div> </n-popover
           ></template>
           <template #header>

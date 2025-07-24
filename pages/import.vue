@@ -30,6 +30,7 @@
                 name="importMethod"
               >
                 <n-space class="flex-wrap">
+                  <!-- <n-radio value="pearpal">{{$t('import.import_from_pearpal')}}</n-radio> -->
                   <n-radio value="game">{{
                     $t('import.import_from_game')
                   }}</n-radio>
@@ -70,42 +71,6 @@
             </div>
           </n-step>
 
-          <!-- Manual Collection Step -->
-          <n-step
-            v-show="importMethod === 'manual'"
-            :title="t('tracker.manual_log.title')"
-          >
-            <template #icon>
-              <n-icon>
-                <Check />
-              </n-icon>
-            </template>
-            <div>
-              <div class="mb-2">
-                {{ t('tracker.manual_log.description') }}
-              </div>
-              <div class="mb-2">
-                {{ t('tracker.manual_log.note') }}
-              </div>
-              <n-space vertical>
-                <n-select
-                  v-model:value="selectedManualBanner"
-                  :options="individualBannerOptions"
-                  :show-checkmark="false"
-                  :placeholder="t('tracker.manual_log.select_banner')"
-                  filterable
-                  class="w-full"
-                />
-                <n-button
-                  :disabled="!selectedManualBanner"
-                  @click="showCollectionEditor = true"
-                >
-                  {{ t('tracker.manual_log.open_editor') }}
-                </n-button>
-              </n-space>
-            </div>
-          </n-step>
-
           <!-- Game Import Step -->
           <n-step
             v-show="importMethod === 'game'"
@@ -119,9 +84,24 @@
             <div>{{ $t('import.game_import_desc') }}</div>
           </n-step>
 
+          <!-- Pearpal Import Description Step -->
+          <n-step
+            v-show="importMethod === 'pearpal'"
+            :title="$t('import.pearpal_import')"
+          >
+            <template #icon>
+              <n-icon>
+                <Check />
+              </n-icon>
+            </template>
+            <div>
+              {{ $t('import.pearpal_import_desc') }}
+            </div>
+          </n-step>
+
           <!-- Region Select Step -->
           <n-step
-            v-show="importMethod === 'game'"
+            v-show="importMethod === 'pearpal' || importMethod === 'game'"
             :title="$t('import.select_region')"
           >
             <template #icon>
@@ -142,9 +122,9 @@
             </div>
           </n-step>
 
-          <!-- Pearpal Login Step -->
+          <!-- Login to Pearpal Step -->
           <n-step
-            v-show="importMethod === 'game'"
+            v-show="importMethod === 'pearpal' || importMethod === 'game'"
             :title="$t('import.login_pearpal')"
           >
             <template #icon>
@@ -176,7 +156,7 @@
 
           <!-- Get Cookie Step -->
           <n-step
-            v-show="importMethod === 'game'"
+            v-show="importMethod === 'pearpal' || importMethod === 'game'"
             :title="$t('import.get_cookie')"
           >
             <template #icon>
@@ -214,7 +194,10 @@
 
           <!-- Bookmark Method Step -->
           <n-step
-            v-show="importMethod === 'game' && cookieMethod === 'bookmark'"
+            v-show="
+              (importMethod === 'pearpal' || importMethod === 'game') &&
+              cookieMethod === 'bookmark'
+            "
             :title="
               isMobileOrTablet
                 ? $t('import.bookmark_method_mobile')
@@ -301,7 +284,7 @@
               </ol>
               <div class="mt-4">
                 <n-input
-                  v-model:value="manualPasteInput"
+                  v-model:value="cookieInput"
                   type="textarea"
                   :rows="3"
                   placeholder="{'roleid':'123456','token':'eyJhabc123xyz456.eyJhdef789ghi000.abc123def789','id':'654321'}"
@@ -314,7 +297,7 @@
                   <n-space class="flex-wrap">
                     <n-button
                       secondary
-                      @click="handlePasteFromClipboard"
+                      @click="handleCookiePaste"
                     >
                       <template #icon>
                         <n-icon><Paste /></n-icon>
@@ -329,7 +312,10 @@
 
           <!-- Console Method Step -->
           <n-step
-            v-show="importMethod === 'game' && cookieMethod === 'console'"
+            v-show="
+              (importMethod === 'pearpal' || importMethod === 'game') &&
+              cookieMethod === 'console'
+            "
             :title="$t('import.console_method')"
           >
             <template #icon>
@@ -361,7 +347,7 @@
               </ol>
               <div class="mt-4">
                 <n-input
-                  v-model:value="manualPasteInput"
+                  v-model:value="cookieInput"
                   type="textarea"
                   :rows="3"
                   placeholder="{'roleid':'123456','token':'eyJhabc123xyz456.eyJhdef789ghi000.abc123def789','id':'654321'}"
@@ -374,7 +360,7 @@
                   <n-space class="flex-wrap">
                     <n-button
                       secondary
-                      @click="handlePasteFromClipboard"
+                      @click="handleCookiePaste"
                     >
                       <template #icon>
                         <n-icon><Paste /></n-icon>
@@ -389,7 +375,10 @@
 
           <!-- Manual Method Step -->
           <n-step
-            v-show="importMethod === 'game' && cookieMethod === 'manual'"
+            v-show="
+              (importMethod === 'pearpal' || importMethod === 'game') &&
+              cookieMethod === 'manual'
+            "
             :title="$t('import.manual_input')"
           >
             <template #icon>
@@ -422,10 +411,62 @@
               </div>
             </div>
           </n-step>
+
+          <!-- Manual Collection Step -->
+          <n-step
+            v-show="importMethod === 'manual'"
+            :title="t('tracker.manual_log.title')"
+          >
+            <template #icon>
+              <n-icon>
+                <Check />
+              </n-icon>
+            </template>
+            <div>
+              <div class="mb-2">
+                {{ t('tracker.manual_log.description') }}
+              </div>
+              <div class="mb-2">
+                {{ t('tracker.manual_log.note') }}
+              </div>
+              <n-space vertical>
+                <n-select
+                  v-model:value="selectedManualBanner"
+                  :options="individualBannerOptions"
+                  :show-checkmark="false"
+                  :placeholder="t('tracker.manual_log.select_banner')"
+                  filterable
+                  class="w-full"
+                />
+                <n-button
+                  :disabled="!selectedManualBanner"
+                  @click="showCollectionEditor = true"
+                >
+                  {{ t('tracker.manual_log.open_editor') }}
+                </n-button>
+              </n-space>
+            </div>
+          </n-step>
+
+          <!-- Game Import Step -->
+          <n-step
+            v-show="importMethod === 'game'"
+            :title="$t('import.game_import')"
+          >
+            <template #icon>
+              <n-icon>
+                <Check />
+              </n-icon>
+            </template>
+            <div>{{ $t('import.game_import_desc') }}</div>
+          </n-step>
         </n-steps>
 
         <div class="mt-4">
-          <template v-if="importMethod === 'game'">
+          <!-- Shared Authentication Form -->
+          <template
+            v-if="importMethod === 'game' || importMethod === 'pearpal'"
+          >
             <n-form :show-feedback="false">
               <n-space vertical>
                 <n-form-item
@@ -458,7 +499,9 @@
                     class="max-w-full"
                   />
                 </n-form-item>
+                <!-- Banner selection for both game and pearpal import -->
                 <n-form-item
+                  v-if="importMethod === 'game' || importMethod === 'pearpal'"
                   :label="$t('import.select_banners')"
                   class="w-full"
                 >
@@ -479,6 +522,22 @@
                 </n-form-item>
               </n-space>
             </n-form>
+
+            <!-- Data note only for game import -->
+            <n-space
+              v-if="importMethod === 'game'"
+              class="w-full flex my-4"
+            >
+              <div class="text-sm text-amber-500 break-words">
+                {{
+                  $t('import.data_note', {
+                    date: daysAgoFormatted(180),
+                  })
+                }}
+              </div>
+            </n-space>
+
+            <!-- Global stats toggle -->
             <n-space
               align="center"
               class="w-full flex my-4 flex-wrap"
@@ -489,20 +548,16 @@
                 class="flex-shrink-0"
               />
             </n-space>
-            <n-space class="w-full flex my-4">
-              <div class="text-sm text-amber-500 break-words">
-                {{
-                  $t('import.data_note', {
-                    date: daysAgoFormatted(180),
-                  })
-                }}
-              </div></n-space
-            >
+
+            <!-- Submit button -->
             <n-space class="w-full flex">
               <n-button
-                v-if="importMethod === 'game'"
                 type="primary"
-                :loading="loading || isFetching"
+                :loading="
+                  loading ||
+                  isFetching ||
+                  (importMethod === 'pearpal' && pearpalTrackerLoading)
+                "
                 class="flex-grow"
                 :disabled="isSubmitDisabled"
                 @click="handleSubmit"
@@ -515,6 +570,8 @@
               </n-button>
             </n-space>
           </template>
+
+          <!-- JSON Import -->
           <template v-else-if="importMethod === 'json'">
             <n-space class="w-full flex">
               <n-button
@@ -531,6 +588,8 @@
               </n-button>
             </n-space>
           </template>
+
+          <!-- Manual Import -->
           <template v-else-if="importMethod === 'manual'">
             <n-space class="w-full flex">
               <n-button
@@ -619,8 +678,11 @@
 <script setup lang="ts">
   import { ref, computed, watch, onMounted, h } from 'vue'
   import { useDebounce } from '@vueuse/core'
-  import type { CookieData } from '~/types/api'
+  import type { CookieData, PearpalNoteBookResponse } from '~/types/api'
+  import type { PearpalTrackerItem } from '~/types/pull'
   import { useBannerPullApi } from '~/composables/useBannerPullApi'
+  import { usePearpalApi } from '~/composables/usePearpalApi'
+  import { usePearpalData } from '~/composables/usePearpalData'
   import { useMessage, NTag, NIcon, NCode, useDialog, NModal } from 'naive-ui'
   import type {
     UploadFileInfo,
@@ -642,9 +704,6 @@
   import type { VNodeChild } from 'vue'
   import { useUserBannerStats } from '~/composables/useUserBannerStats'
   import { useRouter } from 'vue-router'
-  const CollectionEditor = defineAsyncComponent(
-    () => import('~/components/CollectionEditor.vue')
-  )
 
   const { t } = useI18n()
   const dialog = useDialog()
@@ -710,11 +769,19 @@
     token: '',
     id: '',
   })
-  const manualPasteInput = ref('')
-  const debouncedManualPasteInput = useDebounce(manualPasteInput, 500)
+  // Unified cookie input for both methods
+  const cookieInput = ref('')
+  const debouncedCookieInput = useDebounce(cookieInput, 500)
   const currentStep = ref(0)
   const message = useMessage()
   const { verifyAuth, loading } = useBannerPullApi()
+  const {
+    fetchUserInfo,
+    fetchNoteBookInfo,
+    loading: pearpalTrackerLoading,
+  } = usePearpalApi()
+  const { importPearpalTrackerData } = useUserBannerStats()
+  const { decodeSnappyJs, processPearpalData } = usePearpalData()
   const userStore = useUserStore()
   const {
     fetchBannerPullData,
@@ -802,7 +869,7 @@
     value: value as Region,
   }))
 
-  const importMethod = ref<'game' | 'json' | 'manual'>('game')
+  const importMethod = ref<'game' | 'json' | 'pearpal' | 'manual'>('game')
   const cookieMethod = ref<'bookmark' | 'console' | 'manual'>('bookmark')
   const jsonFile = ref<File | null>(null)
   const submitGlobalStats = ref(true)
@@ -818,10 +885,10 @@
     }
   }
 
-  const handlePasteFromClipboard = async () => {
+  const handleCookiePaste = async () => {
     try {
       const clipboardText = await navigator.clipboard.readText()
-      manualPasteInput.value = clipboardText
+      cookieInput.value = clipboardText
     } catch {
       message.error(t('import.messages.data_paste_failed'))
     }
@@ -957,15 +1024,34 @@
       !formData.value.roleid?.trim() ||
       !formData.value.token?.trim() ||
       !formData.value.id?.trim()
-    return (
-      selectedBanners.value.length === 0 ||
-      loading.value ||
-      isFetching.value ||
-      hasEmptyFields
-    )
+
+    if (importMethod.value === 'game') {
+      return (
+        selectedBanners.value.length === 0 ||
+        loading.value ||
+        isFetching.value ||
+        hasEmptyFields
+      )
+    } else if (importMethod.value === 'pearpal') {
+      return (
+        selectedBanners.value.length === 0 ||
+        pearpalTrackerLoading.value ||
+        hasEmptyFields
+      )
+    }
+
+    return false
   })
 
   const handleSubmit = async () => {
+    if (importMethod.value === 'game') {
+      await handleGameSubmit()
+    } else if (importMethod.value === 'pearpal') {
+      await handlePearpalSubmit()
+    }
+  }
+
+  const handleGameSubmit = async () => {
     try {
       const cookieData: CookieData = formData.value
       const success = await verifyAuth(cookieData)
@@ -1051,7 +1137,130 @@
     }
   }
 
-  watch(debouncedManualPasteInput, (newValue) => {
+  const handlePearpalSubmit = async () => {
+    try {
+      // Get region from user store
+      const region = userStore.getRegion
+
+      // First, verify user credentials by fetching user info
+      const userInfo = await fetchUserInfo(formData.value, region)
+
+      if (userInfo && userInfo.code === 0 && userInfo.data?.role) {
+        const serverUid = userInfo.data.role.uid?.toString()
+        const serverZoneId = userInfo.data.role.zone_id
+
+        // Verify UID matches
+        if (serverUid && serverUid !== formData.value.roleid) {
+          message.error(t('import.messages.invalid_form'))
+          return
+        }
+
+        // Verify region matches using zone_id mapping
+        const expectedZoneId = {
+          [Region.AMERICA]: 6,
+          [Region.EUROPE]: 2,
+          [Region.ASIA]: 4,
+          [Region.CHINA]: 1,
+          [Region.TW]: 8,
+        }[region]
+
+        if (serverZoneId && serverZoneId !== expectedZoneId) {
+          message.error(t('import.messages.invalid_form'))
+          return
+        }
+
+        // Store verified UID in user store
+        userStore.setUid(serverUid || formData.value.roleid)
+
+        message.success(t('import.messages.auth_success'))
+
+        // Now fetch the actual gacha data
+        const response = await fetchNoteBookInfo(formData.value, region)
+
+        if (response) {
+          // Decode the base64 response
+          const decodedData = await decodeSnappyJs(response)
+
+          // Check if decodedData is a JSON object with gacha_list
+          if (
+            decodedData &&
+            typeof decodedData === 'object' &&
+            'info_from_self' in decodedData
+          ) {
+            const gachaList = (decodedData as PearpalNoteBookResponse)
+              .info_from_self?.gacha_list
+
+            if (gachaList && Array.isArray(gachaList)) {
+              // Filter gacha_list based on selected banners
+              const filteredGachaList = gachaList.filter((item) => {
+                const bannerId = parseInt(item.card_pool_id)
+                return selectedBanners.value.includes(bannerId)
+              })
+
+              // Group raw data by banner for IndexedDB storage
+              const pearpalDataByBanner: Record<number, PearpalTrackerItem[]> =
+                {}
+              filteredGachaList.forEach((item) => {
+                const bannerId = parseInt(item.card_pool_id)
+                if (!pearpalDataByBanner[bannerId]) {
+                  pearpalDataByBanner[bannerId] = []
+                }
+                pearpalDataByBanner[bannerId].push(item)
+              })
+
+              // Save raw Pearpal data per banner to IndexedDB
+              const indexedDB = useIndexedDB()
+              if (Object.keys(pearpalDataByBanner).length > 0) {
+                await indexedDB.savePearpalData(pearpalDataByBanner)
+              }
+
+              // Process data for local tracker system using pearpal tracker logic
+              const processedBanners = processPearpalData(pearpalDataByBanner)
+
+              message.success(t('import.messages.pearpal_tracker_success'))
+
+              router.push(localePath('/tracker'))
+
+              // Send analytics only if enabled and there are actual pulls
+              if (
+                submitGlobalStats.value &&
+                Object.values(processedBanners).some(
+                  (banner) => banner.stats.totalPulls > 0
+                )
+              ) {
+                try {
+                  // Convert processed banners to stats format
+                  const { convertPearpalBannersToStats } = usePearpalData()
+                  const bannerStats = convertPearpalBannersToStats(
+                    processedBanners,
+                    serverUid || formData.value.roleid,
+                    region
+                  )
+                  await importPearpalTrackerData(bannerStats)
+                } catch {
+                  message.error(t('import.messages.stats_submit_failed'))
+                }
+              }
+            } else {
+              throw new Error('No gacha_list found in response data')
+            }
+          } else {
+            throw new Error('Invalid data format received from API')
+          }
+        } else {
+          throw new Error('Failed to fetch data from Pearpal API')
+        }
+      } else {
+        message.error(t('import.messages.auth_failed'))
+      }
+    } catch (e) {
+      console.error(e)
+      message.error(t('import.messages.pearpal_tracker_failed'))
+    }
+  }
+
+  // Unified watcher for cookie input
+  watch(debouncedCookieInput, (newValue) => {
     if (newValue) {
       try {
         if (!newValue.replace(/\s+/g, '')) {

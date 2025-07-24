@@ -27,7 +27,13 @@ export const useUserBannerStats = () => {
           banner.stats.total4StarPulls + banner.stats.total4StarOnlyPulls,
         total_5star_pulls: banner.stats.total5StarPulls,
         pulls_4star: banner.pulls
-          .filter((pull) => pull.rarity === 4 && pull.obtainedAt !== 'manual')
+          .filter(
+            (pull) =>
+              pull.rarity === 4 &&
+              pull.pullsToObtain > 0 &&
+              pull.obtainedAt !== '' &&
+              pull.obtainedAt !== 'manual'
+          )
           .map((pull) => ({
             item_id: pull.itemId,
             pulls_to_obtain: pull.pullsToObtain,
@@ -36,7 +42,13 @@ export const useUserBannerStats = () => {
           }))
           .reverse(),
         pulls_5star: banner.pulls
-          .filter((pull) => pull.rarity === 5 && pull.obtainedAt !== 'manual')
+          .filter(
+            (pull) =>
+              pull.rarity === 5 &&
+              pull.pullsToObtain > 0 &&
+              pull.obtainedAt !== '' &&
+              pull.obtainedAt !== 'manual'
+          )
           .map((pull) => ({
             item_id: pull.itemId,
             pulls_to_obtain: pull.pullsToObtain,
@@ -66,6 +78,7 @@ export const useUserBannerStats = () => {
           'Content-Type': 'application/json',
           'X-Signature': signature,
           'X-Timestamp': timestamp.toString(),
+          'X-Target': 'game',
         },
       })
 
@@ -73,6 +86,33 @@ export const useUserBannerStats = () => {
     } catch (error) {
       console.error('Error sending banner stats:', error)
       return false
+    }
+  }
+
+  // Import pearpal tracker data to internal API
+  const importPearpalTrackerData = async (bannerStats: UserBannerStats[]) => {
+    try {
+      const timestamp = Math.floor(Date.now() / 1000)
+      const signature = await generateSignature(timestamp, bannerStats)
+
+      const response = await $fetch('/api/stats', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Signature': signature,
+          'X-Timestamp': timestamp.toString(),
+          'X-Target': 'pearpal',
+        },
+        body: bannerStats,
+      })
+
+      return response
+    } catch (err: Error | unknown) {
+      const error =
+        err instanceof Error
+          ? err.message
+          : 'Failed to import pearpal tracker data'
+      throw new Error(error)
     }
   }
 
@@ -102,5 +142,6 @@ export const useUserBannerStats = () => {
 
   return {
     sendUserBannerStats,
+    importPearpalTrackerData,
   }
 }

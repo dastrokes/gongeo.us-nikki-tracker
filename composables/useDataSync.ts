@@ -2,13 +2,19 @@ import { useSupabaseClient } from './useSupabaseClient'
 import { useAuth } from './useAuth'
 import { usePullStore } from '~/stores/pull'
 import { useIndexedDB } from './useIndexedDB'
-import type { PullRecord, EditRecord, EvoRecord } from '~/types/pull'
+import type {
+  PullRecord,
+  EditRecord,
+  EvoRecord,
+  PearpalTrackerItem,
+} from '~/types/pull'
 import { gzipSync, gunzipSync, strFromU8 } from 'fflate'
 
 interface SyncData {
   pulls: Record<number, PullRecord[]>
   edits: Record<number, EditRecord[]>
   evo: Record<number, EvoRecord[]>
+  pearpal: Record<number, PearpalTrackerItem[]>
 }
 
 export const useDataSync = () => {
@@ -43,18 +49,21 @@ export const useDataSync = () => {
     }
 
     try {
-      // Get current data from store
+      // Get current data from IndexedDB
+      const rawData = await loadData()
       const syncData: SyncData = {
-        pulls: pullStore.rawPullData,
-        edits: pullStore.rawEditData,
-        evo: pullStore.rawEvoData,
+        pulls: rawData.pulls,
+        edits: rawData.edits,
+        evo: rawData.evo,
+        pearpal: rawData.pearpal,
       }
 
       // Check if there's any data to upload
       if (
         Object.keys(syncData.pulls).length === 0 &&
         Object.keys(syncData.edits).length === 0 &&
-        Object.keys(syncData.evo).length === 0
+        Object.keys(syncData.evo).length === 0 &&
+        Object.keys(syncData.pearpal).length === 0
       ) {
         return { success: false }
       }
@@ -133,9 +142,27 @@ export const useDataSync = () => {
       const mergedPulls = { ...localData.pulls, ...remoteData.pulls }
       const mergedEdits = { ...localData.edits, ...remoteData.edits }
       const mergedEvo = { ...localData.evo, ...remoteData.evo }
+      const mergedPearpal = { ...localData.pearpal, ...remoteData.pearpal }
 
       await saveData(mergedPulls, mergedEdits, mergedEvo)
-      await pullStore.processPullData(mergedPulls, mergedEdits, mergedEvo)
+      const { savePearpalData } = useIndexedDB()
+      await savePearpalData(mergedPearpal)
+
+      // Process pearpal tracker data first if available
+      if (Object.keys(mergedPearpal).length > 0) {
+        await pullStore.processPearpalData(mergedPearpal)
+      } else if (
+        Object.keys(mergedPulls).length > 0 ||
+        Object.keys(mergedEdits).length > 0
+      ) {
+        // Process pull and edit data if no pearpal data
+        await pullStore.processPullData(mergedPulls, mergedEdits)
+      }
+
+      // Process evolution data
+      if (Object.keys(mergedEvo).length > 0) {
+        pullStore.evoData = mergedEvo
+      }
 
       return { success: true }
     } catch {

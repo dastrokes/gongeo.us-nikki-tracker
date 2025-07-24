@@ -1,4 +1,4 @@
-import type { PullRecord } from './pull'
+import type { PullRecord, PearpalTrackerItem } from './pull'
 
 export interface CookieData {
   roleid: string
@@ -29,4 +29,21 @@ export interface ApiError {
   code: number
   info: string
   request_id?: string
+}
+
+export interface PearpalUserInfoResponse {
+  code: number
+  info: string
+  data: {
+    role: {
+      uid: number
+      zone_id: number
+    }
+  }
+}
+
+export interface PearpalNoteBookResponse {
+  info_from_self: {
+    gacha_list: PearpalTrackerItem[]
+  }
 }

@@ -62,9 +62,17 @@ export interface GlobalStats {
 
 export interface PullState {
   processedPulls: Record<string, ProcessedBanner>
-  rawPullData: Record<number, PullRecord[]>
-  rawEditData: Record<number, EditRecord[]>
-  rawEvoData: Record<number, EvoRecord[]>
+  evoData: Record<number, EvoRecord[]>
   globalStats: GlobalStats
   isProcessing: boolean
+}
+
+// Pearpal tracker item type for import and server
+export interface PearpalTrackerItem {
+  card_pool_id: string
+  pool_cnt: number
+  result: string
+  times_from_last_five_stars: number
+  times_from_last_four_stars: number
+  rarity: string
 }

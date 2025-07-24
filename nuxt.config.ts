@@ -107,6 +107,10 @@ export default defineNuxtConfig({
     },
   },
 
+  future: {
+    compatibilityVersion: 4,
+  },
+
   compatibilityDate: '2025-02-01',
 
   components: {

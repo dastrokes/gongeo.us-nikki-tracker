@@ -65,11 +65,7 @@ export const useBannerPullData = () => {
 
     saveData(mergedPullsData, mergedEditsData, mergedEvoData)
 
-    await pullStore.processPullData(
-      mergedPullsData,
-      mergedEditsData,
-      mergedEvoData
-    )
+    await pullStore.processPullData(mergedPullsData, mergedEditsData)
   }
 
   const fetchBannerPullData = async (selectedBannerIds?: number[]) => {
@@ -108,11 +104,7 @@ export const useBannerPullData = () => {
       const mergedData = mergePullData(existingPullData, pullsByBanner)
       saveData(mergedData, existingEditData, existingEvoData)
 
-      await pullStore.processPullData(
-        mergedData,
-        existingEditData,
-        existingEvoData
-      )
+      await pullStore.processPullData(mergedData, existingEditData)
     } catch (error) {
       console.error(error)
     } finally {

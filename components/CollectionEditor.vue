@@ -322,9 +322,10 @@
       itemCounts.value = {}
       importedItemCounts.value = {}
 
-      outfit.items.forEach((itemId) => {
+      // Process item counts asynchronously
+      for (const itemId of outfit.items) {
         // Check if the item already exists in the user's pull data
-        const { importedCount, manualCount } = getItemCounts(
+        const { importedCount, manualCount } = await getItemCounts(
           props.bannerId as number,
           itemId
         )
@@ -335,7 +336,7 @@
           importedCount,
           importedCount + manualCount
         )
-      })
+      }
 
       // Get outfit evolution level if available
       if (showEvoLevels.value && outfitInfo.rarity === 5) {
@@ -354,23 +355,24 @@
     }
   }
 
-  const getItemCounts = (bannerId: number, itemId: string) => {
-    const bannerData = pullStore.processedPulls[bannerId]
-    if (!bannerData) return { importedCount: 0, manualCount: 0 }
+  const getItemCounts = async (bannerId: number, itemId: string) => {
+    // Load raw data from IndexedDB to get accurate counts
+    const { loadData } = useIndexedDB()
+    const { pulls: rawPullData, edits: rawEditData } = await loadData()
 
     let importedCount = 0
     let manualCount = 0
 
-    // Go through the raw data to count imported pulls
-    const rawData = pullStore.rawPullData[bannerId] || []
+    // Count imported pulls
+    const rawData = rawPullData[bannerId] || []
     rawData.forEach(([_, id]: PullRecord) => {
       if (id === itemId) {
         importedCount++
       }
     })
 
-    // Count edits from editsByBanner
-    const editsData = pullStore.rawEditData[bannerId] || []
+    // Count manual edits
+    const editsData = rawEditData[bannerId] || []
     editsData.forEach((edit: EditRecord) => {
       if (edit[1] === itemId) {
         manualCount++
@@ -413,6 +415,7 @@
         pulls: existingPullData,
         edits: existingEditData,
         evo: existingEvoData,
+        pearpal: existingPearpalData,
       } = await loadData()
 
       // Prepare updated edit data
@@ -499,12 +502,19 @@
       // Save to IndexedDB - ensure all data is serializable
       await saveData(existingPullData, updatedEditData, updatedEvoData)
 
-      // Process updated data
-      await pullStore.processPullData(
-        existingPullData,
-        updatedEditData,
-        updatedEvoData
-      )
+      if (Object.keys(existingPearpalData).length > 0) {
+        await pullStore.processPearpalData(existingPearpalData)
+      } else if (
+        Object.keys(existingPullData).length > 0 ||
+        Object.keys(updatedEditData).length > 0
+      ) {
+        await pullStore.processPullData(existingPullData, updatedEditData)
+      }
+
+      // Process evolution data
+      if (Object.keys(updatedEvoData).length > 0) {
+        pullStore.evoData = updatedEvoData
+      }
 
       message.success(t('tracker.manual_log.success'))
       emit('close')

@@ -13,6 +13,11 @@ export default defineEventHandler(async (event) => {
     })
   }
 
+  // Determine target table based on x-target header
+  const target = getHeader(event, 'x-target')
+  const targetTable =
+    target === 'pearpal' ? 'user_banner_stats_pearpal' : 'user_banner_stats'
+
   try {
     // Get the request body
     const body = await readBody(event)
@@ -28,25 +33,23 @@ export default defineEventHandler(async (event) => {
     // Use the shared Supabase client with server key
     const supabase = useSupabaseClient('server')
 
-    // Hash UIDs server-side
-    const hashedDataPromises = body.map(async (item) => ({
+    // Hash UIDs
+    const hashedDataPromises = body.map(async (item: { uid: string }) => ({
       ...item,
       uid: await hashUid(item.uid),
     }))
     const hashedData = await Promise.all(hashedDataPromises)
 
-    const { error } = await supabase
-      .from('user_banner_stats')
-      .upsert(hashedData, {
-        onConflict: 'uid,region,banner_id',
-        ignoreDuplicates: false,
-      })
+    const { error } = await supabase.from(targetTable).upsert(hashedData, {
+      onConflict: 'uid,region,banner_id',
+      ignoreDuplicates: false,
+    })
 
     if (error) throw error
 
     return { success: true }
   } catch (error) {
-    console.error('Error sending to banner_stats:', error)
+    console.error(`Failed to update banner stats:`, error)
     throw createError({
       statusCode: 500,
       message: 'Failed to update banner stats',

@@ -1,12 +1,18 @@
-import type { PullRecord, EditRecord, EvoRecord } from '~/types/pull'
+import type {
+  PullRecord,
+  EditRecord,
+  EvoRecord,
+  PearpalTrackerItem,
+} from '~/types/pull'
 import { ref } from 'vue'
 import { openDB, type IDBPDatabase } from 'idb'
 
 const DB_NAME = 'gongeousDB'
-const DB_VERSION = 3
+const DB_VERSION = 4
 const PULLS_STORE = 'pullsByBanner'
 const EDITS_STORE = 'editsByBanner'
 const EVO_STORE = 'evoByBanner'
+const PEARPAL_STORE = 'pearpalByBanner'
 
 export function useIndexedDB() {
   const pullsData = ref<Record<number, PullRecord[]>>({})
@@ -34,6 +40,10 @@ export function useIndexedDB() {
           if (!db.objectStoreNames.contains(EVO_STORE)) {
             db.createObjectStore(EVO_STORE)
           }
+
+          if (!db.objectStoreNames.contains(PEARPAL_STORE)) {
+            db.createObjectStore(PEARPAL_STORE)
+          }
         },
       })
     }
@@ -42,9 +52,12 @@ export function useIndexedDB() {
 
     try {
       // Transaction covering all stores
-      const storeNames = [PULLS_STORE, EDITS_STORE, EVO_STORE].filter((name) =>
-        db.objectStoreNames.contains(name)
-      )
+      const storeNames = [
+        PULLS_STORE,
+        EDITS_STORE,
+        EVO_STORE,
+        PEARPAL_STORE,
+      ].filter((name) => db.objectStoreNames.contains(name))
       const tx = db.transaction(storeNames, 'readonly')
 
       // Minimal read ops on all stores
@@ -203,6 +216,7 @@ export function useIndexedDB() {
     pulls: Record<number, PullRecord[]>
     edits: Record<number, EditRecord[]>
     evo: Record<number, EvoRecord[]>
+    pearpal: Record<number, PearpalTrackerItem[]>
   }> => {
     try {
       // Wait for any pending save to complete before loading
@@ -214,6 +228,7 @@ export function useIndexedDB() {
       const pullsResult = await db.get(PULLS_STORE, PULLS_STORE)
       const editsResult = await db.get(EDITS_STORE, EDITS_STORE)
       const evoResult = await db.get(EVO_STORE, EVO_STORE)
+      const pearpalResult = await db.get(PEARPAL_STORE, PEARPAL_STORE)
 
       pullsData.value = pullsResult
       editsData.value = editsResult
@@ -223,6 +238,7 @@ export function useIndexedDB() {
         pulls: pullsResult || {},
         edits: editsResult || {},
         evo: evoResult || {},
+        pearpal: pearpalResult || {},
       }
     } catch (error) {
       console.error('Failed to load data:', error)
@@ -241,12 +257,36 @@ export function useIndexedDB() {
       await db.clear(PULLS_STORE)
       await db.clear(EDITS_STORE)
       await db.clear(EVO_STORE)
+      await db.clear(PEARPAL_STORE)
 
       pullsData.value = {}
       editsData.value = {}
       evoData.value = {}
     } catch (error) {
       console.error('Failed to clear data:', error)
+      throw error
+    }
+  }
+
+  const savePearpalData = async (
+    data: Record<number, PearpalTrackerItem[]>
+  ) => {
+    try {
+      const db = await getDB()
+
+      // Test JSON serialization first
+      try {
+        const jsonString = JSON.stringify(data)
+        const cleanData = JSON.parse(jsonString)
+
+        // Save raw Pearpal data per banner (similar to how pull data is organized)
+        await db.put(PEARPAL_STORE, cleanData, PEARPAL_STORE)
+      } catch (jsonError) {
+        console.error('JSON serialization failed:', jsonError)
+        throw jsonError
+      }
+    } catch (error) {
+      console.error('Failed to save raw pearpal tracker data:', error)
       throw error
     }
   }
@@ -261,5 +301,6 @@ export function useIndexedDB() {
     clearData,
     mergePullData,
     mergeEditData,
+    savePearpalData,
   }
 }

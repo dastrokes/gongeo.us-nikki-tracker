@@ -155,19 +155,36 @@
           try {
             message.loading(t('common.captions.loading'))
 
-            // Check if local data is populated, if not load from IndexedDB first
+            // Check if data exists in IndexedDB
+            const { loadData } = useIndexedDB()
+            const existingData = await loadData()
+
             const hasLocalData =
-              Object.keys(pullStore.rawPullData).length > 0 ||
-              Object.keys(pullStore.rawEditData).length > 0 ||
-              Object.keys(pullStore.rawEvoData).length > 0
+              Object.keys(existingData.pulls).length > 0 ||
+              Object.keys(existingData.edits).length > 0 ||
+              Object.keys(existingData.evo).length > 0 ||
+              Object.keys(existingData.pearpal).length > 0
 
             if (!hasLocalData) {
               // Load data from IndexedDB first
               const { loadData } = useIndexedDB()
-              const { pulls, edits, evo } = await loadData()
+              const { pulls, edits, evo, pearpal } = await loadData()
 
-              // Process the loaded data in the store
-              await pullStore.processPullData(pulls, edits, evo)
+              // Process pearpal tracker data first if available
+              if (Object.keys(pearpal).length > 0) {
+                await pullStore.processPearpalData(pearpal)
+              } else if (
+                Object.keys(pulls).length > 0 ||
+                Object.keys(edits).length > 0
+              ) {
+                // Process pull and edit data if no pearpal data
+                await pullStore.processPullData(pulls, edits)
+              }
+
+              // Process evolution data
+              if (Object.keys(evo).length > 0) {
+                pullStore.evoData = evo
+              }
             }
 
             const result = await uploadData()

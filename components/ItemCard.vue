@@ -30,11 +30,7 @@
           sizes="80px sm:120px"
         />
         <n-tag
-          v-if="
-            pullStore.rawPullData &&
-            Object.keys(pullStore.rawPullData).length > 0 &&
-            item.count > 0
-          "
+          v-if="item.count > 0"
           size="tiny"
           :bordered="false"
           class="absolute bottom-1 right-1 scale-75 sm:scale-90 origin-bottom-right text-white shadow-sm rounded-full text-xs opacity-80"
@@ -94,7 +90,6 @@
 <script setup lang="ts">
   import type { PullItem } from '~/types/pull'
   import { useUserStore } from '~/stores/user'
-  import { usePullStore } from '~/stores/pull'
   import { getItemType } from '~/utils/itemType'
   import { getBannerType } from '~/utils/bannerType'
   import { Asterisk } from '@vicons/fa'
@@ -106,7 +101,6 @@
   const props = defineProps<Props>()
   const { t } = useI18n()
   const userStore = useUserStore()
-  const pullStore = usePullStore()
   const isDark = computed(() => userStore.getCurrentTheme === 'dark')
 
   const itemType = computed(() => getItemType(props.item.itemId))

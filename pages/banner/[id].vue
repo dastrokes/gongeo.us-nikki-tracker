@@ -373,9 +373,6 @@
   import { useMessage } from 'naive-ui'
   import { useIndexedDB } from '~/composables/useIndexedDB'
   import type { Outfit } from '~/types/outfit'
-  const CollectionEditor = defineAsyncComponent(
-    () => import('~/components/CollectionEditor.vue')
-  )
 
   const route = useRoute()
   const router = useRouter()
@@ -413,15 +410,29 @@
         pulls: pullData,
         edits: editData,
         evo: evoData,
+        pearpal: pearpalData,
       } = await loadData()
 
-      if (pullData && editData) {
-        await pullStore.processPullData(pullData, editData, evoData)
+      // Process pearpal tracker data first if available
+      if (Object.keys(pearpalData).length > 0) {
+        await pullStore.processPearpalData(pearpalData)
+      } else if (
+        // Process pull and edit data if no pearpal data
+        Object.keys(pullData).length > 0 ||
+        Object.keys(editData).length > 0
+      ) {
+        await pullStore.processPullData(pullData, editData)
       }
-      loading.value = false
+
+      // Process evolution data
+      if (Object.keys(evoData).length > 0) {
+        pullStore.evoData = evoData
+      }
     } catch (error) {
       console.error('Failed to load data:', error)
       message.error(t('tracker.no_data.error'))
+    } finally {
+      loading.value = false
     }
   })
 

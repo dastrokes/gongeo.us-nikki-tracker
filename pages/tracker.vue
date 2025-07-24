@@ -111,10 +111,7 @@
     >
       <!-- Stats Header -->
       <n-card
-        v-if="
-          Object.keys(rawPullData).length > 0 ||
-          Object.keys(rawEditData).length > 0
-        "
+        v-if="hasAnyData"
         content-class="!p-2 sm:!p-4"
         size="small"
         class="rounded-xl"
@@ -760,10 +757,7 @@
       </div>
 
       <n-card
-        v-if="
-          Object.keys(rawPullData).length === 0 &&
-          Object.keys(rawEditData).length === 0
-        "
+        v-if="!hasAnyData"
         class="text-center rounded-xl"
         :style="cardStyle"
       >
@@ -825,16 +819,12 @@
   import type { PullItem, ProcessedBanner } from '~/types/pull'
   import { useCardStyle } from '~/composables/useCardStyle'
   import { usePercentile } from '~/composables/usePercentile'
-  const CollectionEditor = defineAsyncComponent(
-    () => import('~/components/CollectionEditor.vue')
-  )
 
   const router = useRouter()
   const message = useMessage()
   const { t } = useI18n()
   const pullStore = usePullStore()
-  const { processedPulls, globalStats, rawPullData, rawEditData } =
-    storeToRefs(pullStore)
+  const { processedPulls, globalStats } = storeToRefs(pullStore)
   const { loadData } = useIndexedDB()
   const localePath = useLocalePath()
   const { cardStyle } = useCardStyle()
@@ -846,6 +836,11 @@
   const exporting = ref(false)
   const showCollectionEditor = ref(false)
   const selectedBannerId = ref<number | null>(null)
+
+  // Check if there's any data to display
+  const hasAnyData = computed(() => {
+    return Object.keys(processedPulls.value).length > 0
+  })
 
   useHead({
     title: t('navigation.tracker') + ' - ' + t('navigation.subtitle'),
@@ -885,16 +880,29 @@
         pulls: pullData,
         edits: editData,
         evo: evoData,
+        pearpal: pearpalData,
       } = await loadData()
 
-      if (pullData && editData) {
-        await pullStore.processPullData(pullData, editData, evoData)
+      // Process pearpal tracker data
+      if (Object.keys(pearpalData).length > 0) {
+        await pullStore.processPearpalData(pearpalData)
+      } else if (
+        // Process pull and edit data
+        Object.keys(pullData).length > 0 ||
+        Object.keys(editData).length > 0
+      ) {
+        await pullStore.processPullData(pullData, editData)
       }
 
-      loading.value = false
+      // Process evolution data
+      if (Object.keys(evoData).length > 0) {
+        pullStore.evoData = evoData
+      }
     } catch (error) {
       console.error('Failed to load data:', error)
       message.error(t('tracker.no_data.error'))
+    } finally {
+      loading.value = false
     }
   })
 
@@ -1027,9 +1035,13 @@
     showPopover.value = false
 
     try {
-      const rawPullData = pullStore.rawPullData
-      const rawEditData = pullStore.rawEditData
-      const rawEvoData = pullStore.rawEvoData
+      const { loadData } = useIndexedDB()
+      const {
+        pulls: rawPullData,
+        edits: rawEditData,
+        evo: evoData,
+        pearpal: rawPearpalData,
+      } = await loadData()
 
       // Filter out banners with 0 pulls
       const filteredPullData = Object.fromEntries(
@@ -1041,7 +1053,11 @@
       )
 
       const filteredEvoData = Object.fromEntries(
-        Object.entries(rawEvoData).filter(([_, evo]) => evo.length > 0)
+        Object.entries(evoData).filter(([_, evo]) => evo.length > 0)
+      )
+
+      const filteredPearpalData = Object.fromEntries(
+        Object.entries(rawPearpalData).filter(([_, items]) => items.length > 0)
       )
 
       // Determine what to export based on which data is available
@@ -1049,7 +1065,8 @@
       if (
         Object.keys(filteredPullData).length === 0 &&
         Object.keys(filteredEditData).length === 0 &&
-        Object.keys(filteredEvoData).length === 0
+        Object.keys(filteredEvoData).length === 0 &&
+        Object.keys(filteredPearpalData).length === 0
       ) {
         return
       } else {
@@ -1057,6 +1074,7 @@
           pulls: filteredPullData,
           edits: filteredEditData,
           evo: filteredEvoData,
+          pearpal: filteredPearpalData,
         }
       }
 

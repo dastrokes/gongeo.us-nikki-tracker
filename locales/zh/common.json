@@ -102,9 +102,12 @@
     "choose_method_desc": "选择您想要导入抽卡历史的方式。",
     "import_from_game": "从游戏导入",
     "import_from_file": "从文件导入",
+    "import_from_pearpal": "Import from Pearpal",
     "file_import": "文件导入",
     "file_import_desc": "从之前导出的 nikki-resonance-data 文件导入。",
     "select_file": "选择文件",
+    "pearpal_import": "Pearpal Import",
+    "pearpal_import_desc": "Import from Infinity Nikki official tracker.",
     "game_import": "游戏导入",
     "game_import_desc": "使用浏览器直接从游戏导入。",
     "select_region": "选择服务器",
@@ -153,7 +156,7 @@
       "note": "（以谷歌浏览器为例，其他浏览器的步骤类似，但具体名称可能有所不同）",
       "step1": "切换到不同标签页的美鸭梨网站，确保您已登录",
       "step2": "打开浏览器的开发者工具（按 F12 或右键点击并选择\"检查\"）",
-      "step3": "转到\"应用程序\"标签",
+      "step3": "Go to the \"Application\" tab (or \"Storage\" in Firefox)",
       "step4": "在左侧边栏中，展开\"Cookie\"并选择美鸭梨网站",
       "step5": "或者，您可以使用 Cookie Editor 等浏览器扩展来管理 Cookie",
       "step6": "查找并复制以下值：",
@@ -209,7 +212,9 @@
       "fetch_history_failed": "获取抽卡历史记录失败",
       "invalid_form": "表单数据无效",
       "import_success": "数据导入成功！",
-      "import_failed": "导入文件失败"
+      "import_failed": "导入文件失败",
+      "pearpal_tracker_success": "Pearpal data imported successfully!",
+      "pearpal_tracker_failed": "Failed to import Pearpal data."
     },
     "supported_browsers": "支持的浏览器",
     "supported_browsers_list": {

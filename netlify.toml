@@ -30,6 +30,11 @@
     cache-control = "public, max-age=604800"
 
 [[headers]]
+  for = "/llms.txt"
+  [headers.values]
+    cache-control = "public, max-age=604800"    
+
+[[headers]]
   for = "/favicon.ico"
   [headers.values]
     cache-control = "public, max-age=604800"

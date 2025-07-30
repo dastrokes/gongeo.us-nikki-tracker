@@ -74,6 +74,15 @@
           </p>
         </section>
 
+        <section class="mb-8">
+          <n-h2 class="font-semibold mb-4">{{
+            t('about.errorMonitoring.title')
+          }}</n-h2>
+          <p>
+            {{ t('about.errorMonitoring.message') }}
+          </p>
+        </section>
+
         <SocialLinks />
       </div>
     </n-card>

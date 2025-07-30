@@ -382,4 +382,30 @@ export const BANNER_DATA: BannerData = {
       },
     ],
   },
+  29: {
+    bannerId: 29,
+    bannerType: 2,
+    outfit4StarId: ['S0176'],
+    outfit5StarId: ['S0330'],
+    runs: [
+      {
+        version: '1.8.1',
+        start: '2025-07-29',
+        end: '2025-09-01',
+      },
+    ],
+  },
+  30: {
+    bannerId: 30,
+    bannerType: 2,
+    outfit4StarId: ['S0173'],
+    outfit5StarId: ['S0331'],
+    runs: [
+      {
+        version: '1.8.1',
+        start: '2025-07-29',
+        end: '2025-09-01',
+      },
+    ],
+  },
 }

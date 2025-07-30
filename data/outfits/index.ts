@@ -27,7 +27,9 @@ import S0164 from './S0164'
 import S0165 from './S0165'
 import S0166 from './S0166'
 import S0167 from './S0167'
+import S0173 from './S0173'
 import S0175 from './S0175'
+import S0176 from './S0176'
 import S0178 from './S0178'
 import S0179 from './S0179'
 import S0181 from './S0181'
@@ -44,6 +46,8 @@ import S0228 from './S0228'
 import S0231 from './S0231'
 import S0232 from './S0232'
 import S0238 from './S0238'
+import S0330 from './S0330'
+import S0331 from './S0331'
 
 const OUTFIT_DATA = {
   S0001,
@@ -75,7 +79,9 @@ const OUTFIT_DATA = {
   S0165,
   S0166,
   S0167,
+  S0173,
   S0175,
+  S0176,
   S0178,
   S0179,
   S0181,
@@ -92,6 +98,8 @@ const OUTFIT_DATA = {
   S0231,
   S0232,
   S0238,
+  S0330,
+  S0331,
 } as const
 
 export type OutfitKey = keyof typeof OUTFIT_DATA

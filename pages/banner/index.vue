@@ -231,12 +231,14 @@
 
   // Scroll to specific banner
   const scrollToBanner = (bannerId: number) => {
-    const element = document.getElementById(bannerId.toString())
-    if (element) {
-      element.scrollIntoView({
-        behavior: 'smooth',
-        block: 'center',
-      })
+    if (import.meta.client) {
+      const element = document.getElementById(bannerId.toString())
+      if (element) {
+        element.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+        })
+      }
     }
   }
 

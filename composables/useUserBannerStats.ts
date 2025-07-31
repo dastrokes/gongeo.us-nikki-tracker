@@ -9,8 +9,11 @@ export const useUserBannerStats = () => {
     const uid = userStore.uid
     const region = userStore.region
 
-    const { user } = useAuth()
-    const userId = user.value?.id
+    const supabase = useSupabaseClient()
+    const {
+      data: { session },
+    } = await supabase.auth.getSession()
+    const userId = session?.user?.id
 
     if (!uid) return
 

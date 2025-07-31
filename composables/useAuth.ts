@@ -1,6 +1,5 @@
 import type { User } from '@supabase/supabase-js'
 import { useSupabaseClient } from './useSupabaseClient'
-import { useUserStore } from '~/stores/user'
 import { useRouter, useRoute } from 'vue-router'
 
 // Global auth state - shared across all useAuth() calls
@@ -12,7 +11,6 @@ const globalAuthState = {
 
 export const useAuth = () => {
   const supabase = useSupabaseClient()
-  const userStore = useUserStore()
   const router = useRouter()
   const route = useRoute()
   const localePath = useLocalePath()
@@ -57,20 +55,14 @@ export const useAuth = () => {
 
       if (session?.user) {
         user.value = session.user
-        userStore.setUid(session.user.id)
-        userStore.setAuthToken(session.access_token)
       }
 
       // Listen for auth changes
       supabase.auth.onAuthStateChange(async (event, session) => {
         if (event === 'SIGNED_IN' && session?.user) {
           user.value = session.user
-          userStore.setUid(session.user.id)
-          userStore.setAuthToken(session.access_token)
         } else if (event === 'SIGNED_OUT') {
           user.value = null
-          userStore.setUid(null)
-          userStore.setAuthToken(null)
         }
       })
 
@@ -226,7 +218,6 @@ export const useAuth = () => {
       }
 
       user.value = null
-      userStore.reset()
     } catch (err: unknown) {
       console.error('Sign out failed:', err)
       throw err

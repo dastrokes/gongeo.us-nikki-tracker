@@ -9,6 +9,9 @@ export const useUserBannerStats = () => {
     const uid = userStore.uid
     const region = userStore.region
 
+    const { user } = useAuth()
+    const userId = user.value?.id
+
     if (!uid) return
 
     // Collect all analytics data first
@@ -17,6 +20,7 @@ export const useUserBannerStats = () => {
       .map(([bannerId, banner]) => ({
         uid,
         region,
+        user_id: userId,
         banner_id: Number(bannerId),
         banner_type: banner.bannerType,
         total_pulls: banner.stats.totalPulls,

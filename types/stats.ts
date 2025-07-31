@@ -1,6 +1,7 @@
 export interface UserBannerStats extends Record<string, unknown> {
   uid: string
   region: string
+  user_id?: string
   banner_id: number
   banner_type: number
   total_pulls: number

@@ -945,6 +945,7 @@
       if (!banner || !banner.runs || banner.runs.length === 0) return false
 
       const currentRun = banner.runs[0] // Get the first run only
+      if (!currentRun) return false
       const startDate = new Date(currentRun.start)
       const endDate = new Date(currentRun.end)
 

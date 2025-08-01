@@ -244,7 +244,7 @@
 
   // Watch for selectedBannerId changes and scroll to the selected banner
   watchEffect(() => {
-    if (selectedBannerId.value) {
+    if (import.meta.client && selectedBannerId.value) {
       nextTick(() => {
         scrollToBanner(selectedBannerId.value)
       })
@@ -252,7 +252,7 @@
   })
 
   watchEffect(async () => {
-    if (route.hash) {
+    if (import.meta.client && route.hash) {
       const bannerId = route.hash.slice(1)
 
       await new Promise(requestAnimationFrame)

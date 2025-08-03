@@ -194,7 +194,7 @@ export const usePearpalData = () => {
               ? (obtainedItems / outfitData.items.length) * 100
               : 0
 
-          processedBanners[bannerId].outfits.push({
+          processedBanners[bannerId]!.outfits.push({
             id: outfitId,
             rarity: outfit5StarId.includes(outfitId) ? 5 : 4,
             items: outfitData.items,

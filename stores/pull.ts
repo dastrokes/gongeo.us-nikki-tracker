@@ -50,7 +50,7 @@ export const usePullStore = defineStore('pull', {
     getOutfitEvoLevel: (state) => (bannerId: number, outfitId: string) => {
       if (!state.evoData[bannerId]) return 0
 
-      const evoRecord = state.evoData[bannerId].find(([id]) => id === outfitId)
+      const evoRecord = state.evoData[bannerId]?.find(([id]) => id === outfitId)
 
       return evoRecord ? evoRecord[1] : 0
     },

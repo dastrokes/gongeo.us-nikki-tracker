@@ -229,7 +229,7 @@
     () => props.bannerId,
     (newBannerId) => {
       if (newBannerId) {
-        selectedBanner.value = BANNER_DATA[newBannerId]
+        selectedBanner.value = BANNER_DATA[newBannerId] || null
         selectedOutfitId.value = null
         selectedOutfit.value = null
         itemCounts.value = {}
@@ -246,7 +246,7 @@
     (newCounts) => {
       Object.keys(newCounts).forEach((itemId) => {
         const minCount = getItemMinCount(itemId)
-        if (newCounts[itemId] < minCount) {
+        if (newCounts[itemId] && newCounts[itemId] < minCount) {
           itemCounts.value[itemId] = minCount
         }
       })
@@ -534,7 +534,7 @@
   onMounted(() => {
     // Initialize with banner selected from props
     if (props.bannerId) {
-      selectedBanner.value = BANNER_DATA[props.bannerId]
+      selectedBanner.value = BANNER_DATA[props.bannerId] || null
       selectedOutfitId.value =
         selectedBanner.value?.outfit5StarId?.[0] ||
         selectedBanner.value?.outfit4StarId?.[0] ||

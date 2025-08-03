@@ -22,13 +22,17 @@ export const usePercentile = () => {
   ): number => {
     // Data is already sorted by percentile in the new format
     for (let i = 0; i < data.length; i++) {
-      const [percentile, threshold] = data[i]
+      const dataPoint = data[i]
+      if (!dataPoint) continue
+      const [percentile, threshold] = dataPoint
 
       if (value <= threshold) {
         if (i === 0) return 0
 
         // Linear interpolation between percentiles
-        const [prevPercentile, prevThreshold] = data[i - 1]
+        const prevDataPoint = data[i - 1]
+        if (!prevDataPoint) continue
+        const [prevPercentile, prevThreshold] = prevDataPoint
         const ratio = (value - prevThreshold) / (threshold - prevThreshold)
         return prevPercentile + ratio * (percentile - prevPercentile)
       }

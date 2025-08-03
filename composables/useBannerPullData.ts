@@ -87,7 +87,7 @@ export const useBannerPullData = () => {
               if (!pullsByBanner[banner_id]) {
                 pullsByBanner[banner_id] = data.datas
               } else {
-                pullsByBanner[banner_id].push(...data.datas)
+                pullsByBanner[banner_id]!.push(...data.datas)
               }
             }
           })
@@ -182,7 +182,7 @@ export const useBannerPullData = () => {
       ;[...outfit5StarId, ...outfit4StarId].forEach((outfitId) => {
         const outfitData = getOutfitData(outfitId)
         if (outfitData) {
-          processedPulls[bannerId].outfits.push({
+          processedPulls[bannerId]!.outfits.push({
             id: outfitId,
             rarity: outfit5StarSet.has(outfitId) ? 5 : 4,
             items: outfitData.items,
@@ -199,14 +199,17 @@ export const useBannerPullData = () => {
       const processedPullsArray = [...pulls].reverse()
       const currentBanner = processedPulls[bannerId]
 
+      if (!currentBanner) return
+
       let pullIndex = 0
       processedPullsArray.forEach((pull) => {
         const [time, itemId] = pull
 
         // Only increment stats for actual pulls (not manual or edit entries)
         currentBanner.stats.totalPulls++
-        currentPity[bannerId][4]++
-        currentPity[bannerId][5]++
+        const pityRecord = currentPity[bannerId]!
+        pityRecord[4] = (pityRecord[4] ?? 0) + 1
+        pityRecord[5] = (pityRecord[5] ?? 0) + 1
         pullIndex++
 
         const outfitId = getOutfitIdFromItemId(itemId)
@@ -219,8 +222,8 @@ export const useBannerPullData = () => {
         }
 
         if (rarity !== 0) {
-          const pullsToObtain = currentPity[bannerId][rarity]
-          currentPity[bannerId][rarity] = 0
+          const pullsToObtain = pityRecord[rarity] ?? 0
+          pityRecord[rarity] = 0
 
           const pullInfo: PullItem = {
             pullIndex,
@@ -341,8 +344,8 @@ export const useBannerPullData = () => {
             : 0
       }
 
-      stats.pity4Star = currentPity[bannerId][4]
-      stats.pity5Star = currentPity[bannerId][5]
+      stats.pity4Star = currentPity[bannerId]?.[4] ?? 0
+      stats.pity5Star = currentPity[bannerId]?.[5] ?? 0
     })
 
     // Update stats only if calculateStats is true
@@ -359,6 +362,8 @@ export const useBannerPullData = () => {
         const itemCount: Record<string, number> = {}
         const edits = editsByBanner?.[bannerId] || []
         const currentBanner = processedPulls[bannerId]
+
+        if (!currentBanner) return
 
         // Calculate item count and outfit completion
         let pullIndex = 0
@@ -392,13 +397,13 @@ export const useBannerPullData = () => {
         currentBanner.pulls.reverse().forEach((pull) => {
           itemCount[pull.itemId] = (itemCount[pull.itemId] || 0) + 1
 
-          pull.count = itemCount[pull.itemId]
+          pull.count = itemCount[pull.itemId] ?? 0
 
           if (!pullsByOutfit[pull.outfitId]) {
             pullsByOutfit[pull.outfitId] = new Set()
           }
           if (pull.count > 0) {
-            pullsByOutfit[pull.outfitId].add(pull)
+            pullsByOutfit[pull.outfitId]!.add(pull)
           }
         })
 

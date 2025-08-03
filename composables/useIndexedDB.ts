@@ -25,7 +25,7 @@ export function useIndexedDB() {
   const DB_RETRY_INTERVAL_MS = 1000
   const MAX_RETRIES = 3
 
-  const getDB = async (retries = 0) => {
+  const getDB = async (retries = 0): Promise<IDBPDatabase> => {
     if (!dbPromise) {
       dbPromise = openDB(DB_NAME, DB_VERSION, {
         upgrade(db) {
@@ -95,7 +95,7 @@ export function useIndexedDB() {
         return
       }
 
-      const existingNewest = existingPulls[0][0] // first = newest
+      const existingNewest = existingPulls[0]![0] // first = newest
       const existingOldest = existingPulls.at(-1)![0] // last = oldest
 
       const existingTimestamps = new Set(existingPulls.map(([ts]) => ts))

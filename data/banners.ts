@@ -17,7 +17,7 @@ export const BANNER_DATA: BannerData = {
       {
         version: '1.0.0',
         start: '2024-12-05',
-        end: new Date().toISOString().split('T')[0],
+        end: new Date().toISOString().split('T')[0] ?? '',
       },
     ],
   },

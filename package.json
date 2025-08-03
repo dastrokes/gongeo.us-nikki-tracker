@@ -13,7 +13,7 @@
     "postinstall": "nuxt prepare",
     "format": "prettier --write .",
     "prepare": "husky",
-    "lint": "eslint .",
+    "lint": "eslint . && tsc --noEmit",
     "lint:fix": "eslint . --fix"
   },
   "keywords": [

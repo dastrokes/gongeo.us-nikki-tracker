@@ -103,7 +103,20 @@ export default defineNuxtConfig({
       nativeSWR: true,
     },
     prerender: {
-      routes: ['/', '/faq', '/about', '/banner'],
+      routes: [
+        '/',
+        '/faq',
+        '/about',
+        '/banner',
+        ...i18nLocales
+          .filter((locale) => locale.code !== defaultLocale)
+          .flatMap((locale) => [
+            `/${locale.code}`,
+            `/${locale.code}/faq`,
+            `/${locale.code}/about`,
+            `/${locale.code}/banner`,
+          ]),
+      ],
     },
   },
 

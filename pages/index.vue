@@ -135,27 +135,35 @@
 
   // Watch for manual index changes
   watch([indexA, indexB], () => {
-    startTimer()
+    if (import.meta.client) {
+      startTimer()
+    }
   })
 
   onMounted(() => {
-    startTimer()
+    if (import.meta.client) {
+      startTimer()
+    }
   })
 
   onBeforeUnmount(() => {
     if (timer) clearTimeout(timer)
   })
 
-  // Static time calculation
-  const now = new Date()
-  const diffInHours = Math.max(
-    0,
-    (targetTime.getTime() - now.getTime()) / (1000 * 60 * 60)
-  )
-  const days = Math.floor(diffInHours / 24)
-  const hours = Math.floor(diffInHours % 24)
-
+  // Static time calculation - use import.meta.client to avoid hydration mismatch
   const formattedTime = computed(() => {
-    return `${days} ${t('index.days')} ${hours} ${t('index.hours')}`
+    if (import.meta.client) {
+      const now = new Date()
+      const diffInHours = Math.max(
+        0,
+        (targetTime.getTime() - now.getTime()) / (1000 * 60 * 60)
+      )
+      const days = Math.floor(diffInHours / 24)
+      const hours = Math.floor(diffInHours % 24)
+      return `${days} ${t('index.days')} ${hours} ${t('index.hours')}`
+    } else {
+      // Server-side fallback to avoid hydration mismatch
+      return `0 ${t('index.days')} 0 ${t('index.hours')}`
+    }
   })
 </script>

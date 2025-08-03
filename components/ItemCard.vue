@@ -15,7 +15,7 @@
         :bordered="false"
         size="small"
         content-style="padding: 0;"
-        class="relative overflow-hidden rounded-md transition-all duration-300 ease-in-out aspect-square ring-1 min-h-[60px] xl:min-h-[100px] aspect-square"
+        class="relative overflow-hidden rounded-md transition-all duration-300 ease-in-out aspect-square ring-1 min-h-[60px] xl:min-h-[100px]"
       >
         <NuxtImg
           :src="`/images/items/${item.itemId}.webp`"

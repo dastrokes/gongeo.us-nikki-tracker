@@ -1087,37 +1087,16 @@ w
     const richLabels = {}
     // Get viewport width to detect mobile vs desktop
     const imageSize = isMobile.value ? 36 : 80
-    // Create rich label for each item with loading image initially
+    // Create rich label for each item
     itemsData.forEach((itemId) => {
       richLabels[`img${itemId}`] = {
         height: imageSize,
         width: imageSize,
-        borderRadius: 8,
         backgroundColor: {
-          image: `/images/loading.webp`,
+          image: `/images/items/${itemId}.webp`,
         },
         align: 'center',
       }
-      // Preload the actual image
-      const img = new Image()
-      img.onload = () => {
-        // Update the chart with the loaded image
-        if (richLabels[`img${itemId}`]) {
-          richLabels[`img${itemId}`].backgroundColor.image =
-            `/images/items/${itemId}.webp`
-          // Force chart update
-          if (firstItemDistributionChart.value) {
-            firstItemDistributionChart.value.setOption({
-              xAxis: {
-                axisLabel: {
-                  rich: richLabels,
-                },
-              },
-            })
-          }
-        }
-      }
-      img.src = `/images/items/${itemId}.webp`
     })
     const textStyle = getChartTextStyle()
     // Prepare option

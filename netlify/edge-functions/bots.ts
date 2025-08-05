@@ -40,6 +40,7 @@ export const config: Config = {
     '/66641125bbad403d994c7d7af32e196b.txt',
     '/robots.txt',
     '/llms.txt',
+    '/ads.txt',
     '/*sitemap*',
     '/og.png',
   ] as `/${string}`[],

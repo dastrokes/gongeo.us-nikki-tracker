@@ -32,7 +32,12 @@
 [[headers]]
   for = "/llms.txt"
   [headers.values]
-    cache-control = "public, max-age=604800"    
+    cache-control = "public, max-age=604800"
+
+[[headers]]
+  for = "/ads.txt"
+  [headers.values]
+    cache-control = "public, max-age=604800"
 
 [[headers]]
   for = "/favicon.ico"
@@ -42,7 +47,7 @@
 [[headers]]
   for = "/apple-touch-icon*.png"
   [headers.values]
-    cache-control = "public, max-age=604800"	
+    cache-control = "public, max-age=604800"
 
 [[headers]]
   for = "/gongeous.js"

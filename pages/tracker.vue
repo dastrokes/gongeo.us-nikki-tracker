@@ -1008,7 +1008,7 @@
 
       const dataUrl = await toPng(trackerElement, {
         quality: 1,
-        backgroundColor: isDark.value ? '#0f172a' : '#fafafa',
+        backgroundColor: isDark.value ? '#101014' : '#f8fafc',
         width: contentWidth,
         height: contentHeight,
         includeQueryParams: true,

@@ -93,7 +93,7 @@
     <n-layout-content
       ref="scrollbarRef"
       class="mt-12"
-      :class="isDark ? '#0f172a' : '#fafafa'"
+      :class="isDark ? 'bg-[#101014]' : 'bg-[#f8fafc]'"
       :native-scrollbar="false"
       @scroll="onScroll"
     >

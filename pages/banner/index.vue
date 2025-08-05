@@ -22,6 +22,7 @@
               placement="bottom"
               scrollable
               content-class="!p-1"
+              @clickoutside="togglePopover(banner.bannerId)"
             >
               <template #trigger>
                 <n-button

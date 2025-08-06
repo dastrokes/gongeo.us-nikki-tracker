@@ -32,13 +32,12 @@ export default defineNuxtConfig({
     locales: i18nLocales,
     defaultLocale: defaultLocale,
     strategy: 'prefix_except_default',
-    lazy: true,
     detectBrowserLanguage: {
       useCookie: true,
       cookieKey: 'i18n_redirected',
-      redirectOn: 'no prefix',
       alwaysRedirect: false,
       fallbackLocale: defaultLocale,
+      redirectOn: 'no prefix',
     },
   },
 
@@ -101,9 +100,6 @@ export default defineNuxtConfig({
     preset: 'netlify',
     future: {
       nativeSWR: true,
-    },
-    prerender: {
-      routes: ['/', '/faq', '/about', '/banner'],
     },
   },
 

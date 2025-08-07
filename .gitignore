@@ -20,6 +20,7 @@ logs
 .husky
 .netlify
 .vscode
+.well-known
 scripts/dev
 
 # Local env files

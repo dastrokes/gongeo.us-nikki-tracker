@@ -2,7 +2,7 @@
   publish = "dist"
 
 [build.environment]
-  NODE_VERSION = "20.19.1"
+  NODE_VERSION = "22.18.0"
   NODE_OPTIONS = "--max-old-space-size=8192"
 
 # Headers: Netlify Image CDN caching

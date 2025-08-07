@@ -39,6 +39,9 @@ export default defineNuxtConfig({
       fallbackLocale: defaultLocale,
       redirectOn: 'no prefix',
     },
+    bundle: {
+      optimizeTranslationDirective: false,
+    },
   },
 
   site: {
@@ -58,7 +61,6 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     supabaseServiceKey: process.env.SUPABASE_SERVICE_ROLE_KEY,
-    supabaseStorageToken: process.env.SUPABASE_STORAGE_TOKEN,
 
     public: {
       supabaseUrl: process.env.SUPABASE_DATABASE_URL,
@@ -107,7 +109,7 @@ export default defineNuxtConfig({
     compatibilityVersion: 4,
   },
 
-  compatibilityDate: '2025-02-01',
+  compatibilityDate: '2025-01-24',
 
   components: {
     dirs: ['~/components'],

@@ -127,8 +127,17 @@
   const { initAuth } = useAuth()
 
   // Ensure theme is initialized on client-side
-  onMounted(async () => {
-    await initAuth()
+  onMounted(() => {
+    // Initialize theme immediately for correct initial paint
     userStore.initializeTheme()
+
+    // Defer auth initialization to idle to protect LCP
+    const run = () => initAuth()
+
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(run, { timeout: 1000 })
+    } else {
+      setTimeout(run, 0)
+    }
   })
 </script>

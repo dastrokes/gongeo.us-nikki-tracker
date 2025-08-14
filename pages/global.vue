@@ -1,4 +1,3 @@
-w
 <template>
   <div class="max-w-7xl mx-auto space-y-2 sm:space-y-4">
     <!-- Loading State -->

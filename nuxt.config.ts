@@ -67,6 +67,7 @@ export default defineNuxtConfig({
       supabaseAnonKey: process.env.SUPABASE_ANON_KEY,
       gongeousApiKey: process.env.GONGEOUS_API_KEY,
       siteUrl: process.env.NUXT_PUBLIC_SITE_URL,
+      maintenance: process.env.NUXT_PUBLIC_MAINTENANCE,
     },
   },
 

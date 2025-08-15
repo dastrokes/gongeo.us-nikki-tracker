@@ -20,6 +20,7 @@ export const config: Config = {
     '/global',
     '/import',
     '/tracker',
+    '/timeline',
 
     ...localePaths,
 

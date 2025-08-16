@@ -13,8 +13,7 @@
     "postinstall": "nuxt prepare",
     "format": "prettier --write .",
     "prepare": "husky",
-    "lint": "eslint . && tsc --noEmit",
-    "lint:fix": "eslint . --fix"
+    "lint": "eslint . && tsc --noEmit"
   },
   "keywords": [
     "nuxt",
@@ -60,6 +59,7 @@
     "husky": "9.1.7",
     "lint-staged": "16.1.5",
     "prettier": "3.6.2",
+    "sass": "1.90.0",
     "ts-node": "10.9.2",
     "typescript": "5.9.2",
     "unplugin-auto-import": "20.0.0",

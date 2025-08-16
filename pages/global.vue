@@ -815,7 +815,6 @@
         bottom: 0,
         left: isMobile.value ? '0%' : '5%',
         right: 0,
-        containLabel: true,
       },
       xAxis: {
         type: 'category',
@@ -829,6 +828,7 @@
           overflow: 'truncate',
           width: 120,
           formatter: (value) => value,
+          ...textStyle,
         },
         axisLine: {
           lineStyle: {
@@ -969,7 +969,6 @@
         bottom: 0,
         left: 30,
         right: 30,
-        containLabel: true,
       },
       xAxis: {
         type: 'category',
@@ -979,6 +978,7 @@
             color: isDark.value ? '#5c5c5e' : '#e4e5e7',
           },
         },
+        axisLabel: textStyle,
       },
       yAxis: [
         {
@@ -1147,7 +1147,6 @@
         right: 0,
         bottom: 0,
         top: isMobile.value ? 60 : 40,
-        containLabel: true,
       },
       xAxis: {
         type: 'category',
@@ -1170,7 +1169,6 @@
       },
       yAxis: {
         type: 'value',
-        name: t('global.charts.occurrences'),
         nameLocation: 'end',
         nameGap: 10,
         nameTextStyle: {

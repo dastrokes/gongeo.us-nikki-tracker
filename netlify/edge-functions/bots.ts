@@ -20,6 +20,7 @@ export const config: Config = {
     '/global',
     '/import',
     '/tracker',
+    '/timeline',
 
     ...localePaths,
 
@@ -91,7 +92,9 @@ const blockedKeywords = [
   'elmah',
   'env',
   'error',
+  'getcmd',
   'helper',
+  'i18n',
   'info',
   'index',
   'ipfs',
@@ -120,6 +123,7 @@ const blockedKeywords = [
   'sftp',
   'sql',
   'ssh',
+  'static',
   'status',
   'swagger',
   'telescope',

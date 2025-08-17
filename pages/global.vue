@@ -1,4 +1,3 @@
-w
 <template>
   <div class="max-w-7xl mx-auto space-y-2 sm:space-y-4">
     <!-- Loading State -->
@@ -666,7 +665,7 @@ w
     return Object.entries(BANNER_DATA)
       .filter(([id]) => id !== '1')
       .map(([id, banner]) => ({
-        label: t(`banner.${banner.bannerId}.name`),
+        label: banner?.bannerId ? t(`banner.${banner.bannerId}.name`) : '',
         value: Number(id),
       }))
       .reverse()
@@ -736,14 +735,14 @@ w
         : Object.fromEntries(
             Object.entries(chartData).filter(
               ([bannerId]) =>
-                BANNER_DATA[parseInt(bannerId)].bannerType ===
+                BANNER_DATA[parseInt(bannerId)]?.bannerType ===
                 selectedBannerType.value
             )
           )
 
     const bannerLabels = Object.keys(filteredChartData).map((bannerId) => {
       const banner = BANNER_DATA[parseInt(bannerId)]
-      return t(`banner.${banner.bannerId}.name`)
+      return banner?.bannerId ? t(`banner.${banner.bannerId}.name`) : ''
     })
 
     const data3Star = Object.values(filteredChartData).map((arr) => arr[0])
@@ -775,10 +774,10 @@ w
           return `
               <div style="display: flex; flex-direction: column; align-items: center;">
                 <div style="margin-bottom: 5px; text-align: center; font-weight: bold;">
-                  ${t(`banner.${banner.bannerId}.name`)}
+                  ${banner?.bannerId ? t(`banner.${banner.bannerId}.name`) : ''}
                 </div>
                 <div style="margin-bottom: 5px; text-align: left;">
-                  ${banner.bannerType === 2 ? `<span style="color: rgb(245, 158, 11, 0.8)">★★★★★:</span> <strong>${pullsArr[2]}</strong> (${((pullsArr[2] / total) * 100).toFixed(1)}%)<br>` : ''}
+                  ${banner?.bannerType === 2 ? `<span style="color: rgb(245, 158, 11, 0.8)">★★★★★:</span> <strong>${pullsArr[2]}</strong> (${((pullsArr[2] / total) * 100).toFixed(1)}%)<br>` : ''}
                   <span style="color: rgb(139, 92, 246, 0.8)">★★★★:</span> <strong>${pullsArr[1]}</strong> (${((pullsArr[1] / total) * 100).toFixed(1)}%)<br>
                   <span style="color: rgb(107, 114, 128, 0.8)">★★★:</span> <strong>${pullsArr[0]}</strong> (${((pullsArr[0] / total) * 100).toFixed(1)}%)
                 </div>
@@ -787,7 +786,7 @@ w
                 </div>
                 <img
                   src="/images/banners/thumbnails/${bannerId}.webp"
-                  alt="${t(`banner.${banner.bannerId}.name`)}"
+                  alt="${banner?.bannerId ? t(`banner.${banner.bannerId}.name`) : ''}"
                   style="width: 200px; height: 100px; object-fit: cover; border-radius: 4px; margin-top: 8px;"
                 />
               </div>
@@ -816,7 +815,6 @@ w
         bottom: 0,
         left: isMobile.value ? '0%' : '5%',
         right: 0,
-        containLabel: true,
       },
       xAxis: {
         type: 'category',
@@ -830,6 +828,7 @@ w
           overflow: 'truncate',
           width: 120,
           formatter: (value) => value,
+          ...textStyle,
         },
         axisLine: {
           lineStyle: {
@@ -970,7 +969,6 @@ w
         bottom: 0,
         left: 30,
         right: 30,
-        containLabel: true,
       },
       xAxis: {
         type: 'category',
@@ -980,6 +978,7 @@ w
             color: isDark.value ? '#5c5c5e' : '#e4e5e7',
           },
         },
+        axisLabel: textStyle,
       },
       yAxis: [
         {
@@ -1148,7 +1147,6 @@ w
         right: 0,
         bottom: 0,
         top: isMobile.value ? 60 : 40,
-        containLabel: true,
       },
       xAxis: {
         type: 'category',
@@ -1171,7 +1169,6 @@ w
       },
       yAxis: {
         type: 'value',
-        name: t('global.charts.occurrences'),
         nameLocation: 'end',
         nameGap: 10,
         nameTextStyle: {

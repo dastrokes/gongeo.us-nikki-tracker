@@ -707,7 +707,6 @@
 
   const { t } = useI18n()
   const dialog = useDialog()
-  const isMaintenanceMode = false
   const router = useRouter()
   const localePath = useLocalePath()
   const siteUrl = useRuntimeConfig().public.siteUrl
@@ -715,6 +714,18 @@
   // Manual collection editor variables
   const selectedManualBanner = ref<number | null>(null)
   const showCollectionEditor = ref(false)
+
+  const maintenance = useRuntimeConfig().public.maintenance as
+    | string
+    | boolean
+    | undefined
+  const isMaintenanceMode = computed(() => {
+    if (typeof maintenance === 'boolean') return maintenance
+    if (typeof maintenance === 'string') {
+      return maintenance.trim().toLowerCase() === 'true'
+    }
+    return false
+  })
 
   useHead({
     title: t('navigation.import') + ' - ' + t('navigation.subtitle'),

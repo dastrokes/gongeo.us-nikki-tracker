@@ -327,7 +327,7 @@
 
     <n-card
       v-else
-      class="text-center rounded-md rounded-xl"
+      class="text-center rounded-xl"
     >
       <n-empty>
         <template #default>

@@ -22,13 +22,14 @@
               placement="bottom"
               scrollable
               content-class="!p-1"
-              @clickoutside="togglePopover(banner.bannerId)"
+              @clickoutside="(e) => handleClickOutside(e, banner.bannerId)"
             >
               <template #trigger>
                 <n-button
                   text
+                  class="popover-trigger-btn"
                   :type="getBannerTypeColor(banner.bannerType)"
-                  @click="togglePopover(banner.bannerId)"
+                  @click.stop="togglePopover(banner.bannerId)"
                 >
                   <n-icon size="20">
                     <Gift />
@@ -223,6 +224,12 @@
     }
     // Toggle the clicked popover
     showPopover[bannerId] = !showPopover[bannerId]
+  }
+
+  function handleClickOutside(e: MouseEvent, id: number): void {
+    const target = e.target as HTMLElement | null
+    if (target?.closest('.popover-trigger-btn')) return
+    showPopover[id] = false
   }
 
   function handleBannerClick(bannerId: number, popoverId: number) {

@@ -33,9 +33,7 @@ export default defineNuxtConfig({
     defaultLocale: defaultLocale,
     strategy: 'prefix_except_default',
     detectBrowserLanguage: {
-      useCookie: true,
       cookieKey: 'i18n_redirected',
-      alwaysRedirect: false,
       fallbackLocale: defaultLocale,
       redirectOn: 'no prefix',
     },
@@ -58,13 +56,13 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     supabaseServiceKey: process.env.SUPABASE_SERVICE_ROLE_KEY,
-    supabaseStorageToken: process.env.SUPABASE_STORAGE_TOKEN,
 
     public: {
       supabaseUrl: process.env.SUPABASE_DATABASE_URL,
       supabaseAnonKey: process.env.SUPABASE_ANON_KEY,
       gongeousApiKey: process.env.GONGEOUS_API_KEY,
       siteUrl: process.env.NUXT_PUBLIC_SITE_URL,
+      maintenance: process.env.NUXT_PUBLIC_MAINTENANCE,
     },
   },
 
@@ -107,7 +105,7 @@ export default defineNuxtConfig({
     compatibilityVersion: 4,
   },
 
-  compatibilityDate: '2025-02-01',
+  compatibilityDate: '2025-01-24',
 
   components: {
     dirs: ['~/components'],

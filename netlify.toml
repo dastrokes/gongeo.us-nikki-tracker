@@ -2,15 +2,20 @@
   publish = "dist"
 
 [build.environment]
-  NODE_VERSION = "20.19.1"
+  NODE_VERSION = "22.18.0"
   NODE_OPTIONS = "--max-old-space-size=8192"
 
-# Headers: Netlify Image CDN caching
+# Headers: Netlify Image CDN
 [[headers]]
   for = "/.netlify/images/*"
   [headers.values]
     cache-control = "public, max-age=31536000, immutable"
-    access-control-allow-origin = "*"
+
+# Headers: Public images
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    cache-control = "public, max-age=31536000, immutable"
 
 # Headers: Root HTML (no caching)
 [[headers]]

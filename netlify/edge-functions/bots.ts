@@ -94,7 +94,6 @@ const blockedKeywords = [
   'error',
   'getcmd',
   'helper',
-  'i18n',
   'info',
   'index',
   'ipfs',

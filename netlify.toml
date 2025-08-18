@@ -32,37 +32,37 @@
 [[headers]]
   for = "/robots.txt"
   [headers.values]
-    cache-control = "public, max-age=604800"
+    cache-control = "public, max-age=31536000, immutable"
 
 [[headers]]
   for = "/llms.txt"
   [headers.values]
-    cache-control = "public, max-age=604800"
+    cache-control = "public, max-age=31536000, immutable"
 
 [[headers]]
   for = "/ads.txt"
   [headers.values]
-    cache-control = "public, max-age=604800"
+    cache-control = "public, max-age=31536000, immutable"
 
 [[headers]]
   for = "/favicon.ico"
   [headers.values]
-    cache-control = "public, max-age=604800"
+    cache-control = "public, max-age=31536000, immutable"
 	
 [[headers]]
   for = "/apple-touch-icon*.png"
   [headers.values]
-    cache-control = "public, max-age=604800"
+    cache-control = "public, max-age=31536000, immutable"
 
 [[headers]]
   for = "/gongeous.js"
   [headers.values]
-    cache-control = "public, max-age=604800"
+    cache-control = "public, max-age=31536000, immutable"
 	
 [[headers]]
   for = "/66641125bbad403d994c7d7af32e196b.txt"
   [headers.values]
-    cache-control = "public, max-age=604800"
+    cache-control = "public, max-age=31536000"
 
 # Headers: Nuxt static assets
 [[headers]]

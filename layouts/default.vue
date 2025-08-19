@@ -194,7 +194,6 @@
     Magic,
   } from '@vicons/fa'
   import { h, ref, computed, watch } from 'vue'
-  import { NuxtLink } from '#components'
   import UserProfile from '~/components/UserProfile.vue'
   import LanguageSwitcher from '~/components/LanguageSwitcher.vue'
   import KoFi from '~/components/icons/KoFi.vue'
@@ -279,27 +278,16 @@
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       { rel: 'canonical', href: `${siteUrl}${localePath(route.path)}` },
+      {
+        rel: 'preconnect',
+        href: 'https://api.gongeo.us',
+      },
+      {
+        rel: 'preconnect',
+        href: 'https://o4509482068869120.ingest.us.sentry.io',
+      },
     ],
     script: [
-      {
-        type: 'application/ld+json',
-        children: JSON.stringify({
-          '@context': 'https://schema.org',
-          '@type': 'WebApplication',
-          name: t('meta.title'),
-          description: t('meta.description.default'),
-          url: siteUrl,
-          applicationCategory: 'Game Tool',
-          operatingSystem: 'Any',
-          browserRequirements: 'Requires JavaScript. Requires HTML5.',
-          author: {
-            '@type': 'Person',
-            name: 'dastrokes',
-          },
-          inLanguage: 'en',
-          isFree: true,
-        }),
-      },
       {
         async: true,
         defer: true,

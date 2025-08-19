@@ -64,6 +64,7 @@
         >
 
         <NuxtImg
+          v-if="index === 0"
           :src="`/images/banners/${banner.bannerId}.webp`"
           :alt="t(`banner.${banner.bannerId}.name`)"
           class="w-full h-full object-cover"
@@ -72,8 +73,22 @@
           height="500"
           fit="cover"
           :quality="100"
-          :loading="index === 0 ? 'eager' : 'lazy'"
-          :preload="index === 0 ? true : false"
+          loading="eager"
+          :preload="{ fetchPriority: 'high' }"
+          fetchpriority="high"
+          sizes="400px sm:800px"
+        />
+        <NuxtImg
+          v-else
+          :src="`/images/banners/${banner.bannerId}.webp`"
+          :alt="t(`banner.${banner.bannerId}.name`)"
+          class="w-full h-full object-cover"
+          format="webp"
+          width="1000"
+          height="500"
+          fit="cover"
+          :quality="100"
+          loading="lazy"
           sizes="400px sm:800px"
         />
       </NuxtLink>

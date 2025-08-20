@@ -100,15 +100,15 @@
   "import": {
     "choose_method": "Wähle Importmethode",
     "choose_method_desc": "Wähle aus, wie du deinen Resonanz-Verlauf importieren willst.",
-    "import_from_game": "Von Spiel importieren",
-    "import_from_file": "Von Datei importieren",
-    "import_from_pearpal": "Von Whim-Log importieren",
-    "file_import": "Von Datei importieren",
+    "import_from_game": "Aus Spiel importieren",
+    "import_from_file": "Aus Datei importieren",
+    "import_from_pearpal": "Aus Whim-Log importieren",
+    "file_import": "Aus Datei importieren",
     "file_import_desc": "Importiere aus einer zuvor exportierten nikki-resonance-data Datei.",
     "select_file": "Datei auswählen",
     "pearpal_import": "Pearpal Import",
-    "pearpal_import_desc": "Vom offiziellen Infinity Nikki Tracker importieren.",
-    "game_import": "Von Spiel importieren",
+    "pearpal_import_desc": "Aus offiziellem Infinity Nikki Tracker importieren.",
+    "game_import": "Aus Spiel importieren",
     "game_import_desc": "Importiere über den Browser direkt aus dem Spiel.",
     "select_region": "Region auswählen",
     "select_region_desc": "Wähle deine Serverregion aus.",
@@ -116,7 +116,7 @@
     "whimlog": "Whim-Log",
     "login_pearpal": "Auf der Pearpal-Webseite anmelden",
     "login_pearpal_desc": "Öffne die Pearpal-Webseite in einem neuen Tab und melde dich mit deinem Infold-Konto an, falls du das noch nicht hast.",
-    "login_whimlog": "Daten im Whim-Log synchronisieren",
+    "login_whimlog": "Daten in Whim-Log synchronisieren",
     "login_whimlog_desc": "Öffne Whim-Log in einem neuen Tab, melde dich an und synchronisiere deine Daten.",
     "get_cookie": "Cookie von der Pearpal-Webseite erhalten",
     "get_cookie_desc": "Wähle aus, wie du deine Cookie-Daten willst:",
@@ -284,7 +284,8 @@
         "hide": "Verstecken",
         "data_source": "Datenquelle",
         "pearpal": "Whim-Log",
-        "game": "Spiel"
+        "game": "Spiel",
+        "data_source_tooltip": "Wähle deine bevorzugte Datenquelle aus. Wenn keine Daten aus der ausgewählten Quelle verfügbar sind, wird stattdessen die andere Quelle verwendet. Es wird jeweils nur eine Quelle angezeigt und für Statistikberechnungen verwendet."
       }
     },
     "export": {

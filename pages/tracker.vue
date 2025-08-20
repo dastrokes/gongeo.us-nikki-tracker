@@ -310,9 +310,28 @@
                   </n-button>
                 </template>
                 <div class="min-w-[150px] p-0">
-                  <div class="text-sm text-gray-400 mb-2 text-center">
+                  <div
+                    class="text-sm text-gray-400 mb-2 text-center flex items-center justify-center"
+                  >
                     {{ t('tracker.banner.settings.data_source') }}
+                    <n-tooltip :width="200">
+                      <template #trigger>
+                        <n-button
+                          size="tiny"
+                          text
+                          class="z-10 ml-2"
+                        >
+                          <template #icon>
+                            <n-icon :depth="3">
+                              <ExclamationCircle />
+                            </n-icon>
+                          </template>
+                        </n-button>
+                      </template>
+                      {{ t('tracker.banner.settings.data_source_tooltip') }}
+                    </n-tooltip>
                   </div>
+
                   <n-select
                     v-model:value="dataSource"
                     size="small"
@@ -857,6 +876,7 @@
     Download,
     Edit,
     Database,
+    ExclamationCircle,
   } from '@vicons/fa'
   import { useMessage } from 'naive-ui'
   import { useIndexedDB } from '~/composables/useIndexedDB'

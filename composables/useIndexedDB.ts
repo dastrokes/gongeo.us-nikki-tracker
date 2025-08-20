@@ -155,6 +155,14 @@ export function useIndexedDB() {
     return mergedEdits
   }
 
+  // Merge Pearpal data by key (bannerId), incoming data takes priority
+  const mergePearpalData = (
+    existingData: Record<number, PearpalTrackerItem[]>,
+    newData: Record<number, PearpalTrackerItem[]>
+  ): Record<number, PearpalTrackerItem[]> => {
+    return { ...existingData, ...newData }
+  }
+
   const saveData = async (
     pullsByBanner: Record<number, PullRecord[]>,
     editsByBanner: Record<number, EditRecord[]>,
@@ -279,8 +287,14 @@ export function useIndexedDB() {
         const jsonString = JSON.stringify(data)
         const cleanData = JSON.parse(jsonString)
 
-        // Save raw Pearpal data per banner (similar to how pull data is organized)
-        await db.put(PEARPAL_STORE, cleanData, PEARPAL_STORE)
+        // Merge with existing data if present
+        const existingData = await db.get(PEARPAL_STORE, PEARPAL_STORE)
+        let mergedData = cleanData
+        if (existingData) {
+          mergedData = mergePearpalData(existingData, cleanData)
+        }
+        // Save merged Pearpal data per banner
+        await db.put(PEARPAL_STORE, mergedData, PEARPAL_STORE)
       } catch (jsonError) {
         console.error('JSON serialization failed:', jsonError)
         throw jsonError
@@ -302,5 +316,6 @@ export function useIndexedDB() {
     mergePullData,
     mergeEditData,
     savePearpalData,
+    mergePearpalData,
   }
 }

@@ -950,6 +950,7 @@
       const hasPearpal = Object.keys(pearpalData).length > 0
       const hasGame =
         Object.keys(pullData).length > 0 || Object.keys(editData).length > 0
+
       if (dataSource.value === 'pearpal') {
         if (hasPearpal) {
           await pullStore.processPearpalData(pearpalData)
@@ -977,10 +978,6 @@
   }
 
   onMounted(async () => {
-    if (Object.keys(processedPulls.value).length > 0) {
-      loading.value = false
-      return
-    }
     await loadAndProcessData()
   })
 

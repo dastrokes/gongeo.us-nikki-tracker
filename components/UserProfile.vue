@@ -47,6 +47,7 @@
   const { clearData } = useIndexedDB()
   const { user, signOut } = useAuth()
   const { uploadData, syncData, clearCloudData } = useDataSync()
+  const { resetToDefaults } = useTrackerSettings()
 
   function renderIcon(icon: Component) {
     return () => h(NIcon, null, { default: () => h(icon) })
@@ -257,7 +258,6 @@
           await clearData()
           userStore.reset()
           pullStore.reset()
-          const { resetToDefaults } = useTrackerSettings()
           resetToDefaults()
           message.success(t('common.user_profile.clear_success'))
         },

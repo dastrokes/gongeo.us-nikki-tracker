@@ -69,13 +69,16 @@ export const usePearpalData = () => {
       let total4StarOnlyItems = 0
       let total4StarOnlyPulls = 0
 
+      // Track item counts for duplicates
+      const itemCount: Record<string, number> = {}
+
       items.forEach((item, index) => {
         const outfitId = getOutfitIdFromItemId(item.result)
         const rarity = parseInt(item.rarity)
         const pullsToObtain =
           rarity === 5
-            ? item.times_from_last_five_stars
-            : item.times_from_last_four_stars
+            ? item.times_from_last_five_stars + 1
+            : item.times_from_last_four_stars + 1
 
         // Create timestamp based on pool_cnt
         const timestamp = new Date(
@@ -83,34 +86,39 @@ export const usePearpalData = () => {
         ).toISOString()
         lastPullTime = timestamp
 
+        // Calculate count for this item
+        itemCount[item.result] = (itemCount[item.result] || 0) + 1
+
         const pullInfo: PullItem = {
-          pullIndex: item.pool_cnt,
+          pullIndex: item.pool_cnt + 1,
           itemId: item.result,
           outfitId,
           rarity,
           pullsToObtain,
           obtainedAt: timestamp,
           bannerId: bannerId,
-          count: 1,
+          count: itemCount[item.result]!,
         }
 
         processedPulls.push(pullInfo)
 
         if (rarity === 4) {
-          total4StarItems++
-          total4StarPulls += pullsToObtain
+          if (bannerInfo.bannerType !== 1) {
+            total4StarItems++
+            total4StarPulls += pullsToObtain
+          }
           if (bannerInfo.bannerType === 3) {
             total4StarOnlyItems++
             total4StarOnlyPulls += pullsToObtain
           }
-        } else if (rarity === 5) {
+        } else if (rarity === 5 && bannerInfo.bannerType !== 1) {
           total5StarItems++
           total5StarPulls += pullsToObtain
         }
       })
 
       // Calculate highest pool_cnt as total pulls
-      const totalPulls = Math.max(...items.map((item) => item.pool_cnt))
+      const totalPulls = Math.max(...items.map((item) => item.pool_cnt + 1))
 
       // Pity cannot be tracked
       const pity5Star = 0

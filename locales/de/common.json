@@ -285,7 +285,7 @@
         "data_source": "Datenquelle",
         "pearpal": "Whim-Log",
         "game": "Spiel",
-        "data_source_tooltip": "Select your preferred data source. If no data is available from the selected source, the other source will be used instead. Only one data source is displayed and used for statistics calculations at a time."
+        "data_source_tooltip": "Wähle deine bevorzugte Datenquelle aus. Wenn keine Daten aus der ausgewählten Quelle verfügbar sind, wird stattdessen die andere Quelle verwendet. Es wird jeweils nur eine Quelle angezeigt und für Statistikberechnungen verwendet."
       }
     },
     "export": {

@@ -998,6 +998,17 @@
     })
   })
 
+  // Select current banners by default
+  onMounted(() => {
+    if (selectedBanners.value.length === 0) {
+      selectedBanners.value = [...newBannerIds.value]
+    }
+    if (selectedManualBanner.value === null) {
+      selectedManualBanner.value =
+        newBannerIds.value[0] ?? allBannerIds.value[0] ?? null
+    }
+  })
+
   // Banner options for game import (with groups)
   const bannerOptions = computed(() => {
     const standardOptions = allBannerIds.value.map((bannerId) => ({

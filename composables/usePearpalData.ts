@@ -72,7 +72,7 @@ export const usePearpalData = () => {
       // Track item counts for duplicates
       const itemCount: Record<string, number> = {}
 
-      items.forEach((item, index) => {
+      items.forEach((item) => {
         const outfitId = getOutfitIdFromItemId(item.result)
         const rarity = parseInt(item.rarity)
         const pullsToObtain =
@@ -81,9 +81,10 @@ export const usePearpalData = () => {
             : item.times_from_last_four_stars + 1
 
         // Create timestamp based on pool_cnt
-        const timestamp = new Date(
-          Date.now() - 1000 * 60 * (items.length - index)
-        ).toISOString()
+        const timestamp = new Date()
+          .toISOString()
+          .slice(0, 19)
+          .replace('T', ' ')
         lastPullTime = timestamp
 
         // Calculate count for this item

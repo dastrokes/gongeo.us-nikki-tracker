@@ -41,6 +41,11 @@
               width="18px"
               height="18px"
             />
+            <n-skeleton
+              circle
+              width="18px"
+              height="18px"
+            />
           </div>
         </div>
       </n-card>
@@ -80,6 +85,11 @@
                 </div>
               </div>
               <div class="flex space-x-2 shrink-0">
+                <n-skeleton
+                  circle
+                  width="18px"
+                  height="18px"
+                />
                 <n-skeleton
                   circle
                   width="18px"
@@ -286,6 +296,40 @@
               v-show="!exporting"
               class="flex justify-end space-x-2 items-center m-1 sm:-m-1"
             >
+              <n-popover trigger="click">
+                <template #trigger>
+                  <n-button
+                    size="small"
+                    text
+                    circle
+                    class="text-gray-500"
+                  >
+                    <template #icon>
+                      <n-icon><Database /></n-icon>
+                    </template>
+                  </n-button>
+                </template>
+                <div class="min-w-[150px] p-0">
+                  <div class="text-sm text-gray-400 mb-2 text-center">
+                    {{ t('tracker.banner.settings.data_source') }}
+                  </div>
+                  <n-select
+                    v-model:value="dataSource"
+                    size="small"
+                    :options="[
+                      {
+                        label: t('tracker.banner.settings.game'),
+                        value: 'game',
+                      },
+                      {
+                        label: t('tracker.banner.settings.pearpal'),
+                        value: 'pearpal',
+                      },
+                    ]"
+                  />
+                </div>
+              </n-popover>
+
               <!-- Export Button -->
               <n-popover
                 trigger="manual"
@@ -353,19 +397,6 @@
                 </template>
                 <div class="min-w-[200px]">
                   <div class="space-y-4">
-                    <div class="flex items-center justify-between">
-                      <n-switch v-model:value="isPearpalSource">
-                        <template #checked>{{
-                          t('tracker.banner.settings.pearpal')
-                        }}</template>
-                        <template #unchecked>{{
-                          t('tracker.banner.settings.game')
-                        }}</template>
-                      </n-switch>
-                      <span class="text-sm text-gray-400 ml-3">
-                        {{ t('tracker.banner.settings.data_source') }}
-                      </span>
-                    </div>
                     <div class="flex items-center justify-between">
                       <n-switch v-model:value="settings.sortBanner">
                         <template #checked>{{
@@ -825,6 +856,7 @@
     Users,
     Download,
     Edit,
+    Database,
   } from '@vicons/fa'
   import { useMessage } from 'naive-ui'
   import { useIndexedDB } from '~/composables/useIndexedDB'
@@ -850,12 +882,6 @@
   const showCollectionEditor = ref(false)
   const selectedBannerId = ref<number | null>(null)
   const dataSource = useDataSource()
-  const isPearpalSource = computed({
-    get: () => dataSource.value === 'pearpal',
-    set: (val: boolean) => {
-      dataSource.value = val ? 'pearpal' : 'game'
-    },
-  })
 
   // Check if there's any data to display
   const hasAnyData = computed(() => {

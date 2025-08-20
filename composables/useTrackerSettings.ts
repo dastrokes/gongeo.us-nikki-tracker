@@ -39,3 +39,10 @@ export const useTrackerSettings = () => {
     resetToDefaults,
   }
 }
+
+export type DataSource = 'game' | 'pearpal'
+
+export const useDataSource = () => {
+  const dataSource = useLocalStorage<DataSource>('gongeous-data-source', 'game')
+  return dataSource
+}

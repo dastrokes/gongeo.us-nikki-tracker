@@ -355,7 +355,7 @@
     >
       <template #default>
         <CollectionEditor
-          :banner-id="banner.bannerId"
+          :banner-id="banner!.bannerId"
           @close="showCollectionEditor = false"
         />
       </template>
@@ -413,15 +413,24 @@
         pearpal: pearpalData,
       } = await loadData()
 
-      // Process pearpal tracker data first if available
-      if (Object.keys(pearpalData).length > 0) {
-        await pullStore.processPearpalData(pearpalData)
-      } else if (
-        // Process pull and edit data if no pearpal data
-        Object.keys(pullData).length > 0 ||
-        Object.keys(editData).length > 0
-      ) {
-        await pullStore.processPullData(pullData, editData)
+      // Decide which data source to prioritize
+      const dataSource = useDataSource()
+      const hasPearpal = Object.keys(pearpalData).length > 0
+      const hasGame =
+        Object.keys(pullData).length > 0 || Object.keys(editData).length > 0
+
+      if (dataSource.value === 'pearpal') {
+        if (hasPearpal) {
+          await pullStore.processPearpalData(pearpalData)
+        } else if (hasGame) {
+          await pullStore.processPullData(pullData, editData)
+        }
+      } else {
+        if (hasGame) {
+          await pullStore.processPullData(pullData, editData)
+        } else if (hasPearpal) {
+          await pullStore.processPearpalData(pearpalData)
+        }
       }
 
       // Process evolution data

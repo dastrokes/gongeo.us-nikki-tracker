@@ -354,6 +354,19 @@
                 <div class="min-w-[200px]">
                   <div class="space-y-4">
                     <div class="flex items-center justify-between">
+                      <n-switch v-model:value="isPearpalSource">
+                        <template #checked>{{
+                          t('tracker.banner.settings.pearpal')
+                        }}</template>
+                        <template #unchecked>{{
+                          t('tracker.banner.settings.game')
+                        }}</template>
+                      </n-switch>
+                      <span class="text-sm text-gray-400 ml-3">
+                        {{ t('tracker.banner.settings.data_source') }}
+                      </span>
+                    </div>
+                    <div class="flex items-center justify-between">
                       <n-switch v-model:value="settings.sortBanner">
                         <template #checked>{{
                           t('tracker.banner.settings.oldest_first')
@@ -800,7 +813,7 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, onMounted, computed } from 'vue'
+  import { ref, onMounted, computed, watch } from 'vue'
   import { storeToRefs } from 'pinia'
   import {
     Cog,
@@ -836,6 +849,13 @@
   const exporting = ref(false)
   const showCollectionEditor = ref(false)
   const selectedBannerId = ref<number | null>(null)
+  const dataSource = useDataSource()
+  const isPearpalSource = computed({
+    get: () => dataSource.value === 'pearpal',
+    set: (val: boolean) => {
+      dataSource.value = val ? 'pearpal' : 'game'
+    },
+  })
 
   // Check if there's any data to display
   const hasAnyData = computed(() => {
@@ -869,11 +889,8 @@
     link: [{ rel: 'canonical', href: `${siteUrl}${localePath('/tracker')}` }],
   })
 
-  onMounted(async () => {
-    if (Object.keys(processedPulls.value).length > 0) {
-      loading.value = false
-      return
-    }
+  // Function to load and process data based on current data source
+  const loadAndProcessData = async () => {
     try {
       loading.value = true
       const {
@@ -883,15 +900,22 @@
         pearpal: pearpalData,
       } = await loadData()
 
-      // Process pearpal tracker data
-      if (Object.keys(pearpalData).length > 0) {
-        await pullStore.processPearpalData(pearpalData)
-      } else if (
-        // Process pull and edit data
-        Object.keys(pullData).length > 0 ||
-        Object.keys(editData).length > 0
-      ) {
-        await pullStore.processPullData(pullData, editData)
+      // Decide which data source to prioritize
+      const hasPearpal = Object.keys(pearpalData).length > 0
+      const hasGame =
+        Object.keys(pullData).length > 0 || Object.keys(editData).length > 0
+      if (dataSource.value === 'pearpal') {
+        if (hasPearpal) {
+          await pullStore.processPearpalData(pearpalData)
+        } else if (hasGame) {
+          await pullStore.processPullData(pullData, editData)
+        }
+      } else {
+        if (hasGame) {
+          await pullStore.processPullData(pullData, editData)
+        } else if (hasPearpal) {
+          await pullStore.processPearpalData(pearpalData)
+        }
       }
 
       // Process evolution data
@@ -904,6 +928,19 @@
     } finally {
       loading.value = false
     }
+  }
+
+  onMounted(async () => {
+    if (Object.keys(processedPulls.value).length > 0) {
+      loading.value = false
+      return
+    }
+    await loadAndProcessData()
+  })
+
+  // Watch for data source changes and reload data
+  watch(dataSource, async () => {
+    await loadAndProcessData()
   })
 
   // Helper functions and constants

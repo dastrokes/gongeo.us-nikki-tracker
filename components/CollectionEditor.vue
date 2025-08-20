@@ -502,13 +502,24 @@
       // Save to IndexedDB - ensure all data is serializable
       await saveData(existingPullData, updatedEditData, updatedEvoData)
 
-      if (Object.keys(existingPearpalData).length > 0) {
-        await pullStore.processPearpalData(existingPearpalData)
-      } else if (
+      const dataSource = useDataSource()
+      const hasPearpal = Object.keys(existingPearpalData).length > 0
+      const hasGame =
         Object.keys(existingPullData).length > 0 ||
         Object.keys(updatedEditData).length > 0
-      ) {
-        await pullStore.processPullData(existingPullData, updatedEditData)
+
+      if (dataSource.value === 'pearpal') {
+        if (hasPearpal) {
+          await pullStore.processPearpalData(existingPearpalData)
+        } else if (hasGame) {
+          await pullStore.processPullData(existingPullData, updatedEditData)
+        }
+      } else {
+        if (hasGame) {
+          await pullStore.processPullData(existingPullData, updatedEditData)
+        } else if (hasPearpal) {
+          await pullStore.processPearpalData(existingPearpalData)
+        }
       }
 
       // Process evolution data

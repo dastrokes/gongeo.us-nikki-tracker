@@ -30,9 +30,11 @@
                 name="importMethod"
               >
                 <n-space class="flex-wrap">
-                  <!-- <n-radio value="pearpal">{{$t('import.import_from_pearpal')}}</n-radio> -->
                   <n-radio value="game">{{
                     $t('import.import_from_game')
+                  }}</n-radio>
+                  <n-radio value="pearpal">{{
+                    $t('import.import_from_pearpal')
                   }}</n-radio>
                   <n-radio value="json">{{
                     $t('import.import_from_file')
@@ -149,6 +151,38 @@
                   href="https://pearpal.infoldgames.com/en/home"
                   target="_blank"
                   >{{ $t('import.pearpal_website') }}</a
+                >
+              </div>
+            </div>
+          </n-step>
+
+          <!-- Login to Whim-Log Step -->
+          <n-step
+            v-show="importMethod === 'pearpal'"
+            :title="$t('import.login_whimlog')"
+          >
+            <template #icon>
+              <n-icon>
+                <Check />
+              </n-icon>
+            </template>
+            <div>
+              <div v-if="userStore.getRegion === Region.CHINA">
+                {{ $t('import.login_whimlog') }}
+                <a
+                  class="text-blue-500 hover:text-blue-800 underline"
+                  href="https://myl.nuanpaper.com/tools/journal"
+                  target="_blank"
+                  >{{ $t('import.whimlog') }}</a
+                >
+              </div>
+              <div v-else>
+                {{ $t('import.login_whimlog_desc') }}
+                <a
+                  class="text-blue-500 hover:text-blue-800 underline"
+                  href="https://pearpal.infoldgames.com/tools/journal"
+                  target="_blank"
+                  >{{ $t('import.whimlog') }}</a
                 >
               </div>
             </div>

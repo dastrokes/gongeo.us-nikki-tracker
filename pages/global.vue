@@ -565,20 +565,9 @@
 
   // Chart text style utility
   const getChartTextStyle = () => {
-    if (!import.meta.client) {
-      return {
-        fontFamily:
-          'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif',
-        color: isDark.value ? '#e4e5e7' : '#5c5c5e',
-      }
-    }
-
     return {
       fontFamily:
-        getComputedStyle(document.documentElement).getPropertyValue(
-          '--font-family-default'
-        ) ||
-        'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif',
+        "'Noto Sans', ui-sans-serif, system-ui, sans-serif, 'Noto Color Emoji', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'",
       color: isDark.value ? '#e4e5e7' : '#5c5c5e',
     }
   }
@@ -804,14 +793,17 @@
           : 'box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12); border-radius: 8px;',
       },
       legend: {
-        textStyle: textStyle,
+        textStyle: {
+          fontFamily: '"Segoe UI Symbol", "Courier New", system-ui',
+          color: isDark.value ? '#e4e5e7' : '#5c5c5e',
+        },
         inactiveColor: isDark.value ? '#5c5c5e' : '#e4e5e7',
-        icon: 'circle',
+        icon: 'roundRect',
         data: ['★★★★★', '★★★★', '★★★'],
         top: isMobile.value ? 60 : 40,
       },
       grid: {
-        top: isMobile.value ? 120 : 60,
+        top: isMobile.value ? 120 : 80,
         bottom: 0,
         left: isMobile.value ? '0%' : '5%',
         right: 0,

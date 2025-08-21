@@ -134,8 +134,10 @@ export const usePullStore = defineStore('pull', {
           (banner: ProcessedBanner) => {
             if (banner.stats) {
               globalStats.totalPulls += banner.stats.totalPulls
-              globalStats.total4StarItems += banner.stats.total4StarItems
-              globalStats.total5StarItems += banner.stats.total5StarItems
+              if (banner.bannerType !== 1) {
+                globalStats.total4StarItems += banner.stats.total4StarItems
+                globalStats.total5StarItems += banner.stats.total5StarItems
+              }
               globalStats.total4StarOnlyItems +=
                 banner.stats.total4StarOnlyItems
 

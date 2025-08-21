@@ -8,6 +8,7 @@ import type {
   PullItem,
   EditRecord,
   EvoRecord,
+  PearpalTrackerItem,
 } from '~/types/pull'
 import type { BannerData } from '~/types/banner'
 import { BANNER_DATA } from '~/data/banners'
@@ -32,40 +33,55 @@ export const useBannerPullData = () => {
           pulls?: Record<number, PullRecord[]>
           edits?: Record<number, EditRecord[]>
           evo?: Record<number, EvoRecord[]>
+          pearpal?: Record<number, PearpalTrackerItem[]>
         }
   ) => {
-    const { loadData, saveData, mergePullData, mergeEditData } = useIndexedDB()
+    const {
+      loadData,
+      saveData,
+      mergePullData,
+      mergeEditData,
+      savePearpalData,
+    } = useIndexedDB()
     const {
       pulls: existingPullData,
       edits: existingEditData,
       evo: existingEvoData,
+      pearpal: existingPearpalData,
     } = await loadData()
 
-    // Handle the new export format that can include both pulls and edits
+    // Handle the new export format that can include pulls, edits, evo, and pearpal
     let pullsData: Record<number, PullRecord[]> = {}
     let editsData: Record<number, EditRecord[]> = {}
     let evoData: Record<number, EvoRecord[]> = {}
+    let pearpalData: Record<number, PearpalTrackerItem[]> = {}
 
-    if ('pulls' in jsonData || 'edits' in jsonData) {
-      // New format: { pulls: {...}, edits: {...}, evo: {...} }
-      pullsData = jsonData.pulls || {}
-      editsData = jsonData.edits || {}
-      evoData = jsonData.evo || {}
+    if ('pulls' in jsonData || 'edits' in jsonData || 'pearpal' in jsonData) {
+      // New format: { pulls: {...}, edits: {...}, evo: {...}, pearpal: {...} }
+      pullsData =
+        (jsonData as { pulls?: Record<number, PullRecord[]> }).pulls || {}
+      editsData =
+        (jsonData as { edits?: Record<number, EditRecord[]> }).edits || {}
+      evoData = (jsonData as { evo?: Record<number, EvoRecord[]> }).evo || {}
+      pearpalData =
+        (jsonData as { pearpal?: Record<number, PearpalTrackerItem[]> })
+          .pearpal || {}
     } else {
       // Legacy format: Record<number, PullRecord[]>
       pullsData = jsonData as Record<number, PullRecord[]>
       editsData = {}
       evoData = {}
+      pearpalData = {}
     }
 
     const mergedPullsData = mergePullData(existingPullData, pullsData)
     const mergedEditsData = mergeEditData(existingEditData, editsData)
-    // For evolution data, just use the latest data (no merge needed)
     const mergedEvoData = { ...existingEvoData, ...evoData }
+    const mergedPearpalData = { ...existingPearpalData, ...pearpalData }
 
+    // Save all data, including pearpal if present
     saveData(mergedPullsData, mergedEditsData, mergedEvoData)
-
-    await pullStore.processPullData(mergedPullsData, mergedEditsData)
+    savePearpalData(mergedPearpalData)
   }
 
   const fetchBannerPullData = async (selectedBannerIds?: number[]) => {

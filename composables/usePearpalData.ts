@@ -104,15 +104,14 @@ export const usePearpalData = () => {
         processedPulls.push(pullInfo)
 
         if (rarity === 4) {
-          if (bannerInfo.bannerType !== 1) {
-            total4StarItems++
-            total4StarPulls += pullsToObtain
-          }
           if (bannerInfo.bannerType === 3) {
             total4StarOnlyItems++
             total4StarOnlyPulls += pullsToObtain
+          } else {
+            total4StarItems++
+            total4StarPulls += pullsToObtain
           }
-        } else if (rarity === 5 && bannerInfo.bannerType !== 1) {
+        } else if (rarity === 5) {
           total5StarItems++
           total5StarPulls += pullsToObtain
         }
@@ -200,7 +199,7 @@ export const usePearpalData = () => {
           ).length
           const completion =
             outfitData.items.length > 0
-              ? (obtainedItems / outfitData.items.length) * 100
+              ? obtainedItems / outfitData.items.length
               : 0
 
           processedBanners[bannerId]!.outfits.push({

@@ -32,6 +32,10 @@ scripts/dev
 .cursor
 .cursorignore
 
+# Windsurf
+.windsurf
+.codeiumignore
+
 # Claude
 .claude
 

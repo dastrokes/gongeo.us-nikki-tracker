@@ -329,6 +329,8 @@
                         </n-button>
                       </template>
                       {{ t('tracker.banner.settings.data_source_tooltip') }}
+                      <br />
+                      {{ t('tracker.banner.settings.auto_option') }}
                     </n-tooltip>
                   </div>
 
@@ -343,6 +345,10 @@
                       {
                         label: t('tracker.banner.settings.pearpal'),
                         value: 'pearpal',
+                      },
+                      {
+                        label: t('tracker.banner.settings.auto'),
+                        value: 'auto',
                       },
                     ]"
                   />
@@ -957,12 +963,14 @@
         } else if (hasGame) {
           await pullStore.processPullData(pullData, editData)
         }
-      } else {
+      } else if (dataSource.value === 'game') {
         if (hasGame) {
           await pullStore.processPullData(pullData, editData)
         } else if (hasPearpal) {
           await pullStore.processPearpalData(pearpalData)
         }
+      } else {
+        await pullStore.processAutoData(pullData, editData, pearpalData)
       }
 
       // Process evolution data

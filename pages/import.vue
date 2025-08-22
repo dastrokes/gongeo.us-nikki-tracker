@@ -1127,7 +1127,7 @@
           router.push(localePath('/tracker'))
 
           if (pullsByBanner) {
-            const { processedPulls } = processBannerPullData(pullsByBanner)
+            const processedPulls = processBannerPullData(pullsByBanner)
 
             // Send analytics only if enabled and there are actual pulls
             if (

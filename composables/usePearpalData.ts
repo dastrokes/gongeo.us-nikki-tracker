@@ -7,7 +7,11 @@ import type {
 } from '~/types/pull'
 import type { UserBannerStats } from '~/types/stats'
 import { BANNER_DATA } from '~/data/banners'
-import { getOutfitData, getBannerOutfitIds } from '~/utils/utils'
+import {
+  getOutfitData,
+  getBannerOutfitIds,
+  getOutfitIdFromItemId,
+} from '~/utils/stats'
 
 export const usePearpalData = () => {
   // Helper function to decode snappyjs base64 data
@@ -29,13 +33,6 @@ export const usePearpalData = () => {
       console.error('Snappy decompression failed:', error)
       throw new Error('Failed to decode snappy data')
     }
-  }
-
-  // Utility function to derive outfitId from itemId
-  const getOutfitIdFromItemId = (itemId: string): string => {
-    // Extract last 4 digits and prepend 'S'
-    const last4Digits = itemId.slice(-4)
-    return `S${last4Digits}`
   }
 
   // Process pearpal tracker data directly

@@ -425,12 +425,14 @@
         } else if (hasGame) {
           await pullStore.processPullData(pullData, editData)
         }
-      } else {
+      } else if (dataSource.value === 'game') {
         if (hasGame) {
           await pullStore.processPullData(pullData, editData)
         } else if (hasPearpal) {
           await pullStore.processPearpalData(pearpalData)
         }
+      } else {
+        await pullStore.processAutoData(pullData, editData, pearpalData)
       }
 
       // Process evolution data

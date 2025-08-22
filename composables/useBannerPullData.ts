@@ -4,21 +4,18 @@ import { usePullStore } from '~/stores/pull'
 import type {
   PullRecord,
   ProcessedBanner,
-  GlobalStats,
   PullItem,
   EditRecord,
   EvoRecord,
+  PearpalTrackerItem,
 } from '~/types/pull'
 import type { BannerData } from '~/types/banner'
 import { BANNER_DATA } from '~/data/banners'
-import { getOutfitData, getBannerOutfitIds } from '~/utils/utils'
-
-// Utility function to derive outfitId from itemId
-const getOutfitIdFromItemId = (itemId: string): string => {
-  // Extract last 4 digits and prepend 'S'
-  const last4Digits = itemId.slice(-4)
-  return `S${last4Digits}`
-}
+import {
+  getOutfitData,
+  getBannerOutfitIds,
+  getOutfitIdFromItemId,
+} from '~/utils/stats'
 
 export const useBannerPullData = () => {
   const isFetching = ref(false)
@@ -32,40 +29,55 @@ export const useBannerPullData = () => {
           pulls?: Record<number, PullRecord[]>
           edits?: Record<number, EditRecord[]>
           evo?: Record<number, EvoRecord[]>
+          pearpal?: Record<number, PearpalTrackerItem[]>
         }
   ) => {
-    const { loadData, saveData, mergePullData, mergeEditData } = useIndexedDB()
+    const {
+      loadData,
+      saveData,
+      mergePullData,
+      mergeEditData,
+      savePearpalData,
+    } = useIndexedDB()
     const {
       pulls: existingPullData,
       edits: existingEditData,
       evo: existingEvoData,
+      pearpal: existingPearpalData,
     } = await loadData()
 
-    // Handle the new export format that can include both pulls and edits
+    // Handle the new export format that can include pulls, edits, evo, and pearpal
     let pullsData: Record<number, PullRecord[]> = {}
     let editsData: Record<number, EditRecord[]> = {}
     let evoData: Record<number, EvoRecord[]> = {}
+    let pearpalData: Record<number, PearpalTrackerItem[]> = {}
 
-    if ('pulls' in jsonData || 'edits' in jsonData) {
-      // New format: { pulls: {...}, edits: {...}, evo: {...} }
-      pullsData = jsonData.pulls || {}
-      editsData = jsonData.edits || {}
-      evoData = jsonData.evo || {}
+    if ('pulls' in jsonData || 'edits' in jsonData || 'pearpal' in jsonData) {
+      // New format: { pulls: {...}, edits: {...}, evo: {...}, pearpal: {...} }
+      pullsData =
+        (jsonData as { pulls?: Record<number, PullRecord[]> }).pulls || {}
+      editsData =
+        (jsonData as { edits?: Record<number, EditRecord[]> }).edits || {}
+      evoData = (jsonData as { evo?: Record<number, EvoRecord[]> }).evo || {}
+      pearpalData =
+        (jsonData as { pearpal?: Record<number, PearpalTrackerItem[]> })
+          .pearpal || {}
     } else {
       // Legacy format: Record<number, PullRecord[]>
       pullsData = jsonData as Record<number, PullRecord[]>
       editsData = {}
       evoData = {}
+      pearpalData = {}
     }
 
     const mergedPullsData = mergePullData(existingPullData, pullsData)
     const mergedEditsData = mergeEditData(existingEditData, editsData)
-    // For evolution data, just use the latest data (no merge needed)
     const mergedEvoData = { ...existingEvoData, ...evoData }
+    const mergedPearpalData = { ...existingPearpalData, ...pearpalData }
 
+    // Save all data, including pearpal if present
     saveData(mergedPullsData, mergedEditsData, mergedEvoData)
-
-    await pullStore.processPullData(mergedPullsData, mergedEditsData)
+    savePearpalData(mergedPearpalData)
   }
 
   const fetchBannerPullData = async (selectedBannerIds?: number[]) => {
@@ -121,27 +133,8 @@ export const useBannerPullData = () => {
     const calculateStats = !!editsByBanner
     const processedPulls: Record<string, ProcessedBanner> = {}
     const currentPity: Record<string, Record<number, number>> = {}
-    const globalStats: GlobalStats = {
-      totalPulls: 0,
-      total4StarItems: 0,
-      total5StarItems: 0,
-      total4StarOnlyItems: 0,
-      avg5StarPulls: 0,
-      avg4StarPulls: 0,
-      avg4StarOnlyPulls: 0,
-    }
 
-    let total4Star = 0
-    let total5Star = 0
-    let total4StarOnly = 0
-    let fiveStarPullsToObtain = 0
-    let fourStarPullsToObtain = 0
-    let fourStarOnlyPullsToObtain = 0
-    let fiveStarCount = 0
-    let fourStarCount = 0
-    let fourStarOnlyCount = 0
-
-    // Single loop to process all banner-related operations
+    // Process all banner-related operations
     Object.values(BANNER_DATA as BannerData).forEach((bannerInfo) => {
       const bannerId = bannerInfo.bannerId
 
@@ -238,24 +231,7 @@ export const useBannerPullData = () => {
 
           currentBanner.pulls.unshift(pullInfo)
           currentBanner.stats.totalItems++
-
-          if (calculateStats && bannerInfo.bannerType !== 1) {
-            if (bannerInfo.bannerType === 2) {
-              if (rarity === 5) {
-                total5Star++
-                fiveStarPullsToObtain += pullsToObtain
-                fiveStarCount++
-              } else if (rarity === 4) {
-                total4Star++
-                fourStarPullsToObtain += pullsToObtain
-                fourStarCount++
-              }
-            } else if (bannerInfo.bannerType === 3) {
-              total4StarOnly++
-              fourStarOnlyPullsToObtain += pullsToObtain
-              fourStarOnlyCount++
-            }
-          }
+          // Per-banner aggregation only; no global aggregation here.
         }
 
         currentBanner.stats.lastPull = time || currentBanner.stats.lastPull
@@ -348,7 +324,7 @@ export const useBannerPullData = () => {
       stats.pity5Star = currentPity[bannerId]?.[5] ?? 0
     })
 
-    // Update stats only if calculateStats is true
+    // Update per-banner stats only if calculateStats is true
     if (calculateStats) {
       Object.values(BANNER_DATA as BannerData).forEach((bannerInfo) => {
         const bannerId = bannerInfo.bannerId
@@ -419,30 +395,9 @@ export const useBannerPullData = () => {
         const average = total / currentBanner.outfits.length || 0
         currentBanner.stats.completion = Math.floor(average)
       })
-
-      globalStats.totalPulls = Object.values(pullsByBanner).reduce(
-        (sum, pulls) => {
-          return sum + pulls.length
-        },
-        0
-      )
-      globalStats.total5StarItems = total5Star
-      globalStats.total4StarItems = total4Star
-      globalStats.total4StarOnlyItems = total4StarOnly
-      globalStats.avg5StarPulls =
-        fiveStarCount > 0 ? fiveStarPullsToObtain / fiveStarCount : 0
-      globalStats.avg4StarPulls =
-        fourStarCount > 0 ? fourStarPullsToObtain / fourStarCount : 0
-      globalStats.avg4StarOnlyPulls =
-        fourStarOnlyCount > 0
-          ? fourStarOnlyPullsToObtain / fourStarOnlyCount
-          : 0
     }
 
-    return {
-      processedPulls,
-      globalStats,
-    }
+    return processedPulls
   }
 
   return {

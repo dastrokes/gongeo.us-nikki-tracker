@@ -10,6 +10,7 @@ import { useBannerPullData } from '~/composables/useBannerPullData'
 import { usePearpalData } from '~/composables/usePearpalData'
 import { BANNER_DATA } from '~/data/banners'
 import type { BannerData } from '~/types/banner'
+import { computeGlobalStats } from '~/utils/stats'
 
 export const usePullStore = defineStore('pull', {
   state: (): PullState => ({
@@ -82,11 +83,15 @@ export const usePullStore = defineStore('pull', {
 
       try {
         const bannerPullData = useBannerPullData()
-        const { processedPulls, globalStats } =
-          bannerPullData.processBannerPullData(pullsByBanner, editsByBanner)
+        const processedPulls = bannerPullData.processBannerPullData(
+          pullsByBanner,
+          editsByBanner
+        )
 
         this.processedPulls = processedPulls
-        this.globalStats = globalStats
+
+        // Recompute global stats using shared helper
+        this.globalStats = computeGlobalStats(this.processedPulls)
 
         // Always add missing items for all banners during initial processing
         Object.keys(BANNER_DATA).forEach((bannerIdStr) => {
@@ -95,6 +100,66 @@ export const usePullStore = defineStore('pull', {
         })
       } catch (error) {
         console.error(`Failed to process pulls data:`, error)
+      } finally {
+        this.isProcessing = false
+      }
+    },
+
+    async processAutoData(
+      pullsByBanner: Record<number, PullRecord[]>,
+      editsByBanner: Record<number, EditRecord[]>,
+      pearpalData: Record<number, PearpalTrackerItem[]>
+    ) {
+      if (this.isProcessing) return
+      this.isProcessing = true
+
+      try {
+        // Produce processed data for both sources
+        const bannerPullData = useBannerPullData()
+        const gameProcessed = bannerPullData.processBannerPullData(
+          pullsByBanner,
+          editsByBanner
+        )
+
+        const { processPearpalData } = usePearpalData()
+        const pearpalProcessed = processPearpalData(pearpalData)
+
+        // Merge per banner choosing the source with larger total pulls
+        const merged: Record<string, ProcessedBanner> = {}
+        const bannerIds = new Set<string>([
+          ...Object.keys(gameProcessed),
+          ...Object.keys(pearpalProcessed),
+        ])
+
+        bannerIds.forEach((id) => {
+          const gameBanner = gameProcessed[id]
+          const pearpalBanner = pearpalProcessed[id]
+          if (gameBanner && pearpalBanner) {
+            // tie-breaker: prefer game when equal
+            merged[id] =
+              (pearpalBanner.stats?.totalPulls || 0) >
+              (gameBanner.stats?.totalPulls || 0)
+                ? pearpalBanner
+                : gameBanner
+          } else if (gameBanner) {
+            merged[id] = gameBanner
+          } else if (pearpalBanner) {
+            merged[id] = pearpalBanner
+          }
+        })
+
+        this.processedPulls = merged
+
+        // Recompute global stats using shared utility
+        this.globalStats = computeGlobalStats(this.processedPulls)
+
+        // Ensure missing items are present for all banners
+        Object.keys(BANNER_DATA).forEach((bannerIdStr) => {
+          const bannerId = parseInt(bannerIdStr)
+          this.addMissingItems(bannerId)
+        })
+      } catch (error) {
+        console.error('Error processing auto data:', error)
       } finally {
         this.isProcessing = false
       }
@@ -113,57 +178,7 @@ export const usePullStore = defineStore('pull', {
         this.processedPulls = processedData
 
         // Recalculate global stats including pearpal tracker data
-        const globalStats = {
-          totalPulls: 0,
-          total4StarItems: 0,
-          total5StarItems: 0,
-          total4StarOnlyItems: 0,
-          avg5StarPulls: 0,
-          avg4StarPulls: 0,
-          avg4StarOnlyPulls: 0,
-        }
-
-        let total4StarPulls = 0
-        let total5StarPulls = 0
-        let total4StarOnlyPulls = 0
-        let fourStarCount = 0
-        let fiveStarCount = 0
-        let fourStarOnlyCount = 0
-
-        Object.values(this.processedPulls).forEach(
-          (banner: ProcessedBanner) => {
-            if (banner.stats) {
-              globalStats.totalPulls += banner.stats.totalPulls
-              if (banner.bannerType !== 1) {
-                globalStats.total4StarItems += banner.stats.total4StarItems
-                globalStats.total5StarItems += banner.stats.total5StarItems
-              }
-              globalStats.total4StarOnlyItems +=
-                banner.stats.total4StarOnlyItems
-
-              if (banner.bannerType === 2) {
-                // Limited 5★ banners
-                total4StarPulls += banner.stats.total4StarPulls
-                total5StarPulls += banner.stats.total5StarPulls
-                fourStarCount += banner.stats.total4StarItems
-                fiveStarCount += banner.stats.total5StarItems
-              } else if (banner.bannerType === 3) {
-                // 4★ only banners
-                total4StarOnlyPulls += banner.stats.total4StarOnlyPulls
-                fourStarOnlyCount += banner.stats.total4StarOnlyItems
-              }
-            }
-          }
-        )
-
-        globalStats.avg4StarPulls =
-          fourStarCount > 0 ? total4StarPulls / fourStarCount : 0
-        globalStats.avg5StarPulls =
-          fiveStarCount > 0 ? total5StarPulls / fiveStarCount : 0
-        globalStats.avg4StarOnlyPulls =
-          fourStarOnlyCount > 0 ? total4StarOnlyPulls / fourStarOnlyCount : 0
-
-        this.globalStats = globalStats
+        this.globalStats = computeGlobalStats(this.processedPulls)
       } catch (error) {
         console.error('Error processing pearpal tracker data:', error)
       } finally {

@@ -285,7 +285,9 @@
         "data_source": "Data Source",
         "pearpal": "Whim-Log",
         "game": "Game",
-        "data_source_tooltip": "Select your preferred data source. If no data is available from the selected source, the other source will be used instead. Only one data source is displayed and used for statistics calculations at a time."
+        "auto": "Auto",
+        "data_source_tooltip": "Select your preferred data source. If no data is available from the selected source, the other source will be used instead. Only one data source is displayed and used for statistics calculations at a time.",
+        "auto_option": "\"Auto\" will combine both sources, preferring the source with more pulls for each banner."
       }
     },
     "export": {

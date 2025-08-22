@@ -155,14 +155,6 @@ export function useIndexedDB() {
     return mergedEdits
   }
 
-  // Merge Pearpal data by key (bannerId), incoming data takes priority
-  const mergePearpalData = (
-    existingData: Record<number, PearpalTrackerItem[]>,
-    newData: Record<number, PearpalTrackerItem[]>
-  ): Record<number, PearpalTrackerItem[]> => {
-    return { ...existingData, ...newData }
-  }
-
   const saveData = async (
     pullsByBanner: Record<number, PullRecord[]>,
     editsByBanner: Record<number, EditRecord[]>,
@@ -291,7 +283,7 @@ export function useIndexedDB() {
         const existingData = await db.get(PEARPAL_STORE, PEARPAL_STORE)
         let mergedData = cleanData
         if (existingData) {
-          mergedData = mergePearpalData(existingData, cleanData)
+          mergedData = { ...existingData, ...cleanData }
         }
         // Save merged Pearpal data per banner
         await db.put(PEARPAL_STORE, mergedData, PEARPAL_STORE)
@@ -316,6 +308,5 @@ export function useIndexedDB() {
     mergePullData,
     mergeEditData,
     savePearpalData,
-    mergePearpalData,
   }
 }

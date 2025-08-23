@@ -419,20 +419,18 @@
       const hasGame =
         Object.keys(pullData).length > 0 || Object.keys(editData).length > 0
 
-      if (dataSource.value === 'pearpal') {
-        if (hasPearpal) {
+      if (hasPearpal && hasGame) {
+        if (dataSource.value === 'pearpal') {
           await pullStore.processPearpalData(pearpalData)
-        } else if (hasGame) {
+        } else if (dataSource.value === 'game') {
           await pullStore.processPullData(pullData, editData)
+        } else {
+          await pullStore.processAutoData(pullData, editData, pearpalData)
         }
-      } else if (dataSource.value === 'game') {
-        if (hasGame) {
-          await pullStore.processPullData(pullData, editData)
-        } else if (hasPearpal) {
-          await pullStore.processPearpalData(pearpalData)
-        }
-      } else {
-        await pullStore.processAutoData(pullData, editData, pearpalData)
+      } else if (hasPearpal) {
+        await pullStore.processPearpalData(pearpalData)
+      } else if (hasGame) {
+        await pullStore.processPullData(pullData, editData)
       }
 
       // Process evolution data

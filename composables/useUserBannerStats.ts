@@ -99,8 +99,18 @@ export const useUserBannerStats = () => {
   // Import pearpal tracker data to internal API
   const importPearpalTrackerData = async (bannerStats: UserBannerStats[]) => {
     try {
+      const supabase = useSupabaseClient()
+      const {
+        data: { session },
+      } = await supabase.auth.getSession()
+      const userId = session?.user?.id
+
+      const payload: UserBannerStats[] = userId
+        ? bannerStats.map((s) => ({ ...s, user_id: userId }))
+        : bannerStats
+
       const timestamp = Math.floor(Date.now() / 1000)
-      const signature = await generateSignature(timestamp, bannerStats)
+      const signature = await generateSignature(timestamp, payload)
 
       const response = await $fetch('/api/stats', {
         method: 'POST',
@@ -110,7 +120,7 @@ export const useUserBannerStats = () => {
           'X-Timestamp': timestamp.toString(),
           'X-Target': 'pearpal',
         },
-        body: bannerStats,
+        body: payload,
       })
 
       return response

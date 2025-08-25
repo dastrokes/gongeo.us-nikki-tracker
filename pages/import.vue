@@ -481,19 +481,6 @@
               </n-space>
             </div>
           </n-step>
-
-          <!-- Game Import Step -->
-          <n-step
-            v-show="importMethod === 'game'"
-            :title="$t('import.game_import')"
-          >
-            <template #icon>
-              <n-icon>
-                <Check />
-              </n-icon>
-            </template>
-            <div>{{ $t('import.game_import_desc') }}</div>
-          </n-step>
         </n-steps>
 
         <div class="mt-4">

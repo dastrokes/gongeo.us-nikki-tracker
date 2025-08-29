@@ -364,14 +364,9 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, ref } from 'vue'
   import { ArrowLeft, ChartBarRegular, Edit } from '@vicons/fa'
   import { BANNER_DATA } from '~/data/banners'
-  import { useCardStyle } from '~/composables/useCardStyle'
-  import { usePullStore } from '~/stores/pull'
-  import { storeToRefs } from 'pinia'
   import { useMessage } from 'naive-ui'
-  import { useIndexedDB } from '~/composables/useIndexedDB'
   import type { Outfit } from '~/types/outfit'
 
   const route = useRoute()

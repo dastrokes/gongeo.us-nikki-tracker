@@ -1,6 +1,4 @@
 import type { User } from '@supabase/supabase-js'
-import { useSupabaseClient } from './useSupabaseClient'
-import { useRouter, useRoute } from 'vue-router'
 
 // Global auth state - shared across all useAuth() calls
 const globalAuthState = {

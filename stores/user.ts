@@ -1,6 +1,3 @@
-import { defineStore } from 'pinia'
-import { set, get, remove } from '~/utils/cookie'
-
 export type Theme = 'light' | 'dark'
 
 export enum Region {

@@ -59,8 +59,6 @@
 </template>
 
 <script setup lang="ts">
-  import { computed } from 'vue'
-  import { usePullStore } from '~/stores/pull'
   import { Star, CheckCircle } from '@vicons/fa'
 
   interface CompletionData {

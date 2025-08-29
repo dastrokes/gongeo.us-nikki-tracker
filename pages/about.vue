@@ -90,8 +90,6 @@
 </template>
 
 <script setup lang="ts">
-  import { useCardStyle } from '~/composables/useCardStyle'
-
   const { t } = useI18n()
   const { cardStyle } = useCardStyle()
   const localePath = useLocalePath()

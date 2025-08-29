@@ -7,11 +7,6 @@ import type {
 } from '~/types/pull'
 import type { UserBannerStats } from '~/types/stats'
 import { BANNER_DATA } from '~/data/banners'
-import {
-  getOutfitData,
-  getBannerOutfitIds,
-  getOutfitIdFromItemId,
-} from '~/utils/stats'
 
 export const usePearpalData = () => {
   // Helper function to decode snappyjs base64 data

@@ -4,7 +4,6 @@ import type {
   EvoRecord,
   PearpalTrackerItem,
 } from '~/types/pull'
-import { ref } from 'vue'
 import { openDB, type IDBPDatabase } from 'idb'
 
 const DB_NAME = 'gongeousDB'

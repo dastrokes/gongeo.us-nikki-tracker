@@ -864,7 +864,7 @@
             <n-card
               content-class="!p-2 sm:!pt-2 sm:!p-4"
               size="small"
-              class="rounded-xl min-h-[120px] sm:min-h-[160px] mt-2 sm:mt-4 opacity-20"
+              class="rounded-xl min-h-[120px] sm:min-h-[160px] mt-2 sm:mt-4 opacity-40"
               :style="cardStyle"
             >
               <!-- Banner Header -->

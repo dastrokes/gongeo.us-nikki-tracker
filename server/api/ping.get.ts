@@ -1,3 +1,5 @@
+import { isRateLimited } from '../utils/rateLimiter'
+
 export default defineEventHandler((event) => {
   const ip = getRequestIP(event, { xForwardedFor: true }) || 'unknown'
 

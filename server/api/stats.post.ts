@@ -1,3 +1,7 @@
+import { isRateLimited } from '../utils/rateLimiter'
+import { hashUid } from '../utils/hash'
+import { useSupabaseClient } from '../../composables/useSupabaseClient'
+
 export default defineEventHandler(async (event) => {
   const ip = getRequestIP(event, { xForwardedFor: true }) || 'unknown'
 

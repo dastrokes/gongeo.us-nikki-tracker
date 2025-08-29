@@ -1,4 +1,5 @@
 import { createError } from 'h3'
+import { verifyTimestamp, verifySignature } from '../utils/verify'
 import type { UserBannerStats } from '~/types/stats'
 
 export default defineEventHandler(async (event) => {

@@ -529,6 +529,7 @@
 <script setup>
   import { NSkeleton, NNumberAnimation, NButton, NSelect } from 'naive-ui'
   import { BANNER_DATA } from '~/data/banners'
+  import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
   import { ExpandAlt, CompressAlt, ExclamationCircle } from '@vicons/fa'
 
   // Initialize stores

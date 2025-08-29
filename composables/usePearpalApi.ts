@@ -1,6 +1,4 @@
-import { ref } from 'vue'
 import type { CookieData, PearpalUserInfoResponse } from '~/types/api'
-import { Region } from '~/stores/user'
 
 export const usePearpalApi = () => {
   const loading = ref(false)

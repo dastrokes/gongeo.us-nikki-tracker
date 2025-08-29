@@ -276,8 +276,6 @@
 <script setup lang="ts">
   import { Discord, Google } from '@vicons/fa'
   import { useMessage } from 'naive-ui'
-  import { useAuth } from '~/composables/useAuth'
-  import { useCardStyle } from '~/composables/useCardStyle'
 
   const { t } = useI18n()
   const message = useMessage()

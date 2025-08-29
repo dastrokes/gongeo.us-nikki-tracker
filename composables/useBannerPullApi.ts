@@ -1,8 +1,5 @@
-import { ref } from 'vue'
 import type { CookieData, VerifyResponse, QueryResponse } from '~/types/api'
-import { useUserStore, Region } from '~/stores/user'
 import { BANNER_DATA } from '~/data/banners'
-import { retryRequest, sleep } from '~/server/utils/retry'
 
 export const REGION_URLS = {
   [Region.EUROPE]: 'https://x6en-clickhouse.infoldgames.com/v1/tlog',

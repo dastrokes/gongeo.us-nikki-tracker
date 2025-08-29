@@ -100,8 +100,6 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, onMounted, watch } from 'vue'
-  import { useUserStore } from '~/stores/user'
   import { BANNER_DATA } from '~/data/banners'
   import type { Banner } from '~/types/banner'
   import { Book, Globe, CalendarAlt } from '@vicons/fa'

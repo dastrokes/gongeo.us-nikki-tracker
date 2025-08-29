@@ -37,8 +37,6 @@
 </template>
 
 <script setup lang="ts">
-  import { useCardStyle } from '~/composables/useCardStyle'
-
   const barWidths = ['w-5/6', 'w-4/5', 'w-3/4', 'w-2/3', 'w-1/2', 'w-2/5']
   const { cardStyle } = useCardStyle()
   const localePath = useLocalePath()

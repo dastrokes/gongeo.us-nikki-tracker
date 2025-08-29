@@ -825,30 +825,117 @@
         </div>
       </div>
 
-      <n-card
+      <!-- No Data State - Show Sample Banners -->
+      <div
         v-if="!hasAnyData"
-        class="text-center rounded-xl"
-        :style="cardStyle"
+        class="space-y-4"
       >
-        <n-empty>
-          <template #default>
-            <div class="text-xl text-neutral-500">
-              {{ t('tracker.no_data.title') }}
-            </div>
-            <div class="text-xl text-neutral-500">
-              {{ t('tracker.no_data.subtitle') }}
-            </div></template
-          >
-          <template #extra>
-            <n-button
-              type="primary"
-              @click="router.push(localePath('/import'))"
+        <!-- No Data Message -->
+        <n-card
+          class="text-center rounded-xl"
+          :style="cardStyle"
+        >
+          <n-empty>
+            <template #default>
+              <div class="text-xl text-neutral-500">
+                {{ t('tracker.no_data.title') }}
+              </div>
+              <div class="text-xl text-neutral-500">
+                {{ t('tracker.no_data.subtitle') }}
+              </div></template
             >
-              {{ t('navigation.import') }}
-            </n-button>
+            <template #extra>
+              <n-button
+                type="primary"
+                @click="router.push(localePath('/import'))"
+              >
+                {{ t('navigation.import') }}
+              </n-button>
+            </template>
+          </n-empty>
+        </n-card>
+
+        <!-- Sample Banners -->
+        <div class="space-y-4">
+          <template
+            v-for="banner in sampleBanners"
+            :key="banner.bannerId"
+          >
+            <n-card
+              content-class="!p-2 sm:!pt-2 sm:!p-4"
+              size="small"
+              class="rounded-xl min-h-[120px] sm:min-h-[160px] mt-2 sm:mt-4 opacity-20"
+              :style="cardStyle"
+            >
+              <!-- Banner Header -->
+              <div
+                class="w-full flex flex-col sm:flex-row sm:items-center gap-2"
+              >
+                <NuxtLink
+                  :to="localePath(`/banner/${banner.bannerId}`)"
+                  class="inline w-fit hover:opacity-95 transition-opacity"
+                >
+                  <n-tooltip trigger="hover">
+                    <template #trigger>
+                      <n-gradient-text
+                        :size="18"
+                        class="m-0 font-medium break-words"
+                        :type="banner.bannerType === 2 ? 'warning' : 'info'"
+                      >
+                        {{ t(`banner.${banner.bannerId}.name`) }}
+                      </n-gradient-text>
+                    </template>
+                    {{ t('navigation.banner_detail') }}
+                  </n-tooltip>
+                </NuxtLink>
+
+                <div
+                  class="flex flex-wrap gap-2 w-full sm:w-[calc(100%-500px)]"
+                >
+                  <template
+                    v-for="outfit in banner.outfits"
+                    :key="outfit.id"
+                  >
+                    <div class="flex items-center gap-2">
+                      <n-tag
+                        :type="outfit.rarity === 5 ? 'warning' : 'info'"
+                        :bordered="false"
+                        round
+                        size="small"
+                        class="px-2"
+                      >
+                        <span class="align-top"
+                          >{{ t(`outfit.${outfit.id}.name`) }}
+                          {{ outfit.rarity }}</span
+                        >
+                        <span class="ml-1"
+                          ><n-icon><Star /></n-icon
+                        ></span>
+                        <span
+                          v-if="outfit.completion >= 1"
+                          class="ml-1"
+                          ><n-icon><CheckCircle /></n-icon
+                        ></span>
+                      </n-tag>
+                    </div>
+                  </template>
+                </div>
+              </div>
+
+              <!-- Sample Items Grid -->
+              <div
+                class="grid grid-cols-5 sm:grid-cols-8 lg:grid-cols-10 gap-2 mt-2"
+              >
+                <ItemCard
+                  v-for="item in banner.pulls"
+                  :key="`${item.itemId}-${item.count}`"
+                  :item="item"
+                />
+              </div>
+            </n-card>
           </template>
-        </n-empty>
-      </n-card>
+        </div>
+      </div>
     </div>
 
     <!-- Collection Editor Modal -->
@@ -869,8 +956,6 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, onMounted, computed, watch } from 'vue'
-  import { storeToRefs } from 'pinia'
   import {
     Cog,
     ChartBarRegular,
@@ -885,14 +970,12 @@
     ExclamationCircle,
   } from '@vicons/fa'
   import { useMessage } from 'naive-ui'
-  import { useIndexedDB } from '~/composables/useIndexedDB'
-  import { usePullStore } from '~/stores/pull'
   import type { PullItem, ProcessedBanner } from '~/types/pull'
-  import { useCardStyle } from '~/composables/useCardStyle'
-  import { usePercentile } from '~/composables/usePercentile'
+  import { BANNER_DATA } from '~/data/banners'
+  import OUTFIT_DATA from '~/data/outfits'
 
-  const router = useRouter()
   const message = useMessage()
+  const router = useRouter()
   const { t } = useI18n()
   const pullStore = usePullStore()
   const { processedPulls, globalStats } = storeToRefs(pullStore)
@@ -912,6 +995,77 @@
   // Check if there's any data to display
   const hasAnyData = computed(() => {
     return Object.keys(processedPulls.value).length > 0
+  })
+
+  // Get sample banners for display when no data is available
+  const sampleBanners = computed(() => {
+    const bannerIds = Object.keys(BANNER_DATA)
+      .map(Number)
+      .sort((a, b) => b - a)
+
+    // Check if we have any banner IDs before proceeding
+    if (bannerIds.length === 0) {
+      return []
+    }
+
+    // Get all banners from the latest minor version
+    const latestVersion = BANNER_DATA[bannerIds[0]!]!.runs?.[0]?.version || ''
+
+    const latestVersionBanners = bannerIds.filter((bannerId) => {
+      const bannerData = BANNER_DATA[bannerId]
+      return bannerData?.runs?.some((run) => run.version === latestVersion)
+    })
+
+    return latestVersionBanners
+      .map((bannerId) => {
+        const bannerData = BANNER_DATA[bannerId]
+        if (!bannerData) return null
+
+        // Get all items from all outfits in this banner
+        const allItems = bannerData.outfit5StarId
+          .concat(bannerData.outfit4StarId)
+          .flatMap((outfitId) => {
+            const outfitData = OUTFIT_DATA[outfitId as keyof typeof OUTFIT_DATA]
+            if (!outfitData?.items) return []
+
+            return outfitData.items.map((itemId) => ({
+              itemId: itemId,
+              outfitId: outfitId,
+              rarity: bannerData.outfit5StarId.includes(outfitId) ? 5 : 4,
+              count: 1,
+              pullIndex: 0,
+              pullsToObtain: 0,
+              obtainedAt: '',
+              bannerId: bannerData.bannerId,
+            }))
+          })
+
+        return {
+          bannerId: bannerData.bannerId,
+          bannerType: bannerData.bannerType,
+          outfits: bannerData.outfit5StarId
+            .concat(bannerData.outfit4StarId)
+            .map((outfitId) => ({
+              id: outfitId,
+              rarity: bannerData.outfit5StarId.includes(outfitId) ? 5 : 4,
+              completion: 0,
+            })),
+          pulls: allItems, // Include all items as sample pulls
+          stats: {
+            totalPulls: 0,
+            total5StarItems: 0,
+            total4StarItems: 0,
+            total4StarOnlyItems: 0,
+            avg5StarPulls: 0,
+            avg4StarPulls: 0,
+            avg4StarOnlyPulls: 0,
+            pity5Star: 0,
+            pity4Star: 0,
+            completion: 0,
+          },
+        }
+      })
+      .filter((banner) => banner !== null)
   })
 
   useHead({

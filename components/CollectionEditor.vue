@@ -183,16 +183,11 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, computed, onMounted, watch } from 'vue'
   import { useMessage } from 'naive-ui'
   import { BANNER_DATA } from '~/data/banners'
   import OUTFIT_DATA, { type OutfitKey } from '~/data/outfits'
   import type { Outfit } from '~/types/outfit'
   import type { BannerData } from '~/types/banner'
-  import { usePullStore } from '~/stores/pull'
-  import { useIndexedDB } from '~/composables/useIndexedDB'
-  import { getItemType } from '~/utils/itemType'
-  import { getBannerType } from '~/utils/bannerType'
   import type { PullRecord, EditRecord } from '~/types/pull'
   import { Tshirt, Magic, ExclamationCircle } from '@vicons/fa'
 

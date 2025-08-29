@@ -183,10 +183,8 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, ref, watchEffect, nextTick, reactive } from 'vue'
   import { Gift, Star } from '@vicons/fa'
   import { BANNER_DATA } from '~/data/banners'
-  import { useCardStyle } from '~/composables/useCardStyle'
 
   const { t } = useI18n()
   const { cardStyle } = useCardStyle()

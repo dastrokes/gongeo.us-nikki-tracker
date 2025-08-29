@@ -1,4 +1,3 @@
-import { defineStore } from 'pinia'
 import type {
   PullRecord,
   PullState,
@@ -6,11 +5,8 @@ import type {
   ProcessedBanner,
   PearpalTrackerItem,
 } from '~/types/pull'
-import { useBannerPullData } from '~/composables/useBannerPullData'
-import { usePearpalData } from '~/composables/usePearpalData'
 import { BANNER_DATA } from '~/data/banners'
 import type { BannerData } from '~/types/banner'
-import { computeGlobalStats } from '~/utils/stats'
 
 export const usePullStore = defineStore('pull', {
   state: (): PullState => ({

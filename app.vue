@@ -17,9 +17,6 @@
 
 <script setup lang="ts">
   import { darkTheme, lightTheme, type GlobalThemeOverrides } from 'naive-ui'
-  import { useUserStore } from '~/stores/user'
-  import { computed, onMounted } from 'vue'
-  import { useAuth } from '~/composables/useAuth'
 
   // Initialize theme state
   const userStore = useUserStore()

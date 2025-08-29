@@ -527,14 +527,9 @@
 </template>
 
 <script setup>
-  import { ref, onMounted, computed, watch } from 'vue'
   import { NSkeleton, NNumberAnimation, NButton, NSelect } from 'naive-ui'
   import { BANNER_DATA } from '~/data/banners'
   import { ExpandAlt, CompressAlt, ExclamationCircle } from '@vicons/fa'
-  import { useCardStyle } from '~/composables/useCardStyle'
-  import { useUserStore } from '~/stores/user'
-  import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
-  import { getItemType } from '~/utils/itemType'
 
   // Initialize stores
   const userStore = useUserStore()

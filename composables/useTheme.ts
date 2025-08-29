@@ -1,5 +1,3 @@
-import { useUserStore } from '~/stores/user'
-import type { Theme } from '~/stores/user'
 import { darkTheme, lightTheme } from 'naive-ui'
 import type { GlobalTheme } from 'naive-ui'
 

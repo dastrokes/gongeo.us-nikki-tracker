@@ -1,6 +1,3 @@
-import { computed } from 'vue'
-import { useUserStore } from '~/stores/user'
-
 export const useCardStyle = () => {
   const userStore = useUserStore()
   const isDark = computed(() => userStore.getCurrentTheme === 'dark')

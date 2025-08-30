@@ -30,8 +30,6 @@
 </template>
 
 <script setup lang="ts">
-  import { useCardStyle } from '~/composables/useCardStyle'
-
   const { t } = useI18n()
   const localePath = useLocalePath()
   const siteUrl = useRuntimeConfig().public.siteUrl

@@ -364,14 +364,9 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, ref } from 'vue'
   import { ArrowLeft, ChartBarRegular, Edit } from '@vicons/fa'
   import { BANNER_DATA } from '~/data/banners'
-  import { useCardStyle } from '~/composables/useCardStyle'
-  import { usePullStore } from '~/stores/pull'
-  import { storeToRefs } from 'pinia'
   import { useMessage } from 'naive-ui'
-  import { useIndexedDB } from '~/composables/useIndexedDB'
   import type { Outfit } from '~/types/outfit'
 
   const route = useRoute()
@@ -419,20 +414,18 @@
       const hasGame =
         Object.keys(pullData).length > 0 || Object.keys(editData).length > 0
 
-      if (dataSource.value === 'pearpal') {
-        if (hasPearpal) {
+      if (hasPearpal && hasGame) {
+        if (dataSource.value === 'pearpal') {
           await pullStore.processPearpalData(pearpalData)
-        } else if (hasGame) {
+        } else if (dataSource.value === 'game') {
           await pullStore.processPullData(pullData, editData)
+        } else {
+          await pullStore.processAutoData(pullData, editData, pearpalData)
         }
-      } else if (dataSource.value === 'game') {
-        if (hasGame) {
-          await pullStore.processPullData(pullData, editData)
-        } else if (hasPearpal) {
-          await pullStore.processPearpalData(pearpalData)
-        }
-      } else {
-        await pullStore.processAutoData(pullData, editData, pearpalData)
+      } else if (hasPearpal) {
+        await pullStore.processPearpalData(pearpalData)
+      } else if (hasGame) {
+        await pullStore.processPullData(pullData, editData)
       }
 
       // Process evolution data

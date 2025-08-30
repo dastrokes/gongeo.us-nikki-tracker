@@ -1,6 +1,3 @@
-import { ref } from 'vue'
-import { useBannerPullApi } from './useBannerPullApi'
-import { usePullStore } from '~/stores/pull'
 import type {
   PullRecord,
   ProcessedBanner,
@@ -11,11 +8,6 @@ import type {
 } from '~/types/pull'
 import type { BannerData } from '~/types/banner'
 import { BANNER_DATA } from '~/data/banners'
-import {
-  getOutfitData,
-  getBannerOutfitIds,
-  getOutfitIdFromItemId,
-} from '~/utils/stats'
 
 export const useBannerPullData = () => {
   const isFetching = ref(false)

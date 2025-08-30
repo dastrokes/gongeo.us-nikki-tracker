@@ -481,19 +481,6 @@
               </n-space>
             </div>
           </n-step>
-
-          <!-- Game Import Step -->
-          <n-step
-            v-show="importMethod === 'game'"
-            :title="$t('import.game_import')"
-          >
-            <template #icon>
-              <n-icon>
-                <Check />
-              </n-icon>
-            </template>
-            <div>{{ $t('import.game_import_desc') }}</div>
-          </n-step>
         </n-steps>
 
         <div class="mt-4">
@@ -710,22 +697,15 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, computed, watch, onMounted, h } from 'vue'
   import { useDebounce } from '@vueuse/core'
   import type { CookieData, PearpalNoteBookResponse } from '~/types/api'
   import type { PearpalTrackerItem } from '~/types/pull'
-  import { useBannerPullApi } from '~/composables/useBannerPullApi'
-  import { usePearpalApi } from '~/composables/usePearpalApi'
-  import { usePearpalData } from '~/composables/usePearpalData'
   import { useMessage, NTag, NIcon, NCode, useDialog, NModal } from 'naive-ui'
   import type {
     UploadFileInfo,
     SelectOption,
     SelectGroupOption,
   } from 'naive-ui'
-  import { useBannerPullData } from '~/composables/useBannerPullData'
-  import { useUserStore, Region } from '~/stores/user'
-  import { useDataSource } from '~/composables/useTrackerSettings'
   import {
     Copy,
     Paste,
@@ -735,10 +715,7 @@
     ExclamationCircle,
   } from '@vicons/fa'
   import { BANNER_DATA } from '~/data/banners'
-  import { useCardStyle } from '~/composables/useCardStyle'
   import type { VNodeChild } from 'vue'
-  import { useUserBannerStats } from '~/composables/useUserBannerStats'
-  import { useRouter } from 'vue-router'
 
   const { t } = useI18n()
   const dialog = useDialog()

@@ -89,9 +89,6 @@
 
 <script setup lang="ts">
   import type { PullItem } from '~/types/pull'
-  import { useUserStore } from '~/stores/user'
-  import { getItemType } from '~/utils/itemType'
-  import { getBannerType } from '~/utils/bannerType'
   import { Asterisk } from '@vicons/fa'
 
   interface Props {

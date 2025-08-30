@@ -31,12 +31,6 @@
   } from '@vicons/fa'
   import { useDialog, useMessage, NIcon } from 'naive-ui'
   import type { DropdownOption } from 'naive-ui'
-  import { useUserStore } from '~/stores/user'
-  import { useIndexedDB } from '~/composables/useIndexedDB'
-  import { usePullStore } from '~/stores/pull'
-  import { useTrackerSettings } from '~/composables/useTrackerSettings'
-  import { useAuth } from '~/composables/useAuth'
-  import { useDataSync } from '~/composables/useDataSync'
 
   const { t } = useI18n()
   const localePath = useLocalePath()

@@ -117,7 +117,7 @@
     "login_pearpal": "登录美鸭梨网站",
     "login_pearpal_desc": "在新标签页中打开美鸭梨网站，如果尚未登录，请使用您的叠纸账号登录。",
     "login_whimlog": "同步奇想手账的数据。",
-    "login_whimlog_desc": "在新标签页中打开奇想手账，登录和同步您的数据。",
+    "login_whimlog_desc": "在新标签页中打开奇想手账，登录并同步您的数据。",
     "get_cookie": "从美鸭梨网站获取 Cookie 数据",
     "get_cookie_desc": "选择您想要获取 Cookie 数据的方式：",
     "gongeous_cookie": "美鸭梨 Cookie",

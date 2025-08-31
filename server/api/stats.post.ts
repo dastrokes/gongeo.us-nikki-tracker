@@ -34,11 +34,12 @@ export default defineEventHandler(async (event) => {
     const supabase = useSupabaseClient('server')
 
     // Hash UIDs
-    const hashedDataPromises = body.map(async (item: { uid: string }) => ({
+    const uid = body[0]?.uid
+    const hashedUid = await hashUid(uid)
+    const hashedData = body.map((item: { uid: string }) => ({
       ...item,
-      uid: await hashUid(item.uid),
+      uid: hashedUid,
     }))
-    const hashedData = await Promise.all(hashedDataPromises)
 
     const { error } = await supabase.from(targetTable).upsert(hashedData, {
       onConflict: 'uid,region,banner_id',

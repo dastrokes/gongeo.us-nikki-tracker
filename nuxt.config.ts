@@ -106,6 +106,18 @@ export default defineNuxtConfig({
       '/faq': { cache: { maxAge: 60 * 60 * 24 } },
       '/about': { cache: { maxAge: 60 * 60 * 24 } },
     },
+    prerender: {
+      routes: [
+        '/faq',
+        '/about',
+        ...i18nLocales
+          .filter((locale) => locale.code !== defaultLocale)
+          .flatMap((locale) => [
+            `/${locale.code}/faq`,
+            `/${locale.code}/about`,
+          ]),
+      ],
+    },
   },
 
   future: {

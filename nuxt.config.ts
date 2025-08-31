@@ -35,7 +35,6 @@ export default defineNuxtConfig({
     detectBrowserLanguage: {
       cookieKey: 'i18n_redirected',
       fallbackLocale: defaultLocale,
-      redirectOn: 'no prefix',
     },
     bundle: {
       optimizeTranslationDirective: false,
@@ -103,16 +102,19 @@ export default defineNuxtConfig({
       nativeSWR: true,
     },
     routeRules: {
+      '/banner': { cache: { maxAge: 60 * 60 * 24 } },
       '/faq': { cache: { maxAge: 60 * 60 * 24 } },
       '/about': { cache: { maxAge: 60 * 60 * 24 } },
     },
     prerender: {
       routes: [
+        '/banner',
         '/faq',
         '/about',
         ...i18nLocales
           .filter((locale) => locale.code !== defaultLocale)
           .flatMap((locale) => [
+            `/${locale.code}/banner`,
             `/${locale.code}/faq`,
             `/${locale.code}/about`,
           ]),

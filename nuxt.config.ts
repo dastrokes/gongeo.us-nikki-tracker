@@ -102,21 +102,30 @@ export default defineNuxtConfig({
       nativeSWR: true,
     },
     routeRules: {
-      '/banner': { cache: { maxAge: 60 * 60 * 24 } },
-      '/faq': { cache: { maxAge: 60 * 60 * 24 } },
-      '/about': { cache: { maxAge: 60 * 60 * 24 } },
+      '/banner': { prerender: true, cache: { maxAge: 60 * 60 * 24 } },
+      '/timeline': { prerender: true, cache: { maxAge: 60 * 60 * 24 } },
+      '/faq': { prerender: true, cache: { maxAge: 60 * 60 * 24 * 7 } }, // 1 week
+      '/about': { prerender: true, cache: { maxAge: 60 * 60 * 24 * 7 } }, // 1 week
     },
     prerender: {
       routes: [
         '/banner',
+        '/timeline',
         '/faq',
         '/about',
+        ...Object.values(BANNER_DATA).map(
+          (banner) => `/banner/${banner.bannerId}`
+        ),
         ...i18nLocales
           .filter((locale) => locale.code !== defaultLocale)
           .flatMap((locale) => [
             `/${locale.code}/banner`,
+            `/${locale.code}/timeline`,
             `/${locale.code}/faq`,
             `/${locale.code}/about`,
+            ...Object.values(BANNER_DATA).map(
+              (banner) => `/${locale.code}/banner/${banner.bannerId}`
+            ),
           ]),
       ],
     },

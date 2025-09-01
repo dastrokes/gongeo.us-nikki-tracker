@@ -35,6 +35,7 @@ export default defineNuxtConfig({
     detectBrowserLanguage: {
       cookieKey: 'i18n_redirected',
       fallbackLocale: defaultLocale,
+      redirectOn: 'no prefix',
     },
     bundle: {
       optimizeTranslationDirective: false,
@@ -100,34 +101,6 @@ export default defineNuxtConfig({
     preset: 'netlify',
     future: {
       nativeSWR: true,
-    },
-    routeRules: {
-      '/banner': { prerender: true, cache: { maxAge: 60 * 60 * 24 } },
-      '/timeline': { prerender: true, cache: { maxAge: 60 * 60 * 24 } },
-      '/faq': { prerender: true, cache: { maxAge: 60 * 60 * 24 * 7 } }, // 1 week
-      '/about': { prerender: true, cache: { maxAge: 60 * 60 * 24 * 7 } }, // 1 week
-    },
-    prerender: {
-      routes: [
-        '/banner',
-        '/timeline',
-        '/faq',
-        '/about',
-        ...Object.values(BANNER_DATA).map(
-          (banner) => `/banner/${banner.bannerId}`
-        ),
-        ...i18nLocales
-          .filter((locale) => locale.code !== defaultLocale)
-          .flatMap((locale) => [
-            `/${locale.code}/banner`,
-            `/${locale.code}/timeline`,
-            `/${locale.code}/faq`,
-            `/${locale.code}/about`,
-            ...Object.values(BANNER_DATA).map(
-              (banner) => `/${locale.code}/banner/${banner.bannerId}`
-            ),
-          ]),
-      ],
     },
   },
 

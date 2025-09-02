@@ -15,7 +15,7 @@ export const config: Config = {
     '/login',
     '/about',
     '/banner',
-    '/banner/*',
+    '/banner/:id',
     '/faq',
     '/global',
     '/import',
@@ -33,6 +33,7 @@ export const config: Config = {
     // Public images and static content
     '/images/**',
     '/.netlify/images', // Netlify Image CDN endpoint
+    '/_ipx/**',
 
     // Other static files
     '/apple-touch-icon*.png',
@@ -42,7 +43,9 @@ export const config: Config = {
     '/robots.txt',
     '/llms.txt',
     '/ads.txt',
-    '/*sitemap*',
+    '/sitemap.xml',
+    '/sitemap_index.xml',
+    '/__sitemap__/**',
     '/og.png',
   ] as `/${string}`[],
 }

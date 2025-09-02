@@ -825,7 +825,7 @@
         </div>
       </div>
 
-      <!-- No Data State - Show Sample Banners -->
+      <!-- No Data State -->
       <div
         v-if="!hasAnyData"
         class="space-y-4"

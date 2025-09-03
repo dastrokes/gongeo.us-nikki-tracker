@@ -3,10 +3,11 @@
     <n-card
       size="small"
       class="rounded-xl p-0 sm:p-2"
+      content-class="!p-2 sm:p-4"
       :style="cardStyle"
     >
       <n-timeline
-        :icon-size="18"
+        :icon-size="16"
         size="large"
       >
         <n-timeline-item
@@ -149,7 +150,7 @@
               </div>
               <div class="lg:col-span-3">
                 <div
-                  class="flex flex-col items-center space-y-1 max-w-5xl mx-auto"
+                  class="flex flex-col items-center space-y-1 max-w-2xl mx-auto"
                 >
                   <NuxtLink
                     :to="localePath(`/banner/${banner.bannerId}`)"

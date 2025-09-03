@@ -930,6 +930,7 @@
                   v-for="item in banner.pulls"
                   :key="`${item.itemId}-${item.count}`"
                   :item="item"
+                  :info="false"
                 />
               </div>
             </n-card>

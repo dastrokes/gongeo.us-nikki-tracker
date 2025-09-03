@@ -10,12 +10,12 @@
             : isDark
               ? 'bg-gradient-to-br from-[#334155] to-[#1e293b] hover:shadow-[0_0_15px_0_rgba(51,65,85,0.5)] ring-slate-400/20 hover:ring-slate-400/40'
               : 'bg-gradient-to-br from-[#e3f2fd] to-[#bbdefb] hover:shadow-[0_0_15px_0_rgba(187,222,251,0.5)] ring-blue-200/30 hover:ring-blue-200/80',
-          { 'opacity-60 grayscale': item.count === 0 },
+          { 'opacity-60 grayscale': item.count === 0 && info },
         ]"
         :bordered="false"
         size="small"
         content-style="padding: 0;"
-        class="relative overflow-hidden rounded-md transition-all duration-300 ease-in-out aspect-square ring-1 min-h-[60px] xl:min-h-[100px]"
+        class="relative overflow-hidden rounded-md transition-all duration-300 ease-in-out aspect-square ring-1 min-h-[50px] xl:min-h-[80px]"
       >
         <NuxtImg
           :src="`/images/items/${item.itemId}.webp`"
@@ -30,7 +30,7 @@
           sizes="80px sm:120px"
         />
         <n-tag
-          v-if="item.count > 0"
+          v-if="item.count > 0 && info"
           size="tiny"
           :bordered="false"
           class="absolute bottom-1 right-1 scale-75 sm:scale-90 origin-bottom-right text-white shadow-sm rounded-full text-xs opacity-80"
@@ -54,7 +54,7 @@
           </n-icon>
         </n-tag>
         <n-tag
-          v-if="item.count > 1"
+          v-if="item.count > 1 && info"
           size="tiny"
           :bordered="false"
           class="absolute top-1 right-1 scale-75 sm:scale-90 origin-top-right shadow-sm rounded-full text-xs"
@@ -93,9 +93,13 @@
 
   interface Props {
     item: PullItem
+    info?: boolean
   }
 
-  const props = defineProps<Props>()
+  const props = withDefaults(defineProps<Props>(), {
+    info: true,
+  })
+
   const { t } = useI18n()
   const userStore = useUserStore()
   const isDark = computed(() => userStore.getCurrentTheme === 'dark')

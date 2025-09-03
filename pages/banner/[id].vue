@@ -55,22 +55,40 @@
               </n-tooltip>
 
               <!-- Display Mode Toggle -->
-              <n-tooltip trigger="hover">
-                <template #trigger>
-                  <n-button
-                    text
-                    size="small"
-                    @click="isCarouselMode = !isCarouselMode"
-                  >
-                    <template #icon>
-                      <n-icon depth="3">
-                        <component :is="isCarouselMode ? Th : ThLarge" />
-                      </n-icon>
-                    </template>
-                  </n-button>
-                </template>
-                {{ $t('tracker.banner.settings.outfit_display') }}
-              </n-tooltip>
+              <n-button-group size="small">
+                <n-tooltip trigger="hover">
+                  <template #trigger>
+                    <n-button
+                      :tertiary="!showItems"
+                      :quaternary="showItems"
+                      @click="showItems = false"
+                    >
+                      <template #icon>
+                        <n-icon depth="3">
+                          <ThLarge />
+                        </n-icon>
+                      </template>
+                    </n-button>
+                  </template>
+                  {{ $t('tracker.banner.settings.outfit_display') }}
+                </n-tooltip>
+                <n-tooltip trigger="hover">
+                  <template #trigger>
+                    <n-button
+                      :tertiary="showItems"
+                      :quaternary="!showItems"
+                      @click="showItems = true"
+                    >
+                      <template #icon>
+                        <n-icon depth="3">
+                          <Th />
+                        </n-icon>
+                      </template>
+                    </n-button>
+                  </template>
+                  {{ $t('tracker.banner.settings.item_display') }}
+                </n-tooltip>
+              </n-button-group>
             </div>
           </div>
 
@@ -312,7 +330,7 @@
 
             <div class="space-y-2">
               <!-- Traditional Card Mode -->
-              <template v-if="!isCarouselMode">
+              <template v-if="!showItems">
                 <div v-if="banner.outfit5StarId.length > 0">
                   <div class="space-y-2">
                     <OutfitCard
@@ -380,8 +398,7 @@
                         <n-carousel
                           ref="carousel5Star"
                           effect="card"
-                          :show-dots="false"
-                          :show-arrow="true"
+                          :show-dots="true"
                           dot-placement="left"
                           :centered-slides="false"
                           :slides-per-view="2"
@@ -416,7 +433,12 @@
                                 sizes="400px"
                               />
                               <div
-                                class="absolute top-1 right-1 scale-90 sm:scale-100 origin-top-right z-20"
+                                class="absolute top-1 scale-90 sm:scale-100 z-20"
+                                :class="[
+                                  image.level === 'glow'
+                                    ? 'left-1 origin-top-left'
+                                    : 'right-1 origin-top-right',
+                                ]"
                               >
                                 <n-tag
                                   round
@@ -487,8 +509,7 @@
                         <n-carousel
                           ref="carousel4Star"
                           effect="card"
-                          :show-dots="false"
-                          :show-arrow="true"
+                          :show-dots="true"
                           dot-placement="left"
                           :centered-slides="false"
                           :slides-per-view="2"
@@ -523,7 +544,12 @@
                                 sizes="400px"
                               />
                               <div
-                                class="absolute top-1 right-1 scale-90 sm:scale-100 origin-top-right z-20"
+                                class="absolute top-1 scale-90 sm:scale-100 z-20"
+                                :class="[
+                                  image.level === 'glow'
+                                    ? 'left-1 origin-top-left'
+                                    : 'right-1 origin-top-right',
+                                ]"
                               >
                                 <n-tag
                                   round
@@ -640,7 +666,7 @@
   const message = useMessage()
   const { loadData } = useIndexedDB()
   const showCollectionEditor = ref(false)
-  const isCarouselMode = ref(true)
+  const showItems = ref(true)
 
   const { getAvg5StarPercentile, getAvg4StarType3Percentile } = usePercentile()
   const userStore = useUserStore()
@@ -675,6 +701,13 @@
       })
     }
 
+    // Add LV1 (glowed up) image
+    images.push({
+      src: `/images/outfits/${outfitId}_LV1.webp`,
+      alt: `${t(`outfit.${outfitId}.name`)} LV1`,
+      level: 'glow',
+    })
+
     return images
   }
 
@@ -695,6 +728,7 @@
     if (rarity === 5) {
       if (outfitCompletion >= 1) {
         levels.push('0')
+        levels.push('1')
       }
       if ((totalPulls >= 180 || manualEvoLevel >= 2) && outfitCompletion >= 1) {
         levels.push('2')
@@ -706,7 +740,10 @@
         levels.push('4')
       }
     } else {
-      if (outfitCompletion >= 1) levels.push('0')
+      if (outfitCompletion >= 1) {
+        levels.push('0')
+        levels.push('1')
+      }
       if (outfitCompletion >= 2) levels.push('2')
     }
 

@@ -149,28 +149,24 @@
               </div>
               <div class="lg:col-span-3">
                 <div
-                  class="flex flex-col items-center space-y-1 max-w-2xl mx-auto"
+                  class="flex flex-col items-center space-y-1 max-w-5xl mx-auto"
                 >
                   <NuxtLink
                     :to="localePath(`/banner/${banner.bannerId}`)"
-                    class="hover:opacity-95 transition-opacity"
+                    class="w-full aspect-[2/1] min-h-[140px] sm:min-h-[330px] relative overflow-hidden rounded-lg hover:opacity-95 transition-opacity"
                   >
-                    <div
-                      class="w-full aspect-[2/1] min-h-[140px] sm:min-h-[330px] relative overflow-hidden rounded-lg"
-                    >
-                      <NuxtImg
-                        :src="`/images/banners/${banner.bannerId}.webp`"
-                        :alt="t(`banner.${banner.bannerId}.name`)"
-                        class="absolute inset-0 w-full h-full object-cover"
-                        format="webp"
-                        width="500"
-                        height="250"
-                        fit="cover"
-                        :quality="100"
-                        loading="lazy"
-                        sizes="400px sm:800px"
-                      /></div
-                  ></NuxtLink>
+                    <NuxtImg
+                      :src="`/images/banners/${banner.bannerId}.webp`"
+                      :alt="t(`banner.${banner.bannerId}.name`)"
+                      class="absolute inset-0 w-full h-full object-cover"
+                      format="webp"
+                      width="500"
+                      height="250"
+                      fit="cover"
+                      :quality="100"
+                      loading="lazy"
+                      sizes="400px sm:800px"
+                  /></NuxtLink>
                 </div>
               </div>
             </div>

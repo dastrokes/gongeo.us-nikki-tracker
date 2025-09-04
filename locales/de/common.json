@@ -274,6 +274,7 @@
         "latest_first": "Neustes zuerst",
         "oldest_first": "Ältestes zuerst",
         "outfit_display": "Outfit-Anzeige",
+        "item_display": "Stück-Anzeige",
         "combined": "Kombiniert",
         "separated": "Getrennt",
         "show_4star": "4★ (5★ Banner)",
@@ -320,7 +321,8 @@
         "1": "Basis",
         "2": "Evo 1",
         "3": "Evo 2",
-        "4": "Evo 3"
+        "4": "Evo 3",
+        "glow": "Verschönert"
       }
     },
     "not_found": "Banner wurde nicht gefunden"

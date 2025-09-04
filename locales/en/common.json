@@ -274,6 +274,7 @@
         "latest_first": "Latest First",
         "oldest_first": "Oldest First",
         "outfit_display": "Outfit Display",
+        "item_display": "Item Display",
         "combined": "Combined",
         "separated": "Separated",
         "show_4star": "4★ (5★ Banner)",
@@ -320,7 +321,8 @@
         "1": "Base",
         "2": "Evo 1",
         "3": "Evo 2",
-        "4": "Evo 3"
+        "4": "Evo 3",
+        "glow": "Glowed Up"
       }
     },
     "not_found": "Banner not found"

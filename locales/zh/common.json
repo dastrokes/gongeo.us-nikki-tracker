@@ -274,6 +274,7 @@
         "latest_first": "最新优先",
         "oldest_first": "最早优先",
         "outfit_display": "套装显示",
+        "item_display": "部件显示",
         "combined": "合并显示",
         "separated": "分开显示",
         "show_4star": "陪跑套装",
@@ -320,7 +321,8 @@
         "1": "初始",
         "2": "一进",
         "3": "二进",
-        "4": "三进"
+        "4": "三进",
+        "glow": "焕新"
       }
     },
     "not_found": "卡池未找到"

@@ -118,6 +118,11 @@
         },
       },
     },
+    Carousel: {
+      dotColor: isDark.value ? '#4b5563' : '#d1d5db', // dark: gray-600 | light: gray-300
+      dotColorActive: isDark.value ? '#f9fafb' : '#6b7280', // dark: gray-50  | light: gray-500
+      dotColorHover: isDark.value ? '#e5e7eb' : '#94a3b8', // dark: gray-200 | light: gray-400
+    },
   }))
 
   // Initialize authentication

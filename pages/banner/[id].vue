@@ -55,45 +55,32 @@
               </n-tooltip>
 
               <!-- Display Mode Toggle -->
-              <n-button-group size="small">
-                <n-tooltip trigger="hover">
-                  <template #trigger>
-                    <n-button
-                      :tertiary="!showItems"
-                      :quaternary="showItems"
-                      @click="showItems = false"
-                    >
-                      <template #icon>
-                        <n-icon depth="3">
-                          <ThLarge />
-                        </n-icon>
-                      </template>
-                    </n-button>
-                  </template>
-                  {{ $t('tracker.banner.settings.outfit_display') }}
-                </n-tooltip>
-                <n-tooltip trigger="hover">
-                  <template #trigger>
-                    <n-button
-                      :tertiary="showItems"
-                      :quaternary="!showItems"
-                      @click="showItems = true"
-                    >
-                      <template #icon>
-                        <n-icon depth="3">
-                          <Th />
-                        </n-icon>
-                      </template>
-                    </n-button>
-                  </template>
-                  {{ $t('tracker.banner.settings.item_display') }}
-                </n-tooltip>
-              </n-button-group>
+              <n-tooltip trigger="hover">
+                <template #trigger>
+                  <n-button
+                    text
+                    size="small"
+                    @click="showItems = !showItems"
+                  >
+                    <template #icon>
+                      <n-icon depth="3">
+                        <Th v-if="!showItems" />
+                        <ThLarge v-else />
+                      </n-icon>
+                    </template>
+                  </n-button>
+                </template>
+                {{
+                  showItems
+                    ? $t('tracker.banner.settings.outfit_display')
+                    : $t('tracker.banner.settings.item_display')
+                }}
+              </n-tooltip>
             </div>
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-[1fr_3fr] gap-4">
-            <div class="space-y-2">
+            <div class="space-y-4">
               <div
                 class="w-full aspect-[2/1] relative overflow-hidden rounded-lg"
               >
@@ -141,7 +128,7 @@
               <div
                 size="small"
                 :bordered="false"
-                class="rounded-lg p-2"
+                class="rounded-lg px-2"
                 :style="cardStyle"
               >
                 <div class="space-y-2">
@@ -320,9 +307,29 @@
                   </div>
                   <div
                     v-else
-                    class="text-sm text-gray-400 text-center"
+                    class="text-gray-400 text-center"
                   >
-                    {{ t('tracker.stats.no_pulls') }}
+                    <span class="inline-flex items-center gap-1">
+                      {{ t('tracker.stats.no_pulls') }}
+                      <n-tooltip trigger="hover">
+                        <template #trigger>
+                          <n-button
+                            text
+                            size="small"
+                            @click="router.push(localePath('/import'))"
+                          >
+                            <template #icon>
+                              <n-icon
+                                size="16"
+                                depth="3"
+                                ><FileImport
+                              /></n-icon>
+                            </template>
+                          </n-button>
+                        </template>
+                        {{ $t('navigation.import') }}
+                      </n-tooltip>
+                    </span>
                   </div>
                 </div>
               </div>
@@ -647,6 +654,7 @@
     CheckCircle,
     Th,
     ThLarge,
+    FileImport,
   } from '@vicons/fa'
   import { BANNER_DATA } from '~/data/banners'
   import { useMessage } from 'naive-ui'

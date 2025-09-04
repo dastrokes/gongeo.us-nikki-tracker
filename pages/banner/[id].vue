@@ -409,6 +409,7 @@
                           dot-placement="left"
                           :centered-slides="false"
                           :slides-per-view="2"
+                          draggable
                           class="rounded-lg w-full sm:w-[400px] aspect-[4/3]"
                         >
                           <n-carousel-item
@@ -520,6 +521,7 @@
                           dot-placement="left"
                           :centered-slides="false"
                           :slides-per-view="2"
+                          draggable
                           class="rounded-lg w-full sm:w-[400px] aspect-[4/3]"
                         >
                           <n-carousel-item

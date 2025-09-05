@@ -354,6 +354,9 @@
                         totalPulls: bannerPulls?.stats.totalPulls || 0,
                       }"
                     />
+                    <n-divider
+                      v-if="banner.bannerType === 1 || banner.bannerType === 2"
+                    />
                   </div>
                 </div>
 
@@ -381,13 +384,16 @@
               <template v-else>
                 <div v-if="banner.outfit5StarId.length > 0">
                   <div
-                    v-for="outfitId in banner.outfit5StarId"
+                    v-for="(outfitId, outfitIndex) in banner.outfit5StarId"
                     :key="outfitId"
                     class="space-y-3"
                   >
+                    <n-divider
+                      v-if="outfitIndex > 0"
+                      class="!my-2"
+                    />
                     <div class="flex items-center gap-2">
                       <n-tag
-                        size="small"
                         type="warning"
                         :bordered="false"
                         round
@@ -491,15 +497,23 @@
                   </div>
                 </div>
 
+                <n-divider
+                  v-if="banner.bannerType === 1 || banner.bannerType === 2"
+                  class="!my-2"
+                />
+
                 <div v-if="banner.outfit4StarId.length > 0">
                   <div
-                    v-for="outfitId in banner.outfit4StarId"
+                    v-for="(outfitId, outfitIndex) in banner.outfit4StarId"
                     :key="outfitId"
                     class="space-y-3"
                   >
+                    <n-divider
+                      v-if="outfitIndex > 0"
+                      class="!my-2"
+                    />
                     <div class="flex items-center gap-2">
                       <n-tag
-                        size="small"
                         type="info"
                         :bordered="false"
                         round

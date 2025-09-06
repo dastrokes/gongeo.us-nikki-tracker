@@ -2,7 +2,6 @@
   <div class="space-y-2">
     <div class="flex items-center gap-2">
       <n-tag
-        size="small"
         :type="rarity === 5 ? 'warning' : 'info'"
         :bordered="false"
         round

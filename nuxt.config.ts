@@ -102,10 +102,6 @@ export default defineNuxtConfig({
     future: {
       nativeSWR: true,
     },
-    routeRules: {
-      '/faq': { cache: { maxAge: 60 * 60 * 24 } },
-      '/about': { cache: { maxAge: 60 * 60 * 24 } },
-    },
   },
 
   future: {

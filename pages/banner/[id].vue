@@ -8,34 +8,79 @@
     >
       <div>
         <div class="flex flex-col gap-2">
-          <div class="flex items-center gap-2">
-            <n-tooltip trigger="hover">
-              <template #trigger>
-                <n-button
-                  size="small"
-                  text
-                  @click="
-                    navigateTo(`${localePath('/banner')}#${banner.bannerId}`)
-                  "
-                >
-                  <template #icon>
-                    <n-icon><ArrowLeft /></n-icon>
-                  </template>
-                </n-button>
-              </template>
-              {{ t('navigation.banner') }}
-            </n-tooltip>
-            <n-gradient-text
-              :size="18"
-              class="m-0 font-medium break-words"
-              :type="banner.bannerType === 2 ? 'warning' : 'info'"
-            >
-              {{ t(`banner.${banner.bannerId}.name`) }}
-            </n-gradient-text>
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <n-tooltip trigger="hover">
+                <template #trigger>
+                  <n-button
+                    size="small"
+                    text
+                    @click="
+                      navigateTo(`${localePath('/banner')}#${banner.bannerId}`)
+                    "
+                  >
+                    <template #icon>
+                      <n-icon><ArrowLeft /></n-icon>
+                    </template>
+                  </n-button>
+                </template>
+                {{ t('navigation.banner') }}
+              </n-tooltip>
+              <n-gradient-text
+                :size="18"
+                class="m-0 font-medium break-words"
+                :type="banner.bannerType === 2 ? 'warning' : 'info'"
+              >
+                {{ t(`banner.${banner.bannerId}.name`) }}
+              </n-gradient-text>
+            </div>
+
+            <!-- Controls -->
+            <div class="flex gap-4">
+              <!-- Edit Button -->
+              <n-tooltip trigger="hover">
+                <template #trigger>
+                  <n-button
+                    text
+                    size="small"
+                    :type="showCollectionEditor ? 'primary' : 'default'"
+                    @click="showCollectionEditor = true"
+                  >
+                    <template #icon>
+                      <n-icon depth="3"><Edit /></n-icon>
+                    </template>
+                  </n-button>
+                </template>
+                {{ $t('tracker.manual_log.open_editor') }}
+              </n-tooltip>
+
+              <!-- Display Mode Toggle -->
+              <n-tooltip trigger="hover">
+                <template #trigger>
+                  <n-button
+                    text
+                    size="small"
+                    @click="showItems = !showItems"
+                  >
+                    <template #icon>
+                      <n-icon depth="3">
+                        <Th v-if="!showItems" />
+                        <ThLarge v-else />
+                      </n-icon>
+                    </template>
+                  </n-button>
+                </template>
+                {{
+                  showItems
+                    ? $t('tracker.banner.settings.outfit_display')
+                    : $t('tracker.banner.settings.item_display')
+                }}
+              </n-tooltip>
+            </div>
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-[1fr_3fr] gap-4">
-            <div class="space-y-2">
+            <div class="space-y-4">
               <div
                 class="w-full aspect-[2/1] relative overflow-hidden rounded-lg"
               >
@@ -83,7 +128,7 @@
               <div
                 size="small"
                 :bordered="false"
-                class="rounded-lg p-2"
+                class="rounded-lg px-2"
                 :style="cardStyle"
               >
                 <div class="space-y-2">
@@ -114,21 +159,10 @@
                       "
                       :percentile="
                         getAvg4StarType3Percentile(
-                          bannerPulls.stats.avg4StarPulls
+                          bannerPulls.stats.avg4StarOnlyPulls
                         )
                       "
                     />
-
-                    <n-button
-                      text
-                      size="small"
-                      class="text-gray-500"
-                      @click="showCollectionEditor = true"
-                    >
-                      <template #icon>
-                        <n-icon><Edit /></n-icon>
-                      </template>
-                    </n-button>
                   </div>
                   <div
                     v-if="loading"
@@ -273,52 +307,316 @@
                   </div>
                   <div
                     v-else
-                    class="text-sm text-gray-400 text-center"
+                    class="text-gray-400 text-center"
                   >
-                    {{ t('tracker.stats.no_pulls') }}
+                    <span class="inline-flex items-center gap-1">
+                      {{ t('tracker.stats.no_pulls') }}
+                      <n-tooltip trigger="hover">
+                        <template #trigger>
+                          <n-button
+                            text
+                            size="small"
+                            @click="router.push(localePath('/import'))"
+                          >
+                            <template #icon>
+                              <n-icon
+                                size="16"
+                                depth="3"
+                                ><FileImport
+                              /></n-icon>
+                            </template>
+                          </n-button>
+                        </template>
+                        {{ $t('navigation.import') }}
+                      </n-tooltip>
+                    </span>
                   </div>
                 </div>
               </div>
             </div>
 
             <div class="space-y-2">
-              <div v-if="banner.outfit5StarId.length > 0">
-                <div class="space-y-2">
-                  <OutfitCard
-                    v-for="outfitId in banner.outfit5StarId"
-                    :key="outfitId"
-                    :banner-id="banner.bannerId"
-                    :outfit-id="outfitId"
-                    :rarity="5"
-                    :completion-data="{
-                      completion:
-                        bannerPulls?.outfits.find(
-                          (outfit: Outfit) => outfit.id === outfitId
-                        )?.completion || 0,
-                      totalPulls: bannerPulls?.stats.totalPulls || 0,
-                    }"
-                  />
+              <!-- Traditional Card Mode -->
+              <template v-if="!showItems">
+                <div v-if="banner.outfit5StarId.length > 0">
+                  <div class="space-y-2">
+                    <OutfitCard
+                      v-for="outfitId in banner.outfit5StarId"
+                      :key="outfitId"
+                      :banner-id="banner.bannerId"
+                      :outfit-id="outfitId"
+                      :rarity="5"
+                      :completion-data="{
+                        completion:
+                          bannerPulls?.outfits.find(
+                            (outfit: Outfit) => outfit.id === outfitId
+                          )?.completion || 0,
+                        totalPulls: bannerPulls?.stats.totalPulls || 0,
+                      }"
+                    />
+                    <n-divider
+                      v-if="banner.bannerType === 1 || banner.bannerType === 2"
+                    />
+                  </div>
                 </div>
-              </div>
 
-              <div v-if="banner.outfit4StarId.length > 0">
-                <div class="space-y-2">
-                  <OutfitCard
-                    v-for="outfitId in banner.outfit4StarId"
-                    :key="outfitId"
-                    :banner-id="banner.bannerId"
-                    :outfit-id="outfitId"
-                    :rarity="4"
-                    :completion-data="{
-                      completion:
-                        bannerPulls?.outfits.find(
-                          (outfit: Outfit) => outfit.id === outfitId
-                        )?.completion || 0,
-                      totalPulls: bannerPulls?.stats.totalPulls || 0,
-                    }"
-                  />
+                <div v-if="banner.outfit4StarId.length > 0">
+                  <div class="space-y-2">
+                    <OutfitCard
+                      v-for="outfitId in banner.outfit4StarId"
+                      :key="outfitId"
+                      :banner-id="banner.bannerId"
+                      :outfit-id="outfitId"
+                      :rarity="4"
+                      :completion-data="{
+                        completion:
+                          bannerPulls?.outfits.find(
+                            (outfit: Outfit) => outfit.id === outfitId
+                          )?.completion || 0,
+                        totalPulls: bannerPulls?.stats.totalPulls || 0,
+                      }"
+                    />
+                  </div>
                 </div>
-              </div>
+              </template>
+
+              <!-- Carousel Mode -->
+              <template v-else>
+                <div v-if="banner.outfit5StarId.length > 0">
+                  <div
+                    v-for="(outfitId, outfitIndex) in banner.outfit5StarId"
+                    :key="outfitId"
+                    class="space-y-3"
+                  >
+                    <n-divider
+                      v-if="outfitIndex > 0"
+                      class="!my-2"
+                    />
+                    <div class="flex items-center gap-2">
+                      <n-tag
+                        type="warning"
+                        :bordered="false"
+                        round
+                      >
+                        {{ t(`outfit.${outfitId}.name`) }} 5<n-icon class="ml-1"
+                          ><Star
+                        /></n-icon>
+                      </n-tag>
+                    </div>
+
+                    <!-- Outfit Images Carousel with Items Grid -->
+                    <div class="flex flex-col lg:flex-row gap-4">
+                      <!-- Carousel Container -->
+                      <div class="w-full lg:w-auto flex-shrink-0">
+                        <n-carousel
+                          ref="carousel5Star"
+                          effect="card"
+                          :show-dots="true"
+                          dot-placement="left"
+                          :centered-slides="false"
+                          :slides-per-view="2"
+                          draggable
+                          class="rounded-lg w-full sm:w-[400px] aspect-[4/3]"
+                        >
+                          <n-carousel-item
+                            v-for="(image, index) in getOutfitImages(
+                              outfitId,
+                              5
+                            )"
+                            :key="index"
+                            class="w-[60%]"
+                          >
+                            <div
+                              class="relative aspect-[2/3] rounded-lg overflow-hidden transition-all duration-300 ease-in-out ring-1 w-full h-full"
+                              :class="[
+                                isDark
+                                  ? 'bg-gradient-to-br from-[#713f12] to-[#451a03] hover:shadow-[0_0_15px_0_rgba(113,63,18,0.5)] ring-amber-900/30 hover:ring-amber-900/60'
+                                  : 'bg-gradient-to-br from-[#fff8e1] to-[#ffcc80] hover:shadow-[0_0_15px_0_rgba(255,204,128,0.5)] ring-amber-200/30 hover:ring-amber-200/80',
+                              ]"
+                            >
+                              <NuxtImg
+                                :src="image.src"
+                                :alt="image.alt"
+                                class="absolute inset-0 w-full h-full object-contain z-10"
+                                format="webp"
+                                width="400"
+                                height="600"
+                                fit="cover"
+                                :quality="100"
+                                loading="lazy"
+                                sizes="400px"
+                              />
+                              <div
+                                class="absolute top-1 scale-90 sm:scale-100 z-20"
+                                :class="[
+                                  image.level === 'glow'
+                                    ? 'left-1 origin-top-left'
+                                    : 'right-1 origin-top-right',
+                                ]"
+                              >
+                                <n-tag
+                                  round
+                                  size="small"
+                                  :bordered="false"
+                                  type="warning"
+                                >
+                                  {{
+                                    t(
+                                      `banner.outfit.level.${image.level === 0 ? '1' : image.level}`
+                                    )
+                                  }}
+                                  <span
+                                    v-if="
+                                      getOutfitCompletionLevels(
+                                        outfitId,
+                                        5
+                                      ).includes(image.level.toString())
+                                    "
+                                  >
+                                    <n-icon><CheckCircle /></n-icon>
+                                  </span>
+                                </n-tag>
+                              </div>
+                            </div>
+                          </n-carousel-item>
+                        </n-carousel>
+                      </div>
+
+                      <!-- Outfit Items Grid -->
+                      <div class="flex-1 min-w-0">
+                        <div class="grid grid-cols-5 gap-2">
+                          <ItemCard
+                            v-for="item in getOutfitItems(outfitId)"
+                            :key="item.itemId"
+                            :item="item"
+                            :info="false"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <n-divider
+                  v-if="banner.bannerType === 1 || banner.bannerType === 2"
+                  class="!my-2"
+                />
+
+                <div v-if="banner.outfit4StarId.length > 0">
+                  <div
+                    v-for="(outfitId, outfitIndex) in banner.outfit4StarId"
+                    :key="outfitId"
+                    class="space-y-3"
+                  >
+                    <n-divider
+                      v-if="outfitIndex > 0"
+                      class="!my-2"
+                    />
+                    <div class="flex items-center gap-2">
+                      <n-tag
+                        type="info"
+                        :bordered="false"
+                        round
+                      >
+                        {{ t(`outfit.${outfitId}.name`) }} 4<n-icon class="ml-1"
+                          ><Star
+                        /></n-icon>
+                      </n-tag>
+                    </div>
+
+                    <!-- Outfit Images Carousel with Items Grid -->
+                    <div class="flex flex-col lg:flex-row gap-4">
+                      <!-- Carousel Container -->
+                      <div class="w-full lg:w-auto flex-shrink-0">
+                        <n-carousel
+                          ref="carousel4Star"
+                          effect="card"
+                          :show-dots="true"
+                          dot-placement="left"
+                          :centered-slides="false"
+                          :slides-per-view="2"
+                          draggable
+                          class="rounded-lg w-full sm:w-[400px] aspect-[4/3]"
+                        >
+                          <n-carousel-item
+                            v-for="(image, index) in getOutfitImages(
+                              outfitId,
+                              4
+                            )"
+                            :key="index"
+                            class="w-[40%]"
+                          >
+                            <div
+                              class="relative aspect-[2/3] rounded-lg overflow-hidden transition-all duration-300 ease-in-out ring-1 w-full h-full"
+                              :class="[
+                                isDark
+                                  ? 'bg-gradient-to-br from-[#334155] to-[#1e293b] hover:shadow-[0_0_15px_0_rgba(51,65,85,0.5)] ring-slate-400/20 hover:ring-slate-400/40'
+                                  : 'bg-gradient-to-br from-[#e3f2fd] to-[#bbdefb] hover:shadow-[0_0_15px_0_rgba(187,222,251,0.5)] ring-blue-200/30 hover:ring-blue-200/80',
+                              ]"
+                            >
+                              <NuxtImg
+                                :src="image.src"
+                                :alt="image.alt"
+                                class="absolute inset-0 w-full h-full object-contain z-10"
+                                format="webp"
+                                width="400"
+                                height="600"
+                                fit="cover"
+                                :quality="100"
+                                loading="lazy"
+                                sizes="400px"
+                              />
+                              <div
+                                class="absolute top-1 scale-90 sm:scale-100 z-20"
+                                :class="[
+                                  image.level === 'glow'
+                                    ? 'left-1 origin-top-left'
+                                    : 'right-1 origin-top-right',
+                                ]"
+                              >
+                                <n-tag
+                                  round
+                                  size="small"
+                                  :bordered="false"
+                                  type="info"
+                                >
+                                  {{
+                                    t(
+                                      `banner.outfit.level.${image.level === 0 ? '1' : image.level}`
+                                    )
+                                  }}
+                                  <span
+                                    v-if="
+                                      getOutfitCompletionLevels(
+                                        outfitId,
+                                        4
+                                      ).includes(image.level.toString())
+                                    "
+                                  >
+                                    <n-icon><CheckCircle /></n-icon>
+                                  </span>
+                                </n-tag>
+                              </div>
+                            </div>
+                          </n-carousel-item>
+                        </n-carousel>
+                      </div>
+
+                      <!-- Outfit Items Grid -->
+                      <div class="flex-1 min-w-0">
+                        <div class="grid grid-cols-5 gap-2">
+                          <ItemCard
+                            v-for="item in getOutfitItems(outfitId)"
+                            :key="item.itemId"
+                            :item="item"
+                            :info="false"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </template>
             </div>
           </div>
         </div>
@@ -364,10 +662,21 @@
 </template>
 
 <script setup lang="ts">
-  import { ArrowLeft, ChartBarRegular, Edit } from '@vicons/fa'
+  import {
+    ArrowLeft,
+    ChartBarRegular,
+    Edit,
+    Star,
+    CheckCircle,
+    Th,
+    ThLarge,
+    FileImport,
+  } from '@vicons/fa'
   import { BANNER_DATA } from '~/data/banners'
   import { useMessage } from 'naive-ui'
   import type { Outfit } from '~/types/outfit'
+  import OUTFIT_DATA, { type OutfitKey } from '~/data/outfits'
+  import type { PullItem } from '~/types/pull'
 
   const route = useRoute()
   const router = useRouter()
@@ -381,8 +690,11 @@
   const message = useMessage()
   const { loadData } = useIndexedDB()
   const showCollectionEditor = ref(false)
+  const showItems = ref(true)
 
   const { getAvg5StarPercentile, getAvg4StarType3Percentile } = usePercentile()
+  const userStore = useUserStore()
+  const isDark = computed(() => userStore.getCurrentTheme === 'dark')
 
   const banner = computed(() => {
     const bannerId = parseInt(route.params.id as string)
@@ -393,6 +705,92 @@
     if (!banner.value) return null
     return processedPulls.value[banner.value.bannerId]
   })
+
+  // Helper function to get outfit images for carousel
+  const getOutfitImages = (outfitId: string, rarity: number) => {
+    const images = []
+    images.push({
+      src: `/images/outfits/${outfitId}.webp`,
+      alt: `${t(`outfit.${outfitId}.name`)} Base`,
+      level: 0,
+    })
+
+    // Add level variants based on rarity
+    const maxLevel = rarity === 5 ? 4 : 2
+    for (let i = 2; i <= maxLevel; i++) {
+      images.push({
+        src: `/images/outfits/${outfitId}_LV${i}.webp`,
+        alt: `${t(`outfit.${outfitId}.name`)} LV${i}`,
+        level: i,
+      })
+    }
+
+    // Add LV1 (glowed up) image
+    images.push({
+      src: `/images/outfits/${outfitId}_LV1.webp`,
+      alt: `${t(`outfit.${outfitId}.name`)} LV1`,
+      level: 'glow',
+    })
+
+    return images
+  }
+
+  // Helper function to get outfit completion levels
+  const getOutfitCompletionLevels = (outfitId: string, rarity: number) => {
+    if (!bannerPulls.value) return []
+
+    const levels = []
+    const totalPulls = bannerPulls.value.stats.totalPulls
+    const outfitCompletion =
+      bannerPulls.value.outfits.find((outfit: Outfit) => outfit.id === outfitId)
+        ?.completion || 0
+    const manualEvoLevel = pullStore.getOutfitEvoLevel(
+      banner.value!.bannerId,
+      outfitId
+    )
+
+    if (rarity === 5) {
+      if (outfitCompletion >= 1) {
+        levels.push('0')
+        levels.push('1')
+      }
+      if ((totalPulls >= 180 || manualEvoLevel >= 2) && outfitCompletion >= 1) {
+        levels.push('2')
+      }
+      if ((totalPulls >= 230 || manualEvoLevel >= 3) && outfitCompletion >= 1) {
+        levels.push('3')
+      }
+      if (outfitCompletion >= 2) {
+        levels.push('4')
+      }
+    } else {
+      if (outfitCompletion >= 1) {
+        levels.push('0')
+        levels.push('1')
+      }
+      if (outfitCompletion >= 2) levels.push('2')
+    }
+
+    return levels
+  }
+
+  // Helper function to get outfit items for ItemCard display
+  const getOutfitItems = (outfitId: string): PullItem[] => {
+    const outfit = OUTFIT_DATA[outfitId as OutfitKey]
+
+    return outfit.items.map((itemId) => {
+      return {
+        itemId: itemId,
+        outfitId: outfitId,
+        rarity: banner.value!.outfit5StarId.includes(outfitId) ? 5 : 4,
+        count: 1,
+        pullIndex: 0,
+        pullsToObtain: 0,
+        obtainedAt: '',
+        bannerId: banner.value!.bannerId,
+      }
+    })
+  }
 
   onMounted(async () => {
     if (Object.keys(processedPulls.value).length > 0) {

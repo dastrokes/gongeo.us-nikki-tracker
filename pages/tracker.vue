@@ -825,7 +825,7 @@
         </div>
       </div>
 
-      <!-- No Data State - Show Sample Banners -->
+      <!-- No Data State -->
       <div
         v-if="!hasAnyData"
         class="space-y-4"
@@ -930,6 +930,7 @@
                   v-for="item in banner.pulls"
                   :key="`${item.itemId}-${item.count}`"
                   :item="item"
+                  :info="false"
                 />
               </div>
             </n-card>

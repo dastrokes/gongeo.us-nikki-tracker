@@ -480,12 +480,16 @@
               </template>
               {{ t('global.charts.first_item_distribution_tooltip') }}
             </n-tooltip>
-            <n-select
-              v-model:value="selectedBannerId"
-              :options="bannerOptions"
-              :show-checkmark="false"
+            <n-tree-select
+              v-model:value="selectedOutfit"
+              v-model:expanded-keys="expandedKeys"
+              :consistent-menu-width="false"
+              :options="firstItemTreeOptions"
               class="absolute top-2 right-12 z-10 w-40"
               size="small"
+              :indent="8"
+              :override-default-node-click-behavior="override"
+              @update:show="handleDropdownShow"
               @update:value="updateFirstItemChart"
             />
 
@@ -526,11 +530,45 @@
   </div>
 </template>
 
-<script setup>
-  import { NSkeleton, NNumberAnimation, NButton, NSelect } from 'naive-ui'
+<script setup lang="ts">
+  import {
+    NSkeleton,
+    NNumberAnimation,
+    NButton,
+    NSelect,
+    NIcon,
+  } from 'naive-ui'
+  import type { TreeSelectOption } from 'naive-ui'
   import { BANNER_DATA } from '~/data/banners'
   import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
   import { ExpandAlt, CompressAlt, ExclamationCircle } from '@vicons/fa'
+
+  // Type definitions for global data structure
+  interface GlobalData {
+    t?: number // total pulls
+    u?: number // unique users
+    a5?: number // average pulls to 5-star
+    a4_2?: number // average pulls to 4-star type 2
+    a4_3?: number // average pulls to 4-star type 3
+    d?: string // date
+    p?: Record<string, [number, number, number]> // pulls per banner [3star, 4star, 5star]
+    f5?: Record<string, number> // 5-star distribution
+    f4_2?: Record<string, number> // 4-star type 2 distribution
+    f4_3?: Record<string, number> // 4-star type 3 distribution
+    f?: Record<string, { o: number; i: string }[]> // first item distribution
+  }
+
+  // Type definitions for ECharts formatter parameters
+  interface ChartFormatterParams {
+    dataIndex: number
+    value: number
+    axisValue: string
+    data?: {
+      itemId?: string
+      value: number
+      percentage: string
+    }
+  }
 
   // Initialize stores
   const userStore = useUserStore()
@@ -538,6 +576,22 @@
   // Initialize breakpoints
   const breakpoints = useBreakpoints(breakpointsTailwind)
   const isMobile = ref(false)
+
+  function override(info: { option: TreeSelectOption }) {
+    if (info.option.children) {
+      // If there's only 1 child, select it directly
+      if (info.option.children.length === 1) {
+        const onlyChild = info.option.children[0]
+        nextTick(() => {
+          selectedOutfit.value = onlyChild?.value as string | null
+          updateFirstItemChart(onlyChild as TreeSelectOption)
+        })
+        return 'default'
+      }
+      return 'toggleExpand'
+    }
+    return 'default'
+  }
 
   onMounted(() => {
     watchEffect(() => {
@@ -610,7 +664,7 @@
   )
 
   // Use computed for data to maintain reactivity
-  const data = computed(() => globalData.value)
+  const data = computed(() => globalData.value as GlobalData | null)
   const loading = ref(true)
 
   // Computed values for stats (updated for new data.json)
@@ -634,35 +688,98 @@
   const fourStarType2ChartOption = ref({})
   const fourStarType3ChartOption = ref({})
 
-  const maximizedChart = ref(null)
-
-  // Add banner selector related refs
-  const selectedBannerId = ref(
-    Number(Object.keys(BANNER_DATA)[Object.keys(BANNER_DATA).length - 1])
+  const maximizedChart = ref<string | null>(null)
+  const selectedOutfit = ref<string | null>(null)
+  const latestBannerId = Number(
+    Object.keys(BANNER_DATA)[Object.keys(BANNER_DATA).length - 1]
   )
+  const latestBanner = BANNER_DATA[latestBannerId]
+
+  if (
+    latestBanner?.outfit5StarId?.length &&
+    latestBanner.outfit5StarId.length > 0
+  ) {
+    selectedOutfit.value = `${latestBannerId}_5_${latestBanner.outfit5StarId[0]}`
+  } else if (
+    latestBanner?.outfit4StarId?.length &&
+    latestBanner.outfit4StarId.length > 0
+  ) {
+    selectedOutfit.value = `${latestBannerId}_4_${latestBanner.outfit4StarId[0]}`
+  }
+
+  const expandedKeys = ref([])
+
+  function handleDropdownShow(show: boolean) {
+    if (!show) {
+      expandedKeys.value = [] // collapse everything when closed
+    }
+  }
+
   const selectedBannerType = ref('all')
   const bannerTypeOptions = computed(() => [
     { label: t('global.charts.all_banners'), value: 'all' },
     { label: t('global.charts.five_star_banners'), value: 2 },
     { label: t('global.charts.four_star_banners'), value: 3 },
   ])
-  const bannerOptions = computed(() => {
-    return Object.entries(BANNER_DATA)
+
+  // Create tree structure for first item distribution chart
+  const firstItemTreeOptions = computed(() => {
+    const options = Object.entries(BANNER_DATA)
       .filter(([id]) => id !== '1')
-      .map(([id, banner]) => ({
-        label: banner?.bannerId ? t(`banner.${banner.bannerId}.name`) : '',
-        value: Number(id),
-      }))
+      .map(([id, banner]) => {
+        const bannerId = Number(id)
+        const bannerName = banner?.bannerId
+          ? t(`banner.${banner.bannerId}.name`)
+          : ''
+
+        // Create children for each outfit in this banner
+        const children: TreeSelectOption[] = []
+
+        // Add 5-star outfits
+        if (banner.outfit5StarId) {
+          banner.outfit5StarId.forEach((outfitId: TreeSelectOption) => {
+            children.push({
+              label: '5★ ' + t(`outfit.${outfitId}.name`, outfitId),
+              value: `${bannerId}_5_${outfitId}`,
+              key: `${bannerId}_5_${outfitId}`,
+            })
+          })
+        }
+
+        // Add 4-star outfits
+        if (banner.outfit4StarId) {
+          banner.outfit4StarId.forEach((outfitId: TreeSelectOption) => {
+            children.push({
+              label: '4★ ' + t(`outfit.${outfitId}.name`, outfitId),
+              value: `${bannerId}_4_${outfitId}`,
+              key: `${bannerId}_4_${outfitId}`,
+            })
+          })
+        }
+
+        return {
+          label: bannerName,
+          value: bannerId,
+          key: `banner_${bannerId}`,
+          children: children.length > 0 ? children : undefined,
+        }
+      })
       .reverse()
+
+    return options
   })
 
   // Add computed property to check if banner has pulls older than 180 days
   const checkBannerRuns = computed(() => {
-    if (!selectedBannerId.value || !BANNER_DATA[selectedBannerId.value])
+    if (
+      !selectedOutfit.value ||
+      !BANNER_DATA[Number((selectedOutfit.value as string).split('_')[0])]
+    )
       return false
 
-    const banner = BANNER_DATA[selectedBannerId.value]
-    if (!banner.runs || banner.runs.length === 0) return false
+    const banner =
+      BANNER_DATA[Number((selectedOutfit.value as string).split('_')[0])]
+    if (!banner?.runs || banner.runs.length === 0) return false
 
     // Check if any run of this banner started more than 180 days ago
     const daysAgo180 = new Date()
@@ -675,9 +792,9 @@
     })
   })
 
-  // Function to manually update first item chart when banner selection changes
-  const updateFirstItemChart = (newBannerId) => {
-    if (data.value?.f && newBannerId) {
+  // Function to manually update first item chart when outfit selection changes
+  const updateFirstItemChart = (newOutfitValue: TreeSelectOption) => {
+    if (data.value?.f && newOutfitValue) {
       createFirstItemDistributionChart(data.value.f)
     }
   }
@@ -687,11 +804,11 @@
   // initialize all charts
   const initializeCharts = () => {
     try {
-      if (data.value.p) createPullsPerBannerChart(data.value.p)
-      if (data.value.f5) createFiveStarDistributionChart(data.value.f5)
-      if (data.value.f4_2) createFourStarType2Chart(data.value.f4_2)
-      if (data.value.f4_3) createFourStarType3Chart(data.value.f4_3)
-      if (data.value.f && selectedBannerId.value) {
+      if (data.value?.p) createPullsPerBannerChart(data.value.p)
+      if (data.value?.f5) createFiveStarDistributionChart(data.value.f5)
+      if (data.value?.f4_2) createFourStarType2Chart(data.value.f4_2)
+      if (data.value?.f4_3) createFourStarType3Chart(data.value.f4_3)
+      if (data.value?.f && selectedOutfit.value) {
         createFirstItemDistributionChart(data.value.f)
       }
     } catch (error) {
@@ -699,7 +816,7 @@
     }
   }
 
-  const toggleMaximize = (chartId) => {
+  const toggleMaximize = (chartId: string | null) => {
     maximizedChart.value = maximizedChart.value === chartId ? null : chartId
   }
 
@@ -710,7 +827,9 @@
     }
   }
 
-  const createPullsPerBannerChart = (chartData) => {
+  const createPullsPerBannerChart = (
+    chartData: Record<string, [number, number, number]>
+  ) => {
     if (!chartData) return
     // chartData: { [bannerId]: [3star, 4star, 5star] }
     // Filter banners based on selected type
@@ -721,7 +840,7 @@
             Object.entries(chartData).filter(
               ([bannerId]) =>
                 BANNER_DATA[parseInt(bannerId)]?.bannerType ===
-                selectedBannerType.value
+                Number(selectedBannerType.value)
             )
           )
 
@@ -730,9 +849,18 @@
       return banner?.bannerId ? t(`banner.${banner.bannerId}.name`) : ''
     })
 
-    const data3Star = Object.values(filteredChartData).map((arr) => arr[0])
-    const data4Star = Object.values(filteredChartData).map((arr) => arr[1])
-    const data5Star = Object.values(filteredChartData).map((arr) => arr[2])
+    // Each value in filteredChartData is expected to be [number, number, number]
+    type BannerPulls = [number, number, number]
+
+    const data3Star = Object.values(filteredChartData).map(
+      (arr) => (arr as BannerPulls)[0]
+    )
+    const data4Star = Object.values(filteredChartData).map(
+      (arr) => (arr as BannerPulls)[1]
+    )
+    const data5Star = Object.values(filteredChartData).map(
+      (arr) => (arr as BannerPulls)[2]
+    )
 
     const textStyle = getChartTextStyle()
 
@@ -751,31 +879,33 @@
       tooltip: {
         trigger: 'axis',
         confine: true,
-        formatter: function (params) {
-          const bannerId = Object.keys(filteredChartData)[params[0].dataIndex]
-          const banner = BANNER_DATA[parseInt(bannerId)]
-          const pullsArr = filteredChartData[bannerId]
-          const total = pullsArr.reduce((a, b) => a + b, 0)
+        formatter: function (params: ChartFormatterParams[]) {
+          const bannerId =
+            Object.keys(filteredChartData)[params[0]?.dataIndex || 0]
+          const banner = BANNER_DATA[parseInt(bannerId || '0')]
+          const pullsArr = filteredChartData[bannerId || '']
+          if (!pullsArr) return ''
+          const total = pullsArr.reduce((a: number, b: number) => a + b, 0)
           return `
-              <div style="display: flex; flex-direction: column; align-items: center;">
-                <div style="margin-bottom: 5px; text-align: center; font-weight: bold;">
-                  ${banner?.bannerId ? t(`banner.${banner.bannerId}.name`) : ''}
+                <div style="display: flex; flex-direction: column; align-items: center;">
+                  <div style="margin-bottom: 5px; text-align: center; font-weight: bold;">
+                    ${banner?.bannerId ? t(`banner.${banner.bannerId}.name`) : ''}
+                  </div>
+                  <div style="margin-bottom: 5px; text-align: left;">
+                    ${banner?.bannerType === 2 ? `<span style="color: rgb(245, 158, 11, 0.8)">★★★★★:</span> <strong>${pullsArr[2]}</strong> (${((pullsArr[2] / total) * 100).toFixed(1)}%)<br>` : ''}
+                    <span style="color: rgb(139, 92, 246, 0.8)">★★★★:</span> <strong>${pullsArr[1]}</strong> (${((pullsArr[1] / total) * 100).toFixed(1)}%)<br>
+                    <span style="color: rgb(107, 114, 128, 0.8)">★★★:</span> <strong>${pullsArr[0]}</strong> (${((pullsArr[0] / total) * 100).toFixed(1)}%)
+                  </div>
+                  <div style="margin-top: 5px; text-align: center;">
+                    ${t('global.charts.total')}: <strong>${total}</strong>
+                  </div>
+                  <img
+                    src="/images/banners/thumbnails/${bannerId}.webp"
+                    alt="${banner?.bannerId ? t(`banner.${banner.bannerId}.name`) : ''}"
+                    style="width: 200px; height: 100px; object-fit: cover; border-radius: 4px; margin-top: 8px;"
+                  />
                 </div>
-                <div style="margin-bottom: 5px; text-align: left;">
-                  ${banner?.bannerType === 2 ? `<span style="color: rgb(245, 158, 11, 0.8)">★★★★★:</span> <strong>${pullsArr[2]}</strong> (${((pullsArr[2] / total) * 100).toFixed(1)}%)<br>` : ''}
-                  <span style="color: rgb(139, 92, 246, 0.8)">★★★★:</span> <strong>${pullsArr[1]}</strong> (${((pullsArr[1] / total) * 100).toFixed(1)}%)<br>
-                  <span style="color: rgb(107, 114, 128, 0.8)">★★★:</span> <strong>${pullsArr[0]}</strong> (${((pullsArr[0] / total) * 100).toFixed(1)}%)
-                </div>
-                <div style="margin-top: 5px; text-align: center;">
-                  ${t('global.charts.total')}: <strong>${total}</strong>
-                </div>
-                <img
-                  src="/images/banners/thumbnails/${bannerId}.webp"
-                  alt="${banner?.bannerId ? t(`banner.${banner.bannerId}.name`) : ''}"
-                  style="width: 200px; height: 100px; object-fit: cover; border-radius: 4px; margin-top: 8px;"
-                />
-              </div>
-            `
+              `
         },
         backgroundColor: isDark.value
           ? 'rgb(75, 85, 99, 0.9)'
@@ -815,7 +945,7 @@
           rotate: isMobile.value ? 90 : 30,
           overflow: 'truncate',
           width: 120,
-          formatter: (value) => value,
+          formatter: (value: string) => value,
           ...textStyle,
         },
         axisLine: {
@@ -868,18 +998,23 @@
     }
   }
 
-  const createDistributionChart = (chartData, chartType, color) => {
+  const createDistributionChart = (
+    chartData: Record<string, number>,
+    chartType: string,
+    color: string
+  ) => {
     let labels = Object.keys(chartData)
     let values = Object.values(chartData)
 
     // For 4-star in 5-star banners only, group 12+ together
     if (chartType === 'fourStarType2') {
-      const processedData = {}
+      const processedData: Record<string, number> = {}
 
       Object.entries(chartData).forEach(([pullCount, occurrences]) => {
         const pullNum = parseInt(pullCount)
         if (pullNum >= 12) {
-          processedData['12+'] = (processedData['12+'] || 0) + occurrences
+          processedData['12+'] =
+            (processedData['12+'] || 0) + (occurrences as number)
         } else {
           processedData[pullCount] = occurrences
         }
@@ -889,13 +1024,13 @@
       values = Object.values(processedData)
     }
 
-    const total = values.reduce((sum, val) => sum + val, 0)
+    const total = values.reduce((sum: number, val: number) => sum + val, 0)
 
     const cumulativeData = values.map((value, index, array) => {
       const cumulative = array
         .slice(0, index + 1)
-        .reduce((sum, val) => sum + val, 0)
-      return (cumulative / total) * 100
+        .reduce((sum: number, val: number) => sum + val, 0)
+      return ((cumulative as number) / (total as number)) * 100
     })
 
     const textStyle = getChartTextStyle()
@@ -920,26 +1055,28 @@
       tooltip: {
         trigger: 'axis',
         confine: true,
-        formatter: function (params) {
+        formatter: function (params: ChartFormatterParams[]) {
           const barData = params[0]
           const lineData = params[1]
 
+          if (!barData || !lineData) return ''
+
           return `
-              <div style="display: flex; flex-direction: column;">
-                <div style="font-weight: bold; margin-bottom: 5px;">
-                  ${t('global.charts.number_of_pulls')}: ${barData.axisValue}
+                <div style="display: flex; flex-direction: column;">
+                  <div style="font-weight: bold; margin-bottom: 5px;">
+                    ${t('global.charts.number_of_pulls')}: ${barData.axisValue}
+                  </div>
+                  <div>
+                    ${t('global.charts.occurrences')}: <strong>${barData.value}</strong>
+                  </div>
+                  <div>
+                    ${t('global.charts.probability')}: <strong>${((barData.value / (total as number)) * 100).toFixed(2)}%</strong>
+                  </div>
+                  <div>
+                    ${t('global.charts.cumulative_probability')}: <strong>${lineData.value.toFixed(2)}%</strong>
+                  </div>
                 </div>
-                <div>
-                  ${t('global.charts.occurrences')}: <strong>${barData.value}</strong>
-                </div>
-                <div>
-                  ${t('global.charts.probability')}: <strong>${((barData.value / total) * 100).toFixed(2)}%</strong>
-                </div>
-                <div>
-                  ${t('global.charts.cumulative_probability')}: <strong>${lineData.value.toFixed(2)}%</strong>
-                </div>
-              </div>
-            `
+              `
         },
         backgroundColor: isDark.value
           ? 'rgb(75, 85, 99, 0.9)'
@@ -1026,7 +1163,9 @@
     return chartOption
   }
 
-  const createFiveStarDistributionChart = (chartData) => {
+  const createFiveStarDistributionChart = (
+    chartData: Record<string, number>
+  ) => {
     if (!chartData) return
     fiveStarDistributionChartOption.value = createDistributionChart(
       chartData,
@@ -1035,7 +1174,7 @@
     )
   }
 
-  const createFourStarType2Chart = (chartData) => {
+  const createFourStarType2Chart = (chartData: Record<string, number>) => {
     if (!chartData) return
     fourStarType2ChartOption.value = createDistributionChart(
       chartData,
@@ -1044,7 +1183,7 @@
     )
   }
 
-  const createFourStarType3Chart = (chartData) => {
+  const createFourStarType3Chart = (chartData: Record<string, number>) => {
     if (!chartData) return
     fourStarType3ChartOption.value = createDistributionChart(
       chartData,
@@ -1053,29 +1192,59 @@
     )
   }
 
-  const createFirstItemDistributionChart = (chartData) => {
-    if (
-      !chartData ||
-      !selectedBannerId.value ||
-      !chartData[selectedBannerId.value]
-    ) {
+  const createFirstItemDistributionChart = (
+    chartData: Record<string, { o: number; i: string }[]>
+  ) => {
+    if (!chartData || !selectedOutfit.value) {
+      // Clear the chart if no outfit is selected
+      firstItemDistributionChartOption.value = {}
       return null
     }
-    const bannerItems = chartData[selectedBannerId.value]
+
+    // Parse the selected outfit value to get banner ID, rarity, and outfit ID
+    const [bannerId, rarity, _outfitId] = (
+      selectedOutfit.value as string
+    ).split('_')
+    const bannerIdNum = parseInt(bannerId || '0')
+
+    // For type 2 banners, use the special key format (e.g., "30_4" for banner 30, 4-star)
+    // For other banners, use the regular banner ID
+    let dataKey = bannerIdNum.toString()
+    if (BANNER_DATA[bannerIdNum]?.bannerType === 2 && rarity === '4') {
+      dataKey = `${bannerId}_${rarity}`
+    }
+
+    if (!chartData[dataKey]) {
+      return null
+    }
+
+    const bannerItems = chartData[dataKey]
+    if (!bannerItems) return null
     // Calculate total for percentage
-    const totalOccurrences = bannerItems.reduce((sum, item) => sum + item.o, 0)
-    const dataArr = bannerItems.map((item) => ({
+    const totalOccurrences = bannerItems.reduce(
+      (sum: number, item: { o: number }) => sum + item.o,
+      0
+    )
+    const dataArr = bannerItems.map((item: { o: number; i: string }) => ({
       value: item.o,
       percentage: ((item.o / totalOccurrences) * 100).toFixed(2),
       itemId: item.i,
     }))
     // Prepare itemId to item mapping for labels
-    const itemsData = bannerItems.map((item) => item.i)
-    const richLabels = {}
+    const itemsData = bannerItems.map((item: { i: string }) => item.i)
+    const richLabels: Record<
+      string,
+      {
+        height: number
+        width: number
+        backgroundColor: { image: string }
+        align: string
+      }
+    > = {}
     // Get viewport width to detect mobile vs desktop
     const imageSize = isMobile.value ? 36 : 80
     // Create rich label for each item
-    itemsData.forEach((itemId) => {
+    itemsData.forEach((itemId: string) => {
       richLabels[`img${itemId}`] = {
         height: imageSize,
         width: imageSize,
@@ -1102,23 +1271,25 @@
       tooltip: {
         trigger: 'axis',
         confine: true,
-        formatter: function (params) {
+        formatter: function (params: ChartFormatterParams[]) {
+          if (!params[0]?.data?.itemId) return ''
+          const itemId = params[0].data.itemId
           return `
-              <div style="display: flex; flex-direction: column;">
-                <div style="font-weight: bold; margin-bottom: 5px;">
-                  ${t('item.' + params[0].data.itemId + '.name', params[0].data.itemId)}
+                <div style="display: flex; flex-direction: column;">
+                  <div style="font-weight: bold; margin-bottom: 5px;">
+                    ${t('item.' + itemId + '.name', itemId)}
+                  </div>
+                  <div>
+                    ${t('global.charts.type')}: <strong>${t(`items.types.${getItemType(itemId)}`)}</strong>
+                  </div>
+                  <div>
+                    ${t('global.charts.occurrences')}: <strong>${params[0].data.value}</strong>
+                  </div>
+                  <div>
+                    ${t('global.charts.percentage')}: <strong>${params[0].data.percentage}%</strong>
+                  </div>
                 </div>
-                <div>
-                  ${t('global.charts.type')}: <strong>${t(`items.types.${getItemType(params[0].data.itemId)}`)}</strong>
-                </div>
-                <div>
-                  ${t('global.charts.occurrences')}: <strong>${params[0].data.value}</strong>
-                </div>
-                <div>
-                  ${t('global.charts.percentage')}: <strong>${params[0].data.percentage}%</strong>
-                </div>
-              </div>
-            `
+              `
         },
         backgroundColor: isDark.value
           ? 'rgba(38, 38, 38, 0.8)'
@@ -1141,7 +1312,7 @@
         data: itemsData,
         axisLabel: {
           show: true,
-          formatter: function (value) {
+          formatter: function (value: string) {
             return `{img${value}|}`
           },
           rich: richLabels,

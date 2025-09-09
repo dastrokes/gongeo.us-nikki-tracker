@@ -487,8 +487,9 @@
               :options="firstItemTreeOptions"
               class="absolute top-2 right-12 z-10 w-40"
               size="small"
-              :indent="12"
+              :indent="16"
               :override-default-node-click-behavior="override"
+              :render-label="renderLabel"
               @update:show="handleDropdownShow"
               @update:value="updateFirstItemChart"
             />
@@ -703,6 +704,14 @@
   function handleDropdownShow(show: boolean) {
     if (!show) {
       expandedKeys.value = [] // collapse everything when closed
+    }
+  }
+
+  const renderLabel = ({ option }: { option: TreeSelectOption }) => {
+    if (!option.children) {
+      return h('span', { class: '-ml-4' }, option.label)
+    } else {
+      return h('span', option.label)
     }
   }
 

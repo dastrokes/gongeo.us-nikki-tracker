@@ -487,7 +487,7 @@
               :options="firstItemTreeOptions"
               class="absolute top-2 right-12 z-10 w-40"
               size="small"
-              :indent="8"
+              :indent="12"
               :override-default-node-click-behavior="override"
               @update:show="handleDropdownShow"
               @update:value="updateFirstItemChart"
@@ -579,15 +579,6 @@
 
   function override(info: { option: TreeSelectOption }) {
     if (info.option.children) {
-      // If there's only 1 child, select it directly
-      if (info.option.children.length === 1) {
-        const onlyChild = info.option.children[0]
-        nextTick(() => {
-          selectedOutfit.value = onlyChild?.value as string | null
-          updateFirstItemChart(onlyChild as TreeSelectOption)
-        })
-        return 'default'
-      }
       return 'toggleExpand'
     }
     return 'default'

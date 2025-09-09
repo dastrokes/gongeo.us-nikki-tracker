@@ -354,9 +354,6 @@
                         totalPulls: bannerPulls?.stats.totalPulls || 0,
                       }"
                     />
-                    <n-divider
-                      v-if="banner.bannerType === 1 || banner.bannerType === 2"
-                    />
                   </div>
                 </div>
 
@@ -386,114 +383,19 @@
                   <div
                     v-for="(outfitId, outfitIndex) in banner.outfit5StarId"
                     :key="outfitId"
-                    class="space-y-3"
                   >
                     <n-divider
                       v-if="outfitIndex > 0"
                       class="!my-2"
                     />
-                    <div class="flex items-center gap-2">
-                      <n-tag
-                        type="warning"
-                        :bordered="false"
-                        round
-                      >
-                        {{ t(`outfit.${outfitId}.name`) }} 5<n-icon class="ml-1"
-                          ><Star
-                        /></n-icon>
-                      </n-tag>
-                    </div>
-
-                    <!-- Outfit Images Carousel with Items Grid -->
-                    <div class="flex flex-col lg:flex-row gap-4">
-                      <!-- Carousel Container -->
-                      <div class="w-full lg:w-auto flex-shrink-0">
-                        <n-carousel
-                          ref="carousel5Star"
-                          effect="card"
-                          :show-dots="true"
-                          dot-placement="left"
-                          :centered-slides="false"
-                          :slides-per-view="2"
-                          draggable
-                          class="rounded-lg w-full sm:w-[400px] aspect-[4/3]"
-                        >
-                          <n-carousel-item
-                            v-for="(image, index) in getOutfitImages(
-                              outfitId,
-                              5
-                            )"
-                            :key="index"
-                            class="w-[60%]"
-                          >
-                            <div
-                              class="relative aspect-[2/3] rounded-lg overflow-hidden transition-all duration-300 ease-in-out ring-1 w-full h-full"
-                              :class="[
-                                isDark
-                                  ? 'bg-gradient-to-br from-[#713f12] to-[#451a03] hover:shadow-[0_0_15px_0_rgba(113,63,18,0.5)] ring-amber-900/30 hover:ring-amber-900/60'
-                                  : 'bg-gradient-to-br from-[#fff8e1] to-[#ffcc80] hover:shadow-[0_0_15px_0_rgba(255,204,128,0.5)] ring-amber-200/30 hover:ring-amber-200/80',
-                              ]"
-                            >
-                              <NuxtImg
-                                :src="image.src"
-                                :alt="image.alt"
-                                class="absolute inset-0 w-full h-full object-contain z-10"
-                                format="webp"
-                                width="400"
-                                height="600"
-                                fit="cover"
-                                :quality="100"
-                                loading="lazy"
-                                sizes="400px"
-                              />
-                              <div
-                                class="absolute top-1 scale-90 sm:scale-100 z-20"
-                                :class="[
-                                  image.level === 'glow'
-                                    ? 'left-1 origin-top-left'
-                                    : 'right-1 origin-top-right',
-                                ]"
-                              >
-                                <n-tag
-                                  round
-                                  size="small"
-                                  :bordered="false"
-                                  type="warning"
-                                >
-                                  {{
-                                    t(
-                                      `banner.outfit.level.${image.level === 0 ? '1' : image.level}`
-                                    )
-                                  }}
-                                  <span
-                                    v-if="
-                                      getOutfitCompletionLevels(
-                                        outfitId,
-                                        5
-                                      ).includes(image.level.toString())
-                                    "
-                                  >
-                                    <n-icon><CheckCircle /></n-icon>
-                                  </span>
-                                </n-tag>
-                              </div>
-                            </div>
-                          </n-carousel-item>
-                        </n-carousel>
-                      </div>
-
-                      <!-- Outfit Items Grid -->
-                      <div class="flex-1 min-w-0">
-                        <div class="grid grid-cols-5 gap-2">
-                          <ItemCard
-                            v-for="item in getOutfitItems(outfitId)"
-                            :key="item.itemId"
-                            :item="item"
-                            :info="false"
-                          />
-                        </div>
-                      </div>
-                    </div>
+                    <OutfitCarousel
+                      :outfit-id="outfitId"
+                      :rarity="5"
+                      :banner-id="banner.bannerId"
+                      :completion-levels="
+                        getOutfitCompletionLevels(outfitId, 5)
+                      "
+                    />
                   </div>
                 </div>
 
@@ -506,114 +408,19 @@
                   <div
                     v-for="(outfitId, outfitIndex) in banner.outfit4StarId"
                     :key="outfitId"
-                    class="space-y-3"
                   >
                     <n-divider
                       v-if="outfitIndex > 0"
                       class="!my-2"
                     />
-                    <div class="flex items-center gap-2">
-                      <n-tag
-                        type="info"
-                        :bordered="false"
-                        round
-                      >
-                        {{ t(`outfit.${outfitId}.name`) }} 4<n-icon class="ml-1"
-                          ><Star
-                        /></n-icon>
-                      </n-tag>
-                    </div>
-
-                    <!-- Outfit Images Carousel with Items Grid -->
-                    <div class="flex flex-col lg:flex-row gap-4">
-                      <!-- Carousel Container -->
-                      <div class="w-full lg:w-auto flex-shrink-0">
-                        <n-carousel
-                          ref="carousel4Star"
-                          effect="card"
-                          :show-dots="true"
-                          dot-placement="left"
-                          :centered-slides="false"
-                          :slides-per-view="2"
-                          draggable
-                          class="rounded-lg w-full sm:w-[400px] aspect-[4/3]"
-                        >
-                          <n-carousel-item
-                            v-for="(image, index) in getOutfitImages(
-                              outfitId,
-                              4
-                            )"
-                            :key="index"
-                            class="w-[40%]"
-                          >
-                            <div
-                              class="relative aspect-[2/3] rounded-lg overflow-hidden transition-all duration-300 ease-in-out ring-1 w-full h-full"
-                              :class="[
-                                isDark
-                                  ? 'bg-gradient-to-br from-[#334155] to-[#1e293b] hover:shadow-[0_0_15px_0_rgba(51,65,85,0.5)] ring-slate-400/20 hover:ring-slate-400/40'
-                                  : 'bg-gradient-to-br from-[#e3f2fd] to-[#bbdefb] hover:shadow-[0_0_15px_0_rgba(187,222,251,0.5)] ring-blue-200/30 hover:ring-blue-200/80',
-                              ]"
-                            >
-                              <NuxtImg
-                                :src="image.src"
-                                :alt="image.alt"
-                                class="absolute inset-0 w-full h-full object-contain z-10"
-                                format="webp"
-                                width="400"
-                                height="600"
-                                fit="cover"
-                                :quality="100"
-                                loading="lazy"
-                                sizes="400px"
-                              />
-                              <div
-                                class="absolute top-1 scale-90 sm:scale-100 z-20"
-                                :class="[
-                                  image.level === 'glow'
-                                    ? 'left-1 origin-top-left'
-                                    : 'right-1 origin-top-right',
-                                ]"
-                              >
-                                <n-tag
-                                  round
-                                  size="small"
-                                  :bordered="false"
-                                  type="info"
-                                >
-                                  {{
-                                    t(
-                                      `banner.outfit.level.${image.level === 0 ? '1' : image.level}`
-                                    )
-                                  }}
-                                  <span
-                                    v-if="
-                                      getOutfitCompletionLevels(
-                                        outfitId,
-                                        4
-                                      ).includes(image.level.toString())
-                                    "
-                                  >
-                                    <n-icon><CheckCircle /></n-icon>
-                                  </span>
-                                </n-tag>
-                              </div>
-                            </div>
-                          </n-carousel-item>
-                        </n-carousel>
-                      </div>
-
-                      <!-- Outfit Items Grid -->
-                      <div class="flex-1 min-w-0">
-                        <div class="grid grid-cols-5 gap-2">
-                          <ItemCard
-                            v-for="item in getOutfitItems(outfitId)"
-                            :key="item.itemId"
-                            :item="item"
-                            :info="false"
-                          />
-                        </div>
-                      </div>
-                    </div>
+                    <OutfitCarousel
+                      :outfit-id="outfitId"
+                      :rarity="4"
+                      :banner-id="banner.bannerId"
+                      :completion-levels="
+                        getOutfitCompletionLevels(outfitId, 4)
+                      "
+                    />
                   </div>
                 </div>
               </template>
@@ -666,8 +473,6 @@
     ArrowLeft,
     ChartBarRegular,
     Edit,
-    Star,
-    CheckCircle,
     Th,
     ThLarge,
     FileImport,
@@ -675,8 +480,6 @@
   import { BANNER_DATA } from '~/data/banners'
   import { useMessage } from 'naive-ui'
   import type { Outfit } from '~/types/outfit'
-  import OUTFIT_DATA, { type OutfitKey } from '~/data/outfits'
-  import type { PullItem } from '~/types/pull'
 
   const route = useRoute()
   const router = useRouter()
@@ -693,8 +496,6 @@
   const showItems = ref(true)
 
   const { getAvg5StarPercentile, getAvg4StarType3Percentile } = usePercentile()
-  const userStore = useUserStore()
-  const isDark = computed(() => userStore.getCurrentTheme === 'dark')
 
   const banner = computed(() => {
     const bannerId = parseInt(route.params.id as string)
@@ -705,35 +506,6 @@
     if (!banner.value) return null
     return processedPulls.value[banner.value.bannerId]
   })
-
-  // Helper function to get outfit images for carousel
-  const getOutfitImages = (outfitId: string, rarity: number) => {
-    const images = []
-    images.push({
-      src: `/images/outfits/${outfitId}.webp`,
-      alt: `${t(`outfit.${outfitId}.name`)} Base`,
-      level: 0,
-    })
-
-    // Add level variants based on rarity
-    const maxLevel = rarity === 5 ? 4 : 2
-    for (let i = 2; i <= maxLevel; i++) {
-      images.push({
-        src: `/images/outfits/${outfitId}_LV${i}.webp`,
-        alt: `${t(`outfit.${outfitId}.name`)} LV${i}`,
-        level: i,
-      })
-    }
-
-    // Add LV1 (glowed up) image
-    images.push({
-      src: `/images/outfits/${outfitId}_LV1.webp`,
-      alt: `${t(`outfit.${outfitId}.name`)} LV1`,
-      level: 'glow',
-    })
-
-    return images
-  }
 
   // Helper function to get outfit completion levels
   const getOutfitCompletionLevels = (outfitId: string, rarity: number) => {
@@ -772,24 +544,6 @@
     }
 
     return levels
-  }
-
-  // Helper function to get outfit items for ItemCard display
-  const getOutfitItems = (outfitId: string): PullItem[] => {
-    const outfit = OUTFIT_DATA[outfitId as OutfitKey]
-
-    return outfit.items.map((itemId) => {
-      return {
-        itemId: itemId,
-        outfitId: outfitId,
-        rarity: banner.value!.outfit5StarId.includes(outfitId) ? 5 : 4,
-        count: 1,
-        pullIndex: 0,
-        pullsToObtain: 0,
-        obtainedAt: '',
-        bannerId: banner.value!.bannerId,
-      }
-    })
   }
 
   onMounted(async () => {

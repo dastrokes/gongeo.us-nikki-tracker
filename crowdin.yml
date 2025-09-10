@@ -1,6 +1,6 @@
 files:
-  - source: /locales/en/**/*.json
+  - source: /locales/en/common.json
     ignore:
-      - /locales/en/**/outfit.json
-      - /locales/en/**/item.json
-    translation: /locales/%two_letters_code%/**/%original_file_name%
+      - /locales/en/outfit.json
+      - /locales/en/item.json
+    translation: /locales/%two_letters_code%/%original_file_name%

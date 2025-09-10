@@ -424,6 +424,68 @@
                   </div>
                 </div>
               </template>
+
+              <!-- Deep Echoes -->
+              <div
+                v-if="banner.rewardIds && banner.rewardIds.length > 0"
+                class="mt-4"
+              >
+                <n-divider class="!my-4" />
+                <div class="space-y-2">
+                  <n-tag
+                    type="warning"
+                    :bordered="false"
+                    round
+                  >
+                    {{ t('banner.deep_echoes')
+                    }}<n-icon class="ml-1"><Star /></n-icon>
+                  </n-tag>
+                  <div class="flex gap-2">
+                    <div
+                      v-for="(rewardId, i) in banner.rewardIds"
+                      :key="rewardId"
+                      class="relative"
+                    >
+                      <n-tooltip placement="top">
+                        <template #trigger>
+                          <div
+                            :class="[
+                              isDark
+                                ? 'bg-gradient-to-br from-[#713f12] to-[#451a03] hover:shadow-[0_0_15px_0_rgba(113,63,18,0.5)] ring-amber-900/30 hover:ring-amber-900/60'
+                                : 'bg-gradient-to-br from-[#fff8e1] to-[#ffcc80] hover:shadow-[0_0_15px_0_rgba(255,204,128,0.5)] ring-amber-200/30 hover:ring-amber-200/80',
+                            ]"
+                            class="relative w-16 h-16 sm:w-24 sm:h-24 rounded-md overflow-hidden ring-1"
+                          >
+                            <NuxtImg
+                              :src="`/images/items/${rewardId}.webp`"
+                              :alt="t(`item.${rewardId}.name`)"
+                              class="w-full h-full object-cover"
+                              format="webp"
+                              width="120"
+                              height="120"
+                              fit="cover"
+                              :quality="100"
+                              loading="lazy"
+                              placeholder="/images/loading.webp"
+                              sizes="80px sm:120px"
+                            />
+                          </div>
+                        </template>
+                        <div class="text-center">
+                          <div class="font-medium">
+                            {{ t(`item.${rewardId}.name`) }}
+                          </div>
+                          <div class="text-sm">
+                            {{
+                              i * 10 + 5 + ' ' + t('global.stats.total_pulls')
+                            }}
+                          </div>
+                        </div>
+                      </n-tooltip>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -476,6 +538,7 @@
     Th,
     ThLarge,
     FileImport,
+    Star,
   } from '@vicons/fa'
   import { BANNER_DATA } from '~/data/banners'
   import { useMessage } from 'naive-ui'
@@ -494,6 +557,9 @@
   const { loadData } = useIndexedDB()
   const showCollectionEditor = ref(false)
   const showItems = ref(true)
+
+  const userStore = useUserStore()
+  const isDark = computed(() => userStore.getCurrentTheme === 'dark')
 
   const { getAvg5StarPercentile, getAvg4StarType3Percentile } = usePercentile()
 

@@ -5,18 +5,18 @@ export const i18nLocales = [
     code: 'en',
     iso: 'en-US',
     name: 'English',
-    files: ['en/common.json', 'en/outfit.json'],
+    files: ['en/common.json', 'en/outfit.json', 'en/item.json'],
   },
   {
     code: 'de',
     iso: 'de-DE',
     name: 'Deutsch',
-    files: ['de/common.json', 'de/outfit.json'],
+    files: ['de/common.json', 'de/outfit.json', 'zh/item.json'],
   },
   {
     code: 'zh',
     iso: 'zh-CN',
     name: '中文',
-    files: ['zh/common.json', 'zh/outfit.json'],
+    files: ['zh/common.json', 'zh/outfit.json', 'zh/item.json'],
   },
 ]

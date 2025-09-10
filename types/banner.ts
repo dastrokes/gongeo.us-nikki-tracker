@@ -10,6 +10,7 @@ export interface Banner {
   outfit4StarId: string[]
   outfit5StarId: string[]
   runs: BannerRun[]
+  rewardIds?: string[]
 }
 
 export interface BannerData {

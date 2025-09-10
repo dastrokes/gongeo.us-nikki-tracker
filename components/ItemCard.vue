@@ -18,6 +18,7 @@
         class="relative overflow-hidden rounded-md transition-all duration-300 ease-in-out aspect-square ring-1 min-h-[50px] xl:min-h-[80px]"
       >
         <NuxtImg
+          v-if="info"
           :src="`/images/items/${item.itemId}.webp`"
           :alt="t(`item.${item.itemId}.name`)"
           class="w-full h-full object-cover aspect-square"
@@ -27,6 +28,20 @@
           fit="cover"
           :quality="100"
           loading="lazy"
+          sizes="80px sm:120px"
+        />
+        <NuxtImg
+          v-else
+          :src="`/images/items/${item.itemId}.webp`"
+          :alt="t(`item.${item.itemId}.name`)"
+          class="w-full h-full object-cover aspect-square"
+          format="webp"
+          width="120"
+          height="120"
+          fit="cover"
+          :quality="100"
+          loading="lazy"
+          placeholder="/images/loading.webp"
           sizes="80px sm:120px"
         />
         <n-tag

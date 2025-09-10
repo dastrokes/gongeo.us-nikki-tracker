@@ -69,6 +69,7 @@ export const BANNER_DATA: BannerData = {
         end: '2025-06-12',
       },
     ],
+    rewardIds: ['1021720020', '1021920009', '1021900003'],
   },
   5: {
     bannerId: 5,
@@ -82,6 +83,7 @@ export const BANNER_DATA: BannerData = {
         end: '2024-12-29',
       },
     ],
+    rewardIds: ['1021730011', '1021740006', '1021780004'],
   },
   6: {
     bannerId: 6,
@@ -108,6 +110,7 @@ export const BANNER_DATA: BannerData = {
         end: '2025-01-23',
       },
     ],
+    rewardIds: ['1021730005', '1021710007', '1020300072'],
   },
   8: {
     bannerId: 8,
@@ -121,6 +124,7 @@ export const BANNER_DATA: BannerData = {
         end: '2025-01-23',
       },
     ],
+    rewardIds: ['1021750009', '1021740002', '1021940004'],
   },
   9: {
     bannerId: 9,
@@ -160,6 +164,7 @@ export const BANNER_DATA: BannerData = {
         end: '2025-02-25',
       },
     ],
+    rewardIds: ['1021730006', '1021980005', '1021940002'],
   },
   12: {
     bannerId: 12,
@@ -173,6 +178,7 @@ export const BANNER_DATA: BannerData = {
         end: '2025-02-25',
       },
     ],
+    rewardIds: ['1029740008', '1021770006', '1020200073'],
   },
   13: {
     bannerId: 13,
@@ -199,6 +205,7 @@ export const BANNER_DATA: BannerData = {
         end: '2025-03-25',
       },
     ],
+    rewardIds: ['1020730072', '1020760072', '1021410010'],
   },
   15: {
     bannerId: 15,
@@ -212,6 +219,7 @@ export const BANNER_DATA: BannerData = {
         end: '2025-03-25',
       },
     ],
+    rewardIds: ['1020770072', '1020500072', '1020780115'],
   },
   16: {
     bannerId: 16,
@@ -238,6 +246,7 @@ export const BANNER_DATA: BannerData = {
         end: '2025-04-28',
       },
     ],
+    rewardIds: ['1020760100', '1020100072', '1029780052'],
   },
   18: {
     bannerId: 18,
@@ -251,6 +260,7 @@ export const BANNER_DATA: BannerData = {
         end: '2025-04-28',
       },
     ],
+    rewardIds: ['1029730052', '1020740086', '1020410072'],
   },
   19: {
     bannerId: 19,
@@ -290,6 +300,7 @@ export const BANNER_DATA: BannerData = {
         end: '2025-06-12',
       },
     ],
+    rewardIds: ['1029930008', '1029720008', '1020900080'],
   },
   22: {
     bannerId: 22,
@@ -303,6 +314,7 @@ export const BANNER_DATA: BannerData = {
         end: '2025-06-12',
       },
     ],
+    rewardIds: ['1029730008', '1029500008', '1021780017'],
   },
   23: {
     bannerId: 23,
@@ -329,6 +341,7 @@ export const BANNER_DATA: BannerData = {
         end: '2025-07-07',
       },
     ],
+    rewardIds: ['1020740087', '1020600273', '1021941001'],
   },
   25: {
     bannerId: 25,
@@ -342,6 +355,7 @@ export const BANNER_DATA: BannerData = {
         end: '2025-07-07',
       },
     ],
+    rewardIds: ['1029730004', '1029720004', '1021900014'],
   },
   26: {
     bannerId: 26,
@@ -368,6 +382,7 @@ export const BANNER_DATA: BannerData = {
         end: '2025-07-29',
       },
     ],
+    rewardIds: ['1021980002', '1029720053', '1020780087'],
   },
   28: {
     bannerId: 28,
@@ -381,6 +396,7 @@ export const BANNER_DATA: BannerData = {
         end: '2025-07-29',
       },
     ],
+    rewardIds: ['1029730007', '1021750006', '1029410007'],
   },
   29: {
     bannerId: 29,
@@ -420,6 +436,7 @@ export const BANNER_DATA: BannerData = {
         end: '2025-09-01',
       },
     ],
+    rewardIds: ['1020730087', '1020770102', '1021300041'],
   },
   32: {
     bannerId: 32,
@@ -433,6 +450,7 @@ export const BANNER_DATA: BannerData = {
         end: '2025-09-01',
       },
     ],
+    rewardIds: ['1029740004', '1021970002', '1021940007'],
   },
   33: {
     bannerId: 33,

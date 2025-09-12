@@ -4,29 +4,38 @@ import type { Context, Config } from '@netlify/edge-functions'
 const defaultLocale = 'en'
 const localeCodes = ['en', 'de', 'zh']
 
+// Define the specific routes that exist in the application
+const definedRoutes = [
+  '/',
+  '/about',
+  '/faq',
+  '/global',
+  '/import',
+  '/login',
+  '/timeline',
+  '/tracker',
+  '/banner',
+  '/banner/:id',
+  '/error',
+]
+
 const localePaths = localeCodes
   .filter((code) => code !== defaultLocale)
-  .flatMap((code) => [`/${code}`, `/${code}/*`]) as `/${string}`[]
+  .flatMap((code) =>
+    definedRoutes.map((route) =>
+      route === '/' ? `/${code}` : `/${code}${route}`
+    )
+  ) as `/${string}`[]
 
 export const config: Config = {
   path: ['/*'],
   excludedPath: [
-    '/',
-    '/login',
-    '/about',
-    '/banner',
-    '/banner/:id',
-    '/faq',
-    '/global',
-    '/import',
-    '/tracker',
-    '/timeline',
-    '/error',
-
+    ...definedRoutes,
     ...localePaths,
 
     // APIs
-    '/api/**',
+    '/api/ping',
+    '/api/stats',
 
     // Static Nuxt assets
     '/_nuxt/**',
@@ -54,10 +63,7 @@ export const config: Config = {
   ] as `/${string}`[],
 }
 
-export default (
-  request: Request,
-  context: Context
-): Response | Promise<Response> => {
+export default async (request: Request, context: Context) => {
   const url = new URL(request.url)
   const path = url.pathname
     .replace(/\/+/g, '/')
@@ -81,7 +87,7 @@ export default (
 
   // If path is not in excluded paths, redirect to error page
   if (!isExcluded) {
-    return Response.redirect(new URL('/error', url.origin), 302)
+    return new URL('/error', request.url)
   }
 
   return context.next()

@@ -97,6 +97,12 @@ export default defineNuxtConfig({
     ],
   },
 
+  routeRules: {
+    '/error': { prerender: true },
+    '/de/error': { prerender: true },
+    '/zh/error': { prerender: true },
+  },
+
   nitro: {
     preset: 'netlify',
     future: {

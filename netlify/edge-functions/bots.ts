@@ -21,6 +21,7 @@ export const config: Config = {
     '/import',
     '/tracker',
     '/timeline',
+    '/error',
 
     ...localePaths,
 
@@ -78,9 +79,9 @@ export default (
     return regex.test(path)
   })
 
-  // If path is not in excluded paths, block it
+  // If path is not in excluded paths, redirect to error page
   if (!isExcluded) {
-    return new Response(null, { status: 404 })
+    return Response.redirect(new URL('/error', url.origin), 302)
   }
 
   return context.next()

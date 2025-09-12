@@ -40,6 +40,9 @@ export const config: Config = {
     // Static Nuxt assets
     '/_nuxt/**',
 
+    // Nuxt payload files
+    '**/_payload.json',
+
     // Fonts and other internal assets
     '/_fonts/**',
 
@@ -61,6 +64,19 @@ export const config: Config = {
     '/__sitemap__/**',
     '/og.png',
   ] as `/${string}`[],
+}
+
+// Helper function to parse cookies
+function getCookieValue(
+  cookieHeader: string | null,
+  name: string
+): string | null {
+  if (!cookieHeader) return null
+
+  const cookies = cookieHeader.split(';').map((cookie) => cookie.trim())
+  const targetCookie = cookies.find((cookie) => cookie.startsWith(`${name}=`))
+
+  return targetCookie ? targetCookie.split('=')[1] || null : null
 }
 
 export default async (request: Request, context: Context) => {
@@ -85,9 +101,25 @@ export default async (request: Request, context: Context) => {
     return regex.test(path)
   })
 
-  // If path is not in excluded paths, redirect to error page
+  // If path is not in excluded paths, redirect to appropriate error page
   if (!isExcluded) {
-    return new URL('/error', request.url)
+    // Get locale from cookies
+    const cookieHeader = request.headers.get('cookie')
+    const detectedLocale =
+      getCookieValue(cookieHeader, 'i18n_redirected') ||
+      getCookieValue(cookieHeader, 'locale')
+
+    // Validate and use the detected locale
+    const validLocale =
+      detectedLocale &&
+      localeCodes.includes(detectedLocale) &&
+      detectedLocale !== defaultLocale
+        ? detectedLocale
+        : null
+
+    // Redirect to the appropriate error page
+    const errorPath = validLocale ? `/${validLocale}/error` : '/error'
+    return new URL(errorPath, request.url)
   }
 
   return context.next()

@@ -108,6 +108,9 @@ export default defineNuxtConfig({
     future: {
       nativeSWR: true,
     },
+    prerender: {
+      autoSubfolderIndex: false,
+    },
   },
 
   future: {

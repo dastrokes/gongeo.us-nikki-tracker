@@ -660,12 +660,12 @@
 
   useHead(() => ({
     title: banner.value
-      ? `${t(`banner.${banner.value.bannerId}.name`)} - ${t('navigation.banner')} - ${t('navigation.subtitle')}`
+      ? `${t(`banner.${banner.value.bannerId}.name`)} - ${t('navigation.banner_detail')} - ${t('navigation.subtitle')}`
       : `${t('navigation.banner')} - ${t('navigation.subtitle')}`,
     meta: [
       {
         name: 'description',
-        content: t('meta.description.banner'),
+        content: t('meta.description.banner_detail'),
       },
       {
         property: 'og:title',

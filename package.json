@@ -43,7 +43,7 @@
     "html-to-image": "1.11.11",
     "idb": "8.0.3",
     "naive-ui": "2.42.0",
-    "nuxt": "3.18.1",
+    "nuxt": "3.19.0",
     "nuxt-echarts": "1.0.0",
     "snappyjs": "0.7.0"
   },

@@ -156,18 +156,34 @@
                     :to="localePath(`/banner/${banner.bannerId}`)"
                     class="w-full aspect-[2/1] min-h-[140px] sm:min-h-[330px] relative overflow-hidden rounded-lg hover:opacity-95 transition-opacity"
                   >
-                    <NuxtImg
-                      :src="`/images/banners/${banner.bannerId}.webp`"
-                      :alt="t(`banner.${banner.bannerId}.name`)"
-                      class="absolute inset-0 w-full h-full object-cover"
-                      format="webp"
-                      width="500"
-                      height="250"
-                      fit="cover"
-                      :quality="100"
-                      loading="lazy"
-                      sizes="400px sm:800px"
-                  /></NuxtLink>
+                    <n-tooltip
+                      :overlap="true"
+                      placement="top-end"
+                      class="!rounded-lg !m-1 cursor-pointer"
+                      @click.stop.prevent="
+                        router.push(localePath(`/banner/${banner.bannerId}`))
+                      "
+                    >
+                      <template #trigger>
+                        <NuxtImg
+                          :src="`/images/banners/${banner.bannerId}.webp`"
+                          :alt="t(`banner.${banner.bannerId}.name`)"
+                          class="absolute inset-0 w-full h-full object-cover"
+                          format="webp"
+                          width="500"
+                          height="250"
+                          fit="cover"
+                          :quality="100"
+                          loading="lazy"
+                          sizes="400px sm:800px"
+                        />
+                      </template>
+                      <span class="inline-flex items-center gap-2">
+                        {{ t('navigation.banner_detail') }}
+                        <n-icon><ExternalLinkAlt /></n-icon>
+                      </span>
+                    </n-tooltip>
+                  </NuxtLink>
                 </div>
               </div>
             </div>
@@ -179,7 +195,7 @@
 </template>
 
 <script setup lang="ts">
-  import { Gift, Star } from '@vicons/fa'
+  import { Gift, Star, ExternalLinkAlt } from '@vicons/fa'
   import { BANNER_DATA } from '~/data/banners'
 
   const { t } = useI18n()
@@ -187,6 +203,7 @@
   const localePath = useLocalePath()
   const siteUrl = useRuntimeConfig().public.siteUrl
   const route = useRoute()
+  const router = useRouter()
 
   // Sort banners by ID in descending order (newest first)
   const sortedBanners = computed(() => {

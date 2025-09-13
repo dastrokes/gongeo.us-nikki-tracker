@@ -555,10 +555,8 @@
     "status": "Service will be back shortly. Thank you for your patience!"
   },
   "error": {
-    "defaultTitle": "Error",
-    "defaultMessage": "Something went wrong",
+    "404": "\"Nikki, let's stay in the shallow water\"",
     "notFound": "The page you are looking for does not exist.",
-    "unexpected": "An unexpected error occurred.",
     "returnHome": "Return Home"
   }
 }

@@ -42,6 +42,7 @@ const itemTypeMap: Record<string, ItemType> = {
   '102094': 'pendants',
   '102095': 'backpieces',
   '102079': 'rings',
+  '102096': 'rings',
   '102097': 'armDecorations',
   '102078': 'handhelds',
 }

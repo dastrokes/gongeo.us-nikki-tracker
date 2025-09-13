@@ -1,6 +1,7 @@
 <template>
-  <div class="min-h-screen flex items-center justify-center">
+  <div class="flex items-center justify-center min-h-[calc(100vh-10rem)]">
     <n-result
+      class="w-full max-w-xs"
       size="small"
       status="404"
       :title="t('error.404')"
@@ -24,6 +25,11 @@
           round
           @click="handleError"
         >
+          <template #icon>
+            <n-icon>
+              <Home />
+            </n-icon>
+          </template>
           {{ t('error.returnHome') }}
         </n-button>
       </template>
@@ -32,6 +38,8 @@
 </template>
 
 <script setup lang="ts">
+  import { Home } from '@vicons/fa'
+
   const localePath = useLocalePath()
   const { t } = useI18n()
 

@@ -555,10 +555,8 @@
     "status": "Der Dienst wird in Kürze wieder zur Verfügung stehen. Vielen Dank für deine Geduld!"
   },
   "error": {
-    "defaultTitle": "Error",
-    "defaultMessage": "Etwas ist schiefgelaufen",
+    "404": "\"Nikki, lass uns im seichten Wasser bleiben.\"",
     "notFound": "Die von dir gesuchte Seite existiert nicht.",
-    "unexpected": "Ein unerwarteter Fehler ist aufgetreten.",
     "returnHome": "Zurück zur Startseite"
   }
 }

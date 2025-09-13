@@ -9,13 +9,13 @@
 [[headers]]
   for = "/.netlify/images/*"
   [headers.values]
-    cache-control = "public, max-age=31536000, immutable"
+    cache-control = "public, max-age=0, must-revalidate"
 
 # Headers: Public images
 [[headers]]
   for = "/images/*"
   [headers.values]
-    cache-control = "public, max-age=31536000, immutable"
+    cache-control = "public, max-age=0, must-revalidate"
 
 # Headers: Root HTML (no caching)
 [[headers]]
@@ -47,12 +47,12 @@
 [[headers]]
   for = "/favicon.ico"
   [headers.values]
-    cache-control = "public, max-age=31536000, immutable"
+    cache-control = "public, max-age=0, must-revalidate"
 	
 [[headers]]
   for = "/apple-touch-icon*.png"
   [headers.values]
-    cache-control = "public, max-age=31536000, immutable"
+    cache-control = "public, max-age=0, must-revalidate"
 
 [[headers]]
   for = "/gongeous.js"

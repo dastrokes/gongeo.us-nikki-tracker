@@ -69,7 +69,7 @@
 [[headers]]
   for = "/66641125bbad403d994c7d7af32e196b.txt"
   [headers.values]
-    cache-control = "public, max-age=31536000"
+    cache-control = "public, max-age=31536000, immutable"
 
 # Nuxt build assets
 [[headers]]

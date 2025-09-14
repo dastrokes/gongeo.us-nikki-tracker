@@ -5,19 +5,23 @@
   NODE_VERSION = "22.18.0"
   NODE_OPTIONS = "--max-old-space-size=8192"
 
-# Headers: Netlify Image CDN
+# ==============================
+# Headers Configuration
+# ==============================
+
+# Netlify Image CDN
 [[headers]]
   for = "/.netlify/images/*"
   [headers.values]
-    cache-control = "public, max-age=0, must-revalidate"
+    cache-control = "public, max-age=31536000, immutable"
 
-# Headers: Public images
+# Public images
 [[headers]]
   for = "/images/*"
   [headers.values]
-    cache-control = "public, max-age=0, must-revalidate"
+    cache-control = "public, max-age=31536000, immutable"
 
-# Headers: Root HTML (no caching)
+# Root HTML and all .html files (no caching)
 [[headers]]
   for = "/"
   [headers.values]
@@ -28,7 +32,7 @@
   [headers.values]
     cache-control = "public, max-age=0, must-revalidate"
 
-# Headers: Static assets (1 week)
+# Static text/config files
 [[headers]]
   for = "/robots.txt"
   [headers.values]
@@ -44,27 +48,30 @@
   [headers.values]
     cache-control = "public, max-age=31536000, immutable"
 
+# Icons
 [[headers]]
   for = "/favicon.ico"
   [headers.values]
-    cache-control = "public, max-age=0, must-revalidate"
-	
+    cache-control = "public, max-age=31536000, immutable"
+
 [[headers]]
   for = "/apple-touch-icon*.png"
   [headers.values]
-    cache-control = "public, max-age=0, must-revalidate"
+    cache-control = "public, max-age=31536000, immutable"
 
+# JavaScript assets
 [[headers]]
   for = "/gongeous.js"
   [headers.values]
     cache-control = "public, max-age=31536000, immutable"
-	
+
+# Verification file
 [[headers]]
   for = "/66641125bbad403d994c7d7af32e196b.txt"
   [headers.values]
     cache-control = "public, max-age=31536000"
 
-# Headers: Nuxt static assets
+# Nuxt build assets
 [[headers]]
   for = "/_nuxt/*"
   [headers.values]

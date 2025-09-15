@@ -39,5 +39,8 @@ scripts/dev
 # Claude
 .claude
 
+# Kiro
+.kiro
+
 # Sentry Config File
 .env.sentry-build-plugin

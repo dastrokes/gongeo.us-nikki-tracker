@@ -9,7 +9,7 @@ A web application for tracking and analyzing Infinity Nikki resonance history an
 ## Connect With Us
 
 - **Discord**: [Join our community](https://discord.gg/qymsW3j4Zw)
-- **Ko-fi**: [Support the project](https://ko-fi.com/dastrokes)
+- **Ko-fi**: [Support the project](https://ko-fi.com/gongeous)
 - **X/Twitter**: [Follow for updates](https://x.com/gongeo_us)
 
 [![Deploys by Netlify](https://www.netlify.com/assets/badges/netlify-badge-color-accent.svg)](https://www.netlify.com)

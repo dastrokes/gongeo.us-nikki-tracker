@@ -21,7 +21,7 @@
         <n-button
           quaternary
           tag="a"
-          href="https://ko-fi.com/dastrokes"
+          href="https://ko-fi.com/gongeous"
           target="_blank"
           rel="noopener noreferrer"
         >

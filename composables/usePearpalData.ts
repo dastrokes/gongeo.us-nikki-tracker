@@ -7,6 +7,7 @@ import type {
 } from '~/types/pull'
 import type { UserBannerStats } from '~/types/stats'
 import { BANNER_DATA } from '~/data/banners'
+import { hashUid } from '~/utils/hash'
 
 export const usePearpalData = () => {
   // Helper function to decode snappyjs base64 data
@@ -212,15 +213,18 @@ export const usePearpalData = () => {
   }
 
   // Convert ProcessedBanner data to UserBannerStats format for Pearpal
-  const convertPearpalBannersToStats = (
+  const convertPearpalBannersToStats = async (
     processedBanners: Record<string, ProcessedBanner>,
     uid: string,
     region: string
-  ): UserBannerStats[] => {
+  ): Promise<UserBannerStats[]> => {
+    // Hash the UID
+    const hashedUid = await hashUid(uid)
+
     return Object.entries(processedBanners)
       .filter(([_, banner]) => banner.stats.totalPulls > 0)
       .map(([bannerId, banner]) => ({
-        uid,
+        uid: hashedUid,
         region,
         banner_id: Number(bannerId),
         banner_type: banner.bannerType,

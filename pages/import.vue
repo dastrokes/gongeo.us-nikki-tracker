@@ -1269,7 +1269,7 @@
                 try {
                   // Convert processed banners to stats format
                   const { convertPearpalBannersToStats } = usePearpalData()
-                  const bannerStats = convertPearpalBannersToStats(
+                  const bannerStats = await convertPearpalBannersToStats(
                     processedBanners,
                     serverUid || formData.value.roleid,
                     region

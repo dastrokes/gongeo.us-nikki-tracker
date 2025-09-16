@@ -24,7 +24,6 @@ A web application for tracking and analyzing Infinity Nikki resonance history an
 - [Tailwind CSS](https://tailwindcss.com/) - Utility-first CSS framework
 - [Pinia](https://pinia.vuejs.org/) - State management
 - [i18n](https://i18n.nuxtjs.org/) - Internationalization
-- [IndexedDB](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API) - Client-side storage
 - [Supabase](https://supabase.com/) - Backend and authentication
 - [ECharts](https://echarts.apache.org/) - Data visualization
 

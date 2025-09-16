@@ -1,5 +1,4 @@
 import { isRateLimited } from '../utils/rateLimiter'
-import { hashUid } from '../utils/hash'
 import { useSupabaseClient } from '../../composables/useSupabaseClient'
 
 export default defineEventHandler(async (event) => {
@@ -33,15 +32,7 @@ export default defineEventHandler(async (event) => {
     // Use the shared Supabase client with server key
     const supabase = useSupabaseClient('server')
 
-    // Hash UIDs
-    const uid = body[0]?.uid
-    const hashedUid = await hashUid(uid)
-    const hashedData = body.map((item: { uid: string }) => ({
-      ...item,
-      uid: hashedUid,
-    }))
-
-    const { error } = await supabase.from(targetTable).upsert(hashedData, {
+    const { error } = await supabase.from(targetTable).upsert(body, {
       onConflict: 'uid,region,banner_id',
       ignoreDuplicates: false,
     })

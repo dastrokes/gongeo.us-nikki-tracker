@@ -1,5 +1,6 @@
 import type { UserBannerStats } from '~/types/stats'
 import type { ProcessedBanner } from '~/types/pull'
+import { hashUid } from '~/utils/hash'
 
 export const useUserBannerStats = () => {
   const sendUserBannerStats = async (
@@ -17,11 +18,14 @@ export const useUserBannerStats = () => {
 
     if (!uid) return
 
+    // Hash the UID on client side
+    const hashedUid = await hashUid(uid)
+
     // Collect all analytics data first
     const analyticsDataArray = Object.entries(processedPulls)
       .filter(([_, banner]) => banner.stats.totalPulls > 0)
       .map(([bannerId, banner]) => ({
-        uid,
+        uid: hashedUid,
         region,
         user_id: userId,
         banner_id: Number(bannerId),

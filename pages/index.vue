@@ -113,7 +113,7 @@
   const router = useRouter()
 
   const leftBanners = [BANNER_DATA[33]] as Banner[]
-  const rightBanners = [] as Banner[]
+  const rightBanners = [BANNER_DATA[34], BANNER_DATA[35]] as Banner[]
   const targetTime = new Date('2025-09-28T20:00:00Z')
 
   const indexA = ref(0)

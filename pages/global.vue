@@ -683,7 +683,7 @@
   const maximizedChart = ref<string | null>(null)
   const selectedOutfit = ref<string | null>(null)
   const latestBannerId = Number(
-    Object.keys(BANNER_DATA)[Object.keys(BANNER_DATA).length - 1]
+    Object.keys(BANNER_DATA)[Object.keys(BANNER_DATA).length - 3]
   )
   const latestBanner = BANNER_DATA[latestBannerId]
 
@@ -725,7 +725,7 @@
   // Create tree structure for first item distribution chart
   const firstItemTreeOptions = computed(() => {
     const options = Object.entries(BANNER_DATA)
-      .filter(([id]) => id !== '1')
+      .filter(([id]) => id !== '1' && id !== '34' && id !== '35')
       .map(([id, banner]) => {
         const bannerId = Number(id)
         const bannerName = banner?.bannerId

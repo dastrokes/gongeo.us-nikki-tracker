@@ -18,6 +18,7 @@ Sentry.init({
       /script error/i,
       /script failed/i,
       /couldn't resolve component/i,
+      /error loading dynamically imported module/i,
     ]
 
     if (

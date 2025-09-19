@@ -135,7 +135,20 @@
                   <div
                     class="flex items-center justify-center text-base gap-2 text-gray-500"
                   >
-                    <n-icon><ChartBarRegular /></n-icon>
+                    <n-tooltip trigger="hover">
+                      <template #trigger>
+                        <n-button
+                          text
+                          size="tiny"
+                          @click="router.push(localePath('/tracker'))"
+                        >
+                          <template #icon>
+                            <n-icon :depth="3"><Book /></n-icon>
+                          </template>
+                        </n-button>
+                      </template>
+                      {{ $t('navigation.tracker') }}
+                    </n-tooltip>
                     <n-text class="font-medium text-gray-500">{{
                       t('tracker.stats.title')
                     }}</n-text>
@@ -533,7 +546,7 @@
 <script setup lang="ts">
   import {
     ArrowLeft,
-    ChartBarRegular,
+    Book,
     Edit,
     Th,
     ThLarge,

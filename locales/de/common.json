@@ -99,6 +99,10 @@
     }
   },
   "import": {
+    "video_tutorial": "Video Tutorial",
+    "video_tutorial_desc": "Watch step-by-step video guide to learn how to import your data:",
+    "watch_on_youtube": "Watch on YouTube",
+    "watch_on_bilibili": "Watch on Bilibili",
     "choose_method": "Wähle Importmethode",
     "choose_method_desc": "Wähle aus, wie du deinen Resonanz-Verlauf importieren willst.",
     "import_from_game": "Aus Spiel importieren",
@@ -107,10 +111,6 @@
     "file_import": "Aus Datei importieren",
     "file_import_desc": "Importiere aus einer zuvor exportierten nikki-resonance-data Datei.",
     "select_file": "Datei auswählen",
-    "pearpal_import": "Pearpal Import",
-    "pearpal_import_desc": "Aus offiziellem Infinity Nikki Tracker importieren.",
-    "game_import": "Aus Spiel importieren",
-    "game_import_desc": "Importiere über den Browser direkt aus dem Spiel.",
     "select_region": "Region auswählen",
     "select_region_desc": "Wähle deine Serverregion aus.",
     "pearpal_website": "Pearpal-Webseite",

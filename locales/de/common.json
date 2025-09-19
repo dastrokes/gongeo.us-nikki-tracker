@@ -99,6 +99,10 @@
     }
   },
   "import": {
+    "video_tutorial": "Videotutorial",
+    "video_tutorial_desc": "Schau dir eine Schritt-für-Schritt-Videoanleitung an, wie du deine Daten importieren kannst:",
+    "watch_on_youtube": "Auf YouTube schauen",
+    "watch_on_bilibili": "Auf Bilibili schauen",
     "choose_method": "Wähle Importmethode",
     "choose_method_desc": "Wähle aus, wie du deinen Resonanz-Verlauf importieren willst.",
     "import_from_game": "Aus Spiel importieren",

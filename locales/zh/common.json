@@ -99,6 +99,10 @@
     }
   },
   "import": {
+    "video_tutorial": "视频教程",
+    "video_tutorial_desc": "观看分步视频教程，学习如何导入您的数据：",
+    "watch_on_youtube": "在 YouTube 观看",
+    "watch_on_bilibili": "在 Bilibili 观看",
     "choose_method": "选择导入方式",
     "choose_method_desc": "选择您想要导入抽卡历史的方式。",
     "import_from_game": "从游戏导入",
@@ -107,10 +111,6 @@
     "file_import": "文件导入",
     "file_import_desc": "从之前导出的 nikki-resonance-data 文件导入。",
     "select_file": "选择文件",
-    "pearpal_import": "奇想手账导入",
-    "pearpal_import_desc": "从美鸭梨奇想手账导入抽卡记录。",
-    "game_import": "游戏导入",
-    "game_import_desc": "使用浏览器直接从游戏导入。",
     "select_region": "选择服务器",
     "select_region_desc": "选择您的游戏服务器区域。",
     "pearpal_website": "美鸭梨网站",

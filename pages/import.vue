@@ -721,7 +721,8 @@
       class="w-full max-w-4xl mx-auto pointer-events-auto"
       size="small"
       preset="card"
-      :show-mask="false"
+      :mask-closable="false"
+      :unstable-show-mask="false"
       transform-origin="center"
       draggable
     >
@@ -741,7 +742,8 @@
       class="w-full max-w-4xl mx-auto pointer-events-auto"
       size="small"
       preset="card"
-      :show-mask="false"
+      :mask-closable="false"
+      :unstable-show-mask="false"
       transform-origin="center"
       draggable
     >

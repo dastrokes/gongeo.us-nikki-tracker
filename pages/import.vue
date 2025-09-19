@@ -73,23 +73,10 @@
             </div>
           </n-step>
 
-          <!-- Game Import Step -->
+          <!-- Video Tutorial Step -->
           <n-step
-            v-show="importMethod === 'game'"
-            :title="$t('import.game_import')"
-          >
-            <template #icon>
-              <n-icon>
-                <Check />
-              </n-icon>
-            </template>
-            <div>{{ $t('import.game_import_desc') }}</div>
-          </n-step>
-
-          <!-- Pearpal Import Description Step -->
-          <n-step
-            v-show="importMethod === 'pearpal'"
-            :title="$t('import.pearpal_import')"
+            v-show="importMethod === 'game' || importMethod === 'pearpal'"
+            :title="$t('import.video_tutorial')"
           >
             <template #icon>
               <n-icon>
@@ -97,7 +84,41 @@
               </n-icon>
             </template>
             <div>
-              {{ $t('import.pearpal_import_desc') }}
+              <div class="mb-4">
+                {{ $t('import.video_tutorial_desc') }}
+              </div>
+              <n-space class="flex-wrap gap-4">
+                <n-button
+                  secondary
+                  class="flex items-center gap-2"
+                  @click="showYouTubeModal = true"
+                >
+                  <template #icon>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      class="w-5 h-5"
+                    >
+                      <path
+                        d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"
+                      />
+                    </svg>
+                  </template>
+                  {{ $t('import.watch_on_youtube') }}
+                </n-button>
+
+                <n-button
+                  secondary
+                  class="flex items-center gap-2"
+                  @click="showBilibiliModal = true"
+                >
+                  <template #icon>
+                    <Bilibili class="w-5 h-5" />
+                  </template>
+                  {{ $t('import.watch_on_bilibili') }}
+                </n-button>
+              </n-space>
             </div>
           </n-step>
 
@@ -693,6 +714,45 @@
         />
       </template>
     </n-modal>
+
+    <!-- YouTube Video Modal -->
+    <n-modal
+      v-model:show="showYouTubeModal"
+      class="w-full max-w-4xl mx-auto pointer-events-auto"
+      size="small"
+      preset="card"
+      :show-mask="false"
+      transform-origin="center"
+      draggable
+    >
+      <iframe
+        class="w-full aspect-video"
+        src="https://www.youtube.com/embed/r4JL3nK9ds4"
+        title="YouTube video player"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen
+      ></iframe>
+    </n-modal>
+
+    <!-- Bilibili Video Modal -->
+    <n-modal
+      v-model:show="showBilibiliModal"
+      class="w-full max-w-4xl mx-auto pointer-events-auto"
+      size="small"
+      preset="card"
+      :show-mask="false"
+      transform-origin="center"
+      draggable
+    >
+      <iframe
+        class="w-full aspect-video"
+        src="https://player.bilibili.com/player.html?bvid=BV1gFYqz9Euh&page=1&autoplay=0"
+        title="Bilibili video player"
+        frameborder="0"
+        allowfullscreen
+      ></iframe>
+    </n-modal>
   </div>
 </template>
 
@@ -714,6 +774,7 @@
     Bookmark,
     ExclamationCircle,
   } from '@vicons/fa'
+  import Bilibili from '~/components/icons/Bilibili.vue'
   import { BANNER_DATA } from '~/data/banners'
   import type { VNodeChild } from 'vue'
 
@@ -726,6 +787,10 @@
   // Manual collection editor variables
   const selectedManualBanner = ref<number | null>(null)
   const showCollectionEditor = ref(false)
+
+  // Video modal variables
+  const showYouTubeModal = ref(false)
+  const showBilibiliModal = ref(false)
 
   const maintenance = useRuntimeConfig().public.maintenance as
     | string

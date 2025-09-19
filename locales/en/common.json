@@ -99,6 +99,10 @@
     }
   },
   "import": {
+    "video_tutorial": "Video Tutorial",
+    "video_tutorial_desc": "Watch step-by-step video guide to learn how to import your data:",
+    "watch_on_youtube": "Watch on YouTube",
+    "watch_on_bilibili": "Watch on Bilibili",
     "choose_method": "Choose Import Method",
     "choose_method_desc": "Choose how you want to import your pull history.",
     "import_from_game": "Import from Game",
@@ -107,10 +111,6 @@
     "file_import": "File Import",
     "file_import_desc": "Import from a previously exported nikki-resonance-data file.",
     "select_file": "Select File",
-    "pearpal_import": "Pearpal Import",
-    "pearpal_import_desc": "Import from Infinity Nikki official tracker.",
-    "game_import": "Game Import",
-    "game_import_desc": "Import directly from the game using your browser.",
     "select_region": "Select Region",
     "select_region_desc": "Select your game server region.",
     "pearpal_website": "Pearpal Website",

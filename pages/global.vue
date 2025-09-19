@@ -717,7 +717,7 @@
 
   const selectedBannerType = ref(3)
   const bannerTypeOptions = computed(() => [
-    { label: t('global.charts.all_banners'), value: 'all' },
+    { label: t('global.charts.all_banners'), value: 1 },
     { label: t('global.charts.five_star_banners'), value: 2 },
     { label: t('global.charts.four_star_banners'), value: 3 },
   ])
@@ -834,7 +834,7 @@
     // chartData: { [bannerId]: [3star, 4star, 5star] }
     // Filter banners based on selected type and latest banner
     const filteredChartData =
-      selectedBannerType.value === 'all'
+      selectedBannerType.value === 1
         ? Object.fromEntries(
             Object.entries(chartData).filter(
               ([bannerId]) => parseInt(bannerId) <= latestBannerId

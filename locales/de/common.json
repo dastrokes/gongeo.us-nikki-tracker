@@ -464,6 +464,8 @@
       "all_banners": "Alle Banner",
       "five_star_banners": "5★ Banner",
       "four_star_banners": "4★ Banner",
+      "recent_only": "Neueste",
+      "all_time": "Gesamt",
       "first_item_distribution_tooltip": "Dieses Banner enthält Resonanzen älter als 180 Tage, welche nicht mehr im Spiel verfügbar sind. Daher können die Daten der Erst-Stück-Verteilung ungenau sein."
     }
   },

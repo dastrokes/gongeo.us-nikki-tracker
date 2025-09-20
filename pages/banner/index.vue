@@ -86,26 +86,38 @@
                 <div
                   v-for="(run, index) in banner.runs"
                   :key="index"
-                  class="flex items-center gap-2"
+                  class="space-y-1"
                 >
-                  <n-tag
-                    round
-                    size="small"
-                    :bordered="false"
-                    >{{ t('banner.version') }}
-                    {{ run.version.slice(0, -2) }}</n-tag
-                  >
-                  <n-text depth="3">
-                    <n-time
-                      :time="new Date(run.start + 'T00:00:00')"
-                      type="date"
-                    />
-                    -
-                    <n-time
-                      :time="new Date(run.end + 'T00:00:00')"
-                      type="date"
-                    />
-                  </n-text>
+                  <div class="w-full">
+                    <n-tag :bordered="false">
+                      {{ t(`season.${run.version.slice(0, 3)}`) }}
+                    </n-tag>
+                    <n-tag
+                      type="success"
+                      :bordered="false"
+                      >{{ t('banner.version') }}
+                      {{ run.version.slice(0, -2) }}</n-tag
+                    >
+                  </div>
+                  <div class="w-full">
+                    <n-tag
+                      type="success"
+                      :bordered="false"
+                    >
+                      <template #avatar>
+                        <n-icon><CalendarAlt /></n-icon>
+                      </template>
+                      <n-time
+                        :time="new Date(run.start + 'T00:00:00')"
+                        type="date"
+                      />
+                      -
+                      <n-time
+                        :time="new Date(run.end + 'T00:00:00')"
+                        type="date"
+                      />
+                    </n-tag>
+                  </div>
                 </div>
                 <div class="inline-flex flex-col gap-2 items-start">
                   <div
@@ -195,7 +207,7 @@
 </template>
 
 <script setup lang="ts">
-  import { Gift, Star, ExternalLinkAlt } from '@vicons/fa'
+  import { Gift, Star, ExternalLinkAlt, CalendarAlt } from '@vicons/fa'
   import { BANNER_DATA } from '~/data/banners'
 
   const { t } = useI18n()

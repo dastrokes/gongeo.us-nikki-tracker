@@ -170,17 +170,7 @@
 </template>
 
 <script setup lang="ts">
-  import {
-    NLayout,
-    NLayoutHeader,
-    NLayoutSider,
-    NMenu,
-    NIcon,
-    NButton,
-    NLayoutFooter,
-    NTooltip,
-    type MenuOption,
-  } from 'naive-ui'
+  import { NIcon, type MenuOption } from 'naive-ui'
   import {
     FileImport,
     Book,

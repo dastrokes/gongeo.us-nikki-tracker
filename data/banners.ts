@@ -33,7 +33,7 @@ export const BANNER_DATA: BannerData = {
         end: '2024-12-18',
       },
       {
-        version: '1.6.3',
+        version: '1.6.2',
         start: '2025-06-23',
         end: '2025-07-07',
       },
@@ -49,6 +49,11 @@ export const BANNER_DATA: BannerData = {
         version: '1.0.1',
         start: '2024-12-05',
         end: '2024-12-18',
+      },
+      {
+        version: '1.7.2',
+        start: '2025-07-17',
+        end: '2025-07-29',
       },
     ],
   },

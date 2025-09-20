@@ -3,4 +3,5 @@ files:
     ignore:
       - /locales/en/outfit.json
       - /locales/en/item.json
+      - /locales/en/version.json
     translation: /locales/%two_letters_code%/%original_file_name%

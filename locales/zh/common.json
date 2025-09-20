@@ -464,6 +464,8 @@
       "all_banners": "所有卡池",
       "five_star_banners": "5★卡池",
       "four_star_banners": "4★卡池",
+      "recent_only": "近期",
+      "all_time": "全部",
       "first_item_distribution_tooltip": "此卡池包含180天之前的抽卡记录，这些记录已无法在游戏中获取。因此，首件物品的分布数据可能不准确。"
     }
   },

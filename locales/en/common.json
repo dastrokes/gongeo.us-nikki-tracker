@@ -464,6 +464,8 @@
       "all_banners": "All Banners",
       "five_star_banners": "5★ Banners",
       "four_star_banners": "4★ Banners",
+      "recent_only": "Recent",
+      "all_time": "All Time",
       "first_item_distribution_tooltip": "This banner includes pulls older than 180 days, which are no longer available in game. As a result, the first item distribution data may be inaccurate."
     }
   },

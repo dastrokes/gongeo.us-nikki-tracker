@@ -234,17 +234,32 @@
             ]"
             :style="cardStyle"
           >
-            <div class="absolute top-2 right-16 z-10 flex items-center gap-2">
+            <div class="absolute top-2 right-12 z-10 flex items-center gap-2">
               <n-switch
                 v-model:value="showAllBanners"
-                size="small"
                 @update:value="updatePullsPerBannerChart"
               >
                 <template #checked>
-                  {{ $t('global.charts.all_time') }}
+                  <n-tooltip
+                    trigger="hover"
+                    :show-arrow="false"
+                  >
+                    <template #trigger>
+                      <n-icon :component="Calendar" />
+                    </template>
+                    {{ $t('global.charts.all_time') }}
+                  </n-tooltip>
                 </template>
                 <template #unchecked>
-                  {{ $t('global.charts.recent_only') }}
+                  <n-tooltip
+                    trigger="hover"
+                    :show-arrow="false"
+                  >
+                    <template #trigger>
+                      <n-icon :component="CalendarDay" />
+                    </template>
+                    {{ $t('global.charts.recent_only') }}
+                  </n-tooltip>
                 </template>
               </n-switch>
               <n-select
@@ -549,7 +564,13 @@
   import type { TreeSelectOption } from 'naive-ui'
   import { BANNER_DATA } from '~/data/banners'
   import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
-  import { ExpandAlt, CompressAlt, ExclamationCircle } from '@vicons/fa'
+  import {
+    ExpandAlt,
+    CompressAlt,
+    ExclamationCircle,
+    CalendarDay,
+    Calendar,
+  } from '@vicons/fa'
 
   // Type definitions for global data structure
   interface GlobalData {

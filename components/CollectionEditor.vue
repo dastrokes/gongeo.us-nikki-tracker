@@ -183,7 +183,6 @@
 </template>
 
 <script setup lang="ts">
-  import { useMessage } from 'naive-ui'
   import { BANNER_DATA } from '~/data/banners'
   import OUTFIT_DATA, { type OutfitKey } from '~/data/outfits'
   import type { Outfit } from '~/types/outfit'

@@ -970,7 +970,6 @@
     Database,
     ExclamationCircle,
   } from '@vicons/fa'
-  import { useMessage } from 'naive-ui'
   import type { PullItem, ProcessedBanner } from '~/types/pull'
   import { BANNER_DATA } from '~/data/banners'
   import OUTFIT_DATA from '~/data/outfits'

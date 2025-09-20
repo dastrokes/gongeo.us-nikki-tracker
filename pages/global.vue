@@ -234,14 +234,28 @@
             ]"
             :style="cardStyle"
           >
-            <n-select
-              v-model:value="selectedBannerType"
-              :options="bannerTypeOptions"
-              :show-checkmark="false"
-              class="absolute top-2 right-12 z-10 w-40"
-              size="small"
-              @update:value="updatePullsPerBannerChart"
-            />
+            <div class="absolute top-2 right-16 z-10 flex items-center gap-2">
+              <n-switch
+                v-model:value="showAllBanners"
+                size="small"
+                @update:value="updatePullsPerBannerChart"
+              >
+                <template #checked>
+                  {{ $t('global.charts.all_time') }}
+                </template>
+                <template #unchecked>
+                  {{ $t('global.charts.recent_only') }}
+                </template>
+              </n-switch>
+              <n-select
+                v-model:value="selectedBannerType"
+                :options="bannerTypeOptions"
+                :show-checkmark="false"
+                class="w-32"
+                size="small"
+                @update:value="updatePullsPerBannerChart"
+              />
+            </div>
             <n-button
               size="tiny"
               text
@@ -532,13 +546,6 @@
 </template>
 
 <script setup lang="ts">
-  import {
-    NSkeleton,
-    NNumberAnimation,
-    NButton,
-    NSelect,
-    NIcon,
-  } from 'naive-ui'
   import type { TreeSelectOption } from 'naive-ui'
   import { BANNER_DATA } from '~/data/banners'
   import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
@@ -715,7 +722,8 @@
     }
   }
 
-  const selectedBannerType = ref(3)
+  const selectedBannerType = ref(1)
+  const showAllBanners = ref(false)
   const bannerTypeOptions = computed(() => [
     { label: t('global.charts.all_banners'), value: 1 },
     { label: t('global.charts.five_star_banners'), value: 2 },
@@ -827,26 +835,48 @@
     }
   }
 
+  // Helper function to check if a banner is recent (within last 6 months)
+  const isBannerRecent = (bannerId: number): boolean => {
+    const banner = BANNER_DATA[bannerId]
+    if (!banner?.runs || banner.runs.length === 0) return false
+
+    const sixMonthsAgo = new Date()
+    sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6)
+
+    // Check if any run of this banner started within the last 6 months
+    return banner.runs.some((run) => {
+      const runStartDate = new Date(run.start)
+      return runStartDate >= sixMonthsAgo
+    })
+  }
+
   const createPullsPerBannerChart = (
     chartData: Record<string, [number, number, number]>
   ) => {
     if (!chartData) return
     // chartData: { [bannerId]: [3star, 4star, 5star] }
-    // Filter banners based on selected type and latest banner
+    // Filter banners based on selected type, latest banner, and recent toggle
     const filteredChartData =
       selectedBannerType.value === 1
         ? Object.fromEntries(
-            Object.entries(chartData).filter(
-              ([bannerId]) => parseInt(bannerId) <= latestBannerId
-            )
+            Object.entries(chartData).filter(([bannerId]) => {
+              const id = parseInt(bannerId)
+              return (
+                id <= latestBannerId &&
+                (showAllBanners.value || isBannerRecent(id))
+              )
+            })
           )
         : Object.fromEntries(
-            Object.entries(chartData).filter(
-              ([bannerId]) =>
-                parseInt(bannerId) <= latestBannerId &&
-                BANNER_DATA[parseInt(bannerId)]?.bannerType ===
-                  Number(selectedBannerType.value)
-            )
+            Object.entries(chartData).filter(([bannerId]) => {
+              const id = parseInt(bannerId)
+              return (
+                id <= latestBannerId &&
+                BANNER_DATA[id]?.bannerType ===
+                  Number(selectedBannerType.value) &&
+                (showAllBanners.value || isBannerRecent(id))
+              )
+            })
           )
 
     const bannerLabels = Object.keys(filteredChartData).map((bannerId) => {

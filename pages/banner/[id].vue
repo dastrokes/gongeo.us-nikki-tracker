@@ -554,7 +554,6 @@
     Star,
   } from '@vicons/fa'
   import { BANNER_DATA } from '~/data/banners'
-  import { useMessage } from 'naive-ui'
   import type { Outfit } from '~/types/outfit'
 
   const route = useRoute()

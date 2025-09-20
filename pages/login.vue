@@ -275,7 +275,6 @@
 
 <script setup lang="ts">
   import { Discord, Google } from '@vicons/fa'
-  import { useMessage } from 'naive-ui'
 
   const { t } = useI18n()
   const message = useMessage()

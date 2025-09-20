@@ -82,41 +82,40 @@
           </template>
           <template #default>
             <div class="grid grid-cols-1 lg:grid-cols-4 gap-2">
-              <div class="lg:col-span-1 space-y-2">
+              <div class="space-y-2">
                 <div
                   v-for="(run, index) in banner.runs"
                   :key="index"
-                  class="space-y-1"
+                  class="space-y-2"
                 >
-                  <div class="w-full">
-                    <n-tag :bordered="false">
-                      {{ t(`season.${run.version.slice(0, 3)}`) }}
-                    </n-tag>
-                    <n-tag
-                      type="success"
-                      :bordered="false"
-                      >{{ t('banner.version') }}
-                      {{ run.version.slice(0, -2) }}</n-tag
-                    >
-                  </div>
-                  <div class="w-full">
-                    <n-tag
-                      type="success"
-                      :bordered="false"
-                    >
-                      <template #avatar>
-                        <n-icon><CalendarAlt /></n-icon>
-                      </template>
-                      <n-time
-                        :time="new Date(run.start + 'T00:00:00')"
-                        type="date"
-                      />
-                      -
-                      <n-time
-                        :time="new Date(run.end + 'T00:00:00')"
-                        type="date"
-                      />
-                    </n-tag>
+                  <div class="flex flex-col gap-1">
+                    <div class="flex items-center">
+                      <n-tag :bordered="false">
+                        {{ t(`season.${run.version.slice(0, 3)}`) }}
+                      </n-tag>
+                      <n-tag
+                        class="ml-1"
+                        :bordered="false"
+                      >
+                        {{ t('banner.version') }} {{ run.version.slice(0, -2) }}
+                      </n-tag>
+                    </div>
+                    <div>
+                      <n-tag :bordered="false">
+                        <template #avatar>
+                          <n-icon><CalendarAlt /></n-icon>
+                        </template>
+                        <n-time
+                          :time="new Date(run.start + 'T00:00:00')"
+                          type="date"
+                        />
+                        -
+                        <n-time
+                          :time="new Date(run.end + 'T00:00:00')"
+                          type="date"
+                        />
+                      </n-tag>
+                    </div>
                   </div>
                 </div>
                 <div class="inline-flex flex-col gap-2 items-start">

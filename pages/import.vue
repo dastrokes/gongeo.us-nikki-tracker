@@ -91,7 +91,12 @@
                 <n-button
                   secondary
                   class="flex items-center gap-2"
-                  @click="showYouTubeModal = true"
+                  @click="
+                    () => {
+                      showBilibiliModal = false
+                      showYouTubeModal = true
+                    }
+                  "
                 >
                   <template #icon>
                     <svg
@@ -111,7 +116,12 @@
                 <n-button
                   secondary
                   class="flex items-center gap-2"
-                  @click="showBilibiliModal = true"
+                  @click="
+                    () => {
+                      showYouTubeModal = false
+                      showBilibiliModal = true
+                    }
+                  "
                 >
                   <template #icon>
                     <Bilibili class="w-5 h-5" />
@@ -764,7 +774,7 @@
   import { useDebounce } from '@vueuse/core'
   import type { CookieData, PearpalNoteBookResponse } from '~/types/api'
   import type { PearpalTrackerItem } from '~/types/pull'
-  import { useMessage, NTag, NIcon, NCode, useDialog, NModal } from 'naive-ui'
+  import { NTag, NIcon, NCode } from 'naive-ui'
   import type {
     UploadFileInfo,
     SelectOption,

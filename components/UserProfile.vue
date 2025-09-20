@@ -29,7 +29,7 @@
     TrashAlt,
     Trash,
   } from '@vicons/fa'
-  import { useDialog, useMessage, NIcon } from 'naive-ui'
+  import { NIcon } from 'naive-ui'
   import type { DropdownOption } from 'naive-ui'
 
   const { t } = useI18n()

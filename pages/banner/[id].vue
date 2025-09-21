@@ -117,7 +117,7 @@
                   <div>
                     <n-tag :bordered="false">
                       <template #avatar>
-                        <n-icon><CalendarAlt /></n-icon>
+                        <n-icon><CalendarDay /></n-icon>
                       </template>
                       <n-time
                         :time="new Date(run.start + 'T00:00:00')"
@@ -133,12 +133,12 @@
                 </div>
               </div>
 
+              <n-divider />
               <!-- Pull Statistics -->
               <div
                 size="small"
                 :bordered="false"
                 class="rounded-lg px-2"
-                :style="cardStyle"
               >
                 <div class="space-y-2">
                   <div
@@ -561,7 +561,7 @@
     ThLarge,
     FileImport,
     Star,
-    CalendarAlt,
+    CalendarDay,
   } from '@vicons/fa'
   import { BANNER_DATA } from '~/data/banners'
   import type { Outfit } from '~/types/outfit'

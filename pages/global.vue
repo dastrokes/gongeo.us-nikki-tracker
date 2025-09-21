@@ -245,7 +245,7 @@
                     :show-arrow="false"
                   >
                     <template #trigger>
-                      <n-icon :component="Calendar" />
+                      <n-icon :component="CalendarAlt" />
                     </template>
                     {{ $t('global.charts.all_time') }}
                   </n-tooltip>
@@ -498,7 +498,7 @@
                 <n-button
                   size="tiny"
                   text
-                  class="absolute top-4 left-4 z-10"
+                  class="absolute top-4 left-10 z-10"
                 >
                   <template #icon>
                     <n-icon>
@@ -508,6 +508,27 @@
                 </n-button>
               </template>
               {{ t('global.charts.first_item_distribution_tooltip') }}
+            </n-tooltip>
+            <n-tooltip>
+              <template #trigger>
+                <n-button
+                  size="tiny"
+                  text
+                  class="absolute top-4 left-4 z-10"
+                  @click="
+                    router.push(
+                      `${localePath('/banner')}/${BANNER_DATA[Number(selectedOutfit!.split('_')[0])]?.bannerId}`
+                    )
+                  "
+                >
+                  <template #icon>
+                    <n-icon>
+                      <CalendarDay />
+                    </n-icon>
+                  </template>
+                </n-button>
+              </template>
+              {{ t('navigation.banner_detail') }}
             </n-tooltip>
             <n-tree-select
               v-model:value="selectedOutfit"
@@ -569,7 +590,7 @@
     CompressAlt,
     ExclamationCircle,
     CalendarDay,
-    Calendar,
+    CalendarAlt,
   } from '@vicons/fa'
 
   // Type definitions for global data structure
@@ -645,6 +666,7 @@
   // Initialize i18n
   const { t } = useI18n()
   const localePath = useLocalePath()
+  const router = useRouter()
   const siteUrl = useRuntimeConfig().public.siteUrl
 
   useHead({

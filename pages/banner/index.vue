@@ -103,7 +103,7 @@
                     <div>
                       <n-tag :bordered="false">
                         <template #avatar>
-                          <n-icon><CalendarAlt /></n-icon>
+                          <n-icon><CalendarDay /></n-icon>
                         </template>
                         <n-time
                           :time="new Date(run.start + 'T00:00:00')"
@@ -118,6 +118,7 @@
                     </div>
                   </div>
                 </div>
+                <n-divider />
                 <div class="inline-flex flex-col gap-2 items-start">
                   <div
                     v-for="outfitId in banner.outfit5StarId"
@@ -206,7 +207,7 @@
 </template>
 
 <script setup lang="ts">
-  import { Gift, Star, ExternalLinkAlt, CalendarAlt } from '@vicons/fa'
+  import { Gift, Star, ExternalLinkAlt, CalendarDay } from '@vicons/fa'
   import { BANNER_DATA } from '~/data/banners'
 
   const { t } = useI18n()

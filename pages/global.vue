@@ -232,7 +232,6 @@
                 ? 'h-[calc(100vh-210px)] sm:h-[calc(100vh-160px)]'
                 : 'h-[320px]',
             ]"
-            :style="cardStyle"
           >
             <div class="absolute top-2 right-12 z-10 flex items-center gap-2">
               <n-switch
@@ -297,7 +296,6 @@
               ref="pullsPerBannerChart"
               :option="pullsPerBannerChartOption"
               :autoresize="true"
-              :style="cardStyle"
             />
           </div>
         </n-card>
@@ -333,7 +331,6 @@
                 ? 'h-[calc(100vh-210px)] sm:h-[calc(100vh-160px)]'
                 : 'h-[200px]',
             ]"
-            :style="cardStyle"
           >
             <n-button
               size="tiny"
@@ -357,7 +354,6 @@
               ref="fiveStarDistributionChart"
               :option="fiveStarDistributionChartOption"
               :autoresize="true"
-              :style="cardStyle"
             />
           </div>
         </n-card>
@@ -381,7 +377,6 @@
                 ? 'h-[calc(100vh-210px)] sm:h-[calc(100vh-160px)]'
                 : 'h-[200px]',
             ]"
-            :style="cardStyle"
           >
             <n-button
               size="tiny"
@@ -407,7 +402,6 @@
               ref="fourStarType2Chart"
               :option="fourStarType2ChartOption"
               :autoresize="true"
-              :style="cardStyle"
             />
           </div>
         </n-card>
@@ -431,7 +425,6 @@
                 ? 'h-[calc(100vh-210px)] sm:h-[calc(100vh-160px)]'
                 : 'h-[200px]',
             ]"
-            :style="cardStyle"
           >
             <n-button
               size="tiny"
@@ -457,7 +450,6 @@
               ref="fourStarType3Chart"
               :option="fourStarType3ChartOption"
               :autoresize="true"
-              :style="cardStyle"
             />
           </div>
         </n-card>
@@ -488,7 +480,6 @@
                 ? 'h-[calc(100vh-210px)] sm:h-[calc(100vh-160px)]'
                 : 'h-[200px]',
             ]"
-            :style="cardStyle"
           >
             <n-tooltip
               v-if="checkBannerRuns"
@@ -572,7 +563,6 @@
               ref="firstItemDistributionChart"
               :option="firstItemDistributionChartOption"
               :autoresize="true"
-              :style="cardStyle"
             />
           </div>
         </n-card>

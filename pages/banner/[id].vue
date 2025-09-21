@@ -16,7 +16,7 @@
                     size="small"
                     text
                     @click="
-                      navigateTo(`${localePath('/banner')}#${banner.bannerId}`)
+                      router.push(`${localePath('/banner')}#${banner.bannerId}`)
                     "
                   >
                     <template #icon>

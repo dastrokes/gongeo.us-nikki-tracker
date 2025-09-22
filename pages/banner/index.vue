@@ -100,7 +100,7 @@
                         {{ t('banner.version') }} {{ run.version.slice(0, -2) }}
                       </n-tag>
                     </div>
-                    <div>
+                    <div class="flex items-center gap-1">
                       <n-tag :bordered="false">
                         <template #avatar>
                           <n-icon><CalendarDay /></n-icon>
@@ -114,6 +114,12 @@
                           :time="new Date(run.end + 'T00:00:00')"
                           type="date"
                         />
+                      </n-tag>
+                      <n-tag
+                        v-if="index > 0"
+                        :bordered="false"
+                      >
+                        {{ t('index.rerun') }}
                       </n-tag>
                     </div>
                   </div>

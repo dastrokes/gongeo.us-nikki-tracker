@@ -280,7 +280,7 @@
               @click="toggleMaximize('pullsPerBanner')"
             >
               <template #icon>
-                <n-icon>
+                <n-icon :depth="3">
                   <component
                     :is="
                       maximizedChart === 'pullsPerBanner'
@@ -340,7 +340,7 @@
               @click="toggleMaximize('fiveStar')"
             >
               <template #icon>
-                <n-icon>
+                <n-icon :depth="3">
                   <component
                     :is="
                       maximizedChart === 'fiveStar' ? CompressAlt : ExpandAlt
@@ -386,7 +386,7 @@
               @click="toggleMaximize('fourStarType2')"
             >
               <template #icon>
-                <n-icon>
+                <n-icon :depth="3">
                   <component
                     :is="
                       maximizedChart === 'fourStarType2'
@@ -434,7 +434,7 @@
               @click="toggleMaximize('fourStarType3')"
             >
               <template #icon>
-                <n-icon>
+                <n-icon :depth="3">
                   <component
                     :is="
                       maximizedChart === 'fourStarType3'
@@ -492,7 +492,7 @@
                   class="absolute top-4 left-10 z-10"
                 >
                   <template #icon>
-                    <n-icon>
+                    <n-icon :depth="3">
                       <ExclamationCircle />
                     </n-icon>
                   </template>
@@ -513,7 +513,7 @@
                   "
                 >
                   <template #icon>
-                    <n-icon>
+                    <n-icon :depth="3">
                       <CalendarDay />
                     </n-icon>
                   </template>
@@ -547,7 +547,7 @@
               @click="toggleMaximize('firstItemDistribution')"
             >
               <template #icon>
-                <n-icon>
+                <n-icon :depth="3">
                   <component
                     :is="
                       maximizedChart === 'firstItemDistribution'

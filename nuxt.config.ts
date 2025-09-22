@@ -1,8 +1,8 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
 import Components from 'unplugin-vue-components/vite'
-import { BANNER_DATA } from './data/banners'
 import { defaultLocale, i18nLocales } from './locales/locales'
+import { imageSitemap } from './locales/sitemap'
 
 export default defineNuxtConfig({
   devtools: { enabled: false },
@@ -47,14 +47,7 @@ export default defineNuxtConfig({
   },
 
   sitemap: {
-    urls: Object.values(BANNER_DATA).flatMap((banner) =>
-      i18nLocales.map(({ code }) => {
-        const prefix = code === defaultLocale ? '' : `/${code}`
-        return {
-          loc: `${prefix}/banner/${banner.bannerId}`,
-        }
-      })
-    ),
+    urls: imageSitemap(),
   },
 
   runtimeConfig: {

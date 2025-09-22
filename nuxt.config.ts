@@ -97,10 +97,27 @@ export default defineNuxtConfig({
     ],
   },
 
+  routeRules: {
+    ...Object.fromEntries([
+      ...['error'].flatMap((page) => [
+        [`/${page}`, { prerender: true, robots: false }],
+        ...i18nLocales
+          .filter((locale) => locale.code !== defaultLocale)
+          .map((locale) => [
+            `/${locale.code}/${page}`,
+            { prerender: true, robots: false },
+          ]),
+      ]),
+    ]),
+  },
+
   nitro: {
     preset: 'netlify',
     future: {
       nativeSWR: true,
+    },
+    prerender: {
+      autoSubfolderIndex: false,
     },
   },
 

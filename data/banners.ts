@@ -478,7 +478,7 @@ export const BANNER_DATA: BannerData = {
     runs: [
       {
         version: '1.9.2',
-        start: '2025-09-19',
+        start: '2025-09-16',
         end: '2025-09-28',
       },
     ],
@@ -492,7 +492,7 @@ export const BANNER_DATA: BannerData = {
     runs: [
       {
         version: '1.9.2',
-        start: '2025-09-17',
+        start: '2025-09-16',
         end: '2025-09-28',
       },
     ],

@@ -32,7 +32,8 @@ export default defineEventHandler(async (event) => {
     // Use the shared Supabase client with server key
     const supabase = useSupabaseClient('server')
 
-    const { error } = await supabase.from(targetTable).upsert(body, {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { error } = await supabase.from(targetTable).upsert(body as any, {
       onConflict: 'uid,region,banner_id',
       ignoreDuplicates: false,
     })

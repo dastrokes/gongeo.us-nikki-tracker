@@ -3,14 +3,16 @@
     :theme="theme"
     :theme-overrides="themeOverrides"
   >
-    <n-message-provider placement="bottom">
-      <n-dialog-provider>
-        <n-notification-provider>
-          <NuxtLayout :hydrate="true">
-            <NuxtPage />
-          </NuxtLayout>
-        </n-notification-provider>
-      </n-dialog-provider>
+    <n-message-provider>
+      <n-notification-provider>
+        <n-modal-provider>
+          <n-dialog-provider>
+            <NuxtLayout>
+              <NuxtPage />
+            </NuxtLayout>
+          </n-dialog-provider>
+        </n-modal-provider>
+      </n-notification-provider>
     </n-message-provider>
   </n-config-provider>
 </template>

@@ -8,8 +8,9 @@
     >
       <div>
         <div class="flex flex-col gap-2">
-          <div class="flex items-center justify-between">
-            <div class="flex items-center gap-2">
+          <div class="flex flex-col gap-3 sm:flex-row justify-between">
+            <!-- Banner Navigation -->
+            <div class="flex items-center gap-2 justify-start">
               <n-tooltip trigger="hover">
                 <template #trigger>
                   <n-button
@@ -20,12 +21,57 @@
                     "
                   >
                     <template #icon>
-                      <n-icon><ArrowLeft /></n-icon>
+                      <n-icon :depth="3"><CalendarAlt /></n-icon>
                     </template>
                   </n-button>
                 </template>
                 {{ t('navigation.banner') }}
               </n-tooltip>
+
+              <!-- Previous Banner Navigation -->
+              <n-tooltip
+                v-if="prevBanner"
+                class="!p-0"
+                content-class="!p-2"
+                trigger="hover"
+                placement="bottom"
+              >
+                <template #trigger>
+                  <n-button
+                    size="small"
+                    text
+                    @click="
+                      router.push(localePath(`/banner/${prevBanner.bannerId}`))
+                    "
+                  >
+                    <template #icon>
+                      <n-icon :depth="3"><ChevronLeft /></n-icon>
+                    </template>
+                  </n-button>
+                </template>
+                <div class="flex flex-col items-center gap-1">
+                  <n-gradient-text
+                    :type="prevBanner.bannerType === 2 ? 'warning' : 'info'"
+                    class="text-sm font-medium"
+                  >
+                    {{ t(`banner.${prevBanner.bannerId}.name`) }}
+                  </n-gradient-text>
+                  <div class="relative w-24 h-12 rounded-lg overflow-hidden">
+                    <NuxtImg
+                      :src="`/images/banners/thumbnails/${prevBanner.bannerId}.webp`"
+                      :alt="t(`banner.${prevBanner.bannerId}.name`)"
+                      class="w-full h-full object-cover rounded"
+                      format="webp"
+                      width="100"
+                      height="50"
+                      fit="cover"
+                      :quality="100"
+                      loading="lazy"
+                    />
+                  </div>
+                </div>
+              </n-tooltip>
+
               <n-gradient-text
                 :size="18"
                 class="m-0 font-medium break-words"
@@ -33,10 +79,54 @@
               >
                 {{ t(`banner.${banner.bannerId}.name`) }}
               </n-gradient-text>
+
+              <!-- Next Banner Navigation -->
+              <n-tooltip
+                v-if="nextBanner"
+                class="!p-0"
+                content-class="!p-2"
+                trigger="hover"
+                placement="bottom"
+              >
+                <template #trigger>
+                  <n-button
+                    size="small"
+                    text
+                    @click="
+                      router.push(localePath(`/banner/${nextBanner.bannerId}`))
+                    "
+                  >
+                    <template #icon>
+                      <n-icon :depth="3"><ChevronRight /></n-icon>
+                    </template>
+                  </n-button>
+                </template>
+                <div class="flex flex-col items-center gap-1">
+                  <n-gradient-text
+                    :type="nextBanner.bannerType === 2 ? 'warning' : 'info'"
+                    class="text-sm font-medium"
+                  >
+                    {{ t(`banner.${nextBanner.bannerId}.name`) }}
+                  </n-gradient-text>
+                  <div class="relative w-24 h-12 rounded-lg overflow-hidden">
+                    <NuxtImg
+                      :src="`/images/banners/thumbnails/${nextBanner.bannerId}.webp`"
+                      :alt="t(`banner.${nextBanner.bannerId}.name`)"
+                      class="w-full h-full object-cover rounded"
+                      format="webp"
+                      width="100"
+                      height="50"
+                      fit="cover"
+                      :quality="100"
+                      loading="lazy"
+                    />
+                  </div>
+                </div>
+              </n-tooltip>
             </div>
 
             <!-- Controls -->
-            <div class="flex gap-4">
+            <div class="flex gap-4 justify-end">
               <!-- Edit Button -->
               <n-tooltip trigger="hover">
                 <template #trigger>
@@ -105,13 +195,14 @@
                 <div class="flex flex-col items-center gap-1">
                   <div class="flex items-center">
                     <n-tag :bordered="false">
-                      {{ t(`season.${run.version.slice(0, 3)}`) }}
+                      {{ t(`season.${getVersionKey(run.version)}`) }}
                     </n-tag>
                     <n-tag
                       class="ml-1"
                       :bordered="false"
                     >
-                      {{ t('banner.version') }} {{ run.version.slice(0, -2) }}
+                      {{ t('banner.version') }}
+                      {{ getVersionDisplay(run.version) }}
                     </n-tag>
                   </div>
                   <div class="flex items-center gap-1">
@@ -560,7 +651,7 @@
 
 <script setup lang="ts">
   import {
-    ArrowLeft,
+    CalendarAlt,
     Book,
     Edit,
     Th,
@@ -568,6 +659,8 @@
     FileImport,
     Star,
     CalendarDay,
+    ChevronLeft,
+    ChevronRight,
   } from '@vicons/fa'
   import { BANNER_DATA } from '~/data/banners'
   import type { Outfit } from '~/types/outfit'
@@ -600,6 +693,50 @@
     if (!banner.value) return null
     return processedPulls.value[banner.value.bannerId]
   })
+
+  // Navigation computed properties
+  const bannerIds = computed(() =>
+    Object.keys(BANNER_DATA)
+      .map(Number)
+      .sort((a, b) => a - b)
+  )
+
+  const currentBannerIndex = computed(() => {
+    if (!banner.value) return -1
+    return bannerIds.value.indexOf(banner.value.bannerId)
+  })
+
+  const prevBannerId = computed(() => {
+    const index = currentBannerIndex.value
+    return index > 0 ? bannerIds.value[index - 1] : null
+  })
+
+  const nextBannerId = computed(() => {
+    const index = currentBannerIndex.value
+    return index >= 0 && index < bannerIds.value.length - 1
+      ? bannerIds.value[index + 1]
+      : null
+  })
+
+  const prevBanner = computed(() =>
+    prevBannerId.value ? BANNER_DATA[prevBannerId.value] : null
+  )
+  const nextBanner = computed(() =>
+    nextBannerId.value ? BANNER_DATA[nextBannerId.value] : null
+  )
+
+  // Helper functions for version display
+  const getVersionKey = (version: string) => {
+    // Extract major.minor version for season lookup (e.g., "1.10" from "1.10.1")
+    const parts = version.split('.')
+    return parts.length >= 2 ? `${parts[0]}.${parts[1]}` : version
+  }
+
+  const getVersionDisplay = (version: string) => {
+    // Extract major.minor version for display (e.g., "1.10" from "1.10.1")
+    const parts = version.split('.')
+    return parts.length >= 2 ? `${parts[0]}.${parts[1]}` : version
+  }
 
   // Helper function to get outfit completion levels
   const getOutfitCompletionLevels = (outfitId: string, rarity: number) => {
@@ -689,7 +826,7 @@
   useHead(() => ({
     title: banner.value
       ? `${t(`banner.${banner.value.bannerId}.name`)} - ${t('navigation.banner_detail')} - ${t('navigation.subtitle')}`
-      : `${t('navigation.banner')} - ${t('navigation.subtitle')}`,
+      : `${t('navigation.banner_detail')} - ${t('navigation.subtitle')}`,
     meta: [
       {
         name: 'description',
@@ -697,19 +834,35 @@
       },
       {
         property: 'og:title',
-        content: t('navigation.banner') + ' - ' + t('navigation.subtitle'),
+        content: banner.value
+          ? `${t(`banner.${banner.value.bannerId}.name`)} - ${t('navigation.banner_detail')} - ${t('navigation.subtitle')}`
+          : `${t('navigation.banner_detail')} - ${t('navigation.subtitle')}`,
       },
       {
         property: 'og:description',
-        content: t('meta.description.banner'),
+        content: t('meta.description.banner_detail'),
+      },
+      {
+        property: 'og:image',
+        content: banner.value
+          ? `${siteUrl}/images/banners/${banner.value.bannerId}.webp`
+          : `${siteUrl}/og.png`,
       },
       {
         property: 'twitter:title',
-        content: t('navigation.banner') + ' - ' + t('navigation.subtitle'),
+        content: banner.value
+          ? `${t(`banner.${banner.value.bannerId}.name`)} - ${t('navigation.banner_detail')} - ${t('navigation.subtitle')}`
+          : `${t('navigation.banner_detail')} - ${t('navigation.subtitle')}`,
       },
       {
         property: 'twitter:description',
-        content: t('meta.description.banner'),
+        content: t('meta.description.banner_detail'),
+      },
+      {
+        property: 'twitter:image',
+        content: banner.value
+          ? `${siteUrl}/images/banners/${banner.value.bannerId}.webp`
+          : `${siteUrl}/og.png`,
       },
     ],
     link: [

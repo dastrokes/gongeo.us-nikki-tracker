@@ -724,7 +724,7 @@
   const selectedOutfit = ref<string | null>(null)
 
   const latestBannerId = Number(
-    Object.keys(BANNER_DATA)[Object.keys(BANNER_DATA).length - 2]
+    Object.keys(BANNER_DATA)[Object.keys(BANNER_DATA).length - 1]
   )
   const latestBanner = BANNER_DATA[latestBannerId]
 

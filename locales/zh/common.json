@@ -23,7 +23,7 @@
     "description": {
       "default": "追踪无限暖暖的共鸣历史与抽卡数据并提供数据分析。专为无限暖暖玩家社区打造的实用粉丝工具。",
       "login": "使用第三方账号或邮箱登录，上传数据到云端，在多个设备上同步抽卡数据。",
-      "tracker": "追踪并分析您的无限暖暖共鸣抽卡历史，查看所有卡池中的5★和4★物品记录。与其他玩家比较您的抽卡运气。",
+      "tracker": "追踪并分析您的无限暖暖共鸣抽卡历史，查看所有卡池中的5★和4★部件记录。与其他玩家比较您的抽卡运气。",
       "import": "轻松导入您的无限暖暖共鸣抽卡记录，支持游戏数据和备份文件导入，并提供详细的操作指南。",
       "global": "探索无限暖暖社区抽卡数据，包括卡池受欢迎程度、平均概率和抽卡分布统计。",
       "banner": "查看完整的无限暖暖卡池历史记录，包含限定和常驻套装详情、复刻时间表及持续时间等信息。",
@@ -271,7 +271,7 @@
       },
       "settings": {
         "banner_order": "卡池排序",
-        "item_order": "物品排序",
+        "item_order": "部件排序",
         "latest_first": "最新优先",
         "oldest_first": "最早优先",
         "outfit_display": "套装显示",
@@ -397,13 +397,13 @@
   "items": {
     "pull": "第 {number} 抽",
     "types": {
-      "dresses": "裙子",
+      "dresses": "连衣裙",
       "outerwear": "外套",
       "tops": "上衣",
       "bottoms": "下装",
       "socks": "袜子",
       "shoes": "鞋子",
-      "headwear": "头饰",
+      "headwear": "帽子",
       "hairAccessories": "发饰",
       "earrings": "耳饰",
       "neckwear": "颈饰",
@@ -414,7 +414,7 @@
       "faceDecorations": "面饰",
       "hair": "发型",
       "chestAccessories": "胸饰",
-      "pendants": "挂坠",
+      "pendants": "挂饰",
       "backpieces": "背饰",
       "rings": "戒指",
       "armDecorations": "臂饰",
@@ -425,6 +425,7 @@
     "toggle_menu": "切换导航菜单",
     "join_discord": "加入我们的 Discord 社区",
     "support_ko_fi": "在 Ko-fi 上支持我们",
+    "search": "搜索",
     "language_switcher": "切换语言",
     "theme_switcher": "切换主题",
     "user_profile_menu": "用户资料菜单",
@@ -444,7 +445,7 @@
       "five_star_distribution": "5★抽数分布",
       "four_star_type2_distribution": "4★分布（5★卡池）",
       "four_star_type3_distribution": "4★分布（4★卡池）",
-      "first_item_distribution": "首件物品分布",
+      "first_item_distribution": "首件部件分布",
       "number_of_pulls": "抽数",
       "probability": "概率",
       "cumulative_probability": "累积概率",
@@ -466,7 +467,7 @@
       "four_star_banners": "4★卡池",
       "recent_only": "近期",
       "all_time": "全部",
-      "first_item_distribution_tooltip": "此卡池包含180天之前的抽卡记录，这些记录已无法在游戏中获取。因此，首件物品的分布数据可能不准确。"
+      "first_item_distribution_tooltip": "此卡池包含180天之前的抽卡记录，这些记录已无法在游戏中获取。因此，首件部件的分布数据可能不准确。"
     }
   },
   "faq": {
@@ -486,7 +487,7 @@
       },
       "server_data": {
         "question": "发送到服务器的数据是什么？",
-        "answer": "如果您选择参与，只有您的抽卡统计数据会被发送以帮助计算社区统计数据。这包含经过加密处理的用户ID，以及您抽到的4星和5星物品的信息。"
+        "answer": "如果您选择参与，只有您的抽卡统计数据会被发送以帮助计算社区统计数据。这包含经过加密处理的用户ID，以及您抽到的4星和5星部件的信息。"
       },
       "platform_support": {
         "question": "如果我在移动端或PS5上玩，这个工具能用吗？",
@@ -555,6 +556,20 @@
     "title": "网站维护中",
     "message": "我们正在对网站进行维护更新，抽卡记录导入暂时无法使用。",
     "status": "服务很快就会恢复。感谢您的耐心等待！"
+  },
+  "search": {
+    "placeholder": "搜索卡池、套装、部件",
+    "noResults": "未找到结果",
+    "categories": {
+      "banners": "卡池",
+      "outfits": "套装",
+      "items": "部件"
+    },
+    "resultTypes": {
+      "banner": "卡池",
+      "outfit": "套装",
+      "item": "部件"
+    }
   },
   "error": {
     "404": "\"暖暖，我们还是待在水浅的地方吧！\"",

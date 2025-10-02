@@ -943,7 +943,6 @@
     <n-modal
       v-model:show="showCollectionEditor"
       class="w-full max-w-5xl"
-      size="small"
       transform-origin="center"
     >
       <template #default>

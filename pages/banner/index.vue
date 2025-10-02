@@ -279,7 +279,7 @@
                     class="w-full aspect-[2/1] min-h-[140px] sm:min-h-[330px] relative overflow-hidden rounded-lg hover:opacity-95 transition-opacity"
                   >
                     <n-tooltip
-                      :overlap="true"
+                      overlap
                       placement="top-end"
                       class="!rounded-lg !m-1 cursor-pointer"
                       :z-index="10"

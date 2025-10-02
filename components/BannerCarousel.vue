@@ -2,10 +2,10 @@
   <n-carousel
     v-model:current-index="currentIndex"
     :show-arrow="false"
-    :show-dots="true"
+    show-dots
     trigger="hover"
     :space-between="20"
-    :loop="true"
+    loop
     effect="fade"
     draggable
     :transition-style="{

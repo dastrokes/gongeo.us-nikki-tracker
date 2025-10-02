@@ -40,6 +40,7 @@
     "@vueuse/nuxt": "13.9.0",
     "echarts": "6.0.0",
     "fflate": "0.8.2",
+    "fuse.js": "7.1.0",
     "html-to-image": "1.11.11",
     "idb": "8.0.3",
     "naive-ui": "2.43.1",

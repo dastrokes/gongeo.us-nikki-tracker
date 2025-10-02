@@ -295,7 +295,7 @@
               id="pullsPerBannerChart"
               ref="pullsPerBannerChart"
               :option="pullsPerBannerChartOption"
-              :autoresize="true"
+              autoresize
             />
           </div>
         </n-card>
@@ -353,7 +353,7 @@
               id="fiveStarDistributionChart"
               ref="fiveStarDistributionChart"
               :option="fiveStarDistributionChartOption"
-              :autoresize="true"
+              autoresize
             />
           </div>
         </n-card>
@@ -401,7 +401,7 @@
               id="fourStarType2Chart"
               ref="fourStarType2Chart"
               :option="fourStarType2ChartOption"
-              :autoresize="true"
+              autoresize
             />
           </div>
         </n-card>
@@ -449,7 +449,7 @@
               id="fourStarType3Chart"
               ref="fourStarType3Chart"
               :option="fourStarType3ChartOption"
-              :autoresize="true"
+              autoresize
             />
           </div>
         </n-card>
@@ -562,7 +562,7 @@
               id="firstItemDistributionChart"
               ref="firstItemDistributionChart"
               :option="firstItemDistributionChartOption"
-              :autoresize="true"
+              autoresize
             />
           </div>
         </n-card>

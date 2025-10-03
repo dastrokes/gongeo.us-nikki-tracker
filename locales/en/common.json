@@ -397,27 +397,27 @@
   "items": {
     "pull": "Pull #{number}",
     "types": {
-      "dresses": "Dresses",
+      "dresses": "Dress",
       "outerwear": "Outerwear",
-      "tops": "Tops",
+      "tops": "Top",
       "bottoms": "Bottoms",
       "socks": "Socks",
       "shoes": "Shoes",
       "headwear": "Headwear",
-      "hairAccessories": "Hair Accessories",
+      "hairAccessories": "Hair Accessory",
       "earrings": "Earrings",
       "neckwear": "Neckwear",
-      "bracelets": "Bracelets",
-      "chokers": "Chokers",
+      "bracelets": "Bracelet",
+      "chokers": "Choker",
       "gloves": "Gloves",
-      "handhelds": "Handhelds",
-      "faceDecorations": "Face Decorations",
+      "handhelds": "Handheld",
+      "faceDecorations": "Face Decoration",
       "hair": "Hair",
-      "chestAccessories": "Chest Accessories",
-      "pendants": "Pendants",
-      "backpieces": "Backpieces",
-      "rings": "Rings",
-      "armDecorations": "Arm Decorations",
+      "chestAccessories": "Chest Accessory",
+      "pendants": "Pendant",
+      "backpieces": "Backpiece",
+      "rings": "Ring",
+      "armDecorations": "Arm Decoration",
       "unknown": "Unknown"
     }
   },
@@ -425,6 +425,7 @@
     "toggle_menu": "Toggle navigation menu",
     "join_discord": "Join our Discord community",
     "support_ko_fi": "Support us on Ko-fi",
+    "search": "Search",
     "language_switcher": "Language switcher",
     "theme_switcher": "Toggle theme",
     "user_profile_menu": "User profile menu",
@@ -555,6 +556,20 @@
     "title": "Under Maintenance",
     "message": "We're currently performing some maintenance. Pull history import is temporarily unavailable.",
     "status": "Service will be back shortly. Thank you for your patience!"
+  },
+  "search": {
+    "placeholder": "Search banners, outfits, items",
+    "noResults": "No results found",
+    "categories": {
+      "banners": "Banners",
+      "outfits": "Outfits",
+      "items": "Items"
+    },
+    "resultTypes": {
+      "banner": "Banner",
+      "outfit": "Outfit",
+      "item": "Item"
+    }
   },
   "error": {
     "404": "\"Nikki, let's stay in the shallow water\"",

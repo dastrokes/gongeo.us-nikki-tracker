@@ -46,6 +46,7 @@
     "naive-ui": "2.43.1",
     "nuxt": "3.19.2",
     "nuxt-echarts": "1.0.0",
+    "pinyin-pro": "3.27.0",
     "snappyjs": "0.7.0"
   },
   "devDependencies": {

@@ -12,9 +12,9 @@ export const useSearch = () => {
   const localePath = useLocalePath()
 
   const searchIndex = ref<SearchIndex>({
-    banners: new Map(),
-    outfits: new Map(),
     items: new Map(),
+    outfits: new Map(),
+    banners: new Map(),
   })
 
   const fuseInstance = ref<Fuse<SearchResult> | null>(null)
@@ -234,11 +234,11 @@ export const useSearch = () => {
 
     const categories: SearchCategory[] = []
 
-    if (bannerResults.length > 0) {
+    if (itemResults.length > 0) {
       categories.push({
-        type: 'banner',
-        label: t('search.categories.banners'),
-        results: bannerResults,
+        type: 'item',
+        label: t('search.categories.items'),
+        results: itemResults,
       })
     }
 
@@ -250,11 +250,11 @@ export const useSearch = () => {
       })
     }
 
-    if (itemResults.length > 0) {
+    if (bannerResults.length > 0) {
       categories.push({
-        type: 'item',
-        label: t('search.categories.items'),
-        results: itemResults,
+        type: 'banner',
+        label: t('search.categories.banners'),
+        results: bannerResults,
       })
     }
 

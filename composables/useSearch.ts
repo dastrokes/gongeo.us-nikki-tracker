@@ -310,14 +310,14 @@ export const useSearch = () => {
     const searchResults = results.map((result) => result.item)
 
     // Group results by type with fixed limits
-    const bannerResults = searchResults
-      .filter((r) => r.type === 'banner')
-      .slice(0, 5)
+    const itemResults = searchResults
+      .filter((r) => r.type === 'item')
+      .slice(0, 10)
     const outfitResults = searchResults
       .filter((r) => r.type === 'outfit')
       .slice(0, 5)
-    const itemResults = searchResults
-      .filter((r) => r.type === 'item')
+    const bannerResults = searchResults
+      .filter((r) => r.type === 'banner')
       .slice(0, 5)
 
     const categories: SearchCategory[] = []

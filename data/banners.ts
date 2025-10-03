@@ -478,7 +478,7 @@ export const BANNER_DATA: BannerData = {
     runs: [
       {
         version: '1.9.2',
-        start: '2025-08-19',
+        start: '2025-09-16',
         end: '2025-09-28',
       },
     ],
@@ -492,10 +492,23 @@ export const BANNER_DATA: BannerData = {
     runs: [
       {
         version: '1.9.2',
-        start: '2025-09-17',
+        start: '2025-09-16',
         end: '2025-09-28',
       },
     ],
     rewardIds: ['1020740277', '1029600007', '1021410045'],
+  },
+  36: {
+    bannerId: 36,
+    bannerType: 2,
+    outfit4StarId: ['S0252'],
+    outfit5StarId: ['S0250'],
+    runs: [
+      {
+        version: '1.10.1',
+        start: '2025-09-28',
+        end: '2025-10-28',
+      },
+    ],
   },
 }

@@ -41,7 +41,7 @@
         <!-- Items section -->
         <div class="rounded-lg">
           <div
-            class="grid grid-cols-3 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-2"
+            class="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-2"
           >
             <div
               v-for="itemId in selectedOutfit.items"

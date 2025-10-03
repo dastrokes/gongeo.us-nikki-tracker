@@ -1,8 +1,8 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
 import Components from 'unplugin-vue-components/vite'
-import { BANNER_DATA } from './data/banners'
 import { defaultLocale, i18nLocales } from './locales/locales'
+import { imageSitemap } from './locales/sitemap'
 
 export default defineNuxtConfig({
   devtools: { enabled: false },
@@ -35,7 +35,7 @@ export default defineNuxtConfig({
     detectBrowserLanguage: {
       cookieKey: 'i18n_redirected',
       fallbackLocale: defaultLocale,
-      redirectOn: 'root',
+      redirectOn: 'no prefix',
     },
     bundle: {
       optimizeTranslationDirective: false,
@@ -47,14 +47,10 @@ export default defineNuxtConfig({
   },
 
   sitemap: {
-    urls: Object.values(BANNER_DATA).flatMap((banner) =>
-      i18nLocales.map(({ code }) => {
-        const prefix = code === defaultLocale ? '' : `/${code}`
-        return {
-          loc: `${prefix}/banner/${banner.bannerId}`,
-        }
-      })
-    ),
+    defaults: {
+      lastmod: '2025-09-28',
+    },
+    urls: imageSitemap(),
   },
 
   runtimeConfig: {
@@ -99,11 +95,14 @@ export default defineNuxtConfig({
 
   routeRules: {
     ...Object.fromEntries([
-      ...['banner', 'faq', 'about', 'error'].flatMap((page) => [
-        [`/${page}`, { prerender: true }],
+      ...['error'].flatMap((page) => [
+        [`/${page}`, { prerender: true, robots: false }],
         ...i18nLocales
           .filter((locale) => locale.code !== defaultLocale)
-          .map((locale) => [`/${locale.code}/${page}`, { prerender: true }]),
+          .map((locale) => [
+            `/${locale.code}/${page}`,
+            { prerender: true, robots: false },
+          ]),
       ]),
     ]),
   },

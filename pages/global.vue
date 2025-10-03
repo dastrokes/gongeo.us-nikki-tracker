@@ -232,7 +232,6 @@
                 ? 'h-[calc(100vh-210px)] sm:h-[calc(100vh-160px)]'
                 : 'h-[320px]',
             ]"
-            :style="cardStyle"
           >
             <div class="absolute top-2 right-12 z-10 flex items-center gap-2">
               <n-switch
@@ -245,7 +244,7 @@
                     :show-arrow="false"
                   >
                     <template #trigger>
-                      <n-icon :component="Calendar" />
+                      <n-icon :component="CalendarAlt" />
                     </template>
                     {{ $t('global.charts.all_time') }}
                   </n-tooltip>
@@ -281,7 +280,7 @@
               @click="toggleMaximize('pullsPerBanner')"
             >
               <template #icon>
-                <n-icon>
+                <n-icon :depth="3">
                   <component
                     :is="
                       maximizedChart === 'pullsPerBanner'
@@ -296,8 +295,7 @@
               id="pullsPerBannerChart"
               ref="pullsPerBannerChart"
               :option="pullsPerBannerChartOption"
-              :autoresize="true"
-              :style="cardStyle"
+              autoresize
             />
           </div>
         </n-card>
@@ -333,7 +331,6 @@
                 ? 'h-[calc(100vh-210px)] sm:h-[calc(100vh-160px)]'
                 : 'h-[200px]',
             ]"
-            :style="cardStyle"
           >
             <n-button
               size="tiny"
@@ -343,7 +340,7 @@
               @click="toggleMaximize('fiveStar')"
             >
               <template #icon>
-                <n-icon>
+                <n-icon :depth="3">
                   <component
                     :is="
                       maximizedChart === 'fiveStar' ? CompressAlt : ExpandAlt
@@ -356,8 +353,7 @@
               id="fiveStarDistributionChart"
               ref="fiveStarDistributionChart"
               :option="fiveStarDistributionChartOption"
-              :autoresize="true"
-              :style="cardStyle"
+              autoresize
             />
           </div>
         </n-card>
@@ -381,7 +377,6 @@
                 ? 'h-[calc(100vh-210px)] sm:h-[calc(100vh-160px)]'
                 : 'h-[200px]',
             ]"
-            :style="cardStyle"
           >
             <n-button
               size="tiny"
@@ -391,7 +386,7 @@
               @click="toggleMaximize('fourStarType2')"
             >
               <template #icon>
-                <n-icon>
+                <n-icon :depth="3">
                   <component
                     :is="
                       maximizedChart === 'fourStarType2'
@@ -406,8 +401,7 @@
               id="fourStarType2Chart"
               ref="fourStarType2Chart"
               :option="fourStarType2ChartOption"
-              :autoresize="true"
-              :style="cardStyle"
+              autoresize
             />
           </div>
         </n-card>
@@ -431,7 +425,6 @@
                 ? 'h-[calc(100vh-210px)] sm:h-[calc(100vh-160px)]'
                 : 'h-[200px]',
             ]"
-            :style="cardStyle"
           >
             <n-button
               size="tiny"
@@ -441,7 +434,7 @@
               @click="toggleMaximize('fourStarType3')"
             >
               <template #icon>
-                <n-icon>
+                <n-icon :depth="3">
                   <component
                     :is="
                       maximizedChart === 'fourStarType3'
@@ -456,8 +449,7 @@
               id="fourStarType3Chart"
               ref="fourStarType3Chart"
               :option="fourStarType3ChartOption"
-              :autoresize="true"
-              :style="cardStyle"
+              autoresize
             />
           </div>
         </n-card>
@@ -488,7 +480,6 @@
                 ? 'h-[calc(100vh-210px)] sm:h-[calc(100vh-160px)]'
                 : 'h-[200px]',
             ]"
-            :style="cardStyle"
           >
             <n-tooltip
               v-if="checkBannerRuns"
@@ -498,16 +489,37 @@
                 <n-button
                   size="tiny"
                   text
-                  class="absolute top-4 left-4 z-10"
+                  class="absolute top-4 left-10 z-10"
                 >
                   <template #icon>
-                    <n-icon>
+                    <n-icon :depth="3">
                       <ExclamationCircle />
                     </n-icon>
                   </template>
                 </n-button>
               </template>
               {{ t('global.charts.first_item_distribution_tooltip') }}
+            </n-tooltip>
+            <n-tooltip>
+              <template #trigger>
+                <n-button
+                  size="tiny"
+                  text
+                  class="absolute top-4 left-4 z-10"
+                  @click="
+                    router.push(
+                      `${localePath('/banner')}/${BANNER_DATA[Number(selectedOutfit!.split('_')[0])]?.bannerId}`
+                    )
+                  "
+                >
+                  <template #icon>
+                    <n-icon :depth="3">
+                      <CalendarDay />
+                    </n-icon>
+                  </template>
+                </n-button>
+              </template>
+              {{ t('navigation.banner_detail') }}
             </n-tooltip>
             <n-tree-select
               v-model:value="selectedOutfit"
@@ -535,7 +547,7 @@
               @click="toggleMaximize('firstItemDistribution')"
             >
               <template #icon>
-                <n-icon>
+                <n-icon :depth="3">
                   <component
                     :is="
                       maximizedChart === 'firstItemDistribution'
@@ -550,8 +562,7 @@
               id="firstItemDistributionChart"
               ref="firstItemDistributionChart"
               :option="firstItemDistributionChartOption"
-              :autoresize="true"
-              :style="cardStyle"
+              autoresize
             />
           </div>
         </n-card>
@@ -569,7 +580,7 @@
     CompressAlt,
     ExclamationCircle,
     CalendarDay,
-    Calendar,
+    CalendarAlt,
   } from '@vicons/fa'
 
   // Type definitions for global data structure
@@ -645,6 +656,7 @@
   // Initialize i18n
   const { t } = useI18n()
   const localePath = useLocalePath()
+  const router = useRouter()
   const siteUrl = useRuntimeConfig().public.siteUrl
 
   useHead({
@@ -710,6 +722,7 @@
 
   const maximizedChart = ref<string | null>(null)
   const selectedOutfit = ref<string | null>(null)
+
   const latestBannerId = Number(
     Object.keys(BANNER_DATA)[Object.keys(BANNER_DATA).length - 1]
   )

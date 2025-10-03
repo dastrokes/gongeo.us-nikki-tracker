@@ -64,7 +64,7 @@
               <n-upload
                 accept=".json"
                 :max="1"
-                :show-file-list="true"
+                show-file-list
                 class="w-full max-w-xs"
                 @change="handleFileChange"
               >
@@ -668,7 +668,7 @@
           :color="'#FB7185'"
           :height="34"
           :border-radius="12"
-          :show-indicator="true"
+          show-indicator
           processing
         />
         <div class="text-center mt-4 text-xl text-gray-500">
@@ -714,7 +714,6 @@
     <n-modal
       v-model:show="showCollectionEditor"
       class="w-full max-w-5xl"
-      size="small"
       transform-origin="center"
     >
       <template #default>

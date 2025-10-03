@@ -21,7 +21,7 @@ logs
 .netlify
 .vscode
 .well-known
-scripts/dev
+components.d.ts
 
 # Local env files
 .env

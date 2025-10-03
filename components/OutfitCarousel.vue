@@ -18,7 +18,7 @@
         <n-carousel
           :ref="`carousel${rarity}Star`"
           effect="card"
-          :show-dots="true"
+          show-dots
           dot-placement="left"
           :centered-slides="false"
           :slides-per-view="2"

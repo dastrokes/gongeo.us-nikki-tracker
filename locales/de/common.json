@@ -399,24 +399,24 @@
     "types": {
       "dresses": "Kleider",
       "outerwear": "Außenbekleidung",
-      "tops": "Oberteile",
+      "tops": "Oberteil",
       "bottoms": "Unterteile",
       "socks": "Socken",
       "shoes": "Schuhe",
       "headwear": "Kopfbedeckung",
-      "hairAccessories": "Haaraccessoires",
+      "hairAccessories": "Haaraccessoire",
       "earrings": "Ohrringe",
       "neckwear": "Halsbekleidung",
-      "bracelets": "Armbänder",
-      "chokers": "Halsbänder",
+      "bracelets": "Armband",
+      "chokers": "Halsband",
       "gloves": "Handschuhe",
       "handhelds": "Tragbares",
       "faceDecorations": "Gesichtsschmuck",
       "hair": "Haare",
-      "chestAccessories": "Brustaccessoires",
+      "chestAccessories": "Brustaccessoire",
       "pendants": "Anhänger",
-      "backpieces": "Rückenaccessoires",
-      "rings": "Ringe",
+      "backpieces": "Rückenaccessoire",
+      "rings": "Ring",
       "armDecorations": "Armschmuck",
       "unknown": "Unbekannt"
     }
@@ -425,6 +425,7 @@
     "toggle_menu": "Navigationsmenü ein-/ausschalten",
     "join_discord": "Tritt unserer Discord-Community bei",
     "support_ko_fi": "Unterstütze uns auf Ko-fi",
+    "search": "Search",
     "language_switcher": "Sprache wechseln",
     "theme_switcher": "Thema wechseln",
     "user_profile_menu": "Menü Benutzerprofil",
@@ -555,6 +556,20 @@
     "title": "Unter Wartung",
     "message": "Wir führen derzeit einige Wartungsarbeiten durch. Der Import des Resonanz-Verlaufs ist vorübergehend nicht verfügbar.",
     "status": "Der Dienst wird in Kürze wieder zur Verfügung stehen. Vielen Dank für deine Geduld!"
+  },
+  "search": {
+    "placeholder": "Search banners, outfits, items",
+    "noResults": "No results found",
+    "categories": {
+      "banners": "Banners",
+      "outfits": "Outfits",
+      "items": "Items"
+    },
+    "resultTypes": {
+      "banner": "Banner",
+      "outfit": "Outfit",
+      "item": "Item"
+    }
   },
   "error": {
     "404": "\"Nikki, lass uns im seichten Wasser bleiben.\"",

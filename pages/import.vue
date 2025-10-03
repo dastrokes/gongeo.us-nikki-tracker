@@ -754,7 +754,6 @@
       preset="card"
       :show-mask="false"
       :mask-closable="false"
-      :unstable-show-mask="false"
       transform-origin="center"
       draggable
     >

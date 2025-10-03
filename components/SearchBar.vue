@@ -22,6 +22,7 @@
       clear-after-select
       clearable
       @select="handleSelect"
+      @blur="closeSearch"
       @update:value="handleSearch"
     >
       <template #empty>

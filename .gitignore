@@ -21,6 +21,7 @@ logs
 .netlify
 .vscode
 .well-known
+agents.md
 components.d.ts
 
 # Local env files

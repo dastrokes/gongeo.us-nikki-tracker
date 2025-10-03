@@ -558,7 +558,7 @@
     "status": "Service will be back shortly. Thank you for your patience!"
   },
   "search": {
-    "placeholder": "Search banners, outfits, items",
+    "placeholder": "Search items, banners, outfits",
     "noResults": "No results found",
     "categories": {
       "banners": "Banners",

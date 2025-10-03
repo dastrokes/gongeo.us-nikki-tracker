@@ -27,7 +27,7 @@
       "import": "Importiere deinen Infinity Nikki Resonanzverlauf von Spieldateien oder Backup-Dateien, mit einer detaillierten Schritt-für-Schritt-Anleitung.",
       "global": "Entdecke Infinity Nikki Community Resonanz-Daten, einschließlich Bannerbeliebtheit, durchschnittlichen Dropraten, und Verteilungsstatistiken gezogener Stücke.",
       "banner": "Schau dir den kompletten Infinity Nikki Bannerverlauf an, einschließlich limitierten und permanenten Outfitdetails, Wiederholungsplänen, und Dauer.",
-      "banner_detail": "Schau dir detaillierte Informationen über spezifische Infinity Nikki Banner, inklusive Resonanzstatistiken, Outfit-Fertigstellungsgrad, und Details individueller Items, an.",
+      "banner_detail": "Schau dir detaillierte Informationen über spezifische Infinity Nikki Banner, inklusive Resonanzstatistiken, Outfit-Fertigstellungsgrad, und Details individueller Stücke, an.",
       "faq": "Finde die Antworten auf häufig gestellte Fragen über gongeo.us, einschließlich Datenschutz, Importmethoden und Nutzungsrichtlinien.",
       "about": "Lerne mehr über gongeo.us, einschließlich Haftungsausschlüssen, Datenschutzbestimmungen und weitere wichtige Informationen."
     }
@@ -425,7 +425,7 @@
     "toggle_menu": "Navigationsmenü ein-/ausschalten",
     "join_discord": "Tritt unserer Discord-Community bei",
     "support_ko_fi": "Unterstütze uns auf Ko-fi",
-    "search": "Search",
+    "search": "Suchen",
     "language_switcher": "Sprache wechseln",
     "theme_switcher": "Thema wechseln",
     "user_profile_menu": "Menü Benutzerprofil",
@@ -558,17 +558,17 @@
     "status": "Der Dienst wird in Kürze wieder zur Verfügung stehen. Vielen Dank für deine Geduld!"
   },
   "search": {
-    "placeholder": "Search banners, outfits, items",
-    "noResults": "No results found",
+    "placeholder": "Banner, Outfits und Stücke suchen",
+    "noResults": "Keine Treffer gefunden",
     "categories": {
-      "banners": "Banners",
+      "banners": "Banner",
       "outfits": "Outfits",
-      "items": "Items"
+      "items": "Stücke"
     },
     "resultTypes": {
       "banner": "Banner",
       "outfit": "Outfit",
-      "item": "Item"
+      "item": "Stück"
     }
   },
   "error": {

@@ -187,7 +187,7 @@ export const useSearch = () => {
                 id: itemId,
                 type: 'item',
                 name: itemname[locale.value] || itemname.en,
-                rarity: 4,
+                rarity: 5,
                 route: localePath(`/banner/${bannerId}`),
               })
               processedItems.add(itemId)

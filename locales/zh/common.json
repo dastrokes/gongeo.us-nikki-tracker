@@ -558,7 +558,7 @@
     "status": "服务很快就会恢复。感谢您的耐心等待！"
   },
   "search": {
-    "placeholder": "搜索卡池、套装、部件",
+    "placeholder": "搜索部件、套装、卡池",
     "noResults": "未找到结果",
     "categories": {
       "banners": "卡池",

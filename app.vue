@@ -55,6 +55,13 @@
 
       borderRadius: '12px',
     },
+    AutoComplete: {
+      peers: {
+        InternalSelectMenu: {
+          height: '480px',
+        },
+      },
+    },
     Button: {
       textColorPrimary: '#f6f6f6',
       textColorHoverPrimary: '#d6d6d6',

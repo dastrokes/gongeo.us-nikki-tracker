@@ -22,6 +22,7 @@
       clear-after-select
       clearable
       @select="handleSelect"
+      @blur="closeSearch"
       @update:value="handleSearch"
     >
       <template #empty>
@@ -42,12 +43,77 @@
   const router = useRouter()
   const { search, searchOptions, buildSearchIndex } = useSearch()
 
+  const userStore = useUserStore()
+  const isDark = computed(() => userStore.getCurrentTheme === 'dark')
+
   const searchQuery = ref('')
   const showSearch = ref(false)
   const isLoading = ref(false)
   const searchResults = ref<SearchCategory[]>([])
   const isIndexBuilt = ref(false)
   const searchAutoCompleteRef = ref()
+
+  const hideImageOnError = (event: Event) => {
+    ;(event.target as HTMLImageElement).style.display = 'none'
+  }
+
+  const getThumbnailBackgroundClass = (rarity?: number) => {
+    const classes = isDark.value
+      ? rarity === 5
+        ? 'bg-gradient-to-br from-[#713f12] to-[#451a03]'
+        : 'bg-gradient-to-br from-[#334155] to-[#1e293b]'
+      : rarity === 5
+        ? 'bg-gradient-to-br from-[#fff8e1] to-[#ffcc80]'
+        : 'bg-gradient-to-br from-[#e3f2fd] to-[#bbdefb]'
+
+    return classes
+  }
+
+  const buildResultThumbnails = (
+    result: SearchResult,
+    bannerId: string
+  ): VNode[] => {
+    const imageProps = {
+      alt: result.name,
+      loading: 'lazy',
+      onError: hideImageOnError,
+    }
+
+    const nodes: VNode[] = []
+
+    const imageConfig = (() => {
+      switch (result.type) {
+        case 'banner':
+          return {
+            src: `/images/banners/thumbnails/${bannerId}.webp`,
+            class: 'w-20 h-10 my-0.5 rounded object-cover flex-shrink-0',
+          }
+        case 'outfit':
+          return {
+            src: `/images/outfits/${result.id}.webp`,
+            class: `w-8 h-12 my-0.5 rounded object-cover flex-shrink-0 ${getThumbnailBackgroundClass(result.rarity)}`,
+          }
+        case 'item':
+          return {
+            src: `/images/items/${result.id}.webp`,
+            class: `w-10 h-10 my-0.5 rounded object-cover flex-shrink-0 ${getThumbnailBackgroundClass(result.rarity)}`,
+          }
+        default:
+          return null
+      }
+    })()
+
+    if (imageConfig) {
+      nodes.push(
+        h('img', {
+          ...imageProps,
+          ...imageConfig,
+        })
+      )
+    }
+
+    return nodes
+  }
 
   // Convert search results to autocomplete options
   const autoCompleteOptions = computed<AutoCompleteOption[]>(() => {
@@ -91,22 +157,16 @@
           ? 'text-blue-500'
           : 'text-gray-900'
 
-    return h('div', { class: 'flex items-center gap-2 w-full' }, [
-      h('img', {
-        src: `/images/banners/thumbnails/${bannerId}.webp`,
-        alt: result.name,
-        class: 'w-16 h-8 rounded object-cover flex-shrink-0',
-        loading: 'lazy',
-        onError: (e: Event) => {
-          ;(e.target as HTMLImageElement).style.display = 'none'
-        },
-      }),
+    const labelChildren: VNode[] = [
+      ...buildResultThumbnails(result, bannerId),
       h(
         'span',
-        { class: `font-medium flex-1 ml-2 ${colorClass}` },
+        { class: `font-medium flex-1 ml-2 ${colorClass} truncate` },
         result.name
       ),
-    ])
+    ]
+
+    return h('div', { class: 'flex items-center gap-2 w-full' }, labelChildren)
   }
 
   const performSearch = async (query: string) => {

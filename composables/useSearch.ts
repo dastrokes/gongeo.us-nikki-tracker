@@ -1,4 +1,5 @@
 import Fuse from 'fuse.js'
+import { pinyin } from 'pinyin-pro'
 import type {
   SearchResult,
   SearchIndex,
@@ -7,14 +8,17 @@ import type {
 } from '~/types/search'
 import { BANNER_DATA } from '~/data/banners'
 
+const CHINESE_CHAR_REGEX = /[\u4e00-\u9fff]/
+
 export const useSearch = () => {
   const { t, locale } = useI18n()
   const localePath = useLocalePath()
+  const isChineseLocale = computed(() => locale.value === 'zh')
 
   const searchIndex = ref<SearchIndex>({
-    banners: new Map(),
-    outfits: new Map(),
     items: new Map(),
+    outfits: new Map(),
+    banners: new Map(),
   })
 
   const fuseInstance = ref<Fuse<SearchResult> | null>(null)
@@ -70,6 +74,68 @@ export const useSearch = () => {
     }
   }
 
+  type SearchMeta = Pick<SearchResult, 'pinyin' | 'pinyinInitials'>
+
+  const toUniqueValues = (values: string[]): string[] =>
+    Array.from(new Set(values.map((value) => value.trim()).filter(Boolean)))
+
+  const getChineseSearchMeta = (name: string): Partial<SearchMeta> => {
+    if (!isChineseLocale.value) {
+      return {}
+    }
+
+    const normalizedName = name.trim()
+    if (!normalizedName || !CHINESE_CHAR_REGEX.test(normalizedName)) {
+      return {}
+    }
+
+    const syllables = pinyin(normalizedName, {
+      toneType: 'none',
+      type: 'array',
+      nonZh: 'removed',
+    }) as string[]
+
+    if (syllables.length === 0) {
+      return {}
+    }
+
+    const pinyinCandidates = toUniqueValues([
+      syllables.join(' '),
+      syllables.join(''),
+    ])
+
+    const initialsArray = pinyin(normalizedName, {
+      pattern: 'first',
+      type: 'array',
+      toneType: 'none',
+      nonZh: 'removed',
+    }) as string[]
+
+    const initialsCandidates = toUniqueValues([
+      initialsArray.join(' '),
+      initialsArray.join(''),
+    ])
+
+    const meta: Partial<SearchMeta> = {}
+
+    if (pinyinCandidates.length > 0) {
+      meta.pinyin = pinyinCandidates.join(' ')
+    }
+
+    if (initialsCandidates.length > 0) {
+      meta.pinyinInitials = initialsCandidates.join(' ')
+    }
+
+    return meta
+  }
+
+  const createSearchResult = (
+    payload: Omit<SearchResult, 'pinyin' | 'pinyinInitials'>
+  ): SearchResult => ({
+    ...payload,
+    ...getChineseSearchMeta(payload.name),
+  })
+
   const loadOutfitData = async (outfitId: string) => {
     try {
       const outfit = await import(`~/data/outfits/${outfitId}.ts`)
@@ -82,6 +148,10 @@ export const useSearch = () => {
   const buildSearchIndex = async () => {
     if (isIndexBuilt.value) return
 
+    searchOptions.keys = isChineseLocale.value
+      ? ['name', 'pinyin', 'pinyinInitials']
+      : ['name']
+
     const banners = new Map<string, SearchResult>()
     const outfits = new Map<string, SearchResult>()
     const items = new Map<string, SearchResult>()
@@ -93,13 +163,16 @@ export const useSearch = () => {
         const name = getLocalizedBannerName(id)
         // Banner types 1 and 2 are 5-star, type 3 is 4-star
         const rarity = banner.bannerType === 3 ? 4 : 5
-        banners.set(id, {
+        banners.set(
           id,
-          type: 'banner',
-          name: name[locale.value] || name.en,
-          rarity,
-          route: localePath(`/banner/${id}`),
-        })
+          createSearchResult({
+            id,
+            type: 'banner',
+            name: name[locale.value] || name.en,
+            rarity,
+            route: localePath(`/banner/${id}`),
+          })
+        )
       })
 
     // Index outfits and items from banners
@@ -110,13 +183,16 @@ export const useSearch = () => {
       if (banner.outfit5StarId) {
         for (const outfitId of banner.outfit5StarId) {
           const name = getLocalizedOutfitName(outfitId)
-          outfits.set(outfitId, {
-            id: outfitId,
-            type: 'outfit',
-            name: name[locale.value] || name.en,
-            rarity: 5,
-            route: localePath(`/banner/${bannerId}`),
-          })
+          outfits.set(
+            outfitId,
+            createSearchResult({
+              id: outfitId,
+              type: 'outfit',
+              name: name[locale.value] || name.en,
+              rarity: 5,
+              route: localePath(`/banner/${bannerId}`),
+            })
+          )
 
           // Index items from this outfit
           const outfitData = await loadOutfitData(outfitId)
@@ -126,13 +202,16 @@ export const useSearch = () => {
                 const itemname = getLocalizedItemName(itemId)
                 // Only add if the item has a localized name (exists in localization files)
                 if (itemname.en) {
-                  items.set(itemId, {
-                    id: itemId,
-                    type: 'item',
-                    name: itemname[locale.value] || itemname.en,
-                    rarity: 5,
-                    route: localePath(`/banner/${bannerId}`),
-                  })
+                  items.set(
+                    itemId,
+                    createSearchResult({
+                      id: itemId,
+                      type: 'item',
+                      name: itemname[locale.value] || itemname.en,
+                      rarity: 5,
+                      route: localePath(`/banner/${bannerId}`),
+                    })
+                  )
                   processedItems.add(itemId)
                 }
               }
@@ -145,13 +224,16 @@ export const useSearch = () => {
       if (banner.outfit4StarId) {
         for (const outfitId of banner.outfit4StarId) {
           const name = getLocalizedOutfitName(outfitId)
-          outfits.set(outfitId, {
-            id: outfitId,
-            type: 'outfit',
-            name: name[locale.value] || name.en,
-            rarity: 4,
-            route: localePath(`/banner/${bannerId}`),
-          })
+          outfits.set(
+            outfitId,
+            createSearchResult({
+              id: outfitId,
+              type: 'outfit',
+              name: name[locale.value] || name.en,
+              rarity: 4,
+              route: localePath(`/banner/${bannerId}`),
+            })
+          )
 
           // Index items from this outfit
           const outfitData = await loadOutfitData(outfitId)
@@ -161,13 +243,16 @@ export const useSearch = () => {
                 const itemname = getLocalizedItemName(itemId)
                 // Only add if the item has a localized name (exists in localization files)
                 if (itemname.en) {
-                  items.set(itemId, {
-                    id: itemId,
-                    type: 'item',
-                    name: itemname[locale.value] || itemname.en,
-                    rarity: 4,
-                    route: localePath(`/banner/${bannerId}`),
-                  })
+                  items.set(
+                    itemId,
+                    createSearchResult({
+                      id: itemId,
+                      type: 'item',
+                      name: itemname[locale.value] || itemname.en,
+                      rarity: 4,
+                      route: localePath(`/banner/${bannerId}`),
+                    })
+                  )
                   processedItems.add(itemId)
                 }
               }
@@ -183,13 +268,16 @@ export const useSearch = () => {
             const itemname = getLocalizedItemName(itemId)
             // Only add if the item has a localized name (exists in localization files)
             if (itemname.en) {
-              items.set(itemId, {
-                id: itemId,
-                type: 'item',
-                name: itemname[locale.value] || itemname.en,
-                rarity: 4,
-                route: localePath(`/banner/${bannerId}`),
-              })
+              items.set(
+                itemId,
+                createSearchResult({
+                  id: itemId,
+                  type: 'item',
+                  name: itemname[locale.value] || itemname.en,
+                  rarity: 5,
+                  route: localePath(`/banner/${bannerId}`),
+                })
+              )
               processedItems.add(itemId)
             }
           }
@@ -222,23 +310,23 @@ export const useSearch = () => {
     const searchResults = results.map((result) => result.item)
 
     // Group results by type with fixed limits
-    const bannerResults = searchResults
-      .filter((r) => r.type === 'banner')
-      .slice(0, 5)
+    const itemResults = searchResults
+      .filter((r) => r.type === 'item')
+      .slice(0, 10)
     const outfitResults = searchResults
       .filter((r) => r.type === 'outfit')
       .slice(0, 5)
-    const itemResults = searchResults
-      .filter((r) => r.type === 'item')
+    const bannerResults = searchResults
+      .filter((r) => r.type === 'banner')
       .slice(0, 5)
 
     const categories: SearchCategory[] = []
 
-    if (bannerResults.length > 0) {
+    if (itemResults.length > 0) {
       categories.push({
-        type: 'banner',
-        label: t('search.categories.banners'),
-        results: bannerResults,
+        type: 'item',
+        label: t('search.categories.items'),
+        results: itemResults,
       })
     }
 
@@ -250,11 +338,11 @@ export const useSearch = () => {
       })
     }
 
-    if (itemResults.length > 0) {
+    if (bannerResults.length > 0) {
       categories.push({
-        type: 'item',
-        label: t('search.categories.items'),
-        results: itemResults,
+        type: 'banner',
+        label: t('search.categories.banners'),
+        results: bannerResults,
       })
     }
 

@@ -4,6 +4,8 @@ export interface SearchResult {
   name: string
   rarity: number
   route: string
+  pinyin?: string
+  pinyinInitials?: string
 }
 
 export interface SearchIndex {

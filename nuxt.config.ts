@@ -7,6 +7,8 @@ import { imageSitemap } from './locales/sitemap'
 export default defineNuxtConfig({
   devtools: { enabled: false },
 
+  srcDir: '.',
+
   // Add global CSS files
   css: ['~/assets/styles/global.scss'],
 
@@ -36,6 +38,9 @@ export default defineNuxtConfig({
       cookieKey: 'i18n_redirected',
       fallbackLocale: defaultLocale,
       redirectOn: 'no prefix',
+    },
+    bundle: {
+      optimizeTranslationDirective: false,
     },
   },
 
@@ -114,11 +119,7 @@ export default defineNuxtConfig({
     },
   },
 
-  future: {
-    compatibilityVersion: 4,
-  },
-
-  compatibilityDate: '2025-01-24',
+  compatibilityDate: '2025-10-01',
 
   components: {
     dirs: ['~/components'],

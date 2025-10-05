@@ -1,6 +1,10 @@
-export const defaultLocale = 'en'
+import type { LocaleObject } from '@nuxtjs/i18n'
 
-export const i18nLocales = [
+export type SupportedLocaleCode = 'en' | 'de' | 'zh'
+
+export const defaultLocale: SupportedLocaleCode = 'en'
+
+export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
   {
     code: 'en',
     iso: 'en-US',

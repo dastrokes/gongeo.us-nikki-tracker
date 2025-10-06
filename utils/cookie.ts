@@ -1,7 +1,7 @@
 export const set = (
   key: string,
   value: string,
-  ttl: number = 24 * 60 * 60 * 1000
+  ttl: number = 30 * 24 * 60 * 60 * 1000
 ) => {
   const cookie = useCookie(key, {
     maxAge: Math.floor(ttl / 1000), // Convert milliseconds to seconds

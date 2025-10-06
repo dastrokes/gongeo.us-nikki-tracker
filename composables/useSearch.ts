@@ -299,14 +299,17 @@ export const useSearch = () => {
   }
 
   const search = (query: string): SearchCategory[] => {
+    const normalizedQuery = query.trim()
+
     if (
       !fuseInstance.value ||
-      (query && query.length < searchOptions.minMatchCharLength)
+      !normalizedQuery ||
+      normalizedQuery.length < searchOptions.minMatchCharLength
     ) {
       return []
     }
 
-    const results = fuseInstance.value.search(query)
+    const results = fuseInstance.value.search(normalizedQuery)
     const searchResults = results.map((result) => result.item)
 
     // Group results by type with fixed limits

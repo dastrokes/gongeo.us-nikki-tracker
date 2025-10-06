@@ -170,14 +170,21 @@
   }
 
   const performSearch = async (query: string) => {
-    if (query && query.length < searchOptions.minMatchCharLength) {
+    const normalizedQuery = query?.trim() ?? ''
+
+    if (!normalizedQuery) {
+      searchResults.value = []
+      return
+    }
+
+    if (normalizedQuery.length < searchOptions.minMatchCharLength) {
       searchResults.value = []
       return
     }
 
     isLoading.value = true
     try {
-      searchResults.value = search(query)
+      searchResults.value = search(normalizedQuery)
     } finally {
       isLoading.value = false
     }
@@ -215,11 +222,6 @@
     // Focus the search input after modal is rendered
     await nextTick()
     searchAutoCompleteRef.value?.focus()
-
-    // Trigger search to show latest banners
-    nextTick(() => {
-      performSearch('')
-    })
   }
 
   const closeSearch = () => {

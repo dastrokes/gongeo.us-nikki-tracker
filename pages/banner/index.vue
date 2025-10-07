@@ -7,97 +7,35 @@
       :style="cardStyle"
     >
       <div class="flex flex-col sm:flex-row gap-4">
-        <div class="flex-1 flex items-center gap-2">
-          <n-button
-            size="small"
-            @click="isMarqueePaused = !isMarqueePaused"
-          >
-            <template #icon>
-              <n-icon size="16">
-                <StepBackward v-if="!isMarqueePaused" />
-                <Play v-else />
-              </n-icon>
-            </template>
-          </n-button>
-          <n-marquee :speed="isMarqueePaused ? 0 : 24">
-            <div class="flex gap-2">
-              <div
-                v-for="banner in filteredBanners"
-                :key="banner.bannerId"
-                class="flex-shrink-0 cursor-pointer hover:opacity-80 transition-opacity"
-              >
-                <n-tooltip trigger="hover">
-                  <template #trigger>
-                    <NuxtImg
-                      :src="`/images/banners/thumbnails/${banner.bannerId}.webp`"
-                      :alt="t(`banner.${banner.bannerId}.name`)"
-                      class="w-20 h-10 sm:w-24 sm:h-12 rounded-lg object-cover"
-                      format="webp"
-                      width="100"
-                      height="50"
-                      fit="cover"
-                      :quality="100"
-                      loading="lazy"
-                      @click="handleBannerClick(banner.bannerId)"
-                    />
-                  </template>
-                  <span>{{ t(`banner.${banner.bannerId}.name`) }}</span>
-                </n-tooltip>
-              </div>
+        <n-scrollbar x-scrollable>
+          <div class="flex flex-row gap-2 min-w-max pb-3">
+            <div
+              v-for="banner in filteredBanners"
+              :key="banner.bannerId"
+              class="flex-shrink-0 cursor-pointer hover:opacity-80 transition-opacity"
+            >
+              <n-tooltip trigger="hover">
+                <template #trigger>
+                  <NuxtImg
+                    :src="`/images/banners/thumbnails/${banner.bannerId}.webp`"
+                    :alt="t(`banner.${banner.bannerId}.name`)"
+                    class="w-24 h-12 rounded-lg object-cover"
+                    format="webp"
+                    width="100"
+                    height="50"
+                    fit="cover"
+                    :quality="100"
+                    loading="lazy"
+                    @click="handleBannerClick(banner.bannerId)"
+                  />
+                </template>
+                <span>{{ t(`banner.${banner.bannerId}.name`) }}</span>
+              </n-tooltip>
             </div>
-          </n-marquee>
-        </div>
+          </div>
+        </n-scrollbar>
 
         <div class="flex justify-end items-center gap-2">
-          <!-- Banner selector -->
-          <n-popover
-            trigger="manual"
-            :show="showBannerSelector"
-            placement="bottom"
-            scrollable
-            content-class="!p-1"
-            @clickoutside="handleClickOutside"
-          >
-            <template #trigger>
-              <n-button
-                size="small"
-                @click.stop="showBannerSelector = !showBannerSelector"
-              >
-                <template #icon>
-                  <n-icon size="16"><Gift /></n-icon>
-                </template>
-              </n-button>
-            </template>
-            <div class="max-h-48 grid grid-cols-3 gap-2 m-1">
-              <div
-                v-for="b in filteredBanners"
-                :key="b.bannerId"
-                class="cursor-pointer hover:opacity-80 transition-opacity w-20 h-10 sm:w-24 sm:h-12 rounded overflow-hidden"
-                @click="handleBannerClick(b.bannerId)"
-              >
-                <n-tooltip
-                  trigger="hover"
-                  content-class="!p-0"
-                >
-                  <template #trigger>
-                    <NuxtImg
-                      :src="`/images/banners/thumbnails/${b.bannerId}.webp`"
-                      :alt="t(`banner.${b.bannerId}.name`)"
-                      class="w-full h-full object-cover"
-                      format="webp"
-                      width="100"
-                      height="50"
-                      fit="cover"
-                      :quality="100"
-                      loading="lazy"
-                    />
-                  </template>
-                  <span>{{ t(`banner.${b.bannerId}.name`) }}</span>
-                </n-tooltip>
-              </div>
-            </div>
-          </n-popover>
-
           <!-- Banner filters -->
           <n-button-group>
             <n-button
@@ -325,8 +263,6 @@
     CalendarDay,
     ArrowUp,
     ArrowDown,
-    Play,
-    StepBackward,
   } from '@vicons/fa'
   import { BANNER_DATA } from '~/data/banners'
 
@@ -343,8 +279,6 @@
   })
   const sortOrder = ref<string>('newest')
   const showBannerSelector = ref(false)
-  const isMarqueePaused = ref(true)
-
   // Sort banners based on selected order
   const sortedBanners = computed(() => {
     const banners = Object.values(BANNER_DATA)
@@ -404,16 +338,9 @@
 
     return banners
   })
-
   function handleBannerClick(bannerId: number) {
     showBannerSelector.value = false
     selectedBannerId.value = bannerId
-  }
-
-  const handleClickOutside = (e: Event) => {
-    const target = e.target as HTMLElement | null
-    if (target?.closest('.n-button')) return
-    showBannerSelector.value = false
   }
 
   // Scroll to specific banner

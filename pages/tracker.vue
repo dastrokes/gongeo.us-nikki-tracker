@@ -825,117 +825,108 @@
         </div>
       </div>
 
-      <!-- No Data State -->
-      <div
+      <!-- No Data Message -->
+      <n-card
         v-if="!hasAnyData"
-        class="space-y-4"
+        class="text-center rounded-xl"
+        :style="cardStyle"
       >
-        <!-- No Data Message -->
-        <n-card
-          class="text-center rounded-xl"
-          :style="cardStyle"
-        >
-          <n-empty>
-            <template #default>
-              <div class="text-xl text-neutral-500">
-                {{ t('tracker.no_data.title') }}
-              </div>
-              <div class="text-xl text-neutral-500">
-                {{ t('tracker.no_data.subtitle') }}
-              </div></template
-            >
-            <template #extra>
-              <n-button
-                type="primary"
-                @click="router.push(localePath('/import'))"
-              >
-                {{ t('navigation.import') }}
-              </n-button>
-            </template>
-          </n-empty>
-        </n-card>
-
-        <!-- Sample Banners -->
-        <div class="space-y-4">
-          <template
-            v-for="banner in sampleBanners"
-            :key="banner.bannerId"
+        <n-empty>
+          <template #default>
+            <div class="text-xl text-neutral-500">
+              {{ t('tracker.no_data.title') }}
+            </div>
+            <div class="text-xl text-neutral-500">
+              {{ t('tracker.no_data.subtitle') }}
+            </div></template
           >
-            <n-card
-              content-class="!p-2 sm:!pt-2 sm:!p-4"
-              size="small"
-              class="rounded-xl min-h-[120px] sm:min-h-[160px] mt-2 sm:mt-4 opacity-40"
-              :style="cardStyle"
+          <template #extra>
+            <n-button
+              type="primary"
+              @click="router.push(localePath('/import'))"
             >
-              <!-- Banner Header -->
-              <div
-                class="w-full flex flex-col sm:flex-row sm:items-center gap-2"
-              >
-                <NuxtLink
-                  :to="localePath(`/banner/${banner.bannerId}`)"
-                  class="inline w-fit hover:opacity-95 transition-opacity"
-                >
-                  <n-tooltip trigger="hover">
-                    <template #trigger>
-                      <n-gradient-text
-                        :size="18"
-                        class="m-0 font-medium break-words"
-                        :type="banner.bannerType === 2 ? 'warning' : 'info'"
-                      >
-                        {{ t(`banner.${banner.bannerId}.name`) }}
-                      </n-gradient-text>
-                    </template>
-                    {{ t('navigation.banner_detail') }}
-                  </n-tooltip>
-                </NuxtLink>
-
-                <div
-                  class="flex flex-wrap gap-2 w-full sm:w-[calc(100%-500px)]"
-                >
-                  <template
-                    v-for="outfit in banner.outfits"
-                    :key="outfit.id"
-                  >
-                    <div class="flex items-center gap-2">
-                      <n-tag
-                        :type="outfit.rarity === 5 ? 'warning' : 'info'"
-                        :bordered="false"
-                        round
-                        size="small"
-                        class="px-2"
-                      >
-                        <span class="align-top"
-                          >{{ t(`outfit.${outfit.id}.name`) }}
-                          {{ outfit.rarity }}</span
-                        >
-                        <span class="ml-1"
-                          ><n-icon><Star /></n-icon
-                        ></span>
-                        <span
-                          v-if="outfit.completion >= 1"
-                          class="ml-1"
-                          ><n-icon><CheckCircle /></n-icon
-                        ></span>
-                      </n-tag>
-                    </div>
-                  </template>
-                </div>
-              </div>
-
-              <!-- Sample Items Grid -->
-              <div
-                class="grid grid-cols-5 sm:grid-cols-8 lg:grid-cols-10 gap-2 mt-2"
-              >
-                <ItemCard
-                  v-for="item in banner.pulls"
-                  :key="`${item.itemId}-${item.count}`"
-                  :item="item"
-                  :info="false"
-                />
-              </div>
-            </n-card>
+              {{ t('navigation.import') }}
+            </n-button>
           </template>
-        </div>
+        </n-empty>
+      </n-card>
+
+      <!-- Sample Banners -->
+      <div v-if="!hasAnyData">
+        <template
+          v-for="banner in sampleBanners"
+          :key="banner.bannerId"
+        >
+          <n-card
+            content-class="!p-2 sm:!pt-2 sm:!p-4"
+            size="small"
+            class="rounded-xl min-h-[120px] sm:min-h-[160px] mt-2 sm:mt-4 opacity-40"
+            :style="cardStyle"
+          >
+            <!-- Banner Header -->
+            <div class="w-full flex flex-col sm:flex-row sm:items-center gap-2">
+              <NuxtLink
+                :to="localePath(`/banner/${banner.bannerId}`)"
+                class="inline w-fit hover:opacity-95 transition-opacity"
+              >
+                <n-tooltip trigger="hover">
+                  <template #trigger>
+                    <n-gradient-text
+                      :size="18"
+                      class="m-0 font-medium break-words"
+                      :type="banner.bannerType === 2 ? 'warning' : 'info'"
+                    >
+                      {{ t(`banner.${banner.bannerId}.name`) }}
+                    </n-gradient-text>
+                  </template>
+                  {{ t('navigation.banner_detail') }}
+                </n-tooltip>
+              </NuxtLink>
+
+              <div class="flex flex-wrap gap-2 w-full sm:w-[calc(100%-500px)]">
+                <template
+                  v-for="outfit in banner.outfits"
+                  :key="outfit.id"
+                >
+                  <div class="flex items-center gap-2">
+                    <n-tag
+                      :type="outfit.rarity === 5 ? 'warning' : 'info'"
+                      :bordered="false"
+                      round
+                      size="small"
+                      class="px-2"
+                    >
+                      <span class="align-top"
+                        >{{ t(`outfit.${outfit.id}.name`) }}
+                        {{ outfit.rarity }}</span
+                      >
+                      <span class="ml-1"
+                        ><n-icon><Star /></n-icon
+                      ></span>
+                      <span
+                        v-if="outfit.completion >= 1"
+                        class="ml-1"
+                        ><n-icon><CheckCircle /></n-icon
+                      ></span>
+                    </n-tag>
+                  </div>
+                </template>
+              </div>
+            </div>
+
+            <!-- Sample Items Grid -->
+            <div
+              class="grid grid-cols-5 sm:grid-cols-8 lg:grid-cols-10 gap-2 mt-2"
+            >
+              <ItemCard
+                v-for="item in banner.pulls"
+                :key="`${item.itemId}-${item.count}`"
+                :item="item"
+                :info="false"
+              />
+            </div>
+          </n-card>
+        </template>
       </div>
     </div>
 

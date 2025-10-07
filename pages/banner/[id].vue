@@ -570,8 +570,8 @@
                           <div
                             :class="[
                               isDark
-                                ? 'bg-gradient-to-br from-[#713f12] to-[#451a03] hover:shadow-[0_0_15px_0_rgba(113,63,18,0.5)] ring-amber-900/30 hover:ring-amber-900/60'
-                                : 'bg-gradient-to-br from-[#fff8e1] to-[#ffcc80] hover:shadow-[0_0_15px_0_rgba(255,204,128,0.5)] ring-amber-200/30 hover:ring-amber-200/80',
+                                ? 'bg-gradient-to-br from-[#713f12] to-[#451a03] hover:shadow-[0_0_10px_0_rgba(113,63,18,0.5)] ring-amber-900/30 hover:ring-amber-900/60'
+                                : 'bg-gradient-to-br from-[#fff8e1] to-[#ffcc80] hover:shadow-[0_0_10px_0_rgba(255,204,128,0.5)] ring-amber-200/30 hover:ring-amber-200/80',
                             ]"
                             class="relative w-16 h-16 sm:w-24 sm:h-24 rounded-md overflow-hidden ring-1"
                           >

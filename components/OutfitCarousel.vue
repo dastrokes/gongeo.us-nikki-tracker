@@ -31,15 +31,15 @@
             :class="rarity === 5 ? 'w-[60%]' : 'w-[40%]'"
           >
             <div
-              class="relative aspect-[2/3] rounded-lg overflow-hidden transition-all duration-300 ease-in-out ring-1 w-full h-full"
+              class="relative aspect-[2/3] rounded-lg overflow-hidden transition-all duration-300 ease-in-out"
               :class="[
                 isDark
                   ? rarity === 5
-                    ? 'bg-gradient-to-br from-[#713f12] to-[#451a03] hover:shadow-[0_0_15px_0_rgba(113,63,18,0.5)] ring-amber-900/30 hover:ring-amber-900/60'
-                    : 'bg-gradient-to-br from-[#334155] to-[#1e293b] hover:shadow-[0_0_15px_0_rgba(51,65,85,0.5)] ring-slate-400/20 hover:ring-slate-400/40'
+                    ? 'bg-gradient-to-br from-[#713f12] to-[#451a03] hover:brightness-110'
+                    : 'bg-gradient-to-br from-[#334155] to-[#1e293b] hover:brightness-110'
                   : rarity === 5
-                    ? 'bg-gradient-to-br from-[#fff8e1] to-[#ffcc80] hover:shadow-[0_0_15px_0_rgba(255,204,128,0.5)] ring-amber-200/30 hover:ring-amber-200/80'
-                    : 'bg-gradient-to-br from-[#e3f2fd] to-[#bbdefb] hover:shadow-[0_0_15px_0_rgba(187,222,251,0.5)] ring-blue-200/30 hover:ring-blue-200/80',
+                    ? 'bg-gradient-to-br from-[#fff8e1] to-[#ffcc80] hover:brightness-110'
+                    : 'bg-gradient-to-br from-[#e3f2fd] to-[#bbdefb] hover:brightness-110',
               ]"
             >
               <NuxtImg

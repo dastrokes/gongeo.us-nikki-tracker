@@ -57,7 +57,7 @@
           : 'linear-gradient(to bottom, rgb(224, 242, 254), rgb(243, 232, 255), rgb(252, 231, 243))',
       }"
       :class="{
-        '-translate-x-full xl:-translate-x-0': !showSider,
+        '-translate-x-full 2xl:-translate-x-0': !showSider,
         'translate-x-0': showSider,
       }"
     >
@@ -140,7 +140,7 @@
 
     <div
       v-if="showSider"
-      class="fixed inset-0 z-30 xl:hidden"
+      class="fixed inset-0 z-30 2xl:hidden"
       :class="isDark ? 'bg-black/15' : 'bg-black/5'"
       @click="showSider = false"
     />

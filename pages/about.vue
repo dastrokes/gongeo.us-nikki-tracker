@@ -95,7 +95,7 @@
   const localePath = useLocalePath()
   const siteUrl = useRuntimeConfig().public.siteUrl
 
-  useHead({
+  useHead(() => ({
     title: t('navigation.about') + ' - ' + t('navigation.subtitle'),
     meta: [
       {
@@ -111,14 +111,14 @@
         content: t('meta.description.about'),
       },
       {
-        property: 'twitter:title',
+        name: 'twitter:title',
         content: t('navigation.about') + ' - ' + t('navigation.subtitle'),
       },
       {
-        property: 'twitter:description',
+        name: 'twitter:description',
         content: t('meta.description.about'),
       },
     ],
     link: [{ rel: 'canonical', href: `${siteUrl}${localePath('/about')}` }],
-  })
+  }))
 </script>

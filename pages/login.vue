@@ -377,7 +377,7 @@
   }))
 
   // SEO
-  useHead({
+  useHead(() => ({
     title: t('login.title') + ' - ' + t('navigation.subtitle'),
     meta: [
       { name: 'description', content: t('meta.description.login') },
@@ -387,7 +387,7 @@
       },
       { property: 'og:description', content: t('meta.description.login') },
     ],
-  })
+  }))
 
   // Handlers
   const handleDiscordSignIn = async () => {

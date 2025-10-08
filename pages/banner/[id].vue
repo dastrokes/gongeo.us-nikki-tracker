@@ -848,17 +848,17 @@
           : `${siteUrl}/og.png`,
       },
       {
-        property: 'twitter:title',
+        name: 'twitter:title',
         content: banner.value
           ? `${t(`banner.${banner.value.bannerId}.name`)} - ${t('navigation.banner_detail')} - ${t('navigation.subtitle')}`
           : `${t('navigation.banner_detail')} - ${t('navigation.subtitle')}`,
       },
       {
-        property: 'twitter:description',
+        name: 'twitter:description',
         content: t('meta.description.banner_detail'),
       },
       {
-        property: 'twitter:image',
+        name: 'twitter:image',
         content: banner.value
           ? `${siteUrl}/images/banners/${banner.value.bannerId}.webp`
           : `${siteUrl}/og.png`,
@@ -868,6 +868,27 @@
       {
         rel: 'canonical',
         href: `${siteUrl}${localePath(`/banner/${route.params.id}`)}`,
+      },
+    ],
+    script: [
+      {
+        type: 'application/ld+json',
+        children: JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'ItemPage',
+          name: banner.value
+            ? `${t(`banner.${banner.value.bannerId}.name`)} - ${t('navigation.banner_detail')} - ${t('navigation.subtitle')}`
+            : `${t('navigation.banner_detail')} - ${t('navigation.subtitle')}`,
+          description: t('meta.description.banner_detail'),
+          url: `${siteUrl}${localePath(`/banner/${route.params.id}`)}`,
+          image: banner.value
+            ? `${siteUrl}/images/banners/${banner.value.bannerId}.webp`
+            : `${siteUrl}/og.png`,
+          isPartOf: {
+            '@type': 'CollectionPage',
+            url: `${siteUrl}${localePath(`/banner`)}`,
+          },
+        }),
       },
     ],
   }))

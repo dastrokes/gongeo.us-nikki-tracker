@@ -208,7 +208,7 @@
 
   const siteUrl = useRuntimeConfig().public.siteUrl
 
-  useHead({
+  useHead(() => ({
     htmlAttrs: {
       lang: locale.value,
     },
@@ -288,7 +288,7 @@
         'data-website-id': 'dd22ab5d-2045-4450-aaff-f513339b5ca6',
       },
     ],
-  })
+  }))
 
   const topMenuOptions = computed<MenuOption[]>(() =>
     [
@@ -446,11 +446,11 @@
   )
 
   watch(locale, (newLocale) => {
-    useHead({
+    useHead(() => ({
       htmlAttrs: {
         lang: newLocale,
       },
-    })
+    }))
   })
 
   // Setup swipe handling

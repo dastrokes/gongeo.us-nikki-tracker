@@ -34,7 +34,7 @@
   const localePath = useLocalePath()
   const siteUrl = useRuntimeConfig().public.siteUrl
 
-  useHead({
+  useHead(() => ({
     title: t('navigation.faq') + ' - ' + t('navigation.subtitle'),
     meta: [
       {
@@ -50,16 +50,16 @@
         content: t('meta.description.faq'),
       },
       {
-        property: 'twitter:title',
+        name: 'twitter:title',
         content: t('navigation.faq') + ' - ' + t('navigation.subtitle'),
       },
       {
-        property: 'twitter:description',
+        name: 'twitter:description',
         content: t('meta.description.faq'),
       },
     ],
     link: [{ rel: 'canonical', href: `${siteUrl}${localePath('/faq')}` }],
-  })
+  }))
 
   const faqs = {
     data_source: {},

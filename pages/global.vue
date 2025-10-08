@@ -659,7 +659,7 @@
   const router = useRouter()
   const siteUrl = useRuntimeConfig().public.siteUrl
 
-  useHead({
+  useHead(() => ({
     title: t('navigation.global') + ' - ' + t('navigation.subtitle'),
     meta: [
       {
@@ -675,16 +675,16 @@
         content: t('meta.description.global'),
       },
       {
-        property: 'twitter:title',
+        name: 'twitter:title',
         content: t('navigation.global') + ' - ' + t('navigation.subtitle'),
       },
       {
-        property: 'twitter:description',
+        name: 'twitter:description',
         content: t('meta.description.global'),
       },
     ],
     link: [{ rel: 'canonical', href: `${siteUrl}${localePath('/global')}` }],
-  })
+  }))
 
   // Data fetching
   const { data: globalData, status } = await useFetch(

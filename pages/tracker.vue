@@ -1058,7 +1058,7 @@
       .filter((banner) => banner !== null)
   })
 
-  useHead({
+  useHead(() => ({
     title: t('navigation.tracker') + ' - ' + t('navigation.subtitle'),
     meta: [
       {
@@ -1074,16 +1074,16 @@
         content: t('meta.description.tracker'),
       },
       {
-        property: 'twitter:title',
+        name: 'twitter:title',
         content: t('navigation.tracker') + ' - ' + t('navigation.subtitle'),
       },
       {
-        property: 'twitter:description',
+        name: 'twitter:description',
         content: t('meta.description.tracker'),
       },
     ],
     link: [{ rel: 'canonical', href: `${siteUrl}${localePath('/tracker')}` }],
-  })
+  }))
 
   // Function to load and process data based on current data source
   const loadAndProcessData = async () => {

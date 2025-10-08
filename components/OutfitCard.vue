@@ -18,11 +18,11 @@
         :class="[
           rarity === 5
             ? isDark
-              ? 'bg-gradient-to-br from-[#713f12] to-[#451a03] hover:brightness-110'
-              : 'bg-gradient-to-br from-[#fff8e1] to-[#ffcc80] hover:brightness-110'
+              ? 'bg-gradient-to-br from-[#713f12] to-[#451a03] hover:brightness-105'
+              : 'bg-gradient-to-br from-[#fff8e1] to-[#ffcc80] hover:brightness-105'
             : isDark
-              ? 'bg-gradient-to-br from-[#334155] to-[#1e293b] hover:brightness-110'
-              : 'bg-gradient-to-br from-[#e3f2fd] to-[#bbdefb] hover:brightness-110',
+              ? 'bg-gradient-to-br from-[#334155] to-[#1e293b] hover:brightness-105'
+              : 'bg-gradient-to-br from-[#e3f2fd] to-[#bbdefb] hover:brightness-105',
         ]"
       >
         <NuxtImg

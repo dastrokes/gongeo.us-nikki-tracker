@@ -231,8 +231,8 @@
                           :alt="t(`banner.${banner.bannerId}.name`)"
                           class="absolute inset-0 w-full h-full object-cover"
                           format="webp"
-                          width="500"
-                          height="250"
+                          width="1000"
+                          height="500"
                           fit="cover"
                           :quality="100"
                           loading="lazy"
@@ -408,7 +408,7 @@
     }
   }
 
-  useHead({
+  useHead(() => ({
     title: t('navigation.banner') + ' - ' + t('navigation.subtitle'),
     meta: [
       {
@@ -424,14 +424,26 @@
         content: t('meta.description.banner'),
       },
       {
-        property: 'twitter:title',
+        name: 'twitter:title',
         content: t('navigation.banner') + ' - ' + t('navigation.subtitle'),
       },
       {
-        property: 'twitter:description',
+        name: 'twitter:description',
         content: t('meta.description.banner'),
       },
     ],
     link: [{ rel: 'canonical', href: `${siteUrl}${localePath('/banner')}` }],
-  })
+    script: [
+      {
+        type: 'application/ld+json',
+        children: JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'ItemPage',
+          name: t('navigation.banner') + ' - ' + t('navigation.subtitle'),
+          description: t('meta.description.banner'),
+          url: `${siteUrl}${localePath(`/banner`)}`,
+        }),
+      },
+    ],
+  }))
 </script>

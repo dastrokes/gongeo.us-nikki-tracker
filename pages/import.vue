@@ -816,7 +816,7 @@
     return false
   })
 
-  useHead({
+  useHead(() => ({
     title: t('navigation.import') + ' - ' + t('navigation.subtitle'),
     meta: [
       {
@@ -832,16 +832,16 @@
         content: t('meta.description.import'),
       },
       {
-        property: 'twitter:title',
+        name: 'twitter:title',
         content: t('navigation.import') + ' - ' + t('navigation.subtitle'),
       },
       {
-        property: 'twitter:description',
+        name: 'twitter:description',
         content: t('meta.description.import'),
       },
     ],
     link: [{ rel: 'canonical', href: `${siteUrl}${localePath('/import')}` }],
-  })
+  }))
 
   const REGION_LABELS = {
     [Region.AMERICA]: t('common.regions.america'),

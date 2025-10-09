@@ -195,14 +195,14 @@
                 <div class="flex flex-col items-center gap-1">
                   <div class="flex items-center">
                     <n-tag :bordered="false">
-                      {{ t(`season.${getVersionKey(run.version)}`) }}
+                      {{ t(`season.${getVersion(run.version)}`) }}
                     </n-tag>
                     <n-tag
                       class="ml-1"
                       :bordered="false"
                     >
                       {{ t('banner.version') }}
-                      {{ getVersionDisplay(run.version) }}
+                      {{ getVersion(run.version) }}
                     </n-tag>
                   </div>
                   <div class="flex items-center gap-1">
@@ -724,15 +724,8 @@
     nextBannerId.value ? BANNER_DATA[nextBannerId.value] : null
   )
 
-  // Helper functions for version display
-  const getVersionKey = (version: string) => {
+  const getVersion = (version: string) => {
     // Extract major.minor version for season lookup (e.g., "1.10" from "1.10.1")
-    const parts = version.split('.')
-    return parts.length >= 2 ? `${parts[0]}.${parts[1]}` : version
-  }
-
-  const getVersionDisplay = (version: string) => {
-    // Extract major.minor version for display (e.g., "1.10" from "1.10.1")
     const parts = version.split('.')
     return parts.length >= 2 ? `${parts[0]}.${parts[1]}` : version
   }

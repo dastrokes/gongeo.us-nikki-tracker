@@ -1,5 +1,5 @@
-import crypto from 'crypto'
 import type { UserBannerStats } from '~/types/stats'
+import { generateSignature } from '~/utils/signature'
 
 export function verifyTimestamp(
   timestamp: number,
@@ -9,23 +9,12 @@ export function verifyTimestamp(
   return Math.abs(currentTime - timestamp) <= maxAgeSeconds
 }
 
-export function generateSignature(
-  timestamp: number,
-  payload: UserBannerStats[],
-  apiKey: string
-): string {
-  return crypto
-    .createHmac('sha256', apiKey)
-    .update(`${timestamp}${JSON.stringify(payload)}`)
-    .digest('hex')
-}
-
-export function verifySignature(
+export async function verifySignature(
   signature: string,
   timestamp: number,
   payload: UserBannerStats[]
-): boolean {
+): Promise<boolean> {
   const apiKey = useRuntimeConfig().public.gongeousApiKey || 'api-key'
-  const expectedSignature = generateSignature(timestamp, payload, apiKey)
+  const expectedSignature = await generateSignature(apiKey, timestamp, payload)
   return signature === expectedSignature
 }

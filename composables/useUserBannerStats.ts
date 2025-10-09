@@ -1,8 +1,12 @@
-import type { UserBannerStats } from '~/types/stats'
 import type { ProcessedBanner } from '~/types/pull'
+import type { UserBannerStats } from '~/types/stats'
 import { hashUid } from '~/utils/hash'
+import { generateSignature } from '~/utils/signature'
 
 export const useUserBannerStats = () => {
+  const runtimeConfig = useRuntimeConfig()
+  const apiKey = runtimeConfig.public.gongeousApiKey || 'api-key'
+
   const sendUserBannerStats = async (
     processedPulls: Record<string, ProcessedBanner>
   ) => {
@@ -80,7 +84,7 @@ export const useUserBannerStats = () => {
   const sendUserStats = async (data: UserBannerStats[]) => {
     try {
       const timestamp = Math.floor(Date.now() / 1000)
-      const signature = await generateSignature(timestamp, data)
+      const signature = await generateSignature(apiKey, timestamp, data)
 
       const response = await $fetch('/api/stats', {
         method: 'POST',
@@ -114,7 +118,7 @@ export const useUserBannerStats = () => {
         : bannerStats
 
       const timestamp = Math.floor(Date.now() / 1000)
-      const signature = await generateSignature(timestamp, payload)
+      const signature = await generateSignature(apiKey, timestamp, payload)
 
       const response = await $fetch('/api/stats', {
         method: 'POST',
@@ -135,30 +139,6 @@ export const useUserBannerStats = () => {
           : 'Failed to import pearpal tracker data'
       throw new Error(error)
     }
-  }
-
-  const generateSignature = async (
-    timestamp: number,
-    payload: UserBannerStats[]
-  ) => {
-    const apiKey = useRuntimeConfig().public.gongeousApiKey || 'api-key'
-    const encoder = new TextEncoder()
-    const keyData = encoder.encode(apiKey)
-    const msgData = encoder.encode(`${timestamp}${JSON.stringify(payload)}`)
-
-    const key = await crypto.subtle.importKey(
-      'raw',
-      keyData,
-      { name: 'HMAC', hash: 'SHA-256' },
-      false,
-      ['sign']
-    )
-
-    const signature = await crypto.subtle.sign('HMAC', key, msgData)
-
-    return Array.from(new Uint8Array(signature))
-      .map((b) => b.toString(16).padStart(2, '0'))
-      .join('')
   }
 
   return {

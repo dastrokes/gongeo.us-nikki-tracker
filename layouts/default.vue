@@ -114,7 +114,7 @@
         'translate-y-12': !showFooter,
       }"
       :style="{
-        color: isDark ? 'rgb(156, 163, 175)' : 'rgb(75, 85, 99)',
+        color: isDark ? 'rgba(255, 255, 255, 0.9)' : 'rgba(75, 85, 99, 0.9)',
       }"
     >
       <n-tooltip

@@ -132,14 +132,14 @@
                   <div class="flex flex-col gap-1">
                     <div class="flex items-center">
                       <n-tag :bordered="false">
-                        {{ t(`season.${getVersionKey(run.version)}`) }}
+                        {{ t(`season.${getVersion(run.version)}`) }}
                       </n-tag>
                       <n-tag
                         class="ml-1"
                         :bordered="false"
                       >
                         {{ t('banner.version') }}
-                        {{ getVersionDisplay(run.version) }}
+                        {{ getVersion(run.version) }}
                       </n-tag>
                     </div>
                     <div class="flex items-center gap-1">
@@ -292,7 +292,7 @@
   })
 
   // Selected banner ID for popselect
-  const selectedBannerId = ref(sortedBanners.value[0]?.bannerId || 0)
+  const selectedBannerId = ref(0)
 
   // Toggle banner type filter
   const toggleBannerTypeFilter = (starType: number) => {
@@ -338,58 +338,63 @@
 
     return banners
   })
+
   function handleBannerClick(bannerId: number) {
     showBannerSelector.value = false
     selectedBannerId.value = bannerId
   }
 
-  // Scroll to specific banner
-  const scrollToBanner = (bannerId: number) => {
-    if (import.meta.client) {
-      const element = document.getElementById(bannerId.toString())
-      if (element) {
-        element.scrollIntoView({
-          behavior: 'smooth',
-          block: 'center',
-        })
-      }
-    }
+  type ScrollWait = 'none' | 'next-tick' | 'frame'
+  interface ScrollOptions {
+    behavior?: ScrollBehavior
+    wait?: ScrollWait
   }
 
-  // Watch for selectedBannerId changes and scroll to the selected banner
-  watchEffect(() => {
-    if (import.meta.client && selectedBannerId.value) {
-      nextTick(() => {
-        scrollToBanner(selectedBannerId.value)
+  const scrollToBanner = async (
+    bannerId: number,
+    { behavior = 'smooth', wait = 'none' }: ScrollOptions = {}
+  ) => {
+    if (!import.meta.client) return
+
+    if (wait === 'next-tick') {
+      await nextTick()
+    } else if (wait === 'frame') {
+      await new Promise<void>((resolve) => {
+        requestAnimationFrame(() => resolve())
       })
     }
-  })
 
-  watchEffect(async () => {
-    if (import.meta.client && route.hash) {
-      const bannerId = route.hash.slice(1)
+    const element = document.getElementById(bannerId.toString())
+    if (!element) return
 
-      await new Promise(requestAnimationFrame)
-
-      const element = document.getElementById(bannerId)
-      if (element) {
-        element.scrollIntoView({
-          behavior: 'instant',
-          block: 'center',
-        })
-      }
-    }
-  })
-
-  // Helper functions for version display
-  const getVersionKey = (version: string) => {
-    // Extract major.minor version for season lookup (e.g., "1.10" from "1.10.1")
-    const parts = version.split('.')
-    return parts.length >= 2 ? `${parts[0]}.${parts[1]}` : version
+    element.scrollIntoView({
+      behavior,
+      block: 'center',
+    })
   }
 
-  const getVersionDisplay = (version: string) => {
-    // Extract major.minor version for display (e.g., "1.10" from "1.10.1")
+  watch(selectedBannerId, async (bannerId) => {
+    if (!bannerId) return
+    await scrollToBanner(bannerId, {
+      behavior: 'smooth',
+      wait: 'next-tick',
+    })
+  })
+
+  watch(
+    () => route.hash,
+    async (hash) => {
+      if (!hash) return
+      await scrollToBanner(hash.slice(1), {
+        behavior: 'instant',
+        wait: 'frame',
+      })
+    },
+    { immediate: true }
+  )
+
+  const getVersion = (version: string) => {
+    // Extract major.minor version for season lookup (e.g., "1.10" from "1.10.1")
     const parts = version.split('.')
     return parts.length >= 2 ? `${parts[0]}.${parts[1]}` : version
   }

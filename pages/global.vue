@@ -1311,7 +1311,7 @@
       }
     > = {}
     // Get viewport width to detect mobile vs desktop
-    const imageSize = isMobile.value ? 36 : 80
+    const imageSize = isMobile.value ? 32 : 80
     // Create rich label for each item
     itemsData.forEach((itemId: string) => {
       richLabels[`img${itemId}`] = {

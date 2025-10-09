@@ -977,7 +977,7 @@
               `
         },
         backgroundColor: isDark.value
-          ? 'rgb(75, 85, 99, 0.9)'
+          ? 'rgba(75, 85, 99, 0.9)'
           : 'rgba(255, 255, 255, 0.9)',
         borderColor: isDark.value ? '#555' : '#ddd',
         borderWidth: 1,
@@ -1148,7 +1148,7 @@
               `
         },
         backgroundColor: isDark.value
-          ? 'rgb(75, 85, 99, 0.9)'
+          ? 'rgba(75, 85, 99, 0.9)'
           : 'rgba(255, 255, 255, 0.9)',
         borderColor: isDark.value ? '#555' : '#ddd',
         borderWidth: 1,

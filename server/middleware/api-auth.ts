@@ -29,7 +29,7 @@ export default defineEventHandler(async (event) => {
 
   const body = await readBody<UserBannerStats[]>(event)
 
-  if (!verifySignature(signature, requestTime, body)) {
+  if (!(await verifySignature(signature, requestTime, body))) {
     throw createError({
       statusCode: 403,
       message: 'Forbidden - Invalid signature',

@@ -171,7 +171,7 @@
       "step7": "Für die UID, öffne dein Pearpal-Profil und kopiere deine UID"
     },
     "security_note": "Hinweis: Teile diese Cookie-Werte niemals mit einer anderen Person!",
-    "data_note": "Important: Pull data via this import method is retained for only 180 days. Data before {date} won't be available. You can use \"Import from Whim-Log\" to import older data.",
+    "data_note": "Wichtig: Resonanz-Daten über diese Import-Methode werden nur für 180 Tage gespeichert. Daten vor dem {date} werden nicht verfügbar sein. Du kannst \"Aus Whim-Log importieren\" benutzen, um ältere Daten zu importieren.",
     "form": {
       "uid": "UID",
       "uid_placeholder": "UID vom Spiel",

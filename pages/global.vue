@@ -451,7 +451,7 @@
             }"
           >
             <n-tooltip
-              v-if="checkBannerRuns"
+              v-if="showTooltip"
               :width="200"
             >
               <template #trigger>
@@ -776,27 +776,32 @@
     return options
   })
 
-  // Add computed property to check if banner has pulls older than 180 days
-  const checkBannerRuns = computed(() => {
-    if (
-      !selectedOutfit.value ||
-      !BANNER_DATA[Number((selectedOutfit.value as string).split('_')[0])]
-    )
-      return false
+  const checkBannerRuns = (bannerId: number): boolean => {
+    const banner = BANNER_DATA[bannerId]
+    if (!banner?.runs?.length) return false
 
-    const banner =
-      BANNER_DATA[Number((selectedOutfit.value as string).split('_')[0])]
-    if (!banner?.runs || banner.runs.length === 0) return false
+    const cutoffDate = new Date()
+    cutoffDate.setDate(cutoffDate.getDate() - 180)
+    const cutoffTime = cutoffDate.getTime()
 
-    // Check if any run of this banner started more than 180 days ago
-    const daysAgo180 = new Date()
-    daysAgo180.setDate(daysAgo180.getDate() - 180)
+    return banner.runs.every((run) => {
+      if (!run.start || run.end.trim().length === 0) return true
 
-    // Check each run to see if any of them started more than 180 days ago
-    return banner.runs.some((run) => {
-      const runStartDate = new Date(run.start)
-      return runStartDate < daysAgo180
+      const startDate = new Date(run.start)
+      if (Number.isNaN(startDate.getTime())) return false
+
+      return startDate.getTime() >= cutoffTime
     })
+  }
+
+  const showTooltip = computed(() => {
+    if (!selectedOutfit.value) return false
+
+    const [bannerIdString] = (selectedOutfit.value as string).split('_')
+    const bannerId = Number(bannerIdString)
+    if (Number.isNaN(bannerId)) return false
+
+    return !checkBannerRuns(bannerId)
   })
 
   // Function to manually update first item chart when outfit selection changes
@@ -832,21 +837,6 @@
     }
   }
 
-  // Helper function to check if a banner is recent (within last 6 months)
-  const isBannerRecent = (bannerId: number): boolean => {
-    const banner = BANNER_DATA[bannerId]
-    if (!banner?.runs || banner.runs.length === 0) return false
-
-    const sixMonthsAgo = new Date()
-    sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6)
-
-    // Check if any run of this banner started within the last 6 months
-    return banner.runs.some((run) => {
-      const runStartDate = new Date(run.start)
-      return runStartDate >= sixMonthsAgo
-    })
-  }
-
   const createPullsPerBannerChart = (
     chartData: Record<string, [number, number, number]>
   ) => {
@@ -860,7 +850,7 @@
               const id = parseInt(bannerId)
               return (
                 id <= latestBannerId &&
-                (showAllBanners.value || isBannerRecent(id))
+                (showAllBanners.value || checkBannerRuns(id))
               )
             })
           )
@@ -871,7 +861,7 @@
                 id <= latestBannerId &&
                 BANNER_DATA[id]?.bannerType ===
                   Number(selectedBannerType.value) &&
-                (showAllBanners.value || isBannerRecent(id))
+                (showAllBanners.value || checkBannerRuns(id))
               )
             })
           )

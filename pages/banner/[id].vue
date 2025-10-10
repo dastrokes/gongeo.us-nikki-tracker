@@ -4,7 +4,6 @@
       v-if="banner"
       size="small"
       class="rounded-xl p-0 sm:p-2"
-      :style="cardStyle"
     >
       <div>
         <div class="flex flex-col gap-2">
@@ -568,12 +567,7 @@
                       <n-tooltip placement="top">
                         <template #trigger>
                           <div
-                            :class="[
-                              isDark
-                                ? 'bg-gradient-to-br from-[#713f12] to-[#451a03] hover:shadow-[0_0_10px_0_rgba(113,63,18,0.5)] ring-amber-900/30 hover:ring-amber-900/60'
-                                : 'bg-gradient-to-br from-[#fff8e1] to-[#ffcc80] hover:shadow-[0_0_10px_0_rgba(255,204,128,0.5)] ring-amber-200/30 hover:ring-amber-200/80',
-                            ]"
-                            class="relative w-16 h-16 sm:w-24 sm:h-24 rounded-md overflow-hidden ring-1"
+                            class="relative w-16 h-16 sm:w-24 sm:h-24 rounded-md overflow-hidden ring-1 bg-gradient-to-br from-[#fff8e1] to-[#ffcc80] hover:shadow-[0_0_10px_0_rgba(255,204,128,0.5)] ring-amber-200/30 hover:ring-amber-200/80 dark:from-[#713f12] dark:to-[#451a03] dark:hover:shadow-[0_0_10px_0_rgba(113,63,18,0.5)] dark:ring-amber-900/30 dark:hover:ring-amber-900/60"
                           >
                             <NuxtImg
                               :src="`/images/items/${rewardId}.webp`"
@@ -667,7 +661,7 @@
   const route = useRoute()
   const router = useRouter()
   const { t } = useI18n()
-  const { cardStyle } = useCardStyle()
+
   const localePath = useLocalePath()
   const siteUrl = useRuntimeConfig().public.siteUrl
   const pullStore = usePullStore()
@@ -677,9 +671,6 @@
   const { loadData } = useIndexedDB()
   const showCollectionEditor = ref(false)
   const showItems = ref(true)
-
-  const userStore = useUserStore()
-  const isDark = computed(() => userStore.getCurrentTheme === 'dark')
 
   const { getAvg5StarPercentile, getAvg4StarType3Percentile } = usePercentile()
 

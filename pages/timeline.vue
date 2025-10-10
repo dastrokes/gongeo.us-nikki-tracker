@@ -3,7 +3,6 @@
     <n-card
       size="small"
       class="rounded-xl p-0 sm:p-2 h-[calc(100vh-160px)] sm:h-[calc(100vh-110px)]"
-      :style="cardStyle"
     >
       <ClientOnly>
         <template #fallback>
@@ -38,7 +37,7 @@
 
 <script setup lang="ts">
   const barWidths = ['w-5/6', 'w-4/5', 'w-3/4', 'w-2/3', 'w-1/2', 'w-2/5']
-  const { cardStyle } = useCardStyle()
+
   const localePath = useLocalePath()
   const siteUrl = useRuntimeConfig().public.siteUrl
 

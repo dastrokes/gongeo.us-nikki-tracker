@@ -43,9 +43,6 @@
   const router = useRouter()
   const { search, searchOptions, buildSearchIndex } = useSearch()
 
-  const userStore = useUserStore()
-  const isDark = computed(() => userStore.getCurrentTheme === 'dark')
-
   const searchQuery = ref('')
   const showSearch = ref(false)
   const isLoading = ref(false)
@@ -57,17 +54,15 @@
     ;(event.target as HTMLImageElement).style.display = 'none'
   }
 
-  const getThumbnailBackgroundClass = (rarity?: number) => {
-    const classes = isDark.value
-      ? rarity === 5
-        ? 'bg-gradient-to-br from-[#713f12] to-[#451a03]'
-        : 'bg-gradient-to-br from-[#334155] to-[#1e293b]'
-      : rarity === 5
-        ? 'bg-gradient-to-br from-[#fff8e1] to-[#ffcc80]'
-        : 'bg-gradient-to-br from-[#e3f2fd] to-[#bbdefb]'
+  const THUMBNAIL_GRADIENTS = {
+    fiveStar:
+      'bg-gradient-to-br from-[#fff8e1] to-[#ffcc80] dark:from-[#713f12] dark:to-[#451a03]',
+    fourStar:
+      'bg-gradient-to-br from-[#e3f2fd] to-[#bbdefb] dark:from-[#334155] dark:to-[#1e293b]',
+  } as const
 
-    return classes
-  }
+  const getThumbnailBackgroundClass = (rarity?: number) =>
+    rarity === 5 ? THUMBNAIL_GRADIENTS.fiveStar : THUMBNAIL_GRADIENTS.fourStar
 
   const buildResultThumbnails = (
     result: SearchResult,
@@ -170,14 +165,21 @@
   }
 
   const performSearch = async (query: string) => {
-    if (query && query.length < searchOptions.minMatchCharLength) {
+    const normalizedQuery = query?.trim() ?? ''
+
+    if (!normalizedQuery) {
+      searchResults.value = []
+      return
+    }
+
+    if (normalizedQuery.length < searchOptions.minMatchCharLength) {
       searchResults.value = []
       return
     }
 
     isLoading.value = true
     try {
-      searchResults.value = search(query)
+      searchResults.value = search(normalizedQuery)
     } finally {
       isLoading.value = false
     }
@@ -215,11 +217,6 @@
     // Focus the search input after modal is rendered
     await nextTick()
     searchAutoCompleteRef.value?.focus()
-
-    // Trigger search to show latest banners
-    nextTick(() => {
-      performSearch('')
-    })
   }
 
   const closeSearch = () => {

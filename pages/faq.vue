@@ -3,7 +3,6 @@
     <n-card
       size="small"
       class="rounded-xl p-0 sm:p-2"
-      :style="cardStyle"
     >
       <div class="text-center mb-12">
         <n-h1 class="font-bold mb-4">{{ t('faq.title') }}</n-h1>
@@ -15,7 +14,6 @@
             v-for="(faq, key) in faqs"
             :key="key"
             :title="t(`faq.questions.${key}.question`)"
-            class="text-gray-600 dark:text-gray-300"
           >
             <div class="text-sm">
               <p>{{ t(`faq.questions.${key}.answer`) }}</p>
@@ -34,7 +32,7 @@
   const localePath = useLocalePath()
   const siteUrl = useRuntimeConfig().public.siteUrl
 
-  useHead({
+  useHead(() => ({
     title: t('navigation.faq') + ' - ' + t('navigation.subtitle'),
     meta: [
       {
@@ -50,16 +48,16 @@
         content: t('meta.description.faq'),
       },
       {
-        property: 'twitter:title',
+        name: 'twitter:title',
         content: t('navigation.faq') + ' - ' + t('navigation.subtitle'),
       },
       {
-        property: 'twitter:description',
+        name: 'twitter:description',
         content: t('meta.description.faq'),
       },
     ],
     link: [{ rel: 'canonical', href: `${siteUrl}${localePath('/faq')}` }],
-  })
+  }))
 
   const faqs = {
     data_source: {},
@@ -73,6 +71,4 @@
     auto_update: {},
     export: {},
   }
-
-  const { cardStyle } = useCardStyle()
 </script>

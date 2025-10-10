@@ -4,100 +4,37 @@
       size="small"
       class="rounded-xl p-0 sm:p-2"
       content-class="!p-2 sm:p-4"
-      :style="cardStyle"
     >
       <div class="flex flex-col sm:flex-row gap-4">
-        <div class="flex-1 flex items-center gap-2">
-          <n-button
-            size="small"
-            @click="isMarqueePaused = !isMarqueePaused"
-          >
-            <template #icon>
-              <n-icon size="16">
-                <StepBackward v-if="!isMarqueePaused" />
-                <Play v-else />
-              </n-icon>
-            </template>
-          </n-button>
-          <n-marquee :speed="isMarqueePaused ? 0 : 24">
-            <div class="flex gap-2">
-              <div
-                v-for="banner in filteredBanners"
-                :key="banner.bannerId"
-                class="flex-shrink-0 cursor-pointer hover:opacity-80 transition-opacity"
-              >
-                <n-tooltip trigger="hover">
-                  <template #trigger>
-                    <NuxtImg
-                      :src="`/images/banners/thumbnails/${banner.bannerId}.webp`"
-                      :alt="t(`banner.${banner.bannerId}.name`)"
-                      class="w-20 h-10 sm:w-24 sm:h-12 rounded-lg object-cover"
-                      format="webp"
-                      width="100"
-                      height="50"
-                      fit="cover"
-                      :quality="100"
-                      loading="lazy"
-                      @click="handleBannerClick(banner.bannerId)"
-                    />
-                  </template>
-                  <span>{{ t(`banner.${banner.bannerId}.name`) }}</span>
-                </n-tooltip>
-              </div>
+        <n-scrollbar x-scrollable>
+          <div class="flex flex-row gap-2 min-w-max pb-3">
+            <div
+              v-for="banner in filteredBanners"
+              :key="banner.bannerId"
+              class="flex-shrink-0 cursor-pointer hover:opacity-80 transition-opacity"
+            >
+              <n-tooltip trigger="hover">
+                <template #trigger>
+                  <NuxtImg
+                    :src="`/images/banners/thumbnails/${banner.bannerId}.webp`"
+                    :alt="t(`banner.${banner.bannerId}.name`)"
+                    class="w-24 h-12 rounded-lg object-cover"
+                    format="webp"
+                    width="100"
+                    height="50"
+                    fit="cover"
+                    :quality="100"
+                    loading="lazy"
+                    @click="handleBannerClick(banner.bannerId)"
+                  />
+                </template>
+                <span>{{ t(`banner.${banner.bannerId}.name`) }}</span>
+              </n-tooltip>
             </div>
-          </n-marquee>
-        </div>
+          </div>
+        </n-scrollbar>
 
         <div class="flex justify-end items-center gap-2">
-          <!-- Banner selector -->
-          <n-popover
-            trigger="manual"
-            :show="showBannerSelector"
-            placement="bottom"
-            scrollable
-            content-class="!p-1"
-            @clickoutside="handleClickOutside"
-          >
-            <template #trigger>
-              <n-button
-                size="small"
-                @click.stop="showBannerSelector = !showBannerSelector"
-              >
-                <template #icon>
-                  <n-icon size="16"><Gift /></n-icon>
-                </template>
-              </n-button>
-            </template>
-            <div class="max-h-48 grid grid-cols-3 gap-2 m-1">
-              <div
-                v-for="b in filteredBanners"
-                :key="b.bannerId"
-                class="cursor-pointer hover:opacity-80 transition-opacity w-20 h-10 sm:w-24 sm:h-12 rounded overflow-hidden"
-                @click="handleBannerClick(b.bannerId)"
-              >
-                <n-tooltip
-                  trigger="hover"
-                  content-class="!p-0"
-                >
-                  <template #trigger>
-                    <NuxtImg
-                      :src="`/images/banners/thumbnails/${b.bannerId}.webp`"
-                      :alt="t(`banner.${b.bannerId}.name`)"
-                      class="w-full h-full object-cover"
-                      format="webp"
-                      width="100"
-                      height="50"
-                      fit="cover"
-                      :quality="100"
-                      loading="lazy"
-                    />
-                  </template>
-                  <span>{{ t(`banner.${b.bannerId}.name`) }}</span>
-                </n-tooltip>
-              </div>
-            </div>
-          </n-popover>
-
           <!-- Banner filters -->
           <n-button-group>
             <n-button
@@ -142,7 +79,6 @@
       size="small"
       class="rounded-xl p-0 sm:p-2"
       content-class="!p-2 sm:p-4"
-      :style="cardStyle"
     >
       <n-timeline
         :icon-size="16"
@@ -194,14 +130,14 @@
                   <div class="flex flex-col gap-1">
                     <div class="flex items-center">
                       <n-tag :bordered="false">
-                        {{ t(`season.${getVersionKey(run.version)}`) }}
+                        {{ t(`season.${getVersion(run.version)}`) }}
                       </n-tag>
                       <n-tag
                         class="ml-1"
                         :bordered="false"
                       >
                         {{ t('banner.version') }}
-                        {{ getVersionDisplay(run.version) }}
+                        {{ getVersion(run.version) }}
                       </n-tag>
                     </div>
                     <div class="flex items-center gap-1">
@@ -293,8 +229,8 @@
                           :alt="t(`banner.${banner.bannerId}.name`)"
                           class="absolute inset-0 w-full h-full object-cover"
                           format="webp"
-                          width="500"
-                          height="250"
+                          width="1000"
+                          height="500"
                           fit="cover"
                           :quality="100"
                           loading="lazy"
@@ -325,13 +261,11 @@
     CalendarDay,
     ArrowUp,
     ArrowDown,
-    Play,
-    StepBackward,
   } from '@vicons/fa'
   import { BANNER_DATA } from '~/data/banners'
 
   const { t } = useI18n()
-  const { cardStyle } = useCardStyle()
+
   const localePath = useLocalePath()
   const siteUrl = useRuntimeConfig().public.siteUrl
   const route = useRoute()
@@ -343,8 +277,6 @@
   })
   const sortOrder = ref<string>('newest')
   const showBannerSelector = ref(false)
-  const isMarqueePaused = ref(true)
-
   // Sort banners based on selected order
   const sortedBanners = computed(() => {
     const banners = Object.values(BANNER_DATA)
@@ -358,7 +290,7 @@
   })
 
   // Selected banner ID for popselect
-  const selectedBannerId = ref(sortedBanners.value[0]?.bannerId || 0)
+  const selectedBannerId = ref(0)
 
   // Toggle banner type filter
   const toggleBannerTypeFilter = (starType: number) => {
@@ -410,59 +342,57 @@
     selectedBannerId.value = bannerId
   }
 
-  const handleClickOutside = (e: Event) => {
-    const target = e.target as HTMLElement | null
-    if (target?.closest('.n-button')) return
-    showBannerSelector.value = false
+  type ScrollWait = 'none' | 'next-tick' | 'frame'
+  interface ScrollOptions {
+    behavior?: ScrollBehavior
+    wait?: ScrollWait
   }
 
-  // Scroll to specific banner
-  const scrollToBanner = (bannerId: number) => {
-    if (import.meta.client) {
-      const element = document.getElementById(bannerId.toString())
-      if (element) {
-        element.scrollIntoView({
-          behavior: 'smooth',
-          block: 'center',
-        })
-      }
-    }
-  }
+  const scrollToBanner = async (
+    bannerId: number,
+    { behavior = 'smooth', wait = 'none' }: ScrollOptions = {}
+  ) => {
+    if (!import.meta.client) return
 
-  // Watch for selectedBannerId changes and scroll to the selected banner
-  watchEffect(() => {
-    if (import.meta.client && selectedBannerId.value) {
-      nextTick(() => {
-        scrollToBanner(selectedBannerId.value)
+    if (wait === 'next-tick') {
+      await nextTick()
+    } else if (wait === 'frame') {
+      await new Promise<void>((resolve) => {
+        requestAnimationFrame(() => resolve())
       })
     }
-  })
 
-  watchEffect(async () => {
-    if (import.meta.client && route.hash) {
-      const bannerId = route.hash.slice(1)
+    const element = document.getElementById(bannerId.toString())
+    if (!element) return
 
-      await new Promise(requestAnimationFrame)
-
-      const element = document.getElementById(bannerId)
-      if (element) {
-        element.scrollIntoView({
-          behavior: 'instant',
-          block: 'center',
-        })
-      }
-    }
-  })
-
-  // Helper functions for version display
-  const getVersionKey = (version: string) => {
-    // Extract major.minor version for season lookup (e.g., "1.10" from "1.10.1")
-    const parts = version.split('.')
-    return parts.length >= 2 ? `${parts[0]}.${parts[1]}` : version
+    element.scrollIntoView({
+      behavior,
+      block: 'center',
+    })
   }
 
-  const getVersionDisplay = (version: string) => {
-    // Extract major.minor version for display (e.g., "1.10" from "1.10.1")
+  watch(selectedBannerId, async (bannerId) => {
+    if (!bannerId) return
+    await scrollToBanner(bannerId, {
+      behavior: 'smooth',
+      wait: 'next-tick',
+    })
+  })
+
+  watch(
+    () => route.hash,
+    async (hash) => {
+      if (!hash) return
+      await scrollToBanner(hash.slice(1), {
+        behavior: 'instant',
+        wait: 'frame',
+      })
+    },
+    { immediate: true }
+  )
+
+  const getVersion = (version: string) => {
+    // Extract major.minor version for season lookup (e.g., "1.10" from "1.10.1")
     const parts = version.split('.')
     return parts.length >= 2 ? `${parts[0]}.${parts[1]}` : version
   }
@@ -481,7 +411,7 @@
     }
   }
 
-  useHead({
+  useHead(() => ({
     title: t('navigation.banner') + ' - ' + t('navigation.subtitle'),
     meta: [
       {
@@ -497,14 +427,26 @@
         content: t('meta.description.banner'),
       },
       {
-        property: 'twitter:title',
+        name: 'twitter:title',
         content: t('navigation.banner') + ' - ' + t('navigation.subtitle'),
       },
       {
-        property: 'twitter:description',
+        name: 'twitter:description',
         content: t('meta.description.banner'),
       },
     ],
     link: [{ rel: 'canonical', href: `${siteUrl}${localePath('/banner')}` }],
-  })
+    script: [
+      {
+        type: 'application/ld+json',
+        children: JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'ItemPage',
+          name: t('navigation.banner') + ' - ' + t('navigation.subtitle'),
+          description: t('meta.description.banner'),
+          url: `${siteUrl}${localePath(`/banner`)}`,
+        }),
+      },
+    ],
+  }))
 </script>

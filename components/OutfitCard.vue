@@ -14,16 +14,8 @@
       <div
         v-for="(image, index) in Array.from(outfitImages.entries())"
         :key="index"
-        class="relative aspect-[2/3] rounded-lg overflow-hidden transition-all duration-300 ease-in-out ring-1"
-        :class="[
-          rarity === 5
-            ? isDark
-              ? 'bg-gradient-to-br from-[#713f12] to-[#451a03] hover:shadow-[0_0_15px_0_rgba(113,63,18,0.5)] ring-amber-900/30 hover:ring-amber-900/60'
-              : 'bg-gradient-to-br from-[#fff8e1] to-[#ffcc80] hover:shadow-[0_0_15px_0_rgba(255,204,128,0.5)] ring-amber-200/30 hover:ring-amber-200/80'
-            : isDark
-              ? 'bg-gradient-to-br from-[#334155] to-[#1e293b] hover:shadow-[0_0_15px_0_rgba(51,65,85,0.5)] ring-slate-400/20 hover:ring-slate-400/40'
-              : 'bg-gradient-to-br from-[#e3f2fd] to-[#bbdefb] hover:shadow-[0_0_15px_0_rgba(187,222,251,0.5)] ring-blue-200/30 hover:ring-blue-200/80',
-        ]"
+        class="relative aspect-[2/3] rounded-lg overflow-hidden transition-all duration-300 ease-in-out"
+        :class="cardGradient"
       >
         <NuxtImg
           :src="image[1]"
@@ -73,9 +65,18 @@
   }>()
 
   const { t } = useI18n()
-  const userStore = useUserStore()
   const pullStore = usePullStore()
-  const isDark = computed(() => userStore.getCurrentTheme === 'dark')
+  const OUTFIT_CARD_GRADIENTS = {
+    fiveStar:
+      'bg-gradient-to-br from-[#fff8e1] to-[#ffcc80] hover:brightness-105 dark:from-[#713f12] dark:to-[#451a03]',
+    fourStar:
+      'bg-gradient-to-br from-[#e3f2fd] to-[#bbdefb] hover:brightness-105 dark:from-[#334155] dark:to-[#1e293b]',
+  } as const
+  const cardGradient = computed(() =>
+    props.rarity === 5
+      ? OUTFIT_CARD_GRADIENTS.fiveStar
+      : OUTFIT_CARD_GRADIENTS.fourStar
+  )
 
   const getOutfitLevel = computed(() => {
     if (!props.completionData) return []

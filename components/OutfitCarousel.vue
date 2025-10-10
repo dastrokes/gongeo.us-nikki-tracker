@@ -32,15 +32,7 @@
           >
             <div
               class="relative aspect-[2/3] rounded-lg overflow-hidden transition-all duration-300 ease-in-out"
-              :class="[
-                isDark
-                  ? rarity === 5
-                    ? 'bg-gradient-to-br from-[#713f12] to-[#451a03] hover:brightness-105'
-                    : 'bg-gradient-to-br from-[#334155] to-[#1e293b] hover:brightness-105'
-                  : rarity === 5
-                    ? 'bg-gradient-to-br from-[#fff8e1] to-[#ffcc80] hover:brightness-105'
-                    : 'bg-gradient-to-br from-[#e3f2fd] to-[#bbdefb] hover:brightness-105',
-              ]"
+              :class="cardGradient"
             >
               <NuxtImg
                 :src="image.src"
@@ -114,8 +106,17 @@
 
   const props = defineProps<Props>()
   const { t } = useI18n()
-  const userStore = useUserStore()
-  const isDark = computed(() => userStore.getCurrentTheme === 'dark')
+  const OUTFIT_CARD_GRADIENTS = {
+    fiveStar:
+      'bg-gradient-to-br from-[#fff8e1] to-[#ffcc80] hover:brightness-105 dark:from-[#713f12] dark:to-[#451a03]',
+    fourStar:
+      'bg-gradient-to-br from-[#e3f2fd] to-[#bbdefb] hover:brightness-105 dark:from-[#334155] dark:to-[#1e293b]',
+  } as const
+  const cardGradient = computed(() =>
+    props.rarity === 5
+      ? OUTFIT_CARD_GRADIENTS.fiveStar
+      : OUTFIT_CARD_GRADIENTS.fourStar
+  )
 
   // Helper function to get outfit images for carousel
   const outfitImages = computed(() => {

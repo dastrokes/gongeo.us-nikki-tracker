@@ -3,7 +3,6 @@
     <n-card
       size="small"
       class="rounded-xl p-0 sm:p-2"
-      :style="cardStyle"
     >
       <div class="text-center mb-12">
         <n-h1 class="font-bold mb-4">{{ t('about.title') }}</n-h1>
@@ -91,7 +90,7 @@
 
 <script setup lang="ts">
   const { t } = useI18n()
-  const { cardStyle } = useCardStyle()
+
   const localePath = useLocalePath()
   const siteUrl = useRuntimeConfig().public.siteUrl
 

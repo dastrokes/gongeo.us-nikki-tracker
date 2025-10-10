@@ -3,7 +3,6 @@
     <n-card
       size="small"
       class="rounded-xl p-0 sm:p-2"
-      :style="cardStyle"
     >
       <div class="text-center mb-12">
         <n-h1 class="font-bold mb-4">{{ t('about.title') }}</n-h1>
@@ -91,11 +90,11 @@
 
 <script setup lang="ts">
   const { t } = useI18n()
-  const { cardStyle } = useCardStyle()
+
   const localePath = useLocalePath()
   const siteUrl = useRuntimeConfig().public.siteUrl
 
-  useHead({
+  useHead(() => ({
     title: t('navigation.about') + ' - ' + t('navigation.subtitle'),
     meta: [
       {
@@ -111,14 +110,14 @@
         content: t('meta.description.about'),
       },
       {
-        property: 'twitter:title',
+        name: 'twitter:title',
         content: t('navigation.about') + ' - ' + t('navigation.subtitle'),
       },
       {
-        property: 'twitter:description',
+        name: 'twitter:description',
         content: t('meta.description.about'),
       },
     ],
     link: [{ rel: 'canonical', href: `${siteUrl}${localePath('/about')}` }],
-  })
+  }))
 </script>

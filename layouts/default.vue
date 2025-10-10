@@ -5,12 +5,7 @@
     position="absolute"
   >
     <n-layout-header
-      class="fixed top-0 right-0 z-50 h-12"
-      :style="{
-        background: isDark
-          ? 'linear-gradient(to right, rgb(12, 74, 110), rgb(88, 28, 135), rgb(115, 55, 137))'
-          : 'linear-gradient(to right, rgb(224, 242, 254), rgb(243, 232, 255), rgb(252, 231, 243))',
-      }"
+      class="fixed top-0 right-0 z-50 h-12 bg-[linear-gradient(to_right,_rgb(224,242,254),_rgb(243,232,255),_rgb(252,231,243))] dark:bg-[linear-gradient(to_right,_rgb(12,74,110),_rgb(88,28,135),_rgb(115,55,137))]"
     >
       <div class="flex h-12 items-center justify-between">
         <div class="flex items-center">
@@ -50,14 +45,9 @@
       :collapsed-width="48"
       :width="200"
       :collapsed="!showSider"
-      class="fixed top-0 left-0 h-full shadow-lg z-40 transition-all duration-300 ease-in-out transform"
-      :style="{
-        background: isDark
-          ? 'linear-gradient(to bottom, rgb(12, 74, 110), rgb(88, 28, 135), rgb(115, 55, 137))'
-          : 'linear-gradient(to bottom, rgb(224, 242, 254), rgb(243, 232, 255), rgb(252, 231, 243))',
-      }"
+      class="fixed top-0 left-0 h-full shadow-lg z-40 transition-all duration-300 ease-in-out transform bg-[linear-gradient(to_bottom,_rgb(224,242,254),_rgb(243,232,255),_rgb(252,231,243))] dark:bg-[linear-gradient(to_bottom,_rgb(12,74,110),_rgb(88,28,135),_rgb(115,55,137))]"
       :class="{
-        '-translate-x-full xl:-translate-x-0': !showSider,
+        '-translate-x-full 2xl:-translate-x-0': !showSider,
         'translate-x-0': showSider,
       }"
     >
@@ -94,8 +84,7 @@
 
     <n-layout-content
       ref="scrollbarRef"
-      class="mt-12"
-      :class="isDark ? 'bg-[#101014]' : 'bg-[#f8fafc]'"
+      class="mt-12 bg-[#f8fafc] dark:bg-[#101014]"
       :native-scrollbar="false"
       @scroll="onScroll"
     >
@@ -108,13 +97,10 @@
     </n-layout-content>
 
     <n-layout-footer
-      class="text-center text-sm opacity-80 mb-2 fixed bottom-0 left-0 right-0 bg-transparent transition-transform duration-300 ease-in-out"
+      class="text-center text-sm opacity-80 mb-2 fixed bottom-0 left-0 right-0 bg-transparent transition-transform duration-300 ease-in-out text-slate-600 dark:text-slate-200"
       :class="{
         'translate-y-0': showFooter,
         'translate-y-12': !showFooter,
-      }"
-      :style="{
-        color: isDark ? 'rgb(156, 163, 175)' : 'rgb(75, 85, 99)',
       }"
     >
       <n-tooltip
@@ -140,8 +126,7 @@
 
     <div
       v-if="showSider"
-      class="fixed inset-0 z-30 xl:hidden"
-      :class="isDark ? 'bg-black/15' : 'bg-black/5'"
+      class="fixed inset-0 z-30 2xl:hidden bg-black/5 dark:bg-black/40"
       @click="showSider = false"
     />
 
@@ -150,16 +135,10 @@
       ghost
       circle
       size="small"
-      class="fixed bottom-4 right-4 sm:bottom-8 sm:right-8 z-20 opacity-60 hover:opacity-100 transition-transform duration-300 ease-in-out"
+      class="fixed bottom-4 right-4 sm:bottom-8 sm:right-8 z-20 opacity-60 hover:opacity-100 transition-transform duration-300 ease-in-out bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700"
       :class="{
         'translate-y-0': showScrollTop,
         'translate-y-16': !showScrollTop,
-      }"
-      :style="{
-        background: isDark ? 'rgb(31, 41, 55)' : 'white',
-        '&:hover': {
-          background: isDark ? 'rgb(55, 65, 81)' : 'rgb(243, 244, 246)',
-        },
       }"
       :aria-label="t('accessibility.scroll_to_top')"
       @click="scrollToTop"
@@ -190,13 +169,10 @@
   import LanguageSwitcher from '~/components/LanguageSwitcher.vue'
   import KoFi from '~/components/icons/KoFi.vue'
   import Netlify from '~/components/icons/Netlify.vue'
-  import { useUserStore } from '~/stores/user'
   import { useSwipe } from '@vueuse/core'
 
   const { t } = useI18n()
   const localePath = useLocalePath()
-  const userStore = useUserStore()
-  const isDark = computed(() => userStore.getCurrentTheme === 'dark')
   const { locale } = useI18n()
 
   function renderIcon(icon: Component) {
@@ -208,7 +184,7 @@
 
   const siteUrl = useRuntimeConfig().public.siteUrl
 
-  useHead({
+  useHead(() => ({
     htmlAttrs: {
       lang: locale.value,
     },
@@ -288,7 +264,7 @@
         'data-website-id': 'dd22ab5d-2045-4450-aaff-f513339b5ca6',
       },
     ],
-  })
+  }))
 
   const topMenuOptions = computed<MenuOption[]>(() =>
     [
@@ -446,11 +422,11 @@
   )
 
   watch(locale, (newLocale) => {
-    useHead({
+    useHead(() => ({
       htmlAttrs: {
         lang: newLocale,
       },
-    })
+    }))
   })
 
   // Setup swipe handling

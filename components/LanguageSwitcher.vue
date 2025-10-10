@@ -31,11 +31,6 @@
 
   const handleLanguageSelect = (key: 'en' | 'zh' | 'de') => {
     setLocale(key)
-    // Persist language preference in cookie
-    const localeCookie = useCookie('locale', {
-      maxAge: 30 * 24 * 60 * 60, // 30 days
-      path: '/',
-    })
-    localeCookie.value = key
+    set('locale', key)
   }
 </script>

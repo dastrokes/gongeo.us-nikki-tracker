@@ -7,6 +7,8 @@ import { imageSitemap } from './locales/sitemap'
 export default defineNuxtConfig({
   devtools: { enabled: false },
 
+  srcDir: '.',
+
   // Add global CSS files
   css: ['~/assets/styles/global.scss'],
 
@@ -108,7 +110,7 @@ export default defineNuxtConfig({
   },
 
   nitro: {
-    preset: 'netlify',
+    preset: 'netlify_edge',
     future: {
       nativeSWR: true,
     },
@@ -117,11 +119,7 @@ export default defineNuxtConfig({
     },
   },
 
-  future: {
-    compatibilityVersion: 4,
-  },
-
-  compatibilityDate: '2025-01-24',
+  compatibilityDate: '2025-10-01',
 
   components: {
     dirs: ['~/components'],
@@ -157,8 +155,8 @@ export default defineNuxtConfig({
       project: 'gongeous',
     },
 
+    telemetry: false,
     autoInjectServerSentry: 'top-level-import',
-
     enabled: process.env.NODE_ENV === 'production',
   },
 

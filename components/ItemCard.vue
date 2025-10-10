@@ -3,13 +3,7 @@
     <template #trigger>
       <n-card
         :class="[
-          item.rarity === 5
-            ? isDark
-              ? 'bg-gradient-to-br from-[#713f12] to-[#451a03] hover:shadow-[0_0_15px_0_rgba(113,63,18,0.5)] ring-amber-900/30 hover:ring-amber-900/60'
-              : 'bg-gradient-to-br from-[#fff8e1] to-[#ffcc80] hover:shadow-[0_0_15px_0_rgba(255,204,128,0.5)] ring-amber-200/30 hover:ring-amber-200/80'
-            : isDark
-              ? 'bg-gradient-to-br from-[#334155] to-[#1e293b] hover:shadow-[0_0_15px_0_rgba(51,65,85,0.5)] ring-slate-400/20 hover:ring-slate-400/40'
-              : 'bg-gradient-to-br from-[#e3f2fd] to-[#bbdefb] hover:shadow-[0_0_15px_0_rgba(187,222,251,0.5)] ring-blue-200/30 hover:ring-blue-200/80',
+          getCardGradient(item.rarity),
           { 'opacity-60 grayscale': item.count === 0 && info },
         ]"
         :bordered="false"
@@ -116,10 +110,17 @@
   })
 
   const { t } = useI18n()
-  const userStore = useUserStore()
-  const isDark = computed(() => userStore.getCurrentTheme === 'dark')
-
   const itemType = computed(() => getItemType(props.item.itemId))
+
+  const CARD_GRADIENTS = {
+    fiveStar:
+      'bg-gradient-to-br from-[#fff8e1] to-[#ffcc80] hover:shadow-[0_0_10px_0_rgba(255,204,128,0.5)] ring-amber-200/30 hover:ring-amber-200/80 dark:from-[#713f12] dark:to-[#451a03] dark:hover:shadow-[0_0_10px_0_rgba(113,63,18,0.5)] dark:ring-amber-900/30 dark:hover:ring-amber-900/60',
+    fourStar:
+      'bg-gradient-to-br from-[#e3f2fd] to-[#bbdefb] hover:shadow-[0_0_10px_0_rgba(187,222,251,0.5)] ring-blue-200/30 hover:ring-blue-200/80 dark:from-[#334155] dark:to-[#1e293b] dark:hover:shadow-[0_0_10px_0_rgba(51,65,85,0.5)] dark:ring-slate-400/20 dark:hover:ring-slate-400/40',
+  } as const
+
+  const getCardGradient = (rarity: number) =>
+    rarity === 5 ? CARD_GRADIENTS.fiveStar : CARD_GRADIENTS.fourStar
 
   // Color coding function for pulls with 3 categories
   const getPullColor = (pulls: number, rarity: number, bannerId: number) => {

@@ -1,16 +1,7 @@
-import { isRateLimited } from '../utils/rateLimiter'
 import { useSupabaseClient } from '../../composables/useSupabaseClient'
 
 export default defineEventHandler(async (event) => {
-  const ip = getRequestIP(event, { xForwardedFor: true }) || 'unknown'
-
-  // Check rate limit
-  if (isRateLimited(ip)) {
-    throw createError({
-      statusCode: 429,
-      message: 'Too many requests. Please try again later.',
-    })
-  }
+  const supabase = useSupabaseClient('server')
 
   // Determine target table based on x-target header
   const target = getHeader(event, 'x-target')
@@ -28,9 +19,6 @@ export default defineEventHandler(async (event) => {
         message: 'Invalid request body - expected array of banner stats',
       })
     }
-
-    // Use the shared Supabase client with server key
-    const supabase = useSupabaseClient('server')
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { error } = await supabase.from(targetTable).upsert(body as any, {

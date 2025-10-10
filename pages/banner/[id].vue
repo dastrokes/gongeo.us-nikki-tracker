@@ -4,7 +4,6 @@
       v-if="banner"
       size="small"
       class="rounded-xl p-0 sm:p-2"
-      :style="cardStyle"
     >
       <div>
         <div class="flex flex-col gap-2">
@@ -195,14 +194,14 @@
                 <div class="flex flex-col items-center gap-1">
                   <div class="flex items-center">
                     <n-tag :bordered="false">
-                      {{ t(`season.${getVersionKey(run.version)}`) }}
+                      {{ t(`season.${getVersion(run.version)}`) }}
                     </n-tag>
                     <n-tag
                       class="ml-1"
                       :bordered="false"
                     >
                       {{ t('banner.version') }}
-                      {{ getVersionDisplay(run.version) }}
+                      {{ getVersion(run.version) }}
                     </n-tag>
                   </div>
                   <div class="flex items-center gap-1">
@@ -568,12 +567,7 @@
                       <n-tooltip placement="top">
                         <template #trigger>
                           <div
-                            :class="[
-                              isDark
-                                ? 'bg-gradient-to-br from-[#713f12] to-[#451a03] hover:shadow-[0_0_15px_0_rgba(113,63,18,0.5)] ring-amber-900/30 hover:ring-amber-900/60'
-                                : 'bg-gradient-to-br from-[#fff8e1] to-[#ffcc80] hover:shadow-[0_0_15px_0_rgba(255,204,128,0.5)] ring-amber-200/30 hover:ring-amber-200/80',
-                            ]"
-                            class="relative w-16 h-16 sm:w-24 sm:h-24 rounded-md overflow-hidden ring-1"
+                            class="relative w-16 h-16 sm:w-24 sm:h-24 rounded-md overflow-hidden ring-1 bg-gradient-to-br from-[#fff8e1] to-[#ffcc80] hover:shadow-[0_0_10px_0_rgba(255,204,128,0.5)] ring-amber-200/30 hover:ring-amber-200/80 dark:from-[#713f12] dark:to-[#451a03] dark:hover:shadow-[0_0_10px_0_rgba(113,63,18,0.5)] dark:ring-amber-900/30 dark:hover:ring-amber-900/60"
                           >
                             <NuxtImg
                               :src="`/images/items/${rewardId}.webp`"
@@ -667,7 +661,7 @@
   const route = useRoute()
   const router = useRouter()
   const { t } = useI18n()
-  const { cardStyle } = useCardStyle()
+
   const localePath = useLocalePath()
   const siteUrl = useRuntimeConfig().public.siteUrl
   const pullStore = usePullStore()
@@ -677,9 +671,6 @@
   const { loadData } = useIndexedDB()
   const showCollectionEditor = ref(false)
   const showItems = ref(true)
-
-  const userStore = useUserStore()
-  const isDark = computed(() => userStore.getCurrentTheme === 'dark')
 
   const { getAvg5StarPercentile, getAvg4StarType3Percentile } = usePercentile()
 
@@ -724,15 +715,8 @@
     nextBannerId.value ? BANNER_DATA[nextBannerId.value] : null
   )
 
-  // Helper functions for version display
-  const getVersionKey = (version: string) => {
+  const getVersion = (version: string) => {
     // Extract major.minor version for season lookup (e.g., "1.10" from "1.10.1")
-    const parts = version.split('.')
-    return parts.length >= 2 ? `${parts[0]}.${parts[1]}` : version
-  }
-
-  const getVersionDisplay = (version: string) => {
-    // Extract major.minor version for display (e.g., "1.10" from "1.10.1")
     const parts = version.split('.')
     return parts.length >= 2 ? `${parts[0]}.${parts[1]}` : version
   }
@@ -848,17 +832,17 @@
           : `${siteUrl}/og.png`,
       },
       {
-        property: 'twitter:title',
+        name: 'twitter:title',
         content: banner.value
           ? `${t(`banner.${banner.value.bannerId}.name`)} - ${t('navigation.banner_detail')} - ${t('navigation.subtitle')}`
           : `${t('navigation.banner_detail')} - ${t('navigation.subtitle')}`,
       },
       {
-        property: 'twitter:description',
+        name: 'twitter:description',
         content: t('meta.description.banner_detail'),
       },
       {
-        property: 'twitter:image',
+        name: 'twitter:image',
         content: banner.value
           ? `${siteUrl}/images/banners/${banner.value.bannerId}.webp`
           : `${siteUrl}/og.png`,
@@ -868,6 +852,27 @@
       {
         rel: 'canonical',
         href: `${siteUrl}${localePath(`/banner/${route.params.id}`)}`,
+      },
+    ],
+    script: [
+      {
+        type: 'application/ld+json',
+        children: JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'ItemPage',
+          name: banner.value
+            ? `${t(`banner.${banner.value.bannerId}.name`)} - ${t('navigation.banner_detail')} - ${t('navigation.subtitle')}`
+            : `${t('navigation.banner_detail')} - ${t('navigation.subtitle')}`,
+          description: t('meta.description.banner_detail'),
+          url: `${siteUrl}${localePath(`/banner/${route.params.id}`)}`,
+          image: banner.value
+            ? `${siteUrl}/images/banners/${banner.value.bannerId}.webp`
+            : `${siteUrl}/og.png`,
+          isPartOf: {
+            '@type': 'CollectionPage',
+            url: `${siteUrl}${localePath(`/banner`)}`,
+          },
+        }),
       },
     ],
   }))

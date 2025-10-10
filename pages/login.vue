@@ -3,13 +3,12 @@
     <n-card
       size="small"
       class="rounded-xl p-0 sm:p-2"
-      :style="cardStyle"
     >
       <div class="text-center space-y-4 max-w-sm mx-auto">
         <!-- Header -->
         <div class="space-y-2">
           <n-h2 class="text-2xl font-bold">{{ t('login.title') }}</n-h2>
-          <n-text class="text-gray-600 dark:text-gray-400">
+          <n-text>
             {{ t('login.welcome_description') }}
           </n-text>
         </div>
@@ -287,7 +286,7 @@
     signUp,
     resetPassword,
   } = useAuth()
-  const { cardStyle } = useCardStyle()
+
   const router = useRouter()
   const route = useRoute()
   const localePath = useLocalePath()
@@ -377,7 +376,7 @@
   }))
 
   // SEO
-  useHead({
+  useHead(() => ({
     title: t('login.title') + ' - ' + t('navigation.subtitle'),
     meta: [
       { name: 'description', content: t('meta.description.login') },
@@ -387,7 +386,7 @@
       },
       { property: 'og:description', content: t('meta.description.login') },
     ],
-  })
+  }))
 
   // Handlers
   const handleDiscordSignIn = async () => {

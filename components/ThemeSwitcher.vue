@@ -7,7 +7,11 @@
     @click="toggleTheme"
   >
     <template #icon>
-      <n-icon :component="isDark ? SunIcon : MoonIcon" />
+      <n-icon
+        :class="{ 'rotate-180': isDark }"
+        class="transition-transform duration-500"
+        :component="isDark ? SunIcon : MoonIcon"
+      />
     </template>
   </n-button>
 </template>
@@ -16,11 +20,10 @@
   import { Sun as SunIcon, Moon as MoonIcon } from '@vicons/fa'
   const { t } = useI18n()
 
-  const userStore = useUserStore()
-  const isDark = computed(() => userStore.getCurrentTheme === 'dark')
+  const { isDark, setTheme } = useTheme()
 
   const toggleTheme = () => {
     const newTheme = isDark.value ? 'light' : 'dark'
-    userStore.setTheme(newTheme)
+    setTheme(newTheme)
   }
 </script>

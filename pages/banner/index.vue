@@ -4,7 +4,6 @@
       size="small"
       class="rounded-xl p-0 sm:p-2"
       content-class="!p-2 sm:p-4"
-      :style="cardStyle"
     >
       <div class="flex flex-col sm:flex-row gap-4">
         <n-scrollbar x-scrollable>
@@ -80,7 +79,6 @@
       size="small"
       class="rounded-xl p-0 sm:p-2"
       content-class="!p-2 sm:p-4"
-      :style="cardStyle"
     >
       <n-timeline
         :icon-size="16"
@@ -267,7 +265,7 @@
   import { BANNER_DATA } from '~/data/banners'
 
   const { t } = useI18n()
-  const { cardStyle } = useCardStyle()
+
   const localePath = useLocalePath()
   const siteUrl = useRuntimeConfig().public.siteUrl
   const route = useRoute()

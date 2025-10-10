@@ -1,6 +1,6 @@
 <template>
   <n-config-provider
-    :theme="theme"
+    :theme="naiveTheme"
     :theme-overrides="themeOverrides"
   >
     <n-message-provider>
@@ -18,12 +18,26 @@
 </template>
 
 <script setup lang="ts">
-  import { darkTheme, lightTheme, type GlobalThemeOverrides } from 'naive-ui'
+  import type { GlobalThemeOverrides } from 'naive-ui'
 
   // Initialize theme state
-  const userStore = useUserStore()
-  const isDark = computed(() => userStore.getCurrentTheme === 'dark')
-  const theme = computed(() => (isDark.value ? darkTheme : lightTheme))
+  const { isDark, naiveTheme, initTheme } = useTheme()
+
+  useHead(() => ({
+    htmlAttrs: {
+      class: isDark.value ? 'dark' : undefined,
+    },
+  }))
+
+  if (import.meta.client) {
+    watch(
+      isDark,
+      (value) => {
+        document.documentElement.classList.toggle('dark', value)
+      },
+      { immediate: true }
+    )
+  }
 
   // Theme overrides for both light and dark modes
   const themeOverrides = computed<GlobalThemeOverrides>(() => ({
@@ -69,6 +83,9 @@
       textColorFocusPrimary: '#969696',
       textColorDisabledPrimary: '#f6f6f6',
     },
+    Card: {
+      color: isDark.value ? 'rgb(31, 41, 55)' : 'rgb(250, 245, 255)',
+    },
     Menu: {
       itemTextColorActive: 'currentColor',
       itemTextColorActiveHover: 'currentColor',
@@ -102,7 +119,7 @@
   // Ensure theme is initialized on client-side
   onMounted(() => {
     // Initialize theme immediately for correct initial paint
-    userStore.initializeTheme()
+    initTheme()
 
     // Defer auth initialization to idle to protect LCP
     const run = () => initAuth()

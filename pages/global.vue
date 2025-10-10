@@ -6,7 +6,6 @@
         size="small"
         class="rounded-xl"
         content-class="!p-2 sm:!p-4"
-        :style="cardStyle"
       >
         <!-- Summary Cards Skeleton -->
         <div class="grid grid-cols-2 md:grid-cols-6 gap-2">
@@ -15,7 +14,6 @@
             :key="i"
             size="small"
             class="text-center rounded-md"
-            :style="cardStyle"
           >
             <n-skeleton
               height="20px"
@@ -35,14 +33,12 @@
       <n-card
         size="small"
         class="rounded-xl"
-        :style="cardStyle"
       >
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
           <!-- Pulls per Banner Chart Skeleton -->
           <n-card
             size="small"
             class="col-span-1 md:col-span-3"
-            :style="cardStyle"
           >
             <div class="flex justify-center items-center mb-4">
               <n-skeleton
@@ -61,7 +57,6 @@
       <n-card
         size="small"
         class="rounded-xl"
-        :style="cardStyle"
       >
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
           <!-- Distribution Charts Skeleton -->
@@ -69,7 +64,6 @@
             v-for="i in 3"
             :key="i"
             size="small"
-            :style="cardStyle"
           >
             <div class="flex justify-between items-center mb-4">
               <n-skeleton
@@ -93,14 +87,12 @@
         v-show="!maximizedChart"
         content-class="!p-2 sm:!p-4"
         size="small"
-        class="rounded-xl bg-gray-100 dark:bg-gray-800"
-        :style="cardStyle"
+        class="rounded-xl"
       >
         <div class="grid grid-cols-2 md:grid-cols-6 gap-2">
           <n-card
             size="small"
             class="text-center rounded-md"
-            :style="cardStyle"
           >
             <div class="text-sm text-gray-400">
               {{ $t('global.stats.total_pulls') }}
@@ -117,7 +109,6 @@
           <n-card
             size="small"
             class="text-center rounded-md"
-            :style="cardStyle"
           >
             <div class="text-sm text-gray-400">
               {{ $t('global.stats.unique_users') }}
@@ -134,7 +125,6 @@
           <n-card
             size="small"
             class="text-center rounded-md"
-            :style="cardStyle"
           >
             <div class="text-sm text-gray-400">
               {{ $t('global.stats.avg_5star') }}
@@ -151,7 +141,6 @@
           <n-card
             size="small"
             class="text-center rounded-md"
-            :style="cardStyle"
           >
             <div class="text-sm text-gray-400">
               {{ $t('global.stats.avg_4star_type2') }}
@@ -168,7 +157,6 @@
           <n-card
             size="small"
             class="text-center rounded-md"
-            :style="cardStyle"
           >
             <div class="text-sm text-gray-400">
               {{ $t('global.stats.avg_4star_type3') }}
@@ -185,7 +173,6 @@
           <n-card
             size="small"
             class="text-center rounded-md"
-            :style="cardStyle"
           >
             <div class="text-sm text-gray-400">
               {{ $t('global.stats.data_as_of') }}
@@ -211,27 +198,22 @@
         v-show="!maximizedChart || maximizedChart === 'pullsPerBanner'"
         size="small"
         class="rounded-xl mt-2 sm:mt-4"
-        :class="maximizedChart ? '!mt-0 !mb-0' : ''"
-        :style="cardStyle"
+        :class="{ '!mt-0 !mb-0': Boolean(maximizedChart) }"
+        content-class="!p-2 sm:!p-4"
       >
         <!-- Pulls per Banner Chart -->
         <n-card
           size="small"
           class="transition-all duration-300"
-          :class="[
-            maximizedChart === 'pullsPerBanner'
-              ? 'col-span-1 sm:col-span-3'
-              : 'col-span-1 sm:col-span-3',
-          ]"
-          :style="cardStyle"
+          :class="{ 'col-span-1 sm:col-span-3': true }"
         >
           <div
             class="transition-all duration-300"
-            :class="[
-              maximizedChart === 'pullsPerBanner'
-                ? 'h-[calc(100vh-210px)] sm:h-[calc(100vh-160px)]'
-                : 'h-[320px]',
-            ]"
+            :class="{
+              'h-[calc(100vh-210px)] sm:h-[calc(100vh-160px)]':
+                maximizedChart === 'pullsPerBanner',
+              'h-[320px]': maximizedChart !== 'pullsPerBanner',
+            }"
           >
             <div class="absolute top-2 right-12 z-10 flex items-center gap-2">
               <n-switch
@@ -310,27 +292,25 @@
         "
         size="small"
         class="rounded-xl mt-2 sm:mt-4"
-        content-class="grid grid-cols-1 md:grid-cols-3 gap-4"
-        :class="maximizedChart ? '!mt-0 !mb-0' : ''"
-        :style="cardStyle"
+        content-class="grid grid-cols-1 md:grid-cols-3 gap-4 !p-2 sm:!p-4"
+        :class="{ '!mt-0 !mb-0': Boolean(maximizedChart) }"
       >
         <!-- 5★ Distribution Chart -->
         <n-card
           v-show="!maximizedChart || maximizedChart === 'fiveStar'"
           size="small"
           class="transition-all duration-300"
-          :class="[
-            maximizedChart === 'fiveStar' ? 'col-span-1 sm:col-span-3' : '',
-          ]"
-          :style="cardStyle"
+          :class="{
+            'col-span-1 sm:col-span-3': maximizedChart === 'fiveStar',
+          }"
         >
           <div
             class="transition-all duration-300"
-            :class="[
-              maximizedChart === 'fiveStar'
-                ? 'h-[calc(100vh-210px)] sm:h-[calc(100vh-160px)]'
-                : 'h-[200px]',
-            ]"
+            :class="{
+              'h-[calc(100vh-210px)] sm:h-[calc(100vh-160px)]':
+                maximizedChart === 'fiveStar',
+              'h-[200px]': maximizedChart !== 'fiveStar',
+            }"
           >
             <n-button
               size="tiny"
@@ -363,20 +343,17 @@
           v-show="!maximizedChart || maximizedChart === 'fourStarType2'"
           size="small"
           class="transition-all duration-300"
-          :class="[
-            maximizedChart === 'fourStarType2'
-              ? 'col-span-1 sm:col-span-3'
-              : '',
-          ]"
-          :style="cardStyle"
+          :class="{
+            'col-span-1 sm:col-span-3': maximizedChart === 'fourStarType2',
+          }"
         >
           <div
             class="transition-all duration-300"
-            :class="[
-              maximizedChart === 'fourStarType2'
-                ? 'h-[calc(100vh-210px)] sm:h-[calc(100vh-160px)]'
-                : 'h-[200px]',
-            ]"
+            :class="{
+              'h-[calc(100vh-210px)] sm:h-[calc(100vh-160px)]':
+                maximizedChart === 'fourStarType2',
+              'h-[200px]': maximizedChart !== 'fourStarType2',
+            }"
           >
             <n-button
               size="tiny"
@@ -411,20 +388,17 @@
           v-show="!maximizedChart || maximizedChart === 'fourStarType3'"
           size="small"
           class="transition-all duration-300"
-          :class="[
-            maximizedChart === 'fourStarType3'
-              ? 'col-span-1 sm:col-span-3'
-              : '',
-          ]"
-          :style="cardStyle"
+          :class="{
+            'col-span-1 sm:col-span-3': maximizedChart === 'fourStarType3',
+          }"
         >
           <div
             class="transition-all duration-300"
-            :class="[
-              maximizedChart === 'fourStarType3'
-                ? 'h-[calc(100vh-210px)] sm:h-[calc(100vh-160px)]'
-                : 'h-[200px]',
-            ]"
+            :class="{
+              'h-[calc(100vh-210px)] sm:h-[calc(100vh-160px)]':
+                maximizedChart === 'fourStarType3',
+              'h-[200px]': maximizedChart !== 'fourStarType3',
+            }"
           >
             <n-button
               size="tiny"
@@ -459,27 +433,22 @@
         v-show="!maximizedChart || maximizedChart === 'firstItemDistribution'"
         size="small"
         class="rounded-xl mt-2 sm:mt-4"
-        :class="maximizedChart ? '!mt-0 !mb-0' : ''"
-        :style="cardStyle"
+        :class="{ '!mt-0 !mb-0': Boolean(maximizedChart) }"
+        content-class="!p-2 sm:!p-4"
       >
         <!-- First Item Distribution Chart -->
         <n-card
           size="small"
           class="transition-all duration-300"
-          :class="[
-            maximizedChart === 'firstItemDistribution'
-              ? 'col-span-1 sm:col-span-3'
-              : 'col-span-1 sm:col-span-3',
-          ]"
-          :style="cardStyle"
+          :class="{ 'col-span-1 sm:col-span-3': true }"
         >
           <div
             class="transition-all duration-300"
-            :class="[
-              maximizedChart === 'firstItemDistribution'
-                ? 'h-[calc(100vh-210px)] sm:h-[calc(100vh-160px)]'
-                : 'h-[200px]',
-            ]"
+            :class="{
+              'h-[calc(100vh-210px)] sm:h-[calc(100vh-160px)]':
+                maximizedChart === 'firstItemDistribution',
+              'h-[200px]': maximizedChart !== 'firstItemDistribution',
+            }"
           >
             <n-tooltip
               v-if="checkBannerRuns"
@@ -610,9 +579,6 @@
     }
   }
 
-  // Initialize stores
-  const userStore = useUserStore()
-
   // Initialize breakpoints
   const breakpoints = useBreakpoints(breakpointsTailwind)
   const isMobile = ref(false)
@@ -641,8 +607,7 @@
     )
   })
 
-  // Add isDark computed property
-  const isDark = computed(() => userStore.getCurrentTheme === 'dark')
+  const { isDark } = useTheme()
 
   // Chart text style utility
   const getChartTextStyle = () => {
@@ -840,8 +805,6 @@
       createFirstItemDistributionChart(data.value.f)
     }
   }
-
-  const { cardStyle } = useCardStyle()
 
   // initialize all charts
   const initializeCharts = () => {

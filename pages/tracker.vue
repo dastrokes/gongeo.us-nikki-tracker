@@ -7,7 +7,6 @@
         content-class="!p-2 sm:!p-4"
         size="small"
         class="rounded-xl"
-        :style="cardStyle"
       >
         <div
           class="flex-grow grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2"
@@ -17,7 +16,6 @@
             :key="i"
             size="small"
             class="text-center rounded-md"
-            :style="cardStyle"
           >
             <n-skeleton
               height="20px"
@@ -58,7 +56,6 @@
           size="small"
           class="rounded-xl mt-2 sm:mt-4"
           content-class="!p-2 sm:!p-4"
-          :style="cardStyle"
         >
           <div class="space-y-2">
             <!-- Banner Header Skeleton -->
@@ -125,14 +122,12 @@
         content-class="!p-2 sm:!p-4"
         size="small"
         class="rounded-xl"
-        :style="cardStyle"
       >
         <div class="flex items-center justify-between">
           <div
             class="flex-grow grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2"
           >
             <n-card
-              :style="cardStyle"
               size="small"
               class="text-center rounded-md"
             >
@@ -179,7 +174,6 @@
             </n-card>
 
             <n-card
-              :style="cardStyle"
               size="small"
               class="text-center rounded-md"
             >
@@ -205,7 +199,6 @@
             </n-card>
 
             <n-card
-              :style="cardStyle"
               size="small"
               class="text-center rounded-md"
             >
@@ -229,7 +222,6 @@
             </n-card>
 
             <n-card
-              :style="cardStyle"
               size="small"
               class="text-center rounded-md"
             >
@@ -255,7 +247,6 @@
             </n-card>
 
             <n-card
-              :style="cardStyle"
               size="small"
               class="text-center rounded-md"
             >
@@ -282,7 +273,6 @@
 
             <n-card
               v-show="exporting"
-              :style="cardStyle"
               size="small"
               class="text-center rounded-md"
             >
@@ -532,7 +522,6 @@
               content-class="!p-2 sm:!pt-2 sm:!p-4"
               size="small"
               class="rounded-xl min-h-[120px] sm:min-h-[160px] mt-2 sm:mt-4"
-              :style="cardStyle"
             >
               <!-- Banner Header -->
 
@@ -597,8 +586,7 @@
                   <div>
                     <span>{{ t('tracker.banner.stats.total_pulls') }}:</span>
                     <span
-                      class="ml-1 text-lg font-medium"
-                      :class="isDark ? 'text-gray-200' : 'text-gray-600'"
+                      class="ml-1 text-lg font-medium text-gray-600 dark:text-gray-200"
                       >{{ banner.stats.totalPulls }}</span
                     >
                   </div>
@@ -829,7 +817,6 @@
       <n-card
         v-if="!hasAnyData"
         class="text-center rounded-xl"
-        :style="cardStyle"
       >
         <n-empty>
           <template #default>
@@ -861,7 +848,6 @@
             content-class="!p-2 sm:!pt-2 sm:!p-4"
             size="small"
             class="rounded-xl min-h-[120px] sm:min-h-[160px] mt-2 sm:mt-4 opacity-40"
-            :style="cardStyle"
           >
             <!-- Banner Header -->
             <div class="w-full flex flex-col sm:flex-row sm:items-center gap-2">
@@ -971,9 +957,8 @@
   const { processedPulls, globalStats } = storeToRefs(pullStore)
   const { loadData } = useIndexedDB()
   const localePath = useLocalePath()
-  const { cardStyle } = useCardStyle()
-  const userStore = useUserStore()
-  const isDark = computed(() => userStore.getCurrentTheme === 'dark')
+  const { isDark } = useTheme()
+
   const siteUrl = useRuntimeConfig().public.siteUrl
   const loading = ref(true)
   const showPopover = ref(false)

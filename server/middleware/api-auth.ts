@@ -1,6 +1,30 @@
 import { createError } from 'h3'
-import { verifyTimestamp, verifySignature } from '../utils/verify'
 import type { UserBannerStats } from '~/types/stats'
+import { generateSignature } from '~/utils/signature'
+
+const createForbiddenError = () =>
+  createError({
+    statusCode: 403,
+    message: 'Forbidden',
+  })
+
+const verifyTimestamp = (
+  timestamp: number,
+  maxAgeSeconds: number = 10
+): boolean => {
+  const currentTime = Math.floor(Date.now() / 1000)
+  return Math.abs(currentTime - timestamp) <= maxAgeSeconds
+}
+
+const verifySignature = async (
+  signature: string,
+  timestamp: number,
+  payload: UserBannerStats[]
+): Promise<boolean> => {
+  const apiKey = useRuntimeConfig().public.gongeousApiKey || 'api-key'
+  const expectedSignature = await generateSignature(apiKey, timestamp, payload)
+  return signature === expectedSignature
+}
 
 export default defineEventHandler(async (event) => {
   // Only apply to stats routes
@@ -13,26 +37,17 @@ export default defineEventHandler(async (event) => {
   const timestamp = getHeader(event, 'x-timestamp')
 
   if (!signature || !timestamp) {
-    throw createError({
-      statusCode: 403,
-      message: 'Forbidden - Missing signature or timestamp',
-    })
+    throw createForbiddenError()
   }
 
-  const requestTime = parseInt(timestamp)
-  if (!verifyTimestamp(requestTime)) {
-    throw createError({
-      statusCode: 403,
-      message: 'Forbidden - Request expired',
-    })
+  const requestTime = Number(timestamp)
+  if (Number.isNaN(requestTime) || !verifyTimestamp(requestTime)) {
+    throw createForbiddenError()
   }
 
   const body = await readBody<UserBannerStats[]>(event)
 
   if (!(await verifySignature(signature, requestTime, body))) {
-    throw createError({
-      statusCode: 403,
-      message: 'Forbidden - Invalid signature',
-    })
+    throw createForbiddenError()
   }
 })

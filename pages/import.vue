@@ -4,7 +4,6 @@
       v-if="!isMaintenanceMode"
       size="small"
       class="rounded-xl p-0 sm:p-2"
-      :style="cardStyle"
     >
       <!-- Show steps only when not fetching -->
       <template v-if="!isFetching">
@@ -695,7 +694,6 @@
       v-if="isMaintenanceMode"
       size="small"
       class="rounded-xl p-0 sm:p-2"
-      :style="cardStyle"
     >
       <div class="text-center mb-12">
         <n-h1 class="font-bold mb-4">{{ $t('maintenance.title') }}</n-h1>
@@ -890,7 +888,6 @@
     processJsonImport,
     progress,
   } = useBannerPullData()
-  const { cardStyle } = useCardStyle()
 
   // Function to determine region based on timezone
   const determineRegionFromTimezone = () => {

@@ -44,7 +44,7 @@
                 fit="cover"
                 :quality="100"
                 loading="lazy"
-                sizes="400px"
+                sizes="300px"
               />
               <div
                 class="absolute top-1 scale-90 sm:scale-100 z-20"

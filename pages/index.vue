@@ -51,6 +51,7 @@
               <n-button
                 size="small"
                 text
+                :aria-label="$t('navigation.banner')"
                 @click="router.push(localePath('/banner'))"
               >
                 <template #icon>

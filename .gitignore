@@ -29,19 +29,5 @@ components.d.ts
 .env.*
 !.env.example
 
-# Cursor
-.cursor
-.cursorignore
-
-# Windsurf
-.windsurf
-.codeiumignore
-
-# Claude
-.claude
-
-# Kiro
-.kiro
-
 # Sentry Config File
 .env.sentry-build-plugin

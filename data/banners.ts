@@ -507,7 +507,7 @@ export const BANNER_DATA: BannerData = {
       {
         version: '1.10.1',
         start: '2025-09-28',
-        end: '2025-10-28',
+        end: '2025-10-27',
       },
     ],
   },

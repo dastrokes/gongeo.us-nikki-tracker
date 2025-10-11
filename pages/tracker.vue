@@ -1209,8 +1209,6 @@
     showPopover.value = false
 
     try {
-      const { toPng } = await import('html-to-image')
-
       const trackerElement = document.querySelector(
         '.png-export-container'
       ) as HTMLElement
@@ -1220,14 +1218,15 @@
 
       const contentWidth = trackerElement.scrollWidth
       const contentHeight = trackerElement.scrollHeight
+      const backgroundColor = isDark.value ? '#101014' : '#f8fafc'
 
-      const dataUrl = await toPng(trackerElement, {
-        quality: 1,
-        backgroundColor: isDark.value ? '#101014' : '#f8fafc',
+      const { snapdom } = await import('@zumer/snapdom')
+      const image = await snapdom.toPng(trackerElement, {
+        backgroundColor,
         width: contentWidth,
         height: contentHeight,
-        includeQueryParams: true,
       })
+      const dataUrl = image.src
 
       const link = document.createElement('a')
       link.download = `gongeous-${new Date().toISOString().split('T')[0]}.png`

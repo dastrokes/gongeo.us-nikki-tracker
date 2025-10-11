@@ -171,7 +171,7 @@
       "step7": "Für die UID, öffne dein Pearpal-Profil und kopiere deine UID"
     },
     "security_note": "Hinweis: Teile diese Cookie-Werte niemals mit einer anderen Person!",
-    "data_note": "Achtung: Resonanz-Daten nur für 180 Tage auf dem Infold-Server gespeichert werden. Daten vor {date} werden nicht mehr verfügbar sein. Daher kann der betroffene Banner-Verlauf unvollständig sein.",
+    "data_note": "Wichtig: Resonanz-Daten über diese Import-Methode werden nur für 180 Tage gespeichert. Daten vor dem {date} werden nicht verfügbar sein. Du kannst \"Aus Whim-Log importieren\" benutzen, um ältere Daten zu importieren.",
     "form": {
       "uid": "UID",
       "uid_placeholder": "UID vom Spiel",

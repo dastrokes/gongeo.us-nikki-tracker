@@ -1,8 +1,8 @@
 {
   "navigation": {
     "title": "gongeo.us",
-    "subtitle": "Infinity Nikki Resonanztracker",
-    "tracker": "Resonanztracker",
+    "subtitle": "Infinity Nikki Resonanz-Tracker",
+    "tracker": "Resonanz-Tracker",
     "import": "Daten importieren",
     "global": "Globale Daten",
     "banner": "Bannerverlauf",
@@ -18,23 +18,23 @@
     "email": "Nehme über E-Mail Kontakt zu uns auf"
   },
   "meta": {
-    "title": "Infinity Nikki Resonanztracker - Bannerverlauf & Statistiken",
+    "title": "Infinity Nikki Resonanz-Tracker - Bannerverlauf & Statistiken",
     "keywords": "Infinity Nikki, Resonanz Tracker, Resonanztracker, Pull Tracker, Pulltracker, Gacha Tracker, Gachatracker, Pull Verlauf, Pullverlauf, Ziehverlauf, globale Statistiken, globale Statistik, Community Statistiken, Community Statistik, Communitystatistiken, Communitystatistik, Gongeous",
     "description": {
-      "default": "Verfolge Infinity Nikki Resonanzverlauf und Statistiken. Ein Fan-betriebenes Tool für die Infinity Nikki Community.",
-      "login": "Melde dich bei gongeo.us mit einem Drittanbieter-Konto oder mit E-Mail an, lade deine Daten in die Cloud hoch, synchronisiere Daten zwischen Geräten.",
-      "tracker": "Verfolge und analysiere deinen Infinity Nikki Resonanzverlauf und schaue dir alle 5★ und 4★ Stücke deiner Banner an. Vergleiche dein Glück mit dem anderer Spieler.",
-      "import": "Importiere deinen Infinity Nikki Resonanzverlauf von Spieldateien oder Backup-Dateien, mit einer detaillierten Schritt-für-Schritt-Anleitung.",
-      "global": "Entdecke Infinity Nikki Community Resonanz-Daten, einschließlich Bannerbeliebtheit, durchschnittlichen Dropraten, und Verteilungsstatistiken gezogener Stücke.",
-      "banner": "Schau dir den kompletten Infinity Nikki Bannerverlauf an, einschließlich limitierten und permanenten Outfitdetails, Wiederholungsplänen, und Dauer.",
-      "banner_detail": "Schau dir detaillierte Informationen über spezifische Infinity Nikki Banner, inklusive Resonanzstatistiken, Outfit-Fertigstellungsgrad, und Details individueller Stücke, an.",
+      "default": "Verfolge Infinity Nikki Resonanz-Verlauf und Statistiken. Ein Fan-erstelltes Tracking- und Analysewerkzeug für die Infinity Nikki Community.",
+      "login": "Melde dich bei gongeo.us mit E-Mail oder einem Drittanbieter-Konto an, um deine Infinity Nikki Resonanz-Daten über mehrere Geräte hochzuladen, zu sichern und zu synchronisieren.",
+      "tracker": "Verfolge und analysiere deinen Infinity Nikki Resonanz-Verlauf. Schaue dir alle 5★ und 4★ Banner Stücke an. Vergleiche dein Glück mit dem anderer Stylisten.",
+      "import": "Importiere deinen Infinity Nikki Resonanz-Verlauf ganz leicht aus dem Spiel, Whim-Log oder Backup-Dateien, mit detaillierten Schritt-für-Schritt-Anleitungen.",
+      "global": "Erkunde die globalen Infinity Nikki Resonanz-Daten, einschließlich Bannerbeliebtheit, Resonanz-Raten, Stück-Dropraten und Community Resonanz-Statistiken.",
+      "banner": "Schau dir den gesamten Infinity Nikki Resonanz-Verlauf an, einschließlich aktueller und vergangener Events, begrenzter und dauerhafter Banner, Outfit-Details, Banner-Dauer und Wiederholungs-Zeitplan.",
+      "banner_detail": "Schau dir detaillierte Infinity Nikki Resonanz-Banner-Daten an, einschließlich Resonanz-Statistiken, Banner-Outfits und individuelle Stück-Details.",
       "faq": "Finde die Antworten auf häufig gestellte Fragen über gongeo.us, einschließlich Datenschutz, Importmethoden und Nutzungsrichtlinien.",
-      "about": "Lerne mehr über gongeo.us, einschließlich Haftungsausschlüssen, Datenschutzbestimmungen und weitere wichtige Informationen."
+      "about": "Lerne mehr über gongeo.us, einschließlich seiner Zwecke, Datenschutzrichtlinien, Haftungsausschlüsse und wie es die Infinity Nikki Community unterstützt."
     }
   },
   "index": {
     "title": "gongeo.us",
-    "subtitle": "Infinity Nikki Resonanztracker",
+    "subtitle": "Infinity Nikki Resonanz-Tracker",
     "description": "Verfolge Infinity Nikki Resonanzverlauf und Statistiken",
     "your_data": "Deine Daten",
     "current_banners": "Aktuelle Banner",
@@ -441,8 +441,8 @@
       "data_as_of": "Daten von"
     },
     "charts": {
-      "pulls_per_banner": "Resonanzen pro Banner",
-      "five_star_distribution": "5★ Resonanzverteilung",
+      "pulls_per_banner": "Resonanzen per Banner",
+      "five_star_distribution": "5★ Resonanz-Verteilung",
       "four_star_type2_distribution": "4★ Verteilung (5★ Banner)",
       "four_star_type3_distribution": "4★ Verteilung (4★ Banner)",
       "first_item_distribution": "Verteilung des ersten Stückes",

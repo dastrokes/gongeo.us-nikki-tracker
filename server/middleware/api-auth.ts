@@ -2,10 +2,10 @@ import { createError } from 'h3'
 import type { UserBannerStats } from '~/types/stats'
 import { generateSignature } from '~/utils/signature'
 
-const createForbiddenError = () =>
+const createForbiddenError = (type?: string) =>
   createError({
     statusCode: 403,
-    message: 'Forbidden',
+    message: type ? `Forbidden - ${type}` : 'Forbidden',
   })
 
 const verifyTimestamp = (
@@ -37,17 +37,17 @@ export default defineEventHandler(async (event) => {
   const timestamp = getHeader(event, 'x-timestamp')
 
   if (!signature || !timestamp) {
-    throw createForbiddenError()
+    throw createForbiddenError('missing')
   }
 
   const requestTime = Number(timestamp)
   if (Number.isNaN(requestTime) || !verifyTimestamp(requestTime)) {
-    throw createForbiddenError()
+    throw createForbiddenError('expired')
   }
 
   const body = await readBody<UserBannerStats[]>(event)
 
   if (!(await verifySignature(signature, requestTime, body))) {
-    throw createForbiddenError()
+    throw createForbiddenError('invalid')
   }
 })

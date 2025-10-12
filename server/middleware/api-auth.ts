@@ -10,7 +10,7 @@ const createForbiddenError = (type?: string) =>
 
 const verifyTimestamp = (
   timestamp: number,
-  maxAgeSeconds: number = 10
+  maxAgeSeconds: number = 60
 ): boolean => {
   const currentTime = Math.floor(Date.now() / 1000)
   return Math.abs(currentTime - timestamp) <= maxAgeSeconds

@@ -15,14 +15,6 @@
     "lint": "bunx eslint . && bun tsc --noEmit",
     "format": "bunx prettier --write ."
   },
-  "keywords": [
-    "nuxt",
-    "vue",
-    "ssr",
-    "tailwind",
-    "pinia",
-    "naive-ui"
-  ],
   "author": "dastrokes",
   "dependencies": {
     "@nuxt/eslint": "1.9.0",
@@ -58,7 +50,7 @@
     "eslint": "9.37.0",
     "eslint-config-prettier": "10.1.8",
     "husky": "9.1.7",
-    "lint-staged": "16.2.3",
+    "lint-staged": "16.2.4",
     "prettier": "3.6.2",
     "sass": "1.93.2",
     "supabase": "2.48.3",

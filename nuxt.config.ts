@@ -49,9 +49,6 @@ export default defineNuxtConfig({
   },
 
   sitemap: {
-    defaults: {
-      lastmod: '2025-09-28',
-    },
     urls: imageSitemap(),
   },
 

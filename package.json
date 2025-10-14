@@ -5,14 +5,14 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "nuxt build",
     "dev": "nuxi dev --host 0.0.0.0",
+    "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "prepare": "husky",
     "format": "prettier --write .",
+    "prepare": "husky",
     "lint": "eslint . && tsc --noEmit"
   },
   "author": "dastrokes",
@@ -44,6 +44,7 @@
   "devDependencies": {
     "@bg-dev/nuxt-naiveui": "2.0.0",
     "@netlify/edge-functions": "2.19.0",
+    "@types/node": "22.18.10",
     "@typescript-eslint/eslint-plugin": "8.46.1",
     "@typescript-eslint/parser": "8.46.1",
     "@vicons/fa": "0.13.0",
@@ -54,6 +55,7 @@
     "prettier": "3.6.2",
     "sass": "1.93.2",
     "supabase": "2.51.0",
+    "ts-node": "10.9.2",
     "typescript": "5.9.3",
     "unplugin-auto-import": "20.2.0",
     "unplugin-vue-components": "29.1.0",

@@ -815,7 +815,7 @@
 
       <!-- No Data Message -->
       <n-card
-        v-if="!hasAnyData"
+        v-if="false"
         class="text-center rounded-xl"
       >
         <n-empty>
@@ -847,7 +847,7 @@
           <n-card
             content-class="!p-2 sm:!pt-2 sm:!p-4"
             size="small"
-            class="rounded-xl min-h-[120px] sm:min-h-[160px] mt-2 sm:mt-4 opacity-40"
+            class="rounded-xl min-h-[120px] sm:min-h-[160px] mt-2 sm:mt-4"
           >
             <!-- Banner Header -->
             <div class="w-full flex flex-col sm:flex-row sm:items-center gap-2">

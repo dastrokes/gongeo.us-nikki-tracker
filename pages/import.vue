@@ -1,7 +1,7 @@
 <template>
   <div class="max-w-7xl mx-auto space-y-2 sm:space-y-4">
     <n-card
-      v-if="!isMaintenanceMode"
+      v-if="!isMaintenance"
       size="small"
       class="rounded-xl p-0 sm:p-2"
     >
@@ -691,7 +691,7 @@
     </n-card>
 
     <n-card
-      v-if="isMaintenanceMode"
+      v-if="isMaintenance"
       size="small"
       class="rounded-xl p-0 sm:p-2"
     >
@@ -802,17 +802,7 @@
   const showYouTubeModal = ref(false)
   const showBilibiliModal = ref(false)
 
-  const maintenance = useRuntimeConfig().public.maintenance as
-    | string
-    | boolean
-    | undefined
-  const isMaintenanceMode = computed(() => {
-    if (typeof maintenance === 'boolean') return maintenance
-    if (typeof maintenance === 'string') {
-      return maintenance.trim().toLowerCase() === 'true'
-    }
-    return false
-  })
+  const isMaintenance = ref(false)
 
   useHead(() => ({
     title: t('navigation.import') + ' - ' + t('navigation.subtitle'),

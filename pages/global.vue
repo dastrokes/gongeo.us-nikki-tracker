@@ -688,9 +688,7 @@
   const maximizedChart = ref<string | null>(null)
   const selectedOutfit = ref<string | null>(null)
 
-  const latestBannerId = Number(
-    Object.keys(BANNER_DATA)[Object.keys(BANNER_DATA).length - 1]
-  )
+  const latestBannerId = 36
   const latestBanner = BANNER_DATA[latestBannerId]
 
   if (

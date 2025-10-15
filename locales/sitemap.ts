@@ -1,6 +1,7 @@
 import { BANNER_DATA } from '../data/banners'
 import { defaultLocale, i18nLocales } from './locales'
 import OUTFIT_DATA from '../data/outfits'
+import type { BannerRun } from '~/types/banner'
 
 import enOutfit from './en/outfit.json'
 import deOutfit from './de/outfit.json'
@@ -15,6 +16,13 @@ const translations = {
   zh: { outfit: zhOutfit, item: zhItem },
 }
 
+// Get the latest banner run start date
+function getLatestBannerDate(): string {
+  return Object.values(BANNER_DATA)
+    .flatMap((banner) => banner.runs.map((run: BannerRun) => run.start))
+    .reduce((latest, date) => (date > latest ? date : latest), '')
+}
+
 export function imageSitemap() {
   const results: Array<{
     loc: string
@@ -23,7 +31,10 @@ export function imageSitemap() {
       title: string
       caption: string
     }>
+    lastmod: string
   }> = []
+
+  const latestBannerDate = getLatestBannerDate()
 
   // Add main banner page with all banner images
   i18nLocales.forEach(({ code }) => {
@@ -45,6 +56,13 @@ export function imageSitemap() {
     results.push({
       loc: `${prefix}/banner`,
       images: allBannerImages,
+      lastmod: latestBannerDate,
+    })
+
+    results.push({
+      loc: `${prefix}/`,
+      images: [],
+      lastmod: latestBannerDate,
     })
   })
 

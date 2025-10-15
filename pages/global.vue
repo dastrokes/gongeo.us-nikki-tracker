@@ -543,6 +543,7 @@
 <script setup lang="ts">
   import type { TreeSelectOption } from 'naive-ui'
   import { BANNER_DATA } from '~/data/banners'
+  import OUTFIT_DATA, { type OutfitKey } from '~/data/outfits'
   import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
   import {
     ExpandAlt,
@@ -687,6 +688,8 @@
 
   const maximizedChart = ref<string | null>(null)
   const selectedOutfit = ref<string | null>(null)
+  const hasOutfit = (id: string): id is OutfitKey =>
+    Object.prototype.hasOwnProperty.call(OUTFIT_DATA, id)
 
   const latestBannerId = 38
   const latestBanner = BANNER_DATA[latestBannerId]
@@ -1026,7 +1029,7 @@
     let labels = Object.keys(chartData)
     let values = Object.values(chartData)
 
-    // For 4-star in 5-star banners only, group 12+ together
+    // Adjust distribution buckets per chart type
     if (chartType === 'fourStarType2') {
       const processedData: Record<string, number> = {}
 
@@ -1042,6 +1045,20 @@
 
       labels = Object.keys(processedData)
       values = Object.values(processedData)
+    } else if (chartType === 'fiveStar') {
+      const filteredEntries = Object.entries(chartData).filter(
+        ([pullCount]) => parseInt(pullCount) <= 20
+      )
+
+      labels = filteredEntries.map(([pullCount]) => pullCount)
+      values = filteredEntries.map(([, occurrences]) => occurrences as number)
+    } else if (chartType === 'fourStarType3') {
+      const filteredEntries = Object.entries(chartData).filter(
+        ([pullCount]) => parseInt(pullCount) <= 5
+      )
+
+      labels = filteredEntries.map(([pullCount]) => pullCount)
+      values = filteredEntries.map(([, occurrences]) => occurrences as number)
     }
 
     const total = values.reduce((sum: number, val: number) => sum + val, 0)
@@ -1222,9 +1239,9 @@
     }
 
     // Parse the selected outfit value to get banner ID, rarity, and outfit ID
-    const [bannerId, rarity, _outfitId] = (
-      selectedOutfit.value as string
-    ).split('_')
+    const [bannerId, rarity, outfitId] = (selectedOutfit.value as string).split(
+      '_'
+    )
     const bannerIdNum = parseInt(bannerId || '0')
 
     // For type 2 banners, use the special key format (e.g., "30_4" for banner 30, 4-star)
@@ -1240,18 +1257,42 @@
 
     const bannerItems = chartData[dataKey]
     if (!bannerItems) return null
+    const outfitItems =
+      outfitId && hasOutfit(outfitId) ? OUTFIT_DATA[outfitId].items : []
+
+    const bannerItemsMap = new Map(
+      bannerItems.map((item: { o: number; i: string }) => [item.i, item])
+    )
+    const outfitItemsSet = new Set(outfitItems)
+
+    const completeBannerItems = outfitItems.length
+      ? [
+          ...outfitItems.map((itemId) => ({
+            o: bannerItemsMap.get(itemId)?.o ?? 0,
+            i: itemId,
+          })),
+          ...bannerItems.filter((item) => !outfitItemsSet.has(item.i)),
+        ]
+      : [...bannerItems]
+    completeBannerItems.sort((a, b) => b.o - a.o)
+
     // Calculate total for percentage
-    const totalOccurrences = bannerItems.reduce(
+    const totalOccurrences = completeBannerItems.reduce(
       (sum: number, item: { o: number }) => sum + item.o,
       0
     )
-    const dataArr = bannerItems.map((item: { o: number; i: string }) => ({
-      value: item.o,
-      percentage: ((item.o / totalOccurrences) * 100).toFixed(2),
-      itemId: item.i,
-    }))
+    const dataArr = completeBannerItems.map(
+      (item: { o: number; i: string }) => ({
+        value: item.o,
+        percentage:
+          totalOccurrences > 0
+            ? ((item.o / totalOccurrences) * 100).toFixed(2)
+            : '0.00',
+        itemId: item.i,
+      })
+    )
     // Prepare itemId to item mapping for labels
-    const itemsData = bannerItems.map((item: { i: string }) => item.i)
+    const itemsData = completeBannerItems.map((item: { i: string }) => item.i)
     const richLabels: Record<
       string,
       {

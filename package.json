@@ -4,6 +4,9 @@
   "description": "Infinity Nikki Resonance Tracker",
   "private": true,
   "type": "module",
+  "author": "dastrokes",
+  "license": "MIT",
+  "homepage": "https://gongeo.us",
   "scripts": {
     "dev": "nuxi dev --host 0.0.0.0",
     "build": "nuxt build",
@@ -15,7 +18,6 @@
     "prepare": "husky",
     "lint": "eslint . && tsc --noEmit"
   },
-  "author": "dastrokes",
   "dependencies": {
     "@nuxt/eslint": "1.9.0",
     "@nuxt/fonts": "0.11.4",

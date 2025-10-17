@@ -55,8 +55,8 @@ export const config: Config = {
 
     // Public images and static content
     '/images/**.webp',
-    '/.netlify/images**.webp', // Netlify Image CDN endpoint
-    '/_ipx/**.webp',
+    '/.netlify/images**', // Netlify Image CDN endpoint
+    '/_ipx/**',
 
     // Other static files
     '/apple-touch-icon*.png',

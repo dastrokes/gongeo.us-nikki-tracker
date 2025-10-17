@@ -38,6 +38,7 @@ export const config: Config = {
     '/api/stats',
 
     // Static Nuxt assets
+    '/_nuxt/**.json',
     '/_nuxt/**.js',
     '/_nuxt/**.js.map',
     '/_nuxt/**.css',
@@ -54,7 +55,7 @@ export const config: Config = {
 
     // Public images and static content
     '/images/**.webp',
-    '/.netlify/images/**.webp', // Netlify Image CDN endpoint
+    '/.netlify/images**.webp', // Netlify Image CDN endpoint
     '/_ipx/**.webp',
 
     // Other static files

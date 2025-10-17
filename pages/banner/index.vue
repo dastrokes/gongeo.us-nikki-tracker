@@ -102,6 +102,7 @@
           </template>
           <template #header>
             <NuxtLink
+              no-prefetch
               :to="localePath(`/banner/${banner.bannerId}`)"
               class="inline w-fit hover:opacity-95 transition-opacity"
             >
@@ -211,6 +212,7 @@
                   class="flex flex-col items-center space-y-1 max-w-2xl mx-auto"
                 >
                   <NuxtLink
+                    no-prefetch
                     :to="localePath(`/banner/${banner.bannerId}`)"
                     class="w-full aspect-[2/1] min-h-[140px] sm:min-h-[330px] relative overflow-hidden rounded-lg hover:opacity-95 transition-opacity"
                   >

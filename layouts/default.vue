@@ -19,6 +19,7 @@
             </n-icon>
           </n-button>
           <NuxtLink
+            no-prefetch
             :to="localePath('/')"
             class="pl-2"
             @click.prevent="showSider = false"

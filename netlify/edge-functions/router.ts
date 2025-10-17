@@ -69,6 +69,7 @@ export const config: Config = {
     '/sitemap.xml',
     '/sitemap_index.xml',
     '/__sitemap__/**.xml',
+    '/__sitemap__/style.xsl',
     '/og.png',
   ] as `/${string}`[],
 }

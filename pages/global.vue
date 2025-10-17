@@ -469,17 +469,13 @@
               </template>
               {{ t('global.charts.first_item_distribution_tooltip') }}
             </n-tooltip>
-            <n-tooltip>
+            <n-tooltip v-if="bannerDetailPath">
               <template #trigger>
                 <n-button
                   size="tiny"
                   text
                   class="absolute top-4 left-4 z-10"
-                  @click="
-                    router.push(
-                      `${localePath('/banner')}/${BANNER_DATA[Number(selectedOutfit!.split('_')[0])]?.bannerId}`
-                    )
-                  "
+                  @click="goToSelectedBanner"
                 >
                   <template #icon>
                     <n-icon :depth="3">
@@ -688,6 +684,40 @@
 
   const maximizedChart = ref<string | null>(null)
   const selectedOutfit = ref<string | null>(null)
+
+  interface SelectedOutfitDetails {
+    bannerId: number
+    rarity: string
+    outfitId?: string
+  }
+
+  const getSelectedOutfitDetails = (): SelectedOutfitDetails | null => {
+    const value = selectedOutfit.value
+    if (!value) return null
+
+    const [bannerIdRaw, rarity, outfitId] = value.split('_')
+    if (!bannerIdRaw) return null
+
+    const bannerId = Number.parseInt(bannerIdRaw, 10)
+    if (Number.isNaN(bannerId) || !rarity) return null
+
+    return {
+      bannerId,
+      rarity,
+      outfitId,
+    }
+  }
+
+  const bannerDetailPath = computed(() => {
+    const outfitDetails = getSelectedOutfitDetails()
+    if (!outfitDetails) return null
+
+    const banner = BANNER_DATA[outfitDetails.bannerId]
+    if (!banner?.bannerId) return null
+
+    return `${localePath('/banner')}/${banner.bannerId}`
+  })
+
   const hasOutfit = (id: string): id is OutfitKey =>
     Object.prototype.hasOwnProperty.call(OUTFIT_DATA, id)
 
@@ -796,20 +826,20 @@
   }
 
   const showTooltip = computed(() => {
-    if (!selectedOutfit.value) return false
+    const outfitDetails = getSelectedOutfitDetails()
+    if (!outfitDetails) return false
 
-    const [bannerIdString] = (selectedOutfit.value as string).split('_')
-    const bannerId = Number(bannerIdString)
-    if (Number.isNaN(bannerId)) return false
-
-    return !checkBannerRuns(bannerId)
+    return !checkBannerRuns(outfitDetails.bannerId)
   })
 
   // Function to manually update first item chart when outfit selection changes
-  const updateFirstItemChart = (newOutfitValue: TreeSelectOption) => {
-    if (data.value?.f && newOutfitValue) {
-      createFirstItemDistributionChart(data.value.f)
+  const updateFirstItemChart = (outfitValue: TreeSelectOption | null) => {
+    if (!data.value?.f || !outfitValue) {
+      firstItemDistributionChartOption.value = {}
+      return
     }
+
+    createFirstItemDistributionChart(data.value.f)
   }
 
   // initialize all charts
@@ -819,7 +849,7 @@
       if (data.value?.f5) createFiveStarDistributionChart(data.value.f5)
       if (data.value?.f4_2) createFourStarType2Chart(data.value.f4_2)
       if (data.value?.f4_3) createFourStarType3Chart(data.value.f4_3)
-      if (data.value?.f && selectedOutfit.value) {
+      if (data.value?.f) {
         createFirstItemDistributionChart(data.value.f)
       }
     } catch (error) {
@@ -829,6 +859,11 @@
 
   const toggleMaximize = (chartId: string | null) => {
     maximizedChart.value = maximizedChart.value === chartId ? null : chartId
+  }
+
+  const goToSelectedBanner = () => {
+    if (!bannerDetailPath.value) return
+    router.push(bannerDetailPath.value)
   }
 
   // Function to manually update pulls per banner chart when banner type selection changes
@@ -1232,31 +1267,27 @@
   const createFirstItemDistributionChart = (
     chartData: Record<string, { o: number; i: string }[]>
   ) => {
-    if (!chartData || !selectedOutfit.value) {
-      // Clear the chart if no outfit is selected
+    const parsed = getSelectedOutfitDetails()
+    if (!chartData || !parsed) {
       firstItemDistributionChartOption.value = {}
-      return null
+      return
     }
 
-    // Parse the selected outfit value to get banner ID, rarity, and outfit ID
-    const [bannerId, rarity, outfitId] = (selectedOutfit.value as string).split(
-      '_'
-    )
-    const bannerIdNum = parseInt(bannerId || '0')
+    const { bannerId, rarity, outfitId } = parsed
 
     // For type 2 banners, use the special key format (e.g., "30_4" for banner 30, 4-star)
     // For other banners, use the regular banner ID
-    let dataKey = bannerIdNum.toString()
-    if (BANNER_DATA[bannerIdNum]?.bannerType === 2 && rarity === '4') {
+    let dataKey = bannerId.toString()
+    if (BANNER_DATA[bannerId]?.bannerType === 2 && rarity === '4') {
       dataKey = `${bannerId}_${rarity}`
     }
 
-    if (!chartData[dataKey]) {
-      return null
+    const bannerItems = chartData[dataKey]
+    if (!bannerItems || bannerItems.length === 0) {
+      firstItemDistributionChartOption.value = {}
+      return
     }
 
-    const bannerItems = chartData[dataKey]
-    if (!bannerItems) return null
     const outfitItems =
       outfitId && hasOutfit(outfitId) ? OUTFIT_DATA[outfitId].items : []
 

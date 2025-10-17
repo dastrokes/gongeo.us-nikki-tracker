@@ -32,7 +32,9 @@
       v-for="(banner, index) in banners"
       :key="banner.bannerId"
       class="rounded-xl aspect-[2/1]"
-      ><NuxtLink
+    >
+      <NuxtLink
+        no-prefetch
         :to="localePath(`/banner/${banner.bannerId}`)"
         class="hover:opacity-95 transition-opacity"
         ><ClientOnly>

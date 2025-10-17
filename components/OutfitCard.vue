@@ -21,11 +21,8 @@
           :src="image[1]"
           :alt="`${t(`outfit.${outfitId}.name`)} ${image[0] === 0 ? 'Base' : `LV${image[0]}`}`"
           class="absolute inset-0 w-full h-full object-contain z-10"
-          format="webp"
           width="300"
           height="450"
-          fit="cover"
-          :quality="100"
           loading="lazy"
           sizes="300px"
         />

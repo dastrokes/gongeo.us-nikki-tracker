@@ -40,6 +40,7 @@ export const config: Config = {
     // Static Nuxt assets
     '/_nuxt/**.js',
     '/_nuxt/**.js.map',
+    '/_nuxt/**.css',
 
     // Nuxt payload files
     '**/_payload.json',

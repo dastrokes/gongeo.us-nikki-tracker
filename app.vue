@@ -4,15 +4,11 @@
     :theme-overrides="themeOverrides"
   >
     <n-message-provider>
-      <n-notification-provider>
-        <n-modal-provider>
-          <n-dialog-provider>
-            <NuxtLayout>
-              <NuxtPage />
-            </NuxtLayout>
-          </n-dialog-provider>
-        </n-modal-provider>
-      </n-notification-provider>
+      <n-dialog-provider>
+        <NuxtLayout>
+          <NuxtPage />
+        </NuxtLayout>
+      </n-dialog-provider>
     </n-message-provider>
   </n-config-provider>
 </template>

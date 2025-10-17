@@ -12,12 +12,9 @@
           src="/images/404.webp"
           alt="404"
           class="w-2/3 h-2/3 object-cover"
-          format="webp"
           width="400"
           height="400"
-          fit="cover"
-          :quality="100"
-          sizes="400px sm:400px"
+          sizes="200px"
         />
       </template>
       <template #footer>

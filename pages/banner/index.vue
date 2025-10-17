@@ -381,9 +381,11 @@
 
   watch(
     () => route.hash,
-    async (hash) => {
+    async (hash: string | null) => {
       if (!hash) return
-      await scrollToBanner(hash.slice(1), {
+      const bannerId = Number(hash.slice(1))
+      if (isNaN(bannerId)) return
+      await scrollToBanner(bannerId, {
         behavior: 'instant',
         wait: 'frame',
       })

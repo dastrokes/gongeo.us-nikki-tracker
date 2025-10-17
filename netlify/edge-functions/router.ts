@@ -38,18 +38,23 @@ export const config: Config = {
     '/api/stats',
 
     // Static Nuxt assets
-    '/_nuxt/**',
+    '/_nuxt/**.js',
+    '/_nuxt/**.js.map',
 
     // Nuxt payload files
     '**/_payload.json',
 
+    // i18n files
+    '/_i18n/**/messages.json',
+
     // Fonts and other internal assets
-    '/_fonts/**',
+    '/_fonts/**.woff',
+    '/_fonts/**.woff2',
 
     // Public images and static content
-    '/images/**',
-    '/.netlify/images', // Netlify Image CDN endpoint
-    '/_ipx/**',
+    '/images/**.webp',
+    '/.netlify/images/**.webp', // Netlify Image CDN endpoint
+    '/_ipx/**.webp',
 
     // Other static files
     '/apple-touch-icon*.png',
@@ -61,7 +66,7 @@ export const config: Config = {
     '/ads.txt',
     '/sitemap.xml',
     '/sitemap_index.xml',
-    '/__sitemap__/**',
+    '/__sitemap__/**.xml',
     '/og.png',
   ] as `/${string}`[],
 }

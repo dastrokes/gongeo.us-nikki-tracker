@@ -529,6 +529,7 @@
                 class="w-full flex flex-col sm:flex-row sm:items-center gap-2"
               >
                 <NuxtLink
+                  no-prefetch
                   :to="localePath(`/banner/${banner.bannerId}`)"
                   class="inline w-fit hover:opacity-95 transition-opacity"
                 >
@@ -852,6 +853,7 @@
             <!-- Banner Header -->
             <div class="w-full flex flex-col sm:flex-row sm:items-center gap-2">
               <NuxtLink
+                no-prefetch
                 :to="localePath(`/banner/${banner.bannerId}`)"
                 class="inline w-fit hover:opacity-95 transition-opacity"
               >

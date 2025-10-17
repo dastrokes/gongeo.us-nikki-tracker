@@ -38,11 +38,8 @@
                 :src="image.src"
                 :alt="image.alt"
                 class="absolute inset-0 w-full h-full object-contain z-10"
-                format="webp"
                 width="400"
                 height="600"
-                fit="cover"
-                :quality="100"
                 loading="lazy"
                 sizes="300px"
               />

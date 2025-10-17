@@ -19,11 +19,8 @@
                     :src="`/images/banners/thumbnails/${banner.bannerId}.webp`"
                     :alt="t(`banner.${banner.bannerId}.name`)"
                     class="w-24 h-12 rounded-lg object-cover"
-                    format="webp"
                     width="100"
                     height="50"
-                    fit="cover"
-                    :quality="100"
                     loading="lazy"
                     @click="handleBannerClick(banner.bannerId)"
                   />
@@ -230,11 +227,8 @@
                           :src="`/images/banners/${banner.bannerId}.webp`"
                           :alt="t(`banner.${banner.bannerId}.name`)"
                           class="absolute inset-0 w-full h-full object-cover"
-                          format="webp"
                           width="1000"
                           height="500"
-                          fit="cover"
-                          :quality="100"
                           loading="lazy"
                           sizes="400px sm:800px"
                         />

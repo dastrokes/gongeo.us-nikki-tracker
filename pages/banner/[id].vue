@@ -60,11 +60,8 @@
                       :src="`/images/banners/thumbnails/${prevBanner.bannerId}.webp`"
                       :alt="t(`banner.${prevBanner.bannerId}.name`)"
                       class="w-full h-full object-cover rounded"
-                      format="webp"
                       width="100"
                       height="50"
-                      fit="cover"
-                      :quality="100"
                       loading="lazy"
                     />
                   </div>
@@ -112,11 +109,8 @@
                       :src="`/images/banners/thumbnails/${nextBanner.bannerId}.webp`"
                       :alt="t(`banner.${nextBanner.bannerId}.name`)"
                       class="w-full h-full object-cover rounded"
-                      format="webp"
                       width="100"
                       height="50"
-                      fit="cover"
-                      :quality="100"
                       loading="lazy"
                     />
                   </div>
@@ -177,11 +171,8 @@
                   :src="`/images/banners/${banner.bannerId}.webp`"
                   :alt="t(`banner.${banner.bannerId}.name`)"
                   class="absolute inset-0 w-full h-full object-cover"
-                  format="webp"
                   width="1000"
                   height="500"
-                  fit="cover"
-                  :quality="100"
                   loading="lazy"
                   sizes="400px sm:800px"
                 />
@@ -573,11 +564,8 @@
                               :src="`/images/items/${rewardId}.webp`"
                               :alt="t(`item.${rewardId}.name`)"
                               class="w-full h-full object-cover"
-                              format="webp"
                               width="120"
                               height="120"
-                              fit="cover"
-                              :quality="100"
                               loading="lazy"
                               placeholder="/images/loading.webp"
                               sizes="80px sm:120px"

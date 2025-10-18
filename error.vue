@@ -14,6 +14,7 @@
           class="w-2/3 h-2/3 object-cover"
           width="400"
           height="400"
+          fit="cover"
           sizes="200px"
         />
       </template>

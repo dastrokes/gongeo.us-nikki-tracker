@@ -23,6 +23,7 @@
           class="absolute inset-0 w-full h-full object-contain z-10"
           width="300"
           height="450"
+          fit="cover"
           loading="lazy"
           sizes="300px"
         />

@@ -40,6 +40,7 @@
                 class="absolute inset-0 w-full h-full object-contain z-10"
                 width="400"
                 height="600"
+                fit="cover"
                 loading="lazy"
                 sizes="300px"
               />

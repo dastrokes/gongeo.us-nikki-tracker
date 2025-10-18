@@ -39,9 +39,6 @@ export default defineNuxtConfig({
       fallbackLocale: defaultLocale,
       redirectOn: 'no prefix',
     },
-    bundle: {
-      optimizeTranslationDirective: false,
-    },
   },
 
   site: {

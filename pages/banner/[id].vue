@@ -62,6 +62,7 @@
                       class="w-full h-full object-cover rounded"
                       width="100"
                       height="50"
+                      fit="cover"
                       loading="lazy"
                     />
                   </div>
@@ -111,6 +112,7 @@
                       class="w-full h-full object-cover rounded"
                       width="100"
                       height="50"
+                      fit="cover"
                       loading="lazy"
                     />
                   </div>
@@ -171,8 +173,9 @@
                   :src="`/images/banners/${banner.bannerId}.webp`"
                   :alt="t(`banner.${banner.bannerId}.name`)"
                   class="absolute inset-0 w-full h-full object-cover"
-                  width="1000"
-                  height="500"
+                  width="800"
+                  height="400"
+                  fit="cover"
                   loading="lazy"
                   sizes="400px sm:800px"
                 />
@@ -566,6 +569,7 @@
                               class="w-full h-full object-cover"
                               width="120"
                               height="120"
+                              fit="cover"
                               loading="lazy"
                               placeholder="/images/loading.webp"
                               sizes="80px sm:120px"

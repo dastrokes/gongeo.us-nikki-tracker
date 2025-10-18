@@ -56,6 +56,7 @@
                     class="w-full aspect-square object-cover rounded-md"
                     width="120"
                     height="120"
+                    fit="cover"
                     loading="lazy"
                     placeholder="/images/loading.webp"
                     sizes="80px sm:120px"

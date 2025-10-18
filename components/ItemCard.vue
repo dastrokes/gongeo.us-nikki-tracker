@@ -18,6 +18,7 @@
           class="w-full h-full object-cover aspect-square"
           width="120"
           height="120"
+          fit="cover"
           loading="lazy"
           sizes="80px sm:120px"
         />
@@ -28,6 +29,7 @@
           class="w-full h-full object-cover aspect-square"
           width="120"
           height="120"
+          fit="cover"
           loading="lazy"
           placeholder="/images/loading.webp"
           sizes="80px sm:120px"

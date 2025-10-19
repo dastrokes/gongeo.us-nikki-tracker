@@ -693,13 +693,13 @@
 
   const getSelectedOutfitDetails = (): SelectedOutfitDetails | null => {
     const value = selectedOutfit.value
-    if (!value) return null
+    if (typeof value !== 'string' || value.length === 0) return null
 
     const [bannerIdRaw, rarity, outfitId] = value.split('_')
-    if (!bannerIdRaw) return null
+    if (!bannerIdRaw || !rarity) return null
 
     const bannerId = Number.parseInt(bannerIdRaw, 10)
-    if (Number.isNaN(bannerId) || !rarity) return null
+    if (Number.isNaN(bannerId)) return null
 
     return {
       bannerId,
@@ -833,8 +833,13 @@
   })
 
   // Function to manually update first item chart when outfit selection changes
-  const updateFirstItemChart = (outfitValue: TreeSelectOption | null) => {
-    if (!data.value?.f || !outfitValue) {
+  const updateFirstItemChart = (outfitValue: string | number | null) => {
+    if (!data.value?.f) {
+      firstItemDistributionChartOption.value = {}
+      return
+    }
+
+    if (typeof outfitValue !== 'string' || !outfitValue.includes('_')) {
       firstItemDistributionChartOption.value = {}
       return
     }

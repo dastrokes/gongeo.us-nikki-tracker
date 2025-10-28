@@ -105,9 +105,10 @@
   const localePath = useLocalePath()
   const router = useRouter()
 
-  const leftBanners = [BANNER_DATA[36]] as Banner[]
-  const rightBanners = [BANNER_DATA[37], BANNER_DATA[38]] as Banner[]
-  const targetTime = new Date('2025-10-27T20:00:00Z') // UTC
+  // TODO: update to current banner id
+  const leftBanners = [BANNER_DATA[39]] as Banner[]
+  const rightBanners = [] as Banner[]
+  const targetTime = new Date('2025-11-25T20:00:00Z') // UTC
 
   const indexA = ref(0)
   const indexB = ref(0)

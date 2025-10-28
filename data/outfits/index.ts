@@ -53,6 +53,8 @@ import S0250 from './S0250'
 import S0251 from './S0251'
 import S0252 from './S0252'
 import S0258 from './S0258'
+import S0279 from './S0279'
+import S0289 from './S0289'
 import S0313 from './S0313'
 import S0330 from './S0330'
 import S0331 from './S0331'
@@ -115,6 +117,8 @@ const OUTFIT_DATA = {
   S0251,
   S0252,
   S0258,
+  S0279,
+  S0289,
   S0313,
   S0330,
   S0331,

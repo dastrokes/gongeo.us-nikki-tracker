@@ -164,6 +164,7 @@
     InfoCircle,
     Discord,
     Magic,
+    Poll,
   } from '@vicons/fa'
   import { h, ref, computed, watch } from 'vue'
   import UserProfile from '~/components/UserProfile.vue'
@@ -288,6 +289,11 @@
         label: t('navigation.banner'),
         key: 'banner',
         icon: renderIcon(CalendarAlt),
+      },
+      {
+        label: t('vote.title'),
+        key: 'vote',
+        icon: renderIcon(Poll),
       },
       {
         label: t('navigation.faq'),

@@ -6,44 +6,79 @@
       size="small"
       class="rounded-xl"
     >
-      <div class="flex items-start justify-between gap-4">
+      <div class="flex flex-col sm:flex-row items-start gap-4">
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 flex-1">
-          <n-statistic
-            :label="t('vote.stats.totalVotes')"
-            :value="stats.totalVotes"
-          >
+          <n-statistic :label="t('vote.stats.totalVotes')">
+            <template #default>
+              <n-number-animation
+                :from="0"
+                :to="stats.totalVotes"
+                :duration="1000"
+              />
+            </template>
             <template #suffix>
               <n-icon><Poll /></n-icon>
             </template>
           </n-statistic>
-          <n-statistic
-            :label="t('vote.stats.totalVoters')"
-            :value="stats.totalVoters"
-          >
+          <n-statistic :label="t('vote.stats.totalVoters')">
+            <template #default>
+              <n-number-animation
+                :from="0"
+                :to="stats.totalVoters"
+                :duration="1000"
+              />
+            </template>
             <template #suffix>
               <n-icon><Users /></n-icon>
             </template>
           </n-statistic>
-          <n-statistic
-            :label="t('vote.stats.avgVotes')"
-            :value="stats.averageVotesPerVoter.toFixed(1)"
-          >
+          <n-statistic :label="t('vote.stats.avgVotes')">
+            <template #default>
+              <n-number-animation
+                :from="0"
+                :to="stats.averageVotesPerVoter"
+                :duration="1000"
+                :precision="1"
+              />
+            </template>
             <template #suffix>
               <n-icon><ChartBar /></n-icon>
             </template>
           </n-statistic>
         </div>
-        <n-button
-          text
-          :loading="rankingsLoading"
-          size="small"
-          circle
-          @click="refreshRankings"
-        >
-          <template #icon>
-            <n-icon><Sync /></n-icon>
-          </template>
-        </n-button>
+        <div class="flex gap-2 self-center sm:self-start">
+          <n-tooltip :delay="500">
+            <template #trigger>
+              <n-button
+                text
+                size="small"
+                circle
+                @click="navigateToVote"
+              >
+                <template #icon>
+                  <n-icon><CheckSquare /></n-icon>
+                </template>
+              </n-button>
+            </template>
+            {{ t('vote.rankings.voteMore') }}
+          </n-tooltip>
+          <n-tooltip :delay="500">
+            <template #trigger>
+              <n-button
+                text
+                :loading="rankingsLoading"
+                size="small"
+                circle
+                @click="refreshRankings"
+              >
+                <template #icon>
+                  <n-icon><Sync /></n-icon>
+                </template>
+              </n-button>
+            </template>
+            {{ t('vote.rankings.refresh') }}
+          </n-tooltip>
+        </div>
       </div>
     </n-card>
 
@@ -73,21 +108,12 @@
       </div>
     </n-card>
 
-    <!-- Vote More Button -->
-    <div class="flex justify-center mt-4">
-      <n-button
-        type="primary"
-        size="large"
-        @click="navigateToVote"
-      >
-        {{ t('vote.rankings.voteMore') }}
-      </n-button>
-    </div>
+
   </div>
 </template>
 
 <script setup lang="ts">
-  import { Poll, Trophy, Users, ChartBar, Sync } from '@vicons/fa'
+  import { Poll, Trophy, Users, ChartBar, Sync, CheckSquare } from '@vicons/fa'
   import { BANNER_DATA } from '~/data/banners'
   import type { BannerRanking, VoteStats } from '~/types/vote'
   import type { DataTableColumns } from 'naive-ui'

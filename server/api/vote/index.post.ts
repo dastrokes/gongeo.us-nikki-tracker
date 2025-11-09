@@ -1,14 +1,6 @@
 import { useSupabaseClient } from '~/composables/useSupabaseClient'
 import { getVersion1xBannerIdsExcludingPermanent } from '~/utils/bannerVote'
 
-interface RawRanking {
-  banner_id: number
-  elo_rating: number
-  wins: number
-  losses: number
-  updated_at?: string
-}
-
 export default defineEventHandler(async (event) => {
   const supabase = useSupabaseClient('server')
 
@@ -74,123 +66,22 @@ export default defineEventHandler(async (event) => {
       }
     }
 
-    // Get current rankings for both banners (auto-initialize if missing)
-    const { data: currentRankings } = await supabase
-      .from('banner_rankings')
-      .select('*')
-      .in('banner_id', [banner_id_1, banner_id_2])
+    // Call the database function to process vote atomically
+    // This eliminates race conditions by handling everything in a single transaction
+    const result = await supabase.rpc('process_vote', {
+      p_banner_id_1: banner_id_1,
+      p_banner_id_2: banner_id_2,
+      p_winner_id: winner_id,
+      p_voter_fingerprint: voter_fingerprint || null,
+      p_k_factor: 32, // ELO K-factor, adjust as needed
+    } as never)
 
-    // If table doesn't exist or rankings missing, initialize them
-    const defaultRanking: RawRanking = {
-      banner_id: 0,
-      elo_rating: 1500,
-      wins: 0,
-      losses: 0,
+    if (result.error) {
+      console.error('Failed to process vote:', result.error)
+      throw result.error
     }
 
-    let ranking1: RawRanking | undefined = (
-      currentRankings as RawRanking[] | null
-    )?.find((r) => r.banner_id === banner_id_1)
-    let ranking2: RawRanking | undefined = (
-      currentRankings as RawRanking[] | null
-    )?.find((r) => r.banner_id === banner_id_2)
-
-    // Auto-initialize missing rankings
-    if (!ranking1) {
-      const { data: inserted1 } = await supabase
-        .from('banner_rankings')
-        .upsert({
-          banner_id: banner_id_1,
-          elo_rating: defaultRanking.elo_rating,
-          wins: defaultRanking.wins,
-          losses: defaultRanking.losses,
-        } as never)
-        .select()
-        .single()
-      ranking1 = (inserted1 as unknown as RawRanking) || {
-        banner_id: banner_id_1,
-        elo_rating: 1500,
-        wins: 0,
-        losses: 0,
-      }
-    }
-
-    if (!ranking2) {
-      const { data: inserted2 } = await supabase
-        .from('banner_rankings')
-        .upsert({
-          banner_id: banner_id_2,
-          elo_rating: defaultRanking.elo_rating,
-          wins: defaultRanking.wins,
-          losses: defaultRanking.losses,
-        } as never)
-        .select()
-        .single()
-      ranking2 = (inserted2 as unknown as RawRanking) || {
-        banner_id: banner_id_2,
-        elo_rating: 1500,
-        wins: 0,
-        losses: 0,
-      }
-    }
-
-    // Calculate new ELO ratings
-    const { updateEloRatingsIncremental } = await import(
-      '~/utils/incrementalRankings'
-    )
-    const { banner1NewElo, banner2NewElo } = updateEloRatingsIncremental(
-      banner_id_1,
-      Number(ranking1.elo_rating),
-      banner_id_2,
-      Number(ranking2.elo_rating),
-      winner_id
-    )
-
-    // Update stats (only store wins and losses, other fields are calculated)
-    const isBanner1Winner = winner_id === banner_id_1
-
-    const newRanking1 = {
-      banner_id: banner_id_1,
-      elo_rating: banner1NewElo,
-      wins: Number(ranking1.wins) + (isBanner1Winner ? 1 : 0),
-      losses: Number(ranking1.losses) + (isBanner1Winner ? 0 : 1),
-      updated_at: new Date().toISOString(),
-    }
-
-    const newRanking2 = {
-      banner_id: banner_id_2,
-      elo_rating: banner2NewElo,
-      wins: Number(ranking2.wins) + (isBanner1Winner ? 0 : 1),
-      losses: Number(ranking2.losses) + (isBanner1Winner ? 1 : 0),
-      updated_at: new Date().toISOString(),
-    }
-
-    // Record the vote
-    const voteData = {
-      banner_id_1,
-      banner_id_2,
-      winner_id,
-      voter_fingerprint: voter_fingerprint || null,
-      created_at: new Date().toISOString(),
-    }
-
-    const { error: voteError } = await supabase
-      .from('banner_votes')
-      .insert(voteData as never)
-
-    if (voteError) throw voteError
-
-    // Update rankings (upsert both banners)
-    const { error: updateError } = await supabase
-      .from('banner_rankings')
-      .upsert([newRanking1, newRanking2] as never)
-
-    if (updateError) {
-      console.error('Failed to update rankings:', updateError)
-      // Don't fail the vote if ranking update fails
-    }
-
-    return { success: true }
+    return result.data || { success: true }
   } catch (error) {
     console.error('Failed to submit vote:', error)
     throw createError({

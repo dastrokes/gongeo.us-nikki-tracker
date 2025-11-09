@@ -16,6 +16,7 @@ const definedRoutes = [
   '/tracker',
   '/banner',
   '/banner/:id',
+  '/vote',
   '/error',
 ]
 
@@ -36,6 +37,8 @@ export const config: Config = {
     // APIs
     '/api/ping',
     '/api/stats',
+    '/api/vote',
+    '/api/vote/**',
 
     // Static Nuxt assets
     '/_nuxt/**.json',

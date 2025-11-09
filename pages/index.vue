@@ -1,45 +1,83 @@
 <template>
   <div class="max-w-7xl mx-auto space-y-2 sm:space-y-4">
-    <n-card
-      size="small"
-      class="rounded-xl p-0 sm:p-2"
-    >
-      <div class="flex flex-col text-center">
-        <n-h1 class="font-bold">
-          {{ $t('index.title') }}
-        </n-h1>
-        <n-h2 class="font-bold mt-0">{{ $t('index.subtitle') }}</n-h2>
-        <n-h3 class="mt-0 text-gray-600 dark:text-gray-300">
-          {{ $t('index.description') }}
-        </n-h3>
-      </div>
-      <div class="flex gap-4 opacity-90 justify-center items-center">
-        <n-button
-          type="primary"
-          size="medium"
-          @click="router.push(localePath('/tracker'))"
+    <div class="flex flex-col lg:flex-row gap-2 sm:gap-4">
+      <!-- Main Title and Buttons Card -->
+      <n-card
+        size="small"
+        class="rounded-xl p-0 sm:p-2 flex-1"
+        content-class="!flex !flex-col"
+      >
+        <div class="flex flex-col text-center flex-1">
+          <n-h1 class="font-bold">
+            {{ $t('index.title') }}
+          </n-h1>
+          <n-h2 class="font-bold mt-0">{{ $t('index.subtitle') }}</n-h2>
+          <n-h3 class="mt-0 text-gray-600 dark:text-gray-300">
+            {{ $t('index.description') }}
+          </n-h3>
+        </div>
+        <div
+          class="flex gap-4 opacity-90 justify-center items-center flex-wrap mt-4"
         >
-          <template #icon>
-            <n-icon>
-              <Book />
-            </n-icon>
-          </template>
-          {{ $t('index.your_data') }}
-        </n-button>
-        <n-button
-          type="primary"
-          size="medium"
-          @click="router.push(localePath('/global'))"
+          <n-button
+            type="primary"
+            size="medium"
+            @click="router.push(localePath('/tracker'))"
+          >
+            <template #icon>
+              <n-icon>
+                <Book />
+              </n-icon>
+            </template>
+            {{ $t('index.your_data') }}
+          </n-button>
+          <n-button
+            type="primary"
+            size="medium"
+            @click="router.push(localePath('/global'))"
+          >
+            <template #icon>
+              <n-icon>
+                <Globe />
+              </n-icon>
+            </template>
+            {{ $t('navigation.global') }}
+          </n-button>
+        </div>
+      </n-card>
+
+      <!-- Vote Card -->
+      <n-card
+        size="small"
+        class="rounded-xl p-0 sm:p-2 lg:w-1/3"
+        content-class="!flex !flex-col"
+      >
+        <div class="flex flex-col text-center flex-1">
+          <n-h2 class="font-bold">
+            {{ $t('vote.title') }}
+          </n-h2>
+          <n-h6 class="mt-0 text-gray-600 dark:text-gray-300">
+            {{ $t('vote.description') }}
+          </n-h6>
+        </div>
+        <div
+          class="flex gap-4 opacity-90 justify-center items-center flex-wrap mt-4"
         >
-          <template #icon>
-            <n-icon>
-              <Globe />
-            </n-icon>
-          </template>
-          {{ $t('navigation.global') }}
-        </n-button>
-      </div></n-card
-    >
+          <n-button
+            type="primary"
+            size="medium"
+            @click="router.push(localePath('/vote'))"
+          >
+            <template #icon>
+              <n-icon>
+                <Poll />
+              </n-icon>
+            </template>
+            {{ $t('vote.tabs.vote') }}
+          </n-button>
+        </div>
+      </n-card>
+    </div>
     <n-card
       class="rounded-xl"
       size="small"
@@ -98,7 +136,7 @@
 <script setup lang="ts">
   import { BANNER_DATA } from '~/data/banners'
   import type { Banner } from '~/types/banner'
-  import { Book, Globe, CalendarAlt } from '@vicons/fa'
+  import { Book, Globe, CalendarAlt, Poll } from '@vicons/fa'
 
   const { t } = useI18n()
 

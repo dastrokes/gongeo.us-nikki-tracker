@@ -1,0 +1,358 @@
+<template>
+  <div class="max-w-7xl mx-auto space-y-2 sm:space-y-4">
+    <!-- Voting Interface -->
+    <n-card
+      size="small"
+      class="rounded-xl"
+    >
+      <div v-if="!loading && currentPair">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 relative">
+          <!-- Banner 1 -->
+          <div class="relative">
+            <div
+              class="relative group cursor-pointer transition-all duration-300 ease-out"
+              :class="{
+                'scale-[0.96] sm:scale-[0.95] opacity-60':
+                  selectedBanner === currentPair.banner2.id,
+                'hover:scale-[1.01]': selectedBanner !== currentPair.banner1.id,
+              }"
+              @click="selectBanner(currentPair.banner1.id)"
+            >
+              <div
+                class="relative aspect-[2/1] rounded-xl overflow-hidden bg-gray-100 dark:bg-gray-800 transition-all duration-300"
+                :class="{
+                  'ring-4 ring-sky-500/80 dark:ring-sky-400/80 shadow-2xl':
+                    selectedBanner === currentPair.banner1.id,
+                  'ring-2 ring-transparent hover:ring-gray-300 dark:hover:ring-gray-600':
+                    selectedBanner !== currentPair.banner1.id,
+                }"
+              >
+                <NuxtImg
+                  :src="currentPair.banner1.image"
+                  :alt="t(`banner.${currentPair.banner1.id}.name`)"
+                  class="w-full h-full object-cover transition-transform duration-300"
+                  :class="{
+                    'scale-105': selectedBanner === currentPair.banner1.id,
+                  }"
+                  width="800"
+                  height="400"
+                  fit="cover"
+                  loading="eager"
+                  :preload="{ fetchPriority: 'high' }"
+                  fetchpriority="high"
+                  sizes="400px sm:800px"
+                />
+                <div
+                  v-if="selectedBanner === currentPair.banner1.id"
+                  class="absolute inset-0 bg-transparent flex items-center justify-center animate-in fade-in duration-300"
+                >
+                  <div class="relative">
+                    <div
+                      class="absolute inset-0 bg-white dark:bg-gray-900 rounded-full blur-xl opacity-50 animate-pulse"
+                    />
+                    <div
+                      class="relative bg-white dark:bg-gray-800 rounded-full p-2 shadow-2xl ring-4 ring-white/50 dark:ring-gray-700/50 animate-in zoom-in duration-300 flex items-center justify-center"
+                    >
+                      <n-icon
+                        size="40"
+                        class="text-sky-500 dark:text-sky-400 block leading-none"
+                      >
+                        <CheckCircle />
+                      </n-icon>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  v-else
+                  class="absolute inset-0 bg-black/0 group-hover:bg-black/5 dark:group-hover:bg-white/5 transition-all duration-300"
+                />
+              </div>
+            </div>
+            <div class="mt-2 sm:mt-3 text-center">
+              <n-tooltip
+                trigger="hover"
+                placement="bottom"
+              >
+                <template #trigger>
+                  <NuxtLink
+                    :to="localePath(`/banner/${currentPair.banner1.id}`)"
+                    class="hover:opacity-80 transition-opacity inline-flex items-center gap-1"
+                  >
+                    <n-icon
+                      size="16"
+                      class="text-gray-500 dark:text-gray-400"
+                    >
+                      <CalendarDay />
+                    </n-icon>
+                    <n-text
+                      strong
+                      class="text-sm sm:text-base"
+                      >{{ t(`banner.${currentPair.banner1.id}.name`) }}</n-text
+                    >
+                  </NuxtLink>
+                </template>
+                {{ t('navigation.banner_detail') }}
+              </n-tooltip>
+            </div>
+          </div>
+
+          <!-- Banner 2 -->
+          <div class="relative">
+            <div
+              class="relative group cursor-pointer transition-all duration-300 ease-out"
+              :class="{
+                'scale-[0.96] sm:scale-[0.95] opacity-60':
+                  selectedBanner === currentPair.banner1.id,
+                'hover:scale-[1.01]': selectedBanner !== currentPair.banner2.id,
+              }"
+              @click="selectBanner(currentPair.banner2.id)"
+            >
+              <div
+                class="relative aspect-[2/1] rounded-xl overflow-hidden bg-gray-100 dark:bg-gray-800 transition-all duration-300"
+                :class="{
+                  'ring-4 ring-sky-500/80 dark:ring-sky-400/80 shadow-2xl':
+                    selectedBanner === currentPair.banner2.id,
+                  'ring-2 ring-transparent hover:ring-gray-300 dark:hover:ring-gray-600':
+                    selectedBanner !== currentPair.banner2.id,
+                }"
+              >
+                <NuxtImg
+                  :src="currentPair.banner2.image"
+                  :alt="t(`banner.${currentPair.banner2.id}.name`)"
+                  class="w-full h-full object-cover transition-transform duration-300"
+                  :class="{
+                    'scale-105': selectedBanner === currentPair.banner2.id,
+                  }"
+                  width="800"
+                  height="400"
+                  fit="cover"
+                  loading="eager"
+                  :preload="{ fetchPriority: 'high' }"
+                  fetchpriority="high"
+                  sizes="400px sm:800px"
+                />
+                <div
+                  v-if="selectedBanner === currentPair.banner2.id"
+                  class="absolute inset-0 bg-transparent flex items-center justify-center animate-in fade-in duration-300"
+                >
+                  <div class="relative">
+                    <div
+                      class="absolute inset-0 bg-white dark:bg-gray-900 rounded-full blur-xl opacity-50 animate-pulse"
+                    />
+                    <div
+                      class="relative bg-white dark:bg-gray-800 rounded-full p-2 shadow-2xl ring-4 ring-white/50 dark:ring-gray-700/50 animate-in zoom-in duration-300 flex items-center justify-center"
+                    >
+                      <n-icon
+                        size="40"
+                        class="text-sky-500 dark:text-sky-400 block leading-none"
+                      >
+                        <CheckCircle />
+                      </n-icon>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  v-else
+                  class="absolute inset-0 bg-black/0 group-hover:bg-black/5 dark:group-hover:bg-white/5 transition-all duration-300"
+                />
+              </div>
+            </div>
+            <div class="mt-2 sm:mt-3 text-center">
+              <n-tooltip
+                trigger="hover"
+                placement="bottom"
+              >
+                <template #trigger>
+                  <NuxtLink
+                    :to="localePath(`/banner/${currentPair.banner2.id}`)"
+                    class="hover:opacity-80 transition-opacity inline-flex items-center gap-1"
+                  >
+                    <n-icon
+                      size="16"
+                      class="text-gray-500 dark:text-gray-400"
+                    >
+                      <CalendarDay />
+                    </n-icon>
+                    <n-text
+                      strong
+                      class="text-sm sm:text-base"
+                      >{{ t(`banner.${currentPair.banner2.id}.name`) }}</n-text
+                    >
+                  </NuxtLink>
+                </template>
+                {{ t('navigation.banner_detail') }}
+              </n-tooltip>
+            </div>
+          </div>
+        </div>
+
+        <!-- Submit and Skip Buttons -->
+        <div class="mt-6 sm:mt-8 flex justify-center gap-3 sm:gap-4">
+          <n-button
+            secondary
+            size="large"
+            :disabled="submitting"
+            :loading="submitting && !selectedBanner"
+            @click="handleSkip"
+          >
+            {{ t('vote.skip') }}
+          </n-button>
+          <n-button
+            type="primary"
+            size="large"
+            :disabled="!selectedBanner || submitting"
+            :loading="submitting && !!selectedBanner"
+            @click="handleVote"
+          >
+            {{ t('vote.submit') }}
+          </n-button>
+        </div>
+      </div>
+
+      <!-- Loading State -->
+      <div v-else-if="loading">
+        <div class="flex items-center justify-center">
+          <n-spin size="large" />
+        </div>
+      </div>
+    </n-card>
+
+    <!-- View Rankings Button -->
+    <!-- <div class="flex justify-center">
+          <n-button
+            secondary
+            size="large"
+            @click="navigateToRankings"
+          >
+            {{ t('vote.viewRankings') }}
+          </n-button>
+        </div> -->
+  </div>
+</template>
+
+<script setup lang="ts">
+  import { CheckCircle, CalendarDay } from '@vicons/fa'
+
+  const { t } = useI18n()
+  const localePath = useLocalePath()
+  const message = useMessage()
+  const { getVotePair, submitVote } = useBannerVote()
+
+  const loading = ref(true)
+  const submitting = ref(false)
+  const currentPair = ref<{
+    banner1: { id: number; image: string }
+    banner2: { id: number; image: string }
+  } | null>(null)
+  const selectedBanner = ref<number | null>(null)
+  const previousPair = ref<string | null>(null) // Track previous pair to avoid duplicates
+
+  // Generate a unique key for a pair (order-independent)
+  const getPairKey = (banner1Id: number, banner2Id: number): string => {
+    const [id1, id2] = [banner1Id, banner2Id].sort((a, b) => a - b)
+    return `${id1}-${id2}`
+  }
+
+  // Load initial pair
+  const loadPair = async () => {
+    try {
+      loading.value = true
+      selectedBanner.value = null
+
+      let newPair = await getVotePair()
+
+      // Check if the new pair is the same as the previous one
+      if (currentPair.value && previousPair.value) {
+        const newPairKey = getPairKey(newPair.banner1.id, newPair.banner2.id)
+
+        // If same pair, try to get a different one (max 3 attempts)
+        let attempts = 0
+        while (newPairKey === previousPair.value && attempts < 3) {
+          newPair = await getVotePair()
+          const retryPairKey = getPairKey(
+            newPair.banner1.id,
+            newPair.banner2.id
+          )
+          if (retryPairKey !== previousPair.value) break
+          attempts++
+        }
+      }
+
+      // Store the previous pair key before updating current
+      if (currentPair.value) {
+        previousPair.value = getPairKey(
+          currentPair.value.banner1.id,
+          currentPair.value.banner2.id
+        )
+      }
+
+      currentPair.value = newPair
+    } catch (error) {
+      console.error('Failed to load vote pair:', error)
+      message.error(t('vote.errors.loadFailed'))
+    } finally {
+      loading.value = false
+    }
+  }
+
+  const selectBanner = (bannerId: number) => {
+    selectedBanner.value = bannerId
+  }
+
+  const handleVote = async () => {
+    if (!currentPair.value || !selectedBanner.value) return
+
+    try {
+      submitting.value = true
+      await submitVote(
+        currentPair.value.banner1.id,
+        currentPair.value.banner2.id,
+        selectedBanner.value
+      )
+
+      message.success(t('vote.success'))
+
+      // Load next pair
+      await loadPair()
+    } catch (error) {
+      console.error('Failed to submit vote:', error)
+      message.error(t('vote.errors.submitFailed'))
+    } finally {
+      submitting.value = false
+    }
+  }
+
+  const handleSkip = async () => {
+    if (!currentPair.value || submitting.value) return
+
+    try {
+      submitting.value = true
+      // Load next pair without submitting a vote
+      await loadPair()
+    } catch (error) {
+      console.error('Failed to skip pair:', error)
+      message.error(t('vote.errors.loadFailed'))
+    } finally {
+      submitting.value = false
+    }
+  }
+
+  // const navigateToRankings = () => {
+  //   router.push(localePath('/ranking'))
+  // }
+
+  // Load initial data
+  onMounted(() => {
+    loadPair()
+  })
+
+  // Define page metadata
+  definePageMeta({
+    name: 'vote',
+  })
+
+  // SEO
+  useHead(() => ({
+    title: t('vote.title') + ' - ' + t('navigation.subtitle'),
+  }))
+</script>

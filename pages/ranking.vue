@@ -82,11 +82,11 @@
       </div>
     </n-card>
 
-    <!-- Rankings Table -->
+    <!-- Rankings Table - Desktop -->
     <n-card
       v-if="rankings.length > 0"
       size="small"
-      class="rounded-xl"
+      class="rounded-xl hidden md:block"
     >
       <n-data-table
         :columns="columns"
@@ -96,6 +96,104 @@
         :bordered="false"
       />
     </n-card>
+
+    <!-- Rankings List - Mobile -->
+    <div
+      v-if="rankings.length > 0"
+      class="md:hidden space-y-2"
+    >
+      <n-card
+        v-for="ranking in rankings"
+        :key="ranking.banner_id"
+        size="small"
+        class="rounded-xl"
+      >
+        <!-- Rank, Banner Image & Name - All in one row -->
+        <div class="flex items-center gap-3 mb-3">
+          <!-- Rank -->
+          <div class="flex items-center gap-1 flex-shrink-0 w-16">
+            <span class="font-bold text-lg">{{ ranking.rank }}</span>
+            <n-icon
+              v-if="ranking.rank === 1"
+              size="20"
+              class="text-yellow-500"
+            >
+              <Trophy />
+            </n-icon>
+            <n-icon
+              v-else-if="ranking.rank === 2"
+              size="20"
+              class="text-gray-400"
+            >
+              <Trophy />
+            </n-icon>
+            <n-icon
+              v-else-if="ranking.rank === 3"
+              size="20"
+              class="text-amber-600"
+            >
+              <Trophy />
+            </n-icon>
+          </div>
+
+          <!-- Banner Image -->
+          <img
+            :src="`/images/banners/thumbnails/${ranking.banner_id}.webp`"
+            :alt="t(`banner.${ranking.banner_id}.name`)"
+            class="w-24 h-12 rounded object-cover flex-shrink-0"
+          />
+
+          <!-- Banner Name -->
+          <div class="flex-1 min-w-0 font-medium">
+            {{ t(`banner.${ranking.banner_id}.name`) }}
+          </div>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="grid grid-cols-3 gap-2 pt-3 border-t border-gray-200 dark:border-gray-700">
+          <div class="text-center">
+            <div class="text-xs text-gray-500 dark:text-gray-400">
+              {{ t('vote.rankings.elo') }}
+            </div>
+            <div class="font-mono font-semibold">
+              {{ Math.round(ranking.elo_rating) }}
+            </div>
+          </div>
+          <div class="text-center">
+            <div class="text-xs text-gray-500 dark:text-gray-400">
+              {{ t('vote.rankings.winRate') }}
+            </div>
+            <div class="font-mono font-semibold">
+              {{ ((ranking.win_rate ?? 0) * 100).toFixed(1) }}%
+            </div>
+          </div>
+          <div class="text-center">
+            <div class="text-xs text-gray-500 dark:text-gray-400">
+              {{ t('vote.rankings.totalVotes') }}
+            </div>
+            <div class="font-semibold">
+              {{ ranking.total_votes ?? 0 }}
+            </div>
+          </div>
+          <div class="text-center">
+            <div class="text-xs text-gray-500 dark:text-gray-400">
+              {{ t('vote.rankings.wins') }}
+            </div>
+            <div class="font-semibold text-green-600 dark:text-green-400">
+              {{ ranking.wins }}
+            </div>
+          </div>
+          <div class="text-center">
+            <div class="text-xs text-gray-500 dark:text-gray-400">
+              {{ t('vote.rankings.losses') }}
+            </div>
+            <div class="font-semibold text-red-600 dark:text-red-400">
+              {{ ranking.losses }}
+            </div>
+          </div>
+        </div>
+      </n-card>
+    </div>
 
     <!-- Loading State -->
     <n-card
@@ -107,8 +205,6 @@
         <n-spin size="large" />
       </div>
     </n-card>
-
-
   </div>
 </template>
 
@@ -135,8 +231,8 @@
       title: t('vote.rankings.rank'),
       key: 'rank',
       width: 80,
-      render: (_row, index) => {
-        const rank = index + 1
+      render: (row) => {
+        const rank = row.rank
         let icon = null
         let color = ''
 
@@ -152,6 +248,7 @@
         }
 
         return h('div', { class: 'flex items-center gap-2' }, [
+          h('span', { class: 'font-bold' }, rank),
           icon
             ? h(
                 resolveComponent('n-icon'),
@@ -159,24 +256,25 @@
                 { default: () => h(icon) }
               )
             : null,
-          h('span', { class: 'font-bold' }, rank),
         ])
       },
+      sorter: (a, b) => (a.rank ?? 0) - (b.rank ?? 0),
     },
     {
       title: t('vote.rankings.banner'),
       key: 'banner',
+      minWidth: 250,
       render: (row) => {
         const banner = BANNER_DATA[row.banner_id]
         if (!banner) return '-'
 
         return h('div', { class: 'flex items-center gap-3' }, [
           h('img', {
-            src: `/images/banners/${row.banner_id}.webp`,
+            src: `/images/banners/thumbnails/${row.banner_id}.webp`,
             alt: t(`banner.${row.banner_id}.name`),
-            class: 'w-16 h-8 rounded object-cover',
+            class: 'w-20 h-10 rounded object-cover flex-shrink-0',
           }),
-          h('span', t(`banner.${row.banner_id}.name`)),
+          h('span', { class: 'whitespace-normal' }, t(`banner.${row.banner_id}.name`)),
         ])
       },
     },
@@ -240,7 +338,11 @@
     try {
       rankingsLoading.value = true
       const data = await getRankings()
-      rankings.value = data.rankings
+      // Add rank property to each ranking based on initial ELO order
+      rankings.value = data.rankings.map((ranking, index) => ({
+        ...ranking,
+        rank: index + 1,
+      }))
       stats.value = data.stats
     } catch (error) {
       console.error('Failed to load rankings:', error)

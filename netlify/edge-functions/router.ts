@@ -17,6 +17,7 @@ const definedRoutes = [
   '/banner',
   '/banner/:id',
   '/vote',
+  '/ranking',
   '/error',
 ]
 

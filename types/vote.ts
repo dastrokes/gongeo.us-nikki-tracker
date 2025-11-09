@@ -17,6 +17,7 @@ export interface BannerRanking {
   total_votes?: number // wins + losses
   exposure_count?: number // wins + losses
   win_rate?: number // wins / (wins + losses)
+  rank?: number // Position in the original ELO ranking
 }
 
 export interface VotePair {

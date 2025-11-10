@@ -6,85 +6,133 @@
       size="small"
       class="rounded-xl"
     >
-      <div class="flex flex-col sm:flex-row items-start gap-4">
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 flex-1">
-          <n-statistic :label="t('vote.stats.totalVotes')">
-            <template #default>
-              <n-number-animation
-                :from="0"
-                :to="stats.totalVotes"
-                :duration="1000"
-              />
-            </template>
-            <template #suffix>
-              <n-icon><Poll /></n-icon>
-            </template>
-          </n-statistic>
-          <n-statistic :label="t('vote.stats.totalVoters')">
-            <template #default>
-              <n-number-animation
-                :from="0"
-                :to="stats.totalVoters"
-                :duration="1000"
-              />
-            </template>
-            <template #suffix>
-              <n-icon><Users /></n-icon>
-            </template>
-          </n-statistic>
-          <n-statistic :label="t('vote.stats.avgVotes')">
-            <template #default>
-              <n-number-animation
-                :from="0"
-                :to="stats.averageVotesPerVoter"
-                :duration="1000"
-                :precision="1"
-              />
-            </template>
-            <template #suffix>
-              <n-icon><ChartBar /></n-icon>
-            </template>
-          </n-statistic>
+      <div class="flex flex-col sm:flex-row gap-4">
+        <div class="grid grid-cols-3 gap-3 sm:gap-4 sm:flex-1">
+          <div class="text-center sm:text-left">
+            <div class="text-sm text-gray-500 dark:text-gray-400 mb-1">
+              {{ t('vote.stats.totalVotes') }}
+            </div>
+            <div class="flex items-center justify-center sm:justify-start gap-2">
+              <n-icon size="18" class="text-gray-400">
+                <Poll />
+              </n-icon>
+              <span class="text-2xl font-semibold">
+                <n-number-animation
+                  :from="0"
+                  :to="stats.totalVotes"
+                  :duration="1000"
+                />
+              </span>
+            </div>
+          </div>
+          <div class="text-center sm:text-left">
+            <div class="text-sm text-gray-500 dark:text-gray-400 mb-1">
+              {{ t('vote.stats.totalVoters') }}
+            </div>
+            <div class="flex items-center justify-center sm:justify-start gap-2">
+              <n-icon size="18" class="text-gray-400">
+                <Users />
+              </n-icon>
+              <span class="text-2xl font-semibold">
+                <n-number-animation
+                  :from="0"
+                  :to="stats.totalVoters"
+                  :duration="1000"
+                />
+              </span>
+            </div>
+          </div>
+          <div class="text-center sm:text-left">
+            <div class="text-sm text-gray-500 dark:text-gray-400 mb-1">
+              {{ t('vote.stats.avgVotes') }}
+            </div>
+            <div class="flex items-center justify-center sm:justify-start gap-2">
+              <n-icon size="18" class="text-gray-400">
+                <ChartBar />
+              </n-icon>
+              <span class="text-2xl font-semibold">
+                <n-number-animation
+                  :from="0"
+                  :to="stats.averageVotesPerVoter"
+                  :duration="1000"
+                  :precision="1"
+                />
+              </span>
+            </div>
+          </div>
         </div>
-        <div class="flex gap-2 self-center sm:self-start">
-          <n-tooltip :delay="500">
-            <template #trigger>
-              <n-button
-                text
-                size="small"
-                circle
-                @click="navigateToVote"
-              >
-                <template #icon>
-                  <n-icon><CheckSquare /></n-icon>
-                </template>
-              </n-button>
+        <div class="flex flex-row sm:flex-col gap-2 justify-center sm:justify-start sm:self-start">
+          <n-button
+            secondary
+            size="small"
+            @click="navigateToVote"
+          >
+            <template #icon>
+              <n-icon><CheckSquare /></n-icon>
             </template>
             {{ t('vote.rankings.voteMore') }}
-          </n-tooltip>
-          <n-tooltip :delay="500">
-            <template #trigger>
-              <n-button
-                text
-                :loading="rankingsLoading"
-                size="small"
-                circle
-                @click="refreshRankings"
-              >
-                <template #icon>
-                  <n-icon><Sync /></n-icon>
-                </template>
-              </n-button>
+          </n-button>
+          <n-button
+            secondary
+            size="small"
+            :loading="rankingsLoading"
+            @click="refreshRankings"
+          >
+            <template #icon>
+              <n-icon><Sync /></n-icon>
             </template>
             {{ t('vote.rankings.refresh') }}
-          </n-tooltip>
+          </n-button>
+        </div>
+      </div>
+    </n-card>
+
+    <!-- Stats Skeleton -->
+    <n-card
+      v-if="!stats && rankingsLoading"
+      size="small"
+      class="rounded-xl"
+    >
+      <div class="flex flex-col sm:flex-row gap-4">
+        <div class="grid grid-cols-3 gap-3 sm:gap-4 sm:flex-1">
+          <div
+            v-for="i in 3"
+            :key="i"
+            class="text-center sm:text-left space-y-1"
+          >
+            <div>
+              <n-skeleton
+                text
+                :height="20"
+                :width="100"
+              />
+            </div>
+            <div>
+              <n-skeleton
+                text
+                :height="32"
+                :width="60"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-row sm:flex-col gap-2 justify-center sm:justify-start">
+          <n-skeleton
+            :width="100"
+            :height="24"
+            :sharp="false"
+          />
+          <n-skeleton
+            :width="100"
+            :height="24"
+            :sharp="false"
+          />
         </div>
       </div>
     </n-card>
 
     <!-- Rankings Table - Desktop -->
     <n-card
-      v-if="rankings.length > 0"
       size="small"
       class="rounded-xl hidden md:block"
     >
@@ -197,16 +245,23 @@
       </n-card>
     </div>
 
-    <!-- Loading State -->
-    <n-card
-      v-else-if="rankingsLoading"
-      size="small"
-      class="rounded-xl"
+    <!-- Mobile List Skeleton -->
+    <div
+      v-if="rankingsLoading && rankings.length === 0"
+      class="md:hidden space-y-2"
     >
-      <div class="flex items-center justify-center min-h-[300px]">
-        <n-spin size="large" />
-      </div>
-    </n-card>
+      <n-card
+        v-for="i in 3"
+        :key="i"
+        size="small"
+        class="rounded-xl"
+      >
+        <n-skeleton
+          text
+          :repeat="2"
+        />
+      </n-card>
+    </div>
   </div>
 </template>
 
@@ -223,7 +278,7 @@
   const message = useMessage()
   const { getRankings } = useBannerVote()
 
-  const rankingsLoading = ref(false)
+  const rankingsLoading = ref(true)
   const rankings = ref<BannerRanking[]>([])
   const stats = ref<VoteStats | null>(null)
 

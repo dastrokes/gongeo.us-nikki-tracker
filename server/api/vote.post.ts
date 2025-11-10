@@ -84,5 +84,9 @@ export default defineEventHandler(async (event) => {
     return result.data || { success: true }
   } catch (error) {
     console.error('Failed to submit vote:', error)
+    throw createError({
+      statusCode: 500,
+      message: 'Failed to submit vote',
+    })
   }
 })

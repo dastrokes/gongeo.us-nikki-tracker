@@ -118,17 +118,25 @@ export const useBannerVote = () => {
   }
 
   /**
-   * Get current rankings
+   * Get current rankings from static JSON file in Supabase Storage
    */
   const getRankings = async (): Promise<{
     rankings: BannerRanking[]
     stats: VoteStats
   }> => {
+    const config = useRuntimeConfig()
+    const supabaseUrl = config.public.supabaseUrl
+
     const response = await $fetch<{
       rankings: BannerRanking[]
       stats: VoteStats
-    }>('/api/rankings')
-    return response
+      updated_at: string
+    }>(`${supabaseUrl}/storage/v1/object/public/gongeous/rankings.json`)
+
+    return {
+      rankings: response.rankings,
+      stats: response.stats,
+    }
   }
 
   return {

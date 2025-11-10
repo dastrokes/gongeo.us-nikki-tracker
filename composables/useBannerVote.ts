@@ -197,7 +197,13 @@ export const useBannerVote = () => {
         updated_at: string
       }>(`${supabaseUrl}/storage/v1/object/public/gongeous/rankings.json`)
 
-      // Calculate derived fields client-side
+      // Get all expected banner IDs
+      const allBannerIds = getVersion1xBannerIdsExcludingPermanent()
+      const existingBannerIds = new Set(
+        response.rankings.map((r) => r.banner_id)
+      )
+
+      // Calculate derived fields for existing rankings
       const rankings: BannerRanking[] = response.rankings.map((r) => {
         const totalVotes = r.wins + r.losses
         return {
@@ -207,6 +213,23 @@ export const useBannerVote = () => {
         }
       })
 
+      // Add default rankings for any missing banner IDs
+      const defaultEloRating = 1500
+      const missingBannerIds = allBannerIds.filter(
+        (id) => !existingBannerIds.has(id)
+      )
+
+      missingBannerIds.forEach((id) => {
+        rankings.push({
+          banner_id: id,
+          elo_rating: defaultEloRating,
+          wins: 0,
+          losses: 0,
+          total_votes: 0,
+          win_rate: 0,
+        })
+      })
+
       return {
         rankings,
         stats: response.stats,
@@ -214,11 +237,11 @@ export const useBannerVote = () => {
       }
     } catch (error) {
       console.error('Failed to fetch rankings:', error)
-      
+
       // Fallback: Generate default rankings for all 1.x banners
       const bannerIds = getVersion1xBannerIdsExcludingPermanent()
       const defaultEloRating = 1500
-      
+
       const fallbackRankings: BannerRanking[] = bannerIds.map((id) => ({
         banner_id: id,
         elo_rating: defaultEloRating,

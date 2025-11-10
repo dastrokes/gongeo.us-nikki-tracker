@@ -111,7 +111,7 @@
         <!-- Rank, Banner Image & Name - All in one row -->
         <div class="flex items-center gap-3 mb-3">
           <!-- Rank -->
-          <div class="flex items-center gap-1 flex-shrink-0 w-16">
+          <div class="flex items-center gap-1 flex-shrink-0 w-12">
             <span class="font-bold text-lg">{{ ranking.rank }}</span>
             <n-icon
               v-if="ranking.rank === 1"
@@ -150,7 +150,9 @@
         </div>
 
         <!-- Stats Grid -->
-        <div class="grid grid-cols-3 gap-2 pt-3 border-t border-gray-200 dark:border-gray-700">
+        <div
+          class="grid grid-cols-3 gap-2 pt-3 border-t border-gray-200 dark:border-gray-700"
+        >
           <div class="text-center">
             <div class="text-xs text-gray-500 dark:text-gray-400">
               {{ t('vote.rankings.elo') }}
@@ -274,9 +276,14 @@
             alt: t(`banner.${row.banner_id}.name`),
             class: 'w-20 h-10 rounded object-cover flex-shrink-0',
           }),
-          h('span', { class: 'whitespace-normal' }, t(`banner.${row.banner_id}.name`)),
+          h(
+            'span',
+            { class: 'whitespace-normal' },
+            t(`banner.${row.banner_id}.name`)
+          ),
         ])
       },
+      sorter: (a, b) => a.banner_id - b.banner_id,
     },
     {
       title: t('vote.rankings.elo'),

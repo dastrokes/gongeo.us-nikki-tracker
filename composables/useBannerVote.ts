@@ -1,5 +1,10 @@
 import type { VotePair, BannerRanking, VoteStats } from '~/types/vote'
-import { generateVoterFingerprint } from '~/utils/bannerVote'
+import {
+  generateVoterFingerprint,
+  getVersion1xBannerIdsExcludingPermanent,
+  calculateExposureWeights,
+  selectBannerByWeight,
+} from '~/utils/bannerVote'
 
 export const useBannerVote = () => {
   const voterFingerprint = ref<string | null>(null)
@@ -40,10 +45,51 @@ export const useBannerVote = () => {
 
   /**
    * Get the next pair of banners to vote on
+   * Now calculated client-side using rankings data
    */
   const getVotePair = async (): Promise<VotePair> => {
-    const response = await $fetch<VotePair>('/api/vote/pair')
-    return response
+    // Get all 1.x banner IDs (excluding permanent banner ID 1)
+    const bannerIds = getVersion1xBannerIdsExcludingPermanent()
+
+    if (bannerIds.length < 2) {
+      throw new Error('Not enough banners available for voting')
+    }
+
+    // Fetch rankings (this endpoint can now be cached)
+    const { rankings } = await getRankings()
+
+    // Calculate exposure weights
+    const weights = calculateExposureWeights(rankings)
+
+    // Select two different banners based on exposure balance
+    let banner1: number
+    let banner2: number
+    let attempts = 0
+    const maxAttempts = 50
+
+    do {
+      banner1 = selectBannerByWeight(bannerIds, weights)
+      banner2 = selectBannerByWeight(bannerIds, weights)
+      attempts++
+    } while (banner1 === banner2 && attempts < maxAttempts)
+
+    if (banner1 === banner2) {
+      // Fallback: just pick two random different banners
+      const shuffled = [...bannerIds].sort(() => Math.random() - 0.5)
+      banner1 = shuffled[0]!
+      banner2 = shuffled[1]!
+    }
+
+    return {
+      banner1: {
+        id: banner1,
+        image: `/images/banners/${banner1}.webp`,
+      },
+      banner2: {
+        id: banner2,
+        image: `/images/banners/${banner2}.webp`,
+      },
+    }
   }
 
   /**
@@ -81,7 +127,7 @@ export const useBannerVote = () => {
     const response = await $fetch<{
       rankings: BannerRanking[]
       stats: VoteStats
-    }>('/api/vote/rankings')
+    }>('/api/rankings')
     return response
   }
 

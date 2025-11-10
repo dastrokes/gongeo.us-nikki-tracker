@@ -37,13 +37,12 @@ export default defineEventHandler(async () => {
 
     if (rankingsError) throw rankingsError
 
-    // Calculate derived fields (total_votes, exposure_count, win_rate)
+    // Calculate derived fields (total_votes, win_rate)
     const rankings = (rawRankings || []).map((r: RawRanking) => {
       const totalVotes = r.wins + r.losses
       return {
         ...r,
         total_votes: totalVotes,
-        exposure_count: totalVotes,
         win_rate: totalVotes > 0 ? r.wins / totalVotes : 0,
       }
     })

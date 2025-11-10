@@ -16,7 +16,7 @@ import { calculateEloChange } from './bannerVote'
  * 1. Create banner_rankings table with columns:
  *    - banner_id (primary key)
  *    - elo_rating (default 1500)
- *    - wins, losses, total_votes, exposure_count
+ *    - wins, losses
  *    - updated_at
  *
  * 2. On vote submission, update both banners' rankings atomically
@@ -65,14 +65,12 @@ export function rebuildAllRankingsFromVotes(
   const elos = new Map<number, number>()
   const wins = new Map<number, number>()
   const losses = new Map<number, number>()
-  const exposure = new Map<number, number>()
 
   // Initialize
   bannerIds.forEach((id) => {
     elos.set(id, 1500)
     wins.set(id, 0)
     losses.set(id, 0)
-    exposure.set(id, 0)
   })
 
   // Sort votes chronologically
@@ -84,10 +82,6 @@ export function rebuildAllRankingsFromVotes(
 
   // Process all votes
   for (const vote of sortedVotes) {
-    // Update exposure
-    exposure.set(vote.banner_id_1, (exposure.get(vote.banner_id_1) ?? 0) + 1)
-    exposure.set(vote.banner_id_2, (exposure.get(vote.banner_id_2) ?? 0) + 1)
-
     // Update wins/losses
     if (vote.winner_id === vote.banner_id_1) {
       wins.set(vote.banner_id_1, (wins.get(vote.banner_id_1) ?? 0) + 1)
@@ -127,7 +121,6 @@ export function rebuildAllRankingsFromVotes(
       elo_rating: elos.get(bannerId) ?? 1500,
       // Calculated fields
       total_votes: totalVotes,
-      exposure_count: totalVotes,
       win_rate: totalVotes > 0 ? bannerWins / totalVotes : 0,
     })
   })

@@ -1,9 +1,8 @@
-import type { VotePair, BannerRanking, VoteStats } from '~/types/vote'
+import type { VotePair, BannerRanking } from '~/types/vote'
 import {
   generateVoterFingerprint,
   getVersion1xBannerIdsExcludingPermanent,
-  calculateExposureWeights,
-  selectBannerByWeight,
+  selectBannerPair,
 } from '~/utils/bannerVote'
 
 export const useBannerVote = () => {
@@ -16,7 +15,7 @@ export const useBannerVote = () => {
 
     try {
       // Try to get from localStorage first
-      const stored = localStorage.getItem('voter_fingerprint')
+      const stored = localStorage.getItem('gongeous-voter-fingerprint')
       if (stored) {
         voterFingerprint.value = stored
         fingerprintInitialized.value = true
@@ -26,14 +25,14 @@ export const useBannerVote = () => {
       // Generate new fingerprint using FingerprintJS
       const fingerprint = await generateVoterFingerprint()
       voterFingerprint.value = fingerprint
-      localStorage.setItem('voter_fingerprint', fingerprint)
+      localStorage.setItem('gongeous-voter-fingerprint', fingerprint)
       fingerprintInitialized.value = true
     } catch (error) {
       console.error('Failed to initialize fingerprint:', error)
       // Use fallback
       const fallback = 'fallback-' + Date.now().toString()
       voterFingerprint.value = fallback
-      localStorage.setItem('voter_fingerprint', fallback)
+      localStorage.setItem('gongeous-voter-fingerprint', fallback)
       fingerprintInitialized.value = true
     }
   }
@@ -45,7 +44,9 @@ export const useBannerVote = () => {
 
   /**
    * Get the next pair of banners to vote on
-   * Now calculated client-side using rankings data
+   * Uses two-stage selection:
+   * 1. First banner selected by exposure (prioritizes underexposed)
+   * 2. Second banner selected by combined exposure + ELO match quality
    */
   const getVotePair = async (): Promise<VotePair> => {
     // Get all 1.x banner IDs (excluding permanent banner ID 1)
@@ -58,37 +59,82 @@ export const useBannerVote = () => {
     // Fetch rankings (this endpoint can now be cached)
     const { rankings } = await getRankings()
 
-    // Calculate exposure weights
-    const weights = calculateExposureWeights(rankings)
+    // Check for recently shown pairs in localStorage
+    const recentPairs = getRecentPairs()
 
-    // Select two different banners based on exposure balance
-    let banner1: number
-    let banner2: number
+    // Try to get a pair that hasn't been shown recently
+    let pair: { banner1: number; banner2: number }
     let attempts = 0
-    const maxAttempts = 50
+    const maxAttempts = 10
 
     do {
-      banner1 = selectBannerByWeight(bannerIds, weights)
-      banner2 = selectBannerByWeight(bannerIds, weights)
-      attempts++
-    } while (banner1 === banner2 && attempts < maxAttempts)
+      pair = selectBannerPair(rankings, bannerIds)
+      const pairKey = getPairKey(pair.banner1, pair.banner2)
 
-    if (banner1 === banner2) {
-      // Fallback: just pick two random different banners
-      const shuffled = [...bannerIds].sort(() => Math.random() - 0.5)
-      banner1 = shuffled[0]!
-      banner2 = shuffled[1]!
-    }
+      // If this pair wasn't shown recently, use it
+      if (!recentPairs.includes(pairKey)) {
+        break
+      }
+
+      attempts++
+    } while (attempts < maxAttempts)
+
+    // Store this pair in recent history
+    addRecentPair(pair.banner1, pair.banner2)
 
     return {
       banner1: {
-        id: banner1,
-        image: `/images/banners/${banner1}.webp`,
+        id: pair.banner1,
+        image: `/images/banners/${pair.banner1}.webp`,
       },
       banner2: {
-        id: banner2,
-        image: `/images/banners/${banner2}.webp`,
+        id: pair.banner2,
+        image: `/images/banners/${pair.banner2}.webp`,
       },
+    }
+  }
+
+  /**
+   * Generate a unique key for a banner pair (order-independent)
+   */
+  const getPairKey = (banner1Id: number, banner2Id: number): string => {
+    const [id1, id2] = [banner1Id, banner2Id].sort((a, b) => a - b)
+    return `${id1}-${id2}`
+  }
+
+  /**
+   * Get recently shown pairs from localStorage
+   */
+  const getRecentPairs = (): string[] => {
+    if (!import.meta.client) return []
+
+    try {
+      const stored = localStorage.getItem('gongeous-recent-votes')
+      return stored ? JSON.parse(stored) : []
+    } catch {
+      return []
+    }
+  }
+
+  /**
+   * Add a pair to recent history (keeps last 10 pairs)
+   */
+  const addRecentPair = (banner1Id: number, banner2Id: number): void => {
+    if (!import.meta.client) return
+
+    try {
+      const pairKey = getPairKey(banner1Id, banner2Id)
+      const recentPairs = getRecentPairs()
+
+      // Add to front, remove duplicates, keep last 10
+      const updated = [
+        pairKey,
+        ...recentPairs.filter((p) => p !== pairKey),
+      ].slice(0, 10)
+
+      localStorage.setItem('gongeous-recent-votes', JSON.stringify(updated))
+    } catch (error) {
+      console.error('Failed to store recent pair:', error)
     }
   }
 
@@ -119,23 +165,50 @@ export const useBannerVote = () => {
 
   /**
    * Get current rankings from static JSON file in Supabase Storage
+   * Calculates derived fields client-side
    */
   const getRankings = async (): Promise<{
     rankings: BannerRanking[]
-    stats: VoteStats
+    stats: {
+      totalVotes: number
+      totalVoters: number
+      averageVotesPerVoter: number
+    }
+    updated_at: string
   }> => {
     const config = useRuntimeConfig()
     const supabaseUrl = config.public.supabaseUrl
 
     const response = await $fetch<{
-      rankings: BannerRanking[]
-      stats: VoteStats
+      rankings: Array<{
+        banner_id: number
+        elo_rating: number
+        wins: number
+        losses: number
+        updated_at?: string
+      }>
+      stats: {
+        totalVotes: number
+        totalVoters: number
+        averageVotesPerVoter: number
+      }
       updated_at: string
     }>(`${supabaseUrl}/storage/v1/object/public/gongeous/rankings.json`)
 
+    // Calculate derived fields client-side
+    const rankings: BannerRanking[] = response.rankings.map((r) => {
+      const totalVotes = r.wins + r.losses
+      return {
+        ...r,
+        total_votes: totalVotes,
+        win_rate: totalVotes > 0 ? r.wins / totalVotes : 0,
+      }
+    })
+
     return {
-      rankings: response.rankings,
+      rankings,
       stats: response.stats,
+      updated_at: response.updated_at,
     }
   }
 

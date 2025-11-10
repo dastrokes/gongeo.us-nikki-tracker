@@ -15,7 +15,6 @@ export interface BannerRanking {
   updated_at?: string
   // Calculated fields (not stored in DB)
   total_votes?: number // wins + losses
-  exposure_count?: number // wins + losses
   win_rate?: number // wins / (wins + losses)
   rank?: number // Position in the original ELO ranking
 }

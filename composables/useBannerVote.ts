@@ -166,6 +166,7 @@ export const useBannerVote = () => {
   /**
    * Get current rankings from static JSON file in Supabase Storage
    * Calculates derived fields client-side
+   * Falls back to default rankings if fetch fails
    */
   const getRankings = async (): Promise<{
     rankings: BannerRanking[]
@@ -176,39 +177,66 @@ export const useBannerVote = () => {
     }
     updated_at: string
   }> => {
-    const config = useRuntimeConfig()
-    const supabaseUrl = config.public.supabaseUrl
+    try {
+      const config = useRuntimeConfig()
+      const supabaseUrl = config.public.supabaseUrl
 
-    const response = await $fetch<{
-      rankings: Array<{
-        banner_id: number
-        elo_rating: number
-        wins: number
-        losses: number
-        updated_at?: string
-      }>
-      stats: {
-        totalVotes: number
-        totalVoters: number
-        averageVotesPerVoter: number
-      }
-      updated_at: string
-    }>(`${supabaseUrl}/storage/v1/object/public/gongeous/rankings.json`)
+      const response = await $fetch<{
+        rankings: Array<{
+          banner_id: number
+          elo_rating: number
+          wins: number
+          losses: number
+          updated_at?: string
+        }>
+        stats: {
+          totalVotes: number
+          totalVoters: number
+          averageVotesPerVoter: number
+        }
+        updated_at: string
+      }>(`${supabaseUrl}/storage/v1/object/public/gongeous/rankings.json`)
 
-    // Calculate derived fields client-side
-    const rankings: BannerRanking[] = response.rankings.map((r) => {
-      const totalVotes = r.wins + r.losses
+      // Calculate derived fields client-side
+      const rankings: BannerRanking[] = response.rankings.map((r) => {
+        const totalVotes = r.wins + r.losses
+        return {
+          ...r,
+          total_votes: totalVotes,
+          win_rate: totalVotes > 0 ? r.wins / totalVotes : 0,
+        }
+      })
+
       return {
-        ...r,
-        total_votes: totalVotes,
-        win_rate: totalVotes > 0 ? r.wins / totalVotes : 0,
+        rankings,
+        stats: response.stats,
+        updated_at: response.updated_at,
       }
-    })
+    } catch (error) {
+      console.error('Failed to fetch rankings:', error)
+      
+      // Fallback: Generate default rankings for all 1.x banners
+      const bannerIds = getVersion1xBannerIdsExcludingPermanent()
+      const defaultEloRating = 1500
+      
+      const fallbackRankings: BannerRanking[] = bannerIds.map((id) => ({
+        banner_id: id,
+        elo_rating: defaultEloRating,
+        wins: 0,
+        losses: 0,
+        total_votes: 0,
+        win_rate: 0,
+      }))
 
-    return {
-      rankings,
-      stats: response.stats,
-      updated_at: response.updated_at,
+      return {
+        rankings: fallbackRankings,
+        stats: {
+          totalVotes: 0,
+          totalVoters: 0,
+          averageVotesPerVoter: 0,
+        },
+        updated_at: new Date().toISOString(),
+      }
     }
   }
 

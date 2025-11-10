@@ -49,12 +49,12 @@ export function calculateEloChange(
 }
 
 /**
- * Calculate exposure weights for banners
- * Banners with lower exposure get higher weight
+ * Calculate exposure-based weights for banners
+ * Banners with lower total votes get higher weight
+ * Uses formula: weight = 1 / (total_votes + 1)
  */
 export function calculateExposureWeights(
-  rankings: BannerRanking[],
-  baseWeight: number = 1.0
+  rankings: BannerRanking[]
 ): Map<number, number> {
   const weights = new Map<number, number>()
 
@@ -62,15 +62,9 @@ export function calculateExposureWeights(
     return weights
   }
 
-  // Find max exposure to normalize
-  const maxExposure = Math.max(...rankings.map((r) => r.exposure_count ?? 0), 1)
-
   rankings.forEach((ranking) => {
-    // Inverse relationship: lower exposure = higher weight
-    // Add 1 to avoid division by zero
-    const exposureCount = ranking.exposure_count ?? 0
-    const exposureRatio = exposureCount / (maxExposure + 1)
-    const weight = baseWeight * (1 + (1 - exposureRatio))
+    const totalVotes = ranking.total_votes ?? 0
+    const weight = 1 / (totalVotes + 1)
     weights.set(ranking.banner_id, weight)
   })
 
@@ -78,7 +72,38 @@ export function calculateExposureWeights(
 }
 
 /**
- * Select a random banner based on exposure weights
+ * Calculate ELO match quality weight between two banners
+ * Higher weight for closer ELO ratings
+ * Uses formula: weight = 1 / (1 + |ELO_diff| / scale_factor)
+ */
+export function calculateEloMatchQuality(
+  elo1: number,
+  elo2: number,
+  scaleFactor: number = 100
+): number {
+  const eloDiff = Math.abs(elo1 - elo2)
+  return 1 / (1 + eloDiff / scaleFactor)
+}
+
+/**
+ * Calculate combined weight for second banner selection
+ * Combines exposure weight and ELO match quality
+ * Uses multiplicative combination: exposure^0.3 * elo_quality^0.7
+ */
+export function calculateCombinedWeight(
+  exposureWeight: number,
+  eloQuality: number,
+  exposureExponent: number = 1.0,
+  eloExponent: number = 0.0
+): number {
+  return (
+    Math.pow(exposureWeight, exposureExponent) *
+    Math.pow(eloQuality, eloExponent)
+  )
+}
+
+/**
+ * Select a random banner based on weights using weighted random selection
  */
 export function selectBannerByWeight(
   bannerIds: number[],
@@ -120,6 +145,43 @@ export function selectBannerByWeight(
 
   // Fallback to last item (shouldn't happen)
   return weightArray[weightArray.length - 1]!.id
+}
+
+/**
+ * Two-stage banner pair selection
+ * Stage 1: Select first banner based purely on exposure (underexposed items prioritized)
+ * Stage 2: Select second banner based on combined exposure + ELO match quality
+ */
+export function selectBannerPair(
+  rankings: BannerRanking[],
+  bannerIds: number[]
+): { banner1: number; banner2: number } {
+  // Stage 1: Select first banner based on exposure
+  const exposureWeights = calculateExposureWeights(rankings)
+  const banner1 = selectBannerByWeight(bannerIds, exposureWeights)
+
+  // Get first banner's ELO rating
+  const banner1Ranking = rankings.find((r) => r.banner_id === banner1)
+  const banner1Elo = banner1Ranking?.elo_rating ?? 1500
+
+  // Stage 2: Select second banner from remaining banners
+  const remainingBannerIds = bannerIds.filter((id) => id !== banner1)
+  const combinedWeights = new Map<number, number>()
+
+  remainingBannerIds.forEach((bannerId) => {
+    const ranking = rankings.find((r) => r.banner_id === bannerId)
+    const bannerElo = ranking?.elo_rating ?? 1500
+
+    const exposureWeight = exposureWeights.get(bannerId) ?? 1.0
+    const eloQuality = calculateEloMatchQuality(banner1Elo, bannerElo)
+    const combinedWeight = calculateCombinedWeight(exposureWeight, eloQuality)
+
+    combinedWeights.set(bannerId, combinedWeight)
+  })
+
+  const banner2 = selectBannerByWeight(remainingBannerIds, combinedWeights)
+
+  return { banner1, banner2 }
 }
 
 /**

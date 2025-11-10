@@ -420,7 +420,7 @@
       } else {
         message.error(t('vote.errors.submitFailed'))
       }
-
+    } finally {
       submitting.value = false
     }
   }

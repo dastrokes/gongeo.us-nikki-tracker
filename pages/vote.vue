@@ -6,9 +6,16 @@
       class="rounded-xl"
     >
       <div v-if="!loading && currentPair">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 relative">
-          <!-- Banner 1 -->
-          <div class="relative">
+        <div
+          :key="getPairKey(currentPair.banner1.id, currentPair.banner2.id)"
+          class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 relative transition-all duration-500 ease-out"
+          :class="{ 
+            'opacity-0 scale-95 blur-sm': isTransitioning, 
+            'opacity-100 scale-100 blur-0': !isTransitioning 
+          }"
+        >
+            <!-- Banner 1 -->
+            <div class="relative">
             <div
               class="relative group cursor-pointer transition-all duration-300 ease-out"
               :class="{
@@ -37,9 +44,7 @@
                   width="800"
                   height="400"
                   fit="cover"
-                  loading="eager"
-                  :preload="{ fetchPriority: 'high' }"
-                  fetchpriority="high"
+                  loading="lazy"
                   sizes="400px sm:800px"
                 />
                 <div
@@ -126,9 +131,7 @@
                   width="800"
                   height="400"
                   fit="cover"
-                  loading="eager"
-                  :preload="{ fetchPriority: 'high' }"
-                  fetchpriority="high"
+                  loading="lazy"
                   sizes="400px sm:800px"
                 />
                 <div
@@ -320,6 +323,7 @@
 
   const loading = ref(true)
   const submitting = ref(false)
+  const isTransitioning = ref(false)
   const currentPair = ref<{
     banner1: { id: number; image: string }
     banner2: { id: number; image: string }
@@ -336,9 +340,15 @@
   // Load initial pair
   const loadPair = async () => {
     try {
-      loading.value = true
       selectedBanner.value = null
 
+      // Trigger transition if not initial load
+      if (currentPair.value) {
+        isTransitioning.value = true
+        await new Promise(resolve => setTimeout(resolve, 500))
+      }
+
+      loading.value = true
       let newPair = await getVotePair()
 
       // Check if the new pair is the same as the previous one
@@ -367,10 +377,16 @@
       }
 
       currentPair.value = newPair
+      loading.value = false
+      
+      // Trigger zoom in after content is rendered
+      await nextTick()
+      await new Promise(resolve => setTimeout(resolve, 50))
+      isTransitioning.value = false
     } catch (error) {
       console.error('Failed to load vote pair:', error)
       message.error(t('vote.errors.loadFailed'))
-    } finally {
+      isTransitioning.value = false
       loading.value = false
     }
   }

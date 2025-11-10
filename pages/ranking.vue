@@ -94,7 +94,15 @@
               </n-button>
             </template>
             {{ t('vote.rankings.lastUpdated') }}:
-            {{ lastUpdated.toLocaleString() }}
+            {{
+              lastUpdated.toLocaleString(locale, {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+              })
+            }}
           </n-tooltip>
           <n-button
             secondary
@@ -127,14 +135,14 @@
               <n-skeleton
                 text
                 :height="20"
-                :width="100"
+                :width="64"
               />
             </div>
             <div>
               <n-skeleton
                 text
                 :height="24"
-                :width="60"
+                :width="48"
               />
             </div>
           </div>
@@ -307,7 +315,7 @@
   import type { DataTableColumns } from 'naive-ui'
   import { h, resolveComponent } from 'vue'
 
-  const { t } = useI18n()
+  const { t, locale } = useI18n()
   const localePath = useLocalePath()
   const router = useRouter()
   const message = useMessage()

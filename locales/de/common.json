@@ -605,7 +605,7 @@
       "title": "Banner-Rangliste",
       "description": "Schau dir an, welche Banner von Version 1.x am beliebtesten sind, basierend auf Community-Abstimmungen.",
       "voteMore": "Mehr abstimmen",
-      "refresh": "Aktualisieren",
+      "lastUpdated": "Last updated",
       "rank": "Rang",
       "banner": "Banner",
       "elo": "Elo Wertung",

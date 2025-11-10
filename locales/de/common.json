@@ -582,6 +582,7 @@
     "description": "Help us determine the most popular banners from version 1.x! Vote on your favorite banners in head-to-head matchups.",
     "submit": "Submit Vote",
     "skip": "Skip",
+    "howItWorks": "Pick your favorite banner and submit your vote to help rank the most popular banners. Skip if you're not sure. You can vote up to 50 times every 24 hours.",
     "success": "Vote submitted successfully!",
     "viewRankings": "View Rankings",
     "tabs": {

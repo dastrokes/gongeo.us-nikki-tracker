@@ -61,7 +61,7 @@ export default defineEventHandler(async (event) => {
           setResponseStatus(event, 429)
           return {
             error: 'Too many votes. Please wait before voting again.',
-            statusCode: 429
+            statusCode: 429,
           }
         }
       }

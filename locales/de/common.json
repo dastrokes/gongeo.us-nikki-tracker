@@ -598,14 +598,15 @@
     },
     "errors": {
       "loadFailed": "Abstimmpaar konnte nicht geladen werden. Bitte versuche es erneut.",
-      "submitFailed": "Abstimmung fehlgeschlagen. Bitte versuche es erneut.",
+      "submitFailed": "Failed to submit vote. Please try again.",
+      "rateLimit": "Too many votes. Please wait before voting again.",
       "loadRankingsFailed": "Rangliste konnte nicht geladen werden. Bitte versuche es erneut."
     },
     "rankings": {
       "title": "Banner-Rangliste",
       "description": "Schau dir an, welche Banner von Version 1.x am beliebtesten sind, basierend auf Community-Abstimmungen.",
       "voteMore": "Mehr abstimmen",
-      "lastUpdated": "Last updated",
+      "lastUpdated": "Zuletzt aktualisiert",
       "rank": "Rang",
       "banner": "Banner",
       "elo": "Elo Wertung",

@@ -151,7 +151,11 @@ export const useBannerVote = () => {
       await initializeFingerprint()
     }
 
-    const response = await $fetch<{ success: boolean }>('/api/vote', {
+    const response = await $fetch<{
+      success?: boolean
+      error?: string
+      statusCode?: number
+    }>('/api/vote', {
       method: 'POST',
       body: {
         banner_id_1: bannerId1,
@@ -160,7 +164,13 @@ export const useBannerVote = () => {
         voter_fingerprint: voterFingerprint.value,
       },
     })
-    return response
+
+    // Handle rate limit error
+    if (response.statusCode === 429 || response.error) {
+      throw new Error(response.error || 'Rate limit exceeded')
+    }
+
+    return { success: response.success ?? true }
   }
 
   /**

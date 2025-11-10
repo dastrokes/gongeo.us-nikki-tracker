@@ -598,7 +598,8 @@
     },
     "errors": {
       "loadFailed": "Failed to load vote pair. Please try again.",
-      "submitFailed": "Failed to submit vote. Please try again later.",
+      "submitFailed": "Failed to submit vote. Please try again.",
+      "rateLimit": "Too many votes. Please wait before voting again.",
       "loadRankingsFailed": "Failed to load rankings. Please try again."
     },
     "rankings": {

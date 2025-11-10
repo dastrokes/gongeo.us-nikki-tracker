@@ -613,5 +613,42 @@
     "404": "\"暖暖，我们还是待在水浅的地方吧！\"",
     "notFound": "您访问的页面不存在。",
     "returnHome": "返回首页"
+  },
+  "vote": {
+    "title": "卡池投票",
+    "description": "帮助我们评选出1.x版本中最受欢迎的卡池！在一对一的对决中为您最喜欢的卡池投票。",
+    "submit": "提交投票",
+    "skip": "跳过",
+    "success": "投票提交成功！",
+    "viewRankings": "查看排名",
+    "tabs": {
+      "vote": "投票",
+      "rankings": "排名"
+    },
+    "stats": {
+      "votes": "总投票数",
+      "rankings": "排名",
+      "totalVotes": "总投票数",
+      "totalVoters": "总投票人数",
+      "avgVotes": "平均投票数"
+    },
+    "errors": {
+      "loadFailed": "加载投票失败，请重试。",
+      "submitFailed": "提交投票失败，请重试。",
+      "loadRankingsFailed": "加载排名失败，请重试。"
+    },
+    "rankings": {
+      "title": "卡池排名",
+      "description": "根据社区投票查看1.x版本中最受欢迎的卡池。",
+      "voteMore": "继续投票",
+      "refresh": "刷新",
+      "rank": "排名",
+      "banner": "卡池",
+      "elo": "Elo评分",
+      "winRate": "胜率",
+      "wins": "胜场",
+      "losses": "负场",
+      "totalVotes": "总投票数"
+    }
   }
 }

@@ -187,7 +187,9 @@
         </div>
 
         <!-- Submit and Skip Buttons -->
-        <div class="mt-6 sm:mt-8 flex justify-center items-center gap-3 sm:gap-4">
+        <div
+          class="mt-6 sm:mt-8 flex justify-center items-center gap-3 sm:gap-4"
+        >
           <n-tooltip
             trigger="hover"
             placement="top"
@@ -234,8 +236,63 @@
 
       <!-- Loading State -->
       <div v-else-if="loading">
-        <div class="flex items-center justify-center">
-          <n-spin size="large" />
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+          <!-- Skeleton Banner 1 -->
+          <div class="relative">
+            <div class="relative aspect-[2/1] rounded-xl overflow-hidden">
+              <n-skeleton
+                class="absolute inset-0 w-full h-full"
+                :sharp="false"
+              />
+            </div>
+            <div class="mt-2 sm:mt-3 text-center">
+              <n-skeleton
+                text
+                :width="120"
+                :height="20"
+                class="mx-auto"
+              />
+            </div>
+          </div>
+
+          <!-- Skeleton Banner 2 -->
+          <div class="relative">
+            <div class="relative aspect-[2/1] rounded-xl overflow-hidden">
+              <n-skeleton
+                class="absolute inset-0 w-full h-full"
+                :sharp="false"
+              />
+            </div>
+            <div class="mt-2 sm:mt-3 text-center">
+              <n-skeleton
+                text
+                :width="120"
+                :height="20"
+                class="mx-auto"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- Skeleton Buttons -->
+        <div
+          class="mt-6 sm:mt-8 flex justify-center items-center gap-3 sm:gap-4"
+        >
+          <n-skeleton
+            circle
+            :width="24"
+            :height="24"
+          />
+          <n-skeleton
+            :width="80"
+            :height="40"
+            :sharp="false"
+          />
+          <n-skeleton
+            :width="100"
+            :height="40"
+            :sharp="false"
+          />
         </div>
       </div>
     </n-card>

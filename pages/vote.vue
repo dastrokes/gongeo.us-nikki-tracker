@@ -201,7 +201,7 @@
               <n-button
                 text
                 size="large"
-                :disabled="submitting"
+                :disabled="submitting || skipping"
                 class="!px-2"
               >
                 <n-icon
@@ -219,8 +219,8 @@
           <n-button
             secondary
             size="large"
-            :disabled="submitting"
-            :loading="submitting && !selectedBanner"
+            :disabled="submitting || skipping"
+            :loading="skipping"
             @click="handleSkip"
           >
             {{ t('vote.skip') }}
@@ -228,8 +228,8 @@
           <n-button
             type="primary"
             size="large"
-            :disabled="!selectedBanner || submitting"
-            :loading="submitting && !!selectedBanner"
+            :disabled="!selectedBanner || submitting || skipping"
+            :loading="submitting"
             @click="handleVote"
           >
             {{ t('vote.submit') }}
@@ -323,6 +323,7 @@
 
   const loading = ref(true)
   const submitting = ref(false)
+  const skipping = ref(false)
   const isTransitioning = ref(false)
   const currentPair = ref<{
     banner1: { id: number; image: string }
@@ -426,17 +427,17 @@
   }
 
   const handleSkip = async () => {
-    if (!currentPair.value || submitting.value) return
+    if (!currentPair.value || submitting.value || skipping.value) return
 
     try {
-      submitting.value = true
+      skipping.value = true
       // Load next pair without submitting a vote
       await loadPair()
     } catch (error) {
       console.error('Failed to skip pair:', error)
       message.error(t('vote.errors.loadFailed'))
     } finally {
-      submitting.value = false
+      skipping.value = false
     }
   }
 

@@ -605,7 +605,7 @@
       "title": "卡池排名",
       "description": "根据社区投票查看1.x版本中最受欢迎的卡池。",
       "voteMore": "继续投票",
-      "refresh": "刷新",
+      "lastUpdated": "最后更新",
       "rank": "排名",
       "banner": "卡池",
       "elo": "Elo评分",

@@ -9,13 +9,13 @@
         <div
           :key="getPairKey(currentPair.banner1.id, currentPair.banner2.id)"
           class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 relative transition-all duration-500 ease-out"
-          :class="{ 
-            'opacity-0 scale-95 blur-sm': isTransitioning, 
-            'opacity-100 scale-100 blur-0': !isTransitioning 
+          :class="{
+            'opacity-0 scale-95 blur-sm': isTransitioning,
+            'opacity-100 scale-100 blur-0': !isTransitioning,
           }"
         >
-            <!-- Banner 1 -->
-            <div class="relative">
+          <!-- Banner 1 -->
+          <div class="relative">
             <div
               class="relative group cursor-pointer transition-all duration-300 ease-out"
               :class="{
@@ -44,7 +44,7 @@
                   width="800"
                   height="400"
                   fit="cover"
-                  loading="lazy"
+                  loading="eager"
                   sizes="400px sm:800px"
                 />
                 <div
@@ -131,7 +131,7 @@
                   width="800"
                   height="400"
                   fit="cover"
-                  loading="lazy"
+                  loading="eager"
                   sizes="400px sm:800px"
                 />
                 <div
@@ -345,7 +345,7 @@
       // Trigger transition if not initial load
       if (currentPair.value) {
         isTransitioning.value = true
-        await new Promise(resolve => setTimeout(resolve, 500))
+        await new Promise((resolve) => setTimeout(resolve, 500))
       }
 
       loading.value = true
@@ -378,10 +378,10 @@
 
       currentPair.value = newPair
       loading.value = false
-      
+
       // Trigger zoom in after content is rendered
       await nextTick()
-      await new Promise(resolve => setTimeout(resolve, 50))
+      await new Promise((resolve) => setTimeout(resolve, 50))
       isTransitioning.value = false
     } catch (error) {
       console.error('Failed to load vote pair:', error)

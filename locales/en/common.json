@@ -605,7 +605,7 @@
       "title": "Banner Rankings",
       "description": "See which banners from version 1.x are the most popular based on community votes.",
       "voteMore": "Vote More",
-      "refresh": "Refresh",
+      "lastUpdated": "Last updated",
       "rank": "Rank",
       "banner": "Banner",
       "elo": "Elo Rating",

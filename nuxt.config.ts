@@ -90,7 +90,6 @@ export default defineNuxtConfig({
   },
 
   routeRules: {
-    '/api/rankings': { swr: 600 }, // Cache for 10 minutes
     ...Object.fromEntries([
       ...['error'].flatMap((page) => [
         [`/${page}`, { prerender: true, robots: false }],

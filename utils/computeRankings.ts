@@ -2,24 +2,21 @@ import type { BannerVote, BannerRanking } from '~/types/vote'
 import { calculateEloChange } from './bannerVote'
 
 /**
- * Compute wins, losses, total votes, and exposure for a banner from vote records
- * Exposure = how many times banner appeared in a vote (banner_id_1 or banner_id_2)
+ * Compute wins, losses, and total votes for a banner from vote records
  */
 function computeStatsFromVotes(
   bannerId: number,
   votes: BannerVote[]
-): { wins: number; losses: number; totalVotes: number; exposure: number } {
+): { wins: number; losses: number; totalVotes: number } {
   let wins = 0
   let losses = 0
   let totalVotes = 0
-  let exposure = 0
 
   for (const vote of votes) {
     const isInvolved =
       vote.banner_id_1 === bannerId || vote.banner_id_2 === bannerId
 
     if (isInvolved) {
-      exposure++
       totalVotes++
       if (vote.winner_id === bannerId) {
         wins++
@@ -29,7 +26,7 @@ function computeStatsFromVotes(
     }
   }
 
-  return { wins, losses, totalVotes, exposure }
+  return { wins, losses, totalVotes }
 }
 
 /**
@@ -74,27 +71,6 @@ function computeAllElosFromVotes(
 }
 
 /**
- * Compute exposure counts for all banners from votes
- * Returns a map of banner_id -> exposure_count
- */
-function computeExposureFromVotes(
-  bannerIds: number[],
-  allVotes: BannerVote[]
-): Map<number, number> {
-  const exposure = new Map<number, number>()
-  bannerIds.forEach((id) => exposure.set(id, 0))
-
-  for (const vote of allVotes) {
-    const current1 = exposure.get(vote.banner_id_1) ?? 0
-    const current2 = exposure.get(vote.banner_id_2) ?? 0
-    exposure.set(vote.banner_id_1, current1 + 1)
-    exposure.set(vote.banner_id_2, current2 + 1)
-  }
-
-  return exposure
-}
-
-/**
  * Compute all rankings for all banners efficiently in a single pass
  * This is the main function - it processes votes once and computes all metrics
  */
@@ -103,7 +79,6 @@ export function computeAllRankingsFromVotes(
   allVotes: BannerVote[]
 ): BannerRanking[] {
   const elos = computeAllElosFromVotes(bannerIds, allVotes)
-  const exposure = computeExposureFromVotes(bannerIds, allVotes)
 
   const rankings: BannerRanking[] = bannerIds.map((bannerId) => {
     const { wins, losses, totalVotes } = computeStatsFromVotes(
@@ -117,7 +92,6 @@ export function computeAllRankingsFromVotes(
       wins,
       losses,
       total_votes: totalVotes,
-      exposure_count: exposure.get(bannerId) ?? 0,
       elo_rating: elos.get(bannerId) ?? 1500,
       win_rate: winRate,
     }

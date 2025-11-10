@@ -7,6 +7,7 @@
     "global": "Globale Daten",
     "banner": "Bannerverlauf",
     "banner_detail": "Bannerdetail",
+    "vote": "Banner Vote",
     "faq": "FAQ",
     "about": "Über gongeo.us",
     "nuan5pro": "Nuan5.Pro"
@@ -575,5 +576,42 @@
     "404": "\"Nikki, lass uns im seichten Wasser bleiben.\"",
     "notFound": "Die von dir gesuchte Seite existiert nicht.",
     "returnHome": "Zurück zur Startseite"
+  },
+  "vote": {
+    "title": "Banner Vote",
+    "description": "Help us determine the most popular banners from version 1.x! Vote on your favorite banners in head-to-head matchups.",
+    "submit": "Submit Vote",
+    "skip": "Skip",
+    "success": "Vote submitted successfully!",
+    "viewRankings": "View Rankings",
+    "tabs": {
+      "vote": "Vote",
+      "rankings": "Rankings"
+    },
+    "stats": {
+      "votes": "Total Votes",
+      "rankings": "Rankings",
+      "totalVotes": "Total Votes",
+      "totalVoters": "Total Voters",
+      "avgVotes": "Avg Votes/Voter"
+    },
+    "errors": {
+      "loadFailed": "Failed to load vote pair. Please try again.",
+      "submitFailed": "Failed to submit vote. Please try again.",
+      "loadRankingsFailed": "Failed to load rankings. Please try again."
+    },
+    "rankings": {
+      "title": "Banner Rankings",
+      "description": "See which banners from version 1.x are the most popular based on community votes.",
+      "voteMore": "Vote More",
+      "refresh": "Refresh",
+      "rank": "Rank",
+      "banner": "Banner",
+      "elo": "Elo Rating",
+      "winRate": "Win Rate",
+      "wins": "Wins",
+      "losses": "Losses",
+      "totalVotes": "Total Votes"
+    }
   }
 }

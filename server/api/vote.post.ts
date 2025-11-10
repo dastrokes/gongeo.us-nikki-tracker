@@ -58,10 +58,11 @@ export default defineEventHandler(async (event) => {
       } else {
         // Limit to 50 votes per 24 hours per fingerprint
         if (recentVotes && recentVotes >= 50) {
-          throw createError({
-            statusCode: 429,
-            message: 'Too many votes. Please wait before voting again.',
-          })
+          setResponseStatus(event, 429)
+          return {
+            error: 'Too many votes. Please wait before voting again.',
+            statusCode: 429
+          }
         }
       }
     }

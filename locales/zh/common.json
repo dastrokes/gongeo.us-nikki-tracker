@@ -577,6 +577,7 @@
     "description": "帮助我们评选出1.x版本中最受欢迎的卡池！在一对一的对决中为您最喜欢的卡池投票。",
     "submit": "提交投票",
     "skip": "跳过",
+    "howItWorks": "选择您喜欢的卡池并提交投票，帮助评选最受欢迎的卡池。不确定可以跳过。每24小时最多可投票50次。",
     "success": "投票提交成功！",
     "viewRankings": "查看排名",
     "tabs": {
@@ -592,7 +593,7 @@
     },
     "errors": {
       "loadFailed": "加载投票失败，请重试。",
-      "submitFailed": "提交投票失败，请重试。",
+      "submitFailed": "提交投票失败，请稍后再试。",
       "loadRankingsFailed": "加载排名失败，请重试。"
     },
     "rankings": {

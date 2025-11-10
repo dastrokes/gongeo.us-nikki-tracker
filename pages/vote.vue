@@ -187,7 +187,30 @@
         </div>
 
         <!-- Submit and Skip Buttons -->
-        <div class="mt-6 sm:mt-8 flex justify-center gap-3 sm:gap-4">
+        <div class="mt-6 sm:mt-8 flex justify-center items-center gap-3 sm:gap-4">
+          <n-tooltip
+            trigger="hover"
+            placement="top"
+          >
+            <template #trigger>
+              <n-button
+                text
+                size="large"
+                :disabled="submitting"
+                class="!px-2"
+              >
+                <n-icon
+                  size="20"
+                  class="text-gray-500 dark:text-gray-400"
+                >
+                  <InfoCircle />
+                </n-icon>
+              </n-button>
+            </template>
+            <div class="max-w-xs">
+              {{ t('vote.howItWorks') }}
+            </div>
+          </n-tooltip>
           <n-button
             secondary
             size="large"
@@ -231,7 +254,7 @@
 </template>
 
 <script setup lang="ts">
-  import { CheckCircle, CalendarDay } from '@vicons/fa'
+  import { CheckCircle, CalendarDay, InfoCircle } from '@vicons/fa'
 
   const { t } = useI18n()
   const localePath = useLocalePath()

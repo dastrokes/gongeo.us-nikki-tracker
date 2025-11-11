@@ -610,7 +610,9 @@
       "rank": "排名",
       "banner": "卡池",
       "elo": "Elo评分",
+      "eloShort": "ELO",
       "winRate": "胜率",
+      "winRateShort": "胜率",
       "wins": "胜场",
       "losses": "负场",
       "totalVotes": "总投票数"

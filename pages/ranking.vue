@@ -21,7 +21,7 @@
               >
                 <Poll />
               </n-icon>
-              <span class="text-2xl font-semibold">
+              <span class="text-xl sm:text-2xl font-semibold">
                 <n-number-animation
                   :from="0"
                   :to="stats.totalVotes"
@@ -43,7 +43,7 @@
               >
                 <Users />
               </n-icon>
-              <span class="text-2xl font-semibold">
+              <span class="text-xl sm:text-2xl font-semibold">
                 <n-number-animation
                   :from="0"
                   :to="stats.totalVoters"
@@ -65,7 +65,7 @@
               >
                 <ChartBar />
               </n-icon>
-              <span class="text-2xl font-semibold">
+              <span class="text-xl sm:text-2xl font-semibold">
                 <n-number-animation
                   :from="0"
                   :to="stats.totalVotes / stats.totalVoters"
@@ -164,140 +164,21 @@
       </div>
     </n-card>
 
-    <!-- Rankings Table - Desktop -->
+    <!-- Rankings Table - Responsive -->
     <n-card
       size="small"
-      class="rounded-xl hidden md:block"
+      class="rounded-xl"
     >
       <n-data-table
-        :columns="columns"
+        :columns="isMobile ? mobileColumns : columns"
         :data="rankings"
         :loading="rankingsLoading"
-        :pagination="false"
         :bordered="false"
         :row-props="rowProps"
+        single-line
         class="cursor-pointer"
       />
     </n-card>
-
-    <!-- Rankings List - Mobile -->
-    <div
-      v-if="rankings.length > 0"
-      class="md:hidden space-y-2"
-    >
-      <n-card
-        v-for="ranking in rankings"
-        :key="ranking.banner_id"
-        size="small"
-        class="rounded-xl cursor-pointer hover:shadow-lg transition-shadow"
-        @click="navigateToBanner(ranking.banner_id)"
-      >
-        <!-- Rank, Banner Image & Name - All in one row -->
-        <div class="flex items-center gap-3 mb-3">
-          <!-- Rank -->
-          <div class="flex items-center gap-1 flex-shrink-0 w-12">
-            <span class="font-bold text-lg">{{ ranking.rank }}</span>
-            <n-icon
-              v-if="ranking.rank === 1"
-              size="20"
-              class="text-yellow-500"
-            >
-              <Trophy />
-            </n-icon>
-            <n-icon
-              v-else-if="ranking.rank === 2"
-              size="20"
-              class="text-gray-400"
-            >
-              <Trophy />
-            </n-icon>
-            <n-icon
-              v-else-if="ranking.rank === 3"
-              size="20"
-              class="text-amber-600"
-            >
-              <Trophy />
-            </n-icon>
-          </div>
-
-          <!-- Banner Image -->
-          <img
-            :src="`/images/banners/thumbnails/${ranking.banner_id}.webp`"
-            :alt="t(`banner.${ranking.banner_id}.name`)"
-            class="w-24 h-12 rounded object-cover flex-shrink-0"
-          />
-
-          <!-- Banner Name -->
-          <div class="flex-1 min-w-0 font-medium">
-            {{ t(`banner.${ranking.banner_id}.name`) }}
-          </div>
-        </div>
-
-        <!-- Stats Grid -->
-        <div
-          class="grid grid-cols-3 gap-2 pt-3 border-t border-gray-200 dark:border-gray-700"
-        >
-          <div class="text-center">
-            <div class="text-xs text-gray-500 dark:text-gray-400">
-              {{ t('vote.rankings.elo') }}
-            </div>
-            <div class="font-mono font-semibold">
-              {{ Math.round(ranking.elo_rating) }}
-            </div>
-          </div>
-          <div class="text-center">
-            <div class="text-xs text-gray-500 dark:text-gray-400">
-              {{ t('vote.rankings.winRate') }}
-            </div>
-            <div class="font-mono font-semibold">
-              {{ ((ranking.win_rate ?? 0) * 100).toFixed(1) }}%
-            </div>
-          </div>
-          <div class="text-center">
-            <div class="text-xs text-gray-500 dark:text-gray-400">
-              {{ t('vote.rankings.totalVotes') }}
-            </div>
-            <div class="font-semibold">
-              {{ ranking.total_votes ?? 0 }}
-            </div>
-          </div>
-          <div class="text-center">
-            <div class="text-xs text-gray-500 dark:text-gray-400">
-              {{ t('vote.rankings.wins') }}
-            </div>
-            <div class="font-semibold text-green-600 dark:text-green-400">
-              {{ ranking.wins }}
-            </div>
-          </div>
-          <div class="text-center">
-            <div class="text-xs text-gray-500 dark:text-gray-400">
-              {{ t('vote.rankings.losses') }}
-            </div>
-            <div class="font-semibold text-red-600 dark:text-red-400">
-              {{ ranking.losses }}
-            </div>
-          </div>
-        </div>
-      </n-card>
-    </div>
-
-    <!-- Mobile List Skeleton -->
-    <div
-      v-if="rankingsLoading && rankings.length === 0"
-      class="md:hidden space-y-2"
-    >
-      <n-card
-        v-for="i in 3"
-        :key="i"
-        size="small"
-        class="rounded-xl"
-      >
-        <n-skeleton
-          text
-          :repeat="2"
-        />
-      </n-card>
-    </div>
   </div>
 </template>
 
@@ -314,9 +195,11 @@
   import type { BannerRanking, VoteStats } from '~/types/vote'
   import type { DataTableColumns } from 'naive-ui'
   import { h, resolveComponent } from 'vue'
+  import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
 
   const { t, locale } = useI18n()
   const localePath = useLocalePath()
+  const siteUrl = useRuntimeConfig().public.siteUrl
   const router = useRouter()
   const message = useMessage()
   const { getRankings } = useBannerVote()
@@ -326,7 +209,121 @@
   const stats = ref<VoteStats | null>(null)
   const lastUpdated = ref<Date | null>(null)
 
-  // Table columns
+  // Initialize breakpoints
+  const breakpoints = useBreakpoints(breakpointsTailwind)
+  const isMobile = ref(false)
+
+  onMounted(() => {
+    watchEffect(() => {
+      isMobile.value = !breakpoints.greater('sm').value
+    })
+  })
+
+  // Mobile columns - compact view
+  const mobileColumns: DataTableColumns<BannerRanking> = [
+    {
+      title: '#',
+      key: 'rank',
+      width: 50,
+      render: (row) => {
+        const rank = row.rank
+        let icon = null
+        let color = ''
+
+        if (rank === 1) {
+          icon = Trophy
+          color = 'text-yellow-500'
+        } else if (rank === 2) {
+          icon = Trophy
+          color = 'text-gray-400'
+        } else if (rank === 3) {
+          icon = Trophy
+          color = 'text-amber-600'
+        }
+
+        return h('div', { class: 'flex flex-col items-center gap-0.5' }, [
+          h('span', { class: 'font-bold text-sm' }, rank),
+          icon
+            ? h(
+                resolveComponent('n-icon'),
+                { size: 14, class: color },
+                { default: () => h(icon) }
+              )
+            : null,
+        ])
+      },
+      sorter: (a, b) => (a.rank ?? 0) - (b.rank ?? 0),
+    },
+    {
+      title: t('vote.rankings.banner'),
+      key: 'banner',
+      width: 160,
+      render: (row) => {
+        const banner = BANNER_DATA[row.banner_id]
+        if (!banner) return '-'
+
+        return h('div', { class: 'flex flex-col gap-2 py-1' }, [
+          h('img', {
+            src: `/images/banners/thumbnails/${row.banner_id}.webp`,
+            alt: t(`banner.${row.banner_id}.name`),
+            class: 'w-16 h-8 rounded object-cover flex-shrink-0',
+          }),
+          h(
+            'span',
+            { class: 'text-sm font-medium truncate max-w-[200px]' },
+            t(`banner.${row.banner_id}.name`)
+          ),
+          h('div', { class: 'flex gap-3 text-sm' }, [
+            h('span', { class: 'font-mono' }, [
+              h(
+                'span',
+                { class: 'text-gray-500 dark:text-gray-400' },
+                `${t('vote.rankings.eloShort')}: `
+              ),
+              h('span', { class: 'font-semibold' }, Math.round(row.elo_rating)),
+            ]),
+            h('span', { class: 'font-mono' }, [
+              h(
+                'span',
+                { class: 'text-gray-500 dark:text-gray-400' },
+                `${t('vote.rankings.winRateShort')}: `
+              ),
+              h(
+                'span',
+                { class: 'font-semibold' },
+                `${((row.win_rate ?? 0) * 100).toFixed(1)}%`
+              ),
+            ]),
+          ]),
+        ])
+      },
+      sorter: (a, b) => a.banner_id - b.banner_id,
+    },
+    {
+      title: t('vote.rankings.winsLosses'),
+      key: 'wins_losses',
+      width: 80,
+      render: (row) => {
+        return h('div', { class: 'flex flex-col gap-1 text-sm font-mono' }, [
+          h(
+            'span',
+            { class: 'text-green-600 dark:text-green-400 font-semibold' },
+            [
+              h('span', { class: 'inline-block text-right w-8' }, row.wins),
+              ` ${t('vote.rankings.winsShort')}`,
+            ]
+          ),
+          h('span', { class: 'text-red-600 dark:text-red-400 font-semibold' }, [
+            h('span', { class: 'inline-block text-right w-8' }, row.losses),
+            ` ${t('vote.rankings.lossesShort')}`,
+          ]),
+        ])
+      },
+      sorter: (a, b) => b.wins - a.wins,
+    },
+  ]
+
+  // Desktop columns - full view
   const columns: DataTableColumns<BannerRanking> = [
     {
       title: t('vote.rankings.rank'),
@@ -364,7 +361,7 @@
     {
       title: t('vote.rankings.banner'),
       key: 'banner',
-      minWidth: 250,
+      width: 250,
       render: (row) => {
         const banner = BANNER_DATA[row.banner_id]
         if (!banner) return '-'
@@ -481,13 +478,31 @@
     loadRankings()
   })
 
-  // Define page metadata
-  definePageMeta({
-    name: 'ranking',
-  })
-
   // SEO
   useHead(() => ({
     title: t('vote.rankings.title') + ' - ' + t('navigation.subtitle'),
+    meta: [
+      {
+        name: 'description',
+        content: t('vote.rankings.description'),
+      },
+      {
+        property: 'og:title',
+        content: t('vote.rankings.title') + ' - ' + t('navigation.subtitle'),
+      },
+      {
+        property: 'og:description',
+        content: t('vote.rankings.description'),
+      },
+      {
+        name: 'twitter:title',
+        content: t('vote.rankings.title') + ' - ' + t('navigation.subtitle'),
+      },
+      {
+        name: 'twitter:description',
+        content: t('vote.rankings.description'),
+      },
+    ],
+    link: [{ rel: 'canonical', href: `${siteUrl}${localePath('/ranking')}` }],
   }))
 </script>

@@ -593,7 +593,7 @@
       "votes": "Stimmen insgesamt",
       "rankings": "Rangliste",
       "totalVotes": "Stimmen insgesamt",
-      "totalVoters": "Stimmen insgesamt",
+      "totalVoters": "Wähler insgesamt",
       "avgVotes": "Durchschn. Stimmen"
     },
     "errors": {
@@ -615,7 +615,10 @@
       "winRateShort": "WR",
       "wins": "Siege",
       "losses": "Niederlagen",
-      "totalVotes": "Stimmen insgesamt"
+      "totalVotes": "Stimmen insgesamt",
+      "winsLosses": "S/N",
+      "winsShort": "S",
+      "lossesShort": "N"
     }
   }
 }

@@ -593,8 +593,8 @@
       "votes": "Stimmen insgesamt",
       "rankings": "Rangliste",
       "totalVotes": "Stimmen insgesamt",
-      "totalVoters": "Stimmen insgesamt",
-      "avgVotes": "Durchschn. Stimmen/Wähler"
+      "totalVoters": "Wähler insgesamt",
+      "avgVotes": "Durchschn. Stimmen"
     },
     "errors": {
       "loadFailed": "Abstimmpaar konnte nicht geladen werden. Bitte versuche es erneut.",
@@ -610,7 +610,9 @@
       "rank": "Rang",
       "banner": "Banner",
       "elo": "Elo Wertung",
+      "eloShort": "ELO",
       "winRate": "Siegesrate",
+      "winRateShort": "WR",
       "wins": "Siege",
       "losses": "Niederlagen",
       "totalVotes": "Stimmen insgesamt"

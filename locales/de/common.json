@@ -615,7 +615,10 @@
       "winRateShort": "WR",
       "wins": "Siege",
       "losses": "Niederlagen",
-      "totalVotes": "Stimmen insgesamt"
+      "totalVotes": "Stimmen insgesamt",
+      "winsLosses": "S/N",
+      "winsShort": "S",
+      "lossesShort": "N"
     }
   }
 }

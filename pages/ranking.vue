@@ -6,85 +6,166 @@
       size="small"
       class="rounded-xl"
     >
-      <div class="flex flex-col sm:flex-row items-start gap-4">
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 flex-1">
-          <n-statistic :label="t('vote.stats.totalVotes')">
-            <template #default>
-              <n-number-animation
-                :from="0"
-                :to="stats.totalVotes"
-                :duration="1000"
-              />
-            </template>
-            <template #suffix>
-              <n-icon><Poll /></n-icon>
-            </template>
-          </n-statistic>
-          <n-statistic :label="t('vote.stats.totalVoters')">
-            <template #default>
-              <n-number-animation
-                :from="0"
-                :to="stats.totalVoters"
-                :duration="1000"
-              />
-            </template>
-            <template #suffix>
-              <n-icon><Users /></n-icon>
-            </template>
-          </n-statistic>
-          <n-statistic :label="t('vote.stats.avgVotes')">
-            <template #default>
-              <n-number-animation
-                :from="0"
-                :to="stats.averageVotesPerVoter"
-                :duration="1000"
-                :precision="1"
-              />
-            </template>
-            <template #suffix>
-              <n-icon><ChartBar /></n-icon>
-            </template>
-          </n-statistic>
+      <div class="flex flex-col sm:flex-row gap-4">
+        <div class="grid grid-cols-3 gap-3 sm:gap-4 sm:flex-1">
+          <div class="text-center sm:text-left">
+            <div class="text-sm text-gray-500 dark:text-gray-400 mb-1">
+              {{ t('vote.stats.totalVotes') }}
+            </div>
+            <div
+              class="flex items-center justify-center sm:justify-start gap-2"
+            >
+              <n-icon
+                :depth="3"
+                size="20"
+              >
+                <Poll />
+              </n-icon>
+              <span class="text-2xl font-semibold">
+                <n-number-animation
+                  :from="0"
+                  :to="stats.totalVotes"
+                  :duration="5000"
+                />
+              </span>
+            </div>
+          </div>
+          <div class="text-center sm:text-left">
+            <div class="text-sm text-gray-500 dark:text-gray-400 mb-1">
+              {{ t('vote.stats.totalVoters') }}
+            </div>
+            <div
+              class="flex items-center justify-center sm:justify-start gap-2"
+            >
+              <n-icon
+                :depth="3"
+                size="20"
+              >
+                <Users />
+              </n-icon>
+              <span class="text-2xl font-semibold">
+                <n-number-animation
+                  :from="0"
+                  :to="stats.totalVoters"
+                  :duration="3000"
+                />
+              </span>
+            </div>
+          </div>
+          <div class="text-center sm:text-left">
+            <div class="text-sm text-gray-500 dark:text-gray-400 mb-1">
+              {{ t('vote.stats.avgVotes') }}
+            </div>
+            <div
+              class="flex items-center justify-center sm:justify-start gap-2"
+            >
+              <n-icon
+                :depth="3"
+                size="20"
+              >
+                <ChartBar />
+              </n-icon>
+              <span class="text-2xl font-semibold">
+                <n-number-animation
+                  :from="0"
+                  :to="stats.totalVotes / stats.totalVoters"
+                  :duration="1000"
+                  :precision="1"
+                />
+              </span>
+            </div>
+          </div>
         </div>
-        <div class="flex gap-2 self-center sm:self-start">
-          <n-tooltip :delay="500">
+        <div
+          class="flex flex-row sm:flex-col gap-2 justify-center sm:justify-start sm:self-start"
+        >
+          <n-tooltip
+            v-if="lastUpdated"
+            trigger="hover"
+          >
             <template #trigger>
               <n-button
                 text
                 size="small"
-                circle
-                @click="navigateToVote"
               >
                 <template #icon>
-                  <n-icon><CheckSquare /></n-icon>
+                  <n-icon><InfoCircle /></n-icon>
                 </template>
               </n-button>
+            </template>
+            {{ t('vote.rankings.lastUpdated') }}:
+            {{
+              lastUpdated.toLocaleString(locale, {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+              })
+            }}
+          </n-tooltip>
+          <n-button
+            secondary
+            size="small"
+            @click="navigateToVote"
+          >
+            <template #icon>
+              <n-icon><CheckSquare /></n-icon>
             </template>
             {{ t('vote.rankings.voteMore') }}
-          </n-tooltip>
-          <n-tooltip :delay="500">
-            <template #trigger>
-              <n-button
+          </n-button>
+        </div>
+      </div>
+    </n-card>
+
+    <!-- Stats Skeleton -->
+    <n-card
+      v-if="!stats && rankingsLoading"
+      size="small"
+      class="rounded-xl"
+    >
+      <div class="flex flex-col sm:flex-row gap-4">
+        <div class="grid grid-cols-3 gap-3 sm:gap-4 sm:flex-1">
+          <div
+            v-for="i in 3"
+            :key="i"
+            class="text-center sm:text-left space-y-1"
+          >
+            <div>
+              <n-skeleton
                 text
-                :loading="rankingsLoading"
-                size="small"
-                circle
-                @click="refreshRankings"
-              >
-                <template #icon>
-                  <n-icon><Sync /></n-icon>
-                </template>
-              </n-button>
-            </template>
-            {{ t('vote.rankings.refresh') }}
-          </n-tooltip>
+                :height="20"
+                :width="64"
+              />
+            </div>
+            <div>
+              <n-skeleton
+                text
+                :height="24"
+                :width="48"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          class="flex flex-row sm:flex-col gap-2 justify-center sm:justify-start"
+        >
+          <n-skeleton
+            :width="100"
+            :height="24"
+            :sharp="false"
+          />
+          <n-skeleton
+            :width="100"
+            :height="24"
+            :sharp="false"
+          />
         </div>
       </div>
     </n-card>
 
     <!-- Rankings Table - Desktop -->
     <n-card
-      v-if="rankings.length > 0"
       size="small"
       class="rounded-xl hidden md:block"
     >
@@ -94,6 +175,8 @@
         :loading="rankingsLoading"
         :pagination="false"
         :bordered="false"
+        :row-props="rowProps"
+        class="cursor-pointer"
       />
     </n-card>
 
@@ -106,12 +189,13 @@
         v-for="ranking in rankings"
         :key="ranking.banner_id"
         size="small"
-        class="rounded-xl"
+        class="rounded-xl cursor-pointer hover:shadow-lg transition-shadow"
+        @click="navigateToBanner(ranking.banner_id)"
       >
         <!-- Rank, Banner Image & Name - All in one row -->
         <div class="flex items-center gap-3 mb-3">
           <!-- Rank -->
-          <div class="flex items-center gap-1 flex-shrink-0 w-16">
+          <div class="flex items-center gap-1 flex-shrink-0 w-12">
             <span class="font-bold text-lg">{{ ranking.rank }}</span>
             <n-icon
               v-if="ranking.rank === 1"
@@ -150,7 +234,9 @@
         </div>
 
         <!-- Stats Grid -->
-        <div class="grid grid-cols-3 gap-2 pt-3 border-t border-gray-200 dark:border-gray-700">
+        <div
+          class="grid grid-cols-3 gap-2 pt-3 border-t border-gray-200 dark:border-gray-700"
+        >
           <div class="text-center">
             <div class="text-xs text-gray-500 dark:text-gray-400">
               {{ t('vote.rankings.elo') }}
@@ -195,35 +281,50 @@
       </n-card>
     </div>
 
-    <!-- Loading State -->
-    <n-card
-      v-else-if="rankingsLoading"
-      size="small"
-      class="rounded-xl"
+    <!-- Mobile List Skeleton -->
+    <div
+      v-if="rankingsLoading && rankings.length === 0"
+      class="md:hidden space-y-2"
     >
-      <div class="flex items-center justify-center min-h-[300px]">
-        <n-spin size="large" />
-      </div>
-    </n-card>
+      <n-card
+        v-for="i in 3"
+        :key="i"
+        size="small"
+        class="rounded-xl"
+      >
+        <n-skeleton
+          text
+          :repeat="2"
+        />
+      </n-card>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-  import { Poll, Trophy, Users, ChartBar, Sync, CheckSquare } from '@vicons/fa'
+  import {
+    Poll,
+    Trophy,
+    Users,
+    ChartBar,
+    InfoCircle,
+    CheckSquare,
+  } from '@vicons/fa'
   import { BANNER_DATA } from '~/data/banners'
   import type { BannerRanking, VoteStats } from '~/types/vote'
   import type { DataTableColumns } from 'naive-ui'
   import { h, resolveComponent } from 'vue'
 
-  const { t } = useI18n()
+  const { t, locale } = useI18n()
   const localePath = useLocalePath()
   const router = useRouter()
   const message = useMessage()
   const { getRankings } = useBannerVote()
 
-  const rankingsLoading = ref(false)
+  const rankingsLoading = ref(true)
   const rankings = ref<BannerRanking[]>([])
   const stats = ref<VoteStats | null>(null)
+  const lastUpdated = ref<Date | null>(null)
 
   // Table columns
   const columns: DataTableColumns<BannerRanking> = [
@@ -274,9 +375,14 @@
             alt: t(`banner.${row.banner_id}.name`),
             class: 'w-20 h-10 rounded object-cover flex-shrink-0',
           }),
-          h('span', { class: 'whitespace-normal' }, t(`banner.${row.banner_id}.name`)),
+          h(
+            'span',
+            { class: 'whitespace-normal' },
+            t(`banner.${row.banner_id}.name`)
+          ),
         ])
       },
+      sorter: (a, b) => a.banner_id - b.banner_id,
     },
     {
       title: t('vote.rankings.elo'),
@@ -344,6 +450,7 @@
         rank: index + 1,
       }))
       stats.value = data.stats
+      lastUpdated.value = new Date(data.updated_at)
     } catch (error) {
       console.error('Failed to load rankings:', error)
       message.error(t('vote.errors.loadRankingsFailed'))
@@ -352,12 +459,21 @@
     }
   }
 
-  const refreshRankings = () => {
-    loadRankings()
-  }
-
   const navigateToVote = () => {
     router.push(localePath('/vote'))
+  }
+
+  const navigateToBanner = (bannerId: number) => {
+    router.push(localePath(`/banner/${bannerId}`))
+  }
+
+  const rowProps = (row: BannerRanking) => {
+    return {
+      style: 'cursor: pointer;',
+      onClick: () => {
+        navigateToBanner(row.banner_id)
+      },
+    }
   }
 
   // Load initial data

@@ -56,12 +56,13 @@ export default defineEventHandler(async (event) => {
         console.error('Failed to check vote count:', countError)
         // Don't block vote if count check fails
       } else {
-        // Limit to 100 votes per hour per fingerprint (adjust as needed)
-        if (recentVotes && recentVotes >= 100) {
-          throw createError({
+        // Limit to 50 votes per 24 hours per fingerprint
+        if (recentVotes && recentVotes >= 50) {
+          setResponseStatus(event, 429)
+          return {
+            error: 'Too many votes. Please wait before voting again.',
             statusCode: 429,
-            message: 'Too many votes. Please wait before voting again.',
-          })
+          }
         }
       }
     }

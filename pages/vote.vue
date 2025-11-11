@@ -6,7 +6,14 @@
       class="rounded-xl"
     >
       <div v-if="!loading && currentPair">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 relative">
+        <div
+          :key="getPairKey(currentPair.banner1.id, currentPair.banner2.id)"
+          class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 relative transition-all duration-500 ease-out"
+          :class="{
+            'opacity-0 scale-95 blur-sm': isTransitioning,
+            'opacity-100 scale-100 blur-0': !isTransitioning,
+          }"
+        >
           <!-- Banner 1 -->
           <div class="relative">
             <div
@@ -38,8 +45,6 @@
                   height="400"
                   fit="cover"
                   loading="eager"
-                  :preload="{ fetchPriority: 'high' }"
-                  fetchpriority="high"
                   sizes="400px sm:800px"
                 />
                 <div
@@ -127,8 +132,6 @@
                   height="400"
                   fit="cover"
                   loading="eager"
-                  :preload="{ fetchPriority: 'high' }"
-                  fetchpriority="high"
                   sizes="400px sm:800px"
                 />
                 <div
@@ -187,12 +190,37 @@
         </div>
 
         <!-- Submit and Skip Buttons -->
-        <div class="mt-6 sm:mt-8 flex justify-center gap-3 sm:gap-4">
+        <div
+          class="mt-6 sm:mt-8 flex justify-center items-center gap-3 sm:gap-4"
+        >
+          <n-tooltip
+            trigger="hover"
+            placement="top"
+          >
+            <template #trigger>
+              <n-button
+                text
+                size="large"
+                :disabled="submitting || skipping"
+                class="!px-2"
+              >
+                <n-icon
+                  size="20"
+                  class="text-gray-500 dark:text-gray-400"
+                >
+                  <InfoCircle />
+                </n-icon>
+              </n-button>
+            </template>
+            <div class="max-w-xs">
+              {{ t('vote.howItWorks') }}
+            </div>
+          </n-tooltip>
           <n-button
             secondary
             size="large"
-            :disabled="submitting"
-            :loading="submitting && !selectedBanner"
+            :disabled="submitting || skipping"
+            :loading="skipping"
             @click="handleSkip"
           >
             {{ t('vote.skip') }}
@@ -200,8 +228,8 @@
           <n-button
             type="primary"
             size="large"
-            :disabled="!selectedBanner || submitting"
-            :loading="submitting && !!selectedBanner"
+            :disabled="!selectedBanner || submitting || skipping"
+            :loading="submitting"
             @click="handleVote"
           >
             {{ t('vote.submit') }}
@@ -211,8 +239,63 @@
 
       <!-- Loading State -->
       <div v-else-if="loading">
-        <div class="flex items-center justify-center">
-          <n-spin size="large" />
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+          <!-- Skeleton Banner 1 -->
+          <div class="relative">
+            <div class="relative aspect-[2/1] rounded-xl overflow-hidden">
+              <n-skeleton
+                class="absolute inset-0 w-full h-full"
+                :sharp="false"
+              />
+            </div>
+            <div class="mt-2 sm:mt-3 text-center">
+              <n-skeleton
+                text
+                :width="120"
+                :height="20"
+                class="mx-auto"
+              />
+            </div>
+          </div>
+
+          <!-- Skeleton Banner 2 -->
+          <div class="relative">
+            <div class="relative aspect-[2/1] rounded-xl overflow-hidden">
+              <n-skeleton
+                class="absolute inset-0 w-full h-full"
+                :sharp="false"
+              />
+            </div>
+            <div class="mt-2 sm:mt-3 text-center">
+              <n-skeleton
+                text
+                :width="120"
+                :height="20"
+                class="mx-auto"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- Skeleton Buttons -->
+        <div
+          class="mt-6 sm:mt-8 flex justify-center items-center gap-3 sm:gap-4"
+        >
+          <n-skeleton
+            circle
+            :width="24"
+            :height="24"
+          />
+          <n-skeleton
+            :width="80"
+            :height="40"
+            :sharp="false"
+          />
+          <n-skeleton
+            :width="100"
+            :height="40"
+            :sharp="false"
+          />
         </div>
       </div>
     </n-card>
@@ -231,7 +314,7 @@
 </template>
 
 <script setup lang="ts">
-  import { CheckCircle, CalendarDay } from '@vicons/fa'
+  import { CheckCircle, CalendarDay, InfoCircle } from '@vicons/fa'
 
   const { t } = useI18n()
   const localePath = useLocalePath()
@@ -240,6 +323,8 @@
 
   const loading = ref(true)
   const submitting = ref(false)
+  const skipping = ref(false)
+  const isTransitioning = ref(false)
   const currentPair = ref<{
     banner1: { id: number; image: string }
     banner2: { id: number; image: string }
@@ -256,9 +341,15 @@
   // Load initial pair
   const loadPair = async () => {
     try {
-      loading.value = true
       selectedBanner.value = null
 
+      // Trigger transition if not initial load
+      if (currentPair.value) {
+        isTransitioning.value = true
+        await new Promise((resolve) => setTimeout(resolve, 500))
+      }
+
+      loading.value = true
       let newPair = await getVotePair()
 
       // Check if the new pair is the same as the previous one
@@ -287,10 +378,16 @@
       }
 
       currentPair.value = newPair
+      loading.value = false
+
+      // Trigger zoom in after content is rendered
+      await nextTick()
+      await new Promise((resolve) => setTimeout(resolve, 50))
+      isTransitioning.value = false
     } catch (error) {
       console.error('Failed to load vote pair:', error)
       message.error(t('vote.errors.loadFailed'))
-    } finally {
+      isTransitioning.value = false
       loading.value = false
     }
   }
@@ -314,26 +411,33 @@
 
       // Load next pair
       await loadPair()
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Failed to submit vote:', error)
-      message.error(t('vote.errors.submitFailed'))
+
+      // Check if it's a rate limit error
+      const errorMessage = error instanceof Error ? error.message : ''
+      if (errorMessage.includes('429')) {
+        message.warning(t('vote.errors.rateLimit'))
+      } else {
+        message.error(t('vote.errors.submitFailed'))
+      }
     } finally {
       submitting.value = false
     }
   }
 
   const handleSkip = async () => {
-    if (!currentPair.value || submitting.value) return
+    if (!currentPair.value || submitting.value || skipping.value) return
 
     try {
-      submitting.value = true
+      skipping.value = true
       // Load next pair without submitting a vote
       await loadPair()
     } catch (error) {
       console.error('Failed to skip pair:', error)
       message.error(t('vote.errors.loadFailed'))
     } finally {
-      submitting.value = false
+      skipping.value = false
     }
   }
 

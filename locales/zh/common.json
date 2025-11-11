@@ -615,7 +615,10 @@
       "winRateShort": "胜率",
       "wins": "胜场",
       "losses": "负场",
-      "totalVotes": "总投票数"
+      "totalVotes": "总投票数",
+      "winsLosses": "胜/负",
+      "winsShort": "胜",
+      "lossesShort": "负"
     }
   }
 }

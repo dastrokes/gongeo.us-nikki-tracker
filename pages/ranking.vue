@@ -21,7 +21,7 @@
               >
                 <Poll />
               </n-icon>
-              <span class="text-2xl font-semibold">
+              <span class="text-xl sm:text-2xl font-semibold">
                 <n-number-animation
                   :from="0"
                   :to="stats.totalVotes"
@@ -43,7 +43,7 @@
               >
                 <Users />
               </n-icon>
-              <span class="text-2xl font-semibold">
+              <span class="text-xl sm:text-2xl font-semibold">
                 <n-number-animation
                   :from="0"
                   :to="stats.totalVoters"
@@ -65,7 +65,7 @@
               >
                 <ChartBar />
               </n-icon>
-              <span class="text-2xl font-semibold">
+              <span class="text-xl sm:text-2xl font-semibold">
                 <n-number-animation
                   :from="0"
                   :to="stats.totalVotes / stats.totalVoters"
@@ -273,7 +273,7 @@
             { class: 'text-sm font-medium truncate max-w-[200px]' },
             t(`banner.${row.banner_id}.name`)
           ),
-          h('div', { class: 'flex gap-3 text-xs' }, [
+          h('div', { class: 'flex gap-3 text-sm' }, [
             h('span', { class: 'font-mono' }, [
               h(
                 'span',
@@ -300,21 +300,23 @@
       sorter: (a, b) => a.banner_id - b.banner_id,
     },
     {
-      title: 'W/L',
+      title: t('vote.rankings.winsLosses'),
       key: 'wins_losses',
       width: 80,
       render: (row) => {
-        return h('div', { class: 'flex flex-col gap-1 text-xs' }, [
+        return h('div', { class: 'flex flex-col gap-1 text-sm font-mono' }, [
           h(
             'span',
             { class: 'text-green-600 dark:text-green-400 font-semibold' },
-            `${row.wins}W`
+            [
+              h('span', { class: 'inline-block text-right w-8' }, row.wins),
+              ` ${t('vote.rankings.winsShort')}`,
+            ]
           ),
-          h(
-            'span',
-            { class: 'text-red-600 dark:text-red-400 font-semibold' },
-            `${row.losses}L`
-          ),
+          h('span', { class: 'text-red-600 dark:text-red-400 font-semibold' }, [
+            h('span', { class: 'inline-block text-right w-8' }, row.losses),
+            ` ${t('vote.rankings.lossesShort')}`,
+          ]),
         ])
       },
       sorter: (a, b) => b.wins - a.wins,

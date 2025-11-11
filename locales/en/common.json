@@ -615,7 +615,10 @@
       "winRateShort": "WR",
       "wins": "Wins",
       "losses": "Losses",
-      "totalVotes": "Total Votes"
+      "totalVotes": "Total Votes",
+      "winsLosses": "W/L",
+      "winsShort": "W",
+      "lossesShort": "L"
     }
   }
 }

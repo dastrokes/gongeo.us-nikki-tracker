@@ -7,7 +7,7 @@
     "global": "Globale Daten",
     "banner": "Bannerverlauf",
     "banner_detail": "Bannerdetail",
-    "vote": "Banner Vote",
+    "vote": "Banner-Abstimmung",
     "faq": "FAQ",
     "about": "Über gongeo.us",
     "nuan5pro": "Nuan5.Pro"
@@ -578,39 +578,42 @@
     "returnHome": "Zurück zur Startseite"
   },
   "vote": {
-    "title": "Banner Vote",
-    "description": "Help us determine the most popular banners from version 1.x! Vote on your favorite banners in head-to-head matchups.",
-    "submit": "Submit Vote",
-    "skip": "Skip",
-    "success": "Vote submitted successfully!",
-    "viewRankings": "View Rankings",
+    "title": "Banner-Abstimmung",
+    "description": "Hilf uns, die beliebtesten Banner von Version 1.x zu finden! Stimme für deine Lieblingsbanner in Kopf-an-Kopf Matchups ab.",
+    "submit": "Stimme abgeben",
+    "skip": "Überspringen",
+    "howItWorks": "Wähle dein Lieblingsbanner und gebe deine Stimme ab, um zu helfen, die beliebtesten Banner einzuordnen. Überspringe, wenn du dir unsicher bist. Du kannst alle 24 Stunden bis zu 50 Mal abstimmen.",
+    "success": "Stimme erfolgreich abgegeben!",
+    "viewRankings": "Rangliste ansehen",
     "tabs": {
-      "vote": "Vote",
-      "rankings": "Rankings"
+      "vote": "Abstimmen",
+      "rankings": "Rangliste"
     },
     "stats": {
-      "votes": "Total Votes",
-      "rankings": "Rankings",
-      "totalVotes": "Total Votes",
-      "totalVoters": "Total Voters",
-      "avgVotes": "Avg Votes/Voter"
+      "votes": "Stimmen insgesamt",
+      "rankings": "Rangliste",
+      "totalVotes": "Stimmen insgesamt",
+      "totalVoters": "Stimmen insgesamt",
+      "avgVotes": "Durchschn. Stimmen/Wähler"
     },
     "errors": {
-      "loadFailed": "Failed to load vote pair. Please try again.",
-      "submitFailed": "Failed to submit vote. Please try again.",
-      "loadRankingsFailed": "Failed to load rankings. Please try again."
+      "loadFailed": "Abstimmpaar konnte nicht geladen werden. Bitte versuche es erneut.",
+      "submitFailed": "Abstimmung fehlgeschlagen. Bitte versuche es erneut.",
+      "rateLimit": "Zu viele Abstimmungen. Bitte warte, bevor du erneut abstimmst.",
+      "loadRankingsFailed": "Rangliste konnte nicht geladen werden. Bitte versuche es erneut."
     },
     "rankings": {
-      "title": "Banner Rankings",
-      "description": "See which banners from version 1.x are the most popular based on community votes.",
-      "voteMore": "Vote More",
-      "rank": "Rank",
+      "title": "Banner-Rangliste",
+      "description": "Schau dir an, welche Banner von Version 1.x am beliebtesten sind, basierend auf Community-Abstimmungen.",
+      "voteMore": "Mehr abstimmen",
+      "lastUpdated": "Zuletzt aktualisiert",
+      "rank": "Rang",
       "banner": "Banner",
-      "elo": "Elo Rating",
-      "winRate": "Win Rate",
-      "wins": "Wins",
-      "losses": "Losses",
-      "totalVotes": "Total Votes"
+      "elo": "Elo Wertung",
+      "winRate": "Siegesrate",
+      "wins": "Siege",
+      "losses": "Niederlagen",
+      "totalVotes": "Stimmen insgesamt"
     }
   }
 }

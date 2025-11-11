@@ -210,7 +210,7 @@
           <div
             class="transition-all duration-300"
             :class="{
-              'h-[calc(100vh-210px)] sm:h-[calc(100vh-160px)]':
+              'h-[calc(100vh-210px)] sm:h-[calc(100vh-170px)]':
                 maximizedChart === 'pullsPerBanner',
               'h-[320px]': maximizedChart !== 'pullsPerBanner',
             }"
@@ -307,7 +307,7 @@
           <div
             class="transition-all duration-300"
             :class="{
-              'h-[calc(100vh-210px)] sm:h-[calc(100vh-160px)]':
+              'h-[calc(100vh-210px)] sm:h-[calc(100vh-170px)]':
                 maximizedChart === 'fiveStar',
               'h-[200px]': maximizedChart !== 'fiveStar',
             }"
@@ -350,7 +350,7 @@
           <div
             class="transition-all duration-300"
             :class="{
-              'h-[calc(100vh-210px)] sm:h-[calc(100vh-160px)]':
+              'h-[calc(100vh-210px)] sm:h-[calc(100vh-170px)]':
                 maximizedChart === 'fourStarType2',
               'h-[200px]': maximizedChart !== 'fourStarType2',
             }"
@@ -395,7 +395,7 @@
           <div
             class="transition-all duration-300"
             :class="{
-              'h-[calc(100vh-210px)] sm:h-[calc(100vh-160px)]':
+              'h-[calc(100vh-210px)] sm:h-[calc(100vh-170px)]':
                 maximizedChart === 'fourStarType3',
               'h-[200px]': maximizedChart !== 'fourStarType3',
             }"
@@ -445,7 +445,7 @@
           <div
             class="transition-all duration-300"
             :class="{
-              'h-[calc(100vh-210px)] sm:h-[calc(100vh-160px)]':
+              'h-[calc(100vh-210px)] sm:h-[calc(100vh-170px)]':
                 maximizedChart === 'firstItemDistribution',
               'h-[200px]': maximizedChart !== 'firstItemDistribution',
             }"

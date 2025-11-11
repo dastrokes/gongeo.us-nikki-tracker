@@ -594,7 +594,7 @@
       "rankings": "Rankings",
       "totalVotes": "Total Votes",
       "totalVoters": "Total Voters",
-      "avgVotes": "Avg Votes/Voter"
+      "avgVotes": "Avg Votes"
     },
     "errors": {
       "loadFailed": "Failed to load vote pair. Please try again.",
@@ -610,10 +610,15 @@
       "rank": "Rank",
       "banner": "Banner",
       "elo": "Elo Rating",
+      "eloShort": "ELO",
       "winRate": "Win Rate",
+      "winRateShort": "WR",
       "wins": "Wins",
       "losses": "Losses",
-      "totalVotes": "Total Votes"
+      "totalVotes": "Total Votes",
+      "winsLosses": "W/L",
+      "winsShort": "W",
+      "lossesShort": "L"
     }
   }
 }

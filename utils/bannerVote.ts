@@ -151,6 +151,7 @@ export function selectBannerByWeight(
  * Two-stage banner pair selection
  * Stage 1: Select first banner based purely on exposure (underexposed items prioritized)
  * Stage 2: Select second banner based on combined exposure + ELO match quality
+ * Final: Randomize the order of banner1 and banner2 to avoid position bias
  */
 export function selectBannerPair(
   rankings: BannerRanking[],
@@ -158,14 +159,16 @@ export function selectBannerPair(
 ): { banner1: number; banner2: number } {
   // Stage 1: Select first banner based on exposure
   const exposureWeights = calculateExposureWeights(rankings)
-  const banner1 = selectBannerByWeight(bannerIds, exposureWeights)
+  const firstSelected = selectBannerByWeight(bannerIds, exposureWeights)
 
   // Get first banner's ELO rating
-  const banner1Ranking = rankings.find((r) => r.banner_id === banner1)
-  const banner1Elo = banner1Ranking?.elo_rating ?? 1500
+  const firstSelectedRanking = rankings.find(
+    (r) => r.banner_id === firstSelected
+  )
+  const firstSelectedElo = firstSelectedRanking?.elo_rating ?? 1500
 
   // Stage 2: Select second banner from remaining banners
-  const remainingBannerIds = bannerIds.filter((id) => id !== banner1)
+  const remainingBannerIds = bannerIds.filter((id) => id !== firstSelected)
   const combinedWeights = new Map<number, number>()
 
   remainingBannerIds.forEach((bannerId) => {
@@ -173,15 +176,23 @@ export function selectBannerPair(
     const bannerElo = ranking?.elo_rating ?? 1500
 
     const exposureWeight = exposureWeights.get(bannerId) ?? 1.0
-    const eloQuality = calculateEloMatchQuality(banner1Elo, bannerElo)
+    const eloQuality = calculateEloMatchQuality(firstSelectedElo, bannerElo)
     const combinedWeight = calculateCombinedWeight(exposureWeight, eloQuality)
 
     combinedWeights.set(bannerId, combinedWeight)
   })
 
-  const banner2 = selectBannerByWeight(remainingBannerIds, combinedWeights)
+  const secondSelected = selectBannerByWeight(
+    remainingBannerIds,
+    combinedWeights
+  )
 
-  return { banner1, banner2 }
+  // Randomize the order to avoid position bias
+  const shouldSwap = Math.random() < 0.5
+
+  return shouldSwap
+    ? { banner1: secondSelected, banner2: firstSelected }
+    : { banner1: firstSelected, banner2: secondSelected }
 }
 
 /**

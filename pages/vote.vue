@@ -318,6 +318,7 @@
 
   const { t } = useI18n()
   const localePath = useLocalePath()
+  const siteUrl = useRuntimeConfig().public.siteUrl
   const message = useMessage()
   const { getVotePair, submitVote } = useBannerVote()
 
@@ -450,13 +451,31 @@
     loadPair()
   })
 
-  // Define page metadata
-  definePageMeta({
-    name: 'vote',
-  })
-
   // SEO
   useHead(() => ({
     title: t('vote.title') + ' - ' + t('navigation.subtitle'),
+    meta: [
+      {
+        name: 'description',
+        content: t('vote.description'),
+      },
+      {
+        property: 'og:title',
+        content: t('vote.title') + ' - ' + t('navigation.subtitle'),
+      },
+      {
+        property: 'og:description',
+        content: t('vote.description'),
+      },
+      {
+        name: 'twitter:title',
+        content: t('vote.title') + ' - ' + t('navigation.subtitle'),
+      },
+      {
+        name: 'twitter:description',
+        content: t('vote.description'),
+      },
+    ],
+    link: [{ rel: 'canonical', href: `${siteUrl}${localePath('/vote')}` }],
   }))
 </script>

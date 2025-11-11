@@ -81,6 +81,7 @@
                 <template #trigger>
                   <NuxtLink
                     :to="localePath(`/banner/${currentPair.banner1.id}`)"
+                    target="_blank"
                     class="hover:opacity-80 transition-opacity inline-flex items-center gap-1"
                   >
                     <n-icon
@@ -168,6 +169,7 @@
                 <template #trigger>
                   <NuxtLink
                     :to="localePath(`/banner/${currentPair.banner2.id}`)"
+                    target="_blank"
                     class="hover:opacity-80 transition-opacity inline-flex items-center gap-1"
                   >
                     <n-icon

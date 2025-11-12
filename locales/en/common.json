@@ -585,10 +585,8 @@
     "howItWorks": "Pick your favorite banner and submit your vote to help rank the most popular banners. Skip if you're not sure. You can vote up to 50 times every 24 hours.",
     "success": "Vote submitted successfully!",
     "viewRankings": "View Rankings",
-    "tabs": {
-      "vote": "Vote",
-      "rankings": "Rankings"
-    },
+    "vote": "Vote",
+    "ranking": "Rankings",
     "stats": {
       "votes": "Total Votes",
       "rankings": "Rankings",

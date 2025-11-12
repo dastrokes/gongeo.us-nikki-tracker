@@ -1,5 +1,6 @@
 import S0001 from './S0001'
 import S0033 from './S0033'
+import S0049 from './S0049'
 import S0056 from './S0056'
 import S0058 from './S0058'
 import S0084 from './S0084'
@@ -47,6 +48,7 @@ import S0227 from './S0227'
 import S0228 from './S0228'
 import S0231 from './S0231'
 import S0232 from './S0232'
+import S0234 from './S0234'
 import S0238 from './S0238'
 import S0239 from './S0239'
 import S0250 from './S0250'
@@ -64,6 +66,7 @@ import S0333 from './S0333'
 const OUTFIT_DATA = {
   S0001,
   S0033,
+  S0049,
   S0056,
   S0058,
   S0084,
@@ -111,6 +114,7 @@ const OUTFIT_DATA = {
   S0228,
   S0231,
   S0232,
+  S0234,
   S0238,
   S0239,
   S0250,

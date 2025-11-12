@@ -73,7 +73,19 @@
                 <Poll />
               </n-icon>
             </template>
-            {{ $t('vote.tabs.vote') }}
+            {{ $t('vote.vote') }}
+          </n-button>
+          <n-button
+            type="primary"
+            size="medium"
+            @click="router.push(localePath('/ranking'))"
+          >
+            <template #icon>
+              <n-icon>
+                <ListOl />
+              </n-icon>
+            </template>
+            {{ $t('vote.ranking') }}
           </n-button>
         </div>
       </n-card>
@@ -136,7 +148,7 @@
 <script setup lang="ts">
   import { BANNER_DATA } from '~/data/banners'
   import type { Banner } from '~/types/banner'
-  import { Book, Globe, CalendarAlt, Poll } from '@vicons/fa'
+  import { Book, Globe, CalendarAlt, Poll, ListOl } from '@vicons/fa'
 
   const { t } = useI18n()
 

@@ -585,10 +585,8 @@
     "howItWorks": "选择您喜欢的卡池并提交投票，帮助评选最受欢迎的卡池。不确定可以跳过。每24小时最多可投票50次。",
     "success": "投票提交成功！",
     "viewRankings": "查看排名",
-    "tabs": {
-      "vote": "投票",
-      "rankings": "排名"
-    },
+    "vote": "投票",
+    "ranking": "排名",
     "stats": {
       "votes": "总投票数",
       "rankings": "排名",

@@ -218,6 +218,26 @@
               {{ t('vote.howItWorks') }}
             </div>
           </n-tooltip>
+
+          <n-tooltip
+            trigger="hover"
+            placement="top"
+          >
+            <template #trigger>
+              <n-button
+                secondary
+                size="large"
+                @click="navigateToRankings"
+              >
+                <template #icon>
+                  <n-icon>
+                    <ListOl />
+                  </n-icon>
+                </template>
+              </n-button>
+            </template>
+            {{ t('vote.viewRankings') }}
+          </n-tooltip>
           <n-button
             secondary
             size="large"
@@ -301,25 +321,15 @@
         </div>
       </div>
     </n-card>
-
-    <!-- View Rankings Button -->
-    <!-- <div class="flex justify-center">
-          <n-button
-            secondary
-            size="large"
-            @click="navigateToRankings"
-          >
-            {{ t('vote.viewRankings') }}
-          </n-button>
-        </div> -->
   </div>
 </template>
 
 <script setup lang="ts">
-  import { CheckCircle, CalendarDay, InfoCircle } from '@vicons/fa'
+  import { CheckCircle, CalendarDay, InfoCircle, ListOl } from '@vicons/fa'
 
   const { t } = useI18n()
   const localePath = useLocalePath()
+  const router = useRouter()
   const siteUrl = useRuntimeConfig().public.siteUrl
   const message = useMessage()
   const { getVotePair, submitVote } = useBannerVote()
@@ -412,9 +422,9 @@
     }
   }
 
-  // const navigateToRankings = () => {
-  //   router.push(localePath('/ranking'))
-  // }
+  const navigateToRankings = () => {
+    router.push(localePath('/ranking'))
+  }
 
   // Load initial data
   onMounted(() => {

@@ -264,7 +264,7 @@
       "stats": {
         "total_pulls": "Resonanzen gesamt",
         "total_5star": "5★ gesamt",
-        "avg_5star": "5★ durchschn",
+        "avg_5star": "5★ durchschn.",
         "total_4star": "4★ gesamt",
         "avg_4star": "4★ durchschn.",
         "pity_5star": "5★ Pity",
@@ -591,7 +591,7 @@
       "votes": "Stimmen insgesamt",
       "rankings": "Rangliste",
       "totalVotes": "Stimmen insgesamt",
-      "totalVoters": "Wähler insgesamt",
+      "totalVoters": "Stimmen insgesamt",
       "avgVotes": "Durchschn. Stimmen"
     },
     "errors": {
@@ -603,14 +603,14 @@
     "rankings": {
       "title": "Banner-Rangliste",
       "description": "Schau dir an, welche Banner von Version 1.x am beliebtesten sind, basierend auf Community-Abstimmungen.",
-      "voteMore": "Mehr abstimmen",
+      "voteMore": "Abstimmen",
       "lastUpdated": "Zuletzt aktualisiert",
       "rank": "Rang",
       "banner": "Banner",
       "elo": "Elo Wertung",
       "eloShort": "ELO",
       "winRate": "Siegesrate",
-      "winRateShort": "WR",
+      "winRateShort": "SR",
       "wins": "Siege",
       "losses": "Niederlagen",
       "totalVotes": "Stimmen insgesamt",

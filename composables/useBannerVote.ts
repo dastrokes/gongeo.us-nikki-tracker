@@ -59,25 +59,11 @@ export const useBannerVote = () => {
     // Fetch rankings (this endpoint can now be cached)
     const { rankings } = await getRankings()
 
-    // Check for recently shown pairs in localStorage
-    const recentPairs = getRecentPairs()
+    // Get vote history from localStorage
+    const history = getVoteHistory()
 
-    // Try to get a pair that hasn't been shown recently
-    let pair: { banner1: number; banner2: number }
-    let attempts = 0
-    const maxAttempts = 10
-
-    do {
-      pair = selectBannerPair(rankings, bannerIds)
-      const pairKey = getPairKey(pair.banner1, pair.banner2)
-
-      // If this pair wasn't shown recently, use it
-      if (!recentPairs.includes(pairKey)) {
-        break
-      }
-
-      attempts++
-    } while (attempts < maxAttempts)
+    // Select pair with history filtering
+    const pair = selectBannerPair(rankings, bannerIds, history)
 
     // Store this pair in recent history
     addRecentPair(pair.banner1, pair.banner2)
@@ -103,28 +89,53 @@ export const useBannerVote = () => {
   }
 
   /**
-   * Get recently shown pairs from localStorage
+   * Get vote history from localStorage
+   * Processes the old format (array of pair strings) into the format needed by selectBannerPair
+   * Returns last 10 pairs and last 10 individual banners (from last 5 pairs)
    */
-  const getRecentPairs = (): string[] => {
-    if (!import.meta.client) return []
+  const getVoteHistory = () => {
+    if (!import.meta.client) {
+      return { lastPairs: [], lastBanners: [] }
+    }
 
     try {
       const stored = localStorage.getItem('gongeous-recent-votes')
-      return stored ? JSON.parse(stored) : []
+      if (!stored) {
+        return { lastPairs: [], lastBanners: [] }
+      }
+
+      const pairKeys: string[] = JSON.parse(stored)
+
+      // Convert pair keys (e.g., "5-12") to pair objects
+      const pairs = pairKeys
+        .map((pairKey) => {
+          const parts = pairKey.split('-').map(Number)
+          if (parts.length === 2 && !isNaN(parts[0]!) && !isNaN(parts[1]!)) {
+            return { banner1: parts[0]!, banner2: parts[1]! }
+          }
+          return null
+        })
+        .filter((p): p is { banner1: number; banner2: number } => p !== null)
+
+      // Get last 10 individual banners from last 5 pairs
+      const banners = pairs.slice(0, 5).flatMap((p) => [p.banner1, p.banner2])
+
+      return { lastPairs: pairs, lastBanners: banners }
     } catch {
-      return []
+      return { lastPairs: [], lastBanners: [] }
     }
   }
 
   /**
-   * Add a pair to recent history (keeps last 10 pairs)
+   * Add a pair to recent history (keeps last 10 pairs in old format)
    */
   const addRecentPair = (banner1Id: number, banner2Id: number): void => {
     if (!import.meta.client) return
 
     try {
       const pairKey = getPairKey(banner1Id, banner2Id)
-      const recentPairs = getRecentPairs()
+      const stored = localStorage.getItem('gongeous-recent-votes')
+      const recentPairs: string[] = stored ? JSON.parse(stored) : []
 
       // Add to front, remove duplicates, keep last 10
       const updated = [

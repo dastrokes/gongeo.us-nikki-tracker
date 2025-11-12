@@ -559,7 +559,7 @@ export const BANNER_DATA: BannerData = {
     outfit5StarId: [],
     runs: [
       {
-        version: '1.11.1',
+        version: '1.11.2',
         start: '2025-11-12',
         end: '2025-11-25',
       },
@@ -572,7 +572,7 @@ export const BANNER_DATA: BannerData = {
     outfit5StarId: [],
     runs: [
       {
-        version: '1.11.1',
+        version: '1.11.2',
         start: '2025-11-12',
         end: '2025-11-25',
       },

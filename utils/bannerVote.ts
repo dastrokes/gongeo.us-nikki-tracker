@@ -147,19 +147,44 @@ export function selectBannerByWeight(
   return weightArray[weightArray.length - 1]!.id
 }
 
+export interface VoteHistory {
+  lastPairs: Array<{ banner1: number; banner2: number }>
+  lastBanners: number[]
+}
+
 /**
- * Two-stage banner pair selection
+ * Two-stage banner pair selection with history tracking
  * Stage 1: Select first banner based purely on exposure (underexposed items prioritized)
  * Stage 2: Select second banner based on combined exposure + ELO match quality
  * Final: Randomize the order of banner1 and banner2 to avoid position bias
+ *
+ * History rules:
+ * - Single banners should not repeat from last 5 pairs (10 individual banner slots)
+ * - Pairs should not repeat from last 10 pairs
+ *
+ * @param rankings - Banner rankings with ELO and vote counts
+ * @param bannerIds - Available banner IDs to choose from
+ * @param history - Optional vote history from localStorage
  */
 export function selectBannerPair(
   rankings: BannerRanking[],
-  bannerIds: number[]
+  bannerIds: number[],
+  history?: VoteHistory
 ): { banner1: number; banner2: number } {
+  // Filter out banners that appeared in last 5 pairs (10 individual banner slots)
+  const recentBanners = new Set(history?.lastBanners ?? [])
+  const eligibleBannerIds = bannerIds.filter((id) => !recentBanners.has(id))
+
+  // If not enough eligible banners, use all banners
+  const selectableBannerIds =
+    eligibleBannerIds.length >= 2 ? eligibleBannerIds : bannerIds
+
   // Stage 1: Select first banner based on exposure
   const exposureWeights = calculateExposureWeights(rankings)
-  const firstSelected = selectBannerByWeight(bannerIds, exposureWeights)
+  const firstSelected = selectBannerByWeight(
+    selectableBannerIds,
+    exposureWeights
+  )
 
   // Get first banner's ELO rating
   const firstSelectedRanking = rankings.find(
@@ -167,11 +192,30 @@ export function selectBannerPair(
   )
   const firstSelectedElo = firstSelectedRanking?.elo_rating ?? 1500
 
-  // Stage 2: Select second banner from remaining banners
-  const remainingBannerIds = bannerIds.filter((id) => id !== firstSelected)
+  // Stage 2: Select second banner from remaining banners, excluding pairs from last 10
+  const recentPairs = new Set(
+    (history?.lastPairs ?? []).map((pair) =>
+      [pair.banner1, pair.banner2].sort().join('-')
+    )
+  )
+
+  const remainingBannerIds = selectableBannerIds.filter((id) => {
+    if (id === firstSelected) return false
+
+    // Check if this pair was used recently
+    const pairKey = [firstSelected, id].sort().join('-')
+    return !recentPairs.has(pairKey)
+  })
+
+  // If all pairs with firstSelected are recent, use all remaining banners
+  const secondStageBannerIds =
+    remainingBannerIds.length > 0
+      ? remainingBannerIds
+      : selectableBannerIds.filter((id) => id !== firstSelected)
+
   const combinedWeights = new Map<number, number>()
 
-  remainingBannerIds.forEach((bannerId) => {
+  secondStageBannerIds.forEach((bannerId) => {
     const ranking = rankings.find((r) => r.banner_id === bannerId)
     const bannerElo = ranking?.elo_rating ?? 1500
 
@@ -183,7 +227,7 @@ export function selectBannerPair(
   })
 
   const secondSelected = selectBannerByWeight(
-    remainingBannerIds,
+    secondStageBannerIds,
     combinedWeights
   )
 

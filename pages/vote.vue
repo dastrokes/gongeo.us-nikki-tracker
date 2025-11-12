@@ -7,7 +7,7 @@
     >
       <div v-if="!loading && currentPair">
         <div
-          :key="getPairKey(currentPair.banner1.id, currentPair.banner2.id)"
+          :key="`${currentPair.banner1.id}-${currentPair.banner2.id}`"
           class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 relative transition-all duration-500 ease-out"
           :class="{
             'opacity-0 scale-95 blur-sm': isTransitioning,
@@ -333,13 +333,6 @@
     banner2: { id: number; image: string }
   } | null>(null)
   const selectedBanner = ref<number | null>(null)
-  const previousPair = ref<string | null>(null) // Track previous pair to avoid duplicates
-
-  // Generate a unique key for a pair (order-independent)
-  const getPairKey = (banner1Id: number, banner2Id: number): string => {
-    const [id1, id2] = [banner1Id, banner2Id].sort((a, b) => a - b)
-    return `${id1}-${id2}`
-  }
 
   // Load initial pair
   const loadPair = async () => {
@@ -353,32 +346,7 @@
       }
 
       loading.value = true
-      let newPair = await getVotePair()
-
-      // Check if the new pair is the same as the previous one
-      if (currentPair.value && previousPair.value) {
-        const newPairKey = getPairKey(newPair.banner1.id, newPair.banner2.id)
-
-        // If same pair, try to get a different one (max 3 attempts)
-        let attempts = 0
-        while (newPairKey === previousPair.value && attempts < 3) {
-          newPair = await getVotePair()
-          const retryPairKey = getPairKey(
-            newPair.banner1.id,
-            newPair.banner2.id
-          )
-          if (retryPairKey !== previousPair.value) break
-          attempts++
-        }
-      }
-
-      // Store the previous pair key before updating current
-      if (currentPair.value) {
-        previousPair.value = getPairKey(
-          currentPair.value.banner1.id,
-          currentPair.value.banner2.id
-        )
-      }
+      const newPair = await getVotePair()
 
       currentPair.value = newPair
       loading.value = false

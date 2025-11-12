@@ -93,8 +93,8 @@ export function calculateEloMatchQuality(
 export function calculateCombinedWeight(
   exposureWeight: number,
   eloQuality: number,
-  exposureExponent: number = 1.0,
-  eloExponent: number = 0.0
+  exposureExponent: number = 0.3,
+  eloExponent: number = 0.7
 ): number {
   return (
     Math.pow(exposureWeight, exposureExponent) *

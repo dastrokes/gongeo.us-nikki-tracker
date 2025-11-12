@@ -224,7 +224,7 @@
     {
       title: '#',
       key: 'rank',
-      width: 50,
+      width: 40,
       render: (row) => {
         const rank = row.rank
         let icon = null

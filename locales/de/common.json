@@ -585,10 +585,8 @@
     "howItWorks": "Wähle dein Lieblingsbanner und gebe deine Stimme ab, um zu helfen, die beliebtesten Banner einzuordnen. Überspringe, wenn du dir unsicher bist. Du kannst alle 24 Stunden bis zu 50 Mal abstimmen.",
     "success": "Stimme erfolgreich abgegeben!",
     "viewRankings": "Rangliste ansehen",
-    "tabs": {
-      "vote": "Abstimmen",
-      "rankings": "Rangliste"
-    },
+    "vote": "Abstimmen",
+    "ranking": "Rangliste",
     "stats": {
       "votes": "Stimmen insgesamt",
       "rankings": "Rangliste",

@@ -309,7 +309,12 @@
             :height="24"
           />
           <n-skeleton
-            :width="80"
+            :width="60"
+            :height="40"
+            :sharp="false"
+          />
+          <n-skeleton
+            :width="60"
             :height="40"
             :sharp="false"
           />
@@ -397,7 +402,7 @@
 
       // Check if it's a rate limit error
       const errorMessage = error instanceof Error ? error.message : ''
-      if (errorMessage.includes('429')) {
+      if (errorMessage.includes('Too many votes')) {
         message.warning(t('vote.errors.rateLimit'))
       } else {
         message.error(t('vote.errors.submitFailed'))

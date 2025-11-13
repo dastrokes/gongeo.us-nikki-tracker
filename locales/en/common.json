@@ -587,10 +587,17 @@
     "viewRankings": "View Rankings",
     "vote": "Vote",
     "ranking": "Rankings",
+    "mode": {
+      "personal": "Personal Mode",
+      "community": "Community Mode",
+      "personalDesc": "Your votes are stored locally and create your personal rankings. Does not affect community rankings.",
+      "communityDesc": "Your votes contribute to the community rankings and help determine the most popular banners."
+    },
     "stats": {
       "votes": "Total Votes",
       "rankings": "Rankings",
       "totalVotes": "Total Votes",
+      "personalVotes": "Personal Votes",
       "totalVoters": "Total Voters",
       "avgVotes": "Avg Votes"
     },

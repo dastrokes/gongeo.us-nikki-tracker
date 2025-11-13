@@ -51,7 +51,8 @@ export function calculateEloChange(
 /**
  * Calculate exposure-based weights for banners
  * Banners with lower total votes get higher weight
- * Uses formula: weight = 1 / (total_votes + 1)
+ * Uses dynamic normalization based on min/max votes in the dataset
+ * This auto-adjusts as vote counts grow over time
  */
 export function calculateExposureWeights(
   rankings: BannerRanking[]
@@ -62,9 +63,26 @@ export function calculateExposureWeights(
     return weights
   }
 
+  // Find min and max votes for normalization
+  const voteCounts = rankings.map((r) => r.total_votes ?? 0)
+  const minVotes = Math.min(...voteCounts)
+  const maxVotes = Math.max(...voteCounts)
+  const voteRange = maxVotes - minVotes
+
   rankings.forEach((ranking) => {
     const totalVotes = ranking.total_votes ?? 0
-    const weight = 1 / (totalVotes + 1)
+
+    // If all banners have same votes, use uniform weight
+    if (voteRange === 0) {
+      weights.set(ranking.banner_id, 1.0)
+      return
+    }
+
+    // Normalize to 0-1 range, then invert (lower votes = higher weight)
+    // Add small boost to create more pronounced differences
+    const normalized = (totalVotes - minVotes) / voteRange
+    const weight = Math.pow(1 - normalized, 2) + 0.1 // Square for emphasis, +0.1 baseline
+
     weights.set(ranking.banner_id, weight)
   })
 
@@ -74,15 +92,26 @@ export function calculateExposureWeights(
 /**
  * Calculate ELO match quality weight between two banners
  * Higher weight for closer ELO ratings
- * Uses formula: weight = 1 / (1 + |ELO_diff| / scale_factor)
+ * Uses dynamic normalization based on actual ELO range in dataset
+ *
+ * @param elo1 - First banner's ELO rating
+ * @param elo2 - Second banner's ELO rating
+ * @param eloRange - The range (max - min) of ELO ratings in the dataset
+ * @returns Weight between 0 and 1, where 1 = identical ELO, 0 = maximum difference
  */
 export function calculateEloMatchQuality(
   elo1: number,
   elo2: number,
-  scaleFactor: number = 100
+  eloRange: number
 ): number {
+  if (eloRange === 0) return 1.0 // All banners have same ELO
+
   const eloDiff = Math.abs(elo1 - elo2)
-  return 1 / (1 + eloDiff / scaleFactor)
+  const normalizedDiff = eloDiff / eloRange // 0 to 1
+
+  // Invert so closer ratings = higher weight
+  // Use exponential decay for smoother weighting
+  return Math.exp(-normalizedDiff * 3) // e^(-3x) gives good decay curve
 }
 
 /**
@@ -192,6 +221,12 @@ export function selectBannerPair(
   )
   const firstSelectedElo = firstSelectedRanking?.elo_rating ?? 1500
 
+  // Calculate ELO range for normalization
+  const eloRatings = rankings.map((r) => r.elo_rating ?? 1500)
+  const minElo = Math.min(...eloRatings)
+  const maxElo = Math.max(...eloRatings)
+  const eloRange = maxElo - minElo
+
   // Stage 2: Select second banner from remaining banners, excluding pairs from last 10
   const recentPairs = new Set(
     (history?.lastPairs ?? []).map((pair) =>
@@ -220,7 +255,11 @@ export function selectBannerPair(
     const bannerElo = ranking?.elo_rating ?? 1500
 
     const exposureWeight = exposureWeights.get(bannerId) ?? 1.0
-    const eloQuality = calculateEloMatchQuality(firstSelectedElo, bannerElo)
+    const eloQuality = calculateEloMatchQuality(
+      firstSelectedElo,
+      bannerElo,
+      eloRange
+    )
     const combinedWeight = calculateCombinedWeight(exposureWeight, eloQuality)
 
     combinedWeights.set(bannerId, combinedWeight)

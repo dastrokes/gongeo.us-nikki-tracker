@@ -12,7 +12,11 @@
             <div
               class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-1"
             >
-              {{ t('vote.stats.totalVotes') }}
+              {{
+                isPersonalMode
+                  ? t('vote.stats.personalVotes')
+                  : t('vote.stats.totalVotes')
+              }}
             </div>
             <div
               class="flex items-center justify-center sm:justify-start gap-2"
@@ -32,7 +36,10 @@
               </span>
             </div>
           </div>
-          <div class="text-center sm:text-left">
+          <div
+            v-if="!isPersonalMode"
+            class="text-center sm:text-left"
+          >
             <div
               class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-1"
             >
@@ -56,7 +63,10 @@
               </span>
             </div>
           </div>
-          <div class="text-center sm:text-left">
+          <div
+            v-if="!isPersonalMode"
+            class="text-center sm:text-left"
+          >
             <div
               class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-1"
             >
@@ -85,31 +95,69 @@
         <div
           class="flex flex-row sm:flex-col gap-2 justify-center sm:justify-start sm:self-start"
         >
-          <n-tooltip
-            v-if="lastUpdated"
-            trigger="hover"
-          >
-            <template #trigger>
-              <n-button
-                text
-                size="small"
-              >
-                <template #icon>
-                  <n-icon><InfoCircle /></n-icon>
-                </template>
-              </n-button>
-            </template>
-            {{ t('vote.rankings.lastUpdated') }}:
-            {{
-              lastUpdated.toLocaleString(locale, {
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit',
-                hour: '2-digit',
-                minute: '2-digit',
-              })
-            }}
-          </n-tooltip>
+          <div class="flex justify-end items-center gap-2">
+            <n-tooltip
+              :width="250"
+              trigger="hover"
+              placement="bottom"
+            >
+              <template #trigger>
+                <n-switch
+                  :value="isPersonalMode"
+                  @update:value="setMode"
+                >
+                  <template #checked>
+                    <n-icon><User /></n-icon>
+                  </template>
+                  <template #unchecked>
+                    <n-icon><Users /></n-icon>
+                  </template>
+                </n-switch>
+              </template>
+              <div class="max-w-xs">
+                <div class="font-semibold mb-1">
+                  {{
+                    isPersonalMode
+                      ? t('vote.mode.personal')
+                      : t('vote.mode.community')
+                  }}
+                </div>
+                <div>
+                  {{
+                    isPersonalMode
+                      ? t('vote.mode.personalDesc')
+                      : t('vote.mode.communityDesc')
+                  }}
+                </div>
+              </div>
+            </n-tooltip>
+            <n-tooltip
+              v-if="lastUpdated"
+              :width="250"
+              trigger="hover"
+            >
+              <template #trigger>
+                <n-button
+                  text
+                  size="small"
+                >
+                  <template #icon>
+                    <n-icon><InfoCircle /></n-icon>
+                  </template>
+                </n-button>
+              </template>
+              {{ t('vote.rankings.lastUpdated') }}:
+              {{
+                lastUpdated.toLocaleString(locale, {
+                  year: 'numeric',
+                  month: '2-digit',
+                  day: '2-digit',
+                  hour: '2-digit',
+                  minute: '2-digit',
+                })
+              }}
+            </n-tooltip>
+          </div>
           <n-button
             secondary
             size="small"
@@ -172,6 +220,7 @@
 
     <!-- Rankings Table - Responsive -->
     <n-card
+      v-if="rankings.length > 0"
       size="small"
       class="rounded-xl"
     >
@@ -196,6 +245,7 @@
     ChartBar,
     InfoCircle,
     CheckSquare,
+    User,
   } from '@vicons/fa'
   import { BANNER_DATA } from '~/data/banners'
   import type { BannerRanking, VoteStats } from '~/types/vote'
@@ -209,11 +259,27 @@
   const router = useRouter()
   const message = useMessage()
   const { getRankings } = useBannerVote()
+  const { getPersonalRankings } = usePersonalVote()
 
   const rankingsLoading = ref(true)
   const rankings = ref<BannerRanking[]>([])
   const stats = ref<VoteStats | null>(null)
   const lastUpdated = ref<Date | null>(null)
+
+  // Mode toggle state (community/personal) - using shared composable
+  const { isPersonalMode, setMode: setVotingMode } = useVotingMode()
+
+  // Wrapper to reload rankings when mode changes
+  const setMode = (value: boolean) => {
+    setVotingMode(value)
+    // Reload rankings when mode changes
+    loadRankings()
+  }
+
+  // Watch for mode changes to reload rankings
+  watch(isPersonalMode, () => {
+    loadRankings()
+  })
 
   // Initialize breakpoints
   const breakpoints = useBreakpoints(breakpointsTailwind)
@@ -446,17 +512,27 @@
   const loadRankings = async () => {
     try {
       rankingsLoading.value = true
-      const data = await getRankings()
-      // Sort by win rate (descending) and add rank property
-      const sortedRankings = [...data.rankings].sort(
-        (a, b) => (b.win_rate ?? 0) - (a.win_rate ?? 0)
-      )
-      rankings.value = sortedRankings.map((ranking, index) => ({
-        ...ranking,
-        rank: index + 1,
-      }))
-      stats.value = data.stats
-      lastUpdated.value = new Date(data.updated_at)
+
+      if (isPersonalMode.value) {
+        // Load personal rankings from localStorage
+        const data = getPersonalRankings()
+        rankings.value = data.rankings
+        stats.value = data.stats
+        lastUpdated.value = data.updated_at ? new Date(data.updated_at) : null
+      } else {
+        // Load community rankings from API
+        const data = await getRankings()
+        // Sort by win rate (descending) and add rank property
+        const sortedRankings = [...data.rankings].sort(
+          (a, b) => (b.win_rate ?? 0) - (a.win_rate ?? 0)
+        )
+        rankings.value = sortedRankings.map((ranking, index) => ({
+          ...ranking,
+          rank: index + 1,
+        }))
+        stats.value = data.stats
+        lastUpdated.value = new Date(data.updated_at)
+      }
     } catch (error) {
       console.error('Failed to load rankings:', error)
       message.error(t('vote.errors.loadRankingsFailed'))
@@ -482,8 +558,14 @@
     }
   }
 
+  // Watch mode changes and reload rankings
+  watch(isPersonalMode, () => {
+    loadRankings()
+  })
+
   // Load initial data
   onMounted(() => {
+    // Mode is already initialized by the composable
     loadRankings()
   })
 

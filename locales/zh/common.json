@@ -587,10 +587,17 @@
     "viewRankings": "查看排名",
     "vote": "投票",
     "ranking": "排名",
+    "mode": {
+      "personal": "个人模式",
+      "community": "社区模式",
+      "personalDesc": "您的投票将本地存储并创建您的个人排名。不会影响社区排名。",
+      "communityDesc": "您的投票将贡献给社区排名，帮助选出最受欢迎的卡池。"
+    },
     "stats": {
       "votes": "总投票数",
       "rankings": "排名",
       "totalVotes": "总投票数",
+      "personalVotes": "个人投票数",
       "totalVoters": "总投票人数",
       "avgVotes": "平均投票数"
     },

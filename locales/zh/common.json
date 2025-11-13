@@ -582,17 +582,24 @@
     "description": "帮助我们评选出1.x版本中最受欢迎的卡池！在一对一的对决中为您最喜欢的卡池投票。",
     "submit": "提交投票",
     "skip": "跳过",
-    "howItWorks": "选择您喜欢的卡池并提交投票，帮助评选最受欢迎的卡池。不确定可以跳过。每24小时最多可投票50次。",
+    "howItWorks": "Pick your favorite banner and submit your vote to help rank the most popular banners. Skip if you're not sure. You can vote up to 50 times every 24 hours.",
     "success": "投票提交成功！",
     "viewRankings": "查看排名",
-    "vote": "投票",
-    "ranking": "排名",
+    "vote": "Vote",
+    "ranking": "Rankings",
+    "mode": {
+      "personal": "个人模式",
+      "community": "社区模式",
+      "personalDesc": "您的投票将本地存储并创建您的个人排名。不会影响社区排名。",
+      "communityDesc": "您的投票将贡献给社区排名，帮助选出最受欢迎的卡池。"
+    },
     "stats": {
       "votes": "总投票数",
       "rankings": "排名",
       "totalVotes": "总投票数",
+      "personalVotes": "个人投票数",
       "totalVoters": "总投票人数",
-      "avgVotes": "平均投票数"
+      "avgVotes": "Avg Votes"
     },
     "errors": {
       "loadFailed": "加载投票失败，请重试。",

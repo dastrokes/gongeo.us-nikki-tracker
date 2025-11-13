@@ -184,30 +184,7 @@ export const useBannerVote = () => {
       throw new Error('Winner ID must match one of the two banner IDs')
     }
 
-    // Rate limiting by fingerprint
-    if (voterFingerprint.value) {
-      const supabase = useSupabaseClient('client')
-
-      // Check votes in the last 24 hours from this fingerprint
-      const oneHourAgo = new Date(
-        Date.now() - 7 * 24 * 60 * 60 * 1000
-      ).toISOString()
-      const { count: recentVotes, error: countError } = await supabase
-        .from('banner_votes')
-        .select('*', { count: 'exact', head: true })
-        .eq('voter_fingerprint', voterFingerprint.value)
-        .gte('created_at', oneHourAgo)
-
-      if (countError) {
-        console.error('Failed to check vote count:', countError)
-        // Don't block vote if count check fails
-      } else {
-        // Limit to 50 votes per 24 hours per fingerprint
-        if (recentVotes && recentVotes >= 50) {
-          throw new Error('Too many votes. Please wait before voting again.')
-        }
-      }
-    }
+    // Rate limiting is handled inside the database function process_vote
 
     // Call the database function to process vote atomically
     const supabase = useSupabaseClient('client')
@@ -221,7 +198,8 @@ export const useBannerVote = () => {
 
     if (result.error) {
       console.error('Failed to process vote:', result.error)
-      throw new Error('Failed to submit vote')
+      // Preserve the database error message (e.g., rate limit errors)
+      throw new Error(result.error.message || 'Failed to submit vote')
     }
 
     return { success: true }

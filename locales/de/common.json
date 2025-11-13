@@ -587,11 +587,18 @@
     "viewRankings": "Rangliste ansehen",
     "vote": "Abstimmen",
     "ranking": "Rangliste",
+    "mode": {
+      "personal": "Personal Mode",
+      "community": "Community Mode",
+      "personalDesc": "Your votes are stored locally and create your personal rankings. Does not affect community rankings.",
+      "communityDesc": "Your votes contribute to the community rankings and help determine the most popular banners."
+    },
     "stats": {
       "votes": "Stimmen insgesamt",
       "rankings": "Rangliste",
       "totalVotes": "Stimmen insgesamt",
-      "totalVoters": "Stimmen insgesamt",
+      "personalVotes": "Personal Votes",
+      "totalVoters": "Wähler insgesamt",
       "avgVotes": "Durchschn. Stimmen"
     },
     "errors": {

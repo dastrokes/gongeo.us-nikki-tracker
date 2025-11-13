@@ -190,7 +190,7 @@ export const useBannerVote = () => {
 
       // Check votes in the last 24 hours from this fingerprint
       const oneHourAgo = new Date(
-        Date.now() - 24 * 60 * 60 * 1000
+        Date.now() - 7 * 24 * 60 * 60 * 1000
       ).toISOString()
       const { count: recentVotes, error: countError } = await supabase
         .from('banner_votes')

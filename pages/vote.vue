@@ -242,7 +242,13 @@
                 </n-switch>
               </template>
               <div class="max-w-xs">
-                <div class="font-semibold mb-1">{{ t('vote.mode.title') }}</div>
+                <div class="font-semibold mb-1">
+                  {{
+                    isPersonalMode
+                      ? t('vote.mode.personal')
+                      : t('vote.mode.community')
+                  }}
+                </div>
                 <div>
                   {{
                     isPersonalMode
@@ -339,28 +345,40 @@
 
         <!-- Skeleton Buttons -->
         <div
-          class="mt-6 sm:mt-8 flex justify-center items-center gap-3 sm:gap-4"
+          class="mt-6 sm:mt-8 flex flex-col-reverse sm:flex-row justify-center items-center gap-3 sm:gap-4"
         >
-          <n-skeleton
-            circle
-            :width="24"
-            :height="24"
-          />
-          <n-skeleton
-            :width="60"
-            :height="40"
-            :sharp="false"
-          />
-          <n-skeleton
-            :width="60"
-            :height="40"
-            :sharp="false"
-          />
-          <n-skeleton
-            :width="100"
-            :height="40"
-            :sharp="false"
-          />
+          <!-- Info and Toggle Skeleton -->
+          <div class="flex items-center gap-2">
+            <n-skeleton
+              circle
+              :width="24"
+              :height="24"
+            />
+            <n-skeleton
+              :width="56"
+              :height="24"
+              :sharp="false"
+            />
+          </div>
+
+          <!-- Action Buttons Skeleton -->
+          <div class="flex items-center gap-3 sm:gap-4">
+            <n-skeleton
+              :width="44"
+              :height="40"
+              :sharp="false"
+            />
+            <n-skeleton
+              :width="80"
+              :height="40"
+              :sharp="false"
+            />
+            <n-skeleton
+              :width="100"
+              :height="40"
+              :sharp="false"
+            />
+          </div>
         </div>
       </div>
     </n-card>
@@ -514,7 +532,6 @@
 
   // Load initial data
   onMounted(() => {
-    // Mode is already initialized by the composable
     loadPair()
   })
 

@@ -202,16 +202,23 @@
           </div>
         </div>
         <div
-          class="flex flex-row sm:flex-col gap-2 justify-center sm:justify-start"
+          class="flex flex-row sm:flex-col gap-2 justify-center sm:justify-start sm:self-start"
         >
+          <div class="flex justify-end items-center gap-2">
+            <n-skeleton
+              :width="60"
+              :height="24"
+              :sharp="false"
+            />
+            <n-skeleton
+              circle
+              :width="24"
+              :height="24"
+            />
+          </div>
           <n-skeleton
             :width="100"
-            :height="24"
-            :sharp="false"
-          />
-          <n-skeleton
-            :width="100"
-            :height="24"
+            :height="26"
             :sharp="false"
           />
         </div>
@@ -220,7 +227,6 @@
 
     <!-- Rankings Table - Responsive -->
     <n-card
-      v-if="rankings.length > 0"
       size="small"
       class="rounded-xl"
     >
@@ -518,7 +524,6 @@
         const data = getPersonalRankings()
         rankings.value = data.rankings
         stats.value = data.stats
-        lastUpdated.value = data.updated_at ? new Date(data.updated_at) : null
       } else {
         // Load community rankings from API
         const data = await getRankings()
@@ -565,7 +570,6 @@
 
   // Load initial data
   onMounted(() => {
-    // Mode is already initialized by the composable
     loadRankings()
   })
 

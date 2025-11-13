@@ -402,7 +402,10 @@
 
       // Check if it's a rate limit error
       const errorMessage = error instanceof Error ? error.message : ''
-      if (errorMessage.includes('Too many votes')) {
+      if (
+        errorMessage.includes('Rate limit exceeded') ||
+        errorMessage.includes('Too many votes')
+      ) {
         message.warning(t('vote.errors.rateLimit'))
       } else {
         message.error(t('vote.errors.submitFailed'))

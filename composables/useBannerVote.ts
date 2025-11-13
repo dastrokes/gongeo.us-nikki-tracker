@@ -162,26 +162,69 @@ export const useBannerVote = () => {
       await initializeFingerprint()
     }
 
-    const response = await $fetch<{
-      success?: boolean
-      error?: string
-      statusCode?: number
-    }>('/api/vote', {
-      method: 'POST',
-      body: {
-        banner_id_1: bannerId1,
-        banner_id_2: bannerId2,
-        winner_id: winnerId,
-        voter_fingerprint: voterFingerprint.value,
-      },
-    })
-
-    // Handle rate limit error
-    if (response.statusCode === 429 || response.error) {
-      throw new Error(response.error || 'Rate limit exceeded')
+    // Validate request
+    if (
+      typeof bannerId1 !== 'number' ||
+      typeof bannerId2 !== 'number' ||
+      typeof winnerId !== 'number'
+    ) {
+      throw new Error('Invalid request - missing required fields')
     }
 
-    return { success: response.success ?? true }
+    // Validate that both banners are 1.x banners (excluding permanent banner ID 1)
+    const validBannerIds = getVersion1xBannerIdsExcludingPermanent()
+    if (
+      !validBannerIds.includes(bannerId1) ||
+      !validBannerIds.includes(bannerId2)
+    ) {
+      throw new Error('Invalid banner IDs - must be version 1.x banners')
+    }
+
+    if (winnerId !== bannerId1 && winnerId !== bannerId2) {
+      throw new Error('Winner ID must match one of the two banner IDs')
+    }
+
+    // Rate limiting by fingerprint
+    if (voterFingerprint.value) {
+      const supabase = useSupabaseClient('client')
+
+      // Check votes in the last 24 hours from this fingerprint
+      const oneHourAgo = new Date(
+        Date.now() - 24 * 60 * 60 * 1000
+      ).toISOString()
+      const { count: recentVotes, error: countError } = await supabase
+        .from('banner_votes')
+        .select('*', { count: 'exact', head: true })
+        .eq('voter_fingerprint', voterFingerprint.value)
+        .gte('created_at', oneHourAgo)
+
+      if (countError) {
+        console.error('Failed to check vote count:', countError)
+        // Don't block vote if count check fails
+      } else {
+        // Limit to 50 votes per 24 hours per fingerprint
+        if (recentVotes && recentVotes >= 50) {
+          throw new Error('Too many votes. Please wait before voting again.')
+        }
+      }
+    }
+
+    // Call the database function to process vote atomically
+    const supabase = useSupabaseClient('client')
+    const result = await supabase.rpc('process_vote', {
+      p_banner_id_1: bannerId1,
+      p_banner_id_2: bannerId2,
+      p_winner_id: winnerId,
+      p_voter_fingerprint: voterFingerprint.value || null,
+      p_k_factor: 32, // ELO K-factor
+    } as never)
+
+    if (result.error) {
+      console.error('Failed to process vote:', result.error)
+      throw new Error('Failed to submit vote')
+    }
+
+    return { success: true }
   }
 
   /**

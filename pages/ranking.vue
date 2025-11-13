@@ -9,7 +9,9 @@
       <div class="flex flex-col sm:flex-row gap-4">
         <div class="grid grid-cols-3 gap-3 sm:gap-4 sm:flex-1">
           <div class="text-center sm:text-left">
-            <div class="text-sm text-gray-500 dark:text-gray-400 mb-1">
+            <div
+              class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-1"
+            >
               {{ t('vote.stats.totalVotes') }}
             </div>
             <div
@@ -21,7 +23,7 @@
               >
                 <Poll />
               </n-icon>
-              <span class="text-xl sm:text-2xl font-semibold">
+              <span class="text-md sm:text-2xl font-semibold">
                 <n-number-animation
                   :from="0"
                   :to="stats.totalVotes"
@@ -31,7 +33,9 @@
             </div>
           </div>
           <div class="text-center sm:text-left">
-            <div class="text-sm text-gray-500 dark:text-gray-400 mb-1">
+            <div
+              class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-1"
+            >
               {{ t('vote.stats.totalVoters') }}
             </div>
             <div
@@ -43,7 +47,7 @@
               >
                 <Users />
               </n-icon>
-              <span class="text-xl sm:text-2xl font-semibold">
+              <span class="text-md sm:text-2xl font-semibold">
                 <n-number-animation
                   :from="0"
                   :to="stats.totalVoters"
@@ -53,7 +57,9 @@
             </div>
           </div>
           <div class="text-center sm:text-left">
-            <div class="text-sm text-gray-500 dark:text-gray-400 mb-1">
+            <div
+              class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-1"
+            >
               {{ t('vote.stats.avgVotes') }}
             </div>
             <div
@@ -65,7 +71,7 @@
               >
                 <ChartBar />
               </n-icon>
-              <span class="text-xl sm:text-2xl font-semibold">
+              <span class="text-md sm:text-2xl font-semibold">
                 <n-number-animation
                   :from="0"
                   :to="stats.totalVotes / stats.totalVoters"
@@ -224,7 +230,7 @@
     {
       title: '#',
       key: 'rank',
-      width: 40,
+      width: 20,
       render: (row) => {
         const rank = row.rank
         let icon = null
@@ -278,14 +284,6 @@
               h(
                 'span',
                 { class: 'text-gray-500 dark:text-gray-400' },
-                `${t('vote.rankings.eloShort')}: `
-              ),
-              h('span', { class: 'font-semibold' }, Math.round(row.elo_rating)),
-            ]),
-            h('span', { class: 'font-mono' }, [
-              h(
-                'span',
-                { class: 'text-gray-500 dark:text-gray-400' },
                 `${t('vote.rankings.winRateShort')}: `
               ),
               h(
@@ -293,6 +291,14 @@
                 { class: 'font-semibold' },
                 `${((row.win_rate ?? 0) * 100).toFixed(1)}%`
               ),
+            ]),
+            h('span', { class: 'font-mono' }, [
+              h(
+                'span',
+                { class: 'text-gray-500 dark:text-gray-400' },
+                `${t('vote.rankings.eloShort')}: `
+              ),
+              h('span', { class: 'font-semibold' }, Math.round(row.elo_rating)),
             ]),
           ]),
         ])
@@ -302,19 +308,19 @@
     {
       title: t('vote.rankings.winsLosses'),
       key: 'wins_losses',
-      width: 80,
+      width: 90,
       render: (row) => {
         return h('div', { class: 'flex flex-col gap-1 text-sm font-mono' }, [
           h(
             'span',
             { class: 'text-green-600 dark:text-green-400 font-semibold' },
             [
-              h('span', { class: 'inline-block text-right w-8' }, row.wins),
+              h('span', { class: 'inline-block text-right w-10' }, row.wins),
               ` ${t('vote.rankings.winsShort')}`,
             ]
           ),
           h('span', { class: 'text-red-600 dark:text-red-400 font-semibold' }, [
-            h('span', { class: 'inline-block text-right w-8' }, row.losses),
+            h('span', { class: 'inline-block text-right w-10' }, row.losses),
             ` ${t('vote.rankings.lossesShort')}`,
           ]),
         ])
@@ -382,15 +388,6 @@
       sorter: (a, b) => a.banner_id - b.banner_id,
     },
     {
-      title: t('vote.rankings.elo'),
-      key: 'elo_rating',
-      width: 120,
-      render: (row) => {
-        return h('span', { class: 'font-mono' }, Math.round(row.elo_rating))
-      },
-      sorter: (a, b) => b.elo_rating - a.elo_rating,
-    },
-    {
       title: t('vote.rankings.winRate'),
       key: 'win_rate',
       width: 120,
@@ -435,14 +432,26 @@
       },
       sorter: (a, b) => (b.total_votes ?? 0) - (a.total_votes ?? 0),
     },
+    {
+      title: t('vote.rankings.elo'),
+      key: 'elo_rating',
+      width: 120,
+      render: (row) => {
+        return h('span', { class: 'font-mono' }, Math.round(row.elo_rating))
+      },
+      sorter: (a, b) => b.elo_rating - a.elo_rating,
+    },
   ]
 
   const loadRankings = async () => {
     try {
       rankingsLoading.value = true
       const data = await getRankings()
-      // Add rank property to each ranking based on initial ELO order
-      rankings.value = data.rankings.map((ranking, index) => ({
+      // Sort by win rate (descending) and add rank property
+      const sortedRankings = [...data.rankings].sort(
+        (a, b) => (b.win_rate ?? 0) - (a.win_rate ?? 0)
+      )
+      rankings.value = sortedRankings.map((ranking, index) => ({
         ...ranking,
         rank: index + 1,
       }))

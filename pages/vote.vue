@@ -193,69 +193,107 @@
 
         <!-- Submit and Skip Buttons -->
         <div
-          class="mt-6 sm:mt-8 flex justify-center items-center gap-3 sm:gap-4"
+          class="mt-6 sm:mt-8 flex flex-col-reverse sm:flex-row justify-center items-center gap-3 sm:gap-4"
         >
-          <n-tooltip
-            trigger="hover"
-            placement="top"
-          >
-            <template #trigger>
-              <n-button
-                text
-                size="large"
-                :disabled="submitting || skipping"
-                class="!px-2"
-              >
-                <n-icon
-                  size="20"
-                  class="text-gray-500 dark:text-gray-400"
+          <!-- Info and Toggle (below on mobile, inline on desktop) -->
+          <div class="flex items-center gap-2">
+            <n-tooltip
+              :width="250"
+              trigger="hover"
+              placement="top"
+            >
+              <template #trigger>
+                <n-button
+                  text
+                  size="large"
+                  :disabled="submitting || skipping"
+                  class="!px-2"
                 >
-                  <InfoCircle />
-                </n-icon>
-              </n-button>
-            </template>
-            <div class="max-w-xs">
-              {{ t('vote.howItWorks') }}
-            </div>
-          </n-tooltip>
-
-          <n-tooltip
-            trigger="hover"
-            placement="top"
-          >
-            <template #trigger>
-              <n-button
-                secondary
-                size="large"
-                @click="navigateToRankings"
-              >
-                <template #icon>
-                  <n-icon>
-                    <ListOl />
+                  <n-icon
+                    size="20"
+                    class="text-gray-500 dark:text-gray-400"
+                  >
+                    <InfoCircle />
                   </n-icon>
-                </template>
-              </n-button>
-            </template>
-            {{ t('vote.viewRankings') }}
-          </n-tooltip>
-          <n-button
-            secondary
-            size="large"
-            :disabled="submitting || skipping"
-            :loading="skipping"
-            @click="handleSkip"
-          >
-            {{ t('vote.skip') }}
-          </n-button>
-          <n-button
-            type="primary"
-            size="large"
-            :disabled="!selectedBanner || submitting || skipping"
-            :loading="submitting"
-            @click="handleVote"
-          >
-            {{ t('vote.submit') }}
-          </n-button>
+                </n-button>
+              </template>
+              <div class="max-w-xs">
+                {{ t('vote.howItWorks') }}
+              </div>
+            </n-tooltip>
+
+            <n-tooltip
+              :width="250"
+              trigger="hover"
+              placement="top"
+            >
+              <template #trigger>
+                <n-switch
+                  :value="isPersonalMode"
+                  :disabled="submitting || skipping"
+                  @update:value="setMode"
+                >
+                  <template #checked>
+                    <n-icon><User /></n-icon>
+                  </template>
+                  <template #unchecked>
+                    <n-icon><Users /></n-icon>
+                  </template>
+                </n-switch>
+              </template>
+              <div class="max-w-xs">
+                <div class="font-semibold mb-1">{{ t('vote.mode.title') }}</div>
+                <div>
+                  {{
+                    isPersonalMode
+                      ? t('vote.mode.personalDesc')
+                      : t('vote.mode.communityDesc')
+                  }}
+                </div>
+              </div>
+            </n-tooltip>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="flex items-center gap-3 sm:gap-4">
+            <n-tooltip
+              trigger="hover"
+              placement="top"
+            >
+              <template #trigger>
+                <n-button
+                  secondary
+                  size="large"
+                  @click="navigateToRankings"
+                >
+                  <template #icon>
+                    <n-icon>
+                      <ListOl />
+                    </n-icon>
+                  </template>
+                </n-button>
+              </template>
+              {{ t('vote.viewRankings') }}
+            </n-tooltip>
+            <n-button
+              secondary
+              size="large"
+              :disabled="submitting || skipping"
+              :loading="skipping"
+              @click="handleSkip"
+            >
+              {{ t('vote.skip') }}
+            </n-button>
+            <n-button
+              type="primary"
+              size="large"
+              :disabled="!selectedBanner || submitting || skipping"
+              :loading="submitting"
+              @click="handleVote"
+            >
+              {{ t('vote.submit') }}
+            </n-button>
+          </div>
         </div>
       </div>
 
@@ -330,7 +368,14 @@
 </template>
 
 <script setup lang="ts">
-  import { CheckCircle, CalendarDay, InfoCircle, ListOl } from '@vicons/fa'
+  import {
+    CheckCircle,
+    CalendarDay,
+    InfoCircle,
+    ListOl,
+    User,
+    Users,
+  } from '@vicons/fa'
 
   const { t } = useI18n()
   const localePath = useLocalePath()
@@ -338,6 +383,7 @@
   const siteUrl = useRuntimeConfig().public.siteUrl
   const message = useMessage()
   const { getVotePair, submitVote } = useBannerVote()
+  const { getPersonalVotePair, submitPersonalVote } = usePersonalVote()
 
   const loading = ref(true)
   const submitting = ref(false)
@@ -348,6 +394,16 @@
     banner2: { id: number; image: string }
   } | null>(null)
   const selectedBanner = ref<number | null>(null)
+
+  // Mode toggle state (community/personal) - using shared composable
+  const { isPersonalMode, setMode: setVotingMode } = useVotingMode()
+
+  // Wrapper to reload pair when mode changes
+  const setMode = (value: boolean) => {
+    setVotingMode(value)
+    // Reload pair when mode changes to get appropriate pair for the mode
+    loadPair()
+  }
 
   // Load initial pair
   const loadPair = async () => {
@@ -361,7 +417,16 @@
       }
 
       loading.value = true
-      const newPair = await getVotePair()
+
+      // Conditionally use personal or community voting
+      let newPair
+      if (isPersonalMode.value) {
+        // Personal voting - synchronous, no API call
+        newPair = getPersonalVotePair()
+      } else {
+        // Community voting - async API call
+        newPair = await getVotePair()
+      }
 
       currentPair.value = newPair
       loading.value = false
@@ -387,20 +452,32 @@
 
     try {
       submitting.value = true
-      await submitVote(
-        currentPair.value.banner1.id,
-        currentPair.value.banner2.id,
-        selectedBanner.value
-      )
 
-      message.success(t('vote.success'))
+      // Conditionally submit personal or community vote
+      if (isPersonalMode.value) {
+        // Personal voting - synchronous localStorage operation
+        submitPersonalVote(
+          currentPair.value.banner1.id,
+          currentPair.value.banner2.id,
+          selectedBanner.value
+        )
+        message.success(t('vote.success'))
+      } else {
+        // Community voting - async API call
+        await submitVote(
+          currentPair.value.banner1.id,
+          currentPair.value.banner2.id,
+          selectedBanner.value
+        )
+        message.success(t('vote.success'))
+      }
 
       // Load next pair
       await loadPair()
     } catch (error: unknown) {
       console.error('Failed to submit vote:', error)
 
-      // Check if it's a rate limit error
+      // Check if it's a rate limit error (community voting only)
       const errorMessage = error instanceof Error ? error.message : ''
       if (
         errorMessage.includes('Rate limit exceeded') ||
@@ -421,6 +498,7 @@
     try {
       skipping.value = true
       // Load next pair without submitting a vote
+      // Works for both personal and community modes
       await loadPair()
     } catch (error) {
       console.error('Failed to skip pair:', error)
@@ -436,6 +514,7 @@
 
   // Load initial data
   onMounted(() => {
+    // Mode is already initialized by the composable
     loadPair()
   })
 

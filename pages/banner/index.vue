@@ -304,6 +304,7 @@
     ArrowUp,
     ArrowDown,
     Poll,
+    ListOl,
   } from '@vicons/fa'
   import { BANNER_DATA } from '~/data/banners'
 

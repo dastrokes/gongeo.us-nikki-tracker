@@ -27,7 +27,7 @@
               <Poll />
             </n-icon>
           </template>
-          {{ $t('vote.tabs.vote') }}
+          {{ $t('vote.vote') }}
         </n-button>
       </div>
     </n-card>

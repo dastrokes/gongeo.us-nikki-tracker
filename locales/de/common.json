@@ -582,16 +582,23 @@
     "description": "Hilf uns, die beliebtesten Banner von Version 1.x zu finden! Stimme für deine Lieblingsbanner in Kopf-an-Kopf Matchups ab.",
     "submit": "Stimme abgeben",
     "skip": "Überspringen",
-    "howItWorks": "Wähle dein Lieblingsbanner und gebe deine Stimme ab, um zu helfen, die beliebtesten Banner einzuordnen. Überspringe, wenn du dir unsicher bist. Du kannst alle 24 Stunden bis zu 50 Mal abstimmen.",
+    "howItWorks": "Wähle dein Lieblingsbanner und gebe deine Stimme ab, um zu helfen, die beliebtesten Banner zu bestimmen. Überspringe, wenn du dir nicht sicher bist. Du kannst alle 24 Stunden bis zu 50 Mal abstimmen.",
     "success": "Stimme erfolgreich abgegeben!",
     "viewRankings": "Rangliste ansehen",
     "vote": "Abstimmen",
     "ranking": "Rangliste",
+    "mode": {
+      "personal": "Persönlicher Modus",
+      "community": "Community-Modus",
+      "personalDesc": "Deine Stimmen werden lokal gespeichert und machen deine persönliche Rangliste aus. Beeinflusst nicht die Community-Rankings.",
+      "communityDesc": "Deine Stimmen tragen zu der Community-Rangliste bei und bestimmen die beliebtesten Banner."
+    },
     "stats": {
       "votes": "Stimmen insgesamt",
       "rankings": "Rangliste",
       "totalVotes": "Stimmen insgesamt",
-      "totalVoters": "Stimmen insgesamt",
+      "personalVotes": "Persönliche Stimmen",
+      "totalVoters": "Wähler insgesamt",
       "avgVotes": "Durchschn. Stimmen"
     },
     "errors": {

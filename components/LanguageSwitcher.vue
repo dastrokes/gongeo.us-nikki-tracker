@@ -10,7 +10,7 @@
       size="tiny"
       class="flex items-center"
     >
-      <n-icon>
+      <n-icon :size="16">
         <Language />
       </n-icon>
     </n-button>
@@ -18,7 +18,8 @@
 </template>
 
 <script setup lang="ts">
-  import { Language } from '@vicons/fa'
+  import Language from '~/components/icons/Language.vue'
+  import type { SupportedLocaleCode } from '~/locales/locales'
 
   const { locales, setLocale, t } = useI18n()
 
@@ -29,7 +30,7 @@
     }))
   })
 
-  const handleLanguageSelect = (key: 'en' | 'zh' | 'de') => {
+  const handleLanguageSelect = (key: SupportedLocaleCode) => {
     setLocale(key)
     set('locale', key)
   }

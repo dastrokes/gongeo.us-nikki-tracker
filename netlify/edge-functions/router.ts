@@ -38,7 +38,6 @@ export const config: Config = {
     // APIs
     '/api/ping',
     '/api/stats',
-    '/api/vote',
 
     // Static Nuxt assets
     '/_nuxt/**.json',

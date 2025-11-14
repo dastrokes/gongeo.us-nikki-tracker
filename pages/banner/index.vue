@@ -29,6 +29,18 @@
           </template>
           {{ $t('vote.vote') }}
         </n-button>
+        <n-button
+          type="primary"
+          size="medium"
+          @click="router.push(localePath('/ranking'))"
+        >
+          <template #icon>
+            <n-icon>
+              <ListOl />
+            </n-icon>
+          </template>
+          {{ $t('vote.ranking') }}
+        </n-button>
       </div>
     </n-card>
 

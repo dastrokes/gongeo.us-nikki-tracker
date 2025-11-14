@@ -6,14 +6,17 @@ import type { BannerRun } from '~/types/banner'
 import enOutfit from './en/outfit.json'
 import deOutfit from './de/outfit.json'
 import zhOutfit from './zh/outfit.json'
+import koOutfit from './ko/outfit.json'
 import enItem from './en/item.json'
 import deItem from './de/item.json'
 import zhItem from './zh/item.json'
+import koItem from './ko/item.json'
 
 const translations = {
   en: { outfit: enOutfit, item: enItem },
   de: { outfit: deOutfit, item: deItem },
   zh: { outfit: zhOutfit, item: zhItem },
+  ko: { outfit: koOutfit, item: koItem },
 }
 
 // Get the latest banner run start date

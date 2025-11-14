@@ -1,6 +1,6 @@
 import type { LocaleObject } from '@nuxtjs/i18n'
 
-export type SupportedLocaleCode = 'en' | 'de' | 'zh'
+export type SupportedLocaleCode = 'en' | 'de' | 'zh' | 'ko'
 
 export const defaultLocale: SupportedLocaleCode = 'en'
 
@@ -36,6 +36,17 @@ export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
       'zh/outfit.json',
       'zh/item.json',
       'zh/version.json',
+    ],
+  },
+  {
+    code: 'ko',
+    iso: 'ko-KR',
+    name: '한국어',
+    files: [
+      'ko/common.json',
+      'ko/outfit.json',
+      'ko/item.json',
+      'ko/version.json',
     ],
   },
 ]

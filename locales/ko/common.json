@@ -190,7 +190,6 @@
     },
     "actions": {
       "copy": "Copy",
-      "cancel": "Cancel",
       "copy_code": "Copy Code",
       "paste_from_clipboard": "Paste from Clipboard",
       "select_all": "Select All"

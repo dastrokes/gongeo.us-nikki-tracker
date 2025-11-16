@@ -190,7 +190,6 @@
     },
     "actions": {
       "copy": "复制",
-      "cancel": "取消",
       "copy_code": "复制代码",
       "paste_from_clipboard": "从剪贴板粘贴",
       "select_all": "全选"

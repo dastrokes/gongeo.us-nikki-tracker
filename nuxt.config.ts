@@ -63,9 +63,6 @@ export default defineNuxtConfig({
   image: {
     dir: 'public',
     provider: process.env.NODE_ENV === 'production' ? 'netlify' : 'ipx',
-    static: {
-      baseURL: process.env.NUXT_PUBLIC_SITE_URL,
-    },
     quality: 80,
     screens: {
       xs: 320,

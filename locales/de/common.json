@@ -190,7 +190,6 @@
     },
     "actions": {
       "copy": "Kopieren",
-      "cancel": "Abbrechen",
       "copy_code": "Code kopieren",
       "paste_from_clipboard": "Aus Zwischenablage einfügen",
       "select_all": "Alle auswählen"

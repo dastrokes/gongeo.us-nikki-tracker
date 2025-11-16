@@ -564,6 +564,7 @@ export const BANNER_DATA: BannerData = {
         end: '2025-11-25',
       },
     ],
+    rewardIds: ['1021730025', '1021500034', '1021300045'],
   },
   41: {
     bannerId: 41,
@@ -577,5 +578,6 @@ export const BANNER_DATA: BannerData = {
         end: '2025-11-25',
       },
     ],
+    rewardIds: ['1021740012', '1021600035', '1021940009'],
   },
 }

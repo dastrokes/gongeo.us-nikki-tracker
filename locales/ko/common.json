@@ -24,24 +24,24 @@
     "description": {
       "default": "인피니티 니키 공명 배너를 추적하세요. 인피니티 니키 커뮤니티를 위한 팬 제작 추적 및 분석 도구입니다.",
       "login": "이메일 또는 타사 계정을 사용하여 gongeo.us 에 로그인하여 기기 간에 Infinity Nikki 공명 데이터를 업로드, 백업 및 동기화할 수 있습니다.",
-      "tracker": "Track and analyze your Infinity Nikki resonance pull history. View all 5★ and 4★ banner items and compare your luck with other stylists.",
-      "import": "Import your Infinity Nikki resonance pull history easily from game, Whim-Log data or backup files with detailed step-by-step guides.",
-      "global": "Explore Infinity Nikki resonance global data, including banner popularity, pull rates, item drop rates, and community pull statistics.",
-      "banner": "View the complete Infinity Nikki resonance banner history, including current and past events, limited and permanent banners, outfit details, banner durations and rerun schedules.",
-      "banner_detail": "View detailed Infinity Nikki resonance banner data, including pull statistics, banner outfits and individual item details.",
-      "faq": "Find answers to frequently asked questions about gongeo.us, including data privacy, import methods, and usage guidelines.",
-      "about": "Learn more about gongeo.us, including its purpose, privacy policy, disclaimers, and how it supports the Infinity Nikki community."
+      "tracker": "인피니티 니키 공명 당김 기록을 추적하고 분석하세요. 5★ 및 4★ 배너 항목을 모두 확인하고 다른 스타일리스트와 운을 비교하세요.",
+      "import": "게임, Whim-Log 데이터 또는 백업 파일에서 Infinity Nikki 공명 풀 히스토리를 쉽게 가져올 수 있습니다. 자세한 단계별 가이드가 포함되어 있습니다.",
+      "global": "배너 인기도, 당김률, 아이템 드롭률, 커뮤니티 당김 통계 등 인피니티 니키 공명 글로벌 데이터를 살펴보세요.",
+      "banner": "현재 및 과거 이벤트, 한정 및 영구 배너, 의상 세부 정보, 배너 기간 및 재방송 일정을 포함한 전체 인피니티 니키 공명 배너 기록을 확인하세요.",
+      "banner_detail": "당김 통계, 배너 의상 및 개별 아이템 세부 정보를 포함한 자세한 인피니티 니키 공명 배너 데이터를 확인하세요.",
+      "faq": "데이터 개인정보 보호, 가져오기 방법, 사용 지침 등 gongeo.us 에 대해 자주 묻는 질문에 대한 답변을 찾아보세요.",
+      "about": "gongeo.us 의 목적, 개인정보 보호 정책, 면책 조항 및 Infinity Nikki 커뮤니티를 지원하는 방법 등에 대해 자세히 알아보세요."
     }
   },
   "index": {
     "title": "gongeo.us",
-    "subtitle": "Infinity Nikki Resonance Tracker",
-    "description": "Track Infinity Nikki Resonance History and Statistics",
-    "your_data": "Your Data",
-    "current_banners": "Current Banners",
-    "days": "days",
-    "hours": "hours",
-    "rerun": "Rerun"
+    "subtitle": "인피니티 니키 공명 추적기",
+    "description": "인피니티 니키 공명 역사 및 통계 추적",
+    "your_data": "당신의 데이터",
+    "current_banners": "현재 배너",
+    "days": "날들",
+    "hours": "시간",
+    "rerun": "재방송"
   },
   "login": {
     "title": "Sign In",

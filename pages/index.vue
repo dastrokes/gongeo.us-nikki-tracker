@@ -54,7 +54,7 @@
       >
         <div class="flex flex-col text-center flex-1">
           <n-h2 class="font-bold">
-            {{ $t('vote.title') }}
+            {{ $t('navigation.vote') }}
           </n-h2>
           <n-h6 class="mt-0 text-gray-600 dark:text-gray-300">
             {{ $t('vote.description') }}

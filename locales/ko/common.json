@@ -68,37 +68,37 @@
     "update_password": "비밀번호 업데이트",
     "email_required": "이메일이 필요합니다",
     "password_required": "비밀번호가 필요합니다",
-    "password_min_length": "Password must be at least 6 characters",
-    "passwords_dont_match": "Passwords don't match",
-    "invalid_email": "Please enter a valid email address",
-    "signup_success": "Account created successfully! Please check your email for verification.",
-    "signin_success": "Signed in successfully!",
-    "reset_success": "Password reset email sent! Please check your inbox.",
-    "email_signin_error": "Failed to sign in with email. Please check your credentials.",
-    "email_signup_error": "Failed to create account. Please try again.",
-    "reset_error": "Failed to send reset email. Please try again.",
-    "or": "or"
+    "password_min_length": "비밀번호는 최소 6자여야 합니다",
+    "passwords_dont_match": "비밀번호가 일치하지 않습니다",
+    "invalid_email": "유효한 이메일 주소를 입력해 주세요",
+    "signup_success": "계정이 성공적으로 생성되었습니다! 인증을 위해 이메일을 확인해 주세요.",
+    "signin_success": "성공적으로 로그인했습니다!",
+    "reset_success": "비밀번호 재설정 이메일을 보냈습니다! 받은 편지함을 확인해 주세요.",
+    "email_signin_error": "이메일로 로그인하지 못했습니다. 자격 증명을 확인해 주세요.",
+    "email_signup_error": "계정을 만들지 못했습니다. 다시 시도해 주세요.",
+    "reset_error": "재설정 이메일을 보내지 못했습니다. 다시 시도해 주세요.",
+    "or": "혹은"
   },
   "email": {
     "confirm_signup": {
-      "subject": "Confirm your signup",
-      "body": "Please click the link below to confirm your signup:",
-      "link": "Confirm your signup"
+      "subject": "가입 확인",
+      "body": "아래 링크를 클릭하여 가입을 확인해 주세요:",
+      "link": "가입 확인"
     },
     "reset_password": {
-      "subject": "Reset your password",
-      "body": "Please click the link below to reset your password:",
-      "link": "Reset your password"
+      "subject": "비밀번호 재설정",
+      "body": "비밀번호를 재설정하려면 아래 링크를 클릭하세요:",
+      "link": "비밀번호 재설정"
     }
   },
   "import": {
-    "video_tutorial": "Video Tutorial",
-    "video_tutorial_desc": "Watch step-by-step video guide to learn how to import your data:",
-    "watch_on_youtube": "Watch on YouTube",
-    "watch_on_bilibili": "Watch on Bilibili",
-    "choose_method": "Choose Import Method",
-    "choose_method_desc": "Choose how you want to import your pull history.",
-    "import_from_game": "Import from Game",
+    "video_tutorial": "비디오 튜토리얼",
+    "video_tutorial_desc": "단계별 비디오 가이드를 시청하여 데이터를 가져오는 방법을 알아보세요:",
+    "watch_on_youtube": "YouTube에서 시청하세요",
+    "watch_on_bilibili": "Bilibili에서 시청하기",
+    "choose_method": "가져오기 방법 선택",
+    "choose_method_desc": "당김 기록을 가져올 방법을 선택합니다.",
+    "import_from_game": "게임에서 가져오기",
     "import_from_file": "Import from File",
     "import_from_pearpal": "Import from Whim-Log",
     "file_import": "File Import",

@@ -45,18 +45,14 @@
   },
   "login": {
     "title": "Anmelden",
-    "welcome_title": "Willkommen bei gongeo.us",
     "welcome_description": "Melde dich mit einem Drittanbieter-Konto oder mit E-Mail an, um deine Daten hochzuladen und zu synchronisieren.",
     "signed_in_title": "Erfolgreich angemeldet!",
     "welcome_back": "Willkommen zurück, {name}!",
     "go_to_tracker": "Gehe zum Tracker",
-    "error_title": "Anmeldefehler",
     "signin_error": "Anmeldung fehlgeschlagen. Bitte versuche es erneut.",
-    "auth_options": "Authentifizierungsoptionen",
     "sign_in_with_discord": "Mit Discord anmelden",
     "sign_in_with_google": "Mit Google anmelden",
     "sign_in_with_email": "Mit E-Mail anmelden",
-    "sign_up_with_email": "Mit E-Mail registrieren",
     "email": "E-Mail-Adresse",
     "password": "Passwort",
     "confirm_password": "Passwort wiederholen",
@@ -64,16 +60,12 @@
     "sign_up": "Registrieren",
     "forgot_password": "Passwort vergessen?",
     "reset_password": "Passwort zurücksetzen",
-    "reset_password_instructions": "Bitte gib deine E-Mail-Adresse ein und wir werden dir einen Link zum Zurücksetzen deines Passworts senden.",
     "send_reset_email": "E-Mail zum Zurücksetzen senden",
     "back_to_login": "Zurück zum Login",
     "set_new_password": "Neues Passwort festlegen",
-    "enter_new_password": "Bitte gib hier dein neues Passwort ein.",
     "new_password": "Neues Passwort",
     "confirm_new_password": "Neues Passwort wiederholen",
     "update_password": "Passwort ändern",
-    "no_account": "Du hast noch kein Konto?",
-    "have_account": "Du hast bereits ein Konto?",
     "email_required": "E-Mail-Adresse wird benötigt",
     "password_required": "Passwort wird benötigt",
     "password_min_length": "Passwort muss aus mindestens 6 Zeichen bestehen",
@@ -190,7 +182,6 @@
     },
     "actions": {
       "copy": "Kopieren",
-      "cancel": "Abbrechen",
       "copy_code": "Code kopieren",
       "paste_from_clipboard": "Aus Zwischenablage einfügen",
       "select_all": "Alle auswählen"
@@ -199,7 +190,6 @@
     "select_banners_desc": "Braucht nicht erneut importiert werden",
     "banner_groups": {
       "quick_select": "Schnellauswahl",
-      "all_banners": "Alle Banner",
       "current_banners": "Aktuelle Banner",
       "limited_banners": "Limitierte Banner",
       "permanent_banners": "Permanente Banner",
@@ -230,10 +220,7 @@
     "check_compatibility": "Überprüfe Browser-Kompatibilität",
     "pc_recommended": "Du benutzt ein mobiles Gerät. Mit den unten aufgeführten Browsern kannst du deine Daten importieren. Andere Browser wurden nicht getestet und funktionieren möglicherweise nicht. Für das beste Ergebnis empfehlen wir die Verwendung eines PC-Browsers zum Importieren der Daten.",
     "bookmark_script": {
-      "invalid_site": "Bitte benutze dieses Lesezeichen auf der Pearpal-Webseite",
-      "close": "Schließen",
-      "copy": "Kopieren",
-      "copied": "Kopiert!"
+      "invalid_site": "Bitte benutze dieses Lesezeichen auf der Pearpal-Webseite"
     }
   },
   "tracker": {
@@ -331,15 +318,10 @@
     "not_found": "Banner wurde nicht gefunden"
   },
   "common": {
-    "rarity": {
-      "4": "4★",
-      "5": "5★"
-    },
     "discord": "Discord",
     "ko_fi": "Ko-fi",
     "copyright": "© 2025 gongeo.us • © Infold Games alle Rechte vorbehalten",
     "disclaimer": {
-      "title": "Über diese Seite",
       "content": "Dies ist eine inoffizielle, Fan-betriebene Webseite, die mit Infold Games nicht verbunden oder unterstützt ist.",
       "rights": "Alle Infinity Nikki Spielinhalte, Güter und Handelsmarken gehören Infold und den jeweiligen Eigentümern."
     },
@@ -350,7 +332,6 @@
       "loading": "Lädt..."
     },
     "user_profile": {
-      "menu_aria_label": "Menü Benutzerprofil",
       "guest": "Gast",
       "clear_local_data": "Lokale Daten löschen",
       "clear_local_confirm": {
@@ -358,7 +339,6 @@
         "content": "Bist du dir sicher, dass du all deine lokalen Daten löschen möchtest? Diese Aktion kann nicht rückgängig gemacht werden."
       },
       "sign_in": "Anmelden",
-      "sign_in_error": "Anmeldung fehlgeschlagen",
       "sign_out": "Abmelden",
       "sign_out_success": "Erfolgreich abgemeldet",
       "sign_out_error": "Abmeldung fehlgeschlagen",
@@ -424,8 +404,6 @@
   },
   "accessibility": {
     "toggle_menu": "Navigationsmenü ein-/ausschalten",
-    "join_discord": "Tritt unserer Discord-Community bei",
-    "support_ko_fi": "Unterstütze uns auf Ko-fi",
     "search": "Suchen",
     "language_switcher": "Sprache wechseln",
     "theme_switcher": "Thema wechseln",
@@ -450,15 +428,7 @@
       "number_of_pulls": "Anzahl der Resonanzen",
       "probability": "Wahrscheinlichkeit",
       "cumulative_probability": "Kumulative Wahrscheinlichkeit",
-      "limited_5star": "Limitierte 5★",
-      "limited_4star": "Limitierte 4★",
-      "five_star_pulls": "5★ Resonanzen",
-      "four_star_pulls": "4★ Resonanzen",
-      "four_star_pulls_type2": "4★ Resonanzen (5★ Banner)",
-      "four_star_pulls_type3": "4★ Resonanzen (4★ Banner)",
       "pulls": "Resonanzen",
-      "daily_pull_distribution": "Tägliche Resonanz-Verteilung",
-      "date": "Datum",
       "occurrences": "Häufigkeit",
       "percentage": "Prozent",
       "total": "Gesamt",
@@ -578,7 +548,6 @@
     "returnHome": "Zurück zur Startseite"
   },
   "vote": {
-    "title": "Banner-Abstimmung",
     "description": "Hilf uns, die beliebtesten Banner von Version 1.x zu finden! Stimme für deine Lieblingsbanner in Kopf-an-Kopf Matchups ab.",
     "submit": "Stimme abgeben",
     "skip": "Überspringen",
@@ -594,8 +563,6 @@
       "communityDesc": "Deine Stimmen tragen zu der Community-Rangliste bei und bestimmen die beliebtesten Banner."
     },
     "stats": {
-      "votes": "Stimmen insgesamt",
-      "rankings": "Rangliste",
       "totalVotes": "Stimmen insgesamt",
       "personalVotes": "Persönliche Stimmen",
       "totalVoters": "Wähler insgesamt",

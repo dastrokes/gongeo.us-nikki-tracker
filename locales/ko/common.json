@@ -45,18 +45,14 @@
   },
   "login": {
     "title": "로그인",
-    "welcome_title": "gongeo.us 에 오신 것을 환영합니다",
     "welcome_description": "타사 계정 또는 이메일로 로그인하여 데이터를 업로드하고 동기화하세요.",
     "signed_in_title": "성공적으로 로그인했습니다!",
     "welcome_back": "다시 오신 것을 환영합니다, {name}!",
     "go_to_tracker": "트래커로 이동",
-    "error_title": "로그인 오류",
     "signin_error": "로그인하지 못했습니다. 다시 시도해 주세요.",
-    "auth_options": "인증 옵션",
     "sign_in_with_discord": "Discord로 로그인",
     "sign_in_with_google": "Google 계정으로 로그인",
     "sign_in_with_email": "이메일로 로그인",
-    "sign_up_with_email": "이메일로 가입하기",
     "email": "이메일",
     "password": "비밀번호",
     "confirm_password": "비밀번호 확인",
@@ -64,16 +60,12 @@
     "sign_up": "등록해요",
     "forgot_password": "비밀번호를 잊어버렸습니까?",
     "reset_password": "비밀번호 재설정",
-    "reset_password_instructions": "이메일 주소를 입력하면 비밀번호를 재설정할 수 있는 링크를 보내드리겠습니다.",
     "send_reset_email": "재설정 이메일 보내기",
     "back_to_login": "로그인으로 돌아가기",
     "set_new_password": "Set New Password",
-    "enter_new_password": "Enter your new password below.",
     "new_password": "New Password",
     "confirm_new_password": "Confirm New Password",
     "update_password": "Update Password",
-    "no_account": "Don't have an account?",
-    "have_account": "Already have an account?",
     "email_required": "Email is required",
     "password_required": "Password is required",
     "password_min_length": "Password must be at least 6 characters",
@@ -190,7 +182,6 @@
     },
     "actions": {
       "copy": "Copy",
-      "cancel": "Cancel",
       "copy_code": "Copy Code",
       "paste_from_clipboard": "Paste from Clipboard",
       "select_all": "Select All"
@@ -199,7 +190,6 @@
     "select_banners_desc": "No need to re-import",
     "banner_groups": {
       "quick_select": "Quick Select",
-      "all_banners": "All Banners",
       "current_banners": "Current Banners",
       "limited_banners": "Limited Banners",
       "permanent_banners": "Permanent Banners",
@@ -230,10 +220,7 @@
     "check_compatibility": "Check Browser Compatibility",
     "pc_recommended": "You are using a mobile device, you can import using the supported browsers listed below, other browsers are not tested and might not work. For the best experience, we recommend using a PC browser for importing data.",
     "bookmark_script": {
-      "invalid_site": "Please use this bookmark on Pearpal Website",
-      "close": "Close",
-      "copy": "Copy",
-      "copied": "Copied!"
+      "invalid_site": "Please use this bookmark on Pearpal Website"
     }
   },
   "tracker": {
@@ -331,15 +318,10 @@
     "not_found": "Banner not found"
   },
   "common": {
-    "rarity": {
-      "4": "4★",
-      "5": "5★"
-    },
     "discord": "Discord",
     "ko_fi": "Ko-fi",
     "copyright": "© 2025 gongeo.us • © Infold Games All Rights Reserved",
     "disclaimer": {
-      "title": "About this site",
       "content": "This is an unofficial fan-made website, not affiliated with or endorsed by Infold Games.",
       "rights": "All Infinity Nikki game assets, content, and trademarks belong to Infold Games and their respective owners."
     },
@@ -350,7 +332,6 @@
       "loading": "Loading..."
     },
     "user_profile": {
-      "menu_aria_label": "User profile menu",
       "guest": "Guest",
       "clear_local_data": "Clear Local Data",
       "clear_local_confirm": {
@@ -358,7 +339,6 @@
         "content": "Are you sure you want to clear all local data? This action cannot be undone."
       },
       "sign_in": "Sign In",
-      "sign_in_error": "Failed to sign in",
       "sign_out": "Sign out",
       "sign_out_success": "Successfully signed out",
       "sign_out_error": "Failed to sign out",
@@ -424,8 +404,6 @@
   },
   "accessibility": {
     "toggle_menu": "Toggle navigation menu",
-    "join_discord": "Join our Discord community",
-    "support_ko_fi": "Support us on Ko-fi",
     "search": "Search",
     "language_switcher": "Language switcher",
     "theme_switcher": "Toggle theme",
@@ -450,15 +428,7 @@
       "number_of_pulls": "Number of Pulls",
       "probability": "Probability",
       "cumulative_probability": "Cumulative Probability",
-      "limited_5star": "Limited 5★",
-      "limited_4star": "Limited 4★",
-      "five_star_pulls": "5★ Pulls",
-      "four_star_pulls": "4★ Pulls",
-      "four_star_pulls_type2": "4★ Pulls (5★ Banner)",
-      "four_star_pulls_type3": "4★ Pulls (4★ Banner)",
       "pulls": "pulls",
-      "daily_pull_distribution": "Daily Pull Distribution",
-      "date": "Date",
       "occurrences": "Occurrences",
       "percentage": "Percentage",
       "total": "Total",
@@ -578,7 +548,6 @@
     "returnHome": "Return Home"
   },
   "vote": {
-    "title": "Banner Vote",
     "description": "Help us determine the most popular banners from version 1.x! Vote on your favorite banners in head-to-head matchups.",
     "submit": "Submit Vote",
     "skip": "Skip",
@@ -594,8 +563,6 @@
       "communityDesc": "Your votes contribute to the community rankings and help determine the most popular banners."
     },
     "stats": {
-      "votes": "Total Votes",
-      "rankings": "Rankings",
       "totalVotes": "Total Votes",
       "personalVotes": "Personal Votes",
       "totalVoters": "Total Voters",

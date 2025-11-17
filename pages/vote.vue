@@ -537,7 +537,7 @@
 
   // SEO
   useHead(() => ({
-    title: t('vote.title') + ' - ' + t('navigation.subtitle'),
+    title: t('navigation.vote') + ' - ' + t('navigation.subtitle'),
     meta: [
       {
         name: 'description',
@@ -545,7 +545,7 @@
       },
       {
         property: 'og:title',
-        content: t('vote.title') + ' - ' + t('navigation.subtitle'),
+        content: t('navigation.vote') + ' - ' + t('navigation.subtitle'),
       },
       {
         property: 'og:description',
@@ -553,7 +553,7 @@
       },
       {
         name: 'twitter:title',
-        content: t('vote.title') + ' - ' + t('navigation.subtitle'),
+        content: t('navigation.vote') + ' - ' + t('navigation.subtitle'),
       },
       {
         name: 'twitter:description',

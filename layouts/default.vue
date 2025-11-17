@@ -291,7 +291,7 @@
         icon: renderIcon(CalendarAlt),
       },
       {
-        label: t('vote.title'),
+        label: t('navigation.vote'),
         key: 'vote',
         icon: renderIcon(Poll),
       },

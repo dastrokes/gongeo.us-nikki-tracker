@@ -625,5 +625,8 @@
       "winsShort": "胜",
       "lossesShort": "负"
     }
+  },
+  "language_switcher": {
+    "help_translate": "帮助翻译"
   }
 }

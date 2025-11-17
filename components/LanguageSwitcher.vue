@@ -24,14 +24,34 @@
   const { locales, setLocale, t } = useI18n()
 
   const languageOptions = computed(() => {
-    return (locales.value as { code: string; name: string }[]).map((l) => ({
+    const localeOptions = (
+      locales.value as { code: string; name: string }[]
+    ).map((l) => ({
       label: l.name,
       key: l.code,
     }))
+
+    return [
+      ...localeOptions,
+      {
+        type: 'divider',
+        key: 'divider',
+      },
+      {
+        label: t('language_switcher.help_translate'),
+        key: 'crowdin',
+        props: {
+          onClick: () => {
+            window.open('https://crowdin.com/project/gongeous', '_blank')
+          },
+        },
+      },
+    ]
   })
 
-  const handleLanguageSelect = (key: SupportedLocaleCode) => {
-    setLocale(key)
+  const handleLanguageSelect = (key: string) => {
+    if (key === 'crowdin') return
+    setLocale(key as SupportedLocaleCode)
     set('locale', key)
   }
 </script>

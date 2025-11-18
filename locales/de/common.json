@@ -592,5 +592,8 @@
       "winsShort": "S",
       "lossesShort": "N"
     }
+  },
+  "language_switcher": {
+    "help_translate": "Übersetzen helfen"
   }
 }

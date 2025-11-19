@@ -30,7 +30,7 @@
     "@nuxtjs/tailwindcss": "6.14.0",
     "@pinia/nuxt": "0.11.3",
     "@sentry/nuxt": "10.26.0",
-    "@supabase/supabase-js": "2.83.0",
+    "@supabase/supabase-js": "2.81.1",
     "@vueuse/integrations": "14.0.0",
     "@vueuse/nuxt": "14.0.0",
     "@zumer/snapdom": "2.0.0",

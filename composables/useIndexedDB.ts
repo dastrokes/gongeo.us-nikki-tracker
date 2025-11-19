@@ -47,34 +47,37 @@ export function useIndexedDB() {
       })
     }
 
-    const db = await dbPromise
-
     try {
-      // Transaction covering all stores
+      const db = await dbPromise
+
+      // Test connection with minimal transaction
       const storeNames = [
         PULLS_STORE,
         EDITS_STORE,
         EVO_STORE,
         PEARPAL_STORE,
       ].filter((name) => db.objectStoreNames.contains(name))
-      const tx = db.transaction(storeNames, 'readonly')
 
-      // Minimal read ops on all stores
-      const ops = storeNames.map((name) => tx.objectStore(name).getAll())
-      await Promise.all(ops)
+      if (storeNames.length > 0) {
+        const tx = db.transaction(storeNames, 'readonly')
+        await tx.done
+      }
 
-      await tx.done
       return db
-    } catch {
-      console.warn(`DB is unavailable, retry connection.`)
+    } catch (error) {
+      console.warn(
+        `DB connection failed (attempt ${retries + 1}/${MAX_RETRIES}):`,
+        error
+      )
+
+      // Clear failed promise to allow retry
+      dbPromise = null
 
       if (retries >= MAX_RETRIES) {
         throw new Error('DB failed to connect after multiple retries.')
       }
 
-      dbPromise = null
       await new Promise((resolve) => setTimeout(resolve, DB_RETRY_INTERVAL_MS))
-
       return getDB(retries + 1)
     }
   }

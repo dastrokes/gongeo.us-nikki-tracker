@@ -352,10 +352,23 @@ export const useSearch = () => {
     return categories
   }
 
+  const clearSearchIndex = () => {
+    searchIndex.value.items.clear()
+    searchIndex.value.outfits.clear()
+    searchIndex.value.banners.clear()
+    fuseInstance.value = null
+    isIndexBuilt.value = false
+  }
+
   // Rebuild index when locale changes
   watch(locale, () => {
-    isIndexBuilt.value = false
+    clearSearchIndex()
     buildSearchIndex()
+  })
+
+  // Cleanup on unmount
+  onUnmounted(() => {
+    clearSearchIndex()
   })
 
   return {

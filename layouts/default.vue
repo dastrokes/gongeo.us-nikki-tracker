@@ -268,114 +268,106 @@
     ],
   }))
 
-  const topMenuOptions = computed<MenuOption[]>(() =>
-    [
-      {
-        label: t('navigation.tracker'),
-        key: 'tracker',
-        icon: renderIcon(Book),
-      },
-      {
-        label: t('navigation.import'),
-        key: 'import',
-        icon: renderIcon(FileImport),
-      },
-      {
-        label: t('navigation.global'),
-        key: 'global',
-        icon: renderIcon(Globe),
-      },
-      {
-        label: t('navigation.banner'),
-        key: 'banner',
-        icon: renderIcon(CalendarAlt),
-      },
-      {
-        label: t('navigation.vote'),
-        key: 'vote',
-        icon: renderIcon(Poll),
-      },
-      {
-        label: t('navigation.faq'),
-        key: 'faq',
-        icon: renderIcon(QuestionCircle),
-      },
-      {
-        label: t('navigation.about'),
-        key: 'about',
-        icon: renderIcon(InfoCircle),
-      },
-    ].map((option) => ({
-      ...option,
-    }))
-  )
+  const topMenuOptions = computed<MenuOption[]>(() => [
+    {
+      label: t('navigation.tracker'),
+      key: 'tracker',
+      icon: renderIcon(Book),
+    },
+    {
+      label: t('navigation.import'),
+      key: 'import',
+      icon: renderIcon(FileImport),
+    },
+    {
+      label: t('navigation.global'),
+      key: 'global',
+      icon: renderIcon(Globe),
+    },
+    {
+      label: t('navigation.banner'),
+      key: 'banner',
+      icon: renderIcon(CalendarAlt),
+    },
+    {
+      label: t('navigation.vote'),
+      key: 'vote',
+      icon: renderIcon(Poll),
+    },
+    {
+      label: t('navigation.faq'),
+      key: 'faq',
+      icon: renderIcon(QuestionCircle),
+    },
+    {
+      label: t('navigation.about'),
+      key: 'about',
+      icon: renderIcon(InfoCircle),
+    },
+  ])
 
-  const bottomMenuOptions = computed<MenuOption[]>(() =>
-    [
-      {
-        label: () =>
-          h(
-            'a',
-            {
-              href: 'https://nuan5.pro',
-              target: '_blank',
-              rel: 'noopener noreferrer',
-              class: 'no-underline text-inherit',
-            },
-            t('navigation.nuan5pro')
-          ),
-        key: 'nuan5pro',
-        icon: renderIcon(Magic),
-      },
-      {
-        label: () =>
-          h(
-            'a',
-            {
-              href: 'https://discord.gg/qymsW3j4Zw',
-              target: '_blank',
-              rel: 'noopener noreferrer',
-              class: 'no-underline text-inherit',
-            },
-            t('common.discord')
-          ),
-        key: 'discord',
-        icon: renderIcon(Discord),
-      },
-      {
-        label: () =>
-          h(
-            'a',
-            {
-              href: 'https://ko-fi.com/gongeous',
-              target: '_blank',
-              rel: 'noopener noreferrer',
-              class: 'no-underline text-inherit',
-            },
-            t('common.ko_fi')
-          ),
-        key: 'ko-fi',
-        icon: renderIcon(KoFi),
-      },
-      {
-        label: () =>
-          h(
-            'a',
-            {
-              href: 'https://www.netlify.com/',
-              target: '_blank',
-              rel: 'noopener noreferrer',
-              class: 'no-underline text-inherit',
-            },
-            'Built with Netlify'
-          ),
-        key: 'netlify',
-        icon: renderIcon(Netlify),
-      },
-    ].map((option) => ({
-      ...option,
-    }))
-  )
+  const bottomMenuOptions = computed<MenuOption[]>(() => [
+    {
+      label: () =>
+        h(
+          'a',
+          {
+            href: 'https://nuan5.pro',
+            target: '_blank',
+            rel: 'noopener noreferrer',
+            class: 'no-underline text-inherit',
+          },
+          t('navigation.nuan5pro')
+        ),
+      key: 'nuan5pro',
+      icon: renderIcon(Magic),
+    },
+    {
+      label: () =>
+        h(
+          'a',
+          {
+            href: 'https://discord.gg/qymsW3j4Zw',
+            target: '_blank',
+            rel: 'noopener noreferrer',
+            class: 'no-underline text-inherit',
+          },
+          t('common.discord')
+        ),
+      key: 'discord',
+      icon: renderIcon(Discord),
+    },
+    {
+      label: () =>
+        h(
+          'a',
+          {
+            href: 'https://ko-fi.com/gongeous',
+            target: '_blank',
+            rel: 'noopener noreferrer',
+            class: 'no-underline text-inherit',
+          },
+          t('common.ko_fi')
+        ),
+      key: 'ko-fi',
+      icon: renderIcon(KoFi),
+    },
+    {
+      label: () =>
+        h(
+          'a',
+          {
+            href: 'https://www.netlify.com/',
+            target: '_blank',
+            rel: 'noopener noreferrer',
+            class: 'no-underline text-inherit',
+          },
+          'Built with Netlify'
+        ),
+      key: 'netlify',
+      icon: renderIcon(Netlify),
+    },
+  ])
 
   const handleMenuSelect = (key: string) => {
     router.push(localePath(`/${key}`))

@@ -434,8 +434,6 @@
         await new Promise((resolve) => setTimeout(resolve, 500))
       }
 
-      loading.value = true
-
       // Conditionally use personal or community voting
       let newPair
       if (isPersonalMode.value) {
@@ -450,7 +448,7 @@
       loading.value = false
 
       // Trigger zoom in after content is rendered
-      await new Promise((resolve) => setTimeout(resolve, 500))
+      await new Promise((resolve) => setTimeout(resolve, 100))
       isTransitioning.value = false
     } catch (error) {
       console.error('Failed to load vote pair:', error)

@@ -450,8 +450,7 @@
       loading.value = false
 
       // Trigger zoom in after content is rendered
-      await nextTick()
-      await new Promise((resolve) => setTimeout(resolve, 50))
+      await new Promise((resolve) => setTimeout(resolve, 500))
       isTransitioning.value = false
     } catch (error) {
       console.error('Failed to load vote pair:', error)

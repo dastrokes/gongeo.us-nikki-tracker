@@ -211,14 +211,15 @@
                 >
                   <n-icon
                     size="20"
-                    class="text-gray-500 dark:text-gray-400"
+                    class="text-amber-500 dark:text-amber-400"
                   >
                     <InfoCircle />
                   </n-icon>
                 </n-button>
               </template>
-              <div class="max-w-xs">
-                {{ t('vote.howItWorks') }}
+              <div class="max-w-xs space-y-2">
+                <div>{{ t('vote.howItWorks') }}</div>
+                <div>{{ t('vote.abuseNotice') }}</div>
               </div>
             </n-tooltip>
 

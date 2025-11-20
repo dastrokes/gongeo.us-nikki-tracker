@@ -552,6 +552,7 @@
     "submit": "Submit Vote",
     "skip": "Skip",
     "howItWorks": "Pick your favorite banner and submit your vote to help rank the most popular banners. Skip if you're not sure. You can vote up to 50 times every 24 hours.",
+    "abuseNotice": "Please do not abuse the voting system. Unusual voting patterns will be detected, and those votes may be removed.",
     "success": "Vote submitted successfully!",
     "viewRankings": "View Rankings",
     "vote": "Vote",

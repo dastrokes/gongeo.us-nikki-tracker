@@ -552,7 +552,7 @@
     "submit": "Stimme abgeben",
     "skip": "Überspringen",
     "howItWorks": "Wähle dein Lieblingsbanner und gebe deine Stimme ab, um zu helfen, die beliebtesten Banner zu bestimmen. Überspringe, wenn du dir nicht sicher bist. Du kannst alle 24 Stunden bis zu 50 Mal abstimmen.",
-    "abuseNotice": "Please do not abuse the voting system. Unusual voting patterns will be detected, and those votes may be removed.",
+    "abuseNotice": "Bitte missbrauche nicht das Abstimmungssystem. Ungewöhnliche Abstimmungsmuster werden erkannt und diese Stimmen können entfernt werden.",
     "success": "Stimme erfolgreich abgegeben!",
     "viewRankings": "Rangliste ansehen",
     "vote": "Abstimmen",

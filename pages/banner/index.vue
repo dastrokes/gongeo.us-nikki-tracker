@@ -127,7 +127,7 @@
         size="large"
       >
         <n-timeline-item
-          v-for="banner in filteredBanners"
+          v-for="banner in displayedBanners"
           :id="banner.bannerId.toString()"
           :key="banner.bannerId"
           :type="getBannerTypeColor(banner.bannerType)"
@@ -275,7 +275,11 @@
                           width="800"
                           height="400"
                           fit="cover"
-                          loading="lazy"
+                          :loading="
+                            banner.bannerId === displayedBanners[0]?.bannerId
+                              ? 'eager'
+                              : 'lazy'
+                          "
                           sizes="400px sm:800px"
                         />
                       </template>
@@ -291,6 +295,12 @@
           </template>
         </n-timeline-item>
       </n-timeline>
+
+      <!-- Observer target for infinite scroll -->
+      <div
+        ref="observerTarget"
+        class="h-1"
+      ></div>
     </n-card>
   </div>
 </template>
@@ -381,8 +391,37 @@
     return banners
   })
 
-  function handleBannerClick(bannerId: number) {
+  // Initialize banner loading composable
+  const { displayedBanners, reset, loadUntilBanner, observerTarget } =
+    useBannerLoad({
+      allBanners: filteredBanners,
+    })
+
+  // Watch filter changes with debouncing
+  watchDebounced(
+    [bannerTypeFilter, sortOrder],
+    () => {
+      reset()
+      if (import.meta.client) {
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+      }
+    },
+    { debounce: 500, deep: true }
+  )
+
+  async function handleBannerClick(bannerId: number) {
     showBannerSelector.value = false
+
+    // Check if banner is already loaded
+    const isLoaded = displayedBanners.value.some(
+      (banner) => banner.bannerId === bannerId
+    )
+
+    if (!isLoaded) {
+      // Load banners up to the target banner
+      await loadUntilBanner(bannerId)
+    }
+
     selectedBannerId.value = bannerId
   }
 
@@ -429,6 +468,11 @@
       if (!hash) return
       const bannerId = Number(hash.slice(1))
       if (isNaN(bannerId)) return
+
+      // Load banners up to the target banner
+      await loadUntilBanner(bannerId)
+
+      // Then scroll to it
       await scrollToBanner(bannerId, {
         behavior: 'instant',
         wait: 'frame',

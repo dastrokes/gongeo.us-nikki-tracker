@@ -36,8 +36,25 @@
       <NuxtLink
         no-prefetch
         :to="localePath(`/banner/${banner.bannerId}`)"
-        class="hover:opacity-95 transition-opacity"
+        class="hover:opacity-95 transition-opacity relative"
         ><ClientOnly>
+          <n-tooltip
+            overlap
+            placement="top-end"
+            class="!rounded-lg !m-2 p-1 text-xs cursor-pointer"
+            :z-index="10"
+            @click.stop.prevent="
+              $router.push(localePath(`/banner/${banner.bannerId}`))
+            "
+          >
+            <template #trigger>
+              <div class="absolute inset-0"></div>
+            </template>
+            <span class="inline-flex items-center gap-2">
+              {{ t('navigation.banner_detail') }}
+              <n-icon><ExternalLinkAlt /></n-icon>
+            </span>
+          </n-tooltip>
           <n-tag
             round
             :bordered="false"
@@ -95,7 +112,7 @@
 </template>
 
 <script setup lang="ts">
-  import { HourglassHalf } from '@vicons/fa'
+  import { HourglassHalf, ExternalLinkAlt } from '@vicons/fa'
   import type { Banner } from '~/types/banner'
 
   const { t } = useI18n()

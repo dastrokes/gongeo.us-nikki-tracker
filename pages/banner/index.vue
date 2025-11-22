@@ -261,7 +261,7 @@
                     <n-tooltip
                       overlap
                       placement="top-end"
-                      class="!rounded-lg !m-1 cursor-pointer"
+                      class="!rounded-lg !m-2 p-1 text-xs cursor-pointer"
                       :z-index="10"
                       @click.stop.prevent="
                         router.push(localePath(`/banner/${banner.bannerId}`))

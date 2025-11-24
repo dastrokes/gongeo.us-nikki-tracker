@@ -571,7 +571,8 @@
       "loadFailed": "加载投票失败，请重试。",
       "submitFailed": "提交投票失败，请重试。",
       "rateLimit": "投票次数过多，请稍后再试。",
-      "loadRankingsFailed": "加载排名失败，请重试。"
+      "loadRankingsFailed": "加载排名失败，请重试。",
+      "votingClosed": "社区投票已结束。查看最终排名或切换到个人模式继续投票。"
     },
     "rankings": {
       "title": "卡池排名",

@@ -401,7 +401,7 @@
   const router = useRouter()
   const siteUrl = useRuntimeConfig().public.siteUrl
   const message = useMessage()
-  const { getVotePair, submitVote } = useBannerVote()
+  const { getVotePair } = useBannerVote()
   const { getPersonalVotePair, submitPersonalVote } = usePersonalVote()
 
   const loading = ref(true)
@@ -478,18 +478,26 @@
           selectedBanner.value
         )
         message.success(t('vote.success'))
+        await loadPair()
       } else {
-        // Community voting - async API call
-        await submitVote(
-          currentPair.value.banner1.id,
-          currentPair.value.banner2.id,
-          selectedBanner.value
-        )
-        message.success(t('vote.success'))
+        // DISABLED: Community voting deadline has passed
+        // Show error message and redirect to rankings
+        message.warning(t('vote.errors.votingClosed'), {
+          duration: 5000,
+        })
+        submitting.value = false
+
+        // Community voting - async API call (DISABLED)
+        // await submitVote(
+        //   currentPair.value.banner1.id,
+        //   currentPair.value.banner2.id,
+        //   selectedBanner.value
+        // )
+        // message.success(t('vote.success'))
       }
 
       // Load next pair
-      await loadPair()
+      // await loadPair()
     } catch (error: unknown) {
       console.error('Failed to submit vote:', error)
 

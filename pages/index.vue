@@ -127,7 +127,7 @@
           <BannerCarousel
             v-model:current-index="indexA"
             :banners="leftBanners"
-            :formatted-time="formattedTime"
+            :target-time="targetTime"
           />
         </div>
         <div
@@ -137,7 +137,7 @@
           <BannerCarousel
             v-model:current-index="indexB"
             :banners="rightBanners"
-            :formatted-time="formattedTime"
+            :target-time="targetTime"
           />
         </div>
       </div>
@@ -149,8 +149,6 @@
   import { BANNER_DATA } from '~/data/banners'
   import type { Banner } from '~/types/banner'
   import { Book, Globe, CalendarAlt, Poll, ListOl } from '@vicons/fa'
-
-  const { t } = useI18n()
 
   const localePath = useLocalePath()
   const router = useRouter()
@@ -186,18 +184,5 @@
 
   onBeforeUnmount(() => {
     if (timer) clearTimeout(timer)
-  })
-
-  // Static time calculation
-  const now = new Date()
-  const diffInHours = Math.max(
-    0,
-    (targetTime.getTime() - now.getTime()) / (1000 * 60 * 60)
-  )
-  const days = Math.floor(diffInHours / 24)
-  const hours = Math.floor(diffInHours % 24)
-
-  const formattedTime = computed(() => {
-    return `${days} ${t('index.days')} ${hours} ${t('index.hours')}`
   })
 </script>

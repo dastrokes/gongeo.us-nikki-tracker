@@ -571,7 +571,8 @@
       "loadFailed": "Failed to load vote pair. Please try again.",
       "submitFailed": "Failed to submit vote. Please try again.",
       "rateLimit": "Too many votes. Please wait before voting again.",
-      "loadRankingsFailed": "Failed to load rankings. Please try again."
+      "loadRankingsFailed": "Failed to load rankings. Please try again.",
+      "votingClosed": "Community voting has ended. View the final rankings or switch to Personal Mode to continue voting."
     },
     "rankings": {
       "title": "Banner Rankings",

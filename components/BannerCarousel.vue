@@ -36,25 +36,8 @@
       <NuxtLink
         no-prefetch
         :to="localePath(`/banner/${banner.bannerId}`)"
-        class="hover:opacity-95 transition-opacity relative"
+        class="hover:opacity-95 transition-opacity"
         ><ClientOnly>
-          <n-tooltip
-            overlap
-            placement="top-end"
-            class="!rounded-lg !m-2 p-1 text-xs cursor-pointer"
-            :z-index="10"
-            @click.stop.prevent="
-              $router.push(localePath(`/banner/${banner.bannerId}`))
-            "
-          >
-            <template #trigger>
-              <div class="absolute inset-0"></div>
-            </template>
-            <span class="inline-flex items-center gap-2">
-              {{ t('navigation.banner_detail') }}
-              <n-icon><ExternalLinkAlt /></n-icon>
-            </span>
-          </n-tooltip>
           <n-tag
             round
             :bordered="false"
@@ -112,15 +95,15 @@
 </template>
 
 <script setup lang="ts">
-  import { HourglassHalf, ExternalLinkAlt } from '@vicons/fa'
+  import { HourglassHalf } from '@vicons/fa'
   import type { Banner } from '~/types/banner'
 
-  const { t } = useI18n()
+  const { t, locale } = useI18n()
   const localePath = useLocalePath()
 
   const props = defineProps<{
     banners: Banner[]
-    formattedTime: string
+    targetTime: Date
     currentIndex: number
   }>()
 
@@ -131,5 +114,57 @@
   const currentIndex = computed({
     get: () => props.currentIndex,
     set: (value) => emit('update:currentIndex', value),
+  })
+
+  // Format time using Intl for proper localization
+  const formattedTime = ref('')
+
+  // Only calculate on client to avoid hydration mismatch
+  onMounted(() => {
+    const now = Date.now()
+    const target = props.targetTime.getTime()
+    const diffInMs = target - now
+
+    if (diffInMs <= 0) {
+      formattedTime.value = ''
+      return
+    }
+
+    const diffInHours = diffInMs / (1000 * 60 * 60)
+    const days = Math.floor(diffInHours / 24)
+    const hours = Math.floor(diffInHours % 24)
+
+    // Map locale codes to Intl locale strings
+    const localeMap: Record<string, string> = {
+      en: 'en-US',
+      de: 'de-DE',
+      zh: 'zh-CN',
+      ko: 'ko-KR',
+    }
+
+    const intlLocale = localeMap[locale.value] || 'en-US'
+
+    // Use Intl.NumberFormat with unit style for clean formatting
+    const dayFormatter = new Intl.NumberFormat(intlLocale, {
+      style: 'unit',
+      unit: 'day',
+      unitDisplay: 'long',
+    })
+    const hourFormatter = new Intl.NumberFormat(intlLocale, {
+      style: 'unit',
+      unit: 'hour',
+      unitDisplay: 'long',
+    })
+
+    // Format days and hours separately
+    const parts: string[] = []
+    if (days > 0) {
+      parts.push(dayFormatter.format(days))
+    }
+    if (hours > 0) {
+      parts.push(hourFormatter.format(hours))
+    }
+
+    formattedTime.value = parts.join(' ')
   })
 </script>

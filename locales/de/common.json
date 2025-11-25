@@ -572,7 +572,7 @@
       "submitFailed": "Abstimmung fehlgeschlagen. Bitte versuche es erneut.",
       "rateLimit": "Zu viele Abstimmungen. Bitte warte, bevor du erneut abstimmst.",
       "loadRankingsFailed": "Rangliste konnte nicht geladen werden. Bitte versuche es erneut.",
-      "votingClosed": "Community voting has ended. View the final rankings or switch to Personal Mode to continue voting."
+      "votingClosed": "Community-Abstimmung ist beendet. Schau dir die endgültige Rangliste an oder wechsle zum persönlichen Modus um weiter abzustimmen."
     },
     "rankings": {
       "title": "Banner-Rangliste",

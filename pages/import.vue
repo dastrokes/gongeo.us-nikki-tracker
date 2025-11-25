@@ -802,7 +802,7 @@
   const showYouTubeModal = ref(false)
   const showBilibiliModal = ref(false)
 
-  const isMaintenance = ref(false)
+  const isMaintenance = ref(true)
 
   useHead(() => ({
     title: t('navigation.import') + ' - ' + t('navigation.subtitle'),

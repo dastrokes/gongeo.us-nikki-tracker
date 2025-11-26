@@ -571,7 +571,8 @@
       "loadFailed": "Abstimmpaar konnte nicht geladen werden. Bitte versuche es erneut.",
       "submitFailed": "Abstimmung fehlgeschlagen. Bitte versuche es erneut.",
       "rateLimit": "Zu viele Abstimmungen. Bitte warte, bevor du erneut abstimmst.",
-      "loadRankingsFailed": "Rangliste konnte nicht geladen werden. Bitte versuche es erneut."
+      "loadRankingsFailed": "Rangliste konnte nicht geladen werden. Bitte versuche es erneut.",
+      "votingClosed": "Community-Abstimmung ist beendet. Schau dir die endgültige Rangliste an oder wechsle zum persönlichen Modus um weiter abzustimmen."
     },
     "rankings": {
       "title": "Banner-Rangliste",

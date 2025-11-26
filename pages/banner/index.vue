@@ -1,49 +1,5 @@
 <template>
   <div class="max-w-7xl mx-auto space-y-2 sm:space-y-4">
-    <!-- Vote Card -->
-    <n-card
-      size="small"
-      class="rounded-xl p-0 sm:p-2"
-      content-class="!flex !flex-col"
-    >
-      <div class="flex flex-col text-center flex-1">
-        <n-h2 class="font-bold">
-          {{ $t('navigation.vote') }}
-        </n-h2>
-        <n-h6 class="mt-0 text-gray-600 dark:text-gray-300">
-          {{ $t('vote.description') }}
-        </n-h6>
-      </div>
-      <div
-        class="flex gap-4 opacity-90 justify-center items-center flex-wrap mt-4"
-      >
-        <n-button
-          type="primary"
-          size="medium"
-          @click="router.push(localePath('/vote'))"
-        >
-          <template #icon>
-            <n-icon>
-              <Poll />
-            </n-icon>
-          </template>
-          {{ $t('vote.vote') }}
-        </n-button>
-        <n-button
-          type="primary"
-          size="medium"
-          @click="router.push(localePath('/ranking'))"
-        >
-          <template #icon>
-            <n-icon>
-              <ListOl />
-            </n-icon>
-          </template>
-          {{ $t('vote.ranking') }}
-        </n-button>
-      </div>
-    </n-card>
-
     <n-card
       size="small"
       class="rounded-xl p-0 sm:p-2"
@@ -313,8 +269,6 @@
     CalendarDay,
     ArrowUp,
     ArrowDown,
-    Poll,
-    ListOl,
   } from '@vicons/fa'
   import { BANNER_DATA } from '~/data/banners'
 

@@ -376,17 +376,23 @@
   }))
 
   // SEO
+  const pageTitle = computed(
+    () => t('login.title') + ' - ' + t('navigation.subtitle')
+  )
+  const pageDescription = computed(() => t('meta.description.login'))
+
   useHead(() => ({
-    title: t('login.title') + ' - ' + t('navigation.subtitle'),
-    meta: [
-      { name: 'description', content: t('meta.description.login') },
-      {
-        property: 'og:title',
-        content: t('login.title') + ' - ' + t('navigation.subtitle'),
-      },
-      { property: 'og:description', content: t('meta.description.login') },
-    ],
+    title: pageTitle.value,
   }))
+
+  useSeoMeta({
+    title: pageTitle,
+    description: pageDescription,
+    ogTitle: pageTitle,
+    ogDescription: pageDescription,
+    twitterTitle: pageTitle,
+    twitterDescription: pageDescription,
+  })
 
   // Handlers
   const handleDiscordSignIn = async () => {

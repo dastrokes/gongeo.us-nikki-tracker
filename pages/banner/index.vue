@@ -455,31 +455,15 @@
     }
   }
 
+  const pageTitle = computed(
+    () => t('navigation.banner') + ' - ' + t('navigation.subtitle')
+  )
+  const pageDescription = computed(() => t('meta.description.banner'))
+  const canonicalUrl = computed(() => `${siteUrl}${localePath('/banner')}`)
+
   useHead(() => ({
-    title: t('navigation.banner') + ' - ' + t('navigation.subtitle'),
-    meta: [
-      {
-        name: 'description',
-        content: t('meta.description.banner'),
-      },
-      {
-        property: 'og:title',
-        content: t('navigation.banner') + ' - ' + t('navigation.subtitle'),
-      },
-      {
-        property: 'og:description',
-        content: t('meta.description.banner'),
-      },
-      {
-        name: 'twitter:title',
-        content: t('navigation.banner') + ' - ' + t('navigation.subtitle'),
-      },
-      {
-        name: 'twitter:description',
-        content: t('meta.description.banner'),
-      },
-    ],
-    link: [{ rel: 'canonical', href: `${siteUrl}${localePath('/banner')}` }],
+    title: pageTitle.value,
+    link: [{ rel: 'canonical', href: canonicalUrl.value }],
     script: [
       {
         type: 'application/ld+json',
@@ -493,4 +477,13 @@
       },
     ],
   }))
+
+  useSeoMeta({
+    title: pageTitle,
+    description: pageDescription,
+    ogTitle: pageTitle,
+    ogDescription: pageDescription,
+    twitterTitle: pageTitle,
+    twitterDescription: pageDescription,
+  })
 </script>

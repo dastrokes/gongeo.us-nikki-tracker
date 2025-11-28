@@ -804,32 +804,25 @@
 
   const isMaintenance = ref(false)
 
+  const pageTitle = computed(
+    () => t('navigation.import') + ' - ' + t('navigation.subtitle')
+  )
+  const pageDescription = computed(() => t('meta.description.import'))
+  const canonicalUrl = computed(() => `${siteUrl}${localePath('/import')}`)
+
   useHead(() => ({
-    title: t('navigation.import') + ' - ' + t('navigation.subtitle'),
-    meta: [
-      {
-        name: 'description',
-        content: t('meta.description.import'),
-      },
-      {
-        property: 'og:title',
-        content: t('navigation.import') + ' - ' + t('navigation.subtitle'),
-      },
-      {
-        property: 'og:description',
-        content: t('meta.description.import'),
-      },
-      {
-        name: 'twitter:title',
-        content: t('navigation.import') + ' - ' + t('navigation.subtitle'),
-      },
-      {
-        name: 'twitter:description',
-        content: t('meta.description.import'),
-      },
-    ],
-    link: [{ rel: 'canonical', href: `${siteUrl}${localePath('/import')}` }],
+    title: pageTitle.value,
+    link: [{ rel: 'canonical', href: canonicalUrl.value }],
   }))
+
+  useSeoMeta({
+    title: pageTitle,
+    description: pageDescription,
+    ogTitle: pageTitle,
+    ogDescription: pageDescription,
+    twitterTitle: pageTitle,
+    twitterDescription: pageDescription,
+  })
 
   const REGION_LABELS = {
     [Region.AMERICA]: t('common.regions.america'),

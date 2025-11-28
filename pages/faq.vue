@@ -32,32 +32,25 @@
   const localePath = useLocalePath()
   const siteUrl = useRuntimeConfig().public.siteUrl
 
+  const pageTitle = computed(
+    () => t('navigation.faq') + ' - ' + t('navigation.subtitle')
+  )
+  const pageDescription = computed(() => t('meta.description.faq'))
+  const canonicalUrl = computed(() => `${siteUrl}${localePath('/faq')}`)
+
   useHead(() => ({
-    title: t('navigation.faq') + ' - ' + t('navigation.subtitle'),
-    meta: [
-      {
-        name: 'description',
-        content: t('meta.description.faq'),
-      },
-      {
-        property: 'og:title',
-        content: t('navigation.faq') + ' - ' + t('navigation.subtitle'),
-      },
-      {
-        property: 'og:description',
-        content: t('meta.description.faq'),
-      },
-      {
-        name: 'twitter:title',
-        content: t('navigation.faq') + ' - ' + t('navigation.subtitle'),
-      },
-      {
-        name: 'twitter:description',
-        content: t('meta.description.faq'),
-      },
-    ],
-    link: [{ rel: 'canonical', href: `${siteUrl}${localePath('/faq')}` }],
+    title: pageTitle.value,
+    link: [{ rel: 'canonical', href: canonicalUrl.value }],
   }))
+
+  useSeoMeta({
+    title: pageTitle,
+    description: pageDescription,
+    ogTitle: pageTitle,
+    ogDescription: pageDescription,
+    twitterTitle: pageTitle,
+    twitterDescription: pageDescription,
+  })
 
   const faqs = {
     data_source: {},

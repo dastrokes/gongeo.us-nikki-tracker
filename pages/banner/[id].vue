@@ -798,52 +798,27 @@
     }
   })
 
-  useHead(() => ({
-    title: banner.value
+  const pageTitle = computed(() =>
+    banner.value
       ? `${t(`banner.${banner.value.bannerId}.name`)} - ${t('navigation.banner_detail')} - ${t('navigation.subtitle')}`
-      : `${t('navigation.banner_detail')} - ${t('navigation.subtitle')}`,
-    meta: [
-      {
-        name: 'description',
-        content: t('meta.description.banner_detail'),
-      },
-      {
-        property: 'og:title',
-        content: banner.value
-          ? `${t(`banner.${banner.value.bannerId}.name`)} - ${t('navigation.banner_detail')} - ${t('navigation.subtitle')}`
-          : `${t('navigation.banner_detail')} - ${t('navigation.subtitle')}`,
-      },
-      {
-        property: 'og:description',
-        content: t('meta.description.banner_detail'),
-      },
-      {
-        property: 'og:image',
-        content: banner.value
-          ? `${siteUrl}/images/banners/${banner.value.bannerId}.webp`
-          : `${siteUrl}/og.png`,
-      },
-      {
-        name: 'twitter:title',
-        content: banner.value
-          ? `${t(`banner.${banner.value.bannerId}.name`)} - ${t('navigation.banner_detail')} - ${t('navigation.subtitle')}`
-          : `${t('navigation.banner_detail')} - ${t('navigation.subtitle')}`,
-      },
-      {
-        name: 'twitter:description',
-        content: t('meta.description.banner_detail'),
-      },
-      {
-        name: 'twitter:image',
-        content: banner.value
-          ? `${siteUrl}/images/banners/${banner.value.bannerId}.webp`
-          : `${siteUrl}/og.png`,
-      },
-    ],
+      : `${t('navigation.banner_detail')} - ${t('navigation.subtitle')}`
+  )
+  const pageDescription = computed(() => t('meta.description.banner_detail'))
+  const pageImage = computed(() =>
+    banner.value
+      ? `${siteUrl}/images/banners/${banner.value.bannerId}.webp`
+      : `${siteUrl}/og.png`
+  )
+  const canonicalUrl = computed(
+    () => `${siteUrl}${localePath(`/banner/${route.params.id}`)}`
+  )
+
+  useHead(() => ({
+    title: pageTitle.value,
     link: [
       {
         rel: 'canonical',
-        href: `${siteUrl}${localePath(`/banner/${route.params.id}`)}`,
+        href: canonicalUrl.value,
       },
     ],
     script: [
@@ -852,14 +827,10 @@
         children: JSON.stringify({
           '@context': 'https://schema.org',
           '@type': 'ItemPage',
-          name: banner.value
-            ? `${t(`banner.${banner.value.bannerId}.name`)} - ${t('navigation.banner_detail')} - ${t('navigation.subtitle')}`
-            : `${t('navigation.banner_detail')} - ${t('navigation.subtitle')}`,
-          description: t('meta.description.banner_detail'),
-          url: `${siteUrl}${localePath(`/banner/${route.params.id}`)}`,
-          image: banner.value
-            ? `${siteUrl}/images/banners/${banner.value.bannerId}.webp`
-            : `${siteUrl}/og.png`,
+          name: pageTitle.value,
+          description: pageDescription.value,
+          url: canonicalUrl.value,
+          image: pageImage.value,
           isPartOf: {
             '@type': 'CollectionPage',
             url: `${siteUrl}${localePath(`/banner`)}`,
@@ -868,4 +839,15 @@
       },
     ],
   }))
+
+  useSeoMeta({
+    title: pageTitle,
+    description: pageDescription,
+    ogTitle: pageTitle,
+    ogDescription: pageDescription,
+    ogImage: pageImage,
+    twitterTitle: pageTitle,
+    twitterDescription: pageDescription,
+    twitterImage: pageImage,
+  })
 </script>

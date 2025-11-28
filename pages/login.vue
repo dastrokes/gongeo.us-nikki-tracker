@@ -376,22 +376,13 @@
   }))
 
   // SEO
-  const pageTitle = computed(
-    () => t('login.title') + ' - ' + t('navigation.subtitle')
-  )
-  const pageDescription = computed(() => t('meta.description.login'))
-
-  useHead(() => ({
-    title: pageTitle.value,
-  }))
-
   useSeoMeta({
-    title: pageTitle,
-    description: pageDescription,
-    ogTitle: pageTitle,
-    ogDescription: pageDescription,
-    twitterTitle: pageTitle,
-    twitterDescription: pageDescription,
+    title: () => `${t('login.title')} - ${t('navigation.subtitle')}`,
+    description: () => t('meta.description.login'),
+    ogTitle: () => `${t('login.title')} - ${t('navigation.subtitle')}`,
+    ogDescription: () => t('meta.description.login'),
+    twitterTitle: () => `${t('login.title')} - ${t('navigation.subtitle')}`,
+    twitterDescription: () => t('meta.description.login'),
   })
 
   // Handlers

@@ -1045,24 +1045,18 @@
       .filter((banner) => banner !== null)
   })
 
-  const pageTitle = computed(
-    () => t('navigation.tracker') + ' - ' + t('navigation.subtitle')
-  )
-  const pageDescription = computed(() => t('meta.description.tracker'))
-  const canonicalUrl = computed(() => `${siteUrl}${localePath('/tracker')}`)
-
-  useHead(() => ({
-    title: pageTitle.value,
-    link: [{ rel: 'canonical', href: canonicalUrl.value }],
-  }))
-
   useSeoMeta({
-    title: pageTitle,
-    description: pageDescription,
-    ogTitle: pageTitle,
-    ogDescription: pageDescription,
-    twitterTitle: pageTitle,
-    twitterDescription: pageDescription,
+    title: () => `${t('navigation.tracker')} - ${t('navigation.subtitle')}`,
+    description: () => t('meta.description.tracker'),
+    ogTitle: () => `${t('navigation.tracker')} - ${t('navigation.subtitle')}`,
+    ogDescription: () => t('meta.description.tracker'),
+    twitterTitle: () =>
+      `${t('navigation.tracker')} - ${t('navigation.subtitle')}`,
+    twitterDescription: () => t('meta.description.tracker'),
+  })
+
+  useHead({
+    link: [{ rel: 'canonical', href: `${siteUrl}${localePath('/tracker')}` }],
   })
 
   // Function to load and process data based on current data source

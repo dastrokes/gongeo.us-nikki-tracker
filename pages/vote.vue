@@ -542,23 +542,16 @@
   })
 
   // SEO
-  const pageTitle = computed(
-    () => t('navigation.vote') + ' - ' + t('navigation.subtitle')
-  )
-  const pageDescription = computed(() => t('vote.description'))
-  const canonicalUrl = computed(() => `${siteUrl}${localePath('/vote')}`)
-
-  useHead(() => ({
-    title: pageTitle.value,
-    link: [{ rel: 'canonical', href: canonicalUrl.value }],
-  }))
-
   useSeoMeta({
-    title: pageTitle,
-    description: pageDescription,
-    ogTitle: pageTitle,
-    ogDescription: pageDescription,
-    twitterTitle: pageTitle,
-    twitterDescription: pageDescription,
+    title: () => `${t('navigation.vote')} - ${t('navigation.subtitle')}`,
+    description: () => t('vote.description'),
+    ogTitle: () => `${t('navigation.vote')} - ${t('navigation.subtitle')}`,
+    ogDescription: () => t('vote.description'),
+    twitterTitle: () => `${t('navigation.vote')} - ${t('navigation.subtitle')}`,
+    twitterDescription: () => t('vote.description'),
+  })
+
+  useHead({
+    link: [{ rel: 'canonical', href: `${siteUrl}${localePath('/vote')}` }],
   })
 </script>

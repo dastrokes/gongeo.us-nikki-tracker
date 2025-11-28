@@ -542,30 +542,23 @@
   })
 
   // SEO
+  const pageTitle = computed(
+    () => t('navigation.vote') + ' - ' + t('navigation.subtitle')
+  )
+  const pageDescription = computed(() => t('vote.description'))
+  const canonicalUrl = computed(() => `${siteUrl}${localePath('/vote')}`)
+
   useHead(() => ({
-    title: t('navigation.vote') + ' - ' + t('navigation.subtitle'),
-    meta: [
-      {
-        name: 'description',
-        content: t('vote.description'),
-      },
-      {
-        property: 'og:title',
-        content: t('navigation.vote') + ' - ' + t('navigation.subtitle'),
-      },
-      {
-        property: 'og:description',
-        content: t('vote.description'),
-      },
-      {
-        name: 'twitter:title',
-        content: t('navigation.vote') + ' - ' + t('navigation.subtitle'),
-      },
-      {
-        name: 'twitter:description',
-        content: t('vote.description'),
-      },
-    ],
-    link: [{ rel: 'canonical', href: `${siteUrl}${localePath('/vote')}` }],
+    title: pageTitle.value,
+    link: [{ rel: 'canonical', href: canonicalUrl.value }],
   }))
+
+  useSeoMeta({
+    title: pageTitle,
+    description: pageDescription,
+    ogTitle: pageTitle,
+    ogDescription: pageDescription,
+    twitterTitle: pageTitle,
+    twitterDescription: pageDescription,
+  })
 </script>

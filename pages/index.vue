@@ -104,8 +104,29 @@
   import type { Banner } from '~/types/banner'
   import { Book, Globe, CalendarAlt } from '@vicons/fa'
 
+  const { t } = useI18n()
   const localePath = useLocalePath()
   const router = useRouter()
+  const siteUrl = useRuntimeConfig().public.siteUrl
+
+  // SEO
+  const pageTitle = computed(() => t('meta.title'))
+  const pageDescription = computed(() => t('meta.description.default'))
+  const canonicalUrl = computed(() => `${siteUrl}${localePath('/')}`)
+
+  useHead(() => ({
+    title: pageTitle.value,
+    link: [{ rel: 'canonical', href: canonicalUrl.value }],
+  }))
+
+  useSeoMeta({
+    title: pageTitle,
+    description: pageDescription,
+    ogTitle: pageTitle,
+    ogDescription: pageDescription,
+    twitterTitle: pageTitle,
+    twitterDescription: pageDescription,
+  })
 
   // TODO: update to current banner id
   const leftBanners = [BANNER_DATA[42]] as Banner[]

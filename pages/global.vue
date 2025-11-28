@@ -621,32 +621,27 @@
   const router = useRouter()
   const siteUrl = useRuntimeConfig().public.siteUrl
 
+  // Compute SEO values to ensure they're available during SSR
+  const pageTitle = computed(
+    () => t('navigation.global') + ' - ' + t('navigation.subtitle')
+  )
+  const pageDescription = computed(() => t('meta.description.global'))
+  const canonicalUrl = computed(() => `${siteUrl}${localePath('/global')}`)
+
+  // Use both useHead and useSeoMeta for better SEO support
   useHead(() => ({
-    title: t('navigation.global') + ' - ' + t('navigation.subtitle'),
-    meta: [
-      {
-        name: 'description',
-        content: t('meta.description.global'),
-      },
-      {
-        property: 'og:title',
-        content: t('navigation.global') + ' - ' + t('navigation.subtitle'),
-      },
-      {
-        property: 'og:description',
-        content: t('meta.description.global'),
-      },
-      {
-        name: 'twitter:title',
-        content: t('navigation.global') + ' - ' + t('navigation.subtitle'),
-      },
-      {
-        name: 'twitter:description',
-        content: t('meta.description.global'),
-      },
-    ],
-    link: [{ rel: 'canonical', href: `${siteUrl}${localePath('/global')}` }],
+    title: pageTitle.value,
+    link: [{ rel: 'canonical', href: canonicalUrl.value }],
   }))
+
+  useSeoMeta({
+    title: pageTitle,
+    description: pageDescription,
+    ogTitle: pageTitle,
+    ogDescription: pageDescription,
+    twitterTitle: pageTitle,
+    twitterDescription: pageDescription,
+  })
 
   // Data fetching
   const { data: globalData, status } = await useFetch(

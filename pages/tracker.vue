@@ -1045,32 +1045,25 @@
       .filter((banner) => banner !== null)
   })
 
+  const pageTitle = computed(
+    () => t('navigation.tracker') + ' - ' + t('navigation.subtitle')
+  )
+  const pageDescription = computed(() => t('meta.description.tracker'))
+  const canonicalUrl = computed(() => `${siteUrl}${localePath('/tracker')}`)
+
   useHead(() => ({
-    title: t('navigation.tracker') + ' - ' + t('navigation.subtitle'),
-    meta: [
-      {
-        name: 'description',
-        content: t('meta.description.tracker'),
-      },
-      {
-        property: 'og:title',
-        content: t('navigation.tracker') + ' - ' + t('navigation.subtitle'),
-      },
-      {
-        property: 'og:description',
-        content: t('meta.description.tracker'),
-      },
-      {
-        name: 'twitter:title',
-        content: t('navigation.tracker') + ' - ' + t('navigation.subtitle'),
-      },
-      {
-        name: 'twitter:description',
-        content: t('meta.description.tracker'),
-      },
-    ],
-    link: [{ rel: 'canonical', href: `${siteUrl}${localePath('/tracker')}` }],
+    title: pageTitle.value,
+    link: [{ rel: 'canonical', href: canonicalUrl.value }],
   }))
+
+  useSeoMeta({
+    title: pageTitle,
+    description: pageDescription,
+    ogTitle: pageTitle,
+    ogDescription: pageDescription,
+    twitterTitle: pageTitle,
+    twitterDescription: pageDescription,
+  })
 
   // Function to load and process data based on current data source
   const loadAndProcessData = async () => {

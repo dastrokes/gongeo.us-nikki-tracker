@@ -455,35 +455,29 @@
     }
   }
 
-  const pageTitle = computed(
-    () => t('navigation.banner') + ' - ' + t('navigation.subtitle')
-  )
-  const pageDescription = computed(() => t('meta.description.banner'))
-  const canonicalUrl = computed(() => `${siteUrl}${localePath('/banner')}`)
+  useSeoMeta({
+    title: () => `${t('navigation.banner')} - ${t('navigation.subtitle')}`,
+    description: () => t('meta.description.banner'),
+    ogTitle: () => `${t('navigation.banner')} - ${t('navigation.subtitle')}`,
+    ogDescription: () => t('meta.description.banner'),
+    twitterTitle: () =>
+      `${t('navigation.banner')} - ${t('navigation.subtitle')}`,
+    twitterDescription: () => t('meta.description.banner'),
+  })
 
-  useHead(() => ({
-    title: pageTitle.value,
-    link: [{ rel: 'canonical', href: canonicalUrl.value }],
+  useHead({
+    link: [{ rel: 'canonical', href: `${siteUrl}${localePath('/banner')}` }],
     script: [
       {
         type: 'application/ld+json',
         children: JSON.stringify({
           '@context': 'https://schema.org',
           '@type': 'ItemPage',
-          name: t('navigation.banner') + ' - ' + t('navigation.subtitle'),
+          name: `${t('navigation.banner')} - ${t('navigation.subtitle')}`,
           description: t('meta.description.banner'),
-          url: `${siteUrl}${localePath(`/banner`)}`,
+          url: `${siteUrl}${localePath('/banner')}`,
         }),
       },
     ],
-  }))
-
-  useSeoMeta({
-    title: pageTitle,
-    description: pageDescription,
-    ogTitle: pageTitle,
-    ogDescription: pageDescription,
-    twitterTitle: pageTitle,
-    twitterDescription: pageDescription,
   })
 </script>

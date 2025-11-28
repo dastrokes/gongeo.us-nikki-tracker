@@ -804,24 +804,18 @@
 
   const isMaintenance = ref(false)
 
-  const pageTitle = computed(
-    () => t('navigation.import') + ' - ' + t('navigation.subtitle')
-  )
-  const pageDescription = computed(() => t('meta.description.import'))
-  const canonicalUrl = computed(() => `${siteUrl}${localePath('/import')}`)
-
-  useHead(() => ({
-    title: pageTitle.value,
-    link: [{ rel: 'canonical', href: canonicalUrl.value }],
-  }))
-
   useSeoMeta({
-    title: pageTitle,
-    description: pageDescription,
-    ogTitle: pageTitle,
-    ogDescription: pageDescription,
-    twitterTitle: pageTitle,
-    twitterDescription: pageDescription,
+    title: () => `${t('navigation.import')} - ${t('navigation.subtitle')}`,
+    description: () => t('meta.description.import'),
+    ogTitle: () => `${t('navigation.import')} - ${t('navigation.subtitle')}`,
+    ogDescription: () => t('meta.description.import'),
+    twitterTitle: () =>
+      `${t('navigation.import')} - ${t('navigation.subtitle')}`,
+    twitterDescription: () => t('meta.description.import'),
+  })
+
+  useHead({
+    link: [{ rel: 'canonical', href: `${siteUrl}${localePath('/import')}` }],
   })
 
   const REGION_LABELS = {

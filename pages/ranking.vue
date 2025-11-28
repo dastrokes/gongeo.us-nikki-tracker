@@ -574,23 +574,17 @@
   })
 
   // SEO
-  const pageTitle = computed(
-    () => t('vote.rankings.title') + ' - ' + t('navigation.subtitle')
-  )
-  const pageDescription = computed(() => t('vote.rankings.description'))
-  const canonicalUrl = computed(() => `${siteUrl}${localePath('/ranking')}`)
-
-  useHead(() => ({
-    title: pageTitle.value,
-    link: [{ rel: 'canonical', href: canonicalUrl.value }],
-  }))
-
   useSeoMeta({
-    title: pageTitle,
-    description: pageDescription,
-    ogTitle: pageTitle,
-    ogDescription: pageDescription,
-    twitterTitle: pageTitle,
-    twitterDescription: pageDescription,
+    title: () => `${t('vote.rankings.title')} - ${t('navigation.subtitle')}`,
+    description: () => t('vote.rankings.description'),
+    ogTitle: () => `${t('vote.rankings.title')} - ${t('navigation.subtitle')}`,
+    ogDescription: () => t('vote.rankings.description'),
+    twitterTitle: () =>
+      `${t('vote.rankings.title')} - ${t('navigation.subtitle')}`,
+    twitterDescription: () => t('vote.rankings.description'),
+  })
+
+  useHead({
+    link: [{ rel: 'canonical', href: `${siteUrl}${localePath('/ranking')}` }],
   })
 </script>

@@ -110,22 +110,17 @@
   const siteUrl = useRuntimeConfig().public.siteUrl
 
   // SEO
-  const pageTitle = computed(() => t('meta.title'))
-  const pageDescription = computed(() => t('meta.description.default'))
-  const canonicalUrl = computed(() => `${siteUrl}${localePath('/')}`)
-
-  useHead(() => ({
-    title: pageTitle.value,
-    link: [{ rel: 'canonical', href: canonicalUrl.value }],
-  }))
-
   useSeoMeta({
-    title: pageTitle,
-    description: pageDescription,
-    ogTitle: pageTitle,
-    ogDescription: pageDescription,
-    twitterTitle: pageTitle,
-    twitterDescription: pageDescription,
+    title: () => t('meta.title'),
+    description: () => t('meta.description.default'),
+    ogTitle: () => t('meta.title'),
+    ogDescription: () => t('meta.description.default'),
+    twitterTitle: () => t('meta.title'),
+    twitterDescription: () => t('meta.description.default'),
+  })
+
+  useHead({
+    link: [{ rel: 'canonical', href: `${siteUrl}${localePath('/')}` }],
   })
 
   // TODO: update to current banner id

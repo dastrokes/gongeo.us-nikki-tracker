@@ -621,26 +621,18 @@
   const router = useRouter()
   const siteUrl = useRuntimeConfig().public.siteUrl
 
-  // Compute SEO values to ensure they're available during SSR
-  const pageTitle = computed(
-    () => t('navigation.global') + ' - ' + t('navigation.subtitle')
-  )
-  const pageDescription = computed(() => t('meta.description.global'))
-  const canonicalUrl = computed(() => `${siteUrl}${localePath('/global')}`)
-
-  // Use both useHead and useSeoMeta for better SEO support
-  useHead(() => ({
-    title: pageTitle.value,
-    link: [{ rel: 'canonical', href: canonicalUrl.value }],
-  }))
-
   useSeoMeta({
-    title: pageTitle,
-    description: pageDescription,
-    ogTitle: pageTitle,
-    ogDescription: pageDescription,
-    twitterTitle: pageTitle,
-    twitterDescription: pageDescription,
+    title: () => `${t('navigation.global')} - ${t('navigation.subtitle')}`,
+    description: () => t('meta.description.global'),
+    ogTitle: () => `${t('navigation.global')} - ${t('navigation.subtitle')}`,
+    ogDescription: () => t('meta.description.global'),
+    twitterTitle: () =>
+      `${t('navigation.global')} - ${t('navigation.subtitle')}`,
+    twitterDescription: () => t('meta.description.global'),
+  })
+
+  useHead({
+    link: [{ rel: 'canonical', href: `${siteUrl}${localePath('/global')}` }],
   })
 
   // Data fetching

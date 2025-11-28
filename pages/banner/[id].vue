@@ -798,27 +798,37 @@
     }
   })
 
-  const pageTitle = computed(() =>
-    banner.value
-      ? `${t(`banner.${banner.value.bannerId}.name`)} - ${t('navigation.banner_detail')} - ${t('navigation.subtitle')}`
-      : `${t('navigation.banner_detail')} - ${t('navigation.subtitle')}`
-  )
-  const pageDescription = computed(() => t('meta.description.banner_detail'))
-  const pageImage = computed(() =>
-    banner.value
-      ? `${siteUrl}/images/banners/${banner.value.bannerId}.webp`
-      : `${siteUrl}/og.png`
-  )
-  const canonicalUrl = computed(
-    () => `${siteUrl}${localePath(`/banner/${route.params.id}`)}`
-  )
+  useSeoMeta({
+    title: () =>
+      banner.value
+        ? `${t(`banner.${banner.value.bannerId}.name`)} - ${t('navigation.banner_detail')} - ${t('navigation.subtitle')}`
+        : `${t('navigation.banner_detail')} - ${t('navigation.subtitle')}`,
+    description: () => t('meta.description.banner_detail'),
+    ogTitle: () =>
+      banner.value
+        ? `${t(`banner.${banner.value.bannerId}.name`)} - ${t('navigation.banner_detail')} - ${t('navigation.subtitle')}`
+        : `${t('navigation.banner_detail')} - ${t('navigation.subtitle')}`,
+    ogDescription: () => t('meta.description.banner_detail'),
+    ogImage: () =>
+      banner.value
+        ? `${siteUrl}/images/banners/${banner.value.bannerId}.webp`
+        : `${siteUrl}/og.png`,
+    twitterTitle: () =>
+      banner.value
+        ? `${t(`banner.${banner.value.bannerId}.name`)} - ${t('navigation.banner_detail')} - ${t('navigation.subtitle')}`
+        : `${t('navigation.banner_detail')} - ${t('navigation.subtitle')}`,
+    twitterDescription: () => t('meta.description.banner_detail'),
+    twitterImage: () =>
+      banner.value
+        ? `${siteUrl}/images/banners/${banner.value.bannerId}.webp`
+        : `${siteUrl}/og.png`,
+  })
 
   useHead(() => ({
-    title: pageTitle.value,
     link: [
       {
         rel: 'canonical',
-        href: canonicalUrl.value,
+        href: `${siteUrl}${localePath(`/banner/${route.params.id}`)}`,
       },
     ],
     script: [
@@ -827,27 +837,20 @@
         children: JSON.stringify({
           '@context': 'https://schema.org',
           '@type': 'ItemPage',
-          name: pageTitle.value,
-          description: pageDescription.value,
-          url: canonicalUrl.value,
-          image: pageImage.value,
+          name: banner.value
+            ? `${t(`banner.${banner.value.bannerId}.name`)} - ${t('navigation.banner_detail')} - ${t('navigation.subtitle')}`
+            : `${t('navigation.banner_detail')} - ${t('navigation.subtitle')}`,
+          description: t('meta.description.banner_detail'),
+          url: `${siteUrl}${localePath(`/banner/${route.params.id}`)}`,
+          image: banner.value
+            ? `${siteUrl}/images/banners/${banner.value.bannerId}.webp`
+            : `${siteUrl}/og.png`,
           isPartOf: {
             '@type': 'CollectionPage',
-            url: `${siteUrl}${localePath(`/banner`)}`,
+            url: `${siteUrl}${localePath('/banner')}`,
           },
         }),
       },
     ],
   }))
-
-  useSeoMeta({
-    title: pageTitle,
-    description: pageDescription,
-    ogTitle: pageTitle,
-    ogDescription: pageDescription,
-    ogImage: pageImage,
-    twitterTitle: pageTitle,
-    twitterDescription: pageDescription,
-    twitterImage: pageImage,
-  })
 </script>

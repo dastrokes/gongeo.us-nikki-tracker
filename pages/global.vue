@@ -587,23 +587,6 @@
     return 'default'
   }
 
-  onMounted(() => {
-    watchEffect(() => {
-      loading.value = status.value === 'pending'
-      isMobile.value = !breakpoints.greater('sm').value
-    })
-
-    watch(
-      [data, () => isMobile.value, () => isDark.value],
-      () => {
-        if (data.value && import.meta.client) {
-          initializeCharts()
-        }
-      },
-      { immediate: true }
-    )
-  })
-
   const { isDark } = useTheme()
 
   // Chart text style utility
@@ -633,6 +616,23 @@
 
   useHead({
     link: [{ rel: 'canonical', href: `${siteUrl}${localePath('/global')}` }],
+  })
+
+  onMounted(() => {
+    watchEffect(() => {
+      loading.value = status.value === 'pending'
+      isMobile.value = !breakpoints.greater('sm').value
+    })
+
+    watch(
+      [data, () => isMobile.value, () => isDark.value],
+      () => {
+        if (data.value && import.meta.client) {
+          initializeCharts()
+        }
+      },
+      { immediate: true }
+    )
   })
 
   // Data fetching

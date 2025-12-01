@@ -144,25 +144,41 @@
 
     const intlLocale = localeMap[locale.value] || 'en-US'
 
-    // Use Intl.NumberFormat with unit style for clean formatting
-    const dayFormatter = new Intl.NumberFormat(intlLocale, {
-      style: 'unit',
-      unit: 'day',
-      unitDisplay: 'long',
-    })
-    const hourFormatter = new Intl.NumberFormat(intlLocale, {
-      style: 'unit',
-      unit: 'hour',
-      unitDisplay: 'long',
-    })
-
     // Format days and hours separately
     const parts: string[] = []
-    if (days > 0) {
-      parts.push(dayFormatter.format(days))
-    }
-    if (hours > 0) {
-      parts.push(hourFormatter.format(hours))
+
+    try {
+      // Try Intl.NumberFormat with unit style (newer feature)
+      const dayFormatter = new Intl.NumberFormat(intlLocale, {
+        style: 'unit',
+        unit: 'day',
+        unitDisplay: 'long',
+      })
+      const hourFormatter = new Intl.NumberFormat(intlLocale, {
+        style: 'unit',
+        unit: 'hour',
+        unitDisplay: 'long',
+      })
+
+      if (days > 0) {
+        parts.push(dayFormatter.format(days))
+      }
+      if (hours > 0) {
+        parts.push(hourFormatter.format(hours))
+      }
+    } catch {
+      // Fallback to Intl.RelativeTimeFormat for better compatibility
+      const rtf = new Intl.RelativeTimeFormat(intlLocale, {
+        numeric: 'always',
+        style: 'long',
+      })
+
+      if (days > 0) {
+        parts.push(rtf.format(days, 'day').replace(/^in /, ''))
+      }
+      if (hours > 0) {
+        parts.push(rtf.format(hours, 'hour').replace(/^in /, ''))
+      }
     }
 
     formattedTime.value = parts.join(' ')

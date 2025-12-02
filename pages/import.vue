@@ -826,17 +826,20 @@
     link: [{ rel: 'canonical', href: `${siteUrl}${localePath('/import')}` }],
   })
 
-  const REGION_LABELS = {
+  const REGION_LABELS = computed(() => ({
     [Region.AMERICA]: t('common.regions.america'),
     [Region.EUROPE]: t('common.regions.europe'),
     [Region.CHINA]: t('common.regions.china'),
     [Region.ASIA]: t('common.regions.asia'),
     [Region.TW]: t('common.regions.tw'),
-  } as const
+  }))
 
   const consoleScript = `console.log(JSON.stringify({roleid:[...document.querySelectorAll('div')].find(el=>el.textContent.startsWith('UID:'))?.textContent.replace('UID:','').trim(),token:document.cookie.match(/momoToken=([^;]+)/)?.[1],id:document.cookie.match(/momoNid=([^;]+)/)?.[1]}));`
 
-  const bookmarkScript = `javascript:(function(){if(location.hostname!=="pearpal.infoldgames.com" && location.hostname!=="myl.nuanpaper.com"){alert(${JSON.stringify(t('import.bookmark_script.invalid_site'))});return}prompt('Cookie:',JSON.stringify({roleid:[...document.querySelectorAll('div')].find(el=>el.textContent.startsWith('UID:'))?.textContent.replace('UID:','').trim(),token:document.cookie.match(/momoToken=([^;]+)/)?.[1],id:document.cookie.match(/momoNid=([^;]+)/)?.[1]}));})();`
+  const bookmarkScript = computed(
+    () =>
+      `javascript:(function(){if(location.hostname!=="pearpal.infoldgames.com" && location.hostname!=="myl.nuanpaper.com"){alert(${JSON.stringify(t('import.bookmark_script.invalid_site'))});return}prompt('Cookie:',JSON.stringify({roleid:[...document.querySelectorAll('div')].find(el=>el.textContent.startsWith('UID:'))?.textContent.replace('UID:','').trim(),token:document.cookie.match(/momoToken=([^;]+)/)?.[1],id:document.cookie.match(/momoNid=([^;]+)/)?.[1]}));})();`
+  )
 
   const copyToClipboard = async (code: string) => {
     try {
@@ -946,10 +949,12 @@
     return selectedBanners.value.indexOf(progress.value.banner)
   })
 
-  const regionOptions = Object.entries(REGION_LABELS).map(([value, label]) => ({
-    label,
-    value: value as Region,
-  }))
+  const regionOptions = computed(() =>
+    Object.entries(REGION_LABELS.value).map(([value, label]) => ({
+      label,
+      value: value as Region,
+    }))
+  )
 
   const importMethod = ref<'game' | 'json' | 'pearpal' | 'manual'>('game')
   const cookieMethod = ref<'bookmark' | 'console' | 'manual'>('bookmark')

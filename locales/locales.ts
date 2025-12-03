@@ -141,7 +141,7 @@ export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
   {
     code: 'zh',
     iso: 'zh-CN',
-    name: '中文',
+    name: '简体中文',
     files: [
       'zh/common.json',
       'zh/outfit.json',

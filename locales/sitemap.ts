@@ -5,18 +5,42 @@ import type { BannerRun } from '~/types/banner'
 
 import enOutfit from './en/outfit.json'
 import deOutfit from './de/outfit.json'
-import zhOutfit from './zh/outfit.json'
+import esOutfit from './es/outfit.json'
+import frOutfit from './fr/outfit.json'
+import idOutfit from './id/outfit.json'
+import itOutfit from './it/outfit.json'
+import jaOutfit from './ja/outfit.json'
 import koOutfit from './ko/outfit.json'
+import ptOutfit from './pt/outfit.json'
+import thOutfit from './th/outfit.json'
+import twOutfit from './tw/outfit.json'
+import zhOutfit from './zh/outfit.json'
 import enItem from './en/item.json'
 import deItem from './de/item.json'
-import zhItem from './zh/item.json'
+import esItem from './es/item.json'
+import frItem from './fr/item.json'
+import idItem from './id/item.json'
+import itItem from './it/item.json'
+import jaItem from './ja/item.json'
 import koItem from './ko/item.json'
+import ptItem from './pt/item.json'
+import thItem from './th/item.json'
+import twItem from './tw/item.json'
+import zhItem from './zh/item.json'
 
 const translations = {
   en: { outfit: enOutfit, item: enItem },
   de: { outfit: deOutfit, item: deItem },
-  zh: { outfit: zhOutfit, item: zhItem },
+  es: { outfit: esOutfit, item: esItem },
+  fr: { outfit: frOutfit, item: frItem },
+  id: { outfit: idOutfit, item: idItem },
+  it: { outfit: itOutfit, item: itItem },
+  ja: { outfit: jaOutfit, item: jaItem },
   ko: { outfit: koOutfit, item: koItem },
+  pt: { outfit: ptOutfit, item: ptItem },
+  th: { outfit: thOutfit, item: thItem },
+  tw: { outfit: twOutfit, item: twItem },
+  zh: { outfit: zhOutfit, item: zhItem },
 }
 
 // Get the latest banner run start date

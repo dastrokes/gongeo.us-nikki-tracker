@@ -2,7 +2,20 @@ import type { Context, Config } from '@netlify/edge-functions'
 
 // Define locales directly with just language codes
 const defaultLocale = 'en'
-const localeCodes = ['en', 'de', 'zh', 'ko']
+const localeCodes = [
+  'en',
+  'de',
+  'es',
+  'fr',
+  'id',
+  'it',
+  'ja',
+  'ko',
+  'pt',
+  'th',
+  'tw',
+  'zh',
+]
 
 // Define the specific routes that exist in the application
 const definedRoutes = [

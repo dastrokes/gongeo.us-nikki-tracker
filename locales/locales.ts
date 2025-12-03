@@ -19,7 +19,7 @@ export const defaultLocale: SupportedLocaleCode = 'en'
 export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
   {
     code: 'en',
-    iso: 'en-US',
+    iso: 'en',
     name: 'English',
     files: [
       'en/common.json',
@@ -30,7 +30,7 @@ export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
   },
   {
     code: 'de',
-    iso: 'de-DE',
+    iso: 'de',
     name: 'Deutsch',
     files: [
       'de/common.json',
@@ -41,7 +41,7 @@ export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
   },
   {
     code: 'es',
-    iso: 'es-ES',
+    iso: 'es',
     name: 'Español',
     files: [
       'es/common.json',
@@ -52,7 +52,7 @@ export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
   },
   {
     code: 'fr',
-    iso: 'fr-FR',
+    iso: 'fr',
     name: 'Français',
     files: [
       'fr/common.json',
@@ -63,7 +63,7 @@ export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
   },
   {
     code: 'id',
-    iso: 'id-ID',
+    iso: 'id',
     name: 'Bahasa Indonesia',
     files: [
       'id/common.json',
@@ -74,7 +74,7 @@ export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
   },
   {
     code: 'it',
-    iso: 'it-IT',
+    iso: 'it',
     name: 'Italiano',
     files: [
       'it/common.json',
@@ -85,7 +85,7 @@ export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
   },
   {
     code: 'ja',
-    iso: 'ja-JP',
+    iso: 'ja',
     name: '日本語',
     files: [
       'ja/common.json',
@@ -96,7 +96,7 @@ export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
   },
   {
     code: 'ko',
-    iso: 'ko-KR',
+    iso: 'ko',
     name: '한국어',
     files: [
       'ko/common.json',
@@ -107,7 +107,7 @@ export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
   },
   {
     code: 'pt',
-    iso: 'pt-PT',
+    iso: 'pt',
     name: 'Português',
     files: [
       'pt/common.json',
@@ -118,7 +118,7 @@ export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
   },
   {
     code: 'th',
-    iso: 'th-TH',
+    iso: 'th',
     name: 'ไทย',
     files: [
       'th/common.json',

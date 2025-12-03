@@ -172,10 +172,11 @@
   import KoFi from '~/components/icons/KoFi.vue'
   import Netlify from '~/components/icons/Netlify.vue'
   import { useSwipe } from '@vueuse/core'
+  import { i18nLocales } from '~/locales/locales'
 
   const { t } = useI18n()
   const localePath = useLocalePath()
-  const { locale } = useI18n()
+  const { locale, locales } = useI18n()
 
   function renderIcon(icon: Component) {
     return () => h(NIcon, null, { default: () => h(icon) })
@@ -186,9 +187,14 @@
 
   const siteUrl = useRuntimeConfig().public.siteUrl
 
+  const currentLocaleIso = computed(() => {
+    const currentLocale = i18nLocales.find((l) => l.code === locale.value)
+    return currentLocale?.iso || locale.value
+  })
+
   useHead(() => ({
     htmlAttrs: {
-      lang: locale.value,
+      lang: currentLocaleIso.value,
     },
     title: t('meta.title'),
     meta: [
@@ -421,9 +427,11 @@
   )
 
   watch(locale, (newLocale) => {
+    const newLocaleIso =
+      i18nLocales.find((l) => l.code === newLocale)?.iso || newLocale
     useHead(() => ({
       htmlAttrs: {
-        lang: newLocale,
+        lang: newLocaleIso,
       },
     }))
   })

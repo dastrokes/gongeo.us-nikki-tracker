@@ -1,4 +1,4 @@
-import Fuse from 'fuse.js'
+import type Fuse from 'fuse.js'
 import { pinyin } from 'pinyin-pro'
 import type {
   SearchResult,
@@ -146,7 +146,7 @@ export const useSearch = () => {
   }
 
   const buildSearchIndex = async () => {
-    if (isIndexBuilt.value) return
+    if (import.meta.server || isIndexBuilt.value) return
 
     searchOptions.keys = isChineseLocale.value
       ? ['name', 'pinyin', 'pinyinInitials']
@@ -294,11 +294,16 @@ export const useSearch = () => {
       ...Array.from(items.values()),
     ]
 
+    // Dynamically import Fuse.js only on client side
+    const { default: Fuse } = await import('fuse.js')
     fuseInstance.value = new Fuse(allItems, searchOptions)
     isIndexBuilt.value = true
   }
 
   const search = (query: string): SearchCategory[] => {
+    // Only run on client side
+    if (import.meta.server) return []
+
     const normalizedQuery = query.trim()
 
     if (

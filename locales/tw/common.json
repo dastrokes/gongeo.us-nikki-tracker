@@ -1,0 +1,599 @@
+{
+  "navigation": {
+    "title": "暖暖共鳴錄",
+    "subtitle": "暖暖共鳴錄",
+    "tracker": "共鳴記錄",
+    "import": "匯入資料",
+    "global": "社群資料",
+    "banner": "卡池歷史",
+    "banner_detail": "卡池詳情",
+    "vote": "卡池投票",
+    "faq": "常見問題",
+    "about": "關於本站",
+    "nuan5pro": "無暖助手"
+  },
+  "social": {
+    "discord": "加入我們的 Discord 社群",
+    "kofi": "在 Ko-fi 上支援我們",
+    "twitter": "在 Twitter 上關注我們",
+    "email": "透過電子郵件聯絡我們"
+  },
+  "meta": {
+    "title": "暖暖共鳴錄 - 無限暖暖共鳴歷史追蹤與抽卡資料分析",
+    "keywords": "無限暖暖, 共鳴記錄, 抽卡記錄, 抽卡統計, 遊戲工具, 暖暖遊戲, 共鳴歷史, 抽卡資料, 共鳴資料",
+    "description": {
+      "default": "追蹤無限暖暖的卡池歷史與抽卡資料，提供詳細的統計與分析。專為無限暖暖玩家社群打造的實用粉絲工具。",
+      "login": "使用第三方賬號或電子郵件登入暖暖共鳴錄，將抽卡資料上傳雲端，在多裝置間同步和備份您的共鳴記錄。",
+      "tracker": "追蹤並分析您的無限暖暖共鳴抽卡歷史，檢視所有卡池中的5★和4★部件記錄。與其他玩家比較您的抽卡運氣。",
+      "import": "輕鬆匯入您的無限暖暖共鳴抽卡記錄，支援遊戲資料、奇想手賬和備份檔案匯入，並提供詳細的操作指南。",
+      "global": "探索無限暖暖社群抽卡資料，包括卡池受歡迎程度、平均機率、抽卡分佈和部件掉落機率統計。",
+      "banner": "檢視完整的無限暖暖卡池歷史記錄，包含當前和過往卡池，限定和常駐卡池、套裝詳情、持續時間及復刻時間等資訊。",
+      "banner_detail": "檢視特定無限暖暖卡池的詳細資訊，包括抽卡統計資料、套裝完成狀態、套裝詳情和單個部件詳情。",
+      "faq": "檢視關於暖暖共鳴錄的常見問題解答，包括資料隱私、匯入方式和使用指南等資訊。",
+      "about": "瞭解暖暖共鳴錄的相關資訊，包括免責宣告、隱私政策等資訊。"
+    }
+  },
+  "index": {
+    "title": "暖暖共鳴錄",
+    "subtitle": "gongeo.us",
+    "description": "記錄無限暖暖共鳴歷史和統計資料",
+    "your_data": "您的資料",
+    "current_banners": "當前卡池",
+    "rerun": "復刻"
+  },
+  "login": {
+    "title": "登入",
+    "welcome_description": "使用第三方賬號或電子郵件登入，上傳並同步您的資料。",
+    "signed_in_title": "登入成功！",
+    "welcome_back": "歡迎回來，{name}！",
+    "go_to_tracker": "前往共鳴記錄",
+    "signin_error": "登入失敗，請重試。",
+    "sign_in_with_discord": "使用 Discord 登入",
+    "sign_in_with_google": "使用 Google 登入",
+    "sign_in_with_email": "使用電子郵件登入",
+    "email": "電子郵件",
+    "password": "密碼",
+    "confirm_password": "確認密碼",
+    "sign_in": "登入",
+    "sign_up": "註冊",
+    "forgot_password": "忘記密碼？",
+    "reset_password": "重置密碼",
+    "send_reset_email": "傳送重置郵件",
+    "back_to_login": "返回登入",
+    "set_new_password": "設定新密碼",
+    "new_password": "新密碼",
+    "confirm_new_password": "確認新密碼",
+    "update_password": "更新密碼",
+    "email_required": "電子郵件是必填項",
+    "password_required": "密碼是必填項",
+    "password_min_length": "密碼至少需要6個字元",
+    "passwords_dont_match": "密碼不匹配",
+    "invalid_email": "請輸入有效的電子郵件地址",
+    "signup_success": "賬戶建立成功！請檢視電子郵件進行驗證。",
+    "signin_success": "登入成功！",
+    "reset_success": "密碼重置郵件已傳送！請檢視您的收件箱。",
+    "email_signin_error": "電子郵件登入失敗，請檢查您的憑據。",
+    "email_signup_error": "建立賬戶失敗，請重試。",
+    "reset_error": "傳送重置郵件失敗，請重試。",
+    "or": "或"
+  },
+  "email": {
+    "confirm_signup": {
+      "subject": "確認您的註冊",
+      "body": "請點選下方連結確認您的註冊：",
+      "link": "確認您的註冊"
+    },
+    "reset_password": {
+      "subject": "重置您的密碼",
+      "body": "請點選下方連結重置您的密碼：",
+      "link": "重置您的密碼"
+    }
+  },
+  "import": {
+    "video_tutorial": "影片教程",
+    "video_tutorial_desc": "觀看分步影片教程，學習如何匯入您的資料：",
+    "watch_on_youtube": "在 YouTube 觀看",
+    "watch_on_bilibili": "在 Bilibili 觀看",
+    "choose_method": "選擇匯入方式",
+    "choose_method_desc": "選擇您想要匯入抽卡歷史的方式。",
+    "import_from_game": "從遊戲匯入",
+    "import_from_file": "從檔案匯入",
+    "import_from_pearpal": "從奇想手賬匯入",
+    "file_import": "檔案匯入",
+    "file_import_desc": "從之前匯出的 nikki-resonance-data 檔案匯入。",
+    "select_file": "選擇檔案",
+    "select_region": "選擇伺服器",
+    "select_region_desc": "選擇您的遊戲伺服器區域。",
+    "pearpal_website": "美鴨梨網站",
+    "whimlog": "奇想手賬",
+    "login_pearpal": "登入美鴨梨網站",
+    "login_pearpal_desc": "在新標籤頁中開啟美鴨梨網站，如果尚未登入，請使用您的疊紙賬號登入。",
+    "login_whimlog": "同步奇想手賬的資料。",
+    "login_whimlog_desc": "在新標籤頁中開啟奇想手賬，登入並同步您的資料。",
+    "get_cookie": "從美鴨梨網站獲取 Cookie 資料",
+    "get_cookie_desc": "選擇您想要獲取 Cookie 資料的方式：",
+    "gongeous_cookie": "美鴨梨 Cookie",
+    "bookmark_method": "書籤方法（推薦）",
+    "bookmark_method_mobile": "書籤方法",
+    "console_method": "控制檯方法",
+    "manual_input": "手動輸入",
+    "title": "按照以下步驟獲取您的 Cookie 資料：",
+    "bookmark_steps": {
+      "step1": "將\"美鴨梨 Cookie\"書籤拖動到書籤欄（此步驟僅需執行一次）：",
+      "step2": "切換到不同標籤頁的美鴨梨網站，確保您已登入",
+      "step3": "在美鴨梨網站上點選\"美鴨梨 Cookie\"書籤",
+      "step4": "複製彈出視窗中的輸出文字（它應該看起來像下面輸入區域中的示例）",
+      "step5": "返回暖暖共鳴錄，將輸出文字貼上到下面的輸入區域中",
+      "tip": "提示：您可以保留書籤，便於將來資料匯入時獲取 Cookie 資料"
+    },
+    "bookmark_steps_mobile": {
+      "step1": "點選\"複製程式碼\"按鈕並複製其中程式碼",
+      "step2": "在瀏覽器中建立一個新書籤，命名為\"美鴨梨 Cookie\"",
+      "step3": "編輯書籤的網址，將其替換為您剛複製的程式碼",
+      "step4": "切換到不同標籤頁的美鴨梨網站，確保您已登入",
+      "step5": "在美鴨梨網站上點選\"美鴨梨 Cookie\"書籤",
+      "step5_android_chrome": "在位址列中開始輸入您儲存的書籤名稱（Gongeous Cookie）",
+      "step5_android_chrome_2": "從建議中選擇書籤以執行它",
+      "step6": "複製彈出視窗中的輸出文字（它應該看起來像下面輸入區域中的示例）",
+      "step7": "返回暖暖共鳴錄，將輸出文字貼上到下面的輸入區域中",
+      "tip": "提示：您可以保留書籤，便於將來資料匯入時獲取 Cookie 資料"
+    },
+    "console_steps": {
+      "step1": "切換到不同標籤頁的美鴨梨網站，確保您已登入",
+      "step2": "開啟瀏覽器的開發者工具（按 F12 或右鍵點選並選擇\"檢查\"）",
+      "step3": "轉到\"控制檯\"標籤",
+      "step4": "點選\"複製程式碼\"按鈕，複製貼上程式碼到控制檯中並按回車：",
+      "step5": "如果收到警告，請根據提示輸入\"allow pasting\"或者\"允許貼上\"（根據瀏覽器和語言設定）並按回車",
+      "step6": "複製控制檯中的輸出文字（它應該看起來像下面輸入區域中的示例）",
+      "step7": "返回暖暖共鳴錄，將輸出文字貼上到下面的輸入區域中"
+    },
+    "manual_steps": {
+      "note": "（以谷歌瀏覽器為例，其他瀏覽器的步驟類似，但具體名稱可能有所不同）",
+      "step1": "切換到不同標籤頁的美鴨梨網站，確保您已登入",
+      "step2": "開啟瀏覽器的開發者工具（按 F12 或右鍵點選並選擇\"檢查\"）",
+      "step3": "轉到“應用程式”標籤(或火狐中的“儲存”)",
+      "step4": "在左側邊欄中，展開\"Cookie\"並選擇美鴨梨網站",
+      "step5": "或者，您可以使用 Cookie Editor 等瀏覽器擴充套件來管理 Cookie",
+      "step6": "查詢並複製以下值：",
+      "step6_items": {
+        "momo_id": "momoNid（用於 Momo ID 欄位）",
+        "momo_token": "momoToken（用於 Momo Token 欄位）"
+      },
+      "step7": "對於 UID，請前往您的美鴨梨個人資料並複製您的 UID 號碼"
+    },
+    "security_note": "注意：切勿與他人分享這些 Cookie 值！",
+    "data_note": "重要提示：透過此匯入方式獲取的抽卡資料僅儲存 180 天。{date} 之前的資料將不再可用。您可以使用\"從奇想手賬匯入\"獲取更早的資料。",
+    "form": {
+      "uid": "UID",
+      "uid_placeholder": "遊戲內 UID",
+      "momo_id": "Momo ID",
+      "momo_id_placeholder": "來自 Cookie 的 momoNid",
+      "momo_token": "Momo Token",
+      "momo_token_placeholder": "來自 Cookie 的 momoToken",
+      "submit_global_stats": "提交資料用於社群統計",
+      "submit_button": "提交併匯入抽卡歷史",
+      "fetching": "正在獲取共鳴資料，請稍候..."
+    },
+    "progress": {
+      "processing_banner": "正在處理第 {current} 個卡池，共 {total} 個",
+      "fetching_data": "正在獲取共鳴資料：{banner}"
+    },
+    "actions": {
+      "copy": "複製",
+      "copy_code": "複製程式碼",
+      "paste_from_clipboard": "從剪貼簿貼上",
+      "select_all": "全選"
+    },
+    "select_banners": "選擇您抽過的卡池",
+    "select_banners_desc": "無需重複匯入已有資料",
+    "banner_groups": {
+      "quick_select": "快速選擇",
+      "current_banners": "當前卡池",
+      "limited_banners": "限定卡池",
+      "permanent_banners": "常駐卡池",
+      "individual": "單獨選擇"
+    },
+    "messages": {
+      "code_copied": "程式碼已複製到剪貼簿！",
+      "code_copy_failed": "複製程式碼到剪貼簿失敗",
+      "data_paste_success": "資料貼上成功！",
+      "data_paste_success_no_uid": "請手動複製並貼上您的 UID",
+      "data_paste_failed": "解析輸入資料失敗。請確保格式正確",
+      "auth_success": "認證成功！",
+      "auth_failed": "認證失敗",
+      "stats_submit_failed": "提交全域性統計資料失敗",
+      "fetch_history_failed": "獲取抽卡歷史記錄失敗",
+      "invalid_form": "表單資料無效",
+      "import_success": "資料匯入成功！",
+      "import_failed": "匯入檔案失敗",
+      "pearpal_tracker_success": "奇想手賬資料匯入成功！",
+      "pearpal_tracker_failed": "匯入奇想手賬資料失敗。"
+    },
+    "supported_browsers": "支援的瀏覽器",
+    "supported_browsers_list": {
+      "chrome": "谷歌瀏覽器",
+      "firefox": "火狐瀏覽器",
+      "safari": "Safari瀏覽器"
+    },
+    "check_compatibility": "檢查瀏覽器相容性",
+    "pc_recommended": "您正在使用移動裝置，您可以使用以下瀏覽器匯入資料，其他瀏覽器未經測試，可能無法正常工作。為獲得最佳體驗，建議使用電腦瀏覽器匯入資料。",
+    "bookmark_script": {
+      "invalid_site": "請在美鴨梨網站上使用此書籤"
+    }
+  },
+  "tracker": {
+    "stats": {
+      "title": "抽卡統計",
+      "total_pulls": "總抽數",
+      "no_pulls": "此卡池暫無抽卡記錄",
+      "total_5star_4star": "5★ / 4★總數",
+      "avg_5star": "5★平均（5★卡池）",
+      "avg_4star_mixed": "4★平均（5★卡池）",
+      "avg_4star_only": "4★總數（4★卡池）",
+      "luckier": "比 {percent}% 的暖暖共鳴錄使用者更幸運",
+      "more_pulls": "多於 {percent}% 的暖暖共鳴錄使用者"
+    },
+    "manual_log": {
+      "title": "手動匯入",
+      "description": "僅在您不想使用遊戲匯入或在匯入時缺少某些套裝或部件時使用。",
+      "note": "注意：手動匯入的資料只會用於顯示套裝完成度，不會用於個人或社群統計資料計算。",
+      "open_editor": "開啟編輯器",
+      "select_banner": "選擇卡池",
+      "apply_to_all": "全部應用",
+      "save": "儲存套裝",
+      "success": "套裝儲存成功！",
+      "error": "套裝儲存失敗",
+      "evo_level": "套裝進化"
+    },
+    "banner": {
+      "stats": {
+        "total_pulls": "總抽數",
+        "total_5star": "5★總數",
+        "avg_5star": "5★平均",
+        "total_4star": "4★總數",
+        "avg_4star": "4★平均",
+        "pity_5star": "5★已墊",
+        "pity_4star": "4★已墊"
+      },
+      "settings": {
+        "banner_order": "卡池排序",
+        "item_order": "部件排序",
+        "latest_first": "最新優先",
+        "oldest_first": "最早優先",
+        "outfit_display": "套裝顯示",
+        "item_display": "部件顯示",
+        "combined": "合併顯示",
+        "separated": "分開顯示",
+        "show_4star": "陪跑套裝",
+        "show_missing": "缺失部件",
+        "duplicate_items": "重複部件",
+        "empty_banners": "未抽卡池",
+        "show": "顯示",
+        "hide": "隱藏",
+        "data_source": "資料來源",
+        "pearpal": "奇想手賬",
+        "game": "遊戲",
+        "auto": "自動",
+        "data_source_tooltip": "請選擇你想優先使用的資料來源。如果所選資料來源沒有資料，會自動切換到其他資料來源。一次只會使用一個資料來源進行展示和計算。",
+        "auto_option": "\"自動\"會合並兩個資料來源，對於每個卡池會優先使用資料量較多的資料來源。"
+      }
+    },
+    "export": {
+      "png": "匯出圖片",
+      "json": "匯出檔案",
+      "generated_from": "生成自",
+      "in_progress": "匯出中，請稍後...",
+      "success": "記錄匯出成功！",
+      "error": "匯出失敗，請重試。"
+    },
+    "no_data": {
+      "title": "暫無共鳴記錄。",
+      "subtitle": "請先匯入您的共鳴資料。",
+      "error": "載入失敗，請重試。"
+    }
+  },
+  "banner": {
+    "version": "版本",
+    "luck": {
+      "1": "暗影籠罩",
+      "2": "星光漸隱",
+      "3": "奇想低語",
+      "4": "願望迴響",
+      "5": "奇蹟共鳴",
+      "6": "神之眷賜"
+    },
+    "outfit": {
+      "level": {
+        "0": "未設定",
+        "1": "初始",
+        "2": "一進",
+        "3": "二進",
+        "4": "三進",
+        "glow": "煥新"
+      }
+    },
+    "deep_echoes": "深海迴響",
+    "not_found": "卡池未找到"
+  },
+  "common": {
+    "discord": "Discord",
+    "ko_fi": "Ko-fi",
+    "copyright": "© 2025 暖暖共鳴錄 • © 疊紙遊戲 版權所有",
+    "disclaimer": {
+      "content": "本網站由粉絲自發製作運營，與疊紙遊戲官方無關，亦未獲其授權認可。",
+      "rights": "所有無限暖暖遊戲資源、內容和商標均歸疊紙遊戲及相關權利方所有。"
+    },
+    "captions": {
+      "ok": "確定",
+      "confirm": "確認",
+      "cancel": "取消",
+      "loading": "載入中..."
+    },
+    "user_profile": {
+      "guest": "訪客",
+      "clear_local_data": "清除本地資料",
+      "clear_local_confirm": {
+        "title": "清除本地資料",
+        "content": "確定要清除所有本地資料嗎？此操作無法撤消。"
+      },
+      "sign_in": "登入",
+      "sign_out": "退出登入",
+      "sign_out_success": "成功退出登入",
+      "sign_out_error": "退出登入失敗",
+      "upload_data": "上傳到雲端",
+      "sync_data": "從雲端同步",
+      "sync": {
+        "upload_success": "資料已成功上傳到雲端！",
+        "upload_error": "上傳資料失敗。",
+        "sync_success": "資料同步成功！",
+        "sync_error": "資料同步失敗。",
+        "confirm_upload": {
+          "title": "上傳到雲端",
+          "content": "這將把您的本地資料上傳到雲端儲存，覆蓋任何現有的雲端資料。確認繼續嗎？"
+        },
+        "confirm_sync": {
+          "title": "從雲端同步",
+          "content": "這將透過合併本地資料和雲端資料來同步您的資料。確認繼續嗎？"
+        }
+      },
+      "clear_cloud_data": "清除雲端資料",
+      "clear_cloud_confirm": {
+        "title": "清除雲端資料",
+        "content": "您確定要清除所有云端資料嗎？此操作無法撤消，將永久刪除您的雲端儲存資料。"
+      },
+      "clear_cloud_success": "雲端資料清除成功！",
+      "clear_cloud_error": "清除雲端資料失敗。",
+      "clear_success": "資料清除成功！"
+    },
+    "regions": {
+      "america": "美服",
+      "europe": "歐服",
+      "china": "國服",
+      "tw": "臺港澳服",
+      "asia": "亞服"
+    }
+  },
+  "items": {
+    "pull": "第 {number} 抽",
+    "types": {
+      "dresses": "連衣裙",
+      "outerwear": "外套",
+      "tops": "上衣",
+      "bottoms": "下裝",
+      "socks": "襪子",
+      "shoes": "鞋子",
+      "headwear": "帽子",
+      "hairAccessories": "髮飾",
+      "earrings": "耳飾",
+      "neckwear": "頸飾",
+      "bracelets": "腕飾",
+      "chokers": "項圈",
+      "gloves": "手套",
+      "handhelds": "手持物",
+      "faceDecorations": "面飾",
+      "hair": "髮型",
+      "chestAccessories": "胸飾",
+      "pendants": "掛飾",
+      "backpieces": "背飾",
+      "rings": "戒指",
+      "armDecorations": "臂飾",
+      "unknown": "未知"
+    }
+  },
+  "accessibility": {
+    "toggle_menu": "切換導航選單",
+    "search": "搜尋",
+    "language_switcher": "切換語言",
+    "theme_switcher": "切換主題",
+    "user_profile_menu": "使用者資料選單",
+    "scroll_to_top": "回到頂部"
+  },
+  "global": {
+    "stats": {
+      "total_pulls": "總抽數",
+      "unique_users": "搭配師人數",
+      "avg_5star": "5★平均（5★卡池）",
+      "avg_4star_type2": "4★平均（5★卡池）",
+      "avg_4star_type3": "4★平均（4★卡池）",
+      "data_as_of": "資料截至"
+    },
+    "charts": {
+      "pulls_per_banner": "各卡池抽數",
+      "five_star_distribution": "5★抽數分佈",
+      "four_star_type2_distribution": "4★分佈（5★卡池）",
+      "four_star_type3_distribution": "4★分佈（4★卡池）",
+      "first_item_distribution": "首件部件分佈",
+      "number_of_pulls": "抽數",
+      "probability": "機率",
+      "cumulative_probability": "累積機率",
+      "pulls": "抽",
+      "occurrences": "出現次數",
+      "percentage": "百分比",
+      "total": "總數",
+      "type": "型別",
+      "all_banners": "所有卡池",
+      "five_star_banners": "5★卡池",
+      "four_star_banners": "4★卡池",
+      "recent_only": "近期",
+      "all_time": "全部",
+      "first_item_distribution_tooltip": "此卡池包含180天之前的抽卡記錄，這些記錄已無法在遊戲中獲取。因此，首件部件的分佈資料可能不準確。"
+    }
+  },
+  "faq": {
+    "title": "常見問題",
+    "questions": {
+      "data_source": {
+        "question": "你們是如何獲取資料的？",
+        "answer": "我們透過呼叫疊紙遊戲官方API獲取資料，該介面與遊戲內抽卡歷史頁面使用的介面一致。資料獲取過程需要使用您的賬號 Cookie 進行伺服器身份驗證。"
+      },
+      "ban_risk": {
+        "question": "使用這個工具會被封號嗎？",
+        "answer": "這是一個第三方工具，所以終究存在一定風險，最終決定權在疊紙遊戲手中。不過，類似的工具在其他遊戲中廣泛使用（如Paimon.moe、Star Rail Station、WuWa Tracker等等），在無限暖暖的中國社群（小黑盒、遊創工坊）也有使用。請將此資訊作為參考，自行判斷。"
+      },
+      "data_storage": {
+        "question": "你們會儲存什麼資料？",
+        "answer": "您的抽卡歷史記錄儲存在您的瀏覽器本地，所以下次訪問網站時，除非您清除瀏覽器資料，否則資料會一直存在。我們不收集任何個人資訊，包括您提交的 Cookie。"
+      },
+      "server_data": {
+        "question": "傳送到伺服器的資料是什麼？",
+        "answer": "如果您選擇參與，只有您的抽卡統計資料會被髮送以幫助計算社群統計資料。這包含經過加密處理的使用者ID，以及您抽到的4星和5星部件的資訊。"
+      },
+      "platform_support": {
+        "question": "如果我在移動端或PS5上玩，這個工具能用嗎？",
+        "answer": "是的，無論您的遊戲平臺，您都可以在PC或移動端使用這個工具。但是，在移動端可能不適用於所有瀏覽器，因此更推薦在PC上使用，請在匯入資料頁面檢視支援的瀏覽器和更多詳細資訊。"
+      },
+      "cookie_script": {
+        "question": "我一定要執行指令碼來獲取 Cookie 嗎？",
+        "answer": "不，它們只是用更便捷的方式獲取 Cookie，您可以手動獲取它們，請在匯入資料頁面檢視更多詳細資訊。但是，目前在移動端唯一可以獲取 Cookie 的方法是使用書籤執行指令碼。"
+      },
+      "data_loss": {
+        "question": "為什麼有些卡池的抽卡記錄不完整或缺失？",
+        "answer": "這是因為抽卡記錄僅在遊戲中保留180天。超過180天后，這些記錄將從遊戲伺服器中刪除，導致資料不可用。為了保留您的資料，您可以將資料儲存在瀏覽器中或匯出為備份。這樣，您可以保留那些在遊戲中已無法獲取的記錄。如果您在將來匯入資料，您的現有資料將與新資料合併。"
+      },
+      "no_pulls": {
+        "question": "我按照匯入步驟操作，看到卡池都已處理，但為什麼沒有顯示抽卡記錄？",
+        "answer": "請檢查您的伺服器地區選擇和 Cookie 值是否正確。確保 Cookie 中的 UID 和 ID 沒有混淆。"
+      },
+      "auto_update": {
+        "question": "我的抽卡資料會自動更新嗎？",
+        "answer": "不會，您的抽卡資料不會自動更新。每次遊戲更新後網站需要更新以支援新卡池的資料。出於安全原因，您的 Cookie 可能會在一段時間後過期，因此您需要重新匯入資料。但是，如果您將資料儲存在瀏覽器中，您只需要匯入新卡池的資料。"
+      },
+      "export": {
+        "question": "如何匯出我的抽卡歷史？",
+        "answer": "您可以將抽卡歷史匯出為PNG圖片或JSON檔案。如果您的瀏覽器資料被清除，您可以使用JSON檔案恢復歷史記錄。"
+      }
+    }
+  },
+  "about": {
+    "title": "免責宣告與隱私政策",
+    "infinityNikkiAssets": {
+      "title": "平臺與內容免責宣告",
+      "content": "暖暖共鳴錄（gongeo.us）是一個由玩家自發建立的非官方社群平臺，與《無限暖暖》官方及疊紙遊戲之間不存在任何隸屬關係、授權認可或商業合作。平臺所展示的遊戲素材、視覺資源與相關內容，版權均歸疊紙遊戲所有。本站引用相關內容僅為社群交流和學習目的，不主張任何相關權利。",
+      "acknowledgment": "使用本平臺即表示您已知悉其非官方性質，並自願承擔訪問或使用第三方衍生內容可能帶來的風險。"
+    },
+    "dataAndStats": {
+      "title": "資料與統計免責宣告",
+      "content": "本站展示的所有統計資料均由使用者自願提交併分享，非疊紙遊戲官方資料來源，不應被視為權威資訊。這些資料僅代表一小部分玩家的樣本情況，無法完整反映整體玩家群體的實際狀況或遊戲全貌。",
+      "insights": "所有資料分析結論僅作為參考。請您理解，這些結果是基於玩家自發貢獻資料生成的，因此可能存在一定偏差。"
+    },
+    "intellectualProperty": {
+      "title": "智慧財產權宣告",
+      "content": "暖暖共鳴錄（gongeo.us）是一個由社群玩家發起的獨立創作專案。所有與《無限暖暖》相關的商標、角色設定、遊戲內容及其他智慧財產權，均歸疊紙遊戲及其授權方所有。",
+      "siteContent": "除非另有註明，本站所使用的原創程式碼、介面設計以及定製素材，其著作權歸暖暖共鳴錄（gongeo.us）所有，並受相關版權法和智慧財產權法保護。未經本站書面授權，禁止複製、修改、傳播或用於其他用途。",
+      "usage": "本站提供的服務僅限於個人非商業使用。"
+    },
+    "dataCollection": {
+      "title": "資料收集與儲存",
+      "content": "我們僅收集維持服務執行所必需的最小資料。我們不收集或儲存任何個人資訊或跟蹤 Cookie。您提供的任何 Cookie 或 UID 僅用於與 Infold Games 伺服器通訊以驗證您的賬號並獲取您的抽卡記錄。",
+      "pullHistory": "您的抽卡記錄在匯入後會儲存在您的瀏覽器中。如果需要雲端備份或跨裝置訪問，您可以選擇透過 Discord、Google 或電子郵件登入，將資料同步至由 Supabase 提供的雲端儲存。您也可以選擇貢獻匿名統計資料，幫助生成社群統計資料。"
+    },
+    "accountSecurity": {
+      "title": "賬號安全與資料保護",
+      "content": "所有核心功能在無需賬號的情況下完全可用。如果您選擇登入，登入認證由 Supabase 安全處理，我們既不會訪問也不會儲存您的登入憑證。您擁有完整的資料控制權，可以隨時管理資料的分享、上傳、同步或刪除。若需要永久登出賬戶，請透過 Discord 或郵件聯絡我們。",
+      "security": "雖然我們實施了必要的行業標準安全措施，但請注意，任何網際網路傳輸都無法保證完全安全。"
+    },
+    "analytics": {
+      "title": "網站訪問分析",
+      "content": "本站使用 Umami 提供網站訪問統計服務，這是一種以隱私優先為原則的分析工具。該服務不會使用 Cookie，也不會收集任何可識別個人身份的資訊。所收集的資料僅限於訪問量、來源網站以及基礎瀏覽器型別，目的僅在於最佳化網站服務體驗。有關詳情，請參閱 Umami 的隱私政策頁面。"
+    },
+    "errorMonitoring": {
+      "title": "錯誤監控",
+      "message": "我們使用 Sentry.io 來跟蹤和修復技術錯誤。Sentry 可能會收集有限的技術資料（如錯誤詳情、瀏覽器資訊和匿名 IP 地址），以幫助我們維護和改進網站。有關詳情，請參閱 Sentry.io 的隱私政策頁面。"
+    }
+  },
+  "maintenance": {
+    "title": "網站維護中",
+    "message": "我們正在對網站進行維護更新，抽卡記錄匯入暫時無法使用。",
+    "status": "服務很快就會恢復。感謝您的耐心等待！"
+  },
+  "search": {
+    "placeholder": "搜尋部件、套裝、卡池",
+    "noResults": "未找到結果",
+    "categories": {
+      "banners": "卡池",
+      "outfits": "套裝",
+      "items": "部件"
+    },
+    "resultTypes": {
+      "banner": "卡池",
+      "outfit": "套裝",
+      "item": "部件"
+    }
+  },
+  "error": {
+    "404": "\"暖暖，我們還是待在水淺的地方吧！\"",
+    "notFound": "您訪問的頁面不存在。",
+    "returnHome": "返回首頁"
+  },
+  "vote": {
+    "description": "幫助我們評選出1.x版本中最受歡迎的卡池！在一對一的對決中為您最喜歡的卡池投票。",
+    "submit": "提交投票",
+    "skip": "跳過",
+    "howItWorks": "選擇您喜歡的卡池並提交投票，幫助評選最受歡迎的卡池。不確定可以跳過。每24小時最多可投票50次。",
+    "abuseNotice": "請不要惡意刷票。異常的投票行為將會被系統檢測到，相關投票可能會被移除。",
+    "success": "投票提交成功！",
+    "viewRankings": "檢視排名",
+    "vote": "投票",
+    "ranking": "排名",
+    "mode": {
+      "personal": "個人模式",
+      "community": "社群模式",
+      "personalDesc": "您的投票將本地儲存並建立您的個人排名。不會影響社群排名。",
+      "communityDesc": "您的投票將貢獻給社群排名，幫助選出最受歡迎的卡池。"
+    },
+    "stats": {
+      "totalVotes": "總投票數",
+      "personalVotes": "個人投票數",
+      "totalVoters": "總投票人數",
+      "avgVotes": "平均投票數"
+    },
+    "errors": {
+      "loadFailed": "載入投票失敗，請重試。",
+      "submitFailed": "提交投票失敗，請重試。",
+      "rateLimit": "投票次數過多，請稍後再試。",
+      "loadRankingsFailed": "載入排名失敗，請重試。",
+      "votingClosed": "社群投票已結束。檢視最終排名或切換到個人模式繼續投票。"
+    },
+    "rankings": {
+      "title": "卡池排名",
+      "description": "根據社群投票檢視1.x版本中最受歡迎的卡池。",
+      "voteMore": "繼續投票",
+      "lastUpdated": "最後更新",
+      "rank": "排名",
+      "banner": "卡池",
+      "elo": "Elo評分",
+      "eloShort": "ELO",
+      "winRate": "勝率",
+      "winRateShort": "勝率",
+      "wins": "勝場",
+      "losses": "負場",
+      "totalVotes": "總投票數",
+      "winsLosses": "勝/負",
+      "winsShort": "勝",
+      "lossesShort": "負"
+    }
+  },
+  "language_switcher": {
+    "help_translate": "幫助翻譯"
+  }
+}

@@ -1,599 +1,599 @@
 {
   "navigation": {
-    "title": "gongeo.us",
-    "subtitle": "Infinity Nikki Resonance Tracker",
-    "tracker": "Resonance Tracker",
-    "import": "Import Data",
-    "global": "Global Data",
-    "banner": "Banner History",
-    "banner_detail": "Banner Detail",
-    "vote": "Banner Vote",
-    "faq": "FAQ",
-    "about": "About",
-    "nuan5pro": "Nuan5.Pro"
+    "title": "暖暖共鳴錄",
+    "subtitle": "暖暖共鳴錄",
+    "tracker": "共鳴記錄",
+    "import": "匯入資料",
+    "global": "社群資料",
+    "banner": "卡池歷史",
+    "banner_detail": "卡池詳情",
+    "vote": "卡池投票",
+    "faq": "常見問題",
+    "about": "關於本站",
+    "nuan5pro": "無暖助手"
   },
   "social": {
-    "discord": "Join our Discord community",
-    "kofi": "Support us on Ko-fi",
-    "twitter": "Follow us on Twitter",
-    "email": "Contact us via email"
+    "discord": "加入我們的 Discord 社群",
+    "kofi": "在 Ko-fi 上支援我們",
+    "twitter": "在 Twitter 上關注我們",
+    "email": "透過電子郵件聯絡我們"
   },
   "meta": {
-    "title": "Infinity Nikki Resonance Tracker - Banner Pull History & Stats",
-    "keywords": "Infinity Nikki, Resonance Tracker, Pull Tracker, Gacha Tracker, Pull History, Global Stats, Community Stats, Gongeous",
+    "title": "暖暖共鳴錄 - 無限暖暖共鳴歷史追蹤與抽卡資料分析",
+    "keywords": "無限暖暖, 共鳴記錄, 抽卡記錄, 抽卡統計, 遊戲工具, 暖暖遊戲, 共鳴歷史, 抽卡資料, 共鳴資料",
     "description": {
-      "default": "Track Infinity Nikki resonance banner pull history and statistics. A fan-made tracking and analysis tool for the Infinity Nikki community.",
-      "login": "Sign in to gongeo.us using your email or a third-party account to upload, back up, and sync your Infinity Nikki resonance data across devices.",
-      "tracker": "Track and analyze your Infinity Nikki resonance pull history. View all 5★ and 4★ banner items and compare your luck with other stylists.",
-      "import": "Import your Infinity Nikki resonance pull history easily from game, Whim-Log data or backup files with detailed step-by-step guides.",
-      "global": "Explore Infinity Nikki resonance global data, including banner popularity, pull rates, item drop rates, and community pull statistics.",
-      "banner": "View the complete Infinity Nikki resonance banner history, including current and past events, limited and permanent banners, outfit details, banner durations and rerun schedules.",
-      "banner_detail": "View detailed Infinity Nikki resonance banner data, including pull statistics, banner outfits and individual item details.",
-      "faq": "Find answers to frequently asked questions about gongeo.us, including data privacy, import methods, and usage guidelines.",
-      "about": "Learn more about gongeo.us, including its purpose, privacy policy, disclaimers, and how it supports the Infinity Nikki community."
+      "default": "追蹤無限暖暖的卡池歷史與抽卡資料，提供詳細的統計與分析。專為無限暖暖玩家社群打造的實用粉絲工具。",
+      "login": "使用第三方賬號或電子郵件登入暖暖共鳴錄，將抽卡資料上傳雲端，在多裝置間同步和備份您的共鳴記錄。",
+      "tracker": "追蹤並分析您的無限暖暖共鳴抽卡歷史，檢視所有卡池中的5★和4★部件記錄。與其他玩家比較您的抽卡運氣。",
+      "import": "輕鬆匯入您的無限暖暖共鳴抽卡記錄，支援遊戲資料、奇想手賬和備份檔案匯入，並提供詳細的操作指南。",
+      "global": "探索無限暖暖社群抽卡資料，包括卡池受歡迎程度、平均機率、抽卡分佈和部件掉落機率統計。",
+      "banner": "檢視完整的無限暖暖卡池歷史記錄，包含當前和過往卡池，限定和常駐卡池、套裝詳情、持續時間及復刻時間等資訊。",
+      "banner_detail": "檢視特定無限暖暖卡池的詳細資訊，包括抽卡統計資料、套裝完成狀態、套裝詳情和單個部件詳情。",
+      "faq": "檢視關於暖暖共鳴錄的常見問題解答，包括資料隱私、匯入方式和使用指南等資訊。",
+      "about": "瞭解暖暖共鳴錄的相關資訊，包括免責宣告、隱私政策等資訊。"
     }
   },
   "index": {
-    "title": "gongeo.us",
-    "subtitle": "Infinity Nikki Resonance Tracker",
-    "description": "Track Infinity Nikki Resonance History and Statistics",
-    "your_data": "Your Data",
-    "current_banners": "Current Banners",
-    "rerun": "Rerun"
+    "title": "暖暖共鳴錄",
+    "subtitle": "gongeo.us",
+    "description": "記錄無限暖暖共鳴歷史和統計資料",
+    "your_data": "您的資料",
+    "current_banners": "當前卡池",
+    "rerun": "復刻"
   },
   "login": {
-    "title": "Sign In",
-    "welcome_description": "Sign in with 3rd party account or email to upload and sync your data.",
-    "signed_in_title": "Successfully Signed In!",
-    "welcome_back": "Welcome back, {name}!",
-    "go_to_tracker": "Go to Tracker",
-    "signin_error": "Failed to sign in. Please try again.",
-    "sign_in_with_discord": "Sign in with Discord",
-    "sign_in_with_google": "Sign in with Google",
-    "sign_in_with_email": "Sign in with Email",
-    "email": "Email",
-    "password": "Password",
-    "confirm_password": "Confirm Password",
-    "sign_in": "Sign In",
-    "sign_up": "Sign Up",
-    "forgot_password": "Forgot Password?",
-    "reset_password": "Reset Password",
-    "send_reset_email": "Send Reset Email",
-    "back_to_login": "Back to Login",
-    "set_new_password": "Set New Password",
-    "new_password": "New Password",
-    "confirm_new_password": "Confirm New Password",
-    "update_password": "Update Password",
-    "email_required": "Email is required",
-    "password_required": "Password is required",
-    "password_min_length": "Password must be at least 6 characters",
-    "passwords_dont_match": "Passwords don't match",
-    "invalid_email": "Please enter a valid email address",
-    "signup_success": "Account created successfully! Please check your email for verification.",
-    "signin_success": "Signed in successfully!",
-    "reset_success": "Password reset email sent! Please check your inbox.",
-    "email_signin_error": "Failed to sign in with email. Please check your credentials.",
-    "email_signup_error": "Failed to create account. Please try again.",
-    "reset_error": "Failed to send reset email. Please try again.",
-    "or": "or"
+    "title": "登入",
+    "welcome_description": "使用第三方賬號或電子郵件登入，上傳並同步您的資料。",
+    "signed_in_title": "登入成功！",
+    "welcome_back": "歡迎回來，{name}！",
+    "go_to_tracker": "前往共鳴記錄",
+    "signin_error": "登入失敗，請重試。",
+    "sign_in_with_discord": "使用 Discord 登入",
+    "sign_in_with_google": "使用 Google 登入",
+    "sign_in_with_email": "使用電子郵件登入",
+    "email": "電子郵件",
+    "password": "密碼",
+    "confirm_password": "確認密碼",
+    "sign_in": "登入",
+    "sign_up": "註冊",
+    "forgot_password": "忘記密碼？",
+    "reset_password": "重置密碼",
+    "send_reset_email": "傳送重置郵件",
+    "back_to_login": "返回登入",
+    "set_new_password": "設定新密碼",
+    "new_password": "新密碼",
+    "confirm_new_password": "確認新密碼",
+    "update_password": "更新密碼",
+    "email_required": "電子郵件是必填項",
+    "password_required": "密碼是必填項",
+    "password_min_length": "密碼至少需要6個字元",
+    "passwords_dont_match": "密碼不匹配",
+    "invalid_email": "請輸入有效的電子郵件地址",
+    "signup_success": "賬戶建立成功！請檢視電子郵件進行驗證。",
+    "signin_success": "登入成功！",
+    "reset_success": "密碼重置郵件已傳送！請檢視您的收件箱。",
+    "email_signin_error": "電子郵件登入失敗，請檢查您的憑據。",
+    "email_signup_error": "建立賬戶失敗，請重試。",
+    "reset_error": "傳送重置郵件失敗，請重試。",
+    "or": "或"
   },
   "email": {
     "confirm_signup": {
-      "subject": "Confirm your signup",
-      "body": "Please click the link below to confirm your signup:",
-      "link": "Confirm your signup"
+      "subject": "確認您的註冊",
+      "body": "請點選下方連結確認您的註冊：",
+      "link": "確認您的註冊"
     },
     "reset_password": {
-      "subject": "Reset your password",
-      "body": "Please click the link below to reset your password:",
-      "link": "Reset your password"
+      "subject": "重置您的密碼",
+      "body": "請點選下方連結重置您的密碼：",
+      "link": "重置您的密碼"
     }
   },
   "import": {
-    "video_tutorial": "Video Tutorial",
-    "video_tutorial_desc": "Watch step-by-step video guide to learn how to import your data:",
-    "watch_on_youtube": "Watch on YouTube",
-    "watch_on_bilibili": "Watch on Bilibili",
-    "choose_method": "Choose Import Method",
-    "choose_method_desc": "Choose how you want to import your pull history.",
-    "import_from_game": "Import from Game",
-    "import_from_file": "Import from File",
-    "import_from_pearpal": "Import from Whim-Log",
-    "file_import": "File Import",
-    "file_import_desc": "Import from a previously exported nikki-resonance-data file.",
-    "select_file": "Select File",
-    "select_region": "Select Region",
-    "select_region_desc": "Select your game server region.",
-    "pearpal_website": "Pearpal Website",
-    "whimlog": "Whim-Log",
-    "login_pearpal": "Login to Pearpal Website",
-    "login_pearpal_desc": "Open Pearpal Website in a new tab and login with your Infold account if you aren't already logged in.",
-    "login_whimlog": "Sync data in Whim-Log",
-    "login_whimlog_desc": "Open Whim-Log in a new tab, login and sync your data.",
-    "get_cookie": "Get Cookie From Pearpal Website",
-    "get_cookie_desc": "Choose how you want to get your Cookie:",
-    "gongeous_cookie": "Gongeous Cookie",
-    "bookmark_method": "Bookmark Method (Recommended)",
-    "bookmark_method_mobile": "Bookmark Method",
-    "console_method": "Console Method",
-    "manual_input": "Manual Method",
-    "title": "Follow these steps to get your Cookie:",
+    "video_tutorial": "影片教程",
+    "video_tutorial_desc": "觀看分步影片教程，學習如何匯入您的資料：",
+    "watch_on_youtube": "在 YouTube 觀看",
+    "watch_on_bilibili": "在 Bilibili 觀看",
+    "choose_method": "選擇匯入方式",
+    "choose_method_desc": "選擇您想要匯入抽卡歷史的方式。",
+    "import_from_game": "從遊戲匯入",
+    "import_from_file": "從檔案匯入",
+    "import_from_pearpal": "從奇想手賬匯入",
+    "file_import": "檔案匯入",
+    "file_import_desc": "從之前匯出的 nikki-resonance-data 檔案匯入。",
+    "select_file": "選擇檔案",
+    "select_region": "選擇伺服器",
+    "select_region_desc": "選擇您的遊戲伺服器區域。",
+    "pearpal_website": "美鴨梨網站",
+    "whimlog": "奇想手賬",
+    "login_pearpal": "登入美鴨梨網站",
+    "login_pearpal_desc": "在新標籤頁中開啟美鴨梨網站，如果尚未登入，請使用您的疊紙賬號登入。",
+    "login_whimlog": "同步奇想手賬的資料。",
+    "login_whimlog_desc": "在新標籤頁中開啟奇想手賬，登入並同步您的資料。",
+    "get_cookie": "從美鴨梨網站獲取 Cookie 資料",
+    "get_cookie_desc": "選擇您想要獲取 Cookie 資料的方式：",
+    "gongeous_cookie": "美鴨梨 Cookie",
+    "bookmark_method": "書籤方法（推薦）",
+    "bookmark_method_mobile": "書籤方法",
+    "console_method": "控制檯方法",
+    "manual_input": "手動輸入",
+    "title": "按照以下步驟獲取您的 Cookie 資料：",
     "bookmark_steps": {
-      "step1": "Drag the \"Gongeous Cookie\" button to your bookmarks bar (only needs to be done once):",
-      "step2": "Switch to Pearpal Website in a different tab, make sure you are logged in",
-      "step3": "Click the \"Gongeous Cookie\" bookmark while on the Pearpal Website",
-      "step4": "Copy the output text in the popup (it should look like the example in the input area below)",
-      "step5": "Come back here and paste the output text in the input area below",
-      "tip": "Tip: You can keep the bookmark for getting Cookie the next time you import"
+      "step1": "將\"美鴨梨 Cookie\"書籤拖動到書籤欄（此步驟僅需執行一次）：",
+      "step2": "切換到不同標籤頁的美鴨梨網站，確保您已登入",
+      "step3": "在美鴨梨網站上點選\"美鴨梨 Cookie\"書籤",
+      "step4": "複製彈出視窗中的輸出文字（它應該看起來像下面輸入區域中的示例）",
+      "step5": "返回暖暖共鳴錄，將輸出文字貼上到下面的輸入區域中",
+      "tip": "提示：您可以保留書籤，便於將來資料匯入時獲取 Cookie 資料"
     },
     "bookmark_steps_mobile": {
-      "step1": "Tap the \"Copy Code\" button and copy the code",
-      "step2": "Create a new bookmark in your browser and name it \"Gongeous Cookie\"",
-      "step3": "Edit the bookmark URL and replace it with the code you copied",
-      "step4": "Switch to Pearpal Website in a different tab, make sure you are logged in",
-      "step5": "Tap the \"Gongeous Cookie\" bookmark while on the Pearpal Website",
-      "step5_android_chrome": "Start typing the bookmark name you saved (Gongeous Cookie) in the address bar",
-      "step5_android_chrome_2": "Select the bookmark from suggestions to run it",
-      "step6": "Copy the output text in the popup (it should look like the example in the input area below)",
-      "step7": "Come back here and paste the output text in the input area below",
-      "tip": "Tip: You can keep the bookmark for getting Cookie the next time you import"
+      "step1": "點選\"複製程式碼\"按鈕並複製其中程式碼",
+      "step2": "在瀏覽器中建立一個新書籤，命名為\"美鴨梨 Cookie\"",
+      "step3": "編輯書籤的網址，將其替換為您剛複製的程式碼",
+      "step4": "切換到不同標籤頁的美鴨梨網站，確保您已登入",
+      "step5": "在美鴨梨網站上點選\"美鴨梨 Cookie\"書籤",
+      "step5_android_chrome": "在位址列中開始輸入您儲存的書籤名稱（Gongeous Cookie）",
+      "step5_android_chrome_2": "從建議中選擇書籤以執行它",
+      "step6": "複製彈出視窗中的輸出文字（它應該看起來像下面輸入區域中的示例）",
+      "step7": "返回暖暖共鳴錄，將輸出文字貼上到下面的輸入區域中",
+      "tip": "提示：您可以保留書籤，便於將來資料匯入時獲取 Cookie 資料"
     },
     "console_steps": {
-      "step1": "Switch to Pearpal Website in a different tab, make sure you are logged in",
-      "step2": "Open your browser's Developer Tools (Press F12 or right-click and select \"Inspect\")",
-      "step3": "Go to the \"Console\" tab",
-      "step4": "Click the \"Copy Code\" button, copy and paste the code into the console and press enter:",
-      "step5": "If you get a warning saying \"Warning: Don't paste code into the devtools console\", type \"allow pasting\" and hit enter",
-      "step6": "Copy the output text in the console (it should look like the example in the input area below)",
-      "step7": "Come back here and paste the output text in the input area below"
+      "step1": "切換到不同標籤頁的美鴨梨網站，確保您已登入",
+      "step2": "開啟瀏覽器的開發者工具（按 F12 或右鍵點選並選擇\"檢查\"）",
+      "step3": "轉到\"控制檯\"標籤",
+      "step4": "點選\"複製程式碼\"按鈕，複製貼上程式碼到控制檯中並按回車：",
+      "step5": "如果收到警告，請根據提示輸入\"allow pasting\"或者\"允許貼上\"（根據瀏覽器和語言設定）並按回車",
+      "step6": "複製控制檯中的輸出文字（它應該看起來像下面輸入區域中的示例）",
+      "step7": "返回暖暖共鳴錄，將輸出文字貼上到下面的輸入區域中"
     },
     "manual_steps": {
-      "note": "(Using Google Chrome as an example, exact names might vary for other browsers but steps will be similar)",
-      "step1": "Switch to Pearpal Website in a different tab, make sure you are logged in",
-      "step2": "Open your browser's Developer Tools (Press F12 or right-click and select \"Inspect\")",
-      "step3": "Go to the \"Application\" tab (or \"Storage\" in Firefox)",
-      "step4": "In the left sidebar, expand \"Cookies\" and select the Pearpal Website",
-      "step5": "Alternatively, you can use a browser extension for Cookies like Cookie Editor",
-      "step6": "Find and copy the values for:",
+      "note": "（以谷歌瀏覽器為例，其他瀏覽器的步驟類似，但具體名稱可能有所不同）",
+      "step1": "切換到不同標籤頁的美鴨梨網站，確保您已登入",
+      "step2": "開啟瀏覽器的開發者工具（按 F12 或右鍵點選並選擇\"檢查\"）",
+      "step3": "轉到“應用程式”標籤(或火狐中的“儲存”)",
+      "step4": "在左側邊欄中，展開\"Cookie\"並選擇美鴨梨網站",
+      "step5": "或者，您可以使用 Cookie Editor 等瀏覽器擴充套件來管理 Cookie",
+      "step6": "查詢並複製以下值：",
       "step6_items": {
-        "momo_id": "momoNid (for Momo ID field)",
-        "momo_token": "momoToken (for Momo Token field)"
+        "momo_id": "momoNid（用於 Momo ID 欄位）",
+        "momo_token": "momoToken（用於 Momo Token 欄位）"
       },
-      "step7": "For UID, go to your Pearpal profile and copy your UID number"
+      "step7": "對於 UID，請前往您的美鴨梨個人資料並複製您的 UID 號碼"
     },
-    "security_note": "Note: Never share these Cookie values with anyone else!",
-    "data_note": "Important: Pull data via this import method is retained for only 180 days. Data before {date} won't be available. You can use \"Import from Whim-Log\" to import older data.",
+    "security_note": "注意：切勿與他人分享這些 Cookie 值！",
+    "data_note": "重要提示：透過此匯入方式獲取的抽卡資料僅儲存 180 天。{date} 之前的資料將不再可用。您可以使用\"從奇想手賬匯入\"獲取更早的資料。",
     "form": {
       "uid": "UID",
-      "uid_placeholder": "In-game UID",
+      "uid_placeholder": "遊戲內 UID",
       "momo_id": "Momo ID",
-      "momo_id_placeholder": "momoNid from Cookie",
+      "momo_id_placeholder": "來自 Cookie 的 momoNid",
       "momo_token": "Momo Token",
-      "momo_token_placeholder": "momoToken from Cookie",
-      "submit_global_stats": "Submit data for global stats",
-      "submit_button": "Submit and Import Pull History",
-      "fetching": "Fetching resonance data, please wait..."
+      "momo_token_placeholder": "來自 Cookie 的 momoToken",
+      "submit_global_stats": "提交資料用於社群統計",
+      "submit_button": "提交併匯入抽卡歷史",
+      "fetching": "正在獲取共鳴資料，請稍候..."
     },
     "progress": {
-      "processing_banner": "Processing banner {current} of {total}",
-      "fetching_data": "Fetching resonance data: {banner}"
+      "processing_banner": "正在處理第 {current} 個卡池，共 {total} 個",
+      "fetching_data": "正在獲取共鳴資料：{banner}"
     },
     "actions": {
-      "copy": "Copy",
-      "copy_code": "Copy Code",
-      "paste_from_clipboard": "Paste from Clipboard",
-      "select_all": "Select All"
+      "copy": "複製",
+      "copy_code": "複製程式碼",
+      "paste_from_clipboard": "從剪貼簿貼上",
+      "select_all": "全選"
     },
-    "select_banners": "Select Banners You Pulled",
-    "select_banners_desc": "No need to re-import",
+    "select_banners": "選擇您抽過的卡池",
+    "select_banners_desc": "無需重複匯入已有資料",
     "banner_groups": {
-      "quick_select": "Quick Select",
-      "current_banners": "Current Banners",
-      "limited_banners": "Limited Banners",
-      "permanent_banners": "Permanent Banners",
-      "individual": "Individual Banners"
+      "quick_select": "快速選擇",
+      "current_banners": "當前卡池",
+      "limited_banners": "限定卡池",
+      "permanent_banners": "常駐卡池",
+      "individual": "單獨選擇"
     },
     "messages": {
-      "code_copied": "Code copied to clipboard!",
-      "code_copy_failed": "Failed to copy code to clipboard",
-      "data_paste_success": "Data pasted successfully!",
-      "data_paste_success_no_uid": "Please copy and paste your UID manually",
-      "data_paste_failed": "Failed to parse input data. Please ensure it is valid format",
-      "auth_success": "Authentication successful!",
-      "auth_failed": "Authentication failed",
-      "stats_submit_failed": "Failed to submit global stats",
-      "fetch_history_failed": "Failed to fetch pull history",
-      "invalid_form": "Invalid form data",
-      "import_success": "Data imported successfully!",
-      "import_failed": "Failed to import file",
-      "pearpal_tracker_success": "Pearpal data imported successfully!",
-      "pearpal_tracker_failed": "Failed to import Pearpal data."
+      "code_copied": "程式碼已複製到剪貼簿！",
+      "code_copy_failed": "複製程式碼到剪貼簿失敗",
+      "data_paste_success": "資料貼上成功！",
+      "data_paste_success_no_uid": "請手動複製並貼上您的 UID",
+      "data_paste_failed": "解析輸入資料失敗。請確保格式正確",
+      "auth_success": "認證成功！",
+      "auth_failed": "認證失敗",
+      "stats_submit_failed": "提交全域性統計資料失敗",
+      "fetch_history_failed": "獲取抽卡歷史記錄失敗",
+      "invalid_form": "表單資料無效",
+      "import_success": "資料匯入成功！",
+      "import_failed": "匯入檔案失敗",
+      "pearpal_tracker_success": "奇想手賬資料匯入成功！",
+      "pearpal_tracker_failed": "匯入奇想手賬資料失敗。"
     },
-    "supported_browsers": "Supported Browsers",
+    "supported_browsers": "支援的瀏覽器",
     "supported_browsers_list": {
-      "chrome": "Google Chrome",
-      "firefox": "Mozilla Firefox",
-      "safari": "Apple Safari"
+      "chrome": "谷歌瀏覽器",
+      "firefox": "火狐瀏覽器",
+      "safari": "Safari瀏覽器"
     },
-    "check_compatibility": "Check Browser Compatibility",
-    "pc_recommended": "You are using a mobile device, you can import using the supported browsers listed below, other browsers are not tested and might not work. For the best experience, we recommend using a PC browser for importing data.",
+    "check_compatibility": "檢查瀏覽器相容性",
+    "pc_recommended": "您正在使用移動裝置，您可以使用以下瀏覽器匯入資料，其他瀏覽器未經測試，可能無法正常工作。為獲得最佳體驗，建議使用電腦瀏覽器匯入資料。",
     "bookmark_script": {
-      "invalid_site": "Please use this bookmark on Pearpal Website"
+      "invalid_site": "請在美鴨梨網站上使用此書籤"
     }
   },
   "tracker": {
     "stats": {
-      "title": "Pull Statistics",
-      "total_pulls": "Total Pulls",
-      "no_pulls": "No pull history for this banner",
-      "total_5star_4star": "5★ / 4★ Total",
-      "avg_5star": "5★ Avg (5★ Banner)",
-      "avg_4star_mixed": "4★ Avg (5★ Banner)",
-      "avg_4star_only": "4★ Avg (4★ Banner)",
-      "luckier": "Luckier than {percent}% of the gongeo.us users",
-      "more_pulls": "More than {percent}% of the gongeo.us users"
+      "title": "抽卡統計",
+      "total_pulls": "總抽數",
+      "no_pulls": "此卡池暫無抽卡記錄",
+      "total_5star_4star": "5★ / 4★總數",
+      "avg_5star": "5★平均（5★卡池）",
+      "avg_4star_mixed": "4★平均（5★卡池）",
+      "avg_4star_only": "4★總數（4★卡池）",
+      "luckier": "比 {percent}% 的暖暖共鳴錄使用者更幸運",
+      "more_pulls": "多於 {percent}% 的暖暖共鳴錄使用者"
     },
     "manual_log": {
-      "title": "Manual Import",
-      "description": "Use this option only if you don't want to use the game import or you are missing some items from the game import.",
-      "note": "Note: Manually imported data will only be used to display outfit completion status and will not be included in personal or global stats calculations.",
-      "open_editor": "Open Editor",
-      "select_banner": "Select Banner",
-      "apply_to_all": "Apply to All",
-      "save": "Save Outfit",
-      "success": "Outfit saved successfully!",
-      "error": "Failed to save outfit",
-      "evo_level": "Evolution Level"
+      "title": "手動匯入",
+      "description": "僅在您不想使用遊戲匯入或在匯入時缺少某些套裝或部件時使用。",
+      "note": "注意：手動匯入的資料只會用於顯示套裝完成度，不會用於個人或社群統計資料計算。",
+      "open_editor": "開啟編輯器",
+      "select_banner": "選擇卡池",
+      "apply_to_all": "全部應用",
+      "save": "儲存套裝",
+      "success": "套裝儲存成功！",
+      "error": "套裝儲存失敗",
+      "evo_level": "套裝進化"
     },
     "banner": {
       "stats": {
-        "total_pulls": "Total Pulls",
-        "total_5star": "5★ Total",
-        "avg_5star": "5★ Avg",
-        "total_4star": "4★ Total",
-        "avg_4star": "4★ Avg",
-        "pity_5star": "5★ Pity",
-        "pity_4star": "4★ Pity"
+        "total_pulls": "總抽數",
+        "total_5star": "5★總數",
+        "avg_5star": "5★平均",
+        "total_4star": "4★總數",
+        "avg_4star": "4★平均",
+        "pity_5star": "5★已墊",
+        "pity_4star": "4★已墊"
       },
       "settings": {
-        "banner_order": "Banner Order",
-        "item_order": "Item Order",
-        "latest_first": "Latest First",
-        "oldest_first": "Oldest First",
-        "outfit_display": "Outfit Display",
-        "item_display": "Item Display",
-        "combined": "Combined",
-        "separated": "Separated",
-        "show_4star": "4★ (5★ Banner)",
-        "show_missing": "Missing Pieces",
-        "duplicate_items": "Duplicate Items",
-        "empty_banners": "Empty Banners",
-        "show": "Show",
-        "hide": "Hide",
-        "data_source": "Data Source",
-        "pearpal": "Whim-Log",
-        "game": "Game",
-        "auto": "Auto",
-        "data_source_tooltip": "Select your preferred data source. If no data is available from the selected source, the other source will be used instead. Only one data source is displayed and used for statistics calculations at a time.",
-        "auto_option": "\"Auto\" will combine both sources, preferring the source with more pulls for each banner."
+        "banner_order": "卡池排序",
+        "item_order": "部件排序",
+        "latest_first": "最新優先",
+        "oldest_first": "最早優先",
+        "outfit_display": "套裝顯示",
+        "item_display": "部件顯示",
+        "combined": "合併顯示",
+        "separated": "分開顯示",
+        "show_4star": "陪跑套裝",
+        "show_missing": "缺失部件",
+        "duplicate_items": "重複部件",
+        "empty_banners": "未抽卡池",
+        "show": "顯示",
+        "hide": "隱藏",
+        "data_source": "資料來源",
+        "pearpal": "奇想手賬",
+        "game": "遊戲",
+        "auto": "自動",
+        "data_source_tooltip": "請選擇你想優先使用的資料來源。如果所選資料來源沒有資料，會自動切換到其他資料來源。一次只會使用一個資料來源進行展示和計算。",
+        "auto_option": "\"自動\"會合並兩個資料來源，對於每個卡池會優先使用資料量較多的資料來源。"
       }
     },
     "export": {
-      "png": "Export Image",
-      "json": "Export File",
-      "generated_from": "Generated From",
-      "in_progress": "Export in progress, please wait...",
-      "success": "Data exported successfully!",
-      "error": "Failed to export data. Please try again."
+      "png": "匯出圖片",
+      "json": "匯出檔案",
+      "generated_from": "生成自",
+      "in_progress": "匯出中，請稍後...",
+      "success": "記錄匯出成功！",
+      "error": "匯出失敗，請重試。"
     },
     "no_data": {
-      "title": "No resonance history available.",
-      "subtitle": "Please import your resonance data first.",
-      "error": "Failed to load data. Please try again."
+      "title": "暫無共鳴記錄。",
+      "subtitle": "請先匯入您的共鳴資料。",
+      "error": "載入失敗，請重試。"
     }
   },
   "banner": {
-    "version": "Version",
+    "version": "版本",
     "luck": {
-      "1": "Veil of the Dark",
-      "2": "Faded Starlight",
-      "3": "Whisper of Whim",
-      "4": "Echo of Wishes",
-      "5": "Miracle Resonance",
-      "6": "Blessing of Divinity"
+      "1": "暗影籠罩",
+      "2": "星光漸隱",
+      "3": "奇想低語",
+      "4": "願望迴響",
+      "5": "奇蹟共鳴",
+      "6": "神之眷賜"
     },
     "outfit": {
       "level": {
-        "0": "Unset",
-        "1": "Base",
-        "2": "Evo 1",
-        "3": "Evo 2",
-        "4": "Evo 3",
-        "glow": "Glowed Up"
+        "0": "未設定",
+        "1": "初始",
+        "2": "一進",
+        "3": "二進",
+        "4": "三進",
+        "glow": "煥新"
       }
     },
-    "deep_echoes": "Deep Echoes",
-    "not_found": "Banner not found"
+    "deep_echoes": "深海迴響",
+    "not_found": "卡池未找到"
   },
   "common": {
     "discord": "Discord",
     "ko_fi": "Ko-fi",
-    "copyright": "© 2025 gongeo.us • © Infold Games All Rights Reserved",
+    "copyright": "© 2025 暖暖共鳴錄 • © 疊紙遊戲 版權所有",
     "disclaimer": {
-      "content": "This is an unofficial fan-made website, not affiliated with or endorsed by Infold Games.",
-      "rights": "All Infinity Nikki game assets, content, and trademarks belong to Infold Games and their respective owners."
+      "content": "本網站由粉絲自發製作運營，與疊紙遊戲官方無關，亦未獲其授權認可。",
+      "rights": "所有無限暖暖遊戲資源、內容和商標均歸疊紙遊戲及相關權利方所有。"
     },
     "captions": {
-      "ok": "OK",
-      "confirm": "Confirm",
-      "cancel": "Cancel",
-      "loading": "Loading..."
+      "ok": "確定",
+      "confirm": "確認",
+      "cancel": "取消",
+      "loading": "載入中..."
     },
     "user_profile": {
-      "guest": "Guest",
-      "clear_local_data": "Clear Local Data",
+      "guest": "訪客",
+      "clear_local_data": "清除本地資料",
       "clear_local_confirm": {
-        "title": "Clear Local Data",
-        "content": "Are you sure you want to clear all local data? This action cannot be undone."
+        "title": "清除本地資料",
+        "content": "確定要清除所有本地資料嗎？此操作無法撤消。"
       },
-      "sign_in": "Sign In",
-      "sign_out": "Sign out",
-      "sign_out_success": "Successfully signed out",
-      "sign_out_error": "Failed to sign out",
-      "upload_data": "Upload to Cloud",
-      "sync_data": "Sync from Cloud",
+      "sign_in": "登入",
+      "sign_out": "退出登入",
+      "sign_out_success": "成功退出登入",
+      "sign_out_error": "退出登入失敗",
+      "upload_data": "上傳到雲端",
+      "sync_data": "從雲端同步",
       "sync": {
-        "upload_success": "Data uploaded to cloud successfully!",
-        "upload_error": "Failed to upload data.",
-        "sync_success": "Data synced successfully!",
-        "sync_error": "Failed to sync data.",
+        "upload_success": "資料已成功上傳到雲端！",
+        "upload_error": "上傳資料失敗。",
+        "sync_success": "資料同步成功！",
+        "sync_error": "資料同步失敗。",
         "confirm_upload": {
-          "title": "Upload to Cloud",
-          "content": "This will upload your local data to cloud storage, overwriting any existing cloud data. Continue?"
+          "title": "上傳到雲端",
+          "content": "這將把您的本地資料上傳到雲端儲存，覆蓋任何現有的雲端資料。確認繼續嗎？"
         },
         "confirm_sync": {
-          "title": "Sync from Cloud",
-          "content": "This will sync your local data with cloud data by merging them together. Continue?"
+          "title": "從雲端同步",
+          "content": "這將透過合併本地資料和雲端資料來同步您的資料。確認繼續嗎？"
         }
       },
-      "clear_cloud_data": "Clear Cloud Data",
+      "clear_cloud_data": "清除雲端資料",
       "clear_cloud_confirm": {
-        "title": "Clear Cloud Data",
-        "content": "Are you sure you want to clear all your cloud data? This action cannot be undone and will permanently delete your data from cloud storage."
+        "title": "清除雲端資料",
+        "content": "您確定要清除所有云端資料嗎？此操作無法撤消，將永久刪除您的雲端儲存資料。"
       },
-      "clear_cloud_success": "Cloud data cleared successfully!",
-      "clear_cloud_error": "Failed to clear cloud data.",
-      "clear_success": "Data cleared successfully!"
+      "clear_cloud_success": "雲端資料清除成功！",
+      "clear_cloud_error": "清除雲端資料失敗。",
+      "clear_success": "資料清除成功！"
     },
     "regions": {
-      "america": "America",
-      "europe": "Europe",
-      "china": "China",
-      "tw": "TW/HK/Macau",
-      "asia": "Asia"
+      "america": "美服",
+      "europe": "歐服",
+      "china": "國服",
+      "tw": "臺港澳服",
+      "asia": "亞服"
     }
   },
   "items": {
-    "pull": "Pull #{number}",
+    "pull": "第 {number} 抽",
     "types": {
-      "dresses": "Dress",
-      "outerwear": "Outerwear",
-      "tops": "Top",
-      "bottoms": "Bottoms",
-      "socks": "Socks",
-      "shoes": "Shoes",
-      "headwear": "Headwear",
-      "hairAccessories": "Hair Accessory",
-      "earrings": "Earrings",
-      "neckwear": "Neckwear",
-      "bracelets": "Bracelet",
-      "chokers": "Choker",
-      "gloves": "Gloves",
-      "handhelds": "Handheld",
-      "faceDecorations": "Face Decoration",
-      "hair": "Hair",
-      "chestAccessories": "Chest Accessory",
-      "pendants": "Pendant",
-      "backpieces": "Backpiece",
-      "rings": "Ring",
-      "armDecorations": "Arm Decoration",
-      "unknown": "Unknown"
+      "dresses": "連衣裙",
+      "outerwear": "外套",
+      "tops": "上衣",
+      "bottoms": "下裝",
+      "socks": "襪子",
+      "shoes": "鞋子",
+      "headwear": "帽子",
+      "hairAccessories": "髮飾",
+      "earrings": "耳飾",
+      "neckwear": "頸飾",
+      "bracelets": "腕飾",
+      "chokers": "項圈",
+      "gloves": "手套",
+      "handhelds": "手持物",
+      "faceDecorations": "面飾",
+      "hair": "髮型",
+      "chestAccessories": "胸飾",
+      "pendants": "掛飾",
+      "backpieces": "背飾",
+      "rings": "戒指",
+      "armDecorations": "臂飾",
+      "unknown": "未知"
     }
   },
   "accessibility": {
-    "toggle_menu": "Toggle navigation menu",
-    "search": "Search",
-    "language_switcher": "Language switcher",
-    "theme_switcher": "Toggle theme",
-    "user_profile_menu": "User profile menu",
-    "scroll_to_top": "Scroll to top"
+    "toggle_menu": "切換導航選單",
+    "search": "搜尋",
+    "language_switcher": "切換語言",
+    "theme_switcher": "切換主題",
+    "user_profile_menu": "使用者資料選單",
+    "scroll_to_top": "回到頂部"
   },
   "global": {
     "stats": {
-      "total_pulls": "Total Pulls",
-      "unique_users": "Total Stylists",
-      "avg_5star": "5★ Avg (5★ Banner)",
-      "avg_4star_type2": "4★ Avg (5★ Banner)",
-      "avg_4star_type3": "4★ Avg (4★ Banner)",
-      "data_as_of": "Data as of"
+      "total_pulls": "總抽數",
+      "unique_users": "搭配師人數",
+      "avg_5star": "5★平均（5★卡池）",
+      "avg_4star_type2": "4★平均（5★卡池）",
+      "avg_4star_type3": "4★平均（4★卡池）",
+      "data_as_of": "資料截至"
     },
     "charts": {
-      "pulls_per_banner": "Pulls Per Banner",
-      "five_star_distribution": "5★ Pulls Distribution",
-      "four_star_type2_distribution": "4★ Distribution (5★ Banner)",
-      "four_star_type3_distribution": "4★ Distribution (4★ Banner)",
-      "first_item_distribution": "First Item Distribution",
-      "number_of_pulls": "Number of Pulls",
-      "probability": "Probability",
-      "cumulative_probability": "Cumulative Probability",
-      "pulls": "pulls",
-      "occurrences": "Occurrences",
-      "percentage": "Percentage",
-      "total": "Total",
-      "type": "Type",
-      "all_banners": "All Banners",
-      "five_star_banners": "5★ Banners",
-      "four_star_banners": "4★ Banners",
-      "recent_only": "Recent",
-      "all_time": "All Time",
-      "first_item_distribution_tooltip": "This banner includes pulls older than 180 days, which are no longer available in game. As a result, the first item distribution data may be inaccurate."
+      "pulls_per_banner": "各卡池抽數",
+      "five_star_distribution": "5★抽數分佈",
+      "four_star_type2_distribution": "4★分佈（5★卡池）",
+      "four_star_type3_distribution": "4★分佈（4★卡池）",
+      "first_item_distribution": "首件部件分佈",
+      "number_of_pulls": "抽數",
+      "probability": "機率",
+      "cumulative_probability": "累積機率",
+      "pulls": "抽",
+      "occurrences": "出現次數",
+      "percentage": "百分比",
+      "total": "總數",
+      "type": "型別",
+      "all_banners": "所有卡池",
+      "five_star_banners": "5★卡池",
+      "four_star_banners": "4★卡池",
+      "recent_only": "近期",
+      "all_time": "全部",
+      "first_item_distribution_tooltip": "此卡池包含180天之前的抽卡記錄，這些記錄已無法在遊戲中獲取。因此，首件部件的分佈資料可能不準確。"
     }
   },
   "faq": {
-    "title": "Frequently Asked Questions",
+    "title": "常見問題",
     "questions": {
       "data_source": {
-        "question": "How are you getting the data?",
-        "answer": "We are using the same API as the in-game pull history page to access Infold Games servers that store the banner pull data. To access the data, we need to authenticate with the Infold Games server using your account Cookie."
+        "question": "你們是如何獲取資料的？",
+        "answer": "我們透過呼叫疊紙遊戲官方API獲取資料，該介面與遊戲內抽卡歷史頁面使用的介面一致。資料獲取過程需要使用您的賬號 Cookie 進行伺服器身份驗證。"
       },
       "ban_risk": {
-        "question": "Will I get banned for using this?",
-        "answer": "This is a third-party tool, so there is always some risk, though it is ultimately up to Infold Games. However, similar tools are widely used in other gacha games (Paimon.moe、Star Rail Station、WuWa Tracker etc.) and also in the Chinese community of Infinity Nikki (小黑盒 游创工坊). Take this information as a reference, and make your own judgement."
+        "question": "使用這個工具會被封號嗎？",
+        "answer": "這是一個第三方工具，所以終究存在一定風險，最終決定權在疊紙遊戲手中。不過，類似的工具在其他遊戲中廣泛使用（如Paimon.moe、Star Rail Station、WuWa Tracker等等），在無限暖暖的中國社群（小黑盒、遊創工坊）也有使用。請將此資訊作為參考，自行判斷。"
       },
       "data_storage": {
-        "question": "What data are you storing?",
-        "answer": "Your pull history is stored locally in your browser, so the next time you visit the site, it will be there unless you clear your browser data. We do not collect any personal information, including the Cookie you submitted."
+        "question": "你們會儲存什麼資料？",
+        "answer": "您的抽卡歷史記錄儲存在您的瀏覽器本地，所以下次訪問網站時，除非您清除瀏覽器資料，否則資料會一直存在。我們不收集任何個人資訊，包括您提交的 Cookie。"
       },
       "server_data": {
-        "question": "What data is sent to the server?",
-        "answer": "Only your pull statistics are sent to help calculate global stats if you opt in. This includes a hashed version of your UID, and the information of 4★ and 5★ items you pulled."
+        "question": "傳送到伺服器的資料是什麼？",
+        "answer": "如果您選擇參與，只有您的抽卡統計資料會被髮送以幫助計算社群統計資料。這包含經過加密處理的使用者ID，以及您抽到的4星和5星部件的資訊。"
       },
       "platform_support": {
-        "question": "Will it work if I play on mobile or PS5?",
-        "answer": "Yes, no matter which platform you play on, you can import your data from PC or mobile. However, on mobile it might not work for all browsers, it is recommended to use PC for better experience, please check the import page for supported browsers and more details."
+        "question": "如果我在移動端或PS5上玩，這個工具能用嗎？",
+        "answer": "是的，無論您的遊戲平臺，您都可以在PC或移動端使用這個工具。但是，在移動端可能不適用於所有瀏覽器，因此更推薦在PC上使用，請在匯入資料頁面檢視支援的瀏覽器和更多詳細資訊。"
       },
       "cookie_script": {
-        "question": "Do I have to run a script to get my Cookie?",
-        "answer": "No, they are just for convenience, you can get the Cookie manually, check manual input instructions in the import page for more details. However, the only way to get the Cookie on mobile now is to use the bookmark method."
+        "question": "我一定要執行指令碼來獲取 Cookie 嗎？",
+        "answer": "不，它們只是用更便捷的方式獲取 Cookie，您可以手動獲取它們，請在匯入資料頁面檢視更多詳細資訊。但是，目前在移動端唯一可以獲取 Cookie 的方法是使用書籤執行指令碼。"
       },
       "data_loss": {
-        "question": "Why is the data incomplete or missing for some banners?",
-        "answer": "This happens because pull history is only stored in the game for 180 days. After that, it is deleted from the game servers and becomes unavailable. To preserve your data, you can store it in your browser or export it for backup. This way, you can keep records that are no longer available in the game. If you import in the future, your existing data will be merged with the new data."
+        "question": "為什麼有些卡池的抽卡記錄不完整或缺失？",
+        "answer": "這是因為抽卡記錄僅在遊戲中保留180天。超過180天后，這些記錄將從遊戲伺服器中刪除，導致資料不可用。為了保留您的資料，您可以將資料儲存在瀏覽器中或匯出為備份。這樣，您可以保留那些在遊戲中已無法獲取的記錄。如果您在將來匯入資料，您的現有資料將與新資料合併。"
       },
       "no_pulls": {
-        "question": "I followed the import steps and saw the banners were processed, but why isn't any pull history showing?",
-        "answer": "Please double check that your region and Cookie values are correct. Make sure the UID and ID from the Cookie are not mixed up."
+        "question": "我按照匯入步驟操作，看到卡池都已處理，但為什麼沒有顯示抽卡記錄？",
+        "answer": "請檢查您的伺服器地區選擇和 Cookie 值是否正確。確保 Cookie 中的 UID 和 ID 沒有混淆。"
       },
       "auto_update": {
-        "question": "Will my pull data update automatically?",
-        "answer": "No, your pull data will not update automatically. The website needs to be updated to support new banners after each game update. For security reasons, your Cookie will expire after some time, so you'll need to re-import your data. However, if you store your data in your browser, you'll only need to re-import for new banners."
+        "question": "我的抽卡資料會自動更新嗎？",
+        "answer": "不會，您的抽卡資料不會自動更新。每次遊戲更新後網站需要更新以支援新卡池的資料。出於安全原因，您的 Cookie 可能會在一段時間後過期，因此您需要重新匯入資料。但是，如果您將資料儲存在瀏覽器中，您只需要匯入新卡池的資料。"
       },
       "export": {
-        "question": "How can I export my pull history?",
-        "answer": "You can export your pull history as a PNG image or a JSON file. If your browser data is cleared, you can use the JSON file to restore your history."
+        "question": "如何匯出我的抽卡歷史？",
+        "answer": "您可以將抽卡歷史匯出為PNG圖片或JSON檔案。如果您的瀏覽器資料被清除，您可以使用JSON檔案恢復歷史記錄。"
       }
     }
   },
   "about": {
-    "title": "Disclaimer and Privacy Policy",
+    "title": "免責宣告與隱私政策",
     "infinityNikkiAssets": {
-      "title": "Platform and Content Disclaimer",
-      "content": "gongeo.us is an independent fan-operated platform and is not affiliated, endorsed, or partnered with Infinity Nikki or Infold Games. All official game assets, visuals, and related content are the exclusive property of Infold Games and are used here solely for community sharing and educational purposes. We do not claim any ownership or rights over this content.",
-      "acknowledgment": "By using this platform, you acknowledge its unofficial status and accept all risks associated with accessing third-party or unofficial content."
+      "title": "平臺與內容免責宣告",
+      "content": "暖暖共鳴錄（gongeo.us）是一個由玩家自發建立的非官方社群平臺，與《無限暖暖》官方及疊紙遊戲之間不存在任何隸屬關係、授權認可或商業合作。平臺所展示的遊戲素材、視覺資源與相關內容，版權均歸疊紙遊戲所有。本站引用相關內容僅為社群交流和學習目的，不主張任何相關權利。",
+      "acknowledgment": "使用本平臺即表示您已知悉其非官方性質，並自願承擔訪問或使用第三方衍生內容可能帶來的風險。"
     },
     "dataAndStats": {
-      "title": "Data and Statistics Disclaimer",
-      "content": "All gameplay statistics and data presented on gongeo.us are voluntarily contributed by users and are not sourced from Infold Games. These data sets represent only a small portion of the player community and may not fully reflect overall player behavior or game trends.",
-      "insights": "Any insights or conclusions drawn from the data are for informational purposes only and should be considered in light of their community-driven nature."
+      "title": "資料與統計免責宣告",
+      "content": "本站展示的所有統計資料均由使用者自願提交併分享，非疊紙遊戲官方資料來源，不應被視為權威資訊。這些資料僅代表一小部分玩家的樣本情況，無法完整反映整體玩家群體的實際狀況或遊戲全貌。",
+      "insights": "所有資料分析結論僅作為參考。請您理解，這些結果是基於玩家自發貢獻資料生成的，因此可能存在一定偏差。"
     },
     "intellectualProperty": {
-      "title": "Intellectual Property",
-      "content": "gongeo.us is an independent fan project. All trademarks, game content, and intellectual property related to Infinity Nikki remain the sole property of Infold Games and their licensors.",
-      "siteContent": "Except where explicitly stated otherwise, all original code, site design, and custom assets on this platform are owned by gongeo.us and protected by applicable copyright and intellectual property laws. Unauthorized copying, reuse, or distribution is prohibited without written permission.",
-      "usage": "This platform is provided \"as-is\" and intended solely for personal, non-commercial use."
+      "title": "智慧財產權宣告",
+      "content": "暖暖共鳴錄（gongeo.us）是一個由社群玩家發起的獨立創作專案。所有與《無限暖暖》相關的商標、角色設定、遊戲內容及其他智慧財產權，均歸疊紙遊戲及其授權方所有。",
+      "siteContent": "除非另有註明，本站所使用的原創程式碼、介面設計以及定製素材，其著作權歸暖暖共鳴錄（gongeo.us）所有，並受相關版權法和智慧財產權法保護。未經本站書面授權，禁止複製、修改、傳播或用於其他用途。",
+      "usage": "本站提供的服務僅限於個人非商業使用。"
     },
     "dataCollection": {
-      "title": "Data Collection and Storage",
-      "content": "We collect only the minimal data necessary to operate our service. We do not collect or store any personal information or tracking cookies. Any cookies or UIDs you provide are used solely to communicate with Infold Games server to verify your account and retrieve your pull history.",
-      "pullHistory": "Your pull history is stored locally in your browser once imported. For cloud backup or cross-device access, you may optionally sign in via Discord, Google, or email to sync your data through secure cloud storage provided by Supabase. You may also choose to contribute anonymized statistics about your 4-star and 5-star pulls to help generate community statistics."
+      "title": "資料收集與儲存",
+      "content": "我們僅收集維持服務執行所必需的最小資料。我們不收集或儲存任何個人資訊或跟蹤 Cookie。您提供的任何 Cookie 或 UID 僅用於與 Infold Games 伺服器通訊以驗證您的賬號並獲取您的抽卡記錄。",
+      "pullHistory": "您的抽卡記錄在匯入後會儲存在您的瀏覽器中。如果需要雲端備份或跨裝置訪問，您可以選擇透過 Discord、Google 或電子郵件登入，將資料同步至由 Supabase 提供的雲端儲存。您也可以選擇貢獻匿名統計資料，幫助生成社群統計資料。"
     },
     "accountSecurity": {
-      "title": "Account and Security",
-      "content": "All essential features remain fully accessible without requiring an account. If you choose to sign in, authentication is securely handled by Supabase. We never access or store your login credentials. You have complete control of your data, with the ability to share, upload, sync or delete it at any time. For permanent account deletion, contact us through Discord or email.",
-      "security": "While we implement necessary security measures using industry standards, please be aware that no internet transmission can be guaranteed as completely secure."
+      "title": "賬號安全與資料保護",
+      "content": "所有核心功能在無需賬號的情況下完全可用。如果您選擇登入，登入認證由 Supabase 安全處理，我們既不會訪問也不會儲存您的登入憑證。您擁有完整的資料控制權，可以隨時管理資料的分享、上傳、同步或刪除。若需要永久登出賬戶，請透過 Discord 或郵件聯絡我們。",
+      "security": "雖然我們實施了必要的行業標準安全措施，但請注意，任何網際網路傳輸都無法保證完全安全。"
     },
     "analytics": {
-      "title": "Analytics and Tracking",
-      "content": "We utilize Umami, a privacy-focused analytics service, to monitor website usage. It collects only anonymized information such as page views, referrer URLs, and basic browser data without using Cookie or personal identifiers. This data helps us improve your experience. For more information, please see Umami's privacy policy."
+      "title": "網站訪問分析",
+      "content": "本站使用 Umami 提供網站訪問統計服務，這是一種以隱私優先為原則的分析工具。該服務不會使用 Cookie，也不會收集任何可識別個人身份的資訊。所收集的資料僅限於訪問量、來源網站以及基礎瀏覽器型別，目的僅在於最佳化網站服務體驗。有關詳情，請參閱 Umami 的隱私政策頁面。"
     },
     "errorMonitoring": {
-      "title": "Error Monitoring",
-      "message": "We use Sentry.io to track and fix technical errors. Sentry may collect limited technical data (like error details, browser info, and anonymized IP addresses) to help us maintain and improve the site. For more information, please see Sentry.io's privacy policy."
+      "title": "錯誤監控",
+      "message": "我們使用 Sentry.io 來跟蹤和修復技術錯誤。Sentry 可能會收集有限的技術資料（如錯誤詳情、瀏覽器資訊和匿名 IP 地址），以幫助我們維護和改進網站。有關詳情，請參閱 Sentry.io 的隱私政策頁面。"
     }
   },
   "maintenance": {
-    "title": "Under Maintenance",
-    "message": "We're currently performing some maintenance. Pull history import is temporarily unavailable.",
-    "status": "Service will be back shortly. Thank you for your patience!"
+    "title": "網站維護中",
+    "message": "我們正在對網站進行維護更新，抽卡記錄匯入暫時無法使用。",
+    "status": "服務很快就會恢復。感謝您的耐心等待！"
   },
   "search": {
-    "placeholder": "Search items, banners, outfits",
-    "noResults": "No results found",
+    "placeholder": "搜尋部件、套裝、卡池",
+    "noResults": "未找到結果",
     "categories": {
-      "banners": "Banners",
-      "outfits": "Outfits",
-      "items": "Items"
+      "banners": "卡池",
+      "outfits": "套裝",
+      "items": "部件"
     },
     "resultTypes": {
-      "banner": "Banner",
-      "outfit": "Outfit",
-      "item": "Item"
+      "banner": "卡池",
+      "outfit": "套裝",
+      "item": "部件"
     }
   },
   "error": {
-    "404": "\"Nikki, let's stay in the shallow water\"",
-    "notFound": "The page you are looking for does not exist.",
-    "returnHome": "Return Home"
+    "404": "\"暖暖，我們還是待在水淺的地方吧！\"",
+    "notFound": "您訪問的頁面不存在。",
+    "returnHome": "返回首頁"
   },
   "vote": {
-    "description": "Help us determine the most popular banners from version 1.x! Vote on your favorite banners in head-to-head matchups.",
-    "submit": "Submit Vote",
-    "skip": "Skip",
-    "howItWorks": "Pick your favorite banner and submit your vote to help rank the most popular banners. Skip if you're not sure. You can vote up to 50 times every 24 hours.",
-    "abuseNotice": "Please do not abuse the voting system. Unusual voting patterns will be detected, and those votes may be removed.",
-    "success": "Vote submitted successfully!",
-    "viewRankings": "View Rankings",
-    "vote": "Vote",
-    "ranking": "Rankings",
+    "description": "幫助我們評選出1.x版本中最受歡迎的卡池！在一對一的對決中為您最喜歡的卡池投票。",
+    "submit": "提交投票",
+    "skip": "跳過",
+    "howItWorks": "選擇您喜歡的卡池並提交投票，幫助評選最受歡迎的卡池。不確定可以跳過。每24小時最多可投票50次。",
+    "abuseNotice": "請不要惡意刷票。異常的投票行為將會被系統檢測到，相關投票可能會被移除。",
+    "success": "投票提交成功！",
+    "viewRankings": "檢視排名",
+    "vote": "投票",
+    "ranking": "排名",
     "mode": {
-      "personal": "Personal Mode",
-      "community": "Community Mode",
-      "personalDesc": "Your votes are stored locally and create your personal rankings. Does not affect community rankings.",
-      "communityDesc": "Your votes contribute to the community rankings and help determine the most popular banners."
+      "personal": "個人模式",
+      "community": "社群模式",
+      "personalDesc": "您的投票將本地儲存並建立您的個人排名。不會影響社群排名。",
+      "communityDesc": "您的投票將貢獻給社群排名，幫助選出最受歡迎的卡池。"
     },
     "stats": {
-      "totalVotes": "Total Votes",
-      "personalVotes": "Personal Votes",
-      "totalVoters": "Total Voters",
-      "avgVotes": "Avg Votes"
+      "totalVotes": "總投票數",
+      "personalVotes": "個人投票數",
+      "totalVoters": "總投票人數",
+      "avgVotes": "平均投票數"
     },
     "errors": {
-      "loadFailed": "Failed to load vote pair. Please try again.",
-      "submitFailed": "Failed to submit vote. Please try again.",
-      "rateLimit": "Too many votes. Please wait before voting again.",
-      "loadRankingsFailed": "Failed to load rankings. Please try again.",
-      "votingClosed": "Community voting has ended. View the final rankings or switch to Personal Mode to continue voting."
+      "loadFailed": "載入投票失敗，請重試。",
+      "submitFailed": "提交投票失敗，請重試。",
+      "rateLimit": "投票次數過多，請稍後再試。",
+      "loadRankingsFailed": "載入排名失敗，請重試。",
+      "votingClosed": "社群投票已結束。檢視最終排名或切換到個人模式繼續投票。"
     },
     "rankings": {
-      "title": "Banner Rankings",
-      "description": "See which banners from version 1.x are the most popular based on community votes.",
-      "voteMore": "Vote More",
-      "lastUpdated": "Last updated",
-      "rank": "Rank",
-      "banner": "Banner",
-      "elo": "Elo Rating",
+      "title": "卡池排名",
+      "description": "根據社群投票檢視1.x版本中最受歡迎的卡池。",
+      "voteMore": "繼續投票",
+      "lastUpdated": "最後更新",
+      "rank": "排名",
+      "banner": "卡池",
+      "elo": "Elo評分",
       "eloShort": "ELO",
-      "winRate": "Win Rate",
-      "winRateShort": "WR",
-      "wins": "Wins",
-      "losses": "Losses",
-      "totalVotes": "Total Votes",
-      "winsLosses": "W/L",
-      "winsShort": "W",
-      "lossesShort": "L"
+      "winRate": "勝率",
+      "winRateShort": "勝率",
+      "wins": "勝場",
+      "losses": "負場",
+      "totalVotes": "總投票數",
+      "winsLosses": "勝/負",
+      "winsShort": "勝",
+      "lossesShort": "負"
     }
   },
   "language_switcher": {
-    "help_translate": "Help translate"
+    "help_translate": "幫助翻譯"
   }
 }

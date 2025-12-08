@@ -584,7 +584,7 @@
     twitterDescription: () => t('vote.rankings.description'),
   })
 
-  useHead({
+  useHead(() => ({
     link: [{ rel: 'canonical', href: `${siteUrl}${localePath('/ranking')}` }],
-  })
+  }))
 </script>

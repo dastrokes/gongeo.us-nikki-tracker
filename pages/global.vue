@@ -614,9 +614,9 @@
     twitterDescription: () => t('meta.description.global'),
   })
 
-  useHead({
+  useHead(() => ({
     link: [{ rel: 'canonical', href: `${siteUrl}${localePath('/global')}` }],
-  })
+  }))
 
   onMounted(() => {
     watchEffect(() => {

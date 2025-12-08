@@ -42,7 +42,9 @@
           overlap
           placement="top-end"
           class="!rounded-lg !m-2 !px-2 !py-1 text-xs cursor-pointer"
-          :z-index="10"
+          @click.stop.prevent="
+            router.push(localePath(`/banner/${banner.bannerId}`))
+          "
         >
           <template #trigger>
             <NuxtImg
@@ -113,6 +115,7 @@
 
   const { t, locale } = useI18n()
   const localePath = useLocalePath()
+  const router = useRouter()
 
   const props = defineProps<{
     banners: Banner[]

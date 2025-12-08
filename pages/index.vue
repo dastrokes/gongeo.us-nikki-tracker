@@ -119,9 +119,9 @@
     twitterDescription: () => t('meta.description.default'),
   })
 
-  useHead({
+  useHead(() => ({
     link: [{ rel: 'canonical', href: `${siteUrl}${localePath('/')}` }],
-  })
+  }))
 
   // TODO: update to current banner id
   const leftBanners = [BANNER_DATA[42]] as Banner[]

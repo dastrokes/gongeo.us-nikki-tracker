@@ -104,7 +104,7 @@
     twitterDescription: () => t('meta.description.about'),
   })
 
-  useHead({
+  useHead(() => ({
     link: [{ rel: 'canonical', href: `${siteUrl}${localePath('/about')}` }],
-  })
+  }))
 </script>

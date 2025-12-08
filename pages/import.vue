@@ -822,9 +822,9 @@
     twitterDescription: () => t('meta.description.import'),
   })
 
-  useHead({
+  useHead(() => ({
     link: [{ rel: 'canonical', href: `${siteUrl}${localePath('/import')}` }],
-  })
+  }))
 
   const REGION_LABELS = computed(() => ({
     [Region.AMERICA]: t('common.regions.america'),

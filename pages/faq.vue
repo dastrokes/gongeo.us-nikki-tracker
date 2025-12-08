@@ -41,9 +41,9 @@
     twitterDescription: () => t('meta.description.faq'),
   })
 
-  useHead({
+  useHead(() => ({
     link: [{ rel: 'canonical', href: `${siteUrl}${localePath('/faq')}` }],
-  })
+  }))
 
   const faqs = {
     data_source: {},

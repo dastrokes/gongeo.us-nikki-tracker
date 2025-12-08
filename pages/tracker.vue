@@ -1055,9 +1055,9 @@
     twitterDescription: () => t('meta.description.tracker'),
   })
 
-  useHead({
+  useHead(() => ({
     link: [{ rel: 'canonical', href: `${siteUrl}${localePath('/tracker')}` }],
-  })
+  }))
 
   // Function to load and process data based on current data source
   const loadAndProcessData = async () => {

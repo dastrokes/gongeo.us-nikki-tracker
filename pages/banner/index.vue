@@ -217,7 +217,7 @@
                     <n-tooltip
                       overlap
                       placement="top-end"
-                      class="!rounded-lg !m-2 p-1 text-xs cursor-pointer"
+                      class="!rounded-lg !m-2 !px-2 !py-1 text-xs cursor-pointer"
                       :z-index="10"
                       @click.stop.prevent="
                         router.push(localePath(`/banner/${banner.bannerId}`))
@@ -465,7 +465,7 @@
     twitterDescription: () => t('meta.description.banner'),
   })
 
-  useHead({
+  useHead(() => ({
     link: [{ rel: 'canonical', href: `${siteUrl}${localePath('/banner')}` }],
     script: [
       {
@@ -479,5 +479,5 @@
         }),
       },
     ],
-  })
+  }))
 </script>

@@ -176,7 +176,7 @@
 
   const { t } = useI18n()
   const localePath = useLocalePath()
-  const { locale, locales } = useI18n()
+  const { locale } = useI18n()
 
   function renderIcon(icon: Component) {
     return () => h(NIcon, null, { default: () => h(icon) })
@@ -187,17 +187,17 @@
 
   const siteUrl = useRuntimeConfig().public.siteUrl
 
-  const currentLocaleIso = computed(() => {
+  const currentLocaleIso = computed<string>(() => {
     const currentLocale = i18nLocales.find((l) => l.code === locale.value)
-    return currentLocale?.iso || locale.value
+    return (currentLocale?.iso || locale.value) as string
   })
 
-  useHead(() => ({
+  useHead({
     htmlAttrs: {
-      lang: currentLocaleIso.value,
+      lang: currentLocaleIso,
     },
-    title: t('meta.title'),
-    meta: [
+    title: () => t('meta.title'),
+    meta: () => [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       {
@@ -251,7 +251,7 @@
         content: '@gongeo_us',
       },
     ],
-    link: [
+    link: () => [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       { rel: 'canonical', href: `${siteUrl}${localePath(route.path)}` },
       {
@@ -263,7 +263,7 @@
         href: 'https://o4509482068869120.ingest.us.sentry.io',
       },
     ],
-    script: [
+    script: () => [
       {
         async: true,
         defer: true,
@@ -272,7 +272,7 @@
         'data-website-id': 'dd22ab5d-2045-4450-aaff-f513339b5ca6',
       },
     ],
-  }))
+  })
 
   const topMenuOptions = computed<MenuOption[]>(() => [
     {
@@ -425,16 +425,6 @@
       }
     }
   )
-
-  watch(locale, (newLocale) => {
-    const newLocaleIso =
-      i18nLocales.find((l) => l.code === newLocale)?.iso || newLocale
-    useHead(() => ({
-      htmlAttrs: {
-        lang: newLocaleIso,
-      },
-    }))
-  })
 
   // Setup swipe handling
   const layoutRef = ref<HTMLElement | null>(null)

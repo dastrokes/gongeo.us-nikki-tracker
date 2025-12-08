@@ -165,14 +165,24 @@
               const { loadData } = useIndexedDB()
               const { pulls, edits, evo, pearpal } = await loadData()
 
-              // Process pearpal tracker data first if available
-              if (Object.keys(pearpal).length > 0) {
+              // Respect user's data source preference
+              const dataSource = useDataSource()
+              const hasPearpal = Object.keys(pearpal).length > 0
+              const hasGame =
+                Object.keys(pulls).length > 0 || Object.keys(edits).length > 0
+
+              if (hasPearpal && hasGame) {
+                if (dataSource.value === 'pearpal') {
+                  await pullStore.processPearpalData(pearpal)
+                } else if (dataSource.value === 'game') {
+                  await pullStore.processPullData(pulls, edits)
+                } else {
+                  // Auto mode: use processAutoData to choose best source per banner
+                  await pullStore.processAutoData(pulls, edits, pearpal)
+                }
+              } else if (hasPearpal) {
                 await pullStore.processPearpalData(pearpal)
-              } else if (
-                Object.keys(pulls).length > 0 ||
-                Object.keys(edits).length > 0
-              ) {
-                // Process pull and edit data if no pearpal data
+              } else if (hasGame) {
                 await pullStore.processPullData(pulls, edits)
               }
 

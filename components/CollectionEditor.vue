@@ -500,18 +500,23 @@
         Object.keys(existingPullData).length > 0 ||
         Object.keys(updatedEditData).length > 0
 
-      if (dataSource.value === 'pearpal') {
-        if (hasPearpal) {
+      if (hasPearpal && hasGame) {
+        if (dataSource.value === 'pearpal') {
           await pullStore.processPearpalData(existingPearpalData)
-        } else if (hasGame) {
+        } else if (dataSource.value === 'game') {
           await pullStore.processPullData(existingPullData, updatedEditData)
+        } else {
+          // Auto mode: use processAutoData to choose best source per banner
+          await pullStore.processAutoData(
+            existingPullData,
+            updatedEditData,
+            existingPearpalData
+          )
         }
-      } else {
-        if (hasGame) {
-          await pullStore.processPullData(existingPullData, updatedEditData)
-        } else if (hasPearpal) {
-          await pullStore.processPearpalData(existingPearpalData)
-        }
+      } else if (hasPearpal) {
+        await pullStore.processPearpalData(existingPearpalData)
+      } else if (hasGame) {
+        await pullStore.processPullData(existingPullData, updatedEditData)
       }
 
       // Process evolution data

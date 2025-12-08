@@ -144,14 +144,29 @@ export const useDataSync = () => {
       const { savePearpalData } = useIndexedDB()
       await savePearpalData(mergedPearpal)
 
-      // Process pearpal tracker data first if available
-      if (Object.keys(mergedPearpal).length > 0) {
-        await pullStore.processPearpalData(mergedPearpal)
-      } else if (
+      // Respect user's data source preference
+      const dataSource = useDataSource()
+      const hasPearpal = Object.keys(mergedPearpal).length > 0
+      const hasGame =
         Object.keys(mergedPulls).length > 0 ||
         Object.keys(mergedEdits).length > 0
-      ) {
-        // Process pull and edit data if no pearpal data
+
+      if (hasPearpal && hasGame) {
+        if (dataSource.value === 'pearpal') {
+          await pullStore.processPearpalData(mergedPearpal)
+        } else if (dataSource.value === 'game') {
+          await pullStore.processPullData(mergedPulls, mergedEdits)
+        } else {
+          // Auto mode: use processAutoData to choose best source per banner
+          await pullStore.processAutoData(
+            mergedPulls,
+            mergedEdits,
+            mergedPearpal
+          )
+        }
+      } else if (hasPearpal) {
+        await pullStore.processPearpalData(mergedPearpal)
+      } else if (hasGame) {
         await pullStore.processPullData(mergedPulls, mergedEdits)
       }
 

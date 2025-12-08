@@ -651,9 +651,35 @@
   // Computed values for stats (updated for new data.json)
   const totalPulls = computed(() => data.value?.t || 0)
   const uniqueUserCount = computed(() => data.value?.u || 0)
-  const averagePullsTo5Star = computed(() => data.value?.a5 || 0)
-  const averagePullsTo4StarType2 = computed(() => data.value?.a4_2 || 0)
-  const averagePullsTo4StarType3 = computed(() => data.value?.a4_3 || 0)
+
+  // Calculate weighted average from frequency distribution
+  const calculateWeightedAverage = (
+    freqDist: Record<string, number> | undefined
+  ): number => {
+    if (!freqDist) return 0
+
+    let totalWeightedSum = 0
+    let totalFrequency = 0
+
+    Object.entries(freqDist).forEach(([pullCount, frequency]) => {
+      const pulls = parseInt(pullCount)
+      totalWeightedSum += pulls * frequency
+      totalFrequency += frequency
+    })
+
+    return totalFrequency > 0 ? totalWeightedSum / totalFrequency : 0
+  }
+
+  const averagePullsTo5Star = computed(() =>
+    calculateWeightedAverage(data.value?.f5)
+  )
+  const averagePullsTo4StarType2 = computed(() =>
+    calculateWeightedAverage(data.value?.f4_2)
+  )
+  const averagePullsTo4StarType3 = computed(() =>
+    calculateWeightedAverage(data.value?.f4_3)
+  )
+
   const effectiveDate = computed(() =>
     data.value?.d ? new Date(data.value.d) : new Date()
   )

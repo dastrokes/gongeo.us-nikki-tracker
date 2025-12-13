@@ -126,19 +126,19 @@ export const useBannerPullData = () => {
     const processedPulls: Record<string, ProcessedBanner> = {}
     const currentPity: Record<string, Record<number, number>> = {}
 
-    // Process all banner-related operations
+    // Process each banner
     Object.values(BANNER_DATA as BannerData).forEach((bannerInfo) => {
       const bannerId = bannerInfo.bannerId
+      const bannerType = bannerInfo.bannerType || 1
 
       // Get outfit IDs for this banner
       const { outfit4StarId, outfit5StarId } = getBannerOutfitIds(bannerId)
-
       const outfit4StarSet = new Set(outfit4StarId)
       const outfit5StarSet = new Set(outfit5StarId)
 
       // Initialize banner data structures
       currentPity[bannerId] = { 4: 0, 5: 0 }
-      const initialBanner: ProcessedBanner = {
+      const currentBanner: ProcessedBanner = {
         pulls: [],
         outfits: [],
         stats: {
@@ -161,13 +161,13 @@ export const useBannerPullData = () => {
         bannerId: bannerId,
         bannerType: bannerInfo.bannerType,
       }
-      processedPulls[bannerId] = initialBanner
+      processedPulls[bannerId] = currentBanner
 
       // Pre-populate outfit data
       for (const outfitId of [...outfit5StarId, ...outfit4StarId]) {
         const outfitData = getOutfitData(outfitId)
         if (outfitData) {
-          processedPulls[bannerId]!.outfits.push({
+          currentBanner.outfits.push({
             id: outfitId,
             rarity: outfit5StarSet.has(outfitId) ? 5 : 4,
             items: outfitData.items,
@@ -180,13 +180,16 @@ export const useBannerPullData = () => {
 
       // Process pulls for this banner
       const pulls = pullsByBanner[bannerId] || []
-      const currentBanner = processedPulls[bannerId]
-
-      if (!currentBanner) return
-
-      // Build array forward, then reverse once for efficiency
       const pullsArray: PullItem[] = []
       let pullIndex = 0
+
+      // Stats tracking variables
+      let fourStarCount = 0
+      let fiveStarCount = 0
+      let fourStarPullsSum = 0
+      let fiveStarPullsSum = 0
+      let fourStarOnlyCount = 0
+      let fourStarOnlyPullsSum = 0
 
       // Process pulls in reverse chronological order
       for (let i = pulls.length - 1; i >= 0; i--) {
@@ -228,6 +231,20 @@ export const useBannerPullData = () => {
 
           pullsArray.push(pullInfo)
           currentBanner.stats.totalItems++
+
+          // Track stats for this pull
+          if (rarity === 4) {
+            if (bannerType === 3) {
+              fourStarOnlyCount++
+              fourStarOnlyPullsSum += pullsToObtain
+            } else {
+              fourStarCount++
+              fourStarPullsSum += pullsToObtain
+            }
+          } else if (rarity === 5) {
+            fiveStarCount++
+            fiveStarPullsSum += pullsToObtain
+          }
         }
 
         currentBanner.stats.lastPull = time || currentBanner.stats.lastPull
@@ -236,34 +253,8 @@ export const useBannerPullData = () => {
       // Reverse array once to get newest first
       currentBanner.pulls = pullsArray.reverse()
 
-      // Calculate all stats in a single pass through the data
-      const bannerType = bannerInfo.bannerType || 1
-      const stats = currentBanner.stats
-
-      let fourStarCount = 0
-      let fiveStarCount = 0
-      let fourStarPullsSum = 0
-      let fiveStarPullsSum = 0
-      let fourStarOnlyCount = 0
-      let fourStarOnlyPullsSum = 0
-
-      // Single pass to calculate all stats
-      for (const pull of currentBanner.pulls) {
-        if (pull.rarity === 4) {
-          if (bannerType === 3) {
-            fourStarOnlyCount++
-            fourStarOnlyPullsSum += pull.pullsToObtain
-          } else {
-            fourStarCount++
-            fourStarPullsSum += pull.pullsToObtain
-          }
-        } else if (pull.rarity === 5) {
-          fiveStarCount++
-          fiveStarPullsSum += pull.pullsToObtain
-        }
-      }
-
       // Set stats based on banner type
+      const stats = currentBanner.stats
       if (bannerType === 1 || bannerType === 2) {
         stats.total4StarItems = fourStarCount
         stats.total5StarItems = fiveStarCount
@@ -288,26 +279,13 @@ export const useBannerPullData = () => {
 
       stats.pity4Star = currentPity[bannerId]?.[4] ?? 0
       stats.pity5Star = currentPity[bannerId]?.[5] ?? 0
-    })
 
-    // Update per-banner stats only if calculateStats is true
-    if (calculateStats) {
-      Object.values(BANNER_DATA as BannerData).forEach((bannerInfo) => {
-        const bannerId = bannerInfo.bannerId
-
-        // Get outfit IDs for this banner
-        const { outfit4StarId, outfit5StarId } = getBannerOutfitIds(bannerId)
-
-        const outfit4StarSet = new Set(outfit4StarId)
-        const outfit5StarSet = new Set(outfit5StarId)
-
-        const currentBanner = processedPulls[bannerId]
-        if (!currentBanner) return
-
+      // Process edits and calculate completion stats if needed
+      if (calculateStats) {
         const edits = editsByBanner?.[bannerId] || []
 
         // Process edits into separate array
-        let pullIndex = 0
+        let editPullIndex = 0
         const editPulls: PullItem[] = []
 
         for (const edit of edits) {
@@ -321,9 +299,9 @@ export const useBannerPullData = () => {
             rarity = 4
           }
 
-          pullIndex--
+          editPullIndex--
           editPulls.push({
-            pullIndex,
+            pullIndex: editPullIndex,
             itemId,
             outfitId,
             rarity,
@@ -334,10 +312,10 @@ export const useBannerPullData = () => {
           })
         }
 
-        // Combine pulls and edits, then reverse once
+        // Combine pulls and edits
         const allPulls = [...currentBanner.pulls, ...editPulls].reverse()
 
-        // Single pass for item counting and outfit tracking
+        // Count items and track outfit progress
         const itemCount: Record<string, number> = {}
         const pullsByOutfit: Record<string, Set<string>> = {}
 
@@ -373,8 +351,8 @@ export const useBannerPullData = () => {
             ? totalCompletion / currentBanner.outfits.length
             : 0
         currentBanner.stats.completion = Math.floor(average)
-      })
-    }
+      }
+    })
 
     return processedPulls
   }

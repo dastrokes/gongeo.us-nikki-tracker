@@ -599,10 +599,16 @@
   }
 
   // Initialize i18n
-  const { t } = useI18n()
+  const { t, locale } = useI18n()
   const localePath = useLocalePath()
   const router = useRouter()
   const siteUrl = useRuntimeConfig().public.siteUrl
+
+  // Helper to check if current locale uses CJK characters
+  const isCJKLocale = computed(() => {
+    const cjkLocales = ['zh', 'tw', 'ja', 'ko']
+    return cjkLocales.includes(locale.value)
+  })
 
   useSeoMeta({
     title: () => `${t('navigation.global')} - ${t('navigation.subtitle')}`,
@@ -1018,10 +1024,15 @@
         },
         axisLabel: {
           margin: 12,
-          rotate: isMobile.value ? 90 : 30,
-          overflow: 'truncate',
-          width: 120,
-          formatter: (value: string) => value,
+          rotate:
+            isMobile.value && !isCJKLocale.value ? 90 : isMobile.value ? 0 : 30,
+          formatter: (value: string) => {
+            // For CJK languages in vertical mode, split characters with newlines
+            if (isMobile.value && isCJKLocale.value) {
+              return value.split('').join('\n')
+            }
+            return value
+          },
           ...textStyle,
         },
         axisLine: {

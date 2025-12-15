@@ -173,6 +173,8 @@
                   target="_blank"
                   >{{ $t('import.pearpal_website') }}</a
                 >
+                <br />
+                {{ $t('import.login_pearpal_incognito_hint') }}
               </div>
               <div v-else>
                 {{ $t('import.login_pearpal_desc') }}
@@ -182,6 +184,8 @@
                   target="_blank"
                   >{{ $t('import.pearpal_website') }}</a
                 >
+                <br />
+                {{ $t('import.login_pearpal_incognito_hint') }}
               </div>
             </div>
           </n-step>
@@ -1189,6 +1193,7 @@
         }
       } else {
         message.error(t('import.messages.auth_failed'))
+        message.error(t('import.messages.auth_failed_hint'))
       }
     } catch (error) {
       console.error(error)
@@ -1354,6 +1359,7 @@
         }
       } else {
         message.error(t('import.messages.auth_failed'))
+        message.error(t('import.messages.auth_failed_hint'))
       }
     } catch (e) {
       console.error(e)

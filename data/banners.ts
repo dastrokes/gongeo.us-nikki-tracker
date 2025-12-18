@@ -613,11 +613,12 @@ export const BANNER_DATA: BannerData = {
     outfit5StarId: [],
     runs: [
       {
-        version: '2.0.1',
+        version: '2.0.2',
         start: '2025-12-18',
         end: '2026-01-07',
       },
     ],
+    rewardIds: ['1020750273', '1029600019', '1021780070'],
   },
   45: {
     bannerId: 45,
@@ -626,10 +627,11 @@ export const BANNER_DATA: BannerData = {
     outfit5StarId: [],
     runs: [
       {
-        version: '2.0.1',
+        version: '2.0.2',
         start: '2025-12-18',
         end: '2026-01-07',
       },
     ],
+    rewardIds: ['1020730260', '1021500038', '1020900102'],
   },
 }

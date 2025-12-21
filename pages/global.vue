@@ -641,6 +641,10 @@
     )
   })
 
+  onBeforeUnmount(() => {
+    maximizedChart.value = null
+  })
+
   // Data fetching
   const { data: globalData, status } = await useFetch(
     'https://fimzdbqulflilnnopibz.supabase.co/storage/v1/object/public/gongeous/data.json',

@@ -5,9 +5,9 @@ Sentry.init({
   tracesSampleRate: 0.1,
   maxBreadcrumbs: 20,
 
-  // replaysSessionSampleRate: 0.1,
-  // replaysOnErrorSampleRate: 1.0,
-  // integrations: [Sentry.replayIntegration()],
+  integrations: [Sentry.replayIntegration()],
+  replaysSessionSampleRate: 0,
+  replaysOnErrorSampleRate: 1.0,
 
   beforeSend(event) {
     const ignorePatterns = [

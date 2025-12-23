@@ -641,10 +641,6 @@
     )
   })
 
-  onBeforeUnmount(() => {
-    maximizedChart.value = null
-  })
-
   // Data fetching
   const { data: globalData, status } = await useFetch(
     'https://fimzdbqulflilnnopibz.supabase.co/storage/v1/object/public/gongeous/data.json',
@@ -707,6 +703,10 @@
 
   const maximizedChart = ref<string | null>(null)
   const selectedOutfit = ref<string | null>(null)
+
+  onBeforeUnmount(() => {
+    maximizedChart.value = null
+  })
 
   interface SelectedOutfitDetails {
     bannerId: number

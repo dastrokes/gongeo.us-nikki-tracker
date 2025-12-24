@@ -38,6 +38,30 @@
         :to="localePath(`/banner/${banner.bannerId}`)"
         class="relative overflow-hidden rounded-xl hover:opacity-95 transition-opacity block"
       >
+        <NuxtImg
+          v-if="index === 0"
+          :src="`/images/banners/${banner.bannerId}.webp`"
+          :alt="t(`banner.${banner.bannerId}.name`)"
+          class="w-full h-full object-cover"
+          width="800"
+          height="400"
+          fit="cover"
+          loading="eager"
+          :preload="{ fetchPriority: 'high' }"
+          fetchpriority="high"
+          sizes="400px sm:800px"
+        />
+        <NuxtImg
+          v-else
+          :src="`/images/banners/${banner.bannerId}.webp`"
+          :alt="t(`banner.${banner.bannerId}.name`)"
+          class="w-full h-full object-cover"
+          width="800"
+          height="400"
+          fit="cover"
+          loading="lazy"
+          sizes="400px sm:800px"
+        />
         <n-tooltip
           overlap
           placement="top-end"
@@ -47,30 +71,7 @@
           "
         >
           <template #trigger>
-            <NuxtImg
-              v-if="index === 0"
-              :src="`/images/banners/${banner.bannerId}.webp`"
-              :alt="t(`banner.${banner.bannerId}.name`)"
-              class="w-full h-full object-cover"
-              width="800"
-              height="400"
-              fit="cover"
-              loading="eager"
-              :preload="{ fetchPriority: 'high' }"
-              fetchpriority="high"
-              sizes="400px sm:800px"
-            />
-            <NuxtImg
-              v-else
-              :src="`/images/banners/${banner.bannerId}.webp`"
-              :alt="t(`banner.${banner.bannerId}.name`)"
-              class="w-full h-full object-cover"
-              width="800"
-              height="400"
-              fit="cover"
-              loading="lazy"
-              sizes="400px sm:800px"
-            />
+            <div class="absolute inset-0" />
           </template>
           <span class="inline-flex items-center gap-2">
             {{ t('navigation.banner_detail') }}

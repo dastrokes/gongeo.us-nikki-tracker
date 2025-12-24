@@ -704,10 +704,6 @@
   const maximizedChart = ref<string | null>(null)
   const selectedOutfit = ref<string | null>(null)
 
-  onBeforeUnmount(() => {
-    maximizedChart.value = null
-  })
-
   interface SelectedOutfitDetails {
     bannerId: number
     rarity: string

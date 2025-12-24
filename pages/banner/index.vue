@@ -214,6 +214,20 @@
                     :to="localePath(`/banner/${banner.bannerId}`)"
                     class="w-full aspect-[2/1] min-h-[140px] sm:min-h-[330px] relative overflow-hidden rounded-lg hover:opacity-95 transition-opacity"
                   >
+                    <NuxtImg
+                      :src="`/images/banners/${banner.bannerId}.webp`"
+                      :alt="t(`banner.${banner.bannerId}.name`)"
+                      class="absolute inset-0 w-full h-full object-cover"
+                      width="800"
+                      height="400"
+                      fit="cover"
+                      :loading="
+                        banner.bannerId === displayedBanners[0]?.bannerId
+                          ? 'eager'
+                          : 'lazy'
+                      "
+                      sizes="400px sm:800px"
+                    />
                     <n-tooltip
                       overlap
                       placement="top-end"
@@ -224,20 +238,7 @@
                       "
                     >
                       <template #trigger>
-                        <NuxtImg
-                          :src="`/images/banners/${banner.bannerId}.webp`"
-                          :alt="t(`banner.${banner.bannerId}.name`)"
-                          class="absolute inset-0 w-full h-full object-cover"
-                          width="800"
-                          height="400"
-                          fit="cover"
-                          :loading="
-                            banner.bannerId === displayedBanners[0]?.bannerId
-                              ? 'eager'
-                              : 'lazy'
-                          "
-                          sizes="400px sm:800px"
-                        />
+                        <div class="absolute inset-0" />
                       </template>
                       <span class="inline-flex items-center gap-2">
                         {{ t('navigation.banner_detail') }}

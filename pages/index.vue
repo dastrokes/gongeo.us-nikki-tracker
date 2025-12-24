@@ -21,7 +21,7 @@
         <n-button
           type="primary"
           size="medium"
-          @click="router.push(localePath('/tracker'))"
+          @click="navigateTo(localePath('/tracker'))"
         >
           <template #icon>
             <n-icon>
@@ -33,7 +33,7 @@
         <n-button
           type="primary"
           size="medium"
-          @click="router.push(localePath('/global'))"
+          @click="navigateTo(localePath('/global'))"
         >
           <template #icon>
             <n-icon>
@@ -56,7 +56,7 @@
                 size="small"
                 text
                 :aria-label="$t('navigation.banner')"
-                @click="router.push(localePath('/banner'))"
+                @click="navigateTo(localePath('/banner'))"
               >
                 <template #icon>
                   <n-icon>
@@ -106,7 +106,6 @@
 
   const { t } = useI18n()
   const localePath = useLocalePath()
-  const router = useRouter()
   const siteUrl = useRuntimeConfig().public.siteUrl
 
   // SEO

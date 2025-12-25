@@ -291,7 +291,24 @@
             >
               {{ t('vote.skip') }}
             </n-button>
+            <n-tooltip
+              v-if="!isPersonalMode"
+              trigger="hover"
+              placement="top"
+            >
+              <template #trigger>
+                <n-button
+                  type="primary"
+                  size="large"
+                  disabled
+                >
+                  {{ t('vote.submit') }}
+                </n-button>
+              </template>
+              {{ t('vote.errors.votingClosed') }}
+            </n-tooltip>
             <n-button
+              v-else
               type="primary"
               size="large"
               :disabled="!selectedBanner || submitting || skipping"
@@ -480,24 +497,13 @@
         message.success(t('vote.success'))
         await loadPair()
       } else {
-        // DISABLED: Community voting deadline has passed
-        // Show error message and redirect to rankings
+        // Community voting is disabled - this should not be reached due to disabled button
         message.warning(t('vote.errors.votingClosed'), {
           duration: 5000,
         })
         submitting.value = false
-
-        // Community voting - async API call (DISABLED)
-        // await submitVote(
-        //   currentPair.value.banner1.id,
-        //   currentPair.value.banner2.id,
-        //   selectedBanner.value
-        // )
-        // message.success(t('vote.success'))
+        return
       }
-
-      // Load next pair
-      // await loadPair()
     } catch (error: unknown) {
       console.error('Failed to submit vote:', error)
 

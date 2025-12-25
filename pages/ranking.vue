@@ -6,168 +6,202 @@
       size="small"
       class="rounded-xl"
     >
-      <div class="flex flex-col sm:flex-row gap-4">
-        <div class="grid grid-cols-3 gap-3 sm:gap-4 sm:flex-1">
-          <div class="text-center sm:text-left">
-            <div
-              class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-1"
-            >
-              {{
-                isPersonalMode
-                  ? t('vote.stats.personalVotes')
-                  : t('vote.stats.totalVotes')
-              }}
-            </div>
-            <div
-              class="flex items-center justify-center sm:justify-start gap-2"
-            >
-              <n-icon
-                :depth="3"
-                size="20"
+      <div class="flex flex-col gap-3">
+        <div class="flex flex-col sm:flex-row gap-4">
+          <div class="grid grid-cols-3 gap-3 sm:gap-4 sm:flex-1">
+            <div class="text-center sm:text-left">
+              <div
+                class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-1"
               >
-                <Poll />
-              </n-icon>
-              <span class="text-md sm:text-2xl font-semibold">
-                <n-number-animation
-                  :from="0"
-                  :to="stats.totalVotes"
-                  :duration="5000"
-                />
-              </span>
-            </div>
-          </div>
-          <div
-            v-if="!isPersonalMode"
-            class="text-center sm:text-left"
-          >
-            <div
-              class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-1"
-            >
-              {{ t('vote.stats.totalVoters') }}
-            </div>
-            <div
-              class="flex items-center justify-center sm:justify-start gap-2"
-            >
-              <n-icon
-                :depth="3"
-                size="20"
-              >
-                <Users />
-              </n-icon>
-              <span class="text-md sm:text-2xl font-semibold">
-                <n-number-animation
-                  :from="0"
-                  :to="stats.totalVoters"
-                  :duration="3000"
-                />
-              </span>
-            </div>
-          </div>
-          <div
-            v-if="!isPersonalMode"
-            class="text-center sm:text-left"
-          >
-            <div
-              class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-1"
-            >
-              {{ t('vote.stats.avgVotes') }}
-            </div>
-            <div
-              class="flex items-center justify-center sm:justify-start gap-2"
-            >
-              <n-icon
-                :depth="3"
-                size="20"
-              >
-                <ChartBar />
-              </n-icon>
-              <span class="text-md sm:text-2xl font-semibold">
-                <n-number-animation
-                  :from="0"
-                  :to="stats.totalVotes / stats.totalVoters"
-                  :duration="1000"
-                  :precision="1"
-                />
-              </span>
-            </div>
-          </div>
-        </div>
-        <div
-          class="flex flex-row sm:flex-col gap-2 justify-center sm:justify-start sm:self-start"
-        >
-          <div class="flex justify-end items-center gap-2">
-            <n-tooltip
-              :width="250"
-              trigger="hover"
-              placement="bottom"
-            >
-              <template #trigger>
-                <n-switch
-                  :value="isPersonalMode"
-                  @update:value="setMode"
-                >
-                  <template #checked>
-                    <n-icon><User /></n-icon>
-                  </template>
-                  <template #unchecked>
-                    <n-icon><Users /></n-icon>
-                  </template>
-                </n-switch>
-              </template>
-              <div class="max-w-xs">
-                <div class="font-semibold mb-1">
-                  {{
-                    isPersonalMode
-                      ? t('vote.mode.personal')
-                      : t('vote.mode.community')
-                  }}
-                </div>
-                <div>
-                  {{
-                    isPersonalMode
-                      ? t('vote.mode.personalDesc')
-                      : t('vote.mode.communityDesc')
-                  }}
-                </div>
+                {{
+                  isPersonalMode
+                    ? t('vote.stats.personalVotes')
+                    : t('vote.stats.totalVotes')
+                }}
               </div>
-            </n-tooltip>
-            <n-tooltip
-              v-if="lastUpdated"
-              :width="250"
-              trigger="hover"
-            >
-              <template #trigger>
-                <n-button
-                  text
-                  size="small"
+              <div
+                class="flex items-center justify-center sm:justify-start gap-2"
+              >
+                <n-icon
+                  :depth="3"
+                  size="20"
                 >
-                  <template #icon>
-                    <n-icon><InfoCircle /></n-icon>
-                  </template>
-                </n-button>
-              </template>
-              {{ t('vote.rankings.lastUpdated') }}:
-              {{
-                lastUpdated.toLocaleString(locale, {
-                  year: 'numeric',
-                  month: '2-digit',
-                  day: '2-digit',
-                  hour: '2-digit',
-                  minute: '2-digit',
-                })
-              }}
-            </n-tooltip>
+                  <Poll />
+                </n-icon>
+                <span class="text-md sm:text-2xl font-semibold">
+                  <n-number-animation
+                    :from="0"
+                    :to="stats.totalVotes"
+                    :duration="5000"
+                  />
+                </span>
+              </div>
+            </div>
+            <div
+              v-if="!isPersonalMode"
+              class="text-center sm:text-left"
+            >
+              <div
+                class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-1"
+              >
+                {{ t('vote.stats.totalVoters') }}
+              </div>
+              <div
+                class="flex items-center justify-center sm:justify-start gap-2"
+              >
+                <n-icon
+                  :depth="3"
+                  size="20"
+                >
+                  <Users />
+                </n-icon>
+                <span class="text-md sm:text-2xl font-semibold">
+                  <n-number-animation
+                    :from="0"
+                    :to="stats.totalVoters"
+                    :duration="3000"
+                  />
+                </span>
+              </div>
+            </div>
+            <div
+              v-if="!isPersonalMode"
+              class="text-center sm:text-left"
+            >
+              <div
+                class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-1"
+              >
+                {{ t('vote.stats.avgVotes') }}
+              </div>
+              <div
+                class="flex items-center justify-center sm:justify-start gap-2"
+              >
+                <n-icon
+                  :depth="3"
+                  size="20"
+                >
+                  <ChartBar />
+                </n-icon>
+                <span class="text-md sm:text-2xl font-semibold">
+                  <n-number-animation
+                    :from="0"
+                    :to="stats.totalVotes / stats.totalVoters"
+                    :duration="1000"
+                    :precision="1"
+                  />
+                </span>
+              </div>
+            </div>
           </div>
-          <n-button
-            secondary
-            size="small"
-            @click="navigateToVote"
+          <div
+            class="flex flex-row sm:flex-col gap-2 justify-center sm:justify-start sm:self-start"
           >
-            <template #icon>
-              <n-icon><CheckSquare /></n-icon>
-            </template>
-            {{ t('vote.rankings.voteMore') }}
-          </n-button>
+            <div class="flex justify-end items-center gap-2">
+              <n-tooltip
+                :width="250"
+                trigger="hover"
+                placement="bottom"
+              >
+                <template #trigger>
+                  <n-switch
+                    :value="isPersonalMode"
+                    @update:value="setMode"
+                  >
+                    <template #checked>
+                      <n-icon><User /></n-icon>
+                    </template>
+                    <template #unchecked>
+                      <n-icon><Users /></n-icon>
+                    </template>
+                  </n-switch>
+                </template>
+                <div class="max-w-xs">
+                  <div class="font-semibold mb-1">
+                    {{
+                      isPersonalMode
+                        ? t('vote.mode.personal')
+                        : t('vote.mode.community')
+                    }}
+                  </div>
+                  <div>
+                    {{
+                      isPersonalMode
+                        ? t('vote.mode.personalDesc')
+                        : t('vote.mode.communityDesc')
+                    }}
+                  </div>
+                </div>
+              </n-tooltip>
+              <n-tooltip
+                v-if="!isPersonalMode"
+                :width="250"
+                trigger="hover"
+              >
+                <template #trigger>
+                  <n-button
+                    text
+                    size="small"
+                  >
+                    <template #icon>
+                      <n-icon><CalendarAlt /></n-icon>
+                    </template>
+                  </n-button>
+                </template>
+                {{ t('vote.rankings.votingPeriod') }}:
+                {{
+                  new Date(2025, 10, 12).toLocaleDateString(locale, {
+                    month: 'long',
+                    day: 'numeric',
+                    year: 'numeric',
+                  })
+                }}
+                -
+                {{
+                  new Date(2025, 10, 25).toLocaleDateString(locale, {
+                    month: 'long',
+                    day: 'numeric',
+                    year: 'numeric',
+                  })
+                }}
+              </n-tooltip>
+              <n-tooltip
+                v-if="lastUpdated && !isPersonalMode"
+                :width="250"
+                trigger="hover"
+              >
+                <template #trigger>
+                  <n-button
+                    text
+                    size="small"
+                  >
+                    <template #icon>
+                      <n-icon><InfoCircle /></n-icon>
+                    </template>
+                  </n-button>
+                </template>
+                {{ t('vote.rankings.lastUpdated') }}:
+                {{
+                  lastUpdated.toLocaleString(locale, {
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                  })
+                }}
+              </n-tooltip>
+            </div>
+            <n-button
+              secondary
+              size="small"
+              @click="navigateToVote"
+            >
+              <template #icon>
+                <n-icon><CheckSquare /></n-icon>
+              </template>
+              {{ t('vote.rankings.voteMore') }}
+            </n-button>
+          </div>
         </div>
       </div>
     </n-card>
@@ -252,6 +286,7 @@
     InfoCircle,
     CheckSquare,
     User,
+    CalendarAlt,
   } from '@vicons/fa'
   import { BANNER_DATA } from '~/data/banners'
   import type { BannerRanking, VoteStats } from '~/types/vote'
@@ -364,14 +399,20 @@
                 `${((row.win_rate ?? 0) * 100).toFixed(1)}%`
               ),
             ]),
-            h('span', { class: 'font-mono' }, [
-              h(
-                'span',
-                { class: 'text-gray-500 dark:text-gray-400' },
-                `${t('vote.rankings.eloShort')}: `
-              ),
-              h('span', { class: 'font-semibold' }, Math.round(row.elo_rating)),
-            ]),
+            isPersonalMode.value
+              ? h('span', { class: 'font-mono' }, [
+                  h(
+                    'span',
+                    { class: 'text-gray-500 dark:text-gray-400' },
+                    `${t('vote.rankings.eloShort')}: `
+                  ),
+                  h(
+                    'span',
+                    { class: 'font-semibold' },
+                    Math.round(row.elo_rating)
+                  ),
+                ])
+              : null,
           ]),
         ])
       },
@@ -401,8 +442,8 @@
     },
   ]
 
-  // Desktop columns - full view
-  const columns: DataTableColumns<BannerRanking> = [
+  // Desktop columns - full view (computed to react to mode changes)
+  const columns = computed<DataTableColumns<BannerRanking>>(() => [
     {
       title: t('vote.rankings.rank'),
       key: 'rank',
@@ -504,16 +545,25 @@
       },
       sorter: (a, b) => (b.total_votes ?? 0) - (a.total_votes ?? 0),
     },
-    {
-      title: t('vote.rankings.elo'),
-      key: 'elo_rating',
-      width: 120,
-      render: (row) => {
-        return h('span', { class: 'font-mono' }, Math.round(row.elo_rating))
-      },
-      sorter: (a, b) => b.elo_rating - a.elo_rating,
-    },
-  ]
+    ...(isPersonalMode.value
+      ? [
+          {
+            title: t('vote.rankings.elo'),
+            key: 'elo_rating',
+            width: 120,
+            render: (row: BannerRanking) => {
+              return h(
+                'span',
+                { class: 'font-mono' },
+                Math.round(row.elo_rating)
+              )
+            },
+            sorter: (a: BannerRanking, b: BannerRanking) =>
+              b.elo_rating - a.elo_rating,
+          },
+        ]
+      : []),
+  ])
 
   const loadRankings = async () => {
     try {

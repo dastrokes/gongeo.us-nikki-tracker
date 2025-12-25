@@ -113,6 +113,7 @@
 <script setup lang="ts">
   import { HourglassHalf, ExternalLinkAlt } from '@vicons/fa'
   import type { Banner } from '~/types/banner'
+  import { intlLocaleMap } from '~/locales/locales'
 
   const { t, locale } = useI18n()
   const localePath = useLocalePath()
@@ -151,15 +152,7 @@
     const days = Math.floor(diffInHours / 24)
     const hours = Math.floor(diffInHours % 24)
 
-    // Map locale codes to Intl locale strings
-    const localeMap: Record<string, string> = {
-      en: 'en-US',
-      de: 'de-DE',
-      zh: 'zh-CN',
-      ko: 'ko-KR',
-    }
-
-    const intlLocale = localeMap[locale.value] || 'en-US'
+    const intlLocale = intlLocaleMap[locale.value] || 'en-US'
 
     // Format days and hours separately
     const parts: string[] = []

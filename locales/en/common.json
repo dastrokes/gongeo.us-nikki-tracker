@@ -579,6 +579,7 @@
     "rankings": {
       "title": "Banner Rankings",
       "description": "See which banners from version 1.x are the most popular based on community votes.",
+      "votingPeriod": "Voting Period",
       "voteMore": "Vote More",
       "lastUpdated": "Last updated",
       "rank": "Rank",

@@ -16,6 +16,22 @@ export type SupportedLocaleCode =
 
 export const defaultLocale: SupportedLocaleCode = 'en'
 
+// Map locale codes to Intl locale strings for proper formatting
+export const intlLocaleMap: Record<SupportedLocaleCode, string> = {
+  en: 'en-US',
+  de: 'de-DE',
+  es: 'es-ES',
+  fr: 'fr-FR',
+  id: 'id-ID',
+  it: 'it-IT',
+  ja: 'ja-JP',
+  ko: 'ko-KR',
+  pt: 'pt-BR',
+  th: 'th-TH',
+  tw: 'zh-TW',
+  zh: 'zh-CN',
+}
+
 export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
   {
     code: 'en',

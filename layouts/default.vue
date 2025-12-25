@@ -297,7 +297,7 @@
     },
     {
       label: t('navigation.vote'),
-      key: 'vote',
+      key: 'ranking',
       icon: renderIcon(Poll),
     },
     {

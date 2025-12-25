@@ -579,6 +579,7 @@
     "rankings": {
       "title": "卡池排名",
       "description": "根據社群投票檢視1.x版本中最受歡迎的卡池。",
+      "votingPeriod": "投票時間",
       "voteMore": "繼續投票",
       "lastUpdated": "最後更新",
       "rank": "排名",

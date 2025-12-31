@@ -73,11 +73,11 @@ export const usePersonalVote = () => {
     return {
       banner1: {
         id: pair.banner1,
-        image: `/images/banners/${pair.banner1}.webp`,
+        image: `/images/banners/${pair.banner1}.png`,
       },
       banner2: {
         id: pair.banner2,
-        image: `/images/banners/${pair.banner2}.webp`,
+        image: `/images/banners/${pair.banner2}.png`,
       },
     }
   }

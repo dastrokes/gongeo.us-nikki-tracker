@@ -57,7 +57,7 @@
                   </n-gradient-text>
                   <div class="relative w-24 h-12 rounded-lg overflow-hidden">
                     <NuxtImg
-                      :src="`/images/banners/thumbnails/${prevBanner.bannerId}.webp`"
+                      :src="`/images/banners/thumbnails/${prevBanner.bannerId}.png`"
                       :alt="t(`banner.${prevBanner.bannerId}.name`)"
                       class="w-full h-full object-cover rounded"
                       width="100"
@@ -107,7 +107,7 @@
                   </n-gradient-text>
                   <div class="relative w-24 h-12 rounded-lg overflow-hidden">
                     <NuxtImg
-                      :src="`/images/banners/thumbnails/${nextBanner.bannerId}.webp`"
+                      :src="`/images/banners/thumbnails/${nextBanner.bannerId}.png`"
                       :alt="t(`banner.${nextBanner.bannerId}.name`)"
                       class="w-full h-full object-cover rounded"
                       width="100"
@@ -170,7 +170,7 @@
                 class="w-full aspect-[2/1] relative overflow-hidden rounded-lg"
               >
                 <NuxtImg
-                  :src="`/images/banners/${banner.bannerId}.webp`"
+                  :src="`/images/banners/${banner.bannerId}.png`"
                   :alt="t(`banner.${banner.bannerId}.name`)"
                   class="absolute inset-0 w-full h-full object-cover"
                   width="800"
@@ -556,37 +556,47 @@
                     <div
                       v-for="(rewardId, i) in banner.rewardIds"
                       :key="rewardId"
-                      class="relative"
+                      class="relative w-16 h-16 sm:w-24 sm:h-24"
                     >
-                      <n-tooltip placement="top">
-                        <template #trigger>
-                          <div
-                            class="relative w-16 h-16 sm:w-24 sm:h-24 rounded-md overflow-hidden ring-1 bg-gradient-to-br from-[#fff8e1] to-[#ffcc80] hover:shadow-[0_0_10px_0_rgba(255,204,128,0.5)] ring-amber-200/30 hover:ring-amber-200/80 dark:from-[#713f12] dark:to-[#451a03] dark:hover:shadow-[0_0_10px_0_rgba(113,63,18,0.5)] dark:ring-amber-900/30 dark:hover:ring-amber-900/60"
-                          >
-                            <NuxtImg
-                              :src="`/images/items/${rewardId}.webp`"
-                              :alt="t(`item.${rewardId}.name`)"
-                              class="w-full h-full object-cover"
-                              width="120"
-                              height="120"
-                              fit="cover"
-                              loading="lazy"
-                              placeholder="/images/loading.webp"
-                              sizes="80px sm:120px"
-                            />
+                      <NuxtLink
+                        no-prefetch
+                        :to="localePath(`/item/${rewardId}`)"
+                        class="relative block w-full h-full rounded-md overflow-hidden ring-1 bg-gradient-to-br from-[#fff8e1] to-[#ffcc80] hover:shadow-[0_0_10px_0_rgba(255,204,128,0.5)] ring-amber-200/30 hover:ring-amber-200/80 dark:from-[#713f12] dark:to-[#451a03] dark:hover:shadow-[0_0_10px_0_rgba(113,63,18,0.5)] dark:ring-amber-900/30 dark:hover:ring-amber-900/60 hover:opacity-95 transition-all"
+                      >
+                        <NuxtImg
+                          :src="`/images/items/${rewardId}.png`"
+                          :alt="t(`item.${rewardId}.name`)"
+                          class="w-full h-full object-cover"
+                          width="120"
+                          height="120"
+                          fit="cover"
+                          loading="lazy"
+                          placeholder="/images/loading.png"
+                          sizes="80px sm:120px"
+                        />
+                        <n-tooltip
+                          overlap
+                          placement="top"
+                          class="!rounded-lg !m-1 !px-2 !py-1 text-xs cursor-pointer"
+                          @click.stop.prevent="
+                            router.push(localePath(`/item/${rewardId}`))
+                          "
+                        >
+                          <template #trigger>
+                            <div class="absolute inset-0" />
+                          </template>
+                          <div class="text-center">
+                            <div class="font-medium">
+                              {{ t(`item.${rewardId}.name`) }}
+                            </div>
+                            <div class="text-sm opacity-80">
+                              {{
+                                i * 10 + 5 + ' ' + t('global.stats.total_pulls')
+                              }}
+                            </div>
                           </div>
-                        </template>
-                        <div class="text-center">
-                          <div class="font-medium">
-                            {{ t(`item.${rewardId}.name`) }}
-                          </div>
-                          <div class="text-sm">
-                            {{
-                              i * 10 + 5 + ' ' + t('global.stats.total_pulls')
-                            }}
-                          </div>
-                        </div>
-                      </n-tooltip>
+                        </n-tooltip>
+                      </NuxtLink>
                     </div>
                   </div>
                 </div>
@@ -811,7 +821,7 @@
     ogDescription: () => t('meta.description.banner_detail'),
     ogImage: () =>
       banner.value
-        ? `${siteUrl}/images/banners/${banner.value.bannerId}.webp`
+        ? `${siteUrl}/images/banners/${banner.value.bannerId}.png`
         : `${siteUrl}/og.png`,
     twitterTitle: () =>
       banner.value
@@ -820,7 +830,7 @@
     twitterDescription: () => t('meta.description.banner_detail'),
     twitterImage: () =>
       banner.value
-        ? `${siteUrl}/images/banners/${banner.value.bannerId}.webp`
+        ? `${siteUrl}/images/banners/${banner.value.bannerId}.png`
         : `${siteUrl}/og.png`,
   })
 
@@ -843,7 +853,7 @@
           description: t('meta.description.banner_detail'),
           url: `${siteUrl}${localePath(`/banner/${route.params.id}`)}`,
           image: banner.value
-            ? `${siteUrl}/images/banners/${banner.value.bannerId}.webp`
+            ? `${siteUrl}/images/banners/${banner.value.bannerId}.png`
             : `${siteUrl}/og.png`,
           isPartOf: {
             '@type': 'CollectionPage',

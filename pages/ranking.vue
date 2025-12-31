@@ -377,7 +377,7 @@
 
         return h('div', { class: 'flex flex-col gap-2 py-1' }, [
           h('img', {
-            src: `/images/banners/thumbnails/${row.banner_id}.webp`,
+            src: `/images/banners/thumbnails/${row.banner_id}.png`,
             alt: t(`banner.${row.banner_id}.name`),
             class: 'w-16 h-8 rounded object-cover flex-shrink-0',
           }),
@@ -487,7 +487,7 @@
 
         return h('div', { class: 'flex items-center gap-3' }, [
           h('img', {
-            src: `/images/banners/thumbnails/${row.banner_id}.webp`,
+            src: `/images/banners/thumbnails/${row.banner_id}.png`,
             alt: t(`banner.${row.banner_id}.name`),
             class: 'w-20 h-10 rounded object-cover flex-shrink-0',
           }),

@@ -120,7 +120,7 @@
   const outfitImages = computed(() => {
     const images = []
     images.push({
-      src: `/images/outfits/${props.outfitId}.webp`,
+      src: `/images/outfits/${props.outfitId}.png`,
       alt: `${t(`outfit.${props.outfitId}.name`)} Base`,
       level: 0,
     })
@@ -129,7 +129,7 @@
     const maxLevel = props.rarity === 5 ? 4 : 2
     for (let i = 2; i <= maxLevel; i++) {
       images.push({
-        src: `/images/outfits/${props.outfitId}_LV${i}.webp`,
+        src: `/images/outfits/${props.outfitId}_LV${i}.png`,
         alt: `${t(`outfit.${props.outfitId}.name`)} LV${i}`,
         level: i,
       })
@@ -137,7 +137,7 @@
 
     // Add LV1 (glowed up) image
     images.push({
-      src: `/images/outfits/${props.outfitId}_LV1.webp`,
+      src: `/images/outfits/${props.outfitId}_LV1.png`,
       alt: `${t(`outfit.${props.outfitId}.name`)} LV1`,
       level: 'glow',
     })

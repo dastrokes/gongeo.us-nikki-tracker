@@ -11,8 +11,8 @@ export const BANNER_DATA: BannerData = {
   1: {
     bannerId: 1,
     bannerType: 1,
-    outfit4StarId: ['S0056', 'S0058', 'S0084', 'S0092'],
-    outfit5StarId: ['S0033', 'S0093', 'S0145', 'S0165'],
+    outfit4StarId: ['10056', '10058', '10084', '10092'],
+    outfit5StarId: ['10033', '10093', '10145', '10165'],
     runs: [
       {
         version: '1.0.0',
@@ -24,8 +24,8 @@ export const BANNER_DATA: BannerData = {
   2: {
     bannerId: 2,
     bannerType: 2,
-    outfit4StarId: ['S0164'],
-    outfit5StarId: ['S0126'],
+    outfit4StarId: ['10164'],
+    outfit5StarId: ['10126'],
     runs: [
       {
         version: '1.0.1',
@@ -42,8 +42,8 @@ export const BANNER_DATA: BannerData = {
   3: {
     bannerId: 3,
     bannerType: 2,
-    outfit4StarId: ['S0163'],
-    outfit5StarId: ['S0161'],
+    outfit4StarId: ['10163'],
+    outfit5StarId: ['10161'],
     runs: [
       {
         version: '1.0.1',
@@ -60,7 +60,7 @@ export const BANNER_DATA: BannerData = {
   4: {
     bannerId: 4,
     bannerType: 3,
-    outfit4StarId: ['S0153'],
+    outfit4StarId: ['10153'],
     outfit5StarId: [],
     runs: [
       {
@@ -79,7 +79,7 @@ export const BANNER_DATA: BannerData = {
   5: {
     bannerId: 5,
     bannerType: 3,
-    outfit4StarId: ['S0107'],
+    outfit4StarId: ['10107'],
     outfit5StarId: [],
     runs: [
       {
@@ -93,8 +93,8 @@ export const BANNER_DATA: BannerData = {
   6: {
     bannerId: 6,
     bannerType: 2,
-    outfit4StarId: ['S0166'],
-    outfit5StarId: ['S0129'],
+    outfit4StarId: ['10166'],
+    outfit5StarId: ['10129'],
     runs: [
       {
         version: '1.1.1',
@@ -106,7 +106,7 @@ export const BANNER_DATA: BannerData = {
   7: {
     bannerId: 7,
     bannerType: 3,
-    outfit4StarId: ['S0179'],
+    outfit4StarId: ['10179'],
     outfit5StarId: [],
     runs: [
       {
@@ -120,7 +120,7 @@ export const BANNER_DATA: BannerData = {
   8: {
     bannerId: 8,
     bannerType: 3,
-    outfit4StarId: ['S0181'],
+    outfit4StarId: ['10181'],
     outfit5StarId: [],
     runs: [
       {
@@ -134,8 +134,8 @@ export const BANNER_DATA: BannerData = {
   9: {
     bannerId: 9,
     bannerType: 2,
-    outfit4StarId: ['S0096'],
-    outfit5StarId: ['S0117'],
+    outfit4StarId: ['10096'],
+    outfit5StarId: ['10117'],
     runs: [
       {
         version: '1.2.1',
@@ -147,8 +147,8 @@ export const BANNER_DATA: BannerData = {
   10: {
     bannerId: 10,
     bannerType: 2,
-    outfit4StarId: ['S0097'],
-    outfit5StarId: ['S0001'],
+    outfit4StarId: ['10097'],
+    outfit5StarId: ['10001'],
     runs: [
       {
         version: '1.2.1',
@@ -160,7 +160,7 @@ export const BANNER_DATA: BannerData = {
   11: {
     bannerId: 11,
     bannerType: 3,
-    outfit4StarId: ['S0227'],
+    outfit4StarId: ['10227'],
     outfit5StarId: [],
     runs: [
       {
@@ -174,7 +174,7 @@ export const BANNER_DATA: BannerData = {
   12: {
     bannerId: 12,
     bannerType: 3,
-    outfit4StarId: ['S0228'],
+    outfit4StarId: ['10228'],
     outfit5StarId: [],
     runs: [
       {
@@ -188,8 +188,8 @@ export const BANNER_DATA: BannerData = {
   13: {
     bannerId: 13,
     bannerType: 2,
-    outfit4StarId: ['S0197'],
-    outfit5StarId: ['S0183'],
+    outfit4StarId: ['10197'],
+    outfit5StarId: ['10183'],
     runs: [
       {
         version: '1.3.1',
@@ -201,7 +201,7 @@ export const BANNER_DATA: BannerData = {
   14: {
     bannerId: 14,
     bannerType: 3,
-    outfit4StarId: ['S0123'],
+    outfit4StarId: ['10123'],
     outfit5StarId: [],
     runs: [
       {
@@ -215,7 +215,7 @@ export const BANNER_DATA: BannerData = {
   15: {
     bannerId: 15,
     bannerType: 3,
-    outfit4StarId: ['S0132'],
+    outfit4StarId: ['10132'],
     outfit5StarId: [],
     runs: [
       {
@@ -229,8 +229,8 @@ export const BANNER_DATA: BannerData = {
   16: {
     bannerId: 16,
     bannerType: 2,
-    outfit4StarId: ['S0226'],
-    outfit5StarId: ['S0223'],
+    outfit4StarId: ['10226'],
+    outfit5StarId: ['10223'],
     runs: [
       {
         version: '1.4.1',
@@ -242,7 +242,7 @@ export const BANNER_DATA: BannerData = {
   17: {
     bannerId: 17,
     bannerType: 3,
-    outfit4StarId: ['S0114'],
+    outfit4StarId: ['10114'],
     outfit5StarId: [],
     runs: [
       {
@@ -256,7 +256,7 @@ export const BANNER_DATA: BannerData = {
   18: {
     bannerId: 18,
     bannerType: 3,
-    outfit4StarId: ['S0105'],
+    outfit4StarId: ['10105'],
     outfit5StarId: [],
     runs: [
       {
@@ -270,8 +270,8 @@ export const BANNER_DATA: BannerData = {
   19: {
     bannerId: 19,
     bannerType: 2,
-    outfit4StarId: ['S0208'],
-    outfit5StarId: ['S0162'],
+    outfit4StarId: ['10208'],
+    outfit5StarId: ['10162'],
     runs: [
       {
         version: '1.5.1',
@@ -283,8 +283,8 @@ export const BANNER_DATA: BannerData = {
   20: {
     bannerId: 20,
     bannerType: 2,
-    outfit4StarId: ['S0113'],
-    outfit5StarId: ['S0178'],
+    outfit4StarId: ['10113'],
+    outfit5StarId: ['10178'],
     runs: [
       {
         version: '1.5.1',
@@ -296,7 +296,7 @@ export const BANNER_DATA: BannerData = {
   21: {
     bannerId: 21,
     bannerType: 3,
-    outfit4StarId: ['S0143'],
+    outfit4StarId: ['10143'],
     outfit5StarId: [],
     runs: [
       {
@@ -310,7 +310,7 @@ export const BANNER_DATA: BannerData = {
   22: {
     bannerId: 22,
     bannerType: 3,
-    outfit4StarId: ['S0167'],
+    outfit4StarId: ['10167'],
     outfit5StarId: [],
     runs: [
       {
@@ -324,8 +324,8 @@ export const BANNER_DATA: BannerData = {
   23: {
     bannerId: 23,
     bannerType: 2,
-    outfit4StarId: ['S0216'],
-    outfit5StarId: ['S0154'],
+    outfit4StarId: ['10216'],
+    outfit5StarId: ['10154'],
     runs: [
       {
         version: '1.6.1',
@@ -337,7 +337,7 @@ export const BANNER_DATA: BannerData = {
   24: {
     bannerId: 24,
     bannerType: 3,
-    outfit4StarId: ['S0198'],
+    outfit4StarId: ['10198'],
     outfit5StarId: [],
     runs: [
       {
@@ -351,7 +351,7 @@ export const BANNER_DATA: BannerData = {
   25: {
     bannerId: 25,
     bannerType: 3,
-    outfit4StarId: ['S0238'],
+    outfit4StarId: ['10238'],
     outfit5StarId: [],
     runs: [
       {
@@ -365,8 +365,8 @@ export const BANNER_DATA: BannerData = {
   26: {
     bannerId: 26,
     bannerType: 2,
-    outfit4StarId: ['S0232'],
-    outfit5StarId: ['S0231'],
+    outfit4StarId: ['10232'],
+    outfit5StarId: ['10231'],
     runs: [
       {
         version: '1.7.1',
@@ -378,7 +378,7 @@ export const BANNER_DATA: BannerData = {
   27: {
     bannerId: 27,
     bannerType: 3,
-    outfit4StarId: ['S0192'],
+    outfit4StarId: ['10192'],
     outfit5StarId: [],
     runs: [
       {
@@ -392,7 +392,7 @@ export const BANNER_DATA: BannerData = {
   28: {
     bannerId: 28,
     bannerType: 3,
-    outfit4StarId: ['S0175'],
+    outfit4StarId: ['10175'],
     outfit5StarId: [],
     runs: [
       {
@@ -406,8 +406,8 @@ export const BANNER_DATA: BannerData = {
   29: {
     bannerId: 29,
     bannerType: 2,
-    outfit4StarId: ['S0176'],
-    outfit5StarId: ['S0330'],
+    outfit4StarId: ['10176'],
+    outfit5StarId: ['10330'],
     runs: [
       {
         version: '1.8.1',
@@ -419,8 +419,8 @@ export const BANNER_DATA: BannerData = {
   30: {
     bannerId: 30,
     bannerType: 2,
-    outfit4StarId: ['S0173'],
-    outfit5StarId: ['S0331'],
+    outfit4StarId: ['10173'],
+    outfit5StarId: ['10331'],
     runs: [
       {
         version: '1.8.1',
@@ -432,7 +432,7 @@ export const BANNER_DATA: BannerData = {
   31: {
     bannerId: 31,
     bannerType: 3,
-    outfit4StarId: ['S0204'],
+    outfit4StarId: ['10204'],
     outfit5StarId: [],
     runs: [
       {
@@ -446,7 +446,7 @@ export const BANNER_DATA: BannerData = {
   32: {
     bannerId: 32,
     bannerType: 3,
-    outfit4StarId: ['S0333'],
+    outfit4StarId: ['10333'],
     outfit5StarId: [],
     runs: [
       {
@@ -460,8 +460,8 @@ export const BANNER_DATA: BannerData = {
   33: {
     bannerId: 33,
     bannerType: 2,
-    outfit4StarId: ['S0085'],
-    outfit5StarId: ['S0239'],
+    outfit4StarId: ['10085'],
+    outfit5StarId: ['10239'],
     runs: [
       {
         version: '1.9.1',
@@ -473,7 +473,7 @@ export const BANNER_DATA: BannerData = {
   34: {
     bannerId: 34,
     bannerType: 3,
-    outfit4StarId: ['S0332'],
+    outfit4StarId: ['10332'],
     outfit5StarId: [],
     runs: [
       {
@@ -487,7 +487,7 @@ export const BANNER_DATA: BannerData = {
   35: {
     bannerId: 35,
     bannerType: 3,
-    outfit4StarId: ['S0313'],
+    outfit4StarId: ['10313'],
     outfit5StarId: [],
     runs: [
       {
@@ -501,8 +501,8 @@ export const BANNER_DATA: BannerData = {
   36: {
     bannerId: 36,
     bannerType: 2,
-    outfit4StarId: ['S0252'],
-    outfit5StarId: ['S0250'],
+    outfit4StarId: ['10252'],
+    outfit5StarId: ['10250'],
     runs: [
       {
         version: '1.10.1',
@@ -514,7 +514,7 @@ export const BANNER_DATA: BannerData = {
   37: {
     bannerId: 37,
     bannerType: 3,
-    outfit4StarId: ['S0258'],
+    outfit4StarId: ['10258'],
     outfit5StarId: [],
     runs: [
       {
@@ -528,7 +528,7 @@ export const BANNER_DATA: BannerData = {
   38: {
     bannerId: 38,
     bannerType: 3,
-    outfit4StarId: ['S0251'],
+    outfit4StarId: ['10251'],
     outfit5StarId: [],
     runs: [
       {
@@ -542,8 +542,8 @@ export const BANNER_DATA: BannerData = {
   39: {
     bannerId: 39,
     bannerType: 2,
-    outfit4StarId: ['S0279'],
-    outfit5StarId: ['S0289'],
+    outfit4StarId: ['10279'],
+    outfit5StarId: ['10289'],
     runs: [
       {
         version: '1.11.1',
@@ -555,7 +555,7 @@ export const BANNER_DATA: BannerData = {
   40: {
     bannerId: 40,
     bannerType: 3,
-    outfit4StarId: ['S0049'],
+    outfit4StarId: ['10049'],
     outfit5StarId: [],
     runs: [
       {
@@ -569,7 +569,7 @@ export const BANNER_DATA: BannerData = {
   41: {
     bannerId: 41,
     bannerType: 3,
-    outfit4StarId: ['S0234'],
+    outfit4StarId: ['10234'],
     outfit5StarId: [],
     runs: [
       {
@@ -583,8 +583,8 @@ export const BANNER_DATA: BannerData = {
   42: {
     bannerId: 42,
     bannerType: 2,
-    outfit4StarId: ['S0358'],
-    outfit5StarId: ['S0350'],
+    outfit4StarId: ['10358'],
+    outfit5StarId: ['10350'],
     runs: [
       {
         version: '2.0.1',
@@ -596,8 +596,8 @@ export const BANNER_DATA: BannerData = {
   43: {
     bannerId: 43,
     bannerType: 2,
-    outfit4StarId: ['S0282'],
-    outfit5StarId: ['S0349'],
+    outfit4StarId: ['10282'],
+    outfit5StarId: ['10349'],
     runs: [
       {
         version: '2.0.1',
@@ -609,7 +609,7 @@ export const BANNER_DATA: BannerData = {
   44: {
     bannerId: 44,
     bannerType: 3,
-    outfit4StarId: ['S0324'],
+    outfit4StarId: ['10324'],
     outfit5StarId: [],
     runs: [
       {
@@ -623,7 +623,7 @@ export const BANNER_DATA: BannerData = {
   45: {
     bannerId: 45,
     bannerType: 3,
-    outfit4StarId: ['S0360'],
+    outfit4StarId: ['10360'],
     outfit5StarId: [],
     runs: [
       {

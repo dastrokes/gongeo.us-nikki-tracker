@@ -2,6 +2,7 @@ import { createClient } from '@supabase/supabase-js'
 
 let clientInstance: ReturnType<typeof createClient> | null = null
 let serverInstance: ReturnType<typeof createClient> | null = null
+let dataClientInstance: ReturnType<typeof createClient> | null = null
 
 export const useSupabaseClient = (mode: 'client' | 'server' = 'client') => {
   const config = useRuntimeConfig()
@@ -23,4 +24,20 @@ export const useSupabaseClient = (mode: 'client' | 'server' = 'client') => {
     )
   }
   return clientInstance
+}
+
+/**
+ * Supabase client for the data project (outfit/items database)
+ * Uses read-only access with the data project credentials
+ */
+export const useSupabaseDataClient = () => {
+  const config = useRuntimeConfig()
+
+  if (!dataClientInstance) {
+    dataClientInstance = createClient(
+      config.public.supabaseDataUrl,
+      config.public.supabaseDataAnonKey
+    )
+  }
+  return dataClientInstance
 }

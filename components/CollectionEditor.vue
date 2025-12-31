@@ -51,14 +51,14 @@
               <n-tooltip>
                 <template #trigger>
                   <NuxtImg
-                    :src="`/images/items/${itemId}.webp`"
+                    :src="`/images/items/${itemId}.png`"
                     :alt="t(`item.${itemId}.name`)"
                     class="w-full aspect-square object-cover rounded-md"
                     width="120"
                     height="120"
                     fit="cover"
                     loading="lazy"
-                    placeholder="/images/loading.webp"
+                    placeholder="/images/loading.png"
                     sizes="80px sm:120px"
                   />
                 </template>

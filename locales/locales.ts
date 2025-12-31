@@ -39,6 +39,7 @@ export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
     name: 'English',
     files: [
       'en/common.json',
+      'en/banner.json',
       'en/outfit.json',
       'en/item.json',
       'en/version.json',
@@ -50,6 +51,7 @@ export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
     name: 'Deutsch',
     files: [
       'de/common.json',
+      'de/banner.json',
       'de/outfit.json',
       'de/item.json',
       'de/version.json',
@@ -61,6 +63,7 @@ export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
     name: 'Español',
     files: [
       'es/common.json',
+      'es/banner.json',
       'es/outfit.json',
       'es/item.json',
       'es/version.json',
@@ -72,6 +75,7 @@ export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
     name: 'Français',
     files: [
       'fr/common.json',
+      'fr/banner.json',
       'fr/outfit.json',
       'fr/item.json',
       'fr/version.json',
@@ -83,6 +87,7 @@ export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
     name: 'Bahasa Indonesia',
     files: [
       'id/common.json',
+      'id/banner.json',
       'id/outfit.json',
       'id/item.json',
       'id/version.json',
@@ -94,6 +99,7 @@ export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
     name: 'Italiano',
     files: [
       'it/common.json',
+      'it/banner.json',
       'it/outfit.json',
       'it/item.json',
       'it/version.json',
@@ -105,6 +111,7 @@ export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
     name: '日本語',
     files: [
       'ja/common.json',
+      'ja/banner.json',
       'ja/outfit.json',
       'ja/item.json',
       'ja/version.json',
@@ -116,6 +123,7 @@ export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
     name: '한국어',
     files: [
       'ko/common.json',
+      'ko/banner.json',
       'ko/outfit.json',
       'ko/item.json',
       'ko/version.json',
@@ -127,6 +135,7 @@ export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
     name: 'Português',
     files: [
       'pt/common.json',
+      'pt/banner.json',
       'pt/outfit.json',
       'pt/item.json',
       'pt/version.json',
@@ -138,6 +147,7 @@ export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
     name: 'ไทย',
     files: [
       'th/common.json',
+      'th/banner.json',
       'th/outfit.json',
       'th/item.json',
       'th/version.json',
@@ -149,6 +159,7 @@ export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
     name: '繁體中文',
     files: [
       'tw/common.json',
+      'tw/banner.json',
       'tw/outfit.json',
       'tw/item.json',
       'tw/version.json',
@@ -160,6 +171,7 @@ export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
     name: '简体中文',
     files: [
       'zh/common.json',
+      'zh/banner.json',
       'zh/outfit.json',
       'zh/item.json',
       'zh/version.json',

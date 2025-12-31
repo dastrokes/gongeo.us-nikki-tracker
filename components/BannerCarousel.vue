@@ -40,7 +40,7 @@
       >
         <NuxtImg
           v-if="index === 0"
-          :src="`/images/banners/${banner.bannerId}.webp`"
+          :src="`/images/banners/${banner.bannerId}.png`"
           :alt="t(`banner.${banner.bannerId}.name`)"
           class="w-full h-full object-cover"
           width="800"
@@ -53,7 +53,7 @@
         />
         <NuxtImg
           v-else
-          :src="`/images/banners/${banner.bannerId}.webp`"
+          :src="`/images/banners/${banner.bannerId}.png`"
           :alt="t(`banner.${banner.bannerId}.name`)"
           class="w-full h-full object-cover"
           width="800"

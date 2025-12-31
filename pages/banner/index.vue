@@ -16,7 +16,7 @@
               <n-tooltip trigger="hover">
                 <template #trigger>
                   <NuxtImg
-                    :src="`/images/banners/thumbnails/${banner.bannerId}.webp`"
+                    :src="`/images/banners/thumbnails/${banner.bannerId}.png`"
                     :alt="t(`banner.${banner.bannerId}.name`)"
                     class="w-24 h-12 rounded-lg object-cover"
                     width="100"
@@ -170,38 +170,50 @@
                     :key="outfitId"
                     class="inline-flex flex-col"
                   >
-                    <n-tag
-                      size="large"
-                      type="warning"
-                      :bordered="false"
-                      round
+                    <NuxtLink
+                      no-prefetch
+                      :to="localePath(`/outfit/${outfitId}`)"
+                      class="inline w-fit hover:opacity-80 transition-opacity"
                     >
-                      <span class="align-top"
-                        >{{ t(`outfit.${outfitId}.name`) }} 5</span
+                      <n-tag
+                        size="large"
+                        type="warning"
+                        :bordered="false"
+                        round
                       >
-                      <span class="ml-1"
-                        ><n-icon><Star /></n-icon
-                      ></span>
-                    </n-tag>
+                        <span class="align-top"
+                          >{{ t(`outfit.${outfitId}.name`) }} 5</span
+                        >
+                        <span class="ml-1"
+                          ><n-icon><Star /></n-icon
+                        ></span>
+                      </n-tag>
+                    </NuxtLink>
                   </div>
                   <div
                     v-for="outfitId in banner.outfit4StarId"
                     :key="outfitId"
                     class="inline-flex flex-col"
                   >
-                    <n-tag
-                      size="large"
-                      type="info"
-                      :bordered="false"
-                      round
+                    <NuxtLink
+                      no-prefetch
+                      :to="localePath(`/outfit/${outfitId}`)"
+                      class="inline w-fit hover:opacity-80 transition-opacity"
                     >
-                      <span class="align-top"
-                        >{{ t(`outfit.${outfitId}.name`) }} 4</span
+                      <n-tag
+                        size="large"
+                        type="info"
+                        :bordered="false"
+                        round
                       >
-                      <span class="ml-1"
-                        ><n-icon><Star /></n-icon
-                      ></span>
-                    </n-tag>
+                        <span class="align-top"
+                          >{{ t(`outfit.${outfitId}.name`) }} 4</span
+                        >
+                        <span class="ml-1"
+                          ><n-icon><Star /></n-icon
+                        ></span>
+                      </n-tag>
+                    </NuxtLink>
                   </div>
                 </div>
               </div>
@@ -215,7 +227,7 @@
                     class="w-full aspect-[2/1] min-h-[140px] sm:min-h-[330px] relative overflow-hidden rounded-lg hover:opacity-95 transition-opacity"
                   >
                     <NuxtImg
-                      :src="`/images/banners/${banner.bannerId}.webp`"
+                      :src="`/images/banners/${banner.bannerId}.png`"
                       :alt="t(`banner.${banner.bannerId}.name`)"
                       class="absolute inset-0 w-full h-full object-cover"
                       width="800"

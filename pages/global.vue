@@ -982,7 +982,7 @@
                     ${t('global.charts.total')}: <strong>${total}</strong>
                   </div>
                   <img
-                    src="/images/banners/thumbnails/${bannerId}.webp"
+                    src="/images/banners/thumbnails/${bannerId}.png"
                     alt="${banner?.bannerId ? t(`banner.${banner.bannerId}.name`) : ''}"
                     style="width: 200px; height: 100px; object-fit: cover; border-radius: 4px; margin-top: 8px;"
                   />
@@ -1370,7 +1370,7 @@
         height: imageSize,
         width: imageSize,
         backgroundColor: {
-          image: `/images/items/${itemId}.webp`,
+          image: `/images/items/${itemId}.png`,
         },
         align: 'center',
       }

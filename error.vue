@@ -9,7 +9,7 @@
     >
       <template #icon>
         <NuxtImg
-          src="/images/404.webp"
+          src="/images/404.png"
           alt="404"
           class="w-2/3 h-2/3 object-cover"
           width="400"

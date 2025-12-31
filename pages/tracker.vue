@@ -877,26 +877,32 @@
                   :key="outfit.id"
                 >
                   <div class="flex items-center gap-2">
-                    <n-tag
-                      :type="outfit.rarity === 5 ? 'warning' : 'info'"
-                      :bordered="false"
-                      round
-                      size="small"
-                      class="px-2"
+                    <NuxtLink
+                      no-prefetch
+                      :to="localePath(`/outfit/${outfit.id}`)"
+                      class="inline w-fit hover:opacity-80 transition-opacity"
                     >
-                      <span class="align-top"
-                        >{{ t(`outfit.${outfit.id}.name`) }}
-                        {{ outfit.rarity }}</span
+                      <n-tag
+                        :type="outfit.rarity === 5 ? 'warning' : 'info'"
+                        :bordered="false"
+                        round
+                        size="small"
+                        class="px-2"
                       >
-                      <span class="ml-1"
-                        ><n-icon><Star /></n-icon
-                      ></span>
-                      <span
-                        v-if="outfit.completion >= 1"
-                        class="ml-1"
-                        ><n-icon><CheckCircle /></n-icon
-                      ></span>
-                    </n-tag>
+                        <span class="align-top"
+                          >{{ t(`outfit.${outfit.id}.name`) }}
+                          {{ outfit.rarity }}</span
+                        >
+                        <span class="ml-1"
+                          ><n-icon><Star /></n-icon
+                        ></span>
+                        <span
+                          v-if="outfit.completion >= 1"
+                          class="ml-1"
+                          ><n-icon><CheckCircle /></n-icon
+                        ></span>
+                      </n-tag>
+                    </NuxtLink>
                   </div>
                 </template>
               </div>

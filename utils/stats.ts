@@ -84,5 +84,5 @@ export function getOutfitData(outfitId: string): Outfit | null {
 // Helper to derive outfit ID from an item ID
 export function getOutfitIdFromItemId(itemId: string): string {
   const last4Digits = itemId.slice(-4)
-  return `S${last4Digits}`
+  return `1${last4Digits}`
 }

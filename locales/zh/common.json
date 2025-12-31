@@ -10,7 +10,9 @@
     "vote": "卡池投票",
     "faq": "常见问题",
     "about": "关于本站",
-    "nuan5pro": "无暖助手"
+    "nuan5pro": "无暖助手",
+    "outfits": "套装",
+    "items": "部件"
   },
   "social": {
     "discord": "加入我们的 Discord 社区",
@@ -30,7 +32,11 @@
       "banner": "查看完整的无限暖暖卡池历史记录，包含当前和过往卡池，限定和常驻卡池、套装详情、持续时间及复刻时间等信息。",
       "banner_detail": "查看特定无限暖暖卡池的详细信息，包括抽卡统计数据、套装完成状态、套装详情和单个部件详情。",
       "faq": "查看关于暖暖共鸣录的常见问题解答，包括数据隐私、导入方式和使用指南等信息。",
-      "about": "了解暖暖共鸣录的相关信息，包括免责声明、隐私政策等信息。"
+      "about": "了解暖暖共鸣录的相关信息，包括免责声明、隐私政策等信息。",
+      "outfits": "浏览所有无限暖暖套装。查看套装详情、品质评级和每个套装的组件部件。",
+      "items": "浏览所有无限暖暖部件。查看部件详情、品质评级以及包含该部件的套装。",
+      "outfit_detail": "查看{name}的详细信息，包括组件部件和品质评级。",
+      "item_detail": "查看{name}的详细信息，包括相关套装和品质评级。"
     }
   },
   "index": {
@@ -399,6 +405,12 @@
       "backpieces": "背饰",
       "rings": "戒指",
       "armDecorations": "臂饰",
+      "baseMakeup": "底妆",
+      "eyebrows": "眉毛",
+      "eyelashes": "睫毛",
+      "contactLenses": "美瞳",
+      "lips": "唇妆",
+      "skinTones": "肤色",
       "unknown": "未知"
     }
   },
@@ -598,5 +610,43 @@
   },
   "language_switcher": {
     "help_translate": "帮助翻译"
+  },
+  "outfit": {
+    "search_placeholder": "搜索套装...",
+    "filter_all": "全部",
+    "error_title": "加载套装失败",
+    "error_description": "无法加载套装数据。请检查您的连接并重试。",
+    "retry": "重试",
+    "no_results_title": "未找到套装",
+    "no_results_description": "没有符合您搜索条件的套装。",
+    "breadcrumb_list": "套装",
+    "detail_loading": "加载中...",
+    "detail_description": "描述",
+    "detail_component_items": "组件物品",
+    "back_to_list": "返回套装列表",
+    "not_found_title": "未找到套装",
+    "not_found_description": "找不到此套装。它可能已被删除。",
+    "quality_5_star": "5星套装",
+    "quality_4_star": "4星套装",
+    "quality_3_star": "3星套装"
+  },
+  "item": {
+    "search_placeholder": "搜索物品...",
+    "filter_all": "全部",
+    "filter_type": "按类型筛选",
+    "filter_all_types": "全部类型",
+    "error_title": "加载物品失败",
+    "error_description": "无法加载物品数据。请检查您的连接并重试。",
+    "retry": "重试",
+    "breadcrumb_list": "物品",
+    "detail_loading": "加载中...",
+    "detail_description": "描述",
+    "detail_related_outfits": "相关套装",
+    "back_to_list": "返回物品列表",
+    "not_found_title": "未找到物品",
+    "not_found_description": "找不到此物品。它可能已被删除。",
+    "quality_5_star": "5星物品",
+    "quality_4_star": "4星物品",
+    "quality_3_star": "3星物品"
   }
 }

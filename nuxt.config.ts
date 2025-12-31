@@ -55,6 +55,8 @@ export default defineNuxtConfig({
     public: {
       supabaseUrl: process.env.SUPABASE_DATABASE_URL,
       supabaseAnonKey: process.env.SUPABASE_ANON_KEY,
+      supabaseDataUrl: process.env.SUPABASE_DATA_URL,
+      supabaseDataAnonKey: process.env.SUPABASE_DATA_ANON_KEY,
       gongeousApiKey: process.env.GONGEOUS_API_KEY,
       siteUrl: process.env.NUXT_PUBLIC_SITE_URL,
     },
@@ -62,7 +64,11 @@ export default defineNuxtConfig({
 
   image: {
     dir: 'public',
-    provider: process.env.NODE_ENV === 'production' ? 'netlify' : 'ipx',
+    provider: process.env.NODE_ENV === 'production' ? 'imagekit' : 'ipx',
+    imagekit: {
+      baseURL: 'https://ik.imagekit.io/images',
+    },
+    format: ['webp'],
     quality: 80,
     screens: {
       xs: 320,

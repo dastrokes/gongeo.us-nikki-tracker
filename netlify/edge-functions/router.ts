@@ -69,7 +69,7 @@ export const config: Config = {
     '/_fonts/**.woff2',
 
     // Public images and static content
-    '/images/**.webp',
+    '/images/**.png',
     '/.netlify/images**', // Netlify Image CDN endpoint
     '/_ipx/**',
 

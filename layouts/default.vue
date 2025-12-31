@@ -63,7 +63,7 @@
           :indent="16"
           :root-indent="16"
           :options="topMenuOptions"
-          :value="route.path.split('/').pop()"
+          :value="activeMenuItem"
           @update:value="handleMenuSelect"
         />
 
@@ -165,6 +165,8 @@
     Discord,
     Magic,
     Poll,
+    Tshirt,
+    Gem,
   } from '@vicons/fa'
   import { h, ref, computed, watch } from 'vue'
   import UserProfile from '~/components/UserProfile.vue'
@@ -296,6 +298,16 @@
       icon: renderIcon(CalendarAlt),
     },
     {
+      label: t('navigation.outfits'),
+      key: 'outfit',
+      icon: renderIcon(Tshirt),
+    },
+    {
+      label: t('navigation.items'),
+      key: 'item',
+      icon: renderIcon(Gem),
+    },
+    {
       label: t('navigation.vote'),
       key: 'ranking',
       icon: renderIcon(Poll),
@@ -374,6 +386,35 @@
       icon: renderIcon(Netlify),
     },
   ])
+
+  const activeMenuItem = computed(() => {
+    // Get the path without locale prefix
+    const pathSegments = route.path.split('/').filter(Boolean)
+
+    // Remove locale prefix if present
+    const locales = [
+      'en',
+      'de',
+      'es',
+      'fr',
+      'id',
+      'it',
+      'ja',
+      'ko',
+      'pt',
+      'th',
+      'tw',
+      'zh',
+    ]
+    const firstSegment = pathSegments[0] || ''
+    const isLocalePrefix = locales.includes(firstSegment)
+
+    // Get the main route segment (after locale if present)
+    const mainSegment = isLocalePrefix ? pathSegments[1] : pathSegments[0]
+
+    // Return the main segment or empty string for home
+    return mainSegment || ''
+  })
 
   const handleMenuSelect = (key: string) => {
     router.push(localePath(`/${key}`))

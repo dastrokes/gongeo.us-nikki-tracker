@@ -1,0 +1,17 @@
+import type { Outfit } from '~/types/outfit'
+
+const outfit: Outfit = {
+  id: '10358',
+  items: [
+    '1020100358',
+    '1020900358',
+    '1020200358',
+    '1020600358',
+    '1020720358',
+    '1020730358',
+    '1020770358',
+    '1020920358',
+  ],
+}
+
+export default outfit

@@ -115,12 +115,12 @@
 
   const outfitImages = computed(() => {
     const images = new Map<number, string>()
-    images.set(0, `/images/outfits/${props.outfitId}.webp`)
+    images.set(0, `/images/outfits/${props.outfitId}.png`)
 
     // Add level variants based on rarity
     const maxLevel = props.rarity === 5 ? 4 : 2
     for (let i = 2; i <= maxLevel; i++) {
-      images.set(i, `/images/outfits/${props.outfitId}_LV${i}.webp`)
+      images.set(i, `/images/outfits/${props.outfitId}_LV${i}.png`)
     }
 
     return images

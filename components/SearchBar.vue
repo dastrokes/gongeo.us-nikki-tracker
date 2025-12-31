@@ -80,12 +80,12 @@
       switch (result.type) {
         case 'banner':
           return {
-            src: `/images/banners/thumbnails/${bannerId}.webp`,
+            src: `/images/banners/thumbnails/${bannerId}.png`,
             class: 'w-20 h-10 my-0.5 rounded object-cover flex-shrink-0',
           }
         case 'outfit':
           return {
-            src: `/images/outfits/${result.id}.webp`,
+            src: `/images/outfits/${result.id}.png`,
             class: `w-8 h-12 my-0.5 rounded object-cover flex-shrink-0 ${getThumbnailBackgroundClass(result.rarity)}`,
           }
         case 'item':

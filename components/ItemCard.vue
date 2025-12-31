@@ -1,95 +1,101 @@
 <template>
-  <n-tooltip placement="top">
-    <template #trigger>
-      <n-card
-        :class="[
-          getCardGradient(item.rarity),
-          { 'opacity-60 grayscale': item.count === 0 && info },
-        ]"
-        :bordered="false"
-        size="small"
-        content-style="padding: 0;"
-        class="relative overflow-hidden rounded-md transition-all duration-300 ease-in-out aspect-square ring-1 min-h-[50px] xl:min-h-[80px]"
-      >
-        <NuxtImg
-          v-if="info"
-          :src="`/images/items/${item.itemId}.webp`"
-          :alt="t(`item.${item.itemId}.name`)"
-          class="w-full h-full object-cover aspect-square"
-          width="120"
-          height="120"
-          fit="cover"
-          loading="lazy"
-          sizes="80px sm:120px"
-        />
-        <NuxtImg
-          v-else
-          :src="`/images/items/${item.itemId}.webp`"
-          :alt="t(`item.${item.itemId}.name`)"
-          class="w-full h-full object-cover aspect-square"
-          width="120"
-          height="120"
-          fit="cover"
-          loading="lazy"
-          placeholder="/images/loading.webp"
-          sizes="80px sm:120px"
-        />
-        <n-tag
-          v-if="item.count > 0 && info"
-          size="tiny"
-          :bordered="false"
-          class="absolute bottom-1 right-1 scale-75 sm:scale-90 origin-bottom-right text-white shadow-sm rounded-full text-xs opacity-80"
-          :style="{
-            backgroundColor: getPullColor(
-              item.pullsToObtain,
-              item.rarity,
-              item.bannerId
-            ),
-          }"
-        >
-          <span v-if="item.count > 0 && item.pullsToObtain > 0">
-            {{ item.pullsToObtain }}
-          </span>
-          <n-icon
-            v-else
-            class="flex items-center justify-center"
-            size="8"
-          >
-            <Asterisk />
-          </n-icon>
-        </n-tag>
-        <n-tag
-          v-if="item.count > 1 && info"
-          size="tiny"
-          :bordered="false"
-          class="absolute top-1 right-1 scale-75 sm:scale-90 origin-top-right shadow-sm rounded-full text-xs"
+  <NuxtLink
+    no-prefetch
+    :to="localePath(`/item/${item.itemId}`)"
+    class="block hover:opacity-80 transition-opacity"
+  >
+    <n-tooltip placement="top">
+      <template #trigger>
+        <n-card
           :class="[
-            item.rarity === 5
-              ? 'bg-amber-500/80 text-amber-50 opacity-80'
-              : 'bg-blue-500/80 text-blue-50 opacity-80',
+            getCardGradient(item.rarity),
+            { 'opacity-60 grayscale': item.count === 0 && info },
           ]"
+          :bordered="false"
+          size="small"
+          content-style="padding: 0;"
+          class="relative overflow-hidden rounded-md transition-all duration-300 ease-in-out aspect-square ring-1 min-h-[50px] xl:min-h-[80px]"
         >
-          ×{{ item.count }}
-        </n-tag>
-      </n-card>
-    </template>
-    <template #default>
-      <div class="text-center">
-        <div class="font-medium">{{ t(`item.${item.itemId}.name`) }}</div>
-        <div class="text-sm">
-          {{ t(`items.types.${itemType}`) }}
+          <NuxtImg
+            v-if="info"
+            :src="`/images/items/${item.itemId}.png`"
+            :alt="t(`item.${item.itemId}.name`)"
+            class="w-full h-full object-cover aspect-square"
+            width="120"
+            height="120"
+            fit="cover"
+            loading="lazy"
+            sizes="80px sm:120px"
+          />
+          <NuxtImg
+            v-else
+            :src="`/images/items/${item.itemId}.png`"
+            :alt="t(`item.${item.itemId}.name`)"
+            class="w-full h-full object-cover aspect-square"
+            width="120"
+            height="120"
+            fit="cover"
+            loading="lazy"
+            placeholder="/images/loading.png"
+            sizes="80px sm:120px"
+          />
+          <n-tag
+            v-if="item.count > 0 && info"
+            size="tiny"
+            :bordered="false"
+            class="absolute bottom-1 right-1 scale-75 sm:scale-90 origin-bottom-right text-white shadow-sm rounded-full text-xs opacity-80"
+            :style="{
+              backgroundColor: getPullColor(
+                item.pullsToObtain,
+                item.rarity,
+                item.bannerId
+              ),
+            }"
+          >
+            <span v-if="item.count > 0 && item.pullsToObtain > 0">
+              {{ item.pullsToObtain }}
+            </span>
+            <n-icon
+              v-else
+              class="flex items-center justify-center"
+              size="8"
+            >
+              <Asterisk />
+            </n-icon>
+          </n-tag>
+          <n-tag
+            v-if="item.count > 1 && info"
+            size="tiny"
+            :bordered="false"
+            class="absolute top-1 right-1 scale-75 sm:scale-90 origin-top-right shadow-sm rounded-full text-xs"
+            :class="[
+              item.rarity === 5
+                ? 'bg-amber-500/80 text-amber-50 opacity-80'
+                : 'bg-blue-500/80 text-blue-50 opacity-80',
+            ]"
+          >
+            ×{{ item.count }}
+          </n-tag>
+        </n-card>
+      </template>
+      <template #default>
+        <div class="text-center">
+          <div class="font-medium">{{ t(`item.${item.itemId}.name`) }}</div>
+          <div class="text-sm">
+            {{ t(`items.types.${itemType}`) }}
+          </div>
+          <div
+            v-if="item.count > 0"
+            class="text-sm mt-1"
+          >
+            <span v-if="item.pullIndex > 0">
+              {{ t('items.pull', { number: item.pullIndex }) }}
+            </span>
+          </div>
         </div>
-        <div
-          v-if="item.count > 0"
-          class="text-sm mt-1"
-        >
-          <span v-if="item.pullIndex > 0">
-            {{ t('items.pull', { number: item.pullIndex }) }}
-          </span>
-        </div>
-      </div>
-    </template>
-  </n-tooltip>
+      </template>
+    </n-tooltip>
+  </NuxtLink>
 </template>
 
 <script setup lang="ts">
@@ -106,6 +112,7 @@
   })
 
   const { t } = useI18n()
+  const localePath = useLocalePath()
   const itemType = computed(() => getItemType(props.item.itemId))
 
   const CARD_GRADIENTS = {

@@ -90,7 +90,7 @@
           }
         case 'item':
           return {
-            src: `/images/items/icons/${result.id}.webp`,
+            src: `/images/items/icons/${result.id}.png`,
             class: `w-10 h-10 my-0.5 rounded object-cover flex-shrink-0 ${getThumbnailBackgroundClass(result.rarity)}`,
           }
         default:

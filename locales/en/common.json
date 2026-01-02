@@ -638,6 +638,8 @@
     "error_title": "Failed to Load Items",
     "error_description": "Unable to load item data. Please check your connection and try again.",
     "retry": "Retry",
+    "no_results_title": "No Items Found",
+    "no_results_description": "No items match your search criteria.",
     "breadcrumb_list": "Items",
     "detail_loading": "Loading...",
     "detail_description": "Description",

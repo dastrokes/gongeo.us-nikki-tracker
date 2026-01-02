@@ -28,46 +28,18 @@
               </n-tooltip>
 
               <!-- Previous Banner Navigation -->
-              <n-tooltip
+              <n-button
                 v-if="prevBanner"
-                class="!p-0"
-                content-class="!p-2"
-                trigger="hover"
-                placement="bottom"
+                size="small"
+                text
+                @click="
+                  router.push(localePath(`/banner/${prevBanner.bannerId}`))
+                "
               >
-                <template #trigger>
-                  <n-button
-                    size="small"
-                    text
-                    @click="
-                      router.push(localePath(`/banner/${prevBanner.bannerId}`))
-                    "
-                  >
-                    <template #icon>
-                      <n-icon :depth="3"><ChevronLeft /></n-icon>
-                    </template>
-                  </n-button>
+                <template #icon>
+                  <n-icon :depth="3"><ChevronLeft /></n-icon>
                 </template>
-                <div class="flex flex-col items-center gap-1">
-                  <n-gradient-text
-                    :type="prevBanner.bannerType === 2 ? 'warning' : 'info'"
-                    class="text-sm font-medium"
-                  >
-                    {{ t(`banner.${prevBanner.bannerId}.name`) }}
-                  </n-gradient-text>
-                  <div class="relative w-24 h-12 rounded-lg overflow-hidden">
-                    <NuxtImg
-                      :src="`/images/banners/thumbnails/${prevBanner.bannerId}.png`"
-                      :alt="t(`banner.${prevBanner.bannerId}.name`)"
-                      class="w-full h-full object-cover rounded"
-                      width="100"
-                      height="50"
-                      fit="cover"
-                      loading="lazy"
-                    />
-                  </div>
-                </div>
-              </n-tooltip>
+              </n-button>
 
               <n-gradient-text
                 :size="18"
@@ -78,46 +50,18 @@
               </n-gradient-text>
 
               <!-- Next Banner Navigation -->
-              <n-tooltip
+              <n-button
                 v-if="nextBanner"
-                class="!p-0"
-                content-class="!p-2"
-                trigger="hover"
-                placement="bottom"
+                size="small"
+                text
+                @click="
+                  router.push(localePath(`/banner/${nextBanner.bannerId}`))
+                "
               >
-                <template #trigger>
-                  <n-button
-                    size="small"
-                    text
-                    @click="
-                      router.push(localePath(`/banner/${nextBanner.bannerId}`))
-                    "
-                  >
-                    <template #icon>
-                      <n-icon :depth="3"><ChevronRight /></n-icon>
-                    </template>
-                  </n-button>
+                <template #icon>
+                  <n-icon :depth="3"><ChevronRight /></n-icon>
                 </template>
-                <div class="flex flex-col items-center gap-1">
-                  <n-gradient-text
-                    :type="nextBanner.bannerType === 2 ? 'warning' : 'info'"
-                    class="text-sm font-medium"
-                  >
-                    {{ t(`banner.${nextBanner.bannerId}.name`) }}
-                  </n-gradient-text>
-                  <div class="relative w-24 h-12 rounded-lg overflow-hidden">
-                    <NuxtImg
-                      :src="`/images/banners/thumbnails/${nextBanner.bannerId}.png`"
-                      :alt="t(`banner.${nextBanner.bannerId}.name`)"
-                      class="w-full h-full object-cover rounded"
-                      width="100"
-                      height="50"
-                      fit="cover"
-                      loading="lazy"
-                    />
-                  </div>
-                </div>
-              </n-tooltip>
+              </n-button>
             </div>
 
             <!-- Controls -->
@@ -549,8 +493,10 @@
                     :bordered="false"
                     round
                   >
-                    {{ t('banner.deep_echoes')
-                    }}<n-icon class="ml-1"><Star /></n-icon>
+                    <span class="align-top">{{ t('banner.deep_echoes') }}</span>
+                    <span class="ml-1"
+                      ><n-icon><Star /></n-icon
+                    ></span>
                   </n-tag>
                   <div class="flex gap-2">
                     <div

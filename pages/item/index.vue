@@ -1,26 +1,14 @@
 <template>
-  <div class="max-w-7xl mx-auto space-y-2 sm:space-y-4">
-    <!-- Search and Filter Card -->
+  <div
+    class="max-w-7xl mx-auto space-y-2 sm:space-y-4 sm:h-[calc(100vh-8rem)] sm:flex sm:flex-col"
+  >
+    <!-- Filter Card -->
     <n-card
       size="small"
       class="rounded-xl p-0 sm:p-2"
       content-class="!p-2 sm:p-4"
     >
       <div class="flex flex-col gap-4">
-        <!-- Search Bar -->
-        <div class="flex-1">
-          <n-input
-            v-model:value="searchQuery"
-            :placeholder="t('item.search_placeholder')"
-            clearable
-            size="medium"
-          >
-            <template #prefix>
-              <n-icon><Search /></n-icon>
-            </template>
-          </n-input>
-        </div>
-
         <!-- Quality Filter Buttons -->
         <div
           class="flex justify-between sm:justify-end items-center gap-2 flex-wrap"
@@ -28,7 +16,7 @@
           <!-- Active filter indicator -->
           <ClientOnly>
             <div
-              v-if="searchQuery || qualityFilter !== null || typeFilter"
+              v-if="qualityFilter !== null || typeFilter"
               class="text-sm opacity-70"
             >
               {{ totalItems }} {{ totalItems === 1 ? 'item' : 'items' }}
@@ -47,7 +35,7 @@
 
             <!-- Clear filters button -->
             <n-button
-              v-if="searchQuery || qualityFilter !== null || typeFilter"
+              v-if="qualityFilter !== null || typeFilter"
               size="small"
               @click="clearFilters"
             >
@@ -101,28 +89,12 @@
     <!-- Items Grid Card -->
     <n-card
       size="small"
-      class="rounded-xl p-0 sm:p-2"
-      content-class="!p-2 sm:p-4"
+      class="rounded-xl p-0 sm:p-2 sm:flex-1 sm:flex sm:flex-col sm:overflow-hidden"
+      content-class="!p-2 sm:p-4 sm:flex-1 sm:flex sm:flex-col sm:overflow-hidden"
     >
-      <!-- Loading State -->
-      <div
-        v-if="loading"
-        class="grid grid-cols-5 sm:grid-cols-10 gap-2"
-      >
-        <div
-          v-for="i in pageSize"
-          :key="i"
-          class="relative aspect-square rounded-md overflow-hidden bg-gray-100 dark:bg-gray-800 animate-pulse"
-        >
-          <div class="absolute inset-0 flex items-center justify-center">
-            <div class="w-16 h-16 bg-gray-200 dark:bg-gray-700 rounded-full" />
-          </div>
-        </div>
-      </div>
-
       <!-- Error State -->
       <div
-        v-else-if="error"
+        v-if="error"
         class="text-center py-12"
       >
         <n-result
@@ -160,25 +132,57 @@
       >
         <div
           v-if="!loading && !error && items.length > 0"
-          class="grid grid-cols-5 sm:grid-cols-10 gap-2"
+          class="grid grid-cols-4 sm:grid-cols-8 gap-2 sm:flex-1 sm:overflow-y-auto sm:content-start"
         >
-          <ItemPreviewCard
+          <div
             v-for="item in items"
             :key="item.id"
-            :item-id="item.id"
-            :quality="item.quality"
-            :type="item.type"
-            :name="t(`item.${item.id}.name`)"
-            :clickable="true"
-            size="medium"
-          />
+            class="cursor-pointer transition-all duration-300 ease-out hover:scale-[1.02] hover:-translate-y-1"
+            @click="navigateToDetail(item.id)"
+          >
+            <div
+              class="relative aspect-[3/4] rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300"
+              :class="getQualityGradient(item.quality)"
+            >
+              <NuxtImg
+                :src="`/images/items/${item.id}.png`"
+                :alt="t(`item.${item.id}.name`)"
+                class="absolute inset-0 w-full h-full object-contain z-10"
+                width="240"
+                height="320"
+                fit="cover"
+                loading="lazy"
+                sizes="xs:50vw sm:33vw md:25vw lg:20vw xl:16vw"
+                @error="handleImageError"
+              />
+              <div class="absolute top-2 right-2 z-20">
+                <n-tag
+                  round
+                  size="small"
+                  :bordered="false"
+                  :type="getQualityType(item.quality)"
+                >
+                  {{ item.quality }}<n-icon class="ml-1"><Star /></n-icon>
+                </n-tag>
+              </div>
+              <div
+                class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-2 z-20"
+              >
+                <p
+                  class="text-white font-medium text-xs sm:text-sm line-clamp-2"
+                >
+                  {{ t(`item.${item.id}.name`) }}
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </transition>
 
-      <!-- Pagination - Sticky at bottom on mobile -->
+      <!-- Pagination - Always visible, sticky at bottom on mobile -->
       <ClientOnly>
         <div
-          class="fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 py-3 px-4 sm:relative sm:border-0 sm:bg-transparent sm:dark:bg-transparent sm:mt-6 sm:py-0 sm:px-0 shadow-lg sm:shadow-none"
+          class="fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 py-3 px-4 sm:relative sm:border-0 sm:bg-transparent sm:dark:bg-transparent sm:mt-6 sm:py-0 sm:px-0 shadow-lg sm:shadow-none sm:flex-shrink-0"
         >
           <div class="flex justify-center overflow-x-auto">
             <n-pagination
@@ -209,7 +213,7 @@
           </div>
         </div>
         <template #fallback>
-          <div class="flex justify-center mt-6">
+          <div class="flex justify-center mt-6 sm:flex-shrink-0">
             <div
               class="h-10 w-64 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"
             ></div>
@@ -221,9 +225,7 @@
 </template>
 
 <script setup lang="ts">
-  import { Search, Star } from '@vicons/fa'
-  import { useDebounceFn } from '@vueuse/core'
-  import Fuse from 'fuse.js'
+  import { Star } from '@vicons/fa'
 
   const { t } = useI18n()
   const localePath = useLocalePath()
@@ -231,13 +233,12 @@
   const router = useRouter()
 
   // State
-  const searchQuery = ref(route.query.search?.toString() || '')
   const qualityFilter = ref<number | null>(
     route.query.quality ? Number(route.query.quality) : null
   )
   const typeFilter = ref<string | null>(route.query.type?.toString() || null)
   const currentPage = ref(Number(route.query.page) || 1)
-  const pageSize = ref(Number(route.query.pageSize) || 30)
+  const pageSize = ref(Number(route.query.pageSize) || 24)
 
   // Composable
   const { fetchItemsPaginated } = useSupabaseItems()
@@ -245,7 +246,7 @@
   // Use asyncData for caching with proper key
   const cacheKey = computed(
     () =>
-      `items-${searchQuery.value}-${qualityFilter.value}-${typeFilter.value}-${currentPage.value}-${pageSize.value}`
+      `items-${qualityFilter.value}-${typeFilter.value}-${currentPage.value}-${pageSize.value}`
   )
 
   const {
@@ -256,18 +257,6 @@
   } = await useAsyncData(
     cacheKey.value,
     async () => {
-      // If searching, fetch all items for client-side filtering
-      if (searchQuery.value) {
-        const response = await fetchItemsPaginated({
-          quality: qualityFilter.value,
-          type: typeFilter.value,
-          page: 1,
-          pageSize: 10000, // Fetch all items when searching
-        })
-        return response
-      }
-
-      // Otherwise, use server-side pagination
       const response = await fetchItemsPaginated({
         quality: qualityFilter.value,
         type: typeFilter.value,
@@ -283,114 +272,14 @@
   )
 
   // Computed values from the response
-  const allItems = computed(() => itemsData.value?.data || [])
+  const items = computed(() => itemsData.value?.data || [])
 
-  // Client-side search using Fuse.js (only when search query exists)
-  const searchedItems = computed(() => {
-    if (!searchQuery.value || !allItems.value.length) {
-      return allItems.value
-    }
+  const totalItems = computed(() => itemsData.value?.total || 0)
 
-    // Minimum 2 characters required for search
-    if (searchQuery.value.trim().length < 2) {
-      return allItems.value
-    }
+  const totalPages = computed(() => itemsData.value?.totalPages || 0)
 
-    // Import item names from i18n for search
-    const itemsWithNames = allItems.value.map((item) => ({
-      ...item,
-      name: t(`item.${item.id}.name`),
-    }))
-
-    // Use Fuse.js for fuzzy search
-    const fuse = new Fuse(itemsWithNames, {
-      keys: ['name'],
-      threshold: 0.3,
-      includeScore: true,
-    })
-
-    const results = fuse.search(searchQuery.value)
-    return results.map((result) => result.item)
-  })
-
-  // Client-side pagination when searching
-  const items = computed(() => {
-    if (!searchQuery.value) {
-      return searchedItems.value
-    }
-
-    // Apply client-side pagination to search results
-    const start = (currentPage.value - 1) * pageSize.value
-    const end = start + pageSize.value
-    return searchedItems.value.slice(start, end)
-  })
-
-  const totalItems = computed(() => {
-    // If searching, return filtered count, otherwise server total
-    return searchQuery.value
-      ? searchedItems.value.length
-      : itemsData.value?.total || 0
-  })
-
-  const totalPages = computed(() => {
-    // If searching, calculate pages from filtered results, otherwise use server total
-    if (searchQuery.value) {
-      return Math.ceil(searchedItems.value.length / pageSize.value)
-    }
-    return itemsData.value?.totalPages || 0
-  })
-
-  // Prefetch next page for better UX
-  const prefetchNextPage = async () => {
-    // Only prefetch if not searching (server-side pagination)
-    if (searchQuery.value) return
-
-    try {
-      await fetchItemsPaginated({
-        quality: qualityFilter.value,
-        type: typeFilter.value,
-        page: currentPage.value + 1,
-        pageSize: pageSize.value,
-      })
-    } catch (e) {
-      // Silently fail prefetch
-      console.debug('Prefetch failed:', e)
-    }
-  }
-
-  // Prefetch when items load successfully
-  watch(items, () => {
-    if (
-      items.value &&
-      items.value.length > 0 &&
-      currentPage.value < totalPages.value
-    ) {
-      prefetchNextPage()
-    }
-  })
-
-  // Debounced search - triggers refetch with all items
-  const debouncedSearch = useDebounceFn(() => {
-    currentPage.value = 1
-    // Only refetch if we need to switch between search mode and normal mode
-    // or if we're entering search mode for the first time
-    const wasSearching = allItems.value.length > pageSize.value
-    const isSearching = searchQuery.value.trim().length >= 2
-
-    if (isSearching && !wasSearching) {
-      // Entering search mode - need to fetch all items
-      loadItems()
-    } else if (!isSearching && wasSearching) {
-      // Exiting search mode - need to fetch paginated items
-      loadItems()
-    }
-    // Otherwise, just let the computed property handle client-side filtering
-  }, 1000)
-
-  // Watch for search changes with debounce
-  watch(searchQuery, () => {
-    debouncedSearch()
-  })
+  // Prefetching removed to reduce DB egress
+  // Users can navigate to next page when needed
 
   // Watch for quality filter changes
   watch(qualityFilter, () => {
@@ -404,11 +293,9 @@
     nextTick(() => loadItems())
   })
 
-  // Watch for page changes (when not searching, need to refetch)
+  // Watch for page changes
   watch(currentPage, () => {
-    if (!searchQuery.value) {
-      nextTick(() => loadItems())
-    }
+    nextTick(() => loadItems())
   })
 
   // Watch for page size changes
@@ -418,15 +305,14 @@
   })
 
   // Update URL query params when filters change
-  watch([searchQuery, qualityFilter, typeFilter, currentPage, pageSize], () => {
+  watch([qualityFilter, typeFilter, currentPage, pageSize], () => {
     router.replace({
       query: {
-        ...(searchQuery.value && { search: searchQuery.value }),
         ...(qualityFilter.value && { quality: qualityFilter.value }),
         ...(typeFilter.value &&
           typeFilter.value !== 'all' && { type: typeFilter.value }),
         ...(currentPage.value > 1 && { page: currentPage.value }),
-        ...(pageSize.value !== 30 && { pageSize: pageSize.value }),
+        ...(pageSize.value !== 24 && { pageSize: pageSize.value }),
       },
     })
   })
@@ -438,7 +324,6 @@
 
   // Clear all filters
   const clearFilters = () => {
-    searchQuery.value = ''
     qualityFilter.value = null
     typeFilter.value = null
     currentPage.value = 1
@@ -448,6 +333,46 @@
   const availableTypes = computed(() => {
     return getAllItemTypes()
   })
+
+  // Navigate to detail page
+  const navigateToDetail = (id: number) => {
+    router.push(localePath(`/item/${id}`))
+  }
+
+  // Get quality gradient class
+  const getQualityGradient = (quality: number) => {
+    switch (quality) {
+      case 5:
+        return 'bg-gradient-to-br from-[#fff8e1] to-[#ffcc80] hover:brightness-105 dark:from-[#713f12] dark:to-[#451a03]'
+      case 4:
+        return 'bg-gradient-to-br from-[#e3f2fd] to-[#bbdefb] hover:brightness-105 dark:from-[#334155] dark:to-[#1e293b]'
+      case 3:
+        return 'bg-gradient-to-br from-[#e0f2f1] to-[#80cbc4] hover:brightness-105 dark:from-[#134e4a] dark:to-[#0f766e]'
+      default:
+        return 'bg-gradient-to-br from-gray-100 to-gray-200 hover:brightness-105 dark:from-gray-700 dark:to-gray-800'
+    }
+  }
+
+  // Get quality type for tag
+  const getQualityType = (quality: number) => {
+    switch (quality) {
+      case 5:
+        return 'warning'
+      case 4:
+        return 'info'
+      case 3:
+        return 'success'
+      default:
+        return 'default'
+    }
+  }
+
+  // Handle image error
+  const handleImageError = (e: Event | string) => {
+    if (typeof e === 'string') return
+    const img = e.target as HTMLImageElement
+    img.src = '/images/loading.webp'
+  }
 
   // Type filter options for dropdown
   const typeOptions = computed(() => {

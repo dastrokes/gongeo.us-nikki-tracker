@@ -10,7 +10,9 @@
     "vote": "Banner-Abstimmung",
     "faq": "FAQ",
     "about": "Über gongeo.us",
-    "nuan5pro": "Nuan5.Pro"
+    "nuan5pro": "Nuan5.Pro",
+    "outfits": "Outfits",
+    "items": "Items"
   },
   "social": {
     "discord": "Werde Teil unserer Discord-Community",
@@ -30,7 +32,11 @@
       "banner": "Schau dir den gesamten Infinity Nikki Resonanz-Verlauf an, einschließlich aktueller und vergangener Events, begrenzter und dauerhafter Banner, Outfit-Details, Banner-Dauer und Wiederholungs-Zeitplan.",
       "banner_detail": "Schau dir detaillierte Infinity Nikki Resonanz-Banner-Daten an, einschließlich Resonanz-Statistiken, Banner-Outfits und individuelle Stück-Details.",
       "faq": "Finde die Antworten auf häufig gestellte Fragen über gongeo.us, einschließlich Datenschutz, Importmethoden und Nutzungsrichtlinien.",
-      "about": "Lerne mehr über gongeo.us, einschließlich seiner Zwecke, Datenschutzrichtlinien, Haftungsausschlüsse und wie es die Infinity Nikki Community unterstützt."
+      "about": "Lerne mehr über gongeo.us, einschließlich seiner Zwecke, Datenschutzrichtlinien, Haftungsausschlüsse und wie es die Infinity Nikki Community unterstützt.",
+      "outfits": "Browse all Infinity Nikki outfits. View outfit details, quality ratings, and component items for every outfit in the game.",
+      "items": "Browse all Infinity Nikki items. View item details, quality ratings, and which outfits include each item.",
+      "outfit_detail": "View detailed information about {name}, including component items and quality rating.",
+      "item_detail": "View detailed information about {name}, including related outfits and quality rating."
     }
   },
   "index": {
@@ -399,6 +405,12 @@
       "backpieces": "Rückenaccessoire",
       "rings": "Ring",
       "armDecorations": "Armschmuck",
+      "baseMakeup": "Base Makeup",
+      "eyebrows": "Eyebrows",
+      "eyelashes": "Eyelashes",
+      "contactLenses": "Contact Lenses",
+      "lips": "Lips",
+      "skinTones": "Skin Tones",
       "unknown": "Unbekannt"
     }
   },
@@ -579,6 +591,7 @@
     "rankings": {
       "title": "Banner-Rangliste",
       "description": "Schau dir an, welche Banner von Version 1.x am beliebtesten sind, basierend auf Community-Abstimmungen.",
+      "votingPeriod": "Voting Period",
       "voteMore": "Abstimmen",
       "lastUpdated": "Zuletzt aktualisiert",
       "rank": "Rang",
@@ -597,5 +610,43 @@
   },
   "language_switcher": {
     "help_translate": "Übersetzen helfen"
+  },
+  "outfit": {
+    "search_placeholder": "Search outfits...",
+    "filter_all": "All",
+    "error_title": "Failed to Load Outfits",
+    "error_description": "Unable to load outfit data. Please check your connection and try again.",
+    "retry": "Retry",
+    "no_results_title": "No Outfits Found",
+    "no_results_description": "No outfits match your search criteria.",
+    "breadcrumb_list": "Outfits",
+    "detail_loading": "Loading...",
+    "detail_description": "Description",
+    "detail_component_items": "Component Items",
+    "back_to_list": "Back to Outfits",
+    "not_found_title": "Outfit Not Found",
+    "not_found_description": "This outfit could not be found. It may have been removed.",
+    "quality_5_star": "5-Star Outfit",
+    "quality_4_star": "4-Star Outfit",
+    "quality_3_star": "3-Star Outfit"
+  },
+  "item": {
+    "search_placeholder": "Search items...",
+    "filter_all": "All",
+    "filter_type": "Filter by Type",
+    "filter_all_types": "All Types",
+    "error_title": "Failed to Load Items",
+    "error_description": "Unable to load item data. Please check your connection and try again.",
+    "retry": "Retry",
+    "breadcrumb_list": "Items",
+    "detail_loading": "Loading...",
+    "detail_description": "Description",
+    "detail_related_outfits": "Related Outfits",
+    "back_to_list": "Back to Items",
+    "not_found_title": "Item Not Found",
+    "not_found_description": "This item could not be found. It may have been removed.",
+    "quality_5_star": "5-Star Item",
+    "quality_4_star": "4-Star Item",
+    "quality_3_star": "3-Star Item"
   }
 }

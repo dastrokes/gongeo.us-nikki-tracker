@@ -1370,7 +1370,7 @@
         height: imageSize,
         width: imageSize,
         backgroundColor: {
-          image: `/images/items/${itemId}.png`,
+          image: `/images/items/icons/${itemId}.png`,
         },
         align: 'center',
       }

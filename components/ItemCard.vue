@@ -18,7 +18,7 @@
         >
           <NuxtImg
             v-if="info"
-            :src="`/images/items/${item.itemId}.png`"
+            :src="`/images/items/icons/${item.itemId}.png`"
             :alt="t(`item.${item.itemId}.name`)"
             class="w-full h-full object-cover aspect-square"
             width="120"
@@ -29,14 +29,14 @@
           />
           <NuxtImg
             v-else
-            :src="`/images/items/${item.itemId}.png`"
+            :src="`/images/items/icons/${item.itemId}.png`"
             :alt="t(`item.${item.itemId}.name`)"
             class="w-full h-full object-cover aspect-square"
             width="120"
             height="120"
             fit="cover"
             loading="lazy"
-            placeholder="/images/loading.png"
+            placeholder="/images/loading.webp"
             sizes="80px sm:120px"
           />
           <n-tag

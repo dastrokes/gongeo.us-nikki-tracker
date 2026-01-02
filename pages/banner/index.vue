@@ -173,13 +173,14 @@
                     <NuxtLink
                       no-prefetch
                       :to="localePath(`/outfit/${outfitId}`)"
-                      class="inline w-fit hover:opacity-80 transition-opacity"
+                      class="inline w-fit hover:opacity-80 transition-opacity cursor-pointer"
                     >
                       <n-tag
                         size="large"
                         type="warning"
                         :bordered="false"
                         round
+                        class="cursor-pointer"
                       >
                         <span class="align-top"
                           >{{ t(`outfit.${outfitId}.name`) }} 5</span
@@ -198,13 +199,14 @@
                     <NuxtLink
                       no-prefetch
                       :to="localePath(`/outfit/${outfitId}`)"
-                      class="inline w-fit hover:opacity-80 transition-opacity"
+                      class="inline w-fit hover:opacity-80 transition-opacity cursor-pointer"
                     >
                       <n-tag
                         size="large"
                         type="info"
                         :bordered="false"
                         round
+                        class="cursor-pointer"
                       >
                         <span class="align-top"
                           >{{ t(`outfit.${outfitId}.name`) }} 4</span

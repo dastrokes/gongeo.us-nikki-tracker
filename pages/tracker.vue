@@ -528,24 +528,26 @@
               <div
                 class="w-full flex flex-col sm:flex-row sm:items-center gap-2"
               >
-                <NuxtLink
-                  no-prefetch
-                  :to="localePath(`/banner/${banner.bannerId}`)"
-                  class="inline w-fit hover:opacity-95 transition-opacity"
-                >
-                  <n-tooltip trigger="hover">
-                    <template #trigger>
-                      <n-gradient-text
-                        :size="18"
-                        class="m-0 font-medium break-words"
-                        :type="banner.bannerType === 2 ? 'warning' : 'info'"
-                      >
-                        {{ t(`banner.${banner.bannerId}.name`) }}
-                      </n-gradient-text>
-                    </template>
-                    {{ t('navigation.banner_detail') }}
-                  </n-tooltip>
-                </NuxtLink>
+                <div class="flex items-center gap-2">
+                  <NuxtLink
+                    no-prefetch
+                    :to="localePath(`/banner/${banner.bannerId}`)"
+                    class="inline w-fit hover:opacity-95 transition-opacity"
+                  >
+                    <n-tooltip trigger="hover">
+                      <template #trigger>
+                        <n-gradient-text
+                          :size="18"
+                          class="m-0 font-medium break-words"
+                          :type="banner.bannerType === 2 ? 'warning' : 'info'"
+                        >
+                          {{ t(`banner.${banner.bannerId}.name`) }}
+                        </n-gradient-text>
+                      </template>
+                      {{ t('navigation.banner_detail') }}
+                    </n-tooltip>
+                  </NuxtLink>
+                </div>
 
                 <div
                   class="flex flex-wrap gap-2 w-full sm:w-[calc(100%-500px)]"
@@ -554,13 +556,17 @@
                     v-for="outfit in banner.outfits"
                     :key="outfit.id"
                   >
-                    <div class="flex items-center gap-2">
+                    <NuxtLink
+                      no-prefetch
+                      :to="localePath(`/outfit/${outfit.id}`)"
+                      class="inline-block"
+                    >
                       <n-tag
                         :type="outfit.rarity === 5 ? 'warning' : 'info'"
                         :bordered="false"
                         round
                         size="small"
-                        class="px-2"
+                        class="px-2 cursor-pointer hover:opacity-80 transition-opacity"
                       >
                         <span class="align-top"
                           >{{ t(`outfit.${outfit.id}.name`) }}
@@ -575,7 +581,7 @@
                           ><n-icon><CheckCircle /></n-icon
                         ></span>
                       </n-tag>
-                    </div>
+                    </NuxtLink>
                   </template>
                 </div>
               </div>
@@ -880,14 +886,14 @@
                     <NuxtLink
                       no-prefetch
                       :to="localePath(`/outfit/${outfit.id}`)"
-                      class="inline w-fit hover:opacity-80 transition-opacity"
+                      class="inline w-fit hover:opacity-80 transition-opacity cursor-pointer"
                     >
                       <n-tag
                         :type="outfit.rarity === 5 ? 'warning' : 'info'"
                         :bordered="false"
                         round
                         size="small"
-                        class="px-2"
+                        class="px-2 cursor-pointer"
                       >
                         <span class="align-top"
                           >{{ t(`outfit.${outfit.id}.name`) }}

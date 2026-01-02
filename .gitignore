@@ -24,6 +24,8 @@ logs
 .kiro
 agents.md
 components.d.ts
+public/images
+script
 
 # Local env files
 .env

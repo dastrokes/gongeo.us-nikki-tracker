@@ -4,7 +4,7 @@
 
 [build.environment]
   NODE_VERSION = "22.20.0"
-  NODE_OPTIONS = "--max-old-space-size=8192"
+  NODE_OPTIONS = "--max-old-space-size=16384"
 
 # ==============================
 # Headers Configuration

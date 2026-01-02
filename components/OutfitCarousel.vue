@@ -12,8 +12,12 @@
           round
           class="cursor-pointer"
         >
-          {{ t(`outfit.${outfitId}.name`) }} {{ rarity
-          }}<n-icon class="ml-1"><Star /></n-icon>
+          <span class="align-top"
+            >{{ t(`outfit.${outfitId}.name`) }} {{ rarity }}</span
+          >
+          <span class="ml-1"
+            ><n-icon><Star /></n-icon
+          ></span>
         </n-tag>
       </NuxtLink>
     </div>

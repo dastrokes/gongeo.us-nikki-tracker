@@ -74,31 +74,23 @@
               </div>
             </div>
             <div class="mt-2 sm:mt-3 text-center">
-              <n-tooltip
-                trigger="hover"
-                placement="bottom"
+              <NuxtLink
+                :to="localePath(`/banner/${currentPair.banner1.id}`)"
+                target="_blank"
+                class="hover:opacity-80 transition-opacity inline-flex items-center gap-1"
               >
-                <template #trigger>
-                  <NuxtLink
-                    :to="localePath(`/banner/${currentPair.banner1.id}`)"
-                    target="_blank"
-                    class="hover:opacity-80 transition-opacity inline-flex items-center gap-1"
-                  >
-                    <n-icon
-                      size="16"
-                      class="text-gray-500 dark:text-gray-400"
-                    >
-                      <CalendarDay />
-                    </n-icon>
-                    <n-text
-                      strong
-                      class="text-sm sm:text-base"
-                      >{{ t(`banner.${currentPair.banner1.id}.name`) }}</n-text
-                    >
-                  </NuxtLink>
-                </template>
-                {{ t('navigation.banner_detail') }}
-              </n-tooltip>
+                <n-icon
+                  size="16"
+                  class="text-gray-500 dark:text-gray-400"
+                >
+                  <CalendarDay />
+                </n-icon>
+                <n-text
+                  strong
+                  class="text-sm sm:text-base"
+                  >{{ t(`banner.${currentPair.banner1.id}.name`) }}</n-text
+                >
+              </NuxtLink>
             </div>
           </div>
 
@@ -162,31 +154,23 @@
               </div>
             </div>
             <div class="mt-2 sm:mt-3 text-center">
-              <n-tooltip
-                trigger="hover"
-                placement="bottom"
+              <NuxtLink
+                :to="localePath(`/banner/${currentPair.banner2.id}`)"
+                target="_blank"
+                class="hover:opacity-80 transition-opacity inline-flex items-center gap-1"
               >
-                <template #trigger>
-                  <NuxtLink
-                    :to="localePath(`/banner/${currentPair.banner2.id}`)"
-                    target="_blank"
-                    class="hover:opacity-80 transition-opacity inline-flex items-center gap-1"
-                  >
-                    <n-icon
-                      size="16"
-                      class="text-gray-500 dark:text-gray-400"
-                    >
-                      <CalendarDay />
-                    </n-icon>
-                    <n-text
-                      strong
-                      class="text-sm sm:text-base"
-                      >{{ t(`banner.${currentPair.banner2.id}.name`) }}</n-text
-                    >
-                  </NuxtLink>
-                </template>
-                {{ t('navigation.banner_detail') }}
-              </n-tooltip>
+                <n-icon
+                  size="16"
+                  class="text-gray-500 dark:text-gray-400"
+                >
+                  <CalendarDay />
+                </n-icon>
+                <n-text
+                  strong
+                  class="text-sm sm:text-base"
+                  >{{ t(`banner.${currentPair.banner2.id}.name`) }}</n-text
+                >
+              </NuxtLink>
             </div>
           </div>
         </div>

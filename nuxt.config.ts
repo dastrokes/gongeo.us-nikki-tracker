@@ -100,7 +100,7 @@ export default defineNuxtConfig({
           .filter((locale) => locale.code !== defaultLocale)
           .map((locale) => [
             `/${locale.code}/${page}`,
-            { prerender: true, robots: false },
+            { prerender: false, robots: false },
           ]),
       ]),
     ]),
@@ -150,6 +150,7 @@ export default defineNuxtConfig({
     sourceMapsUploadOptions: {
       org: 'dastrokes',
       project: 'gongeous',
+      enabled: false,
     },
 
     telemetry: false,
@@ -158,6 +159,7 @@ export default defineNuxtConfig({
   },
 
   sourcemap: {
-    client: 'hidden',
+    server: false,
+    client: false,
   },
 })

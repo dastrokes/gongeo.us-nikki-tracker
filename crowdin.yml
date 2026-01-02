@@ -1,7 +1,7 @@
 files:
   - source: /locales/en/common.json
     ignore:
-      - /locales/en/banner.json    
+      - /locales/en/banner.json
       - /locales/en/outfit.json
       - /locales/en/item.json
       - /locales/en/version.json

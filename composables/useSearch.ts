@@ -190,7 +190,7 @@ export const useSearch = () => {
               type: 'outfit',
               name: name[locale.value] || name.en,
               rarity: 5,
-              route: localePath(`/banner/${bannerId}`),
+              route: localePath(`/outfit/${outfitId}`),
             })
           )
 
@@ -209,7 +209,7 @@ export const useSearch = () => {
                       type: 'item',
                       name: itemname[locale.value] || itemname.en,
                       rarity: 5,
-                      route: localePath(`/banner/${bannerId}`),
+                      route: localePath(`/item/${itemId}`),
                     })
                   )
                   processedItems.add(itemId)
@@ -231,7 +231,7 @@ export const useSearch = () => {
               type: 'outfit',
               name: name[locale.value] || name.en,
               rarity: 4,
-              route: localePath(`/banner/${bannerId}`),
+              route: localePath(`/outfit/${outfitId}`),
             })
           )
 
@@ -250,7 +250,7 @@ export const useSearch = () => {
                       type: 'item',
                       name: itemname[locale.value] || itemname.en,
                       rarity: 4,
-                      route: localePath(`/banner/${bannerId}`),
+                      route: localePath(`/item/${itemId}`),
                     })
                   )
                   processedItems.add(itemId)
@@ -275,7 +275,7 @@ export const useSearch = () => {
                   type: 'item',
                   name: itemname[locale.value] || itemname.en,
                   rarity: 5,
-                  route: localePath(`/banner/${bannerId}`),
+                  route: localePath(`/item/${itemId}`),
                 })
               )
               processedItems.add(itemId)

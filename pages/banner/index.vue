@@ -104,18 +104,13 @@
               :to="localePath(`/banner/${banner.bannerId}`)"
               class="inline w-fit hover:opacity-95 transition-opacity"
             >
-              <n-tooltip trigger="hover">
-                <template #trigger>
-                  <n-gradient-text
-                    :size="18"
-                    class="m-0 font-medium break-words"
-                    :type="banner.bannerType === 2 ? 'warning' : 'info'"
-                  >
-                    {{ t(`banner.${banner.bannerId}.name`) }}
-                  </n-gradient-text>
-                </template>
-                {{ t('navigation.banner_detail') }}
-              </n-tooltip>
+              <n-gradient-text
+                :size="18"
+                class="m-0 font-medium break-words"
+                :type="banner.bannerType === 2 ? 'warning' : 'info'"
+              >
+                {{ t(`banner.${banner.bannerId}.name`) }}
+              </n-gradient-text>
             </NuxtLink>
           </template>
           <template #default>

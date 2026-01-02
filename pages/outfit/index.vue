@@ -13,7 +13,7 @@
             v-model:value="searchQuery"
             :placeholder="t('outfit.search_placeholder')"
             clearable
-            size="large"
+            size="medium"
           >
             <template #prefix>
               <n-icon><Search /></n-icon>
@@ -98,7 +98,7 @@
       <!-- Loading State -->
       <div
         v-if="loading"
-        class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 sm:gap-4"
+        class="grid grid-cols-4 sm:grid-cols-8 gap-2"
       >
         <div
           v-for="i in pageSize"
@@ -159,7 +159,7 @@
       >
         <div
           v-if="!loading && !error && outfits.length > 0"
-          class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 sm:gap-4"
+          class="grid grid-cols-4 sm:grid-cols-8 gap-2"
         >
           <div
             v-for="outfit in outfits"
@@ -172,16 +172,14 @@
               :class="getQualityGradient(outfit.quality)"
             >
               <NuxtImg
-                :src="`/outfits/${outfit.id}.png`"
-                :alt="outfit.name"
+                :src="`/images/outfits/${outfit.id}.png`"
+                :alt="t(`outfit.${outfit.id}.name`)"
                 class="absolute inset-0 w-full h-full object-contain z-10"
                 width="240"
                 height="320"
                 fit="cover"
                 loading="lazy"
                 sizes="xs:50vw sm:33vw md:25vw lg:20vw xl:16vw"
-                
-                
                 @error="handleImageError"
               />
               <div class="absolute top-2 right-2 z-20">
@@ -200,7 +198,7 @@
                 <p
                   class="text-white font-medium text-xs sm:text-sm line-clamp-2"
                 >
-                  {{ outfit.name }}
+                  {{ t(`outfit.${outfit.id}.name`) }}
                 </p>
               </div>
             </div>
@@ -256,6 +254,7 @@
 <script setup lang="ts">
   import { Search, Star } from '@vicons/fa'
   import { useDebounceFn } from '@vueuse/core'
+  import Fuse from 'fuse.js'
 
   const { t } = useI18n()
   const localePath = useLocalePath()
@@ -268,16 +267,17 @@
     route.query.quality ? Number(route.query.quality) : null
   )
   const currentPage = ref(Number(route.query.page) || 1)
-  const pageSize = ref(Number(route.query.pageSize) || 20)
+  const pageSize = ref(Number(route.query.pageSize) || 24)
 
   // Composable
   const { fetchOutfitsPaginated } = useSupabaseOutfits()
 
-  // Prefetch next page for better UX
+  // Prefetch next page for better UX (only when not searching)
   const prefetchNextPage = async () => {
+    if (searchQuery.value) return // Don't prefetch when searching
+
     try {
       await fetchOutfitsPaginated({
-        search: searchQuery.value,
         quality: qualityFilter.value,
         page: currentPage.value + 1,
         pageSize: pageSize.value,
@@ -302,8 +302,18 @@
   } = await useAsyncData(
     cacheKey.value,
     async () => {
+      // If searching, fetch all outfits for client-side filtering
+      if (searchQuery.value) {
+        const response = await fetchOutfitsPaginated({
+          quality: qualityFilter.value,
+          page: 1,
+          pageSize: 10000, // Fetch all outfits when searching
+        })
+        return response
+      }
+
+      // Otherwise, use server-side pagination
       const response = await fetchOutfitsPaginated({
-        search: searchQuery.value,
         quality: qualityFilter.value,
         page: currentPage.value,
         pageSize: pageSize.value,
@@ -318,19 +328,83 @@
     },
     {
       default: () => ({ data: [], total: 0, totalPages: 0 }),
-      watch: [searchQuery, qualityFilter, currentPage, pageSize],
     }
   )
 
   // Computed values from the response
-  const outfits = computed(() => outfitsData.value?.data || [])
-  const totalItems = computed(() => outfitsData.value?.total || 0)
-  const totalPages = computed(() => outfitsData.value?.totalPages || 0)
+  const allOutfits = computed(() => outfitsData.value?.data || [])
 
-  // Debounced search to avoid too many API calls
+  // Client-side search using Fuse.js (only when search query exists)
+  const searchedOutfits = computed(() => {
+    if (!searchQuery.value || !allOutfits.value.length) {
+      return allOutfits.value
+    }
+
+    // Minimum 2 characters required for search
+    if (searchQuery.value.trim().length < 2) {
+      return allOutfits.value
+    }
+
+    // Import outfit names from i18n for search
+    const outfitsWithNames = allOutfits.value.map((outfit) => ({
+      ...outfit,
+      name: t(`outfit.${outfit.id}.name`),
+    }))
+
+    // Use Fuse.js for fuzzy search
+    const fuse = new Fuse(outfitsWithNames, {
+      keys: ['name'],
+      threshold: 0.3,
+      includeScore: true,
+    })
+
+    const results = fuse.search(searchQuery.value)
+    return results.map((result) => result.item)
+  })
+
+  // Client-side pagination when searching
+  const outfits = computed(() => {
+    if (!searchQuery.value) {
+      return searchedOutfits.value
+    }
+
+    // Apply client-side pagination to search results
+    const start = (currentPage.value - 1) * pageSize.value
+    const end = start + pageSize.value
+    return searchedOutfits.value.slice(start, end)
+  })
+
+  const totalItems = computed(() => {
+    // If searching, return filtered count, otherwise server total
+    return searchQuery.value
+      ? searchedOutfits.value.length
+      : outfitsData.value?.total || 0
+  })
+
+  const totalPages = computed(() => {
+    // If searching, calculate pages from filtered results, otherwise use server total
+    if (searchQuery.value) {
+      return Math.ceil(searchedOutfits.value.length / pageSize.value)
+    }
+    return outfitsData.value?.totalPages || 0
+  })
+
+  // Debounced search - triggers refetch with all outfits
   const debouncedSearch = useDebounceFn(() => {
     currentPage.value = 1
-    loadOutfits()
+    // Only refetch if we need to switch between search mode and normal mode
+    // or if we're entering search mode for the first time
+    const wasSearching = allOutfits.value.length > pageSize.value
+    const isSearching = searchQuery.value.trim().length >= 2
+
+    if (isSearching && !wasSearching) {
+      // Entering search mode - need to fetch all outfits
+      loadOutfits()
+    } else if (!isSearching && wasSearching) {
+      // Exiting search mode - need to fetch paginated outfits
+      loadOutfits()
+    }
+    // Otherwise, just let the computed property handle client-side filtering
   }, 1000)
 
   // Watch for search changes with debounce
@@ -344,6 +418,19 @@
     loadOutfits()
   })
 
+  // Watch for page changes (when not searching, need to refetch)
+  watch(currentPage, () => {
+    if (!searchQuery.value) {
+      loadOutfits()
+    }
+  })
+
+  // Watch for page size changes
+  watch(pageSize, () => {
+    currentPage.value = 1
+    loadOutfits()
+  })
+
   // Update URL query params when filters change
   watch([searchQuery, qualityFilter, currentPage, pageSize], () => {
     router.replace({
@@ -351,7 +438,7 @@
         ...(searchQuery.value && { search: searchQuery.value }),
         ...(qualityFilter.value && { quality: qualityFilter.value }),
         ...(currentPage.value > 1 && { page: currentPage.value }),
-        ...(pageSize.value !== 20 && { pageSize: pageSize.value }),
+        ...(pageSize.value !== 24 && { pageSize: pageSize.value }),
       },
     })
   })
@@ -405,7 +492,7 @@
   const handleImageError = (e: Event | string) => {
     if (typeof e === 'string') return
     const img = e.target as HTMLImageElement
-    img.src = '/images/loading.png'
+    img.src = '/images/loading.webp'
   }
 
   // SEO Meta Tags

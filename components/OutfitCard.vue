@@ -1,20 +1,29 @@
 <template>
   <div class="space-y-2">
     <div class="flex items-center gap-2">
-      <n-tag
-        :type="rarity === 5 ? 'warning' : 'info'"
-        :bordered="false"
-        round
+      <NuxtLink
+        no-prefetch
+        :to="localePath(`/outfit/${outfitId}`)"
+        class="cursor-pointer hover:opacity-80 transition-opacity"
       >
-        {{ t(`outfit.${outfitId}.name`) }} {{ rarity
-        }}<n-icon class="ml-1"><Star /></n-icon>
-      </n-tag>
+        <n-tag
+          :type="rarity === 5 ? 'warning' : 'info'"
+          :bordered="false"
+          round
+          class="cursor-pointer"
+        >
+          {{ t(`outfit.${outfitId}.name`) }} {{ rarity
+          }}<n-icon class="ml-1"><Star /></n-icon>
+        </n-tag>
+      </NuxtLink>
     </div>
     <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
-      <div
+      <NuxtLink
         v-for="(image, index) in Array.from(outfitImages.entries())"
         :key="index"
-        class="relative aspect-[2/3] rounded-lg overflow-hidden transition-all duration-300 ease-in-out"
+        no-prefetch
+        :to="localePath(`/outfit/${outfitId}`)"
+        class="relative aspect-[2/3] rounded-lg overflow-hidden transition-all duration-300 ease-in-out cursor-pointer"
         :class="cardGradient"
       >
         <NuxtImg
@@ -42,13 +51,15 @@
             </span>
           </n-tag>
         </div>
-      </div>
+      </NuxtLink>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
   import { Star, CheckCircle } from '@vicons/fa'
+
+  const localePath = useLocalePath()
 
   interface CompletionData {
     completion: number
@@ -120,7 +131,8 @@
     // Add level variants based on rarity
     const maxLevel = props.rarity === 5 ? 4 : 2
     for (let i = 2; i <= maxLevel; i++) {
-      images.set(i, `/images/outfits/${props.outfitId}_LV${i}.png`)
+      const levelNum = i.toString().padStart(2, '0')
+      images.set(i, `/images/outfits/${props.outfitId}${levelNum}.png`)
     }
 
     return images

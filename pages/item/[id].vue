@@ -55,30 +55,29 @@
         class="rounded-xl p-0 sm:p-2"
         content-class="!p-2 sm:p-4"
       >
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-6 lg:gap-8">
           <!-- Item Image -->
-          <div class="flex justify-center items-start">
+          <div class="flex justify-center lg:justify-start items-start">
             <div
-              class="relative aspect-[2/3] w-full max-w-md rounded-lg overflow-hidden"
+              class="relative aspect-[2/3] w-full max-w-[280px] rounded-lg overflow-hidden shadow-lg"
               :class="getQualityGradient(item.quality)"
             >
               <NuxtImg
-                :src="`/items/${item.id}.png`"
-                :alt="item.name"
+                :src="`/images/items/${item.id}.png`"
+                :alt="itemName"
                 class="absolute inset-0 w-full h-full object-contain z-10"
-                width="400"
-                height="600"
+                width="280"
+                height="420"
                 fit="cover"
                 loading="eager"
-                sizes="xs:100vw sm:50vw md:50vw lg:400px"
-                
-                
+                sizes="280px"
+                format="webp"
                 @error="handleImageError"
               />
               <div class="absolute top-2 right-2 z-20">
                 <n-tag
                   round
-                  size="medium"
+                  size="small"
                   :bordered="false"
                   :type="getQualityType(item.quality)"
                 >
@@ -89,17 +88,17 @@
           </div>
 
           <!-- Item Info -->
-          <div class="space-y-6">
-            <div class="space-y-3">
-              <h1 class="text-3xl sm:text-4xl font-bold mb-3 leading-tight">
-                {{ item.name }}
+          <div class="space-y-4">
+            <div class="space-y-2">
+              <h1 class="text-2xl sm:text-3xl font-bold leading-tight">
+                {{ itemName }}
               </h1>
               <div class="flex flex-wrap gap-2">
                 <n-tag
                   :type="getQualityType(item.quality)"
                   :bordered="false"
                   round
-                  size="large"
+                  size="medium"
                 >
                   {{ getQualityLabel(item.quality) }}
                 </n-tag>
@@ -107,7 +106,7 @@
                   type="default"
                   :bordered="false"
                   round
-                  size="large"
+                  size="medium"
                 >
                   {{ t(`items.types.${itemType}`) }}
                 </n-tag>
@@ -116,20 +115,19 @@
 
             <!-- Description -->
             <div
-              v-if="item.description"
-              class="text-base sm:text-lg opacity-90 leading-relaxed"
+              v-if="itemDescription"
+              class="text-sm sm:text-base opacity-90 leading-relaxed"
             >
-              <h3 class="text-lg sm:text-xl font-semibold mb-3">
+              <h3 class="text-base sm:text-lg font-semibold mb-2">
                 {{ t('item.detail_description') }}
               </h3>
-              <p class="whitespace-pre-wrap">{{ item.description }}</p>
+              <p class="whitespace-pre-wrap">{{ itemDescription }}</p>
             </div>
 
             <!-- Back Button -->
-            <div class="pt-6">
+            <div class="pt-4">
               <n-button
                 type="primary"
-                size="large"
                 @click="navigateToList"
               >
                 <template #icon>
@@ -149,52 +147,50 @@
         class="rounded-xl p-0 sm:p-2"
         content-class="!p-2 sm:p-4"
       >
-        <div class="border-t border-gray-200 dark:border-gray-700 pt-6">
-          <h2 class="text-2xl font-bold mb-6">
-            {{ t('item.detail_related_outfits') }}
-          </h2>
+        <h2 class="text-xl font-bold mb-4">
+          {{ t('item.detail_related_outfits') }}
+        </h2>
+        <div
+          class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3"
+        >
           <div
-            class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
+            v-for="outfit in relatedOutfits"
+            :key="outfit.id"
+            class="cursor-pointer group"
+            @click="navigateToOutfit(outfit.id)"
           >
             <div
-              v-for="outfit in relatedOutfits"
-              :key="outfit.id"
-              class="cursor-pointer"
-              @click="navigateToOutfit(outfit.id)"
+              class="relative aspect-[2/3] rounded-lg overflow-hidden transition-all duration-200 ease-in-out group-hover:scale-105 shadow-md"
+              :class="getQualityGradient(outfit.quality)"
             >
-              <div
-                class="relative aspect-[2/3] rounded-lg overflow-hidden transition-all duration-300 ease-in-out hover:scale-105"
-                :class="getQualityGradient(outfit.quality)"
-              >
-                <NuxtImg
-                  :src="`/outfits/${outfit.id}.png`"
-                  :alt="outfit.name"
-                  class="absolute inset-0 w-full h-full object-contain z-10"
-                  width="300"
-                  height="450"
-                  fit="cover"
-                  loading="lazy"
-                  sizes="xs:100vw sm:50vw md:50vw lg:33vw xl:25vw"
-                  
-                  
-                  @error="handleImageError"
-                />
-                <div class="absolute top-2 right-2 z-20">
-                  <n-tag
-                    round
-                    size="small"
-                    :bordered="false"
-                    :type="getQualityType(outfit.quality)"
-                  >
-                    {{ outfit.quality }}<n-icon class="ml-1"><Star /></n-icon>
-                  </n-tag>
-                </div>
+              <NuxtImg
+                :src="`/images/outfits/${outfit.id}.png`"
+                :alt="outfit.name"
+                class="absolute inset-0 w-full h-full object-contain z-10"
+                width="200"
+                height="300"
+                fit="cover"
+                loading="lazy"
+                sizes="sm:50vw md:33vw lg:25vw xl:20vw"
+                format="webp"
+                @error="handleImageError"
+              />
+              <div class="absolute top-1.5 right-1.5 z-20">
+                <n-tag
+                  round
+                  size="tiny"
+                  :bordered="false"
+                  :type="getQualityType(outfit.quality)"
+                >
+                  {{ outfit.quality
+                  }}<n-icon class="ml-0.5 text-xs"><Star /></n-icon>
+                </n-tag>
               </div>
-              <div class="mt-2 text-center">
-                <p class="font-semibold text-sm sm:text-base">
-                  {{ outfit.name }}
-                </p>
-              </div>
+            </div>
+            <div class="mt-1.5 text-center">
+              <p class="font-medium text-xs sm:text-sm line-clamp-2">
+                {{ outfit.name }}
+              </p>
             </div>
           </div>
         </div>
@@ -246,10 +242,13 @@
   // Composable
   const { fetchItemById } = useSupabaseItems()
 
-  // Computed related outfits
+  // Computed related outfits with names from i18n
   const relatedOutfits = computed(() => {
     if (!item.value?.outfit_items) return []
-    return item.value.outfit_items.map((sc) => sc.outfits)
+    return item.value.outfit_items.map((sc) => ({
+      ...sc.outfits,
+      name: t(`outfit.${sc.outfits.id}.name`),
+    }))
   })
 
   // Get item type
@@ -258,13 +257,31 @@
     return getItemType(item.value.id)
   })
 
+  // Get item name from i18n (names are stored in i18n files, not database)
+  const itemName = computed(() => {
+    if (!item.value) return ''
+    return t(`item.${item.value.id}.name`)
+  })
+
+  // Get item description from database (if available in item_translations)
+  const itemDescription = computed(() => {
+    if (!item.value) return ''
+    // Description comes from database item_translations table
+    // The fetchItemById composable should fetch this
+    return (
+      (item.value as ItemWithOutfits & { description?: string }).description ||
+      ''
+    )
+  })
+
   // Fetch item data
   const loadItem = async () => {
     loading.value = true
     error.value = null
 
     try {
-      const data = await fetchItemById(itemId.value)
+      const { locale } = useI18n()
+      const data = await fetchItemById(itemId.value, locale.value)
       item.value = data
     } catch (e) {
       error.value = e as Error
@@ -326,7 +343,7 @@
   const handleImageError = (e: Event | string) => {
     if (typeof e === 'string') return
     const img = e.target as HTMLImageElement
-    img.src = '/images/loading.png'
+    img.src = '/images/loading.webp'
   }
 
   // Load item on mount
@@ -340,18 +357,18 @@
   useSeoMeta({
     title: () =>
       item.value
-        ? `${item.value.name} - ${t('navigation.items')} - ${t('navigation.subtitle')}`
+        ? `${itemName.value} - ${t('navigation.items')} - ${t('navigation.subtitle')}`
         : `${t('navigation.items')} - ${t('navigation.subtitle')}`,
     description: () =>
-      item.value?.description ||
-      t('meta.description.item_detail', { name: item.value?.name || '' }),
+      itemDescription.value ||
+      t('meta.description.item_detail', { name: itemName.value || '' }),
     ogTitle: () =>
       item.value
-        ? `${item.value.name} - ${t('navigation.items')}`
+        ? `${itemName.value} - ${t('navigation.items')}`
         : t('navigation.items'),
     ogDescription: () =>
-      item.value?.description ||
-      t('meta.description.item_detail', { name: item.value?.name || '' }),
+      itemDescription.value ||
+      t('meta.description.item_detail', { name: itemName.value || '' }),
     ogImage: () =>
       item.value
         ? `https://ik.imagekit.io/gongeous/items/${item.value.id}.png`
@@ -359,11 +376,11 @@
     ogType: 'website',
     twitterTitle: () =>
       item.value
-        ? `${item.value.name} - ${t('navigation.items')}`
+        ? `${itemName.value} - ${t('navigation.items')}`
         : t('navigation.items'),
     twitterDescription: () =>
-      item.value?.description ||
-      t('meta.description.item_detail', { name: item.value?.name || '' }),
+      itemDescription.value ||
+      t('meta.description.item_detail', { name: itemName.value || '' }),
     twitterImage: () =>
       item.value
         ? `https://ik.imagekit.io/gongeous/items/${item.value.id}.png`
@@ -384,10 +401,10 @@
             children: JSON.stringify({
               '@context': 'https://schema.org',
               '@type': 'Product',
-              name: item.value.name,
+              name: itemName.value,
               description:
-                item.value.description ||
-                `${item.value.name} - Infinity Nikki Item`,
+                itemDescription.value ||
+                `${itemName.value} - Infinity Nikki Item`,
               image: `https://ik.imagekit.io/gongeous/items/${item.value.id}.png`,
               brand: {
                 '@type': 'Brand',

@@ -15,16 +15,15 @@
         @click="handleClick"
       >
         <NuxtImg
-          :src="`/items/icons/${itemId}.png`"
+          :src="`/images/items/icons/${itemId}.png`"
           :alt="itemName"
           class="w-full h-full object-cover aspect-square"
           :width="getImageSize(size)"
           :height="getImageSize(size)"
           fit="cover"
           loading="lazy"
-          placeholder="/images/loading.png"
+          placeholder="/images/loading.webp"
           :sizes="getImageSizes(size)"
-          
           @error="handleImageError"
         />
       </n-card>
@@ -59,71 +58,13 @@
     click: [itemId: number]
   }>()
 
-  const { t, locale } = useI18n()
+  const { t } = useI18n()
   const router = useRouter()
-  const supabase = useSupabaseDataClient()
 
-  // Get item name - use prop if provided, otherwise fetch from database
-  const itemName = ref(props.name || '')
-
-  // Fetch item name from database if not provided as prop
-  if (!props.name) {
-    const { data } = await supabase
-      .from('items')
-      .select(
-        `
-        name,
-        item_translations!left(name, language_code)
-      `
-      )
-      .eq('id', props.itemId)
-      .single()
-
-    if (data) {
-      // Get localized name
-      const translations = (data as any).item_translations || []
-      const translation = translations.find(
-        (t: any) => t.language_code === locale.value
-      )
-      const enTranslation = translations.find(
-        (t: any) => t.language_code === 'en'
-      )
-
-      itemName.value =
-        translation?.name || enTranslation?.name || (data as any).name
-    } else {
-      // Fallback to i18n if database fetch fails
-      itemName.value = t(`item.${props.itemId}.name`)
-    }
-  }
-
-  // Watch for locale changes to update name
-  watch(locale, async () => {
-    if (!props.name) {
-      const { data } = await supabase
-        .from('items')
-        .select(
-          `
-          name,
-          item_translations!left(name, language_code)
-        `
-        )
-        .eq('id', props.itemId)
-        .single()
-
-      if (data) {
-        const translations = (data as any).item_translations || []
-        const translation = translations.find(
-          (t: any) => t.language_code === locale.value
-        )
-        const enTranslation = translations.find(
-          (t: any) => t.language_code === 'en'
-        )
-
-        itemName.value =
-          translation?.name || enTranslation?.name || (data as any).name
-      }
-    }
+  // Get item name from i18n - names are stored in i18n JSON files, not in the database
+  const itemName = computed(() => {
+    if (props.name) return props.name
+    return t(`item.${props.itemId}.name`)
   })
 
   // Get item type - use prop if available, otherwise derive from ID
@@ -197,6 +138,6 @@
   const handleImageError = (event: string | Event) => {
     if (typeof event === 'string') return
     const img = event.target as HTMLImageElement
-    img.src = '/images/loading.png'
+    img.src = '/images/loading.webp'
   }
 </script>

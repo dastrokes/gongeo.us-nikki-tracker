@@ -1,15 +1,15 @@
 /**
  * Supabase database type definitions for outfits and items
  * These types represent the structure of data stored in Supabase tables
+ * Note: Names are stored in i18n JSON files for client-side search, not in the database
  */
 
 /**
  * Represents an outfit record from the Supabase outfits table
+ * Names are stored in i18n JSON files, not in the database
  */
 export interface SupabaseOutfit {
   id: number
-  name: string
-  description: string | null
   quality: number
   created_at: string
   updated_at: string
@@ -17,11 +17,10 @@ export interface SupabaseOutfit {
 
 /**
  * Represents an item record from the Supabase items table
+ * Names are stored in i18n JSON files, not in the database
  */
 export interface SupabaseItem {
   id: number
-  name: string
-  description: string | null
   quality: number
   type: string
   created_at: string

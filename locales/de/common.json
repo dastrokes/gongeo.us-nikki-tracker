@@ -10,7 +10,9 @@
     "vote": "Banner-Abstimmung",
     "faq": "FAQ",
     "about": "Über gongeo.us",
-    "nuan5pro": "Nuan5.Pro"
+    "nuan5pro": "Nuan5.Pro",
+    "outfits": "Outfits",
+    "items": "Stücke"
   },
   "social": {
     "discord": "Werde Teil unserer Discord-Community",
@@ -30,7 +32,11 @@
       "banner": "Schau dir den gesamten Infinity Nikki Resonanz-Verlauf an, einschließlich aktueller und vergangener Events, begrenzter und dauerhafter Banner, Outfit-Details, Banner-Dauer und Wiederholungs-Zeitplan.",
       "banner_detail": "Schau dir detaillierte Infinity Nikki Resonanz-Banner-Daten an, einschließlich Resonanz-Statistiken, Banner-Outfits und individuelle Stück-Details.",
       "faq": "Finde die Antworten auf häufig gestellte Fragen über gongeo.us, einschließlich Datenschutz, Importmethoden und Nutzungsrichtlinien.",
-      "about": "Lerne mehr über gongeo.us, einschließlich seiner Zwecke, Datenschutzrichtlinien, Haftungsausschlüsse und wie es die Infinity Nikki Community unterstützt."
+      "about": "Lerne mehr über gongeo.us, einschließlich seiner Zwecke, Datenschutzrichtlinien, Haftungsausschlüsse und wie es die Infinity Nikki Community unterstützt.",
+      "outfits": "Durchstöbere alle Infinity Nikki Outfits. Schau dir Outfit-Details, Qualitätsbewertungen und Bestandteile für jedes Outfit im Spiel an.",
+      "items": "Durchstöbere alle Infinity Nikki Stücke. Schau dir Stück-Details, Qualitätsbewertungen an und welche Outfits jedes Stück beinhalten.",
+      "outfit_detail": "Detaillierte Informationen über {name}, inklusive Bestandteile und Qualitätsbewertung, ansehen.",
+      "item_detail": "Detaillierte Informationen über {name}, inklusive verwandter Outfits und Qualitätsbewertung, ansehen."
     }
   },
   "index": {
@@ -399,6 +405,12 @@
       "backpieces": "Rückenaccessoire",
       "rings": "Ring",
       "armDecorations": "Armschmuck",
+      "baseMakeup": "Basis-Makeup",
+      "eyebrows": "Augenbrauen",
+      "eyelashes": "Wimpern",
+      "contactLenses": "Kontaktlinsen",
+      "lips": "Lippen",
+      "skinTones": "Hauttöne",
       "unknown": "Unbekannt"
     }
   },
@@ -579,6 +591,7 @@
     "rankings": {
       "title": "Banner-Rangliste",
       "description": "Schau dir an, welche Banner von Version 1.x am beliebtesten sind, basierend auf Community-Abstimmungen.",
+      "votingPeriod": "Abstimmungszeitraum",
       "voteMore": "Abstimmen",
       "lastUpdated": "Zuletzt aktualisiert",
       "rank": "Rang",
@@ -597,5 +610,43 @@
   },
   "language_switcher": {
     "help_translate": "Übersetzen helfen"
+  },
+  "outfit": {
+    "search_placeholder": "Outfits durchsuchen...",
+    "filter_all": "Alle",
+    "error_title": "Outfits konnten nicht geladen werden",
+    "error_description": "Outfit-Daten konnten nicht geladen werden. Bitte überprüfe deine Verbindung und versuche es erneut.",
+    "retry": "Erneut versuchen",
+    "no_results_title": "Keine Outfits gefunden",
+    "no_results_description": "Keine Outfits entsprechen deinen Suchkriterien.",
+    "breadcrumb_list": "Outfits",
+    "detail_loading": "Lädt...",
+    "detail_description": "Beschreibung",
+    "detail_component_items": "Bestandteile",
+    "back_to_list": "Zurück zu Outfits",
+    "not_found_title": "Outfit nicht gefunden",
+    "not_found_description": "Dieses Outfit konnte nicht gefunden werden. Es wurde möglicherweise entfernt.",
+    "quality_5_star": "5-Sterne-Outfit",
+    "quality_4_star": "4-Sterne-Outfit",
+    "quality_3_star": "3-Sterne-Outfit"
+  },
+  "item": {
+    "search_placeholder": "Stücke durchsuchen...",
+    "filter_all": "Alle",
+    "filter_type": "Nach Typ filtern",
+    "filter_all_types": "Alle Typen",
+    "error_title": "Stücke konnten nicht geladen werden",
+    "error_description": "Stück-Daten konnten nicht geladen werden. Bitte überprüfe deine Verbindung und versuche es erneut.",
+    "retry": "Erneut versuchen",
+    "breadcrumb_list": "Stücke",
+    "detail_loading": "Lädt...",
+    "detail_description": "Beschreibung",
+    "detail_related_outfits": "Verwandte Outfits",
+    "back_to_list": "Zurück zu Stücke",
+    "not_found_title": "Stück nicht gefunden",
+    "not_found_description": "Dieses Stück konnte nicht gefunden werden. Es wurde möglicherweise entfernt.",
+    "quality_5_star": "5-Sterne-Stück",
+    "quality_4_star": "4-Sterne-Stück",
+    "quality_3_star": "3-Sterne-Stück"
   }
 }

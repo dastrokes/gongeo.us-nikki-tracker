@@ -27,7 +27,8 @@ export const useSupabaseOutfits = () => {
 
   /**
    * Fetch all outfits from the Supabase outfits table
-   * Orders results by quality (descending) then by name
+   * Orders results by quality (descending) then by id
+   * Note: Names are stored in i18n JSON files, not in the database
    * @returns Promise resolving to array of outfits
    */
   const fetchOutfits = async (): Promise<SupabaseOutfit[]> => {
@@ -37,9 +38,9 @@ export const useSupabaseOutfits = () => {
     try {
       const { data, error: supabaseError } = await supabase
         .from('outfits')
-        .select('id, name, quality')
+        .select('id, quality')
         .order('quality', { ascending: false })
-        .order('name', { ascending: true })
+        .order('id', { ascending: true })
 
       if (supabaseError) throw supabaseError
 
@@ -57,37 +58,87 @@ export const useSupabaseOutfits = () => {
   /**
    * Fetch a single outfit by ID with its component items
    * Uses a join query to include related items from outfit_items table
+   * Optionally fetches description from outfit_translations table
+   * Note: Names are stored in i18n JSON files, not in the database
    * @param id - The outfit ID to fetch
+   * @param languageCode - Optional language code for fetching description
    * @returns Promise resolving to outfit with items or null if not found
    */
   const fetchOutfitById = async (
-    id: number
+    id: number,
+    languageCode?: string
   ): Promise<OutfitWithItems | null> => {
     loading.value = true
     error.value = null
 
     try {
-      const { data, error: supabaseError } = await supabase
-        .from('outfits')
-        .select(
-          `
+      let selectQuery = `
+        id,
+        quality,
+        outfit_items (
+          items (
+            id,
+            quality,
+            type
+          )
+        )
+      `
+
+      // Add description from translations if language code is provided
+      if (languageCode) {
+        selectQuery = `
           id,
-          name,
-          description,
           quality,
+          outfit_translations!left (
+            description,
+            language_code
+          ),
           outfit_items (
             items (
               id,
-              name,
-              quality
+              quality,
+              type
             )
           )
         `
-        )
+      }
+
+      const { data, error: supabaseError } = await supabase
+        .from('outfits')
+        .select(selectQuery)
         .eq('id', id)
         .single()
 
       if (supabaseError) throw supabaseError
+
+      // Extract description from translations if available
+      if (data && languageCode) {
+        const dataWithTranslations = data as OutfitWithItems & {
+          outfit_translations?: Array<{
+            description: string
+            language_code: string
+          }>
+        }
+
+        if (dataWithTranslations.outfit_translations) {
+          const translations = dataWithTranslations.outfit_translations
+          const translation = translations.find(
+            (t) => t.language_code === languageCode
+          )
+          const enTranslation = translations.find(
+            (t) => t.language_code === 'en'
+          )
+
+          // Add description to the main object
+          const dataWithDescription = data as OutfitWithItems & {
+            description?: string
+          }
+          dataWithDescription.description =
+            translation?.description || enTranslation?.description || ''
+          // Remove the translations array from the response
+          delete dataWithTranslations.outfit_translations
+        }
+      }
 
       return data as OutfitWithItems | null
     } catch (e) {
@@ -100,22 +151,28 @@ export const useSupabaseOutfits = () => {
   }
 
   /**
-   * Search outfits by name using fuzzy text matching
-   * Uses case-insensitive substring matching
-   * @param query - The search query string
+   * Search outfits by name using client-side filtering
+   * Note: Names are stored in i18n JSON files, search should be done client-side
+   * This function is deprecated - use client-side search instead
+   * @param _query - The search query string (unused, kept for API compatibility)
    * @returns Promise resolving to array of matching outfits
    */
-  const searchOutfits = async (query: string): Promise<SupabaseOutfit[]> => {
+  const searchOutfits = async (_query: string): Promise<SupabaseOutfit[]> => {
     loading.value = true
     error.value = null
 
     try {
+      // Since names are not in the database, we can't search by name here
+      // This should be handled client-side with i18n data
+      console.warn(
+        'searchOutfits is deprecated - names are stored in i18n files, use client-side search'
+      )
+
       const { data, error: supabaseError } = await supabase
         .from('outfits')
-        .select('id, name, quality')
-        .ilike('name', `%${query}%`)
+        .select('id, quality')
         .order('quality', { ascending: false })
-        .order('name', { ascending: true })
+        .order('id', { ascending: true })
 
       if (supabaseError) throw supabaseError
 
@@ -132,6 +189,7 @@ export const useSupabaseOutfits = () => {
 
   /**
    * Filter outfits by quality level
+   * Note: Names are stored in i18n JSON files, not in the database
    * @param quality - The quality level to filter by (e.g., 3, 4, 5)
    * @returns Promise resolving to array of outfits matching the quality
    */
@@ -144,9 +202,9 @@ export const useSupabaseOutfits = () => {
     try {
       const { data, error: supabaseError } = await supabase
         .from('outfits')
-        .select('id, name, quality')
+        .select('id, quality')
         .eq('quality', quality)
-        .order('name', { ascending: true })
+        .order('id', { ascending: true })
 
       if (supabaseError) throw supabaseError
 
@@ -162,8 +220,8 @@ export const useSupabaseOutfits = () => {
   }
 
   /**
-   * Fetch outfits with server-side filtering, search, and pagination
-   * Includes automatic retry with exponential backoff
+   * Fetch outfits with server-side filtering and pagination
+   * Note: Names are stored in i18n JSON files, search should be done client-side
    * @param filters - Object containing search, quality, page, and pageSize
    * @returns Promise resolving to paginated response with data and metadata
    */
@@ -173,20 +231,18 @@ export const useSupabaseOutfits = () => {
     loading.value = true
     error.value = null
 
-    const { search = '', quality = null, page = 1, pageSize = 20 } = filters
+    const { quality = null, page = 1, pageSize = 20 } = filters
 
     try {
       // Build the query
       let query = supabase
         .from('outfits')
-        .select('id, name, quality', { count: 'exact' })
+        .select('id, quality', { count: 'exact' })
         .order('quality', { ascending: false })
-        .order('name', { ascending: true })
+        .order('id', { ascending: true })
 
-      // Apply search filter
-      if (search && search.trim()) {
-        query = query.ilike('name', `%${search}%`)
-      }
+      // Note: Search by name is not supported here since names are in i18n files
+      // Search should be done client-side after fetching the data
 
       // Apply quality filter
       if (quality !== null && quality !== undefined) {

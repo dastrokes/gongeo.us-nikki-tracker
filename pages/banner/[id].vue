@@ -564,14 +564,14 @@
                         class="relative block w-full h-full rounded-md overflow-hidden ring-1 bg-gradient-to-br from-[#fff8e1] to-[#ffcc80] hover:shadow-[0_0_10px_0_rgba(255,204,128,0.5)] ring-amber-200/30 hover:ring-amber-200/80 dark:from-[#713f12] dark:to-[#451a03] dark:hover:shadow-[0_0_10px_0_rgba(113,63,18,0.5)] dark:ring-amber-900/30 dark:hover:ring-amber-900/60 hover:opacity-95 transition-all"
                       >
                         <NuxtImg
-                          :src="`/images/items/${rewardId}.png`"
+                          :src="`/images/items/icons/${rewardId}.png`"
                           :alt="t(`item.${rewardId}.name`)"
                           class="w-full h-full object-cover"
                           width="120"
                           height="120"
                           fit="cover"
                           loading="lazy"
-                          placeholder="/images/loading.png"
+                          placeholder="/images/loading.webp"
                           sizes="80px sm:120px"
                         />
                         <n-tooltip

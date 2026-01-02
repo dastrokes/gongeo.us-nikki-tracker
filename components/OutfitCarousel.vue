@@ -1,14 +1,21 @@
 <template>
   <div class="space-y-3">
     <div class="flex items-center gap-2">
-      <n-tag
-        :type="rarity === 5 ? 'warning' : 'info'"
-        :bordered="false"
-        round
+      <NuxtLink
+        no-prefetch
+        :to="localePath(`/outfit/${outfitId}`)"
+        class="cursor-pointer hover:opacity-80 transition-opacity"
       >
-        {{ t(`outfit.${outfitId}.name`) }} {{ rarity
-        }}<n-icon class="ml-1"><Star /></n-icon>
-      </n-tag>
+        <n-tag
+          :type="rarity === 5 ? 'warning' : 'info'"
+          :bordered="false"
+          round
+          class="cursor-pointer"
+        >
+          {{ t(`outfit.${outfitId}.name`) }} {{ rarity
+          }}<n-icon class="ml-1"><Star /></n-icon>
+        </n-tag>
+      </NuxtLink>
     </div>
 
     <!-- Outfit Images Carousel with Items Grid -->
@@ -30,8 +37,10 @@
             :key="index"
             :class="rarity === 5 ? 'w-[60%]' : 'w-[40%]'"
           >
-            <div
-              class="relative aspect-[2/3] rounded-lg overflow-hidden transition-all duration-300 ease-in-out"
+            <NuxtLink
+              no-prefetch
+              :to="localePath(`/outfit/${outfitId}`)"
+              class="relative aspect-[2/3] rounded-lg overflow-hidden transition-all duration-300 ease-in-out cursor-pointer block"
               :class="cardGradient"
             >
               <NuxtImg
@@ -70,7 +79,7 @@
                   </span>
                 </n-tag>
               </div>
-            </div>
+            </NuxtLink>
           </n-carousel-item>
         </n-carousel>
       </div>
@@ -104,6 +113,7 @@
 
   const props = defineProps<Props>()
   const { t } = useI18n()
+  const localePath = useLocalePath()
   const OUTFIT_CARD_GRADIENTS = {
     fiveStar:
       'bg-gradient-to-br from-[#fff8e1] to-[#ffcc80] hover:brightness-105 dark:from-[#713f12] dark:to-[#451a03]',
@@ -128,17 +138,18 @@
     // Add level variants based on rarity
     const maxLevel = props.rarity === 5 ? 4 : 2
     for (let i = 2; i <= maxLevel; i++) {
+      const levelNum = i.toString().padStart(2, '0')
       images.push({
-        src: `/images/outfits/${props.outfitId}_LV${i}.png`,
-        alt: `${t(`outfit.${props.outfitId}.name`)} LV${i}`,
+        src: `/images/outfits/${props.outfitId}${levelNum}.png`,
+        alt: `${t(`outfit.${props.outfitId}.name`)} ${levelNum}`,
         level: i,
       })
     }
 
-    // Add LV1 (glowed up) image
+    // Add 01 (glowed up) image
     images.push({
-      src: `/images/outfits/${props.outfitId}_LV1.png`,
-      alt: `${t(`outfit.${props.outfitId}.name`)} LV1`,
+      src: `/images/outfits/${props.outfitId}01.png`,
+      alt: `${t(`outfit.${props.outfitId}.name`)} 01`,
       level: 'glow',
     })
 

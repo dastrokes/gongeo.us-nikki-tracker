@@ -13,7 +13,7 @@
             v-model:value="searchQuery"
             :placeholder="t('item.search_placeholder')"
             clearable
-            size="large"
+            size="medium"
           >
             <template #prefix>
               <n-icon><Search /></n-icon>
@@ -107,7 +107,7 @@
       <!-- Loading State -->
       <div
         v-if="loading"
-        class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4"
+        class="grid grid-cols-5 sm:grid-cols-10 gap-2"
       >
         <div
           v-for="i in pageSize"
@@ -160,7 +160,7 @@
       >
         <div
           v-if="!loading && !error && items.length > 0"
-          class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4"
+          class="grid grid-cols-5 sm:grid-cols-10 gap-2"
         >
           <ItemPreviewCard
             v-for="item in items"
@@ -168,6 +168,7 @@
             :item-id="item.id"
             :quality="item.quality"
             :type="item.type"
+            :name="t(`item.${item.id}.name`)"
             :clickable="true"
             size="medium"
           />
@@ -222,6 +223,7 @@
 <script setup lang="ts">
   import { Search, Star } from '@vicons/fa'
   import { useDebounceFn } from '@vueuse/core'
+  import Fuse from 'fuse.js'
 
   const { t } = useI18n()
   const localePath = useLocalePath()
@@ -235,7 +237,7 @@
   )
   const typeFilter = ref<string | null>(route.query.type?.toString() || null)
   const currentPage = ref(Number(route.query.page) || 1)
-  const pageSize = ref(Number(route.query.pageSize) || 40)
+  const pageSize = ref(Number(route.query.pageSize) || 30)
 
   // Composable
   const { fetchItemsPaginated } = useSupabaseItems()
@@ -254,8 +256,19 @@
   } = await useAsyncData(
     cacheKey.value,
     async () => {
+      // If searching, fetch all items for client-side filtering
+      if (searchQuery.value) {
+        const response = await fetchItemsPaginated({
+          quality: qualityFilter.value,
+          type: typeFilter.value,
+          page: 1,
+          pageSize: 10000, // Fetch all items when searching
+        })
+        return response
+      }
+
+      // Otherwise, use server-side pagination
       const response = await fetchItemsPaginated({
-        search: searchQuery.value,
         quality: qualityFilter.value,
         type: typeFilter.value,
         page: currentPage.value,
@@ -270,15 +283,70 @@
   )
 
   // Computed values from the response
-  const items = computed(() => itemsData.value?.data || [])
-  const totalItems = computed(() => itemsData.value?.total || 0)
-  const totalPages = computed(() => itemsData.value?.totalPages || 0)
+  const allItems = computed(() => itemsData.value?.data || [])
+
+  // Client-side search using Fuse.js (only when search query exists)
+  const searchedItems = computed(() => {
+    if (!searchQuery.value || !allItems.value.length) {
+      return allItems.value
+    }
+
+    // Minimum 2 characters required for search
+    if (searchQuery.value.trim().length < 2) {
+      return allItems.value
+    }
+
+    // Import item names from i18n for search
+    const itemsWithNames = allItems.value.map((item) => ({
+      ...item,
+      name: t(`item.${item.id}.name`),
+    }))
+
+    // Use Fuse.js for fuzzy search
+    const fuse = new Fuse(itemsWithNames, {
+      keys: ['name'],
+      threshold: 0.3,
+      includeScore: true,
+    })
+
+    const results = fuse.search(searchQuery.value)
+    return results.map((result) => result.item)
+  })
+
+  // Client-side pagination when searching
+  const items = computed(() => {
+    if (!searchQuery.value) {
+      return searchedItems.value
+    }
+
+    // Apply client-side pagination to search results
+    const start = (currentPage.value - 1) * pageSize.value
+    const end = start + pageSize.value
+    return searchedItems.value.slice(start, end)
+  })
+
+  const totalItems = computed(() => {
+    // If searching, return filtered count, otherwise server total
+    return searchQuery.value
+      ? searchedItems.value.length
+      : itemsData.value?.total || 0
+  })
+
+  const totalPages = computed(() => {
+    // If searching, calculate pages from filtered results, otherwise use server total
+    if (searchQuery.value) {
+      return Math.ceil(searchedItems.value.length / pageSize.value)
+    }
+    return itemsData.value?.totalPages || 0
+  })
 
   // Prefetch next page for better UX
   const prefetchNextPage = async () => {
+    // Only prefetch if not searching (server-side pagination)
+    if (searchQuery.value) return
+
     try {
       await fetchItemsPaginated({
-        search: searchQuery.value,
         quality: qualityFilter.value,
         type: typeFilter.value,
         page: currentPage.value + 1,
@@ -301,10 +369,22 @@
     }
   })
 
-  // Debounced search to avoid too many API calls
+  // Debounced search - triggers refetch with all items
   const debouncedSearch = useDebounceFn(() => {
     currentPage.value = 1
-    loadItems()
+    // Only refetch if we need to switch between search mode and normal mode
+    // or if we're entering search mode for the first time
+    const wasSearching = allItems.value.length > pageSize.value
+    const isSearching = searchQuery.value.trim().length >= 2
+
+    if (isSearching && !wasSearching) {
+      // Entering search mode - need to fetch all items
+      loadItems()
+    } else if (!isSearching && wasSearching) {
+      // Exiting search mode - need to fetch paginated items
+      loadItems()
+    }
+    // Otherwise, just let the computed property handle client-side filtering
   }, 1000)
 
   // Watch for search changes with debounce
@@ -324,6 +404,19 @@
     nextTick(() => loadItems())
   })
 
+  // Watch for page changes (when not searching, need to refetch)
+  watch(currentPage, () => {
+    if (!searchQuery.value) {
+      nextTick(() => loadItems())
+    }
+  })
+
+  // Watch for page size changes
+  watch(pageSize, () => {
+    currentPage.value = 1
+    nextTick(() => loadItems())
+  })
+
   // Update URL query params when filters change
   watch([searchQuery, qualityFilter, typeFilter, currentPage, pageSize], () => {
     router.replace({
@@ -333,7 +426,7 @@
         ...(typeFilter.value &&
           typeFilter.value !== 'all' && { type: typeFilter.value }),
         ...(currentPage.value > 1 && { page: currentPage.value }),
-        ...(pageSize.value !== 40 && { pageSize: pageSize.value }),
+        ...(pageSize.value !== 30 && { pageSize: pageSize.value }),
       },
     })
   })

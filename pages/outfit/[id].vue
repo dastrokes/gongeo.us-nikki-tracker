@@ -55,30 +55,29 @@
         class="rounded-xl p-0 sm:p-2"
         content-class="!p-2 sm:p-4"
       >
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-6 lg:gap-8">
           <!-- Outfit Image -->
-          <div class="flex justify-center items-start">
+          <div class="flex justify-center lg:justify-start items-start">
             <div
-              class="relative aspect-[2/3] w-full max-w-md rounded-lg overflow-hidden"
+              class="relative aspect-[2/3] w-full max-w-[280px] rounded-lg overflow-hidden shadow-lg"
               :class="getQualityGradient(outfit.quality)"
             >
               <NuxtImg
-                :src="`/outfits/${outfit.id}.png`"
-                :alt="outfit.name"
+                :src="`/images/outfits/${outfit.id}.png`"
+                :alt="outfitName"
                 class="absolute inset-0 w-full h-full object-contain z-10"
-                width="400"
-                height="600"
+                width="280"
+                height="420"
                 fit="cover"
                 loading="eager"
-                sizes="xs:100vw sm:50vw md:50vw lg:400px"
+                sizes="280px"
                 format="webp"
-                quality="80"
                 @error="handleImageError"
               />
               <div class="absolute top-2 right-2 z-20">
                 <n-tag
                   round
-                  size="medium"
+                  size="small"
                   :bordered="false"
                   :type="getQualityType(outfit.quality)"
                 >
@@ -89,16 +88,16 @@
           </div>
 
           <!-- Outfit Info -->
-          <div class="space-y-6">
-            <div class="space-y-3">
-              <h1 class="text-3xl sm:text-4xl font-bold mb-3 leading-tight">
-                {{ outfit.name }}
+          <div class="space-y-4">
+            <div class="space-y-2">
+              <h1 class="text-2xl sm:text-3xl font-bold leading-tight">
+                {{ outfitName }}
               </h1>
               <n-tag
                 :type="getQualityType(outfit.quality)"
                 :bordered="false"
                 round
-                size="large"
+                size="medium"
               >
                 {{ getQualityLabel(outfit.quality) }}
               </n-tag>
@@ -106,20 +105,19 @@
 
             <!-- Description -->
             <div
-              v-if="outfit.description"
-              class="text-base sm:text-lg opacity-90 leading-relaxed"
+              v-if="outfitDescription"
+              class="text-sm sm:text-base opacity-90 leading-relaxed"
             >
-              <h3 class="text-lg sm:text-xl font-semibold mb-3">
+              <h3 class="text-base sm:text-lg font-semibold mb-2">
                 {{ t('outfit.detail_description') }}
               </h3>
-              <p class="whitespace-pre-wrap">{{ outfit.description }}</p>
+              <p class="whitespace-pre-wrap">{{ outfitDescription }}</p>
             </div>
 
             <!-- Back Button -->
-            <div class="pt-6">
+            <div class="pt-4">
               <n-button
                 type="primary"
-                size="large"
                 @click="navigateToList"
               >
                 <template #icon>
@@ -139,23 +137,22 @@
         class="rounded-xl p-0 sm:p-2"
         content-class="!p-2 sm:p-4"
       >
-        <div class="border-t border-gray-200 dark:border-gray-700 pt-6">
-          <h2 class="text-2xl font-bold mb-6">
-            {{ t('outfit.detail_component_items') }}
-          </h2>
-          <div
-            class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4"
-          >
-            <ItemPreviewCard
-              v-for="item in componentItems"
-              :key="item.id"
-              :item-id="item.id"
-              :quality="item.quality"
-              :type="item.type"
-              :clickable="true"
-              size="medium"
-            />
-          </div>
+        <h2 class="text-xl font-bold mb-4">
+          {{ t('outfit.detail_component_items') }}
+        </h2>
+        <div
+          class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-3"
+        >
+          <ItemPreviewCard
+            v-for="item in componentItems"
+            :key="item.id"
+            :item-id="item.id"
+            :quality="item.quality"
+            :type="item.type"
+            :name="t(`item.${item.id}.name`)"
+            :clickable="true"
+            size="small"
+          />
         </div>
       </n-card>
     </template>
@@ -211,13 +208,31 @@
     return outfit.value.outfit_items.map((oi) => oi.items)
   })
 
+  // Get outfit name from i18n (names are stored in i18n files, not database)
+  const outfitName = computed(() => {
+    if (!outfit.value) return ''
+    return t(`outfit.${outfit.value.id}.name`)
+  })
+
+  // Get outfit description from database (if available in outfit_translations)
+  const outfitDescription = computed(() => {
+    if (!outfit.value) return ''
+    // Description comes from database outfit_translations table
+    // The fetchOutfitById composable should fetch this
+    return (
+      (outfit.value as OutfitWithItems & { description?: string })
+        .description || ''
+    )
+  })
+
   // Fetch outfit data
   const loadOutfit = async () => {
     loading.value = true
     error.value = null
 
     try {
-      const data = await fetchOutfitById(outfitId.value)
+      const { locale } = useI18n()
+      const data = await fetchOutfitById(outfitId.value, locale.value)
       outfit.value = data
     } catch (e) {
       error.value = e as Error
@@ -288,18 +303,18 @@
   useSeoMeta({
     title: () =>
       outfit.value
-        ? `${outfit.value.name} - ${t('navigation.outfits')} - ${t('navigation.subtitle')}`
+        ? `${outfitName.value} - ${t('navigation.outfits')} - ${t('navigation.subtitle')}`
         : `${t('navigation.outfits')} - ${t('navigation.subtitle')}`,
     description: () =>
-      outfit.value?.description ||
-      t('meta.description.outfit_detail', { name: outfit.value?.name || '' }),
+      outfitDescription.value ||
+      t('meta.description.outfit_detail', { name: outfitName.value || '' }),
     ogTitle: () =>
       outfit.value
-        ? `${outfit.value.name} - ${t('navigation.outfits')}`
+        ? `${outfitName.value} - ${t('navigation.outfits')}`
         : t('navigation.outfits'),
     ogDescription: () =>
-      outfit.value?.description ||
-      t('meta.description.outfit_detail', { name: outfit.value?.name || '' }),
+      outfitDescription.value ||
+      t('meta.description.outfit_detail', { name: outfitName.value || '' }),
     ogImage: () =>
       outfit.value
         ? `https://ik.imagekit.io/gongeous/outfits/${outfit.value.id}.png`
@@ -307,11 +322,11 @@
     ogType: 'website',
     twitterTitle: () =>
       outfit.value
-        ? `${outfit.value.name} - ${t('navigation.outfits')}`
+        ? `${outfitName.value} - ${t('navigation.outfits')}`
         : t('navigation.outfits'),
     twitterDescription: () =>
-      outfit.value?.description ||
-      t('meta.description.outfit_detail', { name: outfit.value?.name || '' }),
+      outfitDescription.value ||
+      t('meta.description.outfit_detail', { name: outfitName.value || '' }),
     twitterImage: () =>
       outfit.value
         ? `https://ik.imagekit.io/gongeous/outfits/${outfit.value.id}.png`
@@ -332,10 +347,10 @@
             children: JSON.stringify({
               '@context': 'https://schema.org',
               '@type': 'Product',
-              name: outfit.value.name,
+              name: outfitName.value,
               description:
-                outfit.value.description ||
-                `${outfit.value.name} - Infinity Nikki Outfit`,
+                outfitDescription.value ||
+                `${outfitName.value} - Infinity Nikki Outfit`,
               image: `https://ik.imagekit.io/gongeous/outfits/${outfit.value.id}.png`,
               brand: {
                 '@type': 'Brand',

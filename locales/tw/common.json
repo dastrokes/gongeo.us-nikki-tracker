@@ -10,7 +10,9 @@
     "vote": "卡池投票",
     "faq": "常見問題",
     "about": "關於本站",
-    "nuan5pro": "無暖助手"
+    "nuan5pro": "無暖助手",
+    "outfits": "套裝",
+    "items": "部件"
   },
   "social": {
     "discord": "加入我們的 Discord 社群",
@@ -30,7 +32,11 @@
       "banner": "檢視完整的無限暖暖卡池歷史記錄，包含當前和過往卡池，限定和常駐卡池、套裝詳情、持續時間及復刻時間等資訊。",
       "banner_detail": "檢視特定無限暖暖卡池的詳細資訊，包括抽卡統計資料、套裝完成狀態、套裝詳情和單個部件詳情。",
       "faq": "檢視關於暖暖共鳴錄的常見問題解答，包括資料隱私、匯入方式和使用指南等資訊。",
-      "about": "瞭解暖暖共鳴錄的相關資訊，包括免責宣告、隱私政策等資訊。"
+      "about": "瞭解暖暖共鳴錄的相關資訊，包括免責宣告、隱私政策等資訊。",
+      "outfits": "瀏覽所有無限暖暖套裝。檢視套裝詳情、品質評級和每個套裝的組件部件。",
+      "items": "瀏覽所有無限暖暖部件。檢視部件詳情、品質評級以及包含該部件的套裝。",
+      "outfit_detail": "檢視{name}的詳細資訊，包括組件部件和品質評級。",
+      "item_detail": "檢視{name}的詳細資訊，包括相關套裝和品質評級。"
     }
   },
   "index": {
@@ -399,6 +405,12 @@
       "backpieces": "背飾",
       "rings": "戒指",
       "armDecorations": "臂飾",
+      "baseMakeup": "底妝",
+      "eyebrows": "眉毛",
+      "eyelashes": "睫毛",
+      "contactLenses": "美瞳",
+      "lips": "唇妝",
+      "skinTones": "膚色",
       "unknown": "未知"
     }
   },
@@ -579,6 +591,7 @@
     "rankings": {
       "title": "卡池排名",
       "description": "根據社群投票檢視1.x版本中最受歡迎的卡池。",
+      "votingPeriod": "投票時間",
       "voteMore": "繼續投票",
       "lastUpdated": "最後更新",
       "rank": "排名",
@@ -597,5 +610,43 @@
   },
   "language_switcher": {
     "help_translate": "幫助翻譯"
+  },
+  "outfit": {
+    "search_placeholder": "搜尋套裝...",
+    "filter_all": "全部",
+    "error_title": "載入套裝失敗",
+    "error_description": "無法載入套裝資料。請檢查您的連線並重試。",
+    "retry": "重試",
+    "no_results_title": "未找到套裝",
+    "no_results_description": "沒有符合您搜尋條件的套裝。",
+    "breadcrumb_list": "套裝",
+    "detail_loading": "載入中...",
+    "detail_description": "描述",
+    "detail_component_items": "組件物品",
+    "back_to_list": "返回套裝列表",
+    "not_found_title": "未找到套裝",
+    "not_found_description": "找不到此套裝。它可能已被刪除。",
+    "quality_5_star": "5星套裝",
+    "quality_4_star": "4星套裝",
+    "quality_3_star": "3星套裝"
+  },
+  "item": {
+    "search_placeholder": "搜尋物品...",
+    "filter_all": "全部",
+    "filter_type": "按類型篩選",
+    "filter_all_types": "全部類型",
+    "error_title": "載入物品失敗",
+    "error_description": "無法載入物品資料。請檢查您的連線並重試。",
+    "retry": "重試",
+    "breadcrumb_list": "物品",
+    "detail_loading": "載入中...",
+    "detail_description": "描述",
+    "detail_related_outfits": "相關套裝",
+    "back_to_list": "返回物品列表",
+    "not_found_title": "未找到物品",
+    "not_found_description": "找不到此物品。它可能已被刪除。",
+    "quality_5_star": "5星物品",
+    "quality_4_star": "4星物品",
+    "quality_3_star": "3星物品"
   }
 }

@@ -3,7 +3,7 @@
   <n-button
     text
     size="tiny"
-    :aria-label="t('accessibility.search')"
+    :aria-label="t('common.search')"
     class="sm:hidden"
     @click="toggleSearch"
   >
@@ -37,7 +37,7 @@
       class="fixed w-full sm:max-w-80 sm:right-4 top-1.5 rounded-xl bg-slate-900"
       :options="autoCompleteOptions"
       :render-label="renderLabel"
-      :placeholder="t('search.placeholder')"
+      :placeholder="t('default.search.placeholder')"
       :loading="isLoading"
       clear-after-select
       clearable
@@ -47,7 +47,7 @@
     >
       <template #empty>
         <div class="text-gray-500 text-center py-4">
-          {{ t('search.noResults') }}
+          {{ t('default.search.noResults') }}
         </div>
       </template>
     </n-auto-complete>

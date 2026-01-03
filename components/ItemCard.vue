@@ -82,14 +82,14 @@
         <div class="text-center">
           <div class="font-medium">{{ t(`item.${item.itemId}.name`) }}</div>
           <div class="text-sm">
-            {{ t(`items.types.${itemType}`) }}
+            {{ t(`tracker.items.types.${itemType}`) }}
           </div>
           <div
             v-if="item.count > 0"
             class="text-sm mt-1"
           >
             <span v-if="item.pullIndex > 0">
-              {{ t('items.pull', { number: item.pullIndex }) }}
+              {{ t('tracker.items.pull', { number: item.pullIndex }) }}
             </span>
           </div>
         </div>

@@ -28,8 +28,12 @@
     >
       <n-result
         status="error"
-        :title="t('outfit.error_title')"
-        :description="t('outfit.error_description')"
+        :title="t('compendium.error_title', { type: t('common.outfit') })"
+        :description="
+          t('compendium.error_description', {
+            type: t('common.outfit').toLowerCase(),
+          })
+        "
       >
         <template #footer>
           <n-space>
@@ -37,10 +41,10 @@
               type="primary"
               @click="retryFetch"
             >
-              {{ t('outfit.retry') }}
+              {{ t('common.retry') }}
             </n-button>
             <n-button @click="navigateToList">
-              {{ t('outfit.back_to_list') }}
+              {{ t('compendium.back_to_list', { type: t('common.outfit') }) }}
             </n-button>
           </n-space>
         </template>
@@ -109,7 +113,7 @@
               class="text-sm sm:text-base opacity-90 leading-relaxed"
             >
               <h3 class="text-base sm:text-lg font-semibold mb-2">
-                {{ t('outfit.detail_description') }}
+                {{ t('common.description') }}
               </h3>
               <p class="whitespace-pre-wrap">{{ outfitDescription }}</p>
             </div>
@@ -123,7 +127,7 @@
                 <template #icon>
                   <n-icon><ArrowLeft /></n-icon>
                 </template>
-                {{ t('outfit.back_to_list') }}
+                {{ t('compendium.back_to_list', { type: t('common.outfit') }) }}
               </n-button>
             </div>
           </div>
@@ -138,7 +142,7 @@
         content-class="!p-2 sm:p-4"
       >
         <h2 class="text-xl font-bold mb-4">
-          {{ t('outfit.detail_component_items') }}
+          {{ t('compendium.detail_component_items') }}
         </h2>
         <div
           class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-3"
@@ -166,15 +170,19 @@
     >
       <n-result
         status="404"
-        :title="t('outfit.not_found_title')"
-        :description="t('outfit.not_found_description')"
+        :title="t('compendium.not_found_title', { type: t('common.outfit') })"
+        :description="
+          t('compendium.not_found_description', {
+            type: t('common.outfit').toLowerCase(),
+          })
+        "
       >
         <template #footer>
           <n-button
             type="primary"
             @click="navigateToList"
           >
-            {{ t('outfit.back_to_list') }}
+            {{ t('compendium.back_to_list', { type: t('common.outfit') }) }}
           </n-button>
         </template>
       </n-result>
@@ -183,6 +191,8 @@
 </template>
 
 <script setup lang="ts">
+  import { h } from 'vue'
+  import { NIcon } from 'naive-ui'
   import { Star, ArrowLeft } from '@vicons/fa'
   import type { OutfitWithItems } from '~/types/supabase'
 
@@ -282,7 +292,10 @@
 
   // Get quality label
   const getQualityLabel = (quality: number) => {
-    return t(`outfit.quality_${quality}_star`)
+    return h('span', { class: 'inline-flex items-center' }, [
+      quality,
+      h(NIcon, { class: 'ml-1' }, () => h(Star)),
+    ])
   }
 
   // Handle image error
@@ -303,15 +316,15 @@
   useSeoMeta({
     title: () =>
       outfit.value
-        ? `${outfitName.value} - ${t('navigation.outfits')} - ${t('navigation.subtitle')}`
-        : `${t('navigation.outfits')} - ${t('navigation.subtitle')}`,
+        ? `${outfitName.value} - ${t('common.outfits')} - ${t('navigation.subtitle')}`
+        : `${t('common.outfits')} - ${t('navigation.subtitle')}`,
     description: () =>
       outfitDescription.value ||
       t('meta.description.outfit_detail', { name: outfitName.value || '' }),
     ogTitle: () =>
       outfit.value
-        ? `${outfitName.value} - ${t('navigation.outfits')}`
-        : t('navigation.outfits'),
+        ? `${outfitName.value} - ${t('common.outfits')}`
+        : t('common.outfits'),
     ogDescription: () =>
       outfitDescription.value ||
       t('meta.description.outfit_detail', { name: outfitName.value || '' }),
@@ -322,8 +335,8 @@
     ogType: 'website',
     twitterTitle: () =>
       outfit.value
-        ? `${outfitName.value} - ${t('navigation.outfits')}`
-        : t('navigation.outfits'),
+        ? `${outfitName.value} - ${t('common.outfits')}`
+        : t('common.outfits'),
     twitterDescription: () =>
       outfitDescription.value ||
       t('meta.description.outfit_detail', { name: outfitName.value || '' }),

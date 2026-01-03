@@ -30,7 +30,7 @@
               :options="typeOptions"
               size="small"
               class="w-[140px]"
-              :placeholder="t('item.filter_type')"
+              :placeholder="t('compendium.filter_type')"
             />
 
             <!-- Clear filters button -->
@@ -48,7 +48,7 @@
                 class="min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0"
                 @click="qualityFilter = null"
               >
-                {{ t('item.filter_all') }}
+                {{ t('common.all') }}
               </n-button>
               <n-button
                 :type="qualityFilter === 5 ? 'warning' : 'default'"
@@ -109,15 +109,19 @@
       >
         <n-result
           status="error"
-          :title="t('item.error_title')"
-          :description="t('item.error_description')"
+          :title="t('compendium.error_title', { type: t('common.item') })"
+          :description="
+            t('compendium.error_description', {
+              type: t('common.item').toLowerCase(),
+            })
+          "
         >
           <template #footer>
             <n-button
               type="primary"
               @click="retryFetch"
             >
-              {{ t('item.retry') }}
+              {{ t('common.retry') }}
             </n-button>
           </template>
         </n-result>
@@ -130,8 +134,12 @@
       >
         <n-result
           status="info"
-          :title="t('item.no_results_title')"
-          :description="t('item.no_results_description')"
+          :title="t('compendium.no_results_title', { type: t('common.item') })"
+          :description="
+            t('compendium.no_results_description', {
+              type: t('common.item').toLowerCase(),
+            })
+          "
         />
       </div>
 
@@ -391,9 +399,9 @@
   // Type filter options for dropdown
   const typeOptions = computed(() => {
     const options = [
-      { label: t('item.filter_all_types'), value: null },
+      { label: t('compendium.filter_all_types'), value: null },
       ...availableTypes.value.map((type) => ({
-        label: t(`items.types.${type}`),
+        label: t(`tracker.items.types.${type}`),
         value: type,
       })),
     ]
@@ -405,13 +413,12 @@
   const siteUrl = useRuntimeConfig().public.siteUrl
 
   useSeoMeta({
-    title: () => `${t('navigation.items')} - ${t('navigation.subtitle')}`,
+    title: () => `${t('common.items')} - ${t('navigation.subtitle')}`,
     description: () => t('meta.description.items'),
-    ogTitle: () => `${t('navigation.items')} - ${t('navigation.subtitle')}`,
+    ogTitle: () => `${t('common.items')} - ${t('navigation.subtitle')}`,
     ogDescription: () => t('meta.description.items'),
     ogType: 'website',
-    twitterTitle: () =>
-      `${t('navigation.items')} - ${t('navigation.subtitle')}`,
+    twitterTitle: () => `${t('common.items')} - ${t('navigation.subtitle')}`,
     twitterDescription: () => t('meta.description.items'),
   })
 
@@ -423,7 +430,7 @@
         children: JSON.stringify({
           '@context': 'https://schema.org',
           '@type': 'CollectionPage',
-          name: `${t('navigation.items')} - ${t('navigation.subtitle')}`,
+          name: `${t('common.items')} - ${t('navigation.subtitle')}`,
           description: t('meta.description.items'),
           url: `${siteUrl}${localePath('/item')}`,
         }),

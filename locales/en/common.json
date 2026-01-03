@@ -1,4 +1,44 @@
 {
+  "common": {
+    "banner": "Banner",
+    "banners": "Banners",
+    "outfit": "Outfit",
+    "outfits": "Outfits",
+    "item": "Item",
+    "items": "Items",
+    "type": "Type",
+    "pull": "Pull",
+    "pulls": "Pulls",
+    "total": "Total",
+    "average": "Average",
+    "avg": "Avg",
+    "statistics": "Statistics",
+    "stats": "Stats",
+    "data": "Data",
+    "history": "History",
+    "tracker": "Tracker",
+    "import": "Import",
+    "export": "Export",
+    "loading": "Loading...",
+    "search": "Search",
+    "filter": "Filter",
+    "all": "All",
+    "show": "Show",
+    "hide": "Hide",
+    "save": "Save",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "ok": "OK",
+    "submit": "Submit",
+    "retry": "Retry",
+    "back": "Back",
+    "copy": "Copy",
+    "select": "Select",
+    "description": "Description",
+    "error": "Error",
+    "success": "Success",
+    "failed": "Failed"
+  },
   "navigation": {
     "title": "gongeo.us",
     "subtitle": "Infinity Nikki Resonance Tracker",
@@ -10,15 +50,7 @@
     "vote": "Banner Vote",
     "faq": "FAQ",
     "about": "About",
-    "nuan5pro": "Nuan5.Pro",
-    "outfits": "Outfits",
-    "items": "Items"
-  },
-  "social": {
-    "discord": "Join our Discord community",
-    "kofi": "Support us on Ko-fi",
-    "twitter": "Follow us on Twitter",
-    "email": "Contact us via email"
+    "nuan5pro": "Nuan5.Pro"
   },
   "meta": {
     "title": "Infinity Nikki Resonance Tracker - Banner Pull History & Stats",
@@ -39,16 +71,75 @@
       "item_detail": "View detailed information about {name}, including related outfits and quality rating."
     }
   },
-  "index": {
-    "title": "gongeo.us",
-    "subtitle": "Infinity Nikki Resonance Tracker",
+  "default": {
     "description": "Track Infinity Nikki Resonance History and Statistics",
     "your_data": "Your Data",
     "current_banners": "Current Banners",
-    "rerun": "Rerun"
+    "rerun": "Rerun",
+    "copyright": "© 2025 gongeo.us • © Infold Games All Rights Reserved",
+    "disclaimer": {
+      "content": "This is an unofficial fan-made website, not affiliated with or endorsed by Infold Games.",
+      "rights": "All Infinity Nikki game assets, content, and trademarks belong to Infold Games and their respective owners."
+    },
+    "user_profile": {
+      "guest": "Guest",
+      "clear_local_data": "Clear Local Data",
+      "clear_local_confirm": {
+        "title": "Clear Local Data",
+        "content": "Are you sure you want to clear all local data? This action cannot be undone."
+      },
+      "sign_out": "Sign out",
+      "sign_out_success": "Successfully signed out",
+      "sign_out_error": "Failed to sign out",
+      "upload_data": "Upload to Cloud",
+      "sync_data": "Sync from Cloud",
+      "sync": {
+        "upload_success": "Data uploaded to cloud successfully!",
+        "upload_error": "Failed to upload data.",
+        "sync_success": "Data synced successfully!",
+        "sync_error": "Failed to sync data.",
+        "confirm_upload": {
+          "title": "Upload to Cloud",
+          "content": "This will upload your local data to cloud storage, overwriting any existing cloud data. Continue?"
+        },
+        "confirm_sync": {
+          "title": "Sync from Cloud",
+          "content": "This will sync your local data with cloud data by merging them together. Continue?"
+        }
+      },
+      "clear_cloud_data": "Clear Cloud Data",
+      "clear_cloud_confirm": {
+        "title": "Clear Cloud Data",
+        "content": "Are you sure you want to clear all your cloud data? This action cannot be undone and will permanently delete your data from cloud storage."
+      },
+      "clear_cloud_success": "Cloud data cleared successfully!",
+      "clear_cloud_error": "Failed to clear cloud data.",
+      "clear_success": "Data cleared successfully!"
+    },
+    "accessibility": {
+      "toggle_menu": "Toggle navigation menu",
+      "language_switcher": "Language switcher",
+      "theme_switcher": "Toggle theme",
+      "user_profile_menu": "User profile menu",
+      "scroll_to_top": "Scroll to top"
+    },
+    "language_switcher": {
+      "help_translate": "Help translate"
+    },
+    "search": {
+      "placeholder": "Search items, banners, outfits",
+      "noResults": "No results found"
+    },
+    "social": {
+      "discord": "Join our Discord community",
+      "kofi": "Support us on Ko-fi",
+      "twitter": "Follow us on Twitter",
+      "email": "Contact us via email"
+    }
   },
   "login": {
-    "title": "Sign In",
+    "sign_in": "Sign In",
+    "sign_up": "Sign Up",
     "welcome_description": "Sign in with 3rd party account or email to upload and sync your data.",
     "signed_in_title": "Successfully Signed In!",
     "welcome_back": "Welcome back, {name}!",
@@ -60,8 +151,6 @@
     "email": "Email",
     "password": "Password",
     "confirm_password": "Confirm Password",
-    "sign_in": "Sign In",
-    "sign_up": "Sign Up",
     "forgot_password": "Forgot Password?",
     "reset_password": "Reset Password",
     "send_reset_email": "Send Reset Email",
@@ -83,17 +172,10 @@
     "reset_error": "Failed to send reset email. Please try again.",
     "or": "or"
   },
-  "email": {
-    "confirm_signup": {
-      "subject": "Confirm your signup",
-      "body": "Please click the link below to confirm your signup:",
-      "link": "Confirm your signup"
-    },
-    "reset_password": {
-      "subject": "Reset your password",
-      "body": "Please click the link below to reset your password:",
-      "link": "Reset your password"
-    }
+  "error": {
+    "404": "\"Nikki, let's stay in the shallow water\"",
+    "notFound": "The page you are looking for does not exist.",
+    "returnHome": "Return Home"
   },
   "import": {
     "video_tutorial": "Video Tutorial",
@@ -110,6 +192,13 @@
     "select_file": "Select File",
     "select_region": "Select Region",
     "select_region_desc": "Select your game server region.",
+    "regions": {
+      "america": "America",
+      "europe": "Europe",
+      "china": "China",
+      "tw": "TW/HK/Macau",
+      "asia": "Asia"
+    },
     "pearpal_website": "Pearpal Website",
     "whimlog": "Whim-Log",
     "login_pearpal": "Login to Pearpal Website",
@@ -186,7 +275,6 @@
       "fetching_data": "Fetching resonance data: {banner}"
     },
     "actions": {
-      "copy": "Copy",
       "copy_code": "Copy Code",
       "paste_from_clipboard": "Paste from Clipboard",
       "select_all": "Select All"
@@ -227,6 +315,11 @@
     "pc_recommended": "You are using a mobile device, you can import using the supported browsers listed below, other browsers are not tested and might not work. For the best experience, we recommend using a PC browser for importing data.",
     "bookmark_script": {
       "invalid_site": "Please use this bookmark on Pearpal Website"
+    },
+    "maintenance": {
+      "title": "Under Maintenance",
+      "message": "We're currently performing some maintenance. Pull history import is temporarily unavailable.",
+      "status": "Service will be back shortly. Thank you for your patience!"
     }
   },
   "tracker": {
@@ -248,7 +341,6 @@
       "open_editor": "Open Editor",
       "select_banner": "Select Banner",
       "apply_to_all": "Apply to All",
-      "save": "Save Outfit",
       "success": "Outfit saved successfully!",
       "error": "Failed to save outfit",
       "evo_level": "Evolution Level"
@@ -276,14 +368,45 @@
         "show_missing": "Missing Pieces",
         "duplicate_items": "Duplicate Items",
         "empty_banners": "Empty Banners",
-        "show": "Show",
-        "hide": "Hide",
         "data_source": "Data Source",
         "pearpal": "Whim-Log",
         "game": "Game",
         "auto": "Auto",
         "data_source_tooltip": "Select your preferred data source. If no data is available from the selected source, the other source will be used instead. Only one data source is displayed and used for statistics calculations at a time.",
         "auto_option": "\"Auto\" will combine both sources, preferring the source with more pulls for each banner."
+      }
+    },
+    "items": {
+      "pull": "Pull #{number}",
+      "types": {
+        "dresses": "Dress",
+        "outerwear": "Outerwear",
+        "tops": "Top",
+        "bottoms": "Bottoms",
+        "socks": "Socks",
+        "shoes": "Shoes",
+        "headwear": "Headwear",
+        "hairAccessories": "Hair Accessory",
+        "earrings": "Earrings",
+        "neckwear": "Neckwear",
+        "bracelets": "Bracelet",
+        "chokers": "Choker",
+        "gloves": "Gloves",
+        "handhelds": "Handheld",
+        "faceDecorations": "Face Decoration",
+        "hair": "Hair",
+        "chestAccessories": "Chest Accessory",
+        "pendants": "Pendant",
+        "backpieces": "Backpiece",
+        "rings": "Ring",
+        "armDecorations": "Arm Decoration",
+        "baseMakeup": "Base Makeup",
+        "eyebrows": "Eyebrows",
+        "eyelashes": "Eyelashes",
+        "contactLenses": "Contact Lenses",
+        "lips": "Lips",
+        "skinTones": "Skin Tones",
+        "unknown": "Unknown"
       }
     },
     "export": {
@@ -323,105 +446,6 @@
     "deep_echoes": "Deep Echoes",
     "not_found": "Banner not found"
   },
-  "common": {
-    "discord": "Discord",
-    "ko_fi": "Ko-fi",
-    "copyright": "© 2025 gongeo.us • © Infold Games All Rights Reserved",
-    "disclaimer": {
-      "content": "This is an unofficial fan-made website, not affiliated with or endorsed by Infold Games.",
-      "rights": "All Infinity Nikki game assets, content, and trademarks belong to Infold Games and their respective owners."
-    },
-    "captions": {
-      "ok": "OK",
-      "confirm": "Confirm",
-      "cancel": "Cancel",
-      "loading": "Loading..."
-    },
-    "user_profile": {
-      "guest": "Guest",
-      "clear_local_data": "Clear Local Data",
-      "clear_local_confirm": {
-        "title": "Clear Local Data",
-        "content": "Are you sure you want to clear all local data? This action cannot be undone."
-      },
-      "sign_in": "Sign In",
-      "sign_out": "Sign out",
-      "sign_out_success": "Successfully signed out",
-      "sign_out_error": "Failed to sign out",
-      "upload_data": "Upload to Cloud",
-      "sync_data": "Sync from Cloud",
-      "sync": {
-        "upload_success": "Data uploaded to cloud successfully!",
-        "upload_error": "Failed to upload data.",
-        "sync_success": "Data synced successfully!",
-        "sync_error": "Failed to sync data.",
-        "confirm_upload": {
-          "title": "Upload to Cloud",
-          "content": "This will upload your local data to cloud storage, overwriting any existing cloud data. Continue?"
-        },
-        "confirm_sync": {
-          "title": "Sync from Cloud",
-          "content": "This will sync your local data with cloud data by merging them together. Continue?"
-        }
-      },
-      "clear_cloud_data": "Clear Cloud Data",
-      "clear_cloud_confirm": {
-        "title": "Clear Cloud Data",
-        "content": "Are you sure you want to clear all your cloud data? This action cannot be undone and will permanently delete your data from cloud storage."
-      },
-      "clear_cloud_success": "Cloud data cleared successfully!",
-      "clear_cloud_error": "Failed to clear cloud data.",
-      "clear_success": "Data cleared successfully!"
-    },
-    "regions": {
-      "america": "America",
-      "europe": "Europe",
-      "china": "China",
-      "tw": "TW/HK/Macau",
-      "asia": "Asia"
-    }
-  },
-  "items": {
-    "pull": "Pull #{number}",
-    "types": {
-      "dresses": "Dress",
-      "outerwear": "Outerwear",
-      "tops": "Top",
-      "bottoms": "Bottoms",
-      "socks": "Socks",
-      "shoes": "Shoes",
-      "headwear": "Headwear",
-      "hairAccessories": "Hair Accessory",
-      "earrings": "Earrings",
-      "neckwear": "Neckwear",
-      "bracelets": "Bracelet",
-      "chokers": "Choker",
-      "gloves": "Gloves",
-      "handhelds": "Handheld",
-      "faceDecorations": "Face Decoration",
-      "hair": "Hair",
-      "chestAccessories": "Chest Accessory",
-      "pendants": "Pendant",
-      "backpieces": "Backpiece",
-      "rings": "Ring",
-      "armDecorations": "Arm Decoration",
-      "baseMakeup": "Base Makeup",
-      "eyebrows": "Eyebrows",
-      "eyelashes": "Eyelashes",
-      "contactLenses": "Contact Lenses",
-      "lips": "Lips",
-      "skinTones": "Skin Tones",
-      "unknown": "Unknown"
-    }
-  },
-  "accessibility": {
-    "toggle_menu": "Toggle navigation menu",
-    "search": "Search",
-    "language_switcher": "Language switcher",
-    "theme_switcher": "Toggle theme",
-    "user_profile_menu": "User profile menu",
-    "scroll_to_top": "Scroll to top"
-  },
   "global": {
     "stats": {
       "total_pulls": "Total Pulls",
@@ -440,11 +464,8 @@
       "number_of_pulls": "Number of Pulls",
       "probability": "Probability",
       "cumulative_probability": "Cumulative Probability",
-      "pulls": "pulls",
       "occurrences": "Occurrences",
       "percentage": "Percentage",
-      "total": "Total",
-      "type": "Type",
       "all_banners": "All Banners",
       "five_star_banners": "5★ Banners",
       "four_star_banners": "4★ Banners",
@@ -535,33 +556,8 @@
       "message": "We use Sentry.io to track and fix technical errors. Sentry may collect limited technical data (like error details, browser info, and anonymized IP addresses) to help us maintain and improve the site. For more information, please see Sentry.io's privacy policy."
     }
   },
-  "maintenance": {
-    "title": "Under Maintenance",
-    "message": "We're currently performing some maintenance. Pull history import is temporarily unavailable.",
-    "status": "Service will be back shortly. Thank you for your patience!"
-  },
-  "search": {
-    "placeholder": "Search items, banners, outfits",
-    "noResults": "No results found",
-    "categories": {
-      "banners": "Banners",
-      "outfits": "Outfits",
-      "items": "Items"
-    },
-    "resultTypes": {
-      "banner": "Banner",
-      "outfit": "Outfit",
-      "item": "Item"
-    }
-  },
-  "error": {
-    "404": "\"Nikki, let's stay in the shallow water\"",
-    "notFound": "The page you are looking for does not exist.",
-    "returnHome": "Return Home"
-  },
   "vote": {
     "description": "Help us determine the most popular banners from version 1.x! Vote on your favorite banners in head-to-head matchups.",
-    "submit": "Submit Vote",
     "skip": "Skip",
     "howItWorks": "Pick your favorite banner and submit your vote to help rank the most popular banners. Skip if you're not sure. You can vote up to 50 times every 24 hours.",
     "abuseNotice": "Please do not abuse the voting system. Unusual voting patterns will be detected, and those votes may be removed.",
@@ -595,7 +591,6 @@
       "voteMore": "Vote More",
       "lastUpdated": "Last updated",
       "rank": "Rank",
-      "banner": "Banner",
       "elo": "Elo Rating",
       "eloShort": "ELO",
       "winRate": "Win Rate",
@@ -608,48 +603,18 @@
       "lossesShort": "L"
     }
   },
-  "language_switcher": {
-    "help_translate": "Help translate"
-  },
-  "outfit": {
-    "search_placeholder": "Search outfits...",
-    "filter_all": "All",
-    "error_title": "Failed to Load Outfits",
-    "error_description": "Unable to load outfit data. Please check your connection and try again.",
-    "retry": "Retry",
-    "no_results_title": "No Outfits Found",
-    "no_results_description": "No outfits match your search criteria.",
-    "breadcrumb_list": "Outfits",
-    "detail_loading": "Loading...",
-    "detail_description": "Description",
-    "detail_component_items": "Component Items",
-    "back_to_list": "Back to Outfits",
-    "not_found_title": "Outfit Not Found",
-    "not_found_description": "This outfit could not be found. It may have been removed.",
-    "quality_5_star": "5-Star Outfit",
-    "quality_4_star": "4-Star Outfit",
-    "quality_3_star": "3-Star Outfit"
-  },
-  "item": {
-    "search_placeholder": "Search items...",
-    "filter_all": "All",
+  "compendium": {
+    "search_placeholder": "Search {type}...",
+    "error_title": "Failed to Load {type}",
+    "error_description": "Unable to load {type} data. Please check your connection and try again.",
+    "no_results_title": "No {type} Found",
+    "no_results_description": "No {type} match your search criteria.",
+    "not_found_title": "{type} Not Found",
+    "not_found_description": "This {type} could not be found. It may have been removed.",
+    "back_to_list": "Back to {type}",
     "filter_type": "Filter by Type",
     "filter_all_types": "All Types",
-    "error_title": "Failed to Load Items",
-    "error_description": "Unable to load item data. Please check your connection and try again.",
-    "retry": "Retry",
-    "no_results_title": "No Items Found",
-    "no_results_description": "No items match your search criteria.",
-    "breadcrumb_list": "Items",
-    "detail_loading": "Loading...",
-    "detail_description": "Description",
-    "detail_related_outfits": "Related Outfits",
-    "back_to_list": "Back to Items",
-    "not_found_title": "Item Not Found",
-    "not_found_description": "This item could not be found. It may have been removed.",
-    "quality_5_star": "5-Star Item",
-    "quality_4_star": "4-Star Item",
-    "quality_3_star": "3-Star Item",
-    "quality_2_star": "2-Star Item"
+    "detail_component_items": "Component Items",
+    "detail_related_outfits": "Related Outfits"
   }
 }

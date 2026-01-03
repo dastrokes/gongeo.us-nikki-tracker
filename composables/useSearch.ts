@@ -300,7 +300,7 @@ export const useSearch = () => {
     if (itemResults.length > 0) {
       categories.push({
         type: 'item',
-        label: t('search.categories.items'),
+        label: t('common.items'),
         results: itemResults,
       })
     }
@@ -308,7 +308,7 @@ export const useSearch = () => {
     if (outfitResults.length > 0) {
       categories.push({
         type: 'outfit',
-        label: t('search.categories.outfits'),
+        label: t('common.outfits'),
         results: outfitResults,
       })
     }
@@ -316,7 +316,7 @@ export const useSearch = () => {
     if (bannerResults.length > 0) {
       categories.push({
         type: 'banner',
-        label: t('search.categories.banners'),
+        label: t('common.banners'),
         results: bannerResults,
       })
     }

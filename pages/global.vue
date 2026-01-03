@@ -603,6 +603,7 @@
   const localePath = useLocalePath()
   const router = useRouter()
   const siteUrl = useRuntimeConfig().public.siteUrl
+  const { getImageKitUrl } = useImageKit()
 
   // Helper to check if current locale uses CJK characters
   const isCJKLocale = computed(() => {
@@ -968,6 +969,10 @@
           const pullsArr = filteredChartData[bannerId || '']
           if (!pullsArr) return ''
           const total = pullsArr.reduce((a: number, b: number) => a + b, 0)
+          const imageUrl = getImageKitUrl(
+            `/images/banners/thumbnails/${bannerId}.png`,
+            { width: 200, height: 100, quality: 80 }
+          )
           return `
                 <div style="display: flex; flex-direction: column; align-items: center;">
                   <div style="margin-bottom: 5px; text-align: center; font-weight: bold;">
@@ -982,7 +987,7 @@
                     ${t('common.total')}: <strong>${total}</strong>
                   </div>
                   <img
-                    src="/images/banners/thumbnails/${bannerId}.png"
+                    src="${imageUrl}"
                     alt="${banner?.bannerId ? t(`banner.${banner.bannerId}.name`) : ''}"
                     style="width: 200px; height: 100px; object-fit: cover; border-radius: 4px; margin-top: 8px;"
                   />

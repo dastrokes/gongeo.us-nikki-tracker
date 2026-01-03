@@ -110,9 +110,11 @@
 
     if (imageConfig) {
       nodes.push(
-        h('img', {
+        h(resolveComponent('NuxtImg'), {
           ...imageProps,
           ...imageConfig,
+          width: result.type === 'banner' ? 80 : 32,
+          height: result.type === 'banner' ? 40 : 48,
         })
       )
     }

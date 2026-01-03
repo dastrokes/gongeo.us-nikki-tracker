@@ -376,10 +376,13 @@
         if (!banner) return '-'
 
         return h('div', { class: 'flex flex-col gap-2 py-1' }, [
-          h('img', {
+          h(resolveComponent('NuxtImg'), {
             src: `/images/banners/thumbnails/${row.banner_id}.png`,
             alt: t(`banner.${row.banner_id}.name`),
             class: 'w-16 h-8 rounded object-cover flex-shrink-0',
+            width: 64,
+            height: 32,
+            loading: 'lazy',
           }),
           h(
             'span',
@@ -486,10 +489,13 @@
         if (!banner) return '-'
 
         return h('div', { class: 'flex items-center gap-3' }, [
-          h('img', {
+          h(resolveComponent('NuxtImg'), {
             src: `/images/banners/thumbnails/${row.banner_id}.png`,
             alt: t(`banner.${row.banner_id}.name`),
             class: 'w-20 h-10 rounded object-cover flex-shrink-0',
+            width: 80,
+            height: 40,
+            loading: 'lazy',
           }),
           h(
             'span',

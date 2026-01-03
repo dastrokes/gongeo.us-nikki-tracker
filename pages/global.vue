@@ -979,7 +979,7 @@
                     <span style="color: rgb(107, 114, 128, 0.8)">★★★:</span> <strong>${pullsArr[0]}</strong> (${((pullsArr[0] / total) * 100).toFixed(1)}%)
                   </div>
                   <div style="margin-top: 5px; text-align: center;">
-                    ${t('global.charts.total')}: <strong>${total}</strong>
+                    ${t('common.total')}: <strong>${total}</strong>
                   </div>
                   <img
                     src="/images/banners/thumbnails/${bannerId}.png"
@@ -1401,7 +1401,7 @@
                     ${t('item.' + itemId + '.name', itemId)}
                   </div>
                   <div>
-                    ${t('global.charts.type')}: <strong>${t(`items.types.${getItemType(itemId)}`)}</strong>
+                    ${t('common.type')}: <strong>${t(`tracker.items.types.${getItemType(itemId)}`)}</strong>
                   </div>
                   <div>
                     ${t('global.charts.occurrences')}: <strong>${params[0].data.value}</strong>

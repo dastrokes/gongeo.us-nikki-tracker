@@ -103,7 +103,7 @@
           size="small"
           class="absolute opacity-80 top-2 left-2 scale-90 sm:scale-100 origin-top-left"
         >
-          {{ $t('index.rerun') }}
+          {{ $t('default.rerun') }}
         </n-tag>
       </ClientOnly>
     </n-carousel-item>

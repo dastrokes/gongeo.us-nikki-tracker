@@ -67,7 +67,7 @@
                     {{ t(`item.${itemId}.name`) }}
                   </div>
                   <div class="text-sm">
-                    {{ t(`items.types.${getItemType(itemId)}`) }}
+                    {{ t(`tracker.items.types.${getItemType(itemId)}`) }}
                   </div>
                 </div>
               </n-tooltip>
@@ -164,15 +164,13 @@
 
         <!-- Action buttons -->
         <div class="flex justify-center gap-2 mt-4">
-          <n-button @click="closeDialog">{{
-            t('common.captions.cancel')
-          }}</n-button>
+          <n-button @click="closeDialog">{{ t('common.cancel') }}</n-button>
           <n-button
             type="primary"
             :loading="isSaving"
             @click="saveOutfitEdit"
           >
-            {{ t('tracker.manual_log.save') }}
+            {{ t('common.save') }}
           </n-button>
         </div>
       </template>

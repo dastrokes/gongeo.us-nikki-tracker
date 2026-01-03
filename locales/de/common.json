@@ -604,17 +604,14 @@
     }
   },
   "compendium": {
-    "search_placeholder": "Stücke durchsuchen...",
-    "error_title": "Stücke konnten nicht geladen werden",
-    "error_description": "{type}-Daten konnten nicht geladen werden. Bitte überprüfe deine Verbindung und versuche es erneut.",
-    "no_results_title": "Keine {type} gefunden",
-    "no_results_description": "Keine {type} entsprechen deinen Suchkriterien.",
-    "not_found_title": "{type} nicht gefunden",
-    "not_found_description": "Dieses {type} konnte nicht gefunden werden. Es wurde möglicherweise entfernt.",
-    "back_to_list": "Zurück zu {type}",
+    "error_title": "Failed to Load Data",
+    "error_description": "Unable to load data. Please try again.",
+    "no_results_title": "No Results Found",
+    "no_results_description": "No items match your criteria.",
+    "not_found_title": "Not Found",
+    "not_found_description": "Item description not found.",
+    "back_to_list": "Back to List",
     "filter_type": "Nach Typ filtern",
-    "filter_all_types": "Alle Typen",
-    "detail_component_items": "Bestandteile",
-    "detail_related_outfits": "Verwandte Outfits"
+    "filter_all_types": "Alle Typen"
   }
 }

@@ -90,12 +90,8 @@
       >
         <n-result
           status="error"
-          :title="t('compendium.error_title', { type: t('common.outfit') })"
-          :description="
-            t('compendium.error_description', {
-              type: t('common.outfit').toLowerCase(),
-            })
-          "
+          :title="t('compendium.error_title')"
+          :description="t('compendium.error_description')"
         >
           <template #footer>
             <n-button
@@ -115,14 +111,8 @@
       >
         <n-result
           status="info"
-          :title="
-            t('compendium.no_results_title', { type: t('common.outfit') })
-          "
-          :description="
-            t('compendium.no_results_description', {
-              type: t('common.outfit').toLowerCase(),
-            })
-          "
+          :title="t('compendium.no_results_title')"
+          :description="t('compendium.no_results_description')"
         />
       </div>
 
@@ -133,12 +123,16 @@
       >
         <div
           v-if="!loading && !error && outfits.length > 0"
-          class="grid grid-cols-4 sm:grid-cols-8 gap-2 sm:flex-1 sm:overflow-y-auto sm:content-start"
+          class="sm:flex-1 sm:flex sm:flex-col sm:overflow-hidden"
         >
+          <n-scrollbar class="sm:flex-1">
+            <div
+              class="grid grid-cols-4 sm:grid-cols-8 gap-2 sm:content-start pr-4"
+            >
           <div
             v-for="outfit in outfits"
             :key="outfit.id"
-            class="cursor-pointer transition-all duration-300 ease-out hover:scale-[1.02] hover:-translate-y-1"
+            class="cursor-pointer"
             @click="navigateToDetail(outfit.id)"
           >
             <div
@@ -177,6 +171,8 @@
               </div>
             </div>
           </div>
+          </div>
+        </n-scrollbar>
         </div>
       </transition>
 
@@ -200,16 +196,9 @@
               v-model:page="currentPage"
               :page-count="Math.max(totalPages, 1)"
               :page-size="pageSize"
-              show-size-picker
-              :page-sizes="[12, 24, 36, 48]"
+              :show-size-picker="false"
               :disabled="loading || !!error"
               class="hidden sm:flex"
-              @update:page-size="
-                (size) => {
-                  pageSize = size
-                  currentPage = 1
-                }
-              "
             />
           </div>
         </div>
@@ -238,15 +227,14 @@
     route.query.quality ? Number(route.query.quality) : null
   )
   const currentPage = ref(Number(route.query.page) || 1)
-  const pageSize = ref(Number(route.query.pageSize) || 24)
+  const pageSize = 40
 
   // Composable
   const { fetchOutfitsPaginated } = useSupabaseOutfits()
 
   // Use asyncData for caching with proper key
   const cacheKey = computed(
-    () =>
-      `outfits-${qualityFilter.value}-${currentPage.value}-${pageSize.value}`
+    () => `outfits-${qualityFilter.value}-${currentPage.value}-${pageSize}`
   )
 
   const {
@@ -260,7 +248,6 @@
       const response = await fetchOutfitsPaginated({
         quality: qualityFilter.value,
         page: currentPage.value,
-        pageSize: pageSize.value,
       })
 
       return response
@@ -288,19 +275,12 @@
     loadOutfits()
   })
 
-  // Watch for page size changes
-  watch(pageSize, () => {
-    currentPage.value = 1
-    loadOutfits()
-  })
-
   // Update URL query params when filters change
-  watch([qualityFilter, currentPage, pageSize], () => {
+  watch([qualityFilter, currentPage], () => {
     router.replace({
       query: {
         ...(qualityFilter.value && { quality: qualityFilter.value }),
         ...(currentPage.value > 1 && { page: currentPage.value }),
-        ...(pageSize.value !== 24 && { pageSize: pageSize.value }),
       },
     })
   })

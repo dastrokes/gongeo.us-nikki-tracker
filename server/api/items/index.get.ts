@@ -2,17 +2,17 @@ import { useSupabaseDataClient } from '~/composables/useSupabaseClient'
 import { getGameVersion } from '~/utils/gameVersion'
 
 /**
- * Edge-cached API endpoint for fetching paginated items
- * Cached at the edge for 24 hours to reduce DB egress
- * Data updates monthly with game updates
+ * API endpoint for fetching paginated items
+ * App-level caching enabled (24h), Netlify edge caching disabled via Cache-Control header
  */
 export default defineCachedEventHandler(
   async (event) => {
+    setResponseHeader(event, 'Cache-Control', 'no-store')
     const query = getQuery(event)
     const quality = query.quality ? Number(query.quality) : null
     const type = query.type?.toString() || null
     const page = query.page ? Number(query.page) : 1
-    const pageSize = query.pageSize ? Number(query.pageSize) : 40
+    const pageSize = 40
 
     const supabase = useSupabaseDataClient()
 
@@ -52,7 +52,6 @@ export default defineCachedEventHandler(
         data: data || [],
         total,
         page,
-        pageSize,
         totalPages,
       }
     } catch (error) {
@@ -69,7 +68,8 @@ export default defineCachedEventHandler(
     getKey: (event) => {
       const query = getQuery(event)
       const version = getGameVersion()
-      return `${version}:items:q${query.quality}:t${query.type}:p${query.page}:s${query.pageSize}`
+      // Always use 50 for cache key since pageSize is hardcoded
+      return `${version}:items:q${query.quality}:t${query.type}:p${query.page}:s50`
     },
     swr: true, // Enable stale-while-revalidate
   }

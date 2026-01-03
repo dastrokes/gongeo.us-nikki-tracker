@@ -7,13 +7,13 @@
         class="cursor-pointer hover:opacity-80 transition-opacity"
       >
         <n-tag
-          :type="rarity === 5 ? 'warning' : 'info'"
+          :type="quality === 5 ? 'warning' : 'info'"
           :bordered="false"
           round
           class="cursor-pointer"
         >
           <span class="align-top"
-            >{{ t(`outfit.${outfitId}.name`) }} {{ rarity }}</span
+            >{{ t(`outfit.${outfitId}.name`) }} {{ quality }}</span
           >
           <span class="ml-1"
             ><n-icon><Star /></n-icon
@@ -47,7 +47,7 @@
             round
             size="small"
             :bordered="false"
-            :type="rarity === 5 ? 'warning' : 'info'"
+            :type="quality === 5 ? 'warning' : 'info'"
           >
             {{ t(`banner.outfit.level.${image[0] === 0 ? '1' : image[0]}`) }}
             <span v-if="getOutfitLevel.includes(image[0].toString())">
@@ -73,7 +73,7 @@
   const props = defineProps<{
     bannerId: number
     outfitId: string
-    rarity: 4 | 5
+    quality: 4 | 5
     completionData?: CompletionData
   }>()
 
@@ -86,7 +86,7 @@
       'bg-gradient-to-br from-[#e3f2fd] to-[#bbdefb] hover:brightness-105 dark:from-[#334155] dark:to-[#1e293b]',
   } as const
   const cardGradient = computed(() =>
-    props.rarity === 5
+    props.quality === 5
       ? OUTFIT_CARD_GRADIENTS.fiveStar
       : OUTFIT_CARD_GRADIENTS.fourStar
   )
@@ -101,7 +101,7 @@
       props.outfitId
     )
 
-    if (props.rarity === 5) {
+    if (props.quality === 5) {
       if (props.completionData.completion >= 1) {
         levels.push('0')
       }
@@ -132,8 +132,8 @@
     const images = new Map<number, string>()
     images.set(0, `/images/outfits/${props.outfitId}.png`)
 
-    // Add level variants based on rarity
-    const maxLevel = props.rarity === 5 ? 4 : 2
+    // Add level variants based on quality
+    const maxLevel = props.quality === 5 ? 4 : 2
     for (let i = 2; i <= maxLevel; i++) {
       const levelNum = i.toString().padStart(2, '0')
       images.set(i, `/images/outfits/${props.outfitId}${levelNum}.png`)

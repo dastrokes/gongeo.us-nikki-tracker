@@ -401,7 +401,7 @@
                       :key="outfitId"
                       :banner-id="banner.bannerId"
                       :outfit-id="outfitId"
-                      :rarity="5"
+                      :quality="5"
                       :completion-data="{
                         completion:
                           bannerPulls?.outfits.find(
@@ -420,7 +420,7 @@
                       :key="outfitId"
                       :banner-id="banner.bannerId"
                       :outfit-id="outfitId"
-                      :rarity="4"
+                      :quality="4"
                       :completion-data="{
                         completion:
                           bannerPulls?.outfits.find(
@@ -446,7 +446,7 @@
                     />
                     <OutfitCarousel
                       :outfit-id="outfitId"
-                      :rarity="5"
+                      :quality="5"
                       :banner-id="banner.bannerId"
                       :completion-levels="
                         getOutfitCompletionLevels(outfitId, 5)
@@ -471,7 +471,7 @@
                     />
                     <OutfitCarousel
                       :outfit-id="outfitId"
-                      :rarity="4"
+                      :quality="4"
                       :banner-id="banner.bannerId"
                       :completion-levels="
                         getOutfitCompletionLevels(outfitId, 4)
@@ -498,52 +498,20 @@
                       ><n-icon><Star /></n-icon
                     ></span>
                   </n-tag>
-                  <div class="flex gap-2">
-                    <div
+                  <div class="grid grid-cols-6 sm:grid-cols-8 gap-2">
+                    <ItemCard
                       v-for="(rewardId, i) in banner.rewardIds"
                       :key="rewardId"
-                      class="relative w-16 h-16 sm:w-24 sm:h-24"
-                    >
-                      <NuxtLink
-                        no-prefetch
-                        :to="localePath(`/item/${rewardId}`)"
-                        class="relative block w-full h-full rounded-md overflow-hidden ring-1 bg-gradient-to-br from-[#fff8e1] to-[#ffcc80] hover:shadow-[0_0_10px_0_rgba(255,204,128,0.5)] ring-amber-200/30 hover:ring-amber-200/80 dark:from-[#713f12] dark:to-[#451a03] dark:hover:shadow-[0_0_10px_0_rgba(113,63,18,0.5)] dark:ring-amber-900/30 dark:hover:ring-amber-900/60 hover:opacity-95 transition-all"
-                      >
-                        <NuxtImg
-                          :src="`/images/items/icons/${rewardId}.png`"
-                          :alt="t(`item.${rewardId}.name`)"
-                          class="w-full h-full object-cover"
-                          width="120"
-                          height="120"
-                          fit="cover"
-                          loading="lazy"
-                          placeholder="/images/loading.webp"
-                          sizes="80px sm:120px"
-                        />
-                        <n-tooltip
-                          overlap
-                          placement="top"
-                          class="!rounded-lg !m-1 !px-2 !py-1 text-xs cursor-pointer"
-                          @click.stop.prevent="
-                            router.push(localePath(`/item/${rewardId}`))
-                          "
-                        >
-                          <template #trigger>
-                            <div class="absolute inset-0" />
-                          </template>
-                          <div class="text-center">
-                            <div class="font-medium">
-                              {{ t(`item.${rewardId}.name`) }}
-                            </div>
-                            <div class="text-sm opacity-80">
-                              {{
-                                i * 10 + 5 + ' ' + t('global.stats.total_pulls')
-                              }}
-                            </div>
-                          </div>
-                        </n-tooltip>
-                      </NuxtLink>
-                    </div>
+                      :item="{
+                        itemId: rewardId,
+                        quality: 5,
+                        count: 1,
+                        pullsToObtain: i * 10 + 5,
+                        pullIndex: i * 10 + 5,
+                        bannerId: banner.bannerId,
+                      }"
+                      :info="false"
+                    />
                   </div>
                 </div>
               </div>
@@ -670,7 +638,7 @@
   }
 
   // Helper function to get outfit completion levels
-  const getOutfitCompletionLevels = (outfitId: string, rarity: number) => {
+  const getOutfitCompletionLevels = (outfitId: string, quality: number) => {
     if (!bannerPulls.value) return []
 
     const levels = []
@@ -683,7 +651,7 @@
       outfitId
     )
 
-    if (rarity === 5) {
+    if (quality === 5) {
       if (outfitCompletion >= 1) {
         levels.push('0')
         levels.push('1')

@@ -11,7 +11,7 @@
         ]"
         :bordered="false"
         size="small"
-        content-style="padding: 0;"
+        content-class="p-0"
         @click="handleClick"
       >
         <NuxtImg

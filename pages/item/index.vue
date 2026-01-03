@@ -80,6 +80,16 @@
                   ><n-icon><Star /></n-icon
                 ></span>
               </n-button>
+              <n-button
+                :type="qualityFilter === 2 ? 'default' : 'default'"
+                class="min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0"
+                @click="qualityFilter = 2"
+              >
+                <span class="align-top">2</span>
+                <span class="ml-1"
+                  ><n-icon><Star /></n-icon
+                ></span>
+              </n-button>
             </n-button-group>
           </div>
         </div>
@@ -348,6 +358,8 @@
         return 'bg-gradient-to-br from-[#e3f2fd] to-[#bbdefb] hover:brightness-105 dark:from-[#334155] dark:to-[#1e293b]'
       case 3:
         return 'bg-gradient-to-br from-[#e0f2f1] to-[#80cbc4] hover:brightness-105 dark:from-[#134e4a] dark:to-[#0f766e]'
+      case 2:
+        return 'bg-gradient-to-br from-[#f5f5f5] to-[#d6d6d6] hover:brightness-105 dark:from-[#3f3f46] dark:to-[#27272a]'
       default:
         return 'bg-gradient-to-br from-gray-100 to-gray-200 hover:brightness-105 dark:from-gray-700 dark:to-gray-800'
     }
@@ -362,6 +374,8 @@
         return 'info'
       case 3:
         return 'success'
+      case 2:
+        return 'default'
       default:
         return 'default'
     }

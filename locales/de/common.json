@@ -113,7 +113,7 @@
         "content": "Bist du dir sicher, dass du all deine Cloud-Daten löschen möchtest? Diese Aktion kann nicht rückgängig gemacht werden und wird deine Daten dauerhaft aus dem Cloud-Speicher entfernen."
       },
       "clear_cloud_success": "Cloud-Daten wurden erfolgreich gelöscht!",
-      "clear_cloud_error": "Cloud-Daten löschen fehlgeschlagen.",
+      "clear_cloud_error": "Löschen der Cloud-Daten fehlgeschlagen.",
       "clear_success": "Daten wurden erfolgreich exportiert!"
     },
     "accessibility": {
@@ -606,12 +606,12 @@
   "compendium": {
     "search_placeholder": "Stücke durchsuchen...",
     "error_title": "Stücke konnten nicht geladen werden",
-    "error_description": "Stück-Daten konnten nicht geladen werden. Bitte überprüfe deine Verbindung und versuche es erneut.",
-    "no_results_title": "Keine Outfits gefunden",
-    "no_results_description": "Keine Outfits entsprechen deinen Suchkriterien.",
-    "not_found_title": "Stück nicht gefunden",
-    "not_found_description": "Dieses Stück konnte nicht gefunden werden. Es wurde möglicherweise entfernt.",
-    "back_to_list": "Zurück zu Stücke",
+    "error_description": "{type}-Daten konnten nicht geladen werden. Bitte überprüfe deine Verbindung und versuche es erneut.",
+    "no_results_title": "Keine {type} gefunden",
+    "no_results_description": "Keine {type} entsprechen deinen Suchkriterien.",
+    "not_found_title": "{type} nicht gefunden",
+    "not_found_description": "Dieses {type} konnte nicht gefunden werden. Es wurde möglicherweise entfernt.",
+    "back_to_list": "Zurück zu {type}",
     "filter_type": "Nach Typ filtern",
     "filter_all_types": "Alle Typen",
     "detail_component_items": "Bestandteile",

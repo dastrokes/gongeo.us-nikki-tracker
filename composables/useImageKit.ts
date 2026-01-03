@@ -1,5 +1,4 @@
 export const useImageKit = () => {
-  const config = useRuntimeConfig()
   const isDev = import.meta.dev
 
   const getImageKitUrl = (

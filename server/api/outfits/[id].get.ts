@@ -2,12 +2,12 @@ import { useSupabaseDataClient } from '~/composables/useSupabaseClient'
 import { getGameVersion } from '~/utils/gameVersion'
 
 /**
- * Edge-cached API endpoint for fetching a single outfit by ID
- * Cached at the edge for 7 days to reduce DB egress
- * Data updates monthly with game updates
+ * API endpoint for fetching a single outfit by ID
+ * App-level caching enabled (7 days), Netlify edge caching disabled via Cache-Control header
  */
 export default defineCachedEventHandler(
   async (event) => {
+    setResponseHeader(event, 'Cache-Control', 'no-store')
     const id = Number(getRouterParam(event, 'id'))
     const query = getQuery(event)
     const languageCode = query.lang?.toString()

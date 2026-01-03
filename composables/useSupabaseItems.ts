@@ -5,14 +5,12 @@ export interface ItemFilters {
   quality?: number | null
   type?: string | null
   page?: number
-  pageSize?: number
 }
 
 export interface PaginatedItemsResponse {
   data: SupabaseItem[]
   total: number
   page: number
-  pageSize: number
   totalPages: number
 }
 
@@ -61,7 +59,7 @@ export const useSupabaseItems = () => {
   /**
    * Fetch items with server-side filtering and pagination
    * Uses edge-cached API route (15 minutes cache)
-   * @param filters - Object containing search, quality, type, page, and pageSize
+   * @param filters - Object containing search, quality, type, and page
    * @returns Promise resolving to paginated response with data and metadata
    */
   const fetchItemsPaginated = async (
@@ -70,12 +68,11 @@ export const useSupabaseItems = () => {
     loading.value = true
     error.value = null
 
-    const { quality = null, type = null, page = 1, pageSize = 40 } = filters
+    const { quality = null, type = null, page = 1 } = filters
 
     try {
       const params: Record<string, string | number> = {
         page,
-        pageSize,
       }
 
       if (quality !== null && quality !== undefined) {
@@ -98,7 +95,6 @@ export const useSupabaseItems = () => {
         data: [],
         total: 0,
         page,
-        pageSize,
         totalPages: 0,
       }
     } finally {

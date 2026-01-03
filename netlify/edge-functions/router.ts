@@ -31,10 +31,8 @@ const definedRoutes = [
   '/banner/:id',
   '/outfit',
   '/outfit/:id',
-  '/outfit/*',
   '/item',
   '/item/:id',
-  '/item/*',
   '/vote',
   '/ranking',
   '/error',
@@ -57,6 +55,10 @@ export const config: Config = {
     // APIs
     '/api/ping',
     '/api/stats',
+    '/api/items',
+    '/api/items/:id',
+    '/api/outfits',
+    '/api/outfits/:id',
 
     // Static Nuxt assets
     '/_nuxt/**.json',

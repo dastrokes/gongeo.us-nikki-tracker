@@ -368,7 +368,7 @@
       sorter: (a, b) => (a.rank ?? 0) - (b.rank ?? 0),
     },
     {
-      title: t('vote.rankings.banner'),
+      title: t('common.banner'),
       key: 'banner',
       width: 160,
       render: (row) => {
@@ -478,7 +478,7 @@
       sorter: (a, b) => (a.rank ?? 0) - (b.rank ?? 0),
     },
     {
-      title: t('vote.rankings.banner'),
+      title: t('common.banner'),
       key: 'banner',
       width: 250,
       render: (row) => {

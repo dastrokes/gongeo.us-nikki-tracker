@@ -88,7 +88,6 @@
         "title": "清除本地数据",
         "content": "确定要清除所有本地数据吗？此操作无法撤消。"
       },
-      "sign_in": "登录",
       "sign_out": "退出登录",
       "sign_out_success": "成功退出登录",
       "sign_out_error": "退出登录失败",
@@ -119,7 +118,6 @@
     },
     "accessibility": {
       "toggle_menu": "切换导航菜单",
-      "search": "搜索",
       "language_switcher": "切换语言",
       "theme_switcher": "切换主题",
       "user_profile_menu": "用户资料菜单",
@@ -130,17 +128,7 @@
     },
     "search": {
       "placeholder": "搜索部件、套装、卡池",
-      "noResults": "未找到结果",
-      "categories": {
-        "banners": "卡池",
-        "outfits": "套装",
-        "items": "部件"
-      },
-      "resultTypes": {
-        "banner": "卡池",
-        "outfit": "套装",
-        "item": "部件"
-      }
+      "noResults": "未找到结果"
     },
     "social": {
       "discord": "加入我们的 Discord 社区",

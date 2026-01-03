@@ -28,12 +28,8 @@
     >
       <n-result
         status="error"
-        :title="t('compendium.error_title', { type: t('common.item') })"
-        :description="
-          t('compendium.error_description', {
-            type: t('common.item').toLowerCase(),
-          })
-        "
+        :title="t('compendium.error_title')"
+        :description="t('compendium.error_description')"
       >
         <template #footer>
           <n-space>
@@ -44,7 +40,7 @@
               {{ t('common.retry') }}
             </n-button>
             <n-button @click="navigateToList">
-              {{ t('compendium.back_to_list', { type: t('common.item') }) }}
+              {{ t('compendium.back_to_list') }}
             </n-button>
           </n-space>
         </template>
@@ -137,7 +133,7 @@
                 <template #icon>
                   <n-icon><ArrowLeft /></n-icon>
                 </template>
-                {{ t('compendium.back_to_list', { type: t('common.item') }) }}
+                {{ t('compendium.back_to_list') }}
               </n-button>
             </div>
           </div>
@@ -152,7 +148,7 @@
         content-class="!p-2 sm:p-4"
       >
         <h2 class="text-xl font-bold mb-4">
-          {{ t('compendium.detail_related_outfits') }}
+          {{ t('common.outfit') }}
         </h2>
         <div
           class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3"
@@ -210,19 +206,15 @@
     >
       <n-result
         status="404"
-        :title="t('compendium.not_found_title', { type: t('common.item') })"
-        :description="
-          t('compendium.not_found_description', {
-            type: t('common.item').toLowerCase(),
-          })
-        "
+        :title="t('compendium.not_found_title')"
+        :description="t('compendium.not_found_description')"
       >
         <template #footer>
           <n-button
             type="primary"
             @click="navigateToList"
           >
-            {{ t('compendium.back_to_list', { type: t('common.item') }) }}
+            {{ t('compendium.back_to_list') }}
           </n-button>
         </template>
       </n-result>

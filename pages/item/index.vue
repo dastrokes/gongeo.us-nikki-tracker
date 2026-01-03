@@ -109,12 +109,8 @@
       >
         <n-result
           status="error"
-          :title="t('compendium.error_title', { type: t('common.item') })"
-          :description="
-            t('compendium.error_description', {
-              type: t('common.item').toLowerCase(),
-            })
-          "
+          :title="t('compendium.error_title')"
+          :description="t('compendium.error_description')"
         >
           <template #footer>
             <n-button
@@ -134,12 +130,8 @@
       >
         <n-result
           status="info"
-          :title="t('compendium.no_results_title', { type: t('common.item') })"
-          :description="
-            t('compendium.no_results_description', {
-              type: t('common.item').toLowerCase(),
-            })
-          "
+          :title="t('compendium.no_results_title')"
+          :description="t('compendium.no_results_description')"
         />
       </div>
 
@@ -150,12 +142,16 @@
       >
         <div
           v-if="!loading && !error && items.length > 0"
-          class="grid grid-cols-4 sm:grid-cols-8 gap-2 sm:flex-1 sm:overflow-y-auto sm:content-start"
+          class="sm:flex-1 sm:flex sm:flex-col sm:overflow-hidden"
         >
+          <n-scrollbar class="sm:flex-1">
+            <div
+              class="grid grid-cols-4 sm:grid-cols-8 gap-2 sm:content-start pr-4"
+            >
           <div
             v-for="item in items"
             :key="item.id"
-            class="cursor-pointer transition-all duration-300 ease-out hover:scale-[1.02] hover:-translate-y-1"
+            class="cursor-pointer"
             @click="navigateToDetail(item.id)"
           >
             <div
@@ -194,6 +190,8 @@
               </div>
             </div>
           </div>
+          </div>
+        </n-scrollbar>
         </div>
       </transition>
 
@@ -217,16 +215,9 @@
               v-model:page="currentPage"
               :page-count="Math.max(totalPages, 1)"
               :page-size="pageSize"
-              show-size-picker
-              :page-sizes="[24, 48, 72, 96]"
+              :show-size-picker="false"
               :disabled="loading || !!error"
               class="hidden sm:flex"
-              @update:page-size="
-                (size) => {
-                  pageSize = size
-                  currentPage = 1
-                }
-              "
             />
           </div>
         </div>
@@ -256,7 +247,7 @@
   )
   const typeFilter = ref<string | null>(route.query.type?.toString() || null)
   const currentPage = ref(Number(route.query.page) || 1)
-  const pageSize = ref(Number(route.query.pageSize) || 24)
+  const pageSize = 40
 
   // Composable
   const { fetchItemsPaginated } = useSupabaseItems()
@@ -264,7 +255,7 @@
   // Use asyncData for caching with proper key
   const cacheKey = computed(
     () =>
-      `items-${qualityFilter.value}-${typeFilter.value}-${currentPage.value}-${pageSize.value}`
+      `items-${qualityFilter.value}-${typeFilter.value}-${currentPage.value}-${pageSize}`
   )
 
   const {
@@ -279,7 +270,6 @@
         quality: qualityFilter.value,
         type: typeFilter.value,
         page: currentPage.value,
-        pageSize: pageSize.value,
       })
 
       return response
@@ -316,21 +306,14 @@
     nextTick(() => loadItems())
   })
 
-  // Watch for page size changes
-  watch(pageSize, () => {
-    currentPage.value = 1
-    nextTick(() => loadItems())
-  })
-
   // Update URL query params when filters change
-  watch([qualityFilter, typeFilter, currentPage, pageSize], () => {
+  watch([qualityFilter, typeFilter, currentPage], () => {
     router.replace({
       query: {
         ...(qualityFilter.value && { quality: qualityFilter.value }),
         ...(typeFilter.value &&
           typeFilter.value !== 'all' && { type: typeFilter.value }),
         ...(currentPage.value > 1 && { page: currentPage.value }),
-        ...(pageSize.value !== 24 && { pageSize: pageSize.value }),
       },
     })
   })

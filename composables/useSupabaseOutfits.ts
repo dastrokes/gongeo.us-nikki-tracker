@@ -4,14 +4,12 @@ export interface OutfitFilters {
   search?: string
   quality?: number | null
   page?: number
-  pageSize?: number
 }
 
 export interface PaginatedOutfitsResponse {
   data: SupabaseOutfit[]
   total: number
   page: number
-  pageSize: number
   totalPages: number
 }
 
@@ -60,7 +58,7 @@ export const useSupabaseOutfits = () => {
   /**
    * Fetch outfits with server-side filtering and pagination
    * Uses edge-cached API route (15 minutes cache)
-   * @param filters - Object containing search, quality, page, and pageSize
+   * @param filters - Object containing search, quality, and page
    * @returns Promise resolving to paginated response with data and metadata
    */
   const fetchOutfitsPaginated = async (
@@ -69,12 +67,11 @@ export const useSupabaseOutfits = () => {
     loading.value = true
     error.value = null
 
-    const { quality = null, page = 1, pageSize = 20 } = filters
+    const { quality = null, page = 1 } = filters
 
     try {
       const params: Record<string, string | number> = {
         page,
-        pageSize,
       }
 
       if (quality !== null && quality !== undefined) {
@@ -93,7 +90,6 @@ export const useSupabaseOutfits = () => {
         data: [],
         total: 0,
         page,
-        pageSize,
         totalPages: 0,
       }
     } finally {

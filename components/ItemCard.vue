@@ -8,12 +8,12 @@
       <template #trigger>
         <n-card
           :class="[
-            getCardGradient(item.rarity),
+            getCardGradient(item.quality),
             { 'opacity-60 grayscale': item.count === 0 && info },
           ]"
           :bordered="false"
           size="small"
-          content-style="padding: 0;"
+          content-class="p-0"
           class="relative overflow-hidden rounded-md transition-all duration-300 ease-in-out aspect-square ring-1 min-h-[50px] xl:min-h-[80px]"
         >
           <NuxtImg
@@ -47,7 +47,7 @@
             :style="{
               backgroundColor: getPullColor(
                 item.pullsToObtain,
-                item.rarity,
+                item.quality,
                 item.bannerId
               ),
             }"
@@ -69,7 +69,7 @@
             :bordered="false"
             class="absolute top-1 right-1 scale-75 sm:scale-90 origin-top-right shadow-sm rounded-full text-xs"
             :class="[
-              item.rarity === 5
+              item.quality === 5
                 ? 'bg-amber-500/80 text-amber-50 opacity-80'
                 : 'bg-blue-500/80 text-blue-50 opacity-80',
             ]"
@@ -122,21 +122,21 @@
       'bg-gradient-to-br from-[#e3f2fd] to-[#bbdefb] hover:shadow-[0_0_10px_0_rgba(187,222,251,0.5)] ring-blue-200/30 hover:ring-blue-200/80 dark:from-[#334155] dark:to-[#1e293b] dark:hover:shadow-[0_0_10px_0_rgba(51,65,85,0.5)] dark:ring-slate-400/20 dark:hover:ring-slate-400/40',
   } as const
 
-  const getCardGradient = (rarity: number) =>
-    rarity === 5 ? CARD_GRADIENTS.fiveStar : CARD_GRADIENTS.fourStar
+  const getCardGradient = (quality: number) =>
+    quality === 5 ? CARD_GRADIENTS.fiveStar : CARD_GRADIENTS.fourStar
 
   // Color coding function for pulls with 3 categories
-  const getPullColor = (pulls: number, rarity: number, bannerId: number) => {
+  const getPullColor = (pulls: number, quality: number, bannerId: number) => {
     const bannerType = getBannerType(bannerId)
     const baseOpacity = 0.5
 
-    if (rarity === 5) {
+    if (quality === 5) {
       // 5-star items
       if (pulls <= 0) return `rgba(156, 163, 175, ${baseOpacity})` // gray-400 - Default
       if (pulls <= 10) return `rgba(34, 197, 94, ${baseOpacity})` // green-500 - Good
       if (pulls <= 17) return `rgba(234, 179, 8, ${baseOpacity})` // yellow-500 - Average
       return `rgba(239, 68, 68, ${baseOpacity})` // red-500 - Bad
-    } else if (rarity === 4) {
+    } else if (quality === 4) {
       if (bannerType === 2) {
         // 4-star type 2 items
         if (pulls <= 0) return `rgba(156, 163, 175, ${baseOpacity})` // gray-400 - Default

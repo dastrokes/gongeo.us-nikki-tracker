@@ -201,7 +201,7 @@ export const usePullStore = defineStore('pull', {
             newPulls.push({
               itemId,
               outfitId: outfit.id,
-              rarity: outfit.rarity,
+              quality: outfit.quality,
               pullsToObtain: 0,
               obtainedAt: '',
               bannerId,

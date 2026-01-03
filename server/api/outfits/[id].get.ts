@@ -51,26 +51,34 @@ export default defineCachedEventHandler(
 
       // Extract description from translations if available
       if (data && languageCode) {
-        const dataWithTranslations = data as any
+        const dataWithTranslations = data as {
+          outfit_translations?: Array<{
+            description: string
+            language_code: string
+          }>
+          description?: string
+        }
 
         if (dataWithTranslations.outfit_translations?.length) {
           const translations = dataWithTranslations.outfit_translations
           const translation = translations.find(
-            (t: any) => t.language_code === languageCode
+            (t) => t.language_code === languageCode
           )
           const enTranslation = translations.find(
-            (t: any) => t.language_code === 'en'
+            (t) => t.language_code === 'en'
           )
 
-          data.description =
+          dataWithTranslations.description =
             translation?.description || enTranslation?.description || ''
           delete dataWithTranslations.outfit_translations
         }
       }
 
       return data
-    } catch (error: any) {
-      if (error.statusCode) throw error
+    } catch (error: unknown) {
+      if (error && typeof error === 'object' && 'statusCode' in error) {
+        throw error
+      }
       console.error(`Failed to fetch outfit ${id}:`, error)
       throw createError({
         statusCode: 500,

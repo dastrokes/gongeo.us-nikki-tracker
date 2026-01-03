@@ -315,6 +315,8 @@
         return 'bg-gradient-to-br from-[#e3f2fd] to-[#bbdefb] dark:from-[#334155] dark:to-[#1e293b]'
       case 3:
         return 'bg-gradient-to-br from-[#e0f2f1] to-[#80cbc4] dark:from-[#134e4a] dark:to-[#0f766e]'
+      case 2:
+        return 'bg-gradient-to-br from-[#f5f5f5] to-[#d6d6d6] dark:from-[#3f3f46] dark:to-[#27272a]'
       default:
         return 'bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800'
     }
@@ -329,6 +331,8 @@
         return 'info'
       case 3:
         return 'success'
+      case 2:
+        return 'default'
       default:
         return 'default'
     }

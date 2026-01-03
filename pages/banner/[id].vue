@@ -161,7 +161,7 @@
                       v-if="index > 0"
                       :bordered="false"
                     >
-                      {{ t('index.rerun') }}
+                      {{ t('default.rerun') }}
                     </n-tag>
                   </div>
                 </div>
@@ -509,6 +509,8 @@
                         pullsToObtain: i * 10 + 5,
                         pullIndex: i * 10 + 5,
                         bannerId: banner.bannerId,
+                        outfitId: '',
+                        obtainedAt: '',
                       }"
                       :info="false"
                     />

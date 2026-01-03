@@ -39,7 +39,7 @@
                 class="min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0"
                 @click="qualityFilter = null"
               >
-                {{ t('outfit.filter_all') }}
+                {{ t('common.all') }}
               </n-button>
               <n-button
                 :type="qualityFilter === 5 ? 'warning' : 'default'"
@@ -90,15 +90,19 @@
       >
         <n-result
           status="error"
-          :title="t('outfit.error_title')"
-          :description="t('outfit.error_description')"
+          :title="t('compendium.error_title', { type: t('common.outfit') })"
+          :description="
+            t('compendium.error_description', {
+              type: t('common.outfit').toLowerCase(),
+            })
+          "
         >
           <template #footer>
             <n-button
               type="primary"
               @click="retryFetch"
             >
-              {{ t('outfit.retry') }}
+              {{ t('common.retry') }}
             </n-button>
           </template>
         </n-result>
@@ -111,8 +115,14 @@
       >
         <n-result
           status="info"
-          :title="t('outfit.no_results_title')"
-          :description="t('outfit.no_results_description')"
+          :title="
+            t('compendium.no_results_title', { type: t('common.outfit') })
+          "
+          :description="
+            t('compendium.no_results_description', {
+              type: t('common.outfit').toLowerCase(),
+            })
+          "
         />
       </div>
 
@@ -350,13 +360,12 @@
   const siteUrl = useRuntimeConfig().public.siteUrl
 
   useSeoMeta({
-    title: () => `${t('navigation.outfits')} - ${t('navigation.subtitle')}`,
+    title: () => `${t('common.outfits')} - ${t('navigation.subtitle')}`,
     description: () => t('meta.description.outfits'),
-    ogTitle: () => `${t('navigation.outfits')} - ${t('navigation.subtitle')}`,
+    ogTitle: () => `${t('common.outfits')} - ${t('navigation.subtitle')}`,
     ogDescription: () => t('meta.description.outfits'),
     ogType: 'website',
-    twitterTitle: () =>
-      `${t('navigation.outfits')} - ${t('navigation.subtitle')}`,
+    twitterTitle: () => `${t('common.outfits')} - ${t('navigation.subtitle')}`,
     twitterDescription: () => t('meta.description.outfits'),
   })
 
@@ -368,7 +377,7 @@
         children: JSON.stringify({
           '@context': 'https://schema.org',
           '@type': 'CollectionPage',
-          name: `${t('navigation.outfits')} - ${t('navigation.subtitle')}`,
+          name: `${t('common.outfits')} - ${t('navigation.subtitle')}`,
           description: t('meta.description.outfits'),
           url: `${siteUrl}${localePath('/outfit')}`,
         }),

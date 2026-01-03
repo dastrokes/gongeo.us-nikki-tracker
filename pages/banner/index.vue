@@ -153,7 +153,7 @@
                         v-if="index > 0"
                         :bordered="false"
                       >
-                        {{ t('index.rerun') }}
+                        {{ t('default.rerun') }}
                       </n-tag>
                     </div>
                   </div>

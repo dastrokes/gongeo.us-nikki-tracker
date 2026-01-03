@@ -12,7 +12,7 @@
           <n-button
             text
             class="w-12"
-            :aria-label="t('accessibility.toggle_menu')"
+            :aria-label="t('default.accessibility.toggle_menu')"
             @click="showSider = !showSider"
             ><n-icon>
               <Bars />
@@ -111,15 +111,15 @@
       >
         <template #trigger>
           <p class="cursor-help sm:mx-auto mx-12 max-w-sm">
-            {{ t('common.copyright') }}
+            {{ t('default.copyright') }}
           </p>
         </template>
         <div class="max-w-xs text-left">
           <p>
-            {{ t('common.disclaimer.content') }}
+            {{ t('default.disclaimer.content') }}
           </p>
           <p class="mt-1">
-            {{ t('common.disclaimer.rights') }}
+            {{ t('default.disclaimer.rights') }}
           </p>
         </div>
       </n-tooltip>
@@ -141,7 +141,7 @@
         'translate-y-0': showScrollTop,
         'translate-y-16': !showScrollTop,
       }"
-      :aria-label="t('accessibility.scroll_to_top')"
+      :aria-label="t('default.accessibility.scroll_to_top')"
       @click="scrollToTop"
     >
       <n-icon>
@@ -298,12 +298,12 @@
       icon: renderIcon(CalendarAlt),
     },
     {
-      label: t('navigation.outfits'),
+      label: t('common.outfits'),
       key: 'outfit',
       icon: renderIcon(Tshirt),
     },
     {
-      label: t('navigation.items'),
+      label: t('common.items'),
       key: 'item',
       icon: renderIcon(Gem),
     },
@@ -350,7 +350,7 @@
             rel: 'noopener noreferrer',
             class: 'no-underline text-inherit',
           },
-          t('common.discord')
+          'Discord'
         ),
       key: 'discord',
       icon: renderIcon(Discord),
@@ -365,7 +365,7 @@
             rel: 'noopener noreferrer',
             class: 'no-underline text-inherit',
           },
-          t('common.ko_fi')
+          'Ko-fi'
         ),
       key: 'ko-fi',
       icon: renderIcon(KoFi),

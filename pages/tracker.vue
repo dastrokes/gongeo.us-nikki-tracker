@@ -453,12 +453,8 @@
                     </div>
                     <div class="flex items-center justify-between">
                       <n-switch v-model:value="settings.show4StarItems">
-                        <template #checked>{{
-                          t('tracker.banner.settings.show')
-                        }}</template>
-                        <template #unchecked>{{
-                          t('tracker.banner.settings.hide')
-                        }}</template>
+                        <template #checked>{{ t('common.show') }}</template>
+                        <template #unchecked>{{ t('common.hide') }}</template>
                       </n-switch>
                       <span class="text-sm text-gray-400 ml-3">
                         {{ t('tracker.banner.settings.show_4star') }}
@@ -466,12 +462,8 @@
                     </div>
                     <div class="flex items-center justify-between">
                       <n-switch v-model:value="settings.showDuplicates">
-                        <template #checked>{{
-                          t('tracker.banner.settings.show')
-                        }}</template>
-                        <template #unchecked>{{
-                          t('tracker.banner.settings.hide')
-                        }}</template>
+                        <template #checked>{{ t('common.show') }}</template>
+                        <template #unchecked>{{ t('common.hide') }}</template>
                       </n-switch>
                       <span class="text-sm text-gray-400 ml-3">
                         {{ t('tracker.banner.settings.duplicate_items') }}
@@ -479,12 +471,8 @@
                     </div>
                     <div class="flex items-center justify-between">
                       <n-switch v-model:value="settings.showMissingPieces">
-                        <template #checked>{{
-                          t('tracker.banner.settings.show')
-                        }}</template>
-                        <template #unchecked>{{
-                          t('tracker.banner.settings.hide')
-                        }}</template>
+                        <template #checked>{{ t('common.show') }}</template>
+                        <template #unchecked>{{ t('common.hide') }}</template>
                       </n-switch>
                       <span class="text-sm text-gray-400 ml-3">
                         {{ t('tracker.banner.settings.show_missing') }}
@@ -492,12 +480,8 @@
                     </div>
                     <div class="flex items-center justify-between">
                       <n-switch v-model:value="settings.showEmptyBanners">
-                        <template #checked>{{
-                          t('tracker.banner.settings.show')
-                        }}</template>
-                        <template #unchecked>{{
-                          t('tracker.banner.settings.hide')
-                        }}</template>
+                        <template #checked>{{ t('common.show') }}</template>
+                        <template #unchecked>{{ t('common.hide') }}</template>
                       </n-switch>
                       <span class="text-sm text-gray-400 ml-3">
                         {{ t('tracker.banner.settings.empty_banners') }}

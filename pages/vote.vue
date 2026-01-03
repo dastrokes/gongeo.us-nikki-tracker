@@ -286,7 +286,7 @@
                   size="large"
                   disabled
                 >
-                  {{ t('vote.submit') }}
+                  {{ t('common.submit') }}
                 </n-button>
               </template>
               {{ t('vote.errors.votingClosed') }}
@@ -299,7 +299,7 @@
               :loading="submitting"
               @click="handleVote"
             >
-              {{ t('vote.submit') }}
+              {{ t('common.submit') }}
             </n-button>
           </div>
         </div>

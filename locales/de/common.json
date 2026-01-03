@@ -88,7 +88,6 @@
         "title": "Lokale Daten löschen",
         "content": "Bist du dir sicher, dass du all deine lokalen Daten löschen möchtest? Diese Aktion kann nicht rückgängig gemacht werden."
       },
-      "sign_in": "Anmelden",
       "sign_out": "Abmelden",
       "sign_out_success": "Erfolgreich abgemeldet",
       "sign_out_error": "Abmeldung fehlgeschlagen",
@@ -119,7 +118,6 @@
     },
     "accessibility": {
       "toggle_menu": "Navigationsmenü ein-/ausschalten",
-      "search": "Suchen",
       "language_switcher": "Sprache wechseln",
       "theme_switcher": "Thema wechseln",
       "user_profile_menu": "Menü Benutzerprofil",
@@ -130,17 +128,7 @@
     },
     "search": {
       "placeholder": "Stücke, Outfits und Banner suchen",
-      "noResults": "Keine Treffer gefunden",
-      "categories": {
-        "banners": "Banner",
-        "outfits": "Outfits",
-        "items": "Stücke"
-      },
-      "resultTypes": {
-        "banner": "Banner",
-        "outfit": "Outfit",
-        "item": "Stück"
-      }
+      "noResults": "Keine Treffer gefunden"
     },
     "social": {
       "discord": "Werde Teil unserer Discord-Community",

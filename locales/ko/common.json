@@ -88,7 +88,6 @@
         "title": "Clear Local Data",
         "content": "Are you sure you want to clear all local data? This action cannot be undone."
       },
-      "sign_in": "Sign In",
       "sign_out": "Sign out",
       "sign_out_success": "Successfully signed out",
       "sign_out_error": "Failed to sign out",
@@ -119,7 +118,6 @@
     },
     "accessibility": {
       "toggle_menu": "Toggle navigation menu",
-      "search": "Search",
       "language_switcher": "Language switcher",
       "theme_switcher": "Toggle theme",
       "user_profile_menu": "User profile menu",
@@ -130,17 +128,7 @@
     },
     "search": {
       "placeholder": "Search items, banners, outfits",
-      "noResults": "No results found",
-      "categories": {
-        "banners": "Banners",
-        "outfits": "Outfits",
-        "items": "Items"
-      },
-      "resultTypes": {
-        "banner": "Banner",
-        "outfit": "Outfit",
-        "item": "Item"
-      }
+      "noResults": "No results found"
     },
     "social": {
       "discord": "디스코드 커뮤니티에 가입하세요",

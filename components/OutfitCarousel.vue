@@ -7,13 +7,13 @@
         class="cursor-pointer hover:opacity-80 transition-opacity"
       >
         <n-tag
-          :type="rarity === 5 ? 'warning' : 'info'"
+          :type="quality === 5 ? 'warning' : 'info'"
           :bordered="false"
           round
           class="cursor-pointer"
         >
           <span class="align-top"
-            >{{ t(`outfit.${outfitId}.name`) }} {{ rarity }}</span
+            >{{ t(`outfit.${outfitId}.name`) }} {{ quality }}</span
           >
           <span class="ml-1"
             ><n-icon><Star /></n-icon
@@ -27,7 +27,7 @@
       <!-- Carousel Container -->
       <div class="w-full lg:w-auto flex-shrink-0">
         <n-carousel
-          :ref="`carousel${rarity}Star`"
+          :ref="`carousel${quality}Star`"
           effect="card"
           show-dots
           dot-placement="left"
@@ -39,7 +39,7 @@
           <n-carousel-item
             v-for="(image, index) in outfitImages"
             :key="index"
-            :class="rarity === 5 ? 'w-[60%]' : 'w-[40%]'"
+            :class="quality === 5 ? 'w-[60%]' : 'w-[40%]'"
           >
             <NuxtLink
               no-prefetch
@@ -69,7 +69,7 @@
                   round
                   size="small"
                   :bordered="false"
-                  :type="rarity === 5 ? 'warning' : 'info'"
+                  :type="quality === 5 ? 'warning' : 'info'"
                 >
                   {{
                     t(
@@ -110,7 +110,7 @@
 
   interface Props {
     outfitId: string
-    rarity: number
+    quality: number
     bannerId: number
     completionLevels: string[]
   }
@@ -125,7 +125,7 @@
       'bg-gradient-to-br from-[#e3f2fd] to-[#bbdefb] hover:brightness-105 dark:from-[#334155] dark:to-[#1e293b]',
   } as const
   const cardGradient = computed(() =>
-    props.rarity === 5
+    props.quality === 5
       ? OUTFIT_CARD_GRADIENTS.fiveStar
       : OUTFIT_CARD_GRADIENTS.fourStar
   )
@@ -139,8 +139,8 @@
       level: 0,
     })
 
-    // Add level variants based on rarity
-    const maxLevel = props.rarity === 5 ? 4 : 2
+    // Add level variants based on quality
+    const maxLevel = props.quality === 5 ? 4 : 2
     for (let i = 2; i <= maxLevel; i++) {
       const levelNum = i.toString().padStart(2, '0')
       images.push({
@@ -168,7 +168,7 @@
       return {
         itemId: itemId,
         outfitId: props.outfitId,
-        rarity: props.rarity,
+        quality: props.quality,
         count: 1,
         pullIndex: 0,
         pullsToObtain: 0,

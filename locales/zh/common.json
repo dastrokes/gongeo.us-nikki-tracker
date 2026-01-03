@@ -647,6 +647,7 @@
     "not_found_description": "找不到此物品。它可能已被删除。",
     "quality_5_star": "5星物品",
     "quality_4_star": "4星物品",
-    "quality_3_star": "3星物品"
+    "quality_3_star": "3星物品",
+    "quality_2_star": "2星物品"
   }
 }

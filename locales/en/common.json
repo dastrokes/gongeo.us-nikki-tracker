@@ -649,6 +649,7 @@
     "not_found_description": "This item could not be found. It may have been removed.",
     "quality_5_star": "5-Star Item",
     "quality_4_star": "4-Star Item",
-    "quality_3_star": "3-Star Item"
+    "quality_3_star": "3-Star Item",
+    "quality_2_star": "2-Star Item"
   }
 }

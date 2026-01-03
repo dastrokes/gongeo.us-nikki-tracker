@@ -706,7 +706,7 @@
 
   interface SelectedOutfitDetails {
     bannerId: number
-    rarity: string
+    quality: string
     outfitId?: string
   }
 
@@ -714,15 +714,15 @@
     const value = selectedOutfit.value
     if (typeof value !== 'string' || value.length === 0) return null
 
-    const [bannerIdRaw, rarity, outfitId] = value.split('_')
-    if (!bannerIdRaw || !rarity) return null
+    const [bannerIdRaw, quality, outfitId] = value.split('_')
+    if (!bannerIdRaw || !quality) return null
 
     const bannerId = Number.parseInt(bannerIdRaw, 10)
     if (Number.isNaN(bannerId)) return null
 
     return {
       bannerId,
-      rarity,
+      quality,
       outfitId,
     }
   }
@@ -1302,13 +1302,13 @@
       return
     }
 
-    const { bannerId, rarity, outfitId } = parsed
+    const { bannerId, quality, outfitId } = parsed
 
     // For type 2 banners, use the special key format (e.g., "30_4" for banner 30, 4-star)
     // For other banners, use the regular banner ID
     let dataKey = bannerId.toString()
-    if (BANNER_DATA[bannerId]?.bannerType === 2 && rarity === '4') {
-      dataKey = `${bannerId}_${rarity}`
+    if (BANNER_DATA[bannerId]?.bannerType === 2 && quality === '4') {
+      dataKey = `${bannerId}_${quality}`
     }
 
     const bannerItems = chartData[dataKey]

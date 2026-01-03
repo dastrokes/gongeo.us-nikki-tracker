@@ -79,7 +79,7 @@
                 :default-value="getItemMinCount(itemId)"
                 size="medium"
                 :color="
-                  selectedOutfit.rarity === 5
+                  selectedOutfit.quality === 5
                     ? 'rgba(245, 158, 11, 0.8)'
                     : 'rgba(139, 92, 246, 0.8)'
                 "
@@ -109,7 +109,7 @@
               size="medium"
               class="ml-4"
               :color="
-                selectedOutfit.rarity === 5
+                selectedOutfit.quality === 5
                   ? 'rgba(245, 158, 11, 0.8)'
                   : 'rgba(139, 92, 246, 0.8)'
               "
@@ -130,7 +130,7 @@
 
           <!-- Evolution level selector (only for banner types 1 or 2 and 5★ outfits) -->
           <div
-            v-if="showEvoLevels && selectedOutfit.rarity === 5"
+            v-if="showEvoLevels && selectedOutfit.quality === 5"
             class="flex items-center gap-2"
           >
             <span class="text-sm"
@@ -202,7 +202,7 @@
   }>()
   const selectedOutfitId = ref<string | null>(null)
   const selectedBanner = ref<BannerData[number] | null>(null)
-  const selectedOutfit = ref<(Outfit & { rarity: number }) | null>(null)
+  const selectedOutfit = ref<(Outfit & { quality: number }) | null>(null)
   const itemCounts = ref<Record<string, number>>({})
   const outfitEvoLevel = ref(0)
   const importedItemCounts = ref<Record<string, number>>({})
@@ -251,13 +251,13 @@
     if (!props.bannerId || !selectedBanner.value) return []
 
     const banner = selectedBanner.value
-    const outfits: { outfitId: string; rarity: number }[] = []
+    const outfits: { outfitId: string; quality: number }[] = []
 
     // Add 5★ outfits
     banner.outfit5StarId?.forEach((id: string) => {
       outfits.push({
         outfitId: id,
-        rarity: 5,
+        quality: 5,
       })
     })
 
@@ -265,7 +265,7 @@
     banner.outfit4StarId?.forEach((id: string) => {
       outfits.push({
         outfitId: id,
-        rarity: 4,
+        quality: 4,
       })
     })
 
@@ -276,17 +276,17 @@
   const outfitOptions = computed(() => {
     return bannerOutfits.value
       .map((outfit) => {
-        const rarity = outfit.rarity
+        const quality = outfit.quality
         return {
-          label: `${t(`outfit.${outfit.outfitId}.name`)} (${rarity}★)`,
+          label: `${t(`outfit.${outfit.outfitId}.name`)} (${quality}★)`,
           value: outfit.outfitId,
-          rarity,
+          quality,
         }
       })
       .sort((a, b) => {
-        // Sort by rarity (5★ first) then by name
-        if (a.rarity !== b.rarity) {
-          return b.rarity - a.rarity
+        // Sort by quality (5★ first) then by name
+        if (a.quality !== b.quality) {
+          return b.quality - a.quality
         }
         return a.label.localeCompare(b.label)
       })
@@ -299,7 +299,7 @@
     // Get outfit data
     const outfit = OUTFIT_DATA[selectedOutfitId.value as OutfitKey]
     if (outfit) {
-      // Find the outfit's rarity from our banner outfits array
+      // Find the outfit's quality from our banner outfits array
       const outfitInfo = bannerOutfits.value.find(
         (o) => o.outfitId === selectedOutfitId.value
       )
@@ -307,7 +307,7 @@
 
       selectedOutfit.value = {
         ...outfit,
-        rarity: outfitInfo.rarity,
+        quality: outfitInfo.quality,
       }
 
       // Initialize item counts - only show what's already in the data
@@ -331,7 +331,7 @@
       }
 
       // Get outfit evolution level if available
-      if (showEvoLevels.value && outfitInfo.rarity === 5) {
+      if (showEvoLevels.value && outfitInfo.quality === 5) {
         outfitEvoLevel.value = pullStore.getOutfitEvoLevel(
           props.bannerId as number,
           selectedOutfitId.value
@@ -468,7 +468,7 @@
         updatedEvoData[bannerId] = []
       }
 
-      if (showEvoLevels.value && selectedOutfit.value.rarity === 5) {
+      if (showEvoLevels.value && selectedOutfit.value.quality === 5) {
         // Remove any existing evo record for this outfit
         updatedEvoData[bannerId] = updatedEvoData[bannerId].filter(
           ([outfitId]) => outfitId !== selectedOutfitId.value

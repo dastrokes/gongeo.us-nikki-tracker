@@ -1,4 +1,44 @@
 {
+  "common": {
+    "banner": "卡池",
+    "banners": "卡池",
+    "outfit": "套装",
+    "outfits": "套装",
+    "item": "部件",
+    "items": "部件",
+    "type": "类型",
+    "pull": "抽",
+    "pulls": "抽",
+    "total": "总数",
+    "average": "平均",
+    "avg": "平均",
+    "statistics": "统计",
+    "stats": "统计",
+    "data": "数据",
+    "history": "历史",
+    "tracker": "追踪器",
+    "import": "导入",
+    "export": "导出",
+    "loading": "加载中...",
+    "search": "搜索",
+    "filter": "筛选",
+    "all": "全部",
+    "show": "显示",
+    "hide": "隐藏",
+    "save": "保存",
+    "cancel": "取消",
+    "confirm": "确认",
+    "ok": "确定",
+    "submit": "提交",
+    "retry": "重试",
+    "back": "返回",
+    "copy": "复制",
+    "select": "选择",
+    "description": "描述",
+    "error": "错误",
+    "success": "成功",
+    "failed": "失败"
+  },
   "navigation": {
     "title": "暖暖共鸣录",
     "subtitle": "暖暖共鸣录",
@@ -10,15 +50,7 @@
     "vote": "卡池投票",
     "faq": "常见问题",
     "about": "关于本站",
-    "nuan5pro": "无暖助手",
-    "outfits": "套装",
-    "items": "部件"
-  },
-  "social": {
-    "discord": "加入我们的 Discord 社区",
-    "kofi": "在 Ko-fi 上支持我们",
-    "twitter": "在 Twitter 上关注我们",
-    "email": "通过邮箱联系我们"
+    "nuan5pro": "无暖助手"
   },
   "meta": {
     "title": "暖暖共鸣录 - 无限暖暖共鸣历史追踪与抽卡数据分析",
@@ -39,16 +71,75 @@
       "item_detail": "查看{name}的详细信息，包括相关套装和品质评级。"
     }
   },
-  "index": {
-    "title": "暖暖共鸣录",
-    "subtitle": "gongeo.us",
+  "default": {
     "description": "记录无限暖暖共鸣历史和统计数据",
     "your_data": "您的数据",
     "current_banners": "当前卡池",
-    "rerun": "复刻"
+    "rerun": "复刻",
+    "copyright": "© 2025 暖暖共鸣录 • © 叠纸游戏 版权所有",
+    "disclaimer": {
+      "content": "本网站由粉丝自发制作运营，与叠纸游戏官方无关，亦未获其授权认可。",
+      "rights": "所有无限暖暖游戏资源、内容和商标均归叠纸游戏及相关权利方所有。"
+    },
+    "user_profile": {
+      "guest": "访客",
+      "clear_local_data": "清除本地数据",
+      "clear_local_confirm": {
+        "title": "清除本地数据",
+        "content": "确定要清除所有本地数据吗？此操作无法撤消。"
+      },
+      "sign_out": "退出登录",
+      "sign_out_success": "成功退出登录",
+      "sign_out_error": "退出登录失败",
+      "upload_data": "上传到云端",
+      "sync_data": "从云端同步",
+      "sync": {
+        "upload_success": "数据已成功上传到云端！",
+        "upload_error": "上传数据失败。",
+        "sync_success": "数据同步成功！",
+        "sync_error": "数据同步失败。",
+        "confirm_upload": {
+          "title": "上传到云端",
+          "content": "这将把您的本地数据上传到云端存储，覆盖任何现有的云端数据。确认继续吗？"
+        },
+        "confirm_sync": {
+          "title": "从云端同步",
+          "content": "这将通过合并本地数据和云端数据来同步您的数据。确认继续吗？"
+        }
+      },
+      "clear_cloud_data": "清除云端数据",
+      "clear_cloud_confirm": {
+        "title": "清除云端数据",
+        "content": "您确定要清除所有云端数据吗？此操作无法撤消，将永久删除您的云端存储数据。"
+      },
+      "clear_cloud_success": "云端数据清除成功！",
+      "clear_cloud_error": "清除云端数据失败。",
+      "clear_success": "数据清除成功！"
+    },
+    "accessibility": {
+      "toggle_menu": "切换导航菜单",
+      "language_switcher": "切换语言",
+      "theme_switcher": "切换主题",
+      "user_profile_menu": "用户资料菜单",
+      "scroll_to_top": "回到顶部"
+    },
+    "language_switcher": {
+      "help_translate": "帮助翻译"
+    },
+    "search": {
+      "placeholder": "搜索部件、套装、卡池",
+      "noResults": "未找到结果"
+    },
+    "social": {
+      "discord": "加入我们的 Discord 社区",
+      "kofi": "在 Ko-fi 上支持我们",
+      "twitter": "在 Twitter 上关注我们",
+      "email": "通过邮箱联系我们"
+    }
   },
   "login": {
-    "title": "登录",
+    "sign_in": "登录",
+    "sign_up": "注册",
     "welcome_description": "使用第三方账号或邮箱登录，上传并同步您的数据。",
     "signed_in_title": "登录成功！",
     "welcome_back": "欢迎回来，{name}！",
@@ -60,8 +151,6 @@
     "email": "邮箱",
     "password": "密码",
     "confirm_password": "确认密码",
-    "sign_in": "登录",
-    "sign_up": "注册",
     "forgot_password": "忘记密码？",
     "reset_password": "重置密码",
     "send_reset_email": "发送重置邮件",
@@ -83,17 +172,10 @@
     "reset_error": "发送重置邮件失败，请重试。",
     "or": "或"
   },
-  "email": {
-    "confirm_signup": {
-      "subject": "确认您的注册",
-      "body": "请点击下方链接确认您的注册：",
-      "link": "确认您的注册"
-    },
-    "reset_password": {
-      "subject": "重置您的密码",
-      "body": "请点击下方链接重置您的密码：",
-      "link": "重置您的密码"
-    }
+  "error": {
+    "404": "\"暖暖，我们还是待在水浅的地方吧！\"",
+    "notFound": "您访问的页面不存在。",
+    "returnHome": "返回首页"
   },
   "import": {
     "video_tutorial": "视频教程",
@@ -110,6 +192,13 @@
     "select_file": "选择文件",
     "select_region": "选择服务器",
     "select_region_desc": "选择您的游戏服务器区域。",
+    "regions": {
+      "america": "美服",
+      "europe": "欧服",
+      "china": "国服",
+      "tw": "台港澳服",
+      "asia": "亚服"
+    },
     "pearpal_website": "美鸭梨网站",
     "whimlog": "奇想手账",
     "login_pearpal": "登录美鸭梨网站",
@@ -186,7 +275,6 @@
       "fetching_data": "正在获取共鸣数据：{banner}"
     },
     "actions": {
-      "copy": "复制",
       "copy_code": "复制代码",
       "paste_from_clipboard": "从剪贴板粘贴",
       "select_all": "全选"
@@ -227,6 +315,11 @@
     "pc_recommended": "您正在使用移动设备，您可以使用以下浏览器导入数据，其他浏览器未经测试，可能无法正常工作。为获得最佳体验，建议使用电脑浏览器导入数据。",
     "bookmark_script": {
       "invalid_site": "请在美鸭梨网站上使用此书签"
+    },
+    "maintenance": {
+      "title": "网站维护中",
+      "message": "我们正在对网站进行维护更新，抽卡记录导入暂时无法使用。",
+      "status": "服务很快就会恢复。感谢您的耐心等待！"
     }
   },
   "tracker": {
@@ -248,7 +341,6 @@
       "open_editor": "打开编辑器",
       "select_banner": "选择卡池",
       "apply_to_all": "全部应用",
-      "save": "保存套装",
       "success": "套装保存成功！",
       "error": "套装保存失败",
       "evo_level": "套装进化"
@@ -276,14 +368,45 @@
         "show_missing": "缺失部件",
         "duplicate_items": "重复部件",
         "empty_banners": "未抽卡池",
-        "show": "显示",
-        "hide": "隐藏",
         "data_source": "数据来源",
         "pearpal": "奇想手账",
         "game": "游戏",
         "auto": "自动",
         "data_source_tooltip": "请选择你想优先使用的数据源。如果所选数据源没有数据，会自动切换到其他数据源。一次只会使用一个数据源进行展示和计算。",
         "auto_option": "\"自动\"会合并两个数据源，对于每个卡池会优先使用数据量较多的数据源。"
+      }
+    },
+    "items": {
+      "pull": "第 {number} 抽",
+      "types": {
+        "dresses": "连衣裙",
+        "outerwear": "外套",
+        "tops": "上衣",
+        "bottoms": "下装",
+        "socks": "袜子",
+        "shoes": "鞋子",
+        "headwear": "帽子",
+        "hairAccessories": "发饰",
+        "earrings": "耳饰",
+        "neckwear": "颈饰",
+        "bracelets": "腕饰",
+        "chokers": "项圈",
+        "gloves": "手套",
+        "handhelds": "手持物",
+        "faceDecorations": "面饰",
+        "hair": "发型",
+        "chestAccessories": "胸饰",
+        "pendants": "挂饰",
+        "backpieces": "背饰",
+        "rings": "戒指",
+        "armDecorations": "臂饰",
+        "baseMakeup": "底妆",
+        "eyebrows": "眉毛",
+        "eyelashes": "睫毛",
+        "contactLenses": "美瞳",
+        "lips": "唇妆",
+        "skinTones": "肤色",
+        "unknown": "未知"
       }
     },
     "export": {
@@ -323,105 +446,6 @@
     "deep_echoes": "深海回响",
     "not_found": "卡池未找到"
   },
-  "common": {
-    "discord": "Discord",
-    "ko_fi": "Ko-fi",
-    "copyright": "© 2025 暖暖共鸣录 • © 叠纸游戏 版权所有",
-    "disclaimer": {
-      "content": "本网站由粉丝自发制作运营，与叠纸游戏官方无关，亦未获其授权认可。",
-      "rights": "所有无限暖暖游戏资源、内容和商标均归叠纸游戏及相关权利方所有。"
-    },
-    "captions": {
-      "ok": "确定",
-      "confirm": "确认",
-      "cancel": "取消",
-      "loading": "加载中..."
-    },
-    "user_profile": {
-      "guest": "访客",
-      "clear_local_data": "清除本地数据",
-      "clear_local_confirm": {
-        "title": "清除本地数据",
-        "content": "确定要清除所有本地数据吗？此操作无法撤消。"
-      },
-      "sign_in": "登录",
-      "sign_out": "退出登录",
-      "sign_out_success": "成功退出登录",
-      "sign_out_error": "退出登录失败",
-      "upload_data": "上传到云端",
-      "sync_data": "从云端同步",
-      "sync": {
-        "upload_success": "数据已成功上传到云端！",
-        "upload_error": "上传数据失败。",
-        "sync_success": "数据同步成功！",
-        "sync_error": "数据同步失败。",
-        "confirm_upload": {
-          "title": "上传到云端",
-          "content": "这将把您的本地数据上传到云端存储，覆盖任何现有的云端数据。确认继续吗？"
-        },
-        "confirm_sync": {
-          "title": "从云端同步",
-          "content": "这将通过合并本地数据和云端数据来同步您的数据。确认继续吗？"
-        }
-      },
-      "clear_cloud_data": "清除云端数据",
-      "clear_cloud_confirm": {
-        "title": "清除云端数据",
-        "content": "您确定要清除所有云端数据吗？此操作无法撤消，将永久删除您的云端存储数据。"
-      },
-      "clear_cloud_success": "云端数据清除成功！",
-      "clear_cloud_error": "清除云端数据失败。",
-      "clear_success": "数据清除成功！"
-    },
-    "regions": {
-      "america": "美服",
-      "europe": "欧服",
-      "china": "国服",
-      "tw": "台港澳服",
-      "asia": "亚服"
-    }
-  },
-  "items": {
-    "pull": "第 {number} 抽",
-    "types": {
-      "dresses": "连衣裙",
-      "outerwear": "外套",
-      "tops": "上衣",
-      "bottoms": "下装",
-      "socks": "袜子",
-      "shoes": "鞋子",
-      "headwear": "帽子",
-      "hairAccessories": "发饰",
-      "earrings": "耳饰",
-      "neckwear": "颈饰",
-      "bracelets": "腕饰",
-      "chokers": "项圈",
-      "gloves": "手套",
-      "handhelds": "手持物",
-      "faceDecorations": "面饰",
-      "hair": "发型",
-      "chestAccessories": "胸饰",
-      "pendants": "挂饰",
-      "backpieces": "背饰",
-      "rings": "戒指",
-      "armDecorations": "臂饰",
-      "baseMakeup": "底妆",
-      "eyebrows": "眉毛",
-      "eyelashes": "睫毛",
-      "contactLenses": "美瞳",
-      "lips": "唇妆",
-      "skinTones": "肤色",
-      "unknown": "未知"
-    }
-  },
-  "accessibility": {
-    "toggle_menu": "切换导航菜单",
-    "search": "搜索",
-    "language_switcher": "切换语言",
-    "theme_switcher": "切换主题",
-    "user_profile_menu": "用户资料菜单",
-    "scroll_to_top": "回到顶部"
-  },
   "global": {
     "stats": {
       "total_pulls": "总抽数",
@@ -440,11 +464,8 @@
       "number_of_pulls": "抽数",
       "probability": "概率",
       "cumulative_probability": "累积概率",
-      "pulls": "抽",
       "occurrences": "出现次数",
       "percentage": "百分比",
-      "total": "总数",
-      "type": "类型",
       "all_banners": "所有卡池",
       "five_star_banners": "5★卡池",
       "four_star_banners": "4★卡池",
@@ -535,33 +556,8 @@
       "message": "我们使用 Sentry.io 来跟踪和修复技术错误。Sentry 可能会收集有限的技术数据（如错误详情、浏览器信息和匿名 IP 地址），以帮助我们维护和改进网站。有关详情，请参阅 Sentry.io 的隐私政策页面。"
     }
   },
-  "maintenance": {
-    "title": "网站维护中",
-    "message": "我们正在对网站进行维护更新，抽卡记录导入暂时无法使用。",
-    "status": "服务很快就会恢复。感谢您的耐心等待！"
-  },
-  "search": {
-    "placeholder": "搜索部件、套装、卡池",
-    "noResults": "未找到结果",
-    "categories": {
-      "banners": "卡池",
-      "outfits": "套装",
-      "items": "部件"
-    },
-    "resultTypes": {
-      "banner": "卡池",
-      "outfit": "套装",
-      "item": "部件"
-    }
-  },
-  "error": {
-    "404": "\"暖暖，我们还是待在水浅的地方吧！\"",
-    "notFound": "您访问的页面不存在。",
-    "returnHome": "返回首页"
-  },
   "vote": {
     "description": "帮助我们评选出1.x版本中最受欢迎的卡池！在一对一的对决中为您最喜欢的卡池投票。",
-    "submit": "提交投票",
     "skip": "跳过",
     "howItWorks": "选择您喜欢的卡池并提交投票，帮助评选最受欢迎的卡池。不确定可以跳过。每24小时最多可投票50次。",
     "abuseNotice": "请不要恶意刷票。异常的投票行为将会被系统检测到，相关投票可能会被移除。",
@@ -595,7 +591,6 @@
       "voteMore": "继续投票",
       "lastUpdated": "最后更新",
       "rank": "排名",
-      "banner": "卡池",
       "elo": "Elo评分",
       "eloShort": "ELO",
       "winRate": "胜率",
@@ -608,45 +603,18 @@
       "lossesShort": "负"
     }
   },
-  "language_switcher": {
-    "help_translate": "帮助翻译"
-  },
-  "outfit": {
-    "search_placeholder": "搜索套装...",
-    "filter_all": "全部",
-    "error_title": "加载套装失败",
-    "error_description": "无法加载套装数据。请检查您的连接并重试。",
-    "retry": "重试",
-    "no_results_title": "未找到套装",
-    "no_results_description": "没有符合您搜索条件的套装。",
-    "breadcrumb_list": "套装",
-    "detail_loading": "加载中...",
-    "detail_description": "描述",
-    "detail_component_items": "组件物品",
-    "back_to_list": "返回套装列表",
-    "not_found_title": "未找到套装",
-    "not_found_description": "找不到此套装。它可能已被删除。",
-    "quality_5_star": "5星套装",
-    "quality_4_star": "4星套装",
-    "quality_3_star": "3星套装"
-  },
-  "item": {
+  "compendium": {
     "search_placeholder": "搜索物品...",
-    "filter_all": "全部",
-    "filter_type": "按类型筛选",
-    "filter_all_types": "全部类型",
     "error_title": "加载物品失败",
     "error_description": "无法加载物品数据。请检查您的连接并重试。",
-    "retry": "重试",
-    "breadcrumb_list": "物品",
-    "detail_loading": "加载中...",
-    "detail_description": "描述",
-    "detail_related_outfits": "相关套装",
-    "back_to_list": "返回物品列表",
+    "no_results_title": "未找到套装",
+    "no_results_description": "没有符合您搜索条件的套装。",
     "not_found_title": "未找到物品",
     "not_found_description": "找不到此物品。它可能已被删除。",
-    "quality_5_star": "5星物品",
-    "quality_4_star": "4星物品",
-    "quality_3_star": "3星物品"
+    "back_to_list": "返回物品列表",
+    "filter_type": "按类型筛选",
+    "filter_all_types": "全部类型",
+    "detail_component_items": "组件物品",
+    "detail_related_outfits": "相关套装"
   }
 }

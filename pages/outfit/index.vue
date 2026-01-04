@@ -10,19 +10,7 @@
     >
       <div class="flex flex-col gap-4">
         <!-- Quality Filter Buttons -->
-        <div
-          class="flex justify-between sm:justify-end items-center gap-2 flex-wrap"
-        >
-          <!-- Active filter indicator -->
-          <ClientOnly>
-            <div
-              v-if="qualityFilter !== null"
-              class="text-sm opacity-70"
-            >
-              {{ totalItems }} {{ totalItems === 1 ? 'outfit' : 'outfits' }}
-            </div>
-          </ClientOnly>
-
+        <div class="flex justify-end items-center gap-2 flex-wrap">
           <div class="flex items-center gap-2">
             <!-- Clear filters button -->
             <n-button
@@ -149,14 +137,17 @@
                     sizes="xs:50vw sm:33vw md:25vw lg:20vw xl:16vw"
                     @error="handleImageError"
                   />
-                  <div class="absolute top-2 right-2 z-20">
+                  <div class="absolute top-1 right-1 z-20">
                     <n-tag
                       round
                       size="small"
                       :bordered="false"
                       :type="getQualityType(outfit.quality)"
                     >
-                      {{ outfit.quality }}<n-icon class="ml-1"><Star /></n-icon>
+                      <span class="align-top">{{ outfit.quality }}</span>
+                      <span class="ml-0.5"
+                        ><n-icon><Star /></n-icon
+                      ></span>
                     </n-tag>
                   </div>
                   <div
@@ -187,33 +178,26 @@
       </div>
 
       <!-- Pagination - Sticky at bottom on mobile, inline on desktop -->
-      <ClientOnly>
-        <div
-          class="fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 py-3 px-4 sm:relative sm:border-0 sm:bg-transparent sm:dark:bg-transparent sm:mt-6 sm:py-0 sm:px-0 shadow-lg sm:shadow-none sm:flex-shrink-0"
-        >
-          <div class="flex justify-center">
-            <n-pagination
-              v-model:page="currentPage"
-              :page-count="Math.max(totalPages, 1)"
-              :page-size="pageSize"
-              :show-size-picker="false"
-              :disabled="loading || !!error"
-              :page-slot="5"
-            />
-          </div>
-        </div>
-        <template #fallback>
-          <div
-            class="fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 py-3 px-4 sm:relative sm:border-0 sm:bg-transparent sm:dark:bg-transparent sm:mt-6 sm:py-0 sm:px-0 shadow-lg sm:shadow-none sm:flex-shrink-0"
+      <div
+        class="fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 py-3 px-4 sm:relative sm:border-0 sm:bg-transparent sm:dark:bg-transparent sm:mt-6 sm:py-0 sm:px-0 shadow-lg sm:shadow-none sm:flex-shrink-0"
+      >
+        <div class="flex justify-center">
+          <n-pagination
+            v-model:page="currentPage"
+            :page-size="pageSize"
+            :item-count="totalItems"
+            :show-size-picker="false"
+            :disabled="loading || !!error"
+            :page-slot="5"
           >
-            <div class="flex justify-center">
-              <div
-                class="h-10 w-64 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"
-              ></div>
-            </div>
-          </div>
-        </template>
-      </ClientOnly>
+            <template #prefix="{ itemCount }">
+              <span class="text-sm opacity-70">
+                {{ itemCount }} {{ itemCount === 1 ? 'outfit' : 'outfits' }}
+              </span>
+            </template>
+          </n-pagination>
+        </div>
+      </div>
     </n-card>
   </div>
 </template>

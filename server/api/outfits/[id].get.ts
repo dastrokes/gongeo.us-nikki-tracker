@@ -23,17 +23,25 @@ interface OutfitVariation {
 /**
  * Calculate related outfit variation IDs
  * Only 4★ and 5★ outfits can have variations
+ * 
+ * Logic:
+ * - If ID length is 7 and ends with 01-04, it's a variation (e.g., 1000101)
+ * - Base ID is the first 5 digits (e.g., 10001)
+ * - Otherwise, the ID itself is the base
  */
 function getRelatedOutfitIds(baseId: number, quality: number): number[] {
   if (quality < 4) return [baseId]
   
   const idStr = baseId.toString()
   
-  // Determine base ID by removing suffix
-  const baseIdNum = idStr.endsWith('01') || idStr.endsWith('02') || 
-                    idStr.endsWith('03') || idStr.endsWith('04')
-    ? parseInt(idStr.slice(0, -2))
-    : baseId
+  // Determine base ID
+  let baseIdNum = baseId
+  
+  // Check if this is a 7-digit ID ending with 01-04 (variation format)
+  if (idStr.length === 7 && /0[1-4]$/.test(idStr)) {
+    // Extract base ID (first 5 digits)
+    baseIdNum = parseInt(idStr.slice(0, 5))
+  }
   
   const variations = [
     baseIdNum,                    // base

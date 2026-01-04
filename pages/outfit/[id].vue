@@ -7,17 +7,87 @@
       class="rounded-xl p-0 sm:p-2"
       content-class="!p-2 sm:p-4"
     >
-      <div class="space-y-4">
-        <n-skeleton
-          height="400px"
-          :sharp="false"
-        />
-        <n-skeleton
-          text
-          :repeat="3"
-        />
+      <div class="grid grid-cols-1 lg:grid-cols-[180px_1fr] gap-4 lg:gap-6">
+        <!-- Image Skeleton -->
+        <div class="flex justify-center lg:justify-start">
+          <n-skeleton
+            width="180px"
+            height="270px"
+            :sharp="false"
+            class="rounded-lg"
+          />
+        </div>
+
+        <!-- Info Skeleton -->
+        <div class="space-y-3">
+          <div class="space-y-2">
+            <n-skeleton
+              text
+              width="60%"
+              height="32px"
+            />
+            <n-skeleton
+              width="60px"
+              height="24px"
+              :sharp="false"
+              class="rounded-full"
+            />
+          </div>
+          <n-skeleton
+            text
+            :repeat="2"
+          />
+
+          <!-- Items Skeleton -->
+          <div class="space-y-2">
+            <n-skeleton
+              text
+              width="30%"
+              height="20px"
+            />
+            <div
+              class="grid grid-cols-5 sm:grid-cols-6 md:grid-cols-7 lg:grid-cols-8 gap-2"
+            >
+              <n-skeleton
+                v-for="i in 8"
+                :key="i"
+                height="80px"
+                :sharp="false"
+                class="rounded-lg aspect-[2/3]"
+              />
+            </div>
+          </div>
+        </div>
       </div>
     </n-card>
+
+    <!-- Variations/Banner Skeleton -->
+    <div
+      v-if="loading"
+      class="grid grid-cols-1 lg:grid-cols-2 gap-2 sm:gap-4"
+    >
+      <n-card
+        size="small"
+        class="rounded-xl p-0 sm:p-2"
+        content-class="!p-2 sm:p-4"
+      >
+        <n-skeleton
+          text
+          width="40%"
+          height="24px"
+          class="mb-3"
+        />
+        <div class="grid grid-cols-4 sm:grid-cols-5 gap-2">
+          <n-skeleton
+            v-for="i in 5"
+            :key="i"
+            height="120px"
+            :sharp="false"
+            class="rounded-lg aspect-[2/3]"
+          />
+        </div>
+      </n-card>
+    </div>
 
     <!-- Error State -->
     <n-card
@@ -81,7 +151,10 @@
                   :bordered="false"
                   :type="getQualityType(outfit.quality)"
                 >
-                  {{ outfit.quality }}<n-icon class="ml-0.5 text-xs"><Star /></n-icon>
+                  <span class="align-top">{{ outfit.quality }}</span>
+                  <span class="ml-0.5"
+                    ><n-icon><Star /></n-icon
+                  ></span>
                 </n-tag>
               </div>
             </div>
@@ -156,14 +229,14 @@
                 />
               </div>
             </div>
-
-
           </div>
         </div>
       </n-card>
 
       <!-- Variations and Banner Grid (side by side on desktop) -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-2 sm:gap-4 lg:items-stretch">
+      <div
+        class="grid grid-cols-1 lg:grid-cols-2 gap-2 sm:gap-4 lg:items-stretch"
+      >
         <!-- Outfit Variations Section -->
         <n-card
           v-if="outfitVariations.length > 1"
@@ -176,7 +249,9 @@
               {{ t('common.variations') }}
             </h2>
           </div>
-          <div class="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-4 xl:grid-cols-5 gap-2">
+          <div
+            class="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-4 xl:grid-cols-5 gap-2"
+          >
             <NuxtLink
               v-for="variation in outfitVariations"
               :key="variation.id"
@@ -187,9 +262,9 @@
                 class="relative aspect-[2/3] rounded-lg overflow-hidden transition-all duration-200 ease-in-out shadow-md"
                 :class="[
                   getQualityGradient(variation.quality),
-                  variation.id === outfitId 
-                    ? 'ring-2 ring-primary/60 dark:ring-primary/40' 
-                    : 'group-hover:scale-105'
+                  variation.id === outfitId
+                    ? 'ring-2 ring-primary/60 dark:ring-primary/40'
+                    : 'group-hover:scale-105',
                 ]"
               >
                 <NuxtImg
@@ -233,7 +308,9 @@
             :to="localePath(`/banner/${inBanner.bannerId}`)"
             class="block group"
           >
-            <div class="relative aspect-[2/1] max-h-[150px] rounded-lg overflow-hidden transition-all duration-200 ease-in-out shadow-md group-hover:scale-[1.02]">
+            <div
+              class="relative aspect-[2/1] max-h-[150px] rounded-lg overflow-hidden transition-all duration-200 ease-in-out shadow-md group-hover:scale-[1.02]"
+            >
               <NuxtImg
                 :src="`/images/banners/${inBanner.bannerId}.png`"
                 :alt="t(`banner.${inBanner.bannerId}.name`)"
@@ -332,7 +409,7 @@
   // Computed outfit variations with labels
   const outfitVariations = computed(() => {
     if (!outfit.value?.variations) return []
-    return outfit.value.variations.map(v => {
+    return outfit.value.variations.map((v) => {
       // Map type to existing translation key
       let levelKey = '1' // base
       if (v.type === 'glowup') {
@@ -344,11 +421,11 @@
       } else if (v.type === 'evo3') {
         levelKey = '4'
       }
-      
+
       return {
         id: v.id,
         quality: v.quality,
-        label: t(`banner.outfit.level.${levelKey}`)
+        label: t(`banner.outfit.level.${levelKey}`),
       }
     })
   })
@@ -356,11 +433,11 @@
   // Find banner for this outfit
   const inBanner = computed(() => {
     if (!outfit.value) return null
-    
+
     // Check current outfit ID
     let banner = getBannerForOutfit(String(outfit.value.id))
     if (banner) return banner
-    
+
     // Check all variation IDs
     if (outfit.value.variations) {
       for (const variation of outfit.value.variations) {
@@ -368,7 +445,7 @@
         if (banner) return banner
       }
     }
-    
+
     return null
   })
 

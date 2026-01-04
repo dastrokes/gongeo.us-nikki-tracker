@@ -55,42 +55,42 @@
         class="rounded-xl p-0 sm:p-2"
         content-class="!p-2 sm:p-4"
       >
-        <div class="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-6 lg:gap-8">
+        <div class="grid grid-cols-1 lg:grid-cols-[180px_1fr] gap-4 lg:gap-6">
           <!-- Item Image -->
           <div class="flex justify-center lg:justify-start items-start">
             <div
-              class="relative aspect-[2/3] w-full max-w-[280px] rounded-lg overflow-hidden shadow-lg"
+              class="relative aspect-[2/3] w-full max-w-[180px] rounded-lg overflow-hidden shadow-lg"
               :class="getQualityGradient(item.quality)"
             >
               <NuxtImg
                 :src="`/images/items/${item.id}.png`"
                 :alt="itemName"
                 class="absolute inset-0 w-full h-full object-contain z-10"
-                width="280"
-                height="420"
+                width="180"
+                height="270"
                 fit="cover"
                 loading="eager"
-                sizes="280px"
+                sizes="180px"
                 format="webp"
                 @error="handleImageError"
               />
-              <div class="absolute top-2 right-2 z-20">
+              <div class="absolute top-1.5 right-1.5 z-20">
                 <n-tag
                   round
                   size="small"
                   :bordered="false"
                   :type="getQualityType(item.quality)"
                 >
-                  {{ item.quality }}<n-icon class="ml-1"><Star /></n-icon>
+                  {{ item.quality }}<n-icon class="ml-0.5 text-xs"><Star /></n-icon>
                 </n-tag>
               </div>
             </div>
           </div>
 
           <!-- Item Info -->
-          <div class="space-y-4">
-            <div class="space-y-2">
-              <h1 class="text-2xl sm:text-3xl font-bold leading-tight">
+          <div class="space-y-3">
+            <div class="space-y-1.5">
+              <h1 class="text-xl sm:text-2xl font-bold leading-tight">
                 {{ itemName }}
               </h1>
               <div class="flex flex-wrap gap-2">
@@ -98,15 +98,18 @@
                   :type="getQualityType(item.quality)"
                   :bordered="false"
                   round
-                  size="medium"
+                  size="small"
                 >
-                  {{ getQualityLabel(item.quality) }}
+                  <span class="align-top">{{ item.quality }}</span
+                  ><span class="ml-0.5"
+                    ><n-icon class="text-xs"><Star /></n-icon
+                  ></span>
                 </n-tag>
                 <n-tag
                   type="default"
                   :bordered="false"
                   round
-                  size="medium"
+                  size="small"
                 >
                   {{ t(`tracker.items.types.${itemType}`) }}
                 </n-tag>
@@ -116,85 +119,127 @@
             <!-- Description -->
             <div
               v-if="itemDescription"
-              class="text-sm sm:text-base opacity-90 leading-relaxed"
+              class="text-xs sm:text-sm opacity-80 leading-relaxed"
             >
-              <h3 class="text-base sm:text-lg font-semibold mb-2">
-                {{ t('common.description') }}
-              </h3>
               <p class="whitespace-pre-wrap">{{ itemDescription }}</p>
             </div>
-
-            <!-- Back Button -->
-            <div class="pt-4">
-              <n-button
-                type="primary"
-                @click="navigateToList"
-              >
-                <template #icon>
-                  <n-icon><ArrowLeft /></n-icon>
-                </template>
-                {{ t('compendium.back_to_list') }}
-              </n-button>
-            </div>
           </div>
         </div>
       </n-card>
 
-      <!-- Related Outfits Section -->
-      <n-card
-        v-if="relatedOutfits.length > 0"
-        size="small"
-        class="rounded-xl p-0 sm:p-2"
-        content-class="!p-2 sm:p-4"
-      >
-        <h2 class="text-xl font-bold mb-4">
-          {{ t('common.outfit') }}
-        </h2>
-        <div
-          class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3"
+      <!-- Variations and Outfits Grid (side by side on desktop) -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-2 sm:gap-4">
+        <!-- Item Variations Section -->
+        <n-card
+          v-if="itemVariations.length > 1"
+          size="small"
+          class="rounded-xl p-0 sm:p-2"
+          content-class="!p-2 sm:p-4"
         >
+          <div class="flex items-center justify-between mb-3">
+            <h2 class="text-lg font-bold">
+              {{ t('common.variations') }}
+            </h2>
+          </div>
+          <div class="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-4 xl:grid-cols-5 gap-2">
+            <NuxtLink
+              v-for="variation in itemVariations"
+              :key="variation.id"
+              :to="localePath(`/item/${variation.id}`)"
+              class="block group"
+            >
+              <div
+                class="relative aspect-[2/3] rounded-lg overflow-hidden transition-all duration-200 ease-in-out shadow-md"
+                :class="[
+                  getQualityGradient(variation.quality),
+                  variation.id === itemId 
+                    ? 'ring-2 ring-primary/60 dark:ring-primary/40' 
+                    : 'group-hover:scale-105'
+                ]"
+              >
+                <NuxtImg
+                  :src="`/images/items/${variation.id}.png`"
+                  :alt="t(`item.${variation.id}.name`)"
+                  class="absolute inset-0 w-full h-full object-contain z-10"
+                  width="120"
+                  height="180"
+                  fit="cover"
+                  loading="lazy"
+                  sizes="120px"
+                  format="webp"
+                  @error="handleImageError"
+                />
+                <div class="absolute top-1 right-1 scale-90 sm:scale-100 z-20 origin-top-right">
+                  <n-tag
+                    round
+                    size="tiny"
+                    :bordered="false"
+                    :type="getQualityType(variation.quality)"
+                  >
+                    {{ variation.label }}
+                  </n-tag>
+                </div>
+              </div>
+            </NuxtLink>
+          </div>
+        </n-card>
+
+        <!-- Related Outfits Section -->
+        <n-card
+          v-if="relatedOutfits.length > 0"
+          size="small"
+          class="rounded-xl p-0 sm:p-2"
+          content-class="!p-2 sm:p-4"
+        >
+          <h2 class="text-lg font-bold mb-3">
+            {{ t('common.outfit') }}
+          </h2>
           <div
-            v-for="outfit in relatedOutfits"
-            :key="outfit.id"
-            class="cursor-pointer group"
-            @click="navigateToOutfit(outfit.id)"
+            class="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-4 xl:grid-cols-5 gap-2"
           >
             <div
-              class="relative aspect-[2/3] rounded-lg overflow-hidden transition-all duration-200 ease-in-out group-hover:scale-105 shadow-md"
-              :class="getQualityGradient(outfit.quality)"
+              v-for="outfit in relatedOutfits"
+              :key="outfit.id"
+              class="cursor-pointer group"
+              @click="navigateToOutfit(outfit.id)"
             >
-              <NuxtImg
-                :src="`/images/outfits/${outfit.id}.png`"
-                :alt="outfit.name"
-                class="absolute inset-0 w-full h-full object-contain z-10"
-                width="200"
-                height="300"
-                fit="cover"
-                loading="lazy"
-                sizes="sm:50vw md:33vw lg:25vw xl:20vw"
-                format="webp"
-                @error="handleImageError"
-              />
-              <div class="absolute top-1.5 right-1.5 z-20">
-                <n-tag
-                  round
-                  size="tiny"
-                  :bordered="false"
-                  :type="getQualityType(outfit.quality)"
-                >
-                  {{ outfit.quality
-                  }}<n-icon class="ml-0.5 text-xs"><Star /></n-icon>
-                </n-tag>
+              <div
+                class="relative aspect-[2/3] rounded-lg overflow-hidden transition-all duration-200 ease-in-out group-hover:scale-105 shadow-md"
+                :class="getQualityGradient(outfit.quality)"
+              >
+                <NuxtImg
+                  :src="`/images/outfits/${outfit.id}.png`"
+                  :alt="outfit.name"
+                  class="absolute inset-0 w-full h-full object-contain z-10"
+                  width="120"
+                  height="180"
+                  fit="cover"
+                  loading="lazy"
+                  sizes="120px"
+                  format="webp"
+                  @error="handleImageError"
+                />
+                <div class="absolute top-1 right-1 z-20">
+                  <n-tag
+                    round
+                    size="tiny"
+                    :bordered="false"
+                    :type="getQualityType(outfit.quality)"
+                  >
+                    {{ outfit.quality
+                    }}<n-icon class="ml-0.5 text-xs"><Star /></n-icon>
+                  </n-tag>
+                </div>
+              </div>
+              <div class="mt-1 text-center">
+                <p class="font-medium text-xs line-clamp-2">
+                  {{ outfit.name }}
+                </p>
               </div>
             </div>
-            <div class="mt-1.5 text-center">
-              <p class="font-medium text-xs sm:text-sm line-clamp-2">
-                {{ outfit.name }}
-              </p>
-            </div>
           </div>
-        </div>
-      </n-card>
+        </n-card>
+      </div>
     </template>
 
     <!-- Not Found State -->
@@ -223,9 +268,8 @@
 </template>
 
 <script setup lang="ts">
-  import { h } from 'vue'
   import { NIcon } from 'naive-ui'
-  import { Star, ArrowLeft } from '@vicons/fa'
+  import { Star } from '@vicons/fa'
   import type { ItemWithOutfits } from '~/types/supabase'
 
   const { t } = useI18n()
@@ -251,6 +295,30 @@
       ...sc.outfits,
       name: t(`outfit.${sc.outfits.id}.name`),
     }))
+  })
+
+  // Computed item variations with labels
+  const itemVariations = computed(() => {
+    if (!item.value?.variations) return []
+    return item.value.variations.map(v => {
+      // Map type to existing translation key
+      let levelKey = '1' // base
+      if (v.type === 'glowup') {
+        levelKey = 'glow'
+      } else if (v.type === 'evo1') {
+        levelKey = '2'
+      } else if (v.type === 'evo2') {
+        levelKey = '3'
+      } else if (v.type === 'evo3') {
+        levelKey = '4'
+      }
+      
+      return {
+        id: v.id,
+        quality: v.quality,
+        label: t(`banner.outfit.level.${levelKey}`)
+      }
+    })
   })
 
   // Get item type
@@ -338,14 +406,6 @@
       default:
         return 'default'
     }
-  }
-
-  // Get quality label
-  const getQualityLabel = (quality: number) => {
-    return h('span', { class: 'inline-flex items-center' }, [
-      quality,
-      h(NIcon, { class: 'ml-1' }, () => h(Star)),
-    ])
   }
 
   // Handle image error

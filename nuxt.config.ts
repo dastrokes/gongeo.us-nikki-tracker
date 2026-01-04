@@ -46,12 +46,12 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     supabaseServiceKey: process.env.SUPABASE_SERVICE_ROLE_KEY,
+    supabaseDataSecretKey: process.env.SUPABASE_DATA_SECRET_KEY,
 
     public: {
       supabaseUrl: process.env.SUPABASE_DATABASE_URL,
       supabaseAnonKey: process.env.SUPABASE_ANON_KEY,
       supabaseDataUrl: process.env.SUPABASE_DATA_URL,
-      supabaseDataAnonKey: process.env.SUPABASE_DATA_ANON_KEY,
       gongeousApiKey: process.env.GONGEOUS_API_KEY,
       siteUrl: process.env.NUXT_PUBLIC_SITE_URL,
     },

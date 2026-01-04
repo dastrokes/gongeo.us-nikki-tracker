@@ -29,7 +29,7 @@
               v-model:value="typeFilter"
               :options="typeOptions"
               size="small"
-              class="w-[140px]"
+              class="w-48"
               :placeholder="t('compendium.filter_type')"
             />
 
@@ -136,71 +136,81 @@
       </div>
 
       <!-- Items Grid -->
-      <transition
-        name="fade"
-        mode="out-in"
-      >
-        <div
-          v-if="!loading && !error && items.length > 0"
-          class="sm:flex-1 sm:flex sm:flex-col sm:overflow-hidden"
-        >
-          <n-scrollbar class="sm:flex-1">
-            <div
-              class="grid grid-cols-4 sm:grid-cols-8 gap-2 sm:content-start pr-4"
-            >
-          <div
-            v-for="item in items"
-            :key="item.id"
-            class="cursor-pointer"
-            @click="navigateToDetail(item.id)"
+      <div class="sm:flex-1 sm:flex sm:flex-col sm:overflow-hidden">
+        <n-scrollbar class="sm:flex-1">
+          <transition
+            name="fade"
+            mode="out-in"
           >
             <div
-              class="relative aspect-[3/4] rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300"
-              :class="getQualityGradient(item.quality)"
+              v-if="!loading && !error && items.length > 0"
+              key="grid"
+              class="grid grid-cols-4 sm:grid-cols-8 gap-2 sm:content-start pr-4"
             >
-              <NuxtImg
-                :src="`/images/items/${item.id}.png`"
-                :alt="t(`item.${item.id}.name`)"
-                class="absolute inset-0 w-full h-full object-contain z-10"
-                width="240"
-                height="320"
-                fit="cover"
-                loading="lazy"
-                sizes="xs:50vw sm:33vw md:25vw lg:20vw xl:16vw"
-                @error="handleImageError"
-              />
-              <div class="absolute top-2 right-2 z-20">
-                <n-tag
-                  round
-                  size="small"
-                  :bordered="false"
-                  :type="getQualityType(item.quality)"
-                >
-                  {{ item.quality }}<n-icon class="ml-1"><Star /></n-icon>
-                </n-tag>
-              </div>
               <div
-                class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-2 z-20"
+                v-for="item in items"
+                :key="item.id"
+                class="cursor-pointer"
+                @click="navigateToDetail(item.id)"
               >
-                <p
-                  class="text-white font-medium text-xs sm:text-sm line-clamp-2"
+                <div
+                  class="relative aspect-[3/4] rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300"
+                  :class="getQualityGradient(item.quality)"
                 >
-                  {{ t(`item.${item.id}.name`) }}
-                </p>
+                  <NuxtImg
+                    :src="`/images/items/${item.id}.png`"
+                    :alt="t(`item.${item.id}.name`)"
+                    class="absolute inset-0 w-full h-full object-contain z-10"
+                    width="240"
+                    height="320"
+                    fit="cover"
+                    loading="lazy"
+                    sizes="xs:50vw sm:33vw md:25vw lg:20vw xl:16vw"
+                    @error="handleImageError"
+                  />
+                  <div class="absolute top-2 right-2 z-20">
+                    <n-tag
+                      round
+                      size="small"
+                      :bordered="false"
+                      :type="getQualityType(item.quality)"
+                    >
+                      {{ item.quality }}<n-icon class="ml-1"><Star /></n-icon>
+                    </n-tag>
+                  </div>
+                  <div
+                    class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-2 z-20"
+                  >
+                    <p
+                      class="text-white font-medium text-xs sm:text-sm line-clamp-2"
+                    >
+                      {{ t(`item.${item.id}.name`) }}
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-          </div>
+            <div
+              v-else-if="loading"
+              key="loading"
+              class="grid grid-cols-4 sm:grid-cols-8 gap-2 sm:content-start pr-4"
+            >
+              <div
+                v-for="i in pageSize"
+                :key="`skeleton-${i}`"
+                class="relative aspect-[3/4] rounded-lg overflow-hidden bg-gray-200 dark:bg-gray-700 animate-pulse"
+              ></div>
+            </div>
+          </transition>
         </n-scrollbar>
-        </div>
-      </transition>
+      </div>
 
-      <!-- Pagination - Always visible, sticky at bottom on mobile -->
+      <!-- Pagination - Sticky at bottom on mobile, inline on desktop -->
       <ClientOnly>
         <div
           class="fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 py-3 px-4 sm:relative sm:border-0 sm:bg-transparent sm:dark:bg-transparent sm:mt-6 sm:py-0 sm:px-0 shadow-lg sm:shadow-none sm:flex-shrink-0"
         >
-          <div class="flex justify-center overflow-x-auto">
+          <div class="flex justify-center">
             <n-pagination
               v-model:page="currentPage"
               :page-count="Math.max(totalPages, 1)"
@@ -208,24 +218,18 @@
               :show-size-picker="false"
               :disabled="loading || !!error"
               :page-slot="5"
-              show-quick-jumper
-              class="sm:hidden"
-            />
-            <n-pagination
-              v-model:page="currentPage"
-              :page-count="Math.max(totalPages, 1)"
-              :page-size="pageSize"
-              :show-size-picker="false"
-              :disabled="loading || !!error"
-              class="hidden sm:flex"
             />
           </div>
         </div>
         <template #fallback>
-          <div class="flex justify-center mt-6 sm:flex-shrink-0">
-            <div
-              class="h-10 w-64 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"
-            ></div>
+          <div
+            class="fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 py-3 px-4 sm:relative sm:border-0 sm:bg-transparent sm:dark:bg-transparent sm:mt-6 sm:py-0 sm:px-0 shadow-lg sm:shadow-none sm:flex-shrink-0"
+          >
+            <div class="flex justify-center">
+              <div
+                class="h-10 w-64 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"
+              ></div>
+            </div>
           </div>
         </template>
       </ClientOnly>
@@ -235,6 +239,7 @@
 
 <script setup lang="ts">
   import { Star } from '@vicons/fa'
+  import type { SelectGroupOption, SelectOption } from 'naive-ui'
 
   const { t } = useI18n()
   const localePath = useLocalePath()
@@ -245,7 +250,7 @@
   const qualityFilter = ref<number | null>(
     route.query.quality ? Number(route.query.quality) : null
   )
-  const typeFilter = ref<string | null>(route.query.type?.toString() || null)
+  const typeFilter = ref<string | null>(route.query.type?.toString() || 'all')
   const currentPage = ref(Number(route.query.page) || 1)
   const pageSize = 40
 
@@ -268,7 +273,7 @@
     async () => {
       const response = await fetchItemsPaginated({
         quality: qualityFilter.value,
-        type: typeFilter.value,
+        type: typeFilter.value === 'all' ? null : typeFilter.value,
         page: currentPage.value,
       })
 
@@ -326,13 +331,18 @@
   // Clear all filters
   const clearFilters = () => {
     qualityFilter.value = null
-    typeFilter.value = null
+    typeFilter.value = 'all'
     currentPage.value = 1
   }
 
-  // Get all available item types
+  // Get all available item types sorted by category order
   const availableTypes = computed(() => {
-    return getAllItemTypes()
+    const types = getAllItemTypes()
+    return types.sort((a, b) => {
+      const orderA = itemCategoryOrder[a] ?? 999
+      const orderB = itemCategoryOrder[b] ?? 999
+      return orderA - orderB
+    })
   })
 
   // Navigate to detail page
@@ -379,17 +389,83 @@
     img.src = '/images/loading.webp'
   }
 
-  // Type filter options for dropdown
+  // Type filter options for dropdown with categories
   const typeOptions = computed(() => {
-    const options = [
-      { label: t('compendium.filter_all_types'), value: null },
-      ...availableTypes.value.map((type) => ({
-        label: t(`tracker.items.types.${type}`),
-        value: type,
-      })),
+    const types = availableTypes.value
+    
+    // Group types by category
+    const grouped: Record<'clothes' | 'accessories' | 'makeups' | 'other', ItemType[]> = {
+      clothes: [],
+      accessories: [],
+      makeups: [],
+      other: [],
+    }
+    
+    types.forEach(type => {
+      const category = getItemTypeCategory(type)
+      if (grouped[category]) {
+        grouped[category].push(type)
+      }
+    })
+    
+    // Build options with category groups
+    const options: Array<SelectOption | SelectGroupOption> = [
+      { label: t('compendium.filter_all_types'), value: 'all' },
     ]
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return options as any
+    
+    // Add clothes group
+    if (grouped.clothes && grouped.clothes.length > 0) {
+      options.push({
+        type: 'group',
+        label: t('tracker.items.category.clothes'),
+        key: 'clothes',
+        children: grouped.clothes.map(type => ({
+          label: t(`tracker.items.types.${type}`),
+          value: type,
+        })),
+      })
+    }
+    
+    // Add accessories group
+    if (grouped.accessories && grouped.accessories.length > 0) {
+      options.push({
+        type: 'group',
+        label: t('tracker.items.category.accessories'),
+        key: 'accessories',
+        children: grouped.accessories.map(type => ({
+          label: t(`tracker.items.types.${type}`),
+          value: type,
+        })),
+      })
+    }
+    
+    // Add makeups group
+    if (grouped.makeups && grouped.makeups.length > 0) {
+      options.push({
+        type: 'group',
+        label: t('tracker.items.category.makeups'),
+        key: 'makeups',
+        children: grouped.makeups.map(type => ({
+          label: t(`tracker.items.types.${type}`),
+          value: type,
+        })),
+      })
+    }
+    
+    // Add other group if needed
+    if (grouped.other && grouped.other.length > 0) {
+      options.push({
+        type: 'group',
+        label: t('common.other'),
+        key: 'other',
+        children: grouped.other.map(type => ({
+          label: t(`tracker.items.types.${type}`),
+          value: type,
+        })),
+      })
+    }
+    
+    return options
   })
 
   // SEO Meta Tags

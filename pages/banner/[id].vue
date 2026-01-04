@@ -498,7 +498,7 @@
                       ><n-icon><Star /></n-icon
                     ></span>
                   </n-tag>
-                  <div class="grid grid-cols-6 sm:grid-cols-8 gap-2">
+                  <div class="grid grid-cols-5 lg:grid-cols-10 gap-2">
                     <ItemCard
                       v-for="(rewardId, i) in banner.rewardIds"
                       :key="rewardId"

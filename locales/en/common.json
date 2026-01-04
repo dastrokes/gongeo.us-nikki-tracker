@@ -6,6 +6,8 @@
     "outfits": "Outfits",
     "item": "Item",
     "items": "Items",
+    "makeup": "Makeup",
+    "variations": "Variations",
     "type": "Type",
     "pull": "Pull",
     "pulls": "Pulls",
@@ -23,6 +25,7 @@
     "search": "Search",
     "filter": "Filter",
     "all": "All",
+    "other": "Other",
     "show": "Show",
     "hide": "Hide",
     "save": "Save",
@@ -378,6 +381,11 @@
     },
     "items": {
       "pull": "Pull #{number}",
+      "category": {
+        "clothes": "Clothes",
+        "accessories": "Accessories",
+        "makeups": "Makeups"
+      },
       "types": {
         "dresses": "Dress",
         "outerwear": "Outerwear",

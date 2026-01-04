@@ -43,7 +43,7 @@
           >
             <NuxtLink
               no-prefetch
-              :to="localePath(`/outfit/${outfitId}`)"
+              :to="localePath(`/outfit/${image.outfitId}`)"
               class="relative aspect-[2/3] rounded-lg overflow-hidden transition-all duration-300 ease-in-out cursor-pointer block"
               :class="cardGradient"
             >
@@ -135,26 +135,31 @@
     const images = []
     images.push({
       src: `/images/outfits/${props.outfitId}.png`,
-      alt: `${t(`outfit.${props.outfitId}.name`)} Base`,
+      alt: `${t(`outfit.${props.outfitId}.name`)}`,
       level: 0,
+      outfitId: props.outfitId,
     })
 
     // Add level variants based on quality
     const maxLevel = props.quality === 5 ? 4 : 2
     for (let i = 2; i <= maxLevel; i++) {
       const levelNum = i.toString().padStart(2, '0')
+      const evoOutfitId = `${props.outfitId}${levelNum}`
       images.push({
-        src: `/images/outfits/${props.outfitId}${levelNum}.png`,
-        alt: `${t(`outfit.${props.outfitId}.name`)} ${levelNum}`,
+        src: `/images/outfits/${evoOutfitId}.png`,
+        alt: `${t(`outfit.${props.outfitId}.name`)}`,
         level: i,
+        outfitId: evoOutfitId,
       })
     }
 
     // Add 01 (glowed up) image
+    const glowOutfitId = `${props.outfitId}01`
     images.push({
       src: `/images/outfits/${props.outfitId}01.png`,
       alt: `${t(`outfit.${props.outfitId}.name`)} 01`,
       level: 'glow',
+      outfitId: glowOutfitId,
     })
 
     return images

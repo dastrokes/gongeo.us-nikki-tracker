@@ -6,8 +6,8 @@
     "outfits": "Outfits",
     "item": "Stück",
     "items": "Stücke",
-    "makeup": "Makeup",
-    "variations": "Variations",
+    "makeup": "Make-up",
+    "variations": "Variationen",
     "type": "Typ",
     "pull": "Resonanz",
     "pulls": "Resonanzen",
@@ -25,7 +25,7 @@
     "search": "Suchen",
     "filter": "Filter",
     "all": "Alle",
-    "other": "Other",
+    "other": "Sonstiges",
     "show": "Zeigen",
     "hide": "Verstecken",
     "save": "Speichern",
@@ -382,9 +382,9 @@
     "items": {
       "pull": "Resonanz #{number}",
       "category": {
-        "clothes": "Clothes",
-        "accessories": "Accessories",
-        "makeups": "Makeups"
+        "clothes": "Kleidung",
+        "accessories": "Accessoires",
+        "makeups": "Make-ups"
       },
       "types": {
         "dresses": "Kleider",
@@ -408,7 +408,7 @@
         "backpieces": "Rückenaccessoire",
         "rings": "Ring",
         "armDecorations": "Armschmuck",
-        "baseMakeup": "Basis-Makeup",
+        "baseMakeup": "Basis-Make-up",
         "eyebrows": "Augenbrauen",
         "eyelashes": "Wimpern",
         "contactLenses": "Kontaktlinsen",

@@ -43,6 +43,11 @@ export interface OutfitWithItems extends SupabaseOutfit {
   outfit_items: {
     items: SupabaseItem
   }[]
+  variations?: Array<{
+    id: number
+    quality: number
+    type: string
+  }>
 }
 
 /**
@@ -53,4 +58,9 @@ export interface ItemWithOutfits extends SupabaseItem {
   outfit_items: {
     outfits: SupabaseOutfit
   }[]
+  variations?: Array<{
+    id: number
+    quality: number
+    type: string
+  }>
 }

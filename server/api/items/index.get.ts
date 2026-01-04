@@ -20,7 +20,7 @@ export default defineCachedEventHandler(
       // Build the query with only necessary fields
       let dbQuery = supabase
         .from('items')
-        .select('id, quality, type', { count: 'exact' })
+        .select('id, quality', { count: 'exact' })
 
       // Apply quality filter
       if (quality !== null && quality !== undefined) {

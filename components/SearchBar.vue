@@ -14,7 +14,7 @@
 
   <!-- Desktop: Show search input with hotkey hint -->
   <div
-    class="hidden sm:flex items-center gap-1.5 px-2 py-1 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 hover:border-gray-400 dark:hover:border-gray-500 transition-colors cursor-pointer"
+    class="hidden sm:flex items-center gap-2 px-2 py-1 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 hover:border-gray-400 dark:hover:border-gray-500 transition-colors cursor-pointer"
     @click="toggleSearch"
   >
     <n-icon

@@ -6,6 +6,8 @@
     "outfits": "의상",
     "item": "아이템",
     "items": "아이템",
+    "makeup": "Makeup",
+    "variations": "Variations",
     "type": "유형",
     "pull": "뽑기",
     "pulls": "뽑기",
@@ -23,6 +25,7 @@
     "search": "검색",
     "filter": "필터",
     "all": "전체",
+    "other": "Other",
     "show": "표시",
     "hide": "숨기기",
     "save": "저장",
@@ -378,6 +381,11 @@
     },
     "items": {
       "pull": "Pull #{number}",
+      "category": {
+        "clothes": "Clothes",
+        "accessories": "Accessories",
+        "makeups": "Makeups"
+      },
       "types": {
         "dresses": "Dress",
         "outerwear": "Outerwear",

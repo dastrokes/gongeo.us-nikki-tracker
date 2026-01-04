@@ -117,71 +117,81 @@
       </div>
 
       <!-- Outfits Grid -->
-      <transition
-        name="fade"
-        mode="out-in"
-      >
-        <div
-          v-if="!loading && !error && outfits.length > 0"
-          class="sm:flex-1 sm:flex sm:flex-col sm:overflow-hidden"
-        >
-          <n-scrollbar class="sm:flex-1">
-            <div
-              class="grid grid-cols-4 sm:grid-cols-8 gap-2 sm:content-start pr-4"
-            >
-          <div
-            v-for="outfit in outfits"
-            :key="outfit.id"
-            class="cursor-pointer"
-            @click="navigateToDetail(outfit.id)"
+      <div class="sm:flex-1 sm:flex sm:flex-col sm:overflow-hidden">
+        <n-scrollbar class="sm:flex-1">
+          <transition
+            name="fade"
+            mode="out-in"
           >
             <div
-              class="relative aspect-[3/4] rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300"
-              :class="getQualityGradient(outfit.quality)"
+              v-if="!loading && !error && outfits.length > 0"
+              key="grid"
+              class="grid grid-cols-4 sm:grid-cols-8 gap-2 sm:content-start pr-4"
             >
-              <NuxtImg
-                :src="`/images/outfits/${outfit.id}.png`"
-                :alt="t(`outfit.${outfit.id}.name`)"
-                class="absolute inset-0 w-full h-full object-contain z-10"
-                width="240"
-                height="320"
-                fit="cover"
-                loading="lazy"
-                sizes="xs:50vw sm:33vw md:25vw lg:20vw xl:16vw"
-                @error="handleImageError"
-              />
-              <div class="absolute top-2 right-2 z-20">
-                <n-tag
-                  round
-                  size="small"
-                  :bordered="false"
-                  :type="getQualityType(outfit.quality)"
-                >
-                  {{ outfit.quality }}<n-icon class="ml-1"><Star /></n-icon>
-                </n-tag>
-              </div>
               <div
-                class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-2 z-20"
+                v-for="outfit in outfits"
+                :key="outfit.id"
+                class="cursor-pointer"
+                @click="navigateToDetail(outfit.id)"
               >
-                <p
-                  class="text-white font-medium text-xs sm:text-sm line-clamp-2"
+                <div
+                  class="relative aspect-[3/4] rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300"
+                  :class="getQualityGradient(outfit.quality)"
                 >
-                  {{ t(`outfit.${outfit.id}.name`) }}
-                </p>
+                  <NuxtImg
+                    :src="`/images/outfits/${outfit.id}.png`"
+                    :alt="t(`outfit.${outfit.id}.name`)"
+                    class="absolute inset-0 w-full h-full object-contain z-10"
+                    width="240"
+                    height="320"
+                    fit="cover"
+                    loading="lazy"
+                    sizes="xs:50vw sm:33vw md:25vw lg:20vw xl:16vw"
+                    @error="handleImageError"
+                  />
+                  <div class="absolute top-2 right-2 z-20">
+                    <n-tag
+                      round
+                      size="small"
+                      :bordered="false"
+                      :type="getQualityType(outfit.quality)"
+                    >
+                      {{ outfit.quality }}<n-icon class="ml-1"><Star /></n-icon>
+                    </n-tag>
+                  </div>
+                  <div
+                    class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-2 z-20"
+                  >
+                    <p
+                      class="text-white font-medium text-xs sm:text-sm line-clamp-2"
+                    >
+                      {{ t(`outfit.${outfit.id}.name`) }}
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-          </div>
+            <div
+              v-else-if="loading"
+              key="loading"
+              class="grid grid-cols-4 sm:grid-cols-8 gap-2 sm:content-start pr-4"
+            >
+              <div
+                v-for="i in pageSize"
+                :key="`skeleton-${i}`"
+                class="relative aspect-[3/4] rounded-lg overflow-hidden bg-gray-200 dark:bg-gray-700 animate-pulse"
+              ></div>
+            </div>
+          </transition>
         </n-scrollbar>
-        </div>
-      </transition>
+      </div>
 
-      <!-- Pagination - Always visible, sticky at bottom on mobile -->
+      <!-- Pagination - Sticky at bottom on mobile, inline on desktop -->
       <ClientOnly>
         <div
           class="fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 py-3 px-4 sm:relative sm:border-0 sm:bg-transparent sm:dark:bg-transparent sm:mt-6 sm:py-0 sm:px-0 shadow-lg sm:shadow-none sm:flex-shrink-0"
         >
-          <div class="flex justify-center overflow-x-auto">
+          <div class="flex justify-center">
             <n-pagination
               v-model:page="currentPage"
               :page-count="Math.max(totalPages, 1)"
@@ -189,24 +199,18 @@
               :show-size-picker="false"
               :disabled="loading || !!error"
               :page-slot="5"
-              show-quick-jumper
-              class="sm:hidden"
-            />
-            <n-pagination
-              v-model:page="currentPage"
-              :page-count="Math.max(totalPages, 1)"
-              :page-size="pageSize"
-              :show-size-picker="false"
-              :disabled="loading || !!error"
-              class="hidden sm:flex"
             />
           </div>
         </div>
         <template #fallback>
-          <div class="flex justify-center mt-6 sm:flex-shrink-0">
-            <div
-              class="h-10 w-64 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"
-            ></div>
+          <div
+            class="fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 py-3 px-4 sm:relative sm:border-0 sm:bg-transparent sm:dark:bg-transparent sm:mt-6 sm:py-0 sm:px-0 shadow-lg sm:shadow-none sm:flex-shrink-0"
+          >
+            <div class="flex justify-center">
+              <div
+                class="h-10 w-64 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"
+              ></div>
+            </div>
           </div>
         </template>
       </ClientOnly>

@@ -1,9 +1,71 @@
 import { useSupabaseDataClient } from '~/composables/useSupabaseClient'
 import { getGameVersion } from '~/utils/gameVersion'
 
+interface OutfitTranslation {
+  description: string
+  language_code: string
+}
+
+interface OutfitData {
+  id: number
+  quality: number
+  outfit_translations?: OutfitTranslation[]
+  description?: string
+  outfit_items?: Array<{ items: { id: number; quality: number; type: string } }>
+  variations?: Array<{ id: number; quality: number; type: string }>
+}
+
+interface OutfitVariation {
+  id: number
+  quality: number
+}
+
+/**
+ * Calculate related outfit variation IDs
+ * Only 4★ and 5★ outfits can have variations
+ */
+function getRelatedOutfitIds(baseId: number, quality: number): number[] {
+  if (quality < 4) return [baseId]
+  
+  const idStr = baseId.toString()
+  
+  // Determine base ID by removing suffix
+  const baseIdNum = idStr.endsWith('01') || idStr.endsWith('02') || 
+                    idStr.endsWith('03') || idStr.endsWith('04')
+    ? parseInt(idStr.slice(0, -2))
+    : baseId
+  
+  const variations = [
+    baseIdNum,                    // base
+    parseInt(`${baseIdNum}01`),   // glowup
+    parseInt(`${baseIdNum}02`)    // evo1
+  ]
+  
+  if (quality === 5) {
+    variations.push(parseInt(`${baseIdNum}03`)) // evo2
+    variations.push(parseInt(`${baseIdNum}04`)) // evo3
+  }
+  
+  return variations
+}
+
+/**
+ * Determine variation type from outfit ID
+ */
+function getVariationType(id: number): string {
+  const idStr = id.toString()
+  
+  if (idStr.endsWith('01')) return 'glowup'
+  if (idStr.endsWith('02')) return 'evo1'
+  if (idStr.endsWith('03')) return 'evo2'
+  if (idStr.endsWith('04')) return 'evo3'
+  
+  return 'base'
+}
+
 /**
  * API endpoint for fetching a single outfit by ID
- * App-level caching enabled (7 days), Netlify edge caching disabled via Cache-Control header
+ * App-level caching enabled (24 hours), Netlify edge caching disabled via Cache-Control header
  */
 export default defineCachedEventHandler(
   async (event) => {
@@ -49,32 +111,42 @@ export default defineCachedEventHandler(
         throw supabaseError
       }
 
+      const outfitData = data as OutfitData
+
       // Extract description from translations if available
-      if (data && languageCode) {
-        const dataWithTranslations = data as {
-          outfit_translations?: Array<{
-            description: string
-            language_code: string
-          }>
-          description?: string
-        }
+      if (languageCode && outfitData.outfit_translations?.length) {
+        const translation = outfitData.outfit_translations.find(
+          (t) => t.language_code === languageCode
+        )
+        const enTranslation = outfitData.outfit_translations.find(
+          (t) => t.language_code === 'en'
+        )
 
-        if (dataWithTranslations.outfit_translations?.length) {
-          const translations = dataWithTranslations.outfit_translations
-          const translation = translations.find(
-            (t) => t.language_code === languageCode
-          )
-          const enTranslation = translations.find(
-            (t) => t.language_code === 'en'
-          )
+        outfitData.description = translation?.description || enTranslation?.description || ''
+        delete outfitData.outfit_translations
+      }
 
-          dataWithTranslations.description =
-            translation?.description || enTranslation?.description || ''
-          delete dataWithTranslations.outfit_translations
+      // Fetch variations if quality is 4★ or 5★
+      if (outfitData.quality >= 4) {
+        const relatedIds = getRelatedOutfitIds(id, outfitData.quality)
+        
+        const { data: variations } = await supabase
+          .from('outfits')
+          .select('id, quality')
+          .in('id', relatedIds)
+        
+        if (variations && Array.isArray(variations)) {
+          outfitData.variations = variations
+            .map((v: OutfitVariation) => ({
+              id: v.id,
+              quality: v.quality,
+              type: getVariationType(v.id)
+            }))
+            .sort((a, b) => a.id - b.id)
         }
       }
 
-      return data
+      return outfitData
     } catch (error: unknown) {
       if (error && typeof error === 'object' && 'statusCode' in error) {
         throw error
@@ -87,7 +159,7 @@ export default defineCachedEventHandler(
     }
   },
   {
-    maxAge: 60 * 60 * 24 * 7, // 7 days
+    maxAge: 60 * 60 * 24, // 24 hours
     name: 'outfit-detail',
     getKey: (event) => {
       const id = getRouterParam(event, 'id')

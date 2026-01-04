@@ -6,6 +6,7 @@
     "outfits": "套装",
     "item": "部件",
     "items": "部件",
+    "makeup": "妆容",
     "type": "类型",
     "pull": "抽",
     "pulls": "抽",
@@ -391,6 +392,11 @@
     },
     "items": {
       "pull": "第 {number} 抽",
+      "category": {
+        "clothes": "服装",
+        "accessories": "饰品",
+        "makeups": "妆容"
+      },
       "types": {
         "dresses": "连衣裙",
         "outerwear": "外套",

@@ -6,6 +6,8 @@
     "outfits": "Outfits",
     "item": "Stück",
     "items": "Stücke",
+    "makeup": "Makeup",
+    "variations": "Variations",
     "type": "Typ",
     "pull": "Resonanz",
     "pulls": "Resonanzen",
@@ -23,6 +25,7 @@
     "search": "Suchen",
     "filter": "Filter",
     "all": "Alle",
+    "other": "Other",
     "show": "Zeigen",
     "hide": "Verstecken",
     "save": "Speichern",
@@ -378,6 +381,11 @@
     },
     "items": {
       "pull": "Resonanz #{number}",
+      "category": {
+        "clothes": "Clothes",
+        "accessories": "Accessories",
+        "makeups": "Makeups"
+      },
       "types": {
         "dresses": "Kleider",
         "outerwear": "Außenbekleidung",

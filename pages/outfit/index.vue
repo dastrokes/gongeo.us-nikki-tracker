@@ -250,8 +250,6 @@
 
   const totalItems = computed(() => outfitsData.value?.total || 0)
 
-  const totalPages = computed(() => outfitsData.value?.totalPages || 0)
-
   // Watch for quality filter changes
   watch(qualityFilter, () => {
     currentPage.value = 1

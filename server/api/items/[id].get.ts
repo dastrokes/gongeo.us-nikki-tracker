@@ -66,11 +66,17 @@ function getVariationType(id: number): string {
 
 /**
  * API endpoint for fetching a single item by ID
- * App-level caching enabled (24 hours), Netlify edge caching disabled via Cache-Control header
+ * App-level caching enabled (30 days), Netlify edge caching enabled via Cache-Control header
  */
 export default defineCachedEventHandler(
   async (event) => {
-    setResponseHeader(event, 'Cache-Control', 'no-store')
+    const version = getGameVersion()
+    setResponseHeader(
+      event,
+      'Cache-Control',
+      'public, max-age=0, s-maxage=2592000, stale-while-revalidate=86400'
+    )
+    setResponseHeader(event, 'X-Data-Version', version)
     const id = Number(getRouterParam(event, 'id'))
     const query = getQuery(event)
     const languageCode = query.lang?.toString()
@@ -160,7 +166,7 @@ export default defineCachedEventHandler(
     }
   },
   {
-    maxAge: 60 * 60 * 24, // 24 hours
+    maxAge: 60 * 60 * 24 * 30, // 30 days
     name: 'item-detail',
     getKey: (event) => {
       const id = getRouterParam(event, 'id')

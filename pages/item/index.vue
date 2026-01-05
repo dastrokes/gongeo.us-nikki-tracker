@@ -274,11 +274,6 @@
 
   const totalItems = computed(() => itemsData.value?.total || 0)
 
-  const totalPages = computed(() => itemsData.value?.totalPages || 0)
-
-  // Prefetching removed to reduce DB egress
-  // Users can navigate to next page when needed
-
   // Watch for quality filter changes
   watch(qualityFilter, () => {
     currentPage.value = 1

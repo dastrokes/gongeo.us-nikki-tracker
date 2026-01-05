@@ -76,6 +76,7 @@ export default defineCachedEventHandler(
       'Cache-Control',
       'public, max-age=0, s-maxage=2592000, stale-while-revalidate=86400'
     )
+    setResponseHeader(event, 'Netlify-Vary', 'query=lang')
     setResponseHeader(event, 'X-Data-Version', version)
     const id = Number(getRouterParam(event, 'id'))
     const query = getQuery(event)

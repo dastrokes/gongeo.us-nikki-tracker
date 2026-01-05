@@ -19,17 +19,21 @@ export function setCacheHeaders(
   { varyQuery = [] }: CacheHeaderOptions = {}
 ) {
   const version = getGameVersion()
-  const varyParts: string[] = []
+  const netlifyVaryParts: string[] = []
 
   if (varyQuery.length) {
-    varyParts.push(`query=${varyQuery.join(',')}`)
+    // Netlify-Vary query keys are pipe-delimited.
+    // Example: Netlify-Vary: query=page|quality|type
+    netlifyVaryParts.push(`query=${varyQuery.join('|')}`)
   }
-  varyParts.push('cookie=__none__')
 
   setResponseHeader(event, 'Cache-Control', BROWSER_CACHE_VALUE)
   setResponseHeader(event, 'CDN-Cache-Control', CDN_CACHE_VALUE)
   setResponseHeader(event, 'Netlify-CDN-Cache-Control', CDN_CACHE_VALUE)
-  setResponseHeader(event, 'Netlify-Vary', varyParts.join(';'))
+  if (netlifyVaryParts.length) {
+    // Netlify-Vary directives are comma-delimited.
+    setResponseHeader(event, 'Netlify-Vary', netlifyVaryParts.join(','))
+  }
   setResponseHeader(event, 'X-Data-Version', version)
 
   return version

@@ -187,7 +187,9 @@
             {{ t('vote.errors.votingClosed') }}
           </n-text>
 
-          <div class="flex flex-col-reverse sm:flex-row justify-center items-center gap-3 sm:gap-4">
+          <div
+            class="flex flex-col-reverse sm:flex-row justify-center items-center gap-3 sm:gap-4"
+          >
             <!-- Info and Toggle (below on mobile, inline on desktop) -->
             <div class="flex items-center gap-2">
               <n-tooltip
@@ -382,13 +384,7 @@
 </template>
 
 <script setup lang="ts">
-  import {
-    CheckCircle,
-    CalendarDay,
-    ListOl,
-    User,
-    Users,
-  } from '@vicons/fa'
+  import { CheckCircle, CalendarDay, ListOl, User, Users } from '@vicons/fa'
 
   const { t } = useI18n()
   const localePath = useLocalePath()

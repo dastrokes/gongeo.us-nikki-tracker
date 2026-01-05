@@ -1,4 +1,5 @@
 import { useSupabaseDataClient } from '~/composables/useSupabaseClient'
+import { setCacheHeaders } from '~/server/utils/cacheHeaders'
 import { getGameVersion } from '~/utils/gameVersion'
 
 /**
@@ -7,19 +8,9 @@ import { getGameVersion } from '~/utils/gameVersion'
  */
 export default defineCachedEventHandler(
   async (event) => {
-    const version = getGameVersion()
-    setResponseHeader(
-      event,
-      'Cache-Control',
-      'public, max-age=0, s-maxage=2592000, stale-while-revalidate=86400'
-    )
-    setResponseHeader(
-      event,
-      'Netlify-CDN-Cache-Control',
-      'public, max-age=0, s-maxage=2592000, stale-while-revalidate=86400'
-    )
-    setResponseHeader(event, 'Netlify-Vary', 'query=page,quality;cookie=__none__')
-    setResponseHeader(event, 'X-Data-Version', version)
+    setCacheHeaders(event, {
+      varyQuery: ['page', 'quality'],
+    })
     const query = getQuery(event)
     const quality = query.quality ? Number(query.quality) : null
     const page = query.page ? Number(query.page) : 1
@@ -60,7 +51,10 @@ export default defineCachedEventHandler(
         page,
         totalPages,
       }
-    } catch (error) {
+    } catch (error: unknown) {
+      if (error && typeof error === 'object' && 'statusCode' in error) {
+        throw error
+      }
       console.error('Failed to fetch outfits:', error)
       throw createError({
         statusCode: 500,
@@ -69,7 +63,7 @@ export default defineCachedEventHandler(
     }
   },
   {
-    maxAge: 60 * 60 * 24 * 30, // 30 days
+    maxAge: 60 * 60 * 24 * 7, // 7 days
     name: 'outfits-list',
     getKey: (event) => {
       const version = getGameVersion()

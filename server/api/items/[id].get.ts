@@ -1,4 +1,5 @@
 import { useSupabaseDataClient } from '~/composables/useSupabaseClient'
+import { setCacheHeaders } from '~/server/utils/cacheHeaders'
 import { getGameVersion } from '~/utils/gameVersion'
 
 interface ItemTranslation {
@@ -28,22 +29,22 @@ interface ItemVariation {
  */
 function getRelatedItemIds(baseId: number, quality: number): number[] {
   if (quality < 4) return [baseId]
-  
+
   const idStr = baseId.toString()
   if (idStr.length !== 10) return [baseId]
-  
+
   const baseDigits = idStr.substring(4)
   const variations = [
     parseInt(`1020${baseDigits}`), // base
     parseInt(`1022${baseDigits}`), // glowup
-    parseInt(`1023${baseDigits}`)  // evo1
+    parseInt(`1023${baseDigits}`), // evo1
   ]
-  
+
   if (quality === 5) {
     variations.push(parseInt(`1024${baseDigits}`)) // evo2
     variations.push(parseInt(`1025${baseDigits}`)) // evo3
   }
-  
+
   return variations
 }
 
@@ -53,14 +54,14 @@ function getRelatedItemIds(baseId: number, quality: number): number[] {
 function getVariationType(id: number): string {
   const idStr = id.toString()
   const variationType = idStr.substring(0, 4)
-  
+
   const typeMap: Record<string, string> = {
     '1022': 'glowup',
     '1023': 'evo1',
     '1024': 'evo2',
-    '1025': 'evo3'
+    '1025': 'evo3',
   }
-  
+
   return typeMap[variationType] || 'base'
 }
 
@@ -70,19 +71,9 @@ function getVariationType(id: number): string {
  */
 export default defineCachedEventHandler(
   async (event) => {
-    const version = getGameVersion()
-    setResponseHeader(
-      event,
-      'Cache-Control',
-      'public, max-age=0, s-maxage=2592000, stale-while-revalidate=86400'
-    )
-    setResponseHeader(
-      event,
-      'Netlify-CDN-Cache-Control',
-      'public, max-age=0, s-maxage=2592000, stale-while-revalidate=86400'
-    )
-    setResponseHeader(event, 'Netlify-Vary', 'query=lang;cookie=__none__')
-    setResponseHeader(event, 'X-Data-Version', version)
+    setCacheHeaders(event, {
+      varyQuery: ['lang'],
+    })
     const id = Number(getRouterParam(event, 'id'))
     const query = getQuery(event)
     const languageCode = query.lang?.toString()
@@ -135,25 +126,26 @@ export default defineCachedEventHandler(
           (t) => t.language_code === 'en'
         )
 
-        itemData.description = translation?.description || enTranslation?.description || ''
+        itemData.description =
+          translation?.description || enTranslation?.description || ''
         delete itemData.item_translations
       }
 
       // Fetch variations if quality is 4★ or 5★
       if (itemData.quality >= 4) {
         const relatedIds = getRelatedItemIds(id, itemData.quality)
-        
+
         const { data: variations } = await supabase
           .from('items')
           .select('id, quality, type')
           .in('id', relatedIds)
-        
+
         if (variations && Array.isArray(variations)) {
           itemData.variations = variations
             .map((v: ItemVariation) => ({
               id: v.id,
               quality: v.quality,
-              type: getVariationType(v.id)
+              type: getVariationType(v.id),
             }))
             .sort((a, b) => a.id - b.id)
         }
@@ -172,7 +164,7 @@ export default defineCachedEventHandler(
     }
   },
   {
-    maxAge: 60 * 60 * 24 * 30, // 30 days
+    maxAge: 60 * 60 * 24 * 7, // 7 days
     name: 'item-detail',
     getKey: (event) => {
       const id = getRouterParam(event, 'id')

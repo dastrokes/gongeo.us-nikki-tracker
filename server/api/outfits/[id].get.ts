@@ -1,4 +1,5 @@
 import { useSupabaseDataClient } from '~/composables/useSupabaseClient'
+import { setCacheHeaders } from '~/server/utils/cacheHeaders'
 import { getGameVersion } from '~/utils/gameVersion'
 
 interface OutfitTranslation {
@@ -23,7 +24,7 @@ interface OutfitVariation {
 /**
  * Calculate related outfit variation IDs
  * Only 4★ and 5★ outfits can have variations
- * 
+ *
  * Logic:
  * - If ID length is 7 and ends with 01-04, it's a variation (e.g., 1000101)
  * - Base ID is the first 5 digits (e.g., 10001)
@@ -31,29 +32,29 @@ interface OutfitVariation {
  */
 function getRelatedOutfitIds(baseId: number, quality: number): number[] {
   if (quality < 4) return [baseId]
-  
+
   const idStr = baseId.toString()
-  
+
   // Determine base ID
   let baseIdNum = baseId
-  
+
   // Check if this is a 7-digit ID ending with 01-04 (variation format)
   if (idStr.length === 7 && /0[1-4]$/.test(idStr)) {
     // Extract base ID (first 5 digits)
     baseIdNum = parseInt(idStr.slice(0, 5))
   }
-  
+
   const variations = [
-    baseIdNum,                    // base
-    parseInt(`${baseIdNum}01`),   // glowup
-    parseInt(`${baseIdNum}02`)    // evo1
+    baseIdNum, // base
+    parseInt(`${baseIdNum}01`), // glowup
+    parseInt(`${baseIdNum}02`), // evo1
   ]
-  
+
   if (quality === 5) {
     variations.push(parseInt(`${baseIdNum}03`)) // evo2
     variations.push(parseInt(`${baseIdNum}04`)) // evo3
   }
-  
+
   return variations
 }
 
@@ -62,12 +63,12 @@ function getRelatedOutfitIds(baseId: number, quality: number): number[] {
  */
 function getVariationType(id: number): string {
   const idStr = id.toString()
-  
+
   if (idStr.endsWith('01')) return 'glowup'
   if (idStr.endsWith('02')) return 'evo1'
   if (idStr.endsWith('03')) return 'evo2'
   if (idStr.endsWith('04')) return 'evo3'
-  
+
   return 'base'
 }
 
@@ -77,19 +78,9 @@ function getVariationType(id: number): string {
  */
 export default defineCachedEventHandler(
   async (event) => {
-    const version = getGameVersion()
-    setResponseHeader(
-      event,
-      'Cache-Control',
-      'public, max-age=0, s-maxage=2592000, stale-while-revalidate=86400'
-    )
-    setResponseHeader(
-      event,
-      'Netlify-CDN-Cache-Control',
-      'public, max-age=0, s-maxage=2592000, stale-while-revalidate=86400'
-    )
-    setResponseHeader(event, 'Netlify-Vary', 'query=lang;cookie=__none__')
-    setResponseHeader(event, 'X-Data-Version', version)
+    setCacheHeaders(event, {
+      varyQuery: ['lang'],
+    })
     const id = Number(getRouterParam(event, 'id'))
     const query = getQuery(event)
     const languageCode = query.lang?.toString()
@@ -142,25 +133,26 @@ export default defineCachedEventHandler(
           (t) => t.language_code === 'en'
         )
 
-        outfitData.description = translation?.description || enTranslation?.description || ''
+        outfitData.description =
+          translation?.description || enTranslation?.description || ''
         delete outfitData.outfit_translations
       }
 
       // Fetch variations if quality is 4★ or 5★
       if (outfitData.quality >= 4) {
         const relatedIds = getRelatedOutfitIds(id, outfitData.quality)
-        
+
         const { data: variations } = await supabase
           .from('outfits')
           .select('id, quality')
           .in('id', relatedIds)
-        
+
         if (variations && Array.isArray(variations)) {
           outfitData.variations = variations
             .map((v: OutfitVariation) => ({
               id: v.id,
               quality: v.quality,
-              type: getVariationType(v.id)
+              type: getVariationType(v.id),
             }))
             .sort((a, b) => a.id - b.id)
         }
@@ -179,7 +171,7 @@ export default defineCachedEventHandler(
     }
   },
   {
-    maxAge: 60 * 60 * 24 * 30, // 30 days
+    maxAge: 60 * 60 * 24 * 7, // 7 days
     name: 'outfit-detail',
     getKey: (event) => {
       const id = getRouterParam(event, 'id')

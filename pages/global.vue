@@ -1375,10 +1375,11 @@
         height: imageSize,
         width: imageSize,
         backgroundColor: {
-          image: getImageKitUrl(
-            `/images/items/icons/${itemId}.png`,
-            { width: imageSize, height: imageSize, quality: 80 }
-          ),
+          image: getImageKitUrl(`/images/items/icons/${itemId}.png`, {
+            width: imageSize,
+            height: imageSize,
+            quality: 80,
+          }),
         },
         align: 'center',
       }

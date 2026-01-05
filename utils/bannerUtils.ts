@@ -8,7 +8,7 @@ import type { Banner } from '~/types/banner'
  */
 export function findBannersForOutfit(outfitId: string): Banner[] {
   const banners: Banner[] = []
-  
+
   for (const banner of Object.values(BANNER_DATA)) {
     if (
       banner.outfit4StarId.includes(outfitId) ||
@@ -17,7 +17,7 @@ export function findBannersForOutfit(outfitId: string): Banner[] {
       banners.push(banner)
     }
   }
-  
+
   return banners
 }
 

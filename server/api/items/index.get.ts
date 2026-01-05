@@ -3,11 +3,17 @@ import { getGameVersion } from '~/utils/gameVersion'
 
 /**
  * API endpoint for fetching paginated items
- * App-level caching enabled (24h), Netlify edge caching disabled via Cache-Control header
+ * App-level caching enabled (30d), Netlify edge caching enabled via Cache-Control header
  */
 export default defineCachedEventHandler(
   async (event) => {
-    setResponseHeader(event, 'Cache-Control', 'no-store')
+    const version = getGameVersion()
+    setResponseHeader(
+      event,
+      'Cache-Control',
+      'public, max-age=0, s-maxage=2592000, stale-while-revalidate=86400'
+    )
+    setResponseHeader(event, 'X-Data-Version', version)
     const query = getQuery(event)
     const quality = query.quality ? Number(query.quality) : null
     const type = query.type?.toString() || null
@@ -63,13 +69,15 @@ export default defineCachedEventHandler(
     }
   },
   {
-    maxAge: 60 * 60 * 24, // 24 hours
+    maxAge: 60 * 60 * 24 * 30, // 30 days
     name: 'items-list',
     getKey: (event) => {
-      const query = getQuery(event)
       const version = getGameVersion()
-      // Always use 50 for cache key since pageSize is hardcoded
-      return `${version}:items:q${query.quality}:t${query.type}:p${query.page}:s50`
+      const query = getQuery(event)
+      const page = query.page ? Number(query.page) : 1
+      const quality = query.quality ? Number(query.quality) : 'all'
+      const type = query.type?.toString() || 'all'
+      return `${version}:items:p${page}:q${quality}:t${type}`
     },
     swr: true, // Enable stale-while-revalidate
   }

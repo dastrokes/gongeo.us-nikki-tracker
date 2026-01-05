@@ -18,7 +18,7 @@ export default defineCachedEventHandler(
       'Netlify-CDN-Cache-Control',
       'public, max-age=0, s-maxage=2592000, stale-while-revalidate=86400'
     )
-    setResponseHeader(event, 'Netlify-Vary', 'query=page,quality,type')
+    setResponseHeader(event, 'Netlify-Vary', 'query=page,quality,type;cookie=')
     setResponseHeader(event, 'X-Data-Version', version)
     const query = getQuery(event)
     const quality = query.quality ? Number(query.quality) : null

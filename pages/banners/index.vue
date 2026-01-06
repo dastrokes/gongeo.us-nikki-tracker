@@ -19,10 +19,12 @@
                     :src="`/images/banners/thumbnails/${banner.bannerId}.png`"
                     :alt="t(`banner.${banner.bannerId}.name`)"
                     class="w-24 h-12 rounded-lg object-cover"
-                    width="100"
-                    height="50"
+                    preset="bannerThumb"
+                    width="200"
+                    height="100"
                     fit="cover"
                     loading="lazy"
+                    sizes="200px"
                     @click="handleBannerClick(banner.bannerId)"
                   />
                 </template>
@@ -101,7 +103,7 @@
           <template #header>
             <NuxtLink
               no-prefetch
-              :to="localePath(`/banner/${banner.bannerId}`)"
+              :to="localePath(`/banners/${banner.bannerId}`)"
               class="inline w-fit hover:opacity-95 transition-opacity"
             >
               <n-gradient-text
@@ -167,7 +169,7 @@
                   >
                     <NuxtLink
                       no-prefetch
-                      :to="localePath(`/outfit/${outfitId}`)"
+                      :to="localePath(`/outfits/${outfitId}`)"
                       class="inline w-fit hover:opacity-80 transition-opacity cursor-pointer"
                     >
                       <n-tag
@@ -193,7 +195,7 @@
                   >
                     <NuxtLink
                       no-prefetch
-                      :to="localePath(`/outfit/${outfitId}`)"
+                      :to="localePath(`/outfits/${outfitId}`)"
                       class="inline w-fit hover:opacity-80 transition-opacity cursor-pointer"
                     >
                       <n-tag
@@ -220,22 +222,23 @@
                 >
                   <NuxtLink
                     no-prefetch
-                    :to="localePath(`/banner/${banner.bannerId}`)"
+                    :to="localePath(`/banners/${banner.bannerId}`)"
                     class="w-full aspect-[2/1] min-h-[140px] sm:min-h-[330px] relative overflow-hidden rounded-lg hover:opacity-95 transition-opacity"
                   >
                     <NuxtImg
                       :src="`/images/banners/${banner.bannerId}.png`"
                       :alt="t(`banner.${banner.bannerId}.name`)"
                       class="absolute inset-0 w-full h-full object-cover"
+                      preset="bannerHero"
                       width="800"
                       height="400"
                       fit="cover"
+                      sizes="400px sm:800px"
                       :loading="
                         banner.bannerId === displayedBanners[0]?.bannerId
                           ? 'eager'
                           : 'lazy'
                       "
-                      sizes="400px sm:800px"
                     />
                     <n-tooltip
                       overlap
@@ -243,7 +246,7 @@
                       class="!rounded-lg !m-2 !px-2 !py-1 text-xs cursor-pointer"
                       :z-index="10"
                       @click.stop.prevent="
-                        router.push(localePath(`/banner/${banner.bannerId}`))
+                        router.push(localePath(`/banners/${banner.bannerId}`))
                       "
                     >
                       <template #trigger>
@@ -476,7 +479,7 @@
   })
 
   useHead(() => ({
-    link: [{ rel: 'canonical', href: `${siteUrl}${localePath('/banner')}` }],
+    link: [{ rel: 'canonical', href: `${siteUrl}${localePath('/banners')}` }],
     script: [
       {
         type: 'application/ld+json',
@@ -485,7 +488,7 @@
           '@type': 'ItemPage',
           name: `${t('navigation.banner')} - ${t('navigation.subtitle')}`,
           description: t('meta.description.banner'),
-          url: `${siteUrl}${localePath('/banner')}`,
+          url: `${siteUrl}${localePath('/banners')}`,
         }),
       },
     ],

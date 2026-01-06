@@ -56,7 +56,7 @@
                 size="small"
                 text
                 :aria-label="$t('navigation.banner')"
-                @click="navigateTo(localePath('/banner'))"
+                @click="navigateTo(localePath('/banners'))"
               >
                 <template #icon>
                   <n-icon>

@@ -6,6 +6,8 @@
     "outfits": "Outfits",
     "item": "Item",
     "items": "Items",
+    "makeup": "Makeup",
+    "variations": "Variations",
     "type": "Type",
     "pull": "Pull",
     "pulls": "Pulls",
@@ -23,6 +25,7 @@
     "search": "Search",
     "filter": "Filter",
     "all": "All",
+    "other": "Other",
     "show": "Show",
     "hide": "Hide",
     "save": "Save",
@@ -378,6 +381,11 @@
     },
     "items": {
       "pull": "Pull #{number}",
+      "category": {
+        "clothes": "Clothes",
+        "accessories": "Accessories",
+        "makeups": "Makeups"
+      },
       "types": {
         "dresses": "Dress",
         "outerwear": "Outerwear",
@@ -604,17 +612,14 @@
     }
   },
   "compendium": {
-    "search_placeholder": "Search {type}...",
-    "error_title": "Failed to Load {type}",
-    "error_description": "Unable to load {type} data. Please check your connection and try again.",
-    "no_results_title": "No {type} Found",
-    "no_results_description": "No {type} match your search criteria.",
-    "not_found_title": "{type} Not Found",
-    "not_found_description": "This {type} could not be found. It may have been removed.",
-    "back_to_list": "Back to {type}",
+    "error_title": "Failed to Load Data",
+    "error_description": "Unable to load data. Please try again.",
+    "no_results_title": "No Results Found",
+    "no_results_description": "No items match your criteria.",
+    "not_found_title": "Not Found",
+    "not_found_description": "Item description not found.",
+    "back_to_list": "Back to List",
     "filter_type": "Filter by Type",
-    "filter_all_types": "All Types",
-    "detail_component_items": "Component Items",
-    "detail_related_outfits": "Related Outfits"
+    "filter_all_types": "All Types"
   }
 }

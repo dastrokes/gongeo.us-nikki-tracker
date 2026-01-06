@@ -16,7 +16,9 @@
                     size="small"
                     text
                     @click="
-                      router.push(`${localePath('/banner')}#${banner.bannerId}`)
+                      router.push(
+                        `${localePath('/banners')}#${banner.bannerId}`
+                      )
                     "
                   >
                     <template #icon>
@@ -33,7 +35,7 @@
                 size="small"
                 text
                 @click="
-                  router.push(localePath(`/banner/${prevBanner.bannerId}`))
+                  router.push(localePath(`/banners/${prevBanner.bannerId}`))
                 "
               >
                 <template #icon>
@@ -55,7 +57,7 @@
                 size="small"
                 text
                 @click="
-                  router.push(localePath(`/banner/${nextBanner.bannerId}`))
+                  router.push(localePath(`/banners/${nextBanner.bannerId}`))
                 "
               >
                 <template #icon>
@@ -117,6 +119,7 @@
                   :src="`/images/banners/${banner.bannerId}.png`"
                   :alt="t(`banner.${banner.bannerId}.name`)"
                   class="absolute inset-0 w-full h-full object-cover"
+                  preset="bannerHero"
                   width="800"
                   height="400"
                   fit="cover"
@@ -536,7 +539,7 @@
         <template #extra>
           <n-button
             type="primary"
-            @click="router.push(localePath('/banner'))"
+            @click="router.push(localePath('/banners'))"
           >
             {{ t('navigation.banner') }}
           </n-button>
@@ -754,7 +757,7 @@
     link: [
       {
         rel: 'canonical',
-        href: `${siteUrl}${localePath(`/banner/${route.params.id}`)}`,
+        href: `${siteUrl}${localePath(`/banners/${route.params.id}`)}`,
       },
     ],
     script: [
@@ -767,13 +770,13 @@
             ? `${t(`banner.${banner.value.bannerId}.name`)} - ${t('navigation.banner_detail')} - ${t('navigation.subtitle')}`
             : `${t('navigation.banner_detail')} - ${t('navigation.subtitle')}`,
           description: t('meta.description.banner_detail'),
-          url: `${siteUrl}${localePath(`/banner/${route.params.id}`)}`,
+          url: `${siteUrl}${localePath(`/banners/${route.params.id}`)}`,
           image: banner.value
             ? `${siteUrl}/images/banners/${banner.value.bannerId}.png`
             : `${siteUrl}/og.png`,
           isPartOf: {
             '@type': 'CollectionPage',
-            url: `${siteUrl}${localePath('/banner')}`,
+            url: `${siteUrl}${localePath('/banners')}`,
           },
         }),
       },

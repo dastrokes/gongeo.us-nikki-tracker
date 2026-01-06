@@ -209,7 +209,7 @@ export const useSearch = () => {
             type: 'banner',
             name: name[locale.value] || name.en,
             quality,
-            route: localePath(`/banner/${id}`),
+            route: localePath(`/banners/${id}`),
           })
         )
       })
@@ -227,7 +227,7 @@ export const useSearch = () => {
             id: outfitId,
             type: 'outfit',
             name: name[locale.value] || name.en,
-            route: localePath(`/outfit/${outfitId}`),
+            route: localePath(`/outfits/${outfitId}`),
           })
         )
       }
@@ -246,7 +246,7 @@ export const useSearch = () => {
             id: itemId,
             type: 'item',
             name: name[locale.value] || name.en,
-            route: localePath(`/item/${itemId}`),
+            route: localePath(`/items/${itemId}`),
           })
         )
       }

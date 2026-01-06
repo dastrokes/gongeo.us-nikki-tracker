@@ -3,7 +3,7 @@
     <div class="flex items-center gap-2">
       <NuxtLink
         no-prefetch
-        :to="localePath(`/outfit/${outfitId}`)"
+        :to="localePath(`/outfits/${outfitId}`)"
         class="cursor-pointer hover:opacity-80 transition-opacity"
       >
         <n-tag
@@ -26,7 +26,7 @@
         v-for="(image, index) in Array.from(outfitImages.entries())"
         :key="index"
         no-prefetch
-        :to="localePath(`/outfit/${outfitId}`)"
+        :to="localePath(`/outfits/${outfitId}`)"
         class="relative aspect-[2/3] rounded-lg overflow-hidden transition-all duration-300 ease-in-out cursor-pointer"
         :class="cardGradient"
       >
@@ -34,6 +34,7 @@
           :src="image[1]"
           :alt="`${t(`outfit.${outfitId}.name`)} ${image[0] === 0 ? 'Base' : `LV${image[0]}`}`"
           class="absolute inset-0 w-full h-full object-contain z-10"
+          preset="tallLg"
           width="300"
           height="450"
           fit="cover"

@@ -6,6 +6,8 @@
     "outfits": "Outfits",
     "item": "Stück",
     "items": "Stücke",
+    "makeup": "Make-up",
+    "variations": "Variationen",
     "type": "Typ",
     "pull": "Resonanz",
     "pulls": "Resonanzen",
@@ -13,7 +15,7 @@
     "average": "Durchschnitt",
     "avg": "Durchschn.",
     "statistics": "Statistiken",
-    "stats": "Stats",
+    "stats": "Stat.",
     "data": "Daten",
     "history": "Verlauf",
     "tracker": "Tracker",
@@ -23,6 +25,7 @@
     "search": "Suchen",
     "filter": "Filter",
     "all": "Alle",
+    "other": "Sonstiges",
     "show": "Zeigen",
     "hide": "Verstecken",
     "save": "Speichern",
@@ -78,7 +81,7 @@
     "rerun": "Wiederholung",
     "copyright": "© 2025 gongeo.us • © Infold Games alle Rechte vorbehalten",
     "disclaimer": {
-      "content": "Dies ist eine inoffizielle, Fan-betriebene Webseite, die mit Infold Games nicht verbunden oder unterstützt ist.",
+      "content": "Dies ist eine inoffizielle, Fan-betriebene Webseite, die nicht mit Infold Games verbunden ist oder von Infold Games unterstützt wird.",
       "rights": "Alle Infinity Nikki Spielinhalte, Güter und Handelsmarken gehören Infold und den jeweiligen Eigentümern."
     },
     "user_profile": {
@@ -113,18 +116,18 @@
         "content": "Bist du dir sicher, dass du all deine Cloud-Daten löschen möchtest? Diese Aktion kann nicht rückgängig gemacht werden und wird deine Daten dauerhaft aus dem Cloud-Speicher entfernen."
       },
       "clear_cloud_success": "Cloud-Daten wurden erfolgreich gelöscht!",
-      "clear_cloud_error": "Cloud-Daten löschen fehlgeschlagen.",
+      "clear_cloud_error": "Löschen der Cloud-Daten fehlgeschlagen.",
       "clear_success": "Daten wurden erfolgreich exportiert!"
     },
     "accessibility": {
       "toggle_menu": "Navigationsmenü ein-/ausschalten",
       "language_switcher": "Sprache wechseln",
       "theme_switcher": "Thema wechseln",
-      "user_profile_menu": "Menü Benutzerprofil",
-      "scroll_to_top": "Nach oben scrollen"
+      "user_profile_menu": "Benutzerprofil-Menü",
+      "scroll_to_top": "Zum Seitenanfang"
     },
     "language_switcher": {
-      "help_translate": "Übersetzen helfen"
+      "help_translate": "Hilf bei der Übersetzung"
     },
     "search": {
       "placeholder": "Stücke, Outfits und Banner suchen",
@@ -192,6 +195,13 @@
     "select_file": "Datei auswählen",
     "select_region": "Region auswählen",
     "select_region_desc": "Wähle deine Serverregion aus.",
+    "regions": {
+      "america": "Amerika",
+      "europe": "Europa",
+      "china": "China",
+      "tw": "TW/HK/Macau",
+      "asia": "Asien"
+    },
     "pearpal_website": "Pearpal-Webseite",
     "whimlog": "Whim-Log",
     "login_pearpal": "Auf der Pearpal-Webseite anmelden",
@@ -309,15 +319,8 @@
     "bookmark_script": {
       "invalid_site": "Bitte benutze dieses Lesezeichen auf der Pearpal-Webseite"
     },
-    "regions": {
-      "america": "Amerika",
-      "europe": "Europa",
-      "china": "China",
-      "tw": "TW/HK/Macau",
-      "asia": "Asien"
-    },
     "maintenance": {
-      "title": "Unter Wartung",
+      "title": "Wartungsarbeiten",
       "message": "Wir führen derzeit einige Wartungsarbeiten durch. Der Import des Resonanz-Verlaufs ist vorübergehend nicht verfügbar.",
       "status": "Der Dienst wird in Kürze wieder zur Verfügung stehen. Vielen Dank für deine Geduld!"
     }
@@ -376,21 +379,13 @@
         "auto_option": "\"Automatisch\" kombiniert beide Quellen, die Quelle bevorzugend, die mehr Resonanzen beim jeweiligen Banner hat."
       }
     },
-    "export": {
-      "png": "Bild exp.",
-      "json": "Datei exp.",
-      "generated_from": "Generiert von",
-      "in_progress": "Wird exportiert, bitte warten...",
-      "success": "Daten wurden erfolgreich exportiert!",
-      "error": "Daten konnten nicht exportiert werden. Bitte versuche es erneut."
-    },
-    "no_data": {
-      "title": "Kein Resonanz-Verlauf verfügbar.",
-      "subtitle": "Bitte importiere zuerst deine Resonanz-Daten.",
-      "error": "Daten konnten nicht geladen werden. Bitte versuche es erneut."
-    },
     "items": {
       "pull": "Resonanz #{number}",
+      "category": {
+        "clothes": "Kleidung",
+        "accessories": "Accessoires",
+        "makeups": "Make-ups"
+      },
       "types": {
         "dresses": "Kleider",
         "outerwear": "Außenbekleidung",
@@ -413,7 +408,7 @@
         "backpieces": "Rückenaccessoire",
         "rings": "Ring",
         "armDecorations": "Armschmuck",
-        "baseMakeup": "Basis-Makeup",
+        "baseMakeup": "Basis-Make-up",
         "eyebrows": "Augenbrauen",
         "eyelashes": "Wimpern",
         "contactLenses": "Kontaktlinsen",
@@ -421,6 +416,19 @@
         "skinTones": "Hauttöne",
         "unknown": "Unbekannt"
       }
+    },
+    "export": {
+      "png": "Bild exp.",
+      "json": "Datei exp.",
+      "generated_from": "Generiert von",
+      "in_progress": "Wird exportiert, bitte warten...",
+      "success": "Daten wurden erfolgreich exportiert!",
+      "error": "Daten konnten nicht exportiert werden. Bitte versuche es erneut."
+    },
+    "no_data": {
+      "title": "Kein Resonanz-Verlauf verfügbar.",
+      "subtitle": "Bitte importiere zuerst deine Resonanz-Daten.",
+      "error": "Daten konnten nicht geladen werden. Bitte versuche es erneut."
     }
   },
   "banner": {
@@ -604,17 +612,14 @@
     }
   },
   "compendium": {
-    "search_placeholder": "Stücke durchsuchen...",
-    "error_title": "Stücke konnten nicht geladen werden",
-    "error_description": "Stück-Daten konnten nicht geladen werden. Bitte überprüfe deine Verbindung und versuche es erneut.",
-    "no_results_title": "Keine Outfits gefunden",
-    "no_results_description": "Keine Outfits entsprechen deinen Suchkriterien.",
-    "not_found_title": "Stück nicht gefunden",
-    "not_found_description": "Dieses Stück konnte nicht gefunden werden. Es wurde möglicherweise entfernt.",
-    "back_to_list": "Zurück zu Stücke",
+    "error_title": "Daten konnten nicht geladen werden",
+    "error_description": "Daten konnten nicht geladen werden. Bitte versuche es erneut.",
+    "no_results_title": "Keine Treffer Gefunden",
+    "no_results_description": "Keine Stücke entsprechen deinen Kriterien.",
+    "not_found_title": "Nicht Gefunden",
+    "not_found_description": "Stückbeschreibung wurde nicht gefunden.",
+    "back_to_list": "Zurück zur Liste",
     "filter_type": "Nach Typ filtern",
-    "filter_all_types": "Alle Typen",
-    "detail_component_items": "Bestandteile",
-    "detail_related_outfits": "Verwandte Outfits"
+    "filter_all_types": "Alle Typen"
   }
 }

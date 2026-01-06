@@ -3,7 +3,12 @@ export const useImageKit = () => {
 
   const getImageKitUrl = (
     path: string,
-    options?: { width?: number; height?: number; quality?: number }
+    options?: {
+      width?: number
+      height?: number
+      quality?: number
+      format?: 'webp' | 'avif' | 'png' | 'jpg' | 'jpeg'
+    }
   ) => {
     // In development, use local images
     if (isDev) {
@@ -19,6 +24,7 @@ export const useImageKit = () => {
     if (options?.width) params.push(`w-${options.width}`)
     if (options?.height) params.push(`h-${options.height}`)
     if (options?.quality) params.push(`q-${options.quality}`)
+    if (options?.format) params.push(`f-${options.format}`)
 
     const transformation = params.length > 0 ? `tr:${params.join(',')}` : ''
 

@@ -154,7 +154,7 @@
     }
 
     // Extract banner ID from route
-    const bannerId = result.route.match(/banner\/(\d+)\/?/)?.[1] || '0'
+    const bannerId = result.route.match(/\/banners?\/(\d+)\/?/i)?.[1] || '0'
 
     const labelChildren: VNode[] = [
       ...buildResultThumbnails(result, bannerId),

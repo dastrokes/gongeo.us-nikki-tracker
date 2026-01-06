@@ -41,6 +41,7 @@
                   :class="{
                     'scale-105': selectedBanner === currentPair.banner1.id,
                   }"
+                  preset="bannerHero"
                   width="800"
                   height="400"
                   fit="cover"
@@ -75,7 +76,7 @@
             </div>
             <div class="mt-2 sm:mt-3 text-center">
               <NuxtLink
-                :to="localePath(`/banner/${currentPair.banner1.id}`)"
+                :to="localePath(`/banners/${currentPair.banner1.id}`)"
                 target="_blank"
                 class="hover:opacity-80 transition-opacity inline-flex items-center gap-1"
               >
@@ -121,6 +122,7 @@
                   :class="{
                     'scale-105': selectedBanner === currentPair.banner2.id,
                   }"
+                  preset="bannerHero"
                   width="800"
                   height="400"
                   fit="cover"
@@ -155,7 +157,7 @@
             </div>
             <div class="mt-2 sm:mt-3 text-center">
               <NuxtLink
-                :to="localePath(`/banner/${currentPair.banner2.id}`)"
+                :to="localePath(`/banners/${currentPair.banner2.id}`)"
                 target="_blank"
                 class="hover:opacity-80 transition-opacity inline-flex items-center gap-1"
               >

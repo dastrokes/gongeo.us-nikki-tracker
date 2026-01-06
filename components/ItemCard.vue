@@ -1,7 +1,7 @@
 <template>
   <NuxtLink
     no-prefetch
-    :to="localePath(`/item/${item.itemId}`)"
+    :to="localePath(`/items/${item.itemId}`)"
     class="block hover:opacity-80 transition-opacity"
   >
     <n-tooltip placement="top">
@@ -21,6 +21,7 @@
             :src="`/images/items/icons/${item.itemId}.png`"
             :alt="t(`item.${item.itemId}.name`)"
             class="w-full h-full object-cover aspect-square"
+            preset="iconLg"
             width="120"
             height="120"
             fit="cover"
@@ -32,11 +33,12 @@
             :src="`/images/items/icons/${item.itemId}.png`"
             :alt="t(`item.${item.itemId}.name`)"
             class="w-full h-full object-cover aspect-square"
+            preset="iconLg"
             width="120"
             height="120"
             fit="cover"
             loading="lazy"
-            placeholder="/images/loading.webp"
+            placeholder="/loading.webp"
             sizes="80px sm:120px"
           />
           <n-tag

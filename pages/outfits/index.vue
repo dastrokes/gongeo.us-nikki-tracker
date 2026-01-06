@@ -14,7 +14,7 @@
               size="small"
               @click="clearFilters"
             >
-              Clear Filters
+              {{ t('common.clear') }}
             </n-button>
 
             <n-button-group size="small">

@@ -124,13 +124,13 @@
 
   // Click handler
   const handleClick = () => {
-  if (props.clickable) {
-    emit('click', props.itemId)
+    if (props.clickable) {
+      emit('click', props.itemId)
 
-    const localePath = useLocalePath()
-    const path = localePath(`/items/${props.itemId}`)
+      const localePath = useLocalePath()
+      const path = localePath(`/items/${props.itemId}`)
 
-    router.push(path)
+      router.push(path)
+    }
   }
-}
 </script>

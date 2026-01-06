@@ -15,7 +15,7 @@
               size="small"
               @click="clearFilters"
             >
-              Clear Filters
+              {{ t('common.clear') }}
             </n-button>
 
             <!-- Type Filter Dropdown -->

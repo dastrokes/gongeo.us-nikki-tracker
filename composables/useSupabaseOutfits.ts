@@ -1,3 +1,5 @@
+import { GAME_VERSION_HEADER } from '~/server/utils/cacheHeaders'
+import { getGameVersion } from '~/utils/gameVersion'
 import type { SupabaseOutfit, OutfitWithItems } from '~/types/supabase'
 
 export interface OutfitFilters {
@@ -20,6 +22,7 @@ export interface PaginatedOutfitsResponse {
 export const useSupabaseOutfits = () => {
   const loading = ref(false)
   const error = ref<Error | null>(null)
+  const gameVersionHeader = { [GAME_VERSION_HEADER]: getGameVersion() }
 
   /**
    * Fetch a single outfit by ID with its component items
@@ -80,6 +83,7 @@ export const useSupabaseOutfits = () => {
 
       const result = await $fetch<PaginatedOutfitsResponse>('/api/outfits', {
         params,
+        headers: gameVersionHeader,
       })
 
       return result

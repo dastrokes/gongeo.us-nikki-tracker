@@ -1,3 +1,7 @@
+# ==============================
+# Build Configuration
+# ==============================
+
 [build]
   publish = "dist"
   command = "npm run build"
@@ -60,6 +64,11 @@
   [headers.values]
     cache-control = "public, max-age=31536000, immutable"
 
+[[headers]]
+  for = "/loading.webp"
+  [headers.values]
+    cache-control = "public, max-age=31536000, immutable"
+
 # JavaScript assets
 [[headers]]
   for = "/gongeous.js"
@@ -77,3 +86,82 @@
   for = "/_nuxt/*"
   [headers.values]
     cache-control = "public, max-age=31536000, immutable"
+
+# ==============================
+# Redirects Configuration
+# ==============================
+
+# banner -> banners
+[[redirects]]
+  from = "/banner"
+  to = "/banners"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/banner/*"
+  to = "/banners/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/:locale/banner"
+  to = "/:locale/banners"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/:locale/banner/*"
+  to = "/:locale/banners/:splat"
+  status = 301
+  force = true
+
+# outfit -> outfits
+[[redirects]]
+  from = "/outfit"
+  to = "/outfits"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/outfit/*"
+  to = "/outfits/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/:locale/outfit"
+  to = "/:locale/outfits"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/:locale/outfit/*"
+  to = "/:locale/outfits/:splat"
+  status = 301
+  force = true
+
+# item -> items
+[[redirects]]
+  from = "/item"
+  to = "/items"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/item/*"
+  to = "/items/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/:locale/item"
+  to = "/:locale/items"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/:locale/item/*"
+  to = "/:locale/items/:splat"
+  status = 301
+  force = true

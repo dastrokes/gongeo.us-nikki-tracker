@@ -7,6 +7,7 @@
     "item": "部件",
     "items": "部件",
     "makeup": "妆容",
+    "variations": "变化",
     "type": "类型",
     "pull": "抽",
     "pulls": "抽",
@@ -24,6 +25,7 @@
     "search": "搜索",
     "filter": "筛选",
     "all": "全部",
+    "other": "其他",
     "show": "显示",
     "hide": "隐藏",
     "save": "保存",
@@ -193,6 +195,13 @@
     "select_file": "选择文件",
     "select_region": "选择服务器",
     "select_region_desc": "选择您的游戏服务器区域。",
+    "regions": {
+      "america": "美服",
+      "europe": "欧服",
+      "china": "国服",
+      "tw": "台港澳服",
+      "asia": "亚服"
+    },
     "pearpal_website": "美鸭梨网站",
     "whimlog": "奇想手账",
     "login_pearpal": "登录美鸭梨网站",
@@ -310,13 +319,6 @@
     "bookmark_script": {
       "invalid_site": "请在美鸭梨网站上使用此书签"
     },
-    "regions": {
-      "america": "美服",
-      "europe": "欧服",
-      "china": "国服",
-      "tw": "台港澳服",
-      "asia": "亚服"
-    },
     "maintenance": {
       "title": "网站维护中",
       "message": "我们正在对网站进行维护更新，抽卡记录导入暂时无法使用。",
@@ -377,19 +379,6 @@
         "auto_option": "\"自动\"会合并两个数据源，对于每个卡池会优先使用数据量较多的数据源。"
       }
     },
-    "export": {
-      "png": "导出图片",
-      "json": "导出文件",
-      "generated_from": "生成自",
-      "in_progress": "导出中，请稍后...",
-      "success": "记录导出成功！",
-      "error": "导出失败，请重试。"
-    },
-    "no_data": {
-      "title": "暂无共鸣记录。",
-      "subtitle": "请先导入您的共鸣数据。",
-      "error": "加载失败，请重试。"
-    },
     "items": {
       "pull": "第 {number} 抽",
       "category": {
@@ -427,6 +416,19 @@
         "skinTones": "肤色",
         "unknown": "未知"
       }
+    },
+    "export": {
+      "png": "导出图片",
+      "json": "导出文件",
+      "generated_from": "生成自",
+      "in_progress": "导出中，请稍后...",
+      "success": "记录导出成功！",
+      "error": "导出失败，请重试。"
+    },
+    "no_data": {
+      "title": "暂无共鸣记录。",
+      "subtitle": "请先导入您的共鸣数据。",
+      "error": "加载失败，请重试。"
     }
   },
   "banner": {
@@ -610,7 +612,6 @@
     }
   },
   "compendium": {
-    "search_placeholder": "搜索物品...",
     "error_title": "加载物品失败",
     "error_description": "无法加载物品数据。请检查您的连接并重试。",
     "no_results_title": "未找到套装",
@@ -619,8 +620,6 @@
     "not_found_description": "找不到此物品。它可能已被删除。",
     "back_to_list": "返回物品列表",
     "filter_type": "按类型筛选",
-    "filter_all_types": "全部类型",
-    "detail_component_items": "组件物品",
-    "detail_related_outfits": "相关套装"
+    "filter_all_types": "全部类型"
   }
 }

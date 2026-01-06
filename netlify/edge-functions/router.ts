@@ -93,7 +93,6 @@ export const config: Config = {
     '/gongeous.js',
     '/66641125bbad403d994c7d7af32e196b.txt',
     '/robots.txt',
-    '/llms.txt',
     '/ads.txt',
     '/sitemap.xml',
     '/sitemap_index.xml',
@@ -124,7 +123,8 @@ export default async (request: Request, context: Context) => {
     .toLowerCase()
 
   const segments = path.split('/').filter(Boolean)
-  const maybeLocale = segments[0] && localeCodes.includes(segments[0]) ? segments[0] : null
+  const maybeLocale =
+    segments[0] && localeCodes.includes(segments[0]) ? segments[0] : null
   const singular = maybeLocale ? segments[1] : segments[0]
 
   if (singular && singular in singularToPlural) {

@@ -90,6 +90,7 @@ export const config: Config = {
     // Other static files
     '/apple-touch-icon*.png',
     '/favicon.ico',
+    '/loading.webo',
     '/gongeous.js',
     '/66641125bbad403d994c7d7af32e196b.txt',
     '/robots.txt',

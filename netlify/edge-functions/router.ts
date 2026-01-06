@@ -21,7 +21,6 @@ const localeCodes = [
 const definedRoutes = [
   '/',
   '/about',
-  '/compendium',
   '/faq',
   '/global',
   '/import',
@@ -30,15 +29,8 @@ const definedRoutes = [
   '/tracker',
   '/banners',
   '/banners/:id',
-  // Legacy banner paths (redirected for SEO/backward-compatibility)
-  '/banner',
-  '/banner/:id',
-  '/outfit',
-  '/outfit/:id',
   '/outfits',
   '/outfits/:id',
-  '/item',
-  '/item/:id',
   '/items',
   '/items/:id',
   '/vote',

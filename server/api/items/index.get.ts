@@ -1,5 +1,8 @@
 import { useSupabaseDataClient } from '~/composables/useSupabaseClient'
-import { setCacheHeaders } from '~/server/utils/cacheHeaders'
+import {
+  GAME_VERSION_HEADER,
+  setCacheHeaders,
+} from '~/server/utils/cacheHeaders'
 import { getGameVersion } from '~/utils/gameVersion'
 
 /**
@@ -10,6 +13,7 @@ export default defineCachedEventHandler(
   async (event) => {
     setCacheHeaders(event, {
       varyQuery: ['page', 'quality', 'type'],
+      varyHeaders: [GAME_VERSION_HEADER],
     })
     const query = getQuery(event)
     const quality = query.quality ? Number(query.quality) : null

@@ -10,12 +10,22 @@
       <div class="grid grid-cols-1 lg:grid-cols-[180px_1fr] gap-4 lg:gap-6">
         <!-- Image Skeleton -->
         <div class="flex justify-center lg:justify-start">
-          <n-skeleton
-            width="180px"
-            height="270px"
-            :sharp="false"
-            class="rounded-lg"
-          />
+          <div
+            class="relative aspect-[2/3] w-full max-w-[180px] rounded-lg overflow-hidden"
+          >
+            <n-skeleton
+              :sharp="false"
+              class="h-full w-full"
+            />
+            <div class="absolute top-1.5 right-1.5">
+              <n-skeleton
+                width="64px"
+                height="24px"
+                :sharp="false"
+                class="rounded-full"
+              />
+            </div>
+          </div>
         </div>
 
         <!-- Info Skeleton -->
@@ -43,39 +53,11 @@
           </div>
           <n-skeleton
             text
-            :repeat="3"
+            :repeat="2"
           />
         </div>
       </div>
     </n-card>
-
-    <!-- Variations/Outfits/Banner Skeleton -->
-    <div
-      v-if="loading"
-      class="grid grid-cols-1 lg:grid-cols-2 gap-2 sm:gap-4"
-    >
-      <n-card
-        v-for="i in 2"
-        :key="i"
-        size="small"
-        class="rounded-xl p-0 sm:p-2"
-        content-class="!p-2 sm:p-4"
-      >
-        <n-skeleton
-          text
-          width="40%"
-          height="24px"
-          class="mb-3"
-        />
-        <div class="grid grid-cols-4 sm:grid-cols-5 gap-2">
-          <n-skeleton
-            height="120px"
-            :sharp="false"
-            class="rounded-lg aspect-[2/3]"
-          />
-        </div>
-      </n-card>
-    </div>
 
     <!-- Error State -->
     <n-card

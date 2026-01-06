@@ -1,3 +1,5 @@
+import { GAME_VERSION_HEADER } from '~/server/utils/cacheHeaders'
+import { getGameVersion } from '~/utils/gameVersion'
 import type { SupabaseItem, ItemWithOutfits } from '~/types/supabase'
 
 export interface ItemFilters {
@@ -21,6 +23,7 @@ export interface PaginatedItemsResponse {
 export const useSupabaseItems = () => {
   const loading = ref(false)
   const error = ref<Error | null>(null)
+  const gameVersionHeader = { [GAME_VERSION_HEADER]: getGameVersion() }
 
   /**
    * Fetch a single item by ID with its related outfits
@@ -85,6 +88,7 @@ export const useSupabaseItems = () => {
 
       const result = await $fetch<PaginatedItemsResponse>('/api/items', {
         params,
+        headers: gameVersionHeader,
       })
 
       return result

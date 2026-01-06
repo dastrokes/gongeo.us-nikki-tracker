@@ -124,6 +124,7 @@ export default defineNuxtConfig({
     },
     prerender: {
       autoSubfolderIndex: false,
+      routes: [],
     },
   },
 
@@ -142,6 +143,10 @@ export default defineNuxtConfig({
     ],
     build: {
       chunkSizeWarningLimit: 1000,
+      sourcemap: false,
+      rollupOptions: {
+        maxParallelFileOps: 2,
+      },
     },
     optimizeDeps: {
       include: [

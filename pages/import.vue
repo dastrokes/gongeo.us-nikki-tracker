@@ -700,12 +700,12 @@
       class="rounded-xl p-0 sm:p-2"
     >
       <div class="text-center mb-12">
-        <n-h1 class="font-bold mb-4">{{ $t('maintenance.title') }}</n-h1>
+        <n-h1 class="font-bold mb-4">{{ $t('import.maintenance.title') }}</n-h1>
         <p class="text-lg">
-          {{ $t('maintenance.message') }}
+          {{ $t('import.maintenance.message') }}
         </p>
         <p class="text-lg">
-          {{ $t('maintenance.status') }}
+          {{ $t('import.maintenance.status') }}
         </p>
       </div>
 
@@ -831,11 +831,11 @@
   }))
 
   const REGION_LABELS = computed(() => ({
-    [Region.AMERICA]: t('common.regions.america'),
-    [Region.EUROPE]: t('common.regions.europe'),
-    [Region.CHINA]: t('common.regions.china'),
-    [Region.ASIA]: t('common.regions.asia'),
-    [Region.TW]: t('common.regions.tw'),
+    [Region.AMERICA]: t('import.regions.america'),
+    [Region.EUROPE]: t('import.regions.europe'),
+    [Region.CHINA]: t('import.regions.china'),
+    [Region.ASIA]: t('import.regions.asia'),
+    [Region.TW]: t('import.regions.tw'),
   }))
 
   const consoleScript = `console.log(JSON.stringify({roleid:[...document.querySelectorAll('div')].find(el=>el.textContent.startsWith('UID:'))?.textContent.replace('UID:','').trim(),token:document.cookie.match(/momoToken=([^;]+)/)?.[1],id:document.cookie.match(/momoNid=([^;]+)/)?.[1]}));`
@@ -1017,7 +1017,7 @@
             ]),
           ]),
         ]),
-      positiveText: t('common.captions.ok'),
+      positiveText: t('common.ok'),
     })
   }
 
@@ -1508,7 +1508,7 @@
             id: 'code-to-copy',
           }),
         ]),
-      positiveText: t('import.actions.copy'),
+      positiveText: t('common.copy'),
       negativeText: t('import.actions.select_all'),
       onPositiveClick: () => copyToClipboard(code),
       onNegativeClick: () => {

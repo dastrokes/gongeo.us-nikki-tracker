@@ -14,7 +14,7 @@
           </template>
         </n-button>
       </template>
-      {{ $t('social.discord') }}
+      {{ $t('default.social.discord') }}
     </n-tooltip>
     <n-tooltip>
       <template #trigger>
@@ -32,7 +32,7 @@
           </template>
         </n-button>
       </template>
-      {{ $t('social.kofi') }}
+      {{ $t('default.social.kofi') }}
     </n-tooltip>
     <n-tooltip>
       <template #trigger>
@@ -48,7 +48,7 @@
           </template>
         </n-button>
       </template>
-      {{ $t('social.twitter') }}
+      {{ $t('default.social.twitter') }}
     </n-tooltip>
     <n-tooltip>
       <template #trigger>
@@ -62,7 +62,7 @@
           </template>
         </n-button>
       </template>
-      {{ $t('social.email') }}
+      {{ $t('default.social.email') }}
     </n-tooltip>
   </n-space>
 </template>

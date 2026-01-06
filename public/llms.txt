@@ -3,8 +3,8 @@
 - [Home](https://gongeo.us/): Infinity Nikki pull tracker and statistics.
 - [Tracker](https://gongeo.us/tracker): Track your personal Infinity Nikki pulls and statistics.
 - [Global Stats](https://gongeo.us/global): View global Infinity Nikki pull statistics and trends.
-- [Banner List](https://gongeo.us/banner): Timeline and details of all Infinity Nikki resonance banners.
-- [Banner Details](https://gongeo.us/banner/1): In-depth statistics and drop rates for each banner (replace 1 with any banner ID).
+- [Banner List](https://gongeo.us/banners): Timeline and details of all Infinity Nikki resonance banners.
+- [Banner Details](https://gongeo.us/banners/1): In-depth statistics and drop rates for each banner (replace 1 with any banner ID).
 - [Import](https://gongeo.us/import): Import your Infinity Nikki resonance data from game, file, or Pearpal.
 - [FAQ](https://gongeo.us/faq): Frequently asked questions about the tracker, data, and privacy.
 - [About](https://gongeo.us/about): Learn about the project, data sources, and privacy practices.

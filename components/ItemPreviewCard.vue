@@ -11,20 +11,20 @@
         ]"
         :bordered="false"
         size="small"
-        content-style="padding: 0;"
+        content-class="p-0"
         @click="handleClick"
       >
         <NuxtImg
           :src="`/images/items/icons/${itemId}.png`"
           :alt="itemName"
           class="w-full h-full object-cover aspect-square"
-          :width="getImageSize(size)"
-          :height="getImageSize(size)"
+          :preset="getImagePreset(size)"
+          :width="getImageWidth(size)"
+          :height="getImageWidth(size)"
           fit="cover"
           loading="lazy"
-          placeholder="/images/loading.webp"
+          placeholder="/loading.webp"
           :sizes="getImageSizes(size)"
-          @error="handleImageError"
         />
       </n-card>
     </template>
@@ -32,7 +32,7 @@
       <div class="text-center">
         <div class="font-medium">{{ itemName }}</div>
         <div class="text-sm opacity-80">
-          {{ t(`items.types.${itemType}`) }}
+          {{ t(`tracker.items.types.${itemType}`) }}
         </div>
       </div>
     </template>
@@ -46,12 +46,12 @@
     type: string
     name: string
     clickable?: boolean
-    size?: 'small' | 'medium' | 'large'
+    size?: 'sm' | 'lg'
   }
 
   const props = withDefaults(defineProps<Props>(), {
     clickable: true,
-    size: 'medium',
+    size: 'lg',
   })
 
   const emit = defineEmits<{
@@ -87,40 +87,36 @@
   }
 
   // Size-based styling
-  const getSizeClass = (size: 'small' | 'medium' | 'large') => {
+  const getSizeClass = (size: 'sm' | 'lg') => {
     switch (size) {
-      case 'small':
+      case 'sm':
         return 'min-h-[50px] xl:min-h-[60px]'
-      case 'medium':
-        return 'min-h-[60px] xl:min-h-[80px]'
-      case 'large':
+      case 'lg':
         return 'min-h-[80px] xl:min-h-[120px]'
       default:
-        return 'min-h-[60px] xl:min-h-[80px]'
+        return 'min-h-[80px] xl:min-h-[120px]'
     }
   }
 
-  const getImageSize = (size: 'small' | 'medium' | 'large') => {
+  const getImageWidth = (size: 'sm' | 'lg') => {
     switch (size) {
-      case 'small':
+      case 'sm':
         return 60
-      case 'medium':
+      case 'lg':
         return 120
-      case 'large':
-        return 180
       default:
         return 120
     }
   }
 
-  const getImageSizes = (size: 'small' | 'medium' | 'large') => {
+  const getImagePreset = (size: 'sm' | 'lg') => {
+    return size === 'sm' ? 'iconSm' : 'iconLg'
+  }
+
+  const getImageSizes = (size: 'sm' | 'lg') => {
     switch (size) {
-      case 'small':
+      case 'sm':
         return '60px sm:80px'
-      case 'medium':
-        return '80px sm:120px'
-      case 'large':
-        return '120px sm:180px'
       default:
         return '80px sm:120px'
     }
@@ -130,14 +126,7 @@
   const handleClick = () => {
     if (props.clickable) {
       emit('click', props.itemId)
-      router.push(`/item/${props.itemId}`)
+      router.push(`/items/${props.itemId}`)
     }
-  }
-
-  // Image error handler
-  const handleImageError = (event: string | Event) => {
-    if (typeof event === 'string') return
-    const img = event.target as HTMLImageElement
-    img.src = '/images/loading.webp'
   }
 </script>

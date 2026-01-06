@@ -67,9 +67,9 @@ export const usePearpalData = () => {
 
       items.forEach((item) => {
         const outfitId = getOutfitIdFromItemId(item.result)
-        const rarity = parseInt(item.rarity)
+        const quality = parseInt(item.rarity) // Note: Pearpal data uses 'rarity' field name
         const pullsToObtain =
-          rarity === 5
+          quality === 5
             ? item.times_from_last_five_stars + 1
             : item.times_from_last_four_stars + 1
 
@@ -87,7 +87,7 @@ export const usePearpalData = () => {
           pullIndex: item.pool_cnt + 1,
           itemId: item.result,
           outfitId,
-          rarity,
+          quality,
           pullsToObtain,
           obtainedAt: timestamp,
           bannerId: bannerId,
@@ -96,7 +96,7 @@ export const usePearpalData = () => {
 
         processedPulls.push(pullInfo)
 
-        if (rarity === 4) {
+        if (quality === 4) {
           if (bannerInfo.bannerType === 3) {
             total4StarOnlyItems++
             total4StarOnlyPulls += pullsToObtain
@@ -104,7 +104,7 @@ export const usePearpalData = () => {
             total4StarItems++
             total4StarPulls += pullsToObtain
           }
-        } else if (rarity === 5) {
+        } else if (quality === 5) {
           total5StarItems++
           total5StarPulls += pullsToObtain
         }
@@ -130,7 +130,7 @@ export const usePearpalData = () => {
                 pullIndex: 0,
                 itemId: itemId,
                 outfitId,
-                rarity: outfit5StarId.includes(outfitId) ? 5 : 4,
+                quality: outfit5StarId.includes(outfitId) ? 5 : 4,
                 pullsToObtain: 0,
                 obtainedAt: '',
                 bannerId: bannerId,
@@ -197,7 +197,7 @@ export const usePearpalData = () => {
 
           processedBanners[bannerId]!.outfits.push({
             id: outfitId,
-            rarity: outfit5StarId.includes(outfitId) ? 5 : 4,
+            quality: outfit5StarId.includes(outfitId) ? 5 : 4,
             items: outfitData.items,
             completion,
             totalItems: outfitData.items.length,
@@ -238,7 +238,7 @@ export const usePearpalData = () => {
         pulls_4star: banner.pulls
           .filter(
             (pull) =>
-              pull.rarity === 4 &&
+              pull.quality === 4 &&
               pull.pullsToObtain > 0 &&
               pull.obtainedAt !== '' &&
               pull.obtainedAt !== 'manual'
@@ -253,7 +253,7 @@ export const usePearpalData = () => {
         pulls_5star: banner.pulls
           .filter(
             (pull) =>
-              pull.rarity === 5 &&
+              pull.quality === 5 &&
               pull.pullsToObtain > 0 &&
               pull.obtainedAt !== '' &&
               pull.obtainedAt !== 'manual'

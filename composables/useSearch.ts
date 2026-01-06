@@ -136,13 +136,52 @@ export const useSearch = () => {
     ...getChineseSearchMeta(payload.name),
   })
 
-  const loadOutfitData = async (outfitId: string) => {
+  /**
+   * Extract all item IDs from i18n JSON files
+   */
+  const getAllItemIdsFromI18n = async () => {
+    const itemIds: string[] = []
+
     try {
-      const outfit = await import(`~/data/outfits/${outfitId}.ts`)
-      return outfit.default
-    } catch {
-      return null
+      // Import the English item translations to get all available item IDs
+      const itemMessages = await import('~/locales/en/item.json')
+
+      Object.keys(itemMessages.default || itemMessages).forEach((key) => {
+        // Extract ID from keys like "item.1020100001.name"
+        const match = key.match(/^item\.(\d+)\.name$/)
+        if (match && match[1]) {
+          itemIds.push(match[1])
+        }
+      })
+    } catch (error) {
+      console.error('Failed to load item translations:', error)
     }
+
+    return itemIds
+  }
+
+  /**
+   * Extract all outfit IDs from i18n JSON files
+   */
+  const getAllOutfitIdsFromI18n = async () => {
+    const outfitIds: string[] = []
+
+    try {
+      // Import the English outfit translations to get all available outfit IDs
+      const outfitMessages = await import('~/locales/en/outfit.json')
+
+      Object.keys(outfitMessages.default || outfitMessages).forEach((key) => {
+        // Extract ID from keys like "outfit.10001.name"
+        const match = key.match(/^outfit\.(\d+)\.name$/)
+        if (match && match[1]) {
+          outfitIds.push(match[1])
+        }
+      })
+    } catch (error) {
+      console.error('Failed to load outfit translations:', error)
+    }
+
+    return outfitIds
   }
 
   const buildSearchIndex = async () => {
@@ -162,133 +201,61 @@ export const useSearch = () => {
       .forEach(([id, banner]) => {
         const name = getLocalizedBannerName(id)
         // Banner types 1 and 2 are 5-star, type 3 is 4-star
-        const rarity = banner.bannerType === 3 ? 4 : 5
+        const quality = banner.bannerType === 3 ? 4 : 5
         banners.set(
           id,
           createSearchResult({
             id,
             type: 'banner',
             name: name[locale.value] || name.en,
-            rarity,
-            route: localePath(`/banner/${id}`),
+            quality,
+            route: localePath(`/banners/${id}`),
           })
         )
       })
 
-    // Index outfits and items from banners
-    const processedItems = new Set<string>()
+    // Index all outfits from i18n files
+    const allOutfitIds = await getAllOutfitIdsFromI18n()
+    for (const outfitId of allOutfitIds) {
+      const name = getLocalizedOutfitName(outfitId)
 
-    for (const [bannerId, banner] of Object.entries(BANNER_DATA).reverse()) {
-      // Index 5-star outfits
-      if (banner.outfit5StarId) {
-        for (const outfitId of banner.outfit5StarId) {
-          const name = getLocalizedOutfitName(outfitId)
-          outfits.set(
-            outfitId,
-            createSearchResult({
-              id: outfitId,
-              type: 'outfit',
-              name: name[locale.value] || name.en,
-              rarity: 5,
-              route: localePath(`/banner/${bannerId}`),
-            })
-          )
-
-          // Index items from this outfit
-          const outfitData = await loadOutfitData(outfitId)
-          if (outfitData?.items) {
-            for (const itemId of outfitData.items) {
-              if (!processedItems.has(itemId)) {
-                const itemname = getLocalizedItemName(itemId)
-                // Only add if the item has a localized name (exists in localization files)
-                if (itemname.en) {
-                  items.set(
-                    itemId,
-                    createSearchResult({
-                      id: itemId,
-                      type: 'item',
-                      name: itemname[locale.value] || itemname.en,
-                      rarity: 5,
-                      route: localePath(`/banner/${bannerId}`),
-                    })
-                  )
-                  processedItems.add(itemId)
-                }
-              }
-            }
-          }
-        }
+      // Only add if the outfit has a valid localized name
+      if (name.en && name.en !== `outfit.${outfitId}.name`) {
+        outfits.set(
+          outfitId,
+          createSearchResult({
+            id: outfitId,
+            type: 'outfit',
+            name: name[locale.value] || name.en,
+            route: localePath(`/outfits/${outfitId}`),
+          })
+        )
       }
+    }
 
-      // Index 4-star outfits
-      if (banner.outfit4StarId) {
-        for (const outfitId of banner.outfit4StarId) {
-          const name = getLocalizedOutfitName(outfitId)
-          outfits.set(
-            outfitId,
-            createSearchResult({
-              id: outfitId,
-              type: 'outfit',
-              name: name[locale.value] || name.en,
-              rarity: 4,
-              route: localePath(`/banner/${bannerId}`),
-            })
-          )
+    // Index all items from i18n files
+    const allItemIds = await getAllItemIdsFromI18n()
+    for (const itemId of allItemIds) {
+      const name = getLocalizedItemName(itemId)
 
-          // Index items from this outfit
-          const outfitData = await loadOutfitData(outfitId)
-          if (outfitData?.items) {
-            for (const itemId of outfitData.items) {
-              if (!processedItems.has(itemId)) {
-                const itemname = getLocalizedItemName(itemId)
-                // Only add if the item has a localized name (exists in localization files)
-                if (itemname.en) {
-                  items.set(
-                    itemId,
-                    createSearchResult({
-                      id: itemId,
-                      type: 'item',
-                      name: itemname[locale.value] || itemname.en,
-                      rarity: 4,
-                      route: localePath(`/banner/${bannerId}`),
-                    })
-                  )
-                  processedItems.add(itemId)
-                }
-              }
-            }
-          }
-        }
-      }
-
-      // Index reward items (from 4-star banners)
-      if (banner.rewardIds) {
-        for (const itemId of banner.rewardIds) {
-          if (!processedItems.has(itemId)) {
-            const itemname = getLocalizedItemName(itemId)
-            // Only add if the item has a localized name (exists in localization files)
-            if (itemname.en) {
-              items.set(
-                itemId,
-                createSearchResult({
-                  id: itemId,
-                  type: 'item',
-                  name: itemname[locale.value] || itemname.en,
-                  rarity: 5,
-                  route: localePath(`/banner/${bannerId}`),
-                })
-              )
-              processedItems.add(itemId)
-            }
-          }
-        }
+      // Only add if the item has a valid localized name
+      if (name.en && name.en !== `item.${itemId}.name`) {
+        items.set(
+          itemId,
+          createSearchResult({
+            id: itemId,
+            type: 'item',
+            name: name[locale.value] || name.en,
+            route: localePath(`/items/${itemId}`),
+          })
+        )
       }
     }
 
     searchIndex.value = { banners, outfits, items }
 
     // Create Fuse instance with all searchable items
-    const allItems = [
+    const allSearchableItems = [
       ...Array.from(banners.values()),
       ...Array.from(outfits.values()),
       ...Array.from(items.values()),
@@ -296,7 +263,7 @@ export const useSearch = () => {
 
     // Dynamically import Fuse.js only on client side
     const { default: Fuse } = await import('fuse.js')
-    fuseInstance.value = new Fuse(allItems, searchOptions)
+    fuseInstance.value = new Fuse(allSearchableItems, searchOptions)
     isIndexBuilt.value = true
   }
 
@@ -333,7 +300,7 @@ export const useSearch = () => {
     if (itemResults.length > 0) {
       categories.push({
         type: 'item',
-        label: t('search.categories.items'),
+        label: t('common.items'),
         results: itemResults,
       })
     }
@@ -341,7 +308,7 @@ export const useSearch = () => {
     if (outfitResults.length > 0) {
       categories.push({
         type: 'outfit',
-        label: t('search.categories.outfits'),
+        label: t('common.outfits'),
         results: outfitResults,
       })
     }
@@ -349,7 +316,7 @@ export const useSearch = () => {
     if (bannerResults.length > 0) {
       categories.push({
         type: 'banner',
-        label: t('search.categories.banners'),
+        label: t('common.banners'),
         results: bannerResults,
       })
     }

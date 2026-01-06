@@ -603,6 +603,7 @@
   const localePath = useLocalePath()
   const router = useRouter()
   const siteUrl = useRuntimeConfig().public.siteUrl
+  const { getImageKitUrl } = useImageKit()
 
   // Helper to check if current locale uses CJK characters
   const isCJKLocale = computed(() => {
@@ -706,7 +707,7 @@
 
   interface SelectedOutfitDetails {
     bannerId: number
-    rarity: string
+    quality: string
     outfitId?: string
   }
 
@@ -714,15 +715,15 @@
     const value = selectedOutfit.value
     if (typeof value !== 'string' || value.length === 0) return null
 
-    const [bannerIdRaw, rarity, outfitId] = value.split('_')
-    if (!bannerIdRaw || !rarity) return null
+    const [bannerIdRaw, quality, outfitId] = value.split('_')
+    if (!bannerIdRaw || !quality) return null
 
     const bannerId = Number.parseInt(bannerIdRaw, 10)
     if (Number.isNaN(bannerId)) return null
 
     return {
       bannerId,
-      rarity,
+      quality,
       outfitId,
     }
   }
@@ -734,7 +735,7 @@
     const banner = BANNER_DATA[outfitDetails.bannerId]
     if (!banner?.bannerId) return null
 
-    return `${localePath('/banner')}/${banner.bannerId}`
+    return `${localePath('/banners')}/${banner.bannerId}`
   })
 
   const hasOutfit = (id: string): id is OutfitKey =>
@@ -968,6 +969,14 @@
           const pullsArr = filteredChartData[bannerId || '']
           if (!pullsArr) return ''
           const total = pullsArr.reduce((a: number, b: number) => a + b, 0)
+          const imageUrl = getImageKitUrl(
+            `/images/banners/thumbnails/${bannerId}.png`,
+            {
+              width: 200,
+              height: 100,
+              quality: 80,
+            }
+          )
           return `
                 <div style="display: flex; flex-direction: column; align-items: center;">
                   <div style="margin-bottom: 5px; text-align: center; font-weight: bold;">
@@ -979,10 +988,10 @@
                     <span style="color: rgb(107, 114, 128, 0.8)">★★★:</span> <strong>${pullsArr[0]}</strong> (${((pullsArr[0] / total) * 100).toFixed(1)}%)
                   </div>
                   <div style="margin-top: 5px; text-align: center;">
-                    ${t('global.charts.total')}: <strong>${total}</strong>
+                    ${t('common.total')}: <strong>${total}</strong>
                   </div>
                   <img
-                    src="/images/banners/thumbnails/${bannerId}.png"
+                    src="${imageUrl}"
                     alt="${banner?.bannerId ? t(`banner.${banner.bannerId}.name`) : ''}"
                     style="width: 200px; height: 100px; object-fit: cover; border-radius: 4px; margin-top: 8px;"
                   />
@@ -1302,13 +1311,13 @@
       return
     }
 
-    const { bannerId, rarity, outfitId } = parsed
+    const { bannerId, quality, outfitId } = parsed
 
     // For type 2 banners, use the special key format (e.g., "30_4" for banner 30, 4-star)
     // For other banners, use the regular banner ID
     let dataKey = bannerId.toString()
-    if (BANNER_DATA[bannerId]?.bannerType === 2 && rarity === '4') {
-      dataKey = `${bannerId}_${rarity}`
+    if (BANNER_DATA[bannerId]?.bannerType === 2 && quality === '4') {
+      dataKey = `${bannerId}_${quality}`
     }
 
     const bannerItems = chartData[dataKey]
@@ -1370,7 +1379,11 @@
         height: imageSize,
         width: imageSize,
         backgroundColor: {
-          image: `/images/items/icons/${itemId}.png`,
+          image: getImageKitUrl(`/images/items/icons/${itemId}.png`, {
+            width: imageSize,
+            height: imageSize,
+            quality: 80,
+          }),
         },
         align: 'center',
       }
@@ -1401,7 +1414,7 @@
                     ${t('item.' + itemId + '.name', itemId)}
                   </div>
                   <div>
-                    ${t('global.charts.type')}: <strong>${t(`items.types.${getItemType(itemId)}`)}</strong>
+                    ${t('common.type')}: <strong>${t(`tracker.items.types.${getItemType(itemId)}`)}</strong>
                   </div>
                   <div>
                     ${t('global.charts.occurrences')}: <strong>${params[0].data.value}</strong>

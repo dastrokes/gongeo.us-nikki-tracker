@@ -41,6 +41,7 @@
                   :class="{
                     'scale-105': selectedBanner === currentPair.banner1.id,
                   }"
+                  preset="bannerHero"
                   width="800"
                   height="400"
                   fit="cover"
@@ -74,31 +75,23 @@
               </div>
             </div>
             <div class="mt-2 sm:mt-3 text-center">
-              <n-tooltip
-                trigger="hover"
-                placement="bottom"
+              <NuxtLink
+                :to="localePath(`/banners/${currentPair.banner1.id}`)"
+                target="_blank"
+                class="hover:opacity-80 transition-opacity inline-flex items-center gap-1"
               >
-                <template #trigger>
-                  <NuxtLink
-                    :to="localePath(`/banner/${currentPair.banner1.id}`)"
-                    target="_blank"
-                    class="hover:opacity-80 transition-opacity inline-flex items-center gap-1"
-                  >
-                    <n-icon
-                      size="16"
-                      class="text-gray-500 dark:text-gray-400"
-                    >
-                      <CalendarDay />
-                    </n-icon>
-                    <n-text
-                      strong
-                      class="text-sm sm:text-base"
-                      >{{ t(`banner.${currentPair.banner1.id}.name`) }}</n-text
-                    >
-                  </NuxtLink>
-                </template>
-                {{ t('navigation.banner_detail') }}
-              </n-tooltip>
+                <n-icon
+                  size="16"
+                  class="text-gray-500 dark:text-gray-400"
+                >
+                  <CalendarDay />
+                </n-icon>
+                <n-text
+                  strong
+                  class="text-sm sm:text-base"
+                  >{{ t(`banner.${currentPair.banner1.id}.name`) }}</n-text
+                >
+              </NuxtLink>
             </div>
           </div>
 
@@ -129,6 +122,7 @@
                   :class="{
                     'scale-105': selectedBanner === currentPair.banner2.id,
                   }"
+                  preset="bannerHero"
                   width="800"
                   height="400"
                   fit="cover"
@@ -162,161 +156,149 @@
               </div>
             </div>
             <div class="mt-2 sm:mt-3 text-center">
-              <n-tooltip
-                trigger="hover"
-                placement="bottom"
+              <NuxtLink
+                :to="localePath(`/banners/${currentPair.banner2.id}`)"
+                target="_blank"
+                class="hover:opacity-80 transition-opacity inline-flex items-center gap-1"
               >
-                <template #trigger>
-                  <NuxtLink
-                    :to="localePath(`/banner/${currentPair.banner2.id}`)"
-                    target="_blank"
-                    class="hover:opacity-80 transition-opacity inline-flex items-center gap-1"
-                  >
-                    <n-icon
-                      size="16"
-                      class="text-gray-500 dark:text-gray-400"
-                    >
-                      <CalendarDay />
-                    </n-icon>
-                    <n-text
-                      strong
-                      class="text-sm sm:text-base"
-                      >{{ t(`banner.${currentPair.banner2.id}.name`) }}</n-text
-                    >
-                  </NuxtLink>
-                </template>
-                {{ t('navigation.banner_detail') }}
-              </n-tooltip>
+                <n-icon
+                  size="16"
+                  class="text-gray-500 dark:text-gray-400"
+                >
+                  <CalendarDay />
+                </n-icon>
+                <n-text
+                  strong
+                  class="text-sm sm:text-base"
+                  >{{ t(`banner.${currentPair.banner2.id}.name`) }}</n-text
+                >
+              </NuxtLink>
             </div>
           </div>
         </div>
 
         <!-- Submit and Skip Buttons -->
         <div
-          class="mt-6 sm:mt-8 flex flex-col-reverse sm:flex-row justify-center items-center gap-3 sm:gap-4"
+          class="mt-6 sm:mt-8 flex flex-col gap-3 sm:gap-4 justify-center items-center"
         >
-          <!-- Info and Toggle (below on mobile, inline on desktop) -->
-          <div class="flex items-center gap-2">
-            <n-tooltip
-              :width="250"
-              trigger="hover"
-              placement="top"
-            >
-              <template #trigger>
-                <n-button
-                  text
-                  size="large"
-                  :disabled="submitting || skipping"
-                  class="!px-2"
-                >
-                  <n-icon
-                    size="20"
-                    class="text-amber-500 dark:text-amber-400"
+          <!-- Voting Closed Message (community mode only) -->
+          <n-text
+            v-if="!isPersonalMode"
+            class="text-sm max-w-96 text-gray-500 dark:text-gray-400"
+          >
+            {{ t('vote.errors.votingClosed') }}
+          </n-text>
+
+          <div
+            class="flex flex-col-reverse sm:flex-row justify-center items-center gap-3 sm:gap-4"
+          >
+            <!-- Info and Toggle (below on mobile, inline on desktop) -->
+            <div class="flex items-center gap-2">
+              <n-tooltip
+                :width="250"
+                trigger="hover"
+                placement="top"
+              >
+                <template #trigger>
+                  <n-switch
+                    :value="isPersonalMode"
+                    :disabled="submitting || skipping"
+                    @update:value="setMode"
                   >
-                    <InfoCircle />
-                  </n-icon>
-                </n-button>
-              </template>
-              <div class="max-w-xs space-y-2">
-                <div>{{ t('vote.howItWorks') }}</div>
-                <div>{{ t('vote.abuseNotice') }}</div>
-              </div>
-            </n-tooltip>
-
-            <n-tooltip
-              :width="250"
-              trigger="hover"
-              placement="top"
-            >
-              <template #trigger>
-                <n-switch
-                  :value="isPersonalMode"
-                  :disabled="submitting || skipping"
-                  @update:value="setMode"
-                >
-                  <template #checked>
-                    <n-icon><User /></n-icon>
-                  </template>
-                  <template #unchecked>
-                    <n-icon><Users /></n-icon>
-                  </template>
-                </n-switch>
-              </template>
-              <div class="max-w-xs">
-                <div class="font-semibold mb-1">
-                  {{
-                    isPersonalMode
-                      ? t('vote.mode.personal')
-                      : t('vote.mode.community')
-                  }}
+                    <template #checked>
+                      <n-icon><User /></n-icon>
+                    </template>
+                    <template #unchecked>
+                      <n-icon><Users /></n-icon>
+                    </template>
+                  </n-switch>
+                </template>
+                <div class="max-w-xs">
+                  <div class="font-semibold mb-1">
+                    {{
+                      isPersonalMode
+                        ? t('vote.mode.personal')
+                        : t('vote.mode.community')
+                    }}
+                  </div>
+                  <div>
+                    {{
+                      isPersonalMode
+                        ? t('vote.mode.personalDesc')
+                        : t('vote.mode.communityDesc')
+                    }}
+                  </div>
                 </div>
-                <div>
-                  {{
-                    isPersonalMode
-                      ? t('vote.mode.personalDesc')
-                      : t('vote.mode.communityDesc')
-                  }}
-                </div>
-              </div>
-            </n-tooltip>
-          </div>
+              </n-tooltip>
+            </div>
 
-          <!-- Action Buttons -->
-          <div class="flex items-center gap-3 sm:gap-4">
-            <n-tooltip
-              trigger="hover"
-              placement="top"
+            <!-- Action Buttons -->
+            <div
+              v-if="isPersonalMode"
+              class="flex items-center gap-3 sm:gap-4"
             >
-              <template #trigger>
-                <n-button
-                  secondary
-                  size="large"
-                  @click="navigateToRankings"
-                >
-                  <template #icon>
-                    <n-icon>
-                      <ListOl />
-                    </n-icon>
-                  </template>
-                </n-button>
-              </template>
-              {{ t('vote.viewRankings') }}
-            </n-tooltip>
-            <n-button
-              secondary
-              size="large"
-              :disabled="submitting || skipping"
-              :loading="skipping"
-              @click="handleSkip"
-            >
-              {{ t('vote.skip') }}
-            </n-button>
-            <n-tooltip
-              v-if="!isPersonalMode"
-              trigger="hover"
-              placement="top"
-            >
-              <template #trigger>
-                <n-button
-                  type="primary"
-                  size="large"
-                  disabled
-                >
-                  {{ t('vote.submit') }}
-                </n-button>
-              </template>
-              {{ t('vote.errors.votingClosed') }}
-            </n-tooltip>
-            <n-button
+              <n-tooltip
+                trigger="hover"
+                placement="top"
+              >
+                <template #trigger>
+                  <n-button
+                    secondary
+                    size="large"
+                    @click="navigateToRankings"
+                  >
+                    <template #icon>
+                      <n-icon>
+                        <ListOl />
+                      </n-icon>
+                    </template>
+                  </n-button>
+                </template>
+                {{ t('vote.viewRankings') }}
+              </n-tooltip>
+              <n-button
+                secondary
+                size="large"
+                :disabled="submitting || skipping"
+                :loading="skipping"
+                @click="handleSkip"
+              >
+                {{ t('vote.skip') }}
+              </n-button>
+              <n-button
+                type="primary"
+                size="large"
+                :disabled="!selectedBanner || submitting || skipping"
+                :loading="submitting"
+                @click="handleVote"
+              >
+                {{ t('common.submit') }}
+              </n-button>
+            </div>
+            <div
               v-else
-              type="primary"
-              size="large"
-              :disabled="!selectedBanner || submitting || skipping"
-              :loading="submitting"
-              @click="handleVote"
+              class="flex items-center gap-3 sm:gap-4"
             >
-              {{ t('vote.submit') }}
-            </n-button>
+              <n-tooltip
+                trigger="hover"
+                placement="top"
+              >
+                <template #trigger>
+                  <n-button
+                    secondary
+                    size="large"
+                    @click="navigateToRankings"
+                  >
+                    <template #icon>
+                      <n-icon>
+                        <ListOl />
+                      </n-icon>
+                    </template>
+                  </n-button>
+                </template>
+                {{ t('vote.viewRankings') }}
+              </n-tooltip>
+            </div>
           </div>
         </div>
       </div>
@@ -404,14 +386,7 @@
 </template>
 
 <script setup lang="ts">
-  import {
-    CheckCircle,
-    CalendarDay,
-    InfoCircle,
-    ListOl,
-    User,
-    Users,
-  } from '@vicons/fa'
+  import { CheckCircle, CalendarDay, ListOl, User, Users } from '@vicons/fa'
 
   const { t } = useI18n()
   const localePath = useLocalePath()

@@ -5,7 +5,7 @@
     @select="handleLanguageSelect"
   >
     <n-button
-      :aria-label="t('accessibility.language_switcher')"
+      :aria-label="t('default.accessibility.language_switcher')"
       text
       size="tiny"
       class="flex items-center"
@@ -38,7 +38,7 @@
         key: 'divider',
       },
       {
-        label: t('language_switcher.help_translate'),
+        label: t('default.language_switcher.help_translate'),
         key: 'crowdin',
         props: {
           onClick: () => {

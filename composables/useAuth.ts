@@ -13,6 +13,7 @@ export const useAuth = () => {
   const route = useRoute()
   const localePath = useLocalePath()
   const { locale } = useI18n()
+  const config = useRuntimeConfig()
 
   // Use the global shared state
   const { user, loading, initialized } = globalAuthState
@@ -75,8 +76,7 @@ export const useAuth = () => {
     loading.value = true
 
     try {
-      // Get the site URL from runtime config
-      const redirectTo = `${window.location.origin}${localePath('/')}`
+      const redirectTo = `${config.public.siteUrl}${localePath('/')}`
 
       const { error: authError } = await supabase.auth.signInWithOAuth({
         provider: 'discord',
@@ -103,8 +103,7 @@ export const useAuth = () => {
     loading.value = true
 
     try {
-      // Get the site URL from runtime config
-      const redirectTo = `${window.location.origin}${localePath('/')}`
+      const redirectTo = `${config.public.siteUrl}${localePath('/')}`
 
       const { error: authError } = await supabase.auth.signInWithOAuth({
         provider: 'google',
@@ -160,7 +159,7 @@ export const useAuth = () => {
         email,
         password,
         options: {
-          emailRedirectTo: `${window.location.origin}${localePath('/')}`,
+          emailRedirectTo: `${config.public.siteUrl}${localePath('/')}`,
           data: {
             lang: locale.value,
           },
@@ -187,7 +186,7 @@ export const useAuth = () => {
       const { error: authError } = await supabase.auth.resetPasswordForEmail(
         email,
         {
-          redirectTo: `${window.location.origin}${localePath('/login')}?type=recovery`,
+          redirectTo: `${config.public.siteUrl}${localePath('/login')}?type=recovery`,
         }
       )
 

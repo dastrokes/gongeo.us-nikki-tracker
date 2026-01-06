@@ -169,7 +169,7 @@ export const useBannerPullData = () => {
         if (outfitData) {
           currentBanner.outfits.push({
             id: outfitId,
-            rarity: outfit5StarSet.has(outfitId) ? 5 : 4,
+            quality: outfit5StarSet.has(outfitId) ? 5 : 4,
             items: outfitData.items,
             completion: 0,
             totalItems: outfitData.items.length,
@@ -206,23 +206,23 @@ export const useBannerPullData = () => {
         pullIndex++
 
         const outfitId = getOutfitIdFromItemId(itemId)
-        let rarity = 0
+        let quality = 0
 
         if (outfit5StarSet.has(outfitId)) {
-          rarity = 5
+          quality = 5
         } else if (outfit4StarSet.has(outfitId)) {
-          rarity = 4
+          quality = 4
         }
 
-        if (rarity !== 0) {
-          const pullsToObtain = pityRecord[rarity] ?? 0
-          pityRecord[rarity] = 0
+        if (quality !== 0) {
+          const pullsToObtain = pityRecord[quality] ?? 0
+          pityRecord[quality] = 0
 
           const pullInfo: PullItem = {
             pullIndex,
             itemId,
             outfitId,
-            rarity,
+            quality,
             pullsToObtain,
             obtainedAt: time,
             bannerId: bannerId,
@@ -233,7 +233,7 @@ export const useBannerPullData = () => {
           currentBanner.stats.totalItems++
 
           // Track stats for this pull
-          if (rarity === 4) {
+          if (quality === 4) {
             if (bannerType === 3) {
               fourStarOnlyCount++
               fourStarOnlyPullsSum += pullsToObtain
@@ -241,7 +241,7 @@ export const useBannerPullData = () => {
               fourStarCount++
               fourStarPullsSum += pullsToObtain
             }
-          } else if (rarity === 5) {
+          } else if (quality === 5) {
             fiveStarCount++
             fiveStarPullsSum += pullsToObtain
           }
@@ -291,12 +291,12 @@ export const useBannerPullData = () => {
         for (const edit of edits) {
           const [time, itemId] = edit
           const outfitId = getOutfitIdFromItemId(itemId)
-          let rarity = 0
+          let quality = 0
 
           if (outfit5StarSet.has(outfitId)) {
-            rarity = 5
+            quality = 5
           } else if (outfit4StarSet.has(outfitId)) {
-            rarity = 4
+            quality = 4
           }
 
           editPullIndex--
@@ -304,7 +304,7 @@ export const useBannerPullData = () => {
             pullIndex: editPullIndex,
             itemId,
             outfitId,
-            rarity,
+            quality,
             pullsToObtain: 0,
             obtainedAt: time,
             bannerId: bannerId,

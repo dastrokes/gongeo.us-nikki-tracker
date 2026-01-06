@@ -7,7 +7,7 @@
       <div class="text-center space-y-4 max-w-sm mx-auto">
         <!-- Header -->
         <div class="space-y-2">
-          <n-h2 class="text-2xl font-bold">{{ t('login.title') }}</n-h2>
+          <n-h2 class="text-2xl font-bold">{{ t('login.sign_in') }}</n-h2>
           <n-text>
             {{ t('login.welcome_description') }}
           </n-text>
@@ -377,11 +377,11 @@
 
   // SEO
   useSeoMeta({
-    title: () => `${t('login.title')} - ${t('navigation.subtitle')}`,
+    title: () => `${t('login.sign_in')} - ${t('navigation.subtitle')}`,
     description: () => t('meta.description.login'),
-    ogTitle: () => `${t('login.title')} - ${t('navigation.subtitle')}`,
+    ogTitle: () => `${t('login.sign_in')} - ${t('navigation.subtitle')}`,
     ogDescription: () => t('meta.description.login'),
-    twitterTitle: () => `${t('login.title')} - ${t('navigation.subtitle')}`,
+    twitterTitle: () => `${t('login.sign_in')} - ${t('navigation.subtitle')}`,
     twitterDescription: () => t('meta.description.login'),
   })
 

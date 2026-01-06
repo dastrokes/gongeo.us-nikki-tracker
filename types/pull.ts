@@ -8,7 +8,7 @@ export interface PullItem {
   pullIndex: number
   itemId: string
   outfitId: string
-  rarity: number
+  quality: number
   pullsToObtain: number
   obtainedAt: string
   bannerId: number
@@ -17,7 +17,7 @@ export interface PullItem {
 
 export interface OutfitStatus {
   id: string
-  rarity: number
+  quality: number
   items: string[]
   completion: number
   totalItems: number

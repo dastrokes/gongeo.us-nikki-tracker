@@ -368,7 +368,7 @@
       sorter: (a, b) => (a.rank ?? 0) - (b.rank ?? 0),
     },
     {
-      title: t('vote.rankings.banner'),
+      title: t('common.banner'),
       key: 'banner',
       width: 160,
       render: (row) => {
@@ -376,10 +376,14 @@
         if (!banner) return '-'
 
         return h('div', { class: 'flex flex-col gap-2 py-1' }, [
-          h('img', {
+          h(resolveComponent('NuxtImg'), {
             src: `/images/banners/thumbnails/${row.banner_id}.png`,
             alt: t(`banner.${row.banner_id}.name`),
             class: 'w-16 h-8 rounded object-cover flex-shrink-0',
+            preset: 'bannerThumb',
+            width: 200,
+            height: 100,
+            loading: 'lazy',
           }),
           h(
             'span',
@@ -478,7 +482,7 @@
       sorter: (a, b) => (a.rank ?? 0) - (b.rank ?? 0),
     },
     {
-      title: t('vote.rankings.banner'),
+      title: t('common.banner'),
       key: 'banner',
       width: 250,
       render: (row) => {
@@ -486,10 +490,14 @@
         if (!banner) return '-'
 
         return h('div', { class: 'flex items-center gap-3' }, [
-          h('img', {
+          h(resolveComponent('NuxtImg'), {
             src: `/images/banners/thumbnails/${row.banner_id}.png`,
             alt: t(`banner.${row.banner_id}.name`),
             class: 'w-20 h-10 rounded object-cover flex-shrink-0',
+            preset: 'bannerThumb',
+            width: 200,
+            height: 100,
+            loading: 'lazy',
           }),
           h(
             'span',
@@ -601,7 +609,7 @@
   }
 
   const navigateToBanner = (bannerId: number) => {
-    router.push(localePath(`/banner/${bannerId}`))
+    router.push(localePath(`/banners/${bannerId}`))
   }
 
   const rowProps = (row: BannerRanking) => {

@@ -2,7 +2,7 @@ export interface SearchResult {
   id: string
   type: 'banner' | 'outfit' | 'item'
   name: string
-  rarity: number
+  quality?: number
   route: string
   pinyin?: string
   pinyinInitials?: string

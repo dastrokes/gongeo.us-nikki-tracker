@@ -105,3 +105,104 @@ export function getTypeCodesForItemType(itemType: ItemType): string[] {
     .filter(([_, type]) => type === itemType)
     .map(([code]) => code)
 }
+
+/**
+ * Category order for item listing and outfit detail pages
+ * Groups items into clothes, accessories, and makeups with specific ordering
+ */
+export const itemCategoryOrder: Record<string, number> = {
+  // Clothes
+  hair: 1,
+  dresses: 2,
+  outerwear: 3,
+  tops: 4,
+  bottoms: 5,
+  socks: 6,
+  shoes: 7,
+  // Accessories
+  hairAccessories: 8,
+  headwear: 9,
+  earrings: 10,
+  neckwear: 11,
+  bracelets: 12,
+  chokers: 13,
+  gloves: 14,
+  handhelds: 15,
+  rings: 16,
+  faceDecorations: 17,
+  chestAccessories: 18,
+  pendants: 19,
+  backpieces: 20,
+  armDecorations: 21,
+  // Makeups
+  baseMakeup: 22,
+  eyebrows: 23,
+  eyelashes: 24,
+  contactLenses: 25,
+  lips: 26,
+  // Others
+  skinTones: 27,
+  unknown: 28,
+}
+
+/**
+ * Item type categories
+ */
+export const itemTypeCategories = {
+  clothes: [
+    'hair',
+    'dresses',
+    'outerwear',
+    'tops',
+    'bottoms',
+    'socks',
+    'shoes',
+  ],
+  accessories: [
+    'hairAccessories',
+    'headwear',
+    'earrings',
+    'neckwear',
+    'bracelets',
+    'chokers',
+    'gloves',
+    'handhelds',
+    'rings',
+    'faceDecorations',
+    'chestAccessories',
+    'pendants',
+    'backpieces',
+    'armDecorations',
+  ],
+  makeups: ['baseMakeup', 'eyebrows', 'eyelashes', 'contactLenses', 'lips'],
+} as const
+
+/**
+ * Get category for an item type
+ */
+export function getItemTypeCategory(
+  itemType: ItemType
+): 'clothes' | 'accessories' | 'makeups' | 'other' {
+  if ((itemTypeCategories.clothes as readonly string[]).includes(itemType))
+    return 'clothes'
+  if ((itemTypeCategories.accessories as readonly string[]).includes(itemType))
+    return 'accessories'
+  if ((itemTypeCategories.makeups as readonly string[]).includes(itemType))
+    return 'makeups'
+  return 'other'
+}
+
+/**
+ * Sort items by category order
+ */
+export function sortItemsByCategory<T extends { id: number | string }>(
+  items: T[]
+): T[] {
+  return items.sort((a, b) => {
+    const typeA = getItemType(a.id)
+    const typeB = getItemType(b.id)
+    const orderA = itemCategoryOrder[typeA] ?? 999
+    const orderB = itemCategoryOrder[typeB] ?? 999
+    return orderA - orderB
+  })
+}

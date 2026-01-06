@@ -16,7 +16,9 @@
                     size="small"
                     text
                     @click="
-                      router.push(`${localePath('/banner')}#${banner.bannerId}`)
+                      router.push(
+                        `${localePath('/banners')}#${banner.bannerId}`
+                      )
                     "
                   >
                     <template #icon>
@@ -28,46 +30,18 @@
               </n-tooltip>
 
               <!-- Previous Banner Navigation -->
-              <n-tooltip
+              <n-button
                 v-if="prevBanner"
-                class="!p-0"
-                content-class="!p-2"
-                trigger="hover"
-                placement="bottom"
+                size="small"
+                text
+                @click="
+                  router.push(localePath(`/banners/${prevBanner.bannerId}`))
+                "
               >
-                <template #trigger>
-                  <n-button
-                    size="small"
-                    text
-                    @click="
-                      router.push(localePath(`/banner/${prevBanner.bannerId}`))
-                    "
-                  >
-                    <template #icon>
-                      <n-icon :depth="3"><ChevronLeft /></n-icon>
-                    </template>
-                  </n-button>
+                <template #icon>
+                  <n-icon :depth="3"><ChevronLeft /></n-icon>
                 </template>
-                <div class="flex flex-col items-center gap-1">
-                  <n-gradient-text
-                    :type="prevBanner.bannerType === 2 ? 'warning' : 'info'"
-                    class="text-sm font-medium"
-                  >
-                    {{ t(`banner.${prevBanner.bannerId}.name`) }}
-                  </n-gradient-text>
-                  <div class="relative w-24 h-12 rounded-lg overflow-hidden">
-                    <NuxtImg
-                      :src="`/images/banners/thumbnails/${prevBanner.bannerId}.png`"
-                      :alt="t(`banner.${prevBanner.bannerId}.name`)"
-                      class="w-full h-full object-cover rounded"
-                      width="100"
-                      height="50"
-                      fit="cover"
-                      loading="lazy"
-                    />
-                  </div>
-                </div>
-              </n-tooltip>
+              </n-button>
 
               <n-gradient-text
                 :size="18"
@@ -78,46 +52,18 @@
               </n-gradient-text>
 
               <!-- Next Banner Navigation -->
-              <n-tooltip
+              <n-button
                 v-if="nextBanner"
-                class="!p-0"
-                content-class="!p-2"
-                trigger="hover"
-                placement="bottom"
+                size="small"
+                text
+                @click="
+                  router.push(localePath(`/banners/${nextBanner.bannerId}`))
+                "
               >
-                <template #trigger>
-                  <n-button
-                    size="small"
-                    text
-                    @click="
-                      router.push(localePath(`/banner/${nextBanner.bannerId}`))
-                    "
-                  >
-                    <template #icon>
-                      <n-icon :depth="3"><ChevronRight /></n-icon>
-                    </template>
-                  </n-button>
+                <template #icon>
+                  <n-icon :depth="3"><ChevronRight /></n-icon>
                 </template>
-                <div class="flex flex-col items-center gap-1">
-                  <n-gradient-text
-                    :type="nextBanner.bannerType === 2 ? 'warning' : 'info'"
-                    class="text-sm font-medium"
-                  >
-                    {{ t(`banner.${nextBanner.bannerId}.name`) }}
-                  </n-gradient-text>
-                  <div class="relative w-24 h-12 rounded-lg overflow-hidden">
-                    <NuxtImg
-                      :src="`/images/banners/thumbnails/${nextBanner.bannerId}.png`"
-                      :alt="t(`banner.${nextBanner.bannerId}.name`)"
-                      class="w-full h-full object-cover rounded"
-                      width="100"
-                      height="50"
-                      fit="cover"
-                      loading="lazy"
-                    />
-                  </div>
-                </div>
-              </n-tooltip>
+              </n-button>
             </div>
 
             <!-- Controls -->
@@ -173,6 +119,7 @@
                   :src="`/images/banners/${banner.bannerId}.png`"
                   :alt="t(`banner.${banner.bannerId}.name`)"
                   class="absolute inset-0 w-full h-full object-cover"
+                  preset="bannerHero"
                   width="800"
                   height="400"
                   fit="cover"
@@ -217,7 +164,7 @@
                       v-if="index > 0"
                       :bordered="false"
                     >
-                      {{ t('index.rerun') }}
+                      {{ t('default.rerun') }}
                     </n-tag>
                   </div>
                 </div>
@@ -457,7 +404,7 @@
                       :key="outfitId"
                       :banner-id="banner.bannerId"
                       :outfit-id="outfitId"
-                      :rarity="5"
+                      :quality="5"
                       :completion-data="{
                         completion:
                           bannerPulls?.outfits.find(
@@ -476,7 +423,7 @@
                       :key="outfitId"
                       :banner-id="banner.bannerId"
                       :outfit-id="outfitId"
-                      :rarity="4"
+                      :quality="4"
                       :completion-data="{
                         completion:
                           bannerPulls?.outfits.find(
@@ -502,7 +449,7 @@
                     />
                     <OutfitCarousel
                       :outfit-id="outfitId"
-                      :rarity="5"
+                      :quality="5"
                       :banner-id="banner.bannerId"
                       :completion-levels="
                         getOutfitCompletionLevels(outfitId, 5)
@@ -527,7 +474,7 @@
                     />
                     <OutfitCarousel
                       :outfit-id="outfitId"
-                      :rarity="4"
+                      :quality="4"
                       :banner-id="banner.bannerId"
                       :completion-levels="
                         getOutfitCompletionLevels(outfitId, 4)
@@ -549,55 +496,27 @@
                     :bordered="false"
                     round
                   >
-                    {{ t('banner.deep_echoes')
-                    }}<n-icon class="ml-1"><Star /></n-icon>
+                    <span class="align-top">{{ t('banner.deep_echoes') }}</span>
+                    <span class="ml-1"
+                      ><n-icon><Star /></n-icon
+                    ></span>
                   </n-tag>
-                  <div class="flex gap-2">
-                    <div
+                  <div class="grid grid-cols-5 lg:grid-cols-10 gap-2">
+                    <ItemCard
                       v-for="(rewardId, i) in banner.rewardIds"
                       :key="rewardId"
-                      class="relative w-16 h-16 sm:w-24 sm:h-24"
-                    >
-                      <NuxtLink
-                        no-prefetch
-                        :to="localePath(`/item/${rewardId}`)"
-                        class="relative block w-full h-full rounded-md overflow-hidden ring-1 bg-gradient-to-br from-[#fff8e1] to-[#ffcc80] hover:shadow-[0_0_10px_0_rgba(255,204,128,0.5)] ring-amber-200/30 hover:ring-amber-200/80 dark:from-[#713f12] dark:to-[#451a03] dark:hover:shadow-[0_0_10px_0_rgba(113,63,18,0.5)] dark:ring-amber-900/30 dark:hover:ring-amber-900/60 hover:opacity-95 transition-all"
-                      >
-                        <NuxtImg
-                          :src="`/images/items/icons/${rewardId}.png`"
-                          :alt="t(`item.${rewardId}.name`)"
-                          class="w-full h-full object-cover"
-                          width="120"
-                          height="120"
-                          fit="cover"
-                          loading="lazy"
-                          placeholder="/images/loading.webp"
-                          sizes="80px sm:120px"
-                        />
-                        <n-tooltip
-                          overlap
-                          placement="top"
-                          class="!rounded-lg !m-1 !px-2 !py-1 text-xs cursor-pointer"
-                          @click.stop.prevent="
-                            router.push(localePath(`/item/${rewardId}`))
-                          "
-                        >
-                          <template #trigger>
-                            <div class="absolute inset-0" />
-                          </template>
-                          <div class="text-center">
-                            <div class="font-medium">
-                              {{ t(`item.${rewardId}.name`) }}
-                            </div>
-                            <div class="text-sm opacity-80">
-                              {{
-                                i * 10 + 5 + ' ' + t('global.stats.total_pulls')
-                              }}
-                            </div>
-                          </div>
-                        </n-tooltip>
-                      </NuxtLink>
-                    </div>
+                      :item="{
+                        itemId: rewardId,
+                        quality: 5,
+                        count: 1,
+                        pullsToObtain: i * 10 + 5,
+                        pullIndex: i * 10 + 5,
+                        bannerId: banner.bannerId,
+                        outfitId: '',
+                        obtainedAt: '',
+                      }"
+                      :info="false"
+                    />
                   </div>
                 </div>
               </div>
@@ -620,7 +539,7 @@
         <template #extra>
           <n-button
             type="primary"
-            @click="router.push(localePath('/banner'))"
+            @click="router.push(localePath('/banners'))"
           >
             {{ t('navigation.banner') }}
           </n-button>
@@ -724,7 +643,7 @@
   }
 
   // Helper function to get outfit completion levels
-  const getOutfitCompletionLevels = (outfitId: string, rarity: number) => {
+  const getOutfitCompletionLevels = (outfitId: string, quality: number) => {
     if (!bannerPulls.value) return []
 
     const levels = []
@@ -737,7 +656,7 @@
       outfitId
     )
 
-    if (rarity === 5) {
+    if (quality === 5) {
       if (outfitCompletion >= 1) {
         levels.push('0')
         levels.push('1')
@@ -838,7 +757,7 @@
     link: [
       {
         rel: 'canonical',
-        href: `${siteUrl}${localePath(`/banner/${route.params.id}`)}`,
+        href: `${siteUrl}${localePath(`/banners/${route.params.id}`)}`,
       },
     ],
     script: [
@@ -851,13 +770,13 @@
             ? `${t(`banner.${banner.value.bannerId}.name`)} - ${t('navigation.banner_detail')} - ${t('navigation.subtitle')}`
             : `${t('navigation.banner_detail')} - ${t('navigation.subtitle')}`,
           description: t('meta.description.banner_detail'),
-          url: `${siteUrl}${localePath(`/banner/${route.params.id}`)}`,
+          url: `${siteUrl}${localePath(`/banners/${route.params.id}`)}`,
           image: banner.value
             ? `${siteUrl}/images/banners/${banner.value.bannerId}.png`
             : `${siteUrl}/og.png`,
           isPartOf: {
             '@type': 'CollectionPage',
-            url: `${siteUrl}${localePath('/banner')}`,
+            url: `${siteUrl}${localePath('/banners')}`,
           },
         }),
       },

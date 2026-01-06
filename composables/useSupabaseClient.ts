@@ -28,7 +28,7 @@ export const useSupabaseClient = (mode: 'client' | 'server' = 'client') => {
 
 /**
  * Supabase client for the data project (outfit/items database)
- * Uses read-only access with the data project credentials
+ * Uses secret key for server-side access with full permissions
  */
 export const useSupabaseDataClient = () => {
   const config = useRuntimeConfig()
@@ -36,7 +36,7 @@ export const useSupabaseDataClient = () => {
   if (!dataClientInstance) {
     dataClientInstance = createClient(
       config.public.supabaseDataUrl,
-      config.public.supabaseDataAnonKey
+      config.supabaseDataSecretKey
     )
   }
   return dataClientInstance

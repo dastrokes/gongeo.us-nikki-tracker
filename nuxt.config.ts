@@ -2,7 +2,6 @@
 import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
 import Components from 'unplugin-vue-components/vite'
 import { defaultLocale, i18nLocales } from './locales/locales'
-import { imageSitemap } from './locales/sitemap'
 
 export default defineNuxtConfig({
   devtools: { enabled: false },
@@ -45,18 +44,14 @@ export default defineNuxtConfig({
     url: process.env.NUXT_PUBLIC_SITE_URL,
   },
 
-  sitemap: {
-    urls: imageSitemap(),
-  },
-
   runtimeConfig: {
     supabaseServiceKey: process.env.SUPABASE_SERVICE_ROLE_KEY,
+    supabaseDataSecretKey: process.env.SUPABASE_DATA_SECRET_KEY,
 
     public: {
       supabaseUrl: process.env.SUPABASE_DATABASE_URL,
       supabaseAnonKey: process.env.SUPABASE_ANON_KEY,
       supabaseDataUrl: process.env.SUPABASE_DATA_URL,
-      supabaseDataAnonKey: process.env.SUPABASE_DATA_ANON_KEY,
       gongeousApiKey: process.env.GONGEOUS_API_KEY,
       siteUrl: process.env.NUXT_PUBLIC_SITE_URL,
     },
@@ -64,12 +59,22 @@ export default defineNuxtConfig({
 
   image: {
     dir: 'public',
-    provider: process.env.NODE_ENV === 'production' ? 'imagekit' : 'ipx',
+    provider: 'ipx',
     imagekit: {
       baseURL: 'https://ik.imagekit.io/gongeous',
     },
     format: ['webp'],
     quality: 80,
+    presets: {
+      bannerHero: { modifiers: { width: 800, height: 400, fit: 'cover' } },
+      bannerThumb: { modifiers: { width: 200, height: 100, fit: 'cover' } },
+      tallLg: { modifiers: { width: 300, height: 450, fit: 'cover' } },
+      tallMd: { modifiers: { width: 180, height: 270, fit: 'cover' } },
+      tallSm: { modifiers: { width: 120, height: 180, fit: 'cover' } },
+      iconLg: { modifiers: { width: 120, height: 120, fit: 'cover' } },
+      iconSm: { modifiers: { width: 60, height: 60, fit: 'cover' } },
+      squareLg: { modifiers: { width: 320, height: 320, fit: 'cover' } },
+    },
     screens: {
       xs: 320,
       sm: 640,

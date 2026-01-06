@@ -1,4 +1,4 @@
-import { useSupabaseClient } from '../../composables/useSupabaseClient'
+import { useSupabaseClient } from '~/composables/useSupabaseClient'
 
 export default defineEventHandler(async (event) => {
   const supabase = useSupabaseClient('server')

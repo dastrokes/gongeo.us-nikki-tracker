@@ -44,7 +44,7 @@ export const useUserBannerStats = () => {
         pulls_4star: banner.pulls
           .filter(
             (pull) =>
-              pull.rarity === 4 &&
+              pull.quality === 4 &&
               pull.pullsToObtain > 0 &&
               pull.obtainedAt !== '' &&
               pull.obtainedAt !== 'manual'
@@ -59,7 +59,7 @@ export const useUserBannerStats = () => {
         pulls_5star: banner.pulls
           .filter(
             (pull) =>
-              pull.rarity === 5 &&
+              pull.quality === 5 &&
               pull.pullsToObtain > 0 &&
               pull.obtainedAt !== '' &&
               pull.obtainedAt !== 'manual'

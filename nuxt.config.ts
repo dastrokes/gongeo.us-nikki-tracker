@@ -2,6 +2,7 @@
 import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
 import Components from 'unplugin-vue-components/vite'
 import { defaultLocale, i18nLocales } from './locales/locales'
+import { buildSitemap } from './locales/sitemap'
 
 export default defineNuxtConfig({
   devtools: { enabled: false },
@@ -42,6 +43,11 @@ export default defineNuxtConfig({
 
   site: {
     url: process.env.NUXT_PUBLIC_SITE_URL,
+  },
+
+  sitemap: {
+    sitemaps: true,
+    urls: buildSitemap(),
   },
 
   runtimeConfig: {

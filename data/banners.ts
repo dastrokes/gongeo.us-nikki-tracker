@@ -589,7 +589,7 @@ export const BANNER_DATA: BannerData = {
       {
         version: '2.0.1',
         start: '2025-11-25',
-        end: '2026-01-07',
+        end: '2026-01-06',
       },
     ],
   },
@@ -602,7 +602,7 @@ export const BANNER_DATA: BannerData = {
       {
         version: '2.0.1',
         start: '2025-11-25',
-        end: '2026-01-07',
+        end: '2026-01-06',
       },
     ],
   },
@@ -615,7 +615,7 @@ export const BANNER_DATA: BannerData = {
       {
         version: '2.0.2',
         start: '2025-12-18',
-        end: '2026-01-07',
+        end: '2026-01-06',
       },
     ],
     rewardIds: ['1020750273', '1029600019', '1021780070'],
@@ -629,7 +629,7 @@ export const BANNER_DATA: BannerData = {
       {
         version: '2.0.2',
         start: '2025-12-18',
-        end: '2026-01-07',
+        end: '2026-01-06',
       },
     ],
     rewardIds: ['1020730260', '1021500038', '1020900102'],

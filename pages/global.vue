@@ -735,7 +735,7 @@
     const banner = BANNER_DATA[outfitDetails.bannerId]
     if (!banner?.bannerId) return null
 
-    return `${localePath('/banner')}/${banner.bannerId}`
+    return `${localePath('/banners')}/${banner.bannerId}`
   })
 
   const hasOutfit = (id: string): id is OutfitKey =>
@@ -971,7 +971,11 @@
           const total = pullsArr.reduce((a: number, b: number) => a + b, 0)
           const imageUrl = getImageKitUrl(
             `/images/banners/thumbnails/${bannerId}.png`,
-            { width: 200, height: 100, quality: 80 }
+            {
+              width: 200,
+              height: 100,
+              quality: 80,
+            }
           )
           return `
                 <div style="display: flex; flex-direction: column; align-items: center;">

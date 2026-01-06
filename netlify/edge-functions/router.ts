@@ -46,6 +46,12 @@ const localePaths = localeCodes
     )
   ) as `/${string}`[]
 
+const singularToPlural = {
+  banner: 'banners',
+  outfit: 'outfits',
+  item: 'items',
+} as const
+
 export const config: Config = {
   path: ['/*'],
   excludedPath: [
@@ -116,6 +122,20 @@ export default async (request: Request, context: Context) => {
     .replace(/\/+/g, '/')
     .replace(/\/$/, '')
     .toLowerCase()
+
+  const segments = path.split('/').filter(Boolean)
+  const maybeLocale = segments[0] && localeCodes.includes(segments[0]) ? segments[0] : null
+  const singular = maybeLocale ? segments[1] : segments[0]
+
+  if (singular && singular in singularToPlural) {
+    const plural = singularToPlural[singular as keyof typeof singularToPlural]
+    const rest = segments.slice(maybeLocale ? 2 : 1)
+    const targetPath = `/${maybeLocale ? `${maybeLocale}/` : ''}${plural}${
+      rest.length ? `/${rest.join('/')}` : ''
+    }`
+    const redirectUrl = new URL(targetPath + url.search, url.origin)
+    return Response.redirect(redirectUrl.toString(), 301)
+  }
 
   // Check if the path matches any excluded path pattern
   const excludedPaths = Array.isArray(config.excludedPath)

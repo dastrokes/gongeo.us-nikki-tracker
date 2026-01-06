@@ -46,7 +46,7 @@ export default defineNuxtConfig({
   },
 
   sitemap: {
-    sitemaps: true,
+    zeroRuntime: true,
     urls: buildSitemap(),
   },
 

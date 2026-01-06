@@ -35,7 +35,7 @@
     >
       <NuxtLink
         no-prefetch
-        :to="localePath(`/banner/${banner.bannerId}`)"
+        :to="localePath(`/banners/${banner.bannerId}`)"
         class="relative overflow-hidden rounded-xl hover:opacity-95 transition-opacity block"
       >
         <NuxtImg
@@ -43,6 +43,7 @@
           :src="`/images/banners/${banner.bannerId}.png`"
           :alt="t(`banner.${banner.bannerId}.name`)"
           class="w-full h-full object-cover"
+          preset="bannerHero"
           width="800"
           height="400"
           fit="cover"
@@ -56,6 +57,7 @@
           :src="`/images/banners/${banner.bannerId}.png`"
           :alt="t(`banner.${banner.bannerId}.name`)"
           class="w-full h-full object-cover"
+          preset="bannerHero"
           width="800"
           height="400"
           fit="cover"
@@ -67,7 +69,7 @@
           placement="top-end"
           class="!rounded-lg !m-2 !px-2 !py-1 text-xs cursor-pointer"
           @click.stop.prevent="
-            router.push(localePath(`/banner/${banner.bannerId}`))
+            router.push(localePath(`/banners/${banner.bannerId}`))
           "
         >
           <template #trigger>

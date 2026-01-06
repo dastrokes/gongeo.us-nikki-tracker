@@ -515,7 +515,7 @@
                 <div class="flex items-center gap-2">
                   <NuxtLink
                     no-prefetch
-                    :to="localePath(`/banner/${banner.bannerId}`)"
+                    :to="localePath(`/banners/${banner.bannerId}`)"
                     class="inline w-fit hover:opacity-95 transition-opacity"
                   >
                     <n-gradient-text
@@ -537,7 +537,7 @@
                   >
                     <NuxtLink
                       no-prefetch
-                      :to="localePath(`/outfit/${outfit.id}`)"
+                      :to="localePath(`/outfits/${outfit.id}`)"
                       class="inline-block"
                     >
                       <n-tag
@@ -839,7 +839,7 @@
             <div class="w-full flex flex-col sm:flex-row sm:items-center gap-2">
               <NuxtLink
                 no-prefetch
-                :to="localePath(`/banner/${banner.bannerId}`)"
+                :to="localePath(`/banners/${banner.bannerId}`)"
                 class="inline w-fit hover:opacity-95 transition-opacity"
               >
                 <n-gradient-text
@@ -859,7 +859,7 @@
                   <div class="flex items-center gap-2">
                     <NuxtLink
                       no-prefetch
-                      :to="localePath(`/outfit/${outfit.id}`)"
+                      :to="localePath(`/outfits/${outfit.id}`)"
                       class="inline w-fit hover:opacity-80 transition-opacity cursor-pointer"
                     >
                       <n-tag

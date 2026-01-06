@@ -380,8 +380,9 @@
             src: `/images/banners/thumbnails/${row.banner_id}.png`,
             alt: t(`banner.${row.banner_id}.name`),
             class: 'w-16 h-8 rounded object-cover flex-shrink-0',
-            width: 64,
-            height: 32,
+            preset: 'bannerThumb',
+            width: 200,
+            height: 100,
             loading: 'lazy',
           }),
           h(
@@ -493,8 +494,9 @@
             src: `/images/banners/thumbnails/${row.banner_id}.png`,
             alt: t(`banner.${row.banner_id}.name`),
             class: 'w-20 h-10 rounded object-cover flex-shrink-0',
-            width: 80,
-            height: 40,
+            preset: 'bannerThumb',
+            width: 200,
+            height: 100,
             loading: 'lazy',
           }),
           h(
@@ -607,7 +609,7 @@
   }
 
   const navigateToBanner = (bannerId: number) => {
-    router.push(localePath(`/banner/${bannerId}`))
+    router.push(localePath(`/banners/${bannerId}`))
   }
 
   const rowProps = (row: BannerRanking) => {

@@ -3,7 +3,7 @@
     <div class="flex items-center gap-2">
       <NuxtLink
         no-prefetch
-        :to="localePath(`/outfit/${outfitId}`)"
+        :to="localePath(`/outfits/${outfitId}`)"
         class="cursor-pointer hover:opacity-80 transition-opacity"
       >
         <n-tag
@@ -28,6 +28,7 @@
       <div class="w-full lg:w-auto flex-shrink-0">
         <n-carousel
           :ref="`carousel${quality}Star`"
+          v-model:current-index="activeSlide"
           effect="card"
           show-dots
           dot-placement="left"
@@ -43,20 +44,47 @@
           >
             <NuxtLink
               no-prefetch
-              :to="localePath(`/outfit/${image.outfitId}`)"
-              class="relative aspect-[2/3] rounded-lg overflow-hidden transition-all duration-300 ease-in-out cursor-pointer block"
+              :to="localePath(`/outfits/${image.outfitId}`)"
+              class="group relative aspect-[2/3] rounded-lg overflow-hidden transition-all duration-300 ease-in-out cursor-pointer block"
               :class="cardGradient"
             >
               <NuxtImg
                 :src="image.src"
                 :alt="image.alt"
                 class="absolute inset-0 w-full h-full object-contain z-10"
-                width="400"
-                height="600"
+                preset="tallLg"
+                width="300"
+                height="450"
                 fit="cover"
                 loading="lazy"
                 sizes="300px"
               />
+              <div
+                class="pointer-events-none absolute inset-0 z-30 flex items-center px-6 opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+                :class="
+                  index === activeSlide ? 'justify-center' : 'justify-between'
+                "
+              >
+                <template v-if="index === activeSlide">
+                  <span
+                    class="flex h-8 w-8 items-center justify-center rounded-full bg-black/40 text-white shadow opacity-50"
+                  >
+                    <n-icon size="16"><ExternalLinkAlt /></n-icon>
+                  </span>
+                </template>
+                <template v-else>
+                  <span
+                    class="flex h-8 w-8 items-center justify-center rounded-full bg-black/40 text-white shadow"
+                  >
+                    <n-icon size="16"><ChevronLeft /></n-icon>
+                  </span>
+                  <span
+                    class="flex h-8 w-8 items-center justify-center rounded-full bg-black/40 text-white shadow"
+                  >
+                    <n-icon size="16"><ChevronRight /></n-icon>
+                  </span>
+                </template>
+              </div>
               <div
                 class="absolute top-1 scale-90 sm:scale-100 z-20"
                 :class="[
@@ -104,7 +132,13 @@
 </template>
 
 <script setup lang="ts">
-  import { Star, CheckCircle } from '@vicons/fa'
+  import {
+    Star,
+    CheckCircle,
+    ChevronLeft,
+    ChevronRight,
+    ExternalLinkAlt,
+  } from '@vicons/fa'
   import OUTFIT_DATA, { type OutfitKey } from '~/data/outfits'
   import type { PullItem } from '~/types/pull'
 
@@ -124,6 +158,7 @@
     fourStar:
       'bg-gradient-to-br from-[#e3f2fd] to-[#bbdefb] hover:brightness-105 dark:from-[#334155] dark:to-[#1e293b]',
   } as const
+  const activeSlide = ref(0)
   const cardGradient = computed(() =>
     props.quality === 5
       ? OUTFIT_CARD_GRADIENTS.fiveStar
@@ -165,14 +200,33 @@
     return images
   })
 
+  const currentOutfitId = computed(
+    () => outfitImages.value[activeSlide.value]?.outfitId || props.outfitId
+  )
+
+  const getItemPrefixForOutfit = (outfitId: string) => {
+    if (outfitId.endsWith('01')) return '1022'
+    if (outfitId.endsWith('02')) return '1023'
+    if (outfitId.endsWith('03')) return '1024'
+    if (outfitId.endsWith('04')) return '1025'
+    return '1020'
+  }
+
   // Helper function to get outfit items for ItemCard display
   const outfitItems = computed((): PullItem[] => {
     const outfit = OUTFIT_DATA[props.outfitId as OutfitKey]
+    if (!outfit) return []
+
+    const itemPrefix = getItemPrefixForOutfit(currentOutfitId.value)
 
     return outfit.items.map((itemId) => {
+      const itemIdStr = itemId.toString()
+      const baseDigits = itemIdStr.slice(4)
+      const variationItemId =
+        itemIdStr.length > 4 ? `${itemPrefix}${baseDigits}` : itemId
       return {
-        itemId: itemId,
-        outfitId: props.outfitId,
+        itemId: variationItemId,
+        outfitId: currentOutfitId.value,
         quality: props.quality,
         count: 1,
         pullIndex: 0,
@@ -182,4 +236,11 @@
       }
     })
   })
+
+  watch(
+    () => props.outfitId,
+    () => {
+      activeSlide.value = 0
+    }
+  )
 </script>

@@ -59,7 +59,7 @@ export default defineNuxtConfig({
 
   image: {
     dir: 'public',
-    provider: 'ipx',
+    provider: process.env.NODE_ENV === 'production' ? 'imagekit' : 'ipx',
     imagekit: {
       baseURL: 'https://ik.imagekit.io/gongeous',
     },

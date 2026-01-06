@@ -8,11 +8,11 @@
     >
       <div class="flex flex-col text-center flex-1">
         <n-h1 class="font-bold">
-          {{ $t('index.title') }}
+          {{ $t('navigation.title') }}
         </n-h1>
-        <n-h2 class="font-bold mt-0">{{ $t('index.subtitle') }}</n-h2>
+        <n-h2 class="font-bold mt-0">{{ $t('navigation.subtitle') }}</n-h2>
         <n-h3 class="mt-0 text-gray-600 dark:text-gray-300">
-          {{ $t('index.description') }}
+          {{ $t('default.description') }}
         </n-h3>
       </div>
       <div
@@ -28,7 +28,7 @@
               <Book />
             </n-icon>
           </template>
-          {{ $t('index.your_data') }}
+          {{ $t('default.your_data') }}
         </n-button>
         <n-button
           type="primary"
@@ -56,7 +56,7 @@
                 size="small"
                 text
                 :aria-label="$t('navigation.banner')"
-                @click="navigateTo(localePath('/banner'))"
+                @click="navigateTo(localePath('/banners'))"
               >
                 <template #icon>
                   <n-icon>
@@ -67,7 +67,7 @@
             </template>
             {{ $t('navigation.banner') }}
           </n-tooltip>
-          {{ $t('index.current_banners') }}
+          {{ $t('default.current_banners') }}
         </div>
       </div>
       <div

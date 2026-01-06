@@ -1,8 +1,10 @@
 <template>
+  <!-- Mobile: Show icon button -->
   <n-button
     text
     size="tiny"
-    :aria-label="t('accessibility.search')"
+    :aria-label="t('common.search')"
+    class="sm:hidden"
     @click="toggleSearch"
   >
     <n-icon>
@@ -10,14 +12,32 @@
     </n-icon>
   </n-button>
 
+  <!-- Desktop: Show search input with hotkey hint -->
+  <div
+    class="hidden sm:flex items-center gap-2 px-2 py-1 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 hover:border-gray-400 dark:hover:border-gray-500 transition-colors cursor-pointer"
+    @click="toggleSearch"
+  >
+    <n-icon
+      size="14"
+      class="text-gray-400"
+    >
+      <Search />
+    </n-icon>
+    <kbd
+      class="px-1.5 py-0.5 text-xs font-semibold text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded"
+    >
+      /
+    </kbd>
+  </div>
+
   <n-modal v-model:show="showSearch">
     <n-auto-complete
       ref="searchAutoCompleteRef"
       v-model:value="searchQuery"
-      class="fixed w-full sm:max-w-80 sm:right-[130px] top-1.5 rounded-xl bg-slate-900"
+      class="fixed w-full sm:max-w-80 sm:right-4 top-1.5 rounded-xl bg-slate-900"
       :options="autoCompleteOptions"
       :render-label="renderLabel"
-      :placeholder="t('search.placeholder')"
+      :placeholder="t('default.search.placeholder')"
       :loading="isLoading"
       clear-after-select
       clearable
@@ -27,7 +47,7 @@
     >
       <template #empty>
         <div class="text-gray-500 text-center py-4">
-          {{ t('search.noResults') }}
+          {{ t('default.search.noResults') }}
         </div>
       </template>
     </n-auto-complete>
@@ -54,16 +74,6 @@
     ;(event.target as HTMLImageElement).style.display = 'none'
   }
 
-  const THUMBNAIL_GRADIENTS = {
-    fiveStar:
-      'bg-gradient-to-br from-[#fff8e1] to-[#ffcc80] dark:from-[#713f12] dark:to-[#451a03]',
-    fourStar:
-      'bg-gradient-to-br from-[#e3f2fd] to-[#bbdefb] dark:from-[#334155] dark:to-[#1e293b]',
-  } as const
-
-  const getThumbnailBackgroundClass = (rarity?: number) =>
-    rarity === 5 ? THUMBNAIL_GRADIENTS.fiveStar : THUMBNAIL_GRADIENTS.fourStar
-
   const buildResultThumbnails = (
     result: SearchResult,
     bannerId: string
@@ -86,12 +96,12 @@
         case 'outfit':
           return {
             src: `/images/outfits/${result.id}.png`,
-            class: `w-8 h-12 my-0.5 rounded object-cover flex-shrink-0 ${getThumbnailBackgroundClass(result.rarity)}`,
+            class: 'w-8 h-12 my-0.5 rounded object-cover flex-shrink-0',
           }
         case 'item':
           return {
-            src: `/images/items/icons/${result.id}.webp`,
-            class: `w-10 h-10 my-0.5 rounded object-cover flex-shrink-0 ${getThumbnailBackgroundClass(result.rarity)}`,
+            src: `/images/items/${result.id}.png`,
+            class: 'w-8 h-12 my-0.5 rounded object-cover flex-shrink-0',
           }
         default:
           return null
@@ -100,9 +110,11 @@
 
     if (imageConfig) {
       nodes.push(
-        h('img', {
+        h(resolveComponent('NuxtImg'), {
           ...imageProps,
           ...imageConfig,
+          width: result.type === 'banner' ? 80 : 32,
+          height: result.type === 'banner' ? 40 : 48,
         })
       )
     }
@@ -132,7 +144,7 @@
     return options
   })
 
-  // Custom render function for labels with colorized names and thumbnails for all result types
+  // Custom render function for labels with thumbnails for all result types
   const renderLabel = (option: AutoCompleteOption) => {
     const result = (option as AutoCompleteOption & { result?: SearchResult })
       .result
@@ -142,23 +154,11 @@
     }
 
     // Extract banner ID from route
-    const bannerId = result.route.match(/banner\/(\d+)\/?/)?.[1] || '0'
-
-    // Colorize the name based on rarity
-    const colorClass =
-      result.rarity === 5
-        ? 'text-amber-500'
-        : result.rarity === 4
-          ? 'text-blue-500'
-          : 'text-gray-900'
+    const bannerId = result.route.match(/\/banners?\/(\d+)\/?/i)?.[1] || '0'
 
     const labelChildren: VNode[] = [
       ...buildResultThumbnails(result, bannerId),
-      h(
-        'span',
-        { class: `font-medium flex-1 ml-2 ${colorClass} truncate` },
-        result.name
-      ),
+      h('span', { class: 'font-medium flex-1 ml-2 truncate' }, result.name),
     ]
 
     return h('div', { class: 'flex items-center gap-2 w-full' }, labelChildren)
@@ -239,4 +239,32 @@
       }
     }
   }
+
+  // Handle "/" hotkey to open search
+  const handleKeyDown = (event: KeyboardEvent) => {
+    // Check if "/" is pressed and not in an input/textarea
+    if (
+      event.key === '/' &&
+      !['INPUT', 'TEXTAREA'].includes(
+        (event.target as HTMLElement)?.tagName || ''
+      )
+    ) {
+      event.preventDefault()
+      toggleSearch()
+    }
+    // Handle Escape to close search
+    if (event.key === 'Escape' && showSearch.value) {
+      closeSearch()
+    }
+  }
+
+  // Add keyboard event listener
+  onMounted(() => {
+    window.addEventListener('keydown', handleKeyDown)
+  })
+
+  // Remove keyboard event listener
+  onUnmounted(() => {
+    window.removeEventListener('keydown', handleKeyDown)
+  })
 </script>

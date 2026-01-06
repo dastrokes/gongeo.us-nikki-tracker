@@ -453,12 +453,8 @@
                     </div>
                     <div class="flex items-center justify-between">
                       <n-switch v-model:value="settings.show4StarItems">
-                        <template #checked>{{
-                          t('tracker.banner.settings.show')
-                        }}</template>
-                        <template #unchecked>{{
-                          t('tracker.banner.settings.hide')
-                        }}</template>
+                        <template #checked>{{ t('common.show') }}</template>
+                        <template #unchecked>{{ t('common.hide') }}</template>
                       </n-switch>
                       <span class="text-sm text-gray-400 ml-3">
                         {{ t('tracker.banner.settings.show_4star') }}
@@ -466,12 +462,8 @@
                     </div>
                     <div class="flex items-center justify-between">
                       <n-switch v-model:value="settings.showDuplicates">
-                        <template #checked>{{
-                          t('tracker.banner.settings.show')
-                        }}</template>
-                        <template #unchecked>{{
-                          t('tracker.banner.settings.hide')
-                        }}</template>
+                        <template #checked>{{ t('common.show') }}</template>
+                        <template #unchecked>{{ t('common.hide') }}</template>
                       </n-switch>
                       <span class="text-sm text-gray-400 ml-3">
                         {{ t('tracker.banner.settings.duplicate_items') }}
@@ -479,12 +471,8 @@
                     </div>
                     <div class="flex items-center justify-between">
                       <n-switch v-model:value="settings.showMissingPieces">
-                        <template #checked>{{
-                          t('tracker.banner.settings.show')
-                        }}</template>
-                        <template #unchecked>{{
-                          t('tracker.banner.settings.hide')
-                        }}</template>
+                        <template #checked>{{ t('common.show') }}</template>
+                        <template #unchecked>{{ t('common.hide') }}</template>
                       </n-switch>
                       <span class="text-sm text-gray-400 ml-3">
                         {{ t('tracker.banner.settings.show_missing') }}
@@ -492,12 +480,8 @@
                     </div>
                     <div class="flex items-center justify-between">
                       <n-switch v-model:value="settings.showEmptyBanners">
-                        <template #checked>{{
-                          t('tracker.banner.settings.show')
-                        }}</template>
-                        <template #unchecked>{{
-                          t('tracker.banner.settings.hide')
-                        }}</template>
+                        <template #checked>{{ t('common.show') }}</template>
+                        <template #unchecked>{{ t('common.hide') }}</template>
                       </n-switch>
                       <span class="text-sm text-gray-400 ml-3">
                         {{ t('tracker.banner.settings.empty_banners') }}
@@ -531,21 +515,16 @@
                 <div class="flex items-center gap-2">
                   <NuxtLink
                     no-prefetch
-                    :to="localePath(`/banner/${banner.bannerId}`)"
+                    :to="localePath(`/banners/${banner.bannerId}`)"
                     class="inline w-fit hover:opacity-95 transition-opacity"
                   >
-                    <n-tooltip trigger="hover">
-                      <template #trigger>
-                        <n-gradient-text
-                          :size="18"
-                          class="m-0 font-medium break-words"
-                          :type="banner.bannerType === 2 ? 'warning' : 'info'"
-                        >
-                          {{ t(`banner.${banner.bannerId}.name`) }}
-                        </n-gradient-text>
-                      </template>
-                      {{ t('navigation.banner_detail') }}
-                    </n-tooltip>
+                    <n-gradient-text
+                      :size="18"
+                      class="m-0 font-medium break-words"
+                      :type="banner.bannerType === 2 ? 'warning' : 'info'"
+                    >
+                      {{ t(`banner.${banner.bannerId}.name`) }}
+                    </n-gradient-text>
                   </NuxtLink>
                 </div>
 
@@ -558,11 +537,11 @@
                   >
                     <NuxtLink
                       no-prefetch
-                      :to="localePath(`/outfit/${outfit.id}`)"
+                      :to="localePath(`/outfits/${outfit.id}`)"
                       class="inline-block"
                     >
                       <n-tag
-                        :type="outfit.rarity === 5 ? 'warning' : 'info'"
+                        :type="outfit.quality === 5 ? 'warning' : 'info'"
                         :bordered="false"
                         round
                         size="small"
@@ -570,7 +549,7 @@
                       >
                         <span class="align-top"
                           >{{ t(`outfit.${outfit.id}.name`) }}
-                          {{ outfit.rarity }}</span
+                          {{ outfit.quality }}</span
                         >
                         <span class="ml-1"
                           ><n-icon><Star /></n-icon
@@ -860,21 +839,16 @@
             <div class="w-full flex flex-col sm:flex-row sm:items-center gap-2">
               <NuxtLink
                 no-prefetch
-                :to="localePath(`/banner/${banner.bannerId}`)"
+                :to="localePath(`/banners/${banner.bannerId}`)"
                 class="inline w-fit hover:opacity-95 transition-opacity"
               >
-                <n-tooltip trigger="hover">
-                  <template #trigger>
-                    <n-gradient-text
-                      :size="18"
-                      class="m-0 font-medium break-words"
-                      :type="banner.bannerType === 2 ? 'warning' : 'info'"
-                    >
-                      {{ t(`banner.${banner.bannerId}.name`) }}
-                    </n-gradient-text>
-                  </template>
-                  {{ t('navigation.banner_detail') }}
-                </n-tooltip>
+                <n-gradient-text
+                  :size="18"
+                  class="m-0 font-medium break-words"
+                  :type="banner.bannerType === 2 ? 'warning' : 'info'"
+                >
+                  {{ t(`banner.${banner.bannerId}.name`) }}
+                </n-gradient-text>
               </NuxtLink>
 
               <div class="flex flex-wrap gap-2 w-full sm:w-[calc(100%-500px)]">
@@ -885,11 +859,11 @@
                   <div class="flex items-center gap-2">
                     <NuxtLink
                       no-prefetch
-                      :to="localePath(`/outfit/${outfit.id}`)"
+                      :to="localePath(`/outfits/${outfit.id}`)"
                       class="inline w-fit hover:opacity-80 transition-opacity cursor-pointer"
                     >
                       <n-tag
-                        :type="outfit.rarity === 5 ? 'warning' : 'info'"
+                        :type="outfit.quality === 5 ? 'warning' : 'info'"
                         :bordered="false"
                         round
                         size="small"
@@ -897,7 +871,7 @@
                       >
                         <span class="align-top"
                           >{{ t(`outfit.${outfit.id}.name`) }}
-                          {{ outfit.rarity }}</span
+                          {{ outfit.quality }}</span
                         >
                         <span class="ml-1"
                           ><n-icon><Star /></n-icon
@@ -1020,7 +994,7 @@
             return outfitData.items.map((itemId) => ({
               itemId: itemId,
               outfitId: outfitId,
-              rarity: bannerData.outfit5StarId.includes(outfitId) ? 5 : 4,
+              quality: bannerData.outfit5StarId.includes(outfitId) ? 5 : 4,
               count: 1,
               pullIndex: 0,
               pullsToObtain: 0,
@@ -1036,7 +1010,7 @@
             .concat(bannerData.outfit4StarId)
             .map((outfitId) => ({
               id: outfitId,
-              rarity: bannerData.outfit5StarId.includes(outfitId) ? 5 : 4,
+              quality: bannerData.outfit5StarId.includes(outfitId) ? 5 : 4,
               completion: 0,
             })),
           pulls: allItems, // Include all items as sample pulls
@@ -1152,7 +1126,7 @@
     let filteredPulls = pulls.filter((pull) => {
       // When show4StarItems is false, hide 4★ items only in type 2 banners
       if (
-        pull.rarity === 4 &&
+        pull.quality === 4 &&
         !settings.value.show4StarItems &&
         (banner.bannerType === 1 || banner.bannerType === 2)
       ) {

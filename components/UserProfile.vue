@@ -8,7 +8,7 @@
       text
       size="tiny"
       class="flex items-center"
-      :aria-label="t('accessibility.user_profile_menu')"
+      :aria-label="t('default.accessibility.user_profile_menu')"
     >
       <template #icon>
         <n-icon>
@@ -60,7 +60,7 @@
       })
     } else {
       // Show UID if not logged in but has UID, otherwise show guest
-      const localUid = userStore.getUid || t('common.user_profile.guest')
+      const localUid = userStore.getUid || t('default.user_profile.guest')
       options.push({
         label: localUid,
         key: 'uid',
@@ -71,7 +71,7 @@
     // Auth actions
     if (user.value) {
       options.push({
-        label: t('common.user_profile.sign_out'),
+        label: t('default.user_profile.sign_out'),
         key: 'signout',
         icon: renderIcon(SignOutAlt),
       })
@@ -83,19 +83,19 @@
       })
 
       options.push({
-        label: t('common.user_profile.upload_data'),
+        label: t('default.user_profile.upload_data'),
         key: 'upload',
         icon: renderIcon(Upload),
       })
 
       options.push({
-        label: t('common.user_profile.sync_data'),
+        label: t('default.user_profile.sync_data'),
         key: 'sync',
         icon: renderIcon(Sync),
       })
     } else {
       options.push({
-        label: t('common.user_profile.sign_in'),
+        label: t('login.sign_in'),
         key: 'signin',
         icon: renderIcon(SignInAlt),
       })
@@ -109,14 +109,14 @@
 
     if (user.value) {
       options.push({
-        label: t('common.user_profile.clear_cloud_data'),
+        label: t('default.user_profile.clear_cloud_data'),
         key: 'clear-cloud',
         icon: renderIcon(TrashAlt),
       })
     }
 
     options.push({
-      label: t('common.user_profile.clear_local_data'),
+      label: t('default.user_profile.clear_local_data'),
       key: 'clear',
       icon: renderIcon(Trash),
     })
@@ -133,22 +133,22 @@
     if (key === 'signout') {
       try {
         await signOut()
-        message.success(t('common.user_profile.sign_out_success'))
+        message.success(t('default.user_profile.sign_out_success'))
       } catch (error) {
-        message.error(t('common.user_profile.sign_out_error'))
+        message.error(t('default.user_profile.sign_out_error'))
         console.error('Sign out error:', error)
       }
     }
 
     if (key === 'upload') {
       dialog.warning({
-        title: t('common.user_profile.sync.confirm_upload.title'),
-        content: t('common.user_profile.sync.confirm_upload.content'),
-        positiveText: t('common.captions.confirm'),
-        negativeText: t('common.captions.cancel'),
+        title: t('default.user_profile.sync.confirm_upload.title'),
+        content: t('default.user_profile.sync.confirm_upload.content'),
+        positiveText: t('common.confirm'),
+        negativeText: t('common.cancel'),
         onPositiveClick: async () => {
           try {
-            message.loading(t('common.captions.loading'))
+            message.loading(t('common.loading'))
 
             // Check if data exists in IndexedDB
             const { loadData } = useIndexedDB()
@@ -194,13 +194,13 @@
 
             const result = await uploadData()
             if (result.success) {
-              message.success(t('common.user_profile.sync.upload_success'))
+              message.success(t('default.user_profile.sync.upload_success'))
             } else {
-              message.error(t('common.user_profile.sync.upload_error'))
+              message.error(t('default.user_profile.sync.upload_error'))
             }
           } catch (error) {
             console.error('Upload error:', error)
-            message.error(t('common.user_profile.sync.upload_error'))
+            message.error(t('default.user_profile.sync.upload_error'))
           }
         },
       })
@@ -208,22 +208,22 @@
 
     if (key === 'sync') {
       dialog.warning({
-        title: t('common.user_profile.sync.confirm_sync.title'),
-        content: t('common.user_profile.sync.confirm_sync.content'),
-        positiveText: t('common.captions.confirm'),
-        negativeText: t('common.captions.cancel'),
+        title: t('default.user_profile.sync.confirm_sync.title'),
+        content: t('default.user_profile.sync.confirm_sync.content'),
+        positiveText: t('common.confirm'),
+        negativeText: t('common.cancel'),
         onPositiveClick: async () => {
           try {
-            message.loading(t('common.captions.loading'))
+            message.loading(t('common.loading'))
             const result = await syncData()
             if (result.success) {
-              message.success(t('common.user_profile.sync.sync_success'))
+              message.success(t('default.user_profile.sync.sync_success'))
             } else {
-              message.error(t('common.user_profile.sync.sync_error'))
+              message.error(t('default.user_profile.sync.sync_error'))
             }
           } catch (error) {
             console.error('Sync error:', error)
-            message.error(t('common.user_profile.sync.sync_error'))
+            message.error(t('default.user_profile.sync.sync_error'))
           }
         },
       })
@@ -231,22 +231,22 @@
 
     if (key === 'clear-cloud') {
       dialog.warning({
-        title: t('common.user_profile.clear_cloud_confirm.title'),
-        content: t('common.user_profile.clear_cloud_confirm.content'),
-        positiveText: t('common.captions.confirm'),
-        negativeText: t('common.captions.cancel'),
+        title: t('default.user_profile.clear_cloud_confirm.title'),
+        content: t('default.user_profile.clear_cloud_confirm.content'),
+        positiveText: t('common.confirm'),
+        negativeText: t('common.cancel'),
         onPositiveClick: async () => {
           try {
-            message.loading(t('common.captions.loading'))
+            message.loading(t('common.loading'))
             const result = await clearCloudData()
             if (result.success) {
-              message.success(t('common.user_profile.clear_cloud_success'))
+              message.success(t('default.user_profile.clear_cloud_success'))
             } else {
-              message.error(t('common.user_profile.clear_cloud_error'))
+              message.error(t('default.user_profile.clear_cloud_error'))
             }
           } catch (error) {
             console.error('Clear cloud data error:', error)
-            message.error(t('common.user_profile.clear_cloud_error'))
+            message.error(t('default.user_profile.clear_cloud_error'))
           }
         },
       })
@@ -254,16 +254,16 @@
 
     if (key === 'clear') {
       dialog.warning({
-        title: t('common.user_profile.clear_local_confirm.title'),
-        content: t('common.user_profile.clear_local_confirm.content'),
-        positiveText: t('common.captions.confirm'),
-        negativeText: t('common.captions.cancel'),
+        title: t('default.user_profile.clear_local_confirm.title'),
+        content: t('default.user_profile.clear_local_confirm.content'),
+        positiveText: t('common.confirm'),
+        negativeText: t('common.cancel'),
         onPositiveClick: async () => {
           await clearData()
           userStore.reset()
           pullStore.reset()
           resetToDefaults()
-          message.success(t('common.user_profile.clear_success'))
+          message.success(t('default.user_profile.clear_success'))
         },
       })
     }

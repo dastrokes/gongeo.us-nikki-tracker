@@ -3,8 +3,7 @@ import type { H3Event } from 'h3'
 import { getGameVersion } from '~/utils/gameVersion'
 
 const BROWSER_CACHE_VALUE = 'public, max-age=3600, stale-while-revalidate=300'
-const CDN_CACHE_VALUE =
-  'public, s-maxage=604800, stale-while-revalidate=86400, stale-if-error=86400, durable'
+const CDN_CACHE_VALUE = 'public, s-maxage=604800, stale-while-revalidate=86400'
 
 interface CacheHeaderOptions {
   varyQuery?: string[]

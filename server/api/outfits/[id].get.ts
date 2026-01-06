@@ -177,7 +177,7 @@ export default defineCachedEventHandler(
       const id = getRouterParam(event, 'id')
       const query = getQuery(event)
       const version = getGameVersion()
-      return `${version}:outfit:${id}:${query.lang || 'no-lang'}`
+      return `${version}:outfit:${id}:${query.lang || 'en'}`
     },
     swr: true, // Enable stale-while-revalidate
   }

@@ -166,7 +166,7 @@
     Magic,
     Poll,
     Tshirt,
-    Gem,
+    ListAlt,
   } from '@vicons/fa'
   import { h, ref, computed, watch } from 'vue'
   import UserProfile from '~/components/UserProfile.vue'
@@ -294,18 +294,18 @@
     },
     {
       label: t('navigation.banner'),
-      key: 'banner',
+      key: 'banners',
       icon: renderIcon(CalendarAlt),
     },
     {
       label: t('common.outfits'),
-      key: 'outfit',
+      key: 'outfits',
       icon: renderIcon(Tshirt),
     },
     {
       label: t('common.items'),
-      key: 'item',
-      icon: renderIcon(Gem),
+      key: 'items',
+      icon: renderIcon(ListAlt),
     },
     {
       label: t('navigation.vote'),

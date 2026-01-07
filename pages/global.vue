@@ -994,7 +994,7 @@
                   <img
                     src="${imageUrl}"
                     alt="${banner?.bannerId ? t(`banner.${banner.bannerId}.name`) : ''}"
-                    style="width: 200px; height: 100px; object-fit: cover; border-radius: 4px; margin-top: 8px;"
+                    style="width: 200px; height: 100px; object-cover: cover; border-radius: 4px; margin-top: 8px;"
                   />
                 </div>
               `

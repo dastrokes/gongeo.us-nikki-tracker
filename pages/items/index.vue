@@ -125,7 +125,7 @@
                   <NuxtImg
                     src="/images/404.webp"
                     alt="No results"
-                    class="mx-auto w-32 h-32 sm:w-48 sm:h-48 object-contain"
+                    class="mx-auto w-32 h-32 sm:w-48 sm:h-48 object-cover"
                     width="400"
                     height="400"
                     fit="contain"
@@ -158,7 +158,7 @@
                     <NuxtImg
                       :src="entry.image"
                       :alt="entry.name"
-                      class="absolute inset-0 w-full h-full object-contain z-10"
+                      class="absolute inset-0 w-full h-full object-cover z-10"
                       preset="tallMd"
                       width="180"
                       height="270"

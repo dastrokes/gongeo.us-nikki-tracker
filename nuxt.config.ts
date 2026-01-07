@@ -75,14 +75,30 @@ export default defineNuxtConfig({
     format: ['webp'],
     quality: 80,
     presets: {
-      bannerHero: { modifiers: { width: 800, height: 400, format: 'webp' } },
-      bannerThumb: { modifiers: { width: 200, height: 100, format: 'webp' } },
-      tallLg: { modifiers: { width: 300, height: 450, format: 'webp' } },
-      tallMd: { modifiers: { width: 180, height: 270, format: 'webp' } },
-      tallSm: { modifiers: { width: 120, height: 180, format: 'webp' } },
-      iconLg: { modifiers: { width: 120, height: 120, format: 'webp' } },
-      iconSm: { modifiers: { width: 60, height: 60, format: 'webp' } },
-      squareLg: { modifiers: { width: 320, height: 320, format: 'webp' } },
+      bannerHero: {
+        modifiers: { width: 800, height: 400, format: 'webp' },
+      },
+      bannerThumb: {
+        modifiers: { width: 200, height: 100, format: 'webp' },
+      },
+      tallLg: {
+        modifiers: { width: 300, height: 450, format: 'webp' },
+      },
+      tallMd: {
+        modifiers: { width: 180, height: 270, format: 'webp' },
+      },
+      tallSm: {
+        modifiers: { width: 120, height: 180, format: 'webp' },
+      },
+      iconLg: {
+        modifiers: { width: 120, height: 120, format: 'webp' },
+      },
+      iconSm: {
+        modifiers: { width: 60, height: 60, format: 'webp' },
+      },
+      squareLg: {
+        modifiers: { width: 320, height: 320, format: 'webp' },
+      },
     },
     screens: {
       xs: 320,

@@ -211,7 +211,7 @@
                 :item-count="totalItems"
                 :show-size-picker="false"
                 :disabled="loading || !!error"
-                :page-slot="3"
+                :page-slot="5"
               >
                 <template #prefix="{ itemCount }">
                   <div class="text-sm text-gray-600 dark:text-gray-400">

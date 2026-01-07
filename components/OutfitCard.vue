@@ -33,7 +33,7 @@
         <NuxtImg
           :src="image[1]"
           :alt="`${t(`outfit.${outfitId}.name`)} ${image[0] === 0 ? 'Base' : `LV${image[0]}`}`"
-          class="absolute inset-0 w-full h-full object-contain z-10"
+          class="absolute inset-0 w-full h-full object-cover z-10"
           preset="tallLg"
           width="300"
           height="450"

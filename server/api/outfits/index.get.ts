@@ -44,7 +44,28 @@ export default defineCachedEventHandler(
 
       const { data, error: supabaseError, count } = await dbQuery
 
-      if (supabaseError) throw supabaseError
+      if (supabaseError) {
+        const status = (supabaseError as { status?: number }).status
+        const code = (supabaseError as { code?: string }).code
+        const details = (supabaseError as { details?: string }).details
+        const isRangeError =
+          status === 416 ||
+          code === 'PGRST103' ||
+          (details && details.includes('Requested range not satisfiable'))
+
+        if (isRangeError) {
+          const total = count || 0
+          const totalPages = total ? Math.ceil(total / pageSize) : 0
+          return {
+            data: [],
+            total,
+            page,
+            totalPages,
+          }
+        }
+
+        throw supabaseError
+      }
 
       const total = count || 0
       const totalPages = Math.ceil(total / pageSize)

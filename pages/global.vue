@@ -627,7 +627,6 @@
 
   onMounted(() => {
     watchEffect(() => {
-      loading.value = status.value === 'pending'
       isMobile.value = !breakpoints.greater('sm').value
     })
 
@@ -636,18 +635,26 @@
       () => {
         if (data.value && import.meta.client) {
           initializeCharts()
+          loading.value = false
         }
       },
       { immediate: true }
     )
   })
 
-  // Data fetching
-  const { data: globalData, status } = await useFetch(
-    'https://fimzdbqulflilnnopibz.supabase.co/storage/v1/object/public/gongeous/data.json',
+  const fetchGlobalData = async () => {
+    return $fetch<GlobalData | null>(
+      'https://fimzdbqulflilnnopibz.supabase.co/storage/v1/object/public/gongeous/data.json'
+    )
+  }
+
+  const { data: globalData } = useAsyncData<GlobalData | null>(
+    'global-data',
+    fetchGlobalData,
     {
-      key: 'global-data',
       default: () => null,
+      server: true,
+      lazy: true,
     }
   )
 
@@ -741,7 +748,7 @@
   const hasOutfit = (id: string): id is OutfitKey =>
     Object.prototype.hasOwnProperty.call(OUTFIT_DATA, id)
 
-  const latestBannerId = 45 // TODO: update to current banner id
+  const latestBannerId = 46 // TODO: update to current banner id
   const latestBanner = BANNER_DATA[latestBannerId]
 
   if (

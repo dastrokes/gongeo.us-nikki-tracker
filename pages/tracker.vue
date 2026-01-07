@@ -976,7 +976,7 @@
 
     const latestVersionBanners = bannerIds.filter((bannerId) => {
       const bannerData = BANNER_DATA[bannerId]
-      return bannerData?.runs?.some((run) => run.version === latestVersion)
+      return bannerData?.runs?.[0]?.version === latestVersion
     })
 
     return latestVersionBanners

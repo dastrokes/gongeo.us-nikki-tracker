@@ -58,6 +58,8 @@ import Outfit_10258 from './10258'
 import Outfit_10279 from './10279'
 import Outfit_10282 from './10282'
 import Outfit_10289 from './10289'
+import Outfit_10293 from './10293'
+import Outfit_10302 from './10302'
 import Outfit_10313 from './10313'
 import Outfit_10324 from './10324'
 import Outfit_10330 from './10330'
@@ -130,6 +132,8 @@ const OUTFIT_DATA = {
   '10279': Outfit_10279,
   '10282': Outfit_10282,
   '10289': Outfit_10289,
+  '10293': Outfit_10293,
+  '10302': Outfit_10302,
   '10313': Outfit_10313,
   '10324': Outfit_10324,
   '10330': Outfit_10330,

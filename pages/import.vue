@@ -814,7 +814,7 @@
   const showYouTubeModal = ref(false)
   const showBilibiliModal = ref(false)
 
-  const isMaintenance = ref(true)
+  const isMaintenance = ref(false)
 
   useSeoMeta({
     title: () => `${t('navigation.import')} - ${t('navigation.subtitle')}`,

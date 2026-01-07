@@ -70,18 +70,15 @@
   const isIndexBuilt = ref(false)
   const searchAutoCompleteRef = ref()
 
-  const hideImageOnError = (event: Event) => {
-    ;(event.target as HTMLImageElement).style.display = 'none'
-  }
-
   const buildResultThumbnails = (
     result: SearchResult,
     bannerId: string
   ): VNode[] => {
     const imageProps = {
       alt: result.name,
+      quality: 80,
+      format: 'webp',
       loading: 'lazy',
-      onError: hideImageOnError,
     }
 
     const nodes: VNode[] = []

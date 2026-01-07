@@ -105,7 +105,7 @@
               <NuxtImg
                 :src="`/images/items/${item.id}.png`"
                 :alt="itemName"
-                class="absolute inset-0 w-full h-full object-contain z-10"
+                class="absolute inset-0 w-full h-full object-cover z-10"
                 preset="tallMd"
                 width="180"
                 height="270"
@@ -205,7 +205,7 @@
                 <NuxtImg
                   :src="`/images/items/${variation.id}.png`"
                   :alt="t(`item.${variation.id}.name`)"
-                  class="absolute inset-0 w-full h-full object-contain z-10"
+                  class="absolute inset-0 w-full h-full object-cover z-10"
                   preset="tallSm"
                   width="120"
                   height="180"
@@ -250,7 +250,7 @@
                 <NuxtImg
                   :src="`/images/outfits/${outfit.id}.png`"
                   :alt="outfit.name"
-                  class="absolute inset-0 w-full h-full object-contain z-10"
+                  class="absolute inset-0 w-full h-full object-cover z-10"
                   preset="tallSm"
                   width="120"
                   height="180"
@@ -339,7 +339,7 @@
             <NuxtImg
               src="/images/404.webp"
               alt="Not Found"
-              class="w-48 h-48 object-contain"
+              class="w-48 h-48 object-cover"
               width="400"
               height="400"
               loading="lazy"

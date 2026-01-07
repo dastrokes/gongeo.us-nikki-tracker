@@ -326,6 +326,18 @@
         :title="t('compendium.not_found_title')"
         :description="t('compendium.not_found_description')"
       >
+        <template #icon>
+          <div class="flex justify-center">
+            <NuxtImg
+              src="/images/404.webp"
+              alt="Not Found"
+              class="w-48 h-48 object-contain"
+              width="400"
+              height="400"
+              loading="lazy"
+            />
+          </div>
+        </template>
         <template #footer>
           <n-button
             type="primary"
@@ -360,7 +372,7 @@
 
   // Composable
   const { fetchOutfitById } = useSupabaseOutfits()
-  const { getImageKitUrl } = useImageKit()
+  const { getImageUrl } = useImageProvider()
 
   // Makeup types
   const makeupTypes: ItemType[] = [
@@ -513,10 +525,11 @@
   const siteUrl = useRuntimeConfig().public.siteUrl
   const ogOutfitImage = computed(() =>
     outfit.value
-      ? getImageKitUrl(`/images/outfits/${outfit.value.id}.png`, {
+      ? getImageUrl(`/images/outfits/${outfit.value.id}.png`, {
           width: 300,
           height: 450,
           quality: 80,
+          format: 'webp',
         })
       : undefined
   )

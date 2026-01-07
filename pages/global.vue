@@ -603,7 +603,7 @@
   const localePath = useLocalePath()
   const router = useRouter()
   const siteUrl = useRuntimeConfig().public.siteUrl
-  const { getImageKitUrl } = useImageKit()
+  const { getImageUrl } = useImageProvider()
 
   // Helper to check if current locale uses CJK characters
   const isCJKLocale = computed(() => {
@@ -969,12 +969,13 @@
           const pullsArr = filteredChartData[bannerId || '']
           if (!pullsArr) return ''
           const total = pullsArr.reduce((a: number, b: number) => a + b, 0)
-          const imageUrl = getImageKitUrl(
+          const imageUrl = getImageUrl(
             `/images/banners/thumbnails/${bannerId}.png`,
             {
               width: 200,
               height: 100,
               quality: 80,
+              format: 'webp',
             }
           )
           return `
@@ -1379,7 +1380,7 @@
         height: imageSize,
         width: imageSize,
         backgroundColor: {
-          image: getImageKitUrl(`/images/items/icons/${itemId}.png`, {
+          image: getImageUrl(`/images/items/icons/${itemId}.png`, {
             width: imageSize,
             height: imageSize,
             quality: 80,

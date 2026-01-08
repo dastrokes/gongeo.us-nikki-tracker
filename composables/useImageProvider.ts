@@ -107,16 +107,12 @@ export const useImageProvider = () => {
     const path = getImagePath(type, id, options?.variant)
     const provider = options?.provider || defaultProvider
 
-    if (provider === 'ipx' || provider === 'imagekit') {
+    if (provider === 'ipx' || provider === 'imagekit' || provider === 'bunny') {
       return path
     }
 
     if (provider === 'netlify') {
       return `${imagekitBaseUrl}${path}`
-    }
-
-    if (provider === 'bunny') {
-      return `${bunnyBaseUrl}${path}`
     }
 
     return path

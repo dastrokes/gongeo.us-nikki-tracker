@@ -227,7 +227,8 @@
   const siteUrl = useRuntimeConfig().public.siteUrl
 
   const pageTitle = computed(
-    () => `${t('common.outfits')} - ${t('navigation.subtitle')}`
+    () =>
+      `${t('common.outfits')} - ${t('meta.game_title')} - ${t('navigation.title')}`
   )
   const description = computed(() => t('meta.description.outfits'))
   const canonicalPath = computed(() => localePath('/outfits'))

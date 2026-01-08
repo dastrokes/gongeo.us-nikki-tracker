@@ -101,7 +101,7 @@
               >
                 <template #icon>
                   <NuxtImg
-                    src="/images/404.webp"
+                    :src="getImageSrc('static', '/images/404.webp')"
                     alt="No results"
                     class="mx-auto w-32 h-32 sm:w-48 sm:h-48 object-cover"
                     width="400"

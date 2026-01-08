@@ -299,6 +299,7 @@
   const siteUrl = useRuntimeConfig().public.siteUrl
   const router = useRouter()
   const message = useMessage()
+  const { getImageSrc } = useImageProvider()
   const { getRankings } = useBannerVote()
   const { getPersonalRankings } = usePersonalVote()
 
@@ -377,7 +378,7 @@
 
         return h('div', { class: 'flex flex-col gap-2 py-1' }, [
           h(resolveComponent('NuxtImg'), {
-            src: `/images/banners/thumbnails/${row.banner_id}.png`,
+            src: getImageSrc('bannerThumb', row.banner_id),
             alt: t(`banner.${row.banner_id}.name`),
             class: 'w-16 h-8 rounded object-cover flex-shrink-0',
             preset: 'bannerThumb',
@@ -491,7 +492,7 @@
 
         return h('div', { class: 'flex items-center gap-3' }, [
           h(resolveComponent('NuxtImg'), {
-            src: `/images/banners/thumbnails/${row.banner_id}.png`,
+            src: getImageSrc('bannerThumb', row.banner_id),
             alt: t(`banner.${row.banner_id}.name`),
             class: 'w-20 h-10 rounded object-cover flex-shrink-0',
             preset: 'bannerThumb',

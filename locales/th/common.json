@@ -24,6 +24,7 @@
     "loading": "Loading...",
     "search": "Search",
     "filter": "Filter",
+    "clear": "Clear Filters",
     "all": "All",
     "other": "Other",
     "show": "Show",
@@ -50,6 +51,7 @@
     "global": "Global Data",
     "banner": "Banner History",
     "banner_detail": "Banner Detail",
+    "compendium": "Compendium",
     "vote": "Banner Vote",
     "faq": "FAQ",
     "about": "About",
@@ -58,6 +60,7 @@
   "meta": {
     "title": "Infinity Nikki Resonance Tracker - Banner Pull History & Stats",
     "keywords": "Infinity Nikki, Resonance Tracker, Pull Tracker, Gacha Tracker, Pull History, Global Stats, Community Stats, Gongeous",
+    "game_title": "Infinity Nikki",
     "description": {
       "default": "Track Infinity Nikki resonance banner pull history and statistics. A fan-made tracking and analysis tool for the Infinity Nikki community.",
       "login": "Sign in to gongeo.us using your email or a third-party account to upload, back up, and sync your Infinity Nikki resonance data across devices.",

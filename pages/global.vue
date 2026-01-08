@@ -612,12 +612,14 @@
   })
 
   useSeoMeta({
-    title: () => `${t('navigation.global')} - ${t('navigation.subtitle')}`,
+    title: () =>
+      `${t('navigation.global')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     description: () => t('meta.description.global'),
-    ogTitle: () => `${t('navigation.global')} - ${t('navigation.subtitle')}`,
+    ogTitle: () =>
+      `${t('navigation.global')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     ogDescription: () => t('meta.description.global'),
     twitterTitle: () =>
-      `${t('navigation.global')} - ${t('navigation.subtitle')}`,
+      `${t('navigation.global')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     twitterDescription: () => t('meta.description.global'),
   })
 

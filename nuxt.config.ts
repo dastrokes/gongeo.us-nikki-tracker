@@ -6,7 +6,7 @@ import { buildSitemap } from './locales/sitemap'
 
 const nuxtImageProvider =
   process.env.NUXT_PUBLIC_IMAGE_PROVIDER ||
-  (process.env.NODE_ENV === 'production' ? 'netlify' : 'ipx')
+  (process.env.NODE_ENV === 'production' ? 'bunny' : 'ipx')
 
 export default defineNuxtConfig({
   devtools: { enabled: false },
@@ -64,9 +64,7 @@ export default defineNuxtConfig({
       supabaseDataUrl: process.env.SUPABASE_DATA_URL,
       gongeousApiKey: process.env.GONGEOUS_API_KEY,
       siteUrl: process.env.NUXT_PUBLIC_SITE_URL,
-      imageProvider:
-        process.env.NUXT_PUBLIC_IMAGE_PROVIDER ||
-        (process.env.NODE_ENV === 'production' ? 'bunny' : 'ipx'),
+      imageProvider: nuxtImageProvider,
       imagekitBaseUrl:
         process.env.NUXT_PUBLIC_IMAGEKIT_BASE_URL ||
         'https://ik.imagekit.io/gongeous',

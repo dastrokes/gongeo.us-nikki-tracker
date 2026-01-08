@@ -65,13 +65,14 @@ export default defineNuxtConfig({
 
   image: {
     dir: 'public',
-    provider: process.env.NODE_ENV === 'production' ? 'bunny' : 'ipx',
+    provider: process.env.NODE_ENV === 'production' ? 'netlify' : 'ipx',
     imagekit: {
       baseURL: 'https://ik.imagekit.io/gongeous',
     },
     bunny: {
       baseURL: 'https://cdn.gongeo.us',
     },
+    domains: ['https://ik.imagekit.io/gongeous'],
     format: ['webp'],
     quality: 80,
     presets: {
@@ -95,10 +96,7 @@ export default defineNuxtConfig({
       },
       iconSm: {
         modifiers: { width: 60, height: 60, format: 'webp' },
-      },
-      squareLg: {
-        modifiers: { width: 320, height: 320, format: 'webp' },
-      },
+      }
     },
     screens: {
       xs: 320,
@@ -162,9 +160,6 @@ export default defineNuxtConfig({
     ],
     build: {
       chunkSizeWarningLimit: 1000,
-      rollupOptions: {
-        maxParallelFileOps: 2,
-      },
     },
     optimizeDeps: {
       include: [

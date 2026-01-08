@@ -730,13 +730,13 @@
   useSeoMeta({
     title: () =>
       banner.value
-        ? `${t(`banner.${banner.value.bannerId}.name`)} - ${t('navigation.banner_detail')} - ${t('navigation.subtitle')}`
-        : `${t('navigation.banner_detail')} - ${t('navigation.subtitle')}`,
+        ? `${t(`banner.${banner.value.bannerId}.name`)} - ${t('meta.game_title')} - ${t('navigation.title')}`
+        : `${t('navigation.banner_detail')} - ${t('navigation.title')}`,
     description: () => t('meta.description.banner_detail'),
     ogTitle: () =>
       banner.value
-        ? `${t(`banner.${banner.value.bannerId}.name`)} - ${t('navigation.banner_detail')} - ${t('navigation.subtitle')}`
-        : `${t('navigation.banner_detail')} - ${t('navigation.subtitle')}`,
+        ? `${t(`banner.${banner.value.bannerId}.name`)} - ${t('navigation.banner_detail')} - ${t('navigation.title')}`
+        : `${t('navigation.banner_detail')} - ${t('navigation.title')}`,
     ogDescription: () => t('meta.description.banner_detail'),
     ogImage: () =>
       banner.value
@@ -744,8 +744,8 @@
         : `${siteUrl}/og.png`,
     twitterTitle: () =>
       banner.value
-        ? `${t(`banner.${banner.value.bannerId}.name`)} - ${t('navigation.banner_detail')} - ${t('navigation.subtitle')}`
-        : `${t('navigation.banner_detail')} - ${t('navigation.subtitle')}`,
+        ? `${t(`banner.${banner.value.bannerId}.name`)} - ${t('navigation.banner_detail')} - ${t('navigation.title')}`
+        : `${t('navigation.banner_detail')} - ${t('navigation.title')}`,
     twitterDescription: () => t('meta.description.banner_detail'),
     twitterImage: () =>
       banner.value
@@ -767,8 +767,8 @@
           '@context': 'https://schema.org',
           '@type': 'ItemPage',
           name: banner.value
-            ? `${t(`banner.${banner.value.bannerId}.name`)} - ${t('navigation.banner_detail')} - ${t('navigation.subtitle')}`
-            : `${t('navigation.banner_detail')} - ${t('navigation.subtitle')}`,
+            ? `${t(`banner.${banner.value.bannerId}.name`)} - ${t('meta.game_title')} - ${t('navigation.title')}`
+            : `${t('navigation.banner_detail')} - ${t('navigation.title')}`,
           description: t('meta.description.banner_detail'),
           url: `${siteUrl}${localePath(`/banners/${route.params.id}`)}`,
           image: banner.value

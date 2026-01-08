@@ -110,7 +110,7 @@
         class="rounded-xl p-0 sm:p-2"
         content-class="!p-2 sm:p-4"
       >
-        <div class="grid grid-cols-[180px_1fr] gap-4 lg:gap-6">
+        <div class="grid grid-cols-1 lg:grid-cols-[180px_1fr] gap-4 lg:gap-6">
           <!-- Outfit Image -->
           <div class="flex justify-center lg:justify-start items-start">
             <div

@@ -540,15 +540,15 @@
   useSeoMeta({
     title: () =>
       item.value
-        ? `${itemName.value} - ${t('common.items')} - ${t('navigation.subtitle')}`
-        : `${t('common.items')} - ${t('navigation.subtitle')}`,
+        ? `${itemName.value} - ${t('meta.game_title')} - ${t('navigation.title')}`
+        : `${t('common.items')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     description: () =>
       itemDescription.value ||
       t('meta.description.item_detail', { name: itemName.value || '' }),
     ogTitle: () =>
       item.value
-        ? `${itemName.value} - ${t('common.items')}`
-        : t('common.items'),
+        ? `${itemName.value} - ${t('meta.game_title')} - ${t('navigation.title')}`
+        : `${t('common.items')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     ogDescription: () =>
       itemDescription.value ||
       t('meta.description.item_detail', { name: itemName.value || '' }),
@@ -556,8 +556,8 @@
     ogType: 'website',
     twitterTitle: () =>
       item.value
-        ? `${itemName.value} - ${t('common.items')}`
-        : t('common.items'),
+        ? `${itemName.value} - ${t('meta.game_title')} - ${t('navigation.title')}`
+        : `${t('common.items')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     twitterDescription: () =>
       itemDescription.value ||
       t('meta.description.item_detail', { name: itemName.value || '' }),
@@ -581,7 +581,7 @@
               name: itemName.value,
               description:
                 itemDescription.value ||
-                `${itemName.value} - Infinity Nikki Item`,
+                `${itemName.value} - ${t('meta.game_title')} - ${t('navigation.title')}`,
               image: ogItemImage.value,
               brand: {
                 '@type': 'Brand',

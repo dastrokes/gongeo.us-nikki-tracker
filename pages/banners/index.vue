@@ -292,6 +292,38 @@
   const route = useRoute()
   const router = useRouter()
 
+  const pageTitle = computed(
+    () =>
+      `${t('common.banners')} - ${t('meta.game_title')} - ${t('navigation.title')}`
+  )
+  const description = computed(() => t('meta.description.banner'))
+  const canonicalPath = computed(() => localePath('/banners'))
+
+  useSeoMeta({
+    title: () => pageTitle.value,
+    description: () => description.value,
+    ogTitle: () => pageTitle.value,
+    ogDescription: () => description.value,
+    twitterTitle: () => pageTitle.value,
+    twitterDescription: () => description.value,
+  })
+
+  useHead(() => ({
+    link: [{ rel: 'canonical', href: `${siteUrl}${canonicalPath.value}` }],
+    script: [
+      {
+        type: 'application/ld+json',
+        children: JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'ItemPage',
+          name: pageTitle.value,
+          description: description.value,
+          url: `${siteUrl}${canonicalPath.value}`,
+        }),
+      },
+    ],
+  }))
+
   const bannerTypeFilter = ref({
     show5Star: true,
     show4Star: true,
@@ -467,30 +499,4 @@
         return 'default'
     }
   }
-
-  useSeoMeta({
-    title: () => `${t('navigation.banner')} - ${t('navigation.subtitle')}`,
-    description: () => t('meta.description.banner'),
-    ogTitle: () => `${t('navigation.banner')} - ${t('navigation.subtitle')}`,
-    ogDescription: () => t('meta.description.banner'),
-    twitterTitle: () =>
-      `${t('navigation.banner')} - ${t('navigation.subtitle')}`,
-    twitterDescription: () => t('meta.description.banner'),
-  })
-
-  useHead(() => ({
-    link: [{ rel: 'canonical', href: `${siteUrl}${localePath('/banners')}` }],
-    script: [
-      {
-        type: 'application/ld+json',
-        children: JSON.stringify({
-          '@context': 'https://schema.org',
-          '@type': 'ItemPage',
-          name: `${t('navigation.banner')} - ${t('navigation.subtitle')}`,
-          description: t('meta.description.banner'),
-          url: `${siteUrl}${localePath('/banners')}`,
-        }),
-      },
-    ],
-  }))
 </script>

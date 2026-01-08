@@ -537,15 +537,15 @@
   useSeoMeta({
     title: () =>
       outfit.value
-        ? `${outfitName.value} - ${t('common.outfits')} - ${t('navigation.subtitle')}`
-        : `${t('common.outfits')} - ${t('navigation.subtitle')}`,
+        ? `${outfitName.value} - ${t('meta.game_title')} - ${t('navigation.title')}`
+        : `${t('common.outfits')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     description: () =>
       outfitDescription.value ||
       t('meta.description.outfit_detail', { name: outfitName.value || '' }),
     ogTitle: () =>
       outfit.value
-        ? `${outfitName.value} - ${t('common.outfits')}`
-        : t('common.outfits'),
+        ? `${outfitName.value} - ${t('meta.game_title')} - ${t('navigation.title')}`
+        : `${t('common.outfits')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     ogDescription: () =>
       outfitDescription.value ||
       t('meta.description.outfit_detail', { name: outfitName.value || '' }),
@@ -553,8 +553,8 @@
     ogType: 'website',
     twitterTitle: () =>
       outfit.value
-        ? `${outfitName.value} - ${t('common.outfits')}`
-        : t('common.outfits'),
+        ? `${outfitName.value} - ${t('meta.game_title')} - ${t('navigation.title')}`
+        : `${t('common.outfits')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     twitterDescription: () =>
       outfitDescription.value ||
       t('meta.description.outfit_detail', { name: outfitName.value || '' }),
@@ -578,7 +578,7 @@
               name: outfitName.value,
               description:
                 outfitDescription.value ||
-                `${outfitName.value} - Infinity Nikki Outfit`,
+                `${outfitName.value} - ${t('meta.game_title')} - ${t('navigation.title')}`,
               image: ogOutfitImage.value,
               brand: {
                 '@type': 'Brand',

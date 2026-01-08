@@ -160,3 +160,6 @@
   to = "/:locale/items/:splat"
   status = 301
   force = true
+
+[images]
+  remote_images = ["https://ik.imagekit.io/gongeous/.*"]

@@ -9,7 +9,7 @@
     >
       <template #icon>
         <NuxtImg
-          src="/images/404.webp"
+          :src="getImageSrc('static', '/images/404.webp')"
           alt="404"
           class="w-2/3 h-2/3 object-cover"
           width="400"
@@ -40,6 +40,7 @@
   import { Home } from '@vicons/fa'
 
   const localePath = useLocalePath()
+  const { getImageSrc } = useImageProvider()
 
   const getTranslation = (): ((key: string) => string) => {
     try {

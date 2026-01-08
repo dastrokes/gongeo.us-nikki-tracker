@@ -16,7 +16,7 @@
               <n-tooltip trigger="hover">
                 <template #trigger>
                   <NuxtImg
-                    :src="`/images/banners/thumbnails/${banner.bannerId}.png`"
+                    :src="getImageSrc('bannerThumb', banner.bannerId)"
                     :alt="t(`banner.${banner.bannerId}.name`)"
                     class="w-24 h-12 rounded-lg object-cover"
                     preset="bannerThumb"
@@ -226,7 +226,7 @@
                     class="w-full aspect-[2/1] min-h-[140px] sm:min-h-[330px] relative overflow-hidden rounded-lg hover:opacity-95 transition-opacity"
                   >
                     <NuxtImg
-                      :src="`/images/banners/${banner.bannerId}.png`"
+                      :src="getImageSrc('banner', banner.bannerId)"
                       :alt="t(`banner.${banner.bannerId}.name`)"
                       class="absolute inset-0 w-full h-full object-cover"
                       preset="bannerHero"
@@ -286,6 +286,7 @@
   import { BANNER_DATA } from '~/data/banners'
 
   const { t } = useI18n()
+  const { getImageSrc } = useImageProvider()
 
   const localePath = useLocalePath()
   const siteUrl = useRuntimeConfig().public.siteUrl

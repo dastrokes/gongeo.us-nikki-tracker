@@ -118,7 +118,7 @@
               :class="getQualityGradient(outfit.quality)"
             >
               <NuxtImg
-                :src="`/images/outfits/${outfit.id}.png`"
+                :src="getImageSrc('outfit', outfit.id)"
                 :alt="outfitName"
                 class="absolute inset-0 w-full h-full object-cover z-10"
                 preset="tallMd"
@@ -253,7 +253,7 @@
                 ]"
               >
                 <NuxtImg
-                  :src="`/images/outfits/${variation.id}.png`"
+                  :src="getImageSrc('outfit', variation.id)"
                   :alt="t(`outfit.${variation.id}.name`)"
                   class="absolute inset-0 w-full h-full object-cover z-10"
                   preset="tallSm"
@@ -292,7 +292,7 @@
               class="relative aspect-[2/1] max-h-[150px] rounded-lg overflow-hidden transition-all duration-200 ease-in-out shadow-md group-hover:scale-[1.02]"
             >
               <NuxtImg
-                :src="`/images/banners/${inBanner.bannerId}.png`"
+                :src="getImageSrc('banner', inBanner.bannerId)"
                 :alt="t(`banner.${inBanner.bannerId}.name`)"
                 class="w-full h-full object-cover"
                 preset="bannerThumb"
@@ -372,7 +372,7 @@
 
   // Composable
   const { fetchOutfitById } = useSupabaseOutfits()
-  const { getImageUrl } = useImageProvider()
+  const { getImageUrl, getImageSrc } = useImageProvider()
 
   // Makeup types
   const makeupTypes: ItemType[] = [

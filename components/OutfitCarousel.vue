@@ -152,6 +152,7 @@
   const props = defineProps<Props>()
   const { t } = useI18n()
   const localePath = useLocalePath()
+  const { getImageSrc } = useImageProvider()
   const OUTFIT_CARD_GRADIENTS = {
     fiveStar:
       'bg-gradient-to-br from-[#fff8e1] to-[#ffcc80] hover:brightness-105 dark:from-[#713f12] dark:to-[#451a03]',
@@ -169,7 +170,7 @@
   const outfitImages = computed(() => {
     const images = []
     images.push({
-      src: `/images/outfits/${props.outfitId}.png`,
+      src: getImageSrc('outfit', props.outfitId),
       alt: `${t(`outfit.${props.outfitId}.name`)}`,
       level: 0,
       outfitId: props.outfitId,
@@ -181,7 +182,7 @@
       const levelNum = i.toString().padStart(2, '0')
       const evoOutfitId = `${props.outfitId}${levelNum}`
       images.push({
-        src: `/images/outfits/${evoOutfitId}.png`,
+        src: getImageSrc('outfit', evoOutfitId),
         alt: `${t(`outfit.${props.outfitId}.name`)}`,
         level: i,
         outfitId: evoOutfitId,
@@ -191,7 +192,7 @@
     // Add 01 (glowed up) image
     const glowOutfitId = `${props.outfitId}01`
     images.push({
-      src: `/images/outfits/${props.outfitId}01.png`,
+      src: getImageSrc('outfit', glowOutfitId),
       alt: `${t(`outfit.${props.outfitId}.name`)} 01`,
       level: 'glow',
       outfitId: glowOutfitId,

@@ -377,11 +377,14 @@
 
   // SEO
   useSeoMeta({
-    title: () => `${t('login.sign_in')} - ${t('navigation.subtitle')}`,
+    title: () =>
+      `${t('login.sign_in')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     description: () => t('meta.description.login'),
-    ogTitle: () => `${t('login.sign_in')} - ${t('navigation.subtitle')}`,
+    ogTitle: () =>
+      `${t('login.sign_in')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     ogDescription: () => t('meta.description.login'),
-    twitterTitle: () => `${t('login.sign_in')} - ${t('navigation.subtitle')}`,
+    twitterTitle: () =>
+      `${t('login.sign_in')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     twitterDescription: () => t('meta.description.login'),
   })
 

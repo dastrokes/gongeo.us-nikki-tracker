@@ -817,12 +817,14 @@
   const isMaintenance = ref(false)
 
   useSeoMeta({
-    title: () => `${t('navigation.import')} - ${t('navigation.subtitle')}`,
+    title: () =>
+      `${t('navigation.import')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     description: () => t('meta.description.import'),
-    ogTitle: () => `${t('navigation.import')} - ${t('navigation.subtitle')}`,
+    ogTitle: () =>
+      `${t('navigation.import')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     ogDescription: () => t('meta.description.import'),
     twitterTitle: () =>
-      `${t('navigation.import')} - ${t('navigation.subtitle')}`,
+      `${t('navigation.import')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     twitterDescription: () => t('meta.description.import'),
   })
 

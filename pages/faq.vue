@@ -33,11 +33,11 @@
   const siteUrl = useRuntimeConfig().public.siteUrl
 
   useSeoMeta({
-    title: () => `${t('navigation.faq')} - ${t('navigation.subtitle')}`,
+    title: () => `${t('navigation.faq')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     description: () => t('meta.description.faq'),
-    ogTitle: () => `${t('navigation.faq')} - ${t('navigation.subtitle')}`,
+    ogTitle: () => `${t('navigation.faq')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     ogDescription: () => t('meta.description.faq'),
-    twitterTitle: () => `${t('navigation.faq')} - ${t('navigation.subtitle')}`,
+    twitterTitle: () => `${t('navigation.faq')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     twitterDescription: () => t('meta.description.faq'),
   })
 

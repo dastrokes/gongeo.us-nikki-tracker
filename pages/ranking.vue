@@ -633,12 +633,14 @@
 
   // SEO
   useSeoMeta({
-    title: () => `${t('vote.rankings.title')} - ${t('navigation.subtitle')}`,
+    title: () =>
+      `${t('vote.rankings.title')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     description: () => t('vote.rankings.description'),
-    ogTitle: () => `${t('vote.rankings.title')} - ${t('navigation.subtitle')}`,
+    ogTitle: () =>
+      `${t('vote.rankings.title')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     ogDescription: () => t('vote.rankings.description'),
     twitterTitle: () =>
-      `${t('vote.rankings.title')} - ${t('navigation.subtitle')}`,
+      `${t('vote.rankings.title')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     twitterDescription: () => t('vote.rankings.description'),
   })
 

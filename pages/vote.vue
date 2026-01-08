@@ -524,11 +524,11 @@
 
   // SEO
   useSeoMeta({
-    title: () => `${t('navigation.vote')} - ${t('navigation.subtitle')}`,
+    title: () => `${t('navigation.vote')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     description: () => t('vote.description'),
-    ogTitle: () => `${t('navigation.vote')} - ${t('navigation.subtitle')}`,
+    ogTitle: () => `${t('navigation.vote')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     ogDescription: () => t('vote.description'),
-    twitterTitle: () => `${t('navigation.vote')} - ${t('navigation.subtitle')}`,
+    twitterTitle: () => `${t('navigation.vote')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     twitterDescription: () => t('vote.description'),
   })
 

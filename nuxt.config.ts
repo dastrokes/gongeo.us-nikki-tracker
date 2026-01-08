@@ -130,7 +130,7 @@ export default defineNuxtConfig({
           .filter((locale) => locale.code !== defaultLocale)
           .map((locale) => [
             `/${locale.code}/${page}`,
-            { prerender: false, robots: false },
+            { prerender: true, robots: false },
           ]),
       ]),
     ]),
@@ -143,7 +143,7 @@ export default defineNuxtConfig({
     },
     prerender: {
       autoSubfolderIndex: false,
-      routes: [],
+      routes: ['/sitemap.xml', '/robots.txt'],
     },
   },
 
@@ -162,7 +162,6 @@ export default defineNuxtConfig({
     ],
     build: {
       chunkSizeWarningLimit: 1000,
-      sourcemap: false,
       rollupOptions: {
         maxParallelFileOps: 2,
       },
@@ -193,8 +192,5 @@ export default defineNuxtConfig({
     enabled: process.env.NODE_ENV === 'production',
   },
 
-  sourcemap: {
-    server: false,
-    client: false,
-  },
+  sourcemap: false,
 })

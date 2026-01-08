@@ -96,7 +96,7 @@ export default defineNuxtConfig({
       },
       iconSm: {
         modifiers: { width: 60, height: 60, format: 'webp' },
-      }
+      },
     },
     screens: {
       xs: 320,

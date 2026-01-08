@@ -66,7 +66,7 @@ export default defineNuxtConfig({
       siteUrl: process.env.NUXT_PUBLIC_SITE_URL,
       imageProvider:
         process.env.NUXT_PUBLIC_IMAGE_PROVIDER ||
-        (process.env.NODE_ENV === 'production' ? 'netlify' : 'ipx'),
+        (process.env.NODE_ENV === 'production' ? 'bunny' : 'ipx'),
       imagekitBaseUrl:
         process.env.NUXT_PUBLIC_IMAGEKIT_BASE_URL ||
         'https://ik.imagekit.io/gongeous',

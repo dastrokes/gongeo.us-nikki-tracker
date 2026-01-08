@@ -9,6 +9,7 @@ export const useImageProvider = () => {
     | 'outfit'
     | 'item'
     | 'itemIcon'
+    | 'static'
 
   const imagekitBaseUrl = runtimeConfig.public.imagekitBaseUrl as string
   const bunnyBaseUrl = runtimeConfig.public.bunnyBaseUrl as string
@@ -84,6 +85,10 @@ export const useImageProvider = () => {
         return `/images/items/${id}.png`
       case 'itemIcon':
         return `/images/items/icons/${id}.png`
+      case 'static': {
+        const path = typeof id === 'string' ? id : String(id)
+        return path.startsWith('/') ? path : `/${path}`
+      }
       default: {
         const _exhaustive: never = type
         return _exhaustive

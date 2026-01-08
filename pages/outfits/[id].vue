@@ -329,7 +329,7 @@
         <template #icon>
           <div class="flex justify-center">
             <NuxtImg
-              src="/images/404.webp"
+              :src="getImageSrc('static', '/images/404.webp')"
               alt="Not Found"
               class="w-48 h-48 object-cover"
               width="400"

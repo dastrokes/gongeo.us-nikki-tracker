@@ -62,6 +62,7 @@
   const { t } = useI18n()
   const router = useRouter()
   const { search, searchOptions, buildSearchIndex } = useSearch()
+  const { getImageSrc } = useImageProvider()
 
   const searchQuery = ref('')
   const showSearch = ref(false)
@@ -87,17 +88,17 @@
       switch (result.type) {
         case 'banner':
           return {
-            src: `/images/banners/thumbnails/${bannerId}.png`,
+            src: getImageSrc('bannerThumb', bannerId),
             class: 'w-20 h-10 my-0.5 rounded object-cover flex-shrink-0',
           }
         case 'outfit':
           return {
-            src: `/images/outfits/${result.id}.png`,
+            src: getImageSrc('outfit', result.id),
             class: 'w-8 h-12 my-0.5 rounded object-cover flex-shrink-0',
           }
         case 'item':
           return {
-            src: `/images/items/${result.id}.png`,
+            src: getImageSrc('item', result.id),
             class: 'w-8 h-12 my-0.5 rounded object-cover flex-shrink-0',
           }
         default:

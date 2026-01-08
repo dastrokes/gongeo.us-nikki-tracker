@@ -51,7 +51,7 @@
               <n-tooltip>
                 <template #trigger>
                   <NuxtImg
-                    :src="`/images/items/icons/${itemId}.png`"
+                    :src="getImageSrc('itemIcon', itemId)"
                     :alt="t(`item.${itemId}.name`)"
                     class="w-full aspect-square object-cover rounded-md"
                     preset="iconLg"
@@ -190,6 +190,7 @@
   const { t } = useI18n()
   const message = useMessage()
   const pullStore = usePullStore()
+  const { getImageSrc } = useImageProvider()
 
   // Props, emits, and refs
   const props = defineProps<{

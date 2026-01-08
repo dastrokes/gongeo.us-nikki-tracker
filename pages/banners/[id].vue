@@ -116,7 +116,7 @@
                 class="w-full aspect-[2/1] relative overflow-hidden rounded-lg"
               >
                 <NuxtImg
-                  :src="`/images/banners/${banner.bannerId}.png`"
+                  :src="getImageSrc('banner', banner.bannerId)"
                   :alt="t(`banner.${banner.bannerId}.name`)"
                   class="absolute inset-0 w-full h-full object-cover"
                   preset="bannerHero"
@@ -582,6 +582,7 @@
   const route = useRoute()
   const router = useRouter()
   const { t } = useI18n()
+  const { getImageSrc } = useImageProvider()
 
   const localePath = useLocalePath()
   const siteUrl = useRuntimeConfig().public.siteUrl

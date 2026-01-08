@@ -18,7 +18,7 @@
         >
           <NuxtImg
             v-if="info"
-            :src="`/images/items/icons/${item.itemId}.png`"
+            :src="getImageSrc('itemIcon', item.itemId)"
             :alt="t(`item.${item.itemId}.name`)"
             class="w-full h-full object-cover aspect-square"
             preset="iconLg"
@@ -30,7 +30,7 @@
           />
           <NuxtImg
             v-else
-            :src="`/images/items/icons/${item.itemId}.png`"
+            :src="getImageSrc('itemIcon', item.itemId)"
             :alt="t(`item.${item.itemId}.name`)"
             class="w-full h-full object-cover aspect-square"
             preset="iconLg"
@@ -116,6 +116,7 @@
   const { t } = useI18n()
   const localePath = useLocalePath()
   const itemType = computed(() => getItemType(props.item.itemId))
+  const { getImageSrc } = useImageProvider()
 
   const CARD_GRADIENTS = {
     fiveStar:

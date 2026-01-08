@@ -40,7 +40,7 @@
       >
         <NuxtImg
           v-if="index === 0"
-          :src="`/images/banners/${banner.bannerId}.png`"
+          :src="getImageSrc('banner', banner.bannerId)"
           :alt="t(`banner.${banner.bannerId}.name`)"
           class="w-full h-full object-cover"
           preset="bannerHero"
@@ -54,7 +54,7 @@
         />
         <NuxtImg
           v-else
-          :src="`/images/banners/${banner.bannerId}.png`"
+          :src="getImageSrc('banner', banner.bannerId)"
           :alt="t(`banner.${banner.bannerId}.name`)"
           class="w-full h-full object-cover"
           preset="bannerHero"
@@ -120,6 +120,7 @@
   const { t, locale } = useI18n()
   const localePath = useLocalePath()
   const router = useRouter()
+  const { getImageSrc } = useImageProvider()
 
   const props = defineProps<{
     banners: Banner[]

@@ -80,6 +80,7 @@
 
   const { t } = useI18n()
   const pullStore = usePullStore()
+  const { getImageSrc } = useImageProvider()
   const OUTFIT_CARD_GRADIENTS = {
     fiveStar:
       'bg-gradient-to-br from-[#fff8e1] to-[#ffcc80] hover:brightness-105 dark:from-[#713f12] dark:to-[#451a03]',
@@ -131,13 +132,13 @@
 
   const outfitImages = computed(() => {
     const images = new Map<number, string>()
-    images.set(0, `/images/outfits/${props.outfitId}.png`)
+    images.set(0, getImageSrc('outfit', props.outfitId))
 
     // Add level variants based on quality
     const maxLevel = props.quality === 5 ? 4 : 2
     for (let i = 2; i <= maxLevel; i++) {
       const levelNum = i.toString().padStart(2, '0')
-      images.set(i, `/images/outfits/${props.outfitId}${levelNum}.png`)
+      images.set(i, getImageSrc('outfit', `${props.outfitId}${levelNum}`))
     }
 
     return images

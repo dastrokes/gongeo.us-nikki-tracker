@@ -1,5 +1,18 @@
 export const useImageProvider = () => {
   const isDev = import.meta.dev
+  const runtimeConfig = useRuntimeConfig()
+
+  type ImageProvider = 'ipx' | 'netlify' | 'bunny' | 'imagekit'
+  type ImageSrcType =
+    | 'banner'
+    | 'bannerThumb'
+    | 'outfit'
+    | 'item'
+    | 'itemIcon'
+
+  const imagekitBaseUrl = runtimeConfig.public.imagekitBaseUrl as string
+  const bunnyBaseUrl = runtimeConfig.public.bunnyBaseUrl as string
+  const defaultProvider = runtimeConfig.public.imageProvider as ImageProvider
 
   const getImageUrl = (
     path: string,
@@ -8,7 +21,7 @@ export const useImageProvider = () => {
       height?: number
       quality?: number
       format?: 'webp' | 'avif' | 'png' | 'jpg' | 'jpeg'
-      provider?: 'imagekit' | 'bunny'
+      provider?: ImageProvider
     }
   ) => {
     // In development, use local images
@@ -16,13 +29,15 @@ export const useImageProvider = () => {
       return path
     }
 
-    const provider = options?.provider || 'bunny'
+    const provider = options?.provider || defaultProvider
     const cleanPath = path.startsWith('/') ? path : `/${path}`
+
+    if (provider === 'ipx') {
+      return cleanPath
+    }
 
     if (provider === 'bunny') {
       // Use Bunny CDN
-      const baseUrl = 'https://cdn.gongeo.us'
-
       // Build query parameters for Bunny
       const params: string[] = []
       if (options?.width) params.push(`width=${options.width}`)
@@ -31,11 +46,11 @@ export const useImageProvider = () => {
       if (options?.format) params.push(`format=${options.format}`)
 
       const queryString = params.length > 0 ? `?${params.join('&')}` : ''
-      return `${baseUrl}${cleanPath}${queryString}`
-    } else {
-      // Use ImageKit
-      const baseUrl = 'https://ik.imagekit.io/gongeous'
+      return `${bunnyBaseUrl}${cleanPath}${queryString}`
+    }
 
+    // Use ImageKit (imagekit or netlify)
+    if (provider === 'imagekit' || provider === 'netlify') {
       // Build transformation parameters for ImageKit
       const params: string[] = []
       if (options?.width) params.push(`w-${options.width}`)
@@ -46,12 +61,64 @@ export const useImageProvider = () => {
       const transformation = params.length > 0 ? `tr:${params.join(',')}` : ''
 
       return transformation
-        ? `${baseUrl}/${transformation}${cleanPath}`
-        : `${baseUrl}${cleanPath}`
+        ? `${imagekitBaseUrl}/${transformation}${cleanPath}`
+        : `${imagekitBaseUrl}${cleanPath}`
     }
+
+    return cleanPath
+  }
+
+  const getImagePath = (
+    type: ImageSrcType,
+    id: string | number,
+    variant?: string | number
+  ) => {
+    switch (type) {
+      case 'banner':
+        return `/images/banners/${id}.png`
+      case 'bannerThumb':
+        return `/images/banners/thumbnails/${id}.png`
+      case 'outfit':
+        return `/images/outfits/${id}${variant ?? ''}.png`
+      case 'item':
+        return `/images/items/${id}.png`
+      case 'itemIcon':
+        return `/images/items/icons/${id}.png`
+      default: {
+        const _exhaustive: never = type
+        return _exhaustive
+      }
+    }
+  }
+
+  const getImageSrc = (
+    type: ImageSrcType,
+    id: string | number,
+    options?: {
+      variant?: string | number
+      provider?: ImageProvider
+    }
+  ) => {
+    const path = getImagePath(type, id, options?.variant)
+    const provider = options?.provider || defaultProvider
+
+    if (provider === 'ipx' || provider === 'imagekit') {
+      return path
+    }
+
+    if (provider === 'netlify') {
+      return `${imagekitBaseUrl}${path}`
+    }
+
+    if (provider === 'bunny') {
+      return `${bunnyBaseUrl}${path}`
+    }
+
+    return path
   }
 
   return {
     getImageUrl,
+    getImageSrc,
   }
 }

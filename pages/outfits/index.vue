@@ -223,6 +223,7 @@
   const localePath = useLocalePath()
   const route = useRoute()
   const router = useRouter()
+  const { getImageSrc } = useImageProvider()
 
   const siteUrl = useRuntimeConfig().public.siteUrl
 
@@ -298,7 +299,7 @@
       id: entry.id,
       quality: entry.quality,
       name: t(`outfit.${entry.id}.name`),
-      image: `/images/outfits/${entry.id}.png`,
+      image: getImageSrc('outfit', entry.id),
     }))
   })
 

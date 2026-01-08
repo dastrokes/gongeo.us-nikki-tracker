@@ -15,7 +15,7 @@
         @click="handleClick"
       >
         <NuxtImg
-          :src="`/images/items/icons/${itemId}.png`"
+          :src="getImageSrc('itemIcon', itemId)"
           :alt="itemName"
           class="w-full h-full object-cover aspect-square"
           :preset="getImagePreset(size)"
@@ -60,6 +60,7 @@
 
   const { t } = useI18n()
   const router = useRouter()
+  const { getImageSrc } = useImageProvider()
 
   // Get item name from i18n - names are stored in i18n JSON files, not in the database
   const itemName = computed(() => {

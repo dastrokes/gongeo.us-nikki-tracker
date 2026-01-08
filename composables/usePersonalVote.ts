@@ -19,6 +19,7 @@ import {
 } from '~/utils/personalVoteStorage'
 
 export const usePersonalVote = () => {
+  const { getImageSrc } = useImageProvider()
   /**
    * Get the next pair of banners for personal voting
    * Uses existing selectBannerPair utility with personal rankings data
@@ -73,11 +74,11 @@ export const usePersonalVote = () => {
     return {
       banner1: {
         id: pair.banner1,
-        image: `/images/banners/${pair.banner1}.png`,
+        image: getImageSrc('banner', pair.banner1),
       },
       banner2: {
         id: pair.banner2,
-        image: `/images/banners/${pair.banner2}.png`,
+        image: getImageSrc('banner', pair.banner2),
       },
     }
   }

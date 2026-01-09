@@ -357,7 +357,7 @@
   import type { OutfitWithItems } from '~/types/supabase'
   import type { ItemType } from '~/utils/itemType'
 
-  const { t } = useI18n()
+  const { t, locale } = useI18n()
   const localePath = useLocalePath()
   const router = useRouter()
   const route = useRoute()
@@ -365,14 +365,25 @@
   // Get outfit ID from route
   const outfitId = computed(() => Number(route.params.id))
 
-  // State
-  const outfit = ref<OutfitWithItems | null>(null)
-  const loading = ref(true)
-  const error = ref<Error | null>(null)
-
   // Composable
   const { fetchOutfitById } = useSupabaseOutfits()
   const { getImageUrl, getImageSrc } = useImageProvider()
+
+  const outfitKey = computed(() => `outfit-${outfitId.value}-${locale.value}`)
+
+  const {
+    data: outfit,
+    pending: loading,
+    error,
+    refresh,
+  } = await useAsyncData(
+    () => outfitKey.value,
+    () => fetchOutfitById(outfitId.value, locale.value),
+    {
+      default: () => null,
+      watch: [outfitId, locale],
+    }
+  )
 
   // Makeup types
   const makeupTypes: ItemType[] = [
@@ -461,26 +472,9 @@
     )
   })
 
-  // Fetch outfit data
-  const loadOutfit = async () => {
-    loading.value = true
-    error.value = null
-
-    try {
-      const { locale } = useI18n()
-      const data = await fetchOutfitById(outfitId.value, locale.value)
-      outfit.value = data
-    } catch (e) {
-      error.value = e as Error
-      console.error('Failed to load outfit:', e)
-    } finally {
-      loading.value = false
-    }
-  }
-
   // Retry fetch
   const retryFetch = () => {
-    loadOutfit()
+    refresh()
   }
 
   // Navigate to list
@@ -515,11 +509,6 @@
         return 'default'
     }
   }
-
-  // Load outfit on mount
-  onMounted(() => {
-    loadOutfit()
-  })
 
   // SEO Meta Tags
   const siteUrl = useRuntimeConfig().public.siteUrl

@@ -62,7 +62,7 @@ export default defineNuxtConfig({
       siteUrl: process.env.NUXT_PUBLIC_SITE_URL,
       imageProvider:
         process.env.NUXT_IMAGE_PROVIDER ||
-        (process.env.NODE_ENV === 'production' ? 'imagekit' : 'ipx'),
+        (process.env.NODE_ENV === 'production' ? 'netlify' : 'ipx'),
       imagekitBaseUrl:
         process.env.NUXT_PUBLIC_IMAGEKIT_BASE_URL ||
         'https://ik.imagekit.io/gongeous',
@@ -131,17 +131,63 @@ export default defineNuxtConfig({
   },
 
   routeRules: {
-    ...Object.fromEntries([
-      ...['error'].flatMap((page) => [
-        [`/${page}`, { prerender: true, robots: false }],
-        ...i18nLocales
-          .filter((locale) => locale.code !== defaultLocale)
-          .map((locale) => [
-            `/${locale.code}/${page}`,
-            { prerender: true, robots: false },
-          ]),
-      ]),
-    ]),
+    ...(() => {
+      const withLocalePrefixes = (path: string) => {
+        if (path === '/') {
+          return [
+            '/',
+            ...i18nLocales
+              .filter((locale) => locale.code !== defaultLocale)
+              .map((locale) => `/${locale.code}`),
+          ]
+        }
+
+        return [
+          path,
+          ...i18nLocales
+            .filter((locale) => locale.code !== defaultLocale)
+            .map((locale) => `/${locale.code}${path}`),
+        ]
+      }
+
+      type I18nRouteRule = {
+        prerender?: boolean
+        robots?: boolean
+        swr?: boolean | number
+        headers?: Record<string, string>
+      }
+
+      const buildI18nRules = (paths: string[], rule: I18nRouteRule) =>
+        Object.fromEntries(
+          paths.flatMap((path) =>
+            withLocalePrefixes(path).map((route) => [route, rule])
+          )
+        )
+
+      return {
+        ...buildI18nRules(
+          [
+            '/',
+            '/about',
+            '/faq',
+            '/timeline',
+            '/ranking',
+            '/vote',
+            '/banners',
+            '/import',
+          ],
+          { prerender: true }
+        ),
+        ...buildI18nRules(['/error'], { prerender: true, robots: false }),
+        ...buildI18nRules(['/global', '/items', '/outfits'], { swr: 3600 }),
+        ...buildI18nRules(['/banners/**', '/items/**', '/outfits/**'], {
+          swr: 86400,
+        }),
+        ...buildI18nRules(['/login', '/tracker'], {
+          headers: { 'cache-control': 'private, no-store' },
+        }),
+      }
+    })(),
   },
 
   nitro: {

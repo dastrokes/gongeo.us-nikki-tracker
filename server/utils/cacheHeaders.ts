@@ -35,7 +35,6 @@ export function setCacheHeaders(
   }
 
   setResponseHeader(event, 'Cache-Control', BROWSER_CACHE_VALUE)
-  setResponseHeader(event, 'CDN-Cache-Control', CDN_CACHE_VALUE)
   setResponseHeader(event, 'Netlify-CDN-Cache-Control', CDN_CACHE_VALUE)
   if (netlifyVaryParts.length) {
     // Netlify-Vary directives are comma-delimited.

@@ -3,8 +3,12 @@
     no-prefetch
     :to="localePath(`/items/${item.itemId}`)"
     class="block hover:opacity-80 transition-opacity"
+    @click="handleClick"
   >
-    <n-tooltip placement="top">
+    <n-tooltip
+      v-model:show="showTooltip"
+      placement="top"
+    >
       <template #trigger>
         <n-card
           :class="[
@@ -115,8 +119,13 @@
 
   const { t } = useI18n()
   const localePath = useLocalePath()
+  const showTooltip = ref(false)
   const itemType = computed(() => getItemType(props.item.itemId))
   const { getImageSrc } = imageProvider()
+
+  const handleClick = () => {
+    showTooltip.value = false
+  }
 
   const CARD_GRADIENTS = {
     fiveStar:

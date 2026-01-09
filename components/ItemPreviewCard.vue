@@ -1,5 +1,8 @@
 <template>
-  <n-tooltip placement="top">
+  <n-tooltip
+    v-model:show="showTooltip"
+    placement="top"
+  >
     <template #trigger>
       <n-card
         :class="[
@@ -60,6 +63,8 @@
 
   const { t } = useI18n()
   const router = useRouter()
+  const localePath = useLocalePath()
+  const showTooltip = ref(false)
   const { getImageSrc } = imageProvider()
 
   // Get item name from i18n - names are stored in i18n JSON files, not in the database
@@ -125,10 +130,10 @@
 
   // Click handler
   const handleClick = () => {
+    showTooltip.value = false
     if (props.clickable) {
       emit('click', props.itemId)
 
-      const localePath = useLocalePath()
       const path = localePath(`/items/${props.itemId}`)
 
       router.push(path)

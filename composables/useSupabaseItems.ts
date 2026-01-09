@@ -1,4 +1,4 @@
-import { GAME_VERSION_HEADER } from '~/server/utils/cacheHeaders'
+import { GAME_VERSION_HEADER } from '~/utils/cacheHeaders'
 import { getGameVersion } from '~/utils/gameVersion'
 import type { SupabaseItem, ItemWithOutfits } from '~/types/supabase'
 

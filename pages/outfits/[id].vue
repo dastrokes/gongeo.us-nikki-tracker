@@ -367,7 +367,7 @@
 
   // Composable
   const { fetchOutfitById } = useSupabaseOutfits()
-  const { getImageUrl, getImageSrc } = useImageProvider()
+  const { getImageUrl, getImageSrc } = imageProvider()
 
   const outfitKey = computed(() => `outfit-${outfitId.value}-${locale.value}`)
 

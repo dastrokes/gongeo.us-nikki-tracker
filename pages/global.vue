@@ -603,7 +603,7 @@
   const localePath = useLocalePath()
   const router = useRouter()
   const siteUrl = useRuntimeConfig().public.siteUrl
-  const { getImageUrl } = useImageProvider()
+  const { getImageUrl } = imageProvider()
 
   // Helper to check if current locale uses CJK characters
   const isCJKLocale = computed(() => {

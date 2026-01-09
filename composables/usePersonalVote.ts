@@ -19,7 +19,7 @@ import {
 } from '~/utils/personalVoteStorage'
 
 export const usePersonalVote = () => {
-  const { getImageSrc } = useImageProvider()
+  const { getImageSrc } = imageProvider()
   /**
    * Get the next pair of banners for personal voting
    * Uses existing selectBannerPair utility with personal rankings data

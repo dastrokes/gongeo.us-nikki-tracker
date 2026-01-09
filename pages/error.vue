@@ -40,7 +40,7 @@
   import { Home } from '@vicons/fa'
 
   const localePath = useLocalePath()
-  const { getImageSrc } = useImageProvider()
+  const { getImageSrc } = imageProvider()
 
   const getTranslation = (): ((key: string) => string) => {
     try {

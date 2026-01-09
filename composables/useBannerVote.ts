@@ -8,7 +8,7 @@ import {
 export const useBannerVote = () => {
   const voterFingerprint = ref<string | null>(null)
   const fingerprintInitialized = ref(false)
-  const { getImageSrc } = useImageProvider()
+  const { getImageSrc } = imageProvider()
 
   // Initialize voter fingerprint on client side
   const initializeFingerprint = async () => {

@@ -1,4 +1,4 @@
-export const useImageProvider = () => {
+export const imageProvider = () => {
   const isDev = import.meta.dev
   const runtimeConfig = useRuntimeConfig()
 
@@ -50,8 +50,8 @@ export const useImageProvider = () => {
       return `${bunnyBaseUrl}${cleanPath}${queryString}`
     }
 
-    // Use ImageKit (imagekit or netlify)
-    if (provider === 'imagekit' || provider === 'netlify') {
+    // Use ImageKit
+    if (provider === 'imagekit') {
       // Build transformation parameters for ImageKit
       const params: string[] = []
       if (options?.width) params.push(`w-${options.width}`)
@@ -64,6 +64,23 @@ export const useImageProvider = () => {
       return transformation
         ? `${imagekitBaseUrl}/${transformation}${cleanPath}`
         : `${imagekitBaseUrl}${cleanPath}`
+    }
+
+    // Use Netlify Image CDN
+    if (provider === 'netlify') {
+      // Build query parameters for Netlify
+      const params: string[] = []
+      if (options?.width) params.push(`w=${options.width}`)
+      if (options?.height) params.push(`h=${options.height}`)
+      if (options?.format) params.push(`fm=${options.format}`)
+      if (options?.quality) params.push(`q=${options.quality}`)
+      params.push('fit=cover')
+
+      // Encode the full ImageKit URL as the source
+      const sourceUrl = encodeURIComponent(`${imagekitBaseUrl}${cleanPath}`)
+      const queryString = params.join('&')
+
+      return `${runtimeConfig.public.baseUrl}/.netlify/images?${queryString}&url=${sourceUrl}`
     }
 
     return cleanPath

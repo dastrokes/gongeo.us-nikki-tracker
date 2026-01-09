@@ -365,7 +365,7 @@
   import type { ItemWithOutfits } from '~/types/supabase'
   import { getBannerForItem } from '~/utils/bannerUtils'
 
-  const { t } = useI18n()
+  const { t, locale } = useI18n()
   const { getImageSrc } = useImageProvider()
   const localePath = useLocalePath()
   const router = useRouter()
@@ -374,14 +374,25 @@
   // Get item ID from route
   const itemId = computed(() => Number(route.params.id))
 
-  // State
-  const item = ref<ItemWithOutfits | null>(null)
-  const loading = ref(true)
-  const error = ref<Error | null>(null)
-
   // Composable
   const { fetchItemById } = useSupabaseItems()
   const { getImageUrl } = useImageProvider()
+
+  const itemKey = computed(() => `item-${itemId.value}-${locale.value}`)
+
+  const {
+    data: item,
+    pending: loading,
+    error,
+    refresh,
+  } = await useAsyncData(
+    () => itemKey.value,
+    () => fetchItemById(itemId.value, locale.value),
+    {
+      default: () => null,
+      watch: [itemId, locale],
+    }
+  )
 
   // Computed related outfits with names from i18n
   const relatedOutfits = computed(() => {
@@ -456,26 +467,9 @@
     )
   })
 
-  // Fetch item data
-  const loadItem = async () => {
-    loading.value = true
-    error.value = null
-
-    try {
-      const { locale } = useI18n()
-      const data = await fetchItemById(itemId.value, locale.value)
-      item.value = data
-    } catch (e) {
-      error.value = e as Error
-      console.error('Failed to load item:', e)
-    } finally {
-      loading.value = false
-    }
-  }
-
   // Retry fetch
   const retryFetch = () => {
-    loadItem()
+    refresh()
   }
 
   // Navigate to list
@@ -519,11 +513,6 @@
         return 'default'
     }
   }
-
-  // Load item on mount
-  onMounted(() => {
-    loadItem()
-  })
 
   // SEO Meta Tags
   const siteUrl = useRuntimeConfig().public.siteUrl

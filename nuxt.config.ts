@@ -132,11 +132,6 @@ export default defineNuxtConfig({
   },
 
   routeRules: {
-    '/.netlify/images/**': {
-      headers: {
-        'Cache-Control': 'public, max-age=31536000, immutable',
-      },
-    },
     ...(() => {
       const withLocalePrefixes = (path: string) => {
         if (path === '/') {

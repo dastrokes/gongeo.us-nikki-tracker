@@ -1,8 +1,5 @@
 import { useSupabaseDataClient } from '~/composables/useSupabaseClient'
-import {
-  GAME_VERSION_HEADER,
-  setCacheHeaders,
-} from '~/server/utils/cacheHeaders'
+import { GAME_VERSION_HEADER, setCacheHeaders } from '~/utils/cacheHeaders'
 import { getGameVersion } from '~/utils/gameVersion'
 
 /**

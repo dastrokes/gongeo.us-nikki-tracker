@@ -286,7 +286,7 @@
   import { BANNER_DATA } from '~/data/banners'
 
   const { t } = useI18n()
-  const { getImageSrc } = useImageProvider()
+  const { getImageSrc } = imageProvider()
 
   const localePath = useLocalePath()
   const siteUrl = useRuntimeConfig().public.siteUrl

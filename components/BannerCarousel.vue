@@ -120,7 +120,7 @@
   const { t, locale } = useI18n()
   const localePath = useLocalePath()
   const router = useRouter()
-  const { getImageSrc } = useImageProvider()
+  const { getImageSrc } = imageProvider()
 
   const props = defineProps<{
     banners: Banner[]

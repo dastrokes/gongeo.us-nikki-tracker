@@ -366,7 +366,7 @@
   import { getBannerForItem } from '~/utils/bannerUtils'
 
   const { t, locale } = useI18n()
-  const { getImageSrc } = useImageProvider()
+  const { getImageSrc, getImageUrl } = imageProvider()
   const localePath = useLocalePath()
   const router = useRouter()
   const route = useRoute()
@@ -376,7 +376,6 @@
 
   // Composable
   const { fetchItemById } = useSupabaseItems()
-  const { getImageUrl } = useImageProvider()
 
   const itemKey = computed(() => `item-${itemId.value}-${locale.value}`)
 

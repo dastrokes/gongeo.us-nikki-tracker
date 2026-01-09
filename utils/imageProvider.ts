@@ -80,7 +80,7 @@ export const imageProvider = () => {
       const sourceUrl = encodeURIComponent(`${imagekitBaseUrl}${cleanPath}`)
       const queryString = params.join('&')
 
-      return `${runtimeConfig.public.baseUrl}/.netlify/images?${queryString}&url=${sourceUrl}`
+      return `${runtimeConfig.public.siteUrl}/.netlify/images?${queryString}&url=${sourceUrl}`
     }
 
     return cleanPath

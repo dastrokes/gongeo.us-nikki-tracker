@@ -45,19 +45,38 @@ export default defineCachedEventHandler(
       const to = from + pageSize - 1
       dbQuery = dbQuery.range(from, to)
 
-      const { data, error: supabaseError, count } = await dbQuery
+      const { data, error: supabaseError, count, status } = await dbQuery
 
       if (supabaseError) {
-        const status = (supabaseError as { status?: number }).status
+        const responseStatus =
+          status ?? (supabaseError as { status?: number }).status
         const code = (supabaseError as { code?: string }).code
         const details = (supabaseError as { details?: string }).details
         const isRangeError =
-          status === 416 ||
+          responseStatus === 416 ||
           code === 'PGRST103' ||
           (details && details.includes('Requested range not satisfiable'))
 
         if (isRangeError) {
-          const total = count || 0
+          let total = count || 0
+          if (!total) {
+            let countQuery = supabase
+              .from('items')
+              .select('id', { count: 'exact', head: true })
+
+            if (quality !== null && quality !== undefined) {
+              countQuery = countQuery.eq('quality', quality)
+            }
+
+            if (type && type !== 'all') {
+              countQuery = countQuery.eq('type', type)
+            }
+
+            const { count: fallbackCount, error: countError } = await countQuery
+            if (!countError && typeof fallbackCount === 'number') {
+              total = fallbackCount
+            }
+          }
           const totalPages = total ? Math.ceil(total / pageSize) : 0
           return {
             data: [],

@@ -1,5 +1,5 @@
 import { useSupabaseDataClient } from '~/composables/useSupabaseClient'
-import { setCacheHeaders } from '~/server/utils/cacheHeaders'
+import { setCacheHeaders } from '~/utils/cacheHeaders'
 import { getGameVersion } from '~/utils/gameVersion'
 
 interface ItemTranslation {

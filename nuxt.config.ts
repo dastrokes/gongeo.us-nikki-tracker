@@ -3,6 +3,7 @@ import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
 import Components from 'unplugin-vue-components/vite'
 import { defaultLocale, i18nLocales } from './locales/locales'
 import { buildSitemap } from './locales/sitemap'
+import { CACHE_STATIC, CACHE_STABLE, CACHE_DYNAMIC } from './utils/cacheHeaders'
 
 export default defineNuxtConfig({
   devtools: { enabled: false },
@@ -131,6 +132,11 @@ export default defineNuxtConfig({
   },
 
   routeRules: {
+    '/.netlify/images/**': {
+      headers: {
+        'Cache-Control': 'public, max-age=31536000, immutable',
+      },
+    },
     ...(() => {
       const withLocalePrefixes = (path: string) => {
         if (path === '/') {
@@ -166,32 +172,34 @@ export default defineNuxtConfig({
 
       return {
         ...buildI18nRules(
-          [
-            '/',
-            '/about',
-            '/faq',
-            '/timeline',
-            '/ranking',
-            '/vote',
-            '/banners',
-            '/import',
-          ],
-          { prerender: true }
+          ['/', '/import', '/faq', '/about', '/timeline', '/vote', '/ranking'],
+          { prerender: true, headers: CACHE_STATIC }
         ),
-        ...buildI18nRules(['/error'], { prerender: true, robots: false }),
-        ...buildI18nRules(['/global', '/items', '/outfits'], { swr: 3600 }),
+        ...buildI18nRules(['/error'], {
+          prerender: true,
+          robots: false,
+          headers: CACHE_STATIC,
+        }),
         ...buildI18nRules(['/banners/**', '/items/**', '/outfits/**'], {
+          headers: CACHE_STATIC,
+        }),
+        ...buildI18nRules(['/banners', '/outfits', '/items'], {
           swr: 86400,
+          headers: CACHE_STABLE,
+        }),
+        ...buildI18nRules(['/global'], {
+          swr: 3600,
+          headers: CACHE_DYNAMIC,
         }),
         ...buildI18nRules(['/login', '/tracker'], {
-          headers: { 'cache-control': 'private, no-store' },
+          headers: { 'Cache-Control': 'private, no-store' },
         }),
       }
     })(),
   },
 
   nitro: {
-    preset: 'netlify',
+    preset: 'netlify_edge',
     future: {
       nativeSWR: true,
     },

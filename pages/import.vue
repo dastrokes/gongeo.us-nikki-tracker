@@ -239,22 +239,35 @@
                 name="cookieMethod"
               >
                 <n-space vertical>
-                  <template v-if="isMobileOrTablet">
-                    <n-radio value="bookmark">{{
-                      $t('import.bookmark_method_mobile')
-                    }}</n-radio>
-                  </template>
-                  <template v-else>
-                    <n-radio value="bookmark">{{
-                      $t('import.bookmark_method')
-                    }}</n-radio>
-                    <n-radio value="console">{{
-                      $t('import.console_method')
-                    }}</n-radio>
-                    <n-radio value="manual">{{
-                      $t('import.manual_input')
-                    }}</n-radio>
-                  </template>
+                  <ClientOnly>
+                    <template v-if="isMobileOrTablet">
+                      <n-radio value="bookmark">{{
+                        $t('import.bookmark_method_mobile')
+                      }}</n-radio>
+                    </template>
+                    <template v-else>
+                      <n-radio value="bookmark">{{
+                        $t('import.bookmark_method')
+                      }}</n-radio>
+                      <n-radio value="console">{{
+                        $t('import.console_method')
+                      }}</n-radio>
+                      <n-radio value="manual">{{
+                        $t('import.manual_input')
+                      }}</n-radio>
+                    </template>
+                    <template #fallback>
+                      <n-radio value="bookmark">{{
+                        $t('import.bookmark_method')
+                      }}</n-radio>
+                      <n-radio value="console">{{
+                        $t('import.console_method')
+                      }}</n-radio>
+                      <n-radio value="manual">{{
+                        $t('import.manual_input')
+                      }}</n-radio>
+                    </template>
+                  </ClientOnly>
                 </n-space>
               </n-radio-group>
             </div>
@@ -266,11 +279,7 @@
               (importMethod === 'pearpal' || importMethod === 'game') &&
               cookieMethod === 'bookmark'
             "
-            :title="
-              isMobileOrTablet
-                ? $t('import.bookmark_method_mobile')
-                : $t('import.bookmark_method')
-            "
+            :title="bookmarkMethodTitle"
           >
             <template #icon>
               <n-icon>
@@ -280,72 +289,100 @@
             <div class="space-y-2">
               <div>{{ $t('import.title') }}</div>
               <ol class="list-decimal list-inside space-y-2">
-                <template v-if="isMobileOrTablet">
-                  <n-button
-                    size="small"
-                    class="ml-2"
-                    secondary
-                    @click="showCompatibilityDialog"
-                  >
-                    <template #icon>
-                      <n-icon size="16"><ExclamationCircle /></n-icon>
-                    </template>
-                    {{ $t('import.check_compatibility') }}
-                  </n-button>
-                  <li>
-                    {{ $t('import.bookmark_steps_mobile.step1') }}
+                <ClientOnly>
+                  <template v-if="isMobileOrTablet">
                     <n-button
                       size="small"
-                      @click="showCodeDialog(bookmarkScript)"
-                    >
-                      <template #icon>
-                        <n-icon size="16"><Copy /></n-icon>
-                      </template>
-                      {{ $t('import.actions.copy_code') }}
-                    </n-button>
-                  </li>
-                  <li>{{ $t('import.bookmark_steps_mobile.step2') }}</li>
-                  <li>
-                    {{ $t('import.bookmark_steps_mobile.step3') }}
-                  </li>
-                  <li>{{ $t('import.bookmark_steps_mobile.step4') }}</li>
-                  <li v-if="isAndroid && isChrome">
-                    {{
-                      $t('import.bookmark_steps_mobile.step5_android_chrome')
-                    }}
-                  </li>
-                  <li v-if="isAndroid && isChrome">
-                    {{
-                      $t('import.bookmark_steps_mobile.step5_android_chrome_2')
-                    }}
-                  </li>
-                  <li v-else>{{ $t('import.bookmark_steps_mobile.step5') }}</li>
-                  <li>{{ $t('import.bookmark_steps_mobile.step6') }}</li>
-                  <li>{{ $t('import.bookmark_steps_mobile.step7') }}</li>
-                  <div>{{ $t('import.bookmark_steps.tip') }}</div>
-                </template>
-                <template v-else>
-                  <li>
-                    {{ $t('import.bookmark_steps.step1') }}
-                    <n-button
-                      tag="a"
-                      :href="bookmarkScript"
                       class="ml-2"
-                      size="small"
-                      @click.prevent
+                      secondary
+                      @click="showCompatibilityDialog"
                     >
                       <template #icon>
-                        <n-icon size="16"><Bookmark /></n-icon>
+                        <n-icon size="16"><ExclamationCircle /></n-icon>
                       </template>
-                      {{ $t('import.gongeous_cookie') }}
+                      {{ $t('import.check_compatibility') }}
                     </n-button>
-                  </li>
-                  <li>{{ $t('import.bookmark_steps.step2') }}</li>
-                  <li>{{ $t('import.bookmark_steps.step3') }}</li>
-                  <li>{{ $t('import.bookmark_steps.step4') }}</li>
-                  <li>{{ $t('import.bookmark_steps.step5') }}</li>
-                  <div>{{ $t('import.bookmark_steps.tip') }}</div>
-                </template>
+                    <li>
+                      {{ $t('import.bookmark_steps_mobile.step1') }}
+                      <n-button
+                        size="small"
+                        @click="showCodeDialog(bookmarkScript)"
+                      >
+                        <template #icon>
+                          <n-icon size="16"><Copy /></n-icon>
+                        </template>
+                        {{ $t('import.actions.copy_code') }}
+                      </n-button>
+                    </li>
+                    <li>{{ $t('import.bookmark_steps_mobile.step2') }}</li>
+                    <li>
+                      {{ $t('import.bookmark_steps_mobile.step3') }}
+                    </li>
+                    <li>{{ $t('import.bookmark_steps_mobile.step4') }}</li>
+                    <li v-if="isAndroid && isChrome">
+                      {{
+                        $t('import.bookmark_steps_mobile.step5_android_chrome')
+                      }}
+                    </li>
+                    <li v-if="isAndroid && isChrome">
+                      {{
+                        $t(
+                          'import.bookmark_steps_mobile.step5_android_chrome_2'
+                        )
+                      }}
+                    </li>
+                    <li v-else>
+                      {{ $t('import.bookmark_steps_mobile.step5') }}
+                    </li>
+                    <li>{{ $t('import.bookmark_steps_mobile.step6') }}</li>
+                    <li>{{ $t('import.bookmark_steps_mobile.step7') }}</li>
+                    <div>{{ $t('import.bookmark_steps.tip') }}</div>
+                  </template>
+                  <template v-else>
+                    <li>
+                      {{ $t('import.bookmark_steps.step1') }}
+                      <n-button
+                        tag="a"
+                        :href="bookmarkScript"
+                        class="ml-2"
+                        size="small"
+                        @click.prevent
+                      >
+                        <template #icon>
+                          <n-icon size="16"><Bookmark /></n-icon>
+                        </template>
+                        {{ $t('import.gongeous_cookie') }}
+                      </n-button>
+                    </li>
+                    <li>{{ $t('import.bookmark_steps.step2') }}</li>
+                    <li>{{ $t('import.bookmark_steps.step3') }}</li>
+                    <li>{{ $t('import.bookmark_steps.step4') }}</li>
+                    <li>{{ $t('import.bookmark_steps.step5') }}</li>
+                    <div>{{ $t('import.bookmark_steps.tip') }}</div>
+                  </template>
+                  <template #fallback>
+                    <li>
+                      {{ $t('import.bookmark_steps.step1') }}
+                      <n-button
+                        tag="a"
+                        :href="bookmarkScript"
+                        class="ml-2"
+                        size="small"
+                        @click.prevent
+                      >
+                        <template #icon>
+                          <n-icon size="16"><Bookmark /></n-icon>
+                        </template>
+                        {{ $t('import.gongeous_cookie') }}
+                      </n-button>
+                    </li>
+                    <li>{{ $t('import.bookmark_steps.step2') }}</li>
+                    <li>{{ $t('import.bookmark_steps.step3') }}</li>
+                    <li>{{ $t('import.bookmark_steps.step4') }}</li>
+                    <li>{{ $t('import.bookmark_steps.step5') }}</li>
+                    <div>{{ $t('import.bookmark_steps.tip') }}</div>
+                  </template>
+                </ClientOnly>
                 <div class="text-sm text-amber-500 break-words">
                   {{ $t('import.security_note') }}
                 </div>
@@ -845,6 +882,12 @@
   const bookmarkScript = computed(
     () =>
       `javascript:(function(){if(location.hostname!=="pearpal.infoldgames.com" && location.hostname!=="myl.nuanpaper.com"){alert(${JSON.stringify(t('import.bookmark_script.invalid_site'))});return}prompt('Cookie:',JSON.stringify({roleid:[...document.querySelectorAll('div')].find(el=>el.textContent.startsWith('UID:'))?.textContent.replace('UID:','').trim(),token:document.cookie.match(/momoToken=([^;]+)/)?.[1],id:document.cookie.match(/momoNid=([^;]+)/)?.[1]}));})();`
+  )
+
+  const bookmarkMethodTitle = computed(() =>
+    import.meta.client && isMobileOrTablet
+      ? t('import.bookmark_method_mobile')
+      : t('import.bookmark_method')
   )
 
   const copyToClipboard = async (code: string) => {

@@ -1,4 +1,4 @@
-import { BANNER_DATA } from '~/data/banners'
+import { BANNER_DATA } from '../data/banners'
 
 /**
  * Get the latest game version from banner data

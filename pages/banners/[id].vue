@@ -582,7 +582,7 @@
   const route = useRoute()
   const router = useRouter()
   const { t } = useI18n()
-  const { getImageSrc } = useImageProvider()
+  const { getImageSrc } = imageProvider()
 
   const localePath = useLocalePath()
   const siteUrl = useRuntimeConfig().public.siteUrl

@@ -60,7 +60,7 @@
 
   const { t } = useI18n()
   const router = useRouter()
-  const { getImageSrc } = useImageProvider()
+  const { getImageSrc } = imageProvider()
 
   // Get item name from i18n - names are stored in i18n JSON files, not in the database
   const itemName = computed(() => {

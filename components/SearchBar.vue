@@ -62,7 +62,7 @@
   const { t } = useI18n()
   const router = useRouter()
   const { search, searchOptions, buildSearchIndex } = useSearch()
-  const { getImageSrc } = useImageProvider()
+  const { getImageSrc } = imageProvider()
 
   const searchQuery = ref('')
   const showSearch = ref(false)

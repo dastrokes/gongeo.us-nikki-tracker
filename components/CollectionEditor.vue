@@ -190,7 +190,7 @@
   const { t } = useI18n()
   const message = useMessage()
   const pullStore = usePullStore()
-  const { getImageSrc } = useImageProvider()
+  const { getImageSrc } = imageProvider()
 
   // Props, emits, and refs
   const props = defineProps<{

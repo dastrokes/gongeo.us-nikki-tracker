@@ -80,7 +80,7 @@
 
   const { t } = useI18n()
   const pullStore = usePullStore()
-  const { getImageSrc } = useImageProvider()
+  const { getImageSrc } = imageProvider()
   const OUTFIT_CARD_GRADIENTS = {
     fiveStar:
       'bg-gradient-to-br from-[#fff8e1] to-[#ffcc80] hover:brightness-105 dark:from-[#713f12] dark:to-[#451a03]',

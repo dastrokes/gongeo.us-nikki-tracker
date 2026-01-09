@@ -116,7 +116,7 @@
   const { t } = useI18n()
   const localePath = useLocalePath()
   const itemType = computed(() => getItemType(props.item.itemId))
-  const { getImageSrc } = useImageProvider()
+  const { getImageSrc } = imageProvider()
 
   const CARD_GRADIENTS = {
     fiveStar:

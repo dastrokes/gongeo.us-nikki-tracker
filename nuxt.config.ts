@@ -4,6 +4,7 @@ import Components from 'unplugin-vue-components/vite'
 import { defaultLocale, i18nLocales } from './locales/locales'
 import { buildSitemap } from './locales/sitemap'
 import { CACHE_STATIC, CACHE_STABLE, CACHE_DYNAMIC } from './utils/cacheHeaders'
+import { getImageProvider } from './utils/getImageProvider'
 
 export default defineNuxtConfig({
   devtools: { enabled: false },
@@ -61,9 +62,7 @@ export default defineNuxtConfig({
       supabaseDataUrl: process.env.SUPABASE_DATA_URL,
       gongeousApiKey: process.env.GONGEOUS_API_KEY,
       siteUrl: process.env.NUXT_PUBLIC_SITE_URL,
-      imageProvider:
-        process.env.NUXT_IMAGE_PROVIDER ||
-        (process.env.NODE_ENV === 'production' ? 'netlify' : 'ipx'),
+      imageProvider: getImageProvider(),
       imagekitBaseUrl:
         process.env.NUXT_PUBLIC_IMAGEKIT_BASE_URL ||
         'https://ik.imagekit.io/gongeous',
@@ -74,9 +73,7 @@ export default defineNuxtConfig({
 
   image: {
     dir: 'public',
-    provider:
-      process.env.NUXT_IMAGE_PROVIDER ||
-      (process.env.NODE_ENV === 'production' ? 'netlify' : 'ipx'),
+    provider: getImageProvider(),
     imagekit: {
       baseURL: 'https://ik.imagekit.io/gongeous',
     },

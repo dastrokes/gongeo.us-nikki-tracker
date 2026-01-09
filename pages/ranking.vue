@@ -299,7 +299,7 @@
   const siteUrl = useRuntimeConfig().public.siteUrl
   const router = useRouter()
   const message = useMessage()
-  const { getImageSrc } = useImageProvider()
+  const { getImageSrc } = imageProvider()
   const { getRankings } = useBannerVote()
   const { getPersonalRankings } = usePersonalVote()
 

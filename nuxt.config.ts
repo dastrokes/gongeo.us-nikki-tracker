@@ -4,7 +4,7 @@ import Components from 'unplugin-vue-components/vite'
 import { defaultLocale, i18nLocales } from './locales/locales'
 import { buildSitemap } from './locales/sitemap'
 import { CACHE_STATIC, CACHE_STABLE, CACHE_DYNAMIC } from './utils/cacheHeaders'
-import { getImageProvider } from './utils/getImageProvider'
+import { getImageProvider } from './utils/imageProvider'
 
 export default defineNuxtConfig({
   devtools: { enabled: false },
@@ -44,7 +44,7 @@ export default defineNuxtConfig({
   },
 
   site: {
-    url: process.env.NUXT_PUBLIC_SITE_URL,
+    url: process.env.NUXT_PUBLIC_SITE_URL || 'https://gongeo.us',
   },
 
   sitemap: {
@@ -62,12 +62,10 @@ export default defineNuxtConfig({
       supabaseDataUrl: process.env.SUPABASE_DATA_URL,
       gongeousApiKey: process.env.GONGEOUS_API_KEY,
       siteUrl: process.env.NUXT_PUBLIC_SITE_URL,
+      gameVersion: process.env.NUXT_PUBLIC_GAME_VERSION,
+      imagekitBaseUrl: process.env.NUXT_PUBLIC_IMAGEKIT_BASE_URL,
+      bunnyBaseUrl: process.env.NUXT_PUBLIC_BUNNY_BASE_URL,
       imageProvider: getImageProvider(),
-      imagekitBaseUrl:
-        process.env.NUXT_PUBLIC_IMAGEKIT_BASE_URL ||
-        'https://ik.imagekit.io/gongeous',
-      bunnyBaseUrl:
-        process.env.NUXT_PUBLIC_BUNNY_BASE_URL || 'https://cdn.gongeo.us',
     },
   },
 
@@ -75,12 +73,18 @@ export default defineNuxtConfig({
     dir: 'public',
     provider: getImageProvider(),
     imagekit: {
-      baseURL: 'https://ik.imagekit.io/gongeous',
+      baseURL:
+        process.env.NUXT_PUBLIC_IMAGEKIT_BASE_URL ||
+        'https://ik.imagekit.io/gongeous',
     },
     bunny: {
-      baseURL: 'https://cdn.gongeo.us',
+      baseURL:
+        process.env.NUXT_PUBLIC_BUNNY_BASE_URL || 'https://cdn.gongeo.us',
     },
-    domains: ['https://ik.imagekit.io/gongeous'],
+    domains: [
+      process.env.NUXT_PUBLIC_IMAGEKIT_BASE_URL ||
+        'https://ik.imagekit.io/gongeous',
+    ],
     format: ['webp'],
     quality: 80,
     presets: {
@@ -94,10 +98,10 @@ export default defineNuxtConfig({
         modifiers: { width: 300, height: 450, format: 'webp' },
       },
       tallMd: {
-        modifiers: { width: 180, height: 270, format: 'webp' },
+        modifiers: { width: 200, height: 300, format: 'webp' },
       },
       tallSm: {
-        modifiers: { width: 120, height: 180, format: 'webp' },
+        modifiers: { width: 100, height: 150, format: 'webp' },
       },
       iconLg: {
         modifiers: { width: 120, height: 120, format: 'webp' },

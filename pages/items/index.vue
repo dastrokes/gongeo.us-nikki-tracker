@@ -25,8 +25,29 @@
               :options="typeOptions"
               size="small"
               class="w-52"
+              clearable
               :show-checkmark="false"
               :placeholder="t('compendium.filter_type')"
+            />
+
+            <n-select
+              v-model:value="styleFilter"
+              :options="styleOptions"
+              size="small"
+              class="w-40"
+              clearable
+              :show-checkmark="false"
+              :placeholder="t('compendium.filter_style')"
+            />
+
+            <n-select
+              v-model:value="labelFilter"
+              :options="labelOptions"
+              size="small"
+              class="w-44"
+              clearable
+              :show-checkmark="false"
+              :placeholder="t('compendium.filter_label')"
             />
 
             <n-button-group size="small">
@@ -143,7 +164,7 @@
               <div
                 v-if="!loading && !error && entries.length > 0"
                 key="grid"
-                class="grid grid-cols-4 sm:grid-cols-8 gap-2 sm:content-start pr-4"
+                class="grid grid-cols-2 sm:grid-cols-6 gap-2 sm:gap-3 sm:content-start"
               >
                 <div
                   v-for="entry in entries"
@@ -153,25 +174,48 @@
                 >
                   <div
                     class="relative aspect-[2/3] rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300"
-                    :class="getQualityGradient(entry.quality)"
+                    style="
+                      background-image: url('/bg.webp');
+                      background-size: cover;
+                      background-position: center;
+                    "
                   >
+                    <!-- Tint overlay -->
+                    <div
+                      class="absolute inset-0"
+                      :class="getQualityOverlayClass(entry.quality)"
+                    ></div>
                     <NuxtImg
                       :src="entry.image"
                       :alt="entry.name"
                       class="absolute inset-0 w-full h-full object-cover z-10"
                       preset="tallMd"
-                      width="180"
-                      height="270"
+                      width="200"
+                      height="300"
                       fit="cover"
                       loading="lazy"
                       sizes="200px sm:240px"
                     />
-                    <div class="absolute top-1 right-1 z-20">
+
+                    <div class="absolute top-2 left-2 z-20">
+                      <n-tag
+                        v-if="entry.type"
+                        round
+                        size="small"
+                        :bordered="false"
+                        type="warning"
+                        class="backdrop-blur-sm !bg-black/50 text-gray-200"
+                      >
+                        {{ entry.type }}
+                      </n-tag>
+                    </div>
+                    <div class="absolute top-2 right-2 z-20">
                       <n-tag
                         round
                         size="small"
                         :bordered="false"
                         :type="getQualityType(entry.quality)"
+                        class="backdrop-blur-sm"
                       >
                         <span class="align-top">{{ entry.quality }}</span>
                         <span class="ml-0.5"
@@ -180,13 +224,36 @@
                       </n-tag>
                     </div>
                     <div
-                      class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-2 z-20"
+                      class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent p-3 z-20"
                     >
                       <p
-                        class="text-white font-medium text-xs sm:text-sm line-clamp-2"
+                        class="text-white font-semibold text-xs sm:text-sm line-clamp-2"
                       >
                         {{ entry.name }}
                       </p>
+                      <div class="flex flex-wrap gap-1 mt-1">
+                        <n-tag
+                          v-if="entry.style"
+                          size="tiny"
+                          :bordered="false"
+                          type="default"
+                          class="!text-xs"
+                        >
+                          {{ entry.style }}
+                        </n-tag>
+                      </div>
+                      <div class="flex flex-wrap gap-0.5 mt-1">
+                        <n-tag
+                          v-for="label in entry.labels"
+                          :key="label"
+                          size="tiny"
+                          :bordered="false"
+                          type="default"
+                          class="!text-xs"
+                        >
+                          {{ label }}
+                        </n-tag>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -194,7 +261,7 @@
               <div
                 v-else-if="loading"
                 key="loading"
-                class="grid grid-cols-4 sm:grid-cols-8 gap-2 sm:content-start pr-4"
+                class="grid grid-cols-2 sm:grid-cols-6 gap-2 sm:gap-3 sm:content-start"
               >
                 <div
                   v-for="i in pageSize"
@@ -240,13 +307,18 @@
   import { computed, ref, watch } from 'vue'
   import { Star } from '@vicons/fa'
   import type { SelectGroupOption, SelectOption } from 'naive-ui'
-  import type { SupabaseItem, SupabaseOutfit } from '~/types/supabase'
+  import type { ItemListEntry } from '~/types/items'
   import type { ItemType } from '~/utils/itemType'
   import {
     getAllItemTypes,
     getItemTypeCategory,
     itemCategoryOrder,
   } from '~/utils/itemType'
+  import {
+    normalizeTraitKey,
+    STYLE_DEFINITIONS,
+    TAG_DEFINITIONS,
+  } from '~/utils/itemInfo'
 
   const { t } = useI18n()
   const localePath = useLocalePath()
@@ -289,22 +361,46 @@
     ],
   }))
 
-  const pageSize = 40
+  const pageSize = 18
   const availableItemTypes = getAllItemTypes()
 
   const resolveType = (value?: string | null) => {
-    if (!value) return 'all'
-    if (value === 'all') return 'all'
+    if (!value) return null
+    if (value === 'all') return null
     if ((availableItemTypes as string[]).includes(value)) return value
-    return 'all'
+    return null
+  }
+
+  const availableStyles = STYLE_DEFINITIONS.map((style) => style.key)
+  const availableLabels = TAG_DEFINITIONS.map((tag) => tag.key)
+
+  const resolveStyle = (value?: string | null) => {
+    if (!value) return null
+    const normalized = normalizeTraitKey(value)
+    if (normalized === 'all') return null
+    if (availableStyles.includes(normalized)) return normalized
+    return null
+  }
+
+  const resolveLabel = (value?: string | null) => {
+    if (!value) return null
+    const normalized = normalizeTraitKey(value)
+    if (normalized === 'all') return null
+    if (availableLabels.includes(normalized)) return normalized
+    return null
   }
 
   const qualityFilter = ref<number | null>(
     route.query.quality ? Number(route.query.quality) : null
   )
-  const defaultType = computed(() => 'all')
-  const typeFilter = ref<string>(
+  const typeFilter = ref<string | null>(
     resolveType(route.query.type?.toString() ?? null)
+  )
+  const styleFilter = ref<string | null>(
+    resolveStyle(route.query.style?.toString() ?? null)
+  )
+  const labelFilter = ref<string | null>(
+    resolveLabel(route.query.label?.toString() ?? null)
   )
   const currentPage = ref(Number(route.query.page) || 1)
 
@@ -312,16 +408,18 @@
   const hasFilters = computed(
     () =>
       qualityFilter.value !== null ||
-      (showTypeFilter.value && typeFilter.value !== defaultType.value)
+      (showTypeFilter.value && typeFilter.value !== null) ||
+      styleFilter.value !== null ||
+      labelFilter.value !== null
   )
 
   const { fetchItemsPaginated } = useSupabaseItems()
 
   const cacheKey = computed(
     () =>
-      `items-${qualityFilter.value ?? 'all'}-${typeFilter.value}-${
-        currentPage.value
-      }-${pageSize}`
+      `items-${qualityFilter.value ?? 'all'}-${typeFilter.value ?? 'all'}-${
+        styleFilter.value ?? 'all'
+      }-${labelFilter.value ?? 'all'}-${currentPage.value}-${pageSize}`
   )
 
   const {
@@ -334,26 +432,29 @@
     async () => {
       return fetchItemsPaginated({
         quality: qualityFilter.value,
-        type: typeFilter.value === 'all' ? null : typeFilter.value,
+        type: typeFilter.value,
+        style: styleFilter.value,
+        label: labelFilter.value,
         page: currentPage.value,
       })
     },
     {
       default: () => ({ data: [], total: 0, totalPages: 0 }),
-      watch: [qualityFilter, typeFilter, currentPage],
+      watch: [qualityFilter, typeFilter, styleFilter, labelFilter, currentPage],
     }
   )
 
   const entries = computed(() => {
-    const data = (compendiumData.value?.data || []) as Array<
-      SupabaseOutfit | SupabaseItem
-    >
+    const data = (compendiumData.value?.data || []) as ItemListEntry[]
 
     return data.map((entry) => ({
       id: entry.id,
       quality: entry.quality,
       name: t(`item.${entry.id}.name`),
       image: getImageSrc('item', entry.id),
+      type: entry.type ? t(`tracker.items.types.${entry.type}`) : null,
+      style: entry.style ? t(`style.${entry.style}`) : null,
+      labels: (entry.tags || []).map((label) => t(`label.${label}.name`)),
     }))
   })
 
@@ -372,17 +473,31 @@
     currentPage.value = 1
   })
 
-  watch([qualityFilter, typeFilter, currentPage], () => {
-    router.replace({
-      query: {
-        ...(qualityFilter.value && { quality: qualityFilter.value }),
-        ...(showTypeFilter.value &&
-          typeFilter.value &&
-          typeFilter.value !== defaultType.value && { type: typeFilter.value }),
-        ...(currentPage.value > 1 && { page: currentPage.value }),
-      },
-    })
+  watch(styleFilter, () => {
+    currentPage.value = 1
   })
+
+  watch(labelFilter, () => {
+    currentPage.value = 1
+  })
+
+  watch(
+    [qualityFilter, typeFilter, styleFilter, labelFilter, currentPage],
+    () => {
+      router.replace({
+        query: {
+          ...(qualityFilter.value && { quality: qualityFilter.value }),
+          ...(showTypeFilter.value &&
+            typeFilter.value && {
+              type: typeFilter.value,
+            }),
+          ...(styleFilter.value && { style: styleFilter.value }),
+          ...(labelFilter.value && { label: labelFilter.value }),
+          ...(currentPage.value > 1 && { page: currentPage.value }),
+        },
+      })
+    }
+  )
 
   const retryFetch = () => {
     loadData()
@@ -390,7 +505,9 @@
 
   const clearFilters = () => {
     qualityFilter.value = null
-    typeFilter.value = defaultType.value
+    typeFilter.value = null
+    styleFilter.value = null
+    labelFilter.value = null
     currentPage.value = 1
   }
 
@@ -427,9 +544,7 @@
       }
     })
 
-    const options: Array<SelectOption | SelectGroupOption> = [
-      { label: t('common.items'), value: 'all' },
-    ]
+    const options: Array<SelectOption | SelectGroupOption> = []
 
     if (grouped.clothes && grouped.clothes.length > 0) {
       options.push({
@@ -482,22 +597,34 @@
     return options
   })
 
+  const styleOptions = computed(() =>
+    STYLE_DEFINITIONS.map((style) => ({
+      label: t(style.i18nKey),
+      value: style.key,
+    }))
+  )
+
+  const labelOptions = computed(() =>
+    TAG_DEFINITIONS.map((tag) => ({
+      label: t(tag.i18nKey),
+      value: tag.key,
+    }))
+  )
+
   const navigateToDetail = (id: number) => {
     router.push(localePath(`/items/${id}`))
   }
 
-  const getQualityGradient = (quality: number) => {
+  const getQualityOverlayClass = (quality: number) => {
     switch (quality) {
       case 5:
-        return 'bg-gradient-to-br from-[#fff8e1] to-[#ffcc80] hover:brightness-105 dark:from-[#713f12] dark:to-[#451a03]'
+        return 'bg-yellow-500/5'
       case 4:
-        return 'bg-gradient-to-br from-[#e3f2fd] to-[#bbdefb] hover:brightness-105 dark:from-[#334155] dark:to-[#1e293b]'
+        return 'bg-blue-500/5'
       case 3:
-        return 'bg-gradient-to-br from-[#e0f2f1] to-[#80cbc4] hover:brightness-105 dark:from-[#134e4a] dark:to-[#0f766e]'
-      case 2:
-        return 'bg-gradient-to-br from-[#f5f5f5] to-[#d6d6d6] hover:brightness-105 dark:from-[#3f3f46] dark:to-[#27272a]'
+        return 'bg-green-500/5'
       default:
-        return 'bg-gradient-to-br from-gray-100 to-gray-200 hover:brightness-105 dark:from-gray-700 dark:to-gray-800'
+        return 'bg-gray-500/5'
     }
   }
 

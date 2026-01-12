@@ -5,6 +5,8 @@ import type { SupabaseOutfit, OutfitWithItems } from '~/types/supabase'
 export interface OutfitFilters {
   search?: string
   quality?: number | null
+  style?: string | null
+  label?: string | null
   page?: number
 }
 
@@ -70,7 +72,7 @@ export const useSupabaseOutfits = () => {
     loading.value = true
     error.value = null
 
-    const { quality = null, page = 1 } = filters
+    const { quality = null, style = null, label = null, page = 1 } = filters
 
     try {
       const params: Record<string, string | number> = {
@@ -79,6 +81,14 @@ export const useSupabaseOutfits = () => {
 
       if (quality !== null && quality !== undefined) {
         params.quality = quality
+      }
+
+      if (style && style !== 'all') {
+        params.style = style
+      }
+
+      if (label && label !== 'all') {
+        params.label = label
       }
 
       const result = await $fetch<PaginatedOutfitsResponse>('/api/outfits', {

@@ -42,7 +42,7 @@ export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
       'en/banner.json',
       'en/outfit.json',
       'en/item.json',
-      'en/version.json',
+      'en/misc.json',
     ],
   },
   {
@@ -54,7 +54,7 @@ export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
       'de/banner.json',
       'de/outfit.json',
       'de/item.json',
-      'de/version.json',
+      'de/misc.json',
     ],
   },
   {
@@ -66,7 +66,7 @@ export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
       'es/banner.json',
       'es/outfit.json',
       'es/item.json',
-      'es/version.json',
+      'es/misc.json',
     ],
   },
   {
@@ -78,7 +78,7 @@ export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
       'fr/banner.json',
       'fr/outfit.json',
       'fr/item.json',
-      'fr/version.json',
+      'fr/misc.json',
     ],
   },
   {
@@ -90,7 +90,7 @@ export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
       'id/banner.json',
       'id/outfit.json',
       'id/item.json',
-      'id/version.json',
+      'id/misc.json',
     ],
   },
   {
@@ -102,7 +102,7 @@ export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
       'it/banner.json',
       'it/outfit.json',
       'it/item.json',
-      'it/version.json',
+      'it/misc.json',
     ],
   },
   {
@@ -114,7 +114,7 @@ export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
       'ja/banner.json',
       'ja/outfit.json',
       'ja/item.json',
-      'ja/version.json',
+      'ja/misc.json',
     ],
   },
   {
@@ -126,7 +126,7 @@ export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
       'ko/banner.json',
       'ko/outfit.json',
       'ko/item.json',
-      'ko/version.json',
+      'ko/misc.json',
     ],
   },
   {
@@ -138,7 +138,7 @@ export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
       'pt/banner.json',
       'pt/outfit.json',
       'pt/item.json',
-      'pt/version.json',
+      'pt/misc.json',
     ],
   },
   {
@@ -150,7 +150,7 @@ export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
       'th/banner.json',
       'th/outfit.json',
       'th/item.json',
-      'th/version.json',
+      'th/misc.json',
     ],
   },
   {
@@ -162,7 +162,7 @@ export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
       'tw/banner.json',
       'tw/outfit.json',
       'tw/item.json',
-      'tw/version.json',
+      'tw/misc.json',
     ],
   },
   {
@@ -174,7 +174,7 @@ export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
       'zh/banner.json',
       'zh/outfit.json',
       'zh/item.json',
-      'zh/version.json',
+      'zh/misc.json',
     ],
   },
 ]

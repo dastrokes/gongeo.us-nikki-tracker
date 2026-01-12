@@ -122,8 +122,8 @@
                 :alt="outfitName"
                 class="absolute inset-0 w-full h-full object-cover z-10"
                 preset="tallMd"
-                width="180"
-                height="270"
+                width="200"
+                height="300"
                 fit="cover"
                 loading="eager"
                 sizes="200px sm:240px"
@@ -152,17 +152,47 @@
               <h1 class="text-xl sm:text-2xl font-bold leading-tight">
                 {{ outfitName }}
               </h1>
-              <n-tag
-                :type="getQualityType(outfit.quality)"
-                :bordered="false"
-                round
-                size="small"
-              >
-                <span class="align-top">{{ outfit.quality }}</span
-                ><span class="ml-0.5"
-                  ><n-icon class="text-xs"><Star /></n-icon
-                ></span>
-              </n-tag>
+              <div class="flex flex-wrap gap-2">
+                <n-tag
+                  :type="getQualityType(outfit.quality)"
+                  :bordered="false"
+                  round
+                  size="small"
+                >
+                  <span class="align-top">{{ outfit.quality }}</span
+                  ><span class="ml-0.5"
+                    ><n-icon class="text-xs"><Star /></n-icon
+                  ></span>
+                </n-tag>
+                <n-tag
+                  v-for="label in outfitStyleLabels"
+                  :key="`style-${label}`"
+                  :bordered="false"
+                  round
+                  strong
+                  size="small"
+                  class="!bg-rose-50 !text-rose-600 dark:!bg-rose-900/30 dark:!text-rose-300"
+                >
+                  <template #icon>
+                    <n-icon><Magic /></n-icon>
+                  </template>
+                  {{ label }}
+                </n-tag>
+                <n-tag
+                  v-for="label in outfitLabelTags"
+                  :key="`label-${label}`"
+                  :bordered="false"
+                  round
+                  strong
+                  size="small"
+                  class="!bg-teal-50 !text-teal-600 dark:!bg-teal-900/30 dark:!text-teal-300"
+                >
+                  <template #icon>
+                    <n-icon><Tag /></n-icon>
+                  </template>
+                  {{ label }}
+                </n-tag>
+              </div>
             </div>
 
             <!-- Description -->
@@ -257,11 +287,11 @@
                   :alt="t(`outfit.${variation.id}.name`)"
                   class="absolute inset-0 w-full h-full object-cover z-10"
                   preset="tallSm"
-                  width="120"
-                  height="180"
+                  width="100"
+                  height="150"
                   fit="cover"
                   loading="lazy"
-                  sizes="120px"
+                  sizes="100px"
                   format="webp"
                 />
               </div>
@@ -353,9 +383,14 @@
 
 <script setup lang="ts">
   import { NIcon } from 'naive-ui'
-  import { Star } from '@vicons/fa'
+  import { Star, Magic, Tag } from '@vicons/fa'
   import type { OutfitWithItems } from '~/types/supabase'
   import type { ItemType } from '~/utils/itemType'
+  import {
+    resolveStyleKeyFromProps,
+    resolveTagI18nKeys,
+    STYLE_DEFINITIONS,
+  } from '~/utils/itemInfo'
 
   const { t, locale } = useI18n()
   const localePath = useLocalePath()
@@ -410,6 +445,19 @@
       .map((oi) => oi.items)
       .filter((item) => makeupTypes.includes(getItemType(item.id)))
     return sortItemsByCategory(items)
+  })
+
+  const outfitStyleLabels = computed(() => {
+    if (!outfit.value?.props) return []
+    const styleKey = resolveStyleKeyFromProps(outfit.value.props)
+    if (!styleKey) return []
+    const style = STYLE_DEFINITIONS.find((s) => s.key === styleKey)
+    return style ? [t(style.i18nKey)] : []
+  })
+
+  const outfitLabelTags = computed(() => {
+    if (!outfit.value?.tags) return []
+    return resolveTagI18nKeys(outfit.value.tags).map((key) => t(key))
   })
 
   // Computed outfit variations with labels

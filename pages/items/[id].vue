@@ -107,8 +107,8 @@
                 :alt="itemName"
                 class="absolute inset-0 w-full h-full object-cover z-10"
                 preset="tallMd"
-                width="180"
-                height="270"
+                width="200"
+                height="300"
                 fit="cover"
                 loading="eager"
                 sizes="200px sm:240px"
@@ -155,6 +155,33 @@
                   size="small"
                 >
                   {{ t(`tracker.items.types.${itemType}`) }}
+                </n-tag>
+                <n-tag
+                  v-if="itemStyleLabel"
+                  :bordered="false"
+                  round
+                  strong
+                  size="small"
+                  class="!bg-rose-50 !text-rose-600 dark:!bg-rose-900/30 dark:!text-rose-300"
+                >
+                  <template #icon>
+                    <n-icon><Magic /></n-icon>
+                  </template>
+                  {{ itemStyleLabel }}
+                </n-tag>
+                <n-tag
+                  v-for="label in itemLabelTags"
+                  :key="label"
+                  :bordered="false"
+                  round
+                  strong
+                  size="small"
+                  class="!bg-teal-50 !text-teal-600 dark:!bg-teal-900/30 dark:!text-teal-300"
+                >
+                  <template #icon>
+                    <n-icon><Tag /></n-icon>
+                  </template>
+                  {{ label }}
                 </n-tag>
               </div>
             </div>
@@ -207,11 +234,11 @@
                   :alt="t(`item.${variation.id}.name`)"
                   class="absolute inset-0 w-full h-full object-cover z-10"
                   preset="tallSm"
-                  width="120"
-                  height="180"
+                  width="100"
+                  height="150"
                   fit="cover"
                   loading="lazy"
-                  sizes="120px"
+                  sizes="100px"
                   format="webp"
                 />
               </div>
@@ -252,11 +279,11 @@
                   :alt="outfit.name"
                   class="absolute inset-0 w-full h-full object-cover z-10"
                   preset="tallSm"
-                  width="120"
-                  height="180"
+                  width="100"
+                  height="150"
                   fit="cover"
                   loading="lazy"
-                  sizes="120px"
+                  sizes="100px"
                   format="webp"
                 />
                 <div class="absolute top-1 right-1 z-20">
@@ -361,9 +388,14 @@
 
 <script setup lang="ts">
   import { NIcon } from 'naive-ui'
-  import { Star } from '@vicons/fa'
+  import { Star, Magic, Tag } from '@vicons/fa'
   import type { ItemWithOutfits } from '~/types/supabase'
   import { getBannerForItem } from '~/utils/bannerUtils'
+  import {
+    resolveStyleKeyFromProps,
+    resolveTagI18nKeys,
+    STYLE_BY_KEY,
+  } from '~/utils/itemInfo'
 
   const { t, locale } = useI18n()
   const { getImageSrc, getImageUrl } = imageProvider()
@@ -464,6 +496,18 @@
       (item.value as ItemWithOutfits & { description?: string }).description ||
       ''
     )
+  })
+
+  const itemStyleLabel = computed(() => {
+    if (!item.value) return null
+    const styleKey = resolveStyleKeyFromProps(item.value.props)
+    const style = styleKey ? STYLE_BY_KEY.get(styleKey) : null
+    return style ? t(style.i18nKey) : null
+  })
+
+  const itemLabelTags = computed(() => {
+    if (!item.value) return []
+    return resolveTagI18nKeys(item.value.tags).map((key) => t(key))
   })
 
   // Retry fetch

@@ -126,7 +126,7 @@
                   <div class="flex flex-col gap-1">
                     <div class="flex items-center">
                       <n-tag :bordered="false">
-                        {{ t(`season.${getVersion(run.version)}`) }}
+                        {{ t(`version.${getVersion(run.version)}`) }}
                       </n-tag>
                       <n-tag
                         class="ml-1"

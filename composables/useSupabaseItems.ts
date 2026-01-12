@@ -1,16 +1,19 @@
 import { GAME_VERSION_HEADER } from '~/utils/cacheHeaders'
 import { getGameVersion } from '~/utils/gameVersion'
-import type { SupabaseItem, ItemWithOutfits } from '~/types/supabase'
+import type { ItemListEntry } from '~/types/items'
+import type { ItemWithOutfits } from '~/types/supabase'
 
 export interface ItemFilters {
   search?: string
   quality?: number | null
   type?: string | null
+  style?: string | null
+  label?: string | null
   page?: number
 }
 
 export interface PaginatedItemsResponse {
-  data: SupabaseItem[]
+  data: ItemListEntry[]
   total: number
   page: number
   totalPages: number
@@ -62,7 +65,7 @@ export const useSupabaseItems = () => {
   /**
    * Fetch items with server-side filtering and pagination
    * Uses edge-cached API route (15 minutes cache)
-   * @param filters - Object containing search, quality, type, and page
+   * @param filters - Object containing search, quality, type, style, label, and page
    * @returns Promise resolving to paginated response with data and metadata
    */
   const fetchItemsPaginated = async (
@@ -71,7 +74,13 @@ export const useSupabaseItems = () => {
     loading.value = true
     error.value = null
 
-    const { quality = null, type = null, page = 1 } = filters
+    const {
+      quality = null,
+      type = null,
+      style = null,
+      label = null,
+      page = 1,
+    } = filters
 
     try {
       const params: Record<string, string | number> = {
@@ -84,6 +93,14 @@ export const useSupabaseItems = () => {
 
       if (type && type !== 'all') {
         params.type = type
+      }
+
+      if (style && style !== 'all') {
+        params.style = style
+      }
+
+      if (label && label !== 'all') {
+        params.label = label
       }
 
       const result = await $fetch<PaginatedItemsResponse>('/api/items', {

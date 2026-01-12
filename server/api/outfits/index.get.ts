@@ -1,6 +1,29 @@
 import { useSupabaseDataClient } from '~/composables/useSupabaseClient'
 import { GAME_VERSION_HEADER, setCacheHeaders } from '~/utils/cacheHeaders'
 import { getGameVersion } from '~/utils/gameVersion'
+import {
+  normalizeTraitKey,
+  resolveStyleKeyFromProps,
+  resolveTagI18nKeys,
+  STYLE_BY_KEY,
+  TAG_BY_KEY,
+} from '~/utils/itemInfo'
+
+type OutfitRow = {
+  id: number
+  quality: number
+  props: Array<number | string> | null
+  tags: Array<number | string> | null
+  outfit_items?: Array<{
+    items?: {
+      props: Array<number | string> | null
+      tags: Array<number | string> | null
+    } | null
+  }>
+}
+
+const BASE_OUTFIT_ID_MIN = 10000
+const BASE_OUTFIT_ID_MAX = 99999
 
 /**
  * API endpoint for fetching paginated outfits
@@ -9,21 +32,45 @@ import { getGameVersion } from '~/utils/gameVersion'
 export default defineCachedEventHandler(
   async (event) => {
     setCacheHeaders(event, {
-      varyQuery: ['page', 'quality'],
+      varyQuery: ['page', 'quality', 'style', 'label'],
       varyHeaders: [GAME_VERSION_HEADER],
     })
     const query = getQuery(event)
     const quality = query.quality ? Number(query.quality) : null
+    const styleParam = query.style?.toString() || null
+    const labelParam = query.label?.toString() || null
     const page = query.page ? Number(query.page) : 1
-    const pageSize = 40
+    const pageSize = 18
+    const normalizedStyle = styleParam ? normalizeTraitKey(styleParam) : null
+    const normalizedLabel = labelParam ? normalizeTraitKey(labelParam) : null
+    const styleFilter = normalizedStyle
+      ? STYLE_BY_KEY.get(normalizedStyle)
+      : null
+    const labelFilter = normalizedLabel ? TAG_BY_KEY.get(normalizedLabel) : null
+
+    if ((styleParam && !styleFilter) || (labelParam && !labelFilter)) {
+      return {
+        data: [],
+        total: 0,
+        page,
+        totalPages: 0,
+      }
+    }
 
     const supabase = useSupabaseDataClient()
 
     try {
-      // Build the query with only necessary fields
+      // Build the query - always fetch props and tags for style/label display
+      const selectFields =
+        styleFilter || labelFilter
+          ? 'id, quality, props, tags, outfit_items(items(props,tags))'
+          : 'id, quality, props, tags'
+
       let dbQuery = supabase
         .from('outfits')
-        .select('id, quality', { count: 'exact' })
+        .select(selectFields, { count: 'exact' })
+        .gte('id', BASE_OUTFIT_ID_MIN)
+        .lte('id', BASE_OUTFIT_ID_MAX)
 
       // Apply quality filter
       if (quality !== null && quality !== undefined) {
@@ -35,9 +82,12 @@ export default defineCachedEventHandler(
         .order('quality', { ascending: false })
         .order('id', { ascending: true })
 
-      const from = (page - 1) * pageSize
-      const to = from + pageSize - 1
-      dbQuery = dbQuery.range(from, to)
+      const shouldPaginateInDb = !styleFilter && !labelFilter
+      if (shouldPaginateInDb) {
+        const from = (page - 1) * pageSize
+        const to = from + pageSize - 1
+        dbQuery = dbQuery.range(from, to)
+      }
 
       const { data, error: supabaseError, count, status } = await dbQuery
 
@@ -56,6 +106,8 @@ export default defineCachedEventHandler(
             let countQuery = supabase
               .from('outfits')
               .select('id', { count: 'exact', head: true })
+              .gte('id', BASE_OUTFIT_ID_MIN)
+              .lte('id', BASE_OUTFIT_ID_MAX)
 
             if (quality !== null && quality !== undefined) {
               countQuery = countQuery.eq('quality', quality)
@@ -78,11 +130,65 @@ export default defineCachedEventHandler(
         throw supabaseError
       }
 
-      const total = count || 0
-      const totalPages = Math.ceil(total / pageSize)
+      const rows = (data as OutfitRow[] | null) ?? []
+      const filteredOutfits = rows.filter((outfit) => {
+        if (!styleFilter && !labelFilter) return true
+
+        let matchesStyle = !styleFilter
+        let matchesLabel = !labelFilter
+
+        for (const entry of outfit.outfit_items || []) {
+          const item = entry.items
+          if (!item) continue
+
+          if (!matchesStyle && styleFilter) {
+            const styleKey = resolveStyleKeyFromProps(item.props)
+            if (styleKey === styleFilter.key) {
+              matchesStyle = true
+            }
+          }
+
+          if (!matchesLabel && labelFilter) {
+            const tagIds = (item.tags || [])
+              .map((value: number | string) => Number(value))
+              .filter((value: number) => !Number.isNaN(value))
+            if (tagIds.includes(labelFilter.id)) {
+              matchesLabel = true
+            }
+          }
+
+          if (matchesStyle && matchesLabel) {
+            return true
+          }
+        }
+
+        return matchesStyle && matchesLabel
+      })
+
+      const total =
+        styleFilter || labelFilter ? filteredOutfits.length : count || 0
+      const totalPages = total ? Math.ceil(total / pageSize) : 0
+      const from = (page - 1) * pageSize
+      const to = from + pageSize
+      const pagedOutfits =
+        styleFilter || labelFilter
+          ? filteredOutfits.slice(from, to)
+          : filteredOutfits
 
       return {
-        data: data || [],
+        data: pagedOutfits.map(({ id, quality, props, tags }) => {
+          const styleKey = resolveStyleKeyFromProps(props)
+          const styleI18nKey = styleKey
+            ? (STYLE_BY_KEY.get(styleKey)?.i18nKey ?? null)
+            : null
+          const labelI18nKeys = resolveTagI18nKeys(tags) || []
+          return {
+            id,
+            quality,
+            style: styleI18nKey,
+            labels: labelI18nKeys,
+          }
+        }),
         total,
         page,
         totalPages,
@@ -106,7 +212,9 @@ export default defineCachedEventHandler(
       const query = getQuery(event)
       const page = query.page ? Number(query.page) : 1
       const quality = query.quality ? Number(query.quality) : 'all'
-      return `${version}:outfits:p${page}:q${quality}`
+      const style = query.style?.toString() || 'all'
+      const label = query.label?.toString() || 'all'
+      return `${version}:outfits:p${page}:q${quality}:s${style}:l${label}`
     },
     swr: true, // Enable stale-while-revalidate
   }

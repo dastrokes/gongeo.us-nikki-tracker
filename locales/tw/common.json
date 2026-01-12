@@ -623,6 +623,8 @@
     "not_found_description": "找不到此物品。它可能已被刪除。",
     "back_to_list": "返回物品列表",
     "filter_type": "按類型篩選",
+    "filter_style": "按風格篩選",
+    "filter_label": "按標籤篩選",
     "filter_all_types": "全部類型"
   }
 }

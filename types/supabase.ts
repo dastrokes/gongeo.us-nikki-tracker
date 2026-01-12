@@ -11,8 +11,9 @@
 export interface SupabaseOutfit {
   id: number
   quality: number
-  created_at: string
-  updated_at: string
+  props?: Array<number | string> | null
+  tags?: Array<number | string> | null
+  obtain_type?: number | null
 }
 
 /**
@@ -23,8 +24,8 @@ export interface SupabaseItem {
   id: number
   quality: number
   type: string
-  created_at: string
-  updated_at: string
+  props?: Array<number | string> | null
+  tags?: Array<number | string> | null
 }
 
 /**
@@ -47,6 +48,8 @@ export interface OutfitWithItems extends SupabaseOutfit {
     id: number
     quality: number
     type: string
+    props?: Array<number | string> | null
+    tags?: Array<number | string> | null
   }>
 }
 

@@ -1,54 +1,54 @@
 export interface StyleDefinition {
   key: string
-  label: string
   index: number
+  i18nKey: string
 }
 
 export interface TagDefinition {
   id: number
   key: string
-  label: string
+  i18nKey: string
 }
 
 export const STYLE_DEFINITIONS: StyleDefinition[] = [
-  { key: 'elegant', label: 'Elegant', index: 0 },
-  { key: 'fresh', label: 'Fresh', index: 1 },
-  { key: 'sweet', label: 'Sweet', index: 2 },
-  { key: 'sexy', label: 'Sexy', index: 3 },
-  { key: 'cool', label: 'Cool', index: 4 },
+  { key: 'elegant', index: 0, i18nKey: 'style.elegant' },
+  { key: 'fresh', index: 1, i18nKey: 'style.fresh' },
+  { key: 'sweet', index: 2, i18nKey: 'style.sweet' },
+  { key: 'sexy', index: 3, i18nKey: 'style.sexy' },
+  { key: 'cool', index: 4, i18nKey: 'style.cool' },
 ]
 
 export const TAG_DEFINITIONS: TagDefinition[] = [
-  { id: 1, key: 'warm', label: 'warm' },
-  { id: 2, key: 'summer', label: 'summer' },
-  { id: 3, key: 'home', label: 'home' },
-  { id: 4, key: 'formal', label: 'formal' },
-  { id: 5, key: 'simple', label: 'simple' },
-  { id: 6, key: 'fantasy', label: 'fantasy' },
-  { id: 7, key: 'intellectual', label: 'intellectual' },
-  { id: 8, key: 'adventure', label: 'adventure' },
-  { id: 9, key: 'romance', label: 'romance' },
-  { id: 10, key: 'retro', label: 'retro' },
-  { id: 11, key: 'fashion', label: 'fashion' },
-  { id: 12, key: 'uniform', label: 'uniform' },
-  { id: 100, key: 'fairy', label: 'fairy' },
-  { id: 101, key: 'ballroom', label: 'ballroom' },
-  { id: 102, key: 'royal', label: 'royal' },
-  { id: 103, key: 'linlang', label: 'linlang' },
-  { id: 104, key: 'pastoral', label: 'pastoral' },
-  { id: 105, key: 'playful', label: 'playful' },
-  { id: 106, key: 'trendy', label: 'trendy' },
-  { id: 107, key: 'cute', label: 'cute' },
-  { id: 108, key: 'light', label: 'light' },
-  { id: 109, key: 'more-light', label: 'more-light' },
-  { id: 110, key: 'divine', label: 'divine' },
-  { id: 111, key: 'forest', label: 'forest' },
-  { id: 112, key: 'spirited', label: 'spirited' },
-  { id: 113, key: 'classical', label: 'classical' },
-  { id: 114, key: 'terra', label: 'terra' },
-  { id: 115, key: 'aesthetic', label: 'aesthetic' },
-  { id: 116, key: 'whimsy', label: 'whimsy' },
-  { id: 117, key: 'glow', label: 'glow' },
+  { id: 1, key: 'warm', i18nKey: 'label.1.name' },
+  { id: 2, key: 'summer', i18nKey: 'label.2.name' },
+  { id: 3, key: 'home', i18nKey: 'label.3.name' },
+  { id: 4, key: 'formal', i18nKey: 'label.4.name' },
+  { id: 5, key: 'simple', i18nKey: 'label.5.name' },
+  { id: 6, key: 'fantasy', i18nKey: 'label.6.name' },
+  { id: 7, key: 'intellectual', i18nKey: 'label.7.name' },
+  { id: 8, key: 'adventure', i18nKey: 'label.8.name' },
+  { id: 9, key: 'romance', i18nKey: 'label.9.name' },
+  { id: 10, key: 'retro', i18nKey: 'label.10.name' },
+  { id: 11, key: 'fashion', i18nKey: 'label.11.name' },
+  { id: 12, key: 'uniform', i18nKey: 'label.12.name' },
+  { id: 100, key: 'fairy', i18nKey: 'label.100.name' },
+  { id: 101, key: 'ballroom', i18nKey: 'label.101.name' },
+  { id: 102, key: 'royal', i18nKey: 'label.102.name' },
+  { id: 103, key: 'linlang', i18nKey: 'label.103.name' },
+  { id: 104, key: 'pastoral', i18nKey: 'label.104.name' },
+  { id: 105, key: 'playful', i18nKey: 'label.105.name' },
+  { id: 106, key: 'trendy', i18nKey: 'label.106.name' },
+  { id: 107, key: 'cute', i18nKey: 'label.107.name' },
+  { id: 108, key: 'light', i18nKey: 'label.108.name' },
+  { id: 109, key: 'more-light', i18nKey: 'label.109.name' },
+  { id: 110, key: 'divine', i18nKey: 'label.110.name' },
+  { id: 111, key: 'forest', i18nKey: 'label.111.name' },
+  { id: 112, key: 'spirited', i18nKey: 'label.112.name' },
+  { id: 113, key: 'classical', i18nKey: 'label.113.name' },
+  { id: 114, key: 'terra', i18nKey: 'label.114.name' },
+  { id: 115, key: 'aesthetic', i18nKey: 'label.115.name' },
+  { id: 116, key: 'whimsy', i18nKey: 'label.116.name' },
+  { id: 117, key: 'glow', i18nKey: 'label.117.name' },
 ]
 
 export const normalizeTraitKey = (value: string) => {
@@ -66,8 +66,8 @@ export const TAG_BY_KEY = new Map(
   TAG_DEFINITIONS.map((definition) => [definition.key, definition])
 )
 
-export const TAG_BY_ID = new Map(
-  TAG_DEFINITIONS.map((definition) => [definition.id, definition.label])
+export const TAG_I18N_BY_ID = new Map(
+  TAG_DEFINITIONS.map((definition) => [definition.id, definition.i18nKey])
 )
 
 export const resolveStyleKeyFromProps = (
@@ -100,21 +100,21 @@ export const resolveStyleKeyFromProps = (
   return STYLE_DEFINITIONS[maxIndex]?.key ?? null
 }
 
-export const resolveStyleLabelFromProps = (
+export const resolveStyleI18nKeyFromProps = (
   props?: Array<number | string> | null
 ) => {
   const styleKey = resolveStyleKeyFromProps(props)
-  return styleKey ? (STYLE_BY_KEY.get(styleKey)?.label ?? null) : null
+  return styleKey ? (STYLE_BY_KEY.get(styleKey)?.i18nKey ?? null) : null
 }
 
-export const resolveTagLabels = (tags?: Array<number | string> | null) => {
+export const resolveTagI18nKeys = (tags?: Array<number | string> | null) => {
   if (!tags || tags.length === 0) return []
 
-  const labels = tags
+  const keys = tags
     .map((value) => Number(value))
     .filter((value) => !Number.isNaN(value))
-    .map((value) => TAG_BY_ID.get(value))
+    .map((value) => TAG_I18N_BY_ID.get(value))
     .filter((value): value is string => Boolean(value))
 
-  return labels
+  return keys
 }

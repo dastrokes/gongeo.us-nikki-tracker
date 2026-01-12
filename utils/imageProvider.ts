@@ -1,3 +1,10 @@
+export const getImageProvider = () => {
+  return (
+    process.env.NUXT_IMAGE_PROVIDER ||
+    (process.env.NODE_ENV === 'production' ? 'netlify' : 'ipx')
+  )
+}
+
 export const imageProvider = () => {
   const isDev = import.meta.dev
   const runtimeConfig = useRuntimeConfig()

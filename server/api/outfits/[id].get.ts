@@ -10,9 +10,17 @@ interface OutfitTranslation {
 interface OutfitData {
   id: number
   quality: number
+  props?: Array<number | string> | null
+  tags?: Array<number | string> | null
   outfit_translations?: OutfitTranslation[]
   description?: string
-  outfit_items?: Array<{ items: { id: number; quality: number; type: string } }>
+  outfit_items?: Array<{
+    items: {
+      id: number
+      quality: number
+      type: string
+    }
+  }>
   variations?: Array<{ id: number; quality: number; type: string }>
 }
 
@@ -96,7 +104,7 @@ export default defineCachedEventHandler(
 
     try {
       // Build query conditionally to minimize data transfer
-      const selectParts = ['id', 'quality']
+      const selectParts = ['id', 'quality', 'props', 'tags']
 
       if (languageCode) {
         selectParts.push('outfit_translations!left(description,language_code)')

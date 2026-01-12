@@ -6,6 +6,11 @@ import { BANNER_DATA } from '../data/banners'
  * @returns Latest game version (e.g., "2.0.2")
  */
 export function getGameVersion(): string {
+  const config = useRuntimeConfig()
+  if (config.public.gameVersion) {
+    return config.public.gameVersion as string
+  }
+
   const bannerIds = Object.keys(BANNER_DATA).map(Number)
   const lastBannerId = Math.max(...bannerIds)
   const lastBanner = BANNER_DATA[lastBannerId]

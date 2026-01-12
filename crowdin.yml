@@ -4,5 +4,5 @@ files:
       - /locales/en/banner.json
       - /locales/en/outfit.json
       - /locales/en/item.json
-      - /locales/en/version.json
+      - /locales/en/misc.json
     translation: /locales/%two_letters_code%/%original_file_name%

@@ -1,49 +1,106 @@
 <template>
   <div class="max-w-7xl mx-auto space-y-2 sm:space-y-4">
-    <!-- Main Title and Buttons Card -->
-    <n-card
-      size="small"
-      class="rounded-xl p-0 sm:p-2"
-      content-class="!flex !flex-col"
-    >
-      <div class="flex flex-col text-center flex-1">
-        <n-h1 class="font-bold">
-          {{ $t('navigation.title') }}
-        </n-h1>
-        <n-h2 class="font-bold mt-0">{{ $t('navigation.subtitle') }}</n-h2>
-        <n-h3 class="mt-0 text-gray-600 dark:text-gray-300">
-          {{ $t('default.description') }}
-        </n-h3>
-      </div>
-      <div
-        class="flex gap-4 opacity-90 justify-center items-center flex-wrap mt-4"
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-2 sm:gap-4">
+      <!-- Main Title and Buttons Card -->
+      <n-card
+        size="small"
+        class="rounded-xl p-0 sm:p-2 lg:col-span-2"
+        content-class="!flex !flex-col"
       >
-        <n-button
-          type="primary"
-          size="medium"
-          @click="navigateTo(localePath('/tracker'))"
+        <div class="flex flex-col text-center flex-1">
+          <n-h1 class="font-bold">
+            {{ $t('navigation.title') }}
+          </n-h1>
+          <n-h2 class="font-bold mt-0">{{ $t('navigation.subtitle') }}</n-h2>
+          <n-h3 class="mt-0 text-gray-600 dark:text-gray-300">
+            {{ $t('default.description') }}
+          </n-h3>
+        </div>
+        <div
+          class="flex gap-4 opacity-90 justify-center items-center flex-wrap mt-4"
         >
-          <template #icon>
-            <n-icon>
-              <Book />
-            </n-icon>
-          </template>
-          {{ $t('default.your_data') }}
-        </n-button>
-        <n-button
-          type="primary"
-          size="medium"
-          @click="navigateTo(localePath('/global'))"
-        >
-          <template #icon>
-            <n-icon>
-              <Globe />
-            </n-icon>
-          </template>
-          {{ $t('navigation.global') }}
-        </n-button>
-      </div>
-    </n-card>
+          <n-button
+            type="primary"
+            size="medium"
+            @click="navigateTo(localePath('/tracker'))"
+          >
+            <template #icon>
+              <n-icon>
+                <Book />
+              </n-icon>
+            </template>
+            {{ $t('default.your_data') }}
+          </n-button>
+          <n-button
+            type="primary"
+            size="medium"
+            @click="navigateTo(localePath('/global'))"
+          >
+            <template #icon>
+              <n-icon>
+                <Globe />
+              </n-icon>
+            </template>
+            {{ $t('navigation.global') }}
+          </n-button>
+        </div>
+      </n-card>
+
+      <n-card
+        size="small"
+        class="rounded-xl p-0 sm:p-2"
+        content-class="!flex !flex-col !justify-center"
+      >
+        <div class="flex flex-col text-center flex-1 mt-4">
+          <n-h2 class="font-bold">
+            {{ $t('meta.game_title') }} {{ $t('navigation.compendium') }}
+          </n-h2>
+        </div>
+        <div class="flex flex-col gap-2 items-center">
+          <n-button-group>
+            <n-button
+              tertiary
+              type="primary"
+              size="medium"
+              @click="navigateTo(localePath('/banners'))"
+            >
+              <template #icon>
+                <n-icon>
+                  <CalendarAlt />
+                </n-icon>
+              </template>
+              {{ $t('common.banners') }}
+            </n-button>
+            <n-button
+              tertiary
+              type="primary"
+              size="medium"
+              @click="navigateTo(localePath('/outfits'))"
+            >
+              <template #icon>
+                <n-icon>
+                  <Tshirt />
+                </n-icon>
+              </template>
+              {{ $t('common.outfits') }}
+            </n-button>
+            <n-button
+              tertiary
+              type="primary"
+              size="medium"
+              @click="navigateTo(localePath('/items'))"
+            >
+              <template #icon>
+                <n-icon>
+                  <ListAlt />
+                </n-icon>
+              </template>
+              {{ $t('common.items') }}
+            </n-button></n-button-group
+          >
+        </div>
+      </n-card>
+    </div>
     <n-card
       class="rounded-xl"
       size="small"
@@ -102,7 +159,7 @@
 <script setup lang="ts">
   import { BANNER_DATA } from '~/data/banners'
   import type { Banner } from '~/types/banner'
-  import { Book, Globe, CalendarAlt } from '@vicons/fa'
+  import { Book, Globe, CalendarAlt, Tshirt, ListAlt } from '@vicons/fa'
 
   const { t } = useI18n()
   const localePath = useLocalePath()

@@ -2,6 +2,8 @@ import { GAME_VERSION_HEADER } from '~/utils/cacheHeaders'
 import { getGameVersion } from '~/utils/gameVersion'
 import type { SupabaseOutfit, OutfitWithItems } from '~/types/supabase'
 import { LOCALE_HEADER } from '~/utils/locale'
+import { getApiErrorMessage, isNotFoundResponse } from '~/utils/apiFetch'
+import { toError } from '~/utils/errors'
 
 export interface OutfitFilters {
   search?: string
@@ -41,14 +43,29 @@ export const useSupabaseOutfits = () => {
     error.value = null
 
     try {
-      const data = await $fetch<OutfitWithItems>(`/api/outfits/${id}`, {
+      const response = await $fetch.raw<OutfitWithItems>(`/api/outfits/${id}`, {
         headers: { [LOCALE_HEADER]: locale.value },
+        ignoreResponseError: true,
       })
 
-      return data
+      if (isNotFoundResponse(response)) {
+        return null
+      }
+
+      if (response.status >= 400) {
+        throw new Error(
+          getApiErrorMessage(
+            response as { _data?: ApiErrorResponse },
+            `Failed to fetch outfit ${id}`
+          )
+        )
+      }
+
+      return response._data ?? null
     } catch (e) {
-      error.value = e as Error
-      console.error(`Failed to fetch outfit ${id}:`, e)
+      const normalizedError = toError(e, `Failed to fetch outfit ${id}`)
+      error.value = normalizedError
+      console.error(`Failed to fetch outfit ${id}:`, normalizedError)
       return null
     } finally {
       loading.value = false
@@ -93,8 +110,9 @@ export const useSupabaseOutfits = () => {
 
       return result
     } catch (e) {
-      error.value = e as Error
-      console.error('Failed to fetch outfits:', e)
+      const normalizedError = toError(e, 'Failed to fetch outfits')
+      error.value = normalizedError
+      console.error('Failed to fetch outfits:', normalizedError)
       return {
         data: [],
         total: 0,

@@ -3,6 +3,11 @@ import { useSupabaseDataClient } from '~/composables/useSupabaseClient'
 import { setCacheHeaders } from '~/utils/cacheHeaders'
 import { getGameVersion } from '~/utils/gameVersion'
 import { LOCALE_HEADER, resolveLocaleCode } from '~/utils/locale'
+import {
+  createInternalError,
+  createInvalidIdError,
+  createNotFoundError,
+} from '~/utils/apiErrors'
 
 interface ItemTranslation {
   description: string
@@ -91,10 +96,7 @@ export default defineCachedEventHandler(
     ;(event.context as { localeCode?: string }).localeCode = languageCode
 
     if (!id || isNaN(id)) {
-      throw createError({
-        statusCode: 400,
-        message: 'Invalid item ID',
-      })
+      throw createInvalidIdError('item')
     }
 
     const supabase = useSupabaseDataClient()
@@ -119,10 +121,7 @@ export default defineCachedEventHandler(
 
       if (supabaseError) {
         if (supabaseError.code === 'PGRST116') {
-          throw createError({
-            statusCode: 404,
-            message: 'Item not found',
-          })
+          throw createNotFoundError('item')
         }
         throw supabaseError
       }
@@ -172,10 +171,7 @@ export default defineCachedEventHandler(
         throw error
       }
       console.error(`Failed to fetch item ${id}:`, error)
-      throw createError({
-        statusCode: 500,
-        message: 'Failed to fetch item',
-      })
+      throw createInternalError('item')
     }
   },
   {

@@ -388,36 +388,6 @@
         "clothes": "服裝",
         "accessories": "飾品",
         "makeups": "妝容"
-      },
-      "types": {
-        "dresses": "連衣裙",
-        "outerwear": "外套",
-        "tops": "上衣",
-        "bottoms": "下裝",
-        "socks": "襪子",
-        "shoes": "鞋子",
-        "headwear": "帽子",
-        "hairAccessories": "髮飾",
-        "earrings": "耳飾",
-        "neckwear": "頸飾",
-        "bracelets": "腕飾",
-        "chokers": "項圈",
-        "gloves": "手套",
-        "handhelds": "手持物",
-        "faceDecorations": "面飾",
-        "hair": "髮型",
-        "chestAccessories": "胸飾",
-        "pendants": "掛飾",
-        "backpieces": "背飾",
-        "rings": "戒指",
-        "armDecorations": "臂飾",
-        "baseMakeup": "底妝",
-        "eyebrows": "眉毛",
-        "eyelashes": "睫毛",
-        "contactLenses": "美瞳",
-        "lips": "唇妝",
-        "skinTones": "膚色",
-        "unknown": "未知"
       }
     },
     "export": {
@@ -623,6 +593,8 @@
     "not_found_description": "找不到此物品。它可能已被刪除。",
     "back_to_list": "返回物品列表",
     "filter_type": "按類型篩選",
+    "filter_style": "按風格篩選",
+    "filter_label": "按標籤篩選",
     "filter_all_types": "全部類型"
   }
 }

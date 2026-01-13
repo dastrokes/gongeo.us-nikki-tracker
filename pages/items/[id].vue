@@ -154,7 +154,7 @@
                   round
                   size="small"
                 >
-                  {{ t(`tracker.items.types.${itemType}`) }}
+                  {{ t(`type.${itemType}`) }}
                 </n-tag>
                 <n-tag
                   v-if="itemStyleLabel"
@@ -418,7 +418,7 @@
     refresh,
   } = await useAsyncData(
     () => itemKey.value,
-    () => fetchItemById(itemId.value, locale.value),
+    () => fetchItemById(itemId.value),
     {
       default: () => null,
       watch: [itemId, locale],

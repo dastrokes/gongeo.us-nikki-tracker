@@ -91,6 +91,7 @@ export const config: Config = {
     '/apple-touch-icon*.png',
     '/favicon.ico',
     '/loading.webp',
+    '/bg.webp',
     '/gongeous.js',
     '/66641125bbad403d994c7d7af32e196b.txt',
     '/robots.txt',

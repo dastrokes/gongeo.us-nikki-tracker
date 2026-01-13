@@ -88,7 +88,7 @@
         <div class="text-center">
           <div class="font-medium">{{ t(`item.${item.itemId}.name`) }}</div>
           <div class="text-sm">
-            {{ t(`tracker.items.types.${itemType}`) }}
+            {{ t(`type.${itemType}`) }}
           </div>
           <div
             v-if="item.count > 0"

@@ -68,7 +68,7 @@
                     {{ t(`item.${itemId}.name`) }}
                   </div>
                   <div class="text-sm">
-                    {{ t(`tracker.items.types.${getItemType(itemId)}`) }}
+                    {{ t(`type.${getItemType(itemId)}`) }}
                   </div>
                 </div>
               </n-tooltip>

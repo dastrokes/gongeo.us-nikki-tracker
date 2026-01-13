@@ -19,6 +19,7 @@ export type ItemType =
   | 'backpieces'
   | 'rings'
   | 'armDecorations'
+  | 'bodyPaint'
   | 'handhelds'
   | 'baseMakeup'
   | 'eyebrows'
@@ -53,6 +54,7 @@ export const itemTypeMap: Record<string, ItemType> = {
   '96': 'rings',
   '97': 'armDecorations',
   '98': 'chokers',
+  '99': 'bodyPaint',
   '81': 'baseMakeup',
   '82': 'eyebrows',
   '83': 'eyelashes',
@@ -120,29 +122,30 @@ export const itemCategoryOrder: Record<string, number> = {
   socks: 6,
   shoes: 7,
   // Accessories
-  hairAccessories: 8,
-  headwear: 9,
-  earrings: 10,
-  neckwear: 11,
-  bracelets: 12,
-  chokers: 13,
-  gloves: 14,
-  handhelds: 15,
-  rings: 16,
-  faceDecorations: 17,
-  chestAccessories: 18,
-  pendants: 19,
-  backpieces: 20,
-  armDecorations: 21,
+  hairAccessories: 11,
+  headwear: 12,
+  earrings: 13,
+  neckwear: 14,
+  bracelets: 15,
+  chokers: 16,
+  gloves: 17,
+  handhelds: 18,
+  rings: 19,
+  faceDecorations: 20,
+  chestAccessories: 21,
+  pendants: 22,
+  backpieces: 23,
+  armDecorations: 24,
+  bodyPaint: 25,
   // Makeups
-  baseMakeup: 22,
-  eyebrows: 23,
-  eyelashes: 24,
-  contactLenses: 25,
-  lips: 26,
+  baseMakeup: 31,
+  eyebrows: 32,
+  eyelashes: 33,
+  contactLenses: 34,
+  lips: 35,
   // Others
-  skinTones: 27,
-  unknown: 28,
+  skinTones: 41,
+  unknown: 99,
 }
 
 /**
@@ -173,6 +176,7 @@ export const itemTypeCategories = {
     'pendants',
     'backpieces',
     'armDecorations',
+    'bodyPaint',
   ],
   makeups: ['baseMakeup', 'eyebrows', 'eyelashes', 'contactLenses', 'lips'],
 } as const

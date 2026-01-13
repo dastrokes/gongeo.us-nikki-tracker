@@ -35,7 +35,7 @@
       <div class="text-center">
         <div class="font-medium">{{ itemName }}</div>
         <div class="text-sm opacity-80">
-          {{ t(`tracker.items.types.${itemType}`) }}
+          {{ t(`type.${itemType}`) }}
         </div>
       </div>
     </template>

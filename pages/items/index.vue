@@ -452,7 +452,7 @@
       quality: entry.quality,
       name: t(`item.${entry.id}.name`),
       image: getImageSrc('item', entry.id),
-      type: entry.type ? t(`tracker.items.types.${entry.type}`) : null,
+      type: entry.type ? t(`type.${entry.type}`) : null,
       style: entry.style ? t(`style.${entry.style}`) : null,
       labels: (entry.tags || []).map((label) => t(`label.${label}.name`)),
     }))
@@ -552,7 +552,7 @@
         label: t('tracker.items.category.clothes'),
         key: 'clothes',
         children: grouped.clothes.map((type) => ({
-          label: t(`tracker.items.types.${type}`),
+          label: t(`type.${type}`),
           value: type,
         })),
       })
@@ -564,7 +564,7 @@
         label: t('tracker.items.category.accessories'),
         key: 'accessories',
         children: grouped.accessories.map((type) => ({
-          label: t(`tracker.items.types.${type}`),
+          label: t(`type.${type}`),
           value: type,
         })),
       })
@@ -576,7 +576,7 @@
         label: t('tracker.items.category.makeups'),
         key: 'makeups',
         children: grouped.makeups.map((type) => ({
-          label: t(`tracker.items.types.${type}`),
+          label: t(`type.${type}`),
           value: type,
         })),
       })
@@ -588,7 +588,7 @@
         label: t('common.other'),
         key: 'other',
         children: grouped.other.map((type) => ({
-          label: t(`tracker.items.types.${type}`),
+          label: t(`type.${type}`),
           value: type,
         })),
       })

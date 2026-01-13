@@ -593,8 +593,8 @@
     "not_found_description": "Stückbeschreibung wurde nicht gefunden.",
     "back_to_list": "Zurück zur Liste",
     "filter_type": "Nach Typ filtern",
-    "filter_style": "Filter by Style",
-    "filter_label": "Filter by Label",
+    "filter_style": "Nach Style filtern",
+    "filter_label": "Nach Label filtern",
     "filter_all_types": "Alle Typen"
   }
 }

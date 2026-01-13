@@ -413,7 +413,7 @@
     refresh,
   } = await useAsyncData(
     () => outfitKey.value,
-    () => fetchOutfitById(outfitId.value, locale.value),
+    () => fetchOutfitById(outfitId.value),
     {
       default: () => null,
       watch: [outfitId, locale],

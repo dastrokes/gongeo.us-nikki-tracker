@@ -2,6 +2,7 @@ import { GAME_VERSION_HEADER } from '~/utils/cacheHeaders'
 import { getGameVersion } from '~/utils/gameVersion'
 import type { ItemListEntry } from '~/types/items'
 import type { ItemWithOutfits } from '~/types/supabase'
+import { LOCALE_HEADER } from '~/utils/locale'
 
 export interface ItemFilters {
   search?: string
@@ -24,6 +25,7 @@ export interface PaginatedItemsResponse {
  * Uses edge-cached API routes to reduce database egress
  */
 export const useSupabaseItems = () => {
+  const { locale } = useI18n()
   const loading = ref(false)
   const error = ref<Error | null>(null)
   const gameVersionHeader = { [GAME_VERSION_HEADER]: getGameVersion() }
@@ -32,24 +34,15 @@ export const useSupabaseItems = () => {
    * Fetch a single item by ID with its related outfits
    * Uses edge-cached API route (1 hour cache)
    * @param id - The item ID to fetch
-   * @param languageCode - Optional language code for fetching description
    * @returns Promise resolving to item with outfits or null if not found
    */
-  const fetchItemById = async (
-    id: number,
-    languageCode?: string
-  ): Promise<ItemWithOutfits | null> => {
+  const fetchItemById = async (id: number): Promise<ItemWithOutfits | null> => {
     loading.value = true
     error.value = null
 
     try {
-      const params: Record<string, string> = {}
-      if (languageCode) {
-        params.lang = languageCode
-      }
-
       const data = await $fetch<ItemWithOutfits>(`/api/items/${id}`, {
-        params,
+        headers: { [LOCALE_HEADER]: locale.value },
       })
 
       return data

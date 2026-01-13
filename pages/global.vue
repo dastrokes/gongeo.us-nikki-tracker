@@ -1424,7 +1424,7 @@
                     ${t('item.' + itemId + '.name', itemId)}
                   </div>
                   <div>
-                    ${t('common.type')}: <strong>${t(`tracker.items.types.${getItemType(itemId)}`)}</strong>
+                    ${t('common.type')}: <strong>${t(`type.${getItemType(itemId)}`)}</strong>
                   </div>
                   <div>
                     ${t('global.charts.occurrences')}: <strong>${params[0].data.value}</strong>

@@ -24,8 +24,9 @@
               v-model:value="typeFilter"
               :options="typeOptions"
               size="small"
-              class="w-52"
+              class="w-40"
               clearable
+              filterable
               :show-checkmark="false"
               :placeholder="t('compendium.filter_type')"
             />
@@ -44,8 +45,9 @@
               v-model:value="labelFilter"
               :options="labelOptions"
               size="small"
-              class="w-44"
+              class="w-40"
               clearable
+              filterable
               :show-checkmark="false"
               :placeholder="t('compendium.filter_label')"
             />
@@ -164,7 +166,7 @@
               <div
                 v-if="!loading && !error && entries.length > 0"
                 key="grid"
-                class="grid grid-cols-2 sm:grid-cols-6 gap-2 sm:gap-3 sm:content-start"
+                class="grid grid-cols-3 sm:grid-cols-6 gap-2 sm:gap-3 sm:content-start"
               >
                 <div
                   v-for="entry in entries"
@@ -261,7 +263,7 @@
               <div
                 v-else-if="loading"
                 key="loading"
-                class="grid grid-cols-2 sm:grid-cols-6 gap-2 sm:gap-3 sm:content-start"
+                class="grid grid-cols-3 sm:grid-cols-6 gap-2 sm:gap-3 sm:content-start"
               >
                 <div
                   v-for="i in pageSize"

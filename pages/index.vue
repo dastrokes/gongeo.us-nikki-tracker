@@ -11,7 +11,9 @@
           <n-h1 class="font-bold">
             {{ $t('navigation.title') }}
           </n-h1>
-          <n-h2 class="font-bold mt-0">{{ $t('navigation.subtitle') }}</n-h2>
+          <n-h2 class="font-bold mt-0">
+            {{ $t('navigation.subtitle') }}
+          </n-h2>
           <n-h3 class="mt-0 text-gray-600 dark:text-gray-300">
             {{ $t('default.description') }}
           </n-h3>

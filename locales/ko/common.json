@@ -593,6 +593,8 @@
     "not_found_description": "Item description not found.",
     "back_to_list": "Back to List",
     "filter_type": "Filter by Type",
+    "filter_style": "Filter by Style",
+    "filter_label": "Filter by Label",
     "filter_all_types": "All Types"
   }
 }

@@ -216,7 +216,7 @@
                   :key="item.id"
                   :item-id="item.id"
                   :quality="item.quality"
-                  :type="item.type"
+                  :type="resolveItemType(item)"
                   :name="t(`item.${item.id}.name`)"
                   :clickable="true"
                   size="sm"
@@ -237,7 +237,7 @@
                   :key="item.id"
                   :item-id="item.id"
                   :quality="item.quality"
-                  :type="item.type"
+                  :type="resolveItemType(item)"
                   :name="t(`item.${item.id}.name`)"
                   :clickable="true"
                   size="sm"
@@ -429,12 +429,15 @@
     'lips',
   ]
 
+  const resolveItemType = (item: { id: number; type?: string }) =>
+    item.type ? getItemType(item.type) : getItemType(item.id)
+
   // Computed component items (excluding makeup) sorted by category order
   const componentItems = computed(() => {
     if (!outfit.value?.outfit_items) return []
     const items = outfit.value.outfit_items
       .map((oi) => oi.items)
-      .filter((item) => !makeupTypes.includes(getItemType(item.id)))
+      .filter((item) => !makeupTypes.includes(resolveItemType(item)))
     return sortItemsByCategory(items)
   })
 
@@ -443,7 +446,7 @@
     if (!outfit.value?.outfit_items) return []
     const items = outfit.value.outfit_items
       .map((oi) => oi.items)
-      .filter((item) => makeupTypes.includes(getItemType(item.id)))
+      .filter((item) => makeupTypes.includes(resolveItemType(item)))
     return sortItemsByCategory(items)
   })
 

@@ -65,7 +65,7 @@ export const useSupabaseItems = () => {
     } catch (e) {
       const normalizedError = toError(e, `Failed to fetch item ${id}`)
       error.value = normalizedError
-      console.error(`Failed to fetch item ${id}:`, normalizedError)
+      console.error(`Failed to fetch item ${id}: ${normalizedError.message}`)
       return null
     } finally {
       loading.value = false
@@ -122,7 +122,7 @@ export const useSupabaseItems = () => {
     } catch (e) {
       const normalizedError = toError(e, 'Failed to fetch items')
       error.value = normalizedError
-      console.error('Failed to fetch items:', normalizedError)
+      console.error(`Failed to fetch items: ${normalizedError.message}`)
       return {
         data: [],
         total: 0,

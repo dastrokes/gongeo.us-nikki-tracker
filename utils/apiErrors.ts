@@ -23,3 +23,11 @@ export const createInternalError = (resource: string) =>
     message: `Failed to fetch ${resource}`,
     data: { code: 'INTERNAL_ERROR' },
   })
+
+export const createUpstreamUnavailableError = (resource: string) =>
+  createError({
+    statusCode: 503,
+    statusMessage: `${resource} upstream unavailable`,
+    message: `${resource} upstream unavailable`,
+    data: { code: 'UPSTREAM_UNAVAILABLE' },
+  })

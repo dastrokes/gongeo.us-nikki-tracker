@@ -2,12 +2,21 @@ import { useSupabaseDataClient } from '~/composables/useSupabaseClient'
 import { GAME_VERSION_HEADER, setCacheHeaders } from '~/utils/cacheHeaders'
 import { getGameVersion } from '~/utils/gameVersion'
 import {
+  createInternalError,
+  createUpstreamUnavailableError,
+} from '~/utils/apiErrors'
+import { toErrorMessage } from '~/utils/errors'
+import {
   normalizeTraitKey,
   resolveStyleKeyFromProps,
   resolveTagI18nKeys,
   STYLE_BY_KEY,
   TAG_BY_KEY,
 } from '~/utils/itemInfo'
+import {
+  isTransientSupabaseError,
+  withSupabaseRetry,
+} from '~/utils/supabaseRetry'
 
 type OutfitRow = {
   id: number
@@ -89,7 +98,12 @@ export default defineCachedEventHandler(
         dbQuery = dbQuery.range(from, to)
       }
 
-      const { data, error: supabaseError, count, status } = await dbQuery
+      const {
+        data,
+        error: supabaseError,
+        count,
+        status,
+      } = await withSupabaseRetry(() => dbQuery)
 
       if (supabaseError) {
         const responseStatus =
@@ -113,7 +127,8 @@ export default defineCachedEventHandler(
               countQuery = countQuery.eq('quality', quality)
             }
 
-            const { count: fallbackCount, error: countError } = await countQuery
+            const { count: fallbackCount, error: countError } =
+              await withSupabaseRetry(() => countQuery)
             if (!countError && typeof fallbackCount === 'number') {
               total = fallbackCount
             }
@@ -197,11 +212,13 @@ export default defineCachedEventHandler(
       if (error && typeof error === 'object' && 'statusCode' in error) {
         throw error
       }
-      console.error('Failed to fetch outfits:', error)
-      throw createError({
-        statusCode: 500,
-        message: 'Failed to fetch outfits',
-      })
+      const message = toErrorMessage(error, 'Failed to fetch outfits')
+      if (isTransientSupabaseError(error)) {
+        console.warn(`Failed to fetch outfits: ${message}`)
+        throw createUpstreamUnavailableError('outfits')
+      }
+      console.error(`Failed to fetch outfits: ${message}`)
+      throw createInternalError('outfits')
     }
   },
   {

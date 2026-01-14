@@ -478,7 +478,9 @@
   // Get item type
   const itemType = computed(() => {
     if (!item.value) return 'unknown'
-    return getItemType(item.value.id)
+    return item.value.type
+      ? getItemType(item.value.type)
+      : getItemType(item.value.id)
   })
 
   // Get item name from i18n (names are stored in i18n files, not database)

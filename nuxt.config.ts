@@ -200,7 +200,7 @@ export default defineNuxtConfig({
       nativeSWR: true,
     },
     prerender: {
-      autoSubfolderIndex: false,
+      autoSubfolderIndex: true,
       routes: ['/sitemap.xml', '/robots.txt'],
     },
   },

@@ -122,8 +122,11 @@
           <ItemCard
             v-for="item in outfitItems"
             :key="item.itemId"
-            :item="item"
-            :info="false"
+            :item-id="Number(item.itemId)"
+            :quality="item.quality"
+            :type="getItemType(Number(item.itemId))"
+            :name="t(`item.${item.itemId}.name`)"
+            size="sm"
           />
         </div>
       </div>

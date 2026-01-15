@@ -113,36 +113,14 @@
         <div class="grid grid-cols-1 lg:grid-cols-[180px_1fr] gap-4 lg:gap-6">
           <!-- Outfit Image -->
           <div class="flex justify-center lg:justify-start items-start">
-            <div
-              class="relative aspect-[2/3] w-full max-w-[180px] rounded-lg overflow-hidden shadow-lg"
-              :class="getQualityGradient(outfit.quality)"
-            >
-              <NuxtImg
-                :src="getImageSrc('outfit', outfit.id)"
-                :alt="outfitName"
-                class="absolute inset-0 w-full h-full object-cover z-10"
-                preset="tallMd"
-                width="200"
-                height="300"
-                fit="cover"
-                loading="eager"
-                sizes="200px sm:240px"
-                format="webp"
-              />
-              <div class="absolute top-1.5 right-1.5 z-20">
-                <n-tag
-                  round
-                  size="small"
-                  :bordered="false"
-                  :type="getQualityType(outfit.quality)"
-                >
-                  <span class="align-top">{{ outfit.quality }}</span>
-                  <span class="ml-0.5"
-                    ><n-icon><Star /></n-icon
-                  ></span>
-                </n-tag>
-              </div>
-            </div>
+            <OutfitCard
+              :outfit-id="outfit.id"
+              :quality="outfit.quality"
+              :name="outfitName"
+              size="md"
+              :show-meta="false"
+              class="shadow-lg w-full max-w-[180px]"
+            />
           </div>
 
           <!-- Outfit Info and Items -->
@@ -211,14 +189,13 @@
               <div
                 class="grid grid-cols-5 sm:grid-cols-6 md:grid-cols-7 lg:grid-cols-8 xl:grid-cols-10 gap-2"
               >
-                <ItemPreviewCard
+                <ItemCard
                   v-for="item in componentItems"
                   :key="item.id"
                   :item-id="item.id"
                   :quality="item.quality"
                   :type="resolveItemType(item)"
                   :name="t(`item.${item.id}.name`)"
-                  :clickable="true"
                   size="sm"
                 />
               </div>
@@ -232,14 +209,13 @@
               <div
                 class="grid grid-cols-5 sm:grid-cols-6 md:grid-cols-7 lg:grid-cols-8 xl:grid-cols-10 gap-2"
               >
-                <ItemPreviewCard
+                <ItemCard
                   v-for="item in makeupItems"
                   :key="item.id"
                   :item-id="item.id"
                   :quality="item.quality"
                   :type="resolveItemType(item)"
                   :name="t(`item.${item.id}.name`)"
-                  :clickable="true"
                   size="sm"
                 />
               </div>
@@ -267,40 +243,34 @@
           <div
             class="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-4 xl:grid-cols-5 gap-2"
           >
-            <NuxtLink
+            <div
               v-for="variation in outfitVariations"
               :key="variation.id"
-              :to="localePath(`/outfits/${variation.id}`)"
-              class="block group"
             >
-              <div
-                class="relative aspect-[2/3] rounded-lg overflow-hidden transition-all duration-200 ease-in-out shadow-md"
-                :class="[
-                  getQualityGradient(variation.quality),
-                  variation.id === outfitId
-                    ? 'ring-2 ring-primary/60 dark:ring-primary/40'
-                    : 'group-hover:scale-105',
-                ]"
+              <NuxtLink
+                :to="localePath(`/outfits/${variation.id}`)"
+                class="block cursor-pointer group"
               >
-                <NuxtImg
-                  :src="getImageSrc('outfit', variation.id)"
-                  :alt="t(`outfit.${variation.id}.name`)"
-                  class="absolute inset-0 w-full h-full object-cover z-10"
-                  preset="tallSm"
-                  width="100"
-                  height="150"
-                  fit="cover"
-                  loading="lazy"
-                  sizes="100px"
-                  format="webp"
+                <OutfitCard
+                  :outfit-id="variation.id"
+                  :quality="variation.quality"
+                  :name="t(`outfit.${variation.id}.name`)"
+                  size="sm"
+                  :show-meta="false"
+                  :class="[
+                    'transition-all duration-200 ease-in-out group-hover:scale-105 group-hover:shadow-xl',
+                    variation.id === outfitId
+                      ? 'ring-2 ring-primary/60 dark:ring-primary/40'
+                      : '',
+                  ]"
                 />
-              </div>
+              </NuxtLink>
               <div class="mt-1 text-center">
                 <p class="text-xs font-medium opacity-80">
                   {{ variation.label }}
                 </p>
               </div>
-            </NuxtLink>
+            </div>
           </div>
         </n-card>
 
@@ -382,7 +352,6 @@
 </template>
 
 <script setup lang="ts">
-  import { NIcon } from 'naive-ui'
   import { Star, Magic, Tag } from '@vicons/fa'
   import type { OutfitWithItems } from '~/types/supabase'
   import type { ItemType } from '~/utils/itemType'
@@ -531,20 +500,6 @@
   // Navigate to list
   const navigateToList = () => {
     router.push(localePath('/outfits'))
-  }
-
-  // Get quality gradient class
-  const getQualityGradient = (quality: number) => {
-    switch (quality) {
-      case 5:
-        return 'bg-gradient-to-br from-[#fff8e1] to-[#ffcc80] dark:from-[#713f12] dark:to-[#451a03]'
-      case 4:
-        return 'bg-gradient-to-br from-[#e3f2fd] to-[#bbdefb] dark:from-[#334155] dark:to-[#1e293b]'
-      case 3:
-        return 'bg-gradient-to-br from-[#e0f2f1] to-[#80cbc4] dark:from-[#134e4a] dark:to-[#0f766e]'
-      default:
-        return 'bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800'
-    }
   }
 
   // Get quality type for tag

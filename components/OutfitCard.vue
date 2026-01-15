@@ -1,146 +1,195 @@
 <template>
-  <div class="space-y-2">
-    <div class="flex items-center gap-2">
-      <NuxtLink
-        no-prefetch
-        :to="localePath(`/outfits/${outfitId}`)"
-        class="cursor-pointer hover:opacity-80 transition-opacity"
+  <div :class="cardClasses">
+    <div
+      class="absolute inset-0 bg-[url('/bg.webp')] bg-cover bg-center bg-slate-100 dark:bg-slate-300"
+    ></div>
+    <!-- Tint overlay -->
+    <div
+      class="absolute inset-0"
+      :class="overlayClass"
+    ></div>
+    <NuxtImg
+      :src="imageSrc"
+      :alt="name"
+      class="absolute inset-0 w-full h-full object-cover z-10"
+      :preset="imagePreset"
+      :width="imageWidth"
+      :height="imageHeight"
+      fit="cover"
+      loading="lazy"
+      :sizes="imageSizes"
+      format="webp"
+    />
+
+    <div
+      v-if="showMeta"
+      class="absolute z-20"
+      :class="qualityTagPositionClass"
+    >
+      <n-tag
+        round
+        :size="qualityTagSize"
+        :bordered="false"
+        :type="qualityTagType"
+        class="backdrop-blur-sm"
+      >
+        <span class="align-top">{{ quality }}</span>
+        <span class="ml-0.5"
+          ><n-icon><Star /></n-icon
+        ></span>
+      </n-tag>
+    </div>
+
+    <div
+      v-if="showMeta"
+      class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent z-20"
+      :class="metaPaddingClass"
+    >
+      <p class="text-white font-semibold text-xs sm:text-sm line-clamp-2">
+        {{ name }}
+      </p>
+      <div
+        v-if="style"
+        class="flex flex-wrap gap-1 mt-1"
       >
         <n-tag
-          :type="quality === 5 ? 'warning' : 'info'"
+          size="tiny"
           :bordered="false"
-          round
-          class="cursor-pointer"
+          type="default"
+          class="!text-xs"
         >
-          <span class="align-top"
-            >{{ t(`outfit.${outfitId}.name`) }} {{ quality }}</span
-          >
-          <span class="ml-1"
-            ><n-icon><Star /></n-icon
-          ></span>
+          {{ style }}
         </n-tag>
-      </NuxtLink>
-    </div>
-    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
-      <NuxtLink
-        v-for="(image, index) in Array.from(outfitImages.entries())"
-        :key="index"
-        no-prefetch
-        :to="localePath(`/outfits/${outfitId}`)"
-        class="relative aspect-[2/3] rounded-lg overflow-hidden transition-all duration-300 ease-in-out cursor-pointer"
-        :class="cardGradient"
+      </div>
+      <div
+        v-if="labels.length"
+        class="flex flex-wrap gap-0.5 mt-1"
       >
-        <NuxtImg
-          :src="image[1]"
-          :alt="`${t(`outfit.${outfitId}.name`)} ${image[0] === 0 ? 'Base' : `LV${image[0]}`}`"
-          class="absolute inset-0 w-full h-full object-cover z-10"
-          preset="tallLg"
-          width="300"
-          height="450"
-          fit="cover"
-          loading="lazy"
-          sizes="300px"
-        />
-        <div
-          class="absolute top-1 right-1 scale-90 sm:scale-100 origin-top-right z-20"
+        <n-tag
+          v-for="label in labels"
+          :key="label"
+          size="tiny"
+          :bordered="false"
+          type="default"
+          class="!text-xs"
         >
-          <n-tag
-            round
-            size="small"
-            :bordered="false"
-            :type="quality === 5 ? 'warning' : 'info'"
-          >
-            {{ t(`banner.outfit.level.${image[0] === 0 ? '1' : image[0]}`) }}
-            <span v-if="getOutfitLevel.includes(image[0].toString())">
-              <n-icon><CheckCircle /></n-icon>
-            </span>
-          </n-tag>
-        </div>
-      </NuxtLink>
+          {{ label }}
+        </n-tag>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-  import { Star, CheckCircle } from '@vicons/fa'
+  import { Star } from '@vicons/fa'
 
-  const localePath = useLocalePath()
-
-  interface CompletionData {
-    completion: number
-    totalPulls: number
-  }
-
-  const props = defineProps<{
-    bannerId: number
-    outfitId: string
-    quality: 4 | 5
-    completionData?: CompletionData
-  }>()
-
-  const { t } = useI18n()
-  const pullStore = usePullStore()
   const { getImageSrc } = imageProvider()
-  const OUTFIT_CARD_GRADIENTS = {
-    fiveStar:
-      'bg-gradient-to-br from-[#fff8e1] to-[#ffcc80] hover:brightness-105 dark:from-[#713f12] dark:to-[#451a03]',
-    fourStar:
-      'bg-gradient-to-br from-[#e3f2fd] to-[#bbdefb] hover:brightness-105 dark:from-[#334155] dark:to-[#1e293b]',
-  } as const
-  const cardGradient = computed(() =>
-    props.quality === 5
-      ? OUTFIT_CARD_GRADIENTS.fiveStar
-      : OUTFIT_CARD_GRADIENTS.fourStar
+
+  const props = withDefaults(
+    defineProps<{
+      outfitId: number | string
+      name: string
+      quality: number
+      style?: string | null
+      labels?: string[]
+      showMeta?: boolean
+      size?: 'sm' | 'md' | 'lg'
+    }>(),
+    {
+      style: null,
+      labels: () => [],
+      showMeta: true,
+      size: 'md',
+    }
   )
 
-  const getOutfitLevel = computed(() => {
-    if (!props.completionData) return []
+  const imageSrc = computed(() => getImageSrc('outfit', props.outfitId))
 
-    const levels = []
-    const totalPulls = props.completionData.totalPulls
-    const manualEvoLevel = pullStore.getOutfitEvoLevel(
-      props.bannerId,
-      props.outfitId
-    )
-
-    if (props.quality === 5) {
-      if (props.completionData.completion >= 1) {
-        levels.push('0')
-      }
-      if (
-        (totalPulls >= 180 || manualEvoLevel >= 2) &&
-        props.completionData.completion >= 1
-      ) {
-        levels.push('2')
-      }
-      if (
-        (totalPulls >= 230 || manualEvoLevel >= 3) &&
-        props.completionData.completion >= 1
-      ) {
-        levels.push('3')
-      }
-      if (props.completionData.completion >= 2) {
-        levels.push('4')
-      }
-    } else {
-      if (props.completionData.completion >= 1) levels.push('0')
-      if (props.completionData.completion >= 2) levels.push('2')
+  const overlayClass = computed(() => {
+    switch (props.quality) {
+      case 5:
+        return 'bg-yellow-500/5'
+      case 4:
+        return 'bg-blue-500/5'
+      case 3:
+        return 'bg-green-500/5'
+      case 2:
+        return 'bg-gray-500/5'
+      default:
+        return 'bg-gray-500/5'
     }
-
-    return levels
   })
 
-  const outfitImages = computed(() => {
-    const images = new Map<number, string>()
-    images.set(0, getImageSrc('outfit', props.outfitId))
-
-    // Add level variants based on quality
-    const maxLevel = props.quality === 5 ? 4 : 2
-    for (let i = 2; i <= maxLevel; i++) {
-      const levelNum = i.toString().padStart(2, '0')
-      images.set(i, getImageSrc('outfit', `${props.outfitId}${levelNum}`))
+  const qualityTagType = computed(() => {
+    switch (props.quality) {
+      case 5:
+        return 'warning'
+      case 4:
+        return 'info'
+      case 3:
+        return 'success'
+      case 2:
+        return 'default'
+      default:
+        return 'default'
     }
-
-    return images
   })
+
+  const imagePreset = computed(() => {
+    switch (props.size) {
+      case 'sm':
+        return 'tallSm'
+      case 'lg':
+        return 'tallLg'
+      default:
+        return 'tallMd'
+    }
+  })
+
+  const imageWidth = computed(() => {
+    switch (props.size) {
+      case 'sm':
+        return 100
+      case 'lg':
+        return 300
+      default:
+        return 200
+    }
+  })
+
+  const imageHeight = computed(() => {
+    switch (props.size) {
+      case 'sm':
+        return 150
+      case 'lg':
+        return 450
+      default:
+        return 300
+    }
+  })
+
+  const imageSizes = computed(() => {
+    switch (props.size) {
+      case 'sm':
+        return '100px'
+      case 'lg':
+        return '300px'
+      default:
+        return '200px sm:240px'
+    }
+  })
+
+  const qualityTagSize = computed(() =>
+    props.size === 'sm' ? 'tiny' : 'small'
+  )
+
+  const qualityTagPositionClass = computed(() =>
+    props.size === 'sm' ? 'top-1 right-1' : 'top-2 right-2'
+  )
+
+  const metaPaddingClass = computed(() => (props.size === 'sm' ? 'p-2' : 'p-3'))
+
+  const cardClasses = computed(() => [
+    'relative aspect-[2/3] rounded-lg overflow-hidden shadow-md',
+  ])
 </script>

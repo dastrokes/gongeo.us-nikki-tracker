@@ -1,170 +1,142 @@
 <template>
-  <NuxtLink
-    no-prefetch
-    :to="localePath(`/items/${item.itemId}`)"
-    class="block hover:opacity-80 transition-opacity"
-    @click="handleClick"
+  <n-tooltip
+    v-model:show="showTooltip"
+    placement="top"
   >
-    <n-tooltip
-      v-model:show="showTooltip"
-      placement="top"
-    >
-      <template #trigger>
-        <n-card
-          :class="[
-            getCardGradient(item.quality),
-            { 'opacity-60 grayscale': item.count === 0 && info },
-          ]"
-          :bordered="false"
-          size="small"
-          content-class="p-0"
-          class="relative overflow-hidden rounded-md transition-all duration-300 ease-in-out aspect-square ring-1 min-h-[50px] xl:min-h-[80px]"
-        >
-          <NuxtImg
-            v-if="info"
-            :src="getImageSrc('itemIcon', item.itemId)"
-            :alt="t(`item.${item.itemId}.name`)"
-            class="w-full h-full object-cover aspect-square"
-            preset="iconLg"
-            width="120"
-            height="120"
-            fit="cover"
-            loading="lazy"
-            sizes="80px sm:120px"
-          />
-          <NuxtImg
-            v-else
-            :src="getImageSrc('itemIcon', item.itemId)"
-            :alt="t(`item.${item.itemId}.name`)"
-            class="w-full h-full object-cover aspect-square"
-            preset="iconLg"
-            width="120"
-            height="120"
-            fit="cover"
-            loading="lazy"
-            placeholder="/loading.webp"
-            sizes="80px sm:120px"
-          />
-          <n-tag
-            v-if="item.count > 0 && info"
-            size="tiny"
-            :bordered="false"
-            class="absolute bottom-1 right-1 scale-75 sm:scale-90 origin-bottom-right text-white shadow-sm rounded-full text-xs opacity-80"
-            :style="{
-              backgroundColor: getPullColor(
-                item.pullsToObtain,
-                item.quality,
-                item.bannerId
-              ),
-            }"
-          >
-            <span v-if="item.count > 0 && item.pullsToObtain > 0">
-              {{ item.pullsToObtain }}
-            </span>
-            <n-icon
-              v-else
-              class="flex items-center justify-center"
-              size="8"
-            >
-              <Asterisk />
-            </n-icon>
-          </n-tag>
-          <n-tag
-            v-if="item.count > 1 && info"
-            size="tiny"
-            :bordered="false"
-            class="absolute top-1 right-1 scale-75 sm:scale-90 origin-top-right shadow-sm rounded-full text-xs"
-            :class="[
-              item.quality === 5
-                ? 'bg-amber-500/80 text-amber-50 opacity-80'
-                : 'bg-blue-500/80 text-blue-50 opacity-80',
-            ]"
-          >
-            ×{{ item.count }}
-          </n-tag>
-        </n-card>
-      </template>
-      <template #default>
-        <div class="text-center">
-          <div class="font-medium">{{ t(`item.${item.itemId}.name`) }}</div>
-          <div class="text-sm">
-            {{ t(`type.${itemType}`) }}
-          </div>
-          <div
-            v-if="item.count > 0"
-            class="text-sm mt-1"
-          >
-            <span v-if="item.pullIndex > 0">
-              {{ t('tracker.items.pull', { number: item.pullIndex }) }}
-            </span>
-          </div>
+    <template #trigger>
+      <n-card
+        :class="[
+          getCardGradient(quality),
+          { 'cursor-pointer': clickable },
+          'relative overflow-hidden rounded-md transition-all duration-300 ease-out aspect-square ring-1',
+          'hover:scale-[1.05] hover:shadow-lg hover:z-10',
+          getSizeClass(size),
+        ]"
+        :bordered="false"
+        size="small"
+        content-class="p-0"
+        @click="handleClick"
+      >
+        <NuxtImg
+          :src="getImageSrc('itemIcon', itemId)"
+          :alt="itemName"
+          class="w-full h-full object-cover aspect-square"
+          :preset="getImagePreset(size)"
+          :width="getImageWidth(size)"
+          :height="getImageWidth(size)"
+          fit="cover"
+          loading="lazy"
+          placeholder="/loading.webp"
+          :sizes="getImageSizes(size)"
+        />
+      </n-card>
+    </template>
+    <template #default>
+      <div class="text-center">
+        <div class="font-medium">{{ itemName }}</div>
+        <div class="text-sm opacity-80">
+          {{ t(`type.${itemType}`) }}
         </div>
-      </template>
-    </n-tooltip>
-  </NuxtLink>
+      </div>
+    </template>
+  </n-tooltip>
 </template>
 
 <script setup lang="ts">
-  import type { PullItem } from '~/types/pull'
-  import { Asterisk } from '@vicons/fa'
-
   interface Props {
-    item: PullItem
-    info?: boolean
+    itemId: number
+    quality: number
+    type: string
+    name: string
+    clickable?: boolean
+    size?: 'sm' | 'lg'
   }
 
   const props = withDefaults(defineProps<Props>(), {
-    info: true,
+    clickable: true,
+    size: 'lg',
   })
 
+  const emit = defineEmits<{
+    click: [itemId: number]
+  }>()
+
   const { t } = useI18n()
+  const router = useRouter()
   const localePath = useLocalePath()
   const showTooltip = ref(false)
-  const itemType = computed(() => getItemType(props.item.itemId))
   const { getImageSrc } = imageProvider()
 
-  const handleClick = () => {
-    showTooltip.value = false
-  }
+  // Get item name from i18n - names are stored in i18n JSON files, not in the database
+  const itemName = computed(() => {
+    if (props.name) return props.name
+    return t(`item.${props.itemId}.name`)
+  })
 
+  // Get item type - use prop if available, otherwise derive from ID
+  const itemType = computed(() => props.type || getItemType(props.itemId))
+
+  // Quality-based gradient styling
   const CARD_GRADIENTS = {
     fiveStar:
       'bg-gradient-to-br from-[#fff8e1] to-[#ffcc80] hover:shadow-[0_0_10px_0_rgba(255,204,128,0.5)] ring-amber-200/30 hover:ring-amber-200/80 dark:from-[#713f12] dark:to-[#451a03] dark:hover:shadow-[0_0_10px_0_rgba(113,63,18,0.5)] dark:ring-amber-900/30 dark:hover:ring-amber-900/60',
     fourStar:
       'bg-gradient-to-br from-[#e3f2fd] to-[#bbdefb] hover:shadow-[0_0_10px_0_rgba(187,222,251,0.5)] ring-blue-200/30 hover:ring-blue-200/80 dark:from-[#334155] dark:to-[#1e293b] dark:hover:shadow-[0_0_10px_0_rgba(51,65,85,0.5)] dark:ring-slate-400/20 dark:hover:ring-slate-400/40',
+    threeStar:
+      'bg-gradient-to-br from-[#e0f2f1] to-[#80cbc4] hover:shadow-[0_0_10px_0_rgba(128,203,196,0.5)] ring-teal-200/30 hover:ring-teal-200/80 dark:from-[#134e4a] dark:to-[#0f766e] dark:hover:shadow-[0_0_10px_0_rgba(19,78,74,0.5)] dark:ring-teal-900/30 dark:hover:ring-teal-900/60',
   } as const
 
-  const getCardGradient = (quality: number) =>
-    quality === 5 ? CARD_GRADIENTS.fiveStar : CARD_GRADIENTS.fourStar
+  const getCardGradient = (quality: number) => {
+    if (quality === 5) return CARD_GRADIENTS.fiveStar
+    if (quality === 4) return CARD_GRADIENTS.fourStar
+    return CARD_GRADIENTS.threeStar
+  }
 
-  // Color coding function for pulls with 3 categories
-  const getPullColor = (pulls: number, quality: number, bannerId: number) => {
-    const bannerType = getBannerType(bannerId)
-    const baseOpacity = 0.5
-
-    if (quality === 5) {
-      // 5-star items
-      if (pulls <= 0) return `rgba(156, 163, 175, ${baseOpacity})` // gray-400 - Default
-      if (pulls <= 10) return `rgba(34, 197, 94, ${baseOpacity})` // green-500 - Good
-      if (pulls <= 17) return `rgba(234, 179, 8, ${baseOpacity})` // yellow-500 - Average
-      return `rgba(239, 68, 68, ${baseOpacity})` // red-500 - Bad
-    } else if (quality === 4) {
-      if (bannerType === 2) {
-        // 4-star type 2 items
-        if (pulls <= 0) return `rgba(156, 163, 175, ${baseOpacity})` // gray-400 - Default
-        if (pulls <= 6) return `rgba(34, 197, 94, ${baseOpacity})` // green-500 - Good
-        if (pulls <= 9) return `rgba(234, 179, 8, ${baseOpacity})` // yellow-500 - Average
-        return `rgba(239, 68, 68, ${baseOpacity})` // red-500 - Bad
-      } else {
-        // 4-star type 3 items
-        if (pulls <= 0) return `rgba(156, 163, 175, ${baseOpacity})` // gray-400 - Default
-        if (pulls <= 3) return `rgba(34, 197, 94, ${baseOpacity})` // green-500 - Good
-        if (pulls <= 4) return `rgba(234, 179, 8, ${baseOpacity})` // yellow-500 - Average
-        return `rgba(239, 68, 68, ${baseOpacity})` // red-500 - Bad
-      }
+  // Size-based styling
+  const getSizeClass = (size: 'sm' | 'lg') => {
+    switch (size) {
+      case 'sm':
+        return 'min-h-[50px] xl:min-h-[60px]'
+      case 'lg':
+        return 'min-h-[80px] xl:min-h-[120px]'
+      default:
+        return 'min-h-[80px] xl:min-h-[120px]'
     }
+  }
 
-    // Default case
-    return `rgba(156, 163, 175, ${baseOpacity})` // gray-400
+  const getImageWidth = (size: 'sm' | 'lg') => {
+    switch (size) {
+      case 'sm':
+        return 60
+      case 'lg':
+        return 120
+      default:
+        return 120
+    }
+  }
+
+  const getImagePreset = (size: 'sm' | 'lg') => {
+    return size === 'sm' ? 'iconSm' : 'iconLg'
+  }
+
+  const getImageSizes = (size: 'sm' | 'lg') => {
+    switch (size) {
+      case 'sm':
+        return '60px sm:80px'
+      default:
+        return '80px sm:120px'
+    }
+  }
+
+  // Click handler
+  const handleClick = () => {
+    showTooltip.value = false
+    if (props.clickable) {
+      emit('click', props.itemId)
+
+      const path = localePath(`/items/${props.itemId}`)
+
+      router.push(path)
+    }
   }
 </script>

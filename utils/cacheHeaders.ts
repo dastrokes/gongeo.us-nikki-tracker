@@ -11,20 +11,21 @@ export const CACHE_STATIC = {
   'Cache-Control': 'public, max-age=86400, immutable',
   'Netlify-CDN-Cache-Control':
     'public, s-maxage=86400, stale-while-revalidate=604800',
+  'Netlify-Vary': 'cookie=i18n_redirected',
 }
 
 export const CACHE_STABLE = {
   'Cache-Control': 'public, max-age=300',
   'Netlify-CDN-Cache-Control':
     'public, s-maxage=86400, stale-while-revalidate=86400',
-  'Netlify-Vary': 'header=' + GAME_VERSION_HEADER,
+  'Netlify-Vary': 'header=' + GAME_VERSION_HEADER + ',cookie=i18n_redirected',
 }
 
 export const CACHE_DYNAMIC = {
   'Cache-Control': 'public, max-age=300',
   'Netlify-CDN-Cache-Control':
     'public, s-maxage=3600, stale-while-revalidate=86400',
-  'Netlify-Vary': 'header=' + GAME_VERSION_HEADER,
+  'Netlify-Vary': 'header=' + GAME_VERSION_HEADER + ',cookie=i18n_redirected',
 }
 
 interface CacheHeaderOptions {

@@ -1,45 +1,44 @@
 <template>
-  <n-tooltip
-    v-model:show="showTooltip"
-    placement="top"
-  >
-    <template #trigger>
-      <n-card
-        :class="[
-          getCardGradient(quality),
-          { 'cursor-pointer': clickable },
-          'relative overflow-hidden rounded-md transition-all duration-300 ease-out aspect-square ring-1',
-          'hover:scale-[1.05] hover:shadow-lg hover:z-10',
-          getSizeClass(size),
-        ]"
-        :bordered="false"
-        size="small"
-        content-class="p-0"
-        @click="handleClick"
+  <div class="group relative">
+    <n-card
+      :class="[
+        getCardGradient(quality),
+        { 'cursor-pointer': clickable },
+        'relative overflow-hidden rounded-md transition-all duration-300 ease-out aspect-square ring-1',
+        'hover:scale-[1.05] hover:shadow-lg hover:z-10',
+        getSizeClass(size),
+      ]"
+      :bordered="false"
+      size="small"
+      content-class="p-0"
+      @click="handleClick"
+    >
+      <NuxtImg
+        :src="getImageSrc('itemIcon', itemId)"
+        :alt="itemName"
+        class="w-full h-full object-cover aspect-square"
+        :preset="getImagePreset(size)"
+        :width="getImageWidth(size)"
+        :height="getImageWidth(size)"
+        fit="cover"
+        loading="lazy"
+        placeholder="/loading.webp"
+        :sizes="getImageSizes(size)"
+      />
+    </n-card>
+    <div
+      class="pointer-events-none absolute left-1/2 bottom-full z-20 mb-1 w-36 -translate-x-1/2 translate-y-1 opacity-0 transition-[opacity,transform] duration-200 ease-out group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:translate-y-0 group-focus-within:opacity-100"
+    >
+      <div
+        class="relative min-h-[48px] scale-95 rounded-md bg-[rgba(255,255,255,0.9)] px-2 py-1 text-center text-[14px] text-[#5c5c5e] shadow-lg ring-1 ring-black/10 backdrop-blur-sm transition-transform duration-200 ease-out group-hover:scale-100 group-focus-within:scale-100 dark:bg-[rgba(75,85,99,0.9)] dark:text-[#e4e5e7] dark:ring-black/20"
       >
-        <NuxtImg
-          :src="getImageSrc('itemIcon', itemId)"
-          :alt="itemName"
-          class="w-full h-full object-cover aspect-square"
-          :preset="getImagePreset(size)"
-          :width="getImageWidth(size)"
-          :height="getImageWidth(size)"
-          fit="cover"
-          loading="lazy"
-          placeholder="/loading.webp"
-          :sizes="getImageSizes(size)"
-        />
-      </n-card>
-    </template>
-    <template #default>
-      <div class="text-center">
-        <div class="font-medium">{{ itemName }}</div>
-        <div class="text-sm opacity-80">
+        <div class="font-medium leading-tight line-clamp-2">{{ itemName }}</div>
+        <div class="opacity-80">
           {{ t(`type.${itemType}`) }}
         </div>
       </div>
-    </template>
-  </n-tooltip>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -64,7 +63,6 @@
   const { t } = useI18n()
   const router = useRouter()
   const localePath = useLocalePath()
-  const showTooltip = ref(false)
   const { getImageSrc } = imageProvider()
 
   // Get item name from i18n - names are stored in i18n JSON files, not in the database
@@ -130,7 +128,6 @@
 
   // Click handler
   const handleClick = () => {
-    showTooltip.value = false
     if (props.clickable) {
       emit('click', props.itemId)
 

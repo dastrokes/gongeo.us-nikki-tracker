@@ -195,12 +195,12 @@ export default defineNuxtConfig({
   },
 
   nitro: {
-    preset: 'netlify',
+    preset: 'netlify_edge',
     future: {
       nativeSWR: true,
     },
     prerender: {
-      autoSubfolderIndex: true,
+      autoSubfolderIndex: false,
       routes: ['/sitemap.xml', '/robots.txt'],
     },
   },

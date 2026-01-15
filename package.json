@@ -58,7 +58,7 @@
     "prettier": "3.7.4",
     "sass": "1.97.2",
     "supabase": "2.70.5",
-    "ts-node": "10.9.2",
+    "ts-node": "1.7.1",
     "typescript": "5.9.3",
     "unplugin-auto-import": "20.3.0",
     "unplugin-vue-components": "30.0.0",

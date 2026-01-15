@@ -765,7 +765,7 @@
                 <div
                   class="grid grid-cols-5 sm:grid-cols-8 lg:grid-cols-10 gap-2 mt-2"
                 >
-                  <ItemCard
+                  <ItemDataCard
                     v-for="pull in filterPulls(banner.pulls, banner)"
                     :key="`${pull.itemId}-${pull.count}`"
                     :item="pull"
@@ -784,7 +784,7 @@
                   :key="outfit.id"
                   class="grid grid-cols-5 sm:grid-cols-8 lg:grid-cols-10 gap-2 mt-2"
                 >
-                  <ItemCard
+                  <ItemDataCard
                     v-for="pull in filterPulls(
                       getOutfitItems(banner.pulls, outfit.id),
                       banner
@@ -892,7 +892,7 @@
             <div
               class="grid grid-cols-5 sm:grid-cols-8 lg:grid-cols-10 gap-2 mt-2"
             >
-              <ItemCard
+              <ItemDataCard
                 v-for="item in banner.pulls"
                 :key="`${item.itemId}-${item.count}`"
                 :item="item"

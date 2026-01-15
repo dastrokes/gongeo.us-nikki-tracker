@@ -267,39 +267,20 @@
             <div
               v-for="outfit in relatedOutfits"
               :key="outfit.id"
-              class="cursor-pointer group"
-              @click="navigateToOutfit(outfit.id)"
             >
-              <div
-                class="relative aspect-[2/3] rounded-lg overflow-hidden transition-all duration-200 ease-in-out group-hover:scale-105 shadow-md"
-                :class="getQualityGradient(outfit.quality)"
+              <NuxtLink
+                :to="localePath(`/outfits/${outfit.id}`)"
+                class="block cursor-pointer group"
               >
-                <NuxtImg
-                  :src="getImageSrc('outfit', outfit.id)"
-                  :alt="outfit.name"
-                  class="absolute inset-0 w-full h-full object-cover z-10"
-                  preset="tallSm"
-                  width="100"
-                  height="150"
-                  fit="cover"
-                  loading="lazy"
-                  sizes="100px"
-                  format="webp"
+                <OutfitCard
+                  :outfit-id="outfit.id"
+                  :quality="outfit.quality"
+                  :name="outfit.name"
+                  size="sm"
+                  :show-meta="false"
+                  class="transition-all duration-200 ease-in-out group-hover:scale-105 group-hover:shadow-xl"
                 />
-                <div class="absolute top-1 right-1 z-20">
-                  <n-tag
-                    round
-                    size="tiny"
-                    :bordered="false"
-                    :type="getQualityType(outfit.quality)"
-                  >
-                    <span class="align-top">{{ outfit.quality }}</span>
-                    <span class="ml-0.5"
-                      ><n-icon><Star /></n-icon
-                    ></span>
-                  </n-tag>
-                </div>
-              </div>
+              </NuxtLink>
               <div class="mt-1 text-center">
                 <p class="font-medium text-xs line-clamp-2">
                   {{ outfit.name }}
@@ -387,7 +368,6 @@
 </template>
 
 <script setup lang="ts">
-  import { NIcon } from 'naive-ui'
   import { Star, Magic, Tag } from '@vicons/fa'
   import type { ItemWithOutfits } from '~/types/supabase'
   import { getBannerForItem } from '~/utils/bannerUtils'
@@ -520,11 +500,6 @@
   // Navigate to list
   const navigateToList = () => {
     router.push(localePath('/items'))
-  }
-
-  // Navigate to outfit detail
-  const navigateToOutfit = (outfitId: number) => {
-    router.push(localePath(`/outfits/${outfitId}`))
   }
 
   // Get quality gradient class

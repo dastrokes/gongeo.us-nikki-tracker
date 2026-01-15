@@ -399,7 +399,7 @@
               <template v-if="!showItems">
                 <div v-if="banner.outfit5StarId.length > 0">
                   <div class="space-y-2">
-                    <OutfitCard
+                    <OutfitDataCard
                       v-for="outfitId in banner.outfit5StarId"
                       :key="outfitId"
                       :banner-id="banner.bannerId"
@@ -418,7 +418,7 @@
 
                 <div v-if="banner.outfit4StarId.length > 0">
                   <div class="space-y-2">
-                    <OutfitCard
+                    <OutfitDataCard
                       v-for="outfitId in banner.outfit4StarId"
                       :key="outfitId"
                       :banner-id="banner.bannerId"
@@ -502,7 +502,7 @@
                     ></span>
                   </n-tag>
                   <div class="grid grid-cols-5 lg:grid-cols-10 gap-2">
-                    <ItemCard
+                    <ItemDataCard
                       v-for="(rewardId, i) in banner.rewardIds"
                       :key="rewardId"
                       :item="{

@@ -144,80 +144,22 @@
                 key="grid"
                 class="grid grid-cols-3 sm:grid-cols-6 gap-2 sm:gap-3 sm:content-start"
               >
-                <div
+                <NuxtLink
                   v-for="entry in entries"
                   :key="entry.id"
-                  class="cursor-pointer"
-                  @click="navigateToDetail(entry.id)"
+                  no-prefetch
+                  :to="localePath(`/outfits/${entry.id}`)"
+                  class="block cursor-pointer group"
                 >
-                  <div
-                    class="relative aspect-[2/3] rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 bg-[url('/bg.webp')] bg-cover bg-center bg-slate-100 dark:bg-slate-300"
-                  >
-                    <!-- Tint overlay -->
-
-                    <div
-                      class="absolute inset-0"
-                      :class="getQualityOverlayClass(entry.quality)"
-                    ></div>
-                    <NuxtImg
-                      :src="entry.image"
-                      :alt="entry.name"
-                      class="absolute inset-0 w-full h-full object-cover z-10"
-                      preset="tallMd"
-                      width="200"
-                      height="300"
-                      fit="cover"
-                      loading="lazy"
-                      sizes="200px sm:240px"
-                    />
-                    <div class="absolute top-2 right-2 z-20">
-                      <n-tag
-                        round
-                        size="small"
-                        :bordered="false"
-                        :type="getQualityType(entry.quality)"
-                        class="backdrop-blur-sm"
-                      >
-                        <span class="align-top">{{ entry.quality }}</span>
-                        <span class="ml-0.5"
-                          ><n-icon><Star /></n-icon
-                        ></span>
-                      </n-tag>
-                    </div>
-                    <div
-                      class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent p-3 z-20"
-                    >
-                      <p
-                        class="text-white font-semibold text-xs sm:text-sm line-clamp-2"
-                      >
-                        {{ entry.name }}
-                      </p>
-                      <div class="flex flex-wrap gap-1 mt-1">
-                        <n-tag
-                          v-if="entry.style"
-                          size="tiny"
-                          :bordered="false"
-                          type="default"
-                          class="!text-xs"
-                        >
-                          {{ entry.style }}
-                        </n-tag>
-                      </div>
-                      <div class="flex flex-wrap gap-0.5 mt-1">
-                        <n-tag
-                          v-for="label in entry.labels"
-                          :key="label"
-                          size="tiny"
-                          :bordered="false"
-                          type="default"
-                          class="!text-xs"
-                        >
-                          {{ label }}
-                        </n-tag>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                  <OutfitCard
+                    :outfit-id="entry.id"
+                    :quality="entry.quality"
+                    :name="entry.name"
+                    :style="entry.style"
+                    :labels="entry.labels"
+                    class="transition-shadow duration-300 group-hover:shadow-xl"
+                  />
+                </NuxtLink>
               </div>
               <div
                 v-else-if="loading"
@@ -394,7 +336,6 @@
       id: entry.id,
       quality: entry.quality,
       name: t(`outfit.${entry.id}.name`),
-      image: getImageSrc('outfit', entry.id),
       style: entry.style ? t(entry.style) : null,
       labels: (entry.labels || []).map((label) => t(label)),
     }))
@@ -454,38 +395,6 @@
       value: tag.key,
     }))
   )
-
-  const navigateToDetail = (id: number) => {
-    router.push(localePath(`/outfits/${id}`))
-  }
-
-  const getQualityType = (quality: number) => {
-    switch (quality) {
-      case 5:
-        return 'warning'
-      case 4:
-        return 'info'
-      case 3:
-        return 'success'
-      case 2:
-        return 'default'
-      default:
-        return 'default'
-    }
-  }
-
-  const getQualityOverlayClass = (quality: number) => {
-    switch (quality) {
-      case 5:
-        return 'bg-yellow-500/5'
-      case 4:
-        return 'bg-blue-500/5'
-      case 3:
-        return 'bg-green-500/5'
-      default:
-        return 'bg-gray-500/5'
-    }
-  }
 </script>
 
 <style scoped>

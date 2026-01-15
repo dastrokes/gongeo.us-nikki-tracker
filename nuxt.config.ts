@@ -207,6 +207,10 @@ export default defineNuxtConfig({
 
   compatibilityDate: '2025-10-01',
 
+  experimental: {
+    appManifest: false,
+  },
+
   components: {
     dirs: ['~/components'],
   },

@@ -323,8 +323,8 @@
     >
       <n-result
         status="404"
-        :title="t('compendium.not_found_title')"
-        :description="t('compendium.not_found_description')"
+        :title="t('compendium.not_found_outfit')"
+        :description="t('error.404')"
       >
         <template #icon>
           <div class="flex justify-center">

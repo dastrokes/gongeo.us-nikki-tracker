@@ -528,15 +528,28 @@
 
     <n-card
       v-else
-      class="text-center rounded-xl"
+      size="small"
+      class="rounded-xl p-0 sm:p-2"
+      content-class="!p-2 sm:p-4"
     >
-      <n-empty>
-        <template #default>
-          <div class="text-xl text-neutral-500">
-            {{ t('banner.not_found') }}
+      <n-result
+        status="404"
+        :title="t('banner.not_found')"
+        :description="t('error.404')"
+      >
+        <template #icon>
+          <div class="flex justify-center">
+            <NuxtImg
+              :src="getImageSrc('static', '/images/404.webp')"
+              alt="Not Found"
+              class="w-48 h-48 object-cover"
+              width="400"
+              height="400"
+              loading="lazy"
+            />
           </div>
         </template>
-        <template #extra>
+        <template #footer>
           <n-button
             type="primary"
             @click="router.push(localePath('/banners'))"
@@ -544,7 +557,7 @@
             {{ t('navigation.banner') }}
           </n-button>
         </template>
-      </n-empty>
+      </n-result>
     </n-card>
 
     <!-- Collection Editor Modal -->

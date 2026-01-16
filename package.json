@@ -47,21 +47,20 @@
   "devDependencies": {
     "@bg-dev/nuxt-naiveui": "2.0.0",
     "@netlify/edge-functions": "3.0.3",
-    "@types/node": "25.0.3",
-    "@typescript-eslint/eslint-plugin": "8.52.0",
-    "@typescript-eslint/parser": "8.52.0",
+    "@types/node": "25.0.8",
+    "@typescript-eslint/eslint-plugin": "8.53.0",
+    "@typescript-eslint/parser": "8.53.0",
     "@vicons/fa": "0.13.0",
     "eslint": "9.39.2",
     "eslint-config-prettier": "10.1.8",
     "husky": "9.1.7",
     "lint-staged": "16.2.7",
-    "prettier": "3.7.4",
+    "prettier": "3.8.0",
     "sass": "1.97.2",
     "supabase": "2.70.5",
-    "ts-node": "1.7.1",
     "typescript": "5.9.3",
-    "unplugin-auto-import": "20.3.0",
-    "unplugin-vue-components": "30.0.0",
+    "unplugin-auto-import": "21.0.0",
+    "unplugin-vue-components": "31.0.0",
     "vue-eslint-parser": "10.2.0"
   }
 }

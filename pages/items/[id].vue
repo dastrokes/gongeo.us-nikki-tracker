@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-7xl mx-auto space-y-2 sm:space-y-4">
+  <div class="max-w-6xl mx-auto space-y-2 sm:space-y-4">
     <!-- Loading State -->
     <n-card
       v-if="loading"
@@ -95,11 +95,13 @@
         class="rounded-xl p-0 sm:p-2"
         content-class="!p-2 sm:p-4"
       >
-        <div class="grid grid-cols-1 lg:grid-cols-[180px_1fr] gap-4 lg:gap-6">
+        <div class="grid grid-cols-1 lg:grid-cols-[auto_1fr] gap-4 lg:gap-6">
+          <!-- Item Image -->
+          <!-- Item Images -->
           <!-- Item Image -->
           <div class="flex justify-center lg:justify-start items-start">
             <div
-              class="relative aspect-[2/3] w-full max-w-[180px] rounded-lg overflow-hidden shadow-lg"
+              class="relative aspect-[2/3] w-[180px] max-w-full shrink-0 rounded-lg overflow-hidden shadow-lg"
               :class="getQualityGradient(item.quality)"
             >
               <NuxtImg
@@ -131,67 +133,88 @@
           </div>
 
           <!-- Item Info -->
-          <div class="space-y-3">
-            <div class="space-y-1.5">
-              <h1 class="text-xl sm:text-2xl font-bold leading-tight">
-                {{ itemName }}
-              </h1>
-              <div class="flex flex-wrap gap-2">
-                <n-tag
-                  :type="getQualityType(item.quality)"
-                  :bordered="false"
-                  round
-                  size="small"
-                >
-                  <span class="align-top">{{ item.quality }}</span
-                  ><span class="ml-0.5"
-                    ><n-icon class="text-xs"><Star /></n-icon
-                  ></span>
-                </n-tag>
-                <n-tag
-                  type="default"
-                  :bordered="false"
-                  round
-                  size="small"
-                >
-                  {{ t(`type.${itemType}`) }}
-                </n-tag>
-                <n-tag
-                  v-if="itemStyleLabel"
-                  :bordered="false"
-                  round
-                  strong
-                  size="small"
-                  class="!bg-rose-50 !text-rose-600 dark:!bg-rose-900/30 dark:!text-rose-300"
-                >
-                  <template #icon>
-                    <n-icon><Magic /></n-icon>
-                  </template>
-                  {{ itemStyleLabel }}
-                </n-tag>
-                <n-tag
-                  v-for="label in itemLabelTags"
-                  :key="label"
-                  :bordered="false"
-                  round
-                  strong
-                  size="small"
-                  class="!bg-teal-50 !text-teal-600 dark:!bg-teal-900/30 dark:!text-teal-300"
-                >
-                  <template #icon>
-                    <n-icon><Tag /></n-icon>
-                  </template>
-                  {{ label }}
-                </n-tag>
-              </div>
-            </div>
+          <div class="space-y-4">
+            <h1 class="text-xl sm:text-2xl font-bold leading-tight">
+              {{ itemName }}
+            </h1>
 
-            <!-- Description -->
-            <div
-              v-if="itemDescription"
-              class="text-xs sm:text-sm opacity-80 leading-relaxed"
-            >
-              <p class="whitespace-pre-wrap">{{ itemDescription }}</p>
+            <div class="flex flex-row gap-4 items-start">
+              <!-- Icon Image -->
+              <div
+                class="relative aspect-square w-[100px] sm:w-[120px] shrink-0 rounded-lg overflow-hidden shadow-lg"
+                :class="getQualityGradient(item.quality)"
+              >
+                <NuxtImg
+                  :src="getImageSrc('itemIcon', item.id)"
+                  :alt="itemName + ' Icon'"
+                  class="absolute inset-0 w-full h-full object-cover z-10"
+                  width="120"
+                  height="120"
+                  fit="cover"
+                  loading="lazy"
+                  format="webp"
+                />
+              </div>
+
+              <!-- Tags and Description -->
+              <div class="space-y-3 min-w-0 flex-1">
+                <div class="flex flex-wrap gap-2">
+                  <n-tag
+                    :type="getQualityType(item.quality)"
+                    :bordered="false"
+                    round
+                    size="small"
+                  >
+                    <span class="align-top">{{ item.quality }}</span
+                    ><span class="ml-0.5"
+                      ><n-icon class="text-xs"><Star /></n-icon
+                    ></span>
+                  </n-tag>
+                  <n-tag
+                    type="default"
+                    :bordered="false"
+                    round
+                    size="small"
+                  >
+                    {{ t(`type.${itemType}`) }}
+                  </n-tag>
+                  <n-tag
+                    v-if="itemStyleLabel"
+                    :bordered="false"
+                    round
+                    strong
+                    size="small"
+                    class="!bg-rose-50 !text-rose-600 dark:!bg-rose-900/30 dark:!text-rose-300"
+                  >
+                    <template #icon>
+                      <n-icon><Magic /></n-icon>
+                    </template>
+                    {{ itemStyleLabel }}
+                  </n-tag>
+                  <n-tag
+                    v-for="label in itemLabelTags"
+                    :key="label"
+                    :bordered="false"
+                    round
+                    strong
+                    size="small"
+                    class="!bg-teal-50 !text-teal-600 dark:!bg-teal-900/30 dark:!text-teal-300"
+                  >
+                    <template #icon>
+                      <n-icon><Tag /></n-icon>
+                    </template>
+                    {{ label }}
+                  </n-tag>
+                </div>
+
+                <!-- Description -->
+                <div
+                  v-if="itemDescription"
+                  class="text-xs sm:text-sm opacity-80 leading-relaxed"
+                >
+                  <p class="whitespace-pre-wrap">{{ itemDescription }}</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -339,8 +362,8 @@
     >
       <n-result
         status="404"
-        :title="t('compendium.not_found_title')"
-        :description="t('compendium.not_found_description')"
+        :title="t('compendium.not_found_item')"
+        :description="t('error.404')"
       >
         <template #icon>
           <div class="flex justify-center">

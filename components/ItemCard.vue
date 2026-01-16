@@ -1,11 +1,12 @@
 <template>
-  <div class="group relative">
+  <div
+    class="group relative block hover:scale-[1.05] hover:shadow-lg hover:z-10 transition-all duration-300 ease-out"
+  >
     <n-card
       :class="[
         getCardGradient(quality),
         { 'cursor-pointer': clickable },
         'relative overflow-hidden rounded-md transition-all duration-300 ease-out aspect-square ring-1',
-        'hover:scale-[1.05] hover:shadow-lg hover:z-10',
         getSizeClass(size),
       ]"
       :bordered="false"
@@ -27,13 +28,19 @@
       />
     </n-card>
     <div
-      class="pointer-events-none absolute left-1/2 bottom-full z-20 mb-1 w-36 -translate-x-1/2 translate-y-1 opacity-0 transition-[opacity,transform] duration-200 ease-out group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:translate-y-0 group-focus-within:opacity-100"
+      class="pointer-events-none absolute inset-x-0 bottom-full z-20 mb-2 flex justify-center opacity-0 translate-y-2 scale-90 transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:opacity-100 group-hover:translate-y-0 group-hover:scale-100 group-focus-within:opacity-100 group-focus-within:translate-y-0 group-focus-within:scale-100"
     >
       <div
-        class="relative min-h-[48px] scale-95 rounded-md bg-[rgba(255,255,255,0.9)] px-2 py-1 text-center text-[14px] text-[#5c5c5e] shadow-lg ring-1 ring-black/10 backdrop-blur-sm transition-transform duration-200 ease-out group-hover:scale-100 group-focus-within:scale-100 dark:bg-[rgba(75,85,99,0.9)] dark:text-[#e4e5e7] dark:ring-black/20"
+        class="relative min-h-[48px] w-32 sm:w-36 rounded-xl bg-white/95 p-2 text-center shadow-lg ring-1 ring-black/5 backdrop-blur-md dark:bg-gray-800/95 dark:ring-white/10"
       >
-        <div class="font-medium leading-tight line-clamp-2">{{ itemName }}</div>
-        <div class="opacity-80">
+        <div
+          class="font-bold leading-tight line-clamp-2 text-xs text-gray-700 dark:text-gray-100"
+        >
+          {{ itemName }}
+        </div>
+        <div
+          class="mt-0.5 text-[10px] sm:text-xs font-medium opacity-80 text-gray-500 dark:text-gray-300"
+        >
           {{ t(`type.${itemType}`) }}
         </div>
       </div>

@@ -594,15 +594,15 @@
     "not_found_outfit": "未找到套裝",
     "back_to_list": "返回物品列表",
     "filter_type": "按類型篩選",
-    "filter_version": "Filter by Version",
-    "filter_style": "按風格篩選",
-    "filter_label": "按標籤篩選",
-    "filter_obtain": "Filter by Source",
+    "filter_version": "依版本篩選",
+    "filter_style": "依風格篩選",
+    "filter_label": "依標籤篩選",
+    "filter_obtain": "依來源篩選",
     "filter_all_types": "全部類型",
     "source": {
-      "event": "Event",
-      "quest": "Quest",
-      "merchant": "Merchant"
+      "event": "活動",
+      "quest": "任務",
+      "merchant": "商店"
     }
   }
 }

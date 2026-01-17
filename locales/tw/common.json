@@ -82,7 +82,7 @@
     "your_data": "您的資料",
     "current_banners": "當前卡池",
     "rerun": "復刻",
-    "copyright": "© 2025 暖暖共鳴錄 • © 疊紙遊戲 版權所有",
+    "copyright": "© 2026 暖暖共鳴錄 • © 疊紙遊戲 版權所有",
     "disclaimer": {
       "content": "本網站由粉絲自發製作運營，與疊紙遊戲官方無關，亦未獲其授權認可。",
       "rights": "所有無限暖暖遊戲資源、內容和商標均歸疊紙遊戲及相關權利方所有。"
@@ -594,8 +594,15 @@
     "not_found_outfit": "未找到套裝",
     "back_to_list": "返回物品列表",
     "filter_type": "按類型篩選",
+    "filter_version": "Filter by Version",
     "filter_style": "按風格篩選",
     "filter_label": "按標籤篩選",
-    "filter_all_types": "全部類型"
+    "filter_obtain": "Filter by Source",
+    "filter_all_types": "全部類型",
+    "source": {
+      "event": "Event",
+      "quest": "Quest",
+      "merchant": "Merchant"
+    }
   }
 }

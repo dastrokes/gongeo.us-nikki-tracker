@@ -82,7 +82,7 @@
     "your_data": "Your Data",
     "current_banners": "Current Banners",
     "rerun": "Rerun",
-    "copyright": "© 2025 gongeo.us • © Infold Games All Rights Reserved",
+    "copyright": "© 2026 gongeo.us • © Infold Games All Rights Reserved",
     "disclaimer": {
       "content": "This is an unofficial fan-made website, not affiliated with or endorsed by Infold Games.",
       "rights": "All Infinity Nikki game assets, content, and trademarks belong to Infold Games and their respective owners."
@@ -594,8 +594,15 @@
     "not_found_outfit": "Outfit not found",
     "back_to_list": "Back to List",
     "filter_type": "Filter by Type",
+    "filter_version": "Filter by Version",
     "filter_style": "Filter by Style",
     "filter_label": "Filter by Label",
-    "filter_all_types": "All Types"
+    "filter_obtain": "Filter by Source",
+    "filter_all_types": "All Types",
+    "source": {
+      "event": "Event",
+      "quest": "Quest",
+      "merchant": "Merchant"
+    }
   }
 }

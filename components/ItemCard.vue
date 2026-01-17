@@ -1,6 +1,6 @@
 <template>
   <div
-    class="group relative block hover:scale-[1.05] hover:shadow-lg hover:z-10 transition-all duration-300 ease-out"
+    class="group relative block hover:scale-[1.05] hover:z-10 transition-all duration-300 ease-out"
   >
     <n-card
       :class="[
@@ -81,21 +81,7 @@
   // Get item type - use prop if available, otherwise derive from ID
   const itemType = computed(() => props.type || getItemType(props.itemId))
 
-  // Quality-based gradient styling
-  const CARD_GRADIENTS = {
-    fiveStar:
-      'bg-gradient-to-br from-[#fff8e1] to-[#ffcc80] hover:shadow-[0_0_10px_0_rgba(255,204,128,0.5)] ring-amber-200/30 hover:ring-amber-200/80 dark:from-[#713f12] dark:to-[#451a03] dark:hover:shadow-[0_0_10px_0_rgba(113,63,18,0.5)] dark:ring-amber-900/30 dark:hover:ring-amber-900/60',
-    fourStar:
-      'bg-gradient-to-br from-[#e3f2fd] to-[#bbdefb] hover:shadow-[0_0_10px_0_rgba(187,222,251,0.5)] ring-blue-200/30 hover:ring-blue-200/80 dark:from-[#334155] dark:to-[#1e293b] dark:hover:shadow-[0_0_10px_0_rgba(51,65,85,0.5)] dark:ring-slate-400/20 dark:hover:ring-slate-400/40',
-    threeStar:
-      'bg-gradient-to-br from-[#e0f2f1] to-[#80cbc4] hover:shadow-[0_0_10px_0_rgba(128,203,196,0.5)] ring-teal-200/30 hover:ring-teal-200/80 dark:from-[#134e4a] dark:to-[#0f766e] dark:hover:shadow-[0_0_10px_0_rgba(19,78,74,0.5)] dark:ring-teal-900/30 dark:hover:ring-teal-900/60',
-  } as const
-
-  const getCardGradient = (quality: number) => {
-    if (quality === 5) return CARD_GRADIENTS.fiveStar
-    if (quality === 4) return CARD_GRADIENTS.fourStar
-    return CARD_GRADIENTS.threeStar
-  }
+  const getCardGradient = (quality: number) => getQualityGradient(quality)
 
   // Size-based styling
   const getSizeClass = (size: 'sm' | 'lg') => {

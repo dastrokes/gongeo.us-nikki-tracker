@@ -6,10 +6,32 @@
       class="rounded-xl p-0 sm:p-2"
       content-class="!p-2 sm:p-4"
     >
-      <div class="flex flex-col gap-4">
-        <!-- Quality Filter Buttons -->
-        <div class="flex justify-end items-center gap-2 flex-wrap">
-          <div class="flex items-center gap-2 flex-wrap">
+      <div class="flex flex-col gap-3">
+        <div class="flex items-center gap-2 flex-wrap justify-between">
+          <div class="flex items-center gap-2">
+            <n-switch
+              v-model:value="listingsSwitchValue"
+              size="large"
+              @update:value="handleListingToggle"
+            >
+              <template #checked>
+                <span class="inline-flex items-center gap-1">
+                  <n-icon>
+                    <ListAlt />
+                  </n-icon>
+                  {{ t('common.items') }}
+                </span>
+              </template>
+              <template #unchecked>
+                <span class="inline-flex items-center gap-1">
+                  <n-icon>
+                    <Tshirt />
+                  </n-icon>
+                  {{ t('common.outfits') }}
+                </span>
+              </template>
+            </n-switch>
+
             <n-button
               v-if="hasFilters"
               size="small"
@@ -17,91 +39,88 @@
             >
               {{ t('common.clear') }}
             </n-button>
-
-            <!-- Type Filter Dropdown -->
-            <n-select
-              v-if="showTypeFilter"
-              v-model:value="typeFilter"
-              :options="typeOptions"
-              size="small"
-              class="w-40"
-              clearable
-              filterable
-              :show-checkmark="false"
-              :placeholder="t('compendium.filter_type')"
-            />
-
-            <n-select
-              v-model:value="styleFilter"
-              :options="styleOptions"
-              size="small"
-              class="w-40"
-              clearable
-              :show-checkmark="false"
-              :placeholder="t('compendium.filter_style')"
-            />
-
-            <n-select
-              v-model:value="labelFilter"
-              :options="labelOptions"
-              size="small"
-              class="w-40"
-              clearable
-              filterable
-              :show-checkmark="false"
-              :placeholder="t('compendium.filter_label')"
-            />
-
-            <n-button-group size="small">
-              <n-button
-                :type="qualityFilter === null ? 'primary' : 'default'"
-                class="min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0"
-                @click="qualityFilter = null"
-              >
-                {{ t('common.all') }}
-              </n-button>
-              <n-button
-                :type="qualityFilter === 5 ? 'warning' : 'default'"
-                class="min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0"
-                @click="qualityFilter = 5"
-              >
-                <span class="align-top">5</span>
-                <span class="ml-1"
-                  ><n-icon><Star /></n-icon
-                ></span>
-              </n-button>
-              <n-button
-                :type="qualityFilter === 4 ? 'info' : 'default'"
-                class="min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0"
-                @click="qualityFilter = 4"
-              >
-                <span class="align-top">4</span>
-                <span class="ml-1"
-                  ><n-icon><Star /></n-icon
-                ></span>
-              </n-button>
-              <n-button
-                :type="qualityFilter === 3 ? 'success' : 'default'"
-                class="min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0"
-                @click="qualityFilter = 3"
-              >
-                <span class="align-top">3</span>
-                <span class="ml-1"
-                  ><n-icon><Star /></n-icon
-                ></span>
-              </n-button>
-              <n-button
-                :type="qualityFilter === 2 ? 'default' : 'default'"
-                class="min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0"
-                @click="qualityFilter = 2"
-              >
-                <span class="align-top">2</span>
-                <span class="ml-1"
-                  ><n-icon><Star /></n-icon
-                ></span>
-              </n-button>
-            </n-button-group>
           </div>
+
+          <n-button-group>
+            <n-button
+              size="small"
+              :type="qualityFilter === null ? 'primary' : 'default'"
+              class="min-w-[40px]"
+              @click="qualityFilter = null"
+            >
+              {{ t('common.all') }}
+            </n-button>
+            <n-button
+              v-for="q in [5, 4, 3, 2]"
+              :key="q"
+              size="small"
+              v-bind="getQualityButtonTheme(q, qualityFilter === q)"
+              :class="['min-w-[40px]']"
+              @click="qualityFilter = q"
+            >
+              <span class="align-top">{{ q }}</span>
+              <span class="ml-1"
+                ><n-icon> <Star /> </n-icon
+              ></span>
+            </n-button>
+          </n-button-group>
+        </div>
+
+        <div class="flex items-center gap-2 flex-wrap">
+          <n-select
+            v-model:value="versionFilter"
+            :options="versionOptions"
+            size="small"
+            class="w-48"
+            clearable
+            :show-checkmark="false"
+            :placeholder="t('compendium.filter_version')"
+          />
+
+          <n-select
+            v-model:value="styleFilter"
+            :options="styleOptions"
+            size="small"
+            class="w-48"
+            clearable
+            :show-checkmark="false"
+            :placeholder="t('compendium.filter_style')"
+          />
+
+          <n-select
+            v-model:value="labelFilter"
+            :options="labelOptions"
+            size="small"
+            class="w-48"
+            clearable
+            filterable
+            :show-checkmark="false"
+            :placeholder="t('compendium.filter_label')"
+          />
+
+          <n-select
+            v-model:value="obtainFilter"
+            :options="obtainOptions"
+            size="small"
+            class="w-48"
+            clearable
+            filterable
+            :show-checkmark="false"
+            :placeholder="t('compendium.filter_obtain')"
+          />
+
+          <!-- Type Filter Dropdown -->
+          <n-select
+            v-if="showTypeFilter"
+            v-model:value="typeFilter"
+            :options="typeOptions"
+            size="small"
+            class="w-48"
+            clearable
+            filterable
+            :show-checkmark="false"
+            :placeholder="t('compendium.filter_type')"
+          />
         </div>
       </div>
     </n-card>
@@ -216,12 +235,12 @@
                         round
                         size="small"
                         :bordered="false"
-                        :type="getQualityType(entry.quality)"
+                        :color="getQualityTagTheme(entry.quality)"
                         class="backdrop-blur-sm"
                       >
                         <span class="align-top">{{ entry.quality }}</span>
                         <span class="ml-0.5"
-                          ><n-icon><Star /></n-icon
+                          ><n-icon> <Star /> </n-icon
                         ></span>
                       </n-tag>
                     </div>
@@ -307,22 +326,11 @@
 
 <script setup lang="ts">
   import { computed, ref, watch } from 'vue'
-  import { Star } from '@vicons/fa'
+  import { Star, Tshirt, ListAlt } from '@vicons/fa'
   import type { SelectGroupOption, SelectOption } from 'naive-ui'
   import type { ItemListEntry } from '~/types/items'
-  import type { ItemType } from '~/utils/itemType'
-  import {
-    getAllItemTypes,
-    getItemTypeCategory,
-    itemCategoryOrder,
-  } from '~/utils/itemType'
-  import {
-    normalizeTraitKey,
-    STYLE_DEFINITIONS,
-    TAG_DEFINITIONS,
-  } from '~/utils/itemInfo'
 
-  const { t } = useI18n()
+  const { t, locale, getLocaleMessage } = useI18n()
   const localePath = useLocalePath()
   const route = useRoute()
   const router = useRouter()
@@ -373,6 +381,91 @@
     return null
   }
 
+  const messages = computed(
+    () => getLocaleMessage(locale.value) as Record<string, string>
+  )
+  const availableVersions = computed(() =>
+    Object.keys(messages.value)
+      .filter((key) => key.startsWith('version.'))
+      .map((key) => key.replace('version.', ''))
+  )
+  const availableObtains = computed(() =>
+    Object.keys(messages.value)
+      .filter((key) => key.startsWith('obtain.') && key.endsWith('.name'))
+      .map((key) => {
+        const parts = key.split('.')
+        return Number(parts[1])
+      })
+      .filter((value) => !Number.isNaN(value))
+  )
+
+  const compareVersion = (a: string, b: string) => {
+    const [aMajor = 0, aMinor = 0] = a.split('.').map((part) => Number(part))
+    const [bMajor = 0, bMinor = 0] = b.split('.').map((part) => Number(part))
+    if (aMajor !== bMajor) return aMajor - bMajor
+    return aMinor - bMinor
+  }
+
+  const obtainOptions = computed(() => {
+    const groupMap = new Map<string, { labelKey: string; ids: number[] }>()
+
+    availableObtains.value.forEach((id) => {
+      const groupKey = resolveObtainGroupKey(id)
+      if (!groupKey) {
+        return
+      }
+      const group = groupMap.get(groupKey)
+      if (group) {
+        group.ids.push(id)
+      } else {
+        const labelKey = resolveObtainGroupLabelKey(groupKey)
+        if (!labelKey) {
+          return
+        }
+        groupMap.set(groupKey, {
+          labelKey,
+          ids: [id],
+        })
+      }
+    })
+
+    return Array.from(groupMap.entries())
+      .map(([groupKey, group]) => {
+        const translated = t(group.labelKey)
+        const fallback = group.labelKey.startsWith('obtain.')
+          ? `Obtain ${group.ids[0]}`
+          : group.labelKey
+        const label = translated !== group.labelKey ? translated : fallback
+        const enriched = group.ids.map((id) => ({
+          id,
+          version: getVersionFromId(id),
+        }))
+        const latestVersion = enriched
+          .map((entry) => entry.version)
+          .filter((value): value is string => !!value)
+          .sort(compareVersion)
+          .pop()
+        return {
+          label,
+          value: groupKey,
+          sortKey: latestVersion ?? '',
+        }
+      })
+      .sort((a, b) => {
+        if (a.sortKey && b.sortKey && a.sortKey !== b.sortKey) {
+          return compareVersion(b.sortKey, a.sortKey)
+        }
+        if (a.sortKey && !b.sortKey) return -1
+        if (!a.sortKey && b.sortKey) return 1
+        return a.label.localeCompare(b.label)
+      })
+      .map(({ label, value }) => ({ label, value }))
+  })
+
+  const availableObtainValues = computed(() =>
+    obtainOptions.value.map((option) => option.value as string)
+  )
+
   const availableStyles = STYLE_DEFINITIONS.map((style) => style.key)
   const availableLabels = TAG_DEFINITIONS.map((tag) => tag.key)
 
@@ -392,11 +485,32 @@
     return null
   }
 
+  const resolveVersion = (value?: string | null) => {
+    if (!value) return null
+    if (value === 'all') return null
+    if (availableVersions.value.includes(value)) return value
+    return null
+  }
+
+  const resolveObtain = (value?: string | null) => {
+    if (!value) return null
+    if (value === 'all') return null
+    if (availableObtainValues.value.includes(value)) return value
+    const ids = resolveObtainIdsFromValue(value)
+    if (!ids) return null
+    const groupKey = resolveObtainGroupKeyFromIds(ids)
+    if (!groupKey) return null
+    return availableObtainValues.value.includes(groupKey) ? groupKey : null
+  }
+
   const qualityFilter = ref<number | null>(
     route.query.quality ? Number(route.query.quality) : null
   )
   const typeFilter = ref<string | null>(
     resolveType(route.query.type?.toString() ?? null)
+  )
+  const versionFilter = ref<string | null>(
+    resolveVersion(route.query.version?.toString() ?? null)
   )
   const styleFilter = ref<string | null>(
     resolveStyle(route.query.style?.toString() ?? null)
@@ -404,15 +518,23 @@
   const labelFilter = ref<string | null>(
     resolveLabel(route.query.label?.toString() ?? null)
   )
+  const obtainFilter = ref<string | null>(
+    resolveObtain(
+      (route.query.source ?? route.query.obtain)?.toString() ?? null
+    )
+  )
   const currentPage = ref(Number(route.query.page) || 1)
 
   const showTypeFilter = computed(() => true)
+  const listingsSwitchValue = ref(true)
   const hasFilters = computed(
     () =>
       qualityFilter.value !== null ||
       (showTypeFilter.value && typeFilter.value !== null) ||
+      versionFilter.value !== null ||
       styleFilter.value !== null ||
-      labelFilter.value !== null
+      labelFilter.value !== null ||
+      obtainFilter.value !== null
   )
 
   const { fetchItemsPaginated } = useSupabaseItems()
@@ -421,7 +543,9 @@
     () =>
       `items-${qualityFilter.value ?? 'all'}-${typeFilter.value ?? 'all'}-${
         styleFilter.value ?? 'all'
-      }-${labelFilter.value ?? 'all'}-${currentPage.value}-${pageSize}`
+      }-${labelFilter.value ?? 'all'}-${versionFilter.value ?? 'all'}-${
+        obtainFilter.value ?? 'all'
+      }-${currentPage.value}-${pageSize}`
   )
 
   const {
@@ -435,14 +559,24 @@
       return fetchItemsPaginated({
         quality: qualityFilter.value,
         type: typeFilter.value,
+        version: versionFilter.value,
         style: styleFilter.value,
         label: labelFilter.value,
+        source: obtainFilter.value,
         page: currentPage.value,
       })
     },
     {
       default: () => ({ data: [], total: 0, totalPages: 0 }),
-      watch: [qualityFilter, typeFilter, styleFilter, labelFilter, currentPage],
+      watch: [
+        qualityFilter,
+        typeFilter,
+        versionFilter,
+        styleFilter,
+        labelFilter,
+        obtainFilter,
+        currentPage,
+      ],
     }
   )
 
@@ -455,8 +589,8 @@
       name: t(`item.${entry.id}.name`),
       image: getImageSrc('item', entry.id),
       type: entry.type ? t(`type.${entry.type}`) : null,
-      style: entry.style ? t(`style.${entry.style}`) : null,
-      labels: (entry.tags || []).map((label) => t(`label.${label}.name`)),
+      style: entry.style ? t(entry.style) : null,
+      labels: (entry.labels || []).map((label: string) => t(label)),
     }))
   })
 
@@ -467,11 +601,29 @@
     plural: t('common.items'),
   }))
 
+  const buildListingQuery = (includeType: boolean) => ({
+    ...(qualityFilter.value && { quality: qualityFilter.value }),
+    ...(includeType &&
+      showTypeFilter.value &&
+      typeFilter.value && {
+        type: typeFilter.value,
+      }),
+    ...(versionFilter.value && { version: versionFilter.value }),
+    ...(styleFilter.value && { style: styleFilter.value }),
+    ...(labelFilter.value && { label: labelFilter.value }),
+    ...(obtainFilter.value && { source: obtainFilter.value }),
+    ...(currentPage.value > 1 && { page: currentPage.value }),
+  })
+
   watch(qualityFilter, () => {
     currentPage.value = 1
   })
 
   watch(typeFilter, () => {
+    currentPage.value = 1
+  })
+
+  watch(versionFilter, () => {
     currentPage.value = 1
   })
 
@@ -483,21 +635,22 @@
     currentPage.value = 1
   })
 
+  watch(obtainFilter, () => {
+    currentPage.value = 1
+  })
+
   watch(
-    [qualityFilter, typeFilter, styleFilter, labelFilter, currentPage],
+    [
+      qualityFilter,
+      typeFilter,
+      versionFilter,
+      styleFilter,
+      labelFilter,
+      obtainFilter,
+      currentPage,
+    ],
     () => {
-      router.replace({
-        query: {
-          ...(qualityFilter.value && { quality: qualityFilter.value }),
-          ...(showTypeFilter.value &&
-            typeFilter.value && {
-              type: typeFilter.value,
-            }),
-          ...(styleFilter.value && { style: styleFilter.value }),
-          ...(labelFilter.value && { label: labelFilter.value }),
-          ...(currentPage.value > 1 && { page: currentPage.value }),
-        },
-      })
+      router.replace({ query: buildListingQuery(true) })
     }
   )
 
@@ -508,8 +661,10 @@
   const clearFilters = () => {
     qualityFilter.value = null
     typeFilter.value = null
+    versionFilter.value = null
     styleFilter.value = null
     labelFilter.value = null
+    obtainFilter.value = null
     currentPage.value = 1
   }
 
@@ -613,6 +768,26 @@
     }))
   )
 
+  const versionOptions = computed(() =>
+    availableVersions.value
+      .slice()
+      .sort(compareVersion)
+      .map((version) => ({
+        label: `${version} - ${t(`version.${version}`)}`,
+        value: version,
+      }))
+  )
+
+  const handleListingToggle = (value: boolean) => {
+    if (value) return
+    router.push(
+      localePath({
+        path: '/outfits',
+        query: buildListingQuery(false),
+      })
+    )
+  }
+
   const navigateToDetail = (id: number) => {
     router.push(localePath(`/items/${id}`))
   }
@@ -627,21 +802,6 @@
         return 'bg-green-500/5'
       default:
         return 'bg-gray-500/5'
-    }
-  }
-
-  const getQualityType = (quality: number) => {
-    switch (quality) {
-      case 5:
-        return 'warning'
-      case 4:
-        return 'info'
-      case 3:
-        return 'success'
-      case 2:
-        return 'default'
-      default:
-        return 'default'
     }
   }
 </script>
@@ -665,27 +825,35 @@
   .grid > *:nth-child(1) {
     animation-delay: 0.05s;
   }
+
   .grid > *:nth-child(2) {
     animation-delay: 0.1s;
   }
+
   .grid > *:nth-child(3) {
     animation-delay: 0.15s;
   }
+
   .grid > *:nth-child(4) {
     animation-delay: 0.2s;
   }
+
   .grid > *:nth-child(5) {
     animation-delay: 0.25s;
   }
+
   .grid > *:nth-child(6) {
     animation-delay: 0.3s;
   }
+
   .grid > *:nth-child(7) {
     animation-delay: 0.35s;
   }
+
   .grid > *:nth-child(8) {
     animation-delay: 0.4s;
   }
+
   .grid > *:nth-child(n + 9) {
     animation-delay: 0.45s;
   }
@@ -695,6 +863,7 @@
       opacity: 0;
       transform: translateY(20px);
     }
+
     to {
       opacity: 1;
       transform: translateY(0);

@@ -7,7 +7,7 @@
         class="cursor-pointer hover:opacity-80 transition-opacity"
       >
         <n-tag
-          :type="quality === 5 ? 'warning' : 'info'"
+          :color="getQualityTextTheme(quality)"
           :bordered="false"
           round
           class="cursor-pointer"
@@ -48,7 +48,7 @@
             round
             size="small"
             :bordered="false"
-            :type="quality === 5 ? 'warning' : 'info'"
+            :color="getQualityTextTheme(quality)"
           >
             {{ t(`banner.outfit.level.${image[0] === 0 ? '1' : image[0]}`) }}
             <span v-if="getOutfitLevel.includes(image[0].toString())">

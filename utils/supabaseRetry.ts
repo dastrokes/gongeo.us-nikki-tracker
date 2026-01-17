@@ -1,5 +1,3 @@
-import { toErrorMessage } from '~/utils/errors'
-
 const TRANSIENT_ERROR_HINTS = [
   'connection reset',
   'econnreset',

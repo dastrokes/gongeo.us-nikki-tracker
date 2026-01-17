@@ -26,6 +26,7 @@ export interface SupabaseItem {
   type: string
   props?: Array<number | string> | null
   tags?: Array<number | string> | null
+  obtain_type?: number | null
 }
 
 /**

@@ -132,7 +132,7 @@
               </h1>
               <div class="flex flex-wrap gap-2">
                 <n-tag
-                  :type="getQualityType(outfit.quality)"
+                  :color="getQualityTextTheme(outfit.quality)"
                   :bordered="false"
                   round
                   size="small"
@@ -141,6 +141,24 @@
                   ><span class="ml-0.5"
                     ><n-icon class="text-xs"><Star /></n-icon
                   ></span>
+                </n-tag>
+                <n-tag
+                  v-if="outfitVersionDisplay"
+                  type="default"
+                  :bordered="false"
+                  round
+                  size="small"
+                >
+                  {{ outfitVersionDisplay }}
+                </n-tag>
+                <n-tag
+                  v-if="outfitObtainLabel"
+                  type="default"
+                  :bordered="false"
+                  round
+                  size="small"
+                >
+                  {{ outfitObtainLabel }}
                 </n-tag>
                 <n-tag
                   v-for="label in outfitStyleLabels"
@@ -354,14 +372,8 @@
 <script setup lang="ts">
   import { Star, Magic, Tag } from '@vicons/fa'
   import type { OutfitWithItems } from '~/types/supabase'
-  import type { ItemType } from '~/utils/itemType'
-  import {
-    resolveStyleKeyFromProps,
-    resolveTagI18nKeys,
-    STYLE_DEFINITIONS,
-  } from '~/utils/itemInfo'
 
-  const { t, locale } = useI18n()
+  const { t, te, locale } = useI18n()
   const localePath = useLocalePath()
   const router = useRouter()
   const route = useRoute()
@@ -481,6 +493,28 @@
     return t(`outfit.${outfit.value.id}.name`)
   })
 
+  const outfitVersion = computed(() => {
+    if (!outfit.value) return null
+    const obtainType = (outfit.value as OutfitWithItems).obtain_type
+    return getVersionFromId(obtainType ?? outfit.value.id)
+  })
+
+  const outfitVersionDisplay = computed(() => {
+    if (!outfitVersion.value) return null
+    const key = `version.${outfitVersion.value}`
+    const label = te(key) ? t(key) : null
+    return label ? `${outfitVersion.value} - ${label}` : outfitVersion.value
+  })
+
+  const outfitObtainLabel = computed(() => {
+    if (!outfit.value) return null
+    const obtainType = (outfit.value as OutfitWithItems).obtain_type
+    if (obtainType === null || obtainType === undefined) return null
+    const key = `obtain.${obtainType}.name`
+    const translated = t(key)
+    return translated !== key ? translated : `${obtainType}`
+  })
+
   // Get outfit description from database (if available in outfit_translations)
   const outfitDescription = computed(() => {
     if (!outfit.value) return ''
@@ -500,20 +534,6 @@
   // Navigate to list
   const navigateToList = () => {
     router.push(localePath('/outfits'))
-  }
-
-  // Get quality type for tag
-  const getQualityType = (quality: number) => {
-    switch (quality) {
-      case 5:
-        return 'warning'
-      case 4:
-        return 'info'
-      case 3:
-        return 'success'
-      default:
-        return 'default'
-    }
   }
 
   // SEO Meta Tags

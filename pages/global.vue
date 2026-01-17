@@ -1074,7 +1074,7 @@
           stack: 'total',
           data: data5Star,
           itemStyle: {
-            color: 'rgba(245, 158, 11, 0.5)', // amber-500
+            color: getQualityColor(5) + 'CC',
             borderRadius: [4, 4, 4, 4],
           },
         },
@@ -1084,7 +1084,7 @@
           stack: 'total',
           data: data4Star,
           itemStyle: {
-            color: 'rgba(139, 92, 246, 0.5)', // violet-500
+            color: getQualityColor(4) + 'CC',
             borderRadius: [4, 4, 4, 4],
           },
         },
@@ -1094,7 +1094,7 @@
           stack: 'total',
           data: data3Star,
           itemStyle: {
-            color: 'rgba(20, 184, 166, 0.5)', // teal-500
+            color: getQualityColor(3) + 'CC',
             borderRadius: [4, 4, 4, 4],
           },
         },
@@ -1288,7 +1288,7 @@
     fiveStarDistributionChartOption.value = createDistributionChart(
       chartData,
       'fiveStar',
-      'rgba(245, 158, 11, 0.5)' // amber-500
+      getQualityColor(5) + 'CC'
     )
   }
 
@@ -1297,7 +1297,7 @@
     fourStarType2ChartOption.value = createDistributionChart(
       chartData,
       'fourStarType2',
-      'rgb(139, 92, 246, 0.5)' // violet-500
+      getQualityColor(4) + 'CC'
     )
   }
 
@@ -1306,7 +1306,7 @@
     fourStarType3ChartOption.value = createDistributionChart(
       chartData,
       'fourStarType3',
-      'rgb(139, 92, 246, 0.5)' // violet-500
+      getQualityColor(3) + 'CC'
     )
   }
 

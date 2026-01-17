@@ -6,9 +6,28 @@
       class="rounded-xl p-0 sm:p-2"
       content-class="!p-2 sm:p-4"
     >
-      <div class="flex flex-col gap-4">
-        <div class="flex justify-end items-center gap-2 flex-wrap">
-          <div class="flex items-center gap-2 flex-wrap">
+      <div class="flex flex-col gap-3">
+        <div class="flex items-center gap-2 flex-wrap justify-between">
+          <div class="flex items-center gap-2">
+            <n-switch
+              v-model:value="listingsSwitchValue"
+              size="large"
+              @update:value="handleListingToggle"
+            >
+              <template #checked>
+                <span class="inline-flex items-center gap-1">
+                  <n-icon><ListAlt /></n-icon>
+                  {{ t('common.items') }}
+                </span>
+              </template>
+              <template #unchecked>
+                <span class="inline-flex items-center gap-1">
+                  <n-icon><Tshirt /></n-icon>
+                  {{ t('common.outfits') }}
+                </span>
+              </template>
+            </n-switch>
+
             <n-button
               v-if="hasFilters"
               size="small"
@@ -16,68 +35,76 @@
             >
               {{ t('common.clear') }}
             </n-button>
-
-            <n-select
-              v-model:value="styleFilter"
-              :options="styleOptions"
-              size="small"
-              class="w-40"
-              clearable
-              :show-checkmark="false"
-              :placeholder="t('compendium.filter_style')"
-            />
-
-            <n-select
-              v-model:value="labelFilter"
-              :options="labelOptions"
-              size="small"
-              class="w-40"
-              clearable
-              filterable
-              :show-checkmark="false"
-              :placeholder="t('compendium.filter_label')"
-            />
-
-            <n-button-group size="small">
-              <n-button
-                :type="qualityFilter === null ? 'primary' : 'default'"
-                class="min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0"
-                @click="qualityFilter = null"
-              >
-                {{ t('common.all') }}
-              </n-button>
-              <n-button
-                :type="qualityFilter === 5 ? 'warning' : 'default'"
-                class="min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0"
-                @click="qualityFilter = 5"
-              >
-                <span class="align-top">5</span>
-                <span class="ml-1"
-                  ><n-icon><Star /></n-icon
-                ></span>
-              </n-button>
-              <n-button
-                :type="qualityFilter === 4 ? 'info' : 'default'"
-                class="min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0"
-                @click="qualityFilter = 4"
-              >
-                <span class="align-top">4</span>
-                <span class="ml-1"
-                  ><n-icon><Star /></n-icon
-                ></span>
-              </n-button>
-              <n-button
-                :type="qualityFilter === 3 ? 'success' : 'default'"
-                class="min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0"
-                @click="qualityFilter = 3"
-              >
-                <span class="align-top">3</span>
-                <span class="ml-1"
-                  ><n-icon><Star /></n-icon
-                ></span>
-              </n-button>
-            </n-button-group>
           </div>
+
+          <n-button-group>
+            <n-button
+              size="small"
+              :type="qualityFilter === null ? 'primary' : 'default'"
+              class="min-w-[40px]"
+              @click="qualityFilter = null"
+            >
+              {{ t('common.all') }}
+            </n-button>
+            <n-button
+              v-for="q in [5, 4, 3, 2]"
+              :key="q"
+              size="small"
+              v-bind="getQualityButtonTheme(q, qualityFilter === q)"
+              :class="['min-w-[40px]']"
+              :disabled="q === 2"
+              @click="qualityFilter = q"
+            >
+              <span class="align-top">{{ q }}</span>
+              <span class="ml-1"
+                ><n-icon><Star /></n-icon
+              ></span>
+            </n-button>
+          </n-button-group>
+        </div>
+
+        <div class="flex items-center gap-2 flex-wrap">
+          <n-select
+            v-model:value="versionFilter"
+            :options="versionOptions"
+            size="small"
+            class="w-48"
+            clearable
+            :show-checkmark="false"
+            :placeholder="t('compendium.filter_version')"
+          />
+
+          <n-select
+            v-model:value="styleFilter"
+            :options="styleOptions"
+            size="small"
+            class="w-48"
+            clearable
+            :show-checkmark="false"
+            :placeholder="t('compendium.filter_style')"
+          />
+
+          <n-select
+            v-model:value="labelFilter"
+            :options="labelOptions"
+            size="small"
+            class="w-48"
+            clearable
+            filterable
+            :show-checkmark="false"
+            :placeholder="t('compendium.filter_label')"
+          />
+
+          <n-select
+            v-model:value="obtainFilter"
+            :options="obtainOptions"
+            size="small"
+            class="w-48"
+            clearable
+            filterable
+            :show-checkmark="false"
+            :placeholder="t('compendium.filter_obtain')"
+          />
         </div>
       </div>
     </n-card>
@@ -208,15 +235,10 @@
 
 <script setup lang="ts">
   import { computed, ref, watch } from 'vue'
-  import { Star } from '@vicons/fa'
-  import type { SupabaseOutfit } from '~/types/supabase'
-  import {
-    normalizeTraitKey,
-    STYLE_DEFINITIONS,
-    TAG_DEFINITIONS,
-  } from '~/utils/itemInfo'
+  import { Star, Tshirt, ListAlt } from '@vicons/fa'
+  import type { OutfitListEntry } from '~/types/outfits'
 
-  const { t } = useI18n()
+  const { t, locale, getLocaleMessage } = useI18n()
   const localePath = useLocalePath()
   const route = useRoute()
   const router = useRouter()
@@ -259,6 +281,91 @@
 
   const pageSize = 18
 
+  const messages = computed(
+    () => getLocaleMessage(locale.value) as Record<string, string>
+  )
+  const availableVersions = computed(() =>
+    Object.keys(messages.value)
+      .filter((key) => key.startsWith('version.'))
+      .map((key) => key.replace('version.', ''))
+  )
+  const availableObtains = computed(() =>
+    Object.keys(messages.value)
+      .filter((key) => key.startsWith('obtain.') && key.endsWith('.name'))
+      .map((key) => {
+        const parts = key.split('.')
+        return Number(parts[1])
+      })
+      .filter((value) => !Number.isNaN(value))
+  )
+
+  const compareVersion = (a: string, b: string) => {
+    const [aMajor = 0, aMinor = 0] = a.split('.').map((part) => Number(part))
+    const [bMajor = 0, bMinor = 0] = b.split('.').map((part) => Number(part))
+    if (aMajor !== bMajor) return aMajor - bMajor
+    return aMinor - bMinor
+  }
+
+  const obtainOptions = computed(() => {
+    const groupMap = new Map<string, { labelKey: string; ids: number[] }>()
+
+    availableObtains.value.forEach((id) => {
+      const groupKey = resolveObtainGroupKey(id)
+      if (!groupKey) {
+        return
+      }
+      const group = groupMap.get(groupKey)
+      if (group) {
+        group.ids.push(id)
+      } else {
+        const labelKey = resolveObtainGroupLabelKey(groupKey)
+        if (!labelKey) {
+          return
+        }
+        groupMap.set(groupKey, {
+          labelKey,
+          ids: [id],
+        })
+      }
+    })
+
+    return Array.from(groupMap.entries())
+      .map(([groupKey, group]) => {
+        const translated = t(group.labelKey)
+        const fallback = group.labelKey.startsWith('obtain.')
+          ? `Obtain ${group.ids[0]}`
+          : group.labelKey
+        const label = translated !== group.labelKey ? translated : fallback
+        const enriched = group.ids.map((id) => ({
+          id,
+          version: getVersionFromId(id),
+        }))
+        const latestVersion = enriched
+          .map((entry) => entry.version)
+          .filter((value): value is string => !!value)
+          .sort(compareVersion)
+          .pop()
+        return {
+          label,
+          value: groupKey,
+          sortKey: latestVersion ?? '',
+        }
+      })
+      .sort((a, b) => {
+        if (a.sortKey && b.sortKey && a.sortKey !== b.sortKey) {
+          return compareVersion(b.sortKey, a.sortKey)
+        }
+        if (a.sortKey && !b.sortKey) return -1
+        if (!a.sortKey && b.sortKey) return 1
+        return a.label.localeCompare(b.label)
+      })
+      .map(({ label, value }) => ({ label, value }))
+  })
+
+  const availableObtainValues = computed(() =>
+    obtainOptions.value.map((option) => option.value as string)
+  )
+
   const availableStyles = STYLE_DEFINITIONS.map((style) => style.key)
   const availableLabels = TAG_DEFINITIONS.map((tag) => tag.key)
 
@@ -278,8 +385,29 @@
     return null
   }
 
+  const resolveVersion = (value?: string | null) => {
+    if (!value) return null
+    if (value === 'all') return null
+    if (availableVersions.value.includes(value)) return value
+    return null
+  }
+
+  const resolveObtain = (value?: string | null) => {
+    if (!value) return null
+    if (value === 'all') return null
+    if (availableObtainValues.value.includes(value)) return value
+    const ids = resolveObtainIdsFromValue(value)
+    if (!ids) return null
+    const groupKey = resolveObtainGroupKeyFromIds(ids)
+    if (!groupKey) return null
+    return availableObtainValues.value.includes(groupKey) ? groupKey : null
+  }
+
   const qualityFilter = ref<number | null>(
     route.query.quality ? Number(route.query.quality) : null
+  )
+  const versionFilter = ref<string | null>(
+    resolveVersion(route.query.version?.toString() ?? null)
   )
   const styleFilter = ref<string | null>(
     resolveStyle(route.query.style?.toString() ?? null)
@@ -287,12 +415,20 @@
   const labelFilter = ref<string | null>(
     resolveLabel(route.query.label?.toString() ?? null)
   )
+  const obtainFilter = ref<string | null>(
+    resolveObtain(
+      (route.query.source ?? route.query.obtain)?.toString() ?? null
+    )
+  )
   const currentPage = ref(Number(route.query.page) || 1)
+  const listingsSwitchValue = ref(false)
   const hasFilters = computed(
     () =>
       qualityFilter.value !== null ||
+      versionFilter.value !== null ||
       styleFilter.value !== null ||
-      labelFilter.value !== null
+      labelFilter.value !== null ||
+      obtainFilter.value !== null
   )
 
   const { fetchOutfitsPaginated } = useSupabaseOutfits()
@@ -301,7 +437,9 @@
     () =>
       `outfits-${qualityFilter.value ?? 'all'}-${styleFilter.value ?? 'all'}-${
         labelFilter.value ?? 'all'
-      }-${currentPage.value}-${pageSize}`
+      }-${versionFilter.value ?? 'all'}-${obtainFilter.value ?? 'all'}-${
+        currentPage.value
+      }-${pageSize}`
   )
 
   const {
@@ -314,30 +452,34 @@
     async () =>
       fetchOutfitsPaginated({
         quality: qualityFilter.value,
+        version: versionFilter.value,
         style: styleFilter.value,
         label: labelFilter.value,
+        source: obtainFilter.value,
         page: currentPage.value,
       }),
     {
       default: () => ({ data: [], total: 0, totalPages: 0 }),
-      watch: [qualityFilter, styleFilter, labelFilter, currentPage],
+      watch: [
+        qualityFilter,
+        versionFilter,
+        styleFilter,
+        labelFilter,
+        obtainFilter,
+        currentPage,
+      ],
     }
   )
 
   const entries = computed(() => {
-    const data = (compendiumData.value?.data || []) as Array<
-      SupabaseOutfit & {
-        style?: string | null
-        labels?: string[]
-      }
-    >
+    const data = (compendiumData.value?.data || []) as OutfitListEntry[]
 
     return data.map((entry) => ({
       id: entry.id,
       quality: entry.quality,
       name: t(`outfit.${entry.id}.name`),
       style: entry.style ? t(entry.style) : null,
-      labels: (entry.labels || []).map((label) => t(label)),
+      labels: (entry.labels || []).map((label: string) => t(label)),
     }))
   })
 
@@ -348,7 +490,20 @@
     plural: t('common.outfits'),
   }))
 
+  const buildListingQuery = () => ({
+    ...(qualityFilter.value && { quality: qualityFilter.value }),
+    ...(versionFilter.value && { version: versionFilter.value }),
+    ...(styleFilter.value && { style: styleFilter.value }),
+    ...(labelFilter.value && { label: labelFilter.value }),
+    ...(obtainFilter.value && { source: obtainFilter.value }),
+    ...(currentPage.value > 1 && { page: currentPage.value }),
+  })
+
   watch(qualityFilter, () => {
+    currentPage.value = 1
+  })
+
+  watch(versionFilter, () => {
     currentPage.value = 1
   })
 
@@ -360,16 +515,23 @@
     currentPage.value = 1
   })
 
-  watch([qualityFilter, styleFilter, labelFilter, currentPage], () => {
-    router.replace({
-      query: {
-        ...(qualityFilter.value && { quality: qualityFilter.value }),
-        ...(styleFilter.value && { style: styleFilter.value }),
-        ...(labelFilter.value && { label: labelFilter.value }),
-        ...(currentPage.value > 1 && { page: currentPage.value }),
-      },
-    })
+  watch(obtainFilter, () => {
+    currentPage.value = 1
   })
+
+  watch(
+    [
+      qualityFilter,
+      versionFilter,
+      styleFilter,
+      labelFilter,
+      obtainFilter,
+      currentPage,
+    ],
+    () => {
+      router.replace({ query: buildListingQuery() })
+    }
+  )
 
   const retryFetch = () => {
     loadData()
@@ -377,8 +539,10 @@
 
   const clearFilters = () => {
     qualityFilter.value = null
+    versionFilter.value = null
     styleFilter.value = null
     labelFilter.value = null
+    obtainFilter.value = null
     currentPage.value = 1
   }
 
@@ -395,6 +559,26 @@
       value: tag.key,
     }))
   )
+
+  const versionOptions = computed(() =>
+    availableVersions.value
+      .slice()
+      .sort(compareVersion)
+      .map((version) => ({
+        label: `${version} - ${t(`version.${version}`)}`,
+        value: version,
+      }))
+  )
+
+  const handleListingToggle = (value: boolean) => {
+    if (!value) return
+    router.push(
+      localePath({
+        path: '/items',
+        query: buildListingQuery(),
+      })
+    )
+  }
 </script>
 
 <style scoped>

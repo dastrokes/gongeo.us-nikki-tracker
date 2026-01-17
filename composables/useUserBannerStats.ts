@@ -1,7 +1,5 @@
 import type { ProcessedBanner } from '~/types/pull'
 import type { UserBannerStats } from '~/types/stats'
-import { hashUid } from '~/utils/hash'
-import { generateSignature } from '~/utils/signature'
 
 export const useUserBannerStats = () => {
   const runtimeConfig = useRuntimeConfig()

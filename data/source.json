@@ -1,0 +1,100 @@
+[
+  {
+    "key": "cadenceborn",
+    "labelKey": "obtain.10007.name",
+    "sampleId": 10007,
+    "ids": [10007, 20011]
+  },
+  {
+    "key": "permanent",
+    "labelKey": "obtain.10011.name",
+    "sampleId": 10011,
+    "ids": [10011]
+  },
+  {
+    "key": "event",
+    "labelKey": "compendium.source.event",
+    "sampleId": 10108,
+    "ids": [
+      10017, 10108, 10207, 10304, 10405, 10505, 10604, 10705, 10806, 10808,
+      10905, 10907, 10908, 11006, 20007, 20106, 10102, 10202, 10401, 10602,
+      10802, 11002, 20102, 11105, 10508, 10020
+    ]
+  },
+  {
+    "key": "heart",
+    "labelKey": "obtain.10001.name",
+    "sampleId": 10001,
+    "ids": [10001, 10104, 10204, 10503, 10803, 20001]
+  },
+  {
+    "key": "home",
+    "labelKey": "obtain.10902.name",
+    "sampleId": 10902,
+    "ids": [10902, 11102]
+  },
+  {
+    "key": "infinity",
+    "labelKey": "obtain.10003.name",
+    "sampleId": 10003,
+    "ids": [10003, 20003]
+  },
+  {
+    "key": "limited",
+    "labelKey": "obtain.10012.name",
+    "sampleId": 10012,
+    "ids": [
+      10012, 10101, 10201, 10302, 10403, 10501, 10601, 10701, 10801, 10901,
+      11001, 11101, 20016, 20101
+    ]
+  },
+  {
+    "key": "merchant",
+    "labelKey": "compendium.source.merchant",
+    "sampleId": 10108,
+    "ids": [10008, 10009, 10106, 20012, 20013]
+  },
+  {
+    "key": "miracle",
+    "labelKey": "obtain.10002.name",
+    "sampleId": 10002,
+    "ids": [10002, 10105, 10504, 20002]
+  },
+  {
+    "key": "pear",
+    "labelKey": "obtain.10014.name",
+    "sampleId": 10014,
+    "ids": [
+      10014, 10107, 10206, 10303, 10404, 10502, 10603, 10704, 10805, 10904,
+      11005, 11103, 20017, 20105
+    ]
+  },
+  {
+    "key": "quest",
+    "labelKey": "compendium.source.quest",
+    "sampleId": 10108,
+    "ids": [
+      10019, 10103, 10203, 10301, 10510, 10703, 10903, 20020, 20104, 20008,
+      10018, 10109, 10402, 10509, 10702, 11003, 20019, 20103, 10016, 20018,
+      10022, 20021, 10006, 10506, 20009
+    ]
+  },
+  {
+    "key": "chest",
+    "labelKey": "obtain.10005.name",
+    "sampleId": 10005,
+    "ids": [10005, 10205, 10507, 10804, 20005]
+  },
+  {
+    "key": "starlit",
+    "labelKey": "obtain.10511.name",
+    "sampleId": 10511,
+    "ids": [10511, 10605, 10706, 10807, 10906, 11007, 11106, 20015, 20107]
+  },
+  {
+    "key": "surprise",
+    "labelKey": "obtain.10010.name",
+    "sampleId": 10010,
+    "ids": [10010, 20014]
+  }
+]

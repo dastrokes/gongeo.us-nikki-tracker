@@ -97,13 +97,18 @@
       >
         <div class="grid grid-cols-1 lg:grid-cols-[auto_1fr] gap-4 lg:gap-6">
           <!-- Item Image -->
-          <!-- Item Images -->
-          <!-- Item Image -->
           <div class="flex justify-center lg:justify-start items-start">
             <div
               class="relative aspect-[2/3] w-[180px] max-w-full shrink-0 rounded-lg overflow-hidden shadow-lg"
-              :class="getQualityGradient(item.quality)"
             >
+              <div
+                class="absolute inset-0 bg-[url('/bg.webp')] bg-cover bg-center bg-slate-100 dark:bg-slate-300"
+              ></div>
+              <!-- Tint overlay -->
+              <div
+                class="absolute inset-0"
+                :style="getQualityOverlayStyle(item.quality)"
+              ></div>
               <NuxtImg
                 :src="getImageSrc('item', item.id)"
                 :alt="itemName"
@@ -121,7 +126,7 @@
                   round
                   size="small"
                   :bordered="false"
-                  :type="getQualityType(item.quality)"
+                  :color="getQualityTagTheme(item.quality)"
                 >
                   <span class="align-top">{{ item.quality }}</span>
                   <span class="ml-0.5"
@@ -140,27 +145,20 @@
 
             <div class="flex flex-row gap-4 items-start">
               <!-- Icon Image -->
-              <div
-                class="relative aspect-square w-[100px] sm:w-[120px] shrink-0 rounded-lg overflow-hidden shadow-lg"
-                :class="getQualityGradient(item.quality)"
-              >
-                <NuxtImg
-                  :src="getImageSrc('itemIcon', item.id)"
-                  :alt="itemName + ' Icon'"
-                  class="absolute inset-0 w-full h-full object-cover z-10"
-                  width="120"
-                  height="120"
-                  fit="cover"
-                  loading="lazy"
-                  format="webp"
-                />
-              </div>
+              <ItemCard
+                :item-id="item.id"
+                :quality="item.quality"
+                :type="itemType"
+                :name="itemName"
+                :clickable="false"
+                size="sm"
+              />
 
               <!-- Tags and Description -->
               <div class="space-y-3 min-w-0 flex-1">
                 <div class="flex flex-wrap gap-2">
                   <n-tag
-                    :type="getQualityType(item.quality)"
+                    :color="getQualityTextTheme(item.quality)"
                     :bordered="false"
                     round
                     size="small"
@@ -177,6 +175,24 @@
                     size="small"
                   >
                     {{ t(`type.${itemType}`) }}
+                  </n-tag>
+                  <n-tag
+                    v-if="itemVersionDisplay"
+                    type="default"
+                    :bordered="false"
+                    round
+                    size="small"
+                  >
+                    {{ itemVersionDisplay }}
+                  </n-tag>
+                  <n-tag
+                    v-if="itemObtainLabel"
+                    type="default"
+                    :bordered="false"
+                    round
+                    size="small"
+                  >
+                    {{ itemObtainLabel }}
                   </n-tag>
                   <n-tag
                     v-if="itemStyleLabel"
@@ -246,12 +262,19 @@
               <div
                 class="relative aspect-[2/3] rounded-lg overflow-hidden transition-all duration-200 ease-in-out shadow-md"
                 :class="[
-                  getQualityGradient(variation.quality),
                   variation.id === itemId
                     ? 'ring-2 ring-primary/60 dark:ring-primary/40'
                     : 'group-hover:scale-105',
                 ]"
               >
+                <div
+                  class="absolute inset-0 bg-[url('/bg.webp')] bg-cover bg-center bg-slate-100 dark:bg-slate-300"
+                ></div>
+                <!-- Tint overlay -->
+                <div
+                  class="absolute inset-0"
+                  :style="getQualityOverlayStyle(variation.quality)"
+                ></div>
                 <NuxtImg
                   :src="getImageSrc('item', variation.id)"
                   :alt="t(`item.${variation.id}.name`)"
@@ -393,14 +416,8 @@
 <script setup lang="ts">
   import { Star, Magic, Tag } from '@vicons/fa'
   import type { ItemWithOutfits } from '~/types/supabase'
-  import { getBannerForItem } from '~/utils/bannerUtils'
-  import {
-    resolveStyleKeyFromProps,
-    resolveTagI18nKeys,
-    STYLE_BY_KEY,
-  } from '~/utils/itemInfo'
 
-  const { t, locale } = useI18n()
+  const { t, te, locale } = useI18n()
   const { getImageSrc, getImageUrl } = imageProvider()
   const localePath = useLocalePath()
   const router = useRouter()
@@ -492,6 +509,28 @@
     return t(`item.${item.value.id}.name`)
   })
 
+  const itemVersion = computed(() => {
+    if (!item.value) return null
+    const obtainType = (item.value as ItemWithOutfits).obtain_type
+    return getVersionFromId(obtainType ?? item.value.id)
+  })
+
+  const itemVersionDisplay = computed(() => {
+    if (!itemVersion.value) return null
+    const key = `version.${itemVersion.value}`
+    const label = te(key) ? t(key) : null
+    return label ? `${itemVersion.value} - ${label}` : itemVersion.value
+  })
+
+  const itemObtainLabel = computed(() => {
+    if (!item.value) return null
+    const obtainType = (item.value as ItemWithOutfits).obtain_type
+    if (obtainType === null || obtainType === undefined) return null
+    const key = `obtain.${obtainType}.name`
+    const translated = t(key)
+    return translated !== key ? translated : `${obtainType}`
+  })
+
   // Get item description from database (if available in item_translations)
   const itemDescription = computed(() => {
     if (!item.value) return ''
@@ -523,38 +562,6 @@
   // Navigate to list
   const navigateToList = () => {
     router.push(localePath('/items'))
-  }
-
-  // Get quality gradient class
-  const getQualityGradient = (quality: number) => {
-    switch (quality) {
-      case 5:
-        return 'bg-gradient-to-br from-[#fff8e1] to-[#ffcc80] dark:from-[#713f12] dark:to-[#451a03]'
-      case 4:
-        return 'bg-gradient-to-br from-[#e3f2fd] to-[#bbdefb] dark:from-[#334155] dark:to-[#1e293b]'
-      case 3:
-        return 'bg-gradient-to-br from-[#e0f2f1] to-[#80cbc4] dark:from-[#134e4a] dark:to-[#0f766e]'
-      case 2:
-        return 'bg-gradient-to-br from-[#f5f5f5] to-[#d6d6d6] dark:from-[#3f3f46] dark:to-[#27272a]'
-      default:
-        return 'bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800'
-    }
-  }
-
-  // Get quality type for tag
-  const getQualityType = (quality: number) => {
-    switch (quality) {
-      case 5:
-        return 'warning'
-      case 4:
-        return 'info'
-      case 3:
-        return 'success'
-      case 2:
-        return 'default'
-      default:
-        return 'default'
-    }
   }
 
   // SEO Meta Tags

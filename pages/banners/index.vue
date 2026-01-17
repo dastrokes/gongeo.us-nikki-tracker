@@ -38,7 +38,7 @@
           <!-- Banner filters -->
           <n-button-group>
             <n-button
-              :type="bannerTypeFilter.show5Star ? 'warning' : 'default'"
+              v-bind="getQualityButtonTheme(5, bannerTypeFilter.show5Star)"
               size="small"
               @click="toggleBannerTypeFilter(5)"
             >
@@ -48,7 +48,7 @@
               ></span>
             </n-button>
             <n-button
-              :type="bannerTypeFilter.show4Star ? 'info' : 'default'"
+              v-bind="getQualityButtonTheme(4, bannerTypeFilter.show4Star)"
               size="small"
               @click="toggleBannerTypeFilter(4)"
             >
@@ -174,7 +174,7 @@
                     >
                       <n-tag
                         size="large"
-                        type="warning"
+                        :color="getQualityTextTheme(5)"
                         :bordered="false"
                         round
                         class="cursor-pointer"
@@ -200,7 +200,7 @@
                     >
                       <n-tag
                         size="large"
-                        type="info"
+                        :color="getQualityTextTheme(4)"
                         :bordered="false"
                         round
                         class="cursor-pointer"

@@ -541,7 +541,7 @@
                       class="inline-block"
                     >
                       <n-tag
-                        :type="outfit.quality === 5 ? 'warning' : 'info'"
+                        :color="getQualityTextTheme(outfit.quality)"
                         :bordered="false"
                         round
                         size="small"
@@ -863,7 +863,7 @@
                       class="inline w-fit hover:opacity-80 transition-opacity cursor-pointer"
                     >
                       <n-tag
-                        :type="outfit.quality === 5 ? 'warning' : 'info'"
+                        :color="getQualityTextTheme(outfit.quality)"
                         :bordered="false"
                         round
                         size="small"

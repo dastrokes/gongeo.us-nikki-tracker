@@ -6,7 +6,7 @@
     <!-- Tint overlay -->
     <div
       class="absolute inset-0"
-      :class="overlayClass"
+      :style="overlayClass"
     ></div>
     <NuxtImg
       :src="imageSrc"
@@ -30,7 +30,7 @@
         round
         :size="qualityTagSize"
         :bordered="false"
-        :type="qualityTagType"
+        :color="getQualityTagTheme(quality)"
         class="backdrop-blur-sm"
       >
         <span class="align-top">{{ quality }}</span>
@@ -105,35 +105,7 @@
 
   const imageSrc = computed(() => getImageSrc('outfit', props.outfitId))
 
-  const overlayClass = computed(() => {
-    switch (props.quality) {
-      case 5:
-        return 'bg-yellow-500/5'
-      case 4:
-        return 'bg-blue-500/5'
-      case 3:
-        return 'bg-green-500/5'
-      case 2:
-        return 'bg-gray-500/5'
-      default:
-        return 'bg-gray-500/5'
-    }
-  })
-
-  const qualityTagType = computed(() => {
-    switch (props.quality) {
-      case 5:
-        return 'warning'
-      case 4:
-        return 'info'
-      case 3:
-        return 'success'
-      case 2:
-        return 'default'
-      default:
-        return 'default'
-    }
-  })
+  const overlayClass = computed(() => getQualityOverlayStyle(props.quality))
 
   const imagePreset = computed(() => {
     switch (props.size) {

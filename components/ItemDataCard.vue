@@ -2,7 +2,7 @@
   <NuxtLink
     no-prefetch
     :to="localePath(`/items/${item.itemId}`)"
-    class="group relative block hover:scale-[1.05] hover:shadow-lg hover:z-10 transition-all duration-300 ease-out"
+    class="group relative block hover:scale-[1.05] hover:z-10 transition-all duration-300 ease-out"
   >
     <n-card
       :class="[
@@ -68,11 +68,10 @@
         size="tiny"
         :bordered="false"
         class="absolute top-1 right-1 scale-75 sm:scale-90 origin-top-right shadow-sm rounded-full text-xs"
-        :class="[
-          item.quality === 5
-            ? 'bg-amber-500/80 text-amber-50 opacity-80'
-            : 'bg-blue-500/80 text-blue-50 opacity-80',
-        ]"
+        :style="{
+          backgroundColor: `${getQualityColor(item.quality)}CC`, // 80% opacity
+          color: '#fff',
+        }"
       >
         ž{{ item.count }}
       </n-tag>
@@ -124,15 +123,7 @@
   const itemType = computed(() => getItemType(props.item.itemId))
   const { getImageSrc } = imageProvider()
 
-  const CARD_GRADIENTS = {
-    fiveStar:
-      'bg-gradient-to-br from-[#fff8e1] to-[#ffcc80] hover:shadow-[0_0_10px_0_rgba(255,204,128,0.5)] ring-amber-200/30 hover:ring-amber-200/80 dark:from-[#713f12] dark:to-[#451a03] dark:hover:shadow-[0_0_10px_0_rgba(113,63,18,0.5)] dark:ring-amber-900/30 dark:hover:ring-amber-900/60',
-    fourStar:
-      'bg-gradient-to-br from-[#e3f2fd] to-[#bbdefb] hover:shadow-[0_0_10px_0_rgba(187,222,251,0.5)] ring-blue-200/30 hover:ring-blue-200/80 dark:from-[#334155] dark:to-[#1e293b] dark:hover:shadow-[0_0_10px_0_rgba(51,65,85,0.5)] dark:ring-slate-400/20 dark:hover:ring-slate-400/40',
-  } as const
-
-  const getCardGradient = (quality: number) =>
-    quality === 5 ? CARD_GRADIENTS.fiveStar : CARD_GRADIENTS.fourStar
+  const getCardGradient = (quality: number) => getQualityGradient(quality)
 
   // Color coding function for pulls with 3 categories
   const getPullColor = (pulls: number, quality: number, bannerId: number) => {

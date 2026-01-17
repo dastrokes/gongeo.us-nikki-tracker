@@ -79,11 +79,7 @@
                 :count="2"
                 :default-value="getItemMinCount(itemId)"
                 size="medium"
-                :color="
-                  selectedOutfit.quality === 5
-                    ? 'rgba(245, 158, 11, 0.8)'
-                    : 'rgba(139, 92, 246, 0.8)'
-                "
+                :color="getQualityColor(selectedOutfit.quality)"
                 class="w-full justify-center"
                 :disabled="false"
               >
@@ -109,11 +105,7 @@
               :default-value="0"
               size="medium"
               class="ml-4"
-              :color="
-                selectedOutfit.quality === 5
-                  ? 'rgba(245, 158, 11, 0.8)'
-                  : 'rgba(139, 92, 246, 0.8)'
-              "
+              :color="getQualityColor(selectedOutfit.quality)"
               :disabled="false"
             >
               <n-icon>
@@ -145,7 +137,7 @@
                   :count="4"
                   :default-value="0"
                   size="medium"
-                  color="rgba(245, 158, 11, 0.8)"
+                  :color="getQualityColor(selectedOutfit.quality)"
                   @update:value="
                     outfitEvoLevel =
                       outfitEvoLevel === null ? 0 : outfitEvoLevel

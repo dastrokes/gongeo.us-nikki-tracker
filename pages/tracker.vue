@@ -1172,12 +1172,13 @@
     return filteredPulls
   }
 
+  // Import percentile functions from utils (pure functions)
   const {
     getAvg5StarPercentile,
     getAvg4StarType2Percentile,
     getAvg4StarType3Percentile,
     getTotalPullsPercentile,
-  } = usePercentile()
+  } = await import('~/utils/percentile')
 
   const exportPNG = async () => {
     if (exporting.value) return

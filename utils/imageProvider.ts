@@ -9,7 +9,7 @@ export const imageProvider = () => {
   const isDev = import.meta.dev
   const runtimeConfig = useRuntimeConfig()
 
-  type ImageProvider = 'ipx' | 'netlify' | 'bunny' | 'imagekit'
+  type ImageProvider = 'ipx' | 'netlify' | 'imagekit'
   type ImageSrcType =
     | 'banner'
     | 'bannerThumb'
@@ -19,7 +19,6 @@ export const imageProvider = () => {
     | 'static'
 
   const imagekitBaseUrl = runtimeConfig.public.imagekitBaseUrl as string
-  const bunnyBaseUrl = runtimeConfig.public.bunnyBaseUrl as string
   const defaultProvider = runtimeConfig.public.imageProvider as ImageProvider
 
   const getImageUrl = (
@@ -42,19 +41,6 @@ export const imageProvider = () => {
 
     if (provider === 'ipx') {
       return cleanPath
-    }
-
-    if (provider === 'bunny') {
-      // Use Bunny CDN
-      // Build query parameters for Bunny
-      const params: string[] = []
-      if (options?.width) params.push(`width=${options.width}`)
-      if (options?.height) params.push(`height=${options.height}`)
-      if (options?.quality) params.push(`quality=${options.quality}`)
-      if (options?.format) params.push(`format=${options.format}`)
-
-      const queryString = params.length > 0 ? `?${params.join('&')}` : ''
-      return `${bunnyBaseUrl}${cleanPath}${queryString}`
     }
 
     // Use ImageKit
@@ -131,7 +117,7 @@ export const imageProvider = () => {
     const path = getImagePath(type, id, options?.variant)
     const provider = options?.provider || defaultProvider
 
-    if (provider === 'ipx' || provider === 'imagekit' || provider === 'bunny') {
+    if (provider === 'ipx' || provider === 'imagekit') {
       return path
     }
 

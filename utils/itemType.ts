@@ -26,7 +26,6 @@ export type ItemType =
   | 'eyelashes'
   | 'contactLenses'
   | 'lips'
-  | 'skinTones'
   | 'unknown'
 
 // Map based on 5th and 6th digits of item ID
@@ -60,7 +59,6 @@ export const itemTypeMap: Record<string, ItemType> = {
   '83': 'eyelashes',
   '84': 'contactLenses',
   '85': 'lips',
-  '86': 'skinTones',
 }
 
 /**
@@ -144,7 +142,6 @@ export const itemCategoryOrder: Record<string, number> = {
   contactLenses: 34,
   lips: 35,
   // Others
-  skinTones: 41,
   unknown: 99,
 }
 

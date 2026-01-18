@@ -182,8 +182,9 @@
                     :outfit-id="entry.id"
                     :quality="entry.quality"
                     :name="entry.name"
-                    :style="entry.style"
-                    :labels="entry.labels"
+                    :style="entry.styleLabel"
+                    :style-key="entry.styleKey"
+                    :labels="entry.labelTags"
                     class="transition-shadow duration-300 group-hover:shadow-xl"
                   />
                 </NuxtLink>
@@ -234,7 +235,6 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, ref, watch } from 'vue'
   import { Star, Tshirt, ListAlt } from '@vicons/fa'
   import type { OutfitListEntry } from '~/types/outfits'
 
@@ -478,8 +478,12 @@
       id: entry.id,
       quality: entry.quality,
       name: t(`outfit.${entry.id}.name`),
-      style: entry.style ? t(entry.style) : null,
-      labels: (entry.labels || []).map((label: string) => t(label)),
+      styleLabel: entry.style ? t(entry.style) : null,
+      styleKey: entry.style ? resolveStyleKeyFromI18nKey(entry.style) : null,
+      labelTags: (entry.labels || []).map((label: string) => ({
+        text: t(label),
+        theme: getLabelTagTheme(label),
+      })),
     }))
   })
 

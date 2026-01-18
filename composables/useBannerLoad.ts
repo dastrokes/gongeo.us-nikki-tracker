@@ -1,4 +1,3 @@
-import type { Ref } from 'vue'
 import type { Banner } from '~/types/banner'
 
 export interface UseBannerLoadOptions {

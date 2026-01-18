@@ -4,19 +4,6 @@
  */
 
 import type { VotePair, BannerRanking, VoteStats } from '~/types/vote'
-import {
-  calculateEloChange,
-  selectBannerPair,
-  getVersion1xBannerIdsExcludingPermanent,
-  type VoteHistory,
-} from '~/utils/bannerVote'
-import {
-  loadPersonalRankings,
-  updatePersonalRankingsAfterVote,
-  getPersonalBannerData,
-  clearPersonalRankings,
-  STORAGE_KEYS,
-} from '~/utils/personalVoteStorage'
 
 export const usePersonalVote = () => {
   const { getImageSrc } = imageProvider()

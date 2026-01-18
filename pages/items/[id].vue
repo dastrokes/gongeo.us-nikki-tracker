@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-6xl mx-auto space-y-2 sm:space-y-4">
+  <div class="max-w-7xl mx-auto space-y-2 sm:space-y-4">
     <!-- Loading State -->
     <n-card
       v-if="loading"
@@ -121,114 +121,131 @@
                 sizes="200px sm:240px"
                 format="webp"
               />
-              <div class="absolute top-1.5 right-1.5 z-20">
-                <n-tag
-                  round
-                  size="small"
-                  :bordered="false"
-                  :color="getQualityTagTheme(item.quality)"
-                >
-                  <span class="align-top">{{ item.quality }}</span>
-                  <span class="ml-0.5"
-                    ><n-icon><Star /></n-icon
-                  ></span>
-                </n-tag>
-              </div>
             </div>
           </div>
 
           <!-- Item Info -->
           <div class="space-y-4">
-            <h1 class="text-xl sm:text-2xl font-bold leading-tight">
-              {{ itemName }}
-            </h1>
+            <div class="flex flex-wrap items-center gap-2">
+              <h1 class="text-xl sm:text-2xl font-bold leading-tight">
+                {{ itemName }}
+              </h1>
+              <n-tag
+                :color="getQualityTextTheme(item.quality)"
+                :bordered="false"
+                round
+                size="small"
+              >
+                <span class="align-top">{{ item.quality }}</span
+                ><span class="ml-0.5"
+                  ><n-icon class="text-xs"><Star /></n-icon
+                ></span>
+              </n-tag>
+              <n-tag
+                type="default"
+                :bordered="false"
+                round
+                size="small"
+              >
+                {{ t(`type.${itemType}`) }}
+              </n-tag>
+            </div>
 
             <div class="flex flex-row gap-4 items-start">
-              <!-- Icon Image -->
-              <ItemCard
-                :item-id="item.id"
-                :quality="item.quality"
-                :type="itemType"
-                :name="itemName"
-                :clickable="false"
-                size="sm"
-              />
-
               <!-- Tags and Description -->
-              <div class="space-y-3 min-w-0 flex-1">
-                <div class="flex flex-wrap gap-2">
-                  <n-tag
-                    :color="getQualityTextTheme(item.quality)"
-                    :bordered="false"
-                    round
-                    size="small"
+              <div
+                class="flex flex-col sm:flex-row items-start gap-4 min-w-0 flex-1"
+              >
+                <div class="space-y-3 min-w-0 flex-1 w-full">
+                  <div class="flex flex-wrap gap-2">
+                    <n-tag
+                      v-if="itemStyleLabel"
+                      size="small"
+                      :bordered="false"
+                      type="default"
+                      :color="getStyleTagTheme(itemStyleKey)"
+                      class="text-xs font-semibold shadow-[inset_0_-2px_0_rgba(0,0,0,0.18)]"
+                    >
+                      {{ itemStyleLabel }}
+                    </n-tag>
+                    <n-tag
+                      v-for="label in itemLabelTags"
+                      :key="label.text"
+                      size="small"
+                      type="default"
+                      :color="label.theme"
+                      round
+                      class="text-xs font-semibold"
+                    >
+                      {{ label.text }}
+                    </n-tag>
+                    <n-tag
+                      v-if="itemVersionDisplay"
+                      type="default"
+                      :bordered="false"
+                      round
+                      size="small"
+                    >
+                      {{ itemVersionDisplay }}
+                    </n-tag>
+                    <n-tag
+                      v-if="itemObtainLabel"
+                      type="default"
+                      :bordered="false"
+                      round
+                      size="small"
+                    >
+                      {{ itemObtainLabel }}
+                    </n-tag>
+                  </div>
+
+                  <!-- Description -->
+                  <div
+                    v-if="itemDescription"
+                    class="text-xs sm:text-sm opacity-80 leading-relaxed"
                   >
-                    <span class="align-top">{{ item.quality }}</span
-                    ><span class="ml-0.5"
-                      ><n-icon class="text-xs"><Star /></n-icon
-                    ></span>
-                  </n-tag>
-                  <n-tag
-                    type="default"
-                    :bordered="false"
-                    round
-                    size="small"
+                    <p class="whitespace-pre-wrap">{{ itemDescription }}</p>
+                  </div>
+
+                  <div
+                    class="grid grid-cols-5 sm:grid-cols-6 md:grid-cols-7 lg:grid-cols-8 xl:grid-cols-10 gap-1.5"
                   >
-                    {{ t(`type.${itemType}`) }}
-                  </n-tag>
-                  <n-tag
-                    v-if="itemVersionDisplay"
-                    type="default"
-                    :bordered="false"
-                    round
-                    size="small"
-                  >
-                    {{ itemVersionDisplay }}
-                  </n-tag>
-                  <n-tag
-                    v-if="itemObtainLabel"
-                    type="default"
-                    :bordered="false"
-                    round
-                    size="small"
-                  >
-                    {{ itemObtainLabel }}
-                  </n-tag>
-                  <n-tag
-                    v-if="itemStyleLabel"
-                    :bordered="false"
-                    round
-                    strong
-                    size="small"
-                    class="!bg-rose-50 !text-rose-600 dark:!bg-rose-900/30 dark:!text-rose-300"
-                  >
-                    <template #icon>
-                      <n-icon><Magic /></n-icon>
-                    </template>
-                    {{ itemStyleLabel }}
-                  </n-tag>
-                  <n-tag
-                    v-for="label in itemLabelTags"
-                    :key="label"
-                    :bordered="false"
-                    round
-                    strong
-                    size="small"
-                    class="!bg-teal-50 !text-teal-600 dark:!bg-teal-900/30 dark:!text-teal-300"
-                  >
-                    <template #icon>
-                      <n-icon><Tag /></n-icon>
-                    </template>
-                    {{ label }}
-                  </n-tag>
+                    <!-- Icon Image -->
+                    <ItemCard
+                      :item-id="item.id"
+                      :quality="item.quality"
+                      :type="itemType"
+                      :name="itemName"
+                      :clickable="false"
+                      size="sm"
+                    />
+                  </div>
                 </div>
 
-                <!-- Description -->
                 <div
-                  v-if="itemDescription"
-                  class="text-xs sm:text-sm opacity-80 leading-relaxed"
+                  v-if="styleScores.length"
+                  class="flex flex-col gap-1 shrink-0 w-auto sm:min-w-[160px]"
                 >
-                  <p class="whitespace-pre-wrap">{{ itemDescription }}</p>
+                  <div
+                    v-for="score in styleScores"
+                    :key="score.key"
+                    class="flex items-stretch gap-2"
+                  >
+                    <n-tag
+                      size="small"
+                      :bordered="false"
+                      type="default"
+                      :color="score.theme"
+                      class="text-sm font-semibold min-w-[90px] justify-center shadow-[inset_0_-2px_0_rgba(0,0,0,0.18)]"
+                    >
+                      {{ score.label }}
+                    </n-tag>
+                    <div
+                      class="flex-1 rounded-md bg-black/5 dark:bg-white/10 px-2 py-0.5 text-sm font-semibold tabular-nums text-right opacity-80"
+                    >
+                      {{ score.value }}
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -414,7 +431,7 @@
 </template>
 
 <script setup lang="ts">
-  import { Star, Magic, Tag } from '@vicons/fa'
+  import { Star } from '@vicons/fa'
   import type { ItemWithOutfits } from '~/types/supabase'
 
   const { t, te, locale } = useI18n()
@@ -549,9 +566,31 @@
     return style ? t(style.i18nKey) : null
   })
 
+  const itemStyleKey = computed(() => {
+    if (!item.value) return null
+    return resolveStyleKeyFromProps(item.value.props)
+  })
+
+  const styleScores = computed(() => {
+    if (!item.value?.props) return []
+    return STYLE_DEFINITIONS.map((style, index) => {
+      const rawValue = item.value?.props?.[index]
+      const value = Number(rawValue)
+      return {
+        key: style.key,
+        label: t(style.i18nKey),
+        value: Number.isFinite(value) ? value : 0,
+        theme: getStyleTagTheme(style.key),
+      }
+    })
+  })
+
   const itemLabelTags = computed(() => {
     if (!item.value) return []
-    return resolveTagI18nKeys(item.value.tags).map((key) => t(key))
+    return resolveTagI18nKeys(item.value.tags).map((key) => ({
+      text: t(key),
+      theme: getLabelTagTheme(key),
+    }))
   })
 
   // Retry fetch

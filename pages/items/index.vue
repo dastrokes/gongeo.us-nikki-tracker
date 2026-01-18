@@ -254,25 +254,27 @@
                       </p>
                       <div class="flex flex-wrap gap-1 mt-1">
                         <n-tag
-                          v-if="entry.style"
+                          v-if="entry.styleLabel"
                           size="tiny"
                           :bordered="false"
                           type="default"
-                          class="!text-xs"
+                          :color="getStyleTagTheme(entry.styleKey)"
+                          class="text-xs font-semibold shadow-[inset_0_-2px_0_rgba(0,0,0,0.18)]"
                         >
-                          {{ entry.style }}
+                          {{ entry.styleLabel }}
                         </n-tag>
                       </div>
                       <div class="flex flex-wrap gap-0.5 mt-1">
                         <n-tag
-                          v-for="label in entry.labels"
-                          :key="label"
+                          v-for="label in entry.labelTags"
+                          :key="label.text"
                           size="tiny"
-                          :bordered="false"
                           type="default"
-                          class="!text-xs"
+                          :color="label.theme"
+                          round
+                          class="text-xs font-semibold"
                         >
-                          {{ label }}
+                          {{ label.text }}
                         </n-tag>
                       </div>
                     </div>
@@ -325,7 +327,6 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, ref, watch } from 'vue'
   import { Star, Tshirt, ListAlt } from '@vicons/fa'
   import type { SelectGroupOption, SelectOption } from 'naive-ui'
   import type { ItemListEntry } from '~/types/items'
@@ -589,8 +590,12 @@
       name: t(`item.${entry.id}.name`),
       image: getImageSrc('item', entry.id),
       type: entry.type ? t(`type.${entry.type}`) : null,
-      style: entry.style ? t(entry.style) : null,
-      labels: (entry.labels || []).map((label: string) => t(label)),
+      styleLabel: entry.style ? t(entry.style) : null,
+      styleKey: entry.style ? resolveStyleKeyFromI18nKey(entry.style) : null,
+      labelTags: (entry.labels || []).map((label: string) => ({
+        text: t(label),
+        theme: getLabelTagTheme(label),
+      })),
     }))
   })
 

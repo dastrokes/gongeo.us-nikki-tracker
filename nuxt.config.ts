@@ -80,10 +80,6 @@ export default defineNuxtConfig({
         process.env.NUXT_PUBLIC_IMAGEKIT_BASE_URL ||
         'https://ik.imagekit.io/gongeous',
     },
-    bunny: {
-      baseURL:
-        process.env.NUXT_PUBLIC_BUNNY_BASE_URL || 'https://cdn.gongeo.us',
-    },
     domains: [
       process.env.NUXT_PUBLIC_IMAGEKIT_BASE_URL ||
         'https://ik.imagekit.io/gongeous',

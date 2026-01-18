@@ -52,6 +52,7 @@
   const handleLanguageSelect = (key: string) => {
     if (key === 'crowdin') return
     setLocale(key as SupportedLocaleCode)
+    const { set } = useCookieHelpers()
     set('locale', key)
   }
 </script>

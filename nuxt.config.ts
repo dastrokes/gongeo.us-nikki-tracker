@@ -61,10 +61,13 @@ export default defineNuxtConfig({
       supabaseAnonKey: process.env.SUPABASE_ANON_KEY,
       supabaseDataUrl: process.env.SUPABASE_DATA_URL,
       gongeousApiKey: process.env.GONGEOUS_API_KEY,
-      siteUrl: process.env.NUXT_PUBLIC_SITE_URL,
+      siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://gongeo.us',
       gameVersion: '2.1.0.1',
-      imagekitBaseUrl: process.env.NUXT_PUBLIC_IMAGEKIT_BASE_URL,
-      bunnyBaseUrl: process.env.NUXT_PUBLIC_BUNNY_BASE_URL,
+      imagekitBaseUrl:
+        process.env.NUXT_PUBLIC_IMAGEKIT_BASE_URL ||
+        'https://ik.imagekit.io/gongeous',
+      bunnyBaseUrl:
+        process.env.NUXT_PUBLIC_BUNNY_BASE_URL || 'https://cdn.gongeo.us',
       imageProvider: getImageProvider(),
     },
   },

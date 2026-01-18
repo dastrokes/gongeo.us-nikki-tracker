@@ -4,8 +4,8 @@
       class="w-full max-w-xs"
       size="small"
       status="404"
-      :title="t('error.404')"
-      :description="t('error.notFound')"
+      title="Page not found"
+      description="The page you are looking for does not exist."
     >
       <template #icon>
         <NuxtImg
@@ -28,7 +28,7 @@
               <Home />
             </n-icon>
           </template>
-          {{ t('error.returnHome') }}
+          Return home
         </n-button>
       </template>
     </n-result>
@@ -36,30 +36,9 @@
 </template>
 
 <script setup lang="ts">
-  import type { Composer } from 'vue-i18n'
   import { Home } from '@vicons/fa'
 
-  const localePath = useLocalePath()
-
-  const getTranslation = (): ((key: string) => string) => {
-    try {
-      const { t } = useI18n()
-      return t
-    } catch {
-      const i18n = useNuxtApp().$i18n as Composer | undefined
-      return (key: string) => {
-        try {
-          return i18n?.t?.(key) || key
-        } catch {
-          return key
-        }
-      }
-    }
-  }
-
-  const t = getTranslation()
-
   const handleError = () => {
-    navigateTo(localePath('/'))
+    navigateTo('/')
   }
 </script>

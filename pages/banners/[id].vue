@@ -399,7 +399,7 @@
               <template v-if="!showItems">
                 <div v-if="banner.outfit5StarId.length > 0">
                   <div class="space-y-2">
-                    <OutfitCard
+                    <OutfitDataCard
                       v-for="outfitId in banner.outfit5StarId"
                       :key="outfitId"
                       :banner-id="banner.bannerId"
@@ -418,7 +418,7 @@
 
                 <div v-if="banner.outfit4StarId.length > 0">
                   <div class="space-y-2">
-                    <OutfitCard
+                    <OutfitDataCard
                       v-for="outfitId in banner.outfit4StarId"
                       :key="outfitId"
                       :banner-id="banner.bannerId"
@@ -502,7 +502,7 @@
                     ></span>
                   </n-tag>
                   <div class="grid grid-cols-5 lg:grid-cols-10 gap-2">
-                    <ItemCard
+                    <ItemDataCard
                       v-for="(rewardId, i) in banner.rewardIds"
                       :key="rewardId"
                       :item="{
@@ -528,15 +528,28 @@
 
     <n-card
       v-else
-      class="text-center rounded-xl"
+      size="small"
+      class="rounded-xl p-0 sm:p-2"
+      content-class="!p-2 sm:p-4"
     >
-      <n-empty>
-        <template #default>
-          <div class="text-xl text-neutral-500">
-            {{ t('banner.not_found') }}
+      <n-result
+        status="404"
+        :title="t('banner.not_found')"
+        :description="t('error.404')"
+      >
+        <template #icon>
+          <div class="flex justify-center">
+            <NuxtImg
+              :src="getImageSrc('static', '/images/404.webp')"
+              alt="Not Found"
+              class="w-48 h-48 object-cover"
+              width="400"
+              height="400"
+              loading="lazy"
+            />
           </div>
         </template>
-        <template #extra>
+        <template #footer>
           <n-button
             type="primary"
             @click="router.push(localePath('/banners'))"
@@ -544,7 +557,7 @@
             {{ t('navigation.banner') }}
           </n-button>
         </template>
-      </n-empty>
+      </n-result>
     </n-card>
 
     <!-- Collection Editor Modal -->
@@ -594,7 +607,8 @@
   const showCollectionEditor = ref(false)
   const showItems = ref(true)
 
-  const { getAvg5StarPercentile, getAvg4StarType3Percentile } = usePercentile()
+  // Import percentile functions from utils (pure functions)
+  const { getAvg5StarPercentile, getAvg4StarType3Percentile } = await import('~/utils/percentile')
 
   const banner = computed(() => {
     const bannerId = parseInt(route.params.id as string)

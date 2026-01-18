@@ -95,13 +95,20 @@
         class="rounded-xl p-0 sm:p-2"
         content-class="!p-2 sm:p-4"
       >
-        <div class="grid grid-cols-1 lg:grid-cols-[180px_1fr] gap-4 lg:gap-6">
+        <div class="grid grid-cols-1 lg:grid-cols-[auto_1fr] gap-4 lg:gap-6">
           <!-- Item Image -->
           <div class="flex justify-center lg:justify-start items-start">
             <div
-              class="relative aspect-[2/3] w-full max-w-[180px] rounded-lg overflow-hidden shadow-lg"
-              :class="getQualityGradient(item.quality)"
+              class="relative aspect-[2/3] w-[180px] max-w-full shrink-0 rounded-lg overflow-hidden shadow-lg"
             >
+              <div
+                class="absolute inset-0 bg-[url('/bg.webp')] bg-cover bg-center bg-slate-100 dark:bg-slate-300"
+              ></div>
+              <!-- Tint overlay -->
+              <div
+                class="absolute inset-0"
+                :style="getQualityOverlayStyle(item.quality)"
+              ></div>
               <NuxtImg
                 :src="getImageSrc('item', item.id)"
                 :alt="itemName"
@@ -114,84 +121,133 @@
                 sizes="200px sm:240px"
                 format="webp"
               />
-              <div class="absolute top-1.5 right-1.5 z-20">
-                <n-tag
-                  round
-                  size="small"
-                  :bordered="false"
-                  :type="getQualityType(item.quality)"
-                >
-                  <span class="align-top">{{ item.quality }}</span>
-                  <span class="ml-0.5"
-                    ><n-icon><Star /></n-icon
-                  ></span>
-                </n-tag>
-              </div>
             </div>
           </div>
 
           <!-- Item Info -->
-          <div class="space-y-3">
-            <div class="space-y-1.5">
+          <div class="space-y-4">
+            <div class="flex flex-wrap items-center gap-2">
               <h1 class="text-xl sm:text-2xl font-bold leading-tight">
                 {{ itemName }}
               </h1>
-              <div class="flex flex-wrap gap-2">
-                <n-tag
-                  :type="getQualityType(item.quality)"
-                  :bordered="false"
-                  round
-                  size="small"
-                >
-                  <span class="align-top">{{ item.quality }}</span
-                  ><span class="ml-0.5"
-                    ><n-icon class="text-xs"><Star /></n-icon
-                  ></span>
-                </n-tag>
-                <n-tag
-                  type="default"
-                  :bordered="false"
-                  round
-                  size="small"
-                >
-                  {{ t(`type.${itemType}`) }}
-                </n-tag>
-                <n-tag
-                  v-if="itemStyleLabel"
-                  :bordered="false"
-                  round
-                  strong
-                  size="small"
-                  class="!bg-rose-50 !text-rose-600 dark:!bg-rose-900/30 dark:!text-rose-300"
-                >
-                  <template #icon>
-                    <n-icon><Magic /></n-icon>
-                  </template>
-                  {{ itemStyleLabel }}
-                </n-tag>
-                <n-tag
-                  v-for="label in itemLabelTags"
-                  :key="label"
-                  :bordered="false"
-                  round
-                  strong
-                  size="small"
-                  class="!bg-teal-50 !text-teal-600 dark:!bg-teal-900/30 dark:!text-teal-300"
-                >
-                  <template #icon>
-                    <n-icon><Tag /></n-icon>
-                  </template>
-                  {{ label }}
-                </n-tag>
-              </div>
+              <n-tag
+                :color="getQualityTextTheme(item.quality)"
+                :bordered="false"
+                round
+                size="small"
+              >
+                <span class="align-top">{{ item.quality }}</span
+                ><span class="ml-0.5"
+                  ><n-icon class="text-xs"><Star /></n-icon
+                ></span>
+              </n-tag>
+              <n-tag
+                type="default"
+                :bordered="false"
+                round
+                size="small"
+              >
+                {{ t(`type.${itemType}`) }}
+              </n-tag>
             </div>
 
-            <!-- Description -->
-            <div
-              v-if="itemDescription"
-              class="text-xs sm:text-sm opacity-80 leading-relaxed"
-            >
-              <p class="whitespace-pre-wrap">{{ itemDescription }}</p>
+            <div class="flex flex-row gap-4 items-start">
+              <!-- Tags and Description -->
+              <div
+                class="flex flex-col sm:flex-row items-start gap-4 min-w-0 flex-1"
+              >
+                <div class="space-y-3 min-w-0 flex-1 w-full">
+                  <div class="flex flex-wrap gap-2">
+                    <n-tag
+                      v-if="itemStyleLabel"
+                      size="small"
+                      :bordered="false"
+                      type="default"
+                      :color="getStyleTagTheme(itemStyleKey)"
+                      class="text-xs font-semibold shadow-[inset_0_-2px_0_rgba(0,0,0,0.18)]"
+                    >
+                      {{ itemStyleLabel }}
+                    </n-tag>
+                    <n-tag
+                      v-for="label in itemLabelTags"
+                      :key="label.text"
+                      size="small"
+                      type="default"
+                      :color="label.theme"
+                      round
+                      class="text-xs font-semibold"
+                    >
+                      {{ label.text }}
+                    </n-tag>
+                    <n-tag
+                      v-if="itemVersionDisplay"
+                      type="default"
+                      :bordered="false"
+                      round
+                      size="small"
+                    >
+                      {{ itemVersionDisplay }}
+                    </n-tag>
+                    <n-tag
+                      v-if="itemObtainLabel"
+                      type="default"
+                      :bordered="false"
+                      round
+                      size="small"
+                    >
+                      {{ itemObtainLabel }}
+                    </n-tag>
+                  </div>
+
+                  <!-- Description -->
+                  <div
+                    v-if="itemDescription"
+                    class="text-xs sm:text-sm opacity-80 leading-relaxed"
+                  >
+                    <p class="whitespace-pre-wrap">{{ itemDescription }}</p>
+                  </div>
+
+                  <div
+                    class="grid grid-cols-5 sm:grid-cols-6 md:grid-cols-7 lg:grid-cols-8 xl:grid-cols-10 gap-1.5"
+                  >
+                    <!-- Icon Image -->
+                    <ItemCard
+                      :item-id="item.id"
+                      :quality="item.quality"
+                      :type="itemType"
+                      :name="itemName"
+                      :clickable="false"
+                      size="sm"
+                    />
+                  </div>
+                </div>
+
+                <div
+                  v-if="styleScores.length"
+                  class="flex flex-col gap-1 shrink-0 w-auto sm:min-w-[160px]"
+                >
+                  <div
+                    v-for="score in styleScores"
+                    :key="score.key"
+                    class="flex items-stretch gap-2"
+                  >
+                    <n-tag
+                      size="small"
+                      :bordered="false"
+                      type="default"
+                      :color="score.theme"
+                      class="text-sm font-semibold min-w-[90px] justify-center shadow-[inset_0_-2px_0_rgba(0,0,0,0.18)]"
+                    >
+                      {{ score.label }}
+                    </n-tag>
+                    <div
+                      class="flex-1 rounded-md bg-black/5 dark:bg-white/10 px-2 py-0.5 text-sm font-semibold tabular-nums text-right opacity-80"
+                    >
+                      {{ score.value }}
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -223,12 +279,19 @@
               <div
                 class="relative aspect-[2/3] rounded-lg overflow-hidden transition-all duration-200 ease-in-out shadow-md"
                 :class="[
-                  getQualityGradient(variation.quality),
                   variation.id === itemId
                     ? 'ring-2 ring-primary/60 dark:ring-primary/40'
                     : 'group-hover:scale-105',
                 ]"
               >
+                <div
+                  class="absolute inset-0 bg-[url('/bg.webp')] bg-cover bg-center bg-slate-100 dark:bg-slate-300"
+                ></div>
+                <!-- Tint overlay -->
+                <div
+                  class="absolute inset-0"
+                  :style="getQualityOverlayStyle(variation.quality)"
+                ></div>
                 <NuxtImg
                   :src="getImageSrc('item', variation.id)"
                   :alt="t(`item.${variation.id}.name`)"
@@ -267,39 +330,20 @@
             <div
               v-for="outfit in relatedOutfits"
               :key="outfit.id"
-              class="cursor-pointer group"
-              @click="navigateToOutfit(outfit.id)"
             >
-              <div
-                class="relative aspect-[2/3] rounded-lg overflow-hidden transition-all duration-200 ease-in-out group-hover:scale-105 shadow-md"
-                :class="getQualityGradient(outfit.quality)"
+              <NuxtLink
+                :to="localePath(`/outfits/${outfit.id}`)"
+                class="block cursor-pointer group"
               >
-                <NuxtImg
-                  :src="getImageSrc('outfit', outfit.id)"
-                  :alt="outfit.name"
-                  class="absolute inset-0 w-full h-full object-cover z-10"
-                  preset="tallSm"
-                  width="100"
-                  height="150"
-                  fit="cover"
-                  loading="lazy"
-                  sizes="100px"
-                  format="webp"
+                <OutfitCard
+                  :outfit-id="outfit.id"
+                  :quality="outfit.quality"
+                  :name="outfit.name"
+                  size="sm"
+                  :show-meta="false"
+                  class="transition-all duration-200 ease-in-out group-hover:scale-105 group-hover:shadow-xl"
                 />
-                <div class="absolute top-1 right-1 z-20">
-                  <n-tag
-                    round
-                    size="tiny"
-                    :bordered="false"
-                    :type="getQualityType(outfit.quality)"
-                  >
-                    <span class="align-top">{{ outfit.quality }}</span>
-                    <span class="ml-0.5"
-                      ><n-icon><Star /></n-icon
-                    ></span>
-                  </n-tag>
-                </div>
-              </div>
+              </NuxtLink>
               <div class="mt-1 text-center">
                 <p class="font-medium text-xs line-clamp-2">
                   {{ outfit.name }}
@@ -358,8 +402,8 @@
     >
       <n-result
         status="404"
-        :title="t('compendium.not_found_title')"
-        :description="t('compendium.not_found_description')"
+        :title="t('compendium.not_found_item')"
+        :description="t('error.404')"
       >
         <template #icon>
           <div class="flex justify-center">
@@ -387,17 +431,10 @@
 </template>
 
 <script setup lang="ts">
-  import { NIcon } from 'naive-ui'
-  import { Star, Magic, Tag } from '@vicons/fa'
+  import { Star } from '@vicons/fa'
   import type { ItemWithOutfits } from '~/types/supabase'
-  import { getBannerForItem } from '~/utils/bannerUtils'
-  import {
-    resolveStyleKeyFromProps,
-    resolveTagI18nKeys,
-    STYLE_BY_KEY,
-  } from '~/utils/itemInfo'
 
-  const { t, locale } = useI18n()
+  const { t, te, locale } = useI18n()
   const { getImageSrc, getImageUrl } = imageProvider()
   const localePath = useLocalePath()
   const router = useRouter()
@@ -478,13 +515,37 @@
   // Get item type
   const itemType = computed(() => {
     if (!item.value) return 'unknown'
-    return getItemType(item.value.id)
+    return item.value.type
+      ? getItemType(item.value.type)
+      : getItemType(item.value.id)
   })
 
   // Get item name from i18n (names are stored in i18n files, not database)
   const itemName = computed(() => {
     if (!item.value) return ''
     return t(`item.${item.value.id}.name`)
+  })
+
+  const itemVersion = computed(() => {
+    if (!item.value) return null
+    const obtainType = (item.value as ItemWithOutfits).obtain_type
+    return getVersionFromId(obtainType ?? item.value.id)
+  })
+
+  const itemVersionDisplay = computed(() => {
+    if (!itemVersion.value) return null
+    const key = `version.${itemVersion.value}`
+    const label = te(key) ? t(key) : null
+    return label ? `${itemVersion.value} - ${label}` : itemVersion.value
+  })
+
+  const itemObtainLabel = computed(() => {
+    if (!item.value) return null
+    const obtainType = (item.value as ItemWithOutfits).obtain_type
+    if (obtainType === null || obtainType === undefined) return null
+    const key = `obtain.${obtainType}.name`
+    const translated = t(key)
+    return translated !== key ? translated : `${obtainType}`
   })
 
   // Get item description from database (if available in item_translations)
@@ -505,9 +566,31 @@
     return style ? t(style.i18nKey) : null
   })
 
+  const itemStyleKey = computed(() => {
+    if (!item.value) return null
+    return resolveStyleKeyFromProps(item.value.props)
+  })
+
+  const styleScores = computed(() => {
+    if (!item.value?.props) return []
+    return STYLE_DEFINITIONS.map((style, index) => {
+      const rawValue = item.value?.props?.[index]
+      const value = Number(rawValue)
+      return {
+        key: style.key,
+        label: t(style.i18nKey),
+        value: Number.isFinite(value) ? value : 0,
+        theme: getStyleTagTheme(style.key),
+      }
+    })
+  })
+
   const itemLabelTags = computed(() => {
     if (!item.value) return []
-    return resolveTagI18nKeys(item.value.tags).map((key) => t(key))
+    return resolveTagI18nKeys(item.value.tags).map((key) => ({
+      text: t(key),
+      theme: getLabelTagTheme(key),
+    }))
   })
 
   // Retry fetch
@@ -518,43 +601,6 @@
   // Navigate to list
   const navigateToList = () => {
     router.push(localePath('/items'))
-  }
-
-  // Navigate to outfit detail
-  const navigateToOutfit = (outfitId: number) => {
-    router.push(localePath(`/outfits/${outfitId}`))
-  }
-
-  // Get quality gradient class
-  const getQualityGradient = (quality: number) => {
-    switch (quality) {
-      case 5:
-        return 'bg-gradient-to-br from-[#fff8e1] to-[#ffcc80] dark:from-[#713f12] dark:to-[#451a03]'
-      case 4:
-        return 'bg-gradient-to-br from-[#e3f2fd] to-[#bbdefb] dark:from-[#334155] dark:to-[#1e293b]'
-      case 3:
-        return 'bg-gradient-to-br from-[#e0f2f1] to-[#80cbc4] dark:from-[#134e4a] dark:to-[#0f766e]'
-      case 2:
-        return 'bg-gradient-to-br from-[#f5f5f5] to-[#d6d6d6] dark:from-[#3f3f46] dark:to-[#27272a]'
-      default:
-        return 'bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800'
-    }
-  }
-
-  // Get quality type for tag
-  const getQualityType = (quality: number) => {
-    switch (quality) {
-      case 5:
-        return 'warning'
-      case 4:
-        return 'info'
-      case 3:
-        return 'success'
-      case 2:
-        return 'default'
-      default:
-        return 'default'
-    }
   }
 
   // SEO Meta Tags

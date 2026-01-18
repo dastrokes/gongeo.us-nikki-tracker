@@ -110,138 +110,163 @@
         class="rounded-xl p-0 sm:p-2"
         content-class="!p-2 sm:p-4"
       >
-        <div class="grid grid-cols-1 lg:grid-cols-[180px_1fr] gap-4 lg:gap-6">
+        <div class="grid grid-cols-1 lg:grid-cols-[auto_1fr] gap-4 lg:gap-6">
           <!-- Outfit Image -->
           <div class="flex justify-center lg:justify-start items-start">
-            <div
-              class="relative aspect-[2/3] w-full max-w-[180px] rounded-lg overflow-hidden shadow-lg"
-              :class="getQualityGradient(outfit.quality)"
-            >
-              <NuxtImg
-                :src="getImageSrc('outfit', outfit.id)"
-                :alt="outfitName"
-                class="absolute inset-0 w-full h-full object-cover z-10"
-                preset="tallMd"
-                width="200"
-                height="300"
-                fit="cover"
-                loading="eager"
-                sizes="200px sm:240px"
-                format="webp"
+            <div class="w-[180px] max-w-full shrink-0">
+              <OutfitCard
+                :outfit-id="outfit.id"
+                :quality="outfit.quality"
+                :name="outfitName"
+                size="md"
+                :show-meta="false"
+                class="shadow-lg w-full"
               />
-              <div class="absolute top-1.5 right-1.5 z-20">
-                <n-tag
-                  round
-                  size="small"
-                  :bordered="false"
-                  :type="getQualityType(outfit.quality)"
-                >
-                  <span class="align-top">{{ outfit.quality }}</span>
-                  <span class="ml-0.5"
-                    ><n-icon><Star /></n-icon
-                  ></span>
-                </n-tag>
-              </div>
             </div>
           </div>
 
-          <!-- Outfit Info and Items -->
-          <div class="space-y-3">
-            <!-- Title and Description -->
-            <div class="space-y-1.5">
+          <!-- Outfit Info -->
+          <div class="space-y-4">
+            <div class="flex flex-wrap items-center gap-2">
               <h1 class="text-xl sm:text-2xl font-bold leading-tight">
                 {{ outfitName }}
               </h1>
-              <div class="flex flex-wrap gap-2">
-                <n-tag
-                  :type="getQualityType(outfit.quality)"
-                  :bordered="false"
-                  round
-                  size="small"
-                >
-                  <span class="align-top">{{ outfit.quality }}</span
-                  ><span class="ml-0.5"
-                    ><n-icon class="text-xs"><Star /></n-icon
-                  ></span>
-                </n-tag>
-                <n-tag
-                  v-for="label in outfitStyleLabels"
-                  :key="`style-${label}`"
-                  :bordered="false"
-                  round
-                  strong
-                  size="small"
-                  class="!bg-rose-50 !text-rose-600 dark:!bg-rose-900/30 dark:!text-rose-300"
-                >
-                  <template #icon>
-                    <n-icon><Magic /></n-icon>
-                  </template>
-                  {{ label }}
-                </n-tag>
-                <n-tag
-                  v-for="label in outfitLabelTags"
-                  :key="`label-${label}`"
-                  :bordered="false"
-                  round
-                  strong
-                  size="small"
-                  class="!bg-teal-50 !text-teal-600 dark:!bg-teal-900/30 dark:!text-teal-300"
-                >
-                  <template #icon>
-                    <n-icon><Tag /></n-icon>
-                  </template>
-                  {{ label }}
-                </n-tag>
-              </div>
-            </div>
-
-            <!-- Description -->
-            <div
-              v-if="outfitDescription"
-              class="text-xs sm:text-sm opacity-80 leading-relaxed"
-            >
-              <p class="whitespace-pre-wrap">{{ outfitDescription }}</p>
-            </div>
-
-            <!-- Component Items Section -->
-            <div v-if="componentItems.length > 0">
-              <h3 class="text-sm sm:text-base font-semibold mb-2">
-                {{ t('common.items') }}
-              </h3>
-              <div
-                class="grid grid-cols-5 sm:grid-cols-6 md:grid-cols-7 lg:grid-cols-8 xl:grid-cols-10 gap-2"
+              <n-tag
+                :color="getQualityTextTheme(outfit.quality)"
+                :bordered="false"
+                round
+                size="small"
               >
-                <ItemPreviewCard
-                  v-for="item in componentItems"
-                  :key="item.id"
-                  :item-id="item.id"
-                  :quality="item.quality"
-                  :type="item.type"
-                  :name="t(`item.${item.id}.name`)"
-                  :clickable="true"
-                  size="sm"
-                />
-              </div>
+                <span class="align-top">{{ outfit.quality }}</span
+                ><span class="ml-0.5"
+                  ><n-icon class="text-xs"><Star /></n-icon
+                ></span>
+              </n-tag>
             </div>
 
-            <!-- Makeup Items Section -->
-            <div v-if="makeupItems.length > 0">
-              <h3 class="text-sm sm:text-base font-semibold mb-2">
-                {{ t('common.makeup') }}
-              </h3>
+            <div class="flex flex-row gap-4 items-start">
+              <!-- Tags and Description -->
+
               <div
-                class="grid grid-cols-5 sm:grid-cols-6 md:grid-cols-7 lg:grid-cols-8 xl:grid-cols-10 gap-2"
+                class="flex flex-col sm:flex-row items-start gap-4 min-w-0 flex-1"
               >
-                <ItemPreviewCard
-                  v-for="item in makeupItems"
-                  :key="item.id"
-                  :item-id="item.id"
-                  :quality="item.quality"
-                  :type="item.type"
-                  :name="t(`item.${item.id}.name`)"
-                  :clickable="true"
-                  size="sm"
-                />
+                <div class="space-y-3 min-w-0 flex-1 w-full">
+                  <div class="flex flex-wrap gap-2">
+                    <n-tag
+                      v-for="label in outfitStyleLabels"
+                      :key="`style-${label}`"
+                      size="small"
+                      :bordered="false"
+                      type="default"
+                      :color="getStyleTagTheme(outfitStyleKey)"
+                      class="text-xs font-semibold shadow-[inset_0_-2px_0_rgba(0,0,0,0.18)]"
+                    >
+                      {{ label }}
+                    </n-tag>
+                    <n-tag
+                      v-for="label in outfitLabelTags"
+                      :key="`label-${label.text}`"
+                      size="small"
+                      type="default"
+                      :color="label.theme"
+                      round
+                      class="text-xs font-semibold"
+                    >
+                      {{ label.text }}
+                    </n-tag>
+                    <n-tag
+                      v-if="outfitVersionDisplay"
+                      type="default"
+                      :bordered="false"
+                      round
+                      size="small"
+                    >
+                      {{ outfitVersionDisplay }}
+                    </n-tag>
+                    <n-tag
+                      v-if="outfitObtainLabel"
+                      type="default"
+                      :bordered="false"
+                      round
+                      size="small"
+                    >
+                      {{ outfitObtainLabel }}
+                    </n-tag>
+                  </div>
+
+                  <!-- Description -->
+                  <div
+                    v-if="outfitDescription"
+                    class="text-xs sm:text-sm opacity-80 leading-relaxed"
+                  >
+                    <p class="whitespace-pre-wrap">{{ outfitDescription }}</p>
+                  </div>
+                  <!-- Component Items Section -->
+                  <div v-if="componentItems.length > 0">
+                    <h3 class="text-sm sm:text-base font-semibold mb-2">
+                      {{ t('common.items') }}
+                    </h3>
+                    <div
+                      class="grid grid-cols-5 sm:grid-cols-6 md:grid-cols-7 lg:grid-cols-8 xl:grid-cols-10 gap-1.5"
+                    >
+                      <ItemCard
+                        v-for="item in componentItems"
+                        :key="item.id"
+                        :item-id="item.id"
+                        :quality="item.quality"
+                        :type="resolveItemType(item)"
+                        :name="t(`item.${item.id}.name`)"
+                        size="sm"
+                      />
+                    </div>
+                  </div>
+
+                  <!-- Makeup Items Section -->
+                  <div v-if="makeupItems.length > 0">
+                    <h3 class="text-sm sm:text-base font-semibold mb-2">
+                      {{ t('common.makeup') }}
+                    </h3>
+                    <div
+                      class="grid grid-cols-5 sm:grid-cols-6 md:grid-cols-7 lg:grid-cols-8 xl:grid-cols-10 gap-1.5"
+                    >
+                      <ItemCard
+                        v-for="item in makeupItems"
+                        :key="item.id"
+                        :item-id="item.id"
+                        :quality="item.quality"
+                        :type="resolveItemType(item)"
+                        :name="t(`item.${item.id}.name`)"
+                        size="sm"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  v-if="styleScores.length"
+                  class="flex flex-col gap-1 shrink-0 w-auto sm:min-w-[160px]"
+                >
+                  <div
+                    v-for="score in styleScores"
+                    :key="score.key"
+                    class="flex items-stretch gap-2"
+                  >
+                    <n-tag
+                      size="small"
+                      :bordered="false"
+                      type="default"
+                      :color="score.theme"
+                      class="text-sm font-semibold min-w-[90px] justify-center shadow-[inset_0_-2px_0_rgba(0,0,0,0.18)]"
+                    >
+                      {{ score.label }}
+                    </n-tag>
+                    <div
+                      class="flex-1 rounded-md bg-black/5 dark:bg-white/10 px-2 py-0.5 text-sm font-semibold tabular-nums text-right opacity-80"
+                    >
+                      {{ score.value }}
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -267,40 +292,34 @@
           <div
             class="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-4 xl:grid-cols-5 gap-2"
           >
-            <NuxtLink
+            <div
               v-for="variation in outfitVariations"
               :key="variation.id"
-              :to="localePath(`/outfits/${variation.id}`)"
-              class="block group"
             >
-              <div
-                class="relative aspect-[2/3] rounded-lg overflow-hidden transition-all duration-200 ease-in-out shadow-md"
-                :class="[
-                  getQualityGradient(variation.quality),
-                  variation.id === outfitId
-                    ? 'ring-2 ring-primary/60 dark:ring-primary/40'
-                    : 'group-hover:scale-105',
-                ]"
+              <NuxtLink
+                :to="localePath(`/outfits/${variation.id}`)"
+                class="block cursor-pointer group"
               >
-                <NuxtImg
-                  :src="getImageSrc('outfit', variation.id)"
-                  :alt="t(`outfit.${variation.id}.name`)"
-                  class="absolute inset-0 w-full h-full object-cover z-10"
-                  preset="tallSm"
-                  width="100"
-                  height="150"
-                  fit="cover"
-                  loading="lazy"
-                  sizes="100px"
-                  format="webp"
+                <OutfitCard
+                  :outfit-id="variation.id"
+                  :quality="variation.quality"
+                  :name="t(`outfit.${variation.id}.name`)"
+                  size="sm"
+                  :show-meta="false"
+                  :class="[
+                    'transition-all duration-200 ease-in-out group-hover:scale-105 group-hover:shadow-xl',
+                    variation.id === outfitId
+                      ? 'ring-2 ring-primary/60 dark:ring-primary/40'
+                      : '',
+                  ]"
                 />
-              </div>
+              </NuxtLink>
               <div class="mt-1 text-center">
                 <p class="text-xs font-medium opacity-80">
                   {{ variation.label }}
                 </p>
               </div>
-            </NuxtLink>
+            </div>
           </div>
         </n-card>
 
@@ -353,8 +372,8 @@
     >
       <n-result
         status="404"
-        :title="t('compendium.not_found_title')"
-        :description="t('compendium.not_found_description')"
+        :title="t('compendium.not_found_outfit')"
+        :description="t('error.404')"
       >
         <template #icon>
           <div class="flex justify-center">
@@ -382,17 +401,10 @@
 </template>
 
 <script setup lang="ts">
-  import { NIcon } from 'naive-ui'
-  import { Star, Magic, Tag } from '@vicons/fa'
+  import { Star } from '@vicons/fa'
   import type { OutfitWithItems } from '~/types/supabase'
-  import type { ItemType } from '~/utils/itemType'
-  import {
-    resolveStyleKeyFromProps,
-    resolveTagI18nKeys,
-    STYLE_DEFINITIONS,
-  } from '~/utils/itemInfo'
 
-  const { t, locale } = useI18n()
+  const { t, te, locale } = useI18n()
   const localePath = useLocalePath()
   const router = useRouter()
   const route = useRoute()
@@ -429,12 +441,15 @@
     'lips',
   ]
 
+  const resolveItemType = (item: { id: number; type?: string }) =>
+    item.type ? getItemType(item.type) : getItemType(item.id)
+
   // Computed component items (excluding makeup) sorted by category order
   const componentItems = computed(() => {
     if (!outfit.value?.outfit_items) return []
     const items = outfit.value.outfit_items
       .map((oi) => oi.items)
-      .filter((item) => !makeupTypes.includes(getItemType(item.id)))
+      .filter((item) => !makeupTypes.includes(resolveItemType(item)))
     return sortItemsByCategory(items)
   })
 
@@ -443,7 +458,7 @@
     if (!outfit.value?.outfit_items) return []
     const items = outfit.value.outfit_items
       .map((oi) => oi.items)
-      .filter((item) => makeupTypes.includes(getItemType(item.id)))
+      .filter((item) => makeupTypes.includes(resolveItemType(item)))
     return sortItemsByCategory(items)
   })
 
@@ -455,9 +470,31 @@
     return style ? [t(style.i18nKey)] : []
   })
 
+  const outfitStyleKey = computed(() => {
+    if (!outfit.value?.props) return null
+    return resolveStyleKeyFromProps(outfit.value.props)
+  })
+
+  const styleScores = computed(() => {
+    if (!outfit.value?.props) return []
+    return STYLE_DEFINITIONS.map((style, index) => {
+      const rawValue = outfit.value?.props?.[index]
+      const value = Number(rawValue)
+      return {
+        key: style.key,
+        label: t(style.i18nKey),
+        value: Number.isFinite(value) ? value : 0,
+        theme: getStyleTagTheme(style.key),
+      }
+    })
+  })
+
   const outfitLabelTags = computed(() => {
     if (!outfit.value?.tags) return []
-    return resolveTagI18nKeys(outfit.value.tags).map((key) => t(key))
+    return resolveTagI18nKeys(outfit.value.tags).map((key) => ({
+      text: t(key),
+      theme: getLabelTagTheme(key),
+    }))
   })
 
   // Computed outfit variations with labels
@@ -509,6 +546,28 @@
     return t(`outfit.${outfit.value.id}.name`)
   })
 
+  const outfitVersion = computed(() => {
+    if (!outfit.value) return null
+    const obtainType = (outfit.value as OutfitWithItems).obtain_type
+    return getVersionFromId(obtainType ?? outfit.value.id)
+  })
+
+  const outfitVersionDisplay = computed(() => {
+    if (!outfitVersion.value) return null
+    const key = `version.${outfitVersion.value}`
+    const label = te(key) ? t(key) : null
+    return label ? `${outfitVersion.value} - ${label}` : outfitVersion.value
+  })
+
+  const outfitObtainLabel = computed(() => {
+    if (!outfit.value) return null
+    const obtainType = (outfit.value as OutfitWithItems).obtain_type
+    if (obtainType === null || obtainType === undefined) return null
+    const key = `obtain.${obtainType}.name`
+    const translated = t(key)
+    return translated !== key ? translated : `${obtainType}`
+  })
+
   // Get outfit description from database (if available in outfit_translations)
   const outfitDescription = computed(() => {
     if (!outfit.value) return ''
@@ -528,34 +587,6 @@
   // Navigate to list
   const navigateToList = () => {
     router.push(localePath('/outfits'))
-  }
-
-  // Get quality gradient class
-  const getQualityGradient = (quality: number) => {
-    switch (quality) {
-      case 5:
-        return 'bg-gradient-to-br from-[#fff8e1] to-[#ffcc80] dark:from-[#713f12] dark:to-[#451a03]'
-      case 4:
-        return 'bg-gradient-to-br from-[#e3f2fd] to-[#bbdefb] dark:from-[#334155] dark:to-[#1e293b]'
-      case 3:
-        return 'bg-gradient-to-br from-[#e0f2f1] to-[#80cbc4] dark:from-[#134e4a] dark:to-[#0f766e]'
-      default:
-        return 'bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800'
-    }
-  }
-
-  // Get quality type for tag
-  const getQualityType = (quality: number) => {
-    switch (quality) {
-      case 5:
-        return 'warning'
-      case 4:
-        return 'info'
-      case 3:
-        return 'success'
-      default:
-        return 'default'
-    }
   }
 
   // SEO Meta Tags

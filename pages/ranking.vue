@@ -291,7 +291,6 @@
   import { BANNER_DATA } from '~/data/banners'
   import type { BannerRanking, VoteStats } from '~/types/vote'
   import type { DataTableColumns } from 'naive-ui'
-  import { h, resolveComponent } from 'vue'
   import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
 
   const { t, locale } = useI18n()

@@ -7,7 +7,13 @@ import {
   createInternalError,
   createInvalidIdError,
   createNotFoundError,
+  createUpstreamUnavailableError,
 } from '~/utils/apiErrors'
+import { toErrorMessage } from '~/utils/errors'
+import {
+  isTransientSupabaseError,
+  withSupabaseRetry,
+} from '~/utils/supabaseRetry'
 
 interface OutfitTranslation {
   description: string
@@ -19,6 +25,7 @@ interface OutfitData {
   quality: number
   props?: Array<number | string> | null
   tags?: Array<number | string> | null
+  obtain_type?: number | null
   outfit_translations?: OutfitTranslation[]
   description?: string
   outfit_items?: Array<{
@@ -115,7 +122,7 @@ export default defineCachedEventHandler(
 
     try {
       // Build query conditionally to minimize data transfer
-      const selectParts = ['id', 'quality', 'props', 'tags']
+      const selectParts = ['id', 'quality', 'props', 'tags', 'obtain_type']
 
       if (languageCode) {
         selectParts.push('outfit_translations!left(description,language_code)')
@@ -125,11 +132,9 @@ export default defineCachedEventHandler(
 
       const selectQuery = selectParts.join(',')
 
-      const { data, error: supabaseError } = await supabase
-        .from('outfits')
-        .select(selectQuery)
-        .eq('id', id)
-        .single()
+      const { data, error: supabaseError } = await withSupabaseRetry(() =>
+        supabase.from('outfits').select(selectQuery).eq('id', id).single()
+      )
 
       if (supabaseError) {
         if (supabaseError.code === 'PGRST116') {
@@ -158,13 +163,16 @@ export default defineCachedEventHandler(
       if (outfitData.quality >= 4) {
         const relatedIds = getRelatedOutfitIds(id, outfitData.quality)
 
-        const { data: variations } =
-          relatedIds.length > 1
-            ? await supabase
-                .from('outfits')
-                .select('id, quality')
-                .in('id', relatedIds)
-            : { data: null }
+        const { data: variations } = await withSupabaseRetry(async () => {
+          if (relatedIds.length <= 1) {
+            return { data: null, error: null }
+          }
+
+          return supabase
+            .from('outfits')
+            .select('id, quality')
+            .in('id', relatedIds)
+        })
 
         if (variations && Array.isArray(variations)) {
           outfitData.variations = variations
@@ -182,7 +190,12 @@ export default defineCachedEventHandler(
       if (error && typeof error === 'object' && 'statusCode' in error) {
         throw error
       }
-      console.error(`Failed to fetch outfit ${id}:`, error)
+      const message = toErrorMessage(error, `Failed to fetch outfit ${id}`)
+      if (isTransientSupabaseError(error)) {
+        console.warn(`Failed to fetch outfit ${id}: ${message}`)
+        throw createUpstreamUnavailableError('outfit')
+      }
+      console.error(`Failed to fetch outfit ${id}: ${message}`)
       throw createInternalError('outfit')
     }
   },

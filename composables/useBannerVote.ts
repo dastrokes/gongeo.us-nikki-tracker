@@ -1,9 +1,4 @@
 import type { VotePair, BannerRanking } from '~/types/vote'
-import {
-  generateVoterFingerprint,
-  getVersion1xBannerIdsExcludingPermanent,
-  selectBannerPair,
-} from '~/utils/bannerVote'
 
 export const useBannerVote = () => {
   const voterFingerprint = ref<string | null>(null)

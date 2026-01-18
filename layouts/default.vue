@@ -168,9 +168,6 @@
     Tshirt,
     ListAlt,
   } from '@vicons/fa'
-  import { h, ref, computed, watch } from 'vue'
-  import UserProfile from '~/components/UserProfile.vue'
-  import LanguageSwitcher from '~/components/LanguageSwitcher.vue'
   import KoFi from '~/components/icons/KoFi.vue'
   import Netlify from '~/components/icons/Netlify.vue'
   import { useSwipe } from '@vueuse/core'

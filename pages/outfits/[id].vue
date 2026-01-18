@@ -110,132 +110,163 @@
         class="rounded-xl p-0 sm:p-2"
         content-class="!p-2 sm:p-4"
       >
-        <div class="grid grid-cols-1 lg:grid-cols-[180px_1fr] gap-4 lg:gap-6">
+        <div class="grid grid-cols-1 lg:grid-cols-[auto_1fr] gap-4 lg:gap-6">
           <!-- Outfit Image -->
           <div class="flex justify-center lg:justify-start items-start">
-            <OutfitCard
-              :outfit-id="outfit.id"
-              :quality="outfit.quality"
-              :name="outfitName"
-              size="md"
-              :show-meta="false"
-              class="shadow-lg w-full max-w-[180px]"
-            />
+            <div class="w-[180px] max-w-full shrink-0">
+              <OutfitCard
+                :outfit-id="outfit.id"
+                :quality="outfit.quality"
+                :name="outfitName"
+                size="md"
+                :show-meta="false"
+                class="shadow-lg w-full"
+              />
+            </div>
           </div>
 
-          <!-- Outfit Info and Items -->
-          <div class="space-y-3">
-            <!-- Title and Description -->
-            <div class="space-y-1.5">
+          <!-- Outfit Info -->
+          <div class="space-y-4">
+            <div class="flex flex-wrap items-center gap-2">
               <h1 class="text-xl sm:text-2xl font-bold leading-tight">
                 {{ outfitName }}
               </h1>
-              <div class="flex flex-wrap gap-2">
-                <n-tag
-                  :color="getQualityTextTheme(outfit.quality)"
-                  :bordered="false"
-                  round
-                  size="small"
-                >
-                  <span class="align-top">{{ outfit.quality }}</span
-                  ><span class="ml-0.5"
-                    ><n-icon class="text-xs"><Star /></n-icon
-                  ></span>
-                </n-tag>
-                <n-tag
-                  v-if="outfitVersionDisplay"
-                  type="default"
-                  :bordered="false"
-                  round
-                  size="small"
-                >
-                  {{ outfitVersionDisplay }}
-                </n-tag>
-                <n-tag
-                  v-if="outfitObtainLabel"
-                  type="default"
-                  :bordered="false"
-                  round
-                  size="small"
-                >
-                  {{ outfitObtainLabel }}
-                </n-tag>
-                <n-tag
-                  v-for="label in outfitStyleLabels"
-                  :key="`style-${label}`"
-                  :bordered="false"
-                  round
-                  strong
-                  size="small"
-                  class="!bg-rose-50 !text-rose-600 dark:!bg-rose-900/30 dark:!text-rose-300"
-                >
-                  <template #icon>
-                    <n-icon><Magic /></n-icon>
-                  </template>
-                  {{ label }}
-                </n-tag>
-                <n-tag
-                  v-for="label in outfitLabelTags"
-                  :key="`label-${label}`"
-                  :bordered="false"
-                  round
-                  strong
-                  size="small"
-                  class="!bg-teal-50 !text-teal-600 dark:!bg-teal-900/30 dark:!text-teal-300"
-                >
-                  <template #icon>
-                    <n-icon><Tag /></n-icon>
-                  </template>
-                  {{ label }}
-                </n-tag>
-              </div>
-            </div>
-
-            <!-- Description -->
-            <div
-              v-if="outfitDescription"
-              class="text-xs sm:text-sm opacity-80 leading-relaxed"
-            >
-              <p class="whitespace-pre-wrap">{{ outfitDescription }}</p>
-            </div>
-
-            <!-- Component Items Section -->
-            <div v-if="componentItems.length > 0">
-              <h3 class="text-sm sm:text-base font-semibold mb-2">
-                {{ t('common.items') }}
-              </h3>
-              <div
-                class="grid grid-cols-5 sm:grid-cols-6 md:grid-cols-7 lg:grid-cols-8 xl:grid-cols-10 gap-2"
+              <n-tag
+                :color="getQualityTextTheme(outfit.quality)"
+                :bordered="false"
+                round
+                size="small"
               >
-                <ItemCard
-                  v-for="item in componentItems"
-                  :key="item.id"
-                  :item-id="item.id"
-                  :quality="item.quality"
-                  :type="resolveItemType(item)"
-                  :name="t(`item.${item.id}.name`)"
-                  size="sm"
-                />
-              </div>
+                <span class="align-top">{{ outfit.quality }}</span
+                ><span class="ml-0.5"
+                  ><n-icon class="text-xs"><Star /></n-icon
+                ></span>
+              </n-tag>
             </div>
 
-            <!-- Makeup Items Section -->
-            <div v-if="makeupItems.length > 0">
-              <h3 class="text-sm sm:text-base font-semibold mb-2">
-                {{ t('common.makeup') }}
-              </h3>
+            <div class="flex flex-row gap-4 items-start">
+              <!-- Tags and Description -->
+
               <div
-                class="grid grid-cols-5 sm:grid-cols-6 md:grid-cols-7 lg:grid-cols-8 xl:grid-cols-10 gap-2"
+                class="flex flex-col sm:flex-row items-start gap-4 min-w-0 flex-1"
               >
-                <ItemCard
-                  v-for="item in makeupItems"
-                  :key="item.id"
-                  :item-id="item.id"
-                  :quality="item.quality"
-                  :type="resolveItemType(item)"
-                  :name="t(`item.${item.id}.name`)"
-                  size="sm"
-                />
+                <div class="space-y-3 min-w-0 flex-1 w-full">
+                  <div class="flex flex-wrap gap-2">
+                    <n-tag
+                      v-for="label in outfitStyleLabels"
+                      :key="`style-${label}`"
+                      size="small"
+                      :bordered="false"
+                      type="default"
+                      :color="getStyleTagTheme(outfitStyleKey)"
+                      class="text-xs font-semibold shadow-[inset_0_-2px_0_rgba(0,0,0,0.18)]"
+                    >
+                      {{ label }}
+                    </n-tag>
+                    <n-tag
+                      v-for="label in outfitLabelTags"
+                      :key="`label-${label.text}`"
+                      size="small"
+                      type="default"
+                      :color="label.theme"
+                      round
+                      class="text-xs font-semibold"
+                    >
+                      {{ label.text }}
+                    </n-tag>
+                    <n-tag
+                      v-if="outfitVersionDisplay"
+                      type="default"
+                      :bordered="false"
+                      round
+                      size="small"
+                    >
+                      {{ outfitVersionDisplay }}
+                    </n-tag>
+                    <n-tag
+                      v-if="outfitObtainLabel"
+                      type="default"
+                      :bordered="false"
+                      round
+                      size="small"
+                    >
+                      {{ outfitObtainLabel }}
+                    </n-tag>
+                  </div>
+
+                  <!-- Description -->
+                  <div
+                    v-if="outfitDescription"
+                    class="text-xs sm:text-sm opacity-80 leading-relaxed"
+                  >
+                    <p class="whitespace-pre-wrap">{{ outfitDescription }}</p>
+                  </div>
+                  <!-- Component Items Section -->
+                  <div v-if="componentItems.length > 0">
+                    <h3 class="text-sm sm:text-base font-semibold mb-2">
+                      {{ t('common.items') }}
+                    </h3>
+                    <div
+                      class="grid grid-cols-5 sm:grid-cols-6 md:grid-cols-7 lg:grid-cols-8 xl:grid-cols-10 gap-1.5"
+                    >
+                      <ItemCard
+                        v-for="item in componentItems"
+                        :key="item.id"
+                        :item-id="item.id"
+                        :quality="item.quality"
+                        :type="resolveItemType(item)"
+                        :name="t(`item.${item.id}.name`)"
+                        size="sm"
+                      />
+                    </div>
+                  </div>
+
+                  <!-- Makeup Items Section -->
+                  <div v-if="makeupItems.length > 0">
+                    <h3 class="text-sm sm:text-base font-semibold mb-2">
+                      {{ t('common.makeup') }}
+                    </h3>
+                    <div
+                      class="grid grid-cols-5 sm:grid-cols-6 md:grid-cols-7 lg:grid-cols-8 xl:grid-cols-10 gap-1.5"
+                    >
+                      <ItemCard
+                        v-for="item in makeupItems"
+                        :key="item.id"
+                        :item-id="item.id"
+                        :quality="item.quality"
+                        :type="resolveItemType(item)"
+                        :name="t(`item.${item.id}.name`)"
+                        size="sm"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  v-if="styleScores.length"
+                  class="flex flex-col gap-1 shrink-0 w-auto sm:min-w-[160px]"
+                >
+                  <div
+                    v-for="score in styleScores"
+                    :key="score.key"
+                    class="flex items-stretch gap-2"
+                  >
+                    <n-tag
+                      size="small"
+                      :bordered="false"
+                      type="default"
+                      :color="score.theme"
+                      class="text-sm font-semibold min-w-[90px] justify-center shadow-[inset_0_-2px_0_rgba(0,0,0,0.18)]"
+                    >
+                      {{ score.label }}
+                    </n-tag>
+                    <div
+                      class="flex-1 rounded-md bg-black/5 dark:bg-white/10 px-2 py-0.5 text-sm font-semibold tabular-nums text-right opacity-80"
+                    >
+                      {{ score.value }}
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -370,7 +401,7 @@
 </template>
 
 <script setup lang="ts">
-  import { Star, Magic, Tag } from '@vicons/fa'
+  import { Star } from '@vicons/fa'
   import type { OutfitWithItems } from '~/types/supabase'
 
   const { t, te, locale } = useI18n()
@@ -439,9 +470,31 @@
     return style ? [t(style.i18nKey)] : []
   })
 
+  const outfitStyleKey = computed(() => {
+    if (!outfit.value?.props) return null
+    return resolveStyleKeyFromProps(outfit.value.props)
+  })
+
+  const styleScores = computed(() => {
+    if (!outfit.value?.props) return []
+    return STYLE_DEFINITIONS.map((style, index) => {
+      const rawValue = outfit.value?.props?.[index]
+      const value = Number(rawValue)
+      return {
+        key: style.key,
+        label: t(style.i18nKey),
+        value: Number.isFinite(value) ? value : 0,
+        theme: getStyleTagTheme(style.key),
+      }
+    })
+  })
+
   const outfitLabelTags = computed(() => {
     if (!outfit.value?.tags) return []
-    return resolveTagI18nKeys(outfit.value.tags).map((key) => t(key))
+    return resolveTagI18nKeys(outfit.value.tags).map((key) => ({
+      text: t(key),
+      theme: getLabelTagTheme(key),
+    }))
   })
 
   // Computed outfit variations with labels

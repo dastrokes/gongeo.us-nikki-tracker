@@ -56,24 +56,26 @@
           size="tiny"
           :bordered="false"
           type="default"
-          class="!text-xs"
+          :color="styleTagTheme"
+          class="text-xs font-semibold shadow-[inset_0_-2px_0_rgba(0,0,0,0.18)]"
         >
           {{ style }}
         </n-tag>
       </div>
       <div
-        v-if="labels.length"
+        v-if="normalizedLabels.length"
         class="flex flex-wrap gap-0.5 mt-1"
       >
         <n-tag
-          v-for="label in labels"
-          :key="label"
+          v-for="label in normalizedLabels"
+          :key="label.text"
           size="tiny"
-          :bordered="false"
           type="default"
-          class="!text-xs"
+          :color="label.theme"
+          round
+          class="text-xs font-semibold"
         >
-          {{ label }}
+          {{ label.text }}
         </n-tag>
       </div>
     </div>
@@ -91,12 +93,14 @@
       name: string
       quality: number
       style?: string | null
-      labels?: string[]
+      styleKey?: string | null
+      labels?: Array<string | { text: string; theme?: Record<string, string> }>
       showMeta?: boolean
       size?: 'sm' | 'md' | 'lg'
     }>(),
     {
       style: null,
+      styleKey: null,
       labels: () => [],
       showMeta: true,
       size: 'md',
@@ -106,6 +110,14 @@
   const imageSrc = computed(() => getImageSrc('outfit', props.outfitId))
 
   const overlayClass = computed(() => getQualityOverlayStyle(props.quality))
+
+  const styleTagTheme = computed(() => getStyleTagTheme(props.styleKey))
+
+  const normalizedLabels = computed(() =>
+    (props.labels || []).map((label) =>
+      typeof label === 'string' ? { text: label } : label
+    )
+  )
 
   const imagePreset = computed(() => {
     switch (props.size) {

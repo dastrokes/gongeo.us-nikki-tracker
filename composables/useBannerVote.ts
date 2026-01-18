@@ -1,14 +1,10 @@
 import type { VotePair, BannerRanking } from '~/types/vote'
-import {
-  generateVoterFingerprint,
-  getVersion1xBannerIdsExcludingPermanent,
-  selectBannerPair,
-} from '~/utils/bannerVote'
 
 export const useBannerVote = () => {
   const voterFingerprint = ref<string | null>(null)
   const fingerprintInitialized = ref(false)
   const { getImageSrc } = imageProvider()
+  const { generateVoterFingerprint } = useVoterFingerprint()
 
   // Initialize voter fingerprint on client side
   const initializeFingerprint = async () => {

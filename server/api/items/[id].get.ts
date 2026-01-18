@@ -7,7 +7,13 @@ import {
   createInternalError,
   createInvalidIdError,
   createNotFoundError,
+  createUpstreamUnavailableError,
 } from '~/utils/apiErrors'
+import { toErrorMessage } from '~/utils/errors'
+import {
+  isTransientSupabaseError,
+  withSupabaseRetry,
+} from '~/utils/supabaseRetry'
 
 interface ItemTranslation {
   description: string
@@ -20,6 +26,7 @@ interface ItemData {
   type: string
   props?: Array<number | string> | null
   tags?: Array<number | string> | null
+  obtain_type?: number | null
   item_translations?: ItemTranslation[]
   description?: string
   outfit_items?: Array<{ outfits: { id: number; quality: number } }>
@@ -103,7 +110,14 @@ export default defineCachedEventHandler(
 
     try {
       // Build query conditionally to minimize data transfer
-      const selectParts = ['id', 'quality', 'type', 'props', 'tags']
+      const selectParts = [
+        'id',
+        'quality',
+        'type',
+        'props',
+        'tags',
+        'obtain_type',
+      ]
 
       if (languageCode) {
         selectParts.push('item_translations!left(description,language_code)')
@@ -113,11 +127,9 @@ export default defineCachedEventHandler(
 
       const selectQuery = selectParts.join(',')
 
-      const { data, error: supabaseError } = await supabase
-        .from('items')
-        .select(selectQuery)
-        .eq('id', id)
-        .single()
+      const { data, error: supabaseError } = await withSupabaseRetry(() =>
+        supabase.from('items').select(selectQuery).eq('id', id).single()
+      )
 
       if (supabaseError) {
         if (supabaseError.code === 'PGRST116') {
@@ -146,13 +158,16 @@ export default defineCachedEventHandler(
       if (itemData.quality >= 4) {
         const relatedIds = getRelatedItemIds(id, itemData.quality)
 
-        const { data: variations } =
-          relatedIds.length > 1
-            ? await supabase
-                .from('items')
-                .select('id, quality, type')
-                .in('id', relatedIds)
-            : { data: null }
+        const { data: variations } = await withSupabaseRetry(async () => {
+          if (relatedIds.length <= 1) {
+            return { data: null, error: null }
+          }
+
+          return supabase
+            .from('items')
+            .select('id, quality, type')
+            .in('id', relatedIds)
+        })
 
         if (variations && Array.isArray(variations)) {
           itemData.variations = variations
@@ -170,7 +185,12 @@ export default defineCachedEventHandler(
       if (error && typeof error === 'object' && 'statusCode' in error) {
         throw error
       }
-      console.error(`Failed to fetch item ${id}:`, error)
+      const message = toErrorMessage(error, `Failed to fetch item ${id}`)
+      if (isTransientSupabaseError(error)) {
+        console.warn(`Failed to fetch item ${id}: ${message}`)
+        throw createUpstreamUnavailableError('item')
+      }
+      console.error(`Failed to fetch item ${id}: ${message}`)
       throw createInternalError('item')
     }
   },

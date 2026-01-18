@@ -979,7 +979,7 @@
           const pullsArr = filteredChartData[bannerId || '']
           if (!pullsArr) return ''
           const total = pullsArr.reduce((a: number, b: number) => a + b, 0)
-          const imageUrl = nuxtImg(getImageSrc('bannerThumb', bannerId), {
+          const imageUrl = nuxtImg(getImageSrc('bannerThumb', bannerId ?? ''), {
             width: 200,
             height: 100,
             quality: 80,
@@ -1074,7 +1074,7 @@
           stack: 'total',
           data: data5Star,
           itemStyle: {
-            color: 'rgba(245, 158, 11, 0.5)', // amber-500
+            color: getQualityColor(5) + 'CC',
             borderRadius: [4, 4, 4, 4],
           },
         },
@@ -1084,7 +1084,7 @@
           stack: 'total',
           data: data4Star,
           itemStyle: {
-            color: 'rgba(139, 92, 246, 0.5)', // violet-500
+            color: getQualityColor(4) + 'CC',
             borderRadius: [4, 4, 4, 4],
           },
         },
@@ -1094,7 +1094,7 @@
           stack: 'total',
           data: data3Star,
           itemStyle: {
-            color: 'rgba(20, 184, 166, 0.5)', // teal-500
+            color: getQualityColor(3) + 'CC',
             borderRadius: [4, 4, 4, 4],
           },
         },
@@ -1288,7 +1288,7 @@
     fiveStarDistributionChartOption.value = createDistributionChart(
       chartData,
       'fiveStar',
-      'rgba(245, 158, 11, 0.5)' // amber-500
+      getQualityColor(5) + 'CC'
     )
   }
 
@@ -1297,7 +1297,7 @@
     fourStarType2ChartOption.value = createDistributionChart(
       chartData,
       'fourStarType2',
-      'rgb(139, 92, 246, 0.5)' // violet-500
+      getQualityColor(4) + 'CC'
     )
   }
 
@@ -1306,7 +1306,7 @@
     fourStarType3ChartOption.value = createDistributionChart(
       chartData,
       'fourStarType3',
-      'rgb(139, 92, 246, 0.5)' // violet-500
+      getQualityColor(4) + 'CC'
     )
   }
 
@@ -1358,6 +1358,21 @@
       (sum: number, item: { o: number }) => sum + item.o,
       0
     )
+    const occurrenceValues = completeBannerItems.map(
+      (item: { o: number }) => item.o
+    )
+    const minOccurrence = Math.min(...occurrenceValues)
+    const maxOccurrence = Math.max(...occurrenceValues)
+    const colorShades = ['#3730a3', '#4338ca', '#4f46e5']
+    const pickColor = (value: number) => {
+      const ratio =
+        maxOccurrence === minOccurrence
+          ? 0.5
+          : (value - minOccurrence) / (maxOccurrence - minOccurrence)
+      const index = Math.round(ratio * (colorShades.length - 1))
+      return `${colorShades[index]}80`
+    }
+
     const dataArr = completeBannerItems.map(
       (item: { o: number; i: string }) => ({
         value: item.o,
@@ -1366,6 +1381,9 @@
             ? ((item.o / totalOccurrences) * 100).toFixed(2)
             : '0.00',
         itemId: item.i,
+        itemStyle: {
+          color: pickColor(item.o),
+        },
       })
     )
     // Prepare itemId to item mapping for labels
@@ -1489,7 +1507,6 @@
           barWidth: '60%',
           data: dataArr,
           itemStyle: {
-            color: 'rgb(79, 70, 229, 0.5)', // indigo-600
             borderRadius: [4, 4, 4, 4],
           },
         },

@@ -7,7 +7,7 @@
         class="cursor-pointer hover:opacity-80 transition-opacity"
       >
         <n-tag
-          :type="quality === 5 ? 'warning' : 'info'"
+          :color="getQualityTextTheme(quality)"
           :bordered="false"
           round
           class="cursor-pointer"
@@ -46,8 +46,15 @@
               no-prefetch
               :to="localePath(`/outfits/${image.outfitId}`)"
               class="group relative aspect-[2/3] rounded-lg overflow-hidden transition-all duration-300 ease-in-out cursor-pointer block"
-              :class="cardGradient"
             >
+              <div
+                class="absolute inset-0 bg-[url('/bg.webp')] bg-cover bg-center bg-slate-100 dark:bg-slate-300"
+              ></div>
+              <!-- Tint overlay -->
+              <div
+                class="absolute inset-0"
+                :style="getQualityOverlayStyle(quality)"
+              ></div>
               <NuxtImg
                 :src="image.src"
                 :alt="image.alt"
@@ -97,7 +104,7 @@
                   round
                   size="small"
                   :bordered="false"
-                  :type="quality === 5 ? 'warning' : 'info'"
+                  :color="getQualityTagTheme(quality)"
                 >
                   {{
                     t(
@@ -122,8 +129,11 @@
           <ItemCard
             v-for="item in outfitItems"
             :key="item.itemId"
-            :item="item"
-            :info="false"
+            :item-id="Number(item.itemId)"
+            :quality="item.quality"
+            :type="getItemType(Number(item.itemId))"
+            :name="t(`item.${item.itemId}.name`)"
+            size="sm"
           />
         </div>
       </div>
@@ -153,18 +163,8 @@
   const { t } = useI18n()
   const localePath = useLocalePath()
   const { getImageSrc } = imageProvider()
-  const OUTFIT_CARD_GRADIENTS = {
-    fiveStar:
-      'bg-gradient-to-br from-[#fff8e1] to-[#ffcc80] hover:brightness-105 dark:from-[#713f12] dark:to-[#451a03]',
-    fourStar:
-      'bg-gradient-to-br from-[#e3f2fd] to-[#bbdefb] hover:brightness-105 dark:from-[#334155] dark:to-[#1e293b]',
-  } as const
+
   const activeSlide = ref(0)
-  const cardGradient = computed(() =>
-    props.quality === 5
-      ? OUTFIT_CARD_GRADIENTS.fiveStar
-      : OUTFIT_CARD_GRADIENTS.fourStar
-  )
 
   // Helper function to get outfit images for carousel
   const outfitImages = computed(() => {

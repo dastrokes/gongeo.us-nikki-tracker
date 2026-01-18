@@ -1,10 +1,5 @@
-import { GAME_VERSION_HEADER } from '~/utils/cacheHeaders'
-import { getGameVersion } from '~/utils/gameVersion'
 import type { ItemListEntry } from '~/types/items'
 import type { ItemWithOutfits } from '~/types/supabase'
-import { LOCALE_HEADER } from '~/utils/locale'
-import { getApiErrorMessage, isNotFoundResponse } from '~/utils/apiFetch'
-import { toError } from '~/utils/errors'
 
 export interface ItemFilters {
   search?: string
@@ -12,6 +7,8 @@ export interface ItemFilters {
   type?: string | null
   style?: string | null
   label?: string | null
+  version?: string | null
+  source?: string | number | null
   page?: number
 }
 
@@ -65,7 +62,7 @@ export const useSupabaseItems = () => {
     } catch (e) {
       const normalizedError = toError(e, `Failed to fetch item ${id}`)
       error.value = normalizedError
-      console.error(`Failed to fetch item ${id}:`, normalizedError)
+      console.error(`Failed to fetch item ${id}: ${normalizedError.message}`)
       return null
     } finally {
       loading.value = false
@@ -89,6 +86,8 @@ export const useSupabaseItems = () => {
       type = null,
       style = null,
       label = null,
+      version = null,
+      source = null,
       page = 1,
     } = filters
 
@@ -113,6 +112,14 @@ export const useSupabaseItems = () => {
         params.label = label
       }
 
+      if (version) {
+        params.version = version
+      }
+
+      if (source !== null && source !== undefined) {
+        params.source = source
+      }
+
       const result = await $fetch<PaginatedItemsResponse>('/api/items', {
         params,
         headers: gameVersionHeader,
@@ -122,7 +129,7 @@ export const useSupabaseItems = () => {
     } catch (e) {
       const normalizedError = toError(e, 'Failed to fetch items')
       error.value = normalizedError
-      console.error('Failed to fetch items:', normalizedError)
+      console.error(`Failed to fetch items: ${normalizedError.message}`)
       return {
         data: [],
         total: 0,

@@ -1,0 +1,28 @@
+export const useCookieHelpers = () => {
+  const set = (
+    key: string,
+    value: string,
+    ttl: number = 365 * 24 * 60 * 60 * 1000 // 365 days
+  ) => {
+    const cookie = useCookie(key, {
+      maxAge: Math.floor(ttl / 1000), // Convert milliseconds to seconds
+    })
+    cookie.value = value
+  }
+
+  const get = (key: string): string | null => {
+    const cookie = useCookie(key)
+    return cookie.value || null
+  }
+
+  const remove = (key: string): void => {
+    const cookie = useCookie(key)
+    cookie.value = null
+  }
+
+  return {
+    set,
+    get,
+    remove,
+  }
+}

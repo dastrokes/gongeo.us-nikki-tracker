@@ -425,7 +425,7 @@
       }
     },
     "deep_echoes": "Echos aus der Tiefe",
-    "not_found": "Banner wurde nicht gefunden"
+    "not_found": "Banner nicht gefunden"
   },
   "global": {
     "stats": {
@@ -590,10 +590,19 @@
     "no_results_title": "Keine Treffer Gefunden",
     "no_results_description": "Keine Stücke entsprechen deinen Kriterien.",
     "not_found_title": "Nicht Gefunden",
+    "not_found_item": "Stück nicht gefunden",
+    "not_found_outfit": "Outfit nicht gefunden",
     "back_to_list": "Zurück zur Liste",
     "filter_type": "Nach Typ filtern",
+    "filter_version": "Nach Version filtern",
     "filter_style": "Nach Style filtern",
     "filter_label": "Nach Label filtern",
-    "filter_all_types": "Alle Typen"
+    "filter_obtain": "Nach Herkunft filtern",
+    "filter_all_types": "Alle Typen",
+    "source": {
+      "event": "Event",
+      "quest": "Auftrag",
+      "merchant": "Händler"
+    }
   }
 }

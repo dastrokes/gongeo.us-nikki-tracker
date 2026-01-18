@@ -590,12 +590,19 @@
     "no_results_title": "未找到",
     "no_results_description": "沒有符合您搜尋條件的結果。",
     "not_found_title": "未找到",
-    "not_found_outfit": "未找到套裝",
     "not_found_item": "未找到部件",
+    "not_found_outfit": "未找到套裝",
     "back_to_list": "返回列表",
     "filter_type": "按類型篩選",
-    "filter_style": "按風格篩選",
-    "filter_label": "按標籤篩選",
-    "filter_all_types": "全部類型"
+    "filter_version": "依版本篩選",
+    "filter_style": "依風格篩選",
+    "filter_label": "依標籤篩選",
+    "filter_obtain": "依來源篩選",
+    "filter_all_types": "全部類型",
+    "source": {
+      "event": "活動",
+      "quest": "任務",
+      "merchant": "商店"
+    }
   }
 }

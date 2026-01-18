@@ -541,7 +541,7 @@
                       class="inline-block"
                     >
                       <n-tag
-                        :type="outfit.quality === 5 ? 'warning' : 'info'"
+                        :color="getQualityTextTheme(outfit.quality)"
                         :bordered="false"
                         round
                         size="small"
@@ -765,7 +765,7 @@
                 <div
                   class="grid grid-cols-5 sm:grid-cols-8 lg:grid-cols-10 gap-2 mt-2"
                 >
-                  <ItemCard
+                  <ItemDataCard
                     v-for="pull in filterPulls(banner.pulls, banner)"
                     :key="`${pull.itemId}-${pull.count}`"
                     :item="pull"
@@ -784,7 +784,7 @@
                   :key="outfit.id"
                   class="grid grid-cols-5 sm:grid-cols-8 lg:grid-cols-10 gap-2 mt-2"
                 >
-                  <ItemCard
+                  <ItemDataCard
                     v-for="pull in filterPulls(
                       getOutfitItems(banner.pulls, outfit.id),
                       banner
@@ -863,7 +863,7 @@
                       class="inline w-fit hover:opacity-80 transition-opacity cursor-pointer"
                     >
                       <n-tag
-                        :type="outfit.quality === 5 ? 'warning' : 'info'"
+                        :color="getQualityTextTheme(outfit.quality)"
                         :bordered="false"
                         round
                         size="small"
@@ -892,7 +892,7 @@
             <div
               class="grid grid-cols-5 sm:grid-cols-8 lg:grid-cols-10 gap-2 mt-2"
             >
-              <ItemCard
+              <ItemDataCard
                 v-for="item in banner.pulls"
                 :key="`${item.itemId}-${item.count}`"
                 :item="item"
@@ -1172,12 +1172,13 @@
     return filteredPulls
   }
 
+  // Import percentile functions from utils (pure functions)
   const {
     getAvg5StarPercentile,
     getAvg4StarType2Percentile,
     getAvg4StarType3Percentile,
     getTotalPullsPercentile,
-  } = usePercentile()
+  } = await import('~/utils/percentile')
 
   const exportPNG = async () => {
     if (exporting.value) return

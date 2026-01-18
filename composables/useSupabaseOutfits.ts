@@ -1,20 +1,18 @@
-import { GAME_VERSION_HEADER } from '~/utils/cacheHeaders'
-import { getGameVersion } from '~/utils/gameVersion'
-import type { SupabaseOutfit, OutfitWithItems } from '~/types/supabase'
-import { LOCALE_HEADER } from '~/utils/locale'
-import { getApiErrorMessage, isNotFoundResponse } from '~/utils/apiFetch'
-import { toError } from '~/utils/errors'
+import type { OutfitWithItems } from '~/types/supabase'
+import type { OutfitListEntry } from '~/types/outfits'
 
 export interface OutfitFilters {
   search?: string
   quality?: number | null
   style?: string | null
   label?: string | null
+  version?: string | null
+  source?: string | number | null
   page?: number
 }
 
 export interface PaginatedOutfitsResponse {
-  data: SupabaseOutfit[]
+  data: OutfitListEntry[]
   total: number
   page: number
   totalPages: number
@@ -65,7 +63,7 @@ export const useSupabaseOutfits = () => {
     } catch (e) {
       const normalizedError = toError(e, `Failed to fetch outfit ${id}`)
       error.value = normalizedError
-      console.error(`Failed to fetch outfit ${id}:`, normalizedError)
+      console.error(`Failed to fetch outfit ${id}: ${normalizedError.message}`)
       return null
     } finally {
       loading.value = false
@@ -84,7 +82,14 @@ export const useSupabaseOutfits = () => {
     loading.value = true
     error.value = null
 
-    const { quality = null, style = null, label = null, page = 1 } = filters
+    const {
+      quality = null,
+      style = null,
+      label = null,
+      version = null,
+      source = null,
+      page = 1,
+    } = filters
 
     try {
       const params: Record<string, string | number> = {
@@ -103,6 +108,14 @@ export const useSupabaseOutfits = () => {
         params.label = label
       }
 
+      if (version) {
+        params.version = version
+      }
+
+      if (source !== null && source !== undefined) {
+        params.source = source
+      }
+
       const result = await $fetch<PaginatedOutfitsResponse>('/api/outfits', {
         params,
         headers: gameVersionHeader,
@@ -112,7 +125,7 @@ export const useSupabaseOutfits = () => {
     } catch (e) {
       const normalizedError = toError(e, 'Failed to fetch outfits')
       error.value = normalizedError
-      console.error('Failed to fetch outfits:', normalizedError)
+      console.error(`Failed to fetch outfits: ${normalizedError.message}`)
       return {
         data: [],
         total: 0,

@@ -590,10 +590,19 @@
     "no_results_title": "No Results Found",
     "no_results_description": "No items match your criteria.",
     "not_found_title": "Not Found",
+    "not_found_item": "Item not found",
+    "not_found_outfit": "Outfit not found",
     "back_to_list": "Back to List",
     "filter_type": "Filter by Type",
+    "filter_version": "Filter by Version",
     "filter_style": "Filter by Style",
     "filter_label": "Filter by Label",
-    "filter_all_types": "All Types"
+    "filter_obtain": "Filter by Source",
+    "filter_all_types": "All Types",
+    "source": {
+      "event": "Event",
+      "quest": "Quest",
+      "merchant": "Merchant"
+    }
   }
 }

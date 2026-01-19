@@ -19,7 +19,7 @@ export const useUserStore = defineStore('user', {
   state: (): UserState => {
     // Get cookie helpers
     const { get } = useCookieHelpers()
-    
+
     // Initialize theme
     const savedTheme = get('theme') as Theme
     const systemPrefersDark =
@@ -51,7 +51,7 @@ export const useUserStore = defineStore('user', {
   actions: {
     reset() {
       const { remove } = useCookieHelpers()
-      
+
       // Clear store state
       this.region = Region.AMERICA
       this.uid = null
@@ -68,7 +68,7 @@ export const useUserStore = defineStore('user', {
 
     initializeTheme() {
       const { get } = useCookieHelpers()
-      
+
       const savedTheme = get('theme') as Theme
       if (savedTheme) {
         this.setTheme(savedTheme)
@@ -82,14 +82,14 @@ export const useUserStore = defineStore('user', {
 
     setTheme(newTheme: Theme) {
       const { set } = useCookieHelpers()
-      
+
       this.theme = newTheme
       set('theme', newTheme)
     },
 
     setUid(uid: string | null) {
       const { set, remove } = useCookieHelpers()
-      
+
       this.uid = uid
       if (uid) {
         set('uid', uid)
@@ -100,7 +100,7 @@ export const useUserStore = defineStore('user', {
 
     setAuthToken(token: string | null) {
       const { set, remove } = useCookieHelpers()
-      
+
       this.authToken = token
       if (token) {
         set('authToken', token)

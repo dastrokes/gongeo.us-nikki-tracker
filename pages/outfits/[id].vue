@@ -174,6 +174,9 @@
                     >
                       {{ label.text }}
                     </n-tag>
+                  </div>
+
+                  <div class="flex flex-wrap gap-2">
                     <n-tag
                       v-if="outfitVersionDisplay"
                       type="default"
@@ -202,44 +205,49 @@
                     <p class="whitespace-pre-wrap">{{ outfitDescription }}</p>
                   </div>
                   <!-- Component Items Section -->
-                  <div v-if="componentItems.length > 0">
-                    <h3 class="text-sm sm:text-base font-semibold mb-2">
-                      {{ t('common.items') }}
-                    </h3>
-                    <div
-                      class="grid grid-cols-5 sm:grid-cols-6 md:grid-cols-7 lg:grid-cols-8 xl:grid-cols-10 gap-1.5"
+                  <n-collapse>
+                    <n-collapse-item
+                      v-if="outfitItems.length > 0"
+                      :title="`${t('common.items')} (${outfitItems.length})`"
+                      name="items"
                     >
-                      <ItemCard
-                        v-for="item in componentItems"
-                        :key="item.id"
-                        :item-id="item.id"
-                        :quality="item.quality"
-                        :type="resolveItemType(item)"
-                        :name="t(`item.${item.id}.name`)"
-                        size="sm"
-                      />
-                    </div>
-                  </div>
-
-                  <!-- Makeup Items Section -->
-                  <div v-if="makeupItems.length > 0">
-                    <h3 class="text-sm sm:text-base font-semibold mb-2">
-                      {{ t('common.makeup') }}
-                    </h3>
-                    <div
-                      class="grid grid-cols-5 sm:grid-cols-6 md:grid-cols-7 lg:grid-cols-8 xl:grid-cols-10 gap-1.5"
+                      <div
+                        class="grid grid-cols-5 sm:grid-cols-6 md:grid-cols-7 lg:grid-cols-8 xl:grid-cols-10 gap-1.5"
+                      >
+                        <ItemCard
+                          v-for="outfitItem in outfitItems"
+                          :key="outfitItem.id"
+                          :item-id="outfitItem.id"
+                          :quality="outfitItem.quality"
+                          :type="resolveItemType(outfitItem)"
+                          :name="t(`item.${outfitItem.id}.name`)"
+                          size="sm"
+                        />
+                      </div>
+                    </n-collapse-item>
+                  </n-collapse>
+                  <n-collapse>
+                    <!-- Makeup Items Section -->
+                    <n-collapse-item
+                      v-if="makeupItems.length > 0"
+                      :title="`${t('common.makeup')} (${makeupItems.length})`"
+                      name="makeup"
                     >
-                      <ItemCard
-                        v-for="item in makeupItems"
-                        :key="item.id"
-                        :item-id="item.id"
-                        :quality="item.quality"
-                        :type="resolveItemType(item)"
-                        :name="t(`item.${item.id}.name`)"
-                        size="sm"
-                      />
-                    </div>
-                  </div>
+                      <div
+                        class="grid grid-cols-5 sm:grid-cols-6 md:grid-cols-7 lg:grid-cols-8 xl:grid-cols-10 gap-1.5"
+                      >
+                        <ItemCard
+                          v-for="item in makeupItems"
+                          :key="item.id"
+                          :item-id="item.id"
+                          :quality="item.quality"
+                          :type="resolveItemType(item)"
+                          :name="t(`item.${item.id}.name`)"
+                          size="sm"
+                        />
+                      </div>
+                    </n-collapse-item>
+                  </n-collapse>
                 </div>
 
                 <div
@@ -298,7 +306,12 @@
             >
               <NuxtLink
                 :to="localePath(`/outfits/${variation.id}`)"
-                class="block cursor-pointer group"
+                class="block group"
+                :class="[
+                  variation.id === outfitId
+                    ? 'cursor-default pointer-events-none'
+                    : 'cursor-pointer',
+                ]"
               >
                 <OutfitCard
                   :outfit-id="variation.id"
@@ -307,10 +320,10 @@
                   size="sm"
                   :show-meta="false"
                   :class="[
-                    'transition-all duration-200 ease-in-out group-hover:scale-105 group-hover:shadow-xl',
+                    'transition-all duration-200 ease-in-out group-hover:shadow-xl',
                     variation.id === outfitId
-                      ? 'ring-2 ring-primary/60 dark:ring-primary/40'
-                      : '',
+                      ? 'ring-2 ring-primary/60 dark:ring-primary/40 ring-opacity-50'
+                      : 'group-hover:scale-105',
                   ]"
                 />
               </NuxtLink>
@@ -445,7 +458,7 @@
     item.type ? getItemType(item.type) : getItemType(item.id)
 
   // Computed component items (excluding makeup) sorted by category order
-  const componentItems = computed(() => {
+  const outfitItems = computed(() => {
     if (!outfit.value?.outfit_items) return []
     const items = outfit.value.outfit_items
       .map((oi) => oi.items)
@@ -500,25 +513,31 @@
   // Computed outfit variations with labels
   const outfitVariations = computed(() => {
     if (!outfit.value?.variations) return []
-    return outfit.value.variations.map((v) => {
-      // Map type to existing translation key
-      let levelKey = '1' // base
-      if (v.type === 'glowup') {
-        levelKey = 'glow'
-      } else if (v.type === 'evo1') {
-        levelKey = '2'
-      } else if (v.type === 'evo2') {
-        levelKey = '3'
-      } else if (v.type === 'evo3') {
-        levelKey = '4'
-      }
 
-      return {
-        id: v.id,
-        quality: v.quality,
-        label: t(`banner.outfit.level.${levelKey}`),
-      }
-    })
+    return [...outfit.value.variations]
+      .sort((a, b) => {
+        if (a.type === 'glowup') return 1
+        if (b.type === 'glowup') return -1
+        return 0
+      })
+      .map((v) => {
+        let levelKey = '1' // base
+        if (v.type === 'glowup') {
+          levelKey = 'glow'
+        } else if (v.type === 'evo1') {
+          levelKey = '2'
+        } else if (v.type === 'evo2') {
+          levelKey = '3'
+        } else if (v.type === 'evo3') {
+          levelKey = '4'
+        }
+
+        return {
+          id: v.id,
+          quality: v.quality,
+          label: t(`banner.outfit.level.${levelKey}`),
+        }
+      })
   })
 
   // Find banner for this outfit

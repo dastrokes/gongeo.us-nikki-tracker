@@ -1,12 +1,11 @@
 <template>
   <div
-    class="group relative block hover:scale-[1.05] hover:z-10 transition-all duration-300 ease-out"
+    class="relative block transition-all duration-300 ease-out group hover:scale-[1.05] hover:z-10"
   >
     <n-card
       :class="[
         getCardGradient(quality),
-        { 'cursor-pointer': clickable },
-        'relative overflow-hidden rounded-md transition-all duration-300 ease-out aspect-square ring-1',
+        'relative overflow-hidden rounded-md transition-all duration-300 ease-out aspect-square ring-1 cursor-pointer',
         getSizeClass(size),
       ]"
       :bordered="false"
@@ -54,12 +53,10 @@
     quality: number
     type: string
     name: string
-    clickable?: boolean
     size?: 'sm' | 'lg'
   }
 
   const props = withDefaults(defineProps<Props>(), {
-    clickable: true,
     size: 'lg',
   })
 
@@ -121,12 +118,8 @@
 
   // Click handler
   const handleClick = () => {
-    if (props.clickable) {
-      emit('click', props.itemId)
-
-      const path = localePath(`/items/${props.itemId}`)
-
-      router.push(path)
-    }
+    emit('click', props.itemId)
+    const path = localePath(`/items/${props.itemId}`)
+    router.push(path)
   }
 </script>

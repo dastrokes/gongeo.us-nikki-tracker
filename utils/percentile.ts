@@ -43,8 +43,7 @@ const calculatePercentile = (
 export const getAvg5StarPercentile = (avg: number): number => {
   // Lower average is better, so we need to invert the percentile
   return (
-    100 -
-    calculatePercentile(avg, typedPercentileData.metrics.avg_5star_pulls)
+    100 - calculatePercentile(avg, typedPercentileData.metrics.avg_5star_pulls)
   )
 }
 
@@ -52,10 +51,7 @@ export const getAvg4StarType2Percentile = (avg: number): number => {
   // Lower average is better, so we need to invert the percentile
   return (
     100 -
-    calculatePercentile(
-      avg,
-      typedPercentileData.metrics.avg_4star_pulls_type2
-    )
+    calculatePercentile(avg, typedPercentileData.metrics.avg_4star_pulls_type2)
   )
 }
 
@@ -63,10 +59,7 @@ export const getAvg4StarType3Percentile = (avg: number): number => {
   // Lower average is better, so we need to invert the percentile
   return (
     100 -
-    calculatePercentile(
-      avg,
-      typedPercentileData.metrics.avg_4star_pulls_type3
-    )
+    calculatePercentile(avg, typedPercentileData.metrics.avg_4star_pulls_type3)
   )
 }
 

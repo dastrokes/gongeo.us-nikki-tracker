@@ -751,7 +751,7 @@
   const hasOutfit = (id: string): id is OutfitKey =>
     Object.prototype.hasOwnProperty.call(OUTFIT_DATA, id)
 
-  const latestBannerId = 46 // TODO: update to current banner id
+  const latestBannerId = 48 // TODO: update to current banner id
   const latestBanner = BANNER_DATA[latestBannerId]
 
   if (
@@ -1363,7 +1363,9 @@
     )
     const minOccurrence = Math.min(...occurrenceValues)
     const maxOccurrence = Math.max(...occurrenceValues)
-    const colorShades = ['#3730a3', '#4338ca', '#4f46e5']
+    const colorShades = isDark.value
+      ? ['#6366f1', '#818cf8', '#a5b4fc']
+      : ['#4338ca', '#4f46e5', '#8b5cf6']
     const pickColor = (value: number) => {
       const ratio =
         maxOccurrence === minOccurrence

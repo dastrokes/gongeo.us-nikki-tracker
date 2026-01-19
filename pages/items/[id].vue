@@ -499,7 +499,7 @@
 
 <script setup lang="ts">
   import { Star } from '@vicons/fa'
-  import type { ItemWithOutfits, OutfitWithItems } from '~/types/supabase'
+  import type { ItemWithOutfits } from '~/types/supabase'
 
   const { t, te, locale } = useI18n()
   const { getImageSrc, getImageUrl } = imageProvider()
@@ -512,7 +512,6 @@
 
   // Composable
   const { fetchItemById } = useSupabaseItems()
-  const { fetchOutfitById } = useSupabaseOutfits()
 
   const itemKey = computed(() => `item-${itemId.value}-${locale.value}`)
 
@@ -539,31 +538,23 @@
     }))
   })
 
-  const relatedOutfitIds = computed(() =>
-    relatedOutfits.value.map((outfit) => outfit.id).filter(Number.isFinite)
+  const baseOutfitId = computed(() =>
+    Number(getOutfitIdFromItemId(String(itemId.value)))
   )
 
-  const relatedOutfitKey = computed(
-    () =>
-      `item-outfit-items-${itemId.value}-${relatedOutfitIds.value.join(',')}-${locale.value}`
-  )
-
-  const { data: relatedOutfitDetails } = await useAsyncData(
-    () => relatedOutfitKey.value,
-    async () => {
-      if (!relatedOutfitIds.value.length) return []
-      const outfits = await Promise.all(
-        relatedOutfitIds.value.map((id) => fetchOutfitById(id))
-      )
-      return outfits.filter((outfit): outfit is OutfitWithItems =>
-        Boolean(outfit)
-      )
-    },
-    {
-      default: () => [],
-      watch: [relatedOutfitIds, locale],
+  const relatedOutfit = computed(() => {
+    const outfits =
+      item.value?.outfit_items?.map((entry) => entry.outfits) ?? []
+    if (!outfits.length) return null
+    const baseId = baseOutfitId.value
+    if (Number.isFinite(baseId)) {
+      const baseMatch = outfits.find((outfit) => outfit.id === baseId)
+      if (baseMatch) return baseMatch
     }
-  )
+    return outfits.reduce((lowest, current) =>
+      current.id < lowest.id ? current : lowest
+    )
+  })
 
   // Makeup types
   const makeupTypes: ItemType[] = [
@@ -578,43 +569,25 @@
     item.type ? getItemType(item.type) : getItemType(item.id)
 
   const outfitItemSets = computed(() => {
-    if (!relatedOutfitDetails.value?.length) return []
-    const baseOutfitId = Number(getOutfitIdFromItemId(String(itemId.value)))
-    const baseOutfitMatch = relatedOutfitDetails.value.find(
-      (outfit) => outfit.id === baseOutfitId
+    const outfit = relatedOutfit.value
+    if (!outfit?.outfit_items?.length) return []
+    const allItems = outfit.outfit_items.map((entry) => entry.items)
+    const outfitItems = sortItemsByCategory(
+      allItems.filter((entry) => !makeupTypes.includes(resolveItemType(entry)))
     )
-    const outfitsToRender = baseOutfitMatch
-      ? [baseOutfitMatch]
-      : relatedOutfitDetails.value.length > 1
-        ? [
-            relatedOutfitDetails.value.reduce((lowest, current) =>
-              current.id < lowest.id ? current : lowest
-            ),
-          ]
-        : relatedOutfitDetails.value
+    const makeupItems = sortItemsByCategory(
+      allItems.filter((entry) => makeupTypes.includes(resolveItemType(entry)))
+    )
+    if (!outfitItems.length && !makeupItems.length) return []
 
-    return outfitsToRender
-      .map((outfit) => {
-        const allItems = (outfit.outfit_items || []).map((entry) => entry.items)
-        const outfitItems = sortItemsByCategory(
-          allItems.filter(
-            (entry) => !makeupTypes.includes(resolveItemType(entry))
-          )
-        )
-        const makeupItems = sortItemsByCategory(
-          allItems.filter((entry) =>
-            makeupTypes.includes(resolveItemType(entry))
-          )
-        )
-
-        return {
-          id: outfit.id,
-          name: t(`outfit.${outfit.id}.name`),
-          outfitItems,
-          makeupItems,
-        }
-      })
-      .filter((set) => set.outfitItems.length > 0 || set.makeupItems.length > 0)
+    return [
+      {
+        id: outfit.id,
+        name: t(`outfit.${outfit.id}.name`),
+        outfitItems,
+        makeupItems,
+      },
+    ]
   })
 
   // Computed item variations with labels

@@ -62,7 +62,7 @@ export default defineNuxtConfig({
       supabaseDataUrl: process.env.SUPABASE_DATA_URL,
       gongeousApiKey: process.env.GONGEOUS_API_KEY,
       siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://gongeo.us',
-      gameVersion: '2.1.0.1',
+      gameVersion: process.env.NUXT_PUBLIC_GAME_VERSION,
       imagekitBaseUrl:
         process.env.NUXT_PUBLIC_IMAGEKIT_BASE_URL ||
         'https://ik.imagekit.io/gongeous',

@@ -12,6 +12,7 @@
             <n-switch
               v-model:value="listingsSwitchValue"
               size="large"
+              :rail-style="railStyle"
               @update:value="handleListingToggle"
             >
               <template #checked>
@@ -236,6 +237,7 @@
 
 <script setup lang="ts">
   import { Star, Tshirt, ListAlt } from '@vicons/fa'
+  import type { CSSProperties } from 'vue'
   import type { OutfitListEntry } from '~/types/outfits'
 
   const { t, locale, getLocaleMessage } = useI18n()
@@ -582,6 +584,16 @@
         query: buildListingQuery(),
       })
     )
+  }
+
+  const railStyle = ({ checked }: { focused: boolean; checked: boolean }) => {
+    const style: CSSProperties = {}
+    if (checked) {
+      style.background = '#3b82a6'
+    } else {
+      style.background = '#a85573'
+    }
+    return style
   }
 </script>
 

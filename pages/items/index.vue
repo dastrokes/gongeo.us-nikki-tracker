@@ -12,6 +12,7 @@
             <n-switch
               v-model:value="listingsSwitchValue"
               size="large"
+              :rail-style="railStyle"
               @update:value="handleListingToggle"
             >
               <template #checked>
@@ -329,6 +330,7 @@
 <script setup lang="ts">
   import { Star, Tshirt, ListAlt } from '@vicons/fa'
   import type { SelectGroupOption, SelectOption } from 'naive-ui'
+  import type { CSSProperties } from 'vue'
   import type { ItemListEntry } from '~/types/items'
 
   const { t, locale, getLocaleMessage } = useI18n()
@@ -791,6 +793,16 @@
         query: buildListingQuery(false),
       })
     )
+  }
+
+  const railStyle = ({ checked }: { checked: boolean }) => {
+    const style: CSSProperties = {}
+    if (checked) {
+      style.background = '#3b82a6'
+    } else {
+      style.background = '#a85573'
+    }
+    return style
   }
 
   const navigateToDetail = (id: number) => {

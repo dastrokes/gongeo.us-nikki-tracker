@@ -608,7 +608,8 @@
   const showItems = ref(true)
 
   // Import percentile functions from utils (pure functions)
-  const { getAvg5StarPercentile, getAvg4StarType3Percentile } = await import('~/utils/percentile')
+  const { getAvg5StarPercentile, getAvg4StarType3Percentile } =
+    await import('~/utils/percentile')
 
   const banner = computed(() => {
     const bannerId = parseInt(route.params.id as string)

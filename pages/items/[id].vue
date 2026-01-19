@@ -179,6 +179,9 @@
                     >
                       {{ label.text }}
                     </n-tag>
+                  </div>
+
+                  <div class="flex flex-wrap gap-2">
                     <n-tag
                       v-if="itemVersionDisplay"
                       type="default"
@@ -207,18 +210,77 @@
                     <p class="whitespace-pre-wrap">{{ itemDescription }}</p>
                   </div>
 
-                  <div
-                    class="grid grid-cols-5 sm:grid-cols-6 md:grid-cols-7 lg:grid-cols-8 xl:grid-cols-10 gap-1.5"
-                  >
-                    <!-- Icon Image -->
-                    <ItemCard
-                      :item-id="item.id"
-                      :quality="item.quality"
-                      :type="itemType"
-                      :name="itemName"
-                      :clickable="false"
-                      size="sm"
-                    />
+                  <div v-if="outfitItemSets.length > 0">
+                    <div
+                      v-for="outfitSet in outfitItemSets"
+                      :key="outfitSet.id"
+                      class="space-y-3"
+                    >
+                      <n-collapse>
+                        <n-collapse-item
+                          :title="
+                            outfitItemSets.length > 1
+                              ? `${t('common.items')} (${outfitSet.outfitItems.length}) - ${outfitSet.name}`
+                              : `${t('common.items')} (${outfitSet.outfitItems.length})`
+                          "
+                          :name="`items-${outfitSet.id}`"
+                        >
+                          <div
+                            class="grid grid-cols-5 sm:grid-cols-6 md:grid-cols-7 lg:grid-cols-8 xl:grid-cols-10 gap-1.5"
+                          >
+                            <ItemCard
+                              v-for="outfitItem in outfitSet.outfitItems"
+                              :key="outfitItem.id"
+                              :class="
+                                outfitItem.id === itemId
+                                  ? 'rounded-md pointer-events-none'
+                                  : ''
+                              "
+                              :style="
+                                outfitItem.id === itemId
+                                  ? getQualityRingStyle(outfitItem.quality)
+                                  : ''
+                              "
+                              :item-id="outfitItem.id"
+                              :quality="outfitItem.quality"
+                              :type="resolveItemType(outfitItem)"
+                              :name="t(`item.${outfitItem.id}.name`)"
+                              size="sm"
+                            />
+                          </div>
+                        </n-collapse-item>
+                      </n-collapse>
+                      <n-collapse>
+                        <n-collapse-item
+                          v-if="outfitSet.makeupItems.length > 0"
+                          :title="
+                            outfitItemSets.length > 1
+                              ? `${t('common.makeup')} (${outfitSet.makeupItems.length}) - ${outfitSet.name}`
+                              : `${t('common.makeup')} (${outfitSet.makeupItems.length})`
+                          "
+                          :name="`makeup-${outfitSet.id}`"
+                        >
+                          <div
+                            class="grid grid-cols-5 sm:grid-cols-6 md:grid-cols-7 lg:grid-cols-8 xl:grid-cols-10 gap-1.5"
+                          >
+                            <ItemCard
+                              v-for="makeupItem in outfitSet.makeupItems"
+                              :key="makeupItem.id"
+                              :class="
+                                makeupItem.id === itemId
+                                  ? 'rounded-md pointer-events-none'
+                                  : ''
+                              "
+                              :item-id="makeupItem.id"
+                              :quality="makeupItem.quality"
+                              :type="resolveItemType(makeupItem)"
+                              :name="t(`item.${makeupItem.id}.name`)"
+                              size="sm"
+                            />
+                          </div>
+                        </n-collapse-item>
+                      </n-collapse>
+                    </div>
                   </div>
                 </div>
 
@@ -275,12 +337,17 @@
               :key="variation.id"
               :to="localePath(`/items/${variation.id}`)"
               class="block group"
+              :class="[
+                variation.id === itemId
+                  ? 'cursor-default pointer-events-none'
+                  : 'cursor-pointer',
+              ]"
             >
               <div
                 class="relative aspect-[2/3] rounded-lg overflow-hidden transition-all duration-200 ease-in-out shadow-md"
                 :class="[
                   variation.id === itemId
-                    ? 'ring-2 ring-primary/60 dark:ring-primary/40'
+                    ? 'ring-2 ring-primary/60 dark:ring-primary/40 ring-opacity-50'
                     : 'group-hover:scale-105',
                 ]"
               >
@@ -333,7 +400,7 @@
             >
               <NuxtLink
                 :to="localePath(`/outfits/${outfit.id}`)"
-                class="block cursor-pointer group"
+                class="block group"
               >
                 <OutfitCard
                   :outfit-id="outfit.id"
@@ -432,7 +499,7 @@
 
 <script setup lang="ts">
   import { Star } from '@vicons/fa'
-  import type { ItemWithOutfits } from '~/types/supabase'
+  import type { ItemWithOutfits, OutfitWithItems } from '~/types/supabase'
 
   const { t, te, locale } = useI18n()
   const { getImageSrc, getImageUrl } = imageProvider()
@@ -445,6 +512,7 @@
 
   // Composable
   const { fetchItemById } = useSupabaseItems()
+  const { fetchOutfitById } = useSupabaseOutfits()
 
   const itemKey = computed(() => `item-${itemId.value}-${locale.value}`)
 
@@ -471,28 +539,112 @@
     }))
   })
 
+  const relatedOutfitIds = computed(() =>
+    relatedOutfits.value.map((outfit) => outfit.id).filter(Number.isFinite)
+  )
+
+  const relatedOutfitKey = computed(
+    () =>
+      `item-outfit-items-${itemId.value}-${relatedOutfitIds.value.join(',')}-${locale.value}`
+  )
+
+  const { data: relatedOutfitDetails } = await useAsyncData(
+    () => relatedOutfitKey.value,
+    async () => {
+      if (!relatedOutfitIds.value.length) return []
+      const outfits = await Promise.all(
+        relatedOutfitIds.value.map((id) => fetchOutfitById(id))
+      )
+      return outfits.filter((outfit): outfit is OutfitWithItems =>
+        Boolean(outfit)
+      )
+    },
+    {
+      default: () => [],
+      watch: [relatedOutfitIds, locale],
+    }
+  )
+
+  // Makeup types
+  const makeupTypes: ItemType[] = [
+    'baseMakeup',
+    'eyebrows',
+    'eyelashes',
+    'contactLenses',
+    'lips',
+  ]
+
+  const resolveItemType = (item: { id: number; type?: string }) =>
+    item.type ? getItemType(item.type) : getItemType(item.id)
+
+  const outfitItemSets = computed(() => {
+    if (!relatedOutfitDetails.value?.length) return []
+    const baseOutfitId = Number(getOutfitIdFromItemId(String(itemId.value)))
+    const baseOutfitMatch = relatedOutfitDetails.value.find(
+      (outfit) => outfit.id === baseOutfitId
+    )
+    const outfitsToRender = baseOutfitMatch
+      ? [baseOutfitMatch]
+      : relatedOutfitDetails.value.length > 1
+        ? [
+            relatedOutfitDetails.value.reduce((lowest, current) =>
+              current.id < lowest.id ? current : lowest
+            ),
+          ]
+        : relatedOutfitDetails.value
+
+    return outfitsToRender
+      .map((outfit) => {
+        const allItems = (outfit.outfit_items || []).map((entry) => entry.items)
+        const outfitItems = sortItemsByCategory(
+          allItems.filter(
+            (entry) => !makeupTypes.includes(resolveItemType(entry))
+          )
+        )
+        const makeupItems = sortItemsByCategory(
+          allItems.filter((entry) =>
+            makeupTypes.includes(resolveItemType(entry))
+          )
+        )
+
+        return {
+          id: outfit.id,
+          name: t(`outfit.${outfit.id}.name`),
+          outfitItems,
+          makeupItems,
+        }
+      })
+      .filter((set) => set.outfitItems.length > 0 || set.makeupItems.length > 0)
+  })
+
   // Computed item variations with labels
   const itemVariations = computed(() => {
     if (!item.value?.variations) return []
-    return item.value.variations.map((v) => {
-      // Map type to existing translation key
-      let levelKey = '1' // base
-      if (v.type === 'glowup') {
-        levelKey = 'glow'
-      } else if (v.type === 'evo1') {
-        levelKey = '2'
-      } else if (v.type === 'evo2') {
-        levelKey = '3'
-      } else if (v.type === 'evo3') {
-        levelKey = '4'
-      }
 
-      return {
-        id: v.id,
-        quality: v.quality,
-        label: t(`banner.outfit.level.${levelKey}`),
-      }
-    })
+    return [...item.value.variations]
+      .sort((a, b) => {
+        if (a.type === 'glowup') return 1
+        if (b.type === 'glowup') return -1
+        return 0
+      })
+      .map((v) => {
+        let levelKey = '1' // base
+        if (v.type === 'glowup') {
+          levelKey = 'glow'
+        } else if (v.type === 'evo1') {
+          levelKey = '2'
+        } else if (v.type === 'evo2') {
+          levelKey = '3'
+        } else if (v.type === 'evo3') {
+          levelKey = '4'
+        }
+
+        return {
+          id: v.id,
+          quality: v.quality,
+          label: t(`banner.outfit.level.${levelKey}`),
+        }
+      })
   })
 
   // Find banner for this item (including variations)

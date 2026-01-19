@@ -71,6 +71,13 @@ export const getQualityOverlayStyle = (quality: number) => {
   }
 }
 
+export const getQualityRingStyle = (quality: number) => {
+  const color = getQualityColor(quality)
+  return {
+    outline: `2px outset ${color}66`,
+  }
+}
+
 export const getQualityGradient = (quality: number) => {
   switch (quality) {
     case 5:

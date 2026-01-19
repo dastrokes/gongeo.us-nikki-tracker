@@ -277,5 +277,3 @@ export function selectBannerPair(
     ? { banner1: secondSelected, banner2: firstSelected }
     : { banner1: firstSelected, banner2: secondSelected }
 }
-
-

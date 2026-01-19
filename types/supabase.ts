@@ -60,7 +60,11 @@ export interface OutfitWithItems extends SupabaseOutfit {
  */
 export interface ItemWithOutfits extends SupabaseItem {
   outfit_items: {
-    outfits: SupabaseOutfit
+    outfits: SupabaseOutfit & {
+      outfit_items?: {
+        items: SupabaseItem
+      }[]
+    }
   }[]
   variations?: Array<{
     id: number

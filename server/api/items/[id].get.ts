@@ -29,7 +29,19 @@ interface ItemData {
   obtain_type?: number | null
   item_translations?: ItemTranslation[]
   description?: string
-  outfit_items?: Array<{ outfits: { id: number; quality: number } }>
+  outfit_items?: Array<{
+    outfits: {
+      id: number
+      quality: number
+      outfit_items?: Array<{
+        items: {
+          id: number
+          quality: number
+          type: string
+        }
+      }>
+    }
+  }>
   variations?: Array<{ id: number; quality: number; type: string }>
 }
 
@@ -123,7 +135,9 @@ export default defineCachedEventHandler(
         selectParts.push('item_translations!left(description,language_code)')
       }
 
-      selectParts.push('outfit_items(outfits(id,quality))')
+      selectParts.push(
+        'outfit_items(outfits(id,quality,outfit_items(items(id,quality,type))))'
+      )
 
       const selectQuery = selectParts.join(',')
 

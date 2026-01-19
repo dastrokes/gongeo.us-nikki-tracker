@@ -4,21 +4,24 @@ import { getGameVersion } from './gameVersion'
 
 const BROWSER_CACHE_VALUE = 'public, max-age=300'
 const CDN_CACHE_VALUE =
-  'public, s-maxage=604800, stale-while-revalidate=86400, stale-if-error=86400'
+  'public, s-maxage=1209600, stale-while-revalidate=86400, stale-if-error=86400'
+const CDN_CACHE_TAG = 'cache-purge'
 export const GAME_VERSION_HEADER = 'X-Game-Version'
 
 export const CACHE_STATIC = {
   'Cache-Control': 'public, max-age=86400, immutable',
   'Netlify-CDN-Cache-Control':
-    'public, s-maxage=86400, stale-while-revalidate=604800',
+    'public, s-maxage=2592000, stale-while-revalidate=604800',
   'Netlify-Vary': 'cookie=i18n_redirected',
 }
 
 export const CACHE_STABLE = {
   'Cache-Control': 'public, max-age=300',
   'Netlify-CDN-Cache-Control':
-    'public, s-maxage=86400, stale-while-revalidate=86400',
-  'Netlify-Vary': 'header=' + GAME_VERSION_HEADER + ',cookie=i18n_redirected',
+    'public, s-maxage=1209600, stale-while-revalidate=86400',
+  'Netlify-Vary':
+    'header=' + GAME_VERSION_HEADER + ',cookie=i18n_redirected,query',
+  'Netlify-Cache-Tag': CDN_CACHE_TAG,
 }
 
 export const CACHE_DYNAMIC = {
@@ -60,6 +63,7 @@ function buildCacheHeaders({
   const headers: Record<string, string> = {
     'Cache-Control': BROWSER_CACHE_VALUE,
     'Netlify-CDN-Cache-Control': CDN_CACHE_VALUE,
+    'Netlify-Cache-Tag': CDN_CACHE_TAG,
     [GAME_VERSION_HEADER]: version,
   }
 

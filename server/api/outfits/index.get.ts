@@ -8,7 +8,6 @@ import {
 import { toErrorMessage } from '~/utils/errors'
 import {
   normalizeTraitKey,
-  resolveStyleI18nKeyFromProps,
   resolveStyleKeyFromProps,
   resolveTagI18nKeys,
   STYLE_BY_KEY,
@@ -29,14 +28,9 @@ type OutfitRow = {
   id: number
   quality: number
   props: Array<number | string> | null
+  style_key?: string | null
   tags: Array<number | string> | null
   obtain_type?: number | null
-  outfit_items?: Array<{
-    items?: {
-      props: Array<number | string> | null
-      tags: Array<number | string> | null
-    } | null
-  }>
 }
 
 const BASE_OUTFIT_ID_MIN = 10000
@@ -96,10 +90,7 @@ export default defineCachedEventHandler(
 
     try {
       // Build the query - always fetch props and tags for style/label display
-      const selectFields =
-        styleFilter || labelFilter
-          ? 'id, quality, props, tags, obtain_type, outfit_items(items(props,tags))'
-          : 'id, quality, props, tags, obtain_type'
+      const selectFields = 'id, quality, props, style_key, tags, obtain_type'
 
       let dbQuery = supabase
         .from('outfits')
@@ -119,6 +110,14 @@ export default defineCachedEventHandler(
 
       if (obtainIds) {
         dbQuery = dbQuery.in('obtain_type', obtainIds)
+      }
+
+      if (styleFilter) {
+        dbQuery = dbQuery.eq('style_key', styleFilter.key)
+      }
+
+      if (labelFilter) {
+        dbQuery = dbQuery.contains('tags', [labelFilter.id])
       }
 
       // Apply sorting and pagination
@@ -164,6 +163,14 @@ export default defineCachedEventHandler(
               countQuery = countQuery.in('obtain_type', obtainIds)
             }
 
+            if (styleFilter) {
+              countQuery = countQuery.eq('style_key', styleFilter.key)
+            }
+
+            if (labelFilter) {
+              countQuery = countQuery.contains('tags', [labelFilter.id])
+            }
+
             const { count: fallbackCount, error: countError } =
               await withSupabaseRetry(() => countQuery)
             if (!countError && typeof fallbackCount === 'number') {
@@ -184,54 +191,21 @@ export default defineCachedEventHandler(
 
       const rows = (data as OutfitRow[] | null) ?? []
       const outfits = rows.map((row) => {
-        const styleKey = resolveStyleKeyFromProps(row.props)
+        const styleKey = row.style_key ?? resolveStyleKeyFromProps(row.props)
         const tagIds = (row.tags || [])
           .map((value: number | string) => Number(value))
           .filter((value: number) => !Number.isNaN(value))
         return {
           id: row.id,
           quality: row.quality,
-          style: resolveStyleI18nKeyFromProps(row.props),
+          style: styleKey
+            ? (STYLE_BY_KEY.get(styleKey)?.i18nKey ?? null)
+            : null,
           labels: resolveTagI18nKeys(row.tags),
           obtain_type: row.obtain_type ?? null,
           styleKey,
           tagIds,
-          outfit_items: row.outfit_items,
         }
-      })
-
-      const filteredOutfits = outfits.filter((outfit) => {
-        if (!styleFilter && !labelFilter) return true
-
-        let matchesStyle = !styleFilter
-        let matchesLabel = !labelFilter
-
-        for (const entry of outfit.outfit_items || []) {
-          const item = entry.items
-          if (!item) continue
-
-          if (!matchesStyle && styleFilter) {
-            const styleKey = resolveStyleKeyFromProps(item.props)
-            if (styleKey === styleFilter.key) {
-              matchesStyle = true
-            }
-          }
-
-          if (!matchesLabel && labelFilter) {
-            const tagIds = (item.tags || [])
-              .map((value: number | string) => Number(value))
-              .filter((value: number) => !Number.isNaN(value))
-            if (tagIds.includes(labelFilter.id)) {
-              matchesLabel = true
-            }
-          }
-
-          if (matchesStyle && matchesLabel) {
-            return true
-          }
-        }
-
-        return matchesStyle && matchesLabel
       })
 
       const compareVersion = (a: string, b: string) => {
@@ -255,7 +229,7 @@ export default defineCachedEventHandler(
       const getSortVersion = (_id: number, obtainType?: number | null) =>
         obtainType ? getVersionFromId(obtainType) : null
 
-      const sortedOutfits = filteredOutfits.slice().sort((a, b) => {
+      const sortedOutfits = outfits.slice().sort((a, b) => {
         if (a.quality !== b.quality) {
           return b.quality - a.quality
         }
@@ -280,12 +254,7 @@ export default defineCachedEventHandler(
 
       return {
         data: pagedOutfits.map(
-          ({
-            styleKey: _styleKey,
-            tagIds: _tagIds,
-            outfit_items: _outfit_items,
-            ...outfit
-          }) => outfit
+          ({ styleKey: _styleKey, tagIds: _tagIds, ...outfit }) => outfit
         ),
         total,
         page,

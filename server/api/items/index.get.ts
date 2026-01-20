@@ -9,7 +9,6 @@ import { toErrorMessage } from '~/utils/errors'
 import {
   normalizeTraitKey,
   resolveStyleI18nKeyFromProps,
-  resolveStyleKeyFromProps,
   resolveTagI18nKeys,
   STYLE_BY_KEY,
   TAG_BY_KEY,
@@ -30,6 +29,7 @@ type ItemRow = {
   quality: number
   type: string
   props: Array<number | string> | null
+  style_key?: string | null
   tags: Array<number | string> | null
   obtain_type?: number | null
 }
@@ -112,7 +112,7 @@ export default defineCachedEventHandler(
 
       let dbQuery = supabase
         .from('items')
-        .select('id, quality, type, props, tags, obtain_type', {
+        .select('id, quality, type, props, style_key, tags, obtain_type', {
           count: 'exact',
         })
         .or(baseItemRangeFilters)
@@ -134,6 +134,10 @@ export default defineCachedEventHandler(
 
       if (obtainIds) {
         dbQuery = dbQuery.in('obtain_type', obtainIds)
+      }
+
+      if (styleFilter) {
+        dbQuery = dbQuery.eq('style_key', styleFilter.key)
       }
 
       if (labelFilter) {
@@ -191,6 +195,14 @@ export default defineCachedEventHandler(
               countQuery = countQuery.in('obtain_type', obtainIds)
             }
 
+            if (styleFilter) {
+              countQuery = countQuery.eq('style_key', styleFilter.key)
+            }
+
+            if (labelFilter) {
+              countQuery = countQuery.contains('tags', [labelFilter.id])
+            }
+
             const { count: fallbackCount, error: countError } =
               await withSupabaseRetry(() => countQuery)
             if (!countError && typeof fallbackCount === 'number') {
@@ -211,7 +223,7 @@ export default defineCachedEventHandler(
 
       const rows = (data as ItemRow[] | null) ?? []
       const items = rows.map((item) => {
-        const styleKey = resolveStyleKeyFromProps(item.props)
+        const styleKey = item.style_key ?? null
         const tagIds = (item.tags || [])
           .map((value: number | string) => Number(value))
           .filter((value: number) => !Number.isNaN(value))
@@ -220,25 +232,12 @@ export default defineCachedEventHandler(
           quality: item.quality,
           type: item.type,
           obtain_type: item.obtain_type ?? null,
-          style: resolveStyleI18nKeyFromProps(item.props),
+          style: styleKey ? resolveStyleI18nKeyFromProps(item.props) : null,
           labels: resolveTagI18nKeys(item.tags),
           styleKey,
           tagIds,
         }
       })
-
-      let filteredItems = items
-      if (styleFilter) {
-        filteredItems = filteredItems.filter(
-          (item) => item.styleKey === styleFilter.key
-        )
-      }
-
-      if (labelFilter) {
-        filteredItems = filteredItems.filter((item) =>
-          item.tagIds.includes(labelFilter.id)
-        )
-      }
 
       const compareVersion = (a: string, b: string) => {
         const parseVersion = (value: string) => {
@@ -261,7 +260,7 @@ export default defineCachedEventHandler(
       const getSortVersion = (_id: number, obtainType?: number | null) =>
         obtainType ? getVersionFromId(obtainType) : null
 
-      filteredItems = filteredItems.slice().sort((a, b) => {
+      const sortedItems = items.slice().sort((a, b) => {
         if (a.quality !== b.quality) {
           return b.quality - a.quality
         }
@@ -278,11 +277,11 @@ export default defineCachedEventHandler(
         return a.id - b.id
       })
 
-      const total = filteredItems.length
+      const total = sortedItems.length
       const totalPages = total ? Math.ceil(total / pageSize) : 0
       const from = (page - 1) * pageSize
       const to = from + pageSize
-      const pagedItems = filteredItems.slice(from, to)
+      const pagedItems = sortedItems.slice(from, to)
 
       return {
         data: pagedItems.map(

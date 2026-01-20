@@ -8,3 +8,8 @@
 
 [images]
   remote_images = ["https://ik.imagekit.io/gongeous/.*"]
+
+[[headers]]
+  for = "/.netlify/images*"
+  [headers.values]
+    Cache-Control = "public, max-age=2592000"

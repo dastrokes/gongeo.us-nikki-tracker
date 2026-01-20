@@ -43,7 +43,7 @@ const BASE_OUTFIT_ID_MAX = 99999
 export default defineCachedEventHandler(
   async (event) => {
     setCacheHeaders(event, {
-      varyQuery: ['page', 'quality', 'style', 'label', 'version', 'source'],
+      varyQuery: true,
       varyHeaders: [GAME_VERSION_HEADER],
     })
     const query = getQuery(event)

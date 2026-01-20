@@ -1,6 +1,45 @@
 import { useSupabaseClient } from '~/composables/useSupabaseClient'
+import type { UserBannerStats } from '~/types/stats'
+import { generateSignature } from '~/utils/signature'
+
+const createForbiddenError = (type?: string) =>
+  createError({
+    statusCode: 403,
+    message: type ? `Forbidden - ${type}` : 'Forbidden',
+  })
+
+const verifyTimestamp = (
+  timestamp: number,
+  maxAgeSeconds: number = 300
+): boolean => {
+  const currentTime = Math.floor(Date.now() / 1000)
+  return Math.abs(currentTime - timestamp) <= maxAgeSeconds
+}
+
+const verifySignature = async (
+  signature: string,
+  timestamp: number,
+  payload: UserBannerStats[]
+): Promise<boolean> => {
+  const apiKey = useRuntimeConfig().public.gongeousApiKey || 'api-key'
+  const expectedSignature = await generateSignature(apiKey, timestamp, payload)
+  return signature === expectedSignature
+}
 
 export default defineEventHandler(async (event) => {
+  // Get signature and timestamp from headers
+  const signature = getHeader(event, 'x-signature')
+  const timestamp = getHeader(event, 'x-timestamp')
+
+  if (!signature || !timestamp) {
+    throw createForbiddenError('missing')
+  }
+
+  const requestTime = Number(timestamp)
+  if (Number.isNaN(requestTime) || !verifyTimestamp(requestTime)) {
+    throw createForbiddenError('expired')
+  }
+
   const supabase = useSupabaseClient('server')
 
   // Determine target table based on x-target header
@@ -18,6 +57,10 @@ export default defineEventHandler(async (event) => {
         statusCode: 400,
         message: 'Invalid request body - expected array of banner stats',
       })
+    }
+
+    if (!(await verifySignature(signature, requestTime, body))) {
+      throw createForbiddenError('invalid')
     }
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

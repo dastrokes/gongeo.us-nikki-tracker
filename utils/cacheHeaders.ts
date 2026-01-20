@@ -32,7 +32,7 @@ export const CACHE_DYNAMIC = {
 }
 
 interface CacheHeaderOptions {
-  varyQuery?: string[]
+  varyQuery?: boolean
   varyHeaders?: string[]
 }
 
@@ -42,16 +42,14 @@ type CacheHeaderResult = {
 }
 
 function buildCacheHeaders({
-  varyQuery = [],
+  varyQuery = false,
   varyHeaders = [],
 }: CacheHeaderOptions = {}): CacheHeaderResult {
   const version = getGameVersion()
   const netlifyVaryParts: string[] = []
 
-  if (varyQuery.length) {
-    // Netlify-Vary query keys are pipe-delimited.
-    // Example: Netlify-Vary: query=page|quality|type
-    netlifyVaryParts.push(`query=${varyQuery.join('|')}`)
+  if (varyQuery) {
+    netlifyVaryParts.push('query')
   }
 
   if (varyHeaders.length) {
@@ -81,7 +79,7 @@ function buildCacheHeaders({
  */
 export function setCacheHeaders(
   event: H3Event,
-  { varyQuery = [], varyHeaders = [] }: CacheHeaderOptions = {}
+  { varyQuery = false, varyHeaders = [] }: CacheHeaderOptions = {}
 ) {
   const { headers, version } = buildCacheHeaders({
     varyQuery,

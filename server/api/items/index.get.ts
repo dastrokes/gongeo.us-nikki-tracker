@@ -50,15 +50,7 @@ const BASE_ITEM_PREFIX_RANGES = [
 export default defineCachedEventHandler(
   async (event) => {
     setCacheHeaders(event, {
-      varyQuery: [
-        'page',
-        'quality',
-        'type',
-        'style',
-        'label',
-        'version',
-        'source',
-      ],
+      varyQuery: true,
       varyHeaders: [GAME_VERSION_HEADER],
     })
     const query = getQuery(event)

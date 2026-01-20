@@ -285,7 +285,7 @@
                 </div>
 
                 <div
-                  v-if="styleScores.length"
+                  v-if="showStyleScores"
                   class="flex flex-col gap-1 shrink-0 w-auto sm:min-w-[160px]"
                 >
                   <div
@@ -309,6 +309,10 @@
                     </div>
                   </div>
                 </div>
+                <div
+                  v-else-if="showStyleSpacer"
+                  class="hidden sm:block shrink-0 w-auto sm:min-w-[160px]"
+                ></div>
               </div>
             </div>
           </div>
@@ -645,6 +649,13 @@
       : getItemType(item.value.id)
   })
 
+  const isMakeupItem = computed(() => makeupTypes.includes(itemType.value))
+
+  const hasStyleProps = computed(() => {
+    if (!item.value?.props) return false
+    return item.value.props.some((value) => Number(value) !== 0)
+  })
+
   // Get item name from i18n (names are stored in i18n files, not database)
   const itemName = computed(() => {
     if (!item.value) return ''
@@ -686,6 +697,7 @@
 
   const itemStyleLabel = computed(() => {
     if (!item.value) return null
+    if (!hasStyleProps.value) return null
     const styleKey = resolveStyleKeyFromProps(item.value.props)
     const style = styleKey ? STYLE_BY_KEY.get(styleKey) : null
     return style ? t(style.i18nKey) : null
@@ -693,11 +705,13 @@
 
   const itemStyleKey = computed(() => {
     if (!item.value) return null
+    if (!hasStyleProps.value) return null
     return resolveStyleKeyFromProps(item.value.props)
   })
 
   const styleScores = computed(() => {
     if (!item.value?.props) return []
+    if (!hasStyleProps.value) return []
     return STYLE_DEFINITIONS.map((style, index) => {
       const rawValue = item.value?.props?.[index]
       const value = Number(rawValue)
@@ -709,6 +723,14 @@
       }
     })
   })
+
+  const showStyleScores = computed(
+    () => !isMakeupItem.value && styleScores.value.length > 0
+  )
+
+  const showStyleSpacer = computed(
+    () => isMakeupItem.value && !showStyleScores.value
+  )
 
   const itemLabelTags = computed(() => {
     if (!item.value) return []

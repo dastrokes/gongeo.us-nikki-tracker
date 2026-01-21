@@ -1,6 +1,6 @@
 export const getImageProvider = () => {
   return (
-    process.env.NUXT_IMAGE_PROVIDER ||
+    process.env.NUXT_PUBLIC_IMAGE_PROVIDER ||
     (process.env.NODE_ENV === 'production' ? 'netlify' : 'ipx')
   )
 }
@@ -9,7 +9,7 @@ export const imageProvider = () => {
   const isDev = import.meta.dev
   const runtimeConfig = useRuntimeConfig()
 
-  type ImageProvider = 'ipx' | 'netlify' | 'imagekit'
+  type ImageProvider = 'ipx' | 'netlify' | 'imagekit' | 'cloudinary'
   type ImageSrcType =
     | 'banner'
     | 'bannerThumb'
@@ -19,6 +19,7 @@ export const imageProvider = () => {
     | 'static'
 
   const imagekitBaseUrl = runtimeConfig.public.imagekitBaseUrl as string
+  const cloudinaryBaseUrl = runtimeConfig.public.cloudinaryBaseUrl as string
   const defaultProvider = runtimeConfig.public.imageProvider as ImageProvider
 
   const getImageUrl = (
@@ -57,6 +58,25 @@ export const imageProvider = () => {
       return transformation
         ? `${imagekitBaseUrl}/${transformation}${cleanPath}`
         : `${imagekitBaseUrl}${cleanPath}`
+    }
+
+    // Use Cloudinary
+    if (provider === 'cloudinary') {
+      if (!cloudinaryBaseUrl) {
+        return cleanPath
+      }
+
+      const params: string[] = []
+      if (options?.width) params.push(`w_${options.width}`)
+      if (options?.height) params.push(`h_${options.height}`)
+      if (options?.quality) params.push(`q_${options.quality}`)
+      if (options?.format) params.push(`f_${options.format}`)
+
+      const transformation = params.length > 0 ? params.join(',') : ''
+
+      return transformation
+        ? `${cloudinaryBaseUrl}/${transformation}${cleanPath}`
+        : `${cloudinaryBaseUrl}${cleanPath}`
     }
 
     // Use Netlify Image CDN
@@ -117,7 +137,11 @@ export const imageProvider = () => {
     const path = getImagePath(type, id, options?.variant)
     const provider = options?.provider || defaultProvider
 
-    if (provider === 'ipx' || provider === 'imagekit') {
+    if (
+      provider === 'ipx' ||
+      provider === 'imagekit' ||
+      provider === 'cloudinary'
+    ) {
       return path
     }
 

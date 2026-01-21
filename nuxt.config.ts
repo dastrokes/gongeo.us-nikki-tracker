@@ -66,6 +66,9 @@ export default defineNuxtConfig({
       imagekitBaseUrl:
         process.env.NUXT_PUBLIC_IMAGEKIT_BASE_URL ||
         'https://ik.imagekit.io/gongeous',
+      cloudinaryBaseUrl:
+        process.env.NUXT_PUBLIC_CLOUDINARY_BASE_URL ||
+        'https://res.cloudinary.com/gongeous/image/upload',
       bunnyBaseUrl:
         process.env.NUXT_PUBLIC_BUNNY_BASE_URL || 'https://cdn.gongeo.us',
       imageProvider: getImageProvider(),
@@ -79,6 +82,9 @@ export default defineNuxtConfig({
       baseURL:
         process.env.NUXT_PUBLIC_IMAGEKIT_BASE_URL ||
         'https://ik.imagekit.io/gongeous',
+    },
+    cloudinary: {
+      baseURL: process.env.NUXT_PUBLIC_CLOUDINARY_BASE_URL,
     },
     domains: [
       process.env.NUXT_PUBLIC_IMAGEKIT_BASE_URL ||

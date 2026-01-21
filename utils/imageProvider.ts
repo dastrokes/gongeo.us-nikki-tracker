@@ -1,7 +1,7 @@
 export const getImageProvider = () => {
   return (
     process.env.NUXT_PUBLIC_IMAGE_PROVIDER ||
-    (process.env.NODE_ENV === 'production' ? 'netlify' : 'ipx')
+    (process.env.NODE_ENV === 'production' ? 'cloudinary' : 'ipx')
   )
 }
 

@@ -43,6 +43,7 @@ const BASE_PATHS = [
   '/tracker',
   '/global',
   '/timeline',
+  '/quiz',
   '/ranking',
   '/faq',
   '/about',

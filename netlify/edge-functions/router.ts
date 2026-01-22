@@ -26,6 +26,7 @@ const definedRoutes = [
   '/import',
   '/login',
   '/timeline',
+  '/quiz',
   '/tracker',
   '/banners',
   '/banners/:id',

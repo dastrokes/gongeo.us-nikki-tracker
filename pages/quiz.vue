@@ -133,28 +133,35 @@
                   <div
                     v-for="(entry, index) in guessedOutfits"
                     :key="`summary-${entry.id}-${index}`"
-                    class="relative aspect-[2/3] w-full overflow-hidden rounded-md"
+                    class="flex w-full flex-col gap-1"
                   >
-                    <NuxtImg
-                      :src="getImageSrc('outfit', entry.id)"
-                      :alt="t(`outfit.${entry.id}.name`)"
-                      width="120"
-                      height="180"
-                      fit="cover"
-                      preset="tallSm"
-                      draggable="false"
-                      class="h-full w-full object-cover"
-                    />
-                    <span
-                      class="absolute right-4 top-4 inline-flex h-2 w-2 items-center justify-center rounded-full bg-white/90 shadow-sm dark:bg-gray-900/80"
-                      :class="
-                        entry.correct
-                          ? 'text-emerald-600 dark:text-emerald-300'
-                          : 'text-rose-600 dark:text-rose-300'
-                      "
+                    <div
+                      class="relative aspect-[2/3] w-full overflow-hidden rounded-md"
                     >
-                      <n-icon :component="entry.correct ? Check : Times" />
-                    </span>
+                      <NuxtImg
+                        :src="getImageSrc('outfit', entry.id)"
+                        :alt="t(`outfit.${entry.id}.name`)"
+                        width="120"
+                        height="180"
+                        fit="cover"
+                        preset="tallSm"
+                        draggable="false"
+                        class="h-full w-full object-cover"
+                      />
+                    </div>
+                    <div class="flex items-center justify-center gap-1">
+                      <n-icon
+                        size="12"
+                        class="shrink-0"
+                        :class="getResultIconClass(entry.correct)"
+                        :component="entry.correct ? Check : Times"
+                      />
+                      <p
+                        class="h-[14px] sm:h-[16px] leading-[14px] sm:leading-[16px] max-w-full overflow-hidden whitespace-nowrap text-ellipsis text-[10px] sm:text-[11px] text-gray-600 dark:text-gray-300"
+                      >
+                        {{ t(`outfit.${entry.id}.name`) }}
+                      </p>
+                    </div>
                   </div>
                 </div>
                 <div
@@ -201,6 +208,7 @@
                     preset="tallLg"
                     draggable="false"
                     class="absolute left-1/2 top-1/2 h-full w-auto max-w-full -translate-x-1/2 -translate-y-1/2 rounded-xl"
+                    :class="revealAnimationClass"
                   />
                 </template>
               </div>
@@ -299,13 +307,13 @@
                   v-for="option in options"
                   :key="option"
                   :disabled="roundResult !== 'unanswered'"
-                  class="text-left whitespace-normal rounded-lg"
-                  :type="getOptionType(option)"
+                  class="min-h-[3rem] whitespace-normal rounded-lg py-2 text-left sm:min-h-[3.5rem] disabled:opacity-100 disabled:text-gray-900 dark:disabled:text-gray-100"
+                  :class="getOptionClass(option)"
                   @click="submitGuess(option)"
                 >
-                  <span class="flex w-full items-center justify-between gap-2">
+                  <span class="flex w-full items-start justify-between gap-2">
                     <span
-                      class="min-w-0 font-semibold text-gray-900 dark:text-gray-100 line-clamp-2 leading-snug pb-0.5"
+                      class="min-w-0 font-semibold text-gray-900 dark:text-gray-100 line-clamp-3 leading-snug"
                     >
                       {{ t(`outfit.${option}.name`) }}
                     </span>
@@ -566,6 +574,14 @@
   })
   const { isDark } = useTheme()
 
+  const revealAnimationClass = computed(() => {
+    if (!isRevealed.value) return ''
+    if (roundResult.value === 'correct') return 'reveal-success'
+    if (roundResult.value === 'wrong') return 'reveal-fail'
+    if (roundResult.value === 'revealed') return 'reveal-skip'
+    return ''
+  })
+
   const silhouetteStyle = computed(() => {
     const glow = isDark.value
       ? 'drop-shadow(0 0 12px rgba(255,255,255,0.2))'
@@ -746,11 +762,15 @@
     buildRound()
   }
 
-  const getOptionType = (option: string) => {
-    if (roundResult.value === 'unanswered') return 'default'
-    if (option === currentOutfitId.value) return 'success'
-    if (option === selectedId.value) return 'error'
-    return 'default'
+  const getOptionClass = (option: string) => {
+    if (roundResult.value === 'unanswered') return ''
+    if (option === currentOutfitId.value) {
+      return 'border border-emerald-500/50 bg-emerald-50 text-emerald-900 dark:border-emerald-400/40 dark:bg-emerald-500/20 dark:text-emerald-100'
+    }
+    if (option === selectedId.value) {
+      return 'border border-rose-500/50 bg-rose-50 text-rose-900 dark:border-rose-400/40 dark:bg-rose-500/20 dark:text-rose-100'
+    }
+    return ''
   }
 
   const getOptionIcon = (option: string) => {
@@ -764,10 +784,15 @@
 
   const getOptionIconClass = (option: string) => {
     if (option === currentOutfitId.value) {
-      return 'shrink-0 text-base text-emerald-600 dark:text-emerald-300'
+      return `shrink-0 text-base ${getResultIconClass(true)}`
     }
-    return 'shrink-0 text-base text-rose-600 dark:text-rose-300'
+    return `shrink-0 text-base ${getResultIconClass(false)}`
   }
+
+  const getResultIconClass = (isCorrect: boolean) =>
+    isCorrect
+      ? 'text-emerald-600 dark:text-emerald-300'
+      : 'text-rose-600 dark:text-rose-300'
 
   onBeforeUnmount(() => {
     clearTimer()
@@ -795,3 +820,74 @@
     link: [{ rel: 'canonical', href: `${siteUrl}${canonicalPath.value}` }],
   }))
 </script>
+
+<style scoped>
+  .reveal-success {
+    animation: revealSuccess 500ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  }
+
+  .reveal-fail {
+    animation: revealFail 500ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  }
+
+  .reveal-skip {
+    animation: revealSkip 500ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  }
+
+  @keyframes revealSuccess {
+    0% {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0.94);
+      filter: saturate(0.8) contrast(0.95);
+    }
+    70% {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1.03);
+    }
+    100% {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+      filter: none;
+    }
+  }
+
+  @keyframes revealFail {
+    0% {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0.98);
+      filter: grayscale(0.15) saturate(0.9);
+    }
+    35% {
+      opacity: 1;
+      transform: translate(-50%, -50%) translateX(-6px);
+    }
+    55% {
+      transform: translate(-50%, -50%) translateX(6px);
+    }
+    75% {
+      transform: translate(-50%, -50%) translateX(-4px);
+    }
+    100% {
+      opacity: 1;
+      transform: translate(-50%, -50%) translateX(0);
+      filter: grayscale(0.1) saturate(0.95);
+    }
+  }
+
+  @keyframes revealSkip {
+    0% {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0.98);
+      filter: grayscale(0.25) contrast(0.95);
+    }
+    60% {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1.01);
+    }
+    100% {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+      filter: grayscale(0.15) contrast(0.98);
+    }
+  }
+</style>

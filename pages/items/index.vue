@@ -74,6 +74,7 @@
             size="small"
             class="w-48"
             clearable
+            filterable
             :show-checkmark="false"
             :placeholder="t('compendium.filter_version')"
           />
@@ -405,8 +406,8 @@
   const compareVersion = (a: string, b: string) => {
     const [aMajor = 0, aMinor = 0] = a.split('.').map((part) => Number(part))
     const [bMajor = 0, bMinor = 0] = b.split('.').map((part) => Number(part))
-    if (aMajor !== bMajor) return aMajor - bMajor
-    return aMinor - bMinor
+    if (aMajor !== bMajor) return bMajor - aMajor
+    return bMinor - aMinor
   }
 
   const obtainOptions = computed(() => {

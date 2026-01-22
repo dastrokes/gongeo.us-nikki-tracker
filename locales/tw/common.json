@@ -404,6 +404,31 @@
       "error": "載入失敗，請重試。"
     }
   },
+  "quiz": {
+    "title": "套裝剪影",
+    "meta_description": "在快速小遊戲中透過剪影猜出套裝。",
+    "instructions": "根據剪影猜出套裝。回答越快，得分越高。",
+    "game_complete": "遊戲結束",
+    "final_score": "最終得分 {score}",
+    "round": "回合",
+    "score": "得分",
+    "streak": "連勝",
+    "best_streak": "最高連勝",
+    "rounds": "回合數",
+    "right": "正確",
+    "wrong": "錯誤",
+    "start": "開始",
+    "next": "下一題",
+    "skip": "跳過",
+    "play_again": "再玩一次",
+    "reveal_direction": "揭示方向",
+    "blur": "模糊",
+    "reveal_options": {
+      "middle_out": "從中間向外",
+      "top_down": "從上到下",
+      "bottom_up": "從下到上"
+    }
+  },
   "banner": {
     "version": "版本",
     "luck": {

@@ -59,6 +59,19 @@
           </n-h2>
         </div>
         <div class="flex flex-col gap-2 items-center">
+          <n-button
+            tertiary
+            type="primary"
+            size="medium"
+            @click="navigateTo(localePath('/quiz'))"
+          >
+            <template #icon>
+              <n-icon>
+                <QuestionCircle />
+              </n-icon>
+            </template>
+            {{ $t('quiz.title') }}
+          </n-button>
           <n-button-group>
             <n-button
               tertiary
@@ -98,8 +111,8 @@
                 </n-icon>
               </template>
               {{ $t('common.items') }}
-            </n-button></n-button-group
-          >
+            </n-button>
+          </n-button-group>
         </div>
       </n-card>
     </div>
@@ -161,7 +174,14 @@
 <script setup lang="ts">
   import { BANNER_DATA } from '~/data/banners'
   import type { Banner } from '~/types/banner'
-  import { Book, Globe, CalendarAlt, Tshirt, ListAlt } from '@vicons/fa'
+  import {
+    Book,
+    Globe,
+    CalendarAlt,
+    Tshirt,
+    ListAlt,
+    QuestionCircle,
+  } from '@vicons/fa'
 
   const { t } = useI18n()
   const localePath = useLocalePath()

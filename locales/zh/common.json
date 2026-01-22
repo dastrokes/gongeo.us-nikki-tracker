@@ -404,6 +404,31 @@
       "error": "加载失败，请重试。"
     }
   },
+  "quiz": {
+    "title": "套装剪影",
+    "meta_description": "在快速小游戏中通过剪影猜出套装。",
+    "instructions": "根据剪影猜出套装。回答越快，得分越高。",
+    "game_complete": "游戏结束",
+    "final_score": "最终得分 {score}",
+    "round": "回合",
+    "score": "得分",
+    "streak": "连胜",
+    "best_streak": "最高连胜",
+    "rounds": "回合数",
+    "right": "正确",
+    "wrong": "错误",
+    "start": "开始",
+    "next": "下一题",
+    "skip": "跳过",
+    "play_again": "再玩一次",
+    "reveal_direction": "揭示方向",
+    "blur": "模糊",
+    "reveal_options": {
+      "middle_out": "从中间向外",
+      "top_down": "从上到下",
+      "bottom_up": "从下到上"
+    }
+  },
   "banner": {
     "version": "版本",
     "luck": {

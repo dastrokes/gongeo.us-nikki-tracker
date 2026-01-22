@@ -9,7 +9,7 @@ export const imageProvider = () => {
   const isDev = import.meta.dev
   const runtimeConfig = useRuntimeConfig()
 
-  type ImageProvider = 'ipx' | 'netlify' | 'imagekit' | 'cloudinary'
+  type ImageProvider = 'ipx' | 'netlify' | 'imagekit' | 'cloudinary' | 'gumlet'
   type ImageSrcType =
     | 'banner'
     | 'bannerThumb'
@@ -20,6 +20,7 @@ export const imageProvider = () => {
 
   const imagekitBaseUrl = runtimeConfig.public.imagekitBaseUrl as string
   const cloudinaryBaseUrl = runtimeConfig.public.cloudinaryBaseUrl as string
+  const gumletBaseUrl = runtimeConfig.public.gumletBaseUrl as string
   const defaultProvider = runtimeConfig.public.imageProvider as ImageProvider
 
   const getImageUrl = (
@@ -42,6 +43,23 @@ export const imageProvider = () => {
 
     if (provider === 'ipx') {
       return cleanPath
+    }
+
+    // Use Gumlet
+    if (provider === 'gumlet') {
+      if (!gumletBaseUrl) {
+        return cleanPath
+      }
+
+      const params: string[] = []
+      if (options?.width) params.push(`w=${options.width}`)
+      if (options?.height) params.push(`h=${options.height}`)
+      if (options?.quality) params.push(`q=${options.quality}`)
+      if (options?.format) params.push(`format=${options.format}`)
+
+      const queryString = params.length > 0 ? `?${params.join('&')}` : ''
+
+      return `${gumletBaseUrl}${cleanPath}${queryString}`
     }
 
     // Use ImageKit
@@ -140,7 +158,8 @@ export const imageProvider = () => {
     if (
       provider === 'ipx' ||
       provider === 'imagekit' ||
-      provider === 'cloudinary'
+      provider === 'cloudinary' ||
+      provider === 'gumlet'
     ) {
       return path
     }

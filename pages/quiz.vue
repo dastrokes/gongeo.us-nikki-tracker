@@ -24,55 +24,8 @@
               v-if="gameState !== 'done'"
               class="flex flex-col gap-2 sm:gap-3 lg:w-36"
             >
-              <div class="flex justify-start lg:justify-center">
-                <n-popover
-                  trigger="click"
-                  placement="bottom-start"
-                >
-                  <template #trigger>
-                    <n-button
-                      size="small"
-                      text
-                      circle
-                      class="text-gray-500"
-                    >
-                      <template #icon>
-                        <n-icon><Cog /></n-icon>
-                      </template>
-                    </n-button>
-                  </template>
-                  <div class="w-56 space-y-3 p-1">
-                    <div class="space-y-1">
-                      <p
-                        class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400"
-                      >
-                        {{ t('quiz.reveal_direction') }}
-                      </p>
-                      <n-select
-                        v-model:value="revealDirection"
-                        size="small"
-                        :options="revealDirectionOptions"
-                      />
-                    </div>
-                    <div class="space-y-1">
-                      <p
-                        class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400"
-                      >
-                        {{ t('quiz.blur') }}
-                      </p>
-                      <n-slider
-                        v-model:value="blurAmount"
-                        :min="0"
-                        :max="20"
-                        :step="1"
-                        :tooltip="false"
-                      />
-                    </div>
-                  </div>
-                </n-popover>
-              </div>
               <div
-                class="grid grid-cols-2 gap-2 text-[11px] sm:text-xs text-gray-600 dark:text-gray-300 min-h-[28px] lg:grid-cols-1 rounded-lg border border-gray-200/80 dark:border-gray-700/70 bg-gray-50/80 dark:bg-gray-900/40 px-2 py-2"
+                class="relative grid grid-cols-2 gap-2 text-[11px] sm:text-xs text-gray-600 dark:text-gray-300 min-h-[28px] lg:grid-cols-1 rounded-lg border border-gray-200/80 dark:border-gray-700/70 bg-gray-50/80 dark:bg-gray-900/40 px-2 py-2"
               >
                 <div class="flex items-center justify-between gap-2">
                   <span
@@ -104,6 +57,64 @@
                     >{{ streak }}</span
                   >
                 </div>
+                <n-popover
+                  trigger="click"
+                  placement="bottom"
+                  content-class="w-40"
+                >
+                  <template #trigger>
+                    <n-button
+                      size="small"
+                      text
+                      circle
+                      class="text-gray-500"
+                    >
+                      <template #icon>
+                        <n-icon><Cog /></n-icon>
+                      </template>
+                    </n-button>
+                  </template>
+                  <div class="w-40 space-y-3 p-1">
+                    <div class="space-y-1">
+                      <p
+                        class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400"
+                      >
+                        {{ t('quiz.answer_mode') }}
+                      </p>
+                      <n-select
+                        v-model:value="answerMode"
+                        size="small"
+                        :options="answerModeOptions"
+                      />
+                    </div>
+                    <div class="space-y-1">
+                      <p
+                        class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400"
+                      >
+                        {{ t('quiz.reveal_direction') }}
+                      </p>
+                      <n-select
+                        v-model:value="revealDirection"
+                        size="small"
+                        :options="revealDirectionOptions"
+                      />
+                    </div>
+                    <div class="space-y-1">
+                      <p
+                        class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400"
+                      >
+                        {{ t('quiz.blur') }}
+                      </p>
+                      <n-slider
+                        v-model:value="blurAmount"
+                        :min="0"
+                        :max="20"
+                        :step="1"
+                        :tooltip="false"
+                      />
+                    </div>
+                  </div>
+                </n-popover>
               </div>
             </div>
             <div class="rounded-xl flex items-center justify-center lg:flex-1">
@@ -131,6 +142,7 @@
                       height="180"
                       fit="cover"
                       preset="tallSm"
+                      draggable="false"
                       class="h-full w-full object-cover"
                     />
                     <span
@@ -174,6 +186,7 @@
                     height="450"
                     fit="cover"
                     preset="tallLg"
+                    draggable="false"
                     class="h-full w-auto max-w-full rounded-xl [transition:clip-path_200ms_linear] [will-change:clip-path]"
                     :style="isRevealed ? undefined : silhouetteStyle"
                   />
@@ -186,6 +199,7 @@
                     height="450"
                     fit="cover"
                     preset="tallLg"
+                    draggable="false"
                     class="absolute left-1/2 top-1/2 h-full w-auto max-w-full -translate-x-1/2 -translate-y-1/2 rounded-xl"
                   />
                 </template>
@@ -280,27 +294,47 @@
           </template>
           <template v-else>
             <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-1 gap-2">
-              <n-button
-                v-for="option in options"
-                :key="option"
-                :disabled="roundResult !== 'unanswered'"
-                class="text-left whitespace-normal rounded-lg"
-                :type="getOptionType(option)"
-                @click="submitGuess(option)"
-              >
-                <span class="flex w-full items-center justify-between gap-2">
-                  <span
-                    class="min-w-0 font-semibold text-gray-900 dark:text-gray-100 line-clamp-2 leading-snug pb-0.5"
-                  >
-                    {{ t(`outfit.${option}.name`) }}
+              <template v-if="answerMode === 'select'">
+                <n-button
+                  v-for="option in options"
+                  :key="option"
+                  :disabled="roundResult !== 'unanswered'"
+                  class="text-left whitespace-normal rounded-lg"
+                  :type="getOptionType(option)"
+                  @click="submitGuess(option)"
+                >
+                  <span class="flex w-full items-center justify-between gap-2">
+                    <span
+                      class="min-w-0 font-semibold text-gray-900 dark:text-gray-100 line-clamp-2 leading-snug pb-0.5"
+                    >
+                      {{ t(`outfit.${option}.name`) }}
+                    </span>
+                    <n-icon
+                      v-if="getOptionIcon(option)"
+                      :component="getOptionIcon(option)"
+                      :class="getOptionIconClass(option)"
+                    />
                   </span>
-                  <n-icon
-                    v-if="getOptionIcon(option)"
-                    :component="getOptionIcon(option)"
-                    :class="getOptionIconClass(option)"
+                </n-button>
+              </template>
+              <template v-else>
+                <div class="col-span-full space-y-2">
+                  <n-auto-complete
+                    v-model:value="searchQuery"
+                    :options="searchOptions"
+                    :disabled="roundResult !== 'unanswered'"
+                    :placeholder="t('common.search')"
+                    @select="submitSearchGuess"
+                    @keyup.enter="submitSearchGuess()"
                   />
-                </span>
-              </n-button>
+                  <p
+                    v-if="roundResult === 'wrong' || roundResult === 'revealed'"
+                    class="text-xs text-gray-500 dark:text-gray-400"
+                  >
+                    {{ t('quiz.correct_answer') }} + ': ' + currentOutfitName
+                  </p>
+                </div>
+              </template>
             </div>
             <div class="flex flex-wrap gap-2 min-h-[40px]">
               <template v-if="gameState === 'playing'">
@@ -327,11 +361,20 @@
 </template>
 
 <script setup lang="ts">
+  import type Fuse from 'fuse.js'
   import { Check, Cog, Times } from '@vicons/fa'
+  import { pinyin } from 'pinyin-pro'
 
   type RoundResult = 'unanswered' | 'correct' | 'wrong' | 'revealed'
   type GameState = 'idle' | 'playing' | 'done'
   type RevealDirection = 'middle-out' | 'top-down' | 'bottom-up'
+  type AnswerMode = 'select' | 'search'
+  type OutfitSearchItem = {
+    id: string
+    name: string
+    pinyin?: string
+    pinyinInitials?: string
+  }
 
   const { t, locale, getLocaleMessage } = useI18n()
   const localePath = useLocalePath()
@@ -350,6 +393,8 @@
   const roundIds = ref<string[]>([])
   const currentOutfitId = ref<string | null>(null)
   const options = ref<string[]>([])
+  const answerMode = ref<AnswerMode>('select')
+  const searchQuery = ref('')
   const selectedId = ref<string | null>(null)
   const score = ref(0)
   const streak = ref(0)
@@ -359,10 +404,17 @@
   const guessedOutfits = ref<{ id: string; correct: boolean }[]>([])
   const revealDirection = ref<RevealDirection>('middle-out')
   const blurAmount = ref(0)
+  const outfitSearchItems = ref<OutfitSearchItem[]>([])
+  const fuseInstance = ref<Fuse<OutfitSearchItem> | null>(null)
+  const isSearchIndexReady = ref(false)
   const revealDirectionOptions = computed(() => [
     { label: t('quiz.reveal_options.middle_out'), value: 'middle-out' },
     { label: t('quiz.reveal_options.top_down'), value: 'top-down' },
     { label: t('quiz.reveal_options.bottom_up'), value: 'bottom-up' },
+  ])
+  const answerModeOptions = computed(() => [
+    { label: t('common.select'), value: 'select' },
+    { label: t('common.search'), value: 'search' },
   ])
 
   const messages = computed(
@@ -381,6 +433,114 @@
   const currentOutfitName = computed(() =>
     currentOutfitId.value ? t(`outfit.${currentOutfitId.value}.name`) : ''
   )
+  const isChineseLocale = computed(
+    () => locale.value === 'zh' || locale.value === 'tw'
+  )
+  const CHINESE_CHAR_REGEX = /[\u4e00-\u9fff]/
+  const toUniqueValues = (values: string[]): string[] =>
+    Array.from(new Set(values.map((value) => value.trim()).filter(Boolean)))
+  const getChineseSearchMeta = (
+    name: string
+  ): Pick<OutfitSearchItem, 'pinyin' | 'pinyinInitials'> => {
+    if (!isChineseLocale.value) {
+      return {}
+    }
+
+    const normalizedName = name.trim()
+    if (!normalizedName || !CHINESE_CHAR_REGEX.test(normalizedName)) {
+      return {}
+    }
+
+    const syllables = pinyin(normalizedName, {
+      toneType: 'none',
+      type: 'array',
+      nonZh: 'removed',
+    }) as string[]
+
+    if (syllables.length === 0) {
+      return {}
+    }
+
+    const pinyinCandidates = toUniqueValues([
+      syllables.join(' '),
+      syllables.join(''),
+    ])
+
+    const initialsArray = pinyin(normalizedName, {
+      pattern: 'first',
+      type: 'array',
+      toneType: 'none',
+      nonZh: 'removed',
+    }) as string[]
+
+    const initialsCandidates = toUniqueValues([
+      initialsArray.join(' '),
+      initialsArray.join(''),
+    ])
+
+    const meta: Pick<OutfitSearchItem, 'pinyin' | 'pinyinInitials'> = {}
+
+    if (pinyinCandidates.length > 0) {
+      meta.pinyin = pinyinCandidates.join(' ')
+    }
+
+    if (initialsCandidates.length > 0) {
+      meta.pinyinInitials = initialsCandidates.join(' ')
+    }
+
+    return meta
+  }
+  const outfitNameMap = computed(() => {
+    const map = new Map<string, string>()
+    allOutfitIds.value.forEach((id) => {
+      map.set(t(`outfit.${id}.name`).toLowerCase(), id)
+    })
+    return map
+  })
+  const searchOptions = computed(() => {
+    const query = searchQuery.value.trim()
+    const items = outfitSearchItems.value
+    if (!query) {
+      return items
+        .slice(0, 12)
+        .map((item) => ({ label: item.name, value: item.name }))
+    }
+    if (!fuseInstance.value) {
+      return []
+    }
+    return fuseInstance.value.search(query, { limit: 12 }).map((result) => ({
+      label: result.item.name,
+      value: result.item.name,
+    }))
+  })
+
+  const buildSearchIndex = async () => {
+    if (import.meta.server) return
+    isSearchIndexReady.value = false
+
+    const items = allOutfitIds.value.map((id) => {
+      const name = t(`outfit.${id}.name`)
+      return {
+        id,
+        name,
+        ...getChineseSearchMeta(name),
+      }
+    })
+
+    const { default: Fuse } = await import('fuse.js')
+    const keys = isChineseLocale.value
+      ? ['name', 'pinyin', 'pinyinInitials']
+      : ['name']
+    fuseInstance.value = new Fuse(items, {
+      threshold: 0.3,
+      keys,
+      includeScore: true,
+      minMatchCharLength: 1,
+      ignoreDiacritics: true,
+    })
+    outfitSearchItems.value = items
+    isSearchIndexReady.value = true
+  }
 
   const roundDisplay = computed(() => {
     if (gameState.value === 'idle') {
@@ -486,6 +646,7 @@
     roundResult.value = 'unanswered'
     selectedId.value = null
     isRevealed.value = false
+    searchQuery.value = ''
     const pool = allOutfitIds.value.filter((entry) => entry !== id)
     const optionList = sampleOptions(pool, 3)
     optionList.push(id)
@@ -535,6 +696,33 @@
       correct: option === currentOutfitId.value,
     })
   }
+  const resolveSearchMatch = (query: string) => {
+    const normalized = query.trim().toLowerCase()
+    if (!normalized) return null
+    const directMatch = outfitNameMap.value.get(normalized)
+    if (directMatch) return directMatch
+    if (!fuseInstance.value) return null
+    const result = fuseInstance.value.search(query, { limit: 1 })[0]
+    return result ? result.item.id : null
+  }
+
+  const submitSearchGuess = (value?: string) => {
+    if (roundResult.value !== 'unanswered' || !currentOutfitId.value) return
+    const query = value ?? searchQuery.value
+    const match = resolveSearchMatch(query)
+    if (!match) return
+    submitGuess(match)
+  }
+
+  watch([locale, allOutfitIds], () => {
+    buildSearchIndex()
+  })
+
+  onMounted(() => {
+    if (!isSearchIndexReady.value) {
+      buildSearchIndex()
+    }
+  })
 
   const revealRound = () => {
     if (roundResult.value !== 'unanswered') return

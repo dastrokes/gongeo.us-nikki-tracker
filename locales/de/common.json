@@ -404,6 +404,31 @@
       "error": "Daten konnten nicht geladen werden. Bitte versuche es erneut."
     }
   },
+  "quiz": {
+    "title": "Outfit Silhouette",
+    "meta_description": "Guess the outfit from its silhouette in a quick mini-game.",
+    "instructions": "Guess the outfit from its silhouette. The faster you answer, the higher your score.",
+    "game_complete": "Game Complete",
+    "final_score": "Final score {score}",
+    "round": "Round",
+    "score": "Score",
+    "streak": "Streak",
+    "best_streak": "Best streak",
+    "rounds": "Rounds",
+    "right": "Right",
+    "wrong": "Wrong",
+    "start": "Start",
+    "next": "Next",
+    "skip": "Skip",
+    "play_again": "Play again",
+    "reveal_direction": "Reveal direction",
+    "blur": "Blur",
+    "reveal_options": {
+      "middle_out": "Middle out",
+      "top_down": "Top to bottom",
+      "bottom_up": "Bottom to top"
+    }
+  },
   "banner": {
     "version": "Version",
     "luck": {

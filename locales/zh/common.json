@@ -423,6 +423,12 @@
     "play_again": "再玩一次",
     "reveal_direction": "揭示方向",
     "blur": "模糊",
+    "answer_mode": "答题模式",
+    "answer_options": {
+      "select": "选择",
+      "search": "搜索"
+    },
+    "correct_answer": "正确答案",
     "reveal_options": {
       "middle_out": "从中间向外",
       "top_down": "从上到下",

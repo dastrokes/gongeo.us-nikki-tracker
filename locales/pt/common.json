@@ -423,6 +423,12 @@
     "play_again": "Play again",
     "reveal_direction": "Reveal direction",
     "blur": "Blur",
+    "answer_mode": "Answer mode",
+    "answer_options": {
+      "select": "Select",
+      "search": "Search"
+    },
+    "correct_answer": "Correct answer",
     "reveal_options": {
       "middle_out": "Middle out",
       "top_down": "Top to bottom",

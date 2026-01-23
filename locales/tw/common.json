@@ -456,7 +456,7 @@
       }
     },
     "deep_echoes": "深海迴響",
-    "not_found": "未找到卡池"
+    "not_found": "卡池未找到"
   },
   "global": {
     "stats": {
@@ -616,14 +616,14 @@
     }
   },
   "compendium": {
-    "error_title": "載入失敗",
-    "error_description": "無法載入資料。請檢查您的連線並重試。",
-    "no_results_title": "未找到",
-    "no_results_description": "沒有符合您搜尋條件的結果。",
-    "not_found_title": "未找到",
+    "error_title": "載入物品失敗",
+    "error_description": "無法載入物品資料。請檢查您的連線並重試。",
+    "no_results_title": "未找到套裝",
+    "no_results_description": "沒有符合您搜尋條件的套裝。",
+    "not_found_title": "未找到物品",
     "not_found_item": "未找到部件",
     "not_found_outfit": "未找到套裝",
-    "back_to_list": "返回列表",
+    "back_to_list": "返回物品列表",
     "filter_type": "按類型篩選",
     "filter_version": "依版本篩選",
     "filter_style": "依風格篩選",

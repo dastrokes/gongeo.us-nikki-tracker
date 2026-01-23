@@ -2,13 +2,15 @@
   <div class="flex items-center justify-center">
     <n-popover
       :width="200"
-      trigger="click"
+      trigger="manual"
+      :show="showDicePopover"
     >
       <template #trigger>
         <n-button
           text
           circle
           class="text-gray-500"
+          @click="toggleDicePopover"
         >
           <n-icon
             class="origin-center"
@@ -63,12 +65,27 @@
 
   const props = defineProps<{
     percentile: number
+    popoverKey?: string
+    activePopoverKey?: string | null
+  }>()
+  const emit = defineEmits<{
+    (e: 'update:activePopoverKey', value: string | null): void
   }>()
 
   const { t } = useI18n()
   const isAnimating = ref(false)
   const currentFace = ref(0)
   const rotation = ref(45)
+  const localShow = ref(false)
+  const showDicePopover = computed(() => {
+    if (
+      props.popoverKey !== undefined &&
+      props.activePopoverKey !== undefined
+    ) {
+      return props.activePopoverKey === props.popoverKey
+    }
+    return localShow.value
+  })
   const diceComponents = [
     DiceOne,
     DiceTwo,
@@ -90,6 +107,20 @@
   const finalDice = computed(
     () => diceComponents[getLuckDice(props.percentile) - 1]
   )
+
+  const toggleDicePopover = () => {
+    if (
+      props.popoverKey !== undefined &&
+      props.activePopoverKey !== undefined
+    ) {
+      emit(
+        'update:activePopoverKey',
+        showDicePopover.value ? null : props.popoverKey
+      )
+      return
+    }
+    localShow.value = !localShow.value
+  }
 
   let faceInterval: NodeJS.Timeout | null = null
 

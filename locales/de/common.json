@@ -405,34 +405,34 @@
     }
   },
   "quiz": {
-    "title": "Outfit Silhouette",
-    "meta_description": "Guess the outfit from its silhouette in a quick mini-game.",
-    "instructions": "Guess the outfit from its silhouette. The faster you answer, the higher your score.",
-    "game_complete": "Game Complete",
-    "final_score": "Final score {score}",
-    "round": "Round",
-    "score": "Score",
-    "streak": "Streak",
-    "best_streak": "Best streak",
-    "rounds": "Rounds",
-    "right": "Right",
-    "wrong": "Wrong",
+    "title": "Outfit-Silhouette",
+    "meta_description": "Errate das Outfit anhand seiner Silhouette in diesem schnellen Minispiel.",
+    "instructions": "Errate das Outfit anhand seiner Silhouette. Je schneller du antwortest, desto höher ist deine Punktzahl.",
+    "game_complete": "Spiel beendet",
+    "final_score": "Letzter Punktestand {score}",
+    "round": "Runde",
+    "score": "Punktestand",
+    "streak": "Serie",
+    "best_streak": "Beste Serie",
+    "rounds": "Runden",
+    "right": "Richtig",
+    "wrong": "Falsch",
     "start": "Start",
-    "next": "Next",
-    "skip": "Skip",
-    "play_again": "Play again",
+    "next": "Weiter",
+    "skip": "Überspringen",
+    "play_again": "Noch einmal spielen",
     "reveal_direction": "Reveal direction",
-    "blur": "Blur",
-    "answer_mode": "Answer mode",
+    "blur": "Unschärfe",
+    "answer_mode": "Antwort-Modus",
     "answer_options": {
-      "select": "Select",
-      "search": "Search"
+      "select": "Auswählen",
+      "search": "Suchen"
     },
-    "correct_answer": "Correct answer",
+    "correct_answer": "Richtige Antwort",
     "reveal_options": {
       "middle_out": "Middle out",
-      "top_down": "Top to bottom",
-      "bottom_up": "Bottom to top"
+      "top_down": "Von oben nach unten",
+      "bottom_up": "Von unten nach oben"
     }
   },
   "banner": {

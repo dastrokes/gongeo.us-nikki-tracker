@@ -52,6 +52,10 @@ export default defineNuxtConfig({
     urls: buildSitemap(),
   },
 
+  robots: {
+    blockNonSeoBots: true,
+  },
+
   runtimeConfig: {
     supabaseServiceKey: process.env.SUPABASE_SERVICE_ROLE_KEY,
     supabaseDataSecretKey: process.env.SUPABASE_DATA_SECRET_KEY,

@@ -607,7 +607,8 @@
                   <!-- Stats Button -->
                   <n-popover
                     v-if="banner.stats.totalPulls > 0"
-                    trigger="click"
+                    trigger="manual"
+                    :show="openStatsBannerId === banner.bannerId"
                   >
                     <template #trigger>
                       <n-button
@@ -616,6 +617,7 @@
                         text
                         circle
                         class="text-gray-500"
+                        @click="toggleStatsPopover(banner.bannerId)"
                       >
                         <template #icon>
                           <n-icon>
@@ -953,6 +955,7 @@
   const exporting = ref(false)
   const showCollectionEditor = ref(false)
   const selectedBannerId = ref<number | null>(null)
+  const openStatsBannerId = ref<number | null>(null)
   const dataSource = useDataSource()
 
   // Check if there's any data to display
@@ -1092,6 +1095,11 @@
   onMounted(async () => {
     await loadAndProcessData()
   })
+
+  const toggleStatsPopover = (bannerId: number) => {
+    openStatsBannerId.value =
+      openStatsBannerId.value === bannerId ? null : bannerId
+  }
 
   // Watch for data source changes and reload data
   watch(dataSource, async () => {

@@ -119,16 +119,16 @@
             </div>
             <div class="rounded-xl flex items-center justify-center lg:flex-1">
               <div
-                class="relative aspect-[2/3] max-w-full flex items-center justify-center overflow-hidden rounded-xl"
+                class="relative max-w-full flex items-center justify-center overflow-hidden rounded-xl"
                 :class="
                   gameState === 'done'
-                    ? 'h-[clamp(200px,38vh,420px)] sm:h-[clamp(240px,48vh,520px)] w-full'
-                    : 'h-[clamp(200px,40vh,360px)] mx-auto'
+                    ? 'w-full'
+                    : 'aspect-[2/3] h-[clamp(200px,40vh,360px)] mx-auto'
                 "
               >
                 <div
                   v-if="gameState === 'done'"
-                  class="absolute inset-0 grid h-full w-full grid-cols-5 grid-rows-2 gap-2 overflow-hidden rounded-xl border border-emerald-200/70 dark:border-emerald-700/60 bg-emerald-50/70 dark:bg-emerald-950/30 p-3"
+                  class="grid w-full grid-cols-5 grid-rows-2 gap-2 overflow-hidden rounded-xl border border-emerald-200/70 dark:border-emerald-700/60 bg-emerald-50/70 dark:bg-emerald-950/30 p-3"
                 >
                   <div
                     v-for="(entry, index) in guessedOutfits"
@@ -136,7 +136,7 @@
                     class="flex w-full flex-col gap-1"
                   >
                     <div
-                      class="relative aspect-[2/3] w-full overflow-hidden rounded-md"
+                      class="relative aspect-[2/3] w-full shrink-0 overflow-hidden rounded-md"
                     >
                       <NuxtImg
                         :src="getImageSrc('outfit', entry.id)"
@@ -149,15 +149,17 @@
                         class="h-full w-full object-cover"
                       />
                     </div>
-                    <div class="flex items-center justify-center gap-1">
+                    <div
+                      class="flex flex-col items-center justify-center gap-0.5 sm:flex-row sm:gap-1"
+                    >
                       <n-icon
-                        size="12"
+                        size="16"
                         class="shrink-0"
                         :class="getResultIconClass(entry.correct)"
                         :component="entry.correct ? Check : Times"
                       />
                       <p
-                        class="h-[14px] sm:h-[16px] leading-[14px] sm:leading-[16px] max-w-full overflow-hidden whitespace-nowrap text-ellipsis text-[10px] sm:text-[11px] text-gray-600 dark:text-gray-300"
+                        class="h-[14px] sm:h-[16px] leading-[14px] sm:leading-[16px] max-w-full overflow-hidden whitespace-nowrap text-ellipsis text-center text-[10px] sm:text-[11px] text-gray-600 dark:text-gray-300"
                       >
                         {{ t(`outfit.${entry.id}.name`) }}
                       </p>

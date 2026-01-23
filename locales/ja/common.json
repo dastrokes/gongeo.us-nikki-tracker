@@ -82,7 +82,7 @@
     "your_data": "Your Data",
     "current_banners": "Current Banners",
     "rerun": "Rerun",
-    "copyright": "© 2026 gongeo.us • © Infold Games All Rights Reserved",
+    "copyright": "© 2025 gongeo.us • © Infold Games All Rights Reserved",
     "disclaimer": {
       "content": "This is an unofficial fan-made website, not affiliated with or endorsed by Infold Games.",
       "rights": "All Infinity Nikki game assets, content, and trademarks belong to Infold Games and their respective owners."
@@ -402,6 +402,37 @@
       "title": "No resonance history available.",
       "subtitle": "Please import your resonance data first.",
       "error": "Failed to load data. Please try again."
+    }
+  },
+  "quiz": {
+    "title": "Outfit Silhouette",
+    "meta_description": "Guess the outfit from its silhouette in a quick mini-game.",
+    "instructions": "Guess the outfit from its silhouette. The faster you answer, the higher your score.",
+    "game_complete": "Game Complete",
+    "final_score": "Final score {score}",
+    "round": "Round",
+    "score": "Score",
+    "streak": "Streak",
+    "best_streak": "Best streak",
+    "rounds": "Rounds",
+    "right": "Right",
+    "wrong": "Wrong",
+    "start": "Start",
+    "next": "Next",
+    "skip": "Skip",
+    "play_again": "Play again",
+    "reveal_direction": "Reveal direction",
+    "blur": "Blur",
+    "answer_mode": "Answer mode",
+    "answer_options": {
+      "select": "Select",
+      "search": "Search"
+    },
+    "correct_answer": "Correct answer",
+    "reveal_options": {
+      "middle_out": "Middle out",
+      "top_down": "Top to bottom",
+      "bottom_up": "Bottom to top"
     }
   },
   "banner": {

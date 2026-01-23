@@ -144,7 +144,8 @@
                 />
                 <n-tooltip
                   :width="200"
-                  trigger="click"
+                  trigger="manual"
+                  :show="isPopoverOpen(popoverKeys.totalPulls)"
                 >
                   <template #trigger>
                     <n-button
@@ -153,6 +154,7 @@
                       text
                       circle
                       class="text-gray-500"
+                      @click="togglePopover(popoverKeys.totalPulls)"
                     >
                       <n-icon
                         size="20"
@@ -216,7 +218,9 @@
                 />
                 <DiceAnimation
                   v-if="globalStats.avg5StarPulls > 0"
+                  v-model:active-popover-key="openPopoverKey"
                   :percentile="getAvg5StarPercentile(globalStats.avg5StarPulls)"
+                  :popover-key="popoverKeys.dice('avg5')"
                 />
               </div>
             </n-card>
@@ -239,9 +243,11 @@
                 />
                 <DiceAnimation
                   v-if="globalStats.avg4StarPulls > 0"
+                  v-model:active-popover-key="openPopoverKey"
                   :percentile="
                     getAvg4StarType2Percentile(globalStats.avg4StarPulls)
                   "
+                  :popover-key="popoverKeys.dice('avg4')"
                 />
               </div>
             </n-card>
@@ -264,9 +270,11 @@
                 />
                 <DiceAnimation
                   v-if="globalStats.avg4StarOnlyPulls > 0"
+                  v-model:active-popover-key="openPopoverKey"
                   :percentile="
                     getAvg4StarType3Percentile(globalStats.avg4StarOnlyPulls)
                   "
+                  :popover-key="popoverKeys.dice('avg4only')"
                 />
               </div>
             </n-card>
@@ -286,13 +294,17 @@
               v-show="!exporting"
               class="flex justify-end space-x-2 items-center m-1 sm:-m-1"
             >
-              <n-popover trigger="click">
+              <n-popover
+                trigger="manual"
+                :show="isPopoverOpen(popoverKeys.dataSource)"
+              >
                 <template #trigger>
                   <n-button
                     size="small"
                     text
                     circle
                     class="text-gray-500"
+                    @click="togglePopover(popoverKeys.dataSource)"
                   >
                     <template #icon>
                       <n-icon><Database /></n-icon>
@@ -348,8 +360,7 @@
               <!-- Export Button -->
               <n-popover
                 trigger="manual"
-                :show="showPopover"
-                @clickoutside="showPopover = false"
+                :show="isPopoverOpen(popoverKeys.export)"
               >
                 <template #trigger>
                   <n-button
@@ -357,7 +368,7 @@
                     text
                     circle
                     class="text-gray-500"
-                    @click="showPopover = !showPopover"
+                    @click="togglePopover(popoverKeys.export)"
                   >
                     <template #icon>
                       <n-icon>
@@ -395,13 +406,17 @@
                 </div>
               </n-popover>
 
-              <n-popover trigger="click">
+              <n-popover
+                trigger="manual"
+                :show="isPopoverOpen(popoverKeys.settings)"
+              >
                 <template #trigger>
                   <n-button
                     size="small"
                     text
                     circle
                     class="text-gray-500"
+                    @click="togglePopover(popoverKeys.settings)"
                   >
                     <template #icon>
                       <n-icon>
@@ -595,6 +610,7 @@
                 <div class="flex flex-row space-x-2 p-1">
                   <DiceAnimation
                     v-if="banner.stats.totalPulls > 0"
+                    v-model:active-popover-key="openPopoverKey"
                     :percentile="
                       banner.bannerType === 3
                         ? getAvg4StarType3Percentile(
@@ -602,13 +618,18 @@
                           )
                         : getAvg5StarPercentile(banner.stats.avg5StarPulls)
                     "
+                    :popover-key="popoverKeys.dice(`banner-${banner.bannerId}`)"
                   />
 
                   <!-- Stats Button -->
                   <n-popover
                     v-if="banner.stats.totalPulls > 0"
                     trigger="manual"
-                    :show="openStatsBannerId === banner.bannerId"
+                    :show="
+                      isPopoverOpen(
+                        popoverKeys.stats(`banner-${banner.bannerId}`)
+                      )
+                    "
                   >
                     <template #trigger>
                       <n-button
@@ -617,7 +638,11 @@
                         text
                         circle
                         class="text-gray-500"
-                        @click="toggleStatsPopover(banner.bannerId)"
+                        @click="
+                          togglePopover(
+                            popoverKeys.stats(`banner-${banner.bannerId}`)
+                          )
+                        "
                       >
                         <template #icon>
                           <n-icon>
@@ -951,12 +976,25 @@
 
   const siteUrl = useRuntimeConfig().public.siteUrl
   const loading = ref(true)
-  const showPopover = ref(false)
+  const openPopoverKey = ref<string | null>(null)
   const exporting = ref(false)
   const showCollectionEditor = ref(false)
   const selectedBannerId = ref<number | null>(null)
-  const openStatsBannerId = ref<number | null>(null)
   const dataSource = useDataSource()
+
+  const popoverKeys = {
+    totalPulls: 'tracker-total-pulls',
+    dataSource: 'tracker-data-source',
+    export: 'tracker-export',
+    settings: 'tracker-settings',
+    stats: (id: string | number) => `tracker-stats-${id}`,
+    dice: (id: string | number) => `tracker-dice-${id}`,
+  }
+
+  const isPopoverOpen = (key: string) => openPopoverKey.value === key
+  const togglePopover = (key: string) => {
+    openPopoverKey.value = openPopoverKey.value === key ? null : key
+  }
 
   // Check if there's any data to display
   const hasAnyData = computed(() => {
@@ -1096,11 +1134,6 @@
     await loadAndProcessData()
   })
 
-  const toggleStatsPopover = (bannerId: number) => {
-    openStatsBannerId.value =
-      openStatsBannerId.value === bannerId ? null : bannerId
-  }
-
   // Watch for data source changes and reload data
   watch(dataSource, async () => {
     await loadAndProcessData()
@@ -1192,7 +1225,7 @@
     if (exporting.value) return
     message.info(t('tracker.export.in_progress'))
     exporting.value = true
-    showPopover.value = false
+    openPopoverKey.value = null
 
     try {
       const trackerElement = document.querySelector(
@@ -1232,7 +1265,7 @@
     if (exporting.value) return
     message.info(t('tracker.export.in_progress'))
     exporting.value = true
-    showPopover.value = false
+    openPopoverKey.value = null
 
     try {
       const { loadData } = useIndexedDB()

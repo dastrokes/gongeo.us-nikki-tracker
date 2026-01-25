@@ -843,7 +843,7 @@
           <template #extra>
             <n-button
               type="primary"
-              @click="router.push(localePath('/import'))"
+              @click="navigateTo(localePath('/import'))"
             >
               {{ t('navigation.import') }}
             </n-button>
@@ -966,7 +966,6 @@
   import OUTFIT_DATA from '~/data/outfits'
 
   const message = useMessage()
-  const router = useRouter()
   const { t } = useI18n()
   const pullStore = usePullStore()
   const { processedPulls, globalStats } = storeToRefs(pullStore)

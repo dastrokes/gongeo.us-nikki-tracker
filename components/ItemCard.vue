@@ -65,7 +65,6 @@
   }>()
 
   const { t } = useI18n()
-  const router = useRouter()
   const localePath = useLocalePath()
   const { getImageSrc } = imageProvider()
 
@@ -120,6 +119,6 @@
   const handleClick = () => {
     emit('click', props.itemId)
     const path = localePath(`/items/${props.itemId}`)
-    router.push(path)
+    navigateTo(path)
   }
 </script>

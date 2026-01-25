@@ -60,9 +60,8 @@
   import type { AutoCompleteOption } from 'naive-ui'
 
   const { t } = useI18n()
-  const router = useRouter()
   const { search, searchOptions, buildSearchIndex } = useSearch()
-  const { getImageSrc } = imageProvider()
+  const { getImageSrc, bannerProvider } = imageProvider()
 
   const searchQuery = ref('')
   const showSearch = ref(false)
@@ -111,6 +110,7 @@
         h(resolveComponent('NuxtImg'), {
           ...imageProps,
           ...imageConfig,
+          provider: result.type === 'banner' ? bannerProvider : undefined,
           width: result.type === 'banner' ? 80 : 32,
           height: result.type === 'banner' ? 40 : 48,
         })
@@ -224,7 +224,7 @@
   }
 
   const selectResult = (result: SearchResult) => {
-    router.push(result.route)
+    navigateTo(result.route)
     closeSearch()
   }
 

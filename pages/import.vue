@@ -279,8 +279,20 @@
               (importMethod === 'pearpal' || importMethod === 'game') &&
               cookieMethod === 'bookmark'
             "
-            :title="bookmarkMethodTitle"
           >
+            <template #title>
+              <ClientOnly>
+                <template v-if="isMobileOrTablet">
+                  {{ t('import.bookmark_method_mobile') }}
+                </template>
+                <template v-else>
+                  {{ t('import.bookmark_method') }}
+                </template>
+                <template #fallback>
+                  {{ t('import.bookmark_method') }}
+                </template>
+              </ClientOnly>
+            </template>
             <template #icon>
               <n-icon>
                 <Check />
@@ -889,12 +901,6 @@
   const bookmarkScript = computed(
     () =>
       `javascript:(function(){if(location.hostname!=="pearpal.infoldgames.com" && location.hostname!=="myl.nuanpaper.com"){alert(${JSON.stringify(t('import.bookmark_script.invalid_site'))});return}prompt('Cookie:',JSON.stringify({roleid:[...document.querySelectorAll('div')].find(el=>el.textContent.startsWith('UID:'))?.textContent.replace('UID:','').trim(),token:document.cookie.match(/momoToken=([^;]+)/)?.[1],id:document.cookie.match(/momoNid=([^;]+)/)?.[1]}));})();`
-  )
-
-  const bookmarkMethodTitle = computed(() =>
-    import.meta.client && isMobileOrTablet
-      ? t('import.bookmark_method_mobile')
-      : t('import.bookmark_method')
   )
 
   const copyToClipboard = async (code: string) => {

@@ -297,7 +297,7 @@
   const localePath = useLocalePath()
   const siteUrl = useRuntimeConfig().public.siteUrl
   const message = useMessage()
-  const { getImageSrc, bannerProvider } = imageProvider()
+  const { getImageSrc } = imageProvider()
   const { getRankings } = useBannerVote()
   const { getPersonalRankings } = usePersonalVote()
 
@@ -380,7 +380,6 @@
             alt: t(`banner.${row.banner_id}.name`),
             class: 'w-16 h-8 rounded object-cover flex-shrink-0',
             preset: 'bannerThumb',
-            provider: bannerProvider,
             width: 200,
             height: 100,
             loading: 'lazy',
@@ -495,7 +494,6 @@
             alt: t(`banner.${row.banner_id}.name`),
             class: 'w-20 h-10 rounded object-cover flex-shrink-0',
             preset: 'bannerThumb',
-            provider: bannerProvider,
             width: 200,
             height: 100,
             loading: 'lazy',

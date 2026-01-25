@@ -80,16 +80,14 @@ export default defineNuxtConfig({
   image: {
     dir: 'public',
     provider: getImageProvider(),
-    providers: {
-      netlify: {
-        baseURL: process.env.NUXT_PUBLIC_SITE_URL || 'https://gongeo.us',
-      },
-      imagekit: {
-        baseURL: process.env.NUXT_PUBLIC_IMAGEKIT_BASE_URL,
-      },
-      cloudinary: {
-        baseURL: process.env.NUXT_PUBLIC_CLOUDINARY_BASE_URL,
-      },
+    netlify: {
+      baseURL: process.env.NUXT_PUBLIC_SITE_URL || 'https://gongeo.us',
+    },
+    imagekit: {
+      baseURL: process.env.NUXT_PUBLIC_IMAGEKIT_BASE_URL,
+    },
+    cloudinary: {
+      baseURL: process.env.NUXT_PUBLIC_CLOUDINARY_BASE_URL,
     },
     format: ['webp'],
     quality: 80,

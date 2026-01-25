@@ -58,10 +58,9 @@
                   >
                 </div>
                 <n-popover
-                  trigger="manual"
+                  trigger="click"
                   placement="bottom"
                   content-class="w-40"
-                  :show="isPopoverOpen(popoverKeys.settings)"
                 >
                   <template #trigger>
                     <n-button
@@ -69,7 +68,6 @@
                       text
                       circle
                       class="text-gray-500"
-                      @click="togglePopover(popoverKeys.settings)"
                     >
                       <template #icon>
                         <n-icon><Cog /></n-icon>
@@ -408,7 +406,6 @@
   const answerMode = ref<AnswerMode>('select')
   const searchQuery = ref('')
   const selectedId = ref<string | null>(null)
-  const openPopoverKey = ref<string | null>(null)
   const score = ref(0)
   const streak = ref(0)
   const bestStreak = ref(0)
@@ -429,13 +426,6 @@
     { label: t('common.select'), value: 'select' },
     { label: t('common.search'), value: 'search' },
   ])
-  const popoverKeys = {
-    settings: 'quiz-settings',
-  }
-  const isPopoverOpen = (key: string) => openPopoverKey.value === key
-  const togglePopover = (key: string) => {
-    openPopoverKey.value = openPopoverKey.value === key ? null : key
-  }
 
   const messages = computed(
     () => getLocaleMessage(locale.value) as Record<string, string>

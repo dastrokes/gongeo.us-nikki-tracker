@@ -147,11 +147,8 @@ export const imageProvider = () => {
     return path
   }
 
-  const bannerProvider: ImageProvider = isDev ? 'ipx' : 'netlify'
-
   return {
     getImageUrl,
     getImageSrc,
-    bannerProvider,
   }
 }

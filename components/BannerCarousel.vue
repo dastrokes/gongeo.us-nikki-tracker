@@ -44,7 +44,6 @@
           :alt="t(`banner.${banner.bannerId}.name`)"
           class="w-full h-full object-cover"
           preset="bannerHero"
-          :provider="bannerProvider"
           width="800"
           height="400"
           fit="cover"
@@ -59,7 +58,6 @@
           :alt="t(`banner.${banner.bannerId}.name`)"
           class="w-full h-full object-cover"
           preset="bannerHero"
-          :provider="bannerProvider"
           width="800"
           height="400"
           fit="cover"
@@ -121,7 +119,7 @@
 
   const { t, locale } = useI18n()
   const localePath = useLocalePath()
-  const { getImageSrc, bannerProvider } = imageProvider()
+  const { getImageSrc } = imageProvider()
 
   const props = defineProps<{
     banners: Banner[]

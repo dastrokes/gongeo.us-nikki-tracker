@@ -350,7 +350,6 @@
                 :alt="t(`banner.${inBanner.bannerId}.name`)"
                 class="w-full h-full object-cover"
                 preset="bannerThumb"
-                :provider="bannerProvider"
                 width="200"
                 height="100"
                 fit="cover"
@@ -419,7 +418,7 @@
 
   // Composable
   const { fetchOutfitById } = useSupabaseOutfits()
-  const { getImageUrl, getImageSrc, bannerProvider } = imageProvider()
+  const { getImageUrl, getImageSrc } = imageProvider()
 
   const outfitKey = computed(() => `outfit-${outfitId.value}-${locale.value}`)
 

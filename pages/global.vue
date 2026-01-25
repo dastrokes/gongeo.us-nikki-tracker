@@ -602,7 +602,7 @@
   const { t, locale } = useI18n()
   const localePath = useLocalePath()
   const siteUrl = useRuntimeConfig().public.siteUrl
-  const { getImageSrc, bannerProvider } = imageProvider()
+  const { getImageSrc } = imageProvider()
   const nuxtImg = useImage()
 
   // Helper to check if current locale uses CJK characters
@@ -977,18 +977,12 @@
           const pullsArr = filteredChartData[bannerId || '']
           if (!pullsArr) return ''
           const total = pullsArr.reduce((a: number, b: number) => a + b, 0)
-          const imageUrl = nuxtImg(
-            getImageSrc('bannerThumb', bannerId ?? ''),
-            {
-              width: 200,
-              height: 100,
-              quality: 80,
-              format: 'webp',
-            },
-            {
-              provider: bannerProvider as 'ipx',
-            }
-          )
+          const imageUrl = nuxtImg(getImageSrc('bannerThumb', bannerId ?? ''), {
+            width: 200,
+            height: 100,
+            quality: 80,
+            format: 'webp',
+          })
           return `
                 <div style="display: flex; flex-direction: column; align-items: center;">
                   <div style="margin-bottom: 5px; text-align: center; font-weight: bold;">

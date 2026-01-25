@@ -562,7 +562,9 @@
 
   const revealPercent = computed(() => {
     const progress = (roundDuration - timeLeft.value) / roundDuration
-    return Math.min(100, Math.max(0, progress * 100))
+    // Ease-out quadratic for faster initial reveal
+    const eased = 1 - Math.pow(1 - progress, 1.5)
+    return Math.min(100, Math.max(0, eased * 100))
   })
   const revealClipPath = computed(() => {
     const percent = revealPercent.value

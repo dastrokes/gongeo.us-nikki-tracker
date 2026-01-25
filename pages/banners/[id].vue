@@ -118,7 +118,6 @@
                   :alt="t(`banner.${banner.bannerId}.name`)"
                   class="absolute inset-0 w-full h-full object-cover"
                   preset="bannerHero"
-                  :provider="bannerProvider"
                   width="800"
                   height="400"
                   fit="cover"
@@ -204,8 +203,6 @@
                         (banner.bannerType === 1 || banner.bannerType === 2) &&
                         bannerPulls.stats.avg5StarPulls > 0
                       "
-                      v-model:active-popover-key="openPopoverKey"
-                      :popover-key="popoverKeys.avg5"
                       :percentile="
                         getAvg5StarPercentile(bannerPulls.stats.avg5StarPulls)
                       "
@@ -217,8 +214,6 @@
                         banner.bannerType === 3 &&
                         bannerPulls.stats.avg4StarOnlyPulls > 0
                       "
-                      v-model:active-popover-key="openPopoverKey"
-                      :popover-key="popoverKeys.avg4Only"
                       :percentile="
                         getAvg4StarType3Percentile(
                           bannerPulls.stats.avg4StarOnlyPulls
@@ -597,7 +592,7 @@
 
   const route = useRoute()
   const { t } = useI18n()
-  const { getImageSrc, bannerProvider } = imageProvider()
+  const { getImageSrc } = imageProvider()
 
   const localePath = useLocalePath()
   const siteUrl = useRuntimeConfig().public.siteUrl
@@ -606,13 +601,8 @@
   const loading = ref(true)
   const message = useMessage()
   const { loadData } = useIndexedDB()
-  const openPopoverKey = ref<string | null>(null)
   const showCollectionEditor = ref(false)
   const showItems = ref(true)
-  const popoverKeys = {
-    avg5: 'banner-dice-avg5',
-    avg4Only: 'banner-dice-avg4-only',
-  }
 
   // Import percentile functions from utils (pure functions)
   const { getAvg5StarPercentile, getAvg4StarType3Percentile } =

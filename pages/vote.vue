@@ -42,7 +42,6 @@
                     'scale-105': selectedBanner === currentPair.banner1.id,
                   }"
                   preset="bannerHero"
-                  :provider="bannerProvider"
                   width="800"
                   height="400"
                   fit="cover"
@@ -124,7 +123,6 @@
                     'scale-105': selectedBanner === currentPair.banner2.id,
                   }"
                   preset="bannerHero"
-                  :provider="bannerProvider"
                   width="800"
                   height="400"
                   fit="cover"
@@ -391,7 +389,6 @@
   import { CheckCircle, CalendarDay, ListOl, User, Users } from '@vicons/fa'
 
   const { t } = useI18n()
-  const { bannerProvider } = imageProvider()
   const localePath = useLocalePath()
   const siteUrl = useRuntimeConfig().public.siteUrl
   const message = useMessage()

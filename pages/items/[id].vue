@@ -438,7 +438,6 @@
                 :alt="t(`banner.${inBanner.bannerId}.name`)"
                 class="w-full h-full object-cover"
                 preset="bannerThumb"
-                :provider="bannerProvider"
                 width="200"
                 height="100"
                 fit="cover"
@@ -499,7 +498,7 @@
   import type { ItemWithOutfits } from '~/types/supabase'
 
   const { t, te, locale } = useI18n()
-  const { getImageSrc, getImageUrl, bannerProvider } = imageProvider()
+  const { getImageSrc, getImageUrl } = imageProvider()
   const localePath = useLocalePath()
   const route = useRoute()
 

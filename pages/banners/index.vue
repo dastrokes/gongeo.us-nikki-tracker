@@ -20,7 +20,6 @@
                     :alt="t(`banner.${banner.bannerId}.name`)"
                     class="w-24 h-12 rounded-lg object-cover"
                     preset="bannerThumb"
-                    :provider="bannerProvider"
                     width="200"
                     height="100"
                     fit="cover"
@@ -231,7 +230,6 @@
                       :alt="t(`banner.${banner.bannerId}.name`)"
                       class="absolute inset-0 w-full h-full object-cover"
                       preset="bannerHero"
-                      :provider="bannerProvider"
                       width="800"
                       height="400"
                       fit="cover"
@@ -288,7 +286,7 @@
   import { BANNER_DATA } from '~/data/banners'
 
   const { t } = useI18n()
-  const { getImageSrc, bannerProvider } = imageProvider()
+  const { getImageSrc } = imageProvider()
 
   const localePath = useLocalePath()
   const siteUrl = useRuntimeConfig().public.siteUrl

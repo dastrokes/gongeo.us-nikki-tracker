@@ -69,10 +69,14 @@ function getRelatedItemIds(baseId: number, quality: number): number[] {
   const idStr = baseId.toString()
   if (idStr.length !== 10) return [baseId]
 
+  const prefix = idStr.substring(0, 4)
   const baseDigits = idStr.substring(4)
+  const usesAltGlowup = prefix === '1021' || prefix === '1026'
+  const basePrefix = usesAltGlowup ? '1021' : '1020'
+  const glowupPrefix = usesAltGlowup ? '1026' : '1022'
   const variations = [
-    parseInt(`1020${baseDigits}`), // base
-    parseInt(`1022${baseDigits}`), // glowup
+    parseInt(`${basePrefix}${baseDigits}`), // base
+    parseInt(`${glowupPrefix}${baseDigits}`), // glowup
     parseInt(`1023${baseDigits}`), // evo1
   ]
 
@@ -96,6 +100,7 @@ function getVariationType(id: number): string {
     '1023': 'evo1',
     '1024': 'evo2',
     '1025': 'evo3',
+    '1026': 'glowup',
   }
 
   return typeMap[variationType] || 'base'

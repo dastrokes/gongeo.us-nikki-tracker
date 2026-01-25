@@ -6,9 +6,6 @@
   NODE_VERSION = "22.20.0"
   NODE_OPTIONS = "--max-old-space-size=8192"
 
-[images]
-  remote_images = ["https://ik.imagekit.io/gongeous/.*"]
-
 [[headers]]
   for = "/.netlify/images*"
   [headers.values]

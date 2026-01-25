@@ -69,6 +69,11 @@ const translations = {
   zh: { outfit: zhOutfit, item: zhItem, banner: zhBanner },
 }
 
+const imagekitBaseUrl =
+  process.env.NUXT_PUBLIC_IMAGEKIT_BASE_URL ||
+  'https://ik.imagekit.io/gongeouscdn'
+const imageBaseUrl = `${imagekitBaseUrl.replace(/\/+$/, '')}/images`
+
 const extractIds = (keys: string[]) =>
   Array.from(
     new Set(
@@ -173,7 +178,7 @@ export function contentSitemap(localeCode?: LocaleCode) {
           loc: `${prefix}/${config.routePrefix}/${contentId}`,
           images: [
             {
-              loc: `https://ik.imagekit.io/gongeous/images/${config.imageFolder}/${contentId}.png`,
+              loc: `${imageBaseUrl}/${config.imageFolder}/${contentId}.png`,
               title: name,
               caption: name,
             },

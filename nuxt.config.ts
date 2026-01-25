@@ -73,9 +73,6 @@ export default defineNuxtConfig({
       cloudinaryBaseUrl:
         process.env.NUXT_PUBLIC_CLOUDINARY_BASE_URL ||
         'https://res.cloudinary.com/gongeous/image/upload',
-      gumletBaseUrl: process.env.NUXT_PUBLIC_GUMLET_BASE_URL,
-      bunnyBaseUrl:
-        process.env.NUXT_PUBLIC_BUNNY_BASE_URL || 'https://cdn.gongeo.us',
       imageProvider: getImageProvider(),
     },
   },
@@ -83,21 +80,17 @@ export default defineNuxtConfig({
   image: {
     dir: 'public',
     provider: getImageProvider(),
-    imagekit: {
-      baseURL:
-        process.env.NUXT_PUBLIC_IMAGEKIT_BASE_URL ||
-        'https://ik.imagekit.io/gongeous',
+    providers: {
+      netlify: {
+        baseURL: process.env.NUXT_PUBLIC_SITE_URL || 'https://gongeo.us',
+      },
+      imagekit: {
+        baseURL: process.env.NUXT_PUBLIC_IMAGEKIT_BASE_URL,
+      },
+      cloudinary: {
+        baseURL: process.env.NUXT_PUBLIC_CLOUDINARY_BASE_URL,
+      },
     },
-    cloudinary: {
-      baseURL: process.env.NUXT_PUBLIC_CLOUDINARY_BASE_URL,
-    },
-    gumlet: {
-      baseURL: process.env.NUXT_PUBLIC_GUMLET_BASE_URL,
-    },
-    domains: [
-      process.env.NUXT_PUBLIC_IMAGEKIT_BASE_URL ||
-        'https://ik.imagekit.io/gongeous',
-    ],
     format: ['webp'],
     quality: 80,
     presets: {

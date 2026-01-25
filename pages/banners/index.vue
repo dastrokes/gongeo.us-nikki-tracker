@@ -20,6 +20,7 @@
                     :alt="t(`banner.${banner.bannerId}.name`)"
                     class="w-24 h-12 rounded-lg object-cover"
                     preset="bannerThumb"
+                    :provider="bannerProvider"
                     width="200"
                     height="100"
                     fit="cover"
@@ -230,6 +231,7 @@
                       :alt="t(`banner.${banner.bannerId}.name`)"
                       class="absolute inset-0 w-full h-full object-cover"
                       preset="bannerHero"
+                      :provider="bannerProvider"
                       width="800"
                       height="400"
                       fit="cover"
@@ -246,7 +248,7 @@
                       class="!rounded-lg !m-2 !px-2 !py-1 text-xs cursor-pointer"
                       :z-index="10"
                       @click.stop.prevent="
-                        router.push(localePath(`/banners/${banner.bannerId}`))
+                        navigateTo(localePath(`/banners/${banner.bannerId}`))
                       "
                     >
                       <template #trigger>
@@ -286,12 +288,11 @@
   import { BANNER_DATA } from '~/data/banners'
 
   const { t } = useI18n()
-  const { getImageSrc } = imageProvider()
+  const { getImageSrc, bannerProvider } = imageProvider()
 
   const localePath = useLocalePath()
   const siteUrl = useRuntimeConfig().public.siteUrl
   const route = useRoute()
-  const router = useRouter()
 
   const pageTitle = computed(
     () =>

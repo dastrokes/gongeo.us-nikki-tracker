@@ -53,6 +53,30 @@ const singularToPlural = {
   item: 'items',
 } as const
 
+const blockedUserAgents = [
+  'nuclei',
+  'wikido',
+  'riddler',
+  'petalbot',
+  'zoominfobot',
+  'go-http-client',
+  'node/simplecrawler',
+  'cazoodlebot',
+  'dotbot/1.0',
+  'gigabot',
+  'barkrowler',
+  'blexbot',
+  'magpie-crawler',
+]
+
+function isBlockedUserAgent(userAgent: string | null): boolean {
+  if (!userAgent) return false
+  const normalizedUserAgent = userAgent.toLowerCase()
+  return blockedUserAgents.some((blocked) =>
+    normalizedUserAgent.includes(blocked)
+  )
+}
+
 export const config: Config = {
   path: ['/*'],
   excludedPath: [
@@ -130,6 +154,10 @@ function getCookieValue(
 }
 
 export default async (request: Request, context: Context) => {
+  if (isBlockedUserAgent(request.headers.get('user-agent'))) {
+    return new Response('Forbidden', { status: 403 })
+  }
+
   const url = new URL(request.url)
   const path = url.pathname
     .replace(/\/+/g, '/')

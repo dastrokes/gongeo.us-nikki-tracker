@@ -601,9 +601,8 @@
   // Initialize i18n
   const { t, locale } = useI18n()
   const localePath = useLocalePath()
-  const router = useRouter()
   const siteUrl = useRuntimeConfig().public.siteUrl
-  const { getImageSrc } = imageProvider()
+  const { getImageSrc, bannerProvider } = imageProvider()
   const nuxtImg = useImage()
 
   // Helper to check if current locale uses CJK characters
@@ -656,7 +655,6 @@
     fetchGlobalData,
     {
       default: () => null,
-      server: true,
       lazy: true,
     }
   )
@@ -898,7 +896,7 @@
 
   const goToSelectedBanner = () => {
     if (!bannerDetailPath.value) return
-    router.push(bannerDetailPath.value)
+    navigateTo(bannerDetailPath.value)
   }
 
   // Function to manually update pulls per banner chart when banner type selection changes
@@ -979,12 +977,18 @@
           const pullsArr = filteredChartData[bannerId || '']
           if (!pullsArr) return ''
           const total = pullsArr.reduce((a: number, b: number) => a + b, 0)
-          const imageUrl = nuxtImg(getImageSrc('bannerThumb', bannerId ?? ''), {
-            width: 200,
-            height: 100,
-            quality: 80,
-            format: 'webp',
-          })
+          const imageUrl = nuxtImg(
+            getImageSrc('bannerThumb', bannerId ?? ''),
+            {
+              width: 200,
+              height: 100,
+              quality: 80,
+              format: 'webp',
+            },
+            {
+              provider: bannerProvider as 'ipx',
+            }
+          )
           return `
                 <div style="display: flex; flex-direction: column; align-items: center;">
                   <div style="margin-bottom: 5px; text-align: center; font-weight: bold;">

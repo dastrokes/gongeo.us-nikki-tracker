@@ -1,7 +1,7 @@
 export const getImageProvider = () => {
   return (
     process.env.NUXT_PUBLIC_IMAGE_PROVIDER ||
-    (process.env.NODE_ENV === 'production' ? 'cloudinary' : 'ipx')
+    (process.env.NODE_ENV === 'production' ? 'imagekit' : 'ipx')
   )
 }
 
@@ -9,7 +9,7 @@ export const imageProvider = () => {
   const isDev = import.meta.dev
   const runtimeConfig = useRuntimeConfig()
 
-  type ImageProvider = 'ipx' | 'netlify' | 'imagekit' | 'cloudinary' | 'gumlet'
+  type ImageProvider = 'ipx' | 'netlify' | 'imagekit' | 'cloudinary'
   type ImageSrcType =
     | 'banner'
     | 'bannerThumb'
@@ -20,7 +20,6 @@ export const imageProvider = () => {
 
   const imagekitBaseUrl = runtimeConfig.public.imagekitBaseUrl as string
   const cloudinaryBaseUrl = runtimeConfig.public.cloudinaryBaseUrl as string
-  const gumletBaseUrl = runtimeConfig.public.gumletBaseUrl as string
   const defaultProvider = runtimeConfig.public.imageProvider as ImageProvider
 
   const getImageUrl = (
@@ -45,21 +44,19 @@ export const imageProvider = () => {
       return cleanPath
     }
 
-    // Use Gumlet
-    if (provider === 'gumlet') {
-      if (!gumletBaseUrl) {
-        return cleanPath
-      }
-
+    // Use Netlify Image CDN
+    if (provider === 'netlify') {
+      // Build query parameters for Netlify
       const params: string[] = []
       if (options?.width) params.push(`w=${options.width}`)
       if (options?.height) params.push(`h=${options.height}`)
+      if (options?.format) params.push(`fm=${options.format}`)
       if (options?.quality) params.push(`q=${options.quality}`)
-      if (options?.format) params.push(`format=${options.format}`)
+      params.push('fit=cover')
 
-      const queryString = params.length > 0 ? `?${params.join('&')}` : ''
+      const queryString = params.join('&')
 
-      return `${gumletBaseUrl}${cleanPath}${queryString}`
+      return `${runtimeConfig.public.siteUrl}/.netlify/images?${queryString}&url=${cleanPath}`
     }
 
     // Use ImageKit
@@ -95,23 +92,6 @@ export const imageProvider = () => {
       return transformation
         ? `${cloudinaryBaseUrl}/${transformation}${cleanPath}`
         : `${cloudinaryBaseUrl}${cleanPath}`
-    }
-
-    // Use Netlify Image CDN
-    if (provider === 'netlify') {
-      // Build query parameters for Netlify
-      const params: string[] = []
-      if (options?.width) params.push(`w=${options.width}`)
-      if (options?.height) params.push(`h=${options.height}`)
-      if (options?.format) params.push(`fm=${options.format}`)
-      if (options?.quality) params.push(`q=${options.quality}`)
-      params.push('fit=cover')
-
-      // Encode the full ImageKit URL as the source
-      const sourceUrl = encodeURIComponent(`${imagekitBaseUrl}${cleanPath}`)
-      const queryString = params.join('&')
-
-      return `${runtimeConfig.public.siteUrl}/.netlify/images?${queryString}&url=${sourceUrl}`
     }
 
     return cleanPath
@@ -157,22 +137,21 @@ export const imageProvider = () => {
 
     if (
       provider === 'ipx' ||
+      provider === 'netlify' ||
       provider === 'imagekit' ||
-      provider === 'cloudinary' ||
-      provider === 'gumlet'
+      provider === 'cloudinary'
     ) {
       return path
-    }
-
-    if (provider === 'netlify') {
-      return `${imagekitBaseUrl}${path}`
     }
 
     return path
   }
 
+  const bannerProvider: ImageProvider = isDev ? 'ipx' : 'netlify'
+
   return {
     getImageUrl,
     getImageSrc,
+    bannerProvider,
   }
 }

@@ -16,9 +16,7 @@
                     size="small"
                     text
                     @click="
-                      router.push(
-                        `${localePath('/banners')}#${banner.bannerId}`
-                      )
+                      navigateTo(`${localePath('/banners')}#${banner.bannerId}`)
                     "
                   >
                     <template #icon>
@@ -35,7 +33,7 @@
                 size="small"
                 text
                 @click="
-                  router.push(localePath(`/banners/${prevBanner.bannerId}`))
+                  navigateTo(localePath(`/banners/${prevBanner.bannerId}`))
                 "
               >
                 <template #icon>
@@ -57,7 +55,7 @@
                 size="small"
                 text
                 @click="
-                  router.push(localePath(`/banners/${nextBanner.bannerId}`))
+                  navigateTo(localePath(`/banners/${nextBanner.bannerId}`))
                 "
               >
                 <template #icon>
@@ -120,6 +118,7 @@
                   :alt="t(`banner.${banner.bannerId}.name`)"
                   class="absolute inset-0 w-full h-full object-cover"
                   preset="bannerHero"
+                  :provider="bannerProvider"
                   width="800"
                   height="400"
                   fit="cover"
@@ -186,7 +185,7 @@
                         <n-button
                           text
                           size="tiny"
-                          @click="router.push(localePath('/tracker'))"
+                          @click="navigateTo(localePath('/tracker'))"
                         >
                           <template #icon>
                             <n-icon :depth="3"><Book /></n-icon>
@@ -379,7 +378,7 @@
                           <n-button
                             text
                             size="small"
-                            @click="router.push(localePath('/import'))"
+                            @click="navigateTo(localePath('/import'))"
                           >
                             <template #icon>
                               <n-icon
@@ -556,7 +555,7 @@
         <template #footer>
           <n-button
             type="primary"
-            @click="router.push(localePath('/banners'))"
+            @click="navigateTo(localePath('/banners'))"
           >
             {{ t('navigation.banner') }}
           </n-button>
@@ -597,9 +596,8 @@
   import type { Outfit } from '~/types/outfit'
 
   const route = useRoute()
-  const router = useRouter()
   const { t } = useI18n()
-  const { getImageSrc } = imageProvider()
+  const { getImageSrc, bannerProvider } = imageProvider()
 
   const localePath = useLocalePath()
   const siteUrl = useRuntimeConfig().public.siteUrl

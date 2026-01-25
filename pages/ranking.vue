@@ -296,9 +296,8 @@
   const { t, locale } = useI18n()
   const localePath = useLocalePath()
   const siteUrl = useRuntimeConfig().public.siteUrl
-  const router = useRouter()
   const message = useMessage()
-  const { getImageSrc } = imageProvider()
+  const { getImageSrc, bannerProvider } = imageProvider()
   const { getRankings } = useBannerVote()
   const { getPersonalRankings } = usePersonalVote()
 
@@ -381,6 +380,7 @@
             alt: t(`banner.${row.banner_id}.name`),
             class: 'w-16 h-8 rounded object-cover flex-shrink-0',
             preset: 'bannerThumb',
+            provider: bannerProvider,
             width: 200,
             height: 100,
             loading: 'lazy',
@@ -495,6 +495,7 @@
             alt: t(`banner.${row.banner_id}.name`),
             class: 'w-20 h-10 rounded object-cover flex-shrink-0',
             preset: 'bannerThumb',
+            provider: bannerProvider,
             width: 200,
             height: 100,
             loading: 'lazy',
@@ -605,11 +606,11 @@
   }
 
   const navigateToVote = () => {
-    router.push(localePath('/vote'))
+    navigateTo(localePath('/vote'))
   }
 
   const navigateToBanner = (bannerId: number) => {
-    router.push(localePath(`/banners/${bannerId}`))
+    navigateTo(localePath(`/banners/${bannerId}`))
   }
 
   const rowProps = (row: BannerRanking) => {

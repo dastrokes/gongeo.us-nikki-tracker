@@ -17,14 +17,6 @@
               :sharp="false"
               class="h-full w-full"
             />
-            <div class="absolute top-1.5 right-1.5">
-              <n-skeleton
-                width="68px"
-                height="28px"
-                :sharp="false"
-                class="rounded-full"
-              />
-            </div>
           </div>
         </div>
 
@@ -358,6 +350,7 @@
                 :alt="t(`banner.${inBanner.bannerId}.name`)"
                 class="w-full h-full object-cover"
                 preset="bannerThumb"
+                :provider="bannerProvider"
                 width="200"
                 height="100"
                 fit="cover"
@@ -419,7 +412,6 @@
 
   const { t, te, locale } = useI18n()
   const localePath = useLocalePath()
-  const router = useRouter()
   const route = useRoute()
 
   // Get outfit ID from route
@@ -427,7 +419,7 @@
 
   // Composable
   const { fetchOutfitById } = useSupabaseOutfits()
-  const { getImageUrl, getImageSrc } = imageProvider()
+  const { getImageUrl, getImageSrc, bannerProvider } = imageProvider()
 
   const outfitKey = computed(() => `outfit-${outfitId.value}-${locale.value}`)
 
@@ -441,6 +433,7 @@
     () => fetchOutfitById(outfitId.value),
     {
       default: () => null,
+      lazy: true,
       watch: [outfitId, locale],
     }
   )
@@ -605,7 +598,7 @@
 
   // Navigate to list
   const navigateToList = () => {
-    router.push(localePath('/outfits'))
+    navigateTo(localePath('/outfits'))
   }
 
   // SEO Meta Tags

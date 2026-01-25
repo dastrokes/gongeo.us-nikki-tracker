@@ -17,14 +17,6 @@
               :sharp="false"
               class="h-full w-full"
             />
-            <div class="absolute top-1.5 right-1.5">
-              <n-skeleton
-                width="64px"
-                height="24px"
-                :sharp="false"
-                class="rounded-full"
-              />
-            </div>
           </div>
         </div>
 
@@ -446,6 +438,7 @@
                 :alt="t(`banner.${inBanner.bannerId}.name`)"
                 class="w-full h-full object-cover"
                 preset="bannerThumb"
+                :provider="bannerProvider"
                 width="200"
                 height="100"
                 fit="cover"
@@ -506,9 +499,8 @@
   import type { ItemWithOutfits } from '~/types/supabase'
 
   const { t, te, locale } = useI18n()
-  const { getImageSrc, getImageUrl } = imageProvider()
+  const { getImageSrc, getImageUrl, bannerProvider } = imageProvider()
   const localePath = useLocalePath()
-  const router = useRouter()
   const route = useRoute()
 
   // Get item ID from route
@@ -529,6 +521,7 @@
     () => fetchItemById(itemId.value),
     {
       default: () => null,
+      lazy: true,
       watch: [itemId, locale],
     }
   )
@@ -747,7 +740,7 @@
 
   // Navigate to list
   const navigateToList = () => {
-    router.push(localePath('/items'))
+    navigateTo(localePath('/items'))
   }
 
   // SEO Meta Tags

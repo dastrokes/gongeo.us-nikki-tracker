@@ -44,6 +44,7 @@
           :alt="t(`banner.${banner.bannerId}.name`)"
           class="w-full h-full object-cover"
           preset="bannerHero"
+          :provider="bannerProvider"
           width="800"
           height="400"
           fit="cover"
@@ -58,6 +59,7 @@
           :alt="t(`banner.${banner.bannerId}.name`)"
           class="w-full h-full object-cover"
           preset="bannerHero"
+          :provider="bannerProvider"
           width="800"
           height="400"
           fit="cover"
@@ -69,7 +71,7 @@
           placement="top-end"
           class="!rounded-lg !m-2 !px-2 !py-1 text-xs cursor-pointer"
           @click.stop.prevent="
-            router.push(localePath(`/banners/${banner.bannerId}`))
+            navigateTo(localePath(`/banners/${banner.bannerId}`))
           "
         >
           <template #trigger>
@@ -119,8 +121,7 @@
 
   const { t, locale } = useI18n()
   const localePath = useLocalePath()
-  const router = useRouter()
-  const { getImageSrc } = imageProvider()
+  const { getImageSrc, bannerProvider } = imageProvider()
 
   const props = defineProps<{
     banners: Banner[]

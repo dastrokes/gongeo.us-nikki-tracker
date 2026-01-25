@@ -63,6 +63,7 @@ export const useUserStore = defineStore('user', {
     },
 
     setRegion(region: Region) {
+      if (this.region === region) return
       this.region = region
     },
 

@@ -572,6 +572,7 @@
     },
     {
       default: () => ({ data: [], total: 0, totalPages: 0 }),
+      lazy: true,
       watch: [
         qualityFilter,
         typeFilter,
@@ -788,7 +789,7 @@
 
   const handleListingToggle = (value: boolean) => {
     if (value) return
-    router.push(
+    navigateTo(
       localePath({
         path: '/outfits',
         query: buildListingQuery(false),
@@ -807,7 +808,7 @@
   }
 
   const navigateToDetail = (id: number) => {
-    router.push(localePath(`/items/${id}`))
+    navigateTo(localePath(`/items/${id}`))
   }
 
   const getQualityOverlayClass = (quality: number) => {

@@ -149,7 +149,7 @@
                 :placeholder="$t('import.select_region_desc')"
                 :show-checkmark="false"
                 class="max-w-full"
-                @update:value="userStore.setRegion"
+                @update:value="(value) => userStore.setRegion(value as Region)"
               />
             </div>
           </n-step>
@@ -687,7 +687,7 @@
               <n-button
                 type="primary"
                 class="flex-grow"
-                @click="router.push(localePath('/tracker'))"
+                @click="navigateTo(localePath('/tracker'))"
               >
                 {{ t('navigation.tracker') }}
               </n-button>
@@ -839,7 +839,6 @@
 
   const { t } = useI18n()
   const dialog = useDialog()
-  const router = useRouter()
   const localePath = useLocalePath()
   const siteUrl = useRuntimeConfig().public.siteUrl
   const { isMobileOrTablet, isAndroid, isChrome } = useDevice()
@@ -869,13 +868,21 @@
     link: [{ rel: 'canonical', href: `${siteUrl}${localePath('/import')}` }],
   }))
 
-  const REGION_LABELS = computed(() => ({
+  const REGION_LABELS = computed<Record<Region, string>>(() => ({
     [Region.AMERICA]: t('import.regions.america'),
     [Region.EUROPE]: t('import.regions.europe'),
     [Region.CHINA]: t('import.regions.china'),
     [Region.ASIA]: t('import.regions.asia'),
     [Region.TW]: t('import.regions.tw'),
   }))
+
+  const regionValues = [
+    Region.AMERICA,
+    Region.EUROPE,
+    Region.CHINA,
+    Region.ASIA,
+    Region.TW,
+  ] as const
 
   const consoleScript = `console.log(JSON.stringify({roleid:[...document.querySelectorAll('div')].find(el=>el.textContent.startsWith('UID:'))?.textContent.replace('UID:','').trim(),token:document.cookie.match(/momoToken=([^;]+)/)?.[1],id:document.cookie.match(/momoNid=([^;]+)/)?.[1]}));`
 
@@ -998,12 +1005,19 @@
     return selectedBanners.value.indexOf(progress.value.banner)
   })
 
-  const regionOptions = computed(() =>
-    Object.entries(REGION_LABELS.value).map(([value, label]) => ({
-      label,
-      value: value as Region,
+  // Keep option identities stable
+  const regionOptions = shallowRef(
+    regionValues.map((value) => ({
+      value,
+      label: REGION_LABELS.value[value],
     }))
   )
+
+  watch(REGION_LABELS, (labels) => {
+    regionOptions.value.forEach((option) => {
+      option.label = labels[option.value]
+    })
+  })
 
   const importMethod = ref<'game' | 'json' | 'pearpal' | 'manual'>('game')
   const cookieMethod = ref<'bookmark' | 'console' | 'manual'>('bookmark')
@@ -1214,7 +1228,7 @@
 
         try {
           const pullsByBanner = await fetchBannerPullData(selectedBanners.value)
-          router.push(localePath('/tracker'))
+          navigateTo(localePath('/tracker'))
 
           if (pullsByBanner) {
             const processedPulls = processBannerPullData(pullsByBanner)
@@ -1280,7 +1294,7 @@
       }
 
       await processJsonImport(jsonData)
-      router.push(localePath('/tracker'))
+      navigateTo(localePath('/tracker'))
       message.success(t('import.messages.import_success'))
     } catch (e) {
       console.error(e)
@@ -1371,7 +1385,7 @@
 
               message.success(t('import.messages.pearpal_tracker_success'))
 
-              router.push(localePath('/tracker'))
+              navigateTo(localePath('/tracker'))
 
               // Send analytics only if enabled and there are actual pulls
               if (

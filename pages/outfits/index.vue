@@ -463,6 +463,7 @@
       }),
     {
       default: () => ({ data: [], total: 0, totalPages: 0 }),
+      lazy: true,
       watch: [
         qualityFilter,
         versionFilter,
@@ -579,7 +580,7 @@
 
   const handleListingToggle = (value: boolean) => {
     if (!value) return
-    router.push(
+    navigateTo(
       localePath({
         path: '/items',
         query: buildListingQuery(),

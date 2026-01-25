@@ -125,12 +125,6 @@
       </n-tooltip>
     </n-layout-footer>
 
-    <div
-      v-if="showSider"
-      class="fixed inset-0 z-30 2xl:hidden bg-black/5 dark:bg-black/40"
-      @click="showSider = false"
-    />
-
     <!-- Scroll to top button -->
     <n-button
       ghost
@@ -148,6 +142,18 @@
         <ArrowUp />
       </n-icon>
     </n-button>
+
+    <div
+      v-if="showSider"
+      class="fixed inset-0 z-30 2xl:hidden bg-black/10 dark:bg-black/20"
+      @click="showSider = false"
+    />
+
+    <div
+      v-if="loading"
+      class="fixed inset-0 z-[9999] pointer-events-auto select-none cursor-progress bg-black/10 dark:bg-black/20"
+      aria-hidden="true"
+    />
   </n-layout>
 </template>
 
@@ -176,13 +182,27 @@
   const { t } = useI18n()
   const localePath = useLocalePath()
   const { locale } = useI18n()
+  const nuxtApp = useNuxtApp()
+  const loading = useState<boolean>('loading', () => false)
 
   function renderIcon(icon: Component) {
     return () => h(NIcon, null, { default: () => h(icon) })
   }
 
   const route = useRoute()
-  const router = useRouter()
+  nuxtApp.hook('page:start', () => {
+    loading.value = true
+  })
+
+  nuxtApp.hook('page:finish', () => {
+    requestAnimationFrame(() => {
+      loading.value = false
+    })
+  })
+
+  nuxtApp.hook('app:error', () => {
+    loading.value = false
+  })
 
   const siteUrl = useRuntimeConfig().public.siteUrl
 
@@ -414,7 +434,7 @@
   })
 
   const handleMenuSelect = (key: string) => {
-    router.push(localePath(`/${key}`))
+    navigateTo(localePath(`/${key}`))
     showSider.value = false
   }
 

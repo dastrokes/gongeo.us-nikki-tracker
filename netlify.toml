@@ -6,6 +6,17 @@
   NODE_VERSION = "22.20.0"
   NODE_OPTIONS = "--max-old-space-size=8192"
 
+[[edge_functions]]
+  function = "bot-block"
+  path = "/*"
+
+  [edge_functions.header]
+    "netlify-agent-category" = "^(ai-agent|page-preview|crawler|tooling|other|none)(;.*)?$"
+
+[[edge_functions]]
+  function = "redirects"
+  pattern = "^/(?:[a-z]{2}/)?(banner|item|outfit)(?:/.*)?$"
+
 [[headers]]
   for = "/.netlify/images*"
   [headers.values]

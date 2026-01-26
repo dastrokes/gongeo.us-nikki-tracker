@@ -1,9 +1,9 @@
 <template>
   <div class="space-y-2">
     <div class="flex items-center gap-2">
-      <NuxtLink
+      <NuxtLinkLocale
         no-prefetch
-        :to="localePath(`/outfits/${outfitId}`)"
+        :to="`/outfits/${outfitId}`"
         class="cursor-pointer hover:opacity-80 transition-opacity"
       >
         <n-tag
@@ -19,14 +19,14 @@
             ><n-icon><Star /></n-icon
           ></span>
         </n-tag>
-      </NuxtLink>
+      </NuxtLinkLocale>
     </div>
     <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
-      <NuxtLink
+      <NuxtLinkLocale
         v-for="(image, index) in Array.from(outfitImages.entries())"
         :key="index"
         no-prefetch
-        :to="localePath(`/outfits/${outfitId}`)"
+        :to="`/outfits/${outfitId}`"
         class="relative aspect-[2/3] rounded-lg overflow-hidden transition-all duration-300 ease-in-out cursor-pointer"
         :class="cardGradient"
       >
@@ -56,15 +56,13 @@
             </span>
           </n-tag>
         </div>
-      </NuxtLink>
+      </NuxtLinkLocale>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
   import { Star, CheckCircle } from '@vicons/fa'
-
-  const localePath = useLocalePath()
 
   interface CompletionData {
     completion: number

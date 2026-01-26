@@ -33,9 +33,9 @@
       :key="banner.bannerId"
       class="rounded-xl aspect-[2/1]"
     >
-      <NuxtLink
+      <NuxtLinkLocale
         no-prefetch
-        :to="localePath(`/banners/${banner.bannerId}`)"
+        :to="`/banners/${banner.bannerId}`"
         class="relative overflow-hidden rounded-xl hover:opacity-95 transition-opacity block"
       >
         <NuxtImg
@@ -80,7 +80,7 @@
             <n-icon><ExternalLinkAlt /></n-icon>
           </span>
         </n-tooltip>
-      </NuxtLink>
+      </NuxtLinkLocale>
       <ClientOnly>
         <n-tag
           round

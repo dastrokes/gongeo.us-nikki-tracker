@@ -296,8 +296,8 @@
               v-for="variation in outfitVariations"
               :key="variation.id"
             >
-              <NuxtLink
-                :to="localePath(`/outfits/${variation.id}`)"
+              <NuxtLinkLocale
+                :to="`/outfits/${variation.id}`"
                 class="block group"
                 :class="[
                   variation.id === outfitId
@@ -318,7 +318,7 @@
                       : 'group-hover:scale-105',
                   ]"
                 />
-              </NuxtLink>
+              </NuxtLinkLocale>
               <div class="mt-1 text-center">
                 <p class="text-xs font-medium opacity-80">
                   {{ variation.label }}
@@ -338,8 +338,8 @@
           <h2 class="text-lg font-bold mb-3">
             {{ t('common.banner') }}
           </h2>
-          <NuxtLink
-            :to="localePath(`/banners/${inBanner.bannerId}`)"
+          <NuxtLinkLocale
+            :to="`/banners/${inBanner.bannerId}`"
             class="block group"
           >
             <div
@@ -363,7 +363,7 @@
                 {{ t(`banner.${inBanner.bannerId}.name`) }}
               </p>
             </div>
-          </NuxtLink>
+          </NuxtLinkLocale>
         </n-card>
       </div>
     </template>

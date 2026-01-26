@@ -101,9 +101,9 @@
             </n-button>
           </template>
           <template #header>
-            <NuxtLink
+            <NuxtLinkLocale
               no-prefetch
-              :to="localePath(`/banners/${banner.bannerId}`)"
+              :to="`/banners/${banner.bannerId}`"
               class="inline w-fit hover:opacity-95 transition-opacity"
             >
               <n-gradient-text
@@ -113,7 +113,7 @@
               >
                 {{ t(`banner.${banner.bannerId}.name`) }}
               </n-gradient-text>
-            </NuxtLink>
+            </NuxtLinkLocale>
           </template>
           <template #default>
             <div class="grid grid-cols-1 lg:grid-cols-4 gap-2">
@@ -167,9 +167,9 @@
                     :key="outfitId"
                     class="inline-flex flex-col"
                   >
-                    <NuxtLink
+                    <NuxtLinkLocale
                       no-prefetch
-                      :to="localePath(`/outfits/${outfitId}`)"
+                      :to="`/outfits/${outfitId}`"
                       class="inline w-fit hover:opacity-80 transition-opacity cursor-pointer"
                     >
                       <n-tag
@@ -186,16 +186,16 @@
                           ><n-icon><Star /></n-icon
                         ></span>
                       </n-tag>
-                    </NuxtLink>
+                    </NuxtLinkLocale>
                   </div>
                   <div
                     v-for="outfitId in banner.outfit4StarId"
                     :key="outfitId"
                     class="inline-flex flex-col"
                   >
-                    <NuxtLink
+                    <NuxtLinkLocale
                       no-prefetch
-                      :to="localePath(`/outfits/${outfitId}`)"
+                      :to="`/outfits/${outfitId}`"
                       class="inline w-fit hover:opacity-80 transition-opacity cursor-pointer"
                     >
                       <n-tag
@@ -212,7 +212,7 @@
                           ><n-icon><Star /></n-icon
                         ></span>
                       </n-tag>
-                    </NuxtLink>
+                    </NuxtLinkLocale>
                   </div>
                 </div>
               </div>
@@ -220,9 +220,9 @@
                 <div
                   class="flex flex-col items-center space-y-1 max-w-2xl mx-auto"
                 >
-                  <NuxtLink
+                  <NuxtLinkLocale
                     no-prefetch
-                    :to="localePath(`/banners/${banner.bannerId}`)"
+                    :to="`/banners/${banner.bannerId}`"
                     class="w-full aspect-[2/1] min-h-[140px] sm:min-h-[330px] relative overflow-hidden rounded-lg hover:opacity-95 transition-opacity"
                   >
                     <NuxtImg
@@ -257,7 +257,7 @@
                         <n-icon><ExternalLinkAlt /></n-icon>
                       </span>
                     </n-tooltip>
-                  </NuxtLink>
+                  </NuxtLinkLocale>
                 </div>
               </div>
             </div>

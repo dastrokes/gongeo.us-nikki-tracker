@@ -1,9 +1,9 @@
 <template>
   <div class="space-y-3">
     <div class="flex items-center gap-2">
-      <NuxtLink
+      <NuxtLinkLocale
         no-prefetch
-        :to="localePath(`/outfits/${outfitId}`)"
+        :to="`/outfits/${outfitId}`"
         class="cursor-pointer hover:opacity-80 transition-opacity"
       >
         <n-tag
@@ -19,7 +19,7 @@
             ><n-icon><Star /></n-icon
           ></span>
         </n-tag>
-      </NuxtLink>
+      </NuxtLinkLocale>
     </div>
 
     <!-- Outfit Images Carousel with Items Grid -->
@@ -42,9 +42,9 @@
             :key="index"
             :class="quality === 5 ? 'w-[60%]' : 'w-[40%]'"
           >
-            <NuxtLink
+            <NuxtLinkLocale
               no-prefetch
-              :to="localePath(`/outfits/${image.outfitId}`)"
+              :to="`/outfits/${image.outfitId}`"
               class="group relative aspect-[2/3] rounded-lg overflow-hidden transition-all duration-300 ease-in-out cursor-pointer block"
             >
               <div
@@ -118,7 +118,7 @@
                   </span>
                 </n-tag>
               </div>
-            </NuxtLink>
+            </NuxtLinkLocale>
           </n-carousel-item>
         </n-carousel>
       </div>
@@ -161,7 +161,6 @@
 
   const props = defineProps<Props>()
   const { t } = useI18n()
-  const localePath = useLocalePath()
   const { getImageSrc } = imageProvider()
 
   const activeSlide = ref(0)

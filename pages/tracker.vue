@@ -513,9 +513,9 @@
                 class="w-full flex flex-col sm:flex-row sm:items-center gap-2"
               >
                 <div class="flex items-center gap-2">
-                  <NuxtLink
+                  <NuxtLinkLocale
                     no-prefetch
-                    :to="localePath(`/banners/${banner.bannerId}`)"
+                    :to="`/banners/${banner.bannerId}`"
                     class="inline w-fit hover:opacity-95 transition-opacity"
                   >
                     <n-gradient-text
@@ -525,7 +525,7 @@
                     >
                       {{ t(`banner.${banner.bannerId}.name`) }}
                     </n-gradient-text>
-                  </NuxtLink>
+                  </NuxtLinkLocale>
                 </div>
 
                 <div
@@ -535,9 +535,9 @@
                     v-for="outfit in banner.outfits"
                     :key="outfit.id"
                   >
-                    <NuxtLink
+                    <NuxtLinkLocale
                       no-prefetch
-                      :to="localePath(`/outfits/${outfit.id}`)"
+                      :to="`/outfits/${outfit.id}`"
                       class="inline-block"
                     >
                       <n-tag
@@ -560,7 +560,7 @@
                           ><n-icon><CheckCircle /></n-icon
                         ></span>
                       </n-tag>
-                    </NuxtLink>
+                    </NuxtLinkLocale>
                   </template>
                 </div>
               </div>
@@ -839,9 +839,9 @@
           >
             <!-- Banner Header -->
             <div class="w-full flex flex-col sm:flex-row sm:items-center gap-2">
-              <NuxtLink
+              <NuxtLinkLocale
                 no-prefetch
-                :to="localePath(`/banners/${banner.bannerId}`)"
+                :to="`/banners/${banner.bannerId}`"
                 class="inline w-fit hover:opacity-95 transition-opacity"
               >
                 <n-gradient-text
@@ -851,7 +851,7 @@
                 >
                   {{ t(`banner.${banner.bannerId}.name`) }}
                 </n-gradient-text>
-              </NuxtLink>
+              </NuxtLinkLocale>
 
               <div class="flex flex-wrap gap-2 w-full sm:w-[calc(100%-500px)]">
                 <template
@@ -859,9 +859,9 @@
                   :key="outfit.id"
                 >
                   <div class="flex items-center gap-2">
-                    <NuxtLink
+                    <NuxtLinkLocale
                       no-prefetch
-                      :to="localePath(`/outfits/${outfit.id}`)"
+                      :to="`/outfits/${outfit.id}`"
                       class="inline w-fit hover:opacity-80 transition-opacity cursor-pointer"
                     >
                       <n-tag
@@ -884,7 +884,7 @@
                           ><n-icon><CheckCircle /></n-icon
                         ></span>
                       </n-tag>
-                    </NuxtLink>
+                    </NuxtLinkLocale>
                   </div>
                 </template>
               </div>

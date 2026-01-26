@@ -1,4 +1,5 @@
 export default defineNuxtPlugin({
+  name: 'i18n-guard',
   dependsOn: ['i18n:plugin'],
   async setup() {
     if (!import.meta.server) return

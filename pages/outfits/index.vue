@@ -173,11 +173,11 @@
                 key="grid"
                 class="grid grid-cols-3 sm:grid-cols-6 gap-2 sm:gap-3 sm:content-start"
               >
-                <NuxtLink
+                <NuxtLinkLocale
                   v-for="entry in entries"
                   :key="entry.id"
                   no-prefetch
-                  :to="localePath(`/outfits/${entry.id}`)"
+                  :to="`/outfits/${entry.id}`"
                   class="block cursor-pointer group"
                 >
                   <OutfitCard
@@ -189,7 +189,7 @@
                     :labels="entry.labelTags"
                     class="transition-shadow duration-300 group-hover:shadow-xl"
                   />
-                </NuxtLink>
+                </NuxtLinkLocale>
               </div>
               <div
                 v-else-if="loading"

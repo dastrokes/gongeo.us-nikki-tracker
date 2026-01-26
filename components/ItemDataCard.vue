@@ -1,7 +1,7 @@
 <template>
-  <NuxtLink
+  <NuxtLinkLocale
     no-prefetch
-    :to="localePath(`/items/${item.itemId}`)"
+    :to="`/items/${item.itemId}`"
     class="group relative block hover:scale-[1.05] hover:z-10 transition-all duration-300 ease-out"
   >
     <n-card
@@ -102,7 +102,7 @@
         </div>
       </div>
     </div>
-  </NuxtLink>
+  </NuxtLinkLocale>
 </template>
 
 <script setup lang="ts">
@@ -119,7 +119,6 @@
   })
 
   const { t } = useI18n()
-  const localePath = useLocalePath()
   const itemType = computed(() => getItemType(props.item.itemId))
   const { getImageSrc } = imageProvider()
 

@@ -75,8 +75,8 @@
               </div>
             </div>
             <div class="mt-2 sm:mt-3 text-center">
-              <NuxtLink
-                :to="localePath(`/banners/${currentPair.banner1.id}`)"
+              <NuxtLinkLocale
+                :to="`/banners/${currentPair.banner1.id}`"
                 target="_blank"
                 class="hover:opacity-80 transition-opacity inline-flex items-center gap-1"
               >
@@ -91,7 +91,7 @@
                   class="text-sm sm:text-base"
                   >{{ t(`banner.${currentPair.banner1.id}.name`) }}</n-text
                 >
-              </NuxtLink>
+              </NuxtLinkLocale>
             </div>
           </div>
 
@@ -156,8 +156,8 @@
               </div>
             </div>
             <div class="mt-2 sm:mt-3 text-center">
-              <NuxtLink
-                :to="localePath(`/banners/${currentPair.banner2.id}`)"
+              <NuxtLinkLocale
+                :to="`/banners/${currentPair.banner2.id}`"
                 target="_blank"
                 class="hover:opacity-80 transition-opacity inline-flex items-center gap-1"
               >
@@ -172,7 +172,7 @@
                   class="text-sm sm:text-base"
                   >{{ t(`banner.${currentPair.banner2.id}.name`) }}</n-text
                 >
-              </NuxtLink>
+              </NuxtLinkLocale>
             </div>
           </div>
         </div>

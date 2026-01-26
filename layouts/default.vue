@@ -18,9 +18,9 @@
               <Bars />
             </n-icon>
           </n-button>
-          <NuxtLink
+          <NuxtLinkLocale
             no-prefetch
-            :to="localePath('/')"
+            to="/"
             class="pl-2"
             @click.prevent="showSider = false"
           >
@@ -29,7 +29,7 @@
               :class="locale === 'zh' ? 'align-baseline' : 'align-super'"
               >{{ t('navigation.title') }}</span
             >
-          </NuxtLink>
+          </NuxtLinkLocale>
         </div>
 
         <div class="flex gap-4 pr-4">
@@ -470,7 +470,7 @@
   }
 
   watch(
-    () => route.path,
+    () => route.fullPath,
     () => {
       // Show footer on route change
       showFooter.value = true

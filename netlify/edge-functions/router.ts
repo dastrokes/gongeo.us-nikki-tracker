@@ -55,18 +55,24 @@ const singularToPlural = {
 
 const blockedUserAgents = [
   'nuclei',
-  'wikido',
-  'riddler',
-  'petalbot',
-  'zoominfobot',
   'go-http-client',
   'node/simplecrawler',
-  'cazoodlebot',
-  'dotbot/1.0',
+  'magpie-crawler',
+  'blexbot',
   'gigabot',
   'barkrowler',
-  'blexbot',
-  'magpie-crawler',
+
+  'wikido',
+  'riddler',
+  'zoominfobot',
+  'cazoodlebot',
+  'ahrefsbot',
+  'semrushbot',
+  'mj12bot',
+  'dotbot',
+  'petalbot',
+  'yandexbot',
+  'bytespider',
 ]
 
 function isBlockedUserAgent(userAgent: string | null): boolean {

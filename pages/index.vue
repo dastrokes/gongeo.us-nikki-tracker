@@ -55,7 +55,9 @@
       >
         <div class="flex justify-center mt-2">
           <ClientOnly>
-            <div class="relative inline-flex items-center justify-center">
+            <div
+              class="relative inline-flex items-center justify-center h-[clamp(80px,16vh,120px)] aspect-[2/3]"
+            >
               <NuxtImg
                 :src="getImageSrc('outfit', featuredOutfitId)"
                 :alt="t(`outfit.${featuredOutfitId}.name`)"
@@ -63,7 +65,7 @@
                 height="240"
                 fit="cover"
                 preset="tallSm"
-                class="h-[clamp(80px,16vh,120px)] w-auto max-w-full"
+                class="h-full w-full max-w-full"
                 :style="silhouetteStyle"
               />
               <n-button
@@ -83,7 +85,7 @@
             </div>
             <template #fallback>
               <div
-                class="h-[clamp(72px,14vh,110px)] w-[72px] rounded-lg bg-gray-100 dark:bg-gray-800"
+                class="h-[clamp(80px,16vh,120px)] aspect-[2/3] rounded-lg bg-gray-100 dark:bg-gray-800"
               />
             </template>
           </ClientOnly>
@@ -218,7 +220,7 @@
   onMounted(() => {
     if (outfitKeys.length === 0) return
     const index = Math.floor(Math.random() * outfitKeys.length)
-    featuredOutfitId.value = outfitKeys[index] ?? outfitKeys[0]
+    featuredOutfitId.value = outfitKeys[index] ?? '10001'
   })
 
   const silhouetteStyle = computed(() => {

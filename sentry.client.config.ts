@@ -20,6 +20,7 @@ Sentry.init({
       /couldn't resolve component/i,
       /error loading dynamically imported module/i,
       /Load failed/i,
+      /sitemap not prerendered/i,
     ]
 
     if (

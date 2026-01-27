@@ -134,195 +134,202 @@
       content-class="!p-2 sm:p-4 sm:flex-1 sm:flex sm:flex-col"
     >
       <div class="sm:flex-1 sm:flex sm:flex-col min-h-0">
-        <n-scrollbar class="sm:flex-1 min-h-0">
-          <div class="space-y-3 sm:space-y-4">
-            <div
-              v-if="error"
-              class="text-center py-12"
+        <div class="space-y-3 sm:space-y-4">
+          <div
+            v-if="error"
+            class="text-center py-12"
+          >
+            <n-result
+              status="error"
+              :title="t('compendium.error_title')"
+              :description="t('compendium.error_description')"
             >
-              <n-result
-                status="error"
-                :title="t('compendium.error_title')"
-                :description="t('compendium.error_description')"
-              >
-                <template #footer>
-                  <n-button
-                    type="primary"
-                    @click="retryFetch"
-                  >
-                    {{ t('common.retry') }}
-                  </n-button>
-                </template>
-              </n-result>
-            </div>
+              <template #footer>
+                <n-button
+                  type="primary"
+                  @click="retryFetch"
+                >
+                  {{ t('common.retry') }}
+                </n-button>
+              </template>
+            </n-result>
+          </div>
 
-            <div
-              v-else-if="!loading && entries.length === 0"
-              class="text-center py-12"
+          <div
+            v-else-if="!loading && entries.length === 0"
+            class="text-center py-12"
+          >
+            <n-result
+              status="info"
+              :title="t('compendium.no_results_title')"
+              :description="t('compendium.no_results_description')"
             >
-              <n-result
-                status="info"
-                :title="t('compendium.no_results_title')"
-                :description="t('compendium.no_results_description')"
-              >
-                <template #icon>
-                  <NuxtImg
-                    :src="getImageSrc('static', '/images/404.webp')"
-                    alt="No results"
-                    class="mx-auto w-32 h-32 sm:w-48 sm:h-48 object-cover"
-                    width="400"
-                    height="400"
-                    fit="contain"
-                    sizes="160px sm:200px"
-                  />
-                </template>
-              </n-result>
-            </div>
+              <template #icon>
+                <NuxtImg
+                  :src="getImageSrc('static', '/images/404.webp')"
+                  alt="No results"
+                  class="mx-auto w-32 h-32 sm:w-48 sm:h-48 object-cover"
+                  width="400"
+                  height="400"
+                  fit="contain"
+                  sizes="160px sm:200px"
+                />
+              </template>
+            </n-result>
+          </div>
 
-            <transition
-              v-else
-              name="fade"
-              mode="out-in"
+          <transition
+            v-else
+            mode="out-in"
+            enter-active-class="transition-opacity duration-300 ease"
+            enter-from-class="opacity-0"
+            leave-active-class="transition-opacity duration-300 ease"
+            leave-to-class="opacity-0"
+          >
+            <div
+              v-if="!loading && !error && entries.length > 0"
+              key="grid"
+              class="staggered-grid grid grid-cols-3 sm:grid-cols-6 gap-2 sm:gap-3 sm:content-start"
             >
               <div
-                v-if="!loading && !error && entries.length > 0"
-                key="grid"
-                class="grid grid-cols-3 sm:grid-cols-6 gap-2 sm:gap-3 sm:content-start"
+                v-for="(entry, index) in entries"
+                :key="entry.id"
+                class="cursor-pointer"
+                :style="{
+                  animationDelay: `${Math.min(index + 1, 12) * 0.05}s`,
+                }"
+                @click="navigateToDetail(entry.id)"
               >
                 <div
-                  v-for="entry in entries"
-                  :key="entry.id"
-                  class="cursor-pointer"
-                  @click="navigateToDetail(entry.id)"
+                  class="relative aspect-[2/3] rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300"
+                  style="
+                    background-image: url('/bg.webp');
+                    background-size: cover;
+                    background-position: center;
+                  "
                 >
+                  <!-- Tint overlay -->
                   <div
-                    class="relative aspect-[2/3] rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300"
-                    style="
-                      background-image: url('/bg.webp');
-                      background-size: cover;
-                      background-position: center;
-                    "
-                  >
-                    <!-- Tint overlay -->
-                    <div
-                      class="absolute inset-0"
-                      :class="getQualityOverlayClass(entry.quality)"
-                    ></div>
-                    <NuxtImg
-                      :src="entry.image"
-                      :alt="entry.name"
-                      class="absolute inset-0 w-full h-full object-cover z-10"
-                      preset="tallMd"
-                      width="200"
-                      height="300"
-                      fit="cover"
-                      loading="lazy"
-                      sizes="200px sm:240px"
-                    />
+                    class="absolute inset-0"
+                    :class="getQualityOverlayClass(entry.quality)"
+                  ></div>
+                  <NuxtImg
+                    :src="entry.image"
+                    :alt="entry.name"
+                    class="absolute inset-0 w-full h-full object-cover z-10 transition-transform duration-500 ease-out hover:scale-110"
+                    preset="tallMd"
+                    width="200"
+                    height="300"
+                    fit="cover"
+                    loading="lazy"
+                    sizes="200px sm:240px"
+                  />
 
-                    <div class="absolute top-2 left-2 z-20">
-                      <n-tag
-                        v-if="entry.type"
-                        round
-                        size="small"
-                        :bordered="false"
-                        type="warning"
-                        class="backdrop-blur-sm !bg-black/50 text-gray-200"
-                      >
-                        {{ entry.type }}
-                      </n-tag>
-                    </div>
-                    <div class="absolute top-2 right-2 z-20">
-                      <n-tag
-                        round
-                        size="small"
-                        :bordered="false"
-                        :color="getQualityTagTheme(entry.quality)"
-                        class="backdrop-blur-sm"
-                      >
-                        <span class="align-top">{{ entry.quality }}</span>
-                        <span class="ml-0.5"
-                          ><n-icon> <Star /> </n-icon
-                        ></span>
-                      </n-tag>
-                    </div>
-                    <div
-                      class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent p-3 z-20"
+                  <div class="absolute top-2 left-2 z-20">
+                    <n-tag
+                      v-if="entry.type"
+                      round
+                      size="small"
+                      :bordered="false"
+                      type="warning"
+                      class="backdrop-blur-sm !bg-black/50 text-gray-200"
                     >
-                      <p
-                        class="text-white font-semibold text-xs sm:text-sm line-clamp-2"
+                      {{ entry.type }}
+                    </n-tag>
+                  </div>
+                  <div class="absolute top-2 right-2 z-20">
+                    <n-tag
+                      round
+                      size="small"
+                      :bordered="false"
+                      :color="getQualityTagTheme(entry.quality)"
+                      class="backdrop-blur-sm"
+                    >
+                      <span class="align-top">{{ entry.quality }}</span>
+                      <span class="ml-0.5"
+                        ><n-icon> <Star /> </n-icon
+                      ></span>
+                    </n-tag>
+                  </div>
+                  <div
+                    class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 to-transparent p-3 z-20"
+                  >
+                    <p
+                      class="text-white font-semibold text-xs sm:text-sm line-clamp-2"
+                    >
+                      {{ entry.name }}
+                    </p>
+                    <div class="flex flex-wrap gap-1 mt-1">
+                      <n-tag
+                        v-if="entry.styleLabel"
+                        size="tiny"
+                        :bordered="false"
+                        type="default"
+                        :color="getStyleTagTheme(entry.styleKey)"
+                        class="text-xs font-semibold shadow-[inset_0_-2px_0_rgba(0,0,0,0.18)]"
                       >
-                        {{ entry.name }}
-                      </p>
-                      <div class="flex flex-wrap gap-1 mt-1">
-                        <n-tag
-                          v-if="entry.styleLabel"
-                          size="tiny"
-                          :bordered="false"
-                          type="default"
-                          :color="getStyleTagTheme(entry.styleKey)"
-                          class="text-xs font-semibold shadow-[inset_0_-2px_0_rgba(0,0,0,0.18)]"
-                        >
-                          {{ entry.styleLabel }}
-                        </n-tag>
-                      </div>
-                      <div class="flex flex-wrap gap-0.5 mt-1">
-                        <n-tag
-                          v-for="label in entry.labelTags"
-                          :key="label.text"
-                          size="tiny"
-                          type="default"
-                          :color="label.theme"
-                          round
-                          class="text-xs font-semibold"
-                        >
-                          {{ label.text }}
-                        </n-tag>
-                      </div>
+                        {{ entry.styleLabel }}
+                      </n-tag>
+                    </div>
+                    <div class="flex flex-wrap gap-0.5 mt-1">
+                      <n-tag
+                        v-for="label in entry.labelTags"
+                        :key="label.text"
+                        size="tiny"
+                        type="default"
+                        :color="label.theme"
+                        round
+                        class="text-xs font-semibold"
+                      >
+                        {{ label.text }}
+                      </n-tag>
                     </div>
                   </div>
                 </div>
               </div>
-              <div
-                v-else-if="loading"
-                key="loading"
-                class="grid grid-cols-3 sm:grid-cols-6 gap-2 sm:gap-3 sm:content-start"
-              >
-                <div
-                  v-for="i in pageSize"
-                  :key="`skeleton-${i}`"
-                  class="relative aspect-[3/4] rounded-lg overflow-hidden bg-gray-200 dark:bg-gray-700 animate-pulse"
-                ></div>
-              </div>
-            </transition>
-
-            <div class="flex justify-center items-center sm:pr-2">
-              <n-pagination
-                v-model:page="currentPage"
-                :page-size="pageSize"
-                :item-count="totalItems"
-                :show-size-picker="false"
-                :disabled="loading || !!error"
-                :page-slot="5"
-              >
-                <template #prefix="{ itemCount }">
-                  <div class="text-sm text-gray-600 dark:text-gray-400">
-                    <span class="font-semibold text-gray-900 dark:text-white">{{
-                      totalItems
-                    }}</span>
-                    <span class="ml-1">
-                      {{
-                        itemCount === 1
-                          ? countLabels.singular
-                          : countLabels.plural
-                      }}
-                    </span>
-                  </div>
-                </template>
-              </n-pagination>
             </div>
+            <div
+              v-else-if="loading"
+              key="loading"
+              class="staggered-grid grid grid-cols-3 sm:grid-cols-6 gap-2 sm:gap-3 sm:content-start"
+            >
+              <div
+                v-for="(i, index) in pageSize"
+                :key="`skeleton-${i}`"
+                class="relative aspect-[3/4] rounded-lg overflow-hidden bg-gray-200 dark:bg-gray-700 animate-pulse"
+                :style="{
+                  animationDelay: `${Math.min(index + 1, 9) * 0.05}s`,
+                }"
+              ></div>
+            </div>
+          </transition>
+
+          <div class="flex justify-center items-center sm:pr-2">
+            <n-pagination
+              v-model:page="currentPage"
+              :page-size="pageSize"
+              :item-count="totalItems"
+              :show-size-picker="false"
+              :disabled="loading || !!error"
+              :page-slot="5"
+            >
+              <template #prefix="{ itemCount }">
+                <div class="text-sm text-gray-600 dark:text-gray-400">
+                  <span class="font-semibold text-gray-900 dark:text-white">{{
+                    totalItems
+                  }}</span>
+                  <span class="ml-1">
+                    {{
+                      itemCount === 1
+                        ? countLabels.singular
+                        : countLabels.plural
+                    }}
+                  </span>
+                </div>
+              </template>
+            </n-pagination>
           </div>
-        </n-scrollbar>
+        </div>
       </div>
     </n-card>
   </div>
@@ -826,55 +833,9 @@
 </script>
 
 <style scoped>
-  .fade-enter-active,
-  .fade-leave-active {
-    transition: opacity 0.3s ease;
-  }
-
-  .fade-enter-from,
-  .fade-leave-to {
-    opacity: 0;
-  }
-
   /* Staggered animation for grid items */
-  .grid > * {
-    animation: fadeInUp 0.4s ease-out backwards;
-  }
-
-  .grid > *:nth-child(1) {
-    animation-delay: 0.05s;
-  }
-
-  .grid > *:nth-child(2) {
-    animation-delay: 0.1s;
-  }
-
-  .grid > *:nth-child(3) {
-    animation-delay: 0.15s;
-  }
-
-  .grid > *:nth-child(4) {
-    animation-delay: 0.2s;
-  }
-
-  .grid > *:nth-child(5) {
-    animation-delay: 0.25s;
-  }
-
-  .grid > *:nth-child(6) {
-    animation-delay: 0.3s;
-  }
-
-  .grid > *:nth-child(7) {
-    animation-delay: 0.35s;
-  }
-
-  .grid > *:nth-child(8) {
-    animation-delay: 0.4s;
-  }
-
-  .grid > *:nth-child(n + 9) {
-    animation-delay: 0.45s;
+  .staggered-grid > * {
+    animation: fadeInUp 0.5s ease-out backwards;
   }
 
   @keyframes fadeInUp {

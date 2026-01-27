@@ -790,7 +790,7 @@
       <iframe
         class="w-full aspect-video"
         src="https://www.youtube.com/embed/r4JL3nK9ds4"
-        title="YouTube video player"
+        title="YouTube"
         frameborder="0"
         allow="
           accelerometer;
@@ -819,8 +819,9 @@
       <iframe
         class="w-full aspect-video"
         src="https://player.bilibili.com/player.html?bvid=BV1gFYqz9Euh&page=1&autoplay=0"
-        title="Bilibili video player"
+        title="Bilibili"
         frameborder="0"
+        allow="autoplay; fullscreen; picture-in-picture"
         allowfullscreen
       ></iframe>
     </n-modal>

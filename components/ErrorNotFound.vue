@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center justify-center min-h-[calc(100vh-10rem)]">
+  <div class="flex min-h-[calc(100vh-16rem)] items-center justify-center">
     <n-result
       class="w-full max-w-xs"
       size="small"

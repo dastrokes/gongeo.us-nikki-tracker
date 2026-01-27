@@ -11,7 +11,7 @@
     <NuxtImg
       :src="imageSrc"
       :alt="name"
-      class="absolute inset-0 w-full h-full object-cover z-10"
+      :class="imageClasses"
       :preset="imagePreset"
       :width="imageWidth"
       :height="imageHeight"
@@ -22,7 +22,7 @@
     />
 
     <div
-      v-if="showMeta"
+      v-if="showInfo"
       class="absolute z-20"
       :class="qualityTagPositionClass"
     >
@@ -41,8 +41,8 @@
     </div>
 
     <div
-      v-if="showMeta"
-      class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent z-20"
+      v-if="showInfo"
+      class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 to-transparent z-20"
       :class="metaPaddingClass"
     >
       <p class="text-white font-semibold text-xs sm:text-sm line-clamp-2">
@@ -95,14 +95,14 @@
       style?: string | null
       styleKey?: string | null
       labels?: Array<string | { text: string; theme?: Record<string, string> }>
-      showMeta?: boolean
+      showInfo?: boolean
       size?: 'sm' | 'md' | 'lg'
     }>(),
     {
       style: null,
       styleKey: null,
       labels: () => [],
-      showMeta: true,
+      showInfo: true,
       size: 'md',
     }
   )
@@ -175,5 +175,12 @@
 
   const cardClasses = computed(() => [
     'relative aspect-[2/3] rounded-lg overflow-hidden shadow-md',
+  ])
+
+  const imageClasses = computed(() => [
+    'absolute inset-0 w-full h-full object-cover z-10',
+    props.showInfo
+      ? 'transition-transform duration-500 ease-out hover:scale-110'
+      : '',
   ])
 </script>

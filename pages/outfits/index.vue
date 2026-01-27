@@ -118,119 +118,126 @@
       content-class="!p-2 sm:p-4 sm:flex-1 sm:flex sm:flex-col"
     >
       <div class="sm:flex-1 sm:flex sm:flex-col min-h-0">
-        <n-scrollbar class="sm:flex-1 min-h-0">
-          <div class="space-y-3 sm:space-y-4">
-            <div
-              v-if="error"
-              class="text-center py-12"
+        <div class="space-y-3 sm:space-y-4">
+          <div
+            v-if="error"
+            class="text-center py-12"
+          >
+            <n-result
+              status="error"
+              :title="t('compendium.error_title')"
+              :description="t('compendium.error_description')"
             >
-              <n-result
-                status="error"
-                :title="t('compendium.error_title')"
-                :description="t('compendium.error_description')"
-              >
-                <template #footer>
-                  <n-button
-                    type="primary"
-                    @click="retryFetch"
-                  >
-                    {{ t('common.retry') }}
-                  </n-button>
-                </template>
-              </n-result>
-            </div>
-
-            <div
-              v-else-if="!loading && entries.length === 0"
-              class="text-center py-12"
-            >
-              <n-result
-                status="info"
-                :title="t('compendium.no_results_title')"
-                :description="t('compendium.no_results_description')"
-              >
-                <template #icon>
-                  <NuxtImg
-                    :src="getImageSrc('static', '/images/404.webp')"
-                    alt="No results"
-                    class="mx-auto w-32 h-32 sm:w-48 sm:h-48 object-cover"
-                    width="400"
-                    height="400"
-                    fit="contain"
-                    sizes="160px sm:200px"
-                  />
-                </template>
-              </n-result>
-            </div>
-
-            <transition
-              v-else
-              name="fade"
-              mode="out-in"
-            >
-              <div
-                v-if="!loading && !error && entries.length > 0"
-                key="grid"
-                class="grid grid-cols-3 sm:grid-cols-6 gap-2 sm:gap-3 sm:content-start"
-              >
-                <NuxtLinkLocale
-                  v-for="entry in entries"
-                  :key="entry.id"
-                  no-prefetch
-                  :to="`/outfits/${entry.id}`"
-                  class="block cursor-pointer group"
+              <template #footer>
+                <n-button
+                  type="primary"
+                  @click="retryFetch"
                 >
-                  <OutfitCard
-                    :outfit-id="entry.id"
-                    :quality="entry.quality"
-                    :name="entry.name"
-                    :style="entry.styleLabel"
-                    :style-key="entry.styleKey"
-                    :labels="entry.labelTags"
-                    class="transition-shadow duration-300 group-hover:shadow-xl"
-                  />
-                </NuxtLinkLocale>
-              </div>
-              <div
-                v-else-if="loading"
-                key="loading"
-                class="grid grid-cols-3 sm:grid-cols-6 gap-2 sm:gap-3 sm:content-start"
-              >
-                <div
-                  v-for="i in pageSize"
-                  :key="`skeleton-${i}`"
-                  class="relative aspect-[3/4] rounded-lg overflow-hidden bg-gray-200 dark:bg-gray-700 animate-pulse"
-                ></div>
-              </div>
-            </transition>
-
-            <div class="flex justify-center items-center sm:pr-2">
-              <n-pagination
-                v-model:page="currentPage"
-                :page-size="pageSize"
-                :item-count="totalItems"
-                :show-size-picker="false"
-                :disabled="loading || !!error"
-                :page-slot="5"
-              >
-                <template #prefix="{ itemCount }">
-                  <div class="text-sm text-gray-600 dark:text-gray-400">
-                    <span class="font-semibold text-gray-900 dark:text-white">{{
-                      totalItems
-                    }}</span>
-                    <span class="ml-1">
-                      {{
-                        itemCount === 1
-                          ? countLabels.singular
-                          : countLabels.plural
-                      }}
-                    </span>
-                  </div>
-                </template>
-              </n-pagination>
-            </div>
+                  {{ t('common.retry') }}
+                </n-button>
+              </template>
+            </n-result>
           </div>
-        </n-scrollbar>
+
+          <div
+            v-else-if="!loading && entries.length === 0"
+            class="text-center py-12"
+          >
+            <n-result
+              status="info"
+              :title="t('compendium.no_results_title')"
+              :description="t('compendium.no_results_description')"
+            >
+              <template #icon>
+                <NuxtImg
+                  :src="getImageSrc('static', '/images/404.webp')"
+                  alt="No results"
+                  class="mx-auto w-32 h-32 sm:w-48 sm:h-48 object-cover"
+                  width="400"
+                  height="400"
+                  fit="contain"
+                  sizes="160px sm:200px"
+                />
+              </template>
+            </n-result>
+          </div>
+
+          <transition
+            v-else
+            mode="out-in"
+            enter-active-class="transition-opacity duration-300 ease"
+            enter-from-class="opacity-0"
+            leave-active-class="transition-opacity duration-300 ease"
+            leave-to-class="opacity-0"
+          >
+            <div
+              v-if="!loading && !error && entries.length > 0"
+              key="grid"
+              class="staggered-grid grid grid-cols-3 sm:grid-cols-6 gap-2 sm:gap-3 sm:content-start"
+            >
+              <NuxtLinkLocale
+                v-for="(entry, index) in entries"
+                :key="entry.id"
+                no-prefetch
+                :to="`/outfits/${entry.id}`"
+                class="block cursor-pointer group"
+                :style="{
+                  animationDelay: `${Math.min(index + 1, 12) * 0.05}s`,
+                }"
+              >
+                <OutfitCard
+                  :outfit-id="entry.id"
+                  :quality="entry.quality"
+                  :name="entry.name"
+                  :style="entry.styleLabel"
+                  :style-key="entry.styleKey"
+                  :labels="entry.labelTags"
+                  class="transition-shadow duration-300 group-hover:shadow-xl"
+                />
+              </NuxtLinkLocale>
+            </div>
+            <div
+              v-else-if="loading"
+              key="loading"
+              class="staggered-grid grid grid-cols-3 sm:grid-cols-6 gap-2 sm:gap-3 sm:content-start"
+            >
+              <div
+                v-for="(i, index) in pageSize"
+                :key="`skeleton-${i}`"
+                class="relative aspect-[3/4] rounded-lg overflow-hidden bg-gray-200 dark:bg-gray-700 animate-pulse"
+                :style="{
+                  animationDelay: `${Math.min(index + 1, 9) * 0.05}s`,
+                }"
+              ></div>
+            </div>
+          </transition>
+
+          <div class="flex justify-center items-center sm:pr-2">
+            <n-pagination
+              v-model:page="currentPage"
+              :page-size="pageSize"
+              :item-count="totalItems"
+              :show-size-picker="false"
+              :disabled="loading || !!error"
+              :page-slot="5"
+            >
+              <template #prefix="{ itemCount }">
+                <div class="text-sm text-gray-600 dark:text-gray-400">
+                  <span class="font-semibold text-gray-900 dark:text-white">{{
+                    totalItems
+                  }}</span>
+                  <span class="ml-1">
+                    {{
+                      itemCount === 1
+                        ? countLabels.singular
+                        : countLabels.plural
+                    }}
+                  </span>
+                </div>
+              </template>
+            </n-pagination>
+          </div>
+        </div>
       </div>
     </n-card>
   </div>
@@ -600,47 +607,9 @@
 </script>
 
 <style scoped>
-  .fade-enter-active,
-  .fade-leave-active {
-    transition: opacity 0.3s ease;
-  }
-
-  .fade-enter-from,
-  .fade-leave-to {
-    opacity: 0;
-  }
-
   /* Staggered animation for grid items */
-  .grid > * {
-    animation: fadeInUp 0.4s ease-out backwards;
-  }
-
-  .grid > *:nth-child(1) {
-    animation-delay: 0.05s;
-  }
-  .grid > *:nth-child(2) {
-    animation-delay: 0.1s;
-  }
-  .grid > *:nth-child(3) {
-    animation-delay: 0.15s;
-  }
-  .grid > *:nth-child(4) {
-    animation-delay: 0.2s;
-  }
-  .grid > *:nth-child(5) {
-    animation-delay: 0.25s;
-  }
-  .grid > *:nth-child(6) {
-    animation-delay: 0.3s;
-  }
-  .grid > *:nth-child(7) {
-    animation-delay: 0.35s;
-  }
-  .grid > *:nth-child(8) {
-    animation-delay: 0.4s;
-  }
-  .grid > *:nth-child(n + 9) {
-    animation-delay: 0.45s;
+  .staggered-grid > * {
+    animation: fadeInUp 0.5s ease-out backwards;
   }
 
   @keyframes fadeInUp {

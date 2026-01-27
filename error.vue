@@ -1,13 +1,42 @@
 <template>
-  <ErrorNotFound />
+  <div class="min-h-screen flex items-center justify-center">
+    <n-result
+      class="w-full max-w-xs"
+      size="small"
+      status="404"
+      title="404"
+    >
+      <template #icon>
+        <NuxtImg
+          src="/images/404.webp"
+          alt="404"
+          class="w-2/3 h-2/3 object-cover"
+          width="400"
+          height="400"
+          fit="cover"
+          sizes="200px"
+        />
+      </template>
+      <template #footer>
+        <n-button
+          round
+          @click="handleError"
+        >
+          <template #icon>
+            <n-icon>
+              <Home />
+            </n-icon>
+          </template>
+          ↩︎ Home
+        </n-button>
+      </template>
+    </n-result>
+  </div>
 </template>
 
 <script setup lang="ts">
-  const localePath = useLocalePath()
-  const route = useRoute()
-  const target = localePath('/error')
+  import { Home } from '@vicons/fa'
 
-  if (route.path !== target) {
-    clearError({ redirect: target })
-  }
+  const localePath = useLocalePath()
+  const handleError = () => clearError({ redirect: localePath('/') })
 </script>

@@ -19,8 +19,9 @@ Sentry.init({
       /script failed/i,
       /couldn't resolve component/i,
       /error loading dynamically imported module/i,
-      /Load failed/i,
+      /load failed/i,
       /sitemap not prerendered/i,
+      /operation was aborted/i,
     ]
 
     if (

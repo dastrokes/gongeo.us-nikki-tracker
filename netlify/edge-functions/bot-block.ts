@@ -47,6 +47,11 @@ export default async (request: Request, context: Context) => {
   }
 
   if (isBlockedUserAgent(request.headers.get('user-agent'))) {
+    console.log('bot-block:', {
+      path: new URL(request.url).pathname,
+      userAgent: request.headers.get('user-agent'),
+      category,
+    })
     return new Response('Forbidden', { status: 403 })
   }
 

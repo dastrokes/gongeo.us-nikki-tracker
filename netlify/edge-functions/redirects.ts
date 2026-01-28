@@ -46,6 +46,10 @@ export default async (request: Request, context: Context) => {
       rest.length ? `/${rest.join('/')}` : ''
     }`
     const redirectUrl = new URL(targetPath + url.search, url.origin)
+    console.log('redirects:', {
+      from: path,
+      to: targetPath,
+    })
     return Response.redirect(redirectUrl.toString(), 301)
   }
 

@@ -60,7 +60,6 @@
             >
               <NuxtImg
                 :src="getImageSrc('outfit', featuredOutfitId)"
-                :alt="t(`outfit.${featuredOutfitId}.name`)"
                 width="160"
                 height="240"
                 fit="cover"

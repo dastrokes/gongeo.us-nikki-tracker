@@ -5,7 +5,7 @@
     @select="handleLanguageSelect"
   >
     <n-button
-      :aria-label="t('default.accessibility.language_switcher')"
+      :aria-label="$t('default.accessibility.language_switcher')"
       text
       size="tiny"
       class="flex items-center"

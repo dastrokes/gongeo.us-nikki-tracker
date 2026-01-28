@@ -12,7 +12,7 @@
           <n-button
             text
             class="w-12"
-            :aria-label="t('default.accessibility.toggle_menu')"
+            :aria-label="$t('default.accessibility.toggle_menu')"
             @click="showSider = !showSider"
             ><n-icon>
               <Bars />
@@ -27,7 +27,7 @@
             <span
               class="text-xl font-bold"
               :class="locale === 'zh' ? 'align-baseline' : 'align-super'"
-              >{{ t('navigation.title') }}</span
+              >{{ $t('navigation.title') }}</span
             >
           </NuxtLinkLocale>
         </div>
@@ -111,7 +111,7 @@
       >
         <template #trigger>
           <p class="cursor-help sm:mx-auto mx-12 max-w-sm">
-            {{ t('default.copyright') }}
+            {{ $t('default.copyright') }}
           </p>
         </template>
         <div class="max-w-xs text-left">

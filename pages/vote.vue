@@ -36,7 +36,7 @@
               >
                 <NuxtImg
                   :src="currentPair.banner1.image"
-                  :alt="t(`banner.${currentPair.banner1.id}.name`)"
+                  :alt="$t(`banner.${currentPair.banner1.id}.name`)"
                   class="w-full h-full object-cover transition-transform duration-300"
                   :class="{
                     'scale-105': selectedBanner === currentPair.banner1.id,
@@ -89,7 +89,7 @@
                 <n-text
                   strong
                   class="text-sm sm:text-base"
-                  >{{ t(`banner.${currentPair.banner1.id}.name`) }}</n-text
+                  >{{ $t(`banner.${currentPair.banner1.id}.name`) }}</n-text
                 >
               </NuxtLinkLocale>
             </div>
@@ -117,7 +117,7 @@
               >
                 <NuxtImg
                   :src="currentPair.banner2.image"
-                  :alt="t(`banner.${currentPair.banner2.id}.name`)"
+                  :alt="$t(`banner.${currentPair.banner2.id}.name`)"
                   class="w-full h-full object-cover transition-transform duration-300"
                   :class="{
                     'scale-105': selectedBanner === currentPair.banner2.id,
@@ -170,7 +170,7 @@
                 <n-text
                   strong
                   class="text-sm sm:text-base"
-                  >{{ t(`banner.${currentPair.banner2.id}.name`) }}</n-text
+                  >{{ $t(`banner.${currentPair.banner2.id}.name`) }}</n-text
                 >
               </NuxtLinkLocale>
             </div>
@@ -186,7 +186,7 @@
             v-if="!isPersonalMode"
             class="text-sm max-w-96 text-gray-500 dark:text-gray-400"
           >
-            {{ t('vote.errors.votingClosed') }}
+            {{ $t('vote.errors.votingClosed') }}
           </n-text>
 
           <div

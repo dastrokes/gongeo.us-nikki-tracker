@@ -5,7 +5,7 @@
       class="rounded-xl p-0 sm:p-2"
     >
       <div class="text-center mb-12">
-        <n-h1 class="font-bold mb-4">{{ t('faq.title') }}</n-h1>
+        <n-h1 class="font-bold mb-4">{{ $t('faq.title') }}</n-h1>
       </div>
 
       <div class="space-y-6">
@@ -13,10 +13,10 @@
           <n-collapse-item
             v-for="(faq, key) in faqs"
             :key="key"
-            :title="t(`faq.questions.${key}.question`)"
+            :title="$t(`faq.questions.${key}.question`)"
           >
             <div class="text-sm">
-              <p>{{ t(`faq.questions.${key}.answer`) }}</p>
+              <p>{{ $t(`faq.questions.${key}.answer`) }}</p>
             </div>
           </n-collapse-item>
         </n-collapse>

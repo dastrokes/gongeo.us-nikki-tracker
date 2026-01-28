@@ -20,7 +20,7 @@
                   <n-icon>
                     <ListAlt />
                   </n-icon>
-                  {{ t('common.items') }}
+                  {{ $t('common.items') }}
                 </span>
               </template>
               <template #unchecked>
@@ -28,7 +28,7 @@
                   <n-icon>
                     <Tshirt />
                   </n-icon>
-                  {{ t('common.outfits') }}
+                  {{ $t('common.outfits') }}
                 </span>
               </template>
             </n-switch>
@@ -149,7 +149,7 @@
                   type="primary"
                   @click="retryFetch"
                 >
-                  {{ t('common.retry') }}
+                  {{ $t('common.retry') }}
                 </n-button>
               </template>
             </n-result>

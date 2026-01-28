@@ -28,7 +28,7 @@
               <Home />
             </n-icon>
           </template>
-          {{ t('error.returnHome') }}
+          {{ $t('error.returnHome') }}
         </n-button>
       </template>
     </n-result>
@@ -36,29 +36,10 @@
 </template>
 
 <script setup lang="ts">
-  import type { Composer } from 'vue-i18n'
   import { Home } from '@vicons/fa'
 
   const localePath = useLocalePath()
   const { getImageSrc } = imageProvider()
-
-  const getTranslation = (): ((key: string) => string) => {
-    try {
-      const { t } = useI18n()
-      return t
-    } catch {
-      const i18n = useNuxtApp().$i18n as Composer | undefined
-      return (key: string) => {
-        try {
-          return i18n?.t?.(key) || key
-        } catch {
-          return key
-        }
-      }
-    }
-  }
-
-  const t = getTranslation()
 
   const handleError = () => {
     navigateTo(localePath('/'))

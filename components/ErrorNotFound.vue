@@ -4,8 +4,8 @@
       class="w-full max-w-xs"
       size="small"
       status="404"
-      :title="t('error.404')"
-      :description="t('error.notFound')"
+      :title="$t('error.404')"
+      :description="$t('error.notFound')"
     >
       <template #icon>
         <NuxtImg

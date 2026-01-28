@@ -283,13 +283,13 @@
             <template #title>
               <ClientOnly>
                 <template v-if="isMobileOrTablet">
-                  {{ t('import.bookmark_method_mobile') }}
+                  {{ $t('import.bookmark_method_mobile') }}
                 </template>
                 <template v-else>
-                  {{ t('import.bookmark_method') }}
+                  {{ $t('import.bookmark_method') }}
                 </template>
                 <template #fallback>
-                  {{ t('import.bookmark_method') }}
+                  {{ $t('import.bookmark_method') }}
                 </template>
               </ClientOnly>
             </template>
@@ -701,7 +701,7 @@
                 class="flex-grow"
                 @click="navigateTo(localePath('/tracker'))"
               >
-                {{ t('navigation.tracker') }}
+                {{ $t('navigation.tracker') }}
               </n-button>
             </n-space>
           </template>

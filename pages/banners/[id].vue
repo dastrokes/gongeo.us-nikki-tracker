@@ -552,7 +552,7 @@
             type="primary"
             @click="navigateTo(localePath('/banners'))"
           >
-            {{ t('navigation.banner') }}
+            {{ $t('navigation.banner') }}
           </n-button>
         </template>
       </n-result>

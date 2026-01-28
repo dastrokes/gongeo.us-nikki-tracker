@@ -9,6 +9,7 @@
 [[edge_functions]]
   function = "bot-block"
   path = "/*"
+  excludedPath = "/robots.txt"
 
   [edge_functions.header]
     "netlify-agent-category" = "^(ai-agent|page-preview|crawler|tooling|other|none)(;.*)?$"

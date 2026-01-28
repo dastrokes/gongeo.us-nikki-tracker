@@ -39,6 +39,11 @@ function isBlockedUserAgent(userAgent: string | null): boolean {
 }
 
 export default async (request: Request, context: Context) => {
+  const pathname = new URL(request.url).pathname
+  if (pathname === '/robots.txt') {
+    return context.next()
+  }
+
   const categoryHeader = request.headers.get('netlify-agent-category')
   const category = categoryHeader?.toLowerCase().split(';')[0]
 
@@ -46,13 +51,22 @@ export default async (request: Request, context: Context) => {
     return context.next()
   }
 
-  if (isBlockedUserAgent(request.headers.get('user-agent'))) {
+  const userAgent = request.headers.get('user-agent')
+  if (isBlockedUserAgent(userAgent)) {
     console.log('bot-block:', {
-      path: new URL(request.url).pathname,
-      userAgent: request.headers.get('user-agent'),
+      path: pathname,
+      userAgent,
       category,
     })
     return new Response('Forbidden', { status: 403 })
+  }
+
+  if (category && category !== 'none') {
+    console.log('bot-allow:', {
+      path: pathname,
+      userAgent,
+      category,
+    })
   }
 
   return context.next()

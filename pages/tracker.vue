@@ -415,10 +415,10 @@
                     <div class="flex items-center justify-between">
                       <n-switch v-model:value="settings.sortBanner">
                         <template #checked>{{
-                          t('tracker.banner.settings.oldest_first')
+                          $t('tracker.banner.settings.oldest_first')
                         }}</template>
                         <template #unchecked>{{
-                          t('tracker.banner.settings.latest_first')
+                          $t('tracker.banner.settings.latest_first')
                         }}</template>
                       </n-switch>
                       <span class="text-sm text-gray-400 ml-3">
@@ -428,10 +428,10 @@
                     <div class="flex items-center justify-between">
                       <n-switch v-model:value="settings.sortItems">
                         <template #checked>{{
-                          t('tracker.banner.settings.oldest_first')
+                          $t('tracker.banner.settings.oldest_first')
                         }}</template>
                         <template #unchecked>{{
-                          t('tracker.banner.settings.latest_first')
+                          $t('tracker.banner.settings.latest_first')
                         }}</template>
                       </n-switch>
                       <span class="text-sm text-gray-400 ml-3">
@@ -441,10 +441,10 @@
                     <div class="flex items-center justify-between">
                       <n-switch v-model:value="settings.combineOutfits">
                         <template #checked>{{
-                          t('tracker.banner.settings.combined')
+                          $t('tracker.banner.settings.combined')
                         }}</template>
                         <template #unchecked>{{
-                          t('tracker.banner.settings.separated')
+                          $t('tracker.banner.settings.separated')
                         }}</template>
                       </n-switch>
                       <span class="text-sm text-gray-400 ml-3">
@@ -453,8 +453,8 @@
                     </div>
                     <div class="flex items-center justify-between">
                       <n-switch v-model:value="settings.show4StarItems">
-                        <template #checked>{{ t('common.show') }}</template>
-                        <template #unchecked>{{ t('common.hide') }}</template>
+                        <template #checked>{{ $t('common.show') }}</template>
+                        <template #unchecked>{{ $t('common.hide') }}</template>
                       </n-switch>
                       <span class="text-sm text-gray-400 ml-3">
                         {{ t('tracker.banner.settings.show_4star') }}
@@ -462,8 +462,8 @@
                     </div>
                     <div class="flex items-center justify-between">
                       <n-switch v-model:value="settings.showDuplicates">
-                        <template #checked>{{ t('common.show') }}</template>
-                        <template #unchecked>{{ t('common.hide') }}</template>
+                        <template #checked>{{ $t('common.show') }}</template>
+                        <template #unchecked>{{ $t('common.hide') }}</template>
                       </n-switch>
                       <span class="text-sm text-gray-400 ml-3">
                         {{ t('tracker.banner.settings.duplicate_items') }}
@@ -471,8 +471,8 @@
                     </div>
                     <div class="flex items-center justify-between">
                       <n-switch v-model:value="settings.showMissingPieces">
-                        <template #checked>{{ t('common.show') }}</template>
-                        <template #unchecked>{{ t('common.hide') }}</template>
+                        <template #checked>{{ $t('common.show') }}</template>
+                        <template #unchecked>{{ $t('common.hide') }}</template>
                       </n-switch>
                       <span class="text-sm text-gray-400 ml-3">
                         {{ t('tracker.banner.settings.show_missing') }}
@@ -480,8 +480,8 @@
                     </div>
                     <div class="flex items-center justify-between">
                       <n-switch v-model:value="settings.showEmptyBanners">
-                        <template #checked>{{ t('common.show') }}</template>
-                        <template #unchecked>{{ t('common.hide') }}</template>
+                        <template #checked>{{ $t('common.show') }}</template>
+                        <template #unchecked>{{ $t('common.hide') }}</template>
                       </n-switch>
                       <span class="text-sm text-gray-400 ml-3">
                         {{ t('tracker.banner.settings.empty_banners') }}
@@ -523,7 +523,7 @@
                       class="m-0 font-medium break-words"
                       :type="banner.bannerType === 2 ? 'warning' : 'info'"
                     >
-                      {{ t(`banner.${banner.bannerId}.name`) }}
+                      {{ $t(`banner.${banner.bannerId}.name`) }}
                     </n-gradient-text>
                   </NuxtLinkLocale>
                 </div>
@@ -548,7 +548,7 @@
                         class="px-2 cursor-pointer hover:opacity-80 transition-opacity"
                       >
                         <span class="align-top"
-                          >{{ t(`outfit.${outfit.id}.name`) }}
+                          >{{ $t(`outfit.${outfit.id}.name`) }}
                           {{ outfit.quality }}</span
                         >
                         <span class="ml-1"
@@ -809,10 +809,10 @@
         <n-empty>
           <template #default>
             <div class="text-xl text-neutral-500">
-              {{ t('tracker.no_data.title') }}
+              {{ $t('tracker.no_data.title') }}
             </div>
             <div class="text-xl text-neutral-500">
-              {{ t('tracker.no_data.subtitle') }}
+              {{ $t('tracker.no_data.subtitle') }}
             </div></template
           >
           <template #extra>
@@ -820,7 +820,7 @@
               type="primary"
               @click="navigateTo(localePath('/import'))"
             >
-              {{ t('navigation.import') }}
+              {{ $t('navigation.import') }}
             </n-button>
           </template>
         </n-empty>
@@ -849,7 +849,7 @@
                   class="m-0 font-medium break-words"
                   :type="banner.bannerType === 2 ? 'warning' : 'info'"
                 >
-                  {{ t(`banner.${banner.bannerId}.name`) }}
+                  {{ $t(`banner.${banner.bannerId}.name`) }}
                 </n-gradient-text>
               </NuxtLinkLocale>
 
@@ -872,7 +872,7 @@
                         class="px-2 cursor-pointer"
                       >
                         <span class="align-top"
-                          >{{ t(`outfit.${outfit.id}.name`) }}
+                          >{{ $t(`outfit.${outfit.id}.name`) }}
                           {{ outfit.quality }}</span
                         >
                         <span class="ml-1"

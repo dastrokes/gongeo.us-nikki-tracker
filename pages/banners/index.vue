@@ -17,7 +17,7 @@
                 <template #trigger>
                   <NuxtImg
                     :src="getImageSrc('bannerThumb', banner.bannerId)"
-                    :alt="t(`banner.${banner.bannerId}.name`)"
+                    :alt="$t(`banner.${banner.bannerId}.name`)"
                     class="w-24 h-12 rounded-lg object-cover"
                     preset="bannerThumb"
                     width="200"
@@ -111,7 +111,7 @@
                 class="m-0 font-medium break-words"
                 :type="banner.bannerType === 2 ? 'warning' : 'info'"
               >
-                {{ t(`banner.${banner.bannerId}.name`) }}
+                {{ $t(`banner.${banner.bannerId}.name`) }}
               </n-gradient-text>
             </NuxtLinkLocale>
           </template>
@@ -126,13 +126,13 @@
                   <div class="flex flex-col gap-1">
                     <div class="flex items-center">
                       <n-tag :bordered="false">
-                        {{ t(`version.${getVersion(run.version)}`) }}
+                        {{ $t(`version.${getVersion(run.version)}`) }}
                       </n-tag>
                       <n-tag
                         class="ml-1"
                         :bordered="false"
                       >
-                        {{ t('banner.version') }}
+                        {{ $t('banner.version') }}
                         {{ getVersion(run.version) }}
                       </n-tag>
                     </div>

@@ -30,7 +30,7 @@
                 <div class="flex items-center justify-between gap-2">
                   <span
                     class="uppercase tracking-wide text-gray-500 dark:text-gray-400"
-                    >{{ t('quiz.round') }}</span
+                    >{{ $t('quiz.round') }}</span
                   >
                   <span
                     class="font-semibold text-gray-900 dark:text-gray-100"
@@ -40,7 +40,7 @@
                 <div class="flex items-center justify-between gap-2">
                   <span
                     class="uppercase tracking-wide text-gray-500 dark:text-gray-400"
-                    >{{ t('quiz.score') }}</span
+                    >{{ $t('quiz.score') }}</span
                   >
                   <span
                     class="font-semibold text-gray-900 dark:text-gray-100 tabular-nums"
@@ -50,7 +50,7 @@
                 <div class="flex items-center justify-between gap-2">
                   <span
                     class="uppercase tracking-wide text-gray-500 dark:text-gray-400"
-                    >{{ t('quiz.streak') }}</span
+                    >{{ $t('quiz.streak') }}</span
                   >
                   <span
                     class="font-semibold text-gray-900 dark:text-gray-100 tabular-nums"
@@ -227,12 +227,12 @@
                 <p
                   class="text-xs uppercase tracking-[0.2em] text-emerald-700/80 dark:text-emerald-200/80"
                 >
-                  {{ t('quiz.game_complete') }}
+                  {{ $t('quiz.game_complete') }}
                 </p>
                 <h2
                   class="text-lg sm:text-xl font-semibold text-emerald-900 dark:text-emerald-100"
                 >
-                  {{ t('quiz.final_score', { score }) }}
+                  {{ $t('quiz.final_score', { score }) }}
                 </h2>
               </div>
               <div class="grid grid-cols-2 gap-3 text-sm">
@@ -242,7 +242,7 @@
                   <p
                     class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400"
                   >
-                    {{ t('quiz.best_streak') }}
+                    {{ $t('quiz.best_streak') }}
                   </p>
                   <p
                     class="text-base font-semibold text-gray-900 dark:text-gray-100 tabular-nums"
@@ -256,7 +256,7 @@
                   <p
                     class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400"
                   >
-                    {{ t('quiz.rounds') }}
+                    {{ $t('quiz.rounds') }}
                   </p>
                   <p
                     class="text-base font-semibold text-gray-900 dark:text-gray-100 tabular-nums"
@@ -270,7 +270,7 @@
                   <p
                     class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400"
                   >
-                    {{ t('quiz.right') }}
+                    {{ $t('quiz.right') }}
                   </p>
                   <p
                     class="text-base font-semibold text-gray-900 dark:text-gray-100 tabular-nums"
@@ -284,7 +284,7 @@
                   <p
                     class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400"
                   >
-                    {{ t('quiz.wrong') }}
+                    {{ $t('quiz.wrong') }}
                   </p>
                   <p
                     class="text-base font-semibold text-gray-900 dark:text-gray-100 tabular-nums"
@@ -298,7 +298,7 @@
                 class="w-full"
                 @click="startGame"
               >
-                {{ t('quiz.play_again') }}
+                {{ $t('quiz.play_again') }}
               </n-button>
             </div>
           </template>
@@ -317,7 +317,7 @@
                     <span
                       class="min-w-0 font-semibold text-gray-900 dark:text-gray-100 line-clamp-3 leading-snug"
                     >
-                      {{ t(`outfit.${option}.name`) }}
+                      {{ $t(`outfit.${option}.name`) }}
                     </span>
                     <n-icon
                       v-if="getOptionIcon(option)"
@@ -333,7 +333,7 @@
                     v-model:value="searchQuery"
                     :options="searchOptions"
                     :disabled="roundResult !== 'unanswered'"
-                    :placeholder="t('common.search')"
+                    :placeholder="$t('common.search')"
                     @select="submitSearchGuess"
                     @keyup.enter="submitSearchGuess()"
                   />
@@ -341,7 +341,7 @@
                     v-if="roundResult === 'wrong' || roundResult === 'revealed'"
                     class="text-xs text-gray-500 dark:text-gray-400"
                   >
-                    {{ t('quiz.correct_answer') }} + ': ' + currentOutfitName
+                    {{ $t('quiz.correct_answer') }} + ': ' + currentOutfitName
                   </p>
                 </div>
               </template>
@@ -353,13 +353,13 @@
                   type="primary"
                   @click="nextRound"
                 >
-                  {{ t('quiz.next') }}
+                  {{ $t('quiz.next') }}
                 </n-button>
                 <n-button
                   :disabled="roundResult !== 'unanswered'"
                   @click="revealRound"
                 >
-                  {{ t('quiz.skip') }}
+                  {{ $t('quiz.skip') }}
                 </n-button>
               </template>
             </div>

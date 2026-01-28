@@ -8,7 +8,7 @@
       text
       size="tiny"
       class="flex items-center"
-      :aria-label="t('default.accessibility.user_profile_menu')"
+      :aria-label="$t('default.accessibility.user_profile_menu')"
     >
       <template #icon>
         <n-icon>

@@ -13,7 +13,7 @@
           class="cursor-pointer"
         >
           <span class="align-top"
-            >{{ t(`outfit.${outfitId}.name`) }} {{ quality }}</span
+            >{{ $t(`outfit.${outfitId}.name`) }} {{ quality }}</span
           >
           <span class="ml-1"
             ><n-icon><Star /></n-icon

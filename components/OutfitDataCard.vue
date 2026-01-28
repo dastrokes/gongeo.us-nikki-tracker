@@ -13,7 +13,7 @@
           class="cursor-pointer"
         >
           <span class="align-top"
-            >{{ t(`outfit.${outfitId}.name`) }} {{ quality }}</span
+            >{{ $t(`outfit.${outfitId}.name`) }} {{ quality }}</span
           >
           <span class="ml-1"
             ><n-icon><Star /></n-icon
@@ -32,7 +32,7 @@
       >
         <NuxtImg
           :src="image[1]"
-          :alt="`${t(`outfit.${outfitId}.name`)} ${image[0] === 0 ? 'Base' : `LV${image[0]}`}`"
+          :alt="`${$t(`outfit.${outfitId}.name`)} ${image[0] === 0 ? 'Base' : `LV${image[0]}`}`"
           class="absolute inset-0 w-full h-full object-cover z-10"
           preset="tallLg"
           width="300"
@@ -50,7 +50,7 @@
             :bordered="false"
             :color="getQualityTextTheme(quality)"
           >
-            {{ t(`banner.outfit.level.${image[0] === 0 ? '1' : image[0]}`) }}
+            {{ $t(`banner.outfit.level.${image[0] === 0 ? '1' : image[0]}`) }}
             <span v-if="getOutfitLevel.includes(image[0].toString())">
               <n-icon><CheckCircle /></n-icon>
             </span>

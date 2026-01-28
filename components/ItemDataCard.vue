@@ -17,7 +17,7 @@
       <NuxtImg
         v-if="info"
         :src="getImageSrc('itemIcon', item.itemId)"
-        :alt="t(`item.${item.itemId}.name`)"
+        :alt="$t(`item.${item.itemId}.name`)"
         class="w-full h-full object-cover aspect-square"
         preset="iconLg"
         width="120"
@@ -29,7 +29,7 @@
       <NuxtImg
         v-else
         :src="getImageSrc('itemIcon', item.itemId)"
-        :alt="t(`item.${item.itemId}.name`)"
+        :alt="$t(`item.${item.itemId}.name`)"
         class="w-full h-full object-cover aspect-square"
         preset="iconLg"
         width="120"
@@ -85,19 +85,19 @@
         <div
           class="font-bold leading-tight line-clamp-2 text-xs text-gray-700 dark:text-gray-100"
         >
-          {{ t(`item.${item.itemId}.name`) }}
+          {{ $t(`item.${item.itemId}.name`) }}
         </div>
         <div
           class="mt-0.5 text-[10px] sm:text-xs font-medium opacity-80 text-gray-500 dark:text-gray-300"
         >
-          {{ t(`type.${itemType}`) }}
+          {{ $t(`type.${itemType}`) }}
         </div>
         <div
           v-if="item.count > 0"
           class="mt-0.5 text-[10px] sm:text-xs font-medium opacity-80 text-gray-500 dark:text-gray-300"
         >
           <span v-if="item.pullIndex > 0">
-            {{ t('tracker.items.pull', { number: item.pullIndex }) }}
+            {{ $t('tracker.items.pull', { number: item.pullIndex }) }}
           </span>
         </div>
       </div>

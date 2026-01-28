@@ -60,8 +60,8 @@
     >
       <n-result
         status="error"
-        :title="t('compendium.error_title')"
-        :description="t('compendium.error_description')"
+        :title="$t('compendium.error_title')"
+        :description="$t('compendium.error_description')"
       >
         <template #footer>
           <n-space>
@@ -69,10 +69,10 @@
               type="primary"
               @click="retryFetch"
             >
-              {{ t('common.retry') }}
+              {{ $t('common.retry') }}
             </n-button>
             <n-button @click="navigateToList">
-              {{ t('compendium.back_to_list') }}
+              {{ $t('compendium.back_to_list') }}
             </n-button>
           </n-space>
         </template>
@@ -139,7 +139,7 @@
                 round
                 size="small"
               >
-                {{ t(`type.${itemType}`) }}
+                {{ $t(`type.${itemType}`) }}
               </n-tag>
             </div>
 
@@ -212,8 +212,8 @@
                         <n-collapse-item
                           :title="
                             outfitItemSets.length > 1
-                              ? `${t('common.items')} (${outfitSet.outfitItems.length}) - ${outfitSet.name}`
-                              : `${t('common.items')} (${outfitSet.outfitItems.length})`
+                              ? `${$t('common.items')} (${outfitSet.outfitItems.length}) - ${outfitSet.name}`
+                              : `${$t('common.items')} (${outfitSet.outfitItems.length})`
                           "
                           :name="`items-${outfitSet.id}`"
                         >
@@ -236,7 +236,7 @@
                               :item-id="outfitItem.id"
                               :quality="outfitItem.quality"
                               :type="resolveItemType(outfitItem)"
-                              :name="t(`item.${outfitItem.id}.name`)"
+                              :name="$t(`item.${outfitItem.id}.name`)"
                               size="sm"
                             />
                           </div>
@@ -247,8 +247,8 @@
                           v-if="outfitSet.makeupItems.length > 0"
                           :title="
                             outfitItemSets.length > 1
-                              ? `${t('common.makeup')} (${outfitSet.makeupItems.length}) - ${outfitSet.name}`
-                              : `${t('common.makeup')} (${outfitSet.makeupItems.length})`
+                              ? `${$t('common.makeup')} (${outfitSet.makeupItems.length}) - ${outfitSet.name}`
+                              : `${$t('common.makeup')} (${outfitSet.makeupItems.length})`
                           "
                           :name="`makeup-${outfitSet.id}`"
                         >
@@ -266,7 +266,7 @@
                               :item-id="makeupItem.id"
                               :quality="makeupItem.quality"
                               :type="resolveItemType(makeupItem)"
-                              :name="t(`item.${makeupItem.id}.name`)"
+                              :name="$t(`item.${makeupItem.id}.name`)"
                               size="sm"
                             />
                           </div>
@@ -322,7 +322,7 @@
         >
           <div class="flex items-center justify-between mb-3">
             <h2 class="text-lg font-bold">
-              {{ t('common.variations') }}
+              {{ $t('common.variations') }}
             </h2>
           </div>
           <div
@@ -357,7 +357,7 @@
                 ></div>
                 <NuxtImg
                   :src="getImageSrc('item', variation.id)"
-                  :alt="t(`item.${variation.id}.name`)"
+                  :alt="$t(`item.${variation.id}.name`)"
                   class="absolute inset-0 w-full h-full object-cover z-10"
                   preset="tallSm"
                   width="100"
@@ -385,7 +385,7 @@
           content-class="!p-2 sm:p-4"
         >
           <h2 class="text-lg font-bold mb-3">
-            {{ t('common.outfit') }}
+            {{ $t('common.outfit') }}
           </h2>
           <div
             class="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-4 xl:grid-cols-5 gap-2"
@@ -424,7 +424,7 @@
           content-class="!p-2 sm:p-4 flex flex-col h-full"
         >
           <h2 class="text-lg font-bold mb-3">
-            {{ t('common.banner') }}
+            {{ $t('common.banner') }}
           </h2>
           <NuxtLinkLocale
             :to="`/banners/${inBanner.bannerId}`"
@@ -435,7 +435,7 @@
             >
               <NuxtImg
                 :src="getImageSrc('banner', inBanner.bannerId)"
-                :alt="t(`banner.${inBanner.bannerId}.name`)"
+                :alt="$t(`banner.${inBanner.bannerId}.name`)"
                 class="w-full h-full object-cover"
                 preset="bannerThumb"
                 width="200"
@@ -448,7 +448,7 @@
             </div>
             <div class="mt-2">
               <p class="font-medium text-sm line-clamp-2">
-                {{ t(`banner.${inBanner.bannerId}.name`) }}
+                {{ $t(`banner.${inBanner.bannerId}.name`) }}
               </p>
             </div>
           </NuxtLinkLocale>
@@ -485,7 +485,7 @@
             type="primary"
             @click="navigateToList"
           >
-            {{ t('compendium.back_to_list') }}
+            {{ $t('compendium.back_to_list') }}
           </n-button>
         </template>
       </n-result>

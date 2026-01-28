@@ -7,9 +7,9 @@
       <div class="text-center space-y-4 max-w-sm mx-auto">
         <!-- Header -->
         <div class="space-y-2">
-          <n-h2 class="text-2xl font-bold">{{ t('login.sign_in') }}</n-h2>
+          <n-h2 class="text-2xl font-bold">{{ $t('login.sign_in') }}</n-h2>
           <n-text>
-            {{ t('login.welcome_description') }}
+            {{ $t('login.welcome_description') }}
           </n-text>
         </div>
 
@@ -17,14 +17,14 @@
         <div v-if="user && !isRecoveryMode">
           <n-result
             status="success"
-            :title="t('login.signed_in_title')"
+            :title="$t('login.signed_in_title')"
             size="small"
           >
             <template #footer>
               <n-space vertical>
                 <n-text>
                   {{
-                    t('login.welcome_back', {
+                    $t('login.welcome_back', {
                       name:
                         user.user_metadata?.custom_claims?.global_name ||
                         user.email ||
@@ -37,7 +37,7 @@
                   size="large"
                   @click="navigateTo(`${localePath('/tracker')}`)"
                 >
-                  {{ t('login.go_to_tracker') }}
+                  {{ $t('login.go_to_tracker') }}
                 </n-button>
               </n-space>
             </template>
@@ -256,14 +256,14 @@
         <template #footer>
           <n-space justify="end">
             <n-button @click="showResetPassword = false">
-              {{ t('login.back_to_login') }}
+              {{ $t('login.back_to_login') }}
             </n-button>
             <n-button
               type="primary"
               :loading="resetLoading"
               @click="handlePasswordReset"
             >
-              {{ t('login.send_reset_email') }}
+              {{ $t('login.send_reset_email') }}
             </n-button>
           </n-space>
         </template>

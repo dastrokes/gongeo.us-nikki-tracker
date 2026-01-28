@@ -75,8 +75,8 @@
     >
       <n-result
         status="error"
-        :title="t('compendium.error_title')"
-        :description="t('compendium.error_description')"
+        :title="$t('compendium.error_title')"
+        :description="$t('compendium.error_description')"
       >
         <template #footer>
           <n-space>
@@ -84,10 +84,10 @@
               type="primary"
               @click="retryFetch"
             >
-              {{ t('common.retry') }}
+              {{ $t('common.retry') }}
             </n-button>
             <n-button @click="navigateToList">
-              {{ t('compendium.back_to_list') }}
+              {{ $t('compendium.back_to_list') }}
             </n-button>
           </n-space>
         </template>
@@ -200,7 +200,7 @@
                   <n-collapse>
                     <n-collapse-item
                       v-if="outfitItems.length > 0"
-                      :title="`${t('common.items')} (${outfitItems.length})`"
+                      :title="`${$t('common.items')} (${outfitItems.length})`"
                       name="items"
                     >
                       <div
@@ -212,7 +212,7 @@
                           :item-id="outfitItem.id"
                           :quality="outfitItem.quality"
                           :type="resolveItemType(outfitItem)"
-                          :name="t(`item.${outfitItem.id}.name`)"
+                          :name="$t(`item.${outfitItem.id}.name`)"
                           size="sm"
                         />
                       </div>
@@ -222,7 +222,7 @@
                     <!-- Makeup Items Section -->
                     <n-collapse-item
                       v-if="makeupItems.length > 0"
-                      :title="`${t('common.makeup')} (${makeupItems.length})`"
+                      :title="`${$t('common.makeup')} (${makeupItems.length})`"
                       name="makeup"
                     >
                       <div
@@ -234,7 +234,7 @@
                           :item-id="item.id"
                           :quality="item.quality"
                           :type="resolveItemType(item)"
-                          :name="t(`item.${item.id}.name`)"
+                          :name="$t(`item.${item.id}.name`)"
                           size="sm"
                         />
                       </div>
@@ -286,7 +286,7 @@
         >
           <div class="flex items-center justify-between mb-3">
             <h2 class="text-lg font-bold">
-              {{ t('common.variations') }}
+              {{ $t('common.variations') }}
             </h2>
           </div>
           <div
@@ -308,7 +308,7 @@
                 <OutfitCard
                   :outfit-id="variation.id"
                   :quality="variation.quality"
-                  :name="t(`outfit.${variation.id}.name`)"
+                  :name="$t(`outfit.${variation.id}.name`)"
                   size="sm"
                   :show-meta="false"
                   :class="[
@@ -336,7 +336,7 @@
           content-class="!p-2 sm:p-4 flex flex-col h-full"
         >
           <h2 class="text-lg font-bold mb-3">
-            {{ t('common.banner') }}
+            {{ $t('common.banner') }}
           </h2>
           <NuxtLinkLocale
             :to="`/banners/${inBanner.bannerId}`"
@@ -347,7 +347,7 @@
             >
               <NuxtImg
                 :src="getImageSrc('banner', inBanner.bannerId)"
-                :alt="t(`banner.${inBanner.bannerId}.name`)"
+                :alt="$t(`banner.${inBanner.bannerId}.name`)"
                 class="w-full h-full object-cover"
                 preset="bannerThumb"
                 width="200"
@@ -360,7 +360,7 @@
             </div>
             <div class="mt-2">
               <p class="font-medium text-sm line-clamp-2">
-                {{ t(`banner.${inBanner.bannerId}.name`) }}
+                {{ $t(`banner.${inBanner.bannerId}.name`) }}
               </p>
             </div>
           </NuxtLinkLocale>
@@ -397,7 +397,7 @@
             type="primary"
             @click="navigateToList"
           >
-            {{ t('compendium.back_to_list') }}
+            {{ $t('compendium.back_to_list') }}
           </n-button>
         </template>
       </n-result>

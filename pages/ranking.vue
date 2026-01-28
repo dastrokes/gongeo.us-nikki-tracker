@@ -15,8 +15,8 @@
               >
                 {{
                   isPersonalMode
-                    ? t('vote.stats.personalVotes')
-                    : t('vote.stats.totalVotes')
+                    ? $t('vote.stats.personalVotes')
+                    : $t('vote.stats.totalVotes')
                 }}
               </div>
               <div
@@ -44,7 +44,7 @@
               <div
                 class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-1"
               >
-                {{ t('vote.stats.totalVoters') }}
+                {{ $t('vote.stats.totalVoters') }}
               </div>
               <div
                 class="flex items-center justify-center sm:justify-start gap-2"
@@ -71,7 +71,7 @@
               <div
                 class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-1"
               >
-                {{ t('vote.stats.avgVotes') }}
+                {{ $t('vote.stats.avgVotes') }}
               </div>
               <div
                 class="flex items-center justify-center sm:justify-start gap-2"

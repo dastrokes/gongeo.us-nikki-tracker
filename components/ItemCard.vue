@@ -40,7 +40,7 @@
         <div
           class="mt-0.5 text-[10px] sm:text-xs font-medium opacity-80 text-gray-500 dark:text-gray-300"
         >
-          {{ t(`type.${itemType}`) }}
+          {{ $t(`type.${itemType}`) }}
         </div>
       </div>
     </div>

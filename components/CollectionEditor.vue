@@ -52,7 +52,7 @@
                 <template #trigger>
                   <NuxtImg
                     :src="getImageSrc('itemIcon', itemId)"
-                    :alt="t(`item.${itemId}.name`)"
+                    :alt="$t(`item.${itemId}.name`)"
                     class="w-full aspect-square object-cover rounded-md"
                     preset="iconLg"
                     width="120"

@@ -31,6 +31,7 @@ export default defineNuxtConfig({
   ],
 
   i18n: {
+    lazy: true,
     restructureDir: 'locales',
     langDir: './',
     locales: i18nLocales,
@@ -40,6 +41,9 @@ export default defineNuxtConfig({
       cookieKey: 'i18n_redirected',
       fallbackLocale: defaultLocale,
       redirectOn: 'no prefix',
+    },
+    bundle: {
+      optimizeTranslationDirective: false,
     },
   },
 

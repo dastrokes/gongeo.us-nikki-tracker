@@ -179,10 +179,6 @@ export default defineNuxtConfig({
           ['/faq', '/about', '/timeline', '/vote', '/ranking'],
           { prerender: true, headers: CACHE_STATIC }
         ),
-        ...buildI18nRules(['/', '/import'], {
-          prerender: true,
-          headers: CACHE_STABLE,
-        }),
         ...buildI18nRules(['/error'], {
           prerender: true,
           robots: false,
@@ -191,9 +187,12 @@ export default defineNuxtConfig({
         ...buildI18nRules(['/banners/**', '/items/**', '/outfits/**'], {
           headers: CACHE_STATIC,
         }),
-        ...buildI18nRules(['/banners', '/outfits', '/items', '/quiz'], {
-          headers: CACHE_STABLE,
-        }),
+        ...buildI18nRules(
+          ['/', '/import', '/banners', '/outfits', '/items', '/quiz'],
+          {
+            headers: CACHE_STABLE,
+          }
+        ),
         ...buildI18nRules(['/global'], {
           headers: CACHE_DYNAMIC,
         }),

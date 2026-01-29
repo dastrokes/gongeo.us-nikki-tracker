@@ -863,28 +863,7 @@
   const showYouTubeModal = ref(false)
   const showBilibiliModal = ref(false)
 
-  const isProd = import.meta.env.PROD
-  const { data: maintenanceData, refresh: refreshMaintenance } = useAsyncData(
-    'import-maintenance',
-    () =>
-      isProd
-        ? $fetch<{ isMaintenance: boolean }>('/api/maintenance')
-        : Promise.resolve({ isMaintenance: false }),
-    {
-      server: false,
-      default: () => ({ isMaintenance: false }),
-    }
-  )
-
-  const isMaintenance = computed(
-    () => maintenanceData.value?.isMaintenance ?? false
-  )
-
-  onMounted(() => {
-    if (isProd) {
-      refreshMaintenance()
-    }
-  })
+  const isMaintenance = ref(true)
 
   useSeoMeta({
     title: () =>

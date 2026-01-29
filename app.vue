@@ -19,23 +19,6 @@
   // Initialize theme state
   const { isDark, naiveTheme, initTheme } = useTheme()
 
-  useHead(() => ({
-    htmlAttrs: {
-      class: isDark.value ? 'dark' : undefined,
-    },
-    script: [
-      {
-        id: 'theme-init',
-        tagPosition: 'head',
-        innerHTML:
-          "(() => { try { const cookie = document.cookie || ''; const match = cookie.match(/(?:^|;\\s*)theme=([^;]+)/); const saved = match ? decodeURIComponent(match[1]) : null; const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches; const isDark = saved ? saved === 'dark' : prefersDark; const root = document.documentElement; root.classList.toggle('dark', isDark); root.style.colorScheme = isDark ? 'dark' : 'light'; } catch (e) {} })();",
-      },
-    ],
-    __dangerouslyDisableSanitizersByTagID: {
-      'theme-init': ['innerHTML'],
-    },
-  }))
-
   if (import.meta.client) {
     watch(
       isDark,

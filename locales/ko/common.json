@@ -51,6 +51,10 @@
     "global": "글로벌 데이터",
     "banner": "배너 역사",
     "banner_detail": "배너 상세 정보",
+    "outfit": "Outfit Compendium",
+    "outfit_detail": "Outfit Detail",
+    "item": "Item Compendium",
+    "item_detail": "Item Detail",
     "compendium": "Compendium",
     "vote": "배너 투표",
     "faq": "자주 묻는 질문",
@@ -67,14 +71,14 @@
       "tracker": "인피니티 니키 공명 당김 기록을 추적하고 분석하세요. 5★ 및 4★ 배너 항목을 모두 확인하고 다른 스타일리스트와 운을 비교하세요.",
       "import": "게임, Whim-Log 데이터 또는 백업 파일에서 Infinity Nikki 공명 풀 히스토리를 쉽게 가져올 수 있습니다. 자세한 단계별 가이드가 포함되어 있습니다.",
       "global": "배너 인기도, 당김률, 아이템 드롭률, 커뮤니티 당김 통계 등 인피니티 니키 공명 글로벌 데이터를 살펴보세요.",
-      "banner": "현재 및 과거 이벤트, 한정 및 영구 배너, 의상 세부 정보, 배너 기간 및 재방송 일정을 포함한 전체 인피니티 니키 공명 배너 기록을 확인하세요.",
-      "banner_detail": "당김 통계, 배너 의상 및 개별 아이템 세부 정보를 포함한 자세한 인피니티 니키 공명 배너 데이터를 확인하세요.",
+      "banner": "Explore the complete Infinity Nikki resonance banner history, including current, upcoming, and past banners, limited and permanent events, featured outfits, pull statistics, banner durations, and rerun history.",
+      "banner_detail": "View detailed information about the {name} resonance banner, including pull statistics, featured outfits, individual item drop rates, outfit evolution and glow-up, banner duration, and rerun status.",
+      "outfits": "Browse all Infinity Nikki outfits with powerful filters by quality, evolution and glow-up, style tags, and stats. View complete outfit components and quickly find every outfit in the game.",
+      "outfit_detail": "View detailed information about the {name} outfit, including quality, outfit pieces, evolution and glow-up, makeups, stats, and related resonance banners.",
+      "items": "Browse all Infinity Nikki items with advanced filters by item type, quality, stat bonuses, and associated outfits or banners. Easily find and compare every item in the game.",
+      "item_detail": "View detailed information about the {name} item, including quality, evolution and glow-up, stats, and related outfits and banners.",
       "faq": "데이터 개인정보 보호, 가져오기 방법, 사용 지침 등 gongeo.us 에 대해 자주 묻는 질문에 대한 답변을 찾아보세요.",
-      "about": "gongeo.us 의 목적, 개인정보 보호 정책, 면책 조항 및 Infinity Nikki 커뮤니티를 지원하는 방법 등에 대해 자세히 알아보세요.",
-      "outfits": "Browse all Infinity Nikki outfits. View outfit details, quality ratings, and component items for every outfit in the game.",
-      "items": "Browse all Infinity Nikki items. View item details, quality ratings, and which outfits include each item.",
-      "outfit_detail": "View detailed information about {name}, including component items and quality rating.",
-      "item_detail": "View detailed information about {name}, including related outfits and quality rating."
+      "about": "gongeo.us 의 목적, 개인정보 보호 정책, 면책 조항 및 Infinity Nikki 커뮤니티를 지원하는 방법 등에 대해 자세히 알아보세요."
     }
   },
   "default": {

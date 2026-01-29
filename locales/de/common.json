@@ -51,10 +51,10 @@
     "global": "Globale Daten",
     "banner": "Bannerverlauf",
     "banner_detail": "Bannerdetail",
-    "outfit": "Outfit Compendium",
-    "outfit_detail": "Outfit Detail",
-    "item": "Item Compendium",
-    "item_detail": "Item Detail",
+    "outfit": "Outfit-Kompendium",
+    "outfit_detail": "Outfit-Detail",
+    "item": "Stück-Kompendium",
+    "item_detail": "Stück-Detail",
     "compendium": "Kompendium",
     "vote": "Banner-Abstimmung",
     "faq": "FAQ",
@@ -71,12 +71,12 @@
       "tracker": "Verfolge und analysiere deinen Infinity Nikki Resonanz-Verlauf. Schau dir alle 5★ und 4★ Banner Stücke an. Vergleiche dein Glück mit dem anderer Stylisten.",
       "import": "Importiere deinen Infinity Nikki Resonanz-Verlauf ganz leicht aus dem Spiel, Whim-Log oder Backup-Dateien, mit detaillierten Schritt-für-Schritt-Anleitungen.",
       "global": "Erkunde die globalen Infinity Nikki Resonanz-Daten, einschließlich Bannerbeliebtheit, Resonanz-Raten, Stück-Dropraten und Community Resonanz-Statistiken.",
-      "banner": "Explore the complete Infinity Nikki resonance banner history, including current, upcoming, and past banners, limited and permanent events, featured outfits, pull statistics, banner durations, and rerun history.",
-      "banner_detail": "View detailed information about the {name} resonance banner, including pull statistics, featured outfits, individual item drop rates, outfit evolution and glow-up, banner duration, and rerun status.",
-      "outfits": "Browse all Infinity Nikki outfits with powerful filters by quality, evolution and glow-up, style tags, and stats. View complete outfit components and quickly find every outfit in the game.",
-      "outfit_detail": "View detailed information about the {name} outfit, including quality, outfit pieces, evolution and glow-up, makeups, stats, and related resonance banners.",
-      "items": "Browse all Infinity Nikki items with advanced filters by item type, quality, stat bonuses, and associated outfits or banners. Easily find and compare every item in the game.",
-      "item_detail": "View detailed information about the {name} item, including quality, evolution and glow-up, stats, and related outfits and banners.",
+      "banner": "Entdecke den gesamten Infinity Nikki Resonanz-Banner-Verlauf, einschließlich aktueller, kommender und vergangener Banner, limitierter und permanenter Events, ausgewählter Outfits, Resonanz-Statistiken, Banner-Dauer und Wiederholungs-Verlauf.",
+      "banner_detail": "Schau dir detaillierte Informationen über das Resonanz-Banner {name} an, einschließlich Resonanz-Statistiken, ausgewählter Outfits, individueller Stück-Dropraten, Outfit Evolution und Verschönerung, Banner-Dauer und Wiederholungs-Status.",
+      "outfits": "Durchsuche alle Infinity Nikki Outfits mit leistungsstarken Filtern nach Qualität, Evolution und Verschönerung, Stil-Tags und Statuswerten. Schau dir die kompletten Outfit-Komponenten an und finde schnell jedes Outfit aus dem Spiel.",
+      "outfit_detail": "Schau dir detaillierte Informationen über das Outfit {name} an, einschließlich Qualität, Evolution und Verschönerung, Statuswerten und verwandter Resonanz-Bannern.",
+      "items": "Durchsuche alle Infinity Nikki Stücke mit erweiterten Filtern nach Stücktyp, Qualität, Statuswert-Boni und zugehörigen Outfits oder Bannern. Finde und vergleiche ganz leicht jedes Stück aus dem Spiel.",
+      "item_detail": "Schau dir detaillierte Informationen über das Stück {name} an, einschließlich Qualität, Evolution und Verschönerung, Statuswerten und verwandter Outfits und Bannern.",
       "faq": "Finde die Antworten auf häufig gestellte Fragen über gongeo.us, einschließlich Datenschutz, Importmethoden und Nutzungsrichtlinien.",
       "about": "Lerne mehr über gongeo.us, einschließlich seiner Zwecke, Datenschutzrichtlinien, Haftungsausschlüsse und wie es die Infinity Nikki Community unterstützt."
     }
@@ -425,7 +425,7 @@
     "next": "Weiter",
     "skip": "Überspringen",
     "play_again": "Noch einmal spielen",
-    "reveal_direction": "Reveal direction",
+    "reveal_direction": "Aufdeckungs-Richtung",
     "blur": "Unschärfe",
     "answer_mode": "Antwort-Modus",
     "answer_options": {
@@ -434,7 +434,7 @@
     },
     "correct_answer": "Richtige Antwort",
     "reveal_options": {
-      "middle_out": "Middle out",
+      "middle_out": "Von der Mitte aus",
       "top_down": "Von oben nach unten",
       "bottom_up": "Von unten nach oben"
     }

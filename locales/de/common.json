@@ -51,6 +51,10 @@
     "global": "Globale Daten",
     "banner": "Bannerverlauf",
     "banner_detail": "Bannerdetail",
+    "outfit": "Outfit-Kompendium",
+    "outfit_detail": "Outfit-Detail",
+    "item": "Stück-Kompendium",
+    "item_detail": "Stück-Detail",
     "compendium": "Kompendium",
     "vote": "Banner-Abstimmung",
     "faq": "FAQ",
@@ -64,17 +68,17 @@
     "description": {
       "default": "Verfolge Infinity Nikki Resonanz-Verlauf und Statistiken. Ein Fan-erstelltes Tracking- und Analysewerkzeug für die Infinity Nikki Community.",
       "login": "Melde dich bei gongeo.us mit E-Mail oder einem Drittanbieter-Konto an, um deine Infinity Nikki Resonanz-Daten über mehrere Geräte hochzuladen, zu sichern und zu synchronisieren.",
-      "tracker": "Verfolge und analysiere deinen Infinity Nikki Resonanz-Verlauf. Schaue dir alle 5★ und 4★ Banner Stücke an. Vergleiche dein Glück mit dem anderer Stylisten.",
+      "tracker": "Verfolge und analysiere deinen Infinity Nikki Resonanz-Verlauf. Schau dir alle 5★ und 4★ Banner Stücke an. Vergleiche dein Glück mit dem anderer Stylisten.",
       "import": "Importiere deinen Infinity Nikki Resonanz-Verlauf ganz leicht aus dem Spiel, Whim-Log oder Backup-Dateien, mit detaillierten Schritt-für-Schritt-Anleitungen.",
       "global": "Erkunde die globalen Infinity Nikki Resonanz-Daten, einschließlich Bannerbeliebtheit, Resonanz-Raten, Stück-Dropraten und Community Resonanz-Statistiken.",
-      "banner": "Schau dir den gesamten Infinity Nikki Resonanz-Verlauf an, einschließlich aktueller und vergangener Events, begrenzter und dauerhafter Banner, Outfit-Details, Banner-Dauer und Wiederholungs-Zeitplan.",
-      "banner_detail": "Schau dir detaillierte Infinity Nikki Resonanz-Banner-Daten an, einschließlich Resonanz-Statistiken, Banner-Outfits und individuelle Stück-Details.",
+      "banner": "Entdecke den gesamten Infinity Nikki Resonanz-Banner-Verlauf, einschließlich aktueller, kommender und vergangener Banner, limitierter und permanenter Events, ausgewählter Outfits, Resonanz-Statistiken, Banner-Dauer und Wiederholungs-Verlauf.",
+      "banner_detail": "Schau dir detaillierte Informationen über das Resonanz-Banner {name} an, einschließlich Resonanz-Statistiken, ausgewählter Outfits, individueller Stück-Dropraten, Outfit Evolution und Verschönerung, Banner-Dauer und Wiederholungs-Status.",
+      "outfits": "Durchsuche alle Infinity Nikki Outfits mit leistungsstarken Filtern nach Qualität, Evolution und Verschönerung, Stil-Tags und Statuswerten. Schau dir die kompletten Outfit-Komponenten an und finde schnell jedes Outfit aus dem Spiel.",
+      "outfit_detail": "Schau dir detaillierte Informationen über das Outfit {name} an, einschließlich Qualität, Evolution und Verschönerung, Statuswerten und verwandter Resonanz-Bannern.",
+      "items": "Durchsuche alle Infinity Nikki Stücke mit erweiterten Filtern nach Stücktyp, Qualität, Statuswert-Boni und zugehörigen Outfits oder Bannern. Finde und vergleiche ganz leicht jedes Stück aus dem Spiel.",
+      "item_detail": "Schau dir detaillierte Informationen über das Stück {name} an, einschließlich Qualität, Evolution und Verschönerung, Statuswerten und verwandter Outfits und Bannern.",
       "faq": "Finde die Antworten auf häufig gestellte Fragen über gongeo.us, einschließlich Datenschutz, Importmethoden und Nutzungsrichtlinien.",
-      "about": "Lerne mehr über gongeo.us, einschließlich seiner Zwecke, Datenschutzrichtlinien, Haftungsausschlüsse und wie es die Infinity Nikki Community unterstützt.",
-      "outfits": "Durchstöbere alle Infinity Nikki Outfits. Schau dir Outfit-Details, Qualitätsbewertungen und Bestandteile für jedes Outfit im Spiel an.",
-      "items": "Durchstöbere alle Infinity Nikki Stücke. Schau dir Stück-Details, Qualitätsbewertungen an und welche Outfits jedes Stück beinhalten.",
-      "outfit_detail": "Detaillierte Informationen über {name}, inklusive Bestandteile und Qualitätsbewertung, ansehen.",
-      "item_detail": "Detaillierte Informationen über {name}, inklusive verwandter Outfits und Qualitätsbewertung, ansehen."
+      "about": "Lerne mehr über gongeo.us, einschließlich seiner Zwecke, Datenschutzrichtlinien, Haftungsausschlüsse und wie es die Infinity Nikki Community unterstützt."
     }
   },
   "default": {
@@ -421,7 +425,7 @@
     "next": "Weiter",
     "skip": "Überspringen",
     "play_again": "Noch einmal spielen",
-    "reveal_direction": "Reveal direction",
+    "reveal_direction": "Aufdeckungs-Richtung",
     "blur": "Unschärfe",
     "answer_mode": "Antwort-Modus",
     "answer_options": {
@@ -430,7 +434,7 @@
     },
     "correct_answer": "Richtige Antwort",
     "reveal_options": {
-      "middle_out": "Middle out",
+      "middle_out": "Von der Mitte aus",
       "top_down": "Von oben nach unten",
       "bottom_up": "Von unten nach oben"
     }

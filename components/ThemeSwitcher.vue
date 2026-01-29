@@ -18,7 +18,6 @@
 
 <script setup lang="ts">
   import { Sun as SunIcon, Moon as MoonIcon } from '@vicons/fa'
-  const { t } = useI18n()
 
   const { isDark, setTheme } = useTheme()
 

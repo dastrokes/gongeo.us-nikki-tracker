@@ -42,7 +42,7 @@ export const useSupabaseOutfits = () => {
 
     try {
       const response = await $fetch.raw<OutfitWithItems>(`/api/outfits/${id}`, {
-        headers: { [LOCALE_HEADER]: locale.value },
+        params: { lang: locale.value },
         ignoreResponseError: true,
       })
 

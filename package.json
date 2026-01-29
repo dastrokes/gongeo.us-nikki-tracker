@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "@fingerprintjs/fingerprintjs": "5.0.1",
-    "@netlify/blobs": "10.0.0",
+    "@netlify/blobs": "10.5.0",
     "@nuxt/eslint": "1.13.0",
     "@nuxt/fonts": "0.13.0",
     "@nuxt/image": "2.0.0",
@@ -48,7 +48,7 @@
   "devDependencies": {
     "@bg-dev/nuxt-naiveui": "2.0.0",
     "@netlify/edge-functions": "3.0.3",
-    "@types/node": "25.0.10",
+    "@types/node": "25.1.0",
     "@typescript-eslint/eslint-plugin": "8.54.0",
     "@typescript-eslint/parser": "8.54.0",
     "@vicons/fa": "0.13.0",

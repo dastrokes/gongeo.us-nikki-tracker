@@ -59,7 +59,6 @@
   import type { SearchResult, SearchCategory } from '~/types/search'
   import type { AutoCompleteOption } from 'naive-ui'
 
-  const { t } = useI18n()
   const { search, searchOptions, buildSearchIndex } = useSearch()
   const { getImageSrc } = imageProvider()
 

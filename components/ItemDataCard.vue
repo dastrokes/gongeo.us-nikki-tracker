@@ -118,7 +118,6 @@
     info: true,
   })
 
-  const { t } = useI18n()
   const itemType = computed(() => getItemType(props.item.itemId))
   const { getImageSrc } = imageProvider()
 

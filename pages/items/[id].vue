@@ -759,25 +759,22 @@
     title: () =>
       item.value
         ? `${itemName.value} - ${t('meta.game_title')} - ${t('navigation.title')}`
-        : `${t('common.items')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
+        : `${t('navigation.item_detail')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     description: () =>
-      itemDescription.value ||
       t('meta.description.item_detail', { name: itemName.value || '' }),
     ogTitle: () =>
       item.value
         ? `${itemName.value} - ${t('meta.game_title')} - ${t('navigation.title')}`
-        : `${t('common.items')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
+        : `${t('navigation.item_detail')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     ogDescription: () =>
-      itemDescription.value ||
       t('meta.description.item_detail', { name: itemName.value || '' }),
     ogImage: () => ogItemImage.value,
     ogType: 'website',
     twitterTitle: () =>
       item.value
         ? `${itemName.value} - ${t('meta.game_title')} - ${t('navigation.title')}`
-        : `${t('common.items')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
+        : `${t('navigation.item_detail')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     twitterDescription: () =>
-      itemDescription.value ||
       t('meta.description.item_detail', { name: itemName.value || '' }),
     twitterImage: () => ogItemImage.value,
   })
@@ -797,9 +794,7 @@
               '@context': 'https://schema.org',
               '@type': 'Product',
               name: itemName.value,
-              description:
-                itemDescription.value ||
-                `${itemName.value} - ${t('meta.game_title')} - ${t('navigation.title')}`,
+              description: `${itemName.value} - ${t('meta.game_title')} - ${t('navigation.title')}`,
               image: ogItemImage.value,
               brand: {
                 '@type': 'Brand',

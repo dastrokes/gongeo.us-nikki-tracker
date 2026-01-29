@@ -51,6 +51,10 @@
     "global": "Global Data",
     "banner": "Banner History",
     "banner_detail": "Banner Detail",
+    "outfit": "Outfit Compendium",
+    "outfit_detail": "Outfit Detail",
+    "item": "Item Compendium",
+    "item_detail": "Item Detail",
     "compendium": "Compendium",
     "vote": "Banner Vote",
     "faq": "FAQ",
@@ -67,14 +71,14 @@
       "tracker": "Track and analyze your Infinity Nikki resonance pull history. View all 5★ and 4★ banner items and compare your luck with other stylists.",
       "import": "Import your Infinity Nikki resonance pull history easily from game, Whim-Log data or backup files with detailed step-by-step guides.",
       "global": "Explore Infinity Nikki resonance global data, including banner popularity, pull rates, item drop rates, and community pull statistics.",
-      "banner": "View the complete Infinity Nikki resonance banner history, including current and past events, limited and permanent banners, outfit details, banner durations and rerun schedules.",
-      "banner_detail": "View detailed Infinity Nikki resonance banner data, including pull statistics, banner outfits and individual item details.",
+      "banner": "Explore the complete Infinity Nikki resonance banner history, including current, upcoming, and past banners, limited and permanent events, featured outfits, pull statistics, banner durations, and rerun history.",
+      "banner_detail": "View detailed information about the {name} resonance banner, including pull statistics, featured outfits, individual item drop rates, outfit evolution and glow-up, banner duration, and rerun status.",
+      "outfits": "Browse all Infinity Nikki outfits with powerful filters by quality, evolution and glow-up, style tags, and stats. View complete outfit components and quickly find every outfit in the game.",
+      "outfit_detail": "View detailed information about the {name} outfit, including quality, outfit pieces, evolution and glow-up, makeups, stats, and related resonance banners.",
+      "items": "Browse all Infinity Nikki items with advanced filters by item type, quality, stat bonuses, and associated outfits or banners. Easily find and compare every item in the game.",
+      "item_detail": "View detailed information about the {name} item, including quality, evolution and glow-up, stats, and related outfits and banners.",
       "faq": "Find answers to frequently asked questions about gongeo.us, including data privacy, import methods, and usage guidelines.",
-      "about": "Learn more about gongeo.us, including its purpose, privacy policy, disclaimers, and how it supports the Infinity Nikki community.",
-      "outfits": "Browse all Infinity Nikki outfits. View outfit details, quality ratings, and component items for every outfit in the game.",
-      "items": "Browse all Infinity Nikki items. View item details, quality ratings, and which outfits include each item.",
-      "outfit_detail": "View detailed information about {name}, including component items and quality rating.",
-      "item_detail": "View detailed information about {name}, including related outfits and quality rating."
+      "about": "Learn more about gongeo.us, including its purpose, privacy policy, disclaimers, and how it supports the Infinity Nikki community."
     }
   },
   "default": {

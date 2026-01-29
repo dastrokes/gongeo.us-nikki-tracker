@@ -19,6 +19,12 @@
   // Initialize theme state
   const { isDark, naiveTheme, initTheme } = useTheme()
 
+  useHead(() => ({
+    htmlAttrs: {
+      class: isDark.value ? 'dark' : undefined,
+    },
+  }))
+
   if (import.meta.client) {
     watch(
       isDark,

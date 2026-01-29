@@ -613,6 +613,12 @@
     return BANNER_DATA[bannerId]
   })
 
+  const bannerName = computed(() =>
+    banner.value
+      ? t(`banner.${banner.value.bannerId}.name`)
+      : t('navigation.banner_detail')
+  )
+
   const bannerPulls = computed(() => {
     if (!banner.value) return null
     return processedPulls.value[banner.value.bannerId]
@@ -745,12 +751,18 @@
       banner.value
         ? `${t(`banner.${banner.value.bannerId}.name`)} - ${t('meta.game_title')} - ${t('navigation.title')}`
         : `${t('navigation.banner_detail')} - ${t('navigation.title')}`,
-    description: () => t('meta.description.banner_detail'),
+    description: () =>
+      t('meta.description.banner_detail', {
+        name: bannerName.value,
+      }),
     ogTitle: () =>
       banner.value
         ? `${t(`banner.${banner.value.bannerId}.name`)} - ${t('navigation.banner_detail')} - ${t('navigation.title')}`
         : `${t('navigation.banner_detail')} - ${t('navigation.title')}`,
-    ogDescription: () => t('meta.description.banner_detail'),
+    ogDescription: () =>
+      t('meta.description.banner_detail', {
+        name: bannerName.value,
+      }),
     ogImage: () =>
       banner.value
         ? `${siteUrl}/images/banners/${banner.value.bannerId}.png`
@@ -759,7 +771,10 @@
       banner.value
         ? `${t(`banner.${banner.value.bannerId}.name`)} - ${t('navigation.banner_detail')} - ${t('navigation.title')}`
         : `${t('navigation.banner_detail')} - ${t('navigation.title')}`,
-    twitterDescription: () => t('meta.description.banner_detail'),
+    twitterDescription: () =>
+      t('meta.description.banner_detail', {
+        name: bannerName.value,
+      }),
     twitterImage: () =>
       banner.value
         ? `${siteUrl}/images/banners/${banner.value.bannerId}.png`
@@ -782,7 +797,9 @@
           name: banner.value
             ? `${t(`banner.${banner.value.bannerId}.name`)} - ${t('meta.game_title')} - ${t('navigation.title')}`
             : `${t('navigation.banner_detail')} - ${t('navigation.title')}`,
-          description: t('meta.description.banner_detail'),
+          description: t('meta.description.banner_detail', {
+            name: bannerName.value,
+          }),
           url: `${siteUrl}${localePath(`/banners/${route.params.id}`)}`,
           image: banner.value
             ? `${siteUrl}/images/banners/${banner.value.bannerId}.png`

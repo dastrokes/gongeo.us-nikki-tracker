@@ -617,25 +617,22 @@
     title: () =>
       outfit.value
         ? `${outfitName.value} - ${t('meta.game_title')} - ${t('navigation.title')}`
-        : `${t('common.outfits')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
+        : `${t('navigation.outfit')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     description: () =>
-      outfitDescription.value ||
       t('meta.description.outfit_detail', { name: outfitName.value || '' }),
     ogTitle: () =>
       outfit.value
         ? `${outfitName.value} - ${t('meta.game_title')} - ${t('navigation.title')}`
-        : `${t('common.outfits')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
+        : `${t('navigation.outfit')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     ogDescription: () =>
-      outfitDescription.value ||
       t('meta.description.outfit_detail', { name: outfitName.value || '' }),
     ogImage: () => ogOutfitImage.value,
     ogType: 'website',
     twitterTitle: () =>
       outfit.value
         ? `${outfitName.value} - ${t('meta.game_title')} - ${t('navigation.title')}`
-        : `${t('common.outfits')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
+        : `${t('navigation.outfit')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     twitterDescription: () =>
-      outfitDescription.value ||
       t('meta.description.outfit_detail', { name: outfitName.value || '' }),
     twitterImage: () => ogOutfitImage.value,
   })
@@ -655,9 +652,7 @@
               '@context': 'https://schema.org',
               '@type': 'Product',
               name: outfitName.value,
-              description:
-                outfitDescription.value ||
-                `${outfitName.value} - ${t('meta.game_title')} - ${t('navigation.title')}`,
+              description: `${outfitName.value} - ${t('meta.game_title')} - ${t('navigation.title')}`,
               image: ogOutfitImage.value,
               brand: {
                 '@type': 'Brand',

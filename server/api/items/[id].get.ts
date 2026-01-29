@@ -53,10 +53,14 @@ interface ItemVariation {
 
 const getRequestLocale = (event: H3Event) => {
   const contextLocale = (event.context as { localeCode?: string })?.localeCode
+  const query = getQuery(event)
+  const langQuery = query.lang?.toString()
   const localeHeader = getHeader(event, LOCALE_HEADER)
   const localeCookie = getCookie(event, 'i18n_redirected')
 
-  return resolveLocaleCode(localeHeader || localeCookie || contextLocale)
+  return resolveLocaleCode(
+    langQuery || localeHeader || localeCookie || contextLocale
+  )
 }
 
 /**
@@ -113,7 +117,7 @@ function getVariationType(id: number): string {
 export default defineCachedEventHandler(
   async (event) => {
     setCacheHeaders(event, {
-      varyHeaders: [LOCALE_HEADER],
+      varyQuery: true,
     })
     const id = Number(getRouterParam(event, 'id'))
     const languageCode = getRequestLocale(event)

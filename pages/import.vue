@@ -1,7 +1,7 @@
 <template>
   <div class="max-w-7xl mx-auto space-y-2 sm:space-y-4">
     <n-card
-      v-if="!isMaintenance"
+      v-if="maintenanceReady && !isMaintenance"
       size="small"
       class="rounded-xl p-0 sm:p-2"
     >
@@ -744,7 +744,7 @@
     </n-card>
 
     <n-card
-      v-if="isMaintenance"
+      v-else-if="maintenanceReady && isMaintenance"
       size="small"
       class="rounded-xl p-0 sm:p-2"
     >
@@ -759,6 +759,26 @@
       </div>
 
       <SocialLinks />
+    </n-card>
+    <n-card
+      v-else
+      size="small"
+      class="rounded-xl p-0 sm:p-2"
+    >
+      <div class="space-y-4">
+        <n-skeleton
+          text
+          :repeat="2"
+        />
+        <n-skeleton
+          height="28px"
+          :sharp="false"
+        />
+        <n-skeleton
+          text
+          :repeat="6"
+        />
+      </div>
     </n-card>
 
     <!-- Collection Editor Modal -->
@@ -864,7 +884,7 @@
   const showBilibiliModal = ref(false)
 
   const isProd = import.meta.env.PROD
-  const { data: maintenanceData, refresh: refreshMaintenance } = useAsyncData(
+  const { data: maintenanceData, pending: maintenancePending } = useAsyncData(
     'import-maintenance',
     () =>
       isProd
@@ -872,19 +892,17 @@
         : Promise.resolve({ isMaintenance: false }),
     {
       server: false,
-      default: () => ({ isMaintenance: false }),
+      default: () => null,
     }
   )
 
   const isMaintenance = computed(
-    () => maintenanceData.value?.isMaintenance ?? false
+    () => maintenanceData.value?.isMaintenance === true
   )
 
-  onMounted(() => {
-    if (isProd) {
-      refreshMaintenance()
-    }
-  })
+  const maintenanceReady = computed(
+    () => !isProd || maintenancePending.value === false
+  )
 
   useSeoMeta({
     title: () =>

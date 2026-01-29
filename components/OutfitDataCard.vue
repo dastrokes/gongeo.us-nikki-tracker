@@ -76,7 +76,6 @@
     completionData?: CompletionData
   }>()
 
-  const { t } = useI18n()
   const pullStore = usePullStore()
   const { getImageSrc } = imageProvider()
   const OUTFIT_CARD_GRADIENTS = {

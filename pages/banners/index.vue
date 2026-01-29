@@ -294,7 +294,7 @@
 
   const pageTitle = computed(
     () =>
-      `${t('common.banners')} - ${t('meta.game_title')} - ${t('navigation.title')}`
+      `${t('navigation.banner')} - ${t('meta.game_title')} - ${t('navigation.title')}`
   )
   const description = computed(() => t('meta.description.banner'))
   const canonicalPath = computed(() => localePath('/banners'))

@@ -33,6 +33,7 @@ export default defineNuxtConfig({
     lazy: true,
     restructureDir: 'locales',
     langDir: './',
+    baseUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://gongeo.us',
     locales: i18nLocales,
     defaultLocale: defaultLocale,
     strategy: 'prefix_except_default',

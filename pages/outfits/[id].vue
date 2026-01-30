@@ -111,7 +111,7 @@
                 :quality="outfit.quality"
                 :name="outfitName"
                 size="md"
-                :show-meta="false"
+                :show-info="false"
                 class="shadow-lg w-full"
               />
             </div>
@@ -310,7 +310,7 @@
                   :quality="variation.quality"
                   :name="$t(`outfit.${variation.id}.name`)"
                   size="sm"
-                  :show-meta="false"
+                  :show-info="false"
                   :class="[
                     'transition-all duration-200 ease-in-out group-hover:shadow-xl',
                     variation.id === outfitId
@@ -551,10 +551,10 @@
     return null
   })
 
-  // Get outfit name from i18n (names are stored in i18n files, not database)
+  // Get outfit name from i18n
   const outfitName = computed(() => {
     if (!outfit.value) return ''
-    return t(`outfit.${outfit.value.id}.name`)
+    return t(`outfit.${outfit.value?.id}.name`)
   })
 
   const outfitVersion = computed(() => {
@@ -615,25 +615,24 @@
 
   useSeoMeta({
     title: () =>
-      outfit.value
-        ? `${outfitName.value} - ${t('meta.game_title')} - ${t('navigation.title')}`
-        : `${t('navigation.outfit')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
+      `${t(`outfit.${outfit.value?.id}.name`)} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     description: () =>
-      t('meta.description.outfit_detail', { name: outfitName.value || '' }),
+      t('meta.description.outfit_detail', {
+        name: t(`outfit.${outfit.value?.id}.name`) || '',
+      }),
     ogTitle: () =>
-      outfit.value
-        ? `${outfitName.value} - ${t('meta.game_title')} - ${t('navigation.title')}`
-        : `${t('navigation.outfit')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
+      `${t(`outfit.${outfit.value?.id}.name`)} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     ogDescription: () =>
-      t('meta.description.outfit_detail', { name: outfitName.value || '' }),
+      t('meta.description.outfit_detail', {
+        name: t(`outfit.${outfit.value?.id}.name`) || '',
+      }),
     ogImage: () => ogOutfitImage.value,
-    ogType: 'website',
     twitterTitle: () =>
-      outfit.value
-        ? `${outfitName.value} - ${t('meta.game_title')} - ${t('navigation.title')}`
-        : `${t('navigation.outfit')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
+      `${t(`outfit.${outfit.value?.id}.name`)} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     twitterDescription: () =>
-      t('meta.description.outfit_detail', { name: outfitName.value || '' }),
+      t('meta.description.outfit_detail', {
+        name: t(`outfit.${outfit.value?.id}.name`) || '',
+      }),
     twitterImage: () => ogOutfitImage.value,
   })
 
@@ -651,8 +650,10 @@
             children: JSON.stringify({
               '@context': 'https://schema.org',
               '@type': 'Product',
-              name: outfitName.value,
-              description: `${outfitName.value} - ${t('meta.game_title')} - ${t('navigation.title')}`,
+              name: `${t(`outfit.${outfit.value?.id}.name`)} - ${t('meta.game_title')} - ${t('navigation.title')}`,
+              description: t('meta.description.outfit_detail', {
+                name: t(`outfit.${outfit.value?.id}.name`) || '',
+              }),
               image: ogOutfitImage.value,
               brand: {
                 '@type': 'Brand',

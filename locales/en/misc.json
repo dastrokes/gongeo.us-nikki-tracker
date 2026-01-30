@@ -180,6 +180,14 @@
   "obtain.20105.name": "Pear-Pal Premium",
   "obtain.20106.name": "Forest Frolic",
   "obtain.20107.name": "Starlit Shop",
+  "obtain.20201.name": "Limited-Time Resonance",
+  "obtain.20202.name": "Pear-Pal Premium",
+  "obtain.20203.name": "Designer Originals",
+  "obtain.20204.name": "Starlit Shop",
+  "obtain.20205.name": "Scattered Chests",
+  "obtain.20207.name": "Heart of Infinity: Inspiration",
+  "obtain.20208.name": "Main Story Memories",
+  "obtain.20209.name": "Flavors of Life",
   "style.cool": "Cool",
   "style.elegant": "Elegant",
   "style.fresh": "Fresh",
@@ -198,5 +206,6 @@
   "version.1.8": "Danqing Season",
   "version.1.9": "Music Season",
   "version.2.0": "Terra's Call",
-  "version.2.1": "Life as a Poem"
+  "version.2.1": "Life as a Poem",
+  "version.2.2": "Chromatic Beings Everbright"
 }

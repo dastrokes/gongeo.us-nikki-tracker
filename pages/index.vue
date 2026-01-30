@@ -246,11 +246,11 @@
   }))
 
   // TODO: update to current banner id
-  const leftBanners = [BANNER_DATA[46], BANNER_DATA[6]] as Banner[]
-  const rightBanners = [BANNER_DATA[47], BANNER_DATA[48]] as Banner[]
+  const leftBanners = [BANNER_DATA[49]] as Banner[]
+  const rightBanners = [BANNER_DATA[50]] as Banner[]
 
-  const leftTargetTime = new Date('2026-01-29T20:00:00Z') // UTC
-  const rightTargetTime = new Date('2026-01-29T20:00:00Z') // UTC
+  const leftTargetTime = new Date('2026-03-02T20:00:00Z') // UTC
+  const rightTargetTime = new Date('2026-03-02T20:00:00Z') // UTC
 
   const indexA = ref(0)
   const indexB = ref(0)

@@ -177,11 +177,10 @@
   import KoFi from '~/components/icons/KoFi.vue'
   import Netlify from '~/components/icons/Netlify.vue'
   import { useSwipe } from '@vueuse/core'
-  import { i18nLocales } from '~/locales/locales'
-
   const { t } = useI18n()
   const localePath = useLocalePath()
   const { locale } = useI18n()
+  const localeHead = useLocaleHead({ dir: true, lang: true, seo: true })
   const nuxtApp = useNuxtApp()
   const loading = useState<boolean>('loading', () => false)
 
@@ -206,15 +205,12 @@
 
   const siteUrl = useRuntimeConfig().public.siteUrl
 
-  const currentLocaleIso = computed<string>(() => {
-    const currentLocale = i18nLocales.find((l) => l.code === locale.value)
-    return (currentLocale?.iso || locale.value) as string
-  })
+  const localeHeadLinks = computed(() =>
+    (localeHead.value.link || []).filter((link) => link.rel !== 'canonical')
+  )
 
   useHead({
-    htmlAttrs: {
-      lang: currentLocaleIso,
-    },
+    htmlAttrs: () => ({ ...localeHead.value.htmlAttrs }),
     title: () => t('meta.title'),
     meta: () => [
       { charset: 'utf-8' },
@@ -269,10 +265,11 @@
         name: 'twitter:creator',
         content: '@gongeo_us',
       },
+      ...localeHead.value.meta,
     ],
     link: () => [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      { rel: 'canonical', href: `${siteUrl}${localePath(route.path)}` },
+      ...localeHeadLinks.value,
       {
         rel: 'preconnect',
         href: 'https://api.gongeo.us',

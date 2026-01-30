@@ -403,7 +403,7 @@
                   :quality="outfit.quality"
                   :name="outfit.name"
                   size="sm"
-                  :show-meta="false"
+                  :show-info="false"
                   class="transition-all duration-200 ease-in-out group-hover:scale-105 group-hover:shadow-xl"
                 />
               </NuxtLinkLocale>
@@ -648,10 +648,10 @@
     return item.value.props.some((value) => Number(value) !== 0)
   })
 
-  // Get item name from i18n (names are stored in i18n files, not database)
+  // Get item name from i18n
   const itemName = computed(() => {
     if (!item.value) return ''
-    return t(`item.${item.value.id}.name`)
+    return t(`item.${item.value?.id}.name`)
   })
 
   const itemVersion = computed(() => {
@@ -757,25 +757,24 @@
 
   useSeoMeta({
     title: () =>
-      item.value
-        ? `${itemName.value} - ${t('meta.game_title')} - ${t('navigation.title')}`
-        : `${t('navigation.item_detail')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
+      `${t(`item.${item.value?.id}.name`)} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     description: () =>
-      t('meta.description.item_detail', { name: itemName.value || '' }),
+      t('meta.description.item_detail', {
+        name: t(`item.${item.value?.id}.name`) || '',
+      }),
     ogTitle: () =>
-      item.value
-        ? `${itemName.value} - ${t('meta.game_title')} - ${t('navigation.title')}`
-        : `${t('navigation.item_detail')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
+      `${t(`item.${item.value?.id}.name`)} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     ogDescription: () =>
-      t('meta.description.item_detail', { name: itemName.value || '' }),
+      t('meta.description.item_detail', {
+        name: t(`item.${item.value?.id}.name`) || '',
+      }),
     ogImage: () => ogItemImage.value,
-    ogType: 'website',
     twitterTitle: () =>
-      item.value
-        ? `${itemName.value} - ${t('meta.game_title')} - ${t('navigation.title')}`
-        : `${t('navigation.item_detail')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
+      `${t(`item.${item.value?.id}.name`)} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     twitterDescription: () =>
-      t('meta.description.item_detail', { name: itemName.value || '' }),
+      t('meta.description.item_detail', {
+        name: t(`item.${item.value?.id}.name`) || '',
+      }),
     twitterImage: () => ogItemImage.value,
   })
 
@@ -793,8 +792,10 @@
             children: JSON.stringify({
               '@context': 'https://schema.org',
               '@type': 'Product',
-              name: itemName.value,
-              description: `${itemName.value} - ${t('meta.game_title')} - ${t('navigation.title')}`,
+              name: `${t(`item.${item.value?.id}.name`)} - ${t('meta.game_title')} - ${t('navigation.title')}`,
+              description: t('meta.description.item_detail', {
+                name: t(`item.${item.value?.id}.name`) || '',
+              }),
               image: ogItemImage.value,
               brand: {
                 '@type': 'Brand',

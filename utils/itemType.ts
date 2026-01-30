@@ -45,7 +45,7 @@ export const itemTypeMap: Record<string, ItemType> = {
   '76': 'chokers',
   '77': 'gloves',
   '78': 'handhelds',
-  '79': 'rings',
+  '79': 'bodyPaint',
   '92': 'faceDecorations',
   '93': 'chestAccessories',
   '94': 'pendants',
@@ -53,7 +53,6 @@ export const itemTypeMap: Record<string, ItemType> = {
   '96': 'rings',
   '97': 'armDecorations',
   '98': 'chokers',
-  '99': 'bodyPaint',
   '81': 'baseMakeup',
   '82': 'eyebrows',
   '83': 'eyelashes',
@@ -83,6 +82,8 @@ export function getItemType(itemIdOrType: string | number): ItemType {
 
   // Otherwise, extract from item ID (5th and 6th digits)
   const idStr = itemIdOrType.toString()
+  if (idStr === '1020790033') return 'rings'
+
   if (idStr.length >= 6) {
     const typeCode = idStr.substring(4, 6)
     return itemTypeMap[typeCode] || 'unknown'

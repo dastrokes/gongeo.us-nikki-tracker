@@ -20,7 +20,6 @@ export default defineNuxtConfig({
     '@nuxt/image',
     '@nuxtjs/device',
     '@nuxtjs/i18n',
-    '@nuxtjs/robots',
     '@nuxtjs/sitemap',
     '@nuxtjs/tailwindcss',
     '@pinia/nuxt',
@@ -54,10 +53,6 @@ export default defineNuxtConfig({
   sitemap: {
     zeroRuntime: true,
     urls: buildSitemap(),
-  },
-
-  robots: {
-    blockNonSeoBots: true,
   },
 
   runtimeConfig: {
@@ -210,7 +205,6 @@ export default defineNuxtConfig({
     },
     prerender: {
       autoSubfolderIndex: false,
-      routes: ['/sitemap.xml', '/robots.txt'],
     },
   },
 

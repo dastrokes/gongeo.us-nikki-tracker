@@ -11,8 +11,8 @@ export const BANNER_DATA: BannerData = {
   1: {
     bannerId: 1,
     bannerType: 1,
-    outfit4StarId: ['10056', '10058', '10084', '10092'],
-    outfit5StarId: ['10033', '10093', '10145', '10165'],
+    outfit4StarId: ['10084', '10056', '10092', '10058'],
+    outfit5StarId: ['10093', '10033', '10145', '10165'],
     runs: [
       {
         version: '1.0.0',
@@ -684,5 +684,31 @@ export const BANNER_DATA: BannerData = {
       },
     ],
     rewardIds: ['1020730102', '1021790001', '1020940102'],
+  },
+  49: {
+    bannerId: 49,
+    bannerType: 2,
+    outfit4StarId: ['10354'],
+    outfit5StarId: ['10352'],
+    runs: [
+      {
+        version: '2.2.1',
+        start: '2026-01-29',
+        end: '2025-02-02',
+      },
+    ],
+  },
+  50: {
+    bannerId: 50,
+    bannerType: 2,
+    outfit4StarId: ['10361'],
+    outfit5StarId: ['10353'],
+    runs: [
+      {
+        version: '2.2.1',
+        start: '2026-01-29',
+        end: '2025-02-02',
+      },
+    ],
   },
 }

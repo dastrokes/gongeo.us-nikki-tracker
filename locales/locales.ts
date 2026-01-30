@@ -35,7 +35,7 @@ export const intlLocaleMap: Record<SupportedLocaleCode, string> = {
 export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
   {
     code: 'en',
-    iso: 'en',
+    language: 'en',
     name: 'English',
     files: [
       'en/common.json',
@@ -47,7 +47,7 @@ export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
   },
   {
     code: 'de',
-    iso: 'de',
+    language: 'de',
     name: 'Deutsch',
     files: [
       'de/common.json',
@@ -59,7 +59,7 @@ export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
   },
   {
     code: 'es',
-    iso: 'es',
+    language: 'es',
     name: 'Español',
     files: [
       'es/common.json',
@@ -71,7 +71,7 @@ export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
   },
   {
     code: 'fr',
-    iso: 'fr',
+    language: 'fr',
     name: 'Français',
     files: [
       'fr/common.json',
@@ -83,7 +83,7 @@ export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
   },
   {
     code: 'id',
-    iso: 'id',
+    language: 'id',
     name: 'Bahasa Indonesia',
     files: [
       'id/common.json',
@@ -95,7 +95,7 @@ export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
   },
   {
     code: 'it',
-    iso: 'it',
+    language: 'it',
     name: 'Italiano',
     files: [
       'it/common.json',
@@ -107,7 +107,7 @@ export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
   },
   {
     code: 'ja',
-    iso: 'ja',
+    language: 'ja',
     name: '日本語',
     files: [
       'ja/common.json',
@@ -119,7 +119,7 @@ export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
   },
   {
     code: 'ko',
-    iso: 'ko',
+    language: 'ko',
     name: '한국어',
     files: [
       'ko/common.json',
@@ -131,7 +131,7 @@ export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
   },
   {
     code: 'pt',
-    iso: 'pt',
+    language: 'pt',
     name: 'Português',
     files: [
       'pt/common.json',
@@ -143,7 +143,7 @@ export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
   },
   {
     code: 'th',
-    iso: 'th',
+    language: 'th',
     name: 'ไทย',
     files: [
       'th/common.json',
@@ -154,20 +154,8 @@ export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
     ],
   },
   {
-    code: 'tw',
-    iso: 'zh-TW',
-    name: '繁體中文',
-    files: [
-      'tw/common.json',
-      'tw/banner.json',
-      'tw/outfit.json',
-      'tw/item.json',
-      'tw/misc.json',
-    ],
-  },
-  {
     code: 'zh',
-    iso: 'zh-CN',
+    language: 'zh-Hans',
     name: '简体中文',
     files: [
       'zh/common.json',
@@ -175,6 +163,18 @@ export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
       'zh/outfit.json',
       'zh/item.json',
       'zh/misc.json',
+    ],
+  },
+  {
+    code: 'tw',
+    language: 'zh-Hant',
+    name: '繁體中文',
+    files: [
+      'tw/common.json',
+      'tw/banner.json',
+      'tw/outfit.json',
+      'tw/item.json',
+      'tw/misc.json',
     ],
   },
 ]

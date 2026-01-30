@@ -815,7 +815,6 @@
     description: () => description.value,
     ogTitle: () => pageTitle.value,
     ogDescription: () => description.value,
-    ogType: 'website',
     twitterTitle: () => pageTitle.value,
     twitterDescription: () => description.value,
   })

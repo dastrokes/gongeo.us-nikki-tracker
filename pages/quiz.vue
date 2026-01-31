@@ -27,7 +27,7 @@
               <div
                 class="relative grid grid-cols-2 gap-2 text-[11px] sm:text-xs text-gray-600 dark:text-gray-300 min-h-[28px] lg:grid-cols-1 rounded-lg border border-gray-200/80 dark:border-gray-700/70 bg-gray-50/80 dark:bg-gray-900/40 px-2 py-2"
               >
-                <div class="flex items-center justify-between gap-2">
+                <div class="flex items-center justify-between gap-2 px-2">
                   <span
                     class="uppercase tracking-wide text-gray-500 dark:text-gray-400"
                     >{{ $t('quiz.round') }}</span
@@ -37,7 +37,7 @@
                     >{{ roundDisplay }}</span
                   >
                 </div>
-                <div class="flex items-center justify-between gap-2">
+                <div class="flex items-center justify-between gap-2 px-2">
                   <span
                     class="uppercase tracking-wide text-gray-500 dark:text-gray-400"
                     >{{ $t('quiz.score') }}</span
@@ -47,7 +47,7 @@
                     >{{ score }}</span
                   >
                 </div>
-                <div class="flex items-center justify-between gap-2">
+                <div class="flex items-center justify-between gap-2 px-2">
                   <span
                     class="uppercase tracking-wide text-gray-500 dark:text-gray-400"
                     >{{ $t('quiz.streak') }}</span
@@ -187,6 +187,15 @@
                   </div>
                 </div>
                 <template v-else>
+                  <div
+                    v-if="isImageLoading"
+                    class="absolute inset-0 z-10 flex flex-col items-center justify-center gap-2 rounded-xl text-gray-500 dark:text-gray-300"
+                  >
+                    <n-spin size="large" />
+                    <span class="text-xs uppercase tracking-widest">{{
+                      t('common.loading')
+                    }}</span>
+                  </div>
                   <NuxtImg
                     :key="`silhouette-${currentOutfitId}`"
                     :src="getImageSrc('outfit', currentOutfitId)"
@@ -195,12 +204,17 @@
                     height="450"
                     fit="cover"
                     preset="tallLg"
+                    loading="eager"
+                    preload
                     draggable="false"
                     class="h-full w-auto max-w-full rounded-xl [transition:clip-path_200ms_linear] [will-change:clip-path]"
+                    :class="isImageReady ? 'opacity-100' : 'opacity-0'"
                     :style="isRevealed ? undefined : silhouetteStyle"
+                    @load="handleOutfitImageLoaded(currentOutfitId)"
+                    @error="handleOutfitImageError(currentOutfitId)"
                   />
                   <NuxtImg
-                    v-if="isRevealed"
+                    v-if="isRevealed && isImageReady"
                     :key="`reveal-${currentOutfitId}`"
                     :src="getImageSrc('outfit', currentOutfitId)"
                     :alt="currentOutfitName"
@@ -305,31 +319,55 @@
           <template v-else>
             <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-1 gap-2">
               <template v-if="answerMode === 'select'">
-                <n-button
-                  v-for="option in options"
-                  :key="option"
-                  :disabled="roundResult !== 'unanswered'"
-                  class="min-h-[3rem] whitespace-normal rounded-lg py-2 text-left sm:min-h-[3.5rem] disabled:opacity-100 disabled:text-gray-900 dark:disabled:text-gray-100"
-                  :class="getOptionClass(option)"
-                  @click="submitGuess(option)"
-                >
-                  <span class="flex w-full items-start justify-between gap-2">
-                    <span
-                      class="min-w-0 font-semibold text-gray-900 dark:text-gray-100 line-clamp-3 leading-snug"
-                    >
-                      {{ $t(`outfit.${option}.name`) }}
-                    </span>
-                    <n-icon
-                      v-if="getOptionIcon(option)"
-                      :component="getOptionIcon(option)"
-                      :class="getOptionIconClass(option)"
+                <template v-if="!isImageReady">
+                  <div
+                    v-for="index in 4"
+                    :key="`option-skeleton-${index}`"
+                    class="flex min-h-[3rem] items-center justify-center rounded-lg border border-gray-200/60 px-3 py-2 sm:min-h-[3.5rem] dark:border-gray-700/60"
+                  >
+                    <n-skeleton
+                      text
+                      height="16px"
+                      width="80px"
                     />
-                  </span>
-                </n-button>
+                  </div>
+                </template>
+                <template v-else>
+                  <n-button
+                    v-for="option in options"
+                    :key="option"
+                    :disabled="roundResult !== 'unanswered'"
+                    class="min-h-[3rem] whitespace-normal rounded-lg py-2 text-left sm:min-h-[3.5rem] disabled:opacity-100 disabled:text-gray-900 dark:disabled:text-gray-100"
+                    :class="getOptionClass(option)"
+                    @click="submitGuess(option)"
+                  >
+                    <span class="flex w-full items-start justify-between gap-2">
+                      <span
+                        class="min-w-0 font-semibold text-gray-900 dark:text-gray-100 line-clamp-3 leading-snug"
+                      >
+                        {{ $t(`outfit.${option}.name`) }}
+                      </span>
+                      <n-icon
+                        v-if="getOptionIcon(option)"
+                        :component="getOptionIcon(option)"
+                        :class="getOptionIconClass(option)"
+                      />
+                    </span>
+                  </n-button>
+                </template>
               </template>
               <template v-else>
                 <div class="col-span-full space-y-2">
+                  <template v-if="!isImageReady">
+                    <div class="flex h-[34px] items-center justify-center">
+                      <n-skeleton
+                        height="16px"
+                        width="80%"
+                      />
+                    </div>
+                  </template>
                   <n-auto-complete
+                    v-else
                     v-model:value="searchQuery"
                     :options="searchOptions"
                     :disabled="roundResult !== 'unanswered'"
@@ -356,7 +394,7 @@
                   {{ $t('quiz.next') }}
                 </n-button>
                 <n-button
-                  :disabled="roundResult !== 'unanswered'"
+                  :disabled="roundResult !== 'unanswered' || !isImageReady"
                   @click="revealRound"
                 >
                   {{ $t('quiz.skip') }}
@@ -398,6 +436,8 @@
   const timeLeft = ref(roundDuration)
   const gameState = ref<GameState>('idle')
   const isRevealed = ref(false)
+  const isImageLoading = ref(false)
+  const isImageReady = ref(false)
   const roundResult = ref<RoundResult>('unanswered')
   const roundIndex = ref(0)
   const roundIds = ref<string[]>([])
@@ -627,6 +667,25 @@
     timerId.value = window.requestAnimationFrame(tick)
   }
 
+  const handleOutfitImageLoaded = (id: string | null) => {
+    if (!id || id !== currentOutfitId.value) return
+    if (isImageReady.value) return
+    isImageLoading.value = false
+    isImageReady.value = true
+    if (roundResult.value === 'unanswered') {
+      startTimer()
+    }
+  }
+
+  const handleOutfitImageError = (id: string | null) => {
+    if (!id || id !== currentOutfitId.value) return
+    isImageLoading.value = false
+    isImageReady.value = true
+    if (roundResult.value === 'unanswered') {
+      startTimer()
+    }
+  }
+
   const shuffle = (list: string[]) => {
     const copy = [...list]
     for (let i = copy.length - 1; i > 0; i -= 1) {
@@ -657,9 +716,13 @@
 
   const buildRound = () => {
     const id = roundIds.value[roundIndex.value]
+    clearTimer()
+    timeLeft.value = roundDuration
     if (!id) {
       currentOutfitId.value = null
       options.value = []
+      isImageLoading.value = false
+      isImageReady.value = false
       return
     }
     currentOutfitId.value = id
@@ -667,11 +730,12 @@
     selectedId.value = null
     isRevealed.value = false
     searchQuery.value = ''
+    isImageLoading.value = true
+    isImageReady.value = false
     const pool = allOutfitIds.value.filter((entry) => entry !== id)
     const optionList = sampleOptions(pool, 3)
     optionList.push(id)
     options.value = shuffle(optionList)
-    startTimer()
   }
 
   const startGame = () => {
@@ -691,7 +755,12 @@
   }
 
   const submitGuess = (option: string) => {
-    if (roundResult.value !== 'unanswered' || !currentOutfitId.value) return
+    if (
+      roundResult.value !== 'unanswered' ||
+      !currentOutfitId.value ||
+      !isImageReady.value
+    )
+      return
     selectedId.value = option
     clearTimer()
     const remainingTime = timeLeft.value
@@ -727,7 +796,12 @@
   }
 
   const submitSearchGuess = (value?: string) => {
-    if (roundResult.value !== 'unanswered' || !currentOutfitId.value) return
+    if (
+      roundResult.value !== 'unanswered' ||
+      !currentOutfitId.value ||
+      !isImageReady.value
+    )
+      return
     const query = value ?? searchQuery.value
     const match = resolveSearchMatch(query)
     if (!match) return
@@ -745,7 +819,7 @@
   })
 
   const revealRound = () => {
-    if (roundResult.value !== 'unanswered') return
+    if (roundResult.value !== 'unanswered' || !isImageReady.value) return
     clearTimer()
     timeLeft.value = 0
     isRevealed.value = true

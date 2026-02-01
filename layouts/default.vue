@@ -287,7 +287,7 @@
       },
     ],
     script:
-      route.meta?.robots === false
+      route.meta?.umami === false
         ? []
         : [
             {

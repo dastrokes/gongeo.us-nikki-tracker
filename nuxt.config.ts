@@ -158,8 +158,6 @@ export default defineNuxtConfig({
 
       type I18nRouteRule = {
         prerender?: boolean
-        robots?: boolean
-        swr?: boolean | number
         headers?: Record<string, string>
       }
 
@@ -177,7 +175,6 @@ export default defineNuxtConfig({
         ),
         ...buildI18nRules(['/error'], {
           prerender: true,
-          robots: false,
           headers: CACHE_STATIC,
         }),
         ...buildI18nRules(['/banners/**', '/items/**', '/outfits/**'], {

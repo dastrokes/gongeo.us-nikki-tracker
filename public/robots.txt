@@ -38,5 +38,17 @@ Disallow: /
 
 # Everything else is allowed
 User-agent: *
+Disallow: /error
+Disallow: /de/error
+Disallow: /es/error
+Disallow: /fr/error
+Disallow: /id/error
+Disallow: /it/error
+Disallow: /ja/error
+Disallow: /ko/error
+Disallow: /pt/error
+Disallow: /th/error
+Disallow: /tw/error
+Disallow: /zh/error
 Allow: /
 Sitemap: https://gongeo.us/sitemap.xml

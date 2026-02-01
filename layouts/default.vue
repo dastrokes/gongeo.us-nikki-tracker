@@ -159,6 +159,7 @@
 
 <script setup lang="ts">
   import { NIcon, type MenuOption } from 'naive-ui'
+  import type { I18nHeadMetaInfo } from '@nuxtjs/i18n'
   import {
     FileImport,
     Book,
@@ -205,14 +206,20 @@
 
   const siteUrl = useRuntimeConfig().public.siteUrl
 
-  const localeHeadLinks = computed(() =>
-    (localeHead.value.link || []).filter((link) => link.rel !== 'canonical')
+  const localeHeadLinks = computed<I18nHeadMetaInfo['link']>(() =>
+    (localeHead.value.link as I18nHeadMetaInfo['link']).filter(
+      (link) => link.rel !== 'canonical'
+    )
   )
 
-  useHead({
-    htmlAttrs: () => ({ ...localeHead.value.htmlAttrs }),
-    title: () => t('meta.title'),
-    meta: () => [
+  const localeHtmlAttrs = computed<I18nHeadMetaInfo['htmlAttrs']>(
+    () => localeHead.value.htmlAttrs as I18nHeadMetaInfo['htmlAttrs']
+  )
+
+  useHead(() => ({
+    htmlAttrs: localeHtmlAttrs.value,
+    title: t('meta.title'),
+    meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       {
@@ -267,7 +274,7 @@
       },
       ...localeHead.value.meta,
     ],
-    link: () => [
+    link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       ...localeHeadLinks.value,
       {
@@ -279,7 +286,7 @@
         href: 'https://o4509482068869120.ingest.us.sentry.io',
       },
     ],
-    script: () =>
+    script:
       route.meta?.umami === false
         ? []
         : [
@@ -291,7 +298,7 @@
               'data-website-id': 'dd22ab5d-2045-4450-aaff-f513339b5ca6',
             },
           ],
-  })
+  }))
 
   const topMenuOptions = computed<MenuOption[]>(() => [
     {

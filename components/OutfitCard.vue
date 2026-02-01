@@ -102,7 +102,7 @@
       style: null,
       styleKey: null,
       labels: () => [],
-      showInfo: true,
+      showInfo: false,
       size: 'md',
     }
   )

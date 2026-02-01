@@ -115,7 +115,7 @@
               >
                 <NuxtImg
                   :src="getImageSrc('banner', banner.bannerId)"
-                  :alt="t(`banner.${banner.bannerId}.name`)"
+                  :alt="bannerName"
                   class="absolute inset-0 w-full h-full object-cover"
                   preset="bannerHero"
                   width="800"
@@ -592,10 +592,9 @@
 
   const route = useRoute()
   const { t } = useI18n()
-  const { getImageSrc } = imageProvider()
+  const { getImageSrc, getImageUrl } = imageProvider()
 
   const localePath = useLocalePath()
-  const siteUrl = useRuntimeConfig().public.siteUrl
   const pullStore = usePullStore()
   const { processedPulls } = storeToRefs(pullStore)
   const loading = ref(true)
@@ -613,11 +612,10 @@
     return BANNER_DATA[bannerId]
   })
 
-  const bannerName = computed(() =>
-    banner.value
-      ? t(`banner.${banner.value.bannerId}.name`)
-      : t('navigation.banner_detail')
-  )
+  const bannerName = computed(() => {
+    if (!banner.value) return ''
+    return t(`banner.${banner.value?.bannerId}.name`)
+  })
 
   const bannerPulls = computed(() => {
     if (!banner.value) return null
@@ -746,39 +744,40 @@
     }
   })
 
+  // SEO Meta Tags
+  const siteUrl = useRuntimeConfig().public.siteUrl
+  const ogItemImage = computed(() =>
+    banner.value
+      ? getImageUrl(`/images/bbanners/${banner.value.bannerId}.png`, {
+          width: 800,
+          height: 400,
+          quality: 80,
+          format: 'webp',
+        })
+      : undefined
+  )
+
   useSeoMeta({
     title: () =>
-      banner.value
-        ? `${t(`banner.${banner.value.bannerId}.name`)} - ${t('meta.game_title')} - ${t('navigation.title')}`
-        : `${t('navigation.banner_detail')} - ${t('navigation.title')}`,
+      `${t(`banner.${banner.value?.bannerId}.name`)} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     description: () =>
       t('meta.description.banner_detail', {
-        name: bannerName.value,
+        name: t(`banner.${banner.value?.bannerId}.name`),
       }),
     ogTitle: () =>
-      banner.value
-        ? `${t(`banner.${banner.value.bannerId}.name`)} - ${t('navigation.banner_detail')} - ${t('navigation.title')}`
-        : `${t('navigation.banner_detail')} - ${t('navigation.title')}`,
+      `${t(`banner.${banner.value?.bannerId}.name`)} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     ogDescription: () =>
       t('meta.description.banner_detail', {
-        name: bannerName.value,
+        name: t(`banner.${banner.value?.bannerId}.name`),
       }),
-    ogImage: () =>
-      banner.value
-        ? `${siteUrl}/images/banners/${banner.value.bannerId}.png`
-        : `${siteUrl}/og.png`,
+    ogImage: () => ogItemImage.value,
     twitterTitle: () =>
-      banner.value
-        ? `${t(`banner.${banner.value.bannerId}.name`)} - ${t('navigation.banner_detail')} - ${t('navigation.title')}`
-        : `${t('navigation.banner_detail')} - ${t('navigation.title')}`,
+      `${t(`banner.${banner.value?.bannerId}.name`)} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     twitterDescription: () =>
       t('meta.description.banner_detail', {
-        name: bannerName.value,
+        name: t(`banner.${banner.value?.bannerId}.name`),
       }),
-    twitterImage: () =>
-      banner.value
-        ? `${siteUrl}/images/banners/${banner.value.bannerId}.png`
-        : `${siteUrl}/og.png`,
+    twitterImage: () => ogItemImage.value,
   })
 
   useHead(() => ({
@@ -788,28 +787,26 @@
         href: `${siteUrl}${localePath(`/banners/${route.params.id}`)}`,
       },
     ],
-    script: [
-      {
-        type: 'application/ld+json',
-        children: JSON.stringify({
-          '@context': 'https://schema.org',
-          '@type': 'ItemPage',
-          name: banner.value
-            ? `${t(`banner.${banner.value.bannerId}.name`)} - ${t('meta.game_title')} - ${t('navigation.title')}`
-            : `${t('navigation.banner_detail')} - ${t('navigation.title')}`,
-          description: t('meta.description.banner_detail', {
-            name: bannerName.value,
-          }),
-          url: `${siteUrl}${localePath(`/banners/${route.params.id}`)}`,
-          image: banner.value
-            ? `${siteUrl}/images/banners/${banner.value.bannerId}.png`
-            : `${siteUrl}/og.png`,
-          isPartOf: {
-            '@type': 'CollectionPage',
-            url: `${siteUrl}${localePath('/banners')}`,
+    script: banner.value
+      ? [
+          {
+            type: 'application/ld+json',
+            children: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'ItemPage',
+              name: `${t(`banner.${banner.value?.bannerId}.name`)} - ${t('meta.game_title')} - ${t('navigation.title')}`,
+              description: t('meta.description.banner_detail', {
+                name: t(`banner.${banner.value?.bannerId}.name`),
+              }),
+              url: `${siteUrl}${localePath(`/banners/${route.params.id}`)}`,
+              image: ogItemImage.value,
+              isPartOf: {
+                '@type': 'CollectionPage',
+                url: `${siteUrl}${localePath('/banners')}`,
+              },
+            }),
           },
-        }),
-      },
-    ],
+        ]
+      : [],
   }))
 </script>

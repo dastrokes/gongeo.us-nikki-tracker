@@ -192,6 +192,7 @@
                   :style="entry.styleLabel"
                   :style-key="entry.styleKey"
                   :labels="entry.labelTags"
+                  :show-info="true"
                   class="transition-shadow duration-300 group-hover:shadow-xl"
                 />
               </NuxtLinkLocale>
@@ -268,7 +269,6 @@
     description: () => description.value,
     ogTitle: () => pageTitle.value,
     ogDescription: () => description.value,
-    ogType: 'website',
     twitterTitle: () => pageTitle.value,
     twitterDescription: () => description.value,
   })

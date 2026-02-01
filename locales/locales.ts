@@ -155,7 +155,7 @@ export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
   },
   {
     code: 'zh',
-    language: 'zh-Hans',
+    language: 'zh-CN',
     name: '简体中文',
     files: [
       'zh/common.json',
@@ -167,7 +167,7 @@ export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
   },
   {
     code: 'tw',
-    language: 'zh-Hant',
+    language: 'zh-TW',
     name: '繁體中文',
     files: [
       'tw/common.json',

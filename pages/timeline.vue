@@ -38,8 +38,21 @@
 <script setup lang="ts">
   const barWidths = ['w-5/6', 'w-4/5', 'w-3/4', 'w-2/3', 'w-1/2', 'w-2/5']
 
+  const { t } = useI18n()
   const localePath = useLocalePath()
   const siteUrl = useRuntimeConfig().public.siteUrl
+
+  useSeoMeta({
+    title: () =>
+      `${t('navigation.timeline')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
+    description: () => t('meta.description.timeline'),
+    ogTitle: () =>
+      `${t('navigation.timeline')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
+    ogDescription: () => t('meta.description.timeline'),
+    twitterTitle: () =>
+      `${t('navigation.timeline')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
+    twitterDescription: () => t('meta.description.timeline'),
+  })
 
   useHead(() => ({
     link: [{ rel: 'canonical', href: `${siteUrl}${localePath('/timeline')}` }],

@@ -68,7 +68,7 @@
   const localePath = useLocalePath()
   const { getImageSrc } = imageProvider()
 
-  // Get item name from i18n - names are stored in i18n JSON files, not in the database
+  // Get item name from i18n
   const itemName = computed(() => {
     if (props.name) return props.name
     return t(`item.${props.itemId}.name`)

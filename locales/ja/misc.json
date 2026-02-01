@@ -180,6 +180,14 @@
   "obtain.20105.name": "ビアリーモール特選品",
   "obtain.20106.name": "はしゃぐ森の日々",
   "obtain.20107.name": "星光交換",
+  "obtain.20201.name": "限定共鳴",
+  "obtain.20202.name": "ビアリーモール特選品",
+  "obtain.20203.name": "ユニークデザイン",
+  "obtain.20204.name": "星光交換",
+  "obtain.20205.name": "散らばった宝箱",
+  "obtain.20207.name": "インフィニティハート",
+  "obtain.20208.name": "メインクエスト記念",
+  "obtain.20209.name": "浮生珍味",
   "style.cool": "クール",
   "style.elegant": "エレガント",
   "style.fresh": "ピュア",
@@ -198,5 +206,6 @@
   "version.1.8": "丹青季",
   "version.1.9": "音楽季",
   "version.2.0": "大地の祷律",
-  "version.2.1": "生命は詩となりて"
+  "version.2.1": "生命は詩となりて",
+  "version.2.2": "万相九色に生ず"
 }

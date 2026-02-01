@@ -159,6 +159,7 @@
 
 <script setup lang="ts">
   import { NIcon, type MenuOption } from 'naive-ui'
+  import type { I18nHeadMetaInfo } from '@nuxtjs/i18n'
   import {
     FileImport,
     Book,
@@ -177,11 +178,10 @@
   import KoFi from '~/components/icons/KoFi.vue'
   import Netlify from '~/components/icons/Netlify.vue'
   import { useSwipe } from '@vueuse/core'
-  import { i18nLocales } from '~/locales/locales'
-
   const { t } = useI18n()
   const localePath = useLocalePath()
   const { locale } = useI18n()
+  const localeHead = useLocaleHead({ dir: true, lang: true, seo: true })
   const nuxtApp = useNuxtApp()
   const loading = useState<boolean>('loading', () => false)
 
@@ -206,17 +206,20 @@
 
   const siteUrl = useRuntimeConfig().public.siteUrl
 
-  const currentLocaleIso = computed<string>(() => {
-    const currentLocale = i18nLocales.find((l) => l.code === locale.value)
-    return (currentLocale?.iso || locale.value) as string
-  })
+  const localeHeadLinks = computed<I18nHeadMetaInfo['link']>(() =>
+    (localeHead.value.link as I18nHeadMetaInfo['link']).filter(
+      (link) => link.rel !== 'canonical'
+    )
+  )
 
-  useHead({
-    htmlAttrs: {
-      lang: currentLocaleIso,
-    },
-    title: () => t('meta.title'),
-    meta: () => [
+  const localeHtmlAttrs = computed<I18nHeadMetaInfo['htmlAttrs']>(
+    () => localeHead.value.htmlAttrs as I18nHeadMetaInfo['htmlAttrs']
+  )
+
+  useHead(() => ({
+    htmlAttrs: localeHtmlAttrs.value,
+    title: t('meta.title'),
+    meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       {
@@ -269,10 +272,11 @@
         name: 'twitter:creator',
         content: '@gongeo_us',
       },
+      ...localeHead.value.meta,
     ],
-    link: () => [
+    link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      { rel: 'canonical', href: `${siteUrl}${localePath(route.path)}` },
+      ...localeHeadLinks.value,
       {
         rel: 'preconnect',
         href: 'https://api.gongeo.us',
@@ -282,7 +286,7 @@
         href: 'https://o4509482068869120.ingest.us.sentry.io',
       },
     ],
-    script: () =>
+    script:
       route.meta?.umami === false
         ? []
         : [
@@ -294,7 +298,7 @@
               'data-website-id': 'dd22ab5d-2045-4450-aaff-f513339b5ca6',
             },
           ],
-  })
+  }))
 
   const topMenuOptions = computed<MenuOption[]>(() => [
     {

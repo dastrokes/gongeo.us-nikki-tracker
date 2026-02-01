@@ -20,7 +20,6 @@ export default defineNuxtConfig({
     '@nuxt/image',
     '@nuxtjs/device',
     '@nuxtjs/i18n',
-    '@nuxtjs/robots',
     '@nuxtjs/sitemap',
     '@nuxtjs/tailwindcss',
     '@pinia/nuxt',
@@ -34,6 +33,7 @@ export default defineNuxtConfig({
     lazy: true,
     restructureDir: 'locales',
     langDir: './',
+    baseUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://gongeo.us',
     locales: i18nLocales,
     defaultLocale: defaultLocale,
     strategy: 'prefix_except_default',
@@ -54,10 +54,6 @@ export default defineNuxtConfig({
   sitemap: {
     zeroRuntime: true,
     urls: buildSitemap(),
-  },
-
-  robots: {
-    blockNonSeoBots: true,
   },
 
   runtimeConfig: {
@@ -162,8 +158,6 @@ export default defineNuxtConfig({
 
       type I18nRouteRule = {
         prerender?: boolean
-        robots?: boolean
-        swr?: boolean | number
         headers?: Record<string, string>
       }
 
@@ -181,7 +175,6 @@ export default defineNuxtConfig({
         ),
         ...buildI18nRules(['/error'], {
           prerender: true,
-          robots: false,
           headers: CACHE_STATIC,
         }),
         ...buildI18nRules(['/banners/**', '/items/**', '/outfits/**'], {
@@ -210,7 +203,6 @@ export default defineNuxtConfig({
     },
     prerender: {
       autoSubfolderIndex: false,
-      routes: ['/sitemap.xml', '/robots.txt'],
     },
   },
 

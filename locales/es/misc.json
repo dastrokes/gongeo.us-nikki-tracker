@@ -180,6 +180,14 @@
   "obtain.20105.name": "Premium de Amipera",
   "obtain.20106.name": "Júbilo en el bosque",
   "obtain.20107.name": "Puesto de luz estelar",
+  "obtain.20201.name": "Resonancia de tiempo limitado",
+  "obtain.20202.name": "Premium de Amipera",
+  "obtain.20203.name": "Diseñadora independiente",
+  "obtain.20204.name": "Puesto de luz estelar",
+  "obtain.20205.name": "Cofres dispersos",
+  "obtain.20207.name": "Corazón del Infinito",
+  "obtain.20208.name": "Conmemoración principal",
+  "obtain.20209.name": "Sabores de la vida",
   "style.cool": "Alucinante",
   "style.elegant": "Elegante",
   "style.fresh": "Refrescante",
@@ -198,5 +206,6 @@
   "version.1.8": "Arte de Danching",
   "version.1.9": "Musicalidad",
   "version.2.0": "Llamada de Terra",
-  "version.2.1": "La vida cual poema"
+  "version.2.1": "La vida cual poema",
+  "version.2.2": "Seres que siempre relucen"
 }

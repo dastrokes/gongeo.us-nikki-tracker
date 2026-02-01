@@ -180,6 +180,14 @@
   "obtain.20105.name": "Poir'pote de qualité",
   "obtain.20106.name": "Joies sylvestres",
   "obtain.20107.name": "Boutique stellaire",
+  "obtain.20201.name": "Résonance à durée limitée",
+  "obtain.20202.name": "Premium de Poir'pote",
+  "obtain.20203.name": "Styliste autonome",
+  "obtain.20204.name": "Boutique stellaire",
+  "obtain.20205.name": "Coffres éparpillés",
+  "obtain.20207.name": "Cœur de l'Infini",
+  "obtain.20208.name": "Commémoration principale",
+  "obtain.20209.name": "Saveurs de la vie",
   "style.cool": "Décontraction",
   "style.elegant": "Élégance",
   "style.fresh": "Fraîcheur",
@@ -198,5 +206,6 @@
   "version.1.8": "Saison du danqing",
   "version.1.9": "Saison de la musique",
   "version.2.0": "L'appel de Terra",
-  "version.2.1": "Vers libre"
+  "version.2.1": "Vers libre",
+  "version.2.2": "Destins irisés"
 }

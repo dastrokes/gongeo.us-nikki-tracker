@@ -20,6 +20,7 @@ export default defineNuxtConfig({
     '@nuxt/image',
     '@nuxtjs/device',
     '@nuxtjs/i18n',
+    '@nuxtjs/robots',
     '@nuxtjs/sitemap',
     '@nuxtjs/tailwindcss',
     '@pinia/nuxt',
@@ -53,7 +54,13 @@ export default defineNuxtConfig({
 
   sitemap: {
     zeroRuntime: true,
+    excludeAppSources: true,
     urls: buildSitemap(),
+  },
+
+  robots: {
+    blockNonSeoBots: true,
+    disallow: ['/error'],
   },
 
   runtimeConfig: {

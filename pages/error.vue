@@ -4,6 +4,6 @@
 
 <script setup lang="ts">
   definePageMeta({
-    umami: false,
+    robots: false,
   })
 </script>

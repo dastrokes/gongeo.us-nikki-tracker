@@ -6,7 +6,7 @@
   import { setResponseStatus } from 'h3'
 
   definePageMeta({
-    umami: false,
+    robots: false,
   })
 
   const event = useRequestEvent()

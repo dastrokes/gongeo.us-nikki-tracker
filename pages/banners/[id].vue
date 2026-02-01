@@ -748,7 +748,7 @@
   const siteUrl = useRuntimeConfig().public.siteUrl
   const ogItemImage = computed(() =>
     banner.value
-      ? getImageUrl(`/images/bbanners/${banner.value.bannerId}.png`, {
+      ? getImageUrl(`/images/banners/${banner.value.bannerId}.png`, {
           width: 800,
           height: 400,
           quality: 80,

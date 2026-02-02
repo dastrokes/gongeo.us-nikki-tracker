@@ -347,14 +347,11 @@
   const router = useRouter()
   const { getImageSrc } = imageProvider()
 
-  const siteUrl = useRuntimeConfig().public.siteUrl
-
   const pageTitle = computed(
     () =>
       `${t('common.items')} - ${t('meta.game_title')} - ${t('navigation.title')}`
   )
   const description = computed(() => t('meta.description.items'))
-  const canonicalPath = computed(() => localePath('/items'))
 
   useSeoMeta({
     title: () => pageTitle.value,
@@ -364,22 +361,6 @@
     twitterTitle: () => pageTitle.value,
     twitterDescription: () => description.value,
   })
-
-  useHead(() => ({
-    link: [{ rel: 'canonical', href: `${siteUrl}${canonicalPath.value}` }],
-    script: [
-      {
-        type: 'application/ld+json',
-        children: JSON.stringify({
-          '@context': 'https://schema.org',
-          '@type': 'CollectionPage',
-          name: pageTitle.value,
-          description: description.value,
-          url: `${siteUrl}${canonicalPath.value}`,
-        }),
-      },
-    ],
-  }))
 
   const pageSize = 18
   const availableItemTypes = getAllItemTypes()

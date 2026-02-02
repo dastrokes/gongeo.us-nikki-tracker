@@ -89,10 +89,7 @@
       :native-scrollbar="false"
       @scroll="onScroll"
     >
-      <div
-        ref="contentRef"
-        class="h-full top-24 px-2 pt-2 sm:pt-4 pb-14 sm:pb-10"
-      >
+      <div class="h-full top-24 px-2 pt-2 sm:pt-4 pb-14 sm:pb-10">
         <slot />
       </div>
     </n-layout-content>
@@ -159,7 +156,6 @@
 
 <script setup lang="ts">
   import { NIcon, type MenuOption } from 'naive-ui'
-  import type { I18nHeadMetaInfo } from '@nuxtjs/i18n'
   import {
     FileImport,
     Book,
@@ -181,7 +177,6 @@
   const { t } = useI18n()
   const localePath = useLocalePath()
   const { locale } = useI18n()
-  const localeHead = useLocaleHead({ dir: true, lang: true, seo: true })
   const nuxtApp = useNuxtApp()
   const loading = useState<boolean>('loading', () => false)
 
@@ -203,102 +198,6 @@
   nuxtApp.hook('app:error', () => {
     loading.value = false
   })
-
-  const siteUrl = useRuntimeConfig().public.siteUrl
-
-  const localeHeadLinks = computed<I18nHeadMetaInfo['link']>(() =>
-    (localeHead.value.link as I18nHeadMetaInfo['link']).filter(
-      (link) => link.rel !== 'canonical'
-    )
-  )
-
-  const localeHtmlAttrs = computed<I18nHeadMetaInfo['htmlAttrs']>(
-    () => localeHead.value.htmlAttrs as I18nHeadMetaInfo['htmlAttrs']
-  )
-
-  useHead(() => ({
-    htmlAttrs: localeHtmlAttrs.value,
-    title: t('meta.title'),
-    meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      {
-        name: 'description',
-        content: t('meta.description.default'),
-      },
-      { name: 'robots', content: 'index, follow' },
-      { name: 'author', content: 'dastrokes' },
-      {
-        name: 'keywords',
-        content: t('meta.keywords'),
-      },
-      {
-        property: 'og:site_name',
-        content: t('meta.title'),
-      },
-      {
-        property: 'og:title',
-        content: t('meta.title'),
-      },
-      {
-        property: 'og:description',
-        content: t('meta.description.default'),
-      },
-      {
-        property: 'og:image',
-        content: `${siteUrl}/og.png`,
-      },
-      {
-        name: 'twitter:card',
-        content: 'summary_large_image',
-      },
-      {
-        name: 'twitter:title',
-        content: t('meta.title'),
-      },
-      {
-        name: 'twitter:description',
-        content: t('meta.description.default'),
-      },
-      {
-        name: 'twitter:image',
-        content: `${siteUrl}/og.png`,
-      },
-      {
-        name: 'twitter:site',
-        content: '@gongeo_us',
-      },
-      {
-        name: 'twitter:creator',
-        content: '@gongeo_us',
-      },
-      ...localeHead.value.meta,
-    ],
-    link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      ...localeHeadLinks.value,
-      {
-        rel: 'preconnect',
-        href: 'https://api.gongeo.us',
-      },
-      {
-        rel: 'preconnect',
-        href: 'https://o4509482068869120.ingest.us.sentry.io',
-      },
-    ],
-    script:
-      route.meta?.umami === false
-        ? []
-        : [
-            {
-              async: true,
-              defer: true,
-              src: '/gongeous.js',
-              'data-host-url': 'https://api.gongeo.us',
-              'data-website-id': 'dd22ab5d-2045-4450-aaff-f513339b5ca6',
-            },
-          ],
-  }))
 
   const topMenuOptions = computed<MenuOption[]>(() => [
     {
@@ -448,9 +347,7 @@
   const showSider = ref(false)
   const showFooter = ref(true)
   const showScrollTop = ref(false)
-  const lastScrollPosition = ref(0)
   const scrollbarRef = ref<HTMLElement | null>(null)
-  const contentRef = ref<HTMLElement | null>(null)
 
   const scrollToTop = () => {
     scrollbarRef.value?.scrollTo({
@@ -472,8 +369,6 @@
     showFooter.value =
       scrollHeight - (currentScrollPosition + clientHeight) < 100 ||
       currentScrollPosition < 50
-
-    lastScrollPosition.value = currentScrollPosition
   }
 
   watch(

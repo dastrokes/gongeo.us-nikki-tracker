@@ -948,7 +948,6 @@
   const localePath = useLocalePath()
   const { isDark } = useTheme()
 
-  const siteUrl = useRuntimeConfig().public.siteUrl
   const loading = ref(true)
   const showPopover = ref(false)
   const exporting = ref(false)
@@ -1044,10 +1043,6 @@
       `${t('navigation.tracker')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     twitterDescription: () => t('meta.description.tracker'),
   })
-
-  useHead(() => ({
-    link: [{ rel: 'canonical', href: `${siteUrl}${localePath('/tracker')}` }],
-  }))
 
   // Function to load and process data based on current data source
   const loadAndProcessData = async () => {

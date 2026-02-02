@@ -781,12 +781,6 @@
   })
 
   useHead(() => ({
-    link: [
-      {
-        rel: 'canonical',
-        href: `${siteUrl}${localePath(`/banners/${route.params.id}`)}`,
-      },
-    ],
     script: banner.value
       ? [
           {

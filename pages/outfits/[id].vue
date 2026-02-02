@@ -601,7 +601,6 @@
   }
 
   // SEO Meta Tags
-  const siteUrl = useRuntimeConfig().public.siteUrl
   const ogOutfitImage = computed(() =>
     outfit.value
       ? getImageUrl(`/images/outfits/${outfit.value.id}.png`, {
@@ -637,12 +636,6 @@
   })
 
   useHead(() => ({
-    link: [
-      {
-        rel: 'canonical',
-        href: `${siteUrl}${localePath(`/outfits/${outfitId.value}`)}`,
-      },
-    ],
     script: outfit.value
       ? [
           {

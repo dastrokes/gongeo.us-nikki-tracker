@@ -295,7 +295,6 @@
 
   const { t, locale } = useI18n()
   const localePath = useLocalePath()
-  const siteUrl = useRuntimeConfig().public.siteUrl
   const message = useMessage()
   const { getImageSrc } = imageProvider()
   const { getRankings } = useBannerVote()
@@ -642,8 +641,4 @@
       `${t('vote.rankings.title')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     twitterDescription: () => t('vote.rankings.description'),
   })
-
-  useHead(() => ({
-    link: [{ rel: 'canonical', href: `${siteUrl}${localePath('/ranking')}` }],
-  }))
 </script>

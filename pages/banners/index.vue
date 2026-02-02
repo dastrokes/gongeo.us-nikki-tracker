@@ -286,18 +286,15 @@
   import { BANNER_DATA } from '~/data/banners'
 
   const { t } = useI18n()
-  const { getImageSrc } = imageProvider()
-
   const localePath = useLocalePath()
-  const siteUrl = useRuntimeConfig().public.siteUrl
   const route = useRoute()
+  const { getImageSrc } = imageProvider()
 
   const pageTitle = computed(
     () =>
       `${t('navigation.banner')} - ${t('meta.game_title')} - ${t('navigation.title')}`
   )
   const description = computed(() => t('meta.description.banner'))
-  const canonicalPath = computed(() => localePath('/banners'))
 
   useSeoMeta({
     title: () => pageTitle.value,
@@ -307,22 +304,6 @@
     twitterTitle: () => pageTitle.value,
     twitterDescription: () => description.value,
   })
-
-  useHead(() => ({
-    link: [{ rel: 'canonical', href: `${siteUrl}${canonicalPath.value}` }],
-    script: [
-      {
-        type: 'application/ld+json',
-        children: JSON.stringify({
-          '@context': 'https://schema.org',
-          '@type': 'ItemPage',
-          name: pageTitle.value,
-          description: description.value,
-          url: `${siteUrl}${canonicalPath.value}`,
-        }),
-      },
-    ],
-  }))
 
   const bannerTypeFilter = ref({
     show5Star: true,

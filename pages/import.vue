@@ -853,7 +853,6 @@
   const { t } = useI18n()
   const dialog = useDialog()
   const localePath = useLocalePath()
-  const siteUrl = useRuntimeConfig().public.siteUrl
   const { isMobileOrTablet, isAndroid, isChrome } = useDevice()
   // Manual collection editor variables
   const selectedManualBanner = ref<number | null>(null)
@@ -876,10 +875,6 @@
       `${t('navigation.import')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     twitterDescription: () => t('meta.description.import'),
   })
-
-  useHead(() => ({
-    link: [{ rel: 'canonical', href: `${siteUrl}${localePath('/import')}` }],
-  }))
 
   const REGION_LABELS = computed<Record<Region, string>>(() => ({
     [Region.AMERICA]: t('import.regions.america'),

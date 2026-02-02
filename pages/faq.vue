@@ -29,8 +29,6 @@
 
 <script setup lang="ts">
   const { t } = useI18n()
-  const localePath = useLocalePath()
-  const siteUrl = useRuntimeConfig().public.siteUrl
 
   useSeoMeta({
     title: () =>
@@ -43,10 +41,6 @@
       `${t('navigation.faq')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     twitterDescription: () => t('meta.description.faq'),
   })
-
-  useHead(() => ({
-    link: [{ rel: 'canonical', href: `${siteUrl}${localePath('/faq')}` }],
-  }))
 
   const faqs = {
     data_source: {},

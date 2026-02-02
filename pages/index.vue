@@ -212,7 +212,6 @@
   const { getImageSrc } = imageProvider()
   const { isDark } = useTheme()
   const localePath = useLocalePath()
-  const siteUrl = useRuntimeConfig().public.siteUrl
   const outfitKeys = Object.keys(OUTFIT_DATA) as OutfitKey[]
   const featuredOutfitId = ref<OutfitKey>(outfitKeys[0] ?? '10001')
 
@@ -240,10 +239,6 @@
     twitterTitle: () => t('meta.title'),
     twitterDescription: () => t('meta.description.default'),
   })
-
-  useHead(() => ({
-    link: [{ rel: 'canonical', href: `${siteUrl}${localePath('/')}` }],
-  }))
 
   // TODO: update to current banner id
   const leftBanners = [BANNER_DATA[49]] as Banner[]

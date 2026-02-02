@@ -154,18 +154,6 @@ export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
     ],
   },
   {
-    code: 'zh',
-    language: 'zh-CN',
-    name: '简体中文',
-    files: [
-      'zh/common.json',
-      'zh/banner.json',
-      'zh/outfit.json',
-      'zh/item.json',
-      'zh/misc.json',
-    ],
-  },
-  {
     code: 'tw',
     language: 'zh-TW',
     name: '繁體中文',
@@ -175,6 +163,18 @@ export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
       'tw/outfit.json',
       'tw/item.json',
       'tw/misc.json',
+    ],
+  },
+  {
+    code: 'zh',
+    language: 'zh-CN',
+    name: '简体中文',
+    files: [
+      'zh/common.json',
+      'zh/banner.json',
+      'zh/outfit.json',
+      'zh/item.json',
+      'zh/misc.json',
     ],
   },
 ]

@@ -15,14 +15,115 @@
 
 <script setup lang="ts">
   import type { GlobalThemeOverrides } from 'naive-ui'
+  import type { I18nHeadMetaInfo } from '@nuxtjs/i18n'
+
+  const { t } = useI18n()
+  const route = useRoute()
+  const localeHead = useLocaleHead({ dir: true, lang: true, seo: true })
+  const siteUrl = useRuntimeConfig().public.siteUrl
 
   // Initialize theme state
   const { isDark, naiveTheme, initTheme } = useTheme()
 
+  const localeHeadLinks = computed<I18nHeadMetaInfo['link']>(
+    () => localeHead.value.link as I18nHeadMetaInfo['link']
+  )
+
+  const localeHtmlAttrs = computed<I18nHeadMetaInfo['htmlAttrs']>(
+    () => localeHead.value.htmlAttrs as I18nHeadMetaInfo['htmlAttrs']
+  )
+
+  const htmlClass = computed(() => {
+    const themeClass = isDark.value ? 'dark' : 'light'
+    const localeClass = localeHtmlAttrs.value?.class
+    return [localeClass, themeClass].filter(Boolean).join(' ')
+  })
+
   useHead(() => ({
     htmlAttrs: {
-      class: isDark.value ? 'dark' : 'light',
+      ...localeHtmlAttrs.value,
+      class: htmlClass.value,
     },
+    title: t('meta.title'),
+    meta: [
+      ...localeHead.value.meta,
+      { charset: 'utf-8' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      {
+        name: 'description',
+        content: t('meta.description.default'),
+      },
+      { name: 'robots', content: 'index, follow' },
+      { name: 'author', content: 'dastrokes' },
+      {
+        name: 'keywords',
+        content: t('meta.keywords'),
+      },
+      {
+        property: 'og:site_name',
+        content: t('meta.title'),
+      },
+      {
+        property: 'og:title',
+        content: t('meta.title'),
+      },
+      {
+        property: 'og:description',
+        content: t('meta.description.default'),
+      },
+      {
+        property: 'og:image',
+        content: `${siteUrl}/og.png`,
+      },
+      {
+        name: 'twitter:card',
+        content: 'summary_large_image',
+      },
+      {
+        name: 'twitter:title',
+        content: t('meta.title'),
+      },
+      {
+        name: 'twitter:description',
+        content: t('meta.description.default'),
+      },
+      {
+        name: 'twitter:image',
+        content: `${siteUrl}/og.png`,
+      },
+      {
+        name: 'twitter:site',
+        content: '@gongeo_us',
+      },
+      {
+        name: 'twitter:creator',
+        content: '@gongeo_us',
+      },
+    ],
+    link: [
+      ...localeHeadLinks.value,
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      {
+        rel: 'preconnect',
+        href: 'https://api.gongeo.us',
+      },
+      {
+        rel: 'preconnect',
+        href: 'https://o4509482068869120.ingest.us.sentry.io',
+      },
+    ],
+    script:
+      route.meta?.umami === false
+        ? []
+        : [
+            {
+              async: true,
+              defer: true,
+              src: '/gongeous.js',
+              'data-host-url': 'https://api.gongeo.us',
+              'data-website-id': 'dd22ab5d-2045-4450-aaff-f513339b5ca6',
+            },
+          ],
   }))
 
   // Theme overrides for both light and dark modes

@@ -601,7 +601,6 @@
   // Initialize i18n
   const { t, locale } = useI18n()
   const localePath = useLocalePath()
-  const siteUrl = useRuntimeConfig().public.siteUrl
   const { getImageSrc } = imageProvider()
   const nuxtImg = useImage()
 
@@ -622,10 +621,6 @@
       `${t('navigation.global')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     twitterDescription: () => t('meta.description.global'),
   })
-
-  useHead(() => ({
-    link: [{ rel: 'canonical', href: `${siteUrl}${localePath('/global')}` }],
-  }))
 
   onMounted(() => {
     watchEffect(() => {

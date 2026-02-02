@@ -425,7 +425,6 @@
   }
 
   const { t, locale, getLocaleMessage } = useI18n()
-  const localePath = useLocalePath()
   const { getImageSrc } = imageProvider()
 
   const totalRounds = 10
@@ -876,13 +875,11 @@
     clearTimer()
   })
 
-  const siteUrl = useRuntimeConfig().public.siteUrl
   const pageTitle = computed(
     () =>
       `${t('quiz.title')} - ${t('meta.game_title')} - ${t('navigation.title')}`
   )
   const description = computed(() => t('quiz.meta_description'))
-  const canonicalPath = computed(() => localePath('/quiz'))
 
   useSeoMeta({
     title: () => pageTitle.value,
@@ -892,10 +889,6 @@
     twitterTitle: () => pageTitle.value,
     twitterDescription: () => description.value,
   })
-
-  useHead(() => ({
-    link: [{ rel: 'canonical', href: `${siteUrl}${canonicalPath.value}` }],
-  }))
 </script>
 
 <style scoped>

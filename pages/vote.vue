@@ -390,7 +390,6 @@
 
   const { t } = useI18n()
   const localePath = useLocalePath()
-  const siteUrl = useRuntimeConfig().public.siteUrl
   const message = useMessage()
   const { getVotePair } = useBannerVote()
   const { getPersonalVotePair, submitPersonalVote } = usePersonalVote()
@@ -533,8 +532,4 @@
       `${t('navigation.vote')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     twitterDescription: () => t('vote.description'),
   })
-
-  useHead(() => ({
-    link: [{ rel: 'canonical', href: `${siteUrl}${localePath('/vote')}` }],
-  }))
 </script>

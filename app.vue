@@ -2,6 +2,7 @@
   <n-config-provider
     :theme="naiveTheme"
     :theme-overrides="themeOverrides"
+    :inline-theme-disabled="true"
   >
     <n-message-provider>
       <n-dialog-provider>
@@ -17,11 +18,11 @@
   import type { GlobalThemeOverrides } from 'naive-ui'
 
   // Initialize theme state
-  const { isDark, naiveTheme, initTheme } = useTheme()
+  const { isDark, naiveTheme } = useTheme()
 
   useHead(() => ({
     htmlAttrs: {
-      class: isDark.value ? 'dark' : undefined,
+      class: isDark.value ? 'dark' : 'light',
     },
   }))
 
@@ -112,11 +113,7 @@
   // Initialize authentication
   const { initAuth } = useAuth()
 
-  // Ensure theme is initialized on client-side
   onMounted(() => {
-    // Initialize theme immediately for correct initial paint
-    initTheme()
-
     // Defer auth initialization to idle to protect LCP
     const run = () => initAuth()
 

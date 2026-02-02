@@ -6,13 +6,14 @@ const BROWSER_CACHE_VALUE = 'public, max-age=300'
 const CDN_CACHE_VALUE =
   'public, s-maxage=1209600, stale-while-revalidate=86400, stale-if-error=86400'
 const CDN_CACHE_TAG = 'cache-purge'
+const NETLIFY_THEME_VARY = 'cookie=theme|i18n_redirected'
 export const GAME_VERSION_HEADER = 'X-Game-Version'
 
 export const CACHE_STATIC = {
   'Cache-Control': 'public, max-age=86400, immutable',
   'Netlify-CDN-Cache-Control':
     'public, s-maxage=2592000, stale-while-revalidate=604800',
-  'Netlify-Vary': 'cookie=i18n_redirected',
+  'Netlify-Vary': NETLIFY_THEME_VARY,
 }
 
 export const CACHE_STABLE = {
@@ -20,7 +21,7 @@ export const CACHE_STABLE = {
   'Netlify-CDN-Cache-Control':
     'public, s-maxage=1209600, stale-while-revalidate=86400',
   'Netlify-Vary':
-    'header=' + GAME_VERSION_HEADER + ',cookie=i18n_redirected,query',
+    'header=' + GAME_VERSION_HEADER + ',' + NETLIFY_THEME_VARY + ',query',
   'Netlify-Cache-Tag': CDN_CACHE_TAG,
 }
 
@@ -28,7 +29,7 @@ export const CACHE_DYNAMIC = {
   'Cache-Control': 'public, max-age=300',
   'Netlify-CDN-Cache-Control':
     'public, s-maxage=3600, stale-while-revalidate=86400',
-  'Netlify-Vary': 'header=' + GAME_VERSION_HEADER + ',cookie=i18n_redirected',
+  'Netlify-Vary': 'header=' + GAME_VERSION_HEADER + ',' + NETLIFY_THEME_VARY,
 }
 
 interface CacheHeaderOptions {

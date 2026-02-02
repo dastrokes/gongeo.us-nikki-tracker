@@ -1,9 +1,7 @@
 <template>
   <n-config-provider
-    :key="configKey"
     :theme="naiveTheme"
     :theme-overrides="themeOverrides"
-    :inline-theme-disabled="true"
   >
     <n-message-provider>
       <n-dialog-provider>
@@ -19,8 +17,7 @@
   import type { GlobalThemeOverrides } from 'naive-ui'
 
   // Initialize theme state
-  const { isDark, naiveTheme } = useTheme()
-  const configKey = ref(0)
+  const { isDark, naiveTheme, initTheme } = useTheme()
 
   useHead(() => ({
     htmlAttrs: {
@@ -33,6 +30,7 @@
       isDark,
       (value) => {
         document.documentElement.classList.toggle('dark', value)
+        document.documentElement.classList.toggle('light', !value)
       },
       { immediate: true }
     )
@@ -115,13 +113,10 @@
   // Initialize authentication
   const { initAuth } = useAuth()
 
+  // Ensure theme is initialized on client-side
   onMounted(() => {
-    const nuxtApp = useNuxtApp()
-    const isPrerendered = typeof nuxtApp.payload.prerenderedAt === 'number'
-    if (isPrerendered) {
-      // Force Naive UI to re-apply theme classes after hydration.
-      configKey.value += 1
-    }
+    // Initialize theme immediately for correct initial paint
+    initTheme()
 
     // Defer auth initialization to idle to protect LCP
     const run = () => initAuth()

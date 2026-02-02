@@ -25,17 +25,6 @@
     },
   }))
 
-  if (import.meta.client) {
-    watch(
-      isDark,
-      (value) => {
-        document.documentElement.classList.toggle('dark', value)
-        document.documentElement.classList.toggle('light', !value)
-      },
-      { immediate: true }
-    )
-  }
-
   // Theme overrides for both light and dark modes
   const themeOverrides = computed<GlobalThemeOverrides>(() => ({
     common: {

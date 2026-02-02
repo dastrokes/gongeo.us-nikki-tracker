@@ -1,14 +1,18 @@
+import type { Pinia } from 'pinia'
 import type { Theme } from '~/stores/user'
 
 export default defineNuxtPlugin({
   name: 'theme-init',
-  enforce: 'pre',
+  dependsOn: ['pinia'],
   setup() {
-    const userStore = useUserStore()
+    const nuxtApp = useNuxtApp()
+    const pinia = nuxtApp.$pinia as Pinia | undefined
+    const userStore = pinia ? useUserStore(pinia) : null
     const themeCookie = useCookie<Theme | null>('theme')
     let theme = themeCookie.value
 
     if (import.meta.client) {
+      if (!userStore) return
       if (theme === 'dark' || theme === 'light') {
         if (userStore.theme !== theme) {
           userStore.$patch({ theme })
@@ -28,7 +32,11 @@ export default defineNuxtPlugin({
       return
     }
 
-    if ((theme === 'dark' || theme === 'light') && userStore.theme !== theme) {
+    if (
+      userStore &&
+      (theme === 'dark' || theme === 'light') &&
+      userStore.theme !== theme
+    ) {
       userStore.$patch({ theme })
     }
   },

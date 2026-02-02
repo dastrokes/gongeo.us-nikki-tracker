@@ -5,11 +5,24 @@ import { defaultLocale, i18nLocales } from './locales/locales'
 import { buildSitemap } from './locales/sitemap'
 import { CACHE_STATIC, CACHE_STABLE, CACHE_DYNAMIC } from './utils/cacheHeaders'
 import { getImageProvider } from './utils/imageProvider'
+import { themeInitScript } from './utils/themeInit'
 
 export default defineNuxtConfig({
   devtools: { enabled: false },
 
   srcDir: '.',
+
+  app: {
+    head: {
+      script: [
+        {
+          id: 'theme-init',
+          tagPosition: 'head',
+          innerHTML: themeInitScript,
+        },
+      ],
+    },
+  },
 
   // Add global CSS files
   css: ['~/assets/styles/global.scss'],

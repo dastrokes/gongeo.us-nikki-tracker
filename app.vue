@@ -1,5 +1,6 @@
 <template>
   <n-config-provider
+    :key="configKey"
     :theme="naiveTheme"
     :theme-overrides="themeOverrides"
     :inline-theme-disabled="true"
@@ -19,6 +20,7 @@
 
   // Initialize theme state
   const { isDark, naiveTheme } = useTheme()
+  const configKey = ref(0)
 
   useHead(() => ({
     htmlAttrs: {
@@ -114,6 +116,13 @@
   const { initAuth } = useAuth()
 
   onMounted(() => {
+    const nuxtApp = useNuxtApp()
+    const isPrerendered = typeof nuxtApp.payload.prerenderedAt === 'number'
+    if (isPrerendered) {
+      // Force Naive UI to re-apply theme classes after hydration.
+      configKey.value += 1
+    }
+
     // Defer auth initialization to idle to protect LCP
     const run = () => initAuth()
 

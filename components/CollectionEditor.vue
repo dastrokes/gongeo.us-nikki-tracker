@@ -183,6 +183,7 @@
   const message = useMessage()
   const pullStore = usePullStore()
   const { getImageSrc } = imageProvider()
+  const { initFromData } = usePullStoreData()
 
   // Props, emits, and refs
   const props = defineProps<{
@@ -486,35 +487,12 @@
       // Save to IndexedDB - ensure all data is serializable
       await saveData(existingPullData, updatedEditData, updatedEvoData)
 
-      const dataSource = useDataSource()
-      const hasPearpal = Object.keys(existingPearpalData).length > 0
-      const hasGame =
-        Object.keys(existingPullData).length > 0 ||
-        Object.keys(updatedEditData).length > 0
-
-      if (hasPearpal && hasGame) {
-        if (dataSource.value === 'pearpal') {
-          await pullStore.processPearpalData(existingPearpalData)
-        } else if (dataSource.value === 'game') {
-          await pullStore.processPullData(existingPullData, updatedEditData)
-        } else {
-          // Auto mode: use processAutoData to choose best source per banner
-          await pullStore.processAutoData(
-            existingPullData,
-            updatedEditData,
-            existingPearpalData
-          )
-        }
-      } else if (hasPearpal) {
-        await pullStore.processPearpalData(existingPearpalData)
-      } else if (hasGame) {
-        await pullStore.processPullData(existingPullData, updatedEditData)
-      }
-
-      // Process evolution data
-      if (Object.keys(updatedEvoData).length > 0) {
-        pullStore.evoData = updatedEvoData
-      }
+      await initFromData({
+        pulls: existingPullData,
+        edits: updatedEditData,
+        evo: updatedEvoData,
+        pearpal: existingPearpalData,
+      })
 
       message.success(t('tracker.manual_log.success'))
       emit('close')

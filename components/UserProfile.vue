@@ -22,6 +22,7 @@
 <script setup lang="ts">
   import {
     User,
+    UserTag,
     SignInAlt,
     SignOutAlt,
     Upload,
@@ -30,43 +31,105 @@
     Trash,
   } from '@vicons/fa'
   import { NIcon } from 'naive-ui'
-  import type { DropdownOption } from 'naive-ui'
+  import type {
+    DropdownDividerOption,
+    DropdownGroupOption,
+    DropdownOption,
+    DropdownRenderOption,
+  } from 'naive-ui'
+
+  type DropdownMixedOption =
+    | DropdownOption
+    | DropdownGroupOption
+    | DropdownDividerOption
+    | DropdownRenderOption
 
   const { t } = useI18n()
-  const localePath = useLocalePath()
   const dialog = useDialog()
   const message = useMessage()
+  const localePath = useLocalePath()
   const userStore = useUserStore()
   const pullStore = usePullStore()
-  const { clearData } = useIndexedDB()
+  const { clearData, loadData } = useIndexedDB()
   const { user, signOut } = useAuth()
   const { uploadData, syncData, clearCloudData } = useDataSync()
   const { resetToDefaults } = useTrackerSettings()
+  const { slots, activeSlot, switchProfile } = useProfileSlots()
+  const { initFromData, initFromIndexedDB } = usePullStoreData()
+
+  const DEFAULT_PROFILE_LABEL = 'Default'
+  const PROFILE_LABEL_PREFIX = 'Profile '
+
+  const isDefaultLabel = (slot: number, label?: string): boolean => {
+    if (!label) return true
+    const normalized = label.trim()
+    if (slot === 1) {
+      return normalized === DEFAULT_PROFILE_LABEL
+    }
+    return normalized === `${PROFILE_LABEL_PREFIX}${slot}`
+  }
+
+  const getSlotLabel = (slot: number): string => {
+    const label = slots.value[slot - 1]?.label
+    if (!label || isDefaultLabel(slot, label)) {
+      return slot === 1
+        ? t('profile.default_profile')
+        : t('profile.profile_slot', { number: slot })
+    }
+    return label
+  }
+
+  const activeProfileLabel = computed(() => getSlotLabel(activeSlot.value))
+  const accountLabel = computed(() => {
+    if (!user.value) return t('default.user_profile.guest')
+    const displayName =
+      user.value.user_metadata?.custom_claims?.global_name || user.value.email
+    return displayName || t('default.user_profile.guest')
+  })
 
   function renderIcon(icon: Component) {
     return () => h(NIcon, null, { default: () => h(icon) })
   }
 
-  const dropdownOptions = computed((): DropdownOption[] => {
-    const options: DropdownOption[] = []
+  const existingProfileCount = computed(
+    () => slots.value.filter((slot) => slot.exists).length
+  )
 
-    // User info section
-    if (user.value) {
-      // Show username/email if logged in
-      options.push({
-        label: user.value.user_metadata?.name || user.value.email,
-        key: 'uid',
-        icon: renderIcon(User),
+  const profileMenuChildren = computed((): DropdownMixedOption[] => {
+    const children: DropdownMixedOption[] = slots.value
+      .map((slot, index): DropdownOption | null => {
+        if (!slot.exists) return null
+        const slotNumber = index + 1
+        return {
+          label: getSlotLabel(slotNumber),
+          key: `profile-switch-${slotNumber}`,
+          disabled: activeSlot.value === slotNumber,
+        }
       })
-    } else {
-      // Show UID if not logged in but has UID, otherwise show guest
-      const localUid = userStore.getUid || t('default.user_profile.guest')
-      options.push({
-        label: localUid,
-        key: 'uid',
+      .filter((option): option is DropdownOption => option !== null)
+
+    return children
+  })
+
+  const dropdownOptions = computed((): DropdownMixedOption[] => {
+    const options: DropdownMixedOption[] = [
+      {
+        label: accountLabel.value,
+        key: 'account',
         icon: renderIcon(User),
-      })
-    }
+      },
+      {
+        label: activeProfileLabel.value,
+        key: 'profile-menu',
+        icon: renderIcon(UserTag),
+        children: profileMenuChildren.value,
+        show: existingProfileCount.value > 1,
+      },
+      {
+        type: 'divider',
+        key: 'manage-divider',
+      },
+    ]
 
     // Auth actions
     if (user.value) {
@@ -124,7 +187,30 @@
     return options
   })
 
-  const handleSelect = async (key: string): Promise<void> => {
+  const handleProfileSwitch = async (slot: number) => {
+    if (!switchProfile(slot)) return
+    await initFromIndexedDB()
+    message.success(
+      t('default.user_profile.profiles.switched_success', {
+        profile: getSlotLabel(slot),
+      })
+    )
+  }
+
+  const handleSelect = async (key: string) => {
+    if (key === 'account') {
+      await navigateTo(`${localePath('/profile')}`)
+      return
+    }
+
+    if (key.startsWith('profile-switch-')) {
+      const slot = Number(key.replace('profile-switch-', ''))
+      if (Number.isFinite(slot)) {
+        await handleProfileSwitch(slot)
+      }
+      return
+    }
+
     if (key === 'signin') {
       await navigateTo(`${localePath('/login')}`)
       return
@@ -143,7 +229,9 @@
     if (key === 'upload') {
       dialog.warning({
         title: t('default.user_profile.sync.confirm_upload.title'),
-        content: t('default.user_profile.sync.confirm_upload.content'),
+        content: t('default.user_profile.sync.confirm_upload.content', {
+          profile: activeProfileLabel.value,
+        }),
         positiveText: t('common.confirm'),
         negativeText: t('common.cancel'),
         onPositiveClick: async () => {
@@ -151,9 +239,7 @@
             message.loading(t('common.loading'))
 
             // Check if data exists in IndexedDB
-            const { loadData } = useIndexedDB()
             const existingData = await loadData()
-
             const hasLocalData =
               Object.keys(existingData.pulls).length > 0 ||
               Object.keys(existingData.edits).length > 0 ||
@@ -162,34 +248,8 @@
 
             if (!hasLocalData) {
               // Load data from IndexedDB first
-              const { loadData } = useIndexedDB()
               const { pulls, edits, evo, pearpal } = await loadData()
-
-              // Respect user's data source preference
-              const dataSource = useDataSource()
-              const hasPearpal = Object.keys(pearpal).length > 0
-              const hasGame =
-                Object.keys(pulls).length > 0 || Object.keys(edits).length > 0
-
-              if (hasPearpal && hasGame) {
-                if (dataSource.value === 'pearpal') {
-                  await pullStore.processPearpalData(pearpal)
-                } else if (dataSource.value === 'game') {
-                  await pullStore.processPullData(pulls, edits)
-                } else {
-                  // Auto mode: use processAutoData to choose best source per banner
-                  await pullStore.processAutoData(pulls, edits, pearpal)
-                }
-              } else if (hasPearpal) {
-                await pullStore.processPearpalData(pearpal)
-              } else if (hasGame) {
-                await pullStore.processPullData(pulls, edits)
-              }
-
-              // Process evolution data
-              if (Object.keys(evo).length > 0) {
-                pullStore.evoData = evo
-              }
+              await initFromData({ pulls, edits, evo, pearpal })
             }
 
             const result = await uploadData()
@@ -209,7 +269,9 @@
     if (key === 'sync') {
       dialog.warning({
         title: t('default.user_profile.sync.confirm_sync.title'),
-        content: t('default.user_profile.sync.confirm_sync.content'),
+        content: t('default.user_profile.sync.confirm_sync.content', {
+          profile: activeProfileLabel.value,
+        }),
         positiveText: t('common.confirm'),
         negativeText: t('common.cancel'),
         onPositiveClick: async () => {
@@ -232,7 +294,9 @@
     if (key === 'clear-cloud') {
       dialog.warning({
         title: t('default.user_profile.clear_cloud_confirm.title'),
-        content: t('default.user_profile.clear_cloud_confirm.content'),
+        content: t('default.user_profile.clear_cloud_confirm.content', {
+          profile: activeProfileLabel.value,
+        }),
         positiveText: t('common.confirm'),
         negativeText: t('common.cancel'),
         onPositiveClick: async () => {
@@ -255,7 +319,9 @@
     if (key === 'clear') {
       dialog.warning({
         title: t('default.user_profile.clear_local_confirm.title'),
-        content: t('default.user_profile.clear_local_confirm.content'),
+        content: t('default.user_profile.clear_local_confirm.content', {
+          profile: activeProfileLabel.value,
+        }),
         positiveText: t('common.confirm'),
         negativeText: t('common.cancel'),
         onPositiveClick: async () => {

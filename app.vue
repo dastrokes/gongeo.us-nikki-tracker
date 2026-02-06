@@ -202,19 +202,12 @@
 
   // Initialize authentication
   const { initAuth } = useAuth()
+  const { initProfile } = useProfileSlots()
 
   // Ensure theme is initialized on client-side
   onMounted(() => {
-    // Initialize theme immediately for correct initial paint
     initTheme()
-
-    // Defer auth initialization to idle to protect LCP
-    const run = () => initAuth()
-
-    if ('requestIdleCallback' in window) {
-      requestIdleCallback(run, { timeout: 1000 })
-    } else {
-      setTimeout(run, 0)
-    }
+    initProfile()
+    initAuth()
   })
 </script>

@@ -11,8 +11,8 @@ export type SupportedLocaleCode =
   | 'ko'
   | 'pt'
   | 'th'
-  | 'tw'
   | 'zh'
+  | 'tw'
 
 export const defaultLocale: SupportedLocaleCode = 'en'
 
@@ -28,8 +28,8 @@ export const intlLocaleMap: Record<SupportedLocaleCode, string> = {
   ko: 'ko-KR',
   pt: 'pt-BR',
   th: 'th-TH',
-  tw: 'zh-TW',
   zh: 'zh-CN',
+  tw: 'zh-TW',
 }
 
 export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
@@ -154,18 +154,6 @@ export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
     ],
   },
   {
-    code: 'tw',
-    language: 'zh-TW',
-    name: '繁體中文',
-    files: [
-      'tw/common.json',
-      'tw/banner.json',
-      'tw/outfit.json',
-      'tw/item.json',
-      'tw/misc.json',
-    ],
-  },
-  {
     code: 'zh',
     language: 'zh-CN',
     name: '简体中文',
@@ -175,6 +163,18 @@ export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
       'zh/outfit.json',
       'zh/item.json',
       'zh/misc.json',
+    ],
+  },
+  {
+    code: 'tw',
+    language: 'zh-TW',
+    name: '繁體中文',
+    files: [
+      'tw/common.json',
+      'tw/banner.json',
+      'tw/outfit.json',
+      'tw/item.json',
+      'tw/misc.json',
     ],
   },
 ]

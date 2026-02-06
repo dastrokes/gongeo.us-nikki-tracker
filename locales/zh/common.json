@@ -95,10 +95,11 @@
     },
     "user_profile": {
       "guest": "访客",
+      "signed_in": "已登录",
       "clear_local_data": "清除本地数据",
       "clear_local_confirm": {
         "title": "清除本地数据",
-        "content": "确定要清除所有本地数据吗？此操作无法撤消。"
+        "content": "确定要清除 {profile} 档案的本地数据吗？此操作无法撤消。"
       },
       "sign_out": "退出登录",
       "sign_out_success": "成功退出登录",
@@ -112,27 +113,42 @@
         "sync_error": "数据同步失败。",
         "confirm_upload": {
           "title": "上传到云端",
-          "content": "这将把您的本地数据上传到云端存储，覆盖任何现有的云端数据。确认继续吗？"
+          "content": "这将把 {profile} 档案的本地数据上传到云端存储，覆盖该档案在云端的现有数据。确认继续吗？"
         },
         "confirm_sync": {
           "title": "从云端同步",
-          "content": "这将通过合并本地数据和云端数据来同步您的数据。确认继续吗？"
+          "content": "这将通过合并 {profile} 档案的本地数据与云端数据来同步。确认继续吗？"
+        },
+        "missing_profiles": {
+          "title": "创建缺失档案",
+          "content": "检测到云端存在 {profiles} 档案的数据。是否在同步前先在本地创建这些档案？",
+          "confirm": "创建档案"
         }
       },
       "clear_cloud_data": "清除云端数据",
       "clear_cloud_confirm": {
         "title": "清除云端数据",
-        "content": "您确定要清除所有云端数据吗？此操作无法撤消，将永久删除您的云端存储数据。"
+        "content": "您确定要清除 {profile} 档案的云端数据吗？此操作无法撤消，将永久删除该档案的云端存储数据。"
       },
       "clear_cloud_success": "云端数据清除成功！",
       "clear_cloud_error": "清除云端数据失败。",
-      "clear_success": "数据清除成功！"
+      "clear_success": "数据清除成功！",
+      "profiles": {
+        "active": "当前",
+        "delete_confirm": {
+          "title": "删除档案",
+          "content": "确定要删除 {profile} 档案吗？这将清除其本地数据以及云端数据（如已登录）。"
+        },
+        "created_success": "档案已创建。",
+        "switched_success": "已切换到 {profile} 档案。",
+        "deleted_success": "档案已删除。"
+      }
     },
     "accessibility": {
       "toggle_menu": "切换导航菜单",
       "language_switcher": "切换语言",
       "theme_switcher": "切换主题",
-      "user_profile_menu": "用户资料菜单",
+      "user_profile_menu": "用户档案菜单",
       "scroll_to_top": "回到顶部"
     },
     "language_switcher": {
@@ -149,13 +165,38 @@
       "email": "通过邮箱联系我们"
     }
   },
+  "profile": {
+    "title": "档案",
+    "subtitle": "管理档案、云端数据与本地数据。",
+    "sections": {},
+    "account_label": "账号",
+    "all_profiles": "全部档案",
+    "active_profile": "当前档案",
+    "default_profile": "默认",
+    "profile_slot": "档案 {number}",
+    "switch": "切换",
+    "manage_profiles": "管理档案",
+    "rename": "重命名",
+    "rename_title": "重命名档案",
+    "rename_placeholder": "请输入档案名称",
+    "rename_success": "档案名称已更新。",
+    "rename_error": "请输入档案名称。",
+    "menu": {
+      "delete": "删除档案"
+    },
+    "status": {
+      "local": "本地数据",
+      "cloud": "云端数据",
+      "last_sync": "上次同步",
+      "never": "从未"
+    }
+  },
   "login": {
     "sign_in": "登录",
     "sign_up": "注册",
     "welcome_description": "使用第三方账号或邮箱登录，上传并同步您的数据。",
     "signed_in_title": "登录成功！",
     "welcome_back": "欢迎回来，{name}！",
-    "go_to_tracker": "前往共鸣记录",
     "signin_error": "登录失败，请重试。",
     "sign_in_with_discord": "使用 Discord 登录",
     "sign_in_with_google": "使用 Google 登录",
@@ -243,8 +284,7 @@
       "step5_android_chrome": "在地址栏中开始输入您保存的书签名称（Gongeous Cookie）",
       "step5_android_chrome_2": "从建议中选择书签以运行它",
       "step6": "复制弹出窗口中的输出文本（它应该看起来像下面输入区域中的示例）",
-      "step7": "返回暖暖共鸣录，将输出文本粘贴到下面的输入区域中",
-      "tip": "提示：您可以保留书签，便于将来数据导入时获取 Cookie 数据"
+      "step7": "返回暖暖共鸣录，将输出文本粘贴到下面的输入区域中"
     },
     "console_steps": {
       "step1": "切换到不同标签页的美鸭梨网站，确保您已登录",
@@ -430,10 +470,6 @@
     "reveal_direction": "揭示方向",
     "blur": "模糊",
     "answer_mode": "答题模式",
-    "answer_options": {
-      "select": "选择",
-      "search": "搜索"
-    },
     "correct_answer": "正确答案",
     "reveal_options": {
       "middle_out": "从中间向外",
@@ -581,8 +617,6 @@
     "abuseNotice": "请不要恶意刷票。异常的投票行为将会被系统检测到，相关投票可能会被移除。",
     "success": "投票提交成功！",
     "viewRankings": "查看排名",
-    "vote": "投票",
-    "ranking": "排名",
     "mode": {
       "personal": "个人模式",
       "community": "社区模式",
@@ -626,7 +660,6 @@
     "error_description": "无法加载物品数据。请检查您的连接并重试。",
     "no_results_title": "未找到套装",
     "no_results_description": "没有符合您搜索条件的套装。",
-    "not_found_title": "未找到物品",
     "not_found_item": "未找到部件",
     "not_found_outfit": "未找到套装",
     "back_to_list": "返回物品列表",
@@ -635,7 +668,6 @@
     "filter_style": "按风格筛选",
     "filter_label": "按标签筛选",
     "filter_obtain": "按来源筛选",
-    "filter_all_types": "全部类型",
     "source": {
       "event": "活动",
       "quest": "任务",

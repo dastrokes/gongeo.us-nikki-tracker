@@ -11,8 +11,8 @@ const localeCodes = [
   'ko',
   'pt',
   'th',
-  'tw',
   'zh',
+  'tw',
 ]
 
 const singularToPlural = {

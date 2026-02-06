@@ -1,3 +1,5 @@
+import type { DataSource } from '~/types/pull'
+
 export interface TrackerSettings {
   sortBanner: boolean
   sortItems: boolean
@@ -40,9 +42,7 @@ export const useTrackerSettings = () => {
   }
 }
 
-export type DataSource = 'game' | 'pearpal' | 'auto'
-
 export const useDataSource = () => {
-  const dataSource = useLocalStorage<DataSource>('gongeous-data-source', 'game')
+  const dataSource = useLocalStorage<DataSource>('gongeous-data-source', 'auto')
   return dataSource
 }

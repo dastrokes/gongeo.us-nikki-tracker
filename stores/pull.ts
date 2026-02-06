@@ -4,6 +4,7 @@ import type {
   EditRecord,
   ProcessedBanner,
   PearpalTrackerItem,
+  DataSource,
 } from '~/types/pull'
 import { BANNER_DATA } from '~/data/banners'
 import type { BannerData } from '~/types/banner'
@@ -12,6 +13,7 @@ export const usePullStore = defineStore('pull', {
   state: (): PullState => ({
     processedPulls: {},
     evoData: {},
+    dataSource: null as DataSource | null,
     globalStats: {
       totalPulls: 0,
       total4StarItems: 0,
@@ -58,6 +60,7 @@ export const usePullStore = defineStore('pull', {
       // Reset all state properties to their initial values
       this.processedPulls = {}
       this.evoData = {}
+      this.dataSource = null
       this.globalStats = {
         totalPulls: 0,
         total4StarItems: 0,

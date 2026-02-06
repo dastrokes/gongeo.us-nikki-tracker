@@ -196,7 +196,7 @@ export default defineNuxtConfig({
         ...buildI18nRules(['/global'], {
           headers: CACHE_DYNAMIC,
         }),
-        ...buildI18nRules(['/login', '/tracker'], {
+        ...buildI18nRules(['/login', '/tracker', '/profile'], {
           headers: { 'Cache-Control': 'private, no-store' },
         }),
       }

@@ -599,7 +599,7 @@
   const { processedPulls } = storeToRefs(pullStore)
   const loading = ref(true)
   const message = useMessage()
-  const { loadData } = useIndexedDB()
+  const { initFromIndexedDB } = usePullStoreData()
   const showCollectionEditor = ref(false)
   const showItems = ref(true)
 
@@ -698,50 +698,25 @@
     return levels
   }
 
-  onMounted(async () => {
-    if (Object.keys(processedPulls.value).length > 0) {
-      loading.value = false
-      return
-    }
+  // Function to load and process data based on current data source
+  const loadAndProcessData = async () => {
     try {
       loading.value = true
-      const {
-        pulls: pullData,
-        edits: editData,
-        evo: evoData,
-        pearpal: pearpalData,
-      } = await loadData()
-
-      // Decide which data source to prioritize
-      const dataSource = useDataSource()
-      const hasPearpal = Object.keys(pearpalData).length > 0
-      const hasGame =
-        Object.keys(pullData).length > 0 || Object.keys(editData).length > 0
-
-      if (hasPearpal && hasGame) {
-        if (dataSource.value === 'pearpal') {
-          await pullStore.processPearpalData(pearpalData)
-        } else if (dataSource.value === 'game') {
-          await pullStore.processPullData(pullData, editData)
-        } else {
-          await pullStore.processAutoData(pullData, editData, pearpalData)
-        }
-      } else if (hasPearpal) {
-        await pullStore.processPearpalData(pearpalData)
-      } else if (hasGame) {
-        await pullStore.processPullData(pullData, editData)
-      }
-
-      // Process evolution data
-      if (Object.keys(evoData).length > 0) {
-        pullStore.evoData = evoData
-      }
+      await initFromIndexedDB()
     } catch (error) {
       console.error('Failed to load data:', error)
       message.error(t('tracker.no_data.error'))
     } finally {
       loading.value = false
     }
+  }
+
+  onMounted(async () => {
+    if (Object.keys(processedPulls.value).length > 0) {
+      loading.value = false
+      return
+    }
+    await loadAndProcessData()
   })
 
   // SEO Meta Tags

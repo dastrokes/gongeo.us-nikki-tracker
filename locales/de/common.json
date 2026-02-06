@@ -95,6 +95,7 @@
     },
     "user_profile": {
       "guest": "Gast",
+      "signed_in": "Signed In",
       "clear_local_data": "Lokale Daten löschen",
       "clear_local_confirm": {
         "title": "Lokale Daten löschen",
@@ -117,6 +118,11 @@
         "confirm_sync": {
           "title": "Aus der Cloud synchronisieren",
           "content": "Dies wird deine lokalen Daten mit deinen Cloud-Daten synchronisieren, indem sie zusammengeführt werden. Fortfahren?"
+        },
+        "missing_profiles": {
+          "title": "Create Missing Profiles",
+          "content": "We found cloud data for {profiles}. Create these profiles locally before syncing?",
+          "confirm": "Create Profiles"
         }
       },
       "clear_cloud_data": "Cloud-Daten löschen",
@@ -126,7 +132,17 @@
       },
       "clear_cloud_success": "Cloud-Daten wurden erfolgreich gelöscht!",
       "clear_cloud_error": "Löschen der Cloud-Daten fehlgeschlagen.",
-      "clear_success": "Daten wurden erfolgreich exportiert!"
+      "clear_success": "Daten wurden erfolgreich exportiert!",
+      "profiles": {
+        "active": "Active",
+        "delete_confirm": {
+          "title": "Delete Profile",
+          "content": "Are you sure you want to delete {profile} profile? This will clear its local data and cloud data (if signed in)."
+        },
+        "created_success": "Profile created.",
+        "switched_success": "Switched to {profile} profile.",
+        "deleted_success": "Profile deleted."
+      }
     },
     "accessibility": {
       "toggle_menu": "Navigationsmenü ein-/ausschalten",
@@ -149,13 +165,38 @@
       "email": "Nehme über E-Mail Kontakt zu uns auf"
     }
   },
+  "profile": {
+    "title": "Profile",
+    "subtitle": "Manage profiles, cloud data, and local data.",
+    "sections": {},
+    "account_label": "Account",
+    "all_profiles": "All Profiles",
+    "active_profile": "Active Profile",
+    "default_profile": "Default",
+    "profile_slot": "Profile {number}",
+    "switch": "Switch",
+    "manage_profiles": "Manage Profiles",
+    "rename": "Rename",
+    "rename_title": "Rename Profile",
+    "rename_placeholder": "Enter a profile name",
+    "rename_success": "Profile name updated.",
+    "rename_error": "Please enter a profile name.",
+    "menu": {
+      "delete": "Delete Profile"
+    },
+    "status": {
+      "local": "Local Data",
+      "cloud": "Cloud Data",
+      "last_sync": "Last Sync",
+      "never": "Never"
+    }
+  },
   "login": {
     "sign_in": "Anmelden",
     "sign_up": "Registrieren",
     "welcome_description": "Melde dich mit einem Drittanbieter-Konto oder mit E-Mail an, um deine Daten hochzuladen und zu synchronisieren.",
     "signed_in_title": "Erfolgreich angemeldet!",
     "welcome_back": "Willkommen zurück, {name}!",
-    "go_to_tracker": "Gehe zum Tracker",
     "signin_error": "Anmeldung fehlgeschlagen. Bitte versuche es erneut.",
     "sign_in_with_discord": "Mit Discord anmelden",
     "sign_in_with_google": "Mit Google anmelden",
@@ -243,8 +284,7 @@
       "step5_android_chrome": "Tippe den Lesezeichen-Namen (Gongeous Cookie) in die Adressleiste ein",
       "step5_android_chrome_2": "Wähle das Lesezeichen von den Vorschlägen und führe es aus",
       "step6": "Kopiere den im Pop-up ausgegebenen Text (er sollte so aussehen wie das Beispiel im Eingabefeld unten)",
-      "step7": "Komm wieder auf diese Seite und füge den ausgegebenen Text in das Eingabefeld unten ein",
-      "tip": "Tipp: Du kannst das Lesezeichen für das nächste Importieren der Cookie-Daten behalten"
+      "step7": "Komm wieder auf diese Seite und füge den ausgegebenen Text in das Eingabefeld unten ein"
     },
     "console_steps": {
       "step1": "Wechsel zur Pearpal-Webseite in einem anderen Tab und stelle sicher, dass du dort angemeldet bist",
@@ -430,10 +470,6 @@
     "reveal_direction": "Aufdeckungs-Richtung",
     "blur": "Unschärfe",
     "answer_mode": "Antwort-Modus",
-    "answer_options": {
-      "select": "Auswählen",
-      "search": "Suchen"
-    },
     "correct_answer": "Richtige Antwort",
     "reveal_options": {
       "middle_out": "Von der Mitte aus",
@@ -581,8 +617,6 @@
     "abuseNotice": "Bitte missbrauche nicht das Abstimmungssystem. Ungewöhnliche Abstimmungsmuster werden erkannt und diese Stimmen können entfernt werden.",
     "success": "Stimme erfolgreich abgegeben!",
     "viewRankings": "Rangliste ansehen",
-    "vote": "Abstimmen",
-    "ranking": "Rangliste",
     "mode": {
       "personal": "Persönlicher Modus",
       "community": "Community-Modus",
@@ -626,7 +660,6 @@
     "error_description": "Daten konnten nicht geladen werden. Bitte versuche es erneut.",
     "no_results_title": "Keine Treffer Gefunden",
     "no_results_description": "Keine Stücke entsprechen deinen Kriterien.",
-    "not_found_title": "Nicht Gefunden",
     "not_found_item": "Stück nicht gefunden",
     "not_found_outfit": "Outfit nicht gefunden",
     "back_to_list": "Zurück zur Liste",
@@ -635,7 +668,6 @@
     "filter_style": "Nach Style filtern",
     "filter_label": "Nach Label filtern",
     "filter_obtain": "Nach Herkunft filtern",
-    "filter_all_types": "Alle Typen",
     "source": {
       "event": "Event",
       "quest": "Auftrag",

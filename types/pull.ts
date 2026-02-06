@@ -1,3 +1,5 @@
+export type DataSource = 'game' | 'pearpal' | 'auto'
+
 export type PullRecord = [string, string] // [timestamp, itemId]
 
 export type EditRecord = [string, string] // [timestamp, itemId]
@@ -63,6 +65,7 @@ export interface GlobalStats {
 export interface PullState {
   processedPulls: Record<string, ProcessedBanner>
   evoData: Record<number, EvoRecord[]>
+  dataSource: DataSource | null
   globalStats: GlobalStats
   isProcessing: boolean
 }

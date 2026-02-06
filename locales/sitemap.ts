@@ -49,6 +49,7 @@ const BASE_PATHS = [
   '/about',
   '/vote',
   '/login',
+  '/profile',
   '/items',
   '/outfits',
   '/banners',

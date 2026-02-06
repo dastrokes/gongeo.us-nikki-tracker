@@ -1025,7 +1025,7 @@
   const cookieMethod = ref<'bookmark' | 'console' | 'manual'>('bookmark')
   const jsonFile = ref<File | null>(null)
   const submitGlobalStats = ref(true)
-  const dataSource = useDataSource()
+  const pullStore = usePullStore()
 
   const handleFileChange = (data: {
     file: UploadFileInfo
@@ -1224,7 +1224,7 @@
       if (success) {
         message.success(t('import.messages.auth_success'))
         userStore.setUid(formData.value.roleid)
-        dataSource.value = 'game'
+        pullStore.dataSource = 'game'
 
         const { sendUserBannerStats } = useUserBannerStats()
 
@@ -1340,7 +1340,7 @@
         userStore.setUid(serverUid || formData.value.roleid)
 
         message.success(t('import.messages.auth_success'))
-        dataSource.value = 'pearpal'
+        pullStore.dataSource = 'pearpal'
 
         // Now fetch the actual gacha data
         const response = await fetchNoteBookInfo(formData.value, region)

@@ -325,7 +325,7 @@
                   </div>
 
                   <n-select
-                    v-model:value="dataSource"
+                    v-model:value="effectiveDataSource"
                     size="small"
                     :options="[
                       {
@@ -944,9 +944,11 @@
   const { t } = useI18n()
   const pullStore = usePullStore()
   const { processedPulls, globalStats } = storeToRefs(pullStore)
-  const { loadData } = useIndexedDB()
   const localePath = useLocalePath()
   const { isDark } = useTheme()
+  const { initFromIndexedDB } = usePullStoreData()
+  const { loadData } = useIndexedDB()
+  const { activeSlot, slots } = useProfileSlots()
 
   const loading = ref(true)
   const showPopover = ref(false)
@@ -954,7 +956,14 @@
   const showCollectionEditor = ref(false)
   const selectedBannerId = ref<number | null>(null)
   const openStatsBannerId = ref<number | null>(null)
-  const dataSource = useDataSource()
+  const localDataSource = useDataSource()
+  const effectiveDataSource = computed({
+    get: () => pullStore.dataSource ?? localDataSource.value,
+    set: (value) => {
+      localDataSource.value = value
+      pullStore.dataSource = null
+    },
+  })
 
   // Check if there's any data to display
   const hasAnyData = computed(() => {
@@ -1048,36 +1057,7 @@
   const loadAndProcessData = async () => {
     try {
       loading.value = true
-      const {
-        pulls: pullData,
-        edits: editData,
-        evo: evoData,
-        pearpal: pearpalData,
-      } = await loadData()
-
-      // Decide which data source to prioritize
-      const hasPearpal = Object.keys(pearpalData).length > 0
-      const hasGame =
-        Object.keys(pullData).length > 0 || Object.keys(editData).length > 0
-
-      if (hasPearpal && hasGame) {
-        if (dataSource.value === 'pearpal') {
-          await pullStore.processPearpalData(pearpalData)
-        } else if (dataSource.value === 'game') {
-          await pullStore.processPullData(pullData, editData)
-        } else {
-          await pullStore.processAutoData(pullData, editData, pearpalData)
-        }
-      } else if (hasPearpal) {
-        await pullStore.processPearpalData(pearpalData)
-      } else if (hasGame) {
-        await pullStore.processPullData(pullData, editData)
-      }
-
-      // Process evolution data
-      if (Object.keys(evoData).length > 0) {
-        pullStore.evoData = evoData
-      }
+      await initFromIndexedDB()
     } catch (error) {
       console.error('Failed to load data:', error)
       message.error(t('tracker.no_data.error'))
@@ -1087,6 +1067,10 @@
   }
 
   onMounted(async () => {
+    if (Object.keys(processedPulls.value).length > 0 && !pullStore.dataSource) {
+      loading.value = false
+      return
+    }
     await loadAndProcessData()
   })
 
@@ -1096,7 +1080,7 @@
   }
 
   // Watch for data source changes and reload data
-  watch(dataSource, async () => {
+  watch(effectiveDataSource, async () => {
     await loadAndProcessData()
   })
 
@@ -1229,7 +1213,6 @@
     showPopover.value = false
 
     try {
-      const { loadData } = useIndexedDB()
       const {
         pulls: rawPullData,
         edits: rawEditData,
@@ -1264,11 +1247,18 @@
       ) {
         return
       } else {
+        const slotIndex = activeSlot.value - 1
+        const slotData = slots.value[slotIndex]
+        const trimmedLabel = slotData?.label?.trim()
+        const profile =
+          slotData?.exists && trimmedLabel ? { label: trimmedLabel } : undefined
+
         exportData = {
           pulls: filteredPullData,
           edits: filteredEditData,
           evo: filteredEvoData,
           pearpal: filteredPearpalData,
+          ...(profile ? { profile } : {}),
         }
       }
 
@@ -1279,7 +1269,9 @@
 
       // Create a link element and trigger download
       const link = document.createElement('a')
-      link.download = `nikki-resonance-data-${new Date().toISOString().split('T')[0]}.json`
+      link.download = `nikki-resonance-data-${
+        new Date().toISOString().split('T')[0]
+      }-${activeSlot.value}.json`
       link.href = URL.createObjectURL(blob)
       link.click()
 

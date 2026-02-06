@@ -95,6 +95,7 @@
     },
     "user_profile": {
       "guest": "Gast",
+      "signed_in": "Signed In",
       "clear_local_data": "Lokale Daten löschen",
       "clear_local_confirm": {
         "title": "Lokale Daten löschen",
@@ -117,6 +118,11 @@
         "confirm_sync": {
           "title": "Aus der Cloud synchronisieren",
           "content": "Dies wird deine lokalen Daten mit deinen Cloud-Daten synchronisieren, indem sie zusammengeführt werden. Fortfahren?"
+        },
+        "missing_profiles": {
+          "title": "Create Missing Profiles",
+          "content": "We found cloud data for {profiles}. Create these profiles locally before syncing?",
+          "confirm": "Create Profiles"
         }
       },
       "clear_cloud_data": "Cloud-Daten löschen",
@@ -126,7 +132,17 @@
       },
       "clear_cloud_success": "Cloud-Daten wurden erfolgreich gelöscht!",
       "clear_cloud_error": "Löschen der Cloud-Daten fehlgeschlagen.",
-      "clear_success": "Daten wurden erfolgreich exportiert!"
+      "clear_success": "Daten wurden erfolgreich exportiert!",
+      "profiles": {
+        "active": "Active",
+        "delete_confirm": {
+          "title": "Delete Profile",
+          "content": "Are you sure you want to delete {profile} profile? This will clear its local data and cloud data (if signed in)."
+        },
+        "created_success": "Profile created.",
+        "switched_success": "Switched to {profile} profile.",
+        "deleted_success": "Profile deleted."
+      }
     },
     "accessibility": {
       "toggle_menu": "Navigationsmenü ein-/ausschalten",
@@ -147,6 +163,32 @@
       "kofi": "Unterstütze uns auf Ko-fi",
       "twitter": "Folge uns auf Twitter",
       "email": "Nehme über E-Mail Kontakt zu uns auf"
+    }
+  },
+  "profile": {
+    "title": "Profile",
+    "subtitle": "Manage profiles, cloud data, and local data.",
+    "sections": {},
+    "account_label": "Account",
+    "all_profiles": "All Profiles",
+    "active_profile": "Active Profile",
+    "default_profile": "Default",
+    "profile_slot": "Profile {number}",
+    "switch": "Switch",
+    "manage_profiles": "Manage Profiles",
+    "rename": "Rename",
+    "rename_title": "Rename Profile",
+    "rename_placeholder": "Enter a profile name",
+    "rename_success": "Profile name updated.",
+    "rename_error": "Please enter a profile name.",
+    "menu": {
+      "delete": "Delete Profile"
+    },
+    "status": {
+      "local": "Local Data",
+      "cloud": "Cloud Data",
+      "last_sync": "Last Sync",
+      "never": "Never"
     }
   },
   "login": {

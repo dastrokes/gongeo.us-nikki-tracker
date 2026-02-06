@@ -95,6 +95,7 @@
     },
     "user_profile": {
       "guest": "Guest",
+      "signed_in": "Signed In",
       "clear_local_data": "Clear Local Data",
       "clear_local_confirm": {
         "title": "Clear Local Data",
@@ -117,6 +118,11 @@
         "confirm_sync": {
           "title": "Sync from Cloud",
           "content": "This will sync your local data with cloud data by merging them together. Continue?"
+        },
+        "missing_profiles": {
+          "title": "Create Missing Profiles",
+          "content": "We found cloud data for {profiles}. Create these profiles locally before syncing?",
+          "confirm": "Create Profiles"
         }
       },
       "clear_cloud_data": "Clear Cloud Data",
@@ -126,7 +132,17 @@
       },
       "clear_cloud_success": "Cloud data cleared successfully!",
       "clear_cloud_error": "Failed to clear cloud data.",
-      "clear_success": "Data cleared successfully!"
+      "clear_success": "Data cleared successfully!",
+      "profiles": {
+        "active": "Active",
+        "delete_confirm": {
+          "title": "Delete Profile",
+          "content": "Are you sure you want to delete {profile} profile? This will clear its local data and cloud data (if signed in)."
+        },
+        "created_success": "Profile created.",
+        "switched_success": "Switched to {profile} profile.",
+        "deleted_success": "Profile deleted."
+      }
     },
     "accessibility": {
       "toggle_menu": "Toggle navigation menu",
@@ -149,13 +165,38 @@
       "email": "Contact us via email"
     }
   },
+  "profile": {
+    "title": "Profile",
+    "subtitle": "Manage profiles, cloud data, and local data.",
+    "sections": {},
+    "account_label": "Account",
+    "all_profiles": "All Profiles",
+    "active_profile": "Active Profile",
+    "default_profile": "Default",
+    "profile_slot": "Profile {number}",
+    "switch": "Switch",
+    "manage_profiles": "Manage Profiles",
+    "rename": "Rename",
+    "rename_title": "Rename Profile",
+    "rename_placeholder": "Enter a profile name",
+    "rename_success": "Profile name updated.",
+    "rename_error": "Please enter a profile name.",
+    "menu": {
+      "delete": "Delete Profile"
+    },
+    "status": {
+      "local": "Local Data",
+      "cloud": "Cloud Data",
+      "last_sync": "Last Sync",
+      "never": "Never"
+    }
+  },
   "login": {
     "sign_in": "Sign In",
     "sign_up": "Sign Up",
     "welcome_description": "Sign in with 3rd party account or email to upload and sync your data.",
     "signed_in_title": "Successfully Signed In!",
     "welcome_back": "Welcome back, {name}!",
-    "go_to_tracker": "Go to Tracker",
     "signin_error": "Failed to sign in. Please try again.",
     "sign_in_with_discord": "Sign in with Discord",
     "sign_in_with_google": "Sign in with Google",
@@ -243,8 +284,7 @@
       "step5_android_chrome": "Start typing the bookmark name you saved (Gongeous Cookie) in the address bar",
       "step5_android_chrome_2": "Select the bookmark from suggestions to run it",
       "step6": "Copy the output text in the popup (it should look like the example in the input area below)",
-      "step7": "Come back here and paste the output text in the input area below",
-      "tip": "Tip: You can keep the bookmark for getting Cookie the next time you import"
+      "step7": "Come back here and paste the output text in the input area below"
     },
     "console_steps": {
       "step1": "Switch to Pearpal Website in a different tab, make sure you are logged in",
@@ -430,10 +470,6 @@
     "reveal_direction": "Reveal direction",
     "blur": "Blur",
     "answer_mode": "Answer mode",
-    "answer_options": {
-      "select": "Select",
-      "search": "Search"
-    },
     "correct_answer": "Correct answer",
     "reveal_options": {
       "middle_out": "Middle out",
@@ -581,8 +617,6 @@
     "abuseNotice": "Please do not abuse the voting system. Unusual voting patterns will be detected, and those votes may be removed.",
     "success": "Vote submitted successfully!",
     "viewRankings": "View Rankings",
-    "vote": "Vote",
-    "ranking": "Rankings",
     "mode": {
       "personal": "Personal Mode",
       "community": "Community Mode",
@@ -626,7 +660,6 @@
     "error_description": "Unable to load data. Please try again.",
     "no_results_title": "No Results Found",
     "no_results_description": "No items match your criteria.",
-    "not_found_title": "Not Found",
     "not_found_item": "Item not found",
     "not_found_outfit": "Outfit not found",
     "back_to_list": "Back to List",
@@ -635,7 +668,6 @@
     "filter_style": "Filter by Style",
     "filter_label": "Filter by Label",
     "filter_obtain": "Filter by Source",
-    "filter_all_types": "All Types",
     "source": {
       "event": "Event",
       "quest": "Quest",

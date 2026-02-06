@@ -95,10 +95,11 @@
     },
     "user_profile": {
       "guest": "訪客",
+      "signed_in": "已登入",
       "clear_local_data": "清除本地資料",
       "clear_local_confirm": {
         "title": "清除本地資料",
-        "content": "確定要清除所有本地資料嗎？此操作無法撤消。"
+        "content": "確定要清除 {profile} 設定檔的本地資料嗎？此操作無法撤消。"
       },
       "sign_out": "退出登入",
       "sign_out_success": "成功退出登入",
@@ -112,21 +113,36 @@
         "sync_error": "資料同步失敗。",
         "confirm_upload": {
           "title": "上傳到雲端",
-          "content": "這將把您的本地資料上傳到雲端儲存，覆蓋任何現有的雲端資料。確認繼續嗎？"
+          "content": "這將把 {profile} 設定檔的本地資料上傳到雲端儲存，覆蓋該設定檔在雲端的現有資料。確認繼續嗎？"
         },
         "confirm_sync": {
           "title": "從雲端同步",
-          "content": "這將透過合併本地資料和雲端資料來同步您的資料。確認繼續嗎？"
+          "content": "這將透過合併 {profile} 設定檔的本地資料與雲端資料來同步。確認繼續嗎？"
+        },
+        "missing_profiles": {
+          "title": "建立缺失設定檔",
+          "content": "偵測到雲端存在 {profiles} 的資料。是否在同步前先在本機建立這些設定檔？",
+          "confirm": "建立設定檔"
         }
       },
       "clear_cloud_data": "清除雲端資料",
       "clear_cloud_confirm": {
         "title": "清除雲端資料",
-        "content": "您確定要清除所有云端資料嗎？此操作無法撤消，將永久刪除您的雲端儲存資料。"
+        "content": "您確定要清除 {profile} 設定檔的雲端資料嗎？此操作無法撤消，將永久刪除該設定檔的雲端儲存資料。"
       },
       "clear_cloud_success": "雲端資料清除成功！",
       "clear_cloud_error": "清除雲端資料失敗。",
-      "clear_success": "資料清除成功！"
+      "clear_success": "資料清除成功！",
+      "profiles": {
+        "active": "目前",
+        "delete_confirm": {
+          "title": "刪除設定檔",
+          "content": "確定要刪除 {profile} 設定檔嗎？這將清除其本地資料以及雲端資料（如已登入）。"
+        },
+        "created_success": "設定檔已建立。",
+        "switched_success": "已切換至 {profile} 設定檔。",
+        "deleted_success": "設定檔已刪除。"
+      }
     },
     "accessibility": {
       "toggle_menu": "切換導航選單",
@@ -149,13 +165,38 @@
       "email": "透過電子郵件聯絡我們"
     }
   },
+  "profile": {
+    "title": "設定檔",
+    "subtitle": "管理設定檔、雲端資料與本機資料。",
+    "sections": {},
+    "account_label": "帳號",
+    "all_profiles": "全部設定檔",
+    "active_profile": "目前設定檔",
+    "default_profile": "預設",
+    "profile_slot": "設定檔 {number}",
+    "switch": "切換",
+    "manage_profiles": "管理設定檔",
+    "rename": "重新命名",
+    "rename_title": "重新命名設定檔",
+    "rename_placeholder": "請輸入設定檔名稱",
+    "rename_success": "設定檔名稱已更新。",
+    "rename_error": "請輸入設定檔名稱。",
+    "menu": {
+      "delete": "刪除設定檔"
+    },
+    "status": {
+      "local": "本機資料",
+      "cloud": "雲端資料",
+      "last_sync": "上次同步",
+      "never": "從未"
+    }
+  },
   "login": {
     "sign_in": "登入",
     "sign_up": "註冊",
     "welcome_description": "使用第三方賬號或電子郵件登入，上傳並同步您的資料。",
     "signed_in_title": "登入成功！",
     "welcome_back": "歡迎回來，{name}！",
-    "go_to_tracker": "前往共鳴記錄",
     "signin_error": "登入失敗，請重試。",
     "sign_in_with_discord": "使用 Discord 登入",
     "sign_in_with_google": "使用 Google 登入",
@@ -243,8 +284,7 @@
       "step5_android_chrome": "在位址列中開始輸入您儲存的書籤名稱（Gongeous Cookie）",
       "step5_android_chrome_2": "從建議中選擇書籤以執行它",
       "step6": "複製彈出視窗中的輸出文字（它應該看起來像下面輸入區域中的示例）",
-      "step7": "返回暖暖共鳴錄，將輸出文字貼上到下面的輸入區域中",
-      "tip": "提示：您可以保留書籤，便於將來資料匯入時獲取 Cookie 資料"
+      "step7": "返回暖暖共鳴錄，將輸出文字貼上到下面的輸入區域中"
     },
     "console_steps": {
       "step1": "切換到不同標籤頁的美鴨梨網站，確保您已登入",
@@ -430,10 +470,6 @@
     "reveal_direction": "揭示方向",
     "blur": "模糊",
     "answer_mode": "答題模式",
-    "answer_options": {
-      "select": "選擇",
-      "search": "搜尋"
-    },
     "correct_answer": "正確答案",
     "reveal_options": {
       "middle_out": "從中間向外",
@@ -581,8 +617,6 @@
     "abuseNotice": "請不要惡意刷票。異常的投票行為將會被系統檢測到，相關投票可能會被移除。",
     "success": "投票提交成功！",
     "viewRankings": "檢視排名",
-    "vote": "投票",
-    "ranking": "排名",
     "mode": {
       "personal": "個人模式",
       "community": "社群模式",
@@ -626,7 +660,6 @@
     "error_description": "無法載入物品資料。請檢查您的連線並重試。",
     "no_results_title": "未找到套裝",
     "no_results_description": "沒有符合您搜尋條件的套裝。",
-    "not_found_title": "未找到物品",
     "not_found_item": "未找到部件",
     "not_found_outfit": "未找到套裝",
     "back_to_list": "返回物品列表",
@@ -635,7 +668,6 @@
     "filter_style": "依風格篩選",
     "filter_label": "依標籤篩選",
     "filter_obtain": "依來源篩選",
-    "filter_all_types": "全部類型",
     "source": {
       "event": "活動",
       "quest": "任務",

@@ -22,9 +22,12 @@ export const usePullStoreData = () => {
     const hasPearpal = Object.keys(pearpal).length > 0
     const hasGame =
       Object.keys(pulls).length > 0 || Object.keys(edits).length > 0
-    const effectiveDataSource = pullStore.dataSource ?? dataSource.value
+    const dataSourceOverride = pullStore.dataSource
+    const effectiveDataSource = dataSourceOverride ?? dataSource.value
 
     pullStore.reset()
+    // Preserve import data source
+    pullStore.dataSource = dataSourceOverride
 
     if (hasPearpal && hasGame) {
       if (effectiveDataSource === 'pearpal') {

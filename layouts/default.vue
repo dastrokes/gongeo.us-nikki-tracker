@@ -326,8 +326,8 @@
       'ko',
       'pt',
       'th',
-      'tw',
       'zh',
+      'tw',
     ]
     const firstSegment = pathSegments[0] || ''
     const isLocalePrefix = locales.includes(firstSegment)

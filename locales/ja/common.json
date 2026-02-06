@@ -155,7 +155,6 @@
     "welcome_description": "Sign in with 3rd party account or email to upload and sync your data.",
     "signed_in_title": "Successfully Signed In!",
     "welcome_back": "Welcome back, {name}!",
-    "go_to_tracker": "Go to Tracker",
     "signin_error": "Failed to sign in. Please try again.",
     "sign_in_with_discord": "Sign in with Discord",
     "sign_in_with_google": "Sign in with Google",
@@ -243,8 +242,7 @@
       "step5_android_chrome": "Start typing the bookmark name you saved (Gongeous Cookie) in the address bar",
       "step5_android_chrome_2": "Select the bookmark from suggestions to run it",
       "step6": "Copy the output text in the popup (it should look like the example in the input area below)",
-      "step7": "Come back here and paste the output text in the input area below",
-      "tip": "Tip: You can keep the bookmark for getting Cookie the next time you import"
+      "step7": "Come back here and paste the output text in the input area below"
     },
     "console_steps": {
       "step1": "Switch to Pearpal Website in a different tab, make sure you are logged in",
@@ -430,10 +428,6 @@
     "reveal_direction": "Reveal direction",
     "blur": "Blur",
     "answer_mode": "Answer mode",
-    "answer_options": {
-      "select": "Select",
-      "search": "Search"
-    },
     "correct_answer": "Correct answer",
     "reveal_options": {
       "middle_out": "Middle out",
@@ -581,8 +575,6 @@
     "abuseNotice": "Please do not abuse the voting system. Unusual voting patterns will be detected, and those votes may be removed.",
     "success": "Vote submitted successfully!",
     "viewRankings": "View Rankings",
-    "vote": "Vote",
-    "ranking": "Rankings",
     "mode": {
       "personal": "Personal Mode",
       "community": "Community Mode",
@@ -626,7 +618,6 @@
     "error_description": "Unable to load data. Please try again.",
     "no_results_title": "No Results Found",
     "no_results_description": "No items match your criteria.",
-    "not_found_title": "Not Found",
     "not_found_item": "Item not found",
     "not_found_outfit": "Outfit not found",
     "back_to_list": "Back to List",
@@ -635,7 +626,6 @@
     "filter_style": "Filter by Style",
     "filter_label": "Filter by Label",
     "filter_obtain": "Filter by Source",
-    "filter_all_types": "All Types",
     "source": {
       "event": "Event",
       "quest": "Quest",

@@ -3,10 +3,11 @@
     <n-card
       size="small"
       class="rounded-xl p-0 sm:p-2"
+      content-class="!p-2 sm:p-4"
     >
-      <div class="text-center space-y-4 max-w-sm mx-auto">
+      <div class="space-y-4 max-w-sm mx-auto">
         <!-- Header -->
-        <div class="space-y-2">
+        <div class="text-center space-y-2">
           <n-h2 class="text-2xl font-bold">{{ $t('login.sign_in') }}</n-h2>
           <n-text>
             {{ $t('login.welcome_description') }}
@@ -32,13 +33,6 @@
                     })
                   }}
                 </n-text>
-                <n-button
-                  type="primary"
-                  size="large"
-                  @click="navigateTo(`${localePath('/tracker')}`)"
-                >
-                  {{ $t('login.go_to_tracker') }}
-                </n-button>
               </n-space>
             </template>
           </n-result>

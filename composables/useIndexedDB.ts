@@ -18,6 +18,7 @@ export function useIndexedDB() {
   const editsData = ref<Record<number, EditRecord[]>>({})
   const evoData = ref<Record<number, EvoRecord[]>>({})
   const isSaving = ref(false)
+  const { activeSlot } = useProfileSlots()
 
   let dbPromise: Promise<IDBPDatabase> | null = null
   let lastSavePromise: Promise<void> | null = null
@@ -80,6 +81,17 @@ export function useIndexedDB() {
       await new Promise((resolve) => setTimeout(resolve, DB_RETRY_INTERVAL_MS))
       return getDB(retries + 1)
     }
+  }
+
+  const resolveSlotKey = (storeName: string, slotOverride?: number): string => {
+    const slot = slotOverride ?? activeSlot.value ?? 1
+    if (slot === 1) return storeName
+    return `${storeName}_${slot}`
+  }
+
+  const checkActiveSlot = (slotOverride?: number): boolean => {
+    if (slotOverride === undefined || slotOverride === null) return true
+    return slotOverride === activeSlot.value
   }
 
   const mergePullData = (
@@ -160,13 +172,18 @@ export function useIndexedDB() {
   const saveData = async (
     pullsByBanner: Record<number, PullRecord[]>,
     editsByBanner: Record<number, EditRecord[]>,
-    evoByBanner: Record<number, EvoRecord[]> = {}
+    evoByBanner: Record<number, EvoRecord[]> = {},
+    slotOverride?: number
   ) => {
-    // Update reactive state immediately
-    pullsData.value = pullsByBanner
-    editsData.value = editsByBanner
-    evoData.value = evoByBanner
-    isSaving.value = true
+    const isActiveSlot = checkActiveSlot(slotOverride)
+
+    // Update reactive state immediately for active slot saves only
+    if (isActiveSlot) {
+      pullsData.value = pullsByBanner
+      editsData.value = editsByBanner
+      evoData.value = evoByBanner
+      isSaving.value = true
+    }
 
     try {
       // Wait for any previous save to complete
@@ -180,7 +197,11 @@ export function useIndexedDB() {
           const db = await getDB()
 
           // Check if pull data already exists
-          const existingData = await db.get(PULLS_STORE, PULLS_STORE)
+          const pullsKey = resolveSlotKey(PULLS_STORE, slotOverride)
+          const editsKey = resolveSlotKey(EDITS_STORE, slotOverride)
+          const evoKey = resolveSlotKey(EVO_STORE, slotOverride)
+
+          const existingData = await db.get(PULLS_STORE, pullsKey)
 
           // Create a clean copy of the pull data
           const cleanPullData = JSON.parse(JSON.stringify(pullsByBanner))
@@ -189,19 +210,21 @@ export function useIndexedDB() {
           if (existingData) {
             // Merge the data, new data takes precedence
             const mergedData = { ...existingData, ...cleanPullData }
-            await db.put(PULLS_STORE, mergedData, PULLS_STORE)
+            await db.put(PULLS_STORE, mergedData, pullsKey)
           } else {
             // If no existing data, just save the new data
-            await db.put(PULLS_STORE, cleanPullData, PULLS_STORE)
+            await db.put(PULLS_STORE, cleanPullData, pullsKey)
           }
 
           // Save edit data
-          await db.put(EDITS_STORE, editsByBanner, EDITS_STORE)
+          await db.put(EDITS_STORE, editsByBanner, editsKey)
 
           // Save evolution data
-          await db.put(EVO_STORE, evoByBanner, EVO_STORE)
+          await db.put(EVO_STORE, evoByBanner, evoKey)
         } finally {
-          isSaving.value = false
+          if (isActiveSlot) {
+            isSaving.value = false
+          }
         }
       })()
 
@@ -209,12 +232,16 @@ export function useIndexedDB() {
       return lastSavePromise
     } catch (error) {
       console.error('Failed to save data:', error)
-      isSaving.value = false
+      if (isActiveSlot) {
+        isSaving.value = false
+      }
       throw error
     }
   }
 
-  const loadData = async (): Promise<{
+  const loadData = async (
+    slotOverride?: number
+  ): Promise<{
     pulls: Record<number, PullRecord[]>
     edits: Record<number, EditRecord[]>
     evo: Record<number, EvoRecord[]>
@@ -227,14 +254,21 @@ export function useIndexedDB() {
       }
 
       const db = await getDB()
-      const pullsResult = await db.get(PULLS_STORE, PULLS_STORE)
-      const editsResult = await db.get(EDITS_STORE, EDITS_STORE)
-      const evoResult = await db.get(EVO_STORE, EVO_STORE)
-      const pearpalResult = await db.get(PEARPAL_STORE, PEARPAL_STORE)
+      const pullsKey = resolveSlotKey(PULLS_STORE, slotOverride)
+      const editsKey = resolveSlotKey(EDITS_STORE, slotOverride)
+      const evoKey = resolveSlotKey(EVO_STORE, slotOverride)
+      const pearpalKey = resolveSlotKey(PEARPAL_STORE, slotOverride)
 
-      pullsData.value = pullsResult
-      editsData.value = editsResult
-      evoData.value = evoResult
+      const pullsResult = await db.get(PULLS_STORE, pullsKey)
+      const editsResult = await db.get(EDITS_STORE, editsKey)
+      const evoResult = await db.get(EVO_STORE, evoKey)
+      const pearpalResult = await db.get(PEARPAL_STORE, pearpalKey)
+
+      if (checkActiveSlot(slotOverride)) {
+        pullsData.value = pullsResult
+        editsData.value = editsResult
+        evoData.value = evoResult
+      }
 
       return {
         pulls: pullsResult || {},
@@ -256,10 +290,15 @@ export function useIndexedDB() {
       }
 
       const db = await getDB()
-      await db.clear(PULLS_STORE)
-      await db.clear(EDITS_STORE)
-      await db.clear(EVO_STORE)
-      await db.clear(PEARPAL_STORE)
+      const pullsKey = resolveSlotKey(PULLS_STORE)
+      const editsKey = resolveSlotKey(EDITS_STORE)
+      const evoKey = resolveSlotKey(EVO_STORE)
+      const pearpalKey = resolveSlotKey(PEARPAL_STORE)
+
+      await db.delete(PULLS_STORE, pullsKey)
+      await db.delete(EDITS_STORE, editsKey)
+      await db.delete(EVO_STORE, evoKey)
+      await db.delete(PEARPAL_STORE, pearpalKey)
 
       pullsData.value = {}
       editsData.value = {}
@@ -271,7 +310,8 @@ export function useIndexedDB() {
   }
 
   const savePearpalData = async (
-    data: Record<number, PearpalTrackerItem[]>
+    data: Record<number, PearpalTrackerItem[]>,
+    slotOverride?: number
   ) => {
     try {
       const db = await getDB()
@@ -282,19 +322,48 @@ export function useIndexedDB() {
         const cleanData = JSON.parse(jsonString)
 
         // Merge with existing data if present
-        const existingData = await db.get(PEARPAL_STORE, PEARPAL_STORE)
+        const pearpalKey = resolveSlotKey(PEARPAL_STORE, slotOverride)
+        const existingData = await db.get(PEARPAL_STORE, pearpalKey)
         let mergedData = cleanData
         if (existingData) {
           mergedData = { ...existingData, ...cleanData }
         }
         // Save merged Pearpal data per banner
-        await db.put(PEARPAL_STORE, mergedData, PEARPAL_STORE)
+        await db.put(PEARPAL_STORE, mergedData, pearpalKey)
       } catch (jsonError) {
         console.error('JSON serialization failed:', jsonError)
         throw jsonError
       }
     } catch (error) {
       console.error('Failed to save raw pearpal tracker data:', error)
+      throw error
+    }
+  }
+
+  const clearSlotData = async (slot: number) => {
+    try {
+      if (lastSavePromise) {
+        await lastSavePromise
+      }
+
+      const db = await getDB()
+      const pullsKey = resolveSlotKey(PULLS_STORE, slot)
+      const editsKey = resolveSlotKey(EDITS_STORE, slot)
+      const evoKey = resolveSlotKey(EVO_STORE, slot)
+      const pearpalKey = resolveSlotKey(PEARPAL_STORE, slot)
+
+      await db.delete(PULLS_STORE, pullsKey)
+      await db.delete(EDITS_STORE, editsKey)
+      await db.delete(EVO_STORE, evoKey)
+      await db.delete(PEARPAL_STORE, pearpalKey)
+
+      if (slot === activeSlot.value) {
+        pullsData.value = {}
+        editsData.value = {}
+        evoData.value = {}
+      }
+    } catch (error) {
+      console.error('Failed to clear slot data:', error)
       throw error
     }
   }
@@ -307,6 +376,7 @@ export function useIndexedDB() {
     saveData,
     loadData,
     clearData,
+    clearSlotData,
     mergePullData,
     mergeEditData,
     savePearpalData,

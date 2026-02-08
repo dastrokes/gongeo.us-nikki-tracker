@@ -17,7 +17,7 @@ export interface UseBannerLoadReturn {
 export function useBannerLoad(
   options: UseBannerLoadOptions
 ): UseBannerLoadReturn {
-  const { allBanners, batchSize = 5, scrollThreshold = 500 } = options
+  const { allBanners, batchSize = 4, scrollThreshold = 500 } = options
 
   // Reactive state
   const displayedBanners = ref<Banner[]>([])
@@ -25,6 +25,17 @@ export function useBannerLoad(
   const hasMore = ref(true)
   const currentIndex = ref(0)
   const observerTarget = ref<HTMLElement | null>(null)
+
+  const waitForRenderFrame = async () => {
+    if (!import.meta.client) {
+      await nextTick()
+      return
+    }
+
+    await new Promise<void>((resolve) => {
+      requestAnimationFrame(() => resolve())
+    })
+  }
 
   // Load more banners
   const loadMore = () => {
@@ -70,11 +81,22 @@ export function useBannerLoad(
 
     isLoading.value = true
 
-    // Load all banners from 0 to target index (inclusive)
-    const bannersToLoad = allBanners.value.slice(0, targetIndex + 1)
-    displayedBanners.value = bannersToLoad
-    currentIndex.value = targetIndex + 1
-    hasMore.value = currentIndex.value < allBanners.value.length
+    // Append banners in chunks
+    const startIndex = displayedBanners.value.length
+    currentIndex.value = startIndex
+    const bannersToAppend = allBanners.value.slice(startIndex, targetIndex + 1)
+
+    for (let i = 0; i < bannersToAppend.length; i += batchSize) {
+      const chunk = bannersToAppend.slice(i, i + batchSize)
+      displayedBanners.value.push(...chunk)
+      currentIndex.value += chunk.length
+      hasMore.value = currentIndex.value < allBanners.value.length
+
+      if (i + batchSize < bannersToAppend.length) {
+        await waitForRenderFrame()
+      }
+    }
+
     isLoading.value = false
   }
 

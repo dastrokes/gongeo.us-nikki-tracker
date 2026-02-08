@@ -38,7 +38,7 @@
           <!-- Banner filters -->
           <n-button-group>
             <n-button
-              v-bind="getQualityButtonTheme(5, bannerTypeFilter.show5Star)"
+              v-bind="qualityButtonThemes.star5"
               size="small"
               @click="toggleBannerTypeFilter(5)"
             >
@@ -48,7 +48,7 @@
               ></span>
             </n-button>
             <n-button
-              v-bind="getQualityButtonTheme(4, bannerTypeFilter.show4Star)"
+              v-bind="qualityButtonThemes.star4"
               size="small"
               @click="toggleBannerTypeFilter(4)"
             >
@@ -142,12 +142,12 @@
                           <n-icon><CalendarDay /></n-icon>
                         </template>
                         <n-time
-                          :time="new Date(run.start + 'T00:00:00')"
+                          :time="getRunStartTime(run)"
                           type="date"
                         />
                         -
                         <n-time
-                          :time="new Date(run.end + 'T00:00:00')"
+                          :time="getRunEndTime(run)"
                           type="date"
                         />
                       </n-tag>
@@ -174,7 +174,7 @@
                     >
                       <n-tag
                         size="large"
-                        :color="getQualityTextTheme(5)"
+                        :color="qualityTextTheme5"
                         :bordered="false"
                         round
                         class="cursor-pointer"
@@ -200,7 +200,7 @@
                     >
                       <n-tag
                         size="large"
-                        :color="getQualityTextTheme(4)"
+                        :color="qualityTextTheme4"
                         :bordered="false"
                         round
                         class="cursor-pointer"
@@ -235,7 +235,7 @@
                       fit="cover"
                       sizes="400px sm:800px"
                       :loading="
-                        banner.bannerId === displayedBanners[0]?.bannerId
+                        banner.bannerId === firstDisplayedBannerId
                           ? 'eager'
                           : 'lazy'
                       "
@@ -284,11 +284,13 @@
     ArrowDown,
   } from '@vicons/fa'
   import { BANNER_DATA } from '~/data/banners'
+  import type { BannerRun } from '~/types/banner'
 
   const { t } = useI18n()
   const localePath = useLocalePath()
   const route = useRoute()
   const { getImageSrc } = imageProvider()
+  const siteUrl = useRuntimeConfig().public.siteUrl
 
   const pageTitle = computed(
     () =>
@@ -301,8 +303,10 @@
     description: () => description.value,
     ogTitle: () => pageTitle.value,
     ogDescription: () => description.value,
+    ogImage: `${siteUrl}/og-banners.png`,
     twitterTitle: () => pageTitle.value,
     twitterDescription: () => description.value,
+    twitterImage: `${siteUrl}/og-banners.png`,
   })
 
   const bannerTypeFilter = ref({
@@ -310,10 +314,17 @@
     show4Star: true,
   })
   const sortOrder = ref<string>('newest')
-  const showBannerSelector = ref(false)
+
+  const qualityTextTheme5 = getQualityTextTheme(5)
+  const qualityTextTheme4 = getQualityTextTheme(4)
+  const qualityButtonThemes = computed(() => ({
+    star5: getQualityButtonTheme(5, bannerTypeFilter.value.show5Star),
+    star4: getQualityButtonTheme(4, bannerTypeFilter.value.show4Star),
+  }))
+
   // Sort banners based on selected order
   const sortedBanners = computed(() => {
-    const banners = Object.values(BANNER_DATA)
+    const banners = [...Object.values(BANNER_DATA)]
 
     if (sortOrder.value === 'oldest') {
       return banners.sort((a, b) => a.bannerId - b.bannerId)
@@ -377,21 +388,27 @@
       allBanners: filteredBanners,
     })
 
+  const firstDisplayedBannerId = computed(
+    () => displayedBanners.value[0]?.bannerId
+  )
+
   // Watch filter changes with debouncing
   watchDebounced(
-    [bannerTypeFilter, sortOrder],
+    () => [
+      bannerTypeFilter.value.show5Star,
+      bannerTypeFilter.value.show4Star,
+      sortOrder.value,
+    ],
     () => {
       reset()
       if (import.meta.client) {
         window.scrollTo({ top: 0, behavior: 'smooth' })
       }
     },
-    { debounce: 500, deep: true }
+    { debounce: 300 }
   )
 
   async function handleBannerClick(bannerId: number) {
-    showBannerSelector.value = false
-
     // Check if banner is already loaded
     const isLoaded = displayedBanners.value.some(
       (banner) => banner.bannerId === bannerId
@@ -460,6 +477,9 @@
     },
     { immediate: true }
   )
+
+  const getRunStartTime = (run: BannerRun) => new Date(`${run.start}T00:00:00`)
+  const getRunEndTime = (run: BannerRun) => new Date(`${run.end}T00:00:00`)
 
   const getVersion = (version: string) => {
     // Extract major.minor version for season lookup (e.g., "1.10" from "1.10.1")

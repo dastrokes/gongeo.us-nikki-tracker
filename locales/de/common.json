@@ -95,11 +95,11 @@
     },
     "user_profile": {
       "guest": "Gast",
-      "signed_in": "Signed In",
+      "signed_in": "Angemeldet",
       "clear_local_data": "Lokale Daten löschen",
       "clear_local_confirm": {
         "title": "Lokale Daten löschen",
-        "content": "Bist du dir sicher, dass du all deine lokalen Daten löschen möchtest? Diese Aktion kann nicht rückgängig gemacht werden."
+        "content": "Bist du dir sicher, dass du all deine lokalen Daten für das Profil {profile} löschen möchtest? Diese Aktion kann nicht rückgängig gemacht werden."
       },
       "sign_out": "Abmelden",
       "sign_out_success": "Erfolgreich abgemeldet",
@@ -113,35 +113,35 @@
         "sync_error": "Datensynchronisierung fehlgeschlagen.",
         "confirm_upload": {
           "title": "In die Cloud hochladen",
-          "content": "Dies wird deine lokalen Daten auf den Cloud-Speicher hochladen und alle vorhandenen Cloud-Daten überschreiben. Fortfahren?"
+          "content": "Dies wird deine lokalen Daten für das Profil {profile} auf den Cloud-Speicher hochladen und alle vorhandenen Cloud-Daten überschreiben. Fortfahren?"
         },
         "confirm_sync": {
           "title": "Aus der Cloud synchronisieren",
-          "content": "Dies wird deine lokalen Daten mit deinen Cloud-Daten synchronisieren, indem sie zusammengeführt werden. Fortfahren?"
+          "content": "Dies wird deine lokalen Daten für das Profil {profile} mit deinen Cloud-Daten synchronisieren, indem sie zusammengeführt werden. Fortfahren?"
         },
         "missing_profiles": {
-          "title": "Create Missing Profiles",
-          "content": "We found cloud data for {profiles}. Create these profiles locally before syncing?",
-          "confirm": "Create Profiles"
+          "title": "Fehlende Profile erstellen",
+          "content": "Wir haben Cloud-Daten für {profiles} gefunden. Erstelle diese Profile lokal vor der Synchronisierung?",
+          "confirm": "Profile erstellen"
         }
       },
       "clear_cloud_data": "Cloud-Daten löschen",
       "clear_cloud_confirm": {
         "title": "Cloud-Daten löschen",
-        "content": "Bist du dir sicher, dass du all deine Cloud-Daten löschen möchtest? Diese Aktion kann nicht rückgängig gemacht werden und wird deine Daten dauerhaft aus dem Cloud-Speicher entfernen."
+        "content": "Bist du dir sicher, dass du all deine Cloud-Daten für das Profil {profile} löschen möchtest? Diese Aktion kann nicht rückgängig gemacht werden und wird deine Daten dauerhaft aus dem Cloud-Speicher entfernen."
       },
       "clear_cloud_success": "Cloud-Daten wurden erfolgreich gelöscht!",
       "clear_cloud_error": "Löschen der Cloud-Daten fehlgeschlagen.",
       "clear_success": "Daten wurden erfolgreich exportiert!",
       "profiles": {
-        "active": "Active",
+        "active": "Aktiv",
         "delete_confirm": {
-          "title": "Delete Profile",
-          "content": "Are you sure you want to delete {profile} profile? This will clear its local data and cloud data (if signed in)."
+          "title": "Profil löschen",
+          "content": "Bist du dir sicher, dass du das Profil {profile} löschen möchtest? Dadurch werden die lokalen Daten und die Cloud-Daten (wenn angemeldet) dieses Profils gelöscht."
         },
-        "created_success": "Profile created.",
-        "switched_success": "Switched to {profile} profile.",
-        "deleted_success": "Profile deleted."
+        "created_success": "Profil erstellt.",
+        "switched_success": "Zum Profil {profile} gewechselt.",
+        "deleted_success": "Profil gelöscht."
       }
     },
     "accessibility": {
@@ -166,29 +166,29 @@
     }
   },
   "profile": {
-    "title": "Profile",
-    "subtitle": "Manage profiles, cloud data, and local data.",
+    "title": "Profil",
+    "subtitle": "Verwalte Profile, Cloud-Daten und lokale Daten.",
     "sections": {},
-    "account_label": "Account",
-    "all_profiles": "All Profiles",
-    "active_profile": "Active Profile",
-    "default_profile": "Default",
-    "profile_slot": "Profile {number}",
-    "switch": "Switch",
-    "manage_profiles": "Manage Profiles",
-    "rename": "Rename",
-    "rename_title": "Rename Profile",
-    "rename_placeholder": "Enter a profile name",
-    "rename_success": "Profile name updated.",
-    "rename_error": "Please enter a profile name.",
+    "account_label": "Konto",
+    "all_profiles": "Alle Profile",
+    "active_profile": "Aktives Profil",
+    "default_profile": "Standard",
+    "profile_slot": "Profil {number}",
+    "switch": "Wechseln",
+    "manage_profiles": "Profile verwalten",
+    "rename": "Umbenennen",
+    "rename_title": "Profil umbenennen",
+    "rename_placeholder": "Gib einen Profilnamen ein",
+    "rename_success": "Profilname aktualisiert.",
+    "rename_error": "Bitte gib einen Profilnamen ein.",
     "menu": {
-      "delete": "Delete Profile"
+      "delete": "Profil löschen"
     },
     "status": {
-      "local": "Local Data",
-      "cloud": "Cloud Data",
-      "last_sync": "Last Sync",
-      "never": "Never"
+      "local": "Lokale Daten",
+      "cloud": "Cloud-Daten",
+      "last_sync": "Zuletzt synchronisiert",
+      "never": "Nie"
     }
   },
   "login": {

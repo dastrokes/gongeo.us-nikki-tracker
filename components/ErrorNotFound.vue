@@ -10,7 +10,6 @@
       <template #icon>
         <NuxtImg
           :src="getImageSrc('static', '/images/404.webp')"
-          alt="404"
           class="w-2/3 h-2/3 object-cover"
           width="400"
           height="400"

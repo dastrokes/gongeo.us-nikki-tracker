@@ -6,10 +6,10 @@
     "ids": [10007, 20011]
   },
   {
-    "key": "permanent",
-    "labelKey": "obtain.10011.name",
-    "sampleId": 10011,
-    "ids": [10011]
+    "key": "chest",
+    "labelKey": "obtain.10005.name",
+    "sampleId": 10005,
+    "ids": [10005, 10205, 10507, 10804, 20005, 20205]
   },
   {
     "key": "event",
@@ -23,9 +23,9 @@
   },
   {
     "key": "heart",
-    "labelKey": "obtain.20207.name",
-    "sampleId": 20207,
-    "ids": [20207]
+    "labelKey": "obtain.10001.name",
+    "sampleId": 10001,
+    "ids": [10001, 10104, 10204, 10503, 10803, 20001, 20207]
   },
   {
     "key": "home",
@@ -70,6 +70,12 @@
     ]
   },
   {
+    "key": "permanent",
+    "labelKey": "obtain.10011.name",
+    "sampleId": 10011,
+    "ids": [10011]
+  },
+  {
     "key": "quest",
     "labelKey": "compendium.source.quest",
     "sampleId": 10108,
@@ -78,12 +84,6 @@
       10018, 10109, 10402, 10509, 10702, 11003, 20019, 20103, 10016, 20018,
       10022, 20021, 10006, 10506, 20009, 20208
     ]
-  },
-  {
-    "key": "chest",
-    "labelKey": "obtain.10005.name",
-    "sampleId": 10005,
-    "ids": [10005, 10205, 10507, 10804, 20005, 20205]
   },
   {
     "key": "starlit",

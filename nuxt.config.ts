@@ -188,7 +188,15 @@ export default defineNuxtConfig({
           headers: CACHE_STATIC,
         }),
         ...buildI18nRules(
-          ['/', '/import', '/banners', '/outfits', '/items', '/quiz'],
+          [
+            '/',
+            '/import',
+            '/banners',
+            '/outfits',
+            '/items',
+            '/quiz',
+            '/tierlist',
+          ],
           {
             headers: CACHE_STABLE,
           }

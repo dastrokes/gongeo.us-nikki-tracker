@@ -42,12 +42,14 @@
     "nuxt": "4.3.0",
     "nuxt-echarts": "1.0.1",
     "pinyin-pro": "3.28.0",
-    "snappyjs": "0.7.0"
+    "snappyjs": "0.7.0",
+    "sortablejs": "1.15.6"
   },
   "devDependencies": {
     "@bg-dev/nuxt-naiveui": "2.0.0",
     "@netlify/edge-functions": "3.0.3",
     "@types/node": "25.2.0",
+    "@types/sortablejs": "1.15.9",
     "@typescript-eslint/eslint-plugin": "8.54.0",
     "@typescript-eslint/parser": "8.54.0",
     "@vicons/fa": "0.13.0",

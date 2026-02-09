@@ -40,6 +40,29 @@
             >
               {{ t('common.clear') }}
             </n-button>
+            <n-tooltip
+              :disabled="totalItems <= TIER_ENTRY_LIMIT"
+              trigger="hover"
+            >
+              <template #trigger>
+                <div class="inline-block">
+                  <n-button
+                    size="small"
+                    type="primary"
+                    :disabled="isTierlistDisabled"
+                    @click="goToTierlist"
+                  >
+                    <template #icon>
+                      <n-icon><SortAmountDown /></n-icon>
+                    </template>
+                    {{ t('navigation.tierlist') }}
+                  </n-button>
+                </div>
+              </template>
+              {{
+                t('tierlist.over_limit.description', { max: TIER_ENTRY_LIMIT })
+              }}
+            </n-tooltip>
           </div>
 
           <n-button-group>
@@ -71,6 +94,7 @@
           <n-select
             v-model:value="versionFilter"
             :options="versionOptions"
+            :render-label="renderVersionOptionLabel"
             size="small"
             class="w-48"
             clearable
@@ -336,7 +360,7 @@
 </template>
 
 <script setup lang="ts">
-  import { Star, Tshirt, ListAlt } from '@vicons/fa'
+  import { Star, Tshirt, ListAlt, SortAmountDown } from '@vicons/fa'
   import type { SelectGroupOption, SelectOption } from 'naive-ui'
   import type { CSSProperties } from 'vue'
   import type { ItemListEntry } from '~/types/items'
@@ -364,6 +388,8 @@
 
   const pageSize = 18
   const availableItemTypes = getAllItemTypes()
+  const exactVersionPattern = /^\d+\.\d+$/
+  const majorVersionFilterPattern = /^(\d+)\.x$/i
 
   const resolveType = (value?: string | null) => {
     if (!value) return null
@@ -379,7 +405,23 @@
     Object.keys(messages.value)
       .filter((key) => key.startsWith('version.'))
       .map((key) => key.replace('version.', ''))
+      .filter((value) => exactVersionPattern.test(value))
   )
+  const majorVersionFilters = computed(() =>
+    Array.from(
+      new Set(
+        availableVersions.value
+          .map((version) => version.split('.')[0] || '')
+          .filter((major) => /^\d+$/.test(major))
+      )
+    )
+      .sort((a, b) => Number(b) - Number(a))
+      .map((major) => `${major}.x`)
+  )
+  const availableVersionFilters = computed(() => [
+    ...availableVersions.value,
+    ...majorVersionFilters.value,
+  ])
   const availableObtains = computed(() =>
     Object.keys(messages.value)
       .filter((key) => key.startsWith('obtain.') && key.endsWith('.name'))
@@ -479,7 +521,16 @@
   const resolveVersion = (value?: string | null) => {
     if (!value) return null
     if (value === 'all') return null
-    if (availableVersions.value.includes(value)) return value
+    if (availableVersionFilters.value.includes(value)) return value
+
+    const majorMatch = value.match(majorVersionFilterPattern)
+    if (majorMatch) {
+      const normalized = `${Number(majorMatch[1])}.x`
+      if (availableVersionFilters.value.includes(normalized)) {
+        return normalized
+      }
+    }
+
     return null
   }
 
@@ -596,6 +647,10 @@
     singular: t('common.item'),
     plural: t('common.items'),
   }))
+  const TIER_ENTRY_LIMIT = 200
+  const isTierlistDisabled = computed(
+    () => loading.value || !!error.value || totalItems.value > TIER_ENTRY_LIMIT
+  )
 
   const buildListingQuery = (includeType: boolean) => ({
     ...(qualityFilter.value && { quality: qualityFilter.value }),
@@ -610,6 +665,30 @@
     ...(obtainFilter.value && { source: obtainFilter.value }),
     ...(currentPage.value > 1 && { page: currentPage.value }),
   })
+
+  const buildTierlistQuery = () => ({
+    mode: 'items',
+    ...(qualityFilter.value !== null && { quality: qualityFilter.value }),
+    ...(showTypeFilter.value &&
+      typeFilter.value && {
+        type: typeFilter.value,
+      }),
+    ...(versionFilter.value && { version: versionFilter.value }),
+    ...(styleFilter.value && { style: styleFilter.value }),
+    ...(labelFilter.value && { label: labelFilter.value }),
+    ...(obtainFilter.value && { source: obtainFilter.value }),
+  })
+
+  const goToTierlist = () => {
+    if (isTierlistDisabled.value) return
+
+    navigateTo(
+      localePath({
+        path: '/tierlist',
+        query: buildTierlistQuery(),
+      })
+    )
+  }
 
   watch(qualityFilter, () => {
     currentPage.value = 1
@@ -764,15 +843,63 @@
     }))
   )
 
-  const versionOptions = computed(() =>
-    availableVersions.value
-      .slice()
-      .sort(compareVersion)
-      .map((version) => ({
-        label: `${version} - ${t(`version.${version}`)}`,
-        value: version,
-      }))
-  )
+  const versionOptions = computed<SelectOption[]>(() => {
+    const versionGroups = new Map<string, string[]>()
+
+    availableVersions.value.forEach((version) => {
+      const major = version.split('.')[0]
+      if (!major) return
+
+      const existing = versionGroups.get(major)
+      if (existing) {
+        existing.push(version)
+      } else {
+        versionGroups.set(major, [version])
+      }
+    })
+
+    return Array.from(versionGroups.entries())
+      .sort(([majorA], [majorB]) => Number(majorB) - Number(majorA))
+      .flatMap(([major, versions]) => {
+        const majorKey = `version.${major}.x`
+        const majorCaption = t(majorKey)
+        const majorLabel =
+          majorCaption !== majorKey
+            ? `${major}.x - ${majorCaption}`
+            : `${major}.x`
+
+        return [
+          {
+            label: majorLabel,
+            value: `${major}.x`,
+            isMajor: true,
+          },
+          ...versions
+            .slice()
+            .sort(compareVersion)
+            .map((version) => ({
+              label: `${version} - ${t(`version.${version}`)}`,
+              value: version,
+            })),
+        ]
+      })
+  })
+  const renderVersionOptionLabel = (option: SelectOption) => {
+    const label = String(option.label ?? option.value ?? '')
+    const isMajor = Boolean((option as { isMajor?: boolean }).isMajor)
+
+    if (!isMajor) return label
+
+    return h(
+      'span',
+      {
+        style: {
+          fontWeight: '700',
+        },
+      },
+      label
+    )
+  }
 
   const handleListingToggle = (value: boolean) => {
     if (value) return

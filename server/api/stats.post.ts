@@ -63,8 +63,7 @@ export default defineEventHandler(async (event) => {
       throw createForbiddenError('invalid')
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const { error } = await supabase.from(targetTable).upsert(body as any, {
+    const { error } = await supabase.from(targetTable).upsert(body as never, {
       onConflict: 'uid,region,banner_id',
       ignoreDuplicates: false,
     })

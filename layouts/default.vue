@@ -170,6 +170,7 @@
     Poll,
     Tshirt,
     ListAlt,
+    SortAmountDown,
   } from '@vicons/fa'
   import KoFi from '~/components/icons/KoFi.vue'
   import Netlify from '~/components/icons/Netlify.vue'
@@ -229,6 +230,11 @@
       label: t('common.items'),
       key: 'items',
       icon: renderIcon(ListAlt),
+    },
+    {
+      label: t('navigation.tierlist'),
+      key: 'tierlist',
+      icon: renderIcon(SortAmountDown),
     },
     {
       label: t('navigation.vote'),

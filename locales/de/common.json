@@ -56,6 +56,7 @@
     "outfit_detail": "Outfit-Detail",
     "item": "Stück-Kompendium",
     "item_detail": "Stück-Detail",
+    "tierlist": "Tier List Maker",
     "compendium": "Kompendium",
     "vote": "Banner-Abstimmung",
     "faq": "FAQ",
@@ -63,7 +64,7 @@
     "nuan5pro": "Nuan5.Pro"
   },
   "meta": {
-    "title": "Infinity Nikki Resonanz-Tracker - Bannerverlauf & Statistiken",
+    "title": "Infinity Nikki Resonance Tracker - Pull History & Stats",
     "keywords": "Infinity Nikki, Resonanz Tracker, Resonanztracker, Pull Tracker, Pulltracker, Gacha Tracker, Gachatracker, Pull Verlauf, Pullverlauf, Ziehverlauf, globale Statistiken, globale Statistik, Community Statistiken, Community Statistik, Communitystatistiken, Communitystatistik, Gongeous",
     "game_title": "Infinity Nikki",
     "description": {
@@ -72,12 +73,13 @@
       "tracker": "Verfolge und analysiere deinen Infinity Nikki Resonanz-Verlauf. Schau dir alle 5★ und 4★ Banner Stücke an. Vergleiche dein Glück mit dem anderer Stylisten.",
       "import": "Importiere deinen Infinity Nikki Resonanz-Verlauf ganz leicht aus dem Spiel, Whim-Log oder Backup-Dateien, mit detaillierten Schritt-für-Schritt-Anleitungen.",
       "global": "Erkunde die globalen Infinity Nikki Resonanz-Daten, einschließlich Bannerbeliebtheit, Resonanz-Raten, Stück-Dropraten und Community Resonanz-Statistiken.",
-      "banner": "Erkunde den gesamten Infinity Nikki Resonanz-Banner-Verlauf, einschließlich aktueller, kommender und vergangener Banner, limitierter und permanenter Events, ausgewählter Outfits, Resonanz-Statistiken, Banner-Dauer und Wiederholungs-Verlauf.",
-      "banner_detail": "Schau dir detaillierte Informationen über das Resonanz-Banner {name} an, einschließlich Resonanz-Statistiken, ausgewählter Outfits, individueller Stück-Dropraten, Outfit Evolution und Verschönerung, Banner-Dauer und Wiederholungs-Status.",
-      "timeline": "Erkunde eine visuelle Zeitleiste von Infinity Nikki Resonanz-Bannern und Updates.",
-      "outfits": "Durchsuche alle Infinity Nikki Outfits mit leistungsstarken Filtern nach Qualität, Evolution und Verschönerung, Stil-Tags und Statuswerten. Schau dir die kompletten Outfit-Komponenten an und finde schnell jedes Outfit aus dem Spiel.",
+      "banner": "Explore Infinity Nikki resonance banner history with current, upcoming, and past events, featured outfits, pull rates, durations, and rerun details.",
+      "banner_detail": "View the {name} resonance banner details, including featured outfits, item drop rates, pull statistics, duration, evolution info, and rerun status.",
+      "timeline": "Explore an interactive timeline of Infinity Nikki resonance banners, major updates, release periods, and reruns to track event history at a glance.",
+      "tierlist": "Create and share an Infinity Nikki tier list for banners, outfits, and items with drag-and-drop ranking, filters, and easy image export.",
+      "outfits": "Browse all Infinity Nikki outfits with filters for quality, evolution, glow-up, style tags, and stats. See full components and discover every outfit.",
       "outfit_detail": "Schau dir detaillierte Informationen über das Outfit {name} an, einschließlich Qualität, Evolution und Verschönerung, Statuswerten und verwandter Resonanz-Bannern.",
-      "items": "Durchsuche alle Infinity Nikki Stücke mit erweiterten Filtern nach Stücktyp, Qualität, Statuswert-Boni und zugehörigen Outfits oder Bannern. Finde und vergleiche ganz leicht jedes Stück aus dem Spiel.",
+      "items": "Browse all Infinity Nikki items with filters for type, quality, stat bonuses, and related outfits or banners. Find, compare, and track every item easily.",
       "item_detail": "Schau dir detaillierte Informationen über das Stück {name} an, einschließlich Qualität, Evolution und Verschönerung, Statuswerten und verwandter Outfits und Bannern.",
       "faq": "Finde die Antworten auf häufig gestellte Fragen über gongeo.us, einschließlich Datenschutz, Importmethoden und Nutzungsrichtlinien.",
       "about": "Lerne mehr über gongeo.us, einschließlich seiner Zwecke, Datenschutzrichtlinien, Haftungsausschlüsse und wie es die Infinity Nikki Community unterstützt."
@@ -653,6 +655,64 @@
       "winsLosses": "S/N",
       "winsShort": "S",
       "lossesShort": "N"
+    }
+  },
+  "tierlist": {
+    "actions": {
+      "reset_board": "Reset Board"
+    },
+    "over_limit": {
+      "title": "Too many entries",
+      "description": "Apply more filters to continue (max {max} entries)."
+    },
+    "pool": "Pool",
+    "unranked_empty": "No unranked entries",
+    "obtain_fallback": "Obtain {id}",
+    "banner_type": {
+      "permanent_5": "5★ Permanent",
+      "limited_5": "5★ Limited",
+      "limited_4": "4★ Limited"
+    },
+    "status": {
+      "over_limit": "Too many entries. Apply more filters (max {max}).",
+      "showing_capped": "Showing {shown} of {total} entries",
+      "loaded": "{count} entries loaded"
+    },
+    "rank_menu": {
+      "tier_label": "{tier} Tier",
+      "send_back": "Send Back"
+    },
+    "community_submit": {
+      "browser_only_error": "Community submit is only available in browser context",
+      "tooltip_ready": "Submit your completed tier list to the community ranking.",
+      "scope_unavailable_toast": "Community submit is not available for this scope.",
+      "success": "Community tier list submitted",
+      "failed": "Failed to submit community tier list",
+      "blocked": {
+        "error": "Cannot submit while entries failed to load.",
+        "over_limit": "Apply more filters before submitting.",
+        "scope_unavailable": "Community sharing is not available for this selection yet.",
+        "incomplete_outfits": "Rank all loaded outfits before submitting.",
+        "incomplete_banners": "Rank all loaded banners before submitting."
+      }
+    },
+    "community_insights": {
+      "title": "Community Snapshot",
+      "loading": "Loading community snapshot...",
+      "error": "Failed to load community snapshot.",
+      "empty": "No community data yet.",
+      "unavailable": "Community snapshot is unavailable for this filter set.",
+      "sample_size": "{count} stylists",
+      "updated_at": "Updated {value}",
+      "alignment": "You align with community by {percent}%",
+      "top_label": "Top community ranking",
+      "rank_position": "Community rank #{rank}",
+      "avg_tier": "Community average: {tier} tier",
+      "rank_higher_than": "You rank this higher than {percent}% of stylists"
+    },
+    "share": {
+      "copied": "Link copied",
+      "copy_failed": "Failed to copy link"
     }
   },
   "compendium": {

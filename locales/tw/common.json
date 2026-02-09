@@ -56,6 +56,7 @@
     "outfit_detail": "套裝詳情",
     "item": "部件圖鑑",
     "item_detail": "部件詳情",
+    "tierlist": "排行榜",
     "compendium": "圖鑑",
     "vote": "卡池投票",
     "faq": "常見問題",
@@ -75,6 +76,7 @@
       "banner": "探索完整的無限暖暖共鳴卡池歷史，包含目前、即將推出與過往卡池，限定與常駐活動、卡池套裝、抽卡統計、卡池持續時間與復刻紀錄。",
       "banner_detail": "查看 {name} 共鳴卡池的詳細資訊，包括抽卡統計、卡池套裝、單一物品掉落機率、套裝進化與煥新、卡池持續時間與復刻狀態。",
       "timeline": "探索無限暖暖共鳴卡池與版本更新的可視化時間軸。",
+      "tierlist": "建立並分享無限暖暖卡池、套裝與部件的 Tier List，支援拖放排序、篩選與圖片匯出。",
       "outfits": "瀏覽所有無限暖暖套裝，支援依品質、進化與煥新、風格標籤與屬性進行篩選。查看完整套裝部件，快速找到遊戲中的每一套服裝。",
       "outfit_detail": "查看 {name} 套裝的詳細資訊，包括品質、套裝部件、進化與煥新、妝容、屬性數值，以及相關的共鳴卡池。",
       "items": "瀏覽所有無限暖暖物品，支援依物品類型、品質、屬性加成，以及所屬套裝或卡池進行進階篩選，輕鬆查找並比較遊戲中的所有物品。",
@@ -148,7 +150,7 @@
       "toggle_menu": "切換導航選單",
       "language_switcher": "切換語言",
       "theme_switcher": "切換主題",
-      "user_profile_menu": "使用者設定檔選單",
+      "user_profile_menu": "使用者資料選單",
       "scroll_to_top": "回到頂部"
     },
     "language_switcher": {
@@ -653,6 +655,64 @@
       "winsLosses": "勝/負",
       "winsShort": "勝",
       "lossesShort": "負"
+    }
+  },
+  "tierlist": {
+    "actions": {
+      "reset_board": "重設面板"
+    },
+    "over_limit": {
+      "title": "條目過多",
+      "description": "請加入更多篩選條件後再繼續（最多 {max} 條）。"
+    },
+    "pool": "待排區",
+    "unranked_empty": "目前沒有未排名條目",
+    "obtain_fallback": "來源 {id}",
+    "banner_type": {
+      "permanent_5": "5★ 常駐",
+      "limited_5": "5★ 限定",
+      "limited_4": "4★ 限定"
+    },
+    "status": {
+      "over_limit": "條目過多，請加入更多篩選條件（最多 {max} 條）。",
+      "showing_capped": "顯示 {shown} / {total} 條",
+      "loaded": "已載入 {count} 條"
+    },
+    "rank_menu": {
+      "tier_label": "{tier} 級",
+      "send_back": "移回待排區"
+    },
+    "community_submit": {
+      "browser_only_error": "社群提交僅支援瀏覽器環境",
+      "tooltip_ready": "將你完成的 Tier List 提交到社群排行。",
+      "scope_unavailable_toast": "目前篩選範圍暫不支援社群提交。",
+      "success": "社群 Tier List 提交成功",
+      "failed": "提交社群 Tier List 失敗",
+      "blocked": {
+        "error": "條目載入失敗時無法提交。",
+        "over_limit": "提交前請加入更多篩選條件。",
+        "scope_unavailable": "目前篩選範圍暫不支援社群分享。",
+        "incomplete_outfits": "請先將所有已載入套裝完成排名後再提交。",
+        "incomplete_banners": "請先將所有已載入卡池完成排名後再提交。"
+      }
+    },
+    "community_insights": {
+      "title": "社群快照",
+      "loading": "正在載入社群快照...",
+      "error": "載入社群快照失敗。",
+      "empty": "目前沒有社群資料。",
+      "unavailable": "此篩選條件下無法提供社群快照。",
+      "sample_size": "{count} 位搭配師",
+      "updated_at": "更新於 {value}",
+      "alignment": "你與社群的一致度為 {percent}%",
+      "top_label": "社群熱門排行",
+      "rank_position": "社群排名 #{rank}",
+      "avg_tier": "社群平均：{tier} 級",
+      "rank_higher_than": "你的排名高於 {percent}% 的搭配師"
+    },
+    "share": {
+      "copied": "連結已複製",
+      "copy_failed": "複製連結失敗"
     }
   },
   "compendium": {

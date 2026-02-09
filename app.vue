@@ -64,6 +64,10 @@
         content: t('meta.title'),
       },
       {
+        property: 'og:type',
+        content: 'website',
+      },
+      {
         property: 'og:title',
         content: t('meta.title'),
       },

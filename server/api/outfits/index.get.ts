@@ -19,7 +19,7 @@ import {
 } from '~/utils/supabaseRetry'
 import {
   getVersionFromId,
-  getVersionPrefix,
+  getVersionPrefixRange,
   getVersionRangeFromPrefix,
 } from '~/utils/contentVersion'
 import { resolveObtainIdsFromValue } from '~/utils/obtainGroups'
@@ -67,7 +67,15 @@ export default defineCachedEventHandler(
       ? STYLE_BY_KEY.get(normalizedStyle)
       : null
     const labelFilter = normalizedLabel ? TAG_BY_KEY.get(normalizedLabel) : null
-    const versionPrefix = versionParam ? getVersionPrefix(versionParam) : null
+    const versionPrefixRange = versionParam
+      ? getVersionPrefixRange(versionParam)
+      : null
+    const obtainTypeRange = versionPrefixRange
+      ? {
+          min: getVersionRangeFromPrefix(versionPrefixRange.min, 2).min,
+          max: getVersionRangeFromPrefix(versionPrefixRange.max, 2).max,
+        }
+      : null
     const obtainIds = sourceParam
       ? resolveObtainIdsFromValue(sourceParam)
       : null
@@ -75,7 +83,7 @@ export default defineCachedEventHandler(
     if (
       (styleParam && !styleFilter) ||
       (labelParam && !labelFilter) ||
-      (versionParam && versionPrefix === null) ||
+      (versionParam && obtainTypeRange === null) ||
       (sourceParam && (!obtainIds || obtainIds.length === 0))
     ) {
       return {
@@ -98,9 +106,10 @@ export default defineCachedEventHandler(
         .gte('id', BASE_OUTFIT_ID_MIN)
         .lte('id', BASE_OUTFIT_ID_MAX)
 
-      if (versionPrefix !== null) {
-        const { min, max } = getVersionRangeFromPrefix(versionPrefix, 2)
-        dbQuery = dbQuery.gte('obtain_type', min).lte('obtain_type', max)
+      if (obtainTypeRange) {
+        dbQuery = dbQuery
+          .gte('obtain_type', obtainTypeRange.min)
+          .lte('obtain_type', obtainTypeRange.max)
       }
 
       // Apply quality filter
@@ -148,11 +157,10 @@ export default defineCachedEventHandler(
               .gte('id', BASE_OUTFIT_ID_MIN)
               .lte('id', BASE_OUTFIT_ID_MAX)
 
-            if (versionPrefix !== null) {
-              const { min, max } = getVersionRangeFromPrefix(versionPrefix, 2)
+            if (obtainTypeRange) {
               countQuery = countQuery
-                .gte('obtain_type', min)
-                .lte('obtain_type', max)
+                .gte('obtain_type', obtainTypeRange.min)
+                .lte('obtain_type', obtainTypeRange.max)
             }
 
             if (quality !== null && quality !== undefined) {

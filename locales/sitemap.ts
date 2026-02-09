@@ -53,6 +53,7 @@ const BASE_PATHS = [
   '/items',
   '/outfits',
   '/banners',
+  '/tierlist',
 ] as const
 
 const translations = {

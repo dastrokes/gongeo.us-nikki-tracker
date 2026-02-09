@@ -1,0 +1,134 @@
+import { openDB, type IDBPDatabase } from 'idb'
+
+type TierKey = 'S' | 'A' | 'B' | 'C' | 'D' | 'F'
+
+export type TierlistTiers = Record<TierKey, string[]>
+export type TierlistLabels = Record<TierKey, string>
+
+export type TierlistPayload = {
+  tiers: TierlistTiers
+  labels?: TierlistLabels
+}
+
+export type TierlistRecord = {
+  contextKey: string
+  tiers: TierlistTiers
+  labels?: TierlistLabels
+  at: number
+}
+
+const DB_NAME = 'tierlistDB'
+const DB_VERSION = 1
+const STORE_NAME = 'tierlists'
+const INDEX_AT = 'byAt'
+const MAX_TIERLISTS = 30
+
+export function useTierIndexedDB() {
+  let dbPromise: Promise<IDBPDatabase> | null = null
+
+  const getDB = async (): Promise<IDBPDatabase> => {
+    if (!dbPromise) {
+      dbPromise = openDB(DB_NAME, DB_VERSION, {
+        upgrade(db) {
+          if (!db.objectStoreNames.contains(STORE_NAME)) {
+            const store = db.createObjectStore(STORE_NAME, {
+              keyPath: 'contextKey',
+            })
+            store.createIndex(INDEX_AT, 'at')
+          }
+        },
+      })
+    }
+
+    return dbPromise
+  }
+
+  const cleanupTierlists = async (
+    maxCount = MAX_TIERLISTS,
+    keepContextKey?: string
+  ) => {
+    const db = await getDB()
+    const limit = Math.max(1, maxCount)
+    const records = (await db.getAllFromIndex(
+      STORE_NAME,
+      INDEX_AT
+    )) as TierlistRecord[]
+
+    let overLimit = records.length - limit
+    if (overLimit <= 0) return
+
+    for (const record of records) {
+      if (overLimit <= 0) break
+      if (record.contextKey === keepContextKey) continue
+      await db.delete(STORE_NAME, record.contextKey)
+      overLimit -= 1
+    }
+  }
+
+  const saveTierlist = async (
+    contextKey: string,
+    tierlistPayload: TierlistPayload,
+    maxCount = MAX_TIERLISTS
+  ) => {
+    const db = await getDB()
+    const now = Date.now()
+
+    const payload: TierlistRecord = {
+      contextKey,
+      tiers: tierlistPayload.tiers,
+      labels: tierlistPayload.labels,
+      at: now,
+    }
+
+    await db.put(STORE_NAME, payload)
+    await cleanupTierlists(maxCount, contextKey)
+  }
+
+  const loadTierlist = async (
+    contextKey: string
+  ): Promise<TierlistRecord | null> => {
+    const db = await getDB()
+    const record = (await db.get(STORE_NAME, contextKey)) as
+      | TierlistRecord
+      | undefined
+
+    if (!record) return null
+
+    const touched: TierlistRecord = {
+      ...record,
+      at: Date.now(),
+    }
+
+    await db.put(STORE_NAME, touched)
+    return touched
+  }
+
+  const listTierlists = async (): Promise<TierlistRecord[]> => {
+    const db = await getDB()
+    const records = (await db.getAllFromIndex(
+      STORE_NAME,
+      INDEX_AT
+    )) as TierlistRecord[]
+    return records.reverse()
+  }
+
+  const deleteTierlist = async (contextKey: string) => {
+    const db = await getDB()
+    await db.delete(STORE_NAME, contextKey)
+  }
+
+  const clearAllTierlists = async () => {
+    const db = await getDB()
+    await db.clear(STORE_NAME)
+  }
+
+  return {
+    cleanupTierlists,
+    saveTierlist,
+    loadTierlist,
+    listTierlists,
+    deleteTierlist,
+    clearAllTierlists,
+    maxTierlists: MAX_TIERLISTS,
+  }
+}

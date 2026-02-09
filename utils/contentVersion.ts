@@ -11,8 +11,11 @@ export const getVersionFromId = (id: number): string | null => {
   return `${major}.${minor}`
 }
 
+const EXACT_VERSION_PATTERN = /^(\d+)\.(\d+)$/
+const MAJOR_VERSION_FILTER_PATTERN = /^(\d+)\.x$/i
+
 export const getVersionPrefix = (version: string): number | null => {
-  const match = version.match(/^(\d+)\.(\d+)$/)
+  const match = version.match(EXACT_VERSION_PATTERN)
   if (!match) return null
 
   const major = Number(match[1])
@@ -21,6 +24,26 @@ export const getVersionPrefix = (version: string): number | null => {
   if (Number.isNaN(major) || Number.isNaN(minor)) return null
 
   return major * 100 + minor
+}
+
+export const getVersionPrefixRange = (
+  version: string
+): { min: number; max: number } | null => {
+  const exactPrefix = getVersionPrefix(version)
+  if (exactPrefix !== null) {
+    return { min: exactPrefix, max: exactPrefix }
+  }
+
+  const majorMatch = version.match(MAJOR_VERSION_FILTER_PATTERN)
+  if (!majorMatch) return null
+
+  const major = Number(majorMatch[1])
+  if (Number.isNaN(major)) return null
+
+  return {
+    min: major * 100,
+    max: major * 100 + 99,
+  }
 }
 
 export const getVersionRangeFromPrefix = (

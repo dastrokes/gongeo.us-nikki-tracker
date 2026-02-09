@@ -35,6 +35,19 @@
         </n-scrollbar>
 
         <div class="flex justify-end items-center gap-2">
+          <n-button
+            size="small"
+            type="primary"
+            :disabled="isTierlistDisabled"
+            @click="goToTierlist"
+          >
+            <template #icon>
+              <n-icon size="16">
+                <SortAmountDown />
+              </n-icon>
+            </template>
+            {{ t('navigation.tierlist') }}
+          </n-button>
           <!-- Banner filters -->
           <n-button-group>
             <n-button
@@ -282,6 +295,7 @@
     CalendarDay,
     ArrowUp,
     ArrowDown,
+    SortAmountDown,
   } from '@vicons/fa'
   import { BANNER_DATA } from '~/data/banners'
   import type { BannerRun } from '~/types/banner'
@@ -314,6 +328,7 @@
     show4Star: true,
   })
   const sortOrder = ref<string>('newest')
+  const TIER_ENTRY_LIMIT = 200
 
   const qualityTextTheme5 = getQualityTextTheme(5)
   const qualityTextTheme4 = getQualityTextTheme(4)
@@ -381,6 +396,37 @@
 
     return banners
   })
+  const isTierlistDisabled = computed(
+    () => filteredBanners.value.length > TIER_ENTRY_LIMIT
+  )
+
+  const resolveTierlistBannerQuality = (): number | null => {
+    if (bannerTypeFilter.value.show5Star && !bannerTypeFilter.value.show4Star) {
+      return 5
+    }
+    if (!bannerTypeFilter.value.show5Star && bannerTypeFilter.value.show4Star) {
+      return 4
+    }
+    return null
+  }
+
+  const buildTierlistQuery = () => {
+    const quality = resolveTierlistBannerQuality()
+    return {
+      mode: 'banners',
+      ...(quality !== null && { quality }),
+    }
+  }
+
+  const goToTierlist = () => {
+    if (isTierlistDisabled.value) return
+    navigateTo(
+      localePath({
+        path: '/tierlist',
+        query: buildTierlistQuery(),
+      })
+    )
+  }
 
   // Initialize banner loading composable
   const { displayedBanners, reset, loadUntilBanner, observerTarget } =

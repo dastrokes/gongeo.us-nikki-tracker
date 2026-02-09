@@ -56,6 +56,7 @@
     "outfit_detail": "Outfit Detail",
     "item": "Item Compendium",
     "item_detail": "Item Detail",
+    "tierlist": "Tier List Maker",
     "compendium": "Compendium",
     "vote": "배너 투표",
     "faq": "자주 묻는 질문",
@@ -63,7 +64,7 @@
     "nuan5pro": "Nuan5.Pro"
   },
   "meta": {
-    "title": "인피니티 니키 공명 추적기 - 배너 당김 기록 및 통계",
+    "title": "Infinity Nikki Resonance Tracker - Pull History & Stats",
     "keywords": "인피니티 니키, 공명 추적기, 풀 트래커, 가차 트래커, 풀 히스토리, 글로벌 통계, 커뮤니티 통계, 곤게우스",
     "game_title": "인피니티 니키",
     "description": {
@@ -72,12 +73,13 @@
       "tracker": "인피니티 니키 공명 당김 기록을 추적하고 분석하세요. 5★ 및 4★ 배너 항목을 모두 확인하고 다른 스타일리스트와 운을 비교하세요.",
       "import": "게임, Whim-Log 데이터 또는 백업 파일에서 Infinity Nikki 공명 풀 히스토리를 쉽게 가져올 수 있습니다. 자세한 단계별 가이드가 포함되어 있습니다.",
       "global": "배너 인기도, 당김률, 아이템 드롭률, 커뮤니티 당김 통계 등 인피니티 니키 공명 글로벌 데이터를 살펴보세요.",
-      "banner": "Explore the complete Infinity Nikki resonance banner history, including current, upcoming, and past banners, limited and permanent events, featured outfits, pull statistics, banner durations, and rerun history.",
-      "banner_detail": "View detailed information about the {name} resonance banner, including pull statistics, featured outfits, individual item drop rates, outfit evolution and glow-up, banner duration, and rerun status.",
-      "timeline": "Explore a visual timeline of Infinity Nikki resonance banners and updates.",
-      "outfits": "Browse all Infinity Nikki outfits with powerful filters by quality, evolution and glow-up, style tags, and stats. View complete outfit components and quickly find every outfit in the game.",
+      "banner": "Explore Infinity Nikki resonance banner history with current, upcoming, and past events, featured outfits, pull rates, durations, and rerun details.",
+      "banner_detail": "View the {name} resonance banner details, including featured outfits, item drop rates, pull statistics, duration, evolution info, and rerun status.",
+      "timeline": "Explore an interactive timeline of Infinity Nikki resonance banners, major updates, release periods, and reruns to track event history at a glance.",
+      "tierlist": "Create and share an Infinity Nikki tier list for banners, outfits, and items with drag-and-drop ranking, filters, and easy image export.",
+      "outfits": "Browse all Infinity Nikki outfits with filters for quality, evolution, glow-up, style tags, and stats. See full components and discover every outfit.",
       "outfit_detail": "View detailed information about the {name} outfit, including quality, outfit pieces, evolution and glow-up, makeups, stats, and related resonance banners.",
-      "items": "Browse all Infinity Nikki items with advanced filters by item type, quality, stat bonuses, and associated outfits or banners. Easily find and compare every item in the game.",
+      "items": "Browse all Infinity Nikki items with filters for type, quality, stat bonuses, and related outfits or banners. Find, compare, and track every item easily.",
       "item_detail": "View detailed information about the {name} item, including quality, evolution and glow-up, stats, and related outfits and banners.",
       "faq": "데이터 개인정보 보호, 가져오기 방법, 사용 지침 등 gongeo.us 에 대해 자주 묻는 질문에 대한 답변을 찾아보세요.",
       "about": "gongeo.us 의 목적, 개인정보 보호 정책, 면책 조항 및 Infinity Nikki 커뮤니티를 지원하는 방법 등에 대해 자세히 알아보세요."
@@ -653,6 +655,64 @@
       "winsLosses": "W/L",
       "winsShort": "W",
       "lossesShort": "L"
+    }
+  },
+  "tierlist": {
+    "actions": {
+      "reset_board": "Reset Board"
+    },
+    "over_limit": {
+      "title": "Too many entries",
+      "description": "Apply more filters to continue (max {max} entries)."
+    },
+    "pool": "Pool",
+    "unranked_empty": "No unranked entries",
+    "obtain_fallback": "Obtain {id}",
+    "banner_type": {
+      "permanent_5": "5★ Permanent",
+      "limited_5": "5★ Limited",
+      "limited_4": "4★ Limited"
+    },
+    "status": {
+      "over_limit": "Too many entries. Apply more filters (max {max}).",
+      "showing_capped": "Showing {shown} of {total} entries",
+      "loaded": "{count} entries loaded"
+    },
+    "rank_menu": {
+      "tier_label": "{tier} Tier",
+      "send_back": "Send Back"
+    },
+    "community_submit": {
+      "browser_only_error": "Community submit is only available in browser context",
+      "tooltip_ready": "Submit your completed tier list to the community ranking.",
+      "scope_unavailable_toast": "Community submit is not available for this scope.",
+      "success": "Community tier list submitted",
+      "failed": "Failed to submit community tier list",
+      "blocked": {
+        "error": "Cannot submit while entries failed to load.",
+        "over_limit": "Apply more filters before submitting.",
+        "scope_unavailable": "Community sharing is not available for this selection yet.",
+        "incomplete_outfits": "Rank all loaded outfits before submitting.",
+        "incomplete_banners": "Rank all loaded banners before submitting."
+      }
+    },
+    "community_insights": {
+      "title": "Community Snapshot",
+      "loading": "Loading community snapshot...",
+      "error": "Failed to load community snapshot.",
+      "empty": "No community data yet.",
+      "unavailable": "Community snapshot is unavailable for this filter set.",
+      "sample_size": "{count} stylists",
+      "updated_at": "Updated {value}",
+      "alignment": "You align with community by {percent}%",
+      "top_label": "Top community ranking",
+      "rank_position": "Community rank #{rank}",
+      "avg_tier": "Community average: {tier} tier",
+      "rank_higher_than": "You rank this higher than {percent}% of stylists"
+    },
+    "share": {
+      "copied": "Link copied",
+      "copy_failed": "Failed to copy link"
     }
   },
   "compendium": {

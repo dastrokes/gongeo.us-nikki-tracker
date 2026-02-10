@@ -685,7 +685,7 @@
     "community_submit": {
       "browser_only_error": "Community-Einreichung ist nur im Browser-Kontext verfügbar",
       "tooltip_ready": "Reiche deine abgeschlossene Einstufung in die Community-Rangliste ein.",
-      "scope_unavailable_toast": "Community submit is not available for this scope.",
+      "scope_unavailable_toast": "Community-Freigabe ist für diese Auswahl noch nicht verfügbar.",
       "success": "Community-Einstufung eingereicht.",
       "failed": "Community-Einstufung konnte nicht eingereicht werden.",
       "blocked": {

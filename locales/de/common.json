@@ -659,7 +659,7 @@
   },
   "tierlist": {
     "actions": {
-      "reset_board": "Reset Board"
+      "reset_board": "Rangliste zurücksetzen"
     },
     "over_limit": {
       "title": "Zu viele Einträge",
@@ -667,7 +667,7 @@
     },
     "pool": "Pool",
     "unranked_empty": "Keine unbewerteten Einträge",
-    "obtain_fallback": "Obtain {id}",
+    "obtain_fallback": "Erhalte {id}",
     "banner_type": {
       "permanent_5": "5★ Permanent",
       "limited_5": "5★ Limitiert",
@@ -680,7 +680,7 @@
     },
     "rank_menu": {
       "tier_label": "{tier} Bewertung",
-      "send_back": "Send Back"
+      "send_back": "Zurück senden"
     },
     "community_submit": {
       "browser_only_error": "Community-Einreichung ist nur im Browser-Kontext verfügbar",

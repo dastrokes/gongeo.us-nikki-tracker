@@ -14,7 +14,7 @@
               <n-button
                 size="small"
                 :type="mode === 'banners' ? 'primary' : 'default'"
-                @click="mode = 'banners'"
+                @click="setMode('banners')"
               >
                 <template #icon>
                   <n-icon><CalendarAlt /></n-icon>
@@ -24,7 +24,7 @@
               <n-button
                 size="small"
                 :type="mode === 'outfits' ? 'primary' : 'default'"
-                @click="mode = 'outfits'"
+                @click="setMode('outfits')"
               >
                 <template #icon>
                   <n-icon><Tshirt /></n-icon>
@@ -34,7 +34,7 @@
               <n-button
                 size="small"
                 :type="mode === 'items' ? 'primary' : 'default'"
-                @click="mode = 'items'"
+                @click="setMode('items')"
               >
                 <template #icon>
                   <n-icon><ListAlt /></n-icon>
@@ -87,7 +87,7 @@
                   class="text-gray-500"
                 >
                   <template #icon>
-                    <n-icon><Download /></n-icon>
+                    <n-icon><ShareSquare /></n-icon>
                   </template>
                 </n-button>
               </template>
@@ -112,7 +112,7 @@
                   <template #icon>
                     <n-icon><ExternalLinkAlt /></n-icon>
                   </template>
-                  {{ t('common.copy') }}
+                  {{ t('tierlist.share.copy_link') }}
                 </n-button>
               </div>
             </n-popover>
@@ -618,6 +618,7 @@
     Download,
     ExternalLinkAlt,
     ListAlt,
+    ShareSquare,
     Star,
     Sync,
     Tshirt,
@@ -925,6 +926,30 @@
       (route.query.source ?? route.query.obtain)?.toString() ?? null
     )
   )
+
+  const setMode = (nextMode: TierMode) => {
+    if (nextMode === mode.value) return
+
+    if (nextMode === 'banners' && mode.value !== 'banners') {
+      if (qualityFilter.value === 4 || qualityFilter.value === 5) {
+        bannerQualityFilter.value = qualityFilter.value
+      } else {
+        bannerQualityFilter.value = null
+        if (qualityFilter.value !== null) {
+          qualityFilter.value = null
+        }
+      }
+    } else if (mode.value === 'banners' && nextMode !== 'banners') {
+      if (bannerQualityFilter.value === 4 || bannerQualityFilter.value === 5) {
+        qualityFilter.value = bannerQualityFilter.value
+      } else {
+        qualityFilter.value = null
+      }
+    }
+
+    mode.value = nextMode
+  }
+
   const hasFilters = computed(() => {
     if (mode.value === 'banners') {
       return bannerQualityFilter.value !== null || versionFilter.value !== null

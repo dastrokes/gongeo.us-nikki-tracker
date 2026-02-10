@@ -52,23 +52,25 @@
         'translate-x-0': showSider,
       }"
     >
-      <div class="flex flex-col h-full">
+      <div class="flex h-full min-h-0 flex-col">
         <!-- Top Menu -->
-        <n-menu
-          class="mt-12 [&_.n-menu-item-content-header]:pl-2"
-          :collapsed="!showSider"
-          :collapsed-width="48"
-          :collapsed-icon-size="16"
-          :icon-size="16"
-          :indent="16"
-          :root-indent="16"
-          :options="topMenuOptions"
-          :value="activeMenuItem"
-          @update:value="handleMenuSelect"
-        />
+        <n-scrollbar class="mt-12 flex-1 min-h-0">
+          <n-menu
+            class="[&_.n-menu-item-content-header]:pl-2"
+            :collapsed="!showSider"
+            :collapsed-width="48"
+            :collapsed-icon-size="16"
+            :icon-size="16"
+            :indent="16"
+            :root-indent="16"
+            :options="topMenuOptions"
+            :value="activeMenuItem"
+            @update:value="handleMenuSelect"
+          />
+        </n-scrollbar>
 
         <!-- Spacer pushes the bottom menu to the bottom -->
-        <div class="mt-auto">
+        <div class="shrink-0">
           <n-menu
             class="[&_.n-menu-item-content-header]:pl-2"
             :collapsed="!showSider"

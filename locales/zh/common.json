@@ -711,6 +711,7 @@
       "rank_higher_than": "你的排名高于 {percent}% 的搭配师"
     },
     "share": {
+      "copy_link": "复制链接",
       "copied": "链接已复制",
       "copy_failed": "复制链接失败"
     }

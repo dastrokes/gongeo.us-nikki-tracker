@@ -534,21 +534,6 @@
       <div
         class="rounded-lg border border-dashed border-gray-300 dark:border-gray-600"
       >
-        <div
-          class="flex items-center justify-between px-2 py-1.5 border-b border-gray-200/70 dark:border-gray-700/70"
-        >
-          <div class="inline-flex items-center gap-2">
-            <span
-              class="inline-flex items-center justify-center min-w-8 h-8 px-2 rounded-md bg-gray-500 text-white text-xs font-bold"
-            >
-              {{ t('tierlist.pool') }}
-            </span>
-            <span class="text-xs text-gray-500 dark:text-gray-400">{{
-              resolvedUnrankedEntries.length
-            }}</span>
-          </div>
-        </div>
-
         <div :class="tierRowClass">
           <div
             ref="unrankedListRef"
@@ -2384,7 +2369,7 @@
       const voterFingerprint = await getOrCreateVoterFingerprint()
       const tiersPayload = buildCommunityTierPayload()
 
-      await $fetch('/api/tierlist/submit', {
+      await $fetch('/api/tierlist', {
         method: 'POST',
         body: {
           scope_type: scope.scopeType,

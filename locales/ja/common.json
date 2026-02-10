@@ -711,6 +711,7 @@
       "rank_higher_than": "You rank this higher than {percent}% of stylists"
     },
     "share": {
+      "copy_link": "Copy Link",
       "copied": "Link copied",
       "copy_failed": "Failed to copy link"
     }

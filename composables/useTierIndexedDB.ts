@@ -8,12 +8,16 @@ export type TierlistLabels = Record<TierKey, string>
 export type TierlistPayload = {
   tiers: TierlistTiers
   labels?: TierlistLabels
+  lastSubmittedAt?: number | null
+  lastModifiedAt?: number | null
 }
 
 export type TierlistRecord = {
   contextKey: string
   tiers: TierlistTiers
   labels?: TierlistLabels
+  lastSubmittedAt?: number | null
+  lastModifiedAt?: number | null
   at: number
 }
 
@@ -77,6 +81,8 @@ export function useTierIndexedDB() {
       contextKey,
       tiers: tierlistPayload.tiers,
       labels: tierlistPayload.labels,
+      lastSubmittedAt: tierlistPayload.lastSubmittedAt ?? null,
+      lastModifiedAt: tierlistPayload.lastModifiedAt ?? null,
       at: now,
     }
 

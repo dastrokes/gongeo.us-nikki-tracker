@@ -88,15 +88,6 @@ const tierRankIndexByKey: Record<CommunityAggregateTierKey, number> = {
   F: 5,
 }
 
-const tierScoreByKey: Record<CommunityAggregateTierKey, number> = {
-  S: 5,
-  A: 4,
-  B: 3,
-  C: 2,
-  D: 1,
-  F: 0,
-}
-
 const createEmptyTierCounts = (): CommunityAggregateTierCounts => ({
   S: 0,
   A: 0,
@@ -367,26 +358,6 @@ export const useCommunityTierlist = () => {
     )
   }
 
-  const resolveTierFromAverageScore = (
-    score: number
-  ): CommunityAggregateTierKey => {
-    const rounded = Math.max(0, Math.min(5, Math.round(score)))
-    switch (rounded) {
-      case 5:
-        return 'S'
-      case 4:
-        return 'A'
-      case 3:
-        return 'B'
-      case 2:
-        return 'C'
-      case 1:
-        return 'D'
-      default:
-        return 'F'
-    }
-  }
-
   const getHigherThanPercent = (
     entry: CommunityAggregateEntry | null,
     userTier: CommunityAggregateTierKey | null
@@ -402,31 +373,6 @@ export const useCommunityTierlist = () => {
     return Math.round((lowerRankCount / entry.votes) * 100)
   }
 
-  const getAlignmentPercent = (
-    modeSnapshot: CommunityAggregateModeSnapshot | null,
-    entryTierMap: Map<string, CommunityAggregateTierKey>
-  ): number | null => {
-    if (!modeSnapshot || modeSnapshot.entries.length === 0) return null
-
-    let comparedCount = 0
-    let similaritySum = 0
-
-    modeSnapshot.entries.forEach((entry) => {
-      const userTier = entryTierMap.get(entry.entry_id)
-      if (!userTier) return
-
-      const userScore = tierScoreByKey[userTier]
-      const difference = Math.abs(userScore - entry.avg_score)
-      const similarity = 1 - difference / 5
-
-      similaritySum += Math.max(0, similarity)
-      comparedCount += 1
-    })
-
-    if (comparedCount === 0) return null
-    return Math.round((similaritySum / comparedCount) * 100)
-  }
-
   return {
     aggregateData: readonly(aggregateData),
     aggregateStatus: readonly(aggregateStatus),
@@ -434,8 +380,6 @@ export const useCommunityTierlist = () => {
     fetchAggregateJson,
     getModeSnapshot,
     getEntrySnapshot,
-    resolveTierFromAverageScore,
     getHigherThanPercent,
-    getAlignmentPercent,
   }
 }

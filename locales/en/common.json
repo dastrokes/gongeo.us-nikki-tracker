@@ -665,17 +665,10 @@
       "title": "Too many entries",
       "description": "Apply more filters to continue (max {max} entries)."
     },
-    "pool": "Pool",
     "unranked_empty": "No unranked entries",
     "obtain_fallback": "Obtain {id}",
-    "banner_type": {
-      "permanent_5": "5★ Permanent",
-      "limited_5": "5★ Limited",
-      "limited_4": "4★ Limited"
-    },
     "status": {
       "over_limit": "Too many entries. Apply more filters (max {max}).",
-      "showing_capped": "Showing {shown} of {total} entries",
       "loaded": "{count} entries loaded"
     },
     "rank_menu": {
@@ -693,22 +686,21 @@
         "over_limit": "Apply more filters before submitting.",
         "scope_unavailable": "Community sharing is not available for this selection yet.",
         "incomplete_outfits": "Rank all loaded outfits before submitting.",
-        "incomplete_banners": "Rank all loaded banners before submitting."
+        "incomplete_banners": "Rank all loaded banners before submitting.",
+        "no_changes": "No changes since your last submit."
       }
     },
     "community_insights": {
-      "title": "Community Snapshot",
+      "toggle": "Show community tier list",
       "loading": "Loading community snapshot...",
       "error": "Failed to load community snapshot.",
       "empty": "No community data yet.",
-      "unavailable": "Community snapshot is unavailable for this filter set.",
-      "sample_size": "{count} stylists",
-      "updated_at": "Updated {value}",
-      "alignment": "You align with community by {percent}%",
-      "top_label": "Top community ranking",
       "rank_position": "Community rank #{rank}",
-      "avg_tier": "Community average: {tier} tier",
-      "rank_higher_than": "You rank this higher than {percent}% of stylists"
+      "avg_tier": "Community tier: {tier} tier",
+      "rank_higher_than": "You rank this higher than {percent}% of stylists",
+      "avg_score": "Average score: {score}",
+      "total_votes": "Total votes: {count}",
+      "top_tier_share": "Most votes placed this in {tier} tier ({percent}%)"
     },
     "share": {
       "copy_link": "Copy Link",

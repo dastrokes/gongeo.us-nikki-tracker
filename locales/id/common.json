@@ -680,7 +680,7 @@
     },
     "rank_menu": {
       "tier_label": "{tier} Tier",
-      "send_back": "Send Back"
+      "send_back": "Unrank"
     },
     "community_submit": {
       "browser_only_error": "Community submit is only available in browser context",

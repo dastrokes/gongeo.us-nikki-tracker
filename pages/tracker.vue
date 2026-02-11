@@ -945,7 +945,6 @@
   const pullStore = usePullStore()
   const { processedPulls, globalStats } = storeToRefs(pullStore)
   const localePath = useLocalePath()
-  const { isDark } = useTheme()
   const { initFromIndexedDB } = usePullStoreData()
   const { loadData } = useIndexedDB()
   const { activeSlot, slots } = useProfileSlots()
@@ -1182,7 +1181,7 @@
 
       const contentWidth = trackerElement.scrollWidth
       const contentHeight = trackerElement.scrollHeight
-      const backgroundColor = isDark.value ? '#101014' : '#f8fafc'
+      const backgroundColor = 'transparent'
 
       const { snapdom } = await import('@zumer/snapdom')
       const image = await snapdom.toPng(trackerElement, {

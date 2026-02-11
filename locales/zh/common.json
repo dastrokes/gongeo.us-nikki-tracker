@@ -665,17 +665,10 @@
       "title": "条目过多",
       "description": "请添加更多筛选条件后继续（最多 {max} 条）。"
     },
-    "pool": "待排区",
     "unranked_empty": "暂无未排名条目",
     "obtain_fallback": "来源 {id}",
-    "banner_type": {
-      "permanent_5": "5★ 常驻",
-      "limited_5": "5★ 限定",
-      "limited_4": "4★ 限定"
-    },
     "status": {
       "over_limit": "条目过多，请添加更多筛选条件（最多 {max} 条）。",
-      "showing_capped": "显示 {shown} / {total} 条",
       "loaded": "已加载 {count} 条"
     },
     "rank_menu": {
@@ -693,22 +686,21 @@
         "over_limit": "提交前请添加更多筛选条件。",
         "scope_unavailable": "当前筛选范围暂不支持社区共享。",
         "incomplete_outfits": "请先为所有已加载套装完成排名后再提交。",
-        "incomplete_banners": "请先为所有已加载卡池完成排名后再提交。"
+        "incomplete_banners": "请先为所有已加载卡池完成排名后再提交。",
+        "no_changes": "上次提交后没有新的修改。"
       }
     },
     "community_insights": {
-      "title": "社区快照",
+      "toggle": "显示社区排行榜",
       "loading": "正在加载社区快照...",
       "error": "加载社区快照失败。",
       "empty": "暂无社区数据。",
-      "unavailable": "当前筛选条件下暂无社区快照。",
-      "sample_size": "{count} 位搭配师",
-      "updated_at": "更新于 {value}",
-      "alignment": "你与社区一致度为 {percent}%",
-      "top_label": "社区热门排行",
       "rank_position": "社区排名 #{rank}",
-      "avg_tier": "社区平均：{tier} 级",
-      "rank_higher_than": "你的排名高于 {percent}% 的搭配师"
+      "avg_tier": "社区分级：{tier} 级",
+      "rank_higher_than": "你的排名高于 {percent}% 的搭配师",
+      "avg_score": "平均评分：{score}",
+      "total_votes": "总投票数：{count}",
+      "top_tier_share": "最多投票将其放在 {tier} 级（{percent}%）"
     },
     "share": {
       "copy_link": "复制链接",

@@ -665,17 +665,10 @@
       "title": "條目過多",
       "description": "請加入更多篩選條件後再繼續（最多 {max} 條）。"
     },
-    "pool": "待排區",
     "unranked_empty": "目前沒有未排名條目",
     "obtain_fallback": "來源 {id}",
-    "banner_type": {
-      "permanent_5": "5★ 常駐",
-      "limited_5": "5★ 限定",
-      "limited_4": "4★ 限定"
-    },
     "status": {
       "over_limit": "條目過多，請加入更多篩選條件（最多 {max} 條）。",
-      "showing_capped": "顯示 {shown} / {total} 條",
       "loaded": "已載入 {count} 條"
     },
     "rank_menu": {
@@ -693,22 +686,21 @@
         "over_limit": "提交前請加入更多篩選條件。",
         "scope_unavailable": "目前篩選範圍暫不支援社群分享。",
         "incomplete_outfits": "請先將所有已載入套裝完成排名後再提交。",
-        "incomplete_banners": "請先將所有已載入卡池完成排名後再提交。"
+        "incomplete_banners": "請先將所有已載入卡池完成排名後再提交。",
+        "no_changes": "自上次提交後沒有新的修改。"
       }
     },
     "community_insights": {
-      "title": "社群快照",
+      "toggle": "顯示社群排行榜",
       "loading": "正在載入社群快照...",
       "error": "載入社群快照失敗。",
       "empty": "目前沒有社群資料。",
-      "unavailable": "此篩選條件下無法提供社群快照。",
-      "sample_size": "{count} 位搭配師",
-      "updated_at": "更新於 {value}",
-      "alignment": "你與社群的一致度為 {percent}%",
-      "top_label": "社群熱門排行",
       "rank_position": "社群排名 #{rank}",
       "avg_tier": "社群平均：{tier} 級",
-      "rank_higher_than": "你的排名高於 {percent}% 的搭配師"
+      "rank_higher_than": "你的排名高於 {percent}% 的搭配師",
+      "avg_score": "平均評分：{score}",
+      "total_votes": "總投票數：{count}",
+      "top_tier_share": "最多投票將其放在 {tier} 級（{percent}%）"
     },
     "share": {
       "copy_link": "複製連結",

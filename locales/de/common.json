@@ -665,17 +665,10 @@
       "title": "Zu viele Einträge",
       "description": "Wende mehr Filter an um fortzufahren (max. {max} Einträge)."
     },
-    "pool": "Pool",
     "unranked_empty": "Keine unbewerteten Einträge",
     "obtain_fallback": "Erhalte {id}",
-    "banner_type": {
-      "permanent_5": "5★ Permanent",
-      "limited_5": "5★ Limitiert",
-      "limited_4": "4★ Limitiert"
-    },
     "status": {
       "over_limit": "Zu viele Einträge. Wende mehr Filter an (max. {max}).",
-      "showing_capped": "Zeigt {shown} von {total} Einträgen",
       "loaded": "{count} Einträge geladen"
     },
     "rank_menu": {
@@ -693,22 +686,21 @@
         "over_limit": "Wende vor dem Einreichen mehr Filter an.",
         "scope_unavailable": "Community-Freigabe ist für diese Auswahl noch nicht verfügbar.",
         "incomplete_outfits": "Stufe alle geladenen Outfits ein vor dem Einreichen.",
-        "incomplete_banners": "Stufe alle geladenen Banner ein vor dem Einreichen."
+        "incomplete_banners": "Stufe alle geladenen Banner ein vor dem Einreichen.",
+        "no_changes": "No changes since your last submit."
       }
     },
     "community_insights": {
-      "title": "Community-Schnappschuss",
+      "toggle": "Show community tier list",
       "loading": "Community-Schnappschuss wird geladen...",
       "error": "Community-Schnappschuss konnte nicht geladen werden.",
       "empty": "Noch keine Community-Daten.",
-      "unavailable": "Community-Schnappschuss nicht verfügbar für dieses Filterset.",
-      "sample_size": "{count} Stylisten",
-      "updated_at": "{value} aktualisiert",
-      "alignment": "Du und {percent}% der Community stimmen überein",
-      "top_label": "Top Community-Rangliste",
       "rank_position": "Community-Rang #{rank}",
       "avg_tier": "Community-Durchschnitt: {tier} Einstufung",
-      "rank_higher_than": "Du stufst dies höher ein als {percent}% von Stylisten."
+      "rank_higher_than": "Du stufst dies höher ein als {percent}% von Stylisten.",
+      "avg_score": "Average score: {score}",
+      "total_votes": "Total votes: {count}",
+      "top_tier_share": "Most votes placed this in {tier} tier ({percent}%)"
     },
     "share": {
       "copy_link": "Link kopieren",

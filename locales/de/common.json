@@ -56,6 +56,7 @@
     "outfit_detail": "Outfit-Detail",
     "item": "Stück-Kompendium",
     "item_detail": "Stück-Detail",
+    "tierlist": "Einstufungs-Macher",
     "compendium": "Kompendium",
     "vote": "Banner-Abstimmung",
     "faq": "FAQ",
@@ -72,12 +73,13 @@
       "tracker": "Verfolge und analysiere deinen Infinity Nikki Resonanz-Verlauf. Schau dir alle 5★ und 4★ Banner Stücke an. Vergleiche dein Glück mit dem anderer Stylisten.",
       "import": "Importiere deinen Infinity Nikki Resonanz-Verlauf ganz leicht aus dem Spiel, Whim-Log oder Backup-Dateien, mit detaillierten Schritt-für-Schritt-Anleitungen.",
       "global": "Erkunde die globalen Infinity Nikki Resonanz-Daten, einschließlich Bannerbeliebtheit, Resonanz-Raten, Stück-Dropraten und Community Resonanz-Statistiken.",
-      "banner": "Erkunde den gesamten Infinity Nikki Resonanz-Banner-Verlauf, einschließlich aktueller, kommender und vergangener Banner, limitierter und permanenter Events, ausgewählter Outfits, Resonanz-Statistiken, Banner-Dauer und Wiederholungs-Verlauf.",
-      "banner_detail": "Schau dir detaillierte Informationen über das Resonanz-Banner {name} an, einschließlich Resonanz-Statistiken, ausgewählter Outfits, individueller Stück-Dropraten, Outfit Evolution und Verschönerung, Banner-Dauer und Wiederholungs-Status.",
-      "timeline": "Erkunde eine visuelle Zeitleiste von Infinity Nikki Resonanz-Bannern und Updates.",
-      "outfits": "Durchsuche alle Infinity Nikki Outfits mit leistungsstarken Filtern nach Qualität, Evolution und Verschönerung, Stil-Tags und Statuswerten. Schau dir die kompletten Outfit-Komponenten an und finde schnell jedes Outfit aus dem Spiel.",
+      "banner": "Erkunde Infinity Nikki Resonanzbanner-Verlauf mit aktuellen, kommenden und vergangenen Events, vorgestellten Outfits, Resonanzraten, Dauer und Wiederholungs-Details.",
+      "banner_detail": "Schau dir die {name} Resonanzbanner-Details an, einschließlich vorgestellter Outfits, Stück-Dropraten, Resonanz-Statistiken, Dauer, Evolutions-Info und Wiederholungsstatus.",
+      "timeline": "Erkunde eine interaktive Zeitleiste von Infinity Nikki Resonanzbannern, wesentlichen Updates, Veröffentlichungszeitraum und Wiederholungen, um den Eventverlauf auf einen Blick zu verfolgen.",
+      "tierlist": "Erstelle und teile eine Infinity Nikki Einstufung für Banner, Outfits und Stücke mit Drag-and-Drop Bewertung, Filtern und einfachem Bildexport.",
+      "outfits": "Durchsuche alle Infinity Nikki Outfits mit Filtern nach Qualität, Evolution und Verschönerung, Stil-Tags und Statuswerten. Schau dir die kompletten Outfit-Komponenten an und finde Outfit.",
       "outfit_detail": "Schau dir detaillierte Informationen über das Outfit {name} an, einschließlich Qualität, Evolution und Verschönerung, Statuswerten und verwandter Resonanz-Bannern.",
-      "items": "Durchsuche alle Infinity Nikki Stücke mit erweiterten Filtern nach Stücktyp, Qualität, Statuswert-Boni und zugehörigen Outfits oder Bannern. Finde und vergleiche ganz leicht jedes Stück aus dem Spiel.",
+      "items": "Durchsuche alle Infinity Nikki Stücke mit Filtern nach Typ, Qualität, Status-Boni und verwandten Outfits oder Bannern. Finde, vergleiche und verfolge jedes Stück ganz leicht.",
       "item_detail": "Schau dir detaillierte Informationen über das Stück {name} an, einschließlich Qualität, Evolution und Verschönerung, Statuswerten und verwandter Outfits und Bannern.",
       "faq": "Finde die Antworten auf häufig gestellte Fragen über gongeo.us, einschließlich Datenschutz, Importmethoden und Nutzungsrichtlinien.",
       "about": "Lerne mehr über gongeo.us, einschließlich seiner Zwecke, Datenschutzrichtlinien, Haftungsausschlüsse und wie es die Infinity Nikki Community unterstützt."
@@ -653,6 +655,65 @@
       "winsLosses": "S/N",
       "winsShort": "S",
       "lossesShort": "N"
+    }
+  },
+  "tierlist": {
+    "actions": {
+      "reset_board": "Rangliste zurücksetzen"
+    },
+    "over_limit": {
+      "title": "Zu viele Einträge",
+      "description": "Wende mehr Filter an um fortzufahren (max. {max} Einträge)."
+    },
+    "pool": "Pool",
+    "unranked_empty": "Keine unbewerteten Einträge",
+    "obtain_fallback": "Erhalte {id}",
+    "banner_type": {
+      "permanent_5": "5★ Permanent",
+      "limited_5": "5★ Limitiert",
+      "limited_4": "4★ Limitiert"
+    },
+    "status": {
+      "over_limit": "Zu viele Einträge. Wende mehr Filter an (max. {max}).",
+      "showing_capped": "Zeigt {shown} von {total} Einträgen",
+      "loaded": "{count} Einträge geladen"
+    },
+    "rank_menu": {
+      "tier_label": "{tier} Bewertung",
+      "send_back": "Zurück senden"
+    },
+    "community_submit": {
+      "browser_only_error": "Community-Einreichung ist nur im Browser-Kontext verfügbar",
+      "tooltip_ready": "Reiche deine abgeschlossene Einstufung in die Community-Rangliste ein.",
+      "scope_unavailable_toast": "Community-Freigabe ist für diese Auswahl noch nicht verfügbar.",
+      "success": "Community-Einstufung eingereicht.",
+      "failed": "Community-Einstufung konnte nicht eingereicht werden.",
+      "blocked": {
+        "error": "Kann nicht eingereicht werden, wenn Einträge nicht geladen wurden.",
+        "over_limit": "Wende vor dem Einreichen mehr Filter an.",
+        "scope_unavailable": "Community-Freigabe ist für diese Auswahl noch nicht verfügbar.",
+        "incomplete_outfits": "Stufe alle geladenen Outfits ein vor dem Einreichen.",
+        "incomplete_banners": "Stufe alle geladenen Banner ein vor dem Einreichen."
+      }
+    },
+    "community_insights": {
+      "title": "Community-Schnappschuss",
+      "loading": "Community-Schnappschuss wird geladen...",
+      "error": "Community-Schnappschuss konnte nicht geladen werden.",
+      "empty": "Noch keine Community-Daten.",
+      "unavailable": "Community-Schnappschuss nicht verfügbar für dieses Filterset.",
+      "sample_size": "{count} Stylisten",
+      "updated_at": "{value} aktualisiert",
+      "alignment": "Du und {percent}% der Community stimmen überein",
+      "top_label": "Top Community-Rangliste",
+      "rank_position": "Community-Rang #{rank}",
+      "avg_tier": "Community-Durchschnitt: {tier} Einstufung",
+      "rank_higher_than": "Du stufst dies höher ein als {percent}% von Stylisten."
+    },
+    "share": {
+      "copy_link": "Link kopieren",
+      "copied": "Link wurde kopiert",
+      "copy_failed": "Link konnte nicht kopiert werden"
     }
   },
   "compendium": {

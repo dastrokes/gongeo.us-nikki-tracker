@@ -11,7 +11,7 @@
     "type": "Typ",
     "pull": "Resonanz",
     "pulls": "Resonanzen",
-    "total": "Gesamt",
+    "total": "Insgesamt",
     "average": "Durchschnitt",
     "avg": "Durchschn.",
     "statistics": "Statistiken",
@@ -56,7 +56,7 @@
     "outfit_detail": "Outfit-Detail",
     "item": "Stück-Kompendium",
     "item_detail": "Stück-Detail",
-    "tierlist": "Einstufungs-Macher",
+    "tierlist": "Ranglisten-Macher",
     "compendium": "Kompendium",
     "vote": "Banner-Abstimmung",
     "faq": "FAQ",
@@ -262,7 +262,7 @@
     "login_whimlog": "Daten in Whim-Log synchronisieren",
     "login_whimlog_desc": "Öffne Whim-Log in einem neuen Tab, melde dich an und synchronisiere deine Daten.",
     "get_cookie": "Cookie von der Pearpal-Webseite erhalten",
-    "get_cookie_desc": "Wähle aus, wie du deine Cookie-Daten willst:",
+    "get_cookie_desc": "Wähle aus, wie du deine Cookie-Daten erhalten möchtest:",
     "gongeous_cookie": "Gongeous Cookie",
     "bookmark_method": "Lesezeichen-Methode (empfohlen)",
     "bookmark_method_mobile": "Lesezeichen-Methode",
@@ -270,11 +270,11 @@
     "manual_input": "Manualle Methode",
     "title": "Befolge die folgenden Schritte, um deine Cookie-Daten zu erhalten:",
     "bookmark_steps": {
-      "step1": "Ziehe den \"Gongeous Cookie\"-Knopf in deine Lesezeichen-/Favoritenleiste (muss nur einmal getan werden):",
+      "step1": "Ziehe den \"Gongeous Cookie\"-Knopf in deine Lesezeichen-/Favoritenleiste (einmalige Aktion):",
       "step2": "Wechsel zur Pearpal-Webseite in einem anderen Tab und stelle sicher, dass du dort angemeldet bist",
       "step3": "Klick auf das \"Gongeous Cookie\"-Lesezeichen, während du dich auf der Pearpal-Webseite befindest",
       "step4": "Kopiere den im Pop-up ausgegebenen Text (er sollte so aussehen wie das Beispiel im Eingabefeld unten)",
-      "step5": "Komm wieder auf diese Seite und füge den ausgegebenen Text in das Eingabefeld unten ein",
+      "step5": "Wechsel zurück zu dieser Seite und füge den ausgegebenen Text in das Eingabefeld unten ein",
       "tip": "Tipp: Du kannst das Lesezeichen für das nächste Importieren der Cookie-Daten behalten"
     },
     "bookmark_steps_mobile": {
@@ -286,7 +286,7 @@
       "step5_android_chrome": "Tippe den Lesezeichen-Namen (Gongeous Cookie) in die Adressleiste ein",
       "step5_android_chrome_2": "Wähle das Lesezeichen von den Vorschlägen und führe es aus",
       "step6": "Kopiere den im Pop-up ausgegebenen Text (er sollte so aussehen wie das Beispiel im Eingabefeld unten)",
-      "step7": "Komm wieder auf diese Seite und füge den ausgegebenen Text in das Eingabefeld unten ein"
+      "step7": "Wechsel zurück zu dieser Seite und füge den ausgegebenen Text in das Eingabefeld unten ein"
     },
     "console_steps": {
       "step1": "Wechsel zur Pearpal-Webseite in einem anderen Tab und stelle sicher, dass du dort angemeldet bist",
@@ -295,7 +295,7 @@
       "step4": "Klicke auf den \"Code kopieren\"-Knopf, kopiere den Code, füge ihn in der Konsole ein und drücke Enter:",
       "step5": "Solltest du eine Warnung sehen, gebe \"allow pasting\" oder \"Einfügen erlauben\" (je nach Browser und Spracheinstellung) und drücke die Enter-Taste",
       "step6": "Kopiere den ausgegebenen Text (er sollte so aussehen wie das Beispiel im Eingabefeld unten)",
-      "step7": "Komm wieder auf diese Seite und füge den ausgegebenen Text in das Eingabefeld unten ein"
+      "step7": "Wechsel zurück zu dieser Seite und füge den ausgegebenen Text in das Eingabefeld unten ein"
     },
     "manual_steps": {
       "note": "(Als Beispiel wird Google Chrome benutzt, genaue Bezeichnungen können je nach Browser abweichen, die zu nehmenden Schritte werden aber ähnlich sein)",
@@ -379,9 +379,9 @@
   "tracker": {
     "stats": {
       "title": "Resonanz-Statistiken",
-      "total_pulls": "Resonanzen ges.",
+      "total_pulls": "Resonanzen insges.",
       "no_pulls": "Kein Resonanz-Verlauf für dieses Banner",
-      "total_5star_4star": "5★ / 4★ gesamt",
+      "total_5star_4star": "5★ / 4★ insgesamt",
       "avg_5star": "5★ durchschn. (5★ Banner)",
       "avg_4star_mixed": "4★ durchschn. (5★ Banner)",
       "avg_4star_only": "4★ durchschn. (4★ Banner)",
@@ -401,10 +401,10 @@
     },
     "banner": {
       "stats": {
-        "total_pulls": "Resonanzen gesamt",
-        "total_5star": "5★ gesamt",
+        "total_pulls": "Resonanzen insgesamt",
+        "total_5star": "5★ insgesamt",
         "avg_5star": "5★ durchschn.",
-        "total_4star": "4★ gesamt",
+        "total_4star": "4★ insgesamt",
         "avg_4star": "4★ durchschn.",
         "pity_5star": "5★ Pity",
         "pity_4star": "4★ Pity"
@@ -457,7 +457,7 @@
     "meta_description": "Errate das Outfit anhand seiner Silhouette in diesem schnellen Minispiel.",
     "instructions": "Errate das Outfit anhand seiner Silhouette. Je schneller du antwortest, desto höher ist deine Punktzahl.",
     "game_complete": "Spiel beendet",
-    "final_score": "Letzter Punktestand {score}",
+    "final_score": "Finaler Punktestand {score}",
     "round": "Runde",
     "score": "Punktestand",
     "streak": "Serie",
@@ -504,8 +504,8 @@
   },
   "global": {
     "stats": {
-      "total_pulls": "Resonanzen gesamt",
-      "unique_users": "Stylisten gesamt",
+      "total_pulls": "Resonanzen insgesamt",
+      "unique_users": "Stylisten insgesamt",
       "avg_5star": "5★ durchschn. (5★ Banner)",
       "avg_4star_type2": "4★ durchschn. (5★ Banner)",
       "avg_4star_type3": "4★ durchschn. (4★ Banner)",
@@ -554,8 +554,8 @@
         "answer": "Ja, egal auf welcher Plattform du spielst, du kannst deine Daten über PC oder Handy importieren. Auf dem Handy wird es eventuell aber nicht mit allen Browsern funktionieren. Um eine bessere Erfahrung zu machen, wird empfohlen, den PC zu verwenden. Bitte prüfe die \"Daten importieren\"-Seite für unterstützte Browser und weitere Details."
       },
       "cookie_script": {
-        "question": "Muss ich ein Script ausführen, um meine Cookie zu erhalten?",
-        "answer": "Nein, Scripts sind dafür nicht nötig, du kannst die Cookie auch manuell erhalten. Weitere Einzelheiten findest du in den Anweisungen für manuelle Eingabe auf der \"Daten importieren\"-Seite."
+        "question": "Muss ich ein Script ausführen, um meinen Cookie zu erhalten?",
+        "answer": "Nein, Scripts sind dafür nicht nötig, du kannst den Cookie auch manuell erhalten. Weitere Einzelheiten findest du in den Anweisungen für manuelle Eingabe auf der \"Daten importieren\"-Seite."
       },
       "data_loss": {
         "question": "Warum sind die Daten für einige Banner unvollständig oder fehlen?",
@@ -672,35 +672,35 @@
       "loaded": "{count} Einträge geladen"
     },
     "rank_menu": {
-      "tier_label": "{tier} Bewertung",
+      "tier_label": "{tier}-Rang",
       "send_back": "Zurück senden"
     },
     "community_submit": {
-      "browser_only_error": "Community-Einreichung ist nur im Browser-Kontext verfügbar",
-      "tooltip_ready": "Reiche deine abgeschlossene Einstufung in die Community-Rangliste ein.",
-      "scope_unavailable_toast": "Community-Freigabe ist für diese Auswahl noch nicht verfügbar.",
-      "success": "Community-Einstufung eingereicht.",
-      "failed": "Community-Einstufung konnte nicht eingereicht werden.",
+      "browser_only_error": "Community-Übermittlung ist nur im Browser-Kontext verfügbar",
+      "tooltip_ready": "Übermittle deine abgeschlossene Rangliste an die Community-Rangliste.",
+      "scope_unavailable_toast": "Community-Übermittlung ist für diese Auswahl noch nicht verfügbar.",
+      "success": "Community-Rangliste übermittelt.",
+      "failed": "Community-Rangliste konnte nicht übermittelt werden.",
       "blocked": {
-        "error": "Kann nicht eingereicht werden, wenn Einträge nicht geladen wurden.",
-        "over_limit": "Wende vor dem Einreichen mehr Filter an.",
+        "error": "Kann nicht übermittelt werden, wenn Einträge nicht geladen wurden.",
+        "over_limit": "Wende vor dem Übermitteln mehr Filter an.",
         "scope_unavailable": "Community-Freigabe ist für diese Auswahl noch nicht verfügbar.",
-        "incomplete_outfits": "Stufe alle geladenen Outfits ein vor dem Einreichen.",
-        "incomplete_banners": "Stufe alle geladenen Banner ein vor dem Einreichen.",
-        "no_changes": "No changes since your last submit."
+        "incomplete_outfits": "Rangiere alle geladenen Outfits vor der Übermittlung.",
+        "incomplete_banners": "Rangiere alle geladenen Banner vor der Übermittlung.",
+        "no_changes": "Keine Änderungen seit deiner letzten Übermittlung."
       }
     },
     "community_insights": {
-      "toggle": "Show community tier list",
+      "toggle": "Community-Rangliste anzeigen",
       "loading": "Community-Schnappschuss wird geladen...",
       "error": "Community-Schnappschuss konnte nicht geladen werden.",
       "empty": "Noch keine Community-Daten.",
       "rank_position": "Community-Rang #{rank}",
-      "avg_tier": "Community-Durchschnitt: {tier} Einstufung",
-      "rank_higher_than": "Du stufst dies höher ein als {percent}% von Stylisten.",
-      "avg_score": "Average score: {score}",
-      "total_votes": "Total votes: {count}",
-      "top_tier_share": "Most votes placed this in {tier} tier ({percent}%)"
+      "avg_tier": "Community-Durchschnitt: {tier}-Rang",
+      "rank_higher_than": "Du rangierst dies höher als {percent}% von Stylisten.",
+      "avg_score": "Durchschnittlicher Punktestand: {score}",
+      "total_votes": "Stimmen insgesamt",
+      "top_tier_share": "Die meisten Stimmen haben dies im {tier}-Rang platziert ({percent}%)"
     },
     "share": {
       "copy_link": "Link kopieren",

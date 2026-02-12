@@ -1,7 +1,7 @@
 <template>
   <div :class="cardClasses">
     <div
-      class="absolute inset-0 bg-[url('/bg.webp')] bg-cover bg-center bg-slate-100 dark:bg-slate-300"
+      class="absolute inset-0 bg-[url('/images/bg.webp')] bg-cover bg-center bg-slate-100 dark:bg-slate-300"
     ></div>
     <!-- Tint overlay -->
     <div

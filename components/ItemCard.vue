@@ -22,7 +22,7 @@
         :height="getImageWidth(size)"
         fit="cover"
         loading="lazy"
-        placeholder="/loading.webp"
+        placeholder="/images/loading.webp"
         :sizes="getImageSizes(size)"
       />
     </n-card>

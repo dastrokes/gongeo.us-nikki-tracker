@@ -94,7 +94,7 @@
               class="relative aspect-[2/3] w-[180px] max-w-full shrink-0 rounded-lg overflow-hidden shadow-lg"
             >
               <div
-                class="absolute inset-0 bg-[url('/bg.webp')] bg-cover bg-center bg-slate-100 dark:bg-slate-300"
+                class="absolute inset-0 bg-[url('/images/bg.webp')] bg-cover bg-center bg-slate-100 dark:bg-slate-300"
               ></div>
               <!-- Tint overlay -->
               <div
@@ -348,7 +348,7 @@
                 ]"
               >
                 <div
-                  class="absolute inset-0 bg-[url('/bg.webp')] bg-cover bg-center bg-slate-100 dark:bg-slate-300"
+                  class="absolute inset-0 bg-[url('/images/bg.webp')] bg-cover bg-center bg-slate-100 dark:bg-slate-300"
                 ></div>
                 <!-- Tint overlay -->
                 <div

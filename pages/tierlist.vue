@@ -352,7 +352,7 @@
                             class="relative rounded-md overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200 bg-gray-100 dark:bg-gray-800 border border-gray-200/70 dark:border-gray-700/70"
                             :class="cardAspectClass"
                             style="
-                              background-image: url('/bg.webp');
+                              background-image: url('/images/bg.webp');
                               background-size: cover;
                               background-position: center;
                             "
@@ -565,7 +565,7 @@
                       class="relative rounded-md overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200 bg-gray-100 dark:bg-gray-800 border border-gray-200/70 dark:border-gray-700/70"
                       :class="cardAspectClass"
                       style="
-                        background-image: url('/bg.webp');
+                        background-image: url('/images/bg.webp');
                         background-size: cover;
                         background-position: center;
                       "
@@ -629,7 +629,7 @@
                 class="relative rounded-md overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200 bg-gray-100 dark:bg-gray-800 border border-gray-200/70 dark:border-gray-700/70"
                 :class="cardAspectClass"
                 style="
-                  background-image: url('/bg.webp');
+                  background-image: url('/images/bg.webp');
                   background-size: cover;
                   background-position: center;
                 "

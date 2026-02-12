@@ -59,7 +59,7 @@
                     height="120"
                     fit="cover"
                     loading="lazy"
-                    placeholder="/loading.webp"
+                    placeholder="/images/loading.webp"
                     sizes="80px sm:120px"
                   />
                 </template>

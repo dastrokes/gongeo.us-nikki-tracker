@@ -4,22 +4,41 @@
       <!-- Main Title and Buttons Card -->
       <n-card
         size="small"
-        class="rounded-xl p-0 sm:p-2 lg:col-span-1"
-        content-class="!flex !flex-col"
+        class="rounded-xl p-0 sm:p-2"
       >
-        <div class="flex flex-col text-center flex-1">
-          <n-h1 class="font-bold">
-            {{ $t('navigation.title') }}
-          </n-h1>
-          <n-h2 class="font-bold mt-0">
+        <div class="flex flex-1 flex-col gap-4 items-center text-center">
+          <div class="flex items-center gap-4 flex-row">
+            <div
+              class="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-white/80 p-2 shadow-sm ring-1 ring-sky-200/70 dark:bg-slate-800/80 dark:ring-slate-600/70"
+            >
+              <NuxtImg
+                src="images/logo.webp"
+                width="64"
+                height="64"
+                fit="cover"
+                class="h-full w-full"
+              />
+            </div>
+            <div>
+              <p
+                class="text-xs font-semibold uppercase tracking-[0.2em] text-sky-600/80 dark:text-cyan-200/80"
+              >
+                {{ $t('meta.game_title') }}
+              </p>
+              <n-h2 class="m-1 text-2xl font-black leading-tight">
+                {{ $t('navigation.title') }}
+              </n-h2>
+            </div>
+          </div>
+          <n-h2 class="!m-0 font-bold">
             {{ $t('navigation.subtitle') }}
           </n-h2>
-          <n-h3 class="mt-0 text-gray-600 dark:text-gray-300">
+          <n-h3 class="!m-0 text-gray-600 dark:text-gray-300">
             {{ $t('default.description') }}
           </n-h3>
         </div>
         <div
-          class="flex gap-4 opacity-90 justify-center items-center flex-wrap mt-4"
+          class="flex gap-4 opacity-90 justify-center items-center flex-wrap mt-8"
         >
           <n-button
             type="primary"
@@ -51,14 +70,13 @@
       <n-card
         size="small"
         class="rounded-xl p-0 sm:p-2"
-        content-class="!flex !flex-col !justify-center"
       >
-        <div class="flex flex-col text-center flex-1 mt-2">
-          <n-h2 class="font-bold">
+        <div class="text-center">
+          <n-h2 class="!m-0 font-bold">
             {{ $t('meta.game_title') }} {{ $t('navigation.compendium') }}
           </n-h2>
         </div>
-        <div class="flex flex-col gap-2 items-center">
+        <div class="flex flex-col gap-2 items-center mt-2">
           <n-button-group>
             <n-button
               tertiary
@@ -105,7 +123,7 @@
           <ClientOnly>
             <div class="grid grid-cols-2 gap-2 w-full">
               <div
-                class="relative inline-flex items-center justify-center h-[clamp(96px,18vh,140px)] w-full rounded-lg border border-gray-200/70 dark:border-gray-700/70 bg-gradient-to-b from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900 overflow-hidden"
+                class="relative inline-flex items-center justify-center h-36 w-full rounded-lg border border-gray-200/70 dark:border-gray-700/70 bg-gradient-to-b from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900 overflow-hidden"
               >
                 <div
                   class="h-full rounded-md backdrop-blur-[1px] p-2 flex flex-col gap-1"
@@ -143,7 +161,7 @@
                 </div>
               </div>
               <div
-                class="relative inline-flex items-center justify-center h-[clamp(96px,18vh,140px)] w-full rounded-lg border border-gray-200/70 dark:border-gray-700/70 bg-gradient-to-b from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900 overflow-hidden"
+                class="relative inline-flex items-center justify-center h-36 w-full rounded-lg border border-gray-200/70 dark:border-gray-700/70 bg-gradient-to-b from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900 overflow-hidden"
               >
                 <div class="h-full aspect-[2/3]">
                   <NuxtImg
@@ -177,10 +195,10 @@
             <template #fallback>
               <div class="grid grid-cols-2 gap-2 w-full">
                 <div
-                  class="h-[clamp(96px,18vh,140px)] w-full rounded-lg bg-gray-100 dark:bg-gray-800"
+                  class="h-36 w-full rounded-lg bg-gray-100 dark:bg-gray-800"
                 />
                 <div
-                  class="h-[clamp(96px,18vh,140px)] w-full rounded-lg bg-gray-100 dark:bg-gray-800"
+                  class="h-36 w-full rounded-lg bg-gray-100 dark:bg-gray-800"
                 />
               </div>
             </template>

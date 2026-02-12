@@ -64,17 +64,15 @@ function isBlockedUserAgent(userAgent: string | null): boolean {
 }
 
 export default async (request: Request, context: Context) => {
-  const pathname = new URL(request.url).pathname
+  const url = new URL(request.url)
+  const pathname = url.pathname
+
   if (pathname === '/robots.txt') {
     return context.next()
   }
 
   const categoryHeader = request.headers.get('netlify-agent-category')
   const category = categoryHeader?.toLowerCase().split(';')[0]
-
-  if (category && !botCategories.has(category)) {
-    return context.next()
-  }
 
   const userAgent = request.headers.get('user-agent')
   if (isBlockedUserAgent(userAgent)) {
@@ -84,6 +82,34 @@ export default async (request: Request, context: Context) => {
       category,
     })
     return new Response('Forbidden', { status: 403 })
+  }
+
+  if (category && !botCategories.has(category)) {
+    return context.next()
+  }
+
+  const sitemapMatch = pathname.match(/^\/__sitemap__\/([A-Za-z-]+)\.xml$/)
+  if (sitemapMatch) {
+    const locale = sitemapMatch[1]
+    if (!locale) {
+      return context.next()
+    }
+
+    let targetLocale: string | null = null
+
+    if (locale === 'zh-Hant') {
+      targetLocale = 'zh-CN'
+    } else if (locale === 'zh-Hans') {
+      targetLocale = 'zh-TW'
+    } else if (locale.includes('-')) {
+      const [baseLocale] = locale.split('-')
+      targetLocale = (baseLocale ?? locale).toLowerCase()
+    }
+
+    if (targetLocale && targetLocale !== locale) {
+      url.pathname = `/__sitemap__/${targetLocale}.xml`
+      return Response.redirect(url.toString(), 301)
+    }
   }
 
   if (category && category !== 'none') {

@@ -227,7 +227,7 @@
                 <div
                   class="relative aspect-[2/3] rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300"
                   style="
-                    background-image: url('/bg.webp');
+                    background-image: url('/images/bg.webp');
                     background-size: cover;
                     background-position: center;
                   "

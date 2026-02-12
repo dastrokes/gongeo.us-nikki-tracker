@@ -11,7 +11,7 @@ export const useSupabaseClient = (mode: 'client' | 'server' = 'client') => {
     if (!serverInstance) {
       serverInstance = createClient(
         config.public.supabaseUrl,
-        config.supabaseServiceKey
+        config.supabaseSecretKey
       )
     }
     return serverInstance
@@ -20,7 +20,7 @@ export const useSupabaseClient = (mode: 'client' | 'server' = 'client') => {
   if (!clientInstance) {
     clientInstance = createClient(
       config.public.supabaseUrl,
-      config.public.supabaseAnonKey
+      config.public.supabasePublishableKey
     )
   }
   return clientInstance

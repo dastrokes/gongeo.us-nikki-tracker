@@ -64,12 +64,12 @@ export default defineNuxtConfig({
   },
 
   runtimeConfig: {
-    supabaseServiceKey: process.env.SUPABASE_SERVICE_ROLE_KEY,
+    supabaseSecretKey: process.env.SUPABASE_SECRET_KEY,
     supabaseDataSecretKey: process.env.SUPABASE_DATA_SECRET_KEY,
 
     public: {
       supabaseUrl: process.env.SUPABASE_DATABASE_URL,
-      supabaseAnonKey: process.env.SUPABASE_ANON_KEY,
+      supabasePublishableKey: process.env.SUPABASE_PUBLISHABLE_KEY,
       supabaseDataUrl: process.env.SUPABASE_DATA_URL,
       gongeousApiKey: process.env.GONGEOUS_API_KEY,
       siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://gongeo.us',

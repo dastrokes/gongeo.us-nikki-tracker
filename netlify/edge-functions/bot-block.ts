@@ -101,7 +101,11 @@ export default async (request: Request, context: Context) => {
       targetLocale = 'zh-CN'
     } else if (locale === 'zh-Hans') {
       targetLocale = 'zh-TW'
-    } else if (locale.includes('-')) {
+    } else if (
+      locale.includes('-') &&
+      locale !== 'zh-CN' &&
+      locale !== 'zh-TW'
+    ) {
       const [baseLocale] = locale.split('-')
       targetLocale = (baseLocale ?? locale).toLowerCase()
     }

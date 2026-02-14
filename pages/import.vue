@@ -862,7 +862,8 @@
   const showYouTubeModal = ref(false)
   const showBilibiliModal = ref(false)
 
-  const isMaintenance = ref(false)
+  // TODO: toggle maintenance
+  const isMaintenance = ref(true)
 
   useSeoMeta({
     title: () =>

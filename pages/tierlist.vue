@@ -1782,7 +1782,10 @@
 
   const showCommunityInsights = ref(false)
   const isCommunityModeEnabled = computed(
-    () => mode.value === 'banners' || mode.value === 'outfits'
+    () =>
+      mode.value === 'banners' ||
+      mode.value === 'outfits' ||
+      mode.value === 'items'
   )
   const showCommunityInsightPanel = computed(
     () => isCommunityModeEnabled.value && showCommunityInsights.value

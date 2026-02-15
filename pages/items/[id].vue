@@ -498,7 +498,6 @@
   import type { ItemWithOutfits } from '~/types/supabase'
 
   const { t, te, locale } = useI18n()
-  const { getImageSrc, getImageUrl } = imageProvider()
   const localePath = useLocalePath()
   const route = useRoute()
 
@@ -507,6 +506,7 @@
 
   // Composable
   const { fetchItemById } = useSupabaseItems()
+  const { getImageSrc, getImageUrl } = imageProvider()
 
   const itemKey = computed(() => `item-${itemId.value}-${locale.value}`)
 
@@ -651,7 +651,7 @@
   // Get item name from i18n
   const itemName = computed(() => {
     if (!item.value) return ''
-    return t(`item.${item.value?.id}.name`)
+    return t(`item.${itemId.value}.name`)
   })
 
   const itemVersion = computed(() => {
@@ -756,23 +756,23 @@
 
   useSeoMeta({
     title: () =>
-      `${t(`item.${item.value?.id}.name`)} - ${t('meta.game_title')} - ${t('navigation.title')}`,
+      `${t(`item.${itemId.value}.name`)} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     description: () =>
       t('meta.description.item_detail', {
-        name: t(`item.${item.value?.id}.name`) || '',
+        name: t(`item.${itemId.value}.name`) || '',
       }),
     ogTitle: () =>
-      `${t(`item.${item.value?.id}.name`)} - ${t('meta.game_title')} - ${t('navigation.title')}`,
+      `${t(`item.${itemId.value}.name`)} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     ogDescription: () =>
       t('meta.description.item_detail', {
-        name: t(`item.${item.value?.id}.name`) || '',
+        name: t(`item.${itemId.value}.name`) || '',
       }),
     ogImage: () => ogItemImage.value,
     twitterTitle: () =>
-      `${t(`item.${item.value?.id}.name`)} - ${t('meta.game_title')} - ${t('navigation.title')}`,
+      `${t(`item.${itemId.value}.name`)} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     twitterDescription: () =>
       t('meta.description.item_detail', {
-        name: t(`item.${item.value?.id}.name`) || '',
+        name: t(`item.${itemId.value}.name`) || '',
       }),
     twitterImage: () => ogItemImage.value,
   })

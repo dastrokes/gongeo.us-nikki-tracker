@@ -537,9 +537,10 @@
 </template>
 
 <script setup lang="ts">
-  import type { TreeSelectOption } from 'naive-ui'
+  import { useThemeVars, type TreeSelectOption } from 'naive-ui'
   import { BANNER_DATA } from '~/data/banners'
   import OUTFIT_DATA, { type OutfitKey } from '~/data/outfits'
+  import { getQualityColor } from '~/utils/rarity'
   import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
   import {
     ExpandAlt,
@@ -588,13 +589,19 @@
   }
 
   const { isDark } = useTheme()
+  const palette = usePalette()
+  const themeVars = useThemeVars()
+
+  const chartTooltipExtraCssText = computed(
+    () => `box-shadow: ${themeVars.value.boxShadow2}; border-radius: 8px;`
+  )
 
   // Chart text style utility
   const getChartTextStyle = () => {
     return {
       fontFamily:
-        "'Noto Sans', ui-sans-serif, system-ui, sans-serif, 'Noto Color Emoji', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'",
-      color: isDark.value ? '#e4e5e7' : '#5c5c5e',
+        "'Outfit', ui-sans-serif, system-ui, sans-serif, 'Noto Color Emoji', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'",
+      color: isDark.value ? palette.textDark : palette.textLight,
     }
   }
 
@@ -694,11 +701,6 @@
     data.value?.d ? new Date(data.value.d) : new Date()
   )
 
-  const pullsPerBannerChart = ref(null)
-  const fiveStarDistributionChart = ref(null)
-  const fourStarType2Chart = ref(null)
-  const fourStarType3Chart = ref(null)
-  const firstItemDistributionChart = ref(null)
   const firstItemDistributionChartOption = ref({})
   const pullsPerBannerChartOption = ref({})
   const fiveStarDistributionChartOption = ref({})
@@ -984,9 +986,9 @@
                     ${banner?.bannerId ? t(`banner.${banner.bannerId}.name`) : ''}
                   </div>
                   <div style="margin-bottom: 5px; text-align: left;">
-                    ${banner?.bannerType === 2 ? `<span style="color: rgb(245, 158, 11, 0.8)">★★★★★:</span> <strong>${pullsArr[2]}</strong> (${((pullsArr[2] / total) * 100).toFixed(1)}%)<br>` : ''}
-                    <span style="color: rgb(139, 92, 246, 0.8)">★★★★:</span> <strong>${pullsArr[1]}</strong> (${((pullsArr[1] / total) * 100).toFixed(1)}%)<br>
-                    <span style="color: rgb(107, 114, 128, 0.8)">★★★:</span> <strong>${pullsArr[0]}</strong> (${((pullsArr[0] / total) * 100).toFixed(1)}%)
+                    ${banner?.bannerType === 2 ? `<span style="color: ${getQualityColor(5)}CC">★★★★★:</span> <strong>${pullsArr[2]}</strong> (${((pullsArr[2] / total) * 100).toFixed(1)}%)<br>` : ''}
+                    <span style="color: ${getQualityColor(4)}CC">★★★★:</span> <strong>${pullsArr[1]}</strong> (${((pullsArr[1] / total) * 100).toFixed(1)}%)<br>
+                    <span style="color: ${getQualityColor(3)}CC">★★★:</span> <strong>${pullsArr[0]}</strong> (${((pullsArr[0] / total) * 100).toFixed(1)}%)
                   </div>
                   <div style="margin-top: 5px; text-align: center;">
                     ${t('common.total')}: <strong>${total}</strong>
@@ -999,23 +1001,18 @@
                 </div>
               `
         },
-        backgroundColor: isDark.value
-          ? 'rgba(75, 85, 99, 0.9)'
-          : 'rgba(255, 255, 255, 0.9)',
+        backgroundColor: isDark.value ? palette.dark : palette.light,
         borderColor: isDark.value ? '#555' : '#ddd',
         borderWidth: 1,
         padding: 10,
         textStyle: textStyle,
-        extraCssText: isDark.value
-          ? 'box-shadow: 0 2px 8px rgba(200, 200, 200, 0.12); border-radius: 8px;'
-          : 'box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12); border-radius: 8px;',
+        extraCssText: chartTooltipExtraCssText.value,
       },
       legend: {
         textStyle: {
-          fontFamily: '"Segoe UI Symbol", "Courier New", system-ui',
-          color: isDark.value ? '#e4e5e7' : '#5c5c5e',
+          color: isDark.value ? palette.textDark : palette.textLight,
         },
-        inactiveColor: isDark.value ? '#5c5c5e' : '#e4e5e7',
+        inactiveColor: isDark.value ? palette.textLight : palette.textDark,
         icon: 'roundRect',
         data: ['★★★★★', '★★★★', '★★★'],
         top: isMobile.value ? 60 : 40,
@@ -1047,7 +1044,7 @@
         },
         axisLine: {
           lineStyle: {
-            color: isDark.value ? '#5c5c5e' : '#e4e5e7',
+            color: isDark.value ? palette.textLight : palette.textDark,
           },
         },
       },
@@ -1189,16 +1186,12 @@
                 </div>
               `
         },
-        backgroundColor: isDark.value
-          ? 'rgba(75, 85, 99, 0.9)'
-          : 'rgba(255, 255, 255, 0.9)',
+        backgroundColor: isDark.value ? palette.dark : palette.light,
         borderColor: isDark.value ? '#555' : '#ddd',
         borderWidth: 1,
         padding: 10,
         textStyle: textStyle,
-        extraCssText: isDark.value
-          ? 'box-shadow: 0 2px 8px rgba(200, 200, 200, 0.12); border-radius: 8px;'
-          : 'box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12); border-radius: 8px;',
+        extraCssText: chartTooltipExtraCssText.value,
       },
       grid: {
         top: 35,
@@ -1211,7 +1204,7 @@
         data: labels,
         axisLine: {
           lineStyle: {
-            color: isDark.value ? '#5c5c5e' : '#e4e5e7',
+            color: isDark.value ? palette.textLight : palette.textDark,
           },
         },
         axisLabel: textStyle,
@@ -1357,8 +1350,8 @@
     const minOccurrence = Math.min(...occurrenceValues)
     const maxOccurrence = Math.max(...occurrenceValues)
     const colorShades = isDark.value
-      ? ['#6366f1', '#818cf8', '#a5b4fc']
-      : ['#4338ca', '#4f46e5', '#8b5cf6']
+      ? ['#6366F1', '#818CF8', '#A5B4FC']
+      : ['#4338CA', '#4F46E5', '#8B5CF6']
     const pickColor = (value: number) => {
       const ratio =
         maxOccurrence === minOccurrence
@@ -1446,15 +1439,12 @@
                 </div>
               `
         },
-        backgroundColor: isDark.value
-          ? 'rgba(38, 38, 38, 0.8)'
-          : 'rgba(255, 255, 255, 0.9)',
+        backgroundColor: isDark.value ? palette.dark : palette.light,
         borderColor: isDark.value ? '#555' : '#ddd',
         borderWidth: 1,
         padding: 10,
         textStyle: textStyle,
-        extraCssText:
-          'box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); border-radius: 8px;',
+        extraCssText: chartTooltipExtraCssText.value,
       },
       grid: {
         left: 0,

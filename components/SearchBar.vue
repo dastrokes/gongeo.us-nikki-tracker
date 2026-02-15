@@ -14,7 +14,7 @@
 
   <!-- Desktop: Show search input with hotkey hint -->
   <div
-    class="hidden sm:flex items-center gap-2 px-2 py-1 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 hover:border-gray-400 dark:hover:border-gray-500 transition-colors cursor-pointer"
+    class="hidden sm:flex items-center gap-2 px-2 py-1 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 hover:border-gray-400 dark:hover:border-gray-500 transition-colors cursor-pointer"
     @click="toggleSearch"
   >
     <n-icon
@@ -34,7 +34,7 @@
     <n-auto-complete
       ref="searchAutoCompleteRef"
       v-model:value="searchQuery"
-      class="fixed w-full sm:max-w-80 sm:right-4 top-1.5 rounded-xl bg-slate-900"
+      class="fixed w-full sm:max-w-80 sm:right-4 top-1.5 rounded-2xl"
       :options="autoCompleteOptions"
       :render-label="renderLabel"
       :placeholder="$t('default.search.placeholder')"

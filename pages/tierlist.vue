@@ -55,9 +55,10 @@
           </div>
 
           <div class="flex items-center gap-2 flex-wrap">
-            <!-- Community insights view toggle temporarily disabled -->
-            <!--
-            <div class="inline-flex items-center gap-2 mr-1">
+            <!-- div
+              v-if="isCommunityModeEnabled"
+              class="inline-flex items-center gap-2 mr-1"
+            >
               <span class="text-xs text-gray-500 dark:text-gray-400">
                 {{ t('tierlist.community_insights.toggle') }}
               </span>
@@ -65,8 +66,7 @@
                 v-model:value="showCommunityInsights"
                 size="small"
               />
-            </div>
-            -->
+            </div-->
 
             <div
               v-if="showCommunitySubmitAction"
@@ -77,7 +77,12 @@
                 trigger="hover"
               >
                 <template #trigger>
-                  <span class="inline-flex">
+                  <span
+                    class="inline-flex"
+                    :class="{
+                      'animate-pulse': shouldHighlightCommunitySubmitButton,
+                    }"
+                  >
                     <n-button
                       type="primary"
                       size="small"
@@ -775,7 +780,7 @@
   const router = useRouter()
   const message = useMessage()
   const { getImageSrc } = imageProvider()
-  const { loadTierlist, saveTierlist } = useTierIndexedDB()
+  const { loadTierlist, saveTierlist, deleteTierlist } = useTierIndexedDB()
   const { generateVoterFingerprint } = useVoterFingerprint()
 
   const pageTitle = computed(
@@ -1458,7 +1463,7 @@
           ),
       })
 
-      if (showCommunityInsights.value) {
+      if (showCommunityInsightPanel.value) {
         const communityRankLabel = getCommunityRankLabel(selectedEntry.id)
         const communityAverageTierLabel = getCommunityAverageTierLabel(
           selectedEntry.id
@@ -1647,6 +1652,8 @@
   const submittingCommunity = ref(false)
   const lastSubmittedAt = ref<number | null>(null)
   const lastModifiedAt = ref<number | null>(null)
+  const highlightCommunitySubmitButton = ref(false)
+  const suppressBoardAutoSave = ref(false)
   const hydratingBoard = ref(false)
   const hasHydratedBoard = ref(false)
   const loading = computed(
@@ -1774,9 +1781,14 @@
   } = useCommunityTierlist()
 
   const showCommunityInsights = ref(false)
-  const showCommunityInsightPanel = computed(() => showCommunityInsights.value)
+  const isCommunityModeEnabled = computed(
+    () => mode.value === 'banners' || mode.value === 'outfits'
+  )
+  const showCommunityInsightPanel = computed(
+    () => isCommunityModeEnabled.value && showCommunityInsights.value
+  )
 
-  watch([showCommunityInsights, mode], ([shouldShow]) => {
+  watch(showCommunityInsightPanel, (shouldShow) => {
     if (!shouldShow) return
     void fetchAggregateJson()
   })
@@ -1967,18 +1979,17 @@
     return rankedIds.every((id) => entrySet.has(id))
   })
 
-  const showCommunitySubmitAction = computed(
-    () => mode.value === 'banners' || mode.value === 'outfits'
-  )
+  const showCommunitySubmitAction = computed(() => isCommunityModeEnabled.value)
 
   type CommunitySubmitBlockState =
+    | 'disabled'
     | 'loading'
     | 'error'
     | 'over_limit'
     | 'scope_unavailable'
     | 'incomplete'
     | 'no_changes'
-    | null
+    | 'ready'
 
   const hasChangesSinceLastSubmit = computed(() => {
     if (lastSubmittedAt.value === null) return true
@@ -1987,18 +1998,20 @@
   })
 
   const communitySubmitBlockState = computed<CommunitySubmitBlockState>(() => {
-    if (!showCommunitySubmitAction.value) return null
+    if (!showCommunitySubmitAction.value) return 'disabled'
     if (loading.value) return 'loading'
     if (error.value) return 'error'
     if (isOverLimit.value) return 'over_limit'
     if (!isCommunityScopeEligible.value) return 'scope_unavailable'
     if (!hasCompleteCommunityRanking.value) return 'incomplete'
     if (!hasChangesSinceLastSubmit.value) return 'no_changes'
-    return null
+    return 'ready'
   })
 
   const communitySubmitBlockedReason = computed(() => {
     switch (communitySubmitBlockState.value) {
+      case 'disabled':
+        return t('tierlist.community_submit.blocked.scope_unavailable')
       case 'loading':
         return t('common.loading')
       case 'error':
@@ -2013,6 +2026,7 @@
         return t('tierlist.community_submit.blocked.incomplete_banners')
       case 'no_changes':
         return t('tierlist.community_submit.blocked.no_changes')
+      case 'ready':
       default:
         return null
     }
@@ -2033,8 +2047,27 @@
     () =>
       !submittingCommunity.value &&
       showCommunitySubmitAction.value &&
-      communitySubmitBlockState.value === null
+      communitySubmitBlockState.value === 'ready'
   )
+  const shouldHighlightCommunitySubmitButton = computed(
+    () => canSubmitCommunity.value && highlightCommunitySubmitButton.value
+  )
+  let communitySubmitHighlightTimer: number | null = null
+
+  const startCommunitySubmitHighlight = () => {
+    if (!import.meta.client) return
+
+    highlightCommunitySubmitButton.value = true
+
+    if (communitySubmitHighlightTimer !== null) {
+      window.clearTimeout(communitySubmitHighlightTimer)
+    }
+
+    communitySubmitHighlightTimer = window.setTimeout(() => {
+      highlightCommunitySubmitButton.value = false
+      communitySubmitHighlightTimer = null
+    }, 10_000)
+  }
 
   const tierlistStorageKey = computed(() => {
     const query = buildTierQuery()
@@ -2484,9 +2517,23 @@
     }
   }
 
-  const resetTierBoard = () => {
+  const resetTierBoard = async () => {
+    if (!import.meta.client) return
+
+    const contextKey = tierlistStorageKey.value
+    suppressBoardAutoSave.value = true
     tiers.value = createEmptyTierBoard()
     unranked.value = entries.value.map((entry) => entry.id)
+    lastSubmittedAt.value = null
+    lastModifiedAt.value = null
+
+    try {
+      await deleteTierlist(contextKey)
+    } catch (error) {
+      console.error('Failed to delete tierlist from IndexedDB:', error)
+    } finally {
+      suppressBoardAutoSave.value = false
+    }
   }
 
   const clearFilters = () => {
@@ -2541,7 +2588,7 @@
     watch(
       tiers,
       () => {
-        if (loading.value) return
+        if (loading.value || suppressBoardAutoSave.value) return
         void saveBoard({ markModified: true })
       },
       { deep: true }
@@ -2550,11 +2597,26 @@
     watch(
       tierLabels,
       () => {
-        if (loading.value) return
+        if (loading.value || suppressBoardAutoSave.value) return
         void saveBoard({ markModified: true })
       },
       { deep: true }
     )
+
+    watch(communitySubmitBlockState, (nextState, previousState) => {
+      if (nextState !== 'ready') {
+        highlightCommunitySubmitButton.value = false
+        if (communitySubmitHighlightTimer !== null) {
+          window.clearTimeout(communitySubmitHighlightTimer)
+          communitySubmitHighlightTimer = null
+        }
+        return
+      }
+
+      if (previousState !== 'incomplete') return
+      if (lastSubmittedAt.value !== null) return
+      startCommunitySubmitHighlight()
+    })
 
     if (!loading.value && !isOverLimit.value && !error.value) {
       void nextTick().then(() => {
@@ -2564,6 +2626,10 @@
   })
 
   onBeforeUnmount(() => {
+    if (communitySubmitHighlightTimer !== null) {
+      window.clearTimeout(communitySubmitHighlightTimer)
+      communitySubmitHighlightTimer = null
+    }
     stopSortableInstances()
   })
 

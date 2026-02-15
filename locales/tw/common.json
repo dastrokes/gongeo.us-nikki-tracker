@@ -685,8 +685,7 @@
         "error": "條目載入失敗時無法提交。",
         "over_limit": "提交前請加入更多篩選條件。",
         "scope_unavailable": "目前篩選範圍暫不支援社群分享。",
-        "incomplete_outfits": "請先將所有已載入套裝完成排名後再提交。",
-        "incomplete_banners": "請先將所有已載入卡池完成排名後再提交。",
+        "incomplete": "請先將所有已載入項目完成排名後再提交。",
         "no_changes": "自上次提交後沒有新的修改。"
       }
     },

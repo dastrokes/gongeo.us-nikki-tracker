@@ -685,8 +685,7 @@
         "error": "Kann nicht übermittelt werden, wenn Einträge nicht geladen wurden.",
         "over_limit": "Wende vor dem Übermitteln mehr Filter an.",
         "scope_unavailable": "Community-Freigabe ist für diese Auswahl noch nicht verfügbar.",
-        "incomplete_outfits": "Rangiere alle geladenen Outfits vor der Übermittlung.",
-        "incomplete_banners": "Rangiere alle geladenen Banner vor der Übermittlung.",
+        "incomplete": "Rank all loaded entries before submitting.",
         "no_changes": "Keine Änderungen seit deiner letzten Übermittlung."
       }
     },

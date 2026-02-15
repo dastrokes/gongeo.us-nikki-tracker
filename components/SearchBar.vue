@@ -59,14 +59,13 @@
   import type { SearchResult, SearchCategory } from '~/types/search'
   import type { AutoCompleteOption } from 'naive-ui'
 
-  const { search, searchOptions, buildSearchIndex } = useSearch()
+  const { search, searchOptions, buildSearchIndex, isIndexBuilt } = useSearch()
   const { getImageSrc } = imageProvider()
 
   const searchQuery = ref('')
   const showSearch = ref(false)
   const isLoading = ref(false)
   const searchResults = ref<SearchCategory[]>([])
-  const isIndexBuilt = ref(false)
   const searchAutoCompleteRef = ref()
 
   const buildResultThumbnails = (
@@ -184,21 +183,12 @@
   // Debounced search
   const debouncedSearch = useDebounceFn(performSearch, 300)
 
-  const handleSearch = (query: string) => {
-    if (isIndexBuilt.value) {
-      // Only perform search if index is built
-      debouncedSearch(query)
-    } else {
-      // If index isn't built yet, queue the search for after it's built
-      const checkIndex = () => {
-        if (isIndexBuilt.value) {
-          debouncedSearch(query)
-        } else {
-          setTimeout(checkIndex, 100)
-        }
-      }
-      checkIndex()
+  const handleSearch = async (query: string) => {
+    if (!isIndexBuilt.value) {
+      await buildSearchIndex()
     }
+
+    debouncedSearch(query)
   }
 
   const toggleSearch = async () => {
@@ -207,7 +197,6 @@
     // Build search index on first open if not already built
     if (!isIndexBuilt.value) {
       await buildSearchIndex()
-      isIndexBuilt.value = true
     }
 
     // Focus the search input after modal is rendered

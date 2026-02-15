@@ -130,25 +130,27 @@
           ],
   }))
 
+  const palette = usePalette()
+
   // Theme overrides for both light and dark modes
   const themeOverrides = computed<GlobalThemeOverrides>(() => ({
     common: {
-      borderRadius: '12px',
+      borderRadius: '16px',
 
-      primaryColor: '#F43F5E', // Rose-400
-      primaryColorHover: '#FB7185', // Rose-300
-      primaryColorPressed: '#E11D48', // Rose-500
-      primaryColorSuppl: '#FB7185', // Rose-300
+      primaryColor: '#F43F5E', // Rose-500
+      primaryColorHover: '#FB7185', // Rose-400
+      primaryColorPressed: '#E11D48', // Rose-600
+      primaryColorSuppl: '#FB7185', // Rose-400
 
-      infoColor: '#8B5CF6', // Violet-500
-      infoColorHover: '#A78BFA', // Violet-400
-      infoColorPressed: '#7C3AED', // Violet-600
-      infoColorSuppl: '#A78BFA', // Violet-400
+      infoColor: '#6366F1', // Indigo-500
+      infoColorHover: '#818CF8', // Indigo-400
+      infoColorPressed: '#4F46E5', // Indigo-600
+      infoColorSuppl: '#818CF8', // Indigo-400
 
-      successColor: '#FDA4AF', // Rose-300
-      successColorHover: '#FECDD3', // Rose-200
-      successColorPressed: '#FB7185', // Rose-400
-      successColorSuppl: '#FECDD3', // Rose-200
+      successColor: '#10B981', // Emerald-500
+      successColorHover: '#34D399', // Emerald-400
+      successColorPressed: '#059669', // Emerald-600
+      successColorSuppl: '#34D399', // Emerald-400
 
       warningColor: '#F59E0B', // Amber-500
       warningColorHover: '#FBBF24', // Amber-400
@@ -168,39 +170,29 @@
       },
     },
     Button: {
-      textColorPrimary: '#f6f6f6',
-      textColorHoverPrimary: '#d6d6d6',
-      textColorPressedPrimary: '#d6d6d6',
-      textColorFocusPrimary: '#969696',
-      textColorDisabledPrimary: '#f6f6f6',
+      textColorPrimary: palette.light,
+      textColorHoverPrimary: palette.light,
+      textColorPressedPrimary: palette.light,
+      textColorFocusPrimary: palette.light,
+      textColorDisabledPrimary: palette.light,
     },
     Card: {
-      color: isDark.value ? 'rgb(31, 41, 55)' : 'rgb(250, 245, 255)',
+      color: isDark.value ? '#1E293B' : '#F0F9FF',
+      borderColor: isDark.value ? '#2F3A4C' : '#DEEEF6',
     },
     Menu: {
-      itemTextColorActive: 'currentColor',
-      itemTextColorActiveHover: 'currentColor',
-      itemColorActive: isDark.value
-        ? 'rgba(75, 85, 99, 0.9)'
-        : 'rgba(255, 255, 255, 0.9)',
-      itemColorActiveHover: isDark.value
-        ? 'rgba(75, 85, 99, 0.9)'
-        : 'rgba(255, 255, 255, 0.9)',
+      itemTextColorActive: isDark.value ? palette.light : palette.dark,
+      itemTextColorActiveHover: isDark.value ? palette.light : palette.dark,
+      itemColorActive: isDark.value ? palette.dark : palette.light,
+      itemColorActiveHover: isDark.value ? palette.dark : palette.light,
     },
     Tooltip: {
       peers: {
         Popover: {
-          color: isDark.value
-            ? 'rgba(75, 85, 99, 0.9)'
-            : 'rgba(255, 255, 255, 0.9)',
-          textColor: isDark.value ? '#e4e5e7' : '#5c5c5e',
+          color: isDark.value ? palette.dark : palette.light,
+          textColor: isDark.value ? palette.textDark : palette.textLight,
         },
       },
-    },
-    Carousel: {
-      dotColor: isDark.value ? '#4b5563' : '#d1d5db',
-      dotColorActive: isDark.value ? '#f9fafb' : '#6b7280',
-      dotColorHover: isDark.value ? '#e5e7eb' : '#94a3b8',
     },
   }))
 

@@ -1,14 +1,14 @@
 import type Fuse from 'fuse.js'
-import { pinyin } from 'pinyin-pro'
 import type {
   SearchResult,
   SearchIndex,
   SearchOptions,
   SearchCategory,
 } from '~/types/search'
-import { BANNER_DATA } from '~/data/banners'
 
 const CHINESE_CHAR_REGEX = /[\u4e00-\u9fff]/
+type FuseConstructor = (typeof import('fuse.js'))['default']
+type PinyinFunction = (typeof import('pinyin-pro'))['pinyin']
 
 export const useSearch = () => {
   const { t, locale } = useI18n()
@@ -22,7 +22,12 @@ export const useSearch = () => {
   })
 
   const fuseInstance = ref<Fuse<SearchResult> | null>(null)
+  const fuseConstructor = shallowRef<FuseConstructor | null>(null)
+  const pinyinFunction = shallowRef<PinyinFunction | null>(null)
   const isIndexBuilt = ref(false)
+  let buildIndexPromise: Promise<void> | null = null
+  let fuseLoadPromise: Promise<void> | null = null
+  let pinyinLoadPromise: Promise<void> | null = null
 
   const searchOptions: SearchOptions = {
     threshold: 0.3,
@@ -30,6 +35,42 @@ export const useSearch = () => {
     includeScore: true,
     minMatchCharLength: 1,
     ignoreDiacritics: true,
+  }
+
+  const ensureFuseLoaded = async () => {
+    if (import.meta.server || fuseConstructor.value) {
+      return
+    }
+
+    if (!fuseLoadPromise) {
+      fuseLoadPromise = import('fuse.js')
+        .then(({ default: Fuse }) => {
+          fuseConstructor.value = Fuse
+        })
+        .finally(() => {
+          fuseLoadPromise = null
+        })
+    }
+
+    await fuseLoadPromise
+  }
+
+  const ensurePinyinLoaded = async () => {
+    if (import.meta.server || !isChineseLocale.value || pinyinFunction.value) {
+      return
+    }
+
+    if (!pinyinLoadPromise) {
+      pinyinLoadPromise = import('pinyin-pro')
+        .then(({ pinyin }) => {
+          pinyinFunction.value = pinyin
+        })
+        .finally(() => {
+          pinyinLoadPromise = null
+        })
+    }
+
+    await pinyinLoadPromise
   }
 
   const getLocalizedBannerName = (
@@ -81,6 +122,11 @@ export const useSearch = () => {
 
   const getChineseSearchMeta = (name: string): Partial<SearchMeta> => {
     if (!isChineseLocale.value) {
+      return {}
+    }
+
+    const pinyin = pinyinFunction.value
+    if (!pinyin) {
       return {}
     }
 
@@ -187,84 +233,99 @@ export const useSearch = () => {
   const buildSearchIndex = async () => {
     if (import.meta.server || isIndexBuilt.value) return
 
-    searchOptions.keys = isChineseLocale.value
-      ? ['name', 'pinyin', 'pinyinInitials']
-      : ['name']
+    if (!buildIndexPromise) {
+      buildIndexPromise = (async () => {
+        searchOptions.keys = isChineseLocale.value
+          ? ['name', 'pinyin', 'pinyinInitials']
+          : ['name']
 
-    const banners = new Map<string, SearchResult>()
-    const outfits = new Map<string, SearchResult>()
-    const items = new Map<string, SearchResult>()
+        await ensureFuseLoaded()
+        if (isChineseLocale.value) {
+          await ensurePinyinLoaded()
+        }
+        const { BANNER_DATA } = await import('~/data/banners')
 
-    // Index banners
-    Object.entries(BANNER_DATA)
-      .reverse()
-      .forEach(([id, banner]) => {
-        const name = getLocalizedBannerName(id)
-        // Banner types 1 and 2 are 5-star, type 3 is 4-star
-        const quality = banner.bannerType === 3 ? 4 : 5
-        banners.set(
-          id,
-          createSearchResult({
-            id,
-            type: 'banner',
-            name: name[locale.value] || name.en,
-            quality,
-            route: localePath(`/banners/${id}`),
+        const banners = new Map<string, SearchResult>()
+        const outfits = new Map<string, SearchResult>()
+        const items = new Map<string, SearchResult>()
+
+        // Index banners
+        Object.entries(BANNER_DATA)
+          .reverse()
+          .forEach(([id, banner]) => {
+            const name = getLocalizedBannerName(id)
+            // Banner types 1 and 2 are 5-star, type 3 is 4-star
+            const quality = banner.bannerType === 3 ? 4 : 5
+            banners.set(
+              id,
+              createSearchResult({
+                id,
+                type: 'banner',
+                name: name[locale.value] || name.en,
+                quality,
+                route: localePath(`/banners/${id}`),
+              })
+            )
           })
-        )
+
+        // Index all outfits from i18n files
+        const allOutfitIds = await getAllOutfitIdsFromI18n()
+        for (const outfitId of allOutfitIds) {
+          const name = getLocalizedOutfitName(outfitId)
+
+          // Only add if the outfit has a valid localized name
+          if (name.en && name.en !== `outfit.${outfitId}.name`) {
+            outfits.set(
+              outfitId,
+              createSearchResult({
+                id: outfitId,
+                type: 'outfit',
+                name: name[locale.value] || name.en,
+                route: localePath(`/outfits/${outfitId}`),
+              })
+            )
+          }
+        }
+
+        // Index all items from i18n files
+        const allItemIds = await getAllItemIdsFromI18n()
+        for (const itemId of allItemIds) {
+          const name = getLocalizedItemName(itemId)
+
+          // Only add if the item has a valid localized name
+          if (name.en && name.en !== `item.${itemId}.name`) {
+            items.set(
+              itemId,
+              createSearchResult({
+                id: itemId,
+                type: 'item',
+                name: name[locale.value] || name.en,
+                route: localePath(`/items/${itemId}`),
+              })
+            )
+          }
+        }
+
+        searchIndex.value = { banners, outfits, items }
+
+        // Create Fuse instance with all searchable items
+        const allSearchableItems = [
+          ...Array.from(banners.values()),
+          ...Array.from(outfits.values()),
+          ...Array.from(items.values()),
+        ]
+
+        const Fuse = fuseConstructor.value
+        if (!Fuse) return
+
+        fuseInstance.value = new Fuse(allSearchableItems, searchOptions)
+        isIndexBuilt.value = true
+      })().finally(() => {
+        buildIndexPromise = null
       })
-
-    // Index all outfits from i18n files
-    const allOutfitIds = await getAllOutfitIdsFromI18n()
-    for (const outfitId of allOutfitIds) {
-      const name = getLocalizedOutfitName(outfitId)
-
-      // Only add if the outfit has a valid localized name
-      if (name.en && name.en !== `outfit.${outfitId}.name`) {
-        outfits.set(
-          outfitId,
-          createSearchResult({
-            id: outfitId,
-            type: 'outfit',
-            name: name[locale.value] || name.en,
-            route: localePath(`/outfits/${outfitId}`),
-          })
-        )
-      }
     }
 
-    // Index all items from i18n files
-    const allItemIds = await getAllItemIdsFromI18n()
-    for (const itemId of allItemIds) {
-      const name = getLocalizedItemName(itemId)
-
-      // Only add if the item has a valid localized name
-      if (name.en && name.en !== `item.${itemId}.name`) {
-        items.set(
-          itemId,
-          createSearchResult({
-            id: itemId,
-            type: 'item',
-            name: name[locale.value] || name.en,
-            route: localePath(`/items/${itemId}`),
-          })
-        )
-      }
-    }
-
-    searchIndex.value = { banners, outfits, items }
-
-    // Create Fuse instance with all searchable items
-    const allSearchableItems = [
-      ...Array.from(banners.values()),
-      ...Array.from(outfits.values()),
-      ...Array.from(items.values()),
-    ]
-
-    // Dynamically import Fuse.js only on client side
-    const { default: Fuse } = await import('fuse.js')
-    fuseInstance.value = new Fuse(allSearchableItems, searchOptions)
-    isIndexBuilt.value = true
+    await buildIndexPromise
   }
 
   const search = (query: string): SearchCategory[] => {
@@ -334,8 +395,9 @@ export const useSearch = () => {
 
   // Rebuild index when locale changes
   watch(locale, () => {
-    clearSearchIndex()
-    buildSearchIndex()
+    if (isIndexBuilt.value) {
+      clearSearchIndex()
+    }
   })
 
   // Cleanup on unmount

@@ -33,7 +33,7 @@
         </div>
 
         <div class="flex gap-4 pr-4">
-          <SearchBar />
+          <LazySearchBar />
           <LanguageSwitcher />
           <ThemeSwitcher />
           <UserProfile />

@@ -603,18 +603,20 @@
   const showCollectionEditor = ref(false)
   const showItems = ref(true)
 
+  // Get banner ID from route
+  const bannerId = computed(() => Number(route.params.id))
+
   // Import percentile functions from utils (pure functions)
   const { getAvg5StarPercentile, getAvg4StarType3Percentile } =
     await import('~/utils/percentile')
 
   const banner = computed(() => {
-    const bannerId = parseInt(route.params.id as string)
-    return BANNER_DATA[bannerId]
+    return BANNER_DATA[bannerId.value]
   })
 
   const bannerName = computed(() => {
     if (!banner.value) return ''
-    return t(`banner.${banner.value?.bannerId}.name`)
+    return t(`banner.${bannerId.value}.name`)
   })
 
   const bannerPulls = computed(() => {
@@ -720,7 +722,6 @@
   })
 
   // SEO Meta Tags
-  const siteUrl = useRuntimeConfig().public.siteUrl
   const ogItemImage = computed(() =>
     banner.value
       ? getImageUrl(`/images/banners/${banner.value.bannerId}.png`, {
@@ -734,23 +735,23 @@
 
   useSeoMeta({
     title: () =>
-      `${t(`banner.${banner.value?.bannerId}.name`)} - ${t('meta.game_title')} - ${t('navigation.title')}`,
+      `${t(`banner.${bannerId.value}.name`)} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     description: () =>
       t('meta.description.banner_detail', {
-        name: t(`banner.${banner.value?.bannerId}.name`),
+        name: t(`banner.${bannerId.value}.name`),
       }),
     ogTitle: () =>
-      `${t(`banner.${banner.value?.bannerId}.name`)} - ${t('meta.game_title')} - ${t('navigation.title')}`,
+      `${t(`banner.${bannerId.value}.name`)} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     ogDescription: () =>
       t('meta.description.banner_detail', {
-        name: t(`banner.${banner.value?.bannerId}.name`),
+        name: t(`banner.${bannerId.value}.name`),
       }),
     ogImage: () => ogItemImage.value,
     twitterTitle: () =>
-      `${t(`banner.${banner.value?.bannerId}.name`)} - ${t('meta.game_title')} - ${t('navigation.title')}`,
+      `${t(`banner.${bannerId.value}.name`)} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     twitterDescription: () =>
       t('meta.description.banner_detail', {
-        name: t(`banner.${banner.value?.bannerId}.name`),
+        name: t(`banner.${bannerId.value}.name`),
       }),
     twitterImage: () => ogItemImage.value,
   })

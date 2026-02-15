@@ -554,7 +554,7 @@
   // Get outfit name from i18n
   const outfitName = computed(() => {
     if (!outfit.value) return ''
-    return t(`outfit.${outfit.value?.id}.name`)
+    return t(`outfit.${outfitId.value}.name`)
   })
 
   const outfitVersion = computed(() => {
@@ -614,23 +614,23 @@
 
   useSeoMeta({
     title: () =>
-      `${t(`outfit.${outfit.value?.id}.name`)} - ${t('meta.game_title')} - ${t('navigation.title')}`,
+      `${t(`outfit.${outfitId.value}.name`)} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     description: () =>
       t('meta.description.outfit_detail', {
-        name: t(`outfit.${outfit.value?.id}.name`) || '',
+        name: t(`outfit.${outfitId.value}.name`) || '',
       }),
     ogTitle: () =>
-      `${t(`outfit.${outfit.value?.id}.name`)} - ${t('meta.game_title')} - ${t('navigation.title')}`,
+      `${t(`outfit.${outfitId.value}.name`)} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     ogDescription: () =>
       t('meta.description.outfit_detail', {
-        name: t(`outfit.${outfit.value?.id}.name`) || '',
+        name: t(`outfit.${outfitId.value}.name`) || '',
       }),
     ogImage: () => ogOutfitImage.value,
     twitterTitle: () =>
-      `${t(`outfit.${outfit.value?.id}.name`)} - ${t('meta.game_title')} - ${t('navigation.title')}`,
+      `${t(`outfit.${outfitId.value}.name`)} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     twitterDescription: () =>
       t('meta.description.outfit_detail', {
-        name: t(`outfit.${outfit.value?.id}.name`) || '',
+        name: t(`outfit.${outfitId.value}.name`) || '',
       }),
     twitterImage: () => ogOutfitImage.value,
   })

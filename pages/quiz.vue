@@ -411,12 +411,12 @@
 <script setup lang="ts">
   import type Fuse from 'fuse.js'
   import { Check, Cog, Times } from '@vicons/fa'
-  import { pinyin } from 'pinyin-pro'
 
   type RoundResult = 'unanswered' | 'correct' | 'wrong' | 'revealed'
   type GameState = 'idle' | 'playing' | 'done'
   type RevealDirection = 'middle-out' | 'top-down' | 'bottom-up'
   type AnswerMode = 'select' | 'search'
+  type PinyinFunction = (typeof import('pinyin-pro'))['pinyin']
   type OutfitSearchItem = {
     id: string
     name: string
@@ -454,8 +454,10 @@
   const revealDirection = ref<RevealDirection>('middle-out')
   const blurAmount = ref(0)
   const outfitSearchItems = ref<OutfitSearchItem[]>([])
+  const pinyinFunction = shallowRef<PinyinFunction | null>(null)
   const fuseInstance = ref<Fuse<OutfitSearchItem> | null>(null)
   const isSearchIndexReady = ref(false)
+  let pinyinLoadPromise: Promise<void> | null = null
   const revealDirectionOptions = computed(() => [
     { label: t('quiz.reveal_options.middle_out'), value: 'middle-out' },
     { label: t('quiz.reveal_options.top_down'), value: 'top-down' },
@@ -486,12 +488,34 @@
     () => locale.value === 'zh' || locale.value === 'tw'
   )
   const CHINESE_CHAR_REGEX = /[\u4e00-\u9fff]/
+  const ensurePinyinLoaded = async () => {
+    if (import.meta.server || !isChineseLocale.value || pinyinFunction.value) {
+      return
+    }
+
+    if (!pinyinLoadPromise) {
+      pinyinLoadPromise = import('pinyin-pro')
+        .then(({ pinyin }) => {
+          pinyinFunction.value = pinyin
+        })
+        .finally(() => {
+          pinyinLoadPromise = null
+        })
+    }
+
+    await pinyinLoadPromise
+  }
   const toUniqueValues = (values: string[]): string[] =>
     Array.from(new Set(values.map((value) => value.trim()).filter(Boolean)))
   const getChineseSearchMeta = (
     name: string
   ): Pick<OutfitSearchItem, 'pinyin' | 'pinyinInitials'> => {
     if (!isChineseLocale.value) {
+      return {}
+    }
+
+    const pinyin = pinyinFunction.value
+    if (!pinyin) {
       return {}
     }
 
@@ -566,6 +590,9 @@
   const buildSearchIndex = async () => {
     if (import.meta.server) return
     isSearchIndexReady.value = false
+    if (isChineseLocale.value) {
+      await ensurePinyinLoaded()
+    }
 
     const items = allOutfitIds.value.map((id) => {
       const name = t(`outfit.${id}.name`)
@@ -808,11 +835,17 @@
   }
 
   watch([locale, allOutfitIds], () => {
-    buildSearchIndex()
+    outfitSearchItems.value = []
+    fuseInstance.value = null
+    isSearchIndexReady.value = false
+
+    if (answerMode.value === 'search') {
+      buildSearchIndex()
+    }
   })
 
-  onMounted(() => {
-    if (!isSearchIndexReady.value) {
+  watch(answerMode, (mode) => {
+    if (mode === 'search' && !isSearchIndexReady.value) {
       buildSearchIndex()
     }
   })

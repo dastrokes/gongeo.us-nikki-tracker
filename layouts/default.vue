@@ -87,7 +87,7 @@
 
     <n-layout-content
       ref="scrollbarRef"
-      class="mt-12 bg-[#f8fafc] dark:bg-[#101014]"
+      class="mt-12 bg-[#F8FAFC] dark:bg-[#101014]"
       :native-scrollbar="false"
       @scroll="onScroll"
     >

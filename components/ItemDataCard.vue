@@ -70,31 +70,27 @@
         class="absolute top-1 right-1 scale-75 sm:scale-90 origin-top-right shadow-sm rounded-full text-xs"
         :style="{
           backgroundColor: `${getQualityColor(item.quality)}CC`, // 80% opacity
-          color: '#fff',
         }"
       >
-        ž{{ item.count }}
+        ×{{ item.count }}
       </n-tag>
     </n-card>
     <div
       class="pointer-events-none absolute inset-x-0 bottom-full z-20 mb-2 flex justify-center opacity-0 translate-y-2 scale-90 transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:opacity-100 group-hover:translate-y-0 group-hover:scale-100 group-focus-within:opacity-100 group-focus-within:translate-y-0 group-focus-within:scale-100"
     >
       <div
-        class="relative min-h-[48px] w-32 sm:w-36 rounded-xl bg-white/95 p-2 text-center shadow-lg ring-1 ring-black/5 backdrop-blur-md dark:bg-gray-800/95 dark:ring-white/10"
+        :style="popoverStyle"
+        class="relative min-h-[48px] w-32 sm:w-36 rounded-xl p-2 text-center ring-1 ring-black/5 backdrop-blur-md dark:ring-white/10"
       >
-        <div
-          class="font-bold leading-tight line-clamp-2 text-xs text-gray-700 dark:text-gray-100"
-        >
+        <div class="font-bold leading-tight line-clamp-2 text-xs">
           {{ $t(`item.${item.itemId}.name`) }}
         </div>
-        <div
-          class="mt-0.5 text-[10px] sm:text-xs font-medium opacity-80 text-gray-500 dark:text-gray-300"
-        >
+        <div class="mt-0.5 text-[10px] sm:text-xs font-medium opacity-80">
           {{ $t(`type.${itemType}`) }}
         </div>
         <div
           v-if="item.count > 0"
-          class="mt-0.5 text-[10px] sm:text-xs font-medium opacity-80 text-gray-500 dark:text-gray-300"
+          class="mt-0.5 text-[10px] sm:text-xs font-medium opacity-80"
         >
           <span v-if="item.pullIndex > 0">
             {{ $t('tracker.items.pull', { number: item.pullIndex }) }}
@@ -106,6 +102,7 @@
 </template>
 
 <script setup lang="ts">
+  import { useThemeVars } from 'naive-ui'
   import type { PullItem } from '~/types/pull'
   import { Asterisk } from '@vicons/fa'
 
@@ -117,6 +114,16 @@
   const props = withDefaults(defineProps<Props>(), {
     info: true,
   })
+
+  const { isDark } = useTheme()
+  const palette = usePalette()
+  const themeVars = useThemeVars()
+
+  const popoverStyle = computed(() => ({
+    backgroundColor: isDark.value ? palette.dark : palette.light,
+    color: isDark.value ? palette.textDark : palette.textLight,
+    boxShadow: themeVars.value.boxShadow2,
+  }))
 
   const itemType = computed(() => getItemType(props.item.itemId))
   const { getImageSrc } = imageProvider()

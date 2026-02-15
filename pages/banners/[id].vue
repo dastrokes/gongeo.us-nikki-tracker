@@ -754,28 +754,4 @@
       }),
     twitterImage: () => ogItemImage.value,
   })
-
-  useHead(() => ({
-    script: banner.value
-      ? [
-          {
-            type: 'application/ld+json',
-            children: JSON.stringify({
-              '@context': 'https://schema.org',
-              '@type': 'ItemPage',
-              name: `${t(`banner.${banner.value?.bannerId}.name`)} - ${t('meta.game_title')} - ${t('navigation.title')}`,
-              description: t('meta.description.banner_detail', {
-                name: t(`banner.${banner.value?.bannerId}.name`),
-              }),
-              url: `${siteUrl}${localePath(`/banners/${route.params.id}`)}`,
-              image: ogItemImage.value,
-              isPartOf: {
-                '@type': 'CollectionPage',
-                url: `${siteUrl}${localePath('/banners')}`,
-              },
-            }),
-          },
-        ]
-      : [],
-  }))
 </script>

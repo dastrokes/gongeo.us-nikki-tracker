@@ -634,33 +634,4 @@
       }),
     twitterImage: () => ogOutfitImage.value,
   })
-
-  useHead(() => ({
-    script: outfit.value
-      ? [
-          {
-            type: 'application/ld+json',
-            children: JSON.stringify({
-              '@context': 'https://schema.org',
-              '@type': 'Product',
-              name: `${t(`outfit.${outfit.value?.id}.name`)} - ${t('meta.game_title')} - ${t('navigation.title')}`,
-              description: t('meta.description.outfit_detail', {
-                name: t(`outfit.${outfit.value?.id}.name`) || '',
-              }),
-              image: ogOutfitImage.value,
-              brand: {
-                '@type': 'Brand',
-                name: 'Infinity Nikki',
-              },
-              aggregateRating: {
-                '@type': 'AggregateRating',
-                ratingValue: outfit.value.quality,
-                bestRating: 5,
-                worstRating: 1,
-              },
-            }),
-          },
-        ]
-      : [],
-  }))
 </script>

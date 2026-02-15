@@ -1955,6 +1955,7 @@
       mode: mode.value,
       bannerQualityFilter: bannerQualityFilter.value,
       qualityFilter: qualityFilter.value,
+      itemTypeFilter: itemTypeFilter.value,
       versionFilter: versionFilter.value,
       styleFilter: styleFilter.value,
       labelFilter: labelFilter.value,
@@ -2021,9 +2022,7 @@
       case 'scope_unavailable':
         return t('tierlist.community_submit.blocked.scope_unavailable')
       case 'incomplete':
-        if (mode.value === 'outfits')
-          return t('tierlist.community_submit.blocked.incomplete_outfits')
-        return t('tierlist.community_submit.blocked.incomplete_banners')
+        return t('tierlist.community_submit.blocked.incomplete')
       case 'no_changes':
         return t('tierlist.community_submit.blocked.no_changes')
       case 'ready':

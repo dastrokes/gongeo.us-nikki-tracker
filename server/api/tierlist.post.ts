@@ -38,7 +38,7 @@ const parseCommunityScopeOrThrow = (
   const scope = resolveCommunityScope(scopeType, scopeFilters)
   if (!scope) {
     throw createForbiddenError(
-      'Community submit supports banner and outfit scopes with valid filter values only'
+      'Community submit supports banner, outfit, and item scopes with valid filter values only'
     )
   }
   return scope

@@ -685,8 +685,7 @@
         "error": "条目加载失败时无法提交。",
         "over_limit": "提交前请添加更多筛选条件。",
         "scope_unavailable": "当前筛选范围暂不支持社区共享。",
-        "incomplete_outfits": "请先为所有已加载套装完成排名后再提交。",
-        "incomplete_banners": "请先为所有已加载卡池完成排名后再提交。",
+        "incomplete": "请先为所有已加载条目完成排名后再提交。",
         "no_changes": "上次提交后没有新的修改。"
       }
     },

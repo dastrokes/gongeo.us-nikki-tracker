@@ -1,4 +1,4 @@
-export type CommunityScopeType = 'banners' | 'outfits'
+export type CommunityScopeType = 'banners' | 'outfits' | 'items'
 
 export type CommunityScopeFilters = {
   quality?: 2 | 3 | 4 | 5
@@ -6,6 +6,7 @@ export type CommunityScopeFilters = {
   style?: string
   label?: string
   source?: string
+  type?: string
 }
 
 export type CommunityScope = {
@@ -19,6 +20,7 @@ export type CommunityScopeFromTierlistInput = {
   mode: TierMode
   bannerQualityFilter: number | null
   qualityFilter: number | null
+  itemTypeFilter: string | null
   versionFilter: string | null
   styleFilter: string | null
   labelFilter: string | null
@@ -181,14 +183,21 @@ export const resolveCommunityScope = (
   scopeType: unknown,
   scopeFilters: unknown
 ): CommunityScope | null => {
-  if (scopeType !== 'banners' && scopeType !== 'outfits') return null
+  if (
+    scopeType !== 'banners' &&
+    scopeType !== 'outfits' &&
+    scopeType !== 'items'
+  )
+    return null
   if (!isRecord(scopeFilters)) return null
 
   const keys = Object.keys(scopeFilters)
   const supportedKeys =
     scopeType === 'banners'
       ? ['quality', 'version']
-      : ['quality', 'version', 'style', 'label', 'source']
+      : scopeType === 'outfits'
+        ? ['quality', 'version', 'style', 'label', 'source']
+        : ['quality', 'version', 'style', 'label', 'source', 'type']
   const supportedKeySet = new Set(supportedKeys)
   const unsupportedKeys = keys.filter((key) => !supportedKeySet.has(key))
   if (unsupportedKeys.length > 0) return null
@@ -208,7 +217,7 @@ export const resolveCommunityScope = (
     normalizedFilters.version = version
   }
 
-  if (scopeType === 'outfits') {
+  if (scopeType === 'outfits' || scopeType === 'items') {
     if ('style' in scopeFilters) {
       const style = normalizeCommunityStringFilter(scopeFilters.style)
       if (!style) return null
@@ -226,6 +235,12 @@ export const resolveCommunityScope = (
       if (!source) return null
       normalizedFilters.source = source
     }
+  }
+
+  if (scopeType === 'items' && 'type' in scopeFilters) {
+    const type = normalizeCommunityStringFilter(scopeFilters.type)
+    if (!type) return null
+    normalizedFilters.type = type
   }
 
   return {
@@ -281,6 +296,40 @@ export const resolveCommunityScopeFromTierlistFilters = (
 
     return {
       scopeType: 'outfits',
+      scopeFilters,
+    }
+  }
+
+  if (input.mode === 'items') {
+    const scopeFilters: CommunityScopeFilters = {}
+    if (
+      input.qualityFilter === 5 ||
+      input.qualityFilter === 4 ||
+      input.qualityFilter === 3 ||
+      input.qualityFilter === 2
+    ) {
+      scopeFilters.quality = input.qualityFilter
+    } else if (input.qualityFilter !== null) {
+      return null
+    }
+    if (input.versionFilter) {
+      scopeFilters.version = input.versionFilter
+    }
+    if (input.styleFilter) {
+      scopeFilters.style = input.styleFilter
+    }
+    if (input.labelFilter) {
+      scopeFilters.label = input.labelFilter
+    }
+    if (input.obtainFilter) {
+      scopeFilters.source = input.obtainFilter
+    }
+    if (input.itemTypeFilter) {
+      scopeFilters.type = input.itemTypeFilter
+    }
+
+    return {
+      scopeType: 'items',
       scopeFilters,
     }
   }

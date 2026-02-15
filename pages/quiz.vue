@@ -379,7 +379,7 @@
                     v-if="roundResult === 'wrong' || roundResult === 'revealed'"
                     class="text-xs text-gray-500 dark:text-gray-400"
                   >
-                    {{ $t('quiz.correct_answer') }} + ': ' + currentOutfitName
+                    {{ $t('quiz.correct_answer') }}: {{ currentOutfitName }}
                   </p>
                 </div>
               </template>

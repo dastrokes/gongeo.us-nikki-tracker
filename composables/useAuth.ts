@@ -1,11 +1,11 @@
 import type { User } from '@supabase/supabase-js'
 
-// Global auth state - shared across all useAuth() calls
-const globalAuthState = {
-  user: ref<User | null>(null),
-  loading: ref<boolean>(false),
-  initialized: ref<boolean>(false),
-}
+const globalAuthState = () => ({
+  user: useState<User | null>('auth-user', () => null),
+  loading: useState<boolean>('auth-loading', () => false),
+  initialized: useState<boolean>('auth-initialized', () => false),
+  initializing: useState<boolean>('auth-initializing', () => false),
+})
 
 export const useAuth = () => {
   const supabase = useSupabaseClient()
@@ -15,8 +15,7 @@ export const useAuth = () => {
   const { locale } = useI18n()
   const config = useRuntimeConfig()
 
-  // Use the global shared state
-  const { user, loading, initialized } = globalAuthState
+  const { user, loading, initialized, initializing } = globalAuthState()
 
   // Check for auth errors in URL (from OAuth callback)
   const checkAuthError = () => {
@@ -36,10 +35,13 @@ export const useAuth = () => {
 
   // Initialize auth state
   const initAuth = async (): Promise<void> => {
-    // Prevent multiple initializations
-    if (initialized.value) {
+    // Prevent duplicate init and listener registration.
+    if (initialized.value || initializing.value) {
       return
     }
+
+    // Lock in-flight init without marking auth as ready yet.
+    initializing.value = true
 
     try {
       // Check for OAuth callback errors first
@@ -56,7 +58,7 @@ export const useAuth = () => {
         user.value = session.user
       }
 
-      // Listen for auth changes
+      // Listen for auth changes once per app lifecycle.
       supabase.auth.onAuthStateChange(async (event, session) => {
         if (event === 'SIGNED_IN' && session?.user) {
           user.value = session.user
@@ -67,7 +69,10 @@ export const useAuth = () => {
 
       initialized.value = true
     } catch (err) {
+      initialized.value = false
       console.error('Auth initialization error:', err)
+    } finally {
+      initializing.value = false
     }
   }
 

@@ -24,6 +24,12 @@ import {
 } from '~/utils/contentVersion'
 import { resolveObtainIdsFromValue } from '~/utils/obtainGroups'
 
+type OutfitSortRow = {
+  id: number
+  quality: number
+  obtain_type?: number | null
+}
+
 type OutfitRow = {
   id: number
   quality: number
@@ -35,6 +41,52 @@ type OutfitRow = {
 
 const BASE_OUTFIT_ID_MIN = 10000
 const BASE_OUTFIT_ID_MAX = 99999
+const DEFAULT_PAGE_SIZE = 18
+const MAX_PAGE_SIZE = 200
+
+const parsePageSize = (value: unknown): number => {
+  const parsed = Number(value)
+  if (!Number.isFinite(parsed) || parsed < 1) return DEFAULT_PAGE_SIZE
+  return Math.min(Math.floor(parsed), MAX_PAGE_SIZE)
+}
+
+const compareVersion = (a: string, b: string) => {
+  const parseVersion = (value: string) => {
+    const [majorRaw, minorRaw] = value.split('.')
+    const major = Number(majorRaw)
+    const minor = Number(minorRaw)
+    return {
+      major: Number.isNaN(major) ? 0 : major,
+      minor: Number.isNaN(minor) ? 0 : minor,
+    }
+  }
+  const aVersion = parseVersion(a)
+  const bVersion = parseVersion(b)
+  if (aVersion.major !== bVersion.major) {
+    return aVersion.major - bVersion.major
+  }
+  return aVersion.minor - bVersion.minor
+}
+
+const getSortVersion = (obtainType?: number | null) =>
+  obtainType ? getVersionFromId(obtainType) : null
+
+const compareOutfitSortOrder = (a: OutfitSortRow, b: OutfitSortRow) => {
+  if (a.quality !== b.quality) {
+    return b.quality - a.quality
+  }
+  const versionA = getSortVersion(a.obtain_type)
+  const versionB = getSortVersion(b.obtain_type)
+  if (versionA && versionB && versionA !== versionB) {
+    return compareVersion(versionB, versionA)
+  }
+  if (versionA && !versionB) return -1
+  if (!versionA && versionB) return 1
+  const obtainA = a.obtain_type ?? Number.POSITIVE_INFINITY
+  const obtainB = b.obtain_type ?? Number.POSITIVE_INFINITY
+  if (obtainA !== obtainB) return obtainA - obtainB
+  return a.id - b.id
+}
 
 /**
  * API endpoint for fetching paginated outfits
@@ -60,7 +112,9 @@ export default defineCachedEventHandler(
       Number.isNaN(Number(query.page)) || Number(query.page) < 1
         ? 1
         : Number(query.page ?? 1)
-    const pageSize = 18
+    const pageSize = parsePageSize(query.pageSize ?? query.page_size)
+    const from = (page - 1) * pageSize
+    const toExclusive = from + pageSize
     const normalizedStyle = styleParam ? normalizeTraitKey(styleParam) : null
     const normalizedLabel = labelParam ? normalizeTraitKey(labelParam) : null
     const styleFilter = normalizedStyle
@@ -97,173 +151,91 @@ export default defineCachedEventHandler(
     const supabase = useSupabaseDataClient()
 
     try {
-      // Build the query - always fetch props and tags for style/label display
-      const selectFields = 'id, quality, props, style_key, tags, obtain_type'
-
-      let dbQuery = supabase
+      let sortSeedQuery = supabase
         .from('outfits')
-        .select(selectFields, { count: 'exact' })
+        .select('id, quality, obtain_type')
         .gte('id', BASE_OUTFIT_ID_MIN)
         .lte('id', BASE_OUTFIT_ID_MAX)
 
       if (obtainTypeRange) {
-        dbQuery = dbQuery
+        sortSeedQuery = sortSeedQuery
           .gte('obtain_type', obtainTypeRange.min)
           .lte('obtain_type', obtainTypeRange.max)
       }
 
-      // Apply quality filter
       if (quality !== null && quality !== undefined) {
-        dbQuery = dbQuery.eq('quality', quality)
+        sortSeedQuery = sortSeedQuery.eq('quality', quality)
       }
 
       if (obtainIds) {
-        dbQuery = dbQuery.in('obtain_type', obtainIds)
+        sortSeedQuery = sortSeedQuery.in('obtain_type', obtainIds)
       }
 
       if (styleFilter) {
-        dbQuery = dbQuery.eq('style_key', styleFilter.key)
+        sortSeedQuery = sortSeedQuery.eq('style_key', styleFilter.key)
       }
 
       if (labelFilter) {
-        dbQuery = dbQuery.contains('tags', [labelFilter.id])
+        sortSeedQuery = sortSeedQuery.contains('tags', [labelFilter.id])
       }
 
-      // Apply sorting and pagination
-      dbQuery = dbQuery.order('id', { ascending: true })
+      const { data: sortSeedData, error: sortSeedError } =
+        await withSupabaseRetry(() => sortSeedQuery)
 
-      const {
-        data,
-        error: supabaseError,
-        count,
-        status,
-      } = await withSupabaseRetry(() => dbQuery)
-
-      if (supabaseError) {
-        const responseStatus =
-          status ?? (supabaseError as { status?: number }).status
-        const code = (supabaseError as { code?: string }).code
-        const details = (supabaseError as { details?: string }).details
-        const isRangeError =
-          responseStatus === 416 ||
-          code === 'PGRST103' ||
-          (details && details.includes('Requested range not satisfiable'))
-        if (isRangeError) {
-          let total = count || 0
-          if (!total) {
-            let countQuery = supabase
-              .from('outfits')
-              .select('id', { count: 'exact', head: true })
-              .gte('id', BASE_OUTFIT_ID_MIN)
-              .lte('id', BASE_OUTFIT_ID_MAX)
-
-            if (obtainTypeRange) {
-              countQuery = countQuery
-                .gte('obtain_type', obtainTypeRange.min)
-                .lte('obtain_type', obtainTypeRange.max)
-            }
-
-            if (quality !== null && quality !== undefined) {
-              countQuery = countQuery.eq('quality', quality)
-            }
-
-            if (obtainIds) {
-              countQuery = countQuery.in('obtain_type', obtainIds)
-            }
-
-            if (styleFilter) {
-              countQuery = countQuery.eq('style_key', styleFilter.key)
-            }
-
-            if (labelFilter) {
-              countQuery = countQuery.contains('tags', [labelFilter.id])
-            }
-
-            const { count: fallbackCount, error: countError } =
-              await withSupabaseRetry(() => countQuery)
-            if (!countError && typeof fallbackCount === 'number') {
-              total = fallbackCount
-            }
-          }
-          const totalPages = total ? Math.ceil(total / pageSize) : 0
-          return {
-            data: [],
-            total,
-            page,
-            totalPages,
-          }
-        }
-
-        throw supabaseError
+      if (sortSeedError) {
+        throw sortSeedError
       }
 
-      const rows = (data as OutfitRow[] | null) ?? []
-      const outfits = rows.map((row) => {
-        const styleKey = row.style_key ?? resolveStyleKeyFromProps(row.props)
-        const tagIds = (row.tags || [])
-          .map((value: number | string) => Number(value))
-          .filter((value: number) => !Number.isNaN(value))
-        return {
-          id: row.id,
-          quality: row.quality,
-          style: styleKey
-            ? (STYLE_BY_KEY.get(styleKey)?.i18nKey ?? null)
-            : null,
-          labels: resolveTagI18nKeys(row.tags),
-          obtain_type: row.obtain_type ?? null,
-          styleKey,
-          tagIds,
-        }
-      })
-
-      const compareVersion = (a: string, b: string) => {
-        const parseVersion = (value: string) => {
-          const [majorRaw, minorRaw] = value.split('.')
-          const major = Number(majorRaw)
-          const minor = Number(minorRaw)
-          return {
-            major: Number.isNaN(major) ? 0 : major,
-            minor: Number.isNaN(minor) ? 0 : minor,
-          }
-        }
-        const aVersion = parseVersion(a)
-        const bVersion = parseVersion(b)
-        if (aVersion.major !== bVersion.major) {
-          return aVersion.major - bVersion.major
-        }
-        return aVersion.minor - bVersion.minor
-      }
-
-      const getSortVersion = (_id: number, obtainType?: number | null) =>
-        obtainType ? getVersionFromId(obtainType) : null
-
-      const sortedOutfits = outfits.slice().sort((a, b) => {
-        if (a.quality !== b.quality) {
-          return b.quality - a.quality
-        }
-        const versionA = getSortVersion(a.id, a.obtain_type)
-        const versionB = getSortVersion(b.id, b.obtain_type)
-        if (versionA && versionB && versionA !== versionB) {
-          return compareVersion(versionB, versionA)
-        }
-        if (versionA && !versionB) return -1
-        if (!versionA && versionB) return 1
-        const obtainA = a.obtain_type ?? Number.POSITIVE_INFINITY
-        const obtainB = b.obtain_type ?? Number.POSITIVE_INFINITY
-        if (obtainA !== obtainB) return obtainA - obtainB
-        return a.id - b.id
-      })
-
-      const total = sortedOutfits.length
+      const sortedRows = ((sortSeedData as OutfitSortRow[] | null) ?? [])
+        .slice()
+        .sort(compareOutfitSortOrder)
+      const total = sortedRows.length
       const totalPages = total ? Math.ceil(total / pageSize) : 0
-      const from = (page - 1) * pageSize
-      const to = from + pageSize
-      const pagedOutfits = sortedOutfits.slice(from, to)
+      const pageRows = sortedRows.slice(from, toExclusive)
+
+      if (pageRows.length === 0) {
+        return {
+          data: [],
+          total,
+          page,
+          totalPages,
+        }
+      }
+
+      const pageIds = pageRows.map((row) => row.id)
+      const { data: detailData, error: detailError } = await withSupabaseRetry(
+        () =>
+          supabase
+            .from('outfits')
+            .select('id, quality, props, style_key, tags, obtain_type')
+            .in('id', pageIds)
+      )
+
+      if (detailError) {
+        throw detailError
+      }
+
+      const detailRows = (detailData as OutfitRow[] | null) ?? []
+      const detailById = new Map<number, OutfitRow>(
+        detailRows.map((row) => [row.id, row])
+      )
+      const orderedRows = pageIds
+        .map((id) => detailById.get(id))
+        .filter((row): row is OutfitRow => Boolean(row))
 
       return {
-        data: pagedOutfits.map(
-          ({ styleKey: _styleKey, tagIds: _tagIds, ...outfit }) => outfit
-        ),
+        data: orderedRows.map((row) => {
+          const styleKey = row.style_key ?? resolveStyleKeyFromProps(row.props)
+          return {
+            id: row.id,
+            quality: row.quality,
+            style: styleKey
+              ? (STYLE_BY_KEY.get(styleKey)?.i18nKey ?? null)
+              : null,
+            labels: resolveTagI18nKeys(row.tags),
+            obtain_type: row.obtain_type ?? null,
+          }
+        }),
         total,
         page,
         totalPages,
@@ -288,6 +260,7 @@ export default defineCachedEventHandler(
       const version = getGameVersion()
       const query = getQuery(event)
       const page = query.page ? Number(query.page) : 1
+      const pageSize = parsePageSize(query.pageSize ?? query.page_size)
       const quality = query.quality ? Number(query.quality) : 'all'
       const style = query.style?.toString() || 'all'
       const label = query.label?.toString() || 'all'
@@ -297,7 +270,7 @@ export default defineCachedEventHandler(
         : query.obtain
           ? query.obtain.toString()
           : 'all'
-      return `${version}:outfits:p${page}:q${quality}:s${style}:l${label}:v${outfitVersion}:src${source}`
+      return `${version}:outfits:p${page}:ps${pageSize}:q${quality}:s${style}:l${label}:v${outfitVersion}:src${source}`
     },
     swr: true, // Enable stale-while-revalidate
   }

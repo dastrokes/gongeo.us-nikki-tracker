@@ -71,7 +71,16 @@ export default defineEventHandler(async (event) => {
     if (error) throw error
 
     return { success: true }
-  } catch (error) {
+  } catch (error: unknown) {
+    if (
+      error &&
+      typeof error === 'object' &&
+      'statusCode' in error &&
+      typeof (error as { statusCode?: unknown }).statusCode === 'number'
+    ) {
+      throw error
+    }
+
     console.error(`Failed to update banner stats:`, error)
     throw createError({
       statusCode: 500,

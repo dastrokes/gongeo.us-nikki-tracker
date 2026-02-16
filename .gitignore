@@ -1,38 +1,43 @@
-# Nuxt dev/build outputs
-.output
-.data
-.nuxt
-.nitro
-.cache
-dist
+# Dependencies
+node_modules/
 
-# Node dependencies
-node_modules
+# Nuxt/Nitro build outputs
+.nuxt/
+.output/
+.nitro/
+.data/
+.cache/
+dist/
+
+# Netlify build output
+.netlify/
+.supabase/
+
+# Generated image assets
+public/images/banners/
+public/images/items/
+public/images/outfits/
+
+# Auto-generated types
+components.d.ts
+
+# Husky runtime files (keep custom hooks trackable)
+.husky/_/
 
 # Logs
-logs
+logs/
 *.log
-
-# Misc
-.DS_Store
-.fleet
-.idea
-.husky
-.netlify
-.vscode
-.well-known
-.kiro
-agents.md
-components.d.ts
-public/images/banners
-public/images/outfits
-public/images/items
-script
 
 # Local env files
 .env
 .env.*
 !.env.example
 
-# Sentry Config File
-.env.sentry-build-plugin
+# Editor and OS files
+.DS_Store
+.fleet/
+.idea/
+.vscode/
+
+# Local agent instructions
+AGENTS.md

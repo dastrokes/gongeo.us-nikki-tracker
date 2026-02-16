@@ -10,6 +10,7 @@ export interface ItemFilters {
   version?: string | null
   source?: string | number | null
   page?: number
+  pageSize?: number
 }
 
 export interface PaginatedItemsResponse {
@@ -89,11 +90,16 @@ export const useSupabaseItems = () => {
       version = null,
       source = null,
       page = 1,
+      pageSize,
     } = filters
 
     try {
       const params: Record<string, string | number> = {
         page,
+      }
+
+      if (pageSize !== undefined && Number.isFinite(pageSize) && pageSize > 0) {
+        params.pageSize = Math.floor(pageSize)
       }
 
       if (quality !== null && quality !== undefined) {

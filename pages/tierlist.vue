@@ -478,10 +478,7 @@
                     :key="`${tier}-card-${i}`"
                     :class="[cardAspectClass, 'rounded-md overflow-hidden']"
                   >
-                    <n-skeleton
-                      :sharp="false"
-                      class="w-full h-full"
-                    />
+                    <n-skeleton class="w-full h-full" />
                   </div>
                 </div>
               </div>
@@ -705,8 +702,7 @@
   import type { SortableEvent } from 'sortablejs'
   import { BANNER_DATA } from '~/data/banners'
   import type { BannerRun } from '~/types/banner'
-  import type { ItemListEntry } from '~/types/items'
-  import type { OutfitListEntry } from '~/types/outfits'
+  import { exportToPng } from '~/utils/snapdom'
 
   type TierMode = 'banners' | 'outfits' | 'items'
   type TierKey = 'S' | 'A' | 'B' | 'C' | 'D' | 'F'
@@ -1194,47 +1190,6 @@
   const { fetchOutfitsPaginated } = useSupabaseOutfits()
   const { fetchItemsPaginated } = useSupabaseItems()
 
-  async function fetchPagesWithLimit<T>(
-    fetchPage: (page: number) => Promise<{
-      data: T[]
-      totalPages: number
-      total: number
-    }>,
-    maxEntries: number
-  ) {
-    const firstPage = await fetchPage(1)
-    const totalPages = firstPage.totalPages ?? 0
-    const total = firstPage.total ?? firstPage.data.length
-    const firstPageData = firstPage.data
-
-    if (total > maxEntries) {
-      return {
-        data: [] as T[],
-        total,
-        overLimit: true,
-      }
-    }
-
-    if (!totalPages || totalPages <= 1) {
-      return {
-        data: firstPageData,
-        total,
-        overLimit: false,
-      }
-    }
-
-    const rest = await Promise.all(
-      Array.from({ length: totalPages - 1 }, (_, index) => fetchPage(index + 2))
-    )
-
-    const combined = [...firstPage.data, ...rest.flatMap((page) => page.data)]
-    return {
-      data: combined,
-      total,
-      overLimit: false,
-    }
-  }
-
   const toBannerVersion = (value: string) => {
     const parts = value.split('.')
     if (parts.length < 2) return value
@@ -1306,19 +1261,16 @@
   }
 
   const loadOutfitEntries = async (): Promise<TierDataPayload> => {
-    const { data: outfits, overLimit } =
-      await fetchPagesWithLimit<OutfitListEntry>(
-        (page) =>
-          fetchOutfitsPaginated({
-            quality: qualityFilter.value,
-            version: versionFilter.value,
-            style: styleFilter.value,
-            label: labelFilter.value,
-            source: obtainFilter.value,
-            page,
-          }),
-        TIER_ENTRY_LIMIT
-      )
+    const { data: outfits, total } = await fetchOutfitsPaginated({
+      quality: qualityFilter.value,
+      version: versionFilter.value,
+      style: styleFilter.value,
+      label: labelFilter.value,
+      source: obtainFilter.value,
+      page: 1,
+      pageSize: TIER_ENTRY_LIMIT,
+    })
+    const overLimit = total > TIER_ENTRY_LIMIT
 
     const entries = outfits.map((outfit) => ({
       id: String(outfit.id),
@@ -1335,19 +1287,17 @@
   }
 
   const loadItemEntries = async (): Promise<TierDataPayload> => {
-    const { data: items, overLimit } = await fetchPagesWithLimit<ItemListEntry>(
-      (page) =>
-        fetchItemsPaginated({
-          quality: qualityFilter.value,
-          type: itemTypeFilter.value,
-          version: versionFilter.value,
-          style: styleFilter.value,
-          label: labelFilter.value,
-          source: obtainFilter.value,
-          page,
-        }),
-      TIER_ENTRY_LIMIT
-    )
+    const { data: items, total } = await fetchItemsPaginated({
+      quality: qualityFilter.value,
+      type: itemTypeFilter.value,
+      version: versionFilter.value,
+      style: styleFilter.value,
+      label: labelFilter.value,
+      source: obtainFilter.value,
+      page: 1,
+      pageSize: TIER_ENTRY_LIMIT,
+    })
+    const overLimit = total > TIER_ENTRY_LIMIT
 
     const entries = items.map((item) => ({
       id: String(item.id),
@@ -2738,23 +2688,10 @@
         throw new Error('Tierlist element not found')
       }
 
-      const contentWidth = tierlistElement.scrollWidth
-      const contentHeight = tierlistElement.scrollHeight
-      const backgroundColor = 'transparent'
-
-      const { snapdom } = await import('@zumer/snapdom')
-      const image = await snapdom.toPng(tierlistElement, {
-        backgroundColor,
-        width: contentWidth,
-        height: contentHeight,
-      })
-
-      const link = document.createElement('a')
-      link.download = `gongeous-tierlist-${
+      const fileName = `gongeous-tierlist-${
         new Date().toISOString().split('T')[0]
       }.png`
-      link.href = image.src
-      link.click()
+      await exportToPng(tierlistElement, fileName)
 
       message.success(t('tracker.export.success'))
     } catch (error) {

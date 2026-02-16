@@ -685,8 +685,7 @@
         "error": "Cannot submit while entries failed to load.",
         "over_limit": "Apply more filters before submitting.",
         "scope_unavailable": "Community sharing is not available for this selection yet.",
-        "incomplete_outfits": "Rank all loaded outfits before submitting.",
-        "incomplete_banners": "Rank all loaded banners before submitting.",
+        "incomplete": "Rank all loaded entries before submitting.",
         "no_changes": "No changes since your last submit."
       }
     },

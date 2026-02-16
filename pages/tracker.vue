@@ -939,6 +939,7 @@
   import type { PullItem, ProcessedBanner } from '~/types/pull'
   import { BANNER_DATA } from '~/data/banners'
   import OUTFIT_DATA from '~/data/outfits'
+  import { exportToPng } from '~/utils/snapdom'
 
   const message = useMessage()
   const { t } = useI18n()
@@ -1179,22 +1180,8 @@
         throw new Error('Tracker element not found')
       }
 
-      const contentWidth = trackerElement.scrollWidth
-      const contentHeight = trackerElement.scrollHeight
-      const backgroundColor = 'transparent'
-
-      const { snapdom } = await import('@zumer/snapdom')
-      const image = await snapdom.toPng(trackerElement, {
-        backgroundColor,
-        width: contentWidth,
-        height: contentHeight,
-      })
-      const dataUrl = image.src
-
-      const link = document.createElement('a')
-      link.download = `gongeous-${new Date().toISOString().split('T')[0]}.png`
-      link.href = dataUrl
-      link.click()
+      const fileName = `gongeous-${new Date().toISOString().split('T')[0]}.png`
+      await exportToPng(trackerElement, fileName)
 
       message.success(t('tracker.export.success'))
     } catch (error) {

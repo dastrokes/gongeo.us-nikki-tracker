@@ -447,7 +447,7 @@
       "error": "Daten konnten nicht exportiert werden. Bitte versuche es erneut."
     },
     "no_data": {
-      "title": "Kein Resonanz-Verlauf verfügbar.",
+      "title": "Kein Resonanz-Verlauf",
       "subtitle": "Bitte importiere zuerst deine Resonanz-Daten.",
       "error": "Daten konnten nicht geladen werden. Bitte versuche es erneut."
     }
@@ -685,7 +685,7 @@
         "error": "Kann nicht übermittelt werden, wenn Einträge nicht geladen wurden.",
         "over_limit": "Wende vor dem Übermitteln mehr Filter an.",
         "scope_unavailable": "Community-Freigabe ist für diese Auswahl noch nicht verfügbar.",
-        "incomplete": "Rank all loaded entries before submitting.",
+        "incomplete": "Rangiere alle geladenen Einträge vor der Übermittlung.",
         "no_changes": "Keine Änderungen seit deiner letzten Übermittlung."
       }
     },

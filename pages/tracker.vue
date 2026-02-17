@@ -806,16 +806,23 @@
         v-if="!hasAnyData"
         class="text-center rounded-xl"
       >
-        <n-empty>
-          <template #default>
-            <div class="text-xl text-neutral-500">
-              {{ $t('tracker.no_data.title') }}
-            </div>
-            <div class="text-xl text-neutral-500">
-              {{ $t('tracker.no_data.subtitle') }}
-            </div></template
-          >
-          <template #extra>
+        <n-result
+          status="info"
+          :title="$t('tracker.no_data.title')"
+          :description="$t('tracker.no_data.subtitle')"
+        >
+          <template #icon>
+            <NuxtImg
+              :src="getImageSrc('static', '/images/404.webp')"
+              :alt="$t('tracker.no_data.title')"
+              class="mx-auto w-32 h-32 sm:w-48 sm:h-48 object-cover"
+              width="400"
+              height="400"
+              fit="contain"
+              sizes="160px sm:200px"
+            />
+          </template>
+          <template #footer>
             <n-button
               type="primary"
               @click="navigateTo(localePath('/import'))"
@@ -823,7 +830,7 @@
               {{ $t('navigation.import') }}
             </n-button>
           </template>
-        </n-empty>
+        </n-result>
       </n-card>
 
       <!-- Sample Banners -->
@@ -946,6 +953,7 @@
   const pullStore = usePullStore()
   const { processedPulls, globalStats } = storeToRefs(pullStore)
   const localePath = useLocalePath()
+  const { getImageSrc } = imageProvider()
   const { initFromIndexedDB } = usePullStoreData()
   const { loadData } = useIndexedDB()
   const { activeSlot, slots } = useProfileSlots()

@@ -447,7 +447,7 @@
       "error": "Failed to export data. Please try again."
     },
     "no_data": {
-      "title": "No resonance history available.",
+      "title": "No Resonance History",
       "subtitle": "Please import your resonance data first.",
       "error": "Failed to load data. Please try again."
     }

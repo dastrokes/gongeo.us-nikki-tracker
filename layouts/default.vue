@@ -174,17 +174,23 @@
     ListAlt,
     SortAmountDown,
   } from '@vicons/fa'
-  import KoFi from '~/components/icons/KoFi.vue'
-  import Netlify from '~/components/icons/Netlify.vue'
   import { useSwipe } from '@vueuse/core'
   const { t } = useI18n()
   const localePath = useLocalePath()
   const { locale } = useI18n()
   const nuxtApp = useNuxtApp()
   const loading = useState<boolean>('loading', () => false)
+  const svgIconComponent = resolveComponent('SvgIcon')
 
   function renderIcon(icon: Component) {
     return () => h(NIcon, null, { default: () => h(icon) })
+  }
+
+  function renderSvgIcon(name: 'kofi' | 'netlify') {
+    return () =>
+      h(NIcon, null, {
+        default: () => h(svgIconComponent, { name }),
+      })
   }
 
   const route = useRoute()
@@ -299,7 +305,7 @@
           'Ko-fi'
         ),
       key: 'ko-fi',
-      icon: renderIcon(KoFi),
+      icon: renderSvgIcon('kofi'),
     },
     {
       label: () =>
@@ -314,7 +320,7 @@
           'Built with Netlify'
         ),
       key: 'netlify',
-      icon: renderIcon(Netlify),
+      icon: renderSvgIcon('netlify'),
     },
   ])
 

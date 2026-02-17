@@ -11,14 +11,13 @@
       class="flex items-center"
     >
       <n-icon :size="16">
-        <Language />
+        <SvgIcon name="language" />
       </n-icon>
     </n-button>
   </n-dropdown>
 </template>
 
 <script setup lang="ts">
-  import Language from '~/components/icons/Language.vue'
   import type { SupportedLocaleCode } from '~/locales/locales'
 
   const { locales, setLocale, t } = useI18n()

@@ -464,7 +464,7 @@
       content-class="!p-2 sm:p-4"
     >
       <n-result
-        status="404"
+        status="info"
         :title="t('compendium.not_found_item')"
         :description="t('error.404')"
       >

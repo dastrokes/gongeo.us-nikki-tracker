@@ -1,8 +1,8 @@
 import type { H3Event } from 'h3'
 import { useSupabaseDataClient } from '~/composables/useSupabaseClient'
+import { resolveLocaleCode } from '~/utils/locale'
 import { setCacheHeaders } from '~/utils/cacheHeaders'
 import { getGameVersion } from '~/utils/gameVersion'
-import { LOCALE_HEADER, resolveLocaleCode } from '~/utils/locale'
 import {
   createInternalError,
   createInvalidIdError,
@@ -44,15 +44,9 @@ interface OutfitVariation {
 }
 
 const getRequestLocale = (event: H3Event) => {
-  const contextLocale = (event.context as { localeCode?: string })?.localeCode
   const query = getQuery(event)
   const langQuery = query.lang?.toString()
-  const localeHeader = getHeader(event, LOCALE_HEADER)
-  const localeCookie = getCookie(event, 'i18n_redirected')
-
-  return resolveLocaleCode(
-    langQuery || localeHeader || localeCookie || contextLocale
-  )
+  return resolveLocaleCode(langQuery)
 }
 
 /**
@@ -117,7 +111,6 @@ export default defineCachedEventHandler(
     })
     const id = Number(getRouterParam(event, 'id'))
     const languageCode = getRequestLocale(event)
-    ;(event.context as { localeCode?: string }).localeCode = languageCode
     if (!id || isNaN(id)) {
       throw createInvalidIdError('outfit')
     }
@@ -167,16 +160,21 @@ export default defineCachedEventHandler(
       if (outfitData.quality >= 4) {
         const relatedIds = getRelatedOutfitIds(id, outfitData.quality)
 
-        const { data: variations } = await withSupabaseRetry(async () => {
-          if (relatedIds.length <= 1) {
-            return { data: null, error: null }
-          }
+        const { data: variations, error: variationsError } =
+          await withSupabaseRetry(async () => {
+            if (relatedIds.length <= 1) {
+              return { data: null, error: null }
+            }
 
-          return supabase
-            .from('outfits')
-            .select('id, quality')
-            .in('id', relatedIds)
-        })
+            return supabase
+              .from('outfits')
+              .select('id, quality')
+              .in('id', relatedIds)
+          })
+
+        if (variationsError) {
+          throw variationsError
+        }
 
         if (variations && Array.isArray(variations)) {
           outfitData.variations = variations
@@ -210,7 +208,6 @@ export default defineCachedEventHandler(
       const id = getRouterParam(event, 'id')
       const version = getGameVersion()
       const languageCode = getRequestLocale(event)
-      ;(event.context as { localeCode?: string }).localeCode = languageCode
       return `${version}:outfit:${id}:${languageCode}`
     },
     swr: true, // Enable stale-while-revalidate

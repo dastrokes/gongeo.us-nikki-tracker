@@ -3,8 +3,8 @@
     <n-result
       class="w-full max-w-xs"
       size="small"
-      status="404"
-      title="404"
+      status="info"
+      title="gongeo.us"
     >
       <template #icon>
         <NuxtImg

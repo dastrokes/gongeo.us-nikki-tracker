@@ -540,7 +540,6 @@
   import { useThemeVars, type TreeSelectOption } from 'naive-ui'
   import { BANNER_DATA } from '~/data/banners'
   import OUTFIT_DATA, { type OutfitKey } from '~/data/outfits'
-  import { getQualityColor } from '~/utils/rarity'
   import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
   import {
     ExpandAlt,
@@ -746,7 +745,7 @@
   const hasOutfit = (id: string): id is OutfitKey =>
     Object.prototype.hasOwnProperty.call(OUTFIT_DATA, id)
 
-  const latestBannerId = 50 // TODO: update to current banner id
+  const latestBannerId = 52 // TODO: update to current banner id
   const latestBanner = BANNER_DATA[latestBannerId]
 
   if (

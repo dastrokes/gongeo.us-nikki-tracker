@@ -768,7 +768,7 @@
                   class="grid grid-cols-5 sm:grid-cols-8 lg:grid-cols-10 gap-2 mt-2"
                 >
                   <ItemDataCard
-                    v-for="pull in filterPulls(banner.pulls, banner)"
+                    v-for="pull in banner.combinedPulls"
                     :key="`${pull.itemId}-${pull.count}`"
                     :item="pull"
                   />
@@ -778,19 +778,12 @@
               <!-- Separated Outfits View -->
               <template v-else>
                 <div
-                  v-for="outfit in banner.outfits"
-                  v-show="
-                    filterPulls(getOutfitItems(banner.pulls, outfit.id), banner)
-                      .length > 0
-                  "
-                  :key="outfit.id"
+                  v-for="outfitGroup in banner.separatedOutfitPulls"
+                  :key="outfitGroup.outfitId"
                   class="grid grid-cols-5 sm:grid-cols-8 lg:grid-cols-10 gap-2 mt-2"
                 >
                   <ItemDataCard
-                    v-for="pull in filterPulls(
-                      getOutfitItems(banner.pulls, outfit.id),
-                      banner
-                    )"
+                    v-for="pull in outfitGroup.pulls"
                     :key="`${pull.itemId}-${pull.count}`"
                     :item="pull"
                   />
@@ -946,7 +939,6 @@
   import type { PullItem, ProcessedBanner } from '~/types/pull'
   import { BANNER_DATA } from '~/data/banners'
   import OUTFIT_DATA from '~/data/outfits'
-  import { exportToPng } from '~/utils/snapdom'
 
   const message = useMessage()
   const { t } = useI18n()
@@ -1063,8 +1055,8 @@
 
   // Function to load and process data based on current data source
   const loadAndProcessData = async () => {
+    loading.value = true
     try {
-      loading.value = true
       await initFromIndexedDB()
     } catch (error) {
       console.error('Failed to load data:', error)
@@ -1088,34 +1080,13 @@
   }
 
   // Watch for data source changes and reload data
-  watch(effectiveDataSource, async () => {
-    await loadAndProcessData()
+  watch(effectiveDataSource, (nextSource, previousSource) => {
+    if (nextSource === previousSource || loading.value) return
+    void loadAndProcessData()
   })
-
-  // Helper functions and constants
-  const getOutfitItems = (items: PullItem[], outfitId: string) => {
-    return items.filter((item) => item.outfitId === outfitId)
-  }
 
   // Display settings using composable
   const { settings } = useTrackerSettings()
-
-  // Function to sort banners
-  const sortedBanners = computed(() => {
-    const banners = Object.values(processedPulls.value)
-    // Filter out empty banners if showEmptyBanners is false
-    const filteredBanners = settings.value.showEmptyBanners
-      ? banners
-      : banners.filter(
-          (banner) => banner.pulls.filter((pull) => pull.count > 0).length > 0
-        )
-
-    return filteredBanners.sort((a, b) => {
-      return settings.value.sortBanner
-        ? a.bannerId - b.bannerId
-        : b.bannerId - a.bannerId
-    })
-  })
 
   // Filter pulls based on UI toggles
   const filterPulls = (pulls: PullItem[], banner: ProcessedBanner) => {
@@ -1165,6 +1136,56 @@
 
     return filteredPulls
   }
+
+  type BannerOutfitPullGroup = {
+    outfitId: string
+    pulls: PullItem[]
+  }
+
+  type TrackerBannerViewModel = ProcessedBanner & {
+    combinedPulls: PullItem[]
+    separatedOutfitPulls: BannerOutfitPullGroup[]
+  }
+
+  // Sort banners and precompute filtered pull lists used by the template.
+  const sortedBanners = computed<TrackerBannerViewModel[]>(() => {
+    const baseBanners = Object.values(processedPulls.value)
+    const visibleBanners = settings.value.showEmptyBanners
+      ? baseBanners
+      : baseBanners.filter((banner) =>
+          banner.pulls.some((pull) => pull.count > 0)
+        )
+
+    const orderedBanners = [...visibleBanners].sort((a, b) =>
+      settings.value.sortBanner ? a.bannerId - b.bannerId : b.bannerId - a.bannerId
+    )
+
+    return orderedBanners.map((banner) => {
+      const pullsByOutfit = banner.pulls.reduce<Record<string, PullItem[]>>(
+        (groups, pull) => {
+          if (!groups[pull.outfitId]) {
+            groups[pull.outfitId] = []
+          }
+          groups[pull.outfitId]!.push(pull)
+          return groups
+        },
+        {}
+      )
+
+      const separatedOutfitPulls = banner.outfits
+        .map((outfit) => ({
+          outfitId: outfit.id,
+          pulls: filterPulls(pullsByOutfit[outfit.id] ?? [], banner),
+        }))
+        .filter((entry) => entry.pulls.length > 0)
+
+      return {
+        ...banner,
+        combinedPulls: filterPulls(banner.pulls, banner),
+        separatedOutfitPulls,
+      }
+    })
+  })
 
   // Import percentile functions from utils (pure functions)
   const {

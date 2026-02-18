@@ -3,7 +3,7 @@
     <n-result
       class="w-full max-w-xs"
       size="small"
-      status="404"
+      status="info"
       :title="$t('error.404')"
       :description="$t('error.notFound')"
     >

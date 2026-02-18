@@ -447,7 +447,7 @@
       "error": "Failed to export data. Please try again."
     },
     "no_data": {
-      "title": "No resonance history available.",
+      "title": "No Resonance History",
       "subtitle": "Please import your resonance data first.",
       "error": "Failed to load data. Please try again."
     }
@@ -691,15 +691,12 @@
     },
     "community_insights": {
       "toggle": "Show community tier list",
-      "loading": "Loading community snapshot...",
       "error": "Failed to load community snapshot.",
       "empty": "No community data yet.",
       "rank_position": "Community rank #{rank}",
       "avg_tier": "Community tier: {tier} tier",
       "rank_higher_than": "You rank this higher than {percent}% of stylists",
-      "avg_score": "Average score: {score}",
-      "total_votes": "Total votes: {count}",
-      "top_tier_share": "Most votes placed this in {tier} tier ({percent}%)"
+      "total_votes": "Total votes: {count}"
     },
     "share": {
       "copy_link": "Copy Link",

@@ -1,657 +1,657 @@
 {
   "common": {
-    "banner": "Banner",
-    "banners": "Banners",
-    "outfit": "Outfit",
-    "outfits": "Outfits",
-    "item": "Item",
-    "items": "Items",
-    "makeup": "Makeup",
-    "variations": "Variations",
-    "type": "Type",
-    "pull": "Pull",
-    "pulls": "Pulls",
+    "banner": "Spanduk",
+    "banners": "Spanduk",
+    "outfit": "Pakaian",
+    "outfits": "Pakaian",
+    "item": "Barang",
+    "items": "Barang",
+    "makeup": "Rias",
+    "variations": "Variasi",
+    "type": "Jenis",
+    "pull": "Menarik",
+    "pulls": "Menarik",
     "total": "Total",
-    "average": "Average",
-    "avg": "Avg",
-    "statistics": "Statistics",
-    "stats": "Stats",
+    "average": "Rata-rata",
+    "avg": "Rata-rata",
+    "statistics": "Statistik",
+    "stats": "Statistik",
     "data": "Data",
-    "history": "History",
-    "tracker": "Tracker",
-    "import": "Import",
-    "export": "Export",
-    "loading": "Loading...",
-    "search": "Search",
-    "filter": "Filter",
-    "clear": "Clear Filters",
-    "all": "All",
-    "other": "Other",
-    "show": "Show",
-    "hide": "Hide",
-    "save": "Save",
-    "cancel": "Cancel",
-    "confirm": "Confirm",
-    "ok": "OK",
-    "submit": "Submit",
-    "retry": "Retry",
-    "back": "Back",
-    "copy": "Copy",
-    "select": "Select",
-    "description": "Description",
-    "error": "Error",
-    "success": "Success",
-    "failed": "Failed"
+    "history": "Sejarah",
+    "tracker": "Pelacak",
+    "import": "Impor",
+    "export": "Ekspor",
+    "loading": "Memuat...",
+    "search": "Mencari",
+    "filter": "Menyaring",
+    "clear": "Hapus Filter",
+    "all": "Semua",
+    "other": "Lainnya",
+    "show": "Menunjukkan",
+    "hide": "Bersembunyi",
+    "save": "Menyimpan",
+    "cancel": "Membatalkan",
+    "confirm": "Mengonfirmasi",
+    "ok": "OKE",
+    "submit": "Kirim",
+    "retry": "Mencoba kembali",
+    "back": "Kembali",
+    "copy": "Menyalin",
+    "select": "Memilih",
+    "description": "Keterangan",
+    "error": "Kesalahan",
+    "success": "Kesuksesan",
+    "failed": "Gagal"
   },
   "navigation": {
     "title": "gongeo.us",
-    "subtitle": "Infinity Nikki Resonance Tracker",
-    "tracker": "Resonance Tracker",
-    "import": "Import Data",
-    "global": "Global Data",
-    "banner": "Banner History",
-    "banner_detail": "Banner Detail",
-    "timeline": "Timeline",
-    "outfit": "Outfit Compendium",
-    "outfit_detail": "Outfit Detail",
-    "item": "Item Compendium",
-    "item_detail": "Item Detail",
-    "tierlist": "Tier List Maker",
-    "compendium": "Compendium",
-    "vote": "Banner Vote",
-    "faq": "FAQ",
-    "about": "About",
+    "subtitle": "Pelacak Resonansi Infinity Nikki",
+    "tracker": "Pelacak Resonansi",
+    "import": "Impor Data",
+    "global": "Data Sedunia",
+    "banner": "Sejarah Spanduk",
+    "banner_detail": "Detail Spanduk",
+    "timeline": "Garis waktu",
+    "outfit": "Ringkasan Pakaian",
+    "outfit_detail": "Detil Pakaian",
+    "item": "Ringkasan Barang",
+    "item_detail": "Detil Barang",
+    "tierlist": "Pembuat Daftar Tingkat",
+    "compendium": "Ringkasan",
+    "vote": "Pemungutan Suara Spanduk",
+    "faq": "Pertanyaan Umum",
+    "about": "Tentang",
     "nuan5pro": "Nuan5.Pro"
   },
   "meta": {
-    "title": "Infinity Nikki Resonance Tracker - Pull History & Stats",
-    "keywords": "Infinity Nikki, Resonance Tracker, Pull Tracker, Gacha Tracker, Pull History, Global Stats, Community Stats, Gongeous",
+    "title": "Pelacak Resonansi Infinity Nikki - Tarik Riwayat & Statistik",
+    "keywords": "Infinity Nikki, Pelacak Resonansi, Pelacak Tarik, Pelacak Gacha, Riwayat Tarik, Statistik Global, Statistik Komunitas, Hebat",
     "game_title": "Infinity Nikki",
     "description": {
-      "default": "Track Infinity Nikki resonance banner pull history and statistics. A fan-made tracking and analysis tool for the Infinity Nikki community.",
-      "login": "Sign in to gongeo.us using your email or a third-party account to upload, back up, and sync your Infinity Nikki resonance data across devices.",
-      "tracker": "Track and analyze your Infinity Nikki resonance pull history. View all 5★ and 4★ banner items and compare your luck with other stylists.",
-      "import": "Import your Infinity Nikki resonance pull history easily from game, Whim-Log data or backup files with detailed step-by-step guides.",
-      "global": "Explore Infinity Nikki resonance global data, including banner popularity, pull rates, item drop rates, and community pull statistics.",
-      "banner": "Explore Infinity Nikki resonance banner history with current, upcoming, and past events, featured outfits, pull rates, durations, and rerun details.",
-      "banner_detail": "View the {name} resonance banner details, including featured outfits, item drop rates, pull statistics, duration, evolution info, and rerun status.",
-      "timeline": "Explore an interactive timeline of Infinity Nikki resonance banners, major updates, release periods, and reruns to track event history at a glance.",
-      "tierlist": "Create and share an Infinity Nikki tier list for banners, outfits, and items with drag-and-drop ranking, filters, and easy image export.",
-      "outfits": "Browse all Infinity Nikki outfits with filters for quality, evolution, glow-up, style tags, and stats. See full components and discover every outfit.",
-      "outfit_detail": "View detailed information about the {name} outfit, including quality, outfit pieces, evolution and glow-up, makeups, stats, and related resonance banners.",
-      "items": "Browse all Infinity Nikki items with filters for type, quality, stat bonuses, and related outfits or banners. Find, compare, and track every item easily.",
-      "item_detail": "View detailed information about the {name} item, including quality, evolution and glow-up, stats, and related outfits and banners.",
-      "faq": "Find answers to frequently asked questions about gongeo.us, including data privacy, import methods, and usage guidelines.",
-      "about": "Learn more about gongeo.us, including its purpose, privacy policy, disclaimers, and how it supports the Infinity Nikki community."
+      "default": "Lacak riwayat dan statistik tarikan spanduk resonansi Infinity Nikki. Alat pelacakan dan analisis buatan penggemar untuk komunitas Infinity Nikki.",
+      "login": "Masuk ke gongeo.us menggunakan email Anda atau akun pihak ketiga untuk mengunggah, mencadangkan, dan menyinkronkan data resonansi Infinity Nikki Anda di seluruh perangkat.",
+      "tracker": "Lacak dan analisis riwayat tarikan resonansi Infinity Nikki Anda. Lihat semua item spanduk 5★ dan 4★ dan bandingkan keberuntungan Anda dengan penata gaya lainnya.",
+      "import": "Impor riwayat tarikan resonansi Infinity Nikki Anda dengan mudah dari game, data Whim-Log, atau file cadangan dengan panduan langkah demi langkah yang mendetail.",
+      "global": "Jelajahi data global resonansi Infinity Nikki, termasuk popularitas spanduk, tingkat penarikan, tingkat pelepasan item, dan statistik penarikan komunitas.",
+      "banner": "Jelajahi riwayat spanduk resonansi Infinity Nikki dengan acara saat ini, yang akan datang, dan yang lalu, pakaian unggulan, tingkat penarikan, durasi, dan detail tayangan ulang.",
+      "banner_detail": "Lihat detail spanduk resonansi {name}, termasuk pakaian unggulan, tingkat penurunan item, statistik penarikan, durasi, info evolusi, dan status pemutaran ulang.",
+      "timeline": "Jelajahi garis waktu interaktif spanduk resonansi Infinity Nikki, pembaruan besar, periode rilis, dan tayangan ulang untuk melacak riwayat peristiwa secara sekilas.",
+      "tierlist": "Buat dan bagikan daftar tingkat Infinity Nikki untuk spanduk, pakaian, dan item dengan peringkat seret dan lepas, filter, dan ekspor gambar yang mudah.",
+      "outfits": "Telusuri semua pakaian Infinity Nikki dengan filter untuk kualitas, evolusi, kilau, tag gaya, dan statistik. Lihat komponen lengkap dan temukan setiap pakaian.",
+      "outfit_detail": "Lihat informasi detail tentang pakaian {name}, termasuk kualitas, potongan pakaian, evolusi dan pendaran, riasan, statistik, dan spanduk resonansi terkait.",
+      "items": "Telusuri semua item Infinity Nikki dengan filter untuk jenis, kualitas, bonus stat, dan pakaian atau spanduk terkait. Temukan, bandingkan, dan lacak setiap item dengan mudah.",
+      "item_detail": "Lihat informasi detail tentang item {name}, termasuk kualitas, evolusi dan pendaran, statistik, serta pakaian dan spanduk terkait.",
+      "faq": "Temukan jawaban atas pertanyaan umum tentang gongeo.us, termasuk privasi data, metode impor, dan pedoman penggunaan.",
+      "about": "Pelajari lebih lanjut tentang gongeo.us, termasuk tujuannya, kebijakan privasi, penafian, dan cara Infinity Nikki mendukung komunitas."
     }
   },
   "default": {
-    "description": "Track Infinity Nikki Resonance History and Statistics",
-    "your_data": "Your Data",
-    "current_banners": "Current Banners",
-    "rerun": "Rerun",
-    "copyright": "© 2025 gongeo.us • © Infold Games All Rights Reserved",
+    "description": "Lacak Riwayat dan Statistik Resonansi Infinity Nikki",
+    "your_data": "Data Anda",
+    "current_banners": "Spanduk Saat Ini",
+    "rerun": "Memutarkan lagi",
+    "copyright": "© 2026 gongeo.us • © Infold Games Semua Hak Dilindungi Undang-Undang",
     "disclaimer": {
-      "content": "This is an unofficial fan-made website, not affiliated with or endorsed by Infold Games.",
-      "rights": "All Infinity Nikki game assets, content, and trademarks belong to Infold Games and their respective owners."
+      "content": "Ini adalah situs web tidak resmi buatan penggemar, tidak berafiliasi atau didukung oleh Infold Games.",
+      "rights": "Semua aset, konten, dan merek dagang game Infinity Nikki adalah milik Infold Games dan pemiliknya masing-masing."
     },
     "user_profile": {
-      "guest": "Guest",
-      "signed_in": "Signed In",
-      "clear_local_data": "Clear Local Data",
+      "guest": "Tamu",
+      "signed_in": "Masuk",
+      "clear_local_data": "Hapus Data Lokal",
       "clear_local_confirm": {
-        "title": "Clear Local Data",
-        "content": "Are you sure you want to clear all local data? This action cannot be undone."
+        "title": "Hapus Data Lokal",
+        "content": "Apakah Anda yakin ingin menghapus data lokal untuk profil {profile}? Tindakan ini tidak dapat dibatalkan."
       },
-      "sign_out": "Sign out",
-      "sign_out_success": "Successfully signed out",
-      "sign_out_error": "Failed to sign out",
-      "upload_data": "Upload to Cloud",
-      "sync_data": "Sync from Cloud",
+      "sign_out": "Keluar",
+      "sign_out_success": "Berhasil keluar",
+      "sign_out_error": "Gagal keluar",
+      "upload_data": "Unggah ke Awan",
+      "sync_data": "Sinkronisasi dari Cloud",
       "sync": {
-        "upload_success": "Data uploaded to cloud successfully!",
-        "upload_error": "Failed to upload data.",
-        "sync_success": "Data synced successfully!",
-        "sync_error": "Failed to sync data.",
+        "upload_success": "Data berhasil diunggah ke cloud!",
+        "upload_error": "Gagal mengunggah data.",
+        "sync_success": "Data berhasil disinkronkan!",
+        "sync_error": "Gagal menyinkronkan data.",
         "confirm_upload": {
-          "title": "Upload to Cloud",
-          "content": "This will upload your local data to cloud storage, overwriting any existing cloud data. Continue?"
+          "title": "Unggah ke Awan",
+          "content": "Tindakan ini akan mengunggah data lokal untuk profil {profile} ke penyimpanan cloud, menimpa data cloud yang ada untuk profil ini. Melanjutkan?"
         },
         "confirm_sync": {
-          "title": "Sync from Cloud",
-          "content": "This will sync your local data with cloud data by merging them together. Continue?"
+          "title": "Sinkronisasi dari Cloud",
+          "content": "Ini akan menyinkronkan data lokal untuk profil {profile} dengan data cloud dengan menggabungkannya. Melanjutkan?"
         },
         "missing_profiles": {
-          "title": "Create Missing Profiles",
-          "content": "We found cloud data for {profiles}. Create these profiles locally before syncing?",
-          "confirm": "Create Profiles"
+          "title": "Buat Profil yang Hilang",
+          "content": "Kami menemukan data cloud untuk {profiles}. Buat profil ini secara lokal sebelum menyinkronkan?",
+          "confirm": "Buat Profil"
         }
       },
-      "clear_cloud_data": "Clear Cloud Data",
+      "clear_cloud_data": "Hapus Data Awan",
       "clear_cloud_confirm": {
-        "title": "Clear Cloud Data",
-        "content": "Are you sure you want to clear all your cloud data? This action cannot be undone and will permanently delete your data from cloud storage."
+        "title": "Hapus Data Awan",
+        "content": "Apakah Anda yakin ingin menghapus data cloud untuk profil {profile}? Tindakan ini tidak dapat dibatalkan dan akan menghapus data Anda secara permanen dari penyimpanan cloud."
       },
-      "clear_cloud_success": "Cloud data cleared successfully!",
-      "clear_cloud_error": "Failed to clear cloud data.",
-      "clear_success": "Data cleared successfully!",
+      "clear_cloud_success": "Data cloud berhasil dihapus!",
+      "clear_cloud_error": "Gagal menghapus data cloud.",
+      "clear_success": "Data berhasil dihapus!",
       "profiles": {
-        "active": "Active",
+        "active": "Aktif",
         "delete_confirm": {
-          "title": "Delete Profile",
-          "content": "Are you sure you want to delete {profile} profile? This will clear its local data and cloud data (if signed in)."
+          "title": "Hapus Profil",
+          "content": "Apakah Anda yakin ingin menghapus profil {profile}? Ini akan menghapus data lokal dan data cloud (jika masuk)."
         },
-        "created_success": "Profile created.",
-        "switched_success": "Switched to {profile} profile.",
-        "deleted_success": "Profile deleted."
+        "created_success": "Profil dibuat.",
+        "switched_success": "Beralih ke profil {profile}.",
+        "deleted_success": "Profil dihapus."
       }
     },
     "accessibility": {
-      "toggle_menu": "Toggle navigation menu",
-      "language_switcher": "Language switcher",
-      "theme_switcher": "Toggle theme",
-      "user_profile_menu": "User profile menu",
-      "scroll_to_top": "Scroll to top"
+      "toggle_menu": "Alihkan menu navigasi",
+      "language_switcher": "Pengalih bahasa",
+      "theme_switcher": "Beralih tema",
+      "user_profile_menu": "Menu profil pengguna",
+      "scroll_to_top": "Gulir ke atas"
     },
     "language_switcher": {
-      "help_translate": "Help translate"
+      "help_translate": "Bantu terjemahkan"
     },
     "search": {
-      "placeholder": "Search items, banners, outfits",
-      "noResults": "No results found"
+      "placeholder": "Cari item, spanduk, pakaian",
+      "noResults": "Tidak ada hasil yang ditemukan"
     },
     "social": {
-      "discord": "Join our Discord community",
-      "kofi": "Support us on Ko-fi",
-      "twitter": "Follow us on Twitter",
-      "email": "Contact us via email"
+      "discord": "Bergabunglah dengan komunitas Perselisihan kami",
+      "kofi": "Dukung kami di Ko-fi",
+      "twitter": "Ikuti kami di Twitter",
+      "email": "Hubungi kami melalui email"
     }
   },
   "profile": {
-    "title": "Profile",
-    "subtitle": "Manage profiles, cloud data, and local data.",
+    "title": "Profil",
+    "subtitle": "Kelola profil, data cloud, dan data lokal.",
     "sections": {},
-    "account_label": "Account",
-    "all_profiles": "All Profiles",
-    "active_profile": "Active Profile",
-    "default_profile": "Default",
-    "profile_slot": "Profile {number}",
-    "switch": "Switch",
-    "manage_profiles": "Manage Profiles",
-    "rename": "Rename",
-    "rename_title": "Rename Profile",
-    "rename_placeholder": "Enter a profile name",
-    "rename_success": "Profile name updated.",
-    "rename_error": "Please enter a profile name.",
+    "account_label": "Akun",
+    "all_profiles": "Semua Profil",
+    "active_profile": "Profil Aktif",
+    "default_profile": "Bawaan",
+    "profile_slot": "Profil {number}",
+    "switch": "Mengalihkan",
+    "manage_profiles": "Kelola Profil",
+    "rename": "Ganti nama",
+    "rename_title": "Ganti Nama Profil",
+    "rename_placeholder": "Masukkan nama profil",
+    "rename_success": "Nama profil diperbarui.",
+    "rename_error": "Silakan masukkan nama profil.",
     "menu": {
-      "delete": "Delete Profile"
+      "delete": "Hapus Profil"
     },
     "status": {
-      "local": "Local Data",
-      "cloud": "Cloud Data",
-      "last_sync": "Last Sync",
-      "never": "Never"
+      "local": "Data Lokal",
+      "cloud": "Data Awan",
+      "last_sync": "Sinkronisasi Terakhir",
+      "never": "Tidak pernah"
     }
   },
   "login": {
-    "sign_in": "Sign In",
-    "sign_up": "Sign Up",
-    "welcome_description": "Sign in with 3rd party account or email to upload and sync your data.",
-    "signed_in_title": "Successfully Signed In!",
-    "welcome_back": "Welcome back, {name}!",
-    "signin_error": "Failed to sign in. Please try again.",
-    "sign_in_with_discord": "Sign in with Discord",
-    "sign_in_with_google": "Sign in with Google",
-    "sign_in_with_email": "Sign in with Email",
-    "email": "Email",
-    "password": "Password",
-    "confirm_password": "Confirm Password",
-    "forgot_password": "Forgot Password?",
-    "reset_password": "Reset Password",
-    "send_reset_email": "Send Reset Email",
-    "back_to_login": "Back to Login",
-    "set_new_password": "Set New Password",
-    "new_password": "New Password",
-    "confirm_new_password": "Confirm New Password",
-    "update_password": "Update Password",
-    "email_required": "Email is required",
-    "password_required": "Password is required",
-    "password_min_length": "Password must be at least 6 characters",
-    "passwords_dont_match": "Passwords don't match",
-    "invalid_email": "Please enter a valid email address",
-    "signup_success": "Account created successfully! Please check your email for verification.",
-    "signin_success": "Signed in successfully!",
-    "reset_success": "Password reset email sent! Please check your inbox.",
-    "email_signin_error": "Failed to sign in with email. Please check your credentials.",
-    "email_signup_error": "Failed to create account. Please try again.",
-    "reset_error": "Failed to send reset email. Please try again.",
-    "or": "or"
+    "sign_in": "Masuk",
+    "sign_up": "Mendaftar",
+    "welcome_description": "Masuk dengan akun pihak ketiga atau email untuk mengunggah dan menyinkronkan data Anda.",
+    "signed_in_title": "Berhasil Masuk!",
+    "welcome_back": "Selamat datang kembali, {name}!",
+    "signin_error": "Gagal masuk. Coba lagi.",
+    "sign_in_with_discord": "Masuk dengan Perselisihan",
+    "sign_in_with_google": "Masuk dengan Google",
+    "sign_in_with_email": "Masuk dengan Email",
+    "email": "E-mail",
+    "password": "Kata sandi",
+    "confirm_password": "Konfirmasi Kata Sandi",
+    "forgot_password": "Lupa Kata Sandi?",
+    "reset_password": "Atur Ulang Kata Sandi",
+    "send_reset_email": "Kirim Reset Email",
+    "back_to_login": "Kembali ke Masuk",
+    "set_new_password": "Tetapkan Kata Sandi Baru",
+    "new_password": "Kata Sandi Baru",
+    "confirm_new_password": "Konfirmasi Kata Sandi Baru",
+    "update_password": "Perbarui Kata Sandi",
+    "email_required": "Email diperlukan",
+    "password_required": "Kata sandi diperlukan",
+    "password_min_length": "Kata sandi minimal harus 6 karakter",
+    "passwords_dont_match": "Kata sandi tidak cocok",
+    "invalid_email": "Silakan masukkan alamat email yang valid",
+    "signup_success": "Akun berhasil dibuat! Silakan periksa email Anda untuk verifikasi.",
+    "signin_success": "Berhasil masuk!",
+    "reset_success": "Email pengaturan ulang kata sandi terkirim! Silakan periksa kotak masuk Anda.",
+    "email_signin_error": "Gagal masuk dengan email. Silakan periksa kredensial Anda.",
+    "email_signup_error": "Gagal membuat akun. Silakan coba lagi.",
+    "reset_error": "Gagal mengirim email setel ulang. Silakan coba lagi.",
+    "or": "atau"
   },
   "error": {
-    "404": "\"Nikki, let's stay in the shallow water\"",
-    "notFound": "The page you are looking for does not exist.",
-    "returnHome": "Return Home"
+    "404": "\"Nikki, ayo kita tetap di perairan dangkal\"",
+    "notFound": "Halaman yang Anda cari tidak ada.",
+    "returnHome": "Kembali ke Rumah"
   },
   "import": {
     "video_tutorial": "Video Tutorial",
-    "video_tutorial_desc": "Watch step-by-step video guide to learn how to import your data:",
-    "watch_on_youtube": "Watch on YouTube",
-    "watch_on_bilibili": "Watch on Bilibili",
-    "choose_method": "Choose Import Method",
-    "choose_method_desc": "Choose how you want to import your pull history.",
-    "import_from_game": "Import from Game",
-    "import_from_file": "Import from File",
-    "import_from_pearpal": "Import from Whim-Log",
-    "file_import": "File Import",
-    "file_import_desc": "Import from a previously exported nikki-resonance-data file.",
-    "select_file": "Select File",
-    "select_region": "Select Region",
-    "select_region_desc": "Select your game server region.",
+    "video_tutorial_desc": "Tonton panduan video langkah demi langkah untuk mempelajari cara mengimpor data Anda:",
+    "watch_on_youtube": "Tonton di YouTube",
+    "watch_on_bilibili": "Tonton di Bilibili",
+    "choose_method": "Pilih Metode Impor",
+    "choose_method_desc": "Pilih bagaimana Anda ingin mengimpor riwayat penarikan Anda.",
+    "import_from_game": "Impor dari Permainan",
+    "import_from_file": "Impor dari File",
+    "import_from_pearpal": "Impor dari Whim-Log",
+    "file_import": "Impor Berkas",
+    "file_import_desc": "Impor dari file nikki-resonance-data yang diekspor sebelumnya.",
+    "select_file": "Pilih File",
+    "select_region": "Pilih Wilayah",
+    "select_region_desc": "Pilih wilayah server game Anda.",
     "regions": {
-      "america": "America",
-      "europe": "Europe",
-      "china": "China",
-      "tw": "TW/HK/Macau",
+      "america": "Amerika",
+      "europe": "Eropa",
+      "china": "Cina",
+      "tw": "TW/HK/Makau",
       "asia": "Asia"
     },
-    "pearpal_website": "Pearpal Website",
+    "pearpal_website": "Situs web Pearlal",
     "whimlog": "Whim-Log",
-    "login_pearpal": "Login to Pearpal Website",
-    "login_pearpal_desc": "Open Pearpal Website in a new tab and login with your Infold account if you aren't already logged in.",
-    "login_pearpal_incognito_hint": "If you have multiple accounts, it's recommended to open Pearpal in an incognito/private browser window.",
-    "login_whimlog": "Sync data in Whim-Log",
-    "login_whimlog_desc": "Open Whim-Log in a new tab, login and sync your data.",
-    "get_cookie": "Get Cookie From Pearpal Website",
-    "get_cookie_desc": "Choose how you want to get your Cookie:",
-    "gongeous_cookie": "Gongeous Cookie",
-    "bookmark_method": "Bookmark Method (Recommended)",
-    "bookmark_method_mobile": "Bookmark Method",
-    "console_method": "Console Method",
-    "manual_input": "Manual Method",
-    "title": "Follow these steps to get your Cookie:",
+    "login_pearpal": "Masuk ke Situs Web Pearlal",
+    "login_pearpal_desc": "Buka Situs Web Pearpal di tab baru dan login dengan akun Infold Anda jika Anda belum login.",
+    "login_pearpal_incognito_hint": "Jika Anda memiliki banyak akun, disarankan untuk membuka Pearpal di jendela browser penyamaran/pribadi.",
+    "login_whimlog": "Sinkronkan data di Whim-Log",
+    "login_whimlog_desc": "Buka Whim-Log di tab baru, login dan sinkronkan data Anda.",
+    "get_cookie": "Dapatkan Cookie Dari Situs Web Pearpal",
+    "get_cookie_desc": "Pilih bagaimana Anda ingin mendapatkan Cookie Anda:",
+    "gongeous_cookie": "Kue yang Luar Biasa",
+    "bookmark_method": "Metode Bookmark (Disarankan)",
+    "bookmark_method_mobile": "Metode Penanda",
+    "console_method": "Metode Konsol",
+    "manual_input": "Metode Manual",
+    "title": "Ikuti langkah-langkah berikut untuk mendapatkan Cookie Anda:",
     "bookmark_steps": {
-      "step1": "Drag the \"Gongeous Cookie\" button to your bookmarks bar (only needs to be done once):",
-      "step2": "Switch to Pearpal Website in a different tab, make sure you are logged in",
-      "step3": "Click the \"Gongeous Cookie\" bookmark while on the Pearpal Website",
-      "step4": "Copy the output text in the popup (it should look like the example in the input area below)",
-      "step5": "Come back here and paste the output text in the input area below",
-      "tip": "Tip: You can keep the bookmark for getting Cookie the next time you import"
+      "step1": "Seret tombol \"Gongeous Cookie\" ke bilah bookmark Anda (hanya perlu dilakukan sekali):",
+      "step2": "Beralih ke Situs Web Pearpal di tab lain, pastikan Anda sudah login",
+      "step3": "Klik bookmark \"Gongeous Cookie\" saat berada di Situs Web Pearpal",
+      "step4": "Salin teks keluaran di popup (seharusnya terlihat seperti contoh di area masukan di bawah)",
+      "step5": "Kembali ke sini dan tempelkan teks keluaran di area masukan di bawah",
+      "tip": "Tip: Anda dapat menyimpan bookmark untuk mendapatkan Cookie saat Anda mengimpor lagi"
     },
     "bookmark_steps_mobile": {
-      "step1": "Tap the \"Copy Code\" button and copy the code",
-      "step2": "Create a new bookmark in your browser and name it \"Gongeous Cookie\"",
-      "step3": "Edit the bookmark URL and replace it with the code you copied",
-      "step4": "Switch to Pearpal Website in a different tab, make sure you are logged in",
-      "step5": "Tap the \"Gongeous Cookie\" bookmark while on the Pearpal Website",
-      "step5_android_chrome": "Start typing the bookmark name you saved (Gongeous Cookie) in the address bar",
-      "step5_android_chrome_2": "Select the bookmark from suggestions to run it",
-      "step6": "Copy the output text in the popup (it should look like the example in the input area below)",
-      "step7": "Come back here and paste the output text in the input area below"
+      "step1": "Ketuk tombol \"Salin Kode\" dan salin kodenya",
+      "step2": "Buat bookmark baru di browser Anda dan beri nama \"Gongeous Cookie\"",
+      "step3": "Edit URL bookmark dan ganti dengan kode yang Anda salin",
+      "step4": "Beralih ke Situs Web Pearpal di tab lain, pastikan Anda sudah login",
+      "step5": "Ketuk penanda \"Gongeous Cookie\" saat berada di Situs Web Pearpal",
+      "step5_android_chrome": "Mulailah mengetikkan nama bookmark yang Anda simpan (Gongeous Cookie) di bilah alamat",
+      "step5_android_chrome_2": "Pilih bookmark dari saran untuk menjalankannya",
+      "step6": "Salin teks keluaran di popup (seharusnya terlihat seperti contoh di area masukan di bawah)",
+      "step7": "Kembali ke sini dan tempelkan teks keluaran di area masukan di bawah"
     },
     "console_steps": {
-      "step1": "Switch to Pearpal Website in a different tab, make sure you are logged in",
-      "step2": "Open your browser's Developer Tools (Press F12 or right-click and select \"Inspect\")",
-      "step3": "Go to the \"Console\" tab",
-      "step4": "Click the \"Copy Code\" button, copy and paste the code into the console and press enter:",
-      "step5": "If you get a warning saying \"Warning: Don't paste code into the devtools console\", type \"allow pasting\" and hit enter",
-      "step6": "Copy the output text in the console (it should look like the example in the input area below)",
-      "step7": "Come back here and paste the output text in the input area below"
+      "step1": "Beralih ke Situs Web Pearpal di tab lain, pastikan Anda sudah login",
+      "step2": "Buka Alat Pengembang browser Anda (Tekan F12 atau klik kanan dan pilih \"Periksa\")",
+      "step3": "Buka tab \"Konsol\".",
+      "step4": "Klik tombol \"Salin Kode\", salin dan tempel kode ke konsol dan tekan enter:",
+      "step5": "Jika Anda mendapatkan peringatan yang mengatakan \"Peringatan: Jangan tempelkan kode ke konsol devtools\", ketik \"izinkan menempel\" dan tekan enter",
+      "step6": "Salin teks keluaran di konsol (seharusnya terlihat seperti contoh di area masukan di bawah)",
+      "step7": "Kembali ke sini dan tempelkan teks keluaran di area masukan di bawah"
     },
     "manual_steps": {
-      "note": "(Using Google Chrome as an example, exact names might vary for other browsers but steps will be similar)",
-      "step1": "Switch to Pearpal Website in a different tab, make sure you are logged in",
-      "step2": "Open your browser's Developer Tools (Press F12 or right-click and select \"Inspect\")",
-      "step3": "Go to the \"Application\" tab (or \"Storage\" in Firefox)",
-      "step4": "In the left sidebar, expand \"Cookies\" and select the Pearpal Website",
-      "step5": "Alternatively, you can use a browser extension for Cookies like Cookie Editor",
-      "step6": "Find and copy the values for:",
+      "note": "(Menggunakan Google Chrome sebagai contoh, nama sebenarnya mungkin berbeda untuk browser lain tetapi langkah-langkahnya akan serupa)",
+      "step1": "Beralih ke Situs Web Pearpal di tab lain, pastikan Anda sudah login",
+      "step2": "Buka Alat Pengembang browser Anda (Tekan F12 atau klik kanan dan pilih \"Periksa\")",
+      "step3": "Buka tab \"Aplikasi\" (atau \"Penyimpanan\" di Firefox)",
+      "step4": "Di sidebar kiri, perluas \"Cookies\" dan pilih Situs Web Pearpal",
+      "step5": "Alternatifnya, Anda dapat menggunakan ekstensi browser untuk Cookie seperti Cookie Editor",
+      "step6": "Temukan dan salin nilai untuk:",
       "step6_items": {
-        "momo_id": "momoNid (for Momo ID field)",
-        "momo_token": "momoToken (for Momo Token field)"
+        "momo_id": "momoNid (untuk kolom ID Momo)",
+        "momo_token": "momoToken (untuk bidang Momo Token)"
       },
-      "step7": "For UID, go to your Pearpal profile and copy your UID number"
+      "step7": "Untuk UID, buka profil Pearpal Anda dan salin nomor UID Anda"
     },
-    "security_note": "Note: Never share these Cookie values with anyone else!",
-    "data_note": "Important: Pull data via this import method is retained for only 180 days. Data before {date} won't be available. You can use \"Import from Whim-Log\" to import older data.",
+    "security_note": "Catatan: Jangan pernah membagikan nilai Cookie ini dengan orang lain!",
+    "data_note": "Penting: Data penarikan melalui metode impor ini hanya disimpan selama 180 hari. Data sebelum {date} tidak akan tersedia. Anda dapat menggunakan \"Impor dari Whim-Log\" untuk mengimpor data lama.",
     "form": {
       "uid": "UID",
-      "uid_placeholder": "In-game UID",
-      "momo_id": "Momo ID",
-      "momo_id_placeholder": "momoNid from Cookie",
-      "momo_token": "Momo Token",
-      "momo_token_placeholder": "momoToken from Cookie",
-      "submit_global_stats": "Submit data for global stats",
-      "submit_button": "Submit and Import Pull History",
-      "fetching": "Fetching resonance data, please wait..."
+      "uid_placeholder": "UID dalam game",
+      "momo_id": "ID Momo",
+      "momo_id_placeholder": "momoNid dari Cookie",
+      "momo_token": "Token Momo",
+      "momo_token_placeholder": "momoToken dari Cookie",
+      "submit_global_stats": "Kirimkan data untuk statistik global",
+      "submit_button": "Kirim dan Impor Riwayat Tarik",
+      "fetching": "Mengambil data resonansi, harap tunggu..."
     },
     "progress": {
-      "processing_banner": "Processing banner {current} of {total}",
-      "fetching_data": "Fetching resonance data: {banner}"
+      "processing_banner": "Memproses spanduk {current} dari {total}",
+      "fetching_data": "Mengambil data resonansi: {banner}"
     },
     "actions": {
-      "copy_code": "Copy Code",
-      "paste_from_clipboard": "Paste from Clipboard",
-      "select_all": "Select All"
+      "copy_code": "Salin Kode",
+      "paste_from_clipboard": "Tempel dari Papan Klip",
+      "select_all": "Pilih Semua"
     },
-    "select_banners": "Select Banners You Pulled",
-    "select_banners_desc": "No need to re-import",
+    "select_banners": "Pilih Spanduk yang Anda Tarik",
+    "select_banners_desc": "Tidak perlu mengimpor ulang",
     "banner_groups": {
-      "quick_select": "Quick Select",
-      "current_banners": "Current Banners",
-      "limited_banners": "Limited Banners",
-      "permanent_banners": "Permanent Banners",
-      "individual": "Individual Banners"
+      "quick_select": "Pilih Cepat",
+      "current_banners": "Spanduk Saat Ini",
+      "limited_banners": "Spanduk Terbatas",
+      "permanent_banners": "Spanduk Permanen",
+      "individual": "Spanduk Individu"
     },
     "messages": {
-      "code_copied": "Code copied to clipboard!",
-      "code_copy_failed": "Failed to copy code to clipboard",
-      "data_paste_success": "Data pasted successfully!",
-      "data_paste_success_no_uid": "Please copy and paste your UID manually",
-      "data_paste_failed": "Failed to parse input data. Please ensure it is valid format",
-      "auth_success": "Authentication successful!",
-      "auth_failed": "Authentication failed",
-      "auth_failed_hint": "Please double check your inputs and try opening Pearpal in an incognito/private browser window.",
-      "stats_submit_failed": "Failed to submit global stats",
-      "fetch_history_failed": "Failed to fetch pull history",
-      "invalid_form": "Invalid form data",
-      "import_success": "Data imported successfully!",
-      "import_failed": "Failed to import file",
-      "pearpal_tracker_success": "Pearpal data imported successfully!",
-      "pearpal_tracker_failed": "Failed to import Pearpal data."
+      "code_copied": "Kode disalin ke papan klip!",
+      "code_copy_failed": "Gagal menyalin kode ke papan klip",
+      "data_paste_success": "Data berhasil ditempel!",
+      "data_paste_success_no_uid": "Silakan salin dan tempel UID Anda secara manual",
+      "data_paste_failed": "Gagal mengurai data masukan. Harap pastikan formatnya valid",
+      "auth_success": "Otentikasi berhasil!",
+      "auth_failed": "Otentikasi gagal",
+      "auth_failed_hint": "Silakan periksa kembali masukan Anda dan coba buka Pearpal di jendela penyamaran/browser pribadi.",
+      "stats_submit_failed": "Gagal mengirimkan statistik global",
+      "fetch_history_failed": "Gagal mengambil riwayat penarikan",
+      "invalid_form": "Data formulir tidak valid",
+      "import_success": "Data berhasil diimpor!",
+      "import_failed": "Gagal mengimpor file",
+      "pearpal_tracker_success": "Data Pearlal berhasil diimpor!",
+      "pearpal_tracker_failed": "Gagal mengimpor data Pearpal."
     },
-    "supported_browsers": "Supported Browsers",
+    "supported_browsers": "Browser yang Didukung",
     "supported_browsers_list": {
       "chrome": "Google Chrome",
       "firefox": "Mozilla Firefox",
       "safari": "Apple Safari"
     },
-    "check_compatibility": "Check Browser Compatibility",
-    "pc_recommended": "You are using a mobile device, you can import using the supported browsers listed below, other browsers are not tested and might not work. For the best experience, we recommend using a PC browser for importing data.",
+    "check_compatibility": "Periksa Kompatibilitas Peramban",
+    "pc_recommended": "Anda menggunakan perangkat seluler, Anda dapat mengimpor menggunakan browser yang didukung yang tercantum di bawah ini, browser lain tidak diuji dan mungkin tidak berfungsi. Untuk pengalaman terbaik, kami sarankan menggunakan browser PC untuk mengimpor data.",
     "bookmark_script": {
-      "invalid_site": "Please use this bookmark on Pearpal Website"
+      "invalid_site": "Silakan gunakan bookmark ini di Situs Web Pearpal"
     },
     "maintenance": {
-      "title": "Under Maintenance",
-      "message": "We're currently performing some maintenance. Pull history import is temporarily unavailable.",
-      "status": "Service will be back shortly. Thank you for your patience!"
+      "title": "Sedang dalam Pemeliharaan",
+      "message": "Saat ini kami sedang melakukan beberapa pemeliharaan. Impor riwayat tarik untuk sementara tidak tersedia.",
+      "status": "Layanan akan segera kembali. Terima kasih atas kesabaran Anda!"
     }
   },
   "tracker": {
     "stats": {
-      "title": "Pull Statistics",
-      "total_pulls": "Total Pulls",
-      "no_pulls": "No pull history for this banner",
-      "total_5star_4star": "5★ / 4★ Total",
-      "avg_5star": "5★ Avg (5★ Banner)",
-      "avg_4star_mixed": "4★ Avg (5★ Banner)",
-      "avg_4star_only": "4★ Avg (4★ Banner)",
-      "luckier": "Luckier than {percent}% of the gongeo.us users",
-      "more_pulls": "More than {percent}% of the gongeo.us users"
+      "title": "Tarik Statistik",
+      "total_pulls": "Jumlah Tarikan",
+      "no_pulls": "Tidak ada riwayat penarikan untuk spanduk ini",
+      "total_5star_4star": "5★ / 4★ Jumlah",
+      "avg_5star": "Rata-rata 5★ (5★ Spanduk)",
+      "avg_4star_mixed": "Rata-rata 4★ (5★ Spanduk)",
+      "avg_4star_only": "Rata-rata 4★ (4★ Spanduk)",
+      "luckier": "Lebih beruntung dari {percent}% pengguna gongeo.us",
+      "more_pulls": "Lebih dari {percent}% pengguna gongeo.us"
     },
     "manual_log": {
-      "title": "Manual Import",
-      "description": "Use this option only if you don't want to use the game import or you are missing some items from the game import.",
-      "note": "Note: Manually imported data will only be used to display outfit completion status and will not be included in personal or global stats calculations.",
-      "open_editor": "Open Editor",
-      "select_banner": "Select Banner",
-      "apply_to_all": "Apply to All",
-      "success": "Outfit saved successfully!",
-      "error": "Failed to save outfit",
-      "evo_level": "Evolution Level"
+      "title": "Impor Manual",
+      "description": "Gunakan opsi ini hanya jika Anda tidak ingin menggunakan impor game atau Anda kehilangan beberapa item dari impor game.",
+      "note": "Catatan: Data yang diimpor secara manual hanya akan digunakan untuk menampilkan status penyelesaian pakaian dan tidak akan disertakan dalam penghitungan statistik pribadi atau global.",
+      "open_editor": "Buka Penyunting",
+      "select_banner": "Pilih Spanduk",
+      "apply_to_all": "Terapkan ke Semua",
+      "success": "Pakaian berhasil disimpan!",
+      "error": "Gagal menyimpan pakaian",
+      "evo_level": "Tingkat Evolusi"
     },
     "banner": {
       "stats": {
-        "total_pulls": "Total Pulls",
-        "total_5star": "5★ Total",
-        "avg_5star": "5★ Avg",
-        "total_4star": "4★ Total",
-        "avg_4star": "4★ Avg",
-        "pity_5star": "5★ Pity",
-        "pity_4star": "4★ Pity"
+        "total_pulls": "Jumlah Tarikan",
+        "total_5star": "5★ Jumlah",
+        "avg_5star": "5★ Rata-rata",
+        "total_4star": "4★ Jumlah",
+        "avg_4star": "4★ Rata-rata",
+        "pity_5star": "5★ Kasihan",
+        "pity_4star": "4★ Kasihan"
       },
       "settings": {
-        "banner_order": "Banner Order",
-        "item_order": "Item Order",
-        "latest_first": "Latest First",
-        "oldest_first": "Oldest First",
-        "outfit_display": "Outfit Display",
-        "item_display": "Item Display",
-        "combined": "Combined",
-        "separated": "Separated",
-        "show_4star": "4★ (5★ Banner)",
-        "show_missing": "Missing Pieces",
-        "duplicate_items": "Duplicate Items",
-        "empty_banners": "Empty Banners",
-        "data_source": "Data Source",
+        "banner_order": "Pesanan Spanduk",
+        "item_order": "Pesanan Barang",
+        "latest_first": "Terbaru Pertama",
+        "oldest_first": "Tertua Pertama",
+        "outfit_display": "Tampilan Pakaian",
+        "item_display": "Tampilan Barang",
+        "combined": "Gabungan",
+        "separated": "Terpisah",
+        "show_4star": "4★ (5★ Spanduk)",
+        "show_missing": "Potongan yang Hilang",
+        "duplicate_items": "Item Duplikat",
+        "empty_banners": "Spanduk Kosong",
+        "data_source": "Sumber Data",
         "pearpal": "Whim-Log",
-        "game": "Game",
-        "auto": "Auto",
-        "data_source_tooltip": "Select your preferred data source. If no data is available from the selected source, the other source will be used instead. Only one data source is displayed and used for statistics calculations at a time.",
-        "auto_option": "\"Auto\" will combine both sources, preferring the source with more pulls for each banner."
+        "game": "Permainan",
+        "auto": "Mobil",
+        "data_source_tooltip": "Pilih sumber data pilihan Anda. Jika tidak ada data yang tersedia dari sumber yang dipilih, maka sumber lain yang akan digunakan. Hanya satu sumber data yang ditampilkan dan digunakan untuk penghitungan statistik dalam satu waktu.",
+        "auto_option": "\"Otomatis\" akan menggabungkan kedua sumber, lebih memilih sumber dengan tarikan lebih banyak untuk setiap spanduk."
       }
     },
     "items": {
-      "pull": "Pull #{number}",
+      "pull": "Tarik #{number}",
       "category": {
-        "clothes": "Clothes",
-        "accessories": "Accessories",
-        "makeups": "Makeups"
+        "clothes": "Pakaian",
+        "accessories": "Aksesoris",
+        "makeups": "riasan"
       }
     },
     "export": {
-      "png": "Export Image",
-      "json": "Export File",
-      "generated_from": "Generated From",
-      "in_progress": "Export in progress, please wait...",
-      "success": "Data exported successfully!",
-      "error": "Failed to export data. Please try again."
+      "png": "Ekspor Gambar",
+      "json": "Ekspor Berkas",
+      "generated_from": "Dihasilkan Dari",
+      "in_progress": "Ekspor sedang berlangsung, harap tunggu...",
+      "success": "Data berhasil diekspor!",
+      "error": "Gagal mengekspor data. Silakan coba lagi."
     },
     "no_data": {
-      "title": "No resonance history available.",
-      "subtitle": "Please import your resonance data first.",
-      "error": "Failed to load data. Please try again."
+      "title": "Tidak Ada Riwayat Resonansi",
+      "subtitle": "Harap impor data resonansi Anda terlebih dahulu.",
+      "error": "Gagal memuat data. Silakan coba lagi."
     }
   },
   "quiz": {
-    "title": "Outfit Silhouette",
-    "meta_description": "Guess the outfit from its silhouette in a quick mini-game.",
-    "instructions": "Guess the outfit from its silhouette. The faster you answer, the higher your score.",
-    "game_complete": "Game Complete",
-    "final_score": "Final score {score}",
-    "round": "Round",
-    "score": "Score",
-    "streak": "Streak",
-    "best_streak": "Best streak",
-    "rounds": "Rounds",
-    "right": "Right",
-    "wrong": "Wrong",
-    "start": "Start",
-    "next": "Next",
-    "skip": "Skip",
-    "play_again": "Play again",
-    "reveal_direction": "Reveal direction",
-    "blur": "Blur",
-    "answer_mode": "Answer mode",
-    "correct_answer": "Correct answer",
+    "title": "Siluet Pakaian",
+    "meta_description": "Tebak pakaian dari siluetnya dalam mini-game cepat.",
+    "instructions": "Tebak pakaiannya dari siluetnya. Semakin cepat Anda menjawab, semakin tinggi skor Anda.",
+    "game_complete": "Permainan Selesai",
+    "final_score": "Skor akhir {score}",
+    "round": "Bulat",
+    "score": "Skor",
+    "streak": "Garis",
+    "best_streak": "Pukulan terbaik",
+    "rounds": "Putaran",
+    "right": "Benar",
+    "wrong": "Salah",
+    "start": "Awal",
+    "next": "Berikutnya",
+    "skip": "Melewati",
+    "play_again": "Mainkan lagi",
+    "reveal_direction": "Mengungkapkan arah",
+    "blur": "Mengaburkan",
+    "answer_mode": "Modus jawab",
+    "correct_answer": "Jawaban yang benar",
     "reveal_options": {
-      "middle_out": "Middle out",
-      "top_down": "Top to bottom",
-      "bottom_up": "Bottom to top"
+      "middle_out": "Tengah keluar",
+      "top_down": "Dari atas ke bawah",
+      "bottom_up": "Dari bawah ke atas"
     }
   },
   "banner": {
-    "version": "Version",
+    "version": "Versi",
     "luck": {
-      "1": "Veil of the Dark",
-      "2": "Faded Starlight",
-      "3": "Whisper of Whim",
-      "4": "Echo of Wishes",
-      "5": "Miracle Resonance",
-      "6": "Blessing of Divinity"
+      "1": "Tabir Kegelapan",
+      "2": "Cahaya Bintang Memudar",
+      "3": "Bisikan Keinginan",
+      "4": "Gema Keinginan",
+      "5": "Resonansi Keajaiban",
+      "6": "Berkah Ketuhanan"
     },
     "outfit": {
       "level": {
-        "0": "Unset",
-        "1": "Base",
+        "0": "Tidak disetel",
+        "1": "Basis",
         "2": "Evo 1",
         "3": "Evo 2",
         "4": "Evo 3",
-        "glow": "Glowed Up"
+        "glow": "Sudah Dipercantik"
       }
     },
-    "deep_echoes": "Deep Echoes",
-    "not_found": "Banner not found"
+    "deep_echoes": "Gema Mendalam",
+    "not_found": "Spanduk tidak ditemukan"
   },
   "global": {
     "stats": {
-      "total_pulls": "Total Pulls",
-      "unique_users": "Total Stylists",
-      "avg_5star": "5★ Avg (5★ Banner)",
-      "avg_4star_type2": "4★ Avg (5★ Banner)",
-      "avg_4star_type3": "4★ Avg (4★ Banner)",
-      "data_as_of": "Data as of"
+      "total_pulls": "Jumlah Tarikan",
+      "unique_users": "Total Stylist",
+      "avg_5star": "Rata-rata 5★ (5★ Spanduk)",
+      "avg_4star_type2": "Rata-rata 4★ (5★ Spanduk)",
+      "avg_4star_type3": "Rata-rata 4★ (4★ Spanduk)",
+      "data_as_of": "Data pada"
     },
     "charts": {
-      "pulls_per_banner": "Pulls Per Banner",
-      "five_star_distribution": "5★ Pulls Distribution",
-      "four_star_type2_distribution": "4★ Distribution (5★ Banner)",
-      "four_star_type3_distribution": "4★ Distribution (4★ Banner)",
-      "first_item_distribution": "First Item Distribution",
-      "number_of_pulls": "Number of Pulls",
-      "probability": "Probability",
-      "cumulative_probability": "Cumulative Probability",
-      "occurrences": "Occurrences",
-      "percentage": "Percentage",
-      "all_banners": "All Banners",
-      "five_star_banners": "5★ Banners",
-      "four_star_banners": "4★ Banners",
-      "recent_only": "Recent",
-      "all_time": "All Time",
-      "first_item_distribution_tooltip": "This banner includes pulls older than 180 days, which are no longer available in game. As a result, the first item distribution data may be inaccurate."
+      "pulls_per_banner": "Menarik Per Spanduk",
+      "five_star_distribution": "5★ Menarik Distribusi",
+      "four_star_type2_distribution": "4★ Distribusi (5★ Spanduk)",
+      "four_star_type3_distribution": "4★ Distribusi (4★ Spanduk)",
+      "first_item_distribution": "Distribusi Barang Pertama",
+      "number_of_pulls": "Jumlah Tarikan",
+      "probability": "Kemungkinan",
+      "cumulative_probability": "Probabilitas Kumulatif",
+      "occurrences": "Kejadian",
+      "percentage": "Persentase",
+      "all_banners": "Semua Spanduk",
+      "five_star_banners": "5★ Spanduk",
+      "four_star_banners": "4★ Spanduk",
+      "recent_only": "Terkini",
+      "all_time": "Sepanjang Waktu",
+      "first_item_distribution_tooltip": "Spanduk ini mencakup penarikan yang lebih lama dari 180 hari, yang tidak lagi tersedia dalam game. Akibatnya, data distribusi item pertama mungkin tidak akurat."
     }
   },
   "faq": {
-    "title": "Frequently Asked Questions",
+    "title": "Pertanyaan yang Sering Diajukan",
     "questions": {
       "data_source": {
-        "question": "How are you getting the data?",
-        "answer": "We are using the same API as the in-game pull history page to access Infold Games servers that store the banner pull data. To access the data, we need to authenticate with the Infold Games server using your account Cookie."
+        "question": "Bagaimana Anda mendapatkan datanya?",
+        "answer": "Kami menggunakan API yang sama dengan halaman riwayat penarikan dalam game untuk mengakses server Infold Games yang menyimpan data penarikan spanduk. Untuk mengakses data, kami perlu mengautentikasi dengan server Infold Games menggunakan Cookie akun Anda."
       },
       "ban_risk": {
-        "question": "Will I get banned for using this?",
-        "answer": "This is a third-party tool, so there is always some risk, though it is ultimately up to Infold Games. However, similar tools are widely used in other gacha games (Paimon.moe、Star Rail Station、WuWa Tracker etc.) and also in the Chinese community of Infinity Nikki (小黑盒 游创工坊). Take this information as a reference, and make your own judgement."
+        "question": "Apakah saya akan dilarang menggunakan ini?",
+        "answer": "Ini adalah alat pihak ketiga, jadi selalu ada risiko, meskipun pada akhirnya bergantung pada Infold Games. Namun, alat serupa banyak digunakan di game gacha lainnya (Paimon.moe, Star Rail Station, WuWa Tracker, dll.) dan juga di komunitas Tionghoa Infinity Nikki (小黑盒 游创工坊). Ambil informasi ini sebagai referensi, dan buatlah penilaian Anda sendiri."
       },
       "data_storage": {
-        "question": "What data are you storing?",
-        "answer": "Your pull history is stored locally in your browser, so the next time you visit the site, it will be there unless you clear your browser data. We do not collect any personal information, including the Cookie you submitted."
+        "question": "Data apa yang Anda simpan?",
+        "answer": "Riwayat penarikan Anda disimpan secara lokal di browser Anda, jadi saat Anda mengunjungi situs tersebut lagi, riwayat tersebut akan tetap ada kecuali Anda menghapus data browser Anda. Kami tidak mengumpulkan informasi pribadi apa pun, termasuk Cookie yang Anda kirimkan."
       },
       "server_data": {
-        "question": "What data is sent to the server?",
-        "answer": "Only your pull statistics are sent to help calculate global stats if you opt in. This includes a hashed version of your UID, and the information of 4★ and 5★ items you pulled."
+        "question": "Data apa yang dikirim ke server?",
+        "answer": "Hanya statistik penarikan Anda yang dikirim untuk membantu menghitung statistik global jika Anda ikut serta. Ini termasuk versi hash dari UID Anda, dan informasi item 4★ dan 5★ yang Anda tarik."
       },
       "platform_support": {
-        "question": "Will it work if I play on mobile or PS5?",
-        "answer": "Yes, no matter which platform you play on, you can import your data from PC or mobile. However, on mobile it might not work for all browsers, it is recommended to use PC for better experience, please check the import page for supported browsers and more details."
+        "question": "Apakah akan berfungsi jika saya bermain di ponsel atau PS5?",
+        "answer": "Ya, apa pun platform yang Anda gunakan, Anda dapat mengimpor data dari PC atau ponsel. Namun, di seluler mungkin tidak berfungsi di semua browser, disarankan menggunakan PC untuk pengalaman yang lebih baik, silakan periksa halaman impor untuk browser yang didukung dan detail lebih lanjut."
       },
       "cookie_script": {
-        "question": "Do I have to run a script to get my Cookie?",
-        "answer": "No, they are just for convenience, you can get the Cookie manually, check manual input instructions in the import page for more details. However, the only way to get the Cookie on mobile now is to use the bookmark method."
+        "question": "Apakah saya harus menjalankan skrip untuk mendapatkan Cookie saya?",
+        "answer": "Tidak, itu hanya untuk kenyamanan, Anda bisa mendapatkan Cookie secara manual, periksa instruksi input manual di halaman impor untuk lebih jelasnya. Namun, satu-satunya cara untuk mendapatkan Cookie di ponsel saat ini adalah dengan menggunakan metode bookmark."
       },
       "data_loss": {
-        "question": "Why is the data incomplete or missing for some banners?",
-        "answer": "This happens because pull history is only stored in the game for 180 days. After that, it is deleted from the game servers and becomes unavailable. To preserve your data, you can store it in your browser or export it for backup. This way, you can keep records that are no longer available in the game. If you import in the future, your existing data will be merged with the new data."
+        "question": "Mengapa data beberapa banner tidak lengkap atau hilang?",
+        "answer": "Hal ini terjadi karena pull history hanya tersimpan di dalam game selama 180 hari. Setelah itu, itu dihapus dari server game dan menjadi tidak tersedia. Untuk menyimpan data, Anda dapat menyimpannya di browser atau mengekspornya untuk cadangan. Dengan cara ini, Anda dapat menyimpan catatan yang tidak lagi tersedia di dalam game. Jika Anda mengimpor di masa mendatang, data yang ada akan digabungkan dengan data baru."
       },
       "no_pulls": {
-        "question": "I followed the import steps and saw the banners were processed, but why isn't any pull history showing?",
-        "answer": "Please double check that your region and Cookie values are correct. Make sure the UID and ID from the Cookie are not mixed up."
+        "question": "Saya mengikuti langkah-langkah impor dan melihat spanduk telah diproses, tetapi mengapa riwayat penarikan tidak muncul?",
+        "answer": "Harap periksa kembali apakah wilayah dan nilai Cookie Anda sudah benar. Pastikan UID dan ID dari Cookie tidak tertukar."
       },
       "auto_update": {
-        "question": "Will my pull data update automatically?",
-        "answer": "No, your pull data will not update automatically. The website needs to be updated to support new banners after each game update. For security reasons, your Cookie will expire after some time, so you'll need to re-import your data. However, if you store your data in your browser, you'll only need to re-import for new banners."
+        "question": "Apakah data penarikan saya akan diperbarui secara otomatis?",
+        "answer": "Tidak, data penarikan Anda tidak akan diperbarui secara otomatis. Situs web perlu diperbarui untuk mendukung spanduk baru setelah setiap pembaruan game. Demi alasan keamanan, Cookie Anda akan kedaluwarsa setelah beberapa waktu, jadi Anda perlu mengimpor ulang data Anda. Namun, jika Anda menyimpan data di browser, Anda hanya perlu mengimpor ulang banner baru."
       },
       "export": {
-        "question": "How can I export my pull history?",
-        "answer": "You can export your pull history as a PNG image or a JSON file. If your browser data is cleared, you can use the JSON file to restore your history."
+        "question": "Bagaimana cara mengekspor riwayat penarikan saya?",
+        "answer": "Anda dapat mengekspor riwayat penarikan Anda sebagai gambar PNG atau file JSON. Jika data browser Anda dihapus, Anda dapat menggunakan file JSON untuk memulihkan riwayat Anda."
       }
     }
   },
   "about": {
-    "title": "Disclaimer and Privacy Policy",
+    "title": "Penafian dan Kebijakan Privasi",
     "infinityNikkiAssets": {
-      "title": "Platform and Content Disclaimer",
-      "content": "gongeo.us is an independent fan-operated platform and is not affiliated, endorsed, or partnered with Infinity Nikki or Infold Games. All official game assets, visuals, and related content are the exclusive property of Infold Games and are used here solely for community sharing and educational purposes. We do not claim any ownership or rights over this content.",
-      "acknowledgment": "By using this platform, you acknowledge its unofficial status and accept all risks associated with accessing third-party or unofficial content."
+      "title": "Penafian Platform dan Konten",
+      "content": "gongeo.us adalah platform independen yang dioperasikan oleh penggemar dan tidak berafiliasi, didukung, atau bermitra dengan Infinity Nikki atau Infold Games. Semua aset game resmi, visual, dan konten terkait adalah milik eksklusif Infold Games dan digunakan di sini semata-mata untuk berbagi komunitas dan tujuan pendidikan. Kami tidak mengklaim kepemilikan atau hak apa pun atas konten ini.",
+      "acknowledgment": "Dengan menggunakan platform ini, Anda mengakui status tidak resminya dan menerima semua risiko yang terkait dengan akses konten pihak ketiga atau tidak resmi."
     },
     "dataAndStats": {
-      "title": "Data and Statistics Disclaimer",
-      "content": "All gameplay statistics and data presented on gongeo.us are voluntarily contributed by users and are not sourced from Infold Games. These data sets represent only a small portion of the player community and may not fully reflect overall player behavior or game trends.",
-      "insights": "Any insights or conclusions drawn from the data are for informational purposes only and should be considered in light of their community-driven nature."
+      "title": "Penafian Data dan Statistik",
+      "content": "Semua statistik gameplay dan data yang disajikan di gongeo.us disumbangkan secara sukarela oleh pengguna dan tidak bersumber dari Infold Games. Kumpulan data ini hanya mewakili sebagian kecil komunitas pemain dan mungkin tidak sepenuhnya mencerminkan perilaku pemain atau tren game secara keseluruhan.",
+      "insights": "Setiap wawasan atau kesimpulan yang diambil dari data ini hanya untuk tujuan informasi dan harus dipertimbangkan mengingat sifatnya yang berbasis komunitas."
     },
     "intellectualProperty": {
-      "title": "Intellectual Property",
-      "content": "gongeo.us is an independent fan project. All trademarks, game content, and intellectual property related to Infinity Nikki remain the sole property of Infold Games and their licensors.",
-      "siteContent": "Except where explicitly stated otherwise, all original code, site design, and custom assets on this platform are owned by gongeo.us and protected by applicable copyright and intellectual property laws. Unauthorized copying, reuse, or distribution is prohibited without written permission.",
-      "usage": "This platform is provided \"as-is\" and intended solely for personal, non-commercial use."
+      "title": "Kekayaan Intelektual",
+      "content": "gongeo.us adalah proyek penggemar independen. Semua merek dagang, konten game, dan kekayaan intelektual yang terkait dengan Infinity Nikki tetap menjadi milik Infold Games dan pemberi lisensinya.",
+      "siteContent": "Kecuali jika dinyatakan sebaliknya secara eksplisit, semua kode asli, desain situs, dan aset khusus pada platform ini dimiliki oleh gongeo.us dan dilindungi oleh undang-undang hak cipta dan kekayaan intelektual yang berlaku. Dilarang menyalin, menggunakan kembali, atau mendistribusikan tanpa izin tanpa izin tertulis.",
+      "usage": "Platform ini disediakan \"sebagaimana adanya\" dan ditujukan semata-mata untuk penggunaan pribadi dan non-komersial."
     },
     "dataCollection": {
-      "title": "Data Collection and Storage",
-      "content": "We collect only the minimal data necessary to operate our service. We do not collect or store any personal information or tracking cookies. Any cookies or UIDs you provide are used solely to communicate with Infold Games server to verify your account and retrieve your pull history.",
-      "pullHistory": "Your pull history is stored locally in your browser once imported. For cloud backup or cross-device access, you may optionally sign in via Discord, Google, or email to sync your data through secure cloud storage provided by Supabase. You may also choose to contribute anonymized statistics about your 4-star and 5-star pulls to help generate community statistics."
+      "title": "Pengumpulan dan Penyimpanan Data",
+      "content": "Kami hanya mengumpulkan data minimal yang diperlukan untuk mengoperasikan layanan kami. Kami tidak mengumpulkan atau menyimpan informasi pribadi atau cookie pelacakan apa pun. Cookie atau UID apa pun yang Anda berikan hanya digunakan untuk berkomunikasi dengan server Infold Games untuk memverifikasi akun Anda dan mengambil riwayat penarikan Anda.",
+      "pullHistory": "Riwayat penarikan Anda disimpan secara lokal di browser Anda setelah diimpor. Untuk pencadangan cloud atau akses lintas perangkat, Anda dapat masuk melalui Discord, Google, atau email untuk menyinkronkan data Anda melalui penyimpanan cloud aman yang disediakan oleh Supabase. Anda juga dapat memilih untuk menyumbangkan statistik anonim tentang tarikan bintang 4 dan bintang 5 Anda untuk membantu menghasilkan statistik komunitas."
     },
     "accountSecurity": {
-      "title": "Account and Security",
-      "content": "All essential features remain fully accessible without requiring an account. If you choose to sign in, authentication is securely handled by Supabase. We never access or store your login credentials. You have complete control of your data, with the ability to share, upload, sync or delete it at any time. For permanent account deletion, contact us through Discord or email.",
-      "security": "While we implement necessary security measures using industry standards, please be aware that no internet transmission can be guaranteed as completely secure."
+      "title": "Akun dan Keamanan",
+      "content": "Semua fitur penting tetap dapat diakses sepenuhnya tanpa memerlukan akun. Jika Anda memilih untuk masuk, autentikasi ditangani dengan aman oleh Supabase. Kami tidak pernah mengakses atau menyimpan kredensial login Anda. Anda memiliki kendali penuh atas data Anda, dengan kemampuan untuk membagikan, mengunggah, menyinkronkan, atau menghapusnya kapan saja. Untuk penghapusan akun permanen, hubungi kami melalui Discord atau email.",
+      "security": "Meskipun kami menerapkan langkah-langkah keamanan yang diperlukan menggunakan standar industri, perlu diketahui bahwa tidak ada transmisi internet yang dapat dijamin sepenuhnya aman."
     },
     "analytics": {
-      "title": "Analytics and Tracking",
-      "content": "We utilize Umami, a privacy-focused analytics service, to monitor website usage. It collects only anonymized information such as page views, referrer URLs, and basic browser data without using Cookie or personal identifiers. This data helps us improve your experience. For more information, please see Umami's privacy policy."
+      "title": "Analisis dan Pelacakan",
+      "content": "Kami menggunakan Umami, layanan analisis yang berfokus pada privasi, untuk memantau penggunaan situs web. Ini hanya mengumpulkan informasi anonim seperti tampilan halaman, URL pengarah, dan data browser dasar tanpa menggunakan Cookie atau pengidentifikasi pribadi. Data ini membantu kami meningkatkan pengalaman Anda. Untuk informasi lebih lanjut, silakan lihat kebijakan privasi Umami."
     },
     "errorMonitoring": {
-      "title": "Error Monitoring",
-      "message": "We use Sentry.io to track and fix technical errors. Sentry may collect limited technical data (like error details, browser info, and anonymized IP addresses) to help us maintain and improve the site. For more information, please see Sentry.io's privacy policy."
+      "title": "Pemantauan Kesalahan",
+      "message": "Kami menggunakan Sentry.io untuk melacak dan memperbaiki kesalahan teknis. Sentry dapat mengumpulkan data teknis terbatas (seperti detail kesalahan, info browser, dan alamat IP anonim) untuk membantu kami memelihara dan meningkatkan situs. Untuk informasi lebih lanjut, silakan lihat kebijakan privasi Sentry.io."
     }
   },
   "vote": {
-    "description": "Help us determine the most popular banners from version 1.x! Vote on your favorite banners in head-to-head matchups.",
-    "skip": "Skip",
-    "howItWorks": "Pick your favorite banner and submit your vote to help rank the most popular banners. Skip if you're not sure. You can vote up to 50 times every 24 hours.",
-    "abuseNotice": "Please do not abuse the voting system. Unusual voting patterns will be detected, and those votes may be removed.",
-    "success": "Vote submitted successfully!",
-    "viewRankings": "View Rankings",
+    "description": "Bantu kami menentukan banner terpopuler dari versi 1.x! Pilih spanduk favorit Anda dalam pertarungan head-to-head.",
+    "skip": "Melewati",
+    "howItWorks": "Pilih spanduk favorit Anda dan kirimkan suara Anda untuk membantu menentukan peringkat spanduk paling populer. Lewati jika Anda tidak yakin. Anda dapat memilih hingga 50 kali setiap 24 jam.",
+    "abuseNotice": "Tolong jangan menyalahgunakan sistem pemungutan suara. Pola pemungutan suara yang tidak biasa akan terdeteksi, dan suara tersebut mungkin dihapus.",
+    "success": "Suara berhasil dikirimkan!",
+    "viewRankings": "Lihat Peringkat",
     "mode": {
-      "personal": "Personal Mode",
-      "community": "Community Mode",
-      "personalDesc": "Your votes are stored locally and create your personal rankings. Does not affect community rankings.",
-      "communityDesc": "Your votes contribute to the community rankings and help determine the most popular banners."
+      "personal": "Modus Pribadi",
+      "community": "Modus Komunitas",
+      "personalDesc": "Suara Anda disimpan secara lokal dan membuat peringkat pribadi Anda. Tidak mempengaruhi peringkat komunitas.",
+      "communityDesc": "Suara Anda berkontribusi pada peringkat komunitas dan membantu menentukan spanduk paling populer."
     },
     "stats": {
-      "totalVotes": "Total Votes",
-      "personalVotes": "Personal Votes",
-      "totalVoters": "Total Voters",
-      "avgVotes": "Avg Votes"
+      "totalVotes": "Jumlah Suara",
+      "personalVotes": "Suara Pribadi",
+      "totalVoters": "Jumlah Pemilih",
+      "avgVotes": "Rata-rata Suara"
     },
     "errors": {
-      "loadFailed": "Failed to load vote pair. Please try again.",
-      "submitFailed": "Failed to submit vote. Please try again.",
-      "rateLimit": "Too many votes. Please wait before voting again.",
-      "loadRankingsFailed": "Failed to load rankings. Please try again.",
-      "votingClosed": "Community voting has ended. View the final rankings or switch to Personal Mode to continue voting."
+      "loadFailed": "Gagal memuat pasangan suara. Silakan coba lagi.",
+      "submitFailed": "Gagal mengirimkan suara. Silakan coba lagi.",
+      "rateLimit": "Terlalu banyak suara. Harap tunggu sebelum memberikan suara lagi.",
+      "loadRankingsFailed": "Gagal memuat peringkat. Silakan coba lagi.",
+      "votingClosed": "Pemungutan suara komunitas telah berakhir. Lihat peringkat akhir atau alihkan ke Mode Pribadi untuk melanjutkan pemungutan suara."
     },
     "rankings": {
-      "title": "Banner Rankings",
-      "description": "See which banners from version 1.x are the most popular based on community votes.",
-      "votingPeriod": "Voting Period",
-      "voteMore": "Vote More",
-      "lastUpdated": "Last updated",
-      "rank": "Rank",
-      "elo": "Elo Rating",
+      "title": "Peringkat Spanduk",
+      "description": "Lihat banner mana dari versi 1.x yang paling populer berdasarkan suara komunitas.",
+      "votingPeriod": "Periode Pemungutan Suara",
+      "voteMore": "Pilih Lebih Banyak",
+      "lastUpdated": "Terakhir diperbarui",
+      "rank": "Peringkat",
+      "elo": "Peringkat Elo",
       "eloShort": "ELO",
-      "winRate": "Win Rate",
+      "winRate": "Tingkat Kemenangan",
       "winRateShort": "WR",
-      "wins": "Wins",
-      "losses": "Losses",
-      "totalVotes": "Total Votes",
+      "wins": "Menang",
+      "losses": "Kekalahan",
+      "totalVotes": "Jumlah Suara",
       "winsLosses": "W/L",
       "winsShort": "W",
       "lossesShort": "L"
@@ -659,71 +659,68 @@
   },
   "tierlist": {
     "actions": {
-      "reset_board": "Reset Board"
+      "reset_board": "Atur Ulang Papan"
     },
     "over_limit": {
-      "title": "Too many entries",
-      "description": "Apply more filters to continue (max {max} entries)."
+      "title": "Terlalu banyak entri",
+      "description": "Terapkan lebih banyak filter untuk melanjutkan (maks entri {max})."
     },
-    "unranked_empty": "No unranked entries",
-    "obtain_fallback": "Obtain {id}",
+    "unranked_empty": "Tidak ada entri yang tidak memiliki peringkat",
+    "obtain_fallback": "Dapatkan {id}",
     "status": {
-      "over_limit": "Too many entries. Apply more filters (max {max}).",
-      "loaded": "{count} entries loaded"
+      "over_limit": "Terlalu banyak entri. Terapkan lebih banyak filter (maks {max}).",
+      "loaded": "Entri {count} dimuat"
     },
     "rank_menu": {
-      "tier_label": "{tier} Tier",
-      "send_back": "Unrank"
+      "tier_label": "Tingkat {tier}",
+      "send_back": "Kirim Kembali"
     },
     "community_submit": {
-      "browser_only_error": "Community submit is only available in browser context",
-      "tooltip_ready": "Submit your completed tier list to the community ranking.",
-      "scope_unavailable_toast": "Community submit is not available for this scope.",
-      "success": "Community tier list submitted",
-      "failed": "Failed to submit community tier list",
+      "browser_only_error": "Pengiriman komunitas hanya tersedia dalam konteks browser",
+      "tooltip_ready": "Kirimkan daftar tingkatan Anda yang telah lengkap ke peringkat komunitas.",
+      "scope_unavailable_toast": "Kiriman komunitas tidak tersedia untuk cakupan ini.",
+      "success": "Daftar tingkat komunitas telah dikirimkan",
+      "failed": "Gagal mengirimkan daftar tingkat komunitas",
       "blocked": {
-        "error": "Cannot submit while entries failed to load.",
-        "over_limit": "Apply more filters before submitting.",
-        "scope_unavailable": "Community sharing is not available for this selection yet.",
-        "incomplete": "Rank all loaded entries before submitting.",
-        "no_changes": "No changes since your last submit."
+        "error": "Tidak dapat mengirimkan ketika entri gagal dimuat.",
+        "over_limit": "Terapkan lebih banyak filter sebelum mengirimkan.",
+        "scope_unavailable": "Berbagi komunitas belum tersedia untuk pilihan ini.",
+        "incomplete": "Beri peringkat semua entri yang dimuat sebelum dikirimkan.",
+        "no_changes": "Tidak ada perubahan sejak pengiriman terakhir Anda."
       }
     },
     "community_insights": {
-      "toggle": "Show community tier list",
-      "loading": "Loading community snapshot...",
-      "error": "Failed to load community snapshot.",
-      "empty": "No community data yet.",
-      "rank_position": "Community rank #{rank}",
-      "avg_tier": "Community average: {tier} tier",
-      "rank_higher_than": "You rank this higher than {percent}% of stylists",
-      "avg_score": "Average score: {score}",
-      "total_votes": "Total votes: {count}",
-      "top_tier_share": "Most votes placed this in {tier} tier ({percent}%)"
+      "toggle": "Tampilkan daftar tingkat komunitas",
+      "error": "Gagal memuat cuplikan komunitas.",
+      "empty": "Belum ada data komunitas.",
+      "rank_position": "Peringkat komunitas #{rank}",
+      "avg_tier": "Tingkat komunitas: tingkat {tier}",
+      "rank_higher_than": "Anda memberi peringkat ini lebih tinggi dari {percent}% penata gaya",
+      "total_votes": "Total suara: {count}"
     },
     "share": {
-      "copy_link": "Copy Link",
-      "copied": "Link copied",
-      "copy_failed": "Failed to copy link"
+      "copy_link": "Salin Tautan",
+      "copied": "Tautan disalin",
+      "copy_failed": "Gagal menyalin tautan"
     }
   },
   "compendium": {
-    "error_title": "Failed to Load Data",
-    "error_description": "Unable to load data. Please try again.",
-    "no_results_title": "No Results Found",
-    "no_results_description": "No items match your criteria.",
-    "not_found_item": "Item not found",
-    "not_found_outfit": "Outfit not found",
-    "back_to_list": "Back to List",
-    "filter_type": "Filter by Type",
-    "filter_version": "Filter by Version",
-    "filter_style": "Filter by Style",
-    "filter_label": "Filter by Label",
-    "filter_obtain": "Filter by Source",
+    "error_title": "Gagal Memuat Data",
+    "error_description": "Tidak dapat memuat data. Silakan coba lagi.",
+    "no_results_title": "Tidak Ada Hasil yang Ditemukan",
+    "no_results_description": "Tidak ada item yang cocok dengan kriteria Anda.",
+    "not_found_item": "Barang tidak ditemukan",
+    "not_found_outfit": "Pakaian tidak ditemukan",
+    "back_to_list": "Kembali ke Daftar",
+    "filter_type": "Filter berdasarkan Jenis",
+    "filter_version": "Filter berdasarkan Versi",
+    "filter_style": "Filter berdasarkan Gaya",
+    "filter_label": "Filter berdasarkan Label",
+    "filter_obtain": "Filter berdasarkan Sumber",
     "source": {
-      "event": "Event",
-      "quest": "Quest",
-      "merchant": "Merchant"
+      "event": "Peristiwa",
+      "quest": "Pencarian",
+      "merchant": "Pedagang"
     }
   }
 }

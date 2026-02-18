@@ -106,7 +106,11 @@ export default defineCachedEventHandler(
       varyHeaders: [GAME_VERSION_HEADER],
     })
     const query = getQuery(event)
-    const quality = query.quality ? Number(query.quality) : null
+    const qualityParam = query.quality?.toString().trim() ?? ''
+    const qualityParsed = qualityParam ? Number(qualityParam) : null
+    const invalidQuality =
+      qualityParam.length > 0 && !Number.isFinite(qualityParsed)
+    const quality = invalidQuality ? null : qualityParsed
     const type = query.type?.toString() || null
     const styleParam = query.style?.toString() || null
     const labelParam = query.label?.toString() || null
@@ -143,6 +147,7 @@ export default defineCachedEventHandler(
       : null
 
     if (
+      invalidQuality ||
       (styleParam && !styleFilter) ||
       (labelParam && !labelFilter) ||
       (versionParam && obtainTypeRange === null) ||
@@ -274,7 +279,13 @@ export default defineCachedEventHandler(
       const query = getQuery(event)
       const page = query.page ? Number(query.page) : 1
       const pageSize = parsePageSize(query.pageSize ?? query.page_size)
-      const quality = query.quality ? Number(query.quality) : 'all'
+      const qualityParam = query.quality?.toString().trim() ?? ''
+      const qualityParsed = qualityParam ? Number(qualityParam) : null
+      const quality = qualityParam
+        ? Number.isFinite(qualityParsed)
+          ? qualityParsed
+          : 'invalid'
+        : 'all'
       const type = query.type?.toString() || 'all'
       const style = query.style?.toString() || 'all'
       const label = query.label?.toString() || 'all'

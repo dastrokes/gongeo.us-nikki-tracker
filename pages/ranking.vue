@@ -311,14 +311,7 @@
   // Wrapper to reload rankings when mode changes
   const setMode = (value: boolean) => {
     setVotingMode(value)
-    // Reload rankings when mode changes
-    loadRankings()
   }
-
-  // Watch for mode changes to reload rankings
-  watch(isPersonalMode, () => {
-    loadRankings()
-  })
 
   // Initialize breakpoints
   const breakpoints = useBreakpoints(breakpointsTailwind)

@@ -68,8 +68,8 @@ export const useBannerPullData = () => {
     const mergedPearpalData = { ...existingPearpalData, ...pearpalData }
 
     // Save all data, including pearpal if present
-    saveData(mergedPullsData, mergedEditsData, mergedEvoData)
-    savePearpalData(mergedPearpalData)
+    await saveData(mergedPullsData, mergedEditsData, mergedEvoData)
+    await savePearpalData(mergedPearpalData)
   }
 
   const fetchBannerPullData = async (selectedBannerIds?: number[]) => {

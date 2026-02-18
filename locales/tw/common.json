@@ -691,15 +691,12 @@
     },
     "community_insights": {
       "toggle": "顯示社群排行榜",
-      "loading": "正在載入社群快照...",
       "error": "載入社群快照失敗。",
       "empty": "目前沒有社群資料。",
       "rank_position": "社群排名 #{rank}",
       "avg_tier": "社群平均：{tier} 級",
       "rank_higher_than": "你的排名高於 {percent}% 的搭配師",
-      "avg_score": "平均評分：{score}",
-      "total_votes": "總投票數：{count}",
-      "top_tier_share": "最多投票將其放在 {tier} 級（{percent}%）"
+      "total_votes": "總投票數：{count}"
     },
     "share": {
       "copy_link": "複製連結",

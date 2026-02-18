@@ -1,657 +1,657 @@
 {
   "common": {
-    "banner": "Banner",
-    "banners": "Banners",
-    "outfit": "Outfit",
-    "outfits": "Outfits",
-    "item": "Item",
-    "items": "Items",
-    "makeup": "Makeup",
-    "variations": "Variations",
-    "type": "Type",
-    "pull": "Pull",
-    "pulls": "Pulls",
-    "total": "Total",
-    "average": "Average",
-    "avg": "Avg",
-    "statistics": "Statistics",
-    "stats": "Stats",
-    "data": "Data",
-    "history": "History",
-    "tracker": "Tracker",
-    "import": "Import",
-    "export": "Export",
-    "loading": "Loading...",
-    "search": "Search",
-    "filter": "Filter",
-    "clear": "Clear Filters",
-    "all": "All",
-    "other": "Other",
-    "show": "Show",
-    "hide": "Hide",
-    "save": "Save",
-    "cancel": "Cancel",
-    "confirm": "Confirm",
-    "ok": "OK",
-    "submit": "Submit",
-    "retry": "Retry",
-    "back": "Back",
-    "copy": "Copy",
-    "select": "Select",
-    "description": "Description",
-    "error": "Error",
-    "success": "Success",
-    "failed": "Failed"
+    "banner": "แบนเนอร์",
+    "banners": "แบนเนอร์",
+    "outfit": "ชุดเสื้อผ้า",
+    "outfits": "เครื่องแต่งกาย",
+    "item": "รายการ",
+    "items": "รายการ",
+    "makeup": "แต่งหน้า",
+    "variations": "รูปแบบต่างๆ",
+    "type": "พิมพ์",
+    "pull": "ดึง",
+    "pulls": "ดึง",
+    "total": "ทั้งหมด",
+    "average": "เฉลี่ย",
+    "avg": "เฉลี่ย",
+    "statistics": "สถิติ",
+    "stats": "สถิติ",
+    "data": "ข้อมูล",
+    "history": "ประวัติศาสตร์",
+    "tracker": "ตัวติดตาม",
+    "import": "นำเข้า",
+    "export": "ส่งออก",
+    "loading": "กำลังโหลด...",
+    "search": "ค้นหา",
+    "filter": "กรอง",
+    "clear": "ล้างตัวกรอง",
+    "all": "ทั้งหมด",
+    "other": "อื่น",
+    "show": "แสดง",
+    "hide": "ซ่อน",
+    "save": "บันทึก",
+    "cancel": "ยกเลิก",
+    "confirm": "ยืนยัน",
+    "ok": "ตกลง",
+    "submit": "ส่ง",
+    "retry": "ลองอีกครั้ง",
+    "back": "กลับ",
+    "copy": "สำเนา",
+    "select": "เลือก",
+    "description": "คำอธิบาย",
+    "error": "ข้อผิดพลาด",
+    "success": "ความสำเร็จ",
+    "failed": "ล้มเหลว"
   },
   "navigation": {
     "title": "gongeo.us",
-    "subtitle": "Infinity Nikki Resonance Tracker",
-    "tracker": "Resonance Tracker",
-    "import": "Import Data",
-    "global": "Global Data",
-    "banner": "Banner History",
-    "banner_detail": "Banner Detail",
-    "timeline": "Timeline",
-    "outfit": "Outfit Compendium",
-    "outfit_detail": "Outfit Detail",
-    "item": "Item Compendium",
-    "item_detail": "Item Detail",
-    "tierlist": "Tier List Maker",
-    "compendium": "Compendium",
-    "vote": "Banner Vote",
-    "faq": "FAQ",
-    "about": "About",
+    "subtitle": "ตัวติดตามเรโซแนนซ์ Infinity Nikki",
+    "tracker": "ตัวติดตามเสียงสะท้อน",
+    "import": "นำเข้าข้อมูล",
+    "global": "ข้อมูลทั่วโลก",
+    "banner": "ประวัติแบนเนอร์",
+    "banner_detail": "รายละเอียดแบนเนอร์",
+    "timeline": "ไทม์ไลน์",
+    "outfit": "บทสรุปการแต่งกาย",
+    "outfit_detail": "รายละเอียดเครื่องแต่งกาย",
+    "item": "บทสรุปรายการ",
+    "item_detail": "รายละเอียดสินค้า",
+    "tierlist": "ผู้สร้างรายการระดับ",
+    "compendium": "บทสรุป",
+    "vote": "โหวตแบนเนอร์",
+    "faq": "คำถามที่พบบ่อย",
+    "about": "เกี่ยวกับ",
     "nuan5pro": "Nuan5.Pro"
   },
   "meta": {
-    "title": "Infinity Nikki Resonance Tracker - Pull History & Stats",
-    "keywords": "Infinity Nikki, Resonance Tracker, Pull Tracker, Gacha Tracker, Pull History, Global Stats, Community Stats, Gongeous",
+    "title": "Infinity Nikki Resonance Tracker - ดึงประวัติและสถิติ",
+    "keywords": "Infinity Nikki, Resonance Tracker, Pull Tracker, Gacha Tracker, ประวัติการดึง, สถิติทั่วโลก, สถิติชุมชน, Gongeous",
     "game_title": "Infinity Nikki",
     "description": {
-      "default": "Track Infinity Nikki resonance banner pull history and statistics. A fan-made tracking and analysis tool for the Infinity Nikki community.",
-      "login": "Sign in to gongeo.us using your email or a third-party account to upload, back up, and sync your Infinity Nikki resonance data across devices.",
-      "tracker": "Track and analyze your Infinity Nikki resonance pull history. View all 5★ and 4★ banner items and compare your luck with other stylists.",
-      "import": "Import your Infinity Nikki resonance pull history easily from game, Whim-Log data or backup files with detailed step-by-step guides.",
-      "global": "Explore Infinity Nikki resonance global data, including banner popularity, pull rates, item drop rates, and community pull statistics.",
-      "banner": "Explore Infinity Nikki resonance banner history with current, upcoming, and past events, featured outfits, pull rates, durations, and rerun details.",
-      "banner_detail": "View the {name} resonance banner details, including featured outfits, item drop rates, pull statistics, duration, evolution info, and rerun status.",
-      "timeline": "Explore an interactive timeline of Infinity Nikki resonance banners, major updates, release periods, and reruns to track event history at a glance.",
-      "tierlist": "Create and share an Infinity Nikki tier list for banners, outfits, and items with drag-and-drop ranking, filters, and easy image export.",
-      "outfits": "Browse all Infinity Nikki outfits with filters for quality, evolution, glow-up, style tags, and stats. See full components and discover every outfit.",
-      "outfit_detail": "View detailed information about the {name} outfit, including quality, outfit pieces, evolution and glow-up, makeups, stats, and related resonance banners.",
-      "items": "Browse all Infinity Nikki items with filters for type, quality, stat bonuses, and related outfits or banners. Find, compare, and track every item easily.",
-      "item_detail": "View detailed information about the {name} item, including quality, evolution and glow-up, stats, and related outfits and banners.",
-      "faq": "Find answers to frequently asked questions about gongeo.us, including data privacy, import methods, and usage guidelines.",
-      "about": "Learn more about gongeo.us, including its purpose, privacy policy, disclaimers, and how it supports the Infinity Nikki community."
+      "default": "ติดตามประวัติและสถิติการดึงแบนเนอร์เรโซแนนซ์ Infinity Nikki เครื่องมือติดตามและวิเคราะห์ที่สร้างขึ้นโดยแฟน ๆ สำหรับชุมชน Infinity Nikki",
+      "login": "ลงชื่อเข้าใช้ gongeo.us โดยใช้อีเมลของคุณหรือบัญชีบุคคลที่สามเพื่ออัปโหลด สำรองข้อมูล และซิงค์ข้อมูลเรโซแนนซ์ Infinity Nikki ของคุณระหว่างอุปกรณ์ต่างๆ",
+      "tracker": "ติดตามและวิเคราะห์ประวัติการดึงเรโซแนนซ์ Infinity Nikki ของคุณ ดูรายการแบนเนอร์ทั้งหมด 5 ★และ 4 ★ และเปรียบเทียบโชคของคุณกับสไตลิสต์คนอื่นๆ",
+      "import": "นำเข้าประวัติการดึงเรโซแนนซ์ Infinity Nikki ของคุณจากเกม ข้อมูล Whim-Log หรือไฟล์สำรองข้อมูลได้อย่างง่ายดายพร้อมคำแนะนำทีละขั้นตอนโดยละเอียด",
+      "global": "สำรวจข้อมูลทั่วโลกของการสั่นพ้องของ Infinity Nikki รวมถึงความนิยมของแบนเนอร์ อัตราการดึง อัตราการดรอปไอเท็ม และสถิติการดึงของชุมชน",
+      "banner": "สำรวจประวัติแบนเนอร์ของ Infinity Nikki ด้วยเหตุการณ์ปัจจุบัน ที่จะเกิดขึ้น และที่ผ่านมา เครื่องแต่งกายที่โดดเด่น อัตราการดึง ระยะเวลา และรายละเอียดการฉายซ้ำ",
+      "banner_detail": "ดูรายละเอียดแบนเนอร์สะท้อนเสียงของ {name} รวมถึงเสื้อผ้าเด่น อัตราดรอปไอเท็ม สถิติการดึง ระยะเวลา ข้อมูลวิวัฒนาการ และสถานะการรีรัน",
+      "timeline": "สำรวจไทม์ไลน์เชิงโต้ตอบของแบนเนอร์เรโซแนนซ์ Infinity Nikki การอัปเดตสำคัญ ระยะเวลาการเผยแพร่ และการฉายซ้ำเพื่อติดตามประวัติกิจกรรมได้อย่างรวดเร็ว",
+      "tierlist": "สร้างและแบ่งปันรายการระดับ Infinity Nikki สำหรับแบนเนอร์ เครื่องแต่งกาย และรายการต่างๆ ด้วยการลากและวางการจัดอันดับ ตัวกรอง และการส่งออกรูปภาพที่ง่ายดาย",
+      "outfits": "ค้นหาชุด Infinity Nikki ทั้งหมดพร้อมฟิลเตอร์สำหรับคุณภาพ วิวัฒนาการ การเรืองแสง แท็กสไตล์ และสถิติ ดูส่วนประกอบทั้งหมดและค้นพบเสื้อผ้าทุกชุด",
+      "outfit_detail": "ดูข้อมูลโดยละเอียดเกี่ยวกับเครื่องแต่งกาย {name} รวมถึงคุณภาพ ชิ้นส่วนเครื่องแต่งกาย วิวัฒนาการและการเรืองแสง การแต่งหน้า สถิติ และแบนเนอร์เสียงสะท้อนที่เกี่ยวข้อง",
+      "items": "ค้นหารายการ Infinity Nikki ทั้งหมดพร้อมตัวกรองสำหรับประเภท คุณภาพ โบนัสสถิติ และเครื่องแต่งกายหรือแบนเนอร์ที่เกี่ยวข้อง ค้นหา เปรียบเทียบ และติดตามทุกรายการได้อย่างง่ายดาย",
+      "item_detail": "ดูข้อมูลโดยละเอียดเกี่ยวกับไอเท็ม {name} รวมถึงคุณภาพ วิวัฒนาการและการเรืองแสง สถิติ รวมถึงเครื่องแต่งกายและแบนเนอร์ที่เกี่ยวข้อง",
+      "faq": "ค้นหาคำตอบสำหรับคำถามที่พบบ่อยเกี่ยวกับ gongeo.us รวมถึงความเป็นส่วนตัวของข้อมูล วิธีการนำเข้า และแนวทางการใช้งาน",
+      "about": "เรียนรู้เพิ่มเติมเกี่ยวกับ gongeo.us รวมถึงวัตถุประสงค์ นโยบายความเป็นส่วนตัว การปฏิเสธความรับผิดชอบ และวิธีที่สนับสนุนชุมชน Infinity Nikki"
     }
   },
   "default": {
-    "description": "Track Infinity Nikki Resonance History and Statistics",
-    "your_data": "Your Data",
-    "current_banners": "Current Banners",
-    "rerun": "Rerun",
-    "copyright": "© 2025 gongeo.us • © Infold Games All Rights Reserved",
+    "description": "ติดตามประวัติและสถิติเรโซแนนซ์ Infinity Nikki",
+    "your_data": "ข้อมูลของคุณ",
+    "current_banners": "แบนเนอร์ปัจจุบัน",
+    "rerun": "รีรัน",
+    "copyright": "© 2026 gongeo.us • © Infold Games สงวนลิขสิทธิ์",
     "disclaimer": {
-      "content": "This is an unofficial fan-made website, not affiliated with or endorsed by Infold Games.",
-      "rights": "All Infinity Nikki game assets, content, and trademarks belong to Infold Games and their respective owners."
+      "content": "นี่เป็นเว็บไซต์ที่สร้างขึ้นโดยแฟน ๆ อย่างไม่เป็นทางการ ไม่มีส่วนเกี่ยวข้องหรือรับรองโดย Infold Games",
+      "rights": "เนื้อหาเกม เนื้อหา และเครื่องหมายการค้าของ Infinity Nikki ทั้งหมดเป็นของ Infold Games และเจ้าของที่เกี่ยวข้อง"
     },
     "user_profile": {
-      "guest": "Guest",
-      "signed_in": "Signed In",
-      "clear_local_data": "Clear Local Data",
+      "guest": "แขก",
+      "signed_in": "ลงชื่อเข้าใช้",
+      "clear_local_data": "ล้างข้อมูลในเครื่อง",
       "clear_local_confirm": {
-        "title": "Clear Local Data",
-        "content": "Are you sure you want to clear all local data? This action cannot be undone."
+        "title": "ล้างข้อมูลในเครื่อง",
+        "content": "คุณแน่ใจหรือไม่ว่าต้องการล้างข้อมูลในเครื่องสำหรับโปรไฟล์ {profile} การดำเนินการนี้ไม่สามารถยกเลิกได้"
       },
-      "sign_out": "Sign out",
-      "sign_out_success": "Successfully signed out",
-      "sign_out_error": "Failed to sign out",
-      "upload_data": "Upload to Cloud",
-      "sync_data": "Sync from Cloud",
+      "sign_out": "ออกจากระบบ",
+      "sign_out_success": "ออกจากระบบเรียบร้อยแล้ว",
+      "sign_out_error": "ล้มเหลวในการออกจากระบบ",
+      "upload_data": "อัปโหลดไปยังคลาวด์",
+      "sync_data": "ซิงค์จากคลาวด์",
       "sync": {
-        "upload_success": "Data uploaded to cloud successfully!",
-        "upload_error": "Failed to upload data.",
-        "sync_success": "Data synced successfully!",
-        "sync_error": "Failed to sync data.",
+        "upload_success": "อัปโหลดข้อมูลไปยังคลาวด์เรียบร้อยแล้ว!",
+        "upload_error": "ไม่สามารถอัปโหลดข้อมูล",
+        "sync_success": "ซิงค์ข้อมูลเรียบร้อยแล้ว!",
+        "sync_error": "ไม่สามารถซิงค์ข้อมูลได้",
         "confirm_upload": {
-          "title": "Upload to Cloud",
-          "content": "This will upload your local data to cloud storage, overwriting any existing cloud data. Continue?"
+          "title": "อัปโหลดไปยังคลาวด์",
+          "content": "การดำเนินการนี้จะอัปโหลดข้อมูลในเครื่องสำหรับโปรไฟล์ {profile} ไปยังที่เก็บข้อมูลบนคลาวด์ โดยเขียนทับข้อมูลบนคลาวด์ที่มีอยู่สำหรับโปรไฟล์นี้ ดำเนินการต่อ?"
         },
         "confirm_sync": {
-          "title": "Sync from Cloud",
-          "content": "This will sync your local data with cloud data by merging them together. Continue?"
+          "title": "ซิงค์จากคลาวด์",
+          "content": "การดำเนินการนี้จะซิงค์ข้อมูลในเครื่องสำหรับโปรไฟล์ {profile} กับข้อมูลบนคลาวด์โดยการรวมเข้าด้วยกัน ดำเนินการต่อ?"
         },
         "missing_profiles": {
-          "title": "Create Missing Profiles",
-          "content": "We found cloud data for {profiles}. Create these profiles locally before syncing?",
-          "confirm": "Create Profiles"
+          "title": "สร้างโปรไฟล์ที่หายไป",
+          "content": "เราพบข้อมูลคลาวด์สำหรับ {profiles} สร้างโปรไฟล์เหล่านี้ในเครื่องก่อนทำการซิงค์หรือไม่",
+          "confirm": "สร้างโปรไฟล์"
         }
       },
-      "clear_cloud_data": "Clear Cloud Data",
+      "clear_cloud_data": "ล้างข้อมูลบนคลาวด์",
       "clear_cloud_confirm": {
-        "title": "Clear Cloud Data",
-        "content": "Are you sure you want to clear all your cloud data? This action cannot be undone and will permanently delete your data from cloud storage."
+        "title": "ล้างข้อมูลบนคลาวด์",
+        "content": "คุณแน่ใจหรือไม่ว่าต้องการล้างข้อมูลคลาวด์สำหรับโปรไฟล์ {profile} การดำเนินการนี้ไม่สามารถยกเลิกได้และจะลบข้อมูลของคุณออกจากที่เก็บข้อมูลบนคลาวด์อย่างถาวร"
       },
-      "clear_cloud_success": "Cloud data cleared successfully!",
-      "clear_cloud_error": "Failed to clear cloud data.",
-      "clear_success": "Data cleared successfully!",
+      "clear_cloud_success": "ล้างข้อมูลบนคลาวด์เรียบร้อยแล้ว!",
+      "clear_cloud_error": "ไม่สามารถล้างข้อมูลบนคลาวด์",
+      "clear_success": "ล้างข้อมูลเรียบร้อยแล้ว!",
       "profiles": {
-        "active": "Active",
+        "active": "คล่องแคล่ว",
         "delete_confirm": {
-          "title": "Delete Profile",
-          "content": "Are you sure you want to delete {profile} profile? This will clear its local data and cloud data (if signed in)."
+          "title": "ลบโปรไฟล์",
+          "content": "คุณแน่ใจหรือไม่ว่าต้องการลบโปรไฟล์ {profile} การดำเนินการนี้จะล้างข้อมูลในเครื่องและข้อมูลบนคลาวด์ (หากลงชื่อเข้าใช้)"
         },
-        "created_success": "Profile created.",
-        "switched_success": "Switched to {profile} profile.",
-        "deleted_success": "Profile deleted."
+        "created_success": "สร้างโปรไฟล์แล้ว",
+        "switched_success": "เปลี่ยนเป็นโปรไฟล์ {profile} แล้ว",
+        "deleted_success": "ลบโปรไฟล์แล้ว"
       }
     },
     "accessibility": {
-      "toggle_menu": "Toggle navigation menu",
-      "language_switcher": "Language switcher",
-      "theme_switcher": "Toggle theme",
-      "user_profile_menu": "User profile menu",
-      "scroll_to_top": "Scroll to top"
+      "toggle_menu": "สลับเมนูนำทาง",
+      "language_switcher": "ตัวสลับภาษา",
+      "theme_switcher": "สลับธีม",
+      "user_profile_menu": "เมนูโปรไฟล์ผู้ใช้",
+      "scroll_to_top": "เลื่อนไปด้านบน"
     },
     "language_switcher": {
-      "help_translate": "Help translate"
+      "help_translate": "ช่วยแปลด้วย"
     },
     "search": {
-      "placeholder": "Search items, banners, outfits",
-      "noResults": "No results found"
+      "placeholder": "ค้นหาไอเท็ม แบนเนอร์ เครื่องแต่งกาย",
+      "noResults": "ไม่พบผลลัพธ์"
     },
     "social": {
-      "discord": "Join our Discord community",
-      "kofi": "Support us on Ko-fi",
-      "twitter": "Follow us on Twitter",
-      "email": "Contact us via email"
+      "discord": "เข้าร่วมชุมชน Discord ของเรา",
+      "kofi": "สนับสนุนเราบน Ko-fi",
+      "twitter": "ติดตามเราบนทวิตเตอร์",
+      "email": "ติดต่อเราผ่านทางอีเมล"
     }
   },
   "profile": {
-    "title": "Profile",
-    "subtitle": "Manage profiles, cloud data, and local data.",
+    "title": "ประวัติโดยย่อ",
+    "subtitle": "จัดการโปรไฟล์ ข้อมูลคลาวด์ และข้อมูลในเครื่อง",
     "sections": {},
-    "account_label": "Account",
-    "all_profiles": "All Profiles",
-    "active_profile": "Active Profile",
-    "default_profile": "Default",
-    "profile_slot": "Profile {number}",
-    "switch": "Switch",
-    "manage_profiles": "Manage Profiles",
-    "rename": "Rename",
-    "rename_title": "Rename Profile",
-    "rename_placeholder": "Enter a profile name",
-    "rename_success": "Profile name updated.",
-    "rename_error": "Please enter a profile name.",
+    "account_label": "บัญชี",
+    "all_profiles": "โปรไฟล์ทั้งหมด",
+    "active_profile": "โปรไฟล์ที่ใช้งานอยู่",
+    "default_profile": "ค่าเริ่มต้น",
+    "profile_slot": "โปรไฟล์ {number}",
+    "switch": "สวิตช์",
+    "manage_profiles": "จัดการโปรไฟล์",
+    "rename": "เปลี่ยนชื่อ",
+    "rename_title": "เปลี่ยนชื่อโปรไฟล์",
+    "rename_placeholder": "ป้อนชื่อโปรไฟล์",
+    "rename_success": "อัปเดตชื่อโปรไฟล์แล้ว",
+    "rename_error": "กรุณากรอกชื่อโปรไฟล์",
     "menu": {
-      "delete": "Delete Profile"
+      "delete": "ลบโปรไฟล์"
     },
     "status": {
-      "local": "Local Data",
-      "cloud": "Cloud Data",
-      "last_sync": "Last Sync",
-      "never": "Never"
+      "local": "ข้อมูลท้องถิ่น",
+      "cloud": "ข้อมูลคลาวด์",
+      "last_sync": "การซิงค์ครั้งล่าสุด",
+      "never": "ไม่เคย"
     }
   },
   "login": {
-    "sign_in": "Sign In",
-    "sign_up": "Sign Up",
-    "welcome_description": "Sign in with 3rd party account or email to upload and sync your data.",
-    "signed_in_title": "Successfully Signed In!",
-    "welcome_back": "Welcome back, {name}!",
-    "signin_error": "Failed to sign in. Please try again.",
-    "sign_in_with_discord": "Sign in with Discord",
-    "sign_in_with_google": "Sign in with Google",
-    "sign_in_with_email": "Sign in with Email",
-    "email": "Email",
-    "password": "Password",
-    "confirm_password": "Confirm Password",
-    "forgot_password": "Forgot Password?",
-    "reset_password": "Reset Password",
-    "send_reset_email": "Send Reset Email",
-    "back_to_login": "Back to Login",
-    "set_new_password": "Set New Password",
-    "new_password": "New Password",
-    "confirm_new_password": "Confirm New Password",
-    "update_password": "Update Password",
-    "email_required": "Email is required",
-    "password_required": "Password is required",
-    "password_min_length": "Password must be at least 6 characters",
-    "passwords_dont_match": "Passwords don't match",
-    "invalid_email": "Please enter a valid email address",
-    "signup_success": "Account created successfully! Please check your email for verification.",
-    "signin_success": "Signed in successfully!",
-    "reset_success": "Password reset email sent! Please check your inbox.",
-    "email_signin_error": "Failed to sign in with email. Please check your credentials.",
-    "email_signup_error": "Failed to create account. Please try again.",
-    "reset_error": "Failed to send reset email. Please try again.",
-    "or": "or"
+    "sign_in": "เข้าสู่ระบบ",
+    "sign_up": "ลงทะเบียน",
+    "welcome_description": "ลงชื่อเข้าใช้ด้วยบัญชีหรืออีเมลของบุคคลที่สามเพื่ออัปโหลดและซิงค์ข้อมูลของคุณ",
+    "signed_in_title": "ลงชื่อเข้าใช้สำเร็จแล้ว!",
+    "welcome_back": "ยินดีต้อนรับการกลับมา {name}!",
+    "signin_error": "ลงชื่อเข้าใช้ไม่สำเร็จ โปรดลองอีกครั้ง",
+    "sign_in_with_discord": "ลงชื่อเข้าใช้ด้วย Discord",
+    "sign_in_with_google": "ลงชื่อเข้าใช้งานด้วย Google",
+    "sign_in_with_email": "เข้าสู่ระบบด้วยอีเมล",
+    "email": "อีเมล",
+    "password": "รหัสผ่าน",
+    "confirm_password": "ยืนยันรหัสผ่าน",
+    "forgot_password": "ลืมรหัสผ่าน?",
+    "reset_password": "รีเซ็ตรหัสผ่าน",
+    "send_reset_email": "ส่งอีเมล์รีเซ็ต",
+    "back_to_login": "กลับไปที่เข้าสู่ระบบ",
+    "set_new_password": "ตั้งรหัสผ่านใหม่",
+    "new_password": "รหัสผ่านใหม่",
+    "confirm_new_password": "ยืนยันรหัสผ่านใหม่",
+    "update_password": "อัปเดตรหัสผ่าน",
+    "email_required": "จำเป็นต้องระบุอีเมล",
+    "password_required": "ต้องใช้รหัสผ่าน",
+    "password_min_length": "รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร",
+    "passwords_dont_match": "รหัสผ่านไม่ตรงกัน",
+    "invalid_email": "กรุณากรอกที่อยู่อีเมลที่ถูกต้อง",
+    "signup_success": "สร้างบัญชีสำเร็จแล้ว! โปรดตรวจสอบอีเมลของคุณเพื่อยืนยัน",
+    "signin_success": "ลงชื่อเข้าใช้เรียบร้อยแล้ว!",
+    "reset_success": "ส่งอีเมลรีเซ็ตรหัสผ่านแล้ว! กรุณาตรวจสอบกล่องจดหมายของคุณ",
+    "email_signin_error": "ไม่สามารถลงชื่อเข้าใช้ด้วยอีเมลได้ กรุณาตรวจสอบข้อมูลประจำตัวของคุณ",
+    "email_signup_error": "ไม่สามารถสร้างบัญชีได้ โปรดลองอีกครั้ง",
+    "reset_error": "ไม่สามารถส่งอีเมลรีเซ็ตได้ โปรดลองอีกครั้ง",
+    "or": "หรือ"
   },
   "error": {
-    "404": "\"Nikki, let's stay in the shallow water\"",
-    "notFound": "The page you are looking for does not exist.",
-    "returnHome": "Return Home"
+    "404": "“นิกกี้ไปอยู่ในน้ำตื้นกันเถอะ”",
+    "notFound": "หน้าที่คุณกำลังค้นหาไม่มีอยู่",
+    "returnHome": "กลับบ้าน"
   },
   "import": {
-    "video_tutorial": "Video Tutorial",
-    "video_tutorial_desc": "Watch step-by-step video guide to learn how to import your data:",
-    "watch_on_youtube": "Watch on YouTube",
-    "watch_on_bilibili": "Watch on Bilibili",
-    "choose_method": "Choose Import Method",
-    "choose_method_desc": "Choose how you want to import your pull history.",
-    "import_from_game": "Import from Game",
-    "import_from_file": "Import from File",
-    "import_from_pearpal": "Import from Whim-Log",
-    "file_import": "File Import",
-    "file_import_desc": "Import from a previously exported nikki-resonance-data file.",
-    "select_file": "Select File",
-    "select_region": "Select Region",
-    "select_region_desc": "Select your game server region.",
+    "video_tutorial": "วิดีโอสอน",
+    "video_tutorial_desc": "ดูคำแนะนำวิดีโอทีละขั้นตอนเพื่อเรียนรู้วิธีนำเข้าข้อมูลของคุณ:",
+    "watch_on_youtube": "ดูบน YouTube",
+    "watch_on_bilibili": "ดูที่ Bilibili",
+    "choose_method": "เลือกวิธีการนำเข้า",
+    "choose_method_desc": "เลือกวิธีที่คุณต้องการนำเข้าประวัติการดึงของคุณ",
+    "import_from_game": "นำเข้าจากเกม",
+    "import_from_file": "นำเข้าจากไฟล์",
+    "import_from_pearpal": "นำเข้าจาก Whim-Log",
+    "file_import": "การนำเข้าไฟล์",
+    "file_import_desc": "นำเข้าจากไฟล์ nikki-resonance-data ที่ส่งออกก่อนหน้านี้",
+    "select_file": "เลือกไฟล์",
+    "select_region": "เลือกภูมิภาค",
+    "select_region_desc": "เลือกภูมิภาคเซิร์ฟเวอร์เกมของคุณ",
     "regions": {
-      "america": "America",
-      "europe": "Europe",
-      "china": "China",
-      "tw": "TW/HK/Macau",
-      "asia": "Asia"
+      "america": "อเมริกา",
+      "europe": "ยุโรป",
+      "china": "จีน",
+      "tw": "ไต้หวัน/ฮ่องกง/มาเก๊า",
+      "asia": "เอเชีย"
     },
-    "pearpal_website": "Pearpal Website",
+    "pearpal_website": "เว็บไซต์เพิร์ลพาล",
     "whimlog": "Whim-Log",
-    "login_pearpal": "Login to Pearpal Website",
-    "login_pearpal_desc": "Open Pearpal Website in a new tab and login with your Infold account if you aren't already logged in.",
-    "login_pearpal_incognito_hint": "If you have multiple accounts, it's recommended to open Pearpal in an incognito/private browser window.",
-    "login_whimlog": "Sync data in Whim-Log",
-    "login_whimlog_desc": "Open Whim-Log in a new tab, login and sync your data.",
-    "get_cookie": "Get Cookie From Pearpal Website",
-    "get_cookie_desc": "Choose how you want to get your Cookie:",
-    "gongeous_cookie": "Gongeous Cookie",
-    "bookmark_method": "Bookmark Method (Recommended)",
-    "bookmark_method_mobile": "Bookmark Method",
-    "console_method": "Console Method",
-    "manual_input": "Manual Method",
-    "title": "Follow these steps to get your Cookie:",
+    "login_pearpal": "เข้าสู่เว็บไซต์ Pearlpal",
+    "login_pearpal_desc": "เปิดเว็บไซต์ Pearpal ในแท็บใหม่และเข้าสู่ระบบด้วยบัญชี Infold ของคุณ หากคุณยังไม่ได้เข้าสู่ระบบ",
+    "login_pearpal_incognito_hint": "หากคุณมีหลายบัญชี ขอแนะนำให้เปิด Pearpal ในหน้าต่างเบราว์เซอร์ที่ไม่ระบุตัวตน/ส่วนตัว",
+    "login_whimlog": "ซิงค์ข้อมูลใน Whim-Log",
+    "login_whimlog_desc": "เปิด Whim-Log ในแท็บใหม่ เข้าสู่ระบบและซิงค์ข้อมูลของคุณ",
+    "get_cookie": "รับคุกกี้จากเว็บไซต์ Pearlal",
+    "get_cookie_desc": "เลือกวิธีที่คุณต้องการรับคุกกี้:",
+    "gongeous_cookie": "คุกกี้ Gongeous",
+    "bookmark_method": "วิธีการบุ๊กมาร์ก (แนะนำ)",
+    "bookmark_method_mobile": "วิธีการบุ๊กมาร์ก",
+    "console_method": "วิธีการคอนโซล",
+    "manual_input": "วิธีการด้วยตนเอง",
+    "title": "ทำตามขั้นตอนเหล่านี้เพื่อรับคุกกี้ของคุณ:",
     "bookmark_steps": {
-      "step1": "Drag the \"Gongeous Cookie\" button to your bookmarks bar (only needs to be done once):",
-      "step2": "Switch to Pearpal Website in a different tab, make sure you are logged in",
-      "step3": "Click the \"Gongeous Cookie\" bookmark while on the Pearpal Website",
-      "step4": "Copy the output text in the popup (it should look like the example in the input area below)",
-      "step5": "Come back here and paste the output text in the input area below",
-      "tip": "Tip: You can keep the bookmark for getting Cookie the next time you import"
+      "step1": "ลากปุ่ม \"Gongeous Cookie\" ไปที่แถบบุ๊กมาร์กของคุณ (ต้องทำเพียงครั้งเดียว):",
+      "step2": "สลับไปที่เว็บไซต์ Pearlal ในแท็บอื่น ตรวจสอบให้แน่ใจว่าคุณได้เข้าสู่ระบบแล้ว",
+      "step3": "คลิกบุ๊กมาร์ก \"Gongeous Cookie\" ขณะอยู่บนเว็บไซต์ Pearpal",
+      "step4": "คัดลอกข้อความเอาต์พุตในป๊อปอัป (ควรมีลักษณะเหมือนตัวอย่างในพื้นที่ป้อนข้อมูลด้านล่าง)",
+      "step5": "กลับมาที่นี่และวางข้อความเอาต์พุตลงในพื้นที่ป้อนข้อมูลด้านล่าง",
+      "tip": "เคล็ดลับ: คุณสามารถเก็บบุ๊กมาร์กไว้เพื่อรับคุกกี้ในครั้งถัดไปที่คุณนำเข้าได้"
     },
     "bookmark_steps_mobile": {
-      "step1": "Tap the \"Copy Code\" button and copy the code",
-      "step2": "Create a new bookmark in your browser and name it \"Gongeous Cookie\"",
-      "step3": "Edit the bookmark URL and replace it with the code you copied",
-      "step4": "Switch to Pearpal Website in a different tab, make sure you are logged in",
-      "step5": "Tap the \"Gongeous Cookie\" bookmark while on the Pearpal Website",
-      "step5_android_chrome": "Start typing the bookmark name you saved (Gongeous Cookie) in the address bar",
-      "step5_android_chrome_2": "Select the bookmark from suggestions to run it",
-      "step6": "Copy the output text in the popup (it should look like the example in the input area below)",
-      "step7": "Come back here and paste the output text in the input area below"
+      "step1": "แตะปุ่ม \"คัดลอกรหัส\" และคัดลอกรหัส",
+      "step2": "สร้างบุ๊กมาร์กใหม่ในเบราว์เซอร์ของคุณและตั้งชื่อว่า \"Gongeous Cookie\"",
+      "step3": "แก้ไข URL ของบุ๊กมาร์กและแทนที่ด้วยโค้ดที่คุณคัดลอก",
+      "step4": "สลับไปที่เว็บไซต์ Pearlal ในแท็บอื่น ตรวจสอบให้แน่ใจว่าคุณได้เข้าสู่ระบบแล้ว",
+      "step5": "แตะบุ๊กมาร์ก \"Gongeous Cookie\" ขณะอยู่บนเว็บไซต์ Pearpal",
+      "step5_android_chrome": "เริ่มพิมพ์ชื่อบุ๊กมาร์กที่คุณบันทึกไว้ (Gongeous Cookie) ลงในแถบที่อยู่",
+      "step5_android_chrome_2": "เลือกบุ๊กมาร์กจากคำแนะนำเพื่อเรียกใช้",
+      "step6": "คัดลอกข้อความเอาต์พุตในป๊อปอัป (ควรมีลักษณะเหมือนตัวอย่างในพื้นที่ป้อนข้อมูลด้านล่าง)",
+      "step7": "กลับมาที่นี่และวางข้อความเอาต์พุตลงในพื้นที่ป้อนข้อมูลด้านล่าง"
     },
     "console_steps": {
-      "step1": "Switch to Pearpal Website in a different tab, make sure you are logged in",
-      "step2": "Open your browser's Developer Tools (Press F12 or right-click and select \"Inspect\")",
-      "step3": "Go to the \"Console\" tab",
-      "step4": "Click the \"Copy Code\" button, copy and paste the code into the console and press enter:",
-      "step5": "If you get a warning saying \"Warning: Don't paste code into the devtools console\", type \"allow pasting\" and hit enter",
-      "step6": "Copy the output text in the console (it should look like the example in the input area below)",
-      "step7": "Come back here and paste the output text in the input area below"
+      "step1": "สลับไปที่เว็บไซต์ Pearlal ในแท็บอื่น ตรวจสอบให้แน่ใจว่าคุณได้เข้าสู่ระบบแล้ว",
+      "step2": "เปิดเครื่องมือสำหรับนักพัฒนาซอฟต์แวร์ของเบราว์เซอร์ของคุณ (กด F12 หรือคลิกขวาแล้วเลือก \"ตรวจสอบ\")",
+      "step3": "ไปที่แท็บ \"คอนโซล\"",
+      "step4": "คลิกปุ่ม \"คัดลอกรหัส\" คัดลอกและวางรหัสลงในคอนโซลแล้วกด Enter:",
+      "step5": "หากคุณได้รับคำเตือนว่า \"คำเตือน: อย่าวางโค้ดลงในคอนโซล devtools\" ให้พิมพ์ \"อนุญาตให้วาง\" แล้วกด Enter",
+      "step6": "คัดลอกข้อความเอาต์พุตในคอนโซล (ควรมีลักษณะเหมือนตัวอย่างในพื้นที่อินพุตด้านล่าง)",
+      "step7": "กลับมาที่นี่และวางข้อความเอาต์พุตลงในพื้นที่ป้อนข้อมูลด้านล่าง"
     },
     "manual_steps": {
-      "note": "(Using Google Chrome as an example, exact names might vary for other browsers but steps will be similar)",
-      "step1": "Switch to Pearpal Website in a different tab, make sure you are logged in",
-      "step2": "Open your browser's Developer Tools (Press F12 or right-click and select \"Inspect\")",
-      "step3": "Go to the \"Application\" tab (or \"Storage\" in Firefox)",
-      "step4": "In the left sidebar, expand \"Cookies\" and select the Pearpal Website",
-      "step5": "Alternatively, you can use a browser extension for Cookies like Cookie Editor",
-      "step6": "Find and copy the values for:",
+      "note": "(ใช้ Google Chrome เป็นตัวอย่าง ชื่อที่แน่นอนอาจแตกต่างกันไปตามเบราว์เซอร์อื่น แต่ขั้นตอนจะคล้ายกัน)",
+      "step1": "สลับไปที่เว็บไซต์ Pearlal ในแท็บอื่น ตรวจสอบให้แน่ใจว่าคุณได้เข้าสู่ระบบแล้ว",
+      "step2": "เปิดเครื่องมือสำหรับนักพัฒนาซอฟต์แวร์ของเบราว์เซอร์ของคุณ (กด F12 หรือคลิกขวาแล้วเลือก \"ตรวจสอบ\")",
+      "step3": "ไปที่แท็บ \"แอปพลิเคชัน\" (หรือ \"ที่เก็บข้อมูล\" ใน Firefox)",
+      "step4": "ในแถบด้านข้างซ้าย ให้ขยาย \"คุกกี้\" และเลือกเว็บไซต์ Pearpal",
+      "step5": "หรือคุณสามารถใช้ส่วนขยายเบราว์เซอร์สำหรับคุกกี้ เช่น ตัวแก้ไขคุกกี้",
+      "step6": "ค้นหาและคัดลอกค่าสำหรับ:",
       "step6_items": {
-        "momo_id": "momoNid (for Momo ID field)",
-        "momo_token": "momoToken (for Momo Token field)"
+        "momo_id": "momoNid (สำหรับช่อง Momo ID)",
+        "momo_token": "momoToken (สำหรับช่อง Momo Token)"
       },
-      "step7": "For UID, go to your Pearpal profile and copy your UID number"
+      "step7": "สำหรับ UID ให้ไปที่โปรไฟล์ Pearpal ของคุณแล้วคัดลอกหมายเลข UID ของคุณ"
     },
-    "security_note": "Note: Never share these Cookie values with anyone else!",
-    "data_note": "Important: Pull data via this import method is retained for only 180 days. Data before {date} won't be available. You can use \"Import from Whim-Log\" to import older data.",
+    "security_note": "หมายเหตุ: อย่าเปิดเผยค่าคุกกี้เหล่านี้กับบุคคลอื่น!",
+    "data_note": "สิ่งสำคัญ: การดึงข้อมูลด้วยวิธีนำเข้านี้จะถูกเก็บไว้เพียง 180 วันเท่านั้น ข้อมูลก่อน {date} จะไม่สามารถใช้ได้ คุณสามารถใช้ \"นำเข้าจาก Whim-Log\" เพื่อนำเข้าข้อมูลที่เก่ากว่าได้",
     "form": {
       "uid": "UID",
-      "uid_placeholder": "In-game UID",
-      "momo_id": "Momo ID",
-      "momo_id_placeholder": "momoNid from Cookie",
-      "momo_token": "Momo Token",
-      "momo_token_placeholder": "momoToken from Cookie",
-      "submit_global_stats": "Submit data for global stats",
-      "submit_button": "Submit and Import Pull History",
-      "fetching": "Fetching resonance data, please wait..."
+      "uid_placeholder": "UID ในเกม",
+      "momo_id": "โมโม่ ไอดี",
+      "momo_id_placeholder": "โมโมนิด จาก Cookie",
+      "momo_token": "โมโม โทเคน",
+      "momo_token_placeholder": "momoToken จากคุกกี้",
+      "submit_global_stats": "ส่งข้อมูลสำหรับสถิติทั่วโลก",
+      "submit_button": "ส่งและนำเข้าประวัติการดึง",
+      "fetching": "กำลังดึงข้อมูลเสียงสะท้อน โปรดรอสักครู่..."
     },
     "progress": {
-      "processing_banner": "Processing banner {current} of {total}",
-      "fetching_data": "Fetching resonance data: {banner}"
+      "processing_banner": "กำลังประมวลผลแบนเนอร์ {current} ของ {total}",
+      "fetching_data": "กำลังดึงข้อมูลเรโซแนนซ์: {banner}"
     },
     "actions": {
-      "copy_code": "Copy Code",
-      "paste_from_clipboard": "Paste from Clipboard",
-      "select_all": "Select All"
+      "copy_code": "คัดลอกรหัส",
+      "paste_from_clipboard": "วางจากคลิปบอร์ด",
+      "select_all": "เลือกทั้งหมด"
     },
-    "select_banners": "Select Banners You Pulled",
-    "select_banners_desc": "No need to re-import",
+    "select_banners": "เลือกแบนเนอร์ที่คุณดึง",
+    "select_banners_desc": "ไม่จำเป็นต้องนำเข้าซ้ำ",
     "banner_groups": {
-      "quick_select": "Quick Select",
-      "current_banners": "Current Banners",
-      "limited_banners": "Limited Banners",
-      "permanent_banners": "Permanent Banners",
-      "individual": "Individual Banners"
+      "quick_select": "เลือกด่วน",
+      "current_banners": "แบนเนอร์ปัจจุบัน",
+      "limited_banners": "แบนเนอร์จำนวนจำกัด",
+      "permanent_banners": "แบนเนอร์ถาวร",
+      "individual": "แบนเนอร์ส่วนบุคคล"
     },
     "messages": {
-      "code_copied": "Code copied to clipboard!",
-      "code_copy_failed": "Failed to copy code to clipboard",
-      "data_paste_success": "Data pasted successfully!",
-      "data_paste_success_no_uid": "Please copy and paste your UID manually",
-      "data_paste_failed": "Failed to parse input data. Please ensure it is valid format",
-      "auth_success": "Authentication successful!",
-      "auth_failed": "Authentication failed",
-      "auth_failed_hint": "Please double check your inputs and try opening Pearpal in an incognito/private browser window.",
-      "stats_submit_failed": "Failed to submit global stats",
-      "fetch_history_failed": "Failed to fetch pull history",
-      "invalid_form": "Invalid form data",
-      "import_success": "Data imported successfully!",
-      "import_failed": "Failed to import file",
-      "pearpal_tracker_success": "Pearpal data imported successfully!",
-      "pearpal_tracker_failed": "Failed to import Pearpal data."
+      "code_copied": "คัดลอกรหัสไปยังคลิปบอร์ดแล้ว!",
+      "code_copy_failed": "ไม่สามารถคัดลอกรหัสไปยังคลิปบอร์ด",
+      "data_paste_success": "วางข้อมูลเรียบร้อยแล้ว!",
+      "data_paste_success_no_uid": "โปรดคัดลอกและวาง UID ของคุณด้วยตนเอง",
+      "data_paste_failed": "ไม่สามารถแยกวิเคราะห์ข้อมูลอินพุต โปรดตรวจสอบให้แน่ใจว่าเป็นรูปแบบที่ถูกต้อง",
+      "auth_success": "การตรวจสอบสิทธิ์สำเร็จ!",
+      "auth_failed": "การตรวจสอบสิทธิ์ล้มเหลว",
+      "auth_failed_hint": "โปรดตรวจสอบอินพุตของคุณอีกครั้งและลองเปิด Pearpal ในหน้าต่างเบราว์เซอร์ที่ไม่ระบุตัวตน/ส่วนตัว",
+      "stats_submit_failed": "ไม่สามารถส่งสถิติทั่วโลก",
+      "fetch_history_failed": "ดึงข้อมูลประวัติการดึงไม่สำเร็จ",
+      "invalid_form": "ข้อมูลแบบฟอร์มไม่ถูกต้อง",
+      "import_success": "นำเข้าข้อมูลเรียบร้อยแล้ว!",
+      "import_failed": "ไม่สามารถนำเข้าไฟล์",
+      "pearpal_tracker_success": "นำเข้าข้อมูล Pearlal สำเร็จแล้ว!",
+      "pearpal_tracker_failed": "ไม่สามารถนำเข้าข้อมูล Pearpal"
     },
-    "supported_browsers": "Supported Browsers",
+    "supported_browsers": "เบราว์เซอร์ที่รองรับ",
     "supported_browsers_list": {
-      "chrome": "Google Chrome",
-      "firefox": "Mozilla Firefox",
-      "safari": "Apple Safari"
+      "chrome": "กูเกิลโครม",
+      "firefox": "มอซซิลา ไฟร์ฟอกซ์",
+      "safari": "แอปเปิ้ลซาฟารี"
     },
-    "check_compatibility": "Check Browser Compatibility",
-    "pc_recommended": "You are using a mobile device, you can import using the supported browsers listed below, other browsers are not tested and might not work. For the best experience, we recommend using a PC browser for importing data.",
+    "check_compatibility": "ตรวจสอบความเข้ากันได้ของเบราว์เซอร์",
+    "pc_recommended": "คุณกำลังใช้อุปกรณ์เคลื่อนที่ คุณสามารถนำเข้าโดยใช้เบราว์เซอร์ที่รองรับตามรายการด้านล่าง เบราว์เซอร์อื่นๆ ไม่ได้ทดสอบและอาจใช้งานไม่ได้ เพื่อประสบการณ์ที่ดีที่สุด เราขอแนะนำให้ใช้เบราว์เซอร์พีซีในการนำเข้าข้อมูล",
     "bookmark_script": {
-      "invalid_site": "Please use this bookmark on Pearpal Website"
+      "invalid_site": "กรุณาใช้บุ๊กมาร์กนี้บนเว็บไซต์ Pearlpal"
     },
     "maintenance": {
-      "title": "Under Maintenance",
-      "message": "We're currently performing some maintenance. Pull history import is temporarily unavailable.",
-      "status": "Service will be back shortly. Thank you for your patience!"
+      "title": "อยู่ระหว่างการบำรุงรักษา",
+      "message": "ขณะนี้เรากำลังดำเนินการบำรุงรักษาบางอย่าง การนำเข้าประวัติการดึงไม่สามารถใช้งานได้ชั่วคราว",
+      "status": "การบริการจะกลับมาเร็ว ๆ นี้ ขอบคุณสำหรับความอดทนของคุณ!"
     }
   },
   "tracker": {
     "stats": {
-      "title": "Pull Statistics",
-      "total_pulls": "Total Pulls",
-      "no_pulls": "No pull history for this banner",
-      "total_5star_4star": "5★ / 4★ Total",
-      "avg_5star": "5★ Avg (5★ Banner)",
-      "avg_4star_mixed": "4★ Avg (5★ Banner)",
-      "avg_4star_only": "4★ Avg (4★ Banner)",
-      "luckier": "Luckier than {percent}% of the gongeo.us users",
-      "more_pulls": "More than {percent}% of the gongeo.us users"
+      "title": "ดึงสถิติ",
+      "total_pulls": "การดึงทั้งหมด",
+      "no_pulls": "ไม่มีประวัติการดึงสำหรับแบนเนอร์นี้",
+      "total_5star_4star": "5 ★ / 4 ★ รวม",
+      "avg_5star": "5★ เฉลี่ย (5★ แบนเนอร์)",
+      "avg_4star_mixed": "4★ เฉลี่ย (5★ แบนเนอร์)",
+      "avg_4star_only": "4★ เฉลี่ย (4★ แบนเนอร์)",
+      "luckier": "โชคดีกว่า {percent}% ของผู้ใช้ gongeo.us",
+      "more_pulls": "มากกว่า {percent}% ของผู้ใช้ gongeo.us"
     },
     "manual_log": {
-      "title": "Manual Import",
-      "description": "Use this option only if you don't want to use the game import or you are missing some items from the game import.",
-      "note": "Note: Manually imported data will only be used to display outfit completion status and will not be included in personal or global stats calculations.",
-      "open_editor": "Open Editor",
-      "select_banner": "Select Banner",
-      "apply_to_all": "Apply to All",
-      "success": "Outfit saved successfully!",
-      "error": "Failed to save outfit",
-      "evo_level": "Evolution Level"
+      "title": "การนำเข้าด้วยตนเอง",
+      "description": "ใช้ตัวเลือกนี้เฉพาะในกรณีที่คุณไม่ต้องการใช้การนำเข้าเกม หรือคุณขาดบางรายการจากการนำเข้าเกม",
+      "note": "หมายเหตุ: ข้อมูลที่นำเข้าด้วยตนเองจะถูกใช้เพื่อแสดงสถานะการแต่งกายที่เสร็จสมบูรณ์เท่านั้น และจะไม่รวมอยู่ในการคำนวณสถิติส่วนบุคคลหรือทั่วโลก",
+      "open_editor": "เปิดตัวแก้ไข",
+      "select_banner": "เลือกแบนเนอร์",
+      "apply_to_all": "นำไปใช้กับทั้งหมด",
+      "success": "บันทึกชุดสำเร็จแล้ว!",
+      "error": "ไม่สามารถบันทึกเครื่องแต่งกายได้",
+      "evo_level": "ระดับวิวัฒนาการ"
     },
     "banner": {
       "stats": {
-        "total_pulls": "Total Pulls",
-        "total_5star": "5★ Total",
-        "avg_5star": "5★ Avg",
-        "total_4star": "4★ Total",
-        "avg_4star": "4★ Avg",
-        "pity_5star": "5★ Pity",
-        "pity_4star": "4★ Pity"
+        "total_pulls": "การดึงทั้งหมด",
+        "total_5star": "5 ★ รวม",
+        "avg_5star": "5★ เฉลี่ย",
+        "total_4star": "4 ★ รวม",
+        "avg_4star": "4★ เฉลี่ย",
+        "pity_5star": "5 น่าสงสาร",
+        "pity_4star": "4 ★ สงสาร"
       },
       "settings": {
-        "banner_order": "Banner Order",
-        "item_order": "Item Order",
-        "latest_first": "Latest First",
-        "oldest_first": "Oldest First",
-        "outfit_display": "Outfit Display",
-        "item_display": "Item Display",
-        "combined": "Combined",
-        "separated": "Separated",
-        "show_4star": "4★ (5★ Banner)",
-        "show_missing": "Missing Pieces",
-        "duplicate_items": "Duplicate Items",
-        "empty_banners": "Empty Banners",
-        "data_source": "Data Source",
+        "banner_order": "ลำดับแบนเนอร์",
+        "item_order": "สั่งซื้อสินค้า",
+        "latest_first": "ล่าสุดก่อน",
+        "oldest_first": "เก่าแก่ที่สุดก่อน",
+        "outfit_display": "การแสดงเครื่องแต่งกาย",
+        "item_display": "แสดงรายการ",
+        "combined": "รวม",
+        "separated": "แยกจากกัน",
+        "show_4star": "4 ★ (5 แบนเนอร์)",
+        "show_missing": "ชิ้นส่วนที่หายไป",
+        "duplicate_items": "รายการที่ซ้ำกัน",
+        "empty_banners": "แบนเนอร์ว่างเปล่า",
+        "data_source": "แหล่งข้อมูล",
         "pearpal": "Whim-Log",
-        "game": "Game",
-        "auto": "Auto",
-        "data_source_tooltip": "Select your preferred data source. If no data is available from the selected source, the other source will be used instead. Only one data source is displayed and used for statistics calculations at a time.",
-        "auto_option": "\"Auto\" will combine both sources, preferring the source with more pulls for each banner."
+        "game": "เกม",
+        "auto": "อัตโนมัติ",
+        "data_source_tooltip": "เลือกแหล่งข้อมูลที่คุณต้องการ หากไม่มีข้อมูลจากแหล่งที่เลือก ระบบจะใช้แหล่งข้อมูลอื่นแทน แหล่งข้อมูลเดียวเท่านั้นที่แสดงและใช้สำหรับการคำนวณทางสถิติในแต่ละครั้ง",
+        "auto_option": "\"อัตโนมัติ\" จะรวมทั้งสองแหล่งเข้าด้วยกัน โดยเลือกแหล่งที่มาที่มีการดึงมากกว่าสำหรับแต่ละแบนเนอร์"
       }
     },
     "items": {
-      "pull": "Pull #{number}",
+      "pull": "ดึง #{number}",
       "category": {
-        "clothes": "Clothes",
-        "accessories": "Accessories",
-        "makeups": "Makeups"
+        "clothes": "เสื้อผ้า",
+        "accessories": "เครื่องประดับ",
+        "makeups": "เครื่องสำอาง"
       }
     },
     "export": {
-      "png": "Export Image",
-      "json": "Export File",
-      "generated_from": "Generated From",
-      "in_progress": "Export in progress, please wait...",
-      "success": "Data exported successfully!",
-      "error": "Failed to export data. Please try again."
+      "png": "ส่งออกรูปภาพ",
+      "json": "ส่งออกไฟล์",
+      "generated_from": "สร้างขึ้นจาก",
+      "in_progress": "อยู่ระหว่างการส่งออก โปรดรอสักครู่...",
+      "success": "ส่งออกข้อมูลเรียบร้อยแล้ว!",
+      "error": "ส่งออกข้อมูลไม่สำเร็จ โปรดลองอีกครั้ง"
     },
     "no_data": {
-      "title": "No Resonance History",
-      "subtitle": "Please import your resonance data first.",
-      "error": "Failed to load data. Please try again."
+      "title": "ไม่มีประวัติเสียงสะท้อน",
+      "subtitle": "โปรดนำเข้าข้อมูลเสียงสะท้อนของคุณก่อน",
+      "error": "โหลดข้อมูลไม่สำเร็จ โปรดลองอีกครั้ง"
     }
   },
   "quiz": {
-    "title": "Outfit Silhouette",
-    "meta_description": "Guess the outfit from its silhouette in a quick mini-game.",
-    "instructions": "Guess the outfit from its silhouette. The faster you answer, the higher your score.",
-    "game_complete": "Game Complete",
-    "final_score": "Final score {score}",
-    "round": "Round",
-    "score": "Score",
-    "streak": "Streak",
-    "best_streak": "Best streak",
-    "rounds": "Rounds",
-    "right": "Right",
-    "wrong": "Wrong",
-    "start": "Start",
-    "next": "Next",
-    "skip": "Skip",
-    "play_again": "Play again",
-    "reveal_direction": "Reveal direction",
-    "blur": "Blur",
-    "answer_mode": "Answer mode",
-    "correct_answer": "Correct answer",
+    "title": "ชุดซิลลูเอต",
+    "meta_description": "เดาชุดจากเงาของมันในมินิเกมสั้นๆ",
+    "instructions": "เดาชุดจากภาพเงาของมัน ยิ่งคุณตอบเร็วเท่าไร คะแนนของคุณก็จะยิ่งสูงขึ้นเท่านั้น",
+    "game_complete": "เกมเสร็จสมบูรณ์",
+    "final_score": "คะแนนสุดท้าย {score}",
+    "round": "กลม",
+    "score": "คะแนน",
+    "streak": "ริ้ว",
+    "best_streak": "แนวที่ดีที่สุด",
+    "rounds": "รอบ",
+    "right": "ขวา",
+    "wrong": "ผิด",
+    "start": "เริ่ม",
+    "next": "ต่อไป",
+    "skip": "ข้าม",
+    "play_again": "เล่นอีกครั้ง",
+    "reveal_direction": "เผยทิศทาง",
+    "blur": "เบลอ",
+    "answer_mode": "โหมดตอบรับ",
+    "correct_answer": "คำตอบที่ถูกต้อง",
     "reveal_options": {
-      "middle_out": "Middle out",
-      "top_down": "Top to bottom",
-      "bottom_up": "Bottom to top"
+      "middle_out": "ออกกลาง",
+      "top_down": "จากบนลงล่าง",
+      "bottom_up": "จากล่างขึ้นบน"
     }
   },
   "banner": {
-    "version": "Version",
+    "version": "เวอร์ชัน",
     "luck": {
-      "1": "Veil of the Dark",
-      "2": "Faded Starlight",
-      "3": "Whisper of Whim",
-      "4": "Echo of Wishes",
-      "5": "Miracle Resonance",
-      "6": "Blessing of Divinity"
+      "1": "ม่านแห่งความมืด",
+      "2": "แสงดาวที่จางหาย",
+      "3": "เสียงกระซิบแห่งราชประสงค์",
+      "4": "เสียงสะท้อนแห่งความปรารถนา",
+      "5": "มิราเคิลเรโซแนนซ์",
+      "6": "พรแห่งความศักดิ์สิทธิ์"
     },
     "outfit": {
       "level": {
-        "0": "Unset",
-        "1": "Base",
-        "2": "Evo 1",
-        "3": "Evo 2",
-        "4": "Evo 3",
-        "glow": "Glowed Up"
+        "0": "ยกเลิกการตั้งค่า",
+        "1": "ฐาน",
+        "2": "อีโว 1",
+        "3": "อีโว 2",
+        "4": "อีโว 3",
+        "glow": "ปรับแต่งแล้ว"
       }
     },
-    "deep_echoes": "Deep Echoes",
-    "not_found": "Banner not found"
+    "deep_echoes": "เสียงสะท้อนกังวาน",
+    "not_found": "ไม่พบแบนเนอร์"
   },
   "global": {
     "stats": {
-      "total_pulls": "Total Pulls",
-      "unique_users": "Total Stylists",
-      "avg_5star": "5★ Avg (5★ Banner)",
-      "avg_4star_type2": "4★ Avg (5★ Banner)",
-      "avg_4star_type3": "4★ Avg (4★ Banner)",
-      "data_as_of": "Data as of"
+      "total_pulls": "การดึงทั้งหมด",
+      "unique_users": "รวมสไตลิสต์",
+      "avg_5star": "5★ เฉลี่ย (5★ แบนเนอร์)",
+      "avg_4star_type2": "4★ เฉลี่ย (5★ แบนเนอร์)",
+      "avg_4star_type3": "4★ เฉลี่ย (4★ แบนเนอร์)",
+      "data_as_of": "ข้อมูล ณ วันที่"
     },
     "charts": {
-      "pulls_per_banner": "Pulls Per Banner",
-      "five_star_distribution": "5★ Pulls Distribution",
-      "four_star_type2_distribution": "4★ Distribution (5★ Banner)",
-      "four_star_type3_distribution": "4★ Distribution (4★ Banner)",
-      "first_item_distribution": "First Item Distribution",
-      "number_of_pulls": "Number of Pulls",
-      "probability": "Probability",
-      "cumulative_probability": "Cumulative Probability",
-      "occurrences": "Occurrences",
-      "percentage": "Percentage",
-      "all_banners": "All Banners",
-      "five_star_banners": "5★ Banners",
-      "four_star_banners": "4★ Banners",
-      "recent_only": "Recent",
-      "all_time": "All Time",
-      "first_item_distribution_tooltip": "This banner includes pulls older than 180 days, which are no longer available in game. As a result, the first item distribution data may be inaccurate."
+      "pulls_per_banner": "ดึงต่อแบนเนอร์",
+      "five_star_distribution": "5 ★ดึงการกระจาย",
+      "four_star_type2_distribution": "4 การกระจาย (5 แบนเนอร์)",
+      "four_star_type3_distribution": "4 การกระจาย (4 แบนเนอร์)",
+      "first_item_distribution": "การกระจายสินค้าชิ้นแรก",
+      "number_of_pulls": "จำนวนการดึง",
+      "probability": "ความน่าจะเป็น",
+      "cumulative_probability": "ความน่าจะเป็นสะสม",
+      "occurrences": "การเกิดขึ้น",
+      "percentage": "เปอร์เซ็นต์",
+      "all_banners": "แบนเนอร์ทั้งหมด",
+      "five_star_banners": "5 แบนเนอร์",
+      "four_star_banners": "4 แบนเนอร์",
+      "recent_only": "ล่าสุด",
+      "all_time": "ตลอดเวลา",
+      "first_item_distribution_tooltip": "แบนเนอร์นี้รวมการดึงข้อมูลที่มีอายุมากกว่า 180 วัน ซึ่งไม่มีอยู่ในเกมอีกต่อไป ส่งผลให้ข้อมูลการกระจายสินค้ารายการแรกอาจไม่ถูกต้อง"
     }
   },
   "faq": {
-    "title": "Frequently Asked Questions",
+    "title": "คำถามที่พบบ่อย",
     "questions": {
       "data_source": {
-        "question": "How are you getting the data?",
-        "answer": "We are using the same API as the in-game pull history page to access Infold Games servers that store the banner pull data. To access the data, we need to authenticate with the Infold Games server using your account Cookie."
+        "question": "คุณได้รับข้อมูลอย่างไร?",
+        "answer": "เราใช้ API เดียวกันกับหน้าประวัติการดึงในเกมเพื่อเข้าถึงเซิร์ฟเวอร์ Infold Games ที่เก็บข้อมูลการดึงแบนเนอร์ ในการเข้าถึงข้อมูล เราจำเป็นต้องตรวจสอบสิทธิ์กับเซิร์ฟเวอร์ Infold Games โดยใช้คุกกี้บัญชีของคุณ"
       },
       "ban_risk": {
-        "question": "Will I get banned for using this?",
-        "answer": "This is a third-party tool, so there is always some risk, though it is ultimately up to Infold Games. However, similar tools are widely used in other gacha games (Paimon.moe、Star Rail Station、WuWa Tracker etc.) and also in the Chinese community of Infinity Nikki (小黑盒 游创工坊). Take this information as a reference, and make your own judgement."
+        "question": "ฉันจะถูกแบนจากการใช้สิ่งนี้หรือไม่?",
+        "answer": "นี่เป็นเครื่องมือของบุคคลที่สาม ดังนั้นจึงมีความเสี่ยงอยู่เสมอ แม้ว่าท้ายที่สุดแล้วจะขึ้นอยู่กับ Infold Games ก็ตาม อย่างไรก็ตาม เครื่องมือที่คล้ายกันนี้มีการใช้กันอย่างแพร่หลายในเกมกาชาอื่นๆ (Paimon.moe、Star Rail Station、WuWa Tracker ฯลฯ) และในชุมชนชาวจีนของ Infinity Nikki (小黑盒 游创工坊) ใช้ข้อมูลนี้เป็นข้อมูลอ้างอิงและตัดสินใจด้วยตัวเอง"
       },
       "data_storage": {
-        "question": "What data are you storing?",
-        "answer": "Your pull history is stored locally in your browser, so the next time you visit the site, it will be there unless you clear your browser data. We do not collect any personal information, including the Cookie you submitted."
+        "question": "คุณเก็บข้อมูลอะไรบ้าง?",
+        "answer": "ประวัติการดึงของคุณจะถูกจัดเก็บไว้ในเบราว์เซอร์ของคุณ ดังนั้นในครั้งต่อไปที่คุณเยี่ยมชมไซต์ มันจะอยู่ที่นั่นจนกว่าคุณจะล้างข้อมูลเบราว์เซอร์ของคุณ เราไม่รวบรวมข้อมูลส่วนบุคคลใด ๆ รวมถึงคุกกี้ที่คุณส่งมา"
       },
       "server_data": {
-        "question": "What data is sent to the server?",
-        "answer": "Only your pull statistics are sent to help calculate global stats if you opt in. This includes a hashed version of your UID, and the information of 4★ and 5★ items you pulled."
+        "question": "ข้อมูลใดบ้างที่ถูกส่งไปยังเซิร์ฟเวอร์?",
+        "answer": "เฉพาะสถิติการดึงของคุณเท่านั้นที่จะถูกส่งไปเพื่อช่วยคำนวณสถิติทั่วโลกหากคุณเลือกใช้ ซึ่งรวมถึง UID เวอร์ชันแฮชของคุณ และข้อมูลของรายการ 4 ★และ 5 ที่คุณดึงมา"
       },
       "platform_support": {
-        "question": "Will it work if I play on mobile or PS5?",
-        "answer": "Yes, no matter which platform you play on, you can import your data from PC or mobile. However, on mobile it might not work for all browsers, it is recommended to use PC for better experience, please check the import page for supported browsers and more details."
+        "question": "จะใช้งานได้ไหมหากฉันเล่นบนมือถือหรือ PS5?",
+        "answer": "ใช่ ไม่ว่าคุณจะเล่นบนแพลตฟอร์มใด คุณสามารถนำเข้าข้อมูลของคุณจากพีซีหรือมือถือได้ อย่างไรก็ตาม บนมือถืออาจใช้ไม่ได้กับบางเบราว์เซอร์ ขอแนะนำให้ใช้พีซีเพื่อประสบการณ์ที่ดีขึ้น โปรดตรวจสอบหน้าการนำเข้าสำหรับเบราว์เซอร์ที่รองรับและรายละเอียดเพิ่มเติม"
       },
       "cookie_script": {
-        "question": "Do I have to run a script to get my Cookie?",
-        "answer": "No, they are just for convenience, you can get the Cookie manually, check manual input instructions in the import page for more details. However, the only way to get the Cookie on mobile now is to use the bookmark method."
+        "question": "ฉันจำเป็นต้องรันสคริปต์เพื่อรับคุกกี้ของฉันหรือไม่?",
+        "answer": "ไม่ มีไว้เพื่อความสะดวกเท่านั้น คุณสามารถรับคุกกี้ได้ด้วยตนเอง ตรวจสอบคำแนะนำในการป้อนข้อมูลด้วยตนเองในหน้านำเข้าเพื่อดูรายละเอียดเพิ่มเติม อย่างไรก็ตาม วิธีเดียวที่จะรับคุกกี้บนมือถือได้ในตอนนี้คือการใช้วิธีการบุ๊กมาร์ก"
       },
       "data_loss": {
-        "question": "Why is the data incomplete or missing for some banners?",
-        "answer": "This happens because pull history is only stored in the game for 180 days. After that, it is deleted from the game servers and becomes unavailable. To preserve your data, you can store it in your browser or export it for backup. This way, you can keep records that are no longer available in the game. If you import in the future, your existing data will be merged with the new data."
+        "question": "เหตุใดข้อมูลจึงไม่สมบูรณ์หรือขาดหายไปสำหรับแบนเนอร์บางส่วน",
+        "answer": "สิ่งนี้เกิดขึ้นเนื่องจากการดึงประวัติจะถูกเก็บไว้ในเกมเป็นเวลา 180 วันเท่านั้น หลังจากนั้นมันจะถูกลบออกจากเซิร์ฟเวอร์เกมและไม่สามารถใช้งานได้ เพื่อรักษาข้อมูลของคุณ คุณสามารถจัดเก็บไว้ในเบราว์เซอร์ของคุณหรือส่งออกเพื่อสำรองข้อมูลได้ ด้วยวิธีนี้ คุณสามารถเก็บบันทึกที่ไม่มีอยู่ในเกมได้อีกต่อไป หากคุณนำเข้าในอนาคต ข้อมูลที่มีอยู่ของคุณจะถูกรวมเข้ากับข้อมูลใหม่"
       },
       "no_pulls": {
-        "question": "I followed the import steps and saw the banners were processed, but why isn't any pull history showing?",
-        "answer": "Please double check that your region and Cookie values are correct. Make sure the UID and ID from the Cookie are not mixed up."
+        "question": "ฉันทำตามขั้นตอนการนำเข้าแล้วและเห็นว่าแบนเนอร์ได้รับการประมวลผลแล้ว แต่เหตุใดประวัติการดึงจึงไม่แสดง",
+        "answer": "โปรดตรวจสอบอีกครั้งว่าค่าภูมิภาคและคุกกี้ของคุณถูกต้อง ตรวจสอบให้แน่ใจว่า UID และ ID จากคุกกี้ไม่ปะปนกัน"
       },
       "auto_update": {
-        "question": "Will my pull data update automatically?",
-        "answer": "No, your pull data will not update automatically. The website needs to be updated to support new banners after each game update. For security reasons, your Cookie will expire after some time, so you'll need to re-import your data. However, if you store your data in your browser, you'll only need to re-import for new banners."
+        "question": "ข้อมูลการดึงของฉันจะอัปเดตโดยอัตโนมัติหรือไม่",
+        "answer": "ไม่ ข้อมูลการดึงของคุณจะไม่อัปเดตโดยอัตโนมัติ เว็บไซต์จำเป็นต้องได้รับการอัปเดตเพื่อรองรับแบนเนอร์ใหม่หลังการอัปเดตเกมแต่ละครั้ง ด้วยเหตุผลด้านความปลอดภัย คุกกี้ของคุณจะหมดอายุหลังจากผ่านไประยะหนึ่ง ดังนั้น คุณจะต้องนำเข้าข้อมูลของคุณอีกครั้ง อย่างไรก็ตาม หากคุณเก็บข้อมูลไว้ในเบราว์เซอร์ คุณจะต้องนำเข้าแบนเนอร์ใหม่อีกครั้งเท่านั้น"
       },
       "export": {
-        "question": "How can I export my pull history?",
-        "answer": "You can export your pull history as a PNG image or a JSON file. If your browser data is cleared, you can use the JSON file to restore your history."
+        "question": "ฉันจะส่งออกประวัติการดึงของฉันได้อย่างไร",
+        "answer": "คุณสามารถส่งออกประวัติการดึงของคุณเป็นรูปภาพ PNG หรือไฟล์ JSON หากข้อมูลเบราว์เซอร์ของคุณถูกล้าง คุณสามารถใช้ไฟล์ JSON เพื่อกู้คืนประวัติของคุณได้"
       }
     }
   },
   "about": {
-    "title": "Disclaimer and Privacy Policy",
+    "title": "การปฏิเสธความรับผิดชอบและนโยบายความเป็นส่วนตัว",
     "infinityNikkiAssets": {
-      "title": "Platform and Content Disclaimer",
-      "content": "gongeo.us is an independent fan-operated platform and is not affiliated, endorsed, or partnered with Infinity Nikki or Infold Games. All official game assets, visuals, and related content are the exclusive property of Infold Games and are used here solely for community sharing and educational purposes. We do not claim any ownership or rights over this content.",
-      "acknowledgment": "By using this platform, you acknowledge its unofficial status and accept all risks associated with accessing third-party or unofficial content."
+      "title": "การปฏิเสธความรับผิดชอบของแพลตฟอร์มและเนื้อหา",
+      "content": "gongeo.us เป็นแพลตฟอร์มที่ทำงานโดยพัดลมอิสระ และไม่มีส่วนเกี่ยวข้อง รับรอง หรือเป็นพันธมิตรกับ Infinity Nikki หรือ Infold Games เนื้อหาเกมอย่างเป็นทางการ ภาพ และเนื้อหาที่เกี่ยวข้องทั้งหมดเป็นทรัพย์สินของ Infold Games แต่เพียงผู้เดียว และถูกใช้ที่นี่เพื่อการแบ่งปันในชุมชนและวัตถุประสงค์ด้านการศึกษาเท่านั้น เราไม่อ้างสิทธิ์ความเป็นเจ้าของหรือสิทธิ์เหนือเนื้อหานี้",
+      "acknowledgment": "เมื่อใช้แพลตฟอร์มนี้ คุณรับทราบสถานะที่ไม่เป็นทางการและยอมรับความเสี่ยงทั้งหมดที่เกี่ยวข้องกับการเข้าถึงเนื้อหาของบุคคลที่สามหรือที่ไม่เป็นทางการ"
     },
     "dataAndStats": {
-      "title": "Data and Statistics Disclaimer",
-      "content": "All gameplay statistics and data presented on gongeo.us are voluntarily contributed by users and are not sourced from Infold Games. These data sets represent only a small portion of the player community and may not fully reflect overall player behavior or game trends.",
-      "insights": "Any insights or conclusions drawn from the data are for informational purposes only and should be considered in light of their community-driven nature."
+      "title": "ข้อสงวนสิทธิ์ข้อมูลและสถิติ",
+      "content": "สถิติการเล่นเกมและข้อมูลทั้งหมดที่นำเสนอบน gongeo.us ได้รับการบริจาคโดยผู้ใช้โดยสมัครใจ และไม่ได้มาจาก Infold Games ชุดข้อมูลเหล่านี้เป็นเพียงส่วนเล็กๆ ของชุมชนผู้เล่น และอาจไม่ได้สะท้อนถึงพฤติกรรมโดยรวมของผู้เล่นหรือแนวโน้มของเกมอย่างสมบูรณ์",
+      "insights": "ข้อมูลเชิงลึกหรือข้อสรุปใด ๆ ที่ได้จากข้อมูลมีวัตถุประสงค์เพื่อให้ข้อมูลเท่านั้น และควรพิจารณาโดยคำนึงถึงธรรมชาติที่ขับเคลื่อนโดยชุมชน"
     },
     "intellectualProperty": {
-      "title": "Intellectual Property",
-      "content": "gongeo.us is an independent fan project. All trademarks, game content, and intellectual property related to Infinity Nikki remain the sole property of Infold Games and their licensors.",
-      "siteContent": "Except where explicitly stated otherwise, all original code, site design, and custom assets on this platform are owned by gongeo.us and protected by applicable copyright and intellectual property laws. Unauthorized copying, reuse, or distribution is prohibited without written permission.",
-      "usage": "This platform is provided \"as-is\" and intended solely for personal, non-commercial use."
+      "title": "ทรัพย์สินทางปัญญา",
+      "content": "gongeo.us เป็นโปรเจ็กต์แฟนอิสระ เครื่องหมายการค้า เนื้อหาเกม และทรัพย์สินทางปัญญาทั้งหมดที่เกี่ยวข้องกับ Infinity Nikki ยังคงเป็นทรัพย์สินของ Infold Games และผู้อนุญาตแต่เพียงผู้เดียว",
+      "siteContent": "ยกเว้นในกรณีที่ระบุไว้เป็นอย่างอื่นอย่างชัดเจน รหัสต้นฉบับ การออกแบบไซต์ และเนื้อหาที่กำหนดเองทั้งหมดบนแพลตฟอร์มนี้เป็นของ gongeo.us และได้รับการคุ้มครองโดยกฎหมายลิขสิทธิ์และทรัพย์สินทางปัญญาที่บังคับใช้ ห้ามคัดลอก ใช้ซ้ำ หรือแจกจ่ายโดยไม่ได้รับอนุญาตโดยไม่ได้รับอนุญาตเป็นลายลักษณ์อักษร",
+      "usage": "แพลตฟอร์มนี้ให้บริการ \"ตามที่เป็น\" และมีวัตถุประสงค์เพื่อการใช้งานส่วนบุคคลที่ไม่ใช่เชิงพาณิชย์เท่านั้น"
     },
     "dataCollection": {
-      "title": "Data Collection and Storage",
-      "content": "We collect only the minimal data necessary to operate our service. We do not collect or store any personal information or tracking cookies. Any cookies or UIDs you provide are used solely to communicate with Infold Games server to verify your account and retrieve your pull history.",
-      "pullHistory": "Your pull history is stored locally in your browser once imported. For cloud backup or cross-device access, you may optionally sign in via Discord, Google, or email to sync your data through secure cloud storage provided by Supabase. You may also choose to contribute anonymized statistics about your 4-star and 5-star pulls to help generate community statistics."
+      "title": "การรวบรวมและจัดเก็บข้อมูล",
+      "content": "เรารวบรวมเฉพาะข้อมูลขั้นต่ำที่จำเป็นในการดำเนินงานบริการของเรา เราไม่รวบรวมหรือจัดเก็บข้อมูลส่วนบุคคลหรือการติดตามคุกกี้ คุกกี้หรือ UID ใด ๆ ที่คุณให้ไว้ใช้เพื่อสื่อสารกับเซิร์ฟเวอร์ Infold Games เพื่อยืนยันบัญชีของคุณและดึงประวัติการดึงของคุณเท่านั้น",
+      "pullHistory": "ประวัติการดึงของคุณจะถูกจัดเก็บไว้ในเบราว์เซอร์ของคุณเมื่อนำเข้าแล้ว สำหรับการสำรองข้อมูลบนคลาวด์หรือการเข้าถึงข้ามอุปกรณ์ คุณสามารถเลือกลงชื่อเข้าใช้ผ่าน Discord, Google หรืออีเมลเพื่อซิงค์ข้อมูลของคุณผ่านที่เก็บข้อมูลบนคลาวด์ที่ปลอดภัยที่ Supabase มอบให้ คุณยังอาจเลือกที่จะสนับสนุนสถิติที่ไม่เปิดเผยตัวตนเกี่ยวกับการดึง 4 ดาวและ 5 ดาวของคุณเพื่อช่วยสร้างสถิติของชุมชน"
     },
     "accountSecurity": {
-      "title": "Account and Security",
-      "content": "All essential features remain fully accessible without requiring an account. If you choose to sign in, authentication is securely handled by Supabase. We never access or store your login credentials. You have complete control of your data, with the ability to share, upload, sync or delete it at any time. For permanent account deletion, contact us through Discord or email.",
-      "security": "While we implement necessary security measures using industry standards, please be aware that no internet transmission can be guaranteed as completely secure."
+      "title": "บัญชีและความปลอดภัย",
+      "content": "คุณสมบัติที่สำคัญทั้งหมดยังคงสามารถเข้าถึงได้อย่างเต็มที่โดยไม่ต้องมีบัญชี หากคุณเลือกที่จะลงชื่อเข้าใช้ Supabase จะจัดการการตรวจสอบสิทธิ์อย่างปลอดภัย เราจะไม่เข้าถึงหรือจัดเก็บข้อมูลรับรองการเข้าสู่ระบบของคุณ คุณสามารถควบคุมข้อมูลของคุณได้อย่างสมบูรณ์ โดยสามารถแบ่งปัน อัปโหลด ซิงค์หรือลบข้อมูลได้ตลอดเวลา สำหรับการลบบัญชีอย่างถาวร โปรดติดต่อเราผ่านทาง Discord หรืออีเมล",
+      "security": "แม้ว่าเราจะใช้มาตรการรักษาความปลอดภัยที่จำเป็นโดยใช้มาตรฐานอุตสาหกรรม โปรดทราบว่าไม่มีการรับประกันว่าการรับส่งข้อมูลทางอินเทอร์เน็ตจะปลอดภัยอย่างสมบูรณ์"
     },
     "analytics": {
-      "title": "Analytics and Tracking",
-      "content": "We utilize Umami, a privacy-focused analytics service, to monitor website usage. It collects only anonymized information such as page views, referrer URLs, and basic browser data without using Cookie or personal identifiers. This data helps us improve your experience. For more information, please see Umami's privacy policy."
+      "title": "การวิเคราะห์และการติดตาม",
+      "content": "เราใช้ Umami ซึ่งเป็นบริการวิเคราะห์ที่เน้นความเป็นส่วนตัว เพื่อตรวจสอบการใช้งานเว็บไซต์ จะรวบรวมเฉพาะข้อมูลที่ไม่ระบุชื่อ เช่น การดูหน้าเว็บ URL ผู้อ้างอิง และข้อมูลเบราว์เซอร์พื้นฐานโดยไม่ต้องใช้คุกกี้หรือตัวระบุส่วนบุคคล ข้อมูลนี้ช่วยให้เราปรับปรุงประสบการณ์ของคุณ สำหรับข้อมูลเพิ่มเติม โปรดดูนโยบายความเป็นส่วนตัวของอูมามิ"
     },
     "errorMonitoring": {
-      "title": "Error Monitoring",
-      "message": "We use Sentry.io to track and fix technical errors. Sentry may collect limited technical data (like error details, browser info, and anonymized IP addresses) to help us maintain and improve the site. For more information, please see Sentry.io's privacy policy."
+      "title": "การตรวจสอบข้อผิดพลาด",
+      "message": "เราใช้ Sentry.io เพื่อติดตามและแก้ไขข้อผิดพลาดทางเทคนิค Sentry อาจรวบรวมข้อมูลทางเทคนิคที่จำกัด (เช่น รายละเอียดข้อผิดพลาด ข้อมูลเบราว์เซอร์ และที่อยู่ IP ที่ไม่ระบุชื่อ) เพื่อช่วยเราดูแลรักษาและปรับปรุงไซต์ สำหรับข้อมูลเพิ่มเติม โปรดดูนโยบายความเป็นส่วนตัวของ Sentry.io"
     }
   },
   "vote": {
-    "description": "Help us determine the most popular banners from version 1.x! Vote on your favorite banners in head-to-head matchups.",
-    "skip": "Skip",
-    "howItWorks": "Pick your favorite banner and submit your vote to help rank the most popular banners. Skip if you're not sure. You can vote up to 50 times every 24 hours.",
-    "abuseNotice": "Please do not abuse the voting system. Unusual voting patterns will be detected, and those votes may be removed.",
-    "success": "Vote submitted successfully!",
-    "viewRankings": "View Rankings",
+    "description": "ช่วยเราพิจารณาแบนเนอร์ยอดนิยมจากเวอร์ชัน 1.x! โหวตแบนเนอร์ที่คุณชื่นชอบในการจับคู่แบบตัวต่อตัว",
+    "skip": "ข้าม",
+    "howItWorks": "เลือกแบนเนอร์ที่คุณชื่นชอบและส่งคะแนนของคุณเพื่อช่วยจัดอันดับแบนเนอร์ที่ได้รับความนิยมมากที่สุด ข้ามไปหากคุณไม่แน่ใจ คุณสามารถลงคะแนนได้สูงสุด 50 ครั้งทุกๆ 24 ชั่วโมง",
+    "abuseNotice": "กรุณาอย่าละเมิดระบบการลงคะแนน รูปแบบการลงคะแนนที่ผิดปกติจะถูกตรวจพบ และการลงคะแนนเหล่านั้นอาจถูกลบออก",
+    "success": "ส่งการลงคะแนนสำเร็จแล้ว!",
+    "viewRankings": "ดูอันดับ",
     "mode": {
-      "personal": "Personal Mode",
-      "community": "Community Mode",
-      "personalDesc": "Your votes are stored locally and create your personal rankings. Does not affect community rankings.",
-      "communityDesc": "Your votes contribute to the community rankings and help determine the most popular banners."
+      "personal": "โหมดส่วนตัว",
+      "community": "โหมดชุมชน",
+      "personalDesc": "คะแนนโหวตของคุณจะถูกจัดเก็บไว้ในเครื่องและสร้างอันดับส่วนบุคคลของคุณ ไม่ส่งผลกระทบต่อการจัดอันดับชุมชน",
+      "communityDesc": "คะแนนโหวตของคุณมีส่วนสนับสนุนการจัดอันดับของชุมชนและช่วยกำหนดแบนเนอร์ที่ได้รับความนิยมมากที่สุด"
     },
     "stats": {
-      "totalVotes": "Total Votes",
-      "personalVotes": "Personal Votes",
-      "totalVoters": "Total Voters",
-      "avgVotes": "Avg Votes"
+      "totalVotes": "คะแนนโหวตทั้งหมด",
+      "personalVotes": "โหวตส่วนตัว",
+      "totalVoters": "ผู้มีสิทธิเลือกตั้งทั้งหมด",
+      "avgVotes": "คะแนนโหวตเฉลี่ย"
     },
     "errors": {
-      "loadFailed": "Failed to load vote pair. Please try again.",
-      "submitFailed": "Failed to submit vote. Please try again.",
-      "rateLimit": "Too many votes. Please wait before voting again.",
-      "loadRankingsFailed": "Failed to load rankings. Please try again.",
-      "votingClosed": "Community voting has ended. View the final rankings or switch to Personal Mode to continue voting."
+      "loadFailed": "โหลดคู่การโหวตไม่สำเร็จ โปรดลองอีกครั้ง",
+      "submitFailed": "ไม่สามารถส่งการลงคะแนนได้ โปรดลองอีกครั้ง",
+      "rateLimit": "โหวตมากเกินไป กรุณารอก่อนลงคะแนนอีกครั้ง",
+      "loadRankingsFailed": "โหลดอันดับไม่สำเร็จ โปรดลองอีกครั้ง",
+      "votingClosed": "การโหวตของชุมชนสิ้นสุดลงแล้ว ดูอันดับสุดท้ายหรือเปลี่ยนไปใช้โหมดส่วนตัวเพื่อลงคะแนนต่อ"
     },
     "rankings": {
-      "title": "Banner Rankings",
-      "description": "See which banners from version 1.x are the most popular based on community votes.",
-      "votingPeriod": "Voting Period",
-      "voteMore": "Vote More",
-      "lastUpdated": "Last updated",
-      "rank": "Rank",
-      "elo": "Elo Rating",
+      "title": "อันดับแบนเนอร์",
+      "description": "ดูว่าแบนเนอร์ใดจากเวอร์ชัน 1.x ที่ได้รับความนิยมมากที่สุดจากการโหวตของชุมชน",
+      "votingPeriod": "ระยะเวลาการลงคะแนนเสียง",
+      "voteMore": "โหวตเพิ่มเติม",
+      "lastUpdated": "อัปเดตล่าสุด",
+      "rank": "อันดับ",
+      "elo": "คะแนน ELO",
       "eloShort": "ELO",
-      "winRate": "Win Rate",
+      "winRate": "อัตราการชนะ",
       "winRateShort": "WR",
-      "wins": "Wins",
-      "losses": "Losses",
-      "totalVotes": "Total Votes",
+      "wins": "ชนะ",
+      "losses": "แพ้",
+      "totalVotes": "คะแนนโหวตทั้งหมด",
       "winsLosses": "W/L",
       "winsShort": "W",
       "lossesShort": "L"
@@ -659,71 +659,68 @@
   },
   "tierlist": {
     "actions": {
-      "reset_board": "Reset Board"
+      "reset_board": "รีเซ็ตบอร์ด"
     },
     "over_limit": {
-      "title": "Too many entries",
-      "description": "Apply more filters to continue (max {max} entries)."
+      "title": "มีรายการมากเกินไป",
+      "description": "ใช้ตัวกรองเพิ่มเติมเพื่อดำเนินการต่อ (รายการสูงสุด {max})"
     },
-    "unranked_empty": "No unranked entries",
-    "obtain_fallback": "Obtain {id}",
+    "unranked_empty": "ไม่มีรายการที่ไม่จัดอันดับ",
+    "obtain_fallback": "รับ {id}",
     "status": {
-      "over_limit": "Too many entries. Apply more filters (max {max}).",
-      "loaded": "{count} entries loaded"
+      "over_limit": "มีรายการมากเกินไป ใช้ตัวกรองเพิ่มเติม (สูงสุด {max})",
+      "loaded": "โหลดรายการ {count} แล้ว"
     },
     "rank_menu": {
-      "tier_label": "{tier} Tier",
-      "send_back": "Unrank"
+      "tier_label": "เทียร์ {tier}",
+      "send_back": "ส่งกลับ"
     },
     "community_submit": {
-      "browser_only_error": "Community submit is only available in browser context",
-      "tooltip_ready": "Submit your completed tier list to the community ranking.",
-      "scope_unavailable_toast": "Community submit is not available for this scope.",
-      "success": "Community tier list submitted",
-      "failed": "Failed to submit community tier list",
+      "browser_only_error": "การส่งของชุมชนมีเฉพาะในบริบทของเบราว์เซอร์เท่านั้น",
+      "tooltip_ready": "ส่งรายการระดับที่เสร็จสมบูรณ์ของคุณไปยังการจัดอันดับชุมชน",
+      "scope_unavailable_toast": "การส่งโดยชุมชนไม่พร้อมใช้งานสำหรับขอบเขตนี้",
+      "success": "ส่งรายชื่อระดับชุมชนแล้ว",
+      "failed": "ไม่สามารถส่งรายการระดับชุมชน",
       "blocked": {
-        "error": "Cannot submit while entries failed to load.",
-        "over_limit": "Apply more filters before submitting.",
-        "scope_unavailable": "Community sharing is not available for this selection yet.",
-        "incomplete": "Rank all loaded entries before submitting.",
-        "no_changes": "No changes since your last submit."
+        "error": "ไม่สามารถส่งได้ในขณะที่โหลดรายการไม่สำเร็จ",
+        "over_limit": "ใช้ตัวกรองเพิ่มเติมก่อนที่จะส่ง",
+        "scope_unavailable": "การแบ่งปันชุมชนยังไม่พร้อมใช้งานสำหรับการเลือกนี้",
+        "incomplete": "จัดอันดับรายการที่โหลดทั้งหมดก่อนที่จะส่ง",
+        "no_changes": "ไม่มีการเปลี่ยนแปลงตั้งแต่การส่งครั้งล่าสุดของคุณ"
       }
     },
     "community_insights": {
-      "toggle": "Show community tier list",
-      "loading": "Loading community snapshot...",
-      "error": "Failed to load community snapshot.",
-      "empty": "No community data yet.",
-      "rank_position": "Community rank #{rank}",
-      "avg_tier": "Community average: {tier} tier",
-      "rank_higher_than": "You rank this higher than {percent}% of stylists",
-      "avg_score": "Average score: {score}",
-      "total_votes": "Total votes: {count}",
-      "top_tier_share": "Most votes placed this in {tier} tier ({percent}%)"
+      "toggle": "แสดงรายการระดับชุมชน",
+      "error": "โหลดสแนปชอตของชุมชนไม่สำเร็จ",
+      "empty": "ยังไม่มีข้อมูลชุมชน",
+      "rank_position": "อันดับชุมชน #{rank}",
+      "avg_tier": "ระดับชุมชน: ระดับ {tier}",
+      "rank_higher_than": "คุณจัดอันดับนี้สูงกว่า {percent}% ของสไตลิสต์",
+      "total_votes": "คะแนนโหวตทั้งหมด: {count}"
     },
     "share": {
-      "copy_link": "Copy Link",
-      "copied": "Link copied",
-      "copy_failed": "Failed to copy link"
+      "copy_link": "คัดลอกลิงค์",
+      "copied": "คัดลอกลิงก์แล้ว",
+      "copy_failed": "คัดลอกลิงก์ไม่สำเร็จ"
     }
   },
   "compendium": {
-    "error_title": "Failed to Load Data",
-    "error_description": "Unable to load data. Please try again.",
-    "no_results_title": "No Results Found",
-    "no_results_description": "No items match your criteria.",
-    "not_found_item": "Item not found",
-    "not_found_outfit": "Outfit not found",
-    "back_to_list": "Back to List",
-    "filter_type": "Filter by Type",
-    "filter_version": "Filter by Version",
-    "filter_style": "Filter by Style",
-    "filter_label": "Filter by Label",
-    "filter_obtain": "Filter by Source",
+    "error_title": "โหลดข้อมูลไม่สำเร็จ",
+    "error_description": "ไม่สามารถโหลดข้อมูลได้ โปรดลองอีกครั้ง",
+    "no_results_title": "ไม่พบผลลัพธ์",
+    "no_results_description": "ไม่มีรายการที่ตรงกับเกณฑ์ของคุณ",
+    "not_found_item": "ไม่พบรายการ",
+    "not_found_outfit": "ไม่พบเครื่องแต่งกาย",
+    "back_to_list": "กลับไปที่รายการ",
+    "filter_type": "กรองตามประเภท",
+    "filter_version": "กรองตามเวอร์ชัน",
+    "filter_style": "กรองตามสไตล์",
+    "filter_label": "กรองตามป้ายกำกับ",
+    "filter_obtain": "กรองตามแหล่งที่มา",
     "source": {
-      "event": "Event",
-      "quest": "Quest",
-      "merchant": "Merchant"
+      "event": "เหตุการณ์",
+      "quest": "ภารกิจ",
+      "merchant": "พ่อค้า"
     }
   }
 }

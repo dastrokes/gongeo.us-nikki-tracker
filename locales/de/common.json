@@ -691,15 +691,12 @@
     },
     "community_insights": {
       "toggle": "Community-Rangliste anzeigen",
-      "loading": "Community-Schnappschuss wird geladen...",
       "error": "Community-Schnappschuss konnte nicht geladen werden.",
       "empty": "Noch keine Community-Daten.",
       "rank_position": "Community-Rang #{rank}",
       "avg_tier": "Community-Durchschnitt: {tier}-Rang",
       "rank_higher_than": "Du rangierst dies höher als {percent}% von Stylisten.",
-      "avg_score": "Durchschnittlicher Punktestand: {score}",
-      "total_votes": "Stimmen insgesamt",
-      "top_tier_share": "Die meisten Stimmen haben dies im {tier}-Rang platziert ({percent}%)"
+      "total_votes": "Stimmen insgesamt: {count}"
     },
     "share": {
       "copy_link": "Link kopieren",

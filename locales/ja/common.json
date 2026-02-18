@@ -1,657 +1,657 @@
 {
   "common": {
-    "banner": "Banner",
-    "banners": "Banners",
-    "outfit": "Outfit",
-    "outfits": "Outfits",
-    "item": "Item",
-    "items": "Items",
-    "makeup": "Makeup",
-    "variations": "Variations",
-    "type": "Type",
-    "pull": "Pull",
-    "pulls": "Pulls",
-    "total": "Total",
-    "average": "Average",
-    "avg": "Avg",
-    "statistics": "Statistics",
-    "stats": "Stats",
-    "data": "Data",
-    "history": "History",
-    "tracker": "Tracker",
-    "import": "Import",
-    "export": "Export",
-    "loading": "Loading...",
-    "search": "Search",
-    "filter": "Filter",
-    "clear": "Clear Filters",
-    "all": "All",
-    "other": "Other",
-    "show": "Show",
-    "hide": "Hide",
-    "save": "Save",
-    "cancel": "Cancel",
-    "confirm": "Confirm",
-    "ok": "OK",
-    "submit": "Submit",
-    "retry": "Retry",
-    "back": "Back",
-    "copy": "Copy",
-    "select": "Select",
-    "description": "Description",
-    "error": "Error",
-    "success": "Success",
-    "failed": "Failed"
+    "banner": "バナー",
+    "banners": "バナー",
+    "outfit": "服装",
+    "outfits": "衣装",
+    "item": "アイテム",
+    "items": "アイテム",
+    "makeup": "補う",
+    "variations": "バリエーション",
+    "type": "タイプ",
+    "pull": "引く",
+    "pulls": "プル",
+    "total": "合計",
+    "average": "平均",
+    "avg": "平均",
+    "statistics": "統計",
+    "stats": "統計",
+    "data": "データ",
+    "history": "歴史",
+    "tracker": "トラッカー",
+    "import": "輸入",
+    "export": "輸出",
+    "loading": "読み込み中...",
+    "search": "検索",
+    "filter": "フィルター",
+    "clear": "フィルターをクリアする",
+    "all": "全て",
+    "other": "他の",
+    "show": "見せる",
+    "hide": "隠れる",
+    "save": "保存",
+    "cancel": "キャンセル",
+    "confirm": "確認する",
+    "ok": "わかりました",
+    "submit": "提出する",
+    "retry": "リトライ",
+    "back": "戻る",
+    "copy": "コピー",
+    "select": "選択",
+    "description": "説明",
+    "error": "エラー",
+    "success": "成功",
+    "failed": "失敗した"
   },
   "navigation": {
     "title": "gongeo.us",
-    "subtitle": "Infinity Nikki Resonance Tracker",
-    "tracker": "Resonance Tracker",
-    "import": "Import Data",
-    "global": "Global Data",
-    "banner": "Banner History",
-    "banner_detail": "Banner Detail",
-    "timeline": "Timeline",
-    "outfit": "Outfit Compendium",
-    "outfit_detail": "Outfit Detail",
-    "item": "Item Compendium",
-    "item_detail": "Item Detail",
-    "tierlist": "Tier List Maker",
-    "compendium": "Compendium",
-    "vote": "Banner Vote",
-    "faq": "FAQ",
-    "about": "About",
+    "subtitle": "Infinity Nikki 共鳴トラッカー",
+    "tracker": "共鳴トラッカー",
+    "import": "データのインポート",
+    "global": "グローバルデータ",
+    "banner": "バナーの歴史",
+    "banner_detail": "バナーの詳細",
+    "timeline": "タイムライン",
+    "outfit": "服装大全",
+    "outfit_detail": "衣装の詳細",
+    "item": "アイテム概要",
+    "item_detail": "アイテム詳細",
+    "tierlist": "ティアリストメーカー",
+    "compendium": "概要",
+    "vote": "バナー投票",
+    "faq": "よくある質問",
+    "about": "について",
     "nuan5pro": "Nuan5.Pro"
   },
   "meta": {
-    "title": "Infinity Nikki Resonance Tracker - Pull History & Stats",
-    "keywords": "Infinity Nikki, Resonance Tracker, Pull Tracker, Gacha Tracker, Pull History, Global Stats, Community Stats, Gongeous",
+    "title": "Infinity Nikki Resonance Tracker - プル履歴と統計",
+    "keywords": "Infinity Nikki、共鳴トラッカー、プルトラッカー、ガチャトラッカー、プル履歴、グローバル統計、コミュニティ統計、Gongeous",
     "game_title": "インフィニティニキ",
     "description": {
-      "default": "Track Infinity Nikki resonance banner pull history and statistics. A fan-made tracking and analysis tool for the Infinity Nikki community.",
-      "login": "Sign in to gongeo.us using your email or a third-party account to upload, back up, and sync your Infinity Nikki resonance data across devices.",
-      "tracker": "Track and analyze your Infinity Nikki resonance pull history. View all 5★ and 4★ banner items and compare your luck with other stylists.",
-      "import": "Import your Infinity Nikki resonance pull history easily from game, Whim-Log data or backup files with detailed step-by-step guides.",
-      "global": "Explore Infinity Nikki resonance global data, including banner popularity, pull rates, item drop rates, and community pull statistics.",
-      "banner": "Explore Infinity Nikki resonance banner history with current, upcoming, and past events, featured outfits, pull rates, durations, and rerun details.",
-      "banner_detail": "View the {name} resonance banner details, including featured outfits, item drop rates, pull statistics, duration, evolution info, and rerun status.",
-      "timeline": "Explore an interactive timeline of Infinity Nikki resonance banners, major updates, release periods, and reruns to track event history at a glance.",
-      "tierlist": "Create and share an Infinity Nikki tier list for banners, outfits, and items with drag-and-drop ranking, filters, and easy image export.",
-      "outfits": "Browse all Infinity Nikki outfits with filters for quality, evolution, glow-up, style tags, and stats. See full components and discover every outfit.",
-      "outfit_detail": "View detailed information about the {name} outfit, including quality, outfit pieces, evolution and glow-up, makeups, stats, and related resonance banners.",
-      "items": "Browse all Infinity Nikki items with filters for type, quality, stat bonuses, and related outfits or banners. Find, compare, and track every item easily.",
-      "item_detail": "View detailed information about the {name} item, including quality, evolution and glow-up, stats, and related outfits and banners.",
-      "faq": "Find answers to frequently asked questions about gongeo.us, including data privacy, import methods, and usage guidelines.",
-      "about": "Learn more about gongeo.us, including its purpose, privacy policy, disclaimers, and how it supports the Infinity Nikki community."
+      "default": "Infinity Nikki 共鳴バナーのプル履歴と統計を追跡します。 Infinity Nikki コミュニティ向けのファン作成の追跡および分析ツール。",
+      "login": "電子メールまたはサードパーティのアカウントを使用して gongeo.us にサインインし、デバイス間で Infinity Nikki 共鳴データをアップロード、バックアップ、同期します。",
+      "tracker": "Infinity Nikki 共振プル履歴を追跡して分析します。 5つ星と4つ星のバナーアイテムをすべて表示し、他のスタイリストと運を比較してください。",
+      "import": "詳細なステップバイステップのガイドを使用して、ゲーム、Whim-Log データ、またはバックアップ ファイルから Infinity Nikki レゾナンス プル履歴を簡単にインポートします。",
+      "global": "バナーの人気、プル率、アイテムのドロップ率、コミュニティのプル統計など、Infinity Nikki レゾナンスのグローバル データを探索します。",
+      "banner": "現在、今後、過去のイベント、注目の衣装、プル率、期間、再実行の詳細を含む Infinity Nikki レゾナンス バナーの履歴を探索します。",
+      "banner_detail": "注目の衣装、アイテムのドロップ率、プル統計、期間、進化情報、再実行ステータスなど、{name} レゾナンス バナーの詳細を表示します。",
+      "timeline": "Infinity Nikki レゾナンス バナー、メジャー アップデート、リリース期間、再実行のインタラクティブなタイムラインを調べて、イベント履歴を一目で追跡します。",
+      "tierlist": "ドラッグ アンド ドロップのランキング、フィルター、簡単な画像エクスポートを使用して、バナー、衣装、アイテムの Infinity Nikki 階層リストを作成して共有します。",
+      "outfits": "品質、進化、グローアップ、スタイルタグ、統計のフィルターを使用して、すべての Infinity Nikki の衣装を閲覧します。コンポーネント全体を確認し、すべての衣装を発見してください。",
+      "outfit_detail": "品質、衣装ピース、進化とグローアップ、メイクアップ、ステータス、関連する共鳴バナーなど、{name} 衣装に関する詳細情報を表示します。",
+      "items": "タイプ、品質、ステータスボーナス、関連する衣装やバナーのフィルターを使用して、すべての Infinity Nikki アイテムを参照します。すべてのアイテムを簡単に検索、比較、追跡します。",
+      "item_detail": "品質、進化とグローアップ、ステータス、関連する衣装やバナーなど、{name} アイテムに関する詳細情報を表示します。",
+      "faq": "データ プライバシー、インポート方法、使用ガイドラインなど、gongeo.us に関するよくある質問への回答をご覧ください。",
+      "about": "gongeo.us の目的、プライバシー ポリシー、免責事項、Infinity Nikki コミュニティのサポート方法など、gongeo.us の詳細をご覧ください。"
     }
   },
   "default": {
-    "description": "Track Infinity Nikki Resonance History and Statistics",
-    "your_data": "Your Data",
-    "current_banners": "Current Banners",
-    "rerun": "Rerun",
-    "copyright": "© 2025 gongeo.us • © Infold Games All Rights Reserved",
+    "description": "Infinity Nikki 共鳴の履歴と統計を追跡する",
+    "your_data": "あなたのデータ",
+    "current_banners": "現在のバナー",
+    "rerun": "再実行",
+    "copyright": "© 2026 gongeo.us • © Infold Games 全著作権所有",
     "disclaimer": {
-      "content": "This is an unofficial fan-made website, not affiliated with or endorsed by Infold Games.",
-      "rights": "All Infinity Nikki game assets, content, and trademarks belong to Infold Games and their respective owners."
+      "content": "これは非公式のファン作成の Web サイトであり、Infold Games と提携または承認されていません。",
+      "rights": "すべての Infinity Nikki ゲーム資産、コンテンツ、および商標は、Infold Games とそれぞれの所有者に属します。"
     },
     "user_profile": {
-      "guest": "Guest",
-      "signed_in": "Signed In",
-      "clear_local_data": "Clear Local Data",
+      "guest": "ゲスト",
+      "signed_in": "サインイン済み",
+      "clear_local_data": "ローカルデータのクリア",
       "clear_local_confirm": {
-        "title": "Clear Local Data",
-        "content": "Are you sure you want to clear all local data? This action cannot be undone."
+        "title": "ローカルデータのクリア",
+        "content": "{profile} プロファイルのローカル データをクリアしてもよろしいですか?この操作は元に戻すことができません。"
       },
-      "sign_out": "Sign out",
-      "sign_out_success": "Successfully signed out",
-      "sign_out_error": "Failed to sign out",
-      "upload_data": "Upload to Cloud",
-      "sync_data": "Sync from Cloud",
+      "sign_out": "サインアウト",
+      "sign_out_success": "正常にサインアウトしました",
+      "sign_out_error": "サインアウトに失敗しました",
+      "upload_data": "クラウドにアップロード",
+      "sync_data": "クラウドから同期",
       "sync": {
-        "upload_success": "Data uploaded to cloud successfully!",
-        "upload_error": "Failed to upload data.",
-        "sync_success": "Data synced successfully!",
-        "sync_error": "Failed to sync data.",
+        "upload_success": "データはクラウドに正常にアップロードされました。",
+        "upload_error": "データのアップロードに失敗しました。",
+        "sync_success": "データは正常に同期されました。",
+        "sync_error": "データの同期に失敗しました。",
         "confirm_upload": {
-          "title": "Upload to Cloud",
-          "content": "This will upload your local data to cloud storage, overwriting any existing cloud data. Continue?"
+          "title": "クラウドにアップロード",
+          "content": "これにより、{profile} プロファイルのローカル データがクラウド ストレージにアップロードされ、このプロファイルの既存のクラウド データが上書きされます。続く？"
         },
         "confirm_sync": {
-          "title": "Sync from Cloud",
-          "content": "This will sync your local data with cloud data by merging them together. Continue?"
+          "title": "クラウドから同期",
+          "content": "これにより、{profile} プロファイルのローカル データが結合されてクラウド データと同期されます。続く？"
         },
         "missing_profiles": {
-          "title": "Create Missing Profiles",
-          "content": "We found cloud data for {profiles}. Create these profiles locally before syncing?",
-          "confirm": "Create Profiles"
+          "title": "不足しているプロファイルを作成する",
+          "content": "{profiles} のクラウド データが見つかりました。同期する前にこれらのプロファイルをローカルで作成しますか?",
+          "confirm": "プロファイルの作成"
         }
       },
-      "clear_cloud_data": "Clear Cloud Data",
+      "clear_cloud_data": "クラウドデータのクリア",
       "clear_cloud_confirm": {
-        "title": "Clear Cloud Data",
-        "content": "Are you sure you want to clear all your cloud data? This action cannot be undone and will permanently delete your data from cloud storage."
+        "title": "クラウドデータのクリア",
+        "content": "{profile} プロファイルのクラウド データを消去してもよろしいですか?この操作は元に戻すことができず、データはクラウド ストレージから完全に削除されます。"
       },
-      "clear_cloud_success": "Cloud data cleared successfully!",
-      "clear_cloud_error": "Failed to clear cloud data.",
-      "clear_success": "Data cleared successfully!",
+      "clear_cloud_success": "クラウドデータが無事にクリアされました！",
+      "clear_cloud_error": "クラウドデータのクリアに失敗しました。",
+      "clear_success": "データクリアに成功しました！",
       "profiles": {
-        "active": "Active",
+        "active": "アクティブ",
         "delete_confirm": {
-          "title": "Delete Profile",
-          "content": "Are you sure you want to delete {profile} profile? This will clear its local data and cloud data (if signed in)."
+          "title": "プロフィールの削除",
+          "content": "{profile} プロファイルを削除してもよろしいですか?これにより、ローカル データとクラウド データ (サインインしている場合) が消去されます。"
         },
-        "created_success": "Profile created.",
-        "switched_success": "Switched to {profile} profile.",
-        "deleted_success": "Profile deleted."
+        "created_success": "プロフィールが作成されました。",
+        "switched_success": "{profile} プロファイルに切り替えました。",
+        "deleted_success": "プロフィールが削除されました。"
       }
     },
     "accessibility": {
-      "toggle_menu": "Toggle navigation menu",
-      "language_switcher": "Language switcher",
-      "theme_switcher": "Toggle theme",
-      "user_profile_menu": "User profile menu",
-      "scroll_to_top": "Scroll to top"
+      "toggle_menu": "ナビゲーションメニューを切り替えます",
+      "language_switcher": "言語スイッチャー",
+      "theme_switcher": "テーマの切り替え",
+      "user_profile_menu": "ユーザープロフィールメニュー",
+      "scroll_to_top": "一番上までスクロール"
     },
     "language_switcher": {
-      "help_translate": "Help translate"
+      "help_translate": "翻訳を手伝ってください"
     },
     "search": {
-      "placeholder": "Search items, banners, outfits",
-      "noResults": "No results found"
+      "placeholder": "アイテム、バナー、衣装を検索",
+      "noResults": "結果が見つかりませんでした"
     },
     "social": {
-      "discord": "Join our Discord community",
-      "kofi": "Support us on Ko-fi",
-      "twitter": "Follow us on Twitter",
-      "email": "Contact us via email"
+      "discord": "Discord コミュニティに参加してください",
+      "kofi": "Ko-fi でサポートしてください",
+      "twitter": "Twitter でフォローしてください",
+      "email": "電子メールでお問い合わせください"
     }
   },
   "profile": {
-    "title": "Profile",
-    "subtitle": "Manage profiles, cloud data, and local data.",
+    "title": "プロフィール",
+    "subtitle": "プロファイル、クラウド データ、ローカル データを管理します。",
     "sections": {},
-    "account_label": "Account",
-    "all_profiles": "All Profiles",
-    "active_profile": "Active Profile",
-    "default_profile": "Default",
-    "profile_slot": "Profile {number}",
-    "switch": "Switch",
-    "manage_profiles": "Manage Profiles",
-    "rename": "Rename",
-    "rename_title": "Rename Profile",
-    "rename_placeholder": "Enter a profile name",
-    "rename_success": "Profile name updated.",
-    "rename_error": "Please enter a profile name.",
+    "account_label": "アカウント",
+    "all_profiles": "すべてのプロファイル",
+    "active_profile": "アクティブなプロファイル",
+    "default_profile": "デフォルト",
+    "profile_slot": "プロフィール {number}",
+    "switch": "スイッチ",
+    "manage_profiles": "プロファイルの管理",
+    "rename": "名前の変更",
+    "rename_title": "プロファイル名の変更",
+    "rename_placeholder": "プロファイル名を入力してください",
+    "rename_success": "プロフィール名が更新されました。",
+    "rename_error": "プロファイル名を入力してください。",
     "menu": {
-      "delete": "Delete Profile"
+      "delete": "プロフィールの削除"
     },
     "status": {
-      "local": "Local Data",
-      "cloud": "Cloud Data",
-      "last_sync": "Last Sync",
-      "never": "Never"
+      "local": "ローカルデータ",
+      "cloud": "クラウドデータ",
+      "last_sync": "最終同期",
+      "never": "一度もない"
     }
   },
   "login": {
-    "sign_in": "Sign In",
-    "sign_up": "Sign Up",
-    "welcome_description": "Sign in with 3rd party account or email to upload and sync your data.",
-    "signed_in_title": "Successfully Signed In!",
-    "welcome_back": "Welcome back, {name}!",
-    "signin_error": "Failed to sign in. Please try again.",
-    "sign_in_with_discord": "Sign in with Discord",
-    "sign_in_with_google": "Sign in with Google",
-    "sign_in_with_email": "Sign in with Email",
-    "email": "Email",
-    "password": "Password",
-    "confirm_password": "Confirm Password",
-    "forgot_password": "Forgot Password?",
-    "reset_password": "Reset Password",
-    "send_reset_email": "Send Reset Email",
-    "back_to_login": "Back to Login",
-    "set_new_password": "Set New Password",
-    "new_password": "New Password",
-    "confirm_new_password": "Confirm New Password",
-    "update_password": "Update Password",
-    "email_required": "Email is required",
-    "password_required": "Password is required",
-    "password_min_length": "Password must be at least 6 characters",
-    "passwords_dont_match": "Passwords don't match",
-    "invalid_email": "Please enter a valid email address",
-    "signup_success": "Account created successfully! Please check your email for verification.",
-    "signin_success": "Signed in successfully!",
-    "reset_success": "Password reset email sent! Please check your inbox.",
-    "email_signin_error": "Failed to sign in with email. Please check your credentials.",
-    "email_signup_error": "Failed to create account. Please try again.",
-    "reset_error": "Failed to send reset email. Please try again.",
-    "or": "or"
+    "sign_in": "サインイン",
+    "sign_up": "サインアップ",
+    "welcome_description": "サードパーティのアカウントまたは電子メールでサインインして、データをアップロードして同期します。",
+    "signed_in_title": "サインインに成功しました!",
+    "welcome_back": "おかえりなさい、{name}!",
+    "signin_error": "サインインに失敗しました。もう一度お試しください。",
+    "sign_in_with_discord": "Discordでサインインする",
+    "sign_in_with_google": "Googleでサインイン",
+    "sign_in_with_email": "電子メールでサインインする",
+    "email": "電子メール",
+    "password": "パスワード",
+    "confirm_password": "パスワードを認証する",
+    "forgot_password": "パスワードをお忘れですか？",
+    "reset_password": "パスワードのリセット",
+    "send_reset_email": "リセットメールを送信する",
+    "back_to_login": "ログインに戻る",
+    "set_new_password": "新しいパスワードを設定する",
+    "new_password": "新しいパスワード",
+    "confirm_new_password": "新しいパスワードの確認",
+    "update_password": "パスワードを更新する",
+    "email_required": "メールアドレスは必須です",
+    "password_required": "パスワードが必要です",
+    "password_min_length": "パスワードは6文字以上である必要があります",
+    "passwords_dont_match": "パスワードが一致しません",
+    "invalid_email": "有効なメールアドレスを入力してください",
+    "signup_success": "アカウントが正常に作成されました。確認のためメールをご確認ください。",
+    "signin_success": "正常にサインインされました!",
+    "reset_success": "パスワードリセットメールを送信しました!受信箱をご確認ください。",
+    "email_signin_error": "電子メールでのサインインに失敗しました。資格情報を確認してください。",
+    "email_signup_error": "アカウントの作成に失敗しました。もう一度試してください。",
+    "reset_error": "リセットメールの送信に失敗しました。もう一度試してください。",
+    "or": "または"
   },
   "error": {
-    "404": "\"Nikki, let's stay in the shallow water\"",
-    "notFound": "The page you are looking for does not exist.",
-    "returnHome": "Return Home"
+    "404": "「ニッキ、浅瀬に留まろう」",
+    "notFound": "お探しのページは存在しません。",
+    "returnHome": "家に帰る"
   },
   "import": {
-    "video_tutorial": "Video Tutorial",
-    "video_tutorial_desc": "Watch step-by-step video guide to learn how to import your data:",
-    "watch_on_youtube": "Watch on YouTube",
-    "watch_on_bilibili": "Watch on Bilibili",
-    "choose_method": "Choose Import Method",
-    "choose_method_desc": "Choose how you want to import your pull history.",
-    "import_from_game": "Import from Game",
-    "import_from_file": "Import from File",
-    "import_from_pearpal": "Import from Whim-Log",
-    "file_import": "File Import",
-    "file_import_desc": "Import from a previously exported nikki-resonance-data file.",
-    "select_file": "Select File",
-    "select_region": "Select Region",
-    "select_region_desc": "Select your game server region.",
+    "video_tutorial": "ビデオチュートリアル",
+    "video_tutorial_desc": "データをインポートする方法については、ステップバイステップのビデオ ガイドをご覧ください。",
+    "watch_on_youtube": "YouTubeで見る",
+    "watch_on_bilibili": "ビリビリで見る",
+    "choose_method": "インポート方法の選択",
+    "choose_method_desc": "プル履歴をインポートする方法を選択します。",
+    "import_from_game": "ゲームからインポート",
+    "import_from_file": "ファイルからインポート",
+    "import_from_pearpal": "Whim-Log からインポート",
+    "file_import": "ファイルのインポート",
+    "file_import_desc": "以前にエクスポートした nikki-resonance-data ファイルからインポートします。",
+    "select_file": "ファイルの選択",
+    "select_region": "地域の選択",
+    "select_region_desc": "ゲームサーバーの地域を選択します。",
     "regions": {
-      "america": "America",
-      "europe": "Europe",
-      "china": "China",
-      "tw": "TW/HK/Macau",
-      "asia": "Asia"
+      "america": "アメリカ",
+      "europe": "ヨーロッパ",
+      "china": "中国",
+      "tw": "台湾/香港/マカオ",
+      "asia": "アジア"
     },
-    "pearpal_website": "Pearpal Website",
+    "pearpal_website": "ペアパルのウェブサイト",
     "whimlog": "Whim-Log",
-    "login_pearpal": "Login to Pearpal Website",
-    "login_pearpal_desc": "Open Pearpal Website in a new tab and login with your Infold account if you aren't already logged in.",
-    "login_pearpal_incognito_hint": "If you have multiple accounts, it's recommended to open Pearpal in an incognito/private browser window.",
-    "login_whimlog": "Sync data in Whim-Log",
-    "login_whimlog_desc": "Open Whim-Log in a new tab, login and sync your data.",
-    "get_cookie": "Get Cookie From Pearpal Website",
-    "get_cookie_desc": "Choose how you want to get your Cookie:",
-    "gongeous_cookie": "Gongeous Cookie",
-    "bookmark_method": "Bookmark Method (Recommended)",
-    "bookmark_method_mobile": "Bookmark Method",
-    "console_method": "Console Method",
-    "manual_input": "Manual Method",
-    "title": "Follow these steps to get your Cookie:",
+    "login_pearpal": "Pearpal ウェブサイトにログイン",
+    "login_pearpal_desc": "まだログインしていない場合は、新しいタブで Pearpal Web サイトを開き、Infold アカウントでログインします。",
+    "login_pearpal_incognito_hint": "複数のアカウントをお持ちの場合は、シークレット/プライベート ブラウザ ウィンドウで Pearpal を開くことをお勧めします。",
+    "login_whimlog": "Whim-Log でデータを同期する",
+    "login_whimlog_desc": "新しいタブで Whim-Log を開き、ログインしてデータを同期します。",
+    "get_cookie": "Pearpal Web サイトから Cookie を取得する",
+    "get_cookie_desc": "Cookie を取得する方法を選択してください:",
+    "gongeous_cookie": "ゴージャスクッキー",
+    "bookmark_method": "ブックマーク方法（推奨）",
+    "bookmark_method_mobile": "ブックマーク方法",
+    "console_method": "コンソールメソッド",
+    "manual_input": "手動による方法",
+    "title": "Cookie を取得するには、次の手順に従ってください。",
     "bookmark_steps": {
-      "step1": "Drag the \"Gongeous Cookie\" button to your bookmarks bar (only needs to be done once):",
-      "step2": "Switch to Pearpal Website in a different tab, make sure you are logged in",
-      "step3": "Click the \"Gongeous Cookie\" bookmark while on the Pearpal Website",
-      "step4": "Copy the output text in the popup (it should look like the example in the input area below)",
-      "step5": "Come back here and paste the output text in the input area below",
-      "tip": "Tip: You can keep the bookmark for getting Cookie the next time you import"
+      "step1": "「Gongeous Cookie」ボタンをブックマーク バーにドラッグします (一度だけ行う必要があります)。",
+      "step2": "別のタブで Pearpal Web サイトに切り替えて、ログインしていることを確認してください",
+      "step3": "Pearpal Web サイトで「Gongeous Cookie」ブックマークをクリックします。",
+      "step4": "ポップアップの出力テキストをコピーします (以下の入力領域の例のようになります)。",
+      "step5": "ここに戻って、出力テキストを下の入力領域に貼り付けます。",
+      "tip": "ヒント: 次回インポートするときに Cookie を取得するためにブックマークを保持できます。"
     },
     "bookmark_steps_mobile": {
-      "step1": "Tap the \"Copy Code\" button and copy the code",
-      "step2": "Create a new bookmark in your browser and name it \"Gongeous Cookie\"",
-      "step3": "Edit the bookmark URL and replace it with the code you copied",
-      "step4": "Switch to Pearpal Website in a different tab, make sure you are logged in",
-      "step5": "Tap the \"Gongeous Cookie\" bookmark while on the Pearpal Website",
-      "step5_android_chrome": "Start typing the bookmark name you saved (Gongeous Cookie) in the address bar",
-      "step5_android_chrome_2": "Select the bookmark from suggestions to run it",
-      "step6": "Copy the output text in the popup (it should look like the example in the input area below)",
-      "step7": "Come back here and paste the output text in the input area below"
+      "step1": "「コードをコピー」ボタンをタップしてコードをコピーします",
+      "step2": "ブラウザに新しいブックマークを作成し、「Gongeous Cookie」という名前を付けます。",
+      "step3": "ブックマークの URL を編集し、コピーしたコードに置き換えます。",
+      "step4": "別のタブで Pearpal Web サイトに切り替えて、ログインしていることを確認してください",
+      "step5": "Pearpal Web サイトで「Gongeous Cookie」ブックマークをタップします",
+      "step5_android_chrome": "保存したブックマーク名 (Gongeous Cookie) をアドレス バーに入力し始めます。",
+      "step5_android_chrome_2": "候補からブックマークを選択して実行します",
+      "step6": "ポップアップの出力テキストをコピーします (以下の入力領域の例のようになります)。",
+      "step7": "ここに戻って、出力テキストを下の入力領域に貼り付けます。"
     },
     "console_steps": {
-      "step1": "Switch to Pearpal Website in a different tab, make sure you are logged in",
-      "step2": "Open your browser's Developer Tools (Press F12 or right-click and select \"Inspect\")",
-      "step3": "Go to the \"Console\" tab",
-      "step4": "Click the \"Copy Code\" button, copy and paste the code into the console and press enter:",
-      "step5": "If you get a warning saying \"Warning: Don't paste code into the devtools console\", type \"allow pasting\" and hit enter",
-      "step6": "Copy the output text in the console (it should look like the example in the input area below)",
-      "step7": "Come back here and paste the output text in the input area below"
+      "step1": "別のタブで Pearpal Web サイトに切り替えて、ログインしていることを確認してください",
+      "step2": "ブラウザの開発者ツールを開きます（F12を押すか、右クリックして「検査」を選択します）。",
+      "step3": "「コンソール」タブに移動します",
+      "step4": "[コードをコピー] ボタンをクリックし、コードをコピーしてコンソールに貼り付け、Enter キーを押します。",
+      "step5": "「警告: コードを開発ツール コンソールに貼り付けないでください」という警告が表示された場合は、「貼り付けを許可」と入力して Enter キーを押します。",
+      "step6": "コンソールの出力テキストをコピーします (以下の入力領域の例のようになります)。",
+      "step7": "ここに戻って、出力テキストを下の入力領域に貼り付けます。"
     },
     "manual_steps": {
-      "note": "(Using Google Chrome as an example, exact names might vary for other browsers but steps will be similar)",
-      "step1": "Switch to Pearpal Website in a different tab, make sure you are logged in",
-      "step2": "Open your browser's Developer Tools (Press F12 or right-click and select \"Inspect\")",
-      "step3": "Go to the \"Application\" tab (or \"Storage\" in Firefox)",
-      "step4": "In the left sidebar, expand \"Cookies\" and select the Pearpal Website",
-      "step5": "Alternatively, you can use a browser extension for Cookies like Cookie Editor",
-      "step6": "Find and copy the values for:",
+      "note": "(例として Google Chrome を使用すると、他のブラウザでは正確な名前が異なる場合がありますが、手順は同様です)",
+      "step1": "別のタブで Pearpal Web サイトに切り替えて、ログインしていることを確認してください",
+      "step2": "ブラウザの開発者ツールを開きます（F12を押すか、右クリックして「検査」を選択します）。",
+      "step3": "「アプリケーション」タブ（Firefoxの場合は「ストレージ」）に移動します。",
+      "step4": "左側のサイドバーで「Cookie」を展開し、Pearpal Web サイトを選択します",
+      "step5": "あるいは、Cookie Editor などの Cookie 用のブラウザ拡張機能を使用することもできます。",
+      "step6": "次の値を見つけてコピーします。",
       "step6_items": {
-        "momo_id": "momoNid (for Momo ID field)",
-        "momo_token": "momoToken (for Momo Token field)"
+        "momo_id": "momoNid (Momo ID フィールド用)",
+        "momo_token": "momoToken (Momo Token フィールド用)"
       },
-      "step7": "For UID, go to your Pearpal profile and copy your UID number"
+      "step7": "UID については、Pearpal プロフィールに移動し、UID 番号をコピーします。"
     },
-    "security_note": "Note: Never share these Cookie values with anyone else!",
-    "data_note": "Important: Pull data via this import method is retained for only 180 days. Data before {date} won't be available. You can use \"Import from Whim-Log\" to import older data.",
+    "security_note": "注: これらの Cookie 値を他の人と共有しないでください。",
+    "data_note": "重要: このインポート方法を使用してプルしたデータは、180 日間のみ保持されます。 {date} より前のデータは利用できません。 「Whim-Logからインポート」を使用して古いデータをインポートできます。",
     "form": {
       "uid": "UID",
-      "uid_placeholder": "In-game UID",
-      "momo_id": "Momo ID",
-      "momo_id_placeholder": "momoNid from Cookie",
-      "momo_token": "Momo Token",
-      "momo_token_placeholder": "momoToken from Cookie",
-      "submit_global_stats": "Submit data for global stats",
-      "submit_button": "Submit and Import Pull History",
-      "fetching": "Fetching resonance data, please wait..."
+      "uid_placeholder": "ゲーム内UID",
+      "momo_id": "モモID",
+      "momo_id_placeholder": "クッキーのモモニッド",
+      "momo_token": "モモトークン",
+      "momo_token_placeholder": "Cookie からの momoToken",
+      "submit_global_stats": "グローバル統計のデータを送信する",
+      "submit_button": "プル履歴の送信とインポート",
+      "fetching": "共鳴データを取得しています。お待ちください..."
     },
     "progress": {
-      "processing_banner": "Processing banner {current} of {total}",
-      "fetching_data": "Fetching resonance data: {banner}"
+      "processing_banner": "{total}のバナー{current}を処理中",
+      "fetching_data": "レゾナンスデータの取得：{banner}"
     },
     "actions": {
-      "copy_code": "Copy Code",
-      "paste_from_clipboard": "Paste from Clipboard",
-      "select_all": "Select All"
+      "copy_code": "コードをコピーする",
+      "paste_from_clipboard": "クリップボードから貼り付け",
+      "select_all": "すべて選択"
     },
-    "select_banners": "Select Banners You Pulled",
-    "select_banners_desc": "No need to re-import",
+    "select_banners": "引いたバナーを選択してください",
+    "select_banners_desc": "再輸入する必要はありません",
     "banner_groups": {
-      "quick_select": "Quick Select",
-      "current_banners": "Current Banners",
-      "limited_banners": "Limited Banners",
-      "permanent_banners": "Permanent Banners",
-      "individual": "Individual Banners"
+      "quick_select": "クイック選択",
+      "current_banners": "現在のバナー",
+      "limited_banners": "限定バナー",
+      "permanent_banners": "常設バナー",
+      "individual": "個別のバナー"
     },
     "messages": {
-      "code_copied": "Code copied to clipboard!",
-      "code_copy_failed": "Failed to copy code to clipboard",
-      "data_paste_success": "Data pasted successfully!",
-      "data_paste_success_no_uid": "Please copy and paste your UID manually",
-      "data_paste_failed": "Failed to parse input data. Please ensure it is valid format",
-      "auth_success": "Authentication successful!",
-      "auth_failed": "Authentication failed",
-      "auth_failed_hint": "Please double check your inputs and try opening Pearpal in an incognito/private browser window.",
-      "stats_submit_failed": "Failed to submit global stats",
-      "fetch_history_failed": "Failed to fetch pull history",
-      "invalid_form": "Invalid form data",
-      "import_success": "Data imported successfully!",
-      "import_failed": "Failed to import file",
-      "pearpal_tracker_success": "Pearpal data imported successfully!",
-      "pearpal_tracker_failed": "Failed to import Pearpal data."
+      "code_copied": "コードがクリップボードにコピーされました!",
+      "code_copy_failed": "コードをクリップボードにコピーできませんでした",
+      "data_paste_success": "データは正常に貼り付けられました。",
+      "data_paste_success_no_uid": "UID を手動でコピーして貼り付けてください",
+      "data_paste_failed": "入力データの解析に失敗しました。有効な形式であることを確認してください",
+      "auth_success": "認証に成功しました！",
+      "auth_failed": "認証に失敗しました",
+      "auth_failed_hint": "入力内容を再確認し、シークレット/プライベート ブラウザ ウィンドウで Pearpal を開いてみてください。",
+      "stats_submit_failed": "グローバル統計の送信に失敗しました",
+      "fetch_history_failed": "プル履歴の取得に失敗しました",
+      "invalid_form": "無効なフォームデータです",
+      "import_success": "データは正常にインポートされました。",
+      "import_failed": "ファイルのインポートに失敗しました",
+      "pearpal_tracker_success": "Pearpal データは正常にインポートされました。",
+      "pearpal_tracker_failed": "Pearpal データのインポートに失敗しました。"
     },
-    "supported_browsers": "Supported Browsers",
+    "supported_browsers": "サポートされているブラウザ",
     "supported_browsers_list": {
       "chrome": "Google Chrome",
-      "firefox": "Mozilla Firefox",
-      "safari": "Apple Safari"
+      "firefox": "モジラ Firefox",
+      "safari": "アップルサファリ"
     },
-    "check_compatibility": "Check Browser Compatibility",
-    "pc_recommended": "You are using a mobile device, you can import using the supported browsers listed below, other browsers are not tested and might not work. For the best experience, we recommend using a PC browser for importing data.",
+    "check_compatibility": "ブラウザの互換性を確認する",
+    "pc_recommended": "モバイル デバイスを使用しています。以下にリストされているサポートされているブラウザを使用してインポートできます。他のブラウザはテストされていないため、動作しない可能性があります。最適なエクスペリエンスを得るために、データのインポートには PC ブラウザーを使用することをお勧めします。",
     "bookmark_script": {
-      "invalid_site": "Please use this bookmark on Pearpal Website"
+      "invalid_site": "Pearpal ウェブサイトでこのブックマークを使用してください"
     },
     "maintenance": {
-      "title": "Under Maintenance",
-      "message": "We're currently performing some maintenance. Pull history import is temporarily unavailable.",
-      "status": "Service will be back shortly. Thank you for your patience!"
+      "title": "メンテナンス中",
+      "message": "現在、一部メンテナンスを行っております。プル履歴のインポートは一時的に利用できなくなります。",
+      "status": "サービスは間もなく再開されます。ご辛抱いただきありがとうございます。"
     }
   },
   "tracker": {
     "stats": {
-      "title": "Pull Statistics",
-      "total_pulls": "Total Pulls",
-      "no_pulls": "No pull history for this banner",
-      "total_5star_4star": "5★ / 4★ Total",
-      "avg_5star": "5★ Avg (5★ Banner)",
-      "avg_4star_mixed": "4★ Avg (5★ Banner)",
-      "avg_4star_only": "4★ Avg (4★ Banner)",
-      "luckier": "Luckier than {percent}% of the gongeo.us users",
-      "more_pulls": "More than {percent}% of the gongeo.us users"
+      "title": "プル統計",
+      "total_pulls": "総プル数",
+      "no_pulls": "このバナーにはプル履歴がありません",
+      "total_5star_4star": "5つ星 / 4つ星 合計",
+      "avg_5star": "平均5つ星（5つ星バナー）",
+      "avg_4star_mixed": "平均4つ星(5つ星バナー)",
+      "avg_4star_only": "4つ星平均(4つ星バナー)",
+      "luckier": "gongeo.us ユーザーの {percent}% よりも幸運です",
+      "more_pulls": "gongeo.us ユーザーの {percent}% 以上"
     },
     "manual_log": {
-      "title": "Manual Import",
-      "description": "Use this option only if you don't want to use the game import or you are missing some items from the game import.",
-      "note": "Note: Manually imported data will only be used to display outfit completion status and will not be included in personal or global stats calculations.",
-      "open_editor": "Open Editor",
-      "select_banner": "Select Banner",
-      "apply_to_all": "Apply to All",
-      "success": "Outfit saved successfully!",
-      "error": "Failed to save outfit",
-      "evo_level": "Evolution Level"
+      "title": "手動インポート",
+      "description": "このオプションは、ゲームのインポートを使用したくない場合、またはゲームのインポートから一部の項目が欠落している場合にのみ使用してください。",
+      "note": "注: 手動でインポートされたデータは、衣装の完了ステータスを表示するためにのみ使用され、個人または全体的な統計の計算には含まれません。",
+      "open_editor": "エディタを開く",
+      "select_banner": "バナーの選択",
+      "apply_to_all": "すべてに適用",
+      "success": "衣装が正常に保存されました。",
+      "error": "衣装の保存に失敗しました",
+      "evo_level": "進化レベル"
     },
     "banner": {
       "stats": {
-        "total_pulls": "Total Pulls",
-        "total_5star": "5★ Total",
-        "avg_5star": "5★ Avg",
-        "total_4star": "4★ Total",
-        "avg_4star": "4★ Avg",
-        "pity_5star": "5★ Pity",
-        "pity_4star": "4★ Pity"
+        "total_pulls": "総プル数",
+        "total_5star": "合計5つ星",
+        "avg_5star": "平均5つ星",
+        "total_4star": "合計4つ星",
+        "avg_4star": "平均4つ星",
+        "pity_5star": "5つ星残念",
+        "pity_4star": "4つ星残念"
       },
       "settings": {
-        "banner_order": "Banner Order",
-        "item_order": "Item Order",
-        "latest_first": "Latest First",
-        "oldest_first": "Oldest First",
-        "outfit_display": "Outfit Display",
-        "item_display": "Item Display",
-        "combined": "Combined",
-        "separated": "Separated",
-        "show_4star": "4★ (5★ Banner)",
-        "show_missing": "Missing Pieces",
-        "duplicate_items": "Duplicate Items",
-        "empty_banners": "Empty Banners",
-        "data_source": "Data Source",
+        "banner_order": "バナーの注文",
+        "item_order": "アイテムの注文",
+        "latest_first": "最新順",
+        "oldest_first": "古い順",
+        "outfit_display": "衣装の展示",
+        "item_display": "項目表示",
+        "combined": "組み合わせた",
+        "separated": "別れた",
+        "show_4star": "4つ星 (5つ星バナー)",
+        "show_missing": "欠けている部分",
+        "duplicate_items": "重複アイテム",
+        "empty_banners": "空のバナー",
+        "data_source": "データソース",
         "pearpal": "Whim-Log",
-        "game": "Game",
-        "auto": "Auto",
-        "data_source_tooltip": "Select your preferred data source. If no data is available from the selected source, the other source will be used instead. Only one data source is displayed and used for statistics calculations at a time.",
-        "auto_option": "\"Auto\" will combine both sources, preferring the source with more pulls for each banner."
+        "game": "ゲーム",
+        "auto": "自動",
+        "data_source_tooltip": "好みのデータ ソースを選択します。選択したソースから利用可能なデータがない場合は、代わりに他のソースが使用されます。一度に表示され、統計計算に使用されるデータ ソースは 1 つだけです。",
+        "auto_option": "「自動」では両方のソースを組み合わせ、各バナーのプル数が多いソースを優先します。"
       }
     },
     "items": {
-      "pull": "Pull #{number}",
+      "pull": "#{number} をプルします",
       "category": {
-        "clothes": "Clothes",
-        "accessories": "Accessories",
-        "makeups": "Makeups"
+        "clothes": "服",
+        "accessories": "付属品",
+        "makeups": "メイクアップ"
       }
     },
     "export": {
-      "png": "Export Image",
-      "json": "Export File",
-      "generated_from": "Generated From",
-      "in_progress": "Export in progress, please wait...",
-      "success": "Data exported successfully!",
-      "error": "Failed to export data. Please try again."
+      "png": "画像のエクスポート",
+      "json": "エクスポートファイル",
+      "generated_from": "生成元",
+      "in_progress": "エクスポート中です。お待​​ちください...",
+      "success": "データは正常にエクスポートされました。",
+      "error": "データのエクスポートに失敗しました。もう一度試してください。"
     },
     "no_data": {
-      "title": "No resonance history available.",
-      "subtitle": "Please import your resonance data first.",
-      "error": "Failed to load data. Please try again."
+      "title": "共鳴履歴なし",
+      "subtitle": "最初に共鳴データをインポートしてください。",
+      "error": "データのロードに失敗しました。もう一度試してください。"
     }
   },
   "quiz": {
-    "title": "Outfit Silhouette",
-    "meta_description": "Guess the outfit from its silhouette in a quick mini-game.",
-    "instructions": "Guess the outfit from its silhouette. The faster you answer, the higher your score.",
-    "game_complete": "Game Complete",
-    "final_score": "Final score {score}",
-    "round": "Round",
-    "score": "Score",
-    "streak": "Streak",
-    "best_streak": "Best streak",
-    "rounds": "Rounds",
-    "right": "Right",
-    "wrong": "Wrong",
-    "start": "Start",
-    "next": "Next",
-    "skip": "Skip",
-    "play_again": "Play again",
-    "reveal_direction": "Reveal direction",
-    "blur": "Blur",
-    "answer_mode": "Answer mode",
-    "correct_answer": "Correct answer",
+    "title": "服装のシルエット",
+    "meta_description": "簡単なミニゲームで、シルエットから服装を推測します。",
+    "instructions": "シルエットから服装を推測します。早く答えるほどスコアが高くなります。",
+    "game_complete": "ゲーム完了",
+    "final_score": "最終スコア {score}",
+    "round": "ラウンド",
+    "score": "スコア",
+    "streak": "ストリーク",
+    "best_streak": "ベストストリーク",
+    "rounds": "ラウンド",
+    "right": "右",
+    "wrong": "間違っている",
+    "start": "始める",
+    "next": "次",
+    "skip": "スキップ",
+    "play_again": "もう一度プレイしてください",
+    "reveal_direction": "方向性を明らかにする",
+    "blur": "ぼかし",
+    "answer_mode": "応答モード",
+    "correct_answer": "正解",
     "reveal_options": {
-      "middle_out": "Middle out",
-      "top_down": "Top to bottom",
-      "bottom_up": "Bottom to top"
+      "middle_out": "ミドルアウト",
+      "top_down": "上から下へ",
+      "bottom_up": "下から上へ"
     }
   },
   "banner": {
-    "version": "Version",
+    "version": "バージョン",
     "luck": {
-      "1": "Veil of the Dark",
-      "2": "Faded Starlight",
-      "3": "Whisper of Whim",
-      "4": "Echo of Wishes",
-      "5": "Miracle Resonance",
-      "6": "Blessing of Divinity"
+      "1": "闇のベール",
+      "2": "色褪せたスターライト",
+      "3": "気まぐれのささやき",
+      "4": "願いの響き",
+      "5": "ミラクルレゾナンス",
+      "6": "神聖な祝福"
     },
     "outfit": {
       "level": {
-        "0": "Unset",
-        "1": "Base",
-        "2": "Evo 1",
-        "3": "Evo 2",
-        "4": "Evo 3",
-        "glow": "Glowed Up"
+        "0": "設定を解除する",
+        "1": "ベース",
+        "2": "エボ1",
+        "3": "エボ2",
+        "4": "エボ3",
+        "glow": "彩新済"
       }
     },
-    "deep_echoes": "Deep Echoes",
-    "not_found": "Banner not found"
+    "deep_echoes": "深海の響き",
+    "not_found": "バナーが見つかりません"
   },
   "global": {
     "stats": {
-      "total_pulls": "Total Pulls",
-      "unique_users": "Total Stylists",
-      "avg_5star": "5★ Avg (5★ Banner)",
-      "avg_4star_type2": "4★ Avg (5★ Banner)",
-      "avg_4star_type3": "4★ Avg (4★ Banner)",
-      "data_as_of": "Data as of"
+      "total_pulls": "総プル数",
+      "unique_users": "トータルスタイリスト",
+      "avg_5star": "平均5つ星（5つ星バナー）",
+      "avg_4star_type2": "平均4つ星(5つ星バナー)",
+      "avg_4star_type3": "4つ星平均(4つ星バナー)",
+      "data_as_of": "現在のデータ"
     },
     "charts": {
-      "pulls_per_banner": "Pulls Per Banner",
-      "five_star_distribution": "5★ Pulls Distribution",
-      "four_star_type2_distribution": "4★ Distribution (5★ Banner)",
-      "four_star_type3_distribution": "4★ Distribution (4★ Banner)",
-      "first_item_distribution": "First Item Distribution",
-      "number_of_pulls": "Number of Pulls",
-      "probability": "Probability",
-      "cumulative_probability": "Cumulative Probability",
-      "occurrences": "Occurrences",
-      "percentage": "Percentage",
-      "all_banners": "All Banners",
-      "five_star_banners": "5★ Banners",
-      "four_star_banners": "4★ Banners",
-      "recent_only": "Recent",
-      "all_time": "All Time",
-      "first_item_distribution_tooltip": "This banner includes pulls older than 180 days, which are no longer available in game. As a result, the first item distribution data may be inaccurate."
+      "pulls_per_banner": "バナーごとのプル数",
+      "five_star_distribution": "5つ星プル配布",
+      "four_star_type2_distribution": "4つ星配布（5つ星バナー）",
+      "four_star_type3_distribution": "4★配布（4★バナー）",
+      "first_item_distribution": "最初のアイテム配布",
+      "number_of_pulls": "プル数",
+      "probability": "確率",
+      "cumulative_probability": "累積確率",
+      "occurrences": "出来事",
+      "percentage": "パーセンテージ",
+      "all_banners": "すべてのバナー",
+      "five_star_banners": "5つ星バナー",
+      "four_star_banners": "4つ星バナー",
+      "recent_only": "最近の",
+      "all_time": "オールタイム",
+      "first_item_distribution_tooltip": "このバナーには、ゲーム内で利用できなくなった 180 日より古いプルが含まれています。その結果、最初のアイテム分布データは不正確になる可能性があります。"
     }
   },
   "faq": {
-    "title": "Frequently Asked Questions",
+    "title": "よくある質問",
     "questions": {
       "data_source": {
-        "question": "How are you getting the data?",
-        "answer": "We are using the same API as the in-game pull history page to access Infold Games servers that store the banner pull data. To access the data, we need to authenticate with the Infold Games server using your account Cookie."
+        "question": "データはどうやって取得していますか?",
+        "answer": "ゲーム内のプル履歴ページと同じ API を使用して、バナー プル データを保存する Infold Games サーバーにアクセスします。データにアクセスするには、アカウントの Cookie を使用して Infold Games サーバーで認証する必要があります。"
       },
       "ban_risk": {
-        "question": "Will I get banned for using this?",
-        "answer": "This is a third-party tool, so there is always some risk, though it is ultimately up to Infold Games. However, similar tools are widely used in other gacha games (Paimon.moe、Star Rail Station、WuWa Tracker etc.) and also in the Chinese community of Infinity Nikki (小黑盒 游创工坊). Take this information as a reference, and make your own judgement."
+        "question": "これを使用すると禁止されますか?",
+        "answer": "これはサードパーティ ツールであるため、常にある程度のリスクが伴いますが、最終的には Infold Games 次第です。ただし、同様のツールは他のガチャ ゲーム (Paimon.moe、Star Rail Station、WuWa Tracker など) や Infinity Nikki (小黑盒 游创工坊) の中国語コミュニティでも広く使用されています。この情報は参考として捉え、ご自身で判断してください。"
       },
       "data_storage": {
-        "question": "What data are you storing?",
-        "answer": "Your pull history is stored locally in your browser, so the next time you visit the site, it will be there unless you clear your browser data. We do not collect any personal information, including the Cookie you submitted."
+        "question": "どのようなデータを保存していますか?",
+        "answer": "プル履歴はブラウザーにローカルに保存されるため、次回サイトにアクセスするときは、ブラウザーのデータを消去しない限り、その履歴が残ったままになります。当社は、お客様が送信した Cookie を含む個人情報を収集しません。"
       },
       "server_data": {
-        "question": "What data is sent to the server?",
-        "answer": "Only your pull statistics are sent to help calculate global stats if you opt in. This includes a hashed version of your UID, and the information of 4★ and 5★ items you pulled."
+        "question": "どのようなデータがサーバーに送信されますか?",
+        "answer": "オプトインした場合、グローバル統計の計算に役立つよう、プル統計のみが送信されます。これには、UID のハッシュ バージョンと、プルした 4★ および 5★ アイテムの情報が含まれます。"
       },
       "platform_support": {
-        "question": "Will it work if I play on mobile or PS5?",
-        "answer": "Yes, no matter which platform you play on, you can import your data from PC or mobile. However, on mobile it might not work for all browsers, it is recommended to use PC for better experience, please check the import page for supported browsers and more details."
+        "question": "モバイルまたは PS5 でプレイしても機能しますか?",
+        "answer": "はい、どのプラットフォームでプレイしても、PC またはモバイルからデータをインポートできます。ただし、モバイルではすべてのブラウザで機能しない可能性があります。より良いエクスペリエンスを得るには PC を使用することをお勧めします。サポートされているブラウザと詳細についてはインポート ページを確認してください。"
       },
       "cookie_script": {
-        "question": "Do I have to run a script to get my Cookie?",
-        "answer": "No, they are just for convenience, you can get the Cookie manually, check manual input instructions in the import page for more details. However, the only way to get the Cookie on mobile now is to use the bookmark method."
+        "question": "Cookie を取得するにはスクリプトを実行する必要がありますか?",
+        "answer": "いいえ、便宜上のものです。Cookie は手動で取得できます。詳細については、インポート ページの手動入力手順を確認してください。ただし、現在モバイルで Cookie を取得する唯一の方法は、ブックマーク方法を使用することです。"
       },
       "data_loss": {
-        "question": "Why is the data incomplete or missing for some banners?",
-        "answer": "This happens because pull history is only stored in the game for 180 days. After that, it is deleted from the game servers and becomes unavailable. To preserve your data, you can store it in your browser or export it for backup. This way, you can keep records that are no longer available in the game. If you import in the future, your existing data will be merged with the new data."
+        "question": "一部のバナーのデータが不完全または欠落しているのはなぜですか?",
+        "answer": "これは、プル履歴がゲームに 180 日間しか保存されないために発生します。その後、ゲームサーバーから削除され利用できなくなります。データを保存するには、ブラウザに保存するか、バックアップのためにエクスポートします。こうすることで、ゲーム内では利用できなくなった記録を保存できます。将来インポートする場合、既存のデータは新しいデータとマージされます。"
       },
       "no_pulls": {
-        "question": "I followed the import steps and saw the banners were processed, but why isn't any pull history showing?",
-        "answer": "Please double check that your region and Cookie values are correct. Make sure the UID and ID from the Cookie are not mixed up."
+        "question": "インポート手順に従って、バナーが処理されたことを確認しましたが、プル履歴が表示されないのはなぜですか?",
+        "answer": "地域と Cookie の値が正しいことを再確認してください。 UID と Cookie の ID が混同されていないことを確認してください。"
       },
       "auto_update": {
-        "question": "Will my pull data update automatically?",
-        "answer": "No, your pull data will not update automatically. The website needs to be updated to support new banners after each game update. For security reasons, your Cookie will expire after some time, so you'll need to re-import your data. However, if you store your data in your browser, you'll only need to re-import for new banners."
+        "question": "プル データは自動的に更新されますか?",
+        "answer": "いいえ、プル データは自動的には更新されません。ゲームが更新されるたびに、新しいバナーをサポートするために Web サイトを更新する必要があります。セキュリティ上の理由から、Cookie はしばらくすると期限切れになるため、データを再インポートする必要があります。ただし、データをブラウザに保存している場合は、新しいバナーを再インポートするだけで済みます。"
       },
       "export": {
-        "question": "How can I export my pull history?",
-        "answer": "You can export your pull history as a PNG image or a JSON file. If your browser data is cleared, you can use the JSON file to restore your history."
+        "question": "プル履歴をエクスポートするにはどうすればよいですか?",
+        "answer": "プル履歴を PNG 画像または JSON ファイルとしてエクスポートできます。ブラウザーのデータが消去された場合は、JSON ファイルを使用して履歴を復元できます。"
       }
     }
   },
   "about": {
-    "title": "Disclaimer and Privacy Policy",
+    "title": "免責事項とプライバシーポリシー",
     "infinityNikkiAssets": {
-      "title": "Platform and Content Disclaimer",
-      "content": "gongeo.us is an independent fan-operated platform and is not affiliated, endorsed, or partnered with Infinity Nikki or Infold Games. All official game assets, visuals, and related content are the exclusive property of Infold Games and are used here solely for community sharing and educational purposes. We do not claim any ownership or rights over this content.",
-      "acknowledgment": "By using this platform, you acknowledge its unofficial status and accept all risks associated with accessing third-party or unofficial content."
+      "title": "プラットフォームとコンテンツの免責事項",
+      "content": "gongeo.us は独立したファン運営のプラットフォームであり、Infinity Nikki または Infold Games と提携、承認、提携していません。すべての公式ゲーム アセット、ビジュアル、および関連コンテンツは Infold Games の独占的所有物であり、ここではコミュニティの共有と教育目的にのみ使用されます。当社は、このコンテンツに対する所有権や権利を主張しません。",
+      "acknowledgment": "このプラットフォームを使用すると、その非公式の立場を認め、サードパーティまたは非公式のコンテンツへのアクセスに関連するすべてのリスクを受け入れることになります。"
     },
     "dataAndStats": {
-      "title": "Data and Statistics Disclaimer",
-      "content": "All gameplay statistics and data presented on gongeo.us are voluntarily contributed by users and are not sourced from Infold Games. These data sets represent only a small portion of the player community and may not fully reflect overall player behavior or game trends.",
-      "insights": "Any insights or conclusions drawn from the data are for informational purposes only and should be considered in light of their community-driven nature."
+      "title": "データと統計に関する免責事項",
+      "content": "gongeo.us に表示されるすべてのゲームプレイ統計とデータはユーザーによって自発的に提供されたものであり、Infold Games から提供されたものではありません。これらのデータ セットはプレイヤー コミュニティのほんの一部を表しており、全体的なプレイヤーの行動やゲームの傾向を完全には反映していない可能性があります。",
+      "insights": "データから得られる洞察や結論は情報提供のみを目的としており、コミュニティ主導の性質を考慮して検討する必要があります。"
     },
     "intellectualProperty": {
-      "title": "Intellectual Property",
-      "content": "gongeo.us is an independent fan project. All trademarks, game content, and intellectual property related to Infinity Nikki remain the sole property of Infold Games and their licensors.",
-      "siteContent": "Except where explicitly stated otherwise, all original code, site design, and custom assets on this platform are owned by gongeo.us and protected by applicable copyright and intellectual property laws. Unauthorized copying, reuse, or distribution is prohibited without written permission.",
-      "usage": "This platform is provided \"as-is\" and intended solely for personal, non-commercial use."
+      "title": "知的財産",
+      "content": "gongeo.us は独立したファン プロジェクトです。 Infinity Nikki に関連するすべての商標、ゲーム コンテンツ、および知的財産は、依然として Infold Games およびそのライセンサーの唯一の財産です。",
+      "siteContent": "特に明記されていない限り、このプラットフォーム上のすべてのオリジナル コード、サイト デザイン、およびカスタム アセットは gongeo.us が所有し、適用される著作権法および知的財産法によって保護されています。書面による許可なく、無断で複製、再利用、配布することは禁止されています。",
+      "usage": "このプラットフォームは「現状のまま」提供され、個人的、非商業的使用のみを目的としています。"
     },
     "dataCollection": {
-      "title": "Data Collection and Storage",
-      "content": "We collect only the minimal data necessary to operate our service. We do not collect or store any personal information or tracking cookies. Any cookies or UIDs you provide are used solely to communicate with Infold Games server to verify your account and retrieve your pull history.",
-      "pullHistory": "Your pull history is stored locally in your browser once imported. For cloud backup or cross-device access, you may optionally sign in via Discord, Google, or email to sync your data through secure cloud storage provided by Supabase. You may also choose to contribute anonymized statistics about your 4-star and 5-star pulls to help generate community statistics."
+      "title": "データの収集と保管",
+      "content": "当社は、サービスの運営に必要な最小限のデータのみを収集します。当社は個人情報や追跡 Cookie を収集または保存しません。あなたが提供した Cookie または UID は、Infold Games サーバーと通信してアカウントを確認し、プル履歴を取得するためにのみ使用されます。",
+      "pullHistory": "プル履歴は、インポートされるとブラウザーにローカルに保存されます。クラウド バックアップまたはクロスデバイス アクセスの場合、オプションで Discord、Google、または電子メール経由でサインインし、Supabase が提供する安全なクラウド ストレージを通じてデータを同期できます。コミュニティ統計の生成に役立てるため、4 つ星および 5 つ星のプルに関する匿名の統計を投稿することもできます。"
     },
     "accountSecurity": {
-      "title": "Account and Security",
-      "content": "All essential features remain fully accessible without requiring an account. If you choose to sign in, authentication is securely handled by Supabase. We never access or store your login credentials. You have complete control of your data, with the ability to share, upload, sync or delete it at any time. For permanent account deletion, contact us through Discord or email.",
-      "security": "While we implement necessary security measures using industry standards, please be aware that no internet transmission can be guaranteed as completely secure."
+      "title": "アカウントとセキュリティ",
+      "content": "すべての重要な機能は、アカウントを必要とせずに完全にアクセスできます。サインインを選択した場合、認証は Supabase によって安全に処理されます。当社があなたのログイン資格情報にアクセスしたり保存したりすることはありません。データを完全に制御でき、いつでもデータを共有、アップロード、同期、削除できます。アカウントの完全な削除については、Discord またはメールを通じてご連絡ください。",
+      "security": "当社では業界標準を使用して必要なセキュリティ対策を実施していますが、インターネット送信が完全に安全であるとは保証できないことにご注意ください。"
     },
     "analytics": {
-      "title": "Analytics and Tracking",
-      "content": "We utilize Umami, a privacy-focused analytics service, to monitor website usage. It collects only anonymized information such as page views, referrer URLs, and basic browser data without using Cookie or personal identifiers. This data helps us improve your experience. For more information, please see Umami's privacy policy."
+      "title": "分析と追跡",
+      "content": "当社は、プライバシーに重点を置いた分析サービスである Umami を利用して、Web サイトの使用状況を監視します。 Cookie や個人識別子を使用せずに、ページビュー、リファラー URL、ブラウザの基本データなどの匿名化された情報のみを収集します。このデータは、エクスペリエンスを向上させるのに役立ちます。詳細については、Umami のプライバシー ポリシーをご覧ください。"
     },
     "errorMonitoring": {
-      "title": "Error Monitoring",
-      "message": "We use Sentry.io to track and fix technical errors. Sentry may collect limited technical data (like error details, browser info, and anonymized IP addresses) to help us maintain and improve the site. For more information, please see Sentry.io's privacy policy."
+      "title": "エラー監視",
+      "message": "私たちは Sentry.io を使用して技術的エラーを追跡し、修正します。 Sentry は、サイトの維持および改善に役立てるために、限定的な技術データ (エラーの詳細、ブラウザ情報、匿名化された IP アドレスなど) を収集する場合があります。詳細については、Sentry.io のプライバシー ポリシーをご覧ください。"
     }
   },
   "vote": {
-    "description": "Help us determine the most popular banners from version 1.x! Vote on your favorite banners in head-to-head matchups.",
-    "skip": "Skip",
-    "howItWorks": "Pick your favorite banner and submit your vote to help rank the most popular banners. Skip if you're not sure. You can vote up to 50 times every 24 hours.",
-    "abuseNotice": "Please do not abuse the voting system. Unusual voting patterns will be detected, and those votes may be removed.",
-    "success": "Vote submitted successfully!",
-    "viewRankings": "View Rankings",
+    "description": "バージョン 1.x で最も人気のあるバナーを決定するのにご協力ください。直接対決でお気に入りのバナーに投票してください。",
+    "skip": "スキップ",
+    "howItWorks": "お気に入りのバナーを選択して投票を送信し、最も人気のあるバナーのランキングに役立ててください。よくわからない場合はスキップしてください。 24 時間ごとに最大 50 回まで投票できます。",
+    "abuseNotice": "投票システムを悪用しないでください。異常な投票パターンが検出され、それらの投票は削除される場合があります。",
+    "success": "投票は正常に送信されました。",
+    "viewRankings": "ランキングを見る",
     "mode": {
-      "personal": "Personal Mode",
-      "community": "Community Mode",
-      "personalDesc": "Your votes are stored locally and create your personal rankings. Does not affect community rankings.",
-      "communityDesc": "Your votes contribute to the community rankings and help determine the most popular banners."
+      "personal": "パーソナルモード",
+      "community": "コミュニティモード",
+      "personalDesc": "投票はローカルに保存され、個人的なランキングが作成されます。コミュニティのランキングには影響しません。",
+      "communityDesc": "あなたの投票はコミュニティのランキングに貢献し、最も人気のあるバナーを決定するのに役立ちます。"
     },
     "stats": {
-      "totalVotes": "Total Votes",
-      "personalVotes": "Personal Votes",
-      "totalVoters": "Total Voters",
-      "avgVotes": "Avg Votes"
+      "totalVotes": "総投票数",
+      "personalVotes": "個人投票",
+      "totalVoters": "総投票者数",
+      "avgVotes": "平均投票数"
     },
     "errors": {
-      "loadFailed": "Failed to load vote pair. Please try again.",
-      "submitFailed": "Failed to submit vote. Please try again.",
-      "rateLimit": "Too many votes. Please wait before voting again.",
-      "loadRankingsFailed": "Failed to load rankings. Please try again.",
-      "votingClosed": "Community voting has ended. View the final rankings or switch to Personal Mode to continue voting."
+      "loadFailed": "投票ペアのロードに失敗しました。もう一度試してください。",
+      "submitFailed": "投票を送信できませんでした。もう一度試してください。",
+      "rateLimit": "投票数が多すぎます。再度投票する前にお待ちください。",
+      "loadRankingsFailed": "ランキングの読み込みに失敗しました。もう一度試してください。",
+      "votingClosed": "コミュニティ投票は終了しました。最終ランキングを表示するか、個人モードに切り替えて投票を続けてください。"
     },
     "rankings": {
-      "title": "Banner Rankings",
-      "description": "See which banners from version 1.x are the most popular based on community votes.",
-      "votingPeriod": "Voting Period",
-      "voteMore": "Vote More",
-      "lastUpdated": "Last updated",
-      "rank": "Rank",
-      "elo": "Elo Rating",
+      "title": "バナーランキング",
+      "description": "コミュニティの投票に基づいて、バージョン 1.x のどのバナーが最も人気があるかを確認します。",
+      "votingPeriod": "投票期間",
+      "voteMore": "もっと投票する",
+      "lastUpdated": "最終更新日",
+      "rank": "ランク",
+      "elo": "ELOレーティング",
       "eloShort": "ELO",
-      "winRate": "Win Rate",
+      "winRate": "勝率",
       "winRateShort": "WR",
-      "wins": "Wins",
-      "losses": "Losses",
-      "totalVotes": "Total Votes",
+      "wins": "勝利",
+      "losses": "敗北",
+      "totalVotes": "総投票数",
       "winsLosses": "W/L",
       "winsShort": "W",
       "lossesShort": "L"
@@ -659,71 +659,68 @@
   },
   "tierlist": {
     "actions": {
-      "reset_board": "Reset Board"
+      "reset_board": "ボードをリセットする"
     },
     "over_limit": {
-      "title": "Too many entries",
-      "description": "Apply more filters to continue (max {max} entries)."
+      "title": "エントリが多すぎます",
+      "description": "続行するには、さらにフィルタを適用します (最大 {max} エントリ)。"
     },
-    "unranked_empty": "No unranked entries",
-    "obtain_fallback": "Obtain {id}",
+    "unranked_empty": "ランク付けされていないエントリーはありません",
+    "obtain_fallback": "{id}を入手",
     "status": {
-      "over_limit": "Too many entries. Apply more filters (max {max}).",
-      "loaded": "{count} entries loaded"
+      "over_limit": "エントリが多すぎます。さらにフィルターを適用します (最大 {max})。",
+      "loaded": "{count} エントリがロードされました"
     },
     "rank_menu": {
-      "tier_label": "{tier} Tier",
-      "send_back": "Unrank"
+      "tier_label": "{tier} 層",
+      "send_back": "送り返す"
     },
     "community_submit": {
-      "browser_only_error": "Community submit is only available in browser context",
-      "tooltip_ready": "Submit your completed tier list to the community ranking.",
-      "scope_unavailable_toast": "Community submit is not available for this scope.",
-      "success": "Community tier list submitted",
-      "failed": "Failed to submit community tier list",
+      "browser_only_error": "コミュニティ送信はブラウザコンテキストでのみ利用可能です",
+      "tooltip_ready": "完成した Tier リストをコミュニティ ランキングに送信します。",
+      "scope_unavailable_toast": "このスコープではコミュニティ送信は利用できません。",
+      "success": "コミュニティ Tier リストが提出されました",
+      "failed": "コミュニティ層リストの送信に失敗しました",
       "blocked": {
-        "error": "Cannot submit while entries failed to load.",
-        "over_limit": "Apply more filters before submitting.",
-        "scope_unavailable": "Community sharing is not available for this selection yet.",
-        "incomplete": "Rank all loaded entries before submitting.",
-        "no_changes": "No changes since your last submit."
+        "error": "エントリの読み込みに失敗したため送信できません。",
+        "over_limit": "送信する前にさらにフィルターを適用します。",
+        "scope_unavailable": "この選択ではコミュニティ共有はまだ利用できません。",
+        "incomplete": "送信する前に、読み込まれたすべてのエントリをランク付けします。",
+        "no_changes": "前回の送信以降、変更はありません。"
       }
     },
     "community_insights": {
-      "toggle": "Show community tier list",
-      "loading": "Loading community snapshot...",
-      "error": "Failed to load community snapshot.",
-      "empty": "No community data yet.",
-      "rank_position": "Community rank #{rank}",
-      "avg_tier": "Community average: {tier} tier",
-      "rank_higher_than": "You rank this higher than {percent}% of stylists",
-      "avg_score": "Average score: {score}",
-      "total_votes": "Total votes: {count}",
-      "top_tier_share": "Most votes placed this in {tier} tier ({percent}%)"
+      "toggle": "コミュニティ階層リストを表示",
+      "error": "コミュニティスナップショットのロードに失敗しました。",
+      "empty": "コミュニティ データはまだありません。",
+      "rank_position": "コミュニティランク #{rank}",
+      "avg_tier": "コミュニティ層: {tier} 層",
+      "rank_higher_than": "あなたはこれをスタイリストの {percent}% よりも高くランク付けしています",
+      "total_votes": "総投票数: {count}"
     },
     "share": {
-      "copy_link": "Copy Link",
-      "copied": "Link copied",
-      "copy_failed": "Failed to copy link"
+      "copy_link": "リンクをコピー",
+      "copied": "リンクがコピーされました",
+      "copy_failed": "リンクのコピーに失敗しました"
     }
   },
   "compendium": {
-    "error_title": "Failed to Load Data",
-    "error_description": "Unable to load data. Please try again.",
-    "no_results_title": "No Results Found",
-    "no_results_description": "No items match your criteria.",
-    "not_found_item": "Item not found",
-    "not_found_outfit": "Outfit not found",
-    "back_to_list": "Back to List",
-    "filter_type": "Filter by Type",
-    "filter_version": "Filter by Version",
-    "filter_style": "Filter by Style",
-    "filter_label": "Filter by Label",
-    "filter_obtain": "Filter by Source",
+    "error_title": "データのロードに失敗しました",
+    "error_description": "データをロードできません。もう一度試してください。",
+    "no_results_title": "結果が見つかりませんでした",
+    "no_results_description": "条件に一致するアイテムはありません。",
+    "not_found_item": "アイテムが見つかりません",
+    "not_found_outfit": "衣装が見つかりません",
+    "back_to_list": "リストに戻る",
+    "filter_type": "タイプでフィルターする",
+    "filter_version": "バージョンによるフィルター",
+    "filter_style": "スタイルでフィルターする",
+    "filter_label": "ラベルによるフィルター",
+    "filter_obtain": "ソースによるフィルター",
     "source": {
-      "event": "Event",
-      "quest": "Quest",
-      "merchant": "Merchant"
+      "event": "イベント",
+      "quest": "クエスト",
+      "merchant": "商人"
     }
   }
 }

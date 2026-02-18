@@ -447,7 +447,7 @@
       "error": "Daten konnten nicht exportiert werden. Bitte versuche es erneut."
     },
     "no_data": {
-      "title": "Kein Resonanz-Verlauf verfügbar.",
+      "title": "Kein Resonanz-Verlauf",
       "subtitle": "Bitte importiere zuerst deine Resonanz-Daten.",
       "error": "Daten konnten nicht geladen werden. Bitte versuche es erneut."
     }
@@ -685,21 +685,18 @@
         "error": "Kann nicht übermittelt werden, wenn Einträge nicht geladen wurden.",
         "over_limit": "Wende vor dem Übermitteln mehr Filter an.",
         "scope_unavailable": "Community-Freigabe ist für diese Auswahl noch nicht verfügbar.",
-        "incomplete": "Rank all loaded entries before submitting.",
+        "incomplete": "Rangiere alle geladenen Einträge vor der Übermittlung.",
         "no_changes": "Keine Änderungen seit deiner letzten Übermittlung."
       }
     },
     "community_insights": {
       "toggle": "Community-Rangliste anzeigen",
-      "loading": "Community-Schnappschuss wird geladen...",
       "error": "Community-Schnappschuss konnte nicht geladen werden.",
       "empty": "Noch keine Community-Daten.",
       "rank_position": "Community-Rang #{rank}",
       "avg_tier": "Community-Durchschnitt: {tier}-Rang",
       "rank_higher_than": "Du rangierst dies höher als {percent}% von Stylisten.",
-      "avg_score": "Durchschnittlicher Punktestand: {score}",
-      "total_votes": "Stimmen insgesamt",
-      "top_tier_share": "Die meisten Stimmen haben dies im {tier}-Rang platziert ({percent}%)"
+      "total_votes": "Stimmen insgesamt"
     },
     "share": {
       "copy_link": "Link kopieren",

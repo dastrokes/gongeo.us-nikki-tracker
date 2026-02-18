@@ -60,7 +60,7 @@
     "compendium": "제요",
     "vote": "배너 투표",
     "faq": "자주 묻는 질문",
-    "about": "대해서요",
+    "about": "에 대한",
     "nuan5pro": "Nuan5.Pro"
   },
   "meta": {
@@ -195,7 +195,7 @@
   },
   "login": {
     "sign_in": "로그인",
-    "sign_up": "등록해요",
+    "sign_up": "가입",
     "welcome_description": "타사 계정 또는 이메일로 로그인하여 데이터를 업로드하고 동기화하세요.",
     "signed_in_title": "성공적으로 로그인했습니다!",
     "welcome_back": "다시 오신 것을 환영합니다, {name}!",

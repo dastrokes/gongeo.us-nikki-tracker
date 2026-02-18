@@ -691,15 +691,12 @@
     },
     "community_insights": {
       "toggle": "显示社区排行榜",
-      "loading": "正在加载社区快照...",
       "error": "加载社区快照失败。",
       "empty": "暂无社区数据。",
       "rank_position": "社区排名 #{rank}",
       "avg_tier": "社区分级：{tier} 级",
       "rank_higher_than": "你的排名高于 {percent}% 的搭配师",
-      "avg_score": "平均评分：{score}",
-      "total_votes": "总投票数：{count}",
-      "top_tier_share": "最多投票将其放在 {tier} 级（{percent}%）"
+      "total_votes": "总投票数：{count}"
     },
     "share": {
       "copy_link": "复制链接",

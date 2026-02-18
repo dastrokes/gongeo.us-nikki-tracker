@@ -20,7 +20,8 @@ interface SyncData {
 export const useDataSync = () => {
   const supabase = useSupabaseClient()
   const { user } = useAuth()
-  const { saveData, loadData, savePearpalData } = useIndexedDB()
+  const { saveData, loadData, savePearpalData, mergePullData, mergeEditData } =
+    useIndexedDB()
   const { activeSlot, addProfile, renameProfile, slots, setLastSync } =
     useProfileSlots()
   const { initFromData } = usePullStoreData()
@@ -107,13 +108,17 @@ export const useDataSync = () => {
       // Upload to Supabase Storage
       const filePath = getUserDataPath(user.value.id, slot)
 
-      await supabase.storage
+      const { error: uploadError } = await supabase.storage
         .from(BUCKET_NAME)
         .upload(filePath, compressedData, {
           contentType: 'application/gzip',
           upsert: true, // Overwrite existing file
           cacheControl: '0',
         })
+
+      if (uploadError) {
+        return { success: false }
+      }
 
       setLastSync(slot, new Date().toISOString())
       return { success: true }
@@ -239,8 +244,8 @@ export const useDataSync = () => {
       // Merge local and remote data
       const localData = await loadData(resolvedSlot)
 
-      const mergedPulls = { ...localData.pulls, ...remoteData.pulls }
-      const mergedEdits = { ...localData.edits, ...remoteData.edits }
+      const mergedPulls = mergePullData(localData.pulls, remoteData.pulls)
+      const mergedEdits = mergeEditData(localData.edits, remoteData.edits)
       const mergedEvo = { ...localData.evo, ...remoteData.evo }
       const mergedPearpal = { ...localData.pearpal, ...remoteData.pearpal }
 

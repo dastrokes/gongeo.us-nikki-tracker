@@ -368,19 +368,29 @@
   const indexB = ref(0)
 
   let timer: NodeJS.Timeout | null = null
+  let isAutoAdvancing = false
   const timeoutMs = 10000
 
   function startTimer() {
     if (timer) clearTimeout(timer)
+    if (leftBanners.length === 0 || rightBanners.length === 0) return
+
     timer = setTimeout(() => {
-      indexA.value = (indexA.value + 1) % leftBanners.length
-      indexB.value = (indexB.value + 1) % rightBanners.length
-      startTimer() // Schedule next update
+      isAutoAdvancing = true
+      try {
+        indexA.value = (indexA.value + 1) % leftBanners.length
+        indexB.value = (indexB.value + 1) % rightBanners.length
+      } finally {
+        isAutoAdvancing = false
+      }
+
+      startTimer()
     }, timeoutMs)
   }
 
   // Watch for manual index changes
   watch([indexA, indexB], () => {
+    if (isAutoAdvancing) return
     startTimer()
   })
 

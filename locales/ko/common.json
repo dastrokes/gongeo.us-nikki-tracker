@@ -2,14 +2,14 @@
   "common": {
     "banner": "배너",
     "banners": "배너",
-    "outfit": "의상",
+    "outfit": "차림새",
     "outfits": "의상",
-    "item": "아이템",
-    "items": "아이템",
-    "makeup": "Makeup",
-    "variations": "Variations",
+    "item": "목",
+    "items": "품목",
+    "makeup": "조립",
+    "variations": "변형",
     "type": "유형",
-    "pull": "뽑기",
+    "pull": "당기다",
     "pulls": "뽑기",
     "total": "총",
     "average": "평균",
@@ -17,31 +17,31 @@
     "statistics": "통계",
     "stats": "통계",
     "data": "데이터",
-    "history": "기록",
+    "history": "역사",
     "tracker": "추적기",
-    "import": "가져오기",
+    "import": "수입",
     "export": "내보내기",
     "loading": "로딩 중...",
-    "search": "검색",
+    "search": "찾다",
     "filter": "필터",
-    "clear": "Clear Filters",
-    "all": "전체",
-    "other": "Other",
+    "clear": "필터 지우기",
+    "all": "모두",
+    "other": "다른",
     "show": "표시",
-    "hide": "숨기기",
-    "save": "저장",
+    "hide": "숨다",
+    "save": "구하다",
     "cancel": "취소",
-    "confirm": "확인",
-    "ok": "확인",
-    "submit": "제출",
-    "retry": "재시도",
-    "back": "뒤로",
+    "confirm": "확인하다",
+    "ok": "좋아요",
+    "submit": "제출하다",
+    "retry": "다시 해 보다",
+    "back": "뒤쪽에",
     "copy": "복사",
-    "select": "선택",
+    "select": "선택하다",
     "description": "설명",
     "error": "오류",
     "success": "성공",
-    "failed": "실패"
+    "failed": "실패한"
   },
   "navigation": {
     "title": "gongeo.us",
@@ -51,20 +51,20 @@
     "global": "글로벌 데이터",
     "banner": "배너 역사",
     "banner_detail": "배너 상세 정보",
-    "timeline": "Timeline",
-    "outfit": "Outfit Compendium",
-    "outfit_detail": "Outfit Detail",
-    "item": "Item Compendium",
-    "item_detail": "Item Detail",
-    "tierlist": "Tier List Maker",
-    "compendium": "Compendium",
+    "timeline": "타임라인",
+    "outfit": "의상 개요",
+    "outfit_detail": "의상 세부정보",
+    "item": "아이템 개요",
+    "item_detail": "품목 세부정보",
+    "tierlist": "계층 목록 작성기",
+    "compendium": "제요",
     "vote": "배너 투표",
     "faq": "자주 묻는 질문",
-    "about": "대해서요",
+    "about": "에 대한",
     "nuan5pro": "Nuan5.Pro"
   },
   "meta": {
-    "title": "Infinity Nikki Resonance Tracker - Pull History & Stats",
+    "title": "Infinity Nikki 공명 추적기 - 풀 기록 및 통계",
     "keywords": "인피니티 니키, 공명 추적기, 풀 트래커, 가차 트래커, 풀 히스토리, 글로벌 통계, 커뮤니티 통계, 곤게우스",
     "game_title": "인피니티 니키",
     "description": {
@@ -73,14 +73,14 @@
       "tracker": "인피니티 니키 공명 당김 기록을 추적하고 분석하세요. 5★ 및 4★ 배너 항목을 모두 확인하고 다른 스타일리스트와 운을 비교하세요.",
       "import": "게임, Whim-Log 데이터 또는 백업 파일에서 Infinity Nikki 공명 풀 히스토리를 쉽게 가져올 수 있습니다. 자세한 단계별 가이드가 포함되어 있습니다.",
       "global": "배너 인기도, 당김률, 아이템 드롭률, 커뮤니티 당김 통계 등 인피니티 니키 공명 글로벌 데이터를 살펴보세요.",
-      "banner": "Explore Infinity Nikki resonance banner history with current, upcoming, and past events, featured outfits, pull rates, durations, and rerun details.",
-      "banner_detail": "View the {name} resonance banner details, including featured outfits, item drop rates, pull statistics, duration, evolution info, and rerun status.",
-      "timeline": "Explore an interactive timeline of Infinity Nikki resonance banners, major updates, release periods, and reruns to track event history at a glance.",
-      "tierlist": "Create and share an Infinity Nikki tier list for banners, outfits, and items with drag-and-drop ranking, filters, and easy image export.",
-      "outfits": "Browse all Infinity Nikki outfits with filters for quality, evolution, glow-up, style tags, and stats. See full components and discover every outfit.",
-      "outfit_detail": "View detailed information about the {name} outfit, including quality, outfit pieces, evolution and glow-up, makeups, stats, and related resonance banners.",
-      "items": "Browse all Infinity Nikki items with filters for type, quality, stat bonuses, and related outfits or banners. Find, compare, and track every item easily.",
-      "item_detail": "View detailed information about the {name} item, including quality, evolution and glow-up, stats, and related outfits and banners.",
+      "banner": "현재, 예정된 및 과거 이벤트, 주요 의상, 끌어오기 속도, 기간 및 재실행 세부 정보가 포함된 Infinity Nikki 공명 배너 기록을 살펴보세요.",
+      "banner_detail": "추천 의상, 아이템 드롭률, 풀 통계, 기간, 진화 정보 및 재실행 상태를 포함한 {name} 공명 배너 세부 정보를 확인하세요.",
+      "timeline": "Infinity Nikki 공명 배너, 주요 업데이트, 출시 기간 및 재실행에 대한 대화형 타임라인을 탐색하여 이벤트 기록을 한눈에 추적하세요.",
+      "tierlist": "드래그 앤 드롭 순위, 필터 및 손쉬운 이미지 내보내기를 통해 배너, 의상, 아이템에 대한 Infinity Nikki 계층 목록을 만들고 공유하세요.",
+      "outfits": "품질, 진화, 발광, 스타일 태그 및 통계에 대한 필터를 사용하여 모든 Infinity Nikki 의상을 찾아보세요. 전체 구성품을 확인하고 모든 의상을 찾아보세요.",
+      "outfit_detail": "품질, 의상 조각, 진화 및 발광, 메이크업, 통계 및 관련 공명 배너를 포함하여 {name} 의상에 대한 자세한 정보를 확인하세요.",
+      "items": "유형, 품질, 능력치 보너스 및 관련 복장이나 배너에 대한 필터를 사용하여 모든 Infinity Nikki 항목을 찾아보세요. 모든 항목을 쉽게 찾고, 비교하고, 추적하세요.",
+      "item_detail": "품질, 진화 및 발광, 통계, 관련 의상 및 배너를 포함하여 {name} 아이템에 대한 자세한 정보를 확인하세요.",
       "faq": "데이터 개인정보 보호, 가져오기 방법, 사용 지침 등 gongeo.us 에 대해 자주 묻는 질문에 대한 답변을 찾아보세요.",
       "about": "gongeo.us 의 목적, 개인정보 보호 정책, 면책 조항 및 Infinity Nikki 커뮤니티를 지원하는 방법 등에 대해 자세히 알아보세요."
     }
@@ -90,75 +90,75 @@
     "your_data": "당신의 데이터",
     "current_banners": "현재 배너",
     "rerun": "재방송",
-    "copyright": "© 2025 gongeo.us • © Infold Games All Rights Reserved",
+    "copyright": "© 2026 gongeo.us • © Infold Games 판권 소유",
     "disclaimer": {
-      "content": "This is an unofficial fan-made website, not affiliated with or endorsed by Infold Games.",
-      "rights": "All Infinity Nikki game assets, content, and trademarks belong to Infold Games and their respective owners."
+      "content": "이것은 Infold Games와 제휴하거나 승인하지 않은 비공식 팬 제작 웹사이트입니다.",
+      "rights": "모든 Infinity Nikki 게임 자산, 콘텐츠 및 상표는 Infold Games 및 해당 소유자의 소유입니다."
     },
     "user_profile": {
-      "guest": "Guest",
-      "signed_in": "Signed In",
-      "clear_local_data": "Clear Local Data",
+      "guest": "손님",
+      "signed_in": "로그인됨",
+      "clear_local_data": "로컬 데이터 지우기",
       "clear_local_confirm": {
-        "title": "Clear Local Data",
-        "content": "Are you sure you want to clear all local data? This action cannot be undone."
+        "title": "로컬 데이터 지우기",
+        "content": "{profile} 프로필의 로컬 데이터를 삭제하시겠습니까? 이 작업은 취소할 수 없습니다."
       },
-      "sign_out": "Sign out",
-      "sign_out_success": "Successfully signed out",
-      "sign_out_error": "Failed to sign out",
-      "upload_data": "Upload to Cloud",
-      "sync_data": "Sync from Cloud",
+      "sign_out": "로그아웃",
+      "sign_out_success": "성공적으로 로그아웃되었습니다.",
+      "sign_out_error": "로그아웃하지 못했습니다.",
+      "upload_data": "클라우드에 업로드",
+      "sync_data": "클라우드에서 동기화",
       "sync": {
-        "upload_success": "Data uploaded to cloud successfully!",
-        "upload_error": "Failed to upload data.",
-        "sync_success": "Data synced successfully!",
-        "sync_error": "Failed to sync data.",
+        "upload_success": "데이터가 클라우드에 성공적으로 업로드되었습니다!",
+        "upload_error": "데이터를 업로드하지 못했습니다.",
+        "sync_success": "데이터가 성공적으로 동기화되었습니다!",
+        "sync_error": "데이터를 동기화하지 못했습니다.",
         "confirm_upload": {
-          "title": "Upload to Cloud",
-          "content": "This will upload your local data to cloud storage, overwriting any existing cloud data. Continue?"
+          "title": "클라우드에 업로드",
+          "content": "이렇게 하면 {profile} 프로필의 로컬 데이터가 클라우드 저장소에 업로드되어 이 프로필의 기존 클라우드 데이터를 덮어쓰게 됩니다. 계속하다?"
         },
         "confirm_sync": {
-          "title": "Sync from Cloud",
-          "content": "This will sync your local data with cloud data by merging them together. Continue?"
+          "title": "클라우드에서 동기화",
+          "content": "{profile} 프로필의 로컬 데이터를 클라우드 데이터와 병합하여 동기화합니다. 계속하다?"
         },
         "missing_profiles": {
-          "title": "Create Missing Profiles",
-          "content": "We found cloud data for {profiles}. Create these profiles locally before syncing?",
-          "confirm": "Create Profiles"
+          "title": "누락된 프로필 만들기",
+          "content": "{profiles}에 대한 클라우드 데이터를 찾았습니다. 동기화하기 전에 이러한 프로필을 로컬로 만드시겠습니까?",
+          "confirm": "프로필 만들기"
         }
       },
-      "clear_cloud_data": "Clear Cloud Data",
+      "clear_cloud_data": "클라우드 데이터 지우기",
       "clear_cloud_confirm": {
-        "title": "Clear Cloud Data",
-        "content": "Are you sure you want to clear all your cloud data? This action cannot be undone and will permanently delete your data from cloud storage."
+        "title": "클라우드 데이터 지우기",
+        "content": "{profile} 프로필의 클라우드 데이터를 삭제하시겠습니까? 이 작업은 취소할 수 없으며 클라우드 저장소에서 데이터가 영구적으로 삭제됩니다."
       },
-      "clear_cloud_success": "Cloud data cleared successfully!",
-      "clear_cloud_error": "Failed to clear cloud data.",
-      "clear_success": "Data cleared successfully!",
+      "clear_cloud_success": "클라우드 데이터가 성공적으로 삭제되었습니다!",
+      "clear_cloud_error": "클라우드 데이터를 지우지 못했습니다.",
+      "clear_success": "데이터가 성공적으로 삭제되었습니다!",
       "profiles": {
-        "active": "Active",
+        "active": "활동적인",
         "delete_confirm": {
-          "title": "Delete Profile",
-          "content": "Are you sure you want to delete {profile} profile? This will clear its local data and cloud data (if signed in)."
+          "title": "프로필 삭제",
+          "content": "{profile} 프로필을 삭제하시겠습니까? 로컬 데이터와 클라우드 데이터(로그인한 경우)가 삭제됩니다."
         },
-        "created_success": "Profile created.",
-        "switched_success": "Switched to {profile} profile.",
-        "deleted_success": "Profile deleted."
+        "created_success": "프로필이 생성되었습니다.",
+        "switched_success": "{profile} 프로필로 전환되었습니다.",
+        "deleted_success": "프로필이 삭제되었습니다."
       }
     },
     "accessibility": {
-      "toggle_menu": "Toggle navigation menu",
-      "language_switcher": "Language switcher",
-      "theme_switcher": "Toggle theme",
-      "user_profile_menu": "User profile menu",
-      "scroll_to_top": "Scroll to top"
+      "toggle_menu": "탐색 메뉴 전환",
+      "language_switcher": "언어 전환기",
+      "theme_switcher": "테마 전환",
+      "user_profile_menu": "사용자 프로필 메뉴",
+      "scroll_to_top": "맨 위로 스크롤"
     },
     "language_switcher": {
-      "help_translate": "Help translate"
+      "help_translate": "번역을 도와주세요"
     },
     "search": {
-      "placeholder": "Search items, banners, outfits",
-      "noResults": "No results found"
+      "placeholder": "아이템, 배너, 의상 검색",
+      "noResults": "검색결과가 없습니다"
     },
     "social": {
       "discord": "디스코드 커뮤니티에 가입하세요",
@@ -168,34 +168,34 @@
     }
   },
   "profile": {
-    "title": "Profile",
-    "subtitle": "Manage profiles, cloud data, and local data.",
+    "title": "윤곽",
+    "subtitle": "프로필, 클라우드 데이터, 로컬 데이터를 관리합니다.",
     "sections": {},
-    "account_label": "Account",
-    "all_profiles": "All Profiles",
-    "active_profile": "Active Profile",
-    "default_profile": "Default",
-    "profile_slot": "Profile {number}",
-    "switch": "Switch",
-    "manage_profiles": "Manage Profiles",
-    "rename": "Rename",
-    "rename_title": "Rename Profile",
-    "rename_placeholder": "Enter a profile name",
-    "rename_success": "Profile name updated.",
-    "rename_error": "Please enter a profile name.",
+    "account_label": "계정",
+    "all_profiles": "모든 프로필",
+    "active_profile": "활성 프로필",
+    "default_profile": "기본",
+    "profile_slot": "프로필 {number}",
+    "switch": "스위치",
+    "manage_profiles": "프로필 관리",
+    "rename": "이름 바꾸기",
+    "rename_title": "프로필 이름 바꾸기",
+    "rename_placeholder": "프로필 이름을 입력하세요.",
+    "rename_success": "프로필 이름이 업데이트되었습니다.",
+    "rename_error": "프로필 이름을 입력하세요.",
     "menu": {
-      "delete": "Delete Profile"
+      "delete": "프로필 삭제"
     },
     "status": {
-      "local": "Local Data",
-      "cloud": "Cloud Data",
-      "last_sync": "Last Sync",
-      "never": "Never"
+      "local": "로컬 데이터",
+      "cloud": "클라우드 데이터",
+      "last_sync": "마지막 동기화",
+      "never": "절대"
     }
   },
   "login": {
     "sign_in": "로그인",
-    "sign_up": "등록해요",
+    "sign_up": "가입",
     "welcome_description": "타사 계정 또는 이메일로 로그인하여 데이터를 업로드하고 동기화하세요.",
     "signed_in_title": "성공적으로 로그인했습니다!",
     "welcome_back": "다시 오신 것을 환영합니다, {name}!",
@@ -228,9 +228,9 @@
     "or": "혹은"
   },
   "error": {
-    "404": "\"Nikki, let's stay in the shallow water\"",
-    "notFound": "The page you are looking for does not exist.",
-    "returnHome": "Return Home"
+    "404": "\"니키, 얕은 물에 있자\"",
+    "notFound": "찾으시는 페이지가 존재하지 않습니다.",
+    "returnHome": "집으로 돌아가기"
   },
   "import": {
     "video_tutorial": "비디오 튜토리얼",
@@ -240,418 +240,418 @@
     "choose_method": "가져오기 방법 선택",
     "choose_method_desc": "당김 기록을 가져올 방법을 선택합니다.",
     "import_from_game": "게임에서 가져오기",
-    "import_from_file": "Import from File",
-    "import_from_pearpal": "Import from Whim-Log",
-    "file_import": "File Import",
-    "file_import_desc": "Import from a previously exported nikki-resonance-data file.",
-    "select_file": "Select File",
-    "select_region": "Select Region",
-    "select_region_desc": "Select your game server region.",
+    "import_from_file": "파일에서 가져오기",
+    "import_from_pearpal": "Whim-Log에서 가져오기",
+    "file_import": "파일 가져오기",
+    "file_import_desc": "이전에 내보낸 nikki-resonance-data 파일에서 가져옵니다.",
+    "select_file": "파일 선택",
+    "select_region": "지역 선택",
+    "select_region_desc": "게임 서버 지역을 선택하세요.",
     "regions": {
-      "america": "America",
-      "europe": "Europe",
-      "china": "China",
-      "tw": "TW/HK/Macau",
-      "asia": "Asia"
+      "america": "미국",
+      "europe": "유럽",
+      "china": "중국",
+      "tw": "대만/홍콩/마카오",
+      "asia": "아시아"
     },
-    "pearpal_website": "Pearpal Website",
+    "pearpal_website": "펄팔 홈페이지",
     "whimlog": "Whim-Log",
-    "login_pearpal": "Login to Pearpal Website",
-    "login_pearpal_desc": "Open Pearpal Website in a new tab and login with your Infold account if you aren't already logged in.",
-    "login_pearpal_incognito_hint": "If you have multiple accounts, it's recommended to open Pearpal in an incognito/private browser window.",
-    "login_whimlog": "Sync data in Whim-Log",
-    "login_whimlog_desc": "Open Whim-Log in a new tab, login and sync your data.",
-    "get_cookie": "Get Cookie From Pearpal Website",
-    "get_cookie_desc": "Choose how you want to get your Cookie:",
-    "gongeous_cookie": "Gongeous Cookie",
-    "bookmark_method": "Bookmark Method (Recommended)",
-    "bookmark_method_mobile": "Bookmark Method",
-    "console_method": "Console Method",
+    "login_pearpal": "Pearpal 홈페이지에 로그인하세요.",
+    "login_pearpal_desc": "아직 로그인하지 않은 경우 새 탭에서 Pearpal 웹사이트를 열고 Infold 계정으로 로그인하세요.",
+    "login_pearpal_incognito_hint": "여러 계정이 있는 경우 시크릿/개인 브라우저 창에서 Pearpal을 여는 것이 좋습니다.",
+    "login_whimlog": "Whim-Log의 데이터 동기화",
+    "login_whimlog_desc": "새 탭에서 Whim-Log를 열고 로그인하고 데이터를 동기화하세요.",
+    "get_cookie": "Pearpal 웹사이트에서 쿠키 받기",
+    "get_cookie_desc": "쿠키를 얻는 방법을 선택하세요:",
+    "gongeous_cookie": "고저스 쿠키",
+    "bookmark_method": "북마크 방법(권장)",
+    "bookmark_method_mobile": "북마크 방법",
+    "console_method": "콘솔 방식",
     "manual_input": "수동 방법",
     "title": "다음 단계를 따라 쿠키를 구하세요:",
     "bookmark_steps": {
       "step1": "\"Gongeous Cookie\" 버튼을 북마크 바로 드래그합니다(한 번만 완료하면 됩니다):",
       "step2": "다른 탭에서 Pearpal 웹사이트로 전환하고 로그인했는지 확인합니다",
-      "step3": "Click the \"Gongeous Cookie\" bookmark while on the Pearpal Website",
-      "step4": "Copy the output text in the popup (it should look like the example in the input area below)",
-      "step5": "Come back here and paste the output text in the input area below",
-      "tip": "Tip: You can keep the bookmark for getting Cookie the next time you import"
+      "step3": "Pearpal 웹사이트에서 \"Gongeous Cookie\" 북마크를 클릭하세요.",
+      "step4": "팝업의 출력 텍스트를 복사합니다(아래 입력 영역의 예와 같아야 함).",
+      "step5": "여기로 돌아와서 아래 입력 영역에 출력 텍스트를 붙여넣으세요.",
+      "tip": "팁: 다음에 쿠키를 가져올 때 쿠키를 가져오도록 북마크를 유지할 수 있습니다."
     },
     "bookmark_steps_mobile": {
-      "step1": "Tap the \"Copy Code\" button and copy the code",
-      "step2": "Create a new bookmark in your browser and name it \"Gongeous Cookie\"",
-      "step3": "Edit the bookmark URL and replace it with the code you copied",
-      "step4": "Switch to Pearpal Website in a different tab, make sure you are logged in",
-      "step5": "Tap the \"Gongeous Cookie\" bookmark while on the Pearpal Website",
-      "step5_android_chrome": "Start typing the bookmark name you saved (Gongeous Cookie) in the address bar",
-      "step5_android_chrome_2": "Select the bookmark from suggestions to run it",
-      "step6": "Copy the output text in the popup (it should look like the example in the input area below)",
-      "step7": "Come back here and paste the output text in the input area below"
+      "step1": "'코드 복사' 버튼을 탭하고 코드를 복사하세요.",
+      "step2": "브라우저에 새 북마크를 만들고 이름을 \"Gongeous Cookie\"로 지정하세요.",
+      "step3": "북마크 URL을 편집하고 복사한 코드로 바꾸세요.",
+      "step4": "다른 탭에서 Pearpal 웹사이트로 전환하고 로그인했는지 확인합니다",
+      "step5": "Pearpal 웹사이트에서 \"Gongeous Cookie\" 북마크를 탭하세요.",
+      "step5_android_chrome": "주소창에 저장한 북마크 이름(Gonggeous Cookie)을 입력하세요.",
+      "step5_android_chrome_2": "제안에서 북마크를 선택하여 실행하세요.",
+      "step6": "팝업의 출력 텍스트를 복사합니다(아래 입력 영역의 예와 같아야 함).",
+      "step7": "여기로 돌아와서 아래 입력 영역에 출력 텍스트를 붙여넣으세요."
     },
     "console_steps": {
-      "step1": "Switch to Pearpal Website in a different tab, make sure you are logged in",
-      "step2": "Open your browser's Developer Tools (Press F12 or right-click and select \"Inspect\")",
-      "step3": "Go to the \"Console\" tab",
-      "step4": "Click the \"Copy Code\" button, copy and paste the code into the console and press enter:",
-      "step5": "If you get a warning saying \"Warning: Don't paste code into the devtools console\", type \"allow pasting\" and hit enter",
-      "step6": "Copy the output text in the console (it should look like the example in the input area below)",
-      "step7": "Come back here and paste the output text in the input area below"
+      "step1": "다른 탭에서 Pearpal 웹사이트로 전환하고 로그인했는지 확인합니다",
+      "step2": "브라우저의 개발자 도구를 엽니다(F12를 누르거나 마우스 오른쪽 버튼을 클릭하고 \"검사\" 선택).",
+      "step3": "\"콘솔\"탭으로 이동",
+      "step4": "\"코드 복사\" 버튼을 클릭하고 코드를 복사하여 콘솔에 붙여넣은 후 Enter 키를 누릅니다.",
+      "step5": "\"경고: 개발자 도구 콘솔에 코드를 붙여넣지 마세요\"라는 경고가 표시되면 \"붙여넣기 허용\"을 입력하고 Enter 키를 누르세요.",
+      "step6": "콘솔에서 출력 텍스트를 복사합니다(아래 입력 영역의 예와 같아야 함).",
+      "step7": "여기로 돌아와서 아래 입력 영역에 출력 텍스트를 붙여넣으세요."
     },
     "manual_steps": {
-      "note": "(Using Google Chrome as an example, exact names might vary for other browsers but steps will be similar)",
-      "step1": "Switch to Pearpal Website in a different tab, make sure you are logged in",
-      "step2": "Open your browser's Developer Tools (Press F12 or right-click and select \"Inspect\")",
-      "step3": "Go to the \"Application\" tab (or \"Storage\" in Firefox)",
-      "step4": "In the left sidebar, expand \"Cookies\" and select the Pearpal Website",
-      "step5": "Alternatively, you can use a browser extension for Cookies like Cookie Editor",
-      "step6": "Find and copy the values for:",
+      "note": "(예를 들어 Google Chrome을 사용하면 다른 브라우저마다 정확한 이름이 다를 수 있지만 단계는 유사합니다.)",
+      "step1": "다른 탭에서 Pearpal 웹사이트로 전환하고 로그인했는지 확인합니다",
+      "step2": "브라우저의 개발자 도구를 엽니다(F12를 누르거나 마우스 오른쪽 버튼을 클릭하고 \"검사\" 선택).",
+      "step3": "\"응용 프로그램\" 탭(또는 Firefox에서는 \"저장소\")으로 이동합니다.",
+      "step4": "왼쪽 사이드바에서 \"쿠키\"를 확장하고 Pearpal 웹사이트를 선택하세요.",
+      "step5": "또는 쿠키 편집기와 같은 쿠키용 브라우저 확장을 사용할 수 있습니다.",
+      "step6": "다음에 대한 값을 찾아 복사합니다.",
       "step6_items": {
-        "momo_id": "momoNid (for Momo ID field)",
-        "momo_token": "momoToken (for Momo Token field)"
+        "momo_id": "momoNid (모모 ID 필드용)",
+        "momo_token": "momoToken(Momo 토큰 필드용)"
       },
-      "step7": "For UID, go to your Pearpal profile and copy your UID number"
+      "step7": "UID의 경우 Pearpal 프로필로 이동하여 UID 번호를 복사하세요."
     },
-    "security_note": "Note: Never share these Cookie values with anyone else!",
-    "data_note": "Important: Pull data via this import method is retained for only 180 days. Data before {date} won't be available. You can use \"Import from Whim-Log\" to import older data.",
+    "security_note": "참고: 이 쿠키 값을 다른 사람과 공유하지 마십시오!",
+    "data_note": "중요: 이 가져오기 방법을 통한 가져오기 데이터는 180일 동안만 유지됩니다. {date} 이전의 데이터는 사용할 수 없습니다. \"Whim-Log에서 가져오기\"를 사용하여 이전 데이터를 가져올 수 있습니다.",
     "form": {
       "uid": "UID",
-      "uid_placeholder": "In-game UID",
-      "momo_id": "Momo ID",
-      "momo_id_placeholder": "momoNid from Cookie",
-      "momo_token": "Momo Token",
-      "momo_token_placeholder": "momoToken from Cookie",
-      "submit_global_stats": "Submit data for global stats",
-      "submit_button": "Submit and Import Pull History",
-      "fetching": "Fetching resonance data, please wait..."
+      "uid_placeholder": "게임 내 UID",
+      "momo_id": "모모아이디",
+      "momo_id_placeholder": "쿠키의 momoNid",
+      "momo_token": "모모토큰",
+      "momo_token_placeholder": "쿠키의 momoToken",
+      "submit_global_stats": "글로벌 통계를 위한 데이터 제출",
+      "submit_button": "풀 내역 제출 및 가져오기",
+      "fetching": "공진 데이터를 가져오는 중입니다. 잠시 기다려 주세요..."
     },
     "progress": {
-      "processing_banner": "Processing banner {current} of {total}",
-      "fetching_data": "Fetching resonance data: {banner}"
+      "processing_banner": "{total}의 배너 {current} 처리 중",
+      "fetching_data": "공명 데이터를 가져오는 중: {banner}"
     },
     "actions": {
-      "copy_code": "Copy Code",
-      "paste_from_clipboard": "Paste from Clipboard",
-      "select_all": "Select All"
+      "copy_code": "코드 복사",
+      "paste_from_clipboard": "클립보드에서 붙여넣기",
+      "select_all": "모두 선택"
     },
-    "select_banners": "Select Banners You Pulled",
-    "select_banners_desc": "No need to re-import",
+    "select_banners": "뽑은 배너를 선택하세요",
+    "select_banners_desc": "다시 가져올 필요가 없습니다",
     "banner_groups": {
-      "quick_select": "Quick Select",
-      "current_banners": "Current Banners",
-      "limited_banners": "Limited Banners",
-      "permanent_banners": "Permanent Banners",
-      "individual": "Individual Banners"
+      "quick_select": "빠른 선택",
+      "current_banners": "현재 배너",
+      "limited_banners": "제한된 배너",
+      "permanent_banners": "영구 배너",
+      "individual": "개별 배너"
     },
     "messages": {
-      "code_copied": "Code copied to clipboard!",
-      "code_copy_failed": "Failed to copy code to clipboard",
-      "data_paste_success": "Data pasted successfully!",
-      "data_paste_success_no_uid": "Please copy and paste your UID manually",
-      "data_paste_failed": "Failed to parse input data. Please ensure it is valid format",
-      "auth_success": "Authentication successful!",
-      "auth_failed": "Authentication failed",
-      "auth_failed_hint": "Please double check your inputs and try opening Pearpal in an incognito/private browser window.",
-      "stats_submit_failed": "Failed to submit global stats",
-      "fetch_history_failed": "Failed to fetch pull history",
-      "invalid_form": "Invalid form data",
-      "import_success": "Data imported successfully!",
-      "import_failed": "Failed to import file",
-      "pearpal_tracker_success": "Pearpal data imported successfully!",
-      "pearpal_tracker_failed": "Failed to import Pearpal data."
+      "code_copied": "코드가 클립보드에 복사되었습니다!",
+      "code_copy_failed": "코드를 클립보드에 복사하지 못했습니다.",
+      "data_paste_success": "데이터를 성공적으로 붙여넣었습니다!",
+      "data_paste_success_no_uid": "UID를 수동으로 복사하여 붙여넣으세요.",
+      "data_paste_failed": "입력 데이터를 구문 분석하지 못했습니다. 올바른 형식인지 확인하세요.",
+      "auth_success": "인증 성공!",
+      "auth_failed": "인증 실패",
+      "auth_failed_hint": "입력 내용을 다시 확인하고 시크릿/개인 브라우저 창에서 Pearpal을 열어보세요.",
+      "stats_submit_failed": "글로벌 통계를 제출하지 못했습니다.",
+      "fetch_history_failed": "가져오기 기록을 가져오지 못했습니다.",
+      "invalid_form": "잘못된 양식 데이터",
+      "import_success": "데이터를 성공적으로 가져왔습니다!",
+      "import_failed": "파일을 가져오지 못했습니다.",
+      "pearpal_tracker_success": "Pearpal 데이터를 성공적으로 가져왔습니다!",
+      "pearpal_tracker_failed": "Pearpal 데이터를 가져오지 못했습니다."
     },
-    "supported_browsers": "Supported Browsers",
+    "supported_browsers": "지원되는 브라우저",
     "supported_browsers_list": {
-      "chrome": "Google Chrome",
-      "firefox": "Mozilla Firefox",
-      "safari": "Apple Safari"
+      "chrome": "구글 크롬",
+      "firefox": "모질라 파이어폭스",
+      "safari": "애플 사파리"
     },
-    "check_compatibility": "Check Browser Compatibility",
-    "pc_recommended": "You are using a mobile device, you can import using the supported browsers listed below, other browsers are not tested and might not work. For the best experience, we recommend using a PC browser for importing data.",
+    "check_compatibility": "브라우저 호환성 확인",
+    "pc_recommended": "모바일 장치를 사용하고 있으며 아래 나열된 지원 브라우저를 사용하여 가져올 수 있습니다. 다른 브라우저는 테스트되지 않았으므로 작동하지 않을 수 있습니다. 최상의 경험을 위해 데이터 가져오기에 PC 브라우저를 사용하는 것이 좋습니다.",
     "bookmark_script": {
-      "invalid_site": "Please use this bookmark on Pearpal Website"
+      "invalid_site": "Pearpal 웹사이트에서 이 북마크를 사용하세요."
     },
     "maintenance": {
-      "title": "Under Maintenance",
-      "message": "We're currently performing some maintenance. Pull history import is temporarily unavailable.",
-      "status": "Service will be back shortly. Thank you for your patience!"
+      "title": "유지보수 중",
+      "message": "현재 일부 유지보수 작업을 수행하고 있습니다. 가져오기 기록 가져오기를 일시적으로 사용할 수 없습니다.",
+      "status": "곧 서비스가 다시 시작됩니다. 양해해 주셔서 감사합니다!"
     }
   },
   "tracker": {
     "stats": {
-      "title": "Pull Statistics",
-      "total_pulls": "Total Pulls",
-      "no_pulls": "No pull history for this banner",
-      "total_5star_4star": "5★ / 4★ Total",
-      "avg_5star": "5★ Avg (5★ Banner)",
-      "avg_4star_mixed": "4★ Avg (5★ Banner)",
-      "avg_4star_only": "4★ Avg (4★ Banner)",
-      "luckier": "Luckier than {percent}% of the gongeo.us users",
-      "more_pulls": "More than {percent}% of the gongeo.us users"
+      "title": "통계 가져오기",
+      "total_pulls": "총 당기기",
+      "no_pulls": "이 배너에 대한 가져오기 기록이 없습니다.",
+      "total_5star_4star": "별 5개 / 별 4개 합계",
+      "avg_5star": "별 5개 평균(별 5개 배너)",
+      "avg_4star_mixed": "별 4개 평균(별 5개 배너)",
+      "avg_4star_only": "별 4개 평균(별 4개 배너)",
+      "luckier": "gongeo.us 사용자 중 {percent}%보다 운이 좋습니다.",
+      "more_pulls": "gongeo.us 사용자 중 {percent}% 이상"
     },
     "manual_log": {
-      "title": "Manual Import",
-      "description": "Use this option only if you don't want to use the game import or you are missing some items from the game import.",
-      "note": "Note: Manually imported data will only be used to display outfit completion status and will not be included in personal or global stats calculations.",
-      "open_editor": "Open Editor",
-      "select_banner": "Select Banner",
-      "apply_to_all": "Apply to All",
-      "success": "Outfit saved successfully!",
-      "error": "Failed to save outfit",
-      "evo_level": "Evolution Level"
+      "title": "수동 가져오기",
+      "description": "게임 가져오기를 사용하고 싶지 않거나 게임 가져오기에서 일부 항목이 누락된 경우에만 이 옵션을 사용하세요.",
+      "note": "참고: 수동으로 가져온 데이터는 복장 완료 상태를 표시하는 데만 사용되며 개인 또는 글로벌 통계 계산에는 포함되지 않습니다.",
+      "open_editor": "편집기 열기",
+      "select_banner": "배너 선택",
+      "apply_to_all": "모두에게 적용",
+      "success": "의상이 성공적으로 저장되었습니다!",
+      "error": "의상을 저장하지 못했습니다.",
+      "evo_level": "진화 수준"
     },
     "banner": {
       "stats": {
-        "total_pulls": "Total Pulls",
-        "total_5star": "5★ Total",
-        "avg_5star": "5★ Avg",
-        "total_4star": "4★ Total",
-        "avg_4star": "4★ Avg",
-        "pity_5star": "5★ Pity",
-        "pity_4star": "4★ Pity"
+        "total_pulls": "총 당기기",
+        "total_5star": "별 5개 총계",
+        "avg_5star": "별 5개 평균",
+        "total_4star": "별 4개 합계",
+        "avg_4star": "별 4개 평균",
+        "pity_5star": "별 5개 동정",
+        "pity_4star": "별 4개 동정"
       },
       "settings": {
-        "banner_order": "Banner Order",
-        "item_order": "Item Order",
-        "latest_first": "Latest First",
-        "oldest_first": "Oldest First",
-        "outfit_display": "Outfit Display",
-        "item_display": "Item Display",
-        "combined": "Combined",
-        "separated": "Separated",
-        "show_4star": "4★ (5★ Banner)",
-        "show_missing": "Missing Pieces",
-        "duplicate_items": "Duplicate Items",
-        "empty_banners": "Empty Banners",
-        "data_source": "Data Source",
+        "banner_order": "배너 순서",
+        "item_order": "품목 주문",
+        "latest_first": "최신순",
+        "oldest_first": "오래된 것부터",
+        "outfit_display": "의상 전시",
+        "item_display": "품목 전시",
+        "combined": "결합된",
+        "separated": "분리됨",
+        "show_4star": "별 4개(별 5개 배너)",
+        "show_missing": "누락된 조각",
+        "duplicate_items": "중복 항목",
+        "empty_banners": "빈 배너",
+        "data_source": "데이터 소스",
         "pearpal": "Whim-Log",
-        "game": "Game",
-        "auto": "Auto",
-        "data_source_tooltip": "Select your preferred data source. If no data is available from the selected source, the other source will be used instead. Only one data source is displayed and used for statistics calculations at a time.",
-        "auto_option": "\"Auto\" will combine both sources, preferring the source with more pulls for each banner."
+        "game": "게임",
+        "auto": "자동",
+        "data_source_tooltip": "원하는 데이터 소스를 선택하세요. 선택한 소스에서 사용할 수 있는 데이터가 없으면 다른 소스가 대신 사용됩니다. 한 번에 하나의 데이터 소스만 표시되고 통계 계산에 사용됩니다.",
+        "auto_option": "\"자동\"은 두 소스를 결합하여 각 배너에 대해 더 많은 풀을 가져오는 소스를 선호합니다."
       }
     },
     "items": {
-      "pull": "Pull #{number}",
+      "pull": "#{number} 당기기",
       "category": {
-        "clothes": "Clothes",
-        "accessories": "Accessories",
-        "makeups": "Makeups"
+        "clothes": "옷",
+        "accessories": "부속품",
+        "makeups": "메이크업"
       }
     },
     "export": {
-      "png": "Export Image",
-      "json": "Export File",
-      "generated_from": "Generated From",
-      "in_progress": "Export in progress, please wait...",
-      "success": "Data exported successfully!",
-      "error": "Failed to export data. Please try again."
+      "png": "이미지 내보내기",
+      "json": "파일 내보내기",
+      "generated_from": "다음에서 생성됨",
+      "in_progress": "내보내기가 진행 중입니다. 잠시 기다려 주세요...",
+      "success": "데이터를 성공적으로 내보냈습니다!",
+      "error": "데이터를 내보내지 못했습니다. 다시 시도해 주세요."
     },
     "no_data": {
-      "title": "No Resonance History",
-      "subtitle": "Please import your resonance data first.",
-      "error": "Failed to load data. Please try again."
+      "title": "공명 이력 없음",
+      "subtitle": "먼저 공명 데이터를 가져오세요.",
+      "error": "데이터를 로드하지 못했습니다. 다시 시도해 주세요."
     }
   },
   "quiz": {
-    "title": "Outfit Silhouette",
-    "meta_description": "Guess the outfit from its silhouette in a quick mini-game.",
-    "instructions": "Guess the outfit from its silhouette. The faster you answer, the higher your score.",
-    "game_complete": "Game Complete",
-    "final_score": "Final score {score}",
-    "round": "Round",
-    "score": "Score",
-    "streak": "Streak",
-    "best_streak": "Best streak",
-    "rounds": "Rounds",
-    "right": "Right",
-    "wrong": "Wrong",
-    "start": "Start",
-    "next": "Next",
-    "skip": "Skip",
-    "play_again": "Play again",
-    "reveal_direction": "Reveal direction",
-    "blur": "Blur",
-    "answer_mode": "Answer mode",
-    "correct_answer": "Correct answer",
+    "title": "의상 실루엣",
+    "meta_description": "빠른 미니 게임을 통해 실루엣을 보고 의상을 맞춰보세요.",
+    "instructions": "실루엣으로 의상을 추측해 보세요. 빨리 답변할수록 점수가 높아집니다.",
+    "game_complete": "게임 완료",
+    "final_score": "최종 점수 {score}",
+    "round": "둥근",
+    "score": "점수",
+    "streak": "줄",
+    "best_streak": "최고의 연속",
+    "rounds": "라운드",
+    "right": "오른쪽",
+    "wrong": "잘못된",
+    "start": "시작",
+    "next": "다음",
+    "skip": "건너뛰다",
+    "play_again": "다시 플레이",
+    "reveal_direction": "방향을 밝히다",
+    "blur": "흐림",
+    "answer_mode": "응답 모드",
+    "correct_answer": "정답",
     "reveal_options": {
-      "middle_out": "Middle out",
-      "top_down": "Top to bottom",
-      "bottom_up": "Bottom to top"
+      "middle_out": "미들아웃",
+      "top_down": "위에서 아래로",
+      "bottom_up": "아래에서 위로"
     }
   },
   "banner": {
-    "version": "Version",
+    "version": "버전",
     "luck": {
-      "1": "Veil of the Dark",
-      "2": "Faded Starlight",
-      "3": "Whisper of Whim",
-      "4": "Echo of Wishes",
-      "5": "Miracle Resonance",
-      "6": "Blessing of Divinity"
+      "1": "어둠의 베일",
+      "2": "바랜 별빛",
+      "3": "변덕의 속삭임",
+      "4": "소원의 메아리",
+      "5": "기적의 공명",
+      "6": "신성의 축복"
     },
     "outfit": {
       "level": {
-        "0": "Unset",
-        "1": "Base",
-        "2": "Evo 1",
-        "3": "Evo 2",
-        "4": "Evo 3",
-        "glow": "Glowed Up"
+        "0": "설정되지 않음",
+        "1": "베이스",
+        "2": "에보 1",
+        "3": "에보 2",
+        "4": "에보 3",
+        "glow": "리폼 완료"
       }
     },
-    "deep_echoes": "Deep Echoes",
-    "not_found": "Banner not found"
+    "deep_echoes": "심해의 메아리",
+    "not_found": "배너를 찾을 수 없습니다"
   },
   "global": {
     "stats": {
-      "total_pulls": "Total Pulls",
-      "unique_users": "Total Stylists",
-      "avg_5star": "5★ Avg (5★ Banner)",
-      "avg_4star_type2": "4★ Avg (5★ Banner)",
-      "avg_4star_type3": "4★ Avg (4★ Banner)",
-      "data_as_of": "Data as of"
+      "total_pulls": "총 당기기",
+      "unique_users": "전체 스타일리스트",
+      "avg_5star": "별 5개 평균(별 5개 배너)",
+      "avg_4star_type2": "별 4개 평균(별 5개 배너)",
+      "avg_4star_type3": "별 4개 평균(별 4개 배너)",
+      "data_as_of": "현재 데이터"
     },
     "charts": {
-      "pulls_per_banner": "Pulls Per Banner",
-      "five_star_distribution": "5★ Pulls Distribution",
-      "four_star_type2_distribution": "4★ Distribution (5★ Banner)",
-      "four_star_type3_distribution": "4★ Distribution (4★ Banner)",
-      "first_item_distribution": "First Item Distribution",
-      "number_of_pulls": "Number of Pulls",
-      "probability": "Probability",
-      "cumulative_probability": "Cumulative Probability",
-      "occurrences": "Occurrences",
-      "percentage": "Percentage",
-      "all_banners": "All Banners",
-      "five_star_banners": "5★ Banners",
-      "four_star_banners": "4★ Banners",
-      "recent_only": "Recent",
-      "all_time": "All Time",
-      "first_item_distribution_tooltip": "This banner includes pulls older than 180 days, which are no longer available in game. As a result, the first item distribution data may be inaccurate."
+      "pulls_per_banner": "배너당 당김",
+      "five_star_distribution": "별 5개 풀 분배",
+      "four_star_type2_distribution": "별 4개 배포(별 5개 배너)",
+      "four_star_type3_distribution": "별 4개 배포(별 4개 배너)",
+      "first_item_distribution": "첫 번째 항목 배포",
+      "number_of_pulls": "당기는 횟수",
+      "probability": "개연성",
+      "cumulative_probability": "누적 확률",
+      "occurrences": "발생",
+      "percentage": "백분율",
+      "all_banners": "모든 배너",
+      "five_star_banners": "별 5개 배너",
+      "four_star_banners": "별 4개 배너",
+      "recent_only": "최근의",
+      "all_time": "모든 시간",
+      "first_item_distribution_tooltip": "이 배너에는 180일이 지난 풀이 포함되어 있으며, 이는 게임에서 더 이상 사용할 수 없습니다. 결과적으로, 첫 번째 아이템 분포 데이터가 정확하지 않을 수 있습니다."
     }
   },
   "faq": {
-    "title": "Frequently Asked Questions",
+    "title": "자주 묻는 질문",
     "questions": {
       "data_source": {
-        "question": "How are you getting the data?",
-        "answer": "We are using the same API as the in-game pull history page to access Infold Games servers that store the banner pull data. To access the data, we need to authenticate with the Infold Games server using your account Cookie."
+        "question": "데이터는 어떻게 얻고 있나요?",
+        "answer": "우리는 배너 풀 데이터를 저장하는 Infold Games 서버에 액세스하기 위해 게임 내 풀 히스토리 페이지와 동일한 API를 사용하고 있습니다. 데이터에 액세스하려면 귀하의 계정 쿠키를 사용하여 Infold Games 서버에 인증해야 합니다."
       },
       "ban_risk": {
-        "question": "Will I get banned for using this?",
-        "answer": "This is a third-party tool, so there is always some risk, though it is ultimately up to Infold Games. However, similar tools are widely used in other gacha games (Paimon.moe、Star Rail Station、WuWa Tracker etc.) and also in the Chinese community of Infinity Nikki (小黑盒 游创工坊). Take this information as a reference, and make your own judgement."
+        "question": "이것을 사용하면 금지됩니까?",
+        "answer": "이는 타사 도구이므로 항상 약간의 위험이 있지만 궁극적으로는 Infold Games에 달려 있습니다. 그러나 유사한 도구는 다른 가챠 게임(Paimon.moe, Star Rail Station, WuWa Tracker 등)과 Infinity Nikki(小黑盒 游创工坊)의 중국 커뮤니티에서도 널리 사용됩니다. 이 정보를 참고하셔서 스스로 판단하시기 바랍니다."
       },
       "data_storage": {
-        "question": "What data are you storing?",
-        "answer": "Your pull history is stored locally in your browser, so the next time you visit the site, it will be there unless you clear your browser data. We do not collect any personal information, including the Cookie you submitted."
+        "question": "어떤 데이터를 저장하고 있나요?",
+        "answer": "가져오기 기록은 브라우저에 로컬로 저장되므로 다음에 사이트를 방문할 때 브라우저 데이터를 지우지 않는 한 해당 기록이 그대로 유지됩니다. 당사는 귀하가 제출한 쿠키를 포함하여 어떠한 개인정보도 수집하지 않습니다."
       },
       "server_data": {
-        "question": "What data is sent to the server?",
-        "answer": "Only your pull statistics are sent to help calculate global stats if you opt in. This includes a hashed version of your UID, and the information of 4★ and 5★ items you pulled."
+        "question": "서버로 어떤 데이터가 전송되나요?",
+        "answer": "귀하가 동의한 경우 전역 통계를 계산하는 데 도움이 되는 가져오기 통계만 전송됩니다. 여기에는 해시된 UID 버전과 가져온 4개 및 5개 항목에 대한 정보가 포함됩니다."
       },
       "platform_support": {
-        "question": "Will it work if I play on mobile or PS5?",
-        "answer": "Yes, no matter which platform you play on, you can import your data from PC or mobile. However, on mobile it might not work for all browsers, it is recommended to use PC for better experience, please check the import page for supported browsers and more details."
+        "question": "모바일이나 PS5에서 플레이해도 작동하나요?",
+        "answer": "예. 어떤 플랫폼에서 플레이하든 PC나 모바일에서 데이터를 가져올 수 있습니다. 그러나 모바일에서는 모든 브라우저에서 작동하지 않을 수 있습니다. 더 나은 경험을 위해 PC를 사용하는 것이 좋습니다. 지원되는 브라우저와 자세한 내용은 가져오기 페이지를 확인하세요."
       },
       "cookie_script": {
-        "question": "Do I have to run a script to get my Cookie?",
-        "answer": "No, they are just for convenience, you can get the Cookie manually, check manual input instructions in the import page for more details. However, the only way to get the Cookie on mobile now is to use the bookmark method."
+        "question": "쿠키를 얻으려면 스크립트를 실행해야 합니까?",
+        "answer": "아니요, 이는 단지 편의를 위한 것입니다. 쿠키를 수동으로 얻을 수 있습니다. 자세한 내용은 가져오기 페이지에서 수동 입력 지침을 확인하세요. 그러나 현재 모바일에서 쿠키를 얻을 수 있는 유일한 방법은 북마크 방법을 사용하는 것입니다."
       },
       "data_loss": {
-        "question": "Why is the data incomplete or missing for some banners?",
-        "answer": "This happens because pull history is only stored in the game for 180 days. After that, it is deleted from the game servers and becomes unavailable. To preserve your data, you can store it in your browser or export it for backup. This way, you can keep records that are no longer available in the game. If you import in the future, your existing data will be merged with the new data."
+        "question": "일부 배너의 데이터가 불완전하거나 누락된 이유는 무엇입니까?",
+        "answer": "이는 풀 내역이 게임에 180일 동안만 저장되기 때문에 발생합니다. 그 이후에는 게임 서버에서 삭제되어 사용할 수 없게 됩니다. 데이터를 보존하려면 브라우저에 데이터를 저장하거나 백업을 위해 내보낼 수 있습니다. 이렇게 하면 게임에서 더 이상 사용할 수 없는 기록을 유지할 수 있습니다. 나중에 가져오면 기존 데이터가 새 데이터와 병합됩니다."
       },
       "no_pulls": {
-        "question": "I followed the import steps and saw the banners were processed, but why isn't any pull history showing?",
-        "answer": "Please double check that your region and Cookie values are correct. Make sure the UID and ID from the Cookie are not mixed up."
+        "question": "가져오기 단계를 수행하여 배너가 처리된 것을 확인했는데 풀 히스토리가 표시되지 않는 이유는 무엇입니까?",
+        "answer": "지역 및 쿠키 값이 올바른지 다시 한번 확인하세요. 쿠키의 UID와 ID가 혼동되지 않았는지 확인하세요."
       },
       "auto_update": {
-        "question": "Will my pull data update automatically?",
-        "answer": "No, your pull data will not update automatically. The website needs to be updated to support new banners after each game update. For security reasons, your Cookie will expire after some time, so you'll need to re-import your data. However, if you store your data in your browser, you'll only need to re-import for new banners."
+        "question": "내 풀 데이터가 자동으로 업데이트되나요?",
+        "answer": "아니요, 풀 데이터는 자동으로 업데이트되지 않습니다. 각 게임 업데이트 후에 새로운 배너를 지원하려면 웹사이트를 업데이트해야 합니다. 보안상의 이유로 쿠키는 일정 시간이 지나면 만료되므로 데이터를 다시 가져와야 합니다. 그러나 브라우저에 데이터를 저장하는 경우 새 배너에 대해서만 다시 가져오기하면 됩니다."
       },
       "export": {
-        "question": "How can I export my pull history?",
-        "answer": "You can export your pull history as a PNG image or a JSON file. If your browser data is cleared, you can use the JSON file to restore your history."
+        "question": "내 끌어오기 기록을 어떻게 내보낼 수 있나요?",
+        "answer": "가져오기 기록을 PNG 이미지 또는 JSON 파일로 내보낼 수 있습니다. 브라우저 데이터가 삭제된 경우 JSON 파일을 사용하여 기록을 복원할 수 있습니다."
       }
     }
   },
   "about": {
-    "title": "Disclaimer and Privacy Policy",
+    "title": "면책조항 및 개인정보 보호정책",
     "infinityNikkiAssets": {
-      "title": "Platform and Content Disclaimer",
-      "content": "gongeo.us is an independent fan-operated platform and is not affiliated, endorsed, or partnered with Infinity Nikki or Infold Games. All official game assets, visuals, and related content are the exclusive property of Infold Games and are used here solely for community sharing and educational purposes. We do not claim any ownership or rights over this content.",
-      "acknowledgment": "By using this platform, you acknowledge its unofficial status and accept all risks associated with accessing third-party or unofficial content."
+      "title": "플랫폼 및 콘텐츠 면책조항",
+      "content": "gongeo.us는 독립적인 팬으로 운영되는 플랫폼이며 Infinity Nikki 또는 Infold Games와 제휴, 보증 또는 제휴 관계가 아닙니다. 모든 공식 게임 자산, 시각적 요소 및 관련 콘텐츠는 Infold Games의 독점적 자산이며 여기서는 커뮤니티 공유 및 교육 목적으로만 사용됩니다. 우리는 이 콘텐츠에 대해 어떠한 소유권이나 권리도 주장하지 않습니다.",
+      "acknowledgment": "이 플랫폼을 사용함으로써 귀하는 해당 플랫폼의 비공식 상태를 인정하고 제3자 또는 비공식 콘텐츠 액세스와 관련된 모든 위험을 감수하게 됩니다."
     },
     "dataAndStats": {
-      "title": "Data and Statistics Disclaimer",
-      "content": "All gameplay statistics and data presented on gongeo.us are voluntarily contributed by users and are not sourced from Infold Games. These data sets represent only a small portion of the player community and may not fully reflect overall player behavior or game trends.",
-      "insights": "Any insights or conclusions drawn from the data are for informational purposes only and should be considered in light of their community-driven nature."
+      "title": "데이터 및 통계 면책조항",
+      "content": "gongeo.us에 제시된 모든 게임플레이 통계 및 데이터는 사용자가 자발적으로 제공한 것이며 Infold Games에서 가져온 것이 아닙니다. 이러한 데이터 세트는 플레이어 커뮤니티의 일부일 뿐이며 전반적인 플레이어 행동이나 게임 추세를 완전히 반영하지 못할 수도 있습니다.",
+      "insights": "데이터에서 도출된 통찰력이나 결론은 정보 제공 목적으로만 제공되며 커뮤니티 중심 특성을 고려하여 고려해야 합니다."
     },
     "intellectualProperty": {
-      "title": "Intellectual Property",
-      "content": "gongeo.us is an independent fan project. All trademarks, game content, and intellectual property related to Infinity Nikki remain the sole property of Infold Games and their licensors.",
-      "siteContent": "Except where explicitly stated otherwise, all original code, site design, and custom assets on this platform are owned by gongeo.us and protected by applicable copyright and intellectual property laws. Unauthorized copying, reuse, or distribution is prohibited without written permission.",
-      "usage": "This platform is provided \"as-is\" and intended solely for personal, non-commercial use."
+      "title": "지적재산권",
+      "content": "gongeo.us는 독립 팬 프로젝트입니다. Infinity Nikki와 관련된 모든 상표, 게임 콘텐츠 및 지적 재산은 Infold Games 및 해당 라이센스 제공자의 단독 재산으로 유지됩니다.",
+      "siteContent": "달리 명시적으로 명시된 경우를 제외하고 이 플랫폼의 모든 원본 코드, 사이트 디자인 및 사용자 정의 자산은 gongeo.us의 소유이며 해당 저작권 및 지적 재산권법에 의해 보호됩니다. 서면 승인 없이 무단 복사, 재사용 또는 배포를 금지합니다.",
+      "usage": "이 플랫폼은 \"있는 그대로\" 제공되며 개인적이고 비상업적인 용도로만 사용됩니다."
     },
     "dataCollection": {
-      "title": "Data Collection and Storage",
-      "content": "We collect only the minimal data necessary to operate our service. We do not collect or store any personal information or tracking cookies. Any cookies or UIDs you provide are used solely to communicate with Infold Games server to verify your account and retrieve your pull history.",
-      "pullHistory": "Your pull history is stored locally in your browser once imported. For cloud backup or cross-device access, you may optionally sign in via Discord, Google, or email to sync your data through secure cloud storage provided by Supabase. You may also choose to contribute anonymized statistics about your 4-star and 5-star pulls to help generate community statistics."
+      "title": "데이터 수집 및 저장",
+      "content": "당사는 서비스 운영에 필요한 최소한의 데이터만을 수집합니다. 우리는 개인 정보나 추적 쿠키를 수집하거나 저장하지 않습니다. 귀하가 제공하는 모든 쿠키 또는 UID는 귀하의 계정을 확인하고 풀 기록을 검색하기 위해 Infold Games 서버와 통신하는 데에만 사용됩니다.",
+      "pullHistory": "가져온 후 가져오기 기록은 브라우저에 로컬로 저장됩니다. 클라우드 백업 또는 교차 장치 액세스의 경우 선택적으로 Discord, Google 또는 이메일을 통해 로그인하여 Supabase에서 제공하는 보안 클라우드 저장소를 통해 데이터를 동기화할 수 있습니다. 또한 커뮤니티 통계를 생성하는 데 도움이 되도록 4성 및 5성 풀에 대한 익명화된 통계를 제공하도록 선택할 수도 있습니다."
     },
     "accountSecurity": {
-      "title": "Account and Security",
-      "content": "All essential features remain fully accessible without requiring an account. If you choose to sign in, authentication is securely handled by Supabase. We never access or store your login credentials. You have complete control of your data, with the ability to share, upload, sync or delete it at any time. For permanent account deletion, contact us through Discord or email.",
-      "security": "While we implement necessary security measures using industry standards, please be aware that no internet transmission can be guaranteed as completely secure."
+      "title": "계정 및 보안",
+      "content": "모든 필수 기능은 계정 없이도 완벽하게 액세스할 수 있습니다. 로그인을 선택하면 Supabase에서 인증이 안전하게 처리됩니다. 우리는 귀하의 로그인 자격 증명에 액세스하거나 저장하지 않습니다. 귀하는 언제든지 데이터를 공유, 업로드, 동기화 또는 삭제할 수 있는 기능을 통해 데이터를 완벽하게 제어할 수 있습니다. 영구 계정 삭제를 원하시면 Discord나 이메일을 통해 문의해 주세요.",
+      "security": "우리는 산업 표준을 사용하여 필요한 보안 조치를 구현하지만 인터넷 전송이 완벽하게 안전하다고 보장할 수는 없다는 점을 유의하시기 바랍니다."
     },
     "analytics": {
-      "title": "Analytics and Tracking",
-      "content": "We utilize Umami, a privacy-focused analytics service, to monitor website usage. It collects only anonymized information such as page views, referrer URLs, and basic browser data without using Cookie or personal identifiers. This data helps us improve your experience. For more information, please see Umami's privacy policy."
+      "title": "분석 및 추적",
+      "content": "당사는 개인정보 보호에 초점을 맞춘 분석 서비스인 Umami를 활용하여 웹사이트 사용을 모니터링합니다. 쿠키나 개인 식별자를 사용하지 않고 페이지 조회수, 리퍼러 URL, 기본 브라우저 데이터 등 익명화된 정보만 수집합니다. 이 데이터는 귀하의 경험을 개선하는 데 도움이 됩니다. 자세한 내용은 Umami의 개인정보 보호정책을 참조하세요."
     },
     "errorMonitoring": {
-      "title": "Error Monitoring",
-      "message": "We use Sentry.io to track and fix technical errors. Sentry may collect limited technical data (like error details, browser info, and anonymized IP addresses) to help us maintain and improve the site. For more information, please see Sentry.io's privacy policy."
+      "title": "오류 모니터링",
+      "message": "우리는 기술적 오류를 추적하고 수정하기 위해 Sentry.io를 사용합니다. Sentry는 사이트를 유지 관리하고 개선하는 데 도움이 되도록 제한된 기술 데이터(오류 세부 정보, 브라우저 정보, 익명화된 IP 주소 등)를 수집할 수 있습니다. 자세한 내용은 Sentry.io의 개인정보 보호정책을 참조하세요."
     }
   },
   "vote": {
-    "description": "Help us determine the most popular banners from version 1.x! Vote on your favorite banners in head-to-head matchups.",
-    "skip": "Skip",
-    "howItWorks": "Pick your favorite banner and submit your vote to help rank the most popular banners. Skip if you're not sure. You can vote up to 50 times every 24 hours.",
-    "abuseNotice": "Please do not abuse the voting system. Unusual voting patterns will be detected, and those votes may be removed.",
-    "success": "Vote submitted successfully!",
-    "viewRankings": "View Rankings",
+    "description": "버전 1.x에서 가장 인기 있는 배너를 결정하는 데 도움을 주세요! 정면 승부에서 가장 좋아하는 배너에 투표하세요.",
+    "skip": "건너뛰다",
+    "howItWorks": "가장 좋아하는 배너를 선택하고 투표를 제출하여 가장 인기 있는 배너 순위를 매기세요. 확실하지 않으면 건너뛰세요. 24시간마다 최대 50번까지 투표할 수 있습니다.",
+    "abuseNotice": "투표 시스템을 남용하지 마십시오. 비정상적인 투표 패턴이 감지되면 해당 투표가 제거될 수 있습니다.",
+    "success": "투표가 성공적으로 제출되었습니다!",
+    "viewRankings": "순위 보기",
     "mode": {
-      "personal": "Personal Mode",
-      "community": "Community Mode",
-      "personalDesc": "Your votes are stored locally and create your personal rankings. Does not affect community rankings.",
-      "communityDesc": "Your votes contribute to the community rankings and help determine the most popular banners."
+      "personal": "개인 모드",
+      "community": "커뮤니티 모드",
+      "personalDesc": "귀하의 투표는 로컬에 저장되며 개인 순위를 생성합니다. 커뮤니티 순위에는 영향을 미치지 않습니다.",
+      "communityDesc": "귀하의 투표는 커뮤니티 순위에 영향을 미치며 가장 인기 있는 배너를 결정하는 데 도움이 됩니다."
     },
     "stats": {
-      "totalVotes": "Total Votes",
-      "personalVotes": "Personal Votes",
-      "totalVoters": "Total Voters",
-      "avgVotes": "Avg Votes"
+      "totalVotes": "총 투표수",
+      "personalVotes": "개인 투표",
+      "totalVoters": "총 유권자",
+      "avgVotes": "평균 투표수"
     },
     "errors": {
-      "loadFailed": "Failed to load vote pair. Please try again.",
-      "submitFailed": "Failed to submit vote. Please try again.",
-      "rateLimit": "Too many votes. Please wait before voting again.",
-      "loadRankingsFailed": "Failed to load rankings. Please try again.",
-      "votingClosed": "Community voting has ended. View the final rankings or switch to Personal Mode to continue voting."
+      "loadFailed": "투표 쌍을 로드하지 못했습니다. 다시 시도해 주세요.",
+      "submitFailed": "투표를 제출하지 못했습니다. 다시 시도해 주세요.",
+      "rateLimit": "투표수가 너무 많습니다. 다시 투표하기 전에 잠시 기다려 주세요.",
+      "loadRankingsFailed": "순위를 로드하지 못했습니다. 다시 시도해 주세요.",
+      "votingClosed": "커뮤니티 투표가 종료되었습니다. 최종 순위를 확인하거나 개인 모드로 전환하여 투표를 계속하세요."
     },
     "rankings": {
-      "title": "Banner Rankings",
-      "description": "See which banners from version 1.x are the most popular based on community votes.",
-      "votingPeriod": "Voting Period",
-      "voteMore": "Vote More",
-      "lastUpdated": "Last updated",
-      "rank": "Rank",
-      "elo": "Elo Rating",
+      "title": "배너 순위",
+      "description": "커뮤니티 투표를 기반으로 버전 1.x의 어떤 배너가 가장 인기가 있는지 확인하세요.",
+      "votingPeriod": "투표기간",
+      "voteMore": "더 많이 투표하세요",
+      "lastUpdated": "마지막 업데이트",
+      "rank": "순위",
+      "elo": "ELO 레이팅",
       "eloShort": "ELO",
-      "winRate": "Win Rate",
+      "winRate": "승률",
       "winRateShort": "WR",
-      "wins": "Wins",
-      "losses": "Losses",
-      "totalVotes": "Total Votes",
+      "wins": "승리",
+      "losses": "패배",
+      "totalVotes": "총 투표수",
       "winsLosses": "W/L",
       "winsShort": "W",
       "lossesShort": "L"
@@ -659,71 +659,68 @@
   },
   "tierlist": {
     "actions": {
-      "reset_board": "Reset Board"
+      "reset_board": "보드 재설정"
     },
     "over_limit": {
-      "title": "Too many entries",
-      "description": "Apply more filters to continue (max {max} entries)."
+      "title": "항목이 너무 많습니다.",
+      "description": "계속하려면 더 많은 필터를 적용하세요(최대 {max} 항목)."
     },
-    "unranked_empty": "No unranked entries",
-    "obtain_fallback": "Obtain {id}",
+    "unranked_empty": "순위가 지정되지 않은 항목 없음",
+    "obtain_fallback": "{id} 획득",
     "status": {
-      "over_limit": "Too many entries. Apply more filters (max {max}).",
-      "loaded": "{count} entries loaded"
+      "over_limit": "항목이 너무 많습니다. 더 많은 필터를 적용합니다(최대 {max}).",
+      "loaded": "{count} 항목이 로드되었습니다."
     },
     "rank_menu": {
-      "tier_label": "{tier} Tier",
-      "send_back": "Unrank"
+      "tier_label": "{tier} 계층",
+      "send_back": "반송"
     },
     "community_submit": {
-      "browser_only_error": "Community submit is only available in browser context",
-      "tooltip_ready": "Submit your completed tier list to the community ranking.",
-      "scope_unavailable_toast": "Community submit is not available for this scope.",
-      "success": "Community tier list submitted",
-      "failed": "Failed to submit community tier list",
+      "browser_only_error": "커뮤니티 제출은 브라우저 컨텍스트에서만 사용할 수 있습니다.",
+      "tooltip_ready": "완성된 계층 목록을 커뮤니티 순위에 제출하세요.",
+      "scope_unavailable_toast": "이 범위에서는 커뮤니티 제출을 사용할 수 없습니다.",
+      "success": "커뮤니티 등급 목록이 제출되었습니다.",
+      "failed": "커뮤니티 계층 목록을 제출하지 못했습니다.",
       "blocked": {
-        "error": "Cannot submit while entries failed to load.",
-        "over_limit": "Apply more filters before submitting.",
-        "scope_unavailable": "Community sharing is not available for this selection yet.",
-        "incomplete": "Rank all loaded entries before submitting.",
-        "no_changes": "No changes since your last submit."
+        "error": "항목을 로드하지 못한 동안에는 제출할 수 없습니다.",
+        "over_limit": "제출하기 전에 더 많은 필터를 적용하세요.",
+        "scope_unavailable": "이 선택 항목에는 아직 커뮤니티 공유를 사용할 수 없습니다.",
+        "incomplete": "제출하기 전에 로드된 모든 항목의 순위를 지정하세요.",
+        "no_changes": "마지막 제출 이후 변경사항이 없습니다."
       }
     },
     "community_insights": {
-      "toggle": "Show community tier list",
-      "loading": "Loading community snapshot...",
-      "error": "Failed to load community snapshot.",
-      "empty": "No community data yet.",
-      "rank_position": "Community rank #{rank}",
-      "avg_tier": "Community average: {tier} tier",
-      "rank_higher_than": "You rank this higher than {percent}% of stylists",
-      "avg_score": "Average score: {score}",
-      "total_votes": "Total votes: {count}",
-      "top_tier_share": "Most votes placed this in {tier} tier ({percent}%)"
+      "toggle": "커뮤니티 계층 목록 표시",
+      "error": "커뮤니티 스냅샷을 로드하지 못했습니다.",
+      "empty": "아직 커뮤니티 데이터가 없습니다.",
+      "rank_position": "커뮤니티 순위 #{rank}",
+      "avg_tier": "커뮤니티 계층: {tier} 계층",
+      "rank_higher_than": "귀하는 스타일리스트 {percent}%보다 높은 순위를 매겼습니다.",
+      "total_votes": "총 투표수: {count}"
     },
     "share": {
-      "copy_link": "Copy Link",
-      "copied": "Link copied",
-      "copy_failed": "Failed to copy link"
+      "copy_link": "링크 복사",
+      "copied": "링크가 복사되었습니다",
+      "copy_failed": "링크를 복사하지 못했습니다."
     }
   },
   "compendium": {
-    "error_title": "Failed to Load Data",
-    "error_description": "Unable to load data. Please try again.",
-    "no_results_title": "No Results Found",
-    "no_results_description": "No items match your criteria.",
-    "not_found_item": "Item not found",
-    "not_found_outfit": "Outfit not found",
-    "back_to_list": "Back to List",
-    "filter_type": "Filter by Type",
-    "filter_version": "Filter by Version",
-    "filter_style": "Filter by Style",
-    "filter_label": "Filter by Label",
-    "filter_obtain": "Filter by Source",
+    "error_title": "데이터를 로드하지 못했습니다.",
+    "error_description": "데이터를 로드할 수 없습니다. 다시 시도해 주세요.",
+    "no_results_title": "결과를 찾을 수 없습니다",
+    "no_results_description": "귀하의 기준과 일치하는 항목이 없습니다.",
+    "not_found_item": "항목을 찾을 수 없습니다",
+    "not_found_outfit": "의상을 찾을 수 없습니다",
+    "back_to_list": "목록으로 돌아가기",
+    "filter_type": "유형별로 필터링",
+    "filter_version": "버전별로 필터링",
+    "filter_style": "스타일로 필터링",
+    "filter_label": "라벨로 필터링",
+    "filter_obtain": "소스로 필터링",
     "source": {
-      "event": "Event",
-      "quest": "Quest",
-      "merchant": "Merchant"
+      "event": "이벤트",
+      "quest": "탐구",
+      "merchant": "상인"
     }
   }
 }

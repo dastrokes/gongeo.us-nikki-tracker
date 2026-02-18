@@ -27,7 +27,7 @@
         >
           <template #icon>
             <n-icon>
-              <KoFi />
+              <SvgIcon name="kofi" />
             </n-icon>
           </template>
         </n-button>
@@ -69,5 +69,4 @@
 
 <script setup lang="ts">
   import { Discord, Twitter, Envelope } from '@vicons/fa'
-  import KoFi from '~/components/icons/KoFi.vue'
 </script>

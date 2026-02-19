@@ -55,8 +55,8 @@
           </div>
 
           <div class="flex items-center gap-2 flex-wrap">
-            <!-- div
-              v-if="isCommunityModeEnabled"
+            <div
+              v-if="mode === 'banners' || (mode === 'outfits' && !isOverLimit)"
               class="inline-flex items-center gap-2 mr-1"
             >
               <span class="text-xs text-gray-500 dark:text-gray-400">
@@ -66,7 +66,7 @@
                 v-model:value="showCommunityInsights"
                 size="small"
               />
-            </div-->
+            </div>
 
             <div
               v-if="showCommunitySubmitAction"
@@ -280,24 +280,56 @@
       </div>
     </n-card>
 
+    <div
+      v-if="loading"
+      :class="{ 'png-export-container': !showCommunityInsightPanel }"
+    >
+      <n-card
+        size="small"
+        class="rounded-xl"
+        content-class="!p-2 sm:!p-4"
+      >
+        <div class="space-y-1">
+          <div
+            v-for="(tier, tierIndex) in tierKeys"
+            :key="`skeleton-${tier}`"
+            class="rounded-lg border border-gray-200/70 dark:border-gray-700/70"
+          >
+            <div :class="[tierRowClass, 'flex items-stretch gap-2']">
+              <div
+                class="shrink-0 w-12 sm:w-16 md:w-20 xl:w-24 rounded-md border border-gray-200/70 dark:border-gray-700/70 border-l-4 p-1 flex items-center justify-center"
+                :style="{
+                  borderLeftColor: tierColorByKey[tier],
+                  backgroundColor: tierLabelBackgroundByKey[tier],
+                }"
+              ></div>
+
+              <div class="flex-1 min-w-0">
+                <div :class="[cardGridClass, tierListClass]">
+                  <div
+                    v-for="i in (tierIndex + 1) % 2 === 1 ? 2 : 3"
+                    :key="`${tier}-card-${i}`"
+                    :class="[cardAspectClass, 'rounded-md overflow-hidden']"
+                  >
+                    <n-skeleton class="w-full h-full" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </n-card>
+    </div>
+
     <n-card
-      v-if="showCommunityInsightPanel"
+      v-else-if="showCommunityInsightPanel"
       size="small"
       class="rounded-xl"
       content-class="!p-2 sm:!p-4"
     >
       <div class="space-y-2">
         <div
-          v-if="
-            communityAggregateStatus === 'idle' ||
-            communityAggregateStatus === 'pending'
-          "
-          class="text-xs text-gray-500 dark:text-gray-400"
-        >
-          {{ t('tierlist.community_insights.loading') }}
-        </div>
-        <div
-          v-else-if="communityAggregateStatus === 'error'"
+          v-if="communityAggregateStatus === 'error'"
           class="text-xs text-red-500"
         >
           {{
@@ -425,7 +457,7 @@
     </n-card>
 
     <div
-      v-if="!showCommunityInsightPanel"
+      v-else
       class="png-export-container"
     >
       <n-card
@@ -451,39 +483,6 @@
               </n-button>
             </template>
           </n-result>
-        </div>
-
-        <div
-          v-else-if="loading"
-          class="space-y-1"
-        >
-          <div
-            v-for="(tier, tierIndex) in tierKeys"
-            :key="`skeleton-${tier}`"
-            class="rounded-lg border border-gray-200/70 dark:border-gray-700/70"
-          >
-            <div :class="[tierRowClass, 'flex items-stretch gap-2']">
-              <div
-                class="shrink-0 w-12 sm:w-16 md:w-20 xl:w-24 rounded-md border border-gray-200/70 dark:border-gray-700/70 border-l-4 p-1 flex items-center justify-center"
-                :style="{
-                  borderLeftColor: tierColorByKey[tier],
-                  backgroundColor: tierLabelBackgroundByKey[tier],
-                }"
-              ></div>
-
-              <div class="flex-1 min-w-0">
-                <div :class="[cardGridClass, tierListClass]">
-                  <div
-                    v-for="i in (tierIndex + 1) % 2 === 1 ? 2 : 3"
-                    :key="`${tier}-card-${i}`"
-                    :class="[cardAspectClass, 'rounded-md overflow-hidden']"
-                  >
-                    <n-skeleton class="w-full h-full" />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
 
         <div
@@ -597,7 +596,9 @@
     </div>
 
     <n-card
-      v-if="!showCommunityInsightPanel && !error && !loading && !isOverLimit"
+      v-if="
+        !showCommunityInsightPanel && !error && !boardLoading && !isOverLimit
+      "
       size="small"
       class="rounded-xl"
       content-class="!p-2 sm:!p-4"
@@ -1606,7 +1607,7 @@
   const suppressBoardAutoSave = ref(false)
   const hydratingBoard = ref(false)
   const hasHydratedBoard = ref(false)
-  const loading = computed(
+  const boardLoading = computed(
     () =>
       !error.value &&
       !isOverLimit.value &&
@@ -1738,7 +1739,20 @@
       mode.value === 'items'
   )
   const showCommunityInsightPanel = computed(
-    () => isCommunityModeEnabled.value && showCommunityInsights.value
+    () =>
+      (mode.value === 'banners' ||
+        (mode.value === 'outfits' && !isOverLimit.value)) &&
+      showCommunityInsights.value
+  )
+  const communityBoardLoading = computed(
+    () =>
+      communityAggregateStatus.value === 'idle' ||
+      communityAggregateStatus.value === 'pending'
+  )
+  const loading = computed(() =>
+    showCommunityInsightPanel.value
+      ? communityBoardLoading.value
+      : boardLoading.value
   )
 
   watch(showCommunityInsightPanel, (shouldShow) => {
@@ -1953,7 +1967,7 @@
 
   const communitySubmitBlockState = computed<CommunitySubmitBlockState>(() => {
     if (!showCommunitySubmitAction.value) return 'disabled'
-    if (loading.value) return 'loading'
+    if (boardLoading.value) return 'loading'
     if (error.value) return 'error'
     if (isOverLimit.value) return 'over_limit'
     if (!isCommunityScopeEligible.value) return 'scope_unavailable'
@@ -2498,9 +2512,9 @@
     obtainFilter.value = null
   }
 
-  watch([loading, isOverLimit, error, entries], async () => {
+  watch([boardLoading, isOverLimit, error, entries], async () => {
     if (!import.meta.client) return
-    if (loading.value || isOverLimit.value || error.value) {
+    if (boardLoading.value || isOverLimit.value || error.value) {
       stopSortableInstances()
       return
     }
@@ -2540,7 +2554,7 @@
     watch(
       tiers,
       () => {
-        if (loading.value || suppressBoardAutoSave.value) return
+        if (boardLoading.value || suppressBoardAutoSave.value) return
         void saveBoard({ markModified: true })
       },
       { deep: true }
@@ -2549,7 +2563,7 @@
     watch(
       tierLabels,
       () => {
-        if (loading.value || suppressBoardAutoSave.value) return
+        if (boardLoading.value || suppressBoardAutoSave.value) return
         void saveBoard({ markModified: true })
       },
       { deep: true }
@@ -2570,7 +2584,7 @@
       startCommunitySubmitHighlight()
     })
 
-    if (!loading.value && !isOverLimit.value && !error.value) {
+    if (!boardLoading.value && !isOverLimit.value && !error.value) {
       void nextTick().then(() => {
         initSortableInstances()
       })

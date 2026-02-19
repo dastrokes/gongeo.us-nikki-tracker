@@ -29,6 +29,8 @@ export type CommunityScopeFromTierlistInput = {
 
 export const COMMUNITY_TIER_KEYS = ['S', 'A', 'B', 'C', 'D', 'F'] as const
 export type CommunityAggregateTierKey = (typeof COMMUNITY_TIER_KEYS)[number]
+export const COMMUNITY_BAYESIAN_PRIOR_STRENGTH = 12
+export const COMMUNITY_MIN_VOTES_FOR_RANKING = 10
 
 export type CommunityAggregateTierCounts = Record<
   CommunityAggregateTierKey,
@@ -52,6 +54,22 @@ export type CommunityAggregateJson = {
   schema_version: number
   generated_at: string
   modes: Partial<Record<TierMode, CommunityAggregateModeSnapshot>>
+}
+
+export type CommunityRankedPreviewEntry = {
+  entryId: string
+  rank: number
+  tier: CommunityAggregateTierKey
+  votes: number
+}
+
+export type CommunityModePreview = {
+  rankedEntries: CommunityRankedPreviewEntry[]
+  voteByEntryId: Map<string, number>
+  tierByEntryId: Map<string, CommunityAggregateTierKey>
+  rankByEntryId: Map<string, number>
+  unrankedEntryIds: string[]
+  hasEntries: boolean
 }
 
 const STORAGE_BUCKET = 'gongeous'
@@ -88,6 +106,203 @@ const tierRankIndexByKey: Record<CommunityAggregateTierKey, number> = {
   C: 3,
   D: 4,
   F: 5,
+}
+
+const communityTierRatioByKey: Record<CommunityAggregateTierKey, number> = {
+  S: 0.1,
+  A: 0.2,
+  B: 0.25,
+  C: 0.2,
+  D: 0.15,
+  F: 0.1,
+}
+
+const createEmptyTierCountMap = (): Record<
+  CommunityAggregateTierKey,
+  number
+> => ({
+  S: 0,
+  A: 0,
+  B: 0,
+  C: 0,
+  D: 0,
+  F: 0,
+})
+
+const buildCommunityTierQuota = (
+  totalEntries: number
+): Record<CommunityAggregateTierKey, number> => {
+  const counts = createEmptyTierCountMap()
+  if (totalEntries <= 0) return counts
+
+  const withFraction = COMMUNITY_TIER_KEYS.map((tier) => {
+    const exact = totalEntries * communityTierRatioByKey[tier]
+    const base = Math.floor(exact)
+    counts[tier] = base
+    return {
+      tier,
+      fraction: exact - base,
+    }
+  })
+
+  let assigned = COMMUNITY_TIER_KEYS.reduce(
+    (sum, tier) => sum + counts[tier],
+    0
+  )
+  let remaining = totalEntries - assigned
+
+  withFraction.sort((a, b) => {
+    if (b.fraction !== a.fraction) return b.fraction - a.fraction
+    return (
+      COMMUNITY_TIER_KEYS.indexOf(a.tier) - COMMUNITY_TIER_KEYS.indexOf(b.tier)
+    )
+  })
+
+  let index = 0
+  while (remaining > 0 && withFraction.length > 0) {
+    const targetTier = withFraction[index % withFraction.length]?.tier
+    if (!targetTier) break
+    counts[targetTier] += 1
+    remaining -= 1
+    index += 1
+  }
+
+  if (totalEntries >= 6) {
+    ;(['S', 'F'] as const).forEach((targetTier) => {
+      if (counts[targetTier] > 0) return
+
+      const donorTier = [...COMMUNITY_TIER_KEYS]
+        .filter((tier) => tier !== targetTier && counts[tier] > 1)
+        .sort((a, b) => {
+          if (counts[b] !== counts[a]) return counts[b] - counts[a]
+          return (
+            Math.abs(
+              COMMUNITY_TIER_KEYS.indexOf(a) -
+                COMMUNITY_TIER_KEYS.indexOf(targetTier)
+            ) -
+            Math.abs(
+              COMMUNITY_TIER_KEYS.indexOf(b) -
+                COMMUNITY_TIER_KEYS.indexOf(targetTier)
+            )
+          )
+        })[0]
+
+      if (!donorTier) return
+      counts[donorTier] -= 1
+      counts[targetTier] += 1
+    })
+  }
+
+  assigned = COMMUNITY_TIER_KEYS.reduce((sum, tier) => sum + counts[tier], 0)
+  if (assigned < totalEntries) {
+    counts.F += totalEntries - assigned
+  } else if (assigned > totalEntries) {
+    counts.F = Math.max(0, counts.F - (assigned - totalEntries))
+  }
+
+  return counts
+}
+
+export const hasEnoughCommunityVotes = (votes: number): boolean =>
+  Math.max(0, Math.floor(votes)) >= COMMUNITY_MIN_VOTES_FOR_RANKING
+
+export const buildCommunityModePreview = (
+  modeSnapshot: CommunityAggregateModeSnapshot | null,
+  scopeEntryIds: readonly string[]
+): CommunityModePreview => {
+  const entries = modeSnapshot?.entries ?? []
+  const voteByEntryId = new Map<string, number>()
+
+  entries.forEach((entry) => {
+    voteByEntryId.set(entry.entry_id, Math.max(0, Math.floor(entry.votes)))
+  })
+
+  const rankableEntries = entries.filter((entry) =>
+    hasEnoughCommunityVotes(entry.votes)
+  )
+
+  const rankedEntries: CommunityRankedPreviewEntry[] = []
+  if (rankableEntries.length > 0) {
+    const totalVotes = rankableEntries.reduce(
+      (sum, entry) => sum + Math.max(0, entry.votes),
+      0
+    )
+    const weightedScoreSum = rankableEntries.reduce(
+      (sum, entry) => sum + Math.max(0, entry.votes) * entry.avg_score,
+      0
+    )
+    const priorMean =
+      totalVotes > 0
+        ? weightedScoreSum / totalVotes
+        : rankableEntries.reduce((sum, entry) => sum + entry.avg_score, 0) /
+          rankableEntries.length
+
+    const ranked = rankableEntries
+      .map((entry) => {
+        const votes = Math.max(0, entry.votes)
+        const bayesianScore =
+          (votes * entry.avg_score +
+            COMMUNITY_BAYESIAN_PRIOR_STRENGTH * priorMean) /
+          (votes + COMMUNITY_BAYESIAN_PRIOR_STRENGTH)
+
+        return {
+          entry,
+          bayesianScore,
+        }
+      })
+      .sort((a, b) => {
+        if (b.bayesianScore !== a.bayesianScore)
+          return b.bayesianScore - a.bayesianScore
+        if (b.entry.votes !== a.entry.votes)
+          return b.entry.votes - a.entry.votes
+        if (b.entry.avg_score !== a.entry.avg_score)
+          return b.entry.avg_score - a.entry.avg_score
+        return a.entry.rank - b.entry.rank
+      })
+
+    const quotaByTier = buildCommunityTierQuota(ranked.length)
+    let cursor = 0
+
+    COMMUNITY_TIER_KEYS.forEach((tier) => {
+      const tierQuota = quotaByTier[tier]
+      for (
+        let tierIndex = 0;
+        tierIndex < tierQuota && cursor < ranked.length;
+        tierIndex += 1
+      ) {
+        const rankedEntry = ranked[cursor]
+        if (!rankedEntry) break
+        rankedEntries.push({
+          entryId: rankedEntry.entry.entry_id,
+          rank: cursor + 1,
+          tier,
+          votes: rankedEntry.entry.votes,
+        })
+        cursor += 1
+      }
+    })
+  }
+
+  const tierByEntryId = new Map<string, CommunityAggregateTierKey>()
+  const rankByEntryId = new Map<string, number>()
+  rankedEntries.forEach((entry) => {
+    tierByEntryId.set(entry.entryId, entry.tier)
+    rankByEntryId.set(entry.entryId, entry.rank)
+  })
+
+  const unrankedEntryIds = scopeEntryIds.filter((entryId) => {
+    const votes = voteByEntryId.get(entryId) ?? 0
+    return !hasEnoughCommunityVotes(votes)
+  })
+
+  return {
+    rankedEntries,
+    voteByEntryId,
+    tierByEntryId,
+    rankByEntryId,
+    unrankedEntryIds,
+    hasEntries: rankedEntries.length > 0 || unrankedEntryIds.length > 0,
+  }
 }
 
 const createEmptyTierCounts = (): CommunityAggregateTierCounts => ({

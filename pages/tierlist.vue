@@ -186,6 +186,7 @@
               size="small"
               v-bind="getQualityButtonTheme(q, qualityFilter === q)"
               class="min-w-[40px]"
+              :disabled="q === 2"
               @click="qualityFilter = q"
             >
               <span class="align-top">{{ q }}</span>
@@ -338,7 +339,7 @@
           }}
         </div>
         <div
-          v-else-if="!hasCommunityAggregateSnapshot"
+          v-else-if="!hasCommunityPreviewEntries"
           class="text-xs text-gray-500 dark:text-gray-400"
         >
           {{ t('tierlist.community_insights.empty') }}
@@ -412,7 +413,7 @@
                           </div>
                         </template>
 
-                        <div class="max-w-40 space-y-0.5 text-xs leading-4">
+                        <div class="w-48 space-y-0.5 text-xs leading-4">
                           <div class="text-sm font-semibold truncate">
                             {{ entry.name }}
                           </div>
@@ -445,12 +446,158 @@
                           >
                             {{ entry.communityHigherThanLabel }}
                           </div>
+
+                          <div
+                            class="rounded-lg !my-1 border border-gray-200/80 bg-gray-50/80 p-2 dark:border-gray-700/80 dark:bg-gray-800/40"
+                          >
+                            <div class="space-y-1">
+                              <div
+                                v-for="tierKey in tierKeys"
+                                :key="`distribution-row-${entry.id}-${tierKey}`"
+                                class="flex items-center gap-1.5"
+                              >
+                                <span
+                                  class="inline-flex h-3 w-4 shrink-0 items-center justify-center font-mono text-[10px] font-semibold leading-none"
+                                  :style="{ color: tierColorByKey[tierKey] }"
+                                >
+                                  {{ tierKey }}
+                                </span>
+                                <div
+                                  class="h-2 flex-1 overflow-hidden rounded-full bg-gray-200/80 dark:bg-gray-700/80"
+                                >
+                                  <div
+                                    class="h-full rounded-full transition-[width] duration-200"
+                                    :style="
+                                      getCommunityTierSegmentStyle(
+                                        entry.communityTierCounts,
+                                        tierKey
+                                      )
+                                    "
+                                  ></div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </n-popover>
                     </div>
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+
+          <div
+            v-if="communityAggregateUnrankedEntries.length > 0"
+            class="rounded-lg border border-dashed border-gray-300 dark:border-gray-600"
+          >
+            <div :class="tierRowClass">
+              <div :class="[cardGridClass, tierListClass]">
+                <div
+                  v-for="entry in communityPaginatedUnrankedEntries"
+                  :key="`community-unranked-${entry.id}`"
+                  class="group text-left touch-none cursor-pointer"
+                >
+                  <n-popover
+                    trigger="click"
+                    placement="top"
+                  >
+                    <template #trigger>
+                      <div
+                        class="relative rounded-md overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200 bg-gray-100 dark:bg-gray-800 border border-gray-200/70 dark:border-gray-700/70"
+                        :class="cardAspectClass"
+                        style="
+                          background-image: url('/images/bg.webp');
+                          background-size: cover;
+                          background-position: center;
+                        "
+                      >
+                        <div
+                          class="absolute inset-0"
+                          :class="getQualityOverlayClass(entry.quality)"
+                        ></div>
+                        <NuxtImg
+                          :src="entry.image"
+                          :alt="entry.name"
+                          class="absolute inset-0 w-full h-full object-cover z-10"
+                          :width="mode === 'banners' ? 240 : 200"
+                          :height="mode === 'banners' ? 120 : 300"
+                          fit="cover"
+                          loading="lazy"
+                          :sizes="mode === 'banners' ? '200px' : '160px'"
+                        />
+                      </div>
+                    </template>
+
+                    <div class="w-56 space-y-1.5 text-xs leading-4">
+                      <div class="text-sm font-semibold truncate">
+                        {{ entry.name }}
+                      </div>
+                      <div class="text-gray-600 dark:text-gray-300">
+                        {{
+                          t('tierlist.community_insights.not_enough_votes', {
+                            min: COMMUNITY_MIN_VOTES_FOR_RANKING,
+                          })
+                        }}
+                      </div>
+                      <div class="text-gray-500 dark:text-gray-400">
+                        {{
+                          t('tierlist.community_insights.total_votes', {
+                            count: formatCommunityVoteCount(
+                              entry.communityVotes
+                            ),
+                          })
+                        }}
+                      </div>
+
+                      <div
+                        class="rounded-md border border-gray-200/80 bg-gray-50/80 p-2 dark:border-gray-700/80 dark:bg-gray-900/40"
+                      >
+                        <div class="space-y-1">
+                          <div
+                            v-for="tierKey in tierKeys"
+                            :key="`distribution-row-${entry.id}-${tierKey}`"
+                            class="flex items-center gap-1.5"
+                          >
+                            <span
+                              class="inline-flex h-3 w-4 shrink-0 items-center justify-center font-mono text-[10px] font-semibold leading-none"
+                              :style="{ color: tierColorByKey[tierKey] }"
+                            >
+                              {{ tierKey }}
+                            </span>
+                            <div
+                              class="h-1.5 flex-1 overflow-hidden rounded-full bg-gray-200/80 dark:bg-gray-700/80"
+                            >
+                              <div
+                                class="h-full rounded-full transition-[width] duration-200"
+                                :style="
+                                  getCommunityTierSegmentStyle(
+                                    entry.communityTierCounts,
+                                    tierKey
+                                  )
+                                "
+                              ></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </n-popover>
+                </div>
+              </div>
+            </div>
+
+            <div
+              v-if="showCommunityPoolPagination"
+              class="flex justify-center items-center px-2 pb-2"
+            >
+              <n-pagination
+                v-model:page="communityPoolPage"
+                :page-size="POOL_PAGE_SIZE"
+                :item-count="communityAggregateUnrankedEntries.length"
+                :show-size-picker="false"
+                :page-slot="5"
+              />
             </div>
           </div>
         </div>
@@ -702,6 +849,13 @@
     type UseSortableOptions,
   } from '@vueuse/integrations/useSortable'
   import type { SortableEvent } from 'sortablejs'
+  import {
+    buildCommunityModePreview,
+    COMMUNITY_MIN_VOTES_FOR_RANKING,
+    hasEnoughCommunityVotes,
+    resolveCommunityScopeFromTierlistFilters,
+    useCommunityTierlist,
+  } from '~/composables/useCommunityTierlist'
   import { BANNER_DATA } from '~/data/banners'
   import type { BannerRun } from '~/types/banner'
   import { exportToPng } from '~/utils/snapdom'
@@ -716,11 +870,17 @@
     image: string
     quality: number | null
   }
+  type CommunityTierCounts = Record<TierKey, number>
   type CommunityTierPreviewEntry = TierEntry & {
     communityRank: number
     communityTier: TierKey
     communityVotes: number
+    communityTierCounts: CommunityTierCounts
     communityHigherThanLabel: string | null
+  }
+  type CommunityUnrankedPreviewEntry = TierEntry & {
+    communityVotes: number
+    communityTierCounts: CommunityTierCounts
   }
 
   type TierDataPayload = {
@@ -978,6 +1138,7 @@
 
   const mode = ref<TierMode>(resolveMode(route.query.mode?.toString() ?? null))
   const poolPage = ref(1)
+  const communityPoolPage = ref(1)
   const qualityFilter = ref<number | null>(
     resolveQuality(route.query.quality?.toString() ?? null)
   )
@@ -1185,6 +1346,7 @@
     ],
     () => {
       poolPage.value = 1
+      communityPoolPage.value = 1
       router.replace({ query: buildTierQuery() })
     }
   )
@@ -1481,14 +1643,6 @@
     D: [],
     F: [],
   })
-  const createEmptyTierCountMap = (): Record<TierKey, number> => ({
-    S: 0,
-    A: 0,
-    B: 0,
-    C: 0,
-    D: 0,
-    F: 0,
-  })
   const createEmptyCommunityTierPreviewBoard = (): Record<
     TierKey,
     CommunityTierPreviewEntry[]
@@ -1500,78 +1654,6 @@
     D: [],
     F: [],
   })
-  const COMMUNITY_BAYESIAN_PRIOR_STRENGTH = 12
-  const communityTierRatioByKey: Record<TierKey, number> = {
-    S: 0.1,
-    A: 0.2,
-    B: 0.25,
-    C: 0.2,
-    D: 0.15,
-    F: 0.1,
-  }
-
-  const buildCommunityTierQuota = (
-    totalEntries: number
-  ): Record<TierKey, number> => {
-    const counts = createEmptyTierCountMap()
-    if (totalEntries <= 0) return counts
-
-    const withFraction = tierKeys.map((tier) => {
-      const exact = totalEntries * communityTierRatioByKey[tier]
-      const base = Math.floor(exact)
-      counts[tier] = base
-      return {
-        tier,
-        fraction: exact - base,
-      }
-    })
-
-    let assigned = tierKeys.reduce((sum, tier) => sum + counts[tier], 0)
-    let remaining = totalEntries - assigned
-
-    withFraction.sort((a, b) => {
-      if (b.fraction !== a.fraction) return b.fraction - a.fraction
-      return tierKeys.indexOf(a.tier) - tierKeys.indexOf(b.tier)
-    })
-
-    let index = 0
-    while (remaining > 0 && withFraction.length > 0) {
-      const targetTier = withFraction[index % withFraction.length]?.tier
-      if (!targetTier) break
-      counts[targetTier] += 1
-      remaining -= 1
-      index += 1
-    }
-
-    if (totalEntries >= 6) {
-      ;(['S', 'F'] as const).forEach((targetTier) => {
-        if (counts[targetTier] > 0) return
-
-        const donorTier = [...tierKeys]
-          .filter((tier) => tier !== targetTier && counts[tier] > 1)
-          .sort((a, b) => {
-            if (counts[b] !== counts[a]) return counts[b] - counts[a]
-            return (
-              Math.abs(tierKeys.indexOf(a) - tierKeys.indexOf(targetTier)) -
-              Math.abs(tierKeys.indexOf(b) - tierKeys.indexOf(targetTier))
-            )
-          })[0]
-
-        if (!donorTier) return
-        counts[donorTier] -= 1
-        counts[targetTier] += 1
-      })
-    }
-
-    assigned = tierKeys.reduce((sum, tier) => sum + counts[tier], 0)
-    if (assigned < totalEntries) {
-      counts.F += totalEntries - assigned
-    } else if (assigned > totalEntries) {
-      counts.F = Math.max(0, counts.F - (assigned - totalEntries))
-    }
-
-    return counts
-  }
 
   const createDefaultTierLabels = (): Record<TierKey, string> => ({
     S: 'S',
@@ -1758,6 +1840,7 @@
 
   watch(showCommunityInsightPanel, (shouldShow) => {
     if (!shouldShow) return
+    communityPoolPage.value = 1
     void fetchAggregateJson()
   })
 
@@ -1765,101 +1848,47 @@
     getModeSnapshot(mode.value)
   )
 
-  const hasCommunityAggregateSnapshot = computed(
-    () =>
-      communityAggregateModeSnapshot.value !== null &&
-      communityAggregateModeSnapshot.value.entries.length > 0
+  const createEmptyCommunityTierCounts = (): CommunityTierCounts => ({
+    S: 0,
+    A: 0,
+    B: 0,
+    C: 0,
+    D: 0,
+    F: 0,
+  })
+
+  const getCommunityTierCounts = (entryId: string): CommunityTierCounts => {
+    const entry = getCommunityEntrySnapshot(
+      communityAggregateModeSnapshot.value,
+      entryId
+    )
+    if (!entry) return createEmptyCommunityTierCounts()
+
+    return {
+      S: Math.max(0, Math.floor(entry.tier_counts.S ?? 0)),
+      A: Math.max(0, Math.floor(entry.tier_counts.A ?? 0)),
+      B: Math.max(0, Math.floor(entry.tier_counts.B ?? 0)),
+      C: Math.max(0, Math.floor(entry.tier_counts.C ?? 0)),
+      D: Math.max(0, Math.floor(entry.tier_counts.D ?? 0)),
+      F: Math.max(0, Math.floor(entry.tier_counts.F ?? 0)),
+    }
+  }
+
+  const communityModePreview = computed(() =>
+    buildCommunityModePreview(
+      communityAggregateModeSnapshot.value,
+      entries.value.map((entry) => entry.id)
+    )
   )
-
-  const communityAggregateRankedEntries = computed(() => {
-    const modeSnapshot = communityAggregateModeSnapshot.value
-    if (!modeSnapshot || modeSnapshot.entries.length === 0) return []
-
-    const totalVotes = modeSnapshot.entries.reduce(
-      (sum, entry) => sum + Math.max(0, entry.votes),
-      0
-    )
-    const weightedScoreSum = modeSnapshot.entries.reduce(
-      (sum, entry) => sum + Math.max(0, entry.votes) * entry.avg_score,
-      0
-    )
-    const priorMean =
-      totalVotes > 0
-        ? weightedScoreSum / totalVotes
-        : modeSnapshot.entries.reduce(
-            (sum, entry) => sum + entry.avg_score,
-            0
-          ) / modeSnapshot.entries.length
-
-    const ranked = modeSnapshot.entries
-      .map((entry) => {
-        const votes = Math.max(0, entry.votes)
-        const bayesianScore =
-          (votes * entry.avg_score +
-            COMMUNITY_BAYESIAN_PRIOR_STRENGTH * priorMean) /
-          (votes + COMMUNITY_BAYESIAN_PRIOR_STRENGTH)
-
-        return {
-          entry,
-          bayesianScore,
-        }
-      })
-      .sort((a, b) => {
-        if (b.bayesianScore !== a.bayesianScore)
-          return b.bayesianScore - a.bayesianScore
-        if (b.entry.votes !== a.entry.votes)
-          return b.entry.votes - a.entry.votes
-        if (b.entry.avg_score !== a.entry.avg_score)
-          return b.entry.avg_score - a.entry.avg_score
-        return a.entry.rank - b.entry.rank
-      })
-
-    const quotaByTier = buildCommunityTierQuota(ranked.length)
-    const output: Array<{
-      entryId: string
-      rank: number
-      tier: TierKey
-      votes: number
-    }> = []
-    let cursor = 0
-
-    tierKeys.forEach((tier) => {
-      const tierQuota = quotaByTier[tier]
-      for (
-        let tierIndex = 0;
-        tierIndex < tierQuota && cursor < ranked.length;
-        tierIndex += 1
-      ) {
-        const rankedEntry = ranked[cursor]
-        if (!rankedEntry) break
-        output.push({
-          entryId: rankedEntry.entry.entry_id,
-          rank: cursor + 1,
-          tier,
-          votes: rankedEntry.entry.votes,
-        })
-        cursor += 1
-      }
-    })
-
-    return output
-  })
-
-  const communityAggregateTierByEntryId = computed(() => {
-    const map = new Map<string, TierKey>()
-    communityAggregateRankedEntries.value.forEach((entry) => {
-      map.set(entry.entryId, entry.tier)
-    })
-    return map
-  })
-
-  const communityAggregateRankByEntryId = computed(() => {
-    const map = new Map<string, number>()
-    communityAggregateRankedEntries.value.forEach((entry) => {
-      map.set(entry.entryId, entry.rank)
-    })
-    return map
-  })
+  const communityAggregateRankedEntries = computed(
+    () => communityModePreview.value.rankedEntries
+  )
+  const communityAggregateTierByEntryId = computed(
+    () => communityModePreview.value.tierByEntryId
+  )
+  const communityAggregateRankByEntryId = computed(
+    () => communityModePreview.value.rankByEntryId
+  )
 
   const communityAggregateTieredEntries = computed(() => {
     const grouped = createEmptyCommunityTierPreviewBoard()
@@ -1873,11 +1902,64 @@
         communityRank: entry.rank,
         communityTier: entry.tier,
         communityVotes: entry.votes,
+        communityTierCounts: getCommunityTierCounts(entry.entryId),
         communityHigherThanLabel: getCommunityHigherThanLabel(entry.entryId),
       })
     })
 
     return grouped
+  })
+
+  const communityAggregateUnrankedEntries = computed<
+    CommunityUnrankedPreviewEntry[]
+  >(() => {
+    const voteByEntryId = communityModePreview.value.voteByEntryId
+    const map = entryMap.value
+
+    return communityModePreview.value.unrankedEntryIds
+      .map((id) => map.get(id))
+      .filter((entry): entry is TierEntry => Boolean(entry))
+      .map((entry) => ({
+        ...entry,
+        communityVotes: voteByEntryId.get(entry.id) ?? 0,
+        communityTierCounts: getCommunityTierCounts(entry.id),
+      }))
+  })
+
+  const hasCommunityPreviewEntries = computed(
+    () => communityModePreview.value.hasEntries
+  )
+
+  const communityPoolTotalPages = computed(() =>
+    Math.max(
+      1,
+      Math.ceil(communityAggregateUnrankedEntries.value.length / POOL_PAGE_SIZE)
+    )
+  )
+  const normalizedCommunityPoolPage = computed(() =>
+    Math.min(
+      Math.max(communityPoolPage.value, 1),
+      communityPoolTotalPages.value
+    )
+  )
+  const communityPoolPageStartIndex = computed(
+    () => (normalizedCommunityPoolPage.value - 1) * POOL_PAGE_SIZE
+  )
+  const communityPaginatedUnrankedEntries = computed(() => {
+    const start = communityPoolPageStartIndex.value
+    return communityAggregateUnrankedEntries.value.slice(
+      start,
+      start + POOL_PAGE_SIZE
+    )
+  })
+  const showCommunityPoolPagination = computed(
+    () => communityAggregateUnrankedEntries.value.length > POOL_PAGE_SIZE
+  )
+
+  watch(communityPoolTotalPages, (nextTotalPages) => {
+    if (communityPoolPage.value > nextTotalPages) {
+      communityPoolPage.value = nextTotalPages
+    }
   })
 
   const communityVoteFormatter = computed(
@@ -1886,6 +1968,45 @@
 
   const formatCommunityVoteCount = (count: number): string =>
     communityVoteFormatter.value.format(Math.max(0, Math.floor(count)))
+
+  const COMMUNITY_BAR_PERCENT_WEIGHT = 0.75
+
+  const getCommunityTierCount = (
+    tierCounts: CommunityTierCounts,
+    tierKey: TierKey
+  ): number => Math.max(0, Math.floor(tierCounts[tierKey]))
+
+  const getCommunityTierShare = (
+    tierCounts: CommunityTierCounts,
+    tierKey: TierKey
+  ): number => {
+    const count = getCommunityTierCount(tierCounts, tierKey)
+    let total = 0
+    let peak = 0
+
+    tierKeys.forEach((key) => {
+      const value = getCommunityTierCount(tierCounts, key)
+      total += value
+      peak = Math.max(peak, value)
+    })
+
+    if (count <= 0 || total <= 0 || peak <= 0) return 0
+
+    const blendedRatio =
+      (count / total) * COMMUNITY_BAR_PERCENT_WEIGHT +
+      (count / peak) * (1 - COMMUNITY_BAR_PERCENT_WEIGHT)
+
+    return blendedRatio * 100
+  }
+
+  const getCommunityTierSegmentStyle = (
+    tierCounts: CommunityTierCounts,
+    tierKey: TierKey
+  ) => ({
+    width: `${getCommunityTierShare(tierCounts, tierKey)}%`,
+    backgroundColor: tierColorByKey[tierKey],
+    opacity: getCommunityTierCount(tierCounts, tierKey) > 0 ? 1 : 0.25,
+  })
 
   const getCommunityRankLabel = (entryId: string): string | null => {
     const rank = communityAggregateRankByEntryId.value.get(entryId)
@@ -1908,6 +2029,7 @@
       entryId
     )
     if (!entry) return null
+    if (!hasEnoughCommunityVotes(entry.votes)) return null
 
     const userTier = rankedTierByEntryId.value.get(entryId) ?? null
     const higherThanPercent = getHigherThanPercent(entry, userTier)

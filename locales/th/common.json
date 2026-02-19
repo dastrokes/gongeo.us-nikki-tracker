@@ -696,7 +696,8 @@
       "rank_position": "อันดับชุมชน #{rank}",
       "avg_tier": "ระดับชุมชน: ระดับ {tier}",
       "rank_higher_than": "คุณจัดอันดับนี้สูงกว่า {percent}% ของสไตลิสต์",
-      "total_votes": "คะแนนโหวตทั้งหมด: {count}"
+      "total_votes": "คะแนนโหวตทั้งหมด: {count}",
+      "not_enough_votes": "Not enough votes to rank (minimum {min})"
     },
     "share": {
       "copy_link": "คัดลอกลิงค์",

@@ -696,7 +696,8 @@
       "rank_position": "Grado comunitario #{rank}",
       "avg_tier": "Livello community: livello {tier}",
       "rank_higher_than": "Lo classifichi più in alto rispetto al {percent}% degli stilisti",
-      "total_votes": "Voti totali: {count}"
+      "total_votes": "Voti totali: {count}",
+      "not_enough_votes": "Not enough votes to rank (minimum {min})"
     },
     "share": {
       "copy_link": "Copia collegamento",

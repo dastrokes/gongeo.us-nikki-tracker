@@ -60,7 +60,7 @@
     "compendium": "제요",
     "vote": "배너 투표",
     "faq": "자주 묻는 질문",
-    "about": "에 대한",
+    "about": "대해서요",
     "nuan5pro": "Nuan5.Pro"
   },
   "meta": {
@@ -195,7 +195,7 @@
   },
   "login": {
     "sign_in": "로그인",
-    "sign_up": "가입",
+    "sign_up": "등록해요",
     "welcome_description": "타사 계정 또는 이메일로 로그인하여 데이터를 업로드하고 동기화하세요.",
     "signed_in_title": "성공적으로 로그인했습니다!",
     "welcome_back": "다시 오신 것을 환영합니다, {name}!",
@@ -696,7 +696,8 @@
       "rank_position": "커뮤니티 순위 #{rank}",
       "avg_tier": "커뮤니티 계층: {tier} 계층",
       "rank_higher_than": "귀하는 스타일리스트 {percent}%보다 높은 순위를 매겼습니다.",
-      "total_votes": "총 투표수: {count}"
+      "total_votes": "총 투표수: {count}",
+      "not_enough_votes": "Not enough votes to rank (minimum {min})"
     },
     "share": {
       "copy_link": "링크 복사",

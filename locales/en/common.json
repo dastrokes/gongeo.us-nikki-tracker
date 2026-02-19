@@ -696,7 +696,8 @@
       "rank_position": "Community rank #{rank}",
       "avg_tier": "Community tier: {tier} tier",
       "rank_higher_than": "You rank this higher than {percent}% of stylists",
-      "total_votes": "Total votes: {count}"
+      "total_votes": "Total votes: {count}",
+      "not_enough_votes": "Not enough votes to rank (minimum {min})"
     },
     "share": {
       "copy_link": "Copy Link",

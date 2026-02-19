@@ -696,7 +696,8 @@
       "rank_position": "社区排名 #{rank}",
       "avg_tier": "社区分级：{tier} 级",
       "rank_higher_than": "你的排名高于 {percent}% 的搭配师",
-      "total_votes": "总投票数：{count}"
+      "total_votes": "总投票数：{count}",
+      "not_enough_votes": "票数不足，暂不参与排名（至少需要 {min} 票）"
     },
     "share": {
       "copy_link": "复制链接",

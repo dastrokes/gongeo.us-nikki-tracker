@@ -696,7 +696,8 @@
       "rank_position": "Peringkat komunitas #{rank}",
       "avg_tier": "Tingkat komunitas: tingkat {tier}",
       "rank_higher_than": "Anda memberi peringkat ini lebih tinggi dari {percent}% penata gaya",
-      "total_votes": "Total suara: {count}"
+      "total_votes": "Total suara: {count}",
+      "not_enough_votes": "Not enough votes to rank (minimum {min})"
     },
     "share": {
       "copy_link": "Salin Tautan",

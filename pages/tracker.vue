@@ -1157,7 +1157,9 @@
         )
 
     const orderedBanners = [...visibleBanners].sort((a, b) =>
-      settings.value.sortBanner ? a.bannerId - b.bannerId : b.bannerId - a.bannerId
+      settings.value.sortBanner
+        ? a.bannerId - b.bannerId
+        : b.bannerId - a.bannerId
     )
 
     return orderedBanners.map((banner) => {

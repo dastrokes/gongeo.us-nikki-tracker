@@ -116,6 +116,7 @@
               </template>
               <div class="space-y-2 w-28 text-center">
                 <n-button
+                  v-if="!showCommunityInsightPanel"
                   block
                   text
                   class="text-gray-400 hover:text-gray-600"
@@ -2687,7 +2688,12 @@
   }
 
   const exportPNG = async () => {
-    if (!import.meta.client || exporting.value) return
+    if (
+      !import.meta.client ||
+      exporting.value ||
+      showCommunityInsightPanel.value
+    )
+      return
     message.info(t('tracker.export.in_progress'))
     exporting.value = true
     closeRankContextMenu()

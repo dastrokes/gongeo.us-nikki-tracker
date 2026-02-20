@@ -696,7 +696,8 @@
       "rank_position": "Community-Rang #{rank}",
       "avg_tier": "Community-Durchschnitt: {tier}-Rang",
       "rank_higher_than": "Du rangierst dies höher als {percent}% von Stylisten.",
-      "total_votes": "Stimmen insgesamt: {count}"
+      "total_votes": "Stimmen insgesamt: {count}",
+      "not_enough_votes": "Not enough votes to rank (minimum {min})"
     },
     "share": {
       "copy_link": "Link kopieren",

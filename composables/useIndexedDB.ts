@@ -4,7 +4,7 @@ import type {
   EvoRecord,
   PearpalTrackerItem,
 } from '~/types/pull'
-import { openDB, type IDBPDatabase } from 'idb'
+import { createIndexedDBConnection } from '~/utils/indexedDbConnection'
 
 const DB_NAME = 'gongeousDB'
 const DB_VERSION = 4
@@ -20,68 +20,34 @@ export function useIndexedDB() {
   const isSaving = ref(false)
   const { activeSlot } = useProfileSlots()
 
-  let dbPromise: Promise<IDBPDatabase> | null = null
   let lastSavePromise: Promise<void> | null = null
-  const DB_RETRY_INTERVAL_MS = 1000
-  const MAX_RETRIES = 3
+  const { runWithRecovery } = createIndexedDBConnection({
+    dbName: DB_NAME,
+    dbVersion: DB_VERSION,
+    connectionLabel: 'Tracker',
+    healthCheckStoreNames: [PULLS_STORE, EDITS_STORE, EVO_STORE, PEARPAL_STORE],
+    retryIntervalMs: 1000,
+    maxRetries: 3,
+    openDBCallbacks: {
+      upgrade(db) {
+        if (!db.objectStoreNames.contains(PULLS_STORE)) {
+          db.createObjectStore(PULLS_STORE)
+        }
 
-  const getDB = async (retries = 0): Promise<IDBPDatabase> => {
-    if (!dbPromise) {
-      dbPromise = openDB(DB_NAME, DB_VERSION, {
-        upgrade(db) {
-          if (!db.objectStoreNames.contains(PULLS_STORE)) {
-            db.createObjectStore(PULLS_STORE)
-          }
+        if (!db.objectStoreNames.contains(EDITS_STORE)) {
+          db.createObjectStore(EDITS_STORE)
+        }
 
-          if (!db.objectStoreNames.contains(EDITS_STORE)) {
-            db.createObjectStore(EDITS_STORE)
-          }
+        if (!db.objectStoreNames.contains(EVO_STORE)) {
+          db.createObjectStore(EVO_STORE)
+        }
 
-          if (!db.objectStoreNames.contains(EVO_STORE)) {
-            db.createObjectStore(EVO_STORE)
-          }
-
-          if (!db.objectStoreNames.contains(PEARPAL_STORE)) {
-            db.createObjectStore(PEARPAL_STORE)
-          }
-        },
-      })
-    }
-
-    try {
-      const db = await dbPromise
-
-      // Test connection with minimal transaction
-      const storeNames = [
-        PULLS_STORE,
-        EDITS_STORE,
-        EVO_STORE,
-        PEARPAL_STORE,
-      ].filter((name) => db.objectStoreNames.contains(name))
-
-      if (storeNames.length > 0) {
-        const tx = db.transaction(storeNames, 'readonly')
-        await tx.done
-      }
-
-      return db
-    } catch (error) {
-      console.warn(
-        `DB connection failed (attempt ${retries + 1}/${MAX_RETRIES}):`,
-        error
-      )
-
-      // Clear failed promise to allow retry
-      dbPromise = null
-
-      if (retries >= MAX_RETRIES) {
-        throw new Error('DB failed to connect after multiple retries.')
-      }
-
-      await new Promise((resolve) => setTimeout(resolve, DB_RETRY_INTERVAL_MS))
-      return getDB(retries + 1)
-    }
-  }
+        if (!db.objectStoreNames.contains(PEARPAL_STORE)) {
+          db.createObjectStore(PEARPAL_STORE)
+        }
+      },
+    },
+  })
 
   const resolveSlotKey = (storeName: string, slotOverride?: number): string => {
     const slot = slotOverride ?? activeSlot.value ?? 1
@@ -194,33 +160,32 @@ export function useIndexedDB() {
       // Create new save promise
       lastSavePromise = (async () => {
         try {
-          const db = await getDB()
-
-          // Check if pull data already exists
           const pullsKey = resolveSlotKey(PULLS_STORE, slotOverride)
           const editsKey = resolveSlotKey(EDITS_STORE, slotOverride)
           const evoKey = resolveSlotKey(EVO_STORE, slotOverride)
+          await runWithRecovery('saveData', async (db) => {
+            // Check if pull data already exists
+            const existingData = await db.get(PULLS_STORE, pullsKey)
 
-          const existingData = await db.get(PULLS_STORE, pullsKey)
+            // Create a clean copy of the pull data
+            const cleanPullData = JSON.parse(JSON.stringify(pullsByBanner))
 
-          // Create a clean copy of the pull data
-          const cleanPullData = JSON.parse(JSON.stringify(pullsByBanner))
+            // If data exists, merge with existing data
+            if (existingData) {
+              // Merge the data, new data takes precedence
+              const mergedData = { ...existingData, ...cleanPullData }
+              await db.put(PULLS_STORE, mergedData, pullsKey)
+            } else {
+              // If no existing data, just save the new data
+              await db.put(PULLS_STORE, cleanPullData, pullsKey)
+            }
 
-          // If data exists, merge with existing data
-          if (existingData) {
-            // Merge the data, new data takes precedence
-            const mergedData = { ...existingData, ...cleanPullData }
-            await db.put(PULLS_STORE, mergedData, pullsKey)
-          } else {
-            // If no existing data, just save the new data
-            await db.put(PULLS_STORE, cleanPullData, pullsKey)
-          }
+            // Save edit data
+            await db.put(EDITS_STORE, editsByBanner, editsKey)
 
-          // Save edit data
-          await db.put(EDITS_STORE, editsByBanner, editsKey)
-
-          // Save evolution data
-          await db.put(EVO_STORE, evoByBanner, evoKey)
+            // Save evolution data
+            await db.put(EVO_STORE, evoByBanner, evoKey)
+          })
         } finally {
           if (isActiveSlot) {
             isSaving.value = false
@@ -253,16 +218,24 @@ export function useIndexedDB() {
         await lastSavePromise
       }
 
-      const db = await getDB()
       const pullsKey = resolveSlotKey(PULLS_STORE, slotOverride)
       const editsKey = resolveSlotKey(EDITS_STORE, slotOverride)
       const evoKey = resolveSlotKey(EVO_STORE, slotOverride)
       const pearpalKey = resolveSlotKey(PEARPAL_STORE, slotOverride)
 
-      const pullsResult = await db.get(PULLS_STORE, pullsKey)
-      const editsResult = await db.get(EDITS_STORE, editsKey)
-      const evoResult = await db.get(EVO_STORE, evoKey)
-      const pearpalResult = await db.get(PEARPAL_STORE, pearpalKey)
+      const { pullsResult, editsResult, evoResult, pearpalResult } =
+        await runWithRecovery('loadData', async (db) => {
+          const pullsResult = await db.get(PULLS_STORE, pullsKey)
+          const editsResult = await db.get(EDITS_STORE, editsKey)
+          const evoResult = await db.get(EVO_STORE, evoKey)
+          const pearpalResult = await db.get(PEARPAL_STORE, pearpalKey)
+          return {
+            pullsResult,
+            editsResult,
+            evoResult,
+            pearpalResult,
+          }
+        })
 
       if (checkActiveSlot(slotOverride)) {
         pullsData.value = pullsResult
@@ -289,16 +262,17 @@ export function useIndexedDB() {
         await lastSavePromise
       }
 
-      const db = await getDB()
       const pullsKey = resolveSlotKey(PULLS_STORE)
       const editsKey = resolveSlotKey(EDITS_STORE)
       const evoKey = resolveSlotKey(EVO_STORE)
       const pearpalKey = resolveSlotKey(PEARPAL_STORE)
 
-      await db.delete(PULLS_STORE, pullsKey)
-      await db.delete(EDITS_STORE, editsKey)
-      await db.delete(EVO_STORE, evoKey)
-      await db.delete(PEARPAL_STORE, pearpalKey)
+      await runWithRecovery('clearData', async (db) => {
+        await db.delete(PULLS_STORE, pullsKey)
+        await db.delete(EDITS_STORE, editsKey)
+        await db.delete(EVO_STORE, evoKey)
+        await db.delete(PEARPAL_STORE, pearpalKey)
+      })
 
       pullsData.value = {}
       editsData.value = {}
@@ -314,22 +288,23 @@ export function useIndexedDB() {
     slotOverride?: number
   ) => {
     try {
-      const db = await getDB()
-
       // Test JSON serialization first
       try {
         const jsonString = JSON.stringify(data)
         const cleanData = JSON.parse(jsonString)
 
-        // Merge with existing data if present
         const pearpalKey = resolveSlotKey(PEARPAL_STORE, slotOverride)
-        const existingData = await db.get(PEARPAL_STORE, pearpalKey)
-        let mergedData = cleanData
-        if (existingData) {
-          mergedData = { ...existingData, ...cleanData }
-        }
-        // Save merged Pearpal data per banner
-        await db.put(PEARPAL_STORE, mergedData, pearpalKey)
+        await runWithRecovery('savePearpalData', async (db) => {
+          // Merge with existing data if present
+          const existingData = await db.get(PEARPAL_STORE, pearpalKey)
+          let mergedData = cleanData
+          if (existingData) {
+            mergedData = { ...existingData, ...cleanData }
+          }
+
+          // Save merged Pearpal data per banner
+          await db.put(PEARPAL_STORE, mergedData, pearpalKey)
+        })
       } catch (jsonError) {
         console.error('JSON serialization failed:', jsonError)
         throw jsonError
@@ -346,16 +321,17 @@ export function useIndexedDB() {
         await lastSavePromise
       }
 
-      const db = await getDB()
       const pullsKey = resolveSlotKey(PULLS_STORE, slot)
       const editsKey = resolveSlotKey(EDITS_STORE, slot)
       const evoKey = resolveSlotKey(EVO_STORE, slot)
       const pearpalKey = resolveSlotKey(PEARPAL_STORE, slot)
 
-      await db.delete(PULLS_STORE, pullsKey)
-      await db.delete(EDITS_STORE, editsKey)
-      await db.delete(EVO_STORE, evoKey)
-      await db.delete(PEARPAL_STORE, pearpalKey)
+      await runWithRecovery('clearSlotData', async (db) => {
+        await db.delete(PULLS_STORE, pullsKey)
+        await db.delete(EDITS_STORE, editsKey)
+        await db.delete(EVO_STORE, evoKey)
+        await db.delete(PEARPAL_STORE, pearpalKey)
+      })
 
       if (slot === activeSlot.value) {
         pullsData.value = {}

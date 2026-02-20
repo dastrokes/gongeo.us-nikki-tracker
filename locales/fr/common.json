@@ -697,7 +697,7 @@
       "avg_tier": "Niveau communautaire : niveau {tier}",
       "rank_higher_than": "Vous obtenez un classement plus élevé que {percent} % des stylistes",
       "total_votes": "Total des voix : {count}",
-      "not_enough_votes": "Not enough votes to rank (minimum {min})"
+      "not_enough_votes": "Pas assez de votes pour être classé (minimum {min})"
     },
     "share": {
       "copy_link": "Copier le lien",

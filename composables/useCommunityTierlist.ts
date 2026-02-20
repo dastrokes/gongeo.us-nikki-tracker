@@ -211,14 +211,17 @@ export const buildCommunityModePreview = (
   scopeEntryIds: readonly string[]
 ): CommunityModePreview => {
   const entries = modeSnapshot?.entries ?? []
+  const scopeEntryIdSet = new Set(scopeEntryIds)
   const voteByEntryId = new Map<string, number>()
 
   entries.forEach((entry) => {
     voteByEntryId.set(entry.entry_id, Math.max(0, Math.floor(entry.votes)))
   })
 
-  const rankableEntries = entries.filter((entry) =>
-    hasEnoughCommunityVotes(entry.votes)
+  const rankableEntries = entries.filter(
+    (entry) =>
+      scopeEntryIdSet.has(entry.entry_id) &&
+      hasEnoughCommunityVotes(entry.votes)
   )
 
   const rankedEntries: CommunityRankedPreviewEntry[] = []

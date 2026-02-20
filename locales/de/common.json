@@ -76,7 +76,7 @@
       "banner": "Erkunde Infinity Nikki Resonanzbanner-Verlauf mit aktuellen, kommenden und vergangenen Events, vorgestellten Outfits, Resonanzraten, Dauer und Wiederholungs-Details.",
       "banner_detail": "Schau dir die {name} Resonanzbanner-Details an, einschließlich vorgestellter Outfits, Stück-Dropraten, Resonanz-Statistiken, Dauer, Evolutions-Info und Wiederholungsstatus.",
       "timeline": "Erkunde eine interaktive Zeitleiste von Infinity Nikki Resonanzbannern, wesentlichen Updates, Veröffentlichungszeitraum und Wiederholungen, um den Eventverlauf auf einen Blick zu verfolgen.",
-      "tierlist": "Erstelle und teile eine Infinity Nikki Einstufung für Banner, Outfits und Stücke mit Drag-and-Drop Bewertung, Filtern und einfachem Bildexport.",
+      "tierlist": "Erstelle und teile eine Infinity Nikki Rangliste für Banner, Outfits und Stücke mit Drag-and-Drop Bewertung, Filtern und einfachem Bildexport.",
       "outfits": "Durchsuche alle Infinity Nikki Outfits mit Filtern nach Qualität, Evolution und Verschönerung, Stil-Tags und Statuswerten. Schau dir die kompletten Outfit-Komponenten an und finde Outfit.",
       "outfit_detail": "Schau dir detaillierte Informationen über das Outfit {name} an, einschließlich Qualität, Evolution und Verschönerung, Statuswerten und verwandter Resonanz-Bannern.",
       "items": "Durchsuche alle Infinity Nikki Stücke mit Filtern nach Typ, Qualität, Status-Boni und verwandten Outfits oder Bannern. Finde, vergleiche und verfolge jedes Stück ganz leicht.",
@@ -640,7 +640,7 @@
     },
     "rankings": {
       "title": "Banner-Rangliste",
-      "description": "Schau dir an, welche Banner von Version 1.x am beliebtesten sind, basierend auf Community-Abstimmungen.",
+      "description": "Schau dir an, welche Banner von Version 1.x die beliebtesten sind, basierend auf Community-Abstimmungen.",
       "votingPeriod": "Abstimmungszeitraum",
       "voteMore": "Abstimmen",
       "lastUpdated": "Zuletzt aktualisiert",
@@ -697,7 +697,7 @@
       "avg_tier": "Community-Durchschnitt: {tier}-Rang",
       "rank_higher_than": "Du rangierst dies höher als {percent}% von Stylisten.",
       "total_votes": "Stimmen insgesamt: {count}",
-      "not_enough_votes": "Not enough votes to rank (minimum {min})"
+      "not_enough_votes": "Nicht genug Stimmen um zu Rangieren (mindestens {min})"
     },
     "share": {
       "copy_link": "Link kopieren",

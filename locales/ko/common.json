@@ -697,7 +697,7 @@
       "avg_tier": "커뮤니티 계층: {tier} 계층",
       "rank_higher_than": "귀하는 스타일리스트 {percent}%보다 높은 순위를 매겼습니다.",
       "total_votes": "총 투표수: {count}",
-      "not_enough_votes": "Not enough votes to rank (minimum {min})"
+      "not_enough_votes": "순위를 매기기 위한 투표 수가 부족합니다(최소 {min}표)"
     },
     "share": {
       "copy_link": "링크 복사",

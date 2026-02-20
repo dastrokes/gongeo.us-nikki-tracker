@@ -697,7 +697,7 @@
       "avg_tier": "コミュニティ層: {tier} 層",
       "rank_higher_than": "あなたはこれをスタイリストの {percent}% よりも高くランク付けしています",
       "total_votes": "総投票数: {count}",
-      "not_enough_votes": "Not enough votes to rank (minimum {min})"
+      "not_enough_votes": "ランク付けに必要な投票数が不足しています（最低 {min} 票）"
     },
     "share": {
       "copy_link": "リンクをコピー",

@@ -697,7 +697,7 @@
       "avg_tier": "Nível da comunidade: nível {tier}",
       "rank_higher_than": "Você classifica isso acima de {percent}% dos estilistas",
       "total_votes": "Total de votos: {count}",
-      "not_enough_votes": "Not enough votes to rank (minimum {min})"
+      "not_enough_votes": "Votos insuficientes para classificar (mínimo {min})"
     },
     "share": {
       "copy_link": "Copiar link",

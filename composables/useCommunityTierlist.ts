@@ -29,7 +29,6 @@ export type CommunityScopeFromTierlistInput = {
 
 export const COMMUNITY_TIER_KEYS = ['S', 'A', 'B', 'C', 'D', 'F'] as const
 export type CommunityAggregateTierKey = (typeof COMMUNITY_TIER_KEYS)[number]
-export const COMMUNITY_BAYESIAN_PRIOR_STRENGTH = 12
 export const COMMUNITY_MIN_VOTES_FOR_RANKING = 10
 
 export type CommunityAggregateTierCounts = Record<
@@ -108,99 +107,90 @@ const tierRankIndexByKey: Record<CommunityAggregateTierKey, number> = {
   F: 5,
 }
 
-const communityTierRatioByKey: Record<CommunityAggregateTierKey, number> = {
-  S: 0.1,
-  A: 0.2,
-  B: 0.25,
-  C: 0.2,
-  D: 0.15,
-  F: 0.1,
+const tierScoreByKey: Record<CommunityAggregateTierKey, number> = {
+  S: 5,
+  A: 4,
+  B: 3,
+  C: 2,
+  D: 1,
+  F: 0,
 }
 
-const createEmptyTierCountMap = (): Record<
-  CommunityAggregateTierKey,
-  number
-> => ({
-  S: 0,
-  A: 0,
-  B: 0,
-  C: 0,
-  D: 0,
-  F: 0,
-})
+const clampTierScore = (score: number): number =>
+  Math.max(0, Math.min(5, score))
 
-const buildCommunityTierQuota = (
-  totalEntries: number
-): Record<CommunityAggregateTierKey, number> => {
-  const counts = createEmptyTierCountMap()
-  if (totalEntries <= 0) return counts
+const resolveTierFromScore = (score: number): CommunityAggregateTierKey => {
+  const roundedScore = Math.round(clampTierScore(score))
+  const tierIndex = 5 - roundedScore
+  return COMMUNITY_TIER_KEYS[tierIndex] ?? 'C'
+}
 
-  const withFraction = COMMUNITY_TIER_KEYS.map((tier) => {
-    const exact = totalEntries * communityTierRatioByKey[tier]
-    const base = Math.floor(exact)
-    counts[tier] = base
-    return {
-      tier,
-      fraction: exact - base,
+const resolveTiedTier = (
+  tiers: readonly CommunityAggregateTierKey[],
+  targetScore: number
+): CommunityAggregateTierKey => {
+  if (tiers.length === 0) return 'C'
+  if (tiers.length === 1) return tiers[0]!
+
+  return tiers.reduce((bestTier, tier) => {
+    const bestDistance = Math.abs(tierScoreByKey[bestTier] - targetScore)
+    const distance = Math.abs(tierScoreByKey[tier] - targetScore)
+
+    if (distance < bestDistance) return tier
+    if (distance > bestDistance) return bestTier
+    return tierRankIndexByKey[tier] < tierRankIndexByKey[bestTier]
+      ? tier
+      : bestTier
+  })
+}
+
+const evaluateCommunityTier = (
+  counts: CommunityAggregateTierCounts,
+  fallbackScore: number
+): { consensusScore: number; absoluteTier: CommunityAggregateTierKey } => {
+  let totalVotes = 0
+  let weightedScoreSum = 0
+  let maxVotes = 0
+  let topTiers: CommunityAggregateTierKey[] = []
+
+  COMMUNITY_TIER_KEYS.forEach((tier) => {
+    const count = Math.max(0, counts[tier] ?? 0)
+    totalVotes += count
+    weightedScoreSum += count * tierScoreByKey[tier]
+
+    if (count > maxVotes) {
+      maxVotes = count
+      topTiers = [tier]
+    } else if (count === maxVotes && count > 0) {
+      topTiers.push(tier)
     }
   })
 
-  let assigned = COMMUNITY_TIER_KEYS.reduce(
-    (sum, tier) => sum + counts[tier],
-    0
-  )
-  let remaining = totalEntries - assigned
+  if (totalVotes <= 0)
+    return {
+      consensusScore: clampTierScore(fallbackScore),
+      absoluteTier: resolveTierFromScore(fallbackScore),
+    }
 
-  withFraction.sort((a, b) => {
-    if (b.fraction !== a.fraction) return b.fraction - a.fraction
-    return (
-      COMMUNITY_TIER_KEYS.indexOf(a.tier) - COMMUNITY_TIER_KEYS.indexOf(b.tier)
-    )
-  })
+  const meanScore = weightedScoreSum / totalVotes
+  if (topTiers.length === 0)
+    return {
+      consensusScore: meanScore,
+      absoluteTier: resolveTierFromScore(meanScore),
+    }
 
-  let index = 0
-  while (remaining > 0 && withFraction.length > 0) {
-    const targetTier = withFraction[index % withFraction.length]?.tier
-    if (!targetTier) break
-    counts[targetTier] += 1
-    remaining -= 1
-    index += 1
+  const pluralityTier = resolveTiedTier(topTiers, meanScore)
+
+  const pluralityShare = maxVotes / totalVotes
+  const pluralityScore = tierScoreByKey[pluralityTier]
+  const consensusScore =
+    meanScore + pluralityShare * (pluralityScore - meanScore)
+  const absoluteTier = resolveTiedTier(topTiers, consensusScore)
+
+  return {
+    consensusScore,
+    absoluteTier,
   }
-
-  if (totalEntries >= 6) {
-    ;(['S', 'F'] as const).forEach((targetTier) => {
-      if (counts[targetTier] > 0) return
-
-      const donorTier = [...COMMUNITY_TIER_KEYS]
-        .filter((tier) => tier !== targetTier && counts[tier] > 1)
-        .sort((a, b) => {
-          if (counts[b] !== counts[a]) return counts[b] - counts[a]
-          return (
-            Math.abs(
-              COMMUNITY_TIER_KEYS.indexOf(a) -
-                COMMUNITY_TIER_KEYS.indexOf(targetTier)
-            ) -
-            Math.abs(
-              COMMUNITY_TIER_KEYS.indexOf(b) -
-                COMMUNITY_TIER_KEYS.indexOf(targetTier)
-            )
-          )
-        })[0]
-
-      if (!donorTier) return
-      counts[donorTier] -= 1
-      counts[targetTier] += 1
-    })
-  }
-
-  assigned = COMMUNITY_TIER_KEYS.reduce((sum, tier) => sum + counts[tier], 0)
-  if (assigned < totalEntries) {
-    counts.F += totalEntries - assigned
-  } else if (assigned > totalEntries) {
-    counts.F = Math.max(0, counts.F - (assigned - totalEntries))
-  }
-
-  return counts
 }
 
 export const hasEnoughCommunityVotes = (votes: number): boolean =>
@@ -226,32 +216,26 @@ export const buildCommunityModePreview = (
 
   const rankedEntries: CommunityRankedPreviewEntry[] = []
   if (rankableEntries.length > 0) {
-    const totalVotes = rankableEntries.reduce(
-      (sum, entry) => sum + Math.max(0, entry.votes),
-      0
-    )
-    const weightedScoreSum = rankableEntries.reduce(
-      (sum, entry) => sum + Math.max(0, entry.votes) * entry.avg_score,
-      0
-    )
-    const priorMean = weightedScoreSum / totalVotes
-
     const ranked = rankableEntries
       .map((entry) => {
-        const votes = Math.max(0, entry.votes)
-        const bayesianScore =
-          (votes * entry.avg_score +
-            COMMUNITY_BAYESIAN_PRIOR_STRENGTH * priorMean) /
-          (votes + COMMUNITY_BAYESIAN_PRIOR_STRENGTH)
+        const { consensusScore, absoluteTier } = evaluateCommunityTier(
+          entry.tier_counts,
+          entry.avg_score
+        )
 
         return {
           entry,
-          bayesianScore,
+          consensusScore,
+          absoluteTier,
         }
       })
       .sort((a, b) => {
-        if (b.bayesianScore !== a.bayesianScore)
-          return b.bayesianScore - a.bayesianScore
+        const aTierRank = tierRankIndexByKey[a.absoluteTier]
+        const bTierRank = tierRankIndexByKey[b.absoluteTier]
+        if (aTierRank !== bTierRank) return aTierRank - bTierRank
+
+        if (b.consensusScore !== a.consensusScore)
+          return b.consensusScore - a.consensusScore
         if (b.entry.votes !== a.entry.votes)
           return b.entry.votes - a.entry.votes
         if (b.entry.avg_score !== a.entry.avg_score)
@@ -259,26 +243,13 @@ export const buildCommunityModePreview = (
         return a.entry.rank - b.entry.rank
       })
 
-    const quotaByTier = buildCommunityTierQuota(ranked.length)
-    let cursor = 0
-
-    COMMUNITY_TIER_KEYS.forEach((tier) => {
-      const tierQuota = quotaByTier[tier]
-      for (
-        let tierIndex = 0;
-        tierIndex < tierQuota && cursor < ranked.length;
-        tierIndex += 1
-      ) {
-        const rankedEntry = ranked[cursor]
-        if (!rankedEntry) break
-        rankedEntries.push({
-          entryId: rankedEntry.entry.entry_id,
-          rank: cursor + 1,
-          tier,
-          votes: rankedEntry.entry.votes,
-        })
-        cursor += 1
-      }
+    ranked.forEach((item, index) => {
+      rankedEntries.push({
+        entryId: item.entry.entry_id,
+        rank: index + 1,
+        tier: item.absoluteTier,
+        votes: item.entry.votes,
+      })
     })
   }
 

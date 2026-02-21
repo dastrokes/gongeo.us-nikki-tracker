@@ -204,7 +204,7 @@ const buildCommunityTierQuota = (
 }
 
 export const hasEnoughCommunityVotes = (votes: number): boolean =>
-  Math.max(0, Math.floor(votes)) >= COMMUNITY_MIN_VOTES_FOR_RANKING
+  votes >= COMMUNITY_MIN_VOTES_FOR_RANKING
 
 export const buildCommunityModePreview = (
   modeSnapshot: CommunityAggregateModeSnapshot | null,
@@ -234,11 +234,7 @@ export const buildCommunityModePreview = (
       (sum, entry) => sum + Math.max(0, entry.votes) * entry.avg_score,
       0
     )
-    const priorMean =
-      totalVotes > 0
-        ? weightedScoreSum / totalVotes
-        : rankableEntries.reduce((sum, entry) => sum + entry.avg_score, 0) /
-          rankableEntries.length
+    const priorMean = weightedScoreSum / totalVotes
 
     const ranked = rankableEntries
       .map((entry) => {

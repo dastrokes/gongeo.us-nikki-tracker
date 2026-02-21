@@ -11,7 +11,7 @@
         <div class="flex items-center">
           <n-button
             text
-            class="w-12"
+            class="w-12 hover:scale-110 transition-transform"
             :aria-label="$t('default.accessibility.toggle_menu')"
             @click="showSider = !showSider"
             ><n-icon>
@@ -25,7 +25,7 @@
             @click.prevent="showSider = false"
           >
             <span
-              class="text-xl font-bold"
+              class="text-xl font-bold transition-all duration-300 hover:opacity-80 hover:drop-shadow-sm"
               :class="locale === 'zh' ? 'align-baseline' : 'align-super'"
               >{{ $t('navigation.title') }}</span
             >

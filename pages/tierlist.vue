@@ -2635,16 +2635,24 @@
     obtainFilter.value = null
   }
 
-  watch([boardLoading, isOverLimit, error, entries], async () => {
-    if (!import.meta.client) return
-    if (boardLoading.value || isOverLimit.value || error.value) {
-      stopSortableInstances()
-      return
-    }
+  watch(
+    [boardLoading, isOverLimit, error, entries, showCommunityInsightPanel],
+    async () => {
+      if (!import.meta.client) return
+      if (
+        boardLoading.value ||
+        isOverLimit.value ||
+        error.value ||
+        showCommunityInsightPanel.value
+      ) {
+        stopSortableInstances()
+        return
+      }
 
-    await nextTick()
-    initSortableInstances()
-  })
+      await nextTick()
+      initSortableInstances()
+    }
+  )
 
   onMounted(() => {
     if (!import.meta.client) return
@@ -2707,7 +2715,12 @@
       startCommunitySubmitHighlight()
     })
 
-    if (!boardLoading.value && !isOverLimit.value && !error.value) {
+    if (
+      !boardLoading.value &&
+      !isOverLimit.value &&
+      !error.value &&
+      !showCommunityInsightPanel.value
+    ) {
       void nextTick().then(() => {
         initSortableInstances()
       })

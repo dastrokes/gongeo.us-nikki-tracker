@@ -116,13 +116,28 @@ const tierScoreByKey: Record<CommunityAggregateTierKey, number> = {
   F: 0,
 }
 
+// 0 = pure average tier, 1 = pure plurality tier.
+const COMMUNITY_TIER_BALANCE_WEIGHT = 0.8
+
 const clampTierScore = (score: number): number =>
   Math.max(0, Math.min(5, score))
 
+const COMMUNITY_TIER_THRESHOLD_STEP = 0.8 as const
+
+const COMMUNITY_TIER_SCORE_THRESHOLDS: ReadonlyArray<
+  readonly [CommunityAggregateTierKey, number]
+> = COMMUNITY_TIER_KEYS.map((tier, index, tiers) => {
+  const minScore = (tiers.length - 1 - index) * COMMUNITY_TIER_THRESHOLD_STEP
+  return [tier, minScore] as const
+})
+
 const resolveTierFromScore = (score: number): CommunityAggregateTierKey => {
-  const roundedScore = Math.round(clampTierScore(score))
-  const tierIndex = 5 - roundedScore
-  return COMMUNITY_TIER_KEYS[tierIndex] ?? 'C'
+  const normalizedScore = clampTierScore(score)
+  return (
+    COMMUNITY_TIER_SCORE_THRESHOLDS.find(
+      ([, minScore]) => normalizedScore >= minScore
+    )?.[0] ?? 'F'
+  )
 }
 
 const resolveTiedTier = (
@@ -180,12 +195,12 @@ const evaluateCommunityTier = (
     }
 
   const pluralityTier = resolveTiedTier(topTiers, meanScore)
-
-  const pluralityShare = maxVotes / totalVotes
   const pluralityScore = tierScoreByKey[pluralityTier]
-  const consensusScore =
-    meanScore + pluralityShare * (pluralityScore - meanScore)
-  const absoluteTier = resolveTiedTier(topTiers, consensusScore)
+  const balanceWeight = Math.max(0, Math.min(1, COMMUNITY_TIER_BALANCE_WEIGHT))
+  const consensusScore = clampTierScore(
+    meanScore + (pluralityScore - meanScore) * balanceWeight
+  )
+  const absoluteTier = resolveTierFromScore(consensusScore)
 
   return {
     consensusScore,

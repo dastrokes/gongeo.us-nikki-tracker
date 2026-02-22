@@ -657,7 +657,7 @@
   const itemVersion = computed(() => {
     if (!item.value) return null
     const obtainType = (item.value as ItemWithOutfits).obtain_type
-    return getVersionFromId(obtainType ?? item.value.id)
+    return getVersionFromId(obtainType)
   })
 
   const itemVersionDisplay = computed(() => {

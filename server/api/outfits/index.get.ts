@@ -42,12 +42,14 @@ type OutfitRow = {
 const BASE_OUTFIT_ID_MIN = 10000
 const BASE_OUTFIT_ID_MAX = 99999
 const DEFAULT_PAGE_SIZE = 18
-const MAX_PAGE_SIZE = 200
+const TIERLIST_PAGE_SIZE = 200
+const ALLOWED_PAGE_SIZES = new Set([DEFAULT_PAGE_SIZE, TIERLIST_PAGE_SIZE])
 
 const parsePageSize = (value: unknown): number => {
   const parsed = Number(value)
-  if (!Number.isFinite(parsed) || parsed < 1) return DEFAULT_PAGE_SIZE
-  return Math.min(Math.floor(parsed), MAX_PAGE_SIZE)
+  if (!Number.isFinite(parsed)) return DEFAULT_PAGE_SIZE
+  const normalized = Math.floor(parsed)
+  return ALLOWED_PAGE_SIZES.has(normalized) ? normalized : DEFAULT_PAGE_SIZE
 }
 
 const compareVersion = (a: string, b: string) => {
@@ -117,6 +119,7 @@ export default defineCachedEventHandler(
         ? 1
         : Number(query.page ?? 1)
     const pageSize = parsePageSize(query.pageSize ?? query.page_size)
+    const useCompactPayload = pageSize === TIERLIST_PAGE_SIZE
     const from = (page - 1) * pageSize
     const toExclusive = from + pageSize
     const normalizedStyle = styleParam ? normalizeTraitKey(styleParam) : null
@@ -201,6 +204,18 @@ export default defineCachedEventHandler(
       if (pageRows.length === 0) {
         return {
           data: [],
+          total,
+          page,
+          totalPages,
+        }
+      }
+
+      if (useCompactPayload) {
+        return {
+          data: pageRows.map((row) => ({
+            id: row.id,
+            quality: row.quality,
+          })),
           total,
           page,
           totalPages,

@@ -1,4 +1,7 @@
-export const getVersionFromId = (id: number): string | null => {
+export const getVersionFromId = (
+  id: number | null | undefined
+): string | null => {
+  if (id === null || id === undefined) return null
   const digits = Math.trunc(id).toString()
   if (digits.length < 3) return null
 

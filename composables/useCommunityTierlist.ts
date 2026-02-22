@@ -117,7 +117,7 @@ const tierScoreByKey: Record<CommunityAggregateTierKey, number> = {
 }
 
 // 0 = pure average tier, 1 = pure plurality tier.
-const COMMUNITY_TIER_BALANCE_WEIGHT = 0.8
+const COMMUNITY_TIER_BALANCE_WEIGHT = 0.5
 
 const clampTierScore = (score: number): number =>
   Math.max(0, Math.min(5, score))

@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/h"
+
+git diff --cached --check
+gitleaks git --staged --no-banner
+npx lint-staged

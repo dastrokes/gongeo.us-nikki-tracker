@@ -1511,17 +1511,6 @@
         overLimit: false,
       }),
       lazy: true,
-      watch: [
-        mode,
-        qualityFilter,
-        itemTypeFilter,
-        bannerQualityFilter,
-        versionFilter,
-        styleFilter,
-        labelFilter,
-        obtainFilter,
-        locale,
-      ],
     }
   )
   const handleReloadEntries = (): void => {

@@ -526,7 +526,6 @@
     {
       default: () => null,
       lazy: true,
-      watch: [itemId, locale],
     }
   )
 

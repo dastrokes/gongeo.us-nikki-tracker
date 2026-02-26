@@ -433,7 +433,6 @@
     {
       default: () => null,
       lazy: true,
-      watch: [outfitId, locale],
     }
   )
 

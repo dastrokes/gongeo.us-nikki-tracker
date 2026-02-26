@@ -503,14 +503,6 @@
     {
       default: () => ({ data: [], total: 0, totalPages: 0 }),
       lazy: true,
-      watch: [
-        qualityFilter,
-        versionFilter,
-        styleFilter,
-        labelFilter,
-        obtainFilter,
-        currentPage,
-      ],
     }
   )
 

@@ -708,16 +708,17 @@
 
   const itemStyleLabel = computed(() => {
     if (!item.value) return null
-    if (!hasStyleProps.value) return null
-    const styleKey = resolveStyleKeyFromProps(item.value.props)
+    const styleKey = itemStyleKey.value
     const style = styleKey ? STYLE_BY_KEY.get(styleKey) : null
     return style ? t(style.i18nKey) : null
   })
 
   const itemStyleKey = computed(() => {
     if (!item.value) return null
-    if (!hasStyleProps.value) return null
-    return resolveStyleKeyFromProps(item.value.props)
+    return (
+      item.value.style_key ||
+      (hasStyleProps.value ? resolveStyleKeyFromProps(item.value.props) : null)
+    )
   })
 
   const styleScores = computed(() => {

@@ -8,7 +8,7 @@ import {
 import { toErrorMessage } from '~/utils/errors'
 import {
   normalizeTraitKey,
-  resolveStyleKeyFromProps,
+  resolveStyleI18nKeyFromProps,
   resolveTagI18nKeys,
   STYLE_BY_KEY,
   TAG_BY_KEY,
@@ -265,18 +265,15 @@ export default defineCachedEventHandler(
         .filter((row): row is OutfitRow => Boolean(row))
 
       return {
-        data: orderedRows.map((row) => {
-          const styleKey = row.style_key ?? resolveStyleKeyFromProps(row.props)
-          return {
-            id: row.id,
-            quality: row.quality,
-            style: styleKey
-              ? (STYLE_BY_KEY.get(styleKey)?.i18nKey ?? null)
-              : null,
-            labels: resolveTagI18nKeys(row.tags),
-            obtain_type: row.obtain_type ?? null,
-          }
-        }),
+        data: orderedRows.map((row) => ({
+          id: row.id,
+          quality: row.quality,
+          style:
+            (row.style_key ? STYLE_BY_KEY.get(row.style_key)?.i18nKey : null) ??
+            resolveStyleI18nKeyFromProps(row.props),
+          labels: resolveTagI18nKeys(row.tags),
+          obtain_type: row.obtain_type ?? null,
+        })),
         total,
         page,
         totalPages,

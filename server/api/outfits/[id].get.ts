@@ -24,6 +24,7 @@ interface OutfitData {
   id: number
   quality: number
   props?: Array<number | string> | null
+  style_key?: string | null
   tags?: Array<number | string> | null
   obtain_type?: number | null
   outfit_translations?: OutfitTranslation[]
@@ -119,7 +120,14 @@ export default defineCachedEventHandler(
 
     try {
       // Build query conditionally to minimize data transfer
-      const selectParts = ['id', 'quality', 'props', 'tags', 'obtain_type']
+      const selectParts = [
+        'id',
+        'quality',
+        'props',
+        'style_key',
+        'tags',
+        'obtain_type',
+      ]
 
       if (languageCode) {
         selectParts.push('outfit_translations!left(description,language_code)')

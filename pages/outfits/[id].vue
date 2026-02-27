@@ -467,16 +467,18 @@
   })
 
   const outfitStyleLabels = computed(() => {
-    if (!outfit.value?.props) return []
-    const styleKey = resolveStyleKeyFromProps(outfit.value.props)
+    const styleKey = outfitStyleKey.value
     if (!styleKey) return []
     const style = STYLE_DEFINITIONS.find((s) => s.key === styleKey)
     return style ? [t(style.i18nKey)] : []
   })
 
   const outfitStyleKey = computed(() => {
-    if (!outfit.value?.props) return null
-    return resolveStyleKeyFromProps(outfit.value.props)
+    if (!outfit.value) return null
+    return (
+      outfit.value.style_key ||
+      (outfit.value.props ? resolveStyleKeyFromProps(outfit.value.props) : null)
+    )
   })
 
   const styleScores = computed(() => {

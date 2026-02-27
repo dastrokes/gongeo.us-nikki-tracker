@@ -287,9 +287,10 @@ export default defineCachedEventHandler(
           quality: item.quality,
           type: item.type,
           obtain_type: item.obtain_type ?? null,
-          style: item.style_key
-            ? resolveStyleI18nKeyFromProps(item.props)
-            : null,
+          style:
+            (item.style_key
+              ? STYLE_BY_KEY.get(item.style_key)?.i18nKey
+              : null) ?? resolveStyleI18nKeyFromProps(item.props),
           labels: resolveTagI18nKeys(item.tags),
         })),
         total,

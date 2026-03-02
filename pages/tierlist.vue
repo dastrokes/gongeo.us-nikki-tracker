@@ -68,7 +68,7 @@
               />
             </div>
 
-            <div
+            <!-- <div
               v-if="showCommunitySubmitAction"
               class="inline-flex flex-col items-start gap-1 mr-2"
             >
@@ -99,7 +99,7 @@
                 </template>
                 {{ communitySubmitTooltipText }}
               </n-tooltip>
-            </div>
+            </div> -->
             <n-popover trigger="click">
               <template #trigger>
                 <n-button
@@ -900,7 +900,6 @@
   const TIER_ENTRY_LIMIT = 200
   const TIER_LABEL_MAX_LENGTH = 30
   const POOL_PAGE_SIZE = 24
-  const COMMUNITY_VOTER_FINGERPRINT_KEY = 'gongeous-voter-fingerprint'
 
   const tierKeys = ['S', 'A', 'B', 'C', 'D', 'F'] as const
 
@@ -939,7 +938,12 @@
   const message = useMessage()
   const { getImageSrc } = imageProvider()
   const { loadTierlist, saveTierlist, deleteTierlist } = useTierIndexedDB()
-  const { generateVoterFingerprint } = useVoterFingerprint()
+  const {
+    voterFingerprint,
+    isFingerprintInitialized,
+    isFingerprintFallback,
+    initVoterFingerprint,
+  } = useVoterFingerprint()
 
   const pageTitle = computed(
     () =>
@@ -2749,19 +2753,6 @@
     return fallback
   }
 
-  const getOrCreateVoterFingerprint = async (): Promise<string> => {
-    if (!import.meta.client) {
-      throw new Error(t('tierlist.community_submit.browser_only_error'))
-    }
-
-    const stored = localStorage.getItem(COMMUNITY_VOTER_FINGERPRINT_KEY)
-    if (stored) return stored
-
-    const generated = await generateVoterFingerprint()
-    localStorage.setItem(COMMUNITY_VOTER_FINGERPRINT_KEY, generated)
-    return generated
-  }
-
   const submitCommunityTierlist = async () => {
     if (!import.meta.client || submittingCommunity.value) return
 
@@ -2781,7 +2772,15 @@
         return
       }
 
-      const voterFingerprint = await getOrCreateVoterFingerprint()
+      if (!isFingerprintInitialized.value) {
+        await initVoterFingerprint()
+      }
+
+      const fingerprint = voterFingerprint.value
+      if (!fingerprint || isFingerprintFallback.value) {
+        return
+      }
+
       const tiersPayload = buildCommunityTierPayload()
 
       await $fetch('/api/tierlist', {
@@ -2789,7 +2788,7 @@
         body: {
           scope_type: scope.scopeType,
           scope_filters: scope.scopeFilters,
-          voter_fingerprint: voterFingerprint,
+          voter_fingerprint: fingerprint,
           tiers_json: tiersPayload,
         },
       })

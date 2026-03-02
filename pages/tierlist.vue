@@ -68,7 +68,7 @@
               />
             </div>
 
-            <!-- <div
+            <div
               v-if="showCommunitySubmitAction"
               class="inline-flex flex-col items-start gap-1 mr-2"
             >
@@ -99,7 +99,7 @@
                 </template>
                 {{ communitySubmitTooltipText }}
               </n-tooltip>
-            </div> -->
+            </div>
             <n-popover trigger="click">
               <template #trigger>
                 <n-button

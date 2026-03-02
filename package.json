@@ -19,7 +19,7 @@
     "lint": "eslint . && tsc --noEmit"
   },
   "dependencies": {
-    "@fingerprintjs/fingerprintjs": "5.0.1",
+    "@fingerprintjs/fingerprintjs": "5.1.0",
     "@nuxt/eslint": "1.13.0",
     "@nuxt/fonts": "0.13.0",
     "@nuxt/image": "2.0.0",

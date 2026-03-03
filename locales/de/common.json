@@ -721,10 +721,10 @@
     "source": {
       "event": "Event",
       "quest": "Auftrag",
-      "merchant": "Kleiderladen",
+      "merchant": "Klamottenladen",
       "miracrown": "Mira-Krone",
       "miracle": "Wunder-Outfits",
-      "home": "Heimatland"
+      "home": "Zuhause"
     }
   }
 }

@@ -19,7 +19,7 @@
     "lint": "eslint . && tsc --noEmit"
   },
   "dependencies": {
-    "@fingerprintjs/fingerprintjs": "5.0.1",
+    "@fingerprintjs/fingerprintjs": "5.1.0",
     "@nuxt/eslint": "1.13.0",
     "@nuxt/fonts": "0.13.0",
     "@nuxt/image": "2.0.0",
@@ -59,7 +59,7 @@
     "lint-staged": "16.2.7",
     "prettier": "3.8.1",
     "sass": "1.97.3",
-    "supabase": "2.72.9",
+    "supabase": "2.76.15",
     "typescript": "5.9.3",
     "unplugin-auto-import": "21.0.0",
     "unplugin-vue-components": "31.0.0",

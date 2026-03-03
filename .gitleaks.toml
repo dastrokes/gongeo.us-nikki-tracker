@@ -1,0 +1,9 @@
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Allow example JWT-like sample token used in import flow docs"
+regexTarget = "secret"
+regexes = [
+  '''^eyJhabc123xyz456\.eyJhdef789ghi000\.abc123def789$''',
+]

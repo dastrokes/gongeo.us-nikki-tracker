@@ -2,6 +2,7 @@
   <n-config-provider
     :theme="naiveTheme"
     :theme-overrides="themeOverrides"
+    inline-theme-disabled
   >
     <n-message-provider>
       <n-dialog-provider>

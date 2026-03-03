@@ -263,6 +263,11 @@
                                   ? 'rounded-md pointer-events-none'
                                   : ''
                               "
+                              :style="
+                                makeupItem.id === itemId
+                                  ? getQualityRingStyle(makeupItem.quality)
+                                  : ''
+                              "
                               :item-id="makeupItem.id"
                               :quality="makeupItem.quality"
                               :type="resolveItemType(makeupItem)"
@@ -521,7 +526,6 @@
     {
       default: () => null,
       lazy: true,
-      watch: [itemId, locale],
     }
   )
 
@@ -623,9 +627,24 @@
     let banner = getBannerForItem(item.value.id)
     if (banner) return banner
 
+    const linkedOutfitIds =
+      item.value.outfit_items?.map((entry) => String(entry.outfits.id)) ?? []
+    for (const outfitId of linkedOutfitIds) {
+      banner = getBannerForOutfit(outfitId)
+      if (banner) return banner
+    }
+
+    const derivedOutfitId = getOutfitIdFromItemId(String(item.value.id))
+    banner = getBannerForOutfit(derivedOutfitId)
+    if (banner) return banner
+
     if (item.value.variations) {
       for (const variation of item.value.variations) {
         banner = getBannerForItem(variation.id)
+        if (banner) return banner
+
+        const variationOutfitId = getOutfitIdFromItemId(String(variation.id))
+        banner = getBannerForOutfit(variationOutfitId)
         if (banner) return banner
       }
     }
@@ -689,16 +708,17 @@
 
   const itemStyleLabel = computed(() => {
     if (!item.value) return null
-    if (!hasStyleProps.value) return null
-    const styleKey = resolveStyleKeyFromProps(item.value.props)
+    const styleKey = itemStyleKey.value
     const style = styleKey ? STYLE_BY_KEY.get(styleKey) : null
     return style ? t(style.i18nKey) : null
   })
 
   const itemStyleKey = computed(() => {
     if (!item.value) return null
-    if (!hasStyleProps.value) return null
-    return resolveStyleKeyFromProps(item.value.props)
+    return (
+      item.value.style_key ||
+      (hasStyleProps.value ? resolveStyleKeyFromProps(item.value.props) : null)
+    )
   })
 
   const styleScores = computed(() => {

@@ -25,6 +25,7 @@ interface ItemData {
   quality: number
   type: string
   props?: Array<number | string> | null
+  style_key?: string | null
   tags?: Array<number | string> | null
   obtain_type?: number | null
   item_translations?: ItemTranslation[]
@@ -129,6 +130,7 @@ export default defineCachedEventHandler(
         'quality',
         'type',
         'props',
+        'style_key',
         'tags',
         'obtain_type',
       ]

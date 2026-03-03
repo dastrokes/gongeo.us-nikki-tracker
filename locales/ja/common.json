@@ -721,7 +721,10 @@
     "source": {
       "event": "イベント",
       "quest": "クエスト",
-      "merchant": "商人"
+      "merchant": "ブティック",
+      "miracrown": "クラウン",
+      "miracle": "ミラクル",
+      "home": "ホーム"
     }
   }
 }

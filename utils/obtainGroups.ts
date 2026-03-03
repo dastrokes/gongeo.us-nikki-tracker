@@ -4,7 +4,7 @@ export type ObtainGroupDefinition = {
   key: string
   labelKey: string
   ids: number[]
-  sampleId?: number
+  outfit?: boolean
 }
 
 const sortIds = (ids: number[]) => ids.slice().sort((a, b) => a - b)
@@ -37,6 +37,12 @@ export const resolveObtainGroupLabelKey = (
 ): string | null => {
   if (!groupKey) return null
   return GROUP_BY_KEY.get(groupKey)?.labelKey ?? null
+}
+
+export const isObtainGroupVisibleInOutfits = (groupKey: string): boolean => {
+  const group = GROUP_BY_KEY.get(groupKey)
+  if (!group) return false
+  return group.outfit !== false
 }
 
 export const resolveObtainIdsFromValue = (value: string): number[] | null => {

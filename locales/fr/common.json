@@ -339,7 +339,7 @@
       "quick_select": "Sélection rapide",
       "current_banners": "Bannières actuelles",
       "limited_banners": "Bannières limitées",
-      "permanent_banners": "Bannières permanentes",
+      "permanent_banners": "Bannière permanente",
       "individual": "Bannières individuelles"
     },
     "messages": {
@@ -721,7 +721,10 @@
     "source": {
       "event": "Événement",
       "quest": "Quête",
-      "merchant": "Marchand"
+      "merchant": "Magasin de vêtements",
+      "miracrown": "Couronne de Mira",
+      "miracle": "Tenues miraculeuses",
+      "home": "Terre natale"
     }
   }
 }

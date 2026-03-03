@@ -721,7 +721,10 @@
     "source": {
       "event": "이벤트",
       "quest": "탐구",
-      "merchant": "상인"
+      "merchant": "의류점",
+      "miracrown": "기적의 왕관",
+      "miracle": "기적 세트",
+      "home": "정원"
     }
   }
 }

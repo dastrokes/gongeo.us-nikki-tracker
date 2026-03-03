@@ -344,7 +344,7 @@
 
     availableObtains.value.forEach((id) => {
       const groupKey = resolveObtainGroupKey(id)
-      if (!groupKey) {
+      if (!groupKey || !isObtainGroupVisibleInOutfits(groupKey)) {
         return
       }
       const group = groupMap.get(groupKey)

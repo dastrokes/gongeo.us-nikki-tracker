@@ -339,7 +339,7 @@
       "quick_select": "Seleção rápida",
       "current_banners": "Banners atuais",
       "limited_banners": "Banners Limitados",
-      "permanent_banners": "Banners Permanentes",
+      "permanent_banners": "Banner Permanente",
       "individual": "Banners Individuais"
     },
     "messages": {
@@ -721,7 +721,10 @@
     "source": {
       "event": "Evento",
       "quest": "Busca",
-      "merchant": "Comerciante"
+      "merchant": "Loja de Roupas",
+      "miracrown": "Coroa Milágria",
+      "miracle": "Looks Milagrosos",
+      "home": "Lar"
     }
   }
 }

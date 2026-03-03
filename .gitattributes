@@ -1,0 +1,45 @@
+# Set default behavior to automatically normalize line endings.
+* text=auto
+
+# Force all code and configuration files to use LF in repo.
+*.ts text eol=lf
+*.js text eol=lf
+*.vue text eol=lf
+*.json text eol=lf
+*.css text eol=lf
+*.scss text eol=lf
+*.html text eol=lf
+*.md text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.svg text eol=lf
+*.xml text eol=lf
+*.txt text eol=lf
+*.webmanifest text eol=lf
+
+# Explicitly mark binary files to prevent Git from trying to normalize them.
+
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.pdf binary
+
+# Ensure shell scripts and husky hooks always use LF.
+*.sh text eol=lf
+.husky/* text eol=lf
+
+# Configuration files.
+.browserslistrc text eol=lf
+.env* text eol=lf
+.gitignore text eol=lf
+.npmrc text eol=lf
+.prettierignore text eol=lf
+.prettierrc* text eol=lf
+netlify.toml text eol=lf
+crowdin.yml text eol=lf
+LICENSE text eol=lf

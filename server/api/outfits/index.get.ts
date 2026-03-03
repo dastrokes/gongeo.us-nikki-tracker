@@ -8,7 +8,7 @@ import {
 import { toErrorMessage } from '~/utils/errors'
 import {
   normalizeTraitKey,
-  resolveStyleKeyFromProps,
+  resolveStyleI18nKeyFromProps,
   resolveTagI18nKeys,
   STYLE_BY_KEY,
   TAG_BY_KEY,
@@ -18,7 +18,6 @@ import {
   withSupabaseRetry,
 } from '~/utils/supabaseRetry'
 import {
-  getVersionFromId,
   getVersionPrefixRange,
   getVersionRangeFromPrefix,
 } from '~/utils/contentVersion'
@@ -39,6 +38,13 @@ type OutfitRow = {
   obtain_type?: number | null
 }
 
+type RpcCapableClient = {
+  rpc: (
+    fn: string,
+    args?: Record<string, unknown>
+  ) => PromiseLike<{ data: unknown; error: unknown }>
+}
+
 const BASE_OUTFIT_ID_MIN = 10000
 const BASE_OUTFIT_ID_MAX = 99999
 const DEFAULT_PAGE_SIZE = 18
@@ -50,44 +56,6 @@ const parsePageSize = (value: unknown): number => {
   if (!Number.isFinite(parsed)) return DEFAULT_PAGE_SIZE
   const normalized = Math.floor(parsed)
   return ALLOWED_PAGE_SIZES.has(normalized) ? normalized : DEFAULT_PAGE_SIZE
-}
-
-const compareVersion = (a: string, b: string) => {
-  const parseVersion = (value: string) => {
-    const [majorRaw, minorRaw] = value.split('.')
-    const major = Number(majorRaw)
-    const minor = Number(minorRaw)
-    return {
-      major: Number.isNaN(major) ? 0 : major,
-      minor: Number.isNaN(minor) ? 0 : minor,
-    }
-  }
-  const aVersion = parseVersion(a)
-  const bVersion = parseVersion(b)
-  if (aVersion.major !== bVersion.major) {
-    return aVersion.major - bVersion.major
-  }
-  return aVersion.minor - bVersion.minor
-}
-
-const getSortVersion = (obtainType?: number | null) =>
-  obtainType ? getVersionFromId(obtainType) : null
-
-const compareOutfitSortOrder = (a: OutfitSortRow, b: OutfitSortRow) => {
-  if (a.quality !== b.quality) {
-    return b.quality - a.quality
-  }
-  const versionA = getSortVersion(a.obtain_type)
-  const versionB = getSortVersion(b.obtain_type)
-  if (versionA && versionB && versionA !== versionB) {
-    return compareVersion(versionB, versionA)
-  }
-  if (versionA && !versionB) return -1
-  if (!versionA && versionB) return 1
-  const obtainA = a.obtain_type ?? Number.POSITIVE_INFINITY
-  const obtainB = b.obtain_type ?? Number.POSITIVE_INFINITY
-  if (obtainA !== obtainB) return obtainA - obtainB
-  return a.id - b.id
 }
 
 /**
@@ -121,7 +89,6 @@ export default defineCachedEventHandler(
     const pageSize = parsePageSize(query.pageSize ?? query.page_size)
     const useCompactPayload = pageSize === TIERLIST_PAGE_SIZE
     const from = (page - 1) * pageSize
-    const toExclusive = from + pageSize
     const normalizedStyle = styleParam ? normalizeTraitKey(styleParam) : null
     const normalizedLabel = labelParam ? normalizeTraitKey(labelParam) : null
     const styleFilter = normalizedStyle
@@ -157,49 +124,103 @@ export default defineCachedEventHandler(
     }
 
     const supabase = useSupabaseDataClient()
+    const rpcClient = supabase as unknown as RpcCapableClient
 
     try {
-      let sortSeedQuery = supabase
-        .from('outfits')
-        .select('id, quality, obtain_type')
-        .gte('id', BASE_OUTFIT_ID_MIN)
-        .lte('id', BASE_OUTFIT_ID_MAX)
+      const applyOutfitFilters = <
+        T extends {
+          gte: (column: string, value: number) => T
+          lte: (column: string, value: number) => T
+          eq: (column: string, value: number | string) => T
+          in: (column: string, values: number[]) => T
+          contains: (column: string, values: Array<number | string>) => T
+        },
+      >(
+        queryBuilder: T
+      ): T => {
+        let filteredQuery = queryBuilder
 
-      if (obtainTypeRange) {
-        sortSeedQuery = sortSeedQuery
-          .gte('obtain_type', obtainTypeRange.min)
-          .lte('obtain_type', obtainTypeRange.max)
+        if (obtainTypeRange) {
+          filteredQuery = filteredQuery
+            .gte('obtain_type', obtainTypeRange.min)
+            .lte('obtain_type', obtainTypeRange.max)
+        }
+
+        if (quality !== null && quality !== undefined) {
+          filteredQuery = filteredQuery.eq('quality', quality)
+        }
+
+        if (obtainIds) {
+          filteredQuery = filteredQuery.in('obtain_type', obtainIds)
+        }
+
+        if (styleFilter) {
+          filteredQuery = filteredQuery.eq('style_key', styleFilter.key)
+        }
+
+        if (labelFilter) {
+          filteredQuery = filteredQuery.contains('tags', [labelFilter.id])
+        }
+
+        return filteredQuery
       }
 
-      if (quality !== null && quality !== undefined) {
-        sortSeedQuery = sortSeedQuery.eq('quality', quality)
+      const countQuery = applyOutfitFilters(
+        supabase
+          .from('outfits')
+          .select('id', { head: true, count: 'exact' })
+          .gte('id', BASE_OUTFIT_ID_MIN)
+          .lte('id', BASE_OUTFIT_ID_MAX)
+      )
+
+      const { count, error: countError } = await withSupabaseRetry(
+        () => countQuery
+      )
+
+      if (countError) {
+        throw countError
       }
 
-      if (obtainIds) {
-        sortSeedQuery = sortSeedQuery.in('obtain_type', obtainIds)
-      }
-
-      if (styleFilter) {
-        sortSeedQuery = sortSeedQuery.eq('style_key', styleFilter.key)
-      }
-
-      if (labelFilter) {
-        sortSeedQuery = sortSeedQuery.contains('tags', [labelFilter.id])
-      }
-
-      const { data: sortSeedData, error: sortSeedError } =
-        await withSupabaseRetry(() => sortSeedQuery)
-
-      if (sortSeedError) {
-        throw sortSeedError
-      }
-
-      const sortedRows = ((sortSeedData as OutfitSortRow[] | null) ?? [])
-        .slice()
-        .sort(compareOutfitSortOrder)
-      const total = sortedRows.length
+      const total = Math.max(0, count ?? 0)
       const totalPages = total ? Math.ceil(total / pageSize) : 0
-      const pageRows = sortedRows.slice(from, toExclusive)
+
+      if (useCompactPayload && total > TIERLIST_PAGE_SIZE) {
+        return {
+          data: [],
+          total,
+          page,
+          totalPages,
+        }
+      }
+
+      if (from >= total) {
+        return {
+          data: [],
+          total,
+          page,
+          totalPages,
+        }
+      }
+
+      const rpcParams: Record<string, unknown> = {
+        p_page: page,
+        p_page_size: pageSize,
+        p_quality: quality ?? null,
+        p_style_key: styleFilter?.key ?? null,
+        p_label_id: labelFilter?.id ?? null,
+        p_obtain_min: obtainTypeRange?.min ?? null,
+        p_obtain_max: obtainTypeRange?.max ?? null,
+        p_obtain_ids: obtainIds ?? null,
+      }
+      const { data: rpcData, error: rpcError } = await withSupabaseRetry(() =>
+        rpcClient.rpc('list_outfits_sorted_page', rpcParams)
+      )
+
+      if (rpcError) {
+        throw rpcError
+      }
+
+      const pageRows = (rpcData as OutfitSortRow[] | null) ?? []
 
       if (pageRows.length === 0) {
         return {
@@ -244,18 +265,15 @@ export default defineCachedEventHandler(
         .filter((row): row is OutfitRow => Boolean(row))
 
       return {
-        data: orderedRows.map((row) => {
-          const styleKey = row.style_key ?? resolveStyleKeyFromProps(row.props)
-          return {
-            id: row.id,
-            quality: row.quality,
-            style: styleKey
-              ? (STYLE_BY_KEY.get(styleKey)?.i18nKey ?? null)
-              : null,
-            labels: resolveTagI18nKeys(row.tags),
-            obtain_type: row.obtain_type ?? null,
-          }
-        }),
+        data: orderedRows.map((row) => ({
+          id: row.id,
+          quality: row.quality,
+          style:
+            (row.style_key ? STYLE_BY_KEY.get(row.style_key)?.i18nKey : null) ??
+            resolveStyleI18nKeyFromProps(row.props),
+          labels: resolveTagI18nKeys(row.tags),
+          obtain_type: row.obtain_type ?? null,
+        })),
         total,
         page,
         totalPages,

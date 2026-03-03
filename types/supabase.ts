@@ -12,6 +12,7 @@ export interface SupabaseOutfit {
   id: number
   quality: number
   props?: Array<number | string> | null
+  style_key?: string | null
   tags?: Array<number | string> | null
   obtain_type?: number | null
 }
@@ -25,6 +26,7 @@ export interface SupabaseItem {
   quality: number
   type: string
   props?: Array<number | string> | null
+  style_key?: string | null
   tags?: Array<number | string> | null
   obtain_type?: number | null
 }

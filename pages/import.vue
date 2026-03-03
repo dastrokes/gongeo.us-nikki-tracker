@@ -859,7 +859,7 @@
   const showBilibiliModal = ref(false)
 
   // TODO: toggle maintenance
-  const isMaintenance = ref(true)
+  const isMaintenance = ref(false)
 
   useSeoMeta({
     title: () =>

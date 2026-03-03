@@ -339,7 +339,7 @@
       "quick_select": "Selezione rapida",
       "current_banners": "Banner attuali",
       "limited_banners": "Banner limitati",
-      "permanent_banners": "Banner permanenti",
+      "permanent_banners": "Banner permanente",
       "individual": "Banner individuali"
     },
     "messages": {
@@ -721,7 +721,10 @@
     "source": {
       "event": "Evento",
       "quest": "Ricerca",
-      "merchant": "Mercante"
+      "merchant": "Negozio di vestiti",
+      "miracrown": "Miracorona",
+      "miracle": "Completi Mirabilia",
+      "home": "Casa"
     }
   }
 }

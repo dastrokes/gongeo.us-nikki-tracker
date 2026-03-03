@@ -721,7 +721,10 @@
     "source": {
       "event": "Peristiwa",
       "quest": "Pencarian",
-      "merchant": "Pedagang"
+      "merchant": "Toko Pakaian",
+      "miracrown": "Mahkota Mira",
+      "miracle": "Pakaian Keajaiban",
+      "home": "Tanah air"
     }
   }
 }

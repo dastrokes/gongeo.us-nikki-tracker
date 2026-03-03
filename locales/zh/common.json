@@ -721,7 +721,10 @@
     "source": {
       "event": "活动",
       "quest": "任务",
-      "merchant": "商店"
+      "merchant": "服裝商店",
+      "miracrown": "奇迹之冠",
+      "miracle": "奇迹套装",
+      "home": "家园"
     }
   }
 }

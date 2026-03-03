@@ -339,7 +339,7 @@
       "quick_select": "Selección rápida",
       "current_banners": "Banners actuales",
       "limited_banners": "Pancartas limitadas",
-      "permanent_banners": "pancartas permanentes",
+      "permanent_banners": "pancarta permanente",
       "individual": "pancartas individuales"
     },
     "messages": {
@@ -721,7 +721,10 @@
     "source": {
       "event": "Evento",
       "quest": "Búsqueda",
-      "merchant": "Comerciante"
+      "merchant": "Tienda de ropa",
+      "miracrown": "Maravicorona",
+      "miracle": "Atuendos Milagrosos",
+      "home": "Tierra Natal"
     }
   }
 }

@@ -18,7 +18,7 @@ A web application for tracking and analyzing Infinity Nikki resonance history an
 
 ## Tech Stack
 
-- [Nuxt 3](https://nuxt.com/) - Vue.js framework
+- [Nuxt 4](https://nuxt.com/) - Vue.js framework
 - [Vue 3](https://vuejs.org/) - JavaScript framework
 - [Naive UI](https://www.naiveui.com/) - Vue component library
 - [Tailwind CSS](https://tailwindcss.com/) - Utility-first CSS framework

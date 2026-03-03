@@ -745,7 +745,7 @@
   const hasOutfit = (id: string): id is OutfitKey =>
     Object.prototype.hasOwnProperty.call(OUTFIT_DATA, id)
 
-  const latestBannerId = 52 // TODO: update to current banner id
+  const latestBannerId = 53 // TODO: update to current banner id
   const latestBanner = BANNER_DATA[latestBannerId]
 
   if (

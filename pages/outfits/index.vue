@@ -344,7 +344,7 @@
 
     availableObtains.value.forEach((id) => {
       const groupKey = resolveObtainGroupKey(id)
-      if (!groupKey) {
+      if (!groupKey || !isObtainGroupVisibleInOutfits(groupKey)) {
         return
       }
       const group = groupMap.get(groupKey)
@@ -503,14 +503,6 @@
     {
       default: () => ({ data: [], total: 0, totalPages: 0 }),
       lazy: true,
-      watch: [
-        qualityFilter,
-        versionFilter,
-        styleFilter,
-        labelFilter,
-        obtainFilter,
-        currentPage,
-      ],
     }
   )
 

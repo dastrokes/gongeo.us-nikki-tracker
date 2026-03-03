@@ -1,42 +1,17 @@
 import type { VotePair, BannerRanking } from '~/types/vote'
 
 export const useBannerVote = () => {
-  const voterFingerprint = ref<string | null>(null)
-  const fingerprintInitialized = ref(false)
   const { getImageSrc } = imageProvider()
-  const { generateVoterFingerprint } = useVoterFingerprint()
-
-  // Initialize voter fingerprint on client side
-  const initializeFingerprint = async () => {
-    if (fingerprintInitialized.value || !import.meta.client) return
-
-    try {
-      // Try to get from localStorage first
-      const stored = localStorage.getItem('gongeous-voter-fingerprint')
-      if (stored) {
-        voterFingerprint.value = stored
-        fingerprintInitialized.value = true
-        return
-      }
-
-      // Generate new fingerprint using FingerprintJS
-      const fingerprint = await generateVoterFingerprint()
-      voterFingerprint.value = fingerprint
-      localStorage.setItem('gongeous-voter-fingerprint', fingerprint)
-      fingerprintInitialized.value = true
-    } catch (error) {
-      console.error('Failed to initialize fingerprint:', error)
-      // Use fallback
-      const fallback = 'fallback-' + Date.now().toString()
-      voterFingerprint.value = fallback
-      localStorage.setItem('gongeous-voter-fingerprint', fallback)
-      fingerprintInitialized.value = true
-    }
-  }
+  const {
+    voterFingerprint,
+    isFingerprintInitialized,
+    isFingerprintFallback,
+    initVoterFingerprint,
+  } = useVoterFingerprint()
 
   // Initialize on mount
   if (import.meta.client) {
-    initializeFingerprint()
+    initVoterFingerprint()
   }
 
   /**
@@ -155,8 +130,12 @@ export const useBannerVote = () => {
     winnerId: number
   ): Promise<{ success: boolean }> => {
     // Ensure fingerprint is initialized before submitting
-    if (!fingerprintInitialized.value) {
-      await initializeFingerprint()
+    if (!isFingerprintInitialized.value) {
+      await initVoterFingerprint()
+    }
+
+    if (isFingerprintFallback.value) {
+      return { success: false }
     }
 
     // Validate request

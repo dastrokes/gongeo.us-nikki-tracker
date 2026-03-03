@@ -339,7 +339,7 @@
       "quick_select": "Schnellauswahl",
       "current_banners": "Aktuelle Banner",
       "limited_banners": "Limitierte Banner",
-      "permanent_banners": "Permanente Banner",
+      "permanent_banners": "Permanentes Banner",
       "individual": "Individuelle Banner"
     },
     "messages": {
@@ -721,7 +721,10 @@
     "source": {
       "event": "Event",
       "quest": "Auftrag",
-      "merchant": "Händler"
+      "merchant": "Kleiderladen",
+      "miracrown": "Mira-Krone",
+      "miracle": "Wunder-Outfits",
+      "home": "Heimatland"
     }
   }
 }

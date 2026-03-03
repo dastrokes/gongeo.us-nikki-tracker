@@ -339,7 +339,7 @@
       "quick_select": "Quick Select",
       "current_banners": "Current Banners",
       "limited_banners": "Limited Banners",
-      "permanent_banners": "Permanent Banners",
+      "permanent_banners": "Permanent Banner",
       "individual": "Individual Banners"
     },
     "messages": {
@@ -721,7 +721,10 @@
     "source": {
       "event": "Event",
       "quest": "Quest",
-      "merchant": "Merchant"
+      "merchant": "Clothing Store",
+      "miracrown": "Mira Crown",
+      "miracle": "Miracle Outfits",
+      "home": "Home"
     }
   }
 }

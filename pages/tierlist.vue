@@ -858,7 +858,6 @@
   } from '~/composables/useCommunityTierlist'
   import { BANNER_DATA } from '~/data/banners'
   import type { BannerRun } from '~/types/banner'
-  import { exportToPng } from '~/utils/snapdom'
 
   type TierMode = 'banners' | 'outfits' | 'items'
   type TierKey = 'S' | 'A' | 'B' | 'C' | 'D' | 'F'

@@ -1,5 +1,4 @@
 import type { IDBPDatabase } from 'idb'
-import { createIndexedDBConnection } from '~/utils/indexedDbConnection'
 
 type TierKey = 'S' | 'A' | 'B' | 'C' | 'D' | 'F'
 

@@ -1,5 +1,4 @@
 import { openDB, type IDBPDatabase, type OpenDBCallbacks } from 'idb'
-import { toErrorMessage } from '~/utils/errors'
 
 type IndexedDBConnectionOptions = {
   dbName: string

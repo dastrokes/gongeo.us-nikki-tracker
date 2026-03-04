@@ -77,9 +77,6 @@ export default defineNuxtConfig({
       imagekitBaseUrl:
         process.env.NUXT_PUBLIC_IMAGEKIT_BASE_URL ||
         'https://ik.imagekit.io/gongeouscdn',
-      cloudinaryBaseUrl:
-        process.env.NUXT_PUBLIC_CLOUDINARY_BASE_URL ||
-        'https://res.cloudinary.com/gongeous/image/upload',
       imageProvider: getImageProvider(),
     },
   },
@@ -92,9 +89,6 @@ export default defineNuxtConfig({
     },
     imagekit: {
       baseURL: process.env.NUXT_PUBLIC_IMAGEKIT_BASE_URL,
-    },
-    cloudinary: {
-      baseURL: process.env.NUXT_PUBLIC_CLOUDINARY_BASE_URL,
     },
     format: ['webp'],
     quality: 80,

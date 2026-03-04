@@ -10,6 +10,7 @@ export const REGION_URLS = {
 } as const
 
 const REQUEST_DELAY = 1000
+const pullAuthToken = ref<string | null>(null)
 
 export const useBannerPullApi = () => {
   const loading = ref(false)
@@ -42,14 +43,16 @@ export const useBannerPullApi = () => {
       )
 
       if (response?.code === 0) {
-        userStore.setAuthToken(response.data)
+        pullAuthToken.value = response.data
         userStore.setUid(cookieData.roleid)
         return true
-      } else {
-        error.value = response?.info || 'Verification failed'
-        return false
       }
+
+      pullAuthToken.value = null
+      error.value = response?.info || 'Verification failed'
+      return false
     } catch (e) {
+      pullAuthToken.value = null
       error.value =
         e instanceof Error ? e.message : 'Failed to verify authentication'
       return false
@@ -57,9 +60,10 @@ export const useBannerPullApi = () => {
       loading.value = false
     }
   }
+
   // Main function to fetch all banner history
   const fetchPullHistory = async (selectedBannerIds?: number[]) => {
-    const token = userStore.getAuthToken
+    const token = pullAuthToken.value
     if (!token) {
       error.value = 'Not authenticated'
       return null

@@ -179,7 +179,7 @@
             </div>
             <div class="text-lg font-medium Cookie mt-1">
               <n-time
-                v-if="data?.d"
+                v-if="data?.date"
                 :time="effectiveDate"
                 type="date"
               />
@@ -550,18 +550,23 @@
   } from '@vicons/fa'
 
   // Type definitions for global data structure
+  type FirstItemDistribution = Record<string, { o: number; i: string }[]>
+
   interface GlobalData {
-    t?: number // total pulls
-    u?: number // unique users
-    a5?: number // average pulls to 5-star
-    a4_2?: number // average pulls to 4-star type 2
-    a4_3?: number // average pulls to 4-star type 3
-    d?: string // date
-    p?: Record<string, [number, number, number]> // pulls per banner [3star, 4star, 5star]
-    f5?: Record<string, number> // 5-star distribution
-    f4_2?: Record<string, number> // 4-star type 2 distribution
-    f4_3?: Record<string, number> // 4-star type 3 distribution
-    f?: Record<string, { o: number; i: string }[]> // first item distribution
+    pulls?: number // total pulls
+    users?: number // unique users
+    date?: string // date
+    pullsPerBanner?: Record<string, [number, number, number]> // pulls per banner [3star, 4star, 5star]
+    fiveStarDistribution?: Record<string, number> // 5-star distribution
+    fourStarType2Distribution?: Record<string, number> // 4-star type 2 distribution
+    fourStarType3Distribution?: Record<string, number> // 4-star type 3 distribution
+    f?: FirstItemDistribution // first item distribution for latest banner
+  }
+
+  interface GlobalBannerFirstItemData {
+    date?: string
+    bannerId?: number
+    f?: FirstItemDistribution
   }
 
   // Type definitions for ECharts formatter parameters
@@ -634,7 +639,7 @@
     })
 
     watch(
-      [data, () => isMobile.value, () => isDark.value],
+      [data, firstItemData, () => isMobile.value, () => isDark.value],
       () => {
         if (data.value && import.meta.client) {
           initializeCharts()
@@ -645,11 +650,7 @@
     )
   })
 
-  const fetchGlobalData = async () => {
-    return $fetch<GlobalData | null>(
-      'https://fimzdbqulflilnnopibz.supabase.co/storage/v1/object/public/gongeous/data.json'
-    )
-  }
+  const fetchGlobalData = async () => $fetch<GlobalData | null>('/api/global')
 
   const { data: globalData } = useAsyncData<GlobalData | null>(
     'global-data',
@@ -662,11 +663,13 @@
 
   // Use computed for data to maintain reactivity
   const data = computed(() => globalData.value as GlobalData | null)
+  const firstItemDataByBanner = ref<Record<number, FirstItemDistribution>>({})
+  const firstItemData = ref<FirstItemDistribution | null>(null)
   const loading = ref(true)
 
   // Computed values for stats (updated for new data.json)
-  const totalPulls = computed(() => data.value?.t || 0)
-  const uniqueUserCount = computed(() => data.value?.u || 0)
+  const totalPulls = computed(() => data.value?.pulls || 0)
+  const uniqueUserCount = computed(() => data.value?.users || 0)
 
   // Calculate weighted average from frequency distribution
   const calculateWeightedAverage = (
@@ -687,17 +690,17 @@
   }
 
   const averagePullsTo5Star = computed(() =>
-    calculateWeightedAverage(data.value?.f5)
+    calculateWeightedAverage(data.value?.fiveStarDistribution)
   )
   const averagePullsTo4StarType2 = computed(() =>
-    calculateWeightedAverage(data.value?.f4_2)
+    calculateWeightedAverage(data.value?.fourStarType2Distribution)
   )
   const averagePullsTo4StarType3 = computed(() =>
-    calculateWeightedAverage(data.value?.f4_3)
+    calculateWeightedAverage(data.value?.fourStarType3Distribution)
   )
 
   const effectiveDate = computed(() =>
-    data.value?.d ? new Date(data.value.d) : new Date()
+    data.value?.date ? new Date(data.value.date) : new Date()
   )
 
   const firstItemDistributionChartOption = ref({})
@@ -715,8 +718,9 @@
     outfitId?: string
   }
 
-  const getSelectedOutfitDetails = (): SelectedOutfitDetails | null => {
-    const value = selectedOutfit.value
+  const parseSelectedOutfitValue = (
+    value: string | number | null
+  ): SelectedOutfitDetails | null => {
     if (typeof value !== 'string' || value.length === 0) return null
 
     const [bannerIdRaw, quality, outfitId] = value.split('_')
@@ -732,6 +736,9 @@
     }
   }
 
+  const getSelectedOutfitDetails = (): SelectedOutfitDetails | null =>
+    parseSelectedOutfitValue(selectedOutfit.value)
+
   const bannerDetailPath = computed(() => {
     const outfitDetails = getSelectedOutfitDetails()
     if (!outfitDetails) return null
@@ -746,19 +753,52 @@
     Object.prototype.hasOwnProperty.call(OUTFIT_DATA, id)
 
   const latestBannerId = 53 // TODO: update to current banner id
-  const latestBanner = BANNER_DATA[latestBannerId]
+  const latestBanner = computed(() => BANNER_DATA[latestBannerId])
 
-  if (
-    latestBanner?.outfit5StarId?.length &&
-    latestBanner.outfit5StarId.length > 0
-  ) {
-    selectedOutfit.value = `${latestBannerId}_5_${latestBanner.outfit5StarId[0]}`
-  } else if (
-    latestBanner?.outfit4StarId?.length &&
-    latestBanner.outfit4StarId.length > 0
-  ) {
-    selectedOutfit.value = `${latestBannerId}_4_${latestBanner.outfit4StarId[0]}`
+  const setDefaultSelectedOutfit = () => {
+    const banner = latestBanner.value
+    const bannerId = latestBannerId
+
+    if (banner?.outfit5StarId?.length) {
+      selectedOutfit.value = `${bannerId}_5_${banner.outfit5StarId[0]}`
+      return
+    }
+
+    if (banner?.outfit4StarId?.length) {
+      selectedOutfit.value = `${bannerId}_4_${banner.outfit4StarId[0]}`
+      return
+    }
+
+    selectedOutfit.value = null
   }
+
+  watch(
+    data,
+    async (payload) => {
+      if (!payload) return
+
+      if (!selectedOutfit.value) {
+        setDefaultSelectedOutfit()
+      }
+
+      const activeSelection = selectedOutfit.value
+      const activeBannerId =
+        getSelectedOutfitDetails()?.bannerId ?? latestBannerId
+      const distribution = await ensureFirstItemDataForBanner(activeBannerId)
+
+      if (selectedOutfit.value !== activeSelection) return
+
+      const currentBannerId =
+        getSelectedOutfitDetails()?.bannerId ?? latestBannerId
+      if (currentBannerId !== activeBannerId) return
+
+      firstItemData.value = distribution
+      if (!distribution) {
+        firstItemDistributionChartOption.value = {}
+      }
+    },
+    { immediate: true }
+  )
 
   const expandedKeys = ref([])
 
@@ -856,30 +896,76 @@
     return !checkBannerRuns(outfitDetails.bannerId)
   })
 
+  async function fetchBannerFirstItemData(bannerId: number) {
+    return $fetch<GlobalBannerFirstItemData>(`/api/global/${bannerId}`)
+  }
+
+  async function ensureFirstItemDataForBanner(
+    bannerId: number
+  ): Promise<FirstItemDistribution | null> {
+    const cached = firstItemDataByBanner.value[bannerId]
+    if (cached) {
+      return cached
+    }
+
+    try {
+      const bannerData = await fetchBannerFirstItemData(bannerId)
+      const distribution = bannerData?.f ?? {}
+      firstItemDataByBanner.value[bannerId] = distribution
+      return distribution
+    } catch (error) {
+      console.error(
+        `Failed to fetch first-item data for banner ${bannerId}:`,
+        error
+      )
+      return null
+    }
+  }
+
   // Function to manually update first item chart when outfit selection changes
-  const updateFirstItemChart = (outfitValue: string | number | null) => {
-    if (!data.value?.f) {
+  const updateFirstItemChart = async (outfitValue: string | number | null) => {
+    const requestedOutfit = typeof outfitValue === 'string' ? outfitValue : null
+    const outfitDetails = parseSelectedOutfitValue(requestedOutfit)
+    if (!outfitDetails) {
+      firstItemData.value = null
       firstItemDistributionChartOption.value = {}
       return
     }
 
-    if (typeof outfitValue !== 'string' || !outfitValue.includes('_')) {
+    const bannerData = await ensureFirstItemDataForBanner(
+      outfitDetails.bannerId
+    )
+    if (selectedOutfit.value !== requestedOutfit) return
+
+    const currentBannerId = getSelectedOutfitDetails()?.bannerId
+    if (currentBannerId !== outfitDetails.bannerId) return
+
+    firstItemData.value = bannerData
+    if (!bannerData) {
       firstItemDistributionChartOption.value = {}
       return
     }
 
-    createFirstItemDistributionChart(data.value.f)
+    createFirstItemDistributionChart(bannerData)
   }
 
   // initialize all charts
   const initializeCharts = () => {
     try {
-      if (data.value?.p) createPullsPerBannerChart(data.value.p)
-      if (data.value?.f5) createFiveStarDistributionChart(data.value.f5)
-      if (data.value?.f4_2) createFourStarType2Chart(data.value.f4_2)
-      if (data.value?.f4_3) createFourStarType3Chart(data.value.f4_3)
-      if (data.value?.f) {
-        createFirstItemDistributionChart(data.value.f)
+      if (data.value?.pullsPerBanner) {
+        createPullsPerBannerChart(data.value.pullsPerBanner)
+      }
+      if (data.value?.fiveStarDistribution) {
+        createFiveStarDistributionChart(data.value.fiveStarDistribution)
+      }
+      if (data.value?.fourStarType2Distribution) {
+        createFourStarType2Chart(data.value.fourStarType2Distribution)
+      }
+      if (data.value?.fourStarType3Distribution) {
+        createFourStarType3Chart(data.value.fourStarType3Distribution)
+      }
+      if (firstItemData.value) {
+        createFirstItemDistributionChart(firstItemData.value)
       }
     } catch (error) {
       console.error('Error initializing charts:', error)
@@ -897,8 +983,8 @@
 
   // Function to manually update pulls per banner chart when banner type selection changes
   const updatePullsPerBannerChart = () => {
-    if (data.value?.p && import.meta.client) {
-      createPullsPerBannerChart(data.value.p)
+    if (data.value?.pullsPerBanner && import.meta.client) {
+      createPullsPerBannerChart(data.value.pullsPerBanner)
     }
   }
 

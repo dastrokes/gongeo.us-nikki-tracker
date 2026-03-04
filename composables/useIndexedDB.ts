@@ -4,7 +4,6 @@ import type {
   EvoRecord,
   PearpalTrackerItem,
 } from '~/types/pull'
-import { createIndexedDBConnection } from '~/utils/indexedDbConnection'
 
 const DB_NAME = 'gongeousDB'
 const DB_VERSION = 4

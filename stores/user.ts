@@ -12,13 +12,12 @@ export interface UserState {
   region: Region
   theme: Theme
   uid: string | null
-  authToken: string | null
 }
 
 export const useUserStore = defineStore('user', {
   state: (): UserState => {
     // Get cookie helpers
-    const { get } = useCookieHelpers()
+    const { get, remove } = useCookieHelpers()
 
     // Initialize theme
     const savedTheme = get('theme') as Theme
@@ -29,15 +28,12 @@ export const useUserStore = defineStore('user', {
 
     // Initialize UID
     const savedUid = get('uid')
-
-    // Initialize auth token
-    const savedToken = get('authToken')
+    remove('authToken')
 
     return {
       region: Region.AMERICA,
       theme: initialTheme,
       uid: savedUid,
-      authToken: savedToken,
     }
   },
 
@@ -45,7 +41,6 @@ export const useUserStore = defineStore('user', {
     getRegion: (state) => state.region,
     getCurrentTheme: (state) => state.theme,
     getUid: (state) => state.uid,
-    getAuthToken: (state) => state.authToken,
   },
 
   actions: {
@@ -55,7 +50,6 @@ export const useUserStore = defineStore('user', {
       // Clear store state
       this.region = Region.AMERICA
       this.uid = null
-      this.authToken = null
 
       // Clear cookies
       remove('uid')
@@ -96,17 +90,6 @@ export const useUserStore = defineStore('user', {
         set('uid', uid)
       } else {
         remove('uid')
-      }
-    },
-
-    setAuthToken(token: string | null) {
-      const { set, remove } = useCookieHelpers()
-
-      this.authToken = token
-      if (token) {
-        set('authToken', token)
-      } else {
-        remove('authToken')
       }
     },
   },

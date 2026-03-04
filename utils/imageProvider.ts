@@ -1,15 +1,22 @@
 export const getImageProvider = () => {
-  return (
-    process.env.NUXT_PUBLIC_IMAGE_PROVIDER ||
-    (process.env.NODE_ENV === 'production' ? 'imagekit' : 'ipx')
-  )
+  const configuredProvider = process.env.NUXT_PUBLIC_IMAGE_PROVIDER
+
+  if (
+    configuredProvider === 'ipx' ||
+    configuredProvider === 'netlify' ||
+    configuredProvider === 'imagekit'
+  ) {
+    return configuredProvider
+  }
+
+  return process.env.NODE_ENV === 'production' ? 'imagekit' : 'ipx'
 }
 
 export const imageProvider = () => {
   const isDev = import.meta.dev
   const runtimeConfig = useRuntimeConfig()
 
-  type ImageProvider = 'ipx' | 'netlify' | 'imagekit' | 'cloudinary'
+  type ImageProvider = 'ipx' | 'netlify' | 'imagekit'
   type ImageSrcType =
     | 'banner'
     | 'bannerThumb'
@@ -19,7 +26,6 @@ export const imageProvider = () => {
     | 'static'
 
   const imagekitBaseUrl = runtimeConfig.public.imagekitBaseUrl as string
-  const cloudinaryBaseUrl = runtimeConfig.public.cloudinaryBaseUrl as string
   const defaultProvider = runtimeConfig.public.imageProvider as ImageProvider
 
   const getImageUrl = (
@@ -75,25 +81,6 @@ export const imageProvider = () => {
         : `${imagekitBaseUrl}${cleanPath}`
     }
 
-    // Use Cloudinary
-    if (provider === 'cloudinary') {
-      if (!cloudinaryBaseUrl) {
-        return cleanPath
-      }
-
-      const params: string[] = []
-      if (options?.width) params.push(`w_${options.width}`)
-      if (options?.height) params.push(`h_${options.height}`)
-      if (options?.quality) params.push(`q_${options.quality}`)
-      if (options?.format) params.push(`f_${options.format}`)
-
-      const transformation = params.length > 0 ? params.join(',') : ''
-
-      return transformation
-        ? `${cloudinaryBaseUrl}/${transformation}${cleanPath}`
-        : `${cloudinaryBaseUrl}${cleanPath}`
-    }
-
     return cleanPath
   }
 
@@ -138,8 +125,7 @@ export const imageProvider = () => {
     if (
       provider === 'ipx' ||
       provider === 'netlify' ||
-      provider === 'imagekit' ||
-      provider === 'cloudinary'
+      provider === 'imagekit'
     ) {
       return path
     }

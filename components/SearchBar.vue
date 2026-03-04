@@ -34,7 +34,7 @@
     <n-auto-complete
       ref="searchAutoCompleteRef"
       v-model:value="searchQuery"
-      class="fixed w-full sm:max-w-80 sm:right-4 top-1.5 rounded-2xl"
+      class="fixed w-full sm:max-w-96 sm:right-44 top-1.5 rounded-2xl bg-slate-900"
       :options="autoCompleteOptions"
       :render-label="renderLabel"
       :placeholder="$t('default.search.placeholder')"

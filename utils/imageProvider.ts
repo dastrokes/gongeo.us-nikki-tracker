@@ -16,7 +16,7 @@ export const imageProvider = () => {
   const isDev = import.meta.dev
   const runtimeConfig = useRuntimeConfig()
 
-  type ImageProvider = 'ipx' | 'netlify' | 'imagekit'
+  type ImageProvider = 'ipx' | 'netlify' | 'imagekit' | 'cloudinary'
   type ImageSrcType =
     | 'banner'
     | 'bannerThumb'
@@ -26,6 +26,7 @@ export const imageProvider = () => {
     | 'static'
 
   const imagekitBaseUrl = runtimeConfig.public.imagekitBaseUrl as string
+  const cloudinaryBaseUrl = runtimeConfig.public.cloudinaryBaseUrl as string
   const defaultProvider = runtimeConfig.public.imageProvider as ImageProvider
 
   const getImageUrl = (
@@ -81,6 +82,27 @@ export const imageProvider = () => {
         : `${imagekitBaseUrl}${cleanPath}`
     }
 
+    if (provider === 'cloudinary') {
+      const baseUrl = cloudinaryBaseUrl?.replace(/\/+$/, '')
+      if (!baseUrl) {
+        return cleanPath
+      }
+
+      const params: string[] = []
+      if (options?.width) params.push(`w_${options.width}`)
+      if (options?.height) params.push(`h_${options.height}`)
+      if (options?.quality) params.push(`q_${options.quality}`)
+      if (options?.format) params.push(`f_${options.format}`)
+      if (options?.width || options?.height) params.push('c_fill')
+
+      const transformation = params.join(',')
+      const cloudinaryPath = cleanPath.replace(/\.[^/.]+$/, '')
+
+      return transformation
+        ? `${baseUrl}/${transformation}${cloudinaryPath}`
+        : `${baseUrl}${cloudinaryPath}`
+    }
+
     return cleanPath
   }
 
@@ -125,7 +147,8 @@ export const imageProvider = () => {
     if (
       provider === 'ipx' ||
       provider === 'netlify' ||
-      provider === 'imagekit'
+      provider === 'imagekit' ||
+      provider === 'cloudinary'
     ) {
       return path
     }

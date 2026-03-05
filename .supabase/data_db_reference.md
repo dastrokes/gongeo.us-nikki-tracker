@@ -1,0 +1,55 @@
+# Data DB Reference (`mkvqvnlunfuyqrpbppiy`)
+Condensed schema reference for LLM/agent context.
+
+## Functions
+- `public.list_items_sorted_page(...) -> table(id, quality, obtain_type)`
+- `public.list_outfits_sorted_page(...) -> table(id, quality, obtain_type)`
+
+## Tables
+### `public.items`
+- `id bigint` (PK)
+- `quality integer`
+- `type varchar(50)` (default `unknown`)
+- `props integer[]`
+- `style_key varchar(16)`
+- `tags integer[]`
+- `obtain_type integer`
+
+### `public.item_translations`
+- `item_id bigint` (PK part, FK -> `items.id`)
+- `language_code varchar(10)` (PK part)
+- `description text`
+
+### `public.outfits`
+- `id bigint` (PK)
+- `quality integer`
+- `props integer[]`
+- `style_key varchar(16)`
+- `tags integer[]`
+- `obtain_type integer`
+
+### `public.outfit_translations`
+- `outfit_id bigint` (PK part, FK -> `outfits.id`)
+- `language_code varchar(10)` (PK part)
+- `description text`
+
+### `public.outfit_items`
+- `outfit_id bigint` (PK part, FK -> `outfits.id`)
+- `item_id bigint` (PK part, FK -> `items.id`)
+
+## Explicit Indexes in Reference Schema
+- `idx_item_translations_language` on `item_translations(language_code)`
+- `idx_items_obtain_type` on `items(obtain_type)`
+- `idx_items_quality_type` on `items(quality, type)`
+- `idx_items_style_key` on `items(style_key)`
+- `idx_items_tags_gin` on `items(tags)` (GIN)
+- `idx_items_type` on `items(type)`
+- `idx_outfit_items_item_id` on `outfit_items(item_id)`
+- `idx_outfit_translations_language` on `outfit_translations(language_code)`
+- `idx_outfits_quality_id` on `outfits(quality, id)`
+- `idx_outfits_style_key` on `outfits(style_key)`
+- `item_translations_item_id_idx` on `item_translations(item_id)`
+- `outfit_items_outfit_id_idx` on `outfit_items(outfit_id)`
+- `outfit_translations_outfit_id_idx` on `outfit_translations(outfit_id)`
+- `outfits_obtain_type_idx` on `outfits(obtain_type)`
+- `outfits_quality_idx` on `outfits(quality)`

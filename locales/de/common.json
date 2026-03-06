@@ -51,7 +51,7 @@
     "global": "Globale Daten",
     "banner": "Bannerverlauf",
     "banner_detail": "Bannerdetail",
-    "timeline": "Banner Timeline",
+    "timeline": "Banner-Zeitleiste",
     "outfit": "Outfit-Kompendium",
     "outfit_detail": "Outfit-Detail",
     "item": "Stück-Kompendium",
@@ -531,7 +531,7 @@
     }
   },
   "timeline": {
-    "banner_timer": "Rerun timer: {days} days"
+    "banner_timer": "Wiederholungs-Timer: {days} Tage"
   },
   "faq": {
     "title": "Häufig gestellte Fragen",

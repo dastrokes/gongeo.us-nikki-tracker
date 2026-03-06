@@ -51,7 +51,7 @@
     "global": "Dados globais",
     "banner": "Histórico de banners",
     "banner_detail": "Detalhe do banner",
-    "timeline": "Linha do tempo",
+    "timeline": "Banner Timeline",
     "outfit": "Compêndio de trajes",
     "outfit_detail": "Detalhe da roupa",
     "item": "Compêndio de Itens",
@@ -529,6 +529,9 @@
       "all_time": "Todos os tempos",
       "first_item_distribution_tooltip": "Este banner inclui pulls com mais de 180 dias, que não estão mais disponíveis no jogo. Como resultado, os dados de distribuição do primeiro item podem ser imprecisos."
     }
+  },
+  "timeline": {
+    "banner_timer": "Rerun timer: {days} days"
   },
   "faq": {
     "title": "Perguntas frequentes",

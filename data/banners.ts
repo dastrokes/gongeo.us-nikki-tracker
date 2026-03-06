@@ -106,6 +106,11 @@ export const BANNER_DATA: BannerData = {
         start: '2024-12-29',
         end: '2025-01-23',
       },
+      {
+        version: '2.1.2',
+        start: '2026-01-19',
+        end: '2026-01-29',
+      },
     ],
   },
   7: {

@@ -174,10 +174,10 @@ export default defineNuxtConfig({
         )
 
       return {
-        ...buildI18nRules(
-          ['/faq', '/about', '/timeline', '/vote', '/ranking'],
-          { prerender: true, headers: CACHE_STATIC }
-        ),
+        ...buildI18nRules(['/faq', '/about', '/vote', '/ranking'], {
+          prerender: true,
+          headers: CACHE_STATIC,
+        }),
         ...buildI18nRules(['/error'], {
           prerender: true,
           headers: CACHE_STATIC,
@@ -194,6 +194,7 @@ export default defineNuxtConfig({
             '/items',
             '/quiz',
             '/tierlist',
+            '/timeline',
           ],
           {
             headers: CACHE_STABLE,

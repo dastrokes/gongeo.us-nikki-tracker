@@ -51,7 +51,7 @@
     "global": "Dati globali",
     "banner": "Storia dello stendardo",
     "banner_detail": "Dettaglio della bandiera",
-    "timeline": "Cronologia",
+    "timeline": "Banner Timeline",
     "outfit": "Compendio degli abiti",
     "outfit_detail": "Dettaglio dell'abito",
     "item": "Compendio degli articoli",
@@ -529,6 +529,9 @@
       "all_time": "Tutto il tempo",
       "first_item_distribution_tooltip": "Questo banner include pull risalenti a più di 180 giorni fa, che non sono più disponibili nel gioco. Di conseguenza, i dati sulla distribuzione del primo articolo potrebbero essere imprecisi."
     }
+  },
+  "timeline": {
+    "banner_timer": "Rerun timer: {days} days"
   },
   "faq": {
     "title": "Domande frequenti",

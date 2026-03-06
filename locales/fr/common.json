@@ -51,7 +51,7 @@
     "global": "Données mondiales",
     "banner": "Historique des bannières",
     "banner_detail": "Détail de la bannière",
-    "timeline": "Chronologie",
+    "timeline": "Banner Timeline",
     "outfit": "Recueil de tenues",
     "outfit_detail": "Détail de la tenue",
     "item": "Recueil d'articles",
@@ -529,6 +529,9 @@
       "all_time": "Tout le temps",
       "first_item_distribution_tooltip": "Cette bannière inclut des tirages datant de plus de 180 jours, qui ne sont plus disponibles dans le jeu. En conséquence, les premières données de distribution d'articles peuvent être inexactes."
     }
+  },
+  "timeline": {
+    "banner_timer": "Rerun timer: {days} days"
   },
   "faq": {
     "title": "Foire aux questions",

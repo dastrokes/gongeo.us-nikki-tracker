@@ -531,7 +531,17 @@
     }
   },
   "timeline": {
-    "banner_timer": "Wiederholungs-Timer: {days} Tage"
+    "banner_timer": "Wiederholungs-Timer: {days} Tage",
+    "run_gap": "Gap: {days} days",
+    "max_zoom": "Zoom to max",
+    "reset_zoom": "Reset zoom",
+    "sort": {
+      "label": "Sort timeline",
+      "newest_first": "Newest first",
+      "oldest_first": "Oldest first",
+      "longest_gap": "Longest gap",
+      "shortest_gap": "Shortest gap"
+    }
   },
   "faq": {
     "title": "Häufig gestellte Fragen",

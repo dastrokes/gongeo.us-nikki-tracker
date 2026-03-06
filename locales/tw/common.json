@@ -51,7 +51,7 @@
     "global": "社群資料",
     "banner": "卡池歷史",
     "banner_detail": "卡池詳情",
-    "timeline": "時間軸",
+    "timeline": "卡池時間軸",
     "outfit": "套裝圖鑑",
     "outfit_detail": "套裝詳情",
     "item": "部件圖鑑",
@@ -529,6 +529,9 @@
       "all_time": "全部",
       "first_item_distribution_tooltip": "此卡池包含180天之前的抽卡記錄，這些記錄已無法在遊戲中獲取。因此，首件部件的分佈資料可能不準確。"
     }
+  },
+  "timeline": {
+    "banner_timer": "復刻計時：{days}天"
   },
   "faq": {
     "title": "常見問題",

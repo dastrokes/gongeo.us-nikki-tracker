@@ -51,7 +51,7 @@
     "global": "Data Sedunia",
     "banner": "Sejarah Spanduk",
     "banner_detail": "Detail Spanduk",
-    "timeline": "Garis waktu",
+    "timeline": "Banner Timeline",
     "outfit": "Ringkasan Pakaian",
     "outfit_detail": "Detil Pakaian",
     "item": "Ringkasan Barang",
@@ -529,6 +529,9 @@
       "all_time": "Sepanjang Waktu",
       "first_item_distribution_tooltip": "Spanduk ini mencakup penarikan yang lebih lama dari 180 hari, yang tidak lagi tersedia dalam game. Akibatnya, data distribusi item pertama mungkin tidak akurat."
     }
+  },
+  "timeline": {
+    "banner_timer": "Rerun timer: {days} days"
   },
   "faq": {
     "title": "Pertanyaan yang Sering Diajukan",

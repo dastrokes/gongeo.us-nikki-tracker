@@ -51,7 +51,7 @@
     "global": "グローバルデータ",
     "banner": "バナーの歴史",
     "banner_detail": "バナーの詳細",
-    "timeline": "タイムライン",
+    "timeline": "Banner Timeline",
     "outfit": "服装大全",
     "outfit_detail": "衣装の詳細",
     "item": "アイテム概要",
@@ -529,6 +529,9 @@
       "all_time": "オールタイム",
       "first_item_distribution_tooltip": "このバナーには、ゲーム内で利用できなくなった 180 日より古いプルが含まれています。その結果、最初のアイテム分布データは不正確になる可能性があります。"
     }
+  },
+  "timeline": {
+    "banner_timer": "Rerun timer: {days} days"
   },
   "faq": {
     "title": "よくある質問",

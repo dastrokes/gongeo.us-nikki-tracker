@@ -531,7 +531,17 @@
     }
   },
   "timeline": {
-    "banner_timer": "复刻计时：{days}天"
+    "banner_timer": "复刻计时：{days}天",
+    "run_gap": "间隔：{days}天",
+    "max_zoom": "缩放到最大",
+    "reset_zoom": "重置缩放",
+    "sort": {
+      "label": "时间轴排序",
+      "newest_first": "最新优先",
+      "oldest_first": "最早优先",
+      "longest_gap": "间隔最长优先",
+      "shortest_gap": "间隔最短优先"
+    }
   },
   "faq": {
     "title": "常见问题",

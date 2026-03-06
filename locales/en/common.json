@@ -51,7 +51,7 @@
     "global": "Global Data",
     "banner": "Banner History",
     "banner_detail": "Banner Detail",
-    "timeline": "Timeline",
+    "timeline": "Banner Timeline",
     "outfit": "Outfit Compendium",
     "outfit_detail": "Outfit Detail",
     "item": "Item Compendium",
@@ -529,6 +529,9 @@
       "all_time": "All Time",
       "first_item_distribution_tooltip": "This banner includes pulls older than 180 days, which are no longer available in game. As a result, the first item distribution data may be inaccurate."
     }
+  },
+  "timeline": {
+    "banner_timer": "Rerun timer: {days} days"
   },
   "faq": {
     "title": "Frequently Asked Questions",

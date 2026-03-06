@@ -169,7 +169,7 @@
     InfoCircle,
     Discord,
     Magic,
-    Poll,
+    AlignRight,
     Tshirt,
     ListAlt,
     SortAmountDown,
@@ -245,9 +245,9 @@
       icon: renderIcon(SortAmountDown),
     },
     {
-      label: t('navigation.vote'),
-      key: 'ranking',
-      icon: renderIcon(Poll),
+      label: t('navigation.timeline'),
+      key: 'timeline',
+      icon: renderIcon(AlignRight),
     },
     {
       label: t('navigation.faq'),

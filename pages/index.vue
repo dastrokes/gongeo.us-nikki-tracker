@@ -211,7 +211,7 @@
       size="small"
     >
       <div class="flex justify-center items-center flex-col mb-4 space-y-2">
-        <div class="text-2xl font-bold">
+        <div class="text-2xl font-bold flex items-center gap-1">
           <n-tooltip>
             <template #trigger>
               <n-button
@@ -230,6 +230,23 @@
             {{ $t('navigation.banner') }}
           </n-tooltip>
           {{ $t('default.current_banners') }}
+          <n-tooltip>
+            <template #trigger>
+              <n-button
+                size="small"
+                text
+                :aria-label="$t('navigation.timeline')"
+                @click="navigateTo(localePath('/timeline'))"
+              >
+                <template #icon>
+                  <n-icon>
+                    <AlignRight />
+                  </n-icon>
+                </template>
+              </n-button>
+            </template>
+            {{ $t('navigation.timeline') }}
+          </n-tooltip>
         </div>
       </div>
       <div
@@ -268,6 +285,7 @@
     Book,
     Globe,
     CalendarAlt,
+    AlignRight,
     Tshirt,
     ListAlt,
     QuestionCircle,

@@ -131,12 +131,13 @@ export default defineNuxtConfig({
 
   echarts: {
     renderer: 'canvas',
-    charts: ['BarChart', 'LineChart'],
+    charts: ['BarChart', 'LineChart', 'CustomChart'],
     components: [
       'TooltipComponent',
       'LegendComponent',
       'GridComponent',
       'TitleComponent',
+      'DataZoomComponent',
     ],
   },
 

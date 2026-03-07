@@ -532,15 +532,15 @@
   },
   "timeline": {
     "banner_timer": "Wiederholungs-Timer: {days} Tage",
-    "run_gap": "Gap: {days} days",
-    "max_zoom": "Zoom to max",
-    "reset_zoom": "Reset zoom",
+    "run_gap": "Lücke: {days} Tage",
+    "max_zoom": "Auf max. vergrößern",
+    "reset_zoom": "Vergrößerung zurücksetzen",
     "sort": {
-      "label": "Sort timeline",
-      "newest_first": "Newest first",
-      "oldest_first": "Oldest first",
-      "longest_gap": "Longest gap",
-      "shortest_gap": "Shortest gap"
+      "label": "Zeitleiste sortieren",
+      "newest_first": "Neueste zuerst",
+      "oldest_first": "Älteste zuerst",
+      "longest_gap": "Größte Lücke",
+      "shortest_gap": "Kleinste Lücke"
     }
   },
   "faq": {

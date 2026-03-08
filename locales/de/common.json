@@ -51,7 +51,7 @@
     "global": "Globale Daten",
     "banner": "Bannerverlauf",
     "banner_detail": "Bannerdetail",
-    "timeline": "Zeitleiste",
+    "timeline": "Banner-Zeitleiste",
     "outfit": "Outfit-Kompendium",
     "outfit_detail": "Outfit-Detail",
     "item": "Stück-Kompendium",
@@ -528,6 +528,19 @@
       "recent_only": "Neueste",
       "all_time": "Gesamt",
       "first_item_distribution_tooltip": "Dieses Banner enthält Resonanzen älter als 180 Tage, welche nicht mehr im Spiel verfügbar sind. Daher können die Daten der Erst-Stück-Verteilung ungenau sein."
+    }
+  },
+  "timeline": {
+    "banner_timer": "Wiederholungs-Timer: {days} Tage",
+    "run_gap": "Lücke: {days} Tage",
+    "max_zoom": "Auf max. vergrößern",
+    "reset_zoom": "Vergrößerung zurücksetzen",
+    "sort": {
+      "label": "Zeitleiste sortieren",
+      "newest_first": "Neueste zuerst",
+      "oldest_first": "Älteste zuerst",
+      "longest_gap": "Größte Lücke",
+      "shortest_gap": "Kleinste Lücke"
     }
   },
   "faq": {

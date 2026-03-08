@@ -51,7 +51,7 @@
     "global": "ข้อมูลทั่วโลก",
     "banner": "ประวัติแบนเนอร์",
     "banner_detail": "รายละเอียดแบนเนอร์",
-    "timeline": "ไทม์ไลน์",
+    "timeline": "Banner Timeline",
     "outfit": "บทสรุปการแต่งกาย",
     "outfit_detail": "รายละเอียดเครื่องแต่งกาย",
     "item": "บทสรุปรายการ",
@@ -528,6 +528,19 @@
       "recent_only": "ล่าสุด",
       "all_time": "ตลอดเวลา",
       "first_item_distribution_tooltip": "แบนเนอร์นี้รวมการดึงข้อมูลที่มีอายุมากกว่า 180 วัน ซึ่งไม่มีอยู่ในเกมอีกต่อไป ส่งผลให้ข้อมูลการกระจายสินค้ารายการแรกอาจไม่ถูกต้อง"
+    }
+  },
+  "timeline": {
+    "banner_timer": "Rerun timer: {days} days",
+    "run_gap": "Gap: {days} days",
+    "max_zoom": "Zoom to max",
+    "reset_zoom": "Reset zoom",
+    "sort": {
+      "label": "Sort timeline",
+      "newest_first": "Newest first",
+      "oldest_first": "Oldest first",
+      "longest_gap": "Longest gap",
+      "shortest_gap": "Shortest gap"
     }
   },
   "faq": {

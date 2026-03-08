@@ -51,7 +51,7 @@
     "global": "Datos globales",
     "banner": "Historia del banner",
     "banner_detail": "Detalle del banner",
-    "timeline": "Línea de tiempo",
+    "timeline": "Banner Timeline",
     "outfit": "Compendio de vestimenta",
     "outfit_detail": "Detalle del traje",
     "item": "Compendio de artículos",
@@ -528,6 +528,19 @@
       "recent_only": "Reciente",
       "all_time": "Todo el tiempo",
       "first_item_distribution_tooltip": "Este banner incluye extracciones de más de 180 días que ya no están disponibles en el juego. Como resultado, los datos de distribución del primer artículo pueden ser inexactos."
+    }
+  },
+  "timeline": {
+    "banner_timer": "Rerun timer: {days} days",
+    "run_gap": "Gap: {days} days",
+    "max_zoom": "Zoom to max",
+    "reset_zoom": "Reset zoom",
+    "sort": {
+      "label": "Sort timeline",
+      "newest_first": "Newest first",
+      "oldest_first": "Oldest first",
+      "longest_gap": "Longest gap",
+      "shortest_gap": "Shortest gap"
     }
   },
   "faq": {

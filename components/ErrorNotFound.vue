@@ -1,8 +1,8 @@
 <template>
-  <div class="flex min-h-[calc(100vh-16rem)] items-center justify-center">
+  <div class="flex min-h-[calc(100vh-24rem)] items-center justify-center">
     <n-result
-      class="w-full max-w-xs"
       size="small"
+      class="w-full max-w-xs"
       status="info"
       :title="$t('error.404')"
       :description="$t('error.notFound')"
@@ -10,9 +10,9 @@
       <template #icon>
         <NuxtImg
           :src="getImageSrc('static', '/images/emotes/think.webp')"
-          class="mx-auto w-32 h-32 sm:w-48 sm:h-48 object-cover"
-          width="400"
-          height="400"
+          class="mx-auto w-24 h-24 sm:w-32 sm:h-32 object-cover"
+          width="200"
+          height="200"
           fit="cover"
           sizes="160px sm:200px"
         />

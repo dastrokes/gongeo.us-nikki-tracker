@@ -84,7 +84,7 @@
 
         <!-- ── Site Footer ── -->
         <n-layout-footer
-          class="mt-12 border-t border-gray-200/60 dark:border-white/8 bg-gradient-to-r from-[#f5f0fa]/80 via-[#fff0f5]/80 to-[#fffacd]/50 dark:from-[#1a1b2e]/80 dark:via-[#2d1b36]/80 dark:to-[#3d1b2e]/50 backdrop-blur-sm"
+          class="mt-12 border-t border-gray-400/20 dark:border-white/8 bg-gradient-to-r from-[#f5f0fa]/80 via-[#fff0f5]/80 to-[#fffacd]/50 dark:from-[#1a1b2e]/80 dark:via-[#2d1b36]/80 dark:to-[#3d1b2e]/50 backdrop-blur-sm"
         >
           <div class="max-w-5xl mx-auto p-4">
             <!-- Main footer content -->

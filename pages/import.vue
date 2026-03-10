@@ -745,6 +745,7 @@
       class="rounded-xl p-0 sm:p-2"
     >
       <n-result
+        size="small"
         status="warning"
         :title="$t('import.maintenance.title')"
         :description="
@@ -757,9 +758,9 @@
           <NuxtImg
             :src="getImageSrc('static', '/images/emotes/note.webp')"
             :alt="$t('import.maintenance.title')"
-            class="mx-auto w-32 h-32 sm:w-48 sm:h-48 object-cover"
-            width="400"
-            height="400"
+            class="mx-auto w-24 h-24 sm:w-32 sm:h-32 object-cover"
+            width="200"
+            height="200"
             fit="cover"
             sizes="160px sm:200px"
           />
@@ -872,7 +873,7 @@
   const showBilibiliModal = ref(false)
 
   // TODO: toggle maintenance
-  const isMaintenance = ref(true)
+  const isMaintenance = ref(false)
 
   useSeoMeta({
     title: () =>

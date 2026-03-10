@@ -61,6 +61,9 @@
     "vote": "Pemungutan Suara Spanduk",
     "faq": "Pertanyaan Umum",
     "about": "Tentang",
+    "official_website": "Official Website",
+    "join_community": "Join Community",
+    "support_website": "Support Website",
     "nuan5pro": "Nuan5.Pro"
   },
   "meta": {
@@ -88,8 +91,11 @@
   "default": {
     "description": "Lacak Riwayat dan Statistik Resonansi Infinity Nikki",
     "your_data": "Data Anda",
+    "community_stats": "Community Stats",
+    "view_all_stats": "View All Stats",
     "current_banners": "Spanduk Saat Ini",
     "rerun": "Memutarkan lagi",
+    "built_with": "This site is powered by",
     "copyright": "© 2026 gongeo.us • © Infold Games Semua Hak Dilindungi Undang-Undang",
     "disclaimer": {
       "content": "Ini adalah situs web tidak resmi buatan penggemar, tidak berafiliasi atau didukung oleh Infold Games.",

@@ -61,6 +61,9 @@
     "vote": "배너 투표",
     "faq": "자주 묻는 질문",
     "about": "대해서요",
+    "official_website": "Official Website",
+    "join_community": "Join Community",
+    "support_website": "Support Website",
     "nuan5pro": "Nuan5.Pro"
   },
   "meta": {
@@ -88,8 +91,11 @@
   "default": {
     "description": "인피니티 니키 공명 역사 및 통계 추적",
     "your_data": "당신의 데이터",
+    "community_stats": "Community Stats",
+    "view_all_stats": "View All Stats",
     "current_banners": "현재 배너",
     "rerun": "재방송",
+    "built_with": "This site is powered by",
     "copyright": "© 2026 gongeo.us • © Infold Games 판권 소유",
     "disclaimer": {
       "content": "이것은 Infold Games와 제휴하거나 승인하지 않은 비공식 팬 제작 웹사이트입니다.",

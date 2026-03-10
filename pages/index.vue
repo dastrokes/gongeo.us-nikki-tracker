@@ -1,286 +1,356 @@
 <template>
-  <div class="max-w-7xl mx-auto space-y-2 sm:space-y-4">
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-2 sm:gap-4">
-      <!-- Main Title and Buttons Card -->
+  <div class="landing-page max-w-7xl mx-auto space-y-4 sm:space-y-8">
+    <!-- ═══ Hero Section ═══ -->
+    <section class="hero-section text-center py-4 sm:py-8">
+      <div class="flex items-center gap-4 flex-row justify-center mb-4">
+        <div
+          class="flex h-12 w-12 sm:h-16 sm:w-16 shrink-0 items-center justify-center rounded-2xl bg-white/60 p-2 shadow-md ring-1 ring-purple-200/50 dark:bg-slate-800/60 dark:ring-purple-600/30 backdrop-blur-sm"
+        >
+          <NuxtImg
+            src="images/logo.webp"
+            width="80"
+            height="80"
+            fit="cover"
+            loading="eager"
+            fetchpriority="high"
+            class="h-full w-full"
+          />
+        </div>
+        <div class="text-left">
+          <p
+            class="text-xs font-semibold uppercase tracking-widest text-rose-500/80 dark:text-rose-300/80"
+          >
+            {{ $t('meta.game_title') }}
+          </p>
+          <p class="text-2xl sm:text-3xl font-black leading-tight">
+            {{ $t('navigation.title') }}
+          </p>
+        </div>
+      </div>
+      <h1
+        class="text-2xl sm:text-4xl font-extrabold mb-3 bg-gradient-to-r from-[#c084fc] via-[#f472b6] to-[#fb923c] bg-clip-text text-transparent dark:from-[#a78bfa] dark:via-[#f9a8d4] dark:to-[#fdba74]"
+      >
+        {{ $t('navigation.subtitle') }}
+      </h1>
+      <p
+        class="text-gray-600 dark:text-gray-300 text-base sm:text-lg max-w-xl mx-auto mb-6"
+      >
+        {{ $t('default.description') }}
+      </p>
+      <div class="flex gap-4 justify-center items-center flex-wrap">
+        <n-button
+          type="primary"
+          size="large"
+          class="relative overflow-hidden after:content-[''] after:absolute after:inset-y-0 after:-left-full after:w-[60%] after:bg-gradient-to-r after:from-transparent after:via-white/15 after:to-transparent after:animate-button-shimmer motion-reduce:after:animate-none"
+          @click="navigateTo(localePath('/tracker'))"
+        >
+          <template #icon>
+            <n-icon><Book /></n-icon>
+          </template>
+          {{ $t('default.your_data') }}
+        </n-button>
+        <n-button
+          type="primary"
+          size="large"
+          class="relative overflow-hidden after:content-[''] after:absolute after:inset-y-0 after:-left-full after:w-[60%] after:bg-gradient-to-r after:from-transparent after:via-white/15 after:to-transparent after:animate-button-shimmer motion-reduce:after:animate-none"
+          @click="navigateTo(localePath('/global'))"
+        >
+          <template #icon>
+            <n-icon><Globe /></n-icon>
+          </template>
+          {{ $t('navigation.global') }}
+        </n-button>
+      </div>
+      <div class="mt-6 flex max-w-full flex-wrap justify-center gap-2">
+        <button
+          type="button"
+          class="inline-flex items-center gap-2 rounded-full border border-white/45 bg-white/55 px-3 py-1 text-xs font-semibold text-slate-700 shadow-sm backdrop-blur-md transition-all duration-200 hover:-translate-y-0.5 hover:bg-white/70 hover:shadow-md dark:border-white/10 dark:bg-slate-950/35 dark:text-slate-100 dark:hover:bg-slate-900/50"
+          @click="scrollToSection(bannersSectionRef)"
+        >
+          <n-icon><CalendarAlt /></n-icon>
+          {{ $t('default.current_banners') }}
+        </button>
+        <button
+          type="button"
+          class="inline-flex items-center gap-2 rounded-full border border-white/45 bg-white/55 px-3 py-1 text-xs font-semibold text-slate-700 shadow-sm backdrop-blur-md transition-all duration-200 hover:-translate-y-0.5 hover:bg-white/70 hover:shadow-md dark:border-white/10 dark:bg-slate-950/35 dark:text-slate-100 dark:hover:bg-slate-900/50"
+          @click="scrollToSection(compendiumSectionRef)"
+        >
+          <n-icon><ListAlt /></n-icon>
+          {{ $t('navigation.compendium') }}
+        </button>
+        <button
+          type="button"
+          class="inline-flex items-center gap-2 rounded-full border border-white/45 bg-white/55 px-3 py-1 text-xs font-semibold text-slate-700 shadow-sm backdrop-blur-md transition-all duration-200 hover:-translate-y-0.5 hover:bg-white/70 hover:shadow-md dark:border-white/10 dark:bg-slate-950/35 dark:text-slate-100 dark:hover:bg-slate-900/50"
+          @click="scrollToSection(statsSectionRef)"
+        >
+          <n-icon><Globe /></n-icon>
+          {{ $t('default.community_stats') }}
+        </button>
+      </div>
+    </section>
+
+    <!-- ═══ Current Banners ═══ -->
+    <section
+      ref="bannersSectionRef"
+      class="animate-fade-in-up motion-reduce:animate-none"
+      style="animation-delay: 0.24s"
+    >
       <n-card
         size="small"
         class="rounded-xl p-0 sm:p-2"
       >
-        <div class="flex flex-1 flex-col gap-4 items-center text-center">
-          <div class="flex items-center gap-4 flex-row">
-            <div
-              class="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-white/80 p-2 shadow-sm ring-1 ring-sky-200/70 dark:bg-slate-800/80 dark:ring-slate-600/70"
-            >
-              <NuxtImg
-                src="images/logo.webp"
-                width="64"
-                height="64"
-                fit="cover"
-                class="h-full w-full"
-              />
-            </div>
-            <div>
-              <p
-                class="text-xs font-semibold uppercase tracking-[0.2em] text-sky-600/80 dark:text-cyan-200/80"
-              >
-                {{ $t('meta.game_title') }}
-              </p>
-              <n-h2 class="m-1 text-2xl font-black leading-tight">
-                {{ $t('navigation.title') }}
-              </n-h2>
-            </div>
-          </div>
+        <div class="text-center mb-4">
           <n-h2 class="!m-0 font-bold">
-            {{ $t('navigation.subtitle') }}
+            {{ $t('default.current_banners') }}
           </n-h2>
-          <n-h3 class="!m-0 text-gray-600 dark:text-gray-300">
-            {{ $t('default.description') }}
-          </n-h3>
         </div>
         <div
-          class="flex gap-4 opacity-90 justify-center items-center flex-wrap mt-8"
+          v-if="bannerGroups.length > 0"
+          class="flex flex-col sm:flex-row gap-4"
         >
-          <n-button
-            type="primary"
-            size="medium"
-            @click="navigateTo(localePath('/tracker'))"
+          <div
+            v-for="group in bannerGroups"
+            :key="group.key"
+            class="w-full sm:w-1/2 aspect-[2/1]"
+            :class="bannerGroups.length === 1 ? 'sm:mx-auto' : ''"
           >
-            <template #icon>
-              <n-icon>
-                <Book />
-              </n-icon>
-            </template>
-            {{ $t('default.your_data') }}
-          </n-button>
-          <n-button
-            type="primary"
-            size="medium"
-            @click="navigateTo(localePath('/global'))"
-          >
-            <template #icon>
-              <n-icon>
-                <Globe />
-              </n-icon>
-            </template>
-            {{ $t('navigation.global') }}
-          </n-button>
+            <BannerCarousel
+              :banners="group.banners"
+              :target-time="group.targetTime"
+            />
+          </div>
         </div>
       </n-card>
-
+    </section>
+    <!-- ═══ Compendium Section ═══ -->
+    <section
+      ref="compendiumSectionRef"
+      class="animate-fade-in-up motion-reduce:animate-none"
+      style="animation-delay: 0.48s"
+    >
       <n-card
         size="small"
         class="rounded-xl p-0 sm:p-2"
       >
-        <div class="text-center">
+        <div class="text-center mb-4">
           <n-h2 class="!m-0 font-bold">
             {{ $t('meta.game_title') }} {{ $t('navigation.compendium') }}
           </n-h2>
         </div>
-        <div class="flex flex-col gap-2 items-center mt-2">
-          <n-button-group>
-            <n-button
-              tertiary
-              type="primary"
-              size="medium"
-              @click="navigateTo(localePath('/banners'))"
+
+        <!-- Compendium Grid -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
+          <button
+            v-for="item in compendiumItems"
+            :key="item.key"
+            class="flex flex-col items-center justify-center p-6 rounded-xl bg-gradient-to-br from-[#e8ddf9]/30 to-[#fce4ec]/30 border border-black/[0.04] cursor-pointer transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(244,63,94,0.1)] group dark:from-[#1e1b4b]/40 dark:to-[#581c64]/30 dark:border-white/[0.05] dark:hover:shadow-[0_6px_20px_rgba(168,85,247,0.12)]"
+            @click="navigateTo(localePath(item.path))"
+          >
+            <n-icon
+              :size="28"
+              class="mb-2 text-rose-500 dark:text-rose-400 group-hover:scale-110 transition-transform"
             >
-              <template #icon>
-                <n-icon>
-                  <CalendarAlt />
-                </n-icon>
-              </template>
-              {{ $t('common.banners') }}
-            </n-button>
-            <n-button
-              tertiary
-              type="primary"
-              size="medium"
-              @click="navigateTo(localePath('/outfits'))"
-            >
-              <template #icon>
-                <n-icon>
-                  <Tshirt />
-                </n-icon>
-              </template>
-              {{ $t('common.outfits') }}
-            </n-button>
-            <n-button
-              tertiary
-              type="primary"
-              size="medium"
-              @click="navigateTo(localePath('/items'))"
-            >
-              <template #icon>
-                <n-icon>
-                  <ListAlt />
-                </n-icon>
-              </template>
-              {{ $t('common.items') }}
-            </n-button>
-          </n-button-group>
+              <component :is="item.icon" />
+            </n-icon>
+            <span class="text-sm font-semibold">{{ $t(item.label) }}</span>
+          </button>
         </div>
-        <div class="flex justify-center mt-4">
-          <ClientOnly>
-            <div class="grid grid-cols-2 gap-2 w-full">
+
+        <!-- Tier List & Quiz Row -->
+        <div class="grid grid-cols-2 gap-3">
+          <!-- Tier List Preview -->
+          <NuxtLink
+            class="relative flex items-center justify-center h-36 w-full rounded-lg border border-gray-200/70 dark:border-gray-700/70 bg-gradient-to-b from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900 overflow-hidden cursor-pointer group"
+            :to="localePath('/tierlist')"
+          >
+            <div
+              class="h-full rounded-md backdrop-blur-[1px] p-2 flex flex-col gap-1.5"
+            >
               <div
-                class="relative inline-flex items-center justify-center h-36 w-full rounded-lg border border-gray-200/70 dark:border-gray-700/70 bg-gradient-to-b from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900 overflow-hidden"
+                v-for="(row, rowIndex) in tierPreviewRows"
+                :key="`tier-preview-row-${rowIndex}`"
+                class="flex items-center"
               >
-                <div
-                  class="h-full rounded-md backdrop-blur-[1px] p-2 flex flex-col gap-1"
-                >
+                <div class="flex-1 flex gap-1.5">
                   <div
-                    v-for="(row, rowIndex) in tierPreviewRows"
-                    :key="`tier-preview-row-${rowIndex}`"
-                    class="flex items-center gap-1"
-                  >
-                    <div class="flex-1 flex gap-1">
-                      <div
-                        v-for="(chipClass, chipIndex) in row"
-                        :key="`tier-preview-chip-${rowIndex}-${chipIndex}`"
-                        class="h-3 w-3 shrink-0 rounded-[3px]"
-                        :class="chipClass"
-                      ></div>
-                    </div>
-                  </div>
-                </div>
-                <div class="absolute bottom-2 left-2 right-2">
-                  <n-button
-                    tertiary
-                    type="primary"
-                    size="small"
-                    class="shadow-sm !w-full"
-                    @click="navigateTo(localePath('/tierlist'))"
-                  >
-                    <template #icon>
-                      <n-icon>
-                        <SortAmountDown />
-                      </n-icon>
-                    </template>
-                    {{ $t('navigation.tierlist') }}
-                  </n-button>
-                </div>
-              </div>
-              <div
-                class="relative inline-flex items-center justify-center h-36 w-full rounded-lg border border-gray-200/70 dark:border-gray-700/70 bg-gradient-to-b from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900 overflow-hidden"
-              >
-                <div class="h-full aspect-[2/3]">
-                  <NuxtImg
-                    :src="getImageSrc('outfit', featuredOutfitId)"
-                    width="160"
-                    height="240"
-                    fit="cover"
-                    preset="tallSm"
-                    class="h-full w-full max-w-full"
-                    :style="silhouetteStyle"
+                    v-for="(chipClass, chipIndex) in row"
+                    :key="`tier-preview-chip-${rowIndex}-${chipIndex}`"
+                    class="h-4 w-4 shrink-0 rounded-[3px]"
+                    :class="chipClass"
                   />
-                </div>
-                <div class="absolute bottom-2 left-2 right-2">
-                  <n-button
-                    tertiary
-                    type="primary"
-                    size="small"
-                    class="shadow-sm !w-full"
-                    @click="navigateTo(localePath('/quiz'))"
-                  >
-                    <template #icon>
-                      <n-icon>
-                        <QuestionCircle />
-                      </n-icon>
-                    </template>
-                    {{ $t('quiz.title') }}
-                  </n-button>
                 </div>
               </div>
             </div>
-            <template #fallback>
-              <div class="grid grid-cols-2 gap-2 w-full">
-                <div
-                  class="h-36 w-full rounded-lg bg-gray-100 dark:bg-gray-800"
-                />
-                <div
-                  class="h-36 w-full rounded-lg bg-gray-100 dark:bg-gray-800"
-                />
+            <div class="absolute bottom-2 left-2 right-2">
+              <div
+                class="flex w-full items-center justify-center gap-1 rounded-md border border-white/60 bg-white/80 px-3 py-1.5 text-sm font-medium text-rose-500 shadow-sm backdrop-blur-sm pointer-events-none dark:border-white/10 dark:bg-slate-900/70 dark:text-rose-300"
+              >
+                <n-icon><SortAmountDown /></n-icon>
+                <span>{{ $t('navigation.tierlist') }}</span>
               </div>
-            </template>
-          </ClientOnly>
+            </div>
+          </NuxtLink>
+
+          <!-- Outfit Silhouette Quiz -->
+          <NuxtLink
+            class="relative flex items-center justify-center h-36 w-full rounded-lg border border-gray-200/70 dark:border-gray-700/70 bg-gradient-to-b from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900 overflow-hidden cursor-pointer group"
+            :to="localePath('/quiz')"
+          >
+            <div class="h-full aspect-[2/3] shrink-0 p-1">
+              <NuxtImg
+                :src="getImageSrc('outfit', featuredOutfitId)"
+                width="40"
+                height="60"
+                quality="1"
+                fit="cover"
+                loading="lazy"
+                class="h-full w-full max-w-full"
+                :style="silhouetteStyle"
+              />
+            </div>
+            <div class="absolute bottom-2 left-2 right-2">
+              <div
+                class="flex w-full items-center justify-center gap-1 rounded-md border border-white/60 bg-white/80 px-3 py-1.5 text-sm font-medium text-rose-500 shadow-sm backdrop-blur-sm pointer-events-none dark:border-white/10 dark:bg-slate-900/70 dark:text-rose-300"
+              >
+                <n-icon><PuzzlePiece /></n-icon>
+                <span>{{ $t('quiz.title') }}</span>
+              </div>
+            </div>
+          </NuxtLink>
         </div>
       </n-card>
-    </div>
-    <n-card
-      class="rounded-xl"
-      size="small"
+    </section>
+
+    <!-- ═══ Community Stats ═══ -->
+    <section
+      ref="statsSectionRef"
+      class="animate-fade-in-up motion-reduce:animate-none"
+      style="animation-delay: 0.96s"
     >
-      <div class="flex justify-center items-center flex-col mb-4 space-y-2">
-        <div class="text-2xl font-bold flex items-center gap-1">
-          <n-tooltip>
-            <template #trigger>
-              <n-button
-                size="small"
-                text
-                :aria-label="$t('navigation.banner')"
-                @click="navigateTo(localePath('/banners'))"
-              >
-                <template #icon>
-                  <n-icon>
-                    <CalendarAlt />
-                  </n-icon>
-                </template>
-              </n-button>
-            </template>
-            {{ $t('navigation.banner') }}
-          </n-tooltip>
-          {{ $t('default.current_banners') }}
-          <n-tooltip>
-            <template #trigger>
-              <n-button
-                size="small"
-                text
-                :aria-label="$t('navigation.timeline')"
-                @click="navigateTo(localePath('/timeline'))"
-              >
-                <template #icon>
-                  <n-icon>
-                    <AlignRight />
-                  </n-icon>
-                </template>
-              </n-button>
-            </template>
-            {{ $t('navigation.timeline') }}
-          </n-tooltip>
-        </div>
-      </div>
-      <div
-        v-if="leftBanners.length > 0"
-        class="flex flex-col sm:flex-row gap-4"
+      <n-card
+        size="small"
+        class="rounded-xl p-0 sm:p-2"
       >
-        <div
-          class="w-full sm:w-1/2 aspect-[2/1]"
-          :class="[rightBanners.length > 0 ? '' : 'sm:mx-auto']"
-        >
-          <BannerCarousel
-            v-model:current-index="indexA"
-            :banners="leftBanners"
-            :target-time="leftTargetTime"
-          />
+        <div class="text-center mb-4">
+          <n-h2 class="!m-0 font-bold">
+            {{ $t('default.community_stats') }}
+          </n-h2>
         </div>
         <div
-          v-if="rightBanners.length > 0"
-          class="w-full sm:w-1/2 aspect-[2/1]"
+          class="grid grid-cols-1 gap-3 lg:grid-cols-[minmax(0,300px)_minmax(0,1fr)]"
         >
-          <BannerCarousel
-            v-model:current-index="indexB"
-            :banners="rightBanners"
-            :target-time="rightTargetTime"
-          />
+          <div class="flex flex-col gap-3">
+            <div class="grid grid-cols-2 gap-3 text-center lg:grid-cols-1">
+              <div class="p-3 rounded-xl bg-[#e8ddf9]/15 dark:bg-[#1e1b4b]/25">
+                <div class="text-sm text-gray-400 mb-1">
+                  {{ $t('global.stats.total_pulls') }}
+                </div>
+                <div
+                  class="text-xl sm:text-2xl font-bold tabular-nums min-h-[1.75rem] sm:min-h-[2rem]"
+                >
+                  <n-number-animation
+                    v-if="globalStats"
+                    show-separator
+                    :from="0"
+                    :to="globalStats.pulls ?? 0"
+                    :duration="5000"
+                  />
+                  <n-skeleton
+                    v-else-if="globalStatsStatus !== 'error'"
+                    text
+                    round
+                    class="w-24 sm:w-32 mx-auto"
+                  />
+                  <span v-else>—</span>
+                </div>
+              </div>
+              <div class="p-3 rounded-xl bg-[#e8ddf9]/15 dark:bg-[#1e1b4b]/25">
+                <div class="text-sm text-gray-400 mb-1">
+                  {{ $t('global.stats.unique_users') }}
+                </div>
+                <div
+                  class="text-xl sm:text-2xl font-bold tabular-nums min-h-[1.75rem] sm:min-h-[2rem]"
+                >
+                  <n-number-animation
+                    v-if="globalStats"
+                    show-separator
+                    :from="0"
+                    :to="globalStats.users ?? 0"
+                    :duration="3000"
+                  />
+                  <n-skeleton
+                    v-else-if="globalStatsStatus !== 'error'"
+                    text
+                    round
+                    class="w-16 sm:w-20 mx-auto"
+                  />
+                  <span v-else>—</span>
+                </div>
+              </div>
+            </div>
+            <div class="flex justify-center">
+              <n-button
+                type="primary"
+                quaternary
+                size="medium"
+                class="min-w-40"
+                @click="navigateTo(localePath('/global'))"
+              >
+                {{ $t('default.view_all_stats') }} →
+              </n-button>
+            </div>
+          </div>
+          <div
+            class="rounded-xl bg-[#e8ddf9]/15 p-2 lg:p-4 dark:bg-[#1e1b4b]/25"
+          >
+            <div
+              v-if="globalStats"
+              :style="{ height: communityFirstItemChartHeight }"
+            >
+              <VChart
+                :option="communityFirstItemChartOption"
+                autoresize
+              />
+            </div>
+            <div
+              v-else-if="globalStatsStatus !== 'error'"
+              :style="{ height: communityFirstItemChartHeight }"
+              class="flex flex-col justify-end"
+            >
+              <div class="grid flex-1 grid-cols-10 items-end gap-4 lg:gap-8">
+                <div
+                  v-for="(height, index) in communityFirstItemSkeletonHeights"
+                  :key="`community-first-item-skeleton-bar-${index}`"
+                  class="flex min-w-0 items-end"
+                  :style="{ height: `${height}%` }"
+                >
+                  <n-skeleton class="h-full w-full rounded-md" />
+                </div>
+              </div>
+            </div>
+            <div
+              v-else
+              class="flex h-[140px] items-center justify-center text-xl text-gray-400"
+            >
+              —
+            </div>
+          </div>
         </div>
-      </div>
-    </n-card>
+      </n-card>
+    </section>
   </div>
 </template>
 
 <script setup lang="ts">
+  import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
+  import { useThemeVars } from 'naive-ui'
   import { BANNER_DATA } from '~/data/banners'
+  import OUTFIT_DATA, { type OutfitKey } from '~/data/outfits'
   import type { Banner } from '~/types/banner'
+  import type {
+    FirstItemDistribution,
+    GlobalBootstrapData,
+  } from '~/types/global'
   import {
     Book,
     Globe,
@@ -288,23 +358,124 @@
     AlignRight,
     Tshirt,
     ListAlt,
-    QuestionCircle,
+    PuzzlePiece,
     SortAmountDown,
   } from '@vicons/fa'
-  import OUTFIT_DATA, { type OutfitKey } from '~/data/outfits'
 
   const { t } = useI18n()
   const { getImageSrc } = imageProvider()
+  const nuxtImg = useImage()
   const { isDark } = useTheme()
+  const palette = usePalette()
+  const themeVars = useThemeVars()
+  const breakpoints = useBreakpoints(breakpointsTailwind)
   const localePath = useLocalePath()
-  const outfitKeys = Object.keys(OUTFIT_DATA) as OutfitKey[]
-  const featuredOutfitId = ref<OutfitKey>(outfitKeys[0] ?? '10001')
+  const bannersSectionRef = ref<HTMLElement | null>(null)
+  const compendiumSectionRef = ref<HTMLElement | null>(null)
+  const statsSectionRef = ref<HTMLElement | null>(null)
 
-  onMounted(() => {
-    if (outfitKeys.length === 0) return
-    const index = Math.floor(Math.random() * outfitKeys.length)
-    featuredOutfitId.value = outfitKeys[index] ?? '10001'
+  const scrollToSection = (sectionElement: HTMLElement | null) => {
+    if (!import.meta.client || !sectionElement) return
+
+    const scrollContainer = sectionElement.closest(
+      '.n-scrollbar-content'
+    )?.parentElement
+
+    if (!scrollContainer) {
+      sectionElement.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      })
+      return
+    }
+
+    const top =
+      sectionElement.getBoundingClientRect().top -
+      scrollContainer.getBoundingClientRect().top +
+      scrollContainer.scrollTop -
+      12
+
+    scrollContainer.scrollTo({
+      top: Math.max(0, top),
+      behavior: 'smooth',
+    })
+  }
+
+  const chartTooltipExtraCssText = computed(
+    () => `box-shadow: ${themeVars.value.boxShadow2}; border-radius: 8px;`
+  )
+
+  const getChartTextStyle = () => {
+    return {
+      fontFamily:
+        "'Outfit', ui-sans-serif, system-ui, sans-serif, 'Noto Color Emoji', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'",
+      color: isDark.value ? palette.textDark : palette.textLight,
+    }
+  }
+
+  // ── Compendium items ───────────────────────────
+  const compendiumItems = [
+    {
+      key: 'banners',
+      path: '/banners',
+      icon: CalendarAlt,
+      label: 'common.banners',
+    },
+    { key: 'outfits', path: '/outfits', icon: Tshirt, label: 'common.outfits' },
+    { key: 'items', path: '/items', icon: ListAlt, label: 'common.items' },
+    {
+      key: 'timeline',
+      path: '/timeline',
+      icon: AlignRight,
+      label: 'navigation.timeline',
+    },
+  ] as const
+
+  // ── Current banners ────────────────────────────
+  interface BannerGroup {
+    key: string
+    banners: Banner[]
+    targetTime: Date
+  }
+
+  const createBannerGroup = (
+    key: string,
+    bannerIds: number[],
+    targetTime: string
+  ): BannerGroup => ({
+    key,
+    banners: bannerIds
+      .map((bannerId) => BANNER_DATA[bannerId])
+      .filter((banner): banner is Banner => Boolean(banner)),
+    targetTime: new Date(targetTime),
   })
+
+  // TODO: update to current banner id
+  const bannerGroups: BannerGroup[] = [
+    createBannerGroup('left', [53], '2026-03-26T20:00:00Z'),
+    createBannerGroup('right', [12, 15], '2026-03-15T20:00:00Z'),
+  ].filter((group) => group.banners.length > 0)
+
+  const currentBanners = bannerGroups.flatMap((group) => group.banners)
+  const newCurrentBanners = currentBanners.filter(
+    (banner) => banner.runs.length === 1
+  )
+  const featuredCurrentBanners =
+    newCurrentBanners.length > 0 ? newCurrentBanners : currentBanners
+
+  // ── Outfit silhouette ──────────────────────────
+  const outfitKeys = featuredCurrentBanners.flatMap((banner) => [
+    ...banner.outfit5StarId,
+    ...banner.outfit4StarId,
+  ]) as OutfitKey[]
+
+  const featuredOutfitId = useState<OutfitKey>(
+    'landing-featured-outfit-id',
+    () => {
+      const index = Math.floor(Math.random() * outfitKeys.length)
+      return outfitKeys[index] as OutfitKey
+    }
+  )
 
   const silhouetteStyle = computed(() => {
     const glow = isDark.value
@@ -315,6 +486,7 @@
     }
   })
 
+  // ── Tier preview ───────────────────────────────
   const tierPreviewRows = [
     [
       'bg-red-500/90',
@@ -365,7 +537,269 @@
     ],
   ] as const
 
-  // SEO
+  // ── Community stats (from /api/global) ─────────
+  interface ChartFormatterParam {
+    data?: {
+      itemId?: string
+      value: number
+      percentage: string
+    }
+  }
+
+  interface SelectedBannerOutfit {
+    quality: '4' | '5'
+    outfitId: OutfitKey
+  }
+
+  const communityFirstItemSkeletonHeights = [
+    80, 80, 80, 80, 60, 60, 60, 60, 40, 40,
+  ] as const
+
+  const fetchGlobalData = () =>
+    $fetch<GlobalBootstrapData | null>('/api/global')
+
+  const globalDataOptions = {
+    default: () => null,
+    server: false,
+    lazy: true,
+  }
+
+  const { data: globalStats, status: globalStatsStatus } =
+    useAsyncData<GlobalBootstrapData | null>(
+      'global-data',
+      fetchGlobalData,
+      globalDataOptions
+    )
+
+  const hasOutfit = (id: string): id is OutfitKey =>
+    Object.prototype.hasOwnProperty.call(OUTFIT_DATA, id)
+
+  const communityFirstItemBanner = computed(() => {
+    const bootstrapBannerId = globalStats.value?.bannerId
+    if (bootstrapBannerId) {
+      const matchingBanner = featuredCurrentBanners.find(
+        (banner) => banner.bannerId === bootstrapBannerId
+      )
+      if (matchingBanner) return matchingBanner
+
+      const bootstrapBanner = BANNER_DATA[bootstrapBannerId]
+      if (bootstrapBanner) return bootstrapBanner
+    }
+
+    return featuredCurrentBanners[0] ?? null
+  })
+
+  const communitySelectedOutfit = computed<SelectedBannerOutfit | null>(() => {
+    const banner = communityFirstItemBanner.value
+    if (!banner) return null
+
+    const firstFiveStarId = banner.outfit5StarId[0]
+    if (firstFiveStarId && hasOutfit(firstFiveStarId)) {
+      return {
+        quality: '5',
+        outfitId: firstFiveStarId,
+      }
+    }
+
+    const firstFourStarId = banner.outfit4StarId[0]
+    if (firstFourStarId && hasOutfit(firstFourStarId)) {
+      return {
+        quality: '4',
+        outfitId: firstFourStarId,
+      }
+    }
+
+    return null
+  })
+
+  const communityFirstItemEntries = computed<FirstItemDistribution[string]>(
+    () => {
+      const banner = communityFirstItemBanner.value
+      const selectedOutfit = communitySelectedOutfit.value
+      const distribution = globalStats.value?.f
+
+      if (!banner || !selectedOutfit || !distribution) return []
+
+      let dataKey = banner.bannerId.toString()
+      if (banner.bannerType === 2 && selectedOutfit.quality === '4') {
+        dataKey = `${banner.bannerId}_4`
+      }
+
+      const bannerItems = distribution[dataKey]
+      if (!bannerItems || bannerItems.length === 0) return []
+
+      const outfitItems = OUTFIT_DATA[selectedOutfit.outfitId].items
+      const bannerItemsMap = new Map(bannerItems.map((item) => [item.i, item]))
+      const outfitItemsSet = new Set(outfitItems)
+
+      const completeBannerItems = outfitItems.length
+        ? [
+            ...outfitItems.map((itemId) => ({
+              o: bannerItemsMap.get(itemId)?.o ?? 0,
+              i: itemId,
+            })),
+            ...bannerItems.filter((item) => !outfitItemsSet.has(item.i)),
+          ]
+        : [...bannerItems]
+
+      completeBannerItems.sort((a, b) => b.o - a.o)
+      return completeBannerItems
+    }
+  )
+
+  const communityFirstItemImageSize = computed(() =>
+    breakpoints.greater('sm').value ? 60 : 32
+  )
+  const communityFirstItemImageRequestSize = computed(() =>
+    breakpoints.greater('sm').value ? 120 : 60
+  )
+
+  const communityFirstItemChartHeight = computed(() => '200px')
+
+  const communityFirstItemChartOption = computed(() => {
+    const chartItems = communityFirstItemEntries.value
+    if (chartItems.length === 0) return {}
+
+    const textStyle = getChartTextStyle()
+    const imageSize = communityFirstItemImageSize.value
+    const imageRequestSize = communityFirstItemImageRequestSize.value
+    const occurrenceValues = chartItems.map((item) => item.o)
+    const minOccurrence = Math.min(...occurrenceValues)
+    const maxOccurrence = Math.max(...occurrenceValues)
+    const totalOccurrences = chartItems.reduce((sum, item) => sum + item.o, 0)
+    const colorShades = isDark.value
+      ? ['#6366F1', '#818CF8', '#A5B4FC']
+      : ['#4338CA', '#4F46E5', '#8B5CF6']
+    const pickColor = (value: number) => {
+      const ratio =
+        maxOccurrence === minOccurrence
+          ? 0.5
+          : (value - minOccurrence) / (maxOccurrence - minOccurrence)
+      const index = Math.round(ratio * (colorShades.length - 1))
+      return `${colorShades[index]}80`
+    }
+
+    const dataArr = chartItems.map((item) => ({
+      value: item.o,
+      percentage:
+        totalOccurrences > 0
+          ? ((item.o / totalOccurrences) * 100).toFixed(2)
+          : '0.00',
+      itemId: item.i,
+      itemStyle: {
+        color: pickColor(item.o),
+      },
+    }))
+    const itemsData = chartItems.map((item) => item.i)
+    const richLabels: Record<
+      string,
+      {
+        height: number
+        width: number
+        backgroundColor: { image: string }
+        align: string
+      }
+    > = {}
+
+    itemsData.forEach((itemId) => {
+      richLabels[`img${itemId}`] = {
+        height: imageSize,
+        width: imageSize,
+        backgroundColor: {
+          image: nuxtImg(getImageSrc('itemIcon', itemId), {
+            width: imageRequestSize,
+            height: imageRequestSize,
+            quality: 80,
+            format: 'webp',
+          }),
+        },
+        align: 'center',
+      }
+    })
+
+    return {
+      animationDuration: 500,
+      textStyle,
+      tooltip: {
+        trigger: 'axis',
+        confine: true,
+        formatter: (params: ChartFormatterParam[]) => {
+          const itemId = params[0]?.data?.itemId
+          if (!itemId) return ''
+
+          return `
+                <div style="display: flex; flex-direction: column;">
+                  <div style="font-weight: bold; margin-bottom: 5px;">
+                    ${t(`item.${itemId}.name`, itemId)}
+                  </div>
+                  <div>
+                    ${t('global.charts.occurrences')}: <strong>${params[0]?.data?.value ?? 0}</strong>
+                  </div>
+                  <div>
+                    ${t('global.charts.percentage')}: <strong>${params[0]?.data?.percentage ?? '0.00'}%</strong>
+                  </div>
+                </div>
+              `
+        },
+        backgroundColor: isDark.value ? palette.dark : palette.light,
+        borderColor: isDark.value ? '#555' : '#ddd',
+        borderWidth: 1,
+        padding: 10,
+        textStyle,
+        extraCssText: chartTooltipExtraCssText.value,
+      },
+      grid: {
+        left: 0,
+        right: 0,
+        bottom: 0,
+        top: 0,
+      },
+      xAxis: {
+        type: 'category',
+        data: itemsData,
+        axisLabel: {
+          show: true,
+          formatter: (value: string) => `{img${value}|}`,
+          rich: richLabels,
+          interval: 0,
+          margin: imageSize / 4,
+        },
+        axisTick: {
+          show: false,
+        },
+        axisLine: {
+          show: false,
+        },
+      },
+      yAxis: {
+        type: 'value',
+        axisLabel: {
+          show: false,
+        },
+        axisTick: {
+          show: false,
+        },
+        axisLine: {
+          show: false,
+        },
+        splitLine: {
+          show: false,
+        },
+      },
+      series: [
+        {
+          type: 'bar',
+          barWidth: '60%',
+          data: dataArr,
+          itemStyle: {
+            borderRadius: [4, 4, 4, 4],
+          },
+        },
+      ],
+    }
+  })
+
+  // ── SEO ────────────────────────────────────────
   useSeoMeta({
     title: () => t('meta.title'),
     description: () => t('meta.description.default'),
@@ -373,50 +807,5 @@
     ogDescription: () => t('meta.description.default'),
     twitterTitle: () => t('meta.title'),
     twitterDescription: () => t('meta.description.default'),
-  })
-
-  // TODO: update to current banner id
-  const leftBanners = [BANNER_DATA[53]] as Banner[]
-  const rightBanners = [BANNER_DATA[12], BANNER_DATA[15]] as Banner[]
-
-  const leftTargetTime = new Date('2026-03-26T20:00:00Z') // UTC
-  const rightTargetTime = new Date('2026-03-15T20:00:00Z') // UTC
-
-  const indexA = ref(0)
-  const indexB = ref(0)
-
-  let timer: NodeJS.Timeout | null = null
-  let isAutoAdvancing = false
-  const timeoutMs = 10000
-
-  function startTimer() {
-    if (timer) clearTimeout(timer)
-    if (leftBanners.length === 0 || rightBanners.length === 0) return
-
-    timer = setTimeout(() => {
-      isAutoAdvancing = true
-      try {
-        indexA.value = (indexA.value + 1) % leftBanners.length
-        indexB.value = (indexB.value + 1) % rightBanners.length
-      } finally {
-        isAutoAdvancing = false
-      }
-
-      startTimer()
-    }, timeoutMs)
-  }
-
-  // Watch for manual index changes
-  watch([indexA, indexB], () => {
-    if (isAutoAdvancing) return
-    startTimer()
-  })
-
-  onMounted(() => {
-    startTimer()
-  })
-
-  onBeforeUnmount(() => {
-    if (timer) clearTimeout(timer)
   })
 </script>

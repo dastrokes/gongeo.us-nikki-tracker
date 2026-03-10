@@ -61,6 +61,9 @@
     "vote": "Banner Vote",
     "faq": "FAQ",
     "about": "About",
+    "official_website": "Official Website",
+    "join_community": "Join Community",
+    "support_website": "Support Website",
     "nuan5pro": "Nuan5.Pro"
   },
   "meta": {
@@ -88,8 +91,11 @@
   "default": {
     "description": "Track Infinity Nikki Resonance History and Statistics",
     "your_data": "Your Data",
+    "community_stats": "Community Stats",
+    "view_all_stats": "View All Stats",
     "current_banners": "Current Banners",
     "rerun": "Rerun",
+    "built_with": "This site is powered by",
     "copyright": "© 2026 gongeo.us • © Infold Games All Rights Reserved",
     "disclaimer": {
       "content": "This is an unofficial fan-made website, not affiliated with or endorsed by Infold Games.",

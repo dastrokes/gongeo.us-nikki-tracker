@@ -178,8 +178,8 @@
       textColorDisabledPrimary: palette.light,
     },
     Card: {
-      color: isDark.value ? '#1E293B' : '#F0F9FF',
-      borderColor: isDark.value ? '#2F3A4C' : '#DEEEF6',
+      color: isDark.value ? '#1E2035' : '#F5F0FA',
+      borderColor: isDark.value ? '#2F2D48' : '#E4DAF0',
     },
     Menu: {
       itemTextColorActive: isDark.value ? palette.light : palette.dark,

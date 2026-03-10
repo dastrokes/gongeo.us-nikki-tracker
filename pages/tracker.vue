@@ -15,7 +15,7 @@
             v-for="i in 5"
             :key="i"
             size="small"
-            class="text-center rounded-md"
+            class="text-center rounded-lg"
           >
             <n-skeleton
               height="20px"
@@ -129,7 +129,7 @@
           >
             <n-card
               size="small"
-              class="text-center rounded-md"
+              class="text-center rounded-lg"
             >
               <div class="text-sm text-gray-400">
                 {{ t('tracker.stats.total_pulls') }}
@@ -175,7 +175,7 @@
 
             <n-card
               size="small"
-              class="text-center rounded-md"
+              class="text-center rounded-lg"
             >
               <div class="text-sm text-gray-400">
                 {{ t('tracker.stats.total_5star_4star') }}
@@ -200,7 +200,7 @@
 
             <n-card
               size="small"
-              class="text-center rounded-md"
+              class="text-center rounded-lg"
             >
               <div class="text-sm text-gray-400">
                 {{ t('tracker.stats.avg_5star') }}
@@ -223,7 +223,7 @@
 
             <n-card
               size="small"
-              class="text-center rounded-md"
+              class="text-center rounded-lg"
             >
               <div class="text-sm text-gray-400">
                 {{ t('tracker.stats.avg_4star_mixed') }}
@@ -248,7 +248,7 @@
 
             <n-card
               size="small"
-              class="text-center rounded-md"
+              class="text-center rounded-lg"
             >
               <div class="text-sm text-gray-400">
                 {{ t('tracker.stats.avg_4star_only') }}
@@ -274,7 +274,7 @@
             <n-card
               v-show="exporting"
               size="small"
-              class="text-center rounded-md"
+              class="text-center rounded-lg"
             >
               <p class="text-sm text-gray-400">
                 {{ t('tracker.export.generated_from') }}
@@ -806,18 +806,19 @@
         >
           <template #icon>
             <NuxtImg
-              :src="getImageSrc('static', '/images/404.webp')"
+              :src="getImageSrc('static', '/images/emotes/think.webp')"
               :alt="$t('tracker.no_data.title')"
               class="mx-auto w-32 h-32 sm:w-48 sm:h-48 object-cover"
               width="400"
               height="400"
-              fit="contain"
+              fit="cover"
               sizes="160px sm:200px"
             />
           </template>
           <template #footer>
             <n-button
               type="primary"
+              class="relative overflow-hidden after:content-[''] after:absolute after:inset-y-0 after:-left-full after:w-[60%] after:bg-gradient-to-r after:from-transparent after:via-white/15 after:to-transparent after:animate-button-shimmer motion-reduce:after:animate-none"
               @click="navigateTo(localePath('/import'))"
             >
               {{ $t('navigation.import') }}

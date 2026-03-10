@@ -48,6 +48,18 @@
             </template>
             {{ t('navigation.tierlist') }}
           </n-button>
+          <n-button
+            size="small"
+            secondary
+            @click="navigateTo(localePath('/timeline'))"
+          >
+            <template #icon>
+              <n-icon size="16">
+                <AlignRight />
+              </n-icon>
+            </template>
+            {{ t('navigation.timeline') }}
+          </n-button>
           <!-- Banner filters -->
           <n-button-group>
             <n-button
@@ -296,6 +308,7 @@
     ArrowUp,
     ArrowDown,
     SortAmountDown,
+    AlignRight,
   } from '@vicons/fa'
   import { BANNER_DATA } from '~/data/banners'
   import type { BannerRun } from '~/types/banner'

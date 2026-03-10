@@ -538,12 +538,12 @@
         <template #icon>
           <div class="flex justify-center">
             <NuxtImg
-              :src="getImageSrc('static', '/images/404.webp')"
-              alt="Not Found"
-              class="w-48 h-48 object-cover"
+              :src="getImageSrc('static', '/images/emotes/think.webp')"
+              class="mx-auto w-32 h-32 sm:w-48 sm:h-48 object-cover"
               width="400"
               height="400"
-              loading="lazy"
+              fit="cover"
+              sizes="160px sm:200px"
             />
           </div>
         </template>

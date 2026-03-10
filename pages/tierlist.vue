@@ -77,25 +77,24 @@
                 trigger="hover"
               >
                 <template #trigger>
-                  <span
-                    class="inline-flex"
-                    :class="{
-                      'animate-pulse': shouldHighlightCommunitySubmitButton,
-                    }"
+                  <n-button
+                    type="primary"
+                    size="small"
+                    class="relative overflow-hidden"
+                    :class="
+                      shouldHighlightCommunitySubmitButton
+                        ? `after:content-[''] after:absolute after:inset-y-0 after:-left-full after:w-[60%] after:bg-gradient-to-r after:from-transparent after:via-white/15 after:to-transparent after:animate-button-shimmer motion-reduce:after:animate-none`
+                        : ''
+                    "
+                    :loading="submittingCommunity"
+                    :disabled="!canSubmitCommunity"
+                    @click="submitCommunityTierlist"
                   >
-                    <n-button
-                      type="primary"
-                      size="small"
-                      :loading="submittingCommunity"
-                      :disabled="!canSubmitCommunity"
-                      @click="submitCommunityTierlist"
-                    >
-                      <template #icon>
-                        <n-icon><Users /></n-icon>
-                      </template>
-                      {{ t('common.submit') }}
-                    </n-button>
-                  </span>
+                    <template #icon>
+                      <n-icon><Users /></n-icon>
+                    </template>
+                    {{ t('common.submit') }}
+                  </n-button>
                 </template>
                 {{ communitySubmitTooltipText }}
               </n-tooltip>
@@ -646,12 +645,12 @@
           >
             <template #icon>
               <NuxtImg
-                :src="getImageSrc('static', '/images/404.webp')"
+                :src="getImageSrc('static', '/images/emotes/think.webp')"
                 :alt="t('tierlist.over_limit.title')"
                 class="mx-auto w-32 h-32 sm:w-48 sm:h-48 object-cover"
                 width="400"
                 height="400"
-                fit="contain"
+                fit="cover"
                 sizes="160px sm:200px"
               />
             </template>

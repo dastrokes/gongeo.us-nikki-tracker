@@ -16,7 +16,7 @@
           <div
             v-if="showTimelineChart"
             key="chart"
-            class="relative h-[calc(100vh-220px)] sm:h-[calc(100vh-170px)] min-h-[500px] rounded-xl"
+            class="relative h-[calc(100vh-108px)] sm:h-[calc(100vh-140px)] min-h-[500px] rounded-xl"
           >
             <div class="absolute left-2 top-2 z-10 w-40">
               <n-select
@@ -68,7 +68,7 @@
           <div
             v-else
             key="skeleton"
-            class="h-[calc(100vh-220px)] sm:h-[calc(100vh-170px)] min-h-[500px] rounded-xl"
+            class="h-[calc(100vh-108px)] sm:h-[calc(100vh-140px)] min-h-[500px] rounded-xl"
           >
             <div class="relative h-full w-full rounded-lg overflow-hidden">
               <div
@@ -262,8 +262,8 @@
 
   const timelineSkeletonBarClass: Record<TimelineSkeletonBar['tone'], string> =
     {
-      blue: 'bg-[#2f7fd6]/70 dark:bg-[#67b9ff]/65',
-      gold: 'bg-[#d9922f]/70 dark:bg-[#f6c659]/65',
+      blue: 'bg-sky-500/70 dark:bg-sky-400/65',
+      gold: 'bg-amber-500/70 dark:bg-amber-400/65',
     }
 
   const timelineSkeleton = {
@@ -754,43 +754,21 @@
   )
 
   const getBannerTypeColor = (type: number) => {
-    if (type === 2) {
-      return isDark.value ? '#f6c659cc' : '#d9922f'
-    }
-
-    return isDark.value ? '#67b9ffcc' : '#2f7fd6'
+    const rarity = type === 2 ? 5 : 4
+    const color = getQualityColor(rarity)
+    return isDark.value ? `${color}cc` : color
   }
 
   const getTimelineTooltipAccentStyles = (bannerType: 2 | 3) => {
-    if (bannerType === 2) {
-      return isDark.value
-        ? {
-            border: 'rgba(246, 198, 89, 0.52)',
-            background: 'rgba(246, 198, 89, 0.14)',
-            text: '#f8de93',
-            badgeBackground: 'rgba(246, 198, 89, 0.12)',
-          }
-        : {
-            border: 'rgba(217, 146, 47, 0.4)',
-            background: 'rgba(217, 146, 47, 0.12)',
-            text: '#9a5708',
-            badgeBackground: 'rgba(217, 146, 47, 0.1)',
-          }
-    }
+    const rarity = bannerType === 2 ? 5 : 4
+    const theme = getQualityTextTheme(rarity)
 
-    return isDark.value
-      ? {
-          border: 'rgba(103, 185, 255, 0.52)',
-          background: 'rgba(103, 185, 255, 0.14)',
-          text: '#a8dcff',
-          badgeBackground: 'rgba(103, 185, 255, 0.12)',
-        }
-      : {
-          border: 'rgba(47, 127, 214, 0.4)',
-          background: 'rgba(47, 127, 214, 0.1)',
-          text: '#1a5ea0',
-          badgeBackground: 'rgba(47, 127, 214, 0.08)',
-        }
+    return {
+      border: theme.borderColor,
+      background: theme.color,
+      text: theme.textColor,
+      badgeBackground: theme.color,
+    }
   }
 
   const renderTimelineItem = (

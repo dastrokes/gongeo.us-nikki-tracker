@@ -658,7 +658,7 @@
                   isFetching ||
                   (importMethod === 'pearpal' && pearpalTrackerLoading)
                 "
-                class="flex-grow"
+                class="relative flex-grow overflow-hidden after:content-[''] after:absolute after:inset-y-0 after:-left-full after:w-[60%] after:bg-gradient-to-r after:from-transparent after:via-white/15 after:to-transparent after:animate-button-shimmer motion-reduce:after:animate-none"
                 :disabled="isSubmitDisabled"
                 @click="handleSubmit"
               >
@@ -677,7 +677,7 @@
               <n-button
                 type="primary"
                 :loading="loading || isFetching"
-                class="flex-grow"
+                class="relative flex-grow overflow-hidden after:content-[''] after:absolute after:inset-y-0 after:-left-full after:w-[60%] after:bg-gradient-to-r after:from-transparent after:via-white/15 after:to-transparent after:animate-button-shimmer motion-reduce:after:animate-none"
                 @click="handleJsonSubmit"
               >
                 {{
@@ -694,7 +694,7 @@
             <n-space class="w-full flex">
               <n-button
                 type="primary"
-                class="flex-grow"
+                class="relative flex-grow overflow-hidden after:content-[''] after:absolute after:inset-y-0 after:-left-full after:w-[60%] after:bg-gradient-to-r after:from-transparent after:via-white/15 after:to-transparent after:animate-button-shimmer motion-reduce:after:animate-none"
                 @click="navigateTo(localePath('/tracker'))"
               >
                 {{ $t('navigation.tracker') }}
@@ -744,17 +744,30 @@
       size="small"
       class="rounded-xl p-0 sm:p-2"
     >
-      <div class="text-center mb-12">
-        <n-h1 class="font-bold mb-4">{{ $t('import.maintenance.title') }}</n-h1>
-        <p class="text-lg">
-          {{ $t('import.maintenance.message') }}
-        </p>
-        <p class="text-lg">
-          {{ $t('import.maintenance.status') }}
-        </p>
-      </div>
-
-      <SocialLinks />
+      <n-result
+        status="warning"
+        :title="$t('import.maintenance.title')"
+        :description="
+          $t('import.maintenance.message') +
+          ' ' +
+          $t('import.maintenance.status')
+        "
+      >
+        <template #icon>
+          <NuxtImg
+            :src="getImageSrc('static', '/images/emotes/note.webp')"
+            :alt="$t('import.maintenance.title')"
+            class="mx-auto w-32 h-32 sm:w-48 sm:h-48 object-cover"
+            width="400"
+            height="400"
+            fit="cover"
+            sizes="160px sm:200px"
+          />
+        </template>
+        <template #footer>
+          <SocialLinks />
+        </template>
+      </n-result>
     </n-card>
 
     <!-- Collection Editor Modal -->
@@ -825,7 +838,6 @@
 </template>
 
 <script setup lang="ts">
-  import { useDebounce } from '@vueuse/core'
   import type { CookieData, PearpalNoteBookResponse } from '~/types/api'
   import type { PearpalTrackerItem } from '~/types/pull'
   import { NTag, NIcon, NCode } from 'naive-ui'
@@ -850,6 +862,7 @@
   const dialog = useDialog()
   const localePath = useLocalePath()
   const { isMobileOrTablet, isAndroid, isChrome } = useDevice()
+  const { getImageSrc } = imageProvider()
   // Manual collection editor variables
   const selectedManualBanner = ref<number | null>(null)
   const showCollectionEditor = ref(false)
@@ -859,7 +872,7 @@
   const showBilibiliModal = ref(false)
 
   // TODO: toggle maintenance
-  const isMaintenance = ref(false)
+  const isMaintenance = ref(true)
 
   useSeoMeta({
     title: () =>
@@ -912,7 +925,6 @@
   })
   // Unified cookie input for both methods
   const cookieInput = ref('')
-  const debouncedCookieInput = useDebounce(cookieInput, 500)
   const currentStep = ref(0)
   const message = useMessage()
   const { verifyAuth, loading } = useBannerPullApi()
@@ -1426,40 +1438,44 @@
   }
 
   // Unified watcher for cookie input
-  watch(debouncedCookieInput, (newValue) => {
-    if (newValue) {
-      try {
-        if (!newValue.replace(/\s+/g, '')) {
-          throw new Error('No data in clipboard')
-        }
+  watchDebounced(
+    cookieInput,
+    (newValue) => {
+      if (newValue) {
+        try {
+          if (!newValue.replace(/\s+/g, '')) {
+            throw new Error('No data in clipboard')
+          }
 
-        const parsedData = JSON.parse(newValue) as CookieData
+          const parsedData = JSON.parse(newValue) as CookieData
 
-        if (!parsedData.token || !parsedData.id) {
-          throw new Error('Invalid file format')
-        }
+          if (!parsedData.token || !parsedData.id) {
+            throw new Error('Invalid file format')
+          }
 
-        formData.value = {
-          roleid: parsedData.roleid,
-          token: parsedData.token,
-          id: parsedData.id,
-        }
-        if (!parsedData.roleid) {
-          message.success(t('import.messages.data_paste_success'))
-          message.info(t('import.messages.data_paste_success_no_uid'))
-        } else {
-          message.success(t('import.messages.data_paste_success'))
-        }
-      } catch (error) {
-        // Don't show error message on every keystroke
-        if (newValue.length > 10) {
-          // Only show error if input is reasonably long
-          console.warn(`Invalid data input`, error)
-          message.error(t('import.messages.data_paste_failed'))
+          formData.value = {
+            roleid: parsedData.roleid,
+            token: parsedData.token,
+            id: parsedData.id,
+          }
+          if (!parsedData.roleid) {
+            message.success(t('import.messages.data_paste_success'))
+            message.info(t('import.messages.data_paste_success_no_uid'))
+          } else {
+            message.success(t('import.messages.data_paste_success'))
+          }
+        } catch (error) {
+          // Don't show error message on every keystroke
+          if (newValue.length > 10) {
+            // Only show error if input is reasonably long
+            console.warn(`Invalid data input`, error)
+            message.error(t('import.messages.data_paste_failed'))
+          }
         }
       }
-    }
-  })
+    },
+    { debounce: 500 }
+  )
 
   // Add renderBannerLabel function
   const renderBannerLabel = (

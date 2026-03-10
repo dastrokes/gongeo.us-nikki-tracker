@@ -1,4 +1,5 @@
 import { useSupabaseClient } from '~/composables/useSupabaseClient'
+import { BANNER_DATA } from '~/data/banners'
 import {
   createInternalError,
   createUpstreamUnavailableError,
@@ -7,7 +8,11 @@ import { GAME_VERSION_HEADER, setCacheHeaders } from '~/utils/cacheHeaders'
 import { toErrorMessage } from '~/utils/errors'
 import { getGameVersion } from '~/utils/gameVersion'
 import { isTransientSupabaseError } from '~/utils/supabaseRetry'
-import { getCoreStats } from '~/utils/globalStats'
+import { getBannerStats, getCoreStats } from '~/utils/globalStats'
+
+const latestBannerId = Math.max(
+  ...Object.keys(BANNER_DATA).map((id) => Number.parseInt(id, 10))
+)
 
 export default defineCachedEventHandler(
   async (event) => {
@@ -18,7 +23,10 @@ export default defineCachedEventHandler(
     const supabase = useSupabaseClient('server')
 
     try {
-      const coreCache = await getCoreStats(supabase)
+      const [coreCache, latestBannerCache] = await Promise.all([
+        getCoreStats(supabase),
+        getBannerStats(supabase, latestBannerId),
+      ])
 
       return {
         date:
@@ -33,6 +41,8 @@ export default defineCachedEventHandler(
           coreCache.payload.fourStarType2Distribution ?? {},
         fourStarType3Distribution:
           coreCache.payload.fourStarType3Distribution ?? {},
+        bannerId: latestBannerCache.payload.bannerId ?? latestBannerId,
+        f: latestBannerCache.payload.f ?? {},
       }
     } catch (error: unknown) {
       if (error && typeof error === 'object' && 'statusCode' in error) {

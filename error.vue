@@ -8,7 +8,7 @@
     >
       <template #icon>
         <NuxtImg
-          src="/images/404.webp"
+          src="/images/emotes/think.webp"
           class="w-2/3 h-2/3 object-cover"
           width="400"
           height="400"

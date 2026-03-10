@@ -34,6 +34,11 @@ export default defineCachedEventHandler(
       const bannerCache = await getBannerStats(supabase, bannerId)
 
       return {
+        date:
+          bannerCache.payload.date ??
+          bannerCache.updated_at ??
+          new Date().toISOString(),
+        bannerId: bannerCache.payload.bannerId ?? bannerId,
         f: bannerCache.payload.f ?? {},
       }
     } catch (error: unknown) {

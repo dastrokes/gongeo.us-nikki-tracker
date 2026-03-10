@@ -61,6 +61,9 @@
     "vote": "卡池投票",
     "faq": "常見問題",
     "about": "關於本站",
+    "official_website": "官方網站",
+    "join_community": "加入社群",
+    "support_website": "支持本站",
     "nuan5pro": "無暖助手"
   },
   "meta": {
@@ -88,8 +91,11 @@
   "default": {
     "description": "記錄無限暖暖共鳴歷史和統計資料",
     "your_data": "您的資料",
+    "community_stats": "社群統計",
+    "view_all_stats": "查看所有統計",
     "current_banners": "當前卡池",
     "rerun": "復刻",
+    "built_with": "本站基於",
     "copyright": "© 2026 暖暖共鳴錄 • © 疊紙遊戲 版權所有",
     "disclaimer": {
       "content": "本網站由粉絲自發製作運營，與疊紙遊戲官方無關，亦未獲其授權認可。",

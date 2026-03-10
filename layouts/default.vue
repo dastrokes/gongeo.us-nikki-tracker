@@ -5,9 +5,9 @@
     position="absolute"
   >
     <n-layout-header
-      class="fixed top-0 right-0 z-50 h-12 bg-[linear-gradient(to_right,_rgb(224,242,254),_rgb(243,232,255),_rgb(252,231,243))] dark:bg-[linear-gradient(to_right,_rgb(12,74,110),_rgb(88,28,135),_rgb(115,55,137))]"
+      class="fixed top-0 right-0 z-50 h-12 backdrop-blur-md bg-[linear-gradient(to_right,_rgb(232,221,249),_rgb(252,228,236),_rgb(253,237,220))] dark:bg-[linear-gradient(to_right,_rgb(30,27,75),_rgb(88,28,100),_rgb(120,40,70))] border-b border-white/20 dark:border-white/5"
     >
-      <div class="flex h-12 items-center justify-between">
+      <div class="flex h-12 items-center justify-between relative z-10">
         <div class="flex items-center">
           <n-button
             text
@@ -46,7 +46,7 @@
       :collapsed-width="48"
       :width="200"
       :collapsed="!showSider"
-      class="fixed top-0 left-0 h-full shadow-lg z-40 transition-all duration-300 ease-in-out transform bg-[linear-gradient(to_bottom,_rgb(224,242,254),_rgb(243,232,255),_rgb(252,231,243))] dark:bg-[linear-gradient(to_bottom,_rgb(12,74,110),_rgb(88,28,135),_rgb(115,55,137))]"
+      class="fixed top-0 left-0 h-full shadow-lg z-40 transition-all duration-300 ease-in-out transform bg-[linear-gradient(to_bottom,_rgb(232,221,249),_rgb(252,228,236),_rgb(253,237,220))] dark:bg-[linear-gradient(to_bottom,_rgb(30,27,75),_rgb(88,28,100),_rgb(120,40,70))]"
       :class="{
         '-translate-x-full 2xl:-translate-x-0': !showSider,
         'translate-x-0': showSider,
@@ -68,68 +68,248 @@
             @update:value="handleMenuSelect"
           />
         </n-scrollbar>
-
-        <!-- Spacer pushes the bottom menu to the bottom -->
-        <div class="shrink-0">
-          <n-menu
-            class="[&_.n-menu-item-content-header]:pl-2"
-            :collapsed="!showSider"
-            :collapsed-width="48"
-            :collapsed-icon-size="16"
-            :icon-size="16"
-            :indent="16"
-            :root-indent="16"
-            :options="bottomMenuOptions"
-          />
-        </div>
       </div>
     </n-layout-sider>
 
     <n-layout-content
       ref="scrollbarRef"
-      class="mt-12 bg-[#F8FAFC] dark:bg-[#101014]"
+      class="mt-12 min-h-[calc(100vh-3rem)] bg-[#F8FAFC] dark:bg-[#101014] bg-[radial-gradient(ellipse_at_50%_0%,rgba(232,221,249,0.56)_0%,transparent_68%)] dark:bg-[radial-gradient(ellipse_at_50%_0%,rgba(88,28,100,0.36)_0%,transparent_68%)]"
       :native-scrollbar="false"
       @scroll="onScroll"
     >
-      <div class="h-full top-24 px-2 pt-2 sm:pt-4 pb-14 sm:pb-10">
-        <slot />
+      <div class="flex min-h-[calc(100vh-3rem)] flex-col px-2 pt-2 sm:pt-4">
+        <div class="flex-1">
+          <slot />
+        </div>
+
+        <!-- ── Site Footer ── -->
+        <n-layout-footer
+          class="mt-12 border-t border-gray-200/60 dark:border-white/8 bg-gradient-to-r from-[#f5f0fa]/80 via-[#fff0f5]/80 to-[#fffacd]/50 dark:from-[#1a1b2e]/80 dark:via-[#2d1b36]/80 dark:to-[#3d1b2e]/50 backdrop-blur-sm"
+        >
+          <div class="max-w-5xl mx-auto p-4">
+            <!-- Main footer content -->
+            <div
+              class="mb-8 grid gap-4 md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] md:items-center lg:grid-cols-[auto_auto_auto] lg:justify-between"
+            >
+              <!-- Left side: Branding & Social -->
+              <div
+                class="flex flex-col items-center gap-6 md:items-start lg:justify-self-start"
+              >
+                <!-- Branding -->
+                <div class="flex items-center gap-3">
+                  <div
+                    class="flex h-10 w-10 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-xl bg-white/60 p-2 shadow-sm ring-1 ring-purple-200/50 dark:bg-slate-800/60 dark:ring-purple-600/30 backdrop-blur-sm"
+                  >
+                    <NuxtImg
+                      src="images/logo.webp"
+                      width="80"
+                      height="80"
+                      fit="cover"
+                      loading="eager"
+                      fetchpriority="high"
+                      class="h-full w-full"
+                    />
+                  </div>
+                  <div class="text-left">
+                    <p
+                      class="text-xs font-semibold uppercase tracking-widest text-rose-500/80 dark:text-rose-300/80"
+                    >
+                      {{ $t('meta.game_title') }}
+                    </p>
+                    <p class="font-semibold text-xl leading-tight">
+                      {{ $t('navigation.title') }}
+                    </p>
+                  </div>
+                </div>
+
+                <!-- Social Links -->
+                <div class="-ml-2 sm:ml-0">
+                  <SocialLinks />
+                </div>
+              </div>
+
+              <div
+                class="flex flex-wrap items-center justify-center gap-2.5 md:px-2 lg:justify-self-center lg:px-0"
+              >
+                <n-tooltip
+                  trigger="hover"
+                  placement="top"
+                >
+                  <template #trigger>
+                    <a
+                      href="https://discord.gg/qymsW3j4Zw"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      :aria-label="$t('default.social.discord')"
+                      class="group relative inline-flex aspect-square w-16 items-center justify-center"
+                    >
+                      <div
+                        class="flex h-full w-full items-center justify-center overflow-hidden rounded-full border border-rose-200/50 shadow-[0_8px_18px_rgba(244,114,182,0.10)] dark:border-black/20 dark:shadow-[0_6px_14px_rgba(2,6,23,0.10)]"
+                      >
+                        <NuxtImg
+                          :src="getImageSrc('static', '/images/emotes/hi.webp')"
+                          width="144"
+                          height="144"
+                          sizes="72px sm:80px"
+                          class="relative h-[80%] w-[80%] object-contain transition-transform duration-300 -rotate-[5deg] group-hover:-rotate-[10deg]"
+                          alt=""
+                          aria-hidden="true"
+                        />
+                      </div>
+                    </a>
+                  </template>
+                  {{ $t('default.social.discord') }}
+                </n-tooltip>
+                <n-tooltip
+                  trigger="hover"
+                  placement="top"
+                >
+                  <template #trigger>
+                    <a
+                      href="https://ko-fi.com/gongeous"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      :aria-label="$t('default.social.kofi')"
+                      class="group relative inline-flex aspect-square w-16 items-center justify-center"
+                    >
+                      <div
+                        class="flex h-full w-full items-center justify-center overflow-hidden rounded-full border border-pink-200/50 shadow-[0_8px_18px_rgba(244,114,182,0.10)] dark:border-black/20 dark:shadow-[0_6px_14px_rgba(2,6,23,0.10)]"
+                      >
+                        <NuxtImg
+                          :src="
+                            getImageSrc('static', '/images/emotes/love.webp')
+                          "
+                          width="144"
+                          height="144"
+                          sizes="72px sm:80px"
+                          class="relative h-[93%] w-[93%] object-contain transition-transform duration-300 group-hover:translate-y-[-2px]"
+                          alt=""
+                          aria-hidden="true"
+                        />
+                      </div>
+                    </a>
+                  </template>
+                  {{ $t('default.social.kofi') }}
+                </n-tooltip>
+
+                <n-tooltip
+                  trigger="hover"
+                  placement="top"
+                >
+                  <template #trigger>
+                    <a
+                      href="https://x.com/gongeo_us"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      :aria-label="$t('default.social.twitter')"
+                      class="group relative inline-flex aspect-square w-16 items-center justify-center"
+                    >
+                      <div
+                        class="flex h-full w-full items-center justify-center overflow-hidden rounded-full border border-sky-200/50 shadow-[0_8px_18px_rgba(56,189,248,0.10)] dark:border-black/20 dark:shadow-[0_6px_14px_rgba(2,6,23,0.10)]"
+                      >
+                        <NuxtImg
+                          :src="
+                            getImageSrc('static', '/images/emotes/news.webp')
+                          "
+                          width="144"
+                          height="144"
+                          sizes="72px sm:80px"
+                          class="relative h-[80%] w-[80%] object-contain transition-transform duration-300 group-hover:translate-x-[-2px]"
+                          alt=""
+                          aria-hidden="true"
+                        />
+                      </div>
+                    </a>
+                  </template>
+                  {{ $t('default.social.twitter') }}
+                </n-tooltip>
+              </div>
+
+              <!-- Right side: Link groups -->
+              <div
+                class="flex flex-col flex-wrap justify-center gap-x-12 gap-y-8 pt-2 text-sm sm:flex-row md:justify-end lg:justify-self-end"
+              >
+                <div
+                  v-for="(group, index) in footerLinkGroups"
+                  :key="index"
+                  class="flex flex-col items-center sm:items-start gap-3"
+                >
+                  <template
+                    v-for="link in group.items"
+                    :key="link.key"
+                  >
+                    <NuxtLinkLocale
+                      v-if="!link.to"
+                      :to="`/${link.key}`"
+                      class="text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-100 transition-colors no-underline font-medium"
+                    >
+                      {{ $t(link.label) }}
+                    </NuxtLinkLocale>
+                    <a
+                      v-else
+                      :href="link.to"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-100 transition-colors no-underline font-medium"
+                    >
+                      {{ $t(link.label) }}
+                    </a>
+                  </template>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bottom: copyright + disclaimer -->
+            <n-divider class="!my-4" />
+            <div
+              class="text-center text-xs text-gray-400 dark:text-gray-500 space-y-1"
+            >
+              <n-popover
+                trigger="hover"
+                placement="top"
+              >
+                <template #trigger>
+                  <p
+                    class="cursor-help hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+                  >
+                    {{ $t('default.copyright') }}
+                  </p>
+                </template>
+                <div class="max-w-xs text-left text-xs">
+                  <p>{{ $t('default.disclaimer.content') }}</p>
+                  <p class="mt-1">{{ $t('default.disclaimer.rights') }}</p>
+                </div>
+              </n-popover>
+              <p class="flex items-center justify-center gap-1 pt-1">
+                <span>{{ $t('default.built_with') }}</span>
+                <a
+                  href="https://www.netlify.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-teal-500 hover:text-teal-600 transition-colors no-underline font-medium"
+                  >Netlify</a
+                >
+                <span>·</span>
+                <a
+                  href="https://nuxt.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-green-500 hover:text-green-600 transition-colors no-underline font-medium"
+                  >Nuxt</a
+                >
+              </p>
+            </div>
+          </div>
+        </n-layout-footer>
       </div>
     </n-layout-content>
-
-    <n-layout-footer
-      class="text-center text-sm opacity-80 mb-2 fixed bottom-0 left-0 right-0 bg-transparent transition-transform duration-300 ease-in-out text-slate-600 dark:text-slate-200"
-      :class="{
-        'translate-y-0': showFooter,
-        'translate-y-12': !showFooter,
-      }"
-    >
-      <n-tooltip
-        :width="250"
-        trigger="hover"
-        placement="top"
-      >
-        <template #trigger>
-          <p class="cursor-help sm:mx-auto mx-12 max-w-sm">
-            {{ $t('default.copyright') }}
-          </p>
-        </template>
-        <div class="max-w-xs text-left">
-          <p>
-            {{ t('default.disclaimer.content') }}
-          </p>
-          <p class="mt-1">
-            {{ t('default.disclaimer.rights') }}
-          </p>
-        </div>
-      </n-tooltip>
-    </n-layout-footer>
 
     <!-- Scroll to top button -->
     <n-button
       ghost
       circle
       size="small"
-      class="fixed bottom-4 right-4 sm:bottom-8 sm:right-8 z-20 opacity-60 hover:opacity-100 transition-transform duration-300 ease-in-out bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700"
+      class="fixed bottom-4 right-4 sm:bottom-8 sm:right-8 z-20 opacity-60 hover:opacity-100 transition-all duration-300 ease-in-out bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 shadow-[0_0_10px_rgba(244,63,94,0.25),0_0_20px_rgba(168,85,247,0.15)] hover:shadow-[0_0_14px_rgba(244,63,94,0.4),0_0_28px_rgba(168,85,247,0.25)]"
       :class="{
         'translate-y-0': showScrollTop,
         'translate-y-16': !showScrollTop,
@@ -162,13 +342,10 @@
     FileImport,
     Book,
     Bars,
-    QuestionCircle,
     Globe,
+    PuzzlePiece,
     CalendarAlt,
     ArrowUp,
-    InfoCircle,
-    Discord,
-    Magic,
     AlignRight,
     Tshirt,
     ListAlt,
@@ -179,18 +356,11 @@
   const localePath = useLocalePath()
   const { locale } = useI18n()
   const nuxtApp = useNuxtApp()
+  const { getImageSrc } = imageProvider()
   const loading = useState<boolean>('loading', () => false)
-  const svgIconComponent = resolveComponent('SvgIcon')
 
   function renderIcon(icon: Component) {
     return () => h(NIcon, null, { default: () => h(icon) })
-  }
-
-  function renderSvgIcon(name: 'kofi' | 'netlify') {
-    return () =>
-      h(NIcon, null, {
-        default: () => h(svgIconComponent, { name }),
-      })
   }
 
   const route = useRoute()
@@ -240,89 +410,67 @@
       icon: renderIcon(ListAlt),
     },
     {
-      label: t('navigation.tierlist'),
-      key: 'tierlist',
-      icon: renderIcon(SortAmountDown),
-    },
-    {
       label: t('navigation.timeline'),
       key: 'timeline',
       icon: renderIcon(AlignRight),
     },
     {
-      label: t('navigation.faq'),
-      key: 'faq',
-      icon: renderIcon(QuestionCircle),
+      label: t('navigation.tierlist'),
+      key: 'tierlist',
+      icon: renderIcon(SortAmountDown),
     },
+
     {
-      label: t('navigation.about'),
-      key: 'about',
-      icon: renderIcon(InfoCircle),
+      label: t('quiz.title'),
+      key: 'quiz',
+      icon: renderIcon(PuzzlePiece),
     },
   ])
 
-  const bottomMenuOptions = computed<MenuOption[]>(() => [
+  // Footer navigation link groups
+  const footerLinkGroups: {
+    items: { key: string; label: string; to?: string }[]
+  }[] = [
     {
-      label: () =>
-        h(
-          'a',
-          {
-            href: 'https://nuan5.pro',
-            target: '_blank',
-            rel: 'noopener noreferrer',
-            class: 'no-underline text-inherit',
-          },
-          t('navigation.nuan5pro')
-        ),
-      key: 'nuan5pro',
-      icon: renderIcon(Magic),
+      items: [
+        { key: 'about', label: 'navigation.about' },
+        { key: 'faq', label: 'navigation.faq' },
+      ],
     },
     {
-      label: () =>
-        h(
-          'a',
-          {
-            href: 'https://discord.gg/qymsW3j4Zw',
-            target: '_blank',
-            rel: 'noopener noreferrer',
-            class: 'no-underline text-inherit',
-          },
-          'Discord'
-        ),
-      key: 'discord',
-      icon: renderIcon(Discord),
+      items: [
+        {
+          key: 'discord',
+          label: 'navigation.join_community',
+          to: 'https://discord.gg/qymsW3j4Zw',
+        },
+        {
+          key: 'kofi',
+          label: 'navigation.support_website',
+          to: 'https://ko-fi.com/gongeous',
+        },
+        {
+          key: 'crowdin',
+          label: 'default.language_switcher.help_translate',
+          to: 'https://crowdin.com/project/gongeous',
+        },
+      ],
     },
     {
-      label: () =>
-        h(
-          'a',
-          {
-            href: 'https://ko-fi.com/gongeous',
-            target: '_blank',
-            rel: 'noopener noreferrer',
-            class: 'no-underline text-inherit',
-          },
-          'Ko-fi'
-        ),
-      key: 'ko-fi',
-      icon: renderSvgIcon('kofi'),
+      items: [
+        {
+          key: 'official',
+          label: 'navigation.official_website',
+          to: 'https://infinitynikki.infoldgames.com/en/home',
+        },
+        {
+          key: 'nuan5',
+          label: 'navigation.nuan5pro',
+          to: 'https://nuan5.pro',
+        },
+      ],
     },
-    {
-      label: () =>
-        h(
-          'a',
-          {
-            href: 'https://www.netlify.com/',
-            target: '_blank',
-            rel: 'noopener noreferrer',
-            class: 'no-underline text-inherit',
-          },
-          'Built with Netlify'
-        ),
-      key: 'netlify',
-      icon: renderSvgIcon('netlify'),
-    },
-  ])
+  ]
 
   const activeMenuItem = computed(() => {
     // Get the path without locale prefix
@@ -359,7 +507,6 @@
   }
 
   const showSider = ref(false)
-  const showFooter = ref(true)
   const showScrollTop = ref(false)
   const scrollbarRef = ref<HTMLElement | null>(null)
 
@@ -372,25 +519,14 @@
 
   const onScroll = (e: Event) => {
     const target = e.target as HTMLElement
-    const currentScrollPosition = target.scrollTop
-    const scrollHeight = target.scrollHeight
-    const clientHeight = target.clientHeight
-
     // Show scroll to top button when scrolled down more than 1000px
-    showScrollTop.value = currentScrollPosition > 1000
-
-    // Show footer when near the bottom (within 100px)
-    showFooter.value =
-      scrollHeight - (currentScrollPosition + clientHeight) < 100 ||
-      currentScrollPosition < 50
+    showScrollTop.value = target.scrollTop > 1000
   }
 
   watch(
     () => route.fullPath,
     () => {
-      // Show footer on route change
-      showFooter.value = true
-      // Scroll to top
+      // Scroll to top on route change
       if (scrollbarRef.value) {
         scrollbarRef.value.scrollTo({
           top: 0,

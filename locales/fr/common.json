@@ -531,16 +531,16 @@
     }
   },
   "timeline": {
-    "banner_timer": "Rerun timer: {days} days",
-    "run_gap": "Gap: {days} days",
-    "max_zoom": "Zoom to max",
-    "reset_zoom": "Reset zoom",
+    "banner_timer": "Compte à rebours de réédition : {days} jours",
+    "run_gap": "Intervalle : {days} jours",
+    "max_zoom": "Zoom maximal",
+    "reset_zoom": "Réinitialiser le zoom",
     "sort": {
-      "label": "Sort timeline",
-      "newest_first": "Newest first",
-      "oldest_first": "Oldest first",
-      "longest_gap": "Longest gap",
-      "shortest_gap": "Shortest gap"
+      "label": "Trier la chronologie",
+      "newest_first": "Plus récent d'abord",
+      "oldest_first": "Plus ancien d'abord",
+      "longest_gap": "Intervalle le plus long",
+      "shortest_gap": "Intervalle le plus court"
     }
   },
   "faq": {

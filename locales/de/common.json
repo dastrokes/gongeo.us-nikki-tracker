@@ -61,9 +61,9 @@
     "vote": "Banner-Abstimmung",
     "faq": "FAQ",
     "about": "Über gongeo.us",
-    "official_website": "Official Website",
-    "join_community": "Join Community",
-    "support_website": "Support Website",
+    "official_website": "Offizielle Webseite",
+    "join_community": "Community beitreten",
+    "support_website": "Support-Webseite",
     "nuan5pro": "Nuan5.Pro"
   },
   "meta": {
@@ -91,11 +91,11 @@
   "default": {
     "description": "Verfolge Infinity Nikki Resonanz-Verlauf und Statistiken",
     "your_data": "Deine Daten",
-    "community_stats": "Community Stats",
-    "view_all_stats": "View All Stats",
+    "community_stats": "Community-Statistiken",
+    "view_all_stats": "Alle Statistiken ansehen",
     "current_banners": "Aktuelle Banner",
     "rerun": "Wiederholung",
-    "built_with": "This site is powered by",
+    "built_with": "Diese Seite wird betrieben durch",
     "copyright": "© 2026 gongeo.us • © Infold Games alle Rechte vorbehalten",
     "disclaimer": {
       "content": "Dies ist eine inoffizielle, Fan-betriebene Webseite, die nicht mit Infold Games verbunden ist oder von Infold Games unterstützt wird.",

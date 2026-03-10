@@ -61,6 +61,9 @@
     "vote": "Vote par bannière",
     "faq": "FAQ",
     "about": "À propos",
+    "official_website": "Official Website",
+    "join_community": "Join Community",
+    "support_website": "Support Website",
     "nuan5pro": "Nuan5.Pro"
   },
   "meta": {
@@ -88,8 +91,11 @@
   "default": {
     "description": "Suivre l’historique et les statistiques de résonance du Infinity Nikki",
     "your_data": "Vos données",
+    "community_stats": "Community Stats",
+    "view_all_stats": "View All Stats",
     "current_banners": "Bannières actuelles",
     "rerun": "Rediffusion",
+    "built_with": "This site is powered by",
     "copyright": "© 2026 gongeo.us • © Infold Games Tous droits réservés",
     "disclaimer": {
       "content": "Il s'agit d'un site Web non officiel créé par des fans, non affilié ni approuvé par Infold Games.",

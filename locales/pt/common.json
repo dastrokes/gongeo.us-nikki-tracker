@@ -531,16 +531,16 @@
     }
   },
   "timeline": {
-    "banner_timer": "Rerun timer: {days} days",
-    "run_gap": "Gap: {days} days",
-    "max_zoom": "Zoom to max",
-    "reset_zoom": "Reset zoom",
+    "banner_timer": "Temporizador de retorno: {days} dias",
+    "run_gap": "Intervalo: {days} dias",
+    "max_zoom": "Zoom máximo",
+    "reset_zoom": "Redefinir zoom",
     "sort": {
-      "label": "Sort timeline",
-      "newest_first": "Newest first",
-      "oldest_first": "Oldest first",
-      "longest_gap": "Longest gap",
-      "shortest_gap": "Shortest gap"
+      "label": "Ordenar linha do tempo",
+      "newest_first": "Mais recentes primeiro",
+      "oldest_first": "Mais antigos primeiro",
+      "longest_gap": "Maior intervalo",
+      "shortest_gap": "Menor intervalo"
     }
   },
   "faq": {

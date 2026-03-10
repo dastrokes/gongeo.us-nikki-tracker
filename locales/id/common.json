@@ -531,16 +531,16 @@
     }
   },
   "timeline": {
-    "banner_timer": "Rerun timer: {days} days",
-    "run_gap": "Gap: {days} days",
-    "max_zoom": "Zoom to max",
-    "reset_zoom": "Reset zoom",
+    "banner_timer": "Penghitung mundur tayang ulang: {days} hari",
+    "run_gap": "Jeda: {days} hari",
+    "max_zoom": "Perbesar maksimal",
+    "reset_zoom": "Setel ulang zoom",
     "sort": {
-      "label": "Sort timeline",
-      "newest_first": "Newest first",
-      "oldest_first": "Oldest first",
-      "longest_gap": "Longest gap",
-      "shortest_gap": "Shortest gap"
+      "label": "Urutkan linimasa",
+      "newest_first": "Terbaru dulu",
+      "oldest_first": "Terlama dulu",
+      "longest_gap": "Jeda terpanjang",
+      "shortest_gap": "Jeda terpendek"
     }
   },
   "faq": {

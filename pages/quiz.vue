@@ -205,7 +205,6 @@
                     fit="cover"
                     preset="tallLg"
                     loading="eager"
-                    preload
                     draggable="false"
                     class="h-full w-auto max-w-full rounded-xl [transition:clip-path_200ms_linear] [will-change:clip-path]"
                     :class="isImageReady ? 'opacity-100' : 'opacity-0'"
@@ -223,7 +222,7 @@
                     fit="cover"
                     preset="tallLg"
                     draggable="false"
-                    class="absolute left-1/2 top-1/2 h-full w-auto max-w-full -translate-x-1/2 -translate-y-1/2 rounded-xl"
+                    class="absolute left-1/2 top-1/2 h-full w-auto max-w-full -translate-x-1/2 -translate-y-1/2 rounded-xl motion-reduce:animate-none"
                     :class="revealAnimationClass"
                   />
                 </template>
@@ -239,7 +238,7 @@
             >
               <div class="space-y-1">
                 <p
-                  class="text-xs uppercase tracking-[0.2em] text-emerald-700/80 dark:text-emerald-200/80"
+                  class="text-xs uppercase tracking-widest text-emerald-700/80 dark:text-emerald-200/80"
                 >
                   {{ $t('quiz.game_complete') }}
                 </p>
@@ -646,9 +645,9 @@
 
   const revealAnimationClass = computed(() => {
     if (!isRevealed.value) return ''
-    if (roundResult.value === 'correct') return 'reveal-success'
-    if (roundResult.value === 'wrong') return 'reveal-fail'
-    if (roundResult.value === 'revealed') return 'reveal-skip'
+    if (roundResult.value === 'correct') return 'animate-reveal-success'
+    if (roundResult.value === 'wrong') return 'animate-reveal-fail'
+    if (roundResult.value === 'revealed') return 'animate-reveal-skip'
     return ''
   })
 
@@ -923,74 +922,3 @@
     twitterDescription: () => description.value,
   })
 </script>
-
-<style scoped>
-  .reveal-success {
-    animation: revealSuccess 500ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
-  }
-
-  .reveal-fail {
-    animation: revealFail 500ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
-  }
-
-  .reveal-skip {
-    animation: revealSkip 500ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
-  }
-
-  @keyframes revealSuccess {
-    0% {
-      opacity: 0;
-      transform: translate(-50%, -50%) scale(0.94);
-      filter: saturate(0.8) contrast(0.95);
-    }
-    70% {
-      opacity: 1;
-      transform: translate(-50%, -50%) scale(1.03);
-    }
-    100% {
-      opacity: 1;
-      transform: translate(-50%, -50%) scale(1);
-      filter: none;
-    }
-  }
-
-  @keyframes revealFail {
-    0% {
-      opacity: 0;
-      transform: translate(-50%, -50%) scale(0.98);
-      filter: grayscale(0.15) saturate(0.9);
-    }
-    35% {
-      opacity: 1;
-      transform: translate(-50%, -50%) translateX(-6px);
-    }
-    55% {
-      transform: translate(-50%, -50%) translateX(6px);
-    }
-    75% {
-      transform: translate(-50%, -50%) translateX(-4px);
-    }
-    100% {
-      opacity: 1;
-      transform: translate(-50%, -50%) translateX(0);
-      filter: grayscale(0.1) saturate(0.95);
-    }
-  }
-
-  @keyframes revealSkip {
-    0% {
-      opacity: 0;
-      transform: translate(-50%, -50%) scale(0.98);
-      filter: grayscale(0.25) contrast(0.95);
-    }
-    60% {
-      opacity: 1;
-      transform: translate(-50%, -50%) scale(1.01);
-    }
-    100% {
-      opacity: 1;
-      transform: translate(-50%, -50%) scale(1);
-      filter: grayscale(0.15) contrast(0.98);
-    }
-  }
-</style>

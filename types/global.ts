@@ -10,6 +10,11 @@ export interface GlobalCorePayload {
   fourStarType3Distribution?: Record<string, number>
 }
 
+export interface GlobalBootstrapData extends GlobalCorePayload {
+  bannerId?: number
+  f?: FirstItemDistribution
+}
+
 export interface GlobalBannerPayload {
   date?: string
   bannerId?: number

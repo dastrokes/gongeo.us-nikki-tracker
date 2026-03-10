@@ -13,7 +13,7 @@
             v-for="i in 6"
             :key="i"
             size="small"
-            class="text-center rounded-md"
+            class="text-center rounded-lg"
           >
             <n-skeleton
               height="20px"
@@ -92,7 +92,7 @@
         <div class="grid grid-cols-2 md:grid-cols-6 gap-2">
           <n-card
             size="small"
-            class="text-center rounded-md"
+            class="text-center rounded-lg"
           >
             <div class="text-sm text-gray-400">
               {{ $t('global.stats.total_pulls') }}
@@ -108,7 +108,7 @@
           </n-card>
           <n-card
             size="small"
-            class="text-center rounded-md"
+            class="text-center rounded-lg"
           >
             <div class="text-sm text-gray-400">
               {{ $t('global.stats.unique_users') }}
@@ -124,7 +124,7 @@
           </n-card>
           <n-card
             size="small"
-            class="text-center rounded-md"
+            class="text-center rounded-lg"
           >
             <div class="text-sm text-gray-400">
               {{ $t('global.stats.avg_5star') }}
@@ -140,7 +140,7 @@
           </n-card>
           <n-card
             size="small"
-            class="text-center rounded-md"
+            class="text-center rounded-lg"
           >
             <div class="text-sm text-gray-400">
               {{ $t('global.stats.avg_4star_type2') }}
@@ -156,7 +156,7 @@
           </n-card>
           <n-card
             size="small"
-            class="text-center rounded-md"
+            class="text-center rounded-lg"
           >
             <div class="text-sm text-gray-400">
               {{ $t('global.stats.avg_4star_type3') }}
@@ -172,7 +172,7 @@
           </n-card>
           <n-card
             size="small"
-            class="text-center rounded-md"
+            class="text-center rounded-lg"
           >
             <div class="text-sm text-gray-400">
               {{ $t('global.stats.data_as_of') }}
@@ -210,7 +210,7 @@
           <div
             class="transition-all duration-300"
             :class="{
-              'h-[calc(100vh-220px)] sm:h-[calc(100vh-170px)]':
+              'h-[calc(100vh-108px)] sm:h-[calc(100vh-140px)]':
                 maximizedChart === 'pullsPerBanner',
               'h-[320px]': maximizedChart !== 'pullsPerBanner',
             }"
@@ -307,7 +307,7 @@
           <div
             class="transition-all duration-300"
             :class="{
-              'h-[calc(100vh-220px)] sm:h-[calc(100vh-170px)]':
+              'h-[calc(100vh-108px)] sm:h-[calc(100vh-140px)]':
                 maximizedChart === 'fiveStar',
               'h-[200px]': maximizedChart !== 'fiveStar',
             }"
@@ -350,7 +350,7 @@
           <div
             class="transition-all duration-300"
             :class="{
-              'h-[calc(100vh-220px)] sm:h-[calc(100vh-170px)]':
+              'h-[calc(100vh-108px)] sm:h-[calc(100vh-140px)]':
                 maximizedChart === 'fourStarType2',
               'h-[200px]': maximizedChart !== 'fourStarType2',
             }"
@@ -395,7 +395,7 @@
           <div
             class="transition-all duration-300"
             :class="{
-              'h-[calc(100vh-220px)] sm:h-[calc(100vh-170px)]':
+              'h-[calc(100vh-108px)] sm:h-[calc(100vh-140px)]':
                 maximizedChart === 'fourStarType3',
               'h-[200px]': maximizedChart !== 'fourStarType3',
             }"
@@ -445,9 +445,9 @@
           <div
             class="transition-all duration-300"
             :class="{
-              'h-[calc(100vh-220px)] sm:h-[calc(100vh-170px)]':
+              'h-[calc(100vh-108px)] sm:h-[calc(100vh-140px)]':
                 maximizedChart === 'firstItemDistribution',
-              'h-[200px]': maximizedChart !== 'firstItemDistribution',
+              'h-[240px]': maximizedChart !== 'firstItemDistribution',
             }"
           >
             <n-tooltip
@@ -540,6 +540,11 @@
   import { useThemeVars, type TreeSelectOption } from 'naive-ui'
   import { BANNER_DATA } from '~/data/banners'
   import OUTFIT_DATA, { type OutfitKey } from '~/data/outfits'
+  import type {
+    FirstItemDistribution,
+    GlobalBannerPayload,
+    GlobalBootstrapData,
+  } from '~/types/global'
   import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
   import {
     ExpandAlt,
@@ -548,26 +553,6 @@
     CalendarDay,
     CalendarAlt,
   } from '@vicons/fa'
-
-  // Type definitions for global data structure
-  type FirstItemDistribution = Record<string, { o: number; i: string }[]>
-
-  interface GlobalData {
-    pulls?: number // total pulls
-    users?: number // unique users
-    date?: string // date
-    pullsPerBanner?: Record<string, [number, number, number]> // pulls per banner [3star, 4star, 5star]
-    fiveStarDistribution?: Record<string, number> // 5-star distribution
-    fourStarType2Distribution?: Record<string, number> // 4-star type 2 distribution
-    fourStarType3Distribution?: Record<string, number> // 4-star type 3 distribution
-    f?: FirstItemDistribution // first item distribution for latest banner
-  }
-
-  interface GlobalBannerFirstItemData {
-    date?: string
-    bannerId?: number
-    f?: FirstItemDistribution
-  }
 
   // Type definitions for ECharts formatter parameters
   interface ChartFormatterParams {
@@ -650,19 +635,23 @@
     )
   })
 
-  const fetchGlobalData = async () => $fetch<GlobalData | null>('/api/global')
+  const fetchGlobalData = () =>
+    $fetch<GlobalBootstrapData | null>('/api/global')
 
-  const { data: globalData } = useAsyncData<GlobalData | null>(
+  const globalDataOptions = {
+    default: () => null,
+    server: false,
+    lazy: true,
+  }
+
+  const { data: globalData } = useAsyncData<GlobalBootstrapData | null>(
     'global-data',
     fetchGlobalData,
-    {
-      default: () => null,
-      lazy: true,
-    }
+    globalDataOptions
   )
 
   // Use computed for data to maintain reactivity
-  const data = computed(() => globalData.value as GlobalData | null)
+  const data = computed(() => globalData.value as GlobalBootstrapData | null)
   const firstItemDataByBanner = ref<Record<number, FirstItemDistribution>>({})
   const firstItemData = ref<FirstItemDistribution | null>(null)
   const loading = ref(true)
@@ -754,6 +743,17 @@
 
   const latestBannerId = 53 // TODO: update to current banner id
   const latestBanner = computed(() => BANNER_DATA[latestBannerId])
+  const bootstrapFirstItemBannerId = computed(
+    () => data.value?.bannerId ?? latestBannerId
+  )
+
+  const seedBootstrapFirstItemData = (
+    payload: GlobalBootstrapData | null | undefined
+  ) => {
+    if (!payload) return
+    firstItemDataByBanner.value[payload.bannerId ?? latestBannerId] =
+      payload.f ?? {}
+  }
 
   const setDefaultSelectedOutfit = () => {
     const banner = latestBanner.value
@@ -776,6 +776,7 @@
     data,
     async (payload) => {
       if (!payload) return
+      seedBootstrapFirstItemData(payload)
 
       if (!selectedOutfit.value) {
         setDefaultSelectedOutfit()
@@ -897,7 +898,7 @@
   })
 
   async function fetchBannerFirstItemData(bannerId: number) {
-    return $fetch<GlobalBannerFirstItemData>(`/api/global/${bannerId}`)
+    return $fetch<GlobalBannerPayload>(`/api/global/${bannerId}`)
   }
 
   async function ensureFirstItemDataForBanner(
@@ -906,6 +907,12 @@
     const cached = firstItemDataByBanner.value[bannerId]
     if (cached) {
       return cached
+    }
+
+    if (bannerId === bootstrapFirstItemBannerId.value && data.value) {
+      const distribution = data.value.f ?? {}
+      firstItemDataByBanner.value[bannerId] = distribution
+      return distribution
     }
 
     try {
@@ -1472,6 +1479,7 @@
     > = {}
     // Get viewport width to detect mobile vs desktop
     const imageSize = isMobile.value ? 32 : 80
+    const imageRequestSize = isMobile.value ? 60 : 120
     // Create rich label for each item
     itemsData.forEach((itemId: string) => {
       richLabels[`img${itemId}`] = {
@@ -1479,8 +1487,8 @@
         width: imageSize,
         backgroundColor: {
           image: nuxtImg(getImageSrc('itemIcon', itemId), {
-            width: imageSize,
-            height: imageSize,
+            width: imageRequestSize,
+            height: imageRequestSize,
             quality: 80,
           }),
         },

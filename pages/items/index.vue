@@ -190,12 +190,11 @@
             >
               <template #icon>
                 <NuxtImg
-                  :src="getImageSrc('static', '/images/404.webp')"
-                  alt="No results"
+                  :src="getImageSrc('static', '/images/emotes/think.webp')"
                   class="mx-auto w-32 h-32 sm:w-48 sm:h-48 object-cover"
                   width="400"
                   height="400"
-                  fit="contain"
+                  fit="cover"
                   sizes="160px sm:200px"
                 />
               </template>
@@ -213,12 +212,12 @@
             <div
               v-if="!loading && !error && entries.length > 0"
               key="grid"
-              class="staggered-grid grid grid-cols-3 sm:grid-cols-6 gap-2 sm:gap-3 sm:content-start"
+              class="grid grid-cols-3 sm:grid-cols-6 gap-2 sm:gap-3 sm:content-start"
             >
               <div
                 v-for="(entry, index) in entries"
                 :key="entry.id"
-                class="cursor-pointer"
+                class="cursor-pointer animate-fade-in-up motion-reduce:animate-none"
                 :style="{
                   animationDelay: `${Math.min(index + 1, 12) * 0.05}s`,
                 }"
@@ -315,7 +314,7 @@
             <div
               v-else-if="loading"
               key="loading"
-              class="staggered-grid grid grid-cols-3 sm:grid-cols-6 gap-2 sm:gap-3 sm:content-start"
+              class="grid grid-cols-3 sm:grid-cols-6 gap-2 sm:gap-3 sm:content-start"
             >
               <div
                 v-for="(i, index) in pageSize"
@@ -929,22 +928,3 @@
     }
   }
 </script>
-
-<style scoped>
-  /* Staggered animation for grid items */
-  .staggered-grid > * {
-    animation: fadeInUp 0.5s ease-out backwards;
-  }
-
-  @keyframes fadeInUp {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-</style>

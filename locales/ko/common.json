@@ -531,16 +531,16 @@
     }
   },
   "timeline": {
-    "banner_timer": "Rerun timer: {days} days",
-    "run_gap": "Gap: {days} days",
-    "max_zoom": "Zoom to max",
-    "reset_zoom": "Reset zoom",
+    "banner_timer": "복각 타이머: {days}일",
+    "run_gap": "간격: {days}일",
+    "max_zoom": "최대로 확대",
+    "reset_zoom": "확대 초기화",
     "sort": {
-      "label": "Sort timeline",
-      "newest_first": "Newest first",
-      "oldest_first": "Oldest first",
-      "longest_gap": "Longest gap",
-      "shortest_gap": "Shortest gap"
+      "label": "타임라인 정렬",
+      "newest_first": "최신순",
+      "oldest_first": "오래된 순",
+      "longest_gap": "간격이 긴 순",
+      "shortest_gap": "간격이 짧은 순"
     }
   },
   "faq": {

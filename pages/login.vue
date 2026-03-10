@@ -17,9 +17,9 @@
         <!-- Already signed in -->
         <div v-if="user && !isRecoveryMode">
           <n-result
+            size="small"
             status="success"
             :title="$t('login.signed_in_title')"
-            size="small"
           >
             <template #footer>
               <n-space vertical>

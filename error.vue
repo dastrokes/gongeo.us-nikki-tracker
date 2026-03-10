@@ -1,8 +1,8 @@
 <template>
   <div class="min-h-screen flex items-center justify-center">
     <n-result
-      class="w-full max-w-xs"
       size="small"
+      class="w-full max-w-xs"
       status="info"
       title="gongeo.us"
     >
@@ -10,10 +10,10 @@
         <NuxtImg
           src="/images/emotes/think.webp"
           class="w-2/3 h-2/3 object-cover"
-          width="400"
-          height="400"
+          width="200"
+          height="200"
           fit="cover"
-          sizes="200px"
+          sizes="160px sm:200px"
         />
       </template>
       <template #footer>

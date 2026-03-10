@@ -164,6 +164,7 @@
             class="text-center py-12"
           >
             <n-result
+              size="small"
               status="error"
               :title="t('compendium.error_title')"
               :description="t('compendium.error_description')"
@@ -184,6 +185,7 @@
             class="text-center py-12"
           >
             <n-result
+              size="small"
               status="info"
               :title="t('compendium.no_results_title')"
               :description="t('compendium.no_results_description')"
@@ -191,9 +193,9 @@
               <template #icon>
                 <NuxtImg
                   :src="getImageSrc('static', '/images/emotes/think.webp')"
-                  class="mx-auto w-32 h-32 sm:w-48 sm:h-48 object-cover"
-                  width="400"
-                  height="400"
+                  class="mx-auto w-24 h-24 sm:w-32 sm:h-32 object-cover"
+                  width="200"
+                  height="200"
                   fit="cover"
                   sizes="160px sm:200px"
                 />

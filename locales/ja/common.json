@@ -61,6 +61,9 @@
     "vote": "バナー投票",
     "faq": "よくある質問",
     "about": "について",
+    "official_website": "Official Website",
+    "join_community": "Join Community",
+    "support_website": "Support Website",
     "nuan5pro": "Nuan5.Pro"
   },
   "meta": {
@@ -88,8 +91,11 @@
   "default": {
     "description": "Infinity Nikki 共鳴の履歴と統計を追跡する",
     "your_data": "あなたのデータ",
+    "community_stats": "Community Stats",
+    "view_all_stats": "View All Stats",
     "current_banners": "現在のバナー",
     "rerun": "再実行",
+    "built_with": "This site is powered by",
     "copyright": "© 2026 gongeo.us • © Infold Games 全著作権所有",
     "disclaimer": {
       "content": "これは非公式のファン作成の Web サイトであり、Infold Games と提携または承認されていません。",

@@ -1,13 +1,23 @@
 import type { Context } from '@netlify/edge-functions'
-import {
-  defaultLocale as DEFAULT_LOCALE,
-  i18nLocales,
-  type SupportedLocaleCode,
-} from '../../locales/locales'
 
 const LOCALE_COOKIE_KEY = 'i18n_redirected'
 const COOKIE_MAX_AGE_SECONDS = 60 * 60 * 24 * 365
-const SUPPORTED_LOCALE_CODES = i18nLocales.map((locale) => locale.code)
+const SUPPORTED_LOCALE_CODES = [
+  'en',
+  'de',
+  'es',
+  'fr',
+  'id',
+  'it',
+  'ja',
+  'ko',
+  'pt',
+  'th',
+  'zh',
+  'tw',
+] as const
+type SupportedLocaleCode = (typeof SUPPORTED_LOCALE_CODES)[number]
+const DEFAULT_LOCALE: SupportedLocaleCode = 'en'
 const SUPPORTED_LOCALES = new Set<SupportedLocaleCode>(SUPPORTED_LOCALE_CODES)
 const DIRECT_LANGUAGE_LOCALES = new Set<SupportedLocaleCode>(
   SUPPORTED_LOCALE_CODES.filter((code) => code !== 'tw')

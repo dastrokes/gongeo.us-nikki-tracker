@@ -408,12 +408,15 @@
 </template>
 
 <script setup lang="ts">
+  import { setResponseStatus } from 'h3'
   import { Star } from '@vicons/fa'
   import type { OutfitWithItems } from '~/types/supabase'
+  import { applyPageCacheHeaders } from '~/utils/cacheHeaders'
 
   const { t, te, locale } = useI18n()
   const localePath = useLocalePath()
   const route = useRoute()
+  const requestEvent = useRequestEvent()
 
   // Get outfit ID from route
   const outfitId = computed(() => Number(route.params.id))
@@ -437,6 +440,11 @@
       lazy: true,
     }
   )
+
+  if (import.meta.server && requestEvent && !error.value && !outfit.value) {
+    setResponseStatus(requestEvent, 404)
+    applyPageCacheHeaders(requestEvent, 'noStore')
+  }
 
   // Makeup types
   const makeupTypes: ItemType[] = [

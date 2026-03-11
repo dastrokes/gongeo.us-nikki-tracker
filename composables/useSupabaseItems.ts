@@ -64,7 +64,7 @@ export const useSupabaseItems = () => {
       const normalizedError = toError(e, `Failed to fetch item ${id}`)
       error.value = normalizedError
       console.error(`Failed to fetch item ${id}: ${normalizedError.message}`)
-      return null
+      throw normalizedError
     } finally {
       loading.value = false
     }

@@ -857,6 +857,7 @@
     Youtube,
   } from '@vicons/fa'
   import { BANNER_DATA } from '~/data/banners'
+  import { IMPORT_PAGE_MAINTENANCE } from '~/data/manualConfig'
   import type { VNodeChild } from 'vue'
 
   const { t } = useI18n()
@@ -872,8 +873,7 @@
   const showYouTubeModal = ref(false)
   const showBilibiliModal = ref(false)
 
-  // TODO: toggle maintenance
-  const isMaintenance = ref(false)
+  const isMaintenance = ref(IMPORT_PAGE_MAINTENANCE)
 
   useSeoMeta({
     title: () =>

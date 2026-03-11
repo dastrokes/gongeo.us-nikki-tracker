@@ -48,10 +48,8 @@
     ]
   })
 
-  const handleLanguageSelect = (key: string) => {
+  const handleLanguageSelect = async (key: string) => {
     if (key === 'crowdin') return
-    setLocale(key as SupportedLocaleCode)
-    const { set } = useCookieHelpers()
-    set('locale', key)
+    await setLocale(key as SupportedLocaleCode)
   }
 </script>

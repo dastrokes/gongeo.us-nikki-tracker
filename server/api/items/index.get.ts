@@ -1,5 +1,8 @@
 import { useSupabaseDataClient } from '~/composables/useSupabaseClient'
-import { GAME_VERSION_HEADER, setCacheHeaders } from '~/utils/cacheHeaders'
+import {
+  defineCachedApiEventHandler,
+  GAME_VERSION_HEADER,
+} from '~/utils/cacheHeaders'
 import { getGameVersion } from '~/utils/gameVersion'
 import {
   createInternalError,
@@ -69,12 +72,8 @@ const parsePageSize = (value: unknown): number => {
  * API endpoint for fetching paginated items
  * App-level caching enabled (30d), Netlify edge caching enabled via Cache-Control header
  */
-export default defineCachedEventHandler(
+export default defineCachedApiEventHandler(
   async (event) => {
-    setCacheHeaders(event, {
-      varyQuery: true,
-      varyHeaders: [GAME_VERSION_HEADER],
-    })
     const query = getQuery(event)
     const qualityParam = query.quality?.toString().trim() ?? ''
     const qualityParsed = qualityParam ? Number(qualityParam) : null
@@ -311,31 +310,39 @@ export default defineCachedEventHandler(
     }
   },
   {
-    maxAge: 60 * 60 * 24 * 7, // 7 days
-    name: 'items-list',
-    getKey: (event) => {
-      const version = getGameVersion()
-      const query = getQuery(event)
-      const page = query.page ? Number(query.page) : 1
-      const pageSize = parsePageSize(query.pageSize ?? query.page_size)
-      const qualityParam = query.quality?.toString().trim() ?? ''
-      const qualityParsed = qualityParam ? Number(qualityParam) : null
-      const quality = qualityParam
-        ? Number.isFinite(qualityParsed)
-          ? qualityParsed
-          : 'invalid'
-        : 'all'
-      const type = query.type?.toString() || 'all'
-      const style = query.style?.toString() || 'all'
-      const label = query.label?.toString() || 'all'
-      const itemVersion = query.version?.toString() || 'all'
-      const source = query.source
-        ? query.source.toString()
-        : query.obtain
-          ? query.obtain.toString()
+    cache: {
+      maxAge: 60 * 60 * 24 * 30,
+      staleMaxAge: 60 * 60 * 24 * 7,
+      name: 'items-list',
+      getKey: (event) => {
+        const version = getGameVersion()
+        const query = getQuery(event)
+        const page = query.page ? Number(query.page) : 1
+        const pageSize = parsePageSize(query.pageSize ?? query.page_size)
+        const qualityParam = query.quality?.toString().trim() ?? ''
+        const qualityParsed = qualityParam ? Number(qualityParam) : null
+        const quality = qualityParam
+          ? Number.isFinite(qualityParsed)
+            ? qualityParsed
+            : 'invalid'
           : 'all'
-      return `${version}:items:p${page}:ps${pageSize}:q${quality}:t${type}:s${style}:l${label}:v${itemVersion}:src${source}`
+        const type = query.type?.toString() || 'all'
+        const style = query.style?.toString() || 'all'
+        const label = query.label?.toString() || 'all'
+        const itemVersion = query.version?.toString() || 'all'
+        const source = query.source
+          ? query.source.toString()
+          : query.obtain
+            ? query.obtain.toString()
+            : 'all'
+        return `${version}:items:p${page}:ps${pageSize}:q${quality}:t${type}:s${style}:l${label}:v${itemVersion}:src${source}`
+      },
+      swr: true,
     },
-    swr: true, // Enable stale-while-revalidate
+    headers: {
+      varyQuery: true,
+      varyHeaders: [GAME_VERSION_HEADER],
+    },
+    profile: 'catalog',
   }
 )

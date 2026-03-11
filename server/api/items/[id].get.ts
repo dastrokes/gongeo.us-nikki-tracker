@@ -1,8 +1,5 @@
-import type { H3Event } from 'h3'
 import { useSupabaseDataClient } from '~/composables/useSupabaseClient'
-import { resolveLocaleCode } from '~/utils/locale'
-import { setCacheHeaders } from '~/utils/cacheHeaders'
-import { getGameVersion } from '~/utils/gameVersion'
+import { defineCachedApiEventHandler } from '~/utils/cacheHeaders'
 import {
   createInternalError,
   createInvalidIdError,
@@ -14,6 +11,7 @@ import {
   isTransientSupabaseError,
   withSupabaseRetry,
 } from '~/utils/supabaseRetry'
+import { resolveRequestLocale } from '~/utils/locale'
 
 interface ItemTranslation {
   description: string
@@ -50,12 +48,6 @@ interface ItemVariation {
   id: number
   quality: number
   type: string
-}
-
-const getRequestLocale = (event: H3Event) => {
-  const query = getQuery(event)
-  const langQuery = query.lang?.toString()
-  return resolveLocaleCode(langQuery)
 }
 
 /**
@@ -109,13 +101,10 @@ function getVariationType(id: number): string {
  * API endpoint for fetching a single item by ID
  * App-level caching enabled (30 days), Netlify edge caching enabled via Cache-Control header
  */
-export default defineCachedEventHandler(
+export default defineCachedApiEventHandler(
   async (event) => {
-    setCacheHeaders(event, {
-      varyQuery: true,
-    })
     const id = Number(getRouterParam(event, 'id'))
-    const languageCode = getRequestLocale(event)
+    const languageCode = resolveRequestLocale(event)
 
     if (!id || isNaN(id)) {
       throw createInvalidIdError('item')
@@ -218,14 +207,20 @@ export default defineCachedEventHandler(
     }
   },
   {
-    maxAge: 60 * 60 * 24 * 7, // 7 days
-    name: 'item-detail',
-    getKey: (event) => {
-      const id = getRouterParam(event, 'id')
-      const version = getGameVersion()
-      const languageCode = getRequestLocale(event)
-      return `${version}:item:${id}:${languageCode}`
+    cache: {
+      maxAge: 60 * 60 * 24 * 30,
+      staleMaxAge: 60 * 60 * 24 * 7,
+      name: 'item-detail',
+      getKey: (event) => {
+        const id = getRouterParam(event, 'id')
+        const languageCode = resolveRequestLocale(event)
+        return `item:${id}:${languageCode}`
+      },
+      swr: true,
     },
-    swr: true, // Enable stale-while-revalidate
+    headers: {
+      varyQuery: true,
+    },
+    profile: 'catalog',
   }
 )

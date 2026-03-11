@@ -44,8 +44,8 @@
     "failed": "失败"
   },
   "navigation": {
-    "title": "暖暖共鸣录",
-    "subtitle": "gongeo.us",
+    "title": "gongeo.us",
+    "subtitle": "无限暖暖 暖暖共鸣录",
     "tracker": "共鸣记录",
     "import": "导入数据",
     "global": "社区数据",
@@ -57,7 +57,7 @@
     "item": "部件图鉴",
     "item_detail": "部件详情",
     "tierlist": "排行榜",
-    "compendium": "图鉴",
+    "compendium": "游戏图鉴",
     "vote": "卡池投票",
     "faq": "常见问题",
     "about": "关于本站",

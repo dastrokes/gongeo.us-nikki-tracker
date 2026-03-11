@@ -61,9 +61,9 @@
     "vote": "배너 투표",
     "faq": "자주 묻는 질문",
     "about": "대해서요",
-    "official_website": "Official Website",
-    "join_community": "Join Community",
-    "support_website": "Support Website",
+    "official_website": "공식 웹사이트",
+    "join_community": "커뮤니티 참여",
+    "support_website": "사이트 후원",
     "nuan5pro": "Nuan5.Pro"
   },
   "meta": {
@@ -91,11 +91,11 @@
   "default": {
     "description": "인피니티 니키 공명 역사 및 통계 추적",
     "your_data": "당신의 데이터",
-    "community_stats": "Community Stats",
-    "view_all_stats": "View All Stats",
+    "community_stats": "커뮤니티 통계",
+    "view_all_stats": "모든 통계 보기",
     "current_banners": "현재 배너",
     "rerun": "재방송",
-    "built_with": "This site is powered by",
+    "built_with": "이 사이트는 다음으로 구동됩니다",
     "copyright": "© 2026 gongeo.us • © Infold Games 판권 소유",
     "disclaimer": {
       "content": "이것은 Infold Games와 제휴하거나 승인하지 않은 비공식 팬 제작 웹사이트입니다.",
@@ -537,16 +537,16 @@
     }
   },
   "timeline": {
-    "banner_timer": "Rerun timer: {days} days",
-    "run_gap": "Gap: {days} days",
-    "max_zoom": "Zoom to max",
-    "reset_zoom": "Reset zoom",
+    "banner_timer": "복각 타이머: {days}일",
+    "run_gap": "간격: {days}일",
+    "max_zoom": "최대로 확대",
+    "reset_zoom": "확대 초기화",
     "sort": {
-      "label": "Sort timeline",
-      "newest_first": "Newest first",
-      "oldest_first": "Oldest first",
-      "longest_gap": "Longest gap",
-      "shortest_gap": "Shortest gap"
+      "label": "타임라인 정렬",
+      "newest_first": "최신순",
+      "oldest_first": "오래된 순",
+      "longest_gap": "간격이 긴 순",
+      "shortest_gap": "간격이 짧은 순"
     }
   },
   "faq": {

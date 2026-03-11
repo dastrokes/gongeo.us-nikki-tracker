@@ -576,6 +576,7 @@
 </template>
 
 <script setup lang="ts">
+  import { setResponseStatus } from 'h3'
   import {
     CalendarAlt,
     Book,
@@ -590,10 +591,12 @@
   } from '@vicons/fa'
   import { BANNER_DATA } from '~/data/banners'
   import type { Outfit } from '~/types/outfit'
+  import { applyPageCacheHeaders } from '~/utils/cacheHeaders'
 
   const route = useRoute()
   const { t } = useI18n()
   const { getImageSrc, getImageUrl } = imageProvider()
+  const requestEvent = useRequestEvent()
 
   const localePath = useLocalePath()
   const pullStore = usePullStore()
@@ -614,6 +617,11 @@
   const banner = computed(() => {
     return BANNER_DATA[bannerId.value]
   })
+
+  if (import.meta.server && requestEvent && !banner.value) {
+    setResponseStatus(requestEvent, 404)
+    applyPageCacheHeaders(requestEvent, 'noStore')
+  }
 
   const bannerName = computed(() => {
     if (!banner.value) return ''

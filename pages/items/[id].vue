@@ -501,12 +501,15 @@
 </template>
 
 <script setup lang="ts">
+  import { setResponseStatus } from 'h3'
   import { Star } from '@vicons/fa'
   import type { ItemWithOutfits } from '~/types/supabase'
+  import { applyPageCacheHeaders } from '~/utils/cacheHeaders'
 
   const { t, te, locale } = useI18n()
   const localePath = useLocalePath()
   const route = useRoute()
+  const requestEvent = useRequestEvent()
 
   // Get item ID from route
   const itemId = computed(() => Number(route.params.id))
@@ -530,6 +533,11 @@
       lazy: true,
     }
   )
+
+  if (import.meta.server && requestEvent && !error.value && !item.value) {
+    setResponseStatus(requestEvent, 404)
+    applyPageCacheHeaders(requestEvent, 'noStore')
+  }
 
   // Computed related outfits with names from i18n
   const relatedOutfits = computed(() => {

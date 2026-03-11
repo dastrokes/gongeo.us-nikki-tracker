@@ -61,9 +61,9 @@
     "vote": "Voto sullo striscione",
     "faq": "Domande frequenti",
     "about": "Di",
-    "official_website": "Official Website",
-    "join_community": "Join Community",
-    "support_website": "Support Website",
+    "official_website": "Sito ufficiale",
+    "join_community": "Unisciti alla community",
+    "support_website": "Supporta il sito",
     "nuan5pro": "Nuan5.Pro"
   },
   "meta": {
@@ -91,11 +91,11 @@
   "default": {
     "description": "Tieni traccia della cronologia e delle statistiche della risonanza Infinity Nikki",
     "your_data": "I tuoi dati",
-    "community_stats": "Community Stats",
-    "view_all_stats": "View All Stats",
+    "community_stats": "Statistiche della community",
+    "view_all_stats": "Vedi tutte le statistiche",
     "current_banners": "Banner attuali",
     "rerun": "Rieseguire",
-    "built_with": "This site is powered by",
+    "built_with": "Questo sito è realizzato con",
     "copyright": "© 2026 gongeo.us • © Infold Games Tutti i diritti riservati",
     "disclaimer": {
       "content": "Questo è un sito Web non ufficiale creato dai fan, non affiliato o approvato da Infold Games.",

@@ -539,7 +539,9 @@
 <script setup lang="ts">
   import { useThemeVars, type TreeSelectOption } from 'naive-ui'
   import { BANNER_DATA } from '~/data/banners'
+  import { LATEST_BANNER_ID } from '~/data/manualConfig'
   import OUTFIT_DATA, { type OutfitKey } from '~/data/outfits'
+  import { getGameVersionRequestHeaders } from '~/utils/cacheHeaders'
   import type {
     FirstItemDistribution,
     GlobalBannerPayload,
@@ -635,8 +637,11 @@
     )
   })
 
+  const gameVersionHeaders = getGameVersionRequestHeaders()
   const fetchGlobalData = () =>
-    $fetch<GlobalBootstrapData | null>('/api/global')
+    $fetch<GlobalBootstrapData | null>('/api/global', {
+      headers: gameVersionHeaders,
+    })
 
   const globalDataOptions = {
     default: () => null,
@@ -741,7 +746,7 @@
   const hasOutfit = (id: string): id is OutfitKey =>
     Object.prototype.hasOwnProperty.call(OUTFIT_DATA, id)
 
-  const latestBannerId = 53 // TODO: update to current banner id
+  const latestBannerId = LATEST_BANNER_ID
   const latestBanner = computed(() => BANNER_DATA[latestBannerId])
   const bootstrapFirstItemBannerId = computed(
     () => data.value?.bannerId ?? latestBannerId
@@ -898,7 +903,9 @@
   })
 
   async function fetchBannerFirstItemData(bannerId: number) {
-    return $fetch<GlobalBannerPayload>(`/api/global/${bannerId}`)
+    return $fetch<GlobalBannerPayload>(`/api/global/${bannerId}`, {
+      headers: gameVersionHeaders,
+    })
   }
 
   async function ensureFirstItemDataForBanner(

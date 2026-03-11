@@ -26,6 +26,10 @@
   // Initialize theme state
   const { isDark, naiveTheme, initTheme } = useTheme()
 
+  if (import.meta.client) {
+    initTheme()
+  }
+
   const localeHeadLinks = computed<I18nHeadMetaInfo['link']>(
     () => localeHead.value.link as I18nHeadMetaInfo['link']
   )
@@ -203,7 +207,6 @@
 
   // Ensure theme is initialized on client-side
   onMounted(() => {
-    initTheme()
     initProfile()
     initAuth()
   })

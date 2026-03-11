@@ -134,7 +134,7 @@
       >
         <div class="text-center mb-4">
           <n-h2 class="!m-0 font-bold">
-            {{ $t('meta.game_title') }} {{ $t('navigation.compendium') }}
+            {{ $t('navigation.compendium') }}
           </n-h2>
         </div>
 
@@ -159,9 +159,10 @@
         <!-- Tier List & Quiz Row -->
         <div class="grid grid-cols-2 gap-3">
           <!-- Tier List Preview -->
-          <NuxtLink
+          <NuxtLinkLocale
+            no-prefetch
             class="relative flex items-center justify-center h-36 w-full rounded-lg border border-gray-200/70 dark:border-gray-700/70 bg-gradient-to-b from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900 overflow-hidden cursor-pointer group"
-            :to="localePath('/tierlist')"
+            :to="'/tierlist'"
           >
             <div
               class="h-full rounded-md backdrop-blur-[1px] p-2 flex flex-col gap-1.5"
@@ -189,12 +190,13 @@
                 <span>{{ $t('navigation.tierlist') }}</span>
               </div>
             </div>
-          </NuxtLink>
+          </NuxtLinkLocale>
 
           <!-- Outfit Silhouette Quiz -->
-          <NuxtLink
+          <NuxtLinkLocale
+            no-prefetch
             class="relative flex items-center justify-center h-36 w-full rounded-lg border border-gray-200/70 dark:border-gray-700/70 bg-gradient-to-b from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900 overflow-hidden cursor-pointer group"
-            :to="localePath('/quiz')"
+            :to="'/quiz'"
           >
             <div class="h-full aspect-[2/3] shrink-0 p-1">
               <NuxtImg
@@ -216,7 +218,7 @@
                 <span>{{ $t('quiz.title') }}</span>
               </div>
             </div>
-          </NuxtLink>
+          </NuxtLinkLocale>
         </div>
       </n-card>
     </section>
@@ -345,8 +347,10 @@
   import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
   import { useThemeVars } from 'naive-ui'
   import { BANNER_DATA } from '~/data/banners'
+  import { CURRENT_BANNER_GROUPS } from '~/data/manualConfig'
   import OUTFIT_DATA, { type OutfitKey } from '~/data/outfits'
   import type { Banner } from '~/types/banner'
+  import { getGameVersionRequestHeaders } from '~/utils/cacheHeaders'
   import type {
     FirstItemDistribution,
     GlobalBootstrapData,
@@ -450,11 +454,9 @@
     targetTime: new Date(targetTime),
   })
 
-  // TODO: update to current banner id
-  const bannerGroups: BannerGroup[] = [
-    createBannerGroup('left', [53], '2026-03-26T20:00:00Z'),
-    createBannerGroup('right', [12, 15], '2026-03-15T20:00:00Z'),
-  ].filter((group) => group.banners.length > 0)
+  const bannerGroups: BannerGroup[] = CURRENT_BANNER_GROUPS.map((group) =>
+    createBannerGroup(group.key, group.bannerIds, group.targetTime)
+  ).filter((group) => group.banners.length > 0)
 
   const currentBanners = bannerGroups.flatMap((group) => group.banners)
   const newCurrentBanners = currentBanners.filter(
@@ -554,9 +556,12 @@
   const communityFirstItemSkeletonHeights = [
     80, 80, 80, 80, 60, 60, 60, 60, 40, 40,
   ] as const
+  const gameVersionHeaders = getGameVersionRequestHeaders()
 
   const fetchGlobalData = () =>
-    $fetch<GlobalBootstrapData | null>('/api/global')
+    $fetch<GlobalBootstrapData | null>('/api/global', {
+      headers: gameVersionHeaders,
+    })
 
   const globalDataOptions = {
     default: () => null,

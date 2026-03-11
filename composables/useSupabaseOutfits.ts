@@ -65,7 +65,7 @@ export const useSupabaseOutfits = () => {
       const normalizedError = toError(e, `Failed to fetch outfit ${id}`)
       error.value = normalizedError
       console.error(`Failed to fetch outfit ${id}: ${normalizedError.message}`)
-      return null
+      throw normalizedError
     } finally {
       loading.value = false
     }

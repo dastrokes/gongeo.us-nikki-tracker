@@ -6,18 +6,17 @@ import {
   createNotFoundError,
   createUpstreamUnavailableError,
 } from '~/utils/apiErrors'
-import { GAME_VERSION_HEADER, setCacheHeaders } from '~/utils/cacheHeaders'
+import {
+  defineCachedApiEventHandler,
+  GAME_VERSION_HEADER,
+} from '~/utils/cacheHeaders'
 import { toErrorMessage } from '~/utils/errors'
 import { getGameVersion } from '~/utils/gameVersion'
 import { isTransientSupabaseError } from '~/utils/supabaseRetry'
 import { getBannerStats } from '~/utils/globalStats'
 
-export default defineCachedEventHandler(
+export default defineCachedApiEventHandler(
   async (event) => {
-    setCacheHeaders(event, {
-      varyHeaders: [GAME_VERSION_HEADER],
-    })
-
     const idParam = getRouterParam(event, 'id')
     const bannerId = Number.parseInt(idParam ?? '', 10)
     if (Number.isNaN(bannerId) || bannerId < 1) {
@@ -64,10 +63,17 @@ export default defineCachedEventHandler(
     }
   },
   {
-    maxAge: 60 * 60 * 24, // 1 day
-    name: 'global-banner-first-item',
-    getKey: (event) =>
-      `${getGameVersion()}:global:banner:${getRouterParam(event, 'id') ?? 'invalid'}`,
-    swr: true,
+    cache: {
+      maxAge: 60 * 60 * 24,
+      staleMaxAge: 60 * 60 * 24,
+      name: 'global-banner-first-item',
+      getKey: (event) =>
+        `${getGameVersion()}:global:banner:${getRouterParam(event, 'id') ?? 'invalid'}`,
+      swr: true,
+    },
+    headers: {
+      varyHeaders: [GAME_VERSION_HEADER],
+    },
+    profile: 'stats',
   }
 )

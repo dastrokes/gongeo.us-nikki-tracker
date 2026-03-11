@@ -15,6 +15,10 @@
     "netlify-agent-category" = "^(ai-agent|page-preview|crawler|tooling|other|none)(;.*)?$"
 
 [[edge_functions]]
+  function = "root-redirect"
+  path = "/"
+
+[[edge_functions]]
   function = "redirects"
   pattern = "^/(?:[a-z]{2}/)?(banner|item|outfit)(?:/.*)?$"
 

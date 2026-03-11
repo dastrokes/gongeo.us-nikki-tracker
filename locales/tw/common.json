@@ -44,8 +44,8 @@
     "failed": "失敗"
   },
   "navigation": {
-    "title": "暖暖共鳴錄",
-    "subtitle": "gongeo.us",
+    "title": "gongeo.us",
+    "subtitle": "無限暖暖 暖暖共鳴錄",
     "tracker": "共鳴記錄",
     "import": "匯入資料",
     "global": "社群資料",
@@ -57,7 +57,7 @@
     "item": "部件圖鑑",
     "item_detail": "部件詳情",
     "tierlist": "排行榜",
-    "compendium": "圖鑑",
+    "compendium": "遊戲圖鑑",
     "vote": "卡池投票",
     "faq": "常見問題",
     "about": "關於本站",

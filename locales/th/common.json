@@ -61,9 +61,9 @@
     "vote": "โหวตแบนเนอร์",
     "faq": "คำถามที่พบบ่อย",
     "about": "เกี่ยวกับ",
-    "official_website": "Official Website",
-    "join_community": "Join Community",
-    "support_website": "Support Website",
+    "official_website": "เว็บไซต์ทางการ",
+    "join_community": "เข้าร่วมชุมชน",
+    "support_website": "สนับสนุนเว็บไซต์",
     "nuan5pro": "Nuan5.Pro"
   },
   "meta": {
@@ -91,11 +91,11 @@
   "default": {
     "description": "ติดตามประวัติและสถิติเรโซแนนซ์ Infinity Nikki",
     "your_data": "ข้อมูลของคุณ",
-    "community_stats": "Community Stats",
-    "view_all_stats": "View All Stats",
+    "community_stats": "สถิติชุมชน",
+    "view_all_stats": "ดูสถิติทั้งหมด",
     "current_banners": "แบนเนอร์ปัจจุบัน",
     "rerun": "รีรัน",
-    "built_with": "This site is powered by",
+    "built_with": "เว็บไซต์นี้ขับเคลื่อนด้วย",
     "copyright": "© 2026 gongeo.us • © Infold Games สงวนลิขสิทธิ์",
     "disclaimer": {
       "content": "นี่เป็นเว็บไซต์ที่สร้างขึ้นโดยแฟน ๆ อย่างไม่เป็นทางการ ไม่มีส่วนเกี่ยวข้องหรือรับรองโดย Infold Games",

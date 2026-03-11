@@ -34,68 +34,74 @@
           </div>
         </n-scrollbar>
 
-        <div class="flex justify-end items-center gap-2">
-          <n-button
-            size="small"
-            type="primary"
-            :disabled="isTierlistDisabled"
-            @click="goToTierlist"
-          >
-            <template #icon>
-              <n-icon size="16">
-                <SortAmountDown />
-              </n-icon>
-            </template>
-            {{ t('navigation.tierlist') }}
-          </n-button>
-          <n-button
-            size="small"
-            secondary
-            @click="navigateTo(localePath('/timeline'))"
-          >
-            <template #icon>
-              <n-icon size="16">
-                <AlignRight />
-              </n-icon>
-            </template>
-            {{ t('navigation.timeline') }}
-          </n-button>
-          <!-- Banner filters -->
-          <n-button-group>
+        <div
+          class="flex flex-col items-end gap-2 sm:flex-row sm:items-center sm:justify-end"
+        >
+          <div class="flex justify-end gap-2">
             <n-button
-              v-bind="qualityButtonThemes.star5"
               size="small"
-              @click="toggleBannerTypeFilter(5)"
+              type="primary"
+              :disabled="isTierlistDisabled"
+              @click="goToTierlist"
             >
-              <span class="align-top">5</span>
-              <span class="ml-1"
-                ><n-icon><Star /></n-icon
-              ></span>
+              <template #icon>
+                <n-icon size="16">
+                  <SortAmountDown />
+                </n-icon>
+              </template>
+              {{ t('navigation.tierlist') }}
             </n-button>
             <n-button
-              v-bind="qualityButtonThemes.star4"
               size="small"
-              @click="toggleBannerTypeFilter(4)"
+              secondary
+              @click="navigateTo(localePath('/timeline'))"
             >
-              <span class="align-top">4</span>
-              <span class="ml-1"
-                ><n-icon><Star /></n-icon
-              ></span>
+              <template #icon>
+                <n-icon size="16">
+                  <AlignRight />
+                </n-icon>
+              </template>
+              {{ t('navigation.timeline') }}
             </n-button>
-          </n-button-group>
+          </div>
+          <div class="flex items-center justify-end gap-2">
+            <!-- Banner filters -->
+            <n-button-group>
+              <n-button
+                v-bind="qualityButtonThemes.star5"
+                size="small"
+                @click="toggleBannerTypeFilter(5)"
+              >
+                <span class="align-top">5</span>
+                <span class="ml-1"
+                  ><n-icon><Star /></n-icon
+                ></span>
+              </n-button>
+              <n-button
+                v-bind="qualityButtonThemes.star4"
+                size="small"
+                @click="toggleBannerTypeFilter(4)"
+              >
+                <span class="align-top">4</span>
+                <span class="ml-1"
+                  ><n-icon><Star /></n-icon
+                ></span>
+              </n-button>
+            </n-button-group>
 
-          <!-- Sort button -->
-          <n-button
-            size="small"
-            @click="toggleSortOrder"
-          >
-            <template #icon>
-              <n-icon size="16">
-                <ArrowUp v-if="sortOrder === 'newest'" />
-                <ArrowDown v-else />
-              </n-icon>
-            </template>
-          </n-button>
+            <!-- Sort button -->
+            <n-button
+              size="small"
+              @click="toggleSortOrder"
+            >
+              <template #icon>
+                <n-icon size="16">
+                  <ArrowUp v-if="sortOrder === 'newest'" />
+                  <ArrowDown v-else />
+                </n-icon>
+              </template>
+            </n-button>
+          </div>
         </div>
       </div>
     </n-card>

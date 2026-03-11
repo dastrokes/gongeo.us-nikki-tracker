@@ -1,31 +1,26 @@
 import { useSupabaseClient } from '~/composables/useSupabaseClient'
-import { BANNER_DATA } from '~/data/banners'
+import { LATEST_BANNER_ID } from '~/data/manualConfig'
 import {
   createInternalError,
   createUpstreamUnavailableError,
 } from '~/utils/apiErrors'
-import { GAME_VERSION_HEADER, setCacheHeaders } from '~/utils/cacheHeaders'
+import {
+  defineCachedApiEventHandler,
+  GAME_VERSION_HEADER,
+} from '~/utils/cacheHeaders'
 import { toErrorMessage } from '~/utils/errors'
 import { getGameVersion } from '~/utils/gameVersion'
 import { isTransientSupabaseError } from '~/utils/supabaseRetry'
 import { getBannerStats, getCoreStats } from '~/utils/globalStats'
 
-const latestBannerId = Math.max(
-  ...Object.keys(BANNER_DATA).map((id) => Number.parseInt(id, 10))
-)
-
-export default defineCachedEventHandler(
-  async (event) => {
-    setCacheHeaders(event, {
-      varyHeaders: [GAME_VERSION_HEADER],
-    })
-
+export default defineCachedApiEventHandler(
+  async () => {
     const supabase = useSupabaseClient('server')
 
     try {
       const [coreCache, latestBannerCache] = await Promise.all([
         getCoreStats(supabase),
-        getBannerStats(supabase, latestBannerId),
+        getBannerStats(supabase, LATEST_BANNER_ID),
       ])
 
       return {
@@ -41,7 +36,7 @@ export default defineCachedEventHandler(
           coreCache.payload.fourStarType2Distribution ?? {},
         fourStarType3Distribution:
           coreCache.payload.fourStarType3Distribution ?? {},
-        bannerId: latestBannerCache.payload.bannerId ?? latestBannerId,
+        bannerId: latestBannerCache.payload.bannerId ?? LATEST_BANNER_ID,
         f: latestBannerCache.payload.f ?? {},
       }
     } catch (error: unknown) {
@@ -60,9 +55,16 @@ export default defineCachedEventHandler(
     }
   },
   {
-    maxAge: 60 * 60, // 1 hour
-    name: 'global-bootstrap',
-    getKey: () => `${getGameVersion()}:global:latest`,
-    swr: true,
+    cache: {
+      maxAge: 60 * 60 * 6,
+      staleMaxAge: 60 * 60 * 24,
+      name: 'global-bootstrap',
+      getKey: () => `${getGameVersion()}:global:latest`,
+      swr: true,
+    },
+    headers: {
+      varyHeaders: [GAME_VERSION_HEADER],
+    },
+    profile: 'stats',
   }
 )

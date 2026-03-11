@@ -1,3 +1,5 @@
+import { getQuery, type H3Event } from 'h3'
+
 import {
   defaultLocale,
   i18nLocales,
@@ -19,4 +21,10 @@ export const resolveLocaleCode = (
   }
 
   return defaultLocale
+}
+
+export const resolveRequestLocale = (event: H3Event): SupportedLocaleCode => {
+  const query = getQuery(event)
+  const langQuery = Array.isArray(query.lang) ? query.lang[0] : query.lang
+  return resolveLocaleCode(langQuery)
 }

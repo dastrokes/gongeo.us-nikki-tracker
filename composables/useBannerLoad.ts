@@ -56,6 +56,17 @@ export function useBannerLoad(
     isLoading.value = false
   }
 
+  const loadInitialBatch = () => {
+    if (displayedBanners.value.length > 0 || currentIndex.value > 0) return
+    if (allBanners.value.length === 0) {
+      hasMore.value = false
+      return
+    }
+
+    hasMore.value = true
+    loadMore()
+  }
+
   // Reset state
   const reset = () => {
     displayedBanners.value = []
@@ -115,10 +126,13 @@ export function useBannerLoad(
     }
   )
 
-  // Load initial batch
-  onMounted(() => {
-    loadMore()
-  })
+  watch(
+    () => allBanners.value.length,
+    () => {
+      loadInitialBatch()
+    },
+    { immediate: true }
+  )
 
   // Cleanup on unmount
   onUnmounted(() => {

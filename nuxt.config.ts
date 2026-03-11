@@ -3,7 +3,13 @@ import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
 import Components from 'unplugin-vue-components/vite'
 import { defaultLocale, i18nLocales } from './locales/locales'
 import { buildSitemap } from './locales/sitemap'
-import { CACHE_STATIC, CACHE_STABLE, CACHE_DYNAMIC } from './utils/cacheHeaders'
+import {
+  noStoreHeaders,
+  pageStatic,
+  pageTheme,
+  pageThemeNoTag,
+  pageThemeQuery,
+} from './utils/cacheHeaders'
 import { getImageProvider } from './utils/imageProvider'
 
 export default defineNuxtConfig({
@@ -73,7 +79,6 @@ export default defineNuxtConfig({
       supabaseDataUrl: process.env.SUPABASE_DATA_URL,
       gongeousApiKey: process.env.GONGEOUS_API_KEY,
       siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://gongeo.us',
-      gameVersion: process.env.NUXT_PUBLIC_GAME_VERSION,
       imagekitBaseUrl:
         process.env.NUXT_PUBLIC_IMAGEKIT_BASE_URL ||
         'https://ik.imagekit.io/gongeouscdn',
@@ -143,68 +148,49 @@ export default defineNuxtConfig({
 
   routeRules: {
     ...(() => {
-      const withLocalePrefixes = (path: string) => {
-        if (path === '/') {
-          return [
-            '/',
-            ...i18nLocales
-              .filter((locale) => locale.code !== defaultLocale)
-              .map((locale) => `/${locale.code}`),
-          ]
-        }
-
-        return [
-          path,
-          ...i18nLocales
-            .filter((locale) => locale.code !== defaultLocale)
-            .map((locale) => `/${locale.code}${path}`),
-        ]
-      }
+      const localePrefixes = i18nLocales
+        .filter((locale) => locale.code !== defaultLocale)
+        .map((locale) => `/${locale.code}`)
 
       type I18nRouteRule = {
         prerender?: boolean
         headers?: Record<string, string>
       }
 
-      const buildI18nRules = (paths: string[], rule: I18nRouteRule) =>
+      const buildLocalizedRules = (paths: string[], rule: I18nRouteRule) =>
         Object.fromEntries(
           paths.flatMap((path) =>
-            withLocalePrefixes(path).map((route) => [route, rule])
+            [
+              path,
+              ...localePrefixes.map((prefix) =>
+                path === '/' ? prefix : `${prefix}${path}`
+              ),
+            ].map((route) => [route, rule])
           )
         )
 
       return {
-        ...buildI18nRules(['/faq', '/about', '/vote', '/ranking'], {
-          prerender: true,
-          headers: CACHE_STATIC,
-        }),
-        ...buildI18nRules(['/error'], {
-          prerender: true,
-          headers: CACHE_STATIC,
-        }),
-        ...buildI18nRules(['/banners/**', '/items/**', '/outfits/**'], {
-          headers: CACHE_STATIC,
-        }),
-        ...buildI18nRules(
-          [
-            '/',
-            '/import',
-            '/banners',
-            '/outfits',
-            '/items',
-            '/quiz',
-            '/tierlist',
-            '/timeline',
-          ],
+        ...buildLocalizedRules(
+          ['/faq', '/about', '/vote', '/ranking', '/timeline', '/error'],
           {
-            headers: CACHE_STABLE,
+            prerender: true,
+            headers: pageStatic,
           }
         ),
-        ...buildI18nRules(['/global'], {
-          headers: CACHE_DYNAMIC,
+        ...buildLocalizedRules(
+          ['/', '/import', '/banners', '/quiz', '/global'],
+          {
+            headers: pageTheme,
+          }
+        ),
+        ...buildLocalizedRules(['/banners/**', '/outfits/**', '/items/**'], {
+          headers: pageThemeNoTag,
         }),
-        ...buildI18nRules(['/login', '/tracker', '/profile'], {
-          headers: { 'Cache-Control': 'private, no-store' },
+        ...buildLocalizedRules(['/outfits', '/items', '/tierlist'], {
+          headers: pageThemeQuery,
+        }),
+        ...buildLocalizedRules(['/tracker', '/login', '/profile'], {
+          headers: noStoreHeaders,
         }),
       }
     })(),

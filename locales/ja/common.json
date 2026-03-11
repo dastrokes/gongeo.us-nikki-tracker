@@ -61,9 +61,9 @@
     "vote": "バナー投票",
     "faq": "よくある質問",
     "about": "について",
-    "official_website": "Official Website",
-    "join_community": "Join Community",
-    "support_website": "Support Website",
+    "official_website": "公式サイト",
+    "join_community": "コミュニティに参加",
+    "support_website": "サイトを支援",
     "nuan5pro": "Nuan5.Pro"
   },
   "meta": {
@@ -91,11 +91,11 @@
   "default": {
     "description": "Infinity Nikki 共鳴の履歴と統計を追跡する",
     "your_data": "あなたのデータ",
-    "community_stats": "Community Stats",
-    "view_all_stats": "View All Stats",
+    "community_stats": "コミュニティ統計",
+    "view_all_stats": "すべての統計を見る",
     "current_banners": "現在のバナー",
     "rerun": "再実行",
-    "built_with": "This site is powered by",
+    "built_with": "このサイトは次を利用しています",
     "copyright": "© 2026 gongeo.us • © Infold Games 全著作権所有",
     "disclaimer": {
       "content": "これは非公式のファン作成の Web サイトであり、Infold Games と提携または承認されていません。",
@@ -537,16 +537,16 @@
     }
   },
   "timeline": {
-    "banner_timer": "Rerun timer: {days} days",
-    "run_gap": "Gap: {days} days",
-    "max_zoom": "Zoom to max",
-    "reset_zoom": "Reset zoom",
+    "banner_timer": "復刻タイマー: {days}日",
+    "run_gap": "間隔: {days}日",
+    "max_zoom": "最大まで拡大",
+    "reset_zoom": "ズームをリセット",
     "sort": {
-      "label": "Sort timeline",
-      "newest_first": "Newest first",
-      "oldest_first": "Oldest first",
-      "longest_gap": "Longest gap",
-      "shortest_gap": "Shortest gap"
+      "label": "タイムラインを並び替え",
+      "newest_first": "新しい順",
+      "oldest_first": "古い順",
+      "longest_gap": "間隔が長い順",
+      "shortest_gap": "間隔が短い順"
     }
   },
   "faq": {

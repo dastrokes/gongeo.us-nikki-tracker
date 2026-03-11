@@ -61,9 +61,9 @@
     "vote": "Voto de pancarta",
     "faq": "Preguntas frecuentes",
     "about": "Acerca de",
-    "official_website": "Official Website",
-    "join_community": "Join Community",
-    "support_website": "Support Website",
+    "official_website": "Sitio web oficial",
+    "join_community": "Unirse a la comunidad",
+    "support_website": "Apoyar el sitio",
     "nuan5pro": "Nuan5.Pro"
   },
   "meta": {
@@ -91,11 +91,11 @@
   "default": {
     "description": "Seguimiento del historial y estadísticas de resonancia Infinity Nikki",
     "your_data": "Tus datos",
-    "community_stats": "Community Stats",
-    "view_all_stats": "View All Stats",
+    "community_stats": "Estadísticas de la comunidad",
+    "view_all_stats": "Ver todas las estadísticas",
     "current_banners": "Banners actuales",
     "rerun": "Repetición",
-    "built_with": "This site is powered by",
+    "built_with": "Este sitio funciona con",
     "copyright": "© 2026 gongeo.us • © Infold Games Todos los derechos reservados",
     "disclaimer": {
       "content": "Este es un sitio web no oficial creado por fanáticos, no afiliado ni respaldado por Infold Games.",
@@ -537,16 +537,16 @@
     }
   },
   "timeline": {
-    "banner_timer": "Rerun timer: {days} days",
-    "run_gap": "Gap: {days} days",
-    "max_zoom": "Zoom to max",
-    "reset_zoom": "Reset zoom",
+    "banner_timer": "Temporizador de regreso: {days} días",
+    "run_gap": "Intervalo: {days} días",
+    "max_zoom": "Ampliar al máximo",
+    "reset_zoom": "Restablecer zoom",
     "sort": {
-      "label": "Sort timeline",
-      "newest_first": "Newest first",
-      "oldest_first": "Oldest first",
-      "longest_gap": "Longest gap",
-      "shortest_gap": "Shortest gap"
+      "label": "Ordenar cronología",
+      "newest_first": "Más reciente primero",
+      "oldest_first": "Más antiguo primero",
+      "longest_gap": "Mayor intervalo",
+      "shortest_gap": "Menor intervalo"
     }
   },
   "faq": {

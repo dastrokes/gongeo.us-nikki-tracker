@@ -40,3 +40,5 @@ logs/
 
 # Local agent instructions
 AGENTS.md
+.agents
+skills-lock.json

@@ -27,9 +27,16 @@
         :key="index"
         no-prefetch
         :to="`/outfits/${outfitId}`"
-        class="relative aspect-[2/3] rounded-lg overflow-hidden transition-all duration-300 ease-in-out cursor-pointer"
-        :class="cardGradient"
+        class="relative aspect-[2/3] rounded-lg overflow-hidden transition-all duration-300 ease-in-out cursor-pointer hover:shadow-lg"
       >
+        <div
+          class="absolute inset-0 bg-[url('/images/bg.webp')] bg-cover bg-center bg-slate-100 dark:bg-slate-300"
+        ></div>
+        <!-- Tint overlay -->
+        <div
+          class="absolute inset-0"
+          :style="getQualityOverlayStyle(quality)"
+        ></div>
         <NuxtImg
           :src="image[1]"
           :alt="`${$t(`outfit.${outfitId}.name`)} ${image[0] === 0 ? 'Base' : `LV${image[0]}`}`"
@@ -78,17 +85,6 @@
 
   const pullStore = usePullStore()
   const { getImageSrc } = imageProvider()
-  const OUTFIT_CARD_GRADIENTS = {
-    fiveStar:
-      'bg-gradient-to-br from-[#fff8e1] to-[#ffcc80] hover:brightness-105 dark:from-[#713f12] dark:to-[#451a03]',
-    fourStar:
-      'bg-gradient-to-br from-[#e3f2fd] to-[#bbdefb] hover:brightness-105 dark:from-[#334155] dark:to-[#1e293b]',
-  } as const
-  const cardGradient = computed(() =>
-    props.quality === 5
-      ? OUTFIT_CARD_GRADIENTS.fiveStar
-      : OUTFIT_CARD_GRADIENTS.fourStar
-  )
 
   const getOutfitLevel = computed(() => {
     if (!props.completionData) return []

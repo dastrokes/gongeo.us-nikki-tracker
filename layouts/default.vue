@@ -429,9 +429,11 @@
   ])
 
   // Footer navigation link groups
-  const footerLinkGroups: {
-    items: { key: string; label: string; to?: string }[]
-  }[] = [
+  const footerLinkGroups = computed<
+    {
+      items: { key: string; label: string; to?: string }[]
+    }[]
+  >(() => [
     {
       items: [
         { key: 'faq', label: 'navigation.faq' },
@@ -462,7 +464,10 @@
         {
           key: 'official',
           label: 'navigation.official_website',
-          to: 'https://infinitynikki.infoldgames.com/en/home',
+          to:
+            locale.value === 'zh'
+              ? 'https://infinitynikki.nuanpaper.com'
+              : 'https://infinitynikki.infoldgames.com',
         },
         {
           key: 'nuan5',
@@ -471,7 +476,7 @@
         },
       ],
     },
-  ]
+  ])
 
   const activeMenuItem = computed(() => {
     // Get the path without locale prefix

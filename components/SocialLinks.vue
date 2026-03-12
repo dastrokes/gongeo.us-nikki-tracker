@@ -44,7 +44,7 @@
       </template>
       {{ $t('default.social.kofi') }}
     </n-tooltip>
-    <n-tooltip>
+    <n-tooltip v-if="locale !== 'zh'">
       <template #trigger>
         <n-button
           quaternary
@@ -63,8 +63,29 @@
       </template>
       {{ $t('default.social.twitter') }}
     </n-tooltip>
+    <n-tooltip v-else>
+      <template #trigger>
+        <n-button
+          quaternary
+          circle
+          size="large"
+          tag="a"
+          href="https://xhslink.com/m/AY4e3m1ZAjk"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="!text-red-500 hover:!text-red-600 dark:!text-red-400 dark:hover:!text-red-300 transition-colors"
+        >
+          <template #icon>
+            <n-icon>
+              <SvgIcon name="rednote" />
+            </n-icon>
+          </template>
+        </n-button>
+      </template>
+      小红书
+    </n-tooltip>
 
-    <n-tooltip>
+    <n-tooltip v-if="locale !== 'zh'">
       <template #trigger>
         <n-button
           quaternary
@@ -82,6 +103,27 @@
         </n-button>
       </template>
       YouTube
+    </n-tooltip>
+    <n-tooltip v-else>
+      <template #trigger>
+        <n-button
+          quaternary
+          circle
+          size="large"
+          tag="a"
+          href="https://space.bilibili.com/3546802821270136"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="!text-sky-400 hover:!text-sky-500 dark:hover:!text-sky-300 transition-colors"
+        >
+          <template #icon>
+            <n-icon>
+              <SvgIcon name="bilibili" />
+            </n-icon>
+          </template>
+        </n-button>
+      </template>
+      哔哩哔哩
     </n-tooltip>
     <!-- <n-tooltip>
       <template #trigger>
@@ -124,4 +166,6 @@
 
 <script setup lang="ts">
   import { Discord, Twitter, Envelope, Youtube } from '@vicons/fa'
+
+  const { locale } = useI18n()
 </script>

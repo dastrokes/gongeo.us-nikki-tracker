@@ -434,8 +434,8 @@
   }[] = [
     {
       items: [
-        { key: 'about', label: 'navigation.about' },
         { key: 'faq', label: 'navigation.faq' },
+        { key: 'about', label: 'navigation.about' },
       ],
     },
     {

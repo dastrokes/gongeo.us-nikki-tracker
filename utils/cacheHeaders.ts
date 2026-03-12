@@ -24,13 +24,12 @@ const THEME_COOKIE = 'theme'
 
 const NO_STORE = 'no-store'
 const BROWSER_SHORT = 'public, max-age=3600, stale-while-revalidate=86400'
-const BROWSER_STATS = 'public, max-age=86400, stale-while-revalidate=86400'
-const BROWSER_STATIC = 'public, max-age=86400, stale-while-revalidate=604800'
-const CDN_LONG = 'public, s-maxage=2592000, stale-while-revalidate=604800'
-const CDN_CATALOG =
-  'public, s-maxage=2592000, stale-while-revalidate=604800, stale-if-error=86400'
-const CDN_STATS =
+const BROWSER_LONG = 'public, max-age=86400, stale-while-revalidate=604800'
+const CDN_SHORT =
   'public, s-maxage=86400, stale-while-revalidate=86400, stale-if-error=86400'
+const CDN_LONG =
+  'public, s-maxage=2592000, stale-while-revalidate=604800, stale-if-error=86400'
+
 const THEME_VARY = `cookie=${THEME_COOKIE}`
 const THEME_QUERY_VARY = `${THEME_VARY},query`
 
@@ -118,7 +117,7 @@ const sharedProfiles = {
 
 const pageProfiles = {
   rootNoStore: sharedProfiles.noStore,
-  prerenderedStatic: createProfile(BROWSER_STATIC, CDN_LONG),
+  prerenderedStatic: createProfile(BROWSER_LONG, CDN_LONG),
   themeAware: createProfile(BROWSER_SHORT, CDN_LONG, { vary: THEME_VARY }),
   themeAwareQuery: createProfile(BROWSER_SHORT, CDN_LONG, {
     vary: THEME_QUERY_VARY,
@@ -127,11 +126,11 @@ const pageProfiles = {
 } as const satisfies Record<string, CacheProfile>
 
 const apiProfiles = {
-  catalog: createProfile(BROWSER_SHORT, CDN_CATALOG, {
+  catalog: createProfile(BROWSER_SHORT, CDN_LONG, {
     tags: [CACHE_TAGS.game],
     includeVersion: true,
   }),
-  stats: createProfile(BROWSER_STATS, CDN_STATS, {
+  stats: createProfile(BROWSER_SHORT, CDN_SHORT, {
     tags: [CACHE_TAGS.stats],
     includeVersion: true,
   }),

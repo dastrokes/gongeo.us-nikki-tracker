@@ -24,7 +24,7 @@
   const siteUrl = useRuntimeConfig().public.siteUrl
 
   // Initialize theme state
-  const { isDark, naiveTheme, initTheme } = useTheme()
+  const { theme, isDark, naiveTheme, initTheme, syncTheme } = useTheme()
 
   const localeHeadLinks = computed<I18nHeadMetaInfo['link']>(
     () => localeHead.value.link as I18nHeadMetaInfo['link']
@@ -200,6 +200,22 @@
   // Initialize authentication
   const { initAuth } = useAuth()
   const { initProfile } = useProfileSlots()
+
+  if (import.meta.client) {
+    watch(
+      theme,
+      (currentTheme) => {
+        syncTheme(currentTheme)
+      },
+      { immediate: true }
+    )
+
+    useEventListener(window, 'pageshow', (event: PageTransitionEvent) => {
+      if (event.persisted) {
+        syncTheme(theme.value)
+      }
+    })
+  }
 
   // Ensure theme is initialized on client-side
   onMounted(() => {

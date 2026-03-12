@@ -19,6 +19,11 @@
               <p>{{ $t(`faq.questions.${key}.answer`) }}</p>
             </div>
           </n-collapse-item>
+          <n-collapse-item title="gongeous?">
+            <div class="text-sm">
+              <GongeousCard />
+            </div>
+          </n-collapse-item>
         </n-collapse>
 
         <SocialLinks />

@@ -1,10 +1,13 @@
 <template>
   <div class="landing-page max-w-7xl mx-auto space-y-4 sm:space-y-8">
     <!-- ═══ Hero Section ═══ -->
-    <section class="hero-section text-center py-4 sm:py-8">
+    <section class="hero-section relative text-center py-4 sm:py-8">
       <div class="flex items-center gap-4 flex-row justify-center mb-4">
-        <div
-          class="flex h-12 w-12 sm:h-16 sm:w-16 shrink-0 items-center justify-center rounded-2xl bg-white/60 p-2 shadow-md ring-1 ring-purple-200/50 dark:bg-slate-800/60 dark:ring-purple-600/30 backdrop-blur-sm"
+        <button
+          type="button"
+          :aria-label="$t('navigation.title')"
+          class="group flex h-12 w-12 shrink-0 cursor-help shadow-md ring-1 ring-purple-200/50 dark:ring-purple-800/20 items-center justify-center rounded-2xl bg-white/60 p-2 backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 active:scale-95 sm:h-16 sm:w-16 dark:bg-slate-800/60"
+          @click="handleHeroLogoClick"
         >
           <NuxtImg
             src="images/logo.webp"
@@ -13,9 +16,10 @@
             fit="cover"
             loading="eager"
             fetchpriority="high"
-            class="h-full w-full"
+            class="h-full w-full transition-transform duration-300 group-hover:scale-105"
+            :style="heroLogoStyle"
           />
-        </div>
+        </button>
         <div class="text-left">
           <p
             class="text-xs font-semibold uppercase tracking-widest text-rose-500/80 dark:text-rose-300/80"
@@ -87,6 +91,16 @@
           {{ $t('default.community_stats') }}
         </button>
       </div>
+
+      <n-modal
+        :show="showGongeousEasterEgg"
+        class="w-full max-w-sm mx-auto pointer-events-auto"
+        :mask-closable="true"
+        :auto-focus="false"
+        @update:show="handleGongeousModalShow"
+      >
+        <GongeousCard />
+      </n-modal>
     </section>
 
     <!-- ═══ Current Banners ═══ -->
@@ -377,6 +391,42 @@
   const bannersSectionRef = ref<HTMLElement | null>(null)
   const compendiumSectionRef = ref<HTMLElement | null>(null)
   const statsSectionRef = ref<HTMLElement | null>(null)
+  const heroLogoColorStep = ref(0)
+  const heroLogoClickStreak = ref(0)
+  const showGongeousEasterEgg = ref(false)
+
+  const heroLogoHueSteps = [0, 90, 180, 270] as const
+
+  const heroLogoStyle = computed(() => {
+    const hue = heroLogoHueSteps[heroLogoColorStep.value]
+
+    return {
+      filter: `hue-rotate(${hue}deg) saturate(${hue === 0 ? 1 : 1.45})`,
+    }
+  })
+
+  const showGongeous = () => {
+    showGongeousEasterEgg.value = true
+  }
+
+  const handleGongeousModalShow = (value: boolean) => {
+    showGongeousEasterEgg.value = value
+  }
+
+  const handleHeroLogoClick = () => {
+    const nextClickStreak = (heroLogoClickStreak.value + 1) % 5
+    const nextColorStep =
+      nextClickStreak === 0
+        ? 0
+        : (heroLogoColorStep.value + 1) % heroLogoHueSteps.length
+
+    heroLogoColorStep.value = nextColorStep
+    heroLogoClickStreak.value = nextClickStreak
+
+    if (nextClickStreak === 0) {
+      showGongeous()
+    }
+  }
 
   const scrollToSection = (sectionElement: HTMLElement | null) => {
     if (!import.meta.client || !sectionElement) return

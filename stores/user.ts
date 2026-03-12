@@ -26,21 +26,21 @@ export const useUserStore = defineStore('user', {
       window.matchMedia('(prefers-color-scheme: dark)').matches
     const initialTheme = savedTheme || (systemPrefersDark ? 'dark' : 'light')
 
-    // Initialize UID
-    const savedUid = get('uid')
+    if (import.meta.client) {
+      remove('uid')
+    }
     remove('authToken')
 
     return {
       region: Region.AMERICA,
       theme: initialTheme,
-      uid: savedUid,
+      uid: null,
     }
   },
 
   getters: {
     getRegion: (state) => state.region,
     getCurrentTheme: (state) => state.theme,
-    getUid: (state) => state.uid,
   },
 
   actions: {
@@ -83,14 +83,7 @@ export const useUserStore = defineStore('user', {
     },
 
     setUid(uid: string | null) {
-      const { set, remove } = useCookieHelpers()
-
       this.uid = uid
-      if (uid) {
-        set('uid', uid)
-      } else {
-        remove('uid')
-      }
     },
   },
 })

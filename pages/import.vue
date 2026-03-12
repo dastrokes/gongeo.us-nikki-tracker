@@ -1233,7 +1233,6 @@
 
       if (success) {
         message.success(t('import.messages.auth_success'))
-        userStore.setUid(formData.value.roleid)
         pullStore.dataSource = 'game'
 
         const { sendUserBannerStats } = useUserBannerStats()
@@ -1346,7 +1345,6 @@
           return
         }
 
-        // Store verified UID in user store
         userStore.setUid(serverUid || formData.value.roleid)
 
         message.success(t('import.messages.auth_success'))

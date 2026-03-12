@@ -4,6 +4,15 @@ import type { GlobalTheme } from 'naive-ui'
 export const useTheme = () => {
   const userStore = useUserStore()
 
+  const syncTheme = (theme: Theme) => {
+    if (!import.meta.client) return
+
+    const root = document.documentElement
+    root.classList.toggle('dark', theme === 'dark')
+    root.classList.toggle('light', theme === 'light')
+    root.style.colorScheme = theme
+  }
+
   const toggleTheme = () => {
     const newTheme: Theme =
       userStore.getCurrentTheme === 'light' ? 'dark' : 'light'
@@ -25,5 +34,6 @@ export const useTheme = () => {
     toggleTheme,
     setTheme: userStore.setTheme,
     initTheme,
+    syncTheme,
   }
 }

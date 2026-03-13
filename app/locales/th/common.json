@@ -21,7 +21,7 @@
     "tracker": "ตัวติดตาม",
     "import": "นำเข้า",
     "export": "ส่งออก",
-    "loading": "Loading…",
+    "loading": "กำลังโหลด…",
     "search": "ค้นหา",
     "filter": "กรอง",
     "clear": "ล้างตัวกรอง",
@@ -339,7 +339,7 @@
       "momo_token_placeholder": "momoToken จากคุกกี้",
       "submit_global_stats": "ส่งข้อมูลสำหรับสถิติทั่วโลก",
       "submit_button": "ส่งและนำเข้าประวัติการดึง",
-      "fetching": "Fetching resonance data, please wait…"
+      "fetching": "กำลังดึงข้อมูลเสียงสะท้อน โปรดรอสักครู่…"
     },
     "progress": {
       "processing_banner": "กำลังประมวลผลแบนเนอร์ {current} ของ {total}",
@@ -459,7 +459,7 @@
       "png": "ส่งออกรูปภาพ",
       "json": "ส่งออกไฟล์",
       "generated_from": "สร้างขึ้นจาก",
-      "in_progress": "Export in progress, please wait…",
+      "in_progress": "อยู่ระหว่างการส่งออก โปรดรอสักครู่…",
       "success": "ส่งออกข้อมูลเรียบร้อยแล้ว!",
       "error": "ส่งออกข้อมูลไม่สำเร็จ โปรดลองอีกครั้ง"
     },

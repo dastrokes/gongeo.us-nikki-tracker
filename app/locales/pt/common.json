@@ -21,7 +21,7 @@
     "tracker": "Rastreador",
     "import": "Importar",
     "export": "Exportar",
-    "loading": "Carregando...",
+    "loading": "Loading…",
     "search": "Procurar",
     "filter": "Filtro",
     "clear": "Limpar filtros",
@@ -157,7 +157,9 @@
       "language_switcher": "Alternador de idioma",
       "theme_switcher": "Alternar tema",
       "user_profile_menu": "Menu de perfil de usuário",
-      "scroll_to_top": "Role para cima"
+      "scroll_to_top": "Role para cima",
+      "close_menu": "Close navigation menu",
+      "luck_stats": "View luck stats"
     },
     "language_switcher": {
       "help_translate": "Ajude a traduzir"
@@ -231,7 +233,16 @@
     "email_signin_error": "Falha ao fazer login com e-mail. Por favor, verifique suas credenciais.",
     "email_signup_error": "Falha ao criar conta. Por favor, tente novamente.",
     "reset_error": "Falha ao enviar e-mail de redefinição. Por favor, tente novamente.",
-    "or": "ou"
+    "or": "ou",
+    "google_signin_error": "Failed to sign in with Google. Please try again.",
+    "email_not_confirmed": "Please check your email and confirm your address.",
+    "email_already_registered": "An account with this email already exists.",
+    "password_update_success": "Password updated successfully!",
+    "password_update_error": "Failed to update password. Please try again.",
+    "password_too_short": "Password must be at least 6 characters long.",
+    "reset_session_expired": "Reset session expired. Please request a new reset email.",
+    "account_not_found": "No account found with this email address.",
+    "reset_rate_limit": "Too many attempts. Please wait before trying again."
   },
   "error": {
     "404": "\"Nikki, vamos ficar em águas rasas\"",
@@ -328,7 +339,7 @@
       "momo_token_placeholder": "momoToken do Cookie",
       "submit_global_stats": "Envie dados para estatísticas globais",
       "submit_button": "Enviar e importar histórico de pull",
-      "fetching": "Buscando dados de ressonância, aguarde..."
+      "fetching": "Fetching resonance data, please wait…"
     },
     "progress": {
       "processing_banner": "Processando banner {current} de {total}",
@@ -448,7 +459,7 @@
       "png": "Exportar imagem",
       "json": "Exportar arquivo",
       "generated_from": "Gerado de",
-      "in_progress": "Exportação em andamento, aguarde...",
+      "in_progress": "Export in progress, please wait…",
       "success": "Dados exportados com sucesso!",
       "error": "Falha ao exportar dados. Por favor, tente novamente."
     },

@@ -626,10 +626,11 @@
 
     watch(
       [data, firstItemData, () => isMobile.value, () => isDark.value],
-      () => {
+      async () => {
         if (data.value && import.meta.client) {
-          initializeCharts()
           loading.value = false
+          await new Promise((resolve) => requestAnimationFrame(resolve))
+          initializeCharts()
         }
       },
       { immediate: true }

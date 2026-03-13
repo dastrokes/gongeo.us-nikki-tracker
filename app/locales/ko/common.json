@@ -21,7 +21,7 @@
     "tracker": "추적기",
     "import": "수입",
     "export": "내보내기",
-    "loading": "로딩 중...",
+    "loading": "Loading…",
     "search": "찾다",
     "filter": "필터",
     "clear": "필터 지우기",
@@ -157,7 +157,9 @@
       "language_switcher": "언어 전환기",
       "theme_switcher": "테마 전환",
       "user_profile_menu": "사용자 프로필 메뉴",
-      "scroll_to_top": "맨 위로 스크롤"
+      "scroll_to_top": "맨 위로 스크롤",
+      "close_menu": "Close navigation menu",
+      "luck_stats": "View luck stats"
     },
     "language_switcher": {
       "help_translate": "번역을 도와주세요"
@@ -231,7 +233,16 @@
     "email_signin_error": "이메일로 로그인하지 못했습니다. 자격 증명을 확인해 주세요.",
     "email_signup_error": "계정을 만들지 못했습니다. 다시 시도해 주세요.",
     "reset_error": "재설정 이메일을 보내지 못했습니다. 다시 시도해 주세요.",
-    "or": "혹은"
+    "or": "혹은",
+    "google_signin_error": "Failed to sign in with Google. Please try again.",
+    "email_not_confirmed": "Please check your email and confirm your address.",
+    "email_already_registered": "An account with this email already exists.",
+    "password_update_success": "Password updated successfully!",
+    "password_update_error": "Failed to update password. Please try again.",
+    "password_too_short": "Password must be at least 6 characters long.",
+    "reset_session_expired": "Reset session expired. Please request a new reset email.",
+    "account_not_found": "No account found with this email address.",
+    "reset_rate_limit": "Too many attempts. Please wait before trying again."
   },
   "error": {
     "404": "\"니키, 얕은 물에 있자\"",
@@ -328,7 +339,7 @@
       "momo_token_placeholder": "쿠키의 momoToken",
       "submit_global_stats": "글로벌 통계를 위한 데이터 제출",
       "submit_button": "풀 내역 제출 및 가져오기",
-      "fetching": "공진 데이터를 가져오는 중입니다. 잠시 기다려 주세요..."
+      "fetching": "Fetching resonance data, please wait…"
     },
     "progress": {
       "processing_banner": "{total}의 배너 {current} 처리 중",
@@ -448,7 +459,7 @@
       "png": "이미지 내보내기",
       "json": "파일 내보내기",
       "generated_from": "다음에서 생성됨",
-      "in_progress": "내보내기가 진행 중입니다. 잠시 기다려 주세요...",
+      "in_progress": "Export in progress, please wait…",
       "success": "데이터를 성공적으로 내보냈습니다!",
       "error": "데이터를 내보내지 못했습니다. 다시 시도해 주세요."
     },

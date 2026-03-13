@@ -1,0 +1,567 @@
+<template>
+  <div class="max-w-7xl mx-auto space-y-2 sm:space-y-4">
+    <n-card
+      size="small"
+      class="rounded-xl p-0 sm:p-2"
+      content-class="!p-2 sm:p-4"
+    >
+      <div class="flex flex-col sm:flex-row gap-4">
+        <n-scrollbar x-scrollable>
+          <div class="flex flex-row gap-2 min-w-max pb-3">
+            <div
+              v-for="banner in filteredBanners"
+              :key="banner.bannerId"
+              class="flex-shrink-0 cursor-pointer hover:opacity-80 transition-opacity"
+            >
+              <n-tooltip trigger="hover">
+                <template #trigger>
+                  <NuxtImg
+                    :src="getImageSrc('bannerThumb', banner.bannerId)"
+                    :alt="$t(`banner.${banner.bannerId}.name`)"
+                    class="w-24 h-12 rounded-lg object-cover"
+                    preset="bannerThumb"
+                    width="200"
+                    height="100"
+                    fit="cover"
+                    loading="lazy"
+                    sizes="200px"
+                    @click="handleBannerClick(banner.bannerId)"
+                  />
+                </template>
+                <span>{{ t(`banner.${banner.bannerId}.name`) }}</span>
+              </n-tooltip>
+            </div>
+          </div>
+        </n-scrollbar>
+
+        <div
+          class="flex flex-col items-end gap-2 sm:flex-row sm:items-center sm:justify-end"
+        >
+          <div class="flex justify-end gap-2">
+            <n-button
+              size="small"
+              type="primary"
+              :disabled="isTierlistDisabled"
+              @click="goToTierlist"
+            >
+              <template #icon>
+                <n-icon size="16">
+                  <SortAmountDown />
+                </n-icon>
+              </template>
+              {{ t('navigation.tierlist') }}
+            </n-button>
+            <n-button
+              size="small"
+              secondary
+              @click="navigateTo(localePath('/timeline'))"
+            >
+              <template #icon>
+                <n-icon size="16">
+                  <AlignRight />
+                </n-icon>
+              </template>
+              {{ t('navigation.timeline') }}
+            </n-button>
+          </div>
+          <div class="flex items-center justify-end gap-2">
+            <!-- Banner filters -->
+            <n-button-group>
+              <n-button
+                v-bind="qualityButtonThemes.star5"
+                size="small"
+                @click="toggleBannerTypeFilter(5)"
+              >
+                <span class="align-top">5</span>
+                <span class="ml-1"
+                  ><n-icon><Star /></n-icon
+                ></span>
+              </n-button>
+              <n-button
+                v-bind="qualityButtonThemes.star4"
+                size="small"
+                @click="toggleBannerTypeFilter(4)"
+              >
+                <span class="align-top">4</span>
+                <span class="ml-1"
+                  ><n-icon><Star /></n-icon
+                ></span>
+              </n-button>
+            </n-button-group>
+
+            <!-- Sort button -->
+            <n-button
+              size="small"
+              @click="toggleSortOrder"
+            >
+              <template #icon>
+                <n-icon size="16">
+                  <ArrowUp v-if="sortOrder === 'newest'" />
+                  <ArrowDown v-else />
+                </n-icon>
+              </template>
+            </n-button>
+          </div>
+        </div>
+      </div>
+    </n-card>
+
+    <n-card
+      size="small"
+      class="rounded-xl p-0 sm:p-2"
+      content-class="!p-2 sm:p-4"
+    >
+      <n-timeline
+        :icon-size="16"
+        size="large"
+      >
+        <n-timeline-item
+          v-for="banner in displayedBanners"
+          :id="banner.bannerId.toString()"
+          :key="banner.bannerId"
+          :type="getBannerTypeColor(banner.bannerType)"
+        >
+          <template #icon>
+            <n-button
+              text
+              :type="getBannerTypeColor(banner.bannerType)"
+            >
+              <n-icon size="20">
+                <Gift />
+              </n-icon>
+            </n-button>
+          </template>
+          <template #header>
+            <NuxtLinkLocale
+              no-prefetch
+              :to="`/banners/${banner.bannerId}`"
+              class="inline w-fit hover:opacity-95 transition-opacity"
+            >
+              <n-gradient-text
+                :size="18"
+                class="m-0 font-medium break-words"
+                :type="banner.bannerType === 2 ? 'warning' : 'info'"
+              >
+                {{ $t(`banner.${banner.bannerId}.name`) }}
+              </n-gradient-text>
+            </NuxtLinkLocale>
+          </template>
+          <template #default>
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-2">
+              <div class="space-y-2">
+                <div
+                  v-for="(run, index) in banner.runs"
+                  :key="index"
+                  class="space-y-2"
+                >
+                  <div class="flex flex-col gap-1">
+                    <div class="flex items-center">
+                      <n-tag :bordered="false">
+                        {{ $t(`version.${getVersion(run.version)}`) }}
+                      </n-tag>
+                      <n-tag
+                        class="ml-1"
+                        :bordered="false"
+                      >
+                        {{ $t('banner.version') }}
+                        {{ getVersion(run.version) }}
+                      </n-tag>
+                    </div>
+                    <div class="flex items-center gap-1">
+                      <n-tag :bordered="false">
+                        <template #avatar>
+                          <n-icon><CalendarDay /></n-icon>
+                        </template>
+                        <n-time
+                          :time="getRunStartTime(run)"
+                          type="date"
+                        />
+                        -
+                        <n-time
+                          :time="getRunEndTime(run)"
+                          type="date"
+                        />
+                      </n-tag>
+                      <n-tag
+                        v-if="index > 0"
+                        :bordered="false"
+                      >
+                        {{ t('default.rerun') }}
+                      </n-tag>
+                    </div>
+                  </div>
+                </div>
+                <n-divider />
+                <div class="inline-flex flex-col gap-2 items-start">
+                  <div
+                    v-for="outfitId in banner.outfit5StarId"
+                    :key="outfitId"
+                    class="inline-flex flex-col"
+                  >
+                    <NuxtLinkLocale
+                      no-prefetch
+                      :to="`/outfits/${outfitId}`"
+                      class="inline w-fit hover:opacity-80 transition-opacity cursor-pointer"
+                    >
+                      <n-tag
+                        size="large"
+                        :color="qualityTextTheme5"
+                        :bordered="false"
+                        round
+                        class="cursor-pointer"
+                      >
+                        <span class="align-top"
+                          >{{ t(`outfit.${outfitId}.name`) }} 5</span
+                        >
+                        <span class="ml-1"
+                          ><n-icon><Star /></n-icon
+                        ></span>
+                      </n-tag>
+                    </NuxtLinkLocale>
+                  </div>
+                  <div
+                    v-for="outfitId in banner.outfit4StarId"
+                    :key="outfitId"
+                    class="inline-flex flex-col"
+                  >
+                    <NuxtLinkLocale
+                      no-prefetch
+                      :to="`/outfits/${outfitId}`"
+                      class="inline w-fit hover:opacity-80 transition-opacity cursor-pointer"
+                    >
+                      <n-tag
+                        size="large"
+                        :color="qualityTextTheme4"
+                        :bordered="false"
+                        round
+                        class="cursor-pointer"
+                      >
+                        <span class="align-top"
+                          >{{ t(`outfit.${outfitId}.name`) }} 4</span
+                        >
+                        <span class="ml-1"
+                          ><n-icon><Star /></n-icon
+                        ></span>
+                      </n-tag>
+                    </NuxtLinkLocale>
+                  </div>
+                </div>
+              </div>
+              <div class="lg:col-span-3">
+                <div
+                  class="flex flex-col items-center space-y-1 max-w-2xl mx-auto"
+                >
+                  <NuxtLinkLocale
+                    no-prefetch
+                    :to="`/banners/${banner.bannerId}`"
+                    class="w-full aspect-[2/1] min-h-[140px] sm:min-h-[330px] relative overflow-hidden rounded-lg hover:opacity-95 transition-opacity"
+                  >
+                    <NuxtImg
+                      :src="getImageSrc('banner', banner.bannerId)"
+                      :alt="t(`banner.${banner.bannerId}.name`)"
+                      class="absolute inset-0 w-full h-full object-cover"
+                      preset="bannerHero"
+                      width="800"
+                      height="400"
+                      fit="cover"
+                      sizes="400px sm:800px"
+                      :loading="
+                        banner.bannerId === firstDisplayedBannerId
+                          ? 'eager'
+                          : 'lazy'
+                      "
+                    />
+                    <n-tooltip
+                      overlap
+                      placement="top-end"
+                      class="!rounded-lg !m-2 !px-2 !py-1 text-xs cursor-pointer"
+                      :z-index="10"
+                      @click.stop.prevent="
+                        navigateTo(localePath(`/banners/${banner.bannerId}`))
+                      "
+                    >
+                      <template #trigger>
+                        <div class="absolute inset-0" />
+                      </template>
+                      <span class="inline-flex items-center gap-2">
+                        {{ t('navigation.banner_detail') }}
+                        <n-icon><ExternalLinkAlt /></n-icon>
+                      </span>
+                    </n-tooltip>
+                  </NuxtLinkLocale>
+                </div>
+              </div>
+            </div>
+          </template>
+        </n-timeline-item>
+      </n-timeline>
+
+      <!-- Observer target for infinite scroll -->
+      <div
+        ref="observerTarget"
+        class="h-1"
+      ></div>
+    </n-card>
+  </div>
+</template>
+
+<script setup lang="ts">
+  import {
+    Gift,
+    Star,
+    ExternalLinkAlt,
+    CalendarDay,
+    ArrowUp,
+    ArrowDown,
+    SortAmountDown,
+    AlignRight,
+  } from '@vicons/fa'
+  import { BANNER_DATA } from '~~/data/banners'
+
+  const { t } = useI18n()
+  const localePath = useLocalePath()
+  const route = useRoute()
+  const { getImageSrc } = imageProvider()
+  const siteUrl = useRuntimeConfig().public.siteUrl
+
+  const pageTitle = computed(
+    () =>
+      `${t('navigation.banner')} - ${t('meta.game_title')} - ${t('navigation.title')}`
+  )
+  const description = computed(() => t('meta.description.banner'))
+
+  useSeoMeta({
+    title: () => pageTitle.value,
+    description: () => description.value,
+    ogTitle: () => pageTitle.value,
+    ogDescription: () => description.value,
+    ogImage: `${siteUrl}/og-banners.png`,
+    twitterTitle: () => pageTitle.value,
+    twitterDescription: () => description.value,
+    twitterImage: `${siteUrl}/og-banners.png`,
+  })
+
+  const bannerTypeFilter = ref({
+    show5Star: true,
+    show4Star: true,
+  })
+  const sortOrder = ref<string>('newest')
+  const TIER_ENTRY_LIMIT = 200
+
+  const qualityTextTheme5 = getQualityTextTheme(5)
+  const qualityTextTheme4 = getQualityTextTheme(4)
+  const qualityButtonThemes = computed(() => ({
+    star5: getQualityButtonTheme(5, bannerTypeFilter.value.show5Star),
+    star4: getQualityButtonTheme(4, bannerTypeFilter.value.show4Star),
+  }))
+
+  // Sort banners based on selected order
+  const sortedBanners = computed(() => {
+    const banners = [...Object.values(BANNER_DATA)]
+
+    if (sortOrder.value === 'oldest') {
+      return banners.sort((a, b) => a.bannerId - b.bannerId)
+    } else {
+      // newest (default)
+      return banners.sort((a, b) => b.bannerId - a.bannerId)
+    }
+  })
+
+  // Selected banner ID for popselect
+  const selectedBannerId = ref(0)
+
+  // Toggle banner type filter
+  const toggleBannerTypeFilter = (starType: number) => {
+    if (starType === 5) {
+      // Prevent turning off 5★ if 4★ is already off
+      if (
+        !bannerTypeFilter.value.show5Star ||
+        bannerTypeFilter.value.show4Star
+      ) {
+        bannerTypeFilter.value.show5Star = !bannerTypeFilter.value.show5Star
+      }
+    } else if (starType === 4) {
+      // Prevent turning off 4★ if 5★ is already off
+      if (
+        !bannerTypeFilter.value.show4Star ||
+        bannerTypeFilter.value.show5Star
+      ) {
+        bannerTypeFilter.value.show4Star = !bannerTypeFilter.value.show4Star
+      }
+    }
+  }
+
+  // Toggle sort order
+  const toggleSortOrder = () => {
+    sortOrder.value = sortOrder.value === 'newest' ? 'oldest' : 'newest'
+  }
+
+  // Filtered banners based on active filters
+  const filteredBanners = computed(() => {
+    let banners = sortedBanners.value
+
+    // Filter by banner type based on toggle states
+    banners = banners.filter((banner) => {
+      const is5Star = banner.bannerType === 1 || banner.bannerType === 2 // permanent and limited 5★
+      const is4Star = banner.bannerType === 3 // limited 4★
+
+      // Show banner if its type is enabled
+      if (is5Star && bannerTypeFilter.value.show5Star) return true
+      if (is4Star && bannerTypeFilter.value.show4Star) return true
+
+      return false
+    })
+
+    return banners
+  })
+  const isTierlistDisabled = computed(
+    () => filteredBanners.value.length > TIER_ENTRY_LIMIT
+  )
+
+  const resolveTierlistBannerQuality = (): number | null => {
+    if (bannerTypeFilter.value.show5Star && !bannerTypeFilter.value.show4Star) {
+      return 5
+    }
+    if (!bannerTypeFilter.value.show5Star && bannerTypeFilter.value.show4Star) {
+      return 4
+    }
+    return null
+  }
+
+  const buildTierlistQuery = () => {
+    const quality = resolveTierlistBannerQuality()
+    return {
+      mode: 'banners',
+      ...(quality !== null && { quality }),
+    }
+  }
+
+  const goToTierlist = () => {
+    if (isTierlistDisabled.value) return
+    navigateTo(
+      localePath({
+        path: '/tierlist',
+        query: buildTierlistQuery(),
+      })
+    )
+  }
+
+  // Initialize banner loading composable
+  const { displayedBanners, reset, loadUntilBanner, observerTarget } =
+    useBannerLoad({
+      allBanners: filteredBanners,
+    })
+
+  const firstDisplayedBannerId = computed(
+    () => displayedBanners.value[0]?.bannerId
+  )
+
+  // Watch filter changes with debouncing
+  watchDebounced(
+    () => [
+      bannerTypeFilter.value.show5Star,
+      bannerTypeFilter.value.show4Star,
+      sortOrder.value,
+    ],
+    () => {
+      reset()
+      if (import.meta.client) {
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+      }
+    },
+    { debounce: 300 }
+  )
+
+  async function handleBannerClick(bannerId: number) {
+    // Check if banner is already loaded
+    const isLoaded = displayedBanners.value.some(
+      (banner) => banner.bannerId === bannerId
+    )
+
+    if (!isLoaded) {
+      // Load banners up to the target banner
+      await loadUntilBanner(bannerId)
+    }
+
+    selectedBannerId.value = bannerId
+  }
+
+  type ScrollWait = 'none' | 'next-tick' | 'frame'
+  interface ScrollOptions {
+    behavior?: ScrollBehavior
+    wait?: ScrollWait
+  }
+
+  const scrollToBanner = async (
+    bannerId: number,
+    { behavior = 'smooth', wait = 'none' }: ScrollOptions = {}
+  ) => {
+    if (!import.meta.client) return
+
+    if (wait === 'next-tick') {
+      await nextTick()
+    } else if (wait === 'frame') {
+      await new Promise<void>((resolve) => {
+        requestAnimationFrame(() => resolve())
+      })
+    }
+
+    const element = document.getElementById(bannerId.toString())
+    if (!element) return
+
+    element.scrollIntoView({
+      behavior,
+      block: 'center',
+    })
+  }
+
+  watch(selectedBannerId, async (bannerId) => {
+    if (!bannerId) return
+    await scrollToBanner(bannerId, {
+      behavior: 'smooth',
+      wait: 'next-tick',
+    })
+  })
+
+  watch(
+    () => route.hash,
+    async (hash: string | null) => {
+      if (!hash) return
+      const bannerId = Number(hash.slice(1))
+      if (isNaN(bannerId)) return
+
+      // Load banners up to the target banner
+      await loadUntilBanner(bannerId)
+
+      // Then scroll to it
+      await scrollToBanner(bannerId, {
+        behavior: 'instant',
+        wait: 'frame',
+      })
+    },
+    { immediate: true }
+  )
+
+  const getRunStartTime = (run: BannerRun) => new Date(`${run.start}T00:00:00`)
+  const getRunEndTime = (run: BannerRun) => new Date(`${run.end}T00:00:00`)
+
+  const getVersion = (version: string) => {
+    // Extract major.minor version for season lookup (e.g., "1.10" from "1.10.1")
+    const parts = version.split('.')
+    return parts.length >= 2 ? `${parts[0]}.${parts[1]}` : version
+  }
+
+  // Get banner type color
+  const getBannerTypeColor = (type: number) => {
+    switch (type) {
+      case 1:
+        return 'default'
+      case 2:
+        return 'warning'
+      case 3:
+        return 'info'
+      default:
+        return 'default'
+    }
+  }
+</script>

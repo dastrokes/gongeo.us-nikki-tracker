@@ -1,6 +1,4 @@
 import { useSupabaseClient } from '~/composables/useSupabaseClient'
-import type { UserBannerStats } from '~/types/stats'
-import { generateSignature } from '~/utils/signature'
 
 const createForbiddenError = (type?: string) =>
   createError({

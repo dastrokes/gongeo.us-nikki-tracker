@@ -1,21 +1,19 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
 import Components from 'unplugin-vue-components/vite'
-import { defaultLocale, i18nLocales } from './locales/locales'
-import { buildSitemap } from './locales/sitemap'
+import { defaultLocale, i18nLocales } from './app/locales/locales'
+import { buildSitemap } from './app/locales/sitemap'
 import {
   noStoreHeaders,
   pageStatic,
   pageTheme,
   pageThemeNoTag,
   pageThemeQuery,
-} from './utils/cacheHeaders'
-import { getImageProvider } from './utils/imageProvider'
+} from './shared/utils/cacheProfiles'
+import { getImageProvider } from './app/utils/imageProvider'
 
 export default defineNuxtConfig({
   devtools: { enabled: false },
-
-  srcDir: '.',
 
   // Add global CSS files
   css: ['~/assets/styles/global.scss'],
@@ -38,8 +36,9 @@ export default defineNuxtConfig({
 
   i18n: {
     lazy: true,
-    restructureDir: 'locales',
-    langDir: './',
+    restructureDir: false,
+    langDir: 'locales',
+    vueI18n: 'app/locales/i18n.config',
     baseUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://gongeo.us',
     locales: i18nLocales,
     defaultLocale: defaultLocale,
@@ -90,7 +89,7 @@ export default defineNuxtConfig({
   },
 
   image: {
-    dir: 'public',
+    dir: '../public',
     provider: getImageProvider(),
     netlify: {
       baseURL: process.env.NUXT_PUBLIC_SITE_URL || 'https://gongeo.us',
@@ -210,10 +209,6 @@ export default defineNuxtConfig({
 
   experimental: {
     appManifest: false,
-  },
-
-  components: {
-    dirs: ['~/components'],
   },
 
   vite: {

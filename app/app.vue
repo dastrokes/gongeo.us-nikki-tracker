@@ -44,12 +44,17 @@
     htmlAttrs: {
       ...localeHtmlAttrs.value,
       class: htmlClass.value,
+      style: `color-scheme: ${isDark.value ? 'dark' : 'light'}`,
     },
     title: t('meta.title'),
     meta: [
       ...localeHead.value.meta,
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      {
+        name: 'theme-color',
+        content: isDark.value ? '#101014' : '#F8FAFC',
+      },
       {
         name: 'description',
         content: t('meta.description.default'),

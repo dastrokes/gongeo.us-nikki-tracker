@@ -21,7 +21,7 @@
     "tracker": "トラッカー",
     "import": "輸入",
     "export": "輸出",
-    "loading": "読み込み中...",
+    "loading": "読み込み中…",
     "search": "検索",
     "filter": "フィルター",
     "clear": "フィルターをクリアする",
@@ -328,7 +328,7 @@
       "momo_token_placeholder": "Cookie からの momoToken",
       "submit_global_stats": "グローバル統計のデータを送信する",
       "submit_button": "プル履歴の送信とインポート",
-      "fetching": "共鳴データを取得しています。お待ちください..."
+      "fetching": "共鳴データを取得しています。お待ちください…"
     },
     "progress": {
       "processing_banner": "{total}のバナー{current}を処理中",
@@ -448,7 +448,7 @@
       "png": "画像のエクスポート",
       "json": "エクスポートファイル",
       "generated_from": "生成元",
-      "in_progress": "エクスポート中です。お待​​ちください...",
+      "in_progress": "エクスポート中です。お待​​ちください…",
       "success": "データは正常にエクスポートされました。",
       "error": "データのエクスポートに失敗しました。もう一度試してください。"
     },

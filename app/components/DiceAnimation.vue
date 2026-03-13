@@ -9,6 +9,7 @@
           text
           circle
           class="text-gray-500"
+          :aria-label="t('default.accessibility.luck_stats')"
         >
           <n-icon
             class="origin-center"
@@ -105,6 +106,11 @@
   }
 
   onMounted(() => {
+    const prefersReducedMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)'
+    ).matches
+    if (prefersReducedMotion) return
+
     isAnimating.value = true
     faceInterval = setInterval(cycleDiceFaces, 500)
 

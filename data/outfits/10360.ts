@@ -1,4 +1,4 @@
-import type { Outfit } from '~/types/outfit'
+import type { Outfit } from '#shared/types/outfit'
 
 const outfit: Outfit = {
   id: '10360',

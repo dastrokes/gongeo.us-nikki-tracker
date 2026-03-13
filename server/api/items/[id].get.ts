@@ -1,17 +1,4 @@
 import { useSupabaseDataClient } from '~/composables/useSupabaseClient'
-import { defineCachedApiEventHandler } from '~/utils/cacheHeaders'
-import {
-  createInternalError,
-  createInvalidIdError,
-  createNotFoundError,
-  createUpstreamUnavailableError,
-} from '~/utils/apiErrors'
-import { toErrorMessage } from '~/utils/errors'
-import {
-  isTransientSupabaseError,
-  withSupabaseRetry,
-} from '~/utils/supabaseRetry'
-import { resolveRequestLocale } from '~/utils/locale'
 
 interface ItemTranslation {
   description: string

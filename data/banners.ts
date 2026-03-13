@@ -1,4 +1,4 @@
-import type { BannerData } from '~/types/banner'
+import type { BannerData } from '#shared/types/banner'
 
 /* 
  Banner Types: 

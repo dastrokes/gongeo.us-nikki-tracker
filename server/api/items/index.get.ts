@@ -1,30 +1,4 @@
 import { useSupabaseDataClient } from '~/composables/useSupabaseClient'
-import {
-  defineCachedApiEventHandler,
-  GAME_VERSION_HEADER,
-} from '~/utils/cacheHeaders'
-import { getGameVersion } from '~/utils/gameVersion'
-import {
-  createInternalError,
-  createUpstreamUnavailableError,
-} from '~/utils/apiErrors'
-import { toErrorMessage } from '~/utils/errors'
-import {
-  normalizeTraitKey,
-  resolveStyleI18nKeyFromProps,
-  resolveTagI18nKeys,
-  STYLE_BY_KEY,
-  TAG_BY_KEY,
-} from '~/utils/itemInfo'
-import {
-  isTransientSupabaseError,
-  withSupabaseRetry,
-} from '~/utils/supabaseRetry'
-import {
-  getVersionPrefixRange,
-  getVersionRangeFromPrefix,
-} from '~/utils/contentVersion'
-import { resolveObtainIdsFromValue } from '~/utils/obtainGroups'
 
 type ItemSortRow = {
   id: number

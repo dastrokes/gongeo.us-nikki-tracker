@@ -21,7 +21,7 @@
     "tracker": "Tracker",
     "import": "Importieren",
     "export": "Exportieren",
-    "loading": "Lädt...",
+    "loading": "Lädt…",
     "search": "Suchen",
     "filter": "Filter",
     "clear": "Filter entfernen",
@@ -328,7 +328,7 @@
       "momo_token_placeholder": "momoToken vom Cookie",
       "submit_global_stats": "Für globale Statistiken übermitteln",
       "submit_button": "Übermitteln und Importieren",
-      "fetching": "Resonanz-Daten werden gesammelt, bitte warten..."
+      "fetching": "Resonanz-Daten werden gesammelt, bitte warten…"
     },
     "progress": {
       "processing_banner": "Banner {current} von {total} wird verarbeitet",
@@ -448,7 +448,7 @@
       "png": "Bild exp.",
       "json": "Datei exp.",
       "generated_from": "Generiert von",
-      "in_progress": "Wird exportiert, bitte warten...",
+      "in_progress": "Wird exportiert, bitte warten…",
       "success": "Daten wurden erfolgreich exportiert!",
       "error": "Daten konnten nicht exportiert werden. Bitte versuche es erneut."
     },

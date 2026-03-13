@@ -21,7 +21,7 @@
     "tracker": "추적기",
     "import": "수입",
     "export": "내보내기",
-    "loading": "로딩 중...",
+    "loading": "로딩 중…",
     "search": "찾다",
     "filter": "필터",
     "clear": "필터 지우기",
@@ -328,7 +328,7 @@
       "momo_token_placeholder": "쿠키의 momoToken",
       "submit_global_stats": "글로벌 통계를 위한 데이터 제출",
       "submit_button": "풀 내역 제출 및 가져오기",
-      "fetching": "공진 데이터를 가져오는 중입니다. 잠시 기다려 주세요..."
+      "fetching": "공진 데이터를 가져오는 중입니다. 잠시 기다려 주세요…"
     },
     "progress": {
       "processing_banner": "{total}의 배너 {current} 처리 중",
@@ -448,7 +448,7 @@
       "png": "이미지 내보내기",
       "json": "파일 내보내기",
       "generated_from": "다음에서 생성됨",
-      "in_progress": "내보내기가 진행 중입니다. 잠시 기다려 주세요...",
+      "in_progress": "내보내기가 진행 중입니다. 잠시 기다려 주세요…",
       "success": "데이터를 성공적으로 내보냈습니다!",
       "error": "데이터를 내보내지 못했습니다. 다시 시도해 주세요."
     },

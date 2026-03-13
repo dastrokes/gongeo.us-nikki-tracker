@@ -41,4 +41,5 @@ logs/
 # Local agent instructions
 AGENTS.md
 .agents
+.claude
 skills-lock.json

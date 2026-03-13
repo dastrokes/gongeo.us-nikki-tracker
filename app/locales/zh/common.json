@@ -21,7 +21,7 @@
     "tracker": "追踪器",
     "import": "导入",
     "export": "导出",
-    "loading": "加载中...",
+    "loading": "Loading…",
     "search": "搜索",
     "filter": "筛选",
     "clear": "清除筛选",
@@ -157,7 +157,9 @@
       "language_switcher": "切换语言",
       "theme_switcher": "切换主题",
       "user_profile_menu": "用户资料菜单",
-      "scroll_to_top": "回到顶部"
+      "scroll_to_top": "回到顶部",
+      "close_menu": "Close navigation menu",
+      "luck_stats": "View luck stats"
     },
     "language_switcher": {
       "help_translate": "帮助翻译"
@@ -231,7 +233,16 @@
     "email_signin_error": "邮箱登录失败，请检查您的凭据。",
     "email_signup_error": "创建账户失败，请重试。",
     "reset_error": "发送重置邮件失败，请重试。",
-    "or": "或"
+    "or": "或",
+    "google_signin_error": "Failed to sign in with Google. Please try again.",
+    "email_not_confirmed": "Please check your email and confirm your address.",
+    "email_already_registered": "An account with this email already exists.",
+    "password_update_success": "Password updated successfully!",
+    "password_update_error": "Failed to update password. Please try again.",
+    "password_too_short": "Password must be at least 6 characters long.",
+    "reset_session_expired": "Reset session expired. Please request a new reset email.",
+    "account_not_found": "No account found with this email address.",
+    "reset_rate_limit": "Too many attempts. Please wait before trying again."
   },
   "error": {
     "404": "\"暖暖，我们还是待在水浅的地方吧！\"",
@@ -328,7 +339,7 @@
       "momo_token_placeholder": "来自 Cookie 的 momoToken",
       "submit_global_stats": "提交数据用于社区统计",
       "submit_button": "提交并导入抽卡历史",
-      "fetching": "正在获取共鸣数据，请稍候..."
+      "fetching": "Fetching resonance data, please wait…"
     },
     "progress": {
       "processing_banner": "正在处理第 {current} 个卡池，共 {total} 个",
@@ -448,7 +459,7 @@
       "png": "导出图片",
       "json": "导出文件",
       "generated_from": "生成自",
-      "in_progress": "导出中，请稍后...",
+      "in_progress": "Export in progress, please wait…",
       "success": "记录导出成功！",
       "error": "导出失败，请重试。"
     },

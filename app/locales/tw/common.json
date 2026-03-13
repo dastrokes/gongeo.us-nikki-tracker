@@ -21,7 +21,7 @@
     "tracker": "追蹤器",
     "import": "匯入",
     "export": "匯出",
-    "loading": "載入中...",
+    "loading": "載入中…",
     "search": "搜尋",
     "filter": "篩選",
     "clear": "清除篩選",
@@ -157,7 +157,9 @@
       "language_switcher": "切換語言",
       "theme_switcher": "切換主題",
       "user_profile_menu": "使用者資料選單",
-      "scroll_to_top": "回到頂部"
+      "scroll_to_top": "回到頂部",
+      "close_menu": "關閉導覽選單",
+      "luck_stats": "查看運氣統計"
     },
     "language_switcher": {
       "help_translate": "幫助翻譯"
@@ -231,7 +233,16 @@
     "email_signin_error": "電子郵件登入失敗，請檢查您的憑據。",
     "email_signup_error": "建立賬戶失敗，請重試。",
     "reset_error": "傳送重置郵件失敗，請重試。",
-    "or": "或"
+    "or": "或",
+    "google_signin_error": "使用 Google 登入失敗，請重試。",
+    "email_not_confirmed": "請檢查您的電子郵件並點擊確認連結。",
+    "email_already_registered": "該電子郵件已有帳戶。",
+    "password_update_success": "密碼更新成功！",
+    "password_update_error": "密碼更新失敗，請重試。",
+    "password_too_short": "密碼至少需要6個字元。",
+    "reset_session_expired": "重置工作階段已過期，請重新申請重置郵件。",
+    "account_not_found": "找不到與此電子郵件相關的帳戶。",
+    "reset_rate_limit": "嘗試次數過多，請稍後再試。"
   },
   "error": {
     "404": "\"暖暖，我們還是待在水淺的地方吧！\"",
@@ -328,7 +339,7 @@
       "momo_token_placeholder": "來自 Cookie 的 momoToken",
       "submit_global_stats": "提交資料用於社群統計",
       "submit_button": "提交併匯入抽卡歷史",
-      "fetching": "正在獲取共鳴資料，請稍候..."
+      "fetching": "正在獲取共鳴資料，請稍候…"
     },
     "progress": {
       "processing_banner": "正在處理第 {current} 個卡池，共 {total} 個",
@@ -448,7 +459,7 @@
       "png": "匯出圖片",
       "json": "匯出檔案",
       "generated_from": "生成自",
-      "in_progress": "匯出中，請稍後...",
+      "in_progress": "匯出中，請稍後…",
       "success": "記錄匯出成功！",
       "error": "匯出失敗，請重試。"
     },

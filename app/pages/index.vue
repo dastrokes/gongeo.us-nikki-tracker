@@ -220,7 +220,7 @@
                 quality="1"
                 fit="cover"
                 loading="lazy"
-                class="h-full w-full max-w-full"
+                class="h-full w-full max-w-full object-cover"
                 :style="silhouetteStyle"
               />
             </div>

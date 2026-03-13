@@ -135,7 +135,7 @@
                 {{ t('tracker.stats.total_pulls') }}
               </div>
               <div
-                class="text-lg font-medium mt-1 flex items-center justify-center gap-2"
+                class="text-lg font-medium tabular-nums mt-1 flex items-center justify-center gap-2"
               >
                 <n-number-animation
                   :from="0"
@@ -180,7 +180,7 @@
               <div class="text-sm text-gray-400">
                 {{ t('tracker.stats.total_5star_4star') }}
               </div>
-              <div class="text-lg font-medium mt-1">
+              <div class="text-lg font-medium tabular-nums mt-1">
                 <n-number-animation
                   :from="0"
                   :to="globalStats.total5StarItems"
@@ -206,14 +206,16 @@
                 {{ t('tracker.stats.avg_5star') }}
               </div>
               <div
-                class="text-lg font-medium mt-1 flex items-center justify-center gap-2"
+                class="text-lg font-medium tabular-nums mt-1 flex items-center justify-center gap-2"
               >
-                <n-number-animation
-                  :from="0"
-                  :to="globalStats.avg5StarPulls"
-                  :duration="2000"
-                  :precision="2"
-                />
+                <span class="inline-block min-w-[4ch] text-right">
+                  <n-number-animation
+                    :from="0"
+                    :to="globalStats.avg5StarPulls"
+                    :duration="2000"
+                    :precision="2"
+                  />
+                </span>
                 <DiceAnimation
                   v-if="globalStats.avg5StarPulls > 0"
                   :percentile="getAvg5StarPercentile(globalStats.avg5StarPulls)"
@@ -229,14 +231,16 @@
                 {{ t('tracker.stats.avg_4star_mixed') }}
               </div>
               <div
-                class="text-lg font-medium mt-1 flex items-center justify-center gap-2"
+                class="text-lg font-medium tabular-nums mt-1 flex items-center justify-center gap-2"
               >
-                <n-number-animation
-                  :from="0"
-                  :to="globalStats.avg4StarPulls"
-                  :duration="2000"
-                  :precision="2"
-                />
+                <span class="inline-block min-w-[3ch] text-right">
+                  <n-number-animation
+                    :from="0"
+                    :to="globalStats.avg4StarPulls"
+                    :duration="2000"
+                    :precision="2"
+                  />
+                </span>
                 <DiceAnimation
                   v-if="globalStats.avg4StarPulls > 0"
                   :percentile="
@@ -254,14 +258,16 @@
                 {{ t('tracker.stats.avg_4star_only') }}
               </div>
               <div
-                class="text-lg font-medium mt-1 flex items-center justify-center gap-2"
+                class="text-lg font-medium tabular-nums mt-1 flex items-center justify-center gap-2"
               >
-                <n-number-animation
-                  :from="0"
-                  :to="globalStats.avg4StarOnlyPulls"
-                  :duration="2000"
-                  :precision="2"
-                />
+                <span class="inline-block min-w-[3ch] text-right">
+                  <n-number-animation
+                    :from="0"
+                    :to="globalStats.avg4StarOnlyPulls"
+                    :duration="2000"
+                    :precision="2"
+                  />
+                </span>
                 <DiceAnimation
                   v-if="globalStats.avg4StarOnlyPulls > 0"
                   :percentile="

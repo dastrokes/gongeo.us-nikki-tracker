@@ -97,7 +97,7 @@
             <div class="text-sm text-gray-400">
               {{ $t('global.stats.total_pulls') }}
             </div>
-            <div class="text-lg font-medium Cookie mt-1">
+            <div class="text-lg font-medium tabular-nums mt-1">
               <n-number-animation
                 show-separator
                 :from="0"
@@ -113,7 +113,7 @@
             <div class="text-sm text-gray-400">
               {{ $t('global.stats.unique_users') }}
             </div>
-            <div class="text-lg font-medium Cookie mt-1">
+            <div class="text-lg font-medium tabular-nums mt-1">
               <n-number-animation
                 show-separator
                 :from="0"
@@ -129,7 +129,7 @@
             <div class="text-sm text-gray-400">
               {{ $t('global.stats.avg_5star') }}
             </div>
-            <div class="text-lg font-medium Cookie mt-1">
+            <div class="text-lg font-medium tabular-nums mt-1">
               <n-number-animation
                 :from="0"
                 :to="averagePullsTo5Star"
@@ -145,7 +145,7 @@
             <div class="text-sm text-gray-400">
               {{ $t('global.stats.avg_4star_type2') }}
             </div>
-            <div class="text-lg font-medium Cookie mt-1">
+            <div class="text-lg font-medium tabular-nums mt-1">
               <n-number-animation
                 :from="0"
                 :to="averagePullsTo4StarType2"
@@ -161,7 +161,7 @@
             <div class="text-sm text-gray-400">
               {{ $t('global.stats.avg_4star_type3') }}
             </div>
-            <div class="text-lg font-medium Cookie mt-1">
+            <div class="text-lg font-medium tabular-nums mt-1">
               <n-number-animation
                 :from="0"
                 :to="averagePullsTo4StarType3"
@@ -177,7 +177,7 @@
             <div class="text-sm text-gray-400">
               {{ $t('global.stats.data_as_of') }}
             </div>
-            <div class="text-lg font-medium Cookie mt-1">
+            <div class="text-lg font-medium tabular-nums mt-1">
               <n-time
                 v-if="data?.date"
                 :time="effectiveDate"

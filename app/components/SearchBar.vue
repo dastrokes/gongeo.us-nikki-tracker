@@ -13,8 +13,10 @@
   </n-button>
 
   <!-- Desktop: Show search input with hotkey hint -->
-  <div
-    class="hidden sm:flex items-center gap-2 px-2 py-1 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 hover:border-gray-400 dark:hover:border-gray-500 transition-colors cursor-pointer"
+  <button
+    type="button"
+    class="hidden sm:flex items-center gap-2 px-2 py-1 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 hover:border-gray-400 dark:hover:border-gray-500 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-500"
+    :aria-label="$t('common.search')"
     @click="toggleSearch"
   >
     <n-icon
@@ -28,7 +30,7 @@
     >
       /
     </kbd>
-  </div>
+  </button>
 
   <n-modal v-model:show="showSearch">
     <n-auto-complete

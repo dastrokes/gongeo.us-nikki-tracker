@@ -1,17 +1,5 @@
 import { useSupabaseClient } from '~/composables/useSupabaseClient'
-import { LATEST_BANNER_ID } from '~/data/manualConfig'
-import {
-  createInternalError,
-  createUpstreamUnavailableError,
-} from '~/utils/apiErrors'
-import {
-  defineCachedApiEventHandler,
-  GAME_VERSION_HEADER,
-} from '~/utils/cacheHeaders'
-import { toErrorMessage } from '~/utils/errors'
-import { getGameVersion } from '~/utils/gameVersion'
-import { isTransientSupabaseError } from '~/utils/supabaseRetry'
-import { getBannerStats, getCoreStats } from '~/utils/globalStats'
+import { LATEST_BANNER_ID } from '~~/data/config'
 
 export default defineCachedApiEventHandler(
   async () => {

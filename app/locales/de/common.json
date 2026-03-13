@@ -21,7 +21,7 @@
     "tracker": "Tracker",
     "import": "Importieren",
     "export": "Exportieren",
-    "loading": "Lädt...",
+    "loading": "Loading…",
     "search": "Suchen",
     "filter": "Filter",
     "clear": "Filter entfernen",
@@ -157,7 +157,9 @@
       "language_switcher": "Sprache wechseln",
       "theme_switcher": "Thema wechseln",
       "user_profile_menu": "Benutzerprofil-Menü",
-      "scroll_to_top": "Zum Seitenanfang"
+      "scroll_to_top": "Zum Seitenanfang",
+      "close_menu": "Close navigation menu",
+      "luck_stats": "View luck stats"
     },
     "language_switcher": {
       "help_translate": "Hilf bei der Übersetzung"
@@ -231,7 +233,16 @@
     "email_signin_error": "Anmeldung mit E-Mail fehlgeschlagen. Bitte überprüfe deine Angaben.",
     "email_signup_error": "Kontoerstellung fehlgeschlagen. Bitte versuche es erneut.",
     "reset_error": "Fehler beim Senden der Zurücksetzungs-E-Mail. Bitte versuche es erneut.",
-    "or": "oder"
+    "or": "oder",
+    "google_signin_error": "Failed to sign in with Google. Please try again.",
+    "email_not_confirmed": "Please check your email and confirm your address.",
+    "email_already_registered": "An account with this email already exists.",
+    "password_update_success": "Password updated successfully!",
+    "password_update_error": "Failed to update password. Please try again.",
+    "password_too_short": "Password must be at least 6 characters long.",
+    "reset_session_expired": "Reset session expired. Please request a new reset email.",
+    "account_not_found": "No account found with this email address.",
+    "reset_rate_limit": "Too many attempts. Please wait before trying again."
   },
   "error": {
     "404": "\"Nikki, lass uns im seichten Wasser bleiben.\"",
@@ -328,7 +339,7 @@
       "momo_token_placeholder": "momoToken vom Cookie",
       "submit_global_stats": "Für globale Statistiken übermitteln",
       "submit_button": "Übermitteln und Importieren",
-      "fetching": "Resonanz-Daten werden gesammelt, bitte warten..."
+      "fetching": "Fetching resonance data, please wait…"
     },
     "progress": {
       "processing_banner": "Banner {current} von {total} wird verarbeitet",
@@ -448,7 +459,7 @@
       "png": "Bild exp.",
       "json": "Datei exp.",
       "generated_from": "Generiert von",
-      "in_progress": "Wird exportiert, bitte warten...",
+      "in_progress": "Export in progress, please wait…",
       "success": "Daten wurden erfolgreich exportiert!",
       "error": "Daten konnten nicht exportiert werden. Bitte versuche es erneut."
     },

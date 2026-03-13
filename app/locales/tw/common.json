@@ -21,7 +21,7 @@
     "tracker": "追蹤器",
     "import": "匯入",
     "export": "匯出",
-    "loading": "載入中...",
+    "loading": "Loading…",
     "search": "搜尋",
     "filter": "篩選",
     "clear": "清除篩選",
@@ -157,7 +157,9 @@
       "language_switcher": "切換語言",
       "theme_switcher": "切換主題",
       "user_profile_menu": "使用者資料選單",
-      "scroll_to_top": "回到頂部"
+      "scroll_to_top": "回到頂部",
+      "close_menu": "Close navigation menu",
+      "luck_stats": "View luck stats"
     },
     "language_switcher": {
       "help_translate": "幫助翻譯"
@@ -231,7 +233,16 @@
     "email_signin_error": "電子郵件登入失敗，請檢查您的憑據。",
     "email_signup_error": "建立賬戶失敗，請重試。",
     "reset_error": "傳送重置郵件失敗，請重試。",
-    "or": "或"
+    "or": "或",
+    "google_signin_error": "Failed to sign in with Google. Please try again.",
+    "email_not_confirmed": "Please check your email and confirm your address.",
+    "email_already_registered": "An account with this email already exists.",
+    "password_update_success": "Password updated successfully!",
+    "password_update_error": "Failed to update password. Please try again.",
+    "password_too_short": "Password must be at least 6 characters long.",
+    "reset_session_expired": "Reset session expired. Please request a new reset email.",
+    "account_not_found": "No account found with this email address.",
+    "reset_rate_limit": "Too many attempts. Please wait before trying again."
   },
   "error": {
     "404": "\"暖暖，我們還是待在水淺的地方吧！\"",
@@ -328,7 +339,7 @@
       "momo_token_placeholder": "來自 Cookie 的 momoToken",
       "submit_global_stats": "提交資料用於社群統計",
       "submit_button": "提交併匯入抽卡歷史",
-      "fetching": "正在獲取共鳴資料，請稍候..."
+      "fetching": "Fetching resonance data, please wait…"
     },
     "progress": {
       "processing_banner": "正在處理第 {current} 個卡池，共 {total} 個",
@@ -448,7 +459,7 @@
       "png": "匯出圖片",
       "json": "匯出檔案",
       "generated_from": "生成自",
-      "in_progress": "匯出中，請稍後...",
+      "in_progress": "Export in progress, please wait…",
       "success": "記錄匯出成功！",
       "error": "匯出失敗，請重試。"
     },

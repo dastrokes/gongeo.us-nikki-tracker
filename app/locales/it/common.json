@@ -21,7 +21,7 @@
     "tracker": "Localizzatore",
     "import": "Importare",
     "export": "Esportare",
-    "loading": "Loading…",
+    "loading": "Caricamento…",
     "search": "Ricerca",
     "filter": "Filtro",
     "clear": "Cancella filtri",
@@ -339,7 +339,7 @@
       "momo_token_placeholder": "momoToken da Cookie",
       "submit_global_stats": "Invia dati per le statistiche globali",
       "submit_button": "Invia e importa la cronologia dei pull",
-      "fetching": "Fetching resonance data, please wait…"
+      "fetching": "Recupero dati risonanza, attendere…"
     },
     "progress": {
       "processing_banner": "Elaborazione banner {current} di {total}",
@@ -459,7 +459,7 @@
       "png": "Esporta immagine",
       "json": "Esporta file",
       "generated_from": "Generato da",
-      "in_progress": "Export in progress, please wait…",
+      "in_progress": "Esportazione in corso, attendere…",
       "success": "Dati esportati con successo!",
       "error": "Impossibile esportare i dati. Per favore riprova."
     },

@@ -1,6 +1,8 @@
 <template>
-  <div
+  <NuxtLinkLocale
+    :to="`/items/${itemId}`"
     class="relative block transition-all duration-300 ease-out group hover:scale-[1.05] hover:z-10"
+    @click="$emit('click', itemId)"
   >
     <n-card
       :class="[
@@ -11,7 +13,6 @@
       :bordered="false"
       size="small"
       content-class="p-0"
-      @click="handleClick"
     >
       <NuxtImg
         :src="getImageSrc('itemIcon', itemId)"
@@ -41,7 +42,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </NuxtLinkLocale>
 </template>
 
 <script setup lang="ts">
@@ -57,12 +58,11 @@
     size: 'lg',
   })
 
-  const emit = defineEmits<{
+  defineEmits<{
     click: [itemId: number]
   }>()
 
   const { t } = useI18n()
-  const localePath = useLocalePath()
   const { getImageSrc } = imageProvider()
   const { isDark } = useTheme()
   const palette = usePalette()
@@ -119,12 +119,5 @@
       default:
         return '80px sm:120px'
     }
-  }
-
-  // Click handler
-  const handleClick = () => {
-    emit('click', props.itemId)
-    const path = localePath(`/items/${props.itemId}`)
-    navigateTo(path)
   }
 </script>

@@ -26,7 +26,6 @@
           >
             <span
               class="text-xl font-bold transition-all duration-300 hover:opacity-80 hover:drop-shadow-sm"
-              :class="locale === 'zh' ? 'align-baseline' : 'align-super'"
               >{{ $t('navigation.title') }}</span
             >
           </NuxtLinkLocale>
@@ -105,8 +104,8 @@
                       width="80"
                       height="80"
                       fit="cover"
-                      loading="eager"
-                      fetchpriority="high"
+                      loading="lazy"
+                      :alt="$t('navigation.title')"
                       class="h-full w-full"
                     />
                   </div>
@@ -323,9 +322,10 @@
       </n-icon>
     </n-button>
 
-    <div
+    <button
       v-if="showSider"
-      class="fixed inset-0 z-30 2xl:hidden bg-black/10 dark:bg-black/20"
+      class="fixed inset-0 z-30 2xl:hidden bg-black/10 dark:bg-black/20 cursor-default focus:outline-none"
+      :aria-label="$t('default.accessibility.close_menu')"
       @click="showSider = false"
     />
 

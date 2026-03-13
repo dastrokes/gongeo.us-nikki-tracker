@@ -9,7 +9,7 @@
     <template #icon>
       <n-icon
         :class="{ 'rotate-180': isDark }"
-        class="transition-transform duration-500"
+        class="transition-transform duration-500 motion-reduce:transition-none"
         :component="isDark ? SunIcon : MoonIcon"
       />
     </template>

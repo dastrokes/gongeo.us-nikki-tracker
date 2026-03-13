@@ -21,7 +21,7 @@
     "tracker": "Pelacak",
     "import": "Impor",
     "export": "Ekspor",
-    "loading": "Memuat...",
+    "loading": "Memuat…",
     "search": "Mencari",
     "filter": "Menyaring",
     "clear": "Hapus Filter",
@@ -328,7 +328,7 @@
       "momo_token_placeholder": "momoToken dari Cookie",
       "submit_global_stats": "Kirimkan data untuk statistik global",
       "submit_button": "Kirim dan Impor Riwayat Tarik",
-      "fetching": "Mengambil data resonansi, harap tunggu..."
+      "fetching": "Mengambil data resonansi, harap tunggu…"
     },
     "progress": {
       "processing_banner": "Memproses spanduk {current} dari {total}",
@@ -448,7 +448,7 @@
       "png": "Ekspor Gambar",
       "json": "Ekspor Berkas",
       "generated_from": "Dihasilkan Dari",
-      "in_progress": "Ekspor sedang berlangsung, harap tunggu...",
+      "in_progress": "Ekspor sedang berlangsung, harap tunggu…",
       "success": "Data berhasil diekspor!",
       "error": "Gagal mengekspor data. Silakan coba lagi."
     },

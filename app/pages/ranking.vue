@@ -28,7 +28,7 @@
                 >
                   <Poll />
                 </n-icon>
-                <span class="text-md sm:text-2xl font-semibold">
+                <span class="text-md sm:text-2xl font-semibold tabular-nums">
                   <n-number-animation
                     :from="0"
                     :to="stats.totalVotes"
@@ -55,7 +55,7 @@
                 >
                   <Users />
                 </n-icon>
-                <span class="text-md sm:text-2xl font-semibold">
+                <span class="text-md sm:text-2xl font-semibold tabular-nums">
                   <n-number-animation
                     :from="0"
                     :to="stats.totalVoters"
@@ -82,7 +82,7 @@
                 >
                   <ChartBar />
                 </n-icon>
-                <span class="text-md sm:text-2xl font-semibold">
+                <span class="text-md sm:text-2xl font-semibold tabular-nums">
                   <n-number-animation
                     :from="0"
                     :to="stats.totalVotes / stats.totalVoters"

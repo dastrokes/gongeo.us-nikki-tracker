@@ -55,6 +55,10 @@
                 size="large"
                 show-password-on="click"
                 clearable
+                :input-props="{
+                  'aria-label': t('login.new_password'),
+                  autocomplete: 'new-password',
+                }"
               />
             </n-form-item>
             <n-form-item path="confirmNewPassword">
@@ -65,6 +69,10 @@
                 size="large"
                 show-password-on="click"
                 clearable
+                :input-props="{
+                  'aria-label': t('login.confirm_new_password'),
+                  autocomplete: 'new-password',
+                }"
               />
             </n-form-item>
             <n-button
@@ -157,6 +165,12 @@
                       :placeholder="t('login.email')"
                       size="large"
                       clearable
+                      :input-props="{
+                        type: 'email',
+                        'aria-label': t('login.email'),
+                        autocomplete: 'email',
+                        spellcheck: false,
+                      }"
                     />
                   </n-form-item>
 
@@ -168,6 +182,13 @@
                       size="large"
                       show-password-on="click"
                       clearable
+                      :input-props="{
+                        'aria-label': t('login.password'),
+                        autocomplete:
+                          authMode === 'signin'
+                            ? 'current-password'
+                            : 'new-password',
+                      }"
                     />
                   </n-form-item>
 
@@ -182,6 +203,10 @@
                       size="large"
                       show-password-on="click"
                       clearable
+                      :input-props="{
+                        'aria-label': t('login.confirm_password'),
+                        autocomplete: 'new-password',
+                      }"
                     />
                   </n-form-item>
 
@@ -243,6 +268,12 @@
               :placeholder="t('login.email')"
               size="large"
               clearable
+              :input-props="{
+                type: 'email',
+                'aria-label': t('login.email'),
+                autocomplete: 'email',
+                spellcheck: false,
+              }"
             />
           </n-form-item>
         </n-form>
@@ -396,7 +427,7 @@
     try {
       await signInWithGoogle()
     } catch (error) {
-      message.error('Failed to sign in with Google. Please try again.')
+      message.error(t('login.google_signin_error'))
       console.error('Google sign in error:', error)
     }
   }
@@ -425,10 +456,9 @@
         if (supabaseError.message.includes('Invalid login credentials')) {
           errorMessage = t('login.email_signin_error')
         } else if (supabaseError.message.includes('Email not confirmed')) {
-          errorMessage =
-            'Please check your email and click the confirmation link.'
+          errorMessage = t('login.email_not_confirmed')
         } else if (supabaseError.message.includes('User already registered')) {
-          errorMessage = 'An account with this email already exists.'
+          errorMessage = t('login.email_already_registered')
         }
       }
 
@@ -453,9 +483,9 @@
       if (error && typeof error === 'object' && 'message' in error) {
         const supabaseError = error as { message: string }
         if (supabaseError.message.includes('User not found')) {
-          errorMessage = 'No account found with this email address.'
+          errorMessage = t('login.account_not_found')
         } else if (supabaseError.message.includes('rate limit')) {
-          errorMessage = 'Too many attempts. Please wait before trying again.'
+          errorMessage = t('login.reset_rate_limit')
         }
       }
 
@@ -478,20 +508,19 @@
 
       if (error) throw error
 
-      message.success('Password updated successfully!')
+      message.success(t('login.password_update_success'))
       isRecoveryMode.value = false
       recoveryFormData.value = { newPassword: '', confirmNewPassword: '' }
       router.replace({ path: localePath('/login'), query: {} })
     } catch (error: unknown) {
-      let errorMessage = 'Failed to update password.'
+      let errorMessage = t('login.password_update_error')
 
       if (error && typeof error === 'object' && 'message' in error) {
         const supabaseError = error as { message: string }
         if (supabaseError.message.includes('Password should be at least')) {
-          errorMessage = 'Password must be at least 6 characters long.'
+          errorMessage = t('login.password_too_short')
         } else if (supabaseError.message.includes('session_not_found')) {
-          errorMessage =
-            'Reset session expired. Please request a new reset email.'
+          errorMessage = t('login.reset_session_expired')
         }
       }
 

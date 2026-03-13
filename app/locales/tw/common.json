@@ -1,0 +1,749 @@
+{
+  "common": {
+    "banner": "Banner",
+    "banners": "Banners",
+    "outfit": "Outfit",
+    "outfits": "Outfits",
+    "item": "Item",
+    "items": "Items",
+    "makeup": "Makeup",
+    "variations": "Variations",
+    "type": "Type",
+    "pull": "Pull",
+    "pulls": "Pulls",
+    "total": "Total",
+    "average": "Average",
+    "avg": "Avg",
+    "statistics": "Statistics",
+    "stats": "Stats",
+    "data": "Data",
+    "history": "History",
+    "tracker": "Tracker",
+    "import": "Import",
+    "export": "Export",
+    "loading": "Loading...",
+    "search": "Search",
+    "filter": "Filter",
+    "clear": "Clear Filters",
+    "all": "All",
+    "other": "Other",
+    "show": "Show",
+    "hide": "Hide",
+    "save": "Save",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "ok": "OK",
+    "submit": "Submit",
+    "retry": "Retry",
+    "back": "Back",
+    "copy": "Copy",
+    "select": "Select",
+    "description": "Description",
+    "error": "Error",
+    "success": "Success",
+    "failed": "Failed"
+  },
+  "navigation": {
+    "title": "gongeo.us",
+    "subtitle": "Infinity Nikki Resonance Tracker",
+    "tracker": "Resonance Tracker",
+    "import": "Import Data",
+    "global": "Global Data",
+    "banner": "Banner History",
+    "banner_detail": "Banner Detail",
+    "timeline": "Banner Timeline",
+    "outfit": "Outfit Compendium",
+    "outfit_detail": "Outfit Detail",
+    "item": "Item Compendium",
+    "item_detail": "Item Detail",
+    "tierlist": "Tier List Maker",
+    "compendium": "Compendium",
+    "vote": "Banner Vote",
+    "faq": "FAQ",
+    "about": "About",
+    "official_website": "Official Website",
+    "join_community": "Join Community",
+    "support_website": "Support Website",
+    "nuan5pro": "Nuan5.Pro"
+  },
+  "meta": {
+    "title": "Infinity Nikki Resonance Tracker - Pull History & Stats",
+    "keywords": "Infinity Nikki, Resonance Tracker, Pull Tracker, Gacha Tracker, Pull History, Global Stats, Community Stats, Gongeous",
+    "game_title": "Infinity Nikki",
+    "description": {
+      "default": "Track Infinity Nikki resonance banner pull history and statistics. A fan-made tracking and analysis tool for the Infinity Nikki community.",
+      "login": "Sign in to gongeo.us using your email or a third-party account to upload, back up, and sync your Infinity Nikki resonance data across devices.",
+      "tracker": "Track and analyze your Infinity Nikki resonance pull history. View all 5★ and 4★ banner items and compare your luck with other stylists.",
+      "import": "Import your Infinity Nikki resonance pull history easily from game, Whim-Log data or backup files with detailed step-by-step guides.",
+      "global": "Explore Infinity Nikki resonance global data, including banner popularity, pull rates, item drop rates, and community pull statistics.",
+      "banner": "Explore Infinity Nikki resonance banner history with current, upcoming, and past events, featured outfits, pull rates, durations, and rerun details.",
+      "banner_detail": "View the {name} resonance banner details, including featured outfits, item drop rates, pull statistics, duration, evolution info, and rerun status.",
+      "timeline": "Explore an interactive timeline of Infinity Nikki resonance banners, major updates, release periods, and reruns to track event history at a glance.",
+      "tierlist": "Create and share an Infinity Nikki tier list for banners, outfits, and items with drag-and-drop ranking, filters, and easy image export.",
+      "outfits": "Browse all Infinity Nikki outfits with filters for quality, evolution, glow-up, style tags, and stats. See full components and discover every outfit.",
+      "outfit_detail": "View detailed information about the {name} outfit, including quality, outfit pieces, evolution and glow-up, makeups, stats, and related resonance banners.",
+      "items": "Browse all Infinity Nikki items with filters for type, quality, stat bonuses, and related outfits or banners. Find, compare, and track every item easily.",
+      "item_detail": "View detailed information about the {name} item, including quality, evolution and glow-up, stats, and related outfits and banners.",
+      "faq": "Find answers to frequently asked questions about gongeo.us, including data privacy, import methods, and usage guidelines.",
+      "about": "Learn more about gongeo.us, including its purpose, privacy policy, disclaimers, and how it supports the Infinity Nikki community."
+    }
+  },
+  "default": {
+    "description": "Track Infinity Nikki Resonance History and Statistics",
+    "your_data": "Your Data",
+    "community_stats": "Community Stats",
+    "view_all_stats": "View All Stats",
+    "current_banners": "Current Banners",
+    "rerun": "Rerun",
+    "built_with": "This site is powered by",
+    "copyright": "© 2026 gongeo.us • © Infold Games All Rights Reserved",
+    "disclaimer": {
+      "content": "This is an unofficial fan-made website, not affiliated with or endorsed by Infold Games.",
+      "rights": "All Infinity Nikki game assets, content, and trademarks belong to Infold Games and their respective owners."
+    },
+    "user_profile": {
+      "guest": "Guest",
+      "signed_in": "Signed In",
+      "clear_local_data": "Clear Local Data",
+      "clear_local_confirm": {
+        "title": "Clear Local Data",
+        "content": "Are you sure you want to clear local data for {profile} profile? This action cannot be undone."
+      },
+      "sign_out": "Sign out",
+      "sign_out_success": "Successfully signed out",
+      "sign_out_error": "Failed to sign out",
+      "upload_data": "Upload to Cloud",
+      "sync_data": "Sync from Cloud",
+      "sync": {
+        "upload_success": "Data uploaded to cloud successfully!",
+        "upload_error": "Failed to upload data.",
+        "sync_success": "Data synced successfully!",
+        "sync_error": "Failed to sync data.",
+        "confirm_upload": {
+          "title": "Upload to Cloud",
+          "content": "This will upload local data for {profile} profile to cloud storage, overwriting any existing cloud data for this profile. Continue?"
+        },
+        "confirm_sync": {
+          "title": "Sync from Cloud",
+          "content": "This will sync local data for {profile} profile with cloud data by merging them together. Continue?"
+        },
+        "missing_profiles": {
+          "title": "Create Missing Profiles",
+          "content": "We found cloud data for {profiles}. Create these profiles locally before syncing?",
+          "confirm": "Create Profiles"
+        }
+      },
+      "clear_cloud_data": "Clear Cloud Data",
+      "clear_cloud_confirm": {
+        "title": "Clear Cloud Data",
+        "content": "Are you sure you want to clear cloud data for {profile} profile? This action cannot be undone and will permanently delete your data from cloud storage."
+      },
+      "clear_cloud_success": "Cloud data cleared successfully!",
+      "clear_cloud_error": "Failed to clear cloud data.",
+      "clear_success": "Data cleared successfully!",
+      "profiles": {
+        "active": "Active",
+        "delete_confirm": {
+          "title": "Delete Profile",
+          "content": "Are you sure you want to delete {profile} profile? This will clear its local data and cloud data (if signed in)."
+        },
+        "created_success": "Profile created.",
+        "switched_success": "Switched to {profile} profile.",
+        "deleted_success": "Profile deleted."
+      }
+    },
+    "accessibility": {
+      "toggle_menu": "Toggle navigation menu",
+      "language_switcher": "Language switcher",
+      "theme_switcher": "Toggle theme",
+      "user_profile_menu": "User profile menu",
+      "scroll_to_top": "Scroll to top"
+    },
+    "language_switcher": {
+      "help_translate": "Help translate"
+    },
+    "search": {
+      "placeholder": "Search items, banners, outfits",
+      "noResults": "No results found"
+    },
+    "social": {
+      "discord": "Join our Discord community",
+      "kofi": "Support us on Ko-fi",
+      "twitter": "Follow us on Twitter",
+      "email": "Contact us via email"
+    }
+  },
+  "profile": {
+    "title": "Profile",
+    "subtitle": "Manage profiles, cloud data, and local data.",
+    "sections": {},
+    "account_label": "Account",
+    "all_profiles": "All Profiles",
+    "active_profile": "Active Profile",
+    "default_profile": "Default",
+    "profile_slot": "Profile {number}",
+    "switch": "Switch",
+    "manage_profiles": "Manage Profiles",
+    "rename": "Rename",
+    "rename_title": "Rename Profile",
+    "rename_placeholder": "Enter a profile name",
+    "rename_success": "Profile name updated.",
+    "rename_error": "Please enter a profile name.",
+    "menu": {
+      "delete": "Delete Profile"
+    },
+    "status": {
+      "local": "Local Data",
+      "cloud": "Cloud Data",
+      "last_sync": "Last Sync",
+      "never": "Never"
+    }
+  },
+  "login": {
+    "sign_in": "Sign In",
+    "sign_up": "Sign Up",
+    "welcome_description": "Sign in with 3rd party account or email to upload and sync your data.",
+    "signed_in_title": "Successfully Signed In!",
+    "welcome_back": "Welcome back, {name}!",
+    "signin_error": "Failed to sign in. Please try again.",
+    "sign_in_with_discord": "Sign in with Discord",
+    "sign_in_with_google": "Sign in with Google",
+    "sign_in_with_email": "Sign in with Email",
+    "email": "Email",
+    "password": "Password",
+    "confirm_password": "Confirm Password",
+    "forgot_password": "Forgot Password?",
+    "reset_password": "Reset Password",
+    "send_reset_email": "Send Reset Email",
+    "back_to_login": "Back to Login",
+    "set_new_password": "Set New Password",
+    "new_password": "New Password",
+    "confirm_new_password": "Confirm New Password",
+    "update_password": "Update Password",
+    "email_required": "Email is required",
+    "password_required": "Password is required",
+    "password_min_length": "Password must be at least 6 characters",
+    "passwords_dont_match": "Passwords don't match",
+    "invalid_email": "Please enter a valid email address",
+    "signup_success": "Account created successfully! Please check your email for verification.",
+    "signin_success": "Signed in successfully!",
+    "reset_success": "Password reset email sent! Please check your inbox.",
+    "email_signin_error": "Failed to sign in with email. Please check your credentials.",
+    "email_signup_error": "Failed to create account. Please try again.",
+    "reset_error": "Failed to send reset email. Please try again.",
+    "or": "or"
+  },
+  "error": {
+    "404": "\"Nikki, let's stay in the shallow water\"",
+    "notFound": "The page you are looking for does not exist.",
+    "returnHome": "Return Home"
+  },
+  "import": {
+    "video_tutorial": "Video Tutorial",
+    "video_tutorial_desc": "Watch step-by-step video guide to learn how to import your data:",
+    "watch_on_youtube": "Watch on YouTube",
+    "watch_on_bilibili": "Watch on Bilibili",
+    "choose_method": "Choose Import Method",
+    "choose_method_desc": "Choose how you want to import your pull history.",
+    "import_from_game": "Import from Game",
+    "import_from_file": "Import from File",
+    "import_from_pearpal": "Import from Whim-Log",
+    "file_import": "File Import",
+    "file_import_desc": "Import from a previously exported nikki-resonance-data file.",
+    "select_file": "Select File",
+    "select_region": "Select Region",
+    "select_region_desc": "Select your game server region.",
+    "regions": {
+      "america": "America",
+      "europe": "Europe",
+      "china": "China",
+      "tw": "TW/HK/Macau",
+      "asia": "Asia"
+    },
+    "pearpal_website": "Pearpal Website",
+    "whimlog": "Whim-Log",
+    "login_pearpal": "Login to Pearpal Website",
+    "login_pearpal_desc": "Open Pearpal Website in a new tab and login with your Infold account if you aren't already logged in.",
+    "login_pearpal_incognito_hint": "If you have multiple accounts, it's recommended to open Pearpal in an incognito/private browser window.",
+    "login_whimlog": "Sync data in Whim-Log",
+    "login_whimlog_desc": "Open Whim-Log in a new tab, login and sync your data.",
+    "get_cookie": "Get Cookie From Pearpal Website",
+    "get_cookie_desc": "Choose how you want to get your Cookie:",
+    "gongeous_cookie": "Gongeous Cookie",
+    "bookmark_method": "Bookmark Method (Recommended)",
+    "bookmark_method_mobile": "Bookmark Method",
+    "console_method": "Console Method",
+    "manual_input": "Manual Method",
+    "title": "Follow these steps to get your Cookie:",
+    "bookmark_steps": {
+      "step1": "Drag the \"Gongeous Cookie\" button to your bookmarks bar (only needs to be done once):",
+      "step2": "Switch to Pearpal Website in a different tab, make sure you are logged in",
+      "step3": "Click the \"Gongeous Cookie\" bookmark while on the Pearpal Website",
+      "step4": "Copy the output text in the popup (it should look like the example in the input area below)",
+      "step5": "Come back here and paste the output text in the input area below",
+      "tip": "Tip: You can keep the bookmark for getting Cookie the next time you import"
+    },
+    "bookmark_steps_mobile": {
+      "step1": "Tap the \"Copy Code\" button and copy the code",
+      "step2": "Create a new bookmark in your browser and name it \"Gongeous Cookie\"",
+      "step3": "Edit the bookmark URL and replace it with the code you copied",
+      "step4": "Switch to Pearpal Website in a different tab, make sure you are logged in",
+      "step5": "Tap the \"Gongeous Cookie\" bookmark while on the Pearpal Website",
+      "step5_android_chrome": "Start typing the bookmark name you saved (Gongeous Cookie) in the address bar",
+      "step5_android_chrome_2": "Select the bookmark from suggestions to run it",
+      "step6": "Copy the output text in the popup (it should look like the example in the input area below)",
+      "step7": "Come back here and paste the output text in the input area below"
+    },
+    "console_steps": {
+      "step1": "Switch to Pearpal Website in a different tab, make sure you are logged in",
+      "step2": "Open your browser's Developer Tools (Press F12 or right-click and select \"Inspect\")",
+      "step3": "Go to the \"Console\" tab",
+      "step4": "Click the \"Copy Code\" button, copy and paste the code into the console and press enter:",
+      "step5": "If you get a warning saying \"Warning: Don't paste code into the devtools console\", type \"allow pasting\" and hit enter",
+      "step6": "Copy the output text in the console (it should look like the example in the input area below)",
+      "step7": "Come back here and paste the output text in the input area below"
+    },
+    "manual_steps": {
+      "note": "(Using Google Chrome as an example, exact names might vary for other browsers but steps will be similar)",
+      "step1": "Switch to Pearpal Website in a different tab, make sure you are logged in",
+      "step2": "Open your browser's Developer Tools (Press F12 or right-click and select \"Inspect\")",
+      "step3": "Go to the \"Application\" tab (or \"Storage\" in Firefox)",
+      "step4": "In the left sidebar, expand \"Cookies\" and select the Pearpal Website",
+      "step5": "Alternatively, you can use a browser extension for Cookies like Cookie Editor",
+      "step6": "Find and copy the values for:",
+      "step6_items": {
+        "momo_id": "momoNid (for Momo ID field)",
+        "momo_token": "momoToken (for Momo Token field)"
+      },
+      "step7": "For UID, go to your Pearpal profile and copy your UID number"
+    },
+    "security_note": "Note: Never share these Cookie values with anyone else!",
+    "data_note": "Important: Pull data via this import method is retained for only 180 days. Data before {date} won't be available. You can use \"Import from Whim-Log\" to import older data.",
+    "form": {
+      "uid": "UID",
+      "uid_placeholder": "In-game UID",
+      "momo_id": "Momo ID",
+      "momo_id_placeholder": "momoNid from Cookie",
+      "momo_token": "Momo Token",
+      "momo_token_placeholder": "momoToken from Cookie",
+      "submit_global_stats": "Submit data for global stats",
+      "submit_button": "Submit and Import Pull History",
+      "fetching": "Fetching resonance data, please wait..."
+    },
+    "progress": {
+      "processing_banner": "Processing banner {current} of {total}",
+      "fetching_data": "Fetching resonance data: {banner}"
+    },
+    "actions": {
+      "copy_code": "Copy Code",
+      "paste_from_clipboard": "Paste from Clipboard",
+      "select_all": "Select All"
+    },
+    "select_banners": "Select Banners You Pulled",
+    "select_banners_desc": "No need to re-import",
+    "banner_groups": {
+      "quick_select": "Quick Select",
+      "current_banners": "Current Banners",
+      "limited_banners": "Limited Banners",
+      "permanent_banners": "Permanent Banner",
+      "individual": "Individual Banners"
+    },
+    "messages": {
+      "code_copied": "Code copied to clipboard!",
+      "code_copy_failed": "Failed to copy code to clipboard",
+      "data_paste_success": "Data pasted successfully!",
+      "data_paste_success_no_uid": "Please copy and paste your UID manually",
+      "data_paste_failed": "Failed to parse input data. Please ensure it is valid format",
+      "auth_success": "Authentication successful!",
+      "auth_failed": "Authentication failed",
+      "auth_failed_hint": "Please double check your inputs and try opening Pearpal in an incognito/private browser window.",
+      "stats_submit_failed": "Failed to submit global stats",
+      "fetch_history_failed": "Failed to fetch pull history",
+      "invalid_form": "Invalid form data",
+      "import_success": "Data imported successfully!",
+      "import_failed": "Failed to import file",
+      "pearpal_tracker_success": "Pearpal data imported successfully!",
+      "pearpal_tracker_failed": "Failed to import Pearpal data."
+    },
+    "supported_browsers": "Supported Browsers",
+    "supported_browsers_list": {
+      "chrome": "Google Chrome",
+      "firefox": "Mozilla Firefox",
+      "safari": "Apple Safari"
+    },
+    "check_compatibility": "Check Browser Compatibility",
+    "pc_recommended": "You are using a mobile device, you can import using the supported browsers listed below, other browsers are not tested and might not work. For the best experience, we recommend using a PC browser for importing data.",
+    "bookmark_script": {
+      "invalid_site": "Please use this bookmark on Pearpal Website"
+    },
+    "maintenance": {
+      "title": "Under Maintenance",
+      "message": "We're currently performing some maintenance. Pull history import is temporarily unavailable.",
+      "status": "Service will be back shortly. Thank you for your patience!"
+    }
+  },
+  "tracker": {
+    "stats": {
+      "title": "Pull Statistics",
+      "total_pulls": "Total Pulls",
+      "no_pulls": "No pull history for this banner",
+      "total_5star_4star": "5★ / 4★ Total",
+      "avg_5star": "5★ Avg (5★ Banner)",
+      "avg_4star_mixed": "4★ Avg (5★ Banner)",
+      "avg_4star_only": "4★ Avg (4★ Banner)",
+      "luckier": "Luckier than {percent}% of the gongeo.us users",
+      "more_pulls": "More than {percent}% of the gongeo.us users"
+    },
+    "manual_log": {
+      "title": "Manual Import",
+      "description": "Use this option only if you don't want to use the game import or you are missing some items from the game import.",
+      "note": "Note: Manually imported data will only be used to display outfit completion status and will not be included in personal or global stats calculations.",
+      "open_editor": "Open Editor",
+      "select_banner": "Select Banner",
+      "apply_to_all": "Apply to All",
+      "success": "Outfit saved successfully!",
+      "error": "Failed to save outfit",
+      "evo_level": "Evolution Level"
+    },
+    "banner": {
+      "stats": {
+        "total_pulls": "Total Pulls",
+        "total_5star": "5★ Total",
+        "avg_5star": "5★ Avg",
+        "total_4star": "4★ Total",
+        "avg_4star": "4★ Avg",
+        "pity_5star": "5★ Pity",
+        "pity_4star": "4★ Pity"
+      },
+      "settings": {
+        "banner_order": "Banner Order",
+        "item_order": "Item Order",
+        "latest_first": "Latest First",
+        "oldest_first": "Oldest First",
+        "outfit_display": "Outfit Display",
+        "item_display": "Item Display",
+        "combined": "Combined",
+        "separated": "Separated",
+        "show_4star": "4★ (5★ Banner)",
+        "show_missing": "Missing Pieces",
+        "duplicate_items": "Duplicate Items",
+        "empty_banners": "Empty Banners",
+        "data_source": "Data Source",
+        "pearpal": "Whim-Log",
+        "game": "Game",
+        "auto": "Auto",
+        "data_source_tooltip": "Select your preferred data source. If no data is available from the selected source, the other source will be used instead. Only one data source is displayed and used for statistics calculations at a time.",
+        "auto_option": "\"Auto\" will combine both sources, preferring the source with more pulls for each banner."
+      }
+    },
+    "items": {
+      "pull": "Pull #{number}",
+      "category": {
+        "clothes": "Clothes",
+        "accessories": "Accessories",
+        "makeups": "Makeups"
+      }
+    },
+    "export": {
+      "png": "Export Image",
+      "json": "Export File",
+      "generated_from": "Generated From",
+      "in_progress": "Export in progress, please wait...",
+      "success": "Data exported successfully!",
+      "error": "Failed to export data. Please try again."
+    },
+    "no_data": {
+      "title": "No Resonance History",
+      "subtitle": "Please import your resonance data first.",
+      "error": "Failed to load data. Please try again."
+    }
+  },
+  "quiz": {
+    "title": "Outfit Silhouette",
+    "meta_description": "Guess the outfit from its silhouette in a quick mini-game.",
+    "instructions": "Guess the outfit from its silhouette. The faster you answer, the higher your score.",
+    "game_complete": "Game Complete",
+    "final_score": "Final score {score}",
+    "round": "Round",
+    "score": "Score",
+    "streak": "Streak",
+    "best_streak": "Best streak",
+    "rounds": "Rounds",
+    "right": "Right",
+    "wrong": "Wrong",
+    "start": "Start",
+    "next": "Next",
+    "skip": "Skip",
+    "play_again": "Play again",
+    "reveal_direction": "Reveal direction",
+    "blur": "Blur",
+    "answer_mode": "Answer mode",
+    "correct_answer": "Correct answer",
+    "reveal_options": {
+      "middle_out": "Middle out",
+      "top_down": "Top to bottom",
+      "bottom_up": "Bottom to top"
+    }
+  },
+  "banner": {
+    "version": "Version",
+    "luck": {
+      "1": "Veil of the Dark",
+      "2": "Faded Starlight",
+      "3": "Whisper of Whim",
+      "4": "Echo of Wishes",
+      "5": "Miracle Resonance",
+      "6": "Blessing of Divinity"
+    },
+    "outfit": {
+      "level": {
+        "0": "Unset",
+        "1": "Base",
+        "2": "Evo 1",
+        "3": "Evo 2",
+        "4": "Evo 3",
+        "glow": "Glowed Up"
+      }
+    },
+    "deep_echoes": "Deep Echoes",
+    "not_found": "Banner not found"
+  },
+  "global": {
+    "stats": {
+      "total_pulls": "Total Pulls",
+      "unique_users": "Total Stylists",
+      "avg_5star": "5★ Avg (5★ Banner)",
+      "avg_4star_type2": "4★ Avg (5★ Banner)",
+      "avg_4star_type3": "4★ Avg (4★ Banner)",
+      "data_as_of": "Data as of"
+    },
+    "charts": {
+      "pulls_per_banner": "Pulls Per Banner",
+      "five_star_distribution": "5★ Pulls Distribution",
+      "four_star_type2_distribution": "4★ Distribution (5★ Banner)",
+      "four_star_type3_distribution": "4★ Distribution (4★ Banner)",
+      "first_item_distribution": "First Item Distribution",
+      "number_of_pulls": "Number of Pulls",
+      "probability": "Probability",
+      "cumulative_probability": "Cumulative Probability",
+      "occurrences": "Occurrences",
+      "percentage": "Percentage",
+      "all_banners": "All Banners",
+      "five_star_banners": "5★ Banners",
+      "four_star_banners": "4★ Banners",
+      "recent_only": "Recent",
+      "all_time": "All Time",
+      "first_item_distribution_tooltip": "This banner includes pulls older than 180 days, which are no longer available in game. As a result, the first item distribution data may be inaccurate."
+    }
+  },
+  "timeline": {
+    "banner_timer": "Rerun timer: {days} days",
+    "run_gap": "Gap: {days} days",
+    "max_zoom": "Zoom to max",
+    "reset_zoom": "Reset zoom",
+    "sort": {
+      "label": "Sort timeline",
+      "newest_first": "Newest first",
+      "oldest_first": "Oldest first",
+      "longest_gap": "Longest gap",
+      "shortest_gap": "Shortest gap"
+    }
+  },
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "questions": {
+      "data_source": {
+        "question": "How are you getting the data?",
+        "answer": "We are using the same API as the in-game pull history page to access Infold Games servers that store the banner pull data. To access the data, we need to authenticate with the Infold Games server using your account Cookie."
+      },
+      "ban_risk": {
+        "question": "Will I get banned for using this?",
+        "answer": "This is a third-party tool, so there is always some risk, though it is ultimately up to Infold Games. However, similar tools are widely used in other gacha games (Paimon.moe、Star Rail Station、WuWa Tracker etc.) and also in the Chinese community of Infinity Nikki (小黑盒 游创工坊). Take this information as a reference, and make your own judgement."
+      },
+      "data_storage": {
+        "question": "What data are you storing?",
+        "answer": "Your pull history is stored locally in your browser, so the next time you visit the site, it will be there unless you clear your browser data. We do not collect any personal information, including the Cookie you submitted."
+      },
+      "server_data": {
+        "question": "What data is sent to the server?",
+        "answer": "Only your pull statistics are sent to help calculate global stats if you opt in. This includes a hashed version of your UID, and the information of 4★ and 5★ items you pulled."
+      },
+      "platform_support": {
+        "question": "Will it work if I play on mobile or PS5?",
+        "answer": "Yes, no matter which platform you play on, you can import your data from PC or mobile. However, on mobile it might not work for all browsers, it is recommended to use PC for better experience, please check the import page for supported browsers and more details."
+      },
+      "cookie_script": {
+        "question": "Do I have to run a script to get my Cookie?",
+        "answer": "No, they are just for convenience, you can get the Cookie manually, check manual input instructions in the import page for more details. However, the only way to get the Cookie on mobile now is to use the bookmark method."
+      },
+      "data_loss": {
+        "question": "Why is the data incomplete or missing for some banners?",
+        "answer": "This happens because pull history is only stored in the game for 180 days. After that, it is deleted from the game servers and becomes unavailable. To preserve your data, you can store it in your browser or export it for backup. This way, you can keep records that are no longer available in the game. If you import in the future, your existing data will be merged with the new data."
+      },
+      "no_pulls": {
+        "question": "I followed the import steps and saw the banners were processed, but why isn't any pull history showing?",
+        "answer": "Please double check that your region and Cookie values are correct. Make sure the UID and ID from the Cookie are not mixed up."
+      },
+      "auto_update": {
+        "question": "Will my pull data update automatically?",
+        "answer": "No, your pull data will not update automatically. The website needs to be updated to support new banners after each game update. For security reasons, your Cookie will expire after some time, so you'll need to re-import your data. However, if you store your data in your browser, you'll only need to re-import for new banners."
+      },
+      "export": {
+        "question": "How can I export my pull history?",
+        "answer": "You can export your pull history as a PNG image or a JSON file. If your browser data is cleared, you can use the JSON file to restore your history."
+      }
+    }
+  },
+  "about": {
+    "title": "Disclaimer and Privacy Policy",
+    "infinityNikkiAssets": {
+      "title": "Platform and Content Disclaimer",
+      "content": "gongeo.us is an independent fan-operated platform and is not affiliated, endorsed, or partnered with Infinity Nikki or Infold Games. All official game assets, visuals, and related content are the exclusive property of Infold Games and are used here solely for community sharing and educational purposes. We do not claim any ownership or rights over this content.",
+      "acknowledgment": "By using this platform, you acknowledge its unofficial status and accept all risks associated with accessing third-party or unofficial content."
+    },
+    "dataAndStats": {
+      "title": "Data and Statistics Disclaimer",
+      "content": "All gameplay statistics and data presented on gongeo.us are voluntarily contributed by users and are not sourced from Infold Games. These data sets represent only a small portion of the player community and may not fully reflect overall player behavior or game trends.",
+      "insights": "Any insights or conclusions drawn from the data are for informational purposes only and should be considered in light of their community-driven nature."
+    },
+    "intellectualProperty": {
+      "title": "Intellectual Property",
+      "content": "gongeo.us is an independent fan project. All trademarks, game content, and intellectual property related to Infinity Nikki remain the sole property of Infold Games and their licensors.",
+      "siteContent": "Except where explicitly stated otherwise, all original code, site design, and custom assets on this platform are owned by gongeo.us and protected by applicable copyright and intellectual property laws. Unauthorized copying, reuse, or distribution is prohibited without written permission.",
+      "usage": "This platform is provided \"as-is\" and intended solely for personal, non-commercial use."
+    },
+    "dataCollection": {
+      "title": "Data Collection and Storage",
+      "content": "We collect only the minimal data necessary to operate our service. We do not collect or store any personal information or tracking cookies. Any cookies or UIDs you provide are used solely to communicate with Infold Games server to verify your account and retrieve your pull history.",
+      "pullHistory": "Your pull history is stored locally in your browser once imported. For cloud backup or cross-device access, you may optionally sign in via Discord, Google, or email to sync your data through secure cloud storage provided by Supabase. You may also choose to contribute anonymized statistics about your 4-star and 5-star pulls to help generate community statistics."
+    },
+    "accountSecurity": {
+      "title": "Account and Security",
+      "content": "All essential features remain fully accessible without requiring an account. If you choose to sign in, authentication is securely handled by Supabase. We never access or store your login credentials. You have complete control of your data, with the ability to share, upload, sync or delete it at any time. For permanent account deletion, contact us through Discord or email.",
+      "security": "While we implement necessary security measures using industry standards, please be aware that no internet transmission can be guaranteed as completely secure."
+    },
+    "analytics": {
+      "title": "Analytics and Tracking",
+      "content": "We utilize Umami, a privacy-focused analytics service, to monitor website usage. It collects only anonymized information such as page views, referrer URLs, and basic browser data without using Cookie or personal identifiers. This data helps us improve your experience. For more information, please see Umami's privacy policy."
+    },
+    "errorMonitoring": {
+      "title": "Error Monitoring",
+      "message": "We use Sentry.io to track and fix technical errors. Sentry may collect limited technical data (like error details, browser info, and anonymized IP addresses) to help us maintain and improve the site. For more information, please see Sentry.io's privacy policy."
+    }
+  },
+  "vote": {
+    "description": "Help us determine the most popular banners from version 1.x! Vote on your favorite banners in head-to-head matchups.",
+    "skip": "Skip",
+    "howItWorks": "Pick your favorite banner and submit your vote to help rank the most popular banners. Skip if you're not sure. You can vote up to 50 times every 24 hours.",
+    "abuseNotice": "Please do not abuse the voting system. Unusual voting patterns will be detected, and those votes may be removed.",
+    "success": "Vote submitted successfully!",
+    "viewRankings": "View Rankings",
+    "mode": {
+      "personal": "Personal Mode",
+      "community": "Community Mode",
+      "personalDesc": "Your votes are stored locally and create your personal rankings. Does not affect community rankings.",
+      "communityDesc": "Your votes contribute to the community rankings and help determine the most popular banners."
+    },
+    "stats": {
+      "totalVotes": "Total Votes",
+      "personalVotes": "Personal Votes",
+      "totalVoters": "Total Voters",
+      "avgVotes": "Avg Votes"
+    },
+    "errors": {
+      "loadFailed": "Failed to load vote pair. Please try again.",
+      "submitFailed": "Failed to submit vote. Please try again.",
+      "rateLimit": "Too many votes. Please wait before voting again.",
+      "loadRankingsFailed": "Failed to load rankings. Please try again.",
+      "votingClosed": "Community voting has ended. View the final rankings or switch to Personal Mode to continue voting."
+    },
+    "rankings": {
+      "title": "Banner Rankings",
+      "description": "See which banners from version 1.x are the most popular based on community votes.",
+      "votingPeriod": "Voting Period",
+      "voteMore": "Vote More",
+      "lastUpdated": "Last updated",
+      "rank": "Rank",
+      "elo": "Elo Rating",
+      "eloShort": "ELO",
+      "winRate": "Win Rate",
+      "winRateShort": "WR",
+      "wins": "Wins",
+      "losses": "Losses",
+      "totalVotes": "Total Votes",
+      "winsLosses": "W/L",
+      "winsShort": "W",
+      "lossesShort": "L"
+    }
+  },
+  "tierlist": {
+    "actions": {
+      "reset_board": "Reset Board"
+    },
+    "over_limit": {
+      "title": "Too many entries",
+      "description": "Apply more filters to continue (max {max} entries)."
+    },
+    "unranked_empty": "No unranked entries",
+    "obtain_fallback": "Obtain {id}",
+    "status": {
+      "over_limit": "Too many entries. Apply more filters (max {max}).",
+      "loaded": "{count} entries loaded"
+    },
+    "rank_menu": {
+      "tier_label": "{tier} Tier",
+      "send_back": "Send Back"
+    },
+    "community_submit": {
+      "browser_only_error": "Community submit is only available in browser context",
+      "tooltip_ready": "Submit your completed tier list to the community ranking.",
+      "scope_unavailable_toast": "Community submit is not available for this scope.",
+      "success": "Community tier list submitted",
+      "failed": "Failed to submit community tier list",
+      "blocked": {
+        "error": "Cannot submit while entries failed to load.",
+        "over_limit": "Apply more filters before submitting.",
+        "scope_unavailable": "Community sharing is not available for this selection yet.",
+        "incomplete": "Rank all loaded entries before submitting.",
+        "no_changes": "No changes since your last submit."
+      }
+    },
+    "community_insights": {
+      "toggle": "Show community tier list",
+      "error": "Failed to load community snapshot.",
+      "empty": "No community data yet.",
+      "rank_position": "Community rank #{rank}",
+      "avg_tier": "Community tier: {tier} tier",
+      "rank_higher_than": "You rank this higher than {percent}% of stylists",
+      "total_votes": "Total votes: {count}",
+      "not_enough_votes": "Not enough votes to rank (minimum {min})"
+    },
+    "share": {
+      "copy_link": "Copy Link",
+      "copied": "Link copied",
+      "copy_failed": "Failed to copy link"
+    }
+  },
+  "compendium": {
+    "error_title": "Failed to Load Data",
+    "error_description": "Unable to load data. Please try again.",
+    "no_results_title": "No Results Found",
+    "no_results_description": "No items match your criteria.",
+    "not_found_item": "Item not found",
+    "not_found_outfit": "Outfit not found",
+    "back_to_list": "Back to List",
+    "filter_type": "Filter by Type",
+    "filter_version": "Filter by Version",
+    "filter_style": "Filter by Style",
+    "filter_label": "Filter by Label",
+    "filter_obtain": "Filter by Source",
+    "source": {
+      "event": "Event",
+      "quest": "Quest",
+      "merchant": "Clothing Store",
+      "miracrown": "Mira Crown",
+      "miracle": "Miracle Outfits",
+      "home": "Home"
+    }
+  }
+}

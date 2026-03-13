@@ -157,7 +157,9 @@
       "language_switcher": "Sprache wechseln",
       "theme_switcher": "Thema wechseln",
       "user_profile_menu": "Benutzerprofil-Menü",
-      "scroll_to_top": "Zum Seitenanfang"
+      "scroll_to_top": "Zum Seitenanfang",
+      "close_menu": "Navigationsmenü schließen",
+      "luck_stats": "Glücksstatistiken angucken"
     },
     "language_switcher": {
       "help_translate": "Hilf bei der Übersetzung"
@@ -231,7 +233,16 @@
     "email_signin_error": "Anmeldung mit E-Mail fehlgeschlagen. Bitte überprüfe deine Angaben.",
     "email_signup_error": "Kontoerstellung fehlgeschlagen. Bitte versuche es erneut.",
     "reset_error": "Fehler beim Senden der Zurücksetzungs-E-Mail. Bitte versuche es erneut.",
-    "or": "oder"
+    "or": "oder",
+    "google_signin_error": "Anmeldung mit Google fehlgeschlagen. Bitte versuche es erneut.",
+    "email_not_confirmed": "Bitte überprüfe deine E-Mail und bestätige deine E-Mail-Adresse.",
+    "email_already_registered": "Es existiert bereits ein Konto mit dieser E-Mail-Adresse.",
+    "password_update_success": "Passwort erfolgreich aktualisiert!",
+    "password_update_error": "Passwort-Aktualisierung fehlgeschlagen. Bitte versuche es erneut.",
+    "password_too_short": "Passwort muss mindestens 6 Zeichen enthalten.",
+    "reset_session_expired": "Sitzung zum Zurücksetzen abgelaufen. Bitte fordere eine neue Zurücksetzungs-E-Mail an.",
+    "account_not_found": "Kein Konto mit dieser E-Mail-Adresse gefunden.",
+    "reset_rate_limit": "Zu viele Versuche. Bitte warte, bevor du es erneut versucht."
   },
   "error": {
     "404": "\"Nikki, lass uns im seichten Wasser bleiben.\"",

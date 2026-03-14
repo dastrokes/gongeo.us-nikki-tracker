@@ -56,10 +56,11 @@
             size="small"
             :bordered="false"
             :color="getQualityTextTheme(quality)"
-          >
-            {{ $t(`banner.outfit.level.${image[0] === 0 ? '1' : image[0]}`) }}
-            <span v-if="getOutfitLevel.includes(image[0].toString())">
-              <n-icon><CheckCircle /></n-icon>
+            ><span class="flex items-center gap-1">
+              {{ $t(`banner.outfit.level.${image[0] === 0 ? '1' : image[0]}`) }}
+              <n-icon v-if="getOutfitLevel.includes(image[0].toString())"
+                ><CheckCircle
+              /></n-icon>
             </span>
           </n-tag>
         </div>

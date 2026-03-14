@@ -158,8 +158,8 @@
       "theme_switcher": "テーマの切り替え",
       "user_profile_menu": "ユーザープロフィールメニュー",
       "scroll_to_top": "一番上までスクロール",
-      "close_menu": "Close navigation menu",
-      "luck_stats": "View luck stats"
+      "close_menu": "ナビゲーションメニューを閉じる",
+      "luck_stats": "運勢統計を見る"
     },
     "language_switcher": {
       "help_translate": "翻訳を手伝ってください"
@@ -234,15 +234,15 @@
     "email_signup_error": "アカウントの作成に失敗しました。もう一度試してください。",
     "reset_error": "リセットメールの送信に失敗しました。もう一度試してください。",
     "or": "または",
-    "google_signin_error": "Failed to sign in with Google. Please try again.",
-    "email_not_confirmed": "Please check your email and confirm your address.",
-    "email_already_registered": "An account with this email already exists.",
-    "password_update_success": "Password updated successfully!",
-    "password_update_error": "Failed to update password. Please try again.",
-    "password_too_short": "Password must be at least 6 characters long.",
-    "reset_session_expired": "Reset session expired. Please request a new reset email.",
-    "account_not_found": "No account found with this email address.",
-    "reset_rate_limit": "Too many attempts. Please wait before trying again."
+    "google_signin_error": "Googleでのサインインに失敗しました。もう一度お試しください。",
+    "email_not_confirmed": "メールを確認し、アドレスを承認してください。",
+    "email_already_registered": "このメールアドレスのアカウントは既に存在します。",
+    "password_update_success": "パスワードが更新されました！",
+    "password_update_error": "パスワードの更新に失敗しました。もう一度お試しください。",
+    "password_too_short": "パスワードは6文字以上である必要があります。",
+    "reset_session_expired": "リセットセッションの有効期限が切れました。新しいリセットメールをリクエストしてください。",
+    "account_not_found": "このメールアドレスのアカウントが見つかりません。",
+    "reset_rate_limit": "試行回数が多すぎます。しばらく待ってから再試行してください。"
   },
   "error": {
     "404": "「ニッキ、浅瀬に留まろう」",

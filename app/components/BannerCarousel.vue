@@ -77,10 +77,7 @@
       >
         {{ formattedTime }}
         <template #icon>
-          <n-icon
-            class="ml-1"
-            size="12"
-          >
+          <n-icon size="12">
             <HourglassHalf />
           </n-icon>
         </template>

@@ -82,10 +82,12 @@
               :class="['min-w-[40px]']"
               @click="qualityFilter = q"
             >
-              <span class="align-top">{{ q }}</span>
-              <span class="ml-1"
-                ><n-icon> <Star /> </n-icon
-              ></span>
+              <span class="flex items-center gap-1">
+                {{ q }}
+                <n-icon>
+                  <Star />
+                </n-icon>
+              </span>
             </n-button>
           </n-button-group>
         </div>
@@ -270,10 +272,12 @@
                       :color="getQualityTagTheme(entry.quality)"
                       class="backdrop-blur-sm"
                     >
-                      <span class="align-top">{{ entry.quality }}</span>
-                      <span class="ml-0.5"
-                        ><n-icon> <Star /> </n-icon
-                      ></span>
+                      <span class="flex items-center gap-1">
+                        {{ entry.quality }}
+                        <n-icon>
+                          <Star />
+                        </n-icon>
+                      </span>
                     </n-tag>
                   </div>
                   <div
@@ -339,11 +343,11 @@
               :page-slot="5"
             >
               <template #prefix="{ itemCount }">
-                <div class="text-sm text-gray-600 dark:text-gray-400">
+                <div class="text-sm gap-1 text-gray-600 dark:text-gray-400">
                   <span class="font-semibold text-gray-900 dark:text-white">{{
                     totalItems
                   }}</span>
-                  <span class="ml-1">
+                  <span>
                     {{
                       itemCount === 1
                         ? countLabels.singular

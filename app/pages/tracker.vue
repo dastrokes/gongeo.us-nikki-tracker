@@ -562,13 +562,11 @@
                       <span class="flex items-center gap-1">
                         {{ $t(`outfit.${outfit.id}.name`) }}
                         {{ outfit.quality }}
-                        <n-icon>
-                          <Star />
-                        </n-icon>
+                        <n-icon> <Star /> </n-icon
+                        ><n-icon v-if="outfit.completion >= 1"
+                          ><CheckCircle
+                        /></n-icon>
                       </span>
-                      <span v-if="outfit.completion >= 1"
-                        ><n-icon><CheckCircle /></n-icon
-                      ></span>
                     </n-tag>
                   </NuxtLinkLocale>
                 </template>
@@ -898,13 +896,11 @@
                         <span class="flex items-center gap-1">
                           {{ $t(`outfit.${outfit.id}.name`) }}
                           {{ outfit.quality }}
-                          <n-icon>
-                            <Star />
-                          </n-icon>
+                          <n-icon> <Star /> </n-icon
+                          ><n-icon v-if="outfit.completion >= 1"
+                            ><CheckCircle
+                          /></n-icon>
                         </span>
-                        <span v-if="outfit.completion >= 1"
-                          ><n-icon><CheckCircle /></n-icon
-                        ></span>
                       </n-tag>
                     </NuxtLinkLocale>
                   </div>

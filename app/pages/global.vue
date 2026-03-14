@@ -33,6 +33,7 @@
       <n-card
         size="small"
         class="rounded-xl"
+        content-class="!p-2 sm:!p-4"
       >
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
           <!-- Pulls per Banner Chart Skeleton -->
@@ -57,6 +58,7 @@
       <n-card
         size="small"
         class="rounded-xl"
+        content-class="!p-2 sm:!p-4"
       >
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
           <!-- Distribution Charts Skeleton -->
@@ -81,7 +83,10 @@
       </n-card>
     </template>
 
-    <div v-else>
+    <div
+      v-else
+      class="space-y-2 sm:space-y-4"
+    >
       <!-- Summary Cards -->
       <n-card
         v-show="!maximizedChart"
@@ -197,7 +202,7 @@
       <n-card
         v-show="!maximizedChart || maximizedChart === 'pullsPerBanner'"
         size="small"
-        class="rounded-xl mt-2 sm:mt-4"
+        class="rounded-xl"
         :class="{ '!mt-0 !mb-0': Boolean(maximizedChart) }"
         content-class="!p-2 sm:!p-4"
       >
@@ -291,7 +296,7 @@
           maximizedChart === 'fourStarType3'
         "
         size="small"
-        class="rounded-xl mt-2 sm:mt-4"
+        class="rounded-xl"
         content-class="grid grid-cols-1 md:grid-cols-3 gap-4 !p-2 sm:!p-4"
         :class="{ '!mt-0 !mb-0': Boolean(maximizedChart) }"
       >
@@ -432,7 +437,7 @@
       <n-card
         v-show="!maximizedChart || maximizedChart === 'firstItemDistribution'"
         size="small"
-        class="rounded-xl mt-2 sm:mt-4"
+        class="rounded-xl"
         :class="{ '!mt-0 !mb-0': Boolean(maximizedChart) }"
         content-class="!p-2 sm:!p-4"
       >
@@ -621,10 +626,11 @@
 
     watch(
       [data, firstItemData, () => isMobile.value, () => isDark.value],
-      () => {
+      async () => {
         if (data.value && import.meta.client) {
-          initializeCharts()
           loading.value = false
+          await new Promise((resolve) => requestAnimationFrame(resolve))
+          initializeCharts()
         }
       },
       { immediate: true }

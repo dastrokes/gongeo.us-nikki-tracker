@@ -501,9 +501,7 @@
     if (wait === 'next-tick') {
       await nextTick()
     } else if (wait === 'frame') {
-      await new Promise<void>((resolve) => {
-        requestAnimationFrame(() => resolve())
-      })
+      await new Promise((resolve) => requestAnimationFrame(resolve))
     }
 
     const element = document.getElementById(bannerId.toString())

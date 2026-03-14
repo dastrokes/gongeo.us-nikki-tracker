@@ -30,9 +30,7 @@ export function useBannerLoad(
       return
     }
 
-    await new Promise<void>((resolve) => {
-      requestAnimationFrame(() => resolve())
-    })
+    await new Promise((resolve) => requestAnimationFrame(resolve))
   }
 
   // Load more banners

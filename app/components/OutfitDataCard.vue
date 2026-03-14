@@ -12,12 +12,12 @@
           round
           class="cursor-pointer"
         >
-          <span class="align-top"
-            >{{ $t(`outfit.${outfitId}.name`) }} {{ quality }}</span
-          >
-          <span class="ml-1"
-            ><n-icon><Star /></n-icon
-          ></span>
+          <span class="flex items-center gap-1">
+            {{ $t(`outfit.${outfitId}.name`) }} {{ quality }}
+            <n-icon>
+              <Star />
+            </n-icon>
+          </span>
         </n-tag>
       </NuxtLinkLocale>
     </div>

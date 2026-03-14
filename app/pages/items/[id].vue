@@ -129,10 +129,12 @@
                 round
                 size="small"
               >
-                <span class="align-top">{{ item.quality }}</span
-                ><span class="ml-0.5"
-                  ><n-icon class="text-xs"><Star /></n-icon
-                ></span>
+                <span class="flex items-center gap-1">
+                  {{ item.quality }}
+                  <n-icon class="text-xs">
+                    <Star />
+                  </n-icon>
+                </span>
               </n-tag>
               <n-tag
                 type="default"

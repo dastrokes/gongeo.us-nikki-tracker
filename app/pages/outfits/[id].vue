@@ -130,10 +130,12 @@
                 round
                 size="small"
               >
-                <span class="align-top">{{ outfit.quality }}</span
-                ><span class="ml-0.5"
-                  ><n-icon class="text-xs"><Star /></n-icon
-                ></span>
+                <span class="flex items-center gap-1">
+                  {{ outfit.quality }}
+                  <n-icon class="text-xs">
+                    <Star />
+                  </n-icon>
+                </span>
               </n-tag>
             </div>
 

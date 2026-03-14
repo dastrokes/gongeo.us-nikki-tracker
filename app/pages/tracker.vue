@@ -285,7 +285,18 @@
               <p class="text-sm text-gray-400">
                 {{ t('tracker.export.generated_from') }}
               </p>
-              <p class="text-xl">{{ t('navigation.title') }}</p>
+              <p class="text-xl inline-flex items-center justify-center gap-2">
+                <NuxtImg
+                  src="images/logo.webp"
+                  width="80"
+                  height="80"
+                  fit="cover"
+                  loading="lazy"
+                  :alt="t('navigation.title')"
+                  class="h-6 w-6 rounded-md"
+                />
+                <span>{{ t('navigation.title') }}</span>
+              </p>
             </n-card>
 
             <div
@@ -546,18 +557,16 @@
                       :bordered="false"
                       round
                       size="small"
-                      class="px-2 cursor-pointer hover:opacity-80 transition-opacity"
+                      class="px-2 gap-1 cursor-pointer hover:opacity-80 transition-opacity"
                     >
-                      <span class="align-top"
-                        >{{ $t(`outfit.${outfit.id}.name`) }}
-                        {{ outfit.quality }}</span
-                      >
-                      <span class="ml-1"
-                        ><n-icon><Star /></n-icon
-                      ></span>
-                      <span
-                        v-if="outfit.completion >= 1"
-                        class="ml-1"
+                      <span class="flex items-center gap-1">
+                        {{ $t(`outfit.${outfit.id}.name`) }}
+                        {{ outfit.quality }}
+                        <n-icon>
+                          <Star />
+                        </n-icon>
+                      </span>
+                      <span v-if="outfit.completion >= 1"
                         ><n-icon><CheckCircle /></n-icon
                       ></span>
                     </n-tag>
@@ -565,25 +574,38 @@
                 </template>
               </div>
             </div>
-            <div class="absolute right-2 top-2 flex flex-row space-x-2">
+
+            <div
+              :class="
+                exporting
+                  ? 'mt-1 flex flex-row justify-between space-x-2 sm:absolute sm:right-2 sm:top-2 sm:mt-0 sm:justify-start'
+                  : 'absolute right-2 top-2 flex flex-row space-x-2'
+              "
+            >
               <div
                 v-show="exporting"
                 class="flex justify-between gap-2 items-baseline text-md text-gray-400"
               >
-                <div>
+                <div class="whitespace-nowrap">
                   <span>{{ t('tracker.banner.stats.total_pulls') }}:</span>
                   <span
                     class="ml-1 text-lg font-medium text-gray-600 dark:text-gray-200"
                     >{{ banner.stats.totalPulls }}</span
                   >
                 </div>
-                <div v-if="banner.bannerType === 1 || banner.bannerType === 2">
+                <div
+                  v-if="banner.bannerType === 1 || banner.bannerType === 2"
+                  class="whitespace-nowrap"
+                >
                   <span>{{ t('tracker.banner.stats.avg_5star') }}:</span>
                   <span class="text-amber-500 ml-1 text-lg font-medium">{{
                     banner.stats.avg5StarPulls.toFixed(2)
                   }}</span>
                 </div>
-                <div v-if="banner.bannerType === 3">
+                <div
+                  v-if="banner.bannerType === 3"
+                  class="whitespace-nowrap"
+                >
                   <span>{{ t('tracker.banner.stats.avg_4star') }}:</span>
                   <span class="text-blue-500 ml-1 text-lg font-medium">{{
                     banner.stats.avg4StarOnlyPulls.toFixed(2)
@@ -871,18 +893,16 @@
                         :bordered="false"
                         round
                         size="small"
-                        class="px-2 cursor-pointer"
+                        class="px-2 gap-1 cursor-pointer"
                       >
-                        <span class="align-top"
-                          >{{ $t(`outfit.${outfit.id}.name`) }}
-                          {{ outfit.quality }}</span
-                        >
-                        <span class="ml-1"
-                          ><n-icon><Star /></n-icon
-                        ></span>
-                        <span
-                          v-if="outfit.completion >= 1"
-                          class="ml-1"
+                        <span class="flex items-center gap-1">
+                          {{ $t(`outfit.${outfit.id}.name`) }}
+                          {{ outfit.quality }}
+                          <n-icon>
+                            <Star />
+                          </n-icon>
+                        </span>
+                        <span v-if="outfit.completion >= 1"
                           ><n-icon><CheckCircle /></n-icon
                         ></span>
                       </n-tag>

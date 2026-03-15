@@ -77,7 +77,7 @@ const cloudinaryBaseUrl =
 const imagekitBaseUrl =
   process.env.NUXT_PUBLIC_IMAGEKIT_BASE_URL ||
   'https://ik.imagekit.io/gongeouscdn'
-const imageBaseUrl = `${(cloudinaryBaseUrl || imagekitBaseUrl).replace(/\/+$/, '')}/images`
+const imageBaseUrl = `${cloudinaryBaseUrl || imagekitBaseUrl}/images`
 
 const extractIds = (keys: string[]) =>
   Array.from(

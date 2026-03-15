@@ -515,7 +515,8 @@
 
   // Composable
   const { fetchItemById } = useSupabaseItems()
-  const { getImageSrc, getImageUrl } = imageProvider()
+  const { getImageSrc } = imageProvider()
+  const nuxtImg = useImage()
 
   const itemKey = computed(() => `item-${itemId.value}-${locale.value}`)
 
@@ -774,7 +775,7 @@
   // SEO Meta Tags
   const ogItemImage = computed(() =>
     item.value
-      ? getImageUrl(`/images/items/${item.value.id}.png`, {
+      ? nuxtImg(`/images/items/${item.value.id}.png`, {
           width: 300,
           height: 450,
           quality: 80,

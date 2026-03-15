@@ -12,6 +12,26 @@ import {
 } from './shared/utils/cacheProfiles'
 import { getImageProvider } from './app/utils/imageProvider'
 
+const siteUrl = process.env.NUXT_PUBLIC_SITE_URL || 'https://gongeo.us'
+const imagekitBaseUrl =
+  process.env.NUXT_PUBLIC_IMAGEKIT_BASE_URL ||
+  'https://ik.imagekit.io/gongeouscdn'
+const cloudinaryBaseUrl =
+  process.env.NUXT_PUBLIC_CLOUDINARY_BASE_URL ||
+  'https://res.cloudinary.com/gongeous/image/upload'
+
+const getUrlHost = (url: string) => {
+  try {
+    return new URL(url).host
+  } catch {
+    return null
+  }
+}
+
+const imageDomains = [getUrlHost(imagekitBaseUrl)].filter(
+  (domain): domain is string => Boolean(domain)
+)
+
 export default defineNuxtConfig({
   devtools: { enabled: false },
 
@@ -39,7 +59,7 @@ export default defineNuxtConfig({
     restructureDir: false,
     langDir: 'locales',
     vueI18n: 'app/locales/i18n.config',
-    baseUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://gongeo.us',
+    baseUrl: siteUrl,
     locales: i18nLocales,
     defaultLocale: defaultLocale,
     strategy: 'prefix_except_default',
@@ -54,7 +74,7 @@ export default defineNuxtConfig({
   },
 
   site: {
-    url: process.env.NUXT_PUBLIC_SITE_URL || 'https://gongeo.us',
+    url: siteUrl,
   },
 
   sitemap: {
@@ -77,25 +97,25 @@ export default defineNuxtConfig({
       supabasePublishableKey: process.env.SUPABASE_PUBLISHABLE_KEY,
       supabaseDataUrl: process.env.SUPABASE_DATA_URL,
       gongeousApiKey: process.env.GONGEOUS_API_KEY,
-      siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://gongeo.us',
-      imagekitBaseUrl:
-        process.env.NUXT_PUBLIC_IMAGEKIT_BASE_URL ||
-        'https://ik.imagekit.io/gongeouscdn',
-      cloudinaryBaseUrl:
-        process.env.NUXT_PUBLIC_CLOUDINARY_BASE_URL ||
-        'https://res.cloudinary.com/gongeous/image/upload',
+      siteUrl,
+      imagekitBaseUrl,
+      cloudinaryBaseUrl,
       imageProvider: getImageProvider(),
     },
   },
 
   image: {
     dir: '../public',
+    domains: imageDomains,
     provider: getImageProvider(),
     netlify: {
-      baseURL: process.env.NUXT_PUBLIC_SITE_URL || 'https://gongeo.us',
+      baseURL:
+        process.env.NODE_ENV === 'production'
+          ? `${siteUrl}/.netlify/images`
+          : '/.netlify/images',
     },
     imagekit: {
-      baseURL: process.env.NUXT_PUBLIC_IMAGEKIT_BASE_URL,
+      baseURL: imagekitBaseUrl,
     },
     format: ['webp'],
     quality: 80,
@@ -188,7 +208,7 @@ export default defineNuxtConfig({
         ...buildLocalizedRules(['/outfits', '/items', '/tierlist'], {
           headers: pageThemeQuery,
         }),
-        ...buildLocalizedRules(['/tracker', '/login', '/profile'], {
+        ...buildLocalizedRules(['/tracker', '/login', '/profile', '/stats'], {
           headers: noStoreHeaders,
         }),
       }

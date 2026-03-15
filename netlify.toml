@@ -1,28 +1,33 @@
 [build]
-  publish = "dist"
-  command = "npm run build"
+publish = "dist"
+command = "npm run build"
 
-[build.environment]
+  [build.environment]
   NODE_VERSION = "24.14.0"
   NODE_OPTIONS = "--max-old-space-size=8192"
 
+[images]
+remote_images = [ "https://ik.imagekit.io/.*" ]
+
 [[edge_functions]]
-  function = "bot-block"
-  path = "/*"
-  excludedPath = "/robots.txt"
+function = "bot-block"
+path = "/*"
+excludedPath = "/robots.txt"
 
   [edge_functions.header]
-    "netlify-agent-category" = "^(ai-agent|page-preview|crawler|tooling|other|none)(;.*)?$"
+  netlify-agent-category = "^(ai-agent|page-preview|crawler|tooling|other|none)(;.*)?$"
 
 [[edge_functions]]
-  function = "root-redirect"
-  path = "/"
+function = "root-redirect"
+path = "/"
 
 [[edge_functions]]
-  function = "redirects"
-  pattern = "^/(?:[a-z]{2}/)?(banner|item|outfit)(?:/.*)?$"
+function = "redirects"
+pattern = "^/(?:[a-z]{2}/)?(banner|item|outfit)(?:/.*)?$"
 
 [[headers]]
-  for = "/.netlify/images*"
+for = "/.netlify/images*"
+
   [headers.values]
-    Cache-Control = "public, max-age=2592000"
+  Cache-Control = "public, max-age=31536000, immutable"
+  Netlify-CDN-Cache-Control = "public, s-maxage=31536000, stale-while-revalidate=604800"

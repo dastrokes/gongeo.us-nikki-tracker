@@ -123,7 +123,7 @@ function resolveLocaleFromAcceptLanguage(
 
 function buildLocaleCookie(locale: SupportedLocaleCode): string {
   return [
-    `${LOCALE_COOKIE_KEY}=${encodeURIComponent(locale)}`,
+    `${LOCALE_COOKIE_KEY}=${locale}`,
     'Path=/',
     `Max-Age=${COOKIE_MAX_AGE_SECONDS}`,
     'SameSite=Lax',

@@ -591,7 +591,8 @@
 
   const route = useRoute()
   const { t } = useI18n()
-  const { getImageSrc, getImageUrl } = imageProvider()
+  const { getImageSrc } = imageProvider()
+  const nuxtImg = useImage()
   const requestEvent = useRequestEvent()
 
   const localePath = useLocalePath()
@@ -729,7 +730,7 @@
   // SEO Meta Tags
   const ogItemImage = computed(() =>
     banner.value
-      ? getImageUrl(`/images/banners/${banner.value.bannerId}.png`, {
+      ? nuxtImg(`/images/banners/${banner.value.bannerId}.png`, {
           width: 800,
           height: 400,
           quality: 80,

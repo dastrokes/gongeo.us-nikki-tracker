@@ -4,16 +4,16 @@ export const getImageProvider = () => {
   if (
     configuredProvider === 'ipx' ||
     configuredProvider === 'netlify' ||
-    configuredProvider === 'imagekit'
+    configuredProvider === 'imagekit' ||
+    configuredProvider === 'cloudinary'
   ) {
     return configuredProvider
   }
 
-  return process.env.NODE_ENV === 'production' ? 'imagekit' : 'ipx'
+  return process.env.NODE_ENV === 'production' ? 'netlify' : 'ipx'
 }
 
 export const imageProvider = () => {
-  const isDev = import.meta.dev
   const runtimeConfig = useRuntimeConfig()
 
   type ImageProvider = 'ipx' | 'netlify' | 'imagekit' | 'cloudinary'
@@ -26,85 +26,7 @@ export const imageProvider = () => {
     | 'static'
 
   const imagekitBaseUrl = runtimeConfig.public.imagekitBaseUrl as string
-  const cloudinaryBaseUrl = runtimeConfig.public.cloudinaryBaseUrl as string
   const defaultProvider = runtimeConfig.public.imageProvider as ImageProvider
-
-  const getImageUrl = (
-    path: string,
-    options?: {
-      width?: number
-      height?: number
-      quality?: number
-      format?: 'webp' | 'avif' | 'png' | 'jpg' | 'jpeg'
-      provider?: ImageProvider
-    }
-  ) => {
-    // In development, use local images
-    if (isDev) {
-      return path
-    }
-
-    const provider = options?.provider || defaultProvider
-    const cleanPath = path.startsWith('/') ? path : `/${path}`
-
-    if (provider === 'ipx') {
-      return cleanPath
-    }
-
-    // Use Netlify Image CDN
-    if (provider === 'netlify') {
-      // Build query parameters for Netlify
-      const params: string[] = []
-      if (options?.width) params.push(`w=${options.width}`)
-      if (options?.height) params.push(`h=${options.height}`)
-      if (options?.format) params.push(`fm=${options.format}`)
-      if (options?.quality) params.push(`q=${options.quality}`)
-      params.push('fit=cover')
-
-      const queryString = params.join('&')
-
-      return `${runtimeConfig.public.siteUrl}/.netlify/images?${queryString}&url=${cleanPath}`
-    }
-
-    // Use ImageKit
-    if (provider === 'imagekit') {
-      // Build transformation parameters for ImageKit
-      const params: string[] = []
-      if (options?.width) params.push(`w-${options.width}`)
-      if (options?.height) params.push(`h-${options.height}`)
-      if (options?.quality) params.push(`q-${options.quality}`)
-      if (options?.format) params.push(`f-${options.format}`)
-
-      const transformation = params.length > 0 ? `tr:${params.join(',')}` : ''
-
-      return transformation
-        ? `${imagekitBaseUrl}/${transformation}${cleanPath}`
-        : `${imagekitBaseUrl}${cleanPath}`
-    }
-
-    if (provider === 'cloudinary') {
-      const baseUrl = cloudinaryBaseUrl?.replace(/\/+$/, '')
-      if (!baseUrl) {
-        return cleanPath
-      }
-
-      const params: string[] = []
-      if (options?.width) params.push(`w_${options.width}`)
-      if (options?.height) params.push(`h_${options.height}`)
-      if (options?.quality) params.push(`q_${options.quality}`)
-      if (options?.format) params.push(`f_${options.format}`)
-      if (options?.width || options?.height) params.push('c_fill')
-
-      const transformation = params.join(',')
-      const cloudinaryPath = cleanPath.replace(/\.[^/.]+$/, '')
-
-      return transformation
-        ? `${baseUrl}/${transformation}${cloudinaryPath}`
-        : `${baseUrl}${cloudinaryPath}`
-    }
-
-    return cleanPath
-  }
 
   const getImagePath = (
     type: ImageSrcType,
@@ -144,20 +66,22 @@ export const imageProvider = () => {
     const path = getImagePath(type, id, options?.variant)
     const provider = options?.provider || defaultProvider
 
+    if (provider === 'netlify') {
+      return `${imagekitBaseUrl}${path}`
+    }
+
     if (
       provider === 'ipx' ||
-      provider === 'netlify' ||
       provider === 'imagekit' ||
       provider === 'cloudinary'
     ) {
       return path
     }
 
-    return path
+    return getImagePath(type, id, options?.variant)
   }
 
   return {
-    getImageUrl,
     getImageSrc,
   }
 }

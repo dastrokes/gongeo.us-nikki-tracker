@@ -70,7 +70,12 @@ export const imageProvider = () => {
     const provider = options?.provider || defaultProvider
 
     // Serve images from netlify directly
-    if (type === 'banner' || type === 'bannerThumb' || type === 'emote') {
+    if (
+      type === 'banner' ||
+      type === 'bannerThumb' ||
+      type === 'outfit' ||
+      type === 'emote'
+    ) {
       return path
     }
 

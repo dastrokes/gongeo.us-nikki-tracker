@@ -64,7 +64,8 @@
     "official_website": "เว็บไซต์ทางการ",
     "join_community": "เข้าร่วมชุมชน",
     "support_website": "สนับสนุนเว็บไซต์",
-    "nuan5pro": "Nuan5.Pro"
+    "nuan5pro": "Nuan5.Pro",
+    "stats": "Personal Stats"
   },
   "meta": {
     "title": "Infinity Nikki Resonance Tracker - ดึงประวัติและสถิติ",
@@ -85,7 +86,8 @@
       "items": "ค้นหารายการ Infinity Nikki ทั้งหมดพร้อมตัวกรองสำหรับประเภท คุณภาพ โบนัสสถิติ และเครื่องแต่งกายหรือแบนเนอร์ที่เกี่ยวข้อง ค้นหา เปรียบเทียบ และติดตามทุกรายการได้อย่างง่ายดาย",
       "item_detail": "ดูข้อมูลโดยละเอียดเกี่ยวกับไอเท็ม {name} รวมถึงคุณภาพ วิวัฒนาการและการเรืองแสง สถิติ รวมถึงเครื่องแต่งกายและแบนเนอร์ที่เกี่ยวข้อง",
       "faq": "ค้นหาคำตอบสำหรับคำถามที่พบบ่อยเกี่ยวกับ gongeo.us รวมถึงความเป็นส่วนตัวของข้อมูล วิธีการนำเข้า และแนวทางการใช้งาน",
-      "about": "เรียนรู้เพิ่มเติมเกี่ยวกับ gongeo.us รวมถึงวัตถุประสงค์ นโยบายความเป็นส่วนตัว การปฏิเสธความรับผิดชอบ และวิธีที่สนับสนุนชุมชน Infinity Nikki"
+      "about": "เรียนรู้เพิ่มเติมเกี่ยวกับ gongeo.us รวมถึงวัตถุประสงค์ นโยบายความเป็นส่วนตัว การปฏิเสธความรับผิดชอบ และวิธีที่สนับสนุนชุมชน Infinity Nikki",
+      "stats": "View your personal Infinity Nikki resonance pull statistics, luck analysis, streaks, and pulling activity."
     }
   },
   "default": {
@@ -755,6 +757,45 @@
       "miracrown": "มิราคราวน์",
       "miracle": "ชุดปาฏิหาริย์",
       "home": "บ้านเกิด"
+    }
+  },
+  "stats": {
+    "title": "Personal Stats",
+    "overview": {
+      "luck_rating": "Luck Rating"
+    },
+    "notice_limited": "Stats are from limited banners only. Permanent banners are excluded.",
+    "luck": {
+      "avg_pulls": "Avg {count} pulls",
+      "percentile": "Top {percent}%"
+    },
+    "charts": {
+      "luck_per_banner": "5★ Luck Per Banner",
+      "luck_per_banner_type3": "4★ Luck Per Banner",
+      "five_star_distribution": "5★ Pull Distribution",
+      "four_star_distribution": "4★ Distribution (5★ Banner)",
+      "four_star_type3_distribution": "4★ Distribution (4★ Banner)",
+      "pull_timeline": "Pull Activity",
+      "cumulative_pulls": "Cumulative",
+      "number_of_pulls": "Number of Pulls",
+      "frequency": "Frequency"
+    },
+    "share": {
+      "title": "Share Card",
+      "export_image": "Export as Image",
+      "landscape": "Landscape",
+      "portrait": "Portrait",
+      "in_progress": "Generating share card…",
+      "success": "Share card exported!",
+      "error": "Failed to export share card.",
+      "best_luck": "Best Luck",
+      "worst_luck": "Worst Luck",
+      "top_percent": "Top {percent}%",
+      "bottom_percent": "Bottom {percent}%"
+    },
+    "no_data": {
+      "title": "No Stats Available",
+      "subtitle": "Import your resonance data to see your personal stats."
     }
   }
 }

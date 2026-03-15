@@ -369,16 +369,6 @@ const normalizeAggregateJson = (
   }
 }
 
-const buildStorageJsonUrl = (supabaseUrl: string): string => {
-  const baseUrl = supabaseUrl.replace(/\/+$/, '')
-  const encodedBucket = encodeURIComponent(STORAGE_BUCKET)
-  const encodedPath = STORAGE_OBJECT_PATH.split('/')
-    .map((part) => encodeURIComponent(part))
-    .join('/')
-
-  return `${baseUrl}/storage/v1/object/public/${encodedBucket}/${encodedPath}`
-}
-
 export const resolveCommunityScope = (
   scopeType: unknown,
   scopeFilters: unknown
@@ -570,7 +560,7 @@ export const useCommunityTierlist = () => {
       aggregateStatus.value = 'pending'
       aggregateError.value = null
 
-      const requestUrl = buildStorageJsonUrl(config.public.supabaseUrl)
+      const requestUrl = `${config.public.supabaseUrl}/storage/v1/object/public/${STORAGE_BUCKET}/${STORAGE_OBJECT_PATH}`
       const payload = await $fetch<unknown>(requestUrl, {
         method: 'GET',
       })

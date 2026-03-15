@@ -80,7 +80,7 @@ export default defineNuxtConfig({
       siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://gongeo.us',
       imagekitBaseUrl:
         process.env.NUXT_PUBLIC_IMAGEKIT_BASE_URL ||
-        'https://ik.imagekit.io/gongeouscdn',
+        'https://ik.imagekit.io/gongeous',
       cloudinaryBaseUrl:
         process.env.NUXT_PUBLIC_CLOUDINARY_BASE_URL ||
         'https://res.cloudinary.com/gongeous/image/upload',

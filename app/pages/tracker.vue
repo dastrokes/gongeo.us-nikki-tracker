@@ -843,7 +843,7 @@
         >
           <template #icon>
             <NuxtImg
-              :src="getImageSrc('static', '/images/emotes/think.webp')"
+              :src="getImageSrc('emote', 'think')"
               :alt="$t('tracker.no_data.title')"
               class="mx-auto w-24 h-24 sm:w-32 sm:h-32 object-cover"
               width="200"

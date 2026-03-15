@@ -23,6 +23,7 @@ export const imageProvider = () => {
     | 'outfit'
     | 'item'
     | 'itemIcon'
+    | 'emote'
     | 'static'
 
   const imagekitBaseUrl = runtimeConfig.public.imagekitBaseUrl as string
@@ -44,6 +45,8 @@ export const imageProvider = () => {
         return `/images/items/${id}.png`
       case 'itemIcon':
         return `/images/items/icons/${id}.png`
+      case 'emote':
+        return `/images/emotes/${id}.webp`
       case 'static': {
         const path = typeof id === 'string' ? id : String(id)
         return path.startsWith('/') ? path : `/${path}`
@@ -65,6 +68,11 @@ export const imageProvider = () => {
   ) => {
     const path = getImagePath(type, id, options?.variant)
     const provider = options?.provider || defaultProvider
+
+    // Serve images from netlify directly
+    if (type === 'banner' || type === 'bannerThumb' || type === 'emote') {
+      return path
+    }
 
     if (provider === 'netlify') {
       return `${imagekitBaseUrl}${path}`

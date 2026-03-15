@@ -19,6 +19,7 @@
         :src="getImageSrc('itemIcon', item.itemId)"
         :alt="$t(`item.${item.itemId}.name`)"
         class="w-full h-full object-cover aspect-square"
+        :style="imageStyle"
         preset="iconLg"
         width="120"
         height="120"
@@ -31,6 +32,7 @@
         :src="getImageSrc('itemIcon', item.itemId)"
         :alt="$t(`item.${item.itemId}.name`)"
         class="w-full h-full object-cover aspect-square"
+        :style="imageStyle"
         preset="iconLg"
         width="120"
         height="120"
@@ -122,6 +124,7 @@
     color: isDark.value ? palette.textDark : palette.textLight,
     boxShadow: themeVars.value.boxShadow2,
   }))
+  const imageStyle = computed(() => getCardImageSeparationStyle(isDark.value))
 
   const itemType = computed(() => getItemType(props.item.itemId))
   const { getImageSrc } = imageProvider()

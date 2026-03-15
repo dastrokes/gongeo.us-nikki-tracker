@@ -33,10 +33,12 @@
         :color="getQualityTagTheme(quality)"
         class="backdrop-blur-sm"
       >
-        <span class="align-top">{{ quality }}</span>
-        <span class="ml-0.5"
-          ><n-icon><Star /></n-icon
-        ></span>
+        <span class="flex items-center gap-1">
+          {{ quality }}
+          <n-icon>
+            <Star />
+          </n-icon>
+        </span>
       </n-tag>
     </div>
 

@@ -146,7 +146,7 @@
                         class="flex h-full w-full items-center justify-center overflow-hidden rounded-full border border-rose-200/50 shadow-[0_8px_18px_rgba(244,114,182,0.10)] dark:border-black/20 dark:shadow-[0_6px_14px_rgba(2,6,23,0.10)]"
                       >
                         <NuxtImg
-                          :src="getImageSrc('static', '/images/emotes/hi.webp')"
+                          :src="getImageSrc('emote', 'hi')"
                           width="144"
                           height="144"
                           sizes="72px sm:80px"
@@ -175,9 +175,7 @@
                         class="flex h-full w-full items-center justify-center overflow-hidden rounded-full border border-pink-200/50 shadow-[0_8px_18px_rgba(244,114,182,0.10)] dark:border-black/20 dark:shadow-[0_6px_14px_rgba(2,6,23,0.10)]"
                       >
                         <NuxtImg
-                          :src="
-                            getImageSrc('static', '/images/emotes/love.webp')
-                          "
+                          :src="getImageSrc('emote', 'love')"
                           width="144"
                           height="144"
                           sizes="72px sm:80px"
@@ -207,9 +205,7 @@
                         class="flex h-full w-full items-center justify-center overflow-hidden rounded-full border border-sky-200/50 shadow-[0_8px_18px_rgba(56,189,248,0.10)] dark:border-black/20 dark:shadow-[0_6px_14px_rgba(2,6,23,0.10)]"
                       >
                         <NuxtImg
-                          :src="
-                            getImageSrc('static', '/images/emotes/news.webp')
-                          "
+                          :src="getImageSrc('emote', 'news')"
                           width="144"
                           height="144"
                           sizes="72px sm:80px"
@@ -351,12 +347,13 @@
     Tshirt,
     ListAlt,
     SortAmountDown,
+    ChartBar,
   } from '@vicons/fa'
   const { t } = useI18n()
   const localePath = useLocalePath()
   const { locale } = useI18n()
-  const nuxtApp = useNuxtApp()
   const { getImageSrc } = imageProvider()
+  const nuxtApp = useNuxtApp()
   const loading = useState<boolean>('loading', () => false)
 
   function renderIcon(icon: Component) {
@@ -385,9 +382,9 @@
       icon: renderIcon(Book),
     },
     {
-      label: t('navigation.import'),
-      key: 'import',
-      icon: renderIcon(FileImport),
+      label: t('navigation.stats'),
+      key: 'stats',
+      icon: renderIcon(ChartBar),
     },
     {
       label: t('navigation.global'),
@@ -395,19 +392,14 @@
       icon: renderIcon(Globe),
     },
     {
+      label: t('navigation.import'),
+      key: 'import',
+      icon: renderIcon(FileImport),
+    },
+    {
       label: t('navigation.banner'),
       key: 'banners',
       icon: renderIcon(CalendarAlt),
-    },
-    {
-      label: t('common.outfits'),
-      key: 'outfits',
-      icon: renderIcon(Tshirt),
-    },
-    {
-      label: t('common.items'),
-      key: 'items',
-      icon: renderIcon(ListAlt),
     },
     {
       label: t('navigation.timeline'),
@@ -415,11 +407,20 @@
       icon: renderIcon(AlignRight),
     },
     {
+      label: t('navigation.outfit'),
+      key: 'outfits',
+      icon: renderIcon(Tshirt),
+    },
+    {
+      label: t('navigation.item'),
+      key: 'items',
+      icon: renderIcon(ListAlt),
+    },
+    {
       label: t('navigation.tierlist'),
       key: 'tierlist',
       icon: renderIcon(SortAmountDown),
     },
-
     {
       label: t('quiz.title'),
       key: 'quiz',

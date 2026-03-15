@@ -8,7 +8,7 @@
     >
       <template #icon>
         <NuxtImg
-          src="/images/emotes/think.webp"
+          :src="getImageSrc('emote', 'think')"
           class="w-2/3 h-2/3 object-cover"
           width="200"
           height="200"
@@ -37,5 +37,7 @@
   import { Home } from '@vicons/fa'
 
   const localePath = useLocalePath()
+  const { getImageSrc } = imageProvider()
+
   const handleError = () => clearError({ redirect: localePath('/') })
 </script>

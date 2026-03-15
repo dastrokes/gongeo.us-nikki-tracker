@@ -160,8 +160,8 @@
       "theme_switcher": "Changer de thème",
       "user_profile_menu": "Menu du profil utilisateur",
       "scroll_to_top": "Faire défiler vers le haut",
-      "close_menu": "Close navigation menu",
-      "luck_stats": "View luck stats"
+      "close_menu": "Fermer le menu de navigation",
+      "luck_stats": "Voir les statistiques de chance"
     },
     "language_switcher": {
       "help_translate": "Aidez à traduire"
@@ -236,15 +236,15 @@
     "email_signup_error": "Échec de la création du compte. Veuillez réessayer.",
     "reset_error": "Échec de l'envoi de l'e-mail de réinitialisation. Veuillez réessayer.",
     "or": "ou",
-    "google_signin_error": "Failed to sign in with Google. Please try again.",
-    "email_not_confirmed": "Please check your email and confirm your address.",
-    "email_already_registered": "An account with this email already exists.",
-    "password_update_success": "Password updated successfully!",
-    "password_update_error": "Failed to update password. Please try again.",
-    "password_too_short": "Password must be at least 6 characters long.",
-    "reset_session_expired": "Reset session expired. Please request a new reset email.",
-    "account_not_found": "No account found with this email address.",
-    "reset_rate_limit": "Too many attempts. Please wait before trying again."
+    "google_signin_error": "Échec de la connexion avec Google. Veuillez réessayer.",
+    "email_not_confirmed": "Veuillez vérifier votre e-mail et confirmer votre adresse.",
+    "email_already_registered": "Un compte avec cet e-mail existe déjà.",
+    "password_update_success": "Mot de passe mis à jour avec succès !",
+    "password_update_error": "Échec de la mise à jour du mot de passe. Veuillez réessayer.",
+    "password_too_short": "Le mot de passe doit contenir au moins 6 caractères.",
+    "reset_session_expired": "La session de réinitialisation a expiré. Veuillez demander un nouvel e-mail de réinitialisation.",
+    "account_not_found": "Aucun compte trouvé avec cette adresse e-mail.",
+    "reset_rate_limit": "Trop de tentatives. Veuillez attendre avant de réessayer."
   },
   "error": {
     "404": "\"Nikki, restons dans les eaux peu profondes\"",

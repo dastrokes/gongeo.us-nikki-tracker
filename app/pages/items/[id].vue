@@ -129,10 +129,12 @@
                 round
                 size="small"
               >
-                <span class="align-top">{{ item.quality }}</span
-                ><span class="ml-0.5"
-                  ><n-icon class="text-xs"><Star /></n-icon
-                ></span>
+                <span class="flex items-center gap-1">
+                  {{ item.quality }}
+                  <n-icon class="text-xs">
+                    <Star />
+                  </n-icon>
+                </span>
               </n-tag>
               <n-tag
                 type="default"
@@ -478,7 +480,7 @@
         <template #icon>
           <div class="flex justify-center">
             <NuxtImg
-              :src="getImageSrc('static', '/images/emotes/think.webp')"
+              :src="getImageSrc('emote', 'think')"
               class="mx-auto w-24 h-24 sm:w-32 sm:h-32 object-cover"
               width="200"
               height="200"
@@ -513,7 +515,8 @@
 
   // Composable
   const { fetchItemById } = useSupabaseItems()
-  const { getImageSrc, getImageUrl } = imageProvider()
+  const { getImageSrc } = imageProvider()
+  const nuxtImg = useImage()
 
   const itemKey = computed(() => `item-${itemId.value}-${locale.value}`)
 
@@ -772,7 +775,7 @@
   // SEO Meta Tags
   const ogItemImage = computed(() =>
     item.value
-      ? getImageUrl(`/images/items/${item.value.id}.png`, {
+      ? nuxtImg(`/images/items/${item.value.id}.png`, {
           width: 300,
           height: 450,
           quality: 80,

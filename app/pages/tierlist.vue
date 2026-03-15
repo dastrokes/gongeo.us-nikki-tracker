@@ -188,9 +188,11 @@
               :disabled="q === 2"
               @click="qualityFilter = q"
             >
-              <span class="align-top">{{ q }}</span>
-              <span class="ml-1">
-                <n-icon><Star /></n-icon>
+              <span class="flex items-center gap-1">
+                {{ q }}
+                <n-icon>
+                  <Star />
+                </n-icon>
               </span>
             </n-button>
           </n-button-group>
@@ -224,9 +226,11 @@
               class="min-w-[40px]"
               @click="bannerQualityFilter = q"
             >
-              <span class="align-top">{{ q }}</span>
-              <span class="ml-1">
-                <n-icon><Star /></n-icon>
+              <span class="flex items-center gap-1">
+                {{ q }}
+                <n-icon>
+                  <Star />
+                </n-icon>
               </span>
             </n-button>
           </n-button-group>
@@ -647,7 +651,7 @@
           >
             <template #icon>
               <NuxtImg
-                :src="getImageSrc('static', '/images/emotes/think.webp')"
+                :src="getImageSrc('emote', 'think')"
                 :alt="t('tierlist.over_limit.title')"
                 class="mx-auto w-24 h-24 sm:w-32 sm:h-32 object-cover"
                 width="200"

@@ -9,25 +9,30 @@
       <div class="flex flex-col gap-3">
         <div class="flex items-center gap-2 flex-wrap justify-between">
           <div class="flex items-center gap-2">
-            <n-switch
-              v-model:value="listingsSwitchValue"
-              size="large"
-              :rail-style="railStyle"
-              @update:value="handleListingToggle"
-            >
-              <template #checked>
-                <span class="inline-flex items-center gap-1">
-                  <n-icon><ListAlt /></n-icon>
-                  {{ $t('common.items') }}
-                </span>
-              </template>
-              <template #unchecked>
-                <span class="inline-flex items-center gap-1">
+            <n-button-group>
+              <n-button
+                size="small"
+                type="primary"
+              >
+                <template #icon>
                   <n-icon><Tshirt /></n-icon>
-                  {{ $t('common.outfits') }}
-                </span>
-              </template>
-            </n-switch>
+                </template>
+                {{ $t('common.outfits') }}
+              </n-button>
+              <n-button
+                size="small"
+                @click="
+                  navigateTo(
+                    localePath({ path: '/items', query: buildListingQuery() })
+                  )
+                "
+              >
+                <template #icon>
+                  <n-icon><ListAlt /></n-icon>
+                </template>
+                {{ $t('common.items') }}
+              </n-button>
+            </n-button-group>
 
             <n-button
               v-if="hasFilters"
@@ -79,10 +84,12 @@
               :disabled="q === 2"
               @click="qualityFilter = q"
             >
-              <span class="align-top">{{ q }}</span>
-              <span class="ml-1"
-                ><n-icon><Star /></n-icon
-              ></span>
+              <span class="flex items-center gap-1">
+                {{ q }}
+                <n-icon>
+                  <Star />
+                </n-icon>
+              </span>
             </n-button>
           </n-button-group>
         </div>
@@ -176,7 +183,7 @@
             >
               <template #icon>
                 <NuxtImg
-                  :src="getImageSrc('static', '/images/emotes/think.webp')"
+                  :src="getImageSrc('emote', 'think')"
                   class="mx-auto w-24 h-24 sm:w-32 sm:h-32 object-cover"
                   width="200"
                   height="200"
@@ -248,11 +255,11 @@
               :page-slot="5"
             >
               <template #prefix="{ itemCount }">
-                <div class="text-sm text-gray-600 dark:text-gray-400">
+                <div class="text-sm gap-1 text-gray-600 dark:text-gray-400">
                   <span class="font-semibold text-gray-900 dark:text-white">{{
                     totalItems
                   }}</span>
-                  <span class="ml-1">
+                  <span>
                     {{
                       itemCount === 1
                         ? countLabels.singular
@@ -271,7 +278,6 @@
 
 <script setup lang="ts">
   import { Star, Tshirt, ListAlt, SortAmountDown } from '@vicons/fa'
-  import type { CSSProperties } from 'vue'
 
   const { t, locale, getLocaleMessage } = useI18n()
   const localePath = useLocalePath()
@@ -281,7 +287,7 @@
 
   const pageTitle = computed(
     () =>
-      `${t('common.outfits')} - ${t('meta.game_title')} - ${t('navigation.title')}`
+      `${t('navigation.outfit')} - ${t('meta.game_title')} - ${t('navigation.title')}`
   )
   const description = computed(() => t('meta.description.outfits'))
 
@@ -463,7 +469,6 @@
     )
   )
   const currentPage = ref(Number(route.query.page) || 1)
-  const listingsSwitchValue = ref(false)
   const hasFilters = computed(
     () =>
       qualityFilter.value !== null ||
@@ -681,25 +686,5 @@
       },
       label
     )
-  }
-
-  const handleListingToggle = (value: boolean) => {
-    if (!value) return
-    navigateTo(
-      localePath({
-        path: '/items',
-        query: buildListingQuery(),
-      })
-    )
-  }
-
-  const railStyle = ({ checked }: { focused: boolean; checked: boolean }) => {
-    const style: CSSProperties = {}
-    if (checked) {
-      style.background = '#3b82a6'
-    } else {
-      style.background = '#a85573'
-    }
-    return style
   }
 </script>

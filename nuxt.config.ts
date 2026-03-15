@@ -14,23 +14,10 @@ import { getImageProvider } from './app/utils/imageProvider'
 
 const siteUrl = process.env.NUXT_PUBLIC_SITE_URL || 'https://gongeo.us'
 const imagekitBaseUrl =
-  process.env.NUXT_PUBLIC_IMAGEKIT_BASE_URL ||
-  'https://ik.imagekit.io/gongeouscdn'
+  process.env.NUXT_PUBLIC_IMAGEKIT_BASE_URL || 'https://ik.imagekit.io/gongeous'
 const cloudinaryBaseUrl =
   process.env.NUXT_PUBLIC_CLOUDINARY_BASE_URL ||
   'https://res.cloudinary.com/gongeous/image/upload'
-
-const getUrlHost = (url: string) => {
-  try {
-    return new URL(url).host
-  } catch {
-    return null
-  }
-}
-
-const imageDomains = [getUrlHost(imagekitBaseUrl)].filter(
-  (domain): domain is string => Boolean(domain)
-)
 
 export default defineNuxtConfig({
   devtools: { enabled: false },
@@ -106,14 +93,8 @@ export default defineNuxtConfig({
 
   image: {
     dir: '../public',
-    domains: imageDomains,
     provider: getImageProvider(),
-    netlify: {
-      baseURL:
-        process.env.NODE_ENV === 'production'
-          ? `${siteUrl}/.netlify/images`
-          : '/.netlify/images',
-    },
+    domains: [imagekitBaseUrl],
     imagekit: {
       baseURL: imagekitBaseUrl,
     },

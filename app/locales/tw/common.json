@@ -64,7 +64,8 @@
     "official_website": "官方網站",
     "join_community": "加入社群",
     "support_website": "支持本站",
-    "nuan5pro": "無暖助手"
+    "nuan5pro": "無暖助手",
+    "stats": "Personal Stats"
   },
   "meta": {
     "title": "暖暖共鳴錄 - 無限暖暖共鳴歷史追蹤與抽卡資料分析",
@@ -85,7 +86,8 @@
       "items": "瀏覽所有無限暖暖物品，支援依物品類型、品質、屬性加成，以及所屬套裝或卡池進行進階篩選，輕鬆查找並比較遊戲中的所有物品。",
       "item_detail": "查看 {name} 物品的詳細資訊，包括品質、進化與煥新、屬性效果，以及相關的套裝與卡池。",
       "faq": "檢視關於暖暖共鳴錄的常見問題解答，包括資料隱私、匯入方式和使用指南等資訊。",
-      "about": "瞭解暖暖共鳴錄的相關資訊，包括免責宣告、隱私政策等資訊。"
+      "about": "瞭解暖暖共鳴錄的相關資訊，包括免責宣告、隱私政策等資訊。",
+      "stats": "View your personal Infinity Nikki resonance pull statistics, luck analysis, streaks, and pulling activity."
     }
   },
   "default": {
@@ -755,6 +757,45 @@
       "miracrown": "奇迹之冠",
       "miracle": "奇迹套裝",
       "home": "家園"
+    }
+  },
+  "stats": {
+    "title": "Personal Stats",
+    "overview": {
+      "luck_rating": "Luck Rating"
+    },
+    "notice_limited": "Stats are from limited banners only. Permanent banners are excluded.",
+    "luck": {
+      "avg_pulls": "Avg {count} pulls",
+      "percentile": "Top {percent}%"
+    },
+    "charts": {
+      "luck_per_banner": "5★ Luck Per Banner",
+      "luck_per_banner_type3": "4★ Luck Per Banner",
+      "five_star_distribution": "5★ Pull Distribution",
+      "four_star_distribution": "4★ Distribution (5★ Banner)",
+      "four_star_type3_distribution": "4★ Distribution (4★ Banner)",
+      "pull_timeline": "Pull Activity",
+      "cumulative_pulls": "Cumulative",
+      "number_of_pulls": "Number of Pulls",
+      "frequency": "Frequency"
+    },
+    "share": {
+      "title": "Share Card",
+      "export_image": "Export as Image",
+      "landscape": "Landscape",
+      "portrait": "Portrait",
+      "in_progress": "Generating share card…",
+      "success": "Share card exported!",
+      "error": "Failed to export share card.",
+      "best_luck": "Best Luck",
+      "worst_luck": "Worst Luck",
+      "top_percent": "Top {percent}%",
+      "bottom_percent": "Bottom {percent}%"
+    },
+    "no_data": {
+      "title": "No Stats Available",
+      "subtitle": "Import your resonance data to see your personal stats."
     }
   }
 }

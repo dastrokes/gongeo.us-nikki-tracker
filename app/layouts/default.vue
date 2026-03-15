@@ -351,6 +351,7 @@
     Tshirt,
     ListAlt,
     SortAmountDown,
+    ChartBar,
   } from '@vicons/fa'
   const { t } = useI18n()
   const localePath = useLocalePath()
@@ -385,9 +386,9 @@
       icon: renderIcon(Book),
     },
     {
-      label: t('navigation.import'),
-      key: 'import',
-      icon: renderIcon(FileImport),
+      label: t('navigation.stats'),
+      key: 'stats',
+      icon: renderIcon(ChartBar),
     },
     {
       label: t('navigation.global'),
@@ -395,19 +396,14 @@
       icon: renderIcon(Globe),
     },
     {
+      label: t('navigation.import'),
+      key: 'import',
+      icon: renderIcon(FileImport),
+    },
+    {
       label: t('navigation.banner'),
       key: 'banners',
       icon: renderIcon(CalendarAlt),
-    },
-    {
-      label: t('common.outfits'),
-      key: 'outfits',
-      icon: renderIcon(Tshirt),
-    },
-    {
-      label: t('common.items'),
-      key: 'items',
-      icon: renderIcon(ListAlt),
     },
     {
       label: t('navigation.timeline'),
@@ -415,11 +411,20 @@
       icon: renderIcon(AlignRight),
     },
     {
+      label: t('navigation.outfit'),
+      key: 'outfits',
+      icon: renderIcon(Tshirt),
+    },
+    {
+      label: t('navigation.item'),
+      key: 'items',
+      icon: renderIcon(ListAlt),
+    },
+    {
       label: t('navigation.tierlist'),
       key: 'tierlist',
       icon: renderIcon(SortAmountDown),
     },
-
     {
       label: t('quiz.title'),
       key: 'quiz',

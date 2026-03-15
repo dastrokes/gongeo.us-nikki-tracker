@@ -201,7 +201,9 @@
                         bannerPulls.stats.avg5StarPulls > 0
                       "
                       :percentile="
-                        getAvg5StarPercentile(bannerPulls.stats.avg5StarPulls)
+                        getBannerAvg5StarPercentile(
+                          bannerPulls.stats.avg5StarPulls
+                        )
                       "
                     />
 
@@ -212,7 +214,7 @@
                         bannerPulls.stats.avg4StarOnlyPulls > 0
                       "
                       :percentile="
-                        getAvg4StarType3Percentile(
+                        getBannerAvg4StarType3Percentile(
                           bannerPulls.stats.avg4StarOnlyPulls
                         )
                       "
@@ -608,7 +610,7 @@
   const bannerId = computed(() => Number(route.params.id))
 
   // Import percentile functions from utils (pure functions)
-  const { getAvg5StarPercentile, getAvg4StarType3Percentile } =
+  const { getBannerAvg5StarPercentile, getBannerAvg4StarType3Percentile } =
     await import('~/utils/percentile')
 
   const banner = computed(() => {

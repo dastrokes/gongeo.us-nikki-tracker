@@ -25,7 +25,7 @@
               class="flex flex-col gap-2 sm:gap-3 lg:w-36"
             >
               <div
-                class="relative grid grid-cols-2 gap-2 text-[11px] sm:text-xs text-gray-600 dark:text-gray-300 min-h-[28px] lg:grid-cols-1 rounded-lg border border-gray-200/80 dark:border-gray-700/70 bg-gray-50/80 dark:bg-gray-900/40 px-2 py-2"
+                class="relative grid grid-cols-2 gap-2 text-[10px] sm:text-xs text-gray-600 dark:text-gray-300 min-h-[28px] lg:grid-cols-1 rounded-lg border border-gray-200/80 dark:border-gray-700/70 bg-gray-50/80 dark:bg-gray-900/40 px-2 py-2"
               >
                 <div class="flex items-center justify-between gap-2 px-2">
                   <span
@@ -159,7 +159,7 @@
                         :component="entry.correct ? Check : Times"
                       />
                       <p
-                        class="h-[14px] sm:h-[16px] leading-[14px] sm:leading-[16px] max-w-full overflow-hidden whitespace-nowrap text-ellipsis text-center text-[10px] sm:text-[11px] text-gray-600 dark:text-gray-300"
+                        class="h-[14px] sm:h-[16px] leading-[14px] sm:leading-[16px] max-w-full overflow-hidden whitespace-nowrap text-ellipsis text-center text-[10px] text-gray-600 dark:text-gray-300"
                       >
                         {{ t(`outfit.${entry.id}.name`) }}
                       </p>

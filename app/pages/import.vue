@@ -756,7 +756,7 @@
       >
         <template #icon>
           <NuxtImg
-            :src="getImageSrc('static', '/images/emotes/note.webp')"
+            :src="getImageSrc('emote', 'note')"
             :alt="$t('import.maintenance.title')"
             class="mx-auto w-24 h-24 sm:w-32 sm:h-32 object-cover"
             width="200"

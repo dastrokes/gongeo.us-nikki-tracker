@@ -63,7 +63,7 @@
         >
           <template #icon>
             <NuxtImg
-              :src="getImageSrc('static', '/images/emotes/think.webp')"
+              :src="getImageSrc('emote', 'think')"
               :alt="$t('stats.no_data.title')"
               class="mx-auto w-24 h-24 sm:w-32 sm:h-32 object-cover"
               width="200"
@@ -1269,10 +1269,7 @@
       6: 'luck-6',
     }
 
-    return getImageSrc(
-      'static',
-      `/images/emotes/${emoteByTier[luckTier.value] ?? 'think'}.webp`
-    )
+    return getImageSrc('emote', emoteByTier[luckTier.value] ?? 'think')
   })
 
   const luckiestBannerName = computed(() => {

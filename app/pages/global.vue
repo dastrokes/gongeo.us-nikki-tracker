@@ -1497,6 +1497,7 @@
             width: imageRequestSize,
             height: imageRequestSize,
             quality: 80,
+            format: 'webp',
           }),
         },
         align: 'center',

@@ -130,10 +130,12 @@
                 round
                 size="small"
               >
-                <span class="align-top">{{ outfit.quality }}</span
-                ><span class="ml-0.5"
-                  ><n-icon class="text-xs"><Star /></n-icon
-                ></span>
+                <span class="flex items-center gap-1">
+                  {{ outfit.quality }}
+                  <n-icon class="text-xs">
+                    <Star />
+                  </n-icon>
+                </span>
               </n-tag>
             </div>
 
@@ -385,7 +387,7 @@
         <template #icon>
           <div class="flex justify-center">
             <NuxtImg
-              :src="getImageSrc('static', '/images/emotes/think.webp')"
+              :src="getImageSrc('emote', 'think')"
               class="mx-auto w-24 h-24 sm:w-32 sm:h-32 object-cover"
               width="200"
               height="200"
@@ -420,7 +422,8 @@
 
   // Composable
   const { fetchOutfitById } = useSupabaseOutfits()
-  const { getImageUrl, getImageSrc } = imageProvider()
+  const { getImageSrc } = imageProvider()
+  const nuxtImg = useImage()
 
   const outfitKey = computed(() => `outfit-${outfitId.value}-${locale.value}`)
 
@@ -611,7 +614,7 @@
   // SEO Meta Tags
   const ogOutfitImage = computed(() =>
     outfit.value
-      ? getImageUrl(`/images/outfits/${outfit.value.id}.png`, {
+      ? nuxtImg(`/images/outfits/${outfit.value.id}.png`, {
           width: 300,
           height: 450,
           quality: 80,

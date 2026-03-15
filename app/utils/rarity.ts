@@ -92,3 +92,11 @@ export const getQualityGradient = (quality: number) => {
       return 'bg-gradient-to-br from-slate-50 to-slate-200 ring-slate-200/20 hover:ring-slate-200/80 dark:from-slate-800 dark:to-slate-900 dark:ring-slate-800/20 dark:hover:ring-slate-800/80'
   }
 }
+
+export const getCardImageSeparationStyle = (isDark: boolean) => {
+  return {
+    filter: isDark
+      ? 'drop-shadow(0 4px 8px rgba(2,6,23,0.16))'
+      : 'drop-shadow(0 3px 6px rgba(15,23,42,0.08))',
+  }
+}

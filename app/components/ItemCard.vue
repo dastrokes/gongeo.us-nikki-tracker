@@ -18,6 +18,7 @@
         :src="getImageSrc('itemIcon', itemId)"
         :alt="itemName"
         class="w-full h-full object-cover aspect-square"
+        :style="imageStyle"
         :preset="getImagePreset(size)"
         :width="getImageWidth(size)"
         :height="getImageWidth(size)"
@@ -73,6 +74,7 @@
     color: isDark.value ? palette.textDark : palette.textLight,
     boxShadow: themeVars.value.boxShadow2,
   }))
+  const imageStyle = computed(() => getCardImageSeparationStyle(isDark.value))
 
   // Get item name from i18n
   const itemName = computed(() => {

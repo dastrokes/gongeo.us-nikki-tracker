@@ -72,20 +72,24 @@
                 size="small"
                 @click="toggleBannerTypeFilter(5)"
               >
-                <span class="align-top">5</span>
-                <span class="ml-1"
-                  ><n-icon><Star /></n-icon
-                ></span>
+                <span class="flex items-center gap-1">
+                  5
+                  <n-icon>
+                    <Star />
+                  </n-icon>
+                </span>
               </n-button>
               <n-button
                 v-bind="qualityButtonThemes.star4"
                 size="small"
                 @click="toggleBannerTypeFilter(4)"
               >
-                <span class="align-top">4</span>
-                <span class="ml-1"
-                  ><n-icon><Star /></n-icon
-                ></span>
+                <span class="flex items-center gap-1">
+                  4
+                  <n-icon>
+                    <Star />
+                  </n-icon>
+                </span>
               </n-button>
             </n-button-group>
 
@@ -155,14 +159,11 @@
                   class="space-y-2"
                 >
                   <div class="flex flex-col gap-1">
-                    <div class="flex items-center">
+                    <div class="flex items-center gap-1">
                       <n-tag :bordered="false">
                         {{ $t(`version.${getVersion(run.version)}`) }}
                       </n-tag>
-                      <n-tag
-                        class="ml-1"
-                        :bordered="false"
-                      >
+                      <n-tag :bordered="false">
                         {{ $t('banner.version') }}
                         {{ getVersion(run.version) }}
                       </n-tag>
@@ -210,12 +211,12 @@
                         round
                         class="cursor-pointer"
                       >
-                        <span class="align-top"
-                          >{{ t(`outfit.${outfitId}.name`) }} 5</span
-                        >
-                        <span class="ml-1"
-                          ><n-icon><Star /></n-icon
-                        ></span>
+                        <span class="flex items-center gap-1">
+                          {{ t(`outfit.${outfitId}.name`) }} 5
+                          <n-icon>
+                            <Star />
+                          </n-icon>
+                        </span>
                       </n-tag>
                     </NuxtLinkLocale>
                   </div>
@@ -236,12 +237,12 @@
                         round
                         class="cursor-pointer"
                       >
-                        <span class="align-top"
-                          >{{ t(`outfit.${outfitId}.name`) }} 4</span
-                        >
-                        <span class="ml-1"
-                          ><n-icon><Star /></n-icon
-                        ></span>
+                        <span class="flex items-center gap-1">
+                          {{ t(`outfit.${outfitId}.name`) }} 4
+                          <n-icon>
+                            <Star />
+                          </n-icon>
+                        </span>
                       </n-tag>
                     </NuxtLinkLocale>
                   </div>
@@ -501,9 +502,7 @@
     if (wait === 'next-tick') {
       await nextTick()
     } else if (wait === 'frame') {
-      await new Promise<void>((resolve) => {
-        requestAnimationFrame(() => resolve())
-      })
+      await new Promise((resolve) => requestAnimationFrame(resolve))
     }
 
     const element = document.getElementById(bannerId.toString())

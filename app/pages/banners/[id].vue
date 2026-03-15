@@ -131,14 +131,11 @@
                 class="space-y-2"
               >
                 <div class="flex flex-col items-center gap-1">
-                  <div class="flex items-center">
+                  <div class="flex items-center gap-1">
                     <n-tag :bordered="false">
                       {{ t(`version.${getVersion(run.version)}`) }}
                     </n-tag>
-                    <n-tag
-                      class="ml-1"
-                      :bordered="false"
-                    >
+                    <n-tag :bordered="false">
                       {{ t('banner.version') }}
                       {{ getVersion(run.version) }}
                     </n-tag>
@@ -204,7 +201,9 @@
                         bannerPulls.stats.avg5StarPulls > 0
                       "
                       :percentile="
-                        getAvg5StarPercentile(bannerPulls.stats.avg5StarPulls)
+                        getBannerAvg5StarPercentile(
+                          bannerPulls.stats.avg5StarPulls
+                        )
                       "
                     />
 
@@ -215,7 +214,7 @@
                         bannerPulls.stats.avg4StarOnlyPulls > 0
                       "
                       :percentile="
-                        getAvg4StarType3Percentile(
+                        getBannerAvg4StarType3Percentile(
                           bannerPulls.stats.avg4StarOnlyPulls
                         )
                       "
@@ -494,10 +493,12 @@
                     :bordered="false"
                     round
                   >
-                    <span class="align-top">{{ t('banner.deep_echoes') }}</span>
-                    <span class="ml-1"
-                      ><n-icon><Star /></n-icon
-                    ></span>
+                    <span class="flex items-center gap-1">
+                      {{ t('banner.deep_echoes') }}
+                      <n-icon>
+                        <Star />
+                      </n-icon>
+                    </span>
                   </n-tag>
                   <div class="grid grid-cols-5 lg:grid-cols-10 gap-2">
                     <ItemDataCard
@@ -539,7 +540,7 @@
         <template #icon>
           <div class="flex justify-center">
             <NuxtImg
-              :src="getImageSrc('static', '/images/emotes/think.webp')"
+              :src="getImageSrc('emote', 'think')"
               class="mx-auto w-24 h-24 sm:w-32 sm:h-32 object-cover"
               width="200"
               height="200"
@@ -592,7 +593,8 @@
 
   const route = useRoute()
   const { t } = useI18n()
-  const { getImageSrc, getImageUrl } = imageProvider()
+  const { getImageSrc } = imageProvider()
+  const nuxtImg = useImage()
   const requestEvent = useRequestEvent()
 
   const localePath = useLocalePath()
@@ -608,7 +610,7 @@
   const bannerId = computed(() => Number(route.params.id))
 
   // Import percentile functions from utils (pure functions)
-  const { getAvg5StarPercentile, getAvg4StarType3Percentile } =
+  const { getBannerAvg5StarPercentile, getBannerAvg4StarType3Percentile } =
     await import('~/utils/percentile')
 
   const banner = computed(() => {
@@ -730,7 +732,7 @@
   // SEO Meta Tags
   const ogItemImage = computed(() =>
     banner.value
-      ? getImageUrl(`/images/banners/${banner.value.bannerId}.png`, {
+      ? nuxtImg(`/images/banners/${banner.value.bannerId}.png`, {
           width: 800,
           height: 400,
           quality: 80,

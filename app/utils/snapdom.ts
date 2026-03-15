@@ -30,9 +30,13 @@ export const exportToPng = async (element: HTMLElement, fileName: string) => {
     throw new Error('SnapDOM export requires a browser environment')
   }
 
+  if ('fonts' in document) {
+    await document.fonts.ready
+  }
+
   const snapdom = await getSnapdom()
   const image = await snapdom.toPng(element, {
-    backgroundColor: 'transparent',
+    embedFonts: true,
     width: element.scrollWidth,
     height: element.scrollHeight,
   })

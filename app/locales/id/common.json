@@ -160,8 +160,8 @@
       "theme_switcher": "Beralih tema",
       "user_profile_menu": "Menu profil pengguna",
       "scroll_to_top": "Gulir ke atas",
-      "close_menu": "Close navigation menu",
-      "luck_stats": "View luck stats"
+      "close_menu": "Tutup menu navigasi",
+      "luck_stats": "Lihat statistik keberuntungan"
     },
     "language_switcher": {
       "help_translate": "Bantu terjemahkan"
@@ -236,15 +236,15 @@
     "email_signup_error": "Gagal membuat akun. Silakan coba lagi.",
     "reset_error": "Gagal mengirim email setel ulang. Silakan coba lagi.",
     "or": "atau",
-    "google_signin_error": "Failed to sign in with Google. Please try again.",
-    "email_not_confirmed": "Please check your email and confirm your address.",
-    "email_already_registered": "An account with this email already exists.",
-    "password_update_success": "Password updated successfully!",
-    "password_update_error": "Failed to update password. Please try again.",
-    "password_too_short": "Password must be at least 6 characters long.",
-    "reset_session_expired": "Reset session expired. Please request a new reset email.",
-    "account_not_found": "No account found with this email address.",
-    "reset_rate_limit": "Too many attempts. Please wait before trying again."
+    "google_signin_error": "Gagal masuk dengan Google. Silakan coba lagi.",
+    "email_not_confirmed": "Silakan periksa email Anda dan konfirmasi alamat Anda.",
+    "email_already_registered": "Akun dengan email ini sudah ada.",
+    "password_update_success": "Kata sandi berhasil diperbarui!",
+    "password_update_error": "Gagal memperbarui kata sandi. Silakan coba lagi.",
+    "password_too_short": "Kata sandi harus terdiri dari minimal 6 karakter.",
+    "reset_session_expired": "Sesi reset telah kedaluwarsa. Silakan minta email reset baru.",
+    "account_not_found": "Tidak ditemukan akun dengan alamat email ini.",
+    "reset_rate_limit": "Terlalu banyak percobaan. Harap tunggu sebelum mencoba lagi."
   },
   "error": {
     "404": "\"Nikki, ayo kita tetap di perairan dangkal\"",

@@ -49,12 +49,12 @@
       </n-card>
 
       <!-- Banner Cards Skeleton -->
-      <div class="space-y-4">
+      <div class="space-y-2 sm:space-y-4">
         <n-card
           v-for="i in 3"
           :key="i"
           size="small"
-          class="rounded-xl mt-2 sm:mt-4"
+          class="rounded-xl"
           content-class="!p-2 sm:!p-4"
         >
           <div class="space-y-2">
@@ -111,10 +111,9 @@
       </div>
     </template>
 
-    <!-- Content (only show when not loading) -->
     <div
       v-else
-      class="png-export-container"
+      class="png-export-container space-y-2 sm:space-y-4"
     >
       <!-- Stats Header -->
       <n-card
@@ -285,519 +284,550 @@
               <p class="text-sm text-gray-400">
                 {{ t('tracker.export.generated_from') }}
               </p>
-              <p class="text-xl">{{ t('navigation.title') }}</p>
+              <p class="text-xl inline-flex items-center justify-center gap-2">
+                <NuxtImg
+                  src="images/logo.webp"
+                  width="80"
+                  height="80"
+                  fit="cover"
+                  loading="lazy"
+                  :alt="t('navigation.title')"
+                  class="h-6 w-6 rounded-md"
+                />
+                <span>{{ t('navigation.title') }}</span>
+              </p>
             </n-card>
 
             <div
               v-show="!exporting"
-              class="flex justify-end space-x-2 items-center m-1 sm:-m-1"
+              class="flex flex-col justify-between items-end h-full py-1"
             >
-              <n-popover trigger="click">
-                <template #trigger>
-                  <n-button
-                    size="small"
-                    text
-                    circle
-                    class="text-gray-500"
-                  >
-                    <template #icon>
-                      <n-icon><Database /></n-icon>
-                    </template>
-                  </n-button>
-                </template>
-                <div class="min-w-[150px] p-0">
-                  <div
-                    class="text-sm text-gray-400 mb-2 text-center flex items-center justify-center"
-                  >
-                    {{ t('tracker.banner.settings.data_source') }}
-                    <n-tooltip :width="200">
-                      <template #trigger>
-                        <n-button
-                          size="tiny"
-                          text
-                          class="z-10 ml-2"
-                        >
-                          <template #icon>
-                            <n-icon :depth="3">
-                              <ExclamationCircle />
-                            </n-icon>
-                          </template>
-                        </n-button>
-                      </template>
-                      {{ t('tracker.banner.settings.data_source_tooltip') }}
-                      <br />
-                      {{ t('tracker.banner.settings.auto_option') }}
-                    </n-tooltip>
-                  </div>
-
-                  <n-select
-                    v-model:value="effectiveDataSource"
-                    size="small"
-                    :options="[
-                      {
-                        label: t('tracker.banner.settings.game'),
-                        value: 'game',
-                      },
-                      {
-                        label: t('tracker.banner.settings.pearpal'),
-                        value: 'pearpal',
-                      },
-                      {
-                        label: t('tracker.banner.settings.auto'),
-                        value: 'auto',
-                      },
-                    ]"
-                  />
-                </div>
-              </n-popover>
-
-              <!-- Export Button -->
-              <n-popover
-                trigger="manual"
-                :show="showPopover"
-                @clickoutside="showPopover = false"
+              <n-button
+                size="small"
+                type="primary"
+                class="relative overflow-hidden after:content-[''] after:absolute after:inset-y-0 after:-left-full after:w-[60%] after:bg-gradient-to-r after:from-transparent after:via-white/15 after:to-transparent after:animate-button-shimmer motion-reduce:after:animate-none"
+                @click="() => navigateTo(localePath('/stats'))"
               >
-                <template #trigger>
-                  <n-button
-                    size="small"
-                    text
-                    circle
-                    class="text-gray-500"
-                    @click="showPopover = !showPopover"
-                  >
-                    <template #icon>
-                      <n-icon>
-                        <Download />
-                      </n-icon>
-                    </template>
-                  </n-button>
-                </template>
-                <div class="space-y-2 w-28 text-center">
-                  <n-button
-                    text
-                    class="text-gray-400 hover:text-gray-600"
-                    @click="exportPNG"
-                  >
-                    <template #icon>
-                      <n-icon>
-                        <FileImageRegular />
-                      </n-icon>
-                    </template>
-                    {{ t('tracker.export.png') }}
-                  </n-button>
-                  <n-button
-                    block
-                    text
-                    class="text-gray-400 hover:text-gray-600"
-                    @click="exportJSON"
-                  >
-                    <template #icon>
-                      <n-icon>
-                        <FileExport />
-                      </n-icon>
-                    </template>
-                    {{ t('tracker.export.json') }}
-                  </n-button>
-                </div>
-              </n-popover>
+                {{ $t('navigation.stats') }}
+              </n-button>
+              <div class="flex justify-end gap-2 items-center">
+                <!-- Export Button -->
+                <n-popover
+                  trigger="manual"
+                  :show="showPopover"
+                  @clickoutside="showPopover = false"
+                >
+                  <template #trigger>
+                    <n-button
+                      size="small"
+                      text
+                      circle
+                      class="text-gray-500"
+                      @click="showPopover = !showPopover"
+                    >
+                      <template #icon>
+                        <n-icon>
+                          <Download />
+                        </n-icon>
+                      </template>
+                    </n-button>
+                  </template>
+                  <div class="space-y-2 w-28 text-center">
+                    <n-button
+                      text
+                      class="text-gray-400 hover:text-gray-600"
+                      @click="exportPNG"
+                    >
+                      <template #icon>
+                        <n-icon>
+                          <FileImageRegular />
+                        </n-icon>
+                      </template>
+                      {{ t('tracker.export.png') }}
+                    </n-button>
+                    <n-button
+                      block
+                      text
+                      class="text-gray-400 hover:text-gray-600"
+                      @click="exportJSON"
+                    >
+                      <template #icon>
+                        <n-icon>
+                          <FileExport />
+                        </n-icon>
+                      </template>
+                      {{ t('tracker.export.json') }}
+                    </n-button>
+                  </div>
+                </n-popover>
 
-              <n-popover trigger="click">
-                <template #trigger>
-                  <n-button
-                    size="small"
-                    text
-                    circle
-                    class="text-gray-500"
-                  >
-                    <template #icon>
-                      <n-icon>
-                        <Cog />
-                      </n-icon>
-                    </template>
-                  </n-button>
-                </template>
-                <div class="min-w-[200px]">
-                  <div class="space-y-4">
-                    <div class="flex items-center justify-between">
-                      <n-switch v-model:value="settings.sortBanner">
-                        <template #checked>{{
-                          $t('tracker.banner.settings.oldest_first')
-                        }}</template>
-                        <template #unchecked>{{
-                          $t('tracker.banner.settings.latest_first')
-                        }}</template>
-                      </n-switch>
-                      <span class="text-sm text-gray-400 ml-3">
-                        {{ t('tracker.banner.settings.banner_order') }}
-                      </span>
-                    </div>
-                    <div class="flex items-center justify-between">
-                      <n-switch v-model:value="settings.sortItems">
-                        <template #checked>{{
-                          $t('tracker.banner.settings.oldest_first')
-                        }}</template>
-                        <template #unchecked>{{
-                          $t('tracker.banner.settings.latest_first')
-                        }}</template>
-                      </n-switch>
-                      <span class="text-sm text-gray-400 ml-3">
-                        {{ t('tracker.banner.settings.item_order') }}
-                      </span>
-                    </div>
-                    <div class="flex items-center justify-between">
-                      <n-switch v-model:value="settings.combineOutfits">
-                        <template #checked>{{
-                          $t('tracker.banner.settings.combined')
-                        }}</template>
-                        <template #unchecked>{{
-                          $t('tracker.banner.settings.separated')
-                        }}</template>
-                      </n-switch>
-                      <span class="text-sm text-gray-400 ml-3">
-                        {{ t('tracker.banner.settings.outfit_display') }}
-                      </span>
-                    </div>
-                    <div class="flex items-center justify-between">
-                      <n-switch v-model:value="settings.show4StarItems">
-                        <template #checked>{{ $t('common.show') }}</template>
-                        <template #unchecked>{{ $t('common.hide') }}</template>
-                      </n-switch>
-                      <span class="text-sm text-gray-400 ml-3">
-                        {{ t('tracker.banner.settings.show_4star') }}
-                      </span>
-                    </div>
-                    <div class="flex items-center justify-between">
-                      <n-switch v-model:value="settings.showDuplicates">
-                        <template #checked>{{ $t('common.show') }}</template>
-                        <template #unchecked>{{ $t('common.hide') }}</template>
-                      </n-switch>
-                      <span class="text-sm text-gray-400 ml-3">
-                        {{ t('tracker.banner.settings.duplicate_items') }}
-                      </span>
-                    </div>
-                    <div class="flex items-center justify-between">
-                      <n-switch v-model:value="settings.showMissingPieces">
-                        <template #checked>{{ $t('common.show') }}</template>
-                        <template #unchecked>{{ $t('common.hide') }}</template>
-                      </n-switch>
-                      <span class="text-sm text-gray-400 ml-3">
-                        {{ t('tracker.banner.settings.show_missing') }}
-                      </span>
-                    </div>
-                    <div class="flex items-center justify-between">
-                      <n-switch v-model:value="settings.showEmptyBanners">
-                        <template #checked>{{ $t('common.show') }}</template>
-                        <template #unchecked>{{ $t('common.hide') }}</template>
-                      </n-switch>
-                      <span class="text-sm text-gray-400 ml-3">
-                        {{ t('tracker.banner.settings.empty_banners') }}
-                      </span>
+                <!-- Settings Button -->
+                <n-popover trigger="click">
+                  <template #trigger>
+                    <n-button
+                      size="small"
+                      text
+                      circle
+                      class="text-gray-500"
+                    >
+                      <template #icon>
+                        <n-icon>
+                          <Cog />
+                        </n-icon>
+                      </template>
+                    </n-button>
+                  </template>
+                  <div class="min-w-[200px]">
+                    <div class="space-y-4">
+                      <div class="flex items-center justify-between">
+                        <n-switch v-model:value="settings.sortBanner">
+                          <template #checked>{{
+                            $t('tracker.banner.settings.oldest_first')
+                          }}</template>
+                          <template #unchecked>{{
+                            $t('tracker.banner.settings.latest_first')
+                          }}</template>
+                        </n-switch>
+                        <span class="text-sm text-gray-400 ml-3">
+                          {{ t('tracker.banner.settings.banner_order') }}
+                        </span>
+                      </div>
+                      <div class="flex items-center justify-between">
+                        <n-switch v-model:value="settings.sortItems">
+                          <template #checked>{{
+                            $t('tracker.banner.settings.oldest_first')
+                          }}</template>
+                          <template #unchecked>{{
+                            $t('tracker.banner.settings.latest_first')
+                          }}</template>
+                        </n-switch>
+                        <span class="text-sm text-gray-400 ml-3">
+                          {{ t('tracker.banner.settings.item_order') }}
+                        </span>
+                      </div>
+                      <div class="flex items-center justify-between">
+                        <n-switch v-model:value="settings.combineOutfits">
+                          <template #checked>{{
+                            $t('tracker.banner.settings.combined')
+                          }}</template>
+                          <template #unchecked>{{
+                            $t('tracker.banner.settings.separated')
+                          }}</template>
+                        </n-switch>
+                        <span class="text-sm text-gray-400 ml-3">
+                          {{ t('tracker.banner.settings.outfit_display') }}
+                        </span>
+                      </div>
+                      <div class="flex items-center justify-between">
+                        <n-switch v-model:value="settings.show4StarItems">
+                          <template #checked>{{ $t('common.show') }}</template>
+                          <template #unchecked>{{
+                            $t('common.hide')
+                          }}</template>
+                        </n-switch>
+                        <span class="text-sm text-gray-400 ml-3">
+                          {{ t('tracker.banner.settings.show_4star') }}
+                        </span>
+                      </div>
+                      <div class="flex items-center justify-between">
+                        <n-switch v-model:value="settings.showDuplicates">
+                          <template #checked>{{ $t('common.show') }}</template>
+                          <template #unchecked>{{
+                            $t('common.hide')
+                          }}</template>
+                        </n-switch>
+                        <span class="text-sm text-gray-400 ml-3">
+                          {{ t('tracker.banner.settings.duplicate_items') }}
+                        </span>
+                      </div>
+                      <div class="flex items-center justify-between">
+                        <n-switch v-model:value="settings.showMissingPieces">
+                          <template #checked>{{ $t('common.show') }}</template>
+                          <template #unchecked>{{
+                            $t('common.hide')
+                          }}</template>
+                        </n-switch>
+                        <span class="text-sm text-gray-400 ml-3">
+                          {{ t('tracker.banner.settings.show_missing') }}
+                        </span>
+                      </div>
+                      <div class="flex items-center justify-between">
+                        <n-switch v-model:value="settings.showEmptyBanners">
+                          <template #checked>{{ $t('common.show') }}</template>
+                          <template #unchecked>{{
+                            $t('common.hide')
+                          }}</template>
+                        </n-switch>
+                        <span class="text-sm text-gray-400 ml-3">
+                          {{ t('tracker.banner.settings.empty_banners') }}
+                        </span>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </n-popover>
+                </n-popover>
+
+                <!-- Data Source Button -->
+                <n-popover trigger="click">
+                  <template #trigger>
+                    <n-button
+                      size="small"
+                      text
+                      circle
+                      class="text-gray-500"
+                    >
+                      <template #icon>
+                        <n-icon><Database /></n-icon>
+                      </template>
+                    </n-button>
+                  </template>
+                  <div class="min-w-[150px] p-0">
+                    <div
+                      class="text-sm text-gray-400 mb-2 text-center flex items-center justify-center"
+                    >
+                      {{ t('tracker.banner.settings.data_source') }}
+                      <n-tooltip :width="200">
+                        <template #trigger>
+                          <n-button
+                            size="tiny"
+                            text
+                            class="z-10 ml-2"
+                          >
+                            <template #icon>
+                              <n-icon :depth="3">
+                                <ExclamationCircle />
+                              </n-icon>
+                            </template>
+                          </n-button>
+                        </template>
+                        {{ t('tracker.banner.settings.data_source_tooltip') }}
+                        <br />
+                        {{ t('tracker.banner.settings.auto_option') }}
+                      </n-tooltip>
+                    </div>
+
+                    <n-select
+                      v-model:value="effectiveDataSource"
+                      size="small"
+                      :options="[
+                        {
+                          label: t('tracker.banner.settings.game'),
+                          value: 'game',
+                        },
+                        {
+                          label: t('tracker.banner.settings.pearpal'),
+                          value: 'pearpal',
+                        },
+                        {
+                          label: t('tracker.banner.settings.auto'),
+                          value: 'auto',
+                        },
+                      ]"
+                    />
+                  </div>
+                </n-popover>
+              </div>
             </div>
           </div>
         </div>
       </n-card>
 
       <!-- Banner List -->
-      <div class="space-y-4">
-        <div>
-          <template
-            v-for="banner in sortedBanners"
-            :key="banner.bannerId"
+      <div class="space-y-2 sm:space-y-4">
+        <template
+          v-for="banner in sortedBanners"
+          :key="banner.bannerId"
+        >
+          <n-card
+            content-class="!p-2 sm:!pt-2 sm:!p-4"
+            size="small"
+            class="rounded-xl min-h-[120px] sm:min-h-[160px]"
           >
-            <n-card
-              content-class="!p-2 sm:!pt-2 sm:!p-4"
-              size="small"
-              class="rounded-xl min-h-[120px] sm:min-h-[160px] mt-2 sm:mt-4"
-            >
-              <!-- Banner Header -->
+            <!-- Banner Header -->
 
-              <div
-                class="w-full flex flex-col sm:flex-row sm:items-center gap-2"
-              >
-                <div class="flex items-center gap-2">
+            <div class="w-full flex flex-col sm:flex-row sm:items-center gap-2">
+              <div class="flex items-center gap-2">
+                <NuxtLinkLocale
+                  no-prefetch
+                  :to="`/banners/${banner.bannerId}`"
+                  class="inline w-fit hover:opacity-95 transition-opacity"
+                >
+                  <n-gradient-text
+                    :size="18"
+                    class="m-0 font-medium break-words"
+                    :type="banner.bannerType === 2 ? 'warning' : 'info'"
+                  >
+                    {{ $t(`banner.${banner.bannerId}.name`) }}
+                  </n-gradient-text>
+                </NuxtLinkLocale>
+              </div>
+
+              <div class="flex flex-wrap gap-2 w-full sm:w-[calc(100%-500px)]">
+                <template
+                  v-for="outfit in banner.outfits"
+                  :key="outfit.id"
+                >
                   <NuxtLinkLocale
                     no-prefetch
-                    :to="`/banners/${banner.bannerId}`"
-                    class="inline w-fit hover:opacity-95 transition-opacity"
+                    :to="`/outfits/${outfit.id}`"
+                    class="inline-block"
                   >
-                    <n-gradient-text
-                      :size="18"
-                      class="m-0 font-medium break-words"
-                      :type="banner.bannerType === 2 ? 'warning' : 'info'"
+                    <n-tag
+                      :color="getQualityTextTheme(outfit.quality)"
+                      :bordered="false"
+                      round
+                      size="small"
+                      class="px-2 gap-1 cursor-pointer hover:opacity-80 transition-opacity"
                     >
-                      {{ $t(`banner.${banner.bannerId}.name`) }}
-                    </n-gradient-text>
+                      <span class="flex items-center gap-1">
+                        {{ $t(`outfit.${outfit.id}.name`) }}
+                        {{ outfit.quality }}
+                        <n-icon> <Star /> </n-icon
+                        ><n-icon v-if="outfit.completion >= 1"
+                          ><CheckCircle
+                        /></n-icon>
+                      </span>
+                    </n-tag>
                   </NuxtLinkLocale>
-                </div>
+                </template>
+              </div>
+            </div>
 
-                <div
-                  class="flex flex-wrap gap-2 w-full sm:w-[calc(100%-500px)]"
-                >
-                  <template
-                    v-for="outfit in banner.outfits"
-                    :key="outfit.id"
+            <div
+              :class="
+                exporting
+                  ? 'mt-1 flex flex-row justify-between space-x-2 sm:absolute sm:right-2 sm:top-2 sm:mt-0 sm:justify-start'
+                  : 'absolute right-2 top-2 flex flex-row space-x-2'
+              "
+            >
+              <div
+                v-show="exporting"
+                class="flex justify-between gap-2 items-baseline text-md text-gray-400"
+              >
+                <div class="whitespace-nowrap">
+                  <span>{{ t('tracker.banner.stats.total_pulls') }}:</span>
+                  <span
+                    class="ml-1 text-lg font-medium text-gray-600 dark:text-gray-200"
+                    >{{ banner.stats.totalPulls }}</span
                   >
-                    <NuxtLinkLocale
-                      no-prefetch
-                      :to="`/outfits/${outfit.id}`"
-                      class="inline-block"
-                    >
-                      <n-tag
-                        :color="getQualityTextTheme(outfit.quality)"
-                        :bordered="false"
-                        round
-                        size="small"
-                        class="px-2 cursor-pointer hover:opacity-80 transition-opacity"
-                      >
-                        <span class="align-top"
-                          >{{ $t(`outfit.${outfit.id}.name`) }}
-                          {{ outfit.quality }}</span
-                        >
-                        <span class="ml-1"
-                          ><n-icon><Star /></n-icon
-                        ></span>
-                        <span
-                          v-if="outfit.completion >= 1"
-                          class="ml-1"
-                          ><n-icon><CheckCircle /></n-icon
-                        ></span>
-                      </n-tag>
-                    </NuxtLinkLocale>
-                  </template>
+                </div>
+                <div
+                  v-if="banner.bannerType === 1 || banner.bannerType === 2"
+                  class="whitespace-nowrap"
+                >
+                  <span>{{ t('tracker.banner.stats.avg_5star') }}:</span>
+                  <span class="text-amber-500 ml-1 text-lg font-medium">{{
+                    banner.stats.avg5StarPulls.toFixed(2)
+                  }}</span>
+                </div>
+                <div
+                  v-if="banner.bannerType === 3"
+                  class="whitespace-nowrap"
+                >
+                  <span>{{ t('tracker.banner.stats.avg_4star') }}:</span>
+                  <span class="text-blue-500 ml-1 text-lg font-medium">{{
+                    banner.stats.avg4StarOnlyPulls.toFixed(2)
+                  }}</span>
                 </div>
               </div>
-              <div class="absolute right-2 top-2 flex flex-row space-x-2">
-                <div
-                  v-show="exporting"
-                  class="flex justify-between gap-2 items-baseline text-md text-gray-400"
+
+              <div class="flex flex-row space-x-2 p-1">
+                <DiceAnimation
+                  v-if="banner.stats.totalPulls > 0"
+                  :percentile="
+                    banner.bannerType === 3
+                      ? getBannerAvg4StarType3Percentile(
+                          banner.stats.avg4StarOnlyPulls
+                        )
+                      : getBannerAvg5StarPercentile(banner.stats.avg5StarPulls)
+                  "
+                />
+
+                <!-- Stats Button -->
+                <n-popover
+                  v-if="banner.stats.totalPulls > 0"
+                  trigger="manual"
+                  :show="openStatsBannerId === banner.bannerId"
                 >
-                  <div>
-                    <span>{{ t('tracker.banner.stats.total_pulls') }}:</span>
-                    <span
-                      class="ml-1 text-lg font-medium text-gray-600 dark:text-gray-200"
-                      >{{ banner.stats.totalPulls }}</span
+                  <template #trigger>
+                    <n-button
+                      v-show="!exporting"
+                      size="small"
+                      text
+                      circle
+                      class="text-gray-500"
+                      @click="toggleStatsPopover(banner.bannerId)"
                     >
-                  </div>
-                  <div
-                    v-if="banner.bannerType === 1 || banner.bannerType === 2"
-                  >
-                    <span>{{ t('tracker.banner.stats.avg_5star') }}:</span>
-                    <span class="text-amber-500 ml-1 text-lg font-medium">{{
-                      banner.stats.avg5StarPulls.toFixed(2)
-                    }}</span>
-                  </div>
-                  <div v-if="banner.bannerType === 3">
-                    <span>{{ t('tracker.banner.stats.avg_4star') }}:</span>
-                    <span class="text-blue-500 ml-1 text-lg font-medium">{{
-                      banner.stats.avg4StarOnlyPulls.toFixed(2)
-                    }}</span>
-                  </div>
-                </div>
-
-                <div class="flex flex-row space-x-2 p-1">
-                  <DiceAnimation
-                    v-if="banner.stats.totalPulls > 0"
-                    :percentile="
-                      banner.bannerType === 3
-                        ? getAvg4StarType3Percentile(
-                            banner.stats.avg4StarOnlyPulls
-                          )
-                        : getAvg5StarPercentile(banner.stats.avg5StarPulls)
-                    "
-                  />
-
-                  <!-- Stats Button -->
-                  <n-popover
-                    v-if="banner.stats.totalPulls > 0"
-                    trigger="manual"
-                    :show="openStatsBannerId === banner.bannerId"
-                  >
-                    <template #trigger>
-                      <n-button
-                        v-show="!exporting"
-                        size="small"
-                        text
-                        circle
-                        class="text-gray-500"
-                        @click="toggleStatsPopover(banner.bannerId)"
+                      <template #icon>
+                        <n-icon>
+                          <ChartBarRegular />
+                        </n-icon>
+                      </template>
+                    </n-button>
+                  </template>
+                  <div class="min-w-[150px]">
+                    <div class="space-y-2 px-2 text-base">
+                      <div class="flex justify-between">
+                        <span class="text-sm">
+                          {{ t('tracker.banner.stats.total_pulls') }}
+                        </span>
+                        <span class="font-medium">{{
+                          banner.stats.totalPulls
+                        }}</span>
+                      </div>
+                      <div
+                        v-if="
+                          banner.bannerType === 1 || banner.bannerType === 2
+                        "
+                        class="flex justify-between"
                       >
-                        <template #icon>
-                          <n-icon>
-                            <ChartBarRegular />
-                          </n-icon>
-                        </template>
-                      </n-button>
-                    </template>
-                    <div class="min-w-[150px]">
-                      <div class="space-y-2 px-2 text-base">
-                        <div class="flex justify-between">
-                          <span class="text-sm">
-                            {{ t('tracker.banner.stats.total_pulls') }}
-                          </span>
-                          <span class="font-medium">{{
-                            banner.stats.totalPulls
-                          }}</span>
-                        </div>
-                        <div
-                          v-if="
-                            banner.bannerType === 1 || banner.bannerType === 2
-                          "
-                          class="flex justify-between"
-                        >
-                          <span class="text-sm">
-                            {{ t('tracker.banner.stats.total_5star') }}
-                          </span>
-                          <span class="font-medium text-amber-500">{{
-                            banner.stats.total5StarItems
-                          }}</span>
-                        </div>
-                        <div
-                          v-if="
-                            banner.bannerType === 1 || banner.bannerType === 2
-                          "
-                          class="flex justify-between"
-                        >
-                          <span class="text-sm">
-                            {{ t('tracker.banner.stats.avg_5star') }}
-                          </span>
-                          <span class="font-medium text-amber-500">{{
-                            banner.stats.avg5StarPulls.toFixed(2)
-                          }}</span>
-                        </div>
-                        <div
-                          v-if="
-                            (banner.bannerType === 1 ||
-                              banner.bannerType === 2) &&
-                            banner.stats.completion < 2
-                          "
-                          class="flex justify-between"
-                        >
-                          <span class="text-sm">
-                            {{ t('tracker.banner.stats.pity_5star') }}
-                          </span>
-                          <span class="font-medium">{{
-                            banner.stats.pity5Star
-                          }}</span>
-                        </div>
-                        <div
-                          v-if="
-                            banner.bannerType === 1 || banner.bannerType === 2
-                          "
-                          class="flex justify-between"
-                        >
-                          <span class="text-sm">
-                            {{ t('tracker.banner.stats.total_4star') }}
-                          </span>
-                          <span class="font-medium text-blue-500">{{
-                            banner.stats.total4StarItems
-                          }}</span>
-                        </div>
-                        <div
-                          v-if="
-                            banner.bannerType === 1 || banner.bannerType === 2
-                          "
-                          class="flex justify-between"
-                        >
-                          <span class="text-sm">
-                            {{ t('tracker.banner.stats.avg_4star') }}
-                          </span>
-                          <span class="font-medium text-blue-500">{{
-                            banner.stats.avg4StarPulls.toFixed(2)
-                          }}</span>
-                        </div>
-                        <div
-                          v-if="banner.bannerType === 3"
-                          class="flex justify-between"
-                        >
-                          <span class="text-sm">
-                            {{ t('tracker.banner.stats.total_4star') }}
-                          </span>
-                          <span class="font-medium text-blue-500">{{
-                            banner.stats.total4StarOnlyItems
-                          }}</span>
-                        </div>
-                        <div
-                          v-if="banner.bannerType === 3"
-                          class="flex justify-between"
-                        >
-                          <span class="text-sm">
-                            {{ t('tracker.banner.stats.avg_4star') }}
-                          </span>
-                          <span class="font-medium text-blue-500">{{
-                            banner.stats.avg4StarOnlyPulls.toFixed(2)
-                          }}</span>
-                        </div>
-                        <div
-                          v-if="
-                            banner.bannerType === 3 &&
-                            banner.stats.completion < 2
-                          "
-                          class="flex justify-between"
-                        >
-                          <span class="text-sm">
-                            {{ t('tracker.banner.stats.pity_4star') }}
-                          </span>
-                          <span class="font-medium">{{
-                            banner.stats.pity4Star
-                          }}</span>
-                        </div>
+                        <span class="text-sm">
+                          {{ t('tracker.banner.stats.total_5star') }}
+                        </span>
+                        <span class="font-medium text-amber-500">{{
+                          banner.stats.total5StarItems
+                        }}</span>
+                      </div>
+                      <div
+                        v-if="
+                          banner.bannerType === 1 || banner.bannerType === 2
+                        "
+                        class="flex justify-between"
+                      >
+                        <span class="text-sm">
+                          {{ t('tracker.banner.stats.avg_5star') }}
+                        </span>
+                        <span class="font-medium text-amber-500">{{
+                          banner.stats.avg5StarPulls.toFixed(2)
+                        }}</span>
+                      </div>
+                      <div
+                        v-if="
+                          (banner.bannerType === 1 ||
+                            banner.bannerType === 2) &&
+                          banner.stats.completion < 2
+                        "
+                        class="flex justify-between"
+                      >
+                        <span class="text-sm">
+                          {{ t('tracker.banner.stats.pity_5star') }}
+                        </span>
+                        <span class="font-medium">{{
+                          banner.stats.pity5Star
+                        }}</span>
+                      </div>
+                      <div
+                        v-if="
+                          banner.bannerType === 1 || banner.bannerType === 2
+                        "
+                        class="flex justify-between"
+                      >
+                        <span class="text-sm">
+                          {{ t('tracker.banner.stats.total_4star') }}
+                        </span>
+                        <span class="font-medium text-blue-500">{{
+                          banner.stats.total4StarItems
+                        }}</span>
+                      </div>
+                      <div
+                        v-if="
+                          banner.bannerType === 1 || banner.bannerType === 2
+                        "
+                        class="flex justify-between"
+                      >
+                        <span class="text-sm">
+                          {{ t('tracker.banner.stats.avg_4star') }}
+                        </span>
+                        <span class="font-medium text-blue-500">{{
+                          banner.stats.avg4StarPulls.toFixed(2)
+                        }}</span>
+                      </div>
+                      <div
+                        v-if="banner.bannerType === 3"
+                        class="flex justify-between"
+                      >
+                        <span class="text-sm">
+                          {{ t('tracker.banner.stats.total_4star') }}
+                        </span>
+                        <span class="font-medium text-blue-500">{{
+                          banner.stats.total4StarOnlyItems
+                        }}</span>
+                      </div>
+                      <div
+                        v-if="banner.bannerType === 3"
+                        class="flex justify-between"
+                      >
+                        <span class="text-sm">
+                          {{ t('tracker.banner.stats.avg_4star') }}
+                        </span>
+                        <span class="font-medium text-blue-500">{{
+                          banner.stats.avg4StarOnlyPulls.toFixed(2)
+                        }}</span>
+                      </div>
+                      <div
+                        v-if="
+                          banner.bannerType === 3 && banner.stats.completion < 2
+                        "
+                        class="flex justify-between"
+                      >
+                        <span class="text-sm">
+                          {{ t('tracker.banner.stats.pity_4star') }}
+                        </span>
+                        <span class="font-medium">{{
+                          banner.stats.pity4Star
+                        }}</span>
                       </div>
                     </div>
-                  </n-popover>
+                  </div>
+                </n-popover>
 
-                  <n-button
-                    v-show="!exporting"
-                    text
-                    size="small"
-                    class="text-gray-500"
-                    @click="
-                      () => {
-                        selectedBannerId = banner.bannerId
-                        showCollectionEditor = true
-                      }
-                    "
-                  >
-                    <template #icon>
-                      <n-icon><Edit /></n-icon>
-                    </template>
-                  </n-button>
-                </div>
+                <n-button
+                  v-show="!exporting"
+                  text
+                  size="small"
+                  class="text-gray-500"
+                  @click="
+                    () => {
+                      selectedBannerId = banner.bannerId
+                      showCollectionEditor = true
+                    }
+                  "
+                >
+                  <template #icon>
+                    <n-icon><Edit /></n-icon>
+                  </template>
+                </n-button>
               </div>
+            </div>
 
-              <!-- Combined Outfits View -->
-              <template v-if="settings.combineOutfits">
-                <div
-                  class="grid grid-cols-5 sm:grid-cols-8 lg:grid-cols-10 gap-2 mt-2"
-                >
-                  <ItemDataCard
-                    v-for="pull in banner.combinedPulls"
-                    :key="`${pull.itemId}-${pull.count}`"
-                    :item="pull"
-                  />
-                </div>
-              </template>
+            <!-- Combined Outfits View -->
+            <template v-if="settings.combineOutfits">
+              <div
+                class="grid grid-cols-5 sm:grid-cols-8 lg:grid-cols-10 gap-2 mt-2"
+              >
+                <ItemDataCard
+                  v-for="pull in banner.combinedPulls"
+                  :key="`${pull.itemId}-${pull.count}`"
+                  :item="pull"
+                />
+              </div>
+            </template>
 
-              <!-- Separated Outfits View -->
-              <template v-else>
-                <div
-                  v-for="outfitGroup in banner.separatedOutfitPulls"
-                  :key="outfitGroup.outfitId"
-                  class="grid grid-cols-5 sm:grid-cols-8 lg:grid-cols-10 gap-2 mt-2"
-                >
-                  <ItemDataCard
-                    v-for="pull in outfitGroup.pulls"
-                    :key="`${pull.itemId}-${pull.count}`"
-                    :item="pull"
-                  />
-                </div>
-              </template>
-            </n-card>
-          </template>
-        </div>
+            <!-- Separated Outfits View -->
+            <template v-else>
+              <div
+                v-for="outfitGroup in banner.separatedOutfitPulls"
+                :key="outfitGroup.outfitId"
+                class="grid grid-cols-5 sm:grid-cols-8 lg:grid-cols-10 gap-2 mt-2"
+              >
+                <ItemDataCard
+                  v-for="pull in outfitGroup.pulls"
+                  :key="`${pull.itemId}-${pull.count}`"
+                  :item="pull"
+                />
+              </div>
+            </template>
+          </n-card>
+        </template>
       </div>
 
       <!-- No Data Message -->
@@ -813,7 +843,7 @@
         >
           <template #icon>
             <NuxtImg
-              :src="getImageSrc('static', '/images/emotes/think.webp')"
+              :src="getImageSrc('emote', 'think')"
               :alt="$t('tracker.no_data.title')"
               class="mx-auto w-24 h-24 sm:w-32 sm:h-32 object-cover"
               width="200"
@@ -835,7 +865,10 @@
       </n-card>
 
       <!-- Sample Banners -->
-      <div v-if="!hasAnyData">
+      <div
+        v-if="!hasAnyData"
+        class="space-y-2 sm:space-y-4"
+      >
         <template
           v-for="banner in sampleBanners"
           :key="banner.bannerId"
@@ -843,7 +876,7 @@
           <n-card
             content-class="!p-2 sm:!pt-2 sm:!p-4"
             size="small"
-            class="rounded-xl min-h-[120px] sm:min-h-[160px] mt-2 sm:mt-4 opacity-40"
+            class="rounded-xl min-h-[120px] sm:min-h-[160px] opacity-40"
           >
             <!-- Banner Header -->
             <div class="w-full flex flex-col sm:flex-row sm:items-center gap-2">
@@ -877,20 +910,16 @@
                         :bordered="false"
                         round
                         size="small"
-                        class="px-2 cursor-pointer"
+                        class="px-2 gap-1 cursor-pointer"
                       >
-                        <span class="align-top"
-                          >{{ $t(`outfit.${outfit.id}.name`) }}
-                          {{ outfit.quality }}</span
-                        >
-                        <span class="ml-1"
-                          ><n-icon><Star /></n-icon
-                        ></span>
-                        <span
-                          v-if="outfit.completion >= 1"
-                          class="ml-1"
-                          ><n-icon><CheckCircle /></n-icon
-                        ></span>
+                        <span class="flex items-center gap-1">
+                          {{ $t(`outfit.${outfit.id}.name`) }}
+                          {{ outfit.quality }}
+                          <n-icon> <Star /> </n-icon
+                          ><n-icon v-if="outfit.completion >= 1"
+                            ><CheckCircle
+                          /></n-icon>
+                        </span>
                       </n-tag>
                     </NuxtLinkLocale>
                   </div>
@@ -1201,6 +1230,8 @@
     getAvg5StarPercentile,
     getAvg4StarType2Percentile,
     getAvg4StarType3Percentile,
+    getBannerAvg5StarPercentile,
+    getBannerAvg4StarType3Percentile,
     getTotalPullsPercentile,
   } = await import('~/utils/percentile')
 

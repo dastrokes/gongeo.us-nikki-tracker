@@ -65,7 +65,7 @@
     "join_community": "Community beitreten",
     "support_website": "Support-Webseite",
     "nuan5pro": "Nuan5.Pro",
-    "stats": "Personal Stats"
+    "stats": "Persönliche Statistiken"
   },
   "meta": {
     "title": "Infinity Nikki Resonanz-Tracker - Bannerverlauf & Statistiken",
@@ -87,7 +87,7 @@
       "item_detail": "Schau dir detaillierte Informationen über das Stück {name} an, einschließlich Qualität, Evolution und Verschönerung, Statuswerten und verwandter Outfits und Bannern.",
       "faq": "Finde die Antworten auf häufig gestellte Fragen über gongeo.us, einschließlich Datenschutz, Importmethoden und Nutzungsrichtlinien.",
       "about": "Lerne mehr über gongeo.us, einschließlich seiner Zwecke, Datenschutzrichtlinien, Haftungsausschlüsse und wie es die Infinity Nikki Community unterstützt.",
-      "stats": "View your personal Infinity Nikki resonance pull statistics, luck analysis, streaks, and pulling activity."
+      "stats": "Schau dir deine persönlichen Infinity Nikki Resonanz-Statistiken, Glücksanalyse, Serien und Resonanz-Aktivität an."
     }
   },
   "default": {
@@ -445,8 +445,8 @@
         "pearpal": "Whim-Log",
         "game": "Spiel",
         "auto": "Automatisch",
-        "data_source_tooltip": "Wähle deine bevorzugte Datenquelle aus. Wenn keine Daten aus der ausgewählten Quelle verfügbar sind, wird stattdessen die andere Quelle verwendet. Es wird jeweils nur eine Quelle angezeigt und für Statistikberechnungen verwendet.",
-        "auto_option": "\"Automatisch\" kombiniert beide Quellen, die Quelle bevorzugend, die mehr Resonanzen beim jeweiligen Banner hat."
+        "data_source_tooltip": "Wähle eine bevorzugte Datenquelle aus. Falls nicht verfügbar, wird die andere Quelle als Rückfalloption verwendet.",
+        "auto_option": "\"Auto\" kombiniert beide Quellen, bevorzugend die, die mehr Resonanzen pro Banner hat."
       }
     },
     "items": {
@@ -531,7 +531,7 @@
       "data_as_of": "Daten von"
     },
     "charts": {
-      "pulls_per_banner": "Resonanzen per Banner",
+      "pulls_per_banner": "Resonanzen pro Banner",
       "five_star_distribution": "5★ Resonanz-Verteilung",
       "four_star_type2_distribution": "4★ Verteilung (5★ Banner)",
       "four_star_type3_distribution": "4★ Verteilung (4★ Banner)",
@@ -760,42 +760,42 @@
     }
   },
   "stats": {
-    "title": "Personal Stats",
+    "title": "Persönliche Statistiken",
     "overview": {
-      "luck_rating": "Luck Rating"
+      "luck_rating": "Glückswertung"
     },
-    "notice_limited": "Stats are from limited banners only. Permanent banners are excluded.",
+    "notice_limited": "Statistiken sind nur von limitierten Bannern. Permanente Banner sind ausgeschlossen.",
     "luck": {
-      "avg_pulls": "Avg {count} pulls",
+      "avg_pulls": "Durschn. {count} Resonanzen",
       "percentile": "Top {percent}%"
     },
     "charts": {
-      "luck_per_banner": "5★ Luck Per Banner",
-      "luck_per_banner_type3": "4★ Luck Per Banner",
-      "five_star_distribution": "5★ Pull Distribution",
-      "four_star_distribution": "4★ Distribution (5★ Banner)",
-      "four_star_type3_distribution": "4★ Distribution (4★ Banner)",
-      "pull_timeline": "Pull Activity",
-      "cumulative_pulls": "Cumulative",
-      "number_of_pulls": "Number of Pulls",
-      "frequency": "Frequency"
+      "luck_per_banner": "5★ Glück pro Banner",
+      "luck_per_banner_type3": "4★ Glück pro Banner",
+      "five_star_distribution": "5★ Resonanz--Verteilung",
+      "four_star_distribution": "4★ Verteilung (5★ Banner)",
+      "four_star_type3_distribution": "4★ Verteilung (4★ Banner)",
+      "pull_timeline": "Resonanz-Aktivität",
+      "cumulative_pulls": "Kumulativ",
+      "number_of_pulls": "Anzahl an Resonanzen",
+      "frequency": "Häufigkeit"
     },
     "share": {
-      "title": "Share Card",
-      "export_image": "Export as Image",
-      "landscape": "Landscape",
-      "portrait": "Portrait",
-      "in_progress": "Generating share card…",
-      "success": "Share card exported!",
-      "error": "Failed to export share card.",
-      "best_luck": "Best Luck",
-      "worst_luck": "Worst Luck",
+      "title": "Teilen-Karte",
+      "export_image": "Als Bild exportieren",
+      "landscape": "Landschaft",
+      "portrait": "Porträt",
+      "in_progress": "Teilen-Karte wird erstellt...",
+      "success": "Teilen-Karte exportiert!",
+      "error": "Teilen-Karte konnte nicht exportiert werden.",
+      "best_luck": "Bestes Glück",
+      "worst_luck": "Schlimmstes Glück",
       "top_percent": "Top {percent}%",
-      "bottom_percent": "Bottom {percent}%"
+      "bottom_percent": "Unteres {percent}%"
     },
     "no_data": {
-      "title": "No Stats Available",
-      "subtitle": "Import your resonance data to see your personal stats."
+      "title": "Keine Statistiken verfügbar",
+      "subtitle": "Importiere deine Resonanzdaten, um deine persönlichen Statistiken zu sehen."
     }
   }
 }

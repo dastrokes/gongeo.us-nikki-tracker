@@ -767,8 +767,8 @@
     "notice_limited": "สถิติมาจากแบนเนอร์จำกัดเวลาเท่านั้น ไม่รวมแบนเนอร์ถาวร",
     "luck": {
       "avg_pulls": "เฉลี่ย {count} ครั้ง",
-      "top_percent": "อันดับ {percent}% แรก",
-      "bottom_percent": "อันดับ {percent}% ท้าย"
+      "top_percent": "Top {percent}%",
+      "bottom_percent": "Bottom {percent}%"
     },
     "charts": {
       "luck_per_banner": "โชค 5★ ต่อแบนเนอร์",

@@ -767,7 +767,8 @@
     "notice_limited": "Les statistiques proviennent uniquement des bannières limitées. Les bannières permanentes sont exclues.",
     "luck": {
       "avg_pulls": "Moy. {count} pulls",
-      "percentile": "Top {percent}%"
+      "top_percent": "Top {percent}%",
+      "bottom_percent": "Bottom {percent}%"
     },
     "charts": {
       "luck_per_banner": "Chance 5★ par Bannière",
@@ -789,9 +790,7 @@
       "success": "Carte exportée !",
       "error": "Échec de l'exportation de la carte.",
       "best_luck": "Meilleure Chance",
-      "worst_luck": "Pire Chance",
-      "top_percent": "Top {percent}%",
-      "bottom_percent": "Bottom {percent}%"
+      "worst_luck": "Pire Chance"
     },
     "no_data": {
       "title": "Aucune Statistique",

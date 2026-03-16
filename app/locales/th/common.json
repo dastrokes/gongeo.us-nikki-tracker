@@ -160,8 +160,8 @@
       "theme_switcher": "สลับธีม",
       "user_profile_menu": "เมนูโปรไฟล์ผู้ใช้",
       "scroll_to_top": "เลื่อนไปด้านบน",
-      "close_menu": "ปิดเมนูนำทาง",
-      "luck_stats": "ดูสถิติโชค"
+      "close_menu": "Close navigation menu",
+      "luck_stats": "View luck stats"
     },
     "language_switcher": {
       "help_translate": "ช่วยแปลด้วย"
@@ -236,15 +236,15 @@
     "email_signup_error": "ไม่สามารถสร้างบัญชีได้ โปรดลองอีกครั้ง",
     "reset_error": "ไม่สามารถส่งอีเมลรีเซ็ตได้ โปรดลองอีกครั้ง",
     "or": "หรือ",
-    "google_signin_error": "ลงชื่อเข้าใช้ด้วย Google ไม่สำเร็จ โปรดลองอีกครั้ง",
-    "email_not_confirmed": "โปรดตรวจสอบอีเมลและยืนยันที่อยู่อีเมลของคุณ",
-    "email_already_registered": "มีบัญชีที่ใช้อีเมลนี้อยู่แล้ว",
-    "password_update_success": "อัปเดตรหัสผ่านสำเร็จแล้ว!",
-    "password_update_error": "ไม่สามารถอัปเดตรหัสผ่านได้ โปรดลองอีกครั้ง",
-    "password_too_short": "รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร",
-    "reset_session_expired": "เซสชันรีเซ็ตรหัสผ่านหมดอายุแล้ว โปรดขออีเมลรีเซ็ตใหม่",
-    "account_not_found": "ไม่พบบัญชีที่ใช้อีเมลนี้",
-    "reset_rate_limit": "พยายามมากเกินไป โปรดรอสักครู่ก่อนลองใหม่"
+    "google_signin_error": "Failed to sign in with Google. Please try again.",
+    "email_not_confirmed": "Please check your email and confirm your address.",
+    "email_already_registered": "An account with this email already exists.",
+    "password_update_success": "Password updated successfully!",
+    "password_update_error": "Failed to update password. Please try again.",
+    "password_too_short": "Password must be at least 6 characters long.",
+    "reset_session_expired": "Reset session expired. Please request a new reset email.",
+    "account_not_found": "No account found with this email address.",
+    "reset_rate_limit": "Too many attempts. Please wait before trying again."
   },
   "error": {
     "404": "“นิกกี้ไปอยู่ในน้ำตื้นกันเถอะ”",
@@ -445,8 +445,8 @@
         "pearpal": "Whim-Log",
         "game": "เกม",
         "auto": "อัตโนมัติ",
-        "data_source_tooltip": "เลือกแหล่งข้อมูลที่คุณต้องการ หากไม่มีข้อมูลจากแหล่งที่เลือก ระบบจะใช้แหล่งข้อมูลอื่นแทน แหล่งข้อมูลเดียวเท่านั้นที่แสดงและใช้สำหรับการคำนวณทางสถิติในแต่ละครั้ง",
-        "auto_option": "\"อัตโนมัติ\" จะรวมทั้งสองแหล่งเข้าด้วยกัน โดยเลือกแหล่งที่มาที่มีการดึงมากกว่าสำหรับแต่ละแบนเนอร์"
+        "data_source_tooltip": "Choose a data source. If unavailable, the other source is used as fallback.",
+        "auto_option": "\"Auto\" combines both sources, preferring the one with more pulls per banner."
       }
     },
     "items": {

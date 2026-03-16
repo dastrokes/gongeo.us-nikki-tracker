@@ -443,7 +443,7 @@
         "pearpal": "Whim-Log",
         "game": "Jogo",
         "auto": "Auto",
-        "data_source_tooltip": "Selecione sua fonte de dados preferida. Se nenhum dado estiver disponível na fonte selecionada, a outra fonte será usada. Somente uma fonte de dados é exibida e usada para cálculos estatísticos por vez.",
+        "data_source_tooltip": "Escolha uma fonte de dados. Se indisponível, a outra fonte será usada como alternativa.",
         "auto_option": "\"Auto\" combinará as duas fontes, preferindo a fonte com mais pulls para cada banner."
       }
     },

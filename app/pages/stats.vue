@@ -96,120 +96,140 @@
         size="small"
         class="rounded-xl"
       >
-        <div class="flex items-start justify-between gap-2">
-          <div
-            class="flex-grow grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2"
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
+          <!-- Total Pulls -->
+          <n-card
+            size="small"
+            class="text-center rounded-lg"
           >
-            <!-- Total Pulls -->
-            <n-card
-              size="small"
-              class="text-center rounded-lg"
-            >
-              <div class="text-sm text-gray-400">
-                <span class="text-amber-500">5★</span>
-                <span class="mx-1">/</span>
-                <span class="text-sky-500">4★</span>
-                {{ $t('common.pulls') }}
-              </div>
-              <div class="text-lg font-medium tabular-nums mt-1">
-                <span class="text-amber-500">{{
-                  pulls5StarBanners.toLocaleString()
-                }}</span>
-                <span class="mx-1 text-gray-400">/</span>
-                <span class="text-sky-500">{{
-                  pulls4StarBanners.toLocaleString()
-                }}</span>
-              </div>
-            </n-card>
+            <div class="text-sm text-gray-400">
+              <span class="text-amber-500">5★</span>
+              <span class="mx-1">/</span>
+              <span class="text-sky-500">4★</span>
+              {{ $t('common.pulls') }}
+            </div>
+            <div class="text-lg font-medium tabular-nums mt-1">
+              <span class="text-amber-500">{{
+                pulls5StarBanners.toLocaleString()
+              }}</span>
+              <span class="mx-1 text-gray-400">/</span>
+              <span class="text-sky-500">{{
+                pulls4StarBanners.toLocaleString()
+              }}</span>
+            </div>
+          </n-card>
 
-            <!-- Banners Pulled -->
-            <n-card
-              size="small"
-              class="text-center rounded-lg"
-            >
-              <div class="text-sm text-gray-400">
-                <span class="text-amber-500">5★</span>
-                <span class="mx-1">/</span>
-                <span class="text-sky-500">4★</span>
-                {{ $t('common.banners') }}
-              </div>
-              <div class="text-lg font-medium tabular-nums mt-1">
-                <span class="text-amber-500">{{ bannersPulled5Star }}</span>
-                <span class="mx-1 text-gray-400">/</span>
-                <span class="text-sky-500">{{ bannersPulled4Star }}</span>
-              </div>
-            </n-card>
+          <!-- Banners Pulled -->
+          <n-card
+            size="small"
+            class="text-center rounded-lg"
+          >
+            <div class="text-sm text-gray-400">
+              <span class="text-amber-500">5★</span>
+              <span class="mx-1">/</span>
+              <span class="text-sky-500">4★</span>
+              {{ $t('common.banners') }}
+            </div>
+            <div class="text-lg font-medium tabular-nums mt-1">
+              <span class="text-amber-500">{{ bannersPulled5Star }}</span>
+              <span class="mx-1 text-gray-400">/</span>
+              <span class="text-sky-500">{{ bannersPulled4Star }}</span>
+            </div>
+          </n-card>
 
-            <!-- Outfits Collected -->
-            <n-card
-              size="small"
-              class="text-center rounded-lg"
-            >
-              <div class="text-sm text-gray-400">
-                <span class="text-amber-500">5★</span>
-                <span class="mx-1">/</span>
-                <span class="text-sky-500">4★</span>
-                {{ $t('common.outfits') }}
-              </div>
-              <div class="text-lg font-medium tabular-nums mt-1">
-                <span class="text-amber-500">{{ outfitsObtained5Star }}</span>
-                <span class="mx-1 text-gray-400">/</span>
-                <span class="text-sky-500">{{ outfitsObtained4Star }}</span>
-              </div>
-            </n-card>
+          <!-- Outfits Collected -->
+          <n-card
+            size="small"
+            class="text-center rounded-lg"
+          >
+            <div class="text-sm text-gray-400">
+              <span class="text-amber-500">5★</span>
+              <span class="mx-1">/</span>
+              <span class="text-sky-500">4★</span>
+              {{ $t('common.outfits') }}
+            </div>
+            <div class="text-lg font-medium tabular-nums mt-1">
+              <span class="text-amber-500">{{ outfitsObtained5Star }}</span>
+              <span class="mx-1 text-gray-400">/</span>
+              <span class="text-sky-500">{{ outfitsObtained4Star }}</span>
+            </div>
+          </n-card>
 
-            <!-- 5★ / 4★ Count -->
-            <n-card
-              size="small"
-              class="text-center rounded-lg"
-            >
-              <div class="text-sm text-gray-400">
-                <span class="text-amber-500">5★</span>
-                <span class="mx-1">/</span>
-                <span class="text-sky-500">4★</span>
-                {{ $t('common.items') }}
-              </div>
-              <div class="text-lg font-medium tabular-nums mt-1">
-                <span class="text-amber-500">
-                  <n-number-animation
-                    :from="0"
-                    :to="globalStats.total5StarItems"
-                    :duration="2000"
-                  />
-                </span>
-                <span class="mx-1 text-gray-400">/</span>
-                <span class="text-sky-500">
-                  <n-number-animation
-                    :from="0"
-                    :to="
-                      globalStats.total4StarItems +
-                      globalStats.total4StarOnlyItems
-                    "
-                    :duration="2000"
-                  />
-                </span>
-              </div>
-            </n-card>
-
-            <!-- Luck Rating -->
-            <n-card
-              size="small"
-              class="text-center rounded-lg"
-            >
-              <div class="text-sm text-gray-400">
-                {{ $t('stats.overview.luck_rating') }}
-              </div>
-              <div
-                class="text-lg font-medium mt-1 flex items-center justify-center gap-2"
-              >
-                <span class="text-sm">{{ $t('banner.luck.' + luckTier) }}</span>
-                <DiceAnimation
-                  v-if="globalStats.avg5StarPulls > 0"
-                  :percentile="overallLuckPercentile"
+          <!-- 5★ / 4★ Count -->
+          <n-card
+            size="small"
+            class="text-center rounded-lg"
+          >
+            <div class="text-sm text-gray-400">
+              <span class="text-amber-500">5★</span>
+              <span class="mx-1">/</span>
+              <span class="text-sky-500">4★</span>
+              {{ $t('common.items') }}
+            </div>
+            <div class="text-lg font-medium tabular-nums mt-1">
+              <span class="text-amber-500">
+                <n-number-animation
+                  :from="0"
+                  :to="globalStats.total5StarItems"
+                  :duration="2000"
                 />
-              </div>
-            </n-card>
-            <div class="flex flex-col justify-between items-end h-full py-1">
+              </span>
+              <span class="mx-1 text-gray-400">/</span>
+              <span class="text-sky-500">
+                <n-number-animation
+                  :from="0"
+                  :to="
+                    globalStats.total4StarItems +
+                    globalStats.total4StarOnlyItems
+                  "
+                  :duration="2000"
+                />
+              </span>
+            </div>
+          </n-card>
+
+          <!-- Luck Rating -->
+          <n-card
+            size="small"
+            class="text-center rounded-lg"
+          >
+            <div class="text-sm text-gray-400">
+              {{ $t('stats.overview.luck_rating') }}
+            </div>
+            <div
+              class="text-lg font-medium mt-1 flex items-center justify-center gap-2"
+            >
+              <span class="text-sm">{{ $t('banner.luck.' + luckTier) }}</span>
+              <DiceAnimation
+                v-if="globalStats.avg5StarPulls > 0"
+                :percentile="overallLuckPercentile"
+              />
+            </div>
+          </n-card>
+
+          <div
+            class="flex flex-col items-end justify-between h-full py-1 gap-2"
+          >
+            <div class="flex items-center gap-2">
+              <n-tooltip
+                trigger="hover"
+                :width="200"
+              >
+                <template #trigger>
+                  <n-button
+                    size="small"
+                    text
+                    circle
+                    class="text-gray-500"
+                  >
+                    <template #icon>
+                      <n-icon><ExclamationCircle /></n-icon>
+                    </template>
+                  </n-button>
+                </template>
+                {{ $t('stats.notice_limited') }}
+              </n-tooltip>
+
               <n-button
                 size="small"
                 type="primary"
@@ -218,86 +238,54 @@
               >
                 {{ $t('navigation.tracker') }}
               </n-button>
-              <div class="flex justify-end gap-2 items-center">
-                <n-tooltip
-                  trigger="hover"
-                  :width="200"
-                >
-                  <template #trigger>
-                    <n-button
-                      size="small"
-                      text
-                      circle
-                      class="text-gray-500"
-                    >
-                      <template #icon>
-                        <n-icon><ExclamationCircle /></n-icon>
-                      </template>
-                    </n-button>
-                  </template>
-                  {{ $t('stats.notice_limited') }}
-                </n-tooltip>
-
-                <n-popover trigger="click">
-                  <template #trigger>
-                    <n-button
-                      size="small"
-                      text
-                      circle
-                      class="text-gray-500"
-                    >
-                      <template #icon>
-                        <n-icon><Database /></n-icon>
-                      </template>
-                    </n-button>
-                  </template>
-                  <div class="min-w-[150px] p-0">
-                    <div
-                      class="text-sm text-gray-400 mb-2 text-center flex items-center justify-center"
-                    >
-                      {{ t('tracker.banner.settings.data_source') }}
-                      <n-tooltip :width="200">
-                        <template #trigger>
-                          <n-button
-                            size="tiny"
-                            text
-                            class="z-10 ml-2"
-                          >
-                            <template #icon>
-                              <n-icon :depth="3">
-                                <ExclamationCircle />
-                              </n-icon>
-                            </template>
-                          </n-button>
-                        </template>
-                        {{ t('tracker.banner.settings.data_source_tooltip') }}
-                        <br />
-                        {{ t('tracker.banner.settings.auto_option') }}
-                      </n-tooltip>
-                    </div>
-
-                    <n-select
-                      v-model:value="effectiveDataSource"
-                      size="small"
-                      :options="[
-                        {
-                          label: t('tracker.banner.settings.game'),
-                          value: 'game',
-                        },
-                        {
-                          label: t('tracker.banner.settings.pearpal'),
-                          value: 'pearpal',
-                        },
-                        {
-                          label: t('tracker.banner.settings.auto'),
-                          value: 'auto',
-                        },
-                      ]"
-                    />
-                  </div>
-                </n-popover>
-              </div>
             </div>
+
+            <!-- Data Source Select -->
+            <n-select
+              v-model:value="effectiveDataSource"
+              size="small"
+              class="w-36"
+              :options="[
+                {
+                  label: t('tracker.banner.settings.game'),
+                  value: 'game',
+                },
+                {
+                  label: t('tracker.banner.settings.pearpal'),
+                  value: 'pearpal',
+                },
+                {
+                  label: t('tracker.banner.settings.auto'),
+                  value: 'auto',
+                },
+              ]"
+            >
+              <template #header>
+                <div class="flex items-center justify-between px-1 py-1">
+                  <span class="text-sm text-gray-400">
+                    {{ t('tracker.banner.settings.data_source') }}
+                  </span>
+                  <n-tooltip :width="200">
+                    <template #trigger>
+                      <n-button
+                        size="tiny"
+                        text
+                        class="ml-2"
+                      >
+                        <template #icon>
+                          <n-icon :depth="3">
+                            <ExclamationCircle />
+                          </n-icon>
+                        </template>
+                      </n-button>
+                    </template>
+                    {{ t('tracker.banner.settings.data_source_tooltip') }}
+                    <br />
+                    {{ t('tracker.banner.settings.auto_option') }}
+                  </n-tooltip>
+                </div>
+              </template>
+            </n-select>
           </div>
         </div>
       </n-card>
@@ -610,7 +598,6 @@
                 <n-button
                   size="small"
                   text
-                  circle
                   :aria-label="
                     isShareLandscape
                       ? $t('stats.share.landscape')
@@ -633,7 +620,7 @@
               <template #trigger>
                 <n-button
                   size="small"
-                  circle
+                  text
                   @click="exportShareCard"
                 >
                   <template #icon>
@@ -1203,7 +1190,6 @@
     CompressAlt,
     FileImageRegular,
     Sync,
-    Database,
     ExclamationCircle,
   } from '@vicons/fa'
   import { BANNER_DATA } from '~~/data/banners'

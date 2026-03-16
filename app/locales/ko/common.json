@@ -767,8 +767,8 @@
     "notice_limited": "통계는 한정 배너만 포함됩니다. 상시 배너는 제외됩니다.",
     "luck": {
       "avg_pulls": "평균 {count}회",
-      "top_percent": "상위 {percent}%",
-      "bottom_percent": "하위 {percent}%"
+      "top_percent": "Top {percent}%",
+      "bottom_percent": "Bottom {percent}%"
     },
     "charts": {
       "luck_per_banner": "배너별 5★ 행운",

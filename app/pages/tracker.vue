@@ -122,186 +122,330 @@
         size="small"
         class="rounded-xl"
       >
-        <div class="flex items-center justify-between">
-          <div
-            class="flex-grow grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2"
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
+          <n-card
+            size="small"
+            class="text-center rounded-lg"
           >
-            <n-card
-              size="small"
-              class="text-center rounded-lg"
-            >
-              <div class="text-sm text-gray-400">
-                {{ t('tracker.stats.total_pulls') }}
-              </div>
-              <div
-                class="text-lg font-medium tabular-nums mt-1 flex items-center justify-center gap-2"
-              >
-                <n-number-animation
-                  :from="0"
-                  :to="globalStats.totalPulls"
-                  :duration="5000"
-                />
-                <n-tooltip
-                  :width="200"
-                  trigger="click"
-                >
-                  <template #trigger>
-                    <n-button
-                      v-show="!exporting"
-                      size="small"
-                      text
-                      circle
-                      class="text-gray-500"
-                    >
-                      <n-icon
-                        size="20"
-                        depth="3"
-                      >
-                        <Users />
-                      </n-icon>
-                    </n-button>
-                  </template>
-                  {{
-                    t('tracker.stats.more_pulls', {
-                      percent: getTotalPullsPercentile(
-                        globalStats.totalPulls
-                      ).toFixed(1),
-                    })
-                  }}
-                </n-tooltip>
-              </div>
-            </n-card>
-
-            <n-card
-              size="small"
-              class="text-center rounded-lg"
-            >
-              <div class="text-sm text-gray-400">
-                {{ t('tracker.stats.total_5star_4star') }}
-              </div>
-              <div class="text-lg font-medium tabular-nums mt-1">
-                <n-number-animation
-                  :from="0"
-                  :to="globalStats.total5StarItems"
-                  :duration="3000"
-                />
-                /
-                <n-number-animation
-                  :from="0"
-                  :to="
-                    globalStats.total4StarItems +
-                    globalStats.total4StarOnlyItems
-                  "
-                  :duration="3000"
-                />
-              </div>
-            </n-card>
-
-            <n-card
-              size="small"
-              class="text-center rounded-lg"
-            >
-              <div class="text-sm text-gray-400">
-                {{ t('tracker.stats.avg_5star') }}
-              </div>
-              <div
-                class="text-lg font-medium tabular-nums mt-1 flex items-center justify-center gap-2"
-              >
-                <span class="inline-block min-w-[4ch] text-right">
-                  <n-number-animation
-                    :from="0"
-                    :to="globalStats.avg5StarPulls"
-                    :duration="2000"
-                    :precision="2"
-                  />
-                </span>
-                <DiceAnimation
-                  v-if="globalStats.avg5StarPulls > 0"
-                  :percentile="getAvg5StarPercentile(globalStats.avg5StarPulls)"
-                />
-              </div>
-            </n-card>
-
-            <n-card
-              size="small"
-              class="text-center rounded-lg"
-            >
-              <div class="text-sm text-gray-400">
-                {{ t('tracker.stats.avg_4star_mixed') }}
-              </div>
-              <div
-                class="text-lg font-medium tabular-nums mt-1 flex items-center justify-center gap-2"
-              >
-                <span class="inline-block min-w-[3ch] text-right">
-                  <n-number-animation
-                    :from="0"
-                    :to="globalStats.avg4StarPulls"
-                    :duration="2000"
-                    :precision="2"
-                  />
-                </span>
-                <DiceAnimation
-                  v-if="globalStats.avg4StarPulls > 0"
-                  :percentile="
-                    getAvg4StarType2Percentile(globalStats.avg4StarPulls)
-                  "
-                />
-              </div>
-            </n-card>
-
-            <n-card
-              size="small"
-              class="text-center rounded-lg"
-            >
-              <div class="text-sm text-gray-400">
-                {{ t('tracker.stats.avg_4star_only') }}
-              </div>
-              <div
-                class="text-lg font-medium tabular-nums mt-1 flex items-center justify-center gap-2"
-              >
-                <span class="inline-block min-w-[3ch] text-right">
-                  <n-number-animation
-                    :from="0"
-                    :to="globalStats.avg4StarOnlyPulls"
-                    :duration="2000"
-                    :precision="2"
-                  />
-                </span>
-                <DiceAnimation
-                  v-if="globalStats.avg4StarOnlyPulls > 0"
-                  :percentile="
-                    getAvg4StarType3Percentile(globalStats.avg4StarOnlyPulls)
-                  "
-                />
-              </div>
-            </n-card>
-
-            <n-card
-              v-show="exporting"
-              size="small"
-              class="text-center rounded-lg"
-            >
-              <p class="text-sm text-gray-400">
-                {{ t('tracker.export.generated_from') }}
-              </p>
-              <p class="text-xl inline-flex items-center justify-center gap-2">
-                <NuxtImg
-                  src="images/logo.webp"
-                  width="80"
-                  height="80"
-                  fit="cover"
-                  loading="lazy"
-                  :alt="t('navigation.title')"
-                  class="h-6 w-6 rounded-md"
-                />
-                <span>{{ t('navigation.title') }}</span>
-              </p>
-            </n-card>
-
+            <div class="text-sm text-gray-400">
+              {{ t('tracker.stats.total_pulls') }}
+            </div>
             <div
-              v-show="!exporting"
-              class="flex flex-col justify-between items-end h-full py-1"
+              class="text-lg font-medium tabular-nums mt-1 flex items-center justify-center gap-2"
             >
+              <n-number-animation
+                :from="0"
+                :to="globalStats.totalPulls"
+                :duration="5000"
+              />
+              <n-tooltip
+                :width="200"
+                trigger="click"
+              >
+                <template #trigger>
+                  <n-button
+                    v-show="!exporting"
+                    size="small"
+                    text
+                    circle
+                    class="text-gray-500"
+                  >
+                    <n-icon
+                      size="20"
+                      depth="3"
+                    >
+                      <Users />
+                    </n-icon>
+                  </n-button>
+                </template>
+                {{
+                  t('tracker.stats.more_pulls', {
+                    percent: getTotalPullsPercentile(
+                      globalStats.totalPulls
+                    ).toFixed(1),
+                  })
+                }}
+              </n-tooltip>
+            </div>
+          </n-card>
+
+          <n-card
+            size="small"
+            class="text-center rounded-lg"
+          >
+            <div class="text-sm text-gray-400">
+              {{ t('tracker.stats.total_5star_4star') }}
+            </div>
+            <div class="text-lg font-medium tabular-nums mt-1">
+              <n-number-animation
+                :from="0"
+                :to="globalStats.total5StarItems"
+                :duration="3000"
+              />
+              /
+              <n-number-animation
+                :from="0"
+                :to="
+                  globalStats.total4StarItems + globalStats.total4StarOnlyItems
+                "
+                :duration="3000"
+              />
+            </div>
+          </n-card>
+
+          <n-card
+            size="small"
+            class="text-center rounded-lg"
+          >
+            <div class="text-sm text-gray-400">
+              {{ t('tracker.stats.avg_5star') }}
+            </div>
+            <div
+              class="text-lg font-medium tabular-nums mt-1 flex items-center justify-center gap-2"
+            >
+              <span class="inline-block min-w-[4ch] text-right">
+                <n-number-animation
+                  :from="0"
+                  :to="globalStats.avg5StarPulls"
+                  :duration="2000"
+                  :precision="2"
+                />
+              </span>
+              <DiceAnimation
+                v-if="globalStats.avg5StarPulls > 0"
+                :percentile="getAvg5StarPercentile(globalStats.avg5StarPulls)"
+              />
+            </div>
+          </n-card>
+
+          <n-card
+            size="small"
+            class="text-center rounded-lg"
+          >
+            <div class="text-sm text-gray-400">
+              {{ t('tracker.stats.avg_4star_mixed') }}
+            </div>
+            <div
+              class="text-lg font-medium tabular-nums mt-1 flex items-center justify-center gap-2"
+            >
+              <span class="inline-block min-w-[3ch] text-right">
+                <n-number-animation
+                  :from="0"
+                  :to="globalStats.avg4StarPulls"
+                  :duration="2000"
+                  :precision="2"
+                />
+              </span>
+              <DiceAnimation
+                v-if="globalStats.avg4StarPulls > 0"
+                :percentile="
+                  getAvg4StarType2Percentile(globalStats.avg4StarPulls)
+                "
+              />
+            </div>
+          </n-card>
+
+          <n-card
+            size="small"
+            class="text-center rounded-lg"
+          >
+            <div class="text-sm text-gray-400">
+              {{ t('tracker.stats.avg_4star_only') }}
+            </div>
+            <div
+              class="text-lg font-medium tabular-nums mt-1 flex items-center justify-center gap-2"
+            >
+              <span class="inline-block min-w-[3ch] text-right">
+                <n-number-animation
+                  :from="0"
+                  :to="globalStats.avg4StarOnlyPulls"
+                  :duration="2000"
+                  :precision="2"
+                />
+              </span>
+              <DiceAnimation
+                v-if="globalStats.avg4StarOnlyPulls > 0"
+                :percentile="
+                  getAvg4StarType3Percentile(globalStats.avg4StarOnlyPulls)
+                "
+              />
+            </div>
+          </n-card>
+
+          <n-card
+            v-show="exporting"
+            size="small"
+            class="text-center rounded-lg"
+          >
+            <p class="text-sm text-gray-400">
+              {{ t('tracker.export.generated_from') }}
+            </p>
+            <p class="text-xl inline-flex items-center justify-center gap-2">
+              <NuxtImg
+                src="images/logo.webp"
+                width="80"
+                height="80"
+                fit="cover"
+                loading="lazy"
+                :alt="t('navigation.title')"
+                class="h-6 w-6 rounded-md"
+              />
+              <span>{{ t('navigation.title') }}</span>
+            </p>
+          </n-card>
+
+          <div
+            v-show="!exporting"
+            class="flex flex-col items-end justify-between h-full py-1 gap-2"
+          >
+            <div class="flex items-center gap-2">
+              <!-- Export Button -->
+              <n-popover
+                trigger="manual"
+                :show="showPopover"
+                @clickoutside="showPopover = false"
+              >
+                <template #trigger>
+                  <n-button
+                    size="small"
+                    text
+                    circle
+                    class="text-gray-500"
+                    @click="showPopover = !showPopover"
+                  >
+                    <template #icon>
+                      <n-icon>
+                        <Download />
+                      </n-icon>
+                    </template>
+                  </n-button>
+                </template>
+                <div class="space-y-2 w-28 text-center">
+                  <n-button
+                    text
+                    class="text-gray-400 hover:text-gray-600"
+                    @click="exportPNG"
+                  >
+                    <template #icon>
+                      <n-icon>
+                        <FileImageRegular />
+                      </n-icon>
+                    </template>
+                    {{ t('tracker.export.png') }}
+                  </n-button>
+                  <n-button
+                    block
+                    text
+                    class="text-gray-400 hover:text-gray-600"
+                    @click="exportJSON"
+                  >
+                    <template #icon>
+                      <n-icon>
+                        <FileExport />
+                      </n-icon>
+                    </template>
+                    {{ t('tracker.export.json') }}
+                  </n-button>
+                </div>
+              </n-popover>
+
+              <!-- Settings Button -->
+              <n-popover trigger="click">
+                <template #trigger>
+                  <n-button
+                    size="small"
+                    text
+                    circle
+                    class="text-gray-500"
+                  >
+                    <template #icon>
+                      <n-icon>
+                        <Cog />
+                      </n-icon>
+                    </template>
+                  </n-button>
+                </template>
+                <div class="min-w-[200px]">
+                  <div class="space-y-4">
+                    <div class="flex items-center justify-between">
+                      <n-switch v-model:value="settings.sortBanner">
+                        <template #checked>{{
+                          $t('tracker.banner.settings.oldest_first')
+                        }}</template>
+                        <template #unchecked>{{
+                          $t('tracker.banner.settings.latest_first')
+                        }}</template>
+                      </n-switch>
+                      <span class="text-sm text-gray-400 ml-3">
+                        {{ t('tracker.banner.settings.banner_order') }}
+                      </span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                      <n-switch v-model:value="settings.sortItems">
+                        <template #checked>{{
+                          $t('tracker.banner.settings.oldest_first')
+                        }}</template>
+                        <template #unchecked>{{
+                          $t('tracker.banner.settings.latest_first')
+                        }}</template>
+                      </n-switch>
+                      <span class="text-sm text-gray-400 ml-3">
+                        {{ t('tracker.banner.settings.item_order') }}
+                      </span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                      <n-switch v-model:value="settings.combineOutfits">
+                        <template #checked>{{
+                          $t('tracker.banner.settings.combined')
+                        }}</template>
+                        <template #unchecked>{{
+                          $t('tracker.banner.settings.separated')
+                        }}</template>
+                      </n-switch>
+                      <span class="text-sm text-gray-400 ml-3">
+                        {{ t('tracker.banner.settings.outfit_display') }}
+                      </span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                      <n-switch v-model:value="settings.show4StarItems">
+                        <template #checked>{{ $t('common.show') }}</template>
+                        <template #unchecked>{{ $t('common.hide') }}</template>
+                      </n-switch>
+                      <span class="text-sm text-gray-400 ml-3">
+                        {{ t('tracker.banner.settings.show_4star') }}
+                      </span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                      <n-switch v-model:value="settings.showDuplicates">
+                        <template #checked>{{ $t('common.show') }}</template>
+                        <template #unchecked>{{ $t('common.hide') }}</template>
+                      </n-switch>
+                      <span class="text-sm text-gray-400 ml-3">
+                        {{ t('tracker.banner.settings.duplicate_items') }}
+                      </span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                      <n-switch v-model:value="settings.showMissingPieces">
+                        <template #checked>{{ $t('common.show') }}</template>
+                        <template #unchecked>{{ $t('common.hide') }}</template>
+                      </n-switch>
+                      <span class="text-sm text-gray-400 ml-3">
+                        {{ t('tracker.banner.settings.show_missing') }}
+                      </span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                      <n-switch v-model:value="settings.showEmptyBanners">
+                        <template #checked>{{ $t('common.show') }}</template>
+                        <template #unchecked>{{ $t('common.hide') }}</template>
+                      </n-switch>
+                      <span class="text-sm text-gray-400 ml-3">
+                        {{ t('tracker.banner.settings.empty_banners') }}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </n-popover>
+
               <n-button
                 size="small"
                 type="primary"
@@ -310,223 +454,54 @@
               >
                 {{ $t('navigation.stats') }}
               </n-button>
-              <div class="flex justify-end gap-2 items-center">
-                <!-- Export Button -->
-                <n-popover
-                  trigger="manual"
-                  :show="showPopover"
-                  @clickoutside="showPopover = false"
-                >
-                  <template #trigger>
-                    <n-button
-                      size="small"
-                      text
-                      circle
-                      class="text-gray-500"
-                      @click="showPopover = !showPopover"
-                    >
-                      <template #icon>
-                        <n-icon>
-                          <Download />
-                        </n-icon>
-                      </template>
-                    </n-button>
-                  </template>
-                  <div class="space-y-2 w-28 text-center">
-                    <n-button
-                      text
-                      class="text-gray-400 hover:text-gray-600"
-                      @click="exportPNG"
-                    >
-                      <template #icon>
-                        <n-icon>
-                          <FileImageRegular />
-                        </n-icon>
-                      </template>
-                      {{ t('tracker.export.png') }}
-                    </n-button>
-                    <n-button
-                      block
-                      text
-                      class="text-gray-400 hover:text-gray-600"
-                      @click="exportJSON"
-                    >
-                      <template #icon>
-                        <n-icon>
-                          <FileExport />
-                        </n-icon>
-                      </template>
-                      {{ t('tracker.export.json') }}
-                    </n-button>
-                  </div>
-                </n-popover>
-
-                <!-- Settings Button -->
-                <n-popover trigger="click">
-                  <template #trigger>
-                    <n-button
-                      size="small"
-                      text
-                      circle
-                      class="text-gray-500"
-                    >
-                      <template #icon>
-                        <n-icon>
-                          <Cog />
-                        </n-icon>
-                      </template>
-                    </n-button>
-                  </template>
-                  <div class="min-w-[200px]">
-                    <div class="space-y-4">
-                      <div class="flex items-center justify-between">
-                        <n-switch v-model:value="settings.sortBanner">
-                          <template #checked>{{
-                            $t('tracker.banner.settings.oldest_first')
-                          }}</template>
-                          <template #unchecked>{{
-                            $t('tracker.banner.settings.latest_first')
-                          }}</template>
-                        </n-switch>
-                        <span class="text-sm text-gray-400 ml-3">
-                          {{ t('tracker.banner.settings.banner_order') }}
-                        </span>
-                      </div>
-                      <div class="flex items-center justify-between">
-                        <n-switch v-model:value="settings.sortItems">
-                          <template #checked>{{
-                            $t('tracker.banner.settings.oldest_first')
-                          }}</template>
-                          <template #unchecked>{{
-                            $t('tracker.banner.settings.latest_first')
-                          }}</template>
-                        </n-switch>
-                        <span class="text-sm text-gray-400 ml-3">
-                          {{ t('tracker.banner.settings.item_order') }}
-                        </span>
-                      </div>
-                      <div class="flex items-center justify-between">
-                        <n-switch v-model:value="settings.combineOutfits">
-                          <template #checked>{{
-                            $t('tracker.banner.settings.combined')
-                          }}</template>
-                          <template #unchecked>{{
-                            $t('tracker.banner.settings.separated')
-                          }}</template>
-                        </n-switch>
-                        <span class="text-sm text-gray-400 ml-3">
-                          {{ t('tracker.banner.settings.outfit_display') }}
-                        </span>
-                      </div>
-                      <div class="flex items-center justify-between">
-                        <n-switch v-model:value="settings.show4StarItems">
-                          <template #checked>{{ $t('common.show') }}</template>
-                          <template #unchecked>{{
-                            $t('common.hide')
-                          }}</template>
-                        </n-switch>
-                        <span class="text-sm text-gray-400 ml-3">
-                          {{ t('tracker.banner.settings.show_4star') }}
-                        </span>
-                      </div>
-                      <div class="flex items-center justify-between">
-                        <n-switch v-model:value="settings.showDuplicates">
-                          <template #checked>{{ $t('common.show') }}</template>
-                          <template #unchecked>{{
-                            $t('common.hide')
-                          }}</template>
-                        </n-switch>
-                        <span class="text-sm text-gray-400 ml-3">
-                          {{ t('tracker.banner.settings.duplicate_items') }}
-                        </span>
-                      </div>
-                      <div class="flex items-center justify-between">
-                        <n-switch v-model:value="settings.showMissingPieces">
-                          <template #checked>{{ $t('common.show') }}</template>
-                          <template #unchecked>{{
-                            $t('common.hide')
-                          }}</template>
-                        </n-switch>
-                        <span class="text-sm text-gray-400 ml-3">
-                          {{ t('tracker.banner.settings.show_missing') }}
-                        </span>
-                      </div>
-                      <div class="flex items-center justify-between">
-                        <n-switch v-model:value="settings.showEmptyBanners">
-                          <template #checked>{{ $t('common.show') }}</template>
-                          <template #unchecked>{{
-                            $t('common.hide')
-                          }}</template>
-                        </n-switch>
-                        <span class="text-sm text-gray-400 ml-3">
-                          {{ t('tracker.banner.settings.empty_banners') }}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </n-popover>
-
-                <!-- Data Source Button -->
-                <n-popover trigger="click">
-                  <template #trigger>
-                    <n-button
-                      size="small"
-                      text
-                      circle
-                      class="text-gray-500"
-                    >
-                      <template #icon>
-                        <n-icon><Database /></n-icon>
-                      </template>
-                    </n-button>
-                  </template>
-                  <div class="min-w-[150px] p-0">
-                    <div
-                      class="text-sm text-gray-400 mb-2 text-center flex items-center justify-center"
-                    >
-                      {{ t('tracker.banner.settings.data_source') }}
-                      <n-tooltip :width="200">
-                        <template #trigger>
-                          <n-button
-                            size="tiny"
-                            text
-                            class="z-10 ml-2"
-                          >
-                            <template #icon>
-                              <n-icon :depth="3">
-                                <ExclamationCircle />
-                              </n-icon>
-                            </template>
-                          </n-button>
-                        </template>
-                        {{ t('tracker.banner.settings.data_source_tooltip') }}
-                        <br />
-                        {{ t('tracker.banner.settings.auto_option') }}
-                      </n-tooltip>
-                    </div>
-
-                    <n-select
-                      v-model:value="effectiveDataSource"
-                      size="small"
-                      :options="[
-                        {
-                          label: t('tracker.banner.settings.game'),
-                          value: 'game',
-                        },
-                        {
-                          label: t('tracker.banner.settings.pearpal'),
-                          value: 'pearpal',
-                        },
-                        {
-                          label: t('tracker.banner.settings.auto'),
-                          value: 'auto',
-                        },
-                      ]"
-                    />
-                  </div>
-                </n-popover>
-              </div>
             </div>
+
+            <!-- Data Source Select -->
+            <n-select
+              v-model:value="effectiveDataSource"
+              size="small"
+              class="w-36"
+              :options="[
+                {
+                  label: t('tracker.banner.settings.game'),
+                  value: 'game',
+                },
+                {
+                  label: t('tracker.banner.settings.pearpal'),
+                  value: 'pearpal',
+                },
+                {
+                  label: t('tracker.banner.settings.auto'),
+                  value: 'auto',
+                },
+              ]"
+            >
+              <template #header>
+                <div class="flex items-center justify-between px-1 py-1">
+                  <span class="text-sm text-gray-400">
+                    {{ t('tracker.banner.settings.data_source') }}
+                  </span>
+                  <n-tooltip :width="200">
+                    <template #trigger>
+                      <n-button
+                        size="tiny"
+                        text
+                        class="ml-2"
+                      >
+                        <template #icon>
+                          <n-icon :depth="3">
+                            <ExclamationCircle />
+                          </n-icon>
+                        </template>
+                      </n-button>
+                    </template>
+                    {{ t('tracker.banner.settings.data_source_tooltip') }}
+                    <br />
+                    {{ t('tracker.banner.settings.auto_option') }}
+                  </n-tooltip>
+                </div>
+              </template>
+            </n-select>
           </div>
         </div>
       </n-card>
@@ -970,7 +945,6 @@
     Users,
     Download,
     Edit,
-    Database,
     ExclamationCircle,
   } from '@vicons/fa'
   import { BANNER_DATA } from '~~/data/banners'

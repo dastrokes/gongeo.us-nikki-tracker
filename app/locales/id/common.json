@@ -443,7 +443,7 @@
         "pearpal": "Whim-Log",
         "game": "Permainan",
         "auto": "Mobil",
-        "data_source_tooltip": "Pilih sumber data pilihan Anda. Jika tidak ada data yang tersedia dari sumber yang dipilih, maka sumber lain yang akan digunakan. Hanya satu sumber data yang ditampilkan dan digunakan untuk penghitungan statistik dalam satu waktu.",
+        "data_source_tooltip": "Pilih sumber data. Jika tidak tersedia, sumber lain akan digunakan sebagai cadangan.",
         "auto_option": "\"Otomatis\" akan menggabungkan kedua sumber, lebih memilih sumber dengan tarikan lebih banyak untuk setiap spanduk."
       }
     },

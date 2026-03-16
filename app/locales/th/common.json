@@ -65,7 +65,7 @@
     "join_community": "เข้าร่วมชุมชน",
     "support_website": "สนับสนุนเว็บไซต์",
     "nuan5pro": "Nuan5.Pro",
-    "stats": "Personal Stats"
+    "stats": "สถิติส่วนตัว"
   },
   "meta": {
     "title": "Infinity Nikki Resonance Tracker - ดึงประวัติและสถิติ",
@@ -87,7 +87,7 @@
       "item_detail": "ดูข้อมูลโดยละเอียดเกี่ยวกับไอเท็ม {name} รวมถึงคุณภาพ วิวัฒนาการและการเรืองแสง สถิติ รวมถึงเครื่องแต่งกายและแบนเนอร์ที่เกี่ยวข้อง",
       "faq": "ค้นหาคำตอบสำหรับคำถามที่พบบ่อยเกี่ยวกับ gongeo.us รวมถึงความเป็นส่วนตัวของข้อมูล วิธีการนำเข้า และแนวทางการใช้งาน",
       "about": "เรียนรู้เพิ่มเติมเกี่ยวกับ gongeo.us รวมถึงวัตถุประสงค์ นโยบายความเป็นส่วนตัว การปฏิเสธความรับผิดชอบ และวิธีที่สนับสนุนชุมชน Infinity Nikki",
-      "stats": "View your personal Infinity Nikki resonance pull statistics, luck analysis, streaks, and pulling activity."
+      "stats": "ดูสถิติการดึงการสั่นพ้อง Infinity Nikki ส่วนตัว การวิเคราะห์โชค สถิติต่อเนื่อง และกิจกรรมการดึงของคุณ"
     }
   },
   "default": {
@@ -446,7 +446,7 @@
         "game": "เกม",
         "auto": "อัตโนมัติ",
         "data_source_tooltip": "เลือกแหล่งข้อมูล หากไม่มีข้อมูลจากแหล่งที่เลือก ระบบจะใช้แหล่งข้อมูลอื่นแทน",
-        "auto_option": "\"อัตโนมัติ\" จะรวมทั้งสองแหล่งเข้าด้วยกัน โดยเลือกแหล่งที่มาที่มีการดึงมากกว่าสำหรับแต่ละแบนเนอร์"
+        "auto_option": "\"อัตโนมัติ\" รวมทั้งสองแหล่งเข้าด้วยกัน โดยเลือกแหล่งที่มีการดึงมากกว่าต่อแบนเนอร์"
       }
     },
     "items": {
@@ -760,42 +760,42 @@
     }
   },
   "stats": {
-    "title": "Personal Stats",
+    "title": "สถิติส่วนตัว",
     "overview": {
-      "luck_rating": "Luck Rating"
+      "luck_rating": "คะแนนโชค"
     },
-    "notice_limited": "Stats are from limited banners only. Permanent banners are excluded.",
+    "notice_limited": "สถิติมาจากแบนเนอร์จำกัดเวลาเท่านั้น ไม่รวมแบนเนอร์ถาวร",
     "luck": {
-      "avg_pulls": "Avg {count} pulls",
-      "percentile": "Top {percent}%"
+      "avg_pulls": "เฉลี่ย {count} ครั้ง",
+      "percentile": "อันดับ {percent}% แรก"
     },
     "charts": {
-      "luck_per_banner": "5★ Luck Per Banner",
-      "luck_per_banner_type3": "4★ Luck Per Banner",
-      "five_star_distribution": "5★ Pull Distribution",
-      "four_star_distribution": "4★ Distribution (5★ Banner)",
-      "four_star_type3_distribution": "4★ Distribution (4★ Banner)",
-      "pull_timeline": "Pull Activity",
-      "cumulative_pulls": "Cumulative",
-      "number_of_pulls": "Number of Pulls",
-      "frequency": "Frequency"
+      "luck_per_banner": "โชค 5★ ต่อแบนเนอร์",
+      "luck_per_banner_type3": "โชค 4★ ต่อแบนเนอร์",
+      "five_star_distribution": "การกระจาย 5★",
+      "four_star_distribution": "การกระจาย 4★ (แบนเนอร์ 5★)",
+      "four_star_type3_distribution": "การกระจาย 4★ (แบนเนอร์ 4★)",
+      "pull_timeline": "กิจกรรมการดึง",
+      "cumulative_pulls": "สะสม",
+      "number_of_pulls": "จำนวนการดึง",
+      "frequency": "ความถี่"
     },
     "share": {
-      "title": "Share Card",
-      "export_image": "Export as Image",
-      "landscape": "Landscape",
-      "portrait": "Portrait",
-      "in_progress": "Generating share card…",
-      "success": "Share card exported!",
-      "error": "Failed to export share card.",
-      "best_luck": "Best Luck",
-      "worst_luck": "Worst Luck",
-      "top_percent": "Top {percent}%",
-      "bottom_percent": "Bottom {percent}%"
+      "title": "การ์ดแชร์",
+      "export_image": "ส่งออกเป็นรูปภาพ",
+      "landscape": "แนวนอน",
+      "portrait": "แนวตั้ง",
+      "in_progress": "กำลังสร้างการ์ดแชร์…",
+      "success": "ส่งออกการ์ดแชร์แล้ว!",
+      "error": "ส่งออกการ์ดแชร์ไม่สำเร็จ",
+      "best_luck": "โชคดีที่สุด",
+      "worst_luck": "โชคร้ายที่สุด",
+      "top_percent": "อันดับ {percent}% แรก",
+      "bottom_percent": "อันดับ {percent}% ท้าย"
     },
     "no_data": {
-      "title": "No Stats Available",
-      "subtitle": "Import your resonance data to see your personal stats."
+      "title": "ไม่มีสถิติ",
+      "subtitle": "นำเข้าข้อมูลการสั่นพ้องเพื่อดูสถิติส่วนตัวของคุณ"
     }
   }
 }

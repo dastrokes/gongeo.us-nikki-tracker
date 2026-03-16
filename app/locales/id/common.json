@@ -65,7 +65,7 @@
     "join_community": "Gabung Komunitas",
     "support_website": "Dukung Situs",
     "nuan5pro": "Nuan5.Pro",
-    "stats": "Personal Stats"
+    "stats": "Statistik Pribadi"
   },
   "meta": {
     "title": "Pelacak Resonansi Infinity Nikki - Tarik Riwayat & Statistik",
@@ -87,7 +87,7 @@
       "item_detail": "Lihat informasi detail tentang item {name}, termasuk kualitas, evolusi dan pendaran, statistik, serta pakaian dan spanduk terkait.",
       "faq": "Temukan jawaban atas pertanyaan umum tentang gongeo.us, termasuk privasi data, metode impor, dan pedoman penggunaan.",
       "about": "Pelajari lebih lanjut tentang gongeo.us, termasuk tujuannya, kebijakan privasi, penafian, dan cara Infinity Nikki mendukung komunitas.",
-      "stats": "View your personal Infinity Nikki resonance pull statistics, luck analysis, streaks, and pulling activity."
+      "stats": "Lihat statistik pull resonansi Infinity Nikki pribadi Anda, analisis keberuntungan, streak, dan aktivitas pull."
     }
   },
   "default": {
@@ -446,7 +446,7 @@
         "game": "Permainan",
         "auto": "Mobil",
         "data_source_tooltip": "Pilih sumber data. Jika tidak tersedia, sumber lain akan digunakan sebagai cadangan.",
-        "auto_option": "\"Otomatis\" akan menggabungkan kedua sumber, lebih memilih sumber dengan tarikan lebih banyak untuk setiap spanduk."
+        "auto_option": "\"Otomatis\" menggabungkan kedua sumber, lebih memilih yang memiliki lebih banyak tarikan per banner."
       }
     },
     "items": {
@@ -760,42 +760,42 @@
     }
   },
   "stats": {
-    "title": "Personal Stats",
+    "title": "Statistik Pribadi",
     "overview": {
-      "luck_rating": "Luck Rating"
+      "luck_rating": "Peringkat Keberuntungan"
     },
-    "notice_limited": "Stats are from limited banners only. Permanent banners are excluded.",
+    "notice_limited": "Statistik hanya dari banner terbatas. Banner permanen tidak termasuk.",
     "luck": {
-      "avg_pulls": "Avg {count} pulls",
+      "avg_pulls": "Rata-rata {count} tarikan",
       "percentile": "Top {percent}%"
     },
     "charts": {
-      "luck_per_banner": "5★ Luck Per Banner",
-      "luck_per_banner_type3": "4★ Luck Per Banner",
-      "five_star_distribution": "5★ Pull Distribution",
-      "four_star_distribution": "4★ Distribution (5★ Banner)",
-      "four_star_type3_distribution": "4★ Distribution (4★ Banner)",
-      "pull_timeline": "Pull Activity",
-      "cumulative_pulls": "Cumulative",
-      "number_of_pulls": "Number of Pulls",
-      "frequency": "Frequency"
+      "luck_per_banner": "Keberuntungan 5★ per Banner",
+      "luck_per_banner_type3": "Keberuntungan 4★ per Banner",
+      "five_star_distribution": "Distribusi Tarikan 5★",
+      "four_star_distribution": "Distribusi 4★ (Banner 5★)",
+      "four_star_type3_distribution": "Distribusi 4★ (Banner 4★)",
+      "pull_timeline": "Aktivitas Tarikan",
+      "cumulative_pulls": "Kumulatif",
+      "number_of_pulls": "Jumlah Tarikan",
+      "frequency": "Frekuensi"
     },
     "share": {
-      "title": "Share Card",
-      "export_image": "Export as Image",
-      "landscape": "Landscape",
-      "portrait": "Portrait",
-      "in_progress": "Generating share card…",
-      "success": "Share card exported!",
-      "error": "Failed to export share card.",
-      "best_luck": "Best Luck",
-      "worst_luck": "Worst Luck",
+      "title": "Kartu Berbagi",
+      "export_image": "Ekspor sebagai Gambar",
+      "landscape": "Lanskap",
+      "portrait": "Potret",
+      "in_progress": "Membuat kartu berbagi…",
+      "success": "Kartu berbagi diekspor!",
+      "error": "Gagal mengekspor kartu berbagi.",
+      "best_luck": "Keberuntungan Terbaik",
+      "worst_luck": "Keberuntungan Terburuk",
       "top_percent": "Top {percent}%",
       "bottom_percent": "Bottom {percent}%"
     },
     "no_data": {
-      "title": "No Stats Available",
-      "subtitle": "Import your resonance data to see your personal stats."
+      "title": "Tidak Ada Statistik",
+      "subtitle": "Impor data resonansi Anda untuk melihat statistik pribadi."
     }
   }
 }

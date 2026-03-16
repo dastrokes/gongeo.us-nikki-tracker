@@ -445,7 +445,7 @@
         "pearpal": "Whim-Log",
         "game": "Juego",
         "auto": "Auto",
-        "data_source_tooltip": "Choose a data source. If unavailable, the other source is used as fallback.",
+        "data_source_tooltip": "Elige una fuente de datos. Si no está disponible, se usará la otra como alternativa.",
         "auto_option": "\"Auto\" combines both sources, preferring the one with more pulls per banner."
       }
     },

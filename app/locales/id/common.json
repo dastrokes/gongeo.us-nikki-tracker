@@ -445,7 +445,7 @@
         "pearpal": "Whim-Log",
         "game": "Permainan",
         "auto": "Mobil",
-        "data_source_tooltip": "Choose a data source. If unavailable, the other source is used as fallback.",
+        "data_source_tooltip": "Pilih sumber data. Jika tidak tersedia, sumber lain akan digunakan sebagai cadangan.",
         "auto_option": "\"Auto\" combines both sources, preferring the one with more pulls per banner."
       }
     },

@@ -445,8 +445,8 @@
         "pearpal": "奇想手賬",
         "game": "遊戲",
         "auto": "自動",
-        "data_source_tooltip": "Choose a data source. If unavailable, the other source is used as fallback.",
-        "auto_option": "\"Auto\" combines both sources, preferring the one with more pulls per banner."
+        "data_source_tooltip": "選擇資料來源。若所選來源無資料，將自動使用另一個作為備用。",
+        "auto_option": "\"自動\"合併兩個資料來源，對每個卡池優先使用資料量較多的來源。"
       }
     },
     "items": {

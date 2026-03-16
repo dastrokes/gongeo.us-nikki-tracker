@@ -768,7 +768,7 @@
     "luck": {
       "avg_pulls": "Moy. {count} pulls",
       "top_percent": "Top {percent}%",
-      "bottom_percent": "Bas {percent}%"
+      "bottom_percent": "Bottom {percent}%"
     },
     "charts": {
       "luck_per_banner": "Chance 5★ par Bannière",

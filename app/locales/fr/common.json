@@ -65,7 +65,7 @@
     "join_community": "Rejoindre la communauté",
     "support_website": "Soutenir le site",
     "nuan5pro": "Nuan5.Pro",
-    "stats": "Personal Stats"
+    "stats": "Statistiques Personnelles"
   },
   "meta": {
     "title": "Infinity Nikki Resonance Tracker - Historique et statistiques d'extraction",
@@ -87,7 +87,7 @@
       "item_detail": "Affichez des informations détaillées sur l'objet {name}, notamment sa qualité, son évolution et son éclat, ses statistiques, ainsi que les tenues et bannières associées.",
       "faq": "Trouvez les réponses aux questions fréquemment posées sur gongeo.us, notamment sur la confidentialité des données, les méthodes d'importation et les directives d'utilisation.",
       "about": "Apprenez-en davantage sur gongeo.us, y compris son objectif, sa politique de confidentialité, ses clauses de non-responsabilité et la manière dont il prend en charge la communauté Infinity Nikki.",
-      "stats": "View your personal Infinity Nikki resonance pull statistics, luck analysis, streaks, and pulling activity."
+      "stats": "Consultez vos statistiques personnelles de pulls de résonance Infinity Nikki, l'analyse de chance, les séries et l'activité de pulls."
     }
   },
   "default": {
@@ -446,7 +446,7 @@
         "game": "Jeu",
         "auto": "Auto",
         "data_source_tooltip": "Choisissez une source de données. Si indisponible, l'autre source sera utilisée comme alternative.",
-        "auto_option": "\"Auto\" combinera les deux sources, en préférant la source avec plus d'attractions pour chaque bannière."
+        "auto_option": "\"Auto\" combine les deux sources, en préférant celle avec le plus de pulls par bannière."
       }
     },
     "items": {
@@ -760,42 +760,42 @@
     }
   },
   "stats": {
-    "title": "Personal Stats",
+    "title": "Statistiques Personnelles",
     "overview": {
-      "luck_rating": "Luck Rating"
+      "luck_rating": "Indice de Chance"
     },
-    "notice_limited": "Stats are from limited banners only. Permanent banners are excluded.",
+    "notice_limited": "Les statistiques proviennent uniquement des bannières limitées. Les bannières permanentes sont exclues.",
     "luck": {
-      "avg_pulls": "Avg {count} pulls",
+      "avg_pulls": "Moy. {count} pulls",
       "percentile": "Top {percent}%"
     },
     "charts": {
-      "luck_per_banner": "5★ Luck Per Banner",
-      "luck_per_banner_type3": "4★ Luck Per Banner",
-      "five_star_distribution": "5★ Pull Distribution",
-      "four_star_distribution": "4★ Distribution (5★ Banner)",
-      "four_star_type3_distribution": "4★ Distribution (4★ Banner)",
-      "pull_timeline": "Pull Activity",
-      "cumulative_pulls": "Cumulative",
-      "number_of_pulls": "Number of Pulls",
-      "frequency": "Frequency"
+      "luck_per_banner": "Chance 5★ par Bannière",
+      "luck_per_banner_type3": "Chance 4★ par Bannière",
+      "five_star_distribution": "Distribution des Pulls 5★",
+      "four_star_distribution": "Distribution 4★ (Bannière 5★)",
+      "four_star_type3_distribution": "Distribution 4★ (Bannière 4★)",
+      "pull_timeline": "Activité de Pulls",
+      "cumulative_pulls": "Cumulatif",
+      "number_of_pulls": "Nombre de Pulls",
+      "frequency": "Fréquence"
     },
     "share": {
-      "title": "Share Card",
-      "export_image": "Export as Image",
-      "landscape": "Landscape",
+      "title": "Carte de Partage",
+      "export_image": "Exporter en Image",
+      "landscape": "Paysage",
       "portrait": "Portrait",
-      "in_progress": "Generating share card…",
-      "success": "Share card exported!",
-      "error": "Failed to export share card.",
-      "best_luck": "Best Luck",
-      "worst_luck": "Worst Luck",
+      "in_progress": "Génération de la carte…",
+      "success": "Carte exportée !",
+      "error": "Échec de l'exportation de la carte.",
+      "best_luck": "Meilleure Chance",
+      "worst_luck": "Pire Chance",
       "top_percent": "Top {percent}%",
       "bottom_percent": "Bottom {percent}%"
     },
     "no_data": {
-      "title": "No Stats Available",
-      "subtitle": "Import your resonance data to see your personal stats."
+      "title": "Aucune Statistique",
+      "subtitle": "Importez vos données de résonance pour voir vos statistiques personnelles."
     }
   }
 }

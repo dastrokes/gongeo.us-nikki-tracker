@@ -65,7 +65,7 @@
     "join_community": "Unisciti alla community",
     "support_website": "Supporta il sito",
     "nuan5pro": "Nuan5.Pro",
-    "stats": "Personal Stats"
+    "stats": "Statistiche Personali"
   },
   "meta": {
     "title": "Tracker di risonanza Infinity Nikki: cronologia e statistiche",
@@ -87,7 +87,7 @@
       "item_detail": "Visualizza informazioni dettagliate sull'oggetto {name}, inclusi qualità, evoluzione e luminosità, statistiche e relativi abiti e stendardi.",
       "faq": "Trova le risposte alle domande frequenti su gongeo.us, tra cui privacy dei dati, metodi di importazione e linee guida sull'utilizzo.",
       "about": "Scopri di più su gongeo.us, incluso il suo scopo, l'informativa sulla privacy, le dichiarazioni di non responsabilità e il modo in cui supporta la comunità Infinity Nikki.",
-      "stats": "View your personal Infinity Nikki resonance pull statistics, luck analysis, streaks, and pulling activity."
+      "stats": "Visualizza le tue statistiche personali di pull di risonanza di Infinity Nikki, analisi della fortuna, serie e attività di pull."
     }
   },
   "default": {
@@ -446,7 +446,7 @@
         "game": "Gioco",
         "auto": "Auto",
         "data_source_tooltip": "Scegli una fonte dati. Se non disponibile, verrà usata l'altra come alternativa.",
-        "auto_option": "\"Auto\" combinerà entrambe le fonti, preferendo la fonte con più pull per ciascun banner."
+        "auto_option": "\"Auto\" combina entrambe le fonti, preferendo quella con più pull per banner."
       }
     },
     "items": {
@@ -760,42 +760,42 @@
     }
   },
   "stats": {
-    "title": "Personal Stats",
+    "title": "Statistiche Personali",
     "overview": {
-      "luck_rating": "Luck Rating"
+      "luck_rating": "Valutazione Fortuna"
     },
-    "notice_limited": "Stats are from limited banners only. Permanent banners are excluded.",
+    "notice_limited": "Le statistiche riguardano solo i banner limitati. I banner permanenti sono esclusi.",
     "luck": {
-      "avg_pulls": "Avg {count} pulls",
+      "avg_pulls": "Media {count} pull",
       "percentile": "Top {percent}%"
     },
     "charts": {
-      "luck_per_banner": "5★ Luck Per Banner",
-      "luck_per_banner_type3": "4★ Luck Per Banner",
-      "five_star_distribution": "5★ Pull Distribution",
-      "four_star_distribution": "4★ Distribution (5★ Banner)",
-      "four_star_type3_distribution": "4★ Distribution (4★ Banner)",
-      "pull_timeline": "Pull Activity",
-      "cumulative_pulls": "Cumulative",
-      "number_of_pulls": "Number of Pulls",
-      "frequency": "Frequency"
+      "luck_per_banner": "Fortuna 5★ per Banner",
+      "luck_per_banner_type3": "Fortuna 4★ per Banner",
+      "five_star_distribution": "Distribuzione Pull 5★",
+      "four_star_distribution": "Distribuzione 4★ (Banner 5★)",
+      "four_star_type3_distribution": "Distribuzione 4★ (Banner 4★)",
+      "pull_timeline": "Attività Pull",
+      "cumulative_pulls": "Cumulativo",
+      "number_of_pulls": "Numero di Pull",
+      "frequency": "Frequenza"
     },
     "share": {
-      "title": "Share Card",
-      "export_image": "Export as Image",
-      "landscape": "Landscape",
-      "portrait": "Portrait",
-      "in_progress": "Generating share card…",
-      "success": "Share card exported!",
-      "error": "Failed to export share card.",
-      "best_luck": "Best Luck",
-      "worst_luck": "Worst Luck",
+      "title": "Scheda di Condivisione",
+      "export_image": "Esporta come Immagine",
+      "landscape": "Orizzontale",
+      "portrait": "Verticale",
+      "in_progress": "Generazione scheda in corso…",
+      "success": "Scheda esportata!",
+      "error": "Esportazione scheda fallita.",
+      "best_luck": "Miglior Fortuna",
+      "worst_luck": "Peggior Fortuna",
       "top_percent": "Top {percent}%",
       "bottom_percent": "Bottom {percent}%"
     },
     "no_data": {
-      "title": "No Stats Available",
-      "subtitle": "Import your resonance data to see your personal stats."
+      "title": "Nessuna Statistica",
+      "subtitle": "Importa i tuoi dati di risonanza per vedere le tue statistiche personali."
     }
   }
 }

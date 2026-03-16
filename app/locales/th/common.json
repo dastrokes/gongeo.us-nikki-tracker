@@ -767,7 +767,8 @@
     "notice_limited": "สถิติมาจากแบนเนอร์จำกัดเวลาเท่านั้น ไม่รวมแบนเนอร์ถาวร",
     "luck": {
       "avg_pulls": "เฉลี่ย {count} ครั้ง",
-      "percentile": "อันดับ {percent}% แรก"
+      "top_percent": "Top {percent}%",
+      "bottom_percent": "Bottom {percent}%"
     },
     "charts": {
       "luck_per_banner": "โชค 5★ ต่อแบนเนอร์",
@@ -789,9 +790,7 @@
       "success": "ส่งออกการ์ดแชร์แล้ว!",
       "error": "ส่งออกการ์ดแชร์ไม่สำเร็จ",
       "best_luck": "โชคดีที่สุด",
-      "worst_luck": "โชคร้ายที่สุด",
-      "top_percent": "อันดับ {percent}% แรก",
-      "bottom_percent": "อันดับ {percent}% ท้าย"
+      "worst_luck": "โชคร้ายที่สุด"
     },
     "no_data": {
       "title": "ไม่มีสถิติ",

@@ -767,7 +767,8 @@
     "notice_limited": "Statistik hanya dari banner terbatas. Banner permanen tidak termasuk.",
     "luck": {
       "avg_pulls": "Rata-rata {count} tarikan",
-      "percentile": "Top {percent}%"
+      "top_percent": "Top {percent}%",
+      "bottom_percent": "Bottom {percent}%"
     },
     "charts": {
       "luck_per_banner": "Keberuntungan 5★ per Banner",
@@ -789,9 +790,7 @@
       "success": "Kartu berbagi diekspor!",
       "error": "Gagal mengekspor kartu berbagi.",
       "best_luck": "Keberuntungan Terbaik",
-      "worst_luck": "Keberuntungan Terburuk",
-      "top_percent": "Top {percent}%",
-      "bottom_percent": "Bottom {percent}%"
+      "worst_luck": "Keberuntungan Terburuk"
     },
     "no_data": {
       "title": "Tidak Ada Statistik",

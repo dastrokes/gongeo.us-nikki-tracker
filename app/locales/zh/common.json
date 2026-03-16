@@ -767,7 +767,8 @@
     "notice_limited": "统计仅包含限定卡池，不含常驻卡池。",
     "luck": {
       "avg_pulls": "平均 {count} 抽",
-      "percentile": "前 {percent}%"
+      "top_percent": "前 {percent}%",
+      "bottom_percent": "后 {percent}%"
     },
     "charts": {
       "luck_per_banner": "5★ 各卡池运气",
@@ -788,10 +789,8 @@
       "in_progress": "正在生成分享卡片…",
       "success": "分享卡片导出成功！",
       "error": "分享卡片导出失败。",
-      "best_luck": "最幸运",
-      "worst_luck": "最不幸",
-      "top_percent": "前 {percent}%",
-      "bottom_percent": "后 {percent}%"
+      "best_luck": "运气最好",
+      "worst_luck": "运气最差"
     },
     "no_data": {
       "title": "暂无统计数据",

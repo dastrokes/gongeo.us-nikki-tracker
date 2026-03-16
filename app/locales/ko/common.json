@@ -767,7 +767,8 @@
     "notice_limited": "통계는 한정 배너만 포함됩니다. 상시 배너는 제외됩니다.",
     "luck": {
       "avg_pulls": "평균 {count}회",
-      "percentile": "상위 {percent}%"
+      "top_percent": "상위 {percent}%",
+      "bottom_percent": "하위 {percent}%"
     },
     "charts": {
       "luck_per_banner": "배너별 5★ 행운",
@@ -789,9 +790,7 @@
       "success": "공유 카드가 내보내졌습니다!",
       "error": "공유 카드 내보내기에 실패했습니다.",
       "best_luck": "최고 행운",
-      "worst_luck": "최저 행운",
-      "top_percent": "상위 {percent}%",
-      "bottom_percent": "하위 {percent}%"
+      "worst_luck": "최저 행운"
     },
     "no_data": {
       "title": "통계 없음",

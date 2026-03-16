@@ -767,8 +767,8 @@
     "notice_limited": "As estatísticas são apenas de banners limitados. Banners permanentes estão excluídos.",
     "luck": {
       "avg_pulls": "Média de {count} pulls",
-      "top_percent": "Superior {percent}%",
-      "bottom_percent": "Inferior {percent}%"
+      "top_percent": "Top {percent}%",
+      "bottom_percent": "Bottom {percent}%"
     },
     "charts": {
       "luck_per_banner": "Sorte 5★ por Banner",

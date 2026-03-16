@@ -65,7 +65,7 @@
     "join_community": "커뮤니티 참여",
     "support_website": "사이트 후원",
     "nuan5pro": "Nuan5.Pro",
-    "stats": "Personal Stats"
+    "stats": "개인 통계"
   },
   "meta": {
     "title": "Infinity Nikki 공명 추적기 - 풀 기록 및 통계",
@@ -87,7 +87,7 @@
       "item_detail": "품질, 진화 및 발광, 통계, 관련 의상 및 배너를 포함하여 {name} 아이템에 대한 자세한 정보를 확인하세요.",
       "faq": "데이터 개인정보 보호, 가져오기 방법, 사용 지침 등 gongeo.us 에 대해 자주 묻는 질문에 대한 답변을 찾아보세요.",
       "about": "gongeo.us 의 목적, 개인정보 보호 정책, 면책 조항 및 Infinity Nikki 커뮤니티를 지원하는 방법 등에 대해 자세히 알아보세요.",
-      "stats": "View your personal Infinity Nikki resonance pull statistics, luck analysis, streaks, and pulling activity."
+      "stats": "개인 Infinity Nikki 공명 풀 통계, 행운 분석, 연속 기록 및 풀 활동을 확인하세요."
     }
   },
   "default": {
@@ -446,7 +446,7 @@
         "game": "게임",
         "auto": "자동",
         "data_source_tooltip": "데이터 소스를 선택하세요. 선택한 소스에 데이터가 없으면 다른 소스가 대신 사용됩니다.",
-        "auto_option": "\"자동\"은 두 소스를 결합하여 각 배너에 대해 더 많은 풀을 가져오는 소스를 선호합니다."
+        "auto_option": "\"자동\"은 두 소스를 결합하여 배너당 풀이 더 많은 소스를 선호합니다."
       }
     },
     "items": {
@@ -760,42 +760,42 @@
     }
   },
   "stats": {
-    "title": "Personal Stats",
+    "title": "개인 통계",
     "overview": {
-      "luck_rating": "Luck Rating"
+      "luck_rating": "행운 등급"
     },
-    "notice_limited": "Stats are from limited banners only. Permanent banners are excluded.",
+    "notice_limited": "통계는 한정 배너만 포함됩니다. 상시 배너는 제외됩니다.",
     "luck": {
-      "avg_pulls": "Avg {count} pulls",
-      "percentile": "Top {percent}%"
+      "avg_pulls": "평균 {count}회",
+      "percentile": "상위 {percent}%"
     },
     "charts": {
-      "luck_per_banner": "5★ Luck Per Banner",
-      "luck_per_banner_type3": "4★ Luck Per Banner",
-      "five_star_distribution": "5★ Pull Distribution",
-      "four_star_distribution": "4★ Distribution (5★ Banner)",
-      "four_star_type3_distribution": "4★ Distribution (4★ Banner)",
-      "pull_timeline": "Pull Activity",
-      "cumulative_pulls": "Cumulative",
-      "number_of_pulls": "Number of Pulls",
-      "frequency": "Frequency"
+      "luck_per_banner": "배너별 5★ 행운",
+      "luck_per_banner_type3": "배너별 4★ 행운",
+      "five_star_distribution": "5★ 풀 분포",
+      "four_star_distribution": "4★ 분포 (5★ 배너)",
+      "four_star_type3_distribution": "4★ 분포 (4★ 배너)",
+      "pull_timeline": "풀 활동",
+      "cumulative_pulls": "누적",
+      "number_of_pulls": "풀 횟수",
+      "frequency": "빈도"
     },
     "share": {
-      "title": "Share Card",
-      "export_image": "Export as Image",
-      "landscape": "Landscape",
-      "portrait": "Portrait",
-      "in_progress": "Generating share card…",
-      "success": "Share card exported!",
-      "error": "Failed to export share card.",
-      "best_luck": "Best Luck",
-      "worst_luck": "Worst Luck",
-      "top_percent": "Top {percent}%",
-      "bottom_percent": "Bottom {percent}%"
+      "title": "공유 카드",
+      "export_image": "이미지로 내보내기",
+      "landscape": "가로",
+      "portrait": "세로",
+      "in_progress": "공유 카드 생성 중…",
+      "success": "공유 카드가 내보내졌습니다!",
+      "error": "공유 카드 내보내기에 실패했습니다.",
+      "best_luck": "최고 행운",
+      "worst_luck": "최저 행운",
+      "top_percent": "상위 {percent}%",
+      "bottom_percent": "하위 {percent}%"
     },
     "no_data": {
-      "title": "No Stats Available",
-      "subtitle": "Import your resonance data to see your personal stats."
+      "title": "통계 없음",
+      "subtitle": "개인 통계를 보려면 공명 데이터를 가져오세요."
     }
   }
 }

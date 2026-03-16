@@ -767,7 +767,8 @@
     "notice_limited": "Stats are from limited banners only. Permanent banners are excluded.",
     "luck": {
       "avg_pulls": "Avg {count} pulls",
-      "percentile": "Top {percent}%"
+      "top_percent": "Top {percent}%",
+      "bottom_percent": "Bottom {percent}%"
     },
     "charts": {
       "luck_per_banner": "5★ Luck Per Banner",
@@ -789,9 +790,7 @@
       "success": "Share card exported!",
       "error": "Failed to export share card.",
       "best_luck": "Best Luck",
-      "worst_luck": "Worst Luck",
-      "top_percent": "Top {percent}%",
-      "bottom_percent": "Bottom {percent}%"
+      "worst_luck": "Worst Luck"
     },
     "no_data": {
       "title": "No Stats Available",

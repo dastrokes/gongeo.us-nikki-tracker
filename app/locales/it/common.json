@@ -767,7 +767,8 @@
     "notice_limited": "Le statistiche riguardano solo i banner limitati. I banner permanenti sono esclusi.",
     "luck": {
       "avg_pulls": "Media {count} pull",
-      "percentile": "Top {percent}%"
+      "top_percent": "Superiore {percent}%",
+      "bottom_percent": "Inferiore {percent}%"
     },
     "charts": {
       "luck_per_banner": "Fortuna 5★ per Banner",
@@ -789,9 +790,7 @@
       "success": "Scheda esportata!",
       "error": "Esportazione scheda fallita.",
       "best_luck": "Miglior Fortuna",
-      "worst_luck": "Peggior Fortuna",
-      "top_percent": "Top {percent}%",
-      "bottom_percent": "Bottom {percent}%"
+      "worst_luck": "Peggior Fortuna"
     },
     "no_data": {
       "title": "Nessuna Statistica",

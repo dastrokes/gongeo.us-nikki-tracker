@@ -1276,8 +1276,8 @@
 
     return t(
       direction === 'top'
-        ? 'stats.share.top_percent'
-        : 'stats.share.bottom_percent',
+        ? 'stats.luck.top_percent'
+        : 'stats.luck.bottom_percent',
       { percent: placementPercent }
     )
   }
@@ -1477,6 +1477,33 @@
     return `rgba(239, 68, 68, ${baseOpacity})`
   }
 
+  const getBannerThumbChartImage = (
+    bannerId: string | number | undefined,
+    width = 200,
+    height = 100
+  ) => {
+    if (!bannerId) return ''
+
+    return nuxtImg(getImageSrc('bannerThumb', bannerId.toString()), {
+      width,
+      height,
+      quality: 80,
+      format: 'webp',
+    })
+  }
+
+  const createLuckBarData = (
+    values: number[],
+    getBarColor: (value: number) => string
+  ) =>
+    values.map((value) => ({
+      value,
+      itemStyle: {
+        color: getBarColor(value),
+        borderRadius: [0, 4, 4, 0],
+      },
+    }))
+
   // ── 5★ Luck Per Banner Chart ──
   const createLuckPerBannerChart = () => {
     const data = bannerLuckRanking.value
@@ -1515,14 +1542,7 @@
           const name = banner?.bannerId
             ? t(`banner.${banner.bannerId}.name`)
             : ''
-          const imageUrl = entry.bannerId
-            ? nuxtImg(getImageSrc('bannerThumb', entry.bannerId.toString()), {
-                width: 200,
-                height: 100,
-                quality: 80,
-                format: 'webp',
-              })
-            : ''
+          const imageUrl = getBannerThumbChartImage(entry.bannerId)
           const imgHtml = imageUrl
             ? `<img src="${imageUrl}" alt="${name}" style="width: 200px; height: 100px; object-fit: cover; border-radius: 4px; margin-top: 8px;" />`
             : ''
@@ -1532,8 +1552,8 @@
             ? (100 - entry.percentile).toFixed(1)
             : entry.percentile.toFixed(1)
           const placementText = isLucky
-            ? t('stats.share.top_percent', { percent: displayPercent })
-            : t('stats.share.bottom_percent', { percent: displayPercent })
+            ? t('stats.luck.top_percent', { percent: displayPercent })
+            : t('stats.luck.bottom_percent', { percent: displayPercent })
 
           return `
             <div style="display: flex; flex-direction: column; align-items: center;">
@@ -1581,13 +1601,10 @@
       series: [
         {
           type: 'bar',
-          data: sorted.map((entry) => ({
-            value: entry.avg5StarPulls,
-            itemStyle: {
-              color: get5StarBannerLuckBarColor(entry.avg5StarPulls),
-              borderRadius: [0, 4, 4, 0],
-            },
-          })),
+          data: createLuckBarData(
+            sorted.map((entry) => entry.avg5StarPulls),
+            get5StarBannerLuckBarColor
+          ),
           markLine: {
             silent: true,
             symbol: 'none',
@@ -1644,14 +1661,7 @@
           const name = banner?.bannerId
             ? t(`banner.${banner.bannerId}.name`)
             : ''
-          const imageUrl = entry.bannerId
-            ? nuxtImg(getImageSrc('bannerThumb', entry.bannerId.toString()), {
-                width: 200,
-                height: 100,
-                quality: 80,
-                format: 'webp',
-              })
-            : ''
+          const imageUrl = getBannerThumbChartImage(entry.bannerId)
           const imgHtml = imageUrl
             ? `<img src="${imageUrl}" alt="${name}" style="width: 200px; height: 100px; object-fit: cover; border-radius: 4px; margin-top: 8px;" />`
             : ''
@@ -1661,8 +1671,8 @@
             ? (100 - entry.percentile).toFixed(1)
             : entry.percentile.toFixed(1)
           const placementText = isLucky
-            ? t('stats.share.top_percent', { percent: displayPercent })
-            : t('stats.share.bottom_percent', { percent: displayPercent })
+            ? t('stats.luck.top_percent', { percent: displayPercent })
+            : t('stats.luck.bottom_percent', { percent: displayPercent })
 
           return `
             <div style="display: flex; flex-direction: column; align-items: center;">
@@ -1710,13 +1720,10 @@
       series: [
         {
           type: 'bar',
-          data: sorted.map((entry) => ({
-            value: entry.avg4StarPulls,
-            itemStyle: {
-              color: get4StarBannerLuckBarColor(entry.avg4StarPulls),
-              borderRadius: [0, 4, 4, 0],
-            },
-          })),
+          data: createLuckBarData(
+            sorted.map((entry) => entry.avg4StarPulls),
+            get4StarBannerLuckBarColor
+          ),
           markLine: {
             silent: true,
             symbol: 'none',

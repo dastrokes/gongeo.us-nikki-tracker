@@ -767,7 +767,8 @@
     "notice_limited": "Statistiken sind nur von limitierten Bannern. Permanente Banner sind ausgeschlossen.",
     "luck": {
       "avg_pulls": "Durschn. {count} Resonanzen",
-      "percentile": "Top {percent}%"
+      "top_percent": "Top {percent}%",
+      "bottom_percent": "Unteres {percent}%"
     },
     "charts": {
       "luck_per_banner": "5★ Glück pro Banner",
@@ -789,9 +790,7 @@
       "success": "Teilen-Karte exportiert!",
       "error": "Teilen-Karte konnte nicht exportiert werden.",
       "best_luck": "Bestes Glück",
-      "worst_luck": "Schlimmstes Glück",
-      "top_percent": "Top {percent}%",
-      "bottom_percent": "Unteres {percent}%"
+      "worst_luck": "Schlimmstes Glück"
     },
     "no_data": {
       "title": "Keine Statistiken verfügbar",

@@ -767,7 +767,8 @@
     "notice_limited": "Las estadísticas son solo de banners limitados. Los banners permanentes están excluidos.",
     "luck": {
       "avg_pulls": "Promedio de {count} pulls",
-      "percentile": "Top {percent}%"
+      "top_percent": "Superior {percent}%",
+      "bottom_percent": "Inferior {percent}%"
     },
     "charts": {
       "luck_per_banner": "Suerte 5★ por Banner",
@@ -789,9 +790,7 @@
       "success": "¡Tarjeta exportada!",
       "error": "Error al exportar la tarjeta.",
       "best_luck": "Mejor Suerte",
-      "worst_luck": "Peor Suerte",
-      "top_percent": "Top {percent}%",
-      "bottom_percent": "Bottom {percent}%"
+      "worst_luck": "Peor Suerte"
     },
     "no_data": {
       "title": "Sin Estadísticas",

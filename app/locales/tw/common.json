@@ -709,10 +709,10 @@
     },
     "community_submit": {
       "browser_only_error": "社群提交僅支援瀏覽器環境",
-      "tooltip_ready": "將你完成的 Tier List 提交到社群排行。",
+      "tooltip_ready": "將你完成的排行榜提交到社群排行。",
       "scope_unavailable_toast": "目前篩選範圍暫不支援社群提交。",
-      "success": "社群 Tier List 提交成功",
-      "failed": "提交社群 Tier List 失敗",
+      "success": "社群排行榜提交成功",
+      "failed": "提交社群排行榜失敗",
       "blocked": {
         "error": "條目載入失敗時無法提交。",
         "over_limit": "提交前請加入更多篩選條件。",

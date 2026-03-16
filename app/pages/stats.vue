@@ -50,11 +50,7 @@
 
     <div v-else-if="!hasData">
       <!-- No Data State -->
-      <n-card
-        size="small"
-        class="rounded-xl"
-        content-class="!p-4"
-      >
+      <n-card class="text-center rounded-xl">
         <n-result
           size="small"
           status="info"

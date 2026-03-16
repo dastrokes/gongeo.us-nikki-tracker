@@ -767,8 +767,8 @@
     "notice_limited": "Statistik hanya dari banner terbatas. Banner permanen tidak termasuk.",
     "luck": {
       "avg_pulls": "Rata-rata {count} tarikan",
-      "top_percent": "Atas {percent}%",
-      "bottom_percent": "Bawah {percent}%"
+      "top_percent": "Top {percent}%",
+      "bottom_percent": "Bottom {percent}%"
     },
     "charts": {
       "luck_per_banner": "Keberuntungan 5★ per Banner",

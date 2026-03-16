@@ -767,8 +767,8 @@
     "notice_limited": "統計は期間限定バナーのみが対象です。恒常バナーは除外されます。",
     "luck": {
       "avg_pulls": "平均 {count} 回",
-      "top_percent": "上位 {percent}%",
-      "bottom_percent": "下位 {percent}%"
+      "top_percent": "Top {percent}%",
+      "bottom_percent": "Bottom {percent}%"
     },
     "charts": {
       "luck_per_banner": "バナーごとの5★運勢",

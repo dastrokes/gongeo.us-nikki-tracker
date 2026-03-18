@@ -1062,37 +1062,43 @@
                     : 'bg-black/5 ring-black/10'
                 "
               >
-                <div class="flex justify-between items-center">
-                  <span class="text-xs opacity-50">
+                <div class="flex justify-between items-center gap-2">
+                  <span class="text-xs opacity-50 whitespace-nowrap shrink-0">
                     <span class="text-amber-500">5★</span> /
                     <span class="text-sky-500">4★</span>
                     {{ $t('common.pulls') }}
                   </span>
-                  <span class="font-bold tabular-nums">
+                  <span
+                    class="font-bold tabular-nums whitespace-nowrap shrink-0"
+                  >
                     <span class="text-amber-500">{{ pulls5StarBanners }}</span>
                     <span class="mx-0.5 text-gray-400">/</span>
                     <span class="text-sky-500">{{ pulls4StarBanners }}</span>
                   </span>
                 </div>
-                <div class="flex justify-between items-center">
-                  <span class="text-xs opacity-50">
+                <div class="flex justify-between items-center gap-2">
+                  <span class="text-xs opacity-50 whitespace-nowrap shrink-0">
                     <span class="text-amber-500">5★</span> /
                     <span class="text-sky-500">4★</span>
                     {{ $t('common.banners') }}
                   </span>
-                  <span class="font-bold tabular-nums">
+                  <span
+                    class="font-bold tabular-nums whitespace-nowrap shrink-0"
+                  >
                     <span class="text-amber-500">{{ bannersPulled5Star }}</span>
                     <span class="mx-0.5 text-gray-400">/</span>
                     <span class="text-sky-500">{{ bannersPulled4Star }}</span>
                   </span>
                 </div>
-                <div class="flex justify-between items-center">
-                  <span class="text-xs opacity-50">
+                <div class="flex justify-between items-center gap-2">
+                  <span class="text-xs opacity-50 whitespace-nowrap shrink-0">
                     <span class="text-amber-500">5★</span> /
                     <span class="text-sky-500">4★</span>
                     {{ $t('common.outfits') }}
                   </span>
-                  <span class="font-bold tabular-nums">
+                  <span
+                    class="font-bold tabular-nums whitespace-nowrap shrink-0"
+                  >
                     <span class="text-amber-500">{{
                       outfitsObtained5Star
                     }}</span>
@@ -1100,46 +1106,52 @@
                     <span class="text-sky-500">{{ outfitsObtained4Star }}</span>
                   </span>
                 </div>
-                <div class="flex justify-between items-center">
-                  <span class="text-xs opacity-50">
+                <div class="flex justify-between items-center gap-2">
+                  <span class="text-xs opacity-50 whitespace-nowrap shrink-0">
                     <span class="text-amber-500">5★</span> /
                     <span class="text-sky-500">4★</span>
                     {{ $t('common.items') }}
                   </span>
-                  <span class="font-bold tabular-nums">
+                  <span
+                    class="font-bold tabular-nums whitespace-nowrap shrink-0"
+                  >
                     <span class="text-amber-500">{{
                       globalStats.total5StarItems
                     }}</span>
                     <span class="mx-0.5 text-gray-400">/</span>
-                    <span class="text-sky-500">
-                      {{
-                        globalStats.total4StarItems +
-                        globalStats.total4StarOnlyItems
-                      }}
-                    </span>
+                    <span class="text-sky-500">{{
+                      globalStats.total4StarItems +
+                      globalStats.total4StarOnlyItems
+                    }}</span>
                   </span>
                 </div>
-                <div class="flex justify-between items-center">
-                  <span class="text-xs opacity-50 capitalize">
+                <div class="flex justify-between items-center gap-2">
+                  <span
+                    class="text-xs opacity-50 capitalize whitespace-nowrap shrink-0"
+                  >
                     {{ $t('tracker.banner.stats.avg_5star') }}
                   </span>
-                  <span class="font-bold tabular-nums">
+                  <span class="font-bold tabular-nums shrink-0">
                     {{ globalStats.avg5StarPulls.toFixed(1) }}
                   </span>
                 </div>
-                <div class="flex justify-between items-center">
-                  <span class="text-xs opacity-50 capitalize">
+                <div class="flex justify-between items-center gap-2">
+                  <span
+                    class="text-xs opacity-50 capitalize whitespace-nowrap shrink-0"
+                  >
                     {{ $t('tracker.stats.avg_4star_mixed') }}
                   </span>
-                  <span class="font-bold tabular-nums">
+                  <span class="font-bold tabular-nums shrink-0">
                     {{ globalStats.avg4StarPulls.toFixed(1) }}
                   </span>
                 </div>
-                <div class="flex justify-between items-center">
-                  <span class="text-xs opacity-50 capitalize">
+                <div class="flex justify-between items-center gap-2">
+                  <span
+                    class="text-xs opacity-50 capitalize whitespace-nowrap shrink-0"
+                  >
                     {{ $t('tracker.stats.avg_4star_only') }}
                   </span>
-                  <span class="font-bold tabular-nums">
+                  <span class="font-bold tabular-nums shrink-0">
                     {{ globalStats.avg4StarOnlyPulls.toFixed(1) }}
                   </span>
                 </div>

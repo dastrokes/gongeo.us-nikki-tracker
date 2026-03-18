@@ -37,8 +37,8 @@ export const exportToPng = async (element: HTMLElement, fileName: string) => {
   const snapdom = await getSnapdom()
   const image = await snapdom.toPng(element, {
     embedFonts: true,
-    width: element.scrollWidth,
-    height: element.scrollHeight,
+    width: element.offsetWidth,
+    height: element.offsetHeight,
   })
 
   downloadDataUrl(image.src, fileName)

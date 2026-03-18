@@ -6,7 +6,6 @@ Condensed schema reference for LLM/agent context.
 
 - `public.generate_first_item_json_for_banner(p_banner_id integer) -> jsonb`
 - `public.generate_global_core_json() -> jsonb`
-- `public.generate_json_data() -> jsonb`
 - `public.generate_percentile_data() -> jsonb`
 - `public.generate_tierlist_data() -> jsonb`
 - `public.refresh_global_banner_stats(p_banner_id integer) -> jsonb`

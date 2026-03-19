@@ -7,7 +7,7 @@ command = "npm run build"
   NODE_OPTIONS = "--max-old-space-size=8192"
 
 [images]
-remote_images = [ "https://ik.imagekit.io/.*" ]
+remote_images = [ "https://ik.imagekit.io/.*", "https://res.cloudinary.com/gongeous/.*", "https://cdn.gongeo.us/.*" ]
 
 [[edge_functions]]
 function = "bot-block"

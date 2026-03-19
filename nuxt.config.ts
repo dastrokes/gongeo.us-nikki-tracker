@@ -18,6 +18,8 @@ const imagekitBaseUrl =
 const cloudinaryBaseUrl =
   process.env.NUXT_PUBLIC_CLOUDINARY_BASE_URL ||
   'https://res.cloudinary.com/gongeous/image/upload'
+const bunnyBaseUrl =
+  process.env.NUXT_PUBLIC_BUNNY_BASE_URL || 'https://cdn.gongeo.us'
 
 export default defineNuxtConfig({
   devtools: { enabled: false },
@@ -87,6 +89,7 @@ export default defineNuxtConfig({
       siteUrl,
       imagekitBaseUrl,
       cloudinaryBaseUrl,
+      bunnyBaseUrl,
       imageProvider: getImageProvider(),
     },
   },
@@ -94,9 +97,12 @@ export default defineNuxtConfig({
   image: {
     dir: '../public',
     provider: getImageProvider(),
-    domains: [imagekitBaseUrl],
+    domains: [imagekitBaseUrl, cloudinaryBaseUrl, bunnyBaseUrl],
     imagekit: {
       baseURL: imagekitBaseUrl,
+    },
+    bunny: {
+      baseURL: bunnyBaseUrl,
     },
     format: ['webp'],
     quality: 80,

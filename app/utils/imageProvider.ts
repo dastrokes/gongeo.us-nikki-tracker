@@ -5,7 +5,8 @@ export const getImageProvider = () => {
     configuredProvider === 'ipx' ||
     configuredProvider === 'netlify' ||
     configuredProvider === 'imagekit' ||
-    configuredProvider === 'cloudinary'
+    configuredProvider === 'cloudinary' ||
+    configuredProvider === 'bunny'
   ) {
     return configuredProvider
   }
@@ -16,7 +17,7 @@ export const getImageProvider = () => {
 export const imageProvider = () => {
   const runtimeConfig = useRuntimeConfig()
 
-  type ImageProvider = 'ipx' | 'netlify' | 'imagekit' | 'cloudinary'
+  type ImageProvider = 'ipx' | 'netlify' | 'imagekit' | 'cloudinary' | 'bunny'
   type ImageSrcType =
     | 'banner'
     | 'bannerThumb'
@@ -27,6 +28,8 @@ export const imageProvider = () => {
     | 'static'
 
   const imagekitBaseUrl = runtimeConfig.public.imagekitBaseUrl as string
+  const cloudinaryBaseUrl = runtimeConfig.public.cloudinaryBaseUrl as string
+  const bunnyBaseUrl = runtimeConfig.public.bunnyBaseUrl as string
   const defaultProvider = runtimeConfig.public.imageProvider as ImageProvider
 
   const getImagePath = (
@@ -80,13 +83,14 @@ export const imageProvider = () => {
     }
 
     if (provider === 'netlify') {
-      return `${imagekitBaseUrl}${path}`
+      return `${bunnyBaseUrl || imagekitBaseUrl || cloudinaryBaseUrl}${path}`
     }
 
     if (
       provider === 'ipx' ||
       provider === 'imagekit' ||
-      provider === 'cloudinary'
+      provider === 'cloudinary' ||
+      provider === 'bunny'
     ) {
       return path
     }

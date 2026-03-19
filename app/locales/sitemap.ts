@@ -71,12 +71,14 @@ const translations = {
   zh: { outfit: zhOutfit, item: zhItem, banner: zhBanner },
 }
 
+const imagekitBaseUrl =
+  process.env.NUXT_PUBLIC_IMAGEKIT_BASE_URL || 'https://ik.imagekit.io/gongeous'
 const cloudinaryBaseUrl =
   process.env.NUXT_PUBLIC_CLOUDINARY_BASE_URL ||
   'https://res.cloudinary.com/gongeous/image/upload'
-const imagekitBaseUrl =
-  process.env.NUXT_PUBLIC_IMAGEKIT_BASE_URL || 'https://ik.imagekit.io/gongeous'
-const imageBaseUrl = `${cloudinaryBaseUrl || imagekitBaseUrl}/images`
+const bunnyBaseUrl =
+  process.env.NUXT_PUBLIC_BUNNY_BASE_URL || 'https://cdn.gongeo.us'
+const imageBaseUrl = `${bunnyBaseUrl || cloudinaryBaseUrl || imagekitBaseUrl}/images`
 
 const extractIds = (keys: string[]) =>
   Array.from(

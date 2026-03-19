@@ -252,7 +252,7 @@
                     :src="entry.image"
                     :alt="entry.name"
                     class="absolute inset-0 w-full h-full object-cover z-10 transition-transform duration-500 ease-out hover:scale-110"
-                    preset="tallMd"
+                    preset="tallLg"
                     width="200"
                     height="300"
                     fit="cover"

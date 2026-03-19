@@ -106,7 +106,7 @@
                 :src="getImageSrc('item', item.id)"
                 :alt="itemName"
                 class="absolute inset-0 w-full h-full object-cover z-10"
-                preset="tallMd"
+                preset="tallLg"
                 width="200"
                 height="300"
                 fit="cover"

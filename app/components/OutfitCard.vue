@@ -128,7 +128,7 @@
       case 'lg':
         return 'tallLg'
       default:
-        return 'tallMd'
+        return 'tallLg'
     }
   })
 

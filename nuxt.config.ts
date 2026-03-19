@@ -114,9 +114,6 @@ export default defineNuxtConfig({
         modifiers: { width: 200, height: 100, format: 'webp' },
       },
       tallLg: {
-        modifiers: { width: 300, height: 450, format: 'webp' },
-      },
-      tallMd: {
         modifiers: { width: 200, height: 300, format: 'webp' },
       },
       tallSm: {

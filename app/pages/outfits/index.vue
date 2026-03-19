@@ -8,7 +8,7 @@
     >
       <div class="flex flex-col gap-3">
         <div class="flex items-center gap-2 flex-wrap justify-between">
-          <div class="flex items-center gap-2">
+          <div class="flex flex-wrap items-center gap-2">
             <n-button-group>
               <n-button
                 size="small"
@@ -41,29 +41,33 @@
             >
               {{ t('common.clear') }}
             </n-button>
-            <n-tooltip
-              :disabled="totalItems <= TIER_ENTRY_LIMIT"
-              trigger="hover"
-            >
-              <template #trigger>
-                <div class="inline-block">
-                  <n-button
-                    size="small"
-                    type="primary"
-                    :disabled="isTierlistDisabled"
-                    @click="goToTierlist"
-                  >
-                    <template #icon>
-                      <n-icon><SortAmountDown /></n-icon>
-                    </template>
-                    {{ t('navigation.tierlist') }}
-                  </n-button>
-                </div>
-              </template>
-              {{
-                t('tierlist.over_limit.description', { max: TIER_ENTRY_LIMIT })
-              }}
-            </n-tooltip>
+            <div class="basis-full sm:basis-auto">
+              <n-tooltip
+                :disabled="totalItems <= TIER_ENTRY_LIMIT"
+                trigger="hover"
+              >
+                <template #trigger>
+                  <div class="inline-block">
+                    <n-button
+                      size="small"
+                      type="primary"
+                      :disabled="isTierlistDisabled"
+                      @click="goToTierlist"
+                    >
+                      <template #icon>
+                        <n-icon><SortAmountDown /></n-icon>
+                      </template>
+                      {{ t('navigation.tierlist') }}
+                    </n-button>
+                  </div>
+                </template>
+                {{
+                  t('tierlist.over_limit.description', {
+                    max: TIER_ENTRY_LIMIT,
+                  })
+                }}
+              </n-tooltip>
+            </div>
           </div>
 
           <n-button-group>

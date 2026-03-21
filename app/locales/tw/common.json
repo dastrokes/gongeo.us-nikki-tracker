@@ -87,7 +87,8 @@
       "item_detail": "查看 {name} 物品的詳細資訊，包括品質、進化與煥新、屬性效果，以及相關的套裝與卡池。",
       "faq": "檢視關於暖暖共鳴錄的常見問題解答，包括資料隱私、匯入方式和使用指南等資訊。",
       "about": "瞭解暖暖共鳴錄的相關資訊，包括免責宣告、隱私政策等資訊。",
-      "stats": "查看你的無限暖暖個人共鳴抽卡統計、運氣分析、連抽記錄和抽卡活動。"
+      "stats": "查看你的無限暖暖個人共鳴抽卡統計、運氣分析、連抽記錄和抽卡活動。",
+      "search": "Search Infinity Nikki items in the Upstash Vector index and inspect the returned metadata."
     }
   },
   "default": {
@@ -642,6 +643,12 @@
     "errorMonitoring": {
       "title": "錯誤監控",
       "message": "我們使用 Sentry.io 來跟蹤和修復技術錯誤。Sentry 可能會收集有限的技術資料（如錯誤詳情、瀏覽器資訊和匿名 IP 地址），以幫助我們維護和改進網站。有關詳情，請參閱 Sentry.io 的隱私政策頁面。"
+    },
+    "advertising": {
+      "title": "Advertising",
+      "content": "We use Google AdSense to display advertisements on this platform. AdSense may use cookies and similar technologies to serve ads based on your visit to this and other websites.",
+      "eeaNotice": "For users in the European Economic Area (EEA), United Kingdom, and other applicable regions, a consent form will be presented to manage your preferences regarding personalized and non-personalized ads in accordance with applicable privacy laws.",
+      "learnMore": "You can learn more about how Google uses data here: "
     }
   },
   "vote": {
@@ -789,8 +796,8 @@
       "in_progress": "正在生成分享卡片…",
       "success": "分享卡片匯出成功！",
       "error": "分享卡片匯出失敗。",
-      "best_luck": "運氣最好",
-      "worst_luck": "運氣最差"
+      "best_luck": "最幸運",
+      "worst_luck": "最不幸"
     },
     "no_data": {
       "title": "暫無統計資料",

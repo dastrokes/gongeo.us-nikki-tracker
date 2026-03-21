@@ -259,7 +259,7 @@
               :page-slot="5"
             >
               <template #prefix="{ itemCount }">
-                <div class="text-sm gap-1 text-gray-600 dark:text-gray-400">
+                <div class="text-sm space-x-1 text-gray-600 dark:text-gray-400">
                   <span class="font-semibold text-gray-900 dark:text-white">{{
                     totalItems
                   }}</span>

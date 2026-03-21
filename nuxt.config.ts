@@ -31,6 +31,7 @@ export default defineNuxtConfig({
     '@nuxt/eslint',
     '@nuxt/fonts',
     '@nuxt/image',
+    '@nuxt/scripts',
     '@nuxtjs/device',
     '@nuxtjs/i18n',
     '@nuxtjs/robots',
@@ -42,6 +43,26 @@ export default defineNuxtConfig({
     '@sentry/nuxt/module',
     'nuxt-echarts',
   ],
+
+  scripts: {
+    registry: {
+      umamiAnalytics: {
+        websiteId: 'dd22ab5d-2045-4450-aaff-f513339b5ca6',
+        scriptInput: {
+          src: 'https://api.gongeo.us/script.js',
+          async: true,
+          defer: true,
+        },
+        scriptOptions: {
+          'data-host-url': 'https://api.gongeo.us',
+          'data-domains': 'gongeo.us',
+        },
+      },
+      googleAdsense: {
+        client: 'ca-pub-9717879492261560',
+      },
+    },
+  },
 
   i18n: {
     lazy: true,
@@ -80,6 +101,8 @@ export default defineNuxtConfig({
   runtimeConfig: {
     supabaseSecretKey: process.env.SUPABASE_SECRET_KEY,
     supabaseDataSecretKey: process.env.SUPABASE_DATA_SECRET_KEY,
+    upstashVectorRestUrl: process.env.UPSTASH_VECTOR_REST_URL,
+    upstashVectorRestToken: process.env.UPSTASH_VECTOR_REST_TOKEN,
 
     public: {
       supabaseUrl: process.env.SUPABASE_DATABASE_URL,

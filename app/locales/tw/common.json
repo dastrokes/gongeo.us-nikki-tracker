@@ -642,6 +642,11 @@
     "errorMonitoring": {
       "title": "錯誤監控",
       "message": "我們使用 Sentry.io 來跟蹤和修復技術錯誤。Sentry 可能會收集有限的技術資料（如錯誤詳情、瀏覽器資訊和匿名 IP 地址），以幫助我們維護和改進網站。有關詳情，請參閱 Sentry.io 的隱私政策頁面。"
+    },
+    "advertising": {
+      "title": "廣告服務",
+      "content": "我們在本平台上使用 Google AdSense 展示廣告。AdSense 可能會使用 Cookie 和類似技術，根據您對本網站及其他網站的訪問情況投放廣告。",
+      "eeaNotice": "對於歐洲經濟區 (EEA)、英國及其他適用地區的使用者，我們將向您展示徵求同意表，以便您根據相關隱私法律管理對個人化及非個人化廣告的偏好。"
     }
   },
   "vote": {

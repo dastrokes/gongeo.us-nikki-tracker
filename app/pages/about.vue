@@ -66,6 +66,14 @@
 
         <section class="mb-8">
           <n-h2 class="font-semibold mb-4">{{
+            $t('about.advertising.title')
+          }}</n-h2>
+          <p>{{ $t('about.advertising.content') }}</p>
+          <p class="mt-4">{{ $t('about.advertising.eeaNotice') }}</p>
+        </section>
+
+        <section class="mb-8">
+          <n-h2 class="font-semibold mb-4">{{
             $t('about.analytics.title')
           }}</n-h2>
           <p>

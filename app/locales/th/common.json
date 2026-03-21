@@ -87,7 +87,8 @@
       "item_detail": "ดูข้อมูลโดยละเอียดเกี่ยวกับไอเท็ม {name} รวมถึงคุณภาพ วิวัฒนาการและการเรืองแสง สถิติ รวมถึงเครื่องแต่งกายและแบนเนอร์ที่เกี่ยวข้อง",
       "faq": "ค้นหาคำตอบสำหรับคำถามที่พบบ่อยเกี่ยวกับ gongeo.us รวมถึงความเป็นส่วนตัวของข้อมูล วิธีการนำเข้า และแนวทางการใช้งาน",
       "about": "เรียนรู้เพิ่มเติมเกี่ยวกับ gongeo.us รวมถึงวัตถุประสงค์ นโยบายความเป็นส่วนตัว การปฏิเสธความรับผิดชอบ และวิธีที่สนับสนุนชุมชน Infinity Nikki",
-      "stats": "ดูสถิติการดึงการสั่นพ้อง Infinity Nikki ส่วนตัว การวิเคราะห์โชค สถิติต่อเนื่อง และกิจกรรมการดึงของคุณ"
+      "stats": "ดูสถิติการดึงการสั่นพ้อง Infinity Nikki ส่วนตัว การวิเคราะห์โชค สถิติต่อเนื่อง และกิจกรรมการดึงของคุณ",
+      "search": "Search Infinity Nikki items in the Upstash Vector index and inspect the returned metadata."
     }
   },
   "default": {
@@ -642,6 +643,12 @@
     "errorMonitoring": {
       "title": "การตรวจสอบข้อผิดพลาด",
       "message": "เราใช้ Sentry.io เพื่อติดตามและแก้ไขข้อผิดพลาดทางเทคนิค Sentry อาจรวบรวมข้อมูลทางเทคนิคที่จำกัด (เช่น รายละเอียดข้อผิดพลาด ข้อมูลเบราว์เซอร์ และที่อยู่ IP ที่ไม่ระบุชื่อ) เพื่อช่วยเราดูแลรักษาและปรับปรุงไซต์ สำหรับข้อมูลเพิ่มเติม โปรดดูนโยบายความเป็นส่วนตัวของ Sentry.io"
+    },
+    "advertising": {
+      "title": "Advertising",
+      "content": "We use Google AdSense to display advertisements on this platform. AdSense may use cookies and similar technologies to serve ads based on your visit to this and other websites.",
+      "eeaNotice": "For users in the European Economic Area (EEA), United Kingdom, and other applicable regions, a consent form will be presented to manage your preferences regarding personalized and non-personalized ads in accordance with applicable privacy laws.",
+      "learnMore": "You can learn more about how Google uses data here: "
     }
   },
   "vote": {

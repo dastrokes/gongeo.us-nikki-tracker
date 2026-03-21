@@ -48,18 +48,15 @@ export default defineNuxtConfig({
     registry: {
       umamiAnalytics: {
         websiteId: 'dd22ab5d-2045-4450-aaff-f513339b5ca6',
+        hostUrl: 'https://api.gongeo.us',
+        domains: ['gongeo.us'],
         scriptInput: {
           src: 'https://api.gongeo.us/script.js',
-          async: true,
-          defer: true,
-        },
-        scriptOptions: {
-          'data-host-url': 'https://api.gongeo.us',
-          'data-domains': 'gongeo.us',
         },
       },
       googleAdsense: {
         client: 'ca-pub-9717879492261560',
+        autoAds: true,
       },
     },
   },

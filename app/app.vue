@@ -19,7 +19,6 @@
   import type { I18nHeadMetaInfo } from '@nuxtjs/i18n'
 
   const { t } = useI18n()
-  const route = useRoute()
   const localeHead = useLocaleHead({ dir: true, lang: true, seo: true })
   const siteUrl = useRuntimeConfig().public.siteUrl
 
@@ -122,19 +121,6 @@
         href: 'https://o4509482068869120.ingest.us.sentry.io',
       },
     ],
-    script:
-      route.meta?.umami === false
-        ? []
-        : [
-            {
-              async: true,
-              defer: true,
-              src: '/gongeous.js',
-              'data-host-url': 'https://api.gongeo.us',
-              'data-website-id': 'dd22ab5d-2045-4450-aaff-f513339b5ca6',
-              'data-domains': 'gongeo.us',
-            },
-          ],
   }))
 
   const palette = usePalette()

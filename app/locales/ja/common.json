@@ -642,6 +642,11 @@
     "errorMonitoring": {
       "title": "エラー監視",
       "message": "私たちは Sentry.io を使用して技術的エラーを追跡し、修正します。 Sentry は、サイトの維持および改善に役立てるために、限定的な技術データ (エラーの詳細、ブラウザ情報、匿名化された IP アドレスなど) を収集する場合があります。詳細については、Sentry.io のプライバシー ポリシーをご覧ください。"
+    },
+    "advertising": {
+      "title": "Advertising",
+      "content": "We use Google AdSense to display advertisements on this platform. AdSense may use cookies and similar technologies to serve ads based on your visit to this and other websites.",
+      "eeaNotice": "For users in the European Economic Area (EEA), United Kingdom, and other applicable regions, a consent form will be presented to manage your preferences regarding personalized and non-personalized ads in accordance with applicable privacy laws."
     }
   },
   "vote": {

@@ -642,6 +642,11 @@
     "errorMonitoring": {
       "title": "การตรวจสอบข้อผิดพลาด",
       "message": "เราใช้ Sentry.io เพื่อติดตามและแก้ไขข้อผิดพลาดทางเทคนิค Sentry อาจรวบรวมข้อมูลทางเทคนิคที่จำกัด (เช่น รายละเอียดข้อผิดพลาด ข้อมูลเบราว์เซอร์ และที่อยู่ IP ที่ไม่ระบุชื่อ) เพื่อช่วยเราดูแลรักษาและปรับปรุงไซต์ สำหรับข้อมูลเพิ่มเติม โปรดดูนโยบายความเป็นส่วนตัวของ Sentry.io"
+    },
+    "advertising": {
+      "title": "Advertising",
+      "content": "We use Google AdSense to display advertisements on this platform. AdSense may use cookies and similar technologies to serve ads based on your visit to this and other websites.",
+      "eeaNotice": "For users in the European Economic Area (EEA), United Kingdom, and other applicable regions, a consent form will be presented to manage your preferences regarding personalized and non-personalized ads in accordance with applicable privacy laws."
     }
   },
   "vote": {

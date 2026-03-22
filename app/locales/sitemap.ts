@@ -78,7 +78,7 @@ const cloudinaryBaseUrl =
   'https://res.cloudinary.com/gongeous/image/upload'
 const bunnyBaseUrl =
   process.env.NUXT_PUBLIC_BUNNY_BASE_URL || 'https://cdn.gongeo.us'
-const imageBaseUrl = `${bunnyBaseUrl || cloudinaryBaseUrl || imagekitBaseUrl}/images`
+const imageBaseUrl = `${imagekitBaseUrl || bunnyBaseUrl || cloudinaryBaseUrl}/images`
 
 const extractIds = (keys: string[]) =>
   Array.from(

@@ -87,8 +87,7 @@
       "item_detail": "품질, 진화 및 발광, 통계, 관련 의상 및 배너를 포함하여 {name} 아이템에 대한 자세한 정보를 확인하세요.",
       "faq": "데이터 개인정보 보호, 가져오기 방법, 사용 지침 등 gongeo.us 에 대해 자주 묻는 질문에 대한 답변을 찾아보세요.",
       "about": "gongeo.us 의 목적, 개인정보 보호 정책, 면책 조항 및 Infinity Nikki 커뮤니티를 지원하는 방법 등에 대해 자세히 알아보세요.",
-      "stats": "개인 Infinity Nikki 공명 풀 통계, 행운 분석, 연속 기록 및 풀 활동을 확인하세요.",
-      "search": "Search Infinity Nikki items in the Upstash Vector index and inspect the returned metadata."
+      "stats": "개인 Infinity Nikki 공명 풀 통계, 행운 분석, 연속 기록 및 풀 활동을 확인하세요."
     }
   },
   "default": {
@@ -647,8 +646,7 @@
     "advertising": {
       "title": "Advertising",
       "content": "We use Google AdSense to display advertisements on this platform. AdSense may use cookies and similar technologies to serve ads based on your visit to this and other websites.",
-      "eeaNotice": "For users in the European Economic Area (EEA), United Kingdom, and other applicable regions, a consent form will be presented to manage your preferences regarding personalized and non-personalized ads in accordance with applicable privacy laws.",
-      "learnMore": "You can learn more about how Google uses data here: "
+      "eeaNotice": "For users in the European Economic Area (EEA), United Kingdom, and other applicable regions, a consent form will be presented to manage your preferences regarding personalized and non-personalized ads in accordance with applicable privacy laws."
     }
   },
   "vote": {

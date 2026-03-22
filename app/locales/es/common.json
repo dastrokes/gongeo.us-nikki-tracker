@@ -642,6 +642,11 @@
     "errorMonitoring": {
       "title": "Monitoreo de errores",
       "message": "Usamos Sentry.io para rastrear y corregir errores técnicos. Sentry puede recopilar datos técnicos limitados (como detalles de errores, información del navegador y direcciones IP anónimas) para ayudarnos a mantener y mejorar el sitio. Para obtener más información, consulte la política de privacidad de Sentry.io."
+    },
+    "advertising": {
+      "title": "Advertising",
+      "content": "We use Google AdSense to display advertisements on this platform. AdSense may use cookies and similar technologies to serve ads based on your visit to this and other websites.",
+      "eeaNotice": "For users in the European Economic Area (EEA), United Kingdom, and other applicable regions, a consent form will be presented to manage your preferences regarding personalized and non-personalized ads in accordance with applicable privacy laws."
     }
   },
   "vote": {

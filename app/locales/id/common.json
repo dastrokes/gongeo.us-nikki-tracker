@@ -87,8 +87,7 @@
       "item_detail": "Lihat informasi detail tentang item {name}, termasuk kualitas, evolusi dan pendaran, statistik, serta pakaian dan spanduk terkait.",
       "faq": "Temukan jawaban atas pertanyaan umum tentang gongeo.us, termasuk privasi data, metode impor, dan pedoman penggunaan.",
       "about": "Pelajari lebih lanjut tentang gongeo.us, termasuk tujuannya, kebijakan privasi, penafian, dan cara Infinity Nikki mendukung komunitas.",
-      "stats": "Lihat statistik pull resonansi Infinity Nikki pribadi Anda, analisis keberuntungan, streak, dan aktivitas pull.",
-      "search": "Search Infinity Nikki items in the Upstash Vector index and inspect the returned metadata."
+      "stats": "Lihat statistik pull resonansi Infinity Nikki pribadi Anda, analisis keberuntungan, streak, dan aktivitas pull."
     }
   },
   "default": {
@@ -647,8 +646,7 @@
     "advertising": {
       "title": "Advertising",
       "content": "We use Google AdSense to display advertisements on this platform. AdSense may use cookies and similar technologies to serve ads based on your visit to this and other websites.",
-      "eeaNotice": "For users in the European Economic Area (EEA), United Kingdom, and other applicable regions, a consent form will be presented to manage your preferences regarding personalized and non-personalized ads in accordance with applicable privacy laws.",
-      "learnMore": "You can learn more about how Google uses data here: "
+      "eeaNotice": "For users in the European Economic Area (EEA), United Kingdom, and other applicable regions, a consent form will be presented to manage your preferences regarding personalized and non-personalized ads in accordance with applicable privacy laws."
     }
   },
   "vote": {

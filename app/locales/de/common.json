@@ -87,8 +87,7 @@
       "item_detail": "Schau dir detaillierte Informationen über das Stück {name} an, einschließlich Qualität, Evolution und Verschönerung, Statuswerten und verwandter Outfits und Bannern.",
       "faq": "Finde die Antworten auf häufig gestellte Fragen über gongeo.us, einschließlich Datenschutz, Importmethoden und Nutzungsrichtlinien.",
       "about": "Lerne mehr über gongeo.us, einschließlich seiner Zwecke, Datenschutzrichtlinien, Haftungsausschlüsse und wie es die Infinity Nikki Community unterstützt.",
-      "stats": "Schau dir deine persönlichen Infinity Nikki Resonanz-Statistiken, Glücksanalyse, Serien und Resonanz-Aktivität an.",
-      "search": "Search Infinity Nikki items in the Upstash Vector index and inspect the returned metadata."
+      "stats": "Schau dir deine persönlichen Infinity Nikki Resonanz-Statistiken, Glücksanalyse, Serien und Resonanz-Aktivität an."
     }
   },
   "default": {
@@ -647,8 +646,7 @@
     "advertising": {
       "title": "Advertising",
       "content": "We use Google AdSense to display advertisements on this platform. AdSense may use cookies and similar technologies to serve ads based on your visit to this and other websites.",
-      "eeaNotice": "For users in the European Economic Area (EEA), United Kingdom, and other applicable regions, a consent form will be presented to manage your preferences regarding personalized and non-personalized ads in accordance with applicable privacy laws.",
-      "learnMore": "You can learn more about how Google uses data here: "
+      "eeaNotice": "For users in the European Economic Area (EEA), United Kingdom, and other applicable regions, a consent form will be presented to manage your preferences regarding personalized and non-personalized ads in accordance with applicable privacy laws."
     }
   },
   "vote": {

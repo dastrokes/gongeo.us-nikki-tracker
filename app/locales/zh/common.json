@@ -87,8 +87,7 @@
       "item_detail": "查看 {name} 物品的详细信息，包括品质、进化与焕新、属性效果，以及关联的套装和卡池。",
       "faq": "查看关于暖暖共鸣录的常见问题解答，包括数据隐私、导入方式和使用指南等信息。",
       "about": "了解暖暖共鸣录的相关信息，包括免责声明、隐私政策等信息。",
-      "stats": "查看你的无限暖暖个人共鸣抽卡统计、运气分析、连抽记录和抽卡活动。",
-      "search": "Search Infinity Nikki items in the Upstash Vector index and inspect the returned metadata."
+      "stats": "查看你的无限暖暖个人共鸣抽卡统计、运气分析、连抽记录和抽卡活动。"
     }
   },
   "default": {
@@ -645,10 +644,9 @@
       "message": "我们使用 Sentry.io 来跟踪和修复技术错误。Sentry 可能会收集有限的技术数据（如错误详情、浏览器信息和匿名 IP 地址），以帮助我们维护和改进网站。有关详情，请参阅 Sentry.io 的隐私政策页面。"
     },
     "advertising": {
-      "title": "Advertising",
-      "content": "We use Google AdSense to display advertisements on this platform. AdSense may use cookies and similar technologies to serve ads based on your visit to this and other websites.",
-      "eeaNotice": "For users in the European Economic Area (EEA), United Kingdom, and other applicable regions, a consent form will be presented to manage your preferences regarding personalized and non-personalized ads in accordance with applicable privacy laws.",
-      "learnMore": "You can learn more about how Google uses data here: "
+      "title": "广告服务",
+      "content": "我们在本平台上使用 Google AdSense 展示广告。AdSense 可能会使用 Cookie 和类似技术，根据您对本网站及其他网站的访问情况投放广告。",
+      "eeaNotice": "对于欧洲经济区 (EEA)、英国及其他适用区域，我们将向您展示征求许可表，以便您根据相关隐私法律管理对个性化及非个性化广告的偏好。"
     }
   },
   "vote": {

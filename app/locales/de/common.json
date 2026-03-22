@@ -644,9 +644,9 @@
       "message": "Wir verwenden Sentry.io, um technische Fehler zu verfolgen und zu beheben. Sentry kann begrenzte technische Daten (wie Fehlerdetails, Browserinformationen und anonymisierte IP-Adressen) sammeln, um uns bei der Wartung und Verbesserung der Website zu helfen. Weitere Informationen finden Sie in der Datenschutzrichtlinie von Sentry.io."
     },
     "advertising": {
-      "title": "Advertising",
-      "content": "We use Google AdSense to display advertisements on this platform. AdSense may use cookies and similar technologies to serve ads based on your visit to this and other websites.",
-      "eeaNotice": "For users in the European Economic Area (EEA), United Kingdom, and other applicable regions, a consent form will be presented to manage your preferences regarding personalized and non-personalized ads in accordance with applicable privacy laws."
+      "title": "Werbung",
+      "content": "Wir nutzen Google AdSense, um Werbungen auf dieser Plattform zu schalten. AdSense kann Cookies und ähnliche Technologien verwenden, um Werbungen anhand Ihres Besuches dieser und anderer Webseiten zu schalten.",
+      "eeaNotice": "Für Nutzer im Europäischen Wirtschaftsraum, dem Vereinigten Königreich, und anderen anwendbaren Regionen wird ein Einwilligungsformular zum Verwalten Ihrer Präferenzen bezüglich personalisierter und nicht personalisierter Werbung in Übereinstimmung mit den geltenden Datenschutzgesetzen angezeigt werden."
     }
   },
   "vote": {

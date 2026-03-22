@@ -87,8 +87,7 @@
       "item_detail": "Affichez des informations détaillées sur l'objet {name}, notamment sa qualité, son évolution et son éclat, ses statistiques, ainsi que les tenues et bannières associées.",
       "faq": "Trouvez les réponses aux questions fréquemment posées sur gongeo.us, notamment sur la confidentialité des données, les méthodes d'importation et les directives d'utilisation.",
       "about": "Apprenez-en davantage sur gongeo.us, y compris son objectif, sa politique de confidentialité, ses clauses de non-responsabilité et la manière dont il prend en charge la communauté Infinity Nikki.",
-      "stats": "Consultez vos statistiques personnelles de pulls de résonance Infinity Nikki, l'analyse de chance, les séries et l'activité de pulls.",
-      "search": "Search Infinity Nikki items in the Upstash Vector index and inspect the returned metadata."
+      "stats": "Consultez vos statistiques personnelles de pulls de résonance Infinity Nikki, l'analyse de chance, les séries et l'activité de pulls."
     }
   },
   "default": {
@@ -647,8 +646,7 @@
     "advertising": {
       "title": "Advertising",
       "content": "We use Google AdSense to display advertisements on this platform. AdSense may use cookies and similar technologies to serve ads based on your visit to this and other websites.",
-      "eeaNotice": "For users in the European Economic Area (EEA), United Kingdom, and other applicable regions, a consent form will be presented to manage your preferences regarding personalized and non-personalized ads in accordance with applicable privacy laws.",
-      "learnMore": "You can learn more about how Google uses data here: "
+      "eeaNotice": "For users in the European Economic Area (EEA), United Kingdom, and other applicable regions, a consent form will be presented to manage your preferences regarding personalized and non-personalized ads in accordance with applicable privacy laws."
     }
   },
   "vote": {

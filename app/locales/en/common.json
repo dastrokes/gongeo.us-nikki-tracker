@@ -87,7 +87,8 @@
       "item_detail": "View detailed information about the {name} item, including quality, evolution and glow-up, stats, and related outfits and banners.",
       "faq": "Find answers to frequently asked questions about gongeo.us, including data privacy, import methods, and usage guidelines.",
       "about": "Learn more about gongeo.us, including its purpose, privacy policy, disclaimers, and how it supports the Infinity Nikki community.",
-      "stats": "View your personal Infinity Nikki resonance pull statistics, luck analysis, streaks, and pulling activity."
+      "stats": "View your personal Infinity Nikki resonance pull statistics, luck analysis, streaks, and pulling activity.",
+      "search": "Search Infinity Nikki items in the Upstash Vector index and inspect the returned metadata."
     }
   },
   "default": {
@@ -642,6 +643,12 @@
     "errorMonitoring": {
       "title": "Error Monitoring",
       "message": "We use Sentry.io to track and fix technical errors. Sentry may collect limited technical data (like error details, browser info, and anonymized IP addresses) to help us maintain and improve the site. For more information, please see Sentry.io's privacy policy."
+    },
+    "advertising": {
+      "title": "Advertising",
+      "content": "We use Google AdSense to display advertisements on this platform. AdSense may use cookies and similar technologies to serve ads based on your visit to this and other websites.",
+      "eeaNotice": "For users in the European Economic Area (EEA), United Kingdom, and other applicable regions, a consent form will be presented to manage your preferences regarding personalized and non-personalized ads in accordance with applicable privacy laws.",
+      "learnMore": "You can learn more about how Google uses data here: "
     }
   },
   "vote": {

@@ -102,15 +102,11 @@
         <div
           class="flex items-center justify-between text-sm text-slate-500 font-medium"
         >
-          <span v-if="!loading && results.length > 0">
-            Found
-            <strong class="text-rose-500">{{ resultCount }}</strong> matching
-            items
-          </span>
+          <span v-if="!loading && results.length > 0"> </span>
           <span
             v-else-if="loading"
             class="animate-pulse"
-            >Searching the magic index...</span
+            >Searching...</span
           >
           <span v-else>No matches</span>
         </div>
@@ -175,14 +171,21 @@
                   class="text-white font-bold leading-tight text-sm line-clamp-2 shadow-black drop-shadow-md"
                 >
                   {{
-                    item.itemId ? `Item ${item.itemId}` : `Result ${item.id}`
+                    item.itemId
+                      ? t(`item.${item.itemId}.name`, `Item ${item.itemId}`)
+                      : `Result ${item.id}`
                   }}
                 </div>
                 <div
                   v-if="item.metadata?.item_type"
                   class="mt-1 text-[9px] uppercase tracking-widest text-rose-300 font-semibold drop-shadow-md"
                 >
-                  {{ item.metadata.item_type }}
+                  {{
+                    t(
+                      `type.${item.metadata.item_type}`,
+                      item.metadata.item_type
+                    )
+                  }}
                 </div>
               </div>
             </div>
@@ -198,13 +201,7 @@
             class="text-slate-300 dark:text-slate-600 mb-4"
             ><Ghost
           /></n-icon>
-          <div
-            class="text-lg font-medium text-slate-700 dark:text-slate-300 mb-2"
-          >
-            The style magic faded... We couldn't find any items matching your
-            vision.
-          </div>
-          <div class="text-sm text-slate-500">{{ emptyMessage }}</div>
+          <div class="text-sm text-slate-500">No matches</div>
         </div>
       </div>
 
@@ -272,7 +269,12 @@
                         type="warning"
                         class="font-bold tracking-widest uppercase !text-[9px]"
                       >
-                        {{ activeResult.metadata.item_type }}
+                        {{
+                          t(
+                            `type.${activeResult.metadata.item_type}`,
+                            activeResult.metadata.item_type
+                          )
+                        }}
                       </n-tag>
                     </div>
                     <h2
@@ -280,7 +282,10 @@
                     >
                       {{
                         activeResult.itemId
-                          ? `Item ${activeResult.itemId}`
+                          ? t(
+                              `item.${activeResult.itemId}.name`,
+                              `Item ${activeResult.itemId}`
+                            )
                           : `Item ${activeResult.id}`
                       }}
                     </h2>
@@ -367,7 +372,9 @@
                       block
                       size="large"
                       class="!rounded-xl shadow-md font-bold"
-                      @click="navigateTo(`/items/${activeResult.itemId}`)"
+                      @click="
+                        navigateTo(localePath(`/items/${activeResult.itemId}`))
+                      "
                     >
                       View Compendium
                     </n-button>
@@ -429,6 +436,7 @@
     data: SearchHit[]
   }
 
+  const { t } = useI18n()
   const route = useRoute()
   const router = useRouter()
   const { getImageSrc } = imageProvider()
@@ -440,6 +448,7 @@
   const selectedId = ref<string | null>(null)
   const loading = ref(false)
   const error = ref('')
+  const localePath = useLocalePath()
 
   useSeoMeta({
     title: 'Whim Search',
@@ -447,19 +456,11 @@
     twitterTitle: 'Whim Search',
   })
 
-  const resultCount = computed(() => results.value.length)
-
   const activeResult = computed(
     () =>
       results.value.find((item) => item.id === selectedId.value) ??
       results.value[0] ??
       null
-  )
-
-  const emptyMessage = computed(() =>
-    searchQuery.value.trim()
-      ? "The style magic faded... We couldn't find any items matching your vision."
-      : 'What are you looking for today?'
   )
 
   const setSelected = (id: string) => {
@@ -500,7 +501,7 @@
         },
       })
 
-      results.value = response.data ?? []
+      results.value = (response.data ?? []).filter((item) => item.score > 0.02)
       selectedId.value = results.value[0]?.id ?? null
     } catch (caughtError) {
       results.value = []

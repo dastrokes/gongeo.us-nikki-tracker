@@ -206,7 +206,7 @@ export default defineNuxtConfig({
         ...buildLocalizedRules(['/banners/**', '/outfits/**', '/items/**'], {
           headers: pageThemeNoTag,
         }),
-        ...buildLocalizedRules(['/outfits', '/items', '/tierlist'], {
+        ...buildLocalizedRules(['/outfits', '/items', '/tierlist', '/search'], {
           headers: pageThemeQuery,
         }),
         ...buildLocalizedRules(['/tracker', '/login', '/profile', '/stats'], {

@@ -198,6 +198,14 @@
   "obtain.20306.name": "Secrets of the Dungeons",
   "obtain.20307.name": "Bloom of Tranquility",
   "obtain.20308.name": "Exclusive Treasures",
+  "obtain.20401.name": "Heart of Infinity",
+  "obtain.20402.name": "Limited-Time Resonance",
+  "obtain.20403.name": "Pear-Pal Premium",
+  "obtain.20404.name": "Starlit Shop",
+  "obtain.20405.name": "Loot and Glory",
+  "obtain.20406.name": "World-Changing Efforts",
+  "obtain.20407.name": "Mistwood Night Walk",
+  "obtain.20409.name": "Exclusive Treasures",
   "style.cool": "Cool",
   "style.elegant": "Elegant",
   "style.fresh": "Fresh",
@@ -220,5 +228,6 @@
   "version.2.1": "Life as a Poem",
   "version.2.2": "Chromatic Beings Everbright",
   "version.2.3": "Uncrowned Heart",
+  "version.2.4": "The Forest Need Not Listen",
   "version.2.x": "Itzaland"
 }

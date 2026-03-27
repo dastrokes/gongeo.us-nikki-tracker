@@ -198,6 +198,14 @@
   "obtain.20306.name": "綺境の探索",
   "obtain.20307.name": "蓮を育む心",
   "obtain.20308.name": "風物コレクション",
+  "obtain.20401.name": "インフィニティハート",
+  "obtain.20402.name": "限定共鳴",
+  "obtain.20403.name": "ビアリーモール特選品",
+  "obtain.20404.name": "星光交換",
+  "obtain.20405.name": "浄化の戦果",
+  "obtain.20406.name": "世界を変える真心",
+  "obtain.20407.name": "森林の夜道",
+  "obtain.20409.name": "風物コレクション",
   "style.cool": "クール",
   "style.elegant": "エレガント",
   "style.fresh": "ピュア",
@@ -220,5 +228,6 @@
   "version.2.1": "生命は詩となりて",
   "version.2.2": "万相九色に生ず",
   "version.2.3": "冠なき私の心",
+  "version.2.4": "森よ、聞かないで",
   "version.2.x": "イザンの地"
 }

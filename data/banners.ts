@@ -795,4 +795,17 @@ export const BANNER_DATA: BannerData = {
     ],
     rewardIds: ['1020930032', '1020720012', '1021780008'],
   },
+  56: {
+    bannerId: 56,
+    bannerType: 2,
+    outfit4StarId: ['10217'],
+    outfit5StarId: ['10268'],
+    runs: [
+      {
+        version: '2.4.1',
+        start: '2026-03-26',
+        end: '2026-04-23',
+      },
+    ],
+  },
 }

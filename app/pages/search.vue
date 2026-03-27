@@ -26,14 +26,14 @@
                 : 'text-4xl sm:text-6xl mb-4 animate-fade-in-up motion-reduce:animate-none',
             ]"
           >
-            Whim Search
+            {{ t('search_page.title') }}
           </h1>
           <p
             v-if="!hasSearched"
             class="text-slate-600 dark:text-slate-300 text-sm sm:text-lg animate-fade-in-up motion-reduce:animate-none"
             style="animation-delay: 0.1s"
           >
-            Discover any item using natural language.
+            {{ t('search_page.subtitle') }}
           </p>
         </div>
 
@@ -58,7 +58,7 @@
               <input
                 v-model="searchQuery"
                 type="text"
-                placeholder="Try 'long hair' or 'mermeid ballgown'..."
+                :placeholder="t('search_page.placeholder')"
                 class="w-full bg-transparent border-none focus:outline-none py-4 text-slate-800 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500"
                 @keyup.enter="runSearch(true)"
               />
@@ -69,7 +69,7 @@
                 :loading="loading"
                 @click="runSearch(true)"
               >
-                Search
+                {{ t('common.search') }}
               </n-button>
             </div>
           </div>
@@ -84,7 +84,7 @@
     >
       <n-alert
         type="error"
-        title="Error"
+        :title="t('search_page.error_title')"
         :show-icon="true"
         class="rounded-xl shadow-sm"
       >
@@ -102,13 +102,15 @@
         <div
           class="flex items-center justify-between text-sm text-slate-500 font-medium"
         >
-          <span v-if="!loading && results.length > 0"> </span>
+          <span v-if="!loading && results.length > 0">
+            {{ t('search_page.result_count', { count: results.length }) }}
+          </span>
           <span
             v-else-if="loading"
             class="animate-pulse"
-            >Searching...</span
+            >{{ t('search_page.searching') }}</span
           >
-          <span v-else>No matches</span>
+          <span v-else>{{ t('search_page.no_matches') }}</span>
         </div>
 
         <div
@@ -146,7 +148,7 @@
               <NuxtImg
                 v-if="item.itemId !== null"
                 :src="getImageSrc('item', item.itemId)"
-                :alt="`Item ${item.itemId}`"
+                :alt="getItemName(item)"
                 class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
                 preset="tallSm"
                 width="200"
@@ -170,22 +172,21 @@
                 <div
                   class="text-white font-bold leading-tight text-sm line-clamp-2 shadow-black drop-shadow-md"
                 >
-                  {{
-                    item.itemId
-                      ? t(`item.${item.itemId}.name`, `Item ${item.itemId}`)
-                      : `Result ${item.id}`
-                  }}
+                  {{ getItemName(item) }}
                 </div>
                 <div
-                  v-if="item.metadata?.item_type"
+                  v-if="item.itemType || item.metadata?.item_type"
                   class="mt-1 text-[9px] uppercase tracking-widest text-rose-300 font-semibold drop-shadow-md"
                 >
                   {{
-                    t(
-                      `type.${item.metadata.item_type}`,
-                      item.metadata.item_type
-                    )
+                    getItemTypeLabel(item.itemType ?? item.metadata?.item_type)
                   }}
+                </div>
+                <div
+                  v-if="item.category || item.subcategory"
+                  class="mt-1 text-[10px] text-slate-200/90 font-medium line-clamp-1"
+                >
+                  {{ getFacetSummary(item) }}
                 </div>
               </div>
             </div>
@@ -201,7 +202,9 @@
             class="text-slate-300 dark:text-slate-600 mb-4"
             ><Ghost
           /></n-icon>
-          <div class="text-sm text-slate-500">No matches</div>
+          <div class="text-sm text-slate-500">
+            {{ t('search_page.no_matches') }}
+          </div>
         </div>
       </div>
 
@@ -252,7 +255,7 @@
                     <span
                       class="text-xs font-black text-slate-800 dark:text-slate-200"
                     >
-                      {{ (activeResult.score * 100).toFixed(1) }}% MATCH
+                      {{ formatMatchScore(activeResult.score) }}
                     </span>
                   </div>
                 </div>
@@ -262,7 +265,10 @@
                   <div>
                     <div class="flex items-center gap-2 mb-1">
                       <n-tag
-                        v-if="activeResult.metadata?.item_type"
+                        v-if="
+                          activeResult.itemType ||
+                          activeResult.metadata?.item_type
+                        "
                         size="tiny"
                         round
                         :bordered="false"
@@ -270,9 +276,39 @@
                         class="font-bold tracking-widest uppercase !text-[9px]"
                       >
                         {{
-                          t(
-                            `type.${activeResult.metadata.item_type}`,
-                            activeResult.metadata.item_type
+                          getItemTypeLabel(
+                            activeResult.itemType ??
+                              activeResult.metadata?.item_type
+                          )
+                        }}
+                      </n-tag>
+                      <n-tag
+                        v-if="activeResult.category"
+                        size="tiny"
+                        round
+                        :bordered="false"
+                        type="default"
+                        class="font-semibold"
+                      >
+                        {{
+                          translateFilterToken(
+                            'category',
+                            activeResult.category
+                          )
+                        }}
+                      </n-tag>
+                      <n-tag
+                        v-if="activeResult.subcategory"
+                        size="tiny"
+                        round
+                        :bordered="false"
+                        type="success"
+                        class="font-semibold"
+                      >
+                        {{
+                          translateFilterToken(
+                            'subcategory',
+                            activeResult.subcategory
                           )
                         }}
                       </n-tag>
@@ -280,94 +316,18 @@
                     <h2
                       class="text-xl font-black text-slate-800 dark:text-white leading-tight"
                     >
-                      {{
-                        activeResult.itemId
-                          ? t(
-                              `item.${activeResult.itemId}.name`,
-                              `Item ${activeResult.itemId}`
-                            )
-                          : `Item ${activeResult.id}`
-                      }}
+                      {{ getItemName(activeResult) }}
                     </h2>
                   </div>
 
-                  <!-- Colors -->
-                  <div
-                    v-if="activeResult.metadata?.dominant_colors?.length"
-                    class="space-y-2"
-                  >
-                    <h3
-                      class="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-1"
-                    >
-                      <n-icon><Palette /></n-icon> Colors
-                    </h3>
-                    <div class="flex flex-wrap gap-1.5">
-                      <n-tag
-                        v-for="c in activeResult.metadata.dominant_colors.slice(
-                          0,
-                          4
-                        )"
-                        :key="c"
-                        size="small"
-                        type="default"
-                        :bordered="false"
-                        class="capitalize font-medium !bg-slate-100 dark:!bg-slate-800 text-slate-700 dark:text-slate-300 shadow-sm border border-slate-200/50 dark:border-slate-700/50"
-                      >
-                        {{ c.replace('_', ' ') }}
-                      </n-tag>
-                    </div>
-                  </div>
-
-                  <!-- Motifs -->
-                  <div
-                    v-if="activeResult.metadata?.motifs?.length"
-                    class="space-y-2"
-                  >
-                    <h3
-                      class="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-1"
-                    >
-                      <n-icon><Magic /></n-icon> Motifs & Themes
-                    </h3>
-                    <div class="flex flex-wrap gap-1.5">
-                      <n-tag
-                        v-for="m in activeResult.metadata.motifs.slice(0, 8)"
-                        :key="m"
-                        size="small"
-                        type="error"
-                        :bordered="false"
-                        class="capitalize font-medium bg-rose-50 dark:bg-rose-950/30 text-rose-600 dark:text-rose-300 border border-rose-200/50 dark:border-rose-900/50"
-                      >
-                        {{ m.replace('_', ' ') }}
-                      </n-tag>
-                    </div>
-                  </div>
-
-                  <!-- Subtypes -->
-                  <div
-                    v-if="activeResult.metadata?.subtypes?.length"
-                    class="space-y-2"
-                  >
-                    <h3
-                      class="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-1"
-                    >
-                      <n-icon><Tags /></n-icon> Characteristics
-                    </h3>
-                    <div class="flex flex-wrap gap-1.5">
-                      <n-tag
-                        v-for="s in activeResult.metadata.subtypes.slice(0, 6)"
-                        :key="s"
-                        size="small"
-                        type="success"
-                        :bordered="false"
-                        class="capitalize font-medium !bg-emerald-50 dark:!bg-emerald-950/20 text-emerald-700 dark:text-emerald-400 border border-emerald-200/50 dark:border-emerald-900/50"
-                      >
-                        {{ s.replace('_', ' ') }}
-                      </n-tag>
-                    </div>
-                  </div>
+                  <AttributeCard
+                    :metadata="activeResult.metadata"
+                    :item-type="activeResult.itemType"
+                  />
 
                   <div class="pt-2 flex flex-col gap-3">
                     <n-button
+                      v-if="activeResult.itemId !== null"
                       type="primary"
                       block
                       size="large"
@@ -376,7 +336,7 @@
                         navigateTo(localePath(`/items/${activeResult.itemId}`))
                       "
                     >
-                      View Compendium
+                      {{ t('search_page.view_compendium') }}
                     </n-button>
 
                     <div
@@ -405,28 +365,17 @@
 </template>
 
 <script setup lang="ts">
-  import { Search, Magic, Palette, Tags, Box, Ghost } from '@vicons/fa'
-
-  type SearchMetadata = {
-    item_id?: number | string
-    item_type?: string
-    dominant_colors?: string[]
-    accent_colors?: string[]
-    primary_color?: string
-    secondary_color?: string
-    motifs?: string[]
-    patterns?: string[]
-    subtypes?: string[]
-    accepted_facets?: string[]
-    review_facets?: string[]
-    search_terms?: string[]
-  }
+  import { Search, Box, Ghost } from '@vicons/fa'
+  import type { ItemSearchMetadata } from '#shared/types/itemSearch'
 
   type SearchHit = {
     id: string
     itemId: number | null
+    itemType: string | null
+    category: string | null
+    subcategory: string | null
     score: number
-    metadata: (SearchMetadata & Record<string, unknown>) | null
+    metadata: ItemSearchMetadata | null
     data?: string
   }
 
@@ -437,10 +386,13 @@
   }
 
   const { t } = useI18n()
+  const { translateFilterToken } = useFilterToken()
   const route = useRoute()
   const router = useRouter()
+  const localePath = useLocalePath()
   const { getImageSrc } = imageProvider()
   const isDev = import.meta.dev
+  const gameVersionHeaders = getGameVersionRequestHeaders()
 
   const searchQuery = ref(route.query.q?.toString() ?? '')
   const hasSearched = ref(!!route.query.q)
@@ -448,12 +400,10 @@
   const selectedId = ref<string | null>(null)
   const loading = ref(false)
   const error = ref('')
-  const localePath = useLocalePath()
-
   useSeoMeta({
-    title: 'Whim Search',
-    ogTitle: 'Whim Search',
-    twitterTitle: 'Whim Search',
+    title: () => t('search_page.title'),
+    ogTitle: () => t('search_page.title'),
+    twitterTitle: () => t('search_page.title'),
   })
 
   const activeResult = computed(
@@ -467,17 +417,50 @@
     selectedId.value = id
   }
 
-  const formatMetadata = (metadata: SearchMetadata | null) =>
+  const resetSearchState = () => {
+    results.value = []
+    selectedId.value = null
+    error.value = ''
+    hasSearched.value = false
+  }
+
+  const formatMetadata = (metadata: ItemSearchMetadata | null) =>
     JSON.stringify(metadata ?? {}, null, 2)
+
+  const getItemName = (item: Pick<SearchHit, 'id' | 'itemId'>) => {
+    if (item.itemId !== null) {
+      return t(`item.${item.itemId}.name`)
+    }
+
+    return item.id
+  }
+
+  const getItemTypeLabel = (value?: string | null) => {
+    if (!value) return ''
+    const normalized = normalizeItemSearchItemType(value)
+    const key = `type.${normalized}`
+    const translated = t(key)
+    return translated !== key ? translated : humanizeItemSearchToken(normalized)
+  }
+
+  const getFacetSummary = (item: SearchHit) =>
+    [item.category, item.subcategory]
+      .filter((value): value is string => Boolean(value))
+      .map((value, index) =>
+        translateFilterToken(index === 0 ? 'category' : 'subcategory', value)
+      )
+      .join(' • ')
+
+  const formatMatchScore = (score: number) =>
+    t('search_page.match_score', {
+      score: (Math.max(score, 0) * 100).toFixed(1),
+    })
 
   const runSearch = async (pushToUrl = false) => {
     const query = searchQuery.value.trim()
 
     if (!query) {
-      results.value = []
-      selectedId.value = null
-      error.value = ''
-      hasSearched.value = false
+      resetSearchState()
 
       if (pushToUrl) {
         await router.replace({ query: {} })
@@ -499,22 +482,44 @@
         query: {
           q: query,
         },
+        headers: gameVersionHeaders,
       })
 
-      results.value = (response.data ?? []).filter((item) => item.score > 0.02)
+      results.value = (response.data ?? []).filter((item) => item.score > 0.0)
       selectedId.value = results.value[0]?.id ?? null
     } catch (caughtError) {
       results.value = []
       selectedId.value = null
-      error.value = toErrorMessage(caughtError, 'Failed to query search index')
+      error.value = toErrorMessage(
+        caughtError,
+        t('search_page.error_description')
+      )
     } finally {
       loading.value = false
     }
   }
 
-  onMounted(() => {
-    if (searchQuery.value.trim()) {
+  watch(
+    () => route.query.q?.toString() ?? '',
+    (nextQuery, previousQuery) => {
+      const normalizedNextQuery = nextQuery.trim()
+
+      if (
+        previousQuery !== undefined &&
+        normalizedNextQuery === searchQuery.value.trim()
+      ) {
+        return
+      }
+
+      searchQuery.value = nextQuery
+
+      if (!normalizedNextQuery) {
+        resetSearchState()
+        return
+      }
+
       void runSearch(false)
-    }
-  })
+    },
+    { immediate: true }
+  )
 </script>

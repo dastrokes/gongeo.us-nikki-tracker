@@ -39,6 +39,7 @@ export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
     name: 'English',
     files: [
       'en/common.json',
+      'en/filter.json',
       'en/banner.json',
       'en/outfit.json',
       'en/item.json',
@@ -159,6 +160,7 @@ export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
     name: '简体中文',
     files: [
       'zh/common.json',
+      'zh/filter.json',
       'zh/banner.json',
       'zh/outfit.json',
       'zh/item.json',
@@ -171,6 +173,7 @@ export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
     name: '繁體中文',
     files: [
       'tw/common.json',
+      'tw/filter.json',
       'tw/banner.json',
       'tw/outfit.json',
       'tw/item.json',

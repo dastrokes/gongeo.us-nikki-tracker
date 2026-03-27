@@ -138,6 +138,11 @@ export const BANNER_DATA: BannerData = {
         start: '2025-01-12',
         end: '2025-01-23',
       },
+      {
+        version: '2.4.1',
+        start: '2026-03-26',
+        end: '2026-04-09',
+      },
     ],
     rewardIds: ['1021750009', '1021740002', '1021940004'],
   },
@@ -223,6 +228,11 @@ export const BANNER_DATA: BannerData = {
         version: '1.3.2',
         start: '2025-03-11',
         end: '2025-03-25',
+      },
+      {
+        version: '2.4.1',
+        start: '2026-03-26',
+        end: '2026-04-09',
       },
     ],
     rewardIds: ['1020730072', '1020760072', '1021410010'],

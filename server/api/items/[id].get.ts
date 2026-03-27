@@ -1,4 +1,6 @@
 import { useSupabaseDataClient } from '~/composables/useSupabaseClient'
+import type { ItemSearchMetadata } from '#shared/types/itemSearch'
+import { normalizeItemSearchMetadata } from '#shared/utils/itemSearch'
 
 interface ItemTranslation {
   description: string
@@ -15,6 +17,23 @@ interface ItemData {
   obtain_type?: number | null
   item_translations?: ItemTranslation[]
   description?: string
+  item_attributes?:
+    | {
+        item_id?: number
+        item_type?: string
+        category?: string | null
+        subcategory?: string | null
+        metadata?: Record<string, unknown> | null
+      }
+    | Array<{
+        item_id?: number
+        item_type?: string
+        category?: string | null
+        subcategory?: string | null
+        metadata?: Record<string, unknown> | null
+      }>
+    | null
+  search_metadata?: ItemSearchMetadata | null
   outfit_items?: Array<{
     outfits: {
       id: number
@@ -55,8 +74,11 @@ function getRelatedItemIds(baseId: number, quality: number): number[] {
   const variations = [
     parseInt(`${basePrefix}${baseDigits}`), // base
     parseInt(`${glowupPrefix}${baseDigits}`), // glowup
-    parseInt(`1023${baseDigits}`), // evo1
   ]
+
+  if (!usesAltGlowup) {
+    variations.push(parseInt(`1023${baseDigits}`)) // evo1
+  }
 
   if (quality === 5) {
     variations.push(parseInt(`1024${baseDigits}`)) // evo2
@@ -116,6 +138,9 @@ export default defineCachedApiEventHandler(
       }
 
       selectParts.push(
+        'item_attributes(item_id,item_type,category,subcategory,metadata)'
+      )
+      selectParts.push(
         'outfit_items(outfits(id,quality,outfit_items(items(id,quality,type))))'
       )
 
@@ -133,6 +158,23 @@ export default defineCachedApiEventHandler(
       }
 
       const itemData = data as ItemData
+      const searchAttributes = Array.isArray(itemData.item_attributes)
+        ? (itemData.item_attributes[0] ?? null)
+        : itemData.item_attributes
+
+      if (searchAttributes) {
+        itemData.search_metadata = normalizeItemSearchMetadata({
+          ...(searchAttributes.metadata ?? {}),
+          item_id: searchAttributes.item_id ?? id,
+          item_type: searchAttributes.item_type ?? itemData.type,
+          slot: searchAttributes.item_type ?? itemData.type,
+          category:
+            searchAttributes.category ?? searchAttributes.metadata?.category,
+          subcategory:
+            searchAttributes.subcategory ??
+            searchAttributes.metadata?.subcategory,
+        })
+      }
 
       // Extract description from translations if available
       if (languageCode && itemData.item_translations?.length) {

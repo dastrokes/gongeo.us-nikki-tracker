@@ -508,6 +508,7 @@
   const { t, te, locale } = useI18n()
   const localePath = useLocalePath()
   const route = useRoute()
+  const router = useRouter()
   const requestEvent = useRequestEvent()
 
   // Get item ID from route
@@ -762,6 +763,14 @@
     }))
   })
 
+  const listingPath = computed(() => localePath('/items'))
+  const canNavigateBackToList = computed(() => {
+    if (!import.meta.client) return false
+
+    const back = window.history.state?.back
+    return typeof back === 'string' && back.startsWith(listingPath.value)
+  })
+
   // Retry fetch
   const retryFetch = () => {
     refresh()
@@ -769,7 +778,12 @@
 
   // Navigate to list
   const navigateToList = () => {
-    navigateTo(localePath('/items'))
+    if (canNavigateBackToList.value) {
+      router.back()
+      return
+    }
+
+    navigateTo(listingPath.value)
   }
 
   // SEO Meta Tags

@@ -1,25 +1,15 @@
 import type { H3Event } from 'h3'
+import { useSupabaseDataClient } from '~/composables/useSupabaseClient'
+import type { ItemSearchMetadata } from '#shared/types/itemSearch'
+import { normalizeItemSearchMetadata } from '#shared/utils/itemSearch'
 
-type UpstashSearchMetadata = {
+type SupabaseSearchRow = {
   item_id?: number | string
-  item_type?: string
-  dominant_colors?: string[]
-  accent_colors?: string[]
-  primary_color?: string
-  secondary_color?: string
-  motifs?: string[]
-  patterns?: string[]
-  subtypes?: string[]
-  accepted_facets?: string[]
-  review_facets?: string[]
-  search_terms?: string[]
-}
-
-type UpstashSearchHit = {
-  id?: string | number
-  score?: number
-  metadata?: UpstashSearchMetadata | Record<string, unknown> | null
-  data?: string
+  item_type?: string | null
+  category?: string | null
+  subcategory?: string | null
+  score?: number | string | null
+  metadata?: Record<string, unknown> | null
 }
 
 type SearchResponse = {
@@ -28,8 +18,11 @@ type SearchResponse = {
   data: Array<{
     id: string
     itemId: number | null
+    itemType: string | null
+    category: string | null
+    subcategory: string | null
     score: number
-    metadata: UpstashSearchMetadata | Record<string, unknown> | null
+    metadata: ItemSearchMetadata | null
     data?: string
   }>
 }
@@ -47,70 +40,90 @@ const normalizeLimit = (value: unknown) => {
 const isRecord = (value: unknown): value is Record<string, unknown> =>
   typeof value === 'object' && value !== null && !Array.isArray(value)
 
-const normalizeMetadata = (
-  metadata: UpstashSearchHit['metadata']
-): UpstashSearchMetadata | null => {
-  if (!isRecord(metadata)) return null
+const normalizeItemId = (value: unknown) => {
+  if (typeof value === 'number') {
+    return Number.isFinite(value) ? value : null
+  }
 
-  const itemId = metadata.item_id
-  const normalizedItemId =
-    typeof itemId === 'number' || typeof itemId === 'string'
-      ? itemId
-      : undefined
+  if (typeof value === 'string') {
+    const parsed = Number(value)
+    return Number.isFinite(parsed) ? parsed : null
+  }
+
+  return null
+}
+
+const buildSearchHit = ({
+  id,
+  score,
+  metadata,
+  data,
+}: {
+  id: string | number
+  score: unknown
+  metadata: unknown
+  data?: string
+}) => {
+  const normalizedMetadata = normalizeItemSearchMetadata(metadata)
+  const itemId =
+    normalizeItemId(normalizedMetadata?.item_id) ?? normalizeItemId(id)
 
   return {
-    item_id: normalizedItemId,
-    item_type:
-      typeof metadata.item_type === 'string' ? metadata.item_type : undefined,
-    dominant_colors: Array.isArray(metadata.dominant_colors)
-      ? metadata.dominant_colors.filter(
-          (value): value is string => typeof value === 'string'
-        )
-      : undefined,
-    accent_colors: Array.isArray(metadata.accent_colors)
-      ? metadata.accent_colors.filter(
-          (value): value is string => typeof value === 'string'
-        )
-      : undefined,
-    primary_color:
-      typeof metadata.primary_color === 'string'
-        ? metadata.primary_color
-        : undefined,
-    secondary_color:
-      typeof metadata.secondary_color === 'string'
-        ? metadata.secondary_color
-        : undefined,
-    motifs: Array.isArray(metadata.motifs)
-      ? metadata.motifs.filter(
-          (value): value is string => typeof value === 'string'
-        )
-      : undefined,
-    patterns: Array.isArray(metadata.patterns)
-      ? metadata.patterns.filter(
-          (value): value is string => typeof value === 'string'
-        )
-      : undefined,
-    subtypes: Array.isArray(metadata.subtypes)
-      ? metadata.subtypes.filter(
-          (value): value is string => typeof value === 'string'
-        )
-      : undefined,
-    accepted_facets: Array.isArray(metadata.accepted_facets)
-      ? metadata.accepted_facets.filter(
-          (value): value is string => typeof value === 'string'
-        )
-      : undefined,
-    review_facets: Array.isArray(metadata.review_facets)
-      ? metadata.review_facets.filter(
-          (value): value is string => typeof value === 'string'
-        )
-      : undefined,
-    search_terms: Array.isArray(metadata.search_terms)
-      ? metadata.search_terms.filter(
-          (value): value is string => typeof value === 'string'
-        )
-      : undefined,
+    id: String(id),
+    itemId,
+    itemType: normalizedMetadata?.item_type ?? null,
+    category: normalizedMetadata?.category ?? null,
+    subcategory: normalizedMetadata?.subcategory ?? null,
+    score: Number.isFinite(Number(score)) ? Number(score) : 0,
+    metadata: normalizedMetadata,
+    data,
   }
+}
+
+const runSupabaseSearch = async ({
+  query,
+  limit,
+}: {
+  query: string
+  limit: number
+}) => {
+  const supabase = useSupabaseDataClient()
+  const { data, error } = await withSupabaseRetry(() =>
+    supabase.rpc(
+      'search_items' as never,
+      {
+        p_query: query,
+        p_limit: limit,
+      } as never
+    )
+  )
+
+  if (error) {
+    throw error
+  }
+
+  const rows = (data as SupabaseSearchRow[] | null) ?? []
+
+  return rows
+    .map((row) =>
+      buildSearchHit({
+        id: row.item_id ?? query,
+        score: row.score,
+        metadata: {
+          ...(isRecord(row.metadata) ? row.metadata : {}),
+          item_id: row.item_id,
+          item_type: row.item_type,
+          slot: row.item_type,
+          category:
+            row.category ??
+            (isRecord(row.metadata) ? row.metadata.category : null),
+          subcategory:
+            row.subcategory ??
+            (isRecord(row.metadata) ? row.metadata.subcategory : null),
+        },
+      })
+    )
+    .filter((hit) => hit.id.length > 0)
 }
 
 export default defineCachedApiEventHandler(
@@ -127,65 +140,11 @@ export default defineCachedApiEventHandler(
       }
     }
 
-    const runtimeConfig = useRuntimeConfig()
-    const restUrl = runtimeConfig.upstashVectorRestUrl?.trim()
-    const restToken = runtimeConfig.upstashVectorRestToken?.trim()
-
-    if (!restUrl || !restToken) {
-      throw createUpstreamUnavailableError('search')
-    }
-
-    const endpoint = `${restUrl.replace(/\/$/, '')}/query-data`
-
     try {
-      const response = await fetch(endpoint, {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${restToken}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          data: rawQuery,
-          topK: limit,
-          includeMetadata: true,
-          includeData: true,
-          includeVectors: false,
-        }),
+      const data = await runSupabaseSearch({
+        query: rawQuery,
+        limit,
       })
-
-      if (!response.ok) {
-        const message = await response.text().catch(() => '')
-        throw new Error(
-          `Upstash search failed with ${response.status} ${response.statusText}${message ? `: ${message}` : ''}`
-        )
-      }
-
-      const payload = (await response.json()) as Record<string, unknown>
-      const rawResults = ((Array.isArray(payload.result) && payload.result) ||
-        (Array.isArray(payload.matches) && payload.matches) ||
-        (Array.isArray(payload.data) && payload.data) ||
-        []) as UpstashSearchHit[]
-
-      const data = rawResults
-        .map((hit) => {
-          const metadata = normalizeMetadata(hit.metadata)
-          const itemIdValue = metadata?.item_id ?? hit.id
-          const itemId =
-            typeof itemIdValue === 'number'
-              ? itemIdValue
-              : Number(itemIdValue ?? NaN)
-
-          return {
-            id: String(hit.id ?? itemIdValue ?? rawQuery),
-            itemId: Number.isFinite(itemId) ? itemId : null,
-            score: Number.isFinite(Number(hit.score)) ? Number(hit.score) : 0,
-            metadata: isRecord(hit.metadata)
-              ? { ...hit.metadata, ...normalizeMetadata(hit.metadata) }
-              : null,
-            data: hit.data,
-          }
-        })
-        .filter((hit) => hit.id.length > 0)
 
       return {
         query: rawQuery,

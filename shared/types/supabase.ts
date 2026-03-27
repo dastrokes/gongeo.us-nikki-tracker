@@ -1,3 +1,5 @@
+import type { ItemSearchMetadata } from './itemSearch'
+
 /**
  * Supabase database type definitions for outfits and items
  * These types represent the structure of data stored in Supabase tables
@@ -29,6 +31,15 @@ export interface SupabaseItem {
   style_key?: string | null
   tags?: Array<number | string> | null
   obtain_type?: number | null
+}
+
+export interface SupabaseItemAttributes {
+  item_id: number
+  item_type: string
+  category?: string | null
+  subcategory?: string | null
+  search_text: string
+  metadata?: ItemSearchMetadata | null
 }
 
 /**
@@ -68,6 +79,8 @@ export interface ItemWithOutfits extends SupabaseItem {
       }[]
     }
   }[]
+  item_attributes?: SupabaseItemAttributes | null
+  search_metadata?: ItemSearchMetadata | null
   variations?: Array<{
     id: number
     quality: number

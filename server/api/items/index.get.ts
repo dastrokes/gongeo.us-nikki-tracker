@@ -1,19 +1,20 @@
 import { useSupabaseDataClient } from '~/composables/useSupabaseClient'
-
-type ItemSortRow = {
-  id: number
-  quality: number
-  obtain_type?: number | null
-}
+import {
+  getActiveItemSearchAdvancedFilters,
+  normalizeItemSearchTokenKey,
+  resolveItemSearchAdvancedFilters,
+  serializeItemSearchAdvancedFilters,
+} from '#shared/utils/itemSearch'
 
 type ItemRow = {
-  id: number
-  quality: number
-  type: string
+  id: number | null
+  quality: number | null
+  type: string | null
   props: Array<number | string> | null
   style_key?: string | null
   tags: Array<number | string> | null
   obtain_type?: number | null
+  total_count?: number | string | null
 }
 
 type RpcCapableClient = {
@@ -22,14 +23,6 @@ type RpcCapableClient = {
     args?: Record<string, unknown>
   ) => PromiseLike<{ data: unknown; error: unknown }>
 }
-
-const BASE_ITEM_PREFIX_RANGES = [
-  [1020000000, 1020999999],
-  [1021000000, 1021999999],
-  [1027000000, 1027999999],
-  [1028000000, 1028999999],
-  [1029000000, 1029999999],
-] as const
 
 const DEFAULT_PAGE_SIZE = 18
 const TIERLIST_PAGE_SIZE = 200
@@ -40,6 +33,12 @@ const parsePageSize = (value: unknown): number => {
   if (!Number.isFinite(parsed)) return DEFAULT_PAGE_SIZE
   const normalized = Math.floor(parsed)
   return ALLOWED_PAGE_SIZES.has(normalized) ? normalized : DEFAULT_PAGE_SIZE
+}
+
+const normalizeTotalCount = (value: unknown): number => {
+  const parsed = Number(value)
+  if (!Number.isFinite(parsed) || parsed <= 0) return 0
+  return Math.floor(parsed)
 }
 
 /**
@@ -55,6 +54,23 @@ export default defineCachedApiEventHandler(
       qualityParam.length > 0 && !Number.isFinite(qualityParsed)
     const quality = invalidQuality ? null : qualityParsed
     const type = query.type?.toString() || null
+    const category =
+      normalizeItemSearchTokenKey(query.category?.toString() ?? null) || null
+    const subcategory =
+      normalizeItemSearchTokenKey(query.subcategory?.toString() ?? null) || null
+    const advancedFilters = getActiveItemSearchAdvancedFilters(
+      resolveItemSearchAdvancedFilters(
+        query as Record<string, unknown>,
+        type?.toString() ?? null
+      ),
+      type?.toString() ?? null
+    )
+    const metadataFilter: Record<string, string> = Object.fromEntries(
+      Object.entries(advancedFilters).filter(
+        (entry): entry is [string, string] => typeof entry[1] === 'string'
+      )
+    )
+    const hasAdvancedFilters = Object.keys(metadataFilter).length > 0
     const styleParam = query.style?.toString() || null
     const labelParam = query.label?.toString() || null
     const versionParam = query.version?.toString() || null
@@ -69,7 +85,6 @@ export default defineCachedApiEventHandler(
         : Number(query.page ?? 1)
     const pageSize = parsePageSize(query.pageSize ?? query.page_size)
     const useCompactPayload = pageSize === TIERLIST_PAGE_SIZE
-    const from = (page - 1) * pageSize
     const normalizedStyle = styleParam ? normalizeTraitKey(styleParam) : null
     const normalizedLabel = labelParam ? normalizeTraitKey(labelParam) : null
     const styleFilter = normalizedStyle
@@ -108,111 +123,41 @@ export default defineCachedApiEventHandler(
     const rpcClient = supabase as unknown as RpcCapableClient
 
     try {
-      const baseItemRangeFilters = BASE_ITEM_PREFIX_RANGES.map(
-        ([min, max]) => `and(id.gte.${min},id.lte.${max})`
-      ).join(',')
-
-      const applyItemFilters = <
-        T extends {
-          gte: (column: string, value: number) => T
-          lte: (column: string, value: number) => T
-          eq: (column: string, value: number | string) => T
-          in: (column: string, values: number[]) => T
-          contains: (column: string, values: Array<number | string>) => T
-        },
-      >(
-        queryBuilder: T
-      ): T => {
-        let filteredQuery = queryBuilder
-
-        if (obtainTypeRange) {
-          filteredQuery = filteredQuery
-            .gte('obtain_type', obtainTypeRange.min)
-            .lte('obtain_type', obtainTypeRange.max)
-        }
-
-        if (quality !== null && quality !== undefined) {
-          filteredQuery = filteredQuery.eq('quality', quality)
-        }
-
-        if (type && type !== 'all') {
-          filteredQuery = filteredQuery.eq('type', type)
-        }
-
-        if (obtainIds) {
-          filteredQuery = filteredQuery.in('obtain_type', obtainIds)
-        }
-
-        if (styleFilter) {
-          filteredQuery = filteredQuery.eq('style_key', styleFilter.key)
-        }
-
-        if (labelFilter) {
-          filteredQuery = filteredQuery.contains('tags', [labelFilter.id])
-        }
-
-        return filteredQuery
-      }
-
-      const countQuery = applyItemFilters(
-        supabase
-          .from('items')
-          .select('id', { head: true, count: 'exact' })
-          .or(baseItemRangeFilters)
-      )
-
-      const { count, error: countError } = await withSupabaseRetry(
-        () => countQuery
-      )
-
-      if (countError) {
-        throw countError
-      }
-
-      const total = Math.max(0, count ?? 0)
-      const totalPages = total ? Math.ceil(total / pageSize) : 0
-
-      if (useCompactPayload && total > TIERLIST_PAGE_SIZE) {
-        return {
-          data: [],
-          total,
-          page,
-          totalPages,
-        }
-      }
-
-      if (from >= total) {
-        return {
-          data: [],
-          total,
-          page,
-          totalPages,
-        }
-      }
-
-      const rpcType = type && type !== 'all' ? type : null
       const rpcParams: Record<string, unknown> = {
         p_page: page,
         p_page_size: pageSize,
         p_quality: quality ?? null,
-        p_type: rpcType,
+        p_type: type && type !== 'all' ? type : null,
         p_style_key: styleFilter?.key ?? null,
         p_label_id: labelFilter?.id ?? null,
         p_obtain_min: obtainTypeRange?.min ?? null,
         p_obtain_max: obtainTypeRange?.max ?? null,
         p_obtain_ids: obtainIds ?? null,
+        p_category: category ?? null,
+        p_subcategory: subcategory ?? null,
+        p_metadata: hasAdvancedFilters ? metadataFilter : null,
       }
       const { data: rpcData, error: rpcError } = await withSupabaseRetry(() =>
-        rpcClient.rpc('list_items_sorted_page', rpcParams)
+        rpcClient.rpc('list_items', rpcParams)
       )
 
       if (rpcError) {
         throw rpcError
       }
 
-      const pageRows = (rpcData as ItemSortRow[] | null) ?? []
+      const pageRows = (rpcData as ItemRow[] | null) ?? []
 
-      if (pageRows.length === 0) {
+      const total = normalizeTotalCount(pageRows[0]?.total_count)
+      const totalPages = total ? Math.ceil(total / pageSize) : 0
+
+      const resolvedRows = pageRows.filter(
+        (row): row is ItemRow & { id: number; quality: number; type: string } =>
+          row.id !== null &&
+          row.quality !== null &&
+          typeof row.type === 'string'
+      )
+
+      if (resolvedRows.length === 0) {
         return {
           data: [],
           total,
@@ -223,7 +168,7 @@ export default defineCachedApiEventHandler(
 
       if (useCompactPayload) {
         return {
-          data: pageRows.map((row) => ({
+          data: resolvedRows.map((row) => ({
             id: row.id,
             quality: row.quality,
           })),
@@ -233,38 +178,16 @@ export default defineCachedApiEventHandler(
         }
       }
 
-      const pageIds = pageRows.map((row) => row.id)
-      const { data: detailData, error: detailError } = await withSupabaseRetry(
-        () =>
-          supabase
-            .from('items')
-            .select('id, quality, type, props, style_key, tags, obtain_type')
-            .in('id', pageIds)
-      )
-
-      if (detailError) {
-        throw detailError
-      }
-
-      const detailRows = (detailData as ItemRow[] | null) ?? []
-      const detailById = new Map<number, ItemRow>(
-        detailRows.map((row) => [row.id, row])
-      )
-      const orderedRows = pageIds
-        .map((id) => detailById.get(id))
-        .filter((row): row is ItemRow => Boolean(row))
-
       return {
-        data: orderedRows.map((item) => ({
-          id: item.id,
-          quality: item.quality,
-          type: item.type,
-          obtain_type: item.obtain_type ?? null,
+        data: resolvedRows.map((row) => ({
+          id: row.id,
+          quality: row.quality,
+          type: row.type,
+          obtain_type: row.obtain_type ?? null,
           style:
-            (item.style_key
-              ? STYLE_BY_KEY.get(item.style_key)?.i18nKey
-              : null) ?? resolveStyleI18nKeyFromProps(item.props),
-          labels: resolveTagI18nKeys(item.tags),
+            (row.style_key ? STYLE_BY_KEY.get(row.style_key)?.i18nKey : null) ??
+            resolveStyleI18nKeyFromProps(row.props),
+          labels: resolveTagI18nKeys(row.tags),
         })),
         total,
         page,
@@ -301,6 +224,19 @@ export default defineCachedApiEventHandler(
             : 'invalid'
           : 'all'
         const type = query.type?.toString() || 'all'
+        const category =
+          normalizeItemSearchTokenKey(query.category?.toString() ?? null) ||
+          'all'
+        const subcategory =
+          normalizeItemSearchTokenKey(query.subcategory?.toString() ?? null) ||
+          'all'
+        const advancedFilters = serializeItemSearchAdvancedFilters(
+          resolveItemSearchAdvancedFilters(
+            query as Record<string, unknown>,
+            query.type?.toString() ?? null
+          ),
+          query.type?.toString() ?? null
+        )
         const style = query.style?.toString() || 'all'
         const label = query.label?.toString() || 'all'
         const itemVersion = query.version?.toString() || 'all'
@@ -309,7 +245,7 @@ export default defineCachedApiEventHandler(
           : query.obtain
             ? query.obtain.toString()
             : 'all'
-        return `${version}:items:p${page}:ps${pageSize}:q${quality}:t${type}:s${style}:l${label}:v${itemVersion}:src${source}`
+        return `${version}:items:p${page}:ps${pageSize}:q${quality}:t${type}:c${category}:sc${subcategory}:a${advancedFilters || 'none'}:s${style}:l${label}:v${itemVersion}:src${source}`
       },
       swr: true,
     },

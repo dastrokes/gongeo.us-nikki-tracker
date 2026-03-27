@@ -6,41 +6,150 @@
       class="rounded-xl p-0 sm:p-2"
       content-class="!p-2 sm:p-4"
     >
-      <div class="flex flex-col gap-3">
-        <div class="flex items-center gap-2 flex-wrap justify-between">
-          <div class="flex flex-wrap items-center gap-2">
-            <n-button-group>
-              <n-button
-                size="small"
-                @click="
-                  navigateTo(
-                    localePath({
-                      path: '/outfits',
-                      query: buildListingQuery(false),
-                    })
-                  )
-                "
-              >
-                <template #icon>
-                  <n-icon>
-                    <Tshirt />
-                  </n-icon>
+      <div class="flex flex-col gap-2">
+        <div class="flex items-start justify-between gap-2">
+          <div
+            class="flex min-w-0 flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center"
+          >
+            <n-button-group class="self-start">
+              <n-tooltip trigger="hover">
+                <template #trigger>
+                  <n-button
+                    size="small"
+                    class="w-12 !px-0"
+                    :aria-label="$t('common.outfits')"
+                    @click="
+                      navigateTo(
+                        localePath({
+                          path: '/outfits',
+                          query: buildListingQuery(false),
+                        })
+                      )
+                    "
+                  >
+                    <template #icon>
+                      <n-icon>
+                        <Tshirt />
+                      </n-icon>
+                    </template>
+                  </n-button>
                 </template>
                 {{ $t('common.outfits') }}
-              </n-button>
-              <n-button
-                size="small"
-                type="primary"
-              >
-                <template #icon>
-                  <n-icon>
-                    <ListAlt />
-                  </n-icon>
+              </n-tooltip>
+              <n-tooltip trigger="hover">
+                <template #trigger>
+                  <n-button
+                    size="small"
+                    type="primary"
+                    class="w-12 !px-0"
+                    :aria-label="$t('common.items')"
+                  >
+                    <template #icon>
+                      <n-icon>
+                        <ListAlt />
+                      </n-icon>
+                    </template>
+                  </n-button>
                 </template>
                 {{ $t('common.items') }}
-              </n-button>
+              </n-tooltip>
             </n-button-group>
 
+            <div class="hidden min-w-0 overflow-x-auto sm:block">
+              <n-button-group class="min-w-max">
+                <n-button
+                  size="small"
+                  :type="qualityFilter === null ? 'primary' : 'default'"
+                  class="min-w-[40px]"
+                  @click="qualityFilter = null"
+                >
+                  {{ t('common.all') }}
+                </n-button>
+                <n-button
+                  v-for="q in [5, 4, 3, 2]"
+                  :key="q"
+                  size="small"
+                  v-bind="getQualityButtonTheme(q, qualityFilter === q)"
+                  :class="['min-w-[40px]']"
+                  @click="qualityFilter = q"
+                >
+                  <span class="flex items-center gap-1">
+                    {{ q }}
+                    <n-icon>
+                      <Star />
+                    </n-icon>
+                  </span>
+                </n-button>
+              </n-button-group>
+            </div>
+
+            <n-button
+              v-if="hasFilters"
+              size="small"
+              class="hidden sm:inline-flex"
+              @click="clearFilters"
+            >
+              {{ t('common.clear') }}
+            </n-button>
+          </div>
+
+          <n-tooltip
+            :disabled="totalItems <= TIER_ENTRY_LIMIT"
+            trigger="hover"
+          >
+            <template #trigger>
+              <div class="shrink-0 self-start">
+                <n-button
+                  size="small"
+                  type="primary"
+                  :disabled="isTierlistDisabled"
+                  @click="goToTierlist"
+                >
+                  <template #icon>
+                    <n-icon><SortAmountDown /></n-icon>
+                  </template>
+                  {{ t('navigation.tierlist') }}
+                </n-button>
+              </div>
+            </template>
+            {{
+              t('tierlist.over_limit.description', {
+                max: TIER_ENTRY_LIMIT,
+              })
+            }}
+          </n-tooltip>
+        </div>
+
+        <div class="flex items-start gap-2 sm:hidden">
+          <div class="min-w-0 flex-1 overflow-x-auto pb-1">
+            <n-button-group class="min-w-max">
+              <n-button
+                size="small"
+                :type="qualityFilter === null ? 'primary' : 'default'"
+                class="min-w-[40px]"
+                @click="qualityFilter = null"
+              >
+                {{ t('common.all') }}
+              </n-button>
+              <n-button
+                v-for="q in [5, 4, 3, 2]"
+                :key="q"
+                size="small"
+                v-bind="getQualityButtonTheme(q, qualityFilter === q)"
+                :class="['min-w-[40px]']"
+                @click="qualityFilter = q"
+              >
+                <span class="flex items-center gap-1">
+                  {{ q }}
+                  <n-icon>
+                    <Star />
+                  </n-icon>
+                </span>
+              </n-button>
+            </n-button-group>
+          </div>
+
+          <div class="flex shrink-0 items-center gap-2">
             <n-button
               v-if="hasFilters"
               size="small"
@@ -48,69 +157,16 @@
             >
               {{ t('common.clear') }}
             </n-button>
-            <div class="basis-full sm:basis-auto">
-              <n-tooltip
-                :disabled="totalItems <= TIER_ENTRY_LIMIT"
-                trigger="hover"
-              >
-                <template #trigger>
-                  <div class="inline-block">
-                    <n-button
-                      size="small"
-                      type="primary"
-                      :disabled="isTierlistDisabled"
-                      @click="goToTierlist"
-                    >
-                      <template #icon>
-                        <n-icon><SortAmountDown /></n-icon>
-                      </template>
-                      {{ t('navigation.tierlist') }}
-                    </n-button>
-                  </div>
-                </template>
-                {{
-                  t('tierlist.over_limit.description', {
-                    max: TIER_ENTRY_LIMIT,
-                  })
-                }}
-              </n-tooltip>
-            </div>
           </div>
-
-          <n-button-group>
-            <n-button
-              size="small"
-              :type="qualityFilter === null ? 'primary' : 'default'"
-              class="min-w-[40px]"
-              @click="qualityFilter = null"
-            >
-              {{ t('common.all') }}
-            </n-button>
-            <n-button
-              v-for="q in [5, 4, 3, 2]"
-              :key="q"
-              size="small"
-              v-bind="getQualityButtonTheme(q, qualityFilter === q)"
-              :class="['min-w-[40px]']"
-              @click="qualityFilter = q"
-            >
-              <span class="flex items-center gap-1">
-                {{ q }}
-                <n-icon>
-                  <Star />
-                </n-icon>
-              </span>
-            </n-button>
-          </n-button-group>
         </div>
 
-        <div class="flex items-center gap-2 flex-wrap">
+        <div class="grid grid-cols-2 gap-2 sm:grid-cols-2 xl:grid-cols-4">
           <n-select
             v-model:value="versionFilter"
             :options="versionOptions"
             :render-label="renderVersionOptionLabel"
             size="small"
-            class="w-48"
+            class="min-w-0"
             clearable
             filterable
             :show-checkmark="false"
@@ -121,7 +177,7 @@
             v-model:value="styleFilter"
             :options="styleOptions"
             size="small"
-            class="w-48"
+            class="min-w-0"
             clearable
             :show-checkmark="false"
             :placeholder="t('compendium.filter_style')"
@@ -131,7 +187,7 @@
             v-model:value="labelFilter"
             :options="labelOptions"
             size="small"
-            class="w-48"
+            class="min-w-0"
             clearable
             filterable
             :show-checkmark="false"
@@ -142,25 +198,88 @@
             v-model:value="obtainFilter"
             :options="obtainOptions"
             size="small"
-            class="w-48"
+            class="min-w-0"
             clearable
             filterable
             :show-checkmark="false"
             :placeholder="t('compendium.filter_obtain')"
           />
+        </div>
 
-          <!-- Type Filter Dropdown -->
+        <div class="grid grid-cols-2 gap-2 sm:grid-cols-2 xl:grid-cols-4">
           <n-select
-            v-if="showTypeFilter"
             v-model:value="typeFilter"
             :options="typeOptions"
             size="small"
-            class="w-48"
+            class="min-w-0"
             clearable
             filterable
             :show-checkmark="false"
             :placeholder="t('compendium.filter_type')"
           />
+
+          <n-select
+            v-model:value="categoryFilter"
+            :options="categoryOptions"
+            size="small"
+            class="min-w-0"
+            clearable
+            filterable
+            :disabled="!isCategoryFilterEnabled"
+            :show-checkmark="false"
+            :placeholder="t('compendium.filter_category')"
+          />
+
+          <n-select
+            v-model:value="subcategoryFilter"
+            :options="subcategoryOptions"
+            size="small"
+            class="min-w-0"
+            clearable
+            filterable
+            :disabled="!isSubcategoryFilterEnabled"
+            :show-checkmark="false"
+            :placeholder="t('compendium.filter_subcategory')"
+          />
+
+          <n-button-group class="w-full">
+            <n-button
+              size="small"
+              class="min-w-0 flex-1 justify-between"
+              :disabled="!isAdvancedFiltersEnabled"
+              data-advanced-filters-trigger
+              @click="toggleAdvancedFiltersDrawer"
+            >
+              <span>{{ t('compendium.advanced_filters') }}</span>
+              <span
+                v-if="activeAdvancedFilterCount > 0"
+                class="ml-1"
+              >
+                ({{ activeAdvancedFilterCount }})
+              </span>
+            </n-button>
+
+            <n-tooltip
+              v-if="activeAdvancedFilterCount > 0"
+              trigger="hover"
+            >
+              <template #trigger>
+                <n-button
+                  size="small"
+                  :disabled="!isAdvancedFiltersEnabled"
+                  :aria-label="t('compendium.clear_advanced_filters')"
+                  @click="clearAdvancedFilters"
+                >
+                  <template #icon>
+                    <n-icon>
+                      <Times />
+                    </n-icon>
+                  </template>
+                </n-button>
+              </template>
+              {{ t('compendium.clear_advanced_filters') }}
+            </n-tooltip>
+          </n-button-group>
         </div>
       </div>
     </n-card>
@@ -373,14 +492,34 @@
         </div>
       </div>
     </n-card>
+
+    <AdvancedFiltersDrawer
+      :show="isAdvancedFiltersDrawerOpen"
+      :fields="advancedFilterFields"
+      :filters="advancedFilters"
+      :options="advancedFacetOptions"
+      ignore-close-selector="[data-advanced-filters-trigger]"
+      @update:show="isAdvancedFiltersDrawerOpen = $event"
+      @update:filters="updateAdvancedFilters"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-  import { Star, Tshirt, ListAlt, SortAmountDown } from '@vicons/fa'
+  import { Star, Tshirt, ListAlt, SortAmountDown, Times } from '@vicons/fa'
   import type { SelectGroupOption, SelectOption } from 'naive-ui'
+  import type {
+    ItemSearchAdvancedFacetMap,
+    ItemSearchAdvancedScalarFilters,
+  } from '#shared/types/itemSearch'
+  import {
+    ITEM_SEARCH_ADVANCED_SCALAR_FIELDS,
+    ITEM_SEARCH_UNCATEGORIZED_VALUE,
+    sortItemSearchFacetValues,
+  } from '#shared/utils/itemSearch'
 
   const { t, locale, getLocaleMessage } = useI18n()
+  const { translateFilterToken } = useFilterToken()
   const localePath = useLocalePath()
   const route = useRoute()
   const router = useRouter()
@@ -563,8 +702,20 @@
   const qualityFilter = ref<number | null>(
     route.query.quality ? Number(route.query.quality) : null
   )
-  const typeFilter = ref<string | null>(
-    resolveType(route.query.type?.toString() ?? null)
+  const initialTypeFilter = resolveType(route.query.type?.toString() ?? null)
+  const typeFilter = ref<string | null>(initialTypeFilter)
+  const categoryFilter = ref<string | null>(
+    supportsItemSearchCategoryFilters(initialTypeFilter)
+      ? normalizeItemSearchTokenKey(route.query.category?.toString() ?? null) ||
+          null
+      : null
+  )
+  const subcategoryFilter = ref<string | null>(
+    supportsItemSearchCategoryFilters(initialTypeFilter)
+      ? normalizeItemSearchTokenKey(
+          route.query.subcategory?.toString() ?? null
+        ) || null
+      : null
   )
   const versionFilter = ref<string | null>(
     resolveVersion(route.query.version?.toString() ?? null)
@@ -580,53 +731,164 @@
       (route.query.source ?? route.query.obtain)?.toString() ?? null
     )
   )
+  const advancedFilters = ref<ItemSearchAdvancedScalarFilters>(
+    resolveItemSearchAdvancedFilters(
+      route.query as Record<string, unknown>,
+      typeFilter.value
+    )
+  )
+  const isAdvancedFiltersDrawerOpen = ref(false)
   const currentPage = ref(Number(route.query.page) || 1)
 
+  const advancedFilterFields = computed(() =>
+    getItemSearchAdvancedScalarFields(typeFilter.value)
+  )
+  const activeAdvancedFilters = computed(() =>
+    getActiveItemSearchAdvancedFilters(advancedFilters.value, typeFilter.value)
+  )
+  const activeAdvancedFiltersKey = computed(() =>
+    serializeItemSearchAdvancedFilters(advancedFilters.value, typeFilter.value)
+  )
+  const activeAdvancedFilterCount = computed(
+    () =>
+      advancedFilterFields.value.filter(
+        (field) => activeAdvancedFilters.value[field]
+      ).length
+  )
   const showTypeFilter = computed(() => true)
+  const supportsCategoryFilters = computed(() =>
+    supportsItemSearchCategoryFilters(typeFilter.value)
+  )
+  const isCategoryFilterEnabled = computed(
+    () =>
+      showTypeFilter.value &&
+      supportsCategoryFilters.value &&
+      categoryOptions.value.length > 0
+  )
+  const isSubcategoryFilterEnabled = computed(
+    () =>
+      supportsCategoryFilters.value &&
+      !!categoryFilter.value &&
+      subcategoryOptions.value.length > 0
+  )
+  const isAdvancedFiltersEnabled = computed(
+    () => advancedFilterFields.value.length > 0
+  )
+  const hasActiveAdvancedFilters = computed(
+    () => activeAdvancedFilterCount.value > 0
+  )
+  const shouldFetchFacets = computed(
+    () =>
+      Boolean(typeFilter.value) &&
+      (supportsCategoryFilters.value || isAdvancedFiltersEnabled.value)
+  )
   const hasFilters = computed(
     () =>
       qualityFilter.value !== null ||
       (showTypeFilter.value && typeFilter.value !== null) ||
+      categoryFilter.value !== null ||
+      subcategoryFilter.value !== null ||
       versionFilter.value !== null ||
       styleFilter.value !== null ||
       labelFilter.value !== null ||
-      obtainFilter.value !== null
+      obtainFilter.value !== null ||
+      activeAdvancedFilterCount.value > 0
   )
 
-  const { fetchItemsPaginated } = useSupabaseItems()
+  const { fetchItemsPaginated, fetchItemSearchFacets } = useSupabaseItems()
+
+  const facetCacheKey = computed(() =>
+    shouldFetchFacets.value
+      ? `item-facets-${qualityFilter.value ?? 'all'}-${typeFilter.value ?? 'all'}-${
+          categoryFilter.value ?? 'all'
+        }-${subcategoryFilter.value ?? 'all'}-${activeAdvancedFiltersKey.value || 'none'}-${
+          styleFilter.value ?? 'all'
+        }-${labelFilter.value ?? 'all'}-${
+          versionFilter.value ?? 'all'
+        }-${obtainFilter.value ?? 'all'}`
+      : 'item-facets-disabled'
+  )
 
   const cacheKey = computed(
     () =>
       `items-${qualityFilter.value ?? 'all'}-${typeFilter.value ?? 'all'}-${
+        categoryFilter.value ?? 'all'
+      }-${subcategoryFilter.value ?? 'all'}-${
+        activeAdvancedFiltersKey.value || 'none'
+      }-${
         styleFilter.value ?? 'all'
       }-${labelFilter.value ?? 'all'}-${versionFilter.value ?? 'all'}-${
         obtainFilter.value ?? 'all'
       }-${currentPage.value}-${pageSize}`
   )
 
+  const [facetsAsyncData, itemsAsyncData] = await Promise.all([
+    useAsyncData(
+      () => facetCacheKey.value,
+      async () => {
+        if (!shouldFetchFacets.value) {
+          return {
+            categories: [],
+            subcategories: [],
+            advanced: {},
+          }
+        }
+
+        return fetchItemSearchFacets({
+          quality: qualityFilter.value,
+          type: typeFilter.value,
+          category: supportsCategoryFilters.value ? categoryFilter.value : null,
+          subcategory: supportsCategoryFilters.value
+            ? subcategoryFilter.value
+            : null,
+          version: versionFilter.value,
+          style: styleFilter.value,
+          label: labelFilter.value,
+          source: obtainFilter.value,
+          ...activeAdvancedFilters.value,
+        })
+      },
+      {
+        default: () => ({
+          categories: [],
+          subcategories: [],
+          advanced: {},
+        }),
+        lazy: true,
+      }
+    ),
+    useAsyncData(
+      () => cacheKey.value,
+      async () => {
+        return fetchItemsPaginated({
+          quality: qualityFilter.value,
+          type: typeFilter.value,
+          category: supportsCategoryFilters.value ? categoryFilter.value : null,
+          subcategory: supportsCategoryFilters.value
+            ? subcategoryFilter.value
+            : null,
+          version: versionFilter.value,
+          style: styleFilter.value,
+          label: labelFilter.value,
+          source: obtainFilter.value,
+          ...activeAdvancedFilters.value,
+          page: currentPage.value,
+        })
+      },
+      {
+        default: () => ({ data: [], total: 0, totalPages: 0 }),
+        lazy: true,
+      }
+    ),
+  ])
+
+  const { data: itemSearchFacets, status: facetsStatus } = facetsAsyncData
   const {
     data: compendiumData,
     pending: loading,
     error,
     refresh: loadData,
-  } = await useAsyncData(
-    () => cacheKey.value,
-    async () => {
-      return fetchItemsPaginated({
-        quality: qualityFilter.value,
-        type: typeFilter.value,
-        version: versionFilter.value,
-        style: styleFilter.value,
-        label: labelFilter.value,
-        source: obtainFilter.value,
-        page: currentPage.value,
-      })
-    },
-    {
-      default: () => ({ data: [], total: 0, totalPages: 0 }),
-      lazy: true,
-    }
-  )
+  } = itemsAsyncData
 
   const entries = computed(() => {
     const data = (compendiumData.value?.data || []) as ItemListEntry[]
@@ -657,6 +919,16 @@
     () => loading.value || !!error.value || totalItems.value > TIER_ENTRY_LIMIT
   )
 
+  const buildAdvancedFilterQuery = () =>
+    Object.fromEntries(
+      advancedFilterFields.value
+        .map((field) => {
+          const value = activeAdvancedFilters.value[field]
+          return value ? [field, value] : null
+        })
+        .filter((entry): entry is [string, string] => Boolean(entry))
+    )
+
   const buildListingQuery = (includeType: boolean) => ({
     ...(qualityFilter.value && { quality: qualityFilter.value }),
     ...(includeType &&
@@ -664,10 +936,22 @@
       typeFilter.value && {
         type: typeFilter.value,
       }),
+    ...(includeType &&
+      supportsCategoryFilters.value &&
+      categoryFilter.value && {
+        category: categoryFilter.value,
+      }),
+    ...(includeType &&
+      supportsCategoryFilters.value &&
+      categoryFilter.value &&
+      subcategoryFilter.value && {
+        subcategory: subcategoryFilter.value,
+      }),
     ...(versionFilter.value && { version: versionFilter.value }),
     ...(styleFilter.value && { style: styleFilter.value }),
     ...(labelFilter.value && { label: labelFilter.value }),
     ...(obtainFilter.value && { source: obtainFilter.value }),
+    ...(includeType && buildAdvancedFilterQuery()),
     ...(currentPage.value > 1 && { page: currentPage.value }),
   })
 
@@ -678,10 +962,20 @@
       typeFilter.value && {
         type: typeFilter.value,
       }),
+    ...(supportsCategoryFilters.value &&
+      categoryFilter.value && {
+        category: categoryFilter.value,
+      }),
+    ...(supportsCategoryFilters.value &&
+      categoryFilter.value &&
+      subcategoryFilter.value && {
+        subcategory: subcategoryFilter.value,
+      }),
     ...(versionFilter.value && { version: versionFilter.value }),
     ...(styleFilter.value && { style: styleFilter.value }),
     ...(labelFilter.value && { label: labelFilter.value }),
     ...(obtainFilter.value && { source: obtainFilter.value }),
+    ...buildAdvancedFilterQuery(),
   })
 
   const goToTierlist = () => {
@@ -701,6 +995,26 @@
 
   watch(typeFilter, () => {
     currentPage.value = 1
+    categoryFilter.value = null
+    subcategoryFilter.value = null
+    advancedFilters.value = createEmptyItemSearchAdvancedFilters()
+    isAdvancedFiltersDrawerOpen.value = false
+  })
+
+  watch(supportsCategoryFilters, (isSupported) => {
+    if (isSupported) return
+
+    categoryFilter.value = null
+    subcategoryFilter.value = null
+  })
+
+  watch(categoryFilter, () => {
+    currentPage.value = 1
+    subcategoryFilter.value = null
+  })
+
+  watch(subcategoryFilter, () => {
+    currentPage.value = 1
   })
 
   watch(versionFilter, () => {
@@ -719,14 +1033,21 @@
     currentPage.value = 1
   })
 
+  watch(activeAdvancedFiltersKey, () => {
+    currentPage.value = 1
+  })
+
   watch(
     [
       qualityFilter,
       typeFilter,
+      categoryFilter,
+      subcategoryFilter,
       versionFilter,
       styleFilter,
       labelFilter,
       obtainFilter,
+      activeAdvancedFiltersKey,
       currentPage,
     ],
     () => {
@@ -738,13 +1059,29 @@
     loadData()
   }
 
+  const toggleAdvancedFiltersDrawer = () => {
+    if (!isAdvancedFiltersEnabled.value) return
+
+    isAdvancedFiltersDrawerOpen.value = !isAdvancedFiltersDrawerOpen.value
+  }
+
+  const clearAdvancedFilters = () => {
+    if (!hasActiveAdvancedFilters.value) return
+
+    advancedFilters.value = createEmptyItemSearchAdvancedFilters()
+  }
+
   const clearFilters = () => {
     qualityFilter.value = null
     typeFilter.value = null
+    categoryFilter.value = null
+    subcategoryFilter.value = null
     versionFilter.value = null
     styleFilter.value = null
     labelFilter.value = null
     obtainFilter.value = null
+    advancedFilters.value = createEmptyItemSearchAdvancedFilters()
+    isAdvancedFiltersDrawerOpen.value = false
     currentPage.value = 1
   }
 
@@ -833,6 +1170,144 @@
 
     return options
   })
+
+  const availableCategories = computed(
+    () => itemSearchFacets.value?.categories ?? []
+  )
+
+  const availableSubcategories = computed(
+    () => itemSearchFacets.value?.subcategories ?? []
+  )
+  const advancedFacetOptions = computed<ItemSearchAdvancedFacetMap>(
+    () => itemSearchFacets.value?.advanced ?? {}
+  )
+
+  watch(
+    availableCategories,
+    (nextCategories) => {
+      if (!categoryFilter.value) return
+
+      const resolved = resolveItemSearchFacetValue(
+        categoryFilter.value,
+        nextCategories
+      )
+      if (!resolved) {
+        categoryFilter.value = null
+        subcategoryFilter.value = null
+        return
+      }
+
+      if (resolved !== categoryFilter.value) {
+        categoryFilter.value = resolved
+      }
+    },
+    { immediate: true }
+  )
+
+  watch(
+    availableSubcategories,
+    (nextSubcategories) => {
+      if (!subcategoryFilter.value) return
+
+      const resolved = resolveItemSearchFacetValue(
+        subcategoryFilter.value,
+        nextSubcategories
+      )
+      if (!resolved) {
+        subcategoryFilter.value = null
+        return
+      }
+
+      if (resolved !== subcategoryFilter.value) {
+        subcategoryFilter.value = resolved
+      }
+    },
+    { immediate: true }
+  )
+
+  const validateAdvancedFilters = () => {
+    if (typeFilter.value && facetsStatus.value !== 'success') {
+      return
+    }
+
+    const allowedFields = new Set(advancedFilterFields.value)
+    const nextFilters = {
+      ...createEmptyItemSearchAdvancedFilters(),
+      ...advancedFilters.value,
+    }
+    let hasChanges = false
+
+    ITEM_SEARCH_ADVANCED_SCALAR_FIELDS.forEach((field) => {
+      const value = nextFilters[field]
+      if (!value) return
+
+      if (!allowedFields.has(field)) {
+        nextFilters[field] = null
+        hasChanges = true
+        return
+      }
+
+      const resolved = getItemSearchAdvancedFacetValue(
+        field,
+        value,
+        advancedFacetOptions.value
+      )
+      if (!resolved) {
+        nextFilters[field] = null
+        hasChanges = true
+        return
+      }
+
+      if (resolved !== value) {
+        nextFilters[field] = resolved
+        hasChanges = true
+      }
+    })
+
+    if (hasChanges) {
+      advancedFilters.value = nextFilters
+    }
+  }
+
+  watch(
+    [
+      advancedFilterFields,
+      () => JSON.stringify(advancedFacetOptions.value),
+      facetsStatus,
+    ],
+    validateAdvancedFilters,
+    { immediate: true }
+  )
+
+  const updateAdvancedFilters = (
+    nextFilters: ItemSearchAdvancedScalarFilters
+  ) => {
+    advancedFilters.value = {
+      ...createEmptyItemSearchAdvancedFilters(),
+      ...advancedFilters.value,
+      ...nextFilters,
+    }
+  }
+
+  const categoryOptions = computed<SelectOption[]>(() =>
+    sortItemSearchFacetValues(availableCategories.value).map((value) => ({
+      label:
+        value === ITEM_SEARCH_UNCATEGORIZED_VALUE
+          ? t('compendium.uncategorized')
+          : translateFilterToken('category', value),
+      value,
+    }))
+  )
+
+  const subcategoryOptions = computed<SelectOption[]>(() =>
+    sortItemSearchFacetValues(availableSubcategories.value).map((value) => ({
+      label:
+        value === ITEM_SEARCH_UNCATEGORIZED_VALUE
+          ? t('compendium.uncategorized')
+          : translateFilterToken('subcategory', value),
+      value,
+    }))
+  )
 
   const styleOptions = computed(() =>
     STYLE_DEFINITIONS.map((style) => ({

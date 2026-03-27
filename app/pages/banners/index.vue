@@ -5,52 +5,44 @@
       class="rounded-xl p-0 sm:p-2"
       content-class="!p-2 sm:p-4"
     >
-      <div class="flex flex-col sm:flex-row gap-4">
-        <n-scrollbar x-scrollable>
-          <div class="flex flex-row gap-2 min-w-max pb-3">
-            <div
-              v-for="banner in filteredBanners"
-              :key="banner.bannerId"
-              class="flex-shrink-0 cursor-pointer hover:opacity-80 transition-opacity"
-            >
-              <n-tooltip trigger="hover">
-                <template #trigger>
-                  <NuxtImg
-                    :src="getImageSrc('bannerThumb', banner.bannerId)"
-                    :alt="$t(`banner.${banner.bannerId}.name`)"
-                    class="w-24 h-12 rounded-lg object-cover"
-                    preset="bannerThumb"
-                    width="200"
-                    height="100"
-                    fit="cover"
-                    loading="lazy"
-                    sizes="200px"
-                    @click="handleBannerClick(banner.bannerId)"
-                  />
-                </template>
-                <span>{{ t(`banner.${banner.bannerId}.name`) }}</span>
-              </n-tooltip>
+      <div
+        class="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between sm:gap-4"
+      >
+        <div class="order-2 min-w-0 sm:order-1 sm:flex-1">
+          <n-scrollbar
+            x-scrollable
+            class="pb-2"
+          >
+            <div class="flex min-w-max flex-row gap-2 pb-2">
+              <div
+                v-for="banner in filteredBanners"
+                :key="banner.bannerId"
+                class="flex-shrink-0 cursor-pointer transition-opacity hover:opacity-80"
+              >
+                <n-tooltip trigger="hover">
+                  <template #trigger>
+                    <NuxtImg
+                      :src="getImageSrc('bannerThumb', banner.bannerId)"
+                      :alt="$t(`banner.${banner.bannerId}.name`)"
+                      class="h-16 w-32 rounded-lg object-cover"
+                      preset="bannerThumb"
+                      width="200"
+                      height="100"
+                      fit="cover"
+                      loading="lazy"
+                      sizes="200px"
+                      @click="handleBannerClick(banner.bannerId)"
+                    />
+                  </template>
+                  <span>{{ t(`banner.${banner.bannerId}.name`) }}</span>
+                </n-tooltip>
+              </div>
             </div>
-          </div>
-        </n-scrollbar>
+          </n-scrollbar>
+        </div>
 
-        <div
-          class="flex flex-col items-end gap-2 sm:flex-row sm:items-center sm:justify-end"
-        >
-          <div class="flex justify-end gap-2">
-            <n-button
-              size="small"
-              type="primary"
-              :disabled="isTierlistDisabled"
-              @click="goToTierlist"
-            >
-              <template #icon>
-                <n-icon size="16">
-                  <SortAmountDown />
-                </n-icon>
-              </template>
-              {{ t('navigation.tierlist') }}
-            </n-button>
+        <div class="order-1 flex flex-col gap-2 sm:order-2 sm:items-end">
+          <div class="flex items-start justify-end gap-2">
             <n-button
               size="small"
               secondary
@@ -63,48 +55,106 @@
               </template>
               {{ t('navigation.timeline') }}
             </n-button>
-          </div>
-          <div class="flex items-center justify-end gap-2">
-            <!-- Banner filters -->
-            <n-button-group>
-              <n-button
-                v-bind="qualityButtonThemes.star5"
-                size="small"
-                @click="toggleBannerTypeFilter(5)"
-              >
-                <span class="flex items-center gap-1">
-                  5
-                  <n-icon>
-                    <Star />
-                  </n-icon>
-                </span>
-              </n-button>
-              <n-button
-                v-bind="qualityButtonThemes.star4"
-                size="small"
-                @click="toggleBannerTypeFilter(4)"
-              >
-                <span class="flex items-center gap-1">
-                  4
-                  <n-icon>
-                    <Star />
-                  </n-icon>
-                </span>
-              </n-button>
-            </n-button-group>
 
-            <!-- Sort button -->
-            <n-button
-              size="small"
-              @click="toggleSortOrder"
+            <n-tooltip
+              :disabled="!isTierlistDisabled"
+              trigger="hover"
             >
-              <template #icon>
-                <n-icon size="16">
-                  <ArrowUp v-if="sortOrder === 'newest'" />
-                  <ArrowDown v-else />
-                </n-icon>
+              <template #trigger>
+                <div class="shrink-0">
+                  <n-button
+                    size="small"
+                    type="primary"
+                    :disabled="isTierlistDisabled"
+                    @click="goToTierlist"
+                  >
+                    <template #icon>
+                      <n-icon size="16">
+                        <SortAmountDown />
+                      </n-icon>
+                    </template>
+                    {{ t('navigation.tierlist') }}
+                  </n-button>
+                </div>
               </template>
-            </n-button>
+              {{
+                t('tierlist.over_limit.description', {
+                  max: TIER_ENTRY_LIMIT,
+                })
+              }}
+            </n-tooltip>
+          </div>
+
+          <div class="flex items-start justify-end gap-2">
+            <div class="min-w-0 overflow-x-auto pb-1">
+              <div class="flex min-w-max items-center justify-end gap-2">
+                <n-button-group class="min-w-max">
+                  <n-button
+                    v-bind="qualityButtonThemes.star5"
+                    size="small"
+                    @click="toggleBannerTypeFilter(5)"
+                  >
+                    <span class="flex items-center gap-1">
+                      5
+                      <n-icon>
+                        <Star />
+                      </n-icon>
+                    </span>
+                  </n-button>
+                  <n-button
+                    v-bind="qualityButtonThemes.star4"
+                    size="small"
+                    @click="toggleBannerTypeFilter(4)"
+                  >
+                    <span class="flex items-center gap-1">
+                      4
+                      <n-icon>
+                        <Star />
+                      </n-icon>
+                    </span>
+                  </n-button>
+                </n-button-group>
+
+                <n-button-group class="min-w-max">
+                  <n-tooltip trigger="hover">
+                    <template #trigger>
+                      <n-button
+                        size="small"
+                        class="w-12 !px-0"
+                        :type="sortOrder === 'newest' ? 'primary' : 'default'"
+                        :aria-label="t('timeline.sort.newest_first')"
+                        @click="sortOrder = 'newest'"
+                      >
+                        <template #icon>
+                          <n-icon size="16">
+                            <ArrowUp />
+                          </n-icon>
+                        </template>
+                      </n-button>
+                    </template>
+                    {{ t('timeline.sort.newest_first') }}
+                  </n-tooltip>
+                  <n-tooltip trigger="hover">
+                    <template #trigger>
+                      <n-button
+                        size="small"
+                        class="w-12 !px-0"
+                        :type="sortOrder === 'oldest' ? 'primary' : 'default'"
+                        :aria-label="t('timeline.sort.oldest_first')"
+                        @click="sortOrder = 'oldest'"
+                      >
+                        <template #icon>
+                          <n-icon size="16">
+                            <ArrowDown />
+                          </n-icon>
+                        </template>
+                      </n-button>
+                    </template>
+                    {{ t('timeline.sort.oldest_first') }}
+                  </n-tooltip>
+                </n-button-group>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -390,11 +440,6 @@
         bannerTypeFilter.value.show4Star = !bannerTypeFilter.value.show4Star
       }
     }
-  }
-
-  // Toggle sort order
-  const toggleSortOrder = () => {
-    sortOrder.value = sortOrder.value === 'newest' ? 'oldest' : 'newest'
   }
 
   // Filtered banners based on active filters

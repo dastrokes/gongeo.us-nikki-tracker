@@ -95,8 +95,6 @@ export default defineNuxtConfig({
   runtimeConfig: {
     supabaseSecretKey: process.env.SUPABASE_SECRET_KEY,
     supabaseDataSecretKey: process.env.SUPABASE_DATA_SECRET_KEY,
-    upstashVectorRestUrl: process.env.UPSTASH_VECTOR_REST_URL,
-    upstashVectorRestToken: process.env.UPSTASH_VECTOR_REST_TOKEN,
 
     public: {
       supabaseUrl: process.env.SUPABASE_DATABASE_URL,

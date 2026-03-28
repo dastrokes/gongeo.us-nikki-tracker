@@ -6,34 +6,148 @@
       class="rounded-xl p-0 sm:p-2"
       content-class="!p-2 sm:p-4"
     >
-      <div class="flex flex-col gap-3">
-        <div class="flex items-center gap-2 flex-wrap justify-between">
-          <div class="flex flex-wrap items-center gap-2">
-            <n-button-group>
-              <n-button
-                size="small"
-                type="primary"
-              >
-                <template #icon>
-                  <n-icon><Tshirt /></n-icon>
+      <div class="flex flex-col gap-2">
+        <div class="flex items-start justify-between gap-2">
+          <div
+            class="flex min-w-0 flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center"
+          >
+            <n-button-group class="self-start">
+              <n-tooltip trigger="hover">
+                <template #trigger>
+                  <n-button
+                    size="small"
+                    type="primary"
+                    class="w-12 !px-0"
+                    :aria-label="$t('common.outfits')"
+                  >
+                    <template #icon>
+                      <n-icon><Tshirt /></n-icon>
+                    </template>
+                  </n-button>
                 </template>
                 {{ $t('common.outfits') }}
-              </n-button>
-              <n-button
-                size="small"
-                @click="
-                  navigateTo(
-                    localePath({ path: '/items', query: buildListingQuery() })
-                  )
-                "
-              >
-                <template #icon>
-                  <n-icon><ListAlt /></n-icon>
+              </n-tooltip>
+              <n-tooltip trigger="hover">
+                <template #trigger>
+                  <n-button
+                    size="small"
+                    class="w-12 !px-0"
+                    :aria-label="$t('common.items')"
+                    @click="
+                      navigateTo(
+                        localePath({
+                          path: '/items',
+                          query: buildListingQuery(),
+                        })
+                      )
+                    "
+                  >
+                    <template #icon>
+                      <n-icon><ListAlt /></n-icon>
+                    </template>
+                  </n-button>
                 </template>
                 {{ $t('common.items') }}
-              </n-button>
+              </n-tooltip>
             </n-button-group>
 
+            <div class="hidden min-w-0 overflow-x-auto sm:block">
+              <n-button-group class="min-w-max">
+                <n-button
+                  size="small"
+                  :type="qualityFilter === null ? 'primary' : 'default'"
+                  class="min-w-[40px]"
+                  @click="qualityFilter = null"
+                >
+                  {{ t('common.all') }}
+                </n-button>
+                <n-button
+                  v-for="q in [5, 4, 3, 2]"
+                  :key="q"
+                  size="small"
+                  v-bind="getQualityButtonTheme(q, qualityFilter === q)"
+                  :class="['min-w-[40px]']"
+                  :disabled="q === 2"
+                  @click="qualityFilter = q"
+                >
+                  <span class="flex items-center gap-1">
+                    {{ q }}
+                    <n-icon>
+                      <Star />
+                    </n-icon>
+                  </span>
+                </n-button>
+              </n-button-group>
+            </div>
+
+            <n-button
+              v-if="hasFilters"
+              size="small"
+              class="hidden sm:inline-flex"
+              @click="clearFilters"
+            >
+              {{ t('common.clear') }}
+            </n-button>
+          </div>
+
+          <n-tooltip
+            :disabled="totalItems <= TIER_ENTRY_LIMIT"
+            trigger="hover"
+          >
+            <template #trigger>
+              <div class="shrink-0 self-start">
+                <n-button
+                  size="small"
+                  type="primary"
+                  :disabled="isTierlistDisabled"
+                  @click="goToTierlist"
+                >
+                  <template #icon>
+                    <n-icon><SortAmountDown /></n-icon>
+                  </template>
+                  {{ t('navigation.tierlist') }}
+                </n-button>
+              </div>
+            </template>
+            {{
+              t('tierlist.over_limit.description', {
+                max: TIER_ENTRY_LIMIT,
+              })
+            }}
+          </n-tooltip>
+        </div>
+
+        <div class="flex items-start gap-2 sm:hidden">
+          <div class="min-w-0 flex-1 overflow-x-auto pb-1">
+            <n-button-group class="min-w-max">
+              <n-button
+                size="small"
+                :type="qualityFilter === null ? 'primary' : 'default'"
+                class="min-w-[40px]"
+                @click="qualityFilter = null"
+              >
+                {{ t('common.all') }}
+              </n-button>
+              <n-button
+                v-for="q in [5, 4, 3, 2]"
+                :key="q"
+                size="small"
+                v-bind="getQualityButtonTheme(q, qualityFilter === q)"
+                :class="['min-w-[40px]']"
+                :disabled="q === 2"
+                @click="qualityFilter = q"
+              >
+                <span class="flex items-center gap-1">
+                  {{ q }}
+                  <n-icon>
+                    <Star />
+                  </n-icon>
+                </span>
+              </n-button>
+            </n-button-group>
+          </div>
+
+          <div class="flex shrink-0 items-center gap-2">
             <n-button
               v-if="hasFilters"
               size="small"
@@ -41,70 +155,16 @@
             >
               {{ t('common.clear') }}
             </n-button>
-            <div class="basis-full sm:basis-auto">
-              <n-tooltip
-                :disabled="totalItems <= TIER_ENTRY_LIMIT"
-                trigger="hover"
-              >
-                <template #trigger>
-                  <div class="inline-block">
-                    <n-button
-                      size="small"
-                      type="primary"
-                      :disabled="isTierlistDisabled"
-                      @click="goToTierlist"
-                    >
-                      <template #icon>
-                        <n-icon><SortAmountDown /></n-icon>
-                      </template>
-                      {{ t('navigation.tierlist') }}
-                    </n-button>
-                  </div>
-                </template>
-                {{
-                  t('tierlist.over_limit.description', {
-                    max: TIER_ENTRY_LIMIT,
-                  })
-                }}
-              </n-tooltip>
-            </div>
           </div>
-
-          <n-button-group>
-            <n-button
-              size="small"
-              :type="qualityFilter === null ? 'primary' : 'default'"
-              class="min-w-[40px]"
-              @click="qualityFilter = null"
-            >
-              {{ t('common.all') }}
-            </n-button>
-            <n-button
-              v-for="q in [5, 4, 3, 2]"
-              :key="q"
-              size="small"
-              v-bind="getQualityButtonTheme(q, qualityFilter === q)"
-              :class="['min-w-[40px]']"
-              :disabled="q === 2"
-              @click="qualityFilter = q"
-            >
-              <span class="flex items-center gap-1">
-                {{ q }}
-                <n-icon>
-                  <Star />
-                </n-icon>
-              </span>
-            </n-button>
-          </n-button-group>
         </div>
 
-        <div class="flex items-center gap-2 flex-wrap">
+        <div class="grid grid-cols-2 gap-2 sm:grid-cols-2 xl:grid-cols-4">
           <n-select
             v-model:value="versionFilter"
             :options="versionOptions"
             :render-label="renderVersionOptionLabel"
             size="small"
-            class="w-48"
+            class="min-w-0"
             clearable
             filterable
             :show-checkmark="false"
@@ -115,7 +175,7 @@
             v-model:value="styleFilter"
             :options="styleOptions"
             size="small"
-            class="w-48"
+            class="min-w-0"
             clearable
             :show-checkmark="false"
             :placeholder="t('compendium.filter_style')"
@@ -125,7 +185,7 @@
             v-model:value="labelFilter"
             :options="labelOptions"
             size="small"
-            class="w-48"
+            class="min-w-0"
             clearable
             filterable
             :show-checkmark="false"
@@ -136,7 +196,7 @@
             v-model:value="obtainFilter"
             :options="obtainOptions"
             size="small"
-            class="w-48"
+            class="min-w-0"
             clearable
             filterable
             :show-checkmark="false"

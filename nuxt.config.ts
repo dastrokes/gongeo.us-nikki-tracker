@@ -95,8 +95,6 @@ export default defineNuxtConfig({
   runtimeConfig: {
     supabaseSecretKey: process.env.SUPABASE_SECRET_KEY,
     supabaseDataSecretKey: process.env.SUPABASE_DATA_SECRET_KEY,
-    upstashVectorRestUrl: process.env.UPSTASH_VECTOR_REST_URL,
-    upstashVectorRestToken: process.env.UPSTASH_VECTOR_REST_TOKEN,
 
     public: {
       supabaseUrl: process.env.SUPABASE_DATABASE_URL,
@@ -206,7 +204,7 @@ export default defineNuxtConfig({
         ...buildLocalizedRules(['/banners/**', '/outfits/**', '/items/**'], {
           headers: pageThemeNoTag,
         }),
-        ...buildLocalizedRules(['/outfits', '/items', '/tierlist'], {
+        ...buildLocalizedRules(['/outfits', '/items', '/tierlist', '/search'], {
           headers: pageThemeQuery,
         }),
         ...buildLocalizedRules(['/tracker', '/login', '/profile', '/stats'], {

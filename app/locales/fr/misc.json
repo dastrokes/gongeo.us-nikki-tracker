@@ -198,6 +198,14 @@
   "obtain.20306.name": "Secrets des royaumes",
   "obtain.20307.name": "Éclosion de tranquillité",
   "obtain.20308.name": "Trésors exclusifs",
+  "obtain.20401.name": "Cœur de l'Infini",
+  "obtain.20402.name": "Résonance à durée limitée",
+  "obtain.20403.name": "Premium de Poir'pote",
+  "obtain.20404.name": "Boutique stellaire",
+  "obtain.20405.name": "Butin de purification",
+  "obtain.20406.name": "Élan pour changer le monde",
+  "obtain.20407.name": "Voyage de nuit",
+  "obtain.20409.name": "Trésors exclusifs",
   "style.cool": "Décontraction",
   "style.elegant": "Élégance",
   "style.fresh": "Fraîcheur",
@@ -220,5 +228,6 @@
   "version.2.1": "Vers libre",
   "version.2.2": "Destins irisés",
   "version.2.3": "Cœur sans couronne",
+  "version.2.4": "Que la forêt n'entende pas",
   "version.2.x": "Itzalis"
 }

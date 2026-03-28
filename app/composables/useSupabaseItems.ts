@@ -1,14 +1,21 @@
-export interface ItemFilters {
+import type {
+  ItemSearchAdvancedScalarField,
+  ItemSearchFacetResponse,
+} from '#shared/types/itemSearch'
+
+export type ItemFilters = {
   search?: string
   quality?: number | null
   type?: string | null
+  category?: string | null
+  subcategory?: string | null
   style?: string | null
   label?: string | null
   version?: string | null
   source?: string | number | null
   page?: number
   pageSize?: number
-}
+} & Partial<Record<ItemSearchAdvancedScalarField, string | null>>
 
 export interface PaginatedItemsResponse {
   data: ItemListEntry[]
@@ -26,6 +33,20 @@ export const useSupabaseItems = () => {
   const loading = ref(false)
   const error = ref<Error | null>(null)
   const gameVersionHeader = { [GAME_VERSION_HEADER]: getGameVersion() }
+  const appendAdvancedFilterParams = (
+    params: Record<string, string | number>,
+    filters: ItemFilters,
+    type?: string | null
+  ) => {
+    const advancedFilters = getActiveItemSearchAdvancedFilters(filters, type)
+
+    getItemSearchAdvancedScalarFields(type).forEach((field) => {
+      const value = advancedFilters[field]
+      if (!value) return
+
+      params[field] = value
+    })
+  }
 
   /**
    * Fetch a single item by ID with its related outfits
@@ -82,6 +103,8 @@ export const useSupabaseItems = () => {
     const {
       quality = null,
       type = null,
+      category = null,
+      subcategory = null,
       style = null,
       label = null,
       version = null,
@@ -106,6 +129,16 @@ export const useSupabaseItems = () => {
       if (type && type !== 'all') {
         params.type = type
       }
+
+      if (supportsItemSearchCategoryFilters(type) && category) {
+        params.category = category
+      }
+
+      if (supportsItemSearchCategoryFilters(type) && subcategory) {
+        params.subcategory = subcategory
+      }
+
+      appendAdvancedFilterParams(params, filters, type)
 
       if (style && style !== 'all') {
         params.style = style
@@ -144,10 +177,83 @@ export const useSupabaseItems = () => {
     }
   }
 
+  const fetchItemSearchFacets = async (
+    filters: ItemFilters = {}
+  ): Promise<ItemSearchFacetResponse> => {
+    loading.value = true
+    error.value = null
+
+    const {
+      quality = null,
+      type = null,
+      category = null,
+      subcategory = null,
+      style = null,
+      label = null,
+      version = null,
+      source = null,
+    } = filters
+
+    try {
+      const params: Record<string, string | number> = {}
+
+      if (quality !== null && quality !== undefined) {
+        params.quality = quality
+      }
+
+      if (type && type !== 'all') {
+        params.type = type
+      }
+
+      if (supportsItemSearchCategoryFilters(type) && category) {
+        params.category = category
+      }
+
+      if (supportsItemSearchCategoryFilters(type) && subcategory) {
+        params.subcategory = subcategory
+      }
+
+      appendAdvancedFilterParams(params, filters, type)
+
+      if (style && style !== 'all') {
+        params.style = style
+      }
+
+      if (label && label !== 'all') {
+        params.label = label
+      }
+
+      if (version) {
+        params.version = version
+      }
+
+      if (source !== null && source !== undefined) {
+        params.source = source
+      }
+
+      return await $fetch<ItemSearchFacetResponse>('/api/items/facets', {
+        params,
+        headers: gameVersionHeader,
+      })
+    } catch (e) {
+      const normalizedError = toError(e, 'Failed to fetch item facets')
+      error.value = normalizedError
+      console.error(`Failed to fetch item facets: ${normalizedError.message}`)
+      return {
+        categories: [],
+        subcategories: [],
+        advanced: {},
+      }
+    } finally {
+      loading.value = false
+    }
+  }
+
   return {
     loading,
     error,
     fetchItemById,
     fetchItemsPaginated,
+    fetchItemSearchFacets,
   }
 }

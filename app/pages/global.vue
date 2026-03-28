@@ -501,6 +501,7 @@
               :indent="16"
               :override-default-node-click-behavior="override"
               :render-label="renderLabel"
+              filterable
               @update:show="handleDropdownShow"
               @update:value="updateFirstItemChart"
             />

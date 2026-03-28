@@ -122,7 +122,7 @@
                 </div>
 
                 <!-- Social Links -->
-                <div class="-ml-2 sm:ml-0">
+                <div>
                   <SocialLinks />
                 </div>
               </div>
@@ -276,7 +276,7 @@
                   <p class="mt-1">{{ $t('default.disclaimer.rights') }}</p>
                 </div>
               </n-popover>
-              <p class="flex items-center justify-center gap-1 pt-1">
+              <p class="flex items-center justify-center gap-1 p-2">
                 <span>{{ $t('default.built_with') }}</span>
                 <a
                   href="https://www.netlify.com/"

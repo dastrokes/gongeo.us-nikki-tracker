@@ -2,75 +2,231 @@
   <div class="max-w-7xl mx-auto space-y-2 sm:space-y-4">
     <n-card
       size="small"
-      class="rounded-xl"
-      content-class="!p-2 sm:!p-4"
+      class="rounded-xl p-0 sm:p-2"
+      content-class="!p-2 sm:p-4"
     >
-      <div class="flex flex-col gap-3">
-        <div
-          class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3"
-        >
-          <div class="flex items-center gap-3 flex-wrap">
-            <n-button-group>
-              <n-button
-                size="small"
-                :type="mode === 'banners' ? 'primary' : 'default'"
-                @click="setMode('banners')"
-              >
-                <template #icon>
-                  <n-icon><CalendarAlt /></n-icon>
+      <div class="flex flex-col gap-2">
+        <div class="flex items-start justify-between gap-2 sm:items-center">
+          <div
+            class="flex min-w-0 flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center"
+          >
+            <n-button-group class="self-start">
+              <n-tooltip trigger="hover">
+                <template #trigger>
+                  <n-button
+                    size="small"
+                    class="w-12 !px-0"
+                    :aria-label="t('common.banners')"
+                    :type="mode === 'banners' ? 'primary' : 'default'"
+                    @click="setMode('banners')"
+                  >
+                    <template #icon>
+                      <n-icon><CalendarAlt /></n-icon>
+                    </template>
+                  </n-button>
                 </template>
                 {{ t('common.banners') }}
-              </n-button>
-              <n-button
-                size="small"
-                :type="mode === 'outfits' ? 'primary' : 'default'"
-                @click="setMode('outfits')"
-              >
-                <template #icon>
-                  <n-icon><Tshirt /></n-icon>
+              </n-tooltip>
+              <n-tooltip trigger="hover">
+                <template #trigger>
+                  <n-button
+                    size="small"
+                    class="w-12 !px-0"
+                    :aria-label="t('common.outfits')"
+                    :type="mode === 'outfits' ? 'primary' : 'default'"
+                    @click="setMode('outfits')"
+                  >
+                    <template #icon>
+                      <n-icon><Tshirt /></n-icon>
+                    </template>
+                  </n-button>
                 </template>
                 {{ t('common.outfits') }}
-              </n-button>
-              <n-button
-                size="small"
-                :type="mode === 'items' ? 'primary' : 'default'"
-                @click="setMode('items')"
-              >
-                <template #icon>
-                  <n-icon><ListAlt /></n-icon>
+              </n-tooltip>
+              <n-tooltip trigger="hover">
+                <template #trigger>
+                  <n-button
+                    size="small"
+                    class="w-12 !px-0"
+                    :aria-label="t('common.items')"
+                    :type="mode === 'items' ? 'primary' : 'default'"
+                    @click="setMode('items')"
+                  >
+                    <template #icon>
+                      <n-icon><ListAlt /></n-icon>
+                    </template>
+                  </n-button>
                 </template>
                 {{ t('common.items') }}
-              </n-button>
+              </n-tooltip>
             </n-button-group>
+
+            <div class="hidden min-w-0 overflow-x-auto sm:block">
+              <n-button-group
+                v-if="mode !== 'banners'"
+                class="min-w-max"
+              >
+                <n-button
+                  size="small"
+                  :type="qualityFilter === null ? 'primary' : 'default'"
+                  class="min-w-[40px]"
+                  @click="qualityFilter = null"
+                >
+                  {{ t('common.all') }}
+                </n-button>
+                <n-button
+                  v-for="q in [5, 4, 3, 2]"
+                  :key="q"
+                  size="small"
+                  v-bind="getQualityButtonTheme(q, qualityFilter === q)"
+                  class="min-w-[40px]"
+                  :disabled="q === 2"
+                  @click="qualityFilter = q"
+                >
+                  <span class="flex items-center gap-1">
+                    {{ q }}
+                    <n-icon>
+                      <Star />
+                    </n-icon>
+                  </span>
+                </n-button>
+              </n-button-group>
+
+              <n-button-group
+                v-else
+                class="min-w-max"
+              >
+                <n-button
+                  size="small"
+                  :type="bannerQualityFilter === null ? 'primary' : 'default'"
+                  class="min-w-[40px]"
+                  @click="bannerQualityFilter = null"
+                >
+                  {{ t('common.all') }}
+                </n-button>
+                <n-button
+                  v-for="q in [5, 4]"
+                  :key="q"
+                  size="small"
+                  v-bind="getQualityButtonTheme(q, bannerQualityFilter === q)"
+                  class="min-w-[40px]"
+                  @click="bannerQualityFilter = q"
+                >
+                  <span class="flex items-center gap-1">
+                    {{ q }}
+                    <n-icon>
+                      <Star />
+                    </n-icon>
+                  </span>
+                </n-button>
+              </n-button-group>
+            </div>
+
             <n-button
               v-if="hasFilters"
               size="small"
+              class="hidden sm:inline-flex"
               @click="clearFilters"
             >
               {{ t('common.clear') }}
             </n-button>
-            <span class="text-xs text-gray-500 dark:text-gray-400">
-              {{ entriesStatusText }}
-            </span>
           </div>
 
-          <div class="flex items-center gap-2 flex-wrap">
-            <div
-              v-if="mode === 'banners' || (mode === 'outfits' && !isOverLimit)"
-              class="inline-flex items-center gap-2 mr-1"
+          <div
+            class="flex shrink-0 items-center gap-2 self-start sm:self-center"
+          >
+            <n-tooltip
+              v-if="showCommunityInsightsAction"
+              trigger="hover"
             >
-              <span class="text-xs text-gray-500 dark:text-gray-400">
-                {{ t('tierlist.community_insights.toggle') }}
-              </span>
-              <n-switch
-                v-model:value="showCommunityInsights"
-                size="small"
-              />
-            </div>
+              <template #trigger>
+                <n-button
+                  size="small"
+                  text
+                  circle
+                  class="text-gray-500"
+                  :aria-label="t('tierlist.community_insights.toggle')"
+                  @click="showCommunityInsights = !showCommunityInsights"
+                >
+                  <template #icon>
+                    <n-icon
+                      size="20"
+                      :depth="showCommunityInsightPanel ? 1 : 3"
+                    >
+                      <Users />
+                    </n-icon>
+                  </template>
+                </n-button>
+              </template>
+              {{ t('tierlist.community_insights.toggle') }}
+            </n-tooltip>
+
+            <n-popover
+              trigger="click"
+              placement="bottom-end"
+            >
+              <template #trigger>
+                <n-tooltip trigger="hover">
+                  <template #trigger>
+                    <n-button
+                      v-show="!exporting"
+                      size="small"
+                      text
+                      circle
+                      class="text-gray-500"
+                      :aria-label="t('common.export')"
+                    >
+                      <template #icon>
+                        <n-icon depth="3">
+                          <Download />
+                        </n-icon>
+                      </template>
+                    </n-button>
+                  </template>
+                  {{ t('common.export') }}
+                </n-tooltip>
+              </template>
+              <div class="w-32 space-y-2 text-center">
+                <n-button
+                  v-if="!showCommunityInsightPanel"
+                  block
+                  text
+                  class="text-gray-400 hover:text-gray-600"
+                  @click="exportPNG"
+                >
+                  <template #icon>
+                    <n-icon><Download /></n-icon>
+                  </template>
+                  {{ t('tracker.export.png') }}
+                </n-button>
+                <n-button
+                  block
+                  text
+                  class="text-gray-400 hover:text-gray-600"
+                  @click="copyShareLink"
+                >
+                  <template #icon>
+                    <n-icon><ExternalLinkAlt /></n-icon>
+                  </template>
+                  {{ t('tierlist.share.copy_link') }}
+                </n-button>
+                <n-button
+                  block
+                  text
+                  class="text-gray-400 hover:text-gray-600"
+                  @click="resetTierBoard"
+                >
+                  <template #icon>
+                    <n-icon><Sync /></n-icon>
+                  </template>
+                  {{ t('tierlist.actions.reset_board') }}
+                </n-button>
+              </div>
+            </n-popover>
 
             <div
               v-if="showCommunitySubmitAction"
-              class="inline-flex flex-col items-start gap-1 mr-2"
+              class="flex items-center"
             >
               <n-tooltip
                 :width="220"
@@ -99,148 +255,89 @@
                 {{ communitySubmitTooltipText }}
               </n-tooltip>
             </div>
-            <n-popover trigger="click">
-              <template #trigger>
-                <n-button
-                  v-show="!exporting"
-                  size="small"
-                  text
-                  circle
-                  class="text-gray-500"
-                >
-                  <template #icon>
-                    <n-icon><ShareSquare /></n-icon>
-                  </template>
-                </n-button>
-              </template>
-              <div class="space-y-2 w-28 text-center">
-                <n-button
-                  v-if="!showCommunityInsightPanel"
-                  block
-                  text
-                  class="text-gray-400 hover:text-gray-600"
-                  @click="exportPNG"
-                >
-                  <template #icon>
-                    <n-icon><Download /></n-icon>
-                  </template>
-                  {{ t('tracker.export.png') }}
-                </n-button>
-                <n-button
-                  block
-                  text
-                  class="text-gray-400 hover:text-gray-600"
-                  @click="copyShareLink"
-                >
-                  <template #icon>
-                    <n-icon><ExternalLinkAlt /></n-icon>
-                  </template>
-                  {{ t('tierlist.share.copy_link') }}
-                </n-button>
-              </div>
-            </n-popover>
-            <n-popover trigger="click">
-              <template #trigger>
-                <n-button
-                  size="small"
-                  text
-                  circle
-                  class="text-gray-500"
-                >
-                  <template #icon>
-                    <n-icon><Sync /></n-icon>
-                  </template>
-                </n-button>
-              </template>
-              <div class="space-y-2 w-28 text-center">
-                <n-button
-                  block
-                  text
-                  class="text-gray-400 hover:text-gray-600"
-                  @click="resetTierBoard"
-                >
-                  <template #icon>
-                    <n-icon><Sync /></n-icon>
-                  </template>
-                  {{ t('tierlist.actions.reset_board') }}
-                </n-button>
-              </div>
-            </n-popover>
           </div>
         </div>
 
-        <div class="flex items-center gap-2 flex-wrap">
-          <n-button-group v-if="mode !== 'banners'">
-            <n-button
-              size="small"
-              :type="qualityFilter === null ? 'primary' : 'default'"
-              class="min-w-[40px]"
-              @click="qualityFilter = null"
+        <div class="flex items-start gap-2 sm:hidden">
+          <div class="min-w-0 flex-1 overflow-x-auto pb-1">
+            <n-button-group
+              v-if="mode !== 'banners'"
+              class="min-w-max"
             >
-              {{ t('common.all') }}
-            </n-button>
-            <n-button
-              v-for="q in [5, 4, 3, 2]"
-              :key="q"
-              size="small"
-              v-bind="getQualityButtonTheme(q, qualityFilter === q)"
-              class="min-w-[40px]"
-              :disabled="q === 2"
-              @click="qualityFilter = q"
-            >
-              <span class="flex items-center gap-1">
-                {{ q }}
-                <n-icon>
-                  <Star />
-                </n-icon>
-              </span>
-            </n-button>
-          </n-button-group>
+              <n-button
+                size="small"
+                :type="qualityFilter === null ? 'primary' : 'default'"
+                class="min-w-[40px]"
+                @click="qualityFilter = null"
+              >
+                {{ t('common.all') }}
+              </n-button>
+              <n-button
+                v-for="q in [5, 4, 3, 2]"
+                :key="q"
+                size="small"
+                v-bind="getQualityButtonTheme(q, qualityFilter === q)"
+                class="min-w-[40px]"
+                :disabled="q === 2"
+                @click="qualityFilter = q"
+              >
+                <span class="flex items-center gap-1">
+                  {{ q }}
+                  <n-icon>
+                    <Star />
+                  </n-icon>
+                </span>
+              </n-button>
+            </n-button-group>
 
-          <n-select
-            v-if="mode === 'items'"
-            v-model:value="itemTypeFilter"
-            :options="itemTypeOptions"
-            size="small"
-            class="w-48"
-            clearable
-            filterable
-            :show-checkmark="false"
-            :placeholder="t('compendium.filter_type')"
-          />
-
-          <n-button-group v-if="mode === 'banners'">
-            <n-button
-              size="small"
-              :type="bannerQualityFilter === null ? 'primary' : 'default'"
-              class="min-w-[40px]"
-              @click="bannerQualityFilter = null"
+            <n-button-group
+              v-else
+              class="min-w-max"
             >
-              {{ t('common.all') }}
-            </n-button>
-            <n-button
-              v-for="q in [5, 4]"
-              :key="q"
-              size="small"
-              v-bind="getQualityButtonTheme(q, bannerQualityFilter === q)"
-              class="min-w-[40px]"
-              @click="bannerQualityFilter = q"
-            >
-              <span class="flex items-center gap-1">
-                {{ q }}
-                <n-icon>
-                  <Star />
-                </n-icon>
-              </span>
-            </n-button>
-          </n-button-group>
+              <n-button
+                size="small"
+                :type="bannerQualityFilter === null ? 'primary' : 'default'"
+                class="min-w-[40px]"
+                @click="bannerQualityFilter = null"
+              >
+                {{ t('common.all') }}
+              </n-button>
+              <n-button
+                v-for="q in [5, 4]"
+                :key="q"
+                size="small"
+                v-bind="getQualityButtonTheme(q, bannerQualityFilter === q)"
+                class="min-w-[40px]"
+                @click="bannerQualityFilter = q"
+              >
+                <span class="flex items-center gap-1">
+                  {{ q }}
+                  <n-icon>
+                    <Star />
+                  </n-icon>
+                </span>
+              </n-button>
+            </n-button-group>
+          </div>
 
+          <div class="flex shrink-0 items-center gap-2">
+            <n-button
+              v-if="hasFilters"
+              size="small"
+              @click="clearFilters"
+            >
+              {{ t('common.clear') }}
+            </n-button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2 sm:grid-cols-2 xl:grid-cols-4">
           <n-select
             v-model:value="versionFilter"
             :options="versionOptions"
             :render-label="renderVersionOptionLabel"
             size="small"
-            class="w-48"
+            class="min-w-0"
             clearable
             filterable
             :show-checkmark="false"
@@ -252,7 +349,7 @@
             v-model:value="styleFilter"
             :options="styleOptions"
             size="small"
-            class="w-48"
+            class="min-w-0"
             clearable
             :show-checkmark="false"
             :placeholder="t('compendium.filter_style')"
@@ -263,7 +360,7 @@
             v-model:value="labelFilter"
             :options="labelOptions"
             size="small"
-            class="w-48"
+            class="min-w-0"
             clearable
             filterable
             :show-checkmark="false"
@@ -275,12 +372,64 @@
             v-model:value="obtainFilter"
             :options="obtainOptions"
             size="small"
-            class="w-48"
+            class="min-w-0"
             clearable
             filterable
             :show-checkmark="false"
             :placeholder="t('compendium.filter_obtain')"
           />
+        </div>
+
+        <div
+          v-if="mode === 'items'"
+          class="grid grid-cols-2 gap-2 sm:grid-cols-2 xl:grid-cols-4"
+        >
+          <n-select
+            v-model:value="itemTypeFilter"
+            :options="itemTypeOptions"
+            size="small"
+            class="min-w-0"
+            clearable
+            filterable
+            :show-checkmark="false"
+            :placeholder="t('compendium.filter_type')"
+          />
+
+          <n-select
+            v-model:value="itemCategoryFilter"
+            :options="itemCategoryOptions"
+            size="small"
+            class="min-w-0"
+            clearable
+            filterable
+            :disabled="!isItemCategoryFilterEnabled"
+            :show-checkmark="false"
+            :placeholder="t('compendium.filter_category')"
+          />
+
+          <n-select
+            v-model:value="itemSubcategoryFilter"
+            :options="itemSubcategoryOptions"
+            size="small"
+            class="min-w-0"
+            clearable
+            filterable
+            :disabled="!isItemSubcategoryFilterEnabled"
+            :show-checkmark="false"
+            :placeholder="t('compendium.filter_subcategory')"
+          />
+
+          <n-button
+            size="small"
+            class="justify-between"
+            :disabled="!showAdvancedFiltersButton"
+            @click="isAdvancedFiltersDrawerOpen = true"
+          >
+            <span>{{ t('compendium.advanced_filters') }}</span>
+            <span v-if="activeAdvancedFilterCount > 0">
+              ({{ activeAdvancedFilterCount }})
+            </span>
+          </n-button>
         </div>
       </div>
     </n-card>
@@ -809,17 +958,46 @@
           </div>
         </div>
 
-        <div
-          v-if="showPoolPagination"
-          class="flex justify-center items-center px-2 pb-2"
-        >
+        <div class="flex justify-center items-center px-2 pb-2">
           <n-pagination
+            v-if="showPoolPagination"
             v-model:page="poolPage"
             :page-size="POOL_PAGE_SIZE"
             :item-count="resolvedUnrankedEntries.length"
             :show-size-picker="false"
             :page-slot="5"
-          />
+          >
+            <template #prefix>
+              <div class="text-sm space-x-1 text-gray-600 dark:text-gray-400">
+                <span class="font-semibold text-gray-900 dark:text-white">{{
+                  entries.length
+                }}</span>
+                <span>
+                  {{
+                    entries.length === 1
+                      ? poolCountLabels.singular
+                      : poolCountLabels.plural
+                  }}
+                </span>
+              </div>
+            </template>
+          </n-pagination>
+
+          <div
+            v-else
+            class="text-sm space-x-1 text-gray-600 dark:text-gray-400"
+          >
+            <span class="font-semibold text-gray-900 dark:text-white">{{
+              entries.length
+            }}</span>
+            <span>
+              {{
+                entries.length === 1
+                  ? poolCountLabels.singular
+                  : poolCountLabels.plural
+              }}
+            </span>
+          </div>
         </div>
       </div>
     </n-card>
@@ -834,6 +1012,15 @@
       @select="handleRankMenuSelect"
       @clickoutside="closeRankContextMenu"
     />
+
+    <AdvancedFiltersDrawer
+      :show="isAdvancedFiltersDrawerOpen"
+      :fields="advancedFilterFields"
+      :filters="advancedFilters"
+      :options="advancedFacetOptions"
+      @update:show="isAdvancedFiltersDrawerOpen = $event"
+      @update:filters="updateAdvancedFilters"
+    />
   </div>
 </template>
 
@@ -843,7 +1030,6 @@
     Download,
     ExternalLinkAlt,
     ListAlt,
-    ShareSquare,
     Star,
     Sync,
     Tshirt,
@@ -854,7 +1040,16 @@
     type UseSortableOptions,
   } from '@vueuse/integrations/useSortable'
   import type { SortableEvent } from 'sortablejs'
+  import type {
+    ItemSearchAdvancedFacetMap,
+    ItemSearchAdvancedScalarFilters,
+  } from '#shared/types/itemSearch'
   import { BANNER_DATA } from '~~/data/banners'
+  import {
+    ITEM_SEARCH_ADVANCED_SCALAR_FIELDS,
+    ITEM_SEARCH_UNCATEGORIZED_VALUE,
+    sortItemSearchFacetValues,
+  } from '#shared/utils/itemSearch'
 
   type TierMode = 'banners' | 'outfits' | 'items'
   type TierKey = 'S' | 'A' | 'B' | 'C' | 'D' | 'F'
@@ -928,6 +1123,7 @@
   }
 
   const { t, locale, getLocaleMessage } = useI18n()
+  const { translateFilterToken } = useFilterToken()
   const localePath = useLocalePath()
   const route = useRoute()
   const router = useRouter()
@@ -1142,8 +1338,22 @@
   const qualityFilter = ref<number | null>(
     resolveQuality(route.query.quality?.toString() ?? null)
   )
-  const itemTypeFilter = ref<ItemType | null>(
-    resolveItemType(route.query.type?.toString() ?? null)
+  const initialItemTypeFilter = resolveItemType(
+    route.query.type?.toString() ?? null
+  )
+  const itemTypeFilter = ref<ItemType | null>(initialItemTypeFilter)
+  const itemCategoryFilter = ref<string | null>(
+    supportsItemSearchCategoryFilters(initialItemTypeFilter)
+      ? normalizeItemSearchTokenKey(route.query.category?.toString() ?? null) ||
+          null
+      : null
+  )
+  const itemSubcategoryFilter = ref<string | null>(
+    supportsItemSearchCategoryFilters(initialItemTypeFilter)
+      ? normalizeItemSearchTokenKey(
+          route.query.subcategory?.toString() ?? null
+        ) || null
+      : null
   )
   const bannerQualityFilter = ref<number | null>(
     resolveBannerQuality(route.query.quality?.toString() ?? null) ??
@@ -1162,6 +1372,44 @@
     resolveObtain(
       (route.query.source ?? route.query.obtain)?.toString() ?? null
     )
+  )
+  const advancedFilters = ref<ItemSearchAdvancedScalarFilters>(
+    resolveItemSearchAdvancedFilters(
+      route.query as Record<string, unknown>,
+      itemTypeFilter.value
+    )
+  )
+  const isAdvancedFiltersDrawerOpen = ref(false)
+  const advancedFilterFields = computed(() =>
+    mode.value === 'items'
+      ? getItemSearchAdvancedScalarFields(itemTypeFilter.value)
+      : []
+  )
+  const activeAdvancedFilters = computed(() =>
+    getActiveItemSearchAdvancedFilters(
+      advancedFilters.value,
+      mode.value === 'items' ? itemTypeFilter.value : null
+    )
+  )
+  const activeAdvancedFiltersKey = computed(() =>
+    serializeItemSearchAdvancedFilters(
+      advancedFilters.value,
+      mode.value === 'items' ? itemTypeFilter.value : null
+    )
+  )
+  const activeAdvancedFilterCount = computed(
+    () =>
+      advancedFilterFields.value.filter(
+        (field) => activeAdvancedFilters.value[field]
+      ).length
+  )
+  const supportsItemSearchCategories = computed(
+    () =>
+      mode.value === 'items' &&
+      supportsItemSearchCategoryFilters(itemTypeFilter.value)
+  )
+  const showAdvancedFiltersButton = computed(
+    () => mode.value === 'items' && advancedFilterFields.value.length > 0
   )
 
   const setMode = (nextMode: TierMode) => {
@@ -1184,6 +1432,11 @@
       }
     }
 
+    if (nextMode !== 'items') {
+      advancedFilters.value = createEmptyItemSearchAdvancedFilters()
+      isAdvancedFiltersDrawerOpen.value = false
+    }
+
     mode.value = nextMode
   }
 
@@ -1198,7 +1451,11 @@
       styleFilter.value !== null ||
       labelFilter.value !== null ||
       obtainFilter.value !== null ||
-      (mode.value === 'items' && itemTypeFilter.value !== null)
+      (mode.value === 'items' &&
+        (itemTypeFilter.value !== null ||
+          itemCategoryFilter.value !== null ||
+          itemSubcategoryFilter.value !== null ||
+          activeAdvancedFilterCount.value > 0))
     )
   })
 
@@ -1214,6 +1471,202 @@
         label: t(`type.${type}`),
         value: type,
       }))
+  )
+
+  const { fetchOutfitsPaginated } = useSupabaseOutfits()
+  const { fetchItemsPaginated, fetchItemSearchFacets } = useSupabaseItems()
+
+  const itemFacetCacheKey = computed(
+    () =>
+      `tier-item-facets-${mode.value}-${qualityFilter.value ?? 'all'}-${
+        itemTypeFilter.value ?? 'all'
+      }-${itemCategoryFilter.value ?? 'all'}-${itemSubcategoryFilter.value ?? 'all'}-${
+        activeAdvancedFiltersKey.value || 'none'
+      }-${styleFilter.value ?? 'all'}-${labelFilter.value ?? 'all'}-${
+        versionFilter.value ?? 'all'
+      }-${obtainFilter.value ?? 'all'}`
+  )
+
+  const { data: itemSearchFacets } = await useAsyncData(
+    () => itemFacetCacheKey.value,
+    async () => {
+      if (mode.value !== 'items' || !itemTypeFilter.value) {
+        return {
+          categories: [],
+          subcategories: [],
+          advanced: {},
+        }
+      }
+
+      return fetchItemSearchFacets({
+        quality: qualityFilter.value,
+        type: itemTypeFilter.value,
+        category: supportsItemSearchCategories.value
+          ? itemCategoryFilter.value
+          : null,
+        subcategory: supportsItemSearchCategories.value
+          ? itemSubcategoryFilter.value
+          : null,
+        version: versionFilter.value,
+        style: styleFilter.value,
+        label: labelFilter.value,
+        source: obtainFilter.value,
+        ...activeAdvancedFilters.value,
+      })
+    },
+    {
+      default: () => ({
+        categories: [],
+        subcategories: [],
+        advanced: {},
+      }),
+      lazy: true,
+    }
+  )
+
+  const availableItemCategories = computed(
+    () => itemSearchFacets.value?.categories ?? []
+  )
+
+  const availableItemSubcategories = computed(
+    () => itemSearchFacets.value?.subcategories ?? []
+  )
+  const advancedFacetOptions = computed<ItemSearchAdvancedFacetMap>(
+    () => itemSearchFacets.value?.advanced ?? {}
+  )
+
+  const isItemCategoryFilterEnabled = computed(
+    () =>
+      supportsItemSearchCategories.value &&
+      availableItemCategories.value.length > 0
+  )
+
+  const isItemSubcategoryFilterEnabled = computed(
+    () =>
+      isItemCategoryFilterEnabled.value &&
+      !!itemCategoryFilter.value &&
+      availableItemSubcategories.value.length > 0
+  )
+
+  watch(
+    availableItemCategories,
+    (nextCategories) => {
+      if (!itemCategoryFilter.value) return
+
+      const resolved = resolveItemSearchFacetValue(
+        itemCategoryFilter.value,
+        nextCategories
+      )
+      if (!resolved) {
+        itemCategoryFilter.value = null
+        itemSubcategoryFilter.value = null
+        return
+      }
+
+      if (resolved !== itemCategoryFilter.value) {
+        itemCategoryFilter.value = resolved
+      }
+    },
+    { immediate: true }
+  )
+
+  watch(
+    availableItemSubcategories,
+    (nextSubcategories) => {
+      if (!itemSubcategoryFilter.value) return
+
+      const resolved = resolveItemSearchFacetValue(
+        itemSubcategoryFilter.value,
+        nextSubcategories
+      )
+      if (!resolved) {
+        itemSubcategoryFilter.value = null
+        return
+      }
+
+      if (resolved !== itemSubcategoryFilter.value) {
+        itemSubcategoryFilter.value = resolved
+      }
+    },
+    { immediate: true }
+  )
+
+  const validateAdvancedFilters = () => {
+    const allowedFields = new Set(advancedFilterFields.value)
+    const nextFilters = {
+      ...createEmptyItemSearchAdvancedFilters(),
+      ...advancedFilters.value,
+    }
+    let hasChanges = false
+
+    ITEM_SEARCH_ADVANCED_SCALAR_FIELDS.forEach((field) => {
+      const value = nextFilters[field]
+      if (!value) return
+
+      if (!allowedFields.has(field)) {
+        nextFilters[field] = null
+        hasChanges = true
+        return
+      }
+
+      const resolved = getItemSearchAdvancedFacetValue(
+        field,
+        value,
+        advancedFacetOptions.value
+      )
+      if (!resolved) {
+        nextFilters[field] = null
+        hasChanges = true
+        return
+      }
+
+      if (resolved !== value) {
+        nextFilters[field] = resolved
+        hasChanges = true
+      }
+    })
+
+    if (hasChanges) {
+      advancedFilters.value = nextFilters
+    }
+  }
+
+  watch(
+    [advancedFilterFields, () => JSON.stringify(advancedFacetOptions.value)],
+    validateAdvancedFilters,
+    { immediate: true }
+  )
+
+  const updateAdvancedFilters = (
+    nextFilters: ItemSearchAdvancedScalarFilters
+  ) => {
+    advancedFilters.value = {
+      ...createEmptyItemSearchAdvancedFilters(),
+      ...advancedFilters.value,
+      ...nextFilters,
+    }
+  }
+
+  const itemCategoryOptions = computed(() =>
+    sortItemSearchFacetValues(availableItemCategories.value).map((value) => ({
+      label:
+        value === ITEM_SEARCH_UNCATEGORIZED_VALUE
+          ? t('compendium.uncategorized')
+          : translateFilterToken('category', value),
+      value,
+    }))
+  )
+
+  const itemSubcategoryOptions = computed(() =>
+    sortItemSearchFacetValues(availableItemSubcategories.value).map(
+      (value) => ({
+        label:
+          value === ITEM_SEARCH_UNCATEGORIZED_VALUE
+            ? t('compendium.uncategorized')
+            : translateFilterToken('subcategory', value),
+        value,
+      })
+    )
   )
 
   const styleOptions = computed(() =>
@@ -1314,6 +1767,32 @@
       query.type = itemTypeFilter.value
     }
 
+    if (supportsItemSearchCategories.value && itemCategoryFilter.value) {
+      query.category = itemCategoryFilter.value
+    }
+
+    if (
+      supportsItemSearchCategories.value &&
+      itemCategoryFilter.value &&
+      itemSubcategoryFilter.value
+    ) {
+      query.subcategory = itemSubcategoryFilter.value
+    }
+
+    if (mode.value === 'items') {
+      Object.assign(
+        query,
+        Object.fromEntries(
+          advancedFilterFields.value
+            .map((field) => {
+              const value = activeAdvancedFilters.value[field]
+              return value ? [field, value] : null
+            })
+            .filter((entry): entry is [string, string] => Boolean(entry))
+        )
+      )
+    }
+
     if (versionFilter.value) {
       query.version = versionFilter.value
     }
@@ -1338,6 +1817,9 @@
       mode,
       qualityFilter,
       itemTypeFilter,
+      itemCategoryFilter,
+      itemSubcategoryFilter,
+      activeAdvancedFiltersKey,
       bannerQualityFilter,
       versionFilter,
       styleFilter,
@@ -1351,8 +1833,23 @@
     }
   )
 
-  const { fetchOutfitsPaginated } = useSupabaseOutfits()
-  const { fetchItemsPaginated } = useSupabaseItems()
+  watch(itemTypeFilter, () => {
+    itemCategoryFilter.value = null
+    itemSubcategoryFilter.value = null
+    advancedFilters.value = createEmptyItemSearchAdvancedFilters()
+    isAdvancedFiltersDrawerOpen.value = false
+  })
+
+  watch(supportsItemSearchCategories, (isSupported) => {
+    if (isSupported) return
+
+    itemCategoryFilter.value = null
+    itemSubcategoryFilter.value = null
+  })
+
+  watch(itemCategoryFilter, () => {
+    itemSubcategoryFilter.value = null
+  })
 
   const toBannerVersion = (value: string) => {
     const parts = value.split('.')
@@ -1454,10 +1951,17 @@
     const { data: items, total } = await fetchItemsPaginated({
       quality: qualityFilter.value,
       type: itemTypeFilter.value,
+      category: supportsItemSearchCategories.value
+        ? itemCategoryFilter.value
+        : null,
+      subcategory: supportsItemSearchCategories.value
+        ? itemSubcategoryFilter.value
+        : null,
       version: versionFilter.value,
       style: styleFilter.value,
       label: labelFilter.value,
       source: obtainFilter.value,
+      ...activeAdvancedFilters.value,
       page: 1,
       pageSize: TIER_ENTRY_LIMIT,
     })
@@ -1519,11 +2023,24 @@
 
   const entries = computed(() => entriesData.value?.entries || [])
   const isOverLimit = computed(() => Boolean(entriesData.value?.overLimit))
-  const entriesStatusText = computed(() => {
-    if (isOverLimit.value) {
-      return t('tierlist.status.over_limit', { max: TIER_ENTRY_LIMIT })
+  const poolCountLabels = computed(() => {
+    switch (mode.value) {
+      case 'banners':
+        return {
+          singular: t('common.banner'),
+          plural: t('common.banners'),
+        }
+      case 'outfits':
+        return {
+          singular: t('common.outfit'),
+          plural: t('common.outfits'),
+        }
+      default:
+        return {
+          singular: t('common.item'),
+          plural: t('common.items'),
+        }
     }
-    return t('tierlist.status.loaded', { count: entries.value.length })
   })
   const cardAspectClass = computed(() =>
     mode.value === 'banners' ? 'aspect-[2/1]' : 'aspect-[2/3]'
@@ -1810,11 +2327,13 @@
       mode.value === 'outfits' ||
       mode.value === 'items'
   )
-  const showCommunityInsightPanel = computed(
+  const showCommunityInsightsAction = computed(
     () =>
-      (mode.value === 'banners' ||
-        (mode.value === 'outfits' && !isOverLimit.value)) &&
-      showCommunityInsights.value
+      mode.value === 'banners' ||
+      (mode.value === 'outfits' && !isOverLimit.value)
+  )
+  const showCommunityInsightPanel = computed(
+    () => showCommunityInsightsAction.value && showCommunityInsights.value
   )
   const communityBoardLoading = computed(
     () =>
@@ -2060,6 +2579,13 @@
   })
 
   const showCommunitySubmitAction = computed(() => isCommunityModeEnabled.value)
+  const hasFragmentedCommunityScope = computed(
+    () =>
+      mode.value === 'items' &&
+      (itemCategoryFilter.value !== null ||
+        itemSubcategoryFilter.value !== null ||
+        activeAdvancedFilterCount.value > 0)
+  )
 
   type CommunitySubmitBlockState =
     | 'disabled'
@@ -2067,6 +2593,7 @@
     | 'error'
     | 'over_limit'
     | 'scope_unavailable'
+    | 'filtered_items_only'
     | 'incomplete'
     | 'no_changes'
     | 'ready'
@@ -2083,6 +2610,7 @@
     if (error.value) return 'error'
     if (isOverLimit.value) return 'over_limit'
     if (!isCommunityScopeEligible.value) return 'scope_unavailable'
+    if (hasFragmentedCommunityScope.value) return 'filtered_items_only'
     if (!hasCompleteCommunityRanking.value) return 'incomplete'
     if (!hasChangesSinceLastSubmit.value) return 'no_changes'
     return 'ready'
@@ -2100,6 +2628,8 @@
         return t('tierlist.community_submit.blocked.over_limit')
       case 'scope_unavailable':
         return t('tierlist.community_submit.blocked.scope_unavailable')
+      case 'filtered_items_only':
+        return t('tierlist.community_submit.blocked.filtered_items_only')
       case 'incomplete':
         return t('tierlist.community_submit.blocked.incomplete')
       case 'no_changes':
@@ -2617,11 +3147,15 @@
   const clearFilters = () => {
     qualityFilter.value = null
     itemTypeFilter.value = null
+    itemCategoryFilter.value = null
+    itemSubcategoryFilter.value = null
     bannerQualityFilter.value = null
     versionFilter.value = null
     styleFilter.value = null
     labelFilter.value = null
     obtainFilter.value = null
+    advancedFilters.value = createEmptyItemSearchAdvancedFilters()
+    isAdvancedFiltersDrawerOpen.value = false
   }
 
   watch(

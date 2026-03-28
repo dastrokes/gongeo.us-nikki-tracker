@@ -615,6 +615,7 @@
                     :show-checkmark="false"
                     multiple
                     clearable
+                    filterable
                     :render-label="renderBannerLabel"
                     :render-tag="renderBannerTag"
                     @update:value="handleBannerSelectionChange"

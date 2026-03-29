@@ -1,3062 +1,3197 @@
 [
   {
     "field": "bangs",
-    "value": "blunt_bangs",
-    "uses": 79
+    "itemType": null,
+    "value": "blunt_bangs"
   },
   {
     "field": "bangs",
-    "value": "curtain_bangs",
-    "uses": 74
+    "itemType": null,
+    "value": "curtain_bangs"
   },
   {
     "field": "bangs",
-    "value": "wispy_bangs",
-    "uses": 60
+    "itemType": null,
+    "value": "no_bangs"
   },
   {
     "field": "bangs",
-    "value": "no_bangs",
-    "uses": 32
+    "itemType": null,
+    "value": "side_swept_bangs"
   },
   {
     "field": "bangs",
-    "value": "side_swept_bangs",
-    "uses": 29
+    "itemType": null,
+    "value": "wispy_bangs"
   },
   {
     "field": "bottom_length",
-    "value": "mini",
-    "uses": 104
+    "itemType": null,
+    "value": "ankle_length"
   },
   {
     "field": "bottom_length",
-    "value": "floor_length",
-    "uses": 64
+    "itemType": null,
+    "value": "floor_length"
   },
   {
     "field": "bottom_length",
-    "value": "knee_length",
-    "uses": 40
+    "itemType": null,
+    "value": "knee_length"
   },
   {
     "field": "bottom_length",
-    "value": "ankle_length",
-    "uses": 39
+    "itemType": null,
+    "value": "maxi"
   },
   {
     "field": "bottom_length",
-    "value": "upper_thigh",
-    "uses": 29
+    "itemType": null,
+    "value": "mid_calf"
   },
   {
     "field": "bottom_length",
-    "value": "midi",
-    "uses": 26
+    "itemType": null,
+    "value": "mid_thigh"
   },
   {
     "field": "bottom_length",
-    "value": "maxi",
-    "uses": 21
+    "itemType": null,
+    "value": "midi"
   },
   {
     "field": "bottom_length",
-    "value": "mid_calf",
-    "uses": 16
+    "itemType": null,
+    "value": "mini"
   },
   {
     "field": "bottom_length",
-    "value": "mid_thigh",
-    "uses": 14
+    "itemType": null,
+    "value": "upper_thigh"
   },
   {
     "field": "category",
-    "value": "earring",
-    "uses": 242
+    "itemType": "armDecorations",
+    "value": "armlet"
   },
   {
     "field": "category",
-    "value": "dress",
-    "uses": 202
+    "itemType": "backpieces",
+    "value": "back_bow"
   },
   {
     "field": "category",
-    "value": "hair_ornament",
-    "uses": 164
+    "itemType": "backpieces",
+    "value": "backpack"
   },
   {
     "field": "category",
-    "value": "hat",
-    "uses": 161
+    "itemType": "backpieces",
+    "value": "backpiece"
   },
   {
     "field": "category",
-    "value": "gloves",
-    "uses": 149
+    "itemType": "backpieces",
+    "value": "tail"
   },
   {
     "field": "category",
-    "value": "necklace",
-    "uses": 116
+    "itemType": "backpieces",
+    "value": "wings"
   },
   {
     "field": "category",
-    "value": "choker",
-    "uses": 111
+    "itemType": "bottoms",
+    "value": "overalls"
   },
   {
     "field": "category",
-    "value": "heels",
-    "uses": 109
+    "itemType": "bottoms",
+    "value": "pants"
   },
   {
     "field": "category",
-    "value": "headpiece",
-    "uses": 90
+    "itemType": "bottoms",
+    "value": "shorts"
   },
   {
     "field": "category",
-    "value": "boots",
-    "uses": 86
+    "itemType": "bottoms",
+    "value": "skirt"
   },
   {
     "field": "category",
-    "value": "bracelet",
-    "uses": 81
+    "itemType": "bottoms",
+    "value": "skort"
   },
   {
     "field": "category",
-    "value": "socks",
-    "uses": 81
+    "itemType": "bracelets",
+    "value": "bracelet"
   },
   {
     "field": "category",
-    "value": "stockings",
-    "uses": 69
+    "itemType": "bracelets",
+    "value": "cuff"
   },
   {
     "field": "category",
-    "value": "skirt",
-    "uses": 64
+    "itemType": "chestAccessories",
+    "value": "brooch"
   },
   {
     "field": "category",
-    "value": "loose",
-    "uses": 62
+    "itemType": "chestAccessories",
+    "value": "corsage"
   },
   {
     "field": "category",
-    "value": "blouse",
-    "uses": 58
+    "itemType": "chokers",
+    "value": "choker"
   },
   {
     "field": "category",
-    "value": "twin_tails",
-    "uses": 57
+    "itemType": "chokers",
+    "value": "collar"
   },
   {
     "field": "category",
-    "value": "tights",
-    "uses": 46
+    "itemType": "chokers",
+    "value": "necklace"
   },
   {
     "field": "category",
-    "value": "half_up",
-    "uses": 45
+    "itemType": "chokers",
+    "value": "scarf"
   },
   {
     "field": "category",
-    "value": "braid",
-    "uses": 41
+    "itemType": "dresses",
+    "value": "dress"
   },
   {
     "field": "category",
-    "value": "jacket",
-    "uses": 41
+    "itemType": "dresses",
+    "value": "jumpsuit"
   },
   {
     "field": "category",
-    "value": "mary_janes",
-    "uses": 41
+    "itemType": "earrings",
+    "value": "ear_cuff"
   },
   {
     "field": "category",
-    "value": "bag",
-    "uses": 40
+    "itemType": "earrings",
+    "value": "earring"
   },
   {
     "field": "category",
-    "value": "handheld",
-    "uses": 39
+    "itemType": "faceDecorations",
+    "value": "blindfold"
   },
   {
     "field": "category",
-    "value": "bun",
-    "uses": 32
+    "itemType": "faceDecorations",
+    "value": "eyepatch"
   },
   {
     "field": "category",
-    "value": "shorts",
-    "uses": 32
+    "itemType": "faceDecorations",
+    "value": "eyewear"
   },
   {
     "field": "category",
-    "value": "pants",
-    "uses": 31
+    "itemType": "faceDecorations",
+    "value": "face_jewelry"
   },
   {
     "field": "category",
-    "value": "sandals",
-    "uses": 29
+    "itemType": "faceDecorations",
+    "value": "face_marking"
   },
   {
     "field": "category",
-    "value": "ponytail",
-    "uses": 26
+    "itemType": "faceDecorations",
+    "value": "face_prop"
   },
   {
     "field": "category",
-    "value": "cape",
-    "uses": 24
+    "itemType": "faceDecorations",
+    "value": "face_veil"
   },
   {
     "field": "category",
-    "value": "brooch",
-    "uses": 19
+    "itemType": "faceDecorations",
+    "value": "facial_cover"
   },
   {
     "field": "category",
-    "value": "garter",
-    "uses": 19
+    "itemType": "faceDecorations",
+    "value": "mask"
   },
   {
     "field": "category",
-    "value": "shawl",
-    "uses": 19
+    "itemType": "gloves",
+    "value": "gloves"
   },
   {
     "field": "category",
-    "value": "armlet",
-    "uses": 18
+    "itemType": "hair",
+    "value": "braid"
   },
   {
     "field": "category",
-    "value": "corset",
-    "uses": 18
+    "itemType": "hair",
+    "value": "bun"
   },
   {
     "field": "category",
-    "value": "wand",
-    "uses": 18
+    "itemType": "hair",
+    "value": "half_up"
   },
   {
     "field": "category",
-    "value": "backpack",
-    "uses": 16
+    "itemType": "hair",
+    "value": "loose"
   },
   {
     "field": "category",
-    "value": "crown",
-    "uses": 16
+    "itemType": "hair",
+    "value": "ponytail"
   },
   {
     "field": "category",
-    "value": "sneakers",
-    "uses": 15
+    "itemType": "hair",
+    "value": "twin_tails"
   },
   {
     "field": "category",
-    "value": "loafers",
-    "uses": 14
+    "itemType": "hair",
+    "value": "updo"
   },
   {
     "field": "category",
-    "value": "fan",
-    "uses": 13
+    "itemType": "hairAccessories",
+    "value": "crown"
   },
   {
     "field": "category",
-    "value": "flats",
-    "uses": 13
+    "itemType": "hairAccessories",
+    "value": "hair_comb"
   },
   {
     "field": "category",
-    "value": "t_shirt",
-    "uses": 13
+    "itemType": "hairAccessories",
+    "value": "hair_ornament"
   },
   {
     "field": "category",
-    "value": "sweater",
-    "uses": 12
+    "itemType": "hairAccessories",
+    "value": "headband"
   },
   {
     "field": "category",
-    "value": "vest",
-    "uses": 12
+    "itemType": "hairAccessories",
+    "value": "headpiece"
   },
   {
     "field": "category",
-    "value": "backpiece",
-    "uses": 11
+    "itemType": "handhelds",
+    "value": "bag"
   },
   {
     "field": "category",
-    "value": "camisole",
-    "uses": 11
+    "itemType": "handhelds",
+    "value": "basket"
   },
   {
     "field": "category",
-    "value": "shirt",
-    "uses": 11
+    "itemType": "handhelds",
+    "value": "book"
   },
   {
     "field": "category",
-    "value": "updo",
-    "uses": 11
+    "itemType": "handhelds",
+    "value": "bouquet"
   },
   {
     "field": "category",
-    "value": "basket",
-    "uses": 10
+    "itemType": "handhelds",
+    "value": "fan"
   },
   {
     "field": "category",
-    "value": "jumpsuit",
-    "uses": 10
+    "itemType": "handhelds",
+    "value": "handheld"
   },
   {
     "field": "category",
-    "value": "wings",
-    "uses": 10
+    "itemType": "handhelds",
+    "value": "instrument"
   },
   {
     "field": "category",
-    "value": "cuff",
-    "uses": 9
+    "itemType": "handhelds",
+    "value": "lantern"
   },
   {
     "field": "category",
-    "value": "leg_warmers",
-    "uses": 9
+    "itemType": "handhelds",
+    "value": "parasol"
   },
   {
     "field": "category",
-    "value": "overalls",
-    "uses": 9
+    "itemType": "handhelds",
+    "value": "plush"
   },
   {
     "field": "category",
-    "value": "slippers",
-    "uses": 8
+    "itemType": "handhelds",
+    "value": "staff"
   },
   {
     "field": "category",
-    "value": "sweatshirt",
-    "uses": 8
+    "itemType": "handhelds",
+    "value": "wand"
   },
   {
     "field": "category",
-    "value": "headband",
-    "uses": 7
+    "itemType": "headwear",
+    "value": "beret"
   },
   {
     "field": "category",
-    "value": "ring",
-    "uses": 7
+    "itemType": "headwear",
+    "value": "bonnet"
   },
   {
     "field": "category",
-    "value": "robe",
-    "uses": 7
+    "itemType": "headwear",
+    "value": "crown"
   },
   {
     "field": "category",
-    "value": "bouquet",
-    "uses": 6
+    "itemType": "headwear",
+    "value": "eyewear"
   },
   {
     "field": "category",
-    "value": "barefoot",
-    "uses": 5
+    "itemType": "headwear",
+    "value": "hair_ornament"
   },
   {
     "field": "category",
-    "value": "cardigan",
-    "uses": 5
+    "itemType": "headwear",
+    "value": "hat"
   },
   {
     "field": "category",
-    "value": "corsage",
-    "uses": 5
+    "itemType": "headwear",
+    "value": "headdress"
   },
   {
     "field": "category",
-    "value": "ear_cuff",
-    "uses": 5
+    "itemType": "headwear",
+    "value": "headpiece"
   },
   {
     "field": "category",
-    "value": "instrument",
-    "uses": 5
+    "itemType": "headwear",
+    "value": "veil"
   },
   {
     "field": "category",
-    "value": "plush",
-    "uses": 5
+    "itemType": "neckwear",
+    "value": "choker"
   },
   {
     "field": "category",
-    "value": "scarf",
-    "uses": 5
+    "itemType": "neckwear",
+    "value": "necklace"
   },
   {
     "field": "category",
-    "value": "skort",
-    "uses": 5
+    "itemType": "neckwear",
+    "value": "pendant"
   },
   {
     "field": "category",
-    "value": "tank_top",
-    "uses": 5
+    "itemType": "neckwear",
+    "value": "scarf"
   },
   {
     "field": "category",
-    "value": "tunic",
-    "uses": 5
+    "itemType": "outerwear",
+    "value": "cape"
   },
   {
     "field": "category",
-    "value": "veil",
-    "uses": 5
+    "itemType": "outerwear",
+    "value": "cardigan"
   },
   {
     "field": "category",
-    "value": "back_bow",
-    "uses": 4
+    "itemType": "outerwear",
+    "value": "coat"
   },
   {
     "field": "category",
-    "value": "lantern",
-    "uses": 4
+    "itemType": "outerwear",
+    "value": "jacket"
   },
   {
     "field": "category",
-    "value": "coat",
-    "uses": 3
+    "itemType": "outerwear",
+    "value": "robe"
   },
   {
     "field": "category",
-    "value": "headdress",
-    "uses": 3
+    "itemType": "outerwear",
+    "value": "shawl"
   },
   {
     "field": "category",
-    "value": "parasol",
-    "uses": 3
+    "itemType": "outerwear",
+    "value": "vest"
   },
   {
     "field": "category",
-    "value": "staff",
-    "uses": 3
+    "itemType": "pendants",
+    "value": "bag"
   },
   {
     "field": "category",
-    "value": "tail",
-    "uses": 3
+    "itemType": "pendants",
+    "value": "garter"
   },
   {
     "field": "category",
-    "value": "tube_top",
-    "uses": 3
+    "itemType": "rings",
+    "value": "ring"
   },
   {
     "field": "category",
-    "value": "bodysuit",
-    "uses": 2
+    "itemType": "shoes",
+    "value": "barefoot"
   },
   {
     "field": "category",
-    "value": "book",
-    "uses": 2
+    "itemType": "shoes",
+    "value": "boots"
   },
   {
     "field": "category",
-    "value": "mules",
-    "uses": 2
+    "itemType": "shoes",
+    "value": "flats"
+  },
+  {
+    "field": "category",
+    "itemType": "shoes",
+    "value": "heels"
+  },
+  {
+    "field": "category",
+    "itemType": "shoes",
+    "value": "loafers"
+  },
+  {
+    "field": "category",
+    "itemType": "shoes",
+    "value": "mary_janes"
+  },
+  {
+    "field": "category",
+    "itemType": "shoes",
+    "value": "mules"
+  },
+  {
+    "field": "category",
+    "itemType": "shoes",
+    "value": "sandals"
+  },
+  {
+    "field": "category",
+    "itemType": "shoes",
+    "value": "slippers"
+  },
+  {
+    "field": "category",
+    "itemType": "shoes",
+    "value": "sneakers"
+  },
+  {
+    "field": "category",
+    "itemType": "socks",
+    "value": "leg_warmers"
+  },
+  {
+    "field": "category",
+    "itemType": "socks",
+    "value": "socks"
+  },
+  {
+    "field": "category",
+    "itemType": "socks",
+    "value": "stockings"
+  },
+  {
+    "field": "category",
+    "itemType": "socks",
+    "value": "tights"
+  },
+  {
+    "field": "category",
+    "itemType": "tops",
+    "value": "blouse"
+  },
+  {
+    "field": "category",
+    "itemType": "tops",
+    "value": "bodysuit"
+  },
+  {
+    "field": "category",
+    "itemType": "tops",
+    "value": "camisole"
+  },
+  {
+    "field": "category",
+    "itemType": "tops",
+    "value": "corset"
+  },
+  {
+    "field": "category",
+    "itemType": "tops",
+    "value": "shirt"
+  },
+  {
+    "field": "category",
+    "itemType": "tops",
+    "value": "sweater"
+  },
+  {
+    "field": "category",
+    "itemType": "tops",
+    "value": "sweatshirt"
+  },
+  {
+    "field": "category",
+    "itemType": "tops",
+    "value": "t_shirt"
+  },
+  {
+    "field": "category",
+    "itemType": "tops",
+    "value": "tank_top"
+  },
+  {
+    "field": "category",
+    "itemType": "tops",
+    "value": "tube_top"
+  },
+  {
+    "field": "category",
+    "itemType": "tops",
+    "value": "tunic"
   },
   {
     "field": "dress_silhouette",
-    "value": "a_line",
-    "uses": 106
+    "itemType": null,
+    "value": "a_line"
   },
   {
     "field": "dress_silhouette",
-    "value": "sheath",
-    "uses": 31
+    "itemType": null,
+    "value": "balloon"
   },
   {
     "field": "dress_silhouette",
-    "value": "fit_and_flare",
-    "uses": 28
+    "itemType": null,
+    "value": "fit_and_flare"
   },
   {
     "field": "dress_silhouette",
-    "value": "mermaid",
-    "uses": 14
+    "itemType": null,
+    "value": "mermaid"
   },
   {
     "field": "dress_silhouette",
-    "value": "tiered",
-    "uses": 12
+    "itemType": null,
+    "value": "sheath"
   },
   {
     "field": "dress_silhouette",
-    "value": "balloon",
-    "uses": 6
+    "itemType": null,
+    "value": "shift"
   },
   {
     "field": "dress_silhouette",
-    "value": "shift",
-    "uses": 4
+    "itemType": null,
+    "value": "tiered"
   },
   {
     "field": "dress_silhouette",
-    "value": "trapeze",
-    "uses": 1
+    "itemType": null,
+    "value": "trapeze"
+  },
+  {
+    "field": "dress_silhouette",
+    "itemType": null,
+    "value": "trumpet"
   },
   {
     "field": "fit",
-    "value": "fitted",
-    "uses": 261
+    "itemType": null,
+    "value": "bodycon"
   },
   {
     "field": "fit",
-    "value": "regular",
-    "uses": 121
+    "itemType": null,
+    "value": "fitted"
   },
   {
     "field": "fit",
-    "value": "loose",
-    "uses": 56
+    "itemType": null,
+    "value": "loose"
   },
   {
     "field": "fit",
-    "value": "oversized",
-    "uses": 7
+    "itemType": null,
+    "value": "oversized"
   },
   {
     "field": "fit",
-    "value": "bodycon",
-    "uses": 3
+    "itemType": null,
+    "value": "regular"
   },
   {
     "field": "hair_length",
-    "value": "long",
-    "uses": 127
+    "itemType": null,
+    "value": "long"
   },
   {
     "field": "hair_length",
-    "value": "medium",
-    "uses": 91
+    "itemType": null,
+    "value": "medium"
   },
   {
     "field": "hair_length",
-    "value": "short",
-    "uses": 52
+    "itemType": null,
+    "value": "short"
   },
   {
     "field": "hair_length",
-    "value": "very_long",
-    "uses": 4
+    "itemType": null,
+    "value": "very_long"
   },
   {
     "field": "haircut",
-    "value": "layered_cut",
-    "uses": 78
+    "itemType": null,
+    "value": "blunt_cut"
   },
   {
     "field": "haircut",
-    "value": "bob",
-    "uses": 42
+    "itemType": null,
+    "value": "bob"
   },
   {
     "field": "haircut",
-    "value": "blunt_cut",
-    "uses": 6
+    "itemType": null,
+    "value": "hime_cut"
   },
   {
     "field": "haircut",
-    "value": "wolf_cut",
-    "uses": 6
+    "itemType": null,
+    "value": "layered_cut"
   },
   {
     "field": "haircut",
-    "value": "hime_cut",
-    "uses": 5
+    "itemType": null,
+    "value": "pixie_cut"
   },
   {
     "field": "haircut",
-    "value": "pixie_cut",
-    "uses": 3
+    "itemType": null,
+    "value": "shag"
   },
   {
     "field": "haircut",
-    "value": "shag",
-    "uses": 2
+    "itemType": null,
+    "value": "wolf_cut"
   },
   {
     "field": "heel_height",
-    "value": "low",
-    "uses": 138
+    "itemType": null,
+    "value": "flat"
   },
   {
     "field": "heel_height",
-    "value": "high",
-    "uses": 124
+    "itemType": null,
+    "value": "high"
   },
   {
     "field": "heel_height",
-    "value": "flat",
-    "uses": 3
+    "itemType": null,
+    "value": "low"
   },
   {
     "field": "heel_type",
-    "value": "block",
-    "uses": 177
+    "itemType": null,
+    "value": "block"
   },
   {
     "field": "heel_type",
-    "value": "stiletto",
-    "uses": 64
+    "itemType": null,
+    "value": "kitten"
   },
   {
     "field": "heel_type",
-    "value": "wedge",
-    "uses": 17
+    "itemType": null,
+    "value": "stiletto"
   },
   {
     "field": "heel_type",
-    "value": "kitten",
-    "uses": 5
+    "itemType": null,
+    "value": "wedge"
   },
   {
     "field": "material",
-    "value": "sheer",
-    "uses": 351
+    "itemType": null,
+    "value": "bead_detail"
   },
   {
     "field": "material",
-    "value": "lace",
-    "uses": 253
+    "itemType": null,
+    "value": "blue_gem"
   },
   {
     "field": "material",
-    "value": "leather",
-    "uses": 249
+    "itemType": null,
+    "value": "cable_knit"
   },
   {
     "field": "material",
-    "value": "knit",
-    "uses": 159
+    "itemType": null,
+    "value": "canvas"
   },
   {
     "field": "material",
-    "value": "satin",
-    "uses": 144
+    "itemType": null,
+    "value": "chiffon"
   },
   {
     "field": "material",
-    "value": "fur",
-    "uses": 114
+    "itemType": null,
+    "value": "cord"
   },
   {
     "field": "material",
-    "value": "mesh",
-    "uses": 75
+    "itemType": null,
+    "value": "corduroy"
   },
   {
     "field": "material",
-    "value": "tulle",
-    "uses": 69
+    "itemType": null,
+    "value": "crystal"
   },
   {
     "field": "material",
-    "value": "denim",
-    "uses": 64
+    "itemType": null,
+    "value": "denim"
   },
   {
     "field": "material",
-    "value": "fabric",
-    "uses": 45
+    "itemType": null,
+    "value": "embroidery"
   },
   {
     "field": "material",
-    "value": "velvet",
-    "uses": 44
+    "itemType": null,
+    "value": "fabric"
   },
   {
     "field": "material",
-    "value": "chiffon",
-    "uses": 38
+    "itemType": null,
+    "value": "feather"
   },
   {
     "field": "material",
-    "value": "metal",
-    "uses": 11
+    "itemType": null,
+    "value": "felt"
   },
   {
     "field": "material",
-    "value": "gold",
-    "uses": 9
+    "itemType": null,
+    "value": "fur"
   },
   {
     "field": "material",
-    "value": "glass",
-    "uses": 4
+    "itemType": null,
+    "value": "gemstone"
   },
   {
     "field": "material",
-    "value": "pearl_detail",
-    "uses": 4
+    "itemType": null,
+    "value": "glass"
   },
   {
     "field": "material",
-    "value": "woven",
-    "uses": 4
+    "itemType": null,
+    "value": "gold"
   },
   {
     "field": "material",
-    "value": "plastic",
-    "uses": 3
+    "itemType": null,
+    "value": "ink"
   },
   {
     "field": "material",
-    "value": "sequin",
-    "uses": 3
+    "itemType": null,
+    "value": "iridescent"
   },
   {
     "field": "material",
-    "value": "wool",
-    "uses": 3
+    "itemType": null,
+    "value": "knit"
   },
   {
     "field": "material",
-    "value": "bead",
-    "uses": 2
+    "itemType": null,
+    "value": "lace"
   },
   {
     "field": "material",
-    "value": "bead_detail",
-    "uses": 2
+    "itemType": null,
+    "value": "leather"
   },
   {
     "field": "material",
-    "value": "feather",
-    "uses": 2
+    "itemType": null,
+    "value": "mesh"
   },
   {
     "field": "material",
-    "value": "gemstone",
-    "uses": 2
+    "itemType": null,
+    "value": "metal"
   },
   {
     "field": "material",
-    "value": "ribbon",
-    "uses": 2
+    "itemType": null,
+    "value": "pearl_detail"
   },
   {
     "field": "material",
-    "value": "suede",
-    "uses": 2
+    "itemType": null,
+    "value": "plastic"
   },
   {
     "field": "material",
-    "value": "tweed",
-    "uses": 2
+    "itemType": null,
+    "value": "ribbon"
   },
   {
     "field": "material",
-    "value": "wicker",
-    "uses": 2
+    "itemType": null,
+    "value": "rope"
   },
   {
     "field": "material",
-    "value": "blue",
-    "uses": 1
+    "itemType": null,
+    "value": "rubber"
   },
   {
     "field": "material",
-    "value": "blue_gem",
-    "uses": 1
+    "itemType": null,
+    "value": "satin"
   },
   {
     "field": "material",
-    "value": "cable_knit",
-    "uses": 1
+    "itemType": null,
+    "value": "sequin"
   },
   {
     "field": "material",
-    "value": "cord",
-    "uses": 1
+    "itemType": null,
+    "value": "sheer"
   },
   {
     "field": "material",
-    "value": "corduroy",
-    "uses": 1
+    "itemType": null,
+    "value": "silk"
   },
   {
     "field": "material",
-    "value": "embroidery",
-    "uses": 1
+    "itemType": null,
+    "value": "straw"
   },
   {
     "field": "material",
-    "value": "felt",
-    "uses": 1
+    "itemType": null,
+    "value": "suede"
   },
   {
     "field": "material",
-    "value": "green",
-    "uses": 1
+    "itemType": null,
+    "value": "tulle"
   },
   {
     "field": "material",
-    "value": "ink",
-    "uses": 1
+    "itemType": null,
+    "value": "tweed"
   },
   {
     "field": "material",
-    "value": "iridescent",
-    "uses": 1
+    "itemType": null,
+    "value": "velvet"
   },
   {
     "field": "material",
-    "value": "pearl",
-    "uses": 1
+    "itemType": null,
+    "value": "wicker"
   },
   {
     "field": "material",
-    "value": "rubber",
-    "uses": 1
+    "itemType": null,
+    "value": "wool"
   },
   {
     "field": "material",
-    "value": "silk",
-    "uses": 1
+    "itemType": null,
+    "value": "woven"
   },
   {
     "field": "material",
-    "value": "towel",
-    "uses": 1
-  },
-  {
-    "field": "material",
-    "value": "yellow_gem",
-    "uses": 1
+    "itemType": null,
+    "value": "yellow_gem"
   },
   {
     "field": "neckline",
-    "value": "sweetheart_neck",
-    "uses": 69
+    "itemType": null,
+    "value": "boat_neck"
   },
   {
     "field": "neckline",
-    "value": "collared",
-    "uses": 67
+    "itemType": null,
+    "value": "collared"
   },
   {
     "field": "neckline",
-    "value": "square_neck",
-    "uses": 57
+    "itemType": null,
+    "value": "crew_neck"
   },
   {
     "field": "neckline",
-    "value": "mock_neck",
-    "uses": 45
+    "itemType": null,
+    "value": "cross_collar"
   },
   {
     "field": "neckline",
-    "value": "v_neck",
-    "uses": 28
+    "itemType": null,
+    "value": "duijin_collar"
   },
   {
     "field": "neckline",
-    "value": "peter_pan_collar",
-    "uses": 25
+    "itemType": null,
+    "value": "halter_neck"
   },
   {
     "field": "neckline",
-    "value": "crew_neck",
-    "uses": 24
+    "itemType": null,
+    "value": "hooded"
   },
   {
     "field": "neckline",
-    "value": "mandarin_collar",
-    "uses": 23
+    "itemType": null,
+    "value": "keyhole_neck"
   },
   {
     "field": "neckline",
-    "value": "halter_neck",
-    "uses": 17
+    "itemType": null,
+    "value": "mandarin_collar"
   },
   {
     "field": "neckline",
-    "value": "sailor_collar",
-    "uses": 17
+    "itemType": null,
+    "value": "mock_neck"
   },
   {
     "field": "neckline",
-    "value": "duijin_collar",
-    "uses": 13
+    "itemType": null,
+    "value": "peter_pan_collar"
   },
   {
     "field": "neckline",
-    "value": "scoop_neck",
-    "uses": 9
+    "itemType": null,
+    "value": "right_cross_collar"
   },
   {
     "field": "neckline",
-    "value": "boat_neck",
-    "uses": 7
+    "itemType": null,
+    "value": "sailor_collar"
   },
   {
     "field": "neckline",
-    "value": "turtleneck",
-    "uses": 6
+    "itemType": null,
+    "value": "scoop_neck"
   },
   {
     "field": "neckline",
-    "value": "cross_collar",
-    "uses": 4
+    "itemType": null,
+    "value": "square_neck"
   },
   {
     "field": "neckline",
-    "value": "hooded",
-    "uses": 1
+    "itemType": null,
+    "value": "sweetheart_neck"
   },
   {
     "field": "neckline",
-    "value": "keyhole_neck",
-    "uses": 1
+    "itemType": null,
+    "value": "turtleneck"
   },
   {
     "field": "neckline",
-    "value": "off_shoulder",
-    "uses": 1
+    "itemType": null,
+    "value": "v_neck"
   },
   {
-    "field": "neckline",
-    "value": "right_cross_collar",
-    "uses": 1
-  },
-  {
-    "field": "ornament",
-    "value": "pearl_detail",
-    "uses": 744
-  },
-  {
-    "field": "ornament",
-    "value": "bow",
-    "uses": 560
-  },
-  {
-    "field": "ornament",
-    "value": "bead_detail",
-    "uses": 542
-  },
-  {
-    "field": "ornament",
-    "value": "chain_detail",
-    "uses": 352
-  },
-  {
-    "field": "ornament",
-    "value": "ruffle",
-    "uses": 285
-  },
-  {
-    "field": "ornament",
-    "value": "button_detail",
-    "uses": 279
-  },
-  {
-    "field": "ornament",
-    "value": "embroidery",
-    "uses": 267
-  },
-  {
-    "field": "ornament",
-    "value": "applique",
-    "uses": 256
-  },
-  {
-    "field": "ornament",
-    "value": "star",
-    "uses": 248
-  },
-  {
-    "field": "ornament",
-    "value": "buckle",
-    "uses": 244
-  },
-  {
-    "field": "ornament",
-    "value": "frill",
-    "uses": 113
-  },
-  {
-    "field": "ornament",
-    "value": "sequin",
-    "uses": 94
-  },
-  {
-    "field": "ornament",
-    "value": "flower",
-    "uses": 90
-  },
-  {
-    "field": "ornament",
-    "value": "tassel",
-    "uses": 44
-  },
-  {
-    "field": "ornament",
-    "value": "lace",
-    "uses": 21
-  },
-  {
-    "field": "ornament",
-    "value": "charm",
-    "uses": 20
-  },
-  {
-    "field": "ornament",
-    "value": "heart",
-    "uses": 18
-  },
-  {
-    "field": "ornament",
-    "value": "leaf",
-    "uses": 18
-  },
-  {
-    "field": "ornament",
-    "value": "feather",
-    "uses": 16
-  },
-  {
-    "field": "ornament",
-    "value": "rose",
-    "uses": 15
-  },
-  {
-    "field": "ornament",
-    "value": "pompom",
-    "uses": 12
-  },
-  {
-    "field": "ornament",
-    "value": "spike",
-    "uses": 7
-  },
-  {
-    "field": "ornament",
-    "value": "butterfly",
-    "uses": 6
-  },
-  {
-    "field": "ornament",
-    "value": "fur",
-    "uses": 6
-  },
-  {
-    "field": "ornament",
-    "value": "gemstone",
-    "uses": 6
-  },
-  {
-    "field": "ornament",
-    "value": "ribbon",
-    "uses": 5
-  },
-  {
     "field": "ornament",
-    "value": "flower_detail",
-    "uses": 4
+    "itemType": null,
+    "value": "animal_ears"
   },
   {
     "field": "ornament",
-    "value": "gold_detail",
-    "uses": 4
+    "itemType": null,
+    "value": "animal_motif"
   },
   {
     "field": "ornament",
-    "value": "lace_up",
-    "uses": 4
+    "itemType": null,
+    "value": "apple"
   },
   {
     "field": "ornament",
-    "value": "paw_print",
-    "uses": 4
+    "itemType": null,
+    "value": "applied_detail"
   },
   {
     "field": "ornament",
-    "value": "bell",
-    "uses": 3
+    "itemType": null,
+    "value": "applique"
   },
   {
     "field": "ornament",
-    "value": "flower_applique",
-    "uses": 3
+    "itemType": null,
+    "value": "bead_detail"
   },
   {
     "field": "ornament",
-    "value": "fringe",
-    "uses": 3
+    "itemType": null,
+    "value": "bee"
   },
   {
     "field": "ornament",
-    "value": "mushroom",
-    "uses": 3
+    "itemType": null,
+    "value": "bee_applique"
   },
   {
     "field": "ornament",
-    "value": "pendant",
-    "uses": 3
+    "itemType": null,
+    "value": "bell"
   },
   {
     "field": "ornament",
-    "value": "ring",
-    "uses": 3
+    "itemType": null,
+    "value": "bell_detail"
   },
   {
     "field": "ornament",
-    "value": "shell_detail",
-    "uses": 3
+    "itemType": null,
+    "value": "bird"
   },
   {
     "field": "ornament",
-    "value": "blue_gem",
-    "uses": 2
+    "itemType": null,
+    "value": "blue_detail"
   },
   {
     "field": "ornament",
-    "value": "cat_face",
-    "uses": 2
+    "itemType": null,
+    "value": "blue_gem"
   },
   {
     "field": "ornament",
-    "value": "fish",
-    "uses": 2
+    "itemType": null,
+    "value": "bow"
   },
   {
     "field": "ornament",
-    "value": "floral",
-    "uses": 2
+    "itemType": null,
+    "value": "braid"
   },
   {
     "field": "ornament",
-    "value": "gear_detail",
-    "uses": 2
+    "itemType": null,
+    "value": "buckle"
   },
   {
     "field": "ornament",
-    "value": "leaf_detail",
-    "uses": 2
+    "itemType": null,
+    "value": "butterfly"
   },
   {
     "field": "ornament",
-    "value": "medallion",
-    "uses": 2
+    "itemType": null,
+    "value": "button_detail"
   },
   {
     "field": "ornament",
-    "value": "musical_note",
-    "uses": 2
+    "itemType": null,
+    "value": "cat_ear_shape"
   },
   {
     "field": "ornament",
-    "value": "rainbow",
-    "uses": 2
+    "itemType": null,
+    "value": "cat_ears"
   },
   {
     "field": "ornament",
-    "value": "red_gem",
-    "uses": 2
+    "itemType": null,
+    "value": "cat_face"
   },
   {
     "field": "ornament",
-    "value": "tie",
-    "uses": 2
+    "itemType": null,
+    "value": "chain_detail"
   },
   {
     "field": "ornament",
-    "value": "anchor",
-    "uses": 1
+    "itemType": null,
+    "value": "charm"
   },
   {
     "field": "ornament",
-    "value": "animal_print",
-    "uses": 1
+    "itemType": null,
+    "value": "cherry"
   },
   {
     "field": "ornament",
-    "value": "apple",
-    "uses": 1
+    "itemType": null,
+    "value": "coin"
   },
   {
     "field": "ornament",
-    "value": "appliance",
-    "uses": 1
+    "itemType": null,
+    "value": "coin_detail"
   },
   {
     "field": "ornament",
-    "value": "applied_detail",
-    "uses": 1
+    "itemType": null,
+    "value": "dolphin"
   },
   {
     "field": "ornament",
-    "value": "band",
-    "uses": 1
+    "itemType": null,
+    "value": "donut"
   },
   {
     "field": "ornament",
-    "value": "bat",
-    "uses": 1
+    "itemType": null,
+    "value": "embroidery"
   },
   {
     "field": "ornament",
-    "value": "bee",
-    "uses": 1
+    "itemType": null,
+    "value": "feather"
   },
   {
     "field": "ornament",
-    "value": "bee_applique",
-    "uses": 1
+    "itemType": null,
+    "value": "fish"
   },
   {
     "field": "ornament",
-    "value": "bell_detail",
-    "uses": 1
+    "itemType": null,
+    "value": "flame"
   },
   {
     "field": "ornament",
-    "value": "bird",
-    "uses": 1
+    "itemType": null,
+    "value": "floral"
   },
   {
     "field": "ornament",
-    "value": "blue_detail",
-    "uses": 1
+    "itemType": null,
+    "value": "floral_motif"
   },
   {
     "field": "ornament",
-    "value": "braid",
-    "uses": 1
+    "itemType": null,
+    "value": "flower"
   },
   {
     "field": "ornament",
-    "value": "butterfly_detail",
-    "uses": 1
+    "itemType": null,
+    "value": "flower_applique"
   },
   {
     "field": "ornament",
-    "value": "cat_ear",
-    "uses": 1
+    "itemType": null,
+    "value": "frill"
   },
   {
     "field": "ornament",
-    "value": "cat_ears",
-    "uses": 1
+    "itemType": null,
+    "value": "fringe"
   },
   {
     "field": "ornament",
-    "value": "cherry",
-    "uses": 1
+    "itemType": null,
+    "value": "frog"
   },
   {
     "field": "ornament",
-    "value": "coin",
-    "uses": 1
+    "itemType": null,
+    "value": "fur"
   },
   {
     "field": "ornament",
-    "value": "coin_detail",
-    "uses": 1
+    "itemType": null,
+    "value": "fuzzy_ball"
   },
   {
     "field": "ornament",
-    "value": "collared",
-    "uses": 1
+    "itemType": null,
+    "value": "gear"
   },
   {
     "field": "ornament",
-    "value": "diamond_detail",
-    "uses": 1
+    "itemType": null,
+    "value": "gear_detail"
   },
   {
     "field": "ornament",
-    "value": "dolphin",
-    "uses": 1
+    "itemType": null,
+    "value": "gemstone"
   },
   {
     "field": "ornament",
-    "value": "donut",
-    "uses": 1
+    "itemType": null,
+    "value": "gemstone_detail"
   },
   {
     "field": "ornament",
-    "value": "emerald_detail",
-    "uses": 1
+    "itemType": null,
+    "value": "gold_detail"
   },
   {
     "field": "ornament",
-    "value": "flame",
-    "uses": 1
+    "itemType": null,
+    "value": "green_gem"
   },
   {
     "field": "ornament",
-    "value": "frog",
-    "uses": 1
+    "itemType": null,
+    "value": "hat"
   },
   {
     "field": "ornament",
-    "value": "fruit",
-    "uses": 1
+    "itemType": null,
+    "value": "heart"
   },
   {
     "field": "ornament",
-    "value": "fuzzy_ball",
-    "uses": 1
+    "itemType": null,
+    "value": "heart_detail"
   },
   {
     "field": "ornament",
-    "value": "gear",
-    "uses": 1
+    "itemType": null,
+    "value": "heart_motif"
   },
   {
     "field": "ornament",
-    "value": "goggles",
-    "uses": 1
+    "itemType": null,
+    "value": "hoop"
   },
   {
     "field": "ornament",
-    "value": "green_gem",
-    "uses": 1
+    "itemType": null,
+    "value": "lace"
   },
   {
     "field": "ornament",
-    "value": "green_leaf",
-    "uses": 1
+    "itemType": null,
+    "value": "lace_up"
   },
   {
     "field": "ornament",
-    "value": "hairpin",
-    "uses": 1
+    "itemType": null,
+    "value": "leaf"
   },
   {
     "field": "ornament",
-    "value": "hat",
-    "uses": 1
+    "itemType": null,
+    "value": "leaf_detail"
   },
   {
     "field": "ornament",
-    "value": "hoop",
-    "uses": 1
+    "itemType": null,
+    "value": "leaf_motif"
   },
   {
     "field": "ornament",
-    "value": "key",
-    "uses": 1
+    "itemType": null,
+    "value": "light_bulb"
   },
   {
     "field": "ornament",
-    "value": "leaf_applique",
-    "uses": 1
+    "itemType": null,
+    "value": "locket"
   },
   {
     "field": "ornament",
-    "value": "lollipop",
-    "uses": 1
+    "itemType": null,
+    "value": "lollipop"
   },
   {
     "field": "ornament",
-    "value": "lotus",
-    "uses": 1
+    "itemType": null,
+    "value": "medallion"
   },
   {
     "field": "ornament",
-    "value": "metal_handle",
-    "uses": 1
+    "itemType": null,
+    "value": "metal_filigree"
   },
   {
     "field": "ornament",
-    "value": "moon",
-    "uses": 1
+    "itemType": null,
+    "value": "metal_handle"
   },
   {
     "field": "ornament",
-    "value": "null",
-    "uses": 1
+    "itemType": null,
+    "value": "mushroom"
   },
   {
     "field": "ornament",
-    "value": "pacifier",
-    "uses": 1
+    "itemType": null,
+    "value": "musical_note"
   },
   {
     "field": "ornament",
-    "value": "pill",
-    "uses": 1
+    "itemType": null,
+    "value": "null"
   },
   {
     "field": "ornament",
-    "value": "pinwheel",
-    "uses": 1
+    "itemType": null,
+    "value": "pacifier"
   },
   {
     "field": "ornament",
-    "value": "plug",
-    "uses": 1
+    "itemType": null,
+    "value": "paw_print"
   },
   {
     "field": "ornament",
-    "value": "pom_pom",
-    "uses": 1
+    "itemType": null,
+    "value": "pearl_detail"
   },
   {
     "field": "ornament",
-    "value": "pouch",
-    "uses": 1
+    "itemType": null,
+    "value": "pinwheel"
   },
   {
     "field": "ornament",
-    "value": "question_mark",
-    "uses": 1
+    "itemType": null,
+    "value": "plug"
   },
   {
     "field": "ornament",
-    "value": "red_flower",
-    "uses": 1
+    "itemType": null,
+    "value": "pom_pom"
   },
   {
     "field": "ornament",
-    "value": "red_rose",
-    "uses": 1
+    "itemType": null,
+    "value": "pompom"
   },
   {
     "field": "ornament",
-    "value": "red_stripes",
-    "uses": 1
+    "itemType": null,
+    "value": "pouch"
   },
   {
     "field": "ornament",
-    "value": "ribbon_detail",
-    "uses": 1
+    "itemType": null,
+    "value": "red_gem"
   },
   {
     "field": "ornament",
-    "value": "ruby",
-    "uses": 1
+    "itemType": null,
+    "value": "red_stripes"
   },
   {
     "field": "ornament",
-    "value": "snowflake",
-    "uses": 1
+    "itemType": null,
+    "value": "ribbon"
   },
   {
     "field": "ornament",
-    "value": "spider",
-    "uses": 1
+    "itemType": null,
+    "value": "ribbon_detail"
   },
   {
     "field": "ornament",
-    "value": "sprout",
-    "uses": 1
+    "itemType": null,
+    "value": "ring"
   },
   {
     "field": "ornament",
-    "value": "stitch_detail",
-    "uses": 1
+    "itemType": null,
+    "value": "rose"
   },
   {
     "field": "ornament",
-    "value": "stone_detail",
-    "uses": 1
+    "itemType": null,
+    "value": "ruby"
   },
   {
     "field": "ornament",
-    "value": "strawberry",
-    "uses": 1
+    "itemType": null,
+    "value": "ruffle"
   },
   {
     "field": "ornament",
-    "value": "stud",
-    "uses": 1
+    "itemType": null,
+    "value": "sequin"
   },
   {
     "field": "ornament",
-    "value": "stud_detail",
-    "uses": 1
+    "itemType": null,
+    "value": "shell_detail"
   },
   {
     "field": "ornament",
-    "value": "sunflower",
-    "uses": 1
+    "itemType": null,
+    "value": "spider"
   },
   {
     "field": "ornament",
-    "value": "sunflower_applique",
-    "uses": 1
+    "itemType": null,
+    "value": "spike"
   },
   {
     "field": "ornament",
-    "value": "swan",
-    "uses": 1
+    "itemType": null,
+    "value": "star"
   },
   {
     "field": "ornament",
-    "value": "sword",
-    "uses": 1
+    "itemType": null,
+    "value": "stud"
   },
   {
     "field": "ornament",
-    "value": "syringe",
-    "uses": 1
+    "itemType": null,
+    "value": "stud_detail"
   },
   {
     "field": "ornament",
-    "value": "teardrop",
-    "uses": 1
+    "itemType": null,
+    "value": "sun"
   },
   {
     "field": "ornament",
-    "value": "thorn",
-    "uses": 1
+    "itemType": null,
+    "value": "sunflower_applique"
   },
   {
     "field": "ornament",
-    "value": "treble_clef",
-    "uses": 1
+    "itemType": null,
+    "value": "swan"
   },
   {
     "field": "ornament",
-    "value": "wheat",
-    "uses": 1
+    "itemType": null,
+    "value": "sword"
   },
   {
     "field": "ornament",
-    "value": "white_bud",
-    "uses": 1
+    "itemType": null,
+    "value": "tassel"
   },
   {
     "field": "ornament",
-    "value": "wing",
-    "uses": 1
+    "itemType": null,
+    "value": "tie"
   },
   {
     "field": "ornament",
-    "value": "wings",
-    "uses": 1
+    "itemType": null,
+    "value": "wing"
   },
   {
     "field": "ornament",
-    "value": "wolf",
-    "uses": 1
+    "itemType": null,
+    "value": "wing_detail"
   },
   {
     "field": "ornament",
-    "value": "wooden_detail",
-    "uses": 1
+    "itemType": null,
+    "value": "wings"
   },
   {
     "field": "ornament",
-    "value": "wooden_handle",
-    "uses": 1
+    "itemType": null,
+    "value": "wooden_handle"
   },
   {
     "field": "pant_shape",
-    "value": "flared",
-    "uses": 14
+    "itemType": null,
+    "value": "flared"
   },
   {
     "field": "pant_shape",
-    "value": "tapered",
-    "uses": 9
+    "itemType": null,
+    "value": "slim"
   },
   {
     "field": "pant_shape",
-    "value": "wide_leg",
-    "uses": 7
+    "itemType": null,
+    "value": "straight"
   },
   {
     "field": "pant_shape",
-    "value": "slim",
-    "uses": 5
+    "itemType": null,
+    "value": "tapered"
   },
   {
     "field": "pant_shape",
-    "value": "straight",
-    "uses": 4
+    "itemType": null,
+    "value": "wide_leg"
   },
   {
     "field": "pattern",
-    "value": "floral",
-    "uses": 254
+    "itemType": null,
+    "value": "animal_print"
   },
   {
     "field": "pattern",
-    "value": "solid",
-    "uses": 203
+    "itemType": null,
+    "value": "argyle"
   },
   {
     "field": "pattern",
-    "value": "star",
-    "uses": 183
+    "itemType": null,
+    "value": "bird"
   },
   {
     "field": "pattern",
-    "value": "striped",
-    "uses": 153
+    "itemType": null,
+    "value": "bubble"
   },
   {
     "field": "pattern",
-    "value": "checkered",
-    "uses": 107
+    "itemType": null,
+    "value": "butterfly"
   },
   {
     "field": "pattern",
-    "value": "plaid",
-    "uses": 98
+    "itemType": null,
+    "value": "camouflage"
   },
   {
     "field": "pattern",
-    "value": "gradient",
-    "uses": 96
+    "itemType": null,
+    "value": "checkered"
   },
   {
     "field": "pattern",
-    "value": "polka_dot",
-    "uses": 34
+    "itemType": null,
+    "value": "chevron"
   },
   {
     "field": "pattern",
-    "value": "animal_print",
-    "uses": 21
+    "itemType": null,
+    "value": "circle"
   },
   {
     "field": "pattern",
-    "value": "geometric",
-    "uses": 17
+    "itemType": null,
+    "value": "cloud"
   },
   {
     "field": "pattern",
-    "value": "heart",
-    "uses": 9
+    "itemType": null,
+    "value": "crescent_moon"
   },
   {
     "field": "pattern",
-    "value": "diamond",
-    "uses": 4
+    "itemType": null,
+    "value": "cross"
   },
   {
     "field": "pattern",
-    "value": "graphic",
-    "uses": 4
+    "itemType": null,
+    "value": "crown"
   },
   {
     "field": "pattern",
-    "value": "moon",
-    "uses": 4
+    "itemType": null,
+    "value": "diamond"
   },
   {
     "field": "pattern",
-    "value": "bird",
-    "uses": 3
+    "itemType": null,
+    "value": "dragon"
   },
   {
     "field": "pattern",
-    "value": "camouflage",
-    "uses": 3
+    "itemType": null,
+    "value": "fish"
   },
   {
     "field": "pattern",
-    "value": "cloud",
-    "uses": 3
+    "itemType": null,
+    "value": "fishnet"
   },
   {
     "field": "pattern",
-    "value": "fishnet",
-    "uses": 3
+    "itemType": null,
+    "value": "flame"
   },
   {
     "field": "pattern",
-    "value": "leaf",
-    "uses": 3
+    "itemType": null,
+    "value": "floral"
   },
   {
     "field": "pattern",
-    "value": "chevron",
-    "uses": 2
+    "itemType": null,
+    "value": "flower"
   },
   {
     "field": "pattern",
-    "value": "cross",
-    "uses": 2
+    "itemType": null,
+    "value": "food_print"
   },
   {
     "field": "pattern",
-    "value": "embroidery",
-    "uses": 2
+    "itemType": null,
+    "value": "fruit"
   },
   {
     "field": "pattern",
-    "value": "fish",
-    "uses": 2
+    "itemType": null,
+    "value": "geometric"
   },
   {
     "field": "pattern",
-    "value": "flame",
-    "uses": 2
+    "itemType": null,
+    "value": "gradient"
   },
   {
     "field": "pattern",
-    "value": "flower",
-    "uses": 2
+    "itemType": null,
+    "value": "graphic"
   },
   {
     "field": "pattern",
-    "value": "musical_note",
-    "uses": 2
+    "itemType": null,
+    "value": "grid"
   },
   {
     "field": "pattern",
-    "value": "snowflake",
-    "uses": 2
+    "itemType": null,
+    "value": "heart"
   },
   {
     "field": "pattern",
-    "value": "argyle",
-    "uses": 1
+    "itemType": null,
+    "value": "honeycomb"
   },
   {
     "field": "pattern",
-    "value": "bubble",
-    "uses": 1
+    "itemType": null,
+    "value": "landscape"
   },
   {
     "field": "pattern",
-    "value": "butterfly",
-    "uses": 1
+    "itemType": null,
+    "value": "leaf"
   },
   {
     "field": "pattern",
-    "value": "chain_detail",
-    "uses": 1
+    "itemType": null,
+    "value": "map"
   },
   {
     "field": "pattern",
-    "value": "circle",
-    "uses": 1
+    "itemType": null,
+    "value": "medallion"
   },
   {
     "field": "pattern",
-    "value": "crescent_moon",
-    "uses": 1
+    "itemType": null,
+    "value": "monogram"
   },
   {
     "field": "pattern",
-    "value": "crown",
-    "uses": 1
+    "itemType": null,
+    "value": "moon"
   },
   {
     "field": "pattern",
-    "value": "dragon",
-    "uses": 1
+    "itemType": null,
+    "value": "musical_note"
   },
   {
     "field": "pattern",
-    "value": "food_print",
-    "uses": 1
+    "itemType": null,
+    "value": "origami_crane"
   },
   {
     "field": "pattern",
-    "value": "fruit",
-    "uses": 1
+    "itemType": null,
+    "value": "ornament"
   },
   {
     "field": "pattern",
-    "value": "hexagonal",
-    "uses": 1
+    "itemType": null,
+    "value": "paisley"
   },
   {
     "field": "pattern",
-    "value": "medallion",
-    "uses": 1
+    "itemType": null,
+    "value": "plaid"
   },
   {
     "field": "pattern",
-    "value": "monogram",
-    "uses": 1
+    "itemType": null,
+    "value": "polka_dot"
   },
   {
     "field": "pattern",
-    "value": "ornament",
-    "uses": 1
+    "itemType": null,
+    "value": "puzzle_piece"
   },
   {
     "field": "pattern",
-    "value": "paisley",
-    "uses": 1
+    "itemType": null,
+    "value": "rainbow"
   },
   {
     "field": "pattern",
-    "value": "rainbow",
-    "uses": 1
+    "itemType": null,
+    "value": "s"
   },
   {
     "field": "pattern",
-    "value": "s",
-    "uses": 1
+    "itemType": null,
+    "value": "snowflake"
   },
   {
     "field": "pattern",
-    "value": "spiral",
-    "uses": 1
+    "itemType": null,
+    "value": "solid"
   },
   {
     "field": "pattern",
-    "value": "text",
-    "uses": 1
+    "itemType": null,
+    "value": "spiral"
   },
   {
     "field": "pattern",
-    "value": "zigzag",
-    "uses": 1
+    "itemType": null,
+    "value": "splatter"
+  },
+  {
+    "field": "pattern",
+    "itemType": null,
+    "value": "star"
+  },
+  {
+    "field": "pattern",
+    "itemType": null,
+    "value": "striped"
+  },
+  {
+    "field": "pattern",
+    "itemType": null,
+    "value": "text"
   },
   {
     "field": "shaft_height",
-    "value": "ankle",
-    "uses": 37
+    "itemType": null,
+    "value": "ankle"
   },
   {
     "field": "shaft_height",
-    "value": "mid_calf",
-    "uses": 30
+    "itemType": null,
+    "value": "knee_high"
   },
   {
     "field": "shaft_height",
-    "value": "knee_high",
-    "uses": 14
+    "itemType": null,
+    "value": "mid_calf"
   },
   {
     "field": "shaft_height",
-    "value": "over_knee",
-    "uses": 5
+    "itemType": null,
+    "value": "over_knee"
   },
   {
     "field": "shoulder_style",
-    "value": "off_shoulder",
-    "uses": 46
+    "itemType": null,
+    "value": "cold_shoulder"
   },
   {
     "field": "shoulder_style",
-    "value": "strapless",
-    "uses": 30
+    "itemType": null,
+    "value": "halter"
   },
   {
     "field": "shoulder_style",
-    "value": "halter",
-    "uses": 21
+    "itemType": null,
+    "value": "off_shoulder"
   },
   {
     "field": "shoulder_style",
-    "value": "cold_shoulder",
-    "uses": 7
+    "itemType": null,
+    "value": "one_shoulder"
   },
   {
     "field": "shoulder_style",
-    "value": "one_shoulder",
-    "uses": 4
+    "itemType": null,
+    "value": "strapless"
   },
   {
     "field": "skirt_silhouette",
-    "value": "a_line",
-    "uses": 30
+    "itemType": null,
+    "value": "a_line"
   },
   {
     "field": "skirt_silhouette",
-    "value": "asymmetric",
-    "uses": 16
+    "itemType": null,
+    "value": "asymmetric"
   },
   {
     "field": "skirt_silhouette",
-    "value": "straight",
-    "uses": 10
+    "itemType": null,
+    "value": "bubble"
   },
   {
     "field": "skirt_silhouette",
-    "value": "tiered",
-    "uses": 5
+    "itemType": null,
+    "value": "circle"
   },
   {
     "field": "skirt_silhouette",
-    "value": "pencil",
-    "uses": 3
+    "itemType": null,
+    "value": "pencil"
   },
   {
     "field": "skirt_silhouette",
-    "value": "trumpet",
-    "uses": 3
+    "itemType": null,
+    "value": "straight"
   },
   {
     "field": "skirt_silhouette",
-    "value": "bubble",
-    "uses": 1
+    "itemType": null,
+    "value": "tiered"
   },
   {
     "field": "skirt_silhouette",
-    "value": "circle",
-    "uses": 1
+    "itemType": null,
+    "value": "trumpet"
   },
   {
     "field": "sleeve_length",
-    "value": "sleeveless",
-    "uses": 166
+    "itemType": null,
+    "value": "elbow"
   },
   {
     "field": "sleeve_length",
-    "value": "long",
-    "uses": 158
+    "itemType": null,
+    "value": "extra_long"
   },
   {
     "field": "sleeve_length",
-    "value": "short",
-    "uses": 88
+    "itemType": null,
+    "value": "long"
   },
   {
     "field": "sleeve_length",
-    "value": "three_quarter",
-    "uses": 16
+    "itemType": null,
+    "value": "short"
   },
   {
     "field": "sleeve_length",
-    "value": "elbow",
-    "uses": 15
+    "itemType": null,
+    "value": "sleeveless"
   },
   {
     "field": "sleeve_length",
-    "value": "extra_long",
-    "uses": 10
+    "itemType": null,
+    "value": "three_quarter"
   },
   {
     "field": "sleeve_style",
-    "value": "puff_sleeve",
-    "uses": 78
+    "itemType": null,
+    "value": "bell_sleeve"
   },
   {
     "field": "sleeve_style",
-    "value": "bishop_sleeve",
-    "uses": 46
+    "itemType": null,
+    "value": "bishop_sleeve"
   },
   {
     "field": "sleeve_style",
-    "value": "bell_sleeve",
-    "uses": 27
+    "itemType": null,
+    "value": "cap_sleeve"
   },
   {
     "field": "sleeve_style",
-    "value": "daxiu_sleeve",
-    "uses": 18
+    "itemType": null,
+    "value": "daxiu_sleeve"
   },
   {
     "field": "sleeve_style",
-    "value": "flare_sleeve",
-    "uses": 12
+    "itemType": null,
+    "value": "detached_sleeves"
   },
   {
     "field": "sleeve_style",
-    "value": "detached_sleeves",
-    "uses": 8
+    "itemType": null,
+    "value": "flare_sleeve"
   },
   {
     "field": "sleeve_style",
-    "value": "cap_sleeve",
-    "uses": 6
+    "itemType": null,
+    "value": "puff_sleeve"
   },
   {
     "field": "sleeve_style",
-    "value": "raglan_sleeve",
-    "uses": 4
+    "itemType": null,
+    "value": "raglan_sleeve"
   },
   {
     "field": "sleeve_style",
-    "value": "slit_sleeve",
-    "uses": 1
+    "itemType": null,
+    "value": "shuixiu_sleeve"
   },
   {
     "field": "sleeve_style",
-    "value": "split_sleeve",
-    "uses": 1
+    "itemType": null,
+    "value": "slit_sleeve"
+  },
+  {
+    "field": "sleeve_style",
+    "itemType": null,
+    "value": "split_sleeve"
   },
   {
     "field": "sock_height",
-    "value": "thigh_high",
-    "uses": 95
+    "itemType": null,
+    "value": "ankle"
   },
   {
     "field": "sock_height",
-    "value": "knee",
-    "uses": 64
+    "itemType": null,
+    "value": "knee"
   },
   {
     "field": "sock_height",
-    "value": "ankle",
-    "uses": 44
+    "itemType": null,
+    "value": "over_knee"
   },
   {
     "field": "sock_height",
-    "value": "over_knee",
-    "uses": 1
+    "itemType": null,
+    "value": "thigh_high"
   },
   {
     "field": "sole_height",
-    "value": "low",
-    "uses": 91
+    "itemType": null,
+    "value": "flat"
   },
   {
     "field": "sole_height",
-    "value": "high",
-    "uses": 53
+    "itemType": null,
+    "value": "high"
   },
   {
     "field": "sole_height",
-    "value": "flat",
-    "uses": 10
+    "itemType": null,
+    "value": "low"
   },
   {
     "field": "structure",
-    "value": "pleated",
-    "uses": 191
+    "itemType": null,
+    "value": "asymmetric"
   },
   {
     "field": "structure",
-    "value": "gathered",
-    "uses": 174
+    "itemType": null,
+    "value": "boxy"
   },
   {
     "field": "structure",
-    "value": "ribbed",
-    "uses": 138
+    "itemType": null,
+    "value": "braided"
   },
   {
     "field": "structure",
-    "value": "draped",
-    "uses": 119
+    "itemType": null,
+    "value": "cable_knit"
   },
   {
     "field": "structure",
-    "value": "ruched",
-    "uses": 50
+    "itemType": null,
+    "value": "chain"
   },
   {
     "field": "structure",
-    "value": "quilted",
-    "uses": 26
+    "itemType": null,
+    "value": "chain_detail"
   },
   {
     "field": "structure",
-    "value": "peplum",
-    "uses": 25
+    "itemType": null,
+    "value": "chain_link"
   },
   {
     "field": "structure",
-    "value": "ruffled",
-    "uses": 25
+    "itemType": null,
+    "value": "circular"
   },
   {
     "field": "structure",
-    "value": "cable_knit",
-    "uses": 16
+    "itemType": null,
+    "value": "cracked"
   },
   {
     "field": "structure",
-    "value": "ruffle",
-    "uses": 9
+    "itemType": null,
+    "value": "cuffed"
   },
   {
     "field": "structure",
-    "value": "distressed",
-    "uses": 4
+    "itemType": null,
+    "value": "cutout"
   },
   {
     "field": "structure",
-    "value": "braided",
-    "uses": 3
+    "itemType": null,
+    "value": "distressed"
   },
   {
     "field": "structure",
-    "value": "fringed",
-    "uses": 3
+    "itemType": null,
+    "value": "draped"
   },
   {
     "field": "structure",
-    "value": "beret",
-    "uses": 2
+    "itemType": null,
+    "value": "embroidered"
   },
   {
     "field": "structure",
-    "value": "cuffed",
-    "uses": 2
+    "itemType": null,
+    "value": "faceted"
   },
   {
     "field": "structure",
-    "value": "laced",
-    "uses": 2
+    "itemType": null,
+    "value": "floating"
   },
   {
     "field": "structure",
-    "value": "woven",
-    "uses": 2
+    "itemType": null,
+    "value": "frayed"
   },
   {
     "field": "structure",
-    "value": "asymmetric",
-    "uses": 1
+    "itemType": null,
+    "value": "fringed"
   },
   {
     "field": "structure",
-    "value": "band",
-    "uses": 1
+    "itemType": null,
+    "value": "gathered"
   },
   {
     "field": "structure",
-    "value": "boxy",
-    "uses": 1
+    "itemType": null,
+    "value": "geometric"
   },
   {
     "field": "structure",
-    "value": "chain_detail",
-    "uses": 1
+    "itemType": null,
+    "value": "grid"
   },
   {
     "field": "structure",
-    "value": "circular",
-    "uses": 1
+    "itemType": null,
+    "value": "heart"
   },
   {
     "field": "structure",
-    "value": "cracked",
-    "uses": 1
+    "itemType": null,
+    "value": "knotted"
   },
   {
     "field": "structure",
-    "value": "cutout",
-    "uses": 1
+    "itemType": null,
+    "value": "lace"
   },
   {
     "field": "structure",
-    "value": "embroidered",
-    "uses": 1
+    "itemType": null,
+    "value": "laced"
   },
   {
     "field": "structure",
-    "value": "frayed",
-    "uses": 1
+    "itemType": null,
+    "value": "layered"
   },
   {
     "field": "structure",
-    "value": "frilled",
-    "uses": 1
+    "itemType": null,
+    "value": "macrame"
   },
   {
     "field": "structure",
-    "value": "geometric",
-    "uses": 1
+    "itemType": null,
+    "value": "peplum"
   },
   {
     "field": "structure",
-    "value": "heart",
-    "uses": 1
+    "itemType": null,
+    "value": "pleated"
   },
   {
     "field": "structure",
-    "value": "hooded",
-    "uses": 1
+    "itemType": null,
+    "value": "puffed"
   },
   {
     "field": "structure",
-    "value": "lace",
-    "uses": 1
+    "itemType": null,
+    "value": "quilted"
   },
   {
     "field": "structure",
-    "value": "layered",
-    "uses": 1
+    "itemType": null,
+    "value": "ribbed"
   },
   {
     "field": "structure",
-    "value": "paper_folding",
-    "uses": 1
+    "itemType": null,
+    "value": "ruched"
   },
   {
     "field": "structure",
-    "value": "puffed",
-    "uses": 1
+    "itemType": null,
+    "value": "ruffle"
   },
   {
     "field": "structure",
-    "value": "ruffled_edge",
-    "uses": 1
+    "itemType": null,
+    "value": "ruffled"
   },
   {
     "field": "structure",
-    "value": "scalloped",
-    "uses": 1
+    "itemType": null,
+    "value": "scalloped"
   },
   {
     "field": "structure",
-    "value": "star",
-    "uses": 1
+    "itemType": null,
+    "value": "star"
   },
   {
     "field": "structure",
-    "value": "structured",
-    "uses": 1
+    "itemType": null,
+    "value": "stitched"
   },
   {
     "field": "structure",
-    "value": "tote",
-    "uses": 1
+    "itemType": null,
+    "value": "tote"
   },
   {
+    "field": "structure",
+    "itemType": null,
+    "value": "twisted"
+  },
+  {
+    "field": "structure",
+    "itemType": null,
+    "value": "woven"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "armDecorations",
+    "value": "arm_cuff"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "bottoms",
+    "value": "bermuda_shorts"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "bottoms",
+    "value": "bib_overalls"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "bottoms",
+    "value": "bloomers"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "bottoms",
+    "value": "cargo_pants"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "bottoms",
+    "value": "harem_pants"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "bottoms",
+    "value": "ma_mian_skirt"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "bottoms",
+    "value": "overall_shorts"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "bottoms",
+    "value": "palazzo_pants"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "bottoms",
+    "value": "ruffle_shorts"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "bottoms",
+    "value": "sarong"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "bottoms",
+    "value": "tailored_shorts"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "bottoms",
+    "value": "wrap_skirt"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "bracelets",
+    "value": "bangle"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "bracelets",
+    "value": "beaded_bracelet"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "bracelets",
+    "value": "charm_bracelet"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "bracelets",
+    "value": "cuff"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "chestAccessories",
+    "value": "bow_brooch"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "chestAccessories",
+    "value": "pin"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "chokers",
+    "value": "lace_choker"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "chokers",
+    "value": "ribbon_choker"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "chokers",
+    "value": "strand_necklace"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "dresses",
+    "value": "babydoll_dress"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "dresses",
+    "value": "coat_dress"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "dresses",
+    "value": "corset_dress"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "dresses",
+    "value": "gown"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "dresses",
+    "value": "lolita_dress"
+  },
+  {
     "field": "subcategory",
-    "value": "chandelier_earrings",
-    "uses": 111
+    "itemType": "dresses",
+    "value": "maid_dress"
   },
   {
     "field": "subcategory",
-    "value": "fingerless_gloves",
-    "uses": 98
+    "itemType": "dresses",
+    "value": "onesie"
   },
   {
     "field": "subcategory",
-    "value": "drop_earrings",
-    "uses": 91
+    "itemType": "dresses",
+    "value": "pinafore_dress"
   },
   {
     "field": "subcategory",
-    "value": "pendant_necklace",
-    "uses": 71
+    "itemType": "dresses",
+    "value": "qipao"
   },
   {
     "field": "subcategory",
-    "value": "lolita_dress",
-    "uses": 59
+    "itemType": "dresses",
+    "value": "romper"
   },
   {
     "field": "subcategory",
-    "value": "pumps",
-    "uses": 51
+    "itemType": "dresses",
+    "value": "ruqun"
   },
   {
     "field": "subcategory",
-    "value": "bow",
-    "uses": 48
+    "itemType": "dresses",
+    "value": "sailor_dress"
   },
   {
     "field": "subcategory",
-    "value": "ribbon_choker",
-    "uses": 48
+    "itemType": "dresses",
+    "value": "shenyi"
   },
   {
     "field": "subcategory",
-    "value": "gown",
-    "uses": 47
+    "itemType": "dresses",
+    "value": "shirt_dress"
   },
   {
     "field": "subcategory",
-    "value": "hairpin",
-    "uses": 43
+    "itemType": "dresses",
+    "value": "slip_dress"
   },
   {
     "field": "subcategory",
-    "value": "ankle_strap_heels",
-    "uses": 42
+    "itemType": "dresses",
+    "value": "sundress"
   },
   {
     "field": "subcategory",
-    "value": "strand_necklace",
-    "uses": 41
+    "itemType": "dresses",
+    "value": "sweater_dress"
   },
   {
     "field": "subcategory",
-    "value": "wide_brim_hat",
-    "uses": 36
+    "itemType": "dresses",
+    "value": "tea_dress"
   },
   {
     "field": "subcategory",
-    "value": "pantyhose",
-    "uses": 34
+    "itemType": "dresses",
+    "value": "tunic_dress"
   },
   {
     "field": "subcategory",
-    "value": "low_twin_tails",
-    "uses": 31
+    "itemType": "dresses",
+    "value": "wrap_dress"
   },
   {
     "field": "subcategory",
-    "value": "ruffled_socks",
-    "uses": 30
+    "itemType": "earrings",
+    "value": "chain_detail"
   },
   {
     "field": "subcategory",
-    "value": "combat_boots",
-    "uses": 29
+    "itemType": "earrings",
+    "value": "chandelier_earrings"
   },
   {
     "field": "subcategory",
-    "value": "opera_gloves",
-    "uses": 26
+    "itemType": "earrings",
+    "value": "drop_earrings"
   },
   {
     "field": "subcategory",
-    "value": "twin_braids",
-    "uses": 26
+    "itemType": "earrings",
+    "value": "ear_cuff"
   },
   {
     "field": "subcategory",
-    "value": "flower",
-    "uses": 23
+    "itemType": "earrings",
+    "value": "hoop_earrings"
   },
   {
     "field": "subcategory",
-    "value": "lace_choker",
-    "uses": 23
+    "itemType": "earrings",
+    "value": "stud_earrings"
   },
   {
     "field": "subcategory",
-    "value": "pinafore_dress",
-    "uses": 23
+    "itemType": "faceDecorations",
+    "value": "bandage"
   },
   {
     "field": "subcategory",
-    "value": "lace_stockings",
-    "uses": 22
+    "itemType": "faceDecorations",
+    "value": "decorative_blindfold"
   },
   {
     "field": "subcategory",
-    "value": "stud_earrings",
-    "uses": 22
+    "itemType": "faceDecorations",
+    "value": "decorative_eyepatch"
   },
   {
     "field": "subcategory",
-    "value": "hairclip",
-    "uses": 21
+    "itemType": "faceDecorations",
+    "value": "eye_mask"
   },
   {
     "field": "subcategory",
-    "value": "beret",
-    "uses": 19
+    "itemType": "faceDecorations",
+    "value": "glasses"
   },
   {
     "field": "subcategory",
-    "value": "garter_stockings",
-    "uses": 19
+    "itemType": "faceDecorations",
+    "value": "goggles"
   },
   {
     "field": "subcategory",
-    "value": "high_twin_tails",
-    "uses": 19
+    "itemType": "faceDecorations",
+    "value": "half_mask"
   },
   {
     "field": "subcategory",
-    "value": "stole",
-    "uses": 19
+    "itemType": "faceDecorations",
+    "value": "lower_face_mask"
   },
   {
     "field": "subcategory",
-    "value": "arm_cuff",
-    "uses": 18
+    "itemType": "faceDecorations",
+    "value": "medical_eyepatch"
   },
   {
     "field": "subcategory",
-    "value": "bolero",
-    "uses": 18
+    "itemType": "faceDecorations",
+    "value": "monocle"
   },
   {
     "field": "subcategory",
-    "value": "bustier",
-    "uses": 18
+    "itemType": "faceDecorations",
+    "value": "ornamental_mask"
   },
   {
     "field": "subcategory",
-    "value": "bangle",
-    "uses": 17
+    "itemType": "faceDecorations",
+    "value": "sunglasses"
   },
   {
     "field": "subcategory",
-    "value": "crossbody_bag",
-    "uses": 17
+    "itemType": "gloves",
+    "value": "fingerless_gloves"
   },
   {
     "field": "subcategory",
-    "value": "gladiator_sandals",
-    "uses": 17
+    "itemType": "gloves",
+    "value": "mittens"
   },
   {
     "field": "subcategory",
-    "value": "high_ponytail",
-    "uses": 17
+    "itemType": "gloves",
+    "value": "opera_gloves"
   },
   {
     "field": "subcategory",
-    "value": "charm_bracelet",
-    "uses": 16
+    "itemType": "hair",
+    "value": "chignon"
   },
   {
     "field": "subcategory",
-    "value": "leg_garter",
-    "uses": 16
+    "itemType": "hair",
+    "value": "crown_braid"
   },
   {
     "field": "subcategory",
-    "value": "beaded_bracelet",
-    "uses": 15
+    "itemType": "hair",
+    "value": "flying_immortal_bun"
   },
   {
     "field": "subcategory",
-    "value": "handbag",
-    "uses": 15
+    "itemType": "hair",
+    "value": "half_up_braid"
   },
   {
     "field": "subcategory",
-    "value": "high_bun",
-    "uses": 15
+    "itemType": "hair",
+    "value": "half_up_bun"
   },
   {
     "field": "subcategory",
-    "value": "ruqun",
-    "uses": 15
+    "itemType": "hair",
+    "value": "half_up_ponytail"
   },
   {
     "field": "subcategory",
-    "value": "hoop_earrings",
-    "uses": 14
+    "itemType": "hair",
+    "value": "high_bun"
   },
   {
     "field": "subcategory",
-    "value": "bonnet",
-    "uses": 13
+    "itemType": "hair",
+    "value": "high_ponytail"
   },
   {
     "field": "subcategory",
-    "value": "capelet",
-    "uses": 13
+    "itemType": "hair",
+    "value": "high_twin_tails"
   },
   {
     "field": "subcategory",
-    "value": "mini_hat",
-    "uses": 13
+    "itemType": "hair",
+    "value": "low_ponytail"
   },
   {
     "field": "subcategory",
-    "value": "space_buns",
-    "uses": 13
+    "itemType": "hair",
+    "value": "low_twin_tails"
   },
   {
     "field": "subcategory",
-    "value": "side_braid",
-    "uses": 12
+    "itemType": "hair",
+    "value": "side_braid"
   },
   {
     "field": "subcategory",
-    "value": "tailored_shorts",
-    "uses": 11
+    "itemType": "hair",
+    "value": "side_bun"
   },
   {
     "field": "subcategory",
-    "value": "chignon",
-    "uses": 10
+    "itemType": "hair",
+    "value": "side_ponytail"
   },
   {
     "field": "subcategory",
-    "value": "half_up_braid",
-    "uses": 10
+    "itemType": "hair",
+    "value": "side_twin_tails"
   },
   {
     "field": "subcategory",
-    "value": "school_uniform_blouse",
-    "uses": 10
+    "itemType": "hair",
+    "value": "space_buns"
   },
   {
     "field": "subcategory",
-    "value": "t_strap_heels",
-    "uses": 10
+    "itemType": "hair",
+    "value": "top_knot"
   },
   {
     "field": "subcategory",
-    "value": "tiara",
-    "uses": 10
+    "itemType": "hair",
+    "value": "twin_braids"
   },
   {
     "field": "subcategory",
-    "value": "button_up_shirt",
-    "uses": 9
+    "itemType": "hairAccessories",
+    "value": "bow"
   },
   {
     "field": "subcategory",
-    "value": "high_top_sneakers",
-    "uses": 9
+    "itemType": "hairAccessories",
+    "value": "flower"
   },
   {
     "field": "subcategory",
-    "value": "hooded_cape",
-    "uses": 9
+    "itemType": "hairAccessories",
+    "value": "hairclip"
   },
   {
     "field": "subcategory",
-    "value": "peasant_blouse",
-    "uses": 9
+    "itemType": "hairAccessories",
+    "value": "hairpin"
   },
   {
     "field": "subcategory",
-    "value": "penny_loafers",
-    "uses": 9
+    "itemType": "hairAccessories",
+    "value": "ribbon"
   },
   {
     "field": "subcategory",
-    "value": "coat_dress",
-    "uses": 8
+    "itemType": "hairAccessories",
+    "value": "tiara"
   },
   {
     "field": "subcategory",
-    "value": "half_up_bun",
-    "uses": 8
+    "itemType": "hairAccessories",
+    "value": "veil"
   },
   {
     "field": "subcategory",
-    "value": "ma_mian_skirt",
-    "uses": 8
+    "itemType": "handhelds",
+    "value": "handbag"
   },
   {
     "field": "subcategory",
-    "value": "milkmaid_top",
-    "uses": 8
+    "itemType": "handhelds",
+    "value": "spellbook"
   },
   {
     "field": "subcategory",
-    "value": "platform_sandals",
-    "uses": 8
+    "itemType": "headwear",
+    "value": "aviator_hat"
   },
   {
     "field": "subcategory",
-    "value": "qipao",
-    "uses": 8
+    "itemType": "headwear",
+    "value": "bandana"
   },
   {
     "field": "subcategory",
-    "value": "sundress",
-    "uses": 8
+    "itemType": "headwear",
+    "value": "coronet"
   },
   {
     "field": "subcategory",
-    "value": "witch_hat",
-    "uses": 8
+    "itemType": "headwear",
+    "value": "hairpin"
   },
   {
     "field": "subcategory",
-    "value": "blazer",
-    "uses": 7
+    "itemType": "headwear",
+    "value": "headband"
   },
   {
     "field": "subcategory",
-    "value": "bloomers",
-    "uses": 7
+    "itemType": "headwear",
+    "value": "headscarf"
   },
   {
     "field": "subcategory",
-    "value": "bomber_jacket",
-    "uses": 7
+    "itemType": "headwear",
+    "value": "mask"
   },
   {
     "field": "subcategory",
-    "value": "embroidered_shoes",
-    "uses": 7
+    "itemType": "headwear",
+    "value": "mini_hat"
   },
   {
     "field": "subcategory",
-    "value": "mittens",
-    "uses": 7
+    "itemType": "headwear",
+    "value": "sunglasses"
   },
   {
     "field": "subcategory",
-    "value": "printed_tights",
-    "uses": 7
+    "itemType": "headwear",
+    "value": "tiara"
   },
   {
     "field": "subcategory",
-    "value": "romper",
-    "uses": 7
+    "itemType": "headwear",
+    "value": "top_hat"
   },
   {
     "field": "subcategory",
-    "value": "side_ponytail",
-    "uses": 7
+    "itemType": "headwear",
+    "value": "wide_brim_hat"
   },
   {
     "field": "subcategory",
-    "value": "side_twin_tails",
-    "uses": 7
+    "itemType": "headwear",
+    "value": "witch_hat"
   },
   {
     "field": "subcategory",
-    "value": "wrap_skirt",
-    "uses": 7
+    "itemType": "headwear",
+    "value": "wreath"
   },
   {
     "field": "subcategory",
-    "value": "bralette",
-    "uses": 6
+    "itemType": "neckwear",
+    "value": "charm"
   },
   {
     "field": "subcategory",
-    "value": "hoodie",
-    "uses": 6
+    "itemType": "neckwear",
+    "value": "lace_choker"
   },
   {
     "field": "subcategory",
-    "value": "pin",
-    "uses": 6
+    "itemType": "neckwear",
+    "value": "lariat_necklace"
   },
   {
     "field": "subcategory",
-    "value": "riding_boots",
-    "uses": 6
+    "itemType": "neckwear",
+    "value": "locket"
   },
   {
     "field": "subcategory",
-    "value": "sailor_blouse",
-    "uses": 6
+    "itemType": "neckwear",
+    "value": "pendant_necklace"
   },
   {
     "field": "subcategory",
-    "value": "waistcoat",
-    "uses": 6
+    "itemType": "neckwear",
+    "value": "ribbon_choker"
   },
   {
     "field": "subcategory",
-    "value": "beizi",
-    "uses": 5
+    "itemType": "neckwear",
+    "value": "strand_necklace"
   },
   {
     "field": "subcategory",
-    "value": "bib_overalls",
-    "uses": 5
+    "itemType": "outerwear",
+    "value": "beizi"
   },
   {
     "field": "subcategory",
-    "value": "cargo_pants",
-    "uses": 5
+    "itemType": "outerwear",
+    "value": "blazer"
   },
   {
     "field": "subcategory",
-    "value": "slip_dress",
-    "uses": 5
+    "itemType": "outerwear",
+    "value": "bolero"
   },
   {
     "field": "subcategory",
-    "value": "sweater_dress",
-    "uses": 5
+    "itemType": "outerwear",
+    "value": "bomber_jacket"
   },
   {
     "field": "subcategory",
-    "value": "bermuda_shorts",
-    "uses": 4
+    "itemType": "outerwear",
+    "value": "capelet"
   },
   {
     "field": "subcategory",
-    "value": "bow_brooch",
-    "uses": 4
+    "itemType": "outerwear",
+    "value": "daxiushan"
   },
   {
     "field": "subcategory",
-    "value": "cowboy_boots",
-    "uses": 4
+    "itemType": "outerwear",
+    "value": "duster_coat"
   },
   {
     "field": "subcategory",
-    "value": "headpiece",
-    "uses": 4
+    "itemType": "outerwear",
+    "value": "fur_coat"
   },
   {
     "field": "subcategory",
-    "value": "maid_blouse",
-    "uses": 4
+    "itemType": "outerwear",
+    "value": "hooded_cape"
   },
   {
     "field": "subcategory",
-    "value": "overall_shorts",
-    "uses": 4
+    "itemType": "outerwear",
+    "value": "hooded_vest"
   },
   {
     "field": "subcategory",
-    "value": "ribbon",
-    "uses": 4
+    "itemType": "outerwear",
+    "value": "military_jacket"
   },
   {
     "field": "subcategory",
-    "value": "ruffle_shorts",
-    "uses": 4
+    "itemType": "outerwear",
+    "value": "pifeng"
   },
   {
     "field": "subcategory",
-    "value": "slingback_heels",
-    "uses": 4
+    "itemType": "outerwear",
+    "value": "poncho"
   },
   {
     "field": "subcategory",
-    "value": "top_hat",
-    "uses": 4
+    "itemType": "outerwear",
+    "value": "shirt_jacket"
   },
   {
     "field": "subcategory",
-    "value": "bandeau_top",
-    "uses": 3
+    "itemType": "outerwear",
+    "value": "shrug"
   },
   {
     "field": "subcategory",
-    "value": "choker",
-    "uses": 3
+    "itemType": "outerwear",
+    "value": "stole"
   },
   {
     "field": "subcategory",
-    "value": "crown_braid",
-    "uses": 3
+    "itemType": "outerwear",
+    "value": "waistcoat"
   },
   {
     "field": "subcategory",
-    "value": "half_up_ponytail",
-    "uses": 3
+    "itemType": "outerwear",
+    "value": "windbreaker"
   },
   {
     "field": "subcategory",
-    "value": "harem_pants",
-    "uses": 3
+    "itemType": "pendants",
+    "value": "belt_bag"
   },
   {
     "field": "subcategory",
-    "value": "military_jacket",
-    "uses": 3
+    "itemType": "pendants",
+    "value": "crossbody_bag"
   },
   {
     "field": "subcategory",
-    "value": "palazzo_pants",
-    "uses": 3
+    "itemType": "pendants",
+    "value": "handbag"
   },
   {
     "field": "subcategory",
-    "value": "thigh_garter",
-    "uses": 3
+    "itemType": "pendants",
+    "value": "leg_garter"
   },
   {
     "field": "subcategory",
-    "value": "belt_bag",
-    "uses": 2
+    "itemType": "pendants",
+    "value": "mini_bag"
   },
   {
     "field": "subcategory",
-    "value": "daxiushan",
-    "uses": 2
+    "itemType": "pendants",
+    "value": "pouch"
   },
   {
     "field": "subcategory",
-    "value": "dorsay_heels",
-    "uses": 2
+    "itemType": "pendants",
+    "value": "satchel"
   },
   {
     "field": "subcategory",
-    "value": "fishnet_tights",
-    "uses": 2
+    "itemType": "pendants",
+    "value": "shoulder_bag"
   },
   {
     "field": "subcategory",
-    "value": "headband",
-    "uses": 2
+    "itemType": "pendants",
+    "value": "thigh_garter"
   },
   {
     "field": "subcategory",
-    "value": "lace_up_flats",
-    "uses": 2
+    "itemType": "shoes",
+    "value": "ankle_strap_heels"
   },
   {
     "field": "subcategory",
-    "value": "leotard",
-    "uses": 2
+    "itemType": "shoes",
+    "value": "ballet_flats"
   },
   {
     "field": "subcategory",
-    "value": "low_ponytail",
-    "uses": 2
+    "itemType": "shoes",
+    "value": "combat_boots"
   },
   {
     "field": "subcategory",
-    "value": "maid_dress",
-    "uses": 2
+    "itemType": "shoes",
+    "value": "cowboy_boots"
   },
   {
     "field": "subcategory",
-    "value": "mini_bag",
-    "uses": 2
+    "itemType": "shoes",
+    "value": "dorsay_heels"
   },
   {
     "field": "subcategory",
-    "value": "officer_shirt",
-    "uses": 2
+    "itemType": "shoes",
+    "value": "embroidered_shoes"
   },
   {
     "field": "subcategory",
-    "value": "sailor_dress",
-    "uses": 2
+    "itemType": "shoes",
+    "value": "gladiator_sandals"
   },
   {
     "field": "subcategory",
-    "value": "satchel",
-    "uses": 2
+    "itemType": "shoes",
+    "value": "high_top_sneakers"
   },
   {
     "field": "subcategory",
-    "value": "shenyi",
-    "uses": 2
+    "itemType": "shoes",
+    "value": "lace_up_flats"
   },
   {
     "field": "subcategory",
-    "value": "shirt_dress",
-    "uses": 2
+    "itemType": "shoes",
+    "value": "penny_loafers"
   },
   {
     "field": "subcategory",
-    "value": "shrug",
-    "uses": 2
+    "itemType": "shoes",
+    "value": "platform_sandals"
   },
   {
     "field": "subcategory",
-    "value": "side_bun",
-    "uses": 2
+    "itemType": "shoes",
+    "value": "pumps"
   },
   {
     "field": "subcategory",
-    "value": "spellbook",
-    "uses": 2
+    "itemType": "shoes",
+    "value": "riding_boots"
   },
   {
     "field": "subcategory",
-    "value": "top_knot",
-    "uses": 2
+    "itemType": "shoes",
+    "value": "slingback_heels"
   },
   {
     "field": "subcategory",
-    "value": "windbreaker",
-    "uses": 2
+    "itemType": "shoes",
+    "value": "t_strap_heels"
   },
   {
     "field": "subcategory",
-    "value": "wrap_dress",
-    "uses": 2
+    "itemType": "socks",
+    "value": "fishnet_tights"
   },
   {
     "field": "subcategory",
-    "value": "babydoll_dress",
-    "uses": 1
+    "itemType": "socks",
+    "value": "garter_stockings"
   },
   {
     "field": "subcategory",
-    "value": "ballet_flats",
-    "uses": 1
+    "itemType": "socks",
+    "value": "lace_stockings"
   },
   {
     "field": "subcategory",
-    "value": "chain_detail",
-    "uses": 1
+    "itemType": "socks",
+    "value": "null"
   },
   {
     "field": "subcategory",
-    "value": "cuff",
-    "uses": 1
+    "itemType": "socks",
+    "value": "pantyhose"
   },
   {
     "field": "subcategory",
-    "value": "duster_coat",
-    "uses": 1
+    "itemType": "socks",
+    "value": "printed_tights"
   },
   {
     "field": "subcategory",
-    "value": "ear_cuff",
-    "uses": 1
+    "itemType": "socks",
+    "value": "ruffled_socks"
   },
   {
     "field": "subcategory",
-    "value": "flying_immortal_bun",
-    "uses": 1
+    "itemType": "tops",
+    "value": "bandeau_top"
   },
   {
     "field": "subcategory",
-    "value": "fur_coat",
-    "uses": 1
+    "itemType": "tops",
+    "value": "bralette"
   },
   {
     "field": "subcategory",
-    "value": "hooded_vest",
-    "uses": 1
+    "itemType": "tops",
+    "value": "bustier"
   },
   {
     "field": "subcategory",
-    "value": "lariat_necklace",
-    "uses": 1
+    "itemType": "tops",
+    "value": "button_up_shirt"
   },
   {
     "field": "subcategory",
-    "value": "null",
-    "uses": 1
+    "itemType": "tops",
+    "value": "hoodie"
   },
   {
     "field": "subcategory",
-    "value": "onesie",
-    "uses": 1
+    "itemType": "tops",
+    "value": "leotard"
   },
   {
     "field": "subcategory",
-    "value": "pifeng",
-    "uses": 1
+    "itemType": "tops",
+    "value": "maid_blouse"
   },
   {
     "field": "subcategory",
-    "value": "poncho",
-    "uses": 1
+    "itemType": "tops",
+    "value": "milkmaid_top"
   },
   {
     "field": "subcategory",
-    "value": "pouch",
-    "uses": 1
+    "itemType": "tops",
+    "value": "officer_shirt"
   },
   {
     "field": "subcategory",
-    "value": "sarong",
-    "uses": 1
+    "itemType": "tops",
+    "value": "peasant_blouse"
   },
   {
     "field": "subcategory",
-    "value": "shirt_jacket",
-    "uses": 1
+    "itemType": "tops",
+    "value": "sailor_blouse"
   },
   {
     "field": "subcategory",
-    "value": "shoulder_bag",
-    "uses": 1
+    "itemType": "tops",
+    "value": "school_uniform_blouse"
   },
   {
     "field": "subcategory",
-    "value": "sweater_vest",
-    "uses": 1
+    "itemType": "tops",
+    "value": "sweater_vest"
   },
   {
     "field": "texture",
-    "value": "wavy",
-    "uses": 138
+    "itemType": null,
+    "value": "curly"
   },
   {
     "field": "texture",
-    "value": "straight",
-    "uses": 122
+    "itemType": null,
+    "value": "straight"
   },
   {
     "field": "texture",
-    "value": "curly",
-    "uses": 14
+    "itemType": null,
+    "value": "wavy"
   },
   {
     "field": "top_length",
-    "value": "crop",
-    "uses": 89
+    "itemType": null,
+    "value": "crop"
   },
   {
     "field": "top_length",
-    "value": "waist_length",
-    "uses": 57
+    "itemType": null,
+    "value": "floor_length"
   },
   {
     "field": "top_length",
-    "value": "hip_length",
-    "uses": 32
+    "itemType": null,
+    "value": "hip_length"
   },
   {
     "field": "top_length",
-    "value": "ultra_crop",
-    "uses": 23
+    "itemType": null,
+    "value": "maxi"
   },
   {
     "field": "top_length",
-    "value": "mid_thigh",
-    "uses": 20
+    "itemType": null,
+    "value": "mid_thigh"
   },
   {
     "field": "top_length",
-    "value": "floor_length",
-    "uses": 10
+    "itemType": null,
+    "value": "ultra_crop"
   },
   {
     "field": "top_length",
-    "value": "upper_thigh",
-    "uses": 10
+    "itemType": null,
+    "value": "upper_thigh"
   },
   {
     "field": "top_length",
-    "value": "maxi",
-    "uses": 1
+    "itemType": null,
+    "value": "waist_length"
   },
   {
     "field": "waist_height",
-    "value": "high_rise",
-    "uses": 120
+    "itemType": null,
+    "value": "high_rise"
   },
   {
     "field": "waist_height",
-    "value": "mid_rise",
-    "uses": 20
+    "itemType": null,
+    "value": "low_rise"
   },
   {
     "field": "waist_height",
-    "value": "low_rise",
-    "uses": 1
+    "itemType": null,
+    "value": "mid_rise"
   },
   {
     "field": "waistline",
-    "value": "natural_waist",
-    "uses": 134
+    "itemType": null,
+    "value": "basque_waist"
   },
   {
     "field": "waistline",
-    "value": "empire_waist",
-    "uses": 38
+    "itemType": null,
+    "value": "empire_waist"
   },
   {
     "field": "waistline",
-    "value": "basque_waist",
-    "uses": 20
+    "itemType": null,
+    "value": "natural_waist"
   },
   {
     "field": "waistline",
-    "value": "no_waist",
-    "uses": 9
+    "itemType": null,
+    "value": "no_waist"
   },
   {
     "field": "waistline",
-    "value": "wrap_waist",
-    "uses": 3
-  },
-  {
-    "field": "waistline",
-    "value": "drop_waist",
-    "uses": 1
+    "itemType": null,
+    "value": "wrap_waist"
   }
 ]

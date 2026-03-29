@@ -293,7 +293,9 @@
                         {{
                           translateFilterToken(
                             'category',
-                            activeResult.category
+                            activeResult.category,
+                            activeResult.itemType ??
+                              activeResult.metadata?.item_type
                           )
                         }}
                       </n-tag>
@@ -308,7 +310,9 @@
                         {{
                           translateFilterToken(
                             'subcategory',
-                            activeResult.subcategory
+                            activeResult.subcategory,
+                            activeResult.itemType ??
+                              activeResult.metadata?.item_type
                           )
                         }}
                       </n-tag>
@@ -447,7 +451,11 @@
     [item.category, item.subcategory]
       .filter((value): value is string => Boolean(value))
       .map((value, index) =>
-        translateFilterToken(index === 0 ? 'category' : 'subcategory', value)
+        translateFilterToken(
+          index === 0 ? 'category' : 'subcategory',
+          value,
+          item.itemType ?? item.metadata?.item_type
+        )
       )
       .join(' • ')
 

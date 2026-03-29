@@ -1652,7 +1652,7 @@
       label:
         value === ITEM_SEARCH_UNCATEGORIZED_VALUE
           ? t('compendium.uncategorized')
-          : translateFilterToken('category', value),
+          : translateFilterToken('category', value, itemTypeFilter.value),
       value,
     }))
   )
@@ -1663,7 +1663,7 @@
         label:
           value === ITEM_SEARCH_UNCATEGORIZED_VALUE
             ? t('compendium.uncategorized')
-            : translateFilterToken('subcategory', value),
+            : translateFilterToken('subcategory', value, itemTypeFilter.value),
         value,
       })
     )

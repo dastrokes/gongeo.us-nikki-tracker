@@ -25,7 +25,13 @@
             :bordered="false"
             class="font-medium !bg-slate-100 dark:!bg-slate-800 text-slate-700 dark:text-slate-300 shadow-sm border border-slate-200/50 dark:border-slate-700/50"
           >
-            {{ translateFilterToken(field.field, value) }}
+            {{
+              translateFilterToken(
+                field.field,
+                value,
+                props.itemType ?? props.metadata?.item_type
+              )
+            }}
           </n-tag>
         </div>
       </div>

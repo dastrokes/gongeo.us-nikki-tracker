@@ -644,9 +644,9 @@
       "message": "私たちは Sentry.io を使用して技術的エラーを追跡し、修正します。 Sentry は、サイトの維持および改善に役立てるために、限定的な技術データ (エラーの詳細、ブラウザ情報、匿名化された IP アドレスなど) を収集する場合があります。詳細については、Sentry.io のプライバシー ポリシーをご覧ください。"
     },
     "advertising": {
-      "title": "Advertising",
-      "content": "We use Google AdSense to display advertisements on this platform. AdSense may use cookies and similar technologies to serve ads based on your visit to this and other websites.",
-      "eeaNotice": "For users in the European Economic Area (EEA), United Kingdom, and other applicable regions, a consent form will be presented to manage your preferences regarding personalized and non-personalized ads in accordance with applicable privacy laws."
+      "title": "広告サービス",
+      "content": "当プラットフォームでは、広告の表示に Google AdSense を使用しています。AdSense は、ユーザーが当サイトや他のサイトにアクセスした際、状況に合わせた広告を配信するために Cookie やそれに類似した技術を使用する場合があります。",
+      "eeaNotice": "欧州経済領域（EEA）、英国、およびその他の該当地域にお住まいのユーザーには、適用されるプライバシー法に基づき、パーソナライズ広告および非パーソナライズ広告に関する設定を管理するための同意フォームが表示されます。"
     }
   },
   "vote": {
@@ -722,7 +722,7 @@
         "error": "エントリの読み込みに失敗したため送信できません。",
         "over_limit": "送信する前にさらにフィルターを適用します。",
         "scope_unavailable": "この選択ではコミュニティ共有はまだ利用できません。",
-        "filtered_items_only": "Community submit is unavailable while advanced filters are active.",
+        "filtered_items_only": "詳細フィルターが有効な間は、コミュニティへの投稿は利用できません。",
         "incomplete": "送信する前に、読み込まれたすべてのエントリをランク付けします。",
         "no_changes": "前回の送信以降、変更はありません。"
       }

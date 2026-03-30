@@ -644,9 +644,9 @@
       "message": "เราใช้ Sentry.io เพื่อติดตามและแก้ไขข้อผิดพลาดทางเทคนิค Sentry อาจรวบรวมข้อมูลทางเทคนิคที่จำกัด (เช่น รายละเอียดข้อผิดพลาด ข้อมูลเบราว์เซอร์ และที่อยู่ IP ที่ไม่ระบุชื่อ) เพื่อช่วยเราดูแลรักษาและปรับปรุงไซต์ สำหรับข้อมูลเพิ่มเติม โปรดดูนโยบายความเป็นส่วนตัวของ Sentry.io"
     },
     "advertising": {
-      "title": "Advertising",
-      "content": "We use Google AdSense to display advertisements on this platform. AdSense may use cookies and similar technologies to serve ads based on your visit to this and other websites.",
-      "eeaNotice": "For users in the European Economic Area (EEA), United Kingdom, and other applicable regions, a consent form will be presented to manage your preferences regarding personalized and non-personalized ads in accordance with applicable privacy laws."
+      "title": "โฆษณา",
+      "content": "เราใช้ Google AdSense เพื่อแสดงโฆษณาบนแพลตฟอร์มนี้ AdSense อาจใช้คุกกี้และเทคโนโลยีที่คล้ายกันเพื่อแสดงโฆษณาตามการเยี่ยมชมของคุณในเว็บไซต์นี้และเว็บไซต์อื่นๆ",
+      "eeaNotice": "สำหรับผู้ใช้ในเขตเศรษฐกิจยุโรป (EEA) สหราชอาณาจักร และภูมิภาคอื่นๆ ที่เกี่ยวข้อง แบบฟอร์มความยินยอมจะแสดงขึ้นเพื่อจัดการความชอบของคุณเกี่ยวกับโฆษณาที่ปรับให้เหมาะกับบุคคลและที่ไม่ได้ปรับให้เหมาะกับบุคคล ตามกฎหมายความเป็นส่วนตัวที่บังคับใช้"
     }
   },
   "vote": {
@@ -722,7 +722,7 @@
         "error": "ไม่สามารถส่งได้ในขณะที่โหลดรายการไม่สำเร็จ",
         "over_limit": "ใช้ตัวกรองเพิ่มเติมก่อนที่จะส่ง",
         "scope_unavailable": "การแบ่งปันชุมชนยังไม่พร้อมใช้งานสำหรับการเลือกนี้",
-        "filtered_items_only": "Community submit is unavailable while advanced filters are active.",
+        "filtered_items_only": "ไม่สามารถส่งไปยังชุมชนได้ในขณะที่มีการเปิดใช้งานตัวกรองขั้นสูง",
         "incomplete": "จัดอันดับรายการที่โหลดทั้งหมดก่อนที่จะส่ง",
         "no_changes": "ไม่มีการเปลี่ยนแปลงตั้งแต่การส่งครั้งล่าสุดของคุณ"
       }

@@ -644,9 +644,9 @@
       "message": "우리는 기술적 오류를 추적하고 수정하기 위해 Sentry.io를 사용합니다. Sentry는 사이트를 유지 관리하고 개선하는 데 도움이 되도록 제한된 기술 데이터(오류 세부 정보, 브라우저 정보, 익명화된 IP 주소 등)를 수집할 수 있습니다. 자세한 내용은 Sentry.io의 개인정보 보호정책을 참조하세요."
     },
     "advertising": {
-      "title": "Advertising",
-      "content": "We use Google AdSense to display advertisements on this platform. AdSense may use cookies and similar technologies to serve ads based on your visit to this and other websites.",
-      "eeaNotice": "For users in the European Economic Area (EEA), United Kingdom, and other applicable regions, a consent form will be presented to manage your preferences regarding personalized and non-personalized ads in accordance with applicable privacy laws."
+      "title": "광고 서비스",
+      "content": "본 플랫폼은 광고를 표시하기 위해 Google AdSense를 사용합니다. AdSense는 사용자의 본 웹사이트 및 기타 웹사이트 방문 정보를 바탕으로 광고를 게재하기 위해 쿠키 및 유사 기술을 사용할 수 있습니다.",
+      "eeaNotice": "유럽 경제 지역(EEA), 영국 및 기타 해당 지역의 사용자의 경우, 관련 개인정보 보호법에 따라 맞춤형 및 비맞춤형 광고에 대한 기본 설정을 관리할 수 있는 동의 양식이 표시됩니다."
     }
   },
   "vote": {
@@ -722,7 +722,7 @@
         "error": "항목을 로드하지 못한 동안에는 제출할 수 없습니다.",
         "over_limit": "제출하기 전에 더 많은 필터를 적용하세요.",
         "scope_unavailable": "이 선택 항목에는 아직 커뮤니티 공유를 사용할 수 없습니다.",
-        "filtered_items_only": "Community submit is unavailable while advanced filters are active.",
+        "filtered_items_only": "상세 필터가 활성화된 동안에는 커뮤니티 제출을 이용할 수 없습니다.",
         "incomplete": "제출하기 전에 로드된 모든 항목의 순위를 지정하세요.",
         "no_changes": "마지막 제출 이후 변경사항이 없습니다."
       }

@@ -8,7 +8,7 @@
     "items": "Elementos",
     "makeup": "Constituir",
     "variations": "Variaciones",
-    "type": "Slot",
+    "type": "Ranura",
     "pull": "Jalar",
     "pulls": "Tira",
     "total": "Total",
@@ -644,9 +644,9 @@
       "message": "Usamos Sentry.io para rastrear y corregir errores técnicos. Sentry puede recopilar datos técnicos limitados (como detalles de errores, información del navegador y direcciones IP anónimas) para ayudarnos a mantener y mejorar el sitio. Para obtener más información, consulte la política de privacidad de Sentry.io."
     },
     "advertising": {
-      "title": "Advertising",
-      "content": "We use Google AdSense to display advertisements on this platform. AdSense may use cookies and similar technologies to serve ads based on your visit to this and other websites.",
-      "eeaNotice": "For users in the European Economic Area (EEA), United Kingdom, and other applicable regions, a consent form will be presented to manage your preferences regarding personalized and non-personalized ads in accordance with applicable privacy laws."
+      "title": "Publicidad",
+      "content": "Utilizamos Google AdSense para mostrar anuncios en esta plataforma. AdSense puede utilizar cookies y tecnologías similares para ofrecer anuncios basados en su visita a este y otros sitios web.",
+      "eeaNotice": "Para los usuarios del Espacio Económico Europeo (EEE), el Reino Unido y otras regiones aplicables, se presentará un formulario de consentimiento para gestionar sus preferencias con respecto a los anuncios personalizados y no personalizados, de acuerdo con las leyes de privacidad aplicables."
     }
   },
   "vote": {
@@ -722,7 +722,7 @@
         "error": "No se puede enviar mientras las entradas no se cargaron.",
         "over_limit": "Aplique más filtros antes de enviar.",
         "scope_unavailable": "El uso compartido en comunidad aún no está disponible para esta selección.",
-        "filtered_items_only": "Community submit is unavailable while advanced filters are active.",
+        "filtered_items_only": "El envío a la comunidad no está disponible mientras los filtros avanzados estén activos.",
         "incomplete": "Clasifique todas las entradas cargadas antes de enviarlas.",
         "no_changes": "No hay cambios desde su último envío."
       }
@@ -751,7 +751,7 @@
     "not_found_item": "Artículo no encontrado",
     "not_found_outfit": "Traje no encontrado",
     "back_to_list": "Volver a la lista",
-    "filter_type": "Filtrar por Slot",
+    "filter_type": "Filtrar por ranura",
     "filter_category": "Filtrar por categoría",
     "filter_subcategory": "Filtrar por subcategoría",
     "filter_version": "Filtrar por versión",
@@ -761,7 +761,7 @@
     "advanced_filters": "Filtros avanzados",
     "advanced_filters_title": "Filtros avanzados",
     "clear_advanced_filters": "Borrar filtros avanzados",
-    "advanced_filters_empty": "No hay filtros avanzados disponibles para este espacio.",
+    "advanced_filters_empty": "No hay filtros avanzados disponibles para esta ranura.",
     "advanced_filter_placeholder": "Seleccionar {field}",
     "uncategorized": "Sin categoría",
     "search_field": {

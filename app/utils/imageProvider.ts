@@ -73,17 +73,12 @@ export const imageProvider = () => {
     const provider = options?.provider || defaultProvider
 
     // Serve images from netlify directly
-    if (
-      type === 'banner' ||
-      type === 'bannerThumb' ||
-      type === 'outfit' ||
-      type === 'emote'
-    ) {
+    if (type === 'banner' || type === 'bannerThumb' || type === 'emote') {
       return path
     }
 
     if (provider === 'netlify') {
-      return `${imagekitBaseUrl || bunnyBaseUrl || cloudinaryBaseUrl}${path}`
+      return `${imagekitBaseUrl || cloudinaryBaseUrl || bunnyBaseUrl}${path}`
     }
 
     if (

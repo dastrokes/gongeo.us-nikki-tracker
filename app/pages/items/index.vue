@@ -705,13 +705,13 @@
   const initialTypeFilter = resolveType(route.query.type?.toString() ?? null)
   const typeFilter = ref<string | null>(initialTypeFilter)
   const categoryFilter = ref<string | null>(
-    supportsItemSearchCategoryFilters(initialTypeFilter)
+    initialTypeFilter
       ? normalizeItemSearchTokenKey(route.query.category?.toString() ?? null) ||
           null
       : null
   )
   const subcategoryFilter = ref<string | null>(
-    supportsItemSearchCategoryFilters(initialTypeFilter)
+    initialTypeFilter
       ? normalizeItemSearchTokenKey(
           route.query.subcategory?.toString() ?? null
         ) || null
@@ -756,9 +756,7 @@
       ).length
   )
   const showTypeFilter = computed(() => true)
-  const supportsCategoryFilters = computed(() =>
-    supportsItemSearchCategoryFilters(typeFilter.value)
-  )
+  const supportsCategoryFilters = computed(() => !!typeFilter.value)
   const isCategoryFilterEnabled = computed(
     () =>
       showTypeFilter.value &&
@@ -780,7 +778,7 @@
   const shouldFetchFacets = computed(
     () =>
       Boolean(typeFilter.value) &&
-      (supportsCategoryFilters.value || isAdvancedFiltersEnabled.value)
+      (!!typeFilter.value || isAdvancedFiltersEnabled.value)
   )
   const hasFilters = computed(
     () =>

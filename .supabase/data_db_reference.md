@@ -4,10 +4,8 @@ Condensed schema reference for LLM/agent context.
 
 ## Functions
 
-- `public.list_items_sorted_page(...) -> table(id, quality, obtain_type)`
 - `public.list_items(p_page integer default 1, p_page_size integer default 18, p_quality integer default null, p_type text default null, p_style_key varchar(16) default null, p_label_id integer default null, p_obtain_min integer default null, p_obtain_max integer default null, p_obtain_ids integer[] default null, p_category text default null, p_subcategory text default null, p_metadata jsonb default null) -> table(id, quality, type, props, style_key, tags, obtain_type, total_count)`
-- `public.list_outfits_sorted_page(...) -> table(id, quality, obtain_type)`
-- `public.search_items(p_query text, p_limit integer default 24, p_type text default null, p_category text default null, p_subcategory text default null) -> table(item_id, item_type, category, subcategory, score, metadata)`
+- `public.list_outfits(p_page integer default 1, p_page_size integer default 18, p_quality integer default null, p_style_key varchar(16) default null, p_label_id integer default null, p_obtain_min integer default null, p_obtain_max integer default null, p_obtain_ids integer[] default null) -> table(id, quality, props, style_key, tags, obtain_type, total_count)`
 
 ## Tables
 
@@ -27,9 +25,7 @@ Condensed schema reference for LLM/agent context.
 - `item_type varchar(50)`
 - `category text`
 - `subcategory text`
-- `search_text text`
-- `metadata jsonb`
-- `search_tsv tsvector` (generated from `search_text`)
+- `metadata jsonb` (canonical item search metadata used by item details, facets, and result payloads)
 
 ### `public.item_translations`
 
@@ -66,8 +62,6 @@ Condensed schema reference for LLM/agent context.
 - `idx_items_tags_gin` on `items(tags)` (GIN)
 - `idx_items_type` on `items(type)`
 - `idx_item_attributes_metadata` on `item_attributes(metadata)` (GIN)
-- `idx_item_attributes_search_text_trgm` on `item_attributes(search_text)` (GIN trigram)
-- `idx_item_attributes_search_tsv` on `item_attributes(search_tsv)` (GIN)
 - `idx_item_attributes_type_category` on `item_attributes(item_type, category)`
 - `idx_item_attributes_type_category_subcategory` on `item_attributes(item_type, category, subcategory)`
 - `idx_outfit_items_item_id` on `outfit_items(item_id)`

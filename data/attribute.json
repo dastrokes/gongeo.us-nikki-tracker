@@ -76,6 +76,11 @@
   },
   {
     "field": "category",
+    "itemType": "armDecorations",
+    "value": "sleeve_garter"
+  },
+  {
+    "field": "category",
     "itemType": "backpieces",
     "value": "back_bow"
   },
@@ -88,6 +93,26 @@
     "field": "category",
     "itemType": "backpieces",
     "value": "backpiece"
+  },
+  {
+    "field": "category",
+    "itemType": "backpieces",
+    "value": "bag"
+  },
+  {
+    "field": "category",
+    "itemType": "backpieces",
+    "value": "cape"
+  },
+  {
+    "field": "category",
+    "itemType": "backpieces",
+    "value": "drape"
+  },
+  {
+    "field": "category",
+    "itemType": "backpieces",
+    "value": "shawl"
   },
   {
     "field": "category",
@@ -297,11 +322,6 @@
   {
     "field": "category",
     "itemType": "handhelds",
-    "value": "bag"
-  },
-  {
-    "field": "category",
-    "itemType": "handhelds",
     "value": "basket"
   },
   {
@@ -318,6 +338,16 @@
     "field": "category",
     "itemType": "handhelds",
     "value": "fan"
+  },
+  {
+    "field": "category",
+    "itemType": "handhelds",
+    "value": "hair_ornament"
+  },
+  {
+    "field": "category",
+    "itemType": "handhelds",
+    "value": "handbag"
   },
   {
     "field": "category",
@@ -352,7 +382,17 @@
   {
     "field": "category",
     "itemType": "handhelds",
+    "value": "tool"
+  },
+  {
+    "field": "category",
+    "itemType": "handhelds",
     "value": "wand"
+  },
+  {
+    "field": "category",
+    "itemType": "handhelds",
+    "value": "weapon"
   },
   {
     "field": "category",
@@ -707,6 +747,11 @@
   {
     "field": "haircut",
     "itemType": null,
+    "value": "lob"
+  },
+  {
+    "field": "haircut",
+    "itemType": null,
     "value": "pixie_cut"
   },
   {
@@ -757,17 +802,7 @@
   {
     "field": "material",
     "itemType": null,
-    "value": "bead_detail"
-  },
-  {
-    "field": "material",
-    "itemType": null,
-    "value": "blue_gem"
-  },
-  {
-    "field": "material",
-    "itemType": null,
-    "value": "cable_knit"
+    "value": "bamboo"
   },
   {
     "field": "material",
@@ -777,12 +812,12 @@
   {
     "field": "material",
     "itemType": null,
-    "value": "chiffon"
+    "value": "ceramic"
   },
   {
     "field": "material",
     "itemType": null,
-    "value": "cord"
+    "value": "chiffon"
   },
   {
     "field": "material",
@@ -798,11 +833,6 @@
     "field": "material",
     "itemType": null,
     "value": "denim"
-  },
-  {
-    "field": "material",
-    "itemType": null,
-    "value": "embroidery"
   },
   {
     "field": "material",
@@ -837,17 +867,7 @@
   {
     "field": "material",
     "itemType": null,
-    "value": "gold"
-  },
-  {
-    "field": "material",
-    "itemType": null,
-    "value": "ink"
-  },
-  {
-    "field": "material",
-    "itemType": null,
-    "value": "iridescent"
+    "value": "jade"
   },
   {
     "field": "material",
@@ -877,12 +897,12 @@
   {
     "field": "material",
     "itemType": null,
-    "value": "pearl_detail"
+    "value": "plastic"
   },
   {
     "field": "material",
     "itemType": null,
-    "value": "plastic"
+    "value": "resin"
   },
   {
     "field": "material",
@@ -917,11 +937,6 @@
   {
     "field": "material",
     "itemType": null,
-    "value": "silk"
-  },
-  {
-    "field": "material",
-    "itemType": null,
     "value": "straw"
   },
   {
@@ -952,17 +967,12 @@
   {
     "field": "material",
     "itemType": null,
+    "value": "wood"
+  },
+  {
+    "field": "material",
+    "itemType": null,
     "value": "wool"
-  },
-  {
-    "field": "material",
-    "itemType": null,
-    "value": "woven"
-  },
-  {
-    "field": "material",
-    "itemType": null,
-    "value": "yellow_gem"
   },
   {
     "field": "neckline",
@@ -1072,27 +1082,12 @@
   {
     "field": "ornament",
     "itemType": null,
-    "value": "applied_detail"
-  },
-  {
-    "field": "ornament",
-    "itemType": null,
     "value": "applique"
   },
   {
     "field": "ornament",
     "itemType": null,
     "value": "bead_detail"
-  },
-  {
-    "field": "ornament",
-    "itemType": null,
-    "value": "bee"
-  },
-  {
-    "field": "ornament",
-    "itemType": null,
-    "value": "bee_applique"
   },
   {
     "field": "ornament",
@@ -1107,27 +1102,7 @@
   {
     "field": "ornament",
     "itemType": null,
-    "value": "bird"
-  },
-  {
-    "field": "ornament",
-    "itemType": null,
-    "value": "blue_detail"
-  },
-  {
-    "field": "ornament",
-    "itemType": null,
-    "value": "blue_gem"
-  },
-  {
-    "field": "ornament",
-    "itemType": null,
     "value": "bow"
-  },
-  {
-    "field": "ornament",
-    "itemType": null,
-    "value": "braid"
   },
   {
     "field": "ornament",
@@ -1147,17 +1122,7 @@
   {
     "field": "ornament",
     "itemType": null,
-    "value": "cat_ear_shape"
-  },
-  {
-    "field": "ornament",
-    "itemType": null,
     "value": "cat_ears"
-  },
-  {
-    "field": "ornament",
-    "itemType": null,
-    "value": "cat_face"
   },
   {
     "field": "ornament",
@@ -1177,7 +1142,7 @@
   {
     "field": "ornament",
     "itemType": null,
-    "value": "coin"
+    "value": "clip"
   },
   {
     "field": "ornament",
@@ -1187,12 +1152,7 @@
   {
     "field": "ornament",
     "itemType": null,
-    "value": "dolphin"
-  },
-  {
-    "field": "ornament",
-    "itemType": null,
-    "value": "donut"
+    "value": "compass"
   },
   {
     "field": "ornament",
@@ -1202,17 +1162,27 @@
   {
     "field": "ornament",
     "itemType": null,
+    "value": "engraving"
+  },
+  {
+    "field": "ornament",
+    "itemType": null,
     "value": "feather"
   },
   {
     "field": "ornament",
     "itemType": null,
-    "value": "fish"
+    "value": "fire"
   },
   {
     "field": "ornament",
     "itemType": null,
-    "value": "flame"
+    "value": "fish_charm"
+  },
+  {
+    "field": "ornament",
+    "itemType": null,
+    "value": "fish_emblem"
   },
   {
     "field": "ornament",
@@ -1237,6 +1207,11 @@
   {
     "field": "ornament",
     "itemType": null,
+    "value": "flower_detail"
+  },
+  {
+    "field": "ornament",
+    "itemType": null,
     "value": "frill"
   },
   {
@@ -1247,17 +1222,7 @@
   {
     "field": "ornament",
     "itemType": null,
-    "value": "frog"
-  },
-  {
-    "field": "ornament",
-    "itemType": null,
     "value": "fur"
-  },
-  {
-    "field": "ornament",
-    "itemType": null,
-    "value": "fuzzy_ball"
   },
   {
     "field": "ornament",
@@ -1282,21 +1247,6 @@
   {
     "field": "ornament",
     "itemType": null,
-    "value": "gold_detail"
-  },
-  {
-    "field": "ornament",
-    "itemType": null,
-    "value": "green_gem"
-  },
-  {
-    "field": "ornament",
-    "itemType": null,
-    "value": "hat"
-  },
-  {
-    "field": "ornament",
-    "itemType": null,
     "value": "heart"
   },
   {
@@ -1312,7 +1262,7 @@
   {
     "field": "ornament",
     "itemType": null,
-    "value": "hoop"
+    "value": "knot"
   },
   {
     "field": "ornament",
@@ -1323,16 +1273,6 @@
     "field": "ornament",
     "itemType": null,
     "value": "lace_up"
-  },
-  {
-    "field": "ornament",
-    "itemType": null,
-    "value": "leaf"
-  },
-  {
-    "field": "ornament",
-    "itemType": null,
-    "value": "leaf_detail"
   },
   {
     "field": "ornament",
@@ -1352,22 +1292,12 @@
   {
     "field": "ornament",
     "itemType": null,
-    "value": "lollipop"
-  },
-  {
-    "field": "ornament",
-    "itemType": null,
     "value": "medallion"
   },
   {
     "field": "ornament",
     "itemType": null,
     "value": "metal_filigree"
-  },
-  {
-    "field": "ornament",
-    "itemType": null,
-    "value": "metal_handle"
   },
   {
     "field": "ornament",
@@ -1387,12 +1317,7 @@
   {
     "field": "ornament",
     "itemType": null,
-    "value": "pacifier"
-  },
-  {
-    "field": "ornament",
-    "itemType": null,
-    "value": "paw_print"
+    "value": "origami_crane"
   },
   {
     "field": "ornament",
@@ -1407,17 +1332,7 @@
   {
     "field": "ornament",
     "itemType": null,
-    "value": "plug"
-  },
-  {
-    "field": "ornament",
-    "itemType": null,
     "value": "pom_pom"
-  },
-  {
-    "field": "ornament",
-    "itemType": null,
-    "value": "pompom"
   },
   {
     "field": "ornament",
@@ -1427,22 +1342,7 @@
   {
     "field": "ornament",
     "itemType": null,
-    "value": "red_gem"
-  },
-  {
-    "field": "ornament",
-    "itemType": null,
-    "value": "red_stripes"
-  },
-  {
-    "field": "ornament",
-    "itemType": null,
     "value": "ribbon"
-  },
-  {
-    "field": "ornament",
-    "itemType": null,
-    "value": "ribbon_detail"
   },
   {
     "field": "ornament",
@@ -1457,11 +1357,6 @@
   {
     "field": "ornament",
     "itemType": null,
-    "value": "ruby"
-  },
-  {
-    "field": "ornament",
-    "itemType": null,
     "value": "ruffle"
   },
   {
@@ -1472,12 +1367,7 @@
   {
     "field": "ornament",
     "itemType": null,
-    "value": "shell_detail"
-  },
-  {
-    "field": "ornament",
-    "itemType": null,
-    "value": "spider"
+    "value": "shell"
   },
   {
     "field": "ornament",
@@ -1507,21 +1397,6 @@
   {
     "field": "ornament",
     "itemType": null,
-    "value": "sunflower_applique"
-  },
-  {
-    "field": "ornament",
-    "itemType": null,
-    "value": "swan"
-  },
-  {
-    "field": "ornament",
-    "itemType": null,
-    "value": "sword"
-  },
-  {
-    "field": "ornament",
-    "itemType": null,
     "value": "tassel"
   },
   {
@@ -1538,16 +1413,6 @@
     "field": "ornament",
     "itemType": null,
     "value": "wing_detail"
-  },
-  {
-    "field": "ornament",
-    "itemType": null,
-    "value": "wings"
-  },
-  {
-    "field": "ornament",
-    "itemType": null,
-    "value": "wooden_handle"
   },
   {
     "field": "pant_shape",
@@ -1587,17 +1452,7 @@
   {
     "field": "pattern",
     "itemType": null,
-    "value": "bird"
-  },
-  {
-    "field": "pattern",
-    "itemType": null,
     "value": "bubble"
-  },
-  {
-    "field": "pattern",
-    "itemType": null,
-    "value": "butterfly"
   },
   {
     "field": "pattern",
@@ -1647,11 +1502,6 @@
   {
     "field": "pattern",
     "itemType": null,
-    "value": "dragon"
-  },
-  {
-    "field": "pattern",
-    "itemType": null,
     "value": "fish"
   },
   {
@@ -1668,11 +1518,6 @@
     "field": "pattern",
     "itemType": null,
     "value": "floral"
-  },
-  {
-    "field": "pattern",
-    "itemType": null,
-    "value": "flower"
   },
   {
     "field": "pattern",
@@ -1737,11 +1582,6 @@
   {
     "field": "pattern",
     "itemType": null,
-    "value": "monogram"
-  },
-  {
-    "field": "pattern",
-    "itemType": null,
     "value": "moon"
   },
   {
@@ -1757,12 +1597,12 @@
   {
     "field": "pattern",
     "itemType": null,
-    "value": "ornament"
+    "value": "paisley"
   },
   {
     "field": "pattern",
     "itemType": null,
-    "value": "paisley"
+    "value": "paw_print"
   },
   {
     "field": "pattern",
@@ -1778,16 +1618,6 @@
     "field": "pattern",
     "itemType": null,
     "value": "puzzle_piece"
-  },
-  {
-    "field": "pattern",
-    "itemType": null,
-    "value": "rainbow"
-  },
-  {
-    "field": "pattern",
-    "itemType": null,
-    "value": "s"
   },
   {
     "field": "pattern",
@@ -2037,11 +1867,6 @@
   {
     "field": "structure",
     "itemType": null,
-    "value": "boxy"
-  },
-  {
-    "field": "structure",
-    "itemType": null,
     "value": "braided"
   },
   {
@@ -2097,11 +1922,6 @@
   {
     "field": "structure",
     "itemType": null,
-    "value": "embroidered"
-  },
-  {
-    "field": "structure",
-    "itemType": null,
     "value": "faceted"
   },
   {
@@ -2127,27 +1947,22 @@
   {
     "field": "structure",
     "itemType": null,
-    "value": "geometric"
-  },
-  {
-    "field": "structure",
-    "itemType": null,
     "value": "grid"
   },
   {
     "field": "structure",
     "itemType": null,
-    "value": "heart"
+    "value": "half_rim"
+  },
+  {
+    "field": "structure",
+    "itemType": null,
+    "value": "hoop"
   },
   {
     "field": "structure",
     "itemType": null,
     "value": "knotted"
-  },
-  {
-    "field": "structure",
-    "itemType": null,
-    "value": "lace"
   },
   {
     "field": "structure",
@@ -2173,11 +1988,6 @@
     "field": "structure",
     "itemType": null,
     "value": "pleated"
-  },
-  {
-    "field": "structure",
-    "itemType": null,
-    "value": "puffed"
   },
   {
     "field": "structure",
@@ -2212,17 +2022,7 @@
   {
     "field": "structure",
     "itemType": null,
-    "value": "star"
-  },
-  {
-    "field": "structure",
-    "itemType": null,
     "value": "stitched"
-  },
-  {
-    "field": "structure",
-    "itemType": null,
-    "value": "tote"
   },
   {
     "field": "structure",
@@ -2238,6 +2038,66 @@
     "field": "subcategory",
     "itemType": "armDecorations",
     "value": "arm_cuff"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "backpieces",
+    "value": "basket"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "backpieces",
+    "value": "cape"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "backpieces",
+    "value": "capelet"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "backpieces",
+    "value": "collar"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "backpieces",
+    "value": "frame"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "backpieces",
+    "value": "plush"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "backpieces",
+    "value": "plushie"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "backpieces",
+    "value": "satchel"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "backpieces",
+    "value": "schoolbag"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "backpieces",
+    "value": "stole"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "backpieces",
+    "value": "train"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "backpieces",
+    "value": "wind_up_key"
   },
   {
     "field": "subcategory",
@@ -2313,11 +2173,6 @@
     "field": "subcategory",
     "itemType": "bracelets",
     "value": "charm_bracelet"
-  },
-  {
-    "field": "subcategory",
-    "itemType": "bracelets",
-    "value": "cuff"
   },
   {
     "field": "subcategory",
@@ -2447,22 +2302,12 @@
   {
     "field": "subcategory",
     "itemType": "earrings",
-    "value": "chain_detail"
-  },
-  {
-    "field": "subcategory",
-    "itemType": "earrings",
     "value": "chandelier_earrings"
   },
   {
     "field": "subcategory",
     "itemType": "earrings",
     "value": "drop_earrings"
-  },
-  {
-    "field": "subcategory",
-    "itemType": "earrings",
-    "value": "ear_cuff"
   },
   {
     "field": "subcategory",
@@ -2558,6 +2403,11 @@
     "field": "subcategory",
     "itemType": "hair",
     "value": "crown_braid"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "hair",
+    "value": "drill_twin_tails"
   },
   {
     "field": "subcategory",
@@ -2677,12 +2527,102 @@
   {
     "field": "subcategory",
     "itemType": "handhelds",
-    "value": "handbag"
+    "value": "axe"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "handhelds",
+    "value": "back_scratcher"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "handhelds",
+    "value": "bat"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "handhelds",
+    "value": "bow"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "handhelds",
+    "value": "brush"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "handhelds",
+    "value": "candelabra"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "handhelds",
+    "value": "clipboard"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "handhelds",
+    "value": "crossbow"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "handhelds",
+    "value": "fishing_rod"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "handhelds",
+    "value": "hammer"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "handhelds",
+    "value": "hoe"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "handhelds",
+    "value": "musket"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "handhelds",
+    "value": "net"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "handhelds",
+    "value": "purse"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "handhelds",
+    "value": "rattle_drum"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "handhelds",
+    "value": "scissors"
   },
   {
     "field": "subcategory",
     "itemType": "handhelds",
     "value": "spellbook"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "handhelds",
+    "value": "suitcase"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "handhelds",
+    "value": "sword"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "handhelds",
+    "value": "watering_can"
   },
   {
     "field": "subcategory",
@@ -2882,11 +2822,6 @@
   {
     "field": "subcategory",
     "itemType": "pendants",
-    "value": "belt_bag"
-  },
-  {
-    "field": "subcategory",
-    "itemType": "pendants",
     "value": "crossbody_bag"
   },
   {
@@ -2898,21 +2833,6 @@
     "field": "subcategory",
     "itemType": "pendants",
     "value": "leg_garter"
-  },
-  {
-    "field": "subcategory",
-    "itemType": "pendants",
-    "value": "mini_bag"
-  },
-  {
-    "field": "subcategory",
-    "itemType": "pendants",
-    "value": "pouch"
-  },
-  {
-    "field": "subcategory",
-    "itemType": "pendants",
-    "value": "satchel"
   },
   {
     "field": "subcategory",

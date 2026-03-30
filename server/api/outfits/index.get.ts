@@ -1,18 +1,13 @@
 import { useSupabaseDataClient } from '~/composables/useSupabaseClient'
 
-type OutfitSortRow = {
-  id: number
-  quality: number
-  obtain_type?: number | null
-}
-
 type OutfitRow = {
-  id: number
-  quality: number
+  id: number | null
+  quality: number | null
   props: Array<number | string> | null
   style_key?: string | null
   tags: Array<number | string> | null
   obtain_type?: number | null
+  total_count?: number | string | null
 }
 
 type RpcCapableClient = {
@@ -22,8 +17,6 @@ type RpcCapableClient = {
   ) => PromiseLike<{ data: unknown; error: unknown }>
 }
 
-const BASE_OUTFIT_ID_MIN = 10000
-const BASE_OUTFIT_ID_MAX = 99999
 const DEFAULT_PAGE_SIZE = 18
 const TIERLIST_PAGE_SIZE = 200
 const ALLOWED_PAGE_SIZES = new Set([DEFAULT_PAGE_SIZE, TIERLIST_PAGE_SIZE])
@@ -33,6 +26,12 @@ const parsePageSize = (value: unknown): number => {
   if (!Number.isFinite(parsed)) return DEFAULT_PAGE_SIZE
   const normalized = Math.floor(parsed)
   return ALLOWED_PAGE_SIZES.has(normalized) ? normalized : DEFAULT_PAGE_SIZE
+}
+
+const normalizeTotalCount = (value: unknown): number => {
+  const parsed = Number(value)
+  if (!Number.isFinite(parsed) || parsed <= 0) return 0
+  return Math.floor(parsed)
 }
 
 /**
@@ -61,7 +60,6 @@ export default defineCachedApiEventHandler(
         : Number(query.page ?? 1)
     const pageSize = parsePageSize(query.pageSize ?? query.page_size)
     const useCompactPayload = pageSize === TIERLIST_PAGE_SIZE
-    const from = (page - 1) * pageSize
     const normalizedStyle = styleParam ? normalizeTraitKey(styleParam) : null
     const normalizedLabel = labelParam ? normalizeTraitKey(labelParam) : null
     const styleFilter = normalizedStyle
@@ -100,81 +98,6 @@ export default defineCachedApiEventHandler(
     const rpcClient = supabase as unknown as RpcCapableClient
 
     try {
-      const applyOutfitFilters = <
-        T extends {
-          gte: (column: string, value: number) => T
-          lte: (column: string, value: number) => T
-          eq: (column: string, value: number | string) => T
-          in: (column: string, values: number[]) => T
-          contains: (column: string, values: Array<number | string>) => T
-        },
-      >(
-        queryBuilder: T
-      ): T => {
-        let filteredQuery = queryBuilder
-
-        if (obtainTypeRange) {
-          filteredQuery = filteredQuery
-            .gte('obtain_type', obtainTypeRange.min)
-            .lte('obtain_type', obtainTypeRange.max)
-        }
-
-        if (quality !== null && quality !== undefined) {
-          filteredQuery = filteredQuery.eq('quality', quality)
-        }
-
-        if (obtainIds) {
-          filteredQuery = filteredQuery.in('obtain_type', obtainIds)
-        }
-
-        if (styleFilter) {
-          filteredQuery = filteredQuery.eq('style_key', styleFilter.key)
-        }
-
-        if (labelFilter) {
-          filteredQuery = filteredQuery.contains('tags', [labelFilter.id])
-        }
-
-        return filteredQuery
-      }
-
-      const countQuery = applyOutfitFilters(
-        supabase
-          .from('outfits')
-          .select('id', { head: true, count: 'exact' })
-          .gte('id', BASE_OUTFIT_ID_MIN)
-          .lte('id', BASE_OUTFIT_ID_MAX)
-      )
-
-      const { count, error: countError } = await withSupabaseRetry(
-        () => countQuery
-      )
-
-      if (countError) {
-        throw countError
-      }
-
-      const total = Math.max(0, count ?? 0)
-      const totalPages = total ? Math.ceil(total / pageSize) : 0
-
-      if (useCompactPayload && total > TIERLIST_PAGE_SIZE) {
-        return {
-          data: [],
-          total,
-          page,
-          totalPages,
-        }
-      }
-
-      if (from >= total) {
-        return {
-          data: [],
-          total,
-          page,
-          totalPages,
-        }
-      }
-
       const rpcParams: Record<string, unknown> = {
         p_page: page,
         p_page_size: pageSize,
@@ -186,14 +109,25 @@ export default defineCachedApiEventHandler(
         p_obtain_ids: obtainIds ?? null,
       }
       const { data: rpcData, error: rpcError } = await withSupabaseRetry(() =>
-        rpcClient.rpc('list_outfits_sorted_page', rpcParams)
+        rpcClient.rpc('list_outfits', rpcParams)
       )
 
       if (rpcError) {
         throw rpcError
       }
 
-      const pageRows = (rpcData as OutfitSortRow[] | null) ?? []
+      const pageRows = (rpcData as OutfitRow[] | null) ?? []
+      const total = normalizeTotalCount(pageRows[0]?.total_count)
+      const totalPages = total ? Math.ceil(total / pageSize) : 0
+
+      if (useCompactPayload && total > TIERLIST_PAGE_SIZE) {
+        return {
+          data: [],
+          total,
+          page,
+          totalPages,
+        }
+      }
 
       if (pageRows.length === 0) {
         return {
@@ -205,8 +139,13 @@ export default defineCachedApiEventHandler(
       }
 
       if (useCompactPayload) {
+        const compactRows = pageRows.filter(
+          (row): row is OutfitRow & { id: number; quality: number } =>
+            row.id !== null && row.quality !== null
+        )
+
         return {
-          data: pageRows.map((row) => ({
+          data: compactRows.map((row) => ({
             id: row.id,
             quality: row.quality,
           })),
@@ -216,29 +155,13 @@ export default defineCachedApiEventHandler(
         }
       }
 
-      const pageIds = pageRows.map((row) => row.id)
-      const { data: detailData, error: detailError } = await withSupabaseRetry(
-        () =>
-          supabase
-            .from('outfits')
-            .select('id, quality, props, style_key, tags, obtain_type')
-            .in('id', pageIds)
+      const resolvedRows = pageRows.filter(
+        (row): row is OutfitRow & { id: number; quality: number } =>
+          row.id !== null && row.quality !== null
       )
-
-      if (detailError) {
-        throw detailError
-      }
-
-      const detailRows = (detailData as OutfitRow[] | null) ?? []
-      const detailById = new Map<number, OutfitRow>(
-        detailRows.map((row) => [row.id, row])
-      )
-      const orderedRows = pageIds
-        .map((id) => detailById.get(id))
-        .filter((row): row is OutfitRow => Boolean(row))
 
       return {
-        data: orderedRows.map((row) => ({
+        data: resolvedRows.map((row) => ({
           id: row.id,
           quality: row.quality,
           style:

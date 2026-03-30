@@ -38,7 +38,6 @@ export interface SupabaseItemAttributes {
   item_type: string
   category?: string | null
   subcategory?: string | null
-  search_text: string
   metadata?: ItemSearchMetadata | null
 }
 

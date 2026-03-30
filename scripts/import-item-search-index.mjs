@@ -15,13 +15,6 @@ const defaultDocumentsPath = path.resolve(
   'item-search-documents.jsonl'
 )
 
-const TOKEN_LABEL_OVERRIDES = {
-  a_line: 'A-line',
-  t_shirt: 'T-Shirt',
-  t_strap_heels: 'T-strap Heels',
-  v_neck: 'V-neck',
-}
-
 const ARRAY_FIELDS = ['pattern', 'material', 'structure', 'ornament']
 const SCALAR_FIELDS = [
   'category',
@@ -48,6 +41,9 @@ const SCALAR_FIELDS = [
   'shaft_height',
   'sock_height',
 ]
+const isMain = process.argv[1]
+  ? path.resolve(process.argv[1]) === __filename
+  : false
 
 const loadEnvFile = (filePath) => {
   if (!fs.existsSync(filePath)) return
@@ -117,20 +113,6 @@ const normalizeTokenKey = (value) => {
     .replace(/[\s-]+/g, '_')
 }
 
-const humanizeToken = (value) => {
-  const normalized = normalizeTokenKey(value)
-  if (!normalized) return ''
-  if (TOKEN_LABEL_OVERRIDES[normalized]) {
-    return TOKEN_LABEL_OVERRIDES[normalized]
-  }
-
-  return normalized
-    .split('_')
-    .filter(Boolean)
-    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-    .join(' ')
-}
-
 const normalizeStringArray = (value) => {
   if (!Array.isArray(value)) return []
 
@@ -150,48 +132,6 @@ const normalizeNullableString = (value) => {
   return normalized.length > 0 ? normalized : null
 }
 
-const expandSearchTokens = (value) => {
-  const normalized = normalizeNullableString(value)
-  if (!normalized) return []
-
-  const tokens = [normalized]
-  const humanized = humanizeToken(normalized)
-  if (humanized) {
-    tokens.push(humanized)
-  }
-
-  return Array.from(new Set(tokens))
-}
-
-const buildSearchText = (metadata) => {
-  const lines = []
-  const itemType = normalizeItemType(metadata.item_type ?? metadata.slot)
-
-  lines.push(`slot ${humanizeToken(itemType)}`)
-
-  for (const field of SCALAR_FIELDS) {
-    const value = normalizeNullableString(metadata[field])
-    if (!value) continue
-    const expanded = expandSearchTokens(value)
-    if (expanded.length > 0) {
-      lines.push(`${field.replace(/_/g, ' ')} ${expanded.join(' ')}`)
-    }
-  }
-
-  for (const field of ARRAY_FIELDS) {
-    const values = normalizeStringArray(metadata[field])
-    if (values.length === 0) continue
-    const expanded = Array.from(
-      new Set(values.flatMap((value) => expandSearchTokens(value)))
-    )
-    if (expanded.length > 0) {
-      lines.push(`${field.replace(/_/g, ' ')} ${expanded.join(' ')}`)
-    }
-  }
-
-  return lines.join('\n').trim()
-}
-
 const parseJsonLines = (filePath) => {
   const raw = fs.readFileSync(filePath, 'utf8')
 
@@ -202,7 +142,17 @@ const parseJsonLines = (filePath) => {
     .map((line) => JSON.parse(line))
 }
 
-const toUpsertRow = (documentRow) => {
+const chunkArray = (values, chunkSize) => {
+  const chunks = []
+
+  for (let index = 0; index < values.length; index += chunkSize) {
+    chunks.push(values.slice(index, index + chunkSize))
+  }
+
+  return chunks
+}
+
+const normalizeDocumentMetadata = (documentRow) => {
   const metadata = { ...(documentRow.metadata || {}) }
   const itemId = Number(metadata.item_id ?? documentRow.id)
 
@@ -235,74 +185,86 @@ const toUpsertRow = (documentRow) => {
     metadata[field] = normalized
   }
 
+  return metadata
+}
+
+export const buildItemAttributeRow = (documentRow) => {
+  const metadata = normalizeDocumentMetadata(documentRow)
+
   return {
-    item_id: itemId,
-    item_type: itemType,
+    item_id: metadata.item_id,
+    item_type: metadata.item_type,
     category: metadata.category ?? null,
     subcategory: metadata.subcategory ?? null,
-    search_text: buildSearchText(metadata),
     metadata,
   }
 }
 
-loadEnvFile(envPath)
+export const toUpsertRow = buildItemAttributeRow
 
-if (!process.env.SUPABASE_DATA_URL || !process.env.SUPABASE_DATA_SECRET_KEY) {
-  throw new Error(
-    'SUPABASE_DATA_URL and SUPABASE_DATA_SECRET_KEY must be set in the environment or .env'
-  )
-}
+export const main = async (argv = process.argv.slice(2)) => {
+  loadEnvFile(envPath)
 
-const args = parseArgs(process.argv.slice(2))
-const client = createClient(
-  process.env.SUPABASE_DATA_URL,
-  process.env.SUPABASE_DATA_SECRET_KEY,
-  {
-    auth: {
-      autoRefreshToken: false,
-      persistSession: false,
-      detectSessionInUrl: false,
-    },
+  if (!process.env.SUPABASE_DATA_URL || !process.env.SUPABASE_DATA_SECRET_KEY) {
+    throw new Error(
+      'SUPABASE_DATA_URL and SUPABASE_DATA_SECRET_KEY must be set in the environment or .env'
+    )
   }
-)
 
-const documents = parseJsonLines(args.documentsPath)
-const rows = documents.map((row) => toUpsertRow(row))
-const distinctTypes = Array.from(
-  new Set(rows.map((row) => row.item_type))
-).sort()
-
-if (args.replaceTypes && distinctTypes.length > 0) {
-  const { error: deleteError } = await client
-    .from('item_attributes')
-    .delete()
-    .in('item_type', distinctTypes)
-
-  if (deleteError) {
-    throw deleteError
-  }
-}
-
-for (let index = 0; index < rows.length; index += args.batchSize) {
-  const batch = rows.slice(index, index + args.batchSize)
-  const { error } = await client
-    .from('item_attributes')
-    .upsert(batch, { onConflict: 'item_id' })
-
-  if (error) {
-    throw error
-  }
-}
-
-console.log(
-  JSON.stringify(
+  const args = parseArgs(argv)
+  const client = createClient(
+    process.env.SUPABASE_DATA_URL,
+    process.env.SUPABASE_DATA_SECRET_KEY,
     {
-      documents_path: args.documentsPath,
-      imported_count: rows.length,
-      item_types: distinctTypes,
-      replace_types: args.replaceTypes,
-    },
-    null,
-    2
+      auth: {
+        autoRefreshToken: false,
+        persistSession: false,
+        detectSessionInUrl: false,
+      },
+    }
   )
-)
+
+  const documents = parseJsonLines(args.documentsPath)
+  const itemRows = documents.map((row) => buildItemAttributeRow(row))
+  const distinctTypes = Array.from(
+    new Set(itemRows.map((row) => row.item_type))
+  ).sort()
+
+  if (args.replaceTypes && distinctTypes.length > 0) {
+    const { error: deleteError } = await client
+      .from('item_attributes')
+      .delete()
+      .in('item_type', distinctTypes)
+
+    if (deleteError) {
+      throw deleteError
+    }
+  }
+
+  for (const batch of chunkArray(itemRows, args.batchSize)) {
+    const { error } = await client
+      .from('item_attributes')
+      .upsert(batch, { onConflict: 'item_id' })
+
+    if (error) {
+      throw error
+    }
+  }
+
+  console.log(
+    JSON.stringify(
+      {
+        documents_path: args.documentsPath,
+        imported_count: itemRows.length,
+        item_types: distinctTypes,
+        replace_types: args.replaceTypes,
+      },
+      null,
+      2
+    )
+  )
+}
+
+if (isMain) {
+  await main()
+}

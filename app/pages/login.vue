@@ -551,7 +551,7 @@
   watchEffect(() => {
     if (user.value && !loading.value && !isRecoveryMode.value) {
       setTimeout(() => {
-        navigateTo(`${localePath('/')}`)
+        navigateTo(localePath('/'))
       }, 3000)
     }
   })

@@ -130,11 +130,11 @@ export const useSupabaseItems = () => {
         params.type = type
       }
 
-      if (supportsItemSearchCategoryFilters(type) && category) {
+      if (category) {
         params.category = category
       }
 
-      if (supportsItemSearchCategoryFilters(type) && subcategory) {
+      if (subcategory) {
         params.subcategory = subcategory
       }
 
@@ -205,11 +205,11 @@ export const useSupabaseItems = () => {
         params.type = type
       }
 
-      if (supportsItemSearchCategoryFilters(type) && category) {
+      if (category) {
         params.category = category
       }
 
-      if (supportsItemSearchCategoryFilters(type) && subcategory) {
+      if (subcategory) {
         params.subcategory = subcategory
       }
 

@@ -761,7 +761,7 @@
     "advanced_filters": "고급 필터",
     "advanced_filters_title": "고급 필터",
     "clear_advanced_filters": "고급 필터 초기화",
-    "advanced_filters_empty": "이 슬롯에 사용할 수 있는 고급 필터가 없습니다.",
+    "advanced_filters_empty": "이 부위에 사용할 수 있는 고급 필터가 없습니다.",
     "advanced_filter_placeholder": "{field} 선택",
     "uncategorized": "미분류",
     "search_field": {

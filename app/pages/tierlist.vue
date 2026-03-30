@@ -1343,13 +1343,13 @@
   )
   const itemTypeFilter = ref<ItemType | null>(initialItemTypeFilter)
   const itemCategoryFilter = ref<string | null>(
-    supportsItemSearchCategoryFilters(initialItemTypeFilter)
+    initialItemTypeFilter
       ? normalizeItemSearchTokenKey(route.query.category?.toString() ?? null) ||
           null
       : null
   )
   const itemSubcategoryFilter = ref<string | null>(
-    supportsItemSearchCategoryFilters(initialItemTypeFilter)
+    initialItemTypeFilter
       ? normalizeItemSearchTokenKey(
           route.query.subcategory?.toString() ?? null
         ) || null
@@ -1404,9 +1404,7 @@
       ).length
   )
   const supportsItemSearchCategories = computed(
-    () =>
-      mode.value === 'items' &&
-      supportsItemSearchCategoryFilters(itemTypeFilter.value)
+    () => mode.value === 'items' && !!itemTypeFilter.value
   )
   const showAdvancedFiltersButton = computed(
     () => mode.value === 'items' && advancedFilterFields.value.length > 0

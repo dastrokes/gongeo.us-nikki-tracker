@@ -644,9 +644,9 @@
       "message": "Utilizziamo Sentry.io per tracciare e correggere errori tecnici. Sentry può raccogliere dati tecnici limitati (come dettagli sugli errori, informazioni sul browser e indirizzi IP anonimizzati) per aiutarci a mantenere e migliorare il sito. Per ulteriori informazioni, consultare l'informativa sulla privacy di Sentry.io."
     },
     "advertising": {
-      "title": "Advertising",
-      "content": "We use Google AdSense to display advertisements on this platform. AdSense may use cookies and similar technologies to serve ads based on your visit to this and other websites.",
-      "eeaNotice": "For users in the European Economic Area (EEA), United Kingdom, and other applicable regions, a consent form will be presented to manage your preferences regarding personalized and non-personalized ads in accordance with applicable privacy laws."
+      "title": "Pubblicità",
+      "content": "Utilizziamo Google AdSense per visualizzare annunci su questa piattaforma. AdSense può utilizzare cookie e tecnologie simili per offrire annunci basati sulla tua visita a questo e ad altri siti web.",
+      "eeaNotice": "Per gli utenti dello Spazio Economico Europeo (SEE), del Regno Unito e di altre regioni interessate, verrà presentato un modulo di consenso per gestire le proprie preferenze relative agli annunci personalizzati e non personalizzati, in conformità con le leggi sulla privacy applicabili."
     }
   },
   "vote": {
@@ -722,7 +722,7 @@
         "error": "Impossibile inviare mentre le voci non sono state caricate.",
         "over_limit": "Applica più filtri prima di inviare.",
         "scope_unavailable": "La condivisione nella community non è ancora disponibile per questa selezione.",
-        "filtered_items_only": "Community submit is unavailable while advanced filters are active.",
+        "filtered_items_only": "L'invio alla community non è disponibile mentre i filtri avanzati sono attivi.",
         "incomplete": "Classifica tutte le voci caricate prima dell'invio.",
         "no_changes": "Nessuna modifica dall'ultimo invio."
       }

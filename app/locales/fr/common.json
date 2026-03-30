@@ -8,7 +8,7 @@
     "items": "Articles",
     "makeup": "Se maquiller",
     "variations": "Variantes",
-    "type": "Slot",
+    "type": "Emplacement",
     "pull": "Tirer",
     "pulls": "Tire",
     "total": "Total",
@@ -644,9 +644,9 @@
       "message": "Nous utilisons Sentry.io pour suivre et corriger les erreurs techniques. Sentry peut collecter des données techniques limitées (telles que des détails sur les erreurs, des informations sur le navigateur et des adresses IP anonymisées) pour nous aider à maintenir et améliorer le site. Pour plus d'informations, veuillez consulter la politique de confidentialité de Sentry.io."
     },
     "advertising": {
-      "title": "Advertising",
-      "content": "We use Google AdSense to display advertisements on this platform. AdSense may use cookies and similar technologies to serve ads based on your visit to this and other websites.",
-      "eeaNotice": "For users in the European Economic Area (EEA), United Kingdom, and other applicable regions, a consent form will be presented to manage your preferences regarding personalized and non-personalized ads in accordance with applicable privacy laws."
+      "title": "Publicité",
+      "content": "Nous utilisons Google AdSense pour afficher des publicités sur cette plateforme. AdSense peut utiliser des cookies et des technologies similaires pour proposer des publicités basées sur votre visite sur ce site et sur d'autres sites web.",
+      "eeaNotice": "Pour les utilisateurs de l'Espace économique européen (EEE), du Royaume-Uni et d'autres régions concernées, un formulaire de consentement sera présenté pour gérer vos préférences concernant les publicités personnalisées et non personnalisées, conformément aux lois sur la protection de la vie privée en vigueur."
     }
   },
   "vote": {
@@ -722,7 +722,7 @@
         "error": "Impossible de soumettre alors que les entrées n'ont pas pu être chargées.",
         "over_limit": "Appliquez plus de filtres avant de soumettre.",
         "scope_unavailable": "Le partage communautaire n’est pas encore disponible pour cette sélection.",
-        "filtered_items_only": "Community submit is unavailable while advanced filters are active.",
+        "filtered_items_only": "La soumission à la communauté est indisponible lorsque des filtres avancés sont actifs.",
         "incomplete": "Classez toutes les entrées chargées avant de les soumettre.",
         "no_changes": "Aucun changement depuis votre dernière soumission."
       }
@@ -751,7 +751,7 @@
     "not_found_item": "Article introuvable",
     "not_found_outfit": "Tenue introuvable",
     "back_to_list": "Retour à la liste",
-    "filter_type": "Filtrer par Slot",
+    "filter_type": "Filtrer par emplacement",
     "filter_category": "Filtrer par catégorie",
     "filter_subcategory": "Filtrer par sous-catégorie",
     "filter_version": "Filtrer par version",

@@ -1,4 +1,4 @@
-import { getQuery, type H3Event } from 'h3'
+import { getCookie, getQuery, type H3Event } from 'h3'
 
 import {
   defaultLocale,
@@ -26,5 +26,9 @@ export const resolveLocaleCode = (
 export const resolveRequestLocale = (event: H3Event): SupportedLocaleCode => {
   const query = getQuery(event)
   const langQuery = Array.isArray(query.lang) ? query.lang[0] : query.lang
-  return resolveLocaleCode(langQuery)
+  const cookieLocale = getCookie(event, 'i18n_redirected')
+
+  return resolveLocaleCode(
+    langQuery?.toString() ?? cookieLocale?.toString() ?? null
+  )
 }

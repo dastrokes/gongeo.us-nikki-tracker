@@ -389,7 +389,7 @@
     data: SearchHit[]
   }
 
-  const { t } = useI18n()
+  const { t, locale } = useI18n()
   const { translateFilterToken } = useFilterToken()
   const route = useRoute()
   const router = useRouter()
@@ -489,6 +489,7 @@
       const response = await $fetch<SearchApiResponse>('/api/search/items', {
         query: {
           q: query,
+          lang: locale.value,
         },
         headers: gameVersionHeaders,
       })

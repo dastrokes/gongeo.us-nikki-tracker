@@ -761,7 +761,7 @@
     "advanced_filters": "詳細フィルター",
     "advanced_filters_title": "詳細フィルター",
     "clear_advanced_filters": "詳細フィルターをクリア",
-    "advanced_filters_empty": "このスロットで利用可能な詳細フィルターはありません。",
+    "advanced_filters_empty": "この部位で利用可能な詳細フィルターはありません。",
     "advanced_filter_placeholder": "{field}を選択",
     "uncategorized": "未分類",
     "search_field": {

@@ -215,7 +215,7 @@
             clearable
             filterable
             :show-checkmark="false"
-            :placeholder="t('compendium.filter_type')"
+            :placeholder="t('compendium.filter_slot')"
           />
 
           <n-select

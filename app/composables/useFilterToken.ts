@@ -30,9 +30,7 @@ export const useFilterToken = () => {
     if (!normalizedValue) return humanizeItemSearchToken(value)
 
     if (field === 'category' || field === 'subcategory') {
-      const normalizedItemType = normalizeItemSearchTokenKey(
-        normalizeItemSearchItemType(itemType)
-      )
+      const normalizedItemType = normalizeItemSearchItemType(itemType)
       if (normalizedItemType) {
         const key = `filter.${field}.${normalizedItemType}.${normalizedValue}`
         const translated = t(key)

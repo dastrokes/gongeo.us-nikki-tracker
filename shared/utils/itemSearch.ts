@@ -341,6 +341,25 @@ export const getItemSearchAdvancedScalarFields = (
     )
 }
 
+export const getItemSearchSchemaFields = (
+  itemType?: string | null
+): ItemSearchField[] => {
+  const schemaKey = getItemSearchSchemaKey(itemType)
+
+  return ITEM_SEARCH_SECTIONS_BY_SCHEMA[schemaKey].flatMap(
+    (section) => section.fields
+  )
+}
+
+export const isItemSearchArrayField = (
+  field: ItemSearchField
+): field is ItemSearchArrayField =>
+  ITEM_SEARCH_ARRAY_FIELDS.includes(field as ItemSearchArrayField)
+
+export const isItemSearchFieldKey = (field: string): field is ItemSearchField =>
+  ITEM_SEARCH_SCALAR_FIELDS.includes(field as ItemSearchScalarField) ||
+  ITEM_SEARCH_ARRAY_FIELDS.includes(field as ItemSearchArrayField)
+
 export const getItemSearchAdvancedFacetValue = (
   field: ItemSearchAdvancedScalarField,
   value: unknown,

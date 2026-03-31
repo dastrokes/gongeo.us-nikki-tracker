@@ -371,6 +371,7 @@
 <script setup lang="ts">
   import { Search, Box, Ghost } from '@vicons/fa'
   import type { ItemSearchMetadata } from '#shared/types/itemSearch'
+  import { isItemSearchFieldKey } from '#shared/utils/itemSearch'
 
   type SearchHit = {
     id: string
@@ -428,8 +429,76 @@
     hasSearched.value = false
   }
 
+  const buildMetadataDisplayPayload = (metadata: ItemSearchMetadata) => {
+    const payload: Record<string, unknown> = {}
+    const itemType =
+      typeof metadata.item_type === 'string' ? metadata.item_type.trim() : ''
+    const schemaFields = new Set(
+      getItemSearchSchemaFields(itemType || metadata.slot)
+    )
+
+    if (metadata.item_id !== null && metadata.item_id !== undefined) {
+      payload.item_id = metadata.item_id
+    }
+
+    if (itemType) {
+      payload.item_type = itemType
+    }
+
+    schemaFields.forEach((field) => {
+      if (isItemSearchArrayField(field)) {
+        payload[field] = Array.isArray(metadata[field])
+          ? metadata[field]
+              .filter((entry): entry is string => typeof entry === 'string')
+              .map((entry) => entry.trim())
+              .filter(Boolean)
+          : []
+        return
+      }
+
+      payload[field] =
+        typeof metadata[field] === 'string'
+          ? metadata[field].trim() || null
+          : (metadata[field] ?? null)
+    })
+
+    Object.entries(metadata).forEach(([key, value]) => {
+      if (key === 'item_id' || key === 'item_type' || key === 'slot') return
+      if (isItemSearchFieldKey(key) && !schemaFields.has(key)) return
+      if (value === null || value === undefined) return
+
+      if (Array.isArray(value)) {
+        const normalized = value
+          .filter((entry): entry is string => typeof entry === 'string')
+          .map((entry) => entry.trim())
+          .filter(Boolean)
+
+        if (normalized.length > 0) {
+          payload[key] = normalized
+        }
+        return
+      }
+
+      if (typeof value === 'string') {
+        const normalized = value.trim()
+        if (normalized) {
+          payload[key] = normalized
+        }
+        return
+      }
+
+      payload[key] = value
+    })
+
+    return payload
+  }
+
   const formatMetadata = (metadata: ItemSearchMetadata | null) =>
-    JSON.stringify(metadata ?? {}, null, 2)
+    JSON.stringify(
+      metadata ? buildMetadataDisplayPayload(metadata) : {},
+      null,
+      2
+    )
 
   const getItemName = (item: Pick<SearchHit, 'id' | 'itemId'>) => {
     if (item.itemId !== null) {

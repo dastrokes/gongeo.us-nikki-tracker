@@ -52,6 +52,7 @@ export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
     name: 'Deutsch',
     files: [
       'de/common.json',
+      'de/filter.json',
       'de/banner.json',
       'de/outfit.json',
       'de/item.json',
@@ -64,6 +65,7 @@ export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
     name: 'Español',
     files: [
       'es/common.json',
+      'es/filter.json',
       'es/banner.json',
       'es/outfit.json',
       'es/item.json',
@@ -76,6 +78,7 @@ export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
     name: 'Français',
     files: [
       'fr/common.json',
+      'fr/filter.json',
       'fr/banner.json',
       'fr/outfit.json',
       'fr/item.json',
@@ -88,6 +91,7 @@ export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
     name: 'Bahasa Indonesia',
     files: [
       'id/common.json',
+      'id/filter.json',
       'id/banner.json',
       'id/outfit.json',
       'id/item.json',
@@ -100,6 +104,7 @@ export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
     name: 'Italiano',
     files: [
       'it/common.json',
+      'it/filter.json',
       'it/banner.json',
       'it/outfit.json',
       'it/item.json',
@@ -112,6 +117,7 @@ export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
     name: '日本語',
     files: [
       'ja/common.json',
+      'ja/filter.json',
       'ja/banner.json',
       'ja/outfit.json',
       'ja/item.json',
@@ -124,6 +130,7 @@ export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
     name: '한국어',
     files: [
       'ko/common.json',
+      'ko/filter.json',
       'ko/banner.json',
       'ko/outfit.json',
       'ko/item.json',
@@ -136,6 +143,7 @@ export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
     name: 'Português',
     files: [
       'pt/common.json',
+      'pt/filter.json',
       'pt/banner.json',
       'pt/outfit.json',
       'pt/item.json',
@@ -148,6 +156,7 @@ export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
     name: 'ไทย',
     files: [
       'th/common.json',
+      'th/filter.json',
       'th/banner.json',
       'th/outfit.json',
       'th/item.json',

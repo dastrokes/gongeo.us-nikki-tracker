@@ -2,4 +2,6 @@ project_id: 'gongeous'
 files:
   - source: /app/locales/en/common.json
     translation: /app/locales/%two_letters_code%/%original_file_name%
+  - source: /app/locales/en/filter.json
+    translation: /app/locales/%two_letters_code%/%original_file_name%
 pull_request_title: 'Update translations [skip ci]'

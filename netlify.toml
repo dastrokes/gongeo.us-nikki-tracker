@@ -4,7 +4,7 @@ command = "npm run build"
 
   [build.environment]
   NODE_VERSION = "24.14.0"
-  NODE_OPTIONS = "--max-old-space-size=8192"
+  NODE_OPTIONS = "--max-old-space-size=10240"
 
 [images]
 remote_images = [ "https://ik.imagekit.io/.*", "https://res.cloudinary.com/gongeous/.*", "https://cdn.gongeo.us/.*" ]

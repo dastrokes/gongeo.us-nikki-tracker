@@ -3,9 +3,9 @@
     "bangs": {
       "blunt_bangs": "Gerader Pony",
       "curtain_bangs": "Curtain Bangs",
-      "no_bangs": "Kein Pony",
-      "side_swept_bangs": "Seitlicher Pony",
-      "wispy_bangs": "Fransiger Pony"
+      "no_bangs": "Ohne Pony",
+      "side_swept_bangs": "Seitenpony",
+      "wispy_bangs": "Wispy Bangs"
     },
     "bottom_length": {
       "ankle_length": "Knöchellang",
@@ -13,10 +13,10 @@
       "knee_length": "Knielang",
       "maxi": "Maxi",
       "mid_calf": "Wadenlang",
-      "mid_thigh": "Oberschenkellang",
+      "mid_thigh": "Mitte Oberschenkel",
       "midi": "Midi",
       "mini": "Mini",
-      "upper_thigh": "Kurz/Oberschenkel oben"
+      "upper_thigh": "Oberschenkel"
     },
     "dress_silhouette": {
       "a_line": "A-Linie",
@@ -24,16 +24,16 @@
       "fit_and_flare": "Fit and Flare",
       "mermaid": "Meerjungfrau",
       "sheath": "Etui",
-      "shift": "Hängerchen",
+      "shift": "Shift",
       "tiered": "Gestuft",
       "trapeze": "Trapez",
       "trumpet": "Trompete"
     },
     "fit": {
       "bodycon": "Bodycon",
-      "fitted": "Fisfigurbetont",
+      "fitted": "Figurbetont",
       "loose": "Locker",
-      "oversized": "Oversize",
+      "oversized": "Übergroß",
       "regular": "Regulär"
     },
     "hair_length": {
@@ -43,12 +43,12 @@
       "very_long": "Sehr lang"
     },
     "haircut": {
-      "blunt_cut": "Stumpf geschnitten",
+      "blunt_cut": "Blunt Cut",
       "bob": "Bob",
-      "hime_cut": "Hime-Schnitt",
+      "hime_cut": "Hime Cut",
       "layered_cut": "Stufenschnitt",
       "lob": "Lob (Langer Bob)",
-      "pixie_cut": "Pixie-Schnitt",
+      "pixie_cut": "Pixie",
       "shag": "Shag",
       "wolf_cut": "Wolf Cut"
     },
@@ -59,22 +59,22 @@
     },
     "heel_type": {
       "block": "Blockabsatz",
-      "kitten": "Pfennigabsatz/Kitten",
+      "kitten": "Kitten",
       "stiletto": "Stiletto",
       "wedge": "Keilabsatz"
     },
     "material": {
       "bamboo": "Bambus",
-      "canvas": "Canvas/Leinwand",
+      "canvas": "Canvas",
       "ceramic": "Keramik",
       "chiffon": "Chiffon",
       "corduroy": "Cord",
       "crystal": "Kristall",
-      "denim": "Denim/Jeans",
+      "denim": "Denim",
       "fabric": "Stoff",
       "feather": "Feder",
       "felt": "Filz",
-      "fur": "Pelz/Fell",
+      "fur": "Pelz",
       "gemstone": "Edelstein",
       "glass": "Glas",
       "jade": "Jade",

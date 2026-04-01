@@ -247,6 +247,7 @@
                   />
                   <!-- Confidence metric -->
                   <div
+                    v-if="isDev"
                     class="absolute bottom-3 right-3 flex items-center justify-center gap-1.5 backdrop-blur-md bg-white/80 dark:bg-slate-950/80 px-3 py-1.5 rounded-full shadow-lg border border-white/40 dark:border-slate-700/60"
                   >
                     <div

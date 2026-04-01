@@ -191,7 +191,6 @@ export default defineNuxtConfig({
         ...buildLocalizedRules(
           ['/faq', '/about', '/vote', '/ranking', '/timeline'],
           {
-            prerender: true,
             headers: pageStatic,
           }
         ),

@@ -1,9 +1,11 @@
 import type { H3Event } from 'h3'
+import { hash } from 'ohash'
 import type { ItemSearchMetadata } from '#shared/types/itemSearch'
 import {
   normalizeItemSearchItemType,
   normalizeItemSearchMetadata,
 } from '#shared/utils/itemSearch'
+import { resolveRequestLocale } from '../../utils/locale'
 
 type UpstashSearchMetadata = ItemSearchMetadata & {
   [key: string]: unknown
@@ -140,6 +142,8 @@ export default defineCachedApiEventHandler(
       throw createUpstreamUnavailableError('search')
     }
 
+    const locale = resolveRequestLocale(event)
+    const isEnglish = locale === 'en'
     const endpoint = `${restUrl.replace(/\/$/, '')}/query-data`
 
     try {
@@ -155,6 +159,7 @@ export default defineCachedApiEventHandler(
           includeMetadata: true,
           includeData: true,
           includeVectors: false,
+          ...(!isEnglish ? { queryMode: 'DENSE' } : {}),
         }),
       })
 
@@ -201,7 +206,8 @@ export default defineCachedApiEventHandler(
   },
   {
     cache: {
-      maxAge: 3600,
+      maxAge: 60 * 60 * 24,
+      staleMaxAge: 60 * 60 * 24,
       name: 'search-items',
       getKey: (event: H3Event) => {
         const version = getGameVersion()
@@ -209,9 +215,11 @@ export default defineCachedApiEventHandler(
         const q = String(query.q || '')
           .trim()
           .toLowerCase()
+        const qHash = q ? hash(q) : 'empty'
         const limit = normalizeLimit(query.limit)
         const locale = resolveRequestLocale(event)
-        return `${version}:search:locale${locale}:q${q}:l${limit}`
+        const localeBucket = locale === 'en' ? 'en' : 'intl'
+        return `${version}:search:${localeBucket}:q${qHash}:l${limit}`
       },
       swr: true,
     },
@@ -219,6 +227,6 @@ export default defineCachedApiEventHandler(
       varyQuery: true,
       varyHeaders: [GAME_VERSION_HEADER],
     },
-    profile: 'catalog',
+    profile: 'search',
   }
 )

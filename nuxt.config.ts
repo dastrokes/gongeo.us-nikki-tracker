@@ -2,7 +2,6 @@
 import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
 import Components from 'unplugin-vue-components/vite'
 import { defaultLocale, i18nLocales } from './app/locales/locales'
-import { buildSitemap } from './app/locales/sitemap'
 import {
   noStoreHeaders,
   pageStatic,
@@ -82,9 +81,8 @@ export default defineNuxtConfig({
   },
 
   sitemap: {
-    zeroRuntime: true,
     excludeAppSources: true,
-    urls: buildSitemap(),
+    sources: ['/api/__sitemap__/urls'],
   },
 
   robots: {
@@ -190,8 +188,12 @@ export default defineNuxtConfig({
         )
 
       return {
+        ...buildLocalizedRules(['/error'], {
+          prerender: true,
+          headers: pageStatic,
+        }),
         ...buildLocalizedRules(
-          ['/faq', '/about', '/vote', '/ranking', '/timeline', '/error'],
+          ['/faq', '/about', '/vote', '/ranking', '/timeline'],
           {
             prerender: true,
             headers: pageStatic,

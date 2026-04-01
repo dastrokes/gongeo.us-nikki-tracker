@@ -58,10 +58,9 @@ export default defineNuxtConfig({
   },
 
   i18n: {
-    lazy: true,
-    restructureDir: false,
-    langDir: 'locales',
-    vueI18n: 'app/locales/i18n.config',
+    restructureDir: 'app/locales',
+    langDir: './',
+    vueI18n: 'i18n.config',
     baseUrl: siteUrl,
     locales: i18nLocales,
     defaultLocale: defaultLocale,
@@ -70,9 +69,6 @@ export default defineNuxtConfig({
       cookieKey: 'i18n_redirected',
       fallbackLocale: defaultLocale,
       redirectOn: 'root',
-    },
-    bundle: {
-      optimizeTranslationDirective: false,
     },
   },
 

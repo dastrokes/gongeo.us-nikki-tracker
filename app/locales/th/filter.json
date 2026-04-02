@@ -205,11 +205,8 @@
       "camouflage": "ลายพราง",
       "checkered": "ลายตาราง",
       "chevron": "ลายบั้ง",
-      "circle": "ลายวงกลม",
       "cloud": "ลายเมฆ",
-      "crescent_moon": "ลายพระจันทร์เสี้ยว",
       "cross": "ลายกากบาท",
-      "crown": "ลายมงกุฎ",
       "diamond": "ลายเพชร",
       "fish": "ลายปลา",
       "fishnet": "ลายตาข่าย",
@@ -226,7 +223,6 @@
       "landscape": "ลายทิวทัศน์",
       "leaf": "ลายใบไม้",
       "map": "ลายแผนที่",
-      "medallion": "ลายเหรียญกลม",
       "moon": "ลายพระจันทร์",
       "musical_note": "ลายตัวโน้ต",
       "origami_crane": "ลายนกกระเรียนกระดาษ",
@@ -289,8 +285,8 @@
     },
     "sock_height": {
       "ankle": "ระดับข้อเท้า",
-      "knee": "ระดับเข่า",
-      "over_knee": "ระดับเหนือเข่า",
+      "crew": "Crew",
+      "knee_high": "Knee High",
       "thigh_high": "ระดับต้นขา"
     },
     "sole_height": {
@@ -320,7 +316,6 @@
       "half_rim": "ครึ่งกรอบ",
       "hoop": "ห่วง",
       "knotted": "ผูกปม",
-      "laced": "ลูกไม้/ผูกเชือก",
       "layered": "เป็นชั้น",
       "macrame": "มาคราเม่",
       "peplum": "ชายระบายเอว",

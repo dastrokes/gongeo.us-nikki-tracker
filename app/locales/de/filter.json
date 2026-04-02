@@ -101,16 +101,16 @@
       "wool": "Wolle"
     },
     "neckline": {
-      "boat_neck": "U-Boot-Ausschnitt",
+      "boat_neck": "U-Ausschnitt",
       "collared": "Mit Kragen",
-      "crew_neck": "Rundhalsausschnitt",
-      "cross_collar": "Überkreuzter Kragen",
+      "crew_neck": "Rundhals",
+      "cross_collar": "Kreuz-Kragen",
       "duijin_collar": "Duijin-Kragen",
       "halter_neck": "Neckholder",
       "hooded": "Mit Kapuze",
       "keyhole_neck": "Schlüsselloch-Ausschnitt",
-      "mandarin_collar": "Stehkragen/Mandarin",
-      "mock_neck": "Halbhals",
+      "mandarin_collar": "Mandarin-Kragen",
+      "mock_neck": "Mock Neck",
       "peter_pan_collar": "Bubikragen",
       "right_cross_collar": "Rechter Kreuzkragen",
       "sailor_collar": "Matrosenkragen",
@@ -124,8 +124,8 @@
       "animal_ears": "Tierohren",
       "animal_motif": "Tiermotiv",
       "apple": "Apfel",
-      "applique": "Applikation",
-      "bead_detail": "Perlenverzierung",
+      "applique": "Verzierung",
+      "bead_detail": "Perlendetail",
       "bell": "Glocke",
       "bell_detail": "Glockendetail",
       "bow": "Schleife",
@@ -146,10 +146,10 @@
       "fish_charm": "Fischanhänger",
       "fish_emblem": "Fisch-Emblem",
       "floral": "Floral",
-      "floral_motif": "Blumenmotiv",
+      "floral_motif": "Florales Motiv",
       "flower": "Blume",
-      "flower_applique": "Blumenapplikation",
-      "flower_detail": "Blumendetail",
+      "flower_applique": "Blumenverzierung",
+      "flower_detail": "Florales Detail",
       "frill": "Rüsche",
       "fringe": "Fransen",
       "fur": "Fell",
@@ -174,7 +174,7 @@
       "pearl_detail": "Perlendetail",
       "pinwheel": "Windrad",
       "pom_pom": "Pompon",
-      "pouch": "Beutel/Täschchen",
+      "pouch": "Beutel",
       "ribbon": "Band",
       "ring": "Ring",
       "rose": "Rose",
@@ -187,7 +187,7 @@
       "stud_detail": "Nietendetail",
       "sun": "Sonne",
       "tassel": "Quaste",
-      "tie": "Band/Knoten",
+      "tie": "Krawatte",
       "wing": "Flügel",
       "wing_detail": "Flügeldetail"
     },
@@ -200,11 +200,11 @@
     },
     "pattern": {
       "animal_print": "Tierdruck",
-      "argyle": "Rautenmuster/Argyle",
+      "argyle": "Argyle",
       "bubble": "Blase",
       "camouflage": "Camouflage",
       "checkered": "Kariert",
-      "chevron": "Zickzack/Chevron",
+      "chevron": "Chevron",
       "circle": "Kreis",
       "cloud": "Wolke",
       "crescent_moon": "Sichelmond",
@@ -214,7 +214,7 @@
       "fish": "Fisch",
       "fishnet": "Netz",
       "flame": "Flamme",
-      "floral": "Blumig",
+      "floral": "Floral",
       "food_print": "Essendruck",
       "fruit": "Obst",
       "geometric": "Geometrisch",
@@ -232,8 +232,8 @@
       "origami_crane": "Origami-Kranich",
       "paisley": "Paisley",
       "paw_print": "Pfotendruck",
-      "plaid": "Schottenkaro",
-      "polka_dot": "Punktmuster",
+      "plaid": "Kariert",
+      "polka_dot": "Polka Dot",
       "puzzle_piece": "Puzzleteil",
       "snowflake": "Schneeflocke",
       "solid": "Einfarbig",
@@ -307,7 +307,7 @@
       "chain_link": "Kettenglied",
       "circular": "Rund",
       "cracked": "Rissig",
-      "cuffed": "Mit Umschlag",
+      "cuffed": "Umgeschlagen",
       "cutout": "Cutout/Ausgeschnitten",
       "distressed": "Distressed/Zerfetzt",
       "draped": "Drapiert",
@@ -318,7 +318,7 @@
       "gathered": "Gerafft",
       "grid": "Gitter",
       "half_rim": "Halbrand",
-      "hoop": "Reifen/Ring",
+      "hoop": "Reifen",
       "knotted": "Geknotet",
       "laced": "Geschnürt/Spitze",
       "layered": "Gestuft/Lagenlook",
@@ -341,13 +341,13 @@
       "wavy": "Wellig"
     },
     "top_length": {
-      "crop": "Bauchfrei/Crop",
+      "crop": "Bauchfrei",
       "floor_length": "Bodenlang",
       "hip_length": "Hüftlang",
       "maxi": "Maxi",
-      "mid_thigh": "Oberschenkellang",
-      "ultra_crop": "Sehr kurz",
-      "upper_thigh": "Oberschenkel oben",
+      "mid_thigh": "Mittelschenkellang",
+      "ultra_crop": "Ultrakurz",
+      "upper_thigh": "Oberschenkellang",
       "waist_length": "Taillenlang"
     },
     "waist_height": {
@@ -372,7 +372,7 @@
         "backpack": "Rucksack",
         "backpiece": "Rückenschmuck",
         "bag": "Tasche",
-        "cape": "Cape/Umhang",
+        "cape": "Umhang",
         "drape": "Drapierung",
         "shawl": "Schal",
         "tail": "Schwanz",
@@ -386,19 +386,19 @@
         "pants": "Hose",
         "shorts": "Shorts",
         "skirt": "Rock",
-        "skort": "Skort/Hosenrock"
+        "skort": "Hosenrock"
       },
       "bracelets": {
         "bracelet": "Armband",
-        "cuff": "Armspange"
+        "cuff": "Manschette"
       },
       "chestAccessories": {
         "brooch": "Brosche",
         "corsage": "Ansteckblume"
       },
       "chokers": {
-        "choker": "Choker/Halsband",
-        "collar": "Kragen/Halskette",
+        "choker": "Choker",
+        "collar": "Kragen",
         "necklace": "Halskette",
         "scarf": "Schal"
       },
@@ -407,7 +407,7 @@
         "jumpsuit": "Jumpsuit"
       },
       "earrings": {
-        "ear_cuff": "Ear Cuff",
+        "ear_cuff": "Ohrklemmen",
         "earring": "Ohrring"
       },
       "faceDecorations": {
@@ -418,7 +418,7 @@
         "face_marking": "Gesichtsmarkierung",
         "face_prop": "Gesichts-Requisit",
         "face_veil": "Gesichtsschleier",
-        "facial_cover": "Gesichtsabdeckung",
+        "facial_cover": "Gesichtsbedeckung",
         "mask": "Maske"
       },
       "gloves": {
@@ -445,7 +445,7 @@
         "book": "Buch",
         "bouquet": "Blumenstrauß",
         "fan": "Fächer",
-        "hair_ornament": "Haarschmuck (getragen)",
+        "hair_ornament": "Haarschmuck",
         "handbag": "Handtasche",
         "handheld": "Handheld/In der Hand",
         "instrument": "Instrument",
@@ -462,14 +462,14 @@
         "bonnet": "Haube",
         "crown": "Krone",
         "eyewear": "Brillengestell",
-        "hair_ornament": "Kopfschmuck",
+        "hair_ornament": "Haarschmuck",
         "hat": "Hut",
         "headdress": "Kopfputz",
         "headpiece": "Kopfschmuck",
         "veil": "Schleier"
       },
       "neckwear": {
-        "choker": "Choker",
+        "choker": "Halsband",
         "necklace": "Halskette",
         "pendant": "Anhänger",
         "scarf": "Schal"
@@ -497,7 +497,7 @@
         "heels": "Absatzschuhe",
         "loafers": "Loafer",
         "mary_janes": "Mary Janes",
-        "mules": "Mules/Pantoletten",
+        "mules": "Mules",
         "sandals": "Sandalen",
         "slippers": "Hausschuhe",
         "sneakers": "Sneaker"
@@ -524,7 +524,7 @@
     },
     "subcategory": {
       "armDecorations": {
-        "arm_cuff": "Armspange"
+        "arm_cuff": "Armbandmanschette"
       },
       "backpieces": {
         "basket": "Korb",
@@ -552,7 +552,7 @@
         "ma_mian_skirt": "Ma-Mian-Rock",
         "overall_shorts": "Latzshorts",
         "palazzo_pants": "Palazzohose",
-        "ruffle_shorts": "Rüschenshorts",
+        "ruffle_shorts": "Rüschen-Shorts",
         "sarong": "Pareo/Sarong",
         "tailored_shorts": "Elegante Shorts",
         "wrap_skirt": "Wickelrock"
@@ -567,8 +567,8 @@
         "pin": "Anstecknadel/Pin"
       },
       "chokers": {
-        "lace_choker": "Spitzen-Choker",
-        "ribbon_choker": "Band-Choker",
+        "lace_choker": "Spitze",
+        "ribbon_choker": "Band",
         "strand_necklace": "Perlenkette"
       },
       "dresses": {
@@ -688,11 +688,11 @@
       },
       "neckwear": {
         "charm": "Anhänger",
-        "lace_choker": "Spitzen-Choker",
+        "lace_choker": "Spitze",
         "lariat_necklace": "Lariat-Halskette",
-        "locket": "Amulett/Medaillon",
+        "locket": "Amulett",
         "pendant_necklace": "Anhänger-Kette",
-        "ribbon_choker": "Band-Choker",
+        "ribbon_choker": "Band",
         "strand_necklace": "Perlenkette"
       },
       "outerwear": {
@@ -723,11 +723,11 @@
         "thigh_garter": "Oberschenkel-Strumpfband"
       },
       "shoes": {
-        "ankle_strap_heels": "Sandaletten mit Riemchen",
+        "ankle_strap_heels": "Mit Riemchen",
         "ballet_flats": "Ballerinas",
         "combat_boots": "Schnürstiefeletten/Combat",
         "cowboy_boots": "Cowboystiefel",
-        "dorsay_heels": "D’Orsay-Schuhe",
+        "dorsay_heels": "D’Orsay",
         "embroidered_shoes": "Bestickte Schuhe",
         "gladiator_sandals": "Römersandalen",
         "high_top_sneakers": "High-Top Sneaker",
@@ -736,8 +736,8 @@
         "platform_sandals": "Plateaussandalen",
         "pumps": "Pumps",
         "riding_boots": "Reitstiefel",
-        "slingback_heels": "Slingpumps",
-        "t_strap_heels": "T-Steg-Schuhe"
+        "slingback_heels": "Slingbacks",
+        "t_strap_heels": "T-Strap"
       },
       "socks": {
         "fishnet_tights": "Netzstrumpfhose",
@@ -745,7 +745,7 @@
         "lace_stockings": "Spitzenstrümpfe",
         "pantyhose": "Nylonstrumpfhose",
         "printed_tights": "Bedruckte Strumpfhose",
-        "ruffled_socks": "Rüschensocken"
+        "ruffled_socks": "Rüschen-Socken"
       },
       "tops": {
         "bandeau_top": "Bandeau-Top",

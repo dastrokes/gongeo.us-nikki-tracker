@@ -804,8 +804,7 @@
   },
   "search_page": {
     "title": "Pencarian Whim",
-    "subtitle": "Temukan item apa pun menggunakan bahasa alami.",
-    "placeholder": "Coba 'rok lipit' atau 'gaun duyung'...",
+    "placeholder": "Coba '{example}'",
     "error_title": "Kesalahan",
     "error_description": "Gagal menanyakan indeks pencarian.",
     "searching": "Mencari...",

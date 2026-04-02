@@ -804,8 +804,7 @@
   },
   "search_page": {
     "title": "Whim-Suche",
-    "subtitle": "Entdecke jegliche Stücke über natürliche Sprache.",
-    "placeholder": "Versuch 'Faltenrock' oder 'Meerjungfrauenkleid'...",
+    "placeholder": "Versuch '{example}'",
     "error_title": "Fehler",
     "error_description": "Suchindex konnte nicht abgerufen werden.",
     "searching": "Suche...",

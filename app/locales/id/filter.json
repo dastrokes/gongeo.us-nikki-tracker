@@ -205,11 +205,8 @@
       "camouflage": "Kamuflase",
       "checkered": "Kotak-kotak/Papan Catur",
       "chevron": "Chevron",
-      "circle": "Lingkaran",
       "cloud": "Awan",
-      "crescent_moon": "Bulan Sabit",
       "cross": "Salib",
-      "crown": "Mahkota",
       "diamond": "Berlian",
       "fish": "Ikan",
       "fishnet": "Jaring Ikan",
@@ -226,7 +223,6 @@
       "landscape": "Pemandangan",
       "leaf": "Daun",
       "map": "Peta",
-      "medallion": "Medali",
       "moon": "Bulan",
       "musical_note": "Nada Musik",
       "origami_crane": "Bangau Kertas",
@@ -289,8 +285,8 @@
     },
     "sock_height": {
       "ankle": "Semata Kaki",
-      "knee": "Lutut",
-      "over_knee": "Di Atas Lutut",
+      "crew": "Setinggi betis",
+      "knee_high": "Setinggi lutut",
       "thigh_high": "Setinggi Paha"
     },
     "sole_height": {
@@ -320,7 +316,7 @@
       "half_rim": "Setengah Bingkai",
       "hoop": "Lingkaran",
       "knotted": "Disimpul",
-      "laced": "Berenda/Tali",
+
       "layered": "Berlapis",
       "macrame": "Makrame",
       "peplum": "Peplum",

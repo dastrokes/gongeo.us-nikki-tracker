@@ -804,8 +804,7 @@
   },
   "search_page": {
     "title": "奇想搜索",
-    "subtitle": "用自然语言描述来寻找部件。",
-    "placeholder": "试试“百褶裙”或“鱼尾礼服”...",
+    "placeholder": "Try '{example}'",
     "error_title": "错误",
     "error_description": "搜索索引查询失败。",
     "searching": "搜索中...",

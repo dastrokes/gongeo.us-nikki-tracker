@@ -9,6 +9,15 @@ import {
 const supportedLocaleCodeSet = new Set<SupportedLocaleCode>(
   i18nLocales.map((locale) => locale.code)
 )
+const cjkLocaleCodeSet = new Set<SupportedLocaleCode>(['ja', 'ko', 'zh', 'tw'])
+const hybridSearchLocaleCodeSet = new Set<SupportedLocaleCode>([
+  'en',
+  'zh',
+  'tw',
+])
+
+export type UpstashSearchNamespace = 'en' | 'zh'
+export type UpstashSearchMode = 'HYBRID' | 'DENSE'
 
 export const resolveLocaleCode = (
   value?: string | null
@@ -32,3 +41,21 @@ export const resolveRequestLocale = (event: H3Event): SupportedLocaleCode => {
     langQuery?.toString() ?? cookieLocale?.toString() ?? null
   )
 }
+
+export const resolveUpstashSearchNamespace = (
+  locale: SupportedLocaleCode
+): UpstashSearchNamespace => (cjkLocaleCodeSet.has(locale) ? 'zh' : 'en')
+
+export const resolveRequestUpstashSearchNamespace = (
+  event: H3Event
+): UpstashSearchNamespace =>
+  resolveUpstashSearchNamespace(resolveRequestLocale(event))
+
+export const resolveUpstashSearchMode = (
+  locale: SupportedLocaleCode
+): UpstashSearchMode =>
+  hybridSearchLocaleCodeSet.has(locale) ? 'HYBRID' : 'DENSE'
+
+export const resolveRequestUpstashSearchMode = (
+  event: H3Event
+): UpstashSearchMode => resolveUpstashSearchMode(resolveRequestLocale(event))

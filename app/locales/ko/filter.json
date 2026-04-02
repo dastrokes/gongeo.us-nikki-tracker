@@ -378,6 +378,9 @@
         "tail": "꼬리",
         "wings": "날개"
       },
+      "bodyPaint": {
+        "body_paint": "Body Paint"
+      },
       "bottoms": {
         "overalls": "오버롤",
         "pants": "팬츠/바지",
@@ -536,6 +539,9 @@
         "stole": "스톨",
         "train": "트레인",
         "wind_up_key": "태엽"
+      },
+      "bodyPaint": {
+        "tattoo": "Tattoo"
       },
       "bottoms": {
         "bermuda_shorts": "버뮤다 쇼츠",

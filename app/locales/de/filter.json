@@ -205,11 +205,8 @@
       "camouflage": "Camouflage",
       "checkered": "Kariert",
       "chevron": "Chevron",
-      "circle": "Kreis",
       "cloud": "Wolke",
-      "crescent_moon": "Sichelmond",
       "cross": "Kreuz",
-      "crown": "Krone",
       "diamond": "Raute",
       "fish": "Fisch",
       "fishnet": "Netz",
@@ -226,7 +223,6 @@
       "landscape": "Landschaft",
       "leaf": "Blatt",
       "map": "Karte",
-      "medallion": "Medaillon",
       "moon": "Mond",
       "musical_note": "Musiknote",
       "origami_crane": "Origami-Kranich",
@@ -289,8 +285,8 @@
     },
     "sock_height": {
       "ankle": "Knöchellang",
-      "knee": "Kniehoch",
-      "over_knee": "Overknee",
+      "crew": "Crew",
+      "knee_high": "Kniehoch",
       "thigh_high": "Oberschenkelhoch"
     },
     "sole_height": {
@@ -320,7 +316,6 @@
       "half_rim": "Halbrand",
       "hoop": "Reifen",
       "knotted": "Geknotet",
-      "laced": "Geschnürt/Spitze",
       "layered": "Gestuft/Lagenlook",
       "macrame": "Makramee",
       "peplum": "Schößchen",

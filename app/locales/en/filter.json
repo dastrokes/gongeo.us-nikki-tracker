@@ -378,6 +378,9 @@
         "tail": "Tail",
         "wings": "Wings"
       },
+      "bodyPaint": {
+        "body_paint": "Body Paint"
+      },
       "bottoms": {
         "overalls": "Overalls",
         "pants": "Pants",
@@ -536,6 +539,9 @@
         "stole": "Stole",
         "train": "Train",
         "wind_up_key": "Wind Up Key"
+      },
+      "bodyPaint": {
+        "tattoo": "Tattoo"
       },
       "bottoms": {
         "bermuda_shorts": "Bermuda Shorts",

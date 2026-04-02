@@ -205,11 +205,8 @@
       "camouflage": "カモフラージュ",
       "checkered": "市松模様/チェッカー",
       "chevron": "シェブロン",
-      "circle": "サークル",
       "cloud": "雲",
-      "crescent_moon": "三日月",
       "cross": "十字",
-      "crown": "王冠",
       "diamond": "ダイヤ",
       "fish": "魚",
       "fishnet": "フィッシュネット",
@@ -226,7 +223,6 @@
       "landscape": "風景",
       "leaf": "葉",
       "map": "地図",
-      "medallion": "メダリオン",
       "moon": "月",
       "musical_note": "音符",
       "origami_crane": "折り鶴",
@@ -289,8 +285,8 @@
     },
     "sock_height": {
       "ankle": "アンクル",
-      "knee": "ハイソックス",
-      "over_knee": "ニーハイ",
+      "crew": "クルー",
+      "knee_high": "ニーハイ",
       "thigh_high": "タイハイ"
     },
     "sole_height": {
@@ -320,7 +316,7 @@
       "half_rim": "ハーフリム",
       "hoop": "フープ",
       "knotted": "結び目",
-      "laced": "レース",
+
       "layered": "レイヤー",
       "macrame": "マクラメ",
       "peplum": "ペプラム",

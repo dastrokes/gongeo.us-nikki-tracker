@@ -205,11 +205,8 @@
       "camouflage": "迷彩",
       "checkered": "棋盤格",
       "chevron": "V型紋",
-      "circle": "圓形",
       "cloud": "雲",
-      "crescent_moon": "新月",
       "cross": "十字",
-      "crown": "皇冠",
       "diamond": "菱形",
       "fish": "魚",
       "fishnet": "網紋",
@@ -226,7 +223,6 @@
       "landscape": "風景",
       "leaf": "樹葉",
       "map": "地圖",
-      "medallion": "獎章",
       "moon": "月亮",
       "musical_note": "音符",
       "origami_crane": "千紙鶴",
@@ -289,8 +285,8 @@
     },
     "sock_height": {
       "ankle": "短筒/及踝",
-      "knee": "及膝/长筒",
-      "over_knee": "過膝",
+      "crew": "小腿襪",
+      "knee_high": "及膝長筒襪",
       "thigh_high": "大腿/超長筒"
     },
     "sole_height": {
@@ -320,7 +316,6 @@
       "half_rim": "半框",
       "hoop": "圓環",
       "knotted": "打結",
-      "laced": "系带",
       "layered": "分層",
       "macrame": "編結",
       "peplum": "擺裙式",

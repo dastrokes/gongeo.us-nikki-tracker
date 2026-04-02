@@ -1317,11 +1317,6 @@
   {
     "field": "ornament",
     "itemType": null,
-    "value": "null"
-  },
-  {
-    "field": "ornament",
-    "itemType": null,
     "value": "origami_crane"
   },
   {
@@ -1477,27 +1472,12 @@
   {
     "field": "pattern",
     "itemType": null,
-    "value": "circle"
-  },
-  {
-    "field": "pattern",
-    "itemType": null,
     "value": "cloud"
   },
   {
     "field": "pattern",
     "itemType": null,
-    "value": "crescent_moon"
-  },
-  {
-    "field": "pattern",
-    "itemType": null,
     "value": "cross"
-  },
-  {
-    "field": "pattern",
-    "itemType": null,
-    "value": "crown"
   },
   {
     "field": "pattern",
@@ -1578,11 +1558,6 @@
     "field": "pattern",
     "itemType": null,
     "value": "map"
-  },
-  {
-    "field": "pattern",
-    "itemType": null,
-    "value": "medallion"
   },
   {
     "field": "pattern",
@@ -1837,12 +1812,12 @@
   {
     "field": "sock_height",
     "itemType": null,
-    "value": "knee"
+    "value": "crew"
   },
   {
     "field": "sock_height",
     "itemType": null,
-    "value": "over_knee"
+    "value": "knee_high"
   },
   {
     "field": "sock_height",
@@ -1968,11 +1943,6 @@
     "field": "structure",
     "itemType": null,
     "value": "knotted"
-  },
-  {
-    "field": "structure",
-    "itemType": null,
-    "value": "laced"
   },
   {
     "field": "structure",
@@ -2943,11 +2913,6 @@
     "field": "subcategory",
     "itemType": "socks",
     "value": "lace_stockings"
-  },
-  {
-    "field": "subcategory",
-    "itemType": "socks",
-    "value": "null"
   },
   {
     "field": "subcategory",

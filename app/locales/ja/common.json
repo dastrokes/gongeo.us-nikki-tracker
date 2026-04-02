@@ -804,8 +804,7 @@
   },
   "search_page": {
     "title": "奇想検索",
-    "subtitle": "自然な言葉でアイテムを見つけましょう。",
-    "placeholder": "例: 'プリーツスカート' や 'マーメイドドレス'...",
+    "placeholder": "「{example}」を試す",
     "error_title": "エラー",
     "error_description": "検索インデックスのクエリに失敗しました。",
     "searching": "検索中...",

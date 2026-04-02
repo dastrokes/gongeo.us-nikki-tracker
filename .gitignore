@@ -13,6 +13,7 @@ dist/
 .netlify/
 
 # Generated image assets
+public/images/outfits/
 public/images/items/
 
 # Auto-generated types

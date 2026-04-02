@@ -804,8 +804,7 @@
   },
   "search_page": {
     "title": "Pesquisa de caprichos",
-    "subtitle": "Descubra qualquer item usando linguagem natural.",
-    "placeholder": "Tente 'saia plissada' ou 'vestido de sereia'...",
+    "placeholder": "Try '{example}'",
     "error_title": "Erro",
     "error_description": "Falha ao consultar o índice de pesquisa.",
     "searching": "Pesquisando...",

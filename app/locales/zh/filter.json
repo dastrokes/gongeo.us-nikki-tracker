@@ -378,6 +378,9 @@
         "tail": "尾巴",
         "wings": "翅膀"
       },
+      "bodyPaint": {
+        "body_paint": "肤绘"
+      },
       "bottoms": {
         "overalls": "背带裤",
         "pants": "裤子",
@@ -536,6 +539,9 @@
         "stole": "披肩",
         "train": "拖尾",
         "wind_up_key": "发条"
+      },
+      "bodyPaint": {
+        "tattoo": "纹身"
       },
       "bottoms": {
         "bermuda_shorts": "百慕大短裤",

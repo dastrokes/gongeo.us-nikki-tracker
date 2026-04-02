@@ -126,6 +126,11 @@
   },
   {
     "field": "category",
+    "itemType": "bodyPaint",
+    "value": "body_paint"
+  },
+  {
+    "field": "category",
     "itemType": "bottoms",
     "value": "overalls"
   },
@@ -2098,6 +2103,11 @@
     "field": "subcategory",
     "itemType": "backpieces",
     "value": "wind_up_key"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "bodyPaint",
+    "value": "tattoo"
   },
   {
     "field": "subcategory",

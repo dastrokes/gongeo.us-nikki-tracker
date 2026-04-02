@@ -378,6 +378,9 @@
         "tail": "Schwanz",
         "wings": "Flügel"
       },
+      "bodyPaint": {
+        "body_paint": "Körperbemalung"
+      },
       "bottoms": {
         "overalls": "Latzhose",
         "pants": "Hose",
@@ -536,6 +539,9 @@
         "stole": "Stola",
         "train": "Schleppe",
         "wind_up_key": "Aufziehschlüssel"
+      },
+      "bodyPaint": {
+        "tattoo": "Tattoo"
       },
       "bottoms": {
         "bermuda_shorts": "Bermudas",

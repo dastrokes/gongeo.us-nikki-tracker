@@ -378,6 +378,9 @@
         "tail": "หาง",
         "wings": "ปีก"
       },
+      "bodyPaint": {
+        "body_paint": "เพนท์ร่างกาย"
+      },
       "bottoms": {
         "overalls": "เอี๊ยมขายาว",
         "pants": "กางเกงขายาว",
@@ -536,6 +539,9 @@
         "stole": "ผ้าสโตล",
         "train": "ชายกระโปรงยาว",
         "wind_up_key": "ลานไข"
+      },
+      "bodyPaint": {
+        "tattoo": "รอยสัก"
       },
       "bottoms": {
         "bermuda_shorts": "กางเกงขาห้าส่วน",

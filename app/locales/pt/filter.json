@@ -378,6 +378,9 @@
         "tail": "Cauda",
         "wings": "Asas"
       },
+      "bodyPaint": {
+        "body_paint": "Pintura corporal"
+      },
       "bottoms": {
         "overalls": "Macacão",
         "pants": "Calças",
@@ -536,6 +539,9 @@
         "stole": "Estola",
         "train": "Cauda/Veu Traseiro",
         "wind_up_key": "Chave de Corda"
+      },
+      "bodyPaint": {
+        "tattoo": "Tatuagem"
       },
       "bottoms": {
         "bermuda_shorts": "Bermudas",

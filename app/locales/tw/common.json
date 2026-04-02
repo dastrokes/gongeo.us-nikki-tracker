@@ -804,8 +804,7 @@
   },
   "search_page": {
     "title": "奇想搜尋",
-    "subtitle": "用自然語言找到任意部件。",
-    "placeholder": "試試「百褶裙」或「魚尾禮服」...",
+    "placeholder": "試試「{example}」",
     "error_title": "錯誤",
     "error_description": "搜尋索引查詢失敗。",
     "searching": "搜尋中...",

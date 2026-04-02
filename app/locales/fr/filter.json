@@ -378,6 +378,9 @@
         "tail": "Queue",
         "wings": "Ailes"
       },
+      "bodyPaint": {
+        "body_paint": "Body Paint"
+      },
       "bottoms": {
         "overalls": "Salopette",
         "pants": "Pantalon",
@@ -536,6 +539,9 @@
         "stole": "Étole",
         "train": "Traîne",
         "wind_up_key": "Clé à remonter"
+      },
+      "bodyPaint": {
+        "tattoo": "Tattoo"
       },
       "bottoms": {
         "bermuda_shorts": "Bermuda",

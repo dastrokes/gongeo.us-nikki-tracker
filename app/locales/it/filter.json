@@ -205,11 +205,8 @@
       "camouflage": "Mimetico",
       "checkered": "A Scacchi",
       "chevron": "Zig Zag/Chevron",
-      "circle": "Cerchi",
       "cloud": "Nuvole",
-      "crescent_moon": "Mezzaluna",
       "cross": "Croci",
-      "crown": "Corone",
       "diamond": "Diamanti",
       "fish": "Pesci",
       "fishnet": "A Rete",
@@ -226,7 +223,6 @@
       "landscape": "Paesaggio",
       "leaf": "Foglia",
       "map": "Mappa",
-      "medallion": "Medaglione",
       "moon": "Luna",
       "musical_note": "Nota Musicale",
       "origami_crane": "Gru Origami",
@@ -289,8 +285,8 @@
     },
     "sock_height": {
       "ankle": "Allo Stinco",
-      "knee": "Al Ginocchio",
-      "over_knee": "Parigine",
+      "crew": "Crew",
+      "knee_high": "Knee High",
       "thigh_high": "Sopra il Ginocchio"
     },
     "sole_height": {
@@ -320,7 +316,6 @@
       "half_rim": "Sotto-Montatura",
       "hoop": "Cerchio",
       "knotted": "Annodato",
-      "laced": "In Pizzo/Lacci",
       "layered": "A Strati",
       "macrame": "Macramè",
       "peplum": "Peplum",

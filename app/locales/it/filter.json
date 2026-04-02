@@ -378,6 +378,9 @@
         "tail": "Coda",
         "wings": "Ali"
       },
+      "bodyPaint": {
+        "body_paint": "Pittura corporea"
+      },
       "bottoms": {
         "overalls": "Salopette",
         "pants": "Pantaloni",
@@ -536,6 +539,9 @@
         "stole": "Stola",
         "train": "Strascico",
         "wind_up_key": "Chiave a carica"
+      },
+      "bodyPaint": {
+        "tattoo": "Tatuaggio"
       },
       "bottoms": {
         "bermuda_shorts": "Bermuda",

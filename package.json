@@ -60,7 +60,7 @@
     "lint-staged": "16.4.0",
     "prettier": "3.8.1",
     "sass": "1.98.0",
-    "supabase": "2.84.5",
+    "supabase": "2.84.7",
     "typescript": "6.0.2",
     "unplugin-auto-import": "21.0.0",
     "unplugin-vue-components": "32.0.0",

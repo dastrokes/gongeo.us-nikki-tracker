@@ -378,6 +378,9 @@
         "tail": "尻尾",
         "wings": "翼"
       },
+      "bodyPaint": {
+        "body_paint": "Body Paint"
+      },
       "bottoms": {
         "overalls": "オーバーオール",
         "pants": "パンツ",
@@ -536,6 +539,9 @@
         "stole": "ストール",
         "train": "トレイン",
         "wind_up_key": "ネジ巻キー"
+      },
+      "bodyPaint": {
+        "tattoo": "Tattoo"
       },
       "bottoms": {
         "bermuda_shorts": "バミューダパンツ",

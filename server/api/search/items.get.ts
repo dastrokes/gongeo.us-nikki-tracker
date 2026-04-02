@@ -5,11 +5,22 @@ import {
   normalizeItemSearchItemType,
   normalizeItemSearchMetadata,
 } from '#shared/utils/itemSearch'
-import { resolveRequestLocale } from '../../utils/locale'
+import {
+  resolveRequestUpstashSearchMode,
+  resolveRequestUpstashSearchNamespace,
+} from '../../utils/locale'
 
 type UpstashSearchMetadata = ItemSearchMetadata & {
   [key: string]: unknown
 }
+
+type PineconeSearchHit = {
+  _id?: string | number
+  _score?: number
+  fields?: Record<string, unknown> | null
+}
+
+type SearchProvider = 'pinecore' | 'upstash'
 
 type UpstashSearchHit = {
   id?: string | number
@@ -35,6 +46,9 @@ type SearchResponse = {
 
 const DEFAULT_LIMIT = 24
 const MAX_LIMIT = 48
+const DEFAULT_PINECONE_TEXT_FIELD = 'text'
+const PINECONE_API_VERSION = '2026-04'
+const PINECONE_TEXT_FIELD_FALLBACKS = ['text', 'chunk_text']
 
 const normalizeLimit = (value: unknown) => {
   const parsed = Number(value)
@@ -52,6 +66,9 @@ const normalizeNullableString = (value: unknown): string | undefined => {
   return normalized.length > 0 ? normalized : undefined
 }
 
+const normalizeRuntimeConfigString = (value: unknown) =>
+  normalizeNullableString(value) ?? ''
+
 const normalizeItemId = (value: unknown) => {
   if (typeof value === 'number') {
     return Number.isFinite(value) ? value : null
@@ -65,9 +82,7 @@ const normalizeItemId = (value: unknown) => {
   return null
 }
 
-const normalizeMetadata = (
-  metadata: UpstashSearchHit['metadata']
-): UpstashSearchMetadata | null => {
+const normalizeMetadata = (metadata: unknown): UpstashSearchMetadata | null => {
   if (!isRecord(metadata)) return null
 
   const legacyMetadata = normalizeItemSearchMetadata(metadata)
@@ -98,6 +113,53 @@ const normalizeMetadata = (
   }
 }
 
+const resolveConfiguredSearchProvider = (
+  value: unknown
+): SearchProvider | null => {
+  const normalized = normalizeRuntimeConfigString(value).toLowerCase()
+  if (normalized === 'pinecore' || normalized === 'upstash') {
+    return normalized
+  }
+  return null
+}
+
+const resolvePineconeBaseUrl = (host: string) => {
+  const normalized = host.trim().replace(/\/$/, '')
+  return /^https?:\/\//i.test(normalized) ? normalized : `https://${normalized}`
+}
+
+const normalizeSearchHit = ({
+  id,
+  score,
+  metadata,
+  data,
+  fallbackId,
+}: {
+  id: unknown
+  score: unknown
+  metadata: unknown
+  data?: unknown
+  fallbackId: string
+}): SearchResponse['data'][number] | null => {
+  const normalizedMetadata = normalizeMetadata(metadata)
+  const normalizedId = String(id ?? normalizedMetadata?.item_id ?? fallbackId)
+
+  if (!normalizedId.trim()) {
+    return null
+  }
+
+  return {
+    id: normalizedId,
+    itemId: normalizeItemId(normalizedMetadata?.item_id ?? id),
+    itemType: normalizedMetadata?.item_type ?? null,
+    category: normalizedMetadata?.category ?? null,
+    subcategory: normalizedMetadata?.subcategory ?? null,
+    score: Number.isFinite(Number(score)) ? Number(score) : 0,
+    metadata: normalizedMetadata,
+    data: typeof data === 'string' ? data : undefined,
+  }
+}
+
 const extractSearchHits = (
   payload: Record<string, unknown>
 ): UpstashSearchHit[] => {
@@ -120,6 +182,131 @@ const extractSearchHits = (
   return []
 }
 
+const queryPineconeSearch = async ({
+  pineconeApiKey,
+  pineconeIndexHost,
+  pineconeTextField,
+  rawQuery,
+  limit,
+  searchNamespace,
+}: {
+  pineconeApiKey: string
+  pineconeIndexHost: string
+  pineconeTextField: string
+  rawQuery: string
+  limit: number
+  searchNamespace: string
+}): Promise<SearchResponse['data']> => {
+  const endpoint = `${resolvePineconeBaseUrl(pineconeIndexHost)}/records/namespaces/${encodeURIComponent(searchNamespace)}/search`
+  const response = await fetch(endpoint, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Api-Key': pineconeApiKey,
+      'Content-Type': 'application/json',
+      'X-Pinecone-Api-Version': PINECONE_API_VERSION,
+    },
+    body: JSON.stringify({
+      query: {
+        inputs: {
+          text: rawQuery,
+        },
+        top_k: limit,
+      },
+    }),
+  })
+
+  if (!response.ok) {
+    const message = await response.text().catch(() => '')
+    throw new Error(
+      `Pinecone search failed with ${response.status} ${response.statusText}${message ? `: ${message}` : ''}`
+    )
+  }
+
+  const payload = (await response.json()) as Record<string, unknown>
+  const hits =
+    isRecord(payload.result) && Array.isArray(payload.result.hits)
+      ? (payload.result.hits as PineconeSearchHit[])
+      : []
+
+  return hits
+    .map((hit) => {
+      const fields = isRecord(hit.fields) ? { ...hit.fields } : {}
+      const candidateTextFields = Array.from(
+        new Set([pineconeTextField, ...PINECONE_TEXT_FIELD_FALLBACKS])
+      )
+      const matchedTextField = candidateTextFields.find(
+        (field) => typeof fields[field] === 'string'
+      )
+      const data = matchedTextField ? fields[matchedTextField] : undefined
+      const metadata = Object.fromEntries(
+        Object.entries(fields).filter(([key]) => key !== matchedTextField)
+      )
+
+      return normalizeSearchHit({
+        id: hit._id,
+        score: hit._score,
+        metadata: Object.keys(metadata).length > 0 ? metadata : null,
+        data,
+        fallbackId: rawQuery,
+      })
+    })
+    .filter((hit): hit is SearchResponse['data'][number] => Boolean(hit))
+}
+
+const queryUpstashSearch = async ({
+  restUrl,
+  restToken,
+  rawQuery,
+  limit,
+  searchNamespace,
+  searchMode,
+}: {
+  restUrl: string
+  restToken: string
+  rawQuery: string
+  limit: number
+  searchNamespace: string
+  searchMode: 'HYBRID' | 'DENSE'
+}): Promise<SearchResponse['data']> => {
+  const endpoint = `${restUrl.replace(/\/$/, '')}/query-data/${encodeURIComponent(searchNamespace)}`
+  const response = await fetch(endpoint, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${restToken}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      data: rawQuery,
+      topK: limit,
+      includeMetadata: true,
+      includeData: true,
+      includeVectors: false,
+      ...(searchMode === 'DENSE' ? { queryMode: 'DENSE' } : {}),
+    }),
+  })
+
+  if (!response.ok) {
+    const message = await response.text().catch(() => '')
+    throw new Error(
+      `Upstash search failed with ${response.status} ${response.statusText}${message ? `: ${message}` : ''}`
+    )
+  }
+
+  const payload = (await response.json()) as Record<string, unknown>
+  return extractSearchHits(payload)
+    .map((hit) =>
+      normalizeSearchHit({
+        id: hit.id,
+        score: hit.score,
+        metadata: hit.metadata,
+        data: hit.data,
+        fallbackId: rawQuery,
+      })
+    )
+    .filter((hit): hit is SearchResponse['data'][number] => Boolean(hit))
+}
+
 export default defineCachedApiEventHandler(
   async (event): Promise<SearchResponse> => {
     const query = getQuery(event)
@@ -135,59 +322,62 @@ export default defineCachedApiEventHandler(
     }
 
     const runtimeConfig = useRuntimeConfig()
-    const restUrl = runtimeConfig.upstashVectorRestUrl?.trim()
-    const restToken = runtimeConfig.upstashVectorRestToken?.trim()
+    const searchProvider = resolveConfiguredSearchProvider(
+      runtimeConfig.searchProvider
+    )
 
-    if (!restUrl || !restToken) {
+    if (!searchProvider) {
       throw createUpstreamUnavailableError('search')
     }
 
-    const locale = resolveRequestLocale(event)
-    const isEnglish = locale === 'en'
-    const endpoint = `${restUrl.replace(/\/$/, '')}/query-data`
+    const searchNamespace = resolveRequestUpstashSearchNamespace(event)
+    const searchMode = resolveRequestUpstashSearchMode(event)
+    const pineconeApiKey = normalizeRuntimeConfigString(
+      runtimeConfig.pineconeApiKey
+    )
+    const pineconeIndexHost = normalizeRuntimeConfigString(
+      runtimeConfig.pineconeIndexHost
+    )
+    const pineconeTextField = DEFAULT_PINECONE_TEXT_FIELD
+    const restUrl = normalizeRuntimeConfigString(
+      runtimeConfig.upstashVectorRestUrl
+    )
+    const restToken = normalizeRuntimeConfigString(
+      runtimeConfig.upstashVectorRestToken
+    )
 
     try {
-      const response = await fetch(endpoint, {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${restToken}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          data: rawQuery,
-          topK: limit,
-          includeMetadata: true,
-          includeData: true,
-          includeVectors: false,
-          ...(!isEnglish ? { queryMode: 'DENSE' } : {}),
-        }),
-      })
+      let data: SearchResponse['data']
 
-      if (!response.ok) {
-        const message = await response.text().catch(() => '')
-        throw new Error(
-          `Upstash search failed with ${response.status} ${response.statusText}${message ? `: ${message}` : ''}`
-        )
-      }
+      if (searchProvider === 'pinecore') {
+        if (!pineconeApiKey || !pineconeIndexHost) {
+          throw createUpstreamUnavailableError('search')
+        }
 
-      const payload = (await response.json()) as Record<string, unknown>
-      const data = extractSearchHits(payload)
-        .map((hit) => {
-          const metadata = normalizeMetadata(hit.metadata)
-          const itemId = normalizeItemId(metadata?.item_id ?? hit.id)
-
-          return {
-            id: String(hit.id ?? metadata?.item_id ?? rawQuery),
-            itemId,
-            itemType: metadata?.item_type ?? null,
-            category: metadata?.category ?? null,
-            subcategory: metadata?.subcategory ?? null,
-            score: Number.isFinite(Number(hit.score)) ? Number(hit.score) : 0,
-            metadata,
-            data: typeof hit.data === 'string' ? hit.data : undefined,
-          }
+        data = await queryPineconeSearch({
+          pineconeApiKey,
+          pineconeIndexHost,
+          pineconeTextField,
+          rawQuery,
+          limit,
+          searchNamespace,
         })
-        .filter((hit) => hit.id.length > 0)
+      } else if (searchProvider === 'upstash') {
+        if (!restUrl || !restToken) {
+          throw createUpstreamUnavailableError('search')
+        }
+
+        data = await queryUpstashSearch({
+          restUrl,
+          restToken,
+          rawQuery,
+          limit,
+          searchNamespace,
+          searchMode,
+        })
+      } else {
+        throw createUpstreamUnavailableError('search')
+      }
 
       return {
         query: rawQuery,
@@ -200,7 +390,9 @@ export default defineCachedApiEventHandler(
       }
 
       const message = toErrorMessage(error, 'Failed to query search index')
-      console.error(`Failed to query search index: ${message}`)
+      console.error(
+        `Failed to query search index namespace ${searchNamespace} mode ${searchMode}: ${message}`
+      )
       throw createUpstreamUnavailableError('search')
     }
   },
@@ -217,9 +409,12 @@ export default defineCachedApiEventHandler(
           .toLowerCase()
         const qHash = q ? hash(q) : 'empty'
         const limit = normalizeLimit(query.limit)
-        const locale = resolveRequestLocale(event)
-        const localeBucket = locale === 'en' ? 'en' : 'intl'
-        return `${version}:search:${localeBucket}:q${qHash}:l${limit}`
+        const searchNamespace = resolveRequestUpstashSearchNamespace(event)
+        const searchMode = resolveRequestUpstashSearchMode(event)
+        const searchProvider =
+          resolveConfiguredSearchProvider(useRuntimeConfig().searchProvider) ??
+          'unconfigured'
+        return `${version}:search:${searchProvider}:${searchNamespace}:${searchMode.toLowerCase()}:q${qHash}:l${limit}`
       },
       swr: true,
     },

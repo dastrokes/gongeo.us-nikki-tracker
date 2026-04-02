@@ -378,6 +378,9 @@
         "tail": "Cola",
         "wings": "Alas"
       },
+      "bodyPaint": {
+        "body_paint": "Body Paint"
+      },
       "bottoms": {
         "overalls": "Peto/Overol",
         "pants": "Pantalones",
@@ -536,6 +539,9 @@
         "stole": "Estola",
         "train": "Cola",
         "wind_up_key": "Llave de Cuerda"
+      },
+      "bodyPaint": {
+        "tattoo": "Tattoo"
       },
       "bottoms": {
         "bermuda_shorts": "Bermudas",

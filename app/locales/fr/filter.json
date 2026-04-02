@@ -379,7 +379,7 @@
         "wings": "Ailes"
       },
       "bodyPaint": {
-        "body_paint": "Body Paint"
+        "body_paint": "Peinture corporelle"
       },
       "bottoms": {
         "overalls": "Salopette",
@@ -541,7 +541,7 @@
         "wind_up_key": "Clé à remonter"
       },
       "bodyPaint": {
-        "tattoo": "Tattoo"
+        "tattoo": "Tatouage"
       },
       "bottoms": {
         "bermuda_shorts": "Bermuda",

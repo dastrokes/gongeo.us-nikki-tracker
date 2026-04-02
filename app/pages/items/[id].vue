@@ -123,27 +123,45 @@
               <h1 class="text-xl sm:text-2xl font-bold leading-tight">
                 {{ itemName }}
               </h1>
-              <n-tag
-                :color="getQualityTextTheme(item.quality)"
-                :bordered="false"
-                round
-                size="small"
+              <NuxtLinkLocale
+                :to="{
+                  path: '/items',
+                  query: { quality: item.quality },
+                }"
+                class="hover:opacity-80 transition-opacity"
               >
-                <span class="flex items-center gap-1">
-                  {{ item.quality }}
-                  <n-icon class="text-xs">
-                    <Star />
-                  </n-icon>
-                </span>
-              </n-tag>
-              <n-tag
-                type="default"
-                :bordered="false"
-                round
-                size="small"
+                <n-tag
+                  :color="getQualityTextTheme(item.quality)"
+                  :bordered="false"
+                  round
+                  size="small"
+                  class="cursor-pointer"
+                >
+                  <span class="flex items-center gap-1">
+                    {{ item.quality }}
+                    <n-icon class="text-xs">
+                      <Star />
+                    </n-icon>
+                  </span>
+                </n-tag>
+              </NuxtLinkLocale>
+              <NuxtLinkLocale
+                :to="{
+                  path: '/items',
+                  query: { type: itemType },
+                }"
+                class="hover:opacity-80 transition-opacity"
               >
-                {{ $t(`type.${itemType}`) }}
-              </n-tag>
+                <n-tag
+                  type="default"
+                  :bordered="false"
+                  round
+                  size="small"
+                  class="cursor-pointer"
+                >
+                  {{ $t(`type.${itemType}`) }}
+                </n-tag>
+              </NuxtLinkLocale>
             </div>
 
             <div class="flex flex-row gap-4 items-start">
@@ -153,48 +171,93 @@
               >
                 <div class="space-y-3 min-w-0 flex-1 w-full">
                   <div class="flex flex-wrap gap-2">
-                    <n-tag
+                    <NuxtLinkLocale
                       v-if="itemStyleLabel"
-                      size="small"
-                      :bordered="false"
-                      type="default"
-                      :color="getStyleTagTheme(itemStyleKey)"
-                      class="text-xs font-semibold shadow-[inset_0_-2px_0_rgba(0,0,0,0.18)]"
+                      :to="{
+                        path: '/items',
+                        query: { style: itemStyleKey },
+                      }"
+                      class="hover:opacity-80 transition-opacity"
                     >
-                      {{ itemStyleLabel }}
-                    </n-tag>
-                    <n-tag
+                      <n-tag
+                        size="small"
+                        :bordered="false"
+                        type="default"
+                        :color="getStyleTagTheme(itemStyleKey)"
+                        class="text-xs font-semibold shadow-[inset_0_-2px_0_rgba(0,0,0,0.18)] cursor-pointer"
+                      >
+                        {{ itemStyleLabel }}
+                      </n-tag>
+                    </NuxtLinkLocale>
+                    <template
                       v-for="label in itemLabelTags"
                       :key="label.text"
-                      size="small"
-                      type="default"
-                      :color="label.theme"
-                      round
-                      class="text-xs font-semibold"
                     >
-                      {{ label.text }}
-                    </n-tag>
+                      <NuxtLinkLocale
+                        v-if="label.tagKey"
+                        :to="{ path: '/items', query: { label: label.tagKey } }"
+                        class="hover:opacity-80 transition-opacity"
+                      >
+                        <n-tag
+                          size="small"
+                          type="default"
+                          :color="label.theme"
+                          round
+                          class="text-xs font-semibold cursor-pointer"
+                        >
+                          {{ label.text }}
+                        </n-tag>
+                      </NuxtLinkLocale>
+                      <n-tag
+                        v-else
+                        size="small"
+                        type="default"
+                        :color="label.theme"
+                        round
+                        class="text-xs font-semibold"
+                      >
+                        {{ label.text }}
+                      </n-tag>
+                    </template>
                   </div>
 
                   <div class="flex flex-wrap gap-2">
-                    <n-tag
+                    <NuxtLinkLocale
                       v-if="itemVersionDisplay"
-                      type="default"
-                      :bordered="false"
-                      round
-                      size="small"
+                      :to="{
+                        path: '/items',
+                        query: { version: itemVersion },
+                      }"
+                      class="hover:opacity-80 transition-opacity"
                     >
-                      {{ itemVersionDisplay }}
-                    </n-tag>
-                    <n-tag
-                      v-if="itemObtainLabel"
-                      type="default"
-                      :bordered="false"
-                      round
-                      size="small"
+                      <n-tag
+                        type="default"
+                        :bordered="false"
+                        round
+                        size="small"
+                        class="cursor-pointer"
+                      >
+                        {{ itemVersionDisplay }}
+                      </n-tag>
+                    </NuxtLinkLocale>
+                    <NuxtLinkLocale
+                      v-if="itemObtainLabel && itemObtainType != null"
+                      :to="{
+                        path: '/items',
+                        query: { source: itemObtainType },
+                      }"
+                      class="hover:opacity-80 transition-opacity"
                     >
-                      {{ itemObtainLabel }}
-                    </n-tag>
+                      <n-tag
+                        type="default"
+                        :bordered="false"
+                        round
+                        size="small"
+                        class="cursor-pointer"
+                      >
+                        {{ itemObtainLabel }}
+                      </n-tag>
+                    </NuxtLinkLocale>
                   </div>
 
                   <!-- Description -->
@@ -697,9 +760,13 @@
     return label ? `${itemVersion.value} - ${label}` : itemVersion.value
   })
 
-  const itemObtainLabel = computed(() => {
+  const itemObtainType = computed(() => {
     if (!item.value) return null
-    const obtainType = (item.value as ItemWithOutfits).obtain_type
+    return (item.value as ItemWithOutfits).obtain_type
+  })
+
+  const itemObtainLabel = computed(() => {
+    const obtainType = itemObtainType.value
     if (obtainType === null || obtainType === undefined) return null
     const key = `obtain.${obtainType}.name`
     const translated = t(key)
@@ -757,10 +824,14 @@
 
   const itemLabelTags = computed(() => {
     if (!item.value) return []
-    return resolveTagI18nKeys(item.value.tags).map((key) => ({
-      text: t(key),
-      theme: getLabelTagTheme(key),
-    }))
+    return resolveTagI18nKeys(item.value.tags).map((key) => {
+      const tagDef = TAG_DEFINITIONS.find((t) => t.i18nKey === key)
+      return {
+        text: t(key),
+        theme: getLabelTagTheme(key),
+        tagKey: tagDef?.key || null,
+      }
+    })
   })
 
   const listingPath = computed(() => localePath('/items'))

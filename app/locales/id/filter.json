@@ -378,6 +378,9 @@
         "tail": "Ekor",
         "wings": "Sayap"
       },
+      "bodyPaint": {
+        "body_paint": "Body Paint"
+      },
       "bottoms": {
         "overalls": "Baju Kodok",
         "pants": "Celana Panjang",
@@ -536,6 +539,9 @@
         "stole": "Stola",
         "train": "Ekor Gaun",
         "wind_up_key": "Kunci Putar"
+      },
+      "bodyPaint": {
+        "tattoo": "Tattoo"
       },
       "bottoms": {
         "bermuda_shorts": "Celana Bermudas",

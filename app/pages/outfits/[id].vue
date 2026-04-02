@@ -124,19 +124,28 @@
               <h1 class="text-xl sm:text-2xl font-bold leading-tight">
                 {{ outfitName }}
               </h1>
-              <n-tag
-                :color="getQualityTextTheme(outfit.quality)"
-                :bordered="false"
-                round
-                size="small"
+              <NuxtLinkLocale
+                :to="{
+                  path: '/outfits',
+                  query: { quality: outfit.quality },
+                }"
+                class="hover:opacity-80 transition-opacity"
               >
-                <span class="flex items-center gap-1">
-                  {{ outfit.quality }}
-                  <n-icon class="text-xs">
-                    <Star />
-                  </n-icon>
-                </span>
-              </n-tag>
+                <n-tag
+                  :color="getQualityTextTheme(outfit.quality)"
+                  :bordered="false"
+                  round
+                  size="small"
+                  class="cursor-pointer"
+                >
+                  <span class="flex items-center gap-1">
+                    {{ outfit.quality }}
+                    <n-icon class="text-xs">
+                      <Star />
+                    </n-icon>
+                  </span>
+                </n-tag>
+              </NuxtLinkLocale>
             </div>
 
             <div class="flex flex-row gap-4 items-start">
@@ -147,49 +156,97 @@
               >
                 <div class="space-y-3 min-w-0 flex-1 w-full">
                   <div class="flex flex-wrap gap-2">
-                    <n-tag
+                    <NuxtLinkLocale
                       v-for="label in outfitStyleLabels"
                       :key="`style-${label}`"
-                      size="small"
-                      :bordered="false"
-                      type="default"
-                      :color="getStyleTagTheme(outfitStyleKey)"
-                      class="text-xs font-semibold shadow-[inset_0_-2px_0_rgba(0,0,0,0.18)]"
+                      :to="{
+                        path: '/outfits',
+                        query: { style: outfitStyleKey },
+                      }"
+                      class="hover:opacity-80 transition-opacity"
                     >
-                      {{ label }}
-                    </n-tag>
-                    <n-tag
+                      <n-tag
+                        size="small"
+                        :bordered="false"
+                        type="default"
+                        :color="getStyleTagTheme(outfitStyleKey)"
+                        class="text-xs font-semibold shadow-[inset_0_-2px_0_rgba(0,0,0,0.18)] cursor-pointer"
+                      >
+                        {{ label }}
+                      </n-tag>
+                    </NuxtLinkLocale>
+                    <template
                       v-for="label in outfitLabelTags"
                       :key="`label-${label.text}`"
-                      size="small"
-                      type="default"
-                      :color="label.theme"
-                      round
-                      class="text-xs font-semibold"
                     >
-                      {{ label.text }}
-                    </n-tag>
+                      <NuxtLinkLocale
+                        v-if="label.tagKey"
+                        :to="{
+                          path: '/outfits',
+                          query: { label: label.tagKey },
+                        }"
+                        class="hover:opacity-80 transition-opacity"
+                      >
+                        <n-tag
+                          size="small"
+                          type="default"
+                          :color="label.theme"
+                          round
+                          class="text-xs font-semibold cursor-pointer"
+                        >
+                          {{ label.text }}
+                        </n-tag>
+                      </NuxtLinkLocale>
+                      <n-tag
+                        v-else
+                        size="small"
+                        type="default"
+                        :color="label.theme"
+                        round
+                        class="text-xs font-semibold"
+                      >
+                        {{ label.text }}
+                      </n-tag>
+                    </template>
                   </div>
 
                   <div class="flex flex-wrap gap-2">
-                    <n-tag
+                    <NuxtLinkLocale
                       v-if="outfitVersionDisplay"
-                      type="default"
-                      :bordered="false"
-                      round
-                      size="small"
+                      :to="{
+                        path: '/outfits',
+                        query: { version: outfitVersion },
+                      }"
+                      class="hover:opacity-80 transition-opacity"
                     >
-                      {{ outfitVersionDisplay }}
-                    </n-tag>
-                    <n-tag
-                      v-if="outfitObtainLabel"
-                      type="default"
-                      :bordered="false"
-                      round
-                      size="small"
+                      <n-tag
+                        type="default"
+                        :bordered="false"
+                        round
+                        size="small"
+                        class="cursor-pointer"
+                      >
+                        {{ outfitVersionDisplay }}
+                      </n-tag>
+                    </NuxtLinkLocale>
+                    <NuxtLinkLocale
+                      v-if="outfitObtainLabel && outfitObtainType != null"
+                      :to="{
+                        path: '/outfits',
+                        query: { source: outfitObtainType },
+                      }"
+                      class="hover:opacity-80 transition-opacity"
                     >
-                      {{ outfitObtainLabel }}
-                    </n-tag>
+                      <n-tag
+                        type="default"
+                        :bordered="false"
+                        round
+                        size="small"
+                        class="cursor-pointer"
+                      >
+                        {{ outfitObtainLabel }}
+                      </n-tag>
+                    </NuxtLinkLocale>
                   </div>
 
                   <!-- Description -->
@@ -507,10 +564,14 @@
 
   const outfitLabelTags = computed(() => {
     if (!outfit.value?.tags) return []
-    return resolveTagI18nKeys(outfit.value.tags).map((key) => ({
-      text: t(key),
-      theme: getLabelTagTheme(key),
-    }))
+    return resolveTagI18nKeys(outfit.value.tags).map((key) => {
+      const tagDef = TAG_DEFINITIONS.find((t) => t.i18nKey === key)
+      return {
+        text: t(key),
+        theme: getLabelTagTheme(key),
+        tagKey: tagDef?.key || null,
+      }
+    })
   })
 
   // Computed outfit variations with labels
@@ -581,9 +642,13 @@
     return label ? `${outfitVersion.value} - ${label}` : outfitVersion.value
   })
 
-  const outfitObtainLabel = computed(() => {
+  const outfitObtainType = computed(() => {
     if (!outfit.value) return null
-    const obtainType = (outfit.value as OutfitWithItems).obtain_type
+    return (outfit.value as OutfitWithItems).obtain_type
+  })
+
+  const outfitObtainLabel = computed(() => {
+    const obtainType = outfitObtainType.value
     if (obtainType === null || obtainType === undefined) return null
     const key = `obtain.${obtainType}.name`
     const translated = t(key)

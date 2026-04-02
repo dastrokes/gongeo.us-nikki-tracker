@@ -804,8 +804,7 @@
   },
   "search_page": {
     "title": "Whim Search",
-    "subtitle": "Discover any item using natural language.",
-    "placeholder": "Try 'pleated skirt' or 'mermaid gown'...",
+    "placeholder": "Try '{example}'",
     "error_title": "Error",
     "error_description": "Failed to query search index.",
     "searching": "Searching...",

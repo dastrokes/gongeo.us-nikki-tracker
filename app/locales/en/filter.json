@@ -205,11 +205,8 @@
       "camouflage": "Camouflage",
       "checkered": "Checkered",
       "chevron": "Chevron",
-      "circle": "Circle",
       "cloud": "Cloud",
-      "crescent_moon": "Crescent Moon",
       "cross": "Cross",
-      "crown": "Crown",
       "diamond": "Diamond",
       "fish": "Fish",
       "fishnet": "Fishnet",
@@ -226,7 +223,6 @@
       "landscape": "Landscape",
       "leaf": "Leaf",
       "map": "Map",
-      "medallion": "Medallion",
       "moon": "Moon",
       "musical_note": "Musical Note",
       "origami_crane": "Origami Crane",
@@ -289,8 +285,8 @@
     },
     "sock_height": {
       "ankle": "Ankle",
-      "knee": "Knee",
-      "over_knee": "Over-Knee",
+      "crew": "Crew",
+      "knee_high": "Knee High",
       "thigh_high": "Thigh High"
     },
     "sole_height": {
@@ -320,7 +316,6 @@
       "half_rim": "Half Rim",
       "hoop": "Hoop",
       "knotted": "Knotted",
-      "laced": "Laced",
       "layered": "Layered",
       "macrame": "Macrame",
       "peplum": "Peplum",

@@ -285,8 +285,8 @@
     },
     "sock_height": {
       "ankle": "Cheville",
-      "crew": "Crew",
-      "knee_high": "Knee High",
+      "crew": "Mi-mollet",
+      "knee_high": "Mi-bas",
       "thigh_high": "Haut de la Cuisse"
     },
     "sole_height": {
@@ -316,6 +316,7 @@
       "half_rim": "Demi-Monture",
       "hoop": "Anneau",
       "knotted": "Noué",
+
       "layered": "Superposé",
       "macrame": "Macramé",
       "peplum": "Peplum/Basque",

@@ -804,7 +804,7 @@
   },
   "search_page": {
     "title": "奇想搜索",
-    "placeholder": "Try '{example}'",
+    "placeholder": "试试“{example}”",
     "error_title": "错误",
     "error_description": "搜索索引查询失败。",
     "searching": "搜索中...",

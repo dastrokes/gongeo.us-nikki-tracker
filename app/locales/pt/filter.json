@@ -285,8 +285,8 @@
     },
     "sock_height": {
       "ankle": "Soquete/Tornozelo",
-      "crew": "Crew",
-      "knee_high": "Knee High",
+      "crew": "Meia canela",
+      "knee_high": "Até o joelho",
       "thigh_high": "Até a Coxa"
     },
     "sole_height": {
@@ -316,6 +316,7 @@
       "half_rim": "Meio Aro",
       "hoop": "Argola",
       "knotted": "Com Nós",
+
       "layered": "Em Camadas",
       "macrame": "Macramê",
       "peplum": "Peplum",

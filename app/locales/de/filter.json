@@ -369,7 +369,7 @@
         "bag": "Tasche",
         "cape": "Umhang",
         "drape": "Drapierung",
-        "shawl": "Schal",
+        "shawl": "Tuch",
         "tail": "Schwanz",
         "wings": "Flügel"
       },
@@ -411,7 +411,7 @@
         "eyewear": "Brille",
         "face_jewelry": "Gesichtsschmuck",
         "face_marking": "Gesichtsmarkierung",
-        "face_prop": "Gesichts-Requisit",
+        "face_prop": "Gesichts-Requisite",
         "face_veil": "Gesichtsschleier",
         "facial_cover": "Gesichtsbedeckung",
         "mask": "Maske"
@@ -420,7 +420,7 @@
         "gloves": "Handschuhe"
       },
       "hair": {
-        "braid": "Zopf/Flechtfrisur",
+        "braid": "Geflochten",
         "bun": "Dutt",
         "half_up": "Halboffen",
         "loose": "Offen",
@@ -442,7 +442,7 @@
         "fan": "Fächer",
         "hair_ornament": "Haarschmuck",
         "handbag": "Handtasche",
-        "handheld": "Handheld/In der Hand",
+        "handheld": "Handheld",
         "instrument": "Instrument",
         "lantern": "Laterne",
         "parasol": "Sonnenschirm",
@@ -470,7 +470,7 @@
         "scarf": "Schal"
       },
       "outerwear": {
-        "cape": "Cape/Mantel",
+        "cape": "Umhang",
         "cardigan": "Strickjacke",
         "coat": "Mantel",
         "jacket": "Jacke",
@@ -523,8 +523,8 @@
       },
       "backpieces": {
         "basket": "Korb",
-        "cape": "Cape",
-        "capelet": "Capelet/Schulterumhang",
+        "cape": "Umhang",
+        "capelet": "Schulterumhang",
         "collar": "Kragen",
         "frame": "Rahmen",
         "plush": "Plüsch",
@@ -695,11 +695,11 @@
         "blazer": "Blazer",
         "bolero": "Bolero",
         "bomber_jacket": "Bomberjacke",
-        "capelet": "Capelet",
+        "capelet": "Schulterumhang",
         "daxiushan": "Daxiushan",
         "duster_coat": "Staubmantel",
         "fur_coat": "Pelzmantel",
-        "hooded_cape": "Kapuzencape",
+        "hooded_cape": "Mit Kapuze",
         "hooded_vest": "Kapuzenweste",
         "military_jacket": "Militärjacke",
         "pifeng": "Pifeng",

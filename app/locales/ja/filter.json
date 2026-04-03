@@ -285,8 +285,8 @@
     },
     "sock_height": {
       "ankle": "アンクル",
-      "crew": "Crew",
-      "knee_high": "Knee High",
+      "crew": "クルー",
+      "knee_high": "ニーハイ",
       "thigh_high": "タイハイ"
     },
     "sole_height": {
@@ -316,6 +316,7 @@
       "half_rim": "ハーフリム",
       "hoop": "フープ",
       "knotted": "結び目",
+
       "layered": "レイヤー",
       "macrame": "マクラメ",
       "peplum": "ペプラム",

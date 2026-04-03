@@ -36,7 +36,7 @@
     <n-auto-complete
       ref="searchAutoCompleteRef"
       v-model:value="searchQuery"
-      class="fixed w-full sm:max-w-96 sm:right-44 top-1.5 rounded-2xl bg-slate-900"
+      class="fixed w-full sm:max-w-96 sm:right-44 top-1.5 rounded-2xl bg-slate-900 shadow-xl border border-gray-200 dark:border-white/10"
       :options="autoCompleteOptions"
       :render-label="renderLabel"
       :placeholder="$t('default.search.placeholder')"
@@ -47,9 +47,40 @@
       @blur="closeSearch"
       @update:value="handleSearch"
     >
+      <template #suffix>
+        <n-button
+          text
+          type="primary"
+          class="mr-1"
+          @mousedown.prevent
+          @click="goToWhimSearch"
+        >
+          <template #icon>
+            <n-icon size="18"><Magic /></n-icon>
+          </template>
+          <span class="font-bold whitespace-nowrap">{{
+            $t('search_page.title')
+          }}</span>
+        </n-button>
+      </template>
       <template #empty>
-        <div class="text-gray-500 text-center py-4">
-          {{ $t('default.search.noResults') }}
+        <div
+          class="text-gray-500 text-center py-6 flex flex-col items-center gap-3"
+        >
+          <p>{{ $t('default.search.noResults') }}</p>
+          <n-button
+            size="small"
+            type="primary"
+            ghost
+            class="!rounded-xl"
+            @mousedown.prevent
+            @click="goToWhimSearch"
+          >
+            <template #icon>
+              <n-icon><Magic /></n-icon>
+            </template>
+            {{ $t('search_page.title') }}
+          </n-button>
         </div>
       </template>
     </n-auto-complete>
@@ -57,11 +88,17 @@
 </template>
 
 <script setup lang="ts">
-  import { Search } from '@vicons/fa'
+  import { Search, Magic } from '@vicons/fa'
   import type { AutoCompleteOption } from 'naive-ui'
 
   const { search, searchOptions, buildSearchIndex, isIndexBuilt } = useSearch()
   const { getImageSrc } = imageProvider()
+  const localePath = useLocalePath()
+
+  const goToWhimSearch = () => {
+    navigateTo(localePath('/search'))
+    closeSearch()
+  }
 
   const searchQuery = ref('')
   const showSearch = ref(false)

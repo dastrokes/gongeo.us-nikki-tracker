@@ -804,7 +804,7 @@
   },
   "search_page": {
     "title": "奇想搜尋",
-    "placeholder": "Try '{example}'",
+    "placeholder": "試試「{example}」",
     "error_title": "錯誤",
     "error_description": "搜尋索引查詢失敗。",
     "searching": "搜尋中...",

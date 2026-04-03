@@ -804,7 +804,7 @@
   },
   "search_page": {
     "title": "Pencarian Whim",
-    "placeholder": "Try '{example}'",
+    "placeholder": "Coba '{example}'",
     "error_title": "Kesalahan",
     "error_description": "Gagal menanyakan indeks pencarian.",
     "searching": "Mencari...",

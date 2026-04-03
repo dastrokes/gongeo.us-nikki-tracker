@@ -285,8 +285,8 @@
     },
     "sock_height": {
       "ankle": "앵클",
-      "crew": "Crew",
-      "knee_high": "Knee High",
+      "crew": "크루",
+      "knee_high": "니삭스",
       "thigh_high": "싸이 하이"
     },
     "sole_height": {
@@ -316,6 +316,7 @@
       "half_rim": "하프 림",
       "hoop": "후프",
       "knotted": "노티드/매듭",
+
       "layered": "레이어드",
       "macrame": "마크라메",
       "peplum": "페플럼",

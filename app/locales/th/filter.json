@@ -285,8 +285,8 @@
     },
     "sock_height": {
       "ankle": "ระดับข้อเท้า",
-      "crew": "Crew",
-      "knee_high": "Knee High",
+      "crew": "ระดับน่อง",
+      "knee_high": "ระดับเข่า",
       "thigh_high": "ระดับต้นขา"
     },
     "sole_height": {
@@ -316,6 +316,7 @@
       "half_rim": "ครึ่งกรอบ",
       "hoop": "ห่วง",
       "knotted": "ผูกปม",
+
       "layered": "เป็นชั้น",
       "macrame": "มาคราเม่",
       "peplum": "ชายระบายเอว",

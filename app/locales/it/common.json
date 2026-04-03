@@ -804,7 +804,7 @@
   },
   "search_page": {
     "title": "Ricerca dei capricci",
-    "placeholder": "Try '{example}'",
+    "placeholder": "Prova '{example}'",
     "error_title": "Errore",
     "error_description": "Impossibile interrogare l'indice di ricerca.",
     "searching": "Ricerca in corso...",

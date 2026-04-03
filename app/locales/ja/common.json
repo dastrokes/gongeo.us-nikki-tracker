@@ -804,7 +804,7 @@
   },
   "search_page": {
     "title": "奇想検索",
-    "placeholder": "Try '{example}'",
+    "placeholder": "「{example}」を試す",
     "error_title": "エラー",
     "error_description": "検索インデックスのクエリに失敗しました。",
     "searching": "検索中...",

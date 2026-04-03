@@ -1,22 +1,24 @@
 <template>
   <div
     v-if="sections.length > 0"
-    class="space-y-4"
+    class="flex flex-col gap-2"
   >
     <div
       v-for="section in sections"
       :key="section.key"
-      class="space-y-2"
+      class="grid grid-cols-2 gap-x-2 gap-y-2 sm:gap-y-3"
     >
       <div
         v-for="field in section.fields"
         :key="field.field"
-        class="space-y-1"
+        class="flex flex-col gap-1"
       >
-        <div class="text-xs font-semibold text-slate-500 dark:text-slate-400">
+        <div
+          class="text-[10px] sm:text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest"
+        >
           {{ t(field.labelKey) }}
         </div>
-        <div class="flex flex-wrap gap-1.5">
+        <div class="flex flex-wrap gap-1">
           <n-tag
             v-for="value in field.values"
             :key="`${field.field}-${value}`"

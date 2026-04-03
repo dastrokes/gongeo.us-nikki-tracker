@@ -285,7 +285,7 @@
     },
     "sock_height": {
       "ankle": "Knöchellang",
-      "crew": "Crew",
+      "crew": "Wadenhoch",
       "knee_high": "Kniehoch",
       "thigh_high": "Oberschenkelhoch"
     },
@@ -316,6 +316,7 @@
       "half_rim": "Halbrand",
       "hoop": "Reifen",
       "knotted": "Geknotet",
+
       "layered": "Gestuft/Lagenlook",
       "macrame": "Makramee",
       "peplum": "Schößchen",
@@ -374,7 +375,7 @@
         "wings": "Flügel"
       },
       "bodyPaint": {
-        "body_paint": "Körperfarbe"
+        "body_paint": "Körperbemalung"
       },
       "bottoms": {
         "overalls": "Latzhose",

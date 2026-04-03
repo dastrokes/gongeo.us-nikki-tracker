@@ -285,8 +285,8 @@
     },
     "sock_height": {
       "ankle": "Allo Stinco",
-      "crew": "Crew",
-      "knee_high": "Knee High",
+      "crew": "A metà polpaccio",
+      "knee_high": "Al ginocchio",
       "thigh_high": "Sopra il Ginocchio"
     },
     "sole_height": {
@@ -316,6 +316,7 @@
       "half_rim": "Sotto-Montatura",
       "hoop": "Cerchio",
       "knotted": "Annodato",
+
       "layered": "A Strati",
       "macrame": "Macramè",
       "peplum": "Peplum",

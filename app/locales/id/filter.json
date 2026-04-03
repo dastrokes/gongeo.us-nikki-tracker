@@ -285,8 +285,8 @@
     },
     "sock_height": {
       "ankle": "Semata Kaki",
-      "crew": "Crew",
-      "knee_high": "Knee High",
+      "crew": "Setinggi betis",
+      "knee_high": "Setinggi lutut",
       "thigh_high": "Setinggi Paha"
     },
     "sole_height": {
@@ -316,6 +316,7 @@
       "half_rim": "Setengah Bingkai",
       "hoop": "Lingkaran",
       "knotted": "Disimpul",
+
       "layered": "Berlapis",
       "macrame": "Makrame",
       "peplum": "Peplum",

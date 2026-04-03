@@ -804,7 +804,7 @@
   },
   "search_page": {
     "title": "Pesquisa de caprichos",
-    "placeholder": "Try '{example}'",
+    "placeholder": "Tenta '{example}'",
     "error_title": "Erro",
     "error_description": "Falha ao consultar o índice de pesquisa.",
     "searching": "Pesquisando...",

@@ -804,7 +804,7 @@
   },
   "search_page": {
     "title": "ค้นหาตามความอยาก",
-    "placeholder": "Try '{example}'",
+    "placeholder": "ลองค้นหา '{example}'",
     "error_title": "ข้อผิดพลาด",
     "error_description": "ล้มเหลวในการค้นหาดัชนี",
     "searching": "กำลังค้นหา...",

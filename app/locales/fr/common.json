@@ -804,7 +804,7 @@
   },
   "search_page": {
     "title": "Recherche de chimères",
-    "placeholder": "Try '{example}'",
+    "placeholder": "Essaye '{example}'",
     "error_title": "Erreur",
     "error_description": "Échec de la requête à l'index de recherche.",
     "searching": "Recherche en cours...",

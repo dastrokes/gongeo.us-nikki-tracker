@@ -805,8 +805,8 @@
   "search_page": {
     "title": "奇想搜索",
     "placeholder": "试试“{example}”",
-    "clear_query": "Clear search",
-    "close_details": "Close details",
+    "clear_query": "清除搜索",
+    "close_details": "关闭详情",
     "error_title": "错误",
     "error_description": "搜索索引查询失败。",
     "searching": "搜索中...",

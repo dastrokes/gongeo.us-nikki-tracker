@@ -380,7 +380,7 @@
                     height="300"
                     fit="cover"
                     loading="lazy"
-                    sizes="200px sm:240px"
+                    sizes="200px"
                   />
 
                   <div class="absolute top-2 left-2 z-20">

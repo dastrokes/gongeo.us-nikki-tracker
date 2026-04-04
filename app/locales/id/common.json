@@ -805,6 +805,8 @@
   "search_page": {
     "title": "Pencarian Whim",
     "placeholder": "Coba '{example}'",
+    "clear_query": "Hapus pencarian",
+    "close_details": "Tutup detail",
     "error_title": "Kesalahan",
     "error_description": "Gagal menanyakan indeks pencarian.",
     "searching": "Mencari...",

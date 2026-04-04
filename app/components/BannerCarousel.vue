@@ -38,12 +38,9 @@
             :alt="t(`banner.${banner.bannerId}.name`)"
             class="h-full w-full object-cover"
             preset="bannerHero"
-            width="800"
-            height="400"
             fit="cover"
             :loading="slideIndex === activeIndex ? 'eager' : 'lazy'"
             :fetchpriority="slideIndex === activeIndex ? 'high' : 'auto'"
-            quality="80"
             sizes="400px sm:800px"
           />
           <div

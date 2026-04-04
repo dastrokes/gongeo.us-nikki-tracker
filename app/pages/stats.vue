@@ -62,8 +62,7 @@
               :src="getImageSrc('emote', 'think')"
               :alt="$t('stats.no_data.title')"
               class="mx-auto w-24 h-24 sm:w-32 sm:h-32 object-cover"
-              width="200"
-              height="200"
+              preset="iconLg"
               fit="cover"
               sizes="160px sm:200px"
             />
@@ -656,8 +655,7 @@
                   :src="shareCardEmoteSrc"
                   :alt="$t('banner.luck.' + luckTier)"
                   class="w-32 h-32 object-contain relative z-10"
-                  width="128"
-                  height="128"
+                  preset="iconLg"
                   fit="contain"
                   loading="lazy"
                   sizes="128px"
@@ -692,8 +690,7 @@
                       :src="getImageSrc('banner', luckiestBanner.bannerId)"
                       :alt="luckiestBannerName"
                       class="absolute inset-0 w-full h-full object-cover"
-                      width="800"
-                      height="400"
+                      preset="bannerThumb"
                       fit="cover"
                       loading="lazy"
                       sizes="200px"
@@ -734,8 +731,7 @@
                       :src="getImageSrc('banner', unluckiestBanner.bannerId)"
                       :alt="unluckiestBannerName"
                       class="absolute inset-0 w-full h-full object-cover"
-                      width="800"
-                      height="400"
+                      preset="bannerThumb"
                       fit="cover"
                       loading="lazy"
                       sizes="200px"
@@ -896,8 +892,7 @@
                     >
                       <NuxtImg
                         src="images/logo.webp"
-                        width="48"
-                        height="48"
+                        preset="iconSm"
                         fit="cover"
                         loading="lazy"
                         :alt="$t('navigation.title')"
@@ -928,8 +923,7 @@
                   :src="shareCardEmoteSrc"
                   :alt="$t('banner.luck.' + luckTier)"
                   class="w-32 h-32 object-contain relative z-10"
-                  width="128"
-                  height="128"
+                  preset="iconLg"
                   fit="contain"
                   loading="lazy"
                   sizes="128px"
@@ -965,8 +959,7 @@
                     :src="getImageSrc('banner', luckiestBanner.bannerId)"
                     :alt="luckiestBannerName"
                     class="absolute inset-0 w-full h-full object-cover"
-                    width="800"
-                    height="400"
+                    preset="bannerThumb"
                     fit="cover"
                     loading="lazy"
                     sizes="200px"
@@ -1011,8 +1004,7 @@
                     :src="getImageSrc('banner', unluckiestBanner.bannerId)"
                     :alt="unluckiestBannerName"
                     class="absolute inset-0 w-full h-full object-cover"
-                    width="800"
-                    height="400"
+                    preset="bannerThumb"
                     fit="cover"
                     loading="lazy"
                     sizes="200px"
@@ -1172,8 +1164,7 @@
                   >
                     <NuxtImg
                       src="images/logo.webp"
-                      width="48"
-                      height="48"
+                      preset="iconSm"
                       fit="cover"
                       loading="lazy"
                       :alt="$t('navigation.title')"
@@ -1489,18 +1480,11 @@
     return `rgba(239, 68, 68, ${baseOpacity})`
   }
 
-  const getBannerThumbChartImage = (
-    bannerId: string | number | undefined,
-    width = 200,
-    height = 100
-  ) => {
+  const getBannerThumbChartImage = (bannerId: string | number | undefined) => {
     if (!bannerId) return ''
 
     return nuxtImg(getImageSrc('bannerThumb', bannerId.toString()), {
-      width,
-      height,
-      quality: 80,
-      format: 'webp',
+      preset: 'bannerThumb',
     })
   }
 
@@ -1934,10 +1918,7 @@
           const bannerId = bannerObj?.bannerId
           const imageUrl = bannerId
             ? nuxtImg(getImageSrc('bannerThumb', bannerId.toString()), {
-                width: 200,
-                height: 100,
-                quality: 80,
-                format: 'webp',
+                preset: 'bannerThumb',
               })
             : ''
           const imgHtml = imageUrl

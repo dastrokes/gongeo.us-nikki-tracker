@@ -1075,10 +1075,7 @@
           if (!pullsArr) return ''
           const total = pullsArr.reduce((a: number, b: number) => a + b, 0)
           const imageUrl = nuxtImg(getImageSrc('bannerThumb', bannerId ?? ''), {
-            width: 200,
-            height: 100,
-            quality: 80,
-            format: 'webp',
+            preset: 'bannerThumb',
           })
           return `
                 <div style="display: flex; flex-direction: column; align-items: center;">
@@ -1495,10 +1492,7 @@
         width: imageSize,
         backgroundColor: {
           image: nuxtImg(getImageSrc('itemIcon', itemId), {
-            width: imageRequestSize,
-            height: imageRequestSize,
-            quality: 80,
-            format: 'webp',
+            preset: imageRequestSize === 60 ? 'iconSm' : 'iconLg',
           }),
         },
         align: 'center',

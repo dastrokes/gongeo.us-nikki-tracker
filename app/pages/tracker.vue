@@ -132,8 +132,7 @@
                 :src="getImageSrc('emote', 'think')"
                 :alt="$t('tracker.no_data.title')"
                 class="mx-auto w-24 h-24 sm:w-32 sm:h-32 object-cover"
-                width="200"
-                height="200"
+                preset="iconLg"
                 fit="cover"
                 sizes="160px sm:200px"
               />
@@ -402,8 +401,7 @@
               <p class="text-xl inline-flex items-center justify-center gap-2">
                 <NuxtImg
                   src="images/logo.webp"
-                  width="80"
-                  height="80"
+                  preset="iconSm"
                   fit="cover"
                   loading="lazy"
                   :alt="t('navigation.title')"

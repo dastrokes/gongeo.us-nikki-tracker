@@ -42,8 +42,6 @@
           :alt="`${$t(`outfit.${outfitId}.name`)} ${image[0] === 0 ? 'Base' : `LV${image[0]}`}`"
           class="absolute inset-0 w-full h-full object-cover z-10"
           preset="tallLg"
-          width="200"
-          height="300"
           fit="cover"
           loading="lazy"
           sizes="200px"

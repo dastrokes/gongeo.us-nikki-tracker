@@ -327,8 +327,7 @@
                 <NuxtImg
                   :src="getImageSrc('emote', 'think')"
                   class="mx-auto w-24 h-24 sm:w-32 sm:h-32 object-cover"
-                  width="200"
-                  height="200"
+                  preset="iconLg"
                   fit="cover"
                   sizes="160px sm:200px"
                 />
@@ -376,8 +375,6 @@
                     :alt="entry.name"
                     class="absolute inset-0 w-full h-full object-cover z-10 transition-transform duration-500 ease-out hover:scale-110"
                     preset="tallLg"
-                    width="200"
-                    height="300"
                     fit="cover"
                     loading="lazy"
                     sizes="200px"

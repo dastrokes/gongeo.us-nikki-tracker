@@ -805,8 +805,8 @@
   "search_page": {
     "title": "Búsqueda de caprichos",
     "placeholder": "Prueba '{example}'",
-    "clear_query": "Clear search",
-    "close_details": "Close details",
+    "clear_query": "Borrar búsqueda",
+    "close_details": "Cerrar detalles",
     "error_title": "Error",
     "error_description": "No se pudo consultar el índice de búsqueda.",
     "searching": "Buscando...",

@@ -805,8 +805,8 @@
   "search_page": {
     "title": "Recherche de chimères",
     "placeholder": "Essaye '{example}'",
-    "clear_query": "Clear search",
-    "close_details": "Close details",
+    "clear_query": "Effacer la recherche",
+    "close_details": "Fermer les détails",
     "error_title": "Erreur",
     "error_description": "Échec de la requête à l'index de recherche.",
     "searching": "Recherche en cours...",

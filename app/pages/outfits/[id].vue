@@ -675,9 +675,13 @@
   // SEO Meta Tags
   const ogOutfitImage = computed(() =>
     outfit.value
-      ? nuxtImg(`/images/outfits/${outfit.value.id}.png`, {
-          preset: 'tallLg',
-        })
+      ? nuxtImg(
+          `/images/outfits/${outfit.value.id}.png`,
+          {},
+          {
+            preset: 'tallLg',
+          }
+        )
       : undefined
   )
 

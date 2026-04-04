@@ -680,8 +680,8 @@
   const ogOutfitImage = computed(() =>
     outfit.value
       ? nuxtImg(`/images/outfits/${outfit.value.id}.png`, {
-          width: 300,
-          height: 450,
+          width: 200,
+          height: 300,
           quality: 80,
           format: 'webp',
         })

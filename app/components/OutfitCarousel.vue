@@ -60,11 +60,11 @@
                 :alt="image.alt"
                 class="absolute inset-0 w-full h-full object-cover z-10"
                 preset="tallLg"
-                width="300"
-                height="450"
+                width="200"
+                height="300"
                 fit="cover"
                 loading="lazy"
-                sizes="300px"
+                sizes="200px"
               />
               <div
                 class="pointer-events-none absolute inset-0 z-30 flex items-center px-6 opacity-0 transition-opacity duration-200 group-hover:opacity-100"

@@ -111,7 +111,7 @@
                 height="300"
                 fit="cover"
                 loading="eager"
-                sizes="200px sm:240px"
+                sizes="200px"
                 format="webp"
               />
             </div>
@@ -861,8 +861,8 @@
   const ogItemImage = computed(() =>
     item.value
       ? nuxtImg(`/images/items/${item.value.id}.png`, {
-          width: 300,
-          height: 450,
+          width: 200,
+          height: 300,
           quality: 80,
           format: 'webp',
         })

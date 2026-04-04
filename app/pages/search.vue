@@ -40,12 +40,15 @@
             hasSearched ? 'max-w-xl' : 'max-w-2xl animate-fade-in-up',
           ]"
         >
-          <div class="relative group">
+          <form
+            class="relative group"
+            @submit.prevent="runSearch(true)"
+          >
             <div
               class="absolute -inset-1 bg-gradient-to-r from-rose-400 via-fuchsia-500 to-amber-500 rounded-2xl blur opacity-25 group-hover:opacity-40 transition duration-500 group-focus-within:opacity-50"
             ></div>
             <div
-              class="relative flex items-center bg-white dark:bg-slate-900 rounded-2xl shadow-lg ring-1 ring-black/5 dark:ring-white/10 overflow-hidden text-lg"
+              class="relative flex items-center overflow-hidden rounded-2xl bg-white text-lg shadow-lg ring-1 ring-black/5 transition dark:bg-slate-900 dark:ring-white/10 focus-within:ring-2 focus-within:ring-rose-400/60"
             >
               <n-icon
                 class="ml-4 mr-2 text-rose-400"
@@ -56,20 +59,40 @@
                 v-model="searchQuery"
                 type="text"
                 :placeholder="currentPlaceholder"
-                class="w-full bg-transparent border-none focus:outline-none py-4 text-slate-800 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500"
-                @keyup.enter="runSearch(true)"
+                :aria-label="t('search_page.title')"
+                enterkeyhint="search"
+                autocomplete="off"
+                autocapitalize="off"
+                spellcheck="false"
+                class="w-full bg-transparent border-none py-4 text-slate-800 focus:outline-none dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500"
+                @keydown.esc.prevent="clearSearchQuery"
               />
               <n-button
+                v-if="searchQuery"
+                quaternary
+                circle
+                strong
+                attr-type="button"
+                size="large"
+                class="mr-1 !text-slate-400 transition-colors hover:!text-slate-700 dark:!text-slate-500 dark:hover:!text-slate-200"
+                :aria-label="t('search_page.clear_query')"
+                @click="clearSearchQuery"
+              >
+                <template #icon>
+                  <n-icon><Times /></n-icon>
+                </template>
+              </n-button>
+              <n-button
                 type="primary"
+                attr-type="submit"
                 size="large"
                 class="m-1.5 !rounded-xl overflow-hidden after:content-[''] after:absolute after:inset-y-0 after:-left-full after:w-[60%] after:bg-gradient-to-r after:from-transparent after:via-white/20 after:to-transparent after:animate-button-shimmer hover:shadow-md transition-shadow"
                 :loading="loading"
-                @click="runSearch(true)"
               >
                 {{ t('common.search') }}
               </n-button>
             </div>
-          </div>
+          </form>
         </div>
       </div>
     </div>
@@ -97,13 +120,6 @@
       <!-- Results Grid -->
       <div class="gap-4">
         <div
-          class="flex items-center justify-between text-sm text-slate-500 font-medium"
-        >
-          <span v-if="!loading && results.length > 0"> </span>
-          <span v-else-if="!loading">{{ t('search_page.no_matches') }}</span>
-        </div>
-
-        <div
           v-if="loading"
           class="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-4"
         >
@@ -115,15 +131,17 @@
         </div>
 
         <div
-          v-else-if="results.length > 0"
+          v-else-if="hasResults"
           class="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-4"
         >
           <button
-            v-for="(item, index) in results"
+            v-for="(item, index) in displayResults"
             :key="item.id"
             type="button"
             class="group relative overflow-hidden rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80 text-left transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-rose-400 cursor-pointer animate-fade-in-up"
             :style="{ animationDelay: `${Math.min(index, 15) * 0.05}s` }"
+            :aria-label="item.itemName"
+            :aria-pressed="item.id === selectedId"
             :class="[
               item.id === selectedId
                 ? 'ring-2 ring-rose-400 ring-offset-2 ring-offset-slate-50 dark:ring-offset-slate-950 shadow-lg shadow-rose-500/20'
@@ -136,13 +154,13 @@
               class="relative w-full aspect-[2/3] bg-slate-100 dark:bg-slate-950 overflow-hidden"
             >
               <NuxtImg
-                v-if="item.itemId !== null"
-                :src="getImageSrc('item', item.itemId)"
-                :alt="getItemName(item)"
+                v-if="item.imageSrc"
+                :src="item.imageSrc"
+                :alt="item.itemName"
                 class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
                 preset="tallSm"
-                width="200"
-                height="300"
+                width="100"
+                height="150"
                 fit="cover"
                 loading="lazy"
                 sizes="100px"
@@ -162,15 +180,13 @@
                 <div
                   class="text-white font-bold leading-tight text-sm line-clamp-2 shadow-black drop-shadow-md"
                 >
-                  {{ getItemName(item) }}
+                  {{ item.itemName }}
                 </div>
                 <div
-                  v-if="item.itemType || item.metadata?.item_type"
+                  v-if="item.itemTypeLabel"
                   class="mt-1 text-[9px] uppercase tracking-widest text-rose-300 font-semibold drop-shadow-md"
                 >
-                  {{
-                    getItemTypeLabel(item.itemType ?? item.metadata?.item_type)
-                  }}
+                  {{ item.itemTypeLabel }}
                 </div>
               </div>
             </div>
@@ -194,7 +210,7 @@
 
       <!-- Side Details Panel -->
       <div
-        v-if="results.length > 0"
+        v-if="hasResults"
         class="hidden xl:block"
       >
         <div class="sticky top-6">
@@ -221,14 +237,20 @@
                   class="relative w-full aspect-[2/3] bg-slate-100 dark:bg-slate-950/50 border-b border-slate-200/50 dark:border-slate-800/50"
                 >
                   <NuxtImg
-                    v-if="activeResult.itemId !== null"
-                    :src="getImageSrc('item', activeResult.itemId)"
+                    v-if="activeResult.imageSrc"
+                    :src="activeResult.imageSrc"
                     class="w-full h-full object-cover"
                     preset="tallLg"
-                    width="400"
-                    height="600"
+                    width="200"
+                    height="300"
                     fit="cover"
                   />
+                  <div
+                    v-else
+                    class="absolute inset-0 flex items-center justify-center text-slate-300 dark:text-slate-600"
+                  >
+                    <n-icon size="56"><Box /></n-icon>
+                  </div>
                   <!-- Confidence metric -->
                   <div
                     v-if="isDev"
@@ -240,7 +262,7 @@
                     <span
                       class="text-xs font-black text-slate-800 dark:text-slate-200"
                     >
-                      {{ formatMatchScore(activeResult.score) }}
+                      {{ activeResult.matchScoreLabel }}
                     </span>
                   </div>
                 </div>
@@ -248,82 +270,58 @@
                 <!-- Info Content -->
                 <div class="p-5 w-full flex flex-col gap-5">
                   <div>
-                    <div class="flex items-center gap-2 mb-1">
+                    <div class="flex flex-wrap items-center gap-2 mb-1">
                       <n-tag
-                        v-if="
-                          activeResult.itemType ||
-                          activeResult.metadata?.item_type
-                        "
+                        v-if="activeResult.itemTypeLabel"
                         size="tiny"
                         round
                         :bordered="false"
                         type="warning"
                         class="font-bold tracking-widest uppercase !text-[9px]"
                       >
-                        {{
-                          getItemTypeLabel(
-                            activeResult.itemType ??
-                              activeResult.metadata?.item_type
-                          )
-                        }}
+                        {{ activeResult.itemTypeLabel }}
                       </n-tag>
                       <n-tag
-                        v-if="activeResult.category"
+                        v-if="activeResult.categoryLabel"
                         size="tiny"
                         round
                         :bordered="false"
                         type="default"
                         class="font-semibold"
                       >
-                        {{
-                          translateFilterToken(
-                            'category',
-                            activeResult.category,
-                            activeResult.itemType ??
-                              activeResult.metadata?.item_type
-                          )
-                        }}
+                        {{ activeResult.categoryLabel }}
                       </n-tag>
                       <n-tag
-                        v-if="activeResult.subcategory"
+                        v-if="activeResult.subcategoryLabel"
                         size="tiny"
                         round
                         :bordered="false"
                         type="success"
                         class="font-semibold"
                       >
-                        {{
-                          translateFilterToken(
-                            'subcategory',
-                            activeResult.subcategory,
-                            activeResult.itemType ??
-                              activeResult.metadata?.item_type
-                          )
-                        }}
+                        {{ activeResult.subcategoryLabel }}
                       </n-tag>
                     </div>
                     <h2
                       class="text-xl font-black text-slate-800 dark:text-white leading-tight"
                     >
-                      {{ getItemName(activeResult) }}
+                      {{ activeResult.itemName }}
                     </h2>
                   </div>
 
                   <AttributeCard
                     :metadata="activeResult.metadata"
-                    :item-type="activeResult.itemType"
+                    :item-type="activeResult.resolvedItemType"
                   />
 
                   <div class="pt-2 flex flex-col gap-3">
                     <n-button
-                      v-if="activeResult.itemId !== null"
+                      v-if="activeResult.compendiumPath"
                       type="primary"
                       block
                       size="large"
                       class="!rounded-xl shadow-md font-bold"
-                      @click="
-                        navigateTo(localePath(`/items/${activeResult.itemId}`))
-                      "
+                      @click="openActiveCompendium"
                     >
                       {{ t('search_page.view_compendium') }}
                     </n-button>
@@ -339,7 +337,7 @@
                       </h3>
                       <pre
                         class="overflow-auto rounded-xl bg-slate-950 p-3 text-[10px] leading-4 text-slate-300 max-h-48 scrollbar-thin scrollbar-thumb-slate-800"
-                        >{{ formatMetadata(activeResult.metadata) }}</pre
+                        >{{ activeResult.metadataJson }}</pre
                       >
                     </div>
                   </div>
@@ -354,119 +352,133 @@
     <!-- Mobile Details Modal -->
     <n-modal
       v-model:show="isMobileModalOpen"
-      class="w-[80%] max-w-[400px] !bg-transparent !shadow-none"
+      class="w-[calc(100vw-2rem)] max-w-[400px] !bg-transparent !shadow-none"
     >
       <div
         v-if="activeResult"
-        class="relative rounded-3xl bg-white/95 dark:bg-slate-900/95 backdrop-blur-2xl border border-white/50 dark:border-slate-700/50 shadow-2xl overflow-hidden flex flex-col items-center"
+        class="relative grid h-[calc(100dvh-2rem)] max-h-[48rem] w-full grid-rows-[minmax(0,1fr)_auto] overflow-hidden rounded-3xl bg-white/95 shadow-2xl backdrop-blur-2xl dark:bg-slate-900/95"
       >
-        <div class="w-full relative z-10">
-          <!-- Header Image -->
-          <div
-            class="relative w-full aspect-[2/3] bg-slate-100 dark:bg-slate-950/50 border-b border-slate-200/50 dark:border-slate-800/50 flex overflow-hidden items-center justify-center"
+        <div class="absolute right-3 top-3 z-20">
+          <n-button
+            quaternary
+            circle
+            strong
+            attr-type="button"
+            size="small"
+            class="!bg-white/80 !text-slate-600 shadow-md backdrop-blur transition-colors hover:!text-slate-900 dark:!bg-slate-900/80 dark:!text-slate-200 dark:hover:!text-white"
+            :aria-label="t('search_page.close_details')"
+            @click="closeMobileModal"
           >
-            <NuxtImg
-              v-if="activeResult.itemId !== null"
-              :src="getImageSrc('item', activeResult.itemId)"
-              class="absolute inset-0 w-full h-full object-cover"
-              preset="tallLg"
-              width="400"
-              height="600"
-              fit="cover"
-            />
+            <template #icon>
+              <n-icon><Times /></n-icon>
+            </template>
+          </n-button>
+        </div>
+
+        <!-- Scrollable Content Wrapper -->
+        <div class="relative z-10 min-h-0 overflow-hidden">
+          <n-scrollbar
+            class="h-full"
+            content-style="display: flex; flex-direction: column;"
+          >
+            <!-- Header Image -->
             <div
-              v-if="isDev"
-              class="absolute bottom-3 right-3 flex items-center justify-center gap-1.5 backdrop-blur-md bg-white/80 dark:bg-slate-950/80 px-3 py-1.5 rounded-full shadow-lg border border-white/40 dark:border-slate-700/60"
+              class="relative w-full aspect-[2/3] bg-slate-100 dark:bg-slate-950/50 flex overflow-hidden items-center justify-center shrink-0"
             >
+              <NuxtImg
+                v-if="activeResult.imageSrc"
+                :src="activeResult.imageSrc"
+                class="absolute inset-0 w-full h-full object-cover"
+                preset="tallLg"
+                width="200"
+                height="300"
+                fit="cover"
+              />
               <div
-                class="w-1.5 h-1.5 rounded-full bg-rose-500 animate-pulse"
-              ></div>
-              <span
-                class="text-xs font-black text-slate-800 dark:text-slate-200"
+                v-else
+                class="absolute inset-0 flex items-center justify-center text-slate-300 dark:text-slate-600"
               >
-                {{ formatMatchScore(activeResult.score) }}
-              </span>
-            </div>
-          </div>
-
-          <!-- Info Content -->
-          <div class="p-5 w-full flex flex-col gap-5">
-            <div>
-              <div class="flex flex-wrap items-center gap-2 mb-1">
-                <n-tag
-                  v-if="
-                    activeResult.itemType || activeResult.metadata?.item_type
-                  "
-                  size="tiny"
-                  round
-                  :bordered="false"
-                  type="warning"
-                  class="font-bold tracking-widest uppercase !text-[9px]"
-                >
-                  {{
-                    getItemTypeLabel(
-                      activeResult.itemType ?? activeResult.metadata?.item_type
-                    )
-                  }}
-                </n-tag>
-                <n-tag
-                  v-if="activeResult.category"
-                  size="tiny"
-                  round
-                  :bordered="false"
-                  type="default"
-                  class="font-semibold"
-                >
-                  {{
-                    translateFilterToken(
-                      'category',
-                      activeResult.category,
-                      activeResult.itemType ?? activeResult.metadata?.item_type
-                    )
-                  }}
-                </n-tag>
-                <n-tag
-                  v-if="activeResult.subcategory"
-                  size="tiny"
-                  round
-                  :bordered="false"
-                  type="success"
-                  class="font-semibold"
-                >
-                  {{
-                    translateFilterToken(
-                      'subcategory',
-                      activeResult.subcategory,
-                      activeResult.itemType ?? activeResult.metadata?.item_type
-                    )
-                  }}
-                </n-tag>
+                <n-icon size="56"><Box /></n-icon>
               </div>
-              <h2
-                class="text-xl font-black text-slate-800 dark:text-white leading-tight"
+              <div
+                v-if="isDev"
+                class="absolute bottom-3 right-3 flex items-center justify-center gap-1.5 backdrop-blur-md bg-white/80 dark:bg-slate-950/80 px-3 py-1.5 rounded-full shadow-lg border border-white/40 dark:border-slate-700/60"
               >
-                {{ getItemName(activeResult) }}
-              </h2>
+                <div
+                  class="w-1.5 h-1.5 rounded-full bg-rose-500 animate-pulse"
+                ></div>
+                <span
+                  class="text-xs font-black text-slate-800 dark:text-slate-200"
+                >
+                  {{ activeResult.matchScoreLabel }}
+                </span>
+              </div>
             </div>
 
-            <AttributeCard
-              :metadata="activeResult.metadata"
-              :item-type="activeResult.itemType"
-            />
+            <!-- Info Content -->
+            <div class="p-5 w-full flex flex-col gap-5">
+              <div>
+                <div class="flex flex-wrap items-center gap-2 mb-1">
+                  <n-tag
+                    v-if="activeResult.itemTypeLabel"
+                    size="tiny"
+                    round
+                    :bordered="false"
+                    type="warning"
+                    class="font-bold tracking-widest uppercase !text-[9px]"
+                  >
+                    {{ activeResult.itemTypeLabel }}
+                  </n-tag>
+                  <n-tag
+                    v-if="activeResult.categoryLabel"
+                    size="tiny"
+                    round
+                    :bordered="false"
+                    type="default"
+                    class="font-semibold"
+                  >
+                    {{ activeResult.categoryLabel }}
+                  </n-tag>
+                  <n-tag
+                    v-if="activeResult.subcategoryLabel"
+                    size="tiny"
+                    round
+                    :bordered="false"
+                    type="success"
+                    class="font-semibold"
+                  >
+                    {{ activeResult.subcategoryLabel }}
+                  </n-tag>
+                </div>
+                <h2
+                  class="text-xl font-black text-slate-800 dark:text-white leading-tight"
+                >
+                  {{ activeResult.itemName }}
+                </h2>
+              </div>
 
-            <div class="pt-1 flex flex-col gap-2">
-              <n-button
-                v-if="activeResult.itemId !== null"
-                type="primary"
-                block
-                size="large"
-                class="!rounded-xl shadow-md font-bold"
-                @click="navigateTo(localePath(`/items/${activeResult.itemId}`))"
-              >
-                {{ t('search_page.view_compendium') }}
-              </n-button>
+              <AttributeCard
+                :metadata="activeResult.metadata"
+                :item-type="activeResult.resolvedItemType"
+              />
             </div>
-          </div>
+          </n-scrollbar>
+        </div>
+
+        <!-- Fixed Bottom Action -->
+        <div
+          class="w-full p-4 border-t border-slate-200/50 dark:border-slate-700/50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md z-20 shrink-0"
+        >
+          <n-button
+            v-if="activeResult.compendiumPath"
+            type="primary"
+            block
+            size="large"
+            class="!rounded-xl shadow-md font-bold"
+            @click="openActiveCompendium"
+          >
+            {{ t('search_page.view_compendium') }}
+          </n-button>
         </div>
       </div>
     </n-modal>
@@ -474,7 +486,8 @@
 </template>
 
 <script setup lang="ts">
-  import { Search, Box, Ghost } from '@vicons/fa'
+  import { breakpointsTailwind } from '@vueuse/core'
+  import { Search, Box, Ghost, Times } from '@vicons/fa'
   import type { ItemSearchMetadata } from '#shared/types/itemSearch'
   import { isItemSearchFieldKey } from '#shared/utils/itemSearch'
 
@@ -495,6 +508,18 @@
     data: SearchHit[]
   }
 
+  type SearchDisplayHit = SearchHit & {
+    resolvedItemType: string | null
+    itemName: string
+    itemTypeLabel: string
+    categoryLabel: string
+    subcategoryLabel: string
+    imageSrc: string | null
+    matchScoreLabel: string
+    compendiumPath: string | null
+    metadataJson: string
+  }
+
   const { t, locale } = useI18n()
   const { translateFilterToken } = useFilterToken()
   const route = useRoute()
@@ -503,6 +528,8 @@
   const { getImageSrc } = imageProvider()
   const isDev = import.meta.dev
   const gameVersionHeaders = getGameVersionRequestHeaders()
+  const breakpoints = useBreakpoints(breakpointsTailwind)
+  const isDesktopDetails = breakpoints.greaterOrEqual('xl')
 
   // Rotating placeholder examples built from existing filter locale keys
   const PLACEHOLDER_EXAMPLES: string[][] = [
@@ -515,6 +542,9 @@
     ['ornament.embroidery', 'category.shoes.flats'],
     ['bangs.wispy_bangs', 'category.hair.twin_tails'],
   ]
+
+  const normalizeSearchQuery = (value: string) =>
+    value.trim().replace(/\s+/g, ' ')
 
   const exampleIndex = ref(0)
 
@@ -538,28 +568,48 @@
   })
 
   let typeInterval: ReturnType<typeof setInterval> | null = null
+  let activeSearchController: AbortController | null = null
+  let latestSearchRequestId = 0
 
-  onMounted(() => {
-    exampleIndex.value = Math.floor(Math.random() * PLACEHOLDER_EXAMPLES.length)
+  const stopPlaceholderTyping = () => {
+    if (!typeInterval) return
+    clearInterval(typeInterval)
+    typeInterval = null
+  }
+
+  const restartPlaceholderTyping = () => {
+    stopPlaceholderTyping()
+    typedCharCount.value = 0
+    isTypingFinished.value = false
 
     typeInterval = setInterval(() => {
       if (typedCharCount.value < targetPlaceholder.value.length) {
         typedCharCount.value++
-      } else {
-        isTypingFinished.value = true
-        if (typeInterval) {
-          clearInterval(typeInterval)
-          typeInterval = null
-        }
+        return
       }
-    }, 50) // speed of typing
+
+      isTypingFinished.value = true
+      stopPlaceholderTyping()
+    }, 50)
+  }
+
+  const cancelActiveSearch = () => {
+    if (!activeSearchController) return
+    activeSearchController.abort()
+    activeSearchController = null
+  }
+
+  onMounted(() => {
+    exampleIndex.value = Math.floor(Math.random() * PLACEHOLDER_EXAMPLES.length)
+    restartPlaceholderTyping()
   })
 
   onUnmounted(() => {
-    if (typeInterval) clearInterval(typeInterval)
+    stopPlaceholderTyping()
+    cancelActiveSearch()
   })
 
-  const searchQuery = ref(route.query.q?.toString() ?? '')
+  const searchQuery = ref(normalizeSearchQuery(route.query.q?.toString() ?? ''))
   const hasSearched = ref(!!route.query.q)
   const results = ref<SearchHit[]>([])
   const selectedId = ref<string | null>(null)
@@ -572,31 +622,121 @@
     twitterTitle: () => t('search_page.title'),
   })
 
-  const activeResult = computed(
+  const getResolvedItemType = (
+    item: Pick<SearchHit, 'itemType' | 'metadata'>
+  ) => item.itemType ?? item.metadata?.item_type ?? null
+
+  const getItemName = (item: Pick<SearchHit, 'id' | 'itemId'>) => {
+    if (item.itemId !== null) {
+      return t(`item.${item.itemId}.name`)
+    }
+
+    return item.id
+  }
+
+  const getItemTypeLabel = (value?: string | null) => {
+    if (!value) return ''
+    const normalized = normalizeItemSearchItemType(value)
+    const key = `type.${normalized}`
+    const translated = t(key)
+    return translated !== key ? translated : humanizeItemSearchToken(normalized)
+  }
+
+  const formatMatchScore = (score: number) =>
+    t('search_page.match_score', {
+      score: (Math.max(score, 0) * 100).toFixed(1),
+    })
+
+  const buildCompendiumPath = (itemId: number | null) =>
+    itemId !== null ? localePath(`/items/${itemId}`) : null
+
+  const displayResults = computed<SearchDisplayHit[]>(() =>
+    results.value.map((item) => {
+      const resolvedItemType = getResolvedItemType(item)
+
+      return {
+        ...item,
+        resolvedItemType,
+        itemName: getItemName(item),
+        itemTypeLabel: getItemTypeLabel(resolvedItemType),
+        categoryLabel: item.category
+          ? translateFilterToken('category', item.category, resolvedItemType)
+          : '',
+        subcategoryLabel: item.subcategory
+          ? translateFilterToken(
+              'subcategory',
+              item.subcategory,
+              resolvedItemType
+            )
+          : '',
+        imageSrc:
+          item.itemId !== null ? getImageSrc('item', item.itemId) : null,
+        matchScoreLabel: formatMatchScore(item.score),
+        compendiumPath: buildCompendiumPath(item.itemId),
+        metadataJson: isDev ? formatMetadata(item.metadata) : '',
+      }
+    })
+  )
+
+  const hasResults = computed(() => displayResults.value.length > 0)
+
+  const activeResult = computed<SearchDisplayHit | null>(
     () =>
-      results.value.find((item) => item.id === selectedId.value) ??
-      results.value[0] ??
+      displayResults.value.find((item) => item.id === selectedId.value) ??
+      displayResults.value[0] ??
       null
   )
 
   const setSelected = (id: string) => {
     selectedId.value = id
-    if (typeof window !== 'undefined' && window.innerWidth < 1280) {
+    if (!isDesktopDetails.value) {
       isMobileModalOpen.value = true
     }
   }
 
   const resetSearchState = () => {
+    cancelActiveSearch()
     results.value = []
     selectedId.value = null
+    loading.value = false
     error.value = ''
     hasSearched.value = false
+    isMobileModalOpen.value = false
+  }
+
+  const updateSearchRoute = async (query: string | null) => {
+    const nextQuery = { ...route.query }
+
+    if (query) {
+      nextQuery.q = query
+    } else {
+      delete nextQuery.q
+    }
+
+    await router.replace({ query: nextQuery })
   }
 
   const clearSearch = async () => {
     searchQuery.value = ''
     resetSearchState()
-    await router.replace({ query: {} })
+    restartPlaceholderTyping()
+    await updateSearchRoute(null)
+  }
+
+  const clearSearchQuery = async () => {
+    if (!searchQuery.value && !hasSearched.value) return
+
+    if (hasSearched.value || route.query.q) {
+      await clearSearch()
+      return
+    }
+
+    searchQuery.value = ''
+    restartPlaceholderTyping()
+  }
+
+  const closeMobileModal = () => {
+    isMobileModalOpen.value = false
   }
 
   const buildMetadataDisplayPayload = (metadata: ItemSearchMetadata) => {
@@ -670,29 +810,15 @@
       2
     )
 
-  const getItemName = (item: Pick<SearchHit, 'id' | 'itemId'>) => {
-    if (item.itemId !== null) {
-      return t(`item.${item.itemId}.name`)
-    }
+  const openActiveCompendium = async () => {
+    if (!activeResult.value?.compendiumPath) return
 
-    return item.id
+    closeMobileModal()
+    await navigateTo(activeResult.value.compendiumPath)
   }
-
-  const getItemTypeLabel = (value?: string | null) => {
-    if (!value) return ''
-    const normalized = normalizeItemSearchItemType(value)
-    const key = `type.${normalized}`
-    const translated = t(key)
-    return translated !== key ? translated : humanizeItemSearchToken(normalized)
-  }
-
-  const formatMatchScore = (score: number) =>
-    t('search_page.match_score', {
-      score: (Math.max(score, 0) * 100).toFixed(1),
-    })
 
   const runSearch = async (pushToUrl = false) => {
-    let query = searchQuery.value.trim()
+    let query = normalizeSearchQuery(searchQuery.value)
 
     if (!query) {
       if (!pushToUrl) return
@@ -702,7 +828,14 @@
       exampleIndex.value =
         (exampleIndex.value + 1) % PLACEHOLDER_EXAMPLES.length
       isTypingFinished.value = true
+    } else if (query !== searchQuery.value) {
+      searchQuery.value = query
     }
+
+    const requestId = ++latestSearchRequestId
+    cancelActiveSearch()
+    const controller = new AbortController()
+    activeSearchController = controller
 
     loading.value = true
     hasSearched.value = true
@@ -710,7 +843,7 @@
 
     try {
       if (pushToUrl && route.query.q?.toString() !== query) {
-        await router.replace({ query: { q: query } })
+        await updateSearchRoute(query)
       }
 
       const response = await $fetch<SearchApiResponse>('/api/search/items', {
@@ -719,38 +852,87 @@
           lang: locale.value,
         },
         headers: gameVersionHeaders,
+        signal: controller.signal,
       })
 
-      results.value = (response.data ?? []).filter((item) => item.score > 0.0)
-      selectedId.value = results.value[0]?.id ?? null
+      if (requestId !== latestSearchRequestId) return
+
+      const nextResults = (response.data ?? []).filter((item) => item.score > 0)
+
+      results.value = nextResults
+      selectedId.value =
+        nextResults.find((item) => item.id === selectedId.value)?.id ??
+        nextResults[0]?.id ??
+        null
+      isMobileModalOpen.value = false
     } catch (caughtError) {
+      if (controller.signal.aborted || requestId !== latestSearchRequestId) {
+        return
+      }
+
       results.value = []
       selectedId.value = null
+      isMobileModalOpen.value = false
       error.value = toErrorMessage(
         caughtError,
         t('search_page.error_description')
       )
     } finally {
-      loading.value = false
+      if (requestId === latestSearchRequestId) {
+        loading.value = false
+      }
+
+      if (activeSearchController === controller) {
+        activeSearchController = null
+      }
     }
   }
+
+  watch(targetPlaceholder, (nextPlaceholder, previousPlaceholder) => {
+    if (
+      nextPlaceholder !== previousPlaceholder &&
+      !normalizeSearchQuery(searchQuery.value)
+    ) {
+      restartPlaceholderTyping()
+    }
+  })
+
+  watch(isDesktopDetails, (isDesktop) => {
+    if (isDesktop) {
+      isMobileModalOpen.value = false
+    }
+  })
+
+  watch(activeResult, (nextResult) => {
+    if (!nextResult) {
+      isMobileModalOpen.value = false
+    }
+  })
+
+  watch(locale, () => {
+    if (normalizeSearchQuery(searchQuery.value)) {
+      void runSearch(false)
+    }
+  })
 
   watch(
     () => route.query.q?.toString() ?? '',
     (nextQuery, previousQuery) => {
-      const normalizedNextQuery = nextQuery.trim()
+      const normalizedNextQuery = normalizeSearchQuery(nextQuery)
 
       if (
         previousQuery !== undefined &&
-        normalizedNextQuery === searchQuery.value.trim()
+        normalizedNextQuery === normalizeSearchQuery(searchQuery.value)
       ) {
+        searchQuery.value = normalizedNextQuery
         return
       }
 
-      searchQuery.value = nextQuery
+      searchQuery.value = normalizedNextQuery
 
       if (!normalizedNextQuery) {
         resetSearchState()
+        restartPlaceholderTyping()
         return
       }
 

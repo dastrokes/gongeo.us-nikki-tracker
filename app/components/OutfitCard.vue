@@ -137,7 +137,7 @@
       case 'sm':
         return 100
       case 'lg':
-        return 300
+        return 200
       default:
         return 200
     }
@@ -148,7 +148,7 @@
       case 'sm':
         return 150
       case 'lg':
-        return 450
+        return 300
       default:
         return 300
     }
@@ -159,9 +159,9 @@
       case 'sm':
         return '100px'
       case 'lg':
-        return '300px'
+        return '200px'
       default:
-        return '200px sm:240px'
+        return '200px'
     }
   })
 

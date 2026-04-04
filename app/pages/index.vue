@@ -752,9 +752,13 @@
         height: imageSize,
         width: imageSize,
         backgroundColor: {
-          image: nuxtImg(getImageSrc('itemIcon', itemId), {
-            preset: imageRequestSize === 60 ? 'iconSm' : 'iconLg',
-          }),
+          image: nuxtImg(
+            getImageSrc('itemIcon', itemId),
+            {},
+            {
+              preset: imageRequestSize === 60 ? 'iconSm' : 'iconLg',
+            }
+          ),
         },
         align: 'center',
       }

@@ -91,7 +91,7 @@
   const getSizeClass = (size: 'sm' | 'lg') => {
     switch (size) {
       case 'sm':
-        return 'min-h-[50px] xl:min-h-[60px]'
+        return 'min-h-[60px] xl:min-h-[80px]'
       case 'lg':
         return 'min-h-[80px] xl:min-h-[120px]'
       default:

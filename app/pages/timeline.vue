@@ -476,12 +476,20 @@
       const daysAfterLastActive = latestRunEndDate
         ? getDaysAfterDate(todayDate, latestRunEndDate)
         : 0
-      const markerImageUrl = nuxtImg(bannerImageSrc, {
-        preset: 'bannerThumb',
-      })
-      const tooltipImageUrl = nuxtImg(bannerImageSrc, {
-        preset: 'bannerThumb',
-      })
+      const markerImageUrl = nuxtImg(
+        bannerImageSrc,
+        {},
+        {
+          preset: 'bannerThumb',
+        }
+      )
+      const tooltipImageUrl = nuxtImg(
+        bannerImageSrc,
+        {},
+        {
+          preset: 'bannerThumb',
+        }
+      )
 
       return banner.runs.map((run: BannerRun, runIndex: number) => {
         const isRerun = runIndex > 0

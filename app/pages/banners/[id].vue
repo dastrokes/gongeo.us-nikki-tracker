@@ -729,9 +729,13 @@
   // SEO Meta Tags
   const ogItemImage = computed(() =>
     banner.value
-      ? nuxtImg(`/images/banners/${banner.value.bannerId}.png`, {
-          preset: 'bannerHero',
-        })
+      ? nuxtImg(
+          `/images/banners/${banner.value.bannerId}.png`,
+          {},
+          {
+            preset: 'bannerHero',
+          }
+        )
       : undefined
   )
 

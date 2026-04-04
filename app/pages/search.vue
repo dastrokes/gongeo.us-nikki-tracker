@@ -238,6 +238,7 @@
                     :src="activeResult.imageSrc"
                     class="w-full h-full object-cover"
                     preset="tallLg"
+                    sizes="200px"
                     fit="cover"
                   />
                   <div
@@ -385,6 +386,7 @@
                 :src="activeResult.imageSrc"
                 class="absolute inset-0 w-full h-full object-cover"
                 preset="tallLg"
+                sizes="200px"
                 fit="cover"
               />
               <div

@@ -1483,9 +1483,13 @@
   const getBannerThumbChartImage = (bannerId: string | number | undefined) => {
     if (!bannerId) return ''
 
-    return nuxtImg(getImageSrc('bannerThumb', bannerId.toString()), {
-      preset: 'bannerThumb',
-    })
+    return nuxtImg(
+      getImageSrc('bannerThumb', bannerId.toString()),
+      {},
+      {
+        preset: 'bannerThumb',
+      }
+    )
   }
 
   const createLuckBarData = (
@@ -1917,9 +1921,13 @@
           const bannerObj = data[pulls.dataIndex]
           const bannerId = bannerObj?.bannerId
           const imageUrl = bannerId
-            ? nuxtImg(getImageSrc('bannerThumb', bannerId.toString()), {
-                preset: 'bannerThumb',
-              })
+            ? nuxtImg(
+                getImageSrc('bannerThumb', bannerId.toString()),
+                {},
+                {
+                  preset: 'bannerThumb',
+                }
+              )
             : ''
           const imgHtml = imageUrl
             ? `<img src="${imageUrl}" alt="${pulls.axisValue}" style="width: 200px; height: 100px; object-cover: cover; border-radius: 4px; margin-top: 8px;" />`

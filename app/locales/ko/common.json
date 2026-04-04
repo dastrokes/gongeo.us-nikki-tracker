@@ -805,8 +805,8 @@
   "search_page": {
     "title": "기상 검색",
     "placeholder": "'{example}' 검색해보기",
-    "clear_query": "Clear search",
-    "close_details": "Close details",
+    "clear_query": "검색 지우기",
+    "close_details": "상세 닫기",
     "error_title": "오류",
     "error_description": "검색 인덱스 쿼리에 실패했습니다.",
     "searching": "검색 중...",

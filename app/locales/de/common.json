@@ -805,7 +805,7 @@
   "search_page": {
     "title": "Whim-Suche",
     "placeholder": "Versuch '{example}'",
-    "clear_query": "Suche löschen",
+    "clear_query": "Suche zurücksetzen",
     "close_details": "Details schließen",
     "error_title": "Fehler",
     "error_description": "Suchindex konnte nicht abgerufen werden.",

@@ -805,8 +805,8 @@
   "search_page": {
     "title": "Ricerca dei capricci",
     "placeholder": "Prova '{example}'",
-    "clear_query": "Clear search",
-    "close_details": "Close details",
+    "clear_query": "Cancella ricerca",
+    "close_details": "Chiudi dettagli",
     "error_title": "Errore",
     "error_description": "Impossibile interrogare l'indice di ricerca.",
     "searching": "Ricerca in corso...",

@@ -1074,9 +1074,13 @@
           const pullsArr = filteredChartData[bannerId || '']
           if (!pullsArr) return ''
           const total = pullsArr.reduce((a: number, b: number) => a + b, 0)
-          const imageUrl = nuxtImg(getImageSrc('bannerThumb', bannerId ?? ''), {
-            preset: 'bannerThumb',
-          })
+          const imageUrl = nuxtImg(
+            getImageSrc('bannerThumb', bannerId ?? ''),
+            {},
+            {
+              preset: 'bannerThumb',
+            }
+          )
           return `
                 <div style="display: flex; flex-direction: column; align-items: center;">
                   <div style="margin-bottom: 5px; text-align: center; font-weight: bold;">
@@ -1491,9 +1495,13 @@
         height: imageSize,
         width: imageSize,
         backgroundColor: {
-          image: nuxtImg(getImageSrc('itemIcon', itemId), {
-            preset: imageRequestSize === 60 ? 'iconSm' : 'iconLg',
-          }),
+          image: nuxtImg(
+            getImageSrc('itemIcon', itemId),
+            {},
+            {
+              preset: imageRequestSize === 60 ? 'iconSm' : 'iconLg',
+            }
+          ),
         },
         align: 'center',
       }

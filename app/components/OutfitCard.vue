@@ -13,12 +13,9 @@
       :alt="name"
       :class="imageClasses"
       :preset="imagePreset"
-      :width="imageWidth"
-      :height="imageHeight"
       fit="cover"
       loading="lazy"
       :sizes="imageSizes"
-      format="webp"
     />
 
     <div
@@ -129,28 +126,6 @@
         return 'tallLg'
       default:
         return 'tallLg'
-    }
-  })
-
-  const imageWidth = computed(() => {
-    switch (props.size) {
-      case 'sm':
-        return 100
-      case 'lg':
-        return 200
-      default:
-        return 200
-    }
-  })
-
-  const imageHeight = computed(() => {
-    switch (props.size) {
-      case 'sm':
-        return 150
-      case 'lg':
-        return 300
-      default:
-        return 300
     }
   })
 

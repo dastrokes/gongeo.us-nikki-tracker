@@ -112,8 +112,6 @@
   ): VNode[] => {
     const imageProps = {
       alt: result.name,
-      quality: 80,
-      format: 'webp',
       loading: 'lazy',
     }
 
@@ -124,16 +122,19 @@
         case 'banner':
           return {
             src: getImageSrc('bannerThumb', bannerId),
+            preset: 'bannerThumb',
             class: 'w-20 h-10 my-0.5 rounded object-cover flex-shrink-0',
           }
         case 'outfit':
           return {
             src: getImageSrc('outfit', result.id),
+            preset: 'tallSm',
             class: 'w-8 h-12 my-0.5 rounded object-cover flex-shrink-0',
           }
         case 'item':
           return {
             src: getImageSrc('item', result.id),
+            preset: 'tallSm',
             class: 'w-8 h-12 my-0.5 rounded object-cover flex-shrink-0',
           }
         default:
@@ -146,8 +147,6 @@
         h(resolveComponent('NuxtImg'), {
           ...imageProps,
           ...imageConfig,
-          width: result.type === 'banner' ? 80 : 32,
-          height: result.type === 'banner' ? 40 : 48,
         })
       )
     }

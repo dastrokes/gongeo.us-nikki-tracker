@@ -10,8 +10,7 @@
         <NuxtImg
           :src="getImageSrc('emote', 'think')"
           class="w-2/3 h-2/3 object-cover"
-          width="200"
-          height="200"
+          preset="iconLg"
           fit="cover"
           sizes="160px sm:200px"
         />

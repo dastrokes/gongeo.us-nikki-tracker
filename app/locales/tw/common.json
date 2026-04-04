@@ -805,8 +805,8 @@
   "search_page": {
     "title": "奇想搜尋",
     "placeholder": "試試「{example}」",
-    "clear_query": "Clear search",
-    "close_details": "Close details",
+    "clear_query": "清除搜尋",
+    "close_details": "關閉詳情",
     "error_title": "錯誤",
     "error_description": "搜尋索引查詢失敗。",
     "searching": "搜尋中...",

@@ -805,8 +805,8 @@
   "search_page": {
     "title": "奇想検索",
     "placeholder": "「{example}」を試す",
-    "clear_query": "Clear search",
-    "close_details": "Close details",
+    "clear_query": "検索をクリア",
+    "close_details": "詳細を閉じる",
     "error_title": "エラー",
     "error_description": "検索インデックスのクエリに失敗しました。",
     "searching": "検索中...",

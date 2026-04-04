@@ -805,6 +805,8 @@
   "search_page": {
     "title": "Whim Search",
     "placeholder": "Try '{example}'",
+    "clear_query": "Clear search",
+    "close_details": "Close details",
     "error_title": "Error",
     "error_description": "Failed to query search index.",
     "searching": "Searching...",

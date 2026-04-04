@@ -410,12 +410,9 @@
                 :alt="$t(`banner.${inBanner.bannerId}.name`)"
                 class="w-full h-full object-cover"
                 preset="bannerThumb"
-                width="200"
-                height="100"
                 fit="cover"
                 loading="lazy"
                 sizes="200px"
-                format="webp"
               />
             </div>
             <div class="mt-2">
@@ -446,8 +443,7 @@
             <NuxtImg
               :src="getImageSrc('emote', 'think')"
               class="mx-auto w-24 h-24 sm:w-32 sm:h-32 object-cover"
-              width="200"
-              height="200"
+              preset="iconLg"
               fit="cover"
               sizes="160px sm:200px"
             />
@@ -680,10 +676,7 @@
   const ogOutfitImage = computed(() =>
     outfit.value
       ? nuxtImg(`/images/outfits/${outfit.value.id}.png`, {
-          width: 200,
-          height: 300,
-          quality: 80,
-          format: 'webp',
+          preset: 'tallLg',
         })
       : undefined
   )

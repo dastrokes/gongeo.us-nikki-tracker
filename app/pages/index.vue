@@ -11,8 +11,7 @@
         >
           <NuxtImg
             src="images/logo.webp"
-            width="80"
-            height="80"
+            preset="iconSm"
             fit="cover"
             loading="eager"
             fetchpriority="high"
@@ -215,8 +214,7 @@
             <div class="h-full aspect-[2/3] shrink-0 p-1">
               <NuxtImg
                 :src="getImageSrc('outfit', featuredOutfitId)"
-                width="40"
-                height="60"
+                preset="tallSm"
                 quality="1"
                 fit="cover"
                 loading="lazy"
@@ -755,10 +753,7 @@
         width: imageSize,
         backgroundColor: {
           image: nuxtImg(getImageSrc('itemIcon', itemId), {
-            width: imageRequestSize,
-            height: imageRequestSize,
-            quality: 80,
-            format: 'webp',
+            preset: imageRequestSize === 60 ? 'iconSm' : 'iconLg',
           }),
         },
         align: 'center',

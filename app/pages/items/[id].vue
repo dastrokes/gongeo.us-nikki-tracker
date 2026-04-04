@@ -107,12 +107,9 @@
                 :alt="itemName"
                 class="absolute inset-0 w-full h-full object-cover z-10"
                 preset="tallLg"
-                width="200"
-                height="300"
                 fit="cover"
                 loading="eager"
                 sizes="200px"
-                format="webp"
               />
             </div>
           </div>
@@ -431,12 +428,9 @@
                   :alt="$t(`item.${variation.id}.name`)"
                   class="absolute inset-0 w-full h-full object-cover z-10"
                   preset="tallSm"
-                  width="100"
-                  height="150"
                   fit="cover"
                   loading="lazy"
                   sizes="100px"
-                  format="webp"
                 />
               </div>
               <div class="mt-1 text-center">
@@ -509,12 +503,9 @@
                 :alt="$t(`banner.${inBanner.bannerId}.name`)"
                 class="w-full h-full object-cover"
                 preset="bannerThumb"
-                width="200"
-                height="100"
                 fit="cover"
                 loading="lazy"
                 sizes="200px"
-                format="webp"
               />
             </div>
             <div class="mt-2">
@@ -545,8 +536,7 @@
             <NuxtImg
               :src="getImageSrc('emote', 'think')"
               class="mx-auto w-24 h-24 sm:w-32 sm:h-32 object-cover"
-              width="200"
-              height="200"
+              preset="iconLg"
               fit="cover"
               sizes="160px sm:200px"
             />
@@ -861,10 +851,7 @@
   const ogItemImage = computed(() =>
     item.value
       ? nuxtImg(`/images/items/${item.value.id}.png`, {
-          width: 200,
-          height: 300,
-          quality: 80,
-          format: 'webp',
+          preset: 'tallLg',
         })
       : undefined
   )

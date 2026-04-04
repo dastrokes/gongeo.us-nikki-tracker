@@ -760,8 +760,7 @@
             :src="getImageSrc('emote', 'note')"
             :alt="$t('import.maintenance.title')"
             class="mx-auto w-24 h-24 sm:w-32 sm:h-32 object-cover"
-            width="200"
-            height="200"
+            preset="iconLg"
             fit="cover"
             sizes="160px sm:200px"
           />

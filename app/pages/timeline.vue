@@ -477,16 +477,10 @@
         ? getDaysAfterDate(todayDate, latestRunEndDate)
         : 0
       const markerImageUrl = nuxtImg(bannerImageSrc, {
-        width: 200,
-        height: 100,
-        quality: 80,
-        format: 'webp',
+        preset: 'bannerThumb',
       })
       const tooltipImageUrl = nuxtImg(bannerImageSrc, {
-        width: 200,
-        height: 100,
-        quality: 80,
-        format: 'webp',
+        preset: 'bannerThumb',
       })
 
       return banner.runs.map((run: BannerRun, runIndex: number) => {

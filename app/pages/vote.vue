@@ -42,8 +42,6 @@
                     'scale-105': selectedBanner === currentPair.banner1.id,
                   }"
                   preset="bannerHero"
-                  width="800"
-                  height="400"
                   fit="cover"
                   loading="eager"
                   sizes="400px sm:800px"
@@ -123,8 +121,6 @@
                     'scale-105': selectedBanner === currentPair.banner2.id,
                   }"
                   preset="bannerHero"
-                  width="800"
-                  height="400"
                   fit="cover"
                   loading="eager"
                   sizes="400px sm:800px"

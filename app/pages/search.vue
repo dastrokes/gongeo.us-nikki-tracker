@@ -159,12 +159,9 @@
                 :alt="item.itemName"
                 class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
                 preset="tallSm"
-                width="100"
-                height="150"
                 fit="cover"
                 loading="lazy"
                 sizes="100px"
-                format="webp"
               />
               <div
                 v-else
@@ -241,8 +238,6 @@
                     :src="activeResult.imageSrc"
                     class="w-full h-full object-cover"
                     preset="tallLg"
-                    width="200"
-                    height="300"
                     fit="cover"
                   />
                   <div
@@ -390,8 +385,6 @@
                 :src="activeResult.imageSrc"
                 class="absolute inset-0 w-full h-full object-cover"
                 preset="tallLg"
-                width="200"
-                height="300"
                 fit="cover"
               />
               <div

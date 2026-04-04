@@ -20,8 +20,6 @@
         class="w-full h-full object-cover aspect-square"
         :style="imageStyle"
         :preset="getImagePreset(size)"
-        :width="getImageWidth(size)"
-        :height="getImageWidth(size)"
         fit="cover"
         loading="lazy"
         placeholder="/images/loading.webp"
@@ -96,17 +94,6 @@
         return 'min-h-[80px] xl:min-h-[120px]'
       default:
         return 'min-h-[80px] xl:min-h-[120px]'
-    }
-  }
-
-  const getImageWidth = (size: 'sm' | 'lg') => {
-    switch (size) {
-      case 'sm':
-        return 60
-      case 'lg':
-        return 120
-      default:
-        return 120
     }
   }
 

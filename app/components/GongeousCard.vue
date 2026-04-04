@@ -33,7 +33,6 @@
         loading="lazy"
         width="400"
         height="300"
-        quality="80"
         fit="cover"
         class="w-full h-full -rotate-1 rounded-2xl border border-slate-200 shadow-lg transition-transform duration-300 hover:rotate-0"
       />

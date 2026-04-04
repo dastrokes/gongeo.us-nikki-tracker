@@ -101,8 +101,7 @@
                   >
                     <NuxtImg
                       src="images/logo.webp"
-                      width="80"
-                      height="80"
+                      preset="iconSm"
                       fit="cover"
                       loading="lazy"
                       :alt="$t('navigation.title')"
@@ -147,9 +146,8 @@
                       >
                         <NuxtImg
                           :src="getImageSrc('emote', 'hi')"
-                          width="144"
-                          height="144"
-                          sizes="72px sm:80px"
+                          preset="iconSm"
+                          sizes="60px"
                           class="relative h-[80%] w-[80%] object-contain transition-transform duration-300 -rotate-[5deg] group-hover:-rotate-[10deg]"
                           alt=""
                           aria-hidden="true"
@@ -176,9 +174,8 @@
                       >
                         <NuxtImg
                           :src="getImageSrc('emote', 'love')"
-                          width="144"
-                          height="144"
-                          sizes="72px sm:80px"
+                          preset="iconSm"
+                          sizes="60px"
                           class="relative h-[93%] w-[93%] object-contain transition-transform duration-300 group-hover:translate-y-[-2px]"
                           alt=""
                           aria-hidden="true"
@@ -206,9 +203,8 @@
                       >
                         <NuxtImg
                           :src="getImageSrc('emote', 'news')"
-                          width="144"
-                          height="144"
-                          sizes="72px sm:80px"
+                          preset="iconSm"
+                          sizes="60px"
                           class="relative h-[80%] w-[80%] object-contain transition-transform duration-300 group-hover:translate-x-[-2px]"
                           alt=""
                           aria-hidden="true"

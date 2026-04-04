@@ -804,9 +804,9 @@
   },
   "search_page": {
     "title": "ค้นหาตามความอยาก",
-    "placeholder": "ลองค้นหา '{example}'",
-    "clear_query": "Clear search",
-    "close_details": "Close details",
+    "placeholder": "ลอง '{example}'",
+    "clear_query": "ล้างการค้นหา",
+    "close_details": "ปิดรายละเอียด",
     "error_title": "ข้อผิดพลาด",
     "error_description": "ล้มเหลวในการค้นหาดัชนี",
     "searching": "กำลังค้นหา...",

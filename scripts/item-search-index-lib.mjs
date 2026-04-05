@@ -7,7 +7,6 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 const repoRoot = path.resolve(__dirname, '..')
 const envPath = path.join(repoRoot, '.env')
-const localesRoot = path.join(repoRoot, 'app', 'locales')
 const defaultDocumentsPath = path.resolve(
   repoRoot,
   '..',
@@ -16,9 +15,9 @@ const defaultDocumentsPath = path.resolve(
   'item-search-documents.jsonl'
 )
 
-export const LOCALE_NAMESPACE_CONFIG = [
-  { locale: 'en', namespace: 'en' },
-  { locale: 'zh', namespace: 'zh' },
+export const SEARCH_NAMESPACE_CONFIG = [
+  { namespace: 'en' },
+  { namespace: 'zh' },
 ]
 
 const ARRAY_FIELDS = ['pattern', 'material', 'structure', 'ornament']
@@ -151,47 +150,23 @@ const normalizeNullableString = (value) => {
   return normalized.length > 0 ? normalized : null
 }
 
-const loadJsonFile = (filePath) => JSON.parse(fs.readFileSync(filePath, 'utf8'))
-
 const normalizeSearchDataValue = (value) =>
   typeof value === 'string' ? value.trim().toLowerCase() : ''
 
 const toUniqueValues = (values) =>
-  Array.from(
-    new Set(values.map(normalizeSearchDataValue).filter(Boolean))
-  )
+  Array.from(new Set(values.map(normalizeSearchDataValue).filter(Boolean)))
 
-const loadLocaleBundle = (locale) => ({
-  filter:
-    loadJsonFile(path.join(localesRoot, locale, 'filter.json')).filter || {},
-  item: loadJsonFile(path.join(localesRoot, locale, 'item.json')),
-  misc: loadJsonFile(path.join(localesRoot, locale, 'misc.json')),
-})
-
-const createLocaleBundles = () =>
-  Object.fromEntries(
-    LOCALE_NAMESPACE_CONFIG.map(({ locale }) => [
-      locale,
-      loadLocaleBundle(locale),
-    ])
-  )
-
-const getLocalizedItemType = (bundle, itemType) =>
-  normalizeNullableString(bundle.misc[`type.${itemType || 'unknown'}`]) || ''
-
-const translateFilterToken = (bundle, field, value, itemType) => {
-  const normalizedValue = normalizeTokenKey(value)
-  if (!normalizedValue) return ''
-
-  if (field === 'category' || field === 'subcategory') {
-    const scopedValue =
-      bundle.filter?.[field]?.[normalizeItemType(itemType)]?.[normalizedValue]
-    return normalizeNullableString(scopedValue) || ''
-  }
-
-  const translatedValue = bundle.filter?.[field]?.[normalizedValue]
-  return normalizeNullableString(translatedValue) || ''
-}
+const buildSearchText = (metadata) =>
+  toUniqueValues([
+    metadata.item_type,
+    ...SCALAR_FIELDS.flatMap((field) => {
+      const value = metadata[field]
+      return typeof value === 'string' ? [value] : []
+    }),
+    ...ARRAY_FIELDS.flatMap((field) =>
+      Array.isArray(metadata[field]) ? metadata[field] : []
+    ),
+  ]).join(' ')
 
 export const parseJsonLines = (filePath) => {
   const raw = fs.readFileSync(filePath, 'utf8')
@@ -263,36 +238,16 @@ export const buildItemAttributeRow = (documentRow) => {
 
 export const toUpsertRow = buildItemAttributeRow
 
-export const buildLocalizedVectorUpsertRows = (
-  documentRow,
-  localeBundles = createLocaleBundles()
-) => {
+export const buildSearchVectorUpsertRows = (documentRow) => {
   const { metadata } = buildItemAttributeRow(documentRow)
+  const searchText = buildSearchText(metadata)
 
-  return LOCALE_NAMESPACE_CONFIG.map(({ locale, namespace }) => {
-    const bundle = localeBundles[locale]
-    const localizedTerms = [
-      getLocalizedItemType(bundle, metadata.item_type),
-      ...SCALAR_FIELDS.flatMap((field) => {
-        const value = metadata[field]
-        return typeof value === 'string'
-          ? [translateFilterToken(bundle, field, value, metadata.item_type)]
-          : []
-      }),
-      ...ARRAY_FIELDS.flatMap((field) =>
-        Array.isArray(metadata[field])
-          ? metadata[field].map((value) =>
-              translateFilterToken(bundle, field, value, metadata.item_type)
-            )
-          : []
-      ),
-    ]
-
+  return SEARCH_NAMESPACE_CONFIG.map(({ namespace }) => {
     return {
       namespace,
       row: {
         id: String(metadata.item_id),
-        data: toUniqueValues(localizedTerms).join(' '),
+        data: searchText,
         metadata: { ...metadata },
       },
     }
@@ -381,19 +336,18 @@ export const syncItemIndexToUpstash = async (argv = process.argv.slice(2)) => {
 
   const args = parseArgs(argv)
   const targetNamespaces = args.namespace
-    ? LOCALE_NAMESPACE_CONFIG.filter(
+    ? SEARCH_NAMESPACE_CONFIG.filter(
         ({ namespace }) => namespace === args.namespace
       )
-    : LOCALE_NAMESPACE_CONFIG
+    : SEARCH_NAMESPACE_CONFIG
 
   if (args.namespace && targetNamespaces.length === 0) {
     throw new Error(
-      `Unsupported namespace '${args.namespace}'. Expected one of: ${LOCALE_NAMESPACE_CONFIG.map(({ namespace }) => namespace).join(', ')}`
+      `Unsupported namespace '${args.namespace}'. Expected one of: ${SEARCH_NAMESPACE_CONFIG.map(({ namespace }) => namespace).join(', ')}`
     )
   }
 
   const documents = parseJsonLines(args.documentsPath)
-  const localeBundles = createLocaleBundles()
   const vectorWrittenCounts = Object.fromEntries(
     targetNamespaces.map(({ namespace }) => [namespace, 0])
   )
@@ -406,12 +360,9 @@ export const syncItemIndexToUpstash = async (argv = process.argv.slice(2)) => {
   )
 
   for (const documentRow of documents) {
-    const localizedRows = buildLocalizedVectorUpsertRows(
-      documentRow,
-      localeBundles
-    )
+    const searchRows = buildSearchVectorUpsertRows(documentRow)
 
-    localizedRows.forEach(({ namespace, row }) => {
+    searchRows.forEach(({ namespace, row }) => {
       if (!(namespace in vectorRowsByNamespace)) return
       vectorRowsByNamespace[namespace].push(row)
     })
@@ -532,14 +483,14 @@ export const syncItemIndexToPinecone = async (argv = process.argv.slice(2)) => {
 
   const args = parseArgs(argv)
   const targetNamespaces = args.namespace
-    ? LOCALE_NAMESPACE_CONFIG.filter(
+    ? SEARCH_NAMESPACE_CONFIG.filter(
         ({ namespace }) => namespace === args.namespace
       )
-    : LOCALE_NAMESPACE_CONFIG
+    : SEARCH_NAMESPACE_CONFIG
 
   if (args.namespace && targetNamespaces.length === 0) {
     throw new Error(
-      `Unsupported namespace '${args.namespace}'. Expected one of: ${LOCALE_NAMESPACE_CONFIG.map(({ namespace }) => namespace).join(', ')}`
+      `Unsupported namespace '${args.namespace}'. Expected one of: ${SEARCH_NAMESPACE_CONFIG.map(({ namespace }) => namespace).join(', ')}`
     )
   }
 
@@ -552,7 +503,6 @@ export const syncItemIndexToPinecone = async (argv = process.argv.slice(2)) => {
     PINECONE_MAX_UPSERT_BATCH_SIZE
   )
   const documents = parseJsonLines(args.documentsPath)
-  const localeBundles = createLocaleBundles()
   const pineconeWrittenCounts = Object.fromEntries(
     targetNamespaces.map(({ namespace }) => [namespace, 0])
   )
@@ -565,12 +515,9 @@ export const syncItemIndexToPinecone = async (argv = process.argv.slice(2)) => {
   )
 
   for (const documentRow of documents) {
-    const localizedRows = buildLocalizedVectorUpsertRows(
-      documentRow,
-      localeBundles
-    )
+    const searchRows = buildSearchVectorUpsertRows(documentRow)
 
-    localizedRows.forEach(({ namespace, row }) => {
+    searchRows.forEach(({ namespace, row }) => {
       if (!(namespace in vectorRowsByNamespace)) return
       vectorRowsByNamespace[namespace].push(row)
     })

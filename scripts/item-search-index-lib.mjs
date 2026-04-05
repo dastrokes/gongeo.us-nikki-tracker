@@ -20,10 +20,10 @@ export const SEARCH_NAMESPACE_CONFIG = [
   { namespace: 'zh' },
 ]
 
+const localesRoot = path.join(repoRoot, 'app', 'locales')
+const searchLocaleCache = new Map()
 const ARRAY_FIELDS = ['pattern', 'material', 'structure', 'ornament']
 const SCALAR_FIELDS = [
-  'category',
-  'subcategory',
   'top_length',
   'bottom_length',
   'hair_length',
@@ -156,17 +156,119 @@ const normalizeSearchDataValue = (value) =>
 const toUniqueValues = (values) =>
   Array.from(new Set(values.map(normalizeSearchDataValue).filter(Boolean)))
 
-const buildSearchText = (metadata) =>
-  toUniqueValues([
-    metadata.item_type,
-    ...SCALAR_FIELDS.flatMap((field) => {
-      const value = metadata[field]
-      return typeof value === 'string' ? [value] : []
-    }),
-    ...ARRAY_FIELDS.flatMap((field) =>
-      Array.isArray(metadata[field]) ? metadata[field] : []
-    ),
-  ]).join(' ')
+const readLocaleJson = (namespace, fileName) =>
+  JSON.parse(
+    fs.readFileSync(path.join(localesRoot, namespace, fileName), 'utf8')
+  )
+
+const getSearchLocaleResources = (namespace) => {
+  if (searchLocaleCache.has(namespace)) {
+    return searchLocaleCache.get(namespace)
+  }
+
+  const resources = {
+    filter: readLocaleJson(namespace, 'filter.json'),
+    misc: readLocaleJson(namespace, 'misc.json'),
+  }
+
+  searchLocaleCache.set(namespace, resources)
+  return resources
+}
+
+const titleCaseWord = (value) =>
+  value.length > 0 ? value[0].toUpperCase() + value.slice(1) : value
+
+const humanizeToken = (value) => {
+  if (typeof value !== 'string') return ''
+
+  return value.split('_').filter(Boolean).map(titleCaseWord).join(' ')
+}
+
+const getNestedValue = (value, pathSegments) => {
+  let current = value
+
+  for (const segment of pathSegments) {
+    if (!current || typeof current !== 'object') {
+      return null
+    }
+    current = current[segment]
+  }
+
+  return typeof current === 'string' ? current : null
+}
+
+const getLocalizedItemType = (namespace, itemType) => {
+  const localized =
+    getNestedValue(getSearchLocaleResources(namespace).misc, [
+      `type.${itemType}`,
+    ]) ??
+    getNestedValue(getSearchLocaleResources('en').misc, [`type.${itemType}`])
+
+  return localized ?? humanizeToken(itemType)
+}
+
+const getLocalizedFieldValue = (namespace, itemType, field, value) => {
+  const namespaceResources = getSearchLocaleResources(namespace)
+  const englishResources = getSearchLocaleResources('en')
+
+  const localized =
+    (field === 'category' || field === 'subcategory'
+      ? getNestedValue(namespaceResources.filter, [
+          'filter',
+          field,
+          itemType,
+          value,
+        ])
+      : getNestedValue(namespaceResources.filter, ['filter', field, value])) ??
+    (field === 'category' || field === 'subcategory'
+      ? getNestedValue(englishResources.filter, [
+          'filter',
+          field,
+          itemType,
+          value,
+        ])
+      : getNestedValue(englishResources.filter, ['filter', field, value]))
+
+  return localized ?? humanizeToken(value)
+}
+
+const getMetadataFieldValues = (metadata, field) => {
+  if (
+    field === 'category' ||
+    field === 'subcategory' ||
+    SCALAR_FIELDS.includes(field)
+  ) {
+    const value = metadata[field]
+    return typeof value === 'string' ? [value] : []
+  }
+
+  if (ARRAY_FIELDS.includes(field)) {
+    return Array.isArray(metadata[field]) ? toUniqueValues(metadata[field]) : []
+  }
+
+  return []
+}
+
+const buildLocalizedSearchText = (metadata, namespace) => {
+  const itemType =
+    typeof metadata.item_type === 'string' ? metadata.item_type : ''
+  const terms = [getLocalizedItemType(namespace, itemType)]
+
+  for (const field of [
+    'category',
+    'subcategory',
+    ...SCALAR_FIELDS,
+    ...ARRAY_FIELDS,
+  ]) {
+    terms.push(
+      ...getMetadataFieldValues(metadata, field).map((value) =>
+        getLocalizedFieldValue(namespace, itemType, field, value)
+      )
+    )
+  }
+
+  return toUniqueValues(terms).join(' ')
+}
 
 export const parseJsonLines = (filePath) => {
   const raw = fs.readFileSync(filePath, 'utf8')
@@ -240,14 +342,13 @@ export const toUpsertRow = buildItemAttributeRow
 
 export const buildSearchVectorUpsertRows = (documentRow) => {
   const { metadata } = buildItemAttributeRow(documentRow)
-  const searchText = buildSearchText(metadata)
 
   return SEARCH_NAMESPACE_CONFIG.map(({ namespace }) => {
     return {
       namespace,
       row: {
         id: String(metadata.item_id),
-        data: searchText,
+        data: buildLocalizedSearchText(metadata, namespace),
         metadata: { ...metadata },
       },
     }

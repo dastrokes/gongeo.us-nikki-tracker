@@ -485,6 +485,7 @@
   import { Search, Box, Ghost, Times } from '@vicons/fa'
   import type { ItemSearchMetadata } from '#shared/types/itemSearch'
   import { isItemSearchFieldKey } from '#shared/utils/itemSearch'
+  import { normalizeSearchQuery } from '#shared/utils/searchQuery'
 
   type SearchHit = {
     id: string
@@ -537,9 +538,6 @@
     ['ornament.embroidery', 'category.shoes.flats'],
     ['bangs.wispy_bangs', 'category.hair.twin_tails'],
   ]
-
-  const normalizeSearchQuery = (value: string) =>
-    value.trim().replace(/\s+/g, ' ')
 
   const exampleIndex = ref(0)
 
@@ -604,7 +602,7 @@
     cancelActiveSearch()
   })
 
-  const searchQuery = ref(normalizeSearchQuery(route.query.q?.toString() ?? ''))
+  const searchQuery = ref(route.query.q?.toString() ?? '')
   const hasSearched = ref(!!route.query.q)
   const results = ref<SearchHit[]>([])
   const selectedId = ref<string | null>(null)
@@ -612,9 +610,12 @@
   const loading = ref(false)
   const error = ref('')
   useSeoMeta({
-    title: () => t('search_page.title'),
-    ogTitle: () => t('search_page.title'),
-    twitterTitle: () => t('search_page.title'),
+    title: () =>
+      `${t('search_page.title')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
+    ogTitle: () =>
+      `${t('search_page.title')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
+    twitterTitle: () =>
+      `${t('search_page.title')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
   })
 
   const getResolvedItemType = (
@@ -813,18 +814,18 @@
   }
 
   const runSearch = async (pushToUrl = false) => {
-    let query = normalizeSearchQuery(searchQuery.value)
+    let rawQuery = searchQuery.value
+    let normalizedQuery = normalizeSearchQuery(rawQuery)
 
-    if (!query) {
+    if (!normalizedQuery) {
       if (!pushToUrl) return
       // Use current placeholder example as the query and cycle to the next
-      query = currentExample.value
-      searchQuery.value = query
+      rawQuery = currentExample.value
+      searchQuery.value = rawQuery
+      normalizedQuery = normalizeSearchQuery(rawQuery)
       exampleIndex.value =
         (exampleIndex.value + 1) % PLACEHOLDER_EXAMPLES.length
       isTypingFinished.value = true
-    } else if (query !== searchQuery.value) {
-      searchQuery.value = query
     }
 
     const requestId = ++latestSearchRequestId
@@ -837,13 +838,13 @@
     error.value = ''
 
     try {
-      if (pushToUrl && route.query.q?.toString() !== query) {
-        await updateSearchRoute(query)
+      if (pushToUrl && route.query.q?.toString() !== normalizedQuery) {
+        await updateSearchRoute(normalizedQuery)
       }
 
       const response = await $fetch<SearchApiResponse>('/api/search/items', {
         query: {
-          q: query,
+          q: normalizedQuery,
           lang: locale.value,
         },
         headers: gameVersionHeaders,
@@ -914,16 +915,21 @@
     () => route.query.q?.toString() ?? '',
     (nextQuery, previousQuery) => {
       const normalizedNextQuery = normalizeSearchQuery(nextQuery)
+      const normalizedCurrentQuery = normalizeSearchQuery(searchQuery.value)
 
+      if (nextQuery && nextQuery !== normalizedNextQuery) {
+        void updateSearchRoute(normalizedNextQuery)
+      }
+
+      // Keep the field text as entered when the URL sync only changes casing.
       if (
         previousQuery !== undefined &&
-        normalizedNextQuery === normalizeSearchQuery(searchQuery.value)
+        normalizedNextQuery === normalizedCurrentQuery
       ) {
-        searchQuery.value = normalizedNextQuery
         return
       }
 
-      searchQuery.value = normalizedNextQuery
+      searchQuery.value = nextQuery
 
       if (!normalizedNextQuery) {
         resetSearchState()

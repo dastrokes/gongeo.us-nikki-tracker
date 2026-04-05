@@ -2,6 +2,10 @@ import type { H3Event } from 'h3'
 import { hash } from 'ohash'
 import type { ItemSearchMetadata } from '#shared/types/itemSearch'
 import {
+  normalizeSearchCacheKey,
+  normalizeSearchQuery,
+} from '#shared/utils/searchQuery'
+import {
   normalizeItemSearchItemType,
   normalizeItemSearchMetadata,
 } from '#shared/utils/itemSearch'
@@ -186,14 +190,14 @@ const queryPineconeSearch = async ({
   pineconeApiKey,
   pineconeIndexHost,
   pineconeTextField,
-  rawQuery,
+  normalizedQuery,
   limit,
   searchNamespace,
 }: {
   pineconeApiKey: string
   pineconeIndexHost: string
   pineconeTextField: string
-  rawQuery: string
+  normalizedQuery: string
   limit: number
   searchNamespace: string
 }): Promise<SearchResponse['data']> => {
@@ -209,7 +213,7 @@ const queryPineconeSearch = async ({
     body: JSON.stringify({
       query: {
         inputs: {
-          text: rawQuery,
+          text: normalizedQuery,
         },
         top_k: limit,
       },
@@ -248,7 +252,7 @@ const queryPineconeSearch = async ({
         score: hit._score,
         metadata: Object.keys(metadata).length > 0 ? metadata : null,
         data,
-        fallbackId: rawQuery,
+        fallbackId: normalizedQuery,
       })
     })
     .filter((hit): hit is SearchResponse['data'][number] => Boolean(hit))
@@ -257,14 +261,14 @@ const queryPineconeSearch = async ({
 const queryUpstashSearch = async ({
   restUrl,
   restToken,
-  rawQuery,
+  normalizedQuery,
   limit,
   searchNamespace,
   searchMode,
 }: {
   restUrl: string
   restToken: string
-  rawQuery: string
+  normalizedQuery: string
   limit: number
   searchNamespace: string
   searchMode: 'HYBRID' | 'DENSE'
@@ -277,7 +281,7 @@ const queryUpstashSearch = async ({
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      data: rawQuery,
+      data: normalizedQuery,
       topK: limit,
       includeMetadata: true,
       includeData: true,
@@ -301,7 +305,7 @@ const queryUpstashSearch = async ({
         score: hit.score,
         metadata: hit.metadata,
         data: hit.data,
-        fallbackId: rawQuery,
+        fallbackId: normalizedQuery,
       })
     )
     .filter((hit): hit is SearchResponse['data'][number] => Boolean(hit))
@@ -310,10 +314,11 @@ const queryUpstashSearch = async ({
 export default defineCachedApiEventHandler(
   async (event): Promise<SearchResponse> => {
     const query = getQuery(event)
-    const rawQuery = query.q?.toString().trim() ?? ''
+    const rawQuery = query.q?.toString() ?? ''
+    const normalizedQuery = normalizeSearchQuery(rawQuery)
     const limit = normalizeLimit(query.limit)
 
-    if (!rawQuery) {
+    if (!normalizedQuery) {
       return {
         query: '',
         total: 0,
@@ -358,7 +363,7 @@ export default defineCachedApiEventHandler(
           pineconeApiKey,
           pineconeIndexHost,
           pineconeTextField,
-          rawQuery,
+          normalizedQuery,
           limit,
           searchNamespace,
         })
@@ -370,7 +375,7 @@ export default defineCachedApiEventHandler(
         data = await queryUpstashSearch({
           restUrl,
           restToken,
-          rawQuery,
+          normalizedQuery,
           limit,
           searchNamespace,
           searchMode,
@@ -380,7 +385,7 @@ export default defineCachedApiEventHandler(
       }
 
       return {
-        query: rawQuery,
+        query: normalizedQuery,
         total: data.length,
         data,
       }
@@ -404,9 +409,7 @@ export default defineCachedApiEventHandler(
       getKey: (event: H3Event) => {
         const version = getGameVersion()
         const query = getQuery(event)
-        const q = String(query.q || '')
-          .trim()
-          .toLowerCase()
+        const q = normalizeSearchCacheKey(query.q)
         const qHash = q ? hash(q) : 'empty'
         const limit = normalizeLimit(query.limit)
         const searchNamespace = resolveRequestUpstashSearchNamespace(event)

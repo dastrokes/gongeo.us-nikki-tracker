@@ -6,9 +6,8 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 const repoRoot = path.resolve(__dirname, '..')
 const attributePath = path.join(repoRoot, 'data', 'attribute.json')
+const localesRoot = path.join(repoRoot, 'app', 'locales')
 const scopedFieldNames = new Set(['category', 'subcategory'])
-
-const commonMap = {}
 
 const normalizeItemType = (value) => {
   if (typeof value !== 'string') return ''
@@ -126,8 +125,15 @@ const titleCaseToken = (value) =>
     .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
     .join(' ')
 
+const listLocaleCodes = () =>
+  fs
+    .readdirSync(localesRoot, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory())
+    .map((entry) => entry.name)
+    .sort((left, right) => left.localeCompare(right))
+
 const loadExistingTranslations = (lang) => {
-  const localePath = path.join(repoRoot, 'app', 'locales', lang, 'filter.json')
+  const localePath = path.join(localesRoot, lang, 'filter.json')
   if (!fs.existsSync(localePath)) {
     return {}
   }
@@ -163,53 +169,14 @@ const getScopedTranslations = (existingTranslations, field) => {
   return {}
 }
 
-const translateValue = (field, value) => {
-  if (commonMap[value]) {
-    const { en, zh, tw } = commonMap[value]
-
-    if (field === 'hair_length' || field === 'texture') {
-      if (value === 'straight') return ['Straight', '直发', '直髮']
-      if (value === 'curly') return ['Curly', '卷发', '捲髮']
-    }
-
-    return [en, zh, tw]
-  }
-
-  const en = titleCaseToken(value)
-  let zh = ''
-  let tw = ''
-
-  if (field === 'hair_length') {
-    if (value.includes('long')) {
-      zh = '长发'
-      tw = '長髮'
-    }
-    if (value.includes('short')) {
-      zh = '短发'
-      tw = '短髮'
-    }
-    if (value.includes('medium')) {
-      zh = '中发'
-      tw = '中髮'
-    }
-  } else if (field === 'top_length') {
-    if (value.includes('waist')) {
-      zh = '齐腰'
-      tw = '齊腰'
-    }
-    if (value.includes('hip')) {
-      zh = '及臀'
-      tw = '及臀'
-    }
-  }
-
-  return [en, zh, tw]
-}
+const seedTranslation = (existingTranslations, field, value) =>
+  existingTranslations?.[field]?.[value] ??
+  existingTranslations?.[`${field}_by_item_type`]?.[value] ??
+  titleCaseToken(value)
 
 const buildScopedTranslations = (
   existingTranslations,
   field,
-  localeIndex,
   sortedScopedFields
 ) => {
   const discoveredScopedTranslations = sortedScopedFields[field] ?? {}
@@ -222,20 +189,15 @@ const buildScopedTranslations = (
     Object.entries(discoveredScopedTranslations).map(([itemType, values]) => [
       itemType,
       Object.fromEntries(
-        values.map((value) => {
-          const seededValue =
-            existingTranslations?.[field]?.[itemType]?.[value] ??
+        values.map((value) => [
+          value,
+          existingTranslations?.[field]?.[itemType]?.[value] ??
             existingTranslations?.[`${field}_by_item_type`]?.[itemType]?.[
               value
             ] ??
-            existingTranslations?.[field]?.[value]
-
-          if (seededValue !== undefined) {
-            return [value, seededValue]
-          }
-
-          return [value, translateValue(field, value)[localeIndex] ?? '']
-        })
+            existingTranslations?.[field]?.[value] ??
+            titleCaseToken(value),
+        ])
       ),
     ])
   )
@@ -244,92 +206,32 @@ const buildScopedTranslations = (
 export const generateFilters = (inputPath = attributePath) => {
   const data = loadAttributeData(inputPath)
   const { sortedFields, sortedScopedFields } = collectFieldValues(data)
-  const existingEnTranslations = loadExistingTranslations('en')
-  const existingZhTranslations = loadExistingTranslations('zh')
-  const existingTwTranslations = loadExistingTranslations('tw')
-  const enTranslations = {}
-  const zhTranslations = {}
-  const twTranslations = {}
-
-  for (const [field, values] of Object.entries(sortedFields)) {
-    enTranslations[field] = {}
-    zhTranslations[field] = {}
-    twTranslations[field] = {}
-
-    for (const value of values) {
-      const [en, zh, tw] = translateValue(field, value)
-      enTranslations[field][value] =
-        existingEnTranslations[field]?.[value] ?? en ?? ''
-      zhTranslations[field][value] =
-        existingZhTranslations[field]?.[value] ?? zh ?? ''
-      twTranslations[field][value] =
-        existingTwTranslations[field]?.[value] ?? tw ?? ''
-    }
-  }
-
-  for (const [lang, translations] of [
-    [
-      'en',
-      {
-        ...enTranslations,
-        category: buildScopedTranslations(
-          existingEnTranslations,
-          'category',
-          0,
-          sortedScopedFields
+  for (const lang of listLocaleCodes()) {
+    const existingTranslations = loadExistingTranslations(lang)
+    const translations = Object.fromEntries(
+      Object.entries(sortedFields).map(([field, values]) => [
+        field,
+        Object.fromEntries(
+          values.map((value) => [
+            value,
+            seedTranslation(existingTranslations, field, value),
+          ])
         ),
-        subcategory: buildScopedTranslations(
-          existingEnTranslations,
-          'subcategory',
-          0,
-          sortedScopedFields
-        ),
-      },
-    ],
-    [
-      'zh',
-      {
-        ...zhTranslations,
-        category: buildScopedTranslations(
-          existingZhTranslations,
-          'category',
-          1,
-          sortedScopedFields
-        ),
-        subcategory: buildScopedTranslations(
-          existingZhTranslations,
-          'subcategory',
-          1,
-          sortedScopedFields
-        ),
-      },
-    ],
-    [
-      'tw',
-      {
-        ...twTranslations,
-        category: buildScopedTranslations(
-          existingTwTranslations,
-          'category',
-          2,
-          sortedScopedFields
-        ),
-        subcategory: buildScopedTranslations(
-          existingTwTranslations,
-          'subcategory',
-          2,
-          sortedScopedFields
-        ),
-      },
-    ],
-  ]) {
-    const outputPath = path.join(
-      repoRoot,
-      'app',
-      'locales',
-      lang,
-      'filter.json'
+      ])
     )
+
+    translations.category = buildScopedTranslations(
+      existingTranslations,
+      'category',
+      sortedScopedFields
+    )
+    translations.subcategory = buildScopedTranslations(
+      existingTranslations,
+      'subcategory',
+      sortedScopedFields
+    )
+
+    const outputPath = path.join(localesRoot, lang, 'filter.json')
 
     fs.writeFileSync(
       outputPath,

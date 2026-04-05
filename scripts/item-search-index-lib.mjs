@@ -7,7 +7,6 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 const repoRoot = path.resolve(__dirname, '..')
 const envPath = path.join(repoRoot, '.env')
-const localesRoot = path.join(repoRoot, 'app', 'locales')
 const defaultDocumentsPath = path.resolve(
   repoRoot,
   '..',
@@ -16,15 +15,15 @@ const defaultDocumentsPath = path.resolve(
   'item-search-documents.jsonl'
 )
 
-export const LOCALE_NAMESPACE_CONFIG = [
-  { locale: 'en', namespace: 'en' },
-  { locale: 'zh', namespace: 'zh' },
+export const SEARCH_NAMESPACE_CONFIG = [
+  { namespace: 'en' },
+  { namespace: 'zh' },
 ]
 
+const localesRoot = path.join(repoRoot, 'app', 'locales')
+const searchLocaleCache = new Map()
 const ARRAY_FIELDS = ['pattern', 'material', 'structure', 'ornament']
 const SCALAR_FIELDS = [
-  'category',
-  'subcategory',
   'top_length',
   'bottom_length',
   'hair_length',
@@ -151,41 +150,124 @@ const normalizeNullableString = (value) => {
   return normalized.length > 0 ? normalized : null
 }
 
-const loadJsonFile = (filePath) => JSON.parse(fs.readFileSync(filePath, 'utf8'))
+const normalizeSearchDataValue = (value) =>
+  typeof value === 'string' ? value.trim().toLowerCase() : ''
 
 const toUniqueValues = (values) =>
-  Array.from(new Set(values.map((value) => value.trim()).filter(Boolean)))
+  Array.from(new Set(values.map(normalizeSearchDataValue).filter(Boolean)))
 
-const loadLocaleBundle = (locale) => ({
-  filter:
-    loadJsonFile(path.join(localesRoot, locale, 'filter.json')).filter || {},
-  item: loadJsonFile(path.join(localesRoot, locale, 'item.json')),
-  misc: loadJsonFile(path.join(localesRoot, locale, 'misc.json')),
-})
-
-const createLocaleBundles = () =>
-  Object.fromEntries(
-    LOCALE_NAMESPACE_CONFIG.map(({ locale }) => [
-      locale,
-      loadLocaleBundle(locale),
-    ])
+const readLocaleJson = (namespace, fileName) =>
+  JSON.parse(
+    fs.readFileSync(path.join(localesRoot, namespace, fileName), 'utf8')
   )
 
-const getLocalizedItemType = (bundle, itemType) =>
-  normalizeNullableString(bundle.misc[`type.${itemType || 'unknown'}`]) || ''
-
-const translateFilterToken = (bundle, field, value, itemType) => {
-  const normalizedValue = normalizeTokenKey(value)
-  if (!normalizedValue) return ''
-
-  if (field === 'category' || field === 'subcategory') {
-    const scopedValue =
-      bundle.filter?.[field]?.[normalizeItemType(itemType)]?.[normalizedValue]
-    return normalizeNullableString(scopedValue) || ''
+const getSearchLocaleResources = (namespace) => {
+  if (searchLocaleCache.has(namespace)) {
+    return searchLocaleCache.get(namespace)
   }
 
-  const translatedValue = bundle.filter?.[field]?.[normalizedValue]
-  return normalizeNullableString(translatedValue) || ''
+  const resources = {
+    filter: readLocaleJson(namespace, 'filter.json'),
+    misc: readLocaleJson(namespace, 'misc.json'),
+  }
+
+  searchLocaleCache.set(namespace, resources)
+  return resources
+}
+
+const titleCaseWord = (value) =>
+  value.length > 0 ? value[0].toUpperCase() + value.slice(1) : value
+
+const humanizeToken = (value) => {
+  if (typeof value !== 'string') return ''
+
+  return value.split('_').filter(Boolean).map(titleCaseWord).join(' ')
+}
+
+const getNestedValue = (value, pathSegments) => {
+  let current = value
+
+  for (const segment of pathSegments) {
+    if (!current || typeof current !== 'object') {
+      return null
+    }
+    current = current[segment]
+  }
+
+  return typeof current === 'string' ? current : null
+}
+
+const getLocalizedItemType = (namespace, itemType) => {
+  const localized =
+    getNestedValue(getSearchLocaleResources(namespace).misc, [
+      `type.${itemType}`,
+    ]) ??
+    getNestedValue(getSearchLocaleResources('en').misc, [`type.${itemType}`])
+
+  return localized ?? humanizeToken(itemType)
+}
+
+const getLocalizedFieldValue = (namespace, itemType, field, value) => {
+  const namespaceResources = getSearchLocaleResources(namespace)
+  const englishResources = getSearchLocaleResources('en')
+
+  const localized =
+    (field === 'category' || field === 'subcategory'
+      ? getNestedValue(namespaceResources.filter, [
+          'filter',
+          field,
+          itemType,
+          value,
+        ])
+      : getNestedValue(namespaceResources.filter, ['filter', field, value])) ??
+    (field === 'category' || field === 'subcategory'
+      ? getNestedValue(englishResources.filter, [
+          'filter',
+          field,
+          itemType,
+          value,
+        ])
+      : getNestedValue(englishResources.filter, ['filter', field, value]))
+
+  return localized ?? humanizeToken(value)
+}
+
+const getMetadataFieldValues = (metadata, field) => {
+  if (
+    field === 'category' ||
+    field === 'subcategory' ||
+    SCALAR_FIELDS.includes(field)
+  ) {
+    const value = metadata[field]
+    return typeof value === 'string' ? [value] : []
+  }
+
+  if (ARRAY_FIELDS.includes(field)) {
+    return Array.isArray(metadata[field]) ? toUniqueValues(metadata[field]) : []
+  }
+
+  return []
+}
+
+const buildLocalizedSearchText = (metadata, namespace) => {
+  const itemType =
+    typeof metadata.item_type === 'string' ? metadata.item_type : ''
+  const terms = [getLocalizedItemType(namespace, itemType)]
+
+  for (const field of [
+    'category',
+    'subcategory',
+    ...SCALAR_FIELDS,
+    ...ARRAY_FIELDS,
+  ]) {
+    terms.push(
+      ...getMetadataFieldValues(metadata, field).map((value) =>
+        getLocalizedFieldValue(namespace, itemType, field, value)
+      )
+    )
+  }
+
+  return toUniqueValues(terms).join(' ')
 }
 
 export const parseJsonLines = (filePath) => {
@@ -258,36 +340,15 @@ export const buildItemAttributeRow = (documentRow) => {
 
 export const toUpsertRow = buildItemAttributeRow
 
-export const buildLocalizedVectorUpsertRows = (
-  documentRow,
-  localeBundles = createLocaleBundles()
-) => {
+export const buildSearchVectorUpsertRows = (documentRow) => {
   const { metadata } = buildItemAttributeRow(documentRow)
 
-  return LOCALE_NAMESPACE_CONFIG.map(({ locale, namespace }) => {
-    const bundle = localeBundles[locale]
-    const localizedTerms = [
-      getLocalizedItemType(bundle, metadata.item_type),
-      ...SCALAR_FIELDS.flatMap((field) => {
-        const value = metadata[field]
-        return typeof value === 'string'
-          ? [translateFilterToken(bundle, field, value, metadata.item_type)]
-          : []
-      }),
-      ...ARRAY_FIELDS.flatMap((field) =>
-        Array.isArray(metadata[field])
-          ? metadata[field].map((value) =>
-              translateFilterToken(bundle, field, value, metadata.item_type)
-            )
-          : []
-      ),
-    ]
-
+  return SEARCH_NAMESPACE_CONFIG.map(({ namespace }) => {
     return {
       namespace,
       row: {
         id: String(metadata.item_id),
-        data: toUniqueValues(localizedTerms).join(' '),
+        data: buildLocalizedSearchText(metadata, namespace),
         metadata: { ...metadata },
       },
     }
@@ -376,19 +437,18 @@ export const syncItemIndexToUpstash = async (argv = process.argv.slice(2)) => {
 
   const args = parseArgs(argv)
   const targetNamespaces = args.namespace
-    ? LOCALE_NAMESPACE_CONFIG.filter(
+    ? SEARCH_NAMESPACE_CONFIG.filter(
         ({ namespace }) => namespace === args.namespace
       )
-    : LOCALE_NAMESPACE_CONFIG
+    : SEARCH_NAMESPACE_CONFIG
 
   if (args.namespace && targetNamespaces.length === 0) {
     throw new Error(
-      `Unsupported namespace '${args.namespace}'. Expected one of: ${LOCALE_NAMESPACE_CONFIG.map(({ namespace }) => namespace).join(', ')}`
+      `Unsupported namespace '${args.namespace}'. Expected one of: ${SEARCH_NAMESPACE_CONFIG.map(({ namespace }) => namespace).join(', ')}`
     )
   }
 
   const documents = parseJsonLines(args.documentsPath)
-  const localeBundles = createLocaleBundles()
   const vectorWrittenCounts = Object.fromEntries(
     targetNamespaces.map(({ namespace }) => [namespace, 0])
   )
@@ -401,12 +461,9 @@ export const syncItemIndexToUpstash = async (argv = process.argv.slice(2)) => {
   )
 
   for (const documentRow of documents) {
-    const localizedRows = buildLocalizedVectorUpsertRows(
-      documentRow,
-      localeBundles
-    )
+    const searchRows = buildSearchVectorUpsertRows(documentRow)
 
-    localizedRows.forEach(({ namespace, row }) => {
+    searchRows.forEach(({ namespace, row }) => {
       if (!(namespace in vectorRowsByNamespace)) return
       vectorRowsByNamespace[namespace].push(row)
     })
@@ -527,14 +584,14 @@ export const syncItemIndexToPinecone = async (argv = process.argv.slice(2)) => {
 
   const args = parseArgs(argv)
   const targetNamespaces = args.namespace
-    ? LOCALE_NAMESPACE_CONFIG.filter(
+    ? SEARCH_NAMESPACE_CONFIG.filter(
         ({ namespace }) => namespace === args.namespace
       )
-    : LOCALE_NAMESPACE_CONFIG
+    : SEARCH_NAMESPACE_CONFIG
 
   if (args.namespace && targetNamespaces.length === 0) {
     throw new Error(
-      `Unsupported namespace '${args.namespace}'. Expected one of: ${LOCALE_NAMESPACE_CONFIG.map(({ namespace }) => namespace).join(', ')}`
+      `Unsupported namespace '${args.namespace}'. Expected one of: ${SEARCH_NAMESPACE_CONFIG.map(({ namespace }) => namespace).join(', ')}`
     )
   }
 
@@ -547,7 +604,6 @@ export const syncItemIndexToPinecone = async (argv = process.argv.slice(2)) => {
     PINECONE_MAX_UPSERT_BATCH_SIZE
   )
   const documents = parseJsonLines(args.documentsPath)
-  const localeBundles = createLocaleBundles()
   const pineconeWrittenCounts = Object.fromEntries(
     targetNamespaces.map(({ namespace }) => [namespace, 0])
   )
@@ -560,12 +616,9 @@ export const syncItemIndexToPinecone = async (argv = process.argv.slice(2)) => {
   )
 
   for (const documentRow of documents) {
-    const localizedRows = buildLocalizedVectorUpsertRows(
-      documentRow,
-      localeBundles
-    )
+    const searchRows = buildSearchVectorUpsertRows(documentRow)
 
-    localizedRows.forEach(({ namespace, row }) => {
+    searchRows.forEach(({ namespace, row }) => {
       if (!(namespace in vectorRowsByNamespace)) return
       vectorRowsByNamespace[namespace].push(row)
     })

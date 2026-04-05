@@ -153,8 +153,13 @@ const normalizeNullableString = (value) => {
 
 const loadJsonFile = (filePath) => JSON.parse(fs.readFileSync(filePath, 'utf8'))
 
+const normalizeSearchDataValue = (value) =>
+  typeof value === 'string' ? value.trim().toLowerCase() : ''
+
 const toUniqueValues = (values) =>
-  Array.from(new Set(values.map((value) => value.trim()).filter(Boolean)))
+  Array.from(
+    new Set(values.map(normalizeSearchDataValue).filter(Boolean))
+  )
 
 const loadLocaleBundle = (locale) => ({
   filter:

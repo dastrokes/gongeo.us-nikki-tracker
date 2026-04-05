@@ -1,6 +1,6 @@
 import { syncItemIndexToPinecone } from './item-search-index-lib.mjs'
 
-// Sync localized vector search rows into Pinecone.
+// Sync search rows into Pinecone.
 // Existing ids are skipped by default; pass --overwrite to rewrite them.
 // Use --namespace en or --namespace zh to limit the sync to one namespace.
 // Pinecone text upserts are capped at 96 records per request, so larger

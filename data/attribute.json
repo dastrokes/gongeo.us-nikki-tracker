@@ -1072,12 +1072,12 @@
   {
     "field": "ornament",
     "itemType": null,
-    "value": "animal_ears"
+    "value": "animal"
   },
   {
     "field": "ornament",
     "itemType": null,
-    "value": "animal_motif"
+    "value": "animal_ears"
   },
   {
     "field": "ornament",
@@ -1092,17 +1092,12 @@
   {
     "field": "ornament",
     "itemType": null,
-    "value": "bead_detail"
+    "value": "bead"
   },
   {
     "field": "ornament",
     "itemType": null,
     "value": "bell"
-  },
-  {
-    "field": "ornament",
-    "itemType": null,
-    "value": "bell_detail"
   },
   {
     "field": "ornament",
@@ -1122,7 +1117,7 @@
   {
     "field": "ornament",
     "itemType": null,
-    "value": "button_detail"
+    "value": "button"
   },
   {
     "field": "ornament",
@@ -1132,7 +1127,7 @@
   {
     "field": "ornament",
     "itemType": null,
-    "value": "chain_detail"
+    "value": "chain"
   },
   {
     "field": "ornament",
@@ -1152,7 +1147,7 @@
   {
     "field": "ornament",
     "itemType": null,
-    "value": "coin_detail"
+    "value": "coin"
   },
   {
     "field": "ornament",
@@ -1182,12 +1177,7 @@
   {
     "field": "ornament",
     "itemType": null,
-    "value": "fish_charm"
-  },
-  {
-    "field": "ornament",
-    "itemType": null,
-    "value": "fish_emblem"
+    "value": "fish"
   },
   {
     "field": "ornament",
@@ -1197,22 +1187,7 @@
   {
     "field": "ornament",
     "itemType": null,
-    "value": "floral_motif"
-  },
-  {
-    "field": "ornament",
-    "itemType": null,
     "value": "flower"
-  },
-  {
-    "field": "ornament",
-    "itemType": null,
-    "value": "flower_applique"
-  },
-  {
-    "field": "ornament",
-    "itemType": null,
-    "value": "flower_detail"
   },
   {
     "field": "ornament",
@@ -1237,32 +1212,12 @@
   {
     "field": "ornament",
     "itemType": null,
-    "value": "gear_detail"
-  },
-  {
-    "field": "ornament",
-    "itemType": null,
     "value": "gemstone"
   },
   {
     "field": "ornament",
     "itemType": null,
-    "value": "gemstone_detail"
-  },
-  {
-    "field": "ornament",
-    "itemType": null,
     "value": "heart"
-  },
-  {
-    "field": "ornament",
-    "itemType": null,
-    "value": "heart_detail"
-  },
-  {
-    "field": "ornament",
-    "itemType": null,
-    "value": "heart_motif"
   },
   {
     "field": "ornament",
@@ -1282,7 +1237,7 @@
   {
     "field": "ornament",
     "itemType": null,
-    "value": "leaf_motif"
+    "value": "leaf"
   },
   {
     "field": "ornament",
@@ -1322,7 +1277,7 @@
   {
     "field": "ornament",
     "itemType": null,
-    "value": "pearl_detail"
+    "value": "pearl"
   },
   {
     "field": "ornament",
@@ -1387,11 +1342,6 @@
   {
     "field": "ornament",
     "itemType": null,
-    "value": "stud_detail"
-  },
-  {
-    "field": "ornament",
-    "itemType": null,
     "value": "sun"
   },
   {
@@ -1408,11 +1358,6 @@
     "field": "ornament",
     "itemType": null,
     "value": "wing"
-  },
-  {
-    "field": "ornament",
-    "itemType": null,
-    "value": "wing_detail"
   },
   {
     "field": "pant_shape",
@@ -1978,11 +1923,6 @@
     "field": "structure",
     "itemType": null,
     "value": "ruched"
-  },
-  {
-    "field": "structure",
-    "itemType": null,
-    "value": "ruffle"
   },
   {
     "field": "structure",

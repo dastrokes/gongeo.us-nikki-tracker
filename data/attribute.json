@@ -97,22 +97,7 @@
   {
     "field": "category",
     "itemType": "backpieces",
-    "value": "bag"
-  },
-  {
-    "field": "category",
-    "itemType": "backpieces",
-    "value": "cape"
-  },
-  {
-    "field": "category",
-    "itemType": "backpieces",
     "value": "drape"
-  },
-  {
-    "field": "category",
-    "itemType": "backpieces",
-    "value": "shawl"
   },
   {
     "field": "category",
@@ -1807,11 +1792,6 @@
   {
     "field": "structure",
     "itemType": null,
-    "value": "chain_detail"
-  },
-  {
-    "field": "structure",
-    "itemType": null,
     "value": "chain_link"
   },
   {
@@ -1978,11 +1958,6 @@
     "field": "subcategory",
     "itemType": "backpieces",
     "value": "frame"
-  },
-  {
-    "field": "subcategory",
-    "itemType": "backpieces",
-    "value": "plush"
   },
   {
     "field": "subcategory",

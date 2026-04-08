@@ -248,7 +248,7 @@
                     <div class="space-y-2 px-8 text-base">
                       <div class="flex justify-between">
                         <span class="text-sm">
-                          {{ t('tracker.stats.total_pulls') }}
+                          {{ t('common.stats.total_pulls') }}
                         </span>
                         <span class="font-medium">{{
                           bannerPulls.stats.totalPulls

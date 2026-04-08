@@ -245,7 +245,7 @@
               class="text-center rounded-lg"
             >
               <div class="text-sm text-gray-400">
-                {{ t('tracker.stats.total_pulls') }}
+                {{ t('common.stats.total_pulls') }}
               </div>
               <div
                 class="text-lg font-medium tabular-nums mt-1 flex items-center justify-center gap-2"
@@ -316,7 +316,7 @@
               class="text-center rounded-lg"
             >
               <div class="text-sm text-gray-400">
-                {{ t('tracker.stats.avg_5star') }}
+                {{ t('common.stats.avg_5star') }}
               </div>
               <div
                 class="text-lg font-medium tabular-nums mt-1 flex items-center justify-center gap-2"
@@ -341,7 +341,7 @@
               class="text-center rounded-lg"
             >
               <div class="text-sm text-gray-400">
-                {{ t('tracker.stats.avg_4star_mixed') }}
+                {{ t('common.stats.avg_4star_mixed') }}
               </div>
               <div
                 class="text-lg font-medium tabular-nums mt-1 flex items-center justify-center gap-2"
@@ -368,7 +368,7 @@
               class="text-center rounded-lg"
             >
               <div class="text-sm text-gray-400">
-                {{ t('tracker.stats.avg_4star_only') }}
+                {{ t('common.stats.avg_4star_only') }}
               </div>
               <div
                 class="text-lg font-medium tabular-nums mt-1 flex items-center justify-center gap-2"
@@ -487,10 +487,10 @@
                       <div class="flex items-center justify-between">
                         <n-switch v-model:value="settings.sortBanner">
                           <template #checked>{{
-                            $t('tracker.banner.settings.oldest_first')
+                            $t('common.sort.oldest_first')
                           }}</template>
                           <template #unchecked>{{
-                            $t('tracker.banner.settings.latest_first')
+                            $t('common.sort.newest_first')
                           }}</template>
                         </n-switch>
                         <span class="text-sm text-gray-400 ml-3">
@@ -500,10 +500,10 @@
                       <div class="flex items-center justify-between">
                         <n-switch v-model:value="settings.sortItems">
                           <template #checked>{{
-                            $t('tracker.banner.settings.oldest_first')
+                            $t('common.sort.oldest_first')
                           }}</template>
                           <template #unchecked>{{
-                            $t('tracker.banner.settings.latest_first')
+                            $t('common.sort.newest_first')
                           }}</template>
                         </n-switch>
                         <span class="text-sm text-gray-400 ml-3">
@@ -588,15 +588,15 @@
                 class="w-36"
                 :options="[
                   {
-                    label: t('tracker.banner.settings.game'),
+                    label: t('common.sources.game'),
                     value: 'game',
                   },
                   {
-                    label: t('tracker.banner.settings.pearpal'),
+                    label: t('common.sources.whimlog'),
                     value: 'pearpal',
                   },
                   {
-                    label: t('tracker.banner.settings.auto'),
+                    label: t('common.sources.auto'),
                     value: 'auto',
                   },
                 ]"
@@ -604,7 +604,7 @@
                 <template #header>
                   <div class="flex items-center justify-between px-1 py-1">
                     <span class="text-sm text-gray-400">
-                      {{ t('tracker.banner.settings.data_source') }}
+                      {{ t('common.sources.data_source') }}
                     </span>
                     <n-tooltip :width="200">
                       <template #trigger>
@@ -620,9 +620,9 @@
                           </template>
                         </n-button>
                       </template>
-                      {{ t('tracker.banner.settings.data_source_tooltip') }}
+                      {{ t('common.sources.data_source_tooltip') }}
                       <br />
-                      {{ t('tracker.banner.settings.auto_option') }}
+                      {{ t('common.sources.auto_option') }}
                     </n-tooltip>
                   </div>
                 </template>
@@ -708,7 +708,7 @@
                   class="flex justify-between gap-2 items-baseline text-md text-gray-400"
                 >
                   <div class="whitespace-nowrap">
-                    <span>{{ t('tracker.banner.stats.total_pulls') }}:</span>
+                    <span>{{ t('common.stats.total_pulls') }}:</span>
                     <span
                       class="ml-1 text-lg font-medium text-gray-600 dark:text-gray-200"
                       >{{ banner.stats.totalPulls }}</span
@@ -774,7 +774,7 @@
                       <div class="space-y-2 px-2 text-base">
                         <div class="flex justify-between">
                           <span class="text-sm">
-                            {{ t('tracker.banner.stats.total_pulls') }}
+                            {{ t('common.stats.total_pulls') }}
                           </span>
                           <span class="font-medium">{{
                             banner.stats.totalPulls

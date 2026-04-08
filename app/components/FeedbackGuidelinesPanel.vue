@@ -190,8 +190,8 @@
     }
   }
 
-  const referenceTree = computed<TreeOption[]>(() =>
-    orderedGuideItemTypes.value
+  const referenceTree = computed((): TreeOption[] => {
+    return orderedGuideItemTypes.value
       .map((itemType) => {
         const taxonomyNode = buildTaxonomyFieldNode(itemType)
         const fieldNodes = getItemTagFeedbackFields(itemType)
@@ -218,10 +218,10 @@
         }
       })
       .filter((node): node is TreeOption => Boolean(node))
-  )
+  })
 
-  const sharedTermsTree = computed<TreeOption[]>(() =>
-    sharedDetailFields.map((field) => {
+  const sharedTermsTree = computed((): TreeOption[] => {
+    return sharedDetailFields.map((field) => {
       const values = getItemSearchAttributeValues(field)
 
       if (values.length === 0) {
@@ -240,5 +240,5 @@
         })),
       }
     })
-  )
+  })
 </script>

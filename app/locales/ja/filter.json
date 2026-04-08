@@ -288,7 +288,6 @@
       "braided": "編み込み",
       "cable_knit": "ケーブルニット",
       "chain": "チェーン",
-      "chain_detail": "チェーン装飾",
       "chain_link": "チェーンリンク",
       "circular": "円形",
       "cracked": "クラック",
@@ -354,10 +353,7 @@
         "back_bow": "バックリボン",
         "backpack": "バックパック",
         "backpiece": "背飾り",
-        "bag": "バッグ",
-        "cape": "ケープ",
         "drape": "ドレープ/羽衣",
-        "shawl": "ショール",
         "tail": "尻尾",
         "wings": "翼"
       },
@@ -515,7 +511,6 @@
         "capelet": "ケープレット",
         "collar": "コラー",
         "frame": "フレーム",
-        "plush": "ぬいぐるみ",
         "plushie": "プラッシュ",
         "satchel": "サッチェル",
         "schoolbag": "通学鞄",
@@ -699,6 +694,7 @@
         "windbreaker": "ウィンドブレーカー"
       },
       "pendants": {
+        "anklet": "Anklet",
         "crossbody_bag": "ショルダーバッグ",
         "handbag": "ハンドバッグ",
         "leg_garter": "レッグガーター",

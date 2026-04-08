@@ -836,10 +836,10 @@
       "page_title": "Directives des commentaires",
       "page_description": "Directives pour l'envoi de commentaires.",
       "hair_length": {
-        "short": "De la mâchoire au cou ; au-dessus des épaules.",
+        "short": "Au-dessus des épaules.",
         "medium": "Des épaules au haut du dos.",
-        "long": "Des épaules jusqu'au dos.",
-        "very_long": "Bas du dos ou plus long."
+        "long": "Du haut du dos au bas du dos.",
+        "very_long": "Sous le bas du dos."
       },
       "top_length": {
         "ultra_crop": "Au-dessus de la taille / sous la poitrine.",

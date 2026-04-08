@@ -288,7 +288,6 @@
       "braided": "Kepang/Kepang",
       "cable_knit": "Rajutan Tambang",
       "chain": "Rantai",
-      "chain_detail": "Detail Rantai",
       "chain_link": "Mata Rantai",
       "circular": "Lingkaran",
       "cracked": "Retak",
@@ -354,10 +353,7 @@
         "back_bow": "Pita Belakang",
         "backpack": "Ransel",
         "backpiece": "Hiasan Punggung",
-        "bag": "Tas",
-        "cape": "Jubah",
         "drape": "Drape",
-        "shawl": "Syal",
         "tail": "Ekor",
         "wings": "Sayap"
       },
@@ -515,7 +511,6 @@
         "capelet": "Jubah Kecil",
         "collar": "Kerah",
         "frame": "Bingkai",
-        "plush": "Boneka",
         "plushie": "Boneka Plush",
         "satchel": "Tas Selempang",
         "schoolbag": "Tas Sekolah",
@@ -699,6 +694,7 @@
         "windbreaker": "Jaket Penahan Angin"
       },
       "pendants": {
+        "anklet": "Anklet",
         "crossbody_bag": "Tas Selempang",
         "handbag": "Tas Tangan",
         "leg_garter": "Garter Kaki",

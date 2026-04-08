@@ -818,8 +818,6 @@
     "page_description": "瀏覽結構化標籤修正提案，快速投票，一起整理圖鑑標籤。",
     "quick_review_empty": "目前佇列你已經看完了。",
     "refresh": "重新整理",
-    "browse_label": "瀏覽",
-    "browse_title": "佇列",
     "scope_filter_label": "範圍",
     "sort_filter_label": "排序",
     "status_filter_label": "狀態",
@@ -917,67 +915,8 @@
           "maxi": "接近腳踝或更長。",
           "floor_length": "到地或近地。"
         }
-      },
-      "before": {
-        "change_only_confident": "只改看得準的內容。",
-        "check_queue_first": "如果你覺得這件單品很容易產生爭議，可以先看看回饋佇列裡有沒有現成討論。",
-        "judge_visible_item_only": "只看目前可見的單品。",
-        "keep_scope_small": "只修正錯誤欄位。",
-        "leave_unclear_empty": "看不清就別改。",
-        "use_note_for_context": "備註只寫邊界情況。"
-      },
-      "before_title": "提交前先看",
-      "counts": {
-        "options": "（{count}個選項）",
-        "subcategories": "（{count}個子類）"
-      },
-      "eligible_fields": "可改欄位（{count}）",
-      "field_notes": {
-        "bottom_length": "按裙擺、褲腳、短褲邊或連衣裙下擺的可見終點判斷。",
-        "category": "先選這件單品最明顯的大類。",
-        "hair_length": "看整體髮型的可見長度，不要只看一縷頭髮或裝飾部分。",
-        "subcategory": "只有在某個子類明顯比父類更準確時才填寫。",
-        "top_length": "看主衣身下擺，不要把袖子、拖尾或掛飾算進去。"
-      },
-      "intro": "只改看得準的內容。",
-      "quick_note": "如果最合適的標籤並不明顯，先保持原樣，再用備註說明這個邊界情況。",
-      "taxonomy": {
-        "category_vs_subcategory": "先選較寬的可見類型，再在確實更貼切時補一個子類。",
-        "hair_special_case": "頭髮的 category 和 subcategory 只描述整體編排；長度、瀏海、質地、剪裁都有各自欄位。",
-        "no_extra_traits": "不要用 subcategory 表達長度、材質、圖案、顏色、髮型或其他已經有專用欄位的內容。",
-        "subcategory_optional": "如果幾個子類都只是勉強接近，寧可不填 subcategory。",
-        "use_game_buckets": "這裡用的是 Infinity Nikki 自己的類型桶，不必追求嚴格的學院派服裝術語。"
-      },
-      "taxonomy_intro": "展開槽位即可看分類樹和欄位。",
-      "taxonomy_legacy": "仍在使用的舊標籤",
-      "taxonomy_title": "標籤參考",
-      "terms_intro": "通用細節詞統一列在下方。",
-      "terms_title": "欄位參考"
-    },
-    "title": "標籤校對",
-    "badge": "標籤修正",
-    "hero_badge": "標籤審核",
-    "items_only": "目前僅支援單品",
-    "community_label": "修正建議",
-    "community_note_label": "運作方式",
-    "community_note": "這裡收集的是結構化提案。你負責提出更準確的標籤，其他玩家負責投票；在後續審核或套用前，圖鑑資料不會被直接修改。",
-    "current_snapshot": "目前快照",
-    "diff_label": "預覽",
-    "diff_title": "即將變更的內容",
-    "empty_queue": "沒有符合篩選條件的提案。",
-    "field_count": "{count} 個欄位",
-    "filter_field": "變更欄位",
-    "item_prompt_title": "覺得這些標籤需要修正？",
-    "item_prompt_description": "你可以為這件單品提交修正提案，或先查看現有建議再決定是否新增。",
-    "login_vote_hint": "登入後可提交與投票，訪客仍可瀏覽佇列。",
-    "no_advanced_fields": "這個部位沒有可調整的進階欄位。",
-    "proposal_label": "提案",
-    "propose_changes": "更新標籤",
-    "score_count": "分數 {count}",
-    "created_ago": "{value}前提交",
-    "status_superseded": "已取代",
-    "submit_hint": "這裡只收集結構化改動，不會立即修改圖鑑資料。",
-    "vote_note": "投票權限"
+      }
+    }
   },
   "stats": {
     "title": "個人統計",

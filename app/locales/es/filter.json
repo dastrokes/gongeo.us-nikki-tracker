@@ -288,7 +288,6 @@
       "braided": "Trenzado",
       "cable_knit": "Ochos/Trenzado",
       "chain": "Cadena",
-      "chain_detail": "Detalle de Cadena",
       "chain_link": "Elabón de Cadena",
       "circular": "Circular",
       "cracked": "Agrietado",
@@ -354,10 +353,7 @@
         "back_bow": "Lazo Trasero",
         "backpack": "Mochila",
         "backpiece": "Accesorio Trasero",
-        "bag": "Bolso/Saco",
-        "cape": "Capa",
         "drape": "Drapeado/Velo Trasero",
-        "shawl": "Chal",
         "tail": "Cola",
         "wings": "Alas"
       },
@@ -515,7 +511,6 @@
         "capelet": "Esclavina",
         "collar": "Cuello",
         "frame": "Marco/Estructura",
-        "plush": "Peluche",
         "plushie": "Muñeco",
         "satchel": "Morral/Bandolera",
         "schoolbag": "Mochila Escolar",
@@ -699,6 +694,7 @@
         "windbreaker": "Cortavientos"
       },
       "pendants": {
+        "anklet": "Anklet",
         "crossbody_bag": "Bandolera",
         "handbag": "Bolso de Mano",
         "leg_garter": "Liga de Pierna",

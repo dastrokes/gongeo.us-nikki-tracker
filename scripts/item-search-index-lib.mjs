@@ -2,49 +2,146 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { createClient } from '@supabase/supabase-js'
+import { loadItemSearchRegistry } from '../data/item-search/registry.mjs'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 const repoRoot = path.resolve(__dirname, '..')
 const envPath = path.join(repoRoot, '.env')
-const defaultDocumentsPath = path.resolve(
+const defaultItemAttributesPath = path.resolve(
   repoRoot,
   '..',
   'gongeo.us-image-search',
   'index',
-  'item-search-documents.jsonl'
+  'item-attributes.jsonl'
 )
+const defaultLocalCopyRoot = path.resolve(
+  repoRoot,
+  'data',
+  'item-search',
+  'generated',
+  'supabase'
+)
+const itemSearchRegistry = loadItemSearchRegistry()
+const DEFAULT_EXPORT_PAGE_SIZE = 1000
 
-export const SEARCH_NAMESPACE_CONFIG = [
-  { namespace: 'en' },
-  { namespace: 'zh' },
-]
+export const SEARCH_NAMESPACE_CONFIG = itemSearchRegistry.searchNamespaces.map(
+  (namespace) => ({ namespace })
+)
 
 const localesRoot = path.join(repoRoot, 'app', 'locales')
 const searchLocaleCache = new Map()
-const ARRAY_FIELDS = ['pattern', 'material', 'structure', 'ornament']
-const SCALAR_FIELDS = [
-  'top_length',
-  'bottom_length',
-  'hair_length',
-  'fit',
-  'neckline',
-  'shoulder_style',
-  'sleeve_length',
-  'sleeve_style',
-  'skirt_silhouette',
-  'pant_shape',
-  'waist_height',
-  'dress_silhouette',
-  'waistline',
-  'haircut',
-  'texture',
-  'bangs',
-  'heel_type',
-  'heel_height',
-  'sole_height',
-  'shaft_height',
-  'sock_height',
+const ARRAY_FIELDS = Object.entries(itemSearchRegistry.fieldKindByName)
+  .filter(([, kind]) => kind === 'array')
+  .map(([field]) => field)
+const SCALAR_FIELDS = Object.entries(itemSearchRegistry.fieldKindByName)
+  .filter(
+    ([field, kind]) =>
+      kind === 'scalar' && field !== 'category' && field !== 'subcategory'
+  )
+  .map(([field]) => field)
+const SEARCH_DOCUMENT_VALUE_EXCLUDED_FIELDS = new Set([
+  'category',
+  'subcategory',
+  'placement',
+  'primary_color',
+  'secondary_color',
+  'ornament',
+])
+const LOCAL_COPY_FIELD_ORDER_BY_ITEM_TYPE = {
+  hair: [
+    'category',
+    'subcategory',
+    'hair_length',
+    'haircut',
+    'texture',
+    'bangs',
+  ],
+  dresses: [
+    'category',
+    'subcategory',
+    'bottom_length',
+    'dress_silhouette',
+    'fit',
+    'waistline',
+    'neckline',
+    'shoulder_style',
+    'sleeve_length',
+    'sleeve_style',
+    'pattern',
+    'material',
+    'structure',
+    'ornament',
+  ],
+  outerwear: [
+    'category',
+    'subcategory',
+    'top_length',
+    'fit',
+    'neckline',
+    'shoulder_style',
+    'sleeve_length',
+    'sleeve_style',
+    'pattern',
+    'material',
+    'structure',
+    'ornament',
+  ],
+  tops: [
+    'category',
+    'subcategory',
+    'top_length',
+    'fit',
+    'neckline',
+    'shoulder_style',
+    'sleeve_length',
+    'sleeve_style',
+    'pattern',
+    'material',
+    'structure',
+    'ornament',
+  ],
+  bottoms: [
+    'category',
+    'subcategory',
+    'bottom_length',
+    'skirt_silhouette',
+    'pant_shape',
+    'waist_height',
+    'pattern',
+    'material',
+    'structure',
+    'ornament',
+  ],
+  socks: [
+    'category',
+    'subcategory',
+    'sock_height',
+    'pattern',
+    'material',
+    'structure',
+    'ornament',
+  ],
+  shoes: [
+    'category',
+    'subcategory',
+    'heel_type',
+    'heel_height',
+    'sole_height',
+    'shaft_height',
+    'pattern',
+    'material',
+    'structure',
+    'ornament',
+  ],
+}
+const ACCESSORY_LOCAL_COPY_FIELDS = [
+  'category',
+  'subcategory',
+  'pattern',
+  'material',
+  'structure',
+  'ornament',
 ]
 
 export const loadEnvFile = (filePath = envPath) => {
@@ -69,12 +166,12 @@ export const loadEnvFile = (filePath = envPath) => {
 
 export const parseArgs = (argv) => {
   // Shared CLI flags for both sync entrypoints:
-  // --documents-path <path> selects the JSONL source
+  // --item-attributes-path <path> selects the canonical JSONL source
   // --batch-size <n> controls write batch size
   // --overwrite forces existing records to be updated instead of skipped
-  // --namespace <en|zh> applies to vector sync flows (Upstash/Pinecone)
+  // --namespace <en|zh> applies to Pinecone sync flows
   const args = {
-    documentsPath: defaultDocumentsPath,
+    itemAttributesPath: defaultItemAttributesPath,
     replaceTypes: false,
     batchSize: 250,
     namespace: null,
@@ -85,8 +182,8 @@ export const parseArgs = (argv) => {
     const arg = argv[index]
     if (!arg) continue
 
-    if (arg === '--documents-path') {
-      args.documentsPath = argv[index + 1]
+    if (arg === '--item-attributes-path' || arg === '--documents-path') {
+      args.itemAttributesPath = argv[index + 1]
       index += 1
       continue
     }
@@ -290,58 +387,337 @@ export const chunkArray = (values, chunkSize) => {
   return chunks
 }
 
-const normalizeDocumentMetadata = (documentRow) => {
-  const metadata = { ...(documentRow.metadata || {}) }
-  const itemId = Number(metadata.item_id ?? documentRow.id)
+const writeJsonLines = (filePath, rows) => {
+  fs.mkdirSync(path.dirname(filePath), { recursive: true })
+  fs.writeFileSync(
+    filePath,
+    rows
+      .map((row) => JSON.stringify(row))
+      .join('\n')
+      .concat(rows.length > 0 ? '\n' : ''),
+    'utf8'
+  )
+}
+
+const hasStructuredValue = (value) => {
+  if (value === null || value === undefined) return false
+  if (typeof value === 'string') return value.trim().length > 0
+  if (Array.isArray(value)) return value.length > 0
+  if (typeof value === 'object') return Object.keys(value).length > 0
+  return true
+}
+
+const normalizeSearchTextValue = (value) =>
+  String(value ?? '')
+    .trim()
+    .toLowerCase()
+
+const dedupeSearchTerms = (values) => {
+  const deduped = []
+  const seen = new Set()
+
+  values.forEach((value) => {
+    const normalized = normalizeSearchTextValue(value)
+    if (!normalized || seen.has(normalized)) {
+      return
+    }
+
+    seen.add(normalized)
+    deduped.push(normalized)
+  })
+
+  return deduped
+}
+
+const flattenSearchValues = (value) => {
+  if (Array.isArray(value)) {
+    return value.flatMap((entry) => flattenSearchValues(entry))
+  }
+
+  if (value && typeof value === 'object') {
+    return Object.values(value).flatMap((entry) => flattenSearchValues(entry))
+  }
+
+  const normalized = normalizeSearchTextValue(value)
+  return normalized ? [normalized] : []
+}
+
+const isRecord = (value) =>
+  typeof value === 'object' && value !== null && !Array.isArray(value)
+
+const getStructuredFieldOrder = (itemType) =>
+  LOCAL_COPY_FIELD_ORDER_BY_ITEM_TYPE[normalizeItemType(itemType)] ??
+  ACCESSORY_LOCAL_COPY_FIELDS
+
+const getMetadataFieldOrder = (itemType) =>
+  (
+    itemSearchRegistry.fieldNamesByItemType?.[normalizeItemType(itemType)] ??
+    getStructuredFieldOrder(itemType)
+  ).filter((field) => field !== 'category' && field !== 'subcategory')
+
+const normalizeCanonicalMetadata = (metadataValue, itemType) => {
+  const metadata = isRecord(metadataValue) ? metadataValue : {}
+  const normalizedMetadata = {}
+
+  getMetadataFieldOrder(itemType).forEach((field) => {
+    const fieldKind = itemSearchRegistry.fieldKindByName[field]
+    if (fieldKind === 'array') {
+      const normalized = normalizeStringArray(metadata[field]).map(
+        normalizeTokenKey
+      )
+      if (normalized.length > 0) {
+        normalizedMetadata[field] = normalized
+      }
+      return
+    }
+
+    const normalized = normalizeNullableString(metadata[field])
+    if (normalized) {
+      normalizedMetadata[field] = normalizeTokenKey(normalized)
+    }
+  })
+
+  return normalizedMetadata
+}
+
+const buildStructuredDataFromMetadata = (metadata, itemType) => {
+  const structuredData = {}
+
+  getStructuredFieldOrder(itemType).forEach((field) => {
+    const fieldKind = itemSearchRegistry.fieldKindByName[field]
+    if (fieldKind === 'array') {
+      structuredData[field] = normalizeStringArray(metadata[field]).map(
+        normalizeTokenKey
+      )
+      return
+    }
+
+    const normalized = normalizeNullableString(metadata[field])
+    structuredData[field] = normalized ? normalizeTokenKey(normalized) : null
+  })
+
+  return structuredData
+}
+
+const normalizeItemAttributeRow = (row) => {
+  const metadata = isRecord(row?.metadata) ? row.metadata : {}
+  const itemId = Number(row?.item_id ?? metadata.item_id)
 
   if (!Number.isFinite(itemId)) {
-    throw new Error(`Invalid item id in row ${JSON.stringify(documentRow)}`)
+    throw new Error(`Invalid item id in row ${JSON.stringify(row)}`)
   }
 
-  const itemType = normalizeItemType(metadata.item_type ?? metadata.slot)
-  metadata.item_id = itemId
-  metadata.item_type = itemType
-  metadata.slot = itemType
+  const itemType = normalizeItemType(
+    row?.item_type ?? metadata.item_type ?? metadata.slot
+  )
+  const category = normalizeNullableString(row?.category ?? metadata.category)
+  const subcategory = normalizeNullableString(
+    row?.subcategory ?? metadata.subcategory
+  )
 
-  for (const field of SCALAR_FIELDS) {
-    const normalized = normalizeNullableString(metadata[field])
-    if (normalized === null) {
-      delete metadata[field]
-      continue
-    }
-    metadata[field] = normalizeTokenKey(normalized)
+  return {
+    item_id: itemId,
+    item_type: itemType,
+    category: category ? normalizeTokenKey(category) : null,
+    subcategory: subcategory ? normalizeTokenKey(subcategory) : null,
+    metadata: normalizeCanonicalMetadata(metadata, itemType),
+  }
+}
+
+const buildStructuredRecordFromItemAttributeRow = (row) => {
+  const normalizedRow = normalizeItemAttributeRow(row)
+  const structuredData = buildStructuredDataFromMetadata(
+    {
+      ...normalizedRow.metadata,
+      category: normalizedRow.category,
+      subcategory: normalizedRow.subcategory,
+    },
+    normalizedRow.item_type
+  )
+
+  return {
+    item_id: normalizedRow.item_id,
+    item_type: normalizedRow.item_type,
+    data: structuredData,
+    parse_error: null,
+  }
+}
+
+const buildSearchTextFromStructuredRecord = (structuredRecord) => {
+  const searchTerms = [normalizeSearchTextValue(structuredRecord.item_type)]
+  const category = normalizeSearchTextValue(structuredRecord.data.category)
+  if (category) {
+    searchTerms.push(category)
   }
 
-  for (const field of ARRAY_FIELDS) {
-    const normalized = normalizeStringArray(metadata[field]).map(
-      normalizeTokenKey
+  const subcategory = normalizeSearchTextValue(
+    structuredRecord.data.subcategory
+  )
+  if (subcategory) {
+    searchTerms.push(subcategory)
+  }
+
+  const placement = normalizeSearchTextValue(structuredRecord.data.placement)
+  if (placement) {
+    searchTerms.push(placement)
+  }
+
+  searchTerms.push(
+    ...dedupeSearchTerms(flattenSearchValues(structuredRecord.data.ornament))
+  )
+
+  const fieldOrder = getStructuredFieldOrder(structuredRecord.item_type)
+  const extraFields = Object.keys(structuredRecord.data)
+    .filter((field) => !fieldOrder.includes(field))
+    .sort((left, right) => left.localeCompare(right))
+  const attributeValues = dedupeSearchTerms(
+    [...fieldOrder, ...extraFields].flatMap((field) =>
+      SEARCH_DOCUMENT_VALUE_EXCLUDED_FIELDS.has(field)
+        ? []
+        : flattenSearchValues(structuredRecord.data[field])
     )
-    if (normalized.length === 0) {
-      delete metadata[field]
-      continue
-    }
-    metadata[field] = normalized
+  )
+  searchTerms.push(...attributeValues)
+
+  return dedupeSearchTerms(searchTerms).join(' ').trim()
+}
+
+const hydrateSearchMetadataFromItemAttributeRow = (row) => {
+  const normalizedRow = normalizeItemAttributeRow(row)
+  const metadata = {
+    item_id: normalizedRow.item_id,
+    item_type: normalizedRow.item_type,
+    slot: normalizedRow.item_type,
   }
+
+  if (normalizedRow.category) {
+    metadata.category = normalizedRow.category
+  }
+
+  if (normalizedRow.subcategory) {
+    metadata.subcategory = normalizedRow.subcategory
+  }
+
+  getMetadataFieldOrder(normalizedRow.item_type).forEach((field) => {
+    const value = normalizedRow.metadata[field]
+    if (!hasStructuredValue(value)) {
+      return
+    }
+
+    metadata[field] = value
+  })
 
   return metadata
 }
 
-export const buildItemAttributeRow = (documentRow) => {
-  const metadata = normalizeDocumentMetadata(documentRow)
+export const buildSearchDocumentRowFromItemAttributeRow = (row) => {
+  const normalizedRow = normalizeItemAttributeRow(row)
+  const structuredRecord =
+    buildStructuredRecordFromItemAttributeRow(normalizedRow)
 
   return {
-    item_id: metadata.item_id,
-    item_type: metadata.item_type,
-    category: metadata.category ?? null,
-    subcategory: metadata.subcategory ?? null,
-    metadata,
+    id: normalizedRow.item_id,
+    data: buildSearchTextFromStructuredRecord(structuredRecord),
+    metadata: hydrateSearchMetadataFromItemAttributeRow(normalizedRow),
   }
 }
 
+export const buildItemAttributeRow = (row) => normalizeItemAttributeRow(row)
+
 export const toUpsertRow = buildItemAttributeRow
 
-export const buildSearchVectorUpsertRows = (documentRow) => {
-  const { metadata } = buildItemAttributeRow(documentRow)
+const createDataSupabaseClient = () => {
+  if (!process.env.SUPABASE_DATA_URL || !process.env.SUPABASE_DATA_SECRET_KEY) {
+    throw new Error(
+      'SUPABASE_DATA_URL and SUPABASE_DATA_SECRET_KEY must be set in the environment or .env'
+    )
+  }
+
+  return createClient(
+    process.env.SUPABASE_DATA_URL,
+    process.env.SUPABASE_DATA_SECRET_KEY,
+    {
+      auth: {
+        autoRefreshToken: false,
+        persistSession: false,
+        detectSessionInUrl: false,
+      },
+    }
+  )
+}
+
+const fetchAllItemAttributeRows = async ({
+  client,
+  pageSize = DEFAULT_EXPORT_PAGE_SIZE,
+}) => {
+  const rows = []
+  let from = 0
+
+  while (true) {
+    const { data, error } = await client
+      .from('item_attributes')
+      .select('item_id,item_type,category,subcategory,metadata')
+      .order('item_id', { ascending: true })
+      .range(from, from + pageSize - 1)
+
+    if (error) {
+      throw error
+    }
+
+    const batch = Array.isArray(data) ? data : []
+    rows.push(...batch)
+
+    if (batch.length < pageSize) {
+      break
+    }
+
+    from += pageSize
+  }
+
+  return rows
+}
+
+export const refreshItemSearchLocalCopy = async ({
+  outputRoot = defaultLocalCopyRoot,
+  pageSize = DEFAULT_EXPORT_PAGE_SIZE,
+} = {}) => {
+  loadEnvFile()
+  const client = createDataSupabaseClient()
+  const rawRows = await fetchAllItemAttributeRows({
+    client,
+    pageSize,
+  })
+  const normalizedRows = rawRows.map((row) => normalizeItemAttributeRow(row))
+
+  const normalizedOutputRoot = path.resolve(outputRoot)
+  const itemAttributesPath = path.join(
+    normalizedOutputRoot,
+    'item-attributes.jsonl'
+  )
+  for (const staleFileName of [
+    'item-structured-final.jsonl',
+    'item-search-documents.jsonl',
+    'item-search-snapshot.jsonl',
+  ]) {
+    fs.rmSync(path.join(normalizedOutputRoot, staleFileName), {
+      force: true,
+    })
+  }
+
+  writeJsonLines(itemAttributesPath, normalizedRows)
+
+  return {
+    output_root: normalizedOutputRoot,
+    item_attributes_path: itemAttributesPath,
+    exported_count: normalizedRows.length,
+  }
+}
+
+export const exportItemSearchLocalCopy = refreshItemSearchLocalCopy
+
+export const buildSearchVectorUpsertRows = (itemAttributeRow) => {
+  const normalizedRow = normalizeItemAttributeRow(itemAttributeRow)
+  const metadata = hydrateSearchMetadataFromItemAttributeRow(normalizedRow)
 
   return SEARCH_NAMESPACE_CONFIG.map(({ namespace }) => {
     return {
@@ -358,27 +734,12 @@ export const buildSearchVectorUpsertRows = (documentRow) => {
 export const syncItemIndexToSupabase = async (argv = process.argv.slice(2)) => {
   loadEnvFile()
 
-  if (!process.env.SUPABASE_DATA_URL || !process.env.SUPABASE_DATA_SECRET_KEY) {
-    throw new Error(
-      'SUPABASE_DATA_URL and SUPABASE_DATA_SECRET_KEY must be set in the environment or .env'
-    )
-  }
-
   const args = parseArgs(argv)
-  const client = createClient(
-    process.env.SUPABASE_DATA_URL,
-    process.env.SUPABASE_DATA_SECRET_KEY,
-    {
-      auth: {
-        autoRefreshToken: false,
-        persistSession: false,
-        detectSessionInUrl: false,
-      },
-    }
-  )
+  const client = createDataSupabaseClient()
 
-  const documents = parseJsonLines(args.documentsPath)
-  const itemRows = documents.map((row) => buildItemAttributeRow(row))
+  const itemRows = parseJsonLines(args.itemAttributesPath).map((row) =>
+    buildItemAttributeRow(row)
+  )
   const distinctTypes = Array.from(
     new Set(itemRows.map((row) => row.item_type))
   ).sort()
@@ -414,140 +775,12 @@ export const syncItemIndexToSupabase = async (argv = process.argv.slice(2)) => {
   }
 
   return {
-    documents_path: args.documentsPath,
+    item_attributes_path: args.itemAttributesPath,
     imported_count: itemRows.length,
     item_types: distinctTypes,
     replace_types: args.replaceTypes,
     overwrite: args.overwrite,
     supabase_written: supabaseWrittenCount,
-  }
-}
-
-export const syncItemIndexToUpstash = async (argv = process.argv.slice(2)) => {
-  loadEnvFile()
-
-  if (
-    !process.env.UPSTASH_VECTOR_REST_URL ||
-    !process.env.UPSTASH_VECTOR_REST_TOKEN
-  ) {
-    throw new Error(
-      'UPSTASH_VECTOR_REST_URL and UPSTASH_VECTOR_REST_TOKEN must be set in the environment or .env'
-    )
-  }
-
-  const args = parseArgs(argv)
-  const targetNamespaces = args.namespace
-    ? SEARCH_NAMESPACE_CONFIG.filter(
-        ({ namespace }) => namespace === args.namespace
-      )
-    : SEARCH_NAMESPACE_CONFIG
-
-  if (args.namespace && targetNamespaces.length === 0) {
-    throw new Error(
-      `Unsupported namespace '${args.namespace}'. Expected one of: ${SEARCH_NAMESPACE_CONFIG.map(({ namespace }) => namespace).join(', ')}`
-    )
-  }
-
-  const documents = parseJsonLines(args.documentsPath)
-  const vectorWrittenCounts = Object.fromEntries(
-    targetNamespaces.map(({ namespace }) => [namespace, 0])
-  )
-  const vectorRowsByNamespace = targetNamespaces.reduce(
-    (accumulator, { namespace }) => {
-      accumulator[namespace] = []
-      return accumulator
-    },
-    {}
-  )
-
-  for (const documentRow of documents) {
-    const searchRows = buildSearchVectorUpsertRows(documentRow)
-
-    searchRows.forEach(({ namespace, row }) => {
-      if (!(namespace in vectorRowsByNamespace)) return
-      vectorRowsByNamespace[namespace].push(row)
-    })
-  }
-
-  for (const { namespace } of targetNamespaces) {
-    const endpoint = `${process.env.UPSTASH_VECTOR_REST_URL.replace(/\/$/, '')}/upsert-data/${encodeURIComponent(namespace)}`
-    const fetchEndpoint = `${process.env.UPSTASH_VECTOR_REST_URL.replace(/\/$/, '')}/fetch/${encodeURIComponent(namespace)}`
-
-    for (const batch of chunkArray(
-      vectorRowsByNamespace[namespace],
-      args.batchSize
-    )) {
-      let rowsToWrite = batch
-
-      if (!args.overwrite) {
-        // Default behavior is append-only for Vector too: probe existing ids
-        // in the target namespace and only write rows that are missing.
-        const fetchResponse = await fetch(fetchEndpoint, {
-          method: 'POST',
-          headers: {
-            Authorization: `Bearer ${process.env.UPSTASH_VECTOR_REST_TOKEN}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            ids: batch.map((row) => row.id),
-            includeMetadata: false,
-            includeData: false,
-            includeVectors: false,
-          }),
-        })
-
-        if (!fetchResponse.ok) {
-          const message = await fetchResponse.text().catch(() => '')
-          throw new Error(
-            `Upstash fetch failed for namespace ${namespace} with ${fetchResponse.status} ${fetchResponse.statusText}${message ? `: ${message}` : ''}`
-          )
-        }
-
-        const fetchPayload = await fetchResponse.json()
-        const fetchedRows = Array.isArray(fetchPayload?.result)
-          ? fetchPayload.result
-          : []
-
-        rowsToWrite = batch.filter((_, index) => !fetchedRows[index])
-      }
-
-      if (rowsToWrite.length === 0) {
-        continue
-      }
-
-      const response = await fetch(endpoint, {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${process.env.UPSTASH_VECTOR_REST_TOKEN}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(rowsToWrite),
-      })
-
-      if (!response.ok) {
-        const message = await response.text().catch(() => '')
-        throw new Error(
-          `Upstash upsert failed for namespace ${namespace} with ${response.status} ${response.statusText}${message ? `: ${message}` : ''}`
-        )
-      }
-
-      vectorWrittenCounts[namespace] += rowsToWrite.length
-    }
-  }
-
-  return {
-    documents_path: args.documentsPath,
-    imported_count: documents.length,
-    replace_types: args.replaceTypes,
-    namespace: args.namespace,
-    overwrite: args.overwrite,
-    vector_namespaces: Object.fromEntries(
-      targetNamespaces.map(({ namespace }) => [
-        namespace,
-        vectorRowsByNamespace[namespace].length,
-      ])
-    ),
-    vector_written: vectorWrittenCounts,
   }
 }
 
@@ -603,7 +836,9 @@ export const syncItemIndexToPinecone = async (argv = process.argv.slice(2)) => {
     args.batchSize,
     PINECONE_MAX_UPSERT_BATCH_SIZE
   )
-  const documents = parseJsonLines(args.documentsPath)
+  const itemRows = parseJsonLines(args.itemAttributesPath).map((row) =>
+    buildItemAttributeRow(row)
+  )
   const pineconeWrittenCounts = Object.fromEntries(
     targetNamespaces.map(({ namespace }) => [namespace, 0])
   )
@@ -615,8 +850,8 @@ export const syncItemIndexToPinecone = async (argv = process.argv.slice(2)) => {
     {}
   )
 
-  for (const documentRow of documents) {
-    const searchRows = buildSearchVectorUpsertRows(documentRow)
+  for (const itemRow of itemRows) {
+    const searchRows = buildSearchVectorUpsertRows(itemRow)
 
     searchRows.forEach(({ namespace, row }) => {
       if (!(namespace in vectorRowsByNamespace)) return
@@ -690,8 +925,8 @@ export const syncItemIndexToPinecone = async (argv = process.argv.slice(2)) => {
   }
 
   return {
-    documents_path: args.documentsPath,
-    imported_count: documents.length,
+    item_attributes_path: args.itemAttributesPath,
+    imported_count: itemRows.length,
     namespace: args.namespace,
     overwrite: args.overwrite,
     batch_size: effectiveBatchSize,

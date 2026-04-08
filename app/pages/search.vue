@@ -308,6 +308,7 @@
                   <AttributeCard
                     :metadata="activeResult.metadata"
                     :item-type="activeResult.resolvedItemType"
+                    layout="compact"
                   />
 
                   <div class="pt-2 flex flex-col gap-3">
@@ -320,6 +321,20 @@
                       @click="openActiveCompendium"
                     >
                       {{ t('search_page.view_compendium') }}
+                    </n-button>
+
+                    <n-button
+                      v-if="
+                        activeResult.itemId !== null &&
+                        activeResult.supportsFeedback
+                      "
+                      secondary
+                      block
+                      size="large"
+                      class="!rounded-xl font-bold"
+                      @click="openFeedbackModal"
+                    >
+                      {{ t('feedback.suggest_action') }}
                     </n-button>
 
                     <div
@@ -455,6 +470,7 @@
               <AttributeCard
                 :metadata="activeResult.metadata"
                 :item-type="activeResult.resolvedItemType"
+                layout="compact"
               />
             </div>
           </n-scrollbar>
@@ -464,19 +480,43 @@
         <div
           class="w-full p-4 border-t border-slate-200/50 dark:border-slate-700/50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md z-20 shrink-0"
         >
-          <n-button
-            v-if="activeResult.compendiumPath"
-            type="primary"
-            block
-            size="large"
-            class="!rounded-xl shadow-md font-bold"
-            @click="openActiveCompendium"
-          >
-            {{ t('search_page.view_compendium') }}
-          </n-button>
+          <div class="flex flex-col gap-3">
+            <n-button
+              v-if="activeResult.compendiumPath"
+              type="primary"
+              block
+              size="large"
+              class="!rounded-xl shadow-md font-bold"
+              @click="openActiveCompendium"
+            >
+              {{ t('search_page.view_compendium') }}
+            </n-button>
+
+            <n-button
+              v-if="
+                activeResult.itemId !== null && activeResult.supportsFeedback
+              "
+              secondary
+              block
+              size="large"
+              class="!rounded-xl font-bold"
+              @click="openFeedbackModal"
+            >
+              {{ t('feedback.suggest_action') }}
+            </n-button>
+          </div>
         </div>
       </div>
     </n-modal>
+
+    <FeedbackSubmitModal
+      v-if="feedbackModalTarget"
+      v-model:show="showFeedbackModal"
+      :item-id="feedbackModalTarget.itemId"
+      :item-name="feedbackModalTarget.itemName"
+      :item-type="feedbackModalTarget.itemType"
+      :metadata="feedbackModalTarget.metadata"
+    />
   </div>
 </template>
 
@@ -495,7 +535,6 @@
     subcategory: string | null
     score: number
     metadata: ItemSearchMetadata | null
-    data?: string
   }
 
   type SearchApiResponse = {
@@ -514,6 +553,19 @@
     matchScoreLabel: string
     compendiumPath: string | null
     metadataJson: string
+    supportsFeedback: boolean
+  }
+
+  type FeedbackModalTarget = {
+    itemId: number
+    itemName: string
+    itemType: string | null
+    metadata: ItemSearchMetadata | null
+  }
+
+  type ActiveSearch = {
+    key: string
+    controller: AbortController
   }
 
   const { t, locale } = useI18n()
@@ -521,6 +573,7 @@
   const route = useRoute()
   const router = useRouter()
   const localePath = useLocalePath()
+  const { fetchItemById } = useSupabaseItems()
   const { getImageSrc } = imageProvider()
   const isDev = import.meta.dev
   const gameVersionHeaders = getGameVersionRequestHeaders()
@@ -561,8 +614,8 @@
   })
 
   let typeInterval: ReturnType<typeof setInterval> | null = null
-  let activeSearchController: AbortController | null = null
-  let latestSearchRequestId = 0
+  let activeSearch: ActiveSearch | null = null
+  let lastCompletedSearchKey: string | null = null
 
   const stopPlaceholderTyping = () => {
     if (!typeInterval) return
@@ -587,9 +640,9 @@
   }
 
   const cancelActiveSearch = () => {
-    if (!activeSearchController) return
-    activeSearchController.abort()
-    activeSearchController = null
+    if (!activeSearch) return
+    activeSearch.controller.abort()
+    activeSearch = null
   }
 
   onMounted(() => {
@@ -609,6 +662,8 @@
   const isMobileModalOpen = ref(false)
   const loading = ref(false)
   const error = ref('')
+  const showFeedbackModal = ref(false)
+  const feedbackModalTarget = ref<FeedbackModalTarget | null>(null)
   useSeoMeta({
     title: () =>
       `${t('search_page.title')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
@@ -669,7 +724,12 @@
           item.itemId !== null ? getImageSrc('item', item.itemId) : null,
         matchScoreLabel: formatMatchScore(item.score),
         compendiumPath: buildCompendiumPath(item.itemId),
-        metadataJson: isDev ? formatMetadata(item.metadata) : '',
+        metadataJson: isDev
+          ? formatMetadata(item.metadata, resolvedItemType)
+          : '',
+        supportsFeedback:
+          item.itemId !== null &&
+          isSupportedItemSearchItemType(resolvedItemType),
       }
     })
   )
@@ -683,6 +743,15 @@
       null
   )
 
+  const activeFeedbackResult = computed(() => {
+    const currentResult = activeResult.value
+    if (!currentResult || currentResult.itemId === null) {
+      return null
+    }
+
+    return currentResult
+  })
+
   const setSelected = (id: string) => {
     selectedId.value = id
     if (!isDesktopDetails.value) {
@@ -692,12 +761,15 @@
 
   const resetSearchState = () => {
     cancelActiveSearch()
+    lastCompletedSearchKey = null
     results.value = []
     selectedId.value = null
     loading.value = false
     error.value = ''
     hasSearched.value = false
     isMobileModalOpen.value = false
+    showFeedbackModal.value = false
+    feedbackModalTarget.value = null
   }
 
   const updateSearchRoute = async (query: string | null) => {
@@ -735,37 +807,76 @@
     isMobileModalOpen.value = false
   }
 
-  const buildMetadataDisplayPayload = (metadata: ItemSearchMetadata) => {
+  const openFeedbackModal = async () => {
+    const currentResult = activeFeedbackResult.value
+    if (!currentResult || !currentResult.supportsFeedback) return
+
+    const nextTarget: FeedbackModalTarget = {
+      itemId: currentResult.itemId,
+      itemName: currentResult.itemName,
+      itemType: currentResult.resolvedItemType,
+      metadata: currentResult.metadata,
+    }
+
+    try {
+      const item = await fetchItemById(currentResult.itemId)
+      if (item) {
+        nextTarget.itemType = item.type ?? nextTarget.itemType
+        nextTarget.metadata =
+          getItemSearchMetadataFromAttributes(item.item_attributes ?? null) ??
+          nextTarget.metadata
+      }
+    } catch (caughtError) {
+      const message = toErrorMessage(
+        caughtError,
+        `Failed to hydrate feedback metadata for item ${currentResult.itemId}`
+      )
+      console.error(
+        `Failed to hydrate feedback metadata for item ${currentResult.itemId}: ${message}`
+      )
+    }
+
+    feedbackModalTarget.value = nextTarget
+    isMobileModalOpen.value = false
+    showFeedbackModal.value = true
+  }
+
+  const buildMetadataDisplayPayload = (
+    metadata: ItemSearchMetadata,
+    itemType?: string | null
+  ) => {
     const payload: Record<string, unknown> = {}
-    const itemType =
-      typeof metadata.item_type === 'string' ? metadata.item_type.trim() : ''
+    const resolvedItemType =
+      typeof itemType === 'string' && itemType.trim()
+        ? itemType.trim()
+        : typeof metadata.item_type === 'string'
+          ? metadata.item_type.trim()
+          : ''
     const schemaFields = new Set(
-      getItemSearchSchemaFields(itemType || metadata.slot)
+      getItemSearchSchemaFields(resolvedItemType || metadata.slot)
     )
-
-    if (metadata.item_id !== null && metadata.item_id !== undefined) {
-      payload.item_id = metadata.item_id
-    }
-
-    if (itemType) {
-      payload.item_type = itemType
-    }
 
     schemaFields.forEach((field) => {
       if (isItemSearchArrayField(field)) {
-        payload[field] = Array.isArray(metadata[field])
+        const normalized = Array.isArray(metadata[field])
           ? metadata[field]
               .filter((entry): entry is string => typeof entry === 'string')
               .map((entry) => entry.trim())
               .filter(Boolean)
           : []
+        if (normalized.length > 0) {
+          payload[field] = normalized
+        }
         return
       }
 
-      payload[field] =
+      const normalized =
         typeof metadata[field] === 'string'
           ? metadata[field].trim() || null
           : (metadata[field] ?? null)
+      if (normalized !== null && normalized !== undefined) {
+        payload[field] = normalized
+      }
     })
 
     Object.entries(metadata).forEach(([key, value]) => {
@@ -799,9 +910,12 @@
     return payload
   }
 
-  const formatMetadata = (metadata: ItemSearchMetadata | null) =>
+  const formatMetadata = (
+    metadata: ItemSearchMetadata | null,
+    itemType?: string | null
+  ) =>
     JSON.stringify(
-      metadata ? buildMetadataDisplayPayload(metadata) : {},
+      metadata ? buildMetadataDisplayPayload(metadata, itemType) : {},
       null,
       2
     )
@@ -813,34 +927,72 @@
     await navigateTo(activeResult.value.compendiumPath)
   }
 
-  const runSearch = async (pushToUrl = false) => {
-    let rawQuery = searchQuery.value
-    let normalizedQuery = normalizeSearchQuery(rawQuery)
+  const getSearchRequestKey = (query: string) => `${locale.value}:${query}`
 
-    if (!normalizedQuery) {
-      if (!pushToUrl) return
-      // Use current placeholder example as the query and cycle to the next
-      rawQuery = currentExample.value
-      searchQuery.value = rawQuery
-      normalizedQuery = normalizeSearchQuery(rawQuery)
-      exampleIndex.value =
-        (exampleIndex.value + 1) % PLACEHOLDER_EXAMPLES.length
-      isTypingFinished.value = true
+  const shouldSkipSearch = (searchKey: string) =>
+    searchKey === activeSearch?.key || searchKey === lastCompletedSearchKey
+
+  const applySearchResults = (nextResults: SearchHit[]) => {
+    results.value = nextResults
+    selectedId.value =
+      nextResults.find((item) => item.id === selectedId.value)?.id ??
+      nextResults[0]?.id ??
+      null
+    isMobileModalOpen.value = false
+    showFeedbackModal.value = false
+    feedbackModalTarget.value = null
+  }
+
+  const resolveNormalizedSearchQuery = (pushToUrl: boolean) => {
+    const normalizedQuery = normalizeSearchQuery(searchQuery.value)
+    if (normalizedQuery) {
+      return normalizedQuery
     }
 
-    const requestId = ++latestSearchRequestId
-    cancelActiveSearch()
-    const controller = new AbortController()
-    activeSearchController = controller
+    if (!pushToUrl) {
+      return null
+    }
 
-    loading.value = true
+    // Use current placeholder example as the query and cycle to the next.
+    searchQuery.value = currentExample.value
+    exampleIndex.value = (exampleIndex.value + 1) % PLACEHOLDER_EXAMPLES.length
+    isTypingFinished.value = true
+
+    return normalizeSearchQuery(searchQuery.value)
+  }
+
+  const runSearch = async (pushToUrl = false) => {
+    const normalizedQuery = resolveNormalizedSearchQuery(pushToUrl)
+    if (!normalizedQuery) {
+      return
+    }
+
+    const searchKey = getSearchRequestKey(normalizedQuery)
     hasSearched.value = true
     error.value = ''
+
+    if (shouldSkipSearch(searchKey)) {
+      return
+    }
+
+    let search: ActiveSearch | null = null
 
     try {
       if (pushToUrl && route.query.q?.toString() !== normalizedQuery) {
         await updateSearchRoute(normalizedQuery)
       }
+
+      if (shouldSkipSearch(searchKey)) {
+        return
+      }
+
+      cancelActiveSearch()
+      search = {
+        key: searchKey,
+        controller: new AbortController(),
+      }
+      activeSearch = search
+      loading.value = true
 
       const response = await $fetch<SearchApiResponse>('/api/search/items', {
         query: {
@@ -848,38 +1000,31 @@
           lang: locale.value,
         },
         headers: gameVersionHeaders,
-        signal: controller.signal,
+        signal: search.controller.signal,
       })
 
-      if (requestId !== latestSearchRequestId) return
+      if (activeSearch !== search) return
 
-      const nextResults = (response.data ?? []).filter((item) => item.score > 0)
-
-      results.value = nextResults
-      selectedId.value =
-        nextResults.find((item) => item.id === selectedId.value)?.id ??
-        nextResults[0]?.id ??
-        null
-      isMobileModalOpen.value = false
+      lastCompletedSearchKey = search.key
+      applySearchResults((response.data ?? []).filter((item) => item.score > 0))
     } catch (caughtError) {
-      if (controller.signal.aborted || requestId !== latestSearchRequestId) {
+      if (
+        !search ||
+        search.controller.signal.aborted ||
+        activeSearch !== search
+      ) {
         return
       }
 
-      results.value = []
-      selectedId.value = null
-      isMobileModalOpen.value = false
+      applySearchResults([])
       error.value = toErrorMessage(
         caughtError,
         t('search_page.error_description')
       )
     } finally {
-      if (requestId === latestSearchRequestId) {
+      if (activeSearch === search) {
         loading.value = false
-      }
-
-      if (activeSearchController === controller) {
-        activeSearchController = null
+        activeSearch = null
       }
     }
   }

@@ -89,11 +89,8 @@ export default defineNuxtConfig({
   runtimeConfig: {
     supabaseSecretKey: process.env.SUPABASE_SECRET_KEY,
     supabaseDataSecretKey: process.env.SUPABASE_DATA_SECRET_KEY,
-    searchProvider: process.env.SEARCH_PROVIDER || 'pinecore',
     pineconeApiKey: process.env.PINECONE_API_KEY,
     pineconeIndexHost: process.env.PINECONE_INDEX_HOST,
-    upstashVectorRestUrl: process.env.UPSTASH_VECTOR_REST_URL,
-    upstashVectorRestToken: process.env.UPSTASH_VECTOR_REST_TOKEN,
 
     public: {
       supabaseUrl: process.env.SUPABASE_DATABASE_URL,

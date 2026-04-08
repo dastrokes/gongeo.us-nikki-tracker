@@ -1879,20 +1879,19 @@
 
     if (versionFilter.value) {
       const selectedVersion = versionFilter.value
-      banners = banners.filter((banner) =>
-        banner.runs.some((run: BannerRun) =>
-          matchesVersionFilter(run.version, selectedVersion)
-        )
-      )
+      banners = banners.filter((banner) => {
+        const firstRunVersion = banner.runs[0]?.version
+        return firstRunVersion
+          ? matchesVersionFilter(firstRunVersion, selectedVersion)
+          : false
+      })
     }
 
     banners = banners.sort((a, b) => b.bannerId - a.bannerId)
 
     const entries = banners.map((banner) => {
-      const latestRun = banner.runs[banner.runs.length - 1]
-      const bannerVersion = latestRun
-        ? toBannerVersion(latestRun.version)
-        : null
+      const firstRun = banner.runs[0]
+      const bannerVersion = firstRun ? toBannerVersion(firstRun.version) : null
       const bannerTypeLabel =
         banner.bannerType === 1
           ? '5★ Permanent'

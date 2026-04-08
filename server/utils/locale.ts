@@ -10,14 +10,8 @@ const supportedLocaleCodeSet = new Set<SupportedLocaleCode>(
   i18nLocales.map((locale) => locale.code)
 )
 const cjkLocaleCodeSet = new Set<SupportedLocaleCode>(['ja', 'ko', 'zh', 'tw'])
-const hybridSearchLocaleCodeSet = new Set<SupportedLocaleCode>([
-  'en',
-  'zh',
-  'tw',
-])
 
-export type UpstashSearchNamespace = 'en' | 'zh'
-export type UpstashSearchMode = 'HYBRID' | 'DENSE'
+export type SearchNamespace = 'en' | 'zh'
 
 export const resolveLocaleCode = (
   value?: string | null
@@ -42,20 +36,10 @@ export const resolveRequestLocale = (event: H3Event): SupportedLocaleCode => {
   )
 }
 
-export const resolveUpstashSearchNamespace = (
+export const resolveSearchNamespace = (
   locale: SupportedLocaleCode
-): UpstashSearchNamespace => (cjkLocaleCodeSet.has(locale) ? 'zh' : 'en')
+): SearchNamespace => (cjkLocaleCodeSet.has(locale) ? 'zh' : 'en')
 
-export const resolveRequestUpstashSearchNamespace = (
+export const resolveRequestSearchNamespace = (
   event: H3Event
-): UpstashSearchNamespace =>
-  resolveUpstashSearchNamespace(resolveRequestLocale(event))
-
-export const resolveUpstashSearchMode = (
-  locale: SupportedLocaleCode
-): UpstashSearchMode =>
-  hybridSearchLocaleCodeSet.has(locale) ? 'HYBRID' : 'DENSE'
-
-export const resolveRequestUpstashSearchMode = (
-  event: H3Event
-): UpstashSearchMode => resolveUpstashSearchMode(resolveRequestLocale(event))
+): SearchNamespace => resolveSearchNamespace(resolveRequestLocale(event))

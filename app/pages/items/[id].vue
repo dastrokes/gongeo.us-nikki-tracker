@@ -116,238 +116,156 @@
 
           <!-- Item Info -->
           <div class="space-y-4">
-            <div class="flex flex-wrap items-center gap-2">
-              <h1 class="text-xl sm:text-2xl font-bold leading-tight">
-                {{ itemName }}
-              </h1>
-              <NuxtLinkLocale
-                :to="{
-                  path: '/items',
-                  query: { quality: item.quality },
-                }"
-                class="hover:opacity-80 transition-opacity"
-              >
-                <n-tag
-                  :color="getQualityTextTheme(item.quality)"
-                  :bordered="false"
-                  round
-                  size="small"
-                  class="cursor-pointer"
-                >
-                  <span class="flex items-center gap-1">
-                    {{ item.quality }}
-                    <n-icon class="text-xs">
-                      <Star />
-                    </n-icon>
-                  </span>
-                </n-tag>
-              </NuxtLinkLocale>
-              <NuxtLinkLocale
-                :to="{
-                  path: '/items',
-                  query: { type: itemType },
-                }"
-                class="hover:opacity-80 transition-opacity"
-              >
-                <n-tag
-                  type="default"
-                  :bordered="false"
-                  round
-                  size="small"
-                  class="cursor-pointer"
-                >
-                  {{ $t(`type.${itemType}`) }}
-                </n-tag>
-              </NuxtLinkLocale>
-            </div>
+            <div class="flex flex-col gap-4 xl:flex-row xl:items-start">
+              <div class="min-w-0 flex-1 space-y-3">
+                <div class="flex flex-wrap items-center gap-2">
+                  <h1 class="text-xl sm:text-2xl font-bold leading-tight">
+                    {{ itemName }}
+                  </h1>
+                  <NuxtLinkLocale
+                    :to="{
+                      path: '/items',
+                      query: { quality: item.quality },
+                    }"
+                    class="hover:opacity-80 transition-opacity"
+                  >
+                    <n-tag
+                      :color="getQualityTextTheme(item.quality)"
+                      :bordered="false"
+                      round
+                      size="small"
+                      class="cursor-pointer"
+                    >
+                      <span class="flex items-center gap-1">
+                        {{ item.quality }}
+                        <n-icon class="text-xs">
+                          <Star />
+                        </n-icon>
+                      </span>
+                    </n-tag>
+                  </NuxtLinkLocale>
+                  <NuxtLinkLocale
+                    :to="{
+                      path: '/items',
+                      query: { type: itemType },
+                    }"
+                    class="hover:opacity-80 transition-opacity"
+                  >
+                    <n-tag
+                      type="default"
+                      :bordered="false"
+                      round
+                      size="small"
+                      class="cursor-pointer"
+                    >
+                      {{ $t(`type.${itemType}`) }}
+                    </n-tag>
+                  </NuxtLinkLocale>
+                </div>
 
-            <div class="flex flex-row gap-4 items-start">
-              <!-- Tags and Description -->
-              <div
-                class="flex flex-col sm:flex-row items-start gap-4 min-w-0 flex-1"
-              >
-                <div class="space-y-3 min-w-0 flex-1 w-full">
-                  <div class="flex flex-wrap gap-2">
+                <div class="flex flex-wrap gap-2">
+                  <NuxtLinkLocale
+                    v-if="itemStyleLabel"
+                    :to="{
+                      path: '/items',
+                      query: { style: itemStyleKey },
+                    }"
+                    class="hover:opacity-80 transition-opacity"
+                  >
+                    <n-tag
+                      size="small"
+                      :bordered="false"
+                      type="default"
+                      :color="getStyleTagTheme(itemStyleKey)"
+                      class="text-xs font-semibold shadow-[inset_0_-2px_0_rgba(0,0,0,0.18)] cursor-pointer"
+                    >
+                      {{ itemStyleLabel }}
+                    </n-tag>
+                  </NuxtLinkLocale>
+                  <template
+                    v-for="label in itemLabelTags"
+                    :key="label.text"
+                  >
                     <NuxtLinkLocale
-                      v-if="itemStyleLabel"
-                      :to="{
-                        path: '/items',
-                        query: { style: itemStyleKey },
-                      }"
+                      v-if="label.tagKey"
+                      :to="{ path: '/items', query: { label: label.tagKey } }"
                       class="hover:opacity-80 transition-opacity"
                     >
                       <n-tag
-                        size="small"
-                        :bordered="false"
-                        type="default"
-                        :color="getStyleTagTheme(itemStyleKey)"
-                        class="text-xs font-semibold shadow-[inset_0_-2px_0_rgba(0,0,0,0.18)] cursor-pointer"
-                      >
-                        {{ itemStyleLabel }}
-                      </n-tag>
-                    </NuxtLinkLocale>
-                    <template
-                      v-for="label in itemLabelTags"
-                      :key="label.text"
-                    >
-                      <NuxtLinkLocale
-                        v-if="label.tagKey"
-                        :to="{ path: '/items', query: { label: label.tagKey } }"
-                        class="hover:opacity-80 transition-opacity"
-                      >
-                        <n-tag
-                          size="small"
-                          type="default"
-                          :color="label.theme"
-                          round
-                          class="text-xs font-semibold cursor-pointer"
-                        >
-                          {{ label.text }}
-                        </n-tag>
-                      </NuxtLinkLocale>
-                      <n-tag
-                        v-else
                         size="small"
                         type="default"
                         :color="label.theme"
                         round
-                        class="text-xs font-semibold"
+                        class="text-xs font-semibold cursor-pointer"
                       >
                         {{ label.text }}
                       </n-tag>
-                    </template>
-                  </div>
-
-                  <div class="flex flex-wrap gap-2">
-                    <NuxtLinkLocale
-                      v-if="itemVersionDisplay"
-                      :to="{
-                        path: '/items',
-                        query: { version: itemVersion },
-                      }"
-                      class="hover:opacity-80 transition-opacity"
-                    >
-                      <n-tag
-                        type="default"
-                        :bordered="false"
-                        round
-                        size="small"
-                        class="cursor-pointer"
-                      >
-                        {{ itemVersionDisplay }}
-                      </n-tag>
                     </NuxtLinkLocale>
-                    <NuxtLinkLocale
-                      v-if="itemObtainLabel && itemObtainType != null"
-                      :to="{
-                        path: '/items',
-                        query: { source: itemObtainType },
-                      }"
-                      class="hover:opacity-80 transition-opacity"
+                    <n-tag
+                      v-else
+                      size="small"
+                      type="default"
+                      :color="label.theme"
+                      round
+                      class="text-xs font-semibold"
                     >
-                      <n-tag
-                        type="default"
-                        :bordered="false"
-                        round
-                        size="small"
-                        class="cursor-pointer"
-                      >
-                        {{ itemObtainLabel }}
-                      </n-tag>
-                    </NuxtLinkLocale>
-                  </div>
+                      {{ label.text }}
+                    </n-tag>
+                  </template>
+                </div>
 
-                  <!-- Description -->
-                  <div
-                    v-if="itemDescription"
-                    class="text-xs sm:text-sm opacity-80 leading-relaxed"
+                <div class="flex flex-wrap gap-2">
+                  <NuxtLinkLocale
+                    v-if="itemVersionDisplay"
+                    :to="{
+                      path: '/items',
+                      query: { version: itemVersion },
+                    }"
+                    class="hover:opacity-80 transition-opacity"
                   >
-                    <p class="whitespace-pre-wrap">{{ itemDescription }}</p>
-                  </div>
-
-                  <div v-if="outfitItemSets.length > 0">
-                    <div
-                      v-for="outfitSet in outfitItemSets"
-                      :key="outfitSet.id"
-                      class="space-y-3"
+                    <n-tag
+                      type="default"
+                      :bordered="false"
+                      round
+                      size="small"
+                      class="cursor-pointer"
                     >
-                      <n-collapse>
-                        <n-collapse-item
-                          :title="
-                            outfitItemSets.length > 1
-                              ? `${$t('common.items')} (${outfitSet.outfitItems.length}) - ${outfitSet.name}`
-                              : `${$t('common.items')} (${outfitSet.outfitItems.length})`
-                          "
-                          :name="`items-${outfitSet.id}`"
-                        >
-                          <div
-                            class="grid grid-cols-5 sm:grid-cols-6 md:grid-cols-7 lg:grid-cols-8 xl:grid-cols-10 gap-1.5"
-                          >
-                            <ItemCard
-                              v-for="outfitItem in outfitSet.outfitItems"
-                              :key="outfitItem.id"
-                              :class="
-                                outfitItem.id === itemId
-                                  ? 'rounded-md pointer-events-none'
-                                  : ''
-                              "
-                              :style="
-                                outfitItem.id === itemId
-                                  ? getQualityRingStyle(outfitItem.quality)
-                                  : ''
-                              "
-                              :item-id="outfitItem.id"
-                              :quality="outfitItem.quality"
-                              :type="resolveItemType(outfitItem)"
-                              :name="$t(`item.${outfitItem.id}.name`)"
-                              size="sm"
-                            />
-                          </div>
-                        </n-collapse-item>
-                      </n-collapse>
-                      <n-collapse>
-                        <n-collapse-item
-                          v-if="outfitSet.makeupItems.length > 0"
-                          :title="
-                            outfitItemSets.length > 1
-                              ? `${$t('common.makeup')} (${outfitSet.makeupItems.length}) - ${outfitSet.name}`
-                              : `${$t('common.makeup')} (${outfitSet.makeupItems.length})`
-                          "
-                          :name="`makeup-${outfitSet.id}`"
-                        >
-                          <div
-                            class="grid grid-cols-5 sm:grid-cols-6 md:grid-cols-7 lg:grid-cols-8 xl:grid-cols-10 gap-1.5"
-                          >
-                            <ItemCard
-                              v-for="makeupItem in outfitSet.makeupItems"
-                              :key="makeupItem.id"
-                              :class="
-                                makeupItem.id === itemId
-                                  ? 'rounded-md pointer-events-none'
-                                  : ''
-                              "
-                              :style="
-                                makeupItem.id === itemId
-                                  ? getQualityRingStyle(makeupItem.quality)
-                                  : ''
-                              "
-                              :item-id="makeupItem.id"
-                              :quality="makeupItem.quality"
-                              :type="resolveItemType(makeupItem)"
-                              :name="$t(`item.${makeupItem.id}.name`)"
-                              size="sm"
-                            />
-                          </div>
-                        </n-collapse-item>
-                      </n-collapse>
-                    </div>
-                  </div>
+                      {{ itemVersionDisplay }}
+                    </n-tag>
+                  </NuxtLinkLocale>
+                  <NuxtLinkLocale
+                    v-if="itemObtainLabel && itemObtainType != null"
+                    :to="{
+                      path: '/items',
+                      query: { source: itemObtainType },
+                    }"
+                    class="hover:opacity-80 transition-opacity"
+                  >
+                    <n-tag
+                      type="default"
+                      :bordered="false"
+                      round
+                      size="small"
+                      class="cursor-pointer"
+                    >
+                      {{ itemObtainLabel }}
+                    </n-tag>
+                  </NuxtLinkLocale>
                 </div>
 
                 <div
-                  v-if="showStyleScores"
-                  class="flex flex-col gap-1 shrink-0 w-auto sm:min-w-[160px]"
+                  v-if="itemDescription"
+                  class="text-sm opacity-80 leading-relaxed"
                 >
+                  <p class="whitespace-pre-wrap">{{ itemDescription }}</p>
+                </div>
+              </div>
+
+              <div
+                v-if="showStyleScores"
+                class="w-full shrink-0 xl:min-w-[160px] xl:max-w-[160px]"
+              >
+                <div class="flex flex-col gap-1">
                   <div
                     v-for="score in styleScores"
                     :key="score.key"
@@ -369,10 +287,150 @@
                     </div>
                   </div>
                 </div>
+              </div>
+            </div>
+
+            <div v-if="outfitItemSets.length > 0">
+              <div
+                v-for="outfitSet in outfitItemSets"
+                :key="outfitSet.id"
+                class="space-y-3"
+              >
+                <n-collapse>
+                  <n-collapse-item
+                    :title="
+                      outfitItemSets.length > 1
+                        ? `${$t('common.items')} (${outfitSet.outfitItems.length}) - ${outfitSet.name}`
+                        : `${$t('common.items')} (${outfitSet.outfitItems.length})`
+                    "
+                    :name="`items-${outfitSet.id}`"
+                  >
+                    <div
+                      class="grid grid-cols-5 gap-1.5 sm:grid-cols-6 md:grid-cols-7 lg:grid-cols-8 xl:grid-cols-10"
+                    >
+                      <ItemCard
+                        v-for="outfitItem in outfitSet.outfitItems"
+                        :key="outfitItem.id"
+                        :class="
+                          outfitItem.id === itemId
+                            ? 'rounded-md pointer-events-none'
+                            : ''
+                        "
+                        :style="
+                          outfitItem.id === itemId
+                            ? getQualityRingStyle(outfitItem.quality)
+                            : ''
+                        "
+                        :item-id="outfitItem.id"
+                        :quality="outfitItem.quality"
+                        :type="resolveItemType(outfitItem)"
+                        :name="$t(`item.${outfitItem.id}.name`)"
+                        size="sm"
+                      />
+                    </div>
+                  </n-collapse-item>
+                </n-collapse>
+                <n-collapse>
+                  <n-collapse-item
+                    v-if="outfitSet.makeupItems.length > 0"
+                    :title="
+                      outfitItemSets.length > 1
+                        ? `${$t('common.makeup')} (${outfitSet.makeupItems.length}) - ${outfitSet.name}`
+                        : `${$t('common.makeup')} (${outfitSet.makeupItems.length})`
+                    "
+                    :name="`makeup-${outfitSet.id}`"
+                  >
+                    <div
+                      class="grid grid-cols-5 gap-1.5 sm:grid-cols-6 md:grid-cols-7 lg:grid-cols-8 xl:grid-cols-10"
+                    >
+                      <ItemCard
+                        v-for="makeupItem in outfitSet.makeupItems"
+                        :key="makeupItem.id"
+                        :class="
+                          makeupItem.id === itemId
+                            ? 'rounded-md pointer-events-none'
+                            : ''
+                        "
+                        :style="
+                          makeupItem.id === itemId
+                            ? getQualityRingStyle(makeupItem.quality)
+                            : ''
+                        "
+                        :item-id="makeupItem.id"
+                        :quality="makeupItem.quality"
+                        :type="resolveItemType(makeupItem)"
+                        :name="$t(`item.${makeupItem.id}.name`)"
+                        size="sm"
+                      />
+                    </div>
+                  </n-collapse-item>
+                </n-collapse>
+              </div>
+            </div>
+
+            <div
+              v-if="supportsItemFeedback"
+              class="rounded-lg border border-slate-200/70 bg-slate-50/80 p-3 dark:border-slate-800 dark:bg-slate-900/60"
+            >
+              <div class="flex gap-2 flex-row items-center justify-between">
+                <div class="flex flex-wrap items-center gap-2">
+                  <div
+                    class="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500 dark:text-slate-400"
+                  >
+                    {{ t('feedback.current_tags') }}
+                  </div>
+                  <n-button
+                    tertiary
+                    size="tiny"
+                    @click="showFeedbackModal = true"
+                  >
+                    {{ t('feedback.suggest_action') }}
+                  </n-button>
+                  <NuxtLinkLocale
+                    to="/feedback"
+                    class="text-xs font-semibold text-rose-500 transition-colors hover:text-rose-600 dark:text-rose-300 dark:hover:text-rose-200"
+                  >
+                    {{ t('feedback.view_queue') }}
+                  </NuxtLinkLocale>
+                </div>
                 <div
-                  v-else-if="showStyleSpacer"
-                  class="hidden sm:block shrink-0 w-auto sm:min-w-[160px]"
-                ></div>
+                  v-if="showCurrentTagsToggle"
+                  class="flex justify-end"
+                >
+                  <n-button
+                    secondary
+                    circle
+                    size="small"
+                    @click="showExpandedCurrentTags = !showExpandedCurrentTags"
+                  >
+                    <span class="flex items-center gap-1">
+                      <n-icon>
+                        <component
+                          :is="showExpandedCurrentTags ? CaretUp : CaretDown"
+                        />
+                      </n-icon>
+                    </span>
+                  </n-button>
+                </div>
+              </div>
+
+              <div class="mt-3">
+                <AttributeCard
+                  v-if="hasCurrentTags"
+                  :metadata="itemSearchMetadata"
+                  :item-type="itemType"
+                  display-mode="editable"
+                  :collapsible="showCurrentTagsToggle"
+                  :expanded="showExpandedCurrentTags"
+                  @expand="showExpandedCurrentTags = true"
+                />
+
+                <p
+                  v-else
+                  class="text-xs opacity-70"
+                >
+                  {{ t('feedback.no_tags') }}
+                </p>
               </div>
             </div>
           </div>
@@ -552,11 +610,20 @@
         </template>
       </n-result>
     </n-card>
+
+    <FeedbackSubmitModal
+      v-if="item && supportsItemFeedback"
+      v-model:show="showFeedbackModal"
+      :item-id="itemId"
+      :item-name="itemName"
+      :item-type="itemType"
+      :metadata="itemSearchMetadata"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-  import { Star } from '@vicons/fa'
+  import { CaretDown, CaretUp, Star } from '@vicons/fa'
 
   const { t, te, locale } = useI18n()
   const localePath = useLocalePath()
@@ -571,6 +638,8 @@
   const { fetchItemById } = useSupabaseItems()
   const { getImageSrc } = imageProvider()
   const nuxtImg = useImage()
+  const showFeedbackModal = ref(false)
+  const showExpandedCurrentTags = ref(false)
 
   const itemKey = computed(() => `item-${itemId.value}-${locale.value}`)
 
@@ -723,8 +792,35 @@
       ? getItemType(item.value.type)
       : getItemType(item.value.id)
   })
+  const itemSearchMetadata = computed(() =>
+    getItemSearchMetadataFromAttributes(item.value?.item_attributes ?? null)
+  )
+  const supportsItemFeedback = computed(
+    () =>
+      Boolean(itemSearchMetadata.value) &&
+      isSupportedItemSearchItemType(itemType.value)
+  )
 
   const isMakeupItem = computed(() => makeupTypes.includes(itemType.value))
+  const currentTagSections = computed(() =>
+    supportsItemFeedback.value
+      ? getItemSearchMetadataSections(
+          itemSearchMetadata.value,
+          itemType.value,
+          {
+            editableOnly: true,
+          }
+        )
+      : []
+  )
+  const hasCurrentTags = computed(() => currentTagSections.value.length > 0)
+  const showCurrentTagsToggle = computed(() =>
+    currentTagSections.value.some((section) =>
+      section.fields.some(
+        (field) => field.field !== 'category' && field.field !== 'subcategory'
+      )
+    )
+  )
 
   const hasStyleProps = computed(() => {
     if (!item.value?.props) return false
@@ -808,10 +904,6 @@
     () => !isMakeupItem.value && styleScores.value.length > 0
   )
 
-  const showStyleSpacer = computed(
-    () => isMakeupItem.value && !showStyleScores.value
-  )
-
   const itemLabelTags = computed(() => {
     if (!item.value) return []
     return resolveTagI18nKeys(item.value.tags).map((key) => {
@@ -836,6 +928,10 @@
   const retryFetch = () => {
     refresh()
   }
+
+  watch(itemId, () => {
+    showExpandedCurrentTags.value = false
+  })
 
   // Navigate to list
   const navigateToList = () => {

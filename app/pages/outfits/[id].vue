@@ -120,192 +120,143 @@
 
           <!-- Outfit Info -->
           <div class="space-y-4">
-            <div class="flex flex-wrap items-center gap-2">
-              <h1 class="text-xl sm:text-2xl font-bold leading-tight">
-                {{ outfitName }}
-              </h1>
-              <NuxtLinkLocale
-                :to="{
-                  path: '/outfits',
-                  query: { quality: outfit.quality },
-                }"
-                class="hover:opacity-80 transition-opacity"
-              >
-                <n-tag
-                  :color="getQualityTextTheme(outfit.quality)"
-                  :bordered="false"
-                  round
-                  size="small"
-                  class="cursor-pointer"
-                >
-                  <span class="flex items-center gap-1">
-                    {{ outfit.quality }}
-                    <n-icon class="text-xs">
-                      <Star />
-                    </n-icon>
-                  </span>
-                </n-tag>
-              </NuxtLinkLocale>
-            </div>
+            <div class="flex flex-col gap-4 xl:flex-row xl:items-start">
+              <div class="min-w-0 flex-1 space-y-3">
+                <div class="flex flex-wrap items-center gap-2">
+                  <h1 class="text-xl sm:text-2xl font-bold leading-tight">
+                    {{ outfitName }}
+                  </h1>
+                  <NuxtLinkLocale
+                    :to="{
+                      path: '/outfits',
+                      query: { quality: outfit.quality },
+                    }"
+                    class="hover:opacity-80 transition-opacity"
+                  >
+                    <n-tag
+                      :color="getQualityTextTheme(outfit.quality)"
+                      :bordered="false"
+                      round
+                      size="small"
+                      class="cursor-pointer"
+                    >
+                      <span class="flex items-center gap-1">
+                        {{ outfit.quality }}
+                        <n-icon class="text-xs">
+                          <Star />
+                        </n-icon>
+                      </span>
+                    </n-tag>
+                  </NuxtLinkLocale>
+                </div>
 
-            <div class="flex flex-row gap-4 items-start">
-              <!-- Tags and Description -->
-
-              <div
-                class="flex flex-col sm:flex-row items-start gap-4 min-w-0 flex-1"
-              >
-                <div class="space-y-3 min-w-0 flex-1 w-full">
-                  <div class="flex flex-wrap gap-2">
+                <div class="flex flex-wrap gap-2">
+                  <NuxtLinkLocale
+                    v-for="label in outfitStyleLabels"
+                    :key="`style-${label}`"
+                    :to="{
+                      path: '/outfits',
+                      query: { style: outfitStyleKey },
+                    }"
+                    class="hover:opacity-80 transition-opacity"
+                  >
+                    <n-tag
+                      size="small"
+                      :bordered="false"
+                      type="default"
+                      :color="getStyleTagTheme(outfitStyleKey)"
+                      class="text-xs font-semibold shadow-[inset_0_-2px_0_rgba(0,0,0,0.18)] cursor-pointer"
+                    >
+                      {{ label }}
+                    </n-tag>
+                  </NuxtLinkLocale>
+                  <template
+                    v-for="label in outfitLabelTags"
+                    :key="`label-${label.text}`"
+                  >
                     <NuxtLinkLocale
-                      v-for="label in outfitStyleLabels"
-                      :key="`style-${label}`"
+                      v-if="label.tagKey"
                       :to="{
                         path: '/outfits',
-                        query: { style: outfitStyleKey },
+                        query: { label: label.tagKey },
                       }"
                       class="hover:opacity-80 transition-opacity"
                     >
                       <n-tag
-                        size="small"
-                        :bordered="false"
-                        type="default"
-                        :color="getStyleTagTheme(outfitStyleKey)"
-                        class="text-xs font-semibold shadow-[inset_0_-2px_0_rgba(0,0,0,0.18)] cursor-pointer"
-                      >
-                        {{ label }}
-                      </n-tag>
-                    </NuxtLinkLocale>
-                    <template
-                      v-for="label in outfitLabelTags"
-                      :key="`label-${label.text}`"
-                    >
-                      <NuxtLinkLocale
-                        v-if="label.tagKey"
-                        :to="{
-                          path: '/outfits',
-                          query: { label: label.tagKey },
-                        }"
-                        class="hover:opacity-80 transition-opacity"
-                      >
-                        <n-tag
-                          size="small"
-                          type="default"
-                          :color="label.theme"
-                          round
-                          class="text-xs font-semibold cursor-pointer"
-                        >
-                          {{ label.text }}
-                        </n-tag>
-                      </NuxtLinkLocale>
-                      <n-tag
-                        v-else
                         size="small"
                         type="default"
                         :color="label.theme"
                         round
-                        class="text-xs font-semibold"
+                        class="text-xs font-semibold cursor-pointer"
                       >
                         {{ label.text }}
                       </n-tag>
-                    </template>
-                  </div>
-
-                  <div class="flex flex-wrap gap-2">
-                    <NuxtLinkLocale
-                      v-if="outfitVersionDisplay"
-                      :to="{
-                        path: '/outfits',
-                        query: { version: outfitVersion },
-                      }"
-                      class="hover:opacity-80 transition-opacity"
-                    >
-                      <n-tag
-                        type="default"
-                        :bordered="false"
-                        round
-                        size="small"
-                        class="cursor-pointer"
-                      >
-                        {{ outfitVersionDisplay }}
-                      </n-tag>
                     </NuxtLinkLocale>
-                    <NuxtLinkLocale
-                      v-if="outfitObtainLabel && outfitObtainType != null"
-                      :to="{
-                        path: '/outfits',
-                        query: { source: outfitObtainType },
-                      }"
-                      class="hover:opacity-80 transition-opacity"
+                    <n-tag
+                      v-else
+                      size="small"
+                      type="default"
+                      :color="label.theme"
+                      round
+                      class="text-xs font-semibold"
                     >
-                      <n-tag
-                        type="default"
-                        :bordered="false"
-                        round
-                        size="small"
-                        class="cursor-pointer"
-                      >
-                        {{ outfitObtainLabel }}
-                      </n-tag>
-                    </NuxtLinkLocale>
-                  </div>
+                      {{ label.text }}
+                    </n-tag>
+                  </template>
+                </div>
 
-                  <!-- Description -->
-                  <div
-                    v-if="outfitDescription"
-                    class="text-xs sm:text-sm opacity-80 leading-relaxed"
+                <div class="flex flex-wrap gap-2">
+                  <NuxtLinkLocale
+                    v-if="outfitVersionDisplay"
+                    :to="{
+                      path: '/outfits',
+                      query: { version: outfitVersion },
+                    }"
+                    class="hover:opacity-80 transition-opacity"
                   >
-                    <p class="whitespace-pre-wrap">{{ outfitDescription }}</p>
-                  </div>
-                  <!-- Component Items Section -->
-                  <n-collapse>
-                    <n-collapse-item
-                      v-if="outfitItems.length > 0"
-                      :title="`${$t('common.items')} (${outfitItems.length})`"
-                      name="items"
+                    <n-tag
+                      type="default"
+                      :bordered="false"
+                      round
+                      size="small"
+                      class="cursor-pointer"
                     >
-                      <div
-                        class="grid grid-cols-5 sm:grid-cols-6 md:grid-cols-7 lg:grid-cols-8 xl:grid-cols-10 gap-1.5"
-                      >
-                        <ItemCard
-                          v-for="outfitItem in outfitItems"
-                          :key="outfitItem.id"
-                          :item-id="outfitItem.id"
-                          :quality="outfitItem.quality"
-                          :type="resolveItemType(outfitItem)"
-                          :name="$t(`item.${outfitItem.id}.name`)"
-                          size="sm"
-                        />
-                      </div>
-                    </n-collapse-item>
-                  </n-collapse>
-                  <n-collapse>
-                    <!-- Makeup Items Section -->
-                    <n-collapse-item
-                      v-if="makeupItems.length > 0"
-                      :title="`${$t('common.makeup')} (${makeupItems.length})`"
-                      name="makeup"
+                      {{ outfitVersionDisplay }}
+                    </n-tag>
+                  </NuxtLinkLocale>
+                  <NuxtLinkLocale
+                    v-if="outfitObtainLabel && outfitObtainType != null"
+                    :to="{
+                      path: '/outfits',
+                      query: { source: outfitObtainType },
+                    }"
+                    class="hover:opacity-80 transition-opacity"
+                  >
+                    <n-tag
+                      type="default"
+                      :bordered="false"
+                      round
+                      size="small"
+                      class="cursor-pointer"
                     >
-                      <div
-                        class="grid grid-cols-5 sm:grid-cols-6 md:grid-cols-7 lg:grid-cols-8 xl:grid-cols-10 gap-1.5"
-                      >
-                        <ItemCard
-                          v-for="item in makeupItems"
-                          :key="item.id"
-                          :item-id="item.id"
-                          :quality="item.quality"
-                          :type="resolveItemType(item)"
-                          :name="$t(`item.${item.id}.name`)"
-                          size="sm"
-                        />
-                      </div>
-                    </n-collapse-item>
-                  </n-collapse>
+                      {{ outfitObtainLabel }}
+                    </n-tag>
+                  </NuxtLinkLocale>
                 </div>
 
                 <div
-                  v-if="styleScores.length"
-                  class="flex flex-col gap-1 shrink-0 w-auto sm:min-w-[160px]"
+                  v-if="outfitDescription"
+                  class="text-sm opacity-80 leading-relaxed"
                 >
+                  <p class="whitespace-pre-wrap">{{ outfitDescription }}</p>
+                </div>
+              </div>
+
+              <div
+                v-if="styleScores.length"
+                class="w-full shrink-0 xl:min-w-[160px] xl:max-w-[160px]"
+              >
+                <div class="flex flex-col gap-1">
                   <div
                     v-for="score in styleScores"
                     :key="score.key"
@@ -328,6 +279,51 @@
                   </div>
                 </div>
               </div>
+            </div>
+
+            <div v-if="outfitItems.length > 0 || makeupItems.length > 0">
+              <n-collapse>
+                <n-collapse-item
+                  v-if="outfitItems.length > 0"
+                  :title="`${$t('common.items')} (${outfitItems.length})`"
+                  name="items"
+                >
+                  <div
+                    class="grid grid-cols-5 gap-1.5 sm:grid-cols-6 md:grid-cols-7 lg:grid-cols-8 xl:grid-cols-10"
+                  >
+                    <ItemCard
+                      v-for="outfitItem in outfitItems"
+                      :key="outfitItem.id"
+                      :item-id="outfitItem.id"
+                      :quality="outfitItem.quality"
+                      :type="resolveItemType(outfitItem)"
+                      :name="$t(`item.${outfitItem.id}.name`)"
+                      size="sm"
+                    />
+                  </div>
+                </n-collapse-item>
+              </n-collapse>
+              <n-collapse>
+                <n-collapse-item
+                  v-if="makeupItems.length > 0"
+                  :title="`${$t('common.makeup')} (${makeupItems.length})`"
+                  name="makeup"
+                >
+                  <div
+                    class="grid grid-cols-5 gap-1.5 sm:grid-cols-6 md:grid-cols-7 lg:grid-cols-8 xl:grid-cols-10"
+                  >
+                    <ItemCard
+                      v-for="item in makeupItems"
+                      :key="item.id"
+                      :item-id="item.id"
+                      :quality="item.quality"
+                      :type="resolveItemType(item)"
+                      :name="$t(`item.${item.id}.name`)"
+                      size="sm"
+                    />
+                  </div>
+                </n-collapse-item>
+              </n-collapse>
             </div>
           </div>
         </div>

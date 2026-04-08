@@ -809,9 +809,7 @@
     "close_details": "상세 닫기",
     "error_title": "오류",
     "error_description": "검색 인덱스 쿼리에 실패했습니다.",
-    "searching": "검색 중...",
     "no_matches": "검색 결과 없음",
-    "result_count": "{count}개의 결과",
     "match_score": "{score}% 일치",
     "view_compendium": "도감 보기"
   },

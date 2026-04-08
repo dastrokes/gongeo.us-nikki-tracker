@@ -809,9 +809,7 @@
     "close_details": "Fermer les détails",
     "error_title": "Erreur",
     "error_description": "Échec de la requête à l'index de recherche.",
-    "searching": "Recherche en cours...",
     "no_matches": "Aucun résultat",
-    "result_count": "{count} résultats",
     "match_score": "{score}% de correspondance",
     "view_compendium": "Voir le compendium"
   },

@@ -78,8 +78,12 @@ export interface ItemWithOutfits extends SupabaseItem {
       }[]
     }
   }[]
-  item_attributes?: SupabaseItemAttributes | null
-  search_metadata?: ItemSearchMetadata | null
+  item_attributes?: {
+    category?: string | null
+    subcategory?: string | null
+    metadata?: ItemSearchMetadata | null
+  } | null
+  description?: string
   variations?: Array<{
     id: number
     quality: number

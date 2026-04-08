@@ -9,39 +9,67 @@
     "makeup": "Inventar",
     "variations": "Variações",
     "slot": "Slot",
-    "pull": "Puxar",
     "pulls": "Puxa",
     "total": "Total",
-    "average": "Média",
-    "avg": "Média",
-    "statistics": "Estatísticas",
-    "stats": "Estatísticas",
-    "data": "Dados",
-    "history": "História",
-    "tracker": "Rastreador",
-    "import": "Importar",
     "export": "Exportar",
     "loading": "Carregando…",
     "search": "Procurar",
-    "filter": "Filtro",
     "clear": "Limpar filtros",
     "all": "Todos",
     "other": "Outro",
     "show": "Mostrar",
     "hide": "Esconder",
+    "skip": "Pular",
     "save": "Salvar",
     "cancel": "Cancelar",
     "confirm": "Confirmar",
     "ok": "OK",
+    "next": "Próximo",
     "submit": "Enviar",
     "retry": "Tentar novamente",
-    "back": "Voltar",
     "copy": "Cópia",
     "select": "Selecione",
-    "description": "Descrição",
+    "no_results_found": "Nenhum resultado encontrado",
     "error": "Erro",
-    "success": "Sucesso",
-    "failed": "Fracassado"
+    "sort": {
+      "newest_first": "Mais recentes primeiro",
+      "oldest_first": "Mais antigos primeiro"
+    },
+    "sources": {
+      "data_source": "Fonte de dados",
+      "data_source_tooltip": "Escolha uma fonte de dados. Se indisponível, a outra fonte será usada como alternativa.",
+      "auto_option": "\"Auto\" combina as duas fontes, preferindo a que tem mais pulls por banner.",
+      "pearpal_website": "Site da Pérola",
+      "whimlog": "Whim-Log",
+      "game": "Jogo",
+      "auto": "Auto"
+    },
+    "stats": {
+      "total_pulls": "Total de puxadas",
+      "avg_5star": "5★ Média (5★ Banner)",
+      "avg_4star_mixed": "4★ Média (5★ Banner)",
+      "avg_4star_only": "4★ Média (4★ Banner)",
+      "total_votes": "Total de votos",
+      "personal_votes": "Votos pessoais",
+      "total_voters": "Total de eleitores",
+      "avg_votes": "Média de votos"
+    },
+    "charts": {
+      "number_of_pulls": "Número de puxadas",
+      "probability": "Probabilidade",
+      "cumulative_probability": "Probabilidade Cumulativa",
+      "occurrences": "Ocorrências",
+      "percentage": "Percentagem"
+    },
+    "profile": {
+      "upload_data": "Carregar para a nuvem",
+      "sync_data": "Sincronizar da nuvem",
+      "clear_cloud_data": "Limpar dados da nuvem",
+      "clear_local_data": "Limpar dados locais",
+      "delete_profile": "Excluir perfil"
+    },
+    "previous": "Anterior",
+    "view_compendium": "Ver compêndio"
   },
   "navigation": {
     "title": "gongeo.us",
@@ -106,27 +134,21 @@
     "user_profile": {
       "guest": "Convidado",
       "signed_in": "Conectado",
-      "clear_local_data": "Limpar dados locais",
       "clear_local_confirm": {
-        "title": "Limpar dados locais",
         "content": "Tem certeza de que deseja limpar os dados locais do perfil {profile}? Esta ação não pode ser desfeita."
       },
       "sign_out": "sair",
       "sign_out_success": "Desconectado com sucesso",
       "sign_out_error": "Falha ao sair",
-      "upload_data": "Carregar para a nuvem",
-      "sync_data": "Sincronizar da nuvem",
       "sync": {
         "upload_success": "Dados enviados para a nuvem com sucesso!",
         "upload_error": "Falha ao carregar dados.",
         "sync_success": "Dados sincronizados com sucesso!",
         "sync_error": "Falha ao sincronizar dados.",
         "confirm_upload": {
-          "title": "Carregar para a nuvem",
           "content": "Isso fará upload de dados locais do perfil {profile} para armazenamento em nuvem, substituindo quaisquer dados de nuvem existentes para este perfil. Continuar?"
         },
         "confirm_sync": {
-          "title": "Sincronizar da nuvem",
           "content": "Isso sincronizará os dados locais do perfil {profile} com os dados da nuvem, mesclando-os. Continuar?"
         },
         "missing_profiles": {
@@ -135,9 +157,7 @@
           "confirm": "Criar perfis"
         }
       },
-      "clear_cloud_data": "Limpar dados da nuvem",
       "clear_cloud_confirm": {
-        "title": "Limpar dados da nuvem",
         "content": "Tem certeza de que deseja limpar os dados da nuvem do perfil {profile}? Esta ação não pode ser desfeita e excluirá permanentemente seus dados do armazenamento em nuvem."
       },
       "clear_cloud_success": "Dados da nuvem limpos com sucesso!",
@@ -146,7 +166,6 @@
       "profiles": {
         "active": "Ativo",
         "delete_confirm": {
-          "title": "Excluir perfil",
           "content": "Tem certeza de que deseja excluir o perfil {profile}? Isso limpará os dados locais e os dados da nuvem (se estiver conectado)."
         },
         "created_success": "Perfil criado.",
@@ -167,8 +186,7 @@
       "help_translate": "Ajude a traduzir"
     },
     "search": {
-      "placeholder": "Pesquise itens, banners, roupas",
-      "noResults": "Nenhum resultado encontrado"
+      "placeholder": "Pesquise itens, banners, roupas"
     },
     "social": {
       "discord": "Junte-se à nossa comunidade Discord",
@@ -180,7 +198,6 @@
   "profile": {
     "title": "Perfil",
     "subtitle": "Gerencie perfis, dados na nuvem e dados locais.",
-    "sections": {},
     "account_label": "Conta",
     "all_profiles": "Todos os perfis",
     "active_profile": "Perfil ativo",
@@ -193,9 +210,6 @@
     "rename_placeholder": "Insira um nome de perfil",
     "rename_success": "Nome do perfil atualizado.",
     "rename_error": "Insira um nome de perfil.",
-    "menu": {
-      "delete": "Excluir perfil"
-    },
     "status": {
       "local": "Dados locais",
       "cloud": "Dados na nuvem",
@@ -273,8 +287,6 @@
       "tw": "TW/HK/Macau",
       "asia": "Ásia"
     },
-    "pearpal_website": "Site da Pérola",
-    "whimlog": "Whim-Log",
     "login_pearpal": "Faça login no site da Pearlal",
     "login_pearpal_desc": "Abra o site Pearpal em uma nova guia e faça login com sua conta Infold se ainda não estiver conectado.",
     "login_pearpal_incognito_hint": "Se você tiver várias contas, é recomendável abrir o Pearpal em uma janela anônima/privada do navegador.",
@@ -300,26 +312,18 @@
       "step1": "Toque no botão \"Copiar código\" e copie o código",
       "step2": "Crie um novo favorito em seu navegador e nomeie-o como \"Gongeous Cookie\"",
       "step3": "Edite o URL do favorito e substitua-o pelo código que você copiou",
-      "step4": "Mude para o site Pearpal em uma guia diferente, certifique-se de estar conectado",
-      "step5": "Toque no marcador \"Gongeous Cookie\" enquanto estiver no site da Pearpal",
       "step5_android_chrome": "Comece a digitar o nome do favorito que você salvou (Gongeous Cookie) na barra de endereço",
-      "step5_android_chrome_2": "Selecione o favorito nas sugestões para executá-lo",
-      "step6": "Copie o texto de saída no pop-up (deve ser semelhante ao exemplo na área de entrada abaixo)",
-      "step7": "Volte aqui e cole o texto de saída na área de entrada abaixo"
+      "step5_android_chrome_2": "Selecione o favorito nas sugestões para executá-lo"
     },
     "console_steps": {
-      "step1": "Mude para o site Pearpal em uma guia diferente, certifique-se de estar conectado",
       "step2": "Abra as ferramentas do desenvolvedor do seu navegador (pressione F12 ou clique com o botão direito e selecione \"Inspecionar\")",
       "step3": "Vá para a guia \"Console\"",
       "step4": "Clique no botão \"Copiar código\", copie e cole o código no console e pressione Enter:",
       "step5": "Se você receber um aviso dizendo \"Aviso: não cole código no console do devtools\", digite \"permitir colar\" e pressione Enter",
-      "step6": "Copie o texto de saída no console (deve ser semelhante ao exemplo na área de entrada abaixo)",
-      "step7": "Volte aqui e cole o texto de saída na área de entrada abaixo"
+      "step6": "Copie o texto de saída no console (deve ser semelhante ao exemplo na área de entrada abaixo)"
     },
     "manual_steps": {
       "note": "(Usando o Google Chrome como exemplo, os nomes exatos podem variar para outros navegadores, mas as etapas serão semelhantes)",
-      "step1": "Mude para o site Pearpal em uma guia diferente, certifique-se de estar conectado",
-      "step2": "Abra as ferramentas do desenvolvedor do seu navegador (pressione F12 ou clique com o botão direito e selecione \"Inspecionar\")",
       "step3": "Vá para a guia \"Aplicativo\" (ou \"Armazenamento\" no Firefox)",
       "step4": "Na barra lateral esquerda, expanda “Cookies” e selecione o site Pearpal",
       "step5": "Alternativamente, você pode usar uma extensão de navegador para cookies como Cookie Editor",
@@ -333,11 +337,8 @@
     "security_note": "Nota: Nunca compartilhe esses valores de Cookies com mais ninguém!",
     "data_note": "Importante: os dados extraídos por meio deste método de importação são retidos por apenas 180 dias. Os dados anteriores a {date} não estarão disponíveis. Você pode usar \"Importar de Whim-Log\" para importar dados mais antigos.",
     "form": {
-      "uid": "UID",
       "uid_placeholder": "UID do jogo",
-      "momo_id": "ID Momo",
       "momo_id_placeholder": "momoNid de Cookie",
-      "momo_token": "Token Momo",
       "momo_token_placeholder": "momoToken do Cookie",
       "submit_global_stats": "Envie dados para estatísticas globais",
       "submit_button": "Enviar e importar histórico de pull",
@@ -356,7 +357,6 @@
     "select_banners_desc": "Não há necessidade de reimportar",
     "banner_groups": {
       "quick_select": "Seleção rápida",
-      "current_banners": "Banners atuais",
       "limited_banners": "Banners Limitados",
       "permanent_banners": "Banner Permanente",
       "individual": "Banners Individuais"
@@ -398,12 +398,8 @@
   "tracker": {
     "stats": {
       "title": "Extrair estatísticas",
-      "total_pulls": "Total de puxadas",
       "no_pulls": "Nenhum histórico de pull para este banner",
       "total_5star_4star": "5★ / 4★ Total",
-      "avg_5star": "5★ Média (5★ Banner)",
-      "avg_4star_mixed": "4★ Média (5★ Banner)",
-      "avg_4star_only": "4★ Média (4★ Banner)",
       "luckier": "Mais sorte que {percent}% dos usuários gongeo.us",
       "more_pulls": "Mais de {percent}% dos usuários gongeo.us"
     },
@@ -420,7 +416,6 @@
     },
     "banner": {
       "stats": {
-        "total_pulls": "Total de puxadas",
         "total_5star": "5★ Total",
         "avg_5star": "5★ Média",
         "total_4star": "4★ Total",
@@ -431,8 +426,6 @@
       "settings": {
         "banner_order": "Ordem dos banners",
         "item_order": "Ordem dos itens",
-        "latest_first": "Último primeiro",
-        "oldest_first": "Mais antigo primeiro",
         "outfit_display": "Exibição de roupas",
         "item_display": "Exibição de itens",
         "combined": "Combinado",
@@ -440,13 +433,7 @@
         "show_4star": "4★ (Bandeira 5★)",
         "show_missing": "Peças faltando",
         "duplicate_items": "Itens duplicados",
-        "empty_banners": "Banners vazios",
-        "data_source": "Fonte de dados",
-        "pearpal": "Whim-Log",
-        "game": "Jogo",
-        "auto": "Auto",
-        "data_source_tooltip": "Escolha uma fonte de dados. Se indisponível, a outra fonte será usada como alternativa.",
-        "auto_option": "\"Auto\" combina as duas fontes, preferindo a que tem mais pulls por banner."
+        "empty_banners": "Banners vazios"
       }
     },
     "items": {
@@ -485,8 +472,6 @@
     "right": "Certo",
     "wrong": "Errado",
     "start": "Começar",
-    "next": "Próximo",
-    "skip": "Pular",
     "play_again": "Jogue novamente",
     "reveal_direction": "Revelar direção",
     "blur": "Borrão",
@@ -523,11 +508,7 @@
   },
   "global": {
     "stats": {
-      "total_pulls": "Total de puxadas",
       "unique_users": "Estilistas totais",
-      "avg_5star": "5★ Média (5★ Banner)",
-      "avg_4star_type2": "4★ Média (5★ Banner)",
-      "avg_4star_type3": "4★ Média (4★ Banner)",
       "data_as_of": "Dados a partir de"
     },
     "charts": {
@@ -536,11 +517,6 @@
       "four_star_type2_distribution": "4★ Distribuição (5★ Banner)",
       "four_star_type3_distribution": "4★ Distribuição (4★ Banner)",
       "first_item_distribution": "Distribuição do primeiro item",
-      "number_of_pulls": "Número de puxadas",
-      "probability": "Probabilidade",
-      "cumulative_probability": "Probabilidade Cumulativa",
-      "occurrences": "Ocorrências",
-      "percentage": "Percentagem",
       "all_banners": "Todos os banners",
       "five_star_banners": "5★ Banners",
       "four_star_banners": "4★ Banners",
@@ -556,8 +532,6 @@
     "reset_zoom": "Redefinir zoom",
     "sort": {
       "label": "Ordenar linha do tempo",
-      "newest_first": "Mais recentes primeiro",
-      "oldest_first": "Mais antigos primeiro",
       "longest_gap": "Maior intervalo",
       "shortest_gap": "Menor intervalo"
     }
@@ -651,7 +625,6 @@
   },
   "vote": {
     "description": "Ajude-nos a determinar os banners mais populares da versão 1.x! Vote em seus banners favoritos em confrontos diretos.",
-    "skip": "Pular",
     "howItWorks": "Escolha seu banner favorito e envie seu voto para ajudar a classificar os banners mais populares. Pule se não tiver certeza. Você pode votar até 50 vezes a cada 24 horas.",
     "abuseNotice": "Por favor, não abuse do sistema de votação. Padrões de votação incomuns serão detectados e esses votos poderão ser removidos.",
     "success": "Voto enviado com sucesso!",
@@ -661,12 +634,6 @@
       "community": "Modo Comunidade",
       "personalDesc": "Seus votos são armazenados localmente e criam suas classificações pessoais. Não afeta as classificações da comunidade.",
       "communityDesc": "Seus votos contribuem para a classificação da comunidade e ajudam a determinar os banners mais populares."
-    },
-    "stats": {
-      "totalVotes": "Total de votos",
-      "personalVotes": "Votos pessoais",
-      "totalVoters": "Total de eleitores",
-      "avgVotes": "Média de votos"
     },
     "errors": {
       "loadFailed": "Falha ao carregar o par de votos. Por favor, tente novamente.",
@@ -688,7 +655,6 @@
       "winRateShort": "WR",
       "wins": "Vitórias",
       "losses": "Perdas",
-      "totalVotes": "Total de votos",
       "winsLosses": "W/L",
       "winsShort": "W",
       "lossesShort": "L"
@@ -704,16 +670,11 @@
     },
     "unranked_empty": "Nenhuma entrada não classificada",
     "obtain_fallback": "Obtenha {id}",
-    "status": {
-      "over_limit": "Muitas entradas. Aplique mais filtros (máx. {max}).",
-      "loaded": "Entradas {count} carregadas"
-    },
     "rank_menu": {
       "tier_label": "Camada {tier}",
       "send_back": "Enviar de volta"
     },
     "community_submit": {
-      "browser_only_error": "O envio da comunidade só está disponível no contexto do navegador",
       "tooltip_ready": "Envie sua lista de níveis preenchida para a classificação da comunidade.",
       "scope_unavailable_toast": "O envio da comunidade não está disponível para este escopo.",
       "success": "Lista de níveis da comunidade enviada",
@@ -746,7 +707,6 @@
   "compendium": {
     "error_title": "Falha ao carregar dados",
     "error_description": "Não foi possível carregar os dados. Por favor, tente novamente.",
-    "no_results_title": "Nenhum resultado encontrado",
     "no_results_description": "Nenhum item corresponde aos seus critérios.",
     "not_found_item": "Item não encontrado",
     "not_found_outfit": "Roupa não encontrada",
@@ -759,7 +719,6 @@
     "filter_label": "Filtrar por etiqueta",
     "filter_obtain": "Filtrar por fonte",
     "advanced_filters": "Filtros avançados",
-    "advanced_filters_title": "Filtros avançados",
     "clear_advanced_filters": "Limpar filtros avançados",
     "advanced_filters_empty": "Não há filtros avançados disponíveis para este slot.",
     "advanced_filter_placeholder": "Selecionar {field}",
@@ -807,11 +766,9 @@
     "placeholder": "Tenta '{example}'",
     "clear_query": "Limpar pesquisa",
     "close_details": "Fechar detalhes",
-    "error_title": "Erro",
     "error_description": "Falha ao consultar o índice de pesquisa.",
     "no_matches": "Sem correspondências",
-    "match_score": "{score}% de correspondência",
-    "view_compendium": "Ver compêndio"
+    "match_score": "{score}% de correspondência"
   },
   "feedback": {
     "queue_title": "Revisão de Feedback",
@@ -824,14 +781,12 @@
     "review_state_filter_label": "Estado",
     "review_filter": "Estado de revisão",
     "review_state_unreviewed": "Não revisado",
-    "review_state_all": "Todos",
     "review_state_voted": "Votado",
     "scope_all": "Todo o feedback",
     "scope_mine": "Meu feedback",
     "scope_mine_empty": "Você não tem feedback correspondente a estes filtros.",
     "sort_needs_review": "Precisa de revisão",
     "sort_top": "Mais votados",
-    "sort_new": "Mais recentes",
     "status_all": "Todos os status",
     "status_open": "Aberto",
     "status_accepted": "Aceito",
@@ -859,13 +814,10 @@
     "maintainer_actions": "Ações do mantenedor",
     "approve_action": "Aprovar",
     "approve_success": "Sugestão aprovada.",
-    "approve_failed": "Falha ao aprovar a sugestão.",
     "apply_action": "Aplicar",
     "apply_success": "Sugestão aplicada localmente.",
-    "apply_failed": "Falha ao aplicar a sugestão.",
     "reject_action": "Rejeitar",
     "reject_success": "Sugestão rejeitada.",
-    "reject_failed": "Falha ao rejeitar a sugestão.",
     "loading_existing": "Verificando feedback existente…",
     "pending_exists_title": "Já existe um feedback pendente para este item.",
     "pending_exists_description": "Vote na sugestão aberta em vez de enviar uma nova.",
@@ -875,51 +827,50 @@
     "login_required": "Entre para enviar sugestões e votar nelas.",
     "agree_action": "Concordar",
     "disagree_action": "Discordar",
-    "skip_action": "Próximo",
-    "restore_action": "Anterior",
     "agree_count": "Concordar {count}",
     "disagree_count": "Discordar {count}",
-    "view_item": "Ver item",
     "guidelines_action": "Diretrizes",
     "back_to_queue": "Voltar para a fila de feedback",
     "no_tags": "Nenhum dado de tag está disponível para este item ainda.",
     "guidelines": {
       "page_title": "Diretrizes de Feedback",
       "page_description": "Diretrizes para o envio de feedback.",
-      "other_subcategories": "Outras subcategorias",
-      "term_notes": {
-        "hair_length": {
-          "short": "Mandíbula ao pescoço; acima do ombro.",
-          "medium": "Ombro à parte superior das costas.",
-          "long": "Passando o ombro para as costas.",
-          "very_long": "Parte inferior das costas ou mais longo."
-        },
-        "top_length": {
-          "ultra_crop": "Acima da cintura / abaixo do busto.",
-          "crop": "Na cintura natural.",
-          "waist_length": "Na linha da cintura.",
-          "hip_length": "Nos quadris.",
-          "upper_thigh": "Passando os quadris para a parte superior da coxa.",
-          "mid_thigh": "No meio da coxa.",
-          "maxi": "Abaixo do joelho até a parte inferior da perna.",
-          "floor_length": "No chão ou perto."
-        },
-        "bottom_length": {
-          "upper_thigh": "Coxa alta.",
-          "mid_thigh": "Meio da coxa.",
-          "mini": "Da parte superior ao meio da coxa.",
-          "knee_length": "No joelho.",
-          "midi": "Entre o joelho e o tornozelo.",
-          "mid_calf": "No meio da panturrilha.",
-          "ankle_length": "No tornozelo.",
-          "maxi": "Perto do tornozelo ou mais longo.",
-          "floor_length": "No chão ou perto."
-        }
-      }
+      "hair_length": {
+        "short": "Mandíbula ao pescoço; acima do ombro.",
+        "medium": "Ombro à parte superior das costas.",
+        "long": "Passando o ombro para as costas.",
+        "very_long": "Parte inferior das costas ou mais longo."
+      },
+      "top_length": {
+        "ultra_crop": "Acima da cintura / abaixo do busto.",
+        "crop": "Na cintura natural.",
+        "waist_length": "Na linha da cintura.",
+        "hip_length": "Nos quadris.",
+        "upper_thigh": "Passando os quadris para a parte superior da coxa.",
+        "mid_thigh": "No meio da coxa.",
+        "maxi": "Abaixo do joelho até a parte inferior da perna.",
+        "floor_length": "No chão ou perto."
+      },
+      "bottom_length": {
+        "upper_thigh": "Coxa alta.",
+        "mid_thigh": "Meio da coxa.",
+        "mini": "Da parte superior ao meio da coxa.",
+        "knee_length": "No joelho.",
+        "midi": "Entre o joelho e o tornozelo.",
+        "mid_calf": "No meio da panturrilha.",
+        "ankle_length": "No tornozelo.",
+        "maxi": "Perto do tornozelo ou mais longo.",
+        "floor_length": "No chão ou perto."
+      },
+      "other_subcategories": "Outras subcategorias"
+    },
+    "admin": {
+      "approve_failed": "Falha ao aprovar a sugestão.",
+      "apply_failed": "Falha ao aplicar a sugestão.",
+      "reject_failed": "Falha ao rejeitar a sugestão."
     }
   },
   "stats": {
-    "title": "Estatísticas Pessoais",
     "overview": {
       "luck_rating": "Classificação de Sorte"
     },
@@ -933,11 +884,8 @@
       "luck_per_banner": "Sorte 5★ por Banner",
       "luck_per_banner_type3": "Sorte 4★ por Banner",
       "five_star_distribution": "Distribuição de Pulls 5★",
-      "four_star_distribution": "Distribuição 4★ (Banner 5★)",
-      "four_star_type3_distribution": "Distribuição 4★ (Banner 4★)",
       "pull_timeline": "Atividade de Pulls",
       "cumulative_pulls": "Acumulado",
-      "number_of_pulls": "Número de Pulls",
       "frequency": "Frequência"
     },
     "share": {

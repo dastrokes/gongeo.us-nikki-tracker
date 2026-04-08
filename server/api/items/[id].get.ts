@@ -33,7 +33,6 @@ interface ItemData {
         metadata?: Record<string, unknown> | null
       }>
     | null
-  search_metadata?: ItemSearchMetadata | null
   outfit_items?: Array<{
     outfits: {
       id: number
@@ -54,6 +53,37 @@ interface ItemVariation {
   id: number
   quality: number
   type: string
+}
+
+function compactItemSearchMetadata(
+  metadata: ItemSearchMetadata | null,
+  excludedKeys: string[] = []
+): ItemSearchMetadata | null {
+  if (!metadata) return null
+
+  const compactedEntries = Object.entries(metadata).filter(([key, value]) => {
+    if (excludedKeys.includes(key)) {
+      return false
+    }
+
+    if (value === null || value === undefined) {
+      return false
+    }
+
+    if (Array.isArray(value)) {
+      return value.length > 0
+    }
+
+    if (typeof value === 'string') {
+      return value.trim().length > 0
+    }
+
+    return true
+  })
+
+  return compactedEntries.length > 0
+    ? (Object.fromEntries(compactedEntries) as ItemSearchMetadata)
+    : null
 }
 
 /**
@@ -137,9 +167,7 @@ export default defineCachedApiEventHandler(
         selectParts.push('item_translations!left(description,language_code)')
       }
 
-      selectParts.push(
-        'item_attributes(item_id,item_type,category,subcategory,metadata)'
-      )
+      selectParts.push('item_attributes(category,subcategory,metadata)')
       selectParts.push(
         'outfit_items(outfits(id,quality,outfit_items(items(id,quality,type))))'
       )
@@ -163,17 +191,14 @@ export default defineCachedApiEventHandler(
         : itemData.item_attributes
 
       if (searchAttributes) {
-        itemData.search_metadata = normalizeItemSearchMetadata({
-          ...(searchAttributes.metadata ?? {}),
-          item_id: searchAttributes.item_id ?? id,
-          item_type: searchAttributes.item_type ?? itemData.type,
-          slot: searchAttributes.item_type ?? itemData.type,
-          category:
-            searchAttributes.category ?? searchAttributes.metadata?.category,
-          subcategory:
-            searchAttributes.subcategory ??
-            searchAttributes.metadata?.subcategory,
-        })
+        itemData.item_attributes = {
+          category: searchAttributes.category ?? null,
+          subcategory: searchAttributes.subcategory ?? null,
+          metadata: compactItemSearchMetadata(
+            normalizeItemSearchMetadata(searchAttributes.metadata ?? {}),
+            ['item_id', 'item_type', 'slot', 'category', 'subcategory']
+          ),
+        }
       }
 
       // Extract description from translations if available

@@ -1,6 +1,7 @@
 import { useSupabaseDataClient } from '~/composables/useSupabaseClient'
 import {
   getActiveItemSearchAdvancedFilters,
+  getItemSearchAdvancedFields,
   getItemSearchAdvancedScalarFields,
   getItemSearchFieldValues,
   ITEM_SEARCH_UNCATEGORIZED_VALUE,
@@ -12,7 +13,7 @@ import {
 } from '#shared/utils/itemSearch'
 import type {
   ItemSearchAdvancedFacetMap,
-  ItemSearchAdvancedScalarField,
+  ItemSearchAdvancedField,
   ItemSearchMetadata,
 } from '#shared/types/itemSearch'
 
@@ -117,7 +118,8 @@ export default defineCachedApiEventHandler(
     ).join(',')
 
     const supabase = useSupabaseDataClient()
-    const advancedFields = getItemSearchAdvancedScalarFields(type)
+    const advancedFields = getItemSearchAdvancedFields(type)
+    const advancedScalarFields = getItemSearchAdvancedScalarFields(type)
     const shouldSelectMetadata = advancedFields.length > 0
 
     try {
@@ -179,14 +181,14 @@ export default defineCachedApiEventHandler(
           }
         })
         .filter((row): row is ResolvedFacetRow => Boolean(row))
-      const selectedAdvancedEntries = advancedFields.flatMap((field) => {
+      const selectedAdvancedEntries = advancedScalarFields.flatMap((field) => {
         const selectedValue = advancedFilters[field]
         return selectedValue ? [[field, selectedValue] as const] : []
       })
 
       const matchesAdvancedSelection = (
         row: ResolvedFacetRow,
-        excludedField?: ItemSearchAdvancedScalarField
+        excludedField?: ItemSearchAdvancedField
       ) =>
         selectedAdvancedEntries.every(
           ([field, selectedValue]) =>

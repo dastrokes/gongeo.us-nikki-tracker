@@ -448,11 +448,11 @@
 
   const timelineSortOptions = computed<SelectOption[]>(() => [
     {
-      label: t('timeline.sort.newest_first'),
+      label: t('common.sort.newest_first'),
       value: 'newest',
     },
     {
-      label: t('timeline.sort.oldest_first'),
+      label: t('common.sort.oldest_first'),
       value: 'oldest',
     },
     {

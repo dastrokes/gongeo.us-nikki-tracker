@@ -196,6 +196,32 @@
                 placement="top"
               >
                 <template #trigger>
+                  <n-button
+                    text
+                    size="large"
+                    :disabled="submitting || skipping"
+                    class="!px-2"
+                  >
+                    <n-icon
+                      size="20"
+                      class="text-amber-500 dark:text-amber-400"
+                    >
+                      <InfoCircle />
+                    </n-icon>
+                  </n-button>
+                </template>
+                <div class="max-w-xs space-y-2">
+                  <div>{{ t('vote.howItWorks') }}</div>
+                  <div>{{ t('vote.abuseNotice') }}</div>
+                </div>
+              </n-tooltip>
+
+              <n-tooltip
+                :width="250"
+                trigger="hover"
+                placement="top"
+              >
+                <template #trigger>
                   <n-switch
                     :value="isPersonalMode"
                     :disabled="submitting || skipping"
@@ -259,7 +285,7 @@
                 :loading="skipping"
                 @click="handleSkip"
               >
-                {{ t('vote.skip') }}
+                {{ t('common.skip') }}
               </n-button>
               <n-button
                 type="primary"
@@ -382,7 +408,14 @@
 </template>
 
 <script setup lang="ts">
-  import { CheckCircle, CalendarDay, ListOl, User, Users } from '@vicons/fa'
+  import {
+    CheckCircle,
+    CalendarDay,
+    InfoCircle,
+    ListOl,
+    User,
+    Users,
+  } from '@vicons/fa'
 
   const { t } = useI18n()
   const localePath = useLocalePath()

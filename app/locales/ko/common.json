@@ -9,39 +9,67 @@
     "makeup": "조립",
     "variations": "변형",
     "slot": "부위",
-    "pull": "당기다",
     "pulls": "뽑기",
     "total": "총",
-    "average": "평균",
-    "avg": "평균",
-    "statistics": "통계",
-    "stats": "통계",
-    "data": "데이터",
-    "history": "역사",
-    "tracker": "추적기",
-    "import": "수입",
     "export": "내보내기",
     "loading": "로딩 중…",
     "search": "찾다",
-    "filter": "필터",
     "clear": "필터 지우기",
     "all": "모두",
     "other": "다른",
     "show": "표시",
     "hide": "숨다",
+    "skip": "건너뛰다",
     "save": "구하다",
     "cancel": "취소",
     "confirm": "확인하다",
     "ok": "좋아요",
+    "next": "다음",
     "submit": "제출하다",
     "retry": "다시 해 보다",
-    "back": "뒤쪽에",
     "copy": "복사",
     "select": "선택하다",
-    "description": "설명",
+    "no_results_found": "검색결과가 없습니다",
     "error": "오류",
-    "success": "성공",
-    "failed": "실패한"
+    "sort": {
+      "newest_first": "최신순",
+      "oldest_first": "오래된 순"
+    },
+    "sources": {
+      "data_source": "데이터 소스",
+      "data_source_tooltip": "데이터 소스를 선택하세요. 선택한 소스에 데이터가 없으면 다른 소스가 대신 사용됩니다.",
+      "auto_option": "\"자동\"은 두 소스를 결합하여 배너당 풀이 더 많은 소스를 선호합니다.",
+      "pearpal_website": "펄팔 홈페이지",
+      "whimlog": "Whim-Log",
+      "game": "게임",
+      "auto": "자동"
+    },
+    "stats": {
+      "total_pulls": "총 당기기",
+      "avg_5star": "별 5개 평균(별 5개 배너)",
+      "avg_4star_mixed": "별 4개 평균(별 5개 배너)",
+      "avg_4star_only": "별 4개 평균(별 4개 배너)",
+      "total_votes": "총 투표수",
+      "personal_votes": "개인 투표",
+      "total_voters": "총 유권자",
+      "avg_votes": "평균 투표수"
+    },
+    "charts": {
+      "number_of_pulls": "당기는 횟수",
+      "probability": "개연성",
+      "cumulative_probability": "누적 확률",
+      "occurrences": "발생",
+      "percentage": "백분율"
+    },
+    "profile": {
+      "upload_data": "클라우드에 업로드",
+      "sync_data": "클라우드에서 동기화",
+      "clear_cloud_data": "클라우드 데이터 지우기",
+      "clear_local_data": "로컬 데이터 지우기",
+      "delete_profile": "프로필 삭제"
+    },
+    "previous": "이전",
+    "view_compendium": "도감 보기"
   },
   "navigation": {
     "title": "gongeo.us",
@@ -106,27 +134,21 @@
     "user_profile": {
       "guest": "손님",
       "signed_in": "로그인됨",
-      "clear_local_data": "로컬 데이터 지우기",
       "clear_local_confirm": {
-        "title": "로컬 데이터 지우기",
         "content": "{profile} 프로필의 로컬 데이터를 삭제하시겠습니까? 이 작업은 취소할 수 없습니다."
       },
       "sign_out": "로그아웃",
       "sign_out_success": "성공적으로 로그아웃되었습니다.",
       "sign_out_error": "로그아웃하지 못했습니다.",
-      "upload_data": "클라우드에 업로드",
-      "sync_data": "클라우드에서 동기화",
       "sync": {
         "upload_success": "데이터가 클라우드에 성공적으로 업로드되었습니다!",
         "upload_error": "데이터를 업로드하지 못했습니다.",
         "sync_success": "데이터가 성공적으로 동기화되었습니다!",
         "sync_error": "데이터를 동기화하지 못했습니다.",
         "confirm_upload": {
-          "title": "클라우드에 업로드",
           "content": "이렇게 하면 {profile} 프로필의 로컬 데이터가 클라우드 저장소에 업로드되어 이 프로필의 기존 클라우드 데이터를 덮어쓰게 됩니다. 계속하다?"
         },
         "confirm_sync": {
-          "title": "클라우드에서 동기화",
           "content": "{profile} 프로필의 로컬 데이터를 클라우드 데이터와 병합하여 동기화합니다. 계속하다?"
         },
         "missing_profiles": {
@@ -135,9 +157,7 @@
           "confirm": "프로필 만들기"
         }
       },
-      "clear_cloud_data": "클라우드 데이터 지우기",
       "clear_cloud_confirm": {
-        "title": "클라우드 데이터 지우기",
         "content": "{profile} 프로필의 클라우드 데이터를 삭제하시겠습니까? 이 작업은 취소할 수 없으며 클라우드 저장소에서 데이터가 영구적으로 삭제됩니다."
       },
       "clear_cloud_success": "클라우드 데이터가 성공적으로 삭제되었습니다!",
@@ -146,7 +166,6 @@
       "profiles": {
         "active": "활동적인",
         "delete_confirm": {
-          "title": "프로필 삭제",
           "content": "{profile} 프로필을 삭제하시겠습니까? 로컬 데이터와 클라우드 데이터(로그인한 경우)가 삭제됩니다."
         },
         "created_success": "프로필이 생성되었습니다.",
@@ -167,8 +186,7 @@
       "help_translate": "번역을 도와주세요"
     },
     "search": {
-      "placeholder": "아이템, 배너, 의상 검색",
-      "noResults": "검색결과가 없습니다"
+      "placeholder": "아이템, 배너, 의상 검색"
     },
     "social": {
       "discord": "디스코드 커뮤니티에 가입하세요",
@@ -180,7 +198,6 @@
   "profile": {
     "title": "윤곽",
     "subtitle": "프로필, 클라우드 데이터, 로컬 데이터를 관리합니다.",
-    "sections": {},
     "account_label": "계정",
     "all_profiles": "모든 프로필",
     "active_profile": "활성 프로필",
@@ -193,9 +210,6 @@
     "rename_placeholder": "프로필 이름을 입력하세요.",
     "rename_success": "프로필 이름이 업데이트되었습니다.",
     "rename_error": "프로필 이름을 입력하세요.",
-    "menu": {
-      "delete": "프로필 삭제"
-    },
     "status": {
       "local": "로컬 데이터",
       "cloud": "클라우드 데이터",
@@ -273,8 +287,6 @@
       "tw": "대만/홍콩/마카오",
       "asia": "아시아"
     },
-    "pearpal_website": "펄팔 홈페이지",
-    "whimlog": "Whim-Log",
     "login_pearpal": "Pearpal 홈페이지에 로그인하세요.",
     "login_pearpal_desc": "아직 로그인하지 않은 경우 새 탭에서 Pearpal 웹사이트를 열고 Infold 계정으로 로그인하세요.",
     "login_pearpal_incognito_hint": "여러 계정이 있는 경우 시크릿/개인 브라우저 창에서 Pearpal을 여는 것이 좋습니다.",
@@ -300,26 +312,18 @@
       "step1": "'코드 복사' 버튼을 탭하고 코드를 복사하세요.",
       "step2": "브라우저에 새 북마크를 만들고 이름을 \"Gongeous Cookie\"로 지정하세요.",
       "step3": "북마크 URL을 편집하고 복사한 코드로 바꾸세요.",
-      "step4": "다른 탭에서 Pearpal 웹사이트로 전환하고 로그인했는지 확인합니다",
-      "step5": "Pearpal 웹사이트에서 \"Gongeous Cookie\" 북마크를 탭하세요.",
       "step5_android_chrome": "주소창에 저장한 북마크 이름(Gonggeous Cookie)을 입력하세요.",
-      "step5_android_chrome_2": "제안에서 북마크를 선택하여 실행하세요.",
-      "step6": "팝업의 출력 텍스트를 복사합니다(아래 입력 영역의 예와 같아야 함).",
-      "step7": "여기로 돌아와서 아래 입력 영역에 출력 텍스트를 붙여넣으세요."
+      "step5_android_chrome_2": "제안에서 북마크를 선택하여 실행하세요."
     },
     "console_steps": {
-      "step1": "다른 탭에서 Pearpal 웹사이트로 전환하고 로그인했는지 확인합니다",
       "step2": "브라우저의 개발자 도구를 엽니다(F12를 누르거나 마우스 오른쪽 버튼을 클릭하고 \"검사\" 선택).",
       "step3": "\"콘솔\"탭으로 이동",
       "step4": "\"코드 복사\" 버튼을 클릭하고 코드를 복사하여 콘솔에 붙여넣은 후 Enter 키를 누릅니다.",
       "step5": "\"경고: 개발자 도구 콘솔에 코드를 붙여넣지 마세요\"라는 경고가 표시되면 \"붙여넣기 허용\"을 입력하고 Enter 키를 누르세요.",
-      "step6": "콘솔에서 출력 텍스트를 복사합니다(아래 입력 영역의 예와 같아야 함).",
-      "step7": "여기로 돌아와서 아래 입력 영역에 출력 텍스트를 붙여넣으세요."
+      "step6": "콘솔에서 출력 텍스트를 복사합니다(아래 입력 영역의 예와 같아야 함)."
     },
     "manual_steps": {
       "note": "(예를 들어 Google Chrome을 사용하면 다른 브라우저마다 정확한 이름이 다를 수 있지만 단계는 유사합니다.)",
-      "step1": "다른 탭에서 Pearpal 웹사이트로 전환하고 로그인했는지 확인합니다",
-      "step2": "브라우저의 개발자 도구를 엽니다(F12를 누르거나 마우스 오른쪽 버튼을 클릭하고 \"검사\" 선택).",
       "step3": "\"응용 프로그램\" 탭(또는 Firefox에서는 \"저장소\")으로 이동합니다.",
       "step4": "왼쪽 사이드바에서 \"쿠키\"를 확장하고 Pearpal 웹사이트를 선택하세요.",
       "step5": "또는 쿠키 편집기와 같은 쿠키용 브라우저 확장을 사용할 수 있습니다.",
@@ -333,11 +337,8 @@
     "security_note": "참고: 이 쿠키 값을 다른 사람과 공유하지 마십시오!",
     "data_note": "중요: 이 가져오기 방법을 통한 가져오기 데이터는 180일 동안만 유지됩니다. {date} 이전의 데이터는 사용할 수 없습니다. \"Whim-Log에서 가져오기\"를 사용하여 이전 데이터를 가져올 수 있습니다.",
     "form": {
-      "uid": "UID",
       "uid_placeholder": "게임 내 UID",
-      "momo_id": "모모아이디",
       "momo_id_placeholder": "쿠키의 momoNid",
-      "momo_token": "모모토큰",
       "momo_token_placeholder": "쿠키의 momoToken",
       "submit_global_stats": "글로벌 통계를 위한 데이터 제출",
       "submit_button": "풀 내역 제출 및 가져오기",
@@ -356,7 +357,6 @@
     "select_banners_desc": "다시 가져올 필요가 없습니다",
     "banner_groups": {
       "quick_select": "빠른 선택",
-      "current_banners": "현재 배너",
       "limited_banners": "제한된 배너",
       "permanent_banners": "영구 배너",
       "individual": "개별 배너"
@@ -398,12 +398,8 @@
   "tracker": {
     "stats": {
       "title": "통계 가져오기",
-      "total_pulls": "총 당기기",
       "no_pulls": "이 배너에 대한 가져오기 기록이 없습니다.",
       "total_5star_4star": "별 5개 / 별 4개 합계",
-      "avg_5star": "별 5개 평균(별 5개 배너)",
-      "avg_4star_mixed": "별 4개 평균(별 5개 배너)",
-      "avg_4star_only": "별 4개 평균(별 4개 배너)",
       "luckier": "gongeo.us 사용자 중 {percent}%보다 운이 좋습니다.",
       "more_pulls": "gongeo.us 사용자 중 {percent}% 이상"
     },
@@ -420,7 +416,6 @@
     },
     "banner": {
       "stats": {
-        "total_pulls": "총 당기기",
         "total_5star": "별 5개 총계",
         "avg_5star": "별 5개 평균",
         "total_4star": "별 4개 합계",
@@ -431,8 +426,6 @@
       "settings": {
         "banner_order": "배너 순서",
         "item_order": "품목 주문",
-        "latest_first": "최신순",
-        "oldest_first": "오래된 것부터",
         "outfit_display": "의상 전시",
         "item_display": "품목 전시",
         "combined": "결합된",
@@ -440,13 +433,7 @@
         "show_4star": "별 4개(별 5개 배너)",
         "show_missing": "누락된 조각",
         "duplicate_items": "중복 항목",
-        "empty_banners": "빈 배너",
-        "data_source": "데이터 소스",
-        "pearpal": "Whim-Log",
-        "game": "게임",
-        "auto": "자동",
-        "data_source_tooltip": "데이터 소스를 선택하세요. 선택한 소스에 데이터가 없으면 다른 소스가 대신 사용됩니다.",
-        "auto_option": "\"자동\"은 두 소스를 결합하여 배너당 풀이 더 많은 소스를 선호합니다."
+        "empty_banners": "빈 배너"
       }
     },
     "items": {
@@ -485,8 +472,6 @@
     "right": "오른쪽",
     "wrong": "잘못된",
     "start": "시작",
-    "next": "다음",
-    "skip": "건너뛰다",
     "play_again": "다시 플레이",
     "reveal_direction": "방향을 밝히다",
     "blur": "흐림",
@@ -523,11 +508,7 @@
   },
   "global": {
     "stats": {
-      "total_pulls": "총 당기기",
       "unique_users": "전체 스타일리스트",
-      "avg_5star": "별 5개 평균(별 5개 배너)",
-      "avg_4star_type2": "별 4개 평균(별 5개 배너)",
-      "avg_4star_type3": "별 4개 평균(별 4개 배너)",
       "data_as_of": "현재 데이터"
     },
     "charts": {
@@ -536,11 +517,6 @@
       "four_star_type2_distribution": "별 4개 배포(별 5개 배너)",
       "four_star_type3_distribution": "별 4개 배포(별 4개 배너)",
       "first_item_distribution": "첫 번째 항목 배포",
-      "number_of_pulls": "당기는 횟수",
-      "probability": "개연성",
-      "cumulative_probability": "누적 확률",
-      "occurrences": "발생",
-      "percentage": "백분율",
       "all_banners": "모든 배너",
       "five_star_banners": "별 5개 배너",
       "four_star_banners": "별 4개 배너",
@@ -556,8 +532,6 @@
     "reset_zoom": "확대 초기화",
     "sort": {
       "label": "타임라인 정렬",
-      "newest_first": "최신순",
-      "oldest_first": "오래된 순",
       "longest_gap": "간격이 긴 순",
       "shortest_gap": "간격이 짧은 순"
     }
@@ -651,7 +625,6 @@
   },
   "vote": {
     "description": "버전 1.x에서 가장 인기 있는 배너를 결정하는 데 도움을 주세요! 정면 승부에서 가장 좋아하는 배너에 투표하세요.",
-    "skip": "건너뛰다",
     "howItWorks": "가장 좋아하는 배너를 선택하고 투표를 제출하여 가장 인기 있는 배너 순위를 매기세요. 확실하지 않으면 건너뛰세요. 24시간마다 최대 50번까지 투표할 수 있습니다.",
     "abuseNotice": "투표 시스템을 남용하지 마십시오. 비정상적인 투표 패턴이 감지되면 해당 투표가 제거될 수 있습니다.",
     "success": "투표가 성공적으로 제출되었습니다!",
@@ -661,12 +634,6 @@
       "community": "커뮤니티 모드",
       "personalDesc": "귀하의 투표는 로컬에 저장되며 개인 순위를 생성합니다. 커뮤니티 순위에는 영향을 미치지 않습니다.",
       "communityDesc": "귀하의 투표는 커뮤니티 순위에 영향을 미치며 가장 인기 있는 배너를 결정하는 데 도움이 됩니다."
-    },
-    "stats": {
-      "totalVotes": "총 투표수",
-      "personalVotes": "개인 투표",
-      "totalVoters": "총 유권자",
-      "avgVotes": "평균 투표수"
     },
     "errors": {
       "loadFailed": "투표 쌍을 로드하지 못했습니다. 다시 시도해 주세요.",
@@ -688,7 +655,6 @@
       "winRateShort": "WR",
       "wins": "승리",
       "losses": "패배",
-      "totalVotes": "총 투표수",
       "winsLosses": "W/L",
       "winsShort": "W",
       "lossesShort": "L"
@@ -704,16 +670,11 @@
     },
     "unranked_empty": "순위가 지정되지 않은 항목 없음",
     "obtain_fallback": "{id} 획득",
-    "status": {
-      "over_limit": "항목이 너무 많습니다. 더 많은 필터를 적용합니다(최대 {max}).",
-      "loaded": "{count} 항목이 로드되었습니다."
-    },
     "rank_menu": {
       "tier_label": "{tier} 계층",
       "send_back": "반송"
     },
     "community_submit": {
-      "browser_only_error": "커뮤니티 제출은 브라우저 컨텍스트에서만 사용할 수 있습니다.",
       "tooltip_ready": "완성된 계층 목록을 커뮤니티 순위에 제출하세요.",
       "scope_unavailable_toast": "이 범위에서는 커뮤니티 제출을 사용할 수 없습니다.",
       "success": "커뮤니티 등급 목록이 제출되었습니다.",
@@ -746,7 +707,6 @@
   "compendium": {
     "error_title": "데이터를 로드하지 못했습니다.",
     "error_description": "데이터를 로드할 수 없습니다. 다시 시도해 주세요.",
-    "no_results_title": "결과를 찾을 수 없습니다",
     "no_results_description": "귀하의 기준과 일치하는 항목이 없습니다.",
     "not_found_item": "항목을 찾을 수 없습니다",
     "not_found_outfit": "의상을 찾을 수 없습니다",
@@ -759,7 +719,6 @@
     "filter_label": "라벨별 필터링",
     "filter_obtain": "획득처별 필터링",
     "advanced_filters": "고급 필터",
-    "advanced_filters_title": "고급 필터",
     "clear_advanced_filters": "고급 필터 초기화",
     "advanced_filters_empty": "이 부위에 사용할 수 있는 고급 필터가 없습니다.",
     "advanced_filter_placeholder": "{field} 선택",
@@ -807,11 +766,9 @@
     "placeholder": "'{example}' 검색해보기",
     "clear_query": "검색 지우기",
     "close_details": "상세 닫기",
-    "error_title": "오류",
     "error_description": "검색 인덱스 쿼리에 실패했습니다.",
     "no_matches": "검색 결과 없음",
-    "match_score": "{score}% 일치",
-    "view_compendium": "도감 보기"
+    "match_score": "{score}% 일치"
   },
   "feedback": {
     "queue_title": "피드백 심사",
@@ -824,14 +781,12 @@
     "review_state_filter_label": "상태",
     "review_filter": "심사 상태",
     "review_state_unreviewed": "미심사",
-    "review_state_all": "전체",
     "review_state_voted": "투표함",
     "scope_all": "모든 피드백",
     "scope_mine": "내 피드백",
     "scope_mine_empty": "필터에 일치하는 피드백이 없습니다.",
     "sort_needs_review": "심사 필요",
     "sort_top": "최다 투표",
-    "sort_new": "최신순",
     "status_all": "모든 상태",
     "status_open": "진행 중",
     "status_accepted": "수락됨",
@@ -859,13 +814,10 @@
     "maintainer_actions": "관리자 작업",
     "approve_action": "승인",
     "approve_success": "제안이 승인되었습니다.",
-    "approve_failed": "제안 승인에 실패했습니다.",
     "apply_action": "적용",
     "apply_success": "제안이 로컬에 적용되었습니다.",
-    "apply_failed": "제안 적용에 실패했습니다.",
     "reject_action": "거절",
     "reject_success": "제안이 거절되었습니다.",
-    "reject_failed": "제안 거절에 실패했습니다.",
     "loading_existing": "기존 피드백 확인 중…",
     "pending_exists_title": "이 아이템에 대해 이미 보류 중인 피드백이 있습니다.",
     "pending_exists_description": "새로운 제안을 제출하는 대신 열려 있는 제안에 투표해주세요.",
@@ -875,51 +827,50 @@
     "login_required": "제안을 제출하거나 투표하려면 로그인이 필요합니다.",
     "agree_action": "동의",
     "disagree_action": "반대",
-    "skip_action": "다음",
-    "restore_action": "이전",
     "agree_count": "동의 {count}",
     "disagree_count": "반대 {count}",
-    "view_item": "아이템 보기",
     "guidelines_action": "가이드라인",
     "back_to_queue": "피드백 대기열로 돌아가기",
     "no_tags": "이 아이템에 사용할 수 있는 태그 데이터가 아직 없습니다.",
     "guidelines": {
       "page_title": "피드백 가이드라인",
       "page_description": "피드백 제출을 위한 가이드라인입니다.",
-      "other_subcategories": "기타 하위 카테고리",
-      "term_notes": {
-        "hair_length": {
-          "short": "턱에서 목까지; 어깨 위.",
-          "medium": "어깨에서 등 상부까지.",
-          "long": "어깨를 넘어 등까지.",
-          "very_long": "하부 등 또는 그 이상."
-        },
-        "top_length": {
-          "ultra_crop": "허리 위 / 가슴 아래.",
-          "crop": "자연스러운 허리선.",
-          "waist_length": "허리선 위치.",
-          "hip_length": "엉덩이 위치.",
-          "upper_thigh": "엉덩이를 지나 허벅지 상부까지.",
-          "mid_thigh": "허벅지 중간.",
-          "maxi": "무릎 아래에서 종아리 하부까지.",
-          "floor_length": "바닥에 닿거나 바닥 근처."
-        },
-        "bottom_length": {
-          "upper_thigh": "허벅지 높은 곳.",
-          "mid_thigh": "허벅지 중간.",
-          "mini": "허벅지 상부에서 중간.",
-          "knee_length": "무릎 위치.",
-          "midi": "무릎과 발목 사이.",
-          "mid_calf": "종아리 중간.",
-          "ankle_length": "발목 위치.",
-          "maxi": "발목 근처 또는 그 이상.",
-          "floor_length": "바닥에 닿거나 바닥 근처."
-        }
-      }
+      "hair_length": {
+        "short": "턱에서 목까지; 어깨 위.",
+        "medium": "어깨에서 등 상부까지.",
+        "long": "어깨를 넘어 등까지.",
+        "very_long": "하부 등 또는 그 이상."
+      },
+      "top_length": {
+        "ultra_crop": "허리 위 / 가슴 아래.",
+        "crop": "자연스러운 허리선.",
+        "waist_length": "허리선 위치.",
+        "hip_length": "엉덩이 위치.",
+        "upper_thigh": "엉덩이를 지나 허벅지 상부까지.",
+        "mid_thigh": "허벅지 중간.",
+        "maxi": "무릎 아래에서 종아리 하부까지.",
+        "floor_length": "바닥에 닿거나 바닥 근처."
+      },
+      "bottom_length": {
+        "upper_thigh": "허벅지 높은 곳.",
+        "mid_thigh": "허벅지 중간.",
+        "mini": "허벅지 상부에서 중간.",
+        "knee_length": "무릎 위치.",
+        "midi": "무릎과 발목 사이.",
+        "mid_calf": "종아리 중간.",
+        "ankle_length": "발목 위치.",
+        "maxi": "발목 근처 또는 그 이상.",
+        "floor_length": "바닥에 닿거나 바닥 근처."
+      },
+      "other_subcategories": "기타 하위 카테고리"
+    },
+    "admin": {
+      "approve_failed": "제안 승인에 실패했습니다.",
+      "apply_failed": "제안 적용에 실패했습니다.",
+      "reject_failed": "제안 거절에 실패했습니다."
     }
   },
   "stats": {
-    "title": "개인 통계",
     "overview": {
       "luck_rating": "행운 등급"
     },
@@ -933,11 +884,8 @@
       "luck_per_banner": "배너별 5★ 행운",
       "luck_per_banner_type3": "배너별 4★ 행운",
       "five_star_distribution": "5★ 풀 분포",
-      "four_star_distribution": "4★ 분포 (5★ 배너)",
-      "four_star_type3_distribution": "4★ 분포 (4★ 배너)",
       "pull_timeline": "풀 활동",
       "cumulative_pulls": "누적",
-      "number_of_pulls": "풀 횟수",
       "frequency": "빈도"
     },
     "share": {

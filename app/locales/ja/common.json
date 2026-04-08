@@ -9,39 +9,67 @@
     "makeup": "補う",
     "variations": "バリエーション",
     "slot": "部位",
-    "pull": "引く",
     "pulls": "プル",
     "total": "合計",
-    "average": "平均",
-    "avg": "平均",
-    "statistics": "統計",
-    "stats": "統計",
-    "data": "データ",
-    "history": "歴史",
-    "tracker": "トラッカー",
-    "import": "輸入",
     "export": "輸出",
     "loading": "読み込み中…",
     "search": "検索",
-    "filter": "フィルター",
     "clear": "フィルターをクリアする",
     "all": "全て",
     "other": "他の",
     "show": "見せる",
     "hide": "隠れる",
+    "skip": "スキップ",
     "save": "保存",
     "cancel": "キャンセル",
     "confirm": "確認する",
     "ok": "わかりました",
+    "next": "次",
     "submit": "提出する",
     "retry": "リトライ",
-    "back": "戻る",
     "copy": "コピー",
     "select": "選択",
-    "description": "説明",
+    "no_results_found": "結果が見つかりませんでした",
     "error": "エラー",
-    "success": "成功",
-    "failed": "失敗した"
+    "sort": {
+      "newest_first": "新しい順",
+      "oldest_first": "古い順"
+    },
+    "sources": {
+      "data_source": "データソース",
+      "data_source_tooltip": "データソースを選択します。選択したソースにデータがない場合は、代わりに他のソースが使用されます。",
+      "auto_option": "「自動」は両方のソースを組み合わせ、バナーごとにプル数が多い方を優先します。",
+      "pearpal_website": "ペアパルのウェブサイト",
+      "whimlog": "Whim-Log",
+      "game": "ゲーム",
+      "auto": "自動"
+    },
+    "stats": {
+      "total_pulls": "総プル数",
+      "avg_5star": "平均5つ星（5つ星バナー）",
+      "avg_4star_mixed": "平均4つ星(5つ星バナー)",
+      "avg_4star_only": "4つ星平均(4つ星バナー)",
+      "total_votes": "総投票数",
+      "personal_votes": "個人投票",
+      "total_voters": "総投票者数",
+      "avg_votes": "平均投票数"
+    },
+    "charts": {
+      "number_of_pulls": "プル数",
+      "probability": "確率",
+      "cumulative_probability": "累積確率",
+      "occurrences": "出来事",
+      "percentage": "パーセンテージ"
+    },
+    "profile": {
+      "upload_data": "クラウドにアップロード",
+      "sync_data": "クラウドから同期",
+      "clear_cloud_data": "クラウドデータのクリア",
+      "clear_local_data": "ローカルデータのクリア",
+      "delete_profile": "プロフィールの削除"
+    },
+    "previous": "前へ",
+    "view_compendium": "図鑑を見る"
   },
   "navigation": {
     "title": "gongeo.us",
@@ -106,27 +134,21 @@
     "user_profile": {
       "guest": "ゲスト",
       "signed_in": "サインイン済み",
-      "clear_local_data": "ローカルデータのクリア",
       "clear_local_confirm": {
-        "title": "ローカルデータのクリア",
         "content": "{profile} プロファイルのローカル データをクリアしてもよろしいですか?この操作は元に戻すことができません。"
       },
       "sign_out": "サインアウト",
       "sign_out_success": "正常にサインアウトしました",
       "sign_out_error": "サインアウトに失敗しました",
-      "upload_data": "クラウドにアップロード",
-      "sync_data": "クラウドから同期",
       "sync": {
         "upload_success": "データはクラウドに正常にアップロードされました。",
         "upload_error": "データのアップロードに失敗しました。",
         "sync_success": "データは正常に同期されました。",
         "sync_error": "データの同期に失敗しました。",
         "confirm_upload": {
-          "title": "クラウドにアップロード",
           "content": "これにより、{profile} プロファイルのローカル データがクラウド ストレージにアップロードされ、このプロファイルの既存のクラウド データが上書きされます。続く？"
         },
         "confirm_sync": {
-          "title": "クラウドから同期",
           "content": "これにより、{profile} プロファイルのローカル データが結合されてクラウド データと同期されます。続く？"
         },
         "missing_profiles": {
@@ -135,9 +157,7 @@
           "confirm": "プロファイルの作成"
         }
       },
-      "clear_cloud_data": "クラウドデータのクリア",
       "clear_cloud_confirm": {
-        "title": "クラウドデータのクリア",
         "content": "{profile} プロファイルのクラウド データを消去してもよろしいですか?この操作は元に戻すことができず、データはクラウド ストレージから完全に削除されます。"
       },
       "clear_cloud_success": "クラウドデータが無事にクリアされました！",
@@ -146,7 +166,6 @@
       "profiles": {
         "active": "アクティブ",
         "delete_confirm": {
-          "title": "プロフィールの削除",
           "content": "{profile} プロファイルを削除してもよろしいですか?これにより、ローカル データとクラウド データ (サインインしている場合) が消去されます。"
         },
         "created_success": "プロフィールが作成されました。",
@@ -167,8 +186,7 @@
       "help_translate": "翻訳を手伝ってください"
     },
     "search": {
-      "placeholder": "アイテム、バナー、衣装を検索",
-      "noResults": "結果が見つかりませんでした"
+      "placeholder": "アイテム、バナー、衣装を検索"
     },
     "social": {
       "discord": "Discord コミュニティに参加してください",
@@ -180,7 +198,6 @@
   "profile": {
     "title": "プロフィール",
     "subtitle": "プロファイル、クラウド データ、ローカル データを管理します。",
-    "sections": {},
     "account_label": "アカウント",
     "all_profiles": "すべてのプロファイル",
     "active_profile": "アクティブなプロファイル",
@@ -193,9 +210,6 @@
     "rename_placeholder": "プロファイル名を入力してください",
     "rename_success": "プロフィール名が更新されました。",
     "rename_error": "プロファイル名を入力してください。",
-    "menu": {
-      "delete": "プロフィールの削除"
-    },
     "status": {
       "local": "ローカルデータ",
       "cloud": "クラウドデータ",
@@ -273,8 +287,6 @@
       "tw": "台湾/香港/マカオ",
       "asia": "アジア"
     },
-    "pearpal_website": "ペアパルのウェブサイト",
-    "whimlog": "Whim-Log",
     "login_pearpal": "Pearpal ウェブサイトにログイン",
     "login_pearpal_desc": "まだログインしていない場合は、新しいタブで Pearpal Web サイトを開き、Infold アカウントでログインします。",
     "login_pearpal_incognito_hint": "複数のアカウントをお持ちの場合は、シークレット/プライベート ブラウザ ウィンドウで Pearpal を開くことをお勧めします。",
@@ -300,26 +312,18 @@
       "step1": "「コードをコピー」ボタンをタップしてコードをコピーします",
       "step2": "ブラウザに新しいブックマークを作成し、「Gongeous Cookie」という名前を付けます。",
       "step3": "ブックマークの URL を編集し、コピーしたコードに置き換えます。",
-      "step4": "別のタブで Pearpal Web サイトに切り替えて、ログインしていることを確認してください",
-      "step5": "Pearpal Web サイトで「Gongeous Cookie」ブックマークをタップします",
       "step5_android_chrome": "保存したブックマーク名 (Gongeous Cookie) をアドレス バーに入力し始めます。",
-      "step5_android_chrome_2": "候補からブックマークを選択して実行します",
-      "step6": "ポップアップの出力テキストをコピーします (以下の入力領域の例のようになります)。",
-      "step7": "ここに戻って、出力テキストを下の入力領域に貼り付けます。"
+      "step5_android_chrome_2": "候補からブックマークを選択して実行します"
     },
     "console_steps": {
-      "step1": "別のタブで Pearpal Web サイトに切り替えて、ログインしていることを確認してください",
       "step2": "ブラウザの開発者ツールを開きます（F12を押すか、右クリックして「検査」を選択します）。",
       "step3": "「コンソール」タブに移動します",
       "step4": "[コードをコピー] ボタンをクリックし、コードをコピーしてコンソールに貼り付け、Enter キーを押します。",
       "step5": "「警告: コードを開発ツール コンソールに貼り付けないでください」という警告が表示された場合は、「貼り付けを許可」と入力して Enter キーを押します。",
-      "step6": "コンソールの出力テキストをコピーします (以下の入力領域の例のようになります)。",
-      "step7": "ここに戻って、出力テキストを下の入力領域に貼り付けます。"
+      "step6": "コンソールの出力テキストをコピーします (以下の入力領域の例のようになります)。"
     },
     "manual_steps": {
       "note": "(例として Google Chrome を使用すると、他のブラウザでは正確な名前が異なる場合がありますが、手順は同様です)",
-      "step1": "別のタブで Pearpal Web サイトに切り替えて、ログインしていることを確認してください",
-      "step2": "ブラウザの開発者ツールを開きます（F12を押すか、右クリックして「検査」を選択します）。",
       "step3": "「アプリケーション」タブ（Firefoxの場合は「ストレージ」）に移動します。",
       "step4": "左側のサイドバーで「Cookie」を展開し、Pearpal Web サイトを選択します",
       "step5": "あるいは、Cookie Editor などの Cookie 用のブラウザ拡張機能を使用することもできます。",
@@ -333,11 +337,8 @@
     "security_note": "注: これらの Cookie 値を他の人と共有しないでください。",
     "data_note": "重要: このインポート方法を使用してプルしたデータは、180 日間のみ保持されます。 {date} より前のデータは利用できません。 「Whim-Logからインポート」を使用して古いデータをインポートできます。",
     "form": {
-      "uid": "UID",
       "uid_placeholder": "ゲーム内UID",
-      "momo_id": "モモID",
       "momo_id_placeholder": "クッキーのモモニッド",
-      "momo_token": "モモトークン",
       "momo_token_placeholder": "Cookie からの momoToken",
       "submit_global_stats": "グローバル統計のデータを送信する",
       "submit_button": "プル履歴の送信とインポート",
@@ -356,7 +357,6 @@
     "select_banners_desc": "再輸入する必要はありません",
     "banner_groups": {
       "quick_select": "クイック選択",
-      "current_banners": "現在のバナー",
       "limited_banners": "限定バナー",
       "permanent_banners": "常設バナー",
       "individual": "個別のバナー"
@@ -398,12 +398,8 @@
   "tracker": {
     "stats": {
       "title": "プル統計",
-      "total_pulls": "総プル数",
       "no_pulls": "このバナーにはプル履歴がありません",
       "total_5star_4star": "5つ星 / 4つ星 合計",
-      "avg_5star": "平均5つ星（5つ星バナー）",
-      "avg_4star_mixed": "平均4つ星(5つ星バナー)",
-      "avg_4star_only": "4つ星平均(4つ星バナー)",
       "luckier": "gongeo.us ユーザーの {percent}% よりも幸運です",
       "more_pulls": "gongeo.us ユーザーの {percent}% 以上"
     },
@@ -420,7 +416,6 @@
     },
     "banner": {
       "stats": {
-        "total_pulls": "総プル数",
         "total_5star": "合計5つ星",
         "avg_5star": "平均5つ星",
         "total_4star": "合計4つ星",
@@ -431,8 +426,6 @@
       "settings": {
         "banner_order": "バナーの注文",
         "item_order": "アイテムの注文",
-        "latest_first": "最新順",
-        "oldest_first": "古い順",
         "outfit_display": "衣装の展示",
         "item_display": "項目表示",
         "combined": "組み合わせた",
@@ -440,13 +433,7 @@
         "show_4star": "4つ星 (5つ星バナー)",
         "show_missing": "欠けている部分",
         "duplicate_items": "重複アイテム",
-        "empty_banners": "空のバナー",
-        "data_source": "データソース",
-        "pearpal": "Whim-Log",
-        "game": "ゲーム",
-        "auto": "自動",
-        "data_source_tooltip": "データソースを選択します。選択したソースにデータがない場合は、代わりに他のソースが使用されます。",
-        "auto_option": "「自動」は両方のソースを組み合わせ、バナーごとにプル数が多い方を優先します。"
+        "empty_banners": "空のバナー"
       }
     },
     "items": {
@@ -485,8 +472,6 @@
     "right": "右",
     "wrong": "間違っている",
     "start": "始める",
-    "next": "次",
-    "skip": "スキップ",
     "play_again": "もう一度プレイしてください",
     "reveal_direction": "方向性を明らかにする",
     "blur": "ぼかし",
@@ -523,11 +508,7 @@
   },
   "global": {
     "stats": {
-      "total_pulls": "総プル数",
       "unique_users": "トータルスタイリスト",
-      "avg_5star": "平均5つ星（5つ星バナー）",
-      "avg_4star_type2": "平均4つ星(5つ星バナー)",
-      "avg_4star_type3": "4つ星平均(4つ星バナー)",
       "data_as_of": "現在のデータ"
     },
     "charts": {
@@ -536,11 +517,6 @@
       "four_star_type2_distribution": "4つ星配布（5つ星バナー）",
       "four_star_type3_distribution": "4★配布（4★バナー）",
       "first_item_distribution": "最初のアイテム配布",
-      "number_of_pulls": "プル数",
-      "probability": "確率",
-      "cumulative_probability": "累積確率",
-      "occurrences": "出来事",
-      "percentage": "パーセンテージ",
       "all_banners": "すべてのバナー",
       "five_star_banners": "5つ星バナー",
       "four_star_banners": "4つ星バナー",
@@ -556,8 +532,6 @@
     "reset_zoom": "ズームをリセット",
     "sort": {
       "label": "タイムラインを並び替え",
-      "newest_first": "新しい順",
-      "oldest_first": "古い順",
       "longest_gap": "間隔が長い順",
       "shortest_gap": "間隔が短い順"
     }
@@ -651,7 +625,6 @@
   },
   "vote": {
     "description": "バージョン 1.x で最も人気のあるバナーを決定するのにご協力ください。直接対決でお気に入りのバナーに投票してください。",
-    "skip": "スキップ",
     "howItWorks": "お気に入りのバナーを選択して投票を送信し、最も人気のあるバナーのランキングに役立ててください。よくわからない場合はスキップしてください。 24 時間ごとに最大 50 回まで投票できます。",
     "abuseNotice": "投票システムを悪用しないでください。異常な投票パターンが検出され、それらの投票は削除される場合があります。",
     "success": "投票は正常に送信されました。",
@@ -661,12 +634,6 @@
       "community": "コミュニティモード",
       "personalDesc": "投票はローカルに保存され、個人的なランキングが作成されます。コミュニティのランキングには影響しません。",
       "communityDesc": "あなたの投票はコミュニティのランキングに貢献し、最も人気のあるバナーを決定するのに役立ちます。"
-    },
-    "stats": {
-      "totalVotes": "総投票数",
-      "personalVotes": "個人投票",
-      "totalVoters": "総投票者数",
-      "avgVotes": "平均投票数"
     },
     "errors": {
       "loadFailed": "投票ペアのロードに失敗しました。もう一度試してください。",
@@ -688,7 +655,6 @@
       "winRateShort": "WR",
       "wins": "勝利",
       "losses": "敗北",
-      "totalVotes": "総投票数",
       "winsLosses": "W/L",
       "winsShort": "W",
       "lossesShort": "L"
@@ -704,16 +670,11 @@
     },
     "unranked_empty": "ランク付けされていないエントリーはありません",
     "obtain_fallback": "{id}を入手",
-    "status": {
-      "over_limit": "エントリが多すぎます。さらにフィルターを適用します (最大 {max})。",
-      "loaded": "{count} エントリがロードされました"
-    },
     "rank_menu": {
       "tier_label": "{tier} 層",
       "send_back": "送り返す"
     },
     "community_submit": {
-      "browser_only_error": "コミュニティ送信はブラウザコンテキストでのみ利用可能です",
       "tooltip_ready": "完成した Tier リストをコミュニティ ランキングに送信します。",
       "scope_unavailable_toast": "このスコープではコミュニティ送信は利用できません。",
       "success": "コミュニティ Tier リストが提出されました",
@@ -746,7 +707,6 @@
   "compendium": {
     "error_title": "データのロードに失敗しました",
     "error_description": "データをロードできません。もう一度試してください。",
-    "no_results_title": "結果が見つかりませんでした",
     "no_results_description": "条件に一致するアイテムはありません。",
     "not_found_item": "アイテムが見つかりません",
     "not_found_outfit": "衣装が見つかりません",
@@ -759,7 +719,6 @@
     "filter_label": "ラベルで絞り込む",
     "filter_obtain": "入手方法で絞り込む",
     "advanced_filters": "詳細フィルター",
-    "advanced_filters_title": "詳細フィルター",
     "clear_advanced_filters": "詳細フィルターをクリア",
     "advanced_filters_empty": "この部位で利用可能な詳細フィルターはありません。",
     "advanced_filter_placeholder": "{field}を選択",
@@ -807,11 +766,9 @@
     "placeholder": "「{example}」を試す",
     "clear_query": "検索をクリア",
     "close_details": "詳細を閉じる",
-    "error_title": "エラー",
     "error_description": "検索インデックスのクエリに失敗しました。",
     "no_matches": "該当なし",
-    "match_score": "一致度 {score}%",
-    "view_compendium": "図鑑を見る"
+    "match_score": "一致度 {score}%"
   },
   "feedback": {
     "queue_title": "フィードバック審査",
@@ -824,14 +781,12 @@
     "review_state_filter_label": "状態",
     "review_filter": "審査状態",
     "review_state_unreviewed": "未審査",
-    "review_state_all": "すべて",
     "review_state_voted": "投票済み",
     "scope_all": "すべてのフィードバック",
     "scope_mine": "自分のフィードバック",
     "scope_mine_empty": "フィルタに一致するフィードバックはありません。",
     "sort_needs_review": "審査が必要",
     "sort_top": "投票数順",
-    "sort_new": "新着順",
     "status_all": "すべてのステータス",
     "status_open": "進行中",
     "status_accepted": "承認済み",
@@ -859,13 +814,10 @@
     "maintainer_actions": "メンテナー用操作",
     "approve_action": "承認",
     "approve_success": "提案を承認しました。",
-    "approve_failed": "提案の承認に失敗しました。",
     "apply_action": "適用",
     "apply_success": "提案をローカルに適用しました。",
-    "apply_failed": "提案の適用に失敗しました。",
     "reject_action": "却下",
     "reject_success": "提案を却下しました。",
-    "reject_failed": "提案の却下に失敗しました。",
     "loading_existing": "既存のフィードバックを確認中…",
     "pending_exists_title": "このアイテムには既に保留中のフィードバックがあります。",
     "pending_exists_description": "新しい提案を送信する代わりに、既存の提案に投票してください。",
@@ -875,51 +827,50 @@
     "login_required": "提案の送信や投票にはサインインが必要です。",
     "agree_action": "同意",
     "disagree_action": "反対",
-    "skip_action": "次へ",
-    "restore_action": "前へ",
     "agree_count": "同意 {count}",
     "disagree_count": "反対 {count}",
-    "view_item": "アイテムを表示",
     "guidelines_action": "ガイドライン",
     "back_to_queue": "フィードバックキューに戻る",
     "no_tags": "このアイテムのタグデータはまだありません。",
     "guidelines": {
       "page_title": "フィードバックガイドライン",
       "page_description": "フィードバック送信のガイドライン。",
-      "other_subcategories": "その他のサブカテゴリ",
-      "term_notes": {
-        "hair_length": {
-          "short": "顎から首；肩より上。",
-          "medium": "肩から背中上部。",
-          "long": "肩を越えて背中まで。",
-          "very_long": "背中下部、またはそれ以上。"
-        },
-        "top_length": {
-          "ultra_crop": "ウエストより上 / アンダーバスト付近。",
-          "crop": "自然なウエストライン付近。",
-          "waist_length": "ウエストライン付近。",
-          "hip_length": "ヒップ付近。",
-          "upper_thigh": "ヒップを越えて太もも上部まで。",
-          "mid_thigh": "太もも中間。",
-          "maxi": "膝より下からふくらはぎまで。",
-          "floor_length": "床に届く、または床付近。"
-        },
-        "bottom_length": {
-          "upper_thigh": "太ももの高い位置。",
-          "mid_thigh": "太もも中間。",
-          "mini": "太もも上部から中間。",
-          "knee_length": "膝付近。",
-          "midi": "膝と足首の間。",
-          "mid_calf": "ふくらはぎ中間。",
-          "ankle_length": "足首付近。",
-          "maxi": "足首付近、またはそれ以上。",
-          "floor_length": "床に届く、または床付近。"
-        }
-      }
+      "hair_length": {
+        "short": "顎から首；肩より上。",
+        "medium": "肩から背中上部。",
+        "long": "肩を越えて背中まで。",
+        "very_long": "背中下部、またはそれ以上。"
+      },
+      "top_length": {
+        "ultra_crop": "ウエストより上 / アンダーバスト付近。",
+        "crop": "自然なウエストライン付近。",
+        "waist_length": "ウエストライン付近。",
+        "hip_length": "ヒップ付近。",
+        "upper_thigh": "ヒップを越えて太もも上部まで。",
+        "mid_thigh": "太もも中間。",
+        "maxi": "膝より下からふくらはぎまで。",
+        "floor_length": "床に届く、または床付近。"
+      },
+      "bottom_length": {
+        "upper_thigh": "太ももの高い位置。",
+        "mid_thigh": "太もも中間。",
+        "mini": "太もも上部から中間。",
+        "knee_length": "膝付近。",
+        "midi": "膝と足首の間。",
+        "mid_calf": "ふくらはぎ中間。",
+        "ankle_length": "足首付近。",
+        "maxi": "足首付近、またはそれ以上。",
+        "floor_length": "床に届く、または床付近。"
+      },
+      "other_subcategories": "その他のサブカテゴリ"
+    },
+    "admin": {
+      "approve_failed": "提案の承認に失敗しました。",
+      "apply_failed": "提案の適用に失敗しました。",
+      "reject_failed": "提案の却下に失敗しました。"
     }
   },
   "stats": {
-    "title": "個人統計",
     "overview": {
       "luck_rating": "運勢評価"
     },
@@ -933,11 +884,8 @@
       "luck_per_banner": "バナーごとの5★運勢",
       "luck_per_banner_type3": "バナーごとの4★運勢",
       "five_star_distribution": "5★プル分布",
-      "four_star_distribution": "4★分布（5★バナー）",
-      "four_star_type3_distribution": "4★分布（4★バナー）",
       "pull_timeline": "プル活動",
       "cumulative_pulls": "累計",
-      "number_of_pulls": "プル数",
       "frequency": "頻度"
     },
     "share": {

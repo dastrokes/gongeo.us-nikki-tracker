@@ -288,7 +288,6 @@
       "braided": "编织",
       "cable_knit": "麻花编织",
       "chain": "链条",
-      "chain_detail": "链条细节",
       "chain_link": "链环",
       "circular": "圆形",
       "cracked": "裂纹",
@@ -354,10 +353,7 @@
         "back_bow": "后背蝴蝶结",
         "backpack": "双肩包",
         "backpiece": "背饰",
-        "bag": "包",
-        "cape": "披风",
         "drape": "披帛",
-        "shawl": "披肩",
         "tail": "尾巴",
         "wings": "翅膀"
       },
@@ -515,7 +511,6 @@
         "capelet": "短披风",
         "collar": "衣领",
         "frame": "背景框",
-        "plush": "毛绒玩具",
         "plushie": "玩偶",
         "satchel": "挎包",
         "schoolbag": "书包",
@@ -699,6 +694,7 @@
         "windbreaker": "风衣"
       },
       "pendants": {
+        "anklet": "Anklet",
         "crossbody_bag": "斜挎包",
         "handbag": "手提包",
         "leg_garter": "袜带",

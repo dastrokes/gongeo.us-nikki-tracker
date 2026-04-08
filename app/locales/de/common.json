@@ -809,9 +809,7 @@
     "close_details": "Details schließen",
     "error_title": "Fehler",
     "error_description": "Suchindex konnte nicht abgerufen werden.",
-    "searching": "Suche...",
     "no_matches": "Keine Treffer",
-    "result_count": "{count} Ergebnisse",
     "match_score": "{score}% Treffer",
     "view_compendium": "Kompendium ansehen"
   },

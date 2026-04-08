@@ -809,9 +809,7 @@
     "close_details": "Chiudi dettagli",
     "error_title": "Errore",
     "error_description": "Impossibile interrogare l'indice di ricerca.",
-    "searching": "Ricerca in corso...",
     "no_matches": "Nessuna corrispondenza",
-    "result_count": "{count} risultati",
     "match_score": "{score}% di corrispondenza",
     "view_compendium": "Visualizza Compendio"
   },

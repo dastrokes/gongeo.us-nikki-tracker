@@ -81,12 +81,10 @@ export const useAuth = () => {
     loading.value = true
 
     try {
-      const redirectTo = `${config.public.siteUrl}${localePath('/')}`
-
       const { error: authError } = await supabase.auth.signInWithOAuth({
         provider: 'discord',
         options: {
-          redirectTo,
+          redirectTo: `${config.public.siteUrl}${localePath('/')}`,
           scopes: 'identify email',
         },
       })
@@ -108,12 +106,10 @@ export const useAuth = () => {
     loading.value = true
 
     try {
-      const redirectTo = `${config.public.siteUrl}${localePath('/')}`
-
       const { error: authError } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo,
+          redirectTo: `${config.public.siteUrl}${localePath('/')}`,
           scopes: 'openid email profile',
         },
       })

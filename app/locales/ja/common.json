@@ -809,9 +809,7 @@
     "close_details": "詳細を閉じる",
     "error_title": "エラー",
     "error_description": "検索インデックスのクエリに失敗しました。",
-    "searching": "検索中...",
     "no_matches": "該当なし",
-    "result_count": "{count} 件の結果",
     "match_score": "一致度 {score}%",
     "view_compendium": "図鑑を見る"
   },

@@ -809,9 +809,7 @@
     "close_details": "Fechar detalhes",
     "error_title": "Erro",
     "error_description": "Falha ao consultar o índice de pesquisa.",
-    "searching": "Pesquisando...",
     "no_matches": "Sem correspondências",
-    "result_count": "{count} resultados",
     "match_score": "{score}% de correspondência",
     "view_compendium": "Ver compêndio"
   },

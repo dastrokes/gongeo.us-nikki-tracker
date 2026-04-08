@@ -109,20 +109,7 @@ const translationLoaders = {
         (module) => module.default as TranslationDictionary
       ),
   },
-  id: {
-    banner: () =>
-      import('./id/banner.json').then(
-        (module) => module.default as TranslationDictionary
-      ),
-    outfit: () =>
-      import('./id/outfit.json').then(
-        (module) => module.default as TranslationDictionary
-      ),
-    item: () =>
-      import('./id/item.json').then(
-        (module) => module.default as TranslationDictionary
-      ),
-  },
+
   it: {
     banner: () =>
       import('./it/banner.json').then(
@@ -179,20 +166,7 @@ const translationLoaders = {
         (module) => module.default as TranslationDictionary
       ),
   },
-  th: {
-    banner: () =>
-      import('./th/banner.json').then(
-        (module) => module.default as TranslationDictionary
-      ),
-    outfit: () =>
-      import('./th/outfit.json').then(
-        (module) => module.default as TranslationDictionary
-      ),
-    item: () =>
-      import('./th/item.json').then(
-        (module) => module.default as TranslationDictionary
-      ),
-  },
+
   zh: {
     banner: () =>
       import('./zh/banner.json').then(

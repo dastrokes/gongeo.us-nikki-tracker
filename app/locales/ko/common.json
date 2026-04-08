@@ -773,8 +773,8 @@
   "feedback": {
     "queue_title": "피드백 심사",
     "page_description": "구조화된 태그 수정안을 탐색하고, 기존 제안에 투표하며, 도감을 깔끔하게 유지하는 데 도움을 주세요.",
-    "quick_review_empty": "현재 대기열을 모두 확인했습니다.",
     "refresh": "새로고침",
+    "quick_review_empty": "현재 대기열을 모두 확인했습니다.",
     "scope_filter_label": "범위",
     "sort_filter_label": "정렬",
     "status_filter_label": "상태",
@@ -836,10 +836,10 @@
       "page_title": "피드백 가이드라인",
       "page_description": "피드백 제출을 위한 가이드라인입니다.",
       "hair_length": {
-        "short": "턱에서 목까지; 어깨 위.",
-        "medium": "어깨에서 등 상부까지.",
-        "long": "어깨를 넘어 등까지.",
-        "very_long": "하부 등 또는 그 이상."
+        "short": "어깨 위.",
+        "medium": "어깨 근처에서 등 상부까지.",
+        "long": "등 상부에서 등 하부까지.",
+        "very_long": "등 하부 아래."
       },
       "top_length": {
         "ultra_crop": "허리 위 / 가슴 아래.",

@@ -766,12 +766,11 @@
     "placeholder": "Tenta '{example}'",
     "clear_query": "Limpar pesquisa",
     "close_details": "Fechar detalhes",
-    "error_description": "Falha ao consultar o índice de pesquisa.",
     "no_matches": "Sem correspondências",
     "match_score": "{score}% de correspondência"
   },
   "feedback": {
-    "queue_title": "Revisão de Feedback",
+    "queue_title": "Revisão de feedback",
     "page_description": "Navegue por correções de tags estruturadas, vote em sugestões existentes e ajude a manter o compêndio organizado.",
     "quick_review_empty": "Você está em dia com a fila atual.",
     "refresh": "Atualizar",
@@ -836,10 +835,10 @@
       "page_title": "Diretrizes de Feedback",
       "page_description": "Diretrizes para o envio de feedback.",
       "hair_length": {
-        "short": "Mandíbula ao pescoço; acima do ombro.",
-        "medium": "Ombro à parte superior das costas.",
-        "long": "Passando o ombro para as costas.",
-        "very_long": "Parte inferior das costas ou mais longo."
+        "short": "Acima dos ombros.",
+        "medium": "Dos ombros até a parte superior das costas.",
+        "long": "Da parte superior até a parte inferior das costas.",
+        "very_long": "Abaixo da parte inferior das costas."
       },
       "top_length": {
         "ultra_crop": "Acima da cintura / abaixo do busto.",

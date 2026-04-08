@@ -809,7 +809,12 @@
 
   const openFeedbackModal = async () => {
     const currentResult = activeFeedbackResult.value
-    if (!currentResult || !currentResult.supportsFeedback) return
+    if (
+      !currentResult ||
+      !currentResult.supportsFeedback ||
+      currentResult.itemId === null
+    )
+      return
 
     const nextTarget: FeedbackModalTarget = {
       itemId: currentResult.itemId,

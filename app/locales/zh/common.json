@@ -836,10 +836,10 @@
       "page_title": "反馈说明",
       "page_description": "反馈提交说明。",
       "hair_length": {
-        "short": "下巴到颈部，明显不过肩。",
-        "medium": "肩部到上背。",
-        "long": "过肩到背部。",
-        "very_long": "下背或更长。"
+        "short": "肩部以上。",
+        "medium": "肩部附近到上背。",
+        "long": "上背到下背。",
+        "very_long": "下背以下。"
       },
       "top_length": {
         "ultra_crop": "高于腰线，接近胸下。",

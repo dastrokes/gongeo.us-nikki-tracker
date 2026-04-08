@@ -809,9 +809,7 @@
     "close_details": "ปิดรายละเอียด",
     "error_title": "ข้อผิดพลาด",
     "error_description": "ล้มเหลวในการค้นหาดัชนี",
-    "searching": "กำลังค้นหา...",
     "no_matches": "ไม่พบสิ่งที่ตรงกัน",
-    "result_count": "{count} ผลลัพธ์",
     "match_score": "{score}% ตรงกัน",
     "view_compendium": "ดูสมุดรวบรวม"
   },

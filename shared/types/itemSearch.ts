@@ -35,6 +35,9 @@ export type ItemSearchArrayField =
   | 'ornament'
 
 export type ItemSearchField = ItemSearchScalarField | ItemSearchArrayField
+export type ItemSearchAdvancedField =
+  | ItemSearchAdvancedScalarField
+  | ItemSearchArrayField
 
 export type ItemSearchSchemaKey =
   | 'garment'
@@ -94,7 +97,7 @@ export type ItemSearchAdvancedScalarFilters = Partial<
 >
 
 export type ItemSearchAdvancedFacetMap = Partial<
-  Record<ItemSearchAdvancedScalarField, string[]>
+  Record<ItemSearchAdvancedField, string[]>
 >
 
 export interface ItemSearchFacetResponse {

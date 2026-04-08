@@ -8,6 +8,8 @@ const BASE_PATHS = [
   '/timeline',
   '/quiz',
   '/ranking',
+  '/feedback',
+  '/guideline',
   '/faq',
   '/about',
   '/vote',

@@ -809,9 +809,7 @@
     "close_details": "Tutup detail",
     "error_title": "Kesalahan",
     "error_description": "Gagal menanyakan indeks pencarian.",
-    "searching": "Mencari...",
     "no_matches": "Tidak ada kecocokan",
-    "result_count": "{count} hasil",
     "match_score": "Kecocokan {score}%",
     "view_compendium": "Lihat Kompendium"
   },

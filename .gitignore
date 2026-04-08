@@ -16,6 +16,10 @@ dist/
 public/images/outfits/
 public/images/items/
 
+# Generated item-search artifacts
+data/item-search/generated/
+reports/item-search/
+
 # Auto-generated types
 components.d.ts
 

@@ -1,4 +1,5 @@
 import type {
+  ItemSearchAdvancedField,
   ItemSearchAdvancedScalarField,
   ItemSearchAdvancedScalarFilters,
   ItemSearchArrayField,
@@ -10,41 +11,34 @@ import type {
   ItemSearchSchemaKey,
   ItemSearchAdvancedFacetMap,
 } from '../types/itemSearch'
+import { ITEM_SEARCH_SUBCATEGORY_PARENT_BY_TYPE } from '../constants/itemSearchTaxonomy'
+import {
+  ITEM_SEARCH_EDITABLE_SECTIONS_BY_TYPE as ITEM_SEARCH_EDITABLE_SECTIONS_BY_TYPE_DATA,
+  ITEM_SEARCH_FIELD_KIND_BY_NAME,
+  ITEM_SEARCH_ITEM_TYPE_ALIAS_TO_SUPPORTED,
+  ITEM_SEARCH_SCHEMA_KEY_BY_ITEM_TYPE,
+  ITEM_SEARCH_SCHEMA_SECTIONS_BY_KEY,
+  ITEM_SEARCH_SUPPORTED_ITEM_TYPES,
+} from '../constants/itemSearchRegistry'
+import attributeOptionsData from '../../data/attribute.json'
 
 export const ITEM_SEARCH_UNCATEGORIZED_VALUE = '__uncategorized__'
 
-const ITEM_SEARCH_ARRAY_FIELDS: ItemSearchArrayField[] = [
-  'pattern',
-  'material',
-  'structure',
-  'ornament',
-]
+const ITEM_SEARCH_ARRAY_FIELDS = Object.entries(ITEM_SEARCH_FIELD_KIND_BY_NAME)
+  .filter(([, kind]) => kind === 'array')
+  .map(([field]) => field as ItemSearchArrayField)
 
-const ITEM_SEARCH_SCALAR_FIELDS: ItemSearchScalarField[] = [
-  'category',
-  'subcategory',
-  'top_length',
-  'bottom_length',
-  'hair_length',
-  'fit',
-  'neckline',
-  'shoulder_style',
-  'sleeve_length',
-  'sleeve_style',
-  'skirt_silhouette',
-  'pant_shape',
-  'waist_height',
-  'dress_silhouette',
-  'waistline',
-  'haircut',
-  'texture',
-  'bangs',
-  'heel_type',
-  'heel_height',
-  'sole_height',
-  'shaft_height',
-  'sock_height',
-]
+const ITEM_SEARCH_ARRAY_FIELD_SET = new Set<ItemSearchArrayField>(
+  ITEM_SEARCH_ARRAY_FIELDS
+)
+
+const ITEM_SEARCH_SCALAR_FIELDS = Object.entries(ITEM_SEARCH_FIELD_KIND_BY_NAME)
+  .filter(([, kind]) => kind === 'scalar')
+  .map(([field]) => field as ItemSearchScalarField)
+
+const ITEM_SEARCH_SCALAR_FIELD_SET = new Set<ItemSearchScalarField>(
+  ITEM_SEARCH_SCALAR_FIELDS
+)
 
 export const ITEM_SEARCH_ADVANCED_SCALAR_FIELDS: ItemSearchAdvancedScalarField[] =
   ITEM_SEARCH_SCALAR_FIELDS.filter(
@@ -54,6 +48,24 @@ export const ITEM_SEARCH_ADVANCED_SCALAR_FIELDS: ItemSearchAdvancedScalarField[]
 
 const ITEM_SEARCH_ADVANCED_SCALAR_FIELD_SET =
   new Set<ItemSearchAdvancedScalarField>(ITEM_SEARCH_ADVANCED_SCALAR_FIELDS)
+const ITEM_SEARCH_ADVANCED_FIELD_SET = new Set<ItemSearchAdvancedField>([
+  ...ITEM_SEARCH_ADVANCED_SCALAR_FIELDS,
+  ...ITEM_SEARCH_ARRAY_FIELDS,
+])
+
+const isItemSearchAdvancedScalarField = (
+  field: ItemSearchField
+): field is ItemSearchAdvancedScalarField =>
+  ITEM_SEARCH_ADVANCED_SCALAR_FIELD_SET.has(
+    field as ItemSearchAdvancedScalarField
+  )
+
+export function isItemSearchFieldKey(field: string): field is ItemSearchField {
+  return (
+    ITEM_SEARCH_SCALAR_FIELD_SET.has(field as ItemSearchScalarField) ||
+    ITEM_SEARCH_ARRAY_FIELD_SET.has(field as ItemSearchArrayField)
+  )
+}
 
 const ITEM_SEARCH_TOKEN_LABEL_OVERRIDES: Record<string, string> = {
   a_line: 'A-line',
@@ -68,111 +80,64 @@ type ItemSearchSectionConfig = {
   fields: ItemSearchField[]
 }
 
-const ITEM_SEARCH_SECTIONS_BY_SCHEMA: Record<
-  ItemSearchSchemaKey,
-  ItemSearchSectionConfig[]
-> = {
-  garment: [
-    {
-      key: 'identity',
-
-      fields: ['category', 'subcategory'],
-    },
-    {
-      key: 'shape',
-
-      fields: [
-        'dress_silhouette',
-        'skirt_silhouette',
-        'pant_shape',
-        'top_length',
-        'bottom_length',
-        'fit',
-        'neckline',
-        'shoulder_style',
-        'sleeve_length',
-        'sleeve_style',
-        'waist_height',
-        'waistline',
-      ],
-    },
-    {
-      key: 'detail',
-
-      fields: ['pattern', 'material', 'structure', 'ornament'],
-    },
-  ],
-  hair: [
-    {
-      key: 'identity',
-
-      fields: ['category', 'subcategory'],
-    },
-    {
-      key: 'shape',
-
-      fields: ['hair_length', 'haircut', 'bangs', 'texture'],
-    },
-  ],
-  shoes: [
-    {
-      key: 'identity',
-
-      fields: ['category', 'subcategory'],
-    },
-    {
-      key: 'shape',
-
-      fields: ['heel_type', 'heel_height', 'sole_height', 'shaft_height'],
-    },
-    {
-      key: 'detail',
-
-      fields: ['pattern', 'material', 'structure', 'ornament'],
-    },
-  ],
-  socks: [
-    {
-      key: 'identity',
-
-      fields: ['category', 'subcategory'],
-    },
-    {
-      key: 'shape',
-
-      fields: ['sock_height'],
-    },
-    {
-      key: 'detail',
-
-      fields: ['pattern', 'material', 'structure', 'ornament'],
-    },
-  ],
-  accessory: [
-    {
-      key: 'identity',
-
-      fields: ['category', 'subcategory'],
-    },
-    {
-      key: 'detail',
-
-      fields: ['pattern', 'material', 'structure', 'ornament'],
-    },
-  ],
-  unknown: [
-    {
-      key: 'identity',
-
-      fields: ['category', 'subcategory'],
-    },
-    {
-      key: 'detail',
-
-      fields: ['pattern', 'material', 'structure', 'ornament'],
-    },
-  ],
+type ItemSearchMetadataSectionOptions = {
+  editableOnly?: boolean
 }
+
+const ITEM_SEARCH_SECTIONS_BY_SCHEMA =
+  ITEM_SEARCH_SCHEMA_SECTIONS_BY_KEY as unknown as Record<
+    ItemSearchSchemaKey,
+    ItemSearchSectionConfig[]
+  >
+
+const ITEM_SEARCH_EDITABLE_SECTIONS_BY_TYPE =
+  ITEM_SEARCH_EDITABLE_SECTIONS_BY_TYPE_DATA as unknown as Record<
+    string,
+    ItemSearchSectionConfig[]
+  >
+
+const ITEM_SEARCH_SCHEMA_FIELDS_BY_SCHEMA = Object.fromEntries(
+  (
+    Object.entries(ITEM_SEARCH_SECTIONS_BY_SCHEMA) as Array<
+      [ItemSearchSchemaKey, ItemSearchSectionConfig[]]
+    >
+  ).map(([schemaKey, sections]) => [
+    schemaKey,
+    sections.flatMap((section) => section.fields),
+  ])
+) as Record<ItemSearchSchemaKey, ItemSearchField[]>
+
+const ITEM_SEARCH_ADVANCED_FIELDS_BY_TYPE = Object.fromEntries(
+  Object.entries(ITEM_SEARCH_EDITABLE_SECTIONS_BY_TYPE).map(
+    ([itemType, sections]) => [
+      itemType,
+      sections
+        .flatMap((section) => section.fields)
+        .filter((field): field is ItemSearchAdvancedField =>
+          ITEM_SEARCH_ADVANCED_FIELD_SET.has(field as ItemSearchAdvancedField)
+        ),
+    ]
+  )
+) as Record<string, ItemSearchAdvancedField[]>
+
+const ITEM_SEARCH_ADVANCED_SCALAR_FIELDS_BY_TYPE = Object.fromEntries(
+  Object.entries(ITEM_SEARCH_ADVANCED_FIELDS_BY_TYPE).map(
+    ([itemType, fields]) => [
+      itemType,
+      fields.filter((field): field is ItemSearchAdvancedScalarField =>
+        isItemSearchAdvancedScalarField(field)
+      ),
+    ]
+  )
+) as Record<string, ItemSearchAdvancedScalarField[]>
+
+const ALL_EDITABLE_ITEM_SEARCH_ADVANCED_FIELDS = Array.from(
+  new Set(
+    Object.values(ITEM_SEARCH_ADVANCED_FIELDS_BY_TYPE).flatMap(
+      (fields) => fields
+    )
+  )
+)
 
 const ITEM_SEARCH_FIELD_LABEL_KEYS: Record<ItemSearchField, string> = {
   category: 'compendium.search_field.category',
@@ -203,25 +168,6 @@ const ITEM_SEARCH_FIELD_LABEL_KEYS: Record<ItemSearchField, string> = {
   shaft_height: 'compendium.search_field.shaft_height',
   sock_height: 'compendium.search_field.sock_height',
 }
-
-const ACCESSORY_ITEM_TYPES = new Set([
-  'hairAccessories',
-  'headwear',
-  'earrings',
-  'neckwear',
-  'bracelets',
-  'chokers',
-  'gloves',
-  'handhelds',
-  'abilityHandhelds',
-  'faceDecorations',
-  'chestAccessories',
-  'pendants',
-  'backpieces',
-  'rings',
-  'armDecorations',
-  'bodyPaint',
-])
 
 const isRecord = (value: unknown): value is Record<string, unknown> =>
   typeof value === 'object' && value !== null && !Array.isArray(value)
@@ -297,48 +243,472 @@ export const sortItemSearchFacetMap = (
 
 export const normalizeItemSearchItemType = (itemType?: string | null) => {
   if (!itemType) return 'unknown'
-  if (itemType === 'abilityHandhelds') return 'handhelds'
-  return itemType
+  return (
+    ITEM_SEARCH_ITEM_TYPE_ALIAS_TO_SUPPORTED[
+      itemType as keyof typeof ITEM_SEARCH_ITEM_TYPE_ALIAS_TO_SUPPORTED
+    ] ?? itemType
+  )
 }
+
+type ItemSearchAttributeOptionEntry = {
+  field: string
+  itemType: string | null
+  value: string
+}
+
+const ITEM_SEARCH_ATTRIBUTE_GLOBAL_TYPE = '__all__'
+
+type ItemSearchAttributeScope = {
+  category?: string | null
+  subcategory?: string | null
+}
+
+const SKIRT_LIKE_BOTTOM_LENGTH_VALUES = [
+  'floor_length',
+  'knee_length',
+  'maxi',
+  'midi',
+  'mini',
+]
+
+const LEGWEAR_BOTTOM_LENGTH_VALUES = [
+  'ankle_length',
+  'mid_calf',
+  'knee_length',
+  'mid_thigh',
+  'upper_thigh',
+]
+
+const SKORT_BOTTOM_LENGTH_VALUES = [
+  'knee_length',
+  'mid_thigh',
+  'mini',
+  'upper_thigh',
+]
+
+const ITEM_SEARCH_CATEGORY_FIELD_ALLOWLIST_BY_TYPE: Partial<
+  Record<string, Partial<Record<ItemSearchAdvancedField, string[]>>>
+> = {
+  bottoms: {
+    skirt_silhouette: ['skirt', 'skort'],
+    pant_shape: ['pants', 'overalls'],
+  },
+  dresses: {
+    dress_silhouette: ['dress'],
+  },
+  shoes: {
+    shaft_height: ['boots'],
+  },
+}
+
+const ITEM_SEARCH_CATEGORY_VALUE_ALLOWLIST_BY_TYPE: Partial<
+  Record<
+    string,
+    Partial<Record<ItemSearchField, Partial<Record<string, string[]>>>>
+  >
+> = {
+  bottoms: {
+    bottom_length: {
+      overalls: LEGWEAR_BOTTOM_LENGTH_VALUES,
+      pants: LEGWEAR_BOTTOM_LENGTH_VALUES,
+      shorts: ['knee_length', 'mid_thigh', 'upper_thigh'],
+      skirt: SKIRT_LIKE_BOTTOM_LENGTH_VALUES,
+      skort: SKORT_BOTTOM_LENGTH_VALUES,
+    },
+  },
+  dresses: {
+    bottom_length: {
+      dress: SKIRT_LIKE_BOTTOM_LENGTH_VALUES,
+      jumpsuit: LEGWEAR_BOTTOM_LENGTH_VALUES,
+    },
+  },
+}
+
+function resolveItemSearchScopeCategory(
+  itemType?: string | null,
+  scope: ItemSearchAttributeScope = {}
+): string | null {
+  return normalizeItemSearchTaxonomySelection({
+    itemType,
+    category: scope.category,
+    subcategory: scope.subcategory,
+  }).category
+}
+
+function isItemSearchFieldAllowedForScope(
+  field: ItemSearchField,
+  itemType?: string | null,
+  scope: ItemSearchAttributeScope = {}
+): boolean {
+  const normalizedType = normalizeItemSearchItemType(itemType)
+  const scopedCategory = resolveItemSearchScopeCategory(itemType, scope)
+  const allowedCategories =
+    ITEM_SEARCH_CATEGORY_FIELD_ALLOWLIST_BY_TYPE[normalizedType]?.[
+      field as ItemSearchAdvancedField
+    ]
+
+  if (!allowedCategories?.length || !scopedCategory) {
+    return true
+  }
+
+  return allowedCategories.includes(scopedCategory)
+}
+
+function getItemSearchScopedAllowedValues(
+  field: ItemSearchField,
+  itemType?: string | null,
+  scope: ItemSearchAttributeScope = {}
+): string[] | null {
+  const normalizedType = normalizeItemSearchItemType(itemType)
+  const scopedCategory = resolveItemSearchScopeCategory(itemType, scope)
+
+  if (!scopedCategory) {
+    return null
+  }
+
+  return (
+    ITEM_SEARCH_CATEGORY_VALUE_ALLOWLIST_BY_TYPE[normalizedType]?.[field]?.[
+      scopedCategory
+    ] ?? null
+  )
+}
+
+const ITEM_SEARCH_ATTRIBUTE_VALUES_BY_TYPE = (() => {
+  const valuesByType: Record<
+    string,
+    Partial<Record<ItemSearchField, string[]>>
+  > = {}
+
+  ;(attributeOptionsData as ItemSearchAttributeOptionEntry[]).forEach(
+    (entry) => {
+      const field = entry.field as ItemSearchField
+      if (
+        !ITEM_SEARCH_SCALAR_FIELD_SET.has(field as ItemSearchScalarField) &&
+        !ITEM_SEARCH_ARRAY_FIELD_SET.has(field as ItemSearchArrayField)
+      ) {
+        return
+      }
+
+      const normalizedValue = normalizeItemSearchTokenKey(entry.value)
+      if (!normalizedValue) return
+
+      const normalizedType = entry.itemType
+        ? normalizeItemSearchItemType(entry.itemType)
+        : ITEM_SEARCH_ATTRIBUTE_GLOBAL_TYPE
+
+      const typeValues = (valuesByType[normalizedType] ??= {})
+      const fieldValues = (typeValues[field] ??= [])
+
+      if (!fieldValues.includes(normalizedValue)) {
+        fieldValues.push(normalizedValue)
+      }
+    }
+  )
+
+  Object.values(valuesByType).forEach((typeValues) => {
+    Object.keys(typeValues).forEach((key) => {
+      const field = key as ItemSearchField
+      typeValues[field] = sortItemSearchFacetValues(typeValues[field] ?? [])
+    })
+  })
+
+  return valuesByType
+})()
+
+const ITEM_SEARCH_ATTRIBUTE_VALUES_BY_FIELD = (() => {
+  const valuesByField: Partial<Record<ItemSearchField, string[]>> = {}
+
+  Object.values(ITEM_SEARCH_ATTRIBUTE_VALUES_BY_TYPE).forEach((typeValues) => {
+    Object.entries(typeValues).forEach(([key, values]) => {
+      const field = key as ItemSearchField
+      valuesByField[field] = Array.from(
+        new Set([...(valuesByField[field] ?? []), ...(values ?? [])])
+      )
+    })
+  })
+
+  Object.keys(valuesByField).forEach((key) => {
+    const field = key as ItemSearchField
+    valuesByField[field] = sortItemSearchFacetValues(valuesByField[field] ?? [])
+  })
+
+  return valuesByField
+})()
+
+export const getItemSearchAttributeValues = (
+  field: ItemSearchField,
+  itemType?: string | null,
+  scope: ItemSearchAttributeScope = {}
+): string[] => {
+  const globalValues =
+    ITEM_SEARCH_ATTRIBUTE_VALUES_BY_TYPE[ITEM_SEARCH_ATTRIBUTE_GLOBAL_TYPE]?.[
+      field
+    ] ?? []
+
+  let baseValues: string[]
+
+  if (!itemType) {
+    baseValues = ITEM_SEARCH_ATTRIBUTE_VALUES_BY_FIELD[field] ?? []
+  } else {
+    const normalizedType = normalizeItemSearchItemType(itemType)
+    if (normalizedType === 'unknown') {
+      baseValues = [...globalValues]
+    } else {
+      baseValues = sortItemSearchFacetValues(
+        Array.from(
+          new Set([
+            ...globalValues,
+            ...(ITEM_SEARCH_ATTRIBUTE_VALUES_BY_TYPE[normalizedType]?.[field] ??
+              []),
+          ])
+        )
+      )
+    }
+  }
+
+  if (field === 'category' || field === 'subcategory') {
+    return baseValues
+  }
+
+  if (!isItemSearchFieldAllowedForScope(field, itemType, scope)) {
+    return []
+  }
+
+  const allowedValues = getItemSearchScopedAllowedValues(field, itemType, scope)
+  if (!allowedValues?.length) {
+    return baseValues
+  }
+
+  return baseValues.filter((value) => allowedValues.includes(value))
+}
+
+export type ItemSearchTaxonomyCategoryNode = {
+  category: string
+  subcategories: string[]
+}
+
+export type ItemSearchTaxonomyTree = {
+  categories: ItemSearchTaxonomyCategoryNode[]
+  ungroupedSubcategories: string[]
+}
+
+const getItemSearchSubcategoryParentMap = (
+  itemType?: string | null
+): Readonly<Record<string, string>> =>
+  (ITEM_SEARCH_SUBCATEGORY_PARENT_BY_TYPE[
+    normalizeItemSearchItemType(
+      itemType
+    ) as keyof typeof ITEM_SEARCH_SUBCATEGORY_PARENT_BY_TYPE
+  ] ?? {}) as Readonly<Record<string, string>>
+
+export const getItemSearchSubcategoryParent = (
+  itemType?: string | null,
+  subcategory?: string | null
+): string | null => {
+  const normalizedSubcategory = normalizeItemSearchTokenKey(subcategory)
+  if (!normalizedSubcategory) return null
+
+  return (
+    getItemSearchSubcategoryParentMap(itemType)[normalizedSubcategory] ?? null
+  )
+}
+
+export const getItemSearchSubcategoryOptions = (
+  itemType?: string | null,
+  category?: string | null
+): string[] => {
+  const allSubcategories = getItemSearchAttributeValues('subcategory', itemType)
+  const normalizedCategory = normalizeItemSearchTokenKey(category)
+
+  if (!normalizedCategory) {
+    return allSubcategories
+  }
+
+  const scopedSubcategories = allSubcategories.filter(
+    (subcategory) =>
+      getItemSearchSubcategoryParent(itemType, subcategory) ===
+      normalizedCategory
+  )
+
+  return scopedSubcategories.length > 0 ? scopedSubcategories : allSubcategories
+}
+
+export const getItemSearchTaxonomyTree = (
+  itemType?: string | null
+): ItemSearchTaxonomyTree => {
+  const categories = getItemSearchAttributeValues('category', itemType)
+  const subcategories = getItemSearchAttributeValues('subcategory', itemType)
+  const mappedSubcategories = new Set<string>()
+
+  const categoryNodes = categories.map((category) => {
+    const categorySubcategories = subcategories.filter((subcategory) => {
+      const matches =
+        getItemSearchSubcategoryParent(itemType, subcategory) === category
+      if (matches) {
+        mappedSubcategories.add(subcategory)
+      }
+      return matches
+    })
+
+    return {
+      category,
+      subcategories: categorySubcategories,
+    }
+  })
+
+  return {
+    categories: categoryNodes,
+    ungroupedSubcategories: subcategories.filter(
+      (subcategory) => !mappedSubcategories.has(subcategory)
+    ),
+  }
+}
+
+export const normalizeItemSearchTaxonomySelection = ({
+  itemType,
+  category,
+  subcategory,
+}: {
+  itemType?: string | null
+  category?: string | null
+  subcategory?: string | null
+}): {
+  category: string | null
+  subcategory: string | null
+} => {
+  const categories = getItemSearchAttributeValues('category', itemType)
+  const subcategories = getItemSearchAttributeValues('subcategory', itemType)
+  const normalizedCategoryInput = normalizeItemSearchTokenKey(category)
+  const normalizedSubcategoryInput = normalizeItemSearchTokenKey(subcategory)
+
+  let normalizedCategory =
+    normalizedCategoryInput && categories.includes(normalizedCategoryInput)
+      ? normalizedCategoryInput
+      : null
+  let normalizedSubcategory =
+    normalizedSubcategoryInput &&
+    subcategories.includes(normalizedSubcategoryInput)
+      ? normalizedSubcategoryInput
+      : null
+
+  if (!normalizedCategory && normalizedCategoryInput) {
+    const promotedCategory = getItemSearchSubcategoryParent(
+      itemType,
+      normalizedCategoryInput
+    )
+    if (promotedCategory) {
+      if (
+        !normalizedSubcategory ||
+        normalizedSubcategory === normalizedCategoryInput
+      ) {
+        normalizedSubcategory = normalizedCategoryInput
+      }
+      normalizedCategory = promotedCategory
+    }
+  }
+
+  const expectedParent = getItemSearchSubcategoryParent(
+    itemType,
+    normalizedSubcategory
+  )
+  if (expectedParent && normalizedCategory !== expectedParent) {
+    normalizedCategory = expectedParent
+  }
+
+  if (
+    normalizedSubcategory &&
+    normalizedCategory &&
+    normalizedSubcategory === normalizedCategory
+  ) {
+    normalizedSubcategory = null
+  }
+
+  return {
+    category: normalizedCategory,
+    subcategory: normalizedSubcategory,
+  }
+}
+
+export const getItemSearchTaxonomyItemTypes = () =>
+  [...ITEM_SEARCH_SUPPORTED_ITEM_TYPES].filter(
+    (itemType) => getItemSearchAttributeValues('category', itemType).length > 0
+  )
+
+export const isSupportedItemSearchItemType = (itemType?: string | null) =>
+  ITEM_SEARCH_SUPPORTED_ITEM_TYPES.includes(
+    normalizeItemSearchItemType(
+      itemType
+    ) as (typeof ITEM_SEARCH_SUPPORTED_ITEM_TYPES)[number]
+  )
 
 export const getItemSearchSchemaKey = (
   itemType?: string | null
 ): ItemSearchSchemaKey => {
   const normalizedType = normalizeItemSearchItemType(itemType)
-
-  if (
-    normalizedType === 'outerwear' ||
-    normalizedType === 'tops' ||
-    normalizedType === 'bottoms' ||
-    normalizedType === 'dresses'
-  ) {
-    return 'garment'
-  }
-
-  if (normalizedType === 'hair') return 'hair'
-  if (normalizedType === 'shoes') return 'shoes'
-  if (normalizedType === 'socks') return 'socks'
-  if (ACCESSORY_ITEM_TYPES.has(normalizedType)) return 'accessory'
-  return 'unknown'
-}
-
-export const supportsItemSearchCategoryFilters = (itemType?: string | null) => {
-  if (!itemType) return false
-  return getItemSearchSchemaKey(itemType) !== 'accessory'
+  return (ITEM_SEARCH_SCHEMA_KEY_BY_ITEM_TYPE[
+    normalizedType as keyof typeof ITEM_SEARCH_SCHEMA_KEY_BY_ITEM_TYPE
+  ] ?? 'unknown') as ItemSearchSchemaKey
 }
 
 export const getItemSearchAdvancedScalarFields = (
   itemType?: string | null
 ): ItemSearchAdvancedScalarField[] => {
-  const schemaKey = getItemSearchSchemaKey(itemType)
+  const normalizedType = itemType
+    ? normalizeItemSearchItemType(itemType)
+    : 'unknown'
 
-  return ITEM_SEARCH_SECTIONS_BY_SCHEMA[schemaKey]
-    .flatMap((section) => section.fields)
-    .filter((field): field is ItemSearchAdvancedScalarField =>
-      ITEM_SEARCH_ADVANCED_SCALAR_FIELD_SET.has(
-        field as ItemSearchAdvancedScalarField
-      )
-    )
+  if (!itemType) {
+    return ITEM_SEARCH_ADVANCED_SCALAR_FIELDS
+  }
+
+  return (
+    ITEM_SEARCH_ADVANCED_SCALAR_FIELDS_BY_TYPE[normalizedType] ??
+    ITEM_SEARCH_ADVANCED_SCALAR_FIELDS_BY_TYPE.unknown ??
+    []
+  )
+}
+
+export const getItemSearchAdvancedFields = (
+  itemType?: string | null
+): ItemSearchAdvancedField[] => {
+  if (!itemType) {
+    return ALL_EDITABLE_ITEM_SEARCH_ADVANCED_FIELDS
+  }
+
+  const normalizedType = normalizeItemSearchItemType(itemType)
+  return (
+    ITEM_SEARCH_ADVANCED_FIELDS_BY_TYPE[normalizedType] ??
+    ITEM_SEARCH_ADVANCED_FIELDS_BY_TYPE.unknown ??
+    []
+  )
+}
+
+export const getItemSearchAttributeFacets = (
+  itemType?: string | null,
+  scope: ItemSearchAttributeScope = {}
+): ItemSearchFacetResponse => {
+  const normalizedTaxonomy = normalizeItemSearchTaxonomySelection({
+    itemType,
+    category: scope.category,
+    subcategory: scope.subcategory,
+  })
+  const advanced: ItemSearchAdvancedFacetMap = {}
+
+  getItemSearchAdvancedFields(itemType).forEach((field) => {
+    const values = getItemSearchAttributeValues(field, itemType, scope)
+    if (values.length > 0) {
+      advanced[field] = values
+    }
+  })
+
+  return {
+    categories: getItemSearchAttributeValues('category', itemType),
+    subcategories: getItemSearchSubcategoryOptions(
+      itemType,
+      normalizedTaxonomy.category
+    ),
+    advanced,
+  }
 }
 
 export const getItemSearchSchemaFields = (
@@ -346,19 +716,13 @@ export const getItemSearchSchemaFields = (
 ): ItemSearchField[] => {
   const schemaKey = getItemSearchSchemaKey(itemType)
 
-  return ITEM_SEARCH_SECTIONS_BY_SCHEMA[schemaKey].flatMap(
-    (section) => section.fields
-  )
+  return ITEM_SEARCH_SCHEMA_FIELDS_BY_SCHEMA[schemaKey]
 }
 
 export const isItemSearchArrayField = (
   field: ItemSearchField
 ): field is ItemSearchArrayField =>
-  ITEM_SEARCH_ARRAY_FIELDS.includes(field as ItemSearchArrayField)
-
-export const isItemSearchFieldKey = (field: string): field is ItemSearchField =>
-  ITEM_SEARCH_SCALAR_FIELDS.includes(field as ItemSearchScalarField) ||
-  ITEM_SEARCH_ARRAY_FIELDS.includes(field as ItemSearchArrayField)
+  ITEM_SEARCH_ARRAY_FIELD_SET.has(field as ItemSearchArrayField)
 
 export const getItemSearchAdvancedFacetValue = (
   field: ItemSearchAdvancedScalarField,
@@ -437,31 +801,70 @@ export const normalizeItemSearchMetadata = (
     slot: normalizeItemSearchItemType(toNullableString(value.slot)),
   }
 
+  const m = metadata as unknown as Record<string, unknown>
   ITEM_SEARCH_SCALAR_FIELDS.forEach((field) => {
-    metadata[field] = toNullableString(value[field])
+    m[field] = toNullableString(value[field])
   })
 
   ITEM_SEARCH_ARRAY_FIELDS.forEach((field) => {
     const normalized = toStringArray(value[field])
     if (normalized.length > 0) {
-      metadata[field] = normalized
+      m[field] = normalized
     }
   })
 
   return metadata
 }
 
-export const hasItemSearchMetadata = (
-  metadata?: ItemSearchMetadata | null
-): boolean => {
-  if (!metadata) return false
-
-  return (
-    ITEM_SEARCH_SCALAR_FIELDS.some((field) => Boolean(metadata[field])) ||
-    ITEM_SEARCH_ARRAY_FIELDS.some(
-      (field) => Array.isArray(metadata[field]) && metadata[field].length > 0
-    )
+export const hydrateItemSearchMetadata = ({
+  metadata,
+  itemId,
+  itemType,
+  category,
+  subcategory,
+}: {
+  metadata?: Record<string, unknown> | ItemSearchMetadata | null
+  itemId?: number | string | null
+  itemType?: string | null
+  category?: string | null
+  subcategory?: string | null
+}): ItemSearchMetadata | null => {
+  const rawMetadata = isRecord(metadata) ? metadata : {}
+  const resolvedItemType = normalizeItemSearchItemType(
+    toNullableString(itemType ?? rawMetadata.item_type ?? rawMetadata.slot)
   )
+
+  return normalizeItemSearchMetadata({
+    ...rawMetadata,
+    item_id: itemId ?? rawMetadata.item_id,
+    item_type: resolvedItemType,
+    slot: resolvedItemType,
+    category: category ?? rawMetadata.category ?? null,
+    subcategory: subcategory ?? rawMetadata.subcategory ?? null,
+  })
+}
+
+export const getItemSearchMetadataFromAttributes = (
+  attributes:
+    | {
+        item_id?: number | string | null
+        item_type?: string | null
+        category?: string | null
+        subcategory?: string | null
+        metadata?: Record<string, unknown> | ItemSearchMetadata | null
+      }
+    | null
+    | undefined
+): ItemSearchMetadata | null => {
+  if (!attributes) return null
+
+  return hydrateItemSearchMetadata({
+    metadata: attributes.metadata,
+    itemId: attributes.item_id,
+    itemType: attributes.item_type,
+    category: attributes.category ?? null,
+    subcategory: attributes.subcategory ?? null,
+  })
 }
 
 export const resolveItemSearchFacetValue = (
@@ -503,13 +906,22 @@ export const getItemSearchFieldValues = (
 
 export const getItemSearchMetadataSections = (
   metadata: ItemSearchMetadata | null | undefined,
-  itemType?: string | null
+  itemType?: string | null,
+  options: ItemSearchMetadataSectionOptions = {}
 ): ItemSearchMetadataDisplaySection[] => {
   if (!metadata) return []
 
-  const schemaKey = getItemSearchSchemaKey(itemType ?? metadata.item_type)
+  const normalizedType = normalizeItemSearchItemType(
+    itemType ?? metadata.item_type
+  )
+  const schemaKey = getItemSearchSchemaKey(normalizedType)
+  const sections = options.editableOnly
+    ? (ITEM_SEARCH_EDITABLE_SECTIONS_BY_TYPE[normalizedType] ??
+      ITEM_SEARCH_EDITABLE_SECTIONS_BY_TYPE.unknown ??
+      [])
+    : (ITEM_SEARCH_SECTIONS_BY_SCHEMA[schemaKey] ?? [])
 
-  return ITEM_SEARCH_SECTIONS_BY_SCHEMA[schemaKey]
+  return sections
     .map((section) => ({
       key: section.key,
       fields: section.fields

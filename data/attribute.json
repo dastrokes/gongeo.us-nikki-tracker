@@ -70,576 +70,6 @@
     "value": "upper_thigh"
   },
   {
-    "field": "category",
-    "itemType": "armDecorations",
-    "value": "armlet"
-  },
-  {
-    "field": "category",
-    "itemType": "armDecorations",
-    "value": "sleeve_garter"
-  },
-  {
-    "field": "category",
-    "itemType": "backpieces",
-    "value": "back_bow"
-  },
-  {
-    "field": "category",
-    "itemType": "backpieces",
-    "value": "backpack"
-  },
-  {
-    "field": "category",
-    "itemType": "backpieces",
-    "value": "backpiece"
-  },
-  {
-    "field": "category",
-    "itemType": "backpieces",
-    "value": "bag"
-  },
-  {
-    "field": "category",
-    "itemType": "backpieces",
-    "value": "cape"
-  },
-  {
-    "field": "category",
-    "itemType": "backpieces",
-    "value": "drape"
-  },
-  {
-    "field": "category",
-    "itemType": "backpieces",
-    "value": "shawl"
-  },
-  {
-    "field": "category",
-    "itemType": "backpieces",
-    "value": "tail"
-  },
-  {
-    "field": "category",
-    "itemType": "backpieces",
-    "value": "wings"
-  },
-  {
-    "field": "category",
-    "itemType": "bodyPaint",
-    "value": "body_paint"
-  },
-  {
-    "field": "category",
-    "itemType": "bottoms",
-    "value": "overalls"
-  },
-  {
-    "field": "category",
-    "itemType": "bottoms",
-    "value": "pants"
-  },
-  {
-    "field": "category",
-    "itemType": "bottoms",
-    "value": "shorts"
-  },
-  {
-    "field": "category",
-    "itemType": "bottoms",
-    "value": "skirt"
-  },
-  {
-    "field": "category",
-    "itemType": "bottoms",
-    "value": "skort"
-  },
-  {
-    "field": "category",
-    "itemType": "bracelets",
-    "value": "bracelet"
-  },
-  {
-    "field": "category",
-    "itemType": "bracelets",
-    "value": "cuff"
-  },
-  {
-    "field": "category",
-    "itemType": "chestAccessories",
-    "value": "brooch"
-  },
-  {
-    "field": "category",
-    "itemType": "chestAccessories",
-    "value": "corsage"
-  },
-  {
-    "field": "category",
-    "itemType": "chokers",
-    "value": "choker"
-  },
-  {
-    "field": "category",
-    "itemType": "chokers",
-    "value": "collar"
-  },
-  {
-    "field": "category",
-    "itemType": "chokers",
-    "value": "necklace"
-  },
-  {
-    "field": "category",
-    "itemType": "chokers",
-    "value": "scarf"
-  },
-  {
-    "field": "category",
-    "itemType": "dresses",
-    "value": "dress"
-  },
-  {
-    "field": "category",
-    "itemType": "dresses",
-    "value": "jumpsuit"
-  },
-  {
-    "field": "category",
-    "itemType": "earrings",
-    "value": "ear_cuff"
-  },
-  {
-    "field": "category",
-    "itemType": "earrings",
-    "value": "earring"
-  },
-  {
-    "field": "category",
-    "itemType": "faceDecorations",
-    "value": "blindfold"
-  },
-  {
-    "field": "category",
-    "itemType": "faceDecorations",
-    "value": "eyepatch"
-  },
-  {
-    "field": "category",
-    "itemType": "faceDecorations",
-    "value": "eyewear"
-  },
-  {
-    "field": "category",
-    "itemType": "faceDecorations",
-    "value": "face_jewelry"
-  },
-  {
-    "field": "category",
-    "itemType": "faceDecorations",
-    "value": "face_marking"
-  },
-  {
-    "field": "category",
-    "itemType": "faceDecorations",
-    "value": "face_prop"
-  },
-  {
-    "field": "category",
-    "itemType": "faceDecorations",
-    "value": "face_veil"
-  },
-  {
-    "field": "category",
-    "itemType": "faceDecorations",
-    "value": "facial_cover"
-  },
-  {
-    "field": "category",
-    "itemType": "faceDecorations",
-    "value": "mask"
-  },
-  {
-    "field": "category",
-    "itemType": "gloves",
-    "value": "gloves"
-  },
-  {
-    "field": "category",
-    "itemType": "hair",
-    "value": "braid"
-  },
-  {
-    "field": "category",
-    "itemType": "hair",
-    "value": "bun"
-  },
-  {
-    "field": "category",
-    "itemType": "hair",
-    "value": "half_up"
-  },
-  {
-    "field": "category",
-    "itemType": "hair",
-    "value": "loose"
-  },
-  {
-    "field": "category",
-    "itemType": "hair",
-    "value": "ponytail"
-  },
-  {
-    "field": "category",
-    "itemType": "hair",
-    "value": "twin_tails"
-  },
-  {
-    "field": "category",
-    "itemType": "hair",
-    "value": "updo"
-  },
-  {
-    "field": "category",
-    "itemType": "hairAccessories",
-    "value": "crown"
-  },
-  {
-    "field": "category",
-    "itemType": "hairAccessories",
-    "value": "hair_comb"
-  },
-  {
-    "field": "category",
-    "itemType": "hairAccessories",
-    "value": "hair_ornament"
-  },
-  {
-    "field": "category",
-    "itemType": "hairAccessories",
-    "value": "headband"
-  },
-  {
-    "field": "category",
-    "itemType": "hairAccessories",
-    "value": "headpiece"
-  },
-  {
-    "field": "category",
-    "itemType": "handhelds",
-    "value": "basket"
-  },
-  {
-    "field": "category",
-    "itemType": "handhelds",
-    "value": "book"
-  },
-  {
-    "field": "category",
-    "itemType": "handhelds",
-    "value": "bouquet"
-  },
-  {
-    "field": "category",
-    "itemType": "handhelds",
-    "value": "fan"
-  },
-  {
-    "field": "category",
-    "itemType": "handhelds",
-    "value": "hair_ornament"
-  },
-  {
-    "field": "category",
-    "itemType": "handhelds",
-    "value": "handbag"
-  },
-  {
-    "field": "category",
-    "itemType": "handhelds",
-    "value": "handheld"
-  },
-  {
-    "field": "category",
-    "itemType": "handhelds",
-    "value": "instrument"
-  },
-  {
-    "field": "category",
-    "itemType": "handhelds",
-    "value": "lantern"
-  },
-  {
-    "field": "category",
-    "itemType": "handhelds",
-    "value": "parasol"
-  },
-  {
-    "field": "category",
-    "itemType": "handhelds",
-    "value": "plush"
-  },
-  {
-    "field": "category",
-    "itemType": "handhelds",
-    "value": "staff"
-  },
-  {
-    "field": "category",
-    "itemType": "handhelds",
-    "value": "tool"
-  },
-  {
-    "field": "category",
-    "itemType": "handhelds",
-    "value": "wand"
-  },
-  {
-    "field": "category",
-    "itemType": "handhelds",
-    "value": "weapon"
-  },
-  {
-    "field": "category",
-    "itemType": "headwear",
-    "value": "beret"
-  },
-  {
-    "field": "category",
-    "itemType": "headwear",
-    "value": "bonnet"
-  },
-  {
-    "field": "category",
-    "itemType": "headwear",
-    "value": "crown"
-  },
-  {
-    "field": "category",
-    "itemType": "headwear",
-    "value": "eyewear"
-  },
-  {
-    "field": "category",
-    "itemType": "headwear",
-    "value": "hair_ornament"
-  },
-  {
-    "field": "category",
-    "itemType": "headwear",
-    "value": "hat"
-  },
-  {
-    "field": "category",
-    "itemType": "headwear",
-    "value": "headdress"
-  },
-  {
-    "field": "category",
-    "itemType": "headwear",
-    "value": "headpiece"
-  },
-  {
-    "field": "category",
-    "itemType": "headwear",
-    "value": "veil"
-  },
-  {
-    "field": "category",
-    "itemType": "neckwear",
-    "value": "choker"
-  },
-  {
-    "field": "category",
-    "itemType": "neckwear",
-    "value": "necklace"
-  },
-  {
-    "field": "category",
-    "itemType": "neckwear",
-    "value": "pendant"
-  },
-  {
-    "field": "category",
-    "itemType": "neckwear",
-    "value": "scarf"
-  },
-  {
-    "field": "category",
-    "itemType": "outerwear",
-    "value": "cape"
-  },
-  {
-    "field": "category",
-    "itemType": "outerwear",
-    "value": "cardigan"
-  },
-  {
-    "field": "category",
-    "itemType": "outerwear",
-    "value": "coat"
-  },
-  {
-    "field": "category",
-    "itemType": "outerwear",
-    "value": "jacket"
-  },
-  {
-    "field": "category",
-    "itemType": "outerwear",
-    "value": "robe"
-  },
-  {
-    "field": "category",
-    "itemType": "outerwear",
-    "value": "shawl"
-  },
-  {
-    "field": "category",
-    "itemType": "outerwear",
-    "value": "vest"
-  },
-  {
-    "field": "category",
-    "itemType": "pendants",
-    "value": "bag"
-  },
-  {
-    "field": "category",
-    "itemType": "pendants",
-    "value": "garter"
-  },
-  {
-    "field": "category",
-    "itemType": "rings",
-    "value": "ring"
-  },
-  {
-    "field": "category",
-    "itemType": "shoes",
-    "value": "barefoot"
-  },
-  {
-    "field": "category",
-    "itemType": "shoes",
-    "value": "boots"
-  },
-  {
-    "field": "category",
-    "itemType": "shoes",
-    "value": "flats"
-  },
-  {
-    "field": "category",
-    "itemType": "shoes",
-    "value": "heels"
-  },
-  {
-    "field": "category",
-    "itemType": "shoes",
-    "value": "loafers"
-  },
-  {
-    "field": "category",
-    "itemType": "shoes",
-    "value": "mary_janes"
-  },
-  {
-    "field": "category",
-    "itemType": "shoes",
-    "value": "mules"
-  },
-  {
-    "field": "category",
-    "itemType": "shoes",
-    "value": "sandals"
-  },
-  {
-    "field": "category",
-    "itemType": "shoes",
-    "value": "slippers"
-  },
-  {
-    "field": "category",
-    "itemType": "shoes",
-    "value": "sneakers"
-  },
-  {
-    "field": "category",
-    "itemType": "socks",
-    "value": "leg_warmers"
-  },
-  {
-    "field": "category",
-    "itemType": "socks",
-    "value": "socks"
-  },
-  {
-    "field": "category",
-    "itemType": "socks",
-    "value": "stockings"
-  },
-  {
-    "field": "category",
-    "itemType": "socks",
-    "value": "tights"
-  },
-  {
-    "field": "category",
-    "itemType": "tops",
-    "value": "blouse"
-  },
-  {
-    "field": "category",
-    "itemType": "tops",
-    "value": "bodysuit"
-  },
-  {
-    "field": "category",
-    "itemType": "tops",
-    "value": "camisole"
-  },
-  {
-    "field": "category",
-    "itemType": "tops",
-    "value": "corset"
-  },
-  {
-    "field": "category",
-    "itemType": "tops",
-    "value": "shirt"
-  },
-  {
-    "field": "category",
-    "itemType": "tops",
-    "value": "sweater"
-  },
-  {
-    "field": "category",
-    "itemType": "tops",
-    "value": "sweatshirt"
-  },
-  {
-    "field": "category",
-    "itemType": "tops",
-    "value": "t_shirt"
-  },
-  {
-    "field": "category",
-    "itemType": "tops",
-    "value": "tank_top"
-  },
-  {
-    "field": "category",
-    "itemType": "tops",
-    "value": "tube_top"
-  },
-  {
-    "field": "category",
-    "itemType": "tops",
-    "value": "tunic"
-  },
-  {
     "field": "dress_silhouette",
     "itemType": null,
     "value": "a_line"
@@ -1807,11 +1237,6 @@
   {
     "field": "structure",
     "itemType": null,
-    "value": "chain_detail"
-  },
-  {
-    "field": "structure",
-    "itemType": null,
     "value": "chain_link"
   },
   {
@@ -1950,6 +1375,656 @@
     "value": "woven"
   },
   {
+    "field": "texture",
+    "itemType": null,
+    "value": "curly"
+  },
+  {
+    "field": "texture",
+    "itemType": null,
+    "value": "straight"
+  },
+  {
+    "field": "texture",
+    "itemType": null,
+    "value": "wavy"
+  },
+  {
+    "field": "top_length",
+    "itemType": null,
+    "value": "crop"
+  },
+  {
+    "field": "top_length",
+    "itemType": null,
+    "value": "floor_length"
+  },
+  {
+    "field": "top_length",
+    "itemType": null,
+    "value": "hip_length"
+  },
+  {
+    "field": "top_length",
+    "itemType": null,
+    "value": "maxi"
+  },
+  {
+    "field": "top_length",
+    "itemType": null,
+    "value": "mid_thigh"
+  },
+  {
+    "field": "top_length",
+    "itemType": null,
+    "value": "ultra_crop"
+  },
+  {
+    "field": "top_length",
+    "itemType": null,
+    "value": "upper_thigh"
+  },
+  {
+    "field": "top_length",
+    "itemType": null,
+    "value": "waist_length"
+  },
+  {
+    "field": "waist_height",
+    "itemType": null,
+    "value": "high_rise"
+  },
+  {
+    "field": "waist_height",
+    "itemType": null,
+    "value": "low_rise"
+  },
+  {
+    "field": "waist_height",
+    "itemType": null,
+    "value": "mid_rise"
+  },
+  {
+    "field": "waistline",
+    "itemType": null,
+    "value": "basque_waist"
+  },
+  {
+    "field": "waistline",
+    "itemType": null,
+    "value": "empire_waist"
+  },
+  {
+    "field": "waistline",
+    "itemType": null,
+    "value": "natural_waist"
+  },
+  {
+    "field": "waistline",
+    "itemType": null,
+    "value": "no_waist"
+  },
+  {
+    "field": "waistline",
+    "itemType": null,
+    "value": "wrap_waist"
+  },
+  {
+    "field": "category",
+    "itemType": "armDecorations",
+    "value": "armlet"
+  },
+  {
+    "field": "category",
+    "itemType": "armDecorations",
+    "value": "sleeve_garter"
+  },
+  {
+    "field": "category",
+    "itemType": "backpieces",
+    "value": "back_bow"
+  },
+  {
+    "field": "category",
+    "itemType": "backpieces",
+    "value": "backpack"
+  },
+  {
+    "field": "category",
+    "itemType": "backpieces",
+    "value": "backpiece"
+  },
+  {
+    "field": "category",
+    "itemType": "backpieces",
+    "value": "drape"
+  },
+  {
+    "field": "category",
+    "itemType": "backpieces",
+    "value": "tail"
+  },
+  {
+    "field": "category",
+    "itemType": "backpieces",
+    "value": "wings"
+  },
+  {
+    "field": "category",
+    "itemType": "bodyPaint",
+    "value": "body_paint"
+  },
+  {
+    "field": "category",
+    "itemType": "bottoms",
+    "value": "overalls"
+  },
+  {
+    "field": "category",
+    "itemType": "bottoms",
+    "value": "pants"
+  },
+  {
+    "field": "category",
+    "itemType": "bottoms",
+    "value": "shorts"
+  },
+  {
+    "field": "category",
+    "itemType": "bottoms",
+    "value": "skirt"
+  },
+  {
+    "field": "category",
+    "itemType": "bottoms",
+    "value": "skort"
+  },
+  {
+    "field": "category",
+    "itemType": "bracelets",
+    "value": "bracelet"
+  },
+  {
+    "field": "category",
+    "itemType": "bracelets",
+    "value": "cuff"
+  },
+  {
+    "field": "category",
+    "itemType": "chestAccessories",
+    "value": "brooch"
+  },
+  {
+    "field": "category",
+    "itemType": "chestAccessories",
+    "value": "corsage"
+  },
+  {
+    "field": "category",
+    "itemType": "chokers",
+    "value": "choker"
+  },
+  {
+    "field": "category",
+    "itemType": "chokers",
+    "value": "collar"
+  },
+  {
+    "field": "category",
+    "itemType": "chokers",
+    "value": "necklace"
+  },
+  {
+    "field": "category",
+    "itemType": "chokers",
+    "value": "scarf"
+  },
+  {
+    "field": "category",
+    "itemType": "dresses",
+    "value": "dress"
+  },
+  {
+    "field": "category",
+    "itemType": "dresses",
+    "value": "jumpsuit"
+  },
+  {
+    "field": "category",
+    "itemType": "earrings",
+    "value": "ear_cuff"
+  },
+  {
+    "field": "category",
+    "itemType": "earrings",
+    "value": "earring"
+  },
+  {
+    "field": "category",
+    "itemType": "faceDecorations",
+    "value": "blindfold"
+  },
+  {
+    "field": "category",
+    "itemType": "faceDecorations",
+    "value": "eyepatch"
+  },
+  {
+    "field": "category",
+    "itemType": "faceDecorations",
+    "value": "eyewear"
+  },
+  {
+    "field": "category",
+    "itemType": "faceDecorations",
+    "value": "face_jewelry"
+  },
+  {
+    "field": "category",
+    "itemType": "faceDecorations",
+    "value": "face_marking"
+  },
+  {
+    "field": "category",
+    "itemType": "faceDecorations",
+    "value": "face_prop"
+  },
+  {
+    "field": "category",
+    "itemType": "faceDecorations",
+    "value": "face_veil"
+  },
+  {
+    "field": "category",
+    "itemType": "faceDecorations",
+    "value": "facial_cover"
+  },
+  {
+    "field": "category",
+    "itemType": "faceDecorations",
+    "value": "mask"
+  },
+  {
+    "field": "category",
+    "itemType": "gloves",
+    "value": "gloves"
+  },
+  {
+    "field": "category",
+    "itemType": "hair",
+    "value": "braid"
+  },
+  {
+    "field": "category",
+    "itemType": "hair",
+    "value": "bun"
+  },
+  {
+    "field": "category",
+    "itemType": "hair",
+    "value": "half_up"
+  },
+  {
+    "field": "category",
+    "itemType": "hair",
+    "value": "loose"
+  },
+  {
+    "field": "category",
+    "itemType": "hair",
+    "value": "ponytail"
+  },
+  {
+    "field": "category",
+    "itemType": "hair",
+    "value": "twin_tails"
+  },
+  {
+    "field": "category",
+    "itemType": "hair",
+    "value": "updo"
+  },
+  {
+    "field": "category",
+    "itemType": "hairAccessories",
+    "value": "crown"
+  },
+  {
+    "field": "category",
+    "itemType": "hairAccessories",
+    "value": "hair_comb"
+  },
+  {
+    "field": "category",
+    "itemType": "hairAccessories",
+    "value": "hair_ornament"
+  },
+  {
+    "field": "category",
+    "itemType": "hairAccessories",
+    "value": "headband"
+  },
+  {
+    "field": "category",
+    "itemType": "hairAccessories",
+    "value": "headpiece"
+  },
+  {
+    "field": "category",
+    "itemType": "handhelds",
+    "value": "basket"
+  },
+  {
+    "field": "category",
+    "itemType": "handhelds",
+    "value": "book"
+  },
+  {
+    "field": "category",
+    "itemType": "handhelds",
+    "value": "bouquet"
+  },
+  {
+    "field": "category",
+    "itemType": "handhelds",
+    "value": "fan"
+  },
+  {
+    "field": "category",
+    "itemType": "handhelds",
+    "value": "hair_ornament"
+  },
+  {
+    "field": "category",
+    "itemType": "handhelds",
+    "value": "handbag"
+  },
+  {
+    "field": "category",
+    "itemType": "handhelds",
+    "value": "handheld"
+  },
+  {
+    "field": "category",
+    "itemType": "handhelds",
+    "value": "instrument"
+  },
+  {
+    "field": "category",
+    "itemType": "handhelds",
+    "value": "lantern"
+  },
+  {
+    "field": "category",
+    "itemType": "handhelds",
+    "value": "parasol"
+  },
+  {
+    "field": "category",
+    "itemType": "handhelds",
+    "value": "plush"
+  },
+  {
+    "field": "category",
+    "itemType": "handhelds",
+    "value": "staff"
+  },
+  {
+    "field": "category",
+    "itemType": "handhelds",
+    "value": "tool"
+  },
+  {
+    "field": "category",
+    "itemType": "handhelds",
+    "value": "wand"
+  },
+  {
+    "field": "category",
+    "itemType": "handhelds",
+    "value": "weapon"
+  },
+  {
+    "field": "category",
+    "itemType": "headwear",
+    "value": "beret"
+  },
+  {
+    "field": "category",
+    "itemType": "headwear",
+    "value": "bonnet"
+  },
+  {
+    "field": "category",
+    "itemType": "headwear",
+    "value": "crown"
+  },
+  {
+    "field": "category",
+    "itemType": "headwear",
+    "value": "eyewear"
+  },
+  {
+    "field": "category",
+    "itemType": "headwear",
+    "value": "hair_ornament"
+  },
+  {
+    "field": "category",
+    "itemType": "headwear",
+    "value": "hat"
+  },
+  {
+    "field": "category",
+    "itemType": "headwear",
+    "value": "headdress"
+  },
+  {
+    "field": "category",
+    "itemType": "headwear",
+    "value": "headpiece"
+  },
+  {
+    "field": "category",
+    "itemType": "headwear",
+    "value": "veil"
+  },
+  {
+    "field": "category",
+    "itemType": "neckwear",
+    "value": "choker"
+  },
+  {
+    "field": "category",
+    "itemType": "neckwear",
+    "value": "necklace"
+  },
+  {
+    "field": "category",
+    "itemType": "neckwear",
+    "value": "pendant"
+  },
+  {
+    "field": "category",
+    "itemType": "neckwear",
+    "value": "scarf"
+  },
+  {
+    "field": "category",
+    "itemType": "outerwear",
+    "value": "cape"
+  },
+  {
+    "field": "category",
+    "itemType": "outerwear",
+    "value": "cardigan"
+  },
+  {
+    "field": "category",
+    "itemType": "outerwear",
+    "value": "coat"
+  },
+  {
+    "field": "category",
+    "itemType": "outerwear",
+    "value": "jacket"
+  },
+  {
+    "field": "category",
+    "itemType": "outerwear",
+    "value": "robe"
+  },
+  {
+    "field": "category",
+    "itemType": "outerwear",
+    "value": "shawl"
+  },
+  {
+    "field": "category",
+    "itemType": "outerwear",
+    "value": "vest"
+  },
+  {
+    "field": "category",
+    "itemType": "pendants",
+    "value": "bag"
+  },
+  {
+    "field": "category",
+    "itemType": "pendants",
+    "value": "garter"
+  },
+  {
+    "field": "category",
+    "itemType": "rings",
+    "value": "ring"
+  },
+  {
+    "field": "category",
+    "itemType": "shoes",
+    "value": "barefoot"
+  },
+  {
+    "field": "category",
+    "itemType": "shoes",
+    "value": "boots"
+  },
+  {
+    "field": "category",
+    "itemType": "shoes",
+    "value": "flats"
+  },
+  {
+    "field": "category",
+    "itemType": "shoes",
+    "value": "heels"
+  },
+  {
+    "field": "category",
+    "itemType": "shoes",
+    "value": "loafers"
+  },
+  {
+    "field": "category",
+    "itemType": "shoes",
+    "value": "mary_janes"
+  },
+  {
+    "field": "category",
+    "itemType": "shoes",
+    "value": "mules"
+  },
+  {
+    "field": "category",
+    "itemType": "shoes",
+    "value": "sandals"
+  },
+  {
+    "field": "category",
+    "itemType": "shoes",
+    "value": "slippers"
+  },
+  {
+    "field": "category",
+    "itemType": "shoes",
+    "value": "sneakers"
+  },
+  {
+    "field": "category",
+    "itemType": "socks",
+    "value": "leg_warmers"
+  },
+  {
+    "field": "category",
+    "itemType": "socks",
+    "value": "socks"
+  },
+  {
+    "field": "category",
+    "itemType": "socks",
+    "value": "stockings"
+  },
+  {
+    "field": "category",
+    "itemType": "socks",
+    "value": "tights"
+  },
+  {
+    "field": "category",
+    "itemType": "tops",
+    "value": "blouse"
+  },
+  {
+    "field": "category",
+    "itemType": "tops",
+    "value": "bodysuit"
+  },
+  {
+    "field": "category",
+    "itemType": "tops",
+    "value": "camisole"
+  },
+  {
+    "field": "category",
+    "itemType": "tops",
+    "value": "corset"
+  },
+  {
+    "field": "category",
+    "itemType": "tops",
+    "value": "shirt"
+  },
+  {
+    "field": "category",
+    "itemType": "tops",
+    "value": "sweater"
+  },
+  {
+    "field": "category",
+    "itemType": "tops",
+    "value": "sweatshirt"
+  },
+  {
+    "field": "category",
+    "itemType": "tops",
+    "value": "t_shirt"
+  },
+  {
+    "field": "category",
+    "itemType": "tops",
+    "value": "tank_top"
+  },
+  {
+    "field": "category",
+    "itemType": "tops",
+    "value": "tube_top"
+  },
+  {
+    "field": "category",
+    "itemType": "tops",
+    "value": "tunic"
+  },
+  {
     "field": "subcategory",
     "itemType": "armDecorations",
     "value": "arm_cuff"
@@ -1978,11 +2053,6 @@
     "field": "subcategory",
     "itemType": "backpieces",
     "value": "frame"
-  },
-  {
-    "field": "subcategory",
-    "itemType": "backpieces",
-    "value": "plush"
   },
   {
     "field": "subcategory",
@@ -2742,6 +2812,11 @@
   {
     "field": "subcategory",
     "itemType": "pendants",
+    "value": "anklet"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "pendants",
     "value": "crossbody_bag"
   },
   {
@@ -2933,100 +3008,5 @@
     "field": "subcategory",
     "itemType": "tops",
     "value": "sweater_vest"
-  },
-  {
-    "field": "texture",
-    "itemType": null,
-    "value": "curly"
-  },
-  {
-    "field": "texture",
-    "itemType": null,
-    "value": "straight"
-  },
-  {
-    "field": "texture",
-    "itemType": null,
-    "value": "wavy"
-  },
-  {
-    "field": "top_length",
-    "itemType": null,
-    "value": "crop"
-  },
-  {
-    "field": "top_length",
-    "itemType": null,
-    "value": "floor_length"
-  },
-  {
-    "field": "top_length",
-    "itemType": null,
-    "value": "hip_length"
-  },
-  {
-    "field": "top_length",
-    "itemType": null,
-    "value": "maxi"
-  },
-  {
-    "field": "top_length",
-    "itemType": null,
-    "value": "mid_thigh"
-  },
-  {
-    "field": "top_length",
-    "itemType": null,
-    "value": "ultra_crop"
-  },
-  {
-    "field": "top_length",
-    "itemType": null,
-    "value": "upper_thigh"
-  },
-  {
-    "field": "top_length",
-    "itemType": null,
-    "value": "waist_length"
-  },
-  {
-    "field": "waist_height",
-    "itemType": null,
-    "value": "high_rise"
-  },
-  {
-    "field": "waist_height",
-    "itemType": null,
-    "value": "low_rise"
-  },
-  {
-    "field": "waist_height",
-    "itemType": null,
-    "value": "mid_rise"
-  },
-  {
-    "field": "waistline",
-    "itemType": null,
-    "value": "basque_waist"
-  },
-  {
-    "field": "waistline",
-    "itemType": null,
-    "value": "empire_waist"
-  },
-  {
-    "field": "waistline",
-    "itemType": null,
-    "value": "natural_waist"
-  },
-  {
-    "field": "waistline",
-    "itemType": null,
-    "value": "no_waist"
-  },
-  {
-    "field": "waistline",
-    "itemType": null,
-    "value": "wrap_waist"
   }
 ]

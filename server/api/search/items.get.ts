@@ -9,12 +9,9 @@ import {
   normalizeItemSearchItemType,
   normalizeItemSearchMetadata,
 } from '#shared/utils/itemSearch'
-import {
-  resolveRequestUpstashSearchMode,
-  resolveRequestUpstashSearchNamespace,
-} from '../../utils/locale'
+import { resolveRequestSearchNamespace } from '../../utils/locale'
 
-type UpstashSearchMetadata = ItemSearchMetadata & {
+type SearchIndexMetadata = ItemSearchMetadata & {
   [key: string]: unknown
 }
 
@@ -22,15 +19,6 @@ type PineconeSearchHit = {
   _id?: string | number
   _score?: number
   fields?: Record<string, unknown> | null
-}
-
-type SearchProvider = 'pinecore' | 'upstash'
-
-type UpstashSearchHit = {
-  id?: string | number
-  score?: number
-  metadata?: UpstashSearchMetadata | Record<string, unknown> | null
-  data?: string
 }
 
 type SearchResponse = {
@@ -43,8 +31,7 @@ type SearchResponse = {
     category: string | null
     subcategory: string | null
     score: number
-    metadata: UpstashSearchMetadata | null
-    data?: string
+    metadata: SearchIndexMetadata | null
   }>
 }
 
@@ -86,7 +73,7 @@ const normalizeItemId = (value: unknown) => {
   return null
 }
 
-const normalizeMetadata = (metadata: unknown): UpstashSearchMetadata | null => {
+const normalizeMetadata = (metadata: unknown): SearchIndexMetadata | null => {
   if (!isRecord(metadata)) return null
 
   const legacyMetadata = normalizeItemSearchMetadata(metadata)
@@ -117,14 +104,40 @@ const normalizeMetadata = (metadata: unknown): UpstashSearchMetadata | null => {
   }
 }
 
-const resolveConfiguredSearchProvider = (
-  value: unknown
-): SearchProvider | null => {
-  const normalized = normalizeRuntimeConfigString(value).toLowerCase()
-  if (normalized === 'pinecore' || normalized === 'upstash') {
-    return normalized
-  }
-  return null
+const compactMetadata = (
+  metadata: SearchIndexMetadata | null
+): SearchIndexMetadata | null => {
+  if (!metadata) return null
+
+  const compactedEntries = Object.entries(metadata).filter(([key, value]) => {
+    if (
+      key === 'item_id' ||
+      key === 'item_type' ||
+      key === 'slot' ||
+      key === 'category' ||
+      key === 'subcategory'
+    ) {
+      return false
+    }
+
+    if (value === null || value === undefined) {
+      return false
+    }
+
+    if (Array.isArray(value)) {
+      return value.length > 0
+    }
+
+    if (typeof value === 'string') {
+      return value.trim().length > 0
+    }
+
+    return true
+  })
+
+  return compactedEntries.length > 0
+    ? (Object.fromEntries(compactedEntries) as SearchIndexMetadata)
+    : null
 }
 
 const resolvePineconeBaseUrl = (host: string) => {
@@ -136,13 +149,11 @@ const normalizeSearchHit = ({
   id,
   score,
   metadata,
-  data,
   fallbackId,
 }: {
   id: unknown
   score: unknown
   metadata: unknown
-  data?: unknown
   fallbackId: string
 }): SearchResponse['data'][number] | null => {
   const normalizedMetadata = normalizeMetadata(metadata)
@@ -159,31 +170,8 @@ const normalizeSearchHit = ({
     category: normalizedMetadata?.category ?? null,
     subcategory: normalizedMetadata?.subcategory ?? null,
     score: Number.isFinite(Number(score)) ? Number(score) : 0,
-    metadata: normalizedMetadata,
-    data: typeof data === 'string' ? data : undefined,
+    metadata: compactMetadata(normalizedMetadata),
   }
-}
-
-const extractSearchHits = (
-  payload: Record<string, unknown>
-): UpstashSearchHit[] => {
-  if (Array.isArray(payload.result)) {
-    return payload.result as UpstashSearchHit[]
-  }
-
-  if (isRecord(payload.result) && Array.isArray(payload.result.matches)) {
-    return payload.result.matches as UpstashSearchHit[]
-  }
-
-  if (Array.isArray(payload.matches)) {
-    return payload.matches as UpstashSearchHit[]
-  }
-
-  if (Array.isArray(payload.data)) {
-    return payload.data as UpstashSearchHit[]
-  }
-
-  return []
 }
 
 const queryPineconeSearch = async ({
@@ -242,7 +230,6 @@ const queryPineconeSearch = async ({
       const matchedTextField = candidateTextFields.find(
         (field) => typeof fields[field] === 'string'
       )
-      const data = matchedTextField ? fields[matchedTextField] : undefined
       const metadata = Object.fromEntries(
         Object.entries(fields).filter(([key]) => key !== matchedTextField)
       )
@@ -251,63 +238,9 @@ const queryPineconeSearch = async ({
         id: hit._id,
         score: hit._score,
         metadata: Object.keys(metadata).length > 0 ? metadata : null,
-        data,
         fallbackId: normalizedQuery,
       })
     })
-    .filter((hit): hit is SearchResponse['data'][number] => Boolean(hit))
-}
-
-const queryUpstashSearch = async ({
-  restUrl,
-  restToken,
-  normalizedQuery,
-  limit,
-  searchNamespace,
-  searchMode,
-}: {
-  restUrl: string
-  restToken: string
-  normalizedQuery: string
-  limit: number
-  searchNamespace: string
-  searchMode: 'HYBRID' | 'DENSE'
-}): Promise<SearchResponse['data']> => {
-  const endpoint = `${restUrl.replace(/\/$/, '')}/query-data/${encodeURIComponent(searchNamespace)}`
-  const response = await fetch(endpoint, {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${restToken}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      data: normalizedQuery,
-      topK: limit,
-      includeMetadata: true,
-      includeData: true,
-      includeVectors: false,
-      ...(searchMode === 'DENSE' ? { queryMode: 'DENSE' } : {}),
-    }),
-  })
-
-  if (!response.ok) {
-    const message = await response.text().catch(() => '')
-    throw new Error(
-      `Upstash search failed with ${response.status} ${response.statusText}${message ? `: ${message}` : ''}`
-    )
-  }
-
-  const payload = (await response.json()) as Record<string, unknown>
-  return extractSearchHits(payload)
-    .map((hit) =>
-      normalizeSearchHit({
-        id: hit.id,
-        score: hit.score,
-        metadata: hit.metadata,
-        data: hit.data,
-        fallbackId: normalizedQuery,
-      })
-    )
     .filter((hit): hit is SearchResponse['data'][number] => Boolean(hit))
 }
 
@@ -327,16 +260,7 @@ export default defineCachedApiEventHandler(
     }
 
     const runtimeConfig = useRuntimeConfig()
-    const searchProvider = resolveConfiguredSearchProvider(
-      runtimeConfig.searchProvider
-    )
-
-    if (!searchProvider) {
-      throw createUpstreamUnavailableError('search')
-    }
-
-    const searchNamespace = resolveRequestUpstashSearchNamespace(event)
-    const searchMode = resolveRequestUpstashSearchMode(event)
+    const searchNamespace = resolveRequestSearchNamespace(event)
     const pineconeApiKey = normalizeRuntimeConfigString(
       runtimeConfig.pineconeApiKey
     )
@@ -344,45 +268,20 @@ export default defineCachedApiEventHandler(
       runtimeConfig.pineconeIndexHost
     )
     const pineconeTextField = DEFAULT_PINECONE_TEXT_FIELD
-    const restUrl = normalizeRuntimeConfigString(
-      runtimeConfig.upstashVectorRestUrl
-    )
-    const restToken = normalizeRuntimeConfigString(
-      runtimeConfig.upstashVectorRestToken
-    )
 
     try {
-      let data: SearchResponse['data']
-
-      if (searchProvider === 'pinecore') {
-        if (!pineconeApiKey || !pineconeIndexHost) {
-          throw createUpstreamUnavailableError('search')
-        }
-
-        data = await queryPineconeSearch({
-          pineconeApiKey,
-          pineconeIndexHost,
-          pineconeTextField,
-          normalizedQuery,
-          limit,
-          searchNamespace,
-        })
-      } else if (searchProvider === 'upstash') {
-        if (!restUrl || !restToken) {
-          throw createUpstreamUnavailableError('search')
-        }
-
-        data = await queryUpstashSearch({
-          restUrl,
-          restToken,
-          normalizedQuery,
-          limit,
-          searchNamespace,
-          searchMode,
-        })
-      } else {
+      if (!pineconeApiKey || !pineconeIndexHost) {
         throw createUpstreamUnavailableError('search')
       }
+
+      const data = await queryPineconeSearch({
+        pineconeApiKey,
+        pineconeIndexHost,
+        pineconeTextField,
+        normalizedQuery,
+        limit,
+        searchNamespace,
+      })
 
       return {
         query: normalizedQuery,
@@ -396,7 +295,7 @@ export default defineCachedApiEventHandler(
 
       const message = toErrorMessage(error, 'Failed to query search index')
       console.error(
-        `Failed to query search index namespace ${searchNamespace} mode ${searchMode}: ${message}`
+        `Failed to query search index namespace ${searchNamespace}: ${message}`
       )
       throw createUpstreamUnavailableError('search')
     }
@@ -412,12 +311,8 @@ export default defineCachedApiEventHandler(
         const q = normalizeSearchCacheKey(query.q)
         const qHash = q ? hash(q) : 'empty'
         const limit = normalizeLimit(query.limit)
-        const searchNamespace = resolveRequestUpstashSearchNamespace(event)
-        const searchMode = resolveRequestUpstashSearchMode(event)
-        const searchProvider =
-          resolveConfiguredSearchProvider(useRuntimeConfig().searchProvider) ??
-          'unconfigured'
-        return `${version}:search:${searchProvider}:${searchNamespace}:${searchMode.toLowerCase()}:q${qHash}:l${limit}`
+        const searchNamespace = resolveRequestSearchNamespace(event)
+        return `${version}:search:pinecore:${searchNamespace}:q${qHash}:l${limit}`
       },
       swr: true,
     },

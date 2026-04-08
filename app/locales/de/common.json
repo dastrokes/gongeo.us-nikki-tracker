@@ -836,10 +836,10 @@
       "page_title": "Feedback-Richtlinien",
       "page_description": "Richtlinien für Feedback-Vorschläge.",
       "hair_length": {
-        "short": "Kiefer bis Nacken; über der Schulter.",
-        "medium": "Schulter bis oberer Rücken.",
-        "long": "Über die Schulter bis zum Rücken.",
-        "very_long": "Unterer Rücken oder länger."
+        "short": "Über den Schultern.",
+        "medium": "Von den Schultern bis zum oberen Rücken.",
+        "long": "Vom oberen bis zum unteren Rücken.",
+        "very_long": "Unterhalb des unteren Rückens."
       },
       "top_length": {
         "ultra_crop": "Über der Taille / Unterbrust.",

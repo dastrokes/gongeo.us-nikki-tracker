@@ -167,7 +167,7 @@
                   class="text-blue-500 hover:text-blue-800 underline"
                   href="https://myl.nuanpaper.com/home"
                   target="_blank"
-                  >{{ $t('import.pearpal_website') }}</a
+                  >{{ $t('common.sources.pearpal_website') }}</a
                 >
                 <br />
                 {{ $t('import.login_pearpal_incognito_hint') }}
@@ -178,7 +178,7 @@
                   class="text-blue-500 hover:text-blue-800 underline"
                   href="https://pearpal.infoldgames.com/en/home"
                   target="_blank"
-                  >{{ $t('import.pearpal_website') }}</a
+                  >{{ $t('common.sources.pearpal_website') }}</a
                 >
                 <br />
                 {{ $t('import.login_pearpal_incognito_hint') }}
@@ -203,7 +203,7 @@
                   class="text-blue-500 hover:text-blue-800 underline"
                   href="https://myl.nuanpaper.com/tools/journal"
                   target="_blank"
-                  >{{ $t('import.whimlog') }}</a
+                  >{{ $t('common.sources.whimlog') }}</a
                 >
               </div>
               <div v-else>
@@ -212,7 +212,7 @@
                   class="text-blue-500 hover:text-blue-800 underline"
                   href="https://pearpal.infoldgames.com/tools/journal"
                   target="_blank"
-                  >{{ $t('import.whimlog') }}</a
+                  >{{ $t('common.sources.whimlog') }}</a
                 >
               </div>
             </div>
@@ -326,7 +326,7 @@
                     <li>
                       {{ $t('import.bookmark_steps_mobile.step3') }}
                     </li>
-                    <li>{{ $t('import.bookmark_steps_mobile.step4') }}</li>
+                    <li>{{ $t('import.bookmark_steps.step2') }}</li>
                     <li v-if="isAndroid && isChrome">
                       {{
                         $t('import.bookmark_steps_mobile.step5_android_chrome')
@@ -340,10 +340,10 @@
                       }}
                     </li>
                     <li v-else>
-                      {{ $t('import.bookmark_steps_mobile.step5') }}
+                      {{ $t('import.bookmark_steps.step3') }}
                     </li>
-                    <li>{{ $t('import.bookmark_steps_mobile.step6') }}</li>
-                    <li>{{ $t('import.bookmark_steps_mobile.step7') }}</li>
+                    <li>{{ $t('import.bookmark_steps.step4') }}</li>
+                    <li>{{ $t('import.bookmark_steps.step5') }}</li>
                     <div>{{ $t('import.bookmark_steps.tip') }}</div>
                   </template>
                   <template v-else>
@@ -439,7 +439,7 @@
             <div class="space-y-2">
               <div>{{ $t('import.title') }}</div>
               <ol class="list-decimal list-inside space-y-2">
-                <li>{{ $t('import.console_steps.step1') }}</li>
+                <li>{{ $t('import.bookmark_steps.step2') }}</li>
                 <li>{{ $t('import.console_steps.step2') }}</li>
                 <li>{{ $t('import.console_steps.step3') }}</li>
                 <li>
@@ -453,7 +453,7 @@
                 </li>
                 <li>{{ $t('import.console_steps.step5') }}</li>
                 <li>{{ $t('import.console_steps.step6') }}</li>
-                <li>{{ $t('import.console_steps.step7') }}</li>
+                <li>{{ $t('import.bookmark_steps.step5') }}</li>
                 <div class="text-sm text-amber-500 break-words">
                   {{ $t('import.security_note') }}
                 </div>
@@ -503,8 +503,8 @@
               <div>{{ $t('import.title') }}</div>
               <div>{{ $t('import.manual_steps.note') }}</div>
               <ol class="list-decimal list-inside space-y-2">
-                <li>{{ $t('import.manual_steps.step1') }}</li>
-                <li>{{ $t('import.manual_steps.step2') }}</li>
+                <li>{{ $t('import.bookmark_steps.step2') }}</li>
+                <li>{{ $t('import.console_steps.step2') }}</li>
                 <li>{{ $t('import.manual_steps.step3') }}</li>
                 <li>{{ $t('import.manual_steps.step4') }}</li>
                 <li>{{ $t('import.manual_steps.step5') }}</li>
@@ -570,7 +570,7 @@
             <n-form :show-feedback="false">
               <n-space vertical>
                 <n-form-item
-                  :label="$t('import.form.uid')"
+                  label="UID"
                   class="w-full"
                 >
                   <n-input
@@ -580,7 +580,7 @@
                   />
                 </n-form-item>
                 <n-form-item
-                  :label="$t('import.form.momo_id')"
+                  label="Momo ID"
                   class="w-full"
                 >
                   <n-input
@@ -590,7 +590,7 @@
                   />
                 </n-form-item>
                 <n-form-item
-                  :label="$t('import.form.momo_token')"
+                  label="Momo Token"
                   class="w-full"
                 >
                   <n-input
@@ -1139,7 +1139,7 @@
         key: 'quick_select',
         children: [
           {
-            label: t('import.banner_groups.current_banners'),
+            label: t('default.current_banners'),
             value: 'current',
             type: 'quick',
           },

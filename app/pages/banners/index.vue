@@ -120,7 +120,7 @@
                         size="small"
                         class="w-12 !px-0"
                         :type="sortOrder === 'newest' ? 'primary' : 'default'"
-                        :aria-label="t('timeline.sort.newest_first')"
+                        :aria-label="t('common.sort.newest_first')"
                         @click="sortOrder = 'newest'"
                       >
                         <template #icon>
@@ -130,7 +130,7 @@
                         </template>
                       </n-button>
                     </template>
-                    {{ t('timeline.sort.newest_first') }}
+                    {{ t('common.sort.newest_first') }}
                   </n-tooltip>
                   <n-tooltip trigger="hover">
                     <template #trigger>
@@ -138,7 +138,7 @@
                         size="small"
                         class="w-12 !px-0"
                         :type="sortOrder === 'oldest' ? 'primary' : 'default'"
-                        :aria-label="t('timeline.sort.oldest_first')"
+                        :aria-label="t('common.sort.oldest_first')"
                         @click="sortOrder = 'oldest'"
                       >
                         <template #icon>
@@ -148,7 +148,7 @@
                         </template>
                       </n-button>
                     </template>
-                    {{ t('timeline.sort.oldest_first') }}
+                    {{ t('common.sort.oldest_first') }}
                   </n-tooltip>
                 </n-button-group>
               </div>

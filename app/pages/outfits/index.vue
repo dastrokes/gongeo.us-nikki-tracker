@@ -242,7 +242,7 @@
             <n-result
               size="small"
               status="info"
-              :title="t('compendium.no_results_title')"
+              :title="t('common.no_results_found')"
               :description="t('compendium.no_results_description')"
             >
               <template #icon>

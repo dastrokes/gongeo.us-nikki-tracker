@@ -9,39 +9,67 @@
     "makeup": "妆容",
     "variations": "变化",
     "slot": "部位",
-    "pull": "抽",
     "pulls": "抽",
     "total": "总数",
-    "average": "平均",
-    "avg": "平均",
-    "statistics": "统计",
-    "stats": "统计",
-    "data": "数据",
-    "history": "历史",
-    "tracker": "追踪器",
-    "import": "导入",
     "export": "导出",
     "loading": "加载中…",
     "search": "搜索",
-    "filter": "筛选",
     "clear": "清除筛选",
     "all": "全部",
     "other": "其他",
     "show": "显示",
     "hide": "隐藏",
+    "skip": "跳过",
     "save": "保存",
     "cancel": "取消",
     "confirm": "确认",
     "ok": "确定",
+    "next": "下一题",
     "submit": "提交",
     "retry": "重试",
-    "back": "返回",
     "copy": "复制",
     "select": "选择",
-    "description": "描述",
+    "no_results_found": "未找到结果",
     "error": "错误",
-    "success": "成功",
-    "failed": "失败"
+    "sort": {
+      "newest_first": "最新优先",
+      "oldest_first": "最早优先"
+    },
+    "sources": {
+      "data_source": "数据来源",
+      "data_source_tooltip": "选择数据源。若所选数据源无数据，将自动使用另一个作为备用。",
+      "auto_option": "\"自动\"合并两个数据源，对每个卡池优先使用数据量较多的来源。",
+      "pearpal_website": "美鸭梨网站",
+      "whimlog": "奇想手账",
+      "game": "游戏",
+      "auto": "自动"
+    },
+    "stats": {
+      "total_pulls": "总抽数",
+      "avg_5star": "5★平均（5★卡池）",
+      "avg_4star_mixed": "4★平均（5★卡池）",
+      "avg_4star_only": "4★平均（4★卡池）",
+      "total_votes": "总投票数",
+      "personal_votes": "个人投票数",
+      "total_voters": "总投票人数",
+      "avg_votes": "平均投票数"
+    },
+    "charts": {
+      "number_of_pulls": "抽数",
+      "probability": "概率",
+      "cumulative_probability": "累积概率",
+      "occurrences": "出现次数",
+      "percentage": "百分比"
+    },
+    "profile": {
+      "upload_data": "上传到云端",
+      "sync_data": "从云端同步",
+      "clear_cloud_data": "清除云端数据",
+      "clear_local_data": "清除本地数据",
+      "delete_profile": "删除档案"
+    },
+    "previous": "上一条",
+    "view_compendium": "查看图鉴"
   },
   "navigation": {
     "title": "gongeo.us",
@@ -106,27 +134,21 @@
     "user_profile": {
       "guest": "访客",
       "signed_in": "已登录",
-      "clear_local_data": "清除本地数据",
       "clear_local_confirm": {
-        "title": "清除本地数据",
         "content": "确定要清除 {profile} 档案的本地数据吗？此操作无法撤消。"
       },
       "sign_out": "退出登录",
       "sign_out_success": "成功退出登录",
       "sign_out_error": "退出登录失败",
-      "upload_data": "上传到云端",
-      "sync_data": "从云端同步",
       "sync": {
         "upload_success": "数据已成功上传到云端！",
         "upload_error": "上传数据失败。",
         "sync_success": "数据同步成功！",
         "sync_error": "数据同步失败。",
         "confirm_upload": {
-          "title": "上传到云端",
           "content": "这将把 {profile} 档案的本地数据上传到云端存储，覆盖该档案在云端的现有数据。确认继续吗？"
         },
         "confirm_sync": {
-          "title": "从云端同步",
           "content": "这将通过合并 {profile} 档案的本地数据与云端数据来同步。确认继续吗？"
         },
         "missing_profiles": {
@@ -135,9 +157,7 @@
           "confirm": "创建档案"
         }
       },
-      "clear_cloud_data": "清除云端数据",
       "clear_cloud_confirm": {
-        "title": "清除云端数据",
         "content": "您确定要清除 {profile} 档案的云端数据吗？此操作无法撤消，将永久删除该档案的云端存储数据。"
       },
       "clear_cloud_success": "云端数据清除成功！",
@@ -146,7 +166,6 @@
       "profiles": {
         "active": "当前",
         "delete_confirm": {
-          "title": "删除档案",
           "content": "确定要删除 {profile} 档案吗？这将清除其本地数据以及云端数据（如已登录）。"
         },
         "created_success": "档案已创建。",
@@ -167,8 +186,7 @@
       "help_translate": "帮助翻译"
     },
     "search": {
-      "placeholder": "搜索部件、套装、卡池",
-      "noResults": "未找到结果"
+      "placeholder": "搜索部件、套装、卡池"
     },
     "social": {
       "discord": "加入我们的 Discord 社区",
@@ -180,7 +198,6 @@
   "profile": {
     "title": "档案",
     "subtitle": "管理档案、云端数据与本地数据。",
-    "sections": {},
     "account_label": "账号",
     "all_profiles": "全部档案",
     "active_profile": "当前档案",
@@ -193,9 +210,6 @@
     "rename_placeholder": "请输入档案名称",
     "rename_success": "档案名称已更新。",
     "rename_error": "请输入档案名称。",
-    "menu": {
-      "delete": "删除档案"
-    },
     "status": {
       "local": "本地数据",
       "cloud": "云端数据",
@@ -273,8 +287,6 @@
       "tw": "台港澳服",
       "asia": "亚服"
     },
-    "pearpal_website": "美鸭梨网站",
-    "whimlog": "奇想手账",
     "login_pearpal": "登录美鸭梨网站",
     "login_pearpal_desc": "在新标签页中打开美鸭梨网站，如果尚未登录，请使用您的叠纸账号登录。",
     "login_pearpal_incognito_hint": "如果您有多个账号，建议在无痕/隐私浏览模式下打开美鸭梨。",
@@ -300,26 +312,18 @@
       "step1": "点击\"复制代码\"按钮并复制其中代码",
       "step2": "在浏览器中创建一个新书签，命名为\"美鸭梨 Cookie\"",
       "step3": "编辑书签的网址，将其替换为您刚复制的代码",
-      "step4": "切换到不同标签页的美鸭梨网站，确保您已登录",
-      "step5": "在美鸭梨网站上点击\"美鸭梨 Cookie\"书签",
       "step5_android_chrome": "在地址栏中开始输入您保存的书签名称（Gongeous Cookie）",
-      "step5_android_chrome_2": "从建议中选择书签以运行它",
-      "step6": "复制弹出窗口中的输出文本（它应该看起来像下面输入区域中的示例）",
-      "step7": "返回暖暖共鸣录，将输出文本粘贴到下面的输入区域中"
+      "step5_android_chrome_2": "从建议中选择书签以运行它"
     },
     "console_steps": {
-      "step1": "切换到不同标签页的美鸭梨网站，确保您已登录",
       "step2": "打开浏览器的开发者工具（按 F12 或右键点击并选择\"检查\"）",
       "step3": "转到\"控制台\"标签",
       "step4": "点击\"复制代码\"按钮，复制粘贴代码到控制台中并按回车：",
       "step5": "如果收到警告，请根据提示输入\"allow pasting\"或者\"允许粘贴\"（根据浏览器和语言设置）并按回车",
-      "step6": "复制控制台中的输出文本（它应该看起来像下面输入区域中的示例）",
-      "step7": "返回暖暖共鸣录，将输出文本粘贴到下面的输入区域中"
+      "step6": "复制控制台中的输出文本（它应该看起来像下面输入区域中的示例）"
     },
     "manual_steps": {
       "note": "（以谷歌浏览器为例，其他浏览器的步骤类似，但具体名称可能有所不同）",
-      "step1": "切换到不同标签页的美鸭梨网站，确保您已登录",
-      "step2": "打开浏览器的开发者工具（按 F12 或右键点击并选择\"检查\"）",
       "step3": "转到“应用程序”标签(或火狐中的“存储”)",
       "step4": "在左侧边栏中，展开\"Cookie\"并选择美鸭梨网站",
       "step5": "或者，您可以使用 Cookie Editor 等浏览器扩展来管理 Cookie",
@@ -333,11 +337,8 @@
     "security_note": "注意：切勿与他人分享这些 Cookie 值！",
     "data_note": "重要提示：通过此导入方式获取的抽卡数据仅保存 180 天。{date} 之前的数据将不再可用。您可以使用\"从奇想手账导入\"获取更早的数据。",
     "form": {
-      "uid": "UID",
       "uid_placeholder": "游戏内 UID",
-      "momo_id": "Momo ID",
       "momo_id_placeholder": "来自 Cookie 的 momoNid",
-      "momo_token": "Momo Token",
       "momo_token_placeholder": "来自 Cookie 的 momoToken",
       "submit_global_stats": "提交数据用于社区统计",
       "submit_button": "提交并导入抽卡历史",
@@ -356,7 +357,6 @@
     "select_banners_desc": "无需重复导入已有数据",
     "banner_groups": {
       "quick_select": "快速选择",
-      "current_banners": "当前卡池",
       "limited_banners": "限定卡池",
       "permanent_banners": "常驻卡池",
       "individual": "单独选择"
@@ -398,12 +398,8 @@
   "tracker": {
     "stats": {
       "title": "抽卡统计",
-      "total_pulls": "总抽数",
       "no_pulls": "此卡池暂无抽卡记录",
       "total_5star_4star": "5★ / 4★总数",
-      "avg_5star": "5★平均（5★卡池）",
-      "avg_4star_mixed": "4★平均（5★卡池）",
-      "avg_4star_only": "4★平均（4★卡池）",
       "luckier": "比 {percent}% 的暖暖共鸣录用户更幸运",
       "more_pulls": "多于 {percent}% 的暖暖共鸣录用户"
     },
@@ -420,7 +416,6 @@
     },
     "banner": {
       "stats": {
-        "total_pulls": "总抽数",
         "total_5star": "5★总数",
         "avg_5star": "5★平均",
         "total_4star": "4★总数",
@@ -431,8 +426,6 @@
       "settings": {
         "banner_order": "卡池排序",
         "item_order": "部件排序",
-        "latest_first": "最新优先",
-        "oldest_first": "最早优先",
         "outfit_display": "套装显示",
         "item_display": "部件显示",
         "combined": "合并显示",
@@ -440,13 +433,7 @@
         "show_4star": "陪跑套装",
         "show_missing": "缺失部件",
         "duplicate_items": "重复部件",
-        "empty_banners": "未抽卡池",
-        "data_source": "数据来源",
-        "pearpal": "奇想手账",
-        "game": "游戏",
-        "auto": "自动",
-        "data_source_tooltip": "选择数据源。若所选数据源无数据，将自动使用另一个作为备用。",
-        "auto_option": "\"自动\"合并两个数据源，对每个卡池优先使用数据量较多的来源。"
+        "empty_banners": "未抽卡池"
       }
     },
     "items": {
@@ -485,8 +472,6 @@
     "right": "正确",
     "wrong": "错误",
     "start": "开始",
-    "next": "下一题",
-    "skip": "跳过",
     "play_again": "再玩一次",
     "reveal_direction": "揭示方向",
     "blur": "模糊",
@@ -523,11 +508,7 @@
   },
   "global": {
     "stats": {
-      "total_pulls": "总抽数",
       "unique_users": "搭配师人数",
-      "avg_5star": "5★平均（5★卡池）",
-      "avg_4star_type2": "4★平均（5★卡池）",
-      "avg_4star_type3": "4★平均（4★卡池）",
       "data_as_of": "数据截至"
     },
     "charts": {
@@ -536,11 +517,6 @@
       "four_star_type2_distribution": "4★分布（5★卡池）",
       "four_star_type3_distribution": "4★分布（4★卡池）",
       "first_item_distribution": "首件部件分布",
-      "number_of_pulls": "抽数",
-      "probability": "概率",
-      "cumulative_probability": "累积概率",
-      "occurrences": "出现次数",
-      "percentage": "百分比",
       "all_banners": "所有卡池",
       "five_star_banners": "5★卡池",
       "four_star_banners": "4★卡池",
@@ -556,8 +532,6 @@
     "reset_zoom": "重置缩放",
     "sort": {
       "label": "时间轴排序",
-      "newest_first": "最新优先",
-      "oldest_first": "最早优先",
       "longest_gap": "间隔最长优先",
       "shortest_gap": "间隔最短优先"
     }
@@ -651,7 +625,6 @@
   },
   "vote": {
     "description": "帮助我们评选出1.x版本中最受欢迎的卡池！在一对一的对决中为您最喜欢的卡池投票。",
-    "skip": "跳过",
     "howItWorks": "选择您喜欢的卡池并提交投票，帮助评选最受欢迎的卡池。不确定可以跳过。每24小时最多可投票50次。",
     "abuseNotice": "请不要恶意刷票。异常的投票行为将会被系统检测到，相关投票可能会被移除。",
     "success": "投票提交成功！",
@@ -661,12 +634,6 @@
       "community": "社区模式",
       "personalDesc": "您的投票将本地存储并创建您的个人排名。不会影响社区排名。",
       "communityDesc": "您的投票将贡献给社区排名，帮助选出最受欢迎的卡池。"
-    },
-    "stats": {
-      "totalVotes": "总投票数",
-      "personalVotes": "个人投票数",
-      "totalVoters": "总投票人数",
-      "avgVotes": "平均投票数"
     },
     "errors": {
       "loadFailed": "加载投票失败，请重试。",
@@ -688,7 +655,6 @@
       "winRateShort": "胜率",
       "wins": "胜场",
       "losses": "负场",
-      "totalVotes": "总投票数",
       "winsLosses": "胜/负",
       "winsShort": "胜",
       "lossesShort": "负"
@@ -704,16 +670,11 @@
     },
     "unranked_empty": "暂无未排名条目",
     "obtain_fallback": "来源 {id}",
-    "status": {
-      "over_limit": "条目过多，请添加更多筛选条件（最多 {max} 条）。",
-      "loaded": "已加载 {count} 条"
-    },
     "rank_menu": {
       "tier_label": "{tier} 级",
       "send_back": "移回待排区"
     },
     "community_submit": {
-      "browser_only_error": "社区提交仅支持浏览器环境",
       "tooltip_ready": "将你已完成的排行提交到社区排行。",
       "scope_unavailable_toast": "当前筛选范围暂不支持社区提交。",
       "success": "社区排行提交成功",
@@ -746,7 +707,6 @@
   "compendium": {
     "error_title": "加载物品失败",
     "error_description": "无法加载物品数据。请检查您的连接并重试。",
-    "no_results_title": "未找到套装",
     "no_results_description": "没有符合您搜索条件的套装。",
     "not_found_item": "未找到部件",
     "not_found_outfit": "未找到套装",
@@ -759,7 +719,6 @@
     "filter_label": "按标签筛选",
     "filter_obtain": "按来源筛选",
     "advanced_filters": "高级筛选",
-    "advanced_filters_title": "高级筛选",
     "clear_advanced_filters": "清除高级筛选",
     "advanced_filters_empty": "当前部位没有可用的高级筛选。",
     "advanced_filter_placeholder": "选择{field}",
@@ -807,11 +766,9 @@
     "placeholder": "试试“{example}”",
     "clear_query": "清除搜索",
     "close_details": "关闭详情",
-    "error_title": "错误",
     "error_description": "搜索索引查询失败。",
     "no_matches": "没有匹配结果",
-    "match_score": "匹配度 {score}%",
-    "view_compendium": "查看图鉴"
+    "match_score": "匹配度 {score}%"
   },
   "feedback": {
     "queue_title": "反馈队列",
@@ -824,14 +781,12 @@
     "review_state_filter_label": "审核",
     "review_filter": "审核范围",
     "review_state_unreviewed": "未审核",
-    "review_state_all": "全部",
     "review_state_voted": "已投票",
     "scope_all": "全部反馈",
     "scope_mine": "我的反馈",
     "scope_mine_empty": "当前筛选条件下没有你提交的反馈。",
     "sort_needs_review": "优先待审核",
     "sort_top": "最高票",
-    "sort_new": "最新优先",
     "status_all": "全部状态",
     "status_open": "进行中",
     "status_accepted": "已接受",
@@ -859,13 +814,10 @@
     "maintainer_actions": "维护操作",
     "approve_action": "接受",
     "approve_success": "提案已接受。",
-    "approve_failed": "接受提案失败。",
     "apply_action": "应用",
     "apply_success": "提案已在本地应用。",
-    "apply_failed": "应用提案失败。",
     "reject_action": "拒绝",
     "reject_success": "提案已拒绝。",
-    "reject_failed": "拒绝提案失败。",
     "loading_existing": "正在检查是否已有待处理反馈…",
     "pending_exists_title": "这件单品已经有待处理反馈。",
     "pending_exists_description": "请先为现有提案投票，暂时不能再提交新的提案。",
@@ -875,51 +827,50 @@
     "login_required": "登录后才能提交建议和参与投票。",
     "agree_action": "同意",
     "disagree_action": "反对",
-    "skip_action": "下一条",
-    "restore_action": "上一条",
     "agree_count": "同意 {count}",
     "disagree_count": "反对 {count}",
-    "view_item": "查看单品",
     "guidelines_action": "说明",
     "back_to_queue": "返回反馈队列",
     "no_tags": "这件单品暂时没有可用的标签数据。",
     "guidelines": {
       "page_title": "反馈说明",
       "page_description": "反馈提交说明。",
-      "other_subcategories": "其他子类",
-      "term_notes": {
-        "hair_length": {
-          "short": "下巴到颈部，明显不过肩。",
-          "medium": "肩部到上背。",
-          "long": "过肩到背部。",
-          "very_long": "下背或更长。"
-        },
-        "top_length": {
-          "ultra_crop": "高于腰线，接近胸下。",
-          "crop": "在自然腰附近。",
-          "waist_length": "在腰线附近。",
-          "hip_length": "在臀部附近。",
-          "upper_thigh": "过臀到大腿上部。",
-          "mid_thigh": "在大腿中部。",
-          "maxi": "过膝到小腿。",
-          "floor_length": "到地或近地。"
-        },
-        "bottom_length": {
-          "upper_thigh": "到大腿上部。",
-          "mid_thigh": "到大腿中部。",
-          "mini": "大腿上到中部。",
-          "knee_length": "到膝部。",
-          "midi": "长度位于膝盖与脚踝之间。",
-          "mid_calf": "到小腿中部。",
-          "ankle_length": "到脚踝。",
-          "maxi": "接近脚踝或更长。",
-          "floor_length": "到地或近地。"
-        }
-      }
+      "hair_length": {
+        "short": "下巴到颈部，明显不过肩。",
+        "medium": "肩部到上背。",
+        "long": "过肩到背部。",
+        "very_long": "下背或更长。"
+      },
+      "top_length": {
+        "ultra_crop": "高于腰线，接近胸下。",
+        "crop": "在自然腰附近。",
+        "waist_length": "在腰线附近。",
+        "hip_length": "在臀部附近。",
+        "upper_thigh": "过臀到大腿上部。",
+        "mid_thigh": "在大腿中部。",
+        "maxi": "过膝到小腿。",
+        "floor_length": "到地或近地。"
+      },
+      "bottom_length": {
+        "upper_thigh": "到大腿上部。",
+        "mid_thigh": "到大腿中部。",
+        "mini": "大腿上到中部。",
+        "knee_length": "到膝部。",
+        "midi": "长度位于膝盖与脚踝之间。",
+        "mid_calf": "到小腿中部。",
+        "ankle_length": "到脚踝。",
+        "maxi": "接近脚踝或更长。",
+        "floor_length": "到地或近地。"
+      },
+      "other_subcategories": "其他子类"
+    },
+    "admin": {
+      "approve_failed": "接受提案失败。",
+      "apply_failed": "应用提案失败。",
+      "reject_failed": "拒绝提案失败。"
     }
   },
   "stats": {
-    "title": "个人统计",
     "overview": {
       "luck_rating": "运气评级"
     },
@@ -933,11 +884,8 @@
       "luck_per_banner": "5★ 各卡池运气",
       "luck_per_banner_type3": "4★ 各卡池运气",
       "five_star_distribution": "5★ 抽数分布",
-      "four_star_distribution": "4★ 分布（5★ 卡池）",
-      "four_star_type3_distribution": "4★ 分布（4★ 卡池）",
       "pull_timeline": "抽卡活动",
       "cumulative_pulls": "累计",
-      "number_of_pulls": "抽数",
       "frequency": "次数"
     },
     "share": {

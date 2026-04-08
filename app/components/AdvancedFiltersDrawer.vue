@@ -16,7 +16,7 @@
             <span
               class="truncate text-sm font-medium text-slate-900 dark:text-slate-100"
             >
-              {{ t('compendium.advanced_filters_title') }}
+              {{ t('compendium.advanced_filters') }}
             </span>
             <span
               v-if="activeCount > 0"

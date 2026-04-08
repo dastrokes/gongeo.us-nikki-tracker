@@ -9,39 +9,67 @@
     "makeup": "Rias",
     "variations": "Variasi",
     "slot": "Slot",
-    "pull": "Menarik",
     "pulls": "Menarik",
     "total": "Total",
-    "average": "Rata-rata",
-    "avg": "Rata-rata",
-    "statistics": "Statistik",
-    "stats": "Statistik",
-    "data": "Data",
-    "history": "Sejarah",
-    "tracker": "Pelacak",
-    "import": "Impor",
     "export": "Ekspor",
     "loading": "Memuat…",
     "search": "Mencari",
-    "filter": "Menyaring",
     "clear": "Hapus Filter",
     "all": "Semua",
     "other": "Lainnya",
     "show": "Menunjukkan",
     "hide": "Bersembunyi",
+    "skip": "Melewati",
     "save": "Menyimpan",
     "cancel": "Membatalkan",
     "confirm": "Mengonfirmasi",
     "ok": "OKE",
+    "next": "Berikutnya",
     "submit": "Kirim",
     "retry": "Mencoba kembali",
-    "back": "Kembali",
     "copy": "Menyalin",
     "select": "Memilih",
-    "description": "Keterangan",
+    "no_results_found": "Tidak ada hasil yang ditemukan",
     "error": "Kesalahan",
-    "success": "Kesuksesan",
-    "failed": "Gagal"
+    "sort": {
+      "newest_first": "Terbaru dulu",
+      "oldest_first": "Terlama dulu"
+    },
+    "sources": {
+      "data_source": "Sumber Data",
+      "data_source_tooltip": "Pilih sumber data. Jika tidak tersedia, sumber lain akan digunakan sebagai cadangan.",
+      "auto_option": "\"Otomatis\" menggabungkan kedua sumber, lebih memilih yang memiliki lebih banyak tarikan per banner.",
+      "pearpal_website": "Situs web Pearlal",
+      "whimlog": "Whim-Log",
+      "game": "Permainan",
+      "auto": "Mobil"
+    },
+    "stats": {
+      "total_pulls": "Jumlah Tarikan",
+      "avg_5star": "Rata-rata 5★ (5★ Spanduk)",
+      "avg_4star_mixed": "Rata-rata 4★ (5★ Spanduk)",
+      "avg_4star_only": "Rata-rata 4★ (4★ Spanduk)",
+      "total_votes": "Jumlah Suara",
+      "personal_votes": "Suara Pribadi",
+      "total_voters": "Jumlah Pemilih",
+      "avg_votes": "Rata-rata Suara"
+    },
+    "charts": {
+      "number_of_pulls": "Jumlah Tarikan",
+      "probability": "Kemungkinan",
+      "cumulative_probability": "Probabilitas Kumulatif",
+      "occurrences": "Kejadian",
+      "percentage": "Persentase"
+    },
+    "profile": {
+      "upload_data": "Unggah ke Awan",
+      "sync_data": "Sinkronisasi dari Cloud",
+      "clear_cloud_data": "Hapus Data Awan",
+      "clear_local_data": "Hapus Data Lokal",
+      "delete_profile": "Hapus Profil"
+    },
+    "previous": "Sebelumnya",
+    "view_compendium": "Lihat Kompendium"
   },
   "navigation": {
     "title": "gongeo.us",
@@ -106,27 +134,21 @@
     "user_profile": {
       "guest": "Tamu",
       "signed_in": "Masuk",
-      "clear_local_data": "Hapus Data Lokal",
       "clear_local_confirm": {
-        "title": "Hapus Data Lokal",
         "content": "Apakah Anda yakin ingin menghapus data lokal untuk profil {profile}? Tindakan ini tidak dapat dibatalkan."
       },
       "sign_out": "Keluar",
       "sign_out_success": "Berhasil keluar",
       "sign_out_error": "Gagal keluar",
-      "upload_data": "Unggah ke Awan",
-      "sync_data": "Sinkronisasi dari Cloud",
       "sync": {
         "upload_success": "Data berhasil diunggah ke cloud!",
         "upload_error": "Gagal mengunggah data.",
         "sync_success": "Data berhasil disinkronkan!",
         "sync_error": "Gagal menyinkronkan data.",
         "confirm_upload": {
-          "title": "Unggah ke Awan",
           "content": "Tindakan ini akan mengunggah data lokal untuk profil {profile} ke penyimpanan cloud, menimpa data cloud yang ada untuk profil ini. Melanjutkan?"
         },
         "confirm_sync": {
-          "title": "Sinkronisasi dari Cloud",
           "content": "Ini akan menyinkronkan data lokal untuk profil {profile} dengan data cloud dengan menggabungkannya. Melanjutkan?"
         },
         "missing_profiles": {
@@ -135,9 +157,7 @@
           "confirm": "Buat Profil"
         }
       },
-      "clear_cloud_data": "Hapus Data Awan",
       "clear_cloud_confirm": {
-        "title": "Hapus Data Awan",
         "content": "Apakah Anda yakin ingin menghapus data cloud untuk profil {profile}? Tindakan ini tidak dapat dibatalkan dan akan menghapus data Anda secara permanen dari penyimpanan cloud."
       },
       "clear_cloud_success": "Data cloud berhasil dihapus!",
@@ -146,7 +166,6 @@
       "profiles": {
         "active": "Aktif",
         "delete_confirm": {
-          "title": "Hapus Profil",
           "content": "Apakah Anda yakin ingin menghapus profil {profile}? Ini akan menghapus data lokal dan data cloud (jika masuk)."
         },
         "created_success": "Profil dibuat.",
@@ -167,8 +186,7 @@
       "help_translate": "Bantu terjemahkan"
     },
     "search": {
-      "placeholder": "Cari item, spanduk, pakaian",
-      "noResults": "Tidak ada hasil yang ditemukan"
+      "placeholder": "Cari item, spanduk, pakaian"
     },
     "social": {
       "discord": "Bergabunglah dengan komunitas Perselisihan kami",
@@ -180,7 +198,6 @@
   "profile": {
     "title": "Profil",
     "subtitle": "Kelola profil, data cloud, dan data lokal.",
-    "sections": {},
     "account_label": "Akun",
     "all_profiles": "Semua Profil",
     "active_profile": "Profil Aktif",
@@ -193,9 +210,6 @@
     "rename_placeholder": "Masukkan nama profil",
     "rename_success": "Nama profil diperbarui.",
     "rename_error": "Silakan masukkan nama profil.",
-    "menu": {
-      "delete": "Hapus Profil"
-    },
     "status": {
       "local": "Data Lokal",
       "cloud": "Data Awan",
@@ -273,8 +287,6 @@
       "tw": "TW/HK/Makau",
       "asia": "Asia"
     },
-    "pearpal_website": "Situs web Pearlal",
-    "whimlog": "Whim-Log",
     "login_pearpal": "Masuk ke Situs Web Pearlal",
     "login_pearpal_desc": "Buka Situs Web Pearpal di tab baru dan login dengan akun Infold Anda jika Anda belum login.",
     "login_pearpal_incognito_hint": "Jika Anda memiliki banyak akun, disarankan untuk membuka Pearpal di jendela browser penyamaran/pribadi.",
@@ -300,26 +312,18 @@
       "step1": "Ketuk tombol \"Salin Kode\" dan salin kodenya",
       "step2": "Buat bookmark baru di browser Anda dan beri nama \"Gongeous Cookie\"",
       "step3": "Edit URL bookmark dan ganti dengan kode yang Anda salin",
-      "step4": "Beralih ke Situs Web Pearpal di tab lain, pastikan Anda sudah login",
-      "step5": "Ketuk penanda \"Gongeous Cookie\" saat berada di Situs Web Pearpal",
       "step5_android_chrome": "Mulailah mengetikkan nama bookmark yang Anda simpan (Gongeous Cookie) di bilah alamat",
-      "step5_android_chrome_2": "Pilih bookmark dari saran untuk menjalankannya",
-      "step6": "Salin teks keluaran di popup (seharusnya terlihat seperti contoh di area masukan di bawah)",
-      "step7": "Kembali ke sini dan tempelkan teks keluaran di area masukan di bawah"
+      "step5_android_chrome_2": "Pilih bookmark dari saran untuk menjalankannya"
     },
     "console_steps": {
-      "step1": "Beralih ke Situs Web Pearpal di tab lain, pastikan Anda sudah login",
       "step2": "Buka Alat Pengembang browser Anda (Tekan F12 atau klik kanan dan pilih \"Periksa\")",
       "step3": "Buka tab \"Konsol\".",
       "step4": "Klik tombol \"Salin Kode\", salin dan tempel kode ke konsol dan tekan enter:",
       "step5": "Jika Anda mendapatkan peringatan yang mengatakan \"Peringatan: Jangan tempelkan kode ke konsol devtools\", ketik \"izinkan menempel\" dan tekan enter",
-      "step6": "Salin teks keluaran di konsol (seharusnya terlihat seperti contoh di area masukan di bawah)",
-      "step7": "Kembali ke sini dan tempelkan teks keluaran di area masukan di bawah"
+      "step6": "Salin teks keluaran di konsol (seharusnya terlihat seperti contoh di area masukan di bawah)"
     },
     "manual_steps": {
       "note": "(Menggunakan Google Chrome sebagai contoh, nama sebenarnya mungkin berbeda untuk browser lain tetapi langkah-langkahnya akan serupa)",
-      "step1": "Beralih ke Situs Web Pearpal di tab lain, pastikan Anda sudah login",
-      "step2": "Buka Alat Pengembang browser Anda (Tekan F12 atau klik kanan dan pilih \"Periksa\")",
       "step3": "Buka tab \"Aplikasi\" (atau \"Penyimpanan\" di Firefox)",
       "step4": "Di sidebar kiri, perluas \"Cookies\" dan pilih Situs Web Pearpal",
       "step5": "Alternatifnya, Anda dapat menggunakan ekstensi browser untuk Cookie seperti Cookie Editor",
@@ -333,11 +337,8 @@
     "security_note": "Catatan: Jangan pernah membagikan nilai Cookie ini dengan orang lain!",
     "data_note": "Penting: Data penarikan melalui metode impor ini hanya disimpan selama 180 hari. Data sebelum {date} tidak akan tersedia. Anda dapat menggunakan \"Impor dari Whim-Log\" untuk mengimpor data lama.",
     "form": {
-      "uid": "UID",
       "uid_placeholder": "UID dalam game",
-      "momo_id": "ID Momo",
       "momo_id_placeholder": "momoNid dari Cookie",
-      "momo_token": "Token Momo",
       "momo_token_placeholder": "momoToken dari Cookie",
       "submit_global_stats": "Kirimkan data untuk statistik global",
       "submit_button": "Kirim dan Impor Riwayat Tarik",
@@ -356,7 +357,6 @@
     "select_banners_desc": "Tidak perlu mengimpor ulang",
     "banner_groups": {
       "quick_select": "Pilih Cepat",
-      "current_banners": "Spanduk Saat Ini",
       "limited_banners": "Spanduk Terbatas",
       "permanent_banners": "Spanduk Permanen",
       "individual": "Spanduk Individu"
@@ -398,12 +398,8 @@
   "tracker": {
     "stats": {
       "title": "Tarik Statistik",
-      "total_pulls": "Jumlah Tarikan",
       "no_pulls": "Tidak ada riwayat penarikan untuk spanduk ini",
       "total_5star_4star": "5★ / 4★ Jumlah",
-      "avg_5star": "Rata-rata 5★ (5★ Spanduk)",
-      "avg_4star_mixed": "Rata-rata 4★ (5★ Spanduk)",
-      "avg_4star_only": "Rata-rata 4★ (4★ Spanduk)",
       "luckier": "Lebih beruntung dari {percent}% pengguna gongeo.us",
       "more_pulls": "Lebih dari {percent}% pengguna gongeo.us"
     },
@@ -420,7 +416,6 @@
     },
     "banner": {
       "stats": {
-        "total_pulls": "Jumlah Tarikan",
         "total_5star": "5★ Jumlah",
         "avg_5star": "5★ Rata-rata",
         "total_4star": "4★ Jumlah",
@@ -431,8 +426,6 @@
       "settings": {
         "banner_order": "Pesanan Spanduk",
         "item_order": "Pesanan Barang",
-        "latest_first": "Terbaru Pertama",
-        "oldest_first": "Tertua Pertama",
         "outfit_display": "Tampilan Pakaian",
         "item_display": "Tampilan Barang",
         "combined": "Gabungan",
@@ -440,13 +433,7 @@
         "show_4star": "4★ (5★ Spanduk)",
         "show_missing": "Potongan yang Hilang",
         "duplicate_items": "Item Duplikat",
-        "empty_banners": "Spanduk Kosong",
-        "data_source": "Sumber Data",
-        "pearpal": "Whim-Log",
-        "game": "Permainan",
-        "auto": "Mobil",
-        "data_source_tooltip": "Pilih sumber data. Jika tidak tersedia, sumber lain akan digunakan sebagai cadangan.",
-        "auto_option": "\"Otomatis\" menggabungkan kedua sumber, lebih memilih yang memiliki lebih banyak tarikan per banner."
+        "empty_banners": "Spanduk Kosong"
       }
     },
     "items": {
@@ -485,8 +472,6 @@
     "right": "Benar",
     "wrong": "Salah",
     "start": "Awal",
-    "next": "Berikutnya",
-    "skip": "Melewati",
     "play_again": "Mainkan lagi",
     "reveal_direction": "Mengungkapkan arah",
     "blur": "Mengaburkan",
@@ -523,11 +508,7 @@
   },
   "global": {
     "stats": {
-      "total_pulls": "Jumlah Tarikan",
       "unique_users": "Total Stylist",
-      "avg_5star": "Rata-rata 5★ (5★ Spanduk)",
-      "avg_4star_type2": "Rata-rata 4★ (5★ Spanduk)",
-      "avg_4star_type3": "Rata-rata 4★ (4★ Spanduk)",
       "data_as_of": "Data pada"
     },
     "charts": {
@@ -536,11 +517,6 @@
       "four_star_type2_distribution": "4★ Distribusi (5★ Spanduk)",
       "four_star_type3_distribution": "4★ Distribusi (4★ Spanduk)",
       "first_item_distribution": "Distribusi Barang Pertama",
-      "number_of_pulls": "Jumlah Tarikan",
-      "probability": "Kemungkinan",
-      "cumulative_probability": "Probabilitas Kumulatif",
-      "occurrences": "Kejadian",
-      "percentage": "Persentase",
       "all_banners": "Semua Spanduk",
       "five_star_banners": "5★ Spanduk",
       "four_star_banners": "4★ Spanduk",
@@ -556,8 +532,6 @@
     "reset_zoom": "Setel ulang zoom",
     "sort": {
       "label": "Urutkan linimasa",
-      "newest_first": "Terbaru dulu",
-      "oldest_first": "Terlama dulu",
       "longest_gap": "Jeda terpanjang",
       "shortest_gap": "Jeda terpendek"
     }
@@ -651,7 +625,6 @@
   },
   "vote": {
     "description": "Bantu kami menentukan banner terpopuler dari versi 1.x! Pilih spanduk favorit Anda dalam pertarungan head-to-head.",
-    "skip": "Melewati",
     "howItWorks": "Pilih spanduk favorit Anda dan kirimkan suara Anda untuk membantu menentukan peringkat spanduk paling populer. Lewati jika Anda tidak yakin. Anda dapat memilih hingga 50 kali setiap 24 jam.",
     "abuseNotice": "Tolong jangan menyalahgunakan sistem pemungutan suara. Pola pemungutan suara yang tidak biasa akan terdeteksi, dan suara tersebut mungkin dihapus.",
     "success": "Suara berhasil dikirimkan!",
@@ -661,12 +634,6 @@
       "community": "Modus Komunitas",
       "personalDesc": "Suara Anda disimpan secara lokal dan membuat peringkat pribadi Anda. Tidak mempengaruhi peringkat komunitas.",
       "communityDesc": "Suara Anda berkontribusi pada peringkat komunitas dan membantu menentukan spanduk paling populer."
-    },
-    "stats": {
-      "totalVotes": "Jumlah Suara",
-      "personalVotes": "Suara Pribadi",
-      "totalVoters": "Jumlah Pemilih",
-      "avgVotes": "Rata-rata Suara"
     },
     "errors": {
       "loadFailed": "Gagal memuat pasangan suara. Silakan coba lagi.",
@@ -688,7 +655,6 @@
       "winRateShort": "WR",
       "wins": "Menang",
       "losses": "Kekalahan",
-      "totalVotes": "Jumlah Suara",
       "winsLosses": "W/L",
       "winsShort": "W",
       "lossesShort": "L"
@@ -704,16 +670,11 @@
     },
     "unranked_empty": "Tidak ada entri yang tidak memiliki peringkat",
     "obtain_fallback": "Dapatkan {id}",
-    "status": {
-      "over_limit": "Terlalu banyak entri. Terapkan lebih banyak filter (maks {max}).",
-      "loaded": "Entri {count} dimuat"
-    },
     "rank_menu": {
       "tier_label": "Tingkat {tier}",
       "send_back": "Kirim Kembali"
     },
     "community_submit": {
-      "browser_only_error": "Pengiriman komunitas hanya tersedia dalam konteks browser",
       "tooltip_ready": "Kirimkan daftar tingkatan Anda yang telah lengkap ke peringkat komunitas.",
       "scope_unavailable_toast": "Kiriman komunitas tidak tersedia untuk cakupan ini.",
       "success": "Daftar tingkat komunitas telah dikirimkan",
@@ -746,7 +707,6 @@
   "compendium": {
     "error_title": "Gagal Memuat Data",
     "error_description": "Tidak dapat memuat data. Silakan coba lagi.",
-    "no_results_title": "Tidak Ada Hasil yang Ditemukan",
     "no_results_description": "Tidak ada item yang cocok dengan kriteria Anda.",
     "not_found_item": "Barang tidak ditemukan",
     "not_found_outfit": "Pakaian tidak ditemukan",
@@ -759,7 +719,6 @@
     "filter_label": "Filter berdasarkan Label",
     "filter_obtain": "Filter berdasarkan Sumber",
     "advanced_filters": "Filter Lanjutan",
-    "advanced_filters_title": "Filter Lanjutan",
     "clear_advanced_filters": "Hapus filter lanjutan",
     "advanced_filters_empty": "Tidak ada filter lanjutan yang tersedia untuk slot ini.",
     "advanced_filter_placeholder": "Pilih {field}",
@@ -807,11 +766,9 @@
     "placeholder": "Coba '{example}'",
     "clear_query": "Hapus pencarian",
     "close_details": "Tutup detail",
-    "error_title": "Kesalahan",
     "error_description": "Gagal menanyakan indeks pencarian.",
     "no_matches": "Tidak ada kecocokan",
-    "match_score": "Kecocokan {score}%",
-    "view_compendium": "Lihat Kompendium"
+    "match_score": "Kecocokan {score}%"
   },
   "feedback": {
     "queue_title": "Peninjauan Masukan",
@@ -824,14 +781,12 @@
     "review_state_filter_label": "Keadaan",
     "review_filter": "Status Peninjauan",
     "review_state_unreviewed": "Belum Ditinjau",
-    "review_state_all": "Semua",
     "review_state_voted": "Sudah Memilih",
     "scope_all": "Semua Masukan",
     "scope_mine": "Masukan Saya",
     "scope_mine_empty": "Anda tidak memiliki masukan yang cocok dengan filter ini.",
     "sort_needs_review": "Butuh peninjauan",
     "sort_top": "Pilihan terbanyak",
-    "sort_new": "Terbaru",
     "status_all": "Semua status",
     "status_open": "Terbuka",
     "status_accepted": "Diterima",
@@ -859,13 +814,10 @@
     "maintainer_actions": "Tindakan pemelihara",
     "approve_action": "Setujui",
     "approve_success": "Saran disetujui.",
-    "approve_failed": "Gagal menyetujui saran.",
     "apply_action": "Terapkan",
     "apply_success": "Saran diterapkan secara lokal.",
-    "apply_failed": "Gagal menerapkan saran.",
     "reject_action": "Tolak",
     "reject_success": "Saran ditolak.",
-    "reject_failed": "Gagal menolak saran.",
     "loading_existing": "Memeriksa masukan yang ada…",
     "pending_exists_title": "Masukan sudah tertunda untuk item ini.",
     "pending_exists_description": "Berikan suara pada saran yang terbuka alih-alih mengirimkan yang baru.",
@@ -875,51 +827,50 @@
     "login_required": "Masuk untuk mengirim saran dan memberikan suara.",
     "agree_action": "Setuju",
     "disagree_action": "Tidak Setuju",
-    "skip_action": "Selanjutnya",
-    "restore_action": "Sebelumnya",
     "agree_count": "Setuju {count}",
     "disagree_count": "Tidak Setuju {count}",
-    "view_item": "Lihat item",
     "guidelines_action": "Panduan",
     "back_to_queue": "Kembali ke antrean masukan",
     "no_tags": "Belum ada data tag yang tersedia untuk item ini.",
     "guidelines": {
       "page_title": "Panduan Masukan",
       "page_description": "Panduan untuk pengiriman masukan.",
-      "other_subcategories": "Subkategori lainnya",
-      "term_notes": {
-        "hair_length": {
-          "short": "Rahang ke leher; di atas bahu.",
-          "medium": "Bahu ke punggung atas.",
-          "long": "Melewati bahu ke punggung.",
-          "very_long": "Punggung bawah atau lebih panjang."
-        },
-        "top_length": {
-          "ultra_crop": "Di atas pinggang / bawah dada.",
-          "crop": "Di pinggang alami.",
-          "waist_length": "Di garis pinggang.",
-          "hip_length": "Di pinggul.",
-          "upper_thigh": "Melewati pinggul hingga paha atas.",
-          "mid_thigh": "Di paha tengah.",
-          "maxi": "Di bawah lutut hingga tungkai bawah.",
-          "floor_length": "Di atau dekat lantai."
-        },
-        "bottom_length": {
-          "upper_thigh": "Paha tinggi.",
-          "mid_thigh": "Paha tengah.",
-          "mini": "Paha atas hingga tengah.",
-          "knee_length": "Di lutut.",
-          "midi": "Antara lutut dan mata kaki.",
-          "mid_calf": "Di betis tengah.",
-          "ankle_length": "Di mata kaki.",
-          "maxi": "Dekat mata kaki atau lebih panjang.",
-          "floor_length": "Di atau dekat lantai."
-        }
-      }
+      "hair_length": {
+        "short": "Rahang ke leher; di atas bahu.",
+        "medium": "Bahu ke punggung atas.",
+        "long": "Melewati bahu ke punggung.",
+        "very_long": "Punggung bawah atau lebih panjang."
+      },
+      "top_length": {
+        "ultra_crop": "Di atas pinggang / bawah dada.",
+        "crop": "Di pinggang alami.",
+        "waist_length": "Di garis pinggang.",
+        "hip_length": "Di pinggul.",
+        "upper_thigh": "Melewati pinggul hingga paha atas.",
+        "mid_thigh": "Di paha tengah.",
+        "maxi": "Di bawah lutut hingga tungkai bawah.",
+        "floor_length": "Di atau dekat lantai."
+      },
+      "bottom_length": {
+        "upper_thigh": "Paha tinggi.",
+        "mid_thigh": "Paha tengah.",
+        "mini": "Paha atas hingga tengah.",
+        "knee_length": "Di lutut.",
+        "midi": "Antara lutut dan mata kaki.",
+        "mid_calf": "Di betis tengah.",
+        "ankle_length": "Di mata kaki.",
+        "maxi": "Dekat mata kaki atau lebih panjang.",
+        "floor_length": "Di atau dekat lantai."
+      },
+      "other_subcategories": "Subkategori lainnya"
+    },
+    "admin": {
+      "approve_failed": "Gagal menyetujui saran.",
+      "apply_failed": "Gagal menerapkan saran.",
+      "reject_failed": "Gagal menolak saran."
     }
   },
   "stats": {
-    "title": "Statistik Pribadi",
     "overview": {
       "luck_rating": "Peringkat Keberuntungan"
     },
@@ -933,11 +884,8 @@
       "luck_per_banner": "Keberuntungan 5★ per Banner",
       "luck_per_banner_type3": "Keberuntungan 4★ per Banner",
       "five_star_distribution": "Distribusi Tarikan 5★",
-      "four_star_distribution": "Distribusi 4★ (Banner 5★)",
-      "four_star_type3_distribution": "Distribusi 4★ (Banner 4★)",
       "pull_timeline": "Aktivitas Tarikan",
       "cumulative_pulls": "Kumulatif",
-      "number_of_pulls": "Jumlah Tarikan",
       "frequency": "Frekuensi"
     },
     "share": {

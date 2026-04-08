@@ -288,7 +288,6 @@
       "braided": "Trançado",
       "cable_knit": "Trança de Tricô",
       "chain": "Corrente",
-      "chain_detail": "Detalhe de Corrente",
       "chain_link": "Elo de Corrente",
       "circular": "Circular",
       "cracked": "Craquelado",
@@ -354,10 +353,7 @@
         "back_bow": "Laço Traseiro",
         "backpack": "Mochila",
         "backpiece": "Acessório de Costas",
-        "bag": "Bolsa/Saco",
-        "cape": "Capa",
         "drape": "Panos/Drapeado",
-        "shawl": "Xale",
         "tail": "Cauda",
         "wings": "Asas"
       },
@@ -515,7 +511,6 @@
         "capelet": "Pelerine",
         "collar": "Gola",
         "frame": "Moldura",
-        "plush": "Bicho de pelúcia",
         "plushie": "Pelúcia",
         "satchel": "Bolsa Tiracolo",
         "schoolbag": "Mochila Escolar",
@@ -699,6 +694,7 @@
         "windbreaker": "Corta-vento"
       },
       "pendants": {
+        "anklet": "Anklet",
         "crossbody_bag": "Bolsa Transversal",
         "handbag": "Bolsa de Mão",
         "leg_garter": "Liga de Perna",

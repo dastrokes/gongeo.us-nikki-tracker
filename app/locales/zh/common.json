@@ -24,7 +24,7 @@
     "cancel": "取消",
     "confirm": "确认",
     "ok": "确定",
-    "next": "下一题",
+    "next": "下一个",
     "submit": "提交",
     "retry": "重试",
     "copy": "复制",
@@ -68,7 +68,7 @@
       "clear_local_data": "清除本地数据",
       "delete_profile": "删除档案"
     },
-    "previous": "上一条",
+    "previous": "上一个",
     "view_compendium": "查看图鉴"
   },
   "navigation": {
@@ -771,8 +771,8 @@
     "match_score": "匹配度 {score}%"
   },
   "feedback": {
-    "queue_title": "反馈队列",
-    "page_description": "浏览结构化标签修正提案，快速投票，一起整理图鉴标签。",
+    "queue_title": "反馈审核",
+    "page_description": "浏览格式化的标签修正，对已有建议进行投票，帮助保持图鉴整洁。",
     "quick_review_empty": "当前队列你已经看完了。",
     "refresh": "刷新",
     "scope_filter_label": "范围",
@@ -836,10 +836,10 @@
       "page_title": "反馈说明",
       "page_description": "反馈提交说明。",
       "hair_length": {
-        "short": "下巴到颈部，明显不过肩。",
-        "medium": "肩部到上背。",
-        "long": "过肩到背部。",
-        "very_long": "下背或更长。"
+        "short": "肩部以上。",
+        "medium": "肩部附近到上背。",
+        "long": "上背到下背。",
+        "very_long": "下背以下。"
       },
       "top_length": {
         "ultra_crop": "高于腰线，接近胸下。",

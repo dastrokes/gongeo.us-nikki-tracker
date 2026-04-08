@@ -24,7 +24,7 @@
     "cancel": "Cancellare",
     "confirm": "Confermare",
     "ok": "OK",
-    "next": "Prossimo",
+    "next": "Successivo",
     "submit": "Invia",
     "retry": "Riprova",
     "copy": "Copia",
@@ -68,7 +68,7 @@
       "clear_local_data": "Cancella dati locali",
       "delete_profile": "Elimina profilo"
     },
-    "previous": "Indietro",
+    "previous": "Precedente",
     "view_compendium": "Visualizza Compendio"
   },
   "navigation": {
@@ -771,8 +771,8 @@
     "match_score": "{score}% di corrispondenza"
   },
   "feedback": {
-    "queue_title": "Revisione Feedback",
-    "page_description": "Sfoglia le correzioni strutturate dei tag, vota le suggerite esistenti e aiuta a mantenere ordinato il compendio.",
+    "queue_title": "Revisione feedback",
+    "page_description": "Sfoglia le correzioni dei tag strutturati, vota i suggerimenti esistenti e aiuta a mantenere ordinato il compendio.",
     "quick_review_empty": "Sei in pari con la coda attuale.",
     "refresh": "Aggiorna",
     "scope_filter_label": "Ambito",
@@ -836,10 +836,10 @@
       "page_title": "Linee guida Feedback",
       "page_description": "Linee guida per l'invio di feedback.",
       "hair_length": {
-        "short": "Dalla mascella al collo; sopra la spalla.",
-        "medium": "Dalla spalla alla parte superiore della schiena.",
-        "long": "Oltre la spalla fino alla schiena.",
-        "very_long": "Parte bassa della schiena o più lunghi."
+        "short": "Sopra le spalle.",
+        "medium": "Dalle spalle alla parte superiore della schiena.",
+        "long": "Dalla parte superiore alla parte inferiore della schiena.",
+        "very_long": "Sotto la parte inferiore della schiena."
       },
       "top_length": {
         "ultra_crop": "Sopra la vita / sotto il busto.",

@@ -24,7 +24,7 @@
     "cancel": "取消",
     "confirm": "確認",
     "ok": "確定",
-    "next": "下一題",
+    "next": "下一個",
     "submit": "提交",
     "retry": "重試",
     "copy": "複製",
@@ -68,7 +68,7 @@
       "clear_local_data": "清除本地資料",
       "delete_profile": "刪除設定檔"
     },
-    "previous": "上一條",
+    "previous": "上一個",
     "view_compendium": "查看圖鑑"
   },
   "navigation": {
@@ -771,8 +771,8 @@
     "match_score": "匹配度 {score}%"
   },
   "feedback": {
-    "queue_title": "回饋審核",
-    "page_description": "瀏覽結構化標籤修正提案，快速投票，一起整理圖鑑標籤。",
+    "queue_title": "反饋審核",
+    "page_description": "瀏覽格式化的標籤修正，對已有建議進行投票，幫助保持圖鑑整潔。",
     "quick_review_empty": "目前佇列你已經看完了。",
     "refresh": "重新整理",
     "scope_filter_label": "範圍",
@@ -836,10 +836,10 @@
       "page_title": "回饋說明",
       "page_description": "回饋提交說明。",
       "hair_length": {
-        "short": "下巴到頸部，明顯不過肩。",
-        "medium": "肩部到上背。",
-        "long": "過肩到背部。",
-        "very_long": "下背或更長。"
+        "short": "肩部以上。",
+        "medium": "肩部附近到上背。",
+        "long": "上背到下背。",
+        "very_long": "下背以下。"
       },
       "top_length": {
         "ultra_crop": "高於腰線，接近胸下。",

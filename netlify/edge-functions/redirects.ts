@@ -1,19 +1,6 @@
 import type { Context } from '@netlify/edge-functions'
 
-const localeCodes = [
-  'en',
-  'de',
-  'es',
-  'fr',
-  'id',
-  'it',
-  'ja',
-  'ko',
-  'pt',
-  'th',
-  'zh',
-  'tw',
-]
+const localeCodes = ['en', 'de', 'es', 'fr', 'it', 'pt', 'ja', 'ko', 'zh', 'tw']
 
 const singularToPlural = {
   banner: 'banners',

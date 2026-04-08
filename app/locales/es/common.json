@@ -771,8 +771,8 @@
     "match_score": "{score}% de coincidencia"
   },
   "feedback": {
-    "queue_title": "Revisión de Comentarios",
-    "page_description": "Explora correcciones de etiquetas estructuradas, vota por sugerencias existentes y ayuda a mantener el compendio ordenado.",
+    "queue_title": "Revisión de comentarios",
+    "page_description": "Examine las correcciones de etiquetas estructuradas, vote las sugerencias existentes y ayude a mantener ordenado el compendio.",
     "quick_review_empty": "Estás al día con la cola actual.",
     "refresh": "Actualizar",
     "scope_filter_label": "Alcance",
@@ -836,10 +836,10 @@
       "page_title": "Directriz de Comentarios",
       "page_description": "Directriz para el envío de comentarios.",
       "hair_length": {
-        "short": "De la mandíbula al cuello; por encima del hombro.",
-        "medium": "Del hombro a la parte superior de la espalda.",
-        "long": "Del hombro a la espalda.",
-        "very_long": "Parte baja de la espalda o más largo."
+        "short": "Por encima de los hombros.",
+        "medium": "De los hombros a la parte superior de la espalda.",
+        "long": "De la parte superior a la parte inferior de la espalda.",
+        "very_long": "Por debajo de la parte inferior de la espalda."
       },
       "top_length": {
         "ultra_crop": "Por encima de la cintura / debajo del busto.",

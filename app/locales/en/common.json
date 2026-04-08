@@ -836,10 +836,10 @@
       "page_title": "Feedback Guideline",
       "page_description": "Guideline for feedback submissions.",
       "hair_length": {
-        "short": "Jaw to neck; above shoulder.",
-        "medium": "Shoulder to upper back.",
-        "long": "Past shoulder to back.",
-        "very_long": "Lower back or longer."
+        "short": "Above the shoulders.",
+        "medium": "Around the shoulders to upper back.",
+        "long": "Upper back to lower back.",
+        "very_long": "Below the lower back."
       },
       "top_length": {
         "ultra_crop": "Above waist / underbust.",

@@ -102,23 +102,31 @@
     },
     "neckline": {
       "boat_neck": "Scollo a Barca",
-      "collared": "Con Colletto",
       "crew_neck": "Girocollo",
-      "cross_collar": "Collo Incrociato",
-      "duijin_collar": "Collo Duijin",
       "halter_neck": "Allacciato al Collo",
-      "hooded": "Con Cappuccio",
       "keyhole_neck": "Scollo a Goccia",
-      "mandarin_collar": "Alla Coreana",
       "mock_neck": "Lupetto",
-      "peter_pan_collar": "Colletto Peter Pan",
-      "right_cross_collar": "Incrocio Destro",
-      "sailor_collar": "Alla Marinara",
       "scoop_neck": "Scollo Tondo Profondo",
       "square_neck": "Scollo Quadrato",
       "sweetheart_neck": "Scollo a Cuore",
       "turtleneck": "Dolcevita",
       "v_neck": "Scollo a V"
+    },
+    "collar_style": {
+      "collared": "Collared",
+      "cross_collar": "Cross Collar",
+      "duijin_collar": "Duijin Collar",
+      "mandarin_collar": "Mandarin Collar",
+      "peter_pan_collar": "Peter Pan Collar",
+      "right_cross_collar": "Right Cross Collar",
+      "sailor_collar": "Sailor Collar"
+    },
+    "garment_feature": {
+      "belted": "Belted",
+      "button_up": "Button Up",
+      "hooded": "Hooded",
+      "lace_up": "Lace Up",
+      "zip_up": "Zip Up"
     },
     "ornament": {
       "animal": "Motivo Animale",

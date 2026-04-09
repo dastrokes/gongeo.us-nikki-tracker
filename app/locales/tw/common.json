@@ -773,8 +773,8 @@
     "match_score": "匹配度 {score}%"
   },
   "feedback": {
-    "queue_title": "反饋審核",
-    "page_description": "瀏覽格式化的標籤修正，對已有建議進行投票，幫助保持圖鑑整潔。",
+    "queue_title": "回饋審核",
+    "page_description": "瀏覽結構化標籤修正提案，快速投票，一起整理圖鑑標籤。",
     "quick_review_empty": "目前佇列你已經看完了。",
     "list_empty": "沒有符合這些篩選條件的反饋。",
     "refresh": "重新整理",
@@ -863,7 +863,7 @@
         "maxi": "腳踝附近（僅裙裝）。",
         "floor_length": "觸地（僅裙裝）。",
         "upper_thigh": "大腿上部。",
-        "mid_thigh": "大腿中部。",
+        "mid_thigh": "到大腿中部。",
         "knee_length": "膝蓋附近。",
         "mid_calf": "小腿中部。",
         "ankle_length": "腳踝附近。"

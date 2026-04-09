@@ -773,8 +773,8 @@
     "match_score": "匹配度 {score}%"
   },
   "feedback": {
-    "queue_title": "反馈审核",
-    "page_description": "浏览格式化的标签修正，对已有建议进行投票，帮助保持图鉴整洁。",
+    "queue_title": "反馈队列",
+    "page_description": "浏览结构化标签修正提案，快速投票，一起整理图鉴标签。",
     "quick_review_empty": "当前队列你已经看完了。",
     "list_empty": "当前筛选条件下没有反馈。",
     "refresh": "刷新",
@@ -863,7 +863,7 @@
         "maxi": "脚踝附近（仅裙装）。",
         "floor_length": "触地（仅裙装）。",
         "upper_thigh": "大腿上部。",
-        "mid_thigh": "大腿中部。",
+        "mid_thigh": "到大腿中部。",
         "knee_length": "膝盖附近。",
         "mid_calf": "小腿中部。",
         "ankle_length": "脚踝附近。"

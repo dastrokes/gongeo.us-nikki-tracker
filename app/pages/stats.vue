@@ -242,15 +242,15 @@
               class="w-36"
               :options="[
                 {
-                  label: t('tracker.banner.settings.game'),
+                  label: t('common.sources.game'),
                   value: 'game',
                 },
                 {
-                  label: t('tracker.banner.settings.pearpal'),
+                  label: t('common.sources.whimlog'),
                   value: 'pearpal',
                 },
                 {
-                  label: t('tracker.banner.settings.auto'),
+                  label: t('common.sources.auto'),
                   value: 'auto',
                 },
               ]"
@@ -258,7 +258,7 @@
               <template #header>
                 <div class="flex items-center justify-between px-1 py-1">
                   <span class="text-sm text-gray-400">
-                    {{ t('tracker.banner.settings.data_source') }}
+                    {{ t('common.sources.data_source') }}
                   </span>
                   <n-tooltip :width="200">
                     <template #trigger>
@@ -274,9 +274,9 @@
                         </template>
                       </n-button>
                     </template>
-                    {{ t('tracker.banner.settings.data_source_tooltip') }}
+                    {{ t('common.sources.data_source_tooltip') }}
                     <br />
-                    {{ t('tracker.banner.settings.auto_option') }}
+                    {{ t('common.sources.auto_option') }}
                   </n-tooltip>
                 </div>
               </template>
@@ -860,7 +860,7 @@
                     </div>
                     <div>
                       <div class="text-xs opacity-50 capitalize">
-                        {{ $t('tracker.stats.avg_4star_mixed') }}
+                        {{ $t('common.stats.avg_4star_mixed') }}
                       </div>
                       <div class="text-sm font-bold tabular-nums">
                         {{ globalStats.avg4StarPulls.toFixed(1) }}
@@ -868,7 +868,7 @@
                     </div>
                     <div>
                       <div class="text-xs opacity-50 capitalize">
-                        {{ $t('tracker.stats.avg_4star_only') }}
+                        {{ $t('common.stats.avg_4star_only') }}
                       </div>
                       <div class="text-sm font-bold tabular-nums">
                         {{ globalStats.avg4StarOnlyPulls.toFixed(1) }}
@@ -1131,7 +1131,7 @@
                   <span
                     class="text-xs opacity-50 capitalize whitespace-nowrap shrink-0"
                   >
-                    {{ $t('tracker.stats.avg_4star_mixed') }}
+                    {{ $t('common.stats.avg_4star_mixed') }}
                   </span>
                   <span class="font-bold tabular-nums shrink-0">
                     {{ globalStats.avg4StarPulls.toFixed(1) }}
@@ -1141,7 +1141,7 @@
                   <span
                     class="text-xs opacity-50 capitalize whitespace-nowrap shrink-0"
                   >
-                    {{ $t('tracker.stats.avg_4star_only') }}
+                    {{ $t('common.stats.avg_4star_only') }}
                   </span>
                   <span class="font-bold tabular-nums shrink-0">
                     {{ globalStats.avg4StarOnlyPulls.toFixed(1) }}
@@ -1362,13 +1362,13 @@
   // ── SEO ──
   useSeoMeta({
     title: () =>
-      `${t('stats.title')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
+      `${t('navigation.stats')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     description: () => t('meta.description.stats'),
     ogTitle: () =>
-      `${t('stats.title')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
+      `${t('navigation.stats')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     ogDescription: () => t('meta.description.stats'),
     twitterTitle: () =>
-      `${t('stats.title')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
+      `${t('navigation.stats')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     twitterDescription: () => t('meta.description.stats'),
   })
 
@@ -1784,7 +1784,7 @@
           if (!barData || !lineData) return ''
           return `
             <div style="font-weight: bold; margin-bottom: 4px;">
-              ${t('stats.charts.number_of_pulls')}: ${barData.axisValue}
+              ${t('common.charts.number_of_pulls')}: ${barData.axisValue}
             </div>
             <div>${t('stats.charts.frequency')}: <strong>${barData.value}</strong></div>
             <div>${(((barData.value as number) / total) * 100).toFixed(2)}% · ${t('stats.charts.cumulative_pulls')}: <strong>${(lineData.value as number).toFixed(1)}%</strong></div>
@@ -1862,7 +1862,7 @@
     }
     fourStarDistChartOption.value = createDistributionChartOption(
       data,
-      t('stats.charts.four_star_distribution'),
+      t('global.charts.four_star_type2_distribution'),
       getQualityColor(4) + 'CC'
     )
   }
@@ -1875,7 +1875,7 @@
     }
     fourStarType3DistChartOption.value = createDistributionChartOption(
       data,
-      t('stats.charts.four_star_type3_distribution'),
+      t('global.charts.four_star_type3_distribution'),
       getQualityColor(4) + 'CC'
     )
   }
@@ -1937,7 +1937,7 @@
             <div style="display: flex; flex-direction: column; align-items: center;">
               <div style="font-weight: bold; margin-bottom: 4px; text-align: center;">${pulls.axisValue}</div>
               <div style="text-align: left;">
-                <div>${t('tracker.stats.total_pulls')}: <strong>${pulls.value}</strong></div>
+                <div>${t('common.stats.total_pulls')}: <strong>${pulls.value}</strong></div>
                 ${cumulative ? `<div>${t('stats.charts.cumulative_pulls')}: <strong>${cumulative.value}</strong></div>` : ''}
               </div>
               ${imgHtml}
@@ -1986,7 +1986,7 @@
       ],
       series: [
         {
-          name: t('tracker.stats.total_pulls'),
+          name: t('common.stats.total_pulls'),
           type: 'bar',
           data: data.map((p) => {
             const bannerType = BANNER_DATA[p.bannerId]?.bannerType

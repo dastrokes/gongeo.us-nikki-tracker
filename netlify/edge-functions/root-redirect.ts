@@ -7,12 +7,10 @@ const SUPPORTED_LOCALE_CODES = [
   'de',
   'es',
   'fr',
-  'id',
   'it',
+  'pt',
   'ja',
   'ko',
-  'pt',
-  'th',
   'zh',
   'tw',
 ] as const

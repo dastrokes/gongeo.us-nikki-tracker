@@ -67,7 +67,7 @@
         <div
           class="text-gray-500 text-center py-6 flex flex-col items-center gap-3"
         >
-          <p>{{ $t('default.search.noResults') }}</p>
+          <p>{{ $t('common.no_results_found') }}</p>
           <n-button
             size="small"
             type="primary"

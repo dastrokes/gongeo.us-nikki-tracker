@@ -37,12 +37,12 @@
     },
     "sources": {
       "data_source": "Datenquelle",
-      "data_source_tooltip": "Wähle eine Datenquelle aus. Falls nicht verfügbar, wird die andere Quelle als Rückfalloption verwendet.",
+      "data_source_tooltip": "Wähle eine bevorzugte Datenquelle aus. Falls nicht verfügbar, wird die andere Quelle als Rückfalloption verwendet.",
       "auto_option": "\"Auto\" kombiniert beide Quellen, bevorzugend die, die mehr Resonanzen pro Banner hat.",
       "pearpal_website": "Pearpal-Webseite",
       "whimlog": "Whim-Log",
       "game": "Spiel",
-      "auto": "Auto"
+      "auto": "Automatisch"
     },
     "stats": {
       "total_pulls": "Resonanzen insges.",
@@ -786,8 +786,8 @@
     "scope_mine": "Mein Feedback",
     "scope_mine_empty": "Kein Feedback gefunden, das diesen Filtern entspricht.",
     "sort_needs_review": "Prüfung erforderlich",
-    "sort_top": "Top bewertet",
-    "status_all": "Alle Stati",
+    "sort_top": "Top-Bewertungen",
+    "status_all": "Alle Status",
     "status_open": "Offen",
     "status_accepted": "Angenommen",
     "status_rejected": "Abgelehnt",
@@ -826,20 +826,20 @@
     "no_changes": "Noch keine Änderungen.",
     "login_required": "Melden dich an, um Vorschläge einzureichen und abzustimmen.",
     "agree_action": "Zustimmen",
-    "disagree_action": "Widersprechen",
+    "disagree_action": "Ablehnen",
     "agree_count": "Zustimmen {count}",
-    "disagree_count": "Widersprechen {count}",
+    "disagree_count": "Ablehnen {count}",
     "guidelines_action": "Richtlinien",
     "back_to_queue": "Zurück zur Feedback-Warteschlange",
     "no_tags": "Für diesen Gegenstand sind noch keine Tag-Daten verfügbar.",
     "guidelines": {
-      "page_title": "Feedback-Richtlinien",
-      "page_description": "Richtlinien für Feedback-Vorschläge.",
+      "page_title": "Feedback-Richtlinie",
+      "page_description": "Richtlinie für Feedback-Einsendungen.",
       "hair_length": {
-        "short": "Bis zu den Schultern.",
+        "short": "Über den Schultern.",
         "medium": "Von den Schultern bis zum oberen Rücken.",
         "long": "Vom oberen bis zum unteren Rücken.",
-        "very_long": "Ab dem unteren Rücken."
+        "very_long": "Unterhalb des unteren Rückens."
       },
       "top_length": {
         "ultra_crop": "Über der Taille / Unterbrust.",
@@ -865,9 +865,9 @@
       "other_subcategories": "Andere Unterkategorien"
     },
     "admin": {
-      "approve_failed": "Fehler beim Genehmigen des Vorschlags.",
-      "apply_failed": "Fehler beim Anwenden des Vorschlags.",
-      "reject_failed": "Fehler beim Ablehnen des Vorschlags."
+      "approve_failed": "Vorschlag konnte nicht genehmigt werden.",
+      "apply_failed": "Vorschlag konnte nicht angewendet werden.",
+      "reject_failed": "Vorschlag konnte nicht abgelehnt werden."
     }
   },
   "stats": {

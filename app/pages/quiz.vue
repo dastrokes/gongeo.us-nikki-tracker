@@ -386,13 +386,13 @@
                   type="primary"
                   @click="nextRound"
                 >
-                  {{ $t('quiz.next') }}
+                  {{ $t('common.next') }}
                 </n-button>
                 <n-button
                   :disabled="roundResult !== 'unanswered' || !isImageReady"
                   @click="revealRound"
                 >
-                  {{ $t('quiz.skip') }}
+                  {{ $t('common.skip') }}
                 </n-button>
               </template>
             </div>

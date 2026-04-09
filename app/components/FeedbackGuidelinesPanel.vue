@@ -73,7 +73,7 @@
     'ornament',
   ] as const satisfies readonly ItemSearchField[]
 
-  const preferredItemTypeOrderMap = new Map(
+  const preferredItemTypeOrderMap = new Map<string, number>(
     preferredItemTypeOrder.map((itemType, index) => [itemType, index])
   )
 
@@ -86,7 +86,7 @@
       : humanizeItemSearchToken(normalizedType)
   }
 
-  const buildFieldLabel = (field: string) =>
+  const buildFieldLabel = (field: ItemSearchField) =>
     t(getItemSearchFieldLabelKey(field))
   const buildTaxonomyFieldLabel = () =>
     `${buildFieldLabel('category')} / ${buildFieldLabel('subcategory')}`
@@ -190,8 +190,8 @@
     }
   }
 
-  const referenceTree = computed<TreeOption[]>(() =>
-    orderedGuideItemTypes.value
+  const referenceTree = computed((): TreeOption[] => {
+    return orderedGuideItemTypes.value
       .map((itemType) => {
         const taxonomyNode = buildTaxonomyFieldNode(itemType)
         const fieldNodes = getItemTagFeedbackFields(itemType)
@@ -199,7 +199,7 @@
             (field): field is ItemSearchField =>
               field !== 'category' &&
               field !== 'subcategory' &&
-              !sharedDetailFields.includes(field)
+              !(sharedDetailFields as readonly string[]).includes(field)
           )
           .map((field) => buildFieldNode(itemType, field))
 
@@ -215,13 +215,13 @@
           key: itemType,
           label: getItemTypeLabel(itemType),
           children,
-        }
+        } as TreeOption
       })
       .filter((node): node is TreeOption => Boolean(node))
-  )
+  })
 
-  const sharedTermsTree = computed<TreeOption[]>(() =>
-    sharedDetailFields.map((field) => {
+  const sharedTermsTree = computed((): TreeOption[] => {
+    return sharedDetailFields.map((field) => {
       const values = getItemSearchAttributeValues(field)
 
       if (values.length === 0) {
@@ -240,5 +240,5 @@
         })),
       }
     })
-  )
+  })
 </script>

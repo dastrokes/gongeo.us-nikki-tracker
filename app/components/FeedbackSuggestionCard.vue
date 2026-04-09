@@ -147,7 +147,7 @@
               class="!rounded-xl"
               @click="$emit('previous')"
             >
-              <span>{{ t('feedback.restore_action') }}</span>
+              <span>{{ t('common.previous') }}</span>
             </n-button>
 
             <n-button
@@ -158,14 +158,14 @@
               class="!rounded-xl"
               @click="$emit('skip')"
             >
-              <span>{{ t('feedback.skip_action') }}</span>
+              <span>{{ t('common.next') }}</span>
             </n-button>
 
             <NuxtLinkLocale
               :to="`/items/${suggestion.entityId}`"
               class="inline-flex min-h-10 items-center justify-center rounded-xl border border-black/5 bg-white px-4 text-sm font-semibold text-rose-500 transition-colors hover:border-rose-200 hover:text-rose-600 dark:border-white/10 dark:bg-slate-950 dark:text-rose-300 dark:hover:border-rose-300/20 dark:hover:text-rose-200 sm:ml-auto"
             >
-              {{ t('feedback.view_item') }}
+              {{ t('common.view_compendium') }}
             </NuxtLinkLocale>
           </div>
         </div>

@@ -113,20 +113,20 @@
       "v_neck": "V-Ausschnitt"
     },
     "collar_style": {
-      "collared": "Collared",
-      "cross_collar": "Cross Collar",
-      "duijin_collar": "Duijin Collar",
-      "mandarin_collar": "Mandarin Collar",
-      "peter_pan_collar": "Peter Pan Collar",
-      "right_cross_collar": "Right Cross Collar",
-      "sailor_collar": "Sailor Collar"
+      "collared": "Mit Kragen",
+      "cross_collar": "Kreuz-Kragen",
+      "duijin_collar": "Duijin-Kragen",
+      "mandarin_collar": "Mandarin-Kragen",
+      "peter_pan_collar": "Bubikragen",
+      "right_cross_collar": "Rechter Kreuzkragen",
+      "sailor_collar": "Matrosenkragen"
     },
     "garment_feature": {
-      "belted": "Belted",
-      "button_up": "Button Up",
-      "hooded": "Hooded",
-      "lace_up": "Lace Up",
-      "zip_up": "Zip Up"
+      "belted": "Mit Gürtel",
+      "button_up": "Geknöpft",
+      "hooded": "Mit Kapuze",
+      "lace_up": "Geschnürt",
+      "zip_up": "Reißverschluss"
     },
     "ornament": {
       "animal": "Tier",

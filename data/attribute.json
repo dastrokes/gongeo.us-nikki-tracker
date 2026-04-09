@@ -70,6 +70,41 @@
     "value": "upper_thigh"
   },
   {
+    "field": "collar_style",
+    "itemType": null,
+    "value": "collared"
+  },
+  {
+    "field": "collar_style",
+    "itemType": null,
+    "value": "cross_collar"
+  },
+  {
+    "field": "collar_style",
+    "itemType": null,
+    "value": "duijin_collar"
+  },
+  {
+    "field": "collar_style",
+    "itemType": null,
+    "value": "mandarin_collar"
+  },
+  {
+    "field": "collar_style",
+    "itemType": null,
+    "value": "peter_pan_collar"
+  },
+  {
+    "field": "collar_style",
+    "itemType": null,
+    "value": "right_cross_collar"
+  },
+  {
+    "field": "collar_style",
+    "itemType": null,
+    "value": "sailor_collar"
+  },
+  {
     "field": "dress_silhouette",
     "itemType": null,
     "value": "a_line"
@@ -138,6 +173,31 @@
     "field": "fit",
     "itemType": null,
     "value": "regular"
+  },
+  {
+    "field": "garment_feature",
+    "itemType": null,
+    "value": "belted"
+  },
+  {
+    "field": "garment_feature",
+    "itemType": null,
+    "value": "button_up"
+  },
+  {
+    "field": "garment_feature",
+    "itemType": null,
+    "value": "hooded"
+  },
+  {
+    "field": "garment_feature",
+    "itemType": null,
+    "value": "lace_up"
+  },
+  {
+    "field": "garment_feature",
+    "itemType": null,
+    "value": "zip_up"
   },
   {
     "field": "hair_length",
@@ -417,22 +477,7 @@
   {
     "field": "neckline",
     "itemType": null,
-    "value": "collared"
-  },
-  {
-    "field": "neckline",
-    "itemType": null,
     "value": "crew_neck"
-  },
-  {
-    "field": "neckline",
-    "itemType": null,
-    "value": "cross_collar"
-  },
-  {
-    "field": "neckline",
-    "itemType": null,
-    "value": "duijin_collar"
   },
   {
     "field": "neckline",
@@ -442,37 +487,12 @@
   {
     "field": "neckline",
     "itemType": null,
-    "value": "hooded"
-  },
-  {
-    "field": "neckline",
-    "itemType": null,
     "value": "keyhole_neck"
   },
   {
     "field": "neckline",
     "itemType": null,
-    "value": "mandarin_collar"
-  },
-  {
-    "field": "neckline",
-    "itemType": null,
     "value": "mock_neck"
-  },
-  {
-    "field": "neckline",
-    "itemType": null,
-    "value": "peter_pan_collar"
-  },
-  {
-    "field": "neckline",
-    "itemType": null,
-    "value": "right_cross_collar"
-  },
-  {
-    "field": "neckline",
-    "itemType": null,
-    "value": "sailor_collar"
   },
   {
     "field": "neckline",

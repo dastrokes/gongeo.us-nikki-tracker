@@ -10,6 +10,7 @@ const supportedLocaleCodeSet = new Set<SupportedLocaleCode>(
   i18nLocales.map((locale) => locale.code)
 )
 const cjkLocaleCodeSet = new Set<SupportedLocaleCode>(['ja', 'ko', 'zh', 'tw'])
+export const REQUEST_LOCALE_COOKIE = 'i18n_redirected'
 
 export type SearchNamespace = 'en' | 'zh'
 
@@ -29,7 +30,7 @@ export const resolveLocaleCode = (
 export const resolveRequestLocale = (event: H3Event): SupportedLocaleCode => {
   const query = getQuery(event)
   const langQuery = Array.isArray(query.lang) ? query.lang[0] : query.lang
-  const cookieLocale = getCookie(event, 'i18n_redirected')
+  const cookieLocale = getCookie(event, REQUEST_LOCALE_COOKIE)
 
   return resolveLocaleCode(
     langQuery?.toString() ?? cookieLocale?.toString() ?? null

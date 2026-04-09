@@ -1,5 +1,6 @@
 import type {
-  ItemSearchAdvancedScalarField,
+  ItemSearchAdvancedField,
+  ItemSearchAdvancedFilterValue,
   ItemSearchFacetResponse,
 } from '#shared/types/itemSearch'
 
@@ -15,7 +16,7 @@ export type ItemFilters = {
   source?: string | number | null
   page?: number
   pageSize?: number
-} & Partial<Record<ItemSearchAdvancedScalarField, string | null>>
+} & Partial<Record<ItemSearchAdvancedField, ItemSearchAdvancedFilterValue>>
 
 export interface PaginatedItemsResponse {
   data: ItemListEntry[]
@@ -36,16 +37,19 @@ export const useSupabaseItems = () => {
   const appendAdvancedFilterParams = (
     params: Record<string, string | number>,
     filters: ItemFilters,
-    type?: string | null
+    type?: string | null,
+    options: { includeArrayFields?: boolean } = {}
   ) => {
-    const advancedFilters = getActiveItemSearchAdvancedFilters(filters, type)
-
-    getItemSearchAdvancedScalarFields(type).forEach((field) => {
-      const value = advancedFilters[field]
-      if (!value) return
-
-      params[field] = value
-    })
+    Object.assign(
+      params,
+      buildItemSearchAdvancedFilterQuery(
+        filters,
+        type,
+        options.includeArrayFields
+          ? getItemSearchCompendiumAdvancedFields(type)
+          : getItemSearchAdvancedScalarFields(type)
+      )
+    )
   }
 
   /**
@@ -138,7 +142,9 @@ export const useSupabaseItems = () => {
         params.subcategory = subcategory
       }
 
-      appendAdvancedFilterParams(params, filters, type)
+      appendAdvancedFilterParams(params, filters, type, {
+        includeArrayFields: true,
+      })
 
       if (style && style !== 'all') {
         params.style = style

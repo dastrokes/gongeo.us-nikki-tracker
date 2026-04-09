@@ -65,11 +65,14 @@ export default defineCachedApiEventHandler(
       ),
       type?.toString() ?? null
     )
-    const metadataFilter: Record<string, string> = Object.fromEntries(
-      Object.entries(advancedFilters).filter(
-        (entry): entry is [string, string] => typeof entry[1] === 'string'
+    const metadataFilter: Record<string, string | string[]> =
+      Object.fromEntries(
+        Object.entries(advancedFilters).filter(
+          (entry): entry is [string, string | string[]] =>
+            typeof entry[1] === 'string' ||
+            (Array.isArray(entry[1]) && entry[1].length > 0)
+        )
       )
-    )
     const hasAdvancedFilters = Object.keys(metadataFilter).length > 0
     const styleParam = query.style?.toString() || null
     const labelParam = query.label?.toString() || null

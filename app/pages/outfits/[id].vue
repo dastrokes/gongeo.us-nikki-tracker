@@ -281,7 +281,10 @@
               </div>
             </div>
 
-            <div v-if="outfitItems.length > 0 || makeupItems.length > 0">
+            <div
+              v-if="outfitItems.length > 0 || makeupItems.length > 0"
+              class="space-y-2"
+            >
               <n-collapse>
                 <n-collapse-item
                   v-if="outfitItems.length > 0"

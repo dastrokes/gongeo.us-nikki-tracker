@@ -845,28 +845,28 @@
         "short": "Bis zu den Schultern.",
         "medium": "Von den Schultern bis zum oberen Rücken.",
         "long": "Vom oberen bis zum unteren Rücken.",
-        "very_long": "Ab dem unteren Rücken."
+        "very_long": "Unter dem unteren Rücken."
       },
       "top_length": {
-        "ultra_crop": "Über der Taille / Unterbrust.",
-        "crop": "An der natürlichen Taille.",
-        "waist_length": "An der Taille.",
-        "hip_length": "An den Hüften.",
-        "upper_thigh": "Über die Hüften bis zum Oberschenkel.",
-        "mid_thigh": "Mitte Oberschenkel.",
-        "maxi": "Unter dem Knie bis zum Unterschenkel.",
-        "floor_length": "Am oder nah am Boden."
+        "ultra_crop": "Über oder um die Unterbrust.",
+        "crop": "Um die Taille; kann den Bauch freilegen.",
+        "waist_length": "Unter der Taille; bedeckt den Bauch.",
+        "hip_length": "Um die Hüften.",
+        "upper_thigh": "Oberschenkel.",
+        "mid_thigh": "Mitte des Oberschenkels.",
+        "maxi": "Um den Knöchel.",
+        "floor_length": "Bodenberührend oder fast."
       },
       "bottom_length": {
-        "upper_thigh": "Hoher Oberschenkel.",
-        "mid_thigh": "Mitte Oberschenkel.",
-        "mini": "Oberer bis mittlerer Oberschenkel.",
-        "knee_length": "Am Knie.",
-        "midi": "Zwischen Knie und Knöchel.",
-        "mid_calf": "Mitte Wade.",
-        "ankle_length": "Am Knöchel.",
-        "maxi": "Nah am Knöchel oder länger.",
-        "floor_length": "Am oder nah am Boden."
+        "mini": "Vom oberen bis zur Mitte des Oberschenkels. (nur Rock)",
+        "midi": "Vom Knie bis zur Mitte der Wade. (nur Rock)",
+        "maxi": "Um den Knöchel. (nur Rock)",
+        "floor_length": "Bodenberührend oder fast. (nur Rock)",
+        "upper_thigh": "Oberer Oberschenkel.",
+        "mid_thigh": "Mitte des Oberschenkels.",
+        "knee_length": "Um das Knie.",
+        "mid_calf": "Mitte der Wade.",
+        "ankle_length": "Um den Knöchel."
       },
       "other_subcategories": "Andere Unterkategorien"
     },

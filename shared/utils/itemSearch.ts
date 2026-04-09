@@ -1,7 +1,8 @@
 import type {
+  ItemSearchAdvancedFilters,
   ItemSearchAdvancedField,
+  ItemSearchAdvancedFilterValue,
   ItemSearchAdvancedScalarField,
-  ItemSearchAdvancedScalarFilters,
   ItemSearchArrayField,
   ItemSearchField,
   ItemSearchFacetResponse,
@@ -52,6 +53,10 @@ const ITEM_SEARCH_ADVANCED_FIELD_SET = new Set<ItemSearchAdvancedField>([
   ...ITEM_SEARCH_ADVANCED_SCALAR_FIELDS,
   ...ITEM_SEARCH_ARRAY_FIELDS,
 ])
+const ITEM_SEARCH_COMPENDIUM_ARRAY_ADVANCED_FIELDS =
+  new Set<ItemSearchArrayField>(['garment_feature'])
+const ITEM_SEARCH_COMPENDIUM_SINGLE_SELECT_ARRAY_FIELDS =
+  new Set<ItemSearchArrayField>(['garment_feature'])
 
 const isItemSearchAdvancedScalarField = (
   field: ItemSearchField
@@ -146,11 +151,13 @@ const ITEM_SEARCH_FIELD_LABEL_KEYS: Record<ItemSearchField, string> = {
   material: 'compendium.search_field.material',
   structure: 'compendium.search_field.structure',
   ornament: 'compendium.search_field.ornament',
+  garment_feature: 'compendium.search_field.garment_feature',
   top_length: 'compendium.search_field.top_length',
   bottom_length: 'compendium.search_field.bottom_length',
   hair_length: 'compendium.search_field.hair_length',
   fit: 'compendium.search_field.fit',
   neckline: 'compendium.search_field.neckline',
+  collar_style: 'compendium.search_field.collar_style',
   shoulder_style: 'compendium.search_field.shoulder_style',
   sleeve_length: 'compendium.search_field.sleeve_length',
   sleeve_style: 'compendium.search_field.sleeve_style',
@@ -200,10 +207,13 @@ export const normalizeItemSearchTokenKey = (value?: string | null) => {
 }
 
 export const createEmptyItemSearchAdvancedFilters =
-  (): ItemSearchAdvancedScalarFilters =>
+  (): ItemSearchAdvancedFilters =>
     Object.fromEntries(
-      ITEM_SEARCH_ADVANCED_SCALAR_FIELDS.map((field) => [field, null])
-    ) as ItemSearchAdvancedScalarFilters
+      ALL_EDITABLE_ITEM_SEARCH_ADVANCED_FIELDS.map((field) => [
+        field,
+        isItemSearchArrayField(field) ? [] : null,
+      ])
+    ) as ItemSearchAdvancedFilters
 
 export const humanizeItemSearchToken = (value?: string | null) => {
   const normalized = normalizeItemSearchTokenKey(value)
@@ -683,6 +693,43 @@ export const getItemSearchAdvancedFields = (
   )
 }
 
+export const getItemSearchCompendiumAdvancedFields = (
+  itemType?: string | null
+): ItemSearchAdvancedField[] =>
+  getItemSearchAdvancedFields(itemType).filter(
+    (field) =>
+      !isItemSearchArrayField(field) ||
+      ITEM_SEARCH_COMPENDIUM_ARRAY_ADVANCED_FIELDS.has(field)
+  )
+
+export const isItemSearchCompendiumSingleSelectArrayField = (
+  field: ItemSearchAdvancedField
+): field is ItemSearchArrayField =>
+  isItemSearchArrayField(field) &&
+  ITEM_SEARCH_COMPENDIUM_SINGLE_SELECT_ARRAY_FIELDS.has(field)
+
+export const normalizeItemSearchCompendiumAdvancedFilters = (
+  filters: ItemSearchAdvancedFilters,
+  itemType?: string | null
+): ItemSearchAdvancedFilters => {
+  const normalizedFilters = createEmptyItemSearchAdvancedFilters()
+  const activeFilters = getActiveItemSearchAdvancedFilters(filters, itemType)
+
+  getItemSearchCompendiumAdvancedFields(itemType).forEach((field) => {
+    const value = activeFilters[field]
+
+    if (isItemSearchCompendiumSingleSelectArrayField(field)) {
+      normalizedFilters[field] =
+        Array.isArray(value) && value.length > 0 ? [value[0] as string] : []
+      return
+    }
+
+    normalizedFilters[field] = value
+  })
+
+  return normalizedFilters
+}
+
 export const getItemSearchAttributeFacets = (
   itemType?: string | null,
   scope: ItemSearchAttributeScope = {}
@@ -724,30 +771,69 @@ export const isItemSearchArrayField = (
 ): field is ItemSearchArrayField =>
   ITEM_SEARCH_ARRAY_FIELD_SET.has(field as ItemSearchArrayField)
 
+const normalizeAdvancedArrayFilterValue = (value: unknown): string[] => {
+  const rawValues = Array.isArray(value)
+    ? value
+    : typeof value === 'string'
+      ? value.split(',')
+      : []
+
+  return Array.from(
+    new Set(
+      rawValues
+        .filter((entry): entry is string => typeof entry === 'string')
+        .flatMap((entry) => entry.split(','))
+        .map((entry) => normalizeItemSearchTokenKey(entry))
+        .filter(Boolean)
+    )
+  ).sort((left, right) => left.localeCompare(right))
+}
+
+export const hasActiveItemSearchAdvancedFilterValue = (
+  value: ItemSearchAdvancedFilterValue
+) =>
+  typeof value === 'string'
+    ? Boolean(normalizeItemSearchTokenKey(value))
+    : Array.isArray(value)
+      ? value.length > 0
+      : false
+
 export const getItemSearchAdvancedFacetValue = (
-  field: ItemSearchAdvancedScalarField,
+  field: ItemSearchAdvancedField,
   value: unknown,
   facets?: ItemSearchFacetResponse['advanced']
-) => {
-  if (typeof value !== 'string') return null
-
+): ItemSearchAdvancedFilterValue => {
   const options = facets?.[field] ?? []
+
+  if (isItemSearchArrayField(field)) {
+    const resolvedValues = normalizeAdvancedArrayFilterValue(value)
+      .map((entry) => resolveItemSearchFacetValue(entry, options))
+      .filter((entry): entry is string => Boolean(entry))
+
+    return resolvedValues.length > 0 ? resolvedValues : []
+  }
+
+  if (typeof value !== 'string') return null
   return resolveItemSearchFacetValue(value, options)
 }
 
 export const resolveItemSearchAdvancedFilters = (
   value: Record<string, unknown>,
   itemType?: string | null
-): ItemSearchAdvancedScalarFilters => {
+): ItemSearchAdvancedFilters => {
   const resolvedFilters = createEmptyItemSearchAdvancedFilters()
 
-  getItemSearchAdvancedScalarFields(itemType).forEach((field) => {
+  getItemSearchAdvancedFields(itemType).forEach((field) => {
     const rawValue = value[field]
-    if (typeof rawValue !== 'string') return
 
+    if (isItemSearchArrayField(field)) {
+      resolvedFilters[field] = normalizeAdvancedArrayFilterValue(rawValue)
+      return
+    }
+
+    if (typeof rawValue !== 'string') return
     const normalized = normalizeItemSearchTokenKey(rawValue)
     if (!normalized) return
-
     resolvedFilters[field] = normalized
   })
 
@@ -755,18 +841,24 @@ export const resolveItemSearchAdvancedFilters = (
 }
 
 export const getActiveItemSearchAdvancedFilters = (
-  filters: ItemSearchAdvancedScalarFilters,
+  filters: ItemSearchAdvancedFilters,
   itemType?: string | null
-): ItemSearchAdvancedScalarFilters => {
+): ItemSearchAdvancedFilters => {
   const activeFilters = createEmptyItemSearchAdvancedFilters()
 
-  getItemSearchAdvancedScalarFields(itemType).forEach((field) => {
+  getItemSearchAdvancedFields(itemType).forEach((field) => {
     const value = filters[field]
-    if (!value) return
+    if (isItemSearchArrayField(field)) {
+      const normalizedValues = normalizeAdvancedArrayFilterValue(value)
+      if (normalizedValues.length > 0) {
+        activeFilters[field] = normalizedValues
+      }
+      return
+    }
 
+    if (typeof value !== 'string') return
     const normalized = normalizeItemSearchTokenKey(value)
     if (!normalized) return
-
     activeFilters[field] = normalized
   })
 
@@ -774,16 +866,50 @@ export const getActiveItemSearchAdvancedFilters = (
 }
 
 export const serializeItemSearchAdvancedFilters = (
-  filters: ItemSearchAdvancedScalarFilters,
+  filters: ItemSearchAdvancedFilters,
   itemType?: string | null
 ) =>
-  getItemSearchAdvancedScalarFields(itemType)
+  getItemSearchAdvancedFields(itemType)
     .map((field) => {
       const value = filters[field]
-      return value ? `${field}:${normalizeItemSearchTokenKey(value)}` : null
+
+      if (isItemSearchArrayField(field)) {
+        const normalizedValues = normalizeAdvancedArrayFilterValue(value)
+        return normalizedValues.length > 0
+          ? `${field}:${normalizedValues.join(',')}`
+          : null
+      }
+
+      if (typeof value !== 'string') return null
+      const normalized = normalizeItemSearchTokenKey(value)
+      return normalized ? `${field}:${normalized}` : null
     })
     .filter((entry): entry is string => Boolean(entry))
     .join('|')
+
+export const buildItemSearchAdvancedFilterQuery = (
+  filters: ItemSearchAdvancedFilters,
+  itemType?: string | null,
+  fields: ItemSearchAdvancedField[] = getItemSearchAdvancedFields(itemType)
+) =>
+  Object.fromEntries(
+    fields
+      .map((field) => {
+        const value = filters[field]
+
+        if (isItemSearchArrayField(field)) {
+          const normalizedValues = normalizeAdvancedArrayFilterValue(value)
+          return normalizedValues.length > 0
+            ? [field, normalizedValues.join(',')]
+            : null
+        }
+
+        if (typeof value !== 'string') return null
+        const normalized = normalizeItemSearchTokenKey(value)
+        return normalized ? [field, normalized] : null
+      })
+      .filter((entry): entry is [string, string] => Boolean(entry))
+  )
 
 export const normalizeItemSearchMetadata = (
   value: unknown

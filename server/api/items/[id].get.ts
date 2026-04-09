@@ -3,8 +3,8 @@ import type { ItemSearchMetadata } from '#shared/types/itemSearch'
 import { normalizeItemSearchMetadata } from '#shared/utils/itemSearch'
 
 interface ItemTranslation {
-  description: string
-  language_code: string
+  description?: string | null
+  language_code?: string | null
 }
 
 interface ItemData {
@@ -163,10 +163,6 @@ export default defineCachedApiEventHandler(
         'obtain_type',
       ]
 
-      if (languageCode) {
-        selectParts.push('item_translations!left(description,language_code)')
-      }
-
       selectParts.push('item_attributes(category,subcategory,metadata)')
       selectParts.push(
         'outfit_items(outfits(id,quality,outfit_items(items(id,quality,type))))'
@@ -201,18 +197,29 @@ export default defineCachedApiEventHandler(
         }
       }
 
-      // Extract description from translations if available
-      if (languageCode && itemData.item_translations?.length) {
-        const translation = itemData.item_translations.find(
+      if (languageCode) {
+        const translationCodes = Array.from(new Set([languageCode, 'en']))
+        const { data: translationRows, error: translationError } =
+          await withSupabaseRetry(() =>
+            supabase
+              .from('item_translations')
+              .select('description,language_code')
+              .eq('item_id', id)
+              .in('language_code', translationCodes)
+          )
+
+        if (translationError) {
+          throw translationError
+        }
+
+        const translations = (translationRows as ItemTranslation[] | null) ?? []
+        const translation = translations.find(
           (t) => t.language_code === languageCode
         )
-        const enTranslation = itemData.item_translations.find(
-          (t) => t.language_code === 'en'
-        )
+        const enTranslation = translations.find((t) => t.language_code === 'en')
 
         itemData.description =
           translation?.description || enTranslation?.description || ''
-        delete itemData.item_translations
       }
 
       // Fetch variations if quality is 4★ or 5★

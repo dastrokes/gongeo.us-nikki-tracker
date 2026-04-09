@@ -1,8 +1,8 @@
 import { useSupabaseDataClient } from '~/composables/useSupabaseClient'
 
 interface OutfitTranslation {
-  description: string
-  language_code: string
+  description?: string | null
+  language_code?: string | null
 }
 
 interface OutfitData {
@@ -105,10 +105,6 @@ export default defineCachedApiEventHandler(
         'obtain_type',
       ]
 
-      if (languageCode) {
-        selectParts.push('outfit_translations!left(description,language_code)')
-      }
-
       selectParts.push('outfit_items(items(id,quality,type))')
 
       const selectQuery = selectParts.join(',')
@@ -126,18 +122,30 @@ export default defineCachedApiEventHandler(
 
       const outfitData = data as OutfitData
 
-      // Extract description from translations if available
-      if (languageCode && outfitData.outfit_translations?.length) {
-        const translation = outfitData.outfit_translations.find(
+      if (languageCode) {
+        const translationCodes = Array.from(new Set([languageCode, 'en']))
+        const { data: translationRows, error: translationError } =
+          await withSupabaseRetry(() =>
+            supabase
+              .from('outfit_translations')
+              .select('description,language_code')
+              .eq('outfit_id', id)
+              .in('language_code', translationCodes)
+          )
+
+        if (translationError) {
+          throw translationError
+        }
+
+        const translations =
+          (translationRows as OutfitTranslation[] | null) ?? []
+        const translation = translations.find(
           (t) => t.language_code === languageCode
         )
-        const enTranslation = outfitData.outfit_translations.find(
-          (t) => t.language_code === 'en'
-        )
+        const enTranslation = translations.find((t) => t.language_code === 'en')
 
         outfitData.description =
           translation?.description || enTranslation?.description || ''
-        delete outfitData.outfit_translations
       }
 
       // Fetch variations if quality is 4★ or 5★

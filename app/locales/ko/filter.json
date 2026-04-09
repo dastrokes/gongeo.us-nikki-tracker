@@ -102,23 +102,31 @@
     },
     "neckline": {
       "boat_neck": "보트넥",
-      "collared": "칼라",
       "crew_neck": "크루넥",
-      "cross_collar": "크로스 칼라",
-      "duijin_collar": "대금 칼라",
       "halter_neck": "홀터넥",
-      "hooded": "후디드",
       "keyhole_neck": "키홀넥",
-      "mandarin_collar": "만다린 칼라",
       "mock_neck": "모크넥",
-      "peter_pan_collar": "피터팬 칼라",
-      "right_cross_collar": "교령우임",
-      "sailor_collar": "세일러 칼라",
       "scoop_neck": "스쿱넥",
       "square_neck": "스퀘어넥",
       "sweetheart_neck": "하트넥",
       "turtleneck": "터틀넥",
       "v_neck": "브이넥"
+    },
+    "collar_style": {
+      "collared": "Collared",
+      "cross_collar": "Cross Collar",
+      "duijin_collar": "Duijin Collar",
+      "mandarin_collar": "Mandarin Collar",
+      "peter_pan_collar": "Peter Pan Collar",
+      "right_cross_collar": "Right Cross Collar",
+      "sailor_collar": "Sailor Collar"
+    },
+    "garment_feature": {
+      "belted": "Belted",
+      "button_up": "Button Up",
+      "hooded": "Hooded",
+      "lace_up": "Lace Up",
+      "zip_up": "Zip Up"
     },
     "ornament": {
       "animal": "동물 모티프",

@@ -113,20 +113,20 @@
       "v_neck": "Scollo a V"
     },
     "collar_style": {
-      "collared": "Collared",
-      "cross_collar": "Cross Collar",
-      "duijin_collar": "Duijin Collar",
-      "mandarin_collar": "Mandarin Collar",
-      "peter_pan_collar": "Peter Pan Collar",
-      "right_cross_collar": "Right Cross Collar",
-      "sailor_collar": "Sailor Collar"
+      "collared": "Con colletto",
+      "cross_collar": "Collo incrociato",
+      "duijin_collar": "Collo frontale",
+      "mandarin_collar": "Collo alla coreana",
+      "peter_pan_collar": "Collo Peter Pan",
+      "right_cross_collar": "Collo incrociato a destra",
+      "sailor_collar": "Collo alla marinara"
     },
     "garment_feature": {
-      "belted": "Belted",
-      "button_up": "Button Up",
-      "hooded": "Hooded",
-      "lace_up": "Lace Up",
-      "zip_up": "Zip Up"
+      "belted": "Con cintura",
+      "button_up": "Abbottonato",
+      "hooded": "Con cappuccio",
+      "lace_up": "Allacciato",
+      "zip_up": "Con cerniera"
     },
     "ornament": {
       "animal": "Motivo Animale",

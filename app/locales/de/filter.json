@@ -102,23 +102,31 @@
     },
     "neckline": {
       "boat_neck": "U-Ausschnitt",
-      "collared": "Mit Kragen",
       "crew_neck": "Rundhals",
-      "cross_collar": "Kreuz-Kragen",
-      "duijin_collar": "Duijin-Kragen",
       "halter_neck": "Neckholder",
-      "hooded": "Mit Kapuze",
       "keyhole_neck": "Schlüsselloch-Ausschnitt",
-      "mandarin_collar": "Mandarin-Kragen",
       "mock_neck": "Mock Neck",
-      "peter_pan_collar": "Bubikragen",
-      "right_cross_collar": "Rechter Kreuzkragen",
-      "sailor_collar": "Matrosenkragen",
       "scoop_neck": "Tiefer Rundhals",
       "square_neck": "Eckiger Ausschnitt",
       "sweetheart_neck": "Herz-Ausschnitt",
       "turtleneck": "Rollkragen",
       "v_neck": "V-Ausschnitt"
+    },
+    "collar_style": {
+      "collared": "Collared",
+      "cross_collar": "Cross Collar",
+      "duijin_collar": "Duijin Collar",
+      "mandarin_collar": "Mandarin Collar",
+      "peter_pan_collar": "Peter Pan Collar",
+      "right_cross_collar": "Right Cross Collar",
+      "sailor_collar": "Sailor Collar"
+    },
+    "garment_feature": {
+      "belted": "Belted",
+      "button_up": "Button Up",
+      "hooded": "Hooded",
+      "lace_up": "Lace Up",
+      "zip_up": "Zip Up"
     },
     "ornament": {
       "animal": "Tier",

@@ -479,20 +479,7 @@
     const pathSegments = route.path.split('/').filter(Boolean)
 
     // Remove locale prefix if present
-    const locales = [
-      'en',
-      'de',
-      'es',
-      'fr',
-      'id',
-      'it',
-      'ja',
-      'ko',
-      'pt',
-      'th',
-      'zh',
-      'tw',
-    ]
+    const locales = ['en', 'de', 'es', 'fr', 'it', 'pt', 'ja', 'ko', 'zh', 'tw']
     const firstSegment = pathSegments[0] || ''
     const isLocalePrefix = locales.includes(firstSegment)
 

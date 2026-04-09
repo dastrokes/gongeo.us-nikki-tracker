@@ -146,13 +146,13 @@
       })
 
       options.push({
-        label: t('default.user_profile.upload_data'),
+        label: t('common.profile.upload_data'),
         key: 'upload',
         icon: renderIcon(Upload),
       })
 
       options.push({
-        label: t('default.user_profile.sync_data'),
+        label: t('common.profile.sync_data'),
         key: 'sync',
         icon: renderIcon(Sync),
       })
@@ -172,14 +172,14 @@
 
     if (user.value) {
       options.push({
-        label: t('default.user_profile.clear_cloud_data'),
+        label: t('common.profile.clear_cloud_data'),
         key: 'clear-cloud',
         icon: renderIcon(TrashAlt),
       })
     }
 
     options.push({
-      label: t('default.user_profile.clear_local_data'),
+      label: t('common.profile.clear_local_data'),
       key: 'clear',
       icon: renderIcon(Trash),
     })
@@ -228,7 +228,7 @@
 
     if (key === 'upload') {
       dialog.warning({
-        title: t('default.user_profile.sync.confirm_upload.title'),
+        title: t('common.profile.upload_data'),
         content: t('default.user_profile.sync.confirm_upload.content', {
           profile: activeProfileLabel.value,
         }),
@@ -268,7 +268,7 @@
 
     if (key === 'sync') {
       dialog.warning({
-        title: t('default.user_profile.sync.confirm_sync.title'),
+        title: t('common.profile.sync_data'),
         content: t('default.user_profile.sync.confirm_sync.content', {
           profile: activeProfileLabel.value,
         }),
@@ -293,7 +293,7 @@
 
     if (key === 'clear-cloud') {
       dialog.warning({
-        title: t('default.user_profile.clear_cloud_confirm.title'),
+        title: t('common.profile.clear_cloud_data'),
         content: t('default.user_profile.clear_cloud_confirm.content', {
           profile: activeProfileLabel.value,
         }),
@@ -318,7 +318,7 @@
 
     if (key === 'clear') {
       dialog.warning({
-        title: t('default.user_profile.clear_local_confirm.title'),
+        title: t('common.profile.clear_local_data'),
         content: t('default.user_profile.clear_local_confirm.content', {
           profile: activeProfileLabel.value,
         }),

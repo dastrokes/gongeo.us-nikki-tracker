@@ -257,7 +257,7 @@
             <div class="grid grid-cols-2 gap-3 text-center lg:grid-cols-1">
               <div class="p-3 rounded-xl bg-[#e8ddf9]/15 dark:bg-[#1e1b4b]/25">
                 <div class="text-sm text-gray-400 mb-1">
-                  {{ $t('global.stats.total_pulls') }}
+                  {{ $t('common.stats.total_pulls') }}
                 </div>
                 <div
                   class="text-xl sm:text-2xl font-bold tabular-nums min-h-[1.75rem] sm:min-h-[2rem]"
@@ -780,10 +780,10 @@
                     ${t(`item.${itemId}.name`, itemId)}
                   </div>
                   <div>
-                    ${t('global.charts.occurrences')}: <strong>${params[0]?.data?.value ?? 0}</strong>
+                    ${t('common.charts.occurrences')}: <strong>${params[0]?.data?.value ?? 0}</strong>
                   </div>
                   <div>
-                    ${t('global.charts.percentage')}: <strong>${params[0]?.data?.percentage ?? '0.00'}%</strong>
+                    ${t('common.charts.percentage')}: <strong>${params[0]?.data?.percentage ?? '0.00'}%</strong>
                   </div>
                 </div>
               `

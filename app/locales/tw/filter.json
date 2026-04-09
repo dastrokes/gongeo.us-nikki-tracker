@@ -113,20 +113,20 @@
       "v_neck": "V領"
     },
     "collar_style": {
-      "collared": "Collared",
-      "cross_collar": "Cross Collar",
-      "duijin_collar": "Duijin Collar",
-      "mandarin_collar": "Mandarin Collar",
-      "peter_pan_collar": "Peter Pan Collar",
-      "right_cross_collar": "Right Cross Collar",
-      "sailor_collar": "Sailor Collar"
+      "collared": "有領",
+      "cross_collar": "交叉領",
+      "duijin_collar": "對襟領",
+      "mandarin_collar": "立領",
+      "peter_pan_collar": "娃娃領",
+      "right_cross_collar": "交領右衽",
+      "sailor_collar": "水手領"
     },
     "garment_feature": {
-      "belted": "Belted",
-      "button_up": "Button Up",
-      "hooded": "Hooded",
-      "lace_up": "Lace Up",
-      "zip_up": "Zip Up"
+      "belted": "繫腰帶",
+      "button_up": "紐扣開襟",
+      "hooded": "連帽",
+      "lace_up": "繫帶",
+      "zip_up": "拉鍊開襟"
     },
     "ornament": {
       "animal": "動物圖案",

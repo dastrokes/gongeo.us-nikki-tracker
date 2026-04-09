@@ -102,23 +102,31 @@
     },
     "neckline": {
       "boat_neck": "Col Bateau",
-      "collared": "À Col",
       "crew_neck": "Col Rond",
-      "cross_collar": "Col Croisé",
-      "duijin_collar": "Col Duijin",
       "halter_neck": "Dos Nu/Licol",
-      "hooded": "À Capuche",
       "keyhole_neck": "Col Goutte",
-      "mandarin_collar": "Col Officier/Mandarin",
       "mock_neck": "Col Montant",
-      "peter_pan_collar": "Col Claudine",
-      "right_cross_collar": "Col Croisé Droit",
-      "sailor_collar": "Col Marin",
       "scoop_neck": "Col Échancré",
       "square_neck": "Col Carré",
       "sweetheart_neck": "Col Cœur",
       "turtleneck": "Col Roulé",
       "v_neck": "Col en V"
+    },
+    "collar_style": {
+      "collared": "Collared",
+      "cross_collar": "Cross Collar",
+      "duijin_collar": "Duijin Collar",
+      "mandarin_collar": "Mandarin Collar",
+      "peter_pan_collar": "Peter Pan Collar",
+      "right_cross_collar": "Right Cross Collar",
+      "sailor_collar": "Sailor Collar"
+    },
+    "garment_feature": {
+      "belted": "Belted",
+      "button_up": "Button Up",
+      "hooded": "Hooded",
+      "lace_up": "Lace Up",
+      "zip_up": "Zip Up"
     },
     "ornament": {
       "animal": "Motif Animal",

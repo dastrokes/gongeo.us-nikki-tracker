@@ -37,12 +37,12 @@
     },
     "sources": {
       "data_source": "Datenquelle",
-      "data_source_tooltip": "Wähle eine bevorzugte Datenquelle aus. Falls nicht verfügbar, wird die andere Quelle als Rückfalloption verwendet.",
+      "data_source_tooltip": "Wähle eine Datenquelle aus. Falls nicht verfügbar, wird die andere Quelle als Rückfalloption verwendet.",
       "auto_option": "\"Auto\" kombiniert beide Quellen, bevorzugend die, die mehr Resonanzen pro Banner hat.",
       "pearpal_website": "Pearpal-Webseite",
       "whimlog": "Whim-Log",
       "game": "Spiel",
-      "auto": "Automatisch"
+      "auto": "Auto"
     },
     "stats": {
       "total_pulls": "Resonanzen insges.",
@@ -730,11 +730,13 @@
       "material": "Material",
       "structure": "Struktur",
       "ornament": "Verzierung",
+      "garment_feature": "Garment Feature",
       "top_length": "Oberteillänge",
       "bottom_length": "Unterteillänge",
       "hair_length": "Haarlänge",
       "fit": "Passform",
       "neckline": "Dekolleté",
+      "collar_style": "Collar Style",
       "shoulder_style": "Schulterstil",
       "sleeve_length": "Ärmellänge",
       "sleeve_style": "Ärmelstil",
@@ -774,7 +776,11 @@
     "queue_title": "Feedback-Prüfung",
     "page_description": "Durchsuche strukturierte Tag-Korrekturen, stimme über existierende Vorschläge ab und hilf dabei, das Kompendium ordentlich zu halten.",
     "quick_review_empty": "Du bist auf dem neusten Stand der aktuellen Warteschlange.",
+    "list_empty": "No feedback matches these filters.",
     "refresh": "Aktualisieren",
+    "mode_filter_label": "Mode",
+    "mode_vote": "Voting",
+    "mode_list": "Listing",
     "scope_filter_label": "Bereich",
     "sort_filter_label": "Sortieren",
     "status_filter_label": "Status",
@@ -786,8 +792,8 @@
     "scope_mine": "Mein Feedback",
     "scope_mine_empty": "Kein Feedback gefunden, das diesen Filtern entspricht.",
     "sort_needs_review": "Prüfung erforderlich",
-    "sort_top": "Top-Bewertungen",
-    "status_all": "Alle Status",
+    "sort_top": "Top bewertet",
+    "status_all": "Alle Stati",
     "status_open": "Offen",
     "status_accepted": "Angenommen",
     "status_rejected": "Abgelehnt",
@@ -826,20 +832,20 @@
     "no_changes": "Noch keine Änderungen.",
     "login_required": "Melden dich an, um Vorschläge einzureichen und abzustimmen.",
     "agree_action": "Zustimmen",
-    "disagree_action": "Ablehnen",
+    "disagree_action": "Widersprechen",
     "agree_count": "Zustimmen {count}",
-    "disagree_count": "Ablehnen {count}",
+    "disagree_count": "Widersprechen {count}",
     "guidelines_action": "Richtlinien",
     "back_to_queue": "Zurück zur Feedback-Warteschlange",
     "no_tags": "Für diesen Gegenstand sind noch keine Tag-Daten verfügbar.",
     "guidelines": {
-      "page_title": "Feedback-Richtlinie",
-      "page_description": "Richtlinie für Feedback-Einsendungen.",
+      "page_title": "Feedback-Richtlinien",
+      "page_description": "Richtlinien für Feedback-Vorschläge.",
       "hair_length": {
-        "short": "Über den Schultern.",
+        "short": "Bis zu den Schultern.",
         "medium": "Von den Schultern bis zum oberen Rücken.",
         "long": "Vom oberen bis zum unteren Rücken.",
-        "very_long": "Unterhalb des unteren Rückens."
+        "very_long": "Ab dem unteren Rücken."
       },
       "top_length": {
         "ultra_crop": "Über der Taille / Unterbrust.",
@@ -865,9 +871,9 @@
       "other_subcategories": "Andere Unterkategorien"
     },
     "admin": {
-      "approve_failed": "Vorschlag konnte nicht genehmigt werden.",
-      "apply_failed": "Vorschlag konnte nicht angewendet werden.",
-      "reject_failed": "Vorschlag konnte nicht abgelehnt werden."
+      "approve_failed": "Fehler beim Genehmigen des Vorschlags.",
+      "apply_failed": "Fehler beim Anwenden des Vorschlags.",
+      "reject_failed": "Fehler beim Ablehnen des Vorschlags."
     }
   },
   "stats": {

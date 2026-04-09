@@ -843,30 +843,30 @@
       "page_description": "Directriz para el envío de comentarios.",
       "hair_length": {
         "short": "Por encima de los hombros.",
-        "medium": "De los hombros a la parte superior de la espalda.",
-        "long": "De la parte superior a la parte inferior de la espalda.",
+        "medium": "Desde los hombros hasta la parte superior de la espalda.",
+        "long": "Desde la parte superior hasta la parte inferior de la espalda.",
         "very_long": "Por debajo de la parte inferior de la espalda."
       },
       "top_length": {
-        "ultra_crop": "Por encima de la cintura / debajo del busto.",
-        "crop": "En la cintura natural.",
-        "waist_length": "En la línea de la cintura.",
-        "hip_length": "En las caderas.",
-        "upper_thigh": "De las caderas a la parte superior del muslo.",
-        "mid_thigh": "A mitad del muslo.",
-        "maxi": "Debajo de la rodilla hasta la parte inferior de la pierna.",
-        "floor_length": "Al nivel del suelo o cerca."
+        "ultra_crop": "Por encima o alrededor del bajo pecho.",
+        "crop": "Alrededor de la cintura; puede exponer el abdomen.",
+        "waist_length": "Por debajo de la cintura; cubre el abdomen.",
+        "hip_length": "Alrededor de las caderas.",
+        "upper_thigh": "Parte superior del muslo.",
+        "mid_thigh": "Mitad del muslo.",
+        "maxi": "Alrededor del tobillo.",
+        "floor_length": "Llega al suelo o casi."
       },
       "bottom_length": {
-        "upper_thigh": "Muslo alto.",
+        "mini": "Desde la parte superior hasta la mitad del muslo. (solo falda)",
+        "midi": "Alrededor de la rodilla hasta la mitad de la pantorrilla. (solo falda)",
+        "maxi": "Alrededor del tobillo. (solo falda)",
+        "floor_length": "Llega al suelo o casi. (solo falda)",
+        "upper_thigh": "Parte superior del muslo.",
         "mid_thigh": "Mitad del muslo.",
-        "mini": "De la parte superior a la mitad del muslo.",
-        "knee_length": "En la rodilla.",
-        "midi": "Entre la rodilla y el tobillo.",
-        "mid_calf": "A mitad de la pantorrilla.",
-        "ankle_length": "En el tobillo.",
-        "maxi": "Cerca del tobillo o más largo.",
-        "floor_length": "Al nivel del suelo o cerca."
+        "knee_length": "Alrededor de la rodilla.",
+        "mid_calf": "Mitad de la pantorrilla.",
+        "ankle_length": "Alrededor del tobillo."
       },
       "other_subcategories": "Otras subcategorías"
     },

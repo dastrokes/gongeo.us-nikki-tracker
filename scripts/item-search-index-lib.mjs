@@ -65,6 +65,7 @@ const LOCAL_COPY_FIELD_ORDER_BY_ITEM_TYPE = {
     'fit',
     'waistline',
     'neckline',
+    'collar_style',
     'shoulder_style',
     'sleeve_length',
     'sleeve_style',
@@ -72,6 +73,7 @@ const LOCAL_COPY_FIELD_ORDER_BY_ITEM_TYPE = {
     'material',
     'structure',
     'ornament',
+    'garment_feature',
   ],
   outerwear: [
     'category',
@@ -79,6 +81,7 @@ const LOCAL_COPY_FIELD_ORDER_BY_ITEM_TYPE = {
     'top_length',
     'fit',
     'neckline',
+    'collar_style',
     'shoulder_style',
     'sleeve_length',
     'sleeve_style',
@@ -86,6 +89,7 @@ const LOCAL_COPY_FIELD_ORDER_BY_ITEM_TYPE = {
     'material',
     'structure',
     'ornament',
+    'garment_feature',
   ],
   tops: [
     'category',
@@ -93,6 +97,7 @@ const LOCAL_COPY_FIELD_ORDER_BY_ITEM_TYPE = {
     'top_length',
     'fit',
     'neckline',
+    'collar_style',
     'shoulder_style',
     'sleeve_length',
     'sleeve_style',
@@ -100,6 +105,7 @@ const LOCAL_COPY_FIELD_ORDER_BY_ITEM_TYPE = {
     'material',
     'structure',
     'ornament',
+    'garment_feature',
   ],
   bottoms: [
     'category',
@@ -112,6 +118,7 @@ const LOCAL_COPY_FIELD_ORDER_BY_ITEM_TYPE = {
     'material',
     'structure',
     'ornament',
+    'garment_feature',
   ],
   socks: [
     'category',

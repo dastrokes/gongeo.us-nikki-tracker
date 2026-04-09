@@ -102,23 +102,31 @@
     },
     "neckline": {
       "boat_neck": "一字领",
-      "collared": "有领",
       "crew_neck": "圆领",
-      "cross_collar": "交叉领",
-      "duijin_collar": "对襟领",
       "halter_neck": "挂脖",
-      "hooded": "连帽",
       "keyhole_neck": "钥匙孔领",
-      "mandarin_collar": "立领",
       "mock_neck": "半高领",
-      "peter_pan_collar": "娃娃领",
-      "right_cross_collar": "交领右衽",
-      "sailor_collar": "水手领",
       "scoop_neck": "大圆领",
       "square_neck": "方领",
       "sweetheart_neck": "心形领",
       "turtleneck": "高领",
       "v_neck": "V领"
+    },
+    "collar_style": {
+      "collared": "有领",
+      "cross_collar": "交叉领",
+      "duijin_collar": "对襟领",
+      "mandarin_collar": "立领",
+      "peter_pan_collar": "娃娃领",
+      "right_cross_collar": "交领右衽",
+      "sailor_collar": "水手领"
+    },
+    "garment_feature": {
+      "belted": "系腰带",
+      "button_up": "纽扣开襟",
+      "hooded": "连帽",
+      "lace_up": "系带",
+      "zip_up": "拉链开襟"
     },
     "ornament": {
       "animal": "动物",

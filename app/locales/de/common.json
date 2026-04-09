@@ -842,7 +842,7 @@
       "page_title": "Feedback-Richtlinien",
       "page_description": "Richtlinien für Feedback-Vorschläge.",
       "hair_length": {
-        "short": "Bis zu den Schultern.",
+        "short": "Über den Schultern.",
         "medium": "Von den Schultern bis zum oberen Rücken.",
         "long": "Vom oberen bis zum unteren Rücken.",
         "very_long": "Unter dem unteren Rücken."
@@ -863,7 +863,7 @@
         "maxi": "Um den Knöchel. (nur Rock)",
         "floor_length": "Bodenberührend oder fast. (nur Rock)",
         "upper_thigh": "Oberer Oberschenkel.",
-        "mid_thigh": "Mitte des Oberschenkels.",
+        "mid_thigh": "Mitte Oberschenkel.",
         "knee_length": "Um das Knie.",
         "mid_calf": "Mitte der Wade.",
         "ankle_length": "Um den Knöchel."

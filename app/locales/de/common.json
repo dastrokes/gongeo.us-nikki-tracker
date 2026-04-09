@@ -37,12 +37,12 @@
     },
     "sources": {
       "data_source": "Datenquelle",
-      "data_source_tooltip": "Wähle eine bevorzugte Datenquelle aus. Falls nicht verfügbar, wird die andere Quelle als Rückfalloption verwendet.",
+      "data_source_tooltip": "Wähle eine Datenquelle aus. Falls nicht verfügbar, wird die andere Quelle als Rückfalloption verwendet.",
       "auto_option": "\"Auto\" kombiniert beide Quellen, bevorzugend die, die mehr Resonanzen pro Banner hat.",
       "pearpal_website": "Pearpal-Webseite",
       "whimlog": "Whim-Log",
       "game": "Spiel",
-      "auto": "Automatisch"
+      "auto": "Auto"
     },
     "stats": {
       "total_pulls": "Resonanzen insges.",
@@ -780,7 +780,7 @@
     "refresh": "Aktualisieren",
     "mode_filter_label": "Modus",
     "mode_vote": "Abstimmung",
-    "mode_list": "Liste",
+    "mode_list": "Verzeichnis",
     "scope_filter_label": "Bereich",
     "sort_filter_label": "Sortieren",
     "status_filter_label": "Status",
@@ -792,8 +792,8 @@
     "scope_mine": "Mein Feedback",
     "scope_mine_empty": "Kein Feedback gefunden, das diesen Filtern entspricht.",
     "sort_needs_review": "Prüfung erforderlich",
-    "sort_top": "Top-Bewertungen",
-    "status_all": "Alle Status",
+    "sort_top": "Top bewertet",
+    "status_all": "Alle Stati",
     "status_open": "Offen",
     "status_accepted": "Angenommen",
     "status_rejected": "Abgelehnt",
@@ -832,15 +832,15 @@
     "no_changes": "Noch keine Änderungen.",
     "login_required": "Melden dich an, um Vorschläge einzureichen und abzustimmen.",
     "agree_action": "Zustimmen",
-    "disagree_action": "Ablehnen",
+    "disagree_action": "Widersprechen",
     "agree_count": "Zustimmen {count}",
-    "disagree_count": "Ablehnen {count}",
+    "disagree_count": "Widersprechen {count}",
     "guidelines_action": "Richtlinien",
     "back_to_queue": "Zurück zur Feedback-Warteschlange",
     "no_tags": "Für diesen Gegenstand sind noch keine Tag-Daten verfügbar.",
     "guidelines": {
-      "page_title": "Feedback-Richtlinie",
-      "page_description": "Richtlinie für Feedback-Einsendungen.",
+      "page_title": "Feedback-Richtlinien",
+      "page_description": "Richtlinien für Feedback-Vorschläge.",
       "hair_length": {
         "short": "Über den Schultern.",
         "medium": "Von den Schultern bis zum oberen Rücken.",
@@ -863,7 +863,7 @@
         "maxi": "Um den Knöchel. (nur Rock)",
         "floor_length": "Bodenberührend oder fast. (nur Rock)",
         "upper_thigh": "Oberer Oberschenkel.",
-        "mid_thigh": "Mitte des Oberschenkels.",
+        "mid_thigh": "Mitte Oberschenkel.",
         "knee_length": "Um das Knie.",
         "mid_calf": "Mitte der Wade.",
         "ankle_length": "Um den Knöchel."
@@ -871,9 +871,9 @@
       "other_subcategories": "Andere Unterkategorien"
     },
     "admin": {
-      "approve_failed": "Vorschlag konnte nicht genehmigt werden.",
-      "apply_failed": "Vorschlag konnte nicht angewendet werden.",
-      "reject_failed": "Vorschlag konnte nicht abgelehnt werden."
+      "approve_failed": "Fehler beim Genehmigen des Vorschlags.",
+      "apply_failed": "Fehler beim Anwenden des Vorschlags.",
+      "reject_failed": "Fehler beim Ablehnen des Vorschlags."
     }
   },
   "stats": {

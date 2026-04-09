@@ -766,6 +766,7 @@
     "placeholder": "Tenta '{example}'",
     "clear_query": "Limpar pesquisa",
     "close_details": "Fechar detalhes",
+    "error_description": "Falha ao consultar o índice de pesquisa.",
     "no_matches": "Sem correspondências",
     "match_score": "{score}% de correspondência"
   },

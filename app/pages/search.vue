@@ -104,7 +104,7 @@
     >
       <n-alert
         type="error"
-        :title="t('search_page.error_title')"
+        :title="t('common.error')"
         :show-icon="true"
         class="rounded-xl shadow-sm"
       >
@@ -320,7 +320,7 @@
                       class="!rounded-xl shadow-md font-bold"
                       @click="openActiveCompendium"
                     >
-                      {{ t('search_page.view_compendium') }}
+                      {{ t('common.view_compendium') }}
                     </n-button>
 
                     <n-button
@@ -489,7 +489,7 @@
               class="!rounded-xl shadow-md font-bold"
               @click="openActiveCompendium"
             >
-              {{ t('search_page.view_compendium') }}
+              {{ t('common.view_compendium') }}
             </n-button>
 
             <n-button
@@ -809,7 +809,12 @@
 
   const openFeedbackModal = async () => {
     const currentResult = activeFeedbackResult.value
-    if (!currentResult || !currentResult.supportsFeedback) return
+    if (
+      !currentResult ||
+      !currentResult.supportsFeedback ||
+      currentResult.itemId === null
+    )
+      return
 
     const nextTarget: FeedbackModalTarget = {
       itemId: currentResult.itemId,

@@ -100,7 +100,7 @@
             class="text-center rounded-lg"
           >
             <div class="text-sm text-gray-400">
-              {{ $t('global.stats.total_pulls') }}
+              {{ $t('common.stats.total_pulls') }}
             </div>
             <div class="text-lg font-medium tabular-nums mt-1">
               <n-number-animation
@@ -132,7 +132,7 @@
             class="text-center rounded-lg"
           >
             <div class="text-sm text-gray-400">
-              {{ $t('global.stats.avg_5star') }}
+              {{ $t('common.stats.avg_5star') }}
             </div>
             <div class="text-lg font-medium tabular-nums mt-1">
               <n-number-animation
@@ -148,7 +148,7 @@
             class="text-center rounded-lg"
           >
             <div class="text-sm text-gray-400">
-              {{ $t('global.stats.avg_4star_type2') }}
+              {{ $t('common.stats.avg_4star_mixed') }}
             </div>
             <div class="text-lg font-medium tabular-nums mt-1">
               <n-number-animation
@@ -164,7 +164,7 @@
             class="text-center rounded-lg"
           >
             <div class="text-sm text-gray-400">
-              {{ $t('global.stats.avg_4star_type3') }}
+              {{ $t('common.stats.avg_4star_only') }}
             </div>
             <div class="text-lg font-medium tabular-nums mt-1">
               <n-number-animation
@@ -1273,16 +1273,16 @@
           return `
                 <div style="display: flex; flex-direction: column;">
                   <div style="font-weight: bold; margin-bottom: 5px;">
-                    ${t('global.charts.number_of_pulls')}: ${barData.axisValue}
+                    ${t('common.charts.number_of_pulls')}: ${barData.axisValue}
                   </div>
                   <div>
-                    ${t('global.charts.occurrences')}: <strong>${barData.value}</strong>
+                    ${t('common.charts.occurrences')}: <strong>${barData.value}</strong>
                   </div>
                   <div>
-                    ${t('global.charts.probability')}: <strong>${((barData.value / (total as number)) * 100).toFixed(2)}%</strong>
+                    ${t('common.charts.probability')}: <strong>${((barData.value / (total as number)) * 100).toFixed(2)}%</strong>
                   </div>
                   <div>
-                    ${t('global.charts.cumulative_probability')}: <strong>${lineData.value.toFixed(2)}%</strong>
+                    ${t('common.charts.cumulative_probability')}: <strong>${lineData.value.toFixed(2)}%</strong>
                   </div>
                 </div>
               `
@@ -1313,7 +1313,7 @@
       yAxis: [
         {
           type: 'value',
-          name: t('global.charts.number_of_pulls'),
+          name: t('common.charts.number_of_pulls'),
           nameLocation: 'middle',
           nameRotate: 90,
           splitLine: {
@@ -1325,7 +1325,7 @@
         },
         {
           type: 'value',
-          name: t('global.charts.probability'),
+          name: t('common.charts.probability'),
           nameLocation: 'middle',
           nameRotate: 270,
           max: 100,
@@ -1339,7 +1339,7 @@
       ],
       series: [
         {
-          name: t('global.charts.occurrences'),
+          name: t('common.charts.occurrences'),
           type: 'bar',
           data: values,
           itemStyle: {
@@ -1348,7 +1348,7 @@
           },
         },
         {
-          name: t('global.charts.cumulative_probability'),
+          name: t('common.charts.cumulative_probability'),
           type: 'line',
           yAxisIndex: 1,
           smooth: true,
@@ -1535,10 +1535,10 @@
                     ${t('common.slot')}: <strong>${t(`type.${getItemType(itemId)}`)}</strong>
                   </div>
                   <div>
-                    ${t('global.charts.occurrences')}: <strong>${params[0].data.value}</strong>
+                    ${t('common.charts.occurrences')}: <strong>${params[0].data.value}</strong>
                   </div>
                   <div>
-                    ${t('global.charts.percentage')}: <strong>${params[0].data.percentage}%</strong>
+                    ${t('common.charts.percentage')}: <strong>${params[0].data.percentage}%</strong>
                   </div>
                 </div>
               `
@@ -1591,7 +1591,7 @@
       },
       series: [
         {
-          name: t('global.charts.occurrences'),
+          name: t('common.charts.occurrences'),
           type: 'bar',
           barWidth: '60%',
           data: dataArr,

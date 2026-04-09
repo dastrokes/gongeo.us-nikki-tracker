@@ -15,8 +15,8 @@
               >
                 {{
                   isPersonalMode
-                    ? $t('vote.stats.personalVotes')
-                    : $t('vote.stats.totalVotes')
+                    ? $t('common.stats.personal_votes')
+                    : $t('common.stats.total_votes')
                 }}
               </div>
               <div
@@ -44,7 +44,7 @@
               <div
                 class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-1"
               >
-                {{ $t('vote.stats.totalVoters') }}
+                {{ $t('common.stats.total_voters') }}
               </div>
               <div
                 class="flex items-center justify-center sm:justify-start gap-2"
@@ -71,7 +71,7 @@
               <div
                 class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-1"
               >
-                {{ $t('vote.stats.avgVotes') }}
+                {{ $t('common.stats.avg_votes') }}
               </div>
               <div
                 class="flex items-center justify-center sm:justify-start gap-2"
@@ -535,7 +535,7 @@
       sorter: (a, b) => b.losses - a.losses,
     },
     {
-      title: t('vote.rankings.totalVotes'),
+      title: t('common.stats.total_votes'),
       key: 'total_votes',
       width: 120,
       render: (row) => {

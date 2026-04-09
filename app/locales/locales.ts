@@ -5,12 +5,10 @@ export type SupportedLocaleCode =
   | 'de'
   | 'es'
   | 'fr'
-  | 'id'
   | 'it'
+  | 'pt'
   | 'ja'
   | 'ko'
-  | 'pt'
-  | 'th'
   | 'zh'
   | 'tw'
 
@@ -22,12 +20,10 @@ export const intlLocaleMap: Record<SupportedLocaleCode, string> = {
   de: 'de-DE',
   es: 'es-ES',
   fr: 'fr-FR',
-  id: 'id-ID',
   it: 'it-IT',
+  pt: 'pt-BR',
   ja: 'ja-JP',
   ko: 'ko-KR',
-  pt: 'pt-BR',
-  th: 'th-TH',
   zh: 'zh-CN',
   tw: 'zh-TW',
 }
@@ -86,19 +82,6 @@ export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
     ],
   },
   {
-    code: 'id',
-    language: 'id',
-    name: 'Bahasa Indonesia',
-    files: [
-      'id/common.json',
-      'id/filter.json',
-      'id/banner.json',
-      'id/outfit.json',
-      'id/item.json',
-      'id/misc.json',
-    ],
-  },
-  {
     code: 'it',
     language: 'it',
     name: 'Italiano',
@@ -109,6 +92,19 @@ export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
       'it/outfit.json',
       'it/item.json',
       'it/misc.json',
+    ],
+  },
+  {
+    code: 'pt',
+    language: 'pt',
+    name: 'Português',
+    files: [
+      'pt/common.json',
+      'pt/filter.json',
+      'pt/banner.json',
+      'pt/outfit.json',
+      'pt/item.json',
+      'pt/misc.json',
     ],
   },
   {
@@ -137,32 +133,7 @@ export const i18nLocales: LocaleObject<SupportedLocaleCode>[] = [
       'ko/misc.json',
     ],
   },
-  {
-    code: 'pt',
-    language: 'pt',
-    name: 'Português',
-    files: [
-      'pt/common.json',
-      'pt/filter.json',
-      'pt/banner.json',
-      'pt/outfit.json',
-      'pt/item.json',
-      'pt/misc.json',
-    ],
-  },
-  {
-    code: 'th',
-    language: 'th',
-    name: 'ไทย',
-    files: [
-      'th/common.json',
-      'th/filter.json',
-      'th/banner.json',
-      'th/outfit.json',
-      'th/item.json',
-      'th/misc.json',
-    ],
-  },
+
   {
     code: 'zh',
     language: 'zh-CN',

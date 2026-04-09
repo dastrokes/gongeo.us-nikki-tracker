@@ -539,10 +539,10 @@
     } catch (error) {
       const fallbackKey =
         action === 'approve'
-          ? 'feedback.approve_failed'
+          ? 'feedback.admin.approve_failed'
           : action === 'reject'
-            ? 'feedback.reject_failed'
-            : 'feedback.apply_failed'
+            ? 'feedback.admin.reject_failed'
+            : 'feedback.admin.apply_failed'
       message.error(getActionErrorMessage(error, fallbackKey))
       console.error(`Failed to ${action} feedback suggestion:`, error)
       return false
@@ -565,7 +565,7 @@
   const sortOptions = computed(() => [
     { label: t('feedback.sort_needs_review'), value: 'needs-review' },
     { label: t('feedback.sort_top'), value: 'top' },
-    { label: t('feedback.sort_new'), value: 'new' },
+    { label: t('common.sort.newest_first'), value: 'new' },
   ])
 
   const statusOptions = computed(() => [
@@ -586,7 +586,7 @@
       label: t('feedback.review_state_unreviewed'),
       value: 'unreviewed',
     },
-    { label: t('feedback.review_state_all'), value: 'all' },
+    { label: t('common.all'), value: 'all' },
     { label: t('feedback.review_state_voted'), value: 'voted' },
   ])
 

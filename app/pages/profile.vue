@@ -203,8 +203,8 @@
                   circle
                   tertiary
                   type="error"
-                  :aria-label="t('profile.menu.delete')"
-                  :title="t('profile.menu.delete')"
+                  :aria-label="t('common.profile.delete_profile')"
+                  :title="t('common.profile.delete_profile')"
                   @click="confirmDeleteProfile(index + 1)"
                 >
                   <n-icon>
@@ -252,7 +252,7 @@
                   <Upload />
                 </n-icon>
               </template>
-              {{ t('default.user_profile.upload_data') }}
+              {{ t('common.profile.upload_data') }}
             </n-button>
             <n-button @click="handleSync">
               <template #icon>
@@ -260,7 +260,7 @@
                   <Sync />
                 </n-icon>
               </template>
-              {{ t('default.user_profile.sync_data') }}
+              {{ t('common.profile.sync_data') }}
             </n-button>
             <n-button @click="handleClearCloud">
               <template #icon>
@@ -268,7 +268,7 @@
                   <TrashAlt />
                 </n-icon>
               </template>
-              {{ t('default.user_profile.clear_cloud_data') }}
+              {{ t('common.profile.clear_cloud_data') }}
             </n-button>
             <n-button @click="handleClearLocal">
               <template #icon>
@@ -276,7 +276,7 @@
                   <Trash />
                 </n-icon>
               </template>
-              {{ $t('default.user_profile.clear_local_data') }}
+              {{ $t('common.profile.clear_local_data') }}
             </n-button>
           </div>
         </n-card>
@@ -481,7 +481,7 @@
     if (!(await requireAuth())) return
 
     dialog.warning({
-      title: t('default.user_profile.sync.confirm_upload.title'),
+      title: t('common.profile.upload_data'),
       content: t('default.user_profile.sync.confirm_upload.content', {
         profile: activeProfileLabel.value,
       }),
@@ -545,7 +545,7 @@
     if (!(await requireAuth())) return
 
     dialog.warning({
-      title: t('default.user_profile.sync.confirm_sync.title'),
+      title: t('common.profile.sync_data'),
       content: t('default.user_profile.sync.confirm_sync.content', {
         profile: activeProfileLabel.value,
       }),
@@ -574,7 +574,7 @@
     if (!(await requireAuth())) return
 
     dialog.warning({
-      title: t('default.user_profile.clear_cloud_confirm.title'),
+      title: t('common.profile.clear_cloud_data'),
       content: t('default.user_profile.clear_cloud_confirm.content', {
         profile: activeProfileLabel.value,
       }),
@@ -600,7 +600,7 @@
 
   const handleClearLocalActive = () => {
     dialog.warning({
-      title: t('default.user_profile.clear_local_confirm.title'),
+      title: t('common.profile.clear_local_data'),
       content: t('default.user_profile.clear_local_confirm.content', {
         profile: activeProfileLabel.value,
       }),
@@ -672,7 +672,7 @@
     if (!(await requireAuth())) return
 
     dialog.warning({
-      title: t('default.user_profile.sync.confirm_upload.title'),
+      title: t('common.profile.upload_data'),
       content: t('default.user_profile.sync.confirm_upload.content', {
         profile: allProfilesLabel.value,
       }),
@@ -707,7 +707,7 @@
     if (!remoteSlots) return
 
     dialog.warning({
-      title: t('default.user_profile.sync.confirm_sync.title'),
+      title: t('common.profile.sync_data'),
       content: t('default.user_profile.sync.confirm_sync.content', {
         profile: allProfilesLabel.value,
       }),
@@ -739,7 +739,7 @@
     const remoteSlots = await refreshCloudStatus()
 
     dialog.warning({
-      title: t('default.user_profile.clear_cloud_confirm.title'),
+      title: t('common.profile.clear_cloud_data'),
       content: t('default.user_profile.clear_cloud_confirm.content', {
         profile: allProfilesLabel.value,
       }),
@@ -766,7 +766,7 @@
 
   const handleClearLocalAll = () => {
     dialog.warning({
-      title: t('default.user_profile.clear_local_confirm.title'),
+      title: t('common.profile.clear_local_data'),
       content: t('default.user_profile.clear_local_confirm.content', {
         profile: allProfilesLabel.value,
       }),
@@ -854,7 +854,7 @@
   const confirmDeleteProfile = (slot: number) => {
     const profileLabel = getSlotLabel(slot)
     dialog.warning({
-      title: t('default.user_profile.profiles.delete_confirm.title'),
+      title: t('common.profile.delete_profile'),
       content: t('default.user_profile.profiles.delete_confirm.content', {
         profile: profileLabel,
       }),

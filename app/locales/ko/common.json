@@ -773,8 +773,8 @@
   "feedback": {
     "queue_title": "피드백 심사",
     "page_description": "구조화된 태그 수정안을 탐색하고, 기존 제안에 투표하며, 도감을 깔끔하게 유지하는 데 도움을 주세요.",
-    "quick_review_empty": "현재 대기열을 모두 확인했습니다.",
     "refresh": "새로고침",
+    "quick_review_empty": "현재 대기열을 모두 확인했습니다.",
     "scope_filter_label": "범위",
     "sort_filter_label": "정렬",
     "status_filter_label": "상태",

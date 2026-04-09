@@ -843,30 +843,30 @@
       "page_description": "피드백 제출을 위한 가이드라인입니다.",
       "hair_length": {
         "short": "어깨 위.",
-        "medium": "어깨 근처에서 등 상부까지.",
-        "long": "등 상부에서 등 하부까지.",
+        "medium": "어깨에서 등 상부까지.",
+        "long": "등 상부에서 하부까지.",
         "very_long": "등 하부 아래."
       },
       "top_length": {
-        "ultra_crop": "허리 위 / 가슴 아래.",
-        "crop": "자연스러운 허리선.",
-        "waist_length": "허리선 위치.",
-        "hip_length": "엉덩이 위치.",
-        "upper_thigh": "엉덩이를 지나 허벅지 상부까지.",
+        "ultra_crop": "가슴 아래 또는 그 위.",
+        "crop": "허리 부근. 배꼽이 보일 수 있음.",
+        "waist_length": "허리선 아래. 배를 덮음.",
+        "hip_length": "엉덩이 부근.",
+        "upper_thigh": "허벅지 상부.",
         "mid_thigh": "허벅지 중간.",
-        "maxi": "무릎 아래에서 종아리 하부까지.",
-        "floor_length": "바닥에 닿거나 바닥 근처."
+        "maxi": "발목 부근.",
+        "floor_length": "바닥에 닿는 길이."
       },
       "bottom_length": {
-        "upper_thigh": "허벅지 높은 곳.",
+        "mini": "허벅지 상부에서 중간까지. (스커트 전용)",
+        "midi": "무릎에서 종아리 중간까지. (스커트 전용)",
+        "maxi": "발목 부근. (스커트 전용)",
+        "floor_length": "바닥에 닿는 길이. (스커트 전용)",
+        "upper_thigh": "허벅지 상부.",
         "mid_thigh": "허벅지 중간.",
-        "mini": "허벅지 상부에서 중간.",
-        "knee_length": "무릎 위치.",
-        "midi": "무릎과 발목 사이.",
+        "knee_length": "무릎 부근.",
         "mid_calf": "종아리 중간.",
-        "ankle_length": "발목 위치.",
-        "maxi": "발목 근처 또는 그 이상.",
-        "floor_length": "바닥에 닿거나 바닥 근처."
+        "ankle_length": "발목 부근."
       },
       "other_subcategories": "기타 하위 카테고리"
     },

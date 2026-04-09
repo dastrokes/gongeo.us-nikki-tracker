@@ -843,30 +843,30 @@
       "page_description": "フィードバック送信のガイドライン。",
       "hair_length": {
         "short": "肩より上。",
-        "medium": "肩付近から背中上部。",
-        "long": "背中上部から背中下部。",
-        "very_long": "背中下部より下。"
+        "medium": "肩から背中の上部あたり。",
+        "long": "背中の上部から下部あたり。",
+        "very_long": "腰より下。"
       },
       "top_length": {
-        "ultra_crop": "ウエストより上 / アンダーバスト付近。",
-        "crop": "自然なウエストライン付近。",
-        "waist_length": "ウエストライン付近。",
-        "hip_length": "ヒップ付近。",
-        "upper_thigh": "ヒップを越えて太もも上部まで。",
+        "ultra_crop": "アンダーバストの上または周囲。",
+        "crop": "ウエスト付近。腹部が露出する場合がある。",
+        "waist_length": "ウエストより下。腹部を覆う。",
+        "hip_length": "ヒップラインあたり。",
+        "upper_thigh": "太もも上部。",
         "mid_thigh": "太もも中間。",
-        "maxi": "膝より下からふくらはぎまで。",
-        "floor_length": "床に届く、または床付近。"
+        "maxi": "足首あたり。",
+        "floor_length": "床に届く長さ。"
       },
       "bottom_length": {
-        "upper_thigh": "太ももの高い位置。",
+        "mini": "太もも上部から中間。（スカートのみ）",
+        "midi": "膝からふくらはぎの中間あたり。（スカートのみ）",
+        "maxi": "足首あたり。（スカートのみ）",
+        "floor_length": "床に届く長さ。（スカートのみ）",
+        "upper_thigh": "太もも上部。",
         "mid_thigh": "太もも中間。",
-        "mini": "太もも上部から中間。",
-        "knee_length": "膝付近。",
-        "midi": "膝と足首の間。",
+        "knee_length": "膝あたり。",
         "mid_calf": "ふくらはぎ中間。",
-        "ankle_length": "足首付近。",
-        "maxi": "足首付近、またはそれ以上。",
-        "floor_length": "床に届く、または床付近。"
+        "ankle_length": "足首あたり。"
       },
       "other_subcategories": "その他のサブカテゴリ"
     },

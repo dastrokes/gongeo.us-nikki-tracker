@@ -844,29 +844,29 @@
       "hair_length": {
         "short": "肩部以上。",
         "medium": "肩部附近到上背。",
-        "long": "上背到下背。",
+        "long": "上背到下背附近。",
         "very_long": "下背以下。"
       },
       "top_length": {
-        "ultra_crop": "高于腰线，接近胸下。",
-        "crop": "在自然腰附近。",
-        "waist_length": "在腰线附近。",
-        "hip_length": "在臀部附近。",
-        "upper_thigh": "过臀到大腿上部。",
-        "mid_thigh": "在大腿中部。",
-        "maxi": "过膝到小腿。",
-        "floor_length": "到地或近地。"
+        "ultra_crop": "胸下线附近或以上。",
+        "crop": "腰线附近；可能露出腰部。",
+        "waist_length": "腰线以下；覆盖腰部。",
+        "hip_length": "臀部附近。",
+        "upper_thigh": "大腿上部。",
+        "mid_thigh": "大腿中部。",
+        "maxi": "脚踝附近。",
+        "floor_length": "触地。"
       },
       "bottom_length": {
-        "upper_thigh": "到大腿上部。",
-        "mid_thigh": "到大腿中部。",
-        "mini": "大腿上到中部。",
-        "knee_length": "到膝部。",
-        "midi": "长度位于膝盖与脚踝之间。",
-        "mid_calf": "到小腿中部。",
-        "ankle_length": "到脚踝。",
-        "maxi": "接近脚踝或更长。",
-        "floor_length": "到地或近地。"
+        "mini": "大腿上部到中部（仅裙装）。",
+        "midi": "膝盖附近到小腿中部（仅裙装）。",
+        "maxi": "脚踝附近（仅裙装）。",
+        "floor_length": "触地（仅裙装）。",
+        "upper_thigh": "大腿上部。",
+        "mid_thigh": "大腿中部。",
+        "knee_length": "膝盖附近。",
+        "mid_calf": "小腿中部。",
+        "ankle_length": "脚踝附近。"
       },
       "other_subcategories": "其他子类"
     },

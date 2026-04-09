@@ -99,8 +99,13 @@
     itemType?: string | null
   ) => {
     const translatedValue = translateFilterToken(field, value, itemType)
-    const noteKey = `feedback.guidelines.term_notes.${field}.${value}`
-    return te(noteKey) ? `${translatedValue}: ${t(noteKey)}` : translatedValue
+    const noteKeys = [
+      `feedback.guidelines.term_notes.${field}.${value}`,
+      `feedback.guidelines.${field}.${value}`,
+    ]
+    const noteKey = noteKeys.find((key) => te(key))
+
+    return noteKey ? `${translatedValue}: ${t(noteKey)}` : translatedValue
   }
 
   const orderedGuideItemTypes = computed(() =>

@@ -24,7 +24,7 @@
     "cancel": "取消",
     "confirm": "確認",
     "ok": "確定",
-    "next": "下一個",
+    "next": "下一題",
     "submit": "提交",
     "retry": "重試",
     "copy": "複製",
@@ -68,7 +68,7 @@
       "clear_local_data": "清除本地資料",
       "delete_profile": "刪除設定檔"
     },
-    "previous": "上一個",
+    "previous": "上一條",
     "view_compendium": "查看圖鑑"
   },
   "navigation": {
@@ -730,11 +730,13 @@
       "material": "材質",
       "structure": "結構",
       "ornament": "裝飾",
+      "garment_feature": "Garment Feature",
       "top_length": "上衣長度",
       "bottom_length": "下裝長度",
       "hair_length": "髮長",
       "fit": "版型",
       "neckline": "領型",
+      "collar_style": "Collar Style",
       "shoulder_style": "肩部設計",
       "sleeve_length": "袖長",
       "sleeve_style": "袖型",
@@ -771,10 +773,14 @@
     "match_score": "匹配度 {score}%"
   },
   "feedback": {
-    "queue_title": "反饋審核",
-    "page_description": "瀏覽格式化的標籤修正，對已有建議進行投票，幫助保持圖鑑整潔。",
+    "queue_title": "回饋審核",
+    "page_description": "瀏覽結構化標籤修正提案，快速投票，一起整理圖鑑標籤。",
     "quick_review_empty": "目前佇列你已經看完了。",
+    "list_empty": "No feedback matches these filters.",
     "refresh": "重新整理",
+    "mode_filter_label": "Mode",
+    "mode_vote": "Voting",
+    "mode_list": "Listing",
     "scope_filter_label": "範圍",
     "sort_filter_label": "排序",
     "status_filter_label": "狀態",

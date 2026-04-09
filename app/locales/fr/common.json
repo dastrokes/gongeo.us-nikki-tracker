@@ -844,29 +844,29 @@
       "hair_length": {
         "short": "Au-dessus des épaules.",
         "medium": "Des épaules au haut du dos.",
-        "long": "Du haut du dos au bas du dos.",
+        "long": "Du haut au bas du dos.",
         "very_long": "Sous le bas du dos."
       },
       "top_length": {
-        "ultra_crop": "Au-dessus de la taille / sous la poitrine.",
-        "crop": "À la taille naturelle.",
-        "waist_length": "À la ligne de taille.",
-        "hip_length": "Aux hanches.",
-        "upper_thigh": "Des hanches au haut des cuisses.",
-        "mid_thigh": "À mi-cuisses.",
-        "maxi": "Sous le genou jusqu'au bas de la jambe.",
+        "ultra_crop": "Au-dessus ou autour du dessous de poitrine.",
+        "crop": "Au niveau de la taille ; peut exposer le ventre.",
+        "waist_length": "Sous la taille ; couvre le ventre.",
+        "hip_length": "Au niveau des hanches.",
+        "upper_thigh": "Haut des cuisses.",
+        "mid_thigh": "Mi-cuisses.",
+        "maxi": "Au niveau de la cheville.",
         "floor_length": "Au sol ou presque."
       },
       "bottom_length": {
+        "mini": "Du haut à la mi-cuisses. (jupe uniquement)",
+        "midi": "Du genou à la mi-mollet. (jupe uniquement)",
+        "maxi": "Au niveau de la cheville. (jupe uniquement)",
+        "floor_length": "Au sol ou presque. (jupe uniquement)",
         "upper_thigh": "Haut des cuisses.",
         "mid_thigh": "Mi-cuisses.",
-        "mini": "Du haut à la mi-cuisses.",
         "knee_length": "Au genou.",
-        "midi": "Entre le genou et la cheville.",
-        "mid_calf": "À mi-mollet.",
-        "ankle_length": "À la cheville.",
-        "maxi": "Près de la cheville ou plus long.",
-        "floor_length": "Au sol ou presque."
+        "mid_calf": "Mi-mollet.",
+        "ankle_length": "À la cheville."
       },
       "other_subcategories": "Autres sous-catégories"
     },

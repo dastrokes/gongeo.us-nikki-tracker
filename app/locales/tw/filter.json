@@ -102,23 +102,31 @@
     },
     "neckline": {
       "boat_neck": "一字領",
-      "collared": "有領",
       "crew_neck": "圓領",
-      "cross_collar": "交叉領",
-      "duijin_collar": "對襟領",
       "halter_neck": "掛脖",
-      "hooded": "連帽",
       "keyhole_neck": "钥匙孔領",
-      "mandarin_collar": "立領",
       "mock_neck": "半高領",
-      "peter_pan_collar": "娃娃領",
-      "right_cross_collar": "交領右衽",
-      "sailor_collar": "水手領",
       "scoop_neck": "大圓領",
       "square_neck": "方領",
       "sweetheart_neck": "心形領",
       "turtleneck": "高領",
       "v_neck": "V領"
+    },
+    "collar_style": {
+      "collared": "Collared",
+      "cross_collar": "Cross Collar",
+      "duijin_collar": "Duijin Collar",
+      "mandarin_collar": "Mandarin Collar",
+      "peter_pan_collar": "Peter Pan Collar",
+      "right_cross_collar": "Right Cross Collar",
+      "sailor_collar": "Sailor Collar"
+    },
+    "garment_feature": {
+      "belted": "Belted",
+      "button_up": "Button Up",
+      "hooded": "Hooded",
+      "lace_up": "Lace Up",
+      "zip_up": "Zip Up"
     },
     "ornament": {
       "animal": "動物圖案",

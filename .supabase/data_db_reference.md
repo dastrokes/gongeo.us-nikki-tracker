@@ -5,6 +5,7 @@ Condensed schema reference for LLM/agent context.
 ## Functions
 
 - `public.list_items(p_page integer default 1, p_page_size integer default 18, p_quality integer default null, p_type text default null, p_style_key varchar(16) default null, p_label_id integer default null, p_obtain_min integer default null, p_obtain_max integer default null, p_obtain_ids integer[] default null, p_category text default null, p_subcategory text default null, p_metadata jsonb default null) -> table(id, quality, type, props, style_key, tags, obtain_type, total_count)`
+- `public.list_item_facets(p_quality integer default null, p_type text default null, p_style_key varchar(16) default null, p_label_id integer default null, p_obtain_min integer default null, p_obtain_max integer default null, p_obtain_ids integer[] default null, p_category text default null, p_subcategory text default null, p_selected_metadata jsonb default null) -> table(facet_group, facet_key, facet_value)`
 - `public.list_outfits(p_page integer default 1, p_page_size integer default 18, p_quality integer default null, p_style_key varchar(16) default null, p_label_id integer default null, p_obtain_min integer default null, p_obtain_max integer default null, p_obtain_ids integer[] default null) -> table(id, quality, props, style_key, tags, obtain_type, total_count)`
 
 ## Tables

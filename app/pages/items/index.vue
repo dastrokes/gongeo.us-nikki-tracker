@@ -507,10 +507,10 @@
   import type { SelectGroupOption, SelectOption } from 'naive-ui'
   import type {
     ItemSearchAdvancedFacetMap,
-    ItemSearchAdvancedScalarFilters,
+    ItemSearchAdvancedField,
+    ItemSearchAdvancedFilters,
   } from '#shared/types/itemSearch'
   import {
-    ITEM_SEARCH_ADVANCED_SCALAR_FIELDS,
     ITEM_SEARCH_UNCATEGORIZED_VALUE,
     sortItemSearchFacetValues,
   } from '#shared/utils/itemSearch'
@@ -728,9 +728,12 @@
       (route.query.source ?? route.query.obtain)?.toString() ?? null
     )
   )
-  const advancedFilters = ref<ItemSearchAdvancedScalarFilters>(
-    resolveItemSearchAdvancedFilters(
-      route.query as Record<string, unknown>,
+  const advancedFilters = ref<ItemSearchAdvancedFilters>(
+    normalizeItemSearchCompendiumAdvancedFilters(
+      resolveItemSearchAdvancedFilters(
+        route.query as Record<string, unknown>,
+        typeFilter.value
+      ),
       typeFilter.value
     )
   )
@@ -738,7 +741,7 @@
   const currentPage = ref(Number(route.query.page) || 1)
 
   const advancedFilterFields = computed(() =>
-    getItemSearchAdvancedScalarFields(typeFilter.value)
+    getItemSearchCompendiumAdvancedFields(typeFilter.value)
   )
   const activeAdvancedFilters = computed(() =>
     getActiveItemSearchAdvancedFilters(advancedFilters.value, typeFilter.value)
@@ -748,8 +751,10 @@
   )
   const activeAdvancedFilterCount = computed(
     () =>
-      advancedFilterFields.value.filter(
-        (field) => activeAdvancedFilters.value[field]
+      advancedFilterFields.value.filter((field) =>
+        hasActiveItemSearchAdvancedFilterValue(
+          activeAdvancedFilters.value[field] ?? null
+        )
       ).length
   )
   const showTypeFilter = computed(() => true)
@@ -915,13 +920,10 @@
   )
 
   const buildAdvancedFilterQuery = () =>
-    Object.fromEntries(
+    buildItemSearchAdvancedFilterQuery(
+      advancedFilters.value,
+      typeFilter.value,
       advancedFilterFields.value
-        .map((field) => {
-          const value = activeAdvancedFilters.value[field]
-          return value ? [field, value] : null
-        })
-        .filter((entry): entry is [string, string] => Boolean(entry))
     )
 
   const buildListingQuery = (includeType: boolean) => ({
@@ -1232,32 +1234,34 @@
     }
     let hasChanges = false
 
-    ITEM_SEARCH_ADVANCED_SCALAR_FIELDS.forEach((field) => {
-      const value = nextFilters[field]
-      if (!value) return
+    ;(Object.keys(nextFilters) as ItemSearchAdvancedField[]).forEach(
+      (field) => {
+        const value = nextFilters[field]
+        if (!hasActiveItemSearchAdvancedFilterValue(value ?? null)) return
 
-      if (!allowedFields.has(field)) {
-        nextFilters[field] = null
-        hasChanges = true
-        return
-      }
+        if (!allowedFields.has(field)) {
+          nextFilters[field] = isItemSearchArrayField(field) ? [] : null
+          hasChanges = true
+          return
+        }
 
-      const resolved = getItemSearchAdvancedFacetValue(
-        field,
-        value,
-        advancedFacetOptions.value
-      )
-      if (!resolved) {
-        nextFilters[field] = null
-        hasChanges = true
-        return
-      }
+        const resolved = getItemSearchAdvancedFacetValue(
+          field,
+          value,
+          advancedFacetOptions.value
+        )
+        if (!hasActiveItemSearchAdvancedFilterValue(resolved)) {
+          nextFilters[field] = isItemSearchArrayField(field) ? [] : null
+          hasChanges = true
+          return
+        }
 
-      if (resolved !== value) {
-        nextFilters[field] = resolved
-        hasChanges = true
+        if (JSON.stringify(resolved) !== JSON.stringify(value)) {
+          nextFilters[field] = resolved
+          hasChanges = true
+        }
       }
-    })
+    )
 
     if (hasChanges) {
       advancedFilters.value = nextFilters
@@ -1274,14 +1278,15 @@
     { immediate: true }
   )
 
-  const updateAdvancedFilters = (
-    nextFilters: ItemSearchAdvancedScalarFilters
-  ) => {
-    advancedFilters.value = {
-      ...createEmptyItemSearchAdvancedFilters(),
-      ...advancedFilters.value,
-      ...nextFilters,
-    }
+  const updateAdvancedFilters = (nextFilters: ItemSearchAdvancedFilters) => {
+    advancedFilters.value = normalizeItemSearchCompendiumAdvancedFilters(
+      {
+        ...createEmptyItemSearchAdvancedFilters(),
+        ...advancedFilters.value,
+        ...nextFilters,
+      },
+      typeFilter.value
+    )
   }
 
   const categoryOptions = computed<SelectOption[]>(() =>

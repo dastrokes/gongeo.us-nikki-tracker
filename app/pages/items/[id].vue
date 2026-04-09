@@ -290,11 +290,11 @@
               </div>
             </div>
 
-            <div v-if="outfitItemSets.length > 0">
+            <div>
               <div
                 v-for="outfitSet in outfitItemSets"
                 :key="outfitSet.id"
-                class="space-y-3"
+                class="space-y-2"
               >
                 <n-collapse>
                   <n-collapse-item

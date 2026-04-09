@@ -32,7 +32,25 @@
           </div>
         </div>
 
-        <div class="grid grid-cols-1 gap-2.5 md:grid-cols-2 xl:grid-cols-4">
+        <div class="grid grid-cols-1 gap-2.5 md:grid-cols-2 xl:grid-cols-5">
+          <div class="space-y-1.5">
+            <div
+              class="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400"
+            >
+              {{ t('feedback.mode_filter_label') }}
+            </div>
+            <n-radio-group
+              v-model:value="viewMode"
+              size="small"
+            >
+              <n-radio-button value="vote">
+                {{ t('feedback.mode_vote') }}
+              </n-radio-button>
+              <n-radio-button value="list">
+                {{ t('feedback.mode_list') }}
+              </n-radio-button>
+            </n-radio-group>
+          </div>
           <div
             v-if="showScopeFilter"
             class="space-y-1.5"
@@ -104,35 +122,41 @@
       <div class="space-y-4 sm:space-y-5">
         <n-spin :show="loading">
           <div
-            v-if="currentSuggestion"
+            v-if="displayedSuggestions.length > 0"
             class="space-y-3"
           >
             <FeedbackSuggestionCard
-              :suggestion="currentSuggestion"
-              :user-vote="currentSuggestionVote"
+              v-for="suggestion in displayedSuggestions"
+              :key="suggestion.id"
+              :suggestion="suggestion"
+              :user-vote="viewerVotes[suggestion.id] ?? null"
               :show-actions="true"
               :show-maintainer-actions="isMaintainer"
-              :show-previous-action="Boolean(lastDismissedSuggestionId)"
+              :show-previous-action="
+                isVoteMode &&
+                suggestion.id === currentSuggestion?.id &&
+                Boolean(lastDismissedSuggestionId)
+              "
+              :show-skip-action="isVoteMode"
               :previous-disabled="
-                votingSuggestionId !== null ||
-                maintainerActionSuggestionId !== null
+                isVoteMode &&
+                (votingSuggestionId !== null ||
+                  maintainerActionSuggestionId !== null)
               "
               :voting="
-                votingSuggestionId === currentSuggestion.id ||
-                maintainerActionSuggestionId === currentSuggestion.id
+                votingSuggestionId === suggestion.id ||
+                maintainerActionSuggestionId === suggestion.id
               "
-              :maintainer-busy="
-                maintainerActionSuggestionId === currentSuggestion.id
-              "
+              :maintainer-busy="maintainerActionSuggestionId === suggestion.id"
               :maintainer-busy-action="
-                maintainerActionSuggestionId === currentSuggestion.id
+                maintainerActionSuggestionId === suggestion.id
                   ? maintainerAction
                   : null
               "
-              @vote="handleVote(currentSuggestion, $event)"
-              @maintainer-action="handleMaintainerAction($event)"
+              @vote="handleVote(suggestion, $event)"
+              @maintainer-action="handleMaintainerAction(suggestion, $event)"
               @previous="restorePreviousSuggestion"
-              @skip="skipSuggestion(currentSuggestion.id)"
+              @skip="skipSuggestion(suggestion.id)"
             />
           </div>
 
@@ -209,6 +233,7 @@
 
   const getDefaultReviewState = (): FeedbackReviewState =>
     user.value ? 'unreviewed' : 'all'
+  type FeedbackViewMode = 'vote' | 'list'
 
   const parseSort = (value: string | null): FeedbackSortKey => {
     if (value === 'top' || value === 'new') return value
@@ -241,9 +266,14 @@
 
   const parseScope = (value: string | null): FeedbackScope =>
     value === 'mine' ? 'mine' : 'all'
+  const parseViewMode = (value: string | null): FeedbackViewMode =>
+    value === 'list' ? 'list' : 'vote'
 
   const scope = ref<FeedbackScope>(
     parseScope(route.query.scope?.toString() ?? null)
+  )
+  const viewMode = ref<FeedbackViewMode>(
+    parseViewMode(route.query.mode?.toString() ?? null)
   )
   const sort = ref<FeedbackSortKey>(
     parseSort(route.query.sort?.toString() ?? null)
@@ -281,8 +311,10 @@
   const effectiveReviewState = computed<FeedbackReviewState>(() =>
     isMineScope.value ? 'all' : reviewState.value
   )
+  const isVoteMode = computed(() => viewMode.value === 'vote')
 
   const feedbackQuery = computed(() => ({
+    mode: viewMode.value,
     scope: scope.value,
     sort: serializeSort(sort.value),
     status: status.value,
@@ -294,13 +326,15 @@
     const queryKeys = Object.keys(route.query)
     if (
       queryKeys.some(
-        (key) => !['scope', 'sort', 'status', 'state', 'page'].includes(key)
+        (key) =>
+          !['mode', 'scope', 'sort', 'status', 'state', 'page'].includes(key)
       )
     ) {
       return false
     }
 
     return (
+      route.query.mode?.toString() === feedbackQuery.value.mode &&
       route.query.scope?.toString() === feedbackQuery.value.scope &&
       route.query.sort?.toString() === feedbackQuery.value.sort &&
       route.query.status?.toString() === feedbackQuery.value.status &&
@@ -357,6 +391,14 @@
       loading.value = false
     }
   }
+
+  watch(viewMode, async () => {
+    hiddenSuggestionIds.value = []
+    dismissalHistory.value = []
+
+    if (!initialized.value) return
+    await syncQuery()
+  })
 
   watch([scope, sort, status, reviewState], () => {
     if (!initialized.value) return
@@ -426,11 +468,12 @@
     )
   )
   const currentSuggestion = computed(() => visibleQueue.value[0] ?? null)
-  const currentSuggestionVote = computed(
-    () =>
-      (currentSuggestion.value
-        ? (viewerVotes.value[currentSuggestion.value.id] ?? null)
-        : null) as FeedbackVoteValue | null
+  const displayedSuggestions = computed(() =>
+    isVoteMode.value
+      ? currentSuggestion.value
+        ? [currentSuggestion.value]
+        : []
+      : queue.value
   )
   const isBootstrappingQueue = computed(
     () => loading.value && queue.value.length === 0
@@ -438,7 +481,9 @@
   const emptyStateTitle = computed(() =>
     isMineScope.value
       ? t('feedback.scope_mine_empty')
-      : t('feedback.quick_review_empty')
+      : isVoteMode.value
+        ? t('feedback.quick_review_empty')
+        : t('feedback.list_empty')
   )
   const lastDismissedSuggestionId = computed(() => {
     const suggestionIds = dismissalHistory.value
@@ -484,7 +529,9 @@
         [suggestion.id]: response.vote,
       }
       patchSuggestion(response.suggestion)
-      dismissSuggestion(suggestion.id)
+      if (isVoteMode.value) {
+        dismissSuggestion(suggestion.id)
+      }
       return true
     } catch (error) {
       message.error(t('feedback.vote_failed'))
@@ -514,9 +561,11 @@
     return responseMessage || t(fallbackKey)
   }
 
-  const handleMaintainerAction = async (action: FeedbackMaintainerAction) => {
-    const suggestion = currentSuggestion.value
-    if (!suggestion || maintainerActionSuggestionId.value) {
+  const handleMaintainerAction = async (
+    suggestion: FeedbackSuggestion,
+    action: FeedbackMaintainerAction
+  ) => {
+    if (maintainerActionSuggestionId.value) {
       return false
     }
 

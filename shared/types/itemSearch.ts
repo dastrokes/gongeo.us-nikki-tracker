@@ -6,6 +6,7 @@ export type ItemSearchScalarField =
   | 'hair_length'
   | 'fit'
   | 'neckline'
+  | 'collar_style'
   | 'shoulder_style'
   | 'sleeve_length'
   | 'sleeve_style'
@@ -33,11 +34,14 @@ export type ItemSearchArrayField =
   | 'material'
   | 'structure'
   | 'ornament'
+  | 'garment_feature'
 
 export type ItemSearchField = ItemSearchScalarField | ItemSearchArrayField
 export type ItemSearchAdvancedField =
   | ItemSearchAdvancedScalarField
   | ItemSearchArrayField
+
+export type ItemSearchAdvancedFilterValue = string | string[] | null
 
 export type ItemSearchSchemaKey =
   | 'garment'
@@ -57,11 +61,13 @@ export interface ItemSearchMetadata {
   material?: string[]
   structure?: string[]
   ornament?: string[]
+  garment_feature?: string[]
   top_length?: string | null
   bottom_length?: string | null
   hair_length?: string | null
   fit?: string | null
   neckline?: string | null
+  collar_style?: string | null
   shoulder_style?: string | null
   sleeve_length?: string | null
   sleeve_style?: string | null
@@ -92,8 +98,8 @@ export interface ItemSearchMetadataDisplaySection {
   fields: ItemSearchMetadataDisplayField[]
 }
 
-export type ItemSearchAdvancedScalarFilters = Partial<
-  Record<ItemSearchAdvancedScalarField, string | null>
+export type ItemSearchAdvancedFilters = Partial<
+  Record<ItemSearchAdvancedField, ItemSearchAdvancedFilterValue>
 >
 
 export type ItemSearchAdvancedFacetMap = Partial<

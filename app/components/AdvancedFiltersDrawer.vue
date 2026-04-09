@@ -61,21 +61,25 @@
 <script setup lang="ts">
   import type {
     ItemSearchAdvancedFacetMap,
-    ItemSearchAdvancedScalarField,
-    ItemSearchAdvancedScalarFilters,
+    ItemSearchAdvancedField,
+    ItemSearchAdvancedFilters,
   } from '#shared/types/itemSearch'
+  import {
+    hasActiveItemSearchAdvancedFilterValue,
+    isItemSearchArrayField,
+  } from '#shared/utils/itemSearch'
 
   const props = defineProps<{
     show: boolean
-    fields: ItemSearchAdvancedScalarField[]
-    filters: ItemSearchAdvancedScalarFilters
+    fields: ItemSearchAdvancedField[]
+    filters: ItemSearchAdvancedFilters
     options: ItemSearchAdvancedFacetMap
     ignoreCloseSelector?: string
   }>()
 
   const emit = defineEmits<{
     'update:show': [value: boolean]
-    'update:filters': [value: ItemSearchAdvancedScalarFilters]
+    'update:filters': [value: ItemSearchAdvancedFilters]
   }>()
 
   const { t } = useI18n()
@@ -84,19 +88,28 @@
   const visibleFields = computed(() =>
     props.fields.filter((field) => {
       const values = props.options[field] ?? []
-      return values.length > 0 || Boolean(props.filters[field])
+      return (
+        values.length > 0 ||
+        hasActiveItemSearchAdvancedFilterValue(props.filters[field] ?? null)
+      )
     })
   )
   const activeCount = computed(
     () =>
-      visibleFields.value.filter((field) => Boolean(props.filters[field]))
-        .length
+      visibleFields.value.filter((field) =>
+        hasActiveItemSearchAdvancedFilterValue(props.filters[field] ?? null)
+      ).length
   )
 
   const clearFilters = () => {
     emit(
       'update:filters',
-      Object.fromEntries(visibleFields.value.map((field) => [field, null]))
+      Object.fromEntries(
+        visibleFields.value.map((field) => [
+          field,
+          isItemSearchArrayField(field) ? [] : null,
+        ])
+      )
     )
   }
 

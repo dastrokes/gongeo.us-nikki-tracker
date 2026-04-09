@@ -102,23 +102,31 @@
     },
     "neckline": {
       "boat_neck": "Decote Canoa",
-      "collared": "Com Gola",
       "crew_neck": "Decote Careca",
-      "cross_collar": "Gola Cruzada",
-      "duijin_collar": "Gola Duijin",
       "halter_neck": "Frente Única/Halter",
-      "hooded": "Com Capuz",
       "keyhole_neck": "Decote Gota",
-      "mandarin_collar": "Gola Padre/Mandarim",
       "mock_neck": "Gola Alta Curta",
-      "peter_pan_collar": "Gola Peter Pan",
-      "right_cross_collar": "Cruzado à Direita",
-      "sailor_collar": "Gola Marinheiro",
       "scoop_neck": "Decote U",
       "square_neck": "Decote Quadrado",
       "sweetheart_neck": "Decote Coração",
       "turtleneck": "Gola Alta",
       "v_neck": "Decote em V"
+    },
+    "collar_style": {
+      "collared": "Collared",
+      "cross_collar": "Cross Collar",
+      "duijin_collar": "Duijin Collar",
+      "mandarin_collar": "Mandarin Collar",
+      "peter_pan_collar": "Peter Pan Collar",
+      "right_cross_collar": "Right Cross Collar",
+      "sailor_collar": "Sailor Collar"
+    },
+    "garment_feature": {
+      "belted": "Belted",
+      "button_up": "Button Up",
+      "hooded": "Hooded",
+      "lace_up": "Lace Up",
+      "zip_up": "Zip Up"
     },
     "ornament": {
       "animal": "Motivo Animal",

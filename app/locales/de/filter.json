@@ -237,15 +237,15 @@
     "shoulder_style": {
       "cold_shoulder": "Cold Shoulder",
       "halter": "Halter",
-      "off_shoulder": "Off-Shoulder",
-      "one_shoulder": "One-Shoulder",
+      "off_shoulder": "Schulterfrei",
+      "one_shoulder": "One Shoulder",
       "strapless": "Trägerlos"
     },
     "skirt_silhouette": {
       "a_line": "A-Linie",
       "asymmetric": "Asymmetrisch",
       "bubble": "Ballon",
-      "circle": "Glockenform",
+      "circle": "Teller",
       "pencil": "Bleistift",
       "straight": "Gerade",
       "tiered": "Gestuft",
@@ -262,19 +262,19 @@
     "sleeve_style": {
       "bell_sleeve": "Glockenärmel",
       "bishop_sleeve": "Bischofsärmel",
-      "cap_sleeve": "Flügelärmel/Cap",
+      "cap_sleeve": "Cap-Ärmel",
       "daxiu_sleeve": "Daxiu-Ärmel",
       "detached_sleeves": "Abnehmbare Ärmel",
       "flare_sleeve": "Ausgestellte Ärmel",
       "puff_sleeve": "Puffärmel",
-      "raglan_sleeve": "Raglan-Ärmel",
+      "raglan_sleeve": "Raglanärmel",
       "shuixiu_sleeve": "Shuixiu-Ärmel",
       "slit_sleeve": "Geschlitzter Ärmel",
-      "split_sleeve": "Offener Ärmel"
+      "split_sleeve": "Geteilter Ärmel"
     },
     "sock_height": {
       "ankle": "Knöchellang",
-      "crew": "Wadenhoch",
+      "crew": "Mitte Wade",
       "knee_high": "Kniehoch",
       "thigh_high": "Oberschenkelhoch"
     },
@@ -292,8 +292,8 @@
       "circular": "Rund",
       "cracked": "Rissig",
       "cuffed": "Umgeschlagen",
-      "cutout": "Cutout/Ausgeschnitten",
-      "distressed": "Distressed/Zerfetzt",
+      "cutout": "Ausgeschnitten",
+      "distressed": "Beschädigt",
       "draped": "Drapiert",
       "faceted": "Facettiert",
       "floating": "Schwebend",
@@ -304,7 +304,7 @@
       "half_rim": "Halbrand",
       "hoop": "Reifen",
       "knotted": "Geknotet",
-      "layered": "Gestuft/Lagenlook",
+      "layered": "Gestuft",
       "macrame": "Makramee",
       "peplum": "Schößchen",
       "pleated": "Plissiert",
@@ -312,8 +312,8 @@
       "ribbed": "Gerippt",
       "ruched": "Gerafft",
       "ruffled": "Gerüscht",
-      "scalloped": "Bogenkante",
-      "stitched": "Gesteppt",
+      "scalloped": "Gewellt",
+      "stitched": "Genäht",
       "twisted": "Verdreht",
       "woven": "Gewebt"
     },
@@ -342,7 +342,7 @@
       "empire_waist": "Empire-Taille",
       "natural_waist": "Natürliche Taille",
       "no_waist": "Ohne Taille",
-      "wrap_waist": "Wickeloptik"
+      "wrap_waist": "Wrap-Taille"
     },
     "category": {
       "armDecorations": {
@@ -440,11 +440,11 @@
         "beret": "Baskenmütze",
         "bonnet": "Haube",
         "crown": "Krone",
-        "eyewear": "Brillengestell",
+        "eyewear": "Brille",
         "hair_ornament": "Haarschmuck",
         "hat": "Hut",
-        "headdress": "Kopfputz",
-        "headpiece": "Kopfschmuck",
+        "headdress": "Kopfschmuck",
+        "headpiece": "Kopfstück",
         "veil": "Schleier"
       },
       "neckwear": {
@@ -455,7 +455,7 @@
       },
       "outerwear": {
         "cape": "Umhang",
-        "cardigan": "Strickjacke",
+        "cardigan": "Cardigan",
         "coat": "Mantel",
         "jacket": "Jacke",
         "robe": "Robe",
@@ -474,7 +474,7 @@
         "boots": "Stiefel",
         "flats": "Flache Schuhe",
         "heels": "Absatzschuhe",
-        "loafers": "Loafer",
+        "loafers": "Slipper",
         "mary_janes": "Mary Janes",
         "mules": "Mules",
         "sandals": "Sandalen",
@@ -489,8 +489,8 @@
       },
       "tops": {
         "blouse": "Bluse",
-        "bodysuit": "Body",
-        "camisole": "Unterhemd/Top",
+        "bodysuit": "Bodysuit",
+        "camisole": "Unterhemd",
         "corset": "Korsett",
         "shirt": "Hemd",
         "sweater": "Pullover",
@@ -522,17 +522,17 @@
         "tattoo": "Tattoo"
       },
       "bottoms": {
-        "bermuda_shorts": "Bermudas",
-        "bib_overalls": "Latzhose",
-        "bloomers": "Pumphose",
+        "bermuda_shorts": "Bermudashorts",
+        "bib_overalls": "Bib Latzhose",
+        "bloomers": "Bloomer",
         "cargo_pants": "Cargohose",
         "harem_pants": "Haremshose",
-        "ma_mian_skirt": "Ma-Mian-Rock",
+        "ma_mian_skirt": "Ma Mian Rock",
         "overall_shorts": "Latzshorts",
         "palazzo_pants": "Palazzohose",
         "ruffle_shorts": "Rüschen-Shorts",
-        "sarong": "Pareo/Sarong",
-        "tailored_shorts": "Elegante Shorts",
+        "sarong": "Sarong",
+        "tailored_shorts": "Maßgefertigte Shorts",
         "wrap_skirt": "Wickelrock"
       },
       "bracelets": {
@@ -542,12 +542,12 @@
       },
       "chestAccessories": {
         "bow_brooch": "Schleifenbrosche",
-        "pin": "Anstecknadel/Pin"
+        "pin": "Anstecknadel"
       },
       "chokers": {
         "lace_choker": "Spitze",
         "ribbon_choker": "Band",
-        "strand_necklace": "Perlenkette"
+        "strand_necklace": "Strangkette"
       },
       "dresses": {
         "babydoll_dress": "Babydoll-Kleid",
@@ -556,17 +556,17 @@
         "gown": "Abendkleid",
         "lolita_dress": "Lolita-Kleid",
         "maid_dress": "Dienstmädchenkleid",
-        "onesie": "Strampler",
-        "pinafore_dress": "Schürzenkleid",
+        "onesie": "Onesie",
+        "pinafore_dress": "Pinafore-Kleid",
         "qipao": "Qipao",
-        "romper": "Romper/Spieler",
+        "romper": "Romper",
         "ruqun": "Ruqun",
         "sailor_dress": "Matrosenkleid",
         "shenyi": "Shenyi",
-        "shirt_dress": "Hemdblusenkleid",
+        "shirt_dress": "Hemdkleid",
         "slip_dress": "Slip-Kleid",
         "sundress": "Sommerkleid",
-        "sweater_dress": "Strickkleid",
+        "sweater_dress": "Pulloverkleid",
         "tea_dress": "Teekleid",
         "tunic_dress": "Tunikakleid",
         "wrap_dress": "Wickelkleid"
@@ -579,13 +579,13 @@
       },
       "faceDecorations": {
         "bandage": "Verband",
-        "decorative_blindfold": "Deko-Binde",
+        "decorative_blindfold": "Deko-Augenbinde",
         "decorative_eyepatch": "Deko-Augenklappe",
-        "eye_mask": "Schlafmaske/Loup",
+        "eye_mask": "Augenmaske",
         "glasses": "Brille",
         "goggles": "Schutzbrille",
         "half_mask": "Halbmaske",
-        "lower_face_mask": "Gesichtsmaske (unten)",
+        "lower_face_mask": "Untere Gesichtsmaske",
         "medical_eyepatch": "Med. Augenklappe",
         "monocle": "Monokel",
         "ornamental_mask": "Zier-Maske",
@@ -600,7 +600,7 @@
         "chignon": "Haarknoten",
         "crown_braid": "Kronenzopf",
         "drill_twin_tails": "Korkenzieherzöpfe",
-        "flying_immortal_bun": "Himmels-Dutt",
+        "flying_immortal_bun": "Fei Xian Ji",
         "half_up_braid": "Geflochten",
         "half_up_bun": "Dutt",
         "half_up_ponytail": "Pferdeschwanz",
@@ -620,7 +620,7 @@
       "hairAccessories": {
         "bow": "Schleife",
         "flower": "Blume",
-        "hairclip": "Haarklammer",
+        "hairclip": "Haarclip",
         "hairpin": "Haarnadel",
         "ribbon": "Band",
         "tiara": "Tiara",
@@ -632,7 +632,7 @@
         "bat": "Schläger",
         "bow": "Bogen",
         "brush": "Pinsel",
-        "candelabra": "Kandelaber",
+        "candelabra": "Kerzenleuchter",
         "clipboard": "Klemmbrett",
         "crossbow": "Armbrust",
         "fishing_rod": "Angelrute",
@@ -640,7 +640,7 @@
         "hoe": "Hacke",
         "musket": "Muskete",
         "net": "Netz",
-        "purse": "Geldbeutel",
+        "purse": "Handtasche",
         "rattle_drum": "Rasseltrommel",
         "scissors": "Schere",
         "spellbook": "Zauberbuch",
@@ -651,27 +651,27 @@
       "headwear": {
         "aviator_hat": "Fliegermütze",
         "bandana": "Bandana",
-        "coronet": "Diadem/Krönchen",
+        "coronet": "Diadem",
         "hairpin": "Haarnadel",
-        "headband": "Haarreif",
+        "headband": "Haarband",
         "headscarf": "Kopftuch",
         "mask": "Maske",
         "mini_hat": "Mini-Hut",
         "sunglasses": "Sonnenbrille",
         "tiara": "Tiara",
         "top_hat": "Zylinder",
-        "wide_brim_hat": "Schlapphut",
+        "wide_brim_hat": "Hut mit breiter Krempe",
         "witch_hat": "Hexenhut",
         "wreath": "Kranz"
       },
       "neckwear": {
         "charm": "Anhänger",
         "lace_choker": "Spitze",
-        "lariat_necklace": "Lariat-Halskette",
+        "lariat_necklace": "Lariat Halskette",
         "locket": "Amulett",
         "pendant_necklace": "Anhänger-Kette",
         "ribbon_choker": "Band",
-        "strand_necklace": "Perlenkette"
+        "strand_necklace": "Strangkette"
       },
       "outerwear": {
         "beizi": "Beizi",
@@ -688,9 +688,9 @@
         "pifeng": "Pifeng",
         "poncho": "Poncho",
         "shirt_jacket": "Hemdjacke",
-        "shrug": "Shrug/Bolero",
+        "shrug": "Shrug",
         "stole": "Stola",
-        "waistcoat": "Weste",
+        "waistcoat": "Waistcoat",
         "windbreaker": "Windjacke"
       },
       "pendants": {
@@ -704,14 +704,14 @@
       "shoes": {
         "ankle_strap_heels": "Mit Riemchen",
         "ballet_flats": "Ballerinas",
-        "combat_boots": "Schnürstiefeletten/Combat",
+        "combat_boots": "Springerstiefel",
         "cowboy_boots": "Cowboystiefel",
         "dorsay_heels": "D’Orsay",
         "embroidered_shoes": "Bestickte Schuhe",
         "gladiator_sandals": "Römersandalen",
         "high_top_sneakers": "High-Top Sneaker",
-        "lace_up_flats": "Schnürschuhe (flach)",
-        "penny_loafers": "Loafer",
+        "lace_up_flats": "Schnürschuhe",
+        "penny_loafers": "Penny-Slipper",
         "platform_sandals": "Plateaussandalen",
         "pumps": "Pumps",
         "riding_boots": "Reitstiefel",
@@ -730,16 +730,16 @@
         "bandeau_top": "Bandeau-Top",
         "bralette": "Bralette",
         "bustier": "Bustier",
-        "button_up_shirt": "Button-Down-Hemd",
+        "button_up_shirt": "Hemd mit Knöpfen",
         "hoodie": "Hoodie",
         "leotard": "Leotard",
         "maid_blouse": "Dienstmädchenbluse",
-        "milkmaid_top": "Milkmaid-Top",
+        "milkmaid_top": "Milkmädchen-Top",
         "officer_shirt": "Offiziershemd",
         "peasant_blouse": "Bauernbluse",
         "sailor_blouse": "Matrosenbluse",
         "school_uniform_blouse": "Schulbluse",
-        "sweater_vest": "Strickweste"
+        "sweater_vest": "Pulloverweste"
       }
     }
   }

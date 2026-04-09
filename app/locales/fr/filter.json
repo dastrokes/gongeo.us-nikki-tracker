@@ -113,20 +113,20 @@
       "v_neck": "Col en V"
     },
     "collar_style": {
-      "collared": "Collared",
-      "cross_collar": "Cross Collar",
-      "duijin_collar": "Duijin Collar",
-      "mandarin_collar": "Mandarin Collar",
-      "peter_pan_collar": "Peter Pan Collar",
-      "right_cross_collar": "Right Cross Collar",
-      "sailor_collar": "Sailor Collar"
+      "collared": "Avec col",
+      "cross_collar": "Col croisé",
+      "duijin_collar": "Col droit",
+      "mandarin_collar": "Col mandarin",
+      "peter_pan_collar": "Col Claudine",
+      "right_cross_collar": "Col croisé à droite",
+      "sailor_collar": "Col marin"
     },
     "garment_feature": {
-      "belted": "Belted",
-      "button_up": "Button Up",
-      "hooded": "Hooded",
-      "lace_up": "Lace Up",
-      "zip_up": "Zip Up"
+      "belted": "À ceinture",
+      "button_up": "Boutonné",
+      "hooded": "À capuche",
+      "lace_up": "À lacets",
+      "zip_up": "Zippé"
     },
     "ornament": {
       "animal": "Motif Animal",

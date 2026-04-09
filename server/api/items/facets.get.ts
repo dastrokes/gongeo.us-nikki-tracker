@@ -2,9 +2,6 @@ import { useSupabaseDataClient } from '~/composables/useSupabaseClient'
 import {
   getActiveItemSearchAdvancedFilters,
   getItemSearchAdvancedFields,
-  getItemSearchAdvancedScalarFields,
-  getItemSearchFieldValues,
-  ITEM_SEARCH_UNCATEGORIZED_VALUE,
   normalizeItemSearchTokenKey,
   resolveItemSearchAdvancedFilters,
   serializeItemSearchAdvancedFilters,
@@ -13,38 +10,21 @@ import {
 } from '#shared/utils/itemSearch'
 import type {
   ItemSearchAdvancedFacetMap,
-  ItemSearchAdvancedField,
   ItemSearchMetadata,
 } from '#shared/types/itemSearch'
 
-type FacetRow = {
-  item_attributes?:
-    | {
-        category?: string | null
-        subcategory?: string | null
-        metadata?: ItemSearchMetadata | null
-      }
-    | Array<{
-        category?: string | null
-        subcategory?: string | null
-        metadata?: ItemSearchMetadata | null
-      }>
-    | null
+type FacetRpcRow = {
+  facet_group?: string | null
+  facet_key?: string | null
+  facet_value?: string | null
 }
 
-type ResolvedFacetRow = {
-  category: string
-  subcategory: string
-  metadata: ItemSearchMetadata | null
+type RpcCapableClient = {
+  rpc: (
+    fn: string,
+    args?: Record<string, unknown>
+  ) => PromiseLike<{ data: unknown; error: unknown }>
 }
-
-const BASE_ITEM_PREFIX_RANGES = [
-  [1020000000, 1020999999],
-  [1021000000, 1021999999],
-  [1027000000, 1027999999],
-  [1028000000, 1028999999],
-  [1029000000, 1029999999],
-] as const
 
 /**
  * API endpoint for fetching distinct item-search facet values.
@@ -113,123 +93,76 @@ export default defineCachedApiEventHandler(
       }
     }
 
-    const baseItemRangeFilters = BASE_ITEM_PREFIX_RANGES.map(
-      ([min, max]) => `and(id.gte.${min},id.lte.${max})`
-    ).join(',')
-
     const supabase = useSupabaseDataClient()
+    const rpcClient = supabase as unknown as RpcCapableClient
     const advancedFields = getItemSearchAdvancedFields(type)
-    const advancedScalarFields = getItemSearchAdvancedScalarFields(type)
-    const shouldSelectMetadata = advancedFields.length > 0
+    const allowedAdvancedFields = new Set<string>(advancedFields)
+    const selectedMetadata = Object.fromEntries(
+      Object.entries(advancedFilters).filter(
+        (entry): entry is [string, string] => typeof entry[1] === 'string'
+      )
+    ) as ItemSearchMetadata
 
     try {
-      const facetSelect = shouldSelectMetadata
-        ? 'item_attributes!inner(category,subcategory,metadata)'
-        : 'item_attributes!inner(category,subcategory)'
-      let facetQuery = supabase
-        .from('items')
-        .select(facetSelect)
-        .or(baseItemRangeFilters)
-        .eq('type', type)
-
-      if (obtainTypeRange) {
-        facetQuery = facetQuery
-          .gte('obtain_type', obtainTypeRange.min)
-          .lte('obtain_type', obtainTypeRange.max)
-      }
-
-      if (quality !== null && quality !== undefined) {
-        facetQuery = facetQuery.eq('quality', quality)
-      }
-
-      if (obtainIds) {
-        facetQuery = facetQuery.in('obtain_type', obtainIds)
-      }
-
-      if (styleFilter) {
-        facetQuery = facetQuery.eq('style_key', styleFilter.key)
-      }
-
-      if (labelFilter) {
-        facetQuery = facetQuery.contains('tags', [labelFilter.id])
-      }
-
-      const { data, error } = await withSupabaseRetry(() => facetQuery)
+      const { data, error } = await withSupabaseRetry(() =>
+        rpcClient.rpc('list_item_facets', {
+          p_quality: quality ?? null,
+          p_type: type && type !== 'all' ? type : null,
+          p_style_key: styleFilter?.key ?? null,
+          p_label_id: labelFilter?.id ?? null,
+          p_obtain_min: obtainTypeRange?.min ?? null,
+          p_obtain_max: obtainTypeRange?.max ?? null,
+          p_obtain_ids: obtainIds ?? null,
+          p_category: selectedCategory ?? null,
+          p_subcategory: selectedSubcategory ?? null,
+          p_selected_metadata:
+            Object.keys(selectedMetadata).length > 0 ? selectedMetadata : null,
+        })
+      )
 
       if (error) {
         throw error
       }
 
-      const rows = (data as FacetRow[] | null) ?? []
-      const resolvedRows = rows
-        .map((row) => {
-          const searchAttributes = row.item_attributes
-          if (!searchAttributes) return null
-          const resolvedSearchAttributes = Array.isArray(searchAttributes)
-            ? (searchAttributes[0] ?? null)
-            : searchAttributes
-          if (!resolvedSearchAttributes) return null
-
-          return {
-            category:
-              resolvedSearchAttributes.category?.trim() ||
-              ITEM_SEARCH_UNCATEGORIZED_VALUE,
-            subcategory:
-              resolvedSearchAttributes.subcategory?.trim() ||
-              ITEM_SEARCH_UNCATEGORIZED_VALUE,
-            metadata: resolvedSearchAttributes.metadata ?? null,
-          }
-        })
-        .filter((row): row is ResolvedFacetRow => Boolean(row))
-      const selectedAdvancedEntries = advancedScalarFields.flatMap((field) => {
-        const selectedValue = advancedFilters[field]
-        return selectedValue ? [[field, selectedValue] as const] : []
-      })
-
-      const matchesAdvancedSelection = (
-        row: ResolvedFacetRow,
-        excludedField?: ItemSearchAdvancedField
-      ) =>
-        selectedAdvancedEntries.every(
-          ([field, selectedValue]) =>
-            field === excludedField ||
-            getItemSearchFieldValues(row.metadata ?? null, field).includes(
-              selectedValue
-            )
-        )
-
-      const categoryMatchedRows = selectedCategory
-        ? resolvedRows.filter((row) => row.category === selectedCategory)
-        : resolvedRows
-      const subcategoryMatchedRows = selectedSubcategory
-        ? categoryMatchedRows.filter(
-            (row) => row.subcategory === selectedSubcategory
-          )
-        : categoryMatchedRows
-
-      const categories = sortItemSearchFacetValues(
-        Array.from(new Set(resolvedRows.map((row) => row.category)))
-      )
-
-      const subcategories = sortItemSearchFacetValues(
-        Array.from(new Set(categoryMatchedRows.map((row) => row.subcategory)))
-      )
-
+      const rows = (data as FacetRpcRow[] | null) ?? []
+      const categorySet = new Set<string>()
+      const subcategorySet = new Set<string>()
       const advancedFacets: ItemSearchAdvancedFacetMap = {}
-      advancedFields.forEach((field) => {
-        const values = Array.from(
-          new Set(
-            subcategoryMatchedRows
-              .filter((row) => matchesAdvancedSelection(row, field))
-              .flatMap((row) => getItemSearchFieldValues(row.metadata, field))
-          )
-        )
 
-        if (values.length > 0) {
-          advancedFacets[field] = values
+      rows.forEach((row) => {
+        const facetGroup = row.facet_group?.trim()
+        const facetKey = row.facet_key?.trim()
+        const facetValue = row.facet_value?.trim()
+
+        if (!facetGroup || !facetKey || !facetValue) {
+          return
+        }
+
+        if (facetGroup === 'category' && facetKey === 'category') {
+          categorySet.add(facetValue)
+          return
+        }
+
+        if (facetGroup === 'subcategory' && facetKey === 'subcategory') {
+          subcategorySet.add(facetValue)
+          return
+        }
+
+        if (facetGroup !== 'advanced' || !allowedAdvancedFields.has(facetKey)) {
+          return
+        }
+
+        const field = facetKey as keyof ItemSearchAdvancedFacetMap
+        const fieldValues = (advancedFacets[field] ??= [])
+        if (!fieldValues.includes(facetValue)) {
+          fieldValues.push(facetValue)
         }
       })
 
+      const categories = sortItemSearchFacetValues(Array.from(categorySet))
+      const subcategories = sortItemSearchFacetValues(
+        Array.from(subcategorySet)
+      )
       const advanced = sortItemSearchFacetMap(advancedFacets)
 
       return {

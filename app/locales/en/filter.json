@@ -102,23 +102,31 @@
     },
     "neckline": {
       "boat_neck": "Boat Neck",
-      "collared": "Collared",
       "crew_neck": "Crew Neck",
-      "cross_collar": "Cross Collar",
-      "duijin_collar": "Duijin Collar",
       "halter_neck": "Halter Neck",
-      "hooded": "Hooded",
       "keyhole_neck": "Keyhole Neck",
-      "mandarin_collar": "Mandarin Collar",
       "mock_neck": "Mock Neck",
-      "peter_pan_collar": "Peter Pan Collar",
-      "right_cross_collar": "Right Cross Collar",
-      "sailor_collar": "Sailor Collar",
       "scoop_neck": "Scoop Neck",
       "square_neck": "Square Neck",
       "sweetheart_neck": "Sweetheart Neck",
       "turtleneck": "Turtleneck",
       "v_neck": "V Neck"
+    },
+    "collar_style": {
+      "collared": "Collared",
+      "cross_collar": "Cross Collar",
+      "duijin_collar": "Duijin Collar",
+      "mandarin_collar": "Mandarin Collar",
+      "peter_pan_collar": "Peter Pan Collar",
+      "right_cross_collar": "Right Cross Collar",
+      "sailor_collar": "Sailor Collar"
+    },
+    "garment_feature": {
+      "belted": "Belted",
+      "button_up": "Button Up",
+      "hooded": "Hooded",
+      "lace_up": "Lace Up",
+      "zip_up": "Zip Up"
     },
     "ornament": {
       "animal": "Animal",

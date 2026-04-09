@@ -187,6 +187,7 @@ export default defineEventHandler(async (event) => {
 
   try {
     const user = await requireLocalItemSearchMaintainerUser(event)
+    const maintainer = user.email?.trim() || user.id
     const body = (await readBody(event)) as FeedbackMaintainerActionRequest
     const suggestionId =
       typeof body?.suggestionId === 'string' ? body.suggestionId.trim() : ''
@@ -205,7 +206,6 @@ export default defineEventHandler(async (event) => {
       })
     }
 
-    const maintainer = user.email?.trim() || user.id
     let applyResult = null
 
     if (action === 'approve') {

@@ -102,23 +102,31 @@
     },
     "neckline": {
       "boat_neck": "ボートネック",
-      "collared": "襟付き",
       "crew_neck": "クルーネック",
-      "cross_collar": "クロスコラー",
-      "duijin_collar": "対襟",
       "halter_neck": "ホルターネック",
-      "hooded": "フード付き",
       "keyhole_neck": "キーホールネック",
-      "mandarin_collar": "マオカラー",
       "mock_neck": "モックネック",
-      "peter_pan_collar": "ピーターパンカラー",
-      "right_cross_collar": "右衽(交領)",
-      "sailor_collar": "セーラーカラー",
       "scoop_neck": "スクープネック",
       "square_neck": "スクエアネック",
       "sweetheart_neck": "ハートシェイプ",
       "turtleneck": "タートルネック",
       "v_neck": "Vネック"
+    },
+    "collar_style": {
+      "collared": "Collared",
+      "cross_collar": "Cross Collar",
+      "duijin_collar": "Duijin Collar",
+      "mandarin_collar": "Mandarin Collar",
+      "peter_pan_collar": "Peter Pan Collar",
+      "right_cross_collar": "Right Cross Collar",
+      "sailor_collar": "Sailor Collar"
+    },
+    "garment_feature": {
+      "belted": "Belted",
+      "button_up": "Button Up",
+      "hooded": "Hooded",
+      "lace_up": "Lace Up",
+      "zip_up": "Zip Up"
     },
     "ornament": {
       "animal": "アニマル",

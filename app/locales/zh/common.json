@@ -24,7 +24,7 @@
     "cancel": "取消",
     "confirm": "确认",
     "ok": "确定",
-    "next": "下一个",
+    "next": "下一题",
     "submit": "提交",
     "retry": "重试",
     "copy": "复制",
@@ -68,7 +68,7 @@
       "clear_local_data": "清除本地数据",
       "delete_profile": "删除档案"
     },
-    "previous": "上一个",
+    "previous": "上一条",
     "view_compendium": "查看图鉴"
   },
   "navigation": {
@@ -730,11 +730,13 @@
       "material": "材质",
       "structure": "结构",
       "ornament": "装饰",
+      "garment_feature": "Garment Feature",
       "top_length": "上装长度",
       "bottom_length": "下装长度",
       "hair_length": "发长",
       "fit": "版型",
       "neckline": "领口",
+      "collar_style": "Collar Style",
       "shoulder_style": "肩部样式",
       "sleeve_length": "袖长",
       "sleeve_style": "袖型",
@@ -771,10 +773,14 @@
     "match_score": "匹配度 {score}%"
   },
   "feedback": {
-    "queue_title": "反馈审核",
-    "page_description": "浏览格式化的标签修正，对已有建议进行投票，帮助保持图鉴整洁。",
+    "queue_title": "反馈队列",
+    "page_description": "浏览结构化标签修正提案，快速投票，一起整理图鉴标签。",
     "quick_review_empty": "当前队列你已经看完了。",
+    "list_empty": "No feedback matches these filters.",
     "refresh": "刷新",
+    "mode_filter_label": "Mode",
+    "mode_vote": "Voting",
+    "mode_list": "Listing",
     "scope_filter_label": "范围",
     "sort_filter_label": "排序",
     "status_filter_label": "状态",

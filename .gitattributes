@@ -4,6 +4,7 @@
 # Force all code and configuration files to use LF in repo.
 *.ts text eol=lf
 *.js text eol=lf
+*.mjs text eol=lf
 *.vue text eol=lf
 *.json text eol=lf
 *.css text eol=lf

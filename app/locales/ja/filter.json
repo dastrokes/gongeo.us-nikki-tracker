@@ -113,20 +113,20 @@
       "v_neck": "Vネック"
     },
     "collar_style": {
-      "collared": "Collared",
-      "cross_collar": "Cross Collar",
-      "duijin_collar": "Duijin Collar",
-      "mandarin_collar": "Mandarin Collar",
-      "peter_pan_collar": "Peter Pan Collar",
-      "right_cross_collar": "Right Cross Collar",
-      "sailor_collar": "Sailor Collar"
+      "collared": "襟付き",
+      "cross_collar": "交領",
+      "duijin_collar": "対襟",
+      "mandarin_collar": "立襟",
+      "peter_pan_collar": "ピーターパンカラー",
+      "right_cross_collar": "右衽",
+      "sailor_collar": "セーラーカラー"
     },
     "garment_feature": {
-      "belted": "Belted",
-      "button_up": "Button Up",
-      "hooded": "Hooded",
-      "lace_up": "Lace Up",
-      "zip_up": "Zip Up"
+      "belted": "ベルト付き",
+      "button_up": "ボタン留め",
+      "hooded": "フード付き",
+      "lace_up": "レースアップ",
+      "zip_up": "ファスナー付き"
     },
     "ornament": {
       "animal": "アニマル",

@@ -842,31 +842,31 @@
       "page_title": "Feedback Guideline",
       "page_description": "Guideline for feedback submissions.",
       "hair_length": {
-        "short": "Above the shoulders.",
-        "medium": "Around the shoulders to upper back.",
-        "long": "Upper back to lower back.",
-        "very_long": "Below the lower back."
+        "short": "Above shoulders.",
+        "medium": "Around shoulders to upper back.",
+        "long": "Around upper to lower back.",
+        "very_long": "Below lower back."
       },
       "top_length": {
-        "ultra_crop": "Above waist / underbust.",
-        "crop": "At natural waist.",
-        "waist_length": "At waistline.",
-        "hip_length": "At hips.",
-        "upper_thigh": "Past hips to upper thigh.",
-        "mid_thigh": "At mid-thigh.",
-        "maxi": "Below knee to lower leg.",
-        "floor_length": "At or near floor."
+        "ultra_crop": "Above or around underbust.",
+        "crop": "Around waist; may expose midriff.",
+        "waist_length": "Below waist; covers midriff.",
+        "hip_length": "Around hips.",
+        "upper_thigh": "Upper thigh.",
+        "mid_thigh": "Mid-thigh.",
+        "maxi": "Around ankle.",
+        "floor_length": "Touching floor."
       },
       "bottom_length": {
-        "upper_thigh": "High thigh.",
+        "mini": "Upper to mid-thigh. (skirt only)",
+        "midi": "Around knee to mid-calf. (skirt only)",
+        "maxi": "Around ankle. (skirt only)",
+        "floor_length": "Touching floor. (skirt only)",
+        "upper_thigh": "Upper thigh.",
         "mid_thigh": "Mid-thigh.",
-        "mini": "Upper to mid thigh.",
-        "knee_length": "At knee.",
-        "midi": "Between knee and ankle.",
-        "mid_calf": "At mid-calf.",
-        "ankle_length": "At ankle.",
-        "maxi": "Near ankle or longer.",
-        "floor_length": "At or near floor."
+        "knee_length": "Around knee.",
+        "mid_calf": "Mid-calf.",
+        "ankle_length": "Around ankle."
       },
       "other_subcategories": "Other subcategories"
     },

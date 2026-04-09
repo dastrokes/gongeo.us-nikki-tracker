@@ -28,8 +28,8 @@ export const useUserStore = defineStore('user', {
 
     if (import.meta.client) {
       remove('uid')
+      remove('authToken')
     }
-    remove('authToken')
 
     return {
       region: Region.AMERICA,

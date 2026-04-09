@@ -848,25 +848,25 @@
         "very_long": "Sotto la parte inferiore della schiena."
       },
       "top_length": {
-        "ultra_crop": "Sopra la vita / sotto il busto.",
-        "crop": "Alla vita naturale.",
-        "waist_length": "Alla linea della vita.",
-        "hip_length": "Ai fianchi.",
-        "upper_thigh": "Oltre i fianchi fino alla parte superiore della coscia.",
-        "mid_thigh": "A metà coscia.",
-        "maxi": "Sotto il ginocchio fino alla parte inferiore della gamba.",
+        "ultra_crop": "Sopra o intorno al sottoseno.",
+        "crop": "Intorno alla vita; può esporre l'ombelico.",
+        "waist_length": "Sotto la vita; copre l'ombelico.",
+        "hip_length": "Intorno ai fianchi.",
+        "upper_thigh": "Parte superiore della coscia.",
+        "mid_thigh": "Metà coscia.",
+        "maxi": "Intorno alla caviglia.",
         "floor_length": "A terra o vicino."
       },
       "bottom_length": {
-        "upper_thigh": "Parte alta della coscia.",
+        "mini": "Dalla parte superiore a metà coscia. (solo gonna)",
+        "midi": "Dalla rotula a metà polpaccio. (solo gonna)",
+        "maxi": "Intorno alla caviglia. (solo gonna)",
+        "floor_length": "A terra o vicino. (solo gonna)",
+        "upper_thigh": "Parte superiore della coscia.",
         "mid_thigh": "Metà coscia.",
-        "mini": "Da sopra a metà coscia.",
-        "knee_length": "Al ginocchio.",
-        "midi": "Tra il ginocchio e la caviglia.",
-        "mid_calf": "A metà polpaccio.",
-        "ankle_length": "Alla caviglia.",
-        "maxi": "Vicino alla caviglia o più lunghi.",
-        "floor_length": "A terra o vicino."
+        "knee_length": "Intorno al ginocchio.",
+        "mid_calf": "Metà polpaccio.",
+        "ankle_length": "Intorno alla caviglia."
       },
       "other_subcategories": "Altre sottocategorie"
     },

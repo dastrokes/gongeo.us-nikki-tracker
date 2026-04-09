@@ -848,25 +848,25 @@
         "very_long": "Abaixo da parte inferior das costas."
       },
       "top_length": {
-        "ultra_crop": "Acima da cintura / abaixo do busto.",
-        "crop": "Na cintura natural.",
-        "waist_length": "Na linha da cintura.",
-        "hip_length": "Nos quadris.",
-        "upper_thigh": "Passando os quadris para a parte superior da coxa.",
-        "mid_thigh": "No meio da coxa.",
-        "maxi": "Abaixo do joelho até a parte inferior da perna.",
+        "ultra_crop": "Acima ou ao redor do busto.",
+        "crop": "Ao redor da cintura; pode expor a barriga.",
+        "waist_length": "Abaixo da cintura; cobre a barriga.",
+        "hip_length": "Ao redor dos quadris.",
+        "upper_thigh": "Parte superior da coxa.",
+        "mid_thigh": "Meio da coxa.",
+        "maxi": "Ao redor do tornozelo.",
         "floor_length": "No chão ou perto."
       },
       "bottom_length": {
-        "upper_thigh": "Coxa alta.",
+        "mini": "Da parte superior ao meio da coxa. (apenas saia)",
+        "midi": "Do joelho ao meio da panturrilha. (apenas saia)",
+        "maxi": "Ao redor do tornozelo. (apenas saia)",
+        "floor_length": "No chão ou perto. (apenas saia)",
+        "upper_thigh": "Parte superior da coxa.",
         "mid_thigh": "Meio da coxa.",
-        "mini": "Da parte superior ao meio da coxa.",
         "knee_length": "No joelho.",
-        "midi": "Entre o joelho e o tornozelo.",
-        "mid_calf": "No meio da panturrilha.",
-        "ankle_length": "No tornozelo.",
-        "maxi": "Perto do tornozelo ou mais longo.",
-        "floor_length": "No chão ou perto."
+        "mid_calf": "Meio da panturrilha.",
+        "ankle_length": "No tornozelo."
       },
       "other_subcategories": "Outras subcategorias"
     },

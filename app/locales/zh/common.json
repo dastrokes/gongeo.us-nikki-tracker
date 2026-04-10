@@ -74,6 +74,12 @@
   "navigation": {
     "title": "gongeo.us",
     "subtitle": "无限暖暖 暖暖共鸣录",
+    "groups": {
+      "data": "抽卡记录",
+      "banner": "共鸣卡池",
+      "compendium": "游戏图鉴",
+      "community": "社区工具"
+    },
     "tracker": "共鸣记录",
     "import": "导入数据",
     "global": "社区数据",

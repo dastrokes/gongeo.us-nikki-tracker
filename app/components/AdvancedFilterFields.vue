@@ -7,7 +7,7 @@
       v-for="field in fields"
       :key="field"
       :class="[
-        'space-y-1.5 rounded-xl border p-3 transition-colors',
+        'space-y-1.5 rounded-xl border p-3',
         hasActiveItemSearchAdvancedFilterValue(filters[field] ?? null)
           ? 'border-slate-300 bg-slate-100/90 dark:border-slate-600 dark:bg-slate-900/55'
           : 'border-black/5 bg-slate-50/85 hover:border-slate-300/70 hover:bg-slate-100/70 dark:border-white/10 dark:bg-slate-900/35 dark:hover:border-white/15 dark:hover:bg-slate-900/50',

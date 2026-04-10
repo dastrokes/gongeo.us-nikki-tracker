@@ -20,7 +20,7 @@
           :to="guidelinesPath"
           target="_blank"
           rel="noopener noreferrer"
-          class="inline-flex text-sm font-medium text-rose-500 transition-colors hover:text-rose-600 dark:text-rose-300 dark:hover:text-rose-200"
+          class="inline-flex text-sm font-medium text-rose-500 hover:text-rose-600 dark:text-rose-300 dark:hover:text-rose-200"
         >
           {{ t('feedback.guidelines_action') }}
         </NuxtLinkLocale>
@@ -64,7 +64,7 @@
         <div class="flex items-center justify-end gap-3 pt-2">
           <NuxtLinkLocale
             to="/feedback"
-            class="text-sm font-semibold text-rose-500 transition-colors hover:text-rose-600 dark:text-rose-300 dark:hover:text-rose-200"
+            class="text-sm font-semibold text-rose-500 hover:text-rose-600 dark:text-rose-300 dark:hover:text-rose-200"
           >
             {{ t('feedback.view_queue') }}
           </NuxtLinkLocale>

@@ -388,7 +388,7 @@
                   </n-button>
                   <NuxtLinkLocale
                     to="/feedback"
-                    class="text-xs font-semibold text-rose-500 transition-colors hover:text-rose-600 dark:text-rose-300 dark:hover:text-rose-200"
+                    class="text-xs font-semibold text-rose-500 hover:text-rose-600 dark:text-rose-300 dark:hover:text-rose-200"
                   >
                     {{ t('feedback.view_queue') }}
                   </NuxtLinkLocale>

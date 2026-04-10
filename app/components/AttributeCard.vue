@@ -43,7 +43,7 @@
       <button
         v-if="!showExpandedFields && hasCollapsedExtraFields && index === 0"
         type="button"
-        class="flex h-full min-w-0 items-center justify-center rounded-lg border border-dashed border-slate-300/80 bg-slate-100/40 p-3 text-slate-500 transition-colors hover:border-slate-400 hover:text-slate-700 dark:border-slate-700 dark:bg-slate-900/15 dark:text-slate-400 dark:hover:border-slate-500 dark:hover:text-slate-200"
+        class="flex h-full min-w-0 items-center justify-center rounded-lg border border-dashed border-slate-300/80 bg-slate-100/40 p-3 text-slate-500 hover:border-slate-400 hover:text-slate-700 dark:border-slate-700 dark:bg-slate-900/15 dark:text-slate-400 dark:hover:border-slate-500 dark:hover:text-slate-200"
         :aria-label="t('feedback.more_tags')"
         @click="emit('expand')"
       >

@@ -6,12 +6,9 @@
       content-class="!p-2 sm:!p-4"
     >
       <n-card size="small">
-        <transition
+        <n-collapse-transition
           mode="out-in"
-          enter-active-class="transition-all duration-200 ease-out"
-          leave-active-class="transition-all duration-200 ease-out"
-          enter-from-class="opacity-0 translate-y-2"
-          leave-to-class="opacity-0 translate-y-2"
+          appear
         >
           <div
             v-if="showTimelineChart"
@@ -108,7 +105,7 @@
               </div>
             </div>
           </div>
-        </transition>
+        </n-collapse-transition>
       </n-card>
     </n-card>
   </div>

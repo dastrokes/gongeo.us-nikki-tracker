@@ -1,6 +1,5 @@
 <template>
   <n-button
-    class="transition-colors duration-200"
     :aria-label="$t('default.accessibility.theme_switcher')"
     text
     size="tiny"

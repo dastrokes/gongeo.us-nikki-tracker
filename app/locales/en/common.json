@@ -74,6 +74,12 @@
   "navigation": {
     "title": "gongeo.us",
     "subtitle": "Infinity Nikki Resonance Tracker",
+    "groups": {
+      "data": "Tracker",
+      "banner": "Resonance",
+      "compendium": "Compendium",
+      "community": "Community"
+    },
     "tracker": "Resonance Tracker",
     "import": "Import Data",
     "global": "Global Data",

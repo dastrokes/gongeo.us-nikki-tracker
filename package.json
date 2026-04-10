@@ -42,7 +42,7 @@
     "naive-ui": "2.44.1",
     "nuxt": "4.4.2",
     "nuxt-echarts": "1.0.1",
-    "pinyin-pro": "3.28.0",
+    "pinyin-pro": "3.28.1",
     "snappyjs": "0.7.0",
     "sortablejs": "1.15.7"
   },
@@ -60,7 +60,7 @@
     "lint-staged": "16.4.0",
     "prettier": "3.8.2",
     "sass": "1.99.0",
-    "supabase": "2.89.0",
+    "supabase": "2.89.1",
     "typescript": "6.0.2",
     "unplugin-auto-import": "21.0.0",
     "unplugin-vue-components": "32.0.0",

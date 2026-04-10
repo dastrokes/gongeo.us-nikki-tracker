@@ -6,7 +6,7 @@
         <button
           type="button"
           :aria-label="$t('navigation.title')"
-          class="group flex h-12 w-12 shrink-0 cursor-help shadow-md ring-1 ring-purple-200/50 dark:ring-purple-800/20 items-center justify-center rounded-2xl bg-white/60 p-2 backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 active:scale-95 sm:h-16 sm:w-16 dark:bg-slate-800/60"
+          class="group flex h-12 w-12 shrink-0 cursor-help shadow-md ring-1 ring-purple-200/50 dark:ring-purple-800/20 items-center justify-center rounded-2xl bg-white/60 p-2 backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 active:scale-95 sm:h-16 sm:w-16 dark:bg-slate-800/60 dark:shadow-[0_4px_10px_rgba(0,0,0,0.3)]"
           @click="handleHeroLogoClick"
         >
           <NuxtImg
@@ -67,7 +67,7 @@
       <div class="mt-6 flex max-w-full flex-wrap justify-center gap-2">
         <button
           type="button"
-          class="inline-flex items-center gap-2 rounded-full border border-white/45 bg-white/55 px-3 py-1 text-xs font-semibold text-slate-700 shadow-sm backdrop-blur-md transition-all duration-200 hover:-translate-y-0.5 hover:bg-white/70 hover:shadow-md dark:border-white/10 dark:bg-slate-950/35 dark:text-slate-100 dark:hover:bg-slate-900/50"
+          class="inline-flex items-center gap-2 rounded-full border border-white/45 bg-white/55 px-3 py-1 text-xs font-semibold text-slate-700 shadow-sm backdrop-blur-md hover:-translate-y-0.5 hover:bg-white/70 hover:shadow-md dark:border-white/10 dark:bg-slate-950/35 dark:text-slate-100 dark:hover:bg-slate-900/50"
           @click="scrollToSection(bannersSectionRef)"
         >
           <n-icon><CalendarAlt /></n-icon>
@@ -75,7 +75,7 @@
         </button>
         <button
           type="button"
-          class="inline-flex items-center gap-2 rounded-full border border-white/45 bg-white/55 px-3 py-1 text-xs font-semibold text-slate-700 shadow-sm backdrop-blur-md transition-all duration-200 hover:-translate-y-0.5 hover:bg-white/70 hover:shadow-md dark:border-white/10 dark:bg-slate-950/35 dark:text-slate-100 dark:hover:bg-slate-900/50"
+          class="inline-flex items-center gap-2 rounded-full border border-white/45 bg-white/55 px-3 py-1 text-xs font-semibold text-slate-700 shadow-sm backdrop-blur-md hover:-translate-y-0.5 hover:bg-white/70 hover:shadow-md dark:border-white/10 dark:bg-slate-950/35 dark:text-slate-100 dark:hover:bg-slate-900/50"
           @click="scrollToSection(compendiumSectionRef)"
         >
           <n-icon><ListAlt /></n-icon>
@@ -83,7 +83,7 @@
         </button>
         <button
           type="button"
-          class="inline-flex items-center gap-2 rounded-full border border-white/45 bg-white/55 px-3 py-1 text-xs font-semibold text-slate-700 shadow-sm backdrop-blur-md transition-all duration-200 hover:-translate-y-0.5 hover:bg-white/70 hover:shadow-md dark:border-white/10 dark:bg-slate-950/35 dark:text-slate-100 dark:hover:bg-slate-900/50"
+          class="inline-flex items-center gap-2 rounded-full border border-white/45 bg-white/55 px-3 py-1 text-xs font-semibold text-slate-700 shadow-sm backdrop-blur-md hover:-translate-y-0.5 hover:bg-white/70 hover:shadow-md dark:border-white/10 dark:bg-slate-950/35 dark:text-slate-100 dark:hover:bg-slate-900/50"
           @click="scrollToSection(statsSectionRef)"
         >
           <n-icon><Globe /></n-icon>
@@ -156,7 +156,7 @@
           <button
             v-for="item in compendiumItems"
             :key="item.key"
-            class="flex flex-col items-center justify-center p-6 rounded-xl bg-gradient-to-br from-[#e8ddf9]/30 to-[#fce4ec]/30 border border-black/[0.04] cursor-pointer transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(244,63,94,0.1)] group dark:from-[#1e1b4b]/40 dark:to-[#581c64]/30 dark:border-white/[0.05] dark:hover:shadow-[0_6px_20px_rgba(168,85,247,0.12)]"
+            class="flex flex-col items-center justify-center p-6 rounded-xl bg-gradient-to-br from-[#e8ddf9]/30 to-[#fce4ec]/30 border border-black/[0.04] cursor-pointer hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(244,63,94,0.1)] group dark:from-[#1e1b4b]/40 dark:to-[#581c64]/30 dark:border-white/[0.05] dark:hover:shadow-[0_6px_20px_rgba(168,85,247,0.12)]"
             @click="navigateTo(localePath(item.path))"
           >
             <n-icon

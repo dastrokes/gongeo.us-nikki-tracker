@@ -66,6 +66,7 @@ import Outfit_10282 from './10282'
 import Outfit_10287 from './10287'
 import Outfit_10289 from './10289'
 import Outfit_10293 from './10293'
+import Outfit_10298 from './10298'
 import Outfit_10299 from './10299'
 import Outfit_10302 from './10302'
 import Outfit_10313 from './10313'
@@ -84,6 +85,7 @@ import Outfit_10358 from './10358'
 import Outfit_10360 from './10360'
 import Outfit_10361 from './10361'
 import Outfit_10362 from './10362'
+import Outfit_10381 from './10381'
 
 const OUTFIT_DATA = {
   '10001': Outfit_10001,
@@ -154,6 +156,7 @@ const OUTFIT_DATA = {
   '10287': Outfit_10287,
   '10289': Outfit_10289,
   '10293': Outfit_10293,
+  '10298': Outfit_10298,
   '10299': Outfit_10299,
   '10302': Outfit_10302,
   '10313': Outfit_10313,
@@ -172,6 +175,7 @@ const OUTFIT_DATA = {
   '10360': Outfit_10360,
   '10361': Outfit_10361,
   '10362': Outfit_10362,
+  '10381': Outfit_10381,
 } as const
 
 export type OutfitKey = keyof typeof OUTFIT_DATA

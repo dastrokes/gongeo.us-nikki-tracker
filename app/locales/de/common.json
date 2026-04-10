@@ -842,31 +842,31 @@
       "page_title": "Feedback-Richtlinien",
       "page_description": "Richtlinien für Feedback-Vorschläge.",
       "hair_length": {
-        "short": "Über den Schultern.",
+        "short": "Bis zu den Schultern.",
         "medium": "Von den Schultern bis zum oberen Rücken.",
         "long": "Vom oberen bis zum unteren Rücken.",
-        "very_long": "Unter dem unteren Rücken."
+        "very_long": "Ab dem unteren Rücken."
       },
       "top_length": {
-        "ultra_crop": "Über oder um die Unterbrust.",
-        "crop": "Um die Taille; kann den Bauch freilegen.",
+        "ultra_crop": "Über der oder um die Unterbrust herum.",
+        "crop": "Um die Taille herum; kann den Bauch freilegen.",
         "waist_length": "Unter der Taille; bedeckt den Bauch.",
-        "hip_length": "Um die Hüften.",
+        "hip_length": "Um die Hüften herum.",
         "upper_thigh": "Oberschenkel.",
         "mid_thigh": "Mitte des Oberschenkels.",
-        "maxi": "Um den Knöchel.",
-        "floor_length": "Bodenberührend oder fast."
+        "maxi": "Um den Knöchel herum.",
+        "floor_length": "Bis zum Boden."
       },
       "bottom_length": {
         "mini": "Vom oberen bis zur Mitte des Oberschenkels. (nur Rock)",
-        "midi": "Vom Knie bis zur Mitte der Wade. (nur Rock)",
-        "maxi": "Um den Knöchel. (nur Rock)",
-        "floor_length": "Bodenberührend oder fast. (nur Rock)",
+        "midi": "Vom Knie bis zur Wadenmitte. (nur Rock)",
+        "maxi": "Um den Knöchel herum. (nur Rock)",
+        "floor_length": "Bis zum Boden. (nur Rock)",
         "upper_thigh": "Oberer Oberschenkel.",
         "mid_thigh": "Mitte Oberschenkel.",
-        "knee_length": "Um das Knie.",
-        "mid_calf": "Mitte der Wade.",
-        "ankle_length": "Um den Knöchel."
+        "knee_length": "Um das Knie herum.",
+        "mid_calf": "Wadenmitte.",
+        "ankle_length": "Um den Knöchel herum."
       },
       "other_subcategories": "Andere Unterkategorien"
     },

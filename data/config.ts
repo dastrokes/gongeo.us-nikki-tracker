@@ -18,6 +18,6 @@ export const CURRENT_BANNER_GROUPS: CurrentBannerGroupConfig[] = [
   },
 ]
 
-export const LATEST_BANNER_ID = 56
+export const LATEST_BANNER_ID = 58
 
 export const IMPORT_PAGE_MAINTENANCE = false

@@ -74,7 +74,7 @@
                 strong
                 attr-type="button"
                 size="large"
-                class="mr-1 !text-slate-400 transition-colors hover:!text-slate-700 dark:!text-slate-500 dark:hover:!text-slate-200"
+                class="mr-1 !text-slate-400 hover:!text-slate-700 dark:!text-slate-500 dark:hover:!text-slate-200"
                 :aria-label="t('search_page.clear_query')"
                 @click="clearSearchQuery"
               >
@@ -211,9 +211,9 @@
         class="hidden xl:block"
       >
         <div class="sticky top-6">
-          <transition
-            name="fade"
+          <n-collapse-transition
             mode="out-in"
+            appear
           >
             <div
               v-if="activeResult"
@@ -355,7 +355,7 @@
                 </div>
               </div>
             </div>
-          </transition>
+          </n-collapse-transition>
         </div>
       </div>
     </div>
@@ -376,7 +376,7 @@
             strong
             attr-type="button"
             size="small"
-            class="!bg-white/80 !text-slate-600 shadow-md backdrop-blur transition-colors hover:!text-slate-900 dark:!bg-slate-900/80 dark:!text-slate-200 dark:hover:!text-white"
+            class="!bg-white/80 !text-slate-600 shadow-md backdrop-blur hover:!text-slate-900 dark:!bg-slate-900/80 dark:!text-slate-200 dark:hover:!text-white"
             :aria-label="t('search_page.close_details')"
             @click="closeMobileModal"
           >

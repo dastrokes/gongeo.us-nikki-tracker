@@ -335,13 +335,10 @@
             </n-result>
           </div>
 
-          <transition
+          <n-collapse-transition
             v-else
             mode="out-in"
-            enter-active-class="transition-opacity duration-300 ease"
-            enter-from-class="opacity-0"
-            leave-active-class="transition-opacity duration-300 ease"
-            leave-to-class="opacity-0"
+            appear
           >
             <div
               v-if="!loading && !error && entries.length > 0"
@@ -459,7 +456,7 @@
                 }"
               ></div>
             </div>
-          </transition>
+          </n-collapse-transition>
 
           <div class="flex justify-center items-center sm:pr-2">
             <n-pagination

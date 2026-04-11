@@ -195,8 +195,8 @@
       "help_translate": "翻訳を手伝ってください"
     },
     "search": {
-      "placeholder": "Search by name",
-      "whim_hint": "Search for more details",
+      "placeholder": "名前で検索",
+      "whim_hint": "さらに詳しく検索",
       "for_query": "「{query}」を検索",
       "to_search": "検索"
     },

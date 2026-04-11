@@ -25,6 +25,11 @@ type FetchFeedbackParams = {
   page?: number
 }
 
+const shouldAuthenticateFeedbackQueue = (params: FetchFeedbackParams) =>
+  params.scope === 'mine' ||
+  params.reviewState === 'unreviewed' ||
+  params.reviewState === 'voted'
+
 export const useFeedback = () => {
   const supabase = useSupabaseClient()
 
@@ -51,7 +56,9 @@ export const useFeedback = () => {
   const fetchFeedbackQueue = async (
     params: FetchFeedbackParams = {}
   ): Promise<FeedbackListResponse> => {
-    const headers = await getAuthHeaders()
+    const headers = shouldAuthenticateFeedbackQueue(params)
+      ? await getAuthHeaders()
+      : null
 
     return $fetch<FeedbackListResponse>('/api/feedback', {
       params,

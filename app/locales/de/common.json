@@ -69,11 +69,21 @@
       "delete_profile": "Profil löschen"
     },
     "previous": "Zurück",
-    "view_compendium": "Kompendium ansehen"
+    "view_compendium": "Kompendium ansehen",
+    "keys": {
+      "enter": "Enter",
+      "esc": "ESC"
+    }
   },
   "navigation": {
     "title": "gongeo.us",
     "subtitle": "Infinity Nikki Resonanz-Tracker",
+    "groups": {
+      "data": "Tracker",
+      "banner": "Resonanz",
+      "compendium": "Kompendium",
+      "community": "Community"
+    },
     "tracker": "Resonanz-Tracker",
     "import": "Daten importieren",
     "global": "Globale Daten",
@@ -179,14 +189,15 @@
       "theme_switcher": "Thema wechseln",
       "user_profile_menu": "Benutzerprofil-Menü",
       "scroll_to_top": "Zum Seitenanfang",
-      "close_menu": "Navigationsmenü schließen",
       "luck_stats": "Glücksstatistiken angucken"
     },
     "language_switcher": {
       "help_translate": "Hilf bei der Übersetzung"
     },
     "search": {
-      "placeholder": "Stücke, Outfits und Banner suchen"
+      "placeholder": "Nach Namen suchen oder mit der Whim-Suche erkunden",
+      "for_query": "für \"{query}\"",
+      "to_search": "suchen"
     },
     "social": {
       "discord": "Werde Teil unserer Discord-Community",

@@ -1,8 +1,6 @@
 import type Fuse from 'fuse.js'
 
-const CHINESE_CHAR_REGEX = /[\u4e00-\u9fff]/
 type FuseConstructor = (typeof import('fuse.js'))['default']
-type PinyinFunction = (typeof import('pinyin-pro'))['pinyin']
 
 export const useSearch = () => {
   const { t, locale } = useI18n()
@@ -17,14 +15,18 @@ export const useSearch = () => {
 
   const fuseInstance = ref<Fuse<SearchResult> | null>(null)
   const fuseConstructor = shallowRef<FuseConstructor | null>(null)
-  const pinyinFunction = shallowRef<PinyinFunction | null>(null)
   const isIndexBuilt = ref(false)
   let buildIndexPromise: Promise<void> | null = null
   let fuseLoadPromise: Promise<void> | null = null
-  let pinyinLoadPromise: Promise<void> | null = null
+  const {
+    ensurePinyinLoaded,
+    getChineseSearchMeta,
+    getOutfitSearchAliases,
+    getSearchKeys,
+  } = useSearchFields(() => isChineseLocale.value)
 
   const searchOptions: SearchOptions = {
-    threshold: 0.3,
+    threshold: 0.2,
     keys: ['name'],
     includeScore: true,
     minMatchCharLength: 1,
@@ -47,24 +49,6 @@ export const useSearch = () => {
     }
 
     await fuseLoadPromise
-  }
-
-  const ensurePinyinLoaded = async () => {
-    if (import.meta.server || !isChineseLocale.value || pinyinFunction.value) {
-      return
-    }
-
-    if (!pinyinLoadPromise) {
-      pinyinLoadPromise = import('pinyin-pro')
-        .then(({ pinyin }) => {
-          pinyinFunction.value = pinyin
-        })
-        .finally(() => {
-          pinyinLoadPromise = null
-        })
-    }
-
-    await pinyinLoadPromise
   }
 
   const getLocalizedBannerName = (
@@ -109,71 +93,11 @@ export const useSearch = () => {
     }
   }
 
-  type SearchMeta = Pick<SearchResult, 'pinyin' | 'pinyinInitials'>
-
-  const toUniqueValues = (values: string[]): string[] =>
-    Array.from(new Set(values.map((value) => value.trim()).filter(Boolean)))
-
-  const getChineseSearchMeta = (name: string): Partial<SearchMeta> => {
-    if (!isChineseLocale.value) {
-      return {}
-    }
-
-    const pinyin = pinyinFunction.value
-    if (!pinyin) {
-      return {}
-    }
-
-    const normalizedName = name.trim()
-    if (!normalizedName || !CHINESE_CHAR_REGEX.test(normalizedName)) {
-      return {}
-    }
-
-    const syllables = pinyin(normalizedName, {
-      toneType: 'none',
-      type: 'array',
-      nonZh: 'removed',
-    }) as string[]
-
-    if (syllables.length === 0) {
-      return {}
-    }
-
-    const pinyinCandidates = toUniqueValues([
-      syllables.join(' '),
-      syllables.join(''),
-    ])
-
-    const initialsArray = pinyin(normalizedName, {
-      pattern: 'first',
-      type: 'array',
-      toneType: 'none',
-      nonZh: 'removed',
-    }) as string[]
-
-    const initialsCandidates = toUniqueValues([
-      initialsArray.join(' '),
-      initialsArray.join(''),
-    ])
-
-    const meta: Partial<SearchMeta> = {}
-
-    if (pinyinCandidates.length > 0) {
-      meta.pinyin = pinyinCandidates.join(' ')
-    }
-
-    if (initialsCandidates.length > 0) {
-      meta.pinyinInitials = initialsCandidates.join(' ')
-    }
-
-    return meta
-  }
-
   const createSearchResult = (
     payload: Omit<SearchResult, 'pinyin' | 'pinyinInitials'>
   ): SearchResult => ({
     ...payload,
-    ...getChineseSearchMeta(payload.name),
+    ...getChineseSearchMeta([payload.name, ...(payload.searchAliases ?? [])]),
   })
 
   /**
@@ -229,9 +153,7 @@ export const useSearch = () => {
 
     if (!buildIndexPromise) {
       buildIndexPromise = (async () => {
-        searchOptions.keys = isChineseLocale.value
-          ? ['name', 'pinyin', 'pinyinInitials']
-          : ['name']
+        searchOptions.keys = getSearchKeys()
 
         await ensureFuseLoaded()
         if (isChineseLocale.value) {
@@ -266,6 +188,7 @@ export const useSearch = () => {
         const allOutfitIds = await getAllOutfitIdsFromI18n()
         for (const outfitId of allOutfitIds) {
           const name = getLocalizedOutfitName(outfitId)
+          const searchAliases = getOutfitSearchAliases(locale.value, outfitId)
 
           // Only add if the outfit has a valid localized name
           if (name.en && name.en !== `outfit.${outfitId}.name`) {
@@ -275,6 +198,7 @@ export const useSearch = () => {
                 id: outfitId,
                 type: 'outfit',
                 name: name[locale.value] || name.en,
+                ...(searchAliases.length > 0 ? { searchAliases } : {}),
                 route: localePath(`/outfits/${outfitId}`),
               })
             )
@@ -352,19 +276,19 @@ export const useSearch = () => {
 
     const categories: SearchCategory[] = []
 
-    if (itemResults.length > 0) {
-      categories.push({
-        type: 'item',
-        label: t('common.items'),
-        results: itemResults,
-      })
-    }
-
     if (outfitResults.length > 0) {
       categories.push({
         type: 'outfit',
         label: t('common.outfits'),
         results: outfitResults,
+      })
+    }
+
+    if (itemResults.length > 0) {
+      categories.push({
+        type: 'item',
+        label: t('common.items'),
+        results: itemResults,
       })
     }
 

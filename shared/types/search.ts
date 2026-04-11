@@ -2,10 +2,11 @@ export interface SearchResult {
   id: string
   type: 'banner' | 'outfit' | 'item'
   name: string
+  searchAliases?: string[]
   quality?: number
   route: string
-  pinyin?: string
-  pinyinInitials?: string
+  pinyin?: string[]
+  pinyinInitials?: string[]
 }
 
 export interface SearchIndex {

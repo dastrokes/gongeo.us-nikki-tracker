@@ -69,12 +69,22 @@
       "delete_profile": "프로필 삭제"
     },
     "previous": "이전",
-    "view_compendium": "도감 보기"
+    "view_compendium": "도감 보기",
+    "keys": {
+      "enter": "Enter",
+      "esc": "ESC"
+    }
   },
   "navigation": {
     "title": "gongeo.us",
-    "subtitle": "인피니티 니키 레조넌스 트래커",
-    "tracker": "공명 추적기",
+    "subtitle": "인피니티 니키 공명 트래커",
+    "groups": {
+      "data": "트래커",
+      "banner": "공명",
+      "compendium": "도감",
+      "community": "커뮤니티"
+    },
+    "tracker": "공명 트래커",
     "import": "데이터 가져오기",
     "global": "글로벌 데이터",
     "banner": "배너 역사",
@@ -179,14 +189,15 @@
       "theme_switcher": "테마 전환",
       "user_profile_menu": "사용자 프로필 메뉴",
       "scroll_to_top": "맨 위로 스크롤",
-      "close_menu": "탐색 메뉴 닫기",
       "luck_stats": "운 통계 보기"
     },
     "language_switcher": {
       "help_translate": "번역을 도와주세요"
     },
     "search": {
-      "placeholder": "아이템, 배너, 의상 검색"
+      "placeholder": "이름으로 검색 또는 기상 검색으로 탐색",
+      "for_query": "\"{query}\" 검색",
+      "to_search": "검색"
     },
     "social": {
       "discord": "디스코드 커뮤니티에 가입하세요",

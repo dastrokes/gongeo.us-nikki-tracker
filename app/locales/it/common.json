@@ -195,7 +195,8 @@
       "help_translate": "Aiuta a tradurre"
     },
     "search": {
-      "placeholder": "Cerca per nome o esplora con Ricerca dei capricci",
+      "placeholder": "Search by name",
+      "whim_hint": "Search for more details",
       "for_query": "per \"{query}\"",
       "to_search": "per cercare"
     },

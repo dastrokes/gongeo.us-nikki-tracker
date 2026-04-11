@@ -69,11 +69,21 @@
       "delete_profile": "プロフィールの削除"
     },
     "previous": "前へ",
-    "view_compendium": "図鑑を見る"
+    "view_compendium": "図鑑を見る",
+    "keys": {
+      "enter": "Enter",
+      "esc": "ESC"
+    }
   },
   "navigation": {
     "title": "gongeo.us",
-    "subtitle": "Infinity Nikki 共鳴トラッカー",
+    "subtitle": "無限暖暖 暖暖共鳴録",
+    "groups": {
+      "data": "トラッカー",
+      "banner": "共鳴",
+      "compendium": "図鑑",
+      "community": "コミュニティ"
+    },
     "tracker": "共鳴トラッカー",
     "import": "データのインポート",
     "global": "グローバルデータ",
@@ -179,14 +189,15 @@
       "theme_switcher": "テーマの切り替え",
       "user_profile_menu": "ユーザープロフィールメニュー",
       "scroll_to_top": "一番上までスクロール",
-      "close_menu": "ナビゲーションメニューを閉じる",
       "luck_stats": "運勢統計を見る"
     },
     "language_switcher": {
       "help_translate": "翻訳を手伝ってください"
     },
     "search": {
-      "placeholder": "アイテム、バナー、衣装を検索"
+      "placeholder": "名前で検索、またはきまぐれ検索で探索",
+      "for_query": "「{query}」を検索",
+      "to_search": "検索"
     },
     "social": {
       "discord": "Discord コミュニティに参加してください",

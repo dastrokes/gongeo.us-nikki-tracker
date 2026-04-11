@@ -28,7 +28,9 @@ const CDN_SHORT =
 const CDN_LONG =
   'public, s-maxage=2592000, stale-while-revalidate=604800, stale-if-error=86400'
 const CDN_SEARCH =
-  'public, s-maxage=3600, stale-while-revalidate=3600, stale-if-error=300'
+  'public, s-maxage=86400, stale-while-revalidate=86400, stale-if-error=3600'
+const CDN_FEEDBACK =
+  'public, s-maxage=3600, stale-while-revalidate=3600, stale-if-error=3600'
 
 const THEME_VARY = `cookie=${THEME_COOKIE}`
 const THEME_QUERY_VARY = `${THEME_VARY},query`
@@ -115,6 +117,7 @@ const apiProfiles = {
     tags: [CACHE_TAGS.game],
     includeVersion: true,
   }),
+  feedback: createProfile(NO_STORE, CDN_FEEDBACK),
   stats: createProfile(BROWSER_SHORT, CDN_SHORT, {
     tags: [CACHE_TAGS.stats],
     includeVersion: true,

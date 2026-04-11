@@ -22,7 +22,7 @@ import {
   ALL_ITEM_TAG_FEEDBACK_FIELDS,
   FEEDBACK_PAGE_SIZE,
   buildItemTagFeedbackPatch,
-  createItemTagFeedbackSnapshot,
+  createRawItemTagFeedbackSnapshot,
   hasItemTagFeedbackChanges,
   normalizeItemTagFeedbackSnapshot,
   stableSerializeFeedbackRecord,
@@ -475,7 +475,7 @@ export const buildFeedbackCreationInput = ({
   nextSnapshot: Record<string, unknown>
   userId: string
 }): CreateFeedbackSuggestionInput => {
-  const baseSnapshot = createItemTagFeedbackSnapshot(metadata, itemType)
+  const baseSnapshot = createRawItemTagFeedbackSnapshot(metadata, itemType)
   const normalizedNextSnapshot = normalizeItemTagFeedbackSnapshot(
     nextSnapshot,
     itemType

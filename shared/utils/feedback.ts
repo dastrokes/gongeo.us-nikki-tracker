@@ -133,6 +133,17 @@ const normalizeFeedbackSnapshotTaxonomy = (
   }
 }
 
+const createItemTagFeedbackSnapshotFromValue = (
+  value: Record<string, unknown> | null | undefined,
+  fields: ItemTagFeedbackField[]
+): ItemTagFeedbackSnapshot =>
+  Object.fromEntries(
+    fields.map((field) => [
+      field,
+      normalizeFeedbackValue(field, value?.[field]),
+    ])
+  ) as ItemTagFeedbackSnapshot
+
 export const createItemTagFeedbackSnapshot = (
   metadata: ItemSearchMetadata | null | undefined,
   itemType?: string | null
@@ -140,15 +151,19 @@ export const createItemTagFeedbackSnapshot = (
   const fields = getItemTagFeedbackFields(itemType)
 
   return normalizeFeedbackSnapshotTaxonomy(
-    Object.fromEntries(
-      fields.map((field) => [
-        field,
-        normalizeFeedbackValue(field, metadata?.[field]),
-      ])
-    ) as ItemTagFeedbackSnapshot,
+    createItemTagFeedbackSnapshotFromValue(metadata, fields),
     itemType
   )
 }
+
+export const createRawItemTagFeedbackSnapshot = (
+  metadata: ItemSearchMetadata | null | undefined,
+  itemType?: string | null
+): ItemTagFeedbackSnapshot =>
+  createItemTagFeedbackSnapshotFromValue(
+    metadata,
+    getItemTagFeedbackFields(itemType)
+  )
 
 export const normalizeItemTagFeedbackSnapshot = (
   value: Record<string, unknown> | null | undefined,
@@ -159,12 +174,7 @@ export const normalizeItemTagFeedbackSnapshot = (
     : ALL_ITEM_TAG_FEEDBACK_FIELDS
 
   return normalizeFeedbackSnapshotTaxonomy(
-    Object.fromEntries(
-      fields.map((field) => [
-        field,
-        normalizeFeedbackValue(field, value?.[field]),
-      ])
-    ) as ItemTagFeedbackSnapshot,
+    createItemTagFeedbackSnapshotFromValue(value, fields),
     itemType
   )
 }

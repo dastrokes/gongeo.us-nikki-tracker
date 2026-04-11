@@ -131,7 +131,8 @@
 
     <n-layout-content
       ref="scrollbarRef"
-      class="mt-12 min-h-[calc(100vh-3rem)] bg-[#F8FAFC] bg-[radial-gradient(ellipse_at_50%_0%,rgba(232,221,249,0.56)_0%,transparent_68%)] dark:bg-[#101014] dark:bg-[radial-gradient(ellipse_at_50%_0%,rgba(88,28,100,0.36)_0%,transparent_68%)]"
+      position="absolute"
+      class="!top-12 bg-[#F8FAFC] bg-[radial-gradient(ellipse_at_50%_0%,rgba(232,221,249,0.56)_0%,transparent_68%)] dark:bg-[#101014] dark:bg-[radial-gradient(ellipse_at_50%_0%,rgba(88,28,100,0.36)_0%,transparent_68%)]"
       :native-scrollbar="false"
       @scroll="onScroll"
     >

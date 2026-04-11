@@ -255,7 +255,7 @@
   import type { SelectOption } from 'naive-ui'
   import {
     buildItemTagFeedbackPatch,
-    createItemTagFeedbackSnapshot,
+    createRawItemTagFeedbackSnapshot,
     isItemTagFeedbackMultiField,
   } from '#shared/utils/feedback'
   import {
@@ -303,7 +303,7 @@
   const guidelinesPath = computed(() => localePath('/guideline'))
   const baseMetadata = computed(() => props.metadata ?? null)
   const baseSnapshot = computed(() =>
-    createItemTagFeedbackSnapshot(baseMetadata.value, resolvedItemType.value)
+    createRawItemTagFeedbackSnapshot(baseMetadata.value, resolvedItemType.value)
   )
   const currentVisibleTagCount = computed(() =>
     getItemSearchMetadataSections(baseMetadata.value, resolvedItemType.value, {

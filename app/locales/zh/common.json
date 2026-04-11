@@ -195,7 +195,8 @@
       "help_translate": "帮助翻译"
     },
     "search": {
-      "placeholder": "按名称搜索，或使用奇想搜索探索更多",
+      "placeholder": "按名称搜索",
+      "whim_hint": "搜索更多细节",
       "for_query": "搜索 “{query}”",
       "to_search": "搜索"
     },

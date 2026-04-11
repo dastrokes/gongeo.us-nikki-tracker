@@ -195,8 +195,8 @@
       "help_translate": "幫助翻譯"
     },
     "search": {
-      "placeholder": "Search by name",
-      "whim_hint": "Search for more details",
+      "placeholder": "按名稱搜尋",
+      "whim_hint": "搜尋更多細節",
       "for_query": "搜尋 “{query}”",
       "to_search": "搜尋"
     },

@@ -195,7 +195,8 @@
       "help_translate": "번역을 도와주세요"
     },
     "search": {
-      "placeholder": "이름으로 검색 또는 기상 검색으로 탐색",
+      "placeholder": "이름으로 검색",
+      "whim_hint": "더 자세히 검색",
       "for_query": "\"{query}\" 검색",
       "to_search": "검색"
     },

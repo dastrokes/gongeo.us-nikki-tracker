@@ -195,7 +195,8 @@
       "help_translate": "Aidez à traduire"
     },
     "search": {
-      "placeholder": "Rechercher par nom ou explorer avec la Recherche de chimères",
+      "placeholder": "Rechercher par nom",
+      "whim_hint": "Rechercher plus de détails",
       "for_query": "pour \"{query}\"",
       "to_search": "pour rechercher"
     },

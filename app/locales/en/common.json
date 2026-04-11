@@ -195,7 +195,8 @@
       "help_translate": "Help translate"
     },
     "search": {
-      "placeholder": "Search by name, or explore with Whim Search",
+      "placeholder": "Search by name",
+      "whim_hint": "Search for more details",
       "for_query": "for \"{query}\"",
       "to_search": "to search"
     },

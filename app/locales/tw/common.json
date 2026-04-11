@@ -69,11 +69,21 @@
       "delete_profile": "刪除設定檔"
     },
     "previous": "上一個",
-    "view_compendium": "查看圖鑑"
+    "view_compendium": "查看圖鑑",
+    "keys": {
+      "enter": "回車",
+      "esc": "ESC"
+    }
   },
   "navigation": {
     "title": "gongeo.us",
     "subtitle": "無限暖暖 暖暖共鳴錄",
+    "groups": {
+      "data": "抽卡記錄",
+      "banner": "共鳴卡池",
+      "compendium": "遊戲圖鑑",
+      "community": "社區工具"
+    },
     "tracker": "共鳴記錄",
     "import": "匯入資料",
     "global": "社群資料",
@@ -179,14 +189,15 @@
       "theme_switcher": "切換主題",
       "user_profile_menu": "使用者資料選單",
       "scroll_to_top": "回到頂部",
-      "close_menu": "關閉導覽選單",
       "luck_stats": "查看運氣統計"
     },
     "language_switcher": {
       "help_translate": "幫助翻譯"
     },
     "search": {
-      "placeholder": "搜尋部件、套裝、卡池"
+      "placeholder": "按名稱搜尋，或使用奇想搜尋探索更多",
+      "for_query": "搜尋 “{query}”",
+      "to_search": "搜尋"
     },
     "social": {
       "discord": "加入我們的 Discord 社群",

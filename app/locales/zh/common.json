@@ -69,11 +69,21 @@
       "delete_profile": "删除档案"
     },
     "previous": "上一个",
-    "view_compendium": "查看图鉴"
+    "view_compendium": "查看图鉴",
+    "keys": {
+      "enter": "回车",
+      "esc": "ESC"
+    }
   },
   "navigation": {
     "title": "gongeo.us",
     "subtitle": "无限暖暖 暖暖共鸣录",
+    "groups": {
+      "data": "抽卡记录",
+      "banner": "共鸣卡池",
+      "compendium": "游戏图鉴",
+      "community": "社区工具"
+    },
     "tracker": "共鸣记录",
     "import": "导入数据",
     "global": "社区数据",
@@ -179,14 +189,15 @@
       "theme_switcher": "切换主题",
       "user_profile_menu": "用户资料菜单",
       "scroll_to_top": "回到顶部",
-      "close_menu": "关闭导航菜单",
       "luck_stats": "查看运气统计"
     },
     "language_switcher": {
       "help_translate": "帮助翻译"
     },
     "search": {
-      "placeholder": "搜索部件、套装、卡池"
+      "placeholder": "按名称搜索，或使用奇想搜索探索更多",
+      "for_query": "搜索 “{query}”",
+      "to_search": "搜索"
     },
     "social": {
       "discord": "加入我们的 Discord 社区",

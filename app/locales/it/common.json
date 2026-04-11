@@ -69,12 +69,22 @@
       "delete_profile": "Elimina profilo"
     },
     "previous": "Precedente",
-    "view_compendium": "Visualizza Compendio"
+    "view_compendium": "Vedi compendio",
+    "keys": {
+      "enter": "Invio",
+      "esc": "ESC"
+    }
   },
   "navigation": {
     "title": "gongeo.us",
-    "subtitle": "Tracciatore di risonanza Infinity Nikki",
-    "tracker": "Tracciatore di risonanza",
+    "subtitle": "Tracker della Risonanza di Infinity Nikki",
+    "groups": {
+      "data": "Tracciamento",
+      "banner": "Risonanza",
+      "compendium": "Compendio",
+      "community": "Comunità"
+    },
+    "tracker": "Tracker della Risonanza",
     "import": "Importa dati",
     "global": "Dati globali",
     "banner": "Storia dello stendardo",
@@ -179,14 +189,15 @@
       "theme_switcher": "Cambia tema",
       "user_profile_menu": "Menù profilo utente",
       "scroll_to_top": "Scorri verso l'alto",
-      "close_menu": "Chiudi il menu di navigazione",
       "luck_stats": "Visualizza le statistiche della fortuna"
     },
     "language_switcher": {
       "help_translate": "Aiuta a tradurre"
     },
     "search": {
-      "placeholder": "Cerca oggetti, banner, abiti"
+      "placeholder": "Cerca per nome o esplora con Ricerca dei capricci",
+      "for_query": "per \"{query}\"",
+      "to_search": "per cercare"
     },
     "social": {
       "discord": "Unisciti alla nostra comunità Discord",

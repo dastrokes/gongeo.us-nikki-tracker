@@ -69,12 +69,22 @@
       "delete_profile": "Excluir perfil"
     },
     "previous": "Anterior",
-    "view_compendium": "Ver compêndio"
+    "view_compendium": "Ver compêndio",
+    "keys": {
+      "enter": "Enter",
+      "esc": "ESC"
+    }
   },
   "navigation": {
     "title": "gongeo.us",
-    "subtitle": "Rastreador de ressonância Infinity Nikki",
-    "tracker": "Rastreador de ressonância",
+    "subtitle": "Rastreador de Ressonância do Infinity Nikki",
+    "groups": {
+      "data": "Rastreamento",
+      "banner": "Ressonância",
+      "compendium": "Compêndio",
+      "community": "Comunidade"
+    },
+    "tracker": "Rastreador de Ressonância",
     "import": "Importar dados",
     "global": "Dados globais",
     "banner": "Histórico de banners",
@@ -179,14 +189,15 @@
       "theme_switcher": "Alternar tema",
       "user_profile_menu": "Menu de perfil de usuário",
       "scroll_to_top": "Role para cima",
-      "close_menu": "Fechar menu de navegação",
       "luck_stats": "Ver estatísticas de sorte"
     },
     "language_switcher": {
       "help_translate": "Ajude a traduzir"
     },
     "search": {
-      "placeholder": "Pesquise itens, banners, roupas"
+      "placeholder": "Pesquisar por nome ou explorar com a Pesquisa de caprichos",
+      "for_query": "para \"{query}\"",
+      "to_search": "para pesquisar"
     },
     "social": {
       "discord": "Junte-se à nossa comunidade Discord",

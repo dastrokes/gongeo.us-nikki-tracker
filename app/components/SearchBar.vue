@@ -65,7 +65,7 @@
             />
             <kbd
               class="hidden sm:inline-block px-2 py-1 text-[10px] font-bold text-slate-400 bg-slate-100 dark:bg-slate-800 rounded-md border border-slate-200 dark:border-slate-700"
-              >ESC</kbd
+              >{{ $t('common.keys.esc') }}</kbd
             >
           </div>
         </div>
@@ -157,28 +157,29 @@
             >
               <n-icon size="14"><Magic /></n-icon>
             </div>
-            <span
-              >Open
+            <span>
               <span
                 class="font-bold text-rose-500 group-hover:text-rose-600 dark:text-rose-400"
-                >Whim Search</span
               >
+                {{ $t('search_page.title') }}
+              </span>
               <span
                 v-if="searchQuery"
                 class="opacity-75 font-normal ml-1"
-                >for "{{ searchQuery }}"</span
-              ></span
-            >
+              >
+                {{ $t('default.search.for_query', { query: searchQuery }) }}
+              </span>
+            </span>
           </button>
           <div
             class="hidden sm:flex items-center gap-2 text-xs text-slate-400/80"
           >
-            <span>Press</span>
             <kbd
               class="px-1.5 py-0.5 bg-white dark:bg-slate-800 rounded font-semibold border border-slate-200 dark:border-slate-700 shadow-sm group-hover:border-rose-300 dark:group-hover:border-rose-700 text-slate-500 dark:text-slate-400"
-              >Enter</kbd
             >
-            <span>to search</span>
+              {{ $t('common.keys.enter') }}
+            </kbd>
+            <span>{{ $t('default.search.to_search') }}</span>
           </div>
         </div>
       </div>
@@ -188,6 +189,7 @@
 
 <script setup lang="ts">
   import { Search, Magic } from '@vicons/fa'
+  const { t } = useI18n()
   const { search, searchOptions, buildSearchIndex, isIndexBuilt } = useSearch()
   const { getImageSrc } = imageProvider()
   const localePath = useLocalePath()

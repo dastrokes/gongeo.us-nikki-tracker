@@ -33,6 +33,8 @@ const parseSuggestionIds = (value: unknown) => {
 }
 
 export default defineEventHandler(async (event) => {
+  applyNoStoreHeaders(event)
+
   try {
     const user = await requireAuthenticatedUser(event)
     const query = getQuery(event)

@@ -1,4 +1,4 @@
-import { createError } from 'h3'
+import { createError, getHeader } from 'h3'
 
 import type {
   FeedbackEntityType,
@@ -97,29 +97,55 @@ const parseChangedField = (value: unknown): ItemTagFeedbackField | null => {
   return value as ItemTagFeedbackField
 }
 
+const hasAuthorizationHeader = (event: Parameters<typeof getHeader>[0]) =>
+  Boolean(getHeader(event, 'authorization')?.trim())
+
 export default defineEventHandler(async (event) => {
   try {
     const query = getQuery(event)
+    const hasAuthorization = hasAuthorizationHeader(event)
     const user = await getAuthenticatedUser(event)
     const requestedScope = parseScope(query.scope?.toString() ?? null)
     const requestedReviewState = parseReviewState(
       query.reviewState?.toString() ?? null
     )
-    const scope = user && requestedScope === 'mine' ? 'mine' : 'all'
+    if (requestedScope === 'mine' && !user) {
+      throw createError({
+        statusCode: 401,
+        statusMessage: 'Authentication required',
+        message: 'Authentication required',
+      })
+    }
 
-    return await listFeedbackSuggestions({
+    const scope = requestedScope === 'mine' ? 'mine' : 'all'
+    const reviewState =
+      scope === 'mine' ? 'all' : user ? requestedReviewState : 'all'
+
+    const response = await listFeedbackSuggestions({
       entityType: parseEntityType(query.entityType?.toString() ?? null),
       entityId: parseEntityId(query.entityId),
       status: parseStatus(query.status?.toString() ?? null),
       changedField: parseChangedField(query.changedField?.toString() ?? null),
-      reviewState:
-        scope === 'mine' ? 'all' : user ? requestedReviewState : 'all',
+      reviewState,
       scope,
       userId: user?.id ?? null,
       sort: parseSort(query.sort?.toString() ?? null),
       page: parsePage(query.page),
     })
+
+    if (!hasAuthorization && requestedScope === 'all' && scope === 'all') {
+      setCacheHeaders(event, 'feedback', {
+        varyQuery: true,
+        varyHeaders: ['Authorization'],
+      })
+    } else {
+      applyNoStoreHeaders(event)
+    }
+
+    return response
   } catch (error) {
+    applyNoStoreHeaders(event)
+
     if (
       error &&
       typeof error === 'object' &&

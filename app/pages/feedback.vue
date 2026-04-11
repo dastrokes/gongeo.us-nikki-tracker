@@ -61,10 +61,11 @@
               {{ t('feedback.scope_filter_label') }}
             </div>
             <n-select
-              v-model:value="scope"
+              :value="scope"
               size="small"
               :options="scopeOptions"
               :show-checkmark="false"
+              @update:value="handleScopeChange"
             />
           </div>
           <div class="space-y-1.5">
@@ -243,15 +244,25 @@
   const serializeSort = (value: FeedbackSortKey) =>
     value === 'needs-review' ? 'review' : value
 
-  const parseStatus = (
-    value: string | null
+  const getDefaultStatus = (
+    selectedScope: FeedbackScope
   ): FeedbackSuggestionStatus | 'all' =>
+    selectedScope === 'mine' ? 'all' : 'open'
+
+  const isFeedbackStatusFilter = (
+    value: string | null
+  ): value is FeedbackSuggestionStatus | 'all' =>
+    value === 'open' ||
     value === 'accepted' ||
     value === 'rejected' ||
     value === 'applied' ||
     value === 'all'
-      ? value
-      : 'open'
+
+  const parseStatus = (
+    value: string | null,
+    fallback: FeedbackSuggestionStatus | 'all' = 'open'
+  ): FeedbackSuggestionStatus | 'all' =>
+    isFeedbackStatusFilter(value) ? value : fallback
 
   const parsePage = (value: string | null) => {
     const parsed = Number(value)
@@ -269,9 +280,8 @@
   const parseViewMode = (value: string | null): FeedbackViewMode =>
     value === 'list' ? 'list' : 'vote'
 
-  const scope = ref<FeedbackScope>(
-    parseScope(route.query.scope?.toString() ?? null)
-  )
+  const initialScope = parseScope(route.query.scope?.toString() ?? null)
+  const scope = ref<FeedbackScope>(initialScope)
   const viewMode = ref<FeedbackViewMode>(
     parseViewMode(route.query.mode?.toString() ?? null)
   )
@@ -279,7 +289,10 @@
     parseSort(route.query.sort?.toString() ?? null)
   )
   const status = ref<FeedbackSuggestionStatus | 'all'>(
-    parseStatus(route.query.status?.toString() ?? null)
+    parseStatus(
+      route.query.status?.toString() ?? null,
+      getDefaultStatus(initialScope)
+    )
   )
   const reviewState = ref<FeedbackReviewState>(
     parseReviewState(route.query.state?.toString() ?? null)
@@ -288,6 +301,9 @@
     const value = route.query.state?.toString() ?? null
     return value === 'all' || value === 'voted' || value === 'unreviewed'
   })
+  const hasExplicitStatusQuery = computed(() =>
+    isFeedbackStatusFilter(route.query.status?.toString() ?? null)
+  )
   const page = ref(parsePage(route.query.page?.toString() ?? null))
   const loading = ref(true)
   const queue = ref<FeedbackSuggestion[]>([])
@@ -299,6 +315,7 @@
   const votingSuggestionId = ref<string | null>(null)
   const maintainerActionSuggestionId = ref<string | null>(null)
   const maintainerAction = ref<FeedbackMaintainerAction | null>(null)
+  let viewerStateRequestId = 0
   const isMineScope = computed(
     () => scope.value === 'mine' && Boolean(user.value)
   )
@@ -312,6 +329,15 @@
     isMineScope.value ? 'all' : reviewState.value
   )
   const isVoteMode = computed(() => viewMode.value === 'vote')
+
+  const handleScopeChange = (value: string) => {
+    const nextScope = parseScope(value)
+    scope.value = nextScope
+
+    if (nextScope === 'mine') {
+      status.value = 'all'
+    }
+  }
 
   const feedbackQuery = computed(() => ({
     mode: viewMode.value,
@@ -351,7 +377,38 @@
     })
   }
 
+  const resetViewerState = () => {
+    viewerVotes.value = {}
+    isMaintainer.value = false
+  }
+
+  const loadViewerState = async (
+    suggestions: FeedbackSuggestion[],
+    requestId: number
+  ) => {
+    try {
+      const viewerState = await fetchViewerState(
+        suggestions.map((entry) => entry.id)
+      )
+      if (requestId !== viewerStateRequestId) return
+
+      isMaintainer.value = viewerState.isMaintainer
+      viewerVotes.value = suggestions.reduce<
+        Record<string, FeedbackVoteValue | null>
+      >((accumulator, suggestion) => {
+        accumulator[suggestion.id] = viewerState.votes[suggestion.id] ?? null
+        return accumulator
+      }, {})
+    } catch (error) {
+      if (requestId !== viewerStateRequestId) return
+
+      resetViewerState()
+      console.error('Failed to load feedback viewer state:', error)
+    }
+  }
+
   const refreshQueue = async () => {
+    const requestId = ++viewerStateRequestId
     loading.value = true
     try {
       const response = await fetchFeedbackQueue({
@@ -362,33 +419,35 @@
         reviewState: effectiveReviewState.value,
         page: page.value,
       })
+      if (requestId !== viewerStateRequestId) return
 
       queue.value = response.data
       totalPages.value = response.totalPages
       hiddenSuggestionIds.value = []
       dismissalHistory.value = []
 
-      if (user.value) {
-        const viewerState = await fetchViewerState(
-          queue.value.map((entry) => entry.id)
-        )
-        isMaintainer.value = viewerState.isMaintainer
+      if (user.value && response.data.length > 0) {
+        isMaintainer.value = false
         viewerVotes.value = queue.value.reduce<
           Record<string, FeedbackVoteValue | null>
         >((accumulator, suggestion) => {
-          accumulator[suggestion.id] = viewerState.votes[suggestion.id] ?? null
+          accumulator[suggestion.id] = null
           return accumulator
         }, {})
+        void loadViewerState(response.data, requestId)
       } else {
-        viewerVotes.value = {}
-        isMaintainer.value = false
+        resetViewerState()
       }
     } catch (error) {
-      isMaintainer.value = false
+      if (requestId !== viewerStateRequestId) return
+
+      resetViewerState()
       message.error(t('feedback.load_failed'))
       console.error('Failed to load feedback queue:', error)
     } finally {
-      loading.value = false
+      if (requestId === viewerStateRequestId) {
+        loading.value = false
+      }
     }
   }
 
@@ -421,6 +480,9 @@
       if (!user.value) {
         if (scope.value !== 'all') {
           scope.value = 'all'
+          if (!hasExplicitStatusQuery.value) {
+            status.value = getDefaultStatus('all')
+          }
           return
         }
 
@@ -518,6 +580,7 @@
   ) => {
     if (!(await ensureLoggedIn())) return false
 
+    viewerStateRequestId += 1
     votingSuggestionId.value = suggestion.id
     try {
       const response = await voteSuggestion({

@@ -189,7 +189,7 @@
 
 <script setup lang="ts">
   import { Search, Magic } from '@vicons/fa'
-  const { t } = useI18n()
+
   const { search, searchOptions, buildSearchIndex, isIndexBuilt } = useSearch()
   const { getImageSrc } = imageProvider()
   const localePath = useLocalePath()

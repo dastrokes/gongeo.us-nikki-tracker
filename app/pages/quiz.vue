@@ -411,12 +411,12 @@
   type GameState = 'idle' | 'playing' | 'done'
   type RevealDirection = 'middle-out' | 'top-down' | 'bottom-up'
   type AnswerMode = 'select' | 'search'
-  type PinyinFunction = (typeof import('pinyin-pro'))['pinyin']
   type OutfitSearchItem = {
     id: string
     name: string
-    pinyin?: string
-    pinyinInitials?: string
+    searchAliases?: string[]
+    pinyin?: string[]
+    pinyinInitials?: string[]
   }
 
   const { t, locale, getLocaleMessage } = useI18n()
@@ -449,10 +449,8 @@
   const revealDirection = ref<RevealDirection>('middle-out')
   const blurAmount = ref(0)
   const outfitSearchItems = ref<OutfitSearchItem[]>([])
-  const pinyinFunction = shallowRef<PinyinFunction | null>(null)
   const fuseInstance = ref<Fuse<OutfitSearchItem> | null>(null)
   const isSearchIndexReady = ref(false)
-  let pinyinLoadPromise: Promise<void> | null = null
   const revealDirectionOptions = computed(() => [
     { label: t('quiz.reveal_options.middle_out'), value: 'middle-out' },
     { label: t('quiz.reveal_options.top_down'), value: 'top-down' },
@@ -482,86 +480,24 @@
   const isChineseLocale = computed(
     () => locale.value === 'zh' || locale.value === 'tw'
   )
-  const CHINESE_CHAR_REGEX = /[\u4e00-\u9fff]/
-  const ensurePinyinLoaded = async () => {
-    if (import.meta.server || !isChineseLocale.value || pinyinFunction.value) {
-      return
-    }
-
-    if (!pinyinLoadPromise) {
-      pinyinLoadPromise = import('pinyin-pro')
-        .then(({ pinyin }) => {
-          pinyinFunction.value = pinyin
-        })
-        .finally(() => {
-          pinyinLoadPromise = null
-        })
-    }
-
-    await pinyinLoadPromise
-  }
-  const toUniqueValues = (values: string[]): string[] =>
-    Array.from(new Set(values.map((value) => value.trim()).filter(Boolean)))
-  const getChineseSearchMeta = (
-    name: string
-  ): Pick<OutfitSearchItem, 'pinyin' | 'pinyinInitials'> => {
-    if (!isChineseLocale.value) {
-      return {}
-    }
-
-    const pinyin = pinyinFunction.value
-    if (!pinyin) {
-      return {}
-    }
-
-    const normalizedName = name.trim()
-    if (!normalizedName || !CHINESE_CHAR_REGEX.test(normalizedName)) {
-      return {}
-    }
-
-    const syllables = pinyin(normalizedName, {
-      toneType: 'none',
-      type: 'array',
-      nonZh: 'removed',
-    }) as string[]
-
-    if (syllables.length === 0) {
-      return {}
-    }
-
-    const pinyinCandidates = toUniqueValues([
-      syllables.join(' '),
-      syllables.join(''),
-    ])
-
-    const initialsArray = pinyin(normalizedName, {
-      pattern: 'first',
-      type: 'array',
-      toneType: 'none',
-      nonZh: 'removed',
-    }) as string[]
-
-    const initialsCandidates = toUniqueValues([
-      initialsArray.join(' '),
-      initialsArray.join(''),
-    ])
-
-    const meta: Pick<OutfitSearchItem, 'pinyin' | 'pinyinInitials'> = {}
-
-    if (pinyinCandidates.length > 0) {
-      meta.pinyin = pinyinCandidates.join(' ')
-    }
-
-    if (initialsCandidates.length > 0) {
-      meta.pinyinInitials = initialsCandidates.join(' ')
-    }
-
-    return meta
-  }
-  const outfitNameMap = computed(() => {
+  const {
+    ensurePinyinLoaded,
+    getChineseSearchMeta,
+    getOutfitSearchAliases,
+    getSearchKeys,
+  } = useSearchFields(() => isChineseLocale.value)
+  const outfitSearchMatchMap = computed(() => {
     const map = new Map<string, string>()
     allOutfitIds.value.forEach((id) => {
-      map.set(t(`outfit.${id}.name`).toLowerCase(), id)
+      const name = t(`outfit.${id}.name`)
+      const aliases = getOutfitSearchAliases(locale.value, id)
+      const searchValues = [name, ...aliases]
+      searchValues.forEach((value) => {
+        const normalized = value.trim().toLowerCase()
+        if (normalized) {
+          map.set(normalized, id)
+        }
+      })
     })
     return map
   })
@@ -591,20 +527,19 @@
 
     const items = allOutfitIds.value.map((id) => {
       const name = t(`outfit.${id}.name`)
+      const searchAliases = getOutfitSearchAliases(locale.value, id)
       return {
         id,
         name,
-        ...getChineseSearchMeta(name),
+        ...(searchAliases.length > 0 ? { searchAliases } : {}),
+        ...getChineseSearchMeta([name, ...searchAliases]),
       }
     })
 
     const { default: Fuse } = await import('fuse.js')
-    const keys = isChineseLocale.value
-      ? ['name', 'pinyin', 'pinyinInitials']
-      : ['name']
     fuseInstance.value = new Fuse(items, {
       threshold: 0.3,
-      keys,
+      keys: getSearchKeys(),
       includeScore: true,
       minMatchCharLength: 1,
       ignoreDiacritics: true,
@@ -809,7 +744,7 @@
   const resolveSearchMatch = (query: string) => {
     const normalized = query.trim().toLowerCase()
     if (!normalized) return null
-    const directMatch = outfitNameMap.value.get(normalized)
+    const directMatch = outfitSearchMatchMap.value.get(normalized)
     if (directMatch) return directMatch
     if (!fuseInstance.value) return null
     const result = fuseInstance.value.search(query, { limit: 1 })[0]

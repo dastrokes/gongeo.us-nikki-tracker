@@ -123,8 +123,8 @@
           >
             <LanguageSwitcher />
             <ThemeSwitcher />
-            <UserProfile />
           </div>
+          <UserProfile />
         </div>
       </div>
     </n-layout-header>
@@ -380,35 +380,50 @@
       >
         <div class="flex h-full flex-col bg-white dark:bg-slate-900">
           <div
-            class="flex items-center justify-between border-b border-slate-100 px-4 py-3 dark:border-slate-800"
+            class="flex h-12 items-center justify-between gap-3 border-b border-white/20 bg-[linear-gradient(to_right,_rgb(232,221,249),_rgb(252,228,236),_rgb(253,237,220))] px-3 backdrop-blur-md dark:border-white/5 dark:bg-[linear-gradient(to_right,_rgb(30,27,75),_rgb(88,28,100),_rgb(120,40,70))]"
           >
-            <NuxtLinkLocale
-              no-prefetch
-              to="/"
-              class="flex items-center gap-2 text-inherit no-underline"
-              @click="mobileDrawerOpen = false"
-            >
-              <div
-                class="flex h-7 w-7 shrink-0 items-center justify-center rounded-[8px] bg-white/60 p-0.5 shadow-sm ring-1 ring-black/5 backdrop-blur-sm dark:bg-slate-800/40 dark:ring-white/5"
+            <div class="flex min-w-0 items-center gap-1 sm:gap-2">
+              <n-button
+                text
+                class="w-12 shrink-0 transition-transform hover:scale-110"
+                :aria-label="$t('default.accessibility.toggle_menu')"
+                @click="mobileDrawerOpen = false"
               >
-                <NuxtImg
-                  src="images/logo.webp"
-                  preset="iconSm"
-                  fit="cover"
-                  loading="lazy"
-                  :alt="$t('navigation.title')"
-                  class="h-full w-full"
-                />
-              </div>
-              <span class="text-base font-bold">{{
-                $t('navigation.title')
-              }}</span>
-            </NuxtLinkLocale>
+                <n-icon>
+                  <Times />
+                </n-icon>
+              </n-button>
+
+              <NuxtLinkLocale
+                no-prefetch
+                to="/"
+                class="flex min-w-0 items-center gap-2 pl-1 text-inherit no-underline sm:gap-2.5"
+                @click="mobileDrawerOpen = false"
+              >
+                <div
+                  class="flex h-8 w-8 shrink-0 items-center justify-center rounded-[10px] bg-white/60 p-1 shadow-sm ring-1 ring-black/5 backdrop-blur-sm dark:bg-slate-800/40 dark:ring-white/5"
+                >
+                  <NuxtImg
+                    src="images/logo.webp"
+                    preset="iconSm"
+                    fit="cover"
+                    loading="lazy"
+                    :alt="$t('navigation.title')"
+                    class="h-full w-full"
+                  />
+                </div>
+
+                <span
+                  class="truncate text-xl font-bold hover:opacity-80 hover:drop-shadow-sm"
+                >
+                  {{ $t('navigation.title') }}
+                </span>
+              </NuxtLinkLocale>
+            </div>
 
             <div class="flex items-center gap-3">
               <LanguageSwitcher />
               <ThemeSwitcher />
-              <UserProfile />
             </div>
           </div>
 
@@ -448,7 +463,7 @@
                       v-for="item in group.items"
                       :key="item.key"
                       type="button"
-                      class="group flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left hover:bg-slate-50 dark:hover:bg-slate-800"
+                      class="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left"
                       :class="
                         isNavItemActive(item.key)
                           ? 'text-rose-500 dark:text-rose-400'
@@ -462,7 +477,7 @@
                         :class="
                           isNavItemActive(item.key)
                             ? 'text-rose-500 dark:text-rose-400'
-                            : 'text-slate-400 group-hover:text-slate-500 dark:text-slate-500 dark:group-hover:text-slate-400'
+                            : 'text-slate-400 dark:text-slate-500'
                         "
                       >
                         <component :is="item.icon" />
@@ -492,6 +507,7 @@
     FileImport,
     Book,
     Bars,
+    Times,
     Globe,
     PuzzlePiece,
     CalendarAlt,
@@ -727,6 +743,15 @@
     const target = event.target as HTMLElement
     showScrollTop.value = target.scrollTop > 1000
   }
+
+  const { direction } = useSwipe(() => (import.meta.client ? window : null), {
+    threshold: 50,
+    onSwipe() {
+      if (direction.value === 'left' && mobileDrawerOpen.value) {
+        mobileDrawerOpen.value = false
+      }
+    },
+  })
 
   const handleGlobalKeyDown = (event: KeyboardEvent) => {
     if (event.key === 'Escape') {

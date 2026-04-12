@@ -98,7 +98,11 @@
       "velvet": "ベルベット",
       "wicker": "ウィッカー/柳",
       "wood": "ウッド/木製",
-      "wool": "ウール"
+      "wool": "ウール",
+      "fleece": "フリース",
+      "lacquer": "漆",
+      "metallic": "メタリック",
+      "pearl": "パール"
     },
     "neckline": {
       "boat_neck": "ボートネック",
@@ -110,7 +114,8 @@
       "square_neck": "スクエアネック",
       "sweetheart_neck": "ハートシェイプ",
       "turtleneck": "タートルネック",
-      "v_neck": "Vネック"
+      "v_neck": "Vネック",
+      "strapless": "ストラップレス"
     },
     "collar_style": {
       "collared": "襟付き",
@@ -126,7 +131,8 @@
       "button_up": "ボタン留め",
       "hooded": "フード付き",
       "lace_up": "レースアップ",
-      "zip_up": "ファスナー付き"
+      "zip_up": "ファスナー付き",
+      "drawstring": "ドローストリング"
     },
     "ornament": {
       "animal": "アニマル",
@@ -186,7 +192,40 @@
       "sun": "太陽",
       "tassel": "タッセル",
       "tie": "ネクタイ",
-      "wing": "翼"
+      "wing": "翼",
+      "badge": "バッジ",
+      "beading": "ビーズ飾り",
+      "beads": "ビーズ",
+      "bird": "鳥",
+      "bolo_tie": "ボロタイ",
+      "bracelet": "ブレスレット",
+      "brooch": "ブローチ",
+      "cloud": "雲",
+      "emblem": "エンブレム",
+      "feathers": "羽",
+      "filigree": "フィリグリー",
+      "frog_button": "チャイナボタン",
+      "heart_buckle": "ハートバックル",
+      "heart_ring": "ハートリング",
+      "horn": "角",
+      "ice_cream": "アイスクリーム",
+      "jade_pendant": "翡翠のペンダント",
+      "patch": "パッチ",
+      "paw_print": "肉球",
+      "pearls": "パール",
+      "pendant": "ペンダント",
+      "pin": "ピン",
+      "plushie": "ぬいぐるみ",
+      "pocket": "ポケット",
+      "pompom": "ポンポン",
+      "rhinestone": "ラインストーン",
+      "safety_pin": "安全ピン",
+      "strap": "ストラップ",
+      "studs": "スタッズ",
+      "suspenders": "サスペンダー",
+      "tag": "タグ",
+      "tie_clip": "ネクタイピン",
+      "vine": "蔦"
     },
     "pant_shape": {
       "flared": "フレア",
@@ -234,7 +273,32 @@
       "splatter": "スプラッター",
       "star": "星",
       "striped": "ストライプ",
-      "text": "テキスト"
+      "text": "テキスト",
+      "abstract": "抽象",
+      "bamboo": "竹",
+      "bee": "蜂",
+      "bird": "鳥",
+      "butterfly": "蝶",
+      "cable_knit": "ケーブル編み",
+      "celestial": "セレスティアル",
+      "crane": "鶴",
+      "damask": "ダマスク",
+      "dotted": "ドット",
+      "dragon": "龍",
+      "graffiti": "グラフィティ",
+      "houndstooth": "千鳥格子",
+      "lattice": "ラティス",
+      "leaf_vein": "葉脈",
+      "leopard": "ヒョウ柄",
+      "musical_notation": "楽譜",
+      "print": "プリント",
+      "quilted": "キルティング",
+      "ripple": "波紋",
+      "starry": "星空",
+      "swirl": "渦巻き",
+      "tie_dye": "タイダイ",
+      "tiger_stripe": "虎柄",
+      "zigzag": "ジグザグ"
     },
     "shaft_height": {
       "ankle": "アンクル",
@@ -323,7 +387,21 @@
       "scalloped": "スカラップ",
       "stitched": "ステッチ",
       "twisted": "ツイスト",
-      "woven": "織り"
+      "woven": "織り",
+      "boned": "ボーン入り",
+      "creased": "折り目",
+      "curved": "カーブ",
+      "garter": "ガーター",
+      "heart_shaped": "ハート型",
+      "padded_shoulder": "肩パッド",
+      "patchwork": "パッチワーク",
+      "platform": "プラットフォーム",
+      "slit": "スリット",
+      "spiral": "スパイラル",
+      "textured": "テクスチャ",
+      "tiered": "ティアード",
+      "vest": "ベスト",
+      "wing": "翼"
     },
     "texture": {
       "curly": "カーリー",
@@ -541,7 +619,12 @@
         "ruffle_shorts": "フリルショートパンツ",
         "sarong": "パレオ/サロン",
         "tailored_shorts": "テーラードショートパンツ",
-        "wrap_skirt": "ラップスカート"
+        "wrap_skirt": "ラップスカート",
+        "apron_skirt": "エプロンスカート",
+        "athletic_shorts": "アスレチックショーツ",
+        "chaps": "チャップス",
+        "jeans": "ジーンズ",
+        "joggers": "ジョガーパンツ"
       },
       "bracelets": {
         "bangle": "バングル",
@@ -699,7 +782,11 @@
         "shrug": "シュラグ",
         "stole": "ストール",
         "waistcoat": "ウエストコート",
-        "windbreaker": "ウィンドブレーカー"
+        "windbreaker": "ウィンドブレーカー",
+        "bijia": "避甲",
+        "cloak": "クローク",
+        "hoodie": "フーディー",
+        "long_cardigan": "ロングカーディガン"
       },
       "pendants": {
         "anklet": "アンクレット",
@@ -724,7 +811,8 @@
         "pumps": "パンプス",
         "riding_boots": "ジョッキーブーツ",
         "slingback_heels": "バックストラップヒール",
-        "t_strap_heels": "Tストラップヒール"
+        "t_strap_heels": "Tストラップヒール",
+        "fur_boots": "ファーブーツ"
       },
       "socks": {
         "fishnet_tights": "網タイツ",
@@ -747,7 +835,10 @@
         "peasant_blouse": "フィッシャーマンブラウス/ピザント",
         "sailor_blouse": "セーラーブラウス",
         "school_uniform_blouse": "制服シャツ",
-        "sweater_vest": "ニットベスト"
+        "sweater_vest": "ニットベスト",
+        "hanfu_top": "漢服のトップス",
+        "puffer_jacket": "パファージャケット",
+        "track_jacket": "トラックジャケット"
       }
     }
   }

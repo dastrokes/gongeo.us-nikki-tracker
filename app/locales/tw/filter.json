@@ -98,7 +98,11 @@
       "velvet": "絲絨",
       "wicker": "編織/柳條",
       "wood": "木質",
-      "wool": "羊毛"
+      "wool": "羊毛",
+      "fleece": "抓絨",
+      "lacquer": "漆面",
+      "metallic": "金屬感",
+      "pearl": "珍珠"
     },
     "neckline": {
       "boat_neck": "一字領",
@@ -110,7 +114,8 @@
       "square_neck": "方領",
       "sweetheart_neck": "心形領",
       "turtleneck": "高領",
-      "v_neck": "V領"
+      "v_neck": "V領",
+      "strapless": "無肩帶"
     },
     "collar_style": {
       "collared": "有領",
@@ -126,7 +131,8 @@
       "button_up": "紐扣開襟",
       "hooded": "連帽",
       "lace_up": "繫帶",
-      "zip_up": "拉鍊開襟"
+      "zip_up": "拉鍊開襟",
+      "drawstring": "抽繩"
     },
     "ornament": {
       "animal": "動物圖案",
@@ -186,7 +192,40 @@
       "sun": "太陽",
       "tassel": "流蘇",
       "tie": "領帶",
-      "wing": "翅膀"
+      "wing": "翅膀",
+      "badge": "徽章",
+      "beading": "珠飾",
+      "beads": "珠子",
+      "bird": "鳥",
+      "bolo_tie": "波洛領帶",
+      "bracelet": "手鐲",
+      "brooch": "胸針",
+      "cloud": "雲",
+      "emblem": "徽標",
+      "feathers": "羽毛",
+      "filigree": "鏤空/掐絲",
+      "frog_button": "盤扣",
+      "heart_buckle": "心形扣",
+      "heart_ring": "心形環",
+      "horn": "角",
+      "ice_cream": "冰淇淋",
+      "jade_pendant": "玉墜",
+      "patch": "貼布",
+      "paw_print": "爪印",
+      "pearls": "珍珠",
+      "pendant": "項墜",
+      "pin": "別針",
+      "plushie": "毛絨玩具",
+      "pocket": "口袋",
+      "pompom": "毛絨球",
+      "rhinestone": "水鑽",
+      "safety_pin": "安全別針",
+      "strap": "帶子",
+      "studs": "鉚釘",
+      "suspenders": "背帶",
+      "tag": "標籤",
+      "tie_clip": "領帶夾",
+      "vine": "藤蔓"
     },
     "pant_shape": {
       "flared": "喇叭",
@@ -234,7 +273,32 @@
       "splatter": "潑墨",
       "star": "星形",
       "striped": "條紋",
-      "text": "文字"
+      "text": "文字",
+      "abstract": "抽象",
+      "bamboo": "竹子",
+      "bee": "蜜蜂",
+      "bird": "鳥",
+      "butterfly": "蝴蝶",
+      "cable_knit": "麻花編織",
+      "celestial": "星空",
+      "crane": "仙鶴",
+      "damask": "大馬士革",
+      "dotted": "點狀",
+      "dragon": "龍",
+      "graffiti": "塗鴉",
+      "houndstooth": "千鳥格",
+      "lattice": "格子",
+      "leaf_vein": "葉脈",
+      "leopard": "豹紋",
+      "musical_notation": "樂譜",
+      "print": "印花",
+      "quilted": "絎縫",
+      "ripple": "波紋",
+      "starry": "星空",
+      "swirl": "漩渦",
+      "tie_dye": "紮染",
+      "tiger_stripe": "虎紋",
+      "zigzag": "之字形"
     },
     "shaft_height": {
       "ankle": "短筒/及踝",
@@ -323,7 +387,21 @@
       "scalloped": "扇形边",
       "stitched": "縫線",
       "twisted": "扭結",
-      "woven": "編織"
+      "woven": "編織",
+      "boned": "撐骨",
+      "creased": "折痕",
+      "curved": "曲線",
+      "garter": "襪帶",
+      "heart_shaped": "心形",
+      "padded_shoulder": "墊肩",
+      "patchwork": "拼接",
+      "platform": "厚底",
+      "slit": "開叉",
+      "spiral": "螺旋",
+      "textured": "材質感",
+      "tiered": "分層",
+      "vest": "馬甲",
+      "wing": "翅膀"
     },
     "texture": {
       "curly": "捲髮",
@@ -541,7 +619,12 @@
         "ruffle_shorts": "荷葉边短裤",
         "sarong": "围裙",
         "tailored_shorts": "西装短裤",
-        "wrap_skirt": "裹身裙"
+        "wrap_skirt": "裹身裙",
+        "apron_skirt": "圍裙裙",
+        "athletic_shorts": "運動短褲",
+        "chaps": "寬腿皮褲",
+        "jeans": "牛仔褲",
+        "joggers": "束口褲"
       },
       "bracelets": {
         "bangle": "手鐲",
@@ -699,7 +782,11 @@
         "shrug": "小坎肩",
         "stole": "披肩",
         "waistcoat": "马甲/背心",
-        "windbreaker": "風衣"
+        "windbreaker": "風衣",
+        "bijia": "避甲",
+        "cloak": "斗篷",
+        "hoodie": "連帽衫",
+        "long_cardigan": "長款開衫"
       },
       "pendants": {
         "anklet": "腳鏈",
@@ -724,7 +811,8 @@
         "pumps": "淺口高跟鞋",
         "riding_boots": "馬靴",
         "slingback_heels": "後空高跟鞋",
-        "t_strap_heels": "T型帶高跟鞋"
+        "t_strap_heels": "T型帶高跟鞋",
+        "fur_boots": "毛皮靴"
       },
       "socks": {
         "fishnet_tights": "網襪",
@@ -747,7 +835,10 @@
         "peasant_blouse": "農婦風襯衫",
         "sailor_blouse": "水手服襯衫",
         "school_uniform_blouse": "校服襯衫",
-        "sweater_vest": "毛衣背心"
+        "sweater_vest": "毛衣背心",
+        "hanfu_top": "漢服上衣",
+        "puffer_jacket": "羽絨服",
+        "track_jacket": "運動夾克"
       }
     }
   }

@@ -38,6 +38,7 @@ Main scripts:
 - [scripts/item-search-publish.mjs](../scripts/item-search-publish.mjs): JS-only publish entrypoint that reads an already-built `item-attributes.jsonl`, syncs Supabase, syncs Pinecone, refreshes the local copy, and writes a publish report.
 - [scripts/item-search-feedback.mjs](../scripts/item-search-feedback.mjs): review CLI for community suggestions; it lists suggestions, promotes them into overrides, rejects them, or marks them applied.
 - [scripts/refresh-item-search-local-copy.mjs](../scripts/refresh-item-search-local-copy.mjs): manual CLI wrapper that refreshes the current Supabase `item_attributes` rows into the generated local mirror.
+- [scripts/sync-item-search-terms-from-attributes.mjs](../scripts/sync-item-search-terms-from-attributes.mjs): maintainer helper that reads a canonical `item-attributes.jsonl`, adds missing registry/taxonomy terms, regenerates derived assets, and only refreshes `app/locales/en/filter.json`.
 
 ## Generated Assets
 
@@ -217,6 +218,13 @@ Taxonomy or metadata-term change:
 2. Regenerate tracker-side generated assets.
 3. Run the Python image-search pipeline with the affected scope.
 4. Publish the resulting canonical JSONL from tracker.
+
+Taxonomy or metadata-term backfill from generated attributes:
+
+1. Refresh or provide a canonical `item-attributes.jsonl`.
+2. Run `node scripts/sync-item-search-terms-from-attributes.mjs --dry-run` to inspect missing terms and parent conflicts.
+3. Run `node scripts/sync-item-search-terms-from-attributes.mjs` to update `data/item-search/terms.json`, `data/item-search/taxonomy.json`, generated registry assets, and English filter labels.
+4. Review any reported `parentConflicts`; the script reports but does not overwrite existing parent mappings when the observed data disagrees with the registry.
 
 Localization-only correction:
 

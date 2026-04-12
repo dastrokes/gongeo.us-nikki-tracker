@@ -26,7 +26,7 @@ const getBearerToken = (event: H3Event) => {
 
 const getItemSearchMaintainerEmailSet = () =>
   new Set(
-    String(process.env.ITEM_SEARCH_MAINTAINER_EMAILS ?? '')
+    String(process.env.MAINTAINER_EMAILS ?? '')
       .split(/[,\n]/)
       .map((entry) => entry.trim().toLowerCase())
       .filter(Boolean)

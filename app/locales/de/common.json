@@ -71,8 +71,8 @@
     "previous": "Zurück",
     "view_compendium": "Kompendium ansehen",
     "keys": {
-      "enter": "Enter",
-      "esc": "ESC"
+      "enter": "Eingabe",
+      "esc": "Esc"
     }
   },
   "navigation": {

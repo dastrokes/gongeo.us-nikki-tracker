@@ -81,9 +81,9 @@ export interface FeedbackMaintainerActionRequest {
 }
 
 export interface FeedbackMaintainerApplyResult {
-  publishId: string
-  reportPath: string
+  applyId: string
   touchedItemIds: number[]
+  searchNamespaces: string[]
 }
 
 export interface FeedbackMaintainerActionResponse {

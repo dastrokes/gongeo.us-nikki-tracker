@@ -670,3 +670,27 @@ export const updateFeedbackVote = async ({
 
   return updatedSuggestion
 }
+
+export const updateFeedbackSuggestionStatus = async ({
+  suggestionId,
+  status,
+}: {
+  suggestionId: string
+  status: FeedbackSuggestionStatus
+}) => {
+  const supabase = useSupabaseDataClient()
+  const now = new Date().toISOString()
+  const { error } = await withSupabaseRetry(() =>
+    supabase
+      .from('feedback_suggestions')
+      .update({
+        status,
+        updated_at: now,
+      } as never)
+      .eq('id', suggestionId)
+  )
+
+  if (error) {
+    throw error
+  }
+}

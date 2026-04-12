@@ -98,7 +98,11 @@
       "velvet": "Terciopelo",
       "wicker": "Mimbre",
       "wood": "Madera",
-      "wool": "Lana"
+      "wool": "Lana",
+      "fleece": "Forro polar",
+      "lacquer": "Laca",
+      "metallic": "Metálico",
+      "pearl": "Perla"
     },
     "neckline": {
       "boat_neck": "Cuello Barco",
@@ -110,7 +114,8 @@
       "square_neck": "Cuello Cuadrado",
       "sweetheart_neck": "Cuello Corazón",
       "turtleneck": "Cuello Alto",
-      "v_neck": "Cuello en V"
+      "v_neck": "Cuello en V",
+      "strapless": "Sin tirantes"
     },
     "collar_style": {
       "collared": "Con cuello",
@@ -126,7 +131,8 @@
       "button_up": "Abotonado",
       "hooded": "Con capucha",
       "lace_up": "Con cordones",
-      "zip_up": "Con cremallera"
+      "zip_up": "Con cremallera",
+      "drawstring": "Cordón"
     },
     "ornament": {
       "animal": "Motivo Animal",
@@ -186,7 +192,40 @@
       "sun": "Sol",
       "tassel": "Borla",
       "tie": "Lazo/Atadura",
-      "wing": "Ala"
+      "wing": "Ala",
+      "badge": "Insignia",
+      "beading": "Pedrería",
+      "beads": "Cuentas",
+      "bird": "Pájaro",
+      "bolo_tie": "Corbata de bolo",
+      "bracelet": "Pulsera",
+      "brooch": "Broche",
+      "cloud": "Nube",
+      "emblem": "Emblema",
+      "feathers": "Plumas",
+      "filigree": "Filigrana",
+      "frog_button": "Alamar",
+      "heart_buckle": "Hebilla de corazón",
+      "heart_ring": "Anillo de corazón",
+      "horn": "Cuerno",
+      "ice_cream": "Helado",
+      "jade_pendant": "Colgante de jade",
+      "patch": "Parche",
+      "paw_print": "Huella de pata",
+      "pearls": "Perlas",
+      "pendant": "Colgante",
+      "pin": "Alfiler",
+      "plushie": "Peluche",
+      "pocket": "Bolsillo",
+      "pompom": "Pompón",
+      "rhinestone": "Strass",
+      "safety_pin": "Imperdible",
+      "strap": "Correa",
+      "studs": "Tachuelas",
+      "suspenders": "Tirantes",
+      "tag": "Etiqueta",
+      "tie_clip": "Pisacorbatas",
+      "vine": "Vid"
     },
     "pant_shape": {
       "flared": "Acampanado",
@@ -234,7 +273,32 @@
       "splatter": "Salpicaduras",
       "star": "Estrellas",
       "striped": "Rayas/Listado",
-      "text": "Texto"
+      "text": "Texto",
+      "abstract": "Abstracto",
+      "bamboo": "Bambú",
+      "bee": "Abeja",
+      "bird": "Pájaro",
+      "butterfly": "Mariposa",
+      "cable_knit": "Punto de ocho",
+      "celestial": "Celestial",
+      "crane": "Grulla",
+      "damask": "Damasco",
+      "dotted": "Punteado",
+      "dragon": "Dragón",
+      "graffiti": "Graffiti",
+      "houndstooth": "Pata de gallo",
+      "lattice": "Celosía",
+      "leaf_vein": "Nervadura",
+      "leopard": "Leopardo",
+      "musical_notation": "Notación musical",
+      "print": "Estampado",
+      "quilted": "Acolchado",
+      "ripple": "Ondulación",
+      "starry": "Estrellado",
+      "swirl": "Remolino",
+      "tie_dye": "Batik",
+      "tiger_stripe": "Rayas de tigre",
+      "zigzag": "Zigzag"
     },
     "shaft_height": {
       "ankle": "Tobillo",
@@ -323,7 +387,21 @@
       "scalloped": "Festoneado",
       "stitched": "Pespunteado",
       "twisted": "Retorcido",
-      "woven": "Tejido"
+      "woven": "Tejido",
+      "boned": "Armado",
+      "creased": "Arrugado",
+      "curved": "Curvado",
+      "garter": "Liga",
+      "heart_shaped": "En forma de corazón",
+      "padded_shoulder": "Hombreras",
+      "patchwork": "Patchwork",
+      "platform": "Plataforma",
+      "slit": "Abertura",
+      "spiral": "Espiral",
+      "textured": "Texturizado",
+      "tiered": "Escalonado",
+      "vest": "Chaleco",
+      "wing": "Ala"
     },
     "texture": {
       "curly": "Rizado",
@@ -541,7 +619,12 @@
         "ruffle_shorts": "Shorts con Volantes",
         "sarong": "Pareo",
         "tailored_shorts": "Shorts de Sastrería",
-        "wrap_skirt": "Falda Cruzada"
+        "wrap_skirt": "Falda Cruzada",
+        "apron_skirt": "Falda delantal",
+        "athletic_shorts": "Pantalón corto deportivo",
+        "chaps": "Chaparreras",
+        "jeans": "Vaqueros",
+        "joggers": "Joggers"
       },
       "bracelets": {
         "bangle": "Aro de Muñeca",
@@ -699,7 +782,11 @@
         "shrug": "Torera",
         "stole": "Estola",
         "waistcoat": "Chaleco",
-        "windbreaker": "Cortavientos"
+        "windbreaker": "Cortavientos",
+        "bijia": "Bijia",
+        "cloak": "Capa",
+        "hoodie": "Sudadera con capucha",
+        "long_cardigan": "Cárdigan largo"
       },
       "pendants": {
         "anklet": "Tobillera",
@@ -724,7 +811,8 @@
         "pumps": "Zapatos de Salón",
         "riding_boots": "Botas de Equitación",
         "slingback_heels": "Tacones Destalonados",
-        "t_strap_heels": "Zapatos T-Strap"
+        "t_strap_heels": "Zapatos T-Strap",
+        "fur_boots": "Botas de pelo"
       },
       "socks": {
         "fishnet_tights": "Medias de Rejilla",
@@ -747,7 +835,10 @@
         "peasant_blouse": "Blusa Campesina",
         "sailor_blouse": "Blusa Marinera",
         "school_uniform_blouse": "Blusa Escolar",
-        "sweater_vest": "Chaleco de Punto"
+        "sweater_vest": "Chaleco de Punto",
+        "hanfu_top": "Top Hanfu",
+        "puffer_jacket": "Plumífero",
+        "track_jacket": "Chaqueta de chándal"
       }
     }
   }

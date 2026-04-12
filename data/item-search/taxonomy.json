@@ -24,13 +24,18 @@
       "tattoo": "body_paint"
     },
     "bottoms": {
+      "apron_skirt": "skirt",
+      "athletic_shorts": "shorts",
       "bermuda_shorts": "shorts",
       "bib_overalls": "overalls",
       "bloomers": "shorts",
       "cargo_pants": "pants",
+      "chaps": "pants",
       "culottes": "pants",
       "harem_pants": "pants",
+      "jeans": "pants",
       "jodhpurs": "pants",
+      "joggers": "pants",
       "ma_mian_skirt": "skirt",
       "overall_shorts": "overalls",
       "palazzo_pants": "pants",
@@ -213,6 +218,7 @@
       "fur_coat": "coat",
       "hooded_cape": "cape",
       "hooded_vest": "vest",
+      "hoodie": "jacket",
       "long_cardigan": "cardigan",
       "military_jacket": "jacket",
       "pea_coat": "coat",
@@ -228,6 +234,7 @@
       "windbreaker": "jacket"
     },
     "pendants": {
+      "anklet": "garter",
       "belt_bag": "bag",
       "crossbody_bag": "bag",
       "handbag": "bag",
@@ -246,6 +253,7 @@
       "cowboy_boots": "boots",
       "dorsay_heels": "heels",
       "embroidered_shoes": "flats",
+      "fur_boots": "boots",
       "gladiator_sandals": "sandals",
       "high_top_sneakers": "sneakers",
       "lace_up_flats": "flats",
@@ -269,6 +277,7 @@
       "bralette": "camisole",
       "bustier": "corset",
       "button_up_shirt": "shirt",
+      "hanfu_top": "blouse",
       "henley_shirt": "shirt",
       "hoodie": "sweatshirt",
       "leotard": "bodysuit",
@@ -277,9 +286,11 @@
       "officer_shirt": "shirt",
       "peasant_blouse": "blouse",
       "polo_shirt": "shirt",
+      "puffer_jacket": "blouse",
       "sailor_blouse": "blouse",
       "school_uniform_blouse": "blouse",
-      "sweater_vest": "sweater"
+      "sweater_vest": "sweater",
+      "track_jacket": "sweatshirt"
     }
   }
 }

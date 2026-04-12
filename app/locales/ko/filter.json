@@ -98,7 +98,11 @@
       "velvet": "벨벳",
       "wicker": "위커/등나무",
       "wood": "우드/나무",
-      "wool": "울/양모"
+      "wool": "울/양모",
+      "fleece": "플리스",
+      "lacquer": "래커",
+      "metallic": "메탈릭",
+      "pearl": "진주"
     },
     "neckline": {
       "boat_neck": "보트넥",
@@ -110,7 +114,8 @@
       "square_neck": "스퀘어넥",
       "sweetheart_neck": "하트넥",
       "turtleneck": "터틀넥",
-      "v_neck": "브이넥"
+      "v_neck": "브이넥",
+      "strapless": "스트랩리스"
     },
     "collar_style": {
       "collared": "칼라 있음",
@@ -126,7 +131,8 @@
       "button_up": "단추형",
       "hooded": "후드 있음",
       "lace_up": "레이스업",
-      "zip_up": "지퍼형"
+      "zip_up": "지퍼형",
+      "drawstring": "드로스트링"
     },
     "ornament": {
       "animal": "동물 모티프",
@@ -186,7 +192,40 @@
       "sun": "태양",
       "tassel": "태슬",
       "tie": "타이",
-      "wing": "날개"
+      "wing": "날개",
+      "badge": "배지",
+      "beading": "비딩",
+      "beads": "비즈",
+      "bird": "새",
+      "bolo_tie": "볼로 타이",
+      "bracelet": "팔찌",
+      "brooch": "브로치",
+      "cloud": "구름",
+      "emblem": "엠블럼",
+      "feathers": "깃털",
+      "filigree": "필리그리",
+      "frog_button": "매듭 단추",
+      "heart_buckle": "하트 버클",
+      "heart_ring": "하트 링",
+      "horn": "뿔",
+      "ice_cream": "아이스크림",
+      "jade_pendant": "옥 펜던트",
+      "patch": "패치",
+      "paw_print": "발자국",
+      "pearls": "진주",
+      "pendant": "펜던트",
+      "pin": "핀",
+      "plushie": "인형",
+      "pocket": "주머니",
+      "pompom": "폼폼",
+      "rhinestone": "라인석",
+      "safety_pin": "안전핀",
+      "strap": "스트랩",
+      "studs": "스터드",
+      "suspenders": "서스펜더",
+      "tag": "태그",
+      "tie_clip": "넥타이핀",
+      "vine": "덩굴"
     },
     "pant_shape": {
       "flared": "플레어",
@@ -234,7 +273,32 @@
       "splatter": "스플래터",
       "star": "별",
       "striped": "스트라이프",
-      "text": "텍스트"
+      "text": "텍스트",
+      "abstract": "추상",
+      "bamboo": "대나무",
+      "bee": "벌",
+      "bird": "새",
+      "butterfly": "나비",
+      "cable_knit": "꽈배기 니트",
+      "celestial": "셀레스티얼",
+      "crane": "학",
+      "damask": "다마스크",
+      "dotted": "점무늬",
+      "dragon": "용",
+      "graffiti": "그래피티",
+      "houndstooth": "하운즈투스",
+      "lattice": "격자",
+      "leaf_vein": "잎맥",
+      "leopard": "레오파드",
+      "musical_notation": "악보",
+      "print": "프린트",
+      "quilted": "퀼팅",
+      "ripple": "물결",
+      "starry": "별빛",
+      "swirl": "소용돌이",
+      "tie_dye": "타이다이",
+      "tiger_stripe": "호랑이 무늬",
+      "zigzag": "지그재그"
     },
     "shaft_height": {
       "ankle": "앵클/발목",
@@ -323,7 +387,21 @@
       "scalloped": "스캘럽",
       "stitched": "스티치",
       "twisted": "트위스트",
-      "woven": "우븐"
+      "woven": "우븐",
+      "boned": "본드",
+      "creased": "주름진",
+      "curved": "곡선",
+      "garter": "가터",
+      "heart_shaped": "하트 모양",
+      "padded_shoulder": "어깨 패드",
+      "patchwork": "패치워크",
+      "platform": "플랫폼",
+      "slit": "슬릿",
+      "spiral": "나선",
+      "textured": "텍스처",
+      "tiered": "티어드",
+      "vest": "조끼",
+      "wing": "날개"
     },
     "texture": {
       "curly": "컬리",
@@ -541,7 +619,12 @@
         "ruffle_shorts": "러플 쇼츠",
         "sarong": "사롱/파레오",
         "tailored_shorts": "테일러드 쇼츠",
-        "wrap_skirt": "랩 스커트"
+        "wrap_skirt": "랩 스커트",
+        "apron_skirt": "에이프런 스커트",
+        "athletic_shorts": "에슬레틱 쇼츠",
+        "chaps": "챕스",
+        "jeans": "청바지",
+        "joggers": "조거 팬츠"
       },
       "bracelets": {
         "bangle": "뱅글",
@@ -699,7 +782,11 @@
         "shrug": "슈러그",
         "stole": "스톨",
         "waistcoat": "웨이스트코트",
-        "windbreaker": "윈드브레이커"
+        "windbreaker": "윈드브레이커",
+        "bijia": "비갑",
+        "cloak": "망토",
+        "hoodie": "후디",
+        "long_cardigan": "롱 가디건"
       },
       "pendants": {
         "anklet": "발찌",
@@ -724,7 +811,8 @@
         "pumps": "펌프스",
         "riding_boots": "승마 부츠",
         "slingback_heels": "슬링백 힐",
-        "t_strap_heels": "T 스트랩 힐"
+        "t_strap_heels": "T 스트랩 힐",
+        "fur_boots": "털 부츠"
       },
       "socks": {
         "fishnet_tights": "망사 타이츠",
@@ -747,7 +835,10 @@
         "peasant_blouse": "피전트 블라우스",
         "sailor_blouse": "세일러 블라우스",
         "school_uniform_blouse": "교복 블라우스",
-        "sweater_vest": "니트 조끼"
+        "sweater_vest": "니트 조끼",
+        "hanfu_top": "한복 상의",
+        "puffer_jacket": "푸퍼 자켓",
+        "track_jacket": "트랙 자켓"
       }
     }
   }

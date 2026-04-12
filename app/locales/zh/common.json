@@ -833,7 +833,7 @@
     "approve_action": "接受",
     "approve_success": "提案已接受。",
     "apply_action": "应用",
-    "apply_success": "提案已应用。",
+    "apply_success": "Suggestion applied.",
     "reject_action": "拒绝",
     "reject_success": "提案已拒绝。",
     "loading_existing": "正在检查是否已有待处理反馈…",

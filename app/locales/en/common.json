@@ -833,7 +833,7 @@
     "approve_action": "Approve",
     "approve_success": "Suggestion approved.",
     "apply_action": "Apply",
-    "apply_success": "Suggestion applied.",
+    "apply_success": "Suggestion applied locally.",
     "reject_action": "Reject",
     "reject_success": "Suggestion rejected.",
     "loading_existing": "Checking for existing feedback…",

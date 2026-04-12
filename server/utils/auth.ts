@@ -3,6 +3,15 @@ import { createError, getHeader, type H3Event } from 'h3'
 
 import { useSupabaseClient } from '~/composables/useSupabaseClient'
 
+const DEFAULT_ITEM_SEARCH_MAINTAINER_ALLOWED_HOSTS = [
+  'gongeo.us',
+  'www.gongeo.us',
+  'localhost',
+  '127.0.0.1',
+  '0.0.0.0',
+  '[::1]',
+] as const
+
 const getBearerToken = (event: H3Event) => {
   const authorization = getHeader(event, 'authorization')
   if (!authorization) return null
@@ -23,13 +32,51 @@ const getItemSearchMaintainerEmailSet = () =>
       .filter(Boolean)
   )
 
-export const isLocalItemSearchMaintainerMode = () =>
-  String(process.env.ITEM_SEARCH_MAINTAINER_MODE ?? '')
-    .trim()
-    .toLowerCase() === 'local'
+const normalizeRequestHost = (value?: string | null) => {
+  const candidate = value?.split(',')[0]?.trim().toLowerCase()
+  if (!candidate) return null
 
-export const isItemSearchMaintainerUser = (user: User | null) => {
-  if (!user?.email || !isLocalItemSearchMaintainerMode()) {
+  const withoutProtocol = candidate.replace(/^https?:\/\//, '')
+  if (withoutProtocol.startsWith('[')) {
+    const endBracketIndex = withoutProtocol.indexOf(']')
+    return endBracketIndex === -1
+      ? withoutProtocol.replace(/\.$/, '')
+      : withoutProtocol.slice(0, endBracketIndex + 1).replace(/\.$/, '')
+  }
+
+  return withoutProtocol.split(':')[0]?.replace(/\.$/, '') || null
+}
+
+const getItemSearchMaintainerAllowedHostSet = () =>
+  new Set(
+    [
+      ...DEFAULT_ITEM_SEARCH_MAINTAINER_ALLOWED_HOSTS,
+      ...String(process.env.ITEM_SEARCH_MAINTAINER_ALLOWED_HOSTS ?? '')
+        .split(/[,\n]/)
+        .map((entry) => entry.trim().toLowerCase())
+        .filter(Boolean),
+    ]
+      .map((entry) => normalizeRequestHost(entry))
+      .filter((entry): entry is string => Boolean(entry))
+  )
+
+const getRequestHost = (event: H3Event) =>
+  normalizeRequestHost(
+    getHeader(event, 'x-forwarded-host') ?? getHeader(event, 'host')
+  )
+
+const isItemSearchMaintainerHost = (event: H3Event) => {
+  const requestHost = getRequestHost(event)
+  if (!requestHost) return false
+
+  return getItemSearchMaintainerAllowedHostSet().has(requestHost)
+}
+
+export const isItemSearchMaintainerUser = (
+  user: User | null,
+  event: H3Event
+) => {
+  if (!user?.email || !isItemSearchMaintainerHost(event)) {
     return false
   }
 
@@ -66,15 +113,16 @@ export const requireAuthenticatedUser = async (event: H3Event) => {
   })
 }
 
-export const requireLocalItemSearchMaintainerUser = async (event: H3Event) => {
+export const requireItemSearchMaintainerUser = async (event: H3Event) => {
   const user = await requireAuthenticatedUser(event)
-  if (isItemSearchMaintainerUser(user)) {
+  if (isItemSearchMaintainerUser(user, event)) {
     return user
   }
 
   throw createError({
     statusCode: 403,
-    statusMessage: 'Maintainer access is only available locally',
-    message: 'Maintainer access is only available locally',
+    statusMessage:
+      'Maintainer access is not available for this account or host',
+    message: 'Maintainer access is not available for this account or host',
   })
 }

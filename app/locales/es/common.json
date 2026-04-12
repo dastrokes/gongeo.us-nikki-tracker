@@ -833,7 +833,7 @@
     "approve_action": "Aprobar",
     "approve_success": "Sugerencia aprobada.",
     "apply_action": "Aplicar",
-    "apply_success": "Sugerencia aplicada localmente.",
+    "apply_success": "Sugerencia aplicada.",
     "reject_action": "Rechazar",
     "reject_success": "Sugerencia rechazada.",
     "loading_existing": "Buscando comentarios existentes…",

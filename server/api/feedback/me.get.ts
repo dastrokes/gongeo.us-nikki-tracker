@@ -39,7 +39,7 @@ export default defineEventHandler(async (event) => {
     const user = await requireAuthenticatedUser(event)
     const query = getQuery(event)
     const suggestionIds = parseSuggestionIds(query.ids)
-    const isMaintainer = isItemSearchMaintainerUser(user)
+    const isMaintainer = isItemSearchMaintainerUser(user, event)
 
     return {
       votes:

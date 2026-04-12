@@ -98,7 +98,11 @@
       "velvet": "Velours",
       "wicker": "Osier",
       "wood": "Bois",
-      "wool": "Laine"
+      "wool": "Laine",
+      "fleece": "Polaire",
+      "lacquer": "Laque",
+      "metallic": "Métallique",
+      "pearl": "Perle"
     },
     "neckline": {
       "boat_neck": "Col Bateau",
@@ -110,7 +114,8 @@
       "square_neck": "Col Carré",
       "sweetheart_neck": "Col Cœur",
       "turtleneck": "Col Roulé",
-      "v_neck": "Col en V"
+      "v_neck": "Col en V",
+      "strapless": "Sans bretelles"
     },
     "collar_style": {
       "collared": "Avec col",
@@ -126,7 +131,8 @@
       "button_up": "Boutonné",
       "hooded": "À capuche",
       "lace_up": "À lacets",
-      "zip_up": "Zippé"
+      "zip_up": "Zippé",
+      "drawstring": "Cordon de serrage"
     },
     "ornament": {
       "animal": "Motif Animal",
@@ -186,7 +192,40 @@
       "sun": "Soleil",
       "tassel": "Pompon",
       "tie": "Lien",
-      "wing": "Aile"
+      "wing": "Aile",
+      "badge": "Badge",
+      "beading": "Perlage",
+      "beads": "Perles",
+      "bird": "Oiseau",
+      "bolo_tie": "Cravate bolo",
+      "bracelet": "Bracelet",
+      "brooch": "Broche",
+      "cloud": "Nuage",
+      "emblem": "Emblème",
+      "feathers": "Plumes",
+      "filigree": "Filigrane",
+      "frog_button": "Bouton grenouille",
+      "heart_buckle": "Boucle en cœur",
+      "heart_ring": "Anneau en cœur",
+      "horn": "Corne",
+      "ice_cream": "Glace",
+      "jade_pendant": "Pendentif en jade",
+      "patch": "Écusson",
+      "paw_print": "Empreinte de patte",
+      "pearls": "Perles",
+      "pendant": "Pendentif",
+      "pin": "Épingle",
+      "plushie": "Peluche",
+      "pocket": "Poche",
+      "pompom": "Pompon",
+      "rhinestone": "Strass",
+      "safety_pin": "Épingle à nourrice",
+      "strap": "Sangle",
+      "studs": "Clous",
+      "suspenders": "Bretelles",
+      "tag": "Étiquette",
+      "tie_clip": "Pince à cravate",
+      "vine": "Vigne"
     },
     "pant_shape": {
       "flared": "Évasé",
@@ -234,7 +273,32 @@
       "splatter": "Éclaboussures",
       "star": "Étoile",
       "striped": "Rayé",
-      "text": "Texte"
+      "text": "Texte",
+      "abstract": "Abstrait",
+      "bamboo": "Bambou",
+      "bee": "Abeille",
+      "bird": "Oiseau",
+      "butterfly": "Papillon",
+      "cable_knit": "Mailles torsadées",
+      "celestial": "Céleste",
+      "crane": "Grue",
+      "damask": "Damas",
+      "dotted": "Pointillé",
+      "dragon": "Dragon",
+      "graffiti": "Graffiti",
+      "houndstooth": "Pied-de-poule",
+      "lattice": "Treillis",
+      "leaf_vein": "Nervure de feuille",
+      "leopard": "Léopard",
+      "musical_notation": "Notation musicale",
+      "print": "Imprimé",
+      "quilted": "Matelassé",
+      "ripple": "Ondulation",
+      "starry": "Étoilé",
+      "swirl": "Tourbillon",
+      "tie_dye": "Tie-dye",
+      "tiger_stripe": "Tigre",
+      "zigzag": "Zigzag"
     },
     "shaft_height": {
       "ankle": "Cheville",
@@ -323,7 +387,21 @@
       "scalloped": "Festonné",
       "stitched": "Surpiqué",
       "twisted": "Torsadé",
-      "woven": "Tissé"
+      "woven": "Tissé",
+      "boned": "Baleiné",
+      "creased": "Plissé",
+      "curved": "Incurvé",
+      "garter": "Jarretière",
+      "heart_shaped": "En forme de cœur",
+      "padded_shoulder": "Épaulettes",
+      "patchwork": "Patchwork",
+      "platform": "Plateforme",
+      "slit": "Fente",
+      "spiral": "Spirale",
+      "textured": "Texturé",
+      "tiered": "À étages",
+      "vest": "Gilet",
+      "wing": "Aile"
     },
     "texture": {
       "curly": "Bouclé",
@@ -541,7 +619,12 @@
         "ruffle_shorts": "Short à volants",
         "sarong": "Pareo",
         "tailored_shorts": "Short habillé",
-        "wrap_skirt": "Jupe portefeuille"
+        "wrap_skirt": "Jupe portefeuille",
+        "apron_skirt": "Jupe tablier",
+        "athletic_shorts": "Short de sport",
+        "chaps": "Jambières",
+        "jeans": "Jeans",
+        "joggers": "Jogging"
       },
       "bracelets": {
         "bangle": "Jonc",
@@ -699,7 +782,11 @@
         "shrug": "Boléro court",
         "stole": "Étole",
         "waistcoat": "Gilet de costume",
-        "windbreaker": "Coupe-vent"
+        "windbreaker": "Coupe-vent",
+        "bijia": "Bijia",
+        "cloak": "Cape",
+        "hoodie": "Sweat à capuche",
+        "long_cardigan": "Cardigan long"
       },
       "pendants": {
         "anklet": "Bracelet de cheville",
@@ -724,7 +811,8 @@
         "pumps": "Escarpins",
         "riding_boots": "Bottes cavalières",
         "slingback_heels": "Talons slingback",
-        "t_strap_heels": "Salomés"
+        "t_strap_heels": "Salomés",
+        "fur_boots": "Bottes en fourrure"
       },
       "socks": {
         "fishnet_tights": "Collants résille",
@@ -747,7 +835,10 @@
         "peasant_blouse": "Blouse paysanne",
         "sailor_blouse": "Haut marin",
         "school_uniform_blouse": "Chemisier d'uniforme",
-        "sweater_vest": "Gilet en maille"
+        "sweater_vest": "Gilet en maille",
+        "hanfu_top": "Haut Hanfu",
+        "puffer_jacket": "Doudoune",
+        "track_jacket": "Veste de survêtement"
       }
     }
   }

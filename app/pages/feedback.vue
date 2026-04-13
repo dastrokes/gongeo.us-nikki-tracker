@@ -206,16 +206,6 @@
 </template>
 
 <script setup lang="ts">
-  import type {
-    FeedbackMaintainerAction,
-    FeedbackReviewState,
-    FeedbackScope,
-    FeedbackSortKey,
-    FeedbackSuggestion,
-    FeedbackSuggestionStatus,
-    FeedbackVoteValue,
-  } from '#shared/types/feedback'
-
   const { t } = useI18n()
   const route = useRoute()
   const router = useRouter()

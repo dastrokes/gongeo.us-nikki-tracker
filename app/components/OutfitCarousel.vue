@@ -200,20 +200,11 @@
     () => outfitImages.value[activeSlide.value]?.outfitId || props.outfitId
   )
 
-  const getItemPrefixForOutfit = (outfitId: string) => {
-    if (outfitId.endsWith('01')) return '1022'
-    if (outfitId.endsWith('02')) return '1023'
-    if (outfitId.endsWith('03')) return '1024'
-    if (outfitId.endsWith('04')) return '1025'
-    return '1020'
-  }
-
-  // Helper function to get outfit items for ItemCard display
   const outfitItems = computed((): PullItem[] => {
     const outfit = OUTFIT_DATA[props.outfitId as OutfitKey]
     if (!outfit) return []
 
-    const itemPrefix = getItemPrefixForOutfit(currentOutfitId.value)
+    const itemPrefix = getItemPrefixForOutfitId(currentOutfitId.value)
 
     return outfit.items.map((itemId) => {
       const itemIdStr = itemId.toString()

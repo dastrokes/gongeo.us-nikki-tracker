@@ -1,14 +1,6 @@
 import type { H3Event } from 'h3'
 import { hash } from 'ohash'
-import type { ItemSearchMetadata } from '#shared/types/itemSearch'
-import {
-  normalizeSearchCacheKey,
-  normalizeSearchQuery,
-} from '#shared/utils/searchQuery'
-import {
-  normalizeItemSearchItemType,
-  normalizeItemSearchMetadata,
-} from '#shared/utils/itemSearch'
+
 import { resolveRequestSearchNamespace } from '../../utils/locale'
 
 type SearchIndexMetadata = ItemSearchMetadata & {

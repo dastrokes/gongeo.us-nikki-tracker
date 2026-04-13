@@ -1,19 +1,3 @@
-import type {
-  FeedbackEntityType,
-  FeedbackListResponse,
-  FeedbackMaintainerActionResponse,
-  FeedbackReviewState,
-  FeedbackScope,
-  FeedbackSortKey,
-  FeedbackSuggestionStatus,
-  FeedbackViewerStateResponse,
-  FeedbackVoteValue,
-  ItemTagFeedbackField,
-  ItemTagFeedbackSnapshot,
-  SubmitFeedbackResponse,
-  VoteFeedbackResponse,
-} from '#shared/types/feedback'
-
 type FetchFeedbackParams = {
   entityType?: FeedbackEntityType
   entityId?: number

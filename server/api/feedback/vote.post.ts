@@ -1,8 +1,5 @@
 import { createError } from 'h3'
 
-import { isFeedbackVoteValue } from '#shared/utils/feedback'
-import { toErrorMessage } from '#shared/utils/errors'
-
 type VoteFeedbackBody = {
   suggestionId?: unknown
   vote?: unknown

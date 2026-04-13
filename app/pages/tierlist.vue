@@ -1039,16 +1039,7 @@
     type UseSortableOptions,
   } from '@vueuse/integrations/useSortable'
   import type { SortableEvent } from 'sortablejs'
-  import type {
-    ItemSearchAdvancedFacetMap,
-    ItemSearchAdvancedField,
-    ItemSearchAdvancedFilters,
-  } from '#shared/types/itemSearch'
   import { BANNER_DATA } from '~~/data/banners'
-  import {
-    ITEM_SEARCH_UNCATEGORIZED_VALUE,
-    sortItemSearchFacetValues,
-  } from '#shared/utils/itemSearch'
 
   type TierMode = 'banners' | 'outfits' | 'items'
   type TierKey = 'S' | 'A' | 'B' | 'C' | 'D' | 'F'

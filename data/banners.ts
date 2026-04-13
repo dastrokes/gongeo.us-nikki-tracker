@@ -1,5 +1,3 @@
-import type { BannerData } from '#shared/types/banner'
-
 /* 
  Banner Types: 
  1 - Permanent

@@ -10,21 +10,6 @@ import {
   ITEM_SEARCH_FIELD_KIND_BY_NAME,
   ITEM_SEARCH_SEARCH_NAMESPACES,
 } from '#shared/constants/itemSearchRegistry'
-import type {
-  FeedbackMaintainerApplyResult,
-  FeedbackSuggestion,
-} from '#shared/types/feedback'
-import type {
-  ItemSearchField,
-  ItemSearchMetadata,
-} from '#shared/types/itemSearch'
-import { normalizeItemTagFeedbackSnapshot } from '#shared/utils/feedback'
-import {
-  getItemSearchAdvancedFields,
-  isSupportedItemSearchItemType,
-  normalizeItemSearchItemType,
-  normalizeItemSearchTokenKey,
-} from '#shared/utils/itemSearch'
 
 type ItemAttributeRow = {
   item_id: number

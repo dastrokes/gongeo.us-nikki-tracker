@@ -833,7 +833,7 @@
     "approve_action": "승인",
     "approve_success": "제안이 승인되었습니다.",
     "apply_action": "적용",
-    "apply_success": "Suggestion applied.",
+    "apply_success": "제안이 적용되었습니다.",
     "reject_action": "거절",
     "reject_success": "제안이 거절되었습니다.",
     "loading_existing": "기존 피드백 확인 중…",

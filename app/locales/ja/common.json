@@ -833,7 +833,7 @@
     "approve_action": "承認",
     "approve_success": "提案を承認しました。",
     "apply_action": "適用",
-    "apply_success": "Suggestion applied.",
+    "apply_success": "提案を適用しました。",
     "reject_action": "却下",
     "reject_success": "提案を却下しました。",
     "loading_existing": "既存のフィードバックを確認中…",

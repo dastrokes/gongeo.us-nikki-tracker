@@ -240,33 +240,7 @@
 </template>
 
 <script setup lang="ts">
-  import type {
-    FeedbackSuggestion,
-    FeedbackVoteValue,
-    ItemTagFeedbackField,
-    ItemTagFeedbackSnapshot,
-    ItemTagFeedbackValue,
-  } from '#shared/types/feedback'
-  import type {
-    ItemSearchAdvancedFacetMap,
-    ItemSearchArrayField,
-    ItemSearchMetadata,
-  } from '#shared/types/itemSearch'
   import type { SelectOption } from 'naive-ui'
-  import {
-    buildItemTagFeedbackPatch,
-    createRawItemTagFeedbackSnapshot,
-    isItemTagFeedbackMultiField,
-  } from '#shared/utils/feedback'
-  import {
-    getItemSearchAttributeFacets,
-    getItemSearchAdvancedFields,
-    isItemSearchArrayField,
-    getItemSearchFieldLabelKey,
-    getItemSearchMetadataSections,
-    normalizeItemSearchTaxonomySelection,
-    sortItemSearchFacetValues,
-  } from '#shared/utils/itemSearch'
 
   const props = defineProps<{
     show: boolean

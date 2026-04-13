@@ -19,17 +19,7 @@
 </template>
 
 <script setup lang="ts">
-  import type { ItemSearchField } from '#shared/types/itemSearch'
   import type { TreeOption } from 'naive-ui'
-  import { getItemTagFeedbackFields } from '#shared/utils/feedback'
-  import {
-    getItemSearchAttributeValues,
-    getItemSearchFieldLabelKey,
-    getItemSearchTaxonomyItemTypes,
-    getItemSearchTaxonomyTree,
-    humanizeItemSearchToken,
-    normalizeItemSearchItemType,
-  } from '#shared/utils/itemSearch'
 
   const { t, te } = useI18n()
   const { translateFilterToken } = useFilterToken()

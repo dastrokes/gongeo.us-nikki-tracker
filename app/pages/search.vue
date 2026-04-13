@@ -523,9 +523,6 @@
 <script setup lang="ts">
   import { breakpointsTailwind } from '@vueuse/core'
   import { Search, Box, Ghost, Times } from '@vicons/fa'
-  import type { ItemSearchMetadata } from '#shared/types/itemSearch'
-  import { isItemSearchFieldKey } from '#shared/utils/itemSearch'
-  import { normalizeSearchQuery } from '#shared/utils/searchQuery'
 
   type SearchHit = {
     id: string

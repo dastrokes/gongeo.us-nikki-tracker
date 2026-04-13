@@ -1,17 +1,4 @@
 import { useSupabaseDataClient } from '~/composables/useSupabaseClient'
-import {
-  getActiveItemSearchAdvancedFilters,
-  getItemSearchAdvancedFields,
-  normalizeItemSearchTokenKey,
-  resolveItemSearchAdvancedFilters,
-  serializeItemSearchAdvancedFilters,
-  sortItemSearchFacetMap,
-  sortItemSearchFacetValues,
-} from '#shared/utils/itemSearch'
-import type {
-  ItemSearchAdvancedFacetMap,
-  ItemSearchMetadata,
-} from '#shared/types/itemSearch'
 
 type FacetRpcRow = {
   facet_group?: string | null

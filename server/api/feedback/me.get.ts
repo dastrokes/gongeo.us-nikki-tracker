@@ -1,7 +1,5 @@
 import { createError } from 'h3'
 
-import { toErrorMessage } from '#shared/utils/errors'
-
 const MAX_SUGGESTION_IDS = 100
 
 const createBadRequestError = (message: string) =>

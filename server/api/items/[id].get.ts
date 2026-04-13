@@ -1,7 +1,3 @@
-import { useSupabaseDataClient } from '~/composables/useSupabaseClient'
-import type { ItemSearchMetadata } from '#shared/types/itemSearch'
-import { normalizeItemSearchMetadata } from '#shared/utils/itemSearch'
-
 interface ItemTranslation {
   description?: string | null
   language_code?: string | null
@@ -84,56 +80,6 @@ function compactItemSearchMetadata(
   return compactedEntries.length > 0
     ? (Object.fromEntries(compactedEntries) as ItemSearchMetadata)
     : null
-}
-
-/**
- * Calculate related item variation IDs
- * Only 4★ and 5★ items can have variations
- */
-function getRelatedItemIds(baseId: number, quality: number): number[] {
-  if (quality < 4) return [baseId]
-
-  const idStr = baseId.toString()
-  if (idStr.length !== 10) return [baseId]
-
-  const prefix = idStr.substring(0, 4)
-  const baseDigits = idStr.substring(4)
-  const usesAltGlowup = prefix === '1021' || prefix === '1026'
-  const basePrefix = usesAltGlowup ? '1021' : '1020'
-  const glowupPrefix = usesAltGlowup ? '1026' : '1022'
-  const variations = [
-    parseInt(`${basePrefix}${baseDigits}`), // base
-    parseInt(`${glowupPrefix}${baseDigits}`), // glowup
-  ]
-
-  if (!usesAltGlowup) {
-    variations.push(parseInt(`1023${baseDigits}`)) // evo1
-  }
-
-  if (quality === 5) {
-    variations.push(parseInt(`1024${baseDigits}`)) // evo2
-    variations.push(parseInt(`1025${baseDigits}`)) // evo3
-  }
-
-  return variations
-}
-
-/**
- * Determine variation type from item ID
- */
-function getVariationType(id: number): string {
-  const idStr = id.toString()
-  const variationType = idStr.substring(0, 4)
-
-  const typeMap: Record<string, string> = {
-    '1022': 'glowup',
-    '1023': 'evo1',
-    '1024': 'evo2',
-    '1025': 'evo3',
-    '1026': 'glowup',
-  }
-
-  return typeMap[variationType] || 'base'
 }
 
 /**
@@ -247,7 +193,7 @@ export default defineCachedApiEventHandler(
             .map((v: ItemVariation) => ({
               id: v.id,
               quality: v.quality,
-              type: getVariationType(v.id),
+              type: getItemVariantType(v.id),
             }))
             .sort((a, b) => a.id - b.id)
         }

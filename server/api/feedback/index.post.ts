@@ -4,10 +4,6 @@ import {
   createFeedbackSuggestion,
   hasOpenFeedbackSuggestions,
 } from '../../utils/feedback'
-import { isFeedbackEntityType } from '#shared/utils/feedback'
-import { createInternalError } from '#server/utils/apiErrors'
-import { isSupportedItemSearchItemType } from '#shared/utils/itemSearch'
-import { toErrorMessage } from '#shared/utils/errors'
 
 type SubmitFeedbackBody = {
   entityType?: unknown

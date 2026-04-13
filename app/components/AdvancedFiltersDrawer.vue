@@ -59,16 +59,6 @@
 </template>
 
 <script setup lang="ts">
-  import type {
-    ItemSearchAdvancedFacetMap,
-    ItemSearchAdvancedField,
-    ItemSearchAdvancedFilters,
-  } from '#shared/types/itemSearch'
-  import {
-    hasActiveItemSearchAdvancedFilterValue,
-    isItemSearchArrayField,
-  } from '#shared/utils/itemSearch'
-
   const props = defineProps<{
     show: boolean
     fields: ItemSearchAdvancedField[]

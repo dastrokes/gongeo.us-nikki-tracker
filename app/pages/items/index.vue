@@ -502,15 +502,6 @@
 <script setup lang="ts">
   import { Star, Tshirt, ListAlt, SortAmountDown, Times } from '@vicons/fa'
   import type { SelectGroupOption, SelectOption } from 'naive-ui'
-  import type {
-    ItemSearchAdvancedFacetMap,
-    ItemSearchAdvancedField,
-    ItemSearchAdvancedFilters,
-  } from '#shared/types/itemSearch'
-  import {
-    ITEM_SEARCH_UNCATEGORIZED_VALUE,
-    sortItemSearchFacetValues,
-  } from '#shared/utils/itemSearch'
 
   const { t, locale, getLocaleMessage } = useI18n()
   const { translateFilterToken } = useFilterToken()

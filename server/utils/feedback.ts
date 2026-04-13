@@ -4,31 +4,6 @@ import { createError } from 'h3'
 
 import { useSupabaseDataClient } from '~/composables/useSupabaseClient'
 
-import type {
-  FeedbackEntityType,
-  FeedbackListResponse,
-  FeedbackReviewState,
-  FeedbackScope,
-  FeedbackSortKey,
-  FeedbackSuggestion,
-  FeedbackSuggestionStatus,
-  FeedbackVoteValue,
-  ItemTagFeedbackField,
-  ItemTagFeedbackPatch,
-  ItemTagFeedbackSnapshot,
-} from '#shared/types/feedback'
-import type { ItemSearchMetadata } from '#shared/types/itemSearch'
-import {
-  ALL_ITEM_TAG_FEEDBACK_FIELDS,
-  FEEDBACK_PAGE_SIZE,
-  buildItemTagFeedbackPatch,
-  createRawItemTagFeedbackSnapshot,
-  hasItemTagFeedbackChanges,
-  normalizeItemTagFeedbackSnapshot,
-  stableSerializeFeedbackRecord,
-} from '#shared/utils/feedback'
-import { hydrateItemSearchMetadata } from '#shared/utils/itemSearch'
-
 type FeedbackSuggestionRow = {
   id?: string | null
   entity_type?: string | null

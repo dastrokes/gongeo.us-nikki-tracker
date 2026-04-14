@@ -48,19 +48,22 @@
       </n-card>
     </template>
 
-    <div v-else-if="!hasData">
+    <div
+      v-else-if="!hasData"
+      class="space-y-2 sm:space-y-4"
+    >
       <!-- No Data State -->
       <n-card class="text-center rounded-xl">
         <n-result
           size="small"
           status="info"
-          :title="$t('stats.no_data.title')"
-          :description="$t('stats.no_data.subtitle')"
+          :title="$t('tracker.no_data.title')"
+          :description="$t('tracker.no_data.subtitle')"
         >
           <template #icon>
             <NuxtImg
               :src="getImageSrc('emote', 'think')"
-              :alt="$t('stats.no_data.title')"
+              :alt="$t('tracker.no_data.title')"
               class="mx-auto w-24 h-24 sm:w-32 sm:h-32 object-cover"
               preset="iconLg"
               fit="cover"
@@ -77,6 +80,22 @@
             </n-button>
           </template>
         </n-result>
+      </n-card>
+
+      <!-- Mock Pull Activity Timeline -->
+      <n-card
+        size="small"
+        class="rounded-xl opacity-40"
+        content-class="!p-2 sm:!p-4"
+      >
+        <n-card size="small">
+          <div class="h-[320px]">
+            <VChart
+              :option="mockPullActivityChartOption"
+              autoresize
+            />
+          </div>
+        </n-card>
       </n-card>
     </div>
 
@@ -1332,6 +1351,11 @@
     }
 
     await loadAndProcessData()
+
+    // Initialize mock charts if no data
+    if (!hasData.value) {
+      initializeMockCharts()
+    }
   })
 
   watch(effectiveDataSource, (nextSource, previousSource) => {
@@ -1353,8 +1377,12 @@
       pullActivity,
     ],
     () => {
-      if (hasData.value && import.meta.client) {
-        initializeCharts()
+      if (import.meta.client) {
+        if (hasData.value) {
+          initializeCharts()
+        } else {
+          initializeMockCharts()
+        }
       }
     }
   )
@@ -1414,6 +1442,9 @@
   const fourStarDistChartOption = ref({})
   const fourStarType3DistChartOption = ref({})
 
+  // Mock chart option for empty state
+  const mockPullActivityChartOption = ref({})
+
   const resetChartOptions = () => {
     pullActivityChartOption.value = {}
     luckPerBannerChartOption.value = {}
@@ -1438,6 +1469,145 @@
       createFourStarType3DistChart()
     } catch (error) {
       console.error('Error initializing charts:', error)
+    }
+  }
+
+  // Initialize mock chart for empty state with full timeline
+  const initializeMockCharts = () => {
+    const textStyle = getChartTextStyle()
+
+    // Get all banners sorted by ID (chronological order)
+    const allBannerIds = Object.keys(BANNER_DATA)
+      .map(Number)
+      .sort((a, b) => a - b)
+
+    // Create mock data for all banners
+    const mockBannerLabels = allBannerIds.map((bannerId) => {
+      const banner = BANNER_DATA[bannerId]
+      return banner?.bannerId ? t(`banner.${banner.bannerId}.name`) : ''
+    })
+
+    // Generate realistic pull counts with gaps (users don't pull on every banner)
+    const mockPullCounts = allBannerIds.map((bannerId) => {
+      const banner = BANNER_DATA[bannerId]
+      const bannerType = banner?.bannerType || 2
+
+      // 60% chance of having pulls on a banner (40% gap)
+      if (Math.random() > 0.6) return 0
+
+      // Different ranges based on banner type
+      if (bannerType === 2) {
+        // 5★ banners: 100-200 pulls
+        return Math.floor(Math.random() * 101) + 100
+      } else {
+        // 4★ banners (type 1 and 3): 20-40 pulls
+        return Math.floor(Math.random() * 21) + 20
+      }
+    })
+
+    // Calculate cumulative pulls
+    const mockCumulative = mockPullCounts.reduce((acc, val, idx) => {
+      acc.push((acc[idx - 1] || 0) + val)
+      return acc
+    }, [] as number[])
+
+    mockPullActivityChartOption.value = {
+      textStyle,
+      title: {
+        text: t('stats.charts.pull_timeline'),
+        left: 'center',
+        top: 0,
+        textStyle: { ...textStyle, fontSize: 16, fontWeight: 'bold' },
+      },
+      grid: { top: 40, bottom: 0, left: 40, right: 50 },
+      xAxis: {
+        type: 'category',
+        data: mockBannerLabels,
+        axisLine: {
+          lineStyle: {
+            color: isDark.value ? palette.textLight : palette.textDark,
+          },
+        },
+        axisLabel: {
+          ...textStyle,
+          rotate: isMobile.value ? 90 : 30,
+        },
+      },
+      yAxis: [
+        {
+          type: 'value',
+          splitLine: { show: false },
+          axisLabel: textStyle,
+        },
+        {
+          type: 'value',
+          position: 'right',
+          splitLine: { show: false },
+          axisLabel: textStyle,
+          axisLine: {
+            show: true,
+            lineStyle: {
+              color: isDark.value ? palette.textLight : palette.textDark,
+            },
+          },
+        },
+      ],
+      series: [
+        {
+          name: t('common.stats.total_pulls'),
+          type: 'bar',
+          data: mockPullCounts.map((val, idx) => {
+            const bannerId = allBannerIds[idx]
+            const bannerType = bannerId ? BANNER_DATA[bannerId]?.bannerType : 2
+            const quality = bannerType === 2 ? 5 : 4
+            const color = getQualityColor(quality)
+            return {
+              value: val,
+              itemStyle: {
+                color: isDark.value ? `${color}99` : `${color}80`,
+                borderRadius: [4, 4, 0, 0],
+              },
+            }
+          }),
+        },
+        {
+          name: t('stats.charts.cumulative_pulls'),
+          type: 'line',
+          yAxisIndex: 1,
+          smooth: true,
+          data: mockCumulative,
+          symbol: 'circle',
+          symbolSize: 4,
+          lineStyle: {
+            color: isDark.value
+              ? 'rgba(236, 72, 153, 0.7)'
+              : 'rgba(219, 39, 119, 0.6)',
+          },
+          itemStyle: {
+            color: isDark.value
+              ? 'rgba(236, 72, 153, 0.7)'
+              : 'rgba(219, 39, 119, 0.6)',
+          },
+          areaStyle: {
+            color: {
+              type: 'linear',
+              x: 0,
+              y: 0,
+              x2: 0,
+              y2: 1,
+              colorStops: [
+                {
+                  offset: 0,
+                  color: isDark.value
+                    ? 'rgba(236, 72, 153, 0.3)'
+                    : 'rgba(219, 39, 119, 0.15)',
+                },
+                { offset: 1, color: 'rgba(236, 72, 153, 0)' },
+              ],
+            },
+          },
+        },
+      ],
     }
   }
 

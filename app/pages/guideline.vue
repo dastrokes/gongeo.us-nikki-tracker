@@ -39,11 +39,11 @@
 
   useSeoMeta({
     title: () =>
-      `${t('feedback.guidelines.page_title')} - ${t('navigation.title')}`,
+      `${t('feedback.guidelines.page_title')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     ogTitle: () =>
-      `${t('feedback.guidelines.page_title')} - ${t('navigation.title')}`,
+      `${t('feedback.guidelines.page_title')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     twitterTitle: () =>
-      `${t('feedback.guidelines.page_title')} - ${t('navigation.title')}`,
+      `${t('feedback.guidelines.page_title')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     description: () => t('feedback.guidelines.page_description'),
     ogDescription: () => t('feedback.guidelines.page_description'),
     twitterDescription: () => t('feedback.guidelines.page_description'),

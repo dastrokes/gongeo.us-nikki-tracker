@@ -14,7 +14,8 @@
     "export": "Exportar",
     "loading": "Cargando…",
     "search": "Buscar",
-    "clear": "Borrar filtros",
+    "clear": "Clear",
+    "apply": "Apply",
     "all": "Todo",
     "other": "Otro",
     "show": "Espectáculo",
@@ -731,7 +732,6 @@
     "filter_label": "Filtrar por etiqueta",
     "filter_obtain": "Filtrar por fuente",
     "advanced_filters": "Filtros avanzados",
-    "clear_advanced_filters": "Borrar filtros avanzados",
     "advanced_filters_empty": "No hay filtros avanzados disponibles para esta ranura.",
     "advanced_filter_placeholder": "Seleccionar {field}",
     "uncategorized": "Sin categoría",
@@ -916,10 +916,6 @@
       "error": "Error al exportar la tarjeta.",
       "best_luck": "Mejor Suerte",
       "worst_luck": "Peor Suerte"
-    },
-    "no_data": {
-      "title": "Sin Estadísticas",
-      "subtitle": "Importa tus datos de resonancia para ver tus estadísticas personales."
     }
   }
 }

@@ -14,7 +14,8 @@
     "export": "Esportare",
     "loading": "Caricamento…",
     "search": "Ricerca",
-    "clear": "Cancella filtri",
+    "clear": "Clear",
+    "apply": "Apply",
     "all": "Tutto",
     "other": "Altro",
     "show": "Spettacolo",
@@ -731,7 +732,6 @@
     "filter_label": "Filtra per etichetta",
     "filter_obtain": "Filtra per fonte",
     "advanced_filters": "Filtri avanzati",
-    "clear_advanced_filters": "Cancella filtri avanzati",
     "advanced_filters_empty": "Non ci sono filtri avanzati disponibili per questo slot.",
     "advanced_filter_placeholder": "Seleziona {field}",
     "uncategorized": "Non categorizzato",
@@ -916,10 +916,6 @@
       "error": "Esportazione scheda fallita.",
       "best_luck": "Miglior Fortuna",
       "worst_luck": "Peggior Fortuna"
-    },
-    "no_data": {
-      "title": "Nessuna Statistica",
-      "subtitle": "Importa i tuoi dati di risonanza per vedere le tue statistiche personali."
     }
   }
 }

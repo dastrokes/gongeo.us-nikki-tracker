@@ -1,4 +1,3 @@
-import { useSupabaseClient } from '~/composables/useSupabaseClient'
 import { BANNER_DATA } from '~~/data/banners'
 
 export default defineCachedApiEventHandler(
@@ -13,7 +12,7 @@ export default defineCachedApiEventHandler(
       throw createNotFoundError('banner')
     }
 
-    const supabase = useSupabaseClient('server')
+    const supabase = useSupabaseServerClient()
 
     try {
       const bannerCache = await getBannerStats(supabase, bannerId)

@@ -1,11 +1,3 @@
-import { useSupabaseDataClient } from '~/composables/useSupabaseClient'
-import {
-  getActiveItemSearchAdvancedFilters,
-  normalizeItemSearchTokenKey,
-  resolveItemSearchAdvancedFilters,
-  serializeItemSearchAdvancedFilters,
-} from '#shared/utils/itemSearch'
-
 type ItemRow = {
   id: number | null
   quality: number | null

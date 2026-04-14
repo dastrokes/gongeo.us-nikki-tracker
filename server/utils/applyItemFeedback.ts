@@ -1,7 +1,5 @@
 import { createError } from 'h3'
 
-import { useSupabaseDataClient } from '~/composables/useSupabaseClient'
-
 import enFilter from '../../app/locales/en/filter.json'
 import enMisc from '../../app/locales/en/misc.json'
 import zhFilter from '../../app/locales/zh/filter.json'
@@ -10,21 +8,6 @@ import {
   ITEM_SEARCH_FIELD_KIND_BY_NAME,
   ITEM_SEARCH_SEARCH_NAMESPACES,
 } from '#shared/constants/itemSearchRegistry'
-import type {
-  FeedbackMaintainerApplyResult,
-  FeedbackSuggestion,
-} from '#shared/types/feedback'
-import type {
-  ItemSearchField,
-  ItemSearchMetadata,
-} from '#shared/types/itemSearch'
-import { normalizeItemTagFeedbackSnapshot } from '#shared/utils/feedback'
-import {
-  getItemSearchAdvancedFields,
-  isSupportedItemSearchItemType,
-  normalizeItemSearchItemType,
-  normalizeItemSearchTokenKey,
-} from '#shared/utils/itemSearch'
 
 type ItemAttributeRow = {
   item_id: number
@@ -352,7 +335,7 @@ const upsertPineconeRows = async (row: ItemAttributeRow) => {
   return upsertedNamespaces
 }
 
-export const applyItemFeedbackSuggestion = async (
+export const applyItemFeedback = async (
   suggestion: FeedbackSuggestion
 ): Promise<FeedbackMaintainerApplyResult> => {
   if (suggestion.entityType !== 'item') {

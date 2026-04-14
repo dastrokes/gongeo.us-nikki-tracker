@@ -1,14 +1,6 @@
 import type { H3Event } from 'h3'
 import { hash } from 'ohash'
-import type { ItemSearchMetadata } from '#shared/types/itemSearch'
-import {
-  normalizeSearchCacheKey,
-  normalizeSearchQuery,
-} from '#shared/utils/searchQuery'
-import {
-  normalizeItemSearchItemType,
-  normalizeItemSearchMetadata,
-} from '#shared/utils/itemSearch'
+
 import { resolveRequestSearchNamespace } from '../../utils/locale'
 
 type SearchIndexMetadata = ItemSearchMetadata & {
@@ -91,9 +83,7 @@ const normalizeMetadata = (metadata: unknown): SearchIndexMetadata | null => {
   if (!isRecord(metadata)) return null
 
   const legacyMetadata = normalizeItemSearchMetadata(metadata)
-  const rawItemType = normalizeNullableString(
-    metadata.item_type ?? metadata.slot
-  )
+  const rawItemType = normalizeNullableString(metadata.item_type)
   const itemType = rawItemType
     ? normalizeItemSearchItemType(rawItemType)
     : undefined
@@ -106,7 +96,6 @@ const normalizeMetadata = (metadata: unknown): SearchIndexMetadata | null => {
       normalizeItemId(legacyMetadata?.item_id) ??
       undefined,
     item_type: itemType,
-    slot: itemType,
     category:
       legacyMetadata?.category ??
       normalizeNullableString(metadata.category) ??
@@ -212,6 +201,7 @@ const queryPineconeSearch = async ({
   normalizedQuery,
   limit,
   searchNamespace,
+  itemTypeFilters,
 }: {
   pineconeApiKey: string
   pineconeIndexHost: string
@@ -219,6 +209,7 @@ const queryPineconeSearch = async ({
   normalizedQuery: string
   limit: number
   searchNamespace: string
+  itemTypeFilters: string[]
 }): Promise<SearchResponse['data']> => {
   const endpoint = `${resolvePineconeBaseUrl(pineconeIndexHost)}/records/namespaces/${encodeURIComponent(searchNamespace)}/search`
   let attempt = 0
@@ -226,6 +217,36 @@ const queryPineconeSearch = async ({
 
   while (true) {
     try {
+      const queryBody: {
+        query: {
+          inputs: { text: string }
+          top_k: number
+          filter?: unknown
+        }
+      } = {
+        query: {
+          inputs: {
+            text: normalizedQuery,
+          },
+          top_k: limit,
+        },
+      }
+
+      // Add metadata filter for item types if specified
+      if (itemTypeFilters.length > 0) {
+        queryBody.query = {
+          ...queryBody.query,
+          filter:
+            itemTypeFilters.length === 1
+              ? { item_type: { $eq: itemTypeFilters[0] } }
+              : {
+                  $or: itemTypeFilters.map((type) => ({
+                    item_type: { $eq: type },
+                  })),
+                },
+        }
+      }
+
       const response = await fetch(endpoint, {
         method: 'POST',
         headers: {
@@ -234,14 +255,7 @@ const queryPineconeSearch = async ({
           'Content-Type': 'application/json',
           'X-Pinecone-Api-Version': PINECONE_API_VERSION,
         },
-        body: JSON.stringify({
-          query: {
-            inputs: {
-              text: normalizedQuery,
-            },
-            top_k: limit,
-          },
-        }),
+        body: JSON.stringify(queryBody),
       })
 
       if (!response.ok) {
@@ -313,6 +327,13 @@ export default defineCachedApiEventHandler(
     const rawQuery = query.q?.toString() ?? ''
     const normalizedQuery = normalizeSearchQuery(rawQuery)
     const limit = normalizeLimit(query.limit)
+    const rawItemTypes = query.type?.toString() ?? ''
+    const itemTypeFilters = rawItemTypes
+      ? rawItemTypes
+          .split(',')
+          .map((type) => normalizeItemSearchItemType(type.trim()))
+          .filter(Boolean)
+      : []
 
     if (!normalizedQuery) {
       return {
@@ -344,6 +365,7 @@ export default defineCachedApiEventHandler(
         normalizedQuery,
         limit,
         searchNamespace,
+        itemTypeFilters,
       })
 
       return {
@@ -375,7 +397,17 @@ export default defineCachedApiEventHandler(
         const qHash = q ? hash(q) : 'empty'
         const limit = normalizeLimit(query.limit)
         const searchNamespace = resolveRequestSearchNamespace(event)
-        return `${version}:search:pinecore:${searchNamespace}:q${qHash}:l${limit}`
+        const rawItemTypes = query.type?.toString() ?? ''
+        const itemTypes = rawItemTypes
+          ? rawItemTypes
+              .split(',')
+              .map((type) => normalizeItemSearchItemType(type.trim()))
+              .filter(Boolean)
+              .sort()
+              .join(',')
+          : ''
+        const typeHash = itemTypes ? hash(itemTypes) : 'all'
+        return `${version}:search:pinecore:${searchNamespace}:q${qHash}:l${limit}:t${typeHash}`
       },
       swr: true,
     },

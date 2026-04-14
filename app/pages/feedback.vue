@@ -206,16 +206,6 @@
 </template>
 
 <script setup lang="ts">
-  import type {
-    FeedbackMaintainerAction,
-    FeedbackReviewState,
-    FeedbackScope,
-    FeedbackSortKey,
-    FeedbackSuggestion,
-    FeedbackSuggestionStatus,
-    FeedbackVoteValue,
-  } from '#shared/types/feedback'
-
   const { t } = useI18n()
   const route = useRoute()
   const router = useRouter()
@@ -703,10 +693,12 @@
   ])
 
   useSeoMeta({
-    title: () => `${t('feedback.queue_title')} - ${t('navigation.title')}`,
-    ogTitle: () => `${t('feedback.queue_title')} - ${t('navigation.title')}`,
+    title: () =>
+      `${t('feedback.queue_title')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
+    ogTitle: () =>
+      `${t('feedback.queue_title')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     twitterTitle: () =>
-      `${t('feedback.queue_title')} - ${t('navigation.title')}`,
+      `${t('feedback.queue_title')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     description: () => t('feedback.page_description'),
     ogDescription: () => t('feedback.page_description'),
     twitterDescription: () => t('feedback.page_description'),

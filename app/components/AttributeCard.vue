@@ -102,12 +102,6 @@
 </template>
 
 <script setup lang="ts">
-  import type {
-    ItemSearchField,
-    ItemSearchMetadata,
-    ItemSearchMetadataDisplaySection,
-  } from '#shared/types/itemSearch'
-
   const PREVIEW_FIELDS: ItemSearchField[] = ['category', 'subcategory']
   const emit = defineEmits<{
     expand: []

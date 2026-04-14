@@ -1,9 +1,3 @@
-import type {
-  ItemSearchAdvancedField,
-  ItemSearchAdvancedFilterValue,
-  ItemSearchFacetResponse,
-} from '#shared/types/itemSearch'
-
 export type ItemFilters = {
   search?: string
   quality?: number | null

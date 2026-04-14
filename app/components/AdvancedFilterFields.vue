@@ -67,17 +67,6 @@
 </template>
 
 <script setup lang="ts">
-  import type {
-    ItemSearchAdvancedFilters,
-    ItemSearchAdvancedField,
-    ItemSearchAdvancedFacetMap,
-  } from '#shared/types/itemSearch'
-  import {
-    hasActiveItemSearchAdvancedFilterValue,
-    isItemSearchCompendiumSingleSelectArrayField,
-    isItemSearchArrayField,
-    sortItemSearchFacetValues,
-  } from '#shared/utils/itemSearch'
   import type { SelectOption } from 'naive-ui'
 
   const props = defineProps<{

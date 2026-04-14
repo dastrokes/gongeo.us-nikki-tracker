@@ -1,5 +1,3 @@
-import type { Outfit } from '#shared/types/outfit'
-
 const outfit: Outfit = {
   id: '10239',
   items: [

@@ -267,7 +267,7 @@
                 <n-button
                   size="small"
                   :disabled="!isAdvancedFiltersEnabled"
-                  :aria-label="t('compendium.clear_advanced_filters')"
+                  :aria-label="t('common.clear')"
                   @click="clearAdvancedFilters"
                 >
                   <template #icon>
@@ -277,7 +277,7 @@
                   </template>
                 </n-button>
               </template>
-              {{ t('compendium.clear_advanced_filters') }}
+              {{ t('common.clear') }}
             </n-tooltip>
           </n-button-group>
         </div>
@@ -502,15 +502,6 @@
 <script setup lang="ts">
   import { Star, Tshirt, ListAlt, SortAmountDown, Times } from '@vicons/fa'
   import type { SelectGroupOption, SelectOption } from 'naive-ui'
-  import type {
-    ItemSearchAdvancedFacetMap,
-    ItemSearchAdvancedField,
-    ItemSearchAdvancedFilters,
-  } from '#shared/types/itemSearch'
-  import {
-    ITEM_SEARCH_UNCATEGORIZED_VALUE,
-    sortItemSearchFacetValues,
-  } from '#shared/utils/itemSearch'
 
   const { t, locale, getLocaleMessage } = useI18n()
   const { translateFilterToken } = useFilterToken()

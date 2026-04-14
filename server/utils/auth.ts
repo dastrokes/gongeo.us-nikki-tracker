@@ -1,8 +1,6 @@
 import type { User } from '@supabase/supabase-js'
 import { createError, getHeader, type H3Event } from 'h3'
 
-import { useSupabaseClient } from '~/composables/useSupabaseClient'
-
 const DEFAULT_ITEM_SEARCH_MAINTAINER_ALLOWED_HOSTS = [
   'gongeo.us',
   'www.gongeo.us',
@@ -89,7 +87,7 @@ export const getAuthenticatedUser = async (
   const token = getBearerToken(event)
   if (!token) return null
 
-  const supabase = useSupabaseClient('server')
+  const supabase = useSupabaseServerClient()
   const {
     data: { user },
     error,

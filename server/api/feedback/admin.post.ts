@@ -1,12 +1,5 @@
 import { createError } from 'h3'
 
-import type {
-  FeedbackMaintainerAction,
-  FeedbackMaintainerActionRequest,
-  FeedbackMaintainerActionResponse,
-} from '#shared/types/feedback'
-import { toErrorMessage } from '#shared/utils/errors'
-
 let maintainerActionInFlight = false
 
 const createBadRequestError = (message: string) =>
@@ -87,7 +80,7 @@ export default defineEventHandler(async (event) => {
         )
       }
 
-      applyResult = await applyItemFeedbackSuggestion(suggestion)
+      applyResult = await applyItemFeedback(suggestion)
     }
 
     const refreshedSuggestion = await getFeedbackSuggestionById(suggestionId)

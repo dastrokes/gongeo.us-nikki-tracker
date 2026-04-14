@@ -1,5 +1,3 @@
-import { useSupabaseClient } from '~/composables/useSupabaseClient'
-
 const createForbiddenError = (type?: string) =>
   createError({
     statusCode: 403,
@@ -38,7 +36,7 @@ export default defineEventHandler(async (event) => {
     throw createForbiddenError('expired')
   }
 
-  const supabase = useSupabaseClient('server')
+  const supabase = useSupabaseServerClient()
 
   // Determine target table based on x-target header
   const target = getHeader(event, 'x-target')

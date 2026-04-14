@@ -85,6 +85,9 @@ importers:
       sortablejs:
         specifier: 1.15.7
         version: 1.15.7
+      vue:
+        specifier: 3.5.32
+        version: 3.5.32(typescript@6.0.2)
     devDependencies:
       '@bg-dev/nuxt-naiveui':
         specifier: 2.0.0

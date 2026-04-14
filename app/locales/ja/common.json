@@ -14,7 +14,8 @@
     "export": "輸出",
     "loading": "読み込み中…",
     "search": "検索",
-    "clear": "フィルターをクリアする",
+    "clear": "Clear",
+    "apply": "Apply",
     "all": "全て",
     "other": "他の",
     "show": "見せる",
@@ -731,7 +732,6 @@
     "filter_label": "ラベルで絞り込む",
     "filter_obtain": "入手方法で絞り込む",
     "advanced_filters": "詳細フィルター",
-    "clear_advanced_filters": "詳細フィルターをクリア",
     "advanced_filters_empty": "この部位で利用可能な詳細フィルターはありません。",
     "advanced_filter_placeholder": "{field}を選択",
     "uncategorized": "未分類",
@@ -916,10 +916,6 @@
       "error": "シェアカードの書き出しに失敗しました。",
       "best_luck": "最高の運勢",
       "worst_luck": "最低の運勢"
-    },
-    "no_data": {
-      "title": "統計なし",
-      "subtitle": "個人統計を表示するには共鳴データをインポートしてください。"
     }
   }
 }

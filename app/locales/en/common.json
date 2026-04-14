@@ -14,7 +14,8 @@
     "export": "Export",
     "loading": "Loading…",
     "search": "Search",
-    "clear": "Clear Filters",
+    "clear": "Clear",
+    "apply": "Apply",
     "all": "All",
     "other": "Other",
     "show": "Show",
@@ -731,7 +732,6 @@
     "filter_label": "Filter by Label",
     "filter_obtain": "Filter by Source",
     "advanced_filters": "Advanced Filters",
-    "clear_advanced_filters": "Clear advanced filters",
     "advanced_filters_empty": "No advanced filters are available for this slot.",
     "advanced_filter_placeholder": "Select {field}",
     "uncategorized": "Uncategorized",
@@ -916,10 +916,6 @@
       "error": "Failed to export share card.",
       "best_luck": "Best Luck",
       "worst_luck": "Worst Luck"
-    },
-    "no_data": {
-      "title": "No Stats Available",
-      "subtitle": "Import your resonance data to see your personal stats."
     }
   }
 }

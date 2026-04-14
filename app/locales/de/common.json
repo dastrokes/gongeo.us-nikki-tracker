@@ -14,7 +14,8 @@
     "export": "Exportieren",
     "loading": "Lädt…",
     "search": "Suchen",
-    "clear": "Filter entfernen",
+    "clear": "Clear",
+    "apply": "Apply",
     "all": "Alle",
     "other": "Sonstiges",
     "show": "Zeigen",
@@ -731,7 +732,6 @@
     "filter_label": "Nach Label filtern",
     "filter_obtain": "Nach Herkunft filtern",
     "advanced_filters": "Erweiterte Filter",
-    "clear_advanced_filters": "Erweiterte Filter entfernen",
     "advanced_filters_empty": "Es sind keine erweiterten Filter für diesen Slot verfügbar.",
     "advanced_filter_placeholder": "{field} auswählen",
     "uncategorized": "Nicht kategorisiert",
@@ -916,10 +916,6 @@
       "error": "Teilen-Karte konnte nicht exportiert werden.",
       "best_luck": "Bestes Glück",
       "worst_luck": "Schlimmstes Glück"
-    },
-    "no_data": {
-      "title": "Keine Statistiken verfügbar",
-      "subtitle": "Importiere deine Resonanzdaten, um deine persönlichen Statistiken zu sehen."
     }
   }
 }

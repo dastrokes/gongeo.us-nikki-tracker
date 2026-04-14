@@ -1,7 +1,5 @@
 import { createError } from 'h3'
 
-import { useSupabaseDataClient } from '~/composables/useSupabaseClient'
-
 import enFilter from '../../app/locales/en/filter.json'
 import enMisc from '../../app/locales/en/misc.json'
 import zhFilter from '../../app/locales/zh/filter.json'
@@ -337,7 +335,7 @@ const upsertPineconeRows = async (row: ItemAttributeRow) => {
   return upsertedNamespaces
 }
 
-export const applyItemFeedbackSuggestion = async (
+export const applyItemFeedback = async (
   suggestion: FeedbackSuggestion
 ): Promise<FeedbackMaintainerApplyResult> => {
   if (suggestion.entityType !== 'item') {

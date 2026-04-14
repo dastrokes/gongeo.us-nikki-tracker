@@ -14,7 +14,8 @@
     "export": "Exportar",
     "loading": "Carregando…",
     "search": "Procurar",
-    "clear": "Limpar filtros",
+    "clear": "Limpar",
+    "apply": "Aplicar",
     "all": "Todos",
     "other": "Outro",
     "show": "Mostrar",
@@ -731,7 +732,6 @@
     "filter_label": "Filtrar por etiqueta",
     "filter_obtain": "Filtrar por fonte",
     "advanced_filters": "Filtros avançados",
-    "clear_advanced_filters": "Limpar filtros avançados",
     "advanced_filters_empty": "Não há filtros avançados disponíveis para este slot.",
     "advanced_filter_placeholder": "Selecionar {field}",
     "uncategorized": "Sem categoria",
@@ -916,10 +916,6 @@
       "error": "Falha ao exportar o cartão.",
       "best_luck": "Melhor Sorte",
       "worst_luck": "Pior Sorte"
-    },
-    "no_data": {
-      "title": "Sem Estatísticas",
-      "subtitle": "Importe seus dados de ressonância para ver suas estatísticas pessoais."
     }
   }
 }

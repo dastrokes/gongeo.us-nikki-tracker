@@ -14,7 +14,8 @@
     "export": "导出",
     "loading": "加载中…",
     "search": "搜索",
-    "clear": "清除筛选",
+    "clear": "清除",
+    "apply": "应用",
     "all": "全部",
     "other": "其他",
     "show": "显示",
@@ -731,7 +732,6 @@
     "filter_label": "按标签筛选",
     "filter_obtain": "按来源筛选",
     "advanced_filters": "高级筛选",
-    "clear_advanced_filters": "清除高级筛选",
     "advanced_filters_empty": "当前部位没有可用的高级筛选。",
     "advanced_filter_placeholder": "选择{field}",
     "uncategorized": "未分类",
@@ -916,10 +916,6 @@
       "error": "分享卡片导出失败。",
       "best_luck": "运气最好",
       "worst_luck": "运气最差"
-    },
-    "no_data": {
-      "title": "暂无统计数据",
-      "subtitle": "请先导入您的共鸣数据以查看个人统计。"
     }
   }
 }

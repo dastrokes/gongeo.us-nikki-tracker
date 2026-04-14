@@ -267,7 +267,7 @@
                 <n-button
                   size="small"
                   :disabled="!isAdvancedFiltersEnabled"
-                  :aria-label="t('compendium.clear_advanced_filters')"
+                  :aria-label="t('common.clear')"
                   @click="clearAdvancedFilters"
                 >
                   <template #icon>
@@ -277,7 +277,7 @@
                   </template>
                 </n-button>
               </template>
-              {{ t('compendium.clear_advanced_filters') }}
+              {{ t('common.clear') }}
             </n-tooltip>
           </n-button-group>
         </div>

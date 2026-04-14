@@ -33,7 +33,7 @@
             class="!px-1 !text-slate-500 hover:!text-slate-700 dark:!text-slate-400 dark:hover:!text-slate-200"
             @click="clearFilters"
           >
-            {{ t('compendium.clear_advanced_filters') }}
+            {{ t('common.clear') }}
           </n-button>
         </div>
       </template>

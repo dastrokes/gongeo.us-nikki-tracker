@@ -67,6 +67,31 @@
                 class="w-full bg-transparent border-none py-4 text-slate-800 focus:outline-none dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500"
                 @keydown.esc.prevent="clearSearchQuery"
               />
+              <div class="relative inline-block">
+                <n-button
+                  quaternary
+                  circle
+                  strong
+                  attr-type="button"
+                  size="large"
+                  :class="[
+                    'mr-1 transition-colors',
+                    hasActiveFilter
+                      ? '!text-rose-500 hover:!text-rose-600 dark:!text-rose-400 dark:hover:!text-rose-300'
+                      : '!text-slate-400 hover:!text-slate-700 dark:!text-slate-500 dark:hover:!text-slate-200',
+                  ]"
+                  :aria-label="t('compendium.filter_slot')"
+                  @click="showFilterModal = true"
+                >
+                  <template #icon>
+                    <n-icon><Filter /></n-icon>
+                  </template>
+                </n-button>
+                <span
+                  v-if="hasActiveFilter"
+                  class="absolute bottom-2 left-2 w-1.5 h-1.5 bg-rose-500 rounded-full pointer-events-none"
+                ></span>
+              </div>
               <n-button
                 v-if="searchQuery"
                 quaternary
@@ -360,6 +385,78 @@
       </div>
     </div>
 
+    <!-- Filter Modal -->
+    <n-modal
+      v-model:show="showFilterModal"
+      preset="card"
+      :title="t('compendium.filter_slot')"
+      class="w-[calc(100vw-2rem)] max-w-md"
+      :closable="true"
+    >
+      <div class="space-y-2">
+        <div class="grid grid-cols-3 gap-2">
+          <n-tag
+            v-for="option in itemTypeOptions.slice(0, 7)"
+            :key="option.value"
+            :type="
+              selectedItemTypes.includes(option.value) ? 'primary' : 'default'
+            "
+            :bordered="!selectedItemTypes.includes(option.value)"
+            round
+            size="medium"
+            :class="[
+              'cursor-pointer justify-center',
+              selectedItemTypes.includes(option.value) &&
+                '!bg-rose-500 !text-white',
+            ]"
+            @click="toggleItemType(option.value)"
+          >
+            {{ option.label }}
+          </n-tag>
+        </div>
+        <div class="grid grid-cols-3 gap-2">
+          <n-tag
+            v-for="option in itemTypeOptions.slice(7)"
+            :key="option.value"
+            :type="
+              selectedItemTypes.includes(option.value) ? 'primary' : 'default'
+            "
+            :bordered="!selectedItemTypes.includes(option.value)"
+            round
+            size="medium"
+            :class="[
+              'cursor-pointer justify-center',
+              selectedItemTypes.includes(option.value) &&
+                '!bg-rose-500 !text-white',
+            ]"
+            @click="toggleItemType(option.value)"
+          >
+            {{ option.label }}
+          </n-tag>
+        </div>
+      </div>
+      <template #footer>
+        <div class="flex w-full gap-2">
+          <n-button
+            type="primary"
+            class="flex-1"
+            :disabled="!hasActiveFilter"
+            @click="applyFilters"
+          >
+            {{ t('common.apply') }}
+          </n-button>
+          <n-button
+            secondary
+            class="flex-1"
+            :disabled="!hasActiveFilter"
+            @click="clearAllFilters"
+          >
+            {{ t('common.clear') }}
+          </n-button>
+        </div>
+      </template>
+    </n-modal>
+
     <!-- Mobile Details Modal -->
     <n-modal
       v-model:show="isMobileModalOpen"
@@ -522,7 +619,7 @@
 
 <script setup lang="ts">
   import { breakpointsTailwind } from '@vueuse/core'
-  import { Search, Box, Ghost, Times } from '@vicons/fa'
+  import { Search, Box, Ghost, Times, Filter } from '@vicons/fa'
 
   type SearchHit = {
     id: string
@@ -653,6 +750,10 @@
   })
 
   const searchQuery = ref(route.query.q?.toString() ?? '')
+  const selectedItemTypes = ref<string[]>(
+    route.query.type?.toString().split(',').filter(Boolean) ?? []
+  )
+  const showFilterModal = ref(false)
   const hasSearched = ref(!!route.query.q)
   const results = ref<SearchHit[]>([])
   const selectedId = ref<string | null>(null)
@@ -661,6 +762,41 @@
   const error = ref('')
   const showFeedbackModal = ref(false)
   const feedbackModalTarget = ref<FeedbackModalTarget | null>(null)
+
+  const itemTypeOptions = computed(() => {
+    const types = getItemSearchTaxonomyItemTypes()
+    return types.map((type) => ({
+      label: getItemTypeLabel(type),
+      value: type,
+    }))
+  })
+
+  const hasActiveFilter = computed(() => selectedItemTypes.value.length > 0)
+
+  const toggleItemType = (type: string) => {
+    const index = selectedItemTypes.value.indexOf(type)
+    if (index > -1) {
+      selectedItemTypes.value = selectedItemTypes.value.filter(
+        (t) => t !== type
+      )
+    } else {
+      selectedItemTypes.value = [...selectedItemTypes.value, type]
+    }
+    lastCompletedSearchKey = null
+  }
+
+  const clearAllFilters = () => {
+    selectedItemTypes.value = []
+    lastCompletedSearchKey = null
+  }
+
+  const applyFilters = () => {
+    showFilterModal.value = false
+    if (normalizeSearchQuery(searchQuery.value)) {
+      void runSearch(true)
+    }
+  }
+
   useSeoMeta({
     title: () =>
       `${t('search_page.title')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
@@ -769,7 +905,10 @@
     feedbackModalTarget.value = null
   }
 
-  const updateSearchRoute = async (query: string | null) => {
+  const updateSearchRoute = async (
+    query: string | null,
+    itemTypes: string[] = selectedItemTypes.value
+  ) => {
     const nextQuery = { ...route.query }
 
     if (query) {
@@ -778,14 +917,23 @@
       delete nextQuery.q
     }
 
+    if (itemTypes.length > 0) {
+      nextQuery.type = itemTypes.join(',')
+    } else {
+      delete nextQuery.type
+    }
+
     await router.replace({ query: nextQuery })
   }
 
   const clearSearch = async () => {
     searchQuery.value = ''
+    selectedItemTypes.value = []
     resetSearchState()
-    restartPlaceholderTyping()
-    await updateSearchRoute(null)
+    if (import.meta.client) {
+      restartPlaceholderTyping()
+    }
+    await updateSearchRoute(null, [])
   }
 
   const clearSearchQuery = async () => {
@@ -797,7 +945,9 @@
     }
 
     searchQuery.value = ''
-    restartPlaceholderTyping()
+    if (import.meta.client) {
+      restartPlaceholderTyping()
+    }
   }
 
   const closeMobileModal = () => {
@@ -929,7 +1079,8 @@
     await navigateTo(activeResult.value.compendiumPath)
   }
 
-  const getSearchRequestKey = (query: string) => `${locale.value}:${query}`
+  const getSearchRequestKey = (query: string, itemTypes: string[]) =>
+    `${locale.value}:${query}:${[...itemTypes].sort().join(',')}`
 
   const shouldSkipSearch = (searchKey: string) =>
     searchKey === activeSearch?.key || searchKey === lastCompletedSearchKey
@@ -969,7 +1120,10 @@
       return
     }
 
-    const searchKey = getSearchRequestKey(normalizedQuery)
+    const searchKey = getSearchRequestKey(
+      normalizedQuery,
+      selectedItemTypes.value
+    )
     hasSearched.value = true
     error.value = ''
 
@@ -980,8 +1134,15 @@
     let search: ActiveSearch | null = null
 
     try {
-      if (pushToUrl && route.query.q?.toString() !== normalizedQuery) {
-        await updateSearchRoute(normalizedQuery)
+      if (
+        pushToUrl &&
+        (route.query.q?.toString() !== normalizedQuery ||
+          route.query.type?.toString() !==
+            (selectedItemTypes.value.length > 0
+              ? selectedItemTypes.value.join(',')
+              : ''))
+      ) {
+        await updateSearchRoute(normalizedQuery, selectedItemTypes.value)
       }
 
       if (shouldSkipSearch(searchKey)) {
@@ -996,11 +1157,17 @@
       activeSearch = search
       loading.value = true
 
+      const queryParams: Record<string, string> = {
+        q: normalizedQuery,
+        lang: locale.value,
+      }
+
+      if (selectedItemTypes.value.length > 0) {
+        queryParams.type = selectedItemTypes.value.join(',')
+      }
+
       const response = await $fetch<SearchApiResponse>('/api/search/items', {
-        query: {
-          q: normalizedQuery,
-          lang: locale.value,
-        },
+        query: queryParams,
         headers: gameVersionHeaders,
         signal: search.controller.signal,
       })
@@ -1033,6 +1200,7 @@
 
   watch(targetPlaceholder, (nextPlaceholder, previousPlaceholder) => {
     if (
+      import.meta.client &&
       nextPlaceholder !== previousPlaceholder &&
       !normalizeSearchQuery(searchQuery.value)
     ) {
@@ -1065,7 +1233,7 @@
       const normalizedCurrentQuery = normalizeSearchQuery(searchQuery.value)
 
       if (nextQuery && nextQuery !== normalizedNextQuery) {
-        void updateSearchRoute(normalizedNextQuery)
+        void updateSearchRoute(normalizedNextQuery, selectedItemTypes.value)
       }
 
       // Keep the field text as entered when the URL sync only changes casing.
@@ -1080,11 +1248,25 @@
 
       if (!normalizedNextQuery) {
         resetSearchState()
-        restartPlaceholderTyping()
+        if (import.meta.client) {
+          restartPlaceholderTyping()
+        }
         return
       }
 
       void runSearch(false)
+    },
+    { immediate: true }
+  )
+
+  watch(
+    () => route.query.type?.toString() ?? '',
+    (nextType) => {
+      selectedItemTypes.value = nextType.split(',').filter(Boolean)
+
+      if (normalizeSearchQuery(searchQuery.value)) {
+        void runSearch(false)
+      }
     },
     { immediate: true }
   )

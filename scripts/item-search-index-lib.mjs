@@ -594,7 +594,6 @@ const hydrateSearchMetadataFromItemAttributeRow = (row) => {
   const metadata = {
     item_id: normalizedRow.item_id,
     item_type: normalizedRow.item_type,
-    slot: normalizedRow.item_type,
   }
 
   if (normalizedRow.category) {

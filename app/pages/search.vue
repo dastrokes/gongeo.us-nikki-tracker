@@ -81,7 +81,12 @@
                       : '!text-slate-400 hover:!text-slate-700 dark:!text-slate-500 dark:hover:!text-slate-200',
                   ]"
                   :aria-label="t('compendium.filter_slot')"
-                  @click="showFilterModal = true"
+                  @click="
+                    () => {
+                      initialItemTypes = [...selectedItemTypes]
+                      showFilterModal = true
+                    }
+                  "
                 >
                   <template #icon>
                     <n-icon><Filter /></n-icon>
@@ -440,7 +445,7 @@
           <n-button
             type="primary"
             class="flex-1"
-            :disabled="!hasActiveFilter"
+            :disabled="!hasFilterChanges"
             @click="applyFilters"
           >
             {{ t('common.apply') }}
@@ -754,6 +759,7 @@
     route.query.type?.toString().split(',').filter(Boolean) ?? []
   )
   const showFilterModal = ref(false)
+  const initialItemTypes = ref<string[]>([])
   const hasSearched = ref(!!route.query.q)
   const results = ref<SearchHit[]>([])
   const selectedId = ref<string | null>(null)
@@ -772,6 +778,12 @@
   })
 
   const hasActiveFilter = computed(() => selectedItemTypes.value.length > 0)
+
+  const hasFilterChanges = computed(() => {
+    const current = [...selectedItemTypes.value].sort().join(',')
+    const initial = [...initialItemTypes.value].sort().join(',')
+    return current !== initial
+  })
 
   const toggleItemType = (type: string) => {
     const index = selectedItemTypes.value.indexOf(type)
@@ -792,6 +804,7 @@
 
   const applyFilters = () => {
     showFilterModal.value = false
+    initialItemTypes.value = [...selectedItemTypes.value]
     if (normalizeSearchQuery(searchQuery.value)) {
       void runSearch(true)
     }

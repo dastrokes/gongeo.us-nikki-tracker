@@ -3,4 +3,4 @@
 
 git diff --cached --check
 gitleaks git --staged --no-banner
-pnpm exec lint-staged
+npx lint-staged

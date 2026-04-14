@@ -14,7 +14,8 @@
     "export": "匯出",
     "loading": "載入中…",
     "search": "搜尋",
-    "clear": "清除篩選",
+    "clear": "Clear",
+    "apply": "Apply",
     "all": "全部",
     "other": "其它",
     "show": "顯示",
@@ -731,7 +732,6 @@
     "filter_label": "依標籤篩選",
     "filter_obtain": "依來源篩選",
     "advanced_filters": "進階篩選",
-    "clear_advanced_filters": "清除進階篩選",
     "advanced_filters_empty": "此部位沒有可用的進階篩選。",
     "advanced_filter_placeholder": "選擇{field}",
     "uncategorized": "未分類",
@@ -916,10 +916,6 @@
       "error": "分享卡片匯出失敗。",
       "best_luck": "運氣最好",
       "worst_luck": "運氣最差"
-    },
-    "no_data": {
-      "title": "暫無統計資料",
-      "subtitle": "請先匯入您的共鳴資料以查看個人統計。"
     }
   }
 }

@@ -1,4 +1,3 @@
-import { useSupabaseClient } from '~/composables/useSupabaseClient'
 import {
   COMMUNITY_TIER_KEYS,
   resolveCommunityScope,
@@ -119,7 +118,7 @@ export default defineEventHandler(async (event) => {
     const voterFingerprint = parseVoterFingerprint(body.voter_fingerprint)
     const tiers = parseTiers(body.tiers_json)
 
-    const supabase = useSupabaseClient('server')
+    const supabase = useSupabaseServerClient()
     const now = new Date().toISOString()
 
     const { error } = await supabase.from('user_tierlists').upsert(

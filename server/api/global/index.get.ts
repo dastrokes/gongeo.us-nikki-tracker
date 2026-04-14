@@ -1,9 +1,8 @@
-import { useSupabaseClient } from '~/composables/useSupabaseClient'
 import { LATEST_BANNER_ID } from '~~/data/config'
 
 export default defineCachedApiEventHandler(
   async () => {
-    const supabase = useSupabaseClient('server')
+    const supabase = useSupabaseServerClient()
 
     try {
       const [coreCache, latestBannerCache] = await Promise.all([

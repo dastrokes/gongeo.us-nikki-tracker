@@ -1,5 +1,3 @@
-import { useSupabaseDataClient } from '~/composables/useSupabaseClient'
-
 type OutfitRow = {
   id: number | null
   quality: number | null

@@ -80,7 +80,7 @@ export default defineEventHandler(async (event) => {
         )
       }
 
-      applyResult = await applyItemFeedbackSuggestion(suggestion)
+      applyResult = await applyItemFeedback(suggestion)
     }
 
     const refreshedSuggestion = await getFeedbackSuggestionById(suggestionId)

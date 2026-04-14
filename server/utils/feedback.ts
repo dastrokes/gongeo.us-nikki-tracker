@@ -2,8 +2,6 @@ import { createHash } from 'node:crypto'
 
 import { createError } from 'h3'
 
-import { useSupabaseDataClient } from '~/composables/useSupabaseClient'
-
 type FeedbackSuggestionRow = {
   id?: string | null
   entity_type?: string | null

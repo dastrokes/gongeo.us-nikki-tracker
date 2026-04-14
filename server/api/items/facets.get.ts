@@ -1,5 +1,3 @@
-import { useSupabaseDataClient } from '~/composables/useSupabaseClient'
-
 type FacetRpcRow = {
   facet_group?: string | null
   facet_key?: string | null

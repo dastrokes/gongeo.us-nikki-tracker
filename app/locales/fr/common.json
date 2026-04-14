@@ -14,7 +14,8 @@
     "export": "Exporter",
     "loading": "Chargement…",
     "search": "Recherche",
-    "clear": "Effacer les filtres",
+    "clear": "Effacer",
+    "apply": "Appliquer",
     "all": "Tous",
     "other": "Autre",
     "show": "Montrer",
@@ -731,7 +732,6 @@
     "filter_label": "Filtrer par étiquette",
     "filter_obtain": "Filtrer par source",
     "advanced_filters": "Filtres avancés",
-    "clear_advanced_filters": "Effacer les filtres avancés",
     "advanced_filters_empty": "Il n'y a pas de filtres avancés disponibles pour cet emplacement.",
     "advanced_filter_placeholder": "Sélectionner {field}",
     "uncategorized": "Non catégorisé",
@@ -916,10 +916,6 @@
       "error": "Échec de l'exportation de la carte.",
       "best_luck": "Meilleure Chance",
       "worst_luck": "Pire Chance"
-    },
-    "no_data": {
-      "title": "Aucune Statistique",
-      "subtitle": "Importez vos données de résonance pour voir vos statistiques personnelles."
     }
   }
 }

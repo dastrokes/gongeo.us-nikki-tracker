@@ -14,7 +14,8 @@
     "export": "내보내기",
     "loading": "로딩 중…",
     "search": "찾다",
-    "clear": "필터 지우기",
+    "clear": "지우기",
+    "apply": "적용",
     "all": "모두",
     "other": "다른",
     "show": "표시",
@@ -731,7 +732,6 @@
     "filter_label": "라벨별 필터링",
     "filter_obtain": "획득처별 필터링",
     "advanced_filters": "고급 필터",
-    "clear_advanced_filters": "고급 필터 초기화",
     "advanced_filters_empty": "이 부위에 사용할 수 있는 고급 필터가 없습니다.",
     "advanced_filter_placeholder": "{field} 선택",
     "uncategorized": "미분류",
@@ -916,10 +916,6 @@
       "error": "공유 카드 내보내기에 실패했습니다.",
       "best_luck": "최고 행운",
       "worst_luck": "최저 행운"
-    },
-    "no_data": {
-      "title": "통계 없음",
-      "subtitle": "개인 통계를 보려면 공명 데이터를 가져오세요."
     }
   }
 }

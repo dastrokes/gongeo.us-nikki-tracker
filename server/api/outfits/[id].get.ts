@@ -1,5 +1,3 @@
-import { useSupabaseDataClient } from '~/composables/useSupabaseClient'
-
 interface OutfitTranslation {
   description?: string | null
   language_code?: string | null
@@ -41,16 +39,7 @@ interface OutfitVariation {
 function getRelatedOutfitIds(baseId: number, quality: number): number[] {
   if (quality < 4) return [baseId]
 
-  const idStr = baseId.toString()
-
-  // Determine base ID
-  let baseIdNum = baseId
-
-  // Check if this is a 7-digit ID ending with 01-04 (variation format)
-  if (idStr.length === 7 && /0[1-4]$/.test(idStr)) {
-    // Extract base ID (first 5 digits)
-    baseIdNum = parseInt(idStr.slice(0, 5))
-  }
+  const baseIdNum = parseInt(getBaseOutfitId(baseId.toString()))
 
   const variations = [
     baseIdNum, // base
@@ -64,20 +53,6 @@ function getRelatedOutfitIds(baseId: number, quality: number): number[] {
   }
 
   return variations
-}
-
-/**
- * Determine variation type from outfit ID
- */
-function getVariationType(id: number): string {
-  const idStr = id.toString()
-
-  if (idStr.endsWith('01')) return 'glowup'
-  if (idStr.endsWith('02')) return 'evo1'
-  if (idStr.endsWith('03')) return 'evo2'
-  if (idStr.endsWith('04')) return 'evo3'
-
-  return 'base'
 }
 
 /**
@@ -173,7 +148,7 @@ export default defineCachedApiEventHandler(
             .map((v: OutfitVariation) => ({
               id: v.id,
               quality: v.quality,
-              type: getVariationType(v.id),
+              type: getOutfitVariantType(v.id.toString()),
             }))
             .sort((a, b) => a.id - b.id)
         }

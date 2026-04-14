@@ -227,18 +227,6 @@
 </template>
 
 <script setup lang="ts">
-  import type {
-    FeedbackMaintainerAction,
-    FeedbackSuggestion,
-    FeedbackVoteValue,
-    ItemTagFeedbackField,
-    ItemTagFeedbackValue,
-  } from '#shared/types/feedback'
-  import {
-    getItemSearchFieldLabelKey,
-    sortItemSearchFacetValues,
-  } from '#shared/utils/itemSearch'
-
   const props = withDefaults(
     defineProps<{
       suggestion: FeedbackSuggestion

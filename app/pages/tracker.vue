@@ -213,6 +213,55 @@
                 </div>
               </div>
 
+              <!-- Sample Stats -->
+              <div
+                class="mt-1 flex flex-row justify-between space-x-2 sm:absolute sm:right-2 sm:top-2 sm:mt-0 sm:justify-start"
+              >
+                <div
+                  class="flex justify-between gap-2 items-baseline text-md text-gray-400"
+                >
+                  <div class="whitespace-nowrap">
+                    <span>{{ t('common.stats.total_pulls') }}:</span>
+                    <span
+                      class="ml-1 text-lg font-medium text-gray-600 dark:text-gray-200"
+                      >{{ banner.stats.totalPulls }}</span
+                    >
+                  </div>
+                  <div
+                    v-if="banner.bannerType === 1 || banner.bannerType === 2"
+                    class="whitespace-nowrap"
+                  >
+                    <span>{{ t('tracker.banner.stats.avg_5star') }}:</span>
+                    <span class="text-amber-500 ml-1 text-lg font-medium">{{
+                      banner.stats.avg5StarPulls.toFixed(2)
+                    }}</span>
+                  </div>
+                  <div
+                    v-if="banner.bannerType === 3"
+                    class="whitespace-nowrap"
+                  >
+                    <span>{{ t('tracker.banner.stats.avg_4star') }}:</span>
+                    <span class="text-blue-500 ml-1 text-lg font-medium">{{
+                      banner.stats.avg4StarOnlyPulls.toFixed(2)
+                    }}</span>
+                  </div>
+                </div>
+
+                <div class="flex flex-row space-x-2 p-1">
+                  <DiceAnimation
+                    :percentile="
+                      banner.bannerType === 3
+                        ? getBannerAvg4StarType3Percentile(
+                            banner.stats.avg4StarOnlyPulls
+                          )
+                        : getBannerAvg5StarPercentile(
+                            banner.stats.avg5StarPulls
+                          )
+                    "
+                  />
+                </div>
+              </div>
+
               <!-- Sample Items Grid -->
               <div
                 class="grid grid-cols-5 sm:grid-cols-8 lg:grid-cols-10 gap-2 mt-2"
@@ -221,7 +270,6 @@
                   v-for="item in banner.pulls"
                   :key="`${item.itemId}-${item.count}`"
                   :item="item"
-                  :info="false"
                 />
               </div>
             </n-card>
@@ -1020,29 +1068,91 @@
       return bannerData?.runs?.[0]?.version === latestVersion
     })
 
+    // Seeded random number generator for consistent results
+    const seededRandom = (seed: number) => {
+      const x = Math.sin(seed) * 10000
+      return x - Math.floor(x)
+    }
+
     return latestVersionBanners
       .map((bannerId) => {
         const bannerData = BANNER_DATA[bannerId]
         if (!bannerData) return null
 
-        // Get all items from all outfits in this banner
+        let currentPullIndex = 0
+        const is4StarBanner = bannerData.bannerType === 3
+
+        // Get all items from all outfits in this banner with realistic pull counts
         const allItems = bannerData.outfit5StarId
           .concat(bannerData.outfit4StarId)
-          .flatMap((outfitId) => {
+          .flatMap((outfitId, outfitIndex) => {
             const outfitData = OUTFIT_DATA[outfitId as keyof typeof OUTFIT_DATA]
             if (!outfitData?.items) return []
 
-            return outfitData.items.map((itemId) => ({
-              itemId: itemId,
-              outfitId: outfitId,
-              quality: bannerData.outfit5StarId.includes(outfitId) ? 5 : 4,
-              count: 1,
-              pullIndex: 0,
-              pullsToObtain: 0,
-              obtainedAt: '',
-              bannerId: bannerData.bannerId,
-            }))
+            return outfitData.items.map((itemId, itemIndex) => {
+              const quality = bannerData.outfit5StarId.includes(outfitId)
+                ? 5
+                : 4
+
+              // Generate realistic pulls to obtain based on quality and banner type
+              let pullsToObtain: number
+              const seed = bannerId * 1000 + outfitIndex * 100 + itemIndex
+
+              if (is4StarBanner) {
+                // 4★ banner: 3-5 pulls per item
+                pullsToObtain = Math.floor(seededRandom(seed) * 3) + 3
+              } else {
+                // 5★/mixed banner
+                if (quality === 5) {
+                  // 5★ items: 12-20 pulls
+                  pullsToObtain = Math.floor(seededRandom(seed) * 9) + 12
+                } else {
+                  // 4★ items in mixed banner: 3-5 pulls
+                  pullsToObtain = Math.floor(seededRandom(seed) * 3) + 3
+                }
+              }
+
+              currentPullIndex += pullsToObtain
+
+              return {
+                itemId: itemId,
+                outfitId: outfitId,
+                quality: quality,
+                count: 1,
+                pullIndex: currentPullIndex,
+                pullsToObtain: pullsToObtain,
+                obtainedAt: '',
+                bannerId: bannerData.bannerId,
+              }
+            })
           })
+
+        // Calculate realistic stats based on the generated pull data
+        const totalPulls = currentPullIndex
+        const fiveStarItems = allItems.filter((item) => item.quality === 5)
+        const fourStarItems = allItems.filter((item) => item.quality === 4)
+
+        const total5StarItems = fiveStarItems.length
+        const total4StarItems = is4StarBanner ? 0 : fourStarItems.length
+        const total4StarOnlyItems = is4StarBanner ? fourStarItems.length : 0
+
+        const avg5StarPulls =
+          total5StarItems > 0
+            ? fiveStarItems.reduce((sum, item) => sum + item.pullsToObtain, 0) /
+              total5StarItems
+            : 0
+
+        const avg4StarPulls =
+          total4StarItems > 0
+            ? fourStarItems.reduce((sum, item) => sum + item.pullsToObtain, 0) /
+              total4StarItems
+            : 0
+
+        const avg4StarOnlyPulls =
+          total4StarOnlyItems > 0
+            ? fourStarItems.reduce((sum, item) => sum + item.pullsToObtain, 0) /
+              total4StarOnlyItems
+            : 0
 
         return {
           bannerId: bannerData.bannerId,
@@ -1052,20 +1162,20 @@
             .map((outfitId) => ({
               id: outfitId,
               quality: bannerData.outfit5StarId.includes(outfitId) ? 5 : 4,
-              completion: 0,
+              completion: 1,
             })),
-          pulls: allItems, // Include all items as sample pulls
+          pulls: allItems,
           stats: {
-            totalPulls: 0,
-            total5StarItems: 0,
-            total4StarItems: 0,
-            total4StarOnlyItems: 0,
-            avg5StarPulls: 0,
-            avg4StarPulls: 0,
-            avg4StarOnlyPulls: 0,
+            totalPulls,
+            total5StarItems,
+            total4StarItems,
+            total4StarOnlyItems,
+            avg5StarPulls,
+            avg4StarPulls,
+            avg4StarOnlyPulls,
             pity5Star: 0,
             pity4Star: 0,
-            completion: 0,
+            completion: 1,
           },
         }
       })

@@ -161,7 +161,7 @@ export const useBannerVote = () => {
     // Rate limiting is handled inside the database function process_vote
 
     // Call the database function to process vote atomically
-    const supabase = useSupabaseClient('client')
+    const supabase = useSupabaseClient()
     const result = await supabase.rpc('process_vote', {
       p_banner_id_1: bannerId1,
       p_banner_id_2: bannerId2,

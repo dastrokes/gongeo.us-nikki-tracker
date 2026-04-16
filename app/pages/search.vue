@@ -67,51 +67,53 @@
                 class="w-full bg-transparent border-none py-4 text-slate-800 focus:outline-none dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500"
                 @keydown.esc.prevent="clearSearchQuery"
               />
-              <div class="relative inline-block">
+              <div class="flex items-center gap-1">
                 <n-button
+                  v-if="searchQuery"
                   quaternary
                   circle
                   strong
                   attr-type="button"
                   size="large"
-                  :class="[
-                    'mr-1 transition-colors',
-                    hasActiveFilter
-                      ? '!text-rose-500 hover:!text-rose-600 dark:!text-rose-400 dark:hover:!text-rose-300'
-                      : '!text-slate-400 hover:!text-slate-700 dark:!text-slate-500 dark:hover:!text-slate-200',
-                  ]"
-                  :aria-label="t('compendium.filter_slot')"
-                  @click="
-                    () => {
-                      initialItemTypes = [...selectedItemTypes]
-                      showFilterModal = true
-                    }
-                  "
+                  class="!text-slate-400 hover:!text-slate-700 dark:!text-slate-500 dark:hover:!text-slate-200"
+                  :aria-label="t('search_page.clear_query')"
+                  @click="clearSearchQuery"
                 >
                   <template #icon>
-                    <n-icon><Filter /></n-icon>
+                    <n-icon><Times /></n-icon>
                   </template>
                 </n-button>
-                <span
-                  v-if="hasActiveFilter"
-                  class="absolute bottom-2 left-2 w-1.5 h-1.5 bg-rose-500 rounded-full pointer-events-none"
-                ></span>
+                <div class="relative inline-block">
+                  <n-button
+                    quaternary
+                    circle
+                    strong
+                    attr-type="button"
+                    size="large"
+                    :class="[
+                      'transition-colors',
+                      hasActiveFilter
+                        ? '!text-rose-500 hover:!text-rose-600 dark:!text-rose-400 dark:hover:!text-rose-300'
+                        : '!text-slate-400 hover:!text-slate-700 dark:!text-slate-500 dark:hover:!text-slate-200',
+                    ]"
+                    :aria-label="t('compendium.filter_slot')"
+                    @click="
+                      () => {
+                        initialItemTypes = [...selectedItemTypes]
+                        showFilterModal = true
+                      }
+                    "
+                  >
+                    <template #icon>
+                      <n-icon><Filter /></n-icon>
+                    </template>
+                  </n-button>
+                  <span
+                    v-if="hasActiveFilter"
+                    class="absolute bottom-2 left-2 w-1.5 h-1.5 bg-rose-500 rounded-full pointer-events-none"
+                  ></span>
+                </div>
               </div>
-              <n-button
-                v-if="searchQuery"
-                quaternary
-                circle
-                strong
-                attr-type="button"
-                size="large"
-                class="mr-1 !text-slate-400 hover:!text-slate-700 dark:!text-slate-500 dark:hover:!text-slate-200"
-                :aria-label="t('search_page.clear_query')"
-                @click="clearSearchQuery"
-              >
-                <template #icon>
-                  <n-icon><Times /></n-icon>
-                </template>
-              </n-button>
               <n-button
                 type="primary"
                 attr-type="submit"
@@ -685,7 +687,11 @@
     ['structure.pleated', 'bottom_length.mini', 'category.bottoms.skirt'],
     ['category.handhelds.handheld', 'category.handhelds.weapon'],
     ['ornament.bow', 'ornament.tie', 'category.headwear.hair_ornament'],
-    ['dress_silhouette.mermaid', 'subcategory.dresses.gown'],
+    [
+      'dress_silhouette.mermaid',
+      'bottom_length.floor_length',
+      'subcategory.dresses.gown',
+    ],
     ['ornament.flower', 'subcategory.hairAccessories.hairpin'],
     ['ornament.embroidery', 'category.shoes.flats'],
     ['bangs.wispy_bangs', 'category.hair.twin_tails'],
@@ -950,10 +956,22 @@
   }
 
   const clearSearchQuery = async () => {
-    if (!searchQuery.value && !hasSearched.value) return
+    if (!searchQuery.value) return
 
     if (hasSearched.value || route.query.q) {
-      await clearSearch()
+      searchQuery.value = ''
+      cancelActiveSearch()
+      loading.value = false
+      error.value = ''
+      isMobileModalOpen.value = false
+      showFeedbackModal.value = false
+      feedbackModalTarget.value = null
+
+      if (import.meta.client) {
+        restartPlaceholderTyping()
+      }
+
+      await updateSearchRoute(null)
       return
     }
 

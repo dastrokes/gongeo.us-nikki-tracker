@@ -53,9 +53,10 @@ export default defineNuxtConfig({
       umamiAnalytics: {
         websiteId: 'dd22ab5d-2045-4450-aaff-f513339b5ca6',
         hostUrl: 'https://api.gongeo.us',
+        scriptInput: {
+          src: 'https://api.gongeo.us/script.js',
+        },
         domains: ['gongeo.us'],
-        proxy: false,
-        bundle: false,
         trigger: 'onNuxtReady',
       },
       googleAdsense: {

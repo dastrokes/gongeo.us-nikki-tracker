@@ -319,7 +319,7 @@
           <div
             class="transition-[height] duration-300"
             :class="{
-              'h-[calc(100vh-108px)] sm:h-[calc(100vh-140px)]':
+              'h-[calc(100vh-116px)] sm:h-[calc(100vh-148px)]':
                 maximizedChart === 'timeline',
               'h-[320px]': maximizedChart !== 'timeline',
             }"
@@ -371,7 +371,7 @@
           <div
             class="transition-[height] duration-300"
             :class="{
-              'h-[calc(100vh-108px)] sm:h-[calc(100vh-140px)]':
+              'h-[calc(100vh-116px)] sm:h-[calc(100vh-148px)]':
                 maximizedChart === 'fiveStar',
               'h-[200px]': maximizedChart !== 'fiveStar',
             }"
@@ -410,7 +410,7 @@
           <div
             class="transition-[height] duration-300"
             :class="{
-              'h-[calc(100vh-108px)] sm:h-[calc(100vh-140px)]':
+              'h-[calc(100vh-116px)] sm:h-[calc(100vh-148px)]':
                 maximizedChart === 'fourStar',
               'h-[200px]': maximizedChart !== 'fourStar',
             }"
@@ -451,7 +451,7 @@
           <div
             class="transition-[height] duration-300"
             :class="{
-              'h-[calc(100vh-108px)] sm:h-[calc(100vh-140px)]':
+              'h-[calc(100vh-116px)] sm:h-[calc(100vh-148px)]':
                 maximizedChart === 'fourStarType3',
               'h-[200px]': maximizedChart !== 'fourStarType3',
             }"
@@ -506,7 +506,7 @@
             <div
               class="transition-[height] duration-300"
               :class="{
-                'h-[calc(100vh-108px)] sm:h-[calc(100vh-140px)]':
+                'h-[calc(100vh-116px)] sm:h-[calc(100vh-148px)]':
                   maximizedChart === 'luckPerBanner',
                 'h-[320px]': maximizedChart !== 'luckPerBanner',
               }"
@@ -555,7 +555,7 @@
             <div
               class="transition-[height] duration-300"
               :class="{
-                'h-[calc(100vh-108px)] sm:h-[calc(100vh-140px)]':
+                'h-[calc(100vh-116px)] sm:h-[calc(100vh-148px)]':
                   maximizedChart === 'luckPerBannerType3',
                 'h-[320px]': maximizedChart !== 'luckPerBannerType3',
               }"

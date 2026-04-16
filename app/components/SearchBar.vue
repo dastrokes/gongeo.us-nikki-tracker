@@ -34,10 +34,10 @@
 
   <n-modal v-model:show="showSearch">
     <div
-      class="fixed inset-x-2 sm:inset-x-0 sm:w-full sm:max-w-2xl top-2 sm:top-16 lg:mx-auto rounded-3xl z-50"
+      class="fixed inset-x-2 sm:inset-x-0 sm:w-full sm:max-w-2xl top-2 sm:top-14 lg:mx-auto rounded-3xl z-50"
     >
       <div
-        class="flex max-h-[calc(100dvh-1rem)] flex-col w-full overflow-hidden rounded-3xl bg-white/90 backdrop-blur-2xl shadow-[0_12px_48px_rgba(244,114,182,0.15)] ring-1 ring-black/5 dark:bg-slate-900/90 dark:shadow-[0_12px_48px_rgba(2,6,23,0.5)] dark:ring-white/10 transition-all sm:max-h-[calc(100dvh-8rem)]"
+        class="flex max-h-[calc(100dvh-1rem)] flex-col w-full overflow-hidden rounded-3xl bg-white/90 backdrop-blur-2xl shadow-[0_12px_48px_rgba(244,114,182,0.15)] ring-1 ring-black/5 dark:bg-slate-900/90 dark:shadow-[0_12px_48px_rgba(2,6,23,0.5)] dark:ring-white/10 transition-all sm:max-h-[calc(100dvh-7rem)]"
       >
         <!-- Search Input Header -->
         <div

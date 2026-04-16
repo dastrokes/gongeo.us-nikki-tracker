@@ -1,15 +1,15 @@
 <template>
   <n-layout position="absolute">
     <n-layout-header
-      class="fixed inset-x-0 top-0 z-50 h-12 border-b border-white/20 bg-[linear-gradient(to_right,_rgb(232,221,249),_rgb(252,228,236),_rgb(253,237,220))] backdrop-blur-md dark:border-white/5 dark:bg-[linear-gradient(to_right,_rgb(30,27,75),_rgb(88,28,100),_rgb(120,40,70))]"
+      class="fixed inset-x-0 top-0 z-50 h-14 bg-transparent backdrop-blur-xl backdrop-saturate-50 border-b border-white/20 bg-[linear-gradient(to_right,_rgba(232,221,249,0.78),_rgba(252,228,236,0.76),_rgba(253,237,220,0.74))] dark:border-white/5 dark:bg-[linear-gradient(to_right,_rgba(30,27,75,0.82),_rgba(88,28,100,0.78),_rgba(120,40,70,0.76))]"
     >
       <div
-        class="mx-auto flex h-full max-w-7xl items-center gap-4 px-3 sm:px-5"
+        class="mx-auto flex h-full max-w-7xl items-center gap-4 px-3 sm:gap-5 sm:px-5"
       >
         <div class="flex min-w-0 items-center gap-1 sm:gap-2">
           <n-button
             text
-            class="w-12 shrink-0 transition-transform hover:scale-110 lg:hidden"
+            class="h-12 w-12 shrink-0 transition-transform hover:scale-110 lg:hidden"
             :aria-label="$t('default.accessibility.toggle_menu')"
             @click="openMobileDrawer"
           >
@@ -57,7 +57,7 @@
           >
             <button
               type="button"
-              class="flex items-center gap-1.5 px-4 py-1.5 text-sm font-medium"
+              class="flex items-center gap-1.5 px-4 py-2 text-md font-semibold"
               :class="
                 isNavGroupActive(group.key) || openDesktopGroup === group.key
                   ? 'text-rose-500 dark:text-rose-400'
@@ -88,7 +88,7 @@
                     v-for="item in group.items"
                     :key="item.key"
                     type="button"
-                    class="group flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm whitespace-nowrap hover:bg-slate-100 dark:hover:bg-slate-800/80"
+                    class="group flex w-full items-center gap-3 rounded-lg px-3 py-3 text-left text-sm whitespace-nowrap hover:bg-slate-100 dark:hover:bg-slate-800/80"
                     :class="
                       isNavItemActive(item.key)
                         ? 'text-rose-500 dark:text-rose-400'
@@ -119,7 +119,7 @@
           <LazySearchBar />
 
           <div
-            class="hidden items-center gap-3 border-l border-white/30 pl-3 lg:flex dark:border-white/10"
+            class="flex items-center gap-3 border-l border-slate-400/80 pl-3 dark:border-white/25"
           >
             <LanguageSwitcher />
             <ThemeSwitcher />
@@ -132,11 +132,12 @@
     <n-layout-content
       ref="scrollbarRef"
       position="absolute"
-      class="!top-12 bg-[#F8FAFC] bg-[radial-gradient(ellipse_at_50%_0%,rgba(232,221,249,0.56)_0%,transparent_68%)] dark:bg-[#101014] dark:bg-[radial-gradient(ellipse_at_50%_0%,rgba(88,28,100,0.36)_0%,transparent_68%)]"
+      class="!top-0 bg-[#F8FAFC] bg-[radial-gradient(ellipse_at_50%_0%,rgba(232,221,249,0.56)_0%,transparent_68%)] dark:bg-[#101014] dark:bg-[radial-gradient(ellipse_at_50%_0%,rgba(88,28,100,0.36)_0%,transparent_68%)]"
       :native-scrollbar="false"
+      :scrollbar-props="{ verticalRailStyle: { top: '3.5rem' } }"
       @scroll="onScroll"
     >
-      <div class="flex min-h-[calc(100vh-3rem)] flex-col px-2 pt-2 sm:pt-4">
+      <div class="flex min-h-screen flex-col px-2 pt-16 sm:pt-[4.5rem]">
         <div class="flex-1">
           <slot />
         </div>
@@ -380,12 +381,12 @@
       >
         <div class="flex h-full flex-col bg-white dark:bg-slate-900">
           <div
-            class="flex h-12 items-center justify-between gap-3 border-b border-white/20 bg-[linear-gradient(to_right,_rgb(232,221,249),_rgb(252,228,236),_rgb(253,237,220))] px-3 backdrop-blur-md dark:border-white/5 dark:bg-[linear-gradient(to_right,_rgb(30,27,75),_rgb(88,28,100),_rgb(120,40,70))]"
+            class="flex h-14 items-center justify-between gap-3 border-b border-white/20 bg-[linear-gradient(to_right,_rgb(232,221,249),_rgb(252,228,236),_rgb(253,237,220))] px-3 backdrop-blur-md dark:border-white/5 dark:bg-[linear-gradient(to_right,_rgb(30,27,75),_rgb(88,28,100),_rgb(120,40,70))]"
           >
             <div class="flex min-w-0 items-center gap-1 sm:gap-2">
               <n-button
                 text
-                class="w-12 shrink-0 transition-transform hover:scale-110"
+                class="h-12 w-12 shrink-0 transition-transform hover:scale-110"
                 :aria-label="$t('default.accessibility.toggle_menu')"
                 @click="mobileDrawerOpen = false"
               >
@@ -420,11 +421,6 @@
                 </span>
               </NuxtLinkLocale>
             </div>
-
-            <div class="flex items-center gap-3">
-              <LanguageSwitcher />
-              <ThemeSwitcher />
-            </div>
           </div>
 
           <n-scrollbar class="flex-1 px-3 pb-4 pt-2">
@@ -436,11 +432,12 @@
               >
                 <button
                   type="button"
-                  class="flex w-full items-center justify-between px-3 py-3 text-left text-[15px] font-semibold"
+                  class="flex w-full items-center justify-between gap-1.5 px-4 py-2 text-left text-md font-semibold"
                   :class="
-                    isNavGroupActive(group.key)
+                    isNavGroupActive(group.key) ||
+                    expandedMobileGroup === group.key
                       ? 'text-rose-500 dark:text-rose-400'
-                      : 'text-slate-900 dark:text-slate-50'
+                      : 'text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-slate-50'
                   "
                   @click="toggleMobileGroup(group.key)"
                 >
@@ -463,11 +460,11 @@
                       v-for="item in group.items"
                       :key="item.key"
                       type="button"
-                      class="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left"
+                      class="group flex w-full items-center gap-3 rounded-lg px-3 py-3 text-left text-sm hover:bg-slate-100 dark:hover:bg-slate-800/80"
                       :class="
                         isNavItemActive(item.key)
                           ? 'text-rose-500 dark:text-rose-400'
-                          : 'text-slate-600 dark:text-slate-300'
+                          : 'text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white'
                       "
                       @click="handleMenuSelect(item.key)"
                     >
@@ -477,12 +474,12 @@
                         :class="
                           isNavItemActive(item.key)
                             ? 'text-rose-500 dark:text-rose-400'
-                            : 'text-slate-400 dark:text-slate-500'
+                            : 'text-slate-400 group-hover:text-slate-500 dark:text-slate-500 dark:group-hover:text-slate-400'
                         "
                       >
                         <component :is="item.icon" />
                       </n-icon>
-                      <span class="text-sm font-medium">{{ item.label }}</span>
+                      <span>{{ item.label }}</span>
                     </button>
                   </div>
                 </n-collapse-transition>

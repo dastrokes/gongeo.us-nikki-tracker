@@ -127,10 +127,7 @@
                     {{ outfitName }}
                   </h1>
                   <NuxtLinkLocale
-                    :to="{
-                      path: '/outfits',
-                      query: { quality: outfit.quality },
-                    }"
+                    :to="outfitQualityListLocation"
                     class="hover:opacity-80 transition-opacity"
                   >
                     <n-tag
@@ -154,10 +151,7 @@
                   <NuxtLinkLocale
                     v-for="label in outfitStyleLabels"
                     :key="`style-${label}`"
-                    :to="{
-                      path: '/outfits',
-                      query: { style: outfitStyleKey },
-                    }"
+                    :to="outfitStyleListLocation"
                     class="hover:opacity-80 transition-opacity"
                   >
                     <n-tag
@@ -176,10 +170,7 @@
                   >
                     <NuxtLinkLocale
                       v-if="label.tagKey"
-                      :to="{
-                        path: '/outfits',
-                        query: { label: label.tagKey },
-                      }"
+                      :to="getOutfitTagListLocation(label.tagKey)"
                       class="hover:opacity-80 transition-opacity"
                     >
                       <n-tag
@@ -208,10 +199,7 @@
                 <div class="flex flex-wrap gap-2">
                   <NuxtLinkLocale
                     v-if="outfitVersionDisplay"
-                    :to="{
-                      path: '/outfits',
-                      query: { version: outfitVersion },
-                    }"
+                    :to="outfitVersionListLocation"
                     class="hover:opacity-80 transition-opacity"
                   >
                     <n-tag
@@ -226,10 +214,7 @@
                   </NuxtLinkLocale>
                   <NuxtLinkLocale
                     v-if="outfitObtainLabel && outfitObtainType != null"
-                    :to="{
-                      path: '/outfits',
-                      query: { source: outfitObtainType },
-                    }"
+                    :to="outfitSourceListLocation"
                     class="hover:opacity-80 transition-opacity"
                   >
                     <n-tag
@@ -542,6 +527,29 @@
       (outfit.value.props ? resolveStyleKeyFromProps(outfit.value.props) : null)
     )
   })
+  const outfitStyleListLocation = computed(() => {
+    const styleKey = outfitStyleKey.value
+    if (!styleKey) return '/outfits'
+
+    const slug = resolveSeoStyleSlug(styleKey)
+    return slug
+      ? `/outfits/style/${slug}`
+      : {
+          path: '/outfits',
+          query: { style: styleKey },
+        }
+  })
+  const outfitQualityListLocation = computed(() => {
+    if (!outfit.value) return '/outfits'
+
+    const slug = resolveSeoOutfitQualitySlug(outfit.value.quality)
+    return slug
+      ? `/outfits/quality/${slug}`
+      : {
+          path: '/outfits',
+          query: { quality: outfit.value.quality },
+        }
+  })
 
   const styleScores = computed(() => {
     if (!outfit.value?.props) return []
@@ -568,6 +576,15 @@
       }
     })
   })
+  const getOutfitTagListLocation = (tagKey: string) => {
+    const slug = resolveSeoTagSlug(tagKey)
+    return slug
+      ? `/outfits/tag/${slug}`
+      : {
+          path: '/outfits',
+          query: { label: tagKey },
+        }
+  }
 
   // Computed outfit variations with labels
   const outfitVariations = computed(() => {
@@ -636,6 +653,17 @@
     const label = te(key) ? t(key) : null
     return label ? `${outfitVersion.value} - ${label}` : outfitVersion.value
   })
+  const outfitVersionListLocation = computed(() => {
+    if (!outfitVersion.value) return '/outfits'
+
+    const slug = resolveSeoVersionSlug(outfitVersion.value)
+    return slug
+      ? `/outfits/version/${slug}`
+      : {
+          path: '/outfits',
+          query: { version: outfitVersion.value },
+        }
+  })
 
   const outfitObtainType = computed(() => {
     if (!outfit.value) return null
@@ -648,6 +676,24 @@
     const key = `obtain.${obtainType}.name`
     const translated = t(key)
     return translated !== key ? translated : `${obtainType}`
+  })
+  const outfitSourceListLocation = computed(() => {
+    const obtainType = outfitObtainType.value
+    if (obtainType === null || obtainType === undefined) {
+      return '/outfits'
+    }
+
+    const groupKey = resolveObtainGroupKey(obtainType)
+    const slug =
+      groupKey && isObtainGroupVisibleInOutfits(groupKey)
+        ? resolveSeoOutfitSourceSlug(groupKey)
+        : null
+    return slug
+      ? `/outfits/source/${slug}`
+      : {
+          path: '/outfits',
+          query: { source: obtainType },
+        }
   })
 
   // Get outfit description from database (if available in outfit_translations)
@@ -686,20 +732,20 @@
 
   useSeoMeta({
     title: () =>
-      `${t(`outfit.${outfitId.value}.name`)} - ${t('meta.game_title')} - ${t('navigation.title')}`,
+      `${t(`outfit.${outfitId.value}.name`)} - ${t('navigation.outfit_detail')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     description: () =>
       t('meta.description.outfit_detail', {
         name: t(`outfit.${outfitId.value}.name`) || '',
       }),
     ogTitle: () =>
-      `${t(`outfit.${outfitId.value}.name`)} - ${t('meta.game_title')} - ${t('navigation.title')}`,
+      `${t(`outfit.${outfitId.value}.name`)} - ${t('navigation.outfit_detail')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     ogDescription: () =>
       t('meta.description.outfit_detail', {
         name: t(`outfit.${outfitId.value}.name`) || '',
       }),
     ogImage: () => ogOutfitImage.value,
     twitterTitle: () =>
-      `${t(`outfit.${outfitId.value}.name`)} - ${t('meta.game_title')} - ${t('navigation.title')}`,
+      `${t(`outfit.${outfitId.value}.name`)} - ${t('navigation.outfit_detail')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     twitterDescription: () =>
       t('meta.description.outfit_detail', {
         name: t(`outfit.${outfitId.value}.name`) || '',

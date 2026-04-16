@@ -1145,37 +1145,13 @@
   const messages = computed(
     () => getLocaleMessage(locale.value) as Record<string, string>
   )
-  const exactVersionPattern = /^\d+\.\d+$/
-  const majorVersionFilterPattern = /^(\d+)\.x$/i
 
   const availableVersions = computed(() =>
-    Object.keys(messages.value)
-      .filter((key) => key.startsWith('version.'))
-      .map((key) => key.replace('version.', ''))
-      .filter((value) => exactVersionPattern.test(value))
+    getExactVersionsFromLocaleMessages(messages.value)
   )
-  const majorVersionFilters = computed(() =>
-    Array.from(
-      new Set(
-        availableVersions.value
-          .map((version) => version.split('.')[0] || '')
-          .filter((major) => /^\d+$/.test(major))
-      )
-    )
-      .sort((a, b) => Number(b) - Number(a))
-      .map((major) => `${major}.x`)
+  const availableVersionFilters = computed(() =>
+    getVersionFilters(availableVersions.value)
   )
-  const availableVersionFilters = computed(() => [
-    ...availableVersions.value,
-    ...majorVersionFilters.value,
-  ])
-
-  const compareVersion = (a: string, b: string) => {
-    const [aMajor = 0, aMinor = 0] = a.split('.').map((part) => Number(part))
-    const [bMajor = 0, bMinor = 0] = b.split('.').map((part) => Number(part))
-    if (aMajor !== bMajor) return bMajor - aMajor
-    return bMinor - aMinor
-  }
 
   const availableObtains = computed(() =>
     Object.keys(messages.value)
@@ -1216,25 +1192,24 @@
           ? t('tierlist.obtain_fallback', { id: group.ids[0] })
           : group.labelKey
         const label = translated !== group.labelKey ? translated : fallback
-        const latestVersion = group.ids
-          .map((id) => getVersionFromId(id))
-          .filter((value): value is string => Boolean(value))
-          .sort(compareVersion)
-          .pop()
+        const sortKey = getOldestVersion(
+          group.ids
+            .map((id) => getVersionFromId(id))
+            .filter((value): value is string => Boolean(value))
+        )
 
         return {
           label,
           value: groupKey,
-          sortKey: latestVersion ?? '',
+          sortKey: sortKey ?? '',
         }
       })
       .sort((a, b) => {
-        if (a.sortKey && b.sortKey && a.sortKey !== b.sortKey) {
-          return compareVersion(b.sortKey, a.sortKey)
-        }
-
-        if (a.sortKey && !b.sortKey) return -1
-        if (!a.sortKey && b.sortKey) return 1
+        const versionComparison = compareOptionalVersionsAsc(
+          a.sortKey,
+          b.sortKey
+        )
+        if (versionComparison !== 0) return versionComparison
         return a.label.localeCompare(b.label)
       })
       .map(({ label, value }) => ({ label, value }))
@@ -1261,20 +1236,8 @@
     return [5, 4, 3, 2].includes(parsed) ? parsed : null
   }
 
-  const resolveVersion = (value?: string | null) => {
-    if (!value || value === 'all') return null
-    if (availableVersionFilters.value.includes(value)) return value
-
-    const majorMatch = value.match(majorVersionFilterPattern)
-    if (majorMatch) {
-      const normalized = `${Number(majorMatch[1])}.x`
-      if (availableVersionFilters.value.includes(normalized)) {
-        return normalized
-      }
-    }
-
-    return null
-  }
+  const resolveVersion = (value?: string | null) =>
+    resolveVersionFilter(value, availableVersionFilters.value)
 
   const resolveStyle = (value?: string | null) => {
     if (!value || value === 'all') return null
@@ -1679,47 +1642,14 @@
     }))
   )
 
-  const versionOptions = computed(() => {
-    const versionGroups = new Map<string, string[]>()
-
-    availableVersions.value.forEach((version) => {
-      const major = version.split('.')[0]
-      if (!major) return
-
-      const existing = versionGroups.get(major)
-      if (existing) {
-        existing.push(version)
-      } else {
-        versionGroups.set(major, [version])
-      }
-    })
-
-    return Array.from(versionGroups.entries())
-      .sort(([majorA], [majorB]) => Number(majorB) - Number(majorA))
-      .flatMap(([major, versions]) => {
-        const majorKey = `version.${major}.x`
-        const majorCaption = t(majorKey)
-        const majorLabel =
-          majorCaption !== majorKey
-            ? `${major}.x - ${majorCaption}`
-            : `${major}.x`
-
-        return [
-          {
-            label: majorLabel,
-            value: `${major}.x`,
-            isMajor: true,
-          },
-          ...versions
-            .slice()
-            .sort(compareVersion)
-            .map((version) => ({
-              label: `${version} - ${t(`version.${version}`)}`,
-              value: version,
-            })),
-        ]
-      })
-  })
+  const getVersionFilterLabel = (version: string) => {
+    const key = `version.${version}`
+    const translated = t(key)
+    return translated !== key ? `${version} - ${translated}` : version
+  }
+  const versionOptions = computed(() =>
+    createVersionFilterOptions(availableVersions.value, getVersionFilterLabel)
+  )
   const renderVersionOptionLabel = (option: {
     label?: string | number
     value?: string | number
@@ -1844,21 +1774,7 @@
     itemSubcategoryFilter.value = null
   })
 
-  const toBannerVersion = (value: string) => {
-    const parts = value.split('.')
-    if (parts.length < 2) return value
-    return `${parts[0]}.${parts[1]}`
-  }
-  const matchesVersionFilter = (version: string, filter: string) => {
-    const normalizedVersion = toBannerVersion(version)
-    const majorMatch = filter.match(majorVersionFilterPattern)
-
-    if (majorMatch) {
-      return normalizedVersion.startsWith(`${Number(majorMatch[1])}.`)
-    }
-
-    return normalizedVersion === filter
-  }
+  const toBannerVersion = toMajorMinorVersion
 
   const loadBannerEntries = async (): Promise<TierDataPayload> => {
     let banners = Object.values(BANNER_DATA).filter(

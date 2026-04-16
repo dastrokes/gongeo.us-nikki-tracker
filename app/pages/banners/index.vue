@@ -88,9 +88,17 @@
               <div class="flex min-w-max items-center justify-end gap-2">
                 <n-button-group class="min-w-max">
                   <n-button
+                    size="small"
+                    :type="qualityFilter === null ? 'primary' : 'default'"
+                    class="min-w-[40px]"
+                    @click="qualityFilter = null"
+                  >
+                    {{ t('common.all') }}
+                  </n-button>
+                  <n-button
                     v-bind="qualityButtonThemes.star5"
                     size="small"
-                    @click="toggleBannerTypeFilter(5)"
+                    @click="qualityFilter = 5"
                   >
                     <span class="flex items-center gap-1">
                       5
@@ -102,7 +110,7 @@
                   <n-button
                     v-bind="qualityButtonThemes.star4"
                     size="small"
-                    @click="toggleBannerTypeFilter(4)"
+                    @click="qualityFilter = 4"
                   >
                     <span class="flex items-center gap-1">
                       4
@@ -113,44 +121,17 @@
                   </n-button>
                 </n-button-group>
 
-                <n-button-group class="min-w-max">
-                  <n-tooltip trigger="hover">
-                    <template #trigger>
-                      <n-button
-                        size="small"
-                        class="w-12 !px-0"
-                        :type="sortOrder === 'newest' ? 'primary' : 'default'"
-                        :aria-label="t('common.sort.newest_first')"
-                        @click="sortOrder = 'newest'"
-                      >
-                        <template #icon>
-                          <n-icon size="16">
-                            <ArrowUp />
-                          </n-icon>
-                        </template>
-                      </n-button>
-                    </template>
-                    {{ t('common.sort.newest_first') }}
-                  </n-tooltip>
-                  <n-tooltip trigger="hover">
-                    <template #trigger>
-                      <n-button
-                        size="small"
-                        class="w-12 !px-0"
-                        :type="sortOrder === 'oldest' ? 'primary' : 'default'"
-                        :aria-label="t('common.sort.oldest_first')"
-                        @click="sortOrder = 'oldest'"
-                      >
-                        <template #icon>
-                          <n-icon size="16">
-                            <ArrowDown />
-                          </n-icon>
-                        </template>
-                      </n-button>
-                    </template>
-                    {{ t('common.sort.oldest_first') }}
-                  </n-tooltip>
-                </n-button-group>
+                <n-select
+                  v-model:value="versionFilter"
+                  :options="versionOptions"
+                  :render-label="renderVersionOptionLabel"
+                  size="small"
+                  class="w-48 min-w-0"
+                  clearable
+                  filterable
+                  :show-checkmark="false"
+                  :placeholder="t('compendium.filter_version')"
+                />
               </div>
             </div>
           </div>
@@ -208,13 +189,33 @@
                 >
                   <div class="flex flex-col gap-1">
                     <div class="flex items-center gap-1">
-                      <n-tag :bordered="false">
-                        {{ $t(`version.${getVersion(run.version)}`) }}
-                      </n-tag>
-                      <n-tag :bordered="false">
-                        {{ $t('banner.version') }}
-                        {{ getVersion(run.version) }}
-                      </n-tag>
+                      <NuxtLinkLocale
+                        :to="
+                          getBannerVersionListLocation(getVersion(run.version))
+                        "
+                        class="hover:opacity-80 transition-opacity"
+                      >
+                        <n-tag
+                          :bordered="false"
+                          class="cursor-pointer"
+                        >
+                          {{ $t(`version.${getVersion(run.version)}`) }}
+                        </n-tag>
+                      </NuxtLinkLocale>
+                      <NuxtLinkLocale
+                        :to="
+                          getBannerVersionListLocation(getVersion(run.version))
+                        "
+                        class="hover:opacity-80 transition-opacity"
+                      >
+                        <n-tag
+                          :bordered="false"
+                          class="cursor-pointer"
+                        >
+                          {{ $t('banner.version') }}
+                          {{ getVersion(run.version) }}
+                        </n-tag>
+                      </NuxtLinkLocale>
                     </div>
                     <div class="flex items-center gap-1">
                       <n-tag :bordered="false">
@@ -358,8 +359,6 @@
     Star,
     ExternalLinkAlt,
     CalendarDay,
-    ArrowUp,
-    ArrowDown,
     SortAmountDown,
     AlignRight,
   } from '@vicons/fa'
@@ -368,14 +367,87 @@
   const { t } = useI18n()
   const localePath = useLocalePath()
   const route = useRoute()
+  const router = useRouter()
   const { getImageSrc } = imageProvider()
   const siteUrl = useRuntimeConfig().public.siteUrl
 
-  const pageTitle = computed(
-    () =>
-      `${t('navigation.banner')} - ${t('meta.game_title')} - ${t('navigation.title')}`
+  const routeSeoFilter = computed(() =>
+    getSeoListRouteFilter(route.path, 'banners')
   )
-  const description = computed(() => t('meta.description.banner'))
+  const routeQualityFilter = computed(() =>
+    routeSeoFilter.value?.kind === 'quality'
+      ? Number(routeSeoFilter.value.value)
+      : null
+  )
+  const routeVersionFilter = computed(() =>
+    routeSeoFilter.value?.kind === 'version'
+      ? String(routeSeoFilter.value.value)
+      : null
+  )
+
+  const getVersion = toMajorMinorVersion
+
+  type BannerListingPrimaryFilter = 'quality' | 'version' | null
+
+  const availableVersions = computed(() =>
+    sortVersionsDesc(
+      Array.from(
+        new Set(
+          Object.values(BANNER_DATA)
+            .flatMap((banner) => banner.runs)
+            .map((run) => getVersion(run.version))
+            .filter(isExactVersion)
+        )
+      )
+    )
+  )
+  const availableVersionFilters = computed(() =>
+    getVersionFilters(availableVersions.value)
+  )
+
+  const resolveVersion = (value?: string | null) =>
+    resolveVersionFilter(value, availableVersionFilters.value)
+
+  const resolveRouteVersionFilter = () =>
+    resolveVersion(routeVersionFilter.value ?? route.query.version?.toString())
+
+  const qualityFilter = ref<number | null>(
+    resolveSeoBannerQualitySlug(routeQualityFilter.value) !== null
+      ? routeQualityFilter.value
+      : null
+  )
+  const versionFilter = ref<string | null>(resolveRouteVersionFilter())
+  const TIER_ENTRY_LIMIT = 200
+
+  const resolveSelectedBannerQuality = (): number | null => {
+    return resolveSeoBannerQualitySlug(qualityFilter.value) !== null
+      ? qualityFilter.value
+      : null
+  }
+  const getBannerQualityLabel = (quality: number) => `${quality}★`
+  const getVersionFilterLabel = (version?: string | null) => {
+    if (!version) return null
+    const key = `version.${version}`
+    const translated = t(key)
+    return translated !== key ? `${version} - ${translated}` : version
+  }
+  const activeListFilterLabel = computed(() => {
+    const selectedQuality = resolveSelectedBannerQuality()
+    if (selectedQuality) return getBannerQualityLabel(selectedQuality)
+    return getVersionFilterLabel(versionFilter.value)
+  })
+  const pageTitle = computed(() => {
+    const title = activeListFilterLabel.value
+      ? `${t('navigation.banner')} - ${activeListFilterLabel.value}`
+      : t('navigation.banner')
+    return `${title} - ${t('meta.game_title')} - ${t('navigation.title')}`
+  })
+  const description = computed(() => {
+    const baseDescription = t('meta.description.banner')
+    return activeListFilterLabel.value
+      ? `${activeListFilterLabel.value} - ${baseDescription}`
+      : baseDescription
+  })
 
   useSeoMeta({
     title: () => pageTitle.value,
@@ -388,71 +460,46 @@
     twitterImage: `${siteUrl}/og-banners.png`,
   })
 
-  const bannerTypeFilter = ref({
-    show5Star: true,
-    show4Star: true,
-  })
-  const sortOrder = ref<string>('newest')
-  const TIER_ENTRY_LIMIT = 200
-
   const qualityTextTheme5 = getQualityTextTheme(5)
   const qualityTextTheme4 = getQualityTextTheme(4)
   const qualityButtonThemes = computed(() => ({
-    star5: getQualityButtonTheme(5, bannerTypeFilter.value.show5Star),
-    star4: getQualityButtonTheme(4, bannerTypeFilter.value.show4Star),
+    star5: getQualityButtonTheme(5, qualityFilter.value === 5),
+    star4: getQualityButtonTheme(4, qualityFilter.value === 4),
   }))
 
-  // Sort banners based on selected order
+  // Sort banners by ID descending (newest first)
   const sortedBanners = computed(() => {
-    const banners = [...Object.values(BANNER_DATA)]
-
-    if (sortOrder.value === 'oldest') {
-      return banners.sort((a, b) => a.bannerId - b.bannerId)
-    } else {
-      // newest (default)
-      return banners.sort((a, b) => b.bannerId - a.bannerId)
-    }
+    return [...Object.values(BANNER_DATA)].sort(
+      (a, b) => b.bannerId - a.bannerId
+    )
   })
 
   // Selected banner ID for popselect
   const selectedBannerId = ref(0)
 
-  // Toggle banner type filter
-  const toggleBannerTypeFilter = (starType: number) => {
-    if (starType === 5) {
-      // Prevent turning off 5★ if 4★ is already off
-      if (
-        !bannerTypeFilter.value.show5Star ||
-        bannerTypeFilter.value.show4Star
-      ) {
-        bannerTypeFilter.value.show5Star = !bannerTypeFilter.value.show5Star
-      }
-    } else if (starType === 4) {
-      // Prevent turning off 4★ if 5★ is already off
-      if (
-        !bannerTypeFilter.value.show4Star ||
-        bannerTypeFilter.value.show5Star
-      ) {
-        bannerTypeFilter.value.show4Star = !bannerTypeFilter.value.show4Star
-      }
-    }
-  }
-
   // Filtered banners based on active filters
   const filteredBanners = computed(() => {
     let banners = sortedBanners.value
 
-    // Filter by banner type based on toggle states
+    // Filter by banner quality
     banners = banners.filter((banner) => {
       const is5Star = banner.bannerType === 1 || banner.bannerType === 2 // permanent and limited 5★
       const is4Star = banner.bannerType === 3 // limited 4★
 
-      // Show banner if its type is enabled
-      if (is5Star && bannerTypeFilter.value.show5Star) return true
-      if (is4Star && bannerTypeFilter.value.show4Star) return true
+      if (qualityFilter.value === 5) return is5Star
+      if (qualityFilter.value === 4) return is4Star
 
-      return false
+      return true
     })
+
+    const selectedVersion = versionFilter.value
+    if (selectedVersion) {
+      banners = banners.filter((banner) =>
+        banner.runs.some((run: BannerRun) =>
+          matchesVersionFilter(run.version, selectedVersion)
+        )
+      )
+    }
 
     return banners
   })
@@ -461,20 +508,44 @@
   )
 
   const resolveTierlistBannerQuality = (): number | null => {
-    if (bannerTypeFilter.value.show5Star && !bannerTypeFilter.value.show4Star) {
-      return 5
-    }
-    if (!bannerTypeFilter.value.show5Star && bannerTypeFilter.value.show4Star) {
-      return 4
-    }
-    return null
+    return resolveSelectedBannerQuality()
   }
+  const currentListingPath = computed(() => {
+    const slug = resolveSeoBannerQualitySlug(resolveSelectedBannerQuality())
+    if (slug) {
+      return {
+        path: `/banners/quality/${slug}`,
+        primaryFilter: 'quality' as BannerListingPrimaryFilter,
+      }
+    }
+
+    const versionSlug = resolveSeoBannerVersionSlug(versionFilter.value)
+    if (versionSlug) {
+      return {
+        path: `/banners/version/${versionSlug}`,
+        primaryFilter: 'version' as BannerListingPrimaryFilter,
+      }
+    }
+
+    return {
+      path: '/banners',
+      primaryFilter: null,
+    }
+  })
+
+  const buildListingQuery = (
+    primaryFilter: BannerListingPrimaryFilter = null
+  ) => ({
+    ...(primaryFilter !== 'version' &&
+      versionFilter.value && { version: versionFilter.value }),
+  })
 
   const buildTierlistQuery = () => {
     const quality = resolveTierlistBannerQuality()
     return {
       mode: 'banners',
       ...(quality !== null && { quality }),
+      ...(versionFilter.value && { version: versionFilter.value }),
     }
   }
 
@@ -486,6 +557,14 @@
         query: buildTierlistQuery(),
       })
     )
+  }
+
+  const syncListingRoute = () => {
+    const listingPath = currentListingPath.value
+    router.replace({
+      path: localePath(listingPath.path),
+      query: buildListingQuery(listingPath.primaryFilter),
+    })
   }
 
   // Initialize banner loading composable
@@ -500,19 +579,33 @@
 
   // Watch filter changes with debouncing
   watchDebounced(
-    () => [
-      bannerTypeFilter.value.show5Star,
-      bannerTypeFilter.value.show4Star,
-      sortOrder.value,
-    ],
+    () => [qualityFilter.value, versionFilter.value],
     () => {
       reset()
+      syncListingRoute()
       if (import.meta.client) {
         window.scrollTo({ top: 0, behavior: 'smooth' })
       }
     },
     { debounce: 300 }
   )
+
+  onMounted(() => {
+    syncListingRoute()
+  })
+
+  watch(routeQualityFilter, (quality) => {
+    if (quality !== qualityFilter.value) {
+      qualityFilter.value = quality
+    }
+  })
+
+  watch([routeVersionFilter, () => route.query.version], () => {
+    const nextVersion = resolveRouteVersionFilter()
+    if (nextVersion !== versionFilter.value) {
+      versionFilter.value = nextVersion
+    }
+  })
 
   async function handleBannerClick(bannerId: number) {
     // Check if banner is already loaded
@@ -585,10 +678,39 @@
   const getRunStartTime = (run: BannerRun) => new Date(`${run.start}T00:00:00`)
   const getRunEndTime = (run: BannerRun) => new Date(`${run.end}T00:00:00`)
 
-  const getVersion = (version: string) => {
-    // Extract major.minor version for season lookup (e.g., "1.10" from "1.10.1")
-    const parts = version.split('.')
-    return parts.length >= 2 ? `${parts[0]}.${parts[1]}` : version
+  const getBannerVersionListLocation = (version: string) => {
+    const slug = resolveSeoBannerVersionSlug(version)
+    return slug
+      ? `/banners/version/${slug}`
+      : {
+          path: '/banners',
+          query: { version },
+        }
+  }
+
+  const versionOptions = computed(() =>
+    createVersionFilterOptions(
+      availableVersions.value,
+      (version) => getVersionFilterLabel(version) ?? version
+    )
+  )
+  const renderVersionOptionLabel = (option: {
+    label?: string | number
+    value?: string | number
+    isMajor?: boolean
+  }) => {
+    const label = String(option.label ?? option.value ?? '')
+    if (!option.isMajor) return label
+
+    return h(
+      'span',
+      {
+        style: {
+          fontWeight: '700',
+        },
+      },
+      label
+    )
   }
 
   // Get banner type color

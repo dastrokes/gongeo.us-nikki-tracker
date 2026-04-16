@@ -130,13 +130,33 @@
               >
                 <div class="flex flex-col items-center gap-1">
                   <div class="flex items-center gap-1">
-                    <n-tag :bordered="false">
-                      {{ t(`version.${getVersion(run.version)}`) }}
-                    </n-tag>
-                    <n-tag :bordered="false">
-                      {{ t('banner.version') }}
-                      {{ getVersion(run.version) }}
-                    </n-tag>
+                    <NuxtLinkLocale
+                      :to="
+                        getBannerVersionListLocation(getVersion(run.version))
+                      "
+                      class="hover:opacity-80 transition-opacity"
+                    >
+                      <n-tag
+                        :bordered="false"
+                        class="cursor-pointer"
+                      >
+                        {{ t(`version.${getVersion(run.version)}`) }}
+                      </n-tag>
+                    </NuxtLinkLocale>
+                    <NuxtLinkLocale
+                      :to="
+                        getBannerVersionListLocation(getVersion(run.version))
+                      "
+                      class="hover:opacity-80 transition-opacity"
+                    >
+                      <n-tag
+                        :bordered="false"
+                        class="cursor-pointer"
+                      >
+                        {{ t('banner.version') }}
+                        {{ getVersion(run.version) }}
+                      </n-tag>
+                    </NuxtLinkLocale>
                   </div>
                   <div class="flex items-center gap-1">
                     <n-tag :bordered="false">
@@ -665,6 +685,15 @@
     const parts = version.split('.')
     return parts.length >= 2 ? `${parts[0]}.${parts[1]}` : version
   }
+  const getBannerVersionListLocation = (version: string) => {
+    const slug = resolveSeoBannerVersionSlug(version)
+    return slug
+      ? `/banners/version/${slug}`
+      : {
+          path: '/banners',
+          query: { version },
+        }
+  }
 
   // Helper function to get outfit completion levels
   const getOutfitCompletionLevels = (outfitId: string, quality: number) => {
@@ -741,20 +770,20 @@
 
   useSeoMeta({
     title: () =>
-      `${t(`banner.${bannerId.value}.name`)} - ${t('meta.game_title')} - ${t('navigation.title')}`,
+      `${t(`banner.${bannerId.value}.name`)} - ${t('navigation.banner_detail')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     description: () =>
       t('meta.description.banner_detail', {
         name: t(`banner.${bannerId.value}.name`),
       }),
     ogTitle: () =>
-      `${t(`banner.${bannerId.value}.name`)} - ${t('meta.game_title')} - ${t('navigation.title')}`,
+      `${t(`banner.${bannerId.value}.name`)} - ${t('navigation.banner_detail')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     ogDescription: () =>
       t('meta.description.banner_detail', {
         name: t(`banner.${bannerId.value}.name`),
       }),
     ogImage: () => ogItemImage.value,
     twitterTitle: () =>
-      `${t(`banner.${bannerId.value}.name`)} - ${t('meta.game_title')} - ${t('navigation.title')}`,
+      `${t(`banner.${bannerId.value}.name`)} - ${t('navigation.banner_detail')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     twitterDescription: () =>
       t('meta.description.banner_detail', {
         name: t(`banner.${bannerId.value}.name`),

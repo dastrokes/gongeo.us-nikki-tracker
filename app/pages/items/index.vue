@@ -510,30 +510,58 @@
   const router = useRouter()
   const { getImageSrc } = imageProvider()
 
-  const pageTitle = computed(
-    () =>
-      `${t('navigation.item')} - ${t('meta.game_title')} - ${t('navigation.title')}`
+  const routeListSlug = computed(() => getSeoListRouteSlug(route.path, 'items'))
+  const routeItemType = computed(() =>
+    resolveSeoItemTypeFromSlug(routeListSlug.value)
   )
-  const description = computed(() => t('meta.description.items'))
-
-  useSeoMeta({
-    title: () => pageTitle.value,
-    description: () => description.value,
-    ogTitle: () => pageTitle.value,
-    ogDescription: () => description.value,
-    twitterTitle: () => pageTitle.value,
-    twitterDescription: () => description.value,
-  })
+  const routeSeoFilter = computed(() =>
+    getSeoListRouteFilter(route.path, 'items')
+  )
+  const routeQualityFilter = computed(() =>
+    routeSeoFilter.value?.kind === 'quality'
+      ? Number(routeSeoFilter.value.value)
+      : null
+  )
+  const routeVersionFilter = computed(() =>
+    routeSeoFilter.value?.kind === 'version'
+      ? String(routeSeoFilter.value.value)
+      : null
+  )
+  const routeStyleFilter = computed(() =>
+    routeSeoFilter.value?.kind === 'style'
+      ? String(routeSeoFilter.value.value)
+      : null
+  )
+  const routeLabelFilter = computed(() =>
+    routeSeoFilter.value?.kind === 'tag'
+      ? String(routeSeoFilter.value.value)
+      : null
+  )
+  const routeSourceFilter = computed(() =>
+    routeSeoFilter.value?.kind === 'source'
+      ? String(routeSeoFilter.value.value)
+      : null
+  )
 
   const pageSize = 18
   const availableItemTypes = getAllItemTypes()
-  const exactVersionPattern = /^\d+\.\d+$/
-  const majorVersionFilterPattern = /^(\d+)\.x$/i
+  type ItemListingPrimaryFilter =
+    | 'type'
+    | 'quality'
+    | 'version'
+    | 'style'
+    | 'label'
+    | 'source'
+    | null
 
   const resolveType = (value?: string | null) => {
     if (!value) return null
     if (value === 'all') return null
     if ((availableItemTypes as string[]).includes(value)) return value
+    const seoType = resolveSeoItemTypeFromSlug(value)
+    if (seoType && (availableItemTypes as string[]).includes(seoType)) {
+      return seoType
+    }
     return null
   }
 
@@ -541,26 +569,11 @@
     () => getLocaleMessage(locale.value) as Record<string, string>
   )
   const availableVersions = computed(() =>
-    Object.keys(messages.value)
-      .filter((key) => key.startsWith('version.'))
-      .map((key) => key.replace('version.', ''))
-      .filter((value) => exactVersionPattern.test(value))
+    getExactVersionsFromLocaleMessages(messages.value)
   )
-  const majorVersionFilters = computed(() =>
-    Array.from(
-      new Set(
-        availableVersions.value
-          .map((version) => version.split('.')[0] || '')
-          .filter((major) => /^\d+$/.test(major))
-      )
-    )
-      .sort((a, b) => Number(b) - Number(a))
-      .map((major) => `${major}.x`)
+  const availableVersionFilters = computed(() =>
+    getVersionFilters(availableVersions.value)
   )
-  const availableVersionFilters = computed(() => [
-    ...availableVersions.value,
-    ...majorVersionFilters.value,
-  ])
   const availableObtains = computed(() =>
     Object.keys(messages.value)
       .filter((key) => key.startsWith('obtain.') && key.endsWith('.name'))
@@ -570,13 +583,6 @@
       })
       .filter((value) => !Number.isNaN(value))
   )
-
-  const compareVersion = (a: string, b: string) => {
-    const [aMajor = 0, aMinor = 0] = a.split('.').map((part) => Number(part))
-    const [bMajor = 0, bMinor = 0] = b.split('.').map((part) => Number(part))
-    if (aMajor !== bMajor) return bMajor - aMajor
-    return bMinor - aMinor
-  }
 
   const obtainOptions = computed(() => {
     const groupMap = new Map<string, { labelKey: string; ids: number[] }>()
@@ -612,23 +618,23 @@
           id,
           version: getVersionFromId(id),
         }))
-        const latestVersion = enriched
-          .map((entry) => entry.version)
-          .filter((value): value is string => !!value)
-          .sort(compareVersion)
-          .pop()
+        const sortKey = getOldestVersion(
+          enriched
+            .map((entry) => entry.version)
+            .filter((value): value is string => !!value)
+        )
         return {
           label,
           value: groupKey,
-          sortKey: latestVersion ?? '',
+          sortKey: sortKey ?? '',
         }
       })
       .sort((a, b) => {
-        if (a.sortKey && b.sortKey && a.sortKey !== b.sortKey) {
-          return compareVersion(b.sortKey, a.sortKey)
-        }
-        if (a.sortKey && !b.sortKey) return -1
-        if (!a.sortKey && b.sortKey) return 1
+        const versionComparison = compareOptionalVersionsAsc(
+          a.sortKey,
+          b.sortKey
+        )
+        if (versionComparison !== 0) return versionComparison
         return a.label.localeCompare(b.label)
       })
       .map(({ label, value }) => ({ label, value }))
@@ -657,21 +663,8 @@
     return null
   }
 
-  const resolveVersion = (value?: string | null) => {
-    if (!value) return null
-    if (value === 'all') return null
-    if (availableVersionFilters.value.includes(value)) return value
-
-    const majorMatch = value.match(majorVersionFilterPattern)
-    if (majorMatch) {
-      const normalized = `${Number(majorMatch[1])}.x`
-      if (availableVersionFilters.value.includes(normalized)) {
-        return normalized
-      }
-    }
-
-    return null
-  }
+  const resolveVersion = (value?: string | null) =>
+    resolveVersionFilter(value, availableVersionFilters.value)
 
   const resolveObtain = (value?: string | null) => {
     if (!value) return null
@@ -684,11 +677,34 @@
     return availableObtainValues.value.includes(groupKey) ? groupKey : null
   }
 
-  const qualityFilter = ref<number | null>(
-    route.query.quality ? Number(route.query.quality) : null
-  )
-  const initialTypeFilter = resolveType(route.query.type?.toString() ?? null)
+  const resolveQuality = (value?: string | number | null) => {
+    if (value === null || value === undefined || value === '') return null
+    const parsed =
+      typeof value === 'number' && Number.isFinite(value)
+        ? value
+        : Number(value)
+    return resolveSeoItemQualitySlug(parsed) !== null ? parsed : null
+  }
+  const resolveRouteQualityFilter = () =>
+    routeQualityFilter.value ??
+    resolveQuality(route.query.quality?.toString() ?? null)
+  const qualityFilter = ref<number | null>(resolveRouteQualityFilter())
+  const resolveRouteTypeFilter = () =>
+    routeItemType.value ?? resolveType(route.query.type?.toString() ?? null)
+  const resolveRouteVersionFilter = () =>
+    resolveVersion(routeVersionFilter.value ?? route.query.version?.toString())
+  const resolveRouteStyleFilter = () =>
+    resolveStyle(routeStyleFilter.value ?? route.query.style?.toString())
+  const resolveRouteLabelFilter = () =>
+    resolveLabel(routeLabelFilter.value ?? route.query.label?.toString())
+  const resolveRouteSourceFilter = () =>
+    routeSourceFilter.value ??
+    resolveObtain(
+      (route.query.source ?? route.query.obtain)?.toString() ?? null
+    )
+  const initialTypeFilter = resolveRouteTypeFilter()
   const typeFilter = ref<string | null>(initialTypeFilter)
+
   const categoryFilter = ref<string | null>(
     initialTypeFilter
       ? normalizeItemSearchTokenKey(route.query.category?.toString() ?? null) ||
@@ -702,20 +718,70 @@
         ) || null
       : null
   )
-  const versionFilter = ref<string | null>(
-    resolveVersion(route.query.version?.toString() ?? null)
+  const versionFilter = ref<string | null>(resolveRouteVersionFilter())
+  const styleFilter = ref<string | null>(resolveRouteStyleFilter())
+  const labelFilter = ref<string | null>(resolveRouteLabelFilter())
+  const obtainFilter = ref<string | null>(resolveRouteSourceFilter())
+
+  const activeTypeLabel = computed(() =>
+    typeFilter.value ? t(`type.${typeFilter.value}`) : null
   )
-  const styleFilter = ref<string | null>(
-    resolveStyle(route.query.style?.toString() ?? null)
+  const getVersionFilterLabel = (version?: string | null) => {
+    if (!version) return null
+    const key = `version.${version}`
+    const translated = t(key)
+    return translated !== key ? `${version} - ${translated}` : version
+  }
+  const getQualityFilterLabel = (quality?: number | null) =>
+    quality ? `${quality}★` : null
+  const getSourceFilterLabel = (source?: string | null) => {
+    if (!source) return null
+    const labelKey = resolveObtainGroupLabelKey(source)
+    if (!labelKey) return source
+    const translated = t(labelKey)
+    if (translated !== labelKey) return translated
+    return labelKey.startsWith('obtain.') ? source : labelKey
+  }
+  const getStyleFilterLabel = (style?: string | null) => {
+    if (!style) return null
+    const definition = STYLE_BY_KEY.get(style)
+    return definition ? t(definition.i18nKey) : null
+  }
+  const getTagFilterLabel = (tag?: string | null) => {
+    if (!tag) return null
+    const definition = TAG_BY_KEY.get(tag)
+    return definition ? t(definition.i18nKey) : null
+  }
+  const activeListFilterLabel = computed(
+    () =>
+      activeTypeLabel.value ??
+      getQualityFilterLabel(qualityFilter.value) ??
+      getVersionFilterLabel(versionFilter.value) ??
+      getStyleFilterLabel(styleFilter.value) ??
+      getTagFilterLabel(labelFilter.value) ??
+      getSourceFilterLabel(obtainFilter.value)
   )
-  const labelFilter = ref<string | null>(
-    resolveLabel(route.query.label?.toString() ?? null)
-  )
-  const obtainFilter = ref<string | null>(
-    resolveObtain(
-      (route.query.source ?? route.query.obtain)?.toString() ?? null
-    )
-  )
+  const pageTitle = computed(() => {
+    const title = activeListFilterLabel.value
+      ? `${t('navigation.item')} - ${activeListFilterLabel.value}`
+      : t('navigation.item')
+    return `${title} - ${t('meta.game_title')} - ${t('navigation.title')}`
+  })
+  const description = computed(() => {
+    const baseDescription = t('meta.description.items')
+    return activeListFilterLabel.value
+      ? `${activeListFilterLabel.value} - ${baseDescription}`
+      : baseDescription
+  })
+
+  useSeoMeta({
+    title: () => pageTitle.value,
+    description: () => description.value,
+    ogTitle: () => pageTitle.value,
+    ogDescription: () => description.value,
+    twitterTitle: () => pageTitle.value,
+    twitterDescription: () => description.value,
+  })
   const advancedFilters = ref<ItemSearchAdvancedFilters>(
     normalizeItemSearchCompendiumAdvancedFilters(
       resolveItemSearchAdvancedFilters(
@@ -914,29 +980,94 @@
       advancedFilterFields.value
     )
 
-  const buildListingQuery = (includeType: boolean) => ({
-    ...(qualityFilter.value && { quality: qualityFilter.value }),
-    ...(includeType &&
+  const currentListingPath = computed(() => {
+    const typeSlug = resolveSeoItemTypeSlug(typeFilter.value)
+    if (typeSlug) {
+      return {
+        path: `/items/${typeSlug}`,
+        primaryFilter: 'type' as ItemListingPrimaryFilter,
+      }
+    }
+
+    const qualitySlug = resolveSeoItemQualitySlug(qualityFilter.value)
+    if (qualitySlug) {
+      return {
+        path: `/items/quality/${qualitySlug}`,
+        primaryFilter: 'quality' as ItemListingPrimaryFilter,
+      }
+    }
+
+    const versionSlug = resolveSeoVersionSlug(versionFilter.value)
+    if (versionSlug) {
+      return {
+        path: `/items/version/${versionSlug}`,
+        primaryFilter: 'version' as ItemListingPrimaryFilter,
+      }
+    }
+
+    const styleSlug = resolveSeoStyleSlug(styleFilter.value)
+    if (styleSlug) {
+      return {
+        path: `/items/style/${styleSlug}`,
+        primaryFilter: 'style' as ItemListingPrimaryFilter,
+      }
+    }
+
+    const labelSlug = resolveSeoTagSlug(labelFilter.value)
+    if (labelSlug) {
+      return {
+        path: `/items/tag/${labelSlug}`,
+        primaryFilter: 'label' as ItemListingPrimaryFilter,
+      }
+    }
+
+    const sourceSlug = resolveSeoItemSourceSlug(obtainFilter.value)
+    if (sourceSlug) {
+      return {
+        path: `/items/source/${sourceSlug}`,
+        primaryFilter: 'source' as ItemListingPrimaryFilter,
+      }
+    }
+
+    return {
+      path: '/items',
+      primaryFilter: null,
+    }
+  })
+
+  const buildListingQuery = (
+    includeType: boolean,
+    includeItemFilters = includeType,
+    primaryFilter: ItemListingPrimaryFilter = null
+  ) => ({
+    ...(primaryFilter !== 'quality' &&
+      qualityFilter.value && { quality: qualityFilter.value }),
+    ...(primaryFilter !== 'type' &&
+      includeType &&
       showTypeFilter.value &&
       typeFilter.value && {
         type: typeFilter.value,
       }),
-    ...(includeType &&
+    ...(includeItemFilters &&
       supportsCategoryFilters.value &&
       categoryFilter.value && {
         category: categoryFilter.value,
       }),
-    ...(includeType &&
+    ...(includeItemFilters &&
       supportsCategoryFilters.value &&
       categoryFilter.value &&
       subcategoryFilter.value && {
         subcategory: subcategoryFilter.value,
       }),
-    ...(versionFilter.value && { version: versionFilter.value }),
-    ...(styleFilter.value && { style: styleFilter.value }),
-    ...(labelFilter.value && { label: labelFilter.value }),
-    ...(obtainFilter.value && { source: obtainFilter.value }),
-    ...(includeType && buildAdvancedFilterQuery()),
+    ...(primaryFilter !== 'version' &&
+      versionFilter.value && { version: versionFilter.value }),
+    ...(primaryFilter !== 'style' &&
+      styleFilter.value && { style: styleFilter.value }),
+    ...(primaryFilter !== 'label' &&
+      labelFilter.value && { label: labelFilter.value }),
+    ...(primaryFilter !== 'source' &&
+      obtainFilter.value && { source: obtainFilter.value }),
+    ...(includeItemFilters && buildAdvancedFilterQuery()),
     ...(currentPage.value > 1 && { page: currentPage.value }),
   })
 
@@ -974,6 +1105,14 @@
     )
   }
 
+  const syncListingRoute = () => {
+    const listingPath = currentListingPath.value
+    router.replace({
+      path: localePath(listingPath.path),
+      query: buildListingQuery(false, true, listingPath.primaryFilter),
+    })
+  }
+
   watch(qualityFilter, () => {
     currentPage.value = 1
   })
@@ -985,6 +1124,51 @@
     advancedFilters.value = createEmptyItemSearchAdvancedFilters()
     isAdvancedFiltersDrawerOpen.value = false
   })
+
+  watch([routeItemType, () => route.query.type], () => {
+    const nextType = resolveRouteTypeFilter()
+    if (nextType !== typeFilter.value) {
+      typeFilter.value = nextType
+    }
+  })
+
+  watch([routeQualityFilter, () => route.query.quality], () => {
+    const nextQuality = resolveRouteQualityFilter()
+    if (nextQuality !== qualityFilter.value) {
+      qualityFilter.value = nextQuality
+    }
+  })
+
+  watch([routeVersionFilter, () => route.query.version], () => {
+    const nextVersion = resolveRouteVersionFilter()
+    if (nextVersion !== versionFilter.value) {
+      versionFilter.value = nextVersion
+    }
+  })
+
+  watch([routeStyleFilter, () => route.query.style], () => {
+    const nextStyle = resolveRouteStyleFilter()
+    if (nextStyle !== styleFilter.value) {
+      styleFilter.value = nextStyle
+    }
+  })
+
+  watch([routeLabelFilter, () => route.query.label], () => {
+    const nextLabel = resolveRouteLabelFilter()
+    if (nextLabel !== labelFilter.value) {
+      labelFilter.value = nextLabel
+    }
+  })
+
+  watch(
+    [routeSourceFilter, () => route.query.source, () => route.query.obtain],
+    () => {
+      const nextSource = resolveRouteSourceFilter()
+      if (nextSource !== obtainFilter.value) {
+        obtainFilter.value = nextSource
+      }
+    }
+  )
 
   watch(supportsCategoryFilters, (isSupported) => {
     if (isSupported) return
@@ -1036,9 +1220,13 @@
       currentPage,
     ],
     () => {
-      router.replace({ query: buildListingQuery(true) })
+      syncListingRoute()
     }
   )
+
+  onMounted(() => {
+    syncListingRoute()
+  })
 
   const retryFetch = () => {
     loadData()
@@ -1312,45 +1500,10 @@
   )
 
   const versionOptions = computed<SelectOption[]>(() => {
-    const versionGroups = new Map<string, string[]>()
-
-    availableVersions.value.forEach((version) => {
-      const major = version.split('.')[0]
-      if (!major) return
-
-      const existing = versionGroups.get(major)
-      if (existing) {
-        existing.push(version)
-      } else {
-        versionGroups.set(major, [version])
-      }
-    })
-
-    return Array.from(versionGroups.entries())
-      .sort(([majorA], [majorB]) => Number(majorB) - Number(majorA))
-      .flatMap(([major, versions]) => {
-        const majorKey = `version.${major}.x`
-        const majorCaption = t(majorKey)
-        const majorLabel =
-          majorCaption !== majorKey
-            ? `${major}.x - ${majorCaption}`
-            : `${major}.x`
-
-        return [
-          {
-            label: majorLabel,
-            value: `${major}.x`,
-            isMajor: true,
-          },
-          ...versions
-            .slice()
-            .sort(compareVersion)
-            .map((version) => ({
-              label: `${version} - ${t(`version.${version}`)}`,
-              value: version,
-            })),
-        ]
-      })
+    return createVersionFilterOptions(
+      availableVersions.value,
+      (version) => getVersionFilterLabel(version) ?? version
+    )
   })
   const renderVersionOptionLabel = (option: SelectOption) => {
     const label = String(option.label ?? option.value ?? '')

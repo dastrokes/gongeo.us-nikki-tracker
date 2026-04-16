@@ -13,7 +13,7 @@
           <div
             v-if="showTimelineChart"
             key="chart"
-            class="relative h-[calc(100vh-108px)] sm:h-[calc(100vh-140px)] min-h-[500px] rounded-xl"
+            class="relative h-[calc(100vh-116px)] sm:h-[calc(100vh-148px)] min-h-[500px] rounded-xl"
           >
             <div class="absolute left-2 top-2 z-10 w-40">
               <n-select
@@ -65,7 +65,7 @@
           <div
             v-else
             key="skeleton"
-            class="h-[calc(100vh-108px)] sm:h-[calc(100vh-140px)] min-h-[500px] rounded-xl"
+            class="h-[calc(100vh-116px)] sm:h-[calc(100vh-148px)] min-h-[500px] rounded-xl"
           >
             <div class="relative h-full w-full rounded-lg overflow-hidden">
               <div

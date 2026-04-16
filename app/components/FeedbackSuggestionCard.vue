@@ -78,7 +78,7 @@
 
             <div class="mt-3 grid gap-2 sm:grid-cols-2">
               <div
-                class="rounded-xl border border-black/5 bg-white/85 px-3 py-2.5 dark:border-white/10 dark:bg-slate-950/70"
+                class="rounded-xl border border-black/5 bg-white/85 px-3 py-2 dark:border-white/10 dark:bg-slate-950/70"
               >
                 <div
                   class="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400"
@@ -91,7 +91,7 @@
               </div>
 
               <div
-                class="rounded-xl border border-rose-200/70 bg-rose-50/80 px-3 py-2.5 dark:border-rose-400/20 dark:bg-rose-500/10"
+                class="rounded-xl border border-rose-200/70 bg-rose-50/80 px-3 py-2 dark:border-rose-400/20 dark:bg-rose-500/10"
               >
                 <div
                   class="text-[11px] font-semibold uppercase tracking-[0.18em] text-rose-600 dark:text-rose-300"

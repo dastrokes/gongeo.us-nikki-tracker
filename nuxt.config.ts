@@ -49,10 +49,12 @@ export default defineNuxtConfig({
         websiteId: 'dd22ab5d-2045-4450-aaff-f513339b5ca6',
         hostUrl: 'https://api.gongeo.us',
         domains: ['gongeo.us'],
+        trigger: 'onNuxtReady',
       },
       googleAdsense: {
         client: 'ca-pub-9717879492261560',
         autoAds: true,
+        trigger: 'onNuxtReady',
       },
     },
   },

@@ -1,4 +1,9 @@
 import { defaultLocale, i18nLocales } from './locales'
+import {
+  SEO_BANNER_LIST_PATHS,
+  SEO_ITEM_LIST_PATHS,
+  SEO_OUTFIT_LIST_PATHS,
+} from '../utils/seoListRouteDefinitions'
 
 const BASE_PATHS = [
   '/',
@@ -20,6 +25,13 @@ const BASE_PATHS = [
   '/banners',
   '/tierlist',
 ] as const
+
+const SEO_LIST_PATHS = [
+  ...SEO_ITEM_LIST_PATHS,
+  ...SEO_OUTFIT_LIST_PATHS,
+  ...SEO_BANNER_LIST_PATHS,
+]
+const STATIC_SITEMAP_PATHS = [...BASE_PATHS, ...SEO_LIST_PATHS]
 
 const imagekitBaseUrl =
   process.env.NUXT_PUBLIC_IMAGEKIT_BASE_URL || 'https://ik.imagekit.io/gongeous'
@@ -275,7 +287,7 @@ export function baseSitemap(localeCode?: LocaleCode) {
   resolveLocales(localeCode).forEach(({ code }) => {
     const prefix = code === defaultLocale ? '' : `/${code}`
 
-    BASE_PATHS.forEach((path) => {
+    STATIC_SITEMAP_PATHS.forEach((path) => {
       const loc = path === '/' ? `${prefix}/` : `${prefix}${path}`
       results.push({
         loc,

@@ -123,10 +123,7 @@
                     {{ itemName }}
                   </h1>
                   <NuxtLinkLocale
-                    :to="{
-                      path: '/items',
-                      query: { quality: item.quality },
-                    }"
+                    :to="itemQualityListLocation"
                     class="hover:opacity-80 transition-opacity"
                   >
                     <n-tag
@@ -145,10 +142,7 @@
                     </n-tag>
                   </NuxtLinkLocale>
                   <NuxtLinkLocale
-                    :to="{
-                      path: '/items',
-                      query: { type: itemType },
-                    }"
+                    :to="itemTypeListLocation"
                     class="hover:opacity-80 transition-opacity"
                   >
                     <n-tag
@@ -166,10 +160,7 @@
                 <div class="flex flex-wrap gap-2">
                   <NuxtLinkLocale
                     v-if="itemStyleLabel"
-                    :to="{
-                      path: '/items',
-                      query: { style: itemStyleKey },
-                    }"
+                    :to="itemStyleListLocation"
                     class="hover:opacity-80 transition-opacity"
                   >
                     <n-tag
@@ -188,7 +179,7 @@
                   >
                     <NuxtLinkLocale
                       v-if="label.tagKey"
-                      :to="{ path: '/items', query: { label: label.tagKey } }"
+                      :to="getItemTagListLocation(label.tagKey)"
                       class="hover:opacity-80 transition-opacity"
                     >
                       <n-tag
@@ -217,10 +208,7 @@
                 <div class="flex flex-wrap gap-2">
                   <NuxtLinkLocale
                     v-if="itemVersionDisplay"
-                    :to="{
-                      path: '/items',
-                      query: { version: itemVersion },
-                    }"
+                    :to="itemVersionListLocation"
                     class="hover:opacity-80 transition-opacity"
                   >
                     <n-tag
@@ -235,10 +223,7 @@
                   </NuxtLinkLocale>
                   <NuxtLinkLocale
                     v-if="itemObtainLabel && itemObtainType != null"
-                    :to="{
-                      path: '/items',
-                      query: { source: itemObtainType },
-                    }"
+                    :to="itemSourceListLocation"
                     class="hover:opacity-80 transition-opacity"
                   >
                     <n-tag
@@ -792,6 +777,47 @@
       ? getItemType(item.value.type)
       : getItemType(item.value.id)
   })
+  const itemTypeListLocation = computed(() => {
+    const slug = resolveSeoItemTypeSlug(itemType.value)
+    return slug
+      ? `/items/${slug}`
+      : {
+          path: '/items',
+          query: { type: itemType.value },
+        }
+  })
+  const itemQualityListLocation = computed(() => {
+    if (!item.value) return '/items'
+
+    const slug = resolveSeoItemQualitySlug(item.value.quality)
+    return slug
+      ? `/items/quality/${slug}`
+      : {
+          path: '/items',
+          query: { quality: item.value.quality },
+        }
+  })
+  const itemStyleListLocation = computed(() => {
+    const styleKey = itemStyleKey.value
+    if (!styleKey) return '/items'
+
+    const slug = resolveSeoStyleSlug(styleKey)
+    return slug
+      ? `/items/style/${slug}`
+      : {
+          path: '/items',
+          query: { style: styleKey },
+        }
+  })
+  const getItemTagListLocation = (tagKey: string) => {
+    const slug = resolveSeoTagSlug(tagKey)
+    return slug
+      ? `/items/tag/${slug}`
+      : {
+          path: '/items',
+          query: { label: tagKey },
+        }
+  }
   const itemSearchMetadata = computed(() =>
     getItemSearchMetadataFromAttributes(item.value?.item_attributes ?? null)
   )
@@ -845,6 +871,17 @@
     const label = te(key) ? t(key) : null
     return label ? `${itemVersion.value} - ${label}` : itemVersion.value
   })
+  const itemVersionListLocation = computed(() => {
+    if (!itemVersion.value) return '/items'
+
+    const slug = resolveSeoVersionSlug(itemVersion.value)
+    return slug
+      ? `/items/version/${slug}`
+      : {
+          path: '/items',
+          query: { version: itemVersion.value },
+        }
+  })
 
   const itemObtainType = computed(() => {
     if (!item.value) return null
@@ -857,6 +894,21 @@
     const key = `obtain.${obtainType}.name`
     const translated = t(key)
     return translated !== key ? translated : `${obtainType}`
+  })
+  const itemSourceListLocation = computed(() => {
+    const obtainType = itemObtainType.value
+    if (obtainType === null || obtainType === undefined) {
+      return '/items'
+    }
+
+    const groupKey = resolveObtainGroupKey(obtainType)
+    const slug = resolveSeoItemSourceSlug(groupKey)
+    return slug
+      ? `/items/source/${slug}`
+      : {
+          path: '/items',
+          query: { source: obtainType },
+        }
   })
 
   // Get item description from database (if available in item_translations)
@@ -958,20 +1010,20 @@
 
   useSeoMeta({
     title: () =>
-      `${t(`item.${itemId.value}.name`)} - ${t('meta.game_title')} - ${t('navigation.title')}`,
+      `${t(`item.${itemId.value}.name`)} - ${t('navigation.item_detail')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     description: () =>
       t('meta.description.item_detail', {
         name: t(`item.${itemId.value}.name`) || '',
       }),
     ogTitle: () =>
-      `${t(`item.${itemId.value}.name`)} - ${t('meta.game_title')} - ${t('navigation.title')}`,
+      `${t(`item.${itemId.value}.name`)} - ${t('navigation.item_detail')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     ogDescription: () =>
       t('meta.description.item_detail', {
         name: t(`item.${itemId.value}.name`) || '',
       }),
     ogImage: () => ogItemImage.value,
     twitterTitle: () =>
-      `${t(`item.${itemId.value}.name`)} - ${t('meta.game_title')} - ${t('navigation.title')}`,
+      `${t(`item.${itemId.value}.name`)} - ${t('navigation.item_detail')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     twitterDescription: () =>
       t('meta.description.item_detail', {
         name: t(`item.${itemId.value}.name`) || '',

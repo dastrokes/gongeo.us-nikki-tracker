@@ -3,6 +3,11 @@ import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
 import Components from 'unplugin-vue-components/vite'
 import { defaultLocale, i18nLocales } from './app/locales/locales'
 import {
+  SEO_BANNER_LIST_PATHS,
+  SEO_ITEM_LIST_PATHS,
+  SEO_OUTFIT_LIST_PATHS,
+} from './app/utils/seoListRouteDefinitions'
+import {
   noStoreHeaders,
   pageStatic,
   pageTheme,
@@ -76,6 +81,34 @@ export default defineNuxtConfig({
 
   site: {
     url: siteUrl,
+  },
+
+  hooks: {
+    'pages:extend'(pages) {
+      const addSeoListRoutes = (
+        basePath: string,
+        routeNamePrefix: string,
+        paths: readonly string[]
+      ) => {
+        const basePage = pages.find((page) => page.path === basePath)
+        if (!basePage?.file) return
+
+        paths.forEach((path) => {
+          const suffix = path
+            .replace(`${basePath}/`, '')
+            .replace(/[^a-z0-9]+/gi, '-')
+          pages.push({
+            name: `${routeNamePrefix}-${suffix}`,
+            path,
+            file: basePage.file,
+          })
+        })
+      }
+
+      addSeoListRoutes('/items', 'seo-items', SEO_ITEM_LIST_PATHS)
+      addSeoListRoutes('/outfits', 'seo-outfits', SEO_OUTFIT_LIST_PATHS)
+      addSeoListRoutes('/banners', 'seo-banners', SEO_BANNER_LIST_PATHS)
+    },
   },
 
   sitemap: {

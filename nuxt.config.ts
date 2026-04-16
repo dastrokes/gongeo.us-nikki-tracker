@@ -24,12 +24,27 @@ const cloudinaryBaseUrl =
   'https://res.cloudinary.com/gongeous/image/upload'
 const bunnyBaseUrl =
   process.env.NUXT_PUBLIC_BUNNY_BASE_URL || 'https://cdn.gongeo.us'
+const umamiHostUrl = 'https://api.gongeo.us'
 
 export default defineNuxtConfig({
   devtools: { enabled: false },
 
   // Add global CSS files
   css: ['~/assets/styles/global.scss'],
+
+  app: {
+    head: {
+      script: [
+        {
+          src: `${umamiHostUrl}/script.js`,
+          defer: true,
+          'data-website-id': 'dd22ab5d-2045-4450-aaff-f513339b5ca6',
+          'data-host-url': umamiHostUrl,
+          'data-domains': 'gongeo.us',
+        },
+      ],
+    },
+  },
 
   modules: [
     '@nuxt/eslint',
@@ -50,15 +65,6 @@ export default defineNuxtConfig({
 
   scripts: {
     registry: {
-      umamiAnalytics: {
-        websiteId: 'dd22ab5d-2045-4450-aaff-f513339b5ca6',
-        hostUrl: 'https://api.gongeo.us',
-        scriptInput: {
-          src: 'https://api.gongeo.us/script.js',
-        },
-        domains: ['gongeo.us'],
-        trigger: 'onNuxtReady',
-      },
       googleAdsense: {
         client: 'ca-pub-9717879492261560',
         autoAds: true,

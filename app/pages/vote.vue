@@ -10,7 +10,7 @@
           :key="`${currentPair.banner1.id}-${currentPair.banner2.id}`"
           class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 relative transition-all duration-500 ease-out"
           :class="{
-            'opacity-0 scale-95 blur-sm': isTransitioning,
+            'opacity-0 scale-95 blur-xs': isTransitioning,
             'opacity-100 scale-100 blur-0': !isTransitioning,
           }"
         >
@@ -26,7 +26,7 @@
               @click="selectBanner(currentPair.banner1.id)"
             >
               <div
-                class="relative aspect-[2/1] rounded-xl overflow-hidden bg-gray-100 dark:bg-gray-800 transition-all duration-300"
+                class="relative aspect-2/1 rounded-xl overflow-hidden bg-gray-100 dark:bg-gray-800 transition-all duration-300"
                 :class="{
                   'ring-4 ring-sky-500/80 dark:ring-sky-400/80 shadow-2xl':
                     selectedBanner === currentPair.banner1.id,
@@ -105,7 +105,7 @@
               @click="selectBanner(currentPair.banner2.id)"
             >
               <div
-                class="relative aspect-[2/1] rounded-xl overflow-hidden bg-gray-100 dark:bg-gray-800 transition-all duration-300"
+                class="relative aspect-2/1 rounded-xl overflow-hidden bg-gray-100 dark:bg-gray-800 transition-all duration-300"
                 :class="{
                   'ring-4 ring-sky-500/80 dark:ring-sky-400/80 shadow-2xl':
                     selectedBanner === currentPair.banner2.id,
@@ -200,7 +200,7 @@
                     text
                     size="large"
                     :disabled="submitting || skipping"
-                    class="!px-2"
+                    class="px-2"
                   >
                     <n-icon
                       size="20"
@@ -330,7 +330,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
           <!-- Skeleton Banner 1 -->
           <div class="relative">
-            <div class="relative aspect-[2/1] rounded-xl overflow-hidden">
+            <div class="relative aspect-2/1 rounded-xl overflow-hidden">
               <n-skeleton
                 class="absolute inset-0 w-full h-full"
                 :sharp="false"
@@ -348,7 +348,7 @@
 
           <!-- Skeleton Banner 2 -->
           <div class="relative">
-            <div class="relative aspect-[2/1] rounded-xl overflow-hidden">
+            <div class="relative aspect-2/1 rounded-xl overflow-hidden">
               <n-skeleton
                 class="absolute inset-0 w-full h-full"
                 :sharp="false"

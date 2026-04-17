@@ -8,7 +8,7 @@
       class="grid gap-4 lg:grid-cols-[176px_minmax(0,1fr)] xl:grid-cols-[200px_minmax(0,1fr)]"
     >
       <div
-        class="aspect-[2/3] overflow-hidden rounded-[28px] bg-slate-100/80 dark:bg-slate-900/70"
+        class="aspect-2/3 overflow-hidden rounded-[28px] bg-slate-100/80 dark:bg-slate-900/70"
       >
         <NuxtImg
           :src="getImageSrc('item', suggestion.entityId)"
@@ -117,7 +117,7 @@
               secondary
               type="success"
               :disabled="voting"
-              class="!h-11 !justify-between !rounded-2xl"
+              class="h-11 justify-between rounded-2xl"
               :class="userVote === 1 ? 'ring-2 ring-emerald-400/40' : ''"
               @click="emitVote(userVote === 1 ? null : 1)"
             >
@@ -130,7 +130,7 @@
               secondary
               type="error"
               :disabled="voting"
-              class="!h-11 !justify-between !rounded-2xl"
+              class="h-11 justify-between rounded-2xl"
               :class="userVote === -1 ? 'ring-2 ring-rose-400/40' : ''"
               @click="emitVote(userVote === -1 ? null : -1)"
             >
@@ -144,7 +144,7 @@
               size="medium"
               tertiary
               :disabled="previousDisabled"
-              class="!rounded-xl"
+              class="rounded-xl"
               @click="$emit('previous')"
             >
               <span>{{ t('common.previous') }}</span>
@@ -155,7 +155,7 @@
               size="medium"
               tertiary
               :disabled="voting"
-              class="!rounded-xl"
+              class="rounded-xl"
               @click="$emit('skip')"
             >
               <span>{{ t('common.next') }}</span>
@@ -188,7 +188,7 @@
               type="success"
               :loading="maintainerBusyAction === 'approve'"
               :disabled="maintainerBusy || voting"
-              class="!h-11 !justify-between !rounded-2xl"
+              class="h-11 justify-between rounded-2xl"
               @click="emitMaintainerAction('approve')"
             >
               <span>{{ t('feedback.approve_action') }}</span>
@@ -201,7 +201,7 @@
               type="warning"
               :loading="maintainerBusyAction === 'apply'"
               :disabled="maintainerBusy || voting"
-              class="!h-11 !justify-between !rounded-2xl"
+              class="h-11 justify-between rounded-2xl"
               @click="emitMaintainerAction('apply')"
             >
               <span>{{ t('feedback.apply_action') }}</span>
@@ -214,7 +214,7 @@
               type="error"
               :loading="maintainerBusyAction === 'reject'"
               :disabled="maintainerBusy || voting"
-              class="!h-11 !justify-between !rounded-2xl"
+              class="h-11 justify-between rounded-2xl"
               @click="emitMaintainerAction('reject')"
             >
               <span>{{ t('feedback.reject_action') }}</span>

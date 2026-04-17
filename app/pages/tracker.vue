@@ -4,13 +4,11 @@
     <template v-if="loading">
       <!-- Stats Header Skeleton -->
       <n-card
-        content-class="!p-2 sm:!p-4"
+        content-class="p-2 sm:p-4"
         size="small"
         class="rounded-xl"
       >
-        <div
-          class="flex-grow grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2"
-        >
+        <div class="grow grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
           <n-card
             v-for="i in 5"
             :key="i"
@@ -28,7 +26,7 @@
               class="mx-auto"
             />
           </n-card>
-          <div class="flex justify-end space-x-2 items-center">
+          <div class="flex justify-end gap-2 items-center">
             <n-skeleton
               circle
               width="18px"
@@ -55,7 +53,7 @@
           :key="i"
           size="small"
           class="rounded-xl"
-          content-class="!p-2 sm:!p-4"
+          content-class="p-2 sm:p-4"
         >
           <div class="space-y-2">
             <!-- Banner Header Skeleton -->
@@ -81,7 +79,7 @@
                   />
                 </div>
               </div>
-              <div class="flex space-x-2 shrink-0">
+              <div class="flex gap-2 shrink-0">
                 <n-skeleton
                   circle
                   width="18px"
@@ -140,7 +138,7 @@
             <template #footer>
               <n-button
                 type="primary"
-                class="relative overflow-hidden after:content-[''] after:absolute after:inset-y-0 after:-left-full after:w-[60%] after:bg-gradient-to-r after:from-transparent after:via-white/15 after:to-transparent after:animate-button-shimmer motion-reduce:after:animate-none"
+                class="relative overflow-hidden after:content-[''] after:absolute after:inset-y-0 after:-left-full after:w-[60%] after:bg-linear-to-r after:from-transparent after:via-white/15 after:to-transparent after:animate-button-shimmer motion-reduce:after:animate-none"
                 @click="navigateTo(localePath('/import'))"
               >
                 {{ $t('navigation.import') }}
@@ -156,7 +154,7 @@
             :key="banner.bannerId"
           >
             <n-card
-              content-class="!p-2 sm:!pt-2 sm:!p-4"
+              content-class="p-2 sm:p-4"
               size="small"
               class="rounded-xl min-h-[120px] sm:min-h-[160px] opacity-40"
             >
@@ -171,7 +169,7 @@
                 >
                   <n-gradient-text
                     :size="18"
-                    class="m-0 font-medium break-words"
+                    class="m-0 font-medium wrap-break-word"
                     :type="banner.bannerType === 2 ? 'warning' : 'info'"
                   >
                     {{ $t(`banner.${banner.bannerId}.name`) }}
@@ -215,7 +213,7 @@
 
               <!-- Sample Stats -->
               <div
-                class="mt-1 flex flex-row justify-between space-x-2 sm:absolute sm:right-2 sm:top-2 sm:mt-0 sm:justify-start"
+                class="mt-1 flex flex-row justify-between gap-2 sm:absolute sm:right-2 sm:top-2 sm:mt-0 sm:justify-start"
               >
                 <div
                   class="flex justify-between gap-2 items-baseline text-md text-gray-400"
@@ -247,7 +245,7 @@
                   </div>
                 </div>
 
-                <div class="flex flex-row space-x-2 p-1">
+                <div class="flex flex-row gap-2 p-1">
                   <DiceAnimation
                     :percentile="
                       banner.bannerType === 3
@@ -283,7 +281,7 @@
       >
         <!-- Stats Header -->
         <n-card
-          content-class="!p-2 sm:!p-4"
+          content-class="p-2 sm:p-4"
           size="small"
           class="rounded-xl"
         >
@@ -439,7 +437,7 @@
             </n-card>
 
             <n-card
-              v-show="exporting"
+              v-if="exporting"
               size="small"
               class="text-center rounded-lg"
             >
@@ -460,7 +458,7 @@
             </n-card>
 
             <div
-              v-show="!exporting"
+              v-if="!exporting"
               class="flex flex-col items-end justify-between h-full py-1 gap-2"
             >
               <div class="flex items-center gap-2">
@@ -622,7 +620,7 @@
                 <n-button
                   size="small"
                   type="primary"
-                  class="relative overflow-hidden after:content-[''] after:absolute after:inset-y-0 after:-left-full after:w-[60%] after:bg-gradient-to-r after:from-transparent after:via-white/15 after:to-transparent after:animate-button-shimmer motion-reduce:after:animate-none"
+                  class="relative overflow-hidden after:content-[''] after:absolute after:inset-y-0 after:-left-full after:w-[60%] after:bg-linear-to-r after:from-transparent after:via-white/15 after:to-transparent after:animate-button-shimmer motion-reduce:after:animate-none"
                   @click="() => navigateTo(localePath('/stats'))"
                 >
                   {{ $t('navigation.stats') }}
@@ -686,7 +684,7 @@
             :key="banner.bannerId"
           >
             <n-card
-              content-class="!p-2 sm:!pt-2 sm:!p-4"
+              content-class="p-2 sm:p-4"
               size="small"
               class="rounded-xl min-h-[120px] sm:min-h-[160px]"
             >
@@ -703,7 +701,7 @@
                   >
                     <n-gradient-text
                       :size="18"
-                      class="m-0 font-medium break-words"
+                      class="m-0 font-medium wrap-break-word"
                       :type="banner.bannerType === 2 ? 'warning' : 'info'"
                     >
                       {{ $t(`banner.${banner.bannerId}.name`) }}
@@ -747,12 +745,11 @@
               <div
                 :class="
                   exporting
-                    ? 'mt-1 flex flex-row justify-between space-x-2 sm:absolute sm:right-2 sm:top-2 sm:mt-0 sm:justify-start'
-                    : 'absolute right-2 top-2 flex flex-row space-x-2'
+                    ? 'mt-1 flex flex-row justify-between gap-2 sm:absolute sm:right-2 sm:top-2 sm:mt-0 sm:justify-start'
+                    : 'absolute right-2 top-2 flex flex-row gap-2'
                 "
               >
                 <div
-                  v-show="exporting"
                   class="flex justify-between gap-2 items-baseline text-md text-gray-400"
                 >
                   <div class="whitespace-nowrap">
@@ -782,7 +779,7 @@
                   </div>
                 </div>
 
-                <div class="flex flex-row space-x-2 p-1">
+                <div class="flex flex-row gap-2 p-1">
                   <DiceAnimation
                     v-if="banner.stats.totalPulls > 0"
                     :percentile="
@@ -936,7 +933,7 @@
                   </n-popover>
 
                   <n-button
-                    v-show="!exporting"
+                    v-if="!exporting"
                     text
                     size="small"
                     class="text-gray-500"
@@ -1347,6 +1344,7 @@
     showPopover.value = false
 
     try {
+      await nextTick()
       const trackerElement = document.querySelector(
         '.png-export-container'
       ) as HTMLElement

@@ -3,7 +3,7 @@
     <n-card
       size="small"
       class="rounded-xl"
-      content-class="!p-2 sm:!p-4"
+      content-class="p-2 sm:p-4"
     >
       <n-card size="small">
         <n-collapse-transition
@@ -86,10 +86,10 @@
                 class="absolute left-3 right-6 sm:right-8 bottom-2 h-4 rounded-full bg-black/10 dark:bg-white/15"
               >
                 <div
-                  class="absolute left-0 top-1/2 h-5 w-2.5 -translate-y-1/2 rounded bg-white/80 dark:bg-slate-200/70 border border-black/10 dark:border-white/20"
+                  class="absolute left-0 top-1/2 h-5 w-2.5 -translate-y-1/2 rounded-sm bg-white/80 dark:bg-slate-200/70 border border-black/10 dark:border-white/20"
                 />
                 <div
-                  class="absolute right-0 top-1/2 h-5 w-2.5 -translate-y-1/2 rounded bg-white/80 dark:bg-slate-200/70 border border-black/10 dark:border-white/20"
+                  class="absolute right-0 top-1/2 h-5 w-2.5 -translate-y-1/2 rounded-sm bg-white/80 dark:bg-slate-200/70 border border-black/10 dark:border-white/20"
                 />
               </div>
 
@@ -97,10 +97,10 @@
                 class="absolute right-1 top-2 bottom-12 sm:bottom-14 w-4 rounded-full bg-black/10 dark:bg-white/15"
               >
                 <div
-                  class="absolute left-1/2 top-0 h-2.5 w-5 -translate-x-1/2 rounded bg-white/80 dark:bg-slate-200/70 border border-black/10 dark:border-white/20"
+                  class="absolute left-1/2 top-0 h-2.5 w-5 -translate-x-1/2 rounded-sm bg-white/80 dark:bg-slate-200/70 border border-black/10 dark:border-white/20"
                 />
                 <div
-                  class="absolute left-1/2 bottom-0 h-2.5 w-5 -translate-x-1/2 rounded bg-white/80 dark:bg-slate-200/70 border border-black/10 dark:border-white/20"
+                  class="absolute left-1/2 bottom-0 h-2.5 w-5 -translate-x-1/2 rounded-sm bg-white/80 dark:bg-slate-200/70 border border-black/10 dark:border-white/20"
                 />
               </div>
             </div>

@@ -1,4 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import tailwindcss from '@tailwindcss/vite'
 import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
 import Components from 'unplugin-vue-components/vite'
 import { defaultLocale, i18nLocales } from './app/locales/locales'
@@ -30,7 +31,7 @@ export default defineNuxtConfig({
   devtools: { enabled: false },
 
   // Add global CSS files
-  css: ['~/assets/styles/global.scss'],
+  css: ['~/assets/styles/global.css'],
 
   app: {
     head: {
@@ -55,7 +56,6 @@ export default defineNuxtConfig({
     '@nuxtjs/i18n',
     '@nuxtjs/robots',
     '@nuxtjs/sitemap',
-    '@nuxtjs/tailwindcss',
     '@pinia/nuxt',
     '@vueuse/nuxt',
     '@bg-dev/nuxt-naiveui',
@@ -275,6 +275,7 @@ export default defineNuxtConfig({
 
   vite: {
     plugins: [
+      tailwindcss(),
       Components({
         resolvers: [NaiveUiResolver()],
         dts: true,

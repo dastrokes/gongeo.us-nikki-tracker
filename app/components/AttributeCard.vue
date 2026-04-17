@@ -28,7 +28,7 @@
             size="small"
             type="default"
             :bordered="false"
-            class="font-medium !bg-slate-100 dark:!bg-slate-800 text-slate-700 dark:text-slate-300 shadow-sm border border-slate-200/50 dark:border-slate-700/50"
+            class="font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 shadow-xs border border-slate-200/50 dark:border-slate-700/50"
           >
             {{
               translateFilterToken(
@@ -43,7 +43,7 @@
       <button
         v-if="!showExpandedFields && hasCollapsedExtraFields && index === 0"
         type="button"
-        class="flex h-full min-w-0 items-center justify-center rounded-lg border border-dashed border-slate-300/80 bg-slate-100/40 p-3 text-slate-500 hover:border-slate-400 hover:text-slate-700 dark:border-slate-700 dark:bg-slate-900/15 dark:text-slate-400 dark:hover:border-slate-500 dark:hover:text-slate-200"
+        class="flex h-full min-w-0 cursor-pointer items-center justify-center rounded-lg border border-dashed border-slate-300/80 bg-slate-100/40 p-3 text-slate-500 hover:border-slate-400 hover:text-slate-700 dark:border-slate-700 dark:bg-slate-900/15 dark:text-slate-400 dark:hover:border-slate-500 dark:hover:text-slate-200"
         :aria-label="t('feedback.more_tags')"
         @click="emit('expand')"
       >
@@ -83,7 +83,7 @@
                 size="small"
                 type="default"
                 :bordered="false"
-                class="font-medium !bg-slate-100 dark:!bg-slate-800 text-slate-700 dark:text-slate-300 shadow-sm border border-slate-200/50 dark:border-slate-700/50"
+                class="font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 shadow-xs border border-slate-200/50 dark:border-slate-700/50"
               >
                 {{
                   translateFilterToken(

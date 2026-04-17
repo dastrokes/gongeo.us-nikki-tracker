@@ -184,9 +184,12 @@ export const useSearch = () => {
             )
           })
 
-        // Index all outfits from i18n files
+        // Index all outfits from i18n files (base versions only)
         const allOutfitIds = await getAllOutfitIdsFromI18n()
         for (const outfitId of allOutfitIds) {
+          // Skip variant outfits (glow-up / evo); only index base 5-digit IDs
+          if (isOutfitVariantId(outfitId)) continue
+
           const name = getLocalizedOutfitName(outfitId)
           const searchAliases = getOutfitSearchAliases(locale.value, outfitId)
 
@@ -205,9 +208,12 @@ export const useSearch = () => {
           }
         }
 
-        // Index all items from i18n files
+        // Index all items from i18n files (base versions only)
         const allItemIds = await getAllItemIdsFromI18n()
         for (const itemId of allItemIds) {
+          // Skip variant items (glow-up / evo); only index base prefix 1020/1021
+          if (isItemVariantId(itemId)) continue
+
           const name = getLocalizedItemName(itemId)
 
           // Only add if the item has a valid localized name

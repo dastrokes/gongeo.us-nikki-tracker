@@ -3,7 +3,7 @@
     <n-card
       size="small"
       class="rounded-xl p-0 sm:p-2"
-      content-class="!p-2 sm:p-4"
+      content-class="p-2 sm:p-4"
     >
       <div
         class="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between sm:gap-4"
@@ -17,7 +17,7 @@
               <div
                 v-for="banner in filteredBanners"
                 :key="banner.bannerId"
-                class="flex-shrink-0 cursor-pointer transition-opacity hover:opacity-80"
+                class="shrink-0 cursor-pointer transition-opacity hover:opacity-80"
               >
                 <n-tooltip trigger="hover">
                   <template #trigger>
@@ -142,7 +142,7 @@
     <n-card
       size="small"
       class="rounded-xl p-0 sm:p-2"
-      content-class="!p-2 sm:p-4"
+      content-class="p-2 sm:p-4"
     >
       <n-timeline
         :icon-size="16"
@@ -172,7 +172,7 @@
             >
               <n-gradient-text
                 :size="18"
-                class="m-0 font-medium break-words"
+                class="m-0 font-medium wrap-break-word"
                 :type="banner.bannerType === 2 ? 'warning' : 'info'"
               >
                 {{ $t(`banner.${banner.bannerId}.name`) }}
@@ -304,7 +304,7 @@
                   <NuxtLinkLocale
                     no-prefetch
                     :to="`/banners/${banner.bannerId}`"
-                    class="w-full aspect-[2/1] min-h-[140px] sm:min-h-[330px] relative overflow-hidden rounded-lg hover:opacity-95 transition-opacity"
+                    class="w-full aspect-2/1 min-h-[140px] sm:min-h-[330px] relative overflow-hidden rounded-lg hover:opacity-95 transition-opacity"
                   >
                     <NuxtImg
                       :src="getImageSrc('banner', banner.bannerId)"
@@ -322,7 +322,7 @@
                     <n-tooltip
                       overlap
                       placement="top-end"
-                      class="!rounded-lg !m-2 !px-2 !py-1 text-xs cursor-pointer"
+                      class="rounded-lg m-2 px-2 py-1 text-xs cursor-pointer"
                       :z-index="10"
                       @click.stop.prevent="
                         navigateTo(localePath(`/banners/${banner.bannerId}`))

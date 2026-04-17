@@ -3,7 +3,7 @@
     <n-card
       size="small"
       class="rounded-xl p-0 sm:p-2"
-      content-class="!p-2 sm:p-4"
+      content-class="p-2 sm:p-4"
     >
       <div class="space-y-2 sm:space-y-4">
         <div class="text-center space-y-2">

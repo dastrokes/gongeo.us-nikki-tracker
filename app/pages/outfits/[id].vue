@@ -5,13 +5,13 @@
       v-if="loading"
       size="small"
       class="rounded-xl p-0 sm:p-2"
-      content-class="!p-2 sm:p-4"
+      content-class="p-2 sm:p-4"
     >
-      <div class="grid grid-cols-1 lg:grid-cols-[180px_1fr] gap-4 lg:gap-6">
+      <div class="grid grid-cols-1 lg:grid-cols-[200px_1fr] gap-4 lg:gap-6">
         <!-- Image Skeleton -->
         <div class="flex justify-center lg:justify-start">
           <div
-            class="relative aspect-[2/3] w-full max-w-[180px] rounded-lg overflow-hidden"
+            class="relative aspect-2/3 w-full max-w-[200px] rounded-lg overflow-hidden"
           >
             <n-skeleton
               :sharp="false"
@@ -71,7 +71,7 @@
       v-else-if="error"
       size="small"
       class="rounded-xl p-0 sm:p-2"
-      content-class="!p-2 sm:p-4"
+      content-class="p-2 sm:p-4"
     >
       <n-result
         size="small"
@@ -101,12 +101,12 @@
       <n-card
         size="small"
         class="rounded-xl p-0 sm:p-2"
-        content-class="!p-2 sm:p-4"
+        content-class="p-2 sm:p-4"
       >
         <div class="grid grid-cols-1 lg:grid-cols-[auto_1fr] gap-4 lg:gap-6">
           <!-- Outfit Image -->
           <div class="flex justify-center lg:justify-start items-start">
-            <div class="w-[180px] max-w-full shrink-0">
+            <div class="w-[200px] max-w-full shrink-0">
               <OutfitCard
                 :outfit-id="outfit.id"
                 :quality="outfit.quality"
@@ -326,7 +326,7 @@
           v-if="outfitVariations.length > 1"
           size="small"
           class="rounded-xl p-0 sm:p-2 h-full"
-          content-class="!p-2 sm:p-4"
+          content-class="p-2 sm:p-4"
         >
           <div class="flex items-center justify-between mb-3">
             <h2 class="text-lg font-bold">
@@ -357,10 +357,13 @@
                   :show-info="false"
                   :class="[
                     'transition-all duration-200 ease-in-out group-hover:shadow-xl',
-                    variation.id === outfitId
-                      ? 'ring-2 ring-primary/60 dark:ring-primary/40 ring-opacity-50'
-                      : 'group-hover:scale-105',
+                    variation.id === outfitId ? '' : 'group-hover:scale-105',
                   ]"
+                  :style="
+                    variation.id === outfitId
+                      ? getQualityRingStyle(variation.quality)
+                      : ''
+                  "
                 />
               </NuxtLinkLocale>
               <div class="mt-1 text-center">
@@ -377,7 +380,7 @@
           v-if="inBanner"
           size="small"
           class="rounded-xl p-0 sm:p-2 h-full flex flex-col"
-          content-class="!p-2 sm:p-4 flex flex-col h-full"
+          content-class="p-2 sm:p-4 flex flex-col h-full"
         >
           <h2 class="text-lg font-bold mb-3">
             {{ $t('common.banner') }}
@@ -387,7 +390,7 @@
             class="block group"
           >
             <div
-              class="relative aspect-[2/1] max-h-[150px] rounded-lg overflow-hidden transition-all duration-200 ease-in-out shadow-md group-hover:scale-[1.02]"
+              class="relative aspect-2/1 max-h-[150px] rounded-lg overflow-hidden transition-all duration-200 ease-in-out shadow-md group-hover:scale-[1.02]"
             >
               <NuxtImg
                 :src="getImageSrc('banner', inBanner.bannerId)"
@@ -414,7 +417,7 @@
       v-else
       size="small"
       class="rounded-xl p-0 sm:p-2"
-      content-class="!p-2 sm:p-4"
+      content-class="p-2 sm:p-4"
     >
       <n-result
         size="small"

@@ -17,10 +17,10 @@
             : 'max-w-2xl text-center px-4',
         ]"
       >
-        <div :class="[hasSearched ? 'flex-shrink-0' : 'mb-8']">
+        <div :class="[hasSearched ? 'shrink-0' : 'mb-8']">
           <h1
             :class="[
-              'font-black transition-all duration-700 bg-gradient-to-br from-[#c084fc] via-[#f472b6] to-[#fb923c] bg-clip-text text-transparent drop-shadow-sm',
+              'font-black transition-all duration-700 bg-linear-to-br from-[#c084fc] via-[#f472b6] to-[#fb923c] bg-clip-text text-transparent drop-shadow-xs',
               hasSearched
                 ? 'text-2xl sm:text-3xl cursor-pointer'
                 : 'text-4xl sm:text-6xl mb-4 animate-fade-in-up motion-reduce:animate-none',
@@ -45,7 +45,7 @@
             @submit.prevent="runSearch(true)"
           >
             <div
-              class="absolute -inset-1 bg-gradient-to-r from-rose-400 via-fuchsia-500 to-amber-500 rounded-2xl blur opacity-25 group-hover:opacity-40 transition duration-500 group-focus-within:opacity-50"
+              class="absolute -inset-1 bg-linear-to-r from-rose-400 via-fuchsia-500 to-amber-500 rounded-2xl blur-sm opacity-25 group-hover:opacity-40 transition duration-500 group-focus-within:opacity-50"
             ></div>
             <div
               class="relative flex items-center overflow-hidden rounded-2xl bg-white text-lg shadow-lg ring-1 ring-black/5 transition dark:bg-slate-900 dark:ring-white/10 focus-within:ring-2 focus-within:ring-rose-400/60"
@@ -64,7 +64,7 @@
                 autocomplete="off"
                 autocapitalize="off"
                 spellcheck="false"
-                class="w-full bg-transparent border-none py-4 text-slate-800 focus:outline-none dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500"
+                class="w-full bg-transparent border-none py-4 text-slate-800 focus:outline-hidden dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500"
                 @keydown.esc.prevent="clearSearchQuery"
               />
               <div class="flex items-center gap-1">
@@ -75,7 +75,7 @@
                   strong
                   attr-type="button"
                   size="large"
-                  class="!text-slate-400 hover:!text-slate-700 dark:!text-slate-500 dark:hover:!text-slate-200"
+                  class="text-slate-400 hover:text-slate-700 dark:text-slate-500 dark:hover:text-slate-200"
                   :aria-label="t('search_page.clear_query')"
                   @click="clearSearchQuery"
                 >
@@ -93,8 +93,8 @@
                     :class="[
                       'transition-colors',
                       hasActiveFilter
-                        ? '!text-rose-500 hover:!text-rose-600 dark:!text-rose-400 dark:hover:!text-rose-300'
-                        : '!text-slate-400 hover:!text-slate-700 dark:!text-slate-500 dark:hover:!text-slate-200',
+                        ? 'text-rose-500 hover:text-rose-600 dark:text-rose-400 dark:hover:text-rose-300'
+                        : 'text-slate-400 hover:text-slate-700 dark:text-slate-500 dark:hover:text-slate-200',
                     ]"
                     :aria-label="t('compendium.filter_slot')"
                     @click="
@@ -118,7 +118,7 @@
                 type="primary"
                 attr-type="submit"
                 size="large"
-                class="m-1.5 !rounded-xl overflow-hidden after:content-[''] after:absolute after:inset-y-0 after:-left-full after:w-[60%] after:bg-gradient-to-r after:from-transparent after:via-white/20 after:to-transparent after:animate-button-shimmer hover:shadow-md transition-shadow"
+                class="m-1.5 rounded-xl overflow-hidden after:content-[''] after:absolute after:inset-y-0 after:-left-full after:w-[60%] after:bg-linear-to-r after:from-transparent after:via-white/20 after:to-transparent after:animate-button-shimmer hover:shadow-md transition-shadow"
                 :loading="loading"
               >
                 {{ t('common.search') }}
@@ -138,7 +138,7 @@
         type="error"
         :title="t('common.error')"
         :show-icon="true"
-        class="rounded-xl shadow-sm"
+        class="rounded-xl shadow-xs"
       >
         {{ error }}
       </n-alert>
@@ -158,7 +158,7 @@
           <div
             v-for="i in 12"
             :key="`search-skeleton-${i}`"
-            class="aspect-[2/3] rounded-2xl bg-slate-200/50 dark:bg-slate-800/50 animate-pulse border border-slate-200 dark:border-slate-800"
+            class="aspect-2/3 rounded-2xl bg-slate-200/50 dark:bg-slate-800/50 animate-pulse border border-slate-200 dark:border-slate-800"
           />
         </div>
 
@@ -170,7 +170,7 @@
             v-for="(item, index) in displayResults"
             :key="item.id"
             type="button"
-            class="group relative overflow-hidden rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80 text-left transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-rose-400 cursor-pointer animate-fade-in-up"
+            class="group relative overflow-hidden rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80 text-left transition-all duration-300 focus:outline-hidden focus:ring-2 focus:ring-rose-400 cursor-pointer animate-fade-in-up"
             :style="{ animationDelay: `${Math.min(index, 15) * 0.05}s` }"
             :aria-label="item.itemName"
             :aria-pressed="item.id === selectedId"
@@ -183,7 +183,7 @@
           >
             <!-- Image Area -->
             <div
-              class="relative w-full aspect-[2/3] bg-slate-100 dark:bg-slate-950 overflow-hidden"
+              class="relative w-full aspect-2/3 bg-slate-100 dark:bg-slate-950 overflow-hidden"
             >
               <NuxtImg
                 v-if="item.imageSrc"
@@ -204,7 +204,7 @@
 
               <!-- Gradient & Text Bottom Overlay -->
               <div
-                class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-3 pt-8 pb-3"
+                class="absolute inset-x-0 bottom-0 bg-linear-to-t from-black/90 via-black/50 to-transparent p-3 pt-8 pb-3"
               >
                 <div
                   class="text-white font-bold leading-tight text-sm line-clamp-2 shadow-black drop-shadow-md"
@@ -224,7 +224,7 @@
 
         <div
           v-else
-          class="flex flex-col min-h-64 items-center justify-center rounded-2xl border-2 border-dashed border-slate-300/60 dark:border-slate-800 bg-white/30 dark:bg-slate-900/40 p-12 text-center backdrop-blur-sm"
+          class="flex flex-col min-h-64 items-center justify-center rounded-2xl border-2 border-dashed border-slate-300/60 dark:border-slate-800 bg-white/30 dark:bg-slate-900/40 p-12 text-center backdrop-blur-xs"
         >
           <n-icon
             size="48"
@@ -263,7 +263,7 @@
               <div class="w-full relative z-10">
                 <!-- Header Image -->
                 <div
-                  class="relative w-full aspect-[2/3] bg-slate-100 dark:bg-slate-950/50 border-b border-slate-200/50 dark:border-slate-800/50"
+                  class="relative w-full aspect-2/3 bg-slate-100 dark:bg-slate-950/50 border-b border-slate-200/50 dark:border-slate-800/50"
                 >
                   <NuxtImg
                     v-if="activeResult.imageSrc"
@@ -305,7 +305,7 @@
                         round
                         :bordered="false"
                         type="warning"
-                        class="font-bold tracking-widest uppercase !text-[9px]"
+                        class="font-bold tracking-widest uppercase text-[9px]"
                       >
                         {{ activeResult.itemTypeLabel }}
                       </n-tag>
@@ -349,7 +349,7 @@
                       type="primary"
                       block
                       size="large"
-                      class="!rounded-xl shadow-md font-bold"
+                      class="rounded-xl shadow-md font-bold"
                       @click="openActiveCompendium"
                     >
                       {{ t('common.view_compendium') }}
@@ -363,7 +363,7 @@
                       secondary
                       block
                       size="large"
-                      class="!rounded-xl font-bold"
+                      class="rounded-xl font-bold"
                       @click="openFeedbackModal"
                     >
                       {{ t('feedback.suggest_action') }}
@@ -414,7 +414,7 @@
             :class="[
               'cursor-pointer justify-center',
               selectedItemTypes.includes(option.value) &&
-                '!bg-rose-500 !text-white',
+                'bg-rose-500 text-white',
             ]"
             @click="toggleItemType(option.value)"
           >
@@ -434,7 +434,7 @@
             :class="[
               'cursor-pointer justify-center',
               selectedItemTypes.includes(option.value) &&
-                '!bg-rose-500 !text-white',
+                'bg-rose-500 text-white',
             ]"
             @click="toggleItemType(option.value)"
           >
@@ -467,7 +467,7 @@
     <!-- Mobile Details Modal -->
     <n-modal
       v-model:show="isMobileModalOpen"
-      class="w-[calc(100vw-2rem)] max-w-[400px] !bg-transparent !shadow-none"
+      class="w-[calc(100vw-2rem)] max-w-[400px] bg-transparent shadow-none"
     >
       <div
         v-if="activeResult"
@@ -480,7 +480,7 @@
             strong
             attr-type="button"
             size="small"
-            class="!bg-white/80 !text-slate-600 shadow-md backdrop-blur hover:!text-slate-900 dark:!bg-slate-900/80 dark:!text-slate-200 dark:hover:!text-white"
+            class="bg-white/80 text-slate-600 shadow-md backdrop-blur-sm hover:text-slate-900 dark:bg-slate-900/80 dark:text-slate-200 dark:hover:text-white"
             :aria-label="t('search_page.close_details')"
             @click="closeMobileModal"
           >
@@ -498,7 +498,7 @@
           >
             <!-- Header Image -->
             <div
-              class="relative w-full aspect-[2/3] bg-slate-100 dark:bg-slate-950/50 flex overflow-hidden items-center justify-center shrink-0"
+              class="relative w-full aspect-2/3 bg-slate-100 dark:bg-slate-950/50 flex overflow-hidden items-center justify-center shrink-0"
             >
               <NuxtImg
                 v-if="activeResult.imageSrc"
@@ -539,7 +539,7 @@
                     round
                     :bordered="false"
                     type="warning"
-                    class="font-bold tracking-widest uppercase !text-[9px]"
+                    class="font-bold tracking-widest uppercase text-[9px]"
                   >
                     {{ activeResult.itemTypeLabel }}
                   </n-tag>
@@ -590,7 +590,7 @@
               type="primary"
               block
               size="large"
-              class="!rounded-xl shadow-md font-bold"
+              class="rounded-xl shadow-md font-bold"
               @click="openActiveCompendium"
             >
               {{ t('common.view_compendium') }}
@@ -603,7 +603,7 @@
               secondary
               block
               size="large"
-              class="!rounded-xl font-bold"
+              class="rounded-xl font-bold"
               @click="openFeedbackModal"
             >
               {{ t('feedback.suggest_action') }}

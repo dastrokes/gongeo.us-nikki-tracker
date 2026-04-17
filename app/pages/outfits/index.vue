@@ -4,7 +4,7 @@
     <n-card
       size="small"
       class="rounded-xl p-0 sm:p-2"
-      content-class="!p-2 sm:p-4"
+      content-class="p-2 sm:p-4"
     >
       <div class="flex flex-col gap-2">
         <div class="flex items-start justify-between gap-2">
@@ -17,7 +17,7 @@
                   <n-button
                     size="small"
                     type="primary"
-                    class="w-12 !px-0"
+                    class="w-12 px-0"
                     :aria-label="$t('common.outfits')"
                   >
                     <template #icon>
@@ -31,7 +31,7 @@
                 <template #trigger>
                   <n-button
                     size="small"
-                    class="w-12 !px-0"
+                    class="w-12 px-0"
                     :aria-label="$t('common.items')"
                     @click="
                       navigateTo(
@@ -210,7 +210,7 @@
     <n-card
       size="small"
       class="rounded-xl p-0 sm:p-2 sm:flex-1 sm:flex sm:flex-col"
-      content-class="!p-2 sm:p-4 sm:flex-1 sm:flex sm:flex-col"
+      content-class="p-2 sm:p-4 sm:flex-1 sm:flex sm:flex-col"
     >
       <div class="sm:flex-1 sm:flex sm:flex-col min-h-0">
         <div class="space-y-3 sm:space-y-4">
@@ -281,9 +281,8 @@
                   :outfit-id="entry.id"
                   :quality="entry.quality"
                   :name="entry.name"
-                  :style="entry.styleLabel"
                   :style-key="entry.styleKey"
-                  :labels="entry.labelTags"
+                  :labels="entry.labels"
                   :show-info="true"
                   class="transition-shadow duration-300 group-hover:shadow-xl"
                 />
@@ -297,7 +296,7 @@
               <div
                 v-for="(i, index) in pageSize"
                 :key="`skeleton-${i}`"
-                class="relative aspect-[3/4] rounded-lg overflow-hidden bg-gray-200 dark:bg-gray-700 animate-pulse"
+                class="relative aspect-3/4 rounded-lg overflow-hidden bg-gray-200 dark:bg-gray-700 animate-pulse"
                 :style="{
                   animationDelay: `${Math.min(index + 1, 9) * 0.05}s`,
                 }"
@@ -315,7 +314,9 @@
               :page-slot="5"
             >
               <template #prefix="{ itemCount }">
-                <div class="text-sm space-x-1 text-gray-600 dark:text-gray-400">
+                <div
+                  class="inline-flex items-baseline gap-1 text-sm text-gray-600 dark:text-gray-400"
+                >
                   <span class="font-semibold text-gray-900 dark:text-white">{{
                     totalItems
                   }}</span>
@@ -635,12 +636,8 @@
       id: entry.id,
       quality: entry.quality,
       name: t(`outfit.${entry.id}.name`),
-      styleLabel: entry.style ? t(entry.style) : null,
       styleKey: entry.style ? resolveStyleKeyFromI18nKey(entry.style) : null,
-      labelTags: (entry.labels || []).map((label: string) => ({
-        text: t(label),
-        theme: getLabelTagTheme(label),
-      })),
+      labels: entry.labels || [],
     }))
   })
 

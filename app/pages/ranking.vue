@@ -369,7 +369,7 @@
           h(resolveComponent('NuxtImg'), {
             src: getImageSrc('bannerThumb', row.banner_id),
             alt: t(`banner.${row.banner_id}.name`),
-            class: 'w-16 h-8 rounded object-cover flex-shrink-0',
+            class: 'w-16 h-8 rounded-sm object-cover shrink-0',
             preset: 'bannerThumb',
             width: 200,
             height: 100,
@@ -483,7 +483,7 @@
           h(resolveComponent('NuxtImg'), {
             src: getImageSrc('bannerThumb', row.banner_id),
             alt: t(`banner.${row.banner_id}.name`),
-            class: 'w-20 h-10 rounded object-cover flex-shrink-0',
+            class: 'w-20 h-10 rounded-sm object-cover shrink-0',
             preset: 'bannerThumb',
             width: 200,
             height: 100,

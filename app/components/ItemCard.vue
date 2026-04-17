@@ -12,7 +12,7 @@
       ]"
       :bordered="false"
       size="small"
-      content-class="p-0"
+      content-class="p-2"
     >
       <NuxtImg
         :src="getImageSrc('itemIcon', itemId)"

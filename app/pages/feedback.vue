@@ -2,8 +2,8 @@
   <div class="max-w-7xl mx-auto space-y-2 sm:space-y-4">
     <n-card
       size="small"
-      class="rounded-xl p-0"
-      content-class="!p-3.5 sm:!p-4"
+      class="rounded-xl p-0 sm:p-2"
+      content-class="p-2 sm:p-4"
     >
       <div class="space-y-4">
         <div
@@ -118,7 +118,7 @@
     <n-card
       size="small"
       class="rounded-xl p-0 sm:p-2"
-      content-class="!p-3 sm:!p-4"
+      content-class="p-3 sm:p-4"
     >
       <div class="space-y-4 sm:space-y-5">
         <n-spin :show="loading">
@@ -166,7 +166,7 @@
             class="grid animate-pulse gap-4 lg:grid-cols-[200px_minmax(0,1fr)]"
           >
             <div
-              class="aspect-[2/3] rounded-3xl bg-black/5 dark:bg-white/5"
+              class="aspect-2/3 rounded-3xl bg-black/5 dark:bg-white/5"
             ></div>
             <div class="space-y-4">
               <div

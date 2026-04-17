@@ -28,7 +28,7 @@
         :size="qualityTagSize"
         :bordered="false"
         :color="getQualityTagTheme(quality)"
-        class="backdrop-blur-sm"
+        class="backdrop-blur-xs"
       >
         <span class="flex items-center gap-1">
           {{ quality }}
@@ -41,14 +41,14 @@
 
     <div
       v-if="showInfo"
-      class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 to-transparent z-20"
+      class="absolute bottom-0 left-0 right-0 bg-linear-to-t from-black/90 to-transparent z-20"
       :class="metaPaddingClass"
     >
       <p class="text-white font-semibold text-xs sm:text-sm line-clamp-2">
         {{ name }}
       </p>
       <div
-        v-if="style"
+        v-if="styleLabel"
         class="flex flex-wrap gap-1 mt-1"
       >
         <n-tag
@@ -58,7 +58,7 @@
           :color="styleTagTheme"
           class="text-xs font-semibold shadow-[inset_0_-2px_0_rgba(0,0,0,0.18)]"
         >
-          {{ style }}
+          {{ styleLabel }}
         </n-tag>
       </div>
       <div
@@ -84,6 +84,7 @@
 <script setup lang="ts">
   import { Star } from '@vicons/fa'
 
+  const { t } = useI18n()
   const { getImageSrc } = imageProvider()
 
   const props = withDefaults(
@@ -91,14 +92,12 @@
       outfitId: number | string
       name: string
       quality: number
-      style?: string | null
       styleKey?: string | null
       labels?: Array<string | { text: string; theme?: Record<string, string> }>
       showInfo?: boolean
       size?: 'sm' | 'md' | 'lg'
     }>(),
     {
-      style: null,
       styleKey: null,
       labels: () => [],
       showInfo: false,
@@ -110,12 +109,24 @@
 
   const overlayClass = computed(() => getQualityOverlayStyle(props.quality))
 
+  const styleLabel = computed(() => {
+    if (!props.styleKey) return null
+    const definition = STYLE_BY_KEY.get(props.styleKey)
+    return definition ? t(definition.i18nKey) : null
+  })
+
   const styleTagTheme = computed(() => getStyleTagTheme(props.styleKey))
 
   const normalizedLabels = computed(() =>
-    (props.labels || []).map((label) =>
-      typeof label === 'string' ? { text: label } : label
-    )
+    (props.labels || []).map((label) => {
+      if (typeof label === 'string') {
+        return {
+          text: t(label),
+          theme: getLabelTagTheme(label),
+        }
+      }
+      return label
+    })
   )
 
   const imagePreset = computed(() => {
@@ -151,7 +162,7 @@
   const metaPaddingClass = computed(() => (props.size === 'sm' ? 'p-2' : 'p-3'))
 
   const cardClasses = computed(() => [
-    'relative aspect-[2/3] rounded-lg overflow-hidden shadow-md',
+    'relative aspect-2/3 rounded-lg overflow-hidden shadow-md',
   ])
 
   const imageClasses = computed(() => [

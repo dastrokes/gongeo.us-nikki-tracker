@@ -3,7 +3,7 @@
     :show="show"
     placement="right"
     :width="drawerWidth"
-    class="h-[calc(100vh-3.5rem)] !top-14"
+    class="h-[calc(100vh-3.5rem)] top-14"
     :show-mask="false"
     :mask-closable="false"
     :on-mask-click="handleMaskClick"
@@ -30,7 +30,7 @@
             v-if="activeCount > 0"
             text
             size="small"
-            class="!px-1 !text-slate-500 hover:!text-slate-700 dark:!text-slate-400 dark:hover:!text-slate-200"
+            class="px-1 text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200"
             @click="clearFilters"
           >
             {{ t('common.clear') }}

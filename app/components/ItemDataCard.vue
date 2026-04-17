@@ -11,7 +11,7 @@
       ]"
       :bordered="false"
       size="small"
-      content-class="p-0"
+      content-class="p-2"
       class="relative overflow-hidden rounded-md transition-all duration-300 ease-in-out aspect-square ring-1 min-h-[50px] xl:min-h-[80px]"
     >
       <NuxtImg
@@ -41,7 +41,7 @@
         v-if="item.count > 0 && info"
         size="tiny"
         :bordered="false"
-        class="absolute bottom-1 right-1 scale-75 sm:scale-90 origin-bottom-right text-white shadow-sm rounded-full text-xs opacity-80"
+        class="absolute bottom-1 right-1 scale-75 sm:scale-90 origin-bottom-right text-white shadow-xs rounded-full text-xs opacity-80"
         :style="{
           backgroundColor: getPullColor(
             item.pullsToObtain,
@@ -65,7 +65,7 @@
         v-if="item.count > 1 && info"
         size="tiny"
         :bordered="false"
-        class="absolute top-1 right-1 scale-75 sm:scale-90 origin-top-right shadow-sm rounded-full text-xs"
+        class="absolute top-1 right-1 scale-75 sm:scale-90 origin-top-right shadow-xs rounded-full text-xs"
         :style="{
           backgroundColor: `${getQualityColor(item.quality)}CC`, // 80% opacity
         }"

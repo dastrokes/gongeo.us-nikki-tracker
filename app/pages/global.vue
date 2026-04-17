@@ -5,7 +5,7 @@
       <n-card
         size="small"
         class="rounded-xl"
-        content-class="!p-2 sm:!p-4"
+        content-class="p-2 sm:p-4"
       >
         <!-- Summary Cards Skeleton -->
         <div class="grid grid-cols-2 md:grid-cols-6 gap-2">
@@ -33,7 +33,7 @@
       <n-card
         size="small"
         class="rounded-xl"
-        content-class="!p-2 sm:!p-4"
+        content-class="p-2 sm:p-4"
       >
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
           <!-- Pulls per Banner Chart Skeleton -->
@@ -58,7 +58,7 @@
       <n-card
         size="small"
         class="rounded-xl"
-        content-class="!p-2 sm:!p-4"
+        content-class="p-2 sm:p-4"
       >
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
           <!-- Distribution Charts Skeleton -->
@@ -90,7 +90,7 @@
       <!-- Summary Cards -->
       <n-card
         v-show="!maximizedChart"
-        content-class="!p-2 sm:!p-4"
+        content-class="p-2 sm:p-4"
         size="small"
         class="rounded-xl"
       >
@@ -203,8 +203,8 @@
         v-show="!maximizedChart || maximizedChart === 'pullsPerBanner'"
         size="small"
         class="rounded-xl"
-        :class="{ '!mt-0 !mb-0': Boolean(maximizedChart) }"
-        content-class="!p-2 sm:!p-4"
+        :class="{ 'mt-0 mb-0': Boolean(maximizedChart) }"
+        content-class="p-2 sm:p-4"
       >
         <!-- Pulls per Banner Chart -->
         <n-card
@@ -297,8 +297,8 @@
         "
         size="small"
         class="rounded-xl"
-        content-class="grid grid-cols-1 md:grid-cols-3 gap-4 !p-2 sm:!p-4"
-        :class="{ '!mt-0 !mb-0': Boolean(maximizedChart) }"
+        content-class="p-2 sm:p-4 grid grid-cols-1 md:grid-cols-3 gap-4"
+        :class="{ 'mt-0 mb-0': Boolean(maximizedChart) }"
       >
         <!-- 5★ Distribution Chart -->
         <n-card
@@ -438,8 +438,8 @@
         v-show="!maximizedChart || maximizedChart === 'firstItemDistribution'"
         size="small"
         class="rounded-xl"
-        :class="{ '!mt-0 !mb-0': Boolean(maximizedChart) }"
-        content-class="!p-2 sm:!p-4"
+        :class="{ 'mt-0 mb-0': Boolean(maximizedChart) }"
+        content-class="p-2 sm:p-4"
       >
         <!-- First Item Distribution Chart -->
         <n-card
@@ -1097,7 +1097,7 @@
                   <img
                     src="${imageUrl}"
                     alt="${banner?.bannerId ? t(`banner.${banner.bannerId}.name`) : ''}"
-                    style="width: 200px; height: 100px; object-cover: cover; border-radius: 4px; margin-top: 8px;"
+                    style="width: 200px; height: 100px; object-fit: cover; border-radius: 4px; margin-top: 8px;"
                   />
                 </div>
               `

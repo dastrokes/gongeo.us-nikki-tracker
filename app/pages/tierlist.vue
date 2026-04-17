@@ -3,7 +3,7 @@
     <n-card
       size="small"
       class="rounded-xl p-0 sm:p-2"
-      content-class="!p-2 sm:p-4"
+      content-class="p-2 sm:p-4"
     >
       <div class="flex flex-col gap-2">
         <div class="flex items-start justify-between gap-2 sm:items-center">
@@ -15,7 +15,7 @@
                 <template #trigger>
                   <n-button
                     size="small"
-                    class="w-12 !px-0"
+                    class="w-12 px-0"
                     :aria-label="t('common.banners')"
                     :type="mode === 'banners' ? 'primary' : 'default'"
                     @click="setMode('banners')"
@@ -31,7 +31,7 @@
                 <template #trigger>
                   <n-button
                     size="small"
-                    class="w-12 !px-0"
+                    class="w-12 px-0"
                     :aria-label="t('common.outfits')"
                     :type="mode === 'outfits' ? 'primary' : 'default'"
                     @click="setMode('outfits')"
@@ -47,7 +47,7 @@
                 <template #trigger>
                   <n-button
                     size="small"
-                    class="w-12 !px-0"
+                    class="w-12 px-0"
                     :aria-label="t('common.items')"
                     :type="mode === 'items' ? 'primary' : 'default'"
                     @click="setMode('items')"
@@ -239,7 +239,7 @@
                     class="relative overflow-hidden"
                     :class="
                       shouldHighlightCommunitySubmitButton
-                        ? `after:content-[''] after:absolute after:inset-y-0 after:-left-full after:w-[60%] after:bg-gradient-to-r after:from-transparent after:via-white/15 after:to-transparent after:animate-button-shimmer motion-reduce:after:animate-none`
+                        ? `after:content-[''] after:absolute after:inset-y-0 after:-left-full after:w-[60%] after:bg-linear-to-r after:from-transparent after:via-white/15 after:to-transparent after:animate-button-shimmer motion-reduce:after:animate-none`
                         : ''
                     "
                     :loading="submittingCommunity"
@@ -441,7 +441,7 @@
       <n-card
         size="small"
         class="rounded-xl"
-        content-class="!p-2 sm:!p-4"
+        content-class="p-2 sm:p-4"
       >
         <div class="space-y-1">
           <div
@@ -451,9 +451,9 @@
           >
             <div :class="[tierRowClass, 'flex items-stretch gap-2']">
               <div
-                class="shrink-0 w-12 sm:w-16 md:w-20 xl:w-24 rounded-md border border-gray-200/70 dark:border-gray-700/70 border-l-4 p-1 flex items-center justify-center"
+                class="shrink-0 w-12 sm:w-16 md:w-20 xl:w-24 rounded-md border border-gray-200/70 dark:border-gray-700/70 border-l-4 border-l-(--tier-accent-color) p-1 flex items-center justify-center"
                 :style="{
-                  borderLeftColor: tierColorByKey[tier],
+                  '--tier-accent-color': tierColorByKey[tier],
                   backgroundColor: tierLabelBackgroundByKey[tier],
                 }"
               ></div>
@@ -479,7 +479,7 @@
       v-else-if="showCommunityInsightPanel"
       size="small"
       class="rounded-xl"
-      content-class="!p-2 sm:!p-4"
+      content-class="p-2 sm:p-4"
     >
       <div class="space-y-2">
         <div
@@ -508,9 +508,9 @@
             >
               <div :class="[tierRowClass, 'flex items-stretch gap-2']">
                 <div
-                  class="shrink-0 w-12 sm:w-16 md:w-20 xl:w-24 rounded-md border border-gray-200/70 dark:border-gray-700/70 border-l-4 p-1 flex items-center justify-center"
+                  class="shrink-0 w-12 sm:w-16 md:w-20 xl:w-24 rounded-md border border-gray-200/70 dark:border-gray-700/70 border-l-4 border-l-(--tier-accent-color) p-1 flex items-center justify-center"
                   :style="{
-                    borderLeftColor: tierColorByKey[tier],
+                    '--tier-accent-color': tierColorByKey[tier],
                     backgroundColor: tierLabelBackgroundByKey[tier],
                   }"
                 >
@@ -540,7 +540,7 @@
                       >
                         <template #trigger>
                           <div
-                            class="relative rounded-md overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200 bg-gray-100 dark:bg-gray-800 border border-gray-200/70 dark:border-gray-700/70"
+                            class="relative rounded-md overflow-hidden shadow-xs hover:shadow-md transition-shadow duration-200 bg-gray-100 dark:bg-gray-800 border border-gray-200/70 dark:border-gray-700/70"
                             :class="cardAspectClass"
                             style="
                               background-image: url('/images/bg.webp');
@@ -601,7 +601,7 @@
                           </div>
 
                           <div
-                            class="rounded-lg !my-1 border border-gray-200/80 bg-gray-50/80 p-2 dark:border-gray-700/80 dark:bg-gray-800/40"
+                            class="rounded-lg my-1 border border-gray-200/80 bg-gray-50/80 p-2 dark:border-gray-700/80 dark:bg-gray-800/40"
                           >
                             <div class="space-y-1">
                               <div
@@ -657,7 +657,7 @@
                   >
                     <template #trigger>
                       <div
-                        class="relative rounded-md overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200 bg-gray-100 dark:bg-gray-800 border border-gray-200/70 dark:border-gray-700/70"
+                        class="relative rounded-md overflow-hidden shadow-xs hover:shadow-md transition-shadow duration-200 bg-gray-100 dark:bg-gray-800 border border-gray-200/70 dark:border-gray-700/70"
                         :class="cardAspectClass"
                         style="
                           background-image: url('/images/bg.webp');
@@ -765,7 +765,7 @@
       <n-card
         size="small"
         class="rounded-xl"
-        content-class="!p-2 sm:!p-4"
+        content-class="p-2 sm:p-4"
       >
         <div
           v-if="error"
@@ -824,9 +824,9 @@
           >
             <div :class="[tierRowClass, 'flex items-stretch gap-2']">
               <div
-                class="shrink-0 w-12 sm:w-16 md:w-20 xl:w-24 rounded-md border border-gray-200/70 dark:border-gray-700/70 border-l-4 p-1 flex items-center justify-center"
+                class="shrink-0 w-12 sm:w-16 md:w-20 xl:w-24 rounded-md border border-gray-200/70 dark:border-gray-700/70 border-l-4 border-l-(--tier-accent-color) p-1 flex items-center justify-center"
                 :style="{
-                  borderLeftColor: tierColorByKey[tier],
+                  '--tier-accent-color': tierColorByKey[tier],
                   backgroundColor: tierLabelBackgroundByKey[tier],
                 }"
               >
@@ -839,7 +839,7 @@
                   :show-count="false"
                   :bordered="false"
                   :style="getTierLabelInputStyle(tier)"
-                  class="w-full min-w-0 bg-transparent font-bold text-center [&_.n-input-wrapper]:!px-1"
+                  class="w-full min-w-0 bg-transparent font-bold text-center [&_.n-input-wrapper]:px-1"
                   @update:value="(value) => updateTierLabel(tier, value)"
                   @blur="normalizeTierLabel(tier)"
                 />
@@ -866,7 +866,7 @@
                     @contextmenu="openRankContextMenu(entry.id, $event)"
                   >
                     <div
-                      class="relative rounded-md overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200 bg-gray-100 dark:bg-gray-800 border border-gray-200/70 dark:border-gray-700/70"
+                      class="relative rounded-md overflow-hidden shadow-xs hover:shadow-md transition-shadow duration-200 bg-gray-100 dark:bg-gray-800 border border-gray-200/70 dark:border-gray-700/70"
                       :class="cardAspectClass"
                       style="
                         background-image: url('/images/bg.webp');
@@ -903,7 +903,7 @@
       "
       size="small"
       class="rounded-xl"
-      content-class="!p-2 sm:!p-4"
+      content-class="p-2 sm:p-4"
     >
       <div
         class="rounded-lg border border-dashed border-gray-300 dark:border-gray-600"
@@ -931,7 +931,7 @@
               @contextmenu="openRankContextMenu(entry.id, $event)"
             >
               <div
-                class="relative rounded-md overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200 bg-gray-100 dark:bg-gray-800 border border-gray-200/70 dark:border-gray-700/70"
+                class="relative rounded-md overflow-hidden shadow-xs hover:shadow-md transition-shadow duration-200 bg-gray-100 dark:bg-gray-800 border border-gray-200/70 dark:border-gray-700/70"
                 :class="cardAspectClass"
                 style="
                   background-image: url('/images/bg.webp');
@@ -967,7 +967,9 @@
             :page-slot="5"
           >
             <template #prefix>
-              <div class="text-sm space-x-1 text-gray-600 dark:text-gray-400">
+              <div
+                class="inline-flex items-baseline gap-1 text-sm text-gray-600 dark:text-gray-400"
+              >
                 <span class="font-semibold text-gray-900 dark:text-white">{{
                   entries.length
                 }}</span>
@@ -984,7 +986,7 @@
 
           <div
             v-else
-            class="text-sm space-x-1 text-gray-600 dark:text-gray-400"
+            class="inline-flex items-baseline gap-1 text-sm text-gray-600 dark:text-gray-400"
           >
             <span class="font-semibold text-gray-900 dark:text-white">{{
               entries.length
@@ -1951,7 +1953,7 @@
     }
   })
   const cardAspectClass = computed(() =>
-    mode.value === 'banners' ? 'aspect-[2/1]' : 'aspect-[2/3]'
+    mode.value === 'banners' ? 'aspect-2/1' : 'aspect-2/3'
   )
   const cardGridClass = computed(() =>
     mode.value === 'banners'
@@ -3261,7 +3263,6 @@
 
     try {
       await nextTick()
-
       const tierlistElement = document.querySelector(
         '.png-export-container'
       ) as HTMLElement | null

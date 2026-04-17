@@ -1,7 +1,7 @@
 <template>
   <n-layout position="absolute">
     <n-layout-header
-      class="fixed inset-x-0 top-0 z-50 h-14 bg-transparent backdrop-blur-xl backdrop-saturate-50 border-b border-white/20 bg-[linear-gradient(to_right,_rgba(232,221,249,0.78),_rgba(252,228,236,0.76),_rgba(253,237,220,0.74))] dark:border-white/5 dark:bg-[linear-gradient(to_right,_rgba(30,27,75,0.82),_rgba(88,28,100,0.78),_rgba(120,40,70,0.76))]"
+      class="fixed inset-x-0 top-0 z-50 h-14 bg-transparent backdrop-blur-xl backdrop-saturate-50 border-b border-white/20 bg-[linear-gradient(to_right,rgba(232,221,249,0.78),rgba(252,228,236,0.76),rgba(253,237,220,0.74))] dark:border-white/5 dark:bg-[linear-gradient(to_right,rgba(30,27,75,0.82),rgba(88,28,100,0.78),rgba(120,40,70,0.76))]"
     >
       <div
         class="mx-auto flex h-full max-w-7xl items-center gap-4 px-3 sm:gap-5 sm:px-5"
@@ -25,7 +25,7 @@
             @click="closeAllMenus"
           >
             <div
-              class="flex h-8 w-8 shrink-0 items-center justify-center rounded-[10px] bg-white/60 p-1 shadow-sm ring-1 ring-black/5 backdrop-blur-sm dark:bg-slate-800/40 dark:ring-white/5"
+              class="flex h-8 w-8 shrink-0 items-center justify-center rounded-[10px] bg-white/60 p-1 shadow-xs ring-1 ring-black/5 backdrop-blur-xs dark:bg-slate-800/40 dark:ring-white/5"
             >
               <NuxtImg
                 src="images/logo.webp"
@@ -38,7 +38,7 @@
             </div>
 
             <span
-              class="truncate text-xl font-bold hover:opacity-80 hover:drop-shadow-sm"
+              class="truncate text-xl font-bold hover:opacity-80 hover:drop-shadow-xs"
             >
               {{ $t('navigation.title') }}
             </span>
@@ -57,7 +57,7 @@
           >
             <button
               type="button"
-              class="flex items-center gap-1.5 px-4 py-2 text-md font-semibold"
+              class="flex cursor-pointer items-center gap-1.5 px-4 py-2 text-md font-semibold"
               :class="
                 isNavGroupActive(group.key) || openDesktopGroup === group.key
                   ? 'text-rose-500 dark:text-rose-400'
@@ -82,13 +82,13 @@
                 :show="openDesktopGroup === group.key"
               >
                 <div
-                  class="min-w-[200px] origin-top rounded-xl border border-black/[0.06] bg-white p-1.5 ring-1 ring-black/5 dark:border-white/[0.02] dark:bg-slate-900 dark:ring-white/5"
+                  class="min-w-[200px] origin-top rounded-xl border border-black/6 bg-white p-1.5 ring-1 ring-black/5 dark:border-white/2 dark:bg-slate-900 dark:ring-white/5"
                 >
                   <button
                     v-for="item in group.items"
                     :key="item.key"
                     type="button"
-                    class="group flex w-full items-center gap-3 rounded-lg px-3 py-3 text-left text-sm whitespace-nowrap hover:bg-slate-100 dark:hover:bg-slate-800/80"
+                    class="group flex w-full cursor-pointer items-center gap-3 rounded-lg px-3 py-3 text-left text-sm whitespace-nowrap hover:bg-slate-100 dark:hover:bg-slate-800/80"
                     :class="
                       isNavItemActive(item.key)
                         ? 'text-rose-500 dark:text-rose-400'
@@ -132,18 +132,18 @@
     <n-layout-content
       ref="scrollbarRef"
       position="absolute"
-      class="!top-0 bg-[#F8FAFC] bg-[radial-gradient(ellipse_at_50%_0%,rgba(232,221,249,0.56)_0%,transparent_68%)] dark:bg-[#101014] dark:bg-[radial-gradient(ellipse_at_50%_0%,rgba(88,28,100,0.36)_0%,transparent_68%)]"
+      class="top-0 bg-[#F8FAFC] bg-[radial-gradient(ellipse_at_50%_0%,rgba(232,221,249,0.56)_0%,transparent_68%)] dark:bg-[#101014] dark:bg-[radial-gradient(ellipse_at_50%_0%,rgba(88,28,100,0.36)_0%,transparent_68%)]"
       :native-scrollbar="false"
       :scrollbar-props="{ verticalRailStyle: { top: '3.5rem' } }"
       @scroll="onScroll"
     >
-      <div class="flex min-h-screen flex-col px-2 pt-16 sm:pt-[4.5rem]">
+      <div class="flex min-h-screen flex-col px-2 pt-16 sm:pt-18">
         <div class="flex-1">
           <slot />
         </div>
 
         <n-layout-footer
-          class="mt-12 border-t border-gray-400/20 bg-gradient-to-r from-[#f5f0fa]/80 via-[#fff0f5]/80 to-[#fffacd]/50 backdrop-blur-sm dark:border-white/8 dark:from-[#1a1b2e]/80 dark:via-[#2d1b36]/80 dark:to-[#3d1b2e]/50"
+          class="mt-12 border-t border-gray-400/20 bg-linear-to-r from-[#f5f0fa]/80 via-[#fff0f5]/80 to-[#fffacd]/50 backdrop-blur-xs dark:border-white/8 dark:from-[#1a1b2e]/80 dark:via-[#2d1b36]/80 dark:to-[#3d1b2e]/50"
         >
           <div class="mx-auto max-w-5xl p-4">
             <div
@@ -154,7 +154,7 @@
               >
                 <div class="flex items-center gap-3">
                   <div
-                    class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/60 p-2 shadow-sm ring-1 ring-black/5 backdrop-blur-sm dark:bg-slate-800/40 dark:ring-white/5 sm:h-12 sm:w-12"
+                    class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/60 p-2 shadow-xs ring-1 ring-black/5 backdrop-blur-xs dark:bg-slate-800/40 dark:ring-white/5 sm:h-12 sm:w-12"
                   >
                     <NuxtImg
                       src="images/logo.webp"
@@ -204,7 +204,7 @@
                           :src="getImageSrc('emote', 'hi')"
                           preset="iconSm"
                           sizes="60px"
-                          class="relative h-[80%] w-[80%] -rotate-[5deg] object-contain transition-transform duration-300 group-hover:-rotate-[10deg]"
+                          class="relative h-[80%] w-[80%] -rotate-[5deg] object-contain transition-transform duration-300 group-hover:-rotate-10"
                           alt=""
                           aria-hidden="true"
                         />
@@ -307,7 +307,7 @@
               </div>
             </div>
 
-            <n-divider class="!my-4" />
+            <n-divider class="my-4" />
             <div
               class="space-y-1 text-center text-xs text-gray-400 dark:text-gray-500"
             >
@@ -377,11 +377,11 @@
     >
       <n-drawer-content
         :closable="false"
-        body-content-class="!p-0"
+        body-content-class="p-0"
       >
         <div class="flex h-full flex-col bg-white dark:bg-slate-900">
           <div
-            class="flex h-14 items-center justify-between gap-3 border-b border-white/20 bg-[linear-gradient(to_right,_rgb(232,221,249),_rgb(252,228,236),_rgb(253,237,220))] px-3 backdrop-blur-md dark:border-white/5 dark:bg-[linear-gradient(to_right,_rgb(30,27,75),_rgb(88,28,100),_rgb(120,40,70))]"
+            class="flex h-14 items-center justify-between gap-3 border-b border-white/20 bg-[linear-gradient(to_right,rgb(232,221,249),rgb(252,228,236),rgb(253,237,220))] px-3 backdrop-blur-md dark:border-white/5 dark:bg-[linear-gradient(to_right,rgb(30,27,75),rgb(88,28,100),rgb(120,40,70))]"
           >
             <div class="flex min-w-0 items-center gap-1 sm:gap-2">
               <n-button
@@ -402,7 +402,7 @@
                 @click="mobileDrawerOpen = false"
               >
                 <div
-                  class="flex h-8 w-8 shrink-0 items-center justify-center rounded-[10px] bg-white/60 p-1 shadow-sm ring-1 ring-black/5 backdrop-blur-sm dark:bg-slate-800/40 dark:ring-white/5"
+                  class="flex h-8 w-8 shrink-0 items-center justify-center rounded-[10px] bg-white/60 p-1 shadow-xs ring-1 ring-black/5 backdrop-blur-xs dark:bg-slate-800/40 dark:ring-white/5"
                 >
                   <NuxtImg
                     src="images/logo.webp"
@@ -415,7 +415,7 @@
                 </div>
 
                 <span
-                  class="truncate text-xl font-bold hover:opacity-80 hover:drop-shadow-sm"
+                  class="truncate text-xl font-bold hover:opacity-80 hover:drop-shadow-xs"
                 >
                   {{ $t('navigation.title') }}
                 </span>
@@ -432,7 +432,7 @@
               >
                 <button
                   type="button"
-                  class="flex w-full items-center justify-between gap-1.5 px-4 py-2 text-left text-md font-semibold"
+                  class="flex w-full cursor-pointer items-center justify-between gap-1.5 px-4 py-2 text-left text-md font-semibold"
                   :class="
                     isNavGroupActive(group.key) ||
                     expandedMobileGroup === group.key
@@ -460,7 +460,7 @@
                       v-for="item in group.items"
                       :key="item.key"
                       type="button"
-                      class="group flex w-full items-center gap-3 rounded-lg px-3 py-3 text-left text-sm hover:bg-slate-100 dark:hover:bg-slate-800/80"
+                      class="group flex w-full cursor-pointer items-center gap-3 rounded-lg px-3 py-3 text-left text-sm hover:bg-slate-100 dark:hover:bg-slate-800/80"
                       :class="
                         isNavItemActive(item.key)
                           ? 'text-rose-500 dark:text-rose-400'
@@ -492,7 +492,7 @@
 
     <div
       v-if="loading"
-      class="fixed inset-0 z-[9999] cursor-progress select-none bg-black/10 pointer-events-auto dark:bg-black/20"
+      class="fixed inset-0 z-9999 cursor-progress select-none bg-black/10 pointer-events-auto dark:bg-black/20"
       aria-hidden="true"
     />
   </n-layout>

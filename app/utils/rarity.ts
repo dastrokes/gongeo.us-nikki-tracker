@@ -81,15 +81,15 @@ export const getQualityRingStyle = (quality: number) => {
 export const getQualityGradient = (quality: number) => {
   switch (quality) {
     case 5:
-      return 'bg-gradient-to-br from-amber-50 to-amber-200 ring-amber-200/20 hover:ring-amber-200/80 dark:from-amber-900 dark:to-amber-950 dark:ring-amber-900/20 dark:hover:ring-amber-900/80'
+      return 'bg-linear-to-br from-amber-50 to-amber-200 ring-amber-200/20 hover:ring-amber-200/80 dark:from-amber-900 dark:to-amber-950 dark:ring-amber-900/20 dark:hover:ring-amber-900/80'
     case 4:
-      return 'bg-gradient-to-br from-sky-50 to-sky-200 ring-sky-200/20 hover:ring-sky-200/80 dark:from-sky-900 dark:to-sky-950 dark:ring-sky-900/20 dark:hover:ring-sky-900/80'
+      return 'bg-linear-to-br from-sky-50 to-sky-200 ring-sky-200/20 hover:ring-sky-200/80 dark:from-sky-900 dark:to-sky-950 dark:ring-sky-900/20 dark:hover:ring-sky-900/80'
     case 3:
-      return 'bg-gradient-to-br from-teal-50 to-teal-200 ring-teal-200/20 hover:ring-teal-200/80 dark:from-teal-900 dark:to-teal-950 dark:ring-teal-900/20 dark:hover:ring-teal-900/80'
+      return 'bg-linear-to-br from-teal-50 to-teal-200 ring-teal-200/20 hover:ring-teal-200/80 dark:from-teal-900 dark:to-teal-950 dark:ring-teal-900/20 dark:hover:ring-teal-900/80'
     case 2:
-      return 'bg-gradient-to-br from-slate-50 to-slate-200 ring-slate-200/20 hover:ring-slate-200/80 dark:from-slate-800 dark:to-slate-900 dark:ring-slate-800/20 dark:hover:ring-slate-800/80'
+      return 'bg-linear-to-br from-slate-50 to-slate-200 ring-slate-200/20 hover:ring-slate-200/80 dark:from-slate-800 dark:to-slate-900 dark:ring-slate-800/20 dark:hover:ring-slate-800/80'
     default:
-      return 'bg-gradient-to-br from-slate-50 to-slate-200 ring-slate-200/20 hover:ring-slate-200/80 dark:from-slate-800 dark:to-slate-900 dark:ring-slate-800/20 dark:hover:ring-slate-800/80'
+      return 'bg-linear-to-br from-slate-50 to-slate-200 ring-slate-200/20 hover:ring-slate-200/80 dark:from-slate-800 dark:to-slate-900 dark:ring-slate-800/20 dark:hover:ring-slate-800/80'
   }
 }
 

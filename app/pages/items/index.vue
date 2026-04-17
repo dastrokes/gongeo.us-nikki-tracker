@@ -4,7 +4,7 @@
     <n-card
       size="small"
       class="rounded-xl p-0 sm:p-2"
-      content-class="!p-2 sm:p-4"
+      content-class="p-2 sm:p-4"
     >
       <div class="flex flex-col gap-2">
         <div class="flex items-start justify-between gap-2">
@@ -16,7 +16,7 @@
                 <template #trigger>
                   <n-button
                     size="small"
-                    class="w-12 !px-0"
+                    class="w-12 px-0"
                     :aria-label="$t('common.outfits')"
                     @click="
                       navigateTo(
@@ -41,7 +41,7 @@
                   <n-button
                     size="small"
                     type="primary"
-                    class="w-12 !px-0"
+                    class="w-12 px-0"
                     :aria-label="$t('common.items')"
                   >
                     <template #icon>
@@ -288,7 +288,7 @@
     <n-card
       size="small"
       class="rounded-xl p-0 sm:p-2 sm:flex-1 sm:flex sm:flex-col"
-      content-class="!p-2 sm:p-4 sm:flex-1 sm:flex sm:flex-col"
+      content-class="p-2 sm:p-4 sm:flex-1 sm:flex sm:flex-col"
     >
       <div class="sm:flex-1 sm:flex sm:flex-col min-h-0">
         <div class="space-y-3 sm:space-y-4">
@@ -355,7 +355,7 @@
                 @click="navigateToDetail(entry.id)"
               >
                 <div
-                  class="relative aspect-[2/3] rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300"
+                  class="relative aspect-2/3 rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300"
                   style="
                     background-image: url('/images/bg.webp');
                     background-size: cover;
@@ -384,7 +384,7 @@
                       size="small"
                       :bordered="false"
                       type="warning"
-                      class="backdrop-blur-sm !bg-black/50 text-gray-200"
+                      class="backdrop-blur-xs bg-black/50 text-gray-200"
                     >
                       {{ entry.type }}
                     </n-tag>
@@ -395,7 +395,7 @@
                       size="small"
                       :bordered="false"
                       :color="getQualityTagTheme(entry.quality)"
-                      class="backdrop-blur-sm"
+                      class="backdrop-blur-xs"
                     >
                       <span class="flex items-center gap-1">
                         {{ entry.quality }}
@@ -406,7 +406,7 @@
                     </n-tag>
                   </div>
                   <div
-                    class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 to-transparent p-3 z-20"
+                    class="absolute bottom-0 left-0 right-0 bg-linear-to-t from-black/90 to-transparent p-3 z-20"
                   >
                     <p
                       class="text-white font-semibold text-xs sm:text-sm line-clamp-2"
@@ -450,7 +450,7 @@
               <div
                 v-for="(i, index) in pageSize"
                 :key="`skeleton-${i}`"
-                class="relative aspect-[3/4] rounded-lg overflow-hidden bg-gray-200 dark:bg-gray-700 animate-pulse"
+                class="relative aspect-3/4 rounded-lg overflow-hidden bg-gray-200 dark:bg-gray-700 animate-pulse"
                 :style="{
                   animationDelay: `${Math.min(index + 1, 9) * 0.05}s`,
                 }"
@@ -468,7 +468,9 @@
               :page-slot="5"
             >
               <template #prefix="{ itemCount }">
-                <div class="text-sm space-x-1 text-gray-600 dark:text-gray-400">
+                <div
+                  class="inline-flex items-baseline gap-1 text-sm text-gray-600 dark:text-gray-400"
+                >
                   <span class="font-semibold text-gray-900 dark:text-white">{{
                     totalItems
                   }}</span>

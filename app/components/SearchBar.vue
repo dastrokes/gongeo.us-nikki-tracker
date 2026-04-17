@@ -15,7 +15,7 @@
   <!-- Desktop: Show search input with hotkey hint -->
   <button
     type="button"
-    class="hidden lg:flex items-center gap-2 px-2 py-1 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 hover:border-gray-400 dark:hover:border-gray-500 cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-rose-500/80"
+    class="hidden lg:flex items-center gap-2 px-2 py-1 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 hover:border-gray-400 dark:hover:border-gray-500 cursor-pointer focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-rose-500/80"
     :aria-label="$t('common.search')"
     @click.stop="toggleSearch"
   >
@@ -26,7 +26,7 @@
       <Search />
     </n-icon>
     <kbd
-      class="px-1.5 py-0.5 text-xs font-semibold text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded"
+      class="px-1.5 py-0.5 text-xs font-semibold text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-sm"
     >
       /
     </kbd>
@@ -53,7 +53,7 @@
               ref="searchInputRef"
               v-model="searchQuery"
               :placeholder="$t('default.search.placeholder')"
-              class="flex-1 min-w-0 bg-transparent text-lg text-slate-800 dark:text-slate-100 placeholder-slate-400 outline-none p-0 border-none focus:ring-0"
+              class="flex-1 min-w-0 bg-transparent text-lg text-slate-800 dark:text-slate-100 placeholder-slate-400 outline-hidden p-0 border-none focus:ring-0"
               autocomplete="off"
               @input="handleInput"
               @keydown.enter.prevent="goToWhimSearch"
@@ -73,12 +73,12 @@
 
           <button
             type="button"
-            class="group mt-3 flex w-full min-w-0 items-center justify-between gap-3 rounded-lg border border-rose-200/80 bg-rose-50/80 px-3 py-2 text-left text-sm text-slate-600 shadow-sm transition hover:border-rose-300 hover:bg-rose-100/80 hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-500/80 dark:border-rose-900/50 dark:bg-rose-950/30 dark:text-slate-300 dark:hover:border-rose-800 dark:hover:bg-rose-950/50 dark:hover:text-slate-100"
+            class="group mt-3 flex w-full min-w-0 cursor-pointer items-center justify-between gap-3 rounded-lg border border-rose-200/80 bg-rose-50/80 px-3 py-2 text-left text-sm text-slate-600 shadow-xs transition hover:border-rose-300 hover:bg-rose-100/80 hover:text-slate-900 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-rose-500/80 dark:border-rose-900/50 dark:bg-rose-950/30 dark:text-slate-300 dark:hover:border-rose-800 dark:hover:bg-rose-950/50 dark:hover:text-slate-100"
             @click="goToWhimSearch"
           >
             <span class="flex min-w-0 flex-1 items-center gap-3">
               <span
-                class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white text-rose-500 shadow-sm ring-1 ring-rose-200 transition group-hover:bg-rose-500 group-hover:text-white dark:bg-slate-900 dark:text-rose-400 dark:ring-rose-900/50"
+                class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white text-rose-500 shadow-xs ring-1 ring-rose-200 transition group-hover:bg-rose-500 group-hover:text-white dark:bg-slate-900 dark:text-rose-400 dark:ring-rose-900/50"
               >
                 <n-icon size="14"><Magic /></n-icon>
               </span>
@@ -105,7 +105,7 @@
               class="hidden shrink-0 items-center gap-2 text-xs text-slate-400/80 sm:flex"
             >
               <kbd
-                class="px-1.5 py-0.5 bg-white dark:bg-slate-800 rounded font-semibold border border-slate-200 dark:border-slate-700 shadow-sm text-slate-500 dark:text-slate-400"
+                class="px-1.5 py-0.5 bg-white dark:bg-slate-800 rounded-sm font-semibold border border-slate-200 dark:border-slate-700 shadow-xs text-slate-500 dark:text-slate-400"
               >
                 {{ $t('common.keys.enter') }}
               </kbd>
@@ -134,7 +134,7 @@
                 <button
                   v-for="item in category.results"
                   :key="item.id"
-                  class="group flex w-full items-center gap-3 rounded-xl px-3 py-2 text-left hover:bg-rose-50 dark:hover:bg-rose-950/40 text-slate-700 dark:text-slate-200"
+                  class="group flex w-full cursor-pointer items-center gap-3 rounded-xl px-3 py-2 text-left hover:bg-rose-50 dark:hover:bg-rose-950/40 text-slate-700 dark:text-slate-200"
                   @click="selectResult(item)"
                 >
                   <div class="shrink-0 flex items-center justify-center">
@@ -142,7 +142,7 @@
                       <NuxtImg
                         :src="getImageSrc('bannerThumb', getBannerId(item))"
                         preset="bannerThumb"
-                        class="w-16 h-8 rounded-md object-cover shadow-sm ring-1 ring-black/5 dark:ring-white/10"
+                        class="w-16 h-8 rounded-md object-cover shadow-xs ring-1 ring-black/5 dark:ring-white/10"
                         :alt="item.name"
                         loading="lazy"
                       />
@@ -151,7 +151,7 @@
                       <NuxtImg
                         :src="getImageSrc('outfit', item.id)"
                         preset="tallSm"
-                        class="w-7 h-10 rounded-md object-cover shadow-sm ring-1 ring-black/5 dark:ring-white/10"
+                        class="w-7 h-10 rounded-md object-cover shadow-xs ring-1 ring-black/5 dark:ring-white/10"
                         :alt="item.name"
                         loading="lazy"
                       />
@@ -160,7 +160,7 @@
                       <NuxtImg
                         :src="getImageSrc('item', item.id)"
                         preset="tallSm"
-                        class="w-7 h-10 rounded-md object-cover shadow-sm ring-1 ring-black/5 dark:ring-white/10"
+                        class="w-7 h-10 rounded-md object-cover shadow-xs ring-1 ring-black/5 dark:ring-white/10"
                         :alt="item.name"
                         loading="lazy"
                       />

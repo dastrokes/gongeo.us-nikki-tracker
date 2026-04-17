@@ -391,7 +391,7 @@
                     <div>{{ $t('import.bookmark_steps.tip') }}</div>
                   </template>
                 </ClientOnly>
-                <div class="text-sm text-amber-500 break-words">
+                <div class="text-sm text-amber-500 wrap-break-word">
                   {{ $t('import.security_note') }}
                 </div>
               </ol>
@@ -454,7 +454,7 @@
                 <li>{{ $t('import.console_steps.step5') }}</li>
                 <li>{{ $t('import.console_steps.step6') }}</li>
                 <li>{{ $t('import.bookmark_steps.step5') }}</li>
-                <div class="text-sm text-amber-500 break-words">
+                <div class="text-sm text-amber-500 wrap-break-word">
                   {{ $t('import.security_note') }}
                 </div>
               </ol>
@@ -519,7 +519,7 @@
                 </li>
                 <li>{{ $t('import.manual_steps.step7') }}</li>
               </ol>
-              <div class="text-sm text-amber-500 break-words">
+              <div class="text-sm text-amber-500 wrap-break-word">
                 {{ $t('import.security_note') }}
               </div>
             </div>
@@ -629,7 +629,7 @@
               v-if="importMethod === 'game'"
               class="w-full flex my-4"
             >
-              <div class="text-sm text-amber-500 break-words">
+              <div class="text-sm text-amber-500 wrap-break-word">
                 {{
                   $t('import.data_note', {
                     date: daysAgoFormatted(180),
@@ -646,7 +646,7 @@
               <div>{{ $t('import.form.submit_global_stats') }}</div>
               <n-switch
                 v-model:value="submitGlobalStats"
-                class="flex-shrink-0"
+                class="shrink-0"
               />
             </n-space>
 
@@ -659,7 +659,7 @@
                   isFetching ||
                   (importMethod === 'pearpal' && pearpalTrackerLoading)
                 "
-                class="relative flex-grow overflow-hidden after:content-[''] after:absolute after:inset-y-0 after:-left-full after:w-[60%] after:bg-gradient-to-r after:from-transparent after:via-white/15 after:to-transparent after:animate-button-shimmer motion-reduce:after:animate-none"
+                class="relative grow overflow-hidden after:content-[''] after:absolute after:inset-y-0 after:-left-full after:w-[60%] after:bg-linear-to-r after:from-transparent after:via-white/15 after:to-transparent after:animate-button-shimmer motion-reduce:after:animate-none"
                 :disabled="isSubmitDisabled"
                 @click="handleSubmit"
               >
@@ -678,7 +678,7 @@
               <n-button
                 type="primary"
                 :loading="loading || isFetching"
-                class="relative flex-grow overflow-hidden after:content-[''] after:absolute after:inset-y-0 after:-left-full after:w-[60%] after:bg-gradient-to-r after:from-transparent after:via-white/15 after:to-transparent after:animate-button-shimmer motion-reduce:after:animate-none"
+                class="relative grow overflow-hidden after:content-[''] after:absolute after:inset-y-0 after:-left-full after:w-[60%] after:bg-linear-to-r after:from-transparent after:via-white/15 after:to-transparent after:animate-button-shimmer motion-reduce:after:animate-none"
                 @click="handleJsonSubmit"
               >
                 {{
@@ -695,7 +695,7 @@
             <n-space class="w-full flex">
               <n-button
                 type="primary"
-                class="relative flex-grow overflow-hidden after:content-[''] after:absolute after:inset-y-0 after:-left-full after:w-[60%] after:bg-gradient-to-r after:from-transparent after:via-white/15 after:to-transparent after:animate-button-shimmer motion-reduce:after:animate-none"
+                class="relative grow overflow-hidden after:content-[''] after:absolute after:inset-y-0 after:-left-full after:w-[60%] after:bg-linear-to-r after:from-transparent after:via-white/15 after:to-transparent after:animate-button-shimmer motion-reduce:after:animate-none"
                 @click="navigateTo(localePath('/tracker'))"
               >
                 {{ $t('navigation.tracker') }}
@@ -1575,7 +1575,7 @@
             code,
             language: 'javascript',
             wordWrap: true,
-            class: 'w-full font-mono text-xs whitespace-pre-wrap rounded',
+            class: 'w-full font-mono text-xs whitespace-pre-wrap rounded-sm',
             id: 'code-to-copy',
           }),
         ]),

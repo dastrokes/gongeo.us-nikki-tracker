@@ -3,7 +3,7 @@
     <n-card
       size="small"
       class="rounded-xl p-0 sm:p-2"
-      content-class="!p-2 sm:!p-3"
+      content-class="p-2 sm:p-4"
     >
       <div
         class="grid gap-3 lg:gap-4"
@@ -123,7 +123,7 @@
                 :class="
                   gameState === 'done'
                     ? 'w-full'
-                    : 'aspect-[2/3] h-[clamp(200px,40vh,360px)] mx-auto'
+                    : 'aspect-2/3 h-[clamp(200px,40vh,360px)] mx-auto'
                 "
               >
                 <div
@@ -136,7 +136,7 @@
                     class="flex w-full flex-col gap-1"
                   >
                     <div
-                      class="relative aspect-[2/3] w-full shrink-0 overflow-hidden rounded-md"
+                      class="relative aspect-2/3 w-full shrink-0 overflow-hidden rounded-md"
                     >
                       <NuxtImg
                         :src="getImageSrc('outfit', entry.id)"
@@ -203,7 +203,7 @@
                     sizes="200px"
                     loading="eager"
                     draggable="false"
-                    class="h-full w-auto max-w-full rounded-xl [transition:clip-path_200ms_linear] [will-change:clip-path]"
+                    class="h-full w-auto max-w-full rounded-xl [transition:clip-path_200ms_linear] will-change-[clip-path]"
                     :class="isImageReady ? 'opacity-100' : 'opacity-0'"
                     :style="isRevealed ? undefined : silhouetteStyle"
                     @load="handleOutfitImageLoaded(currentOutfitId)"
@@ -318,7 +318,7 @@
                   <div
                     v-for="index in 4"
                     :key="`option-skeleton-${index}`"
-                    class="flex min-h-[3rem] items-center justify-center rounded-lg border border-gray-200/60 px-3 py-2 sm:min-h-[3.5rem] dark:border-gray-700/60"
+                    class="flex min-h-12 items-center justify-center rounded-lg border border-gray-200/60 px-3 py-2 sm:min-h-14 dark:border-gray-700/60"
                   >
                     <n-skeleton
                       text
@@ -332,7 +332,7 @@
                     v-for="option in options"
                     :key="option"
                     :disabled="roundResult !== 'unanswered'"
-                    class="min-h-[3rem] whitespace-normal rounded-lg py-2 text-left sm:min-h-[3.5rem] disabled:opacity-100 disabled:text-gray-900 dark:disabled:text-gray-100"
+                    class="min-h-12 whitespace-normal rounded-lg py-2 text-left sm:min-h-14 disabled:opacity-100 disabled:text-gray-900 dark:disabled:text-gray-100"
                     :class="getOptionClass(option)"
                     @click="submitGuess(option)"
                   >

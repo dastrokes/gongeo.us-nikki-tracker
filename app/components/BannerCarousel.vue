@@ -44,13 +44,13 @@
             sizes="400px sm:800px"
           />
           <div
-            class="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/10 via-transparent to-white/10"
+            class="pointer-events-none absolute inset-0 bg-linear-to-t from-slate-950/10 via-transparent to-white/10"
           />
         </div>
         <n-tooltip
           overlap
           placement="top-end"
-          class="!rounded-lg !m-2 !px-2 !py-1 text-xs cursor-pointer"
+          class="rounded-lg m-2 px-2 py-1 text-xs cursor-pointer"
           @click.stop.prevent="
             navigateTo(localePath(`/banners/${banner.bannerId}`))
           "
@@ -98,9 +98,9 @@
         v-for="(banner, index) in banners"
         :key="`dot-${banner.bannerId}`"
         :class="[
-          'block h-2 shrink-0 rounded-full transition-all duration-300 hover:opacity-80 aspect-square',
+          'block h-2 shrink-0 rounded-full transition-all duration-300 hover:opacity-80 aspect-square cursor-pointer',
           activeIndex === index
-            ? 'scale-125 bg-slate-50 opacity-100 shadow-sm'
+            ? 'scale-125 bg-slate-50 opacity-100 shadow-xs'
             : 'bg-slate-50 opacity-50',
         ]"
         type="button"

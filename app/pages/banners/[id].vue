@@ -43,7 +43,7 @@
 
               <n-gradient-text
                 :size="18"
-                class="m-0 font-medium break-words"
+                class="m-0 font-medium wrap-break-word"
                 :type="banner.bannerType === 2 ? 'warning' : 'info'"
               >
                 {{ t(`banner.${banner.bannerId}.name`) }}
@@ -111,7 +111,7 @@
           <div class="grid grid-cols-1 sm:grid-cols-[1fr_3fr] gap-4">
             <div class="space-y-2">
               <div
-                class="w-full aspect-[2/1] relative overflow-hidden rounded-lg"
+                class="w-full aspect-2/1 relative overflow-hidden rounded-lg"
               >
                 <NuxtImg
                   :src="getImageSrc('banner', banner.bannerId)"
@@ -460,7 +460,7 @@
                   >
                     <n-divider
                       v-if="outfitIndex > 0"
-                      class="!my-2"
+                      class="my-2"
                     />
                     <OutfitCarousel
                       :outfit-id="outfitId"
@@ -475,7 +475,7 @@
 
                 <n-divider
                   v-if="banner.bannerType === 1 || banner.bannerType === 2"
-                  class="!my-2"
+                  class="my-2"
                 />
 
                 <div v-if="banner.outfit4StarId.length > 0">
@@ -485,7 +485,7 @@
                   >
                     <n-divider
                       v-if="outfitIndex > 0"
-                      class="!my-2"
+                      class="my-2"
                     />
                     <OutfitCarousel
                       :outfit-id="outfitId"
@@ -504,7 +504,7 @@
                 v-if="banner.rewardIds && banner.rewardIds.length > 0"
                 class="mt-4"
               >
-                <n-divider class="!my-4" />
+                <n-divider class="my-4" />
                 <div class="space-y-2">
                   <n-tag
                     type="warning"
@@ -547,7 +547,7 @@
       v-else
       size="small"
       class="rounded-xl p-0 sm:p-2"
-      content-class="!p-2 sm:p-4"
+      content-class="p-2 sm:p-4"
     >
       <n-result
         size="small"

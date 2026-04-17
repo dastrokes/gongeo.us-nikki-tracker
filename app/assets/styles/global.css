@@ -1,0 +1,110 @@
+@import 'tailwindcss' important;
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --animate-button-shimmer: button-shimmer 4s infinite;
+  --animate-fade-in-up: fade-in-up 0.5s ease-out backwards;
+  --animate-reveal-success: reveal-success 500ms cubic-bezier(0.2, 0.8, 0.2, 1)
+    both;
+  --animate-reveal-fail: reveal-fail 500ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  --animate-reveal-skip: reveal-skip 500ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+
+  @keyframes button-shimmer {
+    0% {
+      left: -100%;
+    }
+
+    40%,
+    100% {
+      left: 150%;
+    }
+  }
+
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes reveal-success {
+    0% {
+      opacity: 0;
+      transform: scale(0.94);
+      filter: saturate(0.8) contrast(0.95);
+    }
+
+    70% {
+      opacity: 1;
+      transform: scale(1.03);
+    }
+
+    100% {
+      opacity: 1;
+      transform: scale(1);
+      filter: none;
+    }
+  }
+
+  @keyframes reveal-fail {
+    0% {
+      opacity: 0;
+      transform: scale(0.98);
+      filter: grayscale(0.15) saturate(0.9);
+    }
+
+    35% {
+      opacity: 1;
+      transform: translateX(-6px);
+    }
+
+    55% {
+      transform: translateX(6px);
+    }
+
+    75% {
+      transform: translateX(-4px);
+    }
+
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+      filter: grayscale(0.1) saturate(0.95);
+    }
+  }
+
+  @keyframes reveal-skip {
+    0% {
+      opacity: 0;
+      transform: scale(0.98);
+      filter: grayscale(0.25) contrast(0.95);
+    }
+
+    60% {
+      opacity: 1;
+      transform: scale(1.01);
+    }
+
+    100% {
+      opacity: 1;
+      transform: scale(1);
+      filter: grayscale(0.15) contrast(0.98);
+    }
+  }
+}
+
+:root {
+  --font-family-default:
+    'Outfit', ui-sans-serif, system-ui, sans-serif, 'Noto Color Emoji',
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+}
+
+body {
+  font-family: var(--font-family-default);
+}

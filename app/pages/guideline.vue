@@ -3,7 +3,7 @@
     <n-card
       size="small"
       class="rounded-xl p-0"
-      content-class="!p-4 sm:!p-5"
+      content-class="p-4"
     >
       <div
         class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between"
@@ -26,7 +26,7 @@
     <n-card
       size="small"
       class="rounded-xl p-0"
-      content-class="!p-4 sm:!p-5"
+      content-class="p-4"
     >
       <FeedbackGuidelinesPanel />
     </n-card>

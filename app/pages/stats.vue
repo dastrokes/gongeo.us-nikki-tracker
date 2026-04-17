@@ -5,7 +5,7 @@
       <n-card
         size="small"
         class="rounded-xl"
-        content-class="!p-2 sm:!p-4"
+        content-class="p-2 sm:p-4"
       >
         <div class="grid grid-cols-2 md:grid-cols-5 gap-2">
           <n-card
@@ -30,13 +30,13 @@
       <n-card
         size="small"
         class="rounded-xl"
-        content-class="!p-2 sm:!p-4"
+        content-class="p-2 sm:p-4"
         ><n-card size="small"> <n-skeleton height="320px" /></n-card>
       </n-card>
       <n-card
         size="small"
         class="rounded-xl"
-        content-class="grid grid-cols-1 md:grid-cols-3 gap-4 !p-2 sm:!p-4"
+        content-class="p-2 sm:p-4 grid grid-cols-1 md:grid-cols-3 gap-4"
       >
         <n-card
           v-for="i in 3"
@@ -73,7 +73,7 @@
           <template #footer>
             <n-button
               type="primary"
-              class="relative overflow-hidden after:content-[''] after:absolute after:inset-y-0 after:-left-full after:w-[60%] after:bg-gradient-to-r after:from-transparent after:via-white/15 after:to-transparent after:animate-button-shimmer motion-reduce:after:animate-none"
+              class="relative overflow-hidden after:content-[''] after:absolute after:inset-y-0 after:-left-full after:w-[60%] after:bg-linear-to-r after:from-transparent after:via-white/15 after:to-transparent after:animate-button-shimmer motion-reduce:after:animate-none"
               @click="navigateTo(localePath('/import'))"
             >
               {{ $t('navigation.import') }}
@@ -86,7 +86,7 @@
       <n-card
         size="small"
         class="rounded-xl opacity-40"
-        content-class="!p-2 sm:!p-4"
+        content-class="p-2 sm:p-4"
       >
         <n-card size="small">
           <div class="h-[320px]">
@@ -106,7 +106,7 @@
       <!-- ── Section A: Hero Overview ── -->
       <n-card
         v-show="!maximizedChart"
-        content-class="!p-2 sm:!p-4"
+        content-class="p-2 sm:p-4"
         size="small"
         class="rounded-xl"
       >
@@ -247,7 +247,7 @@
               <n-button
                 size="small"
                 type="primary"
-                class="relative overflow-hidden after:content-[''] after:absolute after:inset-y-0 after:-left-full after:w-[60%] after:bg-gradient-to-r after:from-transparent after:via-white/15 after:to-transparent after:animate-button-shimmer motion-reduce:after:animate-none"
+                class="relative overflow-hidden after:content-[''] after:absolute after:inset-y-0 after:-left-full after:w-[60%] after:bg-linear-to-r after:from-transparent after:via-white/15 after:to-transparent after:animate-button-shimmer motion-reduce:after:animate-none"
                 @click="() => navigateTo(localePath('/tracker'))"
               >
                 {{ $t('navigation.tracker') }}
@@ -309,8 +309,8 @@
         v-show="!maximizedChart || maximizedChart === 'timeline'"
         size="small"
         class="rounded-xl"
-        :class="{ '!mt-0 !mb-0': Boolean(maximizedChart) }"
-        content-class="!p-2 sm:!p-4"
+        :class="{ 'mt-0 mb-0': Boolean(maximizedChart) }"
+        content-class="p-2 sm:p-4"
       >
         <n-card
           size="small"
@@ -358,8 +358,8 @@
         "
         size="small"
         class="rounded-xl"
-        :class="{ '!mt-0 !mb-0': Boolean(maximizedChart) }"
-        content-class="grid grid-cols-1 md:grid-cols-3 gap-4 !p-2 sm:!p-4"
+        :class="{ 'mt-0 mb-0': Boolean(maximizedChart) }"
+        content-class="p-2 sm:p-4 grid grid-cols-1 md:grid-cols-3 gap-4"
       >
         <!-- 5★ Distribution -->
         <n-card
@@ -489,107 +489,108 @@
           maximizedChart === 'luckPerBanner' ||
           maximizedChart === 'luckPerBannerType3'
         "
-        class="grid grid-cols-1 xl:grid-cols-2 gap-2 sm:gap-4"
       >
-        <!-- ── Section C: 5★ Luck Per Banner Chart ── -->
-        <n-card
-          v-show="!maximizedChart || maximizedChart === 'luckPerBanner'"
-          size="small"
-          class="rounded-xl"
-          :class="{ '!mt-0 !mb-0 xl:col-span-2': Boolean(maximizedChart) }"
-          content-class="!p-2 sm:!p-4"
-        >
+        <div class="grid grid-cols-1 xl:grid-cols-2 gap-2 sm:gap-4">
+          <!-- ── Section C: 5★ Luck Per Banner Chart ── -->
           <n-card
+            v-show="!maximizedChart || maximizedChart === 'luckPerBanner'"
             size="small"
-            class="transition-[height] duration-300"
+            class="rounded-xl"
+            :class="{ 'mt-0 mb-0 xl:col-span-2': Boolean(maximizedChart) }"
+            content-class="p-2 sm:p-4"
           >
-            <div
+            <n-card
+              size="small"
               class="transition-[height] duration-300"
-              :class="{
-                'h-[calc(100vh-116px)] sm:h-[calc(100vh-148px)]':
-                  maximizedChart === 'luckPerBanner',
-                'h-[320px]': maximizedChart !== 'luckPerBanner',
-              }"
             >
-              <n-button
-                size="tiny"
-                text
-                class="absolute top-4 right-4 z-10"
-                :type="
-                  maximizedChart === 'luckPerBanner' ? 'primary' : 'default'
-                "
-                @click="toggleMaximize('luckPerBanner')"
+              <div
+                class="transition-[height] duration-300"
+                :class="{
+                  'h-[calc(100vh-116px)] sm:h-[calc(100vh-148px)]':
+                    maximizedChart === 'luckPerBanner',
+                  'h-[320px]': maximizedChart !== 'luckPerBanner',
+                }"
               >
-                <template #icon>
-                  <n-icon :depth="3">
-                    <component
-                      :is="
-                        maximizedChart === 'luckPerBanner'
-                          ? CompressAlt
-                          : ExpandAlt
-                      "
-                    />
-                  </n-icon>
-                </template>
-              </n-button>
-              <VChart
-                :option="luckPerBannerChartOption"
-                autoresize
-              />
-            </div>
+                <n-button
+                  size="tiny"
+                  text
+                  class="absolute top-4 right-4 z-10"
+                  :type="
+                    maximizedChart === 'luckPerBanner' ? 'primary' : 'default'
+                  "
+                  @click="toggleMaximize('luckPerBanner')"
+                >
+                  <template #icon>
+                    <n-icon :depth="3">
+                      <component
+                        :is="
+                          maximizedChart === 'luckPerBanner'
+                            ? CompressAlt
+                            : ExpandAlt
+                        "
+                      />
+                    </n-icon>
+                  </template>
+                </n-button>
+                <VChart
+                  :option="luckPerBannerChartOption"
+                  autoresize
+                />
+              </div>
+            </n-card>
           </n-card>
-        </n-card>
 
-        <!-- ── Section D: 4★ Luck Per Banner Chart ── -->
-        <n-card
-          v-show="!maximizedChart || maximizedChart === 'luckPerBannerType3'"
-          size="small"
-          class="rounded-xl"
-          :class="{ '!mt-0 !mb-0 xl:col-span-2': Boolean(maximizedChart) }"
-          content-class="!p-2 sm:!p-4"
-        >
+          <!-- ── Section D: 4★ Luck Per Banner Chart ── -->
           <n-card
+            v-show="!maximizedChart || maximizedChart === 'luckPerBannerType3'"
             size="small"
-            class="transition-[height] duration-300"
+            class="rounded-xl"
+            :class="{ 'mt-0 mb-0 xl:col-span-2': Boolean(maximizedChart) }"
+            content-class="p-2 sm:p-4"
           >
-            <div
+            <n-card
+              size="small"
               class="transition-[height] duration-300"
-              :class="{
-                'h-[calc(100vh-116px)] sm:h-[calc(100vh-148px)]':
-                  maximizedChart === 'luckPerBannerType3',
-                'h-[320px]': maximizedChart !== 'luckPerBannerType3',
-              }"
             >
-              <n-button
-                size="tiny"
-                text
-                class="absolute top-4 right-4 z-10"
-                :type="
-                  maximizedChart === 'luckPerBannerType3'
-                    ? 'primary'
-                    : 'default'
-                "
-                @click="toggleMaximize('luckPerBannerType3')"
+              <div
+                class="transition-[height] duration-300"
+                :class="{
+                  'h-[calc(100vh-116px)] sm:h-[calc(100vh-148px)]':
+                    maximizedChart === 'luckPerBannerType3',
+                  'h-[320px]': maximizedChart !== 'luckPerBannerType3',
+                }"
               >
-                <template #icon>
-                  <n-icon :depth="3">
-                    <component
-                      :is="
-                        maximizedChart === 'luckPerBannerType3'
-                          ? CompressAlt
-                          : ExpandAlt
-                      "
-                    />
-                  </n-icon>
-                </template>
-              </n-button>
-              <VChart
-                :option="luckPerBannerType3ChartOption"
-                autoresize
-              />
-            </div>
+                <n-button
+                  size="tiny"
+                  text
+                  class="absolute top-4 right-4 z-10"
+                  :type="
+                    maximizedChart === 'luckPerBannerType3'
+                      ? 'primary'
+                      : 'default'
+                  "
+                  @click="toggleMaximize('luckPerBannerType3')"
+                >
+                  <template #icon>
+                    <n-icon :depth="3">
+                      <component
+                        :is="
+                          maximizedChart === 'luckPerBannerType3'
+                            ? CompressAlt
+                            : ExpandAlt
+                        "
+                      />
+                    </n-icon>
+                  </template>
+                </n-button>
+                <VChart
+                  :option="luckPerBannerType3ChartOption"
+                  autoresize
+                />
+              </div>
+            </n-card>
           </n-card>
-        </n-card>
+        </div>
       </div>
 
       <!-- ── Section G: Social Share Card ── -->
@@ -597,7 +598,7 @@
         v-show="!maximizedChart"
         size="small"
         class="rounded-xl"
-        content-class="!p-2 sm:!p-4"
+        content-class="p-2 sm:p-4"
       >
         <div class="flex items-center justify-between mb-3">
           <div class="text-base font-semibold text-gray-500 dark:text-gray-400">
@@ -652,16 +653,14 @@
           <div
             ref="shareCardRef"
             class="w-full max-w-3xl overflow-hidden rounded-2xl"
-            :class="
-              isShareLandscape ? 'aspect-[16/9]' : 'aspect-[9/16] max-w-sm'
-            "
+            :class="isShareLandscape ? 'aspect-video' : 'aspect-9/16 max-w-sm'"
           >
             <!-- Landscape Layout -->
             <div
               v-if="isShareLandscape"
               class="h-full w-full flex overflow-hidden"
               :class="[
-                'bg-gradient-to-br',
+                'bg-linear-to-br',
                 shareCardGradient,
                 isDark ? 'text-white' : 'text-gray-800',
               ]"
@@ -695,7 +694,7 @@
               </div>
 
               <!-- Right Panel: Best/Worst Luck + Stats -->
-              <div class="flex-1 flex flex-col p-4 bg-white/5 backdrop-blur-sm">
+              <div class="flex-1 flex flex-col p-4 bg-white/5 backdrop-blur-xs">
                 <div
                   v-if="luckiestBanner || unluckiestBanner"
                   class="flex gap-3 mb-3 h-36"
@@ -715,7 +714,7 @@
                       sizes="200px"
                     />
                     <div
-                      class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20"
+                      class="absolute inset-0 bg-linear-to-t from-black/80 via-black/40 to-black/20"
                     />
                     <div
                       class="relative z-10 h-full flex flex-col justify-end p-3"
@@ -756,7 +755,7 @@
                       sizes="200px"
                     />
                     <div
-                      class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20"
+                      class="absolute inset-0 bg-linear-to-t from-black/80 via-black/40 to-black/20"
                     />
                     <div
                       class="relative z-10 h-full flex flex-col justify-end p-3"
@@ -906,7 +905,7 @@
                       :class="
                         isDark
                           ? 'bg-white/10 ring-white/15'
-                          : 'bg-white/70 ring-black/10 shadow-sm'
+                          : 'bg-white/70 ring-black/10 shadow-xs'
                       "
                     >
                       <NuxtImg
@@ -915,7 +914,7 @@
                         fit="cover"
                         loading="lazy"
                         :alt="$t('navigation.title')"
-                        class="h-4 w-4 rounded-sm"
+                        class="h-4 w-4 rounded-xs"
                       />
                     </span>
                     <span>{{ generatedDateLabel }} · gongeo.us</span>
@@ -929,7 +928,7 @@
               v-else
               class="relative h-full w-full flex flex-col overflow-hidden"
               :class="[
-                'bg-gradient-to-b',
+                'bg-linear-to-b',
                 shareCardGradient,
                 isDark ? 'text-white' : 'text-gray-800',
               ]"
@@ -984,7 +983,7 @@
                     sizes="200px"
                   />
                   <div
-                    class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/10"
+                    class="absolute inset-0 bg-linear-to-t from-black/80 via-black/40 to-black/10"
                   />
                   <div
                     class="relative z-10 h-full flex flex-col justify-end p-2"
@@ -1029,7 +1028,7 @@
                     sizes="200px"
                   />
                   <div
-                    class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/10"
+                    class="absolute inset-0 bg-linear-to-t from-black/80 via-black/40 to-black/10"
                   />
                   <div
                     class="relative z-10 h-full flex flex-col justify-end p-2"
@@ -1178,7 +1177,7 @@
                     :class="
                       isDark
                         ? 'bg-white/10 ring-white/15'
-                        : 'bg-white/70 ring-black/10 shadow-sm'
+                        : 'bg-white/70 ring-black/10 shadow-xs'
                     "
                   >
                     <NuxtImg
@@ -1187,7 +1186,7 @@
                       fit="cover"
                       loading="lazy"
                       :alt="$t('navigation.title')"
-                      class="h-4 w-4 rounded-sm"
+                      class="h-4 w-4 rounded-xs"
                     />
                   </span>
                   <span>{{ generatedDateLabel }} · gongeo.us</span>
@@ -2100,7 +2099,7 @@
               )
             : ''
           const imgHtml = imageUrl
-            ? `<img src="${imageUrl}" alt="${pulls.axisValue}" style="width: 200px; height: 100px; object-cover: cover; border-radius: 4px; margin-top: 8px;" />`
+            ? `<img src="${imageUrl}" alt="${pulls.axisValue}" style="width: 200px; height: 100px; object-fit: cover; border-radius: 4px; margin-top: 8px;" />`
             : ''
 
           return `

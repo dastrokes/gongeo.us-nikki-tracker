@@ -6,7 +6,7 @@
         <button
           type="button"
           :aria-label="$t('navigation.title')"
-          class="group flex h-12 w-12 shrink-0 cursor-help shadow-md ring-1 ring-purple-200/50 dark:ring-purple-800/20 items-center justify-center rounded-2xl bg-white/60 p-2 backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 active:scale-95 sm:h-16 sm:w-16 dark:bg-slate-800/60 dark:shadow-[0_4px_10px_rgba(0,0,0,0.3)]"
+          class="group flex h-12 w-12 shrink-0 cursor-help shadow-md ring-1 ring-purple-200/50 dark:ring-purple-800/20 items-center justify-center rounded-2xl bg-white/60 p-2 backdrop-blur-xs transition-all duration-300 hover:-translate-y-0.5 active:scale-95 sm:h-16 sm:w-16 dark:bg-slate-800/60 dark:shadow-[0_4px_10px_rgba(0,0,0,0.3)]"
           @click="handleHeroLogoClick"
         >
           <NuxtImg
@@ -31,7 +31,7 @@
         </div>
       </div>
       <h1
-        class="text-2xl sm:text-4xl font-extrabold mb-3 bg-gradient-to-r from-[#c084fc] via-[#f472b6] to-[#fb923c] bg-clip-text text-transparent dark:from-[#a78bfa] dark:via-[#f9a8d4] dark:to-[#fdba74]"
+        class="text-2xl sm:text-4xl font-extrabold mb-3 bg-linear-to-r from-[#c084fc] via-[#f472b6] to-[#fb923c] bg-clip-text text-transparent dark:from-[#a78bfa] dark:via-[#f9a8d4] dark:to-[#fdba74]"
       >
         {{ $t('navigation.subtitle') }}
       </h1>
@@ -44,7 +44,9 @@
         <n-button
           type="primary"
           size="large"
-          class="relative overflow-hidden after:content-[''] after:absolute after:inset-y-0 after:-left-full after:w-[60%] after:bg-gradient-to-r after:from-transparent after:via-white/15 after:to-transparent after:animate-button-shimmer motion-reduce:after:animate-none"
+          round
+          strong
+          class="shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all relative overflow-hidden after:content-[''] after:absolute after:inset-y-0 after:-left-full after:w-[60%] after:bg-linear-to-r after:from-transparent after:via-white/15 after:to-transparent after:animate-button-shimmer motion-reduce:after:animate-none"
           @click="navigateTo(localePath('/tracker'))"
         >
           <template #icon>
@@ -55,7 +57,9 @@
         <n-button
           type="primary"
           size="large"
-          class="relative overflow-hidden after:content-[''] after:absolute after:inset-y-0 after:-left-full after:w-[60%] after:bg-gradient-to-r after:from-transparent after:via-white/15 after:to-transparent after:animate-button-shimmer motion-reduce:after:animate-none"
+          round
+          strong
+          class="shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all relative overflow-hidden after:content-[''] after:absolute after:inset-y-0 after:-left-full after:w-[60%] after:bg-linear-to-r after:from-transparent after:via-white/15 after:to-transparent after:animate-button-shimmer motion-reduce:after:animate-none"
           @click="navigateTo(localePath('/global'))"
         >
           <template #icon>
@@ -67,7 +71,7 @@
       <div class="mt-6 flex max-w-full flex-wrap justify-center gap-2">
         <button
           type="button"
-          class="inline-flex items-center gap-2 rounded-full border border-white/45 bg-white/55 px-3 py-1 text-xs font-semibold text-slate-700 shadow-sm backdrop-blur-md hover:-translate-y-0.5 hover:bg-white/70 hover:shadow-md dark:border-white/10 dark:bg-slate-950/35 dark:text-slate-100 dark:hover:bg-slate-900/50"
+          class="inline-flex cursor-pointer items-center gap-2 rounded-full border border-white/45 bg-white/55 px-3 py-1 text-xs font-semibold text-slate-700 shadow-xs backdrop-blur-md transform-all duration-200 hover:-translate-y-0.5 hover:bg-white/70 hover:shadow-md dark:border-white/10 dark:bg-slate-950/35 dark:text-slate-100 dark:hover:bg-slate-900/50"
           @click="scrollToSection(bannersSectionRef)"
         >
           <n-icon><CalendarAlt /></n-icon>
@@ -75,7 +79,7 @@
         </button>
         <button
           type="button"
-          class="inline-flex items-center gap-2 rounded-full border border-white/45 bg-white/55 px-3 py-1 text-xs font-semibold text-slate-700 shadow-sm backdrop-blur-md hover:-translate-y-0.5 hover:bg-white/70 hover:shadow-md dark:border-white/10 dark:bg-slate-950/35 dark:text-slate-100 dark:hover:bg-slate-900/50"
+          class="inline-flex cursor-pointer items-center gap-2 rounded-full border border-white/45 bg-white/55 px-3 py-1 text-xs font-semibold text-slate-700 shadow-xs backdrop-blur-md transform-all duration-200 hover:-translate-y-0.5 hover:bg-white/70 hover:shadow-md dark:border-white/10 dark:bg-slate-950/35 dark:text-slate-100 dark:hover:bg-slate-900/50"
           @click="scrollToSection(compendiumSectionRef)"
         >
           <n-icon><ListAlt /></n-icon>
@@ -83,7 +87,7 @@
         </button>
         <button
           type="button"
-          class="inline-flex items-center gap-2 rounded-full border border-white/45 bg-white/55 px-3 py-1 text-xs font-semibold text-slate-700 shadow-sm backdrop-blur-md hover:-translate-y-0.5 hover:bg-white/70 hover:shadow-md dark:border-white/10 dark:bg-slate-950/35 dark:text-slate-100 dark:hover:bg-slate-900/50"
+          class="inline-flex cursor-pointer items-center gap-2 rounded-full border border-white/45 bg-white/55 px-3 py-1 text-xs font-semibold text-slate-700 shadow-xs backdrop-blur-md transform-all duration-200 hover:-translate-y-0.5 hover:bg-white/70 hover:shadow-md dark:border-white/10 dark:bg-slate-950/35 dark:text-slate-100 dark:hover:bg-slate-900/50"
           @click="scrollToSection(statsSectionRef)"
         >
           <n-icon><Globe /></n-icon>
@@ -113,7 +117,7 @@
         class="rounded-xl p-0 sm:p-2"
       >
         <div class="text-center mb-4">
-          <n-h2 class="!m-0 font-bold">
+          <n-h2 class="m-0 font-bold">
             {{ $t('default.current_banners') }}
           </n-h2>
         </div>
@@ -124,7 +128,7 @@
           <div
             v-for="group in bannerGroups"
             :key="group.key"
-            class="w-full sm:w-1/2 aspect-[2/1]"
+            class="w-full sm:w-1/2 aspect-2/1"
             :class="bannerGroups.length === 1 ? 'sm:mx-auto' : ''"
           >
             <BannerCarousel
@@ -146,7 +150,7 @@
         class="rounded-xl p-0 sm:p-2"
       >
         <div class="text-center mb-4">
-          <n-h2 class="!m-0 font-bold">
+          <n-h2 class="m-0 font-bold">
             {{ $t('navigation.compendium') }}
           </n-h2>
         </div>
@@ -156,7 +160,7 @@
           <button
             v-for="item in compendiumItems"
             :key="item.key"
-            class="flex flex-col items-center justify-center p-6 rounded-xl bg-gradient-to-br from-[#e8ddf9]/30 to-[#fce4ec]/30 border border-black/[0.04] cursor-pointer hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(244,63,94,0.1)] group dark:from-[#1e1b4b]/40 dark:to-[#581c64]/30 dark:border-white/[0.05] dark:hover:shadow-[0_6px_20px_rgba(168,85,247,0.12)]"
+            class="flex flex-col items-center justify-center p-6 rounded-xl bg-linear-to-br from-[#e8ddf9]/30 to-[#fce4ec]/30 border border-black/4 cursor-pointer hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(244,63,94,0.1)] group dark:from-[#1e1b4b]/40 dark:to-[#581c64]/30 dark:border-white/5 dark:hover:shadow-[0_6px_20px_rgba(168,85,247,0.12)]"
             @click="navigateTo(localePath(item.path))"
           >
             <n-icon
@@ -174,7 +178,7 @@
           <!-- Tier List Preview -->
           <NuxtLinkLocale
             no-prefetch
-            class="relative flex items-center justify-center h-36 w-full rounded-lg border border-gray-200/70 dark:border-gray-700/70 bg-gradient-to-b from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900 overflow-hidden cursor-pointer group"
+            class="relative flex items-center justify-center h-36 w-full rounded-lg border border-gray-200/70 dark:border-gray-700/70 bg-linear-to-b from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900 overflow-hidden cursor-pointer group"
             :to="'/tierlist'"
           >
             <div
@@ -197,7 +201,7 @@
             </div>
             <div class="absolute bottom-2 left-2 right-2">
               <div
-                class="flex w-full items-center justify-center gap-1 rounded-md border border-white/60 bg-white/80 px-3 py-1.5 text-sm font-medium text-rose-500 shadow-sm backdrop-blur-sm pointer-events-none dark:border-white/10 dark:bg-slate-900/70 dark:text-rose-300"
+                class="flex w-full items-center justify-center gap-1 rounded-md border border-white/60 bg-white/80 px-3 py-1.5 text-sm font-medium text-rose-500 shadow-xs backdrop-blur-xs pointer-events-none dark:border-white/10 dark:bg-slate-900/70 dark:text-rose-300"
               >
                 <n-icon><SortAmountDown /></n-icon>
                 <span>{{ $t('navigation.tierlist') }}</span>
@@ -208,10 +212,10 @@
           <!-- Outfit Silhouette Quiz -->
           <NuxtLinkLocale
             no-prefetch
-            class="relative flex items-center justify-center h-36 w-full rounded-lg border border-gray-200/70 dark:border-gray-700/70 bg-gradient-to-b from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900 overflow-hidden cursor-pointer group"
+            class="relative flex items-center justify-center h-36 w-full rounded-lg border border-gray-200/70 dark:border-gray-700/70 bg-linear-to-b from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900 overflow-hidden cursor-pointer group"
             :to="'/quiz'"
           >
-            <div class="h-full aspect-[2/3] shrink-0 p-1">
+            <div class="h-full aspect-2/3 shrink-0 p-1">
               <NuxtImg
                 :src="getImageSrc('outfit', featuredOutfitId)"
                 preset="tallSm"
@@ -224,7 +228,7 @@
             </div>
             <div class="absolute bottom-2 left-2 right-2">
               <div
-                class="flex w-full items-center justify-center gap-1 rounded-md border border-white/60 bg-white/80 px-3 py-1.5 text-sm font-medium text-rose-500 shadow-sm backdrop-blur-sm pointer-events-none dark:border-white/10 dark:bg-slate-900/70 dark:text-rose-300"
+                class="flex w-full items-center justify-center gap-1 rounded-md border border-white/60 bg-white/80 px-3 py-1.5 text-sm font-medium text-rose-500 shadow-xs backdrop-blur-xs pointer-events-none dark:border-white/10 dark:bg-slate-900/70 dark:text-rose-300"
               >
                 <n-icon><PuzzlePiece /></n-icon>
                 <span>{{ $t('quiz.title') }}</span>
@@ -246,7 +250,7 @@
         class="rounded-xl p-0 sm:p-2"
       >
         <div class="text-center mb-4">
-          <n-h2 class="!m-0 font-bold">
+          <n-h2 class="m-0 font-bold">
             {{ $t('default.community_stats') }}
           </n-h2>
         </div>
@@ -260,7 +264,7 @@
                   {{ $t('common.stats.total_pulls') }}
                 </div>
                 <div
-                  class="text-xl sm:text-2xl font-bold tabular-nums min-h-[1.75rem] sm:min-h-[2rem]"
+                  class="text-xl sm:text-2xl font-bold tabular-nums min-h-7 sm:min-h-8"
                 >
                   <n-number-animation
                     v-if="globalStats"
@@ -283,7 +287,7 @@
                   {{ $t('global.stats.unique_users') }}
                 </div>
                 <div
-                  class="text-xl sm:text-2xl font-bold tabular-nums min-h-[1.75rem] sm:min-h-[2rem]"
+                  class="text-xl sm:text-2xl font-bold tabular-nums min-h-7 sm:min-h-8"
                 >
                   <n-number-animation
                     v-if="globalStats"

@@ -25,7 +25,7 @@
     <!-- Outfit Images Carousel with Items Grid -->
     <div class="flex flex-col lg:flex-row gap-4">
       <!-- Carousel Container -->
-      <div class="w-full lg:w-auto flex-shrink-0">
+      <div class="w-full lg:w-auto shrink-0">
         <n-carousel
           :ref="`carousel${quality}Star`"
           v-model:current-index="activeSlide"
@@ -35,17 +35,16 @@
           :centered-slides="false"
           :slides-per-view="2"
           draggable
-          class="rounded-lg w-full sm:w-[400px] aspect-[4/3]"
+          class="rounded-lg w-full sm:w-[400px] aspect-4/3"
         >
           <n-carousel-item
             v-for="(image, index) in outfitImages"
             :key="index"
-            :class="quality === 5 ? 'w-[60%]' : 'w-[40%]'"
           >
             <NuxtLinkLocale
               no-prefetch
               :to="`/outfits/${image.outfitId}`"
-              class="group relative aspect-[2/3] rounded-lg overflow-hidden transition-all duration-300 ease-in-out cursor-pointer block"
+              class="group relative aspect-2/3 rounded-lg overflow-hidden transition-all duration-300 ease-in-out cursor-pointer block"
             >
               <div
                 class="absolute inset-0 bg-[url('/images/bg.webp')] bg-cover bg-center bg-slate-100 dark:bg-slate-300"
@@ -72,19 +71,19 @@
               >
                 <template v-if="index === activeSlide">
                   <span
-                    class="flex h-8 w-8 items-center justify-center rounded-full bg-black/40 text-white shadow opacity-50"
+                    class="flex h-8 w-8 items-center justify-center rounded-full bg-black/40 text-white shadow-sm opacity-50"
                   >
                     <n-icon size="16"><ExternalLinkAlt /></n-icon>
                   </span>
                 </template>
                 <template v-else>
                   <span
-                    class="flex h-8 w-8 items-center justify-center rounded-full bg-black/40 text-white shadow"
+                    class="flex h-8 w-8 items-center justify-center rounded-full bg-black/40 text-white shadow-sm"
                   >
                     <n-icon size="16"><ChevronLeft /></n-icon>
                   </span>
                   <span
-                    class="flex h-8 w-8 items-center justify-center rounded-full bg-black/40 text-white shadow"
+                    class="flex h-8 w-8 items-center justify-center rounded-full bg-black/40 text-white shadow-sm"
                   >
                     <n-icon size="16"><ChevronRight /></n-icon>
                   </span>

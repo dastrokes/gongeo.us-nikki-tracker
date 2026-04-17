@@ -5,13 +5,13 @@
       v-if="loading"
       size="small"
       class="rounded-xl p-0 sm:p-2"
-      content-class="!p-2 sm:p-4"
+      content-class="p-2 sm:p-4"
     >
-      <div class="grid grid-cols-1 lg:grid-cols-[180px_1fr] gap-4 lg:gap-6">
+      <div class="grid grid-cols-1 lg:grid-cols-[200px_1fr] gap-4 lg:gap-6">
         <!-- Image Skeleton -->
         <div class="flex justify-center lg:justify-start">
           <div
-            class="relative aspect-[2/3] w-full max-w-[180px] rounded-lg overflow-hidden"
+            class="relative aspect-2/3 w-full max-w-[200px] rounded-lg overflow-hidden"
           >
             <n-skeleton
               :sharp="false"
@@ -56,7 +56,7 @@
       v-else-if="error"
       size="small"
       class="rounded-xl p-0 sm:p-2"
-      content-class="!p-2 sm:p-4"
+      content-class="p-2 sm:p-4"
     >
       <n-result
         size="small"
@@ -86,31 +86,50 @@
       <n-card
         size="small"
         class="rounded-xl p-0 sm:p-2"
-        content-class="!p-2 sm:p-4"
+        content-class="p-2 sm:p-4"
       >
         <div class="grid grid-cols-1 lg:grid-cols-[auto_1fr] gap-4 lg:gap-6">
           <!-- Item Image -->
           <div class="flex justify-center lg:justify-start items-start">
-            <div
-              class="relative aspect-[2/3] w-[180px] max-w-full shrink-0 rounded-lg overflow-hidden shadow-lg"
-            >
+            <div class="w-[200px] max-w-full shrink-0">
               <div
-                class="absolute inset-0 bg-[url('/images/bg.webp')] bg-cover bg-center bg-slate-100 dark:bg-slate-300"
-              ></div>
-              <!-- Tint overlay -->
-              <div
-                class="absolute inset-0"
-                :style="getQualityOverlayStyle(item.quality)"
-              ></div>
-              <NuxtImg
-                :src="getImageSrc('item', item.id)"
-                :alt="itemName"
-                class="absolute inset-0 w-full h-full object-cover z-10"
-                preset="tallLg"
-                fit="cover"
-                loading="eager"
-                sizes="200px"
-              />
+                class="relative aspect-2/3 w-full rounded-lg overflow-hidden shadow-lg group"
+              >
+                <div
+                  class="absolute inset-0 bg-[url('/images/bg.webp')] bg-cover bg-center bg-slate-100 dark:bg-slate-300"
+                ></div>
+                <!-- Tint overlay -->
+                <div
+                  class="absolute inset-0"
+                  :style="getQualityOverlayStyle(item.quality)"
+                ></div>
+                <NuxtImg
+                  :src="getImageSrc(showIcon ? 'itemIcon' : 'item', item.id)"
+                  :alt="itemName"
+                  class="absolute inset-0 w-full h-full z-10 transition-all duration-300"
+                  :class="
+                    showIcon
+                      ? 'object-contain p-8'
+                      : 'object-cover group-hover:scale-110'
+                  "
+                  preset="tallLg"
+                  fit="cover"
+                  loading="eager"
+                  sizes="200px"
+                />
+
+                <!-- Toggle Button -->
+                <div
+                  class="absolute top-2 right-2 z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                >
+                  <button
+                    class="backdrop-blur-md bg-black/30 dark:bg-black/50 text-white/90 p-1.5 rounded-full transition-colors hover:bg-black/50 dark:hover:bg-black/70 border border-white/20 opacity-70 hover:opacity-100 flex items-center justify-center"
+                    @click="showIcon = !showIcon"
+                  >
+                    <n-icon size="14"><Images /></n-icon>
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -429,7 +448,7 @@
           v-if="itemVariations.length > 1"
           size="small"
           class="rounded-xl p-0 sm:p-2"
-          content-class="!p-2 sm:p-4"
+          content-class="p-2 sm:p-4"
         >
           <div class="flex items-center justify-between mb-3">
             <h2 class="text-lg font-bold">
@@ -451,12 +470,15 @@
               ]"
             >
               <div
-                class="relative aspect-[2/3] rounded-lg overflow-hidden transition-all duration-200 ease-in-out shadow-md"
+                class="relative aspect-2/3 rounded-lg overflow-hidden transition-all duration-200 ease-in-out shadow-md"
                 :class="[
-                  variation.id === itemId
-                    ? 'ring-2 ring-primary/60 dark:ring-primary/40 ring-opacity-50'
-                    : 'group-hover:scale-105',
+                  variation.id === itemId ? '' : 'group-hover:scale-105',
                 ]"
+                :style="
+                  variation.id === itemId
+                    ? getQualityRingStyle(variation.quality)
+                    : ''
+                "
               >
                 <div
                   class="absolute inset-0 bg-[url('/images/bg.webp')] bg-cover bg-center bg-slate-100 dark:bg-slate-300"
@@ -490,7 +512,7 @@
           v-if="relatedOutfits.length > 0"
           size="small"
           class="rounded-xl p-0 sm:p-2"
-          content-class="!p-2 sm:p-4"
+          content-class="p-2 sm:p-4"
         >
           <h2 class="text-lg font-bold mb-3">
             {{ $t('common.outfit') }}
@@ -529,7 +551,7 @@
           v-if="inBanner"
           size="small"
           class="rounded-xl p-0 sm:p-2 h-full flex flex-col"
-          content-class="!p-2 sm:p-4 flex flex-col h-full"
+          content-class="p-2 sm:p-4 flex flex-col h-full"
         >
           <h2 class="text-lg font-bold mb-3">
             {{ $t('common.banner') }}
@@ -539,7 +561,7 @@
             class="block group"
           >
             <div
-              class="relative aspect-[2/1] max-h-[150px] rounded-lg overflow-hidden transition-all duration-200 ease-in-out shadow-md group-hover:scale-[1.02]"
+              class="relative aspect-2/1 max-h-[150px] rounded-lg overflow-hidden transition-all duration-200 ease-in-out shadow-md group-hover:scale-[1.02]"
             >
               <NuxtImg
                 :src="getImageSrc('banner', inBanner.bannerId)"
@@ -566,7 +588,7 @@
       v-else
       size="small"
       class="rounded-xl p-0 sm:p-2"
-      content-class="!p-2 sm:p-4"
+      content-class="p-2 sm:p-4"
     >
       <n-result
         size="small"
@@ -608,7 +630,7 @@
 </template>
 
 <script setup lang="ts">
-  import { CaretDown, CaretUp, Star } from '@vicons/fa'
+  import { CaretDown, CaretUp, Star, Images } from '@vicons/fa'
 
   const { t, te, locale } = useI18n()
   const localePath = useLocalePath()
@@ -625,6 +647,7 @@
   const nuxtImg = useImage()
   const showFeedbackModal = ref(false)
   const showExpandedCurrentTags = ref(false)
+  const showIcon = ref(false)
 
   const itemKey = computed(() => `item-${itemId.value}-${locale.value}`)
 

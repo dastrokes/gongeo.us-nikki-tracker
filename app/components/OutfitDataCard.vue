@@ -23,44 +23,36 @@
     </div>
     <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
       <NuxtLinkLocale
-        v-for="(image, index) in Array.from(outfitImages.entries())"
-        :key="index"
+        v-for="level in outfitLevels"
+        :key="level"
         no-prefetch
-        :to="`/outfits/${outfitId}`"
-        class="relative aspect-[2/3] rounded-lg overflow-hidden transition-all duration-300 ease-in-out cursor-pointer hover:shadow-lg"
+        :to="`/outfits/${getVariantId(level)}`"
+        class="block group cursor-pointer"
       >
-        <div
-          class="absolute inset-0 bg-[url('/images/bg.webp')] bg-cover bg-center bg-slate-100 dark:bg-slate-300"
-        ></div>
-        <!-- Tint overlay -->
-        <div
-          class="absolute inset-0"
-          :style="getQualityOverlayStyle(quality)"
-        ></div>
-        <NuxtImg
-          :src="image[1]"
-          :alt="`${$t(`outfit.${outfitId}.name`)} ${image[0] === 0 ? 'Base' : `LV${image[0]}`}`"
-          class="absolute inset-0 w-full h-full object-cover z-10"
-          preset="tallLg"
-          fit="cover"
-          loading="lazy"
-          sizes="200px"
-        />
-        <div
-          class="absolute top-1 right-1 scale-90 sm:scale-100 origin-top-right z-20"
-        >
-          <n-tag
-            round
-            size="small"
-            :bordered="false"
-            :color="getQualityTextTheme(quality)"
-            ><span class="flex items-center gap-1">
-              {{ $t(`banner.outfit.level.${image[0] === 0 ? '1' : image[0]}`) }}
-              <n-icon v-if="getOutfitLevel.includes(image[0].toString())"
-                ><CheckCircle
-              /></n-icon>
-            </span>
-          </n-tag>
+        <div class="relative">
+          <OutfitCard
+            :outfit-id="getVariantId(level)"
+            :quality="quality"
+            :name="`${$t(`outfit.${outfitId}.name`)} ${level === 0 ? 'Base' : `LV${level}`}`"
+            :show-info="false"
+            class="transition-all duration-300 ease-in-out group-hover:shadow-lg group-hover:scale-[1.02]"
+          />
+          <div
+            class="absolute top-1 right-1 scale-90 sm:scale-100 origin-top-right z-20 pointer-events-none"
+          >
+            <n-tag
+              round
+              size="small"
+              :bordered="false"
+              :color="getQualityTextTheme(quality)"
+              ><span class="flex items-center gap-1">
+                {{ $t(`banner.outfit.level.${level === 0 ? '1' : level}`) }}
+                <n-icon v-if="getOutfitLevel.includes(level.toString())"
+                  ><CheckCircle
+                /></n-icon>
+              </span>
+            </n-tag>
+          </div>
         </div>
       </NuxtLinkLocale>
     </div>
@@ -83,7 +75,11 @@
   }>()
 
   const pullStore = usePullStore()
-  const { getImageSrc } = imageProvider()
+
+  const getVariantId = (level: number) =>
+    level === 0
+      ? props.outfitId
+      : `${props.outfitId}${level.toString().padStart(2, '0')}`
 
   const getOutfitLevel = computed(() => {
     if (!props.completionData) return []
@@ -122,17 +118,12 @@
     return levels
   })
 
-  const outfitImages = computed(() => {
-    const images = new Map<number, string>()
-    images.set(0, getImageSrc('outfit', props.outfitId))
-
-    // Add level variants based on quality
+  const outfitLevels = computed(() => {
+    const levels = [0]
     const maxLevel = props.quality === 5 ? 4 : 2
     for (let i = 2; i <= maxLevel; i++) {
-      const levelNum = i.toString().padStart(2, '0')
-      images.set(i, getImageSrc('outfit', `${props.outfitId}${levelNum}`))
+      levels.push(i)
     }
-
-    return images
+    return levels
   })
 </script>

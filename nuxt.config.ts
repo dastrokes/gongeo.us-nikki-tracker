@@ -33,20 +33,6 @@ export default defineNuxtConfig({
   // Add global CSS files
   css: ['~/assets/styles/global.css'],
 
-  app: {
-    head: {
-      script: [
-        {
-          src: `${umamiHostUrl}/script.js`,
-          defer: true,
-          'data-website-id': 'dd22ab5d-2045-4450-aaff-f513339b5ca6',
-          'data-host-url': umamiHostUrl,
-          'data-domains': 'gongeo.us',
-        },
-      ],
-    },
-  },
-
   modules: [
     '@nuxt/eslint',
     '@nuxt/fonts',
@@ -68,6 +54,14 @@ export default defineNuxtConfig({
       googleAdsense: {
         client: 'ca-pub-9717879492261560',
         autoAds: true,
+        trigger: 'onNuxtReady',
+      },
+      umamiAnalytics: {
+        websiteId: 'dd22ab5d-2045-4450-aaff-f513339b5ca6',
+        hostUrl: umamiHostUrl,
+        domains: ['gongeo.us'],
+        bundle: false,
+        proxy: false,
         trigger: 'onNuxtReady',
       },
     },

@@ -2,31 +2,31 @@
   "common": {
     "banner": "バナー",
     "banners": "バナー",
-    "outfit": "服装",
-    "outfits": "衣装",
-    "item": "アイテム",
-    "items": "アイテム",
-    "makeup": "補う",
+    "outfit": "セットコーデ",
+    "outfits": "セットコーデ",
+    "item": "パーツ",
+    "items": "パーツ",
+    "makeup": "メイク",
     "variations": "バリエーション",
     "slot": "部位",
-    "pulls": "プル",
+    "pulls": "共鳴",
     "total": "合計",
-    "export": "輸出",
+    "export": "エクスポート",
     "loading": "読み込み中…",
     "search": "検索",
     "clear": "クリア",
     "apply": "適用",
     "all": "全て",
-    "other": "他の",
-    "show": "見せる",
-    "hide": "隠れる",
+    "other": "その他",
+    "show": "表示",
+    "hide": "非表示",
     "skip": "スキップ",
     "save": "保存",
     "cancel": "キャンセル",
-    "confirm": "確認する",
-    "ok": "わかりました",
+    "confirm": "確定",
+    "ok": "OK",
     "next": "次へ",
-    "submit": "提出する",
+    "submit": "送信",
     "retry": "リトライ",
     "copy": "コピー",
     "select": "選択",
@@ -47,9 +47,9 @@
     },
     "stats": {
       "total_pulls": "総プル数",
-      "avg_5star": "平均5つ星（5つ星バナー）",
-      "avg_4star_mixed": "平均4つ星(5つ星バナー)",
-      "avg_4star_only": "4つ星平均(4つ星バナー)",
+      "avg_5star": "平均5★（5★バナー）",
+      "avg_4star_mixed": "平均4★(5★バナー)",
+      "avg_4star_only": "4★平均(4★バナー)",
       "total_votes": "総投票数",
       "personal_votes": "個人投票",
       "total_voters": "総投票者数",
@@ -59,7 +59,7 @@
       "number_of_pulls": "プル数",
       "probability": "確率",
       "cumulative_probability": "累積確率",
-      "occurrences": "出来事",
+      "occurrences": "出現数",
       "percentage": "パーセンテージ"
     },
     "profile": {
@@ -78,7 +78,7 @@
   },
   "navigation": {
     "title": "gongeo.us",
-    "subtitle": "無限暖暖 暖暖共鳴録",
+    "subtitle": "インフィニティニキ ニキの共鳴録",
     "groups": {
       "data": "トラッカー",
       "banner": "共鳴",
@@ -90,13 +90,13 @@
     "global": "グローバルデータ",
     "banner": "バナーの歴史",
     "banner_detail": "バナーの詳細",
-    "timeline": "Banner Timeline",
-    "outfit": "服装大全",
+    "timeline": "バナータイムライン",
+    "outfit": "衣装図鑑",
     "outfit_detail": "衣装の詳細",
-    "item": "アイテム概要",
+    "item": "アイテム図鑑",
     "item_detail": "アイテム詳細",
     "tierlist": "ティアリストメーカー",
-    "compendium": "概要",
+    "compendium": "ゲーム図鑑",
     "vote": "バナー投票",
     "faq": "よくある質問",
     "about": "について",
@@ -107,40 +107,40 @@
     "stats": "個人統計"
   },
   "meta": {
-    "title": "Infinity Nikki Resonance Tracker - プル履歴と統計",
-    "keywords": "Infinity Nikki、共鳴トラッカー、プルトラッカー、ガチャトラッカー、プル履歴、グローバル統計、コミュニティ統計、Gongeous",
+    "title": "インフィニティニキ 共鳴トラッカー - プル履歴と統計",
+    "keywords": "インフィニティニキ、共鳴トラッカー、プルトラッカー、ガチャトラッカー、プル履歴、グローバル統計、コミュニティ統計、Gongeous",
     "game_title": "インフィニティニキ",
     "description": {
-      "default": "Infinity Nikki 共鳴バナーのプル履歴と統計を追跡します。 Infinity Nikki コミュニティ向けのファン作成の追跡および分析ツール。",
-      "login": "電子メールまたはサードパーティのアカウントを使用して gongeo.us にサインインし、デバイス間で Infinity Nikki 共鳴データをアップロード、バックアップ、同期します。",
-      "tracker": "Infinity Nikki 共振プル履歴を追跡して分析します。 5つ星と4つ星のバナーアイテムをすべて表示し、他のスタイリストと運を比較してください。",
-      "import": "詳細なステップバイステップのガイドを使用して、ゲーム、Whim-Log データ、またはバックアップ ファイルから Infinity Nikki レゾナンス プル履歴を簡単にインポートします。",
-      "global": "バナーの人気、プル率、アイテムのドロップ率、コミュニティのプル統計など、Infinity Nikki レゾナンスのグローバル データを探索します。",
-      "banner": "現在、今後、過去のイベント、注目の衣装、プル率、期間、再実行の詳細を含む Infinity Nikki レゾナンス バナーの履歴を探索します。",
+      "default": "インフィニティニキ 共鳴バナーのプル履歴と統計を追跡します。 インフィニティニキ コミュニティ向けのファン作成の追跡および分析ツール。",
+      "login": "電子メールまたはサードパーティのアカウントを使用して gongeo.us にサインインし、デバイス間で インフィニティニキ 共鳴データをアップロード、バックアップ、同期します。",
+      "tracker": "インフィニティニキ 共振プル履歴を追跡して分析します。 5★と4★のバナーアイテムをすべて表示し、他のスタイリストと運を比較してください。",
+      "import": "詳細なステップバイステップのガイドを使用して、ゲーム、奇想の手帳 データ、またはバックアップ ファイルから インフィニティニキ レゾナンス プル履歴を簡単にインポートします。",
+      "global": "バナーの人気、プル率、アイテムのドロップ率、コミュニティのプル統計など、インフィニティニキ レゾナンスのグローバル データを探索します。",
+      "banner": "現在、今後、過去のイベント、注目の衣装、プル率、期間、再実行の詳細を含む インフィニティニキ レゾナンス バナーの履歴を探索します。",
       "banner_detail": "注目の衣装、アイテムのドロップ率、プル統計、期間、進化情報、再実行ステータスなど、{name} レゾナンス バナーの詳細を表示します。",
-      "timeline": "Infinity Nikki レゾナンス バナー、メジャー アップデート、リリース期間、再実行のインタラクティブなタイムラインを調べて、イベント履歴を一目で追跡します。",
-      "tierlist": "ドラッグ アンド ドロップのランキング、フィルター、簡単な画像エクスポートを使用して、バナー、衣装、アイテムの Infinity Nikki 階層リストを作成して共有します。",
-      "outfits": "品質、進化、グローアップ、スタイルタグ、統計のフィルターを使用して、すべての Infinity Nikki の衣装を閲覧します。コンポーネント全体を確認し、すべての衣装を発見してください。",
+      "timeline": "インフィニティニキ レゾナンス バナー、メジャー アップデート、リリース期間、再実行のインタラクティブなタイムラインを調べて、イベント履歴を一目で追跡します。",
+      "tierlist": "ドラッグ アンド ドロップのランキング、フィルター、簡単な画像エクスポートを使用して、バナー、衣装、アイテムの インフィニティニキ 階層リストを作成して共有します。",
+      "outfits": "品質、進化、グローアップ、スタイルタグ、統計のフィルターを使用して、すべての インフィニティニキ の衣装を閲覧します。コンポーネント全体を確認し、すべての衣装を発見してください。",
       "outfit_detail": "品質、衣装ピース、進化とグローアップ、メイクアップ、ステータス、関連する共鳴バナーなど、{name} 衣装に関する詳細情報を表示します。",
-      "items": "部位、品質、ステータスボーナス、関連する衣装やバナーのフィルターを使用して、すべての Infinity Nikki アイテムを参照します。すべてのアイテムを簡単に検索、比較、追跡します。",
+      "items": "部位、品質、ステータスボーナス、関連する衣装やバナーのフィルターを使用して、すべての インフィニティニキ アイテムを参照します。すべてのアイテムを簡単に検索、比較、追跡します。",
       "item_detail": "品質、進化とグローアップ、ステータス、関連する衣装やバナーなど、{name} アイテムに関する詳細情報を表示します。",
       "faq": "データ プライバシー、インポート方法、使用ガイドラインなど、gongeo.us に関するよくある質問への回答をご覧ください。",
-      "about": "gongeo.us の目的、プライバシー ポリシー、免責事項、Infinity Nikki コミュニティのサポート方法など、gongeo.us の詳細をご覧ください。",
-      "stats": "個人のInfinity Nikki共鳴プル統計、運勢分析、連続記録、プル活動を確認できます。"
+      "about": "gongeo.us の目的、プライバシー ポリシー、免責事項、インフィニティニキ コミュニティのサポート方法など、gongeo.us の詳細をご覧ください。",
+      "stats": "個人のインフィニティニキ共鳴プル統計、運勢分析、連続記録、プル活動を確認できます。"
     }
   },
   "default": {
-    "description": "Infinity Nikki 共鳴の履歴と統計を追跡する",
+    "description": "インフィニティニキ 共鳴の履歴と統計を追跡する",
     "your_data": "あなたのデータ",
     "community_stats": "コミュニティ統計",
     "view_all_stats": "すべての統計を見る",
     "current_banners": "現在のバナー",
-    "rerun": "再実行",
+    "rerun": "復刻",
     "built_with": "このサイトは次を利用しています",
     "copyright": "© 2026 gongeo.us • © Infold Games 全著作権所有",
     "disclaimer": {
       "content": "これは非公式のファン作成の Web サイトであり、Infold Games と提携または承認されていません。",
-      "rights": "すべての Infinity Nikki ゲーム資産、コンテンツ、および商標は、Infold Games とそれぞれの所有者に属します。"
+      "rights": "すべての インフィニティニキ ゲーム資産、コンテンツ、および商標は、Infold Games とそれぞれの所有者に属します。"
     },
     "user_profile": {
       "guest": "ゲスト",
@@ -287,7 +287,7 @@
     "choose_method_desc": "プル履歴をインポートする方法を選択します。",
     "import_from_game": "ゲームからインポート",
     "import_from_file": "ファイルからインポート",
-    "import_from_pearpal": "Whim-Log からインポート",
+    "import_from_pearpal": "奇想の手帳 からインポート",
     "file_import": "ファイルのインポート",
     "file_import_desc": "以前にエクスポートした nikki-resonance-data ファイルからインポートします。",
     "select_file": "ファイルの選択",
@@ -303,11 +303,11 @@
     "login_pearpal": "Pearpal ウェブサイトにログイン",
     "login_pearpal_desc": "まだログインしていない場合は、新しいタブで Pearpal Web サイトを開き、Infold アカウントでログインします。",
     "login_pearpal_incognito_hint": "複数のアカウントをお持ちの場合は、シークレット/プライベート ブラウザ ウィンドウで Pearpal を開くことをお勧めします。",
-    "login_whimlog": "Whim-Log でデータを同期する",
-    "login_whimlog_desc": "新しいタブで Whim-Log を開き、ログインしてデータを同期します。",
+    "login_whimlog": "奇想の手帳 でデータを同期する",
+    "login_whimlog_desc": "新しいタブで 奇想の手帳 を開き、ログインしてデータを同期します。",
     "get_cookie": "Pearpal Web サイトから Cookie を取得する",
     "get_cookie_desc": "Cookie を取得する方法を選択してください:",
-    "gongeous_cookie": "ゴージャスクッキー",
+    "gongeous_cookie": "Gongeous Cookie",
     "bookmark_method": "ブックマーク方法（推奨）",
     "bookmark_method_mobile": "ブックマーク方法",
     "console_method": "コンソールメソッド",
@@ -348,7 +348,7 @@
       "step7": "UID については、Pearpal プロフィールに移動し、UID 番号をコピーします。"
     },
     "security_note": "注: これらの Cookie 値を他の人と共有しないでください。",
-    "data_note": "重要: このインポート方法を使用してプルしたデータは、180 日間のみ保持されます。 {date} より前のデータは利用できません。 「Whim-Logからインポート」を使用して古いデータをインポートできます。",
+    "data_note": "重要: このインポート方法を使用してプルしたデータは、180 日間のみ保持されます。 {date} より前のデータは利用できません。 「奇想の手帳からインポート」を使用して古いデータをインポートできます。",
     "form": {
       "uid_placeholder": "ゲーム内UID",
       "momo_id_placeholder": "クッキーのモモニッド",
@@ -410,9 +410,9 @@
   },
   "tracker": {
     "stats": {
-      "title": "プル統計",
-      "no_pulls": "このバナーにはプル履歴がありません",
-      "total_5star_4star": "5つ星 / 4つ星 合計",
+      "title": "共鳴統計",
+      "no_pulls": "このバナーには共鳴履歴がありません",
+      "total_5star_4star": "5★ / 4★ 合計",
       "luckier": "gongeo.us ユーザーの {percent}% よりも幸運です",
       "more_pulls": "gongeo.us ユーザーの {percent}% 以上"
     },
@@ -429,21 +429,21 @@
     },
     "banner": {
       "stats": {
-        "total_5star": "合計5つ星",
-        "avg_5star": "平均5つ星",
-        "total_4star": "合計4つ星",
-        "avg_4star": "平均4つ星",
-        "pity_5star": "5つ星残念",
-        "pity_4star": "4つ星残念"
+        "total_5star": "合計5★",
+        "avg_5star": "平均5★",
+        "total_4star": "合計4★",
+        "avg_4star": "平均4★",
+        "pity_5star": "5★天井まで",
+        "pity_4star": "4★天井まで"
       },
       "settings": {
         "banner_order": "バナーの注文",
         "item_order": "アイテムの注文",
         "outfit_display": "衣装の展示",
         "item_display": "項目表示",
-        "combined": "組み合わせた",
-        "separated": "別れた",
-        "show_4star": "4つ星 (5つ星バナー)",
+        "combined": "統合",
+        "separated": "個別",
+        "show_4star": "4★ (5★バナー)",
         "show_missing": "欠けている部分",
         "duplicate_items": "重複アイテム",
         "empty_banners": "空のバナー"
@@ -452,9 +452,9 @@
     "items": {
       "pull": "#{number} をプルします",
       "category": {
-        "clothes": "服",
-        "accessories": "付属品",
-        "makeups": "メイクアップ"
+        "clothes": "衣装",
+        "accessories": "アクセサリー",
+        "makeups": "メイク"
       }
     },
     "export": {
@@ -513,7 +513,7 @@
         "2": "エボ1",
         "3": "エボ2",
         "4": "エボ3",
-        "glow": "彩新済"
+        "glow": "煥新済"
       }
     },
     "deep_echoes": "深海の響き",
@@ -526,13 +526,13 @@
     },
     "charts": {
       "pulls_per_banner": "バナーごとのプル数",
-      "five_star_distribution": "5つ星プル配布",
-      "four_star_type2_distribution": "4つ星配布（5つ星バナー）",
+      "five_star_distribution": "5★プル配布",
+      "four_star_type2_distribution": "4★配布（5★バナー）",
       "four_star_type3_distribution": "4★配布（4★バナー）",
       "first_item_distribution": "最初のアイテム配布",
       "all_banners": "すべてのバナー",
-      "five_star_banners": "5つ星バナー",
-      "four_star_banners": "4つ星バナー",
+      "five_star_banners": "5★バナー",
+      "four_star_banners": "4★バナー",
       "recent_only": "最近の",
       "all_time": "オールタイム",
       "first_item_distribution_tooltip": "このバナーには、ゲーム内で利用できなくなった 180 日より古いプルが含まれています。その結果、最初のアイテム分布データは不正確になる可能性があります。"
@@ -558,7 +558,7 @@
       },
       "ban_risk": {
         "question": "これを使用すると禁止されますか?",
-        "answer": "これはサードパーティ ツールであるため、常にある程度のリスクが伴いますが、最終的には Infold Games 次第です。ただし、同様のツールは他のガチャ ゲーム (Paimon.moe、Star Rail Station、WuWa Tracker など) や Infinity Nikki (小黑盒 游创工坊) の中国語コミュニティでも広く使用されています。この情報は参考として捉え、ご自身で判断してください。"
+        "answer": "これはサードパーティ ツールであるため、常にある程度のリスクが伴いますが、最終的には Infold Games 次第です。ただし、同様のツールは他のガチャ ゲーム (Paimon.moe、Star Rail Station、WuWa Tracker など) や インフィニティニキ (小黑盒 游创工坊) の中国語コミュニティでも広く使用されています。この情報は参考として捉え、ご自身で判断してください。"
       },
       "data_storage": {
         "question": "どのようなデータを保存していますか?",
@@ -598,7 +598,7 @@
     "title": "免責事項とプライバシーポリシー",
     "infinityNikkiAssets": {
       "title": "プラットフォームとコンテンツの免責事項",
-      "content": "gongeo.us は独立したファン運営のプラットフォームであり、Infinity Nikki または Infold Games と提携、承認、提携していません。すべての公式ゲーム アセット、ビジュアル、および関連コンテンツは Infold Games の独占的所有物であり、ここではコミュニティの共有と教育目的にのみ使用されます。当社は、このコンテンツに対する所有権や権利を主張しません。",
+      "content": "gongeo.us は独立したファン運営のプラットフォームであり、インフィニティニキ または Infold Games と提携、承認、提携していません。すべての公式ゲーム アセット、ビジュアル、および関連コンテンツは Infold Games の独占的所有物であり、ここではコミュニティの共有と教育目的にのみ使用されます。当社は、このコンテンツに対する所有権や権利を主張しません。",
       "acknowledgment": "このプラットフォームを使用すると、その非公式の立場を認め、サードパーティまたは非公式のコンテンツへのアクセスに関連するすべてのリスクを受け入れることになります。"
     },
     "dataAndStats": {
@@ -608,7 +608,7 @@
     },
     "intellectualProperty": {
       "title": "知的財産",
-      "content": "gongeo.us は独立したファン プロジェクトです。 Infinity Nikki に関連するすべての商標、ゲーム コンテンツ、および知的財産は、依然として Infold Games およびそのライセンサーの唯一の財産です。",
+      "content": "gongeo.us は独立したファン プロジェクトです。 インフィニティニキ に関連するすべての商標、ゲーム コンテンツ、および知的財産は、依然として Infold Games およびそのライセンサーの唯一の財産です。",
       "siteContent": "特に明記されていない限り、このプラットフォーム上のすべてのオリジナル コード、サイト デザイン、およびカスタム アセットは gongeo.us が所有し、適用される著作権法および知的財産法によって保護されています。書面による許可なく、無断で複製、再利用、配布することは禁止されています。",
       "usage": "このプラットフォームは「現状のまま」提供され、個人的、非商業的使用のみを目的としています。"
     },

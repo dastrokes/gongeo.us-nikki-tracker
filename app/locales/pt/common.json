@@ -148,7 +148,7 @@
       "clear_local_confirm": {
         "content": "Tem certeza de que deseja limpar os dados locais do perfil {profile}? Esta ação não pode ser desfeita."
       },
-      "sign_out": "sair",
+      "sign_out": "Sign Out",
       "sign_out_success": "Desconectado com sucesso",
       "sign_out_error": "Falha ao sair",
       "sync": {

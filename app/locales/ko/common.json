@@ -2,34 +2,34 @@
   "common": {
     "banner": "배너",
     "banners": "배너",
-    "outfit": "차림새",
-    "outfits": "의상",
-    "item": "목",
-    "items": "품목",
-    "makeup": "조립",
+    "outfit": "세트",
+    "outfits": "세트",
+    "item": "파츠",
+    "items": "파츠",
+    "makeup": "메이크업",
     "variations": "변형",
     "slot": "부위",
     "pulls": "뽑기",
     "total": "총",
     "export": "내보내기",
     "loading": "로딩 중…",
-    "search": "찾다",
+    "search": "검색",
     "clear": "지우기",
     "apply": "적용",
     "all": "모두",
-    "other": "다른",
+    "other": "기타",
     "show": "표시",
-    "hide": "숨다",
-    "skip": "건너뛰다",
-    "save": "구하다",
+    "hide": "숨기기",
+    "skip": "건너뛰기",
+    "save": "저장",
     "cancel": "취소",
-    "confirm": "확인하다",
-    "ok": "좋아요",
+    "confirm": "확인",
+    "ok": "확인",
     "next": "다음",
-    "submit": "제출하다",
-    "retry": "다시 해 보다",
+    "submit": "제출",
+    "retry": "재시도",
     "copy": "복사",
-    "select": "선택하다",
+    "select": "선택",
     "no_results_found": "검색결과가 없습니다",
     "error": "오류",
     "sort": {
@@ -46,20 +46,20 @@
       "auto": "자동"
     },
     "stats": {
-      "total_pulls": "총 당기기",
-      "avg_5star": "별 5개 평균(별 5개 배너)",
-      "avg_4star_mixed": "별 4개 평균(별 5개 배너)",
-      "avg_4star_only": "별 4개 평균(별 4개 배너)",
+      "total_pulls": "총 뽑기 횟수",
+      "avg_5star": "평균 5★ (5★ 배너)",
+      "avg_4star_mixed": "평균 4★ (5★ 배너)",
+      "avg_4star_only": "4★ 평균 (4★ 배너)",
       "total_votes": "총 투표수",
       "personal_votes": "개인 투표",
       "total_voters": "총 유권자",
       "avg_votes": "평균 투표수"
     },
     "charts": {
-      "number_of_pulls": "당기는 횟수",
-      "probability": "개연성",
+      "number_of_pulls": "뽑기 횟수",
+      "probability": "확률",
       "cumulative_probability": "누적 확률",
-      "occurrences": "발생",
+      "occurrences": "출현 횟수",
       "percentage": "백분율"
     },
     "profile": {
@@ -90,16 +90,16 @@
     "global": "글로벌 데이터",
     "banner": "배너 역사",
     "banner_detail": "배너 상세 정보",
-    "timeline": "Banner Timeline",
-    "outfit": "의상 개요",
-    "outfit_detail": "의상 세부정보",
-    "item": "아이템 개요",
-    "item_detail": "품목 세부정보",
-    "tierlist": "계층 목록 작성기",
-    "compendium": "제요",
+    "timeline": "배너 타임라인",
+    "outfit": "의상 도감",
+    "outfit_detail": "의상 상세 정보",
+    "item": "아이템 도감",
+    "item_detail": "아이템 상세 정보",
+    "tierlist": "티어리스트 메이커",
+    "compendium": "게임 도감",
     "vote": "배너 투표",
     "faq": "자주 묻는 질문",
-    "about": "대해서요",
+    "about": "정보",
     "official_website": "공식 웹사이트",
     "join_community": "커뮤니티 참여",
     "support_website": "사이트 후원",
@@ -107,26 +107,26 @@
     "stats": "개인 통계"
   },
   "meta": {
-    "title": "Infinity Nikki 공명 추적기 - 풀 기록 및 통계",
+    "title": "인피니티 니키 공명 트래커 - 뽑기 기록 및 통계",
     "keywords": "인피니티 니키, 공명 추적기, 풀 트래커, 가차 트래커, 풀 히스토리, 글로벌 통계, 커뮤니티 통계, 곤게우스",
     "game_title": "인피니티 니키",
     "description": {
       "default": "인피니티 니키 공명 배너를 추적하세요. 인피니티 니키 커뮤니티를 위한 팬 제작 추적 및 분석 도구입니다.",
-      "login": "이메일 또는 타사 계정을 사용하여 gongeo.us 에 로그인하여 기기 간에 Infinity Nikki 공명 데이터를 업로드, 백업 및 동기화할 수 있습니다.",
-      "tracker": "인피니티 니키 공명 당김 기록을 추적하고 분석하세요. 5★ 및 4★ 배너 항목을 모두 확인하고 다른 스타일리스트와 운을 비교하세요.",
-      "import": "게임, Whim-Log 데이터 또는 백업 파일에서 Infinity Nikki 공명 풀 히스토리를 쉽게 가져올 수 있습니다. 자세한 단계별 가이드가 포함되어 있습니다.",
-      "global": "배너 인기도, 당김률, 아이템 드롭률, 커뮤니티 당김 통계 등 인피니티 니키 공명 글로벌 데이터를 살펴보세요.",
-      "banner": "현재, 예정된 및 과거 이벤트, 주요 의상, 끌어오기 속도, 기간 및 재실행 세부 정보가 포함된 Infinity Nikki 공명 배너 기록을 살펴보세요.",
-      "banner_detail": "추천 의상, 아이템 드롭률, 풀 통계, 기간, 진화 정보 및 재실행 상태를 포함한 {name} 공명 배너 세부 정보를 확인하세요.",
-      "timeline": "Infinity Nikki 공명 배너, 주요 업데이트, 출시 기간 및 재실행에 대한 대화형 타임라인을 탐색하여 이벤트 기록을 한눈에 추적하세요.",
-      "tierlist": "드래그 앤 드롭 순위, 필터 및 손쉬운 이미지 내보내기를 통해 배너, 의상, 아이템에 대한 Infinity Nikki 계층 목록을 만들고 공유하세요.",
-      "outfits": "품질, 진화, 발광, 스타일 태그 및 통계에 대한 필터를 사용하여 모든 Infinity Nikki 의상을 찾아보세요. 전체 구성품을 확인하고 모든 의상을 찾아보세요.",
+      "login": "이메일 또는 타사 계정을 사용하여 gongeo.us 에 로그인하여 기기 간에 인피니티 니키 공명 데이터를 업로드, 백업 및 동기화할 수 있습니다.",
+      "tracker": "인피니티 니키 공명 뽑기 기록을 추적하고 분석하세요. 5★ 및 4★ 배너 항목을 모두 확인하고 다른 스타일리스트와 운을 비교하세요.",
+      "import": "게임, 상상 노트 데이터 또는 백업 파일에서 인피니티 니키 공명 뽑기 기록을 쉽게 가져올 수 있습니다. 자세한 단계별 가이드가 포함되어 있습니다.",
+      "global": "배너 인기도, 뽑기 확률, 아이템 드롭률, 커뮤니티 뽑기 통계 등 인피니티 니키 공명 글로벌 데이터를 살펴보세요.",
+      "banner": "현재, 예정된 및 과거 이벤트, 주요 의상, 뽑기 확률, 기간 및 재실행 세부 정보가 포함된 인피니티 니키 공명 배너 기록을 살펴보세요.",
+      "banner_detail": "추천 의상, 아이템 드롭률, 뽑기 통계, 기간, 진화 정보 및 재실행 상태를 포함한 {name} 공명 배너 세부 정보를 확인하세요.",
+      "timeline": "인피니티 니키 공명 배너, 주요 업데이트, 출시 기간 및 재실행에 대한 대화형 타임라인을 탐색하여 이벤트 기록을 한눈에 추적하세요.",
+      "tierlist": "드래그 앤 드롭 순위, 필터 및 손쉬운 이미지 내보내기를 통해 배너, 의상, 아이템에 대한 인피니티 니키 티어리스트를 만들고 공유하세요.",
+      "outfits": "품질, 진화, 발광, 스타일 태그 및 통계에 대한 필터를 사용하여 모든 인피니티 니키 의상을 찾아보세요. 전체 구성품을 확인하고 모든 의상을 찾아보세요.",
       "outfit_detail": "품질, 의상 조각, 진화 및 발광, 메이크업, 통계 및 관련 공명 배너를 포함하여 {name} 의상에 대한 자세한 정보를 확인하세요.",
-      "items": "부위, 품질, 능력치 보너스 및 관련 복장이나 배너에 대한 필터를 사용하여 모든 Infinity Nikki 항목을 찾아보세요. 모든 항목을 쉽게 찾고, 비교하고, 추적하세요.",
+      "items": "부위, 품질, 능력치 보너스 및 관련 복장이나 배너에 대한 필터를 사용하여 모든 인피니티 니키 아이템을 찾아보세요. 모든 아이템을 쉽게 찾고, 비교하고, 추적하세요.",
       "item_detail": "품질, 진화 및 발광, 통계, 관련 의상 및 배너를 포함하여 {name} 아이템에 대한 자세한 정보를 확인하세요.",
       "faq": "데이터 개인정보 보호, 가져오기 방법, 사용 지침 등 gongeo.us 에 대해 자주 묻는 질문에 대한 답변을 찾아보세요.",
-      "about": "gongeo.us 의 목적, 개인정보 보호 정책, 면책 조항 및 Infinity Nikki 커뮤니티를 지원하는 방법 등에 대해 자세히 알아보세요.",
-      "stats": "개인 Infinity Nikki 공명 풀 통계, 행운 분석, 연속 기록 및 풀 활동을 확인하세요."
+      "about": "gongeo.us 의 목적, 개인정보 보호 정책, 면책 조항 및 인피니티 니키 커뮤니티를 지원하는 방법 등에 대해 자세히 알아보세요.",
+      "stats": "개인 인피니티 니키 공명 뽑기 통계, 행운 분석, 연속 기록 및 풀 활동을 확인하세요."
     }
   },
   "default": {
@@ -135,12 +135,12 @@
     "community_stats": "커뮤니티 통계",
     "view_all_stats": "모든 통계 보기",
     "current_banners": "현재 배너",
-    "rerun": "재방송",
+    "rerun": "복각",
     "built_with": "이 사이트는 다음으로 구동됩니다",
     "copyright": "© 2026 gongeo.us • © Infold Games 판권 소유",
     "disclaimer": {
       "content": "이것은 Infold Games와 제휴하거나 승인하지 않은 비공식 팬 제작 웹사이트입니다.",
-      "rights": "모든 Infinity Nikki 게임 자산, 콘텐츠 및 상표는 Infold Games 및 해당 소유자의 소유입니다."
+      "rights": "모든 인피니티 니키 게임 자산, 콘텐츠 및 상표는 Infold Games 및 해당 소유자의 소유입니다."
     },
     "user_profile": {
       "guest": "손님",
@@ -148,7 +148,7 @@
       "clear_local_confirm": {
         "content": "{profile} 프로필의 로컬 데이터를 삭제하시겠습니까? 이 작업은 취소할 수 없습니다."
       },
-      "sign_out": "Sign Out",
+      "sign_out": "로그아웃",
       "sign_out_success": "성공적으로 로그아웃되었습니다.",
       "sign_out_error": "로그아웃하지 못했습니다.",
       "sync": {
@@ -232,7 +232,7 @@
   },
   "login": {
     "sign_in": "로그인",
-    "sign_up": "등록해요",
+    "sign_up": "회원가입",
     "welcome_description": "타사 계정 또는 이메일로 로그인하여 데이터를 업로드하고 동기화하세요.",
     "signed_in_title": "성공적으로 로그인했습니다!",
     "welcome_back": "다시 오신 것을 환영합니다, {name}!",
@@ -284,10 +284,10 @@
     "watch_on_youtube": "YouTube에서 시청하세요",
     "watch_on_bilibili": "Bilibili에서 시청하기",
     "choose_method": "가져오기 방법 선택",
-    "choose_method_desc": "당김 기록을 가져올 방법을 선택합니다.",
+    "choose_method_desc": "뽑기 기록을 가져올 방법을 선택합니다.",
     "import_from_game": "게임에서 가져오기",
     "import_from_file": "파일에서 가져오기",
-    "import_from_pearpal": "Whim-Log에서 가져오기",
+    "import_from_pearpal": "상상 노트에서 가져오기",
     "file_import": "파일 가져오기",
     "file_import_desc": "이전에 내보낸 nikki-resonance-data 파일에서 가져옵니다.",
     "select_file": "파일 선택",
@@ -303,8 +303,8 @@
     "login_pearpal": "Pearpal 홈페이지에 로그인하세요.",
     "login_pearpal_desc": "아직 로그인하지 않은 경우 새 탭에서 Pearpal 웹사이트를 열고 Infold 계정으로 로그인하세요.",
     "login_pearpal_incognito_hint": "여러 계정이 있는 경우 시크릿/개인 브라우저 창에서 Pearpal을 여는 것이 좋습니다.",
-    "login_whimlog": "Whim-Log의 데이터 동기화",
-    "login_whimlog_desc": "새 탭에서 Whim-Log를 열고 로그인하고 데이터를 동기화하세요.",
+    "login_whimlog": "상상 노트에서 데이터 동기화",
+    "login_whimlog_desc": "새 탭에서 상상 노트를 열고 로그인한 후 데이터를 동기화하세요.",
     "get_cookie": "Pearpal 웹사이트에서 쿠키 받기",
     "get_cookie_desc": "쿠키를 얻는 방법을 선택하세요:",
     "gongeous_cookie": "고저스 쿠키",
@@ -348,7 +348,7 @@
       "step7": "UID의 경우 Pearpal 프로필로 이동하여 UID 번호를 복사하세요."
     },
     "security_note": "참고: 이 쿠키 값을 다른 사람과 공유하지 마십시오!",
-    "data_note": "중요: 이 가져오기 방법을 통한 가져오기 데이터는 180일 동안만 유지됩니다. {date} 이전의 데이터는 사용할 수 없습니다. \"Whim-Log에서 가져오기\"를 사용하여 이전 데이터를 가져올 수 있습니다.",
+    "data_note": "중요: 이 가져오기 방법을 통한 가져오기 데이터는 180일 동안만 유지됩니다. {date} 이전의 데이터는 사용할 수 없습니다. \"상상 노트에서 가져오기\"를 사용하여 이전 데이터를 가져올 수 있습니다.",
     "form": {
       "uid_placeholder": "게임 내 UID",
       "momo_id_placeholder": "쿠키의 momoNid",
@@ -410,9 +410,9 @@
   },
   "tracker": {
     "stats": {
-      "title": "통계 가져오기",
-      "no_pulls": "이 배너에 대한 가져오기 기록이 없습니다.",
-      "total_5star_4star": "별 5개 / 별 4개 합계",
+      "title": "뽑기 통계",
+      "no_pulls": "이 배너에 대한 뽑기 기록이 없습니다.",
+      "total_5star_4star": "5★ / 4★ 합계",
       "luckier": "gongeo.us 사용자 중 {percent}%보다 운이 좋습니다.",
       "more_pulls": "gongeo.us 사용자 중 {percent}% 이상"
     },
@@ -429,31 +429,31 @@
     },
     "banner": {
       "stats": {
-        "total_5star": "별 5개 총계",
-        "avg_5star": "별 5개 평균",
-        "total_4star": "별 4개 합계",
-        "avg_4star": "별 4개 평균",
-        "pity_5star": "별 5개 동정",
-        "pity_4star": "별 4개 동정"
+        "total_5star": "5★ 합계",
+        "avg_5star": "5★ 평균",
+        "total_4star": "4★ 합계",
+        "avg_4star": "4★ 평균",
+        "pity_5star": "5★ 천장까지",
+        "pity_4star": "4★ 천장까지"
       },
       "settings": {
         "banner_order": "배너 순서",
         "item_order": "품목 주문",
         "outfit_display": "의상 전시",
         "item_display": "품목 전시",
-        "combined": "결합된",
-        "separated": "분리됨",
-        "show_4star": "별 4개(별 5개 배너)",
+        "combined": "결합",
+        "separated": "분리",
+        "show_4star": "4★ (5★ 배너)",
         "show_missing": "누락된 조각",
         "duplicate_items": "중복 항목",
         "empty_banners": "빈 배너"
       }
     },
     "items": {
-      "pull": "#{number} 당기기",
+      "pull": "#{number} 뽑기",
       "category": {
-        "clothes": "옷",
-        "accessories": "부속품",
+        "clothes": "의상",
+        "accessories": "액세서리",
         "makeups": "메이크업"
       }
     },
@@ -477,10 +477,10 @@
     "instructions": "실루엣으로 의상을 추측해 보세요. 빨리 답변할수록 점수가 높아집니다.",
     "game_complete": "게임 완료",
     "final_score": "최종 점수 {score}",
-    "round": "둥근",
+    "round": "라운드",
     "score": "점수",
-    "streak": "줄",
-    "best_streak": "최고의 연속",
+    "streak": "연속 정답",
+    "best_streak": "최고 연속 정답",
     "rounds": "라운드",
     "right": "오른쪽",
     "wrong": "잘못된",
@@ -508,12 +508,12 @@
     },
     "outfit": {
       "level": {
-        "0": "설정되지 않음",
-        "1": "베이스",
-        "2": "에보 1",
-        "3": "에보 2",
-        "4": "에보 3",
-        "glow": "리폼 완료"
+        "0": "해제",
+        "1": "기본",
+        "2": "진화 1",
+        "3": "진화 2",
+        "4": "진화 3",
+        "glow": "환신 완료"
       }
     },
     "deep_echoes": "심해의 메아리",
@@ -525,14 +525,14 @@
       "data_as_of": "현재 데이터"
     },
     "charts": {
-      "pulls_per_banner": "배너당 당김",
-      "five_star_distribution": "별 5개 풀 분배",
-      "four_star_type2_distribution": "별 4개 배포(별 5개 배너)",
-      "four_star_type3_distribution": "별 4개 배포(별 4개 배너)",
-      "first_item_distribution": "첫 번째 항목 배포",
+      "pulls_per_banner": "배너당 뽑기 횟수",
+      "five_star_distribution": "5★ 뽑기 분포",
+      "four_star_type2_distribution": "4★ 분포 (5★ 배너)",
+      "four_star_type3_distribution": "4★ 분포 (4★ 배너)",
+      "first_item_distribution": "첫 번째 아이템 분포",
       "all_banners": "모든 배너",
-      "five_star_banners": "별 5개 배너",
-      "four_star_banners": "별 4개 배너",
+      "five_star_banners": "5★ 배너",
+      "four_star_banners": "4★ 배너",
       "recent_only": "최근의",
       "all_time": "모든 시간",
       "first_item_distribution_tooltip": "이 배너에는 180일이 지난 풀이 포함되어 있으며, 이는 게임에서 더 이상 사용할 수 없습니다. 결과적으로, 첫 번째 아이템 분포 데이터가 정확하지 않을 수 있습니다."
@@ -558,7 +558,7 @@
       },
       "ban_risk": {
         "question": "이것을 사용하면 금지됩니까?",
-        "answer": "이는 타사 도구이므로 항상 약간의 위험이 있지만 궁극적으로는 Infold Games에 달려 있습니다. 그러나 유사한 도구는 다른 가챠 게임(Paimon.moe, Star Rail Station, WuWa Tracker 등)과 Infinity Nikki(小黑盒 游创工坊)의 중국 커뮤니티에서도 널리 사용됩니다. 이 정보를 참고하셔서 스스로 판단하시기 바랍니다."
+        "answer": "이는 타사 도구이므로 항상 약간의 위험이 있지만 궁극적으로는 Infold Games에 달려 있습니다. 그러나 유사한 도구는 다른 가챠 게임(Paimon.moe, Star Rail Station, WuWa Tracker 등)과 인피니티 니키(小黑盒 游创工坊)의 중국 커뮤니티에서도 널리 사용됩니다. 이 정보를 참고하셔서 스스로 판단하시기 바랍니다."
       },
       "data_storage": {
         "question": "어떤 데이터를 저장하고 있나요?",
@@ -598,7 +598,7 @@
     "title": "면책조항 및 개인정보 보호정책",
     "infinityNikkiAssets": {
       "title": "플랫폼 및 콘텐츠 면책조항",
-      "content": "gongeo.us는 독립적인 팬으로 운영되는 플랫폼이며 Infinity Nikki 또는 Infold Games와 제휴, 보증 또는 제휴 관계가 아닙니다. 모든 공식 게임 자산, 시각적 요소 및 관련 콘텐츠는 Infold Games의 독점적 자산이며 여기서는 커뮤니티 공유 및 교육 목적으로만 사용됩니다. 우리는 이 콘텐츠에 대해 어떠한 소유권이나 권리도 주장하지 않습니다.",
+      "content": "gongeo.us는 독립적인 팬으로 운영되는 플랫폼이며 인피니티 니키 또는 Infold Games와 제휴, 보증 또는 제휴 관계가 아닙니다. 모든 공식 게임 자산, 시각적 요소 및 관련 콘텐츠는 Infold Games의 독점적 자산이며 여기서는 커뮤니티 공유 및 교육 목적으로만 사용됩니다. 우리는 이 콘텐츠에 대해 어떠한 소유권이나 권리도 주장하지 않습니다.",
       "acknowledgment": "이 플랫폼을 사용함으로써 귀하는 해당 플랫폼의 비공식 상태를 인정하고 제3자 또는 비공식 콘텐츠 액세스와 관련된 모든 위험을 감수하게 됩니다."
     },
     "dataAndStats": {
@@ -608,7 +608,7 @@
     },
     "intellectualProperty": {
       "title": "지적재산권",
-      "content": "gongeo.us는 독립 팬 프로젝트입니다. Infinity Nikki와 관련된 모든 상표, 게임 콘텐츠 및 지적 재산은 Infold Games 및 해당 라이센스 제공자의 단독 재산으로 유지됩니다.",
+      "content": "gongeo.us는 독립 팬 프로젝트입니다. 인피니티 니키와 관련된 모든 상표, 게임 콘텐츠 및 지적 재산은 Infold Games 및 해당 라이센스 제공자의 단독 재산으로 유지됩니다.",
       "siteContent": "달리 명시적으로 명시된 경우를 제외하고 이 플랫폼의 모든 원본 코드, 사이트 디자인 및 사용자 정의 자산은 gongeo.us의 소유이며 해당 저작권 및 지적 재산권법에 의해 보호됩니다. 서면 승인 없이 무단 복사, 재사용 또는 배포를 금지합니다.",
       "usage": "이 플랫폼은 \"있는 그대로\" 제공되며 개인적이고 비상업적인 용도로만 사용됩니다."
     },
@@ -724,7 +724,7 @@
     "not_found_item": "항목을 찾을 수 없습니다",
     "not_found_outfit": "의상을 찾을 수 없습니다",
     "back_to_list": "목록으로 돌아가기",
-    "filter_slot": "부위별로 필터",
+    "filter_slot": "부위별 필터",
     "filter_category": "카테고리로 필터링",
     "filter_subcategory": "하위 카테고리로 필터링",
     "filter_version": "버전별 필터링",
@@ -768,15 +768,15 @@
     },
     "source": {
       "event": "이벤트",
-      "quest": "탐구",
-      "merchant": "의류점",
+      "quest": "퀘스트",
+      "merchant": "상점",
       "miracrown": "기적의 왕관",
       "miracle": "기적 세트",
-      "home": "정원"
+      "home": "홈"
     }
   },
   "search_page": {
-    "title": "기상 검색",
+    "title": "상상 검색",
     "placeholder": "'{example}' 검색해보기",
     "clear_query": "검색 지우기",
     "close_details": "상세 닫기",

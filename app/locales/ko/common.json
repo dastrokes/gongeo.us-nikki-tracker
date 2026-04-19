@@ -148,7 +148,7 @@
       "clear_local_confirm": {
         "content": "{profile} 프로필의 로컬 데이터를 삭제하시겠습니까? 이 작업은 취소할 수 없습니다."
       },
-      "sign_out": "로그아웃",
+      "sign_out": "Sign Out",
       "sign_out_success": "성공적으로 로그아웃되었습니다.",
       "sign_out_error": "로그아웃하지 못했습니다.",
       "sync": {

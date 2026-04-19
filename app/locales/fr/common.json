@@ -148,7 +148,7 @@
       "clear_local_confirm": {
         "content": "Êtes-vous sûr de vouloir effacer les données locales pour le profil {profile} ? Cette action ne peut pas être annulée."
       },
-      "sign_out": "se déconnecter",
+      "sign_out": "Sign Out",
       "sign_out_success": "Déconnexion réussie",
       "sign_out_error": "Échec de la déconnexion",
       "sync": {

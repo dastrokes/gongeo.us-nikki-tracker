@@ -148,7 +148,7 @@
       "clear_local_confirm": {
         "content": "{profile} プロファイルのローカル データをクリアしてもよろしいですか?この操作は元に戻すことができません。"
       },
-      "sign_out": "サインアウト",
+      "sign_out": "Sign Out",
       "sign_out_success": "正常にサインアウトしました",
       "sign_out_error": "サインアウトに失敗しました",
       "sync": {

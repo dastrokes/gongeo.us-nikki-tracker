@@ -148,7 +148,7 @@
       "clear_local_confirm": {
         "content": "Bist du dir sicher, dass du all deine lokalen Daten für das Profil {profile} löschen möchtest? Diese Aktion kann nicht rückgängig gemacht werden."
       },
-      "sign_out": "Abmelden",
+      "sign_out": "Sign Out",
       "sign_out_success": "Erfolgreich abgemeldet",
       "sign_out_error": "Abmeldung fehlgeschlagen",
       "sync": {

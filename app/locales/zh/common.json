@@ -148,7 +148,7 @@
       "clear_local_confirm": {
         "content": "确定要清除 {profile} 档案的本地数据吗？此操作无法撤消。"
       },
-      "sign_out": "退出登录",
+      "sign_out": "Sign Out",
       "sign_out_success": "成功退出登录",
       "sign_out_error": "退出登录失败",
       "sync": {

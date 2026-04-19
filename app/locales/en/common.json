@@ -148,7 +148,7 @@
       "clear_local_confirm": {
         "content": "Are you sure you want to clear local data for {profile} profile? This action cannot be undone."
       },
-      "sign_out": "Sign out",
+      "sign_out": "Sign Out",
       "sign_out_success": "Successfully signed out",
       "sign_out_error": "Failed to sign out",
       "sync": {

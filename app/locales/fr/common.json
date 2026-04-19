@@ -4,12 +4,12 @@
     "banners": "Bannières",
     "outfit": "Tenue",
     "outfits": "Tenues",
-    "item": "Article",
-    "items": "Articles",
-    "makeup": "Se maquiller",
+    "item": "Pièce",
+    "items": "Pièces",
+    "makeup": "Maquillage",
     "variations": "Variantes",
     "slot": "Emplacement",
-    "pulls": "Tire",
+    "pulls": "Tirages",
     "total": "Total",
     "export": "Exporter",
     "loading": "Chargement…",
@@ -19,16 +19,16 @@
     "all": "Tous",
     "other": "Autre",
     "show": "Montrer",
-    "hide": "Cacher",
+    "hide": "Masquer",
     "skip": "Sauter",
     "save": "Sauvegarder",
     "cancel": "Annuler",
     "confirm": "Confirmer",
-    "ok": "D'ACCORD",
+    "ok": "OK",
     "next": "Suivant",
     "submit": "Soumettre",
     "retry": "Réessayer",
-    "copy": "Copie",
+    "copy": "Copier",
     "select": "Sélectionner",
     "no_results_found": "Aucun résultat trouvé",
     "error": "Erreur",
@@ -47,9 +47,9 @@
     },
     "stats": {
       "total_pulls": "Tirages totaux",
-      "avg_5star": "5★ Moy. (5★ Bannière)",
-      "avg_4star_mixed": "4★ Moy. (5★ Bannière)",
-      "avg_4star_only": "4★ Moy. (4★ Bannière)",
+      "avg_5star": "5★ Moy. (Bannière 5★)",
+      "avg_4star_mixed": "4★ Moy. (Bannière 5★)",
+      "avg_4star_only": "4★ Moy. (Bannière 4★)",
       "total_votes": "Total des votes",
       "personal_votes": "Votes personnels",
       "total_voters": "Total des électeurs",
@@ -90,7 +90,7 @@
     "global": "Données mondiales",
     "banner": "Historique des bannières",
     "banner_detail": "Détail de la bannière",
-    "timeline": "Banner Timeline",
+    "timeline": "Chronologie des bannières",
     "outfit": "Recueil de tenues",
     "outfit_detail": "Détail de la tenue",
     "item": "Recueil d'articles",
@@ -135,7 +135,7 @@
     "community_stats": "Statistiques de la communauté",
     "view_all_stats": "Voir toutes les statistiques",
     "current_banners": "Bannières actuelles",
-    "rerun": "Rediffusion",
+    "rerun": "Réédition",
     "built_with": "Ce site fonctionne avec",
     "copyright": "© 2026 gongeo.us • © Infold Games Tous droits réservés",
     "disclaimer": {
@@ -148,7 +148,7 @@
       "clear_local_confirm": {
         "content": "Êtes-vous sûr de vouloir effacer les données locales pour le profil {profile} ? Cette action ne peut pas être annulée."
       },
-      "sign_out": "se déconnecter",
+      "sign_out": "Se déconnecter",
       "sign_out_success": "Déconnexion réussie",
       "sign_out_error": "Échec de la déconnexion",
       "sync": {
@@ -307,7 +307,7 @@
     "login_whimlog_desc": "Ouvrez Whim-Log dans un nouvel onglet, connectez-vous et synchronisez vos données.",
     "get_cookie": "Obtenez un cookie du site Web de Pearpal",
     "get_cookie_desc": "Choisissez comment vous souhaitez obtenir votre cookie :",
-    "gongeous_cookie": "Biscuit Gongeux",
+    "gongeous_cookie": "Gongeous Cookie",
     "bookmark_method": "Méthode de signet (recommandée)",
     "bookmark_method_mobile": "Méthode de signet",
     "console_method": "Méthode console",
@@ -395,7 +395,7 @@
     "supported_browsers_list": {
       "chrome": "Google Chrome",
       "firefox": "Mozilla Firefox",
-      "safari": "Safari aux pommes"
+      "safari": "Apple Safari"
     },
     "check_compatibility": "Vérifier la compatibilité du navigateur",
     "pc_recommended": "Vous utilisez un appareil mobile, vous pouvez importer à l'aide des navigateurs pris en charge répertoriés ci-dessous. Les autres navigateurs ne sont pas testés et peuvent ne pas fonctionner. Pour une expérience optimale, nous vous recommandons d'utiliser un navigateur PC pour importer des données.",
@@ -414,7 +414,7 @@
       "no_pulls": "Aucun historique de tirage pour cette bannière",
       "total_5star_4star": "5★ / 4★ Total",
       "luckier": "Plus chanceux que {percent}% des utilisateurs de gongeo.us",
-      "more_pulls": "Plus de {percent} % des utilisateurs de gongeo.us"
+      "more_pulls": "Plus de {percent}% des utilisateurs de gongeo.us"
     },
     "manual_log": {
       "title": "Importation manuelle",
@@ -433,8 +433,8 @@
         "avg_5star": "5★ moyenne",
         "total_4star": "4★ Total",
         "avg_4star": "4★ moyenne",
-        "pity_5star": "5★ Dommage",
-        "pity_4star": "4★ Dommage"
+        "pity_5star": "5★ Pity",
+        "pity_4star": "4★ Pity"
       },
       "settings": {
         "banner_order": "Commande de bannière",
@@ -443,7 +443,7 @@
         "item_display": "Affichage de l'article",
         "combined": "Combiné",
         "separated": "Séparé",
-        "show_4star": "4★ (5★ Bannière)",
+        "show_4star": "4★ (Bannière 5★)",
         "show_missing": "Pièces manquantes",
         "duplicate_items": "Éléments en double",
         "empty_banners": "Bannières vides"
@@ -477,9 +477,9 @@
     "instructions": "Devinez la tenue à partir de sa silhouette. Plus vous répondez vite, plus votre score est élevé.",
     "game_complete": "Jeu terminé",
     "final_score": "Note finale {score}",
-    "round": "Rond",
+    "round": "Manche",
     "score": "Score",
-    "streak": "Traînée",
+    "streak": "Série",
     "best_streak": "Meilleure séquence",
     "rounds": "Tours",
     "right": "Droite",
@@ -527,12 +527,12 @@
     "charts": {
       "pulls_per_banner": "Tirages par bannière",
       "five_star_distribution": "5★ Tire la distribution",
-      "four_star_type2_distribution": "4★ Distribution (5★ Bannière)",
-      "four_star_type3_distribution": "4★ Distribution (4★ Bannière)",
+      "four_star_type2_distribution": "4★ Distribution (Bannière 5★)",
+      "four_star_type3_distribution": "4★ Distribution (Bannière 4★)",
       "first_item_distribution": "Distribution du premier article",
       "all_banners": "Toutes les bannières",
-      "five_star_banners": "5★ Bannières",
-      "four_star_banners": "4★ Bannières",
+      "five_star_banners": "Bannières 5★",
+      "four_star_banners": "Bannières 4★",
       "recent_only": "Récent",
       "all_time": "Tout le temps",
       "first_item_distribution_tooltip": "Cette bannière inclut des tirages datant de plus de 180 jours, qui ne sont plus disponibles dans le jeu. En conséquence, les premières données de distribution d'articles peuvent être inexactes."
@@ -772,7 +772,7 @@
       "merchant": "Magasin de vêtements",
       "miracrown": "Couronne de Mira",
       "miracle": "Tenues miraculeuses",
-      "home": "Terre natale"
+      "home": "Maison"
     }
   },
   "search_page": {
@@ -895,8 +895,8 @@
     "notice_limited": "Les statistiques proviennent uniquement des bannières limitées. Les bannières permanentes sont exclues.",
     "luck": {
       "avg_pulls": "Moy. {count} pulls",
-      "top_percent": "Top {percent}%",
-      "bottom_percent": "Bas {percent}%"
+      "top_percent": "Meilleurs {percent}%",
+      "bottom_percent": "Derniers {percent}%"
     },
     "charts": {
       "luck_per_banner": "Chance 5★ par Bannière",

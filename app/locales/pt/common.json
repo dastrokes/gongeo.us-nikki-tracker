@@ -1,15 +1,15 @@
 {
   "common": {
-    "banner": "Bandeira",
-    "banners": "Bandeiras",
-    "outfit": "Roupa",
-    "outfits": "Roupas",
-    "item": "Item",
-    "items": "Unid",
-    "makeup": "Inventar",
+    "banner": "Banner",
+    "banners": "Banners",
+    "outfit": "Look",
+    "outfits": "Looks",
+    "item": "Peça",
+    "items": "Peças",
+    "makeup": "Maquiagem",
     "variations": "Variações",
     "slot": "Slot",
-    "pulls": "Puxa",
+    "pulls": "Tiros",
     "total": "Total",
     "export": "Exportar",
     "loading": "Carregando…",
@@ -19,7 +19,7 @@
     "all": "Todos",
     "other": "Outro",
     "show": "Mostrar",
-    "hide": "Esconder",
+    "hide": "Ocultar",
     "skip": "Pular",
     "save": "Salvar",
     "cancel": "Cancelar",
@@ -40,16 +40,16 @@
       "data_source": "Fonte de dados",
       "data_source_tooltip": "Escolha uma fonte de dados. Se indisponível, a outra fonte será usada como alternativa.",
       "auto_option": "\"Auto\" combina as duas fontes, preferindo a que tem mais pulls por banner.",
-      "pearpal_website": "Site da Pérola",
+      "pearpal_website": "Site Pearpal",
       "whimlog": "Whim-Log",
       "game": "Jogo",
       "auto": "Auto"
     },
     "stats": {
       "total_pulls": "Total de puxadas",
-      "avg_5star": "5★ Média (5★ Banner)",
-      "avg_4star_mixed": "4★ Média (5★ Banner)",
-      "avg_4star_only": "4★ Média (4★ Banner)",
+      "avg_5star": "Média 5★ (Banner 5★)",
+      "avg_4star_mixed": "Média 4★ (Banner 5★)",
+      "avg_4star_only": "Média 4★ (Banner 4★)",
       "total_votes": "Total de votos",
       "personal_votes": "Votos pessoais",
       "total_voters": "Total de eleitores",
@@ -90,9 +90,9 @@
     "global": "Dados globais",
     "banner": "Histórico de banners",
     "banner_detail": "Detalhe do banner",
-    "timeline": "Banner Timeline",
+    "timeline": "Linha do tempo dos banners",
     "outfit": "Compêndio de trajes",
-    "outfit_detail": "Detalhe da roupa",
+    "outfit_detail": "Detalhes do Traje",
     "item": "Compêndio de Itens",
     "item_detail": "Detalhe do item",
     "tierlist": "Criador de lista de níveis",
@@ -135,7 +135,7 @@
     "community_stats": "Estatísticas da comunidade",
     "view_all_stats": "Ver todas as estatísticas",
     "current_banners": "Banners atuais",
-    "rerun": "Repetir",
+    "rerun": "Rerun",
     "built_with": "Este site é desenvolvido com",
     "copyright": "© 2026 gongeo.us • © Infold Games Todos os direitos reservados",
     "disclaimer": {
@@ -148,7 +148,7 @@
       "clear_local_confirm": {
         "content": "Tem certeza de que deseja limpar os dados locais do perfil {profile}? Esta ação não pode ser desfeita."
       },
-      "sign_out": "sair",
+      "sign_out": "Sair",
       "sign_out_success": "Desconectado com sucesso",
       "sign_out_error": "Falha ao sair",
       "sync": {
@@ -232,7 +232,7 @@
   },
   "login": {
     "sign_in": "Entrar",
-    "sign_up": "Inscrever-se",
+    "sign_up": "Cadastrar-se",
     "welcome_description": "Faça login com uma conta ou e-mail de terceiros para fazer upload e sincronizar seus dados.",
     "signed_in_title": "Login realizado com sucesso!",
     "welcome_back": "Bem-vindo de volta, {name}!",
@@ -307,7 +307,7 @@
     "login_whimlog_desc": "Abra Whim-Log em uma nova aba, faça login e sincronize seus dados.",
     "get_cookie": "Obtenha o cookie do site Pearlal",
     "get_cookie_desc": "Escolha como deseja receber seu Cookie:",
-    "gongeous_cookie": "Biscoito lindo",
+    "gongeous_cookie": "Gongeous Cookie",
     "bookmark_method": "Método de marcador (recomendado)",
     "bookmark_method_mobile": "Método de marcador",
     "console_method": "Método de console",
@@ -413,7 +413,7 @@
       "title": "Extrair estatísticas",
       "no_pulls": "Nenhum histórico de pull para este banner",
       "total_5star_4star": "5★ / 4★ Total",
-      "luckier": "Mais sorte que {percent}% dos usuários gongeo.us",
+      "luckier": "Com mais sorte que {percent}% dos usuários gongeo.us",
       "more_pulls": "Mais de {percent}% dos usuários gongeo.us"
     },
     "manual_log": {
@@ -433,8 +433,8 @@
         "avg_5star": "5★ Média",
         "total_4star": "4★ Total",
         "avg_4star": "4★ Média",
-        "pity_5star": "5★ Pena",
-        "pity_4star": "4★ Pena"
+        "pity_5star": "5★ Pity",
+        "pity_4star": "4★ Pity"
       },
       "settings": {
         "banner_order": "Ordem dos banners",
@@ -443,7 +443,7 @@
         "item_display": "Exibição de itens",
         "combined": "Combinado",
         "separated": "Separado",
-        "show_4star": "4★ (Bandeira 5★)",
+        "show_4star": "4★ (Banner 5★)",
         "show_missing": "Peças faltando",
         "duplicate_items": "Itens duplicados",
         "empty_banners": "Banners vazios"
@@ -452,7 +452,7 @@
     "items": {
       "pull": "Puxe #{number}",
       "category": {
-        "clothes": "Roupas",
+        "clothes": "Roupa",
         "accessories": "Acessórios",
         "makeups": "Maquiagens"
       }
@@ -477,9 +477,9 @@
     "instructions": "Adivinhe a roupa pela silhueta. Quanto mais rápido você responder, maior será sua pontuação.",
     "game_complete": "Jogo completo",
     "final_score": "Pontuação final {score}",
-    "round": "Redondo",
+    "round": "Rodada",
     "score": "Pontuação",
-    "streak": "Onda",
+    "streak": "Sequência",
     "best_streak": "Melhor sequência",
     "rounds": "Rodadas",
     "right": "Certo",
@@ -517,7 +517,7 @@
       }
     },
     "deep_echoes": "Ecos Profundos",
-    "not_found": "Bandeira não encontrada"
+    "not_found": "Banner não encontrado"
   },
   "global": {
     "stats": {
@@ -527,12 +527,12 @@
     "charts": {
       "pulls_per_banner": "Puxa por banner",
       "five_star_distribution": "5★ Distribuição puxada",
-      "four_star_type2_distribution": "4★ Distribuição (5★ Banner)",
-      "four_star_type3_distribution": "4★ Distribuição (4★ Banner)",
+      "four_star_type2_distribution": "Distribuição 4★ (Banner 5★)",
+      "four_star_type3_distribution": "Distribuição 4★ (Banner 4★)",
       "first_item_distribution": "Distribuição do primeiro item",
       "all_banners": "Todos os banners",
-      "five_star_banners": "5★ Banners",
-      "four_star_banners": "4★ Banners",
+      "five_star_banners": "Banners 5★",
+      "four_star_banners": "Banners 4★",
       "recent_only": "Recente",
       "all_time": "Todos os tempos",
       "first_item_distribution_tooltip": "Este banner inclui pulls com mais de 180 dias, que não estão mais disponíveis no jogo. Como resultado, os dados de distribuição do primeiro item podem ser imprecisos."
@@ -768,7 +768,7 @@
     },
     "source": {
       "event": "Evento",
-      "quest": "Busca",
+      "quest": "Missão",
       "merchant": "Loja de Roupas",
       "miracrown": "Coroa Milágria",
       "miracle": "Looks Milagrosos",

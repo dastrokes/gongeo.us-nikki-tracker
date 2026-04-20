@@ -700,7 +700,6 @@
   })
 
   const buildListingQuery = (
-    includeSource = true,
     primaryFilter: OutfitListingPrimaryFilter = null
   ) => ({
     ...(primaryFilter !== 'quality' &&
@@ -712,7 +711,6 @@
     ...(primaryFilter !== 'label' &&
       labelFilter.value && { label: labelFilter.value }),
     ...(primaryFilter !== 'source' &&
-      includeSource &&
       obtainFilter.value && { source: obtainFilter.value }),
     ...(currentPage.value > 1 && { page: currentPage.value }),
   })
@@ -741,7 +739,7 @@
     const listingPath = currentListingPath.value
     router.replace({
       path: localePath(listingPath.path),
-      query: buildListingQuery(false, listingPath.primaryFilter),
+      query: buildListingQuery(listingPath.primaryFilter),
     })
   }
 

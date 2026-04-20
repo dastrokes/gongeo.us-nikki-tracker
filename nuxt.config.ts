@@ -25,7 +25,6 @@ const cloudinaryBaseUrl =
   'https://res.cloudinary.com/gongeous/image/upload'
 const bunnyBaseUrl =
   process.env.NUXT_PUBLIC_BUNNY_BASE_URL || 'https://cdn.gongeo.us'
-const umamiHostUrl = 'https://api.gongeo.us'
 
 export default defineNuxtConfig({
   devtools: { enabled: false },
@@ -37,7 +36,6 @@ export default defineNuxtConfig({
     '@nuxt/eslint',
     '@nuxt/fonts',
     '@nuxt/image',
-    '@nuxt/scripts',
     '@nuxtjs/device',
     '@nuxtjs/i18n',
     '@nuxtjs/robots',
@@ -49,21 +47,20 @@ export default defineNuxtConfig({
     'nuxt-echarts',
   ],
 
-  scripts: {
-    registry: {
-      googleAdsense: {
-        client: 'ca-pub-9717879492261560',
-        autoAds: true,
-        trigger: 'onNuxtReady',
-      },
-      umamiAnalytics: {
-        websiteId: 'dd22ab5d-2045-4450-aaff-f513339b5ca6',
-        hostUrl: umamiHostUrl,
-        domains: ['gongeo.us'],
-        bundle: false,
-        proxy: false,
-        trigger: 'onNuxtReady',
-      },
+  app: {
+    head: {
+      script: [
+        {
+          src: 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9717879492261560',
+          async: true,
+          crossorigin: 'anonymous',
+        },
+        {
+          src: 'https://api.gongeo.us/script.js',
+          defer: true,
+          'data-website-id': 'dd22ab5d-2045-4450-aaff-f513339b5ca6',
+        },
+      ],
     },
   },
 

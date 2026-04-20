@@ -1,5 +1,6 @@
 import { BANNER_DATA } from '../../data/banners'
 import {
+  getFirstRunMajorMinorVersion,
   getMajorVersionFilters,
   getVersionFromId,
   isExactVersion,
@@ -122,11 +123,6 @@ const OUTFIT_SOURCE_SEO_SLUG_BY_VALUE: ReadonlyMap<string, string> = new Map(
   SEO_OUTFIT_SOURCE_SLUGS.map((slug) => [slug, slug])
 )
 
-const normalizeBannerRunVersion = (version: string) => {
-  const [major, minor] = version.split('.')
-  return major && minor ? `${major}.${minor}` : null
-}
-
 const createVersionRoutes = (
   versions: Iterable<string | null>
 ): SeoValueRoute[] => {
@@ -154,10 +150,8 @@ export const SEO_VERSION_ROUTES = createVersionRoutes(
 )
 
 export const SEO_BANNER_VERSION_ROUTES = createVersionRoutes(
-  Object.values(BANNER_DATA).flatMap((banner) =>
-    banner.runs.map((run: { version: string }) =>
-      normalizeBannerRunVersion(run.version)
-    )
+  Object.values(BANNER_DATA).map((banner) =>
+    getFirstRunMajorMinorVersion(banner.runs)
   )
 )
 

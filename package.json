@@ -23,7 +23,6 @@
     "@nuxt/eslint": "1.15.2",
     "@nuxt/fonts": "0.14.0",
     "@nuxt/image": "2.0.0",
-    "@nuxt/scripts": "1.0.1",
     "@nuxtjs/device": "4.0.0",
     "@nuxtjs/i18n": "10.2.4",
     "@nuxtjs/robots": "6.0.7",

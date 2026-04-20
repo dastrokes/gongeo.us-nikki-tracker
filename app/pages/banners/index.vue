@@ -390,16 +390,7 @@
   type BannerListingPrimaryFilter = 'quality' | 'version' | null
 
   const availableVersions = computed(() =>
-    sortVersionsDesc(
-      Array.from(
-        new Set(
-          Object.values(BANNER_DATA)
-            .flatMap((banner) => banner.runs)
-            .map((run) => getVersion(run.version))
-            .filter(isExactVersion)
-        )
-      )
-    )
+    getFirstRunVersions(Object.values(BANNER_DATA).map((banner) => banner.runs))
   )
   const availableVersionFilters = computed(() =>
     getVersionFilters(availableVersions.value)
@@ -495,9 +486,7 @@
     const selectedVersion = versionFilter.value
     if (selectedVersion) {
       banners = banners.filter((banner) =>
-        banner.runs.some((run: BannerRun) =>
-          matchesVersionFilter(run.version, selectedVersion)
-        )
+        matchesFirstRunVersionFilter(banner.runs, selectedVersion)
       )
     }
 

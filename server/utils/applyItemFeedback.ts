@@ -229,21 +229,28 @@ const buildItemAttributeRow = ({
   itemType,
   metadata,
   patch,
+  changedFields,
 }: {
   itemId: number
   itemType: string
   metadata: ItemSearchMetadata | null
   patch: FeedbackSuggestion['proposedPatch']
+  changedFields: FeedbackSuggestion['changedFields']
 }): ItemAttributeRow => {
   const normalizedItemType = normalizeItemSearchItemType(itemType)
   const baseSnapshot = normalizeItemTagFeedbackSnapshot(
     metadata ?? {},
     normalizedItemType
   )
+  const normalizedPatch = normalizeItemTagFeedbackPatch(
+    patch,
+    normalizedItemType,
+    changedFields
+  )
   const snapshot = normalizeItemTagFeedbackSnapshot(
     {
       ...baseSnapshot,
-      ...patch,
+      ...normalizedPatch,
     },
     normalizedItemType
   )
@@ -368,6 +375,7 @@ export const applyItemFeedback = async (
     itemType: sourceItem.itemType,
     metadata: sourceItem.metadata,
     patch: suggestion.proposedPatch,
+    changedFields: suggestion.changedFields,
   })
 
   await upsertItemAttributeRow(itemAttributeRow)

@@ -75,6 +75,7 @@
             </button>
 
             <div
+              v-if="openDesktopGroup === group.key"
               class="absolute left-1/2 -translate-x-1/2 top-full mt-2 z-50 transition-all duration-300 ease-[cubic-bezier(0.2,0.8,0.2,1)] will-change-transform"
             >
               <n-collapse-transition

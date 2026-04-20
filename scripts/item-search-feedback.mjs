@@ -163,6 +163,60 @@ const writeOverrides = (payload) => {
 const isRecord = (value) =>
   typeof value === 'object' && value !== null && !Array.isArray(value)
 
+const hasOwn = (value, field) =>
+  Object.prototype.hasOwnProperty.call(value, field)
+
+const getSuggestionPatch = (suggestion) => {
+  const proposedPatch = isRecord(suggestion.proposed_patch)
+    ? suggestion.proposed_patch
+    : {}
+  const changedFields = new Set(
+    Array.isArray(suggestion.changed_fields)
+      ? suggestion.changed_fields.filter((field) => typeof field === 'string')
+      : []
+  )
+
+  if (changedFields.size === 0) {
+    return proposedPatch
+  }
+
+  return Object.fromEntries(
+    Object.entries(proposedPatch).filter(([field]) => changedFields.has(field))
+  )
+}
+
+export const applyFeedbackSuggestionPatchToItemAttributeRow = ({
+  baseRow,
+  suggestion,
+}) => {
+  const proposedPatch = getSuggestionPatch(suggestion)
+  const metadataPatch = Object.fromEntries(
+    Object.entries(proposedPatch).filter(
+      ([field]) =>
+        field !== 'item_id' &&
+        field !== 'item_type' &&
+        field !== 'slot' &&
+        field !== 'category' &&
+        field !== 'subcategory'
+    )
+  )
+
+  return buildItemAttributeRow({
+    item_id: baseRow.item_id,
+    item_type: baseRow.item_type,
+    category: hasOwn(proposedPatch, 'category')
+      ? proposedPatch.category
+      : baseRow.category,
+    subcategory: hasOwn(proposedPatch, 'subcategory')
+      ? proposedPatch.subcategory
+      : baseRow.subcategory,
+    metadata: {
+      ...(baseRow.metadata ?? {}),
+      ...metadataPatch,
+    },
+  })
+}
+
 const fetchItemTypesById = async (client, itemIds) => {
   if (itemIds.length === 0) {
     return new Map()
@@ -343,31 +397,12 @@ export const promoteFeedbackSuggestions = async ({ ids, maintainer }) => {
     if (!baseRow) {
       continue
     }
-    const proposedPatch = isRecord(suggestion.proposed_patch)
-      ? suggestion.proposed_patch
-      : {}
     const existingAudit = isRecord(existingEntry.audit)
       ? existingEntry.audit
       : {}
-    const metadataPatch = Object.fromEntries(
-      Object.entries(proposedPatch).filter(
-        ([field]) =>
-          field !== 'item_id' &&
-          field !== 'item_type' &&
-          field !== 'slot' &&
-          field !== 'category' &&
-          field !== 'subcategory'
-      )
-    )
-    const nextRow = buildItemAttributeRow({
-      item_id: baseRow.item_id,
-      item_type: baseRow.item_type,
-      category: proposedPatch.category ?? baseRow.category,
-      subcategory: proposedPatch.subcategory ?? baseRow.subcategory,
-      metadata: {
-        ...(baseRow.metadata ?? {}),
-        ...metadataPatch,
-      },
+    const nextRow = applyFeedbackSuggestionPatchToItemAttributeRow({
+      baseRow,
+      suggestion,
     })
 
     nextItems[itemId] = {

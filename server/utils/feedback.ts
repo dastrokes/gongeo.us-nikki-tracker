@@ -132,7 +132,7 @@ const mapSuggestionRow = (
     itemType: null,
     baseSnapshot: normalizeItemTagFeedbackSnapshot(row.base_snapshot ?? {}),
     baseSignature: row.base_signature,
-    proposedPatch: normalizeItemTagFeedbackSnapshot(row.proposed_patch ?? {}),
+    proposedPatch: normalizeItemTagFeedbackPatch(row.proposed_patch ?? {}),
     changedFields: (row.changed_fields ?? []).filter(
       (field): field is ItemTagFeedbackField =>
         typeof field === 'string' &&

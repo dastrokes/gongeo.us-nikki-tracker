@@ -22,7 +22,10 @@
                       navigateTo(
                         localePath({
                           path: '/outfits',
-                          query: buildListingQuery(false),
+                          query: buildListingQuery({
+                            includeType: false,
+                            includeScopedFilters: false,
+                          }),
                         })
                       )
                     "
@@ -555,6 +558,11 @@
     | 'label'
     | 'source'
     | null
+  type BuildListingQueryOptions = {
+    includeType?: boolean
+    includeScopedFilters?: boolean
+    primaryFilter?: ItemListingPrimaryFilter
+  }
 
   const resolveType = (value?: string | null) => {
     if (!value) return null
@@ -1037,11 +1045,11 @@
     }
   })
 
-  const buildListingQuery = (
-    includeType: boolean,
-    includeItemFilters = includeType,
-    primaryFilter: ItemListingPrimaryFilter = null
-  ) => ({
+  const buildListingQuery = ({
+    includeType = true,
+    includeScopedFilters = includeType,
+    primaryFilter = null,
+  }: BuildListingQueryOptions = {}) => ({
     ...(primaryFilter !== 'quality' &&
       qualityFilter.value && { quality: qualityFilter.value }),
     ...(primaryFilter !== 'type' &&
@@ -1050,12 +1058,12 @@
       typeFilter.value && {
         type: typeFilter.value,
       }),
-    ...(includeItemFilters &&
+    ...(includeScopedFilters &&
       supportsCategoryFilters.value &&
       categoryFilter.value && {
         category: categoryFilter.value,
       }),
-    ...(includeItemFilters &&
+    ...(includeScopedFilters &&
       supportsCategoryFilters.value &&
       categoryFilter.value &&
       subcategoryFilter.value && {
@@ -1069,7 +1077,7 @@
       labelFilter.value && { label: labelFilter.value }),
     ...(primaryFilter !== 'source' &&
       obtainFilter.value && { source: obtainFilter.value }),
-    ...(includeItemFilters && buildAdvancedFilterQuery()),
+    ...(includeScopedFilters && buildAdvancedFilterQuery()),
     ...(currentPage.value > 1 && { page: currentPage.value }),
   })
 
@@ -1111,7 +1119,11 @@
     const listingPath = currentListingPath.value
     router.replace({
       path: localePath(listingPath.path),
-      query: buildListingQuery(false, true, listingPath.primaryFilter),
+      query: buildListingQuery({
+        includeType: false,
+        includeScopedFilters: true,
+        primaryFilter: listingPath.primaryFilter,
+      }),
     })
   }
 

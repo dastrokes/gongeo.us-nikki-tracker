@@ -124,6 +124,7 @@
       "outfit_detail": "查看 {name} 套装的详细信息，包括品质、套装部件、进化与焕新、妆容、属性数值以及关联的共鸣卡池。",
       "items": "浏览所有无限暖暖物品，支持按物品部位、品质、属性加成以及所属套装或卡池进行高级筛选，轻松查找和对比游戏中的所有物品。",
       "item_detail": "查看 {name} 物品的详细信息，包括品质、进化与焕新、属性效果，以及关联的套装和卡池。",
+      "search": "Discover the unique search capabilities of Infinity Nikki with Whim Search. Find items and outfits using natural language, style tags, and semantic attributes.",
       "faq": "查看关于暖暖共鸣录的常见问题解答，包括数据隐私、导入方式和使用指南等信息。",
       "about": "了解暖暖共鸣录的相关信息，包括免责声明、隐私政策等信息。",
       "stats": "查看你的无限暖暖个人共鸣抽卡统计、运气分析、连抽记录和抽卡活动。"

@@ -719,13 +719,8 @@
   }
 
   // SEO Meta Tags
-  const runtimeConfig = useRuntimeConfig()
-  const siteUrl = runtimeConfig.public.siteUrl as string
-
   const ogOutfitImage = computed(() =>
-    outfit.value
-      ? `${siteUrl}${getImageSrc('outfit', outfit.value.id)}`
-      : undefined
+    outfit.value ? getOgImageSrc('outfit', outfit.value.id) : undefined
   )
 
   useSeoMeta({

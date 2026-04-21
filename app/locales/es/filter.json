@@ -60,6 +60,7 @@
     "heel_type": {
       "block": "Tacón de Bloque",
       "kitten": "Tacón Kitten",
+      "sculptural": "Sculptural",
       "stiletto": "Tacón de Aguja",
       "wedge": "Cuña"
     },

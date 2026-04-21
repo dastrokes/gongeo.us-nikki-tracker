@@ -24,7 +24,7 @@
     "save": "Sauvegarder",
     "cancel": "Annuler",
     "confirm": "Confirmer",
-    "ok": "OK",
+    "ok": "D'ACCORD",
     "next": "Suivant",
     "submit": "Soumettre",
     "retry": "Réessayer",
@@ -124,6 +124,7 @@
       "outfit_detail": "Affichez des informations détaillées sur la tenue {name}, notamment la qualité, les pièces de la tenue, l'évolution et l'éclat, les maquillages, les statistiques et les bannières de résonance associées.",
       "items": "Parcourez tous les articles Infinity Nikki avec des filtres par emplacement, qualité, bonus de statistiques et tenues ou bannières associées. Trouvez, comparez et suivez facilement chaque article.",
       "item_detail": "Affichez des informations détaillées sur l'objet {name}, notamment sa qualité, son évolution et son éclat, ses statistiques, ainsi que les tenues et bannières associées.",
+      "search": "Discover the unique search capabilities of Infinity Nikki with Whim Search. Find items and outfits using natural language, style tags, and semantic attributes.",
       "faq": "Trouvez les réponses aux questions fréquemment posées sur gongeo.us, notamment sur la confidentialité des données, les méthodes d'importation et les directives d'utilisation.",
       "about": "Apprenez-en davantage sur gongeo.us, y compris son objectif, sa politique de confidentialité, ses clauses de non-responsabilité et la manière dont il prend en charge la communauté Infinity Nikki.",
       "stats": "Consultez vos statistiques personnelles de pulls de résonance Infinity Nikki, l'analyse de chance, les séries et l'activité de pulls."
@@ -307,7 +308,7 @@
     "login_whimlog_desc": "Ouvrez Whim-Log dans un nouvel onglet, connectez-vous et synchronisez vos données.",
     "get_cookie": "Obtenez un cookie du site Web de Pearpal",
     "get_cookie_desc": "Choisissez comment vous souhaitez obtenir votre cookie :",
-    "gongeous_cookie": "Gongeous Cookie",
+    "gongeous_cookie": "Biscuit Gongeux",
     "bookmark_method": "Méthode de signet (recommandée)",
     "bookmark_method_mobile": "Méthode de signet",
     "console_method": "Méthode console",
@@ -395,7 +396,7 @@
     "supported_browsers_list": {
       "chrome": "Google Chrome",
       "firefox": "Mozilla Firefox",
-      "safari": "Apple Safari"
+      "safari": "Safari aux pommes"
     },
     "check_compatibility": "Vérifier la compatibilité du navigateur",
     "pc_recommended": "Vous utilisez un appareil mobile, vous pouvez importer à l'aide des navigateurs pris en charge répertoriés ci-dessous. Les autres navigateurs ne sont pas testés et peuvent ne pas fonctionner. Pour une expérience optimale, nous vous recommandons d'utiliser un navigateur PC pour importer des données.",
@@ -433,8 +434,8 @@
         "avg_5star": "5★ moyenne",
         "total_4star": "4★ Total",
         "avg_4star": "4★ moyenne",
-        "pity_5star": "5★ Pity",
-        "pity_4star": "4★ Pity"
+        "pity_5star": "5★ Dommage",
+        "pity_4star": "4★ Dommage"
       },
       "settings": {
         "banner_order": "Commande de bannière",

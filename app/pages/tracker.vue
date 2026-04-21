@@ -528,7 +528,7 @@
                       </template>
                     </n-button>
                   </template>
-                  <div class="min-w-[200px]">
+                  <div class="min-w-50">
                     <div class="space-y-4">
                       <div class="flex items-center justify-between">
                         <n-switch v-model:value="settings.sortBanner">
@@ -815,7 +815,7 @@
                         </template>
                       </n-button>
                     </template>
-                    <div class="min-w-[150px]">
+                    <div class="min-w-40">
                       <div class="space-y-2 px-2 text-base">
                         <div class="flex justify-between">
                           <span class="text-sm">

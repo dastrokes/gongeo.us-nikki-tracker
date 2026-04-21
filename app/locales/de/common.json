@@ -124,7 +124,7 @@
       "outfit_detail": "Schau dir detaillierte Informationen über das Outfit {name} an, einschließlich Qualität, Evolution und Verschönerung, Statuswerten und verwandter Resonanz-Bannern.",
       "items": "Durchsuche alle Infinity Nikki Stücke mit Filtern nach Slot, Qualität, Status-Boni und verwandten Outfits oder Bannern. Finde, vergleiche und verfolge jedes Stück ganz leicht.",
       "item_detail": "Schau dir detaillierte Informationen über das Stück {name} an, einschließlich Qualität, Evolution und Verschönerung, Statuswerten und verwandter Outfits und Bannern.",
-      "search": "Entdecke die einzigartigen Suchfunktionen von Infinity Nikki mit der Whim-Suche. Finde Artikel und Outfits mit natürlicher Sprache, Stil-Tags und semantischen Attributen.",
+      "search": "Entdecke die einzigartigen Suchmöglichkeiten von Infinity Nikki via Whim-Suche. Finde Stücke und Outfits mit natürlicher Sprache, Stil-Tags und semantischen Attributen.",
       "faq": "Finde die Antworten auf häufig gestellte Fragen über gongeo.us, einschließlich Datenschutz, Importmethoden und Nutzungsrichtlinien.",
       "about": "Lerne mehr über gongeo.us, einschließlich seiner Zwecke, Datenschutzrichtlinien, Haftungsausschlüsse und wie es die Infinity Nikki Community unterstützt.",
       "stats": "Schau dir deine persönlichen Infinity Nikki Resonanz-Statistiken, Glücksanalyse, Serien und Resonanz-Aktivität an."
@@ -806,7 +806,6 @@
     "scope_mine_empty": "Kein Feedback gefunden, das diesen Filtern entspricht.",
     "sort_needs_review": "Prüfung erforderlich",
     "sort_top": "Top bewertet",
-    "status_all": "Alle Status",
     "status_open": "Offen",
     "status_accepted": "Angenommen",
     "status_rejected": "Abgelehnt",

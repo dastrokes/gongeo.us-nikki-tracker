@@ -56,7 +56,7 @@
                 <n-button
                   size="small"
                   :type="qualityFilter === null ? 'primary' : 'default'"
-                  class="min-w-[40px]"
+                  class="min-w-10"
                   @click="qualityFilter = null"
                 >
                   {{ t('common.all') }}
@@ -66,7 +66,7 @@
                   :key="q"
                   size="small"
                   v-bind="getQualityButtonTheme(q, qualityFilter === q)"
-                  :class="['min-w-[40px]']"
+                  class="min-w-10"
                   :disabled="q === 2"
                   @click="qualityFilter = q"
                 >
@@ -123,7 +123,7 @@
               <n-button
                 size="small"
                 :type="qualityFilter === null ? 'primary' : 'default'"
-                class="min-w-[40px]"
+                class="min-w-10"
                 @click="qualityFilter = null"
               >
                 {{ t('common.all') }}
@@ -133,7 +133,7 @@
                 :key="q"
                 size="small"
                 v-bind="getQualityButtonTheme(q, qualityFilter === q)"
-                :class="['min-w-[40px]']"
+                class="min-w-10"
                 :disabled="q === 2"
                 @click="qualityFilter = q"
               >
@@ -700,7 +700,6 @@
   })
 
   const buildListingQuery = (
-    includeSource = true,
     primaryFilter: OutfitListingPrimaryFilter = null
   ) => ({
     ...(primaryFilter !== 'quality' &&
@@ -712,7 +711,6 @@
     ...(primaryFilter !== 'label' &&
       labelFilter.value && { label: labelFilter.value }),
     ...(primaryFilter !== 'source' &&
-      includeSource &&
       obtainFilter.value && { source: obtainFilter.value }),
     ...(currentPage.value > 1 && { page: currentPage.value }),
   })
@@ -741,7 +739,7 @@
     const listingPath = currentListingPath.value
     router.replace({
       path: localePath(listingPath.path),
-      query: buildListingQuery(false, listingPath.primaryFilter),
+      query: buildListingQuery(listingPath.primaryFilter),
     })
   }
 

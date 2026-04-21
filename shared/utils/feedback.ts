@@ -179,6 +179,29 @@ export const normalizeItemTagFeedbackSnapshot = (
   )
 }
 
+export const normalizeItemTagFeedbackPatch = (
+  value: Record<string, unknown> | null | undefined,
+  itemType?: string | null,
+  fields?: readonly ItemTagFeedbackField[]
+): ItemTagFeedbackPatch => {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) {
+    return {}
+  }
+
+  const availableFields = getItemTagFeedbackFields(itemType)
+  const availableFieldSet = new Set<ItemTagFeedbackField>(availableFields)
+  const candidateFields = fields ?? availableFields
+  const patch: ItemTagFeedbackPatch = {}
+
+  candidateFields.forEach((field) => {
+    if (!availableFieldSet.has(field)) return
+    if (!Object.prototype.hasOwnProperty.call(value, field)) return
+    patch[field] = normalizeFeedbackValue(field, value[field])
+  })
+
+  return patch
+}
+
 export const buildItemTagFeedbackPatch = (
   baseSnapshot: ItemTagFeedbackSnapshot,
   nextSnapshot: ItemTagFeedbackSnapshot,

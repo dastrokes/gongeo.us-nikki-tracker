@@ -1,17 +1,11 @@
 export const getVersionFromId = (
   id: number | null | undefined
 ): string | null => {
-  if (id === null || id === undefined) return null
+  if (id == null || id < 0) return null
   const digits = Math.trunc(id).toString()
   if (digits.length < 3) return null
 
-  const prefix = digits.slice(0, 3)
-  const major = Number(prefix[0])
-  const minor = Number(prefix.slice(1))
-
-  if (Number.isNaN(major) || Number.isNaN(minor)) return null
-
-  return `${major}.${minor}`
+  return `${digits[0]}.${Number(digits.slice(1, 3))}`
 }
 
 export const toMajorMinorVersion = (version: string) => {
@@ -36,19 +30,14 @@ export const getExactVersionsFromLocaleMessages = (
 ) =>
   Object.keys(messages)
     .filter((key) => key.startsWith('version.'))
-    .map((key) => key.replace('version.', ''))
+    .map((key) => key.slice(8))
     .filter(isExactVersion)
 
-export const getVersionPrefix = (version: string): number | null => {
+const getVersionPrefix = (version: string): number | null => {
   const match = version.match(EXACT_VERSION_PATTERN)
   if (!match) return null
 
-  const major = Number(match[1])
-  const minor = Number(match[2])
-
-  if (Number.isNaN(major) || Number.isNaN(minor)) return null
-
-  return major * 100 + minor
+  return Number(match[1]) * 100 + Number(match[2])
 }
 
 export const getVersionPrefixRange = (
@@ -63,7 +52,6 @@ export const getVersionPrefixRange = (
   if (!majorMatch) return null
 
   const major = Number(majorMatch[1])
-  if (Number.isNaN(major)) return null
 
   return {
     min: major * 100,
@@ -71,7 +59,7 @@ export const getVersionPrefixRange = (
   }
 }
 
-export const compareVersionsDesc = (a: string, b: string) => {
+const compareVersionsDesc = (a: string, b: string) => {
   const aRange = getVersionPrefixRange(a)
   const bRange = getVersionPrefixRange(b)
 
@@ -88,29 +76,18 @@ export const compareVersionsDesc = (a: string, b: string) => {
 export const sortVersionsDesc = (versions: readonly string[]) =>
   versions.slice().sort(compareVersionsDesc)
 
-export const sortVersionsAsc = (versions: readonly string[]) =>
-  versions.slice().sort((a, b) => compareVersionsDesc(b, a))
-
-export const getLatestVersion = (versions: readonly string[]) =>
-  sortVersionsDesc(versions)[0] ?? null
-
 export const getOldestVersion = (versions: readonly string[]) =>
-  sortVersionsAsc(versions)[0] ?? null
-
-export const compareOptionalVersionsDesc = (
-  a?: string | null,
-  b?: string | null
-) => {
-  if (a && b && a !== b) return compareVersionsDesc(a, b)
-  if (a && !b) return -1
-  if (!a && b) return 1
-  return 0
-}
+  versions.slice().sort((a, b) => compareVersionsDesc(b, a))[0] ?? null
 
 export const compareOptionalVersionsAsc = (
   a?: string | null,
   b?: string | null
-) => compareOptionalVersionsDesc(b, a)
+) => {
+  if (a && b && a !== b) return compareVersionsDesc(b, a)
+  if (a && !b) return 1
+  if (!a && b) return -1
+  return 0
+}
 
 export const getMajorVersionFilters = (versions: readonly string[]) =>
   Array.from(
@@ -151,12 +128,42 @@ export const matchesVersionFilter = (version: string, filter: string) => {
   return versionPrefix >= filterRange.min && versionPrefix <= filterRange.max
 }
 
-export const groupVersionsByMajor = (versions: readonly string[]) => {
+type VersionedRun = {
+  version: string
+}
+
+export const getFirstRunMajorMinorVersion = (runs: readonly VersionedRun[]) => {
+  const version = runs[0]?.version
+  return version ? toMajorMinorVersion(version) : null
+}
+
+export const getFirstRunVersions = (
+  runGroups: Iterable<readonly VersionedRun[]>
+) =>
+  sortVersionsDesc(
+    Array.from(
+      new Set(
+        Array.from(runGroups, getFirstRunMajorMinorVersion).filter(
+          (version): version is string => !!version && isExactVersion(version)
+        )
+      )
+    )
+  )
+
+export const matchesFirstRunVersionFilter = (
+  runs: readonly VersionedRun[],
+  filter: string
+) => {
+  const version = runs[0]?.version
+  return version ? matchesVersionFilter(version, filter) : false
+}
+
+const groupVersionsByMajor = (versions: readonly string[]) => {
   const versionGroups = new Map<string, string[]>()
 
-  versions.forEach((version) => {
+  for (const version of versions) {
     const major = version.split('.')[0]
-    if (!major) return
+    if (!major) continue
 
     const existing = versionGroups.get(major)
     if (existing) {
@@ -164,7 +171,7 @@ export const groupVersionsByMajor = (versions: readonly string[]) => {
     } else {
       versionGroups.set(major, [version])
     }
-  })
+  }
 
   return Array.from(versionGroups.entries()).sort(
     ([majorA], [majorB]) => Number(majorB) - Number(majorA)

@@ -947,13 +947,13 @@
                   sizes="128px"
                 />
                 <div
-                  class="mt-4 max-w-[240px] text-center text-2xl leading-[0.95] font-black relative z-10"
+                  class="mt-4 max-w-60 text-center text-2xl leading-[0.95] font-black relative z-10"
                   :class="shareCardAccentClass"
                 >
                   {{ $t('banner.luck.' + luckTier) }}
                 </div>
                 <div
-                  class="mt-1 max-w-[240px] text-center text-sm opacity-50 leading-tight relative z-10"
+                  class="mt-1 max-w-60 text-center text-sm opacity-50 leading-tight relative z-10"
                 >
                   {{
                     $t('tracker.stats.luckier', {

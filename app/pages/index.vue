@@ -348,7 +348,7 @@
             </div>
             <div
               v-else
-              class="flex h-[140px] items-center justify-center text-xl text-gray-400"
+              class="flex h-40 items-center justify-center text-xl text-gray-400"
             >
               —
             </div>

@@ -69,7 +69,7 @@
                 <n-button
                   size="small"
                   :type="qualityFilter === null ? 'primary' : 'default'"
-                  class="min-w-[40px]"
+                  class="min-w-10"
                   @click="qualityFilter = null"
                 >
                   {{ t('common.all') }}
@@ -79,7 +79,7 @@
                   :key="q"
                   size="small"
                   v-bind="getQualityButtonTheme(q, qualityFilter === q)"
-                  class="min-w-[40px]"
+                  class="min-w-10"
                   :disabled="q === 2"
                   @click="qualityFilter = q"
                 >
@@ -99,7 +99,7 @@
                 <n-button
                   size="small"
                   :type="bannerQualityFilter === null ? 'primary' : 'default'"
-                  class="min-w-[40px]"
+                  class="min-w-10"
                   @click="bannerQualityFilter = null"
                 >
                   {{ t('common.all') }}
@@ -109,7 +109,7 @@
                   :key="q"
                   size="small"
                   v-bind="getQualityButtonTheme(q, bannerQualityFilter === q)"
-                  class="min-w-[40px]"
+                  class="min-w-10"
                   @click="bannerQualityFilter = q"
                 >
                   <span class="flex items-center gap-1">
@@ -267,7 +267,7 @@
               <n-button
                 size="small"
                 :type="qualityFilter === null ? 'primary' : 'default'"
-                class="min-w-[40px]"
+                class="min-w-10"
                 @click="qualityFilter = null"
               >
                 {{ t('common.all') }}
@@ -277,7 +277,7 @@
                 :key="q"
                 size="small"
                 v-bind="getQualityButtonTheme(q, qualityFilter === q)"
-                class="min-w-[40px]"
+                class="min-w-10"
                 :disabled="q === 2"
                 @click="qualityFilter = q"
               >
@@ -297,7 +297,7 @@
               <n-button
                 size="small"
                 :type="bannerQualityFilter === null ? 'primary' : 'default'"
-                class="min-w-[40px]"
+                class="min-w-10"
                 @click="bannerQualityFilter = null"
               >
                 {{ t('common.all') }}
@@ -307,7 +307,7 @@
                 :key="q"
                 size="small"
                 v-bind="getQualityButtonTheme(q, bannerQualityFilter === q)"
-                class="min-w-[40px]"
+                class="min-w-10"
                 @click="bannerQualityFilter = q"
               >
                 <span class="flex items-center gap-1">
@@ -1983,7 +1983,7 @@
           h(
             'div',
             {
-              class: 'inline-flex items-center gap-2 max-w-[300px] text-left',
+              class: 'inline-flex items-center gap-2 max-w-80 text-left',
               title: selectedEntry.name,
             },
             [

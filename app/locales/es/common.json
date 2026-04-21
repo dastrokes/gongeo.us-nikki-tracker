@@ -1,7 +1,7 @@
 {
   "common": {
-    "banner": "Banner",
-    "banners": "Banners",
+    "banner": "Bandera",
+    "banners": "pancartas",
     "outfit": "Atuendo",
     "outfits": "Atuendos",
     "item": "Pieza",
@@ -24,7 +24,7 @@
     "save": "Guardar",
     "cancel": "Cancelar",
     "confirm": "Confirmar",
-    "ok": "OK",
+    "ok": "DE ACUERDO",
     "next": "Próximo",
     "submit": "Enviar",
     "retry": "Reintentar",
@@ -124,6 +124,7 @@
       "outfit_detail": "Vea información detallada sobre el atuendo {name}, incluida la calidad, las piezas del atuendo, la evolución y el brillo, maquillajes, estadísticas y banners de resonancia relacionadas.",
       "items": "Explore todos los artículos Infinity Nikki con filtros por ranura, calidad, bonificaciones de estadísticas y atuendos o banners relacionados. Encuentre, compare y rastree cada artículo fácilmente.",
       "item_detail": "Vea información detallada sobre el artículo {name}, incluida la calidad, la evolución y el brillo, las estadísticas y los atuendos y banners relacionados.",
+      "search": "Discover the unique search capabilities of Infinity Nikki with Whim Search. Find items and outfits using natural language, style tags, and semantic attributes.",
       "faq": "Encuentre respuestas a preguntas frecuentes sobre gongeo.us, incluida la privacidad de los datos, los métodos de importación y las pautas de uso.",
       "about": "Obtenga más información sobre gongeo.us, incluido su propósito, política de privacidad, exenciones de responsabilidad y cómo apoya a la comunidad Infinity Nikki.",
       "stats": "Ve tus estadísticas personales de pulls de resonancia de Infinity Nikki, análisis de suerte, rachas y actividad de pulls."
@@ -135,7 +136,7 @@
     "community_stats": "Estadísticas de la comunidad",
     "view_all_stats": "Ver todas las estadísticas",
     "current_banners": "Banners actuales",
-    "rerun": "Rerun",
+    "rerun": "Repetición",
     "built_with": "Este sitio funciona con",
     "copyright": "© 2026 gongeo.us • © Infold Games Todos los derechos reservados",
     "disclaimer": {
@@ -296,7 +297,7 @@
     "regions": {
       "america": "América",
       "europe": "Europa",
-      "china": "China",
+      "china": "Porcelana",
       "tw": "TW/HK/Macao",
       "asia": "Asia"
     },
@@ -307,7 +308,7 @@
     "login_whimlog_desc": "Abra Whim-Log en una nueva pestaña, inicie sesión y sincronice sus datos.",
     "get_cookie": "Obtenga cookies del sitio web de Pearpal",
     "get_cookie_desc": "Elige cómo quieres obtener tu Cookie:",
-    "gongeous_cookie": "Gongeous Cookie",
+    "gongeous_cookie": "Galleta Gongosa",
     "bookmark_method": "Método de marcador (recomendado)",
     "bookmark_method_mobile": "Método de marcador",
     "console_method": "Método de consola",
@@ -433,8 +434,8 @@
         "avg_5star": "5★ Promedio",
         "total_4star": "4★total",
         "avg_4star": "4★ Promedio",
-        "pity_5star": "5★ Pity",
-        "pity_4star": "4★ Pity"
+        "pity_5star": "5★ Lástima",
+        "pity_4star": "4★ Lástima"
       },
       "settings": {
         "banner_order": "Orden de banner",

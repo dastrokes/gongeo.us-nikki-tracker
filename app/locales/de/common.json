@@ -843,7 +843,7 @@
     "pending_exists_submit_blocked": "Ein offener Vorschlag wurde für diesen Gegenstand gefunden. Stimme stattdessen über das existierende Feedback ab.",
     "pending_check_failed": "Verifizierung des Feedback-Status für dieses Stück fehlgeschlagen.",
     "no_changes": "Noch keine Änderungen.",
-    "login_required": "Melden dich an, um Vorschläge einzureichen und abzustimmen.",
+    "login_required": "Melde dich an, um Vorschläge einzureichen und abzustimmen.",
     "agree_action": "Zustimmen",
     "disagree_action": "Widersprechen",
     "agree_count": "Zustimmen {count}",

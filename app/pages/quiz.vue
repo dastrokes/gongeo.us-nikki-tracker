@@ -25,7 +25,7 @@
               class="flex flex-col gap-2 sm:gap-3 lg:w-36"
             >
               <div
-                class="relative grid grid-cols-2 gap-2 text-[10px] sm:text-xs text-gray-600 dark:text-gray-300 min-h-[28px] lg:grid-cols-1 rounded-lg border border-gray-200/80 dark:border-gray-700/70 bg-gray-50/80 dark:bg-gray-900/40 px-2 py-2"
+                class="relative grid grid-cols-2 gap-2 text-[10px] sm:text-xs text-gray-600 dark:text-gray-300 min-h-8 lg:grid-cols-1 rounded-lg border border-gray-200/80 dark:border-gray-700/70 bg-gray-50/80 dark:bg-gray-900/40 px-2 py-2"
               >
                 <div class="flex items-center justify-between gap-2 px-2">
                   <span
@@ -142,7 +142,8 @@
                         :src="getImageSrc('outfit', entry.id)"
                         :alt="t(`outfit.${entry.id}.name`)"
                         fit="cover"
-                        preset="tallSm"
+                        preset="tallLg"
+                        sizes="200px"
                         draggable="false"
                         class="h-full w-full object-cover"
                       />
@@ -354,7 +355,7 @@
               <template v-else>
                 <div class="col-span-full space-y-2">
                   <template v-if="!isImageReady">
-                    <div class="flex h-[34px] items-center justify-center">
+                    <div class="flex h-8 items-center justify-center">
                       <n-skeleton
                         height="16px"
                         width="80%"
@@ -379,7 +380,7 @@
                 </div>
               </template>
             </div>
-            <div class="flex flex-wrap gap-2 min-h-[40px]">
+            <div class="flex flex-wrap gap-2 min-h-10">
               <template v-if="gameState === 'playing'">
                 <n-button
                   v-if="roundResult !== 'unanswered'"

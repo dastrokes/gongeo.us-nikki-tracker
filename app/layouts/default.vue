@@ -83,7 +83,7 @@
                 :show="openDesktopGroup === group.key"
               >
                 <div
-                  class="min-w-[200px] origin-top rounded-xl border border-black/6 bg-white p-1.5 ring-1 ring-black/5 dark:border-white/2 dark:bg-slate-900 dark:ring-white/5"
+                  class="min-w-50 origin-top rounded-xl border border-black/6 bg-white p-1.5 ring-1 ring-black/5 dark:border-white/2 dark:bg-slate-900 dark:ring-white/5"
                 >
                   <button
                     v-for="item in group.items"

@@ -467,11 +467,11 @@
     <!-- Mobile Details Modal -->
     <n-modal
       v-model:show="isMobileModalOpen"
-      class="w-[calc(100vw-2rem)] max-w-[400px] bg-transparent shadow-none"
+      class="w-[calc(100vw-2rem)] max-w-96 bg-transparent shadow-none"
     >
       <div
         v-if="activeResult"
-        class="relative grid h-[calc(100dvh-2rem)] max-h-[48rem] w-full grid-rows-[minmax(0,1fr)_auto] overflow-hidden rounded-3xl bg-white/95 shadow-2xl backdrop-blur-2xl dark:bg-slate-900/95"
+        class="relative grid h-[calc(100dvh-2rem)] max-h-192 w-full grid-rows-[minmax(0,1fr)_auto] overflow-hidden rounded-3xl bg-white/95 shadow-2xl backdrop-blur-2xl dark:bg-slate-900/95"
       >
         <div class="absolute right-3 top-3 z-20">
           <n-button
@@ -819,10 +819,13 @@
   useSeoMeta({
     title: () =>
       `${t('search_page.title')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
+    description: () => t('meta.description.search'),
     ogTitle: () =>
       `${t('search_page.title')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
+    ogDescription: () => t('meta.description.search'),
     twitterTitle: () =>
       `${t('search_page.title')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
+    twitterDescription: () => t('meta.description.search'),
   })
 
   const getResolvedItemType = (

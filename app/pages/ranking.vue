@@ -377,7 +377,7 @@
           }),
           h(
             'span',
-            { class: 'text-sm font-medium truncate max-w-[200px]' },
+            { class: 'text-sm font-medium truncate max-w-50' },
             t(`banner.${row.banner_id}.name`)
           ),
           h('div', { class: 'flex gap-3 text-sm' }, [

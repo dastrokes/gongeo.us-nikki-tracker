@@ -90,7 +90,7 @@
                   <n-button
                     size="small"
                     :type="qualityFilter === null ? 'primary' : 'default'"
-                    class="min-w-[40px]"
+                    class="min-w-10"
                     @click="qualityFilter = null"
                   >
                     {{ t('common.all') }}

@@ -78,7 +78,7 @@
     >
       <div
         :style="popoverStyle"
-        class="relative min-h-[48px] w-32 sm:w-36 rounded-xl p-2 text-center ring-1 ring-black/5 backdrop-blur-md dark:ring-white/10"
+        class="relative min-h-12 w-32 sm:w-36 rounded-xl p-2 text-center ring-1 ring-black/5 backdrop-blur-md dark:ring-white/10"
       >
         <div class="font-bold leading-tight line-clamp-2 text-xs">
           {{ $t(`item.${item.itemId}.name`) }}

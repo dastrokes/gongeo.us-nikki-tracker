@@ -11,7 +11,7 @@
         <!-- Image Skeleton -->
         <div class="flex justify-center lg:justify-start">
           <div
-            class="relative aspect-2/3 w-full max-w-[200px] rounded-lg overflow-hidden"
+            class="relative aspect-2/3 w-full max-w-50 rounded-lg overflow-hidden"
           >
             <n-skeleton
               :sharp="false"
@@ -106,7 +106,7 @@
         <div class="grid grid-cols-1 lg:grid-cols-[auto_1fr] gap-4 lg:gap-6">
           <!-- Outfit Image -->
           <div class="flex justify-center lg:justify-start items-start">
-            <div class="w-[200px] max-w-full shrink-0">
+            <div class="w-50 max-w-full shrink-0">
               <OutfitCard
                 :outfit-id="outfit.id"
                 :quality="outfit.quality"
@@ -239,7 +239,7 @@
 
               <div
                 v-if="styleScores.length"
-                class="w-full shrink-0 xl:min-w-[160px] xl:max-w-[160px]"
+                class="w-full shrink-0 xl:w-40"
               >
                 <div class="flex flex-col gap-1">
                   <div
@@ -252,7 +252,7 @@
                       :bordered="false"
                       type="default"
                       :color="score.theme"
-                      class="text-sm font-semibold min-w-[90px] justify-center shadow-[inset_0_-2px_0_rgba(0,0,0,0.18)]"
+                      class="text-sm font-semibold min-w-24 justify-center shadow-[inset_0_-2px_0_rgba(0,0,0,0.18)]"
                     >
                       {{ score.label }}
                     </n-tag>
@@ -390,7 +390,7 @@
             class="block group"
           >
             <div
-              class="relative aspect-2/1 max-h-[150px] rounded-lg overflow-hidden transition-all duration-200 ease-in-out shadow-md group-hover:scale-[1.02]"
+              class="relative aspect-2/1 max-h-40 rounded-lg overflow-hidden transition-all duration-200 ease-in-out shadow-md group-hover:scale-[1.02]"
             >
               <NuxtImg
                 :src="getImageSrc('banner', inBanner.bannerId)"

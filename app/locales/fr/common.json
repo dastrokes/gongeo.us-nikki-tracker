@@ -124,7 +124,8 @@
       "outfit_detail": "Affichez des informations détaillées sur la tenue {name}, notamment la qualité, les pièces de la tenue, l'évolution et l'éclat, les maquillages, les statistiques et les bannières de résonance associées.",
       "items": "Parcourez tous les articles Infinity Nikki avec des filtres par emplacement, qualité, bonus de statistiques et tenues ou bannières associées. Trouvez, comparez et suivez facilement chaque article.",
       "item_detail": "Affichez des informations détaillées sur l'objet {name}, notamment sa qualité, son évolution et son éclat, ses statistiques, ainsi que les tenues et bannières associées.",
-      "faq": "Trouvez les réponses aux questions fréquemment posées sur gongeo.us, notamment sur la confidentialité des données, les méthodes d'importation et les directives d'utilisation.",
+      "search": "Découvrez les capacités de recherche uniques d'Infinity Nikki avec la Recherche de Caprices. Trouvez des articles et des tenues en utilisant le langage naturel, les étiquettes de style et les attributs sémantiques.",
+      "faq": "Trouvez des réponses aux questions fréquemment posées sur gongeo.us, notamment sur la confidentialité des données, les méthodes d'importation et les directives d'utilisation.",
       "about": "Apprenez-en davantage sur gongeo.us, y compris son objectif, sa politique de confidentialité, ses clauses de non-responsabilité et la manière dont il prend en charge la communauté Infinity Nikki.",
       "stats": "Consultez vos statistiques personnelles de pulls de résonance Infinity Nikki, l'analyse de chance, les séries et l'activité de pulls."
     }

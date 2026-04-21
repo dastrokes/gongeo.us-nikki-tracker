@@ -1,6 +1,6 @@
 {
   "common": {
-    "banner": "Banner",
+    "banner": "Stendardo",
     "banners": "Banner",
     "outfit": "Completo",
     "outfits": "Completi",
@@ -95,7 +95,7 @@
     "outfit_detail": "Dettagli Abito",
     "item": "Compendio Articoli",
     "item_detail": "Dettagli Articolo",
-    "tierlist": "Tier List Maker",
+    "tierlist": "Creatore di elenchi di livelli",
     "compendium": "Compendio",
     "vote": "Voto Banner",
     "faq": "Domande frequenti",
@@ -124,6 +124,7 @@
       "outfit_detail": "Visualizza informazioni dettagliate sull'outfit {name}, inclusi qualità, componenti dell'outfit, evoluzione e luminosità, trucchi, statistiche e relativi banner di risonanza.",
       "items": "Sfoglia tutti gli oggetti Infinity Nikki con filtri per slot, qualità, bonus statistiche e relativi abiti o banner. Trova, confronta e monitora facilmente ogni articolo.",
       "item_detail": "Visualizza informazioni dettagliate sull'oggetto {name}, inclusi qualità, evoluzione e luminosità, statistiche e relativi abiti e stendardi.",
+      "search": "Discover the unique search capabilities of Infinity Nikki with Whim Search. Find items and outfits using natural language, style tags, and semantic attributes.",
       "faq": "Trova le risposte alle domande frequenti su gongeo.us, tra cui privacy dei dati, metodi di importazione e linee guida sull'utilizzo.",
       "about": "Scopri di più su gongeo.us, incluso il suo scopo, l'informativa sulla privacy, le dichiarazioni di non responsabilità e il modo in cui supporta la comunità Infinity Nikki.",
       "stats": "Visualizza le tue statistiche personali di pull di risonanza di Infinity Nikki, analisi della fortuna, serie e attività di pull."
@@ -135,7 +136,7 @@
     "community_stats": "Statistiche della community",
     "view_all_stats": "Vedi tutte le statistiche",
     "current_banners": "Banner attuali",
-    "rerun": "Rerun",
+    "rerun": "Rieseguire",
     "built_with": "Questo sito è realizzato con",
     "copyright": "© 2026 gongeo.us • © Infold Games Tutti i diritti riservati",
     "disclaimer": {
@@ -307,7 +308,7 @@
     "login_whimlog_desc": "Apri Whim-Log in una nuova scheda, accedi e sincronizza i tuoi dati.",
     "get_cookie": "Ottieni cookie dal sito Web Pearlal",
     "get_cookie_desc": "Scegli come vuoi ricevere il tuo Cookie:",
-    "gongeous_cookie": "Gongeous Cookie",
+    "gongeous_cookie": "Biscotto Gongeous",
     "bookmark_method": "Metodo segnalibro (consigliato)",
     "bookmark_method_mobile": "Metodo dei segnalibri",
     "console_method": "Metodo della console",
@@ -393,9 +394,9 @@
     },
     "supported_browsers": "Browser supportati",
     "supported_browsers_list": {
-      "chrome": "Google Chrome",
-      "firefox": "Mozilla Firefox",
-      "safari": "Apple Safari"
+      "chrome": "Google Cromo",
+      "firefox": "MozillaFirefox",
+      "safari": "AppleSafari"
     },
     "check_compatibility": "Controlla la compatibilità del browser",
     "pc_recommended": "Stai utilizzando un dispositivo mobile, puoi importare utilizzando i browser supportati elencati di seguito, altri browser non sono testati e potrebbero non funzionare. Per un'esperienza ottimale, ti consigliamo di utilizzare un browser per PC per l'importazione dei dati.",
@@ -433,8 +434,8 @@
         "avg_5star": "5★ media",
         "total_4star": "4★ Totale",
         "avg_4star": "4★",
-        "pity_5star": "5★ Pity",
-        "pity_4star": "4★ Pity"
+        "pity_5star": "5★ Peccato",
+        "pity_4star": "4★ Peccato"
       },
       "settings": {
         "banner_order": "Ordine degli stendardi",
@@ -443,7 +444,7 @@
         "item_display": "Visualizzazione dell'articolo",
         "combined": "Combinato",
         "separated": "Separato",
-        "show_4star": "4★ (5★ Banner)",
+        "show_4star": "4★ (5★ Striscione)",
         "show_missing": "Pezzi mancanti",
         "duplicate_items": "Articoli duplicati",
         "empty_banners": "Banner vuoti"
@@ -477,7 +478,7 @@
     "instructions": "Indovina l'outfit dalla sua silhouette. Più velocemente rispondi, più alto sarà il tuo punteggio.",
     "game_complete": "Gioco completato",
     "final_score": "Punteggio finale {score}",
-    "round": "Round",
+    "round": "Girare",
     "score": "Punteggio",
     "streak": "Serie",
     "best_streak": "Miglior serie di vittorie",

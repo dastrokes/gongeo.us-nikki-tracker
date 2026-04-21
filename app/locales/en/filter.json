@@ -60,6 +60,7 @@
     "heel_type": {
       "block": "Block",
       "kitten": "Kitten",
+      "sculptural": "Sculptural",
       "stiletto": "Stiletto",
       "wedge": "Wedge"
     },

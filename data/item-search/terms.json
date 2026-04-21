@@ -42,7 +42,7 @@
       "wolf_cut"
     ],
     "heel_height": ["flat", "high", "low"],
-    "heel_type": ["block", "kitten", "stiletto", "wedge"],
+    "heel_type": ["block", "kitten", "sculptural", "stiletto", "wedge"],
     "material": [
       "bamboo",
       "canvas",

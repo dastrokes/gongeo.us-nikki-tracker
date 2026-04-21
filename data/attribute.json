@@ -292,6 +292,11 @@
   {
     "field": "heel_type",
     "itemType": null,
+    "value": "sculptural"
+  },
+  {
+    "field": "heel_type",
+    "itemType": null,
     "value": "stiletto"
   },
   {

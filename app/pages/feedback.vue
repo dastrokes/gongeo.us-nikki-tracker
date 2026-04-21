@@ -672,7 +672,7 @@
 
   const statusOptions = computed(() => [
     { label: t('feedback.status_open'), value: 'open' },
-    { label: t('feedback.status_all'), value: 'all' },
+    { label: t('common.all'), value: 'all' },
     { label: t('feedback.status_accepted'), value: 'accepted' },
     { label: t('feedback.status_rejected'), value: 'rejected' },
     { label: t('feedback.status_applied'), value: 'applied' },

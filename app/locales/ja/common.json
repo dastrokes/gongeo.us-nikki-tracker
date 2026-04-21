@@ -806,7 +806,6 @@
     "scope_mine_empty": "フィルタに一致するフィードバックはありません。",
     "sort_needs_review": "審査が必要",
     "sort_top": "投票数順",
-    "status_all": "すべてのステータス",
     "status_open": "進行中",
     "status_accepted": "承認済み",
     "status_rejected": "却下済み",

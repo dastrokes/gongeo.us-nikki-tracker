@@ -124,6 +124,7 @@
       "outfit_detail": "품질, 의상 조각, 진화 및 발광, 메이크업, 통계 및 관련 공명 배너를 포함하여 {name} 의상에 대한 자세한 정보를 확인하세요.",
       "items": "부위, 품질, 능력치 보너스 및 관련 복장이나 배너에 대한 필터를 사용하여 모든 인피니티 니키 아이템을 찾아보세요. 모든 아이템을 쉽게 찾고, 비교하고, 추적하세요.",
       "item_detail": "품질, 진화 및 발광, 통계, 관련 의상 및 배너를 포함하여 {name} 아이템에 대한 자세한 정보를 확인하세요.",
+      "search": "Discover the unique search capabilities of Infinity Nikki with Whim Search. Find items and outfits using natural language, style tags, and semantic attributes.",
       "faq": "데이터 개인정보 보호, 가져오기 방법, 사용 지침 등 gongeo.us 에 대해 자주 묻는 질문에 대한 답변을 찾아보세요.",
       "about": "gongeo.us 의 목적, 개인정보 보호 정책, 면책 조항 및 인피니티 니키 커뮤니티를 지원하는 방법 등에 대해 자세히 알아보세요.",
       "stats": "개인 인피니티 니키 공명 뽑기 통계, 행운 분석, 연속 기록 및 풀 활동을 확인하세요."
@@ -307,7 +308,7 @@
     "login_whimlog_desc": "새 탭에서 상상 노트를 열고 로그인한 후 데이터를 동기화하세요.",
     "get_cookie": "Pearpal 웹사이트에서 쿠키 받기",
     "get_cookie_desc": "쿠키를 얻는 방법을 선택하세요:",
-    "gongeous_cookie": "Gongeous Cookie",
+    "gongeous_cookie": "고저스 쿠키",
     "bookmark_method": "북마크 방법(권장)",
     "bookmark_method_mobile": "북마크 방법",
     "console_method": "콘솔 방식",

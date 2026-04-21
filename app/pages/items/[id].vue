@@ -644,7 +644,6 @@
   // Composable
   const { fetchItemById } = useSupabaseItems()
   const { getImageSrc } = imageProvider()
-  const nuxtImg = useImage()
   const showFeedbackModal = ref(false)
   const showExpandedCurrentTags = ref(false)
   const showIcon = ref(false)
@@ -1019,16 +1018,11 @@
   }
 
   // SEO Meta Tags
+  const runtimeConfig = useRuntimeConfig()
+  const siteUrl = runtimeConfig.public.siteUrl as string
+
   const ogItemImage = computed(() =>
-    item.value
-      ? nuxtImg(
-          `/images/items/${item.value.id}.png`,
-          {},
-          {
-            preset: 'tallLg',
-          }
-        )
-      : undefined
+    item.value ? `${siteUrl}${getImageSrc('item', item.value.id)}` : undefined
   )
 
   useSeoMeta({

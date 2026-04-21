@@ -611,7 +611,6 @@
   const route = useRoute()
   const { t } = useI18n()
   const { getImageSrc } = imageProvider()
-  const nuxtImg = useImage()
   const requestEvent = useRequestEvent()
 
   const localePath = useLocalePath()
@@ -756,15 +755,12 @@
   })
 
   // SEO Meta Tags
+  const runtimeConfig = useRuntimeConfig()
+  const siteUrl = runtimeConfig.public.siteUrl as string
+
   const ogItemImage = computed(() =>
     banner.value
-      ? nuxtImg(
-          `/images/banners/${banner.value.bannerId}.png`,
-          {},
-          {
-            preset: 'bannerHero',
-          }
-        )
+      ? `${siteUrl}${getImageSrc('banner', banner.value.bannerId)}`
       : undefined
   )
 

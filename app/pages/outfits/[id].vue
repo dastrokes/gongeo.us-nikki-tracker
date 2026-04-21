@@ -463,8 +463,6 @@
   // Composable
   const { fetchOutfitById } = useSupabaseOutfits()
   const { getImageSrc } = imageProvider()
-  const nuxtImg = useImage()
-
   const outfitKey = computed(() => `outfit-${outfitId.value}-${locale.value}`)
 
   const {
@@ -721,15 +719,12 @@
   }
 
   // SEO Meta Tags
+  const runtimeConfig = useRuntimeConfig()
+  const siteUrl = runtimeConfig.public.siteUrl as string
+
   const ogOutfitImage = computed(() =>
     outfit.value
-      ? nuxtImg(
-          `/images/outfits/${outfit.value.id}.png`,
-          {},
-          {
-            preset: 'tallLg',
-          }
-        )
+      ? `${siteUrl}${getImageSrc('outfit', outfit.value.id)}`
       : undefined
   )
 

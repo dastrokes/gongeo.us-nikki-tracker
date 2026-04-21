@@ -1,7 +1,7 @@
 {
   "common": {
-    "banner": "Banner",
-    "banners": "Banners",
+    "banner": "Bandeira",
+    "banners": "Bandeiras",
     "outfit": "Look",
     "outfits": "Looks",
     "item": "Peça",
@@ -124,6 +124,7 @@
       "outfit_detail": "Veja informações detalhadas sobre o traje {name}, incluindo qualidade, peças do traje, evolução e brilho, maquiagens, estatísticas e banners de ressonância relacionados.",
       "items": "Procure todos os itens Infinity Nikki com filtros de slot, qualidade, bônus de estatísticas e roupas ou banners relacionados. Encontre, compare e acompanhe cada item facilmente.",
       "item_detail": "Veja informações detalhadas sobre o item {name}, incluindo qualidade, evolução e brilho, estatísticas e trajes e banners relacionados.",
+      "search": "Discover the unique search capabilities of Infinity Nikki with Whim Search. Find items and outfits using natural language, style tags, and semantic attributes.",
       "faq": "Encontre respostas para perguntas frequentes sobre gongeo.us, incluindo privacidade de dados, métodos de importação e diretrizes de uso.",
       "about": "Saiba mais sobre gongeo.us, incluindo sua finalidade, política de privacidade, isenções de responsabilidade e como ele oferece suporte à comunidade Infinity Nikki.",
       "stats": "Veja suas estatísticas pessoais de pulls de ressonância de Infinity Nikki, análise de sorte, sequências e atividade de pulls."
@@ -135,7 +136,7 @@
     "community_stats": "Estatísticas da comunidade",
     "view_all_stats": "Ver todas as estatísticas",
     "current_banners": "Banners atuais",
-    "rerun": "Rerun",
+    "rerun": "Repetir",
     "built_with": "Este site é desenvolvido com",
     "copyright": "© 2026 gongeo.us • © Infold Games Todos os direitos reservados",
     "disclaimer": {
@@ -307,7 +308,7 @@
     "login_whimlog_desc": "Abra Whim-Log em uma nova aba, faça login e sincronize seus dados.",
     "get_cookie": "Obtenha o cookie do site Pearlal",
     "get_cookie_desc": "Escolha como deseja receber seu Cookie:",
-    "gongeous_cookie": "Gongeous Cookie",
+    "gongeous_cookie": "Biscoito lindo",
     "bookmark_method": "Método de marcador (recomendado)",
     "bookmark_method_mobile": "Método de marcador",
     "console_method": "Método de console",
@@ -433,8 +434,8 @@
         "avg_5star": "5★ Média",
         "total_4star": "4★ Total",
         "avg_4star": "4★ Média",
-        "pity_5star": "5★ Pity",
-        "pity_4star": "4★ Pity"
+        "pity_5star": "5★ Pena",
+        "pity_4star": "4★ Pena"
       },
       "settings": {
         "banner_order": "Ordem dos banners",

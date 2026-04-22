@@ -1,4 +1,5 @@
 import { defaultLocale, i18nLocales } from './locales'
+import { getOgImageSrc } from '../utils/imageProvider'
 import {
   SEO_BANNER_LIST_PATHS,
   SEO_ITEM_LIST_PATHS,
@@ -32,15 +33,6 @@ const SEO_LIST_PATHS = [
   ...SEO_BANNER_LIST_PATHS,
 ]
 const STATIC_SITEMAP_PATHS = [...BASE_PATHS, ...SEO_LIST_PATHS]
-
-const imagekitBaseUrl =
-  process.env.NUXT_PUBLIC_IMAGEKIT_BASE_URL || 'https://ik.imagekit.io/gongeous'
-const cloudinaryBaseUrl =
-  process.env.NUXT_PUBLIC_CLOUDINARY_BASE_URL ||
-  'https://res.cloudinary.com/gongeous/image/upload'
-const bunnyBaseUrl =
-  process.env.NUXT_PUBLIC_BUNNY_BASE_URL || 'https://cdn.gongeo.us'
-const imageBaseUrl = `${imagekitBaseUrl || bunnyBaseUrl || cloudinaryBaseUrl}/images`
 
 type TranslationDictionary = Record<string, string>
 type LocaleCode = (typeof i18nLocales)[number]['code']
@@ -328,7 +320,7 @@ export async function contentSitemap(localeCode?: LocaleCode) {
           loc: `${prefix}/${config.routePrefix}/${contentId}`,
           images: [
             {
-              loc: `${imageBaseUrl}/${config.imageFolder}/${contentId}.png`,
+              loc: getOgImageSrc(config.localeKey, contentId),
               title: name,
               caption: name,
             },

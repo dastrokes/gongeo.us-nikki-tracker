@@ -58,12 +58,12 @@
         name: 'description',
         content: t('meta.description.default'),
       },
+      {
+        name: 'apple-mobile-web-app-title',
+        content: 'gongeo.us',
+      },
       { name: 'robots', content: 'index, follow' },
       { name: 'author', content: 'dastrokes' },
-      {
-        name: 'keywords',
-        content: t('meta.keywords'),
-      },
       {
         property: 'og:site_name',
         content: t('meta.title'),
@@ -111,6 +111,26 @@
     ],
     link: [
       ...localeHeadLinks.value,
+      {
+        rel: 'manifest',
+        href: '/site.webmanifest',
+      },
+      {
+        rel: 'apple-touch-icon',
+        href: '/apple-touch-icon.png',
+      },
+      {
+        rel: 'icon',
+        type: 'image/png',
+        sizes: '32x32',
+        href: '/favicon-32x32.png',
+      },
+      {
+        rel: 'icon',
+        type: 'image/png',
+        sizes: '16x16',
+        href: '/favicon-16x16.png',
+      },
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       {
         rel: 'preconnect',

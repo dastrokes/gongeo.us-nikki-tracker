@@ -109,7 +109,7 @@
     <!-- ═══ Current Banners ═══ -->
     <section
       ref="bannersSectionRef"
-      class="animate-fade-in-up motion-reduce:animate-none"
+      class="animate-fade-in-up scroll-mt-16 motion-reduce:animate-none"
       style="animation-delay: 0.24s"
     >
       <n-card
@@ -142,7 +142,7 @@
     <!-- ═══ Compendium Section ═══ -->
     <section
       ref="compendiumSectionRef"
-      class="animate-fade-in-up motion-reduce:animate-none"
+      class="animate-fade-in-up scroll-mt-16 motion-reduce:animate-none"
       style="animation-delay: 0.48s"
     >
       <n-card
@@ -242,7 +242,7 @@
     <!-- ═══ Community Stats ═══ -->
     <section
       ref="statsSectionRef"
-      class="animate-fade-in-up motion-reduce:animate-none"
+      class="animate-fade-in-up scroll-mt-16 motion-reduce:animate-none"
       style="animation-delay: 0.96s"
     >
       <n-card
@@ -426,27 +426,9 @@
   const scrollToSection = (sectionElement: HTMLElement | null) => {
     if (!import.meta.client || !sectionElement) return
 
-    const scrollContainer = sectionElement.closest(
-      '.n-scrollbar-content'
-    )?.parentElement
-
-    if (!scrollContainer) {
-      sectionElement.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',
-      })
-      return
-    }
-
-    const top =
-      sectionElement.getBoundingClientRect().top -
-      scrollContainer.getBoundingClientRect().top +
-      scrollContainer.scrollTop -
-      12
-
-    scrollContainer.scrollTo({
-      top: Math.max(0, top),
+    sectionElement.scrollIntoView({
       behavior: 'smooth',
+      block: 'start',
     })
   }
 

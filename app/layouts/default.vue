@@ -45,15 +45,14 @@
           </NuxtLinkLocale>
         </div>
 
-        <div
-          class="hidden flex-1 items-center justify-center gap-1.5 lg:flex xl:gap-3"
-        >
+        <div class="relative hidden flex-1 items-center justify-center lg:flex">
           <div
             v-for="group in navigationGroups"
             :key="group.key"
-            class="relative"
-            @mouseenter="openDesktopMenu(group.key)"
-            @mouseleave="scheduleCloseDesktopMenu"
+            data-desktop-nav-trigger
+            class="relative flex px-[3px] xl:px-[6px]"
+            @mouseenter="openDesktopMenu(group.key, $event)"
+            @mouseleave="handleDesktopTriggerLeave"
           >
             <button
               type="button"
@@ -73,20 +72,30 @@
                 <CaretDown />
               </n-icon>
             </button>
+          </div>
 
-            <div
-              v-if="openDesktopGroup === group.key"
-              class="absolute left-1/2 -translate-x-1/2 top-full mt-2 z-50 transition-all duration-300 ease-[cubic-bezier(0.2,0.8,0.2,1)] will-change-transform"
+          <div
+            v-if="desktopMenuCenter !== null"
+            data-desktop-nav-popup
+            class="absolute top-full z-50 -translate-x-1/2 pt-2 transition-[left] duration-300 ease-in-out"
+            :class="{
+              'pointer-events-auto': openDesktopGroup !== null,
+              'pointer-events-none': openDesktopGroup === null,
+            }"
+            :style="{ left: `${desktopMenuCenter}px` }"
+            @mouseleave="handleDesktopMenuPopupLeave"
+          >
+            <n-collapse-transition
+              appear
+              :show="openDesktopGroup !== null"
+              class="w-auto!"
             >
-              <n-collapse-transition
-                appear
-                :show="openDesktopGroup === group.key"
+              <div
+                class="overflow-hidden rounded-xl border border-black/6 bg-white ring-1 ring-black/5 shadow-lg dark:border-white/2 dark:bg-slate-900 dark:ring-white/5"
               >
-                <div
-                  class="min-w-50 origin-top rounded-xl border border-black/6 bg-white p-1.5 ring-1 ring-black/5 dark:border-white/2 dark:bg-slate-900 dark:ring-white/5"
-                >
+                <div class="min-w-50 p-1.5">
                   <button
-                    v-for="item in group.items"
+                    v-for="item in openDesktopMenuGroup?.items ?? []"
                     :key="item.key"
                     type="button"
                     class="group flex w-full cursor-pointer items-center gap-3 rounded-lg px-3 py-3 text-left text-sm whitespace-nowrap hover:bg-slate-100 dark:hover:bg-slate-800/80"
@@ -111,8 +120,8 @@
                     <span>{{ item.label }}</span>
                   </button>
                 </div>
-              </n-collapse-transition>
-            </div>
+              </div>
+            </n-collapse-transition>
           </div>
         </div>
 
@@ -205,7 +214,7 @@
                           :src="getImageSrc('emote', 'hi')"
                           preset="iconSm"
                           sizes="60px"
-                          class="relative h-[80%] w-[80%] -rotate-[5deg] object-contain transition-transform duration-300 group-hover:-rotate-10"
+                          class="relative h-[80%] w-[80%] rotate-[-5deg] object-contain transition-transform duration-300 group-hover:-rotate-10"
                           alt=""
                           aria-hidden="true"
                         />
@@ -686,18 +695,31 @@
   const expandedMobileGroup = ref<string | null>(null)
   const showScrollTop = ref(false)
   const scrollbarRef = ref<HTMLElement | null>(null)
+  const desktopMenuCenter = ref<number | null>(null)
+
+  const openDesktopMenuGroup = computed<NavigationGroup | null>(() => {
+    return (
+      navigationGroups.value.find(
+        (group) => group.key === openDesktopGroup.value
+      ) ?? null
+    )
+  })
 
   const isNavItemActive = (key: string) => activeRouteSegment.value === key
   const isNavGroupActive = (groupKey: string) =>
     activeNavGroupKey.value === groupKey
 
-  const closeAllMenus = () => {
+  const resetDesktopMenu = () => {
     openDesktopGroup.value = null
+  }
+
+  const closeAllMenus = () => {
+    resetDesktopMenu()
     mobileDrawerOpen.value = false
   }
 
   const openMobileDrawer = () => {
-    openDesktopGroup.value = null
+    resetDesktopMenu()
     expandedMobileGroup.value =
       activeNavGroupKey.value ?? navigationGroups.value[0]?.key ?? null
     mobileDrawerOpen.value = true
@@ -708,21 +730,31 @@
       expandedMobileGroup.value === groupKey ? null : groupKey
   }
 
-  const desktopCloseTimer = ref<ReturnType<typeof setTimeout> | null>(null)
+  const openDesktopMenu = (groupKey: string, event: MouseEvent) => {
+    const trigger = event.currentTarget as HTMLElement
+    desktopMenuCenter.value = trigger.offsetLeft + trigger.offsetWidth / 2
 
-  const openDesktopMenu = (groupKey: string) => {
-    if (desktopCloseTimer.value) {
-      clearTimeout(desktopCloseTimer.value)
-      desktopCloseTimer.value = null
-    }
     openDesktopGroup.value = groupKey
   }
 
-  const scheduleCloseDesktopMenu = () => {
-    desktopCloseTimer.value = setTimeout(() => {
-      openDesktopGroup.value = null
-      desktopCloseTimer.value = null
-    }, 120)
+  const shouldKeepDesktopMenuOpen = (event: MouseEvent) => {
+    const nextTarget = event.relatedTarget as HTMLElement | null
+
+    return Boolean(
+      nextTarget?.closest(
+        '[data-desktop-nav-trigger], [data-desktop-nav-popup]'
+      )
+    )
+  }
+
+  const handleDesktopTriggerLeave = (event: MouseEvent) => {
+    if (shouldKeepDesktopMenuOpen(event)) return
+    resetDesktopMenu()
+  }
+
+  const handleDesktopMenuPopupLeave = (event: MouseEvent) => {
+    if (shouldKeepDesktopMenuOpen(event)) return
+    resetDesktopMenu()
   }
 
   const handleMenuSelect = async (key: string) => {
@@ -760,7 +792,7 @@
   watch(
     () => route.fullPath,
     () => {
-      openDesktopGroup.value = null
+      resetDesktopMenu()
       mobileDrawerOpen.value = false
       expandedMobileGroup.value = activeNavGroupKey.value
 
@@ -787,6 +819,5 @@
 
   onUnmounted(() => {
     window.removeEventListener('keydown', handleGlobalKeyDown)
-    if (desktopCloseTimer.value) clearTimeout(desktopCloseTimer.value)
   })
 </script>

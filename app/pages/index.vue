@@ -31,7 +31,7 @@
         </div>
       </div>
       <h1
-        class="text-2xl sm:text-4xl font-extrabold mb-3 bg-linear-to-r from-[#c084fc] via-[#f472b6] to-[#fb923c] bg-clip-text text-transparent dark:from-[#a78bfa] dark:via-[#f9a8d4] dark:to-[#fdba74]"
+        class="text-2xl sm:text-4xl font-extrabold pb-4 whitespace-pre-line bg-linear-to-r from-[#c084fc] via-[#f472b6] to-[#fb923c] bg-clip-text text-transparent dark:from-[#a78bfa] dark:via-[#f9a8d4] dark:to-[#fdba74]"
       >
         {{ $t('navigation.subtitle') }}
       </h1>

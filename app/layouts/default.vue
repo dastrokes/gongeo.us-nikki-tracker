@@ -74,26 +74,28 @@
             </button>
           </div>
 
-          <Transition
-            enter-active-class="transition-all duration-[200ms] ease-[cubic-bezier(0.22,1,0.36,1)]"
-            enter-from-class="opacity-0 -translate-y-1.5"
-            leave-active-class="transition-none"
-            leave-from-class="opacity-100 translate-y-0"
-            leave-to-class="opacity-100 translate-y-0"
+          <div
+            v-if="desktopMenuCenter !== null"
+            data-desktop-nav-popup
+            class="absolute top-full z-50 -translate-x-1/2 pt-2 transition-[left] duration-300 ease-in-out"
+            :class="{
+              'pointer-events-auto': openDesktopGroup !== null,
+              'pointer-events-none': openDesktopGroup === null,
+            }"
+            :style="{ left: `${desktopMenuCenter}px` }"
+            @mouseleave="handleDesktopMenuPopupLeave"
           >
-            <div
-              v-if="openDesktopMenuGroup && desktopMenuCenter !== null"
-              data-desktop-nav-popup
-              class="absolute top-full z-50 pt-2 -translate-x-1/2 transition-[left] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"
-              :style="{ left: `${desktopMenuCenter}px` }"
-              @mouseleave="handleDesktopMenuPopupLeave"
+            <n-collapse-transition
+              appear
+              :show="openDesktopGroup !== null"
+              class="w-auto!"
             >
               <div
                 class="overflow-hidden rounded-xl border border-black/6 bg-white ring-1 ring-black/5 shadow-lg dark:border-white/2 dark:bg-slate-900 dark:ring-white/5"
               >
                 <div class="min-w-50 p-1.5">
                   <button
-                    v-for="item in openDesktopMenuGroup.items"
+                    v-for="item in openDesktopMenuGroup?.items ?? []"
                     :key="item.key"
                     type="button"
                     class="group flex w-full cursor-pointer items-center gap-3 rounded-lg px-3 py-3 text-left text-sm whitespace-nowrap hover:bg-slate-100 dark:hover:bg-slate-800/80"
@@ -119,8 +121,8 @@
                   </button>
                 </div>
               </div>
-            </div>
-          </Transition>
+            </n-collapse-transition>
+          </div>
         </div>
 
         <div class="ml-auto flex items-center gap-3">
@@ -709,7 +711,6 @@
 
   const resetDesktopMenu = () => {
     openDesktopGroup.value = null
-    desktopMenuCenter.value = null
   }
 
   const closeAllMenus = () => {
@@ -730,13 +731,8 @@
   }
 
   const openDesktopMenu = (groupKey: string, event: MouseEvent) => {
-    const trigger = event.currentTarget as HTMLElement | null
-
-    if (trigger) {
-      desktopMenuCenter.value = trigger.offsetLeft + trigger.offsetWidth / 2
-    } else {
-      desktopMenuCenter.value = null
-    }
+    const trigger = event.currentTarget as HTMLElement
+    desktopMenuCenter.value = trigger.offsetLeft + trigger.offsetWidth / 2
 
     openDesktopGroup.value = groupKey
   }

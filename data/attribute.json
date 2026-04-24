@@ -592,11 +592,6 @@
   {
     "field": "ornament",
     "itemType": null,
-    "value": "beads"
-  },
-  {
-    "field": "ornament",
-    "itemType": null,
     "value": "bell"
   },
   {
@@ -698,11 +693,6 @@
     "field": "ornament",
     "itemType": null,
     "value": "feather"
-  },
-  {
-    "field": "ornament",
-    "itemType": null,
-    "value": "feathers"
   },
   {
     "field": "ornament",
@@ -862,11 +852,6 @@
   {
     "field": "ornament",
     "itemType": null,
-    "value": "pearls"
-  },
-  {
-    "field": "ornament",
-    "itemType": null,
     "value": "pendant"
   },
   {
@@ -893,11 +878,6 @@
     "field": "ornament",
     "itemType": null,
     "value": "pom_pom"
-  },
-  {
-    "field": "ornament",
-    "itemType": null,
-    "value": "pompom"
   },
   {
     "field": "ornament",
@@ -963,11 +943,6 @@
     "field": "ornament",
     "itemType": null,
     "value": "stud"
-  },
-  {
-    "field": "ornament",
-    "itemType": null,
-    "value": "studs"
   },
   {
     "field": "ornament",

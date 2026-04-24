@@ -146,7 +146,7 @@
       "bell": "방울",
       "bird": "새",
       "bolo_tie": "볼로 타이",
-      "bow": "리본",
+      "bow": "리본 매듭",
       "bracelet": "팔찌",
       "brooch": "브로치",
       "buckle": "버클",
@@ -354,7 +354,7 @@
     "structure": {
       "asymmetric": "비대칭",
       "boned": "본드",
-      "braided": "브레이디드/엮은",
+      "braided": "땋은",
       "cable_knit": "케이블 니트",
       "chain": "체인",
       "chain_link": "체인 링크",
@@ -472,7 +472,7 @@
         "earring": "귀걸이"
       },
       "faceDecorations": {
-        "blindfold": "안대",
+        "blindfold": "눈가리개",
         "eyepatch": "안대",
         "eyewear": "안경",
         "face_jewelry": "페이스 주얼리",
@@ -487,7 +487,7 @@
       },
       "hair": {
         "braid": "땋은 머리",
-        "bun": "번/당나귀 머리",
+        "bun": "번 헤어",
         "half_up": "반묶음",
         "loose": "푼 머리",
         "ponytail": "포니테일",
@@ -666,7 +666,7 @@
       },
       "faceDecorations": {
         "bandage": "붕대",
-        "decorative_blindfold": "장식용 안대",
+        "decorative_blindfold": "장식용 눈가리개",
         "decorative_eyepatch": "장식용 안대",
         "eye_mask": "수면 안대",
         "glasses": "안경",
@@ -689,9 +689,9 @@
         "drill_twin_tails": "드릴 트윈테일",
         "flying_immortal_bun": "비천계",
         "half_up_braid": "반묶음 땋은 머리",
-        "half_up_bun": "반묶음 당나귀 머리",
+        "half_up_bun": "반묶음 번",
         "half_up_ponytail": "반묶음 포니테일",
-        "high_bun": "높은 당나귀 머리",
+        "high_bun": "하이 번",
         "high_ponytail": "높은 포니테일",
         "high_twin_tails": "높은 트윈테일",
         "low_ponytail": "낮은 포니테일",
@@ -701,11 +701,11 @@
         "side_ponytail": "사이드 포니테일",
         "side_twin_tails": "사이드 트윈테일",
         "space_buns": "스페이스 번",
-        "top_knot": "당나귀 머리",
+        "top_knot": "탑노트",
         "twin_braids": "양갈래 땋은 머리"
       },
       "hairAccessories": {
-        "bow": "리본",
+        "bow": "리본 매듭",
         "flower": "꽃",
         "hairclip": "헤어클립",
         "hairpin": "헤어핀",

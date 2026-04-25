@@ -77,6 +77,10 @@ export default defineNuxtConfig({
       fallbackLocale: defaultLocale,
       redirectOn: 'root',
     },
+    experimental: {
+      httpCacheDuration: 86400,
+      compactRoutes: true,
+    },
   },
 
   site: {

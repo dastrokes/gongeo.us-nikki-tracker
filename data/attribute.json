@@ -312,6 +312,16 @@
   {
     "field": "material",
     "itemType": null,
+    "value": "bead"
+  },
+  {
+    "field": "material",
+    "itemType": null,
+    "value": "bone"
+  },
+  {
+    "field": "material",
+    "itemType": null,
     "value": "canvas"
   },
   {
@@ -327,7 +337,17 @@
   {
     "field": "material",
     "itemType": null,
+    "value": "cord"
+  },
+  {
+    "field": "material",
+    "itemType": null,
     "value": "corduroy"
+  },
+  {
+    "field": "material",
+    "itemType": null,
+    "value": "cork"
   },
   {
     "field": "material",
@@ -373,6 +393,16 @@
     "field": "material",
     "itemType": null,
     "value": "glass"
+  },
+  {
+    "field": "material",
+    "itemType": null,
+    "value": "glitter"
+  },
+  {
+    "field": "material",
+    "itemType": null,
+    "value": "gold"
   },
   {
     "field": "material",
@@ -458,6 +488,16 @@
     "field": "material",
     "itemType": null,
     "value": "sheer"
+  },
+  {
+    "field": "material",
+    "itemType": null,
+    "value": "silk"
+  },
+  {
+    "field": "material",
+    "itemType": null,
+    "value": "stone"
   },
   {
     "field": "material",
@@ -617,6 +657,16 @@
   {
     "field": "ornament",
     "itemType": null,
+    "value": "braid"
+  },
+  {
+    "field": "ornament",
+    "itemType": null,
+    "value": "branch"
+  },
+  {
+    "field": "ornament",
+    "itemType": null,
     "value": "brooch"
   },
   {
@@ -633,6 +683,11 @@
     "field": "ornament",
     "itemType": null,
     "value": "button"
+  },
+  {
+    "field": "ornament",
+    "itemType": null,
+    "value": "cage"
   },
   {
     "field": "ornament",
@@ -662,6 +717,11 @@
   {
     "field": "ornament",
     "itemType": null,
+    "value": "clock"
+  },
+  {
+    "field": "ornament",
+    "itemType": null,
     "value": "cloud"
   },
   {
@@ -673,6 +733,21 @@
     "field": "ornament",
     "itemType": null,
     "value": "compass"
+  },
+  {
+    "field": "ornament",
+    "itemType": null,
+    "value": "crystal"
+  },
+  {
+    "field": "ornament",
+    "itemType": null,
+    "value": "cube"
+  },
+  {
+    "field": "ornament",
+    "itemType": null,
+    "value": "dangle"
   },
   {
     "field": "ornament",
@@ -718,6 +793,11 @@
     "field": "ornament",
     "itemType": null,
     "value": "flower"
+  },
+  {
+    "field": "ornament",
+    "itemType": null,
+    "value": "frame"
   },
   {
     "field": "ornament",
@@ -793,6 +873,11 @@
     "field": "ornament",
     "itemType": null,
     "value": "lace_up"
+  },
+  {
+    "field": "ornament",
+    "itemType": null,
+    "value": "lantern"
   },
   {
     "field": "ornament",
@@ -917,6 +1002,11 @@
   {
     "field": "ornament",
     "itemType": null,
+    "value": "sash"
+  },
+  {
+    "field": "ornament",
+    "itemType": null,
     "value": "sequin"
   },
   {
@@ -933,6 +1023,11 @@
     "field": "ornament",
     "itemType": null,
     "value": "star"
+  },
+  {
+    "field": "ornament",
+    "itemType": null,
+    "value": "stitching"
   },
   {
     "field": "ornament",
@@ -1087,6 +1182,11 @@
   {
     "field": "pattern",
     "itemType": null,
+    "value": "crocodile_skin"
+  },
+  {
+    "field": "pattern",
+    "itemType": null,
     "value": "cross"
   },
   {
@@ -1138,6 +1238,11 @@
     "field": "pattern",
     "itemType": null,
     "value": "fruit"
+  },
+  {
+    "field": "pattern",
+    "itemType": null,
+    "value": "galaxy"
   },
   {
     "field": "pattern",
@@ -1272,6 +1377,11 @@
   {
     "field": "pattern",
     "itemType": null,
+    "value": "skeleton"
+  },
+  {
+    "field": "pattern",
+    "itemType": null,
     "value": "snowflake"
   },
   {
@@ -1323,6 +1433,16 @@
     "field": "pattern",
     "itemType": null,
     "value": "tiger_stripe"
+  },
+  {
+    "field": "pattern",
+    "itemType": null,
+    "value": "tortoiseshell"
+  },
+  {
+    "field": "pattern",
+    "itemType": null,
+    "value": "tribal"
   },
   {
     "field": "pattern",
@@ -1552,7 +1672,17 @@
   {
     "field": "structure",
     "itemType": null,
+    "value": "branch"
+  },
+  {
+    "field": "structure",
+    "itemType": null,
     "value": "cable_knit"
+  },
+  {
+    "field": "structure",
+    "itemType": null,
+    "value": "carved"
   },
   {
     "field": "structure",
@@ -1578,6 +1708,11 @@
     "field": "structure",
     "itemType": null,
     "value": "creased"
+  },
+  {
+    "field": "structure",
+    "itemType": null,
+    "value": "crescent"
   },
   {
     "field": "structure",
@@ -1612,7 +1747,27 @@
   {
     "field": "structure",
     "itemType": null,
+    "value": "filigree"
+  },
+  {
+    "field": "structure",
+    "itemType": null,
+    "value": "flap"
+  },
+  {
+    "field": "structure",
+    "itemType": null,
     "value": "floating"
+  },
+  {
+    "field": "structure",
+    "itemType": null,
+    "value": "floral"
+  },
+  {
+    "field": "structure",
+    "itemType": null,
+    "value": "fluffy"
   },
   {
     "field": "structure",
@@ -1633,6 +1788,11 @@
     "field": "structure",
     "itemType": null,
     "value": "gathered"
+  },
+  {
+    "field": "structure",
+    "itemType": null,
+    "value": "gauntlet"
   },
   {
     "field": "structure",
@@ -1662,7 +1822,27 @@
   {
     "field": "structure",
     "itemType": null,
+    "value": "lace_trim"
+  },
+  {
+    "field": "structure",
+    "itemType": null,
+    "value": "lace_up"
+  },
+  {
+    "field": "structure",
+    "itemType": null,
     "value": "layered"
+  },
+  {
+    "field": "structure",
+    "itemType": null,
+    "value": "leaf"
+  },
+  {
+    "field": "structure",
+    "itemType": null,
+    "value": "liquid"
   },
   {
     "field": "structure",
@@ -1687,6 +1867,11 @@
   {
     "field": "structure",
     "itemType": null,
+    "value": "pinecone"
+  },
+  {
+    "field": "structure",
+    "itemType": null,
     "value": "platform"
   },
   {
@@ -1707,6 +1892,11 @@
   {
     "field": "structure",
     "itemType": null,
+    "value": "ribbon"
+  },
+  {
+    "field": "structure",
+    "itemType": null,
     "value": "ruched"
   },
   {
@@ -1722,6 +1912,21 @@
   {
     "field": "structure",
     "itemType": null,
+    "value": "sculpted"
+  },
+  {
+    "field": "structure",
+    "itemType": null,
+    "value": "skeletal"
+  },
+  {
+    "field": "structure",
+    "itemType": null,
+    "value": "slingback"
+  },
+  {
+    "field": "structure",
+    "itemType": null,
     "value": "slit"
   },
   {
@@ -1733,6 +1938,21 @@
     "field": "structure",
     "itemType": null,
     "value": "stitched"
+  },
+  {
+    "field": "structure",
+    "itemType": null,
+    "value": "strap"
+  },
+  {
+    "field": "structure",
+    "itemType": null,
+    "value": "structured"
+  },
+  {
+    "field": "structure",
+    "itemType": null,
+    "value": "t_strap"
   },
   {
     "field": "structure",
@@ -1757,12 +1977,22 @@
   {
     "field": "structure",
     "itemType": null,
+    "value": "visor"
+  },
+  {
+    "field": "structure",
+    "itemType": null,
     "value": "wing"
   },
   {
     "field": "structure",
     "itemType": null,
     "value": "woven"
+  },
+  {
+    "field": "structure",
+    "itemType": null,
+    "value": "wrapped"
   },
   {
     "field": "texture",
@@ -2592,7 +2822,17 @@
   {
     "field": "subcategory",
     "itemType": "chokers",
+    "value": "fur_choker"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "chokers",
     "value": "lace_choker"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "chokers",
+    "value": "pendant_choker"
   },
   {
     "field": "subcategory",
@@ -2942,6 +3182,11 @@
   {
     "field": "subcategory",
     "itemType": "handhelds",
+    "value": "banner"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "handhelds",
     "value": "bat"
   },
   {
@@ -2977,6 +3222,16 @@
   {
     "field": "subcategory",
     "itemType": "handhelds",
+    "value": "flower"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "handhelds",
+    "value": "flute"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "handhelds",
     "value": "hammer"
   },
   {
@@ -2993,6 +3248,11 @@
     "field": "subcategory",
     "itemType": "handhelds",
     "value": "net"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "handhelds",
+    "value": "pipa"
   },
   {
     "field": "subcategory",
@@ -3027,6 +3287,11 @@
   {
     "field": "subcategory",
     "itemType": "handhelds",
+    "value": "violin"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "handhelds",
     "value": "watering_can"
   },
   {
@@ -3048,6 +3313,11 @@
     "field": "subcategory",
     "itemType": "headwear",
     "value": "hairpin"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "headwear",
+    "value": "head_chain"
   },
   {
     "field": "subcategory",
@@ -3083,6 +3353,11 @@
     "field": "subcategory",
     "itemType": "headwear",
     "value": "top_hat"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "headwear",
+    "value": "visor"
   },
   {
     "field": "subcategory",
@@ -3383,6 +3658,11 @@
     "field": "subcategory",
     "itemType": "socks",
     "value": "ruffled_socks"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "socks",
+    "value": "strappy_socks"
   },
   {
     "field": "subcategory",

@@ -56,10 +56,12 @@
     },
     "chokers": {
       "charm": "pendant",
+      "fur_choker": "choker",
       "lace_choker": "choker",
       "lariat_necklace": "necklace",
       "locket": "pendant",
       "medallion": "pendant",
+      "pendant_choker": "choker",
       "pendant_necklace": "necklace",
       "ribbon_choker": "choker",
       "strand_necklace": "necklace",
@@ -158,6 +160,7 @@
     "handhelds": {
       "axe": "weapon",
       "back_scratcher": "tool",
+      "banner": "handheld",
       "bat": "weapon",
       "bow": "weapon",
       "brush": "tool",
@@ -165,16 +168,20 @@
       "clipboard": "tool",
       "crossbow": "weapon",
       "fishing_rod": "tool",
+      "flower": "handheld",
+      "flute": "instrument",
       "hammer": "tool",
       "hoe": "tool",
       "musket": "weapon",
       "net": "tool",
+      "pipa": "instrument",
       "purse": "handbag",
       "rattle_drum": "instrument",
       "scissors": "tool",
       "spellbook": "book",
       "suitcase": "handbag",
       "sword": "weapon",
+      "violin": "instrument",
       "watering_can": "tool"
     },
     "headwear": {
@@ -182,6 +189,7 @@
       "bandana": "hair_ornament",
       "coronet": "crown",
       "hairpin": "hair_ornament",
+      "head_chain": "headpiece",
       "headband": "hair_ornament",
       "headscarf": "headpiece",
       "mask": "headpiece",
@@ -189,6 +197,7 @@
       "sunglasses": "eyewear",
       "tiara": "crown",
       "top_hat": "hat",
+      "visor": "hat",
       "wide_brim_hat": "hat",
       "witch_hat": "hat",
       "wreath": "hair_ornament"
@@ -270,7 +279,8 @@
       "lace_stockings": "stockings",
       "pantyhose": "tights",
       "printed_tights": "tights",
-      "ruffled_socks": "socks"
+      "ruffled_socks": "socks",
+      "strappy_socks": "socks"
     },
     "tops": {
       "bandeau_top": "tube_top",

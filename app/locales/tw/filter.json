@@ -260,7 +260,7 @@
       "butterfly": "蝴蝶",
       "cable_knit": "麻花編織",
       "camouflage": "迷彩",
-      "celestial": "星空",
+      "celestial": "天體",
       "checkered": "棋盤格",
       "chevron": "V型紋",
       "cloud": "雲",
@@ -287,7 +287,7 @@
       "honeycomb": "蜂巢",
       "houndstooth": "千鳥格",
       "landscape": "風景",
-      "lattice": "格子",
+      "lattice": "格柵紋",
       "leaf": "樹葉",
       "leaf_vein": "葉脈",
       "leopard": "豹紋",
@@ -298,7 +298,7 @@
       "origami_crane": "千紙鶴",
       "paisley": "佩斯利",
       "paw_print": "爪印",
-      "plaid": "格紋",
+      "plaid": "蘇格蘭格",
       "polka_dot": "波點",
       "print": "印花",
       "puzzle_piece": "拼圖",
@@ -327,7 +327,7 @@
       "over_knee": "過膝"
     },
     "shoulder_style": {
-      "cold_shoulder": "露肩",
+      "cold_shoulder": "挖肩",
       "halter": "掛脖",
       "off_shoulder": "露肩",
       "one_shoulder": "單肩",
@@ -352,7 +352,7 @@
       "three_quarter": "七分袖"
     },
     "sleeve_style": {
-      "bell_sleeve": "喇叭袖",
+      "bell_sleeve": "鐘形袖",
       "bishop_sleeve": "燈籠袖",
       "cap_sleeve": "蓋袖",
       "daxiu_sleeve": "大袖",
@@ -362,7 +362,7 @@
       "raglan_sleeve": "插肩袖",
       "shuixiu_sleeve": "水袖",
       "slit_sleeve": "開叉袖",
-      "split_sleeve": "開叉袖"
+      "split_sleeve": "分衩袖"
     },
     "sock_height": {
       "ankle": "及踝/短筒",
@@ -378,7 +378,7 @@
     "structure": {
       "asymmetric": "不對稱",
       "boned": "撐骨",
-      "braided": "編織",
+      "braided": "辮狀編織",
       "branch": "枝狀",
       "cable_knit": "麻花編織",
       "carved": "雕刻",
@@ -424,7 +424,7 @@
       "quilted": "絎縫",
       "ribbed": "羅纹",
       "ribbon": "緞帶狀",
-      "ruched": "抽褶",
+      "ruched": "抓皺",
       "ruffled": "荷葉邊",
       "scalloped": "扇形边",
       "sculpted": "雕塑感",
@@ -437,12 +437,12 @@
       "structured": "挺括",
       "t_strap": "T字帶",
       "textured": "材質感",
-      "tiered": "分層",
+      "tiered": "層疊",
       "twisted": "扭結",
       "vest": "馬甲",
       "visor": "帽簷",
       "wing": "翅膀",
-      "woven": "編織",
+      "woven": "織造",
       "wrapped": "纏繞"
     },
     "texture": {
@@ -663,7 +663,7 @@
         "ma_mian_skirt": "馬面裙",
         "overall_shorts": "吊带短裤",
         "palazzo_pants": "闊腿長褲",
-        "ruffle_shorts": "荷葉边短裤",
+        "ruffle_shorts": "荷葉邊短褲",
         "sarong": "围裙",
         "tailored_shorts": "西装短裤",
         "wrap_skirt": "裹身裙"
@@ -721,7 +721,7 @@
         "goggles": "護目鏡",
         "half_mask": "半截面具",
         "lower_face_mask": "下半臉面具",
-        "medical_eyepatch": "醫療眼罩",
+        "medical_eyepatch": "醫療單眼罩",
         "monocle": "單片眼鏡",
         "ornamental_mask": "裝飾面具",
         "sunglasses": "太陽鏡"
@@ -737,7 +737,7 @@
         "drill_twin_tails": "螺旋雙馬尾",
         "flying_immortal_bun": "飞天髻",
         "half_up_braid": "半紮髮髮辮",
-        "half_up_bun": "半紮髮髮髻",
+        "half_up_bun": "半紮髮髻",
         "half_up_ponytail": "半紮髮马尾",
         "high_bun": "高髮髻",
         "high_ponytail": "高马尾",
@@ -749,7 +749,7 @@
         "side_ponytail": "側马尾",
         "side_twin_tails": "側雙马尾",
         "space_buns": "哪吒頭",
-        "top_knot": "髮髻",
+        "top_knot": "頂髻",
         "twin_braids": "雙髮辮"
       },
       "hairAccessories": {
@@ -790,7 +790,7 @@
       },
       "headwear": {
         "aviator_hat": "飛行員帽",
-        "bandana": "頭巾",
+        "bandana": "方巾",
         "coronet": "小冠",
         "hairpin": "髮簪",
         "head_chain": "額鏈",
@@ -832,7 +832,7 @@
         "long_cardigan": "長款開衫",
         "military_jacket": "軍装風夹克",
         "pifeng": "披风",
-        "poncho": "斗篷",
+        "poncho": "披肩斗篷",
         "shirt_jacket": "衬衫式夹克",
         "shrug": "小坎肩",
         "stole": "披肩",

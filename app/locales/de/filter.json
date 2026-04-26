@@ -174,7 +174,7 @@
       "compass": "Kompass",
       "crystal": "Kristall",
       "cube": "Würfel",
-      "dangle": "Hängeelement",
+      "dangle": "Hängeornament",
       "emblem": "Emblem",
       "embroidery": "Stickerei",
       "engraving": "Gravur",
@@ -317,7 +317,7 @@
       "tie_dye": "Tie-Dye",
       "tiger_stripe": "Tigerstreifen",
       "tortoiseshell": "Schildpatt",
-      "tribal": "Tribal",
+      "tribal": "Stammesmuster",
       "zigzag": "Zickzack"
     },
     "shaft_height": {
@@ -433,9 +433,9 @@
       "slit": "Schlitz",
       "spiral": "Spirale",
       "stitched": "Genäht",
-      "strap": "Band",
+      "strap": "Riemen",
       "structured": "Strukturiert",
-      "t_strap": "T-Steg",
+      "t_strap": "T-Riemen",
       "textured": "Texturiert",
       "tiered": "Gestuft",
       "twisted": "Verdreht",
@@ -678,9 +678,9 @@
         "pin": "Anstecknadel"
       },
       "chokers": {
-        "fur_choker": "Pelzchoker",
+        "fur_choker": "Pelz",
         "lace_choker": "Spitze",
-        "pendant_choker": "Anhänger-Choker",
+        "pendant_choker": "Anhänger",
         "ribbon_choker": "Band",
         "strand_necklace": "Strangkette"
       },

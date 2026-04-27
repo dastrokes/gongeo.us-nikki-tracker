@@ -1060,7 +1060,6 @@
       title: t('import.supported_browsers'),
       icon: () =>
         h(NIcon, { size: 20 }, { default: () => h(ExclamationCircle) }),
-      contentClass: 'max-h-16',
       content: () =>
         h('div', { class: 'max-w-xs p-1' }, [
           h(
@@ -1568,7 +1567,6 @@
     dialog.create({
       title: t('import.actions.copy_code'),
       icon: () => h(NIcon, { size: 20 }, { default: () => h(Copy) }),
-      contentClass: 'max-h-16',
       content: () =>
         h('div', [
           h(NCode, {

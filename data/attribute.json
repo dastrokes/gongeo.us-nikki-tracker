@@ -442,11 +442,6 @@
   {
     "field": "material",
     "itemType": null,
-    "value": "metallic"
-  },
-  {
-    "field": "material",
-    "itemType": null,
     "value": "pearl"
   },
   {
@@ -623,11 +618,6 @@
     "field": "ornament",
     "itemType": null,
     "value": "bead"
-  },
-  {
-    "field": "ornament",
-    "itemType": null,
-    "value": "beading"
   },
   {
     "field": "ornament",
@@ -898,11 +888,6 @@
     "field": "ornament",
     "itemType": null,
     "value": "medallion"
-  },
-  {
-    "field": "ornament",
-    "itemType": null,
-    "value": "metal_filigree"
   },
   {
     "field": "ornament",
@@ -1242,11 +1227,6 @@
   {
     "field": "pattern",
     "itemType": null,
-    "value": "galaxy"
-  },
-  {
-    "field": "pattern",
-    "itemType": null,
     "value": "geometric"
   },
   {
@@ -1318,11 +1298,6 @@
     "field": "pattern",
     "itemType": null,
     "value": "moon"
-  },
-  {
-    "field": "pattern",
-    "itemType": null,
-    "value": "musical_notation"
   },
   {
     "field": "pattern",
@@ -1403,11 +1378,6 @@
     "field": "pattern",
     "itemType": null,
     "value": "star"
-  },
-  {
-    "field": "pattern",
-    "itemType": null,
-    "value": "starry"
   },
   {
     "field": "pattern",
@@ -1688,11 +1658,6 @@
     "field": "structure",
     "itemType": null,
     "value": "chain"
-  },
-  {
-    "field": "structure",
-    "itemType": null,
-    "value": "chain_link"
   },
   {
     "field": "structure",

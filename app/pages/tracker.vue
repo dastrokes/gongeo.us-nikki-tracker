@@ -4,7 +4,7 @@
     <template v-if="loading">
       <!-- Stats Header Skeleton -->
       <n-card
-        content-class="p-2 sm:p-4"
+        content-class="px-2 sm:px-4"
         size="small"
         class="rounded-xl"
       >
@@ -53,7 +53,7 @@
           :key="i"
           size="small"
           class="rounded-xl"
-          content-class="p-2 sm:p-4"
+          content-class="px-2 sm:px-4"
         >
           <div class="space-y-2">
             <!-- Banner Header Skeleton -->
@@ -154,18 +154,32 @@
             :key="banner.bannerId"
           >
             <n-card
-              content-class="p-2 sm:p-4"
+              content-class="px-2 sm:px-4"
               size="small"
-              class="rounded-xl min-h-[120px] sm:min-h-[160px] opacity-40"
+              class="relative rounded-xl min-h-[120px] sm:min-h-[160px] opacity-40"
             >
+              <div
+                class="absolute right-2 sm:right-4 top-2 z-10 flex min-h-8 items-center gap-2"
+              >
+                <DiceAnimation
+                  :percentile="
+                    banner.bannerType === 3
+                      ? getBannerAvg4StarType3Percentile(
+                          banner.stats.avg4StarOnlyPulls
+                        )
+                      : getBannerAvg5StarPercentile(banner.stats.avg5StarPulls)
+                  "
+                />
+              </div>
+
               <!-- Banner Header -->
               <div
-                class="w-full flex flex-col sm:flex-row sm:items-center gap-2"
+                class="w-full pr-16 sm:pr-20 lg:pr-56 flex flex-col sm:flex-row sm:items-center gap-2"
               >
                 <NuxtLinkLocale
                   no-prefetch
                   :to="`/banners/${banner.bannerId}`"
-                  class="inline w-fit hover:opacity-95 transition-opacity"
+                  class="inline-flex min-h-8 items-center hover:opacity-95 transition-opacity"
                 >
                   <n-gradient-text
                     :size="18"
@@ -177,7 +191,7 @@
                 </NuxtLinkLocale>
 
                 <div
-                  class="flex flex-wrap gap-2 w-full sm:w-[calc(100%-500px)]"
+                  class="flex flex-wrap gap-2 w-full sm:w-[calc(100%-200px)]"
                 >
                   <template
                     v-for="outfit in banner.outfits"
@@ -213,50 +227,32 @@
 
               <!-- Sample Stats -->
               <div
-                class="mt-1 flex flex-row justify-between gap-2 sm:absolute sm:right-2 sm:top-2 sm:mt-0 sm:justify-start"
+                class="mt-1 pr-16 sm:pr-20 flex min-w-0 flex-wrap gap-x-2 gap-y-1 items-baseline text-md text-gray-400 lg:absolute lg:top-2 lg:right-14 lg:mt-0 lg:pr-0 lg:flex-nowrap"
               >
-                <div
-                  class="flex justify-between gap-2 items-baseline text-md text-gray-400"
-                >
-                  <div class="whitespace-nowrap">
-                    <span>{{ t('common.stats.total_pulls') }}:</span>
-                    <span
-                      class="ml-1 text-lg font-medium text-gray-600 dark:text-gray-200"
-                      >{{ banner.stats.totalPulls }}</span
-                    >
-                  </div>
-                  <div
-                    v-if="banner.bannerType === 1 || banner.bannerType === 2"
-                    class="whitespace-nowrap"
+                <div class="whitespace-nowrap">
+                  <span>{{ t('common.stats.total_pulls') }}:</span>
+                  <span
+                    class="ml-1 text-lg font-medium text-gray-600 dark:text-gray-200"
+                    >{{ banner.stats.totalPulls }}</span
                   >
-                    <span>{{ t('tracker.banner.stats.avg_5star') }}:</span>
-                    <span class="text-amber-500 ml-1 text-lg font-medium">{{
-                      banner.stats.avg5StarPulls.toFixed(2)
-                    }}</span>
-                  </div>
-                  <div
-                    v-if="banner.bannerType === 3"
-                    class="whitespace-nowrap"
-                  >
-                    <span>{{ t('tracker.banner.stats.avg_4star') }}:</span>
-                    <span class="text-blue-500 ml-1 text-lg font-medium">{{
-                      banner.stats.avg4StarOnlyPulls.toFixed(2)
-                    }}</span>
-                  </div>
                 </div>
-
-                <div class="flex flex-row gap-2 p-1">
-                  <DiceAnimation
-                    :percentile="
-                      banner.bannerType === 3
-                        ? getBannerAvg4StarType3Percentile(
-                            banner.stats.avg4StarOnlyPulls
-                          )
-                        : getBannerAvg5StarPercentile(
-                            banner.stats.avg5StarPulls
-                          )
-                    "
-                  />
+                <div
+                  v-if="banner.bannerType === 1 || banner.bannerType === 2"
+                  class="whitespace-nowrap"
+                >
+                  <span>{{ t('tracker.banner.stats.avg_5star') }}:</span>
+                  <span class="text-amber-500 ml-1 text-lg font-medium">{{
+                    banner.stats.avg5StarPulls.toFixed(2)
+                  }}</span>
+                </div>
+                <div
+                  v-if="banner.bannerType === 3"
+                  class="whitespace-nowrap"
+                >
+                  <span>{{ t('tracker.banner.stats.avg_4star') }}:</span>
+                  <span class="text-blue-500 ml-1 text-lg font-medium">{{
+                    banner.stats.avg4StarOnlyPulls.toFixed(2)
+                  }}</span>
                 </div>
               </div>
 
@@ -281,7 +277,7 @@
       >
         <!-- Stats Header -->
         <n-card
-          content-class="p-2 sm:p-4"
+          content-class="px-2 sm:px-4"
           size="small"
           class="rounded-xl"
         >
@@ -684,20 +680,20 @@
             :key="banner.bannerId"
           >
             <n-card
-              content-class="p-2 sm:p-4"
+              content-class="px-2 sm:px-4"
               size="small"
-              class="rounded-xl min-h-[120px] sm:min-h-[160px]"
+              class="relative rounded-xl min-h-[120px] sm:min-h-[160px]"
             >
               <!-- Banner Header -->
 
               <div
-                class="w-full flex flex-col sm:flex-row sm:items-center gap-2"
+                class="w-full pr-28 sm:pr-32 lg:pr-80 flex flex-col sm:flex-row sm:items-center gap-2"
               >
                 <div class="flex items-center gap-2">
                   <NuxtLinkLocale
                     no-prefetch
                     :to="`/banners/${banner.bannerId}`"
-                    class="inline w-fit hover:opacity-95 transition-opacity"
+                    class="inline-flex min-h-8 items-center hover:opacity-95 transition-opacity"
                   >
                     <n-gradient-text
                       :size="18"
@@ -710,7 +706,7 @@
                 </div>
 
                 <div
-                  class="flex flex-wrap gap-2 w-full sm:w-[calc(100%-500px)]"
+                  class="flex flex-wrap gap-2 w-full sm:w-[calc(100%-200px)]"
                 >
                   <template
                     v-for="outfit in banner.outfits"
@@ -743,212 +739,204 @@
               </div>
 
               <div
-                :class="
-                  exporting
-                    ? 'mt-1 flex flex-row justify-between gap-2 sm:absolute sm:right-2 sm:top-2 sm:mt-0 sm:justify-start'
-                    : 'absolute right-2 top-2 flex flex-row gap-2'
-                "
+                class="mt-1 pr-28 sm:pr-32 flex min-w-0 flex-wrap gap-x-2 gap-y-1 items-baseline text-md text-gray-400 lg:absolute lg:top-2 lg:right-28 lg:mt-0 lg:pr-0 lg:flex-nowrap"
               >
-                <div
-                  class="flex justify-between gap-2 items-baseline text-md text-gray-400"
-                >
-                  <div class="whitespace-nowrap">
-                    <span>{{ t('common.stats.total_pulls') }}:</span>
-                    <span
-                      class="ml-1 text-lg font-medium text-gray-600 dark:text-gray-200"
-                      >{{ banner.stats.totalPulls }}</span
-                    >
-                  </div>
-                  <div
-                    v-if="banner.bannerType === 1 || banner.bannerType === 2"
-                    class="whitespace-nowrap"
+                <div class="whitespace-nowrap">
+                  <span>{{ t('common.stats.total_pulls') }}:</span>
+                  <span
+                    class="ml-1 text-lg font-medium text-gray-600 dark:text-gray-200"
+                    >{{ banner.stats.totalPulls }}</span
                   >
-                    <span>{{ t('tracker.banner.stats.avg_5star') }}:</span>
-                    <span class="text-amber-500 ml-1 text-lg font-medium">{{
-                      banner.stats.avg5StarPulls.toFixed(2)
-                    }}</span>
-                  </div>
-                  <div
-                    v-if="banner.bannerType === 3"
-                    class="whitespace-nowrap"
-                  >
-                    <span>{{ t('tracker.banner.stats.avg_4star') }}:</span>
-                    <span class="text-blue-500 ml-1 text-lg font-medium">{{
-                      banner.stats.avg4StarOnlyPulls.toFixed(2)
-                    }}</span>
-                  </div>
                 </div>
+                <div
+                  v-if="banner.bannerType === 1 || banner.bannerType === 2"
+                  class="whitespace-nowrap"
+                >
+                  <span>{{ t('tracker.banner.stats.avg_5star') }}:</span>
+                  <span class="text-amber-500 ml-1 text-lg font-medium">{{
+                    banner.stats.avg5StarPulls.toFixed(2)
+                  }}</span>
+                </div>
+                <div
+                  v-if="banner.bannerType === 3"
+                  class="whitespace-nowrap"
+                >
+                  <span>{{ t('tracker.banner.stats.avg_4star') }}:</span>
+                  <span class="text-blue-500 ml-1 text-lg font-medium">{{
+                    banner.stats.avg4StarOnlyPulls.toFixed(2)
+                  }}</span>
+                </div>
+              </div>
 
-                <div class="flex flex-row gap-2 p-1">
-                  <DiceAnimation
-                    v-if="banner.stats.totalPulls > 0"
-                    :percentile="
-                      banner.bannerType === 3
-                        ? getBannerAvg4StarType3Percentile(
-                            banner.stats.avg4StarOnlyPulls
-                          )
-                        : getBannerAvg5StarPercentile(
-                            banner.stats.avg5StarPulls
-                          )
-                    "
-                  />
+              <div
+                class="absolute right-2 sm:right-4 top-2 z-10 flex min-h-8 items-center gap-2"
+              >
+                <DiceAnimation
+                  v-if="banner.stats.totalPulls > 0"
+                  :percentile="
+                    banner.bannerType === 3
+                      ? getBannerAvg4StarType3Percentile(
+                          banner.stats.avg4StarOnlyPulls
+                        )
+                      : getBannerAvg5StarPercentile(banner.stats.avg5StarPulls)
+                  "
+                />
 
-                  <!-- Stats Button -->
-                  <n-popover
-                    v-if="banner.stats.totalPulls > 0"
-                    trigger="manual"
-                    :show="openStatsBannerId === banner.bannerId"
-                  >
-                    <template #trigger>
-                      <n-button
-                        v-show="!exporting"
-                        size="small"
-                        text
-                        circle
-                        class="text-gray-500"
-                        @click="toggleStatsPopover(banner.bannerId)"
+                <!-- Stats Button -->
+                <n-popover
+                  v-if="banner.stats.totalPulls > 0"
+                  trigger="manual"
+                  :show="openStatsBannerId === banner.bannerId"
+                  @clickoutside="openStatsBannerId = null"
+                >
+                  <template #trigger>
+                    <n-button
+                      v-show="!exporting"
+                      size="small"
+                      text
+                      circle
+                      class="text-gray-500"
+                      @click="toggleStatsPopover(banner.bannerId)"
+                    >
+                      <template #icon>
+                        <n-icon>
+                          <ChartBarRegular />
+                        </n-icon>
+                      </template>
+                    </n-button>
+                  </template>
+                  <div class="min-w-40">
+                    <div class="space-y-2 px-2 text-base">
+                      <div class="flex justify-between">
+                        <span class="text-sm">
+                          {{ t('common.stats.total_pulls') }}
+                        </span>
+                        <span class="font-medium">{{
+                          banner.stats.totalPulls
+                        }}</span>
+                      </div>
+                      <div
+                        v-if="
+                          banner.bannerType === 1 || banner.bannerType === 2
+                        "
+                        class="flex justify-between"
                       >
-                        <template #icon>
-                          <n-icon>
-                            <ChartBarRegular />
-                          </n-icon>
-                        </template>
-                      </n-button>
-                    </template>
-                    <div class="min-w-40">
-                      <div class="space-y-2 px-2 text-base">
-                        <div class="flex justify-between">
-                          <span class="text-sm">
-                            {{ t('common.stats.total_pulls') }}
-                          </span>
-                          <span class="font-medium">{{
-                            banner.stats.totalPulls
-                          }}</span>
-                        </div>
-                        <div
-                          v-if="
-                            banner.bannerType === 1 || banner.bannerType === 2
-                          "
-                          class="flex justify-between"
-                        >
-                          <span class="text-sm">
-                            {{ t('tracker.banner.stats.total_5star') }}
-                          </span>
-                          <span class="font-medium text-amber-500">{{
-                            banner.stats.total5StarItems
-                          }}</span>
-                        </div>
-                        <div
-                          v-if="
-                            banner.bannerType === 1 || banner.bannerType === 2
-                          "
-                          class="flex justify-between"
-                        >
-                          <span class="text-sm">
-                            {{ t('tracker.banner.stats.avg_5star') }}
-                          </span>
-                          <span class="font-medium text-amber-500">{{
-                            banner.stats.avg5StarPulls.toFixed(2)
-                          }}</span>
-                        </div>
-                        <div
-                          v-if="
-                            (banner.bannerType === 1 ||
-                              banner.bannerType === 2) &&
-                            banner.stats.completion < 2
-                          "
-                          class="flex justify-between"
-                        >
-                          <span class="text-sm">
-                            {{ t('tracker.banner.stats.pity_5star') }}
-                          </span>
-                          <span class="font-medium">{{
-                            banner.stats.pity5Star
-                          }}</span>
-                        </div>
-                        <div
-                          v-if="
-                            banner.bannerType === 1 || banner.bannerType === 2
-                          "
-                          class="flex justify-between"
-                        >
-                          <span class="text-sm">
-                            {{ t('tracker.banner.stats.total_4star') }}
-                          </span>
-                          <span class="font-medium text-blue-500">{{
-                            banner.stats.total4StarItems
-                          }}</span>
-                        </div>
-                        <div
-                          v-if="
-                            banner.bannerType === 1 || banner.bannerType === 2
-                          "
-                          class="flex justify-between"
-                        >
-                          <span class="text-sm">
-                            {{ t('tracker.banner.stats.avg_4star') }}
-                          </span>
-                          <span class="font-medium text-blue-500">{{
-                            banner.stats.avg4StarPulls.toFixed(2)
-                          }}</span>
-                        </div>
-                        <div
-                          v-if="banner.bannerType === 3"
-                          class="flex justify-between"
-                        >
-                          <span class="text-sm">
-                            {{ t('tracker.banner.stats.total_4star') }}
-                          </span>
-                          <span class="font-medium text-blue-500">{{
-                            banner.stats.total4StarOnlyItems
-                          }}</span>
-                        </div>
-                        <div
-                          v-if="banner.bannerType === 3"
-                          class="flex justify-between"
-                        >
-                          <span class="text-sm">
-                            {{ t('tracker.banner.stats.avg_4star') }}
-                          </span>
-                          <span class="font-medium text-blue-500">{{
-                            banner.stats.avg4StarOnlyPulls.toFixed(2)
-                          }}</span>
-                        </div>
-                        <div
-                          v-if="
-                            banner.bannerType === 3 &&
-                            banner.stats.completion < 2
-                          "
-                          class="flex justify-between"
-                        >
-                          <span class="text-sm">
-                            {{ t('tracker.banner.stats.pity_4star') }}
-                          </span>
-                          <span class="font-medium">{{
-                            banner.stats.pity4Star
-                          }}</span>
-                        </div>
+                        <span class="text-sm">
+                          {{ t('tracker.banner.stats.total_5star') }}
+                        </span>
+                        <span class="font-medium text-amber-500">{{
+                          banner.stats.total5StarItems
+                        }}</span>
+                      </div>
+                      <div
+                        v-if="
+                          banner.bannerType === 1 || banner.bannerType === 2
+                        "
+                        class="flex justify-between"
+                      >
+                        <span class="text-sm">
+                          {{ t('tracker.banner.stats.avg_5star') }}
+                        </span>
+                        <span class="font-medium text-amber-500">{{
+                          banner.stats.avg5StarPulls.toFixed(2)
+                        }}</span>
+                      </div>
+                      <div
+                        v-if="
+                          (banner.bannerType === 1 ||
+                            banner.bannerType === 2) &&
+                          banner.stats.completion < 2
+                        "
+                        class="flex justify-between"
+                      >
+                        <span class="text-sm">
+                          {{ t('tracker.banner.stats.pity_5star') }}
+                        </span>
+                        <span class="font-medium">{{
+                          banner.stats.pity5Star
+                        }}</span>
+                      </div>
+                      <div
+                        v-if="
+                          banner.bannerType === 1 || banner.bannerType === 2
+                        "
+                        class="flex justify-between"
+                      >
+                        <span class="text-sm">
+                          {{ t('tracker.banner.stats.total_4star') }}
+                        </span>
+                        <span class="font-medium text-blue-500">{{
+                          banner.stats.total4StarItems
+                        }}</span>
+                      </div>
+                      <div
+                        v-if="
+                          banner.bannerType === 1 || banner.bannerType === 2
+                        "
+                        class="flex justify-between"
+                      >
+                        <span class="text-sm">
+                          {{ t('tracker.banner.stats.avg_4star') }}
+                        </span>
+                        <span class="font-medium text-blue-500">{{
+                          banner.stats.avg4StarPulls.toFixed(2)
+                        }}</span>
+                      </div>
+                      <div
+                        v-if="banner.bannerType === 3"
+                        class="flex justify-between"
+                      >
+                        <span class="text-sm">
+                          {{ t('tracker.banner.stats.total_4star') }}
+                        </span>
+                        <span class="font-medium text-blue-500">{{
+                          banner.stats.total4StarOnlyItems
+                        }}</span>
+                      </div>
+                      <div
+                        v-if="banner.bannerType === 3"
+                        class="flex justify-between"
+                      >
+                        <span class="text-sm">
+                          {{ t('tracker.banner.stats.avg_4star') }}
+                        </span>
+                        <span class="font-medium text-blue-500">{{
+                          banner.stats.avg4StarOnlyPulls.toFixed(2)
+                        }}</span>
+                      </div>
+                      <div
+                        v-if="
+                          banner.bannerType === 3 && banner.stats.completion < 2
+                        "
+                        class="flex justify-between"
+                      >
+                        <span class="text-sm">
+                          {{ t('tracker.banner.stats.pity_4star') }}
+                        </span>
+                        <span class="font-medium">{{
+                          banner.stats.pity4Star
+                        }}</span>
                       </div>
                     </div>
-                  </n-popover>
+                  </div>
+                </n-popover>
 
-                  <n-button
-                    v-if="!exporting"
-                    text
-                    size="small"
-                    class="text-gray-500"
-                    @click="
-                      () => {
-                        selectedBannerId = banner.bannerId
-                        showCollectionEditor = true
-                      }
-                    "
-                  >
-                    <template #icon>
-                      <n-icon><Edit /></n-icon>
-                    </template>
-                  </n-button>
-                </div>
+                <n-button
+                  v-if="!exporting"
+                  text
+                  size="small"
+                  class="text-gray-500"
+                  @click="
+                    () => {
+                      selectedBannerId = banner.bannerId
+                      showCollectionEditor = true
+                    }
+                  "
+                >
+                  <template #icon>
+                    <n-icon><Edit /></n-icon>
+                  </template>
+                </n-button>
               </div>
 
               <!-- Combined Outfits View -->

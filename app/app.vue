@@ -27,7 +27,7 @@
       /\/$/,
       ''
     )
-    return `${siteUrl}/og.png?v=${encodeURIComponent(gameVersion)}`
+    return `${siteUrl}/og.jpg?v=${encodeURIComponent(gameVersion)}`
   })
 
   // Initialize theme state

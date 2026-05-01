@@ -1,6 +1,8 @@
 <script setup lang="ts">
   import {
     Search,
+    Filter,
+    ChevronDown,
     User,
     Star,
     Tshirt,
@@ -35,13 +37,8 @@
   const navLabels = computed(() => ogProps.value.navLabels ?? [])
   const statCards = computed(() => ogProps.value.statCards ?? [])
   const trackerTitle = computed(() => ogProps.value.trackerTitle ?? '')
+  const whimSearchTitle = computed(() => ogProps.value.whimSearchTitle ?? '')
   const compendiumTitle = computed(() => ogProps.value.compendiumTitle ?? '')
-  const featuredOutfitsTitle = computed(
-    () => ogProps.value.featuredOutfitsTitle ?? ''
-  )
-  const searchPlaceholder = computed(
-    () => ogProps.value.searchPlaceholder ?? ''
-  )
   const filterLabels = computed(() => ogProps.value.filterLabels ?? [])
   const navIcons = [Book, CalendarAlt, Tshirt, Users]
 
@@ -292,29 +289,47 @@
           class="absolute top-3.75 left-4.5 text-[13px] font-bold text-indigo-600"
         >
           <span class="inline-flex items-center gap-1.5">
-            {{ compendiumTitle }}
+            {{ whimSearchTitle }}
           </span>
         </div>
         <div
-          class="absolute top-11.5 left-4.5 h-8 w-55 rounded-full bg-white text-[9px] leading-8 text-slate-400 ring-1 ring-slate-100"
+          class="absolute top-11.5 right-4.5 left-4.5 flex h-8 items-center gap-1.75 rounded-full bg-white pr-1 pl-2.5 text-[9px] text-slate-400 ring-1 ring-slate-100"
         >
           <n-icon
             size="10"
-            class="absolute top-[10px] left-[12px]"
+            class="shrink-0"
           >
             <Search />
           </n-icon>
-          <span class="absolute top-0 left-8 leading-8">{{
-            searchPlaceholder
-          }}</span>
+
+          <div class="mr-2 ml-auto flex shrink-0 items-center gap-1.75">
+            <n-icon
+              size="10"
+              class="shrink-0"
+            >
+              <Filter />
+            </n-icon>
+
+            <div
+              class="shrink-0 rounded-xl bg-rose-500 px-2.5 py-1 text-[9px] leading-tight font-bold text-white"
+            >
+              Search
+            </div>
+          </div>
         </div>
-        <div class="absolute top-23.5 left-4.5 flex gap-1.5">
+        <div class="absolute top-23 right-4.5 left-4.5 flex gap-1.25">
           <div
             v-for="label in filterLabels"
             :key="label"
-            class="rounded-full bg-white px-2 py-0.5 text-[8px] font-medium text-slate-600 ring-1 ring-slate-100"
+            class="flex min-w-0 flex-1 items-center justify-between gap-0.75 rounded-full bg-white px-2 py-1 text-[8px] font-medium text-slate-600 ring-1 ring-slate-100"
           >
-            {{ label }}
+            <span class="min-w-0 truncate">{{ label }}</span>
+            <n-icon
+              size="8"
+              class="shrink-0 text-slate-400"
+            >
+              <ChevronDown />
+            </n-icon>
           </div>
         </div>
       </div>
@@ -327,7 +342,7 @@
           class="absolute top-3.5 left-4.5 text-[13px] font-bold text-indigo-600"
         >
           <span class="inline-flex items-center gap-1.5">
-            {{ featuredOutfitsTitle }}
+            {{ compendiumTitle }}
           </span>
         </div>
         <div class="absolute top-12 left-3 grid grid-cols-4 gap-2.5">
@@ -342,7 +357,7 @@
           >
             <img
               :src="image"
-              :alt="featuredOutfitsTitle"
+              :alt="compendiumTitle"
               class="h-27 w-18 object-cover"
               width="80"
               height="120"

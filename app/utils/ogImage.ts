@@ -121,9 +121,8 @@ export const createOgImageProps = () => {
       },
     ],
     trackerTitle: 'Resonance Tracker',
+    whimSearchTitle: 'Whim Search',
     compendiumTitle: 'Compendium',
-    featuredOutfitsTitle: 'Featured Outfits',
-    searchPlaceholder: 'Whim Search',
-    filterLabels: ['By Version', 'By Style', 'By Source'],
+    filterLabels: ['Version', 'Style', 'Label'],
   }
 }

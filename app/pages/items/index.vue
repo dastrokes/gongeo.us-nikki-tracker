@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-7xl mx-auto space-y-2 sm:space-y-4">
+  <div class="mx-auto max-w-7xl space-y-2 sm:space-y-4">
     <!-- Filter Card -->
     <n-card
       size="small"
@@ -290,14 +290,14 @@
     <!-- Grid Card -->
     <n-card
       size="small"
-      class="rounded-xl p-0 sm:p-2 sm:flex-1 sm:flex sm:flex-col"
+      class="rounded-xl p-0 sm:flex sm:flex-1 sm:flex-col sm:p-2"
       content-class="p-2 sm:p-4 sm:flex-1 sm:flex sm:flex-col"
     >
-      <div class="sm:flex-1 sm:flex sm:flex-col min-h-0">
+      <div class="min-h-0 sm:flex sm:flex-1 sm:flex-col">
         <div class="space-y-3 sm:space-y-4">
           <div
             v-if="error"
-            class="text-center py-12"
+            class="py-12 text-center"
           >
             <n-result
               size="small"
@@ -318,7 +318,7 @@
 
           <div
             v-else-if="!loading && entries.length === 0"
-            class="text-center py-12"
+            class="py-12 text-center"
           >
             <n-result
               size="small"
@@ -329,7 +329,7 @@
               <template #icon>
                 <NuxtImg
                   :src="getImageSrc('emote', 'think')"
-                  class="mx-auto w-24 h-24 sm:w-32 sm:h-32 object-cover"
+                  class="mx-auto h-24 w-24 object-cover sm:h-32 sm:w-32"
                   preset="iconLg"
                   fit="cover"
                   sizes="160px sm:200px"
@@ -346,19 +346,19 @@
             <div
               v-if="!loading && !error && entries.length > 0"
               key="grid"
-              class="grid grid-cols-3 sm:grid-cols-6 gap-2 sm:gap-3 sm:content-start"
+              class="grid grid-cols-3 gap-2 sm:grid-cols-6 sm:content-start sm:gap-3"
             >
               <div
                 v-for="(entry, index) in entries"
                 :key="entry.id"
-                class="cursor-pointer animate-fade-in-up motion-reduce:animate-none"
+                class="animate-fade-in-up cursor-pointer motion-reduce:animate-none"
                 :style="{
                   animationDelay: `${Math.min(index + 1, 12) * 0.05}s`,
                 }"
                 @click="navigateToDetail(entry.id)"
               >
                 <div
-                  class="relative aspect-2/3 rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300"
+                  class="relative aspect-2/3 overflow-hidden rounded-lg shadow-md transition-shadow duration-300 hover:shadow-xl"
                   style="
                     background-image: url('/images/bg.webp');
                     background-size: cover;
@@ -373,7 +373,7 @@
                   <NuxtImg
                     :src="entry.image"
                     :alt="entry.name"
-                    class="absolute inset-0 w-full h-full object-cover z-10 transition-transform duration-500 ease-out hover:scale-110"
+                    class="absolute inset-0 z-10 h-full w-full object-cover transition-transform duration-500 ease-out hover:scale-110"
                     preset="tallLg"
                     fit="cover"
                     loading="lazy"
@@ -387,7 +387,7 @@
                       size="small"
                       :bordered="false"
                       type="warning"
-                      class="backdrop-blur-xs bg-black/50 text-gray-200"
+                      class="bg-black/50 text-gray-200 backdrop-blur-xs"
                     >
                       {{ entry.type }}
                     </n-tag>
@@ -409,14 +409,14 @@
                     </n-tag>
                   </div>
                   <div
-                    class="absolute bottom-0 left-0 right-0 bg-linear-to-t from-black/90 to-transparent p-3 z-20"
+                    class="absolute right-0 bottom-0 left-0 z-20 bg-linear-to-t from-black/90 to-transparent p-3"
                   >
                     <p
-                      class="text-white font-semibold text-xs sm:text-sm line-clamp-2"
+                      class="line-clamp-2 text-xs font-semibold text-white sm:text-sm"
                     >
                       {{ entry.name }}
                     </p>
-                    <div class="flex flex-wrap gap-1 mt-1">
+                    <div class="mt-1 flex flex-wrap gap-1">
                       <n-tag
                         v-if="entry.styleLabel"
                         size="tiny"
@@ -428,7 +428,7 @@
                         {{ entry.styleLabel }}
                       </n-tag>
                     </div>
-                    <div class="flex flex-wrap gap-0.5 mt-1">
+                    <div class="mt-1 flex flex-wrap gap-0.5">
                       <n-tag
                         v-for="label in entry.labelTags"
                         :key="label.text"
@@ -448,12 +448,12 @@
             <div
               v-else-if="loading"
               key="loading"
-              class="grid grid-cols-3 sm:grid-cols-6 gap-2 sm:gap-3 sm:content-start"
+              class="grid grid-cols-3 gap-2 sm:grid-cols-6 sm:content-start sm:gap-3"
             >
               <div
                 v-for="(i, index) in pageSize"
                 :key="`skeleton-${i}`"
-                class="relative aspect-3/4 rounded-lg overflow-hidden bg-gray-200 dark:bg-gray-700 animate-pulse"
+                class="relative aspect-3/4 animate-pulse overflow-hidden rounded-lg bg-gray-200 dark:bg-gray-700"
                 :style="{
                   animationDelay: `${Math.min(index + 1, 9) * 0.05}s`,
                 }"
@@ -461,7 +461,7 @@
             </div>
           </n-collapse-transition>
 
-          <div class="flex justify-center items-center sm:pr-2">
+          <div class="flex items-center justify-center sm:pr-2">
             <n-pagination
               v-model:page="currentPage"
               :page-size="pageSize"
@@ -792,6 +792,7 @@
     twitterTitle: () => pageTitle.value,
     twitterDescription: () => description.value,
   })
+
   const advancedFilters = ref<ItemSearchAdvancedFilters>(
     normalizeItemSearchCompendiumAdvancedFilters(
       resolveItemSearchAdvancedFilters(

@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-7xl mx-auto space-y-2 sm:space-y-4">
+  <div class="mx-auto max-w-7xl space-y-2 sm:space-y-4">
     <n-card
       v-if="!isMaintenance"
       size="small"
@@ -118,7 +118,7 @@
                   <template #icon>
                     <SvgIcon
                       name="bilibili"
-                      class="w-5 h-5"
+                      class="h-5 w-5"
                     />
                   </template>
                   {{ $t('import.watch_on_bilibili') }}
@@ -164,7 +164,7 @@
               <div v-if="userStore.getRegion === Region.CHINA">
                 {{ $t('import.login_pearpal_desc') }}
                 <a
-                  class="text-blue-500 hover:text-blue-800 underline"
+                  class="text-blue-500 underline hover:text-blue-800"
                   href="https://myl.nuanpaper.com/home"
                   target="_blank"
                   >{{ $t('common.sources.pearpal_website') }}</a
@@ -175,7 +175,7 @@
               <div v-else>
                 {{ $t('import.login_pearpal_desc') }}
                 <a
-                  class="text-blue-500 hover:text-blue-800 underline"
+                  class="text-blue-500 underline hover:text-blue-800"
                   href="https://pearpal.infoldgames.com/en/home"
                   target="_blank"
                   >{{ $t('common.sources.pearpal_website') }}</a
@@ -200,7 +200,7 @@
               <div v-if="userStore.getRegion === Region.CHINA">
                 {{ $t('import.login_whimlog') }}
                 <a
-                  class="text-blue-500 hover:text-blue-800 underline"
+                  class="text-blue-500 underline hover:text-blue-800"
                   href="https://myl.nuanpaper.com/tools/journal"
                   target="_blank"
                   >{{ $t('common.sources.whimlog') }}</a
@@ -209,7 +209,7 @@
               <div v-else>
                 {{ $t('import.login_whimlog_desc') }}
                 <a
-                  class="text-blue-500 hover:text-blue-800 underline"
+                  class="text-blue-500 underline hover:text-blue-800"
                   href="https://pearpal.infoldgames.com/tools/journal"
                   target="_blank"
                   >{{ $t('common.sources.whimlog') }}</a
@@ -296,7 +296,7 @@
             </template>
             <div class="space-y-2">
               <div>{{ $t('import.title') }}</div>
-              <ol class="list-decimal list-inside space-y-2">
+              <ol class="list-inside list-decimal space-y-2">
                 <ClientOnly>
                   <template v-if="isMobileOrTablet">
                     <n-button
@@ -391,7 +391,7 @@
                     <div>{{ $t('import.bookmark_steps.tip') }}</div>
                   </template>
                 </ClientOnly>
-                <div class="text-sm text-amber-500 wrap-break-word">
+                <div class="text-sm wrap-break-word text-amber-500">
                   {{ $t('import.security_note') }}
                 </div>
               </ol>
@@ -404,7 +404,7 @@
                   class="w-full"
                 />
                 <n-space
-                  class="flex mt-2 flex-wrap"
+                  class="mt-2 flex flex-wrap"
                   align="center"
                 >
                   <n-space class="flex-wrap">
@@ -438,7 +438,7 @@
             </template>
             <div class="space-y-2">
               <div>{{ $t('import.title') }}</div>
-              <ol class="list-decimal list-inside space-y-2">
+              <ol class="list-inside list-decimal space-y-2">
                 <li>{{ $t('import.bookmark_steps.step2') }}</li>
                 <li>{{ $t('import.console_steps.step2') }}</li>
                 <li>{{ $t('import.console_steps.step3') }}</li>
@@ -454,7 +454,7 @@
                 <li>{{ $t('import.console_steps.step5') }}</li>
                 <li>{{ $t('import.console_steps.step6') }}</li>
                 <li>{{ $t('import.bookmark_steps.step5') }}</li>
-                <div class="text-sm text-amber-500 wrap-break-word">
+                <div class="text-sm wrap-break-word text-amber-500">
                   {{ $t('import.security_note') }}
                 </div>
               </ol>
@@ -467,7 +467,7 @@
                   class="w-full"
                 />
                 <n-space
-                  class="flex mt-2 flex-wrap"
+                  class="mt-2 flex flex-wrap"
                   align="center"
                 >
                   <n-space class="flex-wrap">
@@ -502,7 +502,7 @@
             <div class="space-y-2">
               <div>{{ $t('import.title') }}</div>
               <div>{{ $t('import.manual_steps.note') }}</div>
-              <ol class="list-decimal list-inside space-y-2">
+              <ol class="list-inside list-decimal space-y-2">
                 <li>{{ $t('import.bookmark_steps.step2') }}</li>
                 <li>{{ $t('import.console_steps.step2') }}</li>
                 <li>{{ $t('import.manual_steps.step3') }}</li>
@@ -510,7 +510,7 @@
                 <li>{{ $t('import.manual_steps.step5') }}</li>
                 <li>
                   {{ $t('import.manual_steps.step6') }}
-                  <ul class="list-disc list-inside ml-4">
+                  <ul class="ml-4 list-inside list-disc">
                     <li>{{ $t('import.manual_steps.step6_items.momo_id') }}</li>
                     <li>
                       {{ $t('import.manual_steps.step6_items.momo_token') }}
@@ -519,7 +519,7 @@
                 </li>
                 <li>{{ $t('import.manual_steps.step7') }}</li>
               </ol>
-              <div class="text-sm text-amber-500 wrap-break-word">
+              <div class="text-sm wrap-break-word text-amber-500">
                 {{ $t('import.security_note') }}
               </div>
             </div>
@@ -627,9 +627,9 @@
             <!-- Data note only for game import -->
             <n-space
               v-if="importMethod === 'game'"
-              class="w-full flex my-4"
+              class="my-4 flex w-full"
             >
-              <div class="text-sm text-amber-500 wrap-break-word">
+              <div class="text-sm wrap-break-word text-amber-500">
                 {{
                   $t('import.data_note', {
                     date: daysAgoFormatted(180),
@@ -641,7 +641,7 @@
             <!-- Global stats toggle -->
             <n-space
               align="center"
-              class="w-full flex my-4 flex-wrap"
+              class="my-4 flex w-full flex-wrap"
             >
               <div>{{ $t('import.form.submit_global_stats') }}</div>
               <n-switch
@@ -651,7 +651,7 @@
             </n-space>
 
             <!-- Submit button -->
-            <n-space class="w-full flex">
+            <n-space class="flex w-full">
               <n-button
                 type="primary"
                 :loading="
@@ -659,7 +659,7 @@
                   isFetching ||
                   (importMethod === 'pearpal' && pearpalTrackerLoading)
                 "
-                class="relative grow overflow-hidden after:content-[''] after:absolute after:inset-y-0 after:-left-full after:w-[60%] after:bg-linear-to-r after:from-transparent after:via-white/15 after:to-transparent after:animate-button-shimmer motion-reduce:after:animate-none"
+                class="after:animate-button-shimmer relative grow overflow-hidden after:absolute after:inset-y-0 after:-left-full after:w-[60%] after:bg-linear-to-r after:from-transparent after:via-white/15 after:to-transparent after:content-[''] motion-reduce:after:animate-none"
                 :disabled="isSubmitDisabled"
                 @click="handleSubmit"
               >
@@ -674,11 +674,11 @@
 
           <!-- JSON Import -->
           <template v-else-if="importMethod === 'json'">
-            <n-space class="w-full flex">
+            <n-space class="flex w-full">
               <n-button
                 type="primary"
                 :loading="loading || isFetching"
-                class="relative grow overflow-hidden after:content-[''] after:absolute after:inset-y-0 after:-left-full after:w-[60%] after:bg-linear-to-r after:from-transparent after:via-white/15 after:to-transparent after:animate-button-shimmer motion-reduce:after:animate-none"
+                class="after:animate-button-shimmer relative grow overflow-hidden after:absolute after:inset-y-0 after:-left-full after:w-[60%] after:bg-linear-to-r after:from-transparent after:via-white/15 after:to-transparent after:content-[''] motion-reduce:after:animate-none"
                 @click="handleJsonSubmit"
               >
                 {{
@@ -692,10 +692,10 @@
 
           <!-- Manual Import -->
           <template v-else-if="importMethod === 'manual'">
-            <n-space class="w-full flex">
+            <n-space class="flex w-full">
               <n-button
                 type="primary"
-                class="relative grow overflow-hidden after:content-[''] after:absolute after:inset-y-0 after:-left-full after:w-[60%] after:bg-linear-to-r after:from-transparent after:via-white/15 after:to-transparent after:animate-button-shimmer motion-reduce:after:animate-none"
+                class="after:animate-button-shimmer relative grow overflow-hidden after:absolute after:inset-y-0 after:-left-full after:w-[60%] after:bg-linear-to-r after:from-transparent after:via-white/15 after:to-transparent after:content-[''] motion-reduce:after:animate-none"
                 @click="navigateTo(localePath('/tracker'))"
               >
                 {{ $t('navigation.tracker') }}
@@ -720,7 +720,7 @@
           show-indicator
           processing
         />
-        <div class="text-center mt-4 text-xl text-gray-500">
+        <div class="mt-4 text-center text-xl text-gray-500">
           {{
             $t('import.progress.processing_banner', {
               current: currentBannerIndex + 1 || 0,
@@ -728,7 +728,7 @@
             })
           }}
         </div>
-        <div class="text-center mt-4 text-xl text-gray-500">
+        <div class="mt-4 text-center text-xl text-gray-500">
           {{
             $t('import.progress.fetching_data', {
               banner: progress?.banner
@@ -759,7 +759,7 @@
           <NuxtImg
             :src="getImageSrc('emote', 'note')"
             :alt="$t('import.maintenance.title')"
-            class="mx-auto w-24 h-24 sm:w-32 sm:h-32 object-cover"
+            class="mx-auto h-24 w-24 object-cover sm:h-32 sm:w-32"
             preset="iconLg"
             fit="cover"
             sizes="160px sm:200px"
@@ -788,7 +788,7 @@
     <!-- YouTube Video Modal -->
     <n-modal
       v-model:show="showYouTubeModal"
-      class="w-full max-w-4xl mx-auto pointer-events-auto"
+      class="pointer-events-auto mx-auto w-full max-w-4xl"
       size="small"
       preset="card"
       :show-mask="false"
@@ -798,7 +798,7 @@
       draggable
     >
       <iframe
-        class="w-full aspect-video"
+        class="aspect-video w-full"
         src="https://www.youtube.com/embed/r4JL3nK9ds4"
         title="YouTube"
         frameborder="0"
@@ -818,7 +818,7 @@
     <!-- Bilibili Video Modal -->
     <n-modal
       v-model:show="showBilibiliModal"
-      class="w-full max-w-4xl mx-auto pointer-events-auto"
+      class="pointer-events-auto mx-auto w-full max-w-4xl"
       size="small"
       preset="card"
       :show-mask="false"
@@ -827,7 +827,7 @@
       draggable
     >
       <iframe
-        class="w-full aspect-video"
+        class="aspect-video w-full"
         src="https://player.bilibili.com/player.html?bvid=BV1gFYqz9Euh&page=1&autoplay=0"
         title="Bilibili"
         frameborder="0"

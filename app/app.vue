@@ -20,7 +20,15 @@
 
   const { t } = useI18n()
   const localeHead = useLocaleHead({ dir: true, lang: true, seo: true })
-  const siteUrl = useRuntimeConfig().public.siteUrl
+  const runtimeConfig = useRuntimeConfig()
+  const gameVersion = getGameVersion()
+  const ogImageUrl = computed(() => {
+    const siteUrl = String(runtimeConfig.public.siteUrl || '').replace(
+      /\/$/,
+      ''
+    )
+    return `${siteUrl}/og.png?v=${encodeURIComponent(gameVersion)}`
+  })
 
   // Initialize theme state
   const { theme, isDark, naiveTheme, initTheme, syncTheme } = useTheme()
@@ -82,7 +90,11 @@
       },
       {
         property: 'og:image',
-        content: `${siteUrl}/og.png`,
+        content: ogImageUrl.value,
+      },
+      {
+        property: 'og:image:alt',
+        content: t('meta.title'),
       },
       {
         name: 'twitter:card',
@@ -98,7 +110,7 @@
       },
       {
         name: 'twitter:image',
-        content: `${siteUrl}/og.png`,
+        content: ogImageUrl.value,
       },
       {
         name: 'twitter:site',

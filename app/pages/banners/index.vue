@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-7xl mx-auto space-y-2 sm:space-y-4">
+  <div class="mx-auto max-w-7xl space-y-2 sm:space-y-4">
     <n-card
       size="small"
       class="rounded-xl p-0 sm:p-2"
@@ -168,7 +168,7 @@
             <NuxtLinkLocale
               no-prefetch
               :to="`/banners/${banner.bannerId}`"
-              class="inline w-fit hover:opacity-95 transition-opacity"
+              class="inline w-fit transition-opacity hover:opacity-95"
             >
               <n-gradient-text
                 :size="18"
@@ -180,7 +180,7 @@
             </NuxtLinkLocale>
           </template>
           <template #default>
-            <div class="grid grid-cols-1 lg:grid-cols-4 gap-2">
+            <div class="grid grid-cols-1 gap-2 lg:grid-cols-4">
               <div class="space-y-2">
                 <div
                   v-for="(run, index) in banner.runs"
@@ -193,7 +193,7 @@
                         :to="
                           getBannerVersionListLocation(getVersion(run.version))
                         "
-                        class="hover:opacity-80 transition-opacity"
+                        class="transition-opacity hover:opacity-80"
                       >
                         <n-tag
                           :bordered="false"
@@ -206,7 +206,7 @@
                         :to="
                           getBannerVersionListLocation(getVersion(run.version))
                         "
-                        class="hover:opacity-80 transition-opacity"
+                        class="transition-opacity hover:opacity-80"
                       >
                         <n-tag
                           :bordered="false"
@@ -242,7 +242,7 @@
                   </div>
                 </div>
                 <n-divider />
-                <div class="inline-flex flex-col gap-2 items-start">
+                <div class="inline-flex flex-col items-start gap-2">
                   <div
                     v-for="outfitId in banner.outfit5StarId"
                     :key="outfitId"
@@ -251,7 +251,7 @@
                     <NuxtLinkLocale
                       no-prefetch
                       :to="`/outfits/${outfitId}`"
-                      class="inline w-fit hover:opacity-80 transition-opacity cursor-pointer"
+                      class="inline w-fit cursor-pointer transition-opacity hover:opacity-80"
                     >
                       <n-tag
                         size="large"
@@ -277,7 +277,7 @@
                     <NuxtLinkLocale
                       no-prefetch
                       :to="`/outfits/${outfitId}`"
-                      class="inline w-fit hover:opacity-80 transition-opacity cursor-pointer"
+                      class="inline w-fit cursor-pointer transition-opacity hover:opacity-80"
                     >
                       <n-tag
                         size="large"
@@ -299,17 +299,17 @@
               </div>
               <div class="lg:col-span-3">
                 <div
-                  class="flex flex-col items-center space-y-1 max-w-2xl mx-auto"
+                  class="mx-auto flex max-w-2xl flex-col items-center space-y-1"
                 >
                   <NuxtLinkLocale
                     no-prefetch
                     :to="`/banners/${banner.bannerId}`"
-                    class="w-full aspect-2/1 min-h-[140px] sm:min-h-[330px] relative overflow-hidden rounded-lg hover:opacity-95 transition-opacity"
+                    class="relative aspect-2/1 min-h-35 w-full overflow-hidden rounded-lg transition-opacity hover:opacity-95 sm:min-h-82.5"
                   >
                     <NuxtImg
                       :src="getImageSrc('banner', banner.bannerId)"
                       :alt="t(`banner.${banner.bannerId}.name`)"
-                      class="absolute inset-0 w-full h-full object-cover"
+                      class="absolute inset-0 h-full w-full object-cover"
                       preset="bannerHero"
                       fit="cover"
                       sizes="400px sm:800px"
@@ -322,7 +322,7 @@
                     <n-tooltip
                       overlap
                       placement="top-end"
-                      class="rounded-lg m-2 px-2 py-1 text-xs cursor-pointer"
+                      class="m-2 cursor-pointer rounded-lg px-2 py-1 text-xs"
                       :z-index="10"
                       @click.stop.prevent="
                         navigateTo(localePath(`/banners/${banner.bannerId}`))
@@ -369,7 +369,6 @@
   const route = useRoute()
   const router = useRouter()
   const { getImageSrc } = imageProvider()
-  const siteUrl = useRuntimeConfig().public.siteUrl
 
   const routeSeoFilter = computed(() =>
     getSeoListRouteFilter(route.path, 'banners')
@@ -445,10 +444,8 @@
     description: () => description.value,
     ogTitle: () => pageTitle.value,
     ogDescription: () => description.value,
-    ogImage: `${siteUrl}/og-banners.png`,
     twitterTitle: () => pageTitle.value,
     twitterDescription: () => description.value,
-    twitterImage: `${siteUrl}/og-banners.png`,
   })
 
   const qualityTextTheme5 = getQualityTextTheme(5)

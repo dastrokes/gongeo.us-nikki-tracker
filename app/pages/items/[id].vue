@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-7xl mx-auto space-y-2 sm:space-y-4">
+  <div class="mx-auto max-w-7xl space-y-2 sm:space-y-4">
     <!-- Loading State -->
     <n-card
       v-if="loading"
@@ -7,11 +7,11 @@
       class="rounded-xl p-0 sm:p-2"
       content-class="p-2 sm:p-4"
     >
-      <div class="grid grid-cols-1 lg:grid-cols-[200px_1fr] gap-4 lg:gap-6">
+      <div class="grid grid-cols-1 gap-4 lg:grid-cols-[200px_1fr] lg:gap-6">
         <!-- Image Skeleton -->
         <div class="flex justify-center lg:justify-start">
           <div
-            class="relative aspect-2/3 w-full max-w-50 rounded-lg overflow-hidden"
+            class="relative aspect-2/3 w-full max-w-50 overflow-hidden rounded-lg"
           >
             <n-skeleton
               :sharp="false"
@@ -88,15 +88,15 @@
         class="rounded-xl p-0 sm:p-2"
         content-class="p-2 sm:p-4"
       >
-        <div class="grid grid-cols-1 lg:grid-cols-[auto_1fr] gap-4 lg:gap-6">
+        <div class="grid grid-cols-1 gap-4 lg:grid-cols-[auto_1fr] lg:gap-6">
           <!-- Item Image -->
-          <div class="flex justify-center lg:justify-start items-start">
+          <div class="flex items-start justify-center lg:justify-start">
             <div class="w-50 max-w-full shrink-0">
               <div
-                class="relative aspect-2/3 w-full rounded-lg overflow-hidden shadow-lg group"
+                class="group relative aspect-2/3 w-full overflow-hidden rounded-lg shadow-lg"
               >
                 <div
-                  class="absolute inset-0 bg-[url('/images/bg.webp')] bg-cover bg-center bg-slate-100 dark:bg-slate-300"
+                  class="absolute inset-0 bg-slate-100 bg-[url('/images/bg.webp')] bg-cover bg-center dark:bg-slate-300"
                 ></div>
                 <!-- Tint overlay -->
                 <div
@@ -106,7 +106,7 @@
                 <NuxtImg
                   :src="getImageSrc(showIcon ? 'itemIcon' : 'item', item.id)"
                   :alt="itemName"
-                  class="absolute inset-0 w-full h-full z-10 transition-all duration-300"
+                  class="absolute inset-0 z-10 h-full w-full transition-all duration-300"
                   :class="
                     showIcon
                       ? 'object-contain p-8'
@@ -120,10 +120,10 @@
 
                 <!-- Toggle Button -->
                 <div
-                  class="absolute top-2 right-2 z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                  class="absolute top-2 right-2 z-30 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
                 >
                   <button
-                    class="backdrop-blur-md bg-black/30 dark:bg-black/50 text-white/90 p-1.5 rounded-full transition-colors hover:bg-black/50 dark:hover:bg-black/70 border border-white/20 opacity-70 hover:opacity-100 flex items-center justify-center"
+                    class="flex items-center justify-center rounded-full border border-white/20 bg-black/30 p-1.5 text-white/90 opacity-70 backdrop-blur-md transition-colors hover:bg-black/50 hover:opacity-100 dark:bg-black/50 dark:hover:bg-black/70"
                     @click="showIcon = !showIcon"
                   >
                     <n-icon size="14"><Images /></n-icon>
@@ -138,12 +138,12 @@
             <div class="flex flex-col gap-4 xl:flex-row xl:items-start">
               <div class="min-w-0 flex-1 space-y-3">
                 <div class="flex flex-wrap items-center gap-2">
-                  <h1 class="text-xl sm:text-2xl font-bold leading-tight">
+                  <h1 class="text-xl leading-tight font-bold sm:text-2xl">
                     {{ itemName }}
                   </h1>
                   <NuxtLinkLocale
                     :to="itemQualityListLocation"
-                    class="hover:opacity-80 transition-opacity"
+                    class="transition-opacity hover:opacity-80"
                   >
                     <n-tag
                       :color="getQualityTextTheme(item.quality)"
@@ -162,7 +162,7 @@
                   </NuxtLinkLocale>
                   <NuxtLinkLocale
                     :to="itemTypeListLocation"
-                    class="hover:opacity-80 transition-opacity"
+                    class="transition-opacity hover:opacity-80"
                   >
                     <n-tag
                       type="default"
@@ -180,14 +180,14 @@
                   <NuxtLinkLocale
                     v-if="itemStyleLabel"
                     :to="itemStyleListLocation"
-                    class="hover:opacity-80 transition-opacity"
+                    class="transition-opacity hover:opacity-80"
                   >
                     <n-tag
                       size="small"
                       :bordered="false"
                       type="default"
                       :color="getStyleTagTheme(itemStyleKey)"
-                      class="text-xs font-semibold shadow-[inset_0_-2px_0_rgba(0,0,0,0.18)] cursor-pointer"
+                      class="cursor-pointer text-xs font-semibold shadow-[inset_0_-2px_0_rgba(0,0,0,0.18)]"
                     >
                       {{ itemStyleLabel }}
                     </n-tag>
@@ -199,14 +199,14 @@
                     <NuxtLinkLocale
                       v-if="label.tagKey"
                       :to="getItemTagListLocation(label.tagKey)"
-                      class="hover:opacity-80 transition-opacity"
+                      class="transition-opacity hover:opacity-80"
                     >
                       <n-tag
                         size="small"
                         type="default"
                         :color="label.theme"
                         round
-                        class="text-xs font-semibold cursor-pointer"
+                        class="cursor-pointer text-xs font-semibold"
                       >
                         {{ label.text }}
                       </n-tag>
@@ -228,7 +228,7 @@
                   <NuxtLinkLocale
                     v-if="itemVersionDisplay"
                     :to="itemVersionListLocation"
-                    class="hover:opacity-80 transition-opacity"
+                    class="transition-opacity hover:opacity-80"
                   >
                     <n-tag
                       type="default"
@@ -243,7 +243,7 @@
                   <NuxtLinkLocale
                     v-if="itemObtainLabel && itemObtainType != null"
                     :to="itemSourceListLocation"
-                    class="hover:opacity-80 transition-opacity"
+                    class="transition-opacity hover:opacity-80"
                   >
                     <n-tag
                       type="default"
@@ -259,7 +259,7 @@
 
                 <div
                   v-if="itemDescription"
-                  class="text-sm opacity-80 leading-relaxed"
+                  class="text-sm leading-relaxed opacity-80"
                 >
                   <p class="whitespace-pre-wrap">{{ itemDescription }}</p>
                 </div>
@@ -280,12 +280,12 @@
                       :bordered="false"
                       type="default"
                       :color="score.theme"
-                      class="text-sm font-semibold min-w-24 justify-center shadow-[inset_0_-2px_0_rgba(0,0,0,0.18)]"
+                      class="min-w-24 justify-center text-sm font-semibold shadow-[inset_0_-2px_0_rgba(0,0,0,0.18)]"
                     >
                       {{ score.label }}
                     </n-tag>
                     <div
-                      class="flex-1 rounded-md bg-black/5 dark:bg-white/10 px-2 py-0.5 text-sm font-semibold tabular-nums text-right opacity-80"
+                      class="flex-1 rounded-md bg-black/5 px-2 py-0.5 text-right text-sm font-semibold tabular-nums opacity-80 dark:bg-white/10"
                     >
                       {{ score.value }}
                     </div>
@@ -317,7 +317,7 @@
                         :key="outfitItem.id"
                         :class="
                           outfitItem.id === itemId
-                            ? 'rounded-md pointer-events-none'
+                            ? 'pointer-events-none rounded-md'
                             : ''
                         "
                         :style="
@@ -352,7 +352,7 @@
                         :key="makeupItem.id"
                         :class="
                           makeupItem.id === itemId
-                            ? 'rounded-md pointer-events-none'
+                            ? 'pointer-events-none rounded-md'
                             : ''
                         "
                         :style="
@@ -376,10 +376,10 @@
               v-if="supportsItemFeedback"
               class="rounded-lg border border-slate-200/70 bg-slate-50/80 p-3 dark:border-slate-800 dark:bg-slate-900/60"
             >
-              <div class="flex gap-2 flex-row items-center justify-between">
+              <div class="flex flex-row items-center justify-between gap-2">
                 <div class="flex flex-wrap items-center gap-2">
                   <div
-                    class="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500 dark:text-slate-400"
+                    class="text-[11px] font-semibold tracking-[0.16em] text-slate-500 uppercase dark:text-slate-400"
                   >
                     {{ t('feedback.current_tags') }}
                   </div>
@@ -442,7 +442,7 @@
       </n-card>
 
       <!-- Variations, Banner, and Outfits Grid (side by side on desktop) -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-2 sm:gap-4">
+      <div class="grid grid-cols-1 gap-2 sm:gap-4 lg:grid-cols-2">
         <!-- Item Variations Section -->
         <n-card
           v-if="itemVariations.length > 1"
@@ -450,27 +450,27 @@
           class="rounded-xl p-0 sm:p-2"
           content-class="p-2 sm:p-4"
         >
-          <div class="flex items-center justify-between mb-3">
+          <div class="mb-3 flex items-center justify-between">
             <h2 class="text-lg font-bold">
               {{ $t('common.variations') }}
             </h2>
           </div>
           <div
-            class="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-4 xl:grid-cols-5 gap-2"
+            class="grid grid-cols-4 gap-2 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-4 xl:grid-cols-5"
           >
             <NuxtLinkLocale
               v-for="variation in itemVariations"
               :key="variation.id"
               :to="`/items/${variation.id}`"
-              class="block group"
+              class="group block"
               :class="[
                 variation.id === itemId
-                  ? 'cursor-default pointer-events-none'
+                  ? 'pointer-events-none cursor-default'
                   : 'cursor-pointer',
               ]"
             >
               <div
-                class="relative aspect-2/3 rounded-lg overflow-hidden transition-all duration-200 ease-in-out shadow-md"
+                class="relative aspect-2/3 overflow-hidden rounded-lg shadow-md transition-all duration-200 ease-in-out"
                 :class="[
                   variation.id === itemId ? '' : 'group-hover:scale-105',
                 ]"
@@ -481,7 +481,7 @@
                 "
               >
                 <div
-                  class="absolute inset-0 bg-[url('/images/bg.webp')] bg-cover bg-center bg-slate-100 dark:bg-slate-300"
+                  class="absolute inset-0 bg-slate-100 bg-[url('/images/bg.webp')] bg-cover bg-center dark:bg-slate-300"
                 ></div>
                 <!-- Tint overlay -->
                 <div
@@ -491,7 +491,7 @@
                 <NuxtImg
                   :src="getImageSrc('item', variation.id)"
                   :alt="$t(`item.${variation.id}.name`)"
-                  class="absolute inset-0 w-full h-full object-cover z-10"
+                  class="absolute inset-0 z-10 h-full w-full object-cover"
                   preset="tallSm"
                   fit="cover"
                   loading="lazy"
@@ -514,11 +514,11 @@
           class="rounded-xl p-0 sm:p-2"
           content-class="p-2 sm:p-4"
         >
-          <h2 class="text-lg font-bold mb-3">
+          <h2 class="mb-3 text-lg font-bold">
             {{ $t('common.outfit') }}
           </h2>
           <div
-            class="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-4 xl:grid-cols-5 gap-2"
+            class="grid grid-cols-4 gap-2 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-4 xl:grid-cols-5"
           >
             <div
               v-for="outfit in relatedOutfits"
@@ -526,7 +526,7 @@
             >
               <NuxtLinkLocale
                 :to="`/outfits/${outfit.id}`"
-                class="block group"
+                class="group block"
               >
                 <OutfitCard
                   :outfit-id="outfit.id"
@@ -538,7 +538,7 @@
                 />
               </NuxtLinkLocale>
               <div class="mt-1 text-center">
-                <p class="font-medium text-xs line-clamp-2">
+                <p class="line-clamp-2 text-xs font-medium">
                   {{ outfit.name }}
                 </p>
               </div>
@@ -550,23 +550,23 @@
         <n-card
           v-if="inBanner"
           size="small"
-          class="rounded-xl p-0 sm:p-2 h-full flex flex-col"
+          class="flex h-full flex-col rounded-xl p-0 sm:p-2"
           content-class="p-2 sm:p-4 flex flex-col h-full"
         >
-          <h2 class="text-lg font-bold mb-3">
+          <h2 class="mb-3 text-lg font-bold">
             {{ $t('common.banner') }}
           </h2>
           <NuxtLinkLocale
             :to="`/banners/${inBanner.bannerId}`"
-            class="block group"
+            class="group block"
           >
             <div
-              class="relative aspect-2/1 max-h-40 rounded-lg overflow-hidden transition-all duration-200 ease-in-out shadow-md group-hover:scale-[1.02]"
+              class="relative aspect-2/1 max-h-40 overflow-hidden rounded-lg shadow-md transition-all duration-200 ease-in-out group-hover:scale-[1.02]"
             >
               <NuxtImg
                 :src="getImageSrc('banner', inBanner.bannerId)"
                 :alt="$t(`banner.${inBanner.bannerId}.name`)"
-                class="w-full h-full object-cover"
+                class="h-full w-full object-cover"
                 preset="bannerThumb"
                 fit="cover"
                 loading="lazy"
@@ -574,7 +574,7 @@
               />
             </div>
             <div class="mt-2">
-              <p class="font-medium text-sm line-clamp-2">
+              <p class="line-clamp-2 text-sm font-medium">
                 {{ $t(`banner.${inBanner.bannerId}.name`) }}
               </p>
             </div>
@@ -600,7 +600,7 @@
           <div class="flex justify-center">
             <NuxtImg
               :src="getImageSrc('emote', 'think')"
-              class="mx-auto w-24 h-24 sm:w-32 sm:h-32 object-cover"
+              class="mx-auto h-24 w-24 object-cover sm:h-32 sm:w-32"
               preset="iconLg"
               fit="cover"
               sizes="160px sm:200px"

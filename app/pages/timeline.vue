@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-7xl mx-auto space-y-2 sm:space-y-4">
+  <div class="mx-auto max-w-7xl space-y-2 sm:space-y-4">
     <n-card
       size="small"
       class="rounded-xl"
@@ -13,9 +13,9 @@
           <div
             v-if="showTimelineChart"
             key="chart"
-            class="relative h-[calc(100vh-116px)] sm:h-[calc(100vh-148px)] min-h-[500px] rounded-xl"
+            class="relative h-[calc(100vh-116px)] min-h-125 rounded-xl sm:h-[calc(100vh-148px)]"
           >
-            <div class="absolute left-2 top-2 z-10 w-40">
+            <div class="absolute top-2 left-2 z-10 w-40">
               <n-select
                 v-model:value="timelineSortOrder"
                 size="small"
@@ -40,13 +40,13 @@
               @zr:mousedown="disableTimelineChartAnimation"
               @zr:mousewheel="handleZrMousewheel"
             />
-            <div class="absolute bottom-[4px] right-[2px] z-10">
+            <div class="absolute right-0.5 bottom-1 z-10">
               <n-tooltip placement="left">
                 <template #trigger>
                   <n-button
                     size="tiny"
                     text
-                    class="shadow-lg shadow-slate-900/10 dark:shadow-black/25 transition-all duration-200 hover:scale-110 active:scale-95"
+                    class="shadow-lg shadow-slate-900/10 transition-all duration-200 hover:scale-110 active:scale-95 dark:shadow-black/25"
                     :aria-label="timelineZoomButtonLabel"
                     @click="resetTimelineZoom"
                   >
@@ -65,17 +65,17 @@
           <div
             v-else
             key="skeleton"
-            class="h-[calc(100vh-116px)] sm:h-[calc(100vh-148px)] min-h-[500px] rounded-xl"
+            class="h-[calc(100vh-116px)] min-h-125 rounded-xl sm:h-[calc(100vh-148px)]"
           >
-            <div class="relative h-full w-full rounded-lg overflow-hidden">
+            <div class="relative h-full w-full overflow-hidden rounded-lg">
               <div
-                class="absolute inset-x-0 top-2 bottom-12 sm:bottom-14 pr-6 sm:pr-8"
+                class="absolute inset-x-0 top-2 bottom-12 pr-6 sm:bottom-14 sm:pr-8"
               >
                 <div class="relative h-full w-full">
                   <div
                     v-for="bar in timelineSkeletonBars"
                     :key="bar.key"
-                    class="absolute h-3 sm:h-4 rounded-md animate-pulse"
+                    class="absolute h-3 animate-pulse rounded-md sm:h-4"
                     :class="timelineSkeletonBarClass[bar.tone]"
                     :style="bar.style"
                   />
@@ -83,24 +83,24 @@
               </div>
 
               <div
-                class="absolute left-3 right-6 sm:right-8 bottom-2 h-4 rounded-full bg-black/10 dark:bg-white/15"
+                class="absolute right-6 bottom-2 left-3 h-4 rounded-full bg-black/10 sm:right-8 dark:bg-white/15"
               >
                 <div
-                  class="absolute left-0 top-1/2 h-5 w-2.5 -translate-y-1/2 rounded-sm bg-white/80 dark:bg-slate-200/70 border border-black/10 dark:border-white/20"
+                  class="absolute top-1/2 left-0 h-5 w-2.5 -translate-y-1/2 rounded-sm border border-black/10 bg-white/80 dark:border-white/20 dark:bg-slate-200/70"
                 />
                 <div
-                  class="absolute right-0 top-1/2 h-5 w-2.5 -translate-y-1/2 rounded-sm bg-white/80 dark:bg-slate-200/70 border border-black/10 dark:border-white/20"
+                  class="absolute top-1/2 right-0 h-5 w-2.5 -translate-y-1/2 rounded-sm border border-black/10 bg-white/80 dark:border-white/20 dark:bg-slate-200/70"
                 />
               </div>
 
               <div
-                class="absolute right-1 top-2 bottom-12 sm:bottom-14 w-4 rounded-full bg-black/10 dark:bg-white/15"
+                class="absolute top-2 right-1 bottom-12 w-4 rounded-full bg-black/10 sm:bottom-14 dark:bg-white/15"
               >
                 <div
-                  class="absolute left-1/2 top-0 h-2.5 w-5 -translate-x-1/2 rounded-sm bg-white/80 dark:bg-slate-200/70 border border-black/10 dark:border-white/20"
+                  class="absolute top-0 left-1/2 h-2.5 w-5 -translate-x-1/2 rounded-sm border border-black/10 bg-white/80 dark:border-white/20 dark:bg-slate-200/70"
                 />
                 <div
-                  class="absolute left-1/2 bottom-0 h-2.5 w-5 -translate-x-1/2 rounded-sm bg-white/80 dark:bg-slate-200/70 border border-black/10 dark:border-white/20"
+                  class="absolute bottom-0 left-1/2 h-2.5 w-5 -translate-x-1/2 rounded-sm border border-black/10 bg-white/80 dark:border-white/20 dark:bg-slate-200/70"
                 />
               </div>
             </div>

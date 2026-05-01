@@ -3,7 +3,7 @@
     :show="show"
     placement="right"
     :width="drawerWidth"
-    class="h-[calc(100vh-3.5rem)] top-14"
+    class="top-14 h-[calc(100vh-3.5rem)]"
     :show-mask="false"
     :mask-closable="false"
     :on-mask-click="handleMaskClick"

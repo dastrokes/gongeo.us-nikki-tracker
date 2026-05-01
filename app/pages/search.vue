@@ -1,29 +1,29 @@
 <template>
-  <div class="max-w-7xl mx-auto space-y-2 sm:space-y-4">
+  <div class="mx-auto max-w-7xl space-y-2 sm:space-y-4">
     <!-- Hero / Search Header -->
     <div
       :class="[
-        'transition-all duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)] flex flex-col w-full z-10',
+        'z-10 flex w-full flex-col transition-all duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)]',
         hasSearched
-          ? 'pt-6 pb-6 sm:pt-8 md:pt-10 sm:pb-8 items-start'
-          : 'flex-1 justify-center items-center pb-32 pt-24 sm:pt-32 md:pt-40',
+          ? 'items-start pt-6 pb-6 sm:pt-8 sm:pb-8 md:pt-10'
+          : 'flex-1 items-center justify-center pt-24 pb-32 sm:pt-32 md:pt-40',
       ]"
     >
       <div
         :class="[
-          'transition-all duration-700 w-full',
+          'w-full transition-all duration-700',
           hasSearched
-            ? 'max-w-full text-left flex flex-col sm:flex-row gap-4 items-center justify-between'
-            : 'max-w-2xl text-center px-4',
+            ? 'flex max-w-full flex-col items-center justify-between gap-4 text-left sm:flex-row'
+            : 'max-w-2xl px-4 text-center',
         ]"
       >
         <div :class="[hasSearched ? 'shrink-0' : 'mb-8']">
           <h1
             :class="[
-              'font-black transition-all duration-700 bg-linear-to-br from-[#c084fc] via-[#f472b6] to-[#fb923c] bg-clip-text text-transparent drop-shadow-xs',
+              'bg-linear-to-br from-[#c084fc] via-[#f472b6] to-[#fb923c] bg-clip-text font-black text-transparent drop-shadow-xs transition-all duration-700',
               hasSearched
-                ? 'text-2xl sm:text-3xl cursor-pointer'
-                : 'text-4xl sm:text-6xl mb-4 animate-fade-in-up motion-reduce:animate-none',
+                ? 'cursor-pointer text-2xl sm:text-3xl'
+                : 'animate-fade-in-up mb-4 text-4xl motion-reduce:animate-none sm:text-6xl',
             ]"
             :role="hasSearched ? 'button' : undefined"
             :tabindex="hasSearched ? 0 : undefined"
@@ -36,22 +36,22 @@
 
         <div
           :class="[
-            'w-full transition-all duration-700 delay-100',
-            hasSearched ? 'max-w-xl' : 'max-w-2xl animate-fade-in-up',
+            'w-full transition-all delay-100 duration-700',
+            hasSearched ? 'max-w-xl' : 'animate-fade-in-up max-w-2xl',
           ]"
         >
           <form
-            class="relative group"
+            class="group relative"
             @submit.prevent="runSearch(true)"
           >
             <div
-              class="absolute -inset-1 bg-linear-to-r from-rose-400 via-fuchsia-500 to-amber-500 rounded-2xl blur-sm opacity-25 group-hover:opacity-40 transition duration-500 group-focus-within:opacity-50"
+              class="absolute -inset-1 rounded-2xl bg-linear-to-r from-rose-400 via-fuchsia-500 to-amber-500 opacity-25 blur-sm transition duration-500 group-focus-within:opacity-50 group-hover:opacity-40"
             ></div>
             <div
-              class="relative flex items-center overflow-hidden rounded-2xl bg-white text-lg shadow-lg ring-1 ring-black/5 transition dark:bg-slate-900 dark:ring-white/10 focus-within:ring-2 focus-within:ring-rose-400/60"
+              class="relative flex items-center overflow-hidden rounded-2xl bg-white text-lg shadow-lg ring-1 ring-black/5 transition focus-within:ring-2 focus-within:ring-rose-400/60 dark:bg-slate-900 dark:ring-white/10"
             >
               <n-icon
-                class="ml-4 mr-2 text-rose-400"
+                class="mr-2 ml-4 text-rose-400"
                 size="20"
                 ><Search
               /></n-icon>
@@ -64,7 +64,7 @@
                 autocomplete="off"
                 autocapitalize="off"
                 spellcheck="false"
-                class="w-full bg-transparent border-none py-4 text-slate-800 focus:outline-hidden dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500"
+                class="w-full border-none bg-transparent py-4 text-slate-800 placeholder-slate-400 focus:outline-hidden dark:text-slate-200 dark:placeholder-slate-500"
                 @keydown.esc.prevent="clearSearchQuery"
               />
               <div class="flex items-center gap-1">
@@ -110,7 +110,7 @@
                   </n-button>
                   <span
                     v-if="hasActiveFilter"
-                    class="absolute bottom-2 left-2 w-1.5 h-1.5 bg-rose-500 rounded-full pointer-events-none"
+                    class="pointer-events-none absolute bottom-2 left-2 h-1.5 w-1.5 rounded-full bg-rose-500"
                   ></span>
                 </div>
               </div>
@@ -118,7 +118,7 @@
                 type="primary"
                 attr-type="submit"
                 size="large"
-                class="m-1.5 rounded-xl overflow-hidden after:content-[''] after:absolute after:inset-y-0 after:-left-full after:w-[60%] after:bg-linear-to-r after:from-transparent after:via-white/20 after:to-transparent after:animate-button-shimmer hover:shadow-md transition-shadow"
+                class="after:animate-button-shimmer m-1.5 overflow-hidden rounded-xl transition-shadow after:absolute after:inset-y-0 after:-left-full after:w-[60%] after:bg-linear-to-r after:from-transparent after:via-white/20 after:to-transparent after:content-[''] hover:shadow-md"
                 :loading="loading"
               >
                 {{ t('common.search') }}
@@ -132,7 +132,7 @@
     <!-- Error State -->
     <div
       v-if="error"
-      class="w-full animate-fade-in"
+      class="animate-fade-in w-full"
     >
       <n-alert
         type="error"
@@ -147,49 +147,49 @@
     <!-- Main Content Area -->
     <div
       v-if="hasSearched && !error"
-      class="flex-1 grid gap-4 xl:grid-cols-[minmax(0,1fr)_340px] transition-all duration-500 animate-fade-in"
+      class="animate-fade-in grid flex-1 gap-4 transition-all duration-500 xl:grid-cols-[minmax(0,1fr)_340px]"
     >
       <!-- Results Grid -->
       <div class="gap-4">
         <div
           v-if="loading"
-          class="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-4"
+          class="grid grid-cols-3 gap-3 sm:grid-cols-4 sm:gap-4 lg:grid-cols-6"
         >
           <div
             v-for="i in 12"
             :key="`search-skeleton-${i}`"
-            class="aspect-2/3 rounded-2xl bg-slate-200/50 dark:bg-slate-800/50 animate-pulse border border-slate-200 dark:border-slate-800"
+            class="aspect-2/3 animate-pulse rounded-2xl border border-slate-200 bg-slate-200/50 dark:border-slate-800 dark:bg-slate-800/50"
           />
         </div>
 
         <div
           v-else-if="hasResults"
-          class="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-4"
+          class="grid grid-cols-3 gap-3 sm:grid-cols-4 sm:gap-4 lg:grid-cols-6"
         >
           <button
             v-for="(item, index) in displayResults"
             :key="item.id"
             type="button"
-            class="group relative overflow-hidden rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80 text-left transition-all duration-300 focus:outline-hidden focus:ring-2 focus:ring-rose-400 cursor-pointer animate-fade-in-up"
+            class="group animate-fade-in-up relative cursor-pointer overflow-hidden rounded-2xl border border-slate-200/80 bg-white text-left transition-all duration-300 focus:ring-2 focus:ring-rose-400 focus:outline-hidden dark:border-slate-800/80 dark:bg-slate-900"
             :style="{ animationDelay: `${Math.min(index, 15) * 0.05}s` }"
             :aria-label="item.itemName"
             :aria-pressed="item.id === selectedId"
             :class="[
               item.id === selectedId
-                ? 'ring-2 ring-rose-400 ring-offset-2 ring-offset-slate-50 dark:ring-offset-slate-950 shadow-lg shadow-rose-500/20'
+                ? 'shadow-lg ring-2 shadow-rose-500/20 ring-rose-400 ring-offset-2 ring-offset-slate-50 dark:ring-offset-slate-950'
                 : '',
             ]"
             @click="setSelected(item.id)"
           >
             <!-- Image Area -->
             <div
-              class="relative w-full aspect-2/3 bg-slate-100 dark:bg-slate-950 overflow-hidden"
+              class="relative aspect-2/3 w-full overflow-hidden bg-slate-100 dark:bg-slate-950"
             >
               <NuxtImg
                 v-if="item.imageSrc"
                 :src="item.imageSrc"
                 :alt="item.itemName"
-                class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+                class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
                 preset="tallSm"
                 fit="cover"
                 loading="lazy"
@@ -207,13 +207,13 @@
                 class="absolute inset-x-0 bottom-0 bg-linear-to-t from-black/90 via-black/50 to-transparent p-3 pt-8 pb-3"
               >
                 <div
-                  class="text-white font-bold leading-tight text-sm line-clamp-2 shadow-black drop-shadow-md"
+                  class="line-clamp-2 text-sm leading-tight font-bold text-white shadow-black drop-shadow-md"
                 >
                   {{ item.itemName }}
                 </div>
                 <div
                   v-if="item.itemTypeLabel"
-                  class="mt-1 text-[9px] uppercase tracking-widest text-rose-300 font-semibold drop-shadow-md"
+                  class="mt-1 text-[9px] font-semibold tracking-widest text-rose-300 uppercase drop-shadow-md"
                 >
                   {{ item.itemTypeLabel }}
                 </div>
@@ -224,11 +224,11 @@
 
         <div
           v-else
-          class="flex flex-col min-h-64 items-center justify-center rounded-2xl border-2 border-dashed border-slate-300/60 dark:border-slate-800 bg-white/30 dark:bg-slate-900/40 p-12 text-center backdrop-blur-xs"
+          class="flex min-h-64 flex-col items-center justify-center rounded-2xl border-2 border-dashed border-slate-300/60 bg-white/30 p-12 text-center backdrop-blur-xs dark:border-slate-800 dark:bg-slate-900/40"
         >
           <n-icon
             size="48"
-            class="text-slate-300 dark:text-slate-600 mb-4"
+            class="mb-4 text-slate-300 dark:text-slate-600"
             ><Ghost
           /></n-icon>
           <div class="text-sm text-slate-500">
@@ -250,25 +250,25 @@
             <div
               v-if="activeResult"
               :key="activeResult.id"
-              class="relative rounded-3xl bg-white/70 dark:bg-slate-900/80 backdrop-blur-2xl border border-white/50 dark:border-slate-700/50 shadow-2xl shadow-rose-500/5 overflow-hidden flex flex-col items-center"
+              class="relative flex flex-col items-center overflow-hidden rounded-3xl border border-white/50 bg-white/70 shadow-2xl shadow-rose-500/5 backdrop-blur-2xl dark:border-slate-700/50 dark:bg-slate-900/80"
             >
               <!-- Fancy blurred bg graphic -->
               <div
-                class="absolute -top-24 -right-24 w-48 h-48 bg-rose-400/20 rounded-full blur-3xl pointer-events-none"
+                class="pointer-events-none absolute -top-24 -right-24 h-48 w-48 rounded-full bg-rose-400/20 blur-3xl"
               ></div>
               <div
-                class="absolute -bottom-24 -left-24 w-48 h-48 bg-fuchsia-500/10 rounded-full blur-3xl pointer-events-none"
+                class="pointer-events-none absolute -bottom-24 -left-24 h-48 w-48 rounded-full bg-fuchsia-500/10 blur-3xl"
               ></div>
 
-              <div class="w-full relative z-10">
+              <div class="relative z-10 w-full">
                 <!-- Header Image -->
                 <div
-                  class="relative w-full aspect-2/3 bg-slate-100 dark:bg-slate-950/50 border-b border-slate-200/50 dark:border-slate-800/50"
+                  class="relative aspect-2/3 w-full border-b border-slate-200/50 bg-slate-100 dark:border-slate-800/50 dark:bg-slate-950/50"
                 >
                   <NuxtImg
                     v-if="activeResult.imageSrc"
                     :src="activeResult.imageSrc"
-                    class="w-full h-full object-cover"
+                    class="h-full w-full object-cover"
                     preset="tallLg"
                     sizes="200px"
                     fit="cover"
@@ -282,10 +282,10 @@
                   <!-- Confidence metric -->
                   <div
                     v-if="isDev"
-                    class="absolute bottom-3 right-3 flex items-center justify-center gap-1.5 backdrop-blur-md bg-white/80 dark:bg-slate-950/80 px-3 py-1.5 rounded-full shadow-lg border border-white/40 dark:border-slate-700/60"
+                    class="absolute right-3 bottom-3 flex items-center justify-center gap-1.5 rounded-full border border-white/40 bg-white/80 px-3 py-1.5 shadow-lg backdrop-blur-md dark:border-slate-700/60 dark:bg-slate-950/80"
                   >
                     <div
-                      class="w-1.5 h-1.5 rounded-full bg-rose-500 animate-pulse"
+                      class="h-1.5 w-1.5 animate-pulse rounded-full bg-rose-500"
                     ></div>
                     <span
                       class="text-xs font-black text-slate-800 dark:text-slate-200"
@@ -296,16 +296,16 @@
                 </div>
 
                 <!-- Info Content -->
-                <div class="p-5 w-full flex flex-col gap-5">
+                <div class="flex w-full flex-col gap-5 p-5">
                   <div>
-                    <div class="flex flex-wrap items-center gap-2 mb-1">
+                    <div class="mb-1 flex flex-wrap items-center gap-2">
                       <n-tag
                         v-if="activeResult.itemTypeLabel"
                         size="tiny"
                         round
                         :bordered="false"
                         type="warning"
-                        class="font-bold tracking-widest uppercase text-[9px]"
+                        class="text-[9px] font-bold tracking-widest uppercase"
                       >
                         {{ activeResult.itemTypeLabel }}
                       </n-tag>
@@ -331,7 +331,7 @@
                       </n-tag>
                     </div>
                     <h2
-                      class="text-xl font-black text-slate-800 dark:text-white leading-tight"
+                      class="text-xl leading-tight font-black text-slate-800 dark:text-white"
                     >
                       {{ activeResult.itemName }}
                     </h2>
@@ -343,13 +343,13 @@
                     layout="compact"
                   />
 
-                  <div class="pt-2 flex flex-col gap-3">
+                  <div class="flex flex-col gap-3 pt-2">
                     <n-button
                       v-if="activeResult.compendiumPath"
                       type="primary"
                       block
                       size="large"
-                      class="rounded-xl shadow-md font-bold"
+                      class="rounded-xl font-bold shadow-md"
                       @click="openActiveCompendium"
                     >
                       {{ t('common.view_compendium') }}
@@ -374,12 +374,12 @@
                       class="space-y-2"
                     >
                       <h3
-                        class="text-[10px] font-bold uppercase tracking-widest text-slate-400"
+                        class="text-[10px] font-bold tracking-widest text-slate-400 uppercase"
                       >
                         JSON
                       </h3>
                       <pre
-                        class="overflow-auto rounded-xl bg-slate-950 p-3 text-[10px] leading-4 text-slate-300 max-h-48 scrollbar-thin scrollbar-thumb-slate-800"
+                        class="scrollbar-thin scrollbar-thumb-slate-800 max-h-48 overflow-auto rounded-xl bg-slate-950 p-3 text-[10px] leading-4 text-slate-300"
                         >{{ activeResult.metadataJson }}</pre
                       >
                     </div>
@@ -473,7 +473,7 @@
         v-if="activeResult"
         class="relative grid h-[calc(100dvh-2rem)] max-h-192 w-full grid-rows-[minmax(0,1fr)_auto] overflow-hidden rounded-3xl bg-white/95 shadow-2xl backdrop-blur-2xl dark:bg-slate-900/95"
       >
-        <div class="absolute right-3 top-3 z-20">
+        <div class="absolute top-3 right-3 z-20">
           <n-button
             quaternary
             circle
@@ -498,12 +498,12 @@
           >
             <!-- Header Image -->
             <div
-              class="relative w-full aspect-2/3 bg-slate-100 dark:bg-slate-950/50 flex overflow-hidden items-center justify-center shrink-0"
+              class="relative flex aspect-2/3 w-full shrink-0 items-center justify-center overflow-hidden bg-slate-100 dark:bg-slate-950/50"
             >
               <NuxtImg
                 v-if="activeResult.imageSrc"
                 :src="activeResult.imageSrc"
-                class="absolute inset-0 w-full h-full object-cover"
+                class="absolute inset-0 h-full w-full object-cover"
                 preset="tallLg"
                 sizes="200px"
                 fit="cover"
@@ -516,10 +516,10 @@
               </div>
               <div
                 v-if="isDev"
-                class="absolute bottom-3 right-3 flex items-center justify-center gap-1.5 backdrop-blur-md bg-white/80 dark:bg-slate-950/80 px-3 py-1.5 rounded-full shadow-lg border border-white/40 dark:border-slate-700/60"
+                class="absolute right-3 bottom-3 flex items-center justify-center gap-1.5 rounded-full border border-white/40 bg-white/80 px-3 py-1.5 shadow-lg backdrop-blur-md dark:border-slate-700/60 dark:bg-slate-950/80"
               >
                 <div
-                  class="w-1.5 h-1.5 rounded-full bg-rose-500 animate-pulse"
+                  class="h-1.5 w-1.5 animate-pulse rounded-full bg-rose-500"
                 ></div>
                 <span
                   class="text-xs font-black text-slate-800 dark:text-slate-200"
@@ -530,16 +530,16 @@
             </div>
 
             <!-- Info Content -->
-            <div class="p-5 w-full flex flex-col gap-5">
+            <div class="flex w-full flex-col gap-5 p-5">
               <div>
-                <div class="flex flex-wrap items-center gap-2 mb-1">
+                <div class="mb-1 flex flex-wrap items-center gap-2">
                   <n-tag
                     v-if="activeResult.itemTypeLabel"
                     size="tiny"
                     round
                     :bordered="false"
                     type="warning"
-                    class="font-bold tracking-widest uppercase text-[9px]"
+                    class="text-[9px] font-bold tracking-widest uppercase"
                   >
                     {{ activeResult.itemTypeLabel }}
                   </n-tag>
@@ -565,7 +565,7 @@
                   </n-tag>
                 </div>
                 <h2
-                  class="text-xl font-black text-slate-800 dark:text-white leading-tight"
+                  class="text-xl leading-tight font-black text-slate-800 dark:text-white"
                 >
                   {{ activeResult.itemName }}
                 </h2>
@@ -582,7 +582,7 @@
 
         <!-- Fixed Bottom Action -->
         <div
-          class="w-full p-4 border-t border-slate-200/50 dark:border-slate-700/50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md z-20 shrink-0"
+          class="z-20 w-full shrink-0 border-t border-slate-200/50 bg-white/80 p-4 backdrop-blur-md dark:border-slate-700/50 dark:bg-slate-900/80"
         >
           <div class="flex flex-col gap-3">
             <n-button
@@ -590,7 +590,7 @@
               type="primary"
               block
               size="large"
-              class="rounded-xl shadow-md font-bold"
+              class="rounded-xl font-bold shadow-md"
               @click="openActiveCompendium"
             >
               {{ t('common.view_compendium') }}

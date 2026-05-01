@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-7xl mx-auto space-y-2 sm:space-y-4">
+  <div class="mx-auto max-w-7xl space-y-2 sm:space-y-4">
     <!-- Loading State -->
     <template v-if="loading">
       <n-card
@@ -7,17 +7,17 @@
         class="rounded-xl"
         content-class="p-2 sm:p-4"
       >
-        <div class="grid grid-cols-2 md:grid-cols-5 gap-2">
+        <div class="grid grid-cols-2 gap-2 md:grid-cols-5">
           <n-card
             v-for="i in 5"
             :key="i"
             size="small"
-            class="text-center rounded-lg"
+            class="rounded-lg text-center"
           >
             <n-skeleton
               height="20px"
               width="80%"
-              class="mb-2 mx-auto"
+              class="mx-auto mb-2"
             />
             <n-skeleton
               height="24px"
@@ -53,7 +53,7 @@
       class="space-y-2 sm:space-y-4"
     >
       <!-- No Data State -->
-      <n-card class="text-center rounded-xl">
+      <n-card class="rounded-xl text-center">
         <n-result
           size="small"
           status="info"
@@ -64,7 +64,7 @@
             <NuxtImg
               :src="getImageSrc('emote', 'think')"
               :alt="$t('tracker.no_data.title')"
-              class="mx-auto w-24 h-24 sm:w-32 sm:h-32 object-cover"
+              class="mx-auto h-24 w-24 object-cover sm:h-32 sm:w-32"
               preset="iconLg"
               fit="cover"
               sizes="160px sm:200px"
@@ -73,7 +73,7 @@
           <template #footer>
             <n-button
               type="primary"
-              class="relative overflow-hidden after:content-[''] after:absolute after:inset-y-0 after:-left-full after:w-[60%] after:bg-linear-to-r after:from-transparent after:via-white/15 after:to-transparent after:animate-button-shimmer motion-reduce:after:animate-none"
+              class="after:animate-button-shimmer relative overflow-hidden after:absolute after:inset-y-0 after:-left-full after:w-[60%] after:bg-linear-to-r after:from-transparent after:via-white/15 after:to-transparent after:content-[''] motion-reduce:after:animate-none"
               @click="navigateTo(localePath('/import'))"
             >
               {{ $t('navigation.import') }}
@@ -89,7 +89,7 @@
         content-class="p-2 sm:p-4"
       >
         <n-card size="small">
-          <div class="h-[320px]">
+          <div class="h-80">
             <VChart
               :option="mockPullActivityChartOption"
               autoresize
@@ -110,11 +110,11 @@
         size="small"
         class="rounded-xl"
       >
-        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
+        <div class="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6">
           <!-- Total Pulls -->
           <n-card
             size="small"
-            class="text-center rounded-lg"
+            class="rounded-lg text-center"
           >
             <div class="text-sm text-gray-400">
               <span class="text-amber-500">5★</span>
@@ -122,7 +122,7 @@
               <span class="text-sky-500">4★</span>
               {{ $t('common.pulls') }}
             </div>
-            <div class="text-lg font-medium tabular-nums mt-1">
+            <div class="mt-1 text-lg font-medium tabular-nums">
               <span class="text-amber-500">{{
                 pulls5StarBanners.toLocaleString()
               }}</span>
@@ -136,7 +136,7 @@
           <!-- Banners Pulled -->
           <n-card
             size="small"
-            class="text-center rounded-lg"
+            class="rounded-lg text-center"
           >
             <div class="text-sm text-gray-400">
               <span class="text-amber-500">5★</span>
@@ -144,7 +144,7 @@
               <span class="text-sky-500">4★</span>
               {{ $t('common.banners') }}
             </div>
-            <div class="text-lg font-medium tabular-nums mt-1">
+            <div class="mt-1 text-lg font-medium tabular-nums">
               <span class="text-amber-500">{{ bannersPulled5Star }}</span>
               <span class="mx-1 text-gray-400">/</span>
               <span class="text-sky-500">{{ bannersPulled4Star }}</span>
@@ -154,7 +154,7 @@
           <!-- Outfits Collected -->
           <n-card
             size="small"
-            class="text-center rounded-lg"
+            class="rounded-lg text-center"
           >
             <div class="text-sm text-gray-400">
               <span class="text-amber-500">5★</span>
@@ -162,7 +162,7 @@
               <span class="text-sky-500">4★</span>
               {{ $t('common.outfits') }}
             </div>
-            <div class="text-lg font-medium tabular-nums mt-1">
+            <div class="mt-1 text-lg font-medium tabular-nums">
               <span class="text-amber-500">{{ outfitsObtained5Star }}</span>
               <span class="mx-1 text-gray-400">/</span>
               <span class="text-sky-500">{{ outfitsObtained4Star }}</span>
@@ -172,7 +172,7 @@
           <!-- 5★ / 4★ Count -->
           <n-card
             size="small"
-            class="text-center rounded-lg"
+            class="rounded-lg text-center"
           >
             <div class="text-sm text-gray-400">
               <span class="text-amber-500">5★</span>
@@ -180,7 +180,7 @@
               <span class="text-sky-500">4★</span>
               {{ $t('common.items') }}
             </div>
-            <div class="text-lg font-medium tabular-nums mt-1">
+            <div class="mt-1 text-lg font-medium tabular-nums">
               <span class="text-amber-500">
                 <n-number-animation
                   :from="0"
@@ -205,13 +205,13 @@
           <!-- Luck Rating -->
           <n-card
             size="small"
-            class="text-center rounded-lg"
+            class="rounded-lg text-center"
           >
             <div class="text-sm text-gray-400">
               {{ $t('stats.overview.luck_rating') }}
             </div>
             <div
-              class="text-lg font-medium mt-1 flex items-center justify-center gap-2"
+              class="mt-1 flex items-center justify-center gap-2 text-lg font-medium"
             >
               <span class="text-sm">{{ $t('banner.luck.' + luckTier) }}</span>
               <DiceAnimation
@@ -222,7 +222,7 @@
           </n-card>
 
           <div
-            class="flex flex-col items-end justify-between h-full py-1 gap-2"
+            class="flex h-full flex-col items-end justify-between gap-2 py-1"
           >
             <div class="flex items-center gap-2">
               <n-tooltip
@@ -247,7 +247,7 @@
               <n-button
                 size="small"
                 type="primary"
-                class="relative overflow-hidden after:content-[''] after:absolute after:inset-y-0 after:-left-full after:w-[60%] after:bg-linear-to-r after:from-transparent after:via-white/15 after:to-transparent after:animate-button-shimmer motion-reduce:after:animate-none"
+                class="after:animate-button-shimmer relative overflow-hidden after:absolute after:inset-y-0 after:-left-full after:w-[60%] after:bg-linear-to-r after:from-transparent after:via-white/15 after:to-transparent after:content-[''] motion-reduce:after:animate-none"
                 @click="() => navigateTo(localePath('/tracker'))"
               >
                 {{ $t('navigation.tracker') }}
@@ -321,7 +321,7 @@
             :class="{
               'h-[calc(100vh-116px)] sm:h-[calc(100vh-148px)]':
                 maximizedChart === 'timeline',
-              'h-[320px]': maximizedChart !== 'timeline',
+              'h-80': maximizedChart !== 'timeline',
             }"
           >
             <n-button
@@ -373,7 +373,7 @@
             :class="{
               'h-[calc(100vh-116px)] sm:h-[calc(100vh-148px)]':
                 maximizedChart === 'fiveStar',
-              'h-[200px]': maximizedChart !== 'fiveStar',
+              'h-50': maximizedChart !== 'fiveStar',
             }"
           >
             <n-button
@@ -412,7 +412,7 @@
             :class="{
               'h-[calc(100vh-116px)] sm:h-[calc(100vh-148px)]':
                 maximizedChart === 'fourStar',
-              'h-[200px]': maximizedChart !== 'fourStar',
+              'h-50': maximizedChart !== 'fourStar',
             }"
           >
             <n-button
@@ -453,7 +453,7 @@
             :class="{
               'h-[calc(100vh-116px)] sm:h-[calc(100vh-148px)]':
                 maximizedChart === 'fourStarType3',
-              'h-[200px]': maximizedChart !== 'fourStarType3',
+              'h-50': maximizedChart !== 'fourStarType3',
             }"
           >
             <n-button
@@ -490,7 +490,7 @@
           maximizedChart === 'luckPerBannerType3'
         "
       >
-        <div class="grid grid-cols-1 xl:grid-cols-2 gap-2 sm:gap-4">
+        <div class="grid grid-cols-1 gap-2 sm:gap-4 xl:grid-cols-2">
           <!-- ── Section C: 5★ Luck Per Banner Chart ── -->
           <n-card
             v-show="!maximizedChart || maximizedChart === 'luckPerBanner'"
@@ -508,7 +508,7 @@
                 :class="{
                   'h-[calc(100vh-116px)] sm:h-[calc(100vh-148px)]':
                     maximizedChart === 'luckPerBanner',
-                  'h-[320px]': maximizedChart !== 'luckPerBanner',
+                  'h-80': maximizedChart !== 'luckPerBanner',
                 }"
               >
                 <n-button
@@ -557,7 +557,7 @@
                 :class="{
                   'h-[calc(100vh-116px)] sm:h-[calc(100vh-148px)]':
                     maximizedChart === 'luckPerBannerType3',
-                  'h-[320px]': maximizedChart !== 'luckPerBannerType3',
+                  'h-80': maximizedChart !== 'luckPerBannerType3',
                 }"
               >
                 <n-button
@@ -600,7 +600,7 @@
         class="rounded-xl"
         content-class="p-2 sm:p-4"
       >
-        <div class="flex items-center justify-between mb-3">
+        <div class="mb-3 flex items-center justify-between">
           <div class="text-base font-semibold text-gray-500 dark:text-gray-400">
             {{ $t('stats.share.title') }}
           </div>
@@ -658,7 +658,7 @@
             <!-- Landscape Layout -->
             <div
               v-if="isShareLandscape"
-              class="h-full w-full flex overflow-hidden"
+              class="flex h-full w-full overflow-hidden"
               :class="[
                 'bg-linear-to-br',
                 shareCardGradient,
@@ -667,24 +667,24 @@
             >
               <!-- Left Panel: Emote + Luck Tier -->
               <div
-                class="w-1/3 relative flex flex-col items-center justify-center p-6"
+                class="relative flex w-1/3 flex-col items-center justify-center p-6"
               >
                 <NuxtImg
                   :src="shareCardEmoteSrc"
                   :alt="$t('banner.luck.' + luckTier)"
-                  class="w-32 h-32 object-contain relative z-10"
+                  class="relative z-10 h-32 w-32 object-contain"
                   preset="iconLg"
                   fit="contain"
                   loading="lazy"
                   sizes="128px"
                 />
                 <div
-                  class="text-xl sm:text-2xl font-black mt-3 relative z-10 text-center"
+                  class="relative z-10 mt-3 text-center text-xl font-black sm:text-2xl"
                   :class="shareCardAccentClass"
                 >
                   {{ $t('banner.luck.' + luckTier) }}
                 </div>
-                <div class="text-sm opacity-60 mt-1 relative z-10 text-center">
+                <div class="relative z-10 mt-1 text-center text-sm opacity-60">
                   {{
                     $t('tracker.stats.luckier', {
                       percent: overallLuckPercentile.toFixed(1),
@@ -694,20 +694,20 @@
               </div>
 
               <!-- Right Panel: Best/Worst Luck + Stats -->
-              <div class="flex-1 flex flex-col p-4 bg-white/5 backdrop-blur-xs">
+              <div class="flex flex-1 flex-col bg-white/5 p-4 backdrop-blur-xs">
                 <div
                   v-if="luckiestBanner || unluckiestBanner"
-                  class="flex gap-3 mb-3 h-36"
+                  class="mb-3 flex h-36 gap-3"
                 >
                   <div
                     v-if="luckiestBanner"
-                    class="flex-1 relative rounded-xl overflow-hidden ring-1"
+                    class="relative flex-1 overflow-hidden rounded-xl ring-1"
                     :class="isDark ? 'ring-white/10' : 'ring-black/10'"
                   >
                     <NuxtImg
                       :src="getImageSrc('banner', luckiestBanner.bannerId)"
                       :alt="luckiestBannerName"
-                      class="absolute inset-0 w-full h-full object-cover"
+                      class="absolute inset-0 h-full w-full object-cover"
                       preset="bannerThumb"
                       fit="cover"
                       loading="lazy"
@@ -717,14 +717,14 @@
                       class="absolute inset-0 bg-linear-to-t from-black/80 via-black/40 to-black/20"
                     />
                     <div
-                      class="relative z-10 h-full flex flex-col justify-end p-3"
+                      class="relative z-10 flex h-full flex-col justify-end p-3"
                     >
                       <div
-                        class="text-xs text-green-400 font-semibold uppercase tracking-wider"
+                        class="text-xs font-semibold tracking-wider text-green-400 uppercase"
                       >
                         {{ $t('stats.share.best_luck') }}
                       </div>
-                      <div class="text-sm font-bold text-white truncate mt-0.5">
+                      <div class="mt-0.5 truncate text-sm font-bold text-white">
                         {{ luckiestBannerName }}
                       </div>
                       <div class="text-xs text-white/70 tabular-nums">
@@ -742,13 +742,13 @@
                   </div>
                   <div
                     v-if="unluckiestBanner"
-                    class="flex-1 relative rounded-xl overflow-hidden ring-1"
+                    class="relative flex-1 overflow-hidden rounded-xl ring-1"
                     :class="isDark ? 'ring-white/10' : 'ring-black/10'"
                   >
                     <NuxtImg
                       :src="getImageSrc('banner', unluckiestBanner.bannerId)"
                       :alt="unluckiestBannerName"
-                      class="absolute inset-0 w-full h-full object-cover"
+                      class="absolute inset-0 h-full w-full object-cover"
                       preset="bannerThumb"
                       fit="cover"
                       loading="lazy"
@@ -758,14 +758,14 @@
                       class="absolute inset-0 bg-linear-to-t from-black/80 via-black/40 to-black/20"
                     />
                     <div
-                      class="relative z-10 h-full flex flex-col justify-end p-3"
+                      class="relative z-10 flex h-full flex-col justify-end p-3"
                     >
                       <div
-                        class="text-xs text-red-400 font-semibold uppercase tracking-wider"
+                        class="text-xs font-semibold tracking-wider text-red-400 uppercase"
                       >
                         {{ $t('stats.share.worst_luck') }}
                       </div>
-                      <div class="text-sm font-bold text-white truncate mt-0.5">
+                      <div class="mt-0.5 truncate text-sm font-bold text-white">
                         {{ unluckiestBannerName }}
                       </div>
                       <div class="text-xs text-white/70 tabular-nums">
@@ -869,7 +869,7 @@
                   <!-- Right Column: Avg Stats -->
                   <div class="space-y-3">
                     <div>
-                      <div class="text-xs opacity-50 capitalize">
+                      <div class="text-xs capitalize opacity-50">
                         {{ $t('tracker.banner.stats.avg_5star') }}
                       </div>
                       <div class="text-sm font-bold tabular-nums">
@@ -877,7 +877,7 @@
                       </div>
                     </div>
                     <div>
-                      <div class="text-xs opacity-50 capitalize">
+                      <div class="text-xs capitalize opacity-50">
                         {{ $t('common.stats.avg_4star_mixed') }}
                       </div>
                       <div class="text-sm font-bold tabular-nums">
@@ -885,7 +885,7 @@
                       </div>
                     </div>
                     <div>
-                      <div class="text-xs opacity-50 capitalize">
+                      <div class="text-xs capitalize opacity-50">
                         {{ $t('common.stats.avg_4star_only') }}
                       </div>
                       <div class="text-sm font-bold tabular-nums">
@@ -897,7 +897,7 @@
 
                 <!-- Footer -->
                 <div
-                  class="flex items-end justify-end text-xs opacity-40 mt-auto"
+                  class="mt-auto flex items-end justify-end text-xs opacity-40"
                 >
                   <span class="inline-flex items-center gap-1.5">
                     <span
@@ -905,7 +905,7 @@
                       :class="
                         isDark
                           ? 'bg-white/10 ring-white/15'
-                          : 'bg-white/70 ring-black/10 shadow-xs'
+                          : 'bg-white/70 shadow-xs ring-black/10'
                       "
                     >
                       <NuxtImg
@@ -926,7 +926,7 @@
             <!-- Portrait Layout -->
             <div
               v-else
-              class="relative h-full w-full flex flex-col overflow-hidden"
+              class="relative flex h-full w-full flex-col overflow-hidden"
               :class="[
                 'bg-linear-to-b',
                 shareCardGradient,
@@ -935,25 +935,25 @@
             >
               <!-- Hero: Emote + Luck Tier -->
               <div
-                class="relative z-10 shrink-0 px-5 pt-5 pb-4 flex flex-col items-center"
+                class="relative z-10 flex shrink-0 flex-col items-center px-5 pt-5 pb-4"
               >
                 <NuxtImg
                   :src="shareCardEmoteSrc"
                   :alt="$t('banner.luck.' + luckTier)"
-                  class="w-32 h-32 object-contain relative z-10"
+                  class="relative z-10 h-32 w-32 object-contain"
                   preset="iconLg"
                   fit="contain"
                   loading="lazy"
                   sizes="128px"
                 />
                 <div
-                  class="mt-4 max-w-60 text-center text-2xl leading-[0.95] font-black relative z-10"
+                  class="relative z-10 mt-4 max-w-60 text-center text-2xl leading-[0.95] font-black"
                   :class="shareCardAccentClass"
                 >
                   {{ $t('banner.luck.' + luckTier) }}
                 </div>
                 <div
-                  class="mt-1 max-w-60 text-center text-sm opacity-50 leading-tight relative z-10"
+                  class="relative z-10 mt-1 max-w-60 text-center text-sm leading-tight opacity-50"
                 >
                   {{
                     $t('tracker.stats.luckier', {
@@ -966,17 +966,17 @@
               <!-- Featured Banners -->
               <div
                 v-if="luckiestBanner || unluckiestBanner"
-                class="relative z-10 grid grid-cols-1 gap-4 px-4 mb-4"
+                class="relative z-10 mb-4 grid grid-cols-1 gap-4 px-4"
               >
                 <div
                   v-if="luckiestBanner"
-                  class="relative rounded-lg overflow-hidden ring-1 min-h-[84px]"
+                  class="relative min-h-21 overflow-hidden rounded-lg ring-1"
                   :class="isDark ? 'ring-white/10' : 'ring-black/10'"
                 >
                   <NuxtImg
                     :src="getImageSrc('banner', luckiestBanner.bannerId)"
                     :alt="luckiestBannerName"
-                    class="absolute inset-0 w-full h-full object-cover"
+                    class="absolute inset-0 h-full w-full object-cover"
                     preset="bannerThumb"
                     fit="cover"
                     loading="lazy"
@@ -986,15 +986,15 @@
                     class="absolute inset-0 bg-linear-to-t from-black/80 via-black/40 to-black/10"
                   />
                   <div
-                    class="relative z-10 h-full flex flex-col justify-end p-2"
+                    class="relative z-10 flex h-full flex-col justify-end p-2"
                   >
                     <div
-                      class="text-xs text-green-400 font-semibold uppercase tracking-wider"
+                      class="text-xs font-semibold tracking-wider text-green-400 uppercase"
                     >
                       {{ $t('stats.share.best_luck') }}
                     </div>
                     <div
-                      class="text-xs font-bold leading-tight text-white line-clamp-2"
+                      class="line-clamp-2 text-xs leading-tight font-bold text-white"
                     >
                       {{ luckiestBannerName }}
                     </div>
@@ -1015,13 +1015,13 @@
                 </div>
                 <div
                   v-if="unluckiestBanner"
-                  class="relative rounded-lg overflow-hidden ring-1 min-h-[84px]"
+                  class="relative min-h-21 overflow-hidden rounded-lg ring-1"
                   :class="isDark ? 'ring-white/10' : 'ring-black/10'"
                 >
                   <NuxtImg
                     :src="getImageSrc('banner', unluckiestBanner.bannerId)"
                     :alt="unluckiestBannerName"
-                    class="absolute inset-0 w-full h-full object-cover"
+                    class="absolute inset-0 h-full w-full object-cover"
                     preset="bannerThumb"
                     fit="cover"
                     loading="lazy"
@@ -1031,15 +1031,15 @@
                     class="absolute inset-0 bg-linear-to-t from-black/80 via-black/40 to-black/10"
                   />
                   <div
-                    class="relative z-10 h-full flex flex-col justify-end p-2"
+                    class="relative z-10 flex h-full flex-col justify-end p-2"
                   >
                     <div
-                      class="text-xs text-red-400 font-semibold uppercase tracking-wider"
+                      class="text-xs font-semibold tracking-wider text-red-400 uppercase"
                     >
                       {{ $t('stats.share.worst_luck') }}
                     </div>
                     <div
-                      class="text-xs font-bold leading-tight text-white line-clamp-2"
+                      class="line-clamp-2 text-xs leading-tight font-bold text-white"
                     >
                       {{ unluckiestBannerName }}
                     </div>
@@ -1065,49 +1065,49 @@
 
               <!-- Stats list panel -->
               <div
-                class="relative z-10 mx-5 mb-3 rounded-xl p-3 space-y-1 ring-1"
+                class="relative z-10 mx-5 mb-3 space-y-1 rounded-xl p-3 ring-1"
                 :class="
                   isDark
                     ? 'bg-white/5 ring-white/10'
                     : 'bg-black/5 ring-black/10'
                 "
               >
-                <div class="flex justify-between items-center gap-2">
-                  <span class="text-xs opacity-50 whitespace-nowrap shrink-0">
+                <div class="flex items-center justify-between gap-2">
+                  <span class="shrink-0 text-xs whitespace-nowrap opacity-50">
                     <span class="text-amber-500">5★</span> /
                     <span class="text-sky-500">4★</span>
                     {{ $t('common.pulls') }}
                   </span>
                   <span
-                    class="font-bold tabular-nums whitespace-nowrap shrink-0"
+                    class="shrink-0 font-bold whitespace-nowrap tabular-nums"
                   >
                     <span class="text-amber-500">{{ pulls5StarBanners }}</span>
                     <span class="mx-0.5 text-gray-400">/</span>
                     <span class="text-sky-500">{{ pulls4StarBanners }}</span>
                   </span>
                 </div>
-                <div class="flex justify-between items-center gap-2">
-                  <span class="text-xs opacity-50 whitespace-nowrap shrink-0">
+                <div class="flex items-center justify-between gap-2">
+                  <span class="shrink-0 text-xs whitespace-nowrap opacity-50">
                     <span class="text-amber-500">5★</span> /
                     <span class="text-sky-500">4★</span>
                     {{ $t('common.banners') }}
                   </span>
                   <span
-                    class="font-bold tabular-nums whitespace-nowrap shrink-0"
+                    class="shrink-0 font-bold whitespace-nowrap tabular-nums"
                   >
                     <span class="text-amber-500">{{ bannersPulled5Star }}</span>
                     <span class="mx-0.5 text-gray-400">/</span>
                     <span class="text-sky-500">{{ bannersPulled4Star }}</span>
                   </span>
                 </div>
-                <div class="flex justify-between items-center gap-2">
-                  <span class="text-xs opacity-50 whitespace-nowrap shrink-0">
+                <div class="flex items-center justify-between gap-2">
+                  <span class="shrink-0 text-xs whitespace-nowrap opacity-50">
                     <span class="text-amber-500">5★</span> /
                     <span class="text-sky-500">4★</span>
                     {{ $t('common.outfits') }}
                   </span>
                   <span
-                    class="font-bold tabular-nums whitespace-nowrap shrink-0"
+                    class="shrink-0 font-bold whitespace-nowrap tabular-nums"
                   >
                     <span class="text-amber-500">{{
                       outfitsObtained5Star
@@ -1116,14 +1116,14 @@
                     <span class="text-sky-500">{{ outfitsObtained4Star }}</span>
                   </span>
                 </div>
-                <div class="flex justify-between items-center gap-2">
-                  <span class="text-xs opacity-50 whitespace-nowrap shrink-0">
+                <div class="flex items-center justify-between gap-2">
+                  <span class="shrink-0 text-xs whitespace-nowrap opacity-50">
                     <span class="text-amber-500">5★</span> /
                     <span class="text-sky-500">4★</span>
                     {{ $t('common.items') }}
                   </span>
                   <span
-                    class="font-bold tabular-nums whitespace-nowrap shrink-0"
+                    class="shrink-0 font-bold whitespace-nowrap tabular-nums"
                   >
                     <span class="text-amber-500">{{
                       globalStats.total5StarItems
@@ -1135,33 +1135,33 @@
                     }}</span>
                   </span>
                 </div>
-                <div class="flex justify-between items-center gap-2">
+                <div class="flex items-center justify-between gap-2">
                   <span
-                    class="text-xs opacity-50 capitalize whitespace-nowrap shrink-0"
+                    class="shrink-0 text-xs whitespace-nowrap capitalize opacity-50"
                   >
                     {{ $t('tracker.banner.stats.avg_5star') }}
                   </span>
-                  <span class="font-bold tabular-nums shrink-0">
+                  <span class="shrink-0 font-bold tabular-nums">
                     {{ globalStats.avg5StarPulls.toFixed(1) }}
                   </span>
                 </div>
-                <div class="flex justify-between items-center gap-2">
+                <div class="flex items-center justify-between gap-2">
                   <span
-                    class="text-xs opacity-50 capitalize whitespace-nowrap shrink-0"
+                    class="shrink-0 text-xs whitespace-nowrap capitalize opacity-50"
                   >
                     {{ $t('common.stats.avg_4star_mixed') }}
                   </span>
-                  <span class="font-bold tabular-nums shrink-0">
+                  <span class="shrink-0 font-bold tabular-nums">
                     {{ globalStats.avg4StarPulls.toFixed(1) }}
                   </span>
                 </div>
-                <div class="flex justify-between items-center gap-2">
+                <div class="flex items-center justify-between gap-2">
                   <span
-                    class="text-xs opacity-50 capitalize whitespace-nowrap shrink-0"
+                    class="shrink-0 text-xs whitespace-nowrap capitalize opacity-50"
                   >
                     {{ $t('common.stats.avg_4star_only') }}
                   </span>
-                  <span class="font-bold tabular-nums shrink-0">
+                  <span class="shrink-0 font-bold tabular-nums">
                     {{ globalStats.avg4StarOnlyPulls.toFixed(1) }}
                   </span>
                 </div>
@@ -1169,7 +1169,7 @@
 
               <!-- Footer -->
               <div
-                class="relative z-10 flex items-center justify-end px-5 pb-3 text-xs opacity-40 mt-auto"
+                class="relative z-10 mt-auto flex items-center justify-end px-5 pb-3 text-xs opacity-40"
               >
                 <span class="inline-flex items-center gap-1.5">
                   <span
@@ -1177,7 +1177,7 @@
                     :class="
                       isDark
                         ? 'bg-white/10 ring-white/15'
-                        : 'bg-white/70 ring-black/10 shadow-xs'
+                        : 'bg-white/70 shadow-xs ring-black/10'
                     "
                   >
                     <NuxtImg

@@ -2,7 +2,7 @@
   <NuxtLinkLocale
     no-prefetch
     :to="`/items/${item.itemId}`"
-    class="group relative block hover:scale-[1.05] hover:z-10 transition-all duration-300 ease-out"
+    class="group relative block transition-all duration-300 ease-out hover:z-10 hover:scale-[1.05]"
   >
     <n-card
       :class="[
@@ -12,13 +12,13 @@
       :bordered="false"
       size="small"
       content-class="p-2"
-      class="relative overflow-hidden rounded-md transition-all duration-300 ease-in-out aspect-square ring-1 min-h-[50px] xl:min-h-[80px]"
+      class="relative aspect-square min-h-12.5 overflow-hidden rounded-md ring-1 transition-all duration-300 ease-in-out xl:min-h-20"
     >
       <NuxtImg
         v-if="info"
         :src="getImageSrc('itemIcon', item.itemId)"
         :alt="$t(`item.${item.itemId}.name`)"
-        class="w-full h-full object-cover aspect-square"
+        class="aspect-square h-full w-full object-cover"
         :style="imageStyle"
         preset="iconLg"
         fit="cover"
@@ -29,7 +29,7 @@
         v-else
         :src="getImageSrc('itemIcon', item.itemId)"
         :alt="$t(`item.${item.itemId}.name`)"
-        class="w-full h-full object-cover aspect-square"
+        class="aspect-square h-full w-full object-cover"
         :style="imageStyle"
         preset="iconLg"
         fit="cover"
@@ -41,7 +41,7 @@
         v-if="item.count > 0 && info"
         size="tiny"
         :bordered="false"
-        class="absolute bottom-1 right-1 scale-75 sm:scale-90 origin-bottom-right text-white shadow-xs rounded-full text-xs opacity-80"
+        class="absolute right-1 bottom-1 origin-bottom-right scale-75 rounded-full text-xs text-white opacity-80 shadow-xs sm:scale-90"
         :style="{
           backgroundColor: getPullColor(
             item.pullsToObtain,
@@ -65,7 +65,7 @@
         v-if="item.count > 1 && info"
         size="tiny"
         :bordered="false"
-        class="absolute top-1 right-1 scale-75 sm:scale-90 origin-top-right shadow-xs rounded-full text-xs"
+        class="absolute top-1 right-1 origin-top-right scale-75 rounded-full text-xs shadow-xs sm:scale-90"
         :style="{
           backgroundColor: `${getQualityColor(item.quality)}CC`, // 80% opacity
         }"
@@ -74,21 +74,21 @@
       </n-tag>
     </n-card>
     <div
-      class="pointer-events-none absolute inset-x-0 bottom-full z-20 mb-2 flex justify-center opacity-0 translate-y-2 scale-90 transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:opacity-100 group-hover:translate-y-0 group-hover:scale-100 group-focus-within:opacity-100 group-focus-within:translate-y-0 group-focus-within:scale-100"
+      class="pointer-events-none absolute inset-x-0 bottom-full z-20 mb-2 flex translate-y-2 scale-90 justify-center opacity-0 transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-focus-within:translate-y-0 group-focus-within:scale-100 group-focus-within:opacity-100 group-hover:translate-y-0 group-hover:scale-100 group-hover:opacity-100"
     >
       <div
         :style="popoverStyle"
-        class="relative min-h-12 w-32 sm:w-36 rounded-xl p-2 text-center ring-1 ring-black/5 backdrop-blur-md dark:ring-white/10"
+        class="relative min-h-12 w-32 rounded-xl p-2 text-center ring-1 ring-black/5 backdrop-blur-md sm:w-36 dark:ring-white/10"
       >
-        <div class="font-bold leading-tight line-clamp-2 text-xs">
+        <div class="line-clamp-2 text-xs leading-tight font-bold">
           {{ $t(`item.${item.itemId}.name`) }}
         </div>
-        <div class="mt-0.5 text-[10px] sm:text-xs font-medium opacity-80">
+        <div class="mt-0.5 text-[10px] font-medium opacity-80 sm:text-xs">
           {{ $t(`type.${itemType}`) }}
         </div>
         <div
           v-if="item.count > 0"
-          class="mt-0.5 text-[10px] sm:text-xs font-medium opacity-80"
+          class="mt-0.5 text-[10px] font-medium opacity-80 sm:text-xs"
         >
           <span v-if="item.pullIndex > 0">
             {{ $t('tracker.items.pull', { number: item.pullIndex }) }}

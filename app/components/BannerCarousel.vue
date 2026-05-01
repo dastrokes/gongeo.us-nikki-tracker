@@ -1,7 +1,7 @@
 <template>
   <div
     ref="carouselRef"
-    class="relative h-full w-full overflow-hidden rounded-xl touch-pan-y"
+    class="relative h-full w-full touch-pan-y overflow-hidden rounded-xl"
     role="group"
     aria-roledescription="carousel"
   >
@@ -50,7 +50,7 @@
         <n-tooltip
           overlap
           placement="top-end"
-          class="rounded-lg m-2 px-2 py-1 text-xs cursor-pointer"
+          class="m-2 cursor-pointer rounded-lg px-2 py-1 text-xs"
           @click.stop.prevent="
             navigateTo(localePath(`/banners/${banner.bannerId}`))
           "
@@ -70,7 +70,7 @@
         round
         :bordered="false"
         size="small"
-        class="absolute bottom-2 right-2 z-20 origin-bottom-right scale-90 opacity-90 sm:scale-100"
+        class="absolute right-2 bottom-2 z-20 origin-bottom-right scale-90 opacity-90 sm:scale-100"
       >
         {{ formattedTime }}
         <template #icon>
@@ -98,7 +98,7 @@
         v-for="(banner, index) in banners"
         :key="`dot-${banner.bannerId}`"
         :class="[
-          'block h-2 shrink-0 rounded-full transition-all duration-300 hover:opacity-80 aspect-square cursor-pointer',
+          'block aspect-square h-2 shrink-0 cursor-pointer rounded-full transition-all duration-300 hover:opacity-80',
           activeIndex === index
             ? 'scale-125 bg-slate-50 opacity-100 shadow-xs'
             : 'bg-slate-50 opacity-50',

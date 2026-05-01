@@ -1,16 +1,16 @@
 <template>
-  <div class="max-w-7xl mx-auto space-y-2 sm:space-y-4">
+  <div class="mx-auto max-w-7xl space-y-2 sm:space-y-4">
     <n-card
       size="small"
       class="rounded-xl p-0 sm:p-2"
     >
-      <div class="text-center mb-12">
-        <n-h1 class="font-bold mb-4">{{ $t('about.title') }}</n-h1>
+      <div class="mb-12 text-center">
+        <n-h1 class="mb-4 font-bold">{{ $t('about.title') }}</n-h1>
       </div>
 
       <div>
         <section class="mb-8">
-          <n-h2 class="font-semibold mb-4">
+          <n-h2 class="mb-4 font-semibold">
             {{ $t('about.infinityNikkiAssets.title') }}
           </n-h2>
           <p>
@@ -22,7 +22,7 @@
         </section>
 
         <section class="mb-8">
-          <n-h2 class="font-semibold mb-4">
+          <n-h2 class="mb-4 font-semibold">
             {{ $t('about.dataAndStats.title') }}
           </n-h2>
           <p>
@@ -34,7 +34,7 @@
         </section>
 
         <section class="mb-8">
-          <n-h2 class="font-semibold mb-4">{{
+          <n-h2 class="mb-4 font-semibold">{{
             $t('about.intellectualProperty.title')
           }}</n-h2>
           <p>
@@ -49,7 +49,7 @@
         </section>
 
         <section class="mb-8">
-          <n-h2 class="font-semibold mb-4">{{
+          <n-h2 class="mb-4 font-semibold">{{
             $t('about.dataCollection.title')
           }}</n-h2>
           <p>{{ $t('about.dataCollection.content') }}</p>
@@ -57,7 +57,7 @@
         </section>
 
         <section class="mb-8">
-          <n-h2 class="font-semibold mb-4">{{
+          <n-h2 class="mb-4 font-semibold">{{
             $t('about.accountSecurity.title')
           }}</n-h2>
           <p>{{ $t('about.accountSecurity.content') }}</p>
@@ -65,7 +65,7 @@
         </section>
 
         <section class="mb-8">
-          <n-h2 class="font-semibold mb-4">{{
+          <n-h2 class="mb-4 font-semibold">{{
             $t('about.advertising.title')
           }}</n-h2>
           <p>{{ $t('about.advertising.content') }}</p>
@@ -73,7 +73,7 @@
         </section>
 
         <section class="mb-8">
-          <n-h2 class="font-semibold mb-4">{{
+          <n-h2 class="mb-4 font-semibold">{{
             $t('about.analytics.title')
           }}</n-h2>
           <p>
@@ -82,7 +82,7 @@
         </section>
 
         <section class="mb-8">
-          <n-h2 class="font-semibold mb-4">{{
+          <n-h2 class="mb-4 font-semibold">{{
             $t('about.errorMonitoring.title')
           }}</n-h2>
           <p>

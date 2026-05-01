@@ -4,7 +4,7 @@
       <NuxtLinkLocale
         no-prefetch
         :to="`/outfits/${outfitId}`"
-        class="cursor-pointer hover:opacity-80 transition-opacity"
+        class="cursor-pointer transition-opacity hover:opacity-80"
       >
         <n-tag
           :color="getQualityTextTheme(quality)"
@@ -21,13 +21,13 @@
         </n-tag>
       </NuxtLinkLocale>
     </div>
-    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+    <div class="grid grid-cols-2 gap-4 sm:grid-cols-4">
       <NuxtLinkLocale
         v-for="level in outfitLevels"
         :key="level"
         no-prefetch
         :to="`/outfits/${getVariantId(level)}`"
-        class="block group cursor-pointer"
+        class="group block cursor-pointer"
       >
         <div class="relative">
           <OutfitCard
@@ -35,10 +35,10 @@
             :quality="quality"
             :name="`${$t(`outfit.${outfitId}.name`)} ${level === 0 ? 'Base' : `LV${level}`}`"
             :show-info="false"
-            class="transition-all duration-300 ease-in-out group-hover:shadow-lg group-hover:scale-[1.02]"
+            class="transition-all duration-300 ease-in-out group-hover:scale-[1.02] group-hover:shadow-lg"
           />
           <div
-            class="absolute top-1 right-1 scale-90 sm:scale-100 origin-top-right z-20 pointer-events-none"
+            class="pointer-events-none absolute top-1 right-1 z-20 origin-top-right scale-90 sm:scale-100"
           >
             <n-tag
               round

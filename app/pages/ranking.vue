@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-7xl mx-auto space-y-2 sm:space-y-4">
+  <div class="mx-auto max-w-7xl space-y-2 sm:space-y-4">
     <!-- Stats -->
     <n-card
       v-if="stats"
@@ -7,11 +7,11 @@
       class="rounded-xl"
     >
       <div class="flex flex-col gap-3">
-        <div class="flex flex-col sm:flex-row gap-4">
-          <div class="grid grid-cols-3 gap-3 sm:gap-4 sm:flex-1">
+        <div class="flex flex-col gap-4 sm:flex-row">
+          <div class="grid grid-cols-3 gap-3 sm:flex-1 sm:gap-4">
             <div class="text-center sm:text-left">
               <div
-                class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-1"
+                class="mb-1 text-xs text-gray-500 sm:text-sm dark:text-gray-400"
               >
                 {{
                   isPersonalMode
@@ -20,7 +20,7 @@
                 }}
               </div>
               <div
-                class="flex items-center justify-center sm:justify-start gap-2"
+                class="flex items-center justify-center gap-2 sm:justify-start"
               >
                 <n-icon
                   :depth="3"
@@ -28,7 +28,7 @@
                 >
                   <Poll />
                 </n-icon>
-                <span class="text-md sm:text-2xl font-semibold tabular-nums">
+                <span class="text-md font-semibold tabular-nums sm:text-2xl">
                   <n-number-animation
                     :from="0"
                     :to="stats.totalVotes"
@@ -42,12 +42,12 @@
               class="text-center sm:text-left"
             >
               <div
-                class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-1"
+                class="mb-1 text-xs text-gray-500 sm:text-sm dark:text-gray-400"
               >
                 {{ $t('common.stats.total_voters') }}
               </div>
               <div
-                class="flex items-center justify-center sm:justify-start gap-2"
+                class="flex items-center justify-center gap-2 sm:justify-start"
               >
                 <n-icon
                   :depth="3"
@@ -55,7 +55,7 @@
                 >
                   <Users />
                 </n-icon>
-                <span class="text-md sm:text-2xl font-semibold tabular-nums">
+                <span class="text-md font-semibold tabular-nums sm:text-2xl">
                   <n-number-animation
                     :from="0"
                     :to="stats.totalVoters"
@@ -69,12 +69,12 @@
               class="text-center sm:text-left"
             >
               <div
-                class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-1"
+                class="mb-1 text-xs text-gray-500 sm:text-sm dark:text-gray-400"
               >
                 {{ $t('common.stats.avg_votes') }}
               </div>
               <div
-                class="flex items-center justify-center sm:justify-start gap-2"
+                class="flex items-center justify-center gap-2 sm:justify-start"
               >
                 <n-icon
                   :depth="3"
@@ -82,7 +82,7 @@
                 >
                   <ChartBar />
                 </n-icon>
-                <span class="text-md sm:text-2xl font-semibold tabular-nums">
+                <span class="text-md font-semibold tabular-nums sm:text-2xl">
                   <n-number-animation
                     :from="0"
                     :to="stats.totalVotes / stats.totalVoters"
@@ -94,9 +94,9 @@
             </div>
           </div>
           <div
-            class="flex flex-row sm:flex-col gap-2 justify-center sm:justify-start sm:self-start"
+            class="flex flex-row justify-center gap-2 sm:flex-col sm:justify-start sm:self-start"
           >
-            <div class="flex justify-end items-center gap-2">
+            <div class="flex items-center justify-end gap-2">
               <n-tooltip
                 :width="250"
                 trigger="hover"
@@ -116,7 +116,7 @@
                   </n-switch>
                 </template>
                 <div class="max-w-xs">
-                  <div class="font-semibold mb-1">
+                  <div class="mb-1 font-semibold">
                     {{
                       isPersonalMode
                         ? t('vote.mode.personal')
@@ -212,12 +212,12 @@
       size="small"
       class="rounded-xl"
     >
-      <div class="flex flex-col sm:flex-row gap-4">
-        <div class="grid grid-cols-3 gap-3 sm:gap-4 sm:flex-1">
+      <div class="flex flex-col gap-4 sm:flex-row">
+        <div class="grid grid-cols-3 gap-3 sm:flex-1 sm:gap-4">
           <div
             v-for="i in 3"
             :key="i"
-            class="text-center sm:text-left space-y-1"
+            class="space-y-1 text-center sm:text-left"
           >
             <div>
               <n-skeleton
@@ -236,9 +236,9 @@
           </div>
         </div>
         <div
-          class="flex flex-row sm:flex-col gap-2 justify-center sm:justify-start sm:self-start"
+          class="flex flex-row justify-center gap-2 sm:flex-col sm:justify-start sm:self-start"
         >
-          <div class="flex justify-end items-center gap-2">
+          <div class="flex items-center justify-end gap-2">
             <n-skeleton
               :width="60"
               :height="24"

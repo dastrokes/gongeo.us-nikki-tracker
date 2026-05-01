@@ -1,12 +1,12 @@
 <template>
-  <div class="max-w-7xl mx-auto space-y-2 sm:space-y-4">
+  <div class="mx-auto max-w-7xl space-y-2 sm:space-y-4">
     <n-card
       size="small"
       class="rounded-xl p-0 sm:p-2"
       content-class="p-2 sm:p-4"
     >
       <div class="space-y-2 sm:space-y-4">
-        <div class="text-center space-y-2">
+        <div class="space-y-2 text-center">
           <n-h2 class="font-bold">{{ t('profile.manage_profiles') }}</n-h2>
           <n-text class="text-sm">{{ t('profile.subtitle') }}</n-text>
         </div>
@@ -16,10 +16,10 @@
           class="rounded-xl p-2"
           content-class="p-4"
         >
-          <div class="flex gap-3 flex-row items-center justify-between">
+          <div class="flex flex-row items-center justify-between gap-3">
             <div class="space-y-1">
               <div
-                class="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400"
+                class="text-xs font-semibold tracking-wide text-slate-500 uppercase dark:text-slate-400"
               >
                 {{ t('profile.account_label') }}
               </div>
@@ -61,7 +61,7 @@
           </div>
         </n-card>
 
-        <div class="grid gap-2 sm:gap-4 grid-cols-1 lg:grid-cols-3">
+        <div class="grid grid-cols-1 gap-2 sm:gap-4 lg:grid-cols-3">
           <n-card
             v-for="(slot, index) in slots"
             :key="index"
@@ -221,7 +221,7 @@
           class="rounded-xl p-2"
           content-class="p-4"
         >
-          <div class="flex gap-3 flex-row items-center justify-between">
+          <div class="flex flex-row items-center justify-between gap-3">
             <div class="space-y-1">
               <div class="text-sm text-slate-500 dark:text-slate-400">
                 <template v-if="initialized">
@@ -244,7 +244,7 @@
             </div>
           </div>
           <div
-            class="mt-4 grid gap-2 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4"
+            class="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4"
           >
             <n-button @click="handleUpload">
               <template #icon>

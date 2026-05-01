@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen flex items-center justify-center">
+  <div class="flex min-h-screen items-center justify-center">
     <n-result
       size="small"
       class="w-full max-w-xs"
@@ -9,7 +9,7 @@
       <template #icon>
         <NuxtImg
           :src="getImageSrc('emote', 'think')"
-          class="w-2/3 h-2/3 object-cover"
+          class="h-2/3 w-2/3 object-cover"
           preset="iconLg"
           fit="cover"
           sizes="160px sm:200px"

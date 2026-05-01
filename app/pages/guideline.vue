@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-7xl mx-auto space-y-2 sm:space-y-4">
+  <div class="mx-auto max-w-7xl space-y-2 sm:space-y-4">
     <n-card
       size="small"
       class="rounded-xl p-0"
@@ -9,7 +9,7 @@
         class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between"
       >
         <div class="min-w-0 space-y-2">
-          <h1 class="text-xl font-semibold leading-tight sm:text-2xl">
+          <h1 class="text-xl leading-tight font-semibold sm:text-2xl">
             {{ t('feedback.guidelines.page_title') }}
           </h1>
         </div>

@@ -1,12 +1,12 @@
 <template>
-  <div class="landing-page max-w-7xl mx-auto space-y-4 sm:space-y-8">
+  <div class="landing-page mx-auto max-w-7xl space-y-4 sm:space-y-8">
     <!-- ═══ Hero Section ═══ -->
-    <section class="hero-section relative text-center py-4 sm:py-8">
-      <div class="flex items-center gap-4 flex-row justify-center mb-4">
+    <section class="hero-section relative py-4 text-center sm:py-8">
+      <div class="mb-4 flex flex-row items-center justify-center gap-4">
         <button
           type="button"
           :aria-label="$t('navigation.title')"
-          class="group flex h-12 w-12 shrink-0 cursor-help shadow-md ring-1 ring-purple-200/50 dark:ring-purple-800/20 items-center justify-center rounded-2xl bg-white/60 p-2 backdrop-blur-xs transition-all duration-300 hover:-translate-y-0.5 active:scale-95 sm:h-16 sm:w-16 dark:bg-slate-800/60 dark:shadow-[0_4px_10px_rgba(0,0,0,0.3)]"
+          class="group flex h-12 w-12 shrink-0 cursor-help items-center justify-center rounded-2xl bg-white/60 p-2 shadow-md ring-1 ring-purple-200/50 backdrop-blur-xs transition-all duration-300 hover:-translate-y-0.5 active:scale-95 sm:h-16 sm:w-16 dark:bg-slate-800/60 dark:shadow-[0_4px_10px_rgba(0,0,0,0.3)] dark:ring-purple-800/20"
           @click="handleHeroLogoClick"
         >
           <NuxtImg
@@ -21,32 +21,32 @@
         </button>
         <div class="text-left">
           <p
-            class="text-xs font-semibold uppercase tracking-widest text-rose-500/80 dark:text-rose-300/80"
+            class="text-xs font-semibold tracking-widest text-rose-500/80 uppercase dark:text-rose-300/80"
           >
             {{ $t('meta.game_title') }}
           </p>
-          <p class="text-2xl sm:text-3xl font-black leading-tight">
+          <p class="text-2xl leading-tight font-black sm:text-3xl">
             {{ $t('navigation.title') }}
           </p>
         </div>
       </div>
       <h1
-        class="text-2xl sm:text-4xl font-extrabold pb-4 whitespace-pre-line bg-linear-to-r from-[#c084fc] via-[#f472b6] to-[#fb923c] bg-clip-text text-transparent dark:from-[#a78bfa] dark:via-[#f9a8d4] dark:to-[#fdba74]"
+        class="bg-linear-to-r from-[#c084fc] via-[#f472b6] to-[#fb923c] bg-clip-text pb-4 text-2xl font-extrabold whitespace-pre-line text-transparent sm:text-4xl dark:from-[#a78bfa] dark:via-[#f9a8d4] dark:to-[#fdba74]"
       >
         {{ $t('navigation.subtitle') }}
       </h1>
       <p
-        class="text-gray-600 dark:text-gray-300 text-base sm:text-lg max-w-xl mx-auto mb-6"
+        class="mx-auto mb-6 max-w-xl text-base text-gray-600 sm:text-lg dark:text-gray-300"
       >
         {{ $t('default.description') }}
       </p>
-      <div class="flex gap-4 justify-center items-center flex-wrap">
+      <div class="flex flex-wrap items-center justify-center gap-4">
         <n-button
           type="primary"
           size="large"
           round
           strong
-          class="shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all relative overflow-hidden after:content-[''] after:absolute after:inset-y-0 after:-left-full after:w-[60%] after:bg-linear-to-r after:from-transparent after:via-white/15 after:to-transparent after:animate-button-shimmer motion-reduce:after:animate-none"
+          class="after:animate-button-shimmer relative overflow-hidden shadow-sm transition-all after:absolute after:inset-y-0 after:-left-full after:w-[60%] after:bg-linear-to-r after:from-transparent after:via-white/15 after:to-transparent after:content-[''] hover:-translate-y-0.5 hover:shadow-md motion-reduce:after:animate-none"
           @click="navigateTo(localePath('/tracker'))"
         >
           <template #icon>
@@ -59,7 +59,7 @@
           size="large"
           round
           strong
-          class="shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all relative overflow-hidden after:content-[''] after:absolute after:inset-y-0 after:-left-full after:w-[60%] after:bg-linear-to-r after:from-transparent after:via-white/15 after:to-transparent after:animate-button-shimmer motion-reduce:after:animate-none"
+          class="after:animate-button-shimmer relative overflow-hidden shadow-sm transition-all after:absolute after:inset-y-0 after:-left-full after:w-[60%] after:bg-linear-to-r after:from-transparent after:via-white/15 after:to-transparent after:content-[''] hover:-translate-y-0.5 hover:shadow-md motion-reduce:after:animate-none"
           @click="navigateTo(localePath('/global'))"
         >
           <template #icon>
@@ -71,7 +71,7 @@
       <div class="mt-6 flex max-w-full flex-wrap justify-center gap-2">
         <button
           type="button"
-          class="inline-flex cursor-pointer items-center gap-2 rounded-full border border-white/45 bg-white/55 px-3 py-1 text-xs font-semibold text-slate-700 shadow-xs backdrop-blur-md transform-all duration-200 hover:-translate-y-0.5 hover:bg-white/70 hover:shadow-md dark:border-white/10 dark:bg-slate-950/35 dark:text-slate-100 dark:hover:bg-slate-900/50"
+          class="transform-all inline-flex cursor-pointer items-center gap-2 rounded-full border border-white/45 bg-white/55 px-3 py-1 text-xs font-semibold text-slate-700 shadow-xs backdrop-blur-md duration-200 hover:-translate-y-0.5 hover:bg-white/70 hover:shadow-md dark:border-white/10 dark:bg-slate-950/35 dark:text-slate-100 dark:hover:bg-slate-900/50"
           @click="scrollToSection(bannersSectionRef)"
         >
           <n-icon><CalendarAlt /></n-icon>
@@ -79,7 +79,7 @@
         </button>
         <button
           type="button"
-          class="inline-flex cursor-pointer items-center gap-2 rounded-full border border-white/45 bg-white/55 px-3 py-1 text-xs font-semibold text-slate-700 shadow-xs backdrop-blur-md transform-all duration-200 hover:-translate-y-0.5 hover:bg-white/70 hover:shadow-md dark:border-white/10 dark:bg-slate-950/35 dark:text-slate-100 dark:hover:bg-slate-900/50"
+          class="transform-all inline-flex cursor-pointer items-center gap-2 rounded-full border border-white/45 bg-white/55 px-3 py-1 text-xs font-semibold text-slate-700 shadow-xs backdrop-blur-md duration-200 hover:-translate-y-0.5 hover:bg-white/70 hover:shadow-md dark:border-white/10 dark:bg-slate-950/35 dark:text-slate-100 dark:hover:bg-slate-900/50"
           @click="scrollToSection(compendiumSectionRef)"
         >
           <n-icon><ListAlt /></n-icon>
@@ -87,7 +87,7 @@
         </button>
         <button
           type="button"
-          class="inline-flex cursor-pointer items-center gap-2 rounded-full border border-white/45 bg-white/55 px-3 py-1 text-xs font-semibold text-slate-700 shadow-xs backdrop-blur-md transform-all duration-200 hover:-translate-y-0.5 hover:bg-white/70 hover:shadow-md dark:border-white/10 dark:bg-slate-950/35 dark:text-slate-100 dark:hover:bg-slate-900/50"
+          class="transform-all inline-flex cursor-pointer items-center gap-2 rounded-full border border-white/45 bg-white/55 px-3 py-1 text-xs font-semibold text-slate-700 shadow-xs backdrop-blur-md duration-200 hover:-translate-y-0.5 hover:bg-white/70 hover:shadow-md dark:border-white/10 dark:bg-slate-950/35 dark:text-slate-100 dark:hover:bg-slate-900/50"
           @click="scrollToSection(statsSectionRef)"
         >
           <n-icon><Globe /></n-icon>
@@ -97,7 +97,7 @@
 
       <n-modal
         :show="showGongeousEasterEgg"
-        class="w-full max-w-sm mx-auto pointer-events-auto"
+        class="pointer-events-auto mx-auto w-full max-w-sm"
         :mask-closable="true"
         :auto-focus="false"
         @update:show="handleGongeousModalShow"
@@ -116,19 +116,19 @@
         size="small"
         class="rounded-xl p-0 sm:p-2"
       >
-        <div class="text-center mb-4">
+        <div class="mb-4 text-center">
           <n-h2 class="m-0 font-bold">
             {{ $t('default.current_banners') }}
           </n-h2>
         </div>
         <div
           v-if="bannerGroups.length > 0"
-          class="flex flex-col sm:flex-row gap-4"
+          class="flex flex-col gap-4 sm:flex-row"
         >
           <div
             v-for="group in bannerGroups"
             :key="group.key"
-            class="w-full sm:w-1/2 aspect-2/1"
+            class="aspect-2/1 w-full sm:w-1/2"
             :class="bannerGroups.length === 1 ? 'sm:mx-auto' : ''"
           >
             <BannerCarousel
@@ -149,23 +149,23 @@
         size="small"
         class="rounded-xl p-0 sm:p-2"
       >
-        <div class="text-center mb-4">
+        <div class="mb-4 text-center">
           <n-h2 class="m-0 font-bold">
             {{ $t('navigation.compendium') }}
           </n-h2>
         </div>
 
         <!-- Compendium Grid -->
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
+        <div class="mb-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
           <button
             v-for="item in compendiumItems"
             :key="item.key"
-            class="flex flex-col items-center justify-center p-6 rounded-xl bg-linear-to-br from-[#e8ddf9]/30 to-[#fce4ec]/30 border border-black/4 cursor-pointer hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(244,63,94,0.1)] group dark:from-[#1e1b4b]/40 dark:to-[#581c64]/30 dark:border-white/5 dark:hover:shadow-[0_6px_20px_rgba(168,85,247,0.12)]"
+            class="group flex cursor-pointer flex-col items-center justify-center rounded-xl border border-black/4 bg-linear-to-br from-[#e8ddf9]/30 to-[#fce4ec]/30 p-6 hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(244,63,94,0.1)] dark:border-white/5 dark:from-[#1e1b4b]/40 dark:to-[#581c64]/30 dark:hover:shadow-[0_6px_20px_rgba(168,85,247,0.12)]"
             @click="navigateTo(localePath(item.path))"
           >
             <n-icon
               :size="28"
-              class="mb-2 text-rose-500 dark:text-rose-400 group-hover:scale-110 transition-transform"
+              class="mb-2 text-rose-500 transition-transform group-hover:scale-110 dark:text-rose-400"
             >
               <component :is="item.icon" />
             </n-icon>
@@ -178,18 +178,18 @@
           <!-- Tier List Preview -->
           <NuxtLinkLocale
             no-prefetch
-            class="relative flex items-center justify-center h-36 w-full rounded-lg border border-gray-200/70 dark:border-gray-700/70 bg-linear-to-b from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900 overflow-hidden cursor-pointer group"
+            class="group relative flex h-36 w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg border border-gray-200/70 bg-linear-to-b from-gray-100 to-gray-200 dark:border-gray-700/70 dark:from-gray-800 dark:to-gray-900"
             :to="'/tierlist'"
           >
             <div
-              class="h-full rounded-md backdrop-blur-[1px] p-2 flex flex-col gap-1.5"
+              class="flex h-full flex-col gap-1.5 rounded-md p-2 backdrop-blur-[1px]"
             >
               <div
                 v-for="(row, rowIndex) in tierPreviewRows"
                 :key="`tier-preview-row-${rowIndex}`"
                 class="flex items-center"
               >
-                <div class="flex-1 flex gap-1.5">
+                <div class="flex flex-1 gap-1.5">
                   <div
                     v-for="(chipClass, chipIndex) in row"
                     :key="`tier-preview-chip-${rowIndex}-${chipIndex}`"
@@ -199,9 +199,9 @@
                 </div>
               </div>
             </div>
-            <div class="absolute bottom-2 left-2 right-2">
+            <div class="absolute right-2 bottom-2 left-2">
               <div
-                class="flex w-full items-center justify-center gap-1 rounded-md border border-white/60 bg-white/80 px-3 py-1.5 text-sm font-medium text-rose-500 shadow-xs backdrop-blur-xs pointer-events-none dark:border-white/10 dark:bg-slate-900/70 dark:text-rose-300"
+                class="pointer-events-none flex w-full items-center justify-center gap-1 rounded-md border border-white/60 bg-white/80 px-3 py-1.5 text-sm font-medium text-rose-500 shadow-xs backdrop-blur-xs dark:border-white/10 dark:bg-slate-900/70 dark:text-rose-300"
               >
                 <n-icon><SortAmountDown /></n-icon>
                 <span>{{ $t('navigation.tierlist') }}</span>
@@ -212,10 +212,10 @@
           <!-- Outfit Silhouette Quiz -->
           <NuxtLinkLocale
             no-prefetch
-            class="relative flex items-center justify-center h-36 w-full rounded-lg border border-gray-200/70 dark:border-gray-700/70 bg-linear-to-b from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900 overflow-hidden cursor-pointer group"
+            class="group relative flex h-36 w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg border border-gray-200/70 bg-linear-to-b from-gray-100 to-gray-200 dark:border-gray-700/70 dark:from-gray-800 dark:to-gray-900"
             :to="'/quiz'"
           >
-            <div class="h-full aspect-2/3 shrink-0 p-1">
+            <div class="aspect-2/3 h-full shrink-0 p-1">
               <NuxtImg
                 :src="getImageSrc('outfit', featuredOutfitId)"
                 preset="tallSm"
@@ -226,9 +226,9 @@
                 :style="silhouetteStyle"
               />
             </div>
-            <div class="absolute bottom-2 left-2 right-2">
+            <div class="absolute right-2 bottom-2 left-2">
               <div
-                class="flex w-full items-center justify-center gap-1 rounded-md border border-white/60 bg-white/80 px-3 py-1.5 text-sm font-medium text-rose-500 shadow-xs backdrop-blur-xs pointer-events-none dark:border-white/10 dark:bg-slate-900/70 dark:text-rose-300"
+                class="pointer-events-none flex w-full items-center justify-center gap-1 rounded-md border border-white/60 bg-white/80 px-3 py-1.5 text-sm font-medium text-rose-500 shadow-xs backdrop-blur-xs dark:border-white/10 dark:bg-slate-900/70 dark:text-rose-300"
               >
                 <n-icon><PuzzlePiece /></n-icon>
                 <span>{{ $t('quiz.title') }}</span>
@@ -249,7 +249,7 @@
         size="small"
         class="rounded-xl p-0 sm:p-2"
       >
-        <div class="text-center mb-4">
+        <div class="mb-4 text-center">
           <n-h2 class="m-0 font-bold">
             {{ $t('default.community_stats') }}
           </n-h2>
@@ -259,12 +259,12 @@
         >
           <div class="flex flex-col gap-3">
             <div class="grid grid-cols-2 gap-3 text-center lg:grid-cols-1">
-              <div class="p-3 rounded-xl bg-[#e8ddf9]/15 dark:bg-[#1e1b4b]/25">
-                <div class="text-sm text-gray-400 mb-1">
+              <div class="rounded-xl bg-[#e8ddf9]/15 p-3 dark:bg-[#1e1b4b]/25">
+                <div class="mb-1 text-sm text-gray-400">
                   {{ $t('common.stats.total_pulls') }}
                 </div>
                 <div
-                  class="text-xl sm:text-2xl font-bold tabular-nums min-h-7 sm:min-h-8"
+                  class="min-h-7 text-xl font-bold tabular-nums sm:min-h-8 sm:text-2xl"
                 >
                   <n-number-animation
                     v-if="globalStats"
@@ -277,17 +277,17 @@
                     v-else-if="globalStatsStatus !== 'error'"
                     text
                     round
-                    class="w-24 sm:w-32 mx-auto"
+                    class="mx-auto w-24 sm:w-32"
                   />
                   <span v-else>—</span>
                 </div>
               </div>
-              <div class="p-3 rounded-xl bg-[#e8ddf9]/15 dark:bg-[#1e1b4b]/25">
-                <div class="text-sm text-gray-400 mb-1">
+              <div class="rounded-xl bg-[#e8ddf9]/15 p-3 dark:bg-[#1e1b4b]/25">
+                <div class="mb-1 text-sm text-gray-400">
                   {{ $t('global.stats.unique_users') }}
                 </div>
                 <div
-                  class="text-xl sm:text-2xl font-bold tabular-nums min-h-7 sm:min-h-8"
+                  class="min-h-7 text-xl font-bold tabular-nums sm:min-h-8 sm:text-2xl"
                 >
                   <n-number-animation
                     v-if="globalStats"
@@ -300,7 +300,7 @@
                     v-else-if="globalStatsStatus !== 'error'"
                     text
                     round
-                    class="w-16 sm:w-20 mx-auto"
+                    class="mx-auto w-16 sm:w-20"
                   />
                   <span v-else>—</span>
                 </div>

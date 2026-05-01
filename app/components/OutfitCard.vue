@@ -1,7 +1,7 @@
 <template>
   <div :class="cardClasses">
     <div
-      class="absolute inset-0 bg-[url('/images/bg.webp')] bg-cover bg-center bg-slate-100 dark:bg-slate-300"
+      class="absolute inset-0 bg-slate-100 bg-[url('/images/bg.webp')] bg-cover bg-center dark:bg-slate-300"
     ></div>
     <!-- Tint overlay -->
     <div
@@ -41,15 +41,15 @@
 
     <div
       v-if="showInfo"
-      class="absolute bottom-0 left-0 right-0 bg-linear-to-t from-black/90 to-transparent z-20"
+      class="absolute right-0 bottom-0 left-0 z-20 bg-linear-to-t from-black/90 to-transparent"
       :class="metaPaddingClass"
     >
-      <p class="text-white font-semibold text-xs sm:text-sm line-clamp-2">
+      <p class="line-clamp-2 text-xs font-semibold text-white sm:text-sm">
         {{ name }}
       </p>
       <div
         v-if="styleLabel"
-        class="flex flex-wrap gap-1 mt-1"
+        class="mt-1 flex flex-wrap gap-1"
       >
         <n-tag
           size="tiny"
@@ -63,7 +63,7 @@
       </div>
       <div
         v-if="normalizedLabels.length"
-        class="flex flex-wrap gap-0.5 mt-1"
+        class="mt-1 flex flex-wrap gap-0.5"
       >
         <n-tag
           v-for="label in normalizedLabels"

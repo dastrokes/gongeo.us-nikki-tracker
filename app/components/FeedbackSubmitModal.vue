@@ -10,7 +10,7 @@
   >
     <div class="space-y-4">
       <div class="space-y-1">
-        <div class="text-base font-semibold leading-tight">
+        <div class="text-base leading-tight font-semibold">
           {{ itemName }}
         </div>
         <p class="text-sm opacity-75">
@@ -83,7 +83,7 @@
         >
           <div class="mb-3 flex items-center justify-between gap-2">
             <div
-              class="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400"
+              class="text-xs font-semibold tracking-[0.18em] text-slate-500 uppercase dark:text-slate-400"
             >
               {{ t('feedback.current_tags') }}
             </div>

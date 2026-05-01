@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-7xl mx-auto space-y-2 sm:space-y-4">
+  <div class="mx-auto max-w-7xl space-y-2 sm:space-y-4">
     <n-card
       v-if="banner"
       size="small"
@@ -7,9 +7,9 @@
     >
       <div>
         <div class="flex flex-col gap-2">
-          <div class="flex flex-col gap-3 sm:flex-row justify-between">
+          <div class="flex flex-col justify-between gap-3 sm:flex-row">
             <!-- Banner Navigation -->
-            <div class="flex items-center gap-2 justify-start">
+            <div class="flex items-center justify-start gap-2">
               <n-tooltip trigger="hover">
                 <template #trigger>
                   <n-button
@@ -65,7 +65,7 @@
             </div>
 
             <!-- Controls -->
-            <div class="flex gap-4 justify-end">
+            <div class="flex justify-end gap-4">
               <!-- Edit Button -->
               <n-tooltip trigger="hover">
                 <template #trigger>
@@ -108,15 +108,15 @@
             </div>
           </div>
 
-          <div class="grid grid-cols-1 sm:grid-cols-[1fr_3fr] gap-4">
+          <div class="grid grid-cols-1 gap-4 sm:grid-cols-[1fr_3fr]">
             <div class="space-y-2">
               <div
-                class="w-full aspect-2/1 relative overflow-hidden rounded-lg"
+                class="relative aspect-2/1 w-full overflow-hidden rounded-lg"
               >
                 <NuxtImg
                   :src="getImageSrc('banner', banner.bannerId)"
                   :alt="bannerName"
-                  class="absolute inset-0 w-full h-full object-cover"
+                  class="absolute inset-0 h-full w-full object-cover"
                   preset="bannerHero"
                   fit="cover"
                   loading="lazy"
@@ -134,7 +134,7 @@
                       :to="
                         getBannerVersionListLocation(getVersion(run.version))
                       "
-                      class="hover:opacity-80 transition-opacity"
+                      class="transition-opacity hover:opacity-80"
                     >
                       <n-tag
                         :bordered="false"
@@ -147,7 +147,7 @@
                       :to="
                         getBannerVersionListLocation(getVersion(run.version))
                       "
-                      class="hover:opacity-80 transition-opacity"
+                      class="transition-opacity hover:opacity-80"
                     >
                       <n-tag
                         :bordered="false"
@@ -192,7 +192,7 @@
               >
                 <div class="space-y-2">
                   <div
-                    class="flex items-center justify-center text-base gap-2 text-gray-500"
+                    class="flex items-center justify-center gap-2 text-base text-gray-500"
                   >
                     <n-tooltip trigger="hover">
                       <template #trigger>
@@ -245,7 +245,7 @@
                     <div
                       v-for="i in banner.bannerType === 3 ? 4 : 6"
                       :key="i"
-                      class="flex justify-between items-center"
+                      class="flex items-center justify-between"
                     >
                       <n-skeleton
                         text
@@ -381,7 +381,7 @@
                   </div>
                   <div
                     v-else
-                    class="text-gray-400 text-center"
+                    class="text-center text-gray-400"
                   >
                     <span class="inline-flex items-center gap-1">
                       {{ t('tracker.stats.no_pulls') }}
@@ -518,7 +518,7 @@
                       </n-icon>
                     </span>
                   </n-tag>
-                  <div class="grid grid-cols-5 lg:grid-cols-10 gap-2">
+                  <div class="grid grid-cols-5 gap-2 lg:grid-cols-10">
                     <ItemDataCard
                       v-for="(rewardId, i) in banner.rewardIds"
                       :key="rewardId"
@@ -559,7 +559,7 @@
           <div class="flex justify-center">
             <NuxtImg
               :src="getImageSrc('emote', 'think')"
-              class="mx-auto w-24 h-24 sm:w-32 sm:h-32 object-cover"
+              class="mx-auto h-24 w-24 object-cover sm:h-32 sm:w-32"
               preset="iconLg"
               fit="cover"
               sizes="160px sm:200px"

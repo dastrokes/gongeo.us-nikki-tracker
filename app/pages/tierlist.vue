@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-7xl mx-auto space-y-2 sm:space-y-4">
+  <div class="mx-auto max-w-7xl space-y-2 sm:space-y-4">
     <n-card
       size="small"
       class="rounded-xl p-0 sm:p-2"
@@ -239,7 +239,7 @@
                     class="relative overflow-hidden"
                     :class="
                       shouldHighlightCommunitySubmitButton
-                        ? `after:content-[''] after:absolute after:inset-y-0 after:-left-full after:w-[60%] after:bg-linear-to-r after:from-transparent after:via-white/15 after:to-transparent after:animate-button-shimmer motion-reduce:after:animate-none`
+                        ? `after:animate-button-shimmer after:absolute after:inset-y-0 after:-left-full after:w-[60%] after:bg-linear-to-r after:from-transparent after:via-white/15 after:to-transparent after:content-[''] motion-reduce:after:animate-none`
                         : ''
                     "
                     :loading="submittingCommunity"
@@ -451,21 +451,21 @@
           >
             <div :class="[tierRowClass, 'flex items-stretch gap-2']">
               <div
-                class="shrink-0 w-12 sm:w-16 md:w-20 xl:w-24 rounded-md border border-gray-200/70 dark:border-gray-700/70 border-l-4 border-l-(--tier-accent-color) p-1 flex items-center justify-center"
+                class="flex w-12 shrink-0 items-center justify-center rounded-md border border-l-4 border-gray-200/70 border-l-(--tier-accent-color) p-1 sm:w-16 md:w-20 xl:w-24 dark:border-gray-700/70"
                 :style="{
                   '--tier-accent-color': tierColorByKey[tier],
                   backgroundColor: tierLabelBackgroundByKey[tier],
                 }"
               ></div>
 
-              <div class="flex-1 min-w-0">
+              <div class="min-w-0 flex-1">
                 <div :class="[cardGridClass, tierListClass]">
                   <div
                     v-for="i in (tierIndex + 1) % 2 === 1 ? 2 : 3"
                     :key="`${tier}-card-${i}`"
-                    :class="[cardAspectClass, 'rounded-md overflow-hidden']"
+                    :class="[cardAspectClass, 'overflow-hidden rounded-md']"
                   >
-                    <n-skeleton class="w-full h-full" />
+                    <n-skeleton class="h-full w-full" />
                   </div>
                 </div>
               </div>
@@ -508,21 +508,21 @@
             >
               <div :class="[tierRowClass, 'flex items-stretch gap-2']">
                 <div
-                  class="shrink-0 w-12 sm:w-16 md:w-20 xl:w-24 rounded-md border border-gray-200/70 dark:border-gray-700/70 border-l-4 border-l-(--tier-accent-color) p-1 flex items-center justify-center"
+                  class="flex w-12 shrink-0 items-center justify-center rounded-md border border-l-4 border-gray-200/70 border-l-(--tier-accent-color) p-1 sm:w-16 md:w-20 xl:w-24 dark:border-gray-700/70"
                   :style="{
                     '--tier-accent-color': tierColorByKey[tier],
                     backgroundColor: tierLabelBackgroundByKey[tier],
                   }"
                 >
                   <span
-                    class="font-bold leading-none text-center"
+                    class="text-center leading-none font-bold"
                     :style="getTierLabelInputStyle(tier)"
                   >
                     {{ tier }}
                   </span>
                 </div>
 
-                <div class="flex-1 min-w-0">
+                <div class="min-w-0 flex-1">
                   <div :class="[cardGridClass, tierListClass]">
                     <div
                       v-if="communityAggregateTieredEntries[tier].length === 0"
@@ -532,7 +532,7 @@
                     <div
                       v-for="entry in communityAggregateTieredEntries[tier]"
                       :key="entry.id"
-                      class="group text-left touch-none cursor-pointer"
+                      class="group cursor-pointer touch-none text-left"
                     >
                       <n-popover
                         trigger="click"
@@ -540,7 +540,7 @@
                       >
                         <template #trigger>
                           <div
-                            class="relative rounded-md overflow-hidden shadow-xs hover:shadow-md transition-shadow duration-200 bg-gray-100 dark:bg-gray-800 border border-gray-200/70 dark:border-gray-700/70"
+                            class="relative overflow-hidden rounded-md border border-gray-200/70 bg-gray-100 shadow-xs transition-shadow duration-200 hover:shadow-md dark:border-gray-700/70 dark:bg-gray-800"
                             :class="cardAspectClass"
                             style="
                               background-image: url('/images/bg.webp');
@@ -555,7 +555,7 @@
                             <NuxtImg
                               :src="entry.image"
                               :alt="entry.name"
-                              class="absolute inset-0 w-full h-full object-cover z-10"
+                              class="absolute inset-0 z-10 h-full w-full object-cover"
                               :preset="
                                 mode === 'banners' ? 'bannerThumb' : 'tallLg'
                               "
@@ -567,7 +567,7 @@
                         </template>
 
                         <div class="w-48 space-y-0.5 text-xs leading-4">
-                          <div class="text-sm font-semibold truncate">
+                          <div class="truncate text-sm font-semibold">
                             {{ entry.name }}
                           </div>
                           <div class="text-gray-600 dark:text-gray-300">
@@ -601,7 +601,7 @@
                           </div>
 
                           <div
-                            class="rounded-lg my-1 border border-gray-200/80 bg-gray-50/80 p-2 dark:border-gray-700/80 dark:bg-gray-800/40"
+                            class="my-1 rounded-lg border border-gray-200/80 bg-gray-50/80 p-2 dark:border-gray-700/80 dark:bg-gray-800/40"
                           >
                             <div class="space-y-1">
                               <div
@@ -610,7 +610,7 @@
                                 class="flex items-center gap-1.5"
                               >
                                 <span
-                                  class="inline-flex h-3 w-4 shrink-0 items-center justify-center font-mono text-[10px] font-semibold leading-none"
+                                  class="inline-flex h-3 w-4 shrink-0 items-center justify-center font-mono text-[10px] leading-none font-semibold"
                                   :style="{ color: tierColorByKey[tierKey] }"
                                 >
                                   {{ tierKey }}
@@ -649,7 +649,7 @@
                 <div
                   v-for="entry in communityPaginatedUnrankedEntries"
                   :key="`community-unranked-${entry.id}`"
-                  class="group text-left touch-none cursor-pointer"
+                  class="group cursor-pointer touch-none text-left"
                 >
                   <n-popover
                     trigger="click"
@@ -657,7 +657,7 @@
                   >
                     <template #trigger>
                       <div
-                        class="relative rounded-md overflow-hidden shadow-xs hover:shadow-md transition-shadow duration-200 bg-gray-100 dark:bg-gray-800 border border-gray-200/70 dark:border-gray-700/70"
+                        class="relative overflow-hidden rounded-md border border-gray-200/70 bg-gray-100 shadow-xs transition-shadow duration-200 hover:shadow-md dark:border-gray-700/70 dark:bg-gray-800"
                         :class="cardAspectClass"
                         style="
                           background-image: url('/images/bg.webp');
@@ -672,7 +672,7 @@
                         <NuxtImg
                           :src="entry.image"
                           :alt="entry.name"
-                          class="absolute inset-0 w-full h-full object-cover z-10"
+                          class="absolute inset-0 z-10 h-full w-full object-cover"
                           :preset="
                             mode === 'banners' ? 'bannerThumb' : 'tallLg'
                           "
@@ -684,7 +684,7 @@
                     </template>
 
                     <div class="w-56 space-y-1.5 text-xs leading-4">
-                      <div class="text-sm font-semibold truncate">
+                      <div class="truncate text-sm font-semibold">
                         {{ entry.name }}
                       </div>
                       <div class="text-gray-600 dark:text-gray-300">
@@ -714,7 +714,7 @@
                             class="flex items-center gap-1.5"
                           >
                             <span
-                              class="inline-flex h-3 w-4 shrink-0 items-center justify-center font-mono text-[10px] font-semibold leading-none"
+                              class="inline-flex h-3 w-4 shrink-0 items-center justify-center font-mono text-[10px] leading-none font-semibold"
                               :style="{ color: tierColorByKey[tierKey] }"
                             >
                               {{ tierKey }}
@@ -743,7 +743,7 @@
 
             <div
               v-if="showCommunityPoolPagination"
-              class="flex justify-center items-center px-2 pb-2"
+              class="flex items-center justify-center px-2 pb-2"
             >
               <n-pagination
                 v-model:page="communityPoolPage"
@@ -769,7 +769,7 @@
       >
         <div
           v-if="error"
-          class="text-center py-12"
+          class="py-12 text-center"
         >
           <n-result
             size="small"
@@ -790,7 +790,7 @@
 
         <div
           v-else-if="isOverLimit"
-          class="text-center py-12"
+          class="py-12 text-center"
         >
           <n-result
             size="small"
@@ -804,7 +804,7 @@
               <NuxtImg
                 :src="getImageSrc('emote', 'think')"
                 :alt="t('tierlist.over_limit.title')"
-                class="mx-auto w-24 h-24 sm:w-32 sm:h-32 object-cover"
+                class="mx-auto h-24 w-24 object-cover sm:h-32 sm:w-32"
                 preset="iconLg"
                 fit="cover"
                 sizes="160px sm:200px"
@@ -824,7 +824,7 @@
           >
             <div :class="[tierRowClass, 'flex items-stretch gap-2']">
               <div
-                class="shrink-0 w-12 sm:w-16 md:w-20 xl:w-24 rounded-md border border-gray-200/70 dark:border-gray-700/70 border-l-4 border-l-(--tier-accent-color) p-1 flex items-center justify-center"
+                class="flex w-12 shrink-0 items-center justify-center rounded-md border border-l-4 border-gray-200/70 border-l-(--tier-accent-color) p-1 sm:w-16 md:w-20 xl:w-24 dark:border-gray-700/70"
                 :style="{
                   '--tier-accent-color': tierColorByKey[tier],
                   backgroundColor: tierLabelBackgroundByKey[tier],
@@ -839,13 +839,13 @@
                   :show-count="false"
                   :bordered="false"
                   :style="getTierLabelInputStyle(tier)"
-                  class="w-full min-w-0 bg-transparent font-bold text-center [&_.n-input-wrapper]:px-1"
+                  class="w-full min-w-0 bg-transparent text-center font-bold [&_.n-input-wrapper]:px-1"
                   @update:value="(value) => updateTierLabel(tier, value)"
                   @blur="normalizeTierLabel(tier)"
                 />
               </div>
 
-              <div class="flex-1 min-w-0">
+              <div class="min-w-0 flex-1">
                 <div
                   :ref="(el) => setTierListRef(tier, el as HTMLElement | null)"
                   :class="[cardGridClass, tierListClass]"
@@ -860,13 +860,13 @@
                     v-for="entry in tieredEntries[tier]"
                     :key="entry.id"
                     type="button"
-                    class="group text-left cursor-grab active:cursor-grabbing touch-none"
+                    class="group cursor-grab touch-none text-left active:cursor-grabbing"
                     :data-entry-id="entry.id"
                     @click="openRankContextMenu(entry.id, $event)"
                     @contextmenu="openRankContextMenu(entry.id, $event)"
                   >
                     <div
-                      class="relative rounded-md overflow-hidden shadow-xs hover:shadow-md transition-shadow duration-200 bg-gray-100 dark:bg-gray-800 border border-gray-200/70 dark:border-gray-700/70"
+                      class="relative overflow-hidden rounded-md border border-gray-200/70 bg-gray-100 shadow-xs transition-shadow duration-200 hover:shadow-md dark:border-gray-700/70 dark:bg-gray-800"
                       :class="cardAspectClass"
                       style="
                         background-image: url('/images/bg.webp');
@@ -881,7 +881,7 @@
                       <NuxtImg
                         :src="entry.image"
                         :alt="entry.name"
-                        class="absolute inset-0 w-full h-full object-cover z-10"
+                        class="absolute inset-0 z-10 h-full w-full object-cover"
                         :preset="mode === 'banners' ? 'bannerThumb' : 'tallLg'"
                         fit="cover"
                         loading="lazy"
@@ -925,13 +925,13 @@
               v-for="entry in paginatedUnrankedEntries"
               :key="entry.id"
               type="button"
-              class="group text-left cursor-grab active:cursor-grabbing touch-none"
+              class="group cursor-grab touch-none text-left active:cursor-grabbing"
               :data-entry-id="entry.id"
               @click="openRankContextMenu(entry.id, $event)"
               @contextmenu="openRankContextMenu(entry.id, $event)"
             >
               <div
-                class="relative rounded-md overflow-hidden shadow-xs hover:shadow-md transition-shadow duration-200 bg-gray-100 dark:bg-gray-800 border border-gray-200/70 dark:border-gray-700/70"
+                class="relative overflow-hidden rounded-md border border-gray-200/70 bg-gray-100 shadow-xs transition-shadow duration-200 hover:shadow-md dark:border-gray-700/70 dark:bg-gray-800"
                 :class="cardAspectClass"
                 style="
                   background-image: url('/images/bg.webp');
@@ -946,7 +946,7 @@
                 <NuxtImg
                   :src="entry.image"
                   :alt="entry.name"
-                  class="absolute inset-0 w-full h-full object-cover z-10"
+                  class="absolute inset-0 z-10 h-full w-full object-cover"
                   :preset="mode === 'banners' ? 'bannerThumb' : 'tallLg'"
                   fit="cover"
                   loading="lazy"
@@ -957,7 +957,7 @@
           </div>
         </div>
 
-        <div class="flex justify-center items-center px-2 pb-2">
+        <div class="flex items-center justify-center px-2 pb-2">
           <n-pagination
             v-if="showPoolPagination"
             v-model:page="poolPage"

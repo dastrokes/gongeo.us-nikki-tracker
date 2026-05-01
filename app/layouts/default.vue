@@ -1,7 +1,7 @@
 <template>
   <n-layout position="absolute">
     <n-layout-header
-      class="fixed inset-x-0 top-0 z-50 h-14 bg-transparent backdrop-blur-xl backdrop-saturate-50 border-b border-white/20 bg-[linear-gradient(to_right,rgba(232,221,249,0.78),rgba(252,228,236,0.76),rgba(253,237,220,0.74))] dark:border-white/5 dark:bg-[linear-gradient(to_right,rgba(30,27,75,0.82),rgba(88,28,100,0.78),rgba(120,40,70,0.76))]"
+      class="fixed inset-x-0 top-0 z-50 h-14 border-b border-white/20 bg-transparent bg-[linear-gradient(to_right,rgba(232,221,249,0.78),rgba(252,228,236,0.76),rgba(253,237,220,0.74))] backdrop-blur-xl backdrop-saturate-50 dark:border-white/5 dark:bg-[linear-gradient(to_right,rgba(30,27,75,0.82),rgba(88,28,100,0.78),rgba(120,40,70,0.76))]"
     >
       <div
         class="mx-auto flex h-full max-w-7xl items-center gap-4 px-3 sm:gap-5 sm:px-5"
@@ -50,13 +50,13 @@
             v-for="group in navigationGroups"
             :key="group.key"
             data-desktop-nav-trigger
-            class="relative flex px-[3px] xl:px-[6px]"
+            class="relative flex px-0.75 xl:px-1.5"
             @mouseenter="openDesktopMenu(group.key, $event)"
             @mouseleave="handleDesktopTriggerLeave"
           >
             <button
               type="button"
-              class="flex cursor-pointer items-center gap-1.5 px-4 py-2 text-md font-semibold"
+              class="text-md flex cursor-pointer items-center gap-1.5 px-4 py-2 font-semibold"
               :class="
                 isNavGroupActive(group.key) || openDesktopGroup === group.key
                   ? 'text-rose-500 dark:text-rose-400'
@@ -91,7 +91,7 @@
               class="w-auto!"
             >
               <div
-                class="overflow-hidden rounded-xl border border-black/6 bg-white ring-1 ring-black/5 shadow-lg dark:border-white/2 dark:bg-slate-900 dark:ring-white/5"
+                class="overflow-hidden rounded-xl border border-black/6 bg-white shadow-lg ring-1 ring-black/5 dark:border-white/2 dark:bg-slate-900 dark:ring-white/5"
               >
                 <div class="min-w-50 p-1.5">
                   <button
@@ -164,7 +164,7 @@
               >
                 <div class="flex items-center gap-3">
                   <div
-                    class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/60 p-2 shadow-xs ring-1 ring-black/5 backdrop-blur-xs dark:bg-slate-800/40 dark:ring-white/5 sm:h-12 sm:w-12"
+                    class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/60 p-2 shadow-xs ring-1 ring-black/5 backdrop-blur-xs sm:h-12 sm:w-12 dark:bg-slate-800/40 dark:ring-white/5"
                   >
                     <NuxtImg
                       src="images/logo.webp"
@@ -177,11 +177,11 @@
                   </div>
                   <div class="text-left">
                     <p
-                      class="text-xs font-semibold uppercase tracking-widest text-rose-500/80 dark:text-rose-300/80"
+                      class="text-xs font-semibold tracking-widest text-rose-500/80 uppercase dark:text-rose-300/80"
                     >
                       {{ $t('meta.game_title') }}
                     </p>
-                    <p class="text-xl font-semibold leading-tight">
+                    <p class="text-xl leading-tight font-semibold">
                       {{ $t('navigation.title') }}
                     </p>
                   </div>
@@ -243,7 +243,7 @@
                           :src="getImageSrc('emote', 'love')"
                           preset="iconSm"
                           sizes="60px"
-                          class="relative h-[93%] w-[93%] object-contain transition-transform duration-300 group-hover:translate-y-[-2px]"
+                          class="relative h-[93%] w-[93%] object-contain transition-transform duration-300 group-hover:-translate-y-0.5"
                           alt=""
                           aria-hidden="true"
                         />
@@ -272,7 +272,7 @@
                           :src="getImageSrc('emote', 'news')"
                           preset="iconSm"
                           sizes="60px"
-                          class="relative h-[80%] w-[80%] object-contain transition-transform duration-300 group-hover:translate-x-[-2px]"
+                          class="relative h-[80%] w-[80%] object-contain transition-transform duration-300 group-hover:-translate-x-0.5"
                           alt=""
                           aria-hidden="true"
                         />
@@ -367,7 +367,7 @@
       ghost
       circle
       size="small"
-      class="fixed bottom-4 right-4 z-20 bg-white opacity-60 shadow-[0_0_10px_rgba(244,63,94,0.25),0_0_20px_rgba(168,85,247,0.15)] transition-all duration-300 ease-in-out hover:bg-slate-100 hover:opacity-100 hover:shadow-[0_0_14px_rgba(244,63,94,0.4),0_0_28px_rgba(168,85,247,0.25)] dark:bg-slate-800 dark:hover:bg-slate-700 sm:bottom-8 sm:right-8"
+      class="fixed right-4 bottom-4 z-20 bg-white opacity-60 shadow-[0_0_10px_rgba(244,63,94,0.25),0_0_20px_rgba(168,85,247,0.15)] transition-all duration-300 ease-in-out hover:bg-slate-100 hover:opacity-100 hover:shadow-[0_0_14px_rgba(244,63,94,0.4),0_0_28px_rgba(168,85,247,0.25)] sm:right-8 sm:bottom-8 dark:bg-slate-800 dark:hover:bg-slate-700"
       :class="{
         'translate-y-0': showScrollTop,
         'translate-y-16': !showScrollTop,
@@ -433,7 +433,7 @@
             </div>
           </div>
 
-          <n-scrollbar class="flex-1 px-3 pb-4 pt-2">
+          <n-scrollbar class="flex-1 px-3 pt-2 pb-4">
             <div class="space-y-1">
               <div
                 v-for="group in navigationGroups"
@@ -442,7 +442,7 @@
               >
                 <button
                   type="button"
-                  class="flex w-full cursor-pointer items-center justify-between gap-1.5 px-4 py-2 text-left text-md font-semibold"
+                  class="text-md flex w-full cursor-pointer items-center justify-between gap-1.5 px-4 py-2 text-left font-semibold"
                   :class="
                     isNavGroupActive(group.key) ||
                     expandedMobileGroup === group.key
@@ -502,7 +502,7 @@
 
     <div
       v-if="loading"
-      class="fixed inset-0 z-9999 cursor-progress select-none bg-black/10 pointer-events-auto dark:bg-black/20"
+      class="pointer-events-auto fixed inset-0 z-9999 cursor-progress bg-black/10 select-none dark:bg-black/20"
       aria-hidden="true"
     />
   </n-layout>

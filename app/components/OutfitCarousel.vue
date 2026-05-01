@@ -4,7 +4,7 @@
       <NuxtLinkLocale
         no-prefetch
         :to="`/outfits/${outfitId}`"
-        class="cursor-pointer hover:opacity-80 transition-opacity"
+        class="cursor-pointer transition-opacity hover:opacity-80"
       >
         <n-tag
           :color="getQualityTextTheme(quality)"
@@ -23,9 +23,9 @@
     </div>
 
     <!-- Outfit Images Carousel with Items Grid -->
-    <div class="flex flex-col lg:flex-row gap-4">
+    <div class="flex flex-col gap-4 lg:flex-row">
       <!-- Carousel Container -->
-      <div class="w-full lg:w-auto shrink-0">
+      <div class="w-full shrink-0 lg:w-auto">
         <n-carousel
           :ref="`carousel${quality}Star`"
           v-model:current-index="activeSlide"
@@ -35,7 +35,7 @@
           :centered-slides="false"
           :slides-per-view="2"
           draggable
-          class="rounded-lg w-full sm:w-100 aspect-4/3"
+          class="aspect-4/3 w-full rounded-lg sm:w-100"
         >
           <n-carousel-item
             v-for="(image, index) in outfitImages"
@@ -44,10 +44,10 @@
             <NuxtLinkLocale
               no-prefetch
               :to="`/outfits/${image.outfitId}`"
-              class="group relative aspect-2/3 rounded-lg overflow-hidden transition-all duration-300 ease-in-out cursor-pointer block"
+              class="group relative block aspect-2/3 cursor-pointer overflow-hidden rounded-lg transition-all duration-300 ease-in-out"
             >
               <div
-                class="absolute inset-0 bg-[url('/images/bg.webp')] bg-cover bg-center bg-slate-100 dark:bg-slate-300"
+                class="absolute inset-0 bg-slate-100 bg-[url('/images/bg.webp')] bg-cover bg-center dark:bg-slate-300"
               ></div>
               <!-- Tint overlay -->
               <div
@@ -57,7 +57,7 @@
               <NuxtImg
                 :src="image.src"
                 :alt="image.alt"
-                class="absolute inset-0 w-full h-full object-cover z-10"
+                class="absolute inset-0 z-10 h-full w-full object-cover"
                 preset="tallLg"
                 fit="cover"
                 loading="lazy"
@@ -71,7 +71,7 @@
               >
                 <template v-if="index === activeSlide">
                   <span
-                    class="flex h-8 w-8 items-center justify-center rounded-full bg-black/40 text-white shadow-sm opacity-50"
+                    class="flex h-[20px] w-[20px] items-center justify-center rounded-full bg-black/40 text-white opacity-50 shadow-sm"
                   >
                     <n-icon size="16"><ExternalLinkAlt /></n-icon>
                   </span>
@@ -90,7 +90,7 @@
                 </template>
               </div>
               <div
-                class="absolute top-1 scale-90 sm:scale-100 z-20"
+                class="absolute top-1 z-20 scale-90 sm:scale-100"
                 :class="[
                   image.level === 'glow'
                     ? 'left-1 origin-top-left'
@@ -120,7 +120,7 @@
       </div>
 
       <!-- Outfit Items Grid -->
-      <div class="flex-1 min-w-0">
+      <div class="min-w-0 flex-1">
         <div class="grid grid-cols-5 gap-2">
           <ItemCard
             v-for="item in outfitItems"

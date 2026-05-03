@@ -11,13 +11,13 @@ const __dirname = path.dirname(__filename)
 const repoRoot = path.resolve(__dirname, '..')
 const publicDir = path.join(repoRoot, 'public')
 const outputPath = path.join(publicDir, 'og.jpg')
+const outputPathZh = path.join(publicDir, 'og-zh.jpg')
 
 const host = process.env.OG_HOST || '127.0.0.1'
-const port = Number(process.env.OG_PORT || 4173)
-const previewPath = process.env.OG_PREVIEW_PATH || '/og-preview?lang=en'
+const port = Number(process.env.OG_PORT || 3000)
+const previewBasePath = '/og-preview'
 
 const serverUrl = `http://${host}:${port}`
-const previewUrl = `${serverUrl}${previewPath}`
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 
@@ -136,6 +136,50 @@ const stopServer = async (devProcess) => {
   }
 }
 
+const captureOg = async (page, lang, outPath) => {
+  const previewUrl = `${serverUrl}${previewBasePath}?lang=${lang}`
+
+  await page.goto(previewUrl, {
+    waitUntil: 'domcontentloaded',
+    timeout: 30_000,
+  })
+
+  const root = page.locator('[data-og-root="true"]')
+
+  await root.waitFor({
+    state: 'visible',
+    timeout: 15_000,
+  })
+
+  await page.evaluate(async () => {
+    await document.fonts?.ready
+  })
+
+  await root.evaluate(async (el) => {
+    const images = Array.from(el.querySelectorAll('img'))
+
+    await Promise.all(
+      images.map((img) => {
+        if (img.complete) return Promise.resolve()
+
+        return new Promise((resolve) => {
+          img.addEventListener('load', resolve, { once: true })
+          img.addEventListener('error', resolve, { once: true })
+        })
+      })
+    )
+  })
+
+  await root.screenshot({
+    path: outPath,
+    type: 'jpeg',
+    quality: 100,
+    animations: 'disabled',
+  })
+
+  console.log(`Generated ${outPath}`)
+}
+
 let browser = null
 let devProcess = null
 let startedServer = false
@@ -183,49 +227,12 @@ try {
     return route.continue()
   })
 
-  await page.goto(previewUrl, {
-    waitUntil: 'domcontentloaded',
-    timeout: 30_000,
-  })
-
-  const root = page.locator('[data-og-root="true"]')
-
-  await root.waitFor({
-    state: 'visible',
-    timeout: 15_000,
-  })
-
-  await page.evaluate(async () => {
-    await document.fonts?.ready
-  })
-
-  await root.evaluate(async (el) => {
-    const images = Array.from(el.querySelectorAll('img'))
-
-    await Promise.all(
-      images.map((img) => {
-        if (img.complete) return Promise.resolve()
-
-        return new Promise((resolve) => {
-          img.addEventListener('load', resolve, { once: true })
-          img.addEventListener('error', resolve, { once: true })
-        })
-      })
-    )
-  })
-
   await mkdir(publicDir, {
     recursive: true,
   })
 
-  await root.screenshot({
-    path: outputPath,
-    type: 'jpeg',
-    quality: 100,
-    animations: 'disabled',
-  })
-
-  console.log(`Generated ${outputPath}`)
+  await captureOg(page, 'en', outputPath)
+  await captureOg(page, 'zh', outputPathZh)
 } finally {
   if (browser) {
     await browser.close()

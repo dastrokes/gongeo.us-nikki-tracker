@@ -78,7 +78,96 @@ const getSiteUrl = () => {
   ).replace(/\/$/, '')
 }
 
-export const createOgImageProps = () => {
+export type OgLocale = 'en' | 'zh'
+
+export interface OgImageProps {
+  locale: OgLocale
+  siteName: string
+  eyebrow: string
+  headlineOne: string
+  headlineTwo: string
+  headlineThree: string
+  summary: string
+  logoImage: string
+  mascotImage: string
+  bannerImages: string[]
+  outfitImages: string[]
+  itemImages: string[]
+  itemCards: { image: string; pullsToObtain: number }[]
+  navLabels: string[]
+  statCards: { label: string; value: string }[]
+  trackerTitle: string
+  whimSearchTitle: string
+  compendiumTitle: string
+  filterLabels: string[]
+}
+
+const OG_COPY: Record<
+  OgLocale,
+  {
+    eyebrow: string
+    headlineOne: string
+    headlineTwo: string
+    headlineThree: string
+    summary: string
+    navLabels: string[]
+    statCards: { label: string; value: string }[]
+    trackerTitle: string
+    whimSearchTitle: string
+    compendiumTitle: string
+    filterLabels: string[]
+  }
+> = {
+  en: {
+    eyebrow: 'Infinity Nikki Companion',
+    headlineOne: 'Infinity Nikki',
+    headlineTwo: 'Tracker & Styling',
+    headlineThree: 'Companion',
+    summary: 'Track pulls, explore banners, and discover outfits.',
+    navLabels: ['Tracker', 'Resonance', 'Compendium', 'Community'],
+    statCards: [
+      { label: 'Total Pulls', value: '2,473' },
+      { label: '5★ / 4★', value: '91 / 219' },
+      { label: 'Avg 5★', value: '16.33' },
+    ],
+    trackerTitle: 'Resonance Tracker',
+    whimSearchTitle: 'Whim Search',
+    compendiumTitle: 'Compendium',
+    filterLabels: ['Version', 'Style', 'Label'],
+  },
+  zh: {
+    eyebrow: '无限暖暖助手',
+    headlineOne: '无限暖暖',
+    headlineTwo: '暖暖共鸣录',
+    headlineThree: '',
+    summary: '📒 抽卡记录\n📊 数据分析\n👥 社区统计\n📖 游戏图鉴',
+    navLabels: ['抽卡记录', '共鸣卡池', '游戏图鉴', '社区工具'],
+    statCards: [
+      { label: '总抽数', value: '2,473' },
+      { label: '5★ / 4★', value: '91 / 219' },
+      { label: '5★平均', value: '16.33' },
+    ],
+    trackerTitle: '共鸣记录',
+    whimSearchTitle: '奇想搜索',
+    compendiumTitle: '游戏图鉴',
+    filterLabels: ['版本', '风格', '标签'],
+  },
+}
+
+const getLocale = (): OgLocale => {
+  try {
+    const route = useRoute()
+    const lang = route.query.lang
+    if (lang === 'zh') return 'zh'
+  } catch {
+    // not in a route context
+  }
+  return 'en'
+}
+
+export const createOgImageProps = (): OgImageProps => {
+  const locale = getLocale()
+  const copy = OG_COPY[locale]
   const siteUrl = getSiteUrl()
   const assetUrl = (path: string) =>
     `${siteUrl}${path.startsWith('/') ? path : `/${path}`}`
@@ -90,12 +179,13 @@ export const createOgImageProps = () => {
     .map((banner) => assetUrl(`/images/banners/${banner.bannerId}.png`))
 
   return {
+    locale,
     siteName: 'gongeo.us',
-    eyebrow: 'Infinity Nikki Companion',
-    headlineOne: 'Infinity Nikki',
-    headlineTwo: 'Tracker & Styling',
-    headlineThree: 'Companion',
-    summary: 'Track pulls, explore banners, and discover outfits.',
+    eyebrow: copy.eyebrow,
+    headlineOne: copy.headlineOne,
+    headlineTwo: copy.headlineTwo,
+    headlineThree: copy.headlineThree,
+    summary: copy.summary,
     logoImage: assetUrl('/images/logo.webp'),
     mascotImage: assetUrl('/images/emotes/hi.webp'),
     bannerImages,
@@ -105,24 +195,11 @@ export const createOgImageProps = () => {
       image: assetUrl(`/images/items/icons/${id}.png`),
       pullsToObtain: getSyntheticPullsToObtain(id, index),
     })),
-    navLabels: ['Tracker', 'Resonance', 'Compendium', 'Community'],
-    statCards: [
-      {
-        label: 'Total Pulls',
-        value: '2,473',
-      },
-      {
-        label: '5★ / 4★',
-        value: '91 / 219',
-      },
-      {
-        label: 'Avg 5★',
-        value: '16.33',
-      },
-    ],
-    trackerTitle: 'Resonance Tracker',
-    whimSearchTitle: 'Whim Search',
-    compendiumTitle: 'Compendium',
-    filterLabels: ['Version', 'Style', 'Label'],
+    navLabels: copy.navLabels,
+    statCards: copy.statCards,
+    trackerTitle: copy.trackerTitle,
+    whimSearchTitle: copy.whimSearchTitle,
+    compendiumTitle: copy.compendiumTitle,
+    filterLabels: copy.filterLabels,
   }
 }

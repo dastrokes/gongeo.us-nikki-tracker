@@ -22,12 +22,14 @@
   const localeHead = useLocaleHead({ dir: true, lang: true, seo: true })
   const runtimeConfig = useRuntimeConfig()
   const gameVersion = getGameVersion()
+  const { locale } = useI18n()
   const ogImageUrl = computed(() => {
     const siteUrl = String(runtimeConfig.public.siteUrl || '').replace(
       /\/$/,
       ''
     )
-    return `${siteUrl}/og.jpg?v=${encodeURIComponent(gameVersion)}`
+    const filename = locale.value === 'zh' ? 'og-zh.jpg' : 'og.jpg'
+    return `${siteUrl}/${filename}?v=${encodeURIComponent(gameVersion)}`
   })
 
   // Initialize theme state

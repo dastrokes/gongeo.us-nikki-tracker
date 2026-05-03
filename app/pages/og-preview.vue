@@ -23,6 +23,7 @@
   }
 
   const ogProps = computed(() => createOgImageProps())
+  const locale = computed(() => ogProps.value.locale)
   const siteName = computed(() => ogProps.value.siteName ?? 'gongeo.us')
   const eyebrow = computed(() => ogProps.value.eyebrow ?? '')
   const headlineOne = computed(() => ogProps.value.headlineOne ?? '')
@@ -115,7 +116,21 @@
         </div>
       </div>
 
-      <div class="mt-8 text-[54px] leading-[0.97] font-bold tracking-[-1.05px]">
+      <div
+        v-if="locale === 'zh'"
+        class="mt-8 text-[48px] leading-[1.1] font-bold tracking-[-1.05px]"
+      >
+        <div class="ml-9 text-slate-950">{{ headlineOne }}</div>
+        <div
+          class="mt-4 ml-4 bg-linear-to-r from-[#c084fc] via-[#f472b6] to-[#fb923c] bg-clip-text pb-2 text-transparent"
+        >
+          {{ headlineTwo }}
+        </div>
+      </div>
+      <div
+        v-else
+        class="mt-8 text-[54px] leading-[0.97] font-bold tracking-[-1.05px]"
+      >
         <div class="text-slate-950">{{ headlineOne }}</div>
         <div>
           <span class="text-indigo-500">{{ headlineTwoPrefix }}&nbsp;</span>
@@ -140,7 +155,22 @@
         <div class="h-px w-30 bg-slate-400/30" />
       </div>
 
-      <div class="mt-4 w-68 text-[17px] leading-6.5 text-slate-700">
+      <div
+        v-if="locale == 'zh'"
+        class="mt-6 grid w-76 grid-cols-2 gap-x-2 gap-y-3.5 text-[18px] font-medium text-slate-700"
+      >
+        <div
+          v-for="line in summary.split('\n')"
+          :key="line"
+          class="flex items-center"
+        >
+          {{ line }}
+        </div>
+      </div>
+      <div
+        v-else
+        class="mt-4 w-68 text-[17px] leading-6.5 whitespace-pre-line text-slate-700"
+      >
         {{ summary }}
       </div>
 
@@ -184,10 +214,12 @@
           <div
             v-for="(label, index) in navLabels.slice(0, 4)"
             :key="label"
-            class="inline-flex h-7.5 items-center gap-1.25 rounded-full bg-white px-2.5 text-[9px] font-semibold text-slate-600 ring-1 ring-slate-100"
-            :class="
-              index === 0 ? 'text-indigo-600 ring-violet-100' : 'text-slate-600'
-            "
+            class="inline-flex h-7.5 min-w-[100px] items-center justify-center gap-1.25 rounded-full bg-white px-3 text-[9px] font-semibold ring-1 ring-slate-100"
+            :class="[
+              index === 0
+                ? 'text-indigo-600 ring-violet-100'
+                : 'text-slate-600',
+            ]"
           >
             <n-icon size="12">
               <component :is="navIcons[index] || Star" />

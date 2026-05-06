@@ -17,6 +17,13 @@ type ItemAttributeRow = {
   metadata: Record<string, string | string[]>
 }
 
+type ItemCatalogRow = {
+  quality?: number | null
+  style_key?: string | null
+  tags?: Array<number | string> | null
+  obtain_type?: number | null
+}
+
 type SearchNamespace = (typeof ITEM_SEARCH_SEARCH_NAMESPACES)[number]
 
 type PineconeUpsertRow = {
@@ -123,6 +130,23 @@ const getLocalizedFieldValue = ({
   )
 }
 
+const normalizeNumber = (value: unknown) => {
+  const parsed = Number(value)
+  return Number.isFinite(parsed) ? parsed : null
+}
+
+const normalizeNumberStringArray = (value: unknown) =>
+  Array.isArray(value)
+    ? Array.from(
+        new Set(
+          value
+            .map((entry) => normalizeNumber(entry))
+            .filter((entry): entry is number => entry !== null)
+            .map((entry) => String(entry))
+        )
+      )
+    : []
+
 const getMetadataFieldValues = (
   metadata: ItemSearchMetadata,
   field: ItemSearchField
@@ -144,7 +168,42 @@ const getMetadataFieldValues = (
   return typeof value === 'string' && value.trim() ? [value.trim()] : []
 }
 
-const buildSearchMetadata = (row: ItemAttributeRow): ItemSearchMetadata => {
+const applyCatalogSearchMetadata = (
+  metadata: ItemSearchMetadata,
+  catalog: ItemCatalogRow | null
+) => {
+  if (!catalog) return metadata
+
+  const metadataRecord = metadata as Record<string, unknown>
+  const quality = normalizeNumber(catalog.quality)
+  const styleKey =
+    typeof catalog.style_key === 'string' ? catalog.style_key.trim() : ''
+  const labelIds = normalizeNumberStringArray(catalog.tags)
+  const obtainType = normalizeNumber(catalog.obtain_type)
+
+  if (quality !== null) {
+    metadataRecord.quality = quality
+  }
+
+  if (styleKey) {
+    metadataRecord.style_key = styleKey
+  }
+
+  if (labelIds.length > 0) {
+    metadataRecord.label_ids = labelIds
+  }
+
+  if (obtainType !== null) {
+    metadataRecord.obtain_type = obtainType
+  }
+
+  return metadata
+}
+
+const buildSearchMetadata = (
+  row: ItemAttributeRow,
+  catalog: ItemCatalogRow | null = null
+): ItemSearchMetadata => {
   const metadata: ItemSearchMetadata = {
     item_id: row.item_id,
     item_type: row.item_type,
@@ -172,7 +231,7 @@ const buildSearchMetadata = (row: ItemAttributeRow): ItemSearchMetadata => {
     }
   })
 
-  return metadata
+  return applyCatalogSearchMetadata(metadata, catalog)
 }
 
 const buildLocalizedSearchText = (
@@ -204,8 +263,11 @@ const buildLocalizedSearchText = (
   return toUniqueValues(terms).join(' ')
 }
 
-const buildSearchVectorUpsertRows = (itemAttributeRow: ItemAttributeRow) => {
-  const metadata = buildSearchMetadata(itemAttributeRow)
+const buildSearchVectorUpsertRows = (
+  itemAttributeRow: ItemAttributeRow,
+  catalog: ItemCatalogRow | null = null
+) => {
+  const metadata = buildSearchMetadata(itemAttributeRow, catalog)
 
   return ITEM_SEARCH_SEARCH_NAMESPACES.map((namespace) => ({
     namespace,
@@ -295,6 +357,25 @@ const upsertItemAttributeRow = async (row: ItemAttributeRow) => {
   }
 }
 
+const fetchItemCatalogRow = async (
+  itemId: number
+): Promise<ItemCatalogRow | null> => {
+  const supabase = useSupabaseDataClient()
+  const { data, error } = await withSupabaseRetry(() =>
+    supabase
+      .from('items')
+      .select('quality,style_key,tags,obtain_type')
+      .eq('id', itemId)
+      .maybeSingle()
+  )
+
+  if (error) {
+    throw error
+  }
+
+  return data as ItemCatalogRow | null
+}
+
 const upsertPineconeRows = async (row: ItemAttributeRow) => {
   const runtimeConfig = useRuntimeConfig()
   const pineconeApiKey = normalizeRuntimeConfigString(
@@ -314,9 +395,11 @@ const upsertPineconeRows = async (row: ItemAttributeRow) => {
 
   const pineconeBaseUrl = resolvePineconeBaseUrl(pineconeIndexHost)
   const upsertedNamespaces: SearchNamespace[] = []
+  const catalog = await fetchItemCatalogRow(row.item_id)
 
   for (const { namespace, row: vectorRow } of buildSearchVectorUpsertRows(
-    row
+    row,
+    catalog
   )) {
     const endpoint = `${pineconeBaseUrl}/records/namespaces/${encodeURIComponent(namespace)}/upsert`
     const response = await fetch(endpoint, {

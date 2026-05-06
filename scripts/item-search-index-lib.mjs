@@ -254,6 +254,23 @@ const normalizeNullableString = (value) => {
   return normalized.length > 0 ? normalized : null
 }
 
+const normalizeNumber = (value) => {
+  const parsed = Number(value)
+  return Number.isFinite(parsed) ? parsed : null
+}
+
+const normalizeNumberStringArray = (value) =>
+  Array.isArray(value)
+    ? Array.from(
+        new Set(
+          value
+            .map((entry) => normalizeNumber(entry))
+            .filter((entry) => entry !== null)
+            .map((entry) => String(entry))
+        )
+      )
+    : []
+
 const normalizeSearchDataValue = (value) =>
   typeof value === 'string' ? value.trim().toLowerCase() : ''
 
@@ -589,11 +606,32 @@ const buildSearchTextFromStructuredRecord = (structuredRecord) => {
   return dedupeSearchTerms(searchTerms).join(' ').trim()
 }
 
-const hydrateSearchMetadataFromItemAttributeRow = (row) => {
+const hydrateSearchMetadataFromItemAttributeRow = (row, catalogRow = null) => {
   const normalizedRow = normalizeItemAttributeRow(row)
   const metadata = {
     item_id: normalizedRow.item_id,
     item_type: normalizedRow.item_type,
+  }
+  const catalog = isRecord(catalogRow) ? catalogRow : {}
+  const quality = normalizeNumber(catalog.quality)
+  const styleKey = normalizeNullableString(catalog.style_key)
+  const labelIds = normalizeNumberStringArray(catalog.tags)
+  const obtainType = normalizeNumber(catalog.obtain_type)
+
+  if (quality !== null) {
+    metadata.quality = quality
+  }
+
+  if (styleKey) {
+    metadata.style_key = styleKey
+  }
+
+  if (labelIds.length > 0) {
+    metadata.label_ids = labelIds
+  }
+
+  if (obtainType !== null) {
+    metadata.obtain_type = obtainType
   }
 
   if (normalizedRow.category) {
@@ -616,7 +654,10 @@ const hydrateSearchMetadataFromItemAttributeRow = (row) => {
   return metadata
 }
 
-export const buildSearchDocumentRowFromItemAttributeRow = (row) => {
+export const buildSearchDocumentRowFromItemAttributeRow = (
+  row,
+  catalogRow = null
+) => {
   const normalizedRow = normalizeItemAttributeRow(row)
   const structuredRecord =
     buildStructuredRecordFromItemAttributeRow(normalizedRow)
@@ -624,7 +665,10 @@ export const buildSearchDocumentRowFromItemAttributeRow = (row) => {
   return {
     id: normalizedRow.item_id,
     data: buildSearchTextFromStructuredRecord(structuredRecord),
-    metadata: hydrateSearchMetadataFromItemAttributeRow(normalizedRow),
+    metadata: hydrateSearchMetadataFromItemAttributeRow(
+      normalizedRow,
+      catalogRow
+    ),
   }
 }
 
@@ -683,6 +727,33 @@ const fetchAllItemAttributeRows = async ({
   return rows
 }
 
+const fetchItemCatalogRows = async ({ client, itemIds, batchSize = 500 }) => {
+  const catalogRows = new Map()
+  const uniqueIds = Array.from(new Set(itemIds)).filter((id) =>
+    Number.isFinite(id)
+  )
+
+  for (const batch of chunkArray(uniqueIds, batchSize)) {
+    const { data, error } = await client
+      .from('items')
+      .select('id,quality,style_key,tags,obtain_type')
+      .in('id', batch)
+
+    if (error) {
+      throw error
+    }
+
+    ;(Array.isArray(data) ? data : []).forEach((row) => {
+      const id = normalizeNumber(row?.id)
+      if (id !== null) {
+        catalogRows.set(id, row)
+      }
+    })
+  }
+
+  return catalogRows
+}
+
 export const refreshItemSearchLocalCopy = async ({
   outputRoot = defaultLocalCopyRoot,
   pageSize = DEFAULT_EXPORT_PAGE_SIZE,
@@ -721,9 +792,15 @@ export const refreshItemSearchLocalCopy = async ({
 
 export const exportItemSearchLocalCopy = refreshItemSearchLocalCopy
 
-export const buildSearchVectorUpsertRows = (itemAttributeRow) => {
+export const buildSearchVectorUpsertRows = (
+  itemAttributeRow,
+  catalogRow = null
+) => {
   const normalizedRow = normalizeItemAttributeRow(itemAttributeRow)
-  const metadata = hydrateSearchMetadataFromItemAttributeRow(normalizedRow)
+  const metadata = hydrateSearchMetadataFromItemAttributeRow(
+    normalizedRow,
+    catalogRow
+  )
 
   return SEARCH_NAMESPACE_CONFIG.map(({ namespace }) => {
     return {
@@ -845,6 +922,11 @@ export const syncItemIndexToPinecone = async (argv = process.argv.slice(2)) => {
   const itemRows = parseJsonLines(args.itemAttributesPath).map((row) =>
     buildItemAttributeRow(row)
   )
+  const client = createDataSupabaseClient()
+  const catalogRows = await fetchItemCatalogRows({
+    client,
+    itemIds: itemRows.map((row) => row.item_id),
+  })
   const pineconeWrittenCounts = Object.fromEntries(
     targetNamespaces.map(({ namespace }) => [namespace, 0])
   )
@@ -857,7 +939,10 @@ export const syncItemIndexToPinecone = async (argv = process.argv.slice(2)) => {
   )
 
   for (const itemRow of itemRows) {
-    const searchRows = buildSearchVectorUpsertRows(itemRow)
+    const searchRows = buildSearchVectorUpsertRows(
+      itemRow,
+      catalogRows.get(itemRow.item_id) ?? null
+    )
 
     searchRows.forEach(({ namespace, row }) => {
       if (!(namespace in vectorRowsByNamespace)) return

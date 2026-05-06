@@ -5,6 +5,11 @@ import { resolveRequestSearchNamespace } from '../../utils/locale'
 
 type SearchIndexMetadata = ItemSearchMetadata & {
   [key: string]: unknown
+  quality?: number
+  style_key?: string
+  label_keys?: string[]
+  label_ids?: string[]
+  obtain_type?: number
 }
 
 type PineconeSearchHit = {
@@ -23,6 +28,7 @@ type SearchResponse = {
     category: string | null
     subcategory: string | null
     score: number
+    quality: number | null
     metadata: SearchIndexMetadata | null
   }>
 }
@@ -52,6 +58,80 @@ const normalizeLimit = (value: unknown) => {
   if (!Number.isFinite(parsed)) return DEFAULT_LIMIT
   const normalized = Math.floor(parsed)
   return Math.min(Math.max(normalized, 1), MAX_LIMIT)
+}
+
+const normalizeCatalogFilterResult = (query: Record<string, unknown>) => {
+  const filters = normalizeCatalogSearchFilters(query)
+  const styleFilter = filters.style ? STYLE_BY_KEY.get(filters.style) : null
+  const labelFilter = filters.label ? TAG_BY_KEY.get(filters.label) : null
+  const versionPrefixRange = filters.version
+    ? getVersionPrefixRange(filters.version)
+    : null
+  const obtainTypeRange = versionPrefixRange
+    ? {
+        min: getVersionRangeFromPrefix(versionPrefixRange.min, 2).min,
+        max: getVersionRangeFromPrefix(versionPrefixRange.max, 2).max,
+      }
+    : null
+  const obtainIds = filters.source
+    ? resolveObtainIdsFromValue(filters.source)
+    : null
+
+  return {
+    valid:
+      (!filters.style || Boolean(styleFilter)) &&
+      (!filters.label || Boolean(labelFilter)) &&
+      (!filters.version || obtainTypeRange !== null) &&
+      (!filters.source || Boolean(obtainIds?.length)),
+    filters,
+    styleFilter,
+    labelFilter,
+    obtainTypeRange,
+    obtainIds,
+  }
+}
+
+const buildPineconeMetadataFilter = (
+  filterResult: ReturnType<typeof normalizeCatalogFilterResult>
+) => {
+  const clauses: unknown[] = []
+  const { filters, styleFilter, labelFilter, obtainTypeRange, obtainIds } =
+    filterResult
+
+  if (filters.itemTypes.length > 0) {
+    clauses.push({
+      item_type:
+        filters.itemTypes.length === 1
+          ? { $eq: filters.itemTypes[0] }
+          : { $in: filters.itemTypes },
+    })
+  }
+
+  if (filters.quality !== null) {
+    clauses.push({ quality: { $eq: filters.quality } })
+  }
+
+  if (styleFilter) {
+    clauses.push({ style_key: { $eq: styleFilter.key } })
+  }
+
+  if (labelFilter) {
+    clauses.push({ label_ids: { $in: [String(labelFilter.id)] } })
+  }
+
+  if (obtainTypeRange) {
+    clauses.push(
+      { obtain_type: { $gte: obtainTypeRange.min } },
+      { obtain_type: { $lte: obtainTypeRange.max } }
+    )
+  }
+
+  if (obtainIds?.length) {
+    clauses.push({ obtain_type: { $in: obtainIds } })
+  }
+
+  if (clauses.length === 0) return undefined
+  return clauses.length === 1 ? clauses[0] : { $and: clauses }
 }
 
 const isRecord = (value: unknown): value is Record<string, unknown> =>
@@ -104,6 +184,10 @@ const normalizeMetadata = (metadata: unknown): SearchIndexMetadata | null => {
       legacyMetadata?.subcategory ??
       normalizeNullableString(metadata.subcategory) ??
       null,
+    quality:
+      typeof metadata.quality === 'number' && Number.isFinite(metadata.quality)
+        ? metadata.quality
+        : undefined,
   }
 }
 
@@ -190,6 +274,10 @@ const normalizeSearchHit = ({
     category: normalizedMetadata?.category ?? null,
     subcategory: normalizedMetadata?.subcategory ?? null,
     score: Number.isFinite(Number(score)) ? Number(score) : 0,
+    quality:
+      typeof normalizedMetadata?.quality === 'number'
+        ? normalizedMetadata.quality
+        : null,
     metadata: compactMetadata(normalizedMetadata),
   }
 }
@@ -201,7 +289,7 @@ const queryPineconeSearch = async ({
   normalizedQuery,
   limit,
   searchNamespace,
-  itemTypeFilters,
+  metadataFilter,
 }: {
   pineconeApiKey: string
   pineconeIndexHost: string
@@ -209,7 +297,7 @@ const queryPineconeSearch = async ({
   normalizedQuery: string
   limit: number
   searchNamespace: string
-  itemTypeFilters: string[]
+  metadataFilter?: unknown
 }): Promise<SearchResponse['data']> => {
   const endpoint = `${resolvePineconeBaseUrl(pineconeIndexHost)}/records/namespaces/${encodeURIComponent(searchNamespace)}/search`
   let attempt = 0
@@ -232,18 +320,10 @@ const queryPineconeSearch = async ({
         },
       }
 
-      // Add metadata filter for item types if specified
-      if (itemTypeFilters.length > 0) {
+      if (metadataFilter) {
         queryBody.query = {
           ...queryBody.query,
-          filter:
-            itemTypeFilters.length === 1
-              ? { item_type: { $eq: itemTypeFilters[0] } }
-              : {
-                  $or: itemTypeFilters.map((type) => ({
-                    item_type: { $eq: type },
-                  })),
-                },
+          filter: metadataFilter,
         }
       }
 
@@ -327,15 +407,9 @@ export default defineCachedApiEventHandler(
     const rawQuery = query.q?.toString() ?? ''
     const normalizedQuery = normalizeSearchQuery(rawQuery)
     const limit = normalizeLimit(query.limit)
-    const rawItemTypes = query.type?.toString() ?? ''
-    const itemTypeFilters = rawItemTypes
-      ? rawItemTypes
-          .split(',')
-          .map((type) => normalizeItemSearchItemType(type.trim()))
-          .filter(Boolean)
-      : []
+    const filterResult = normalizeCatalogFilterResult(query)
 
-    if (!normalizedQuery) {
+    if (!normalizedQuery || !filterResult.valid) {
       return {
         query: '',
         total: 0,
@@ -365,7 +439,7 @@ export default defineCachedApiEventHandler(
         normalizedQuery,
         limit,
         searchNamespace,
-        itemTypeFilters,
+        metadataFilter: buildPineconeMetadataFilter(filterResult),
       })
 
       return {
@@ -397,17 +471,9 @@ export default defineCachedApiEventHandler(
         const qHash = q ? hash(q) : 'empty'
         const limit = normalizeLimit(query.limit)
         const searchNamespace = resolveRequestSearchNamespace(event)
-        const rawItemTypes = query.type?.toString() ?? ''
-        const itemTypes = rawItemTypes
-          ? rawItemTypes
-              .split(',')
-              .map((type) => normalizeItemSearchItemType(type.trim()))
-              .filter(Boolean)
-              .sort()
-              .join(',')
-          : ''
-        const typeHash = itemTypes ? hash(itemTypes) : 'all'
-        return `${version}:search:pinecore:${searchNamespace}:q${qHash}:l${limit}:t${typeHash}`
+        const filters = normalizeCatalogSearchFilters(query)
+        const filterHash = hash(getCatalogSearchFilterKey(filters))
+        return `${version}:search:pinecore:${searchNamespace}:q${qHash}:l${limit}:f${filterHash}`
       },
       swr: true,
     },

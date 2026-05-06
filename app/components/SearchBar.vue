@@ -77,11 +77,6 @@
             @click="goToWhimSearch"
           >
             <span class="flex min-w-0 flex-1 items-center gap-3">
-              <span
-                class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white text-rose-500 shadow-xs ring-1 ring-rose-200 transition group-hover:bg-rose-500 group-hover:text-white dark:bg-slate-900 dark:text-rose-400 dark:ring-rose-900/50"
-              >
-                <n-icon size="14"><Magic /></n-icon>
-              </span>
               <span class="min-w-0 flex-1">
                 <span
                   class="block text-xs font-medium text-slate-500 dark:text-slate-400"
@@ -109,7 +104,33 @@
               >
                 {{ $t('common.keys.enter') }}
               </kbd>
-              <span>{{ $t('default.search.to_search') }}</span>
+              <span>{{ $t('search_page.title') }}</span>
+            </span>
+          </button>
+          <button
+            type="button"
+            class="group mt-2 flex w-full min-w-0 cursor-pointer items-center justify-between gap-3 rounded-lg border border-amber-200/80 bg-amber-50/80 px-3 py-2 text-left text-sm text-slate-600 shadow-xs transition hover:border-amber-300 hover:bg-amber-100/80 hover:text-slate-900 focus-visible:ring-2 focus-visible:ring-amber-500/80 focus-visible:outline-hidden dark:border-amber-900/50 dark:bg-amber-950/30 dark:text-slate-300 dark:hover:border-amber-800 dark:hover:bg-amber-950/50 dark:hover:text-slate-100"
+            @click="goToRandomSearch"
+          >
+            <span class="flex min-w-0 flex-1 items-center gap-3">
+              <span class="min-w-0 flex-1">
+                <span
+                  class="block text-xs font-medium text-slate-500 dark:text-slate-400"
+                >
+                  {{ $t('search_page.lucky_machine_subtitle') }}
+                </span>
+                <span
+                  class="block truncate font-bold text-amber-600 group-hover:text-amber-700 dark:text-amber-300"
+                >
+                  {{ $t('search_page.lucky_machine_title') }}
+                  <span
+                    v-if="searchQuery"
+                    class="font-normal text-slate-500 dark:text-slate-400"
+                  >
+                    {{ $t('default.search.for_query', { query: searchQuery }) }}
+                  </span>
+                </span>
+              </span>
             </span>
           </button>
         </div>
@@ -193,7 +214,7 @@
 </template>
 
 <script setup lang="ts">
-  import { Search, Magic } from '@vicons/fa'
+  import { Search } from '@vicons/fa'
 
   const { search, searchOptions, buildSearchIndex, isIndexBuilt } = useSearch()
   const { getImageSrc } = imageProvider()
@@ -217,6 +238,18 @@
       })
     } else {
       navigateTo(localePath('/search'))
+    }
+    closeSearch()
+  }
+
+  const goToRandomSearch = () => {
+    if (searchQuery.value.trim()) {
+      navigateTo({
+        path: localePath('/random'),
+        query: { q: searchQuery.value.trim() },
+      })
+    } else {
+      navigateTo(localePath('/random'))
     }
     closeSearch()
   }

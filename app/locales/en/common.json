@@ -783,6 +783,8 @@
     "close_details": "Close details",
     "filters_action": "Open search filters",
     "filters_title": "Search filters",
+    "find_similar": "Find Similar",
+    "similar_prefix": "Similar",
     "error_description": "Failed to query search index.",
     "lucky_action": "Whim-O-Matic",
     "lucky_action_aria": "Pick a random matching item",

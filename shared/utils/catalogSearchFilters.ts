@@ -48,7 +48,7 @@ const normalizeItemTypes = (value: unknown) => {
       normalized
         .split(',')
         .map((entry) => normalizeItemSearchItemType(entry.trim()))
-        .filter((entry) => entry && entry !== 'unknown')
+        .filter(isCatalogSearchableItemType)
     )
   ).sort((left, right) => left.localeCompare(right))
 }

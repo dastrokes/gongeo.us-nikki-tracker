@@ -783,6 +783,8 @@
     "close_details": "关闭详情",
     "filters_action": "打开搜索筛选",
     "filters_title": "搜索筛选",
+    "find_similar": "查找相似",
+    "similar_prefix": "相似",
     "error_description": "搜索索引查询失败。",
     "lucky_action": "奇想滚滚机",
     "lucky_action_aria": "随机选择一个匹配的物品",

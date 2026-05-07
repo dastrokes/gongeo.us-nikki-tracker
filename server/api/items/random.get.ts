@@ -45,7 +45,7 @@ const normalizeRandomItemTypes = (value: unknown) => {
   return normalized
     .split(',')
     .map((entry) => normalizeItemSearchItemType(entry.trim()))
-    .filter((entry) => entry && entry !== 'unknown')
+    .filter(isCatalogSearchableItemType)
 }
 
 const normalizeRandomFilterResult = ({
@@ -207,6 +207,10 @@ export default defineEventHandler(
           filtered = filtered.eq('type', itemTypes[0])
         } else if (itemTypes.length > 1) {
           filtered = filtered.in('type', itemTypes)
+        } else {
+          for (const itemType of CATALOG_SEARCH_EXCLUDED_ITEM_TYPES) {
+            filtered = filtered.neq('type', itemType)
+          }
         }
 
         if (filters.styleFilter) {

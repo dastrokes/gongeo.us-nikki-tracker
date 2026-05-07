@@ -247,22 +247,22 @@
 
       <!-- Prize Capsule -->
       <g clip-path="url(#windowClip)">
-        <g class="prize-capsule">
+        <g class="prize-capsule capsule">
           <circle
             cx="256"
-            cy="439"
-            r="16"
+            cy="432"
+            r="23"
             fill="#F5C7CF"
           />
           <path
-            d="M 240 439 A 16 16 0 0 0 272 439 Z"
+            d="M 233 432 A 23 23 0 0 0 279 432 Z"
             fill="#A9D66F"
           />
           <line
-            x1="240"
-            y1="439"
-            x2="272"
-            y2="439"
+            x1="233"
+            y1="432"
+            x2="279"
+            y2="432"
             stroke="#FFFFFF"
             stroke-width="2"
             opacity="0.5"
@@ -303,7 +303,7 @@
           <!-- Coiled Spring -->
           <g class="spring">
             <path
-              d="M 228 336 C 270 324 310 325 286 313 C 264 303 206 311 221 295 C 238 280 308 285 298 273"
+              d="M 214 347 C 258 337 310 340 290 329 C 272 319 213 327 224 314 C 238 302 301 306 292 296"
               fill="none"
               stroke="url(#somGoldGradient)"
               stroke-width="11"
@@ -312,71 +312,144 @@
             />
           </g>
 
-          <!-- Gumball Platform -->
-          <g class="capsules-base">
-            <path
-              d="M 183 283 A 73 11 0 0 0 329 283 L 329 271 A 73 11 0 0 1 183 271 Z"
-              fill="url(#somGoldGradient)"
-            />
-            <path
-              d="M 183 283 A 73 11 0 0 0 329 283 L 329 271 A 73 11 0 0 1 183 271 Z"
-              fill="#7D3748"
-              opacity="0.22"
-            />
-            <ellipse
-              cx="256"
-              cy="271"
-              rx="73"
-              ry="11"
-              fill="url(#somGoldGradient)"
-            />
-          </g>
-
           <!-- Capsules -->
           <g class="capsules">
             <!-- Back row -->
-            <circle
-              cx="218"
-              cy="252"
-              r="15"
-              fill="#F2C96C"
-            />
-            <circle
-              cx="246"
-              cy="243"
-              r="16"
-              fill="#F5C7CF"
-            />
-            <circle
-              cx="283"
-              cy="242"
-              r="17"
-              fill="#F5C7CF"
-            />
-            <circle
-              cx="320"
-              cy="252"
-              r="16"
-              fill="#A9D66F"
-            />
+            <g transform="translate(204 286)">
+              <g class="capsule capsule--1">
+                <circle
+                  r="22"
+                  fill="#F2C96C"
+                />
+                <path
+                  d="M -22 0 A 22 22 0 0 0 22 0 Z"
+                  fill="#F5C7CF"
+                />
+                <line
+                  x1="-22"
+                  y1="0"
+                  x2="22"
+                  y2="0"
+                  stroke="#FFFFFF"
+                  stroke-width="2"
+                  opacity="0.5"
+                />
+              </g>
+            </g>
+            <g transform="translate(256 280)">
+              <g class="capsule capsule--2">
+                <circle
+                  r="23"
+                  fill="#F5C7CF"
+                />
+                <path
+                  d="M -23 0 A 23 23 0 0 0 23 0 Z"
+                  fill="#A9D66F"
+                />
+                <line
+                  x1="-23"
+                  y1="0"
+                  x2="23"
+                  y2="0"
+                  stroke="#FFFFFF"
+                  stroke-width="2"
+                  opacity="0.5"
+                />
+              </g>
+            </g>
+            <g transform="translate(308 286)">
+              <g class="capsule capsule--3">
+                <circle
+                  r="22"
+                  fill="#F5C7CF"
+                />
+                <path
+                  d="M -22 0 A 22 22 0 0 0 22 0 Z"
+                  fill="#F2C96C"
+                />
+                <line
+                  x1="-22"
+                  y1="0"
+                  x2="22"
+                  y2="0"
+                  stroke="#FFFFFF"
+                  stroke-width="2"
+                  opacity="0.5"
+                />
+              </g>
+            </g>
+            <g transform="translate(230 302)">
+              <g class="capsule capsule--4">
+                <circle
+                  r="23"
+                  fill="#A9D66F"
+                />
+                <path
+                  d="M -23 0 A 23 23 0 0 0 23 0 Z"
+                  fill="#F2C96C"
+                />
+                <line
+                  x1="-23"
+                  y1="0"
+                  x2="23"
+                  y2="0"
+                  stroke="#FFFFFF"
+                  stroke-width="2"
+                  opacity="0.5"
+                />
+              </g>
+            </g>
             <!-- Front row -->
-            <circle
-              cx="211"
-              cy="262"
-              r="16"
-              fill="#F2C96C"
+            <g transform="translate(282 302)">
+              <g class="capsule capsule--5">
+                <circle
+                  r="23"
+                  fill="#F2C96C"
+                />
+                <path
+                  d="M -23 0 A 23 23 0 0 0 23 0 Z"
+                  fill="#A9D66F"
+                />
+                <line
+                  x1="-23"
+                  y1="0"
+                  x2="23"
+                  y2="0"
+                  stroke="#FFFFFF"
+                  stroke-width="2"
+                  opacity="0.5"
+                />
+              </g>
+            </g>
+          </g>
+
+          <!-- Capsule Holder Front Lip -->
+          <g class="capsules-base">
+            <rect
+              x="176"
+              y="304"
+              width="160"
+              height="20"
+              rx="9"
+              fill="url(#somGoldGradient)"
             />
-            <circle
-              cx="263"
-              cy="264"
-              r="15"
-              fill="#A9D66F"
+            <rect
+              x="176"
+              y="304"
+              width="160"
+              height="6"
+              rx="3"
+              fill="#FFE083"
+              opacity="0.38"
             />
-            <circle
-              cx="301"
-              cy="264"
-              r="15"
-              fill="#F2C96C"
+            <rect
+              x="182"
+              y="318"
+              width="148"
+              height="6"
+              rx="3"
+              fill="#7D3748"
+              opacity="0.2"
             />
           </g>
         </g>
@@ -439,9 +512,34 @@
     filter: drop-shadow(0 1rem 1rem rgb(72 32 34 / 0.2));
   }
 
+  .capsule {
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .capsule--1 {
+    --capsule-spin: 90deg;
+  }
+
+  .capsule--2 {
+    --capsule-spin: -80deg;
+  }
+
+  .capsule--3 {
+    --capsule-spin: 100deg;
+  }
+
+  .capsule--4 {
+    --capsule-spin: -90deg;
+  }
+
+  .capsule--5 {
+    --capsule-spin: 80deg;
+  }
+
   .prize-capsule {
     opacity: 0;
-    transform: translate(0, 0) scale(1) rotate(0deg);
+    transform: translateY(-54px);
   }
 
   .is-revealed .prize-capsule {
@@ -453,13 +551,12 @@
     animation: lever-pull 2.5s ease-in-out forwards;
   }
 
-  .is-rolling .capsules {
-    transform-origin: 256px 268px;
-    animation: capsules-bounce 0.4s ease-in-out 3;
+  .is-rolling .capsules .capsule {
+    animation: capsule-spin 2.5s ease-in-out forwards;
   }
 
   .is-rolling .prize-capsule {
-    transform-origin: 256px 440px;
+    transform-origin: 256px 432px;
     animation: prize-drop 2.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
   }
 
@@ -482,41 +579,42 @@
     }
   }
 
-  @keyframes capsules-bounce {
-    0%,
-    100% {
-      transform: translateY(0);
+  @keyframes capsule-spin {
+    0% {
+      transform: rotate(0deg);
     }
-    50% {
-      transform: translateY(-10px);
+
+    100% {
+      transform: rotate(var(--capsule-spin, 360deg));
     }
   }
 
   @keyframes prize-drop {
     0%,
-    45% {
+    48% {
       opacity: 0;
-      transform: translate(0, -30px) scale(0.5) rotate(0deg);
+      transform: translateY(-60px);
     }
-    50% {
+
+    52% {
       opacity: 1;
-      transform: translate(0, -30px) scale(0.5) rotate(45deg);
+      transform: translateY(-48px);
+      animation-timing-function: cubic-bezier(0.18, 0.02, 0.72, 0.24);
     }
-    65% {
-      transform: translate(0, -40px) scale(0.9) rotate(180deg);
-      animation-timing-function: cubic-bezier(0.5, 0, 1, 1);
+
+    78% {
+      transform: translateY(45px);
+      animation-timing-function: cubic-bezier(0.18, 0.72, 0.28, 1);
     }
-    80% {
-      transform: translate(0, 0px) scale(1) rotate(300deg);
-      animation-timing-function: cubic-bezier(0, 0.5, 0.5, 1);
-    }
+
     90% {
-      transform: translate(0, -12px) scale(1) rotate(330deg);
-      animation-timing-function: cubic-bezier(0.5, 0, 1, 1);
+      transform: translateY(42px);
+      animation-timing-function: ease-out;
     }
+
     100% {
       opacity: 1;
-      transform: translate(0, 0px) scale(1) rotate(360deg);
+      transform: translateY(45px);
     }
   }
 </style>

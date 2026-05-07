@@ -51,6 +51,16 @@
                   size="20"
                   ><Search
                 /></n-icon>
+                <n-tag
+                  v-if="activeSimilarItemId !== null"
+                  size="small"
+                  round
+                  :bordered="false"
+                  type="info"
+                  class="mr-2 shrink-0 font-bold"
+                >
+                  {{ t('search_page.similar_prefix') }}
+                </n-tag>
                 <input
                   v-model="searchQuery"
                   type="text"
@@ -61,6 +71,7 @@
                   autocapitalize="off"
                   spellcheck="false"
                   class="w-full min-w-0 border-none bg-transparent py-3 text-slate-800 placeholder-slate-400 focus:outline-hidden sm:py-4 dark:text-slate-200 dark:placeholder-slate-500"
+                  @input="handleSearchInput"
                   @keydown.esc.prevent="clearSearchQuery"
                 />
                 <div class="mr-2 flex items-center gap-1 sm:mr-3">
@@ -78,7 +89,7 @@
                       size="medium"
                       class="text-slate-400 hover:text-rose-500 dark:text-slate-500 dark:hover:text-rose-300"
                       :aria-label="t('search_page.filters_action')"
-                      @click="isFilterModalOpen = true"
+                      @click="openFilterModal"
                     >
                       <template #icon>
                         <n-icon><Filter /></n-icon>
@@ -194,6 +205,7 @@
           <n-select
             v-model:value="draftVersionFilter"
             :options="versionOptions"
+            :render-label="renderVersionOptionLabel"
             size="small"
             clearable
             filterable
@@ -442,6 +454,24 @@
                     :obtain-label="activeResult.obtainLabel"
                   />
 
+                  <div
+                    v-if="activeResult.itemId !== null"
+                    class="flex flex-wrap gap-2"
+                  >
+                    <n-button
+                      secondary
+                      attr-type="button"
+                      size="small"
+                      class="rounded-xl font-semibold"
+                      @click="findSimilar(activeResult)"
+                    >
+                      <template #icon>
+                        <n-icon><SearchPlus /></n-icon>
+                      </template>
+                      {{ t('search_page.find_similar') }}
+                    </n-button>
+                  </div>
+
                   <div class="flex flex-col gap-3">
                     <div
                       v-if="
@@ -564,6 +594,24 @@
                 :obtain-label="activeResult.obtainLabel"
               />
 
+              <div
+                v-if="activeResult.itemId !== null"
+                class="flex flex-wrap gap-2"
+              >
+                <n-button
+                  secondary
+                  attr-type="button"
+                  size="small"
+                  class="rounded-xl font-semibold"
+                  @click="findSimilar(activeResult)"
+                >
+                  <template #icon>
+                    <n-icon><SearchPlus /></n-icon>
+                  </template>
+                  {{ t('search_page.find_similar') }}
+                </n-button>
+              </div>
+
               <div class="flex flex-col gap-3">
                 <div
                   v-if="
@@ -648,6 +696,7 @@
             >
               <div
                 class="lucky-reveal-surface absolute inset-0 overflow-hidden rounded-3xl bg-white dark:bg-slate-950"
+                :style="luckyRevealSurfaceStyle"
               >
                 <img
                   v-if="
@@ -663,6 +712,7 @@
                 <div
                   v-else
                   class="lucky-pull-loader absolute inset-0 flex flex-col items-center justify-center gap-3 bg-white/75 text-center text-rose-600 dark:bg-slate-950/75 dark:text-rose-200"
+                  :style="luckyPullLoaderStyle"
                 >
                   <GachaponMachineSvg
                     class="lucky-gachapon-machine lucky-gachapon-machine--loading relative z-10"
@@ -683,6 +733,103 @@
                 class="h-full"
                 content-style="display: flex; flex-direction: column; gap: 1.25rem; padding: 1.25rem;"
               >
+                <div
+                  v-if="luckyRevealPhase === 'rolling'"
+                  class="flex flex-col gap-5"
+                  aria-hidden="true"
+                >
+                  <div class="space-y-3">
+                    <n-skeleton
+                      text
+                      width="78%"
+                      height="28px"
+                    />
+                    <div class="flex flex-wrap gap-2">
+                      <n-skeleton
+                        round
+                        width="44px"
+                        height="24px"
+                      />
+                      <n-skeleton
+                        round
+                        width="88px"
+                        height="24px"
+                      />
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                      <n-skeleton
+                        round
+                        width="76px"
+                        height="22px"
+                      />
+                      <n-skeleton
+                        round
+                        width="68px"
+                        height="22px"
+                      />
+                      <n-skeleton
+                        round
+                        width="82px"
+                        height="22px"
+                      />
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                      <n-skeleton
+                        round
+                        width="92px"
+                        height="22px"
+                      />
+                      <n-skeleton
+                        round
+                        width="108px"
+                        height="22px"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="flex flex-col gap-3">
+                    <div class="flex items-center justify-between gap-2">
+                      <n-skeleton
+                        text
+                        width="132px"
+                        height="12px"
+                      />
+                      <n-skeleton
+                        round
+                        width="96px"
+                        height="24px"
+                      />
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-x-2 gap-y-2">
+                      <div
+                        v-for="index in 2"
+                        :key="`lucky-detail-skeleton-${index}`"
+                        class="min-w-0 rounded-lg border border-slate-200/70 bg-slate-50/60 p-3 dark:border-slate-800 dark:bg-slate-900/35"
+                      >
+                        <n-skeleton
+                          text
+                          width="54%"
+                          height="12px"
+                          class="mb-3"
+                        />
+                        <div class="flex flex-wrap gap-1.5">
+                          <n-skeleton
+                            round
+                            width="64px"
+                            height="22px"
+                          />
+                          <n-skeleton
+                            round
+                            width="82px"
+                            height="22px"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
                 <SearchResultInfo
                   v-if="
                     luckyRevealPhase === 'revealed' &&
@@ -791,6 +938,7 @@
               >
                 <div
                   class="lucky-reveal-surface absolute inset-0 overflow-hidden rounded-3xl bg-white dark:bg-slate-950"
+                  :style="luckyRevealSurfaceStyle"
                 >
                   <img
                     v-if="
@@ -806,6 +954,7 @@
                   <div
                     v-else
                     class="lucky-pull-loader absolute inset-0 flex flex-col items-center justify-center gap-3 bg-white/75 text-center text-rose-600 dark:bg-slate-950/75 dark:text-rose-200"
+                    :style="luckyPullLoaderStyle"
                   >
                     <GachaponMachineSvg
                       class="lucky-gachapon-machine lucky-gachapon-machine--loading relative z-10"
@@ -819,6 +968,103 @@
             </div>
 
             <div class="flex w-full flex-col gap-5 p-5 text-left">
+              <div
+                v-if="luckyRevealPhase === 'rolling'"
+                class="flex flex-col gap-5"
+                aria-hidden="true"
+              >
+                <div class="space-y-3">
+                  <n-skeleton
+                    text
+                    width="80%"
+                    height="28px"
+                  />
+                  <div class="flex flex-wrap gap-2">
+                    <n-skeleton
+                      round
+                      width="44px"
+                      height="24px"
+                    />
+                    <n-skeleton
+                      round
+                      width="86px"
+                      height="24px"
+                    />
+                  </div>
+                  <div class="flex flex-wrap gap-2">
+                    <n-skeleton
+                      round
+                      width="74px"
+                      height="22px"
+                    />
+                    <n-skeleton
+                      round
+                      width="68px"
+                      height="22px"
+                    />
+                    <n-skeleton
+                      round
+                      width="80px"
+                      height="22px"
+                    />
+                  </div>
+                  <div class="flex flex-wrap gap-2">
+                    <n-skeleton
+                      round
+                      width="90px"
+                      height="22px"
+                    />
+                    <n-skeleton
+                      round
+                      width="104px"
+                      height="22px"
+                    />
+                  </div>
+                </div>
+
+                <div class="flex flex-col gap-3">
+                  <div class="flex items-center justify-between gap-2">
+                    <n-skeleton
+                      text
+                      width="126px"
+                      height="12px"
+                    />
+                    <n-skeleton
+                      round
+                      width="92px"
+                      height="24px"
+                    />
+                  </div>
+
+                  <div class="grid grid-cols-2 gap-x-2 gap-y-2">
+                    <div
+                      v-for="index in 2"
+                      :key="`lucky-mobile-detail-skeleton-${index}`"
+                      class="min-w-0 rounded-lg border border-slate-200/70 bg-slate-50/60 p-3 dark:border-slate-800 dark:bg-slate-900/35"
+                    >
+                      <n-skeleton
+                        text
+                        width="58%"
+                        height="12px"
+                        class="mb-3"
+                      />
+                      <div class="flex flex-wrap gap-1.5">
+                        <n-skeleton
+                          round
+                          width="58px"
+                          height="22px"
+                        />
+                        <n-skeleton
+                          round
+                          width="74px"
+                          height="22px"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               <SearchResultInfo
                 v-if="
                   luckyRevealPhase === 'revealed' && Boolean(luckyDisplayResult)
@@ -881,7 +1127,15 @@
 
 <script setup lang="ts">
   import { breakpointsTailwind } from '@vueuse/core'
-  import { Search, Box, Ghost, Times, Filter, Star } from '@vicons/fa'
+  import {
+    Search,
+    Box,
+    Ghost,
+    Times,
+    Filter,
+    Star,
+    SearchPlus,
+  } from '@vicons/fa'
 
   type SearchRouteMode = 'search' | 'random'
 
@@ -930,6 +1184,7 @@
       key: string
       text: string
       themeValue: string | number
+      filterKey: string | null
     }>
     versionDisplay: string | null
     obtainType: number | null
@@ -967,6 +1222,7 @@
   const route = useRoute()
   const router = useRouter()
   const localePath = useLocalePath()
+  const { isDark } = useTheme()
   const { fetchItemById } = useSupabaseItems()
   const { getImageSrc } = imageProvider()
   const isDev = import.meta.dev
@@ -974,15 +1230,41 @@
   const breakpoints = useBreakpoints(breakpointsTailwind)
   const isDesktopDetails = breakpoints.greaterOrEqual('xl')
   const mode = computed<SearchRouteMode>(() => props.routeMode)
+  const luckyRevealSurfaceStyle = computed(() => ({
+    background: isDark.value ? 'rgb(15 23 42)' : 'rgb(255 255 255)',
+  }))
+  const luckyPullLoaderStyle = computed(() => ({
+    background: isDark.value
+      ? 'radial-gradient(circle at 50% 28%, rgb(251 191 36 / 0.12), transparent 34%), radial-gradient(circle at 50% 72%, rgb(244 114 182 / 0.1), transparent 42%), linear-gradient(135deg, rgb(15 23 42), rgb(30 41 59))'
+      : 'radial-gradient(circle at 50% 28%, rgb(251 191 36 / 0.24), transparent 32%), linear-gradient(135deg, rgb(255 255 255 / 0.86), rgb(255 241 242 / 0.8))',
+  }))
   const pendingLuckyAutoroll = useState(
     'whim-search-pending-lucky-autoroll',
     () => false
+  )
+  const pendingSearchDisplayQuery = useState<string | null>(
+    'whim-search-pending-display-query',
+    () => null
+  )
+  const pendingRandomDisplayQuery = useState<string | null>(
+    'whim-random-pending-display-query',
+    () => null
   )
   const isRandomRoute = computed(
     () => route.path.split('/').filter(Boolean).at(-1) === 'random'
   )
   const isRandomMode = computed(
     () => mode.value === 'random' || isRandomRoute.value
+  )
+  const normalizeSimilarItemId = (value: unknown) => {
+    const rawValue = Array.isArray(value) ? value[0] : value
+    if (rawValue === null || rawValue === undefined) return null
+
+    const parsed = Number(rawValue)
+    return Number.isInteger(parsed) && parsed > 0 ? parsed : null
+  }
+  const activeSimilarItemId = computed(() =>
+    normalizeSimilarItemId(route.query.similar)
   )
   const pageHeading = computed(() =>
     isRandomMode.value
@@ -1016,6 +1298,8 @@
     'handhelds',
   ]
   const LUCKY_VISUAL_TYPES = new Set(LUCKY_DISCOVERY_TYPES)
+  const LUCKY_ROLL_DURATION_MS = 2500
+  const LUCKY_PRIZE_HOLD_MS = 520
 
   const exampleIndex = ref(0)
 
@@ -1041,7 +1325,10 @@
   let typeInterval: ReturnType<typeof setInterval> | null = null
   let activeSearch: ActiveSearch | null = null
   let lastCompletedSearchKey: string | null = null
-  let luckyRevealTimer: ReturnType<typeof setTimeout> | null = null
+  let luckyRollStartedAt = 0
+  let luckyRollId = 0
+  let similarSearchRunId = 0
+  let shouldPreserveResultsOnEmptyRoute = false
 
   const stopPlaceholderTyping = () => {
     if (!typeInterval) return
@@ -1071,10 +1358,31 @@
     activeSearch = null
   }
 
-  const clearLuckyRevealTimer = () => {
-    if (!luckyRevealTimer) return
-    clearTimeout(luckyRevealTimer)
-    luckyRevealTimer = null
+  const wait = (durationMs: number) =>
+    new Promise<void>((resolve) => {
+      setTimeout(resolve, durationMs)
+    })
+
+  const preloadImage = (imageSrc: string | null) => {
+    if (!import.meta.client || !imageSrc) return Promise.resolve()
+
+    return new Promise<void>((resolve) => {
+      const image = new Image()
+      let isSettled = false
+      const finish = () => {
+        if (isSettled) return
+        isSettled = true
+        resolve()
+      }
+
+      image.onload = finish
+      image.onerror = finish
+      image.src = imageSrc
+
+      if (image.complete) {
+        finish()
+      }
+    })
   }
 
   const blurActiveElement = () => {
@@ -1087,7 +1395,7 @@
 
   const resetLuckyState = () => {
     blurActiveElement()
-    clearLuckyRevealTimer()
+    luckyRollId += 1
     showLuckyModal.value = false
     isLuckyAnimating.value = false
     luckyRevealPhase.value = 'idle'
@@ -1101,27 +1409,35 @@
 
   onUnmounted(() => {
     stopPlaceholderTyping()
-    clearLuckyRevealTimer()
     cancelActiveSearch()
   })
 
-  const searchQuery = ref(route.query.q?.toString() ?? '')
+  const initialCatalogFilters = normalizeCatalogSearchFilters(route.query)
+  const consumeInitialDisplayQuery = () => {
+    const pendingState = isRandomMode.value
+      ? pendingRandomDisplayQuery
+      : pendingSearchDisplayQuery
+    const pendingQuery = pendingState.value
+    pendingState.value = null
+
+    if (
+      pendingQuery &&
+      normalizeSearchQuery(pendingQuery) === initialCatalogFilters.query
+    ) {
+      return pendingQuery
+    }
+
+    return initialCatalogFilters.query
+  }
+  const searchQuery = ref(consumeInitialDisplayQuery())
   const selectedItemTypes = ref<string[]>(
-    route.query.type?.toString().split(',').filter(Boolean).slice(0, 1) ?? []
+    initialCatalogFilters.itemTypes.slice(0, 1)
   )
-  const versionFilter = ref<string | null>(
-    route.query.version?.toString() ?? null
-  )
-  const qualityFilter = ref<number | null>(
-    Number.isFinite(Number(route.query.quality))
-      ? Math.floor(Number(route.query.quality))
-      : null
-  )
-  const styleFilter = ref<string | null>(route.query.style?.toString() ?? null)
-  const labelFilter = ref<string | null>(route.query.label?.toString() ?? null)
-  const sourceFilter = ref<string | null>(
-    (route.query.source ?? route.query.obtain)?.toString() ?? null
-  )
+  const versionFilter = ref<string | null>(initialCatalogFilters.version)
+  const qualityFilter = ref<number | null>(initialCatalogFilters.quality)
+  const styleFilter = ref<string | null>(initialCatalogFilters.style)
+  const labelFilter = ref<string | null>(initialCatalogFilters.label)
+  const sourceFilter = ref<string | null>(initialCatalogFilters.source)
   const draftSelectedItemTypes = ref<string[]>([])
   const draftVersionFilter = ref<string | null>(null)
   const draftQualityFilter = ref<number | null>(null)
@@ -1149,9 +1465,6 @@
   const availableVersions = computed(() =>
     getExactVersionsFromLocaleMessages(messages.value)
   )
-  const availableVersionFilters = computed(() =>
-    getVersionFilters(availableVersions.value)
-  )
   const itemTypeFilter = computed({
     get: () => draftSelectedItemTypes.value[0] ?? null,
     set: (value: string | null) => {
@@ -1159,17 +1472,14 @@
     },
   })
   const itemTypeOptions = computed(() => {
-    const grouped: Record<
-      'clothes' | 'accessories' | 'makeups' | 'other',
-      string[]
-    > = {
+    const grouped: Record<'clothes' | 'accessories' | 'other', string[]> = {
       clothes: [],
       accessories: [],
-      makeups: [],
       other: [],
     }
 
     getAllItemTypes()
+      .filter(isCatalogSearchableItemType)
       .sort((left, right) => {
         const orderLeft = itemCategoryOrder[left] ?? 999
         const orderRight = itemCategoryOrder[right] ?? 999
@@ -1177,6 +1487,7 @@
       })
       .forEach((type) => {
         const category = getItemTypeCategory(type)
+        if (category === 'makeups') return
         grouped[category].push(type)
       })
 
@@ -1206,18 +1517,6 @@
       })
     }
 
-    if (grouped.makeups.length > 0) {
-      options.push({
-        type: 'group',
-        label: t('tracker.items.category.makeups'),
-        key: 'makeups',
-        children: grouped.makeups.map((type) => ({
-          label: t(`type.${type}`),
-          value: type,
-        })),
-      })
-    }
-
     if (grouped.other.length > 0) {
       options.push({
         type: 'group',
@@ -1232,15 +1531,36 @@
 
     return options
   })
+  const getVersionFilterLabel = (version?: string | null) => {
+    if (!version) return null
+    const key = `version.${version}`
+    const translated = t(key)
+    return translated !== key ? `${version} - ${translated}` : version
+  }
   const versionOptions = computed(() =>
-    availableVersionFilters.value.map((version) => ({
-      label:
-        t(`version.${version}`) === `version.${version}`
-          ? version
-          : `${version} - ${t(`version.${version}`)}`,
-      value: version,
-    }))
+    createVersionFilterOptions(
+      availableVersions.value,
+      (version) => getVersionFilterLabel(version) ?? version
+    )
   )
+  const renderVersionOptionLabel = (option: {
+    label?: string | number
+    value?: string | number
+    isMajor?: boolean
+  }) => {
+    const label = String(option.label ?? option.value ?? '')
+    if (!option.isMajor) return label
+
+    return h(
+      'span',
+      {
+        style: {
+          fontWeight: '700',
+        },
+      },
+      label
+    )
+  }
   const styleOptions = computed(() =>
     STYLE_DEFINITIONS.map((style) => ({
       label: t(style.i18nKey),
@@ -1441,13 +1761,15 @@
       key: string
       text: string
       themeValue: string | number
+      filterKey: string | null
     }> = []
 
     normalizeMetadataStringArray(metadata, 'label_ids').forEach((rawId) => {
       const id = Number(rawId)
       if (!Number.isFinite(id)) return
 
-      const i18nKey = TAG_I18N_BY_ID.get(id)
+      const definition = TAG_DEFINITIONS.find((entry) => entry.id === id)
+      const i18nKey = definition?.i18nKey ?? TAG_I18N_BY_ID.get(id)
       if (!i18nKey || seen.has(i18nKey)) return
 
       seen.add(i18nKey)
@@ -1455,14 +1777,19 @@
         key: i18nKey,
         text: t(i18nKey),
         themeValue: id,
+        filterKey: definition?.key ?? null,
       })
     })
 
     normalizeMetadataStringArray(metadata, 'label_keys').forEach((rawKey) => {
+      const definition =
+        rawKey.startsWith('label.') && rawKey.endsWith('.name')
+          ? TAG_DEFINITIONS.find((entry) => entry.i18nKey === rawKey)
+          : TAG_BY_KEY.get(rawKey)
       const i18nKey =
         rawKey.startsWith('label.') && rawKey.endsWith('.name')
           ? rawKey
-          : TAG_BY_KEY.get(rawKey)?.i18nKey
+          : definition?.i18nKey
       if (!i18nKey || seen.has(i18nKey)) return
 
       const idMatch = i18nKey.match(/label\.(\d+)\.name/i)
@@ -1473,6 +1800,7 @@
         key: i18nKey,
         text: t(i18nKey),
         themeValue,
+        filterKey: definition?.key ?? null,
       })
     })
 
@@ -1570,8 +1898,73 @@
     }
   }
 
+  const getSimilarSearchHit = (
+    item: NonNullable<Awaited<ReturnType<typeof fetchItemById>>>
+  ): SearchHit => {
+    const itemType = normalizeItemSearchItemType(
+      item.type ?? getItemType(item.id)
+    )
+    const attributeMetadata = getItemSearchMetadataFromAttributes(
+      item.item_attributes ?? null
+    )
+    const labelIds = Array.isArray(item.tags)
+      ? item.tags
+          .map((entry) =>
+            typeof entry === 'number' || typeof entry === 'string'
+              ? String(entry).trim()
+              : ''
+          )
+          .filter(Boolean)
+      : []
+
+    return {
+      id: String(item.id),
+      itemId: item.id,
+      itemType,
+      category:
+        item.item_attributes?.category ?? attributeMetadata?.category ?? null,
+      subcategory:
+        item.item_attributes?.subcategory ??
+        attributeMetadata?.subcategory ??
+        null,
+      score: 1,
+      quality: item.quality,
+      image: getImageSrc('item', item.id),
+      metadata: {
+        ...(attributeMetadata ?? {}),
+        item_id: item.id,
+        item_type: itemType,
+        slot: itemType,
+        style_key: item.style_key ?? attributeMetadata?.style_key ?? null,
+        label_ids:
+          labelIds.length > 0
+            ? labelIds
+            : normalizeMetadataStringArray(attributeMetadata, 'label_ids'),
+        obtain_type: item.obtain_type ?? attributeMetadata?.obtain_type ?? null,
+      } as ItemSearchMetadata,
+    }
+  }
+
+  const findSimilar = async (item: SearchDisplayHit) => {
+    if (item.itemId === null) return
+
+    isMobileModalOpen.value = false
+    resetLuckyState()
+    lastCompletedSearchKey = null
+
+    await navigateTo({
+      path: localePath('/search'),
+      query: { similar: item.itemId },
+    })
+
+    if (activeSimilarItemId.value === item.itemId) {
+      void runSimilarSearch(item.itemId)
+    }
+  }
+
   const resetSearchState = () => {
     cancelActiveSearch()
+    similarSearchRunId += 1
     resetLuckyState()
     lastCompletedSearchKey = null
     results.value = []
@@ -1586,7 +1979,7 @@
 
   const getCurrentCatalogFilters = (query?: string | null) => ({
     query: query ?? normalizeSearchQuery(searchQuery.value),
-    itemTypes: selectedItemTypes.value,
+    itemTypes: selectedItemTypes.value.filter(isCatalogSearchableItemType),
     version: versionFilter.value,
     quality: qualityFilter.value,
     style: styleFilter.value,
@@ -1601,6 +1994,13 @@
     const nextQuery = getCurrentRouteQuery(query)
 
     await router.replace({ query: nextQuery })
+  }
+
+  const openFilterModal = () => {
+    isFilterModalOpen.value = true
+    if (activeSimilarItemId.value !== null) {
+      void updateSearchRoute(normalizeSearchQuery(searchQuery.value) || null)
+    }
   }
 
   const syncFilterDrafts = () => {
@@ -1666,12 +2066,24 @@
     void runSearch(true)
   }
 
+  const handleSearchInput = () => {
+    if (activeSimilarItemId.value !== null) {
+      void updateSearchRoute(normalizeSearchQuery(searchQuery.value) || null)
+    }
+  }
+
   const handleSecondaryAction = () => {
     if (isRandomMode.value) {
+      const normalizedQuery = resolveNormalizedSearchQuery(true)
+      if (!normalizedQuery) return
+      pendingSearchDisplayQuery.value = searchQuery.value
       void switchMode('search')
       return
     }
 
+    if (normalizeSearchQuery(searchQuery.value)) {
+      pendingRandomDisplayQuery.value = searchQuery.value
+    }
     void switchMode('random', { autoroll: true })
   }
 
@@ -1703,6 +2115,10 @@
     if (!searchQuery.value) return
 
     searchQuery.value = ''
+    if (activeSimilarItemId.value !== null) {
+      shouldPreserveResultsOnEmptyRoute = true
+      await updateSearchRoute(null)
+    }
     if (import.meta.client) {
       restartPlaceholderTyping()
     }
@@ -1864,6 +2280,105 @@
     )
   }
 
+  const runSimilarSearch = async (itemId: number) => {
+    const searchKey = `${locale.value}:similar:${itemId}`
+    if (shouldSkipSearch(searchKey)) {
+      return
+    }
+
+    const runId = ++similarSearchRunId
+    cancelActiveSearch()
+    resetLuckyState()
+    hasSearched.value = true
+    loading.value = true
+    error.value = ''
+    selectedId.value = null
+
+    let search: ActiveSearch | null = null
+
+    try {
+      const item = await fetchItemById(itemId)
+      if (
+        runId !== similarSearchRunId ||
+        activeSimilarItemId.value !== itemId ||
+        mode.value !== 'search'
+      ) {
+        return
+      }
+
+      if (!item) {
+        applySearchResults([])
+        error.value = t('search_page.no_matches')
+        return
+      }
+
+      const similarDisplayHit = toSearchDisplayHit(getSimilarSearchHit(item))
+      searchQuery.value = similarDisplayHit.itemName
+      selectedItemTypes.value = []
+      versionFilter.value = null
+      qualityFilter.value = null
+      styleFilter.value = null
+      labelFilter.value = null
+      sourceFilter.value = null
+      if (!isFilterModalOpen.value) {
+        syncFilterDrafts()
+      }
+
+      search = {
+        key: searchKey,
+        controller: new AbortController(),
+      }
+      activeSearch = search
+
+      const response = await $fetch<SearchApiResponse>('/api/search/items', {
+        query: {
+          id: String(itemId),
+          lang: locale.value,
+        },
+        headers: gameVersionHeaders,
+        signal: search.controller.signal,
+      })
+
+      if (
+        activeSearch !== search ||
+        runId !== similarSearchRunId ||
+        activeSimilarItemId.value !== itemId
+      ) {
+        return
+      }
+
+      lastCompletedSearchKey = search.key
+      applySearchResults((response.data ?? []).filter((hit) => hit.score > 0))
+    } catch (caughtError) {
+      if (
+        search?.controller.signal.aborted ||
+        (search && activeSearch !== search)
+      ) {
+        return
+      }
+
+      if (
+        runId !== similarSearchRunId ||
+        activeSimilarItemId.value !== itemId
+      ) {
+        return
+      }
+
+      applySearchResults([])
+      error.value = toErrorMessage(
+        caughtError,
+        t('search_page.error_description')
+      )
+    } finally {
+      if (runId === similarSearchRunId) {
+        if (activeSearch === search) {
+          activeSearch = null
+        }
+        loading.value = false
+      }
+    }
+  }
+
   const fetchLuckyRandomHit = async () => {
     const queryParams = getCurrentRouteQuery(null)
 
@@ -1881,7 +2396,8 @@
   }
 
   const beginLuckyRoll = () => {
-    clearLuckyRevealTimer()
+    luckyRollId += 1
+    luckyRollStartedAt = Date.now()
     luckyResult.value = null
     luckyRevealPhase.value = 'rolling'
     isLuckyAnimating.value = true
@@ -1895,16 +2411,25 @@
     }
     hasSearched.value = true
     error.value = ''
+    return luckyRollId
   }
 
-  const revealLuckyHit = (hit: SearchHit) => {
+  const revealLuckyHit = async (hit: SearchHit, rollId: number) => {
     luckyResult.value = hit
-    clearLuckyRevealTimer()
-    luckyRevealTimer = setTimeout(() => {
-      luckyRevealPhase.value = 'revealed'
-      isLuckyAnimating.value = false
-      luckyRevealTimer = null
-    }, 1300)
+    const remainingRollMs = Math.max(
+      0,
+      LUCKY_ROLL_DURATION_MS - (Date.now() - luckyRollStartedAt)
+    )
+
+    await Promise.all([
+      wait(remainingRollMs + LUCKY_PRIZE_HOLD_MS),
+      preloadImage(luckyDisplayResult.value?.imageSrc ?? null),
+    ])
+
+    if (rollId !== luckyRollId) return
+
+    luckyRevealPhase.value = 'revealed'
+    isLuckyAnimating.value = false
   }
 
   const closeLuckyModal = () => {
@@ -2026,7 +2551,7 @@
     if (luckyLoading.value || loading.value) return
 
     luckyLoading.value = true
-    beginLuckyRoll()
+    const rollId = beginLuckyRoll()
 
     try {
       const normalizedQuery = normalizeSearchQuery(searchQuery.value)
@@ -2037,8 +2562,9 @@
       const queryHits = normalizedQuery
         ? await fetchLuckySearchHits(normalizedQuery)
         : []
-      const luckyHit =
-        pickLuckySearchHit(queryHits) ?? (await fetchLuckyRandomHit())
+      const luckyHit = normalizedQuery
+        ? (pickLuckySearchHit(queryHits) ?? (await fetchLuckyRandomHit()))
+        : await fetchLuckyRandomHit()
 
       if (!luckyHit) {
         showLuckyModal.value = false
@@ -2050,7 +2576,7 @@
         return
       }
 
-      revealLuckyHit(luckyHit)
+      await revealLuckyHit(luckyHit, rollId)
     } catch (caughtError) {
       showLuckyModal.value = false
       isLuckyAnimating.value = false
@@ -2094,6 +2620,12 @@
   })
 
   watch(locale, () => {
+    const similarItemId = activeSimilarItemId.value
+    if (mode.value === 'search' && similarItemId !== null) {
+      void runSimilarSearch(similarItemId)
+      return
+    }
+
     if (normalizeSearchQuery(searchQuery.value)) {
       void runSearch(false)
     }
@@ -2103,8 +2635,16 @@
     () => [
       mode.value,
       getCatalogSearchFilterKey(normalizeCatalogSearchFilters(route.query)),
+      activeSimilarItemId.value,
     ],
     () => {
+      const similarItemId = activeSimilarItemId.value
+      if (mode.value === 'search' && similarItemId !== null) {
+        void runSimilarSearch(similarItemId)
+        return
+      }
+
+      similarSearchRunId += 1
       const filters = normalizeCatalogSearchFilters(route.query)
       if (normalizeSearchQuery(searchQuery.value) !== filters.query) {
         searchQuery.value = filters.query
@@ -2124,6 +2664,15 @@
       }
 
       if (!filters.query) {
+        if (shouldPreserveResultsOnEmptyRoute) {
+          shouldPreserveResultsOnEmptyRoute = false
+          hasSearched.value = results.value.length > 0
+          if (import.meta.client) {
+            restartPlaceholderTyping()
+          }
+          return
+        }
+
         resetSearchState()
         if (import.meta.client) {
           restartPlaceholderTyping()

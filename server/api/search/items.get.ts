@@ -60,6 +60,19 @@ const normalizeLimit = (value: unknown) => {
   return Math.min(Math.max(normalized, 1), MAX_LIMIT)
 }
 
+const normalizeRecordId = (value: unknown) => {
+  const firstValue = Array.isArray(value) ? value[0] : value
+  if (
+    firstValue === null ||
+    firstValue === undefined ||
+    typeof firstValue === 'object'
+  )
+    return null
+
+  const normalized = String(firstValue).trim()
+  return normalized || null
+}
+
 const normalizeCatalogFilterResult = (query: Record<string, unknown>) => {
   const filters = normalizeCatalogSearchFilters(query)
   const styleFilter = filters.style ? STYLE_BY_KEY.get(filters.style) : null
@@ -104,6 +117,10 @@ const buildPineconeMetadataFilter = (
         filters.itemTypes.length === 1
           ? { $eq: filters.itemTypes[0] }
           : { $in: filters.itemTypes },
+    })
+  } else {
+    clauses.push({
+      item_type: { $nin: [...CATALOG_SEARCH_EXCLUDED_ITEM_TYPES] },
     })
   }
 
@@ -287,6 +304,7 @@ const queryPineconeSearch = async ({
   pineconeIndexHost,
   pineconeTextField,
   normalizedQuery,
+  recordId,
   limit,
   searchNamespace,
   metadataFilter,
@@ -294,7 +312,8 @@ const queryPineconeSearch = async ({
   pineconeApiKey: string
   pineconeIndexHost: string
   pineconeTextField: string
-  normalizedQuery: string
+  normalizedQuery?: string
+  recordId?: string
   limit: number
   searchNamespace: string
   metadataFilter?: unknown
@@ -307,15 +326,16 @@ const queryPineconeSearch = async ({
     try {
       const queryBody: {
         query: {
-          inputs: { text: string }
+          inputs?: { text: string }
+          id?: string
           top_k: number
           filter?: unknown
         }
       } = {
         query: {
-          inputs: {
-            text: normalizedQuery,
-          },
+          ...(recordId
+            ? { id: recordId }
+            : { inputs: { text: normalizedQuery ?? '' } }),
           top_k: limit,
         },
       }
@@ -378,7 +398,7 @@ const queryPineconeSearch = async ({
             id: hit._id,
             score: hit._score,
             metadata: Object.keys(metadata).length > 0 ? metadata : null,
-            fallbackId: normalizedQuery,
+            fallbackId: recordId ?? normalizedQuery ?? '',
           })
         })
         .filter((hit): hit is SearchResponse['data'][number] => Boolean(hit))
@@ -406,10 +426,13 @@ export default defineCachedApiEventHandler(
     const query = getQuery(event)
     const rawQuery = query.q?.toString() ?? ''
     const normalizedQuery = normalizeSearchQuery(rawQuery)
+    const recordId = normalizeRecordId(
+      query.id ?? query.recordId ?? query.record_id
+    )
     const limit = normalizeLimit(query.limit)
     const filterResult = normalizeCatalogFilterResult(query)
 
-    if (!normalizedQuery || !filterResult.valid) {
+    if ((!normalizedQuery && !recordId) || (!recordId && !filterResult.valid)) {
       return {
         query: '',
         total: 0,
@@ -437,13 +460,16 @@ export default defineCachedApiEventHandler(
         pineconeIndexHost,
         pineconeTextField,
         normalizedQuery,
+        recordId: recordId ?? undefined,
         limit,
         searchNamespace,
-        metadataFilter: buildPineconeMetadataFilter(filterResult),
+        metadataFilter: recordId
+          ? undefined
+          : buildPineconeMetadataFilter(filterResult),
       })
 
       return {
-        query: normalizedQuery,
+        query: recordId ?? normalizedQuery,
         total: data.length,
         data,
       }
@@ -469,11 +495,15 @@ export default defineCachedApiEventHandler(
         const query = getQuery(event)
         const q = normalizeSearchCacheKey(query.q)
         const qHash = q ? hash(q) : 'empty'
+        const recordId = normalizeRecordId(
+          query.id ?? query.recordId ?? query.record_id
+        )
+        const recordHash = recordId ? hash(recordId) : 'empty'
         const limit = normalizeLimit(query.limit)
         const searchNamespace = resolveRequestSearchNamespace(event)
         const filters = normalizeCatalogSearchFilters(query)
         const filterHash = hash(getCatalogSearchFilterKey(filters))
-        return `${version}:search:pinecore:${searchNamespace}:q${qHash}:l${limit}:f${filterHash}`
+        return `${version}:search:pinecore:${searchNamespace}:q${qHash}:r${recordHash}:l${limit}:f${filterHash}`
       },
       swr: true,
     },

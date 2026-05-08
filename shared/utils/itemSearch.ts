@@ -260,6 +260,24 @@ export const normalizeItemSearchItemType = (itemType?: string | null) => {
   )
 }
 
+export const CATALOG_SEARCH_EXCLUDED_ITEM_TYPES = [
+  'baseMakeup',
+  'eyebrows',
+  'eyelashes',
+  'contactLenses',
+  'lips',
+] as const
+
+export const isCatalogSearchableItemType = (itemType?: string | null) => {
+  const normalized = normalizeItemSearchItemType(itemType)
+  return (
+    normalized !== 'unknown' &&
+    !CATALOG_SEARCH_EXCLUDED_ITEM_TYPES.includes(
+      normalized as (typeof CATALOG_SEARCH_EXCLUDED_ITEM_TYPES)[number]
+    )
+  )
+}
+
 type ItemSearchAttributeOptionEntry = {
   field: string
   itemType: string | null

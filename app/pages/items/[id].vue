@@ -112,7 +112,7 @@
                       ? 'object-contain p-8'
                       : 'object-cover group-hover:scale-110'
                   "
-                  preset="tallLg"
+                  :preset="showIcon ? 'iconLg' : 'tallLg'"
                   fit="cover"
                   loading="eager"
                   sizes="200px"
@@ -775,8 +775,14 @@
     }
 
     const derivedOutfitId = getOutfitIdFromItemId(String(item.value.id))
-    banner = getBannerForOutfit(derivedOutfitId)
-    if (banner) return banner
+    const derivedOutfitData = getOutfitData(derivedOutfitId)
+    if (
+      !derivedOutfitData ||
+      derivedOutfitData.items.includes(String(item.value.id))
+    ) {
+      banner = getBannerForOutfit(derivedOutfitId)
+      if (banner) return banner
+    }
 
     if (item.value.variations) {
       for (const variation of item.value.variations) {
@@ -784,8 +790,14 @@
         if (banner) return banner
 
         const variationOutfitId = getOutfitIdFromItemId(String(variation.id))
-        banner = getBannerForOutfit(variationOutfitId)
-        if (banner) return banner
+        const varOutfitData = getOutfitData(variationOutfitId)
+        if (
+          !varOutfitData ||
+          varOutfitData.items.includes(String(variation.id))
+        ) {
+          banner = getBannerForOutfit(variationOutfitId)
+          if (banner) return banner
+        }
       }
     }
 

@@ -73,7 +73,8 @@
     "view_compendium": "查看圖鑑",
     "keys": {
       "enter": "回車",
-      "esc": "ESC"
+      "esc": "ESC",
+      "shift": "Shift"
     }
   },
   "navigation": {
@@ -197,9 +198,7 @@
     },
     "search": {
       "placeholder": "按名稱搜尋",
-      "whim_hint": "搜尋更多細節",
-      "for_query": "搜尋 “{query}”",
-      "to_search": "搜尋"
+      "for_query": "搜尋 “{query}”"
     },
     "social": {
       "discord": "加入我們的 Discord 社群",
@@ -782,7 +781,16 @@
     "close_details": "關閉詳情",
     "error_description": "搜尋索引查詢失敗。",
     "no_matches": "沒有符合結果",
-    "match_score": "匹配度 {score}%"
+    "match_score": "匹配度 {score}%",
+    "random_placeholder": "添加提示或給我驚喜",
+    "search_action": "搜尋",
+    "filters_title": "搜尋篩選",
+    "find_similar": "查找相似",
+    "similar_prefix": "相似",
+    "lucky_machine_title": "奇想滾滾機",
+    "lucky_pull_action": "抽取",
+    "mode_search_description": "按細節查找物品",
+    "mode_random_description": "抽一份驚喜"
   },
   "feedback": {
     "queue_title": "回饋審核",

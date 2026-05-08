@@ -73,7 +73,8 @@
     "view_compendium": "도감 보기",
     "keys": {
       "enter": "Enter",
-      "esc": "ESC"
+      "esc": "ESC",
+      "shift": "Shift"
     }
   },
   "navigation": {
@@ -197,9 +198,7 @@
     },
     "search": {
       "placeholder": "이름으로 검색",
-      "whim_hint": "더 자세히 검색",
-      "for_query": "\"{query}\" 검색",
-      "to_search": "검색"
+      "for_query": "\"{query}\" 검색"
     },
     "social": {
       "discord": "디스코드 커뮤니티에 가입하세요",
@@ -782,7 +781,16 @@
     "close_details": "상세 닫기",
     "error_description": "검색 인덱스 쿼리에 실패했습니다.",
     "no_matches": "검색 결과 없음",
-    "match_score": "{score}% 일치"
+    "match_score": "{score}% 일치",
+    "random_placeholder": "힌트 추가 또는 서프라이즈",
+    "search_action": "검색",
+    "filters_title": "검색 필터",
+    "find_similar": "유사한 항목 찾기",
+    "similar_prefix": "유사",
+    "lucky_machine_title": "상상 가챠",
+    "lucky_pull_action": "뽑기",
+    "mode_search_description": "상세 내용으로 아이템 찾기",
+    "mode_random_description": "깜짝 뽑기"
   },
   "feedback": {
     "queue_title": "피드백 심사",

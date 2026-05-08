@@ -197,9 +197,7 @@
     },
     "search": {
       "placeholder": "이름으로 검색",
-      "whim_hint": "더 자세히 검색",
-      "for_query": "\"{query}\" 검색",
-      "to_search": "검색"
+      "for_query": "\"{query}\" 검색"
     },
     "social": {
       "discord": "디스코드 커뮤니티에 가입하세요",

@@ -248,25 +248,27 @@
       <!-- Prize Capsule -->
       <g clip-path="url(#windowClip)">
         <g class="prize-capsule capsule">
-          <circle
-            cx="256"
-            cy="432"
-            r="23"
-            fill="#F5C7CF"
-          />
-          <path
-            d="M 233 432 A 23 23 0 0 0 279 432 Z"
-            fill="#A9D66F"
-          />
-          <line
-            x1="233"
-            y1="432"
-            x2="279"
-            y2="432"
-            stroke="#FFFFFF"
-            stroke-width="2"
-            opacity="0.5"
-          />
+          <g class="prize-capsule-rotator">
+            <circle
+              cx="256"
+              cy="432"
+              r="23"
+              fill="#F5C7CF"
+            />
+            <path
+              d="M 233 432 A 23 23 0 0 0 279 432 Z"
+              fill="#A9D66F"
+            />
+            <line
+              x1="233"
+              y1="432"
+              x2="279"
+              y2="432"
+              stroke="#FFFFFF"
+              stroke-width="2"
+              opacity="0.5"
+            />
+          </g>
         </g>
       </g>
 
@@ -294,9 +296,8 @@
       <g clip-path="url(#globeClip)">
         <!-- Crescent Moon (NOT animated) -->
         <path
-          d="M 268 94 A 38 38 0 0 1 232 160 A 54 54 0 0 0 268 94 Z"
+          d="M 259.4 104 A 44.6 44.6 0 1 1 211.2 176 A 46.1 46.1 0 0 0 259.4 104 Z"
           fill="#FFF2C7"
-          transform="rotate(10 258 132)"
         />
 
         <g class="globe-contents">
@@ -542,6 +543,12 @@
     transform: translateY(-54px);
   }
 
+  .prize-capsule-rotator {
+    --capsule-spin: 360deg;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
   .is-revealed .prize-capsule {
     opacity: 1;
   }
@@ -558,6 +565,10 @@
   .is-rolling .prize-capsule {
     transform-origin: 256px 432px;
     animation: prize-drop 2.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+  }
+
+  .is-rolling .prize-capsule-rotator {
+    animation: capsule-spin 2.5s ease-in-out forwards;
   }
 
   @keyframes lever-pull {

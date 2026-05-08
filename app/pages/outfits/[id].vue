@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-7xl mx-auto space-y-2 sm:space-y-4">
+  <div class="mx-auto max-w-7xl space-y-2 sm:space-y-4">
     <!-- Loading State -->
     <n-card
       v-if="loading"
@@ -7,11 +7,11 @@
       class="rounded-xl p-0 sm:p-2"
       content-class="p-2 sm:p-4"
     >
-      <div class="grid grid-cols-1 lg:grid-cols-[200px_1fr] gap-4 lg:gap-6">
+      <div class="grid grid-cols-1 gap-4 lg:grid-cols-[200px_1fr] lg:gap-6">
         <!-- Image Skeleton -->
         <div class="flex justify-center lg:justify-start">
           <div
-            class="relative aspect-2/3 w-full max-w-50 rounded-lg overflow-hidden"
+            class="relative aspect-2/3 w-full max-w-50 overflow-hidden rounded-lg"
           >
             <n-skeleton
               :sharp="false"
@@ -48,7 +48,7 @@
               height="20px"
             />
             <div
-              class="grid grid-cols-5 sm:grid-cols-6 md:grid-cols-7 lg:grid-cols-8 xl:grid-cols-10 gap-2"
+              class="grid grid-cols-5 gap-2 sm:grid-cols-6 md:grid-cols-7 lg:grid-cols-8 xl:grid-cols-10"
             >
               <div
                 v-for="i in 10"
@@ -103,9 +103,9 @@
         class="rounded-xl p-0 sm:p-2"
         content-class="p-2 sm:p-4"
       >
-        <div class="grid grid-cols-1 lg:grid-cols-[auto_1fr] gap-4 lg:gap-6">
+        <div class="grid grid-cols-1 gap-4 lg:grid-cols-[auto_1fr] lg:gap-6">
           <!-- Outfit Image -->
-          <div class="flex justify-center lg:justify-start items-start">
+          <div class="flex items-start justify-center lg:justify-start">
             <div class="w-50 max-w-full shrink-0">
               <OutfitCard
                 :outfit-id="outfit.id"
@@ -113,7 +113,7 @@
                 :name="outfitName"
                 size="md"
                 :show-info="false"
-                class="shadow-lg w-full"
+                class="w-full shadow-lg"
               />
             </div>
           </div>
@@ -123,12 +123,12 @@
             <div class="flex flex-col gap-4 xl:flex-row xl:items-start">
               <div class="min-w-0 flex-1 space-y-3">
                 <div class="flex flex-wrap items-center gap-2">
-                  <h1 class="text-xl sm:text-2xl font-bold leading-tight">
+                  <h1 class="text-xl leading-tight font-bold sm:text-2xl">
                     {{ outfitName }}
                   </h1>
                   <NuxtLinkLocale
                     :to="outfitQualityListLocation"
-                    class="hover:opacity-80 transition-opacity"
+                    class="transition-opacity hover:opacity-80"
                   >
                     <n-tag
                       :color="getQualityTextTheme(outfit.quality)"
@@ -152,14 +152,14 @@
                     v-for="label in outfitStyleLabels"
                     :key="`style-${label}`"
                     :to="outfitStyleListLocation"
-                    class="hover:opacity-80 transition-opacity"
+                    class="transition-opacity hover:opacity-80"
                   >
                     <n-tag
                       size="small"
                       :bordered="false"
                       type="default"
                       :color="getStyleTagTheme(outfitStyleKey)"
-                      class="text-xs font-semibold shadow-[inset_0_-2px_0_rgba(0,0,0,0.18)] cursor-pointer"
+                      class="cursor-pointer text-xs font-semibold shadow-[inset_0_-2px_0_rgba(0,0,0,0.18)]"
                     >
                       {{ label }}
                     </n-tag>
@@ -171,14 +171,14 @@
                     <NuxtLinkLocale
                       v-if="label.tagKey"
                       :to="getOutfitTagListLocation(label.tagKey)"
-                      class="hover:opacity-80 transition-opacity"
+                      class="transition-opacity hover:opacity-80"
                     >
                       <n-tag
                         size="small"
                         type="default"
                         :color="label.theme"
                         round
-                        class="text-xs font-semibold cursor-pointer"
+                        class="cursor-pointer text-xs font-semibold"
                       >
                         {{ label.text }}
                       </n-tag>
@@ -200,7 +200,7 @@
                   <NuxtLinkLocale
                     v-if="outfitVersionDisplay"
                     :to="outfitVersionListLocation"
-                    class="hover:opacity-80 transition-opacity"
+                    class="transition-opacity hover:opacity-80"
                   >
                     <n-tag
                       type="default"
@@ -215,7 +215,7 @@
                   <NuxtLinkLocale
                     v-if="outfitObtainLabel && outfitObtainType != null"
                     :to="outfitSourceListLocation"
-                    class="hover:opacity-80 transition-opacity"
+                    class="transition-opacity hover:opacity-80"
                   >
                     <n-tag
                       type="default"
@@ -231,7 +231,7 @@
 
                 <div
                   v-if="outfitDescription"
-                  class="text-sm opacity-80 leading-relaxed"
+                  class="text-sm leading-relaxed opacity-80"
                 >
                   <p class="whitespace-pre-wrap">{{ outfitDescription }}</p>
                 </div>
@@ -252,12 +252,12 @@
                       :bordered="false"
                       type="default"
                       :color="score.theme"
-                      class="text-sm font-semibold min-w-24 justify-center shadow-[inset_0_-2px_0_rgba(0,0,0,0.18)]"
+                      class="min-w-24 justify-center text-sm font-semibold shadow-[inset_0_-2px_0_rgba(0,0,0,0.18)]"
                     >
                       {{ score.label }}
                     </n-tag>
                     <div
-                      class="flex-1 rounded-md bg-black/5 dark:bg-white/10 px-2 py-0.5 text-sm font-semibold tabular-nums text-right opacity-80"
+                      class="flex-1 rounded-md bg-black/5 px-2 py-0.5 text-right text-sm font-semibold tabular-nums opacity-80 dark:bg-white/10"
                     >
                       {{ score.value }}
                     </div>
@@ -319,22 +319,22 @@
 
       <!-- Variations and Banner Grid (side by side on desktop) -->
       <div
-        class="grid grid-cols-1 lg:grid-cols-2 gap-2 sm:gap-4 lg:items-stretch"
+        class="grid grid-cols-1 gap-2 sm:gap-4 lg:grid-cols-2 lg:items-stretch"
       >
         <!-- Outfit Variations Section -->
         <n-card
           v-if="outfitVariations.length > 1"
           size="small"
-          class="rounded-xl p-0 sm:p-2 h-full"
+          class="h-full rounded-xl p-0 sm:p-2"
           content-class="p-2 sm:p-4"
         >
-          <div class="flex items-center justify-between mb-3">
+          <div class="mb-3 flex items-center justify-between">
             <h2 class="text-lg font-bold">
               {{ $t('common.variations') }}
             </h2>
           </div>
           <div
-            class="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-4 xl:grid-cols-5 gap-2"
+            class="grid grid-cols-4 gap-2 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-4 xl:grid-cols-5"
           >
             <div
               v-for="variation in outfitVariations"
@@ -342,10 +342,10 @@
             >
               <NuxtLinkLocale
                 :to="`/outfits/${variation.id}`"
-                class="block group"
+                class="group block"
                 :class="[
                   variation.id === outfitId
-                    ? 'cursor-default pointer-events-none'
+                    ? 'pointer-events-none cursor-default'
                     : 'cursor-pointer',
                 ]"
               >
@@ -379,23 +379,23 @@
         <n-card
           v-if="inBanner"
           size="small"
-          class="rounded-xl p-0 sm:p-2 h-full flex flex-col"
+          class="flex h-full flex-col rounded-xl p-0 sm:p-2"
           content-class="p-2 sm:p-4 flex flex-col h-full"
         >
-          <h2 class="text-lg font-bold mb-3">
+          <h2 class="mb-3 text-lg font-bold">
             {{ $t('common.banner') }}
           </h2>
           <NuxtLinkLocale
             :to="`/banners/${inBanner.bannerId}`"
-            class="block group"
+            class="group block"
           >
             <div
-              class="relative aspect-2/1 max-h-40 rounded-lg overflow-hidden transition-all duration-200 ease-in-out shadow-md group-hover:scale-[1.02]"
+              class="relative aspect-2/1 max-h-40 overflow-hidden rounded-lg shadow-md transition-all duration-200 ease-in-out group-hover:scale-[1.02]"
             >
               <NuxtImg
                 :src="getImageSrc('banner', inBanner.bannerId)"
                 :alt="$t(`banner.${inBanner.bannerId}.name`)"
-                class="w-full h-full object-cover"
+                class="h-full w-full object-cover"
                 preset="bannerThumb"
                 fit="cover"
                 loading="lazy"
@@ -403,7 +403,7 @@
               />
             </div>
             <div class="mt-2">
-              <p class="font-medium text-sm line-clamp-2">
+              <p class="line-clamp-2 text-sm font-medium">
                 {{ $t(`banner.${inBanner.bannerId}.name`) }}
               </p>
             </div>
@@ -429,7 +429,7 @@
           <div class="flex justify-center">
             <NuxtImg
               :src="getImageSrc('emote', 'think')"
-              class="mx-auto w-24 h-24 sm:w-32 sm:h-32 object-cover"
+              class="mx-auto h-24 w-24 object-cover sm:h-32 sm:w-32"
               preset="iconLg"
               fit="cover"
               sizes="160px sm:200px"

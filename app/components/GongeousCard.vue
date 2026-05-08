@@ -2,11 +2,11 @@
   <div
     class="w-full max-w-sm overflow-hidden rounded-2xl border border-slate-200 bg-linear-to-br from-slate-50 via-white to-zinc-100 p-4 shadow-xs"
   >
-    <div class="flex items-start justify-between gap-2 mx-4">
+    <div class="mx-4 flex items-start justify-between gap-2">
       <div class="mt-1">
         <div class="relative inline-flex">
           <p
-            class="relative inline-block text-2xl font-black lowercase tracking-widest text-transparent bg-linear-to-r from-fuchsia-500 via-rose-500 to-amber-400 bg-clip-text sm:text-3xl"
+            class="relative inline-block bg-linear-to-r from-fuchsia-500 via-rose-500 to-amber-400 bg-clip-text text-2xl font-black tracking-widest text-transparent lowercase sm:text-3xl"
           >
             gongeous!
           </p>
@@ -34,7 +34,7 @@
         width="400"
         height="300"
         fit="cover"
-        class="w-full h-full -rotate-1 rounded-2xl border border-slate-200 shadow-lg transition-transform duration-300 hover:rotate-0"
+        class="h-full w-full -rotate-1 rounded-2xl border border-slate-200 shadow-lg transition-transform duration-300 hover:rotate-0"
       />
     </div>
   </div>

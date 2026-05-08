@@ -1,13 +1,13 @@
 <template>
   <NuxtLinkLocale
     :to="`/items/${itemId}`"
-    class="relative block transition-all duration-300 ease-out group hover:scale-[1.05] hover:z-10"
+    class="group relative block transition-all duration-300 ease-out hover:z-10 hover:scale-[1.05]"
     @click="$emit('click', itemId)"
   >
     <n-card
       :class="[
         getCardGradient(quality),
-        'relative overflow-hidden rounded-md transition-all duration-300 ease-out aspect-square ring-1 cursor-pointer',
+        'relative aspect-square cursor-pointer overflow-hidden rounded-md ring-1 transition-all duration-300 ease-out',
         getSizeClass(size),
       ]"
       :bordered="false"
@@ -17,7 +17,7 @@
       <NuxtImg
         :src="getImageSrc('itemIcon', itemId)"
         :alt="itemName"
-        class="w-full h-full object-cover aspect-square"
+        class="aspect-square h-full w-full object-cover"
         :style="imageStyle"
         :preset="getImagePreset(size)"
         fit="cover"
@@ -27,16 +27,16 @@
       />
     </n-card>
     <div
-      class="pointer-events-none absolute inset-x-0 bottom-full z-20 mb-2 flex justify-center opacity-0 translate-y-2 scale-90 transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:opacity-100 group-hover:translate-y-0 group-hover:scale-100 group-focus-within:opacity-100 group-focus-within:translate-y-0 group-focus-within:scale-100"
+      class="pointer-events-none absolute inset-x-0 bottom-full z-20 mb-2 flex translate-y-2 scale-90 justify-center opacity-0 transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-focus-within:translate-y-0 group-focus-within:scale-100 group-focus-within:opacity-100 group-hover:translate-y-0 group-hover:scale-100 group-hover:opacity-100"
     >
       <div
         :style="popoverStyle"
-        class="relative min-h-12 w-32 sm:w-36 rounded-xl p-2 text-center ring-1 ring-black/5 backdrop-blur-md dark:ring-white/10"
+        class="relative min-h-12 w-32 rounded-xl p-2 text-center ring-1 ring-black/5 backdrop-blur-md sm:w-36 dark:ring-white/10"
       >
-        <div class="font-bold leading-tight line-clamp-2 text-xs">
+        <div class="line-clamp-2 text-xs leading-tight font-bold">
           {{ itemName }}
         </div>
-        <div class="mt-0.5 text-[10px] sm:text-xs font-medium opacity-80">
+        <div class="mt-0.5 text-[10px] font-medium opacity-80 sm:text-xs">
           {{ $t(`type.${itemType}`) }}
         </div>
       </div>
@@ -89,11 +89,11 @@
   const getSizeClass = (size: 'sm' | 'lg') => {
     switch (size) {
       case 'sm':
-        return 'min-h-[60px] xl:min-h-[80px]'
+        return 'min-h-15 xl:min-h-20'
       case 'lg':
-        return 'min-h-[80px] xl:min-h-[120px]'
+        return 'min-h-20 xl:min-h-30'
       default:
-        return 'min-h-[80px] xl:min-h-[120px]'
+        return 'min-h-20 xl:min-h-30'
     }
   }
 

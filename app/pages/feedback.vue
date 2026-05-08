@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-7xl mx-auto space-y-2 sm:space-y-4">
+  <div class="mx-auto max-w-7xl space-y-2 sm:space-y-4">
     <n-card
       size="small"
       class="rounded-xl p-0 sm:p-2"
@@ -10,7 +10,7 @@
           class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between"
         >
           <div class="min-w-0">
-            <h1 class="text-lg font-semibold leading-tight sm:text-2xl">
+            <h1 class="text-lg leading-tight font-semibold sm:text-2xl">
               {{ t('feedback.queue_title') }}
             </h1>
           </div>
@@ -35,7 +35,7 @@
         <div class="grid grid-cols-1 gap-2.5 md:grid-cols-2 xl:grid-cols-5">
           <div class="space-y-1.5">
             <div
-              class="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400"
+              class="text-[11px] font-semibold tracking-[0.18em] text-slate-500 uppercase dark:text-slate-400"
             >
               {{ t('feedback.mode_filter_label') }}
             </div>
@@ -56,7 +56,7 @@
             class="space-y-1.5"
           >
             <div
-              class="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400"
+              class="text-[11px] font-semibold tracking-[0.18em] text-slate-500 uppercase dark:text-slate-400"
             >
               {{ t('feedback.scope_filter_label') }}
             </div>
@@ -70,7 +70,7 @@
           </div>
           <div class="space-y-1.5">
             <div
-              class="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400"
+              class="text-[11px] font-semibold tracking-[0.18em] text-slate-500 uppercase dark:text-slate-400"
             >
               {{ t('feedback.sort_filter_label') }}
             </div>
@@ -83,7 +83,7 @@
           </div>
           <div class="space-y-1.5">
             <div
-              class="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400"
+              class="text-[11px] font-semibold tracking-[0.18em] text-slate-500 uppercase dark:text-slate-400"
             >
               {{ t('feedback.status_filter_label') }}
             </div>
@@ -99,7 +99,7 @@
             class="space-y-1.5"
           >
             <div
-              class="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400"
+              class="text-[11px] font-semibold tracking-[0.18em] text-slate-500 uppercase dark:text-slate-400"
             >
               {{ t('feedback.review_state_filter_label') }}
             </div>

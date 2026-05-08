@@ -1,24 +1,24 @@
 <template>
-  <div class="max-w-7xl mx-auto space-y-2 sm:space-y-4">
+  <div class="mx-auto max-w-7xl space-y-2 sm:space-y-4">
     <!-- Loading State -->
     <template v-if="loading">
       <!-- Stats Header Skeleton -->
       <n-card
-        content-class="p-2 sm:p-4"
+        content-class="px-2 sm:px-4"
         size="small"
         class="rounded-xl"
       >
-        <div class="grow grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
+        <div class="grid grow grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6">
           <n-card
             v-for="i in 5"
             :key="i"
             size="small"
-            class="text-center rounded-lg"
+            class="rounded-lg text-center"
           >
             <n-skeleton
               height="20px"
               width="80%"
-              class="mb-2 mx-auto"
+              class="mx-auto mb-2"
             />
             <n-skeleton
               height="24px"
@@ -26,7 +26,7 @@
               class="mx-auto"
             />
           </n-card>
-          <div class="flex justify-end gap-2 items-center">
+          <div class="flex items-center justify-end gap-2">
             <n-skeleton
               circle
               width="18px"
@@ -53,13 +53,13 @@
           :key="i"
           size="small"
           class="rounded-xl"
-          content-class="p-2 sm:p-4"
+          content-class="px-2 sm:px-4"
         >
           <div class="space-y-2">
             <!-- Banner Header Skeleton -->
             <div class="flex items-center justify-between">
               <div
-                class="flex flex-col sm:flex-row items-start sm:items-center gap-2"
+                class="flex flex-col items-start gap-2 sm:flex-row sm:items-center"
               >
                 <n-skeleton
                   text
@@ -79,7 +79,7 @@
                   />
                 </div>
               </div>
-              <div class="flex gap-2 shrink-0">
+              <div class="flex shrink-0 gap-2">
                 <n-skeleton
                   circle
                   width="18px"
@@ -98,10 +98,10 @@
               </div>
             </div>
             <!-- Items Grid Skeleton -->
-            <div class="grid grid-cols-5 sm:grid-cols-8 lg:grid-cols-10 gap-2">
+            <div class="grid grid-cols-5 gap-2 sm:grid-cols-8 lg:grid-cols-10">
               <n-skeleton
                 :repeat="10"
-                class="rounded-lg aspect-square w-full h-full"
+                class="aspect-square h-full w-full rounded-lg"
               />
             </div>
           </div>
@@ -118,7 +118,7 @@
         class="space-y-2 sm:space-y-4"
       >
         <!-- No Data Message -->
-        <n-card class="text-center rounded-xl">
+        <n-card class="rounded-xl text-center">
           <n-result
             size="small"
             status="info"
@@ -129,7 +129,7 @@
               <NuxtImg
                 :src="getImageSrc('emote', 'think')"
                 :alt="$t('tracker.no_data.title')"
-                class="mx-auto w-24 h-24 sm:w-32 sm:h-32 object-cover"
+                class="mx-auto h-24 w-24 object-cover sm:h-32 sm:w-32"
                 preset="iconLg"
                 fit="cover"
                 sizes="160px sm:200px"
@@ -138,7 +138,7 @@
             <template #footer>
               <n-button
                 type="primary"
-                class="relative overflow-hidden after:content-[''] after:absolute after:inset-y-0 after:-left-full after:w-[60%] after:bg-linear-to-r after:from-transparent after:via-white/15 after:to-transparent after:animate-button-shimmer motion-reduce:after:animate-none"
+                class="after:animate-button-shimmer relative overflow-hidden after:absolute after:inset-y-0 after:-left-full after:w-[60%] after:bg-linear-to-r after:from-transparent after:via-white/15 after:to-transparent after:content-[''] motion-reduce:after:animate-none"
                 @click="navigateTo(localePath('/import'))"
               >
                 {{ $t('navigation.import') }}
@@ -154,18 +154,32 @@
             :key="banner.bannerId"
           >
             <n-card
-              content-class="p-2 sm:p-4"
+              content-class="px-2 sm:px-4"
               size="small"
-              class="rounded-xl min-h-[120px] sm:min-h-[160px] opacity-40"
+              class="relative min-h-30 rounded-xl opacity-40 sm:min-h-40"
             >
+              <div
+                class="absolute top-2 right-2 z-10 flex min-h-8 items-center gap-2 sm:right-4"
+              >
+                <DiceAnimation
+                  :percentile="
+                    banner.bannerType === 3
+                      ? getBannerAvg4StarType3Percentile(
+                          banner.stats.avg4StarOnlyPulls
+                        )
+                      : getBannerAvg5StarPercentile(banner.stats.avg5StarPulls)
+                  "
+                />
+              </div>
+
               <!-- Banner Header -->
               <div
-                class="w-full flex flex-col sm:flex-row sm:items-center gap-2"
+                class="flex w-full flex-col gap-2 pr-16 sm:flex-row sm:items-center sm:pr-20 lg:pr-56"
               >
                 <NuxtLinkLocale
                   no-prefetch
                   :to="`/banners/${banner.bannerId}`"
-                  class="inline w-fit hover:opacity-95 transition-opacity"
+                  class="inline-flex min-h-8 items-center transition-opacity hover:opacity-95"
                 >
                   <n-gradient-text
                     :size="18"
@@ -177,7 +191,7 @@
                 </NuxtLinkLocale>
 
                 <div
-                  class="flex flex-wrap gap-2 w-full sm:w-[calc(100%-500px)]"
+                  class="flex w-full flex-wrap gap-2 sm:w-[calc(100%-200px)]"
                 >
                   <template
                     v-for="outfit in banner.outfits"
@@ -187,14 +201,14 @@
                       <NuxtLinkLocale
                         no-prefetch
                         :to="`/outfits/${outfit.id}`"
-                        class="inline w-fit hover:opacity-80 transition-opacity cursor-pointer"
+                        class="inline w-fit cursor-pointer transition-opacity hover:opacity-80"
                       >
                         <n-tag
                           :color="getQualityTextTheme(outfit.quality)"
                           :bordered="false"
                           round
                           size="small"
-                          class="px-2 gap-1 cursor-pointer"
+                          class="cursor-pointer gap-1 px-2"
                         >
                           <span class="flex items-center gap-1">
                             {{ $t(`outfit.${outfit.id}.name`) }}
@@ -213,56 +227,38 @@
 
               <!-- Sample Stats -->
               <div
-                class="mt-1 flex flex-row justify-between gap-2 sm:absolute sm:right-2 sm:top-2 sm:mt-0 sm:justify-start"
+                class="text-md mt-1 flex min-w-0 flex-wrap items-baseline gap-x-2 gap-y-1 pr-16 text-gray-400 sm:pr-20 lg:absolute lg:top-2 lg:right-14 lg:mt-0 lg:flex-nowrap lg:pr-0"
               >
-                <div
-                  class="flex justify-between gap-2 items-baseline text-md text-gray-400"
-                >
-                  <div class="whitespace-nowrap">
-                    <span>{{ t('common.stats.total_pulls') }}:</span>
-                    <span
-                      class="ml-1 text-lg font-medium text-gray-600 dark:text-gray-200"
-                      >{{ banner.stats.totalPulls }}</span
-                    >
-                  </div>
-                  <div
-                    v-if="banner.bannerType === 1 || banner.bannerType === 2"
-                    class="whitespace-nowrap"
+                <div class="whitespace-nowrap">
+                  <span>{{ t('common.stats.total_pulls') }}:</span>
+                  <span
+                    class="ml-1 text-lg font-medium text-gray-600 dark:text-gray-200"
+                    >{{ banner.stats.totalPulls }}</span
                   >
-                    <span>{{ t('tracker.banner.stats.avg_5star') }}:</span>
-                    <span class="text-amber-500 ml-1 text-lg font-medium">{{
-                      banner.stats.avg5StarPulls.toFixed(2)
-                    }}</span>
-                  </div>
-                  <div
-                    v-if="banner.bannerType === 3"
-                    class="whitespace-nowrap"
-                  >
-                    <span>{{ t('tracker.banner.stats.avg_4star') }}:</span>
-                    <span class="text-blue-500 ml-1 text-lg font-medium">{{
-                      banner.stats.avg4StarOnlyPulls.toFixed(2)
-                    }}</span>
-                  </div>
                 </div>
-
-                <div class="flex flex-row gap-2 p-1">
-                  <DiceAnimation
-                    :percentile="
-                      banner.bannerType === 3
-                        ? getBannerAvg4StarType3Percentile(
-                            banner.stats.avg4StarOnlyPulls
-                          )
-                        : getBannerAvg5StarPercentile(
-                            banner.stats.avg5StarPulls
-                          )
-                    "
-                  />
+                <div
+                  v-if="banner.bannerType === 1 || banner.bannerType === 2"
+                  class="whitespace-nowrap"
+                >
+                  <span>{{ t('tracker.banner.stats.avg_5star') }}:</span>
+                  <span class="ml-1 text-lg font-medium text-amber-500">{{
+                    banner.stats.avg5StarPulls.toFixed(2)
+                  }}</span>
+                </div>
+                <div
+                  v-if="banner.bannerType === 3"
+                  class="whitespace-nowrap"
+                >
+                  <span>{{ t('tracker.banner.stats.avg_4star') }}:</span>
+                  <span class="ml-1 text-lg font-medium text-blue-500">{{
+                    banner.stats.avg4StarOnlyPulls.toFixed(2)
+                  }}</span>
                 </div>
               </div>
 
               <!-- Sample Items Grid -->
               <div
-                class="grid grid-cols-5 sm:grid-cols-8 lg:grid-cols-10 gap-2 mt-2"
+                class="mt-2 grid grid-cols-5 gap-2 sm:grid-cols-8 lg:grid-cols-10"
               >
                 <ItemDataCard
                   v-for="item in banner.pulls"
@@ -281,20 +277,20 @@
       >
         <!-- Stats Header -->
         <n-card
-          content-class="p-2 sm:p-4"
+          content-class="px-2 sm:px-4"
           size="small"
           class="rounded-xl"
         >
-          <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
+          <div class="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6">
             <n-card
               size="small"
-              class="text-center rounded-lg"
+              class="rounded-lg text-center"
             >
               <div class="text-sm text-gray-400">
                 {{ t('common.stats.total_pulls') }}
               </div>
               <div
-                class="text-lg font-medium tabular-nums mt-1 flex items-center justify-center gap-2"
+                class="mt-1 flex items-center justify-center gap-2 text-lg font-medium tabular-nums"
               >
                 <n-number-animation
                   :from="0"
@@ -334,12 +330,12 @@
 
             <n-card
               size="small"
-              class="text-center rounded-lg"
+              class="rounded-lg text-center"
             >
               <div class="text-sm text-gray-400">
                 {{ t('tracker.stats.total_5star_4star') }}
               </div>
-              <div class="text-lg font-medium tabular-nums mt-1">
+              <div class="mt-1 text-lg font-medium tabular-nums">
                 <n-number-animation
                   :from="0"
                   :to="globalStats.total5StarItems"
@@ -359,13 +355,13 @@
 
             <n-card
               size="small"
-              class="text-center rounded-lg"
+              class="rounded-lg text-center"
             >
               <div class="text-sm text-gray-400">
                 {{ t('common.stats.avg_5star') }}
               </div>
               <div
-                class="text-lg font-medium tabular-nums mt-1 flex items-center justify-center gap-2"
+                class="mt-1 flex items-center justify-center gap-2 text-lg font-medium tabular-nums"
               >
                 <span class="inline-block min-w-[4ch] text-right">
                   <n-number-animation
@@ -384,13 +380,13 @@
 
             <n-card
               size="small"
-              class="text-center rounded-lg"
+              class="rounded-lg text-center"
             >
               <div class="text-sm text-gray-400">
                 {{ t('common.stats.avg_4star_mixed') }}
               </div>
               <div
-                class="text-lg font-medium tabular-nums mt-1 flex items-center justify-center gap-2"
+                class="mt-1 flex items-center justify-center gap-2 text-lg font-medium tabular-nums"
               >
                 <span class="inline-block min-w-[3ch] text-right">
                   <n-number-animation
@@ -411,13 +407,13 @@
 
             <n-card
               size="small"
-              class="text-center rounded-lg"
+              class="rounded-lg text-center"
             >
               <div class="text-sm text-gray-400">
                 {{ t('common.stats.avg_4star_only') }}
               </div>
               <div
-                class="text-lg font-medium tabular-nums mt-1 flex items-center justify-center gap-2"
+                class="mt-1 flex items-center justify-center gap-2 text-lg font-medium tabular-nums"
               >
                 <span class="inline-block min-w-[3ch] text-right">
                   <n-number-animation
@@ -439,12 +435,12 @@
             <n-card
               v-if="exporting"
               size="small"
-              class="text-center rounded-lg"
+              class="rounded-lg text-center"
             >
               <p class="text-sm text-gray-400">
                 {{ t('tracker.export.generated_from') }}
               </p>
-              <p class="text-xl inline-flex items-center justify-center gap-2">
+              <p class="inline-flex items-center justify-center gap-2 text-xl">
                 <NuxtImg
                   src="images/logo.webp"
                   preset="iconSm"
@@ -459,7 +455,7 @@
 
             <div
               v-if="!exporting"
-              class="flex flex-col items-end justify-between h-full py-1 gap-2"
+              class="flex h-full flex-col items-end justify-between gap-2 py-1"
             >
               <div class="flex items-center gap-2">
                 <!-- Export Button -->
@@ -483,7 +479,7 @@
                       </template>
                     </n-button>
                   </template>
-                  <div class="space-y-2 w-28 text-center">
+                  <div class="w-28 space-y-2 text-center">
                     <n-button
                       text
                       class="text-gray-400 hover:text-gray-600"
@@ -539,7 +535,7 @@
                             $t('common.sort.newest_first')
                           }}</template>
                         </n-switch>
-                        <span class="text-sm text-gray-400 ml-3">
+                        <span class="ml-3 text-sm text-gray-400">
                           {{ t('tracker.banner.settings.banner_order') }}
                         </span>
                       </div>
@@ -552,7 +548,7 @@
                             $t('common.sort.newest_first')
                           }}</template>
                         </n-switch>
-                        <span class="text-sm text-gray-400 ml-3">
+                        <span class="ml-3 text-sm text-gray-400">
                           {{ t('tracker.banner.settings.item_order') }}
                         </span>
                       </div>
@@ -565,7 +561,7 @@
                             $t('tracker.banner.settings.separated')
                           }}</template>
                         </n-switch>
-                        <span class="text-sm text-gray-400 ml-3">
+                        <span class="ml-3 text-sm text-gray-400">
                           {{ t('tracker.banner.settings.outfit_display') }}
                         </span>
                       </div>
@@ -576,7 +572,7 @@
                             $t('common.hide')
                           }}</template>
                         </n-switch>
-                        <span class="text-sm text-gray-400 ml-3">
+                        <span class="ml-3 text-sm text-gray-400">
                           {{ t('tracker.banner.settings.show_4star') }}
                         </span>
                       </div>
@@ -587,7 +583,7 @@
                             $t('common.hide')
                           }}</template>
                         </n-switch>
-                        <span class="text-sm text-gray-400 ml-3">
+                        <span class="ml-3 text-sm text-gray-400">
                           {{ t('tracker.banner.settings.duplicate_items') }}
                         </span>
                       </div>
@@ -598,7 +594,7 @@
                             $t('common.hide')
                           }}</template>
                         </n-switch>
-                        <span class="text-sm text-gray-400 ml-3">
+                        <span class="ml-3 text-sm text-gray-400">
                           {{ t('tracker.banner.settings.show_missing') }}
                         </span>
                       </div>
@@ -609,7 +605,7 @@
                             $t('common.hide')
                           }}</template>
                         </n-switch>
-                        <span class="text-sm text-gray-400 ml-3">
+                        <span class="ml-3 text-sm text-gray-400">
                           {{ t('tracker.banner.settings.empty_banners') }}
                         </span>
                       </div>
@@ -620,7 +616,7 @@
                 <n-button
                   size="small"
                   type="primary"
-                  class="relative overflow-hidden after:content-[''] after:absolute after:inset-y-0 after:-left-full after:w-[60%] after:bg-linear-to-r after:from-transparent after:via-white/15 after:to-transparent after:animate-button-shimmer motion-reduce:after:animate-none"
+                  class="after:animate-button-shimmer relative overflow-hidden after:absolute after:inset-y-0 after:-left-full after:w-[60%] after:bg-linear-to-r after:from-transparent after:via-white/15 after:to-transparent after:content-[''] motion-reduce:after:animate-none"
                   @click="() => navigateTo(localePath('/stats'))"
                 >
                   {{ $t('navigation.stats') }}
@@ -684,20 +680,20 @@
             :key="banner.bannerId"
           >
             <n-card
-              content-class="p-2 sm:p-4"
+              content-class="px-2 sm:px-4"
               size="small"
-              class="rounded-xl min-h-[120px] sm:min-h-[160px]"
+              class="relative min-h-30 rounded-xl sm:min-h-40"
             >
               <!-- Banner Header -->
 
               <div
-                class="w-full flex flex-col sm:flex-row sm:items-center gap-2"
+                class="flex w-full flex-col gap-2 pr-28 sm:flex-row sm:items-center sm:pr-32 lg:pr-80"
               >
                 <div class="flex items-center gap-2">
                   <NuxtLinkLocale
                     no-prefetch
                     :to="`/banners/${banner.bannerId}`"
-                    class="inline w-fit hover:opacity-95 transition-opacity"
+                    class="inline-flex min-h-8 items-center transition-opacity hover:opacity-95"
                   >
                     <n-gradient-text
                       :size="18"
@@ -710,7 +706,7 @@
                 </div>
 
                 <div
-                  class="flex flex-wrap gap-2 w-full sm:w-[calc(100%-500px)]"
+                  class="flex w-full flex-wrap gap-2 sm:w-[calc(100%-200px)]"
                 >
                   <template
                     v-for="outfit in banner.outfits"
@@ -726,7 +722,7 @@
                         :bordered="false"
                         round
                         size="small"
-                        class="px-2 gap-1 cursor-pointer hover:opacity-80 transition-opacity"
+                        class="cursor-pointer gap-1 px-2 transition-opacity hover:opacity-80"
                       >
                         <span class="flex items-center gap-1">
                           {{ $t(`outfit.${outfit.id}.name`) }}
@@ -743,218 +739,210 @@
               </div>
 
               <div
-                :class="
-                  exporting
-                    ? 'mt-1 flex flex-row justify-between gap-2 sm:absolute sm:right-2 sm:top-2 sm:mt-0 sm:justify-start'
-                    : 'absolute right-2 top-2 flex flex-row gap-2'
-                "
+                class="text-md mt-1 flex min-w-0 flex-wrap items-baseline gap-x-2 gap-y-1 pr-28 text-gray-400 sm:pr-32 lg:absolute lg:top-2 lg:right-28 lg:mt-0 lg:flex-nowrap lg:pr-0"
               >
-                <div
-                  class="flex justify-between gap-2 items-baseline text-md text-gray-400"
-                >
-                  <div class="whitespace-nowrap">
-                    <span>{{ t('common.stats.total_pulls') }}:</span>
-                    <span
-                      class="ml-1 text-lg font-medium text-gray-600 dark:text-gray-200"
-                      >{{ banner.stats.totalPulls }}</span
-                    >
-                  </div>
-                  <div
-                    v-if="banner.bannerType === 1 || banner.bannerType === 2"
-                    class="whitespace-nowrap"
+                <div class="whitespace-nowrap">
+                  <span>{{ t('common.stats.total_pulls') }}:</span>
+                  <span
+                    class="ml-1 text-lg font-medium text-gray-600 dark:text-gray-200"
+                    >{{ banner.stats.totalPulls }}</span
                   >
-                    <span>{{ t('tracker.banner.stats.avg_5star') }}:</span>
-                    <span class="text-amber-500 ml-1 text-lg font-medium">{{
-                      banner.stats.avg5StarPulls.toFixed(2)
-                    }}</span>
-                  </div>
-                  <div
-                    v-if="banner.bannerType === 3"
-                    class="whitespace-nowrap"
-                  >
-                    <span>{{ t('tracker.banner.stats.avg_4star') }}:</span>
-                    <span class="text-blue-500 ml-1 text-lg font-medium">{{
-                      banner.stats.avg4StarOnlyPulls.toFixed(2)
-                    }}</span>
-                  </div>
                 </div>
+                <div
+                  v-if="banner.bannerType === 1 || banner.bannerType === 2"
+                  class="whitespace-nowrap"
+                >
+                  <span>{{ t('tracker.banner.stats.avg_5star') }}:</span>
+                  <span class="ml-1 text-lg font-medium text-amber-500">{{
+                    banner.stats.avg5StarPulls.toFixed(2)
+                  }}</span>
+                </div>
+                <div
+                  v-if="banner.bannerType === 3"
+                  class="whitespace-nowrap"
+                >
+                  <span>{{ t('tracker.banner.stats.avg_4star') }}:</span>
+                  <span class="ml-1 text-lg font-medium text-blue-500">{{
+                    banner.stats.avg4StarOnlyPulls.toFixed(2)
+                  }}</span>
+                </div>
+              </div>
 
-                <div class="flex flex-row gap-2 p-1">
-                  <DiceAnimation
-                    v-if="banner.stats.totalPulls > 0"
-                    :percentile="
-                      banner.bannerType === 3
-                        ? getBannerAvg4StarType3Percentile(
-                            banner.stats.avg4StarOnlyPulls
-                          )
-                        : getBannerAvg5StarPercentile(
-                            banner.stats.avg5StarPulls
-                          )
-                    "
-                  />
+              <div
+                class="absolute top-2 right-2 z-10 flex min-h-8 items-center gap-2 sm:right-4"
+              >
+                <DiceAnimation
+                  v-if="banner.stats.totalPulls > 0"
+                  :percentile="
+                    banner.bannerType === 3
+                      ? getBannerAvg4StarType3Percentile(
+                          banner.stats.avg4StarOnlyPulls
+                        )
+                      : getBannerAvg5StarPercentile(banner.stats.avg5StarPulls)
+                  "
+                />
 
-                  <!-- Stats Button -->
-                  <n-popover
-                    v-if="banner.stats.totalPulls > 0"
-                    trigger="manual"
-                    :show="openStatsBannerId === banner.bannerId"
-                  >
-                    <template #trigger>
-                      <n-button
-                        v-show="!exporting"
-                        size="small"
-                        text
-                        circle
-                        class="text-gray-500"
-                        @click="toggleStatsPopover(banner.bannerId)"
+                <!-- Stats Button -->
+                <n-popover
+                  v-if="banner.stats.totalPulls > 0"
+                  trigger="manual"
+                  :show="openStatsBannerId === banner.bannerId"
+                  @clickoutside="openStatsBannerId = null"
+                >
+                  <template #trigger>
+                    <n-button
+                      v-show="!exporting"
+                      size="small"
+                      text
+                      circle
+                      class="text-gray-500"
+                      @click="toggleStatsPopover(banner.bannerId)"
+                    >
+                      <template #icon>
+                        <n-icon>
+                          <ChartBarRegular />
+                        </n-icon>
+                      </template>
+                    </n-button>
+                  </template>
+                  <div class="min-w-40">
+                    <div class="space-y-2 px-2 text-base">
+                      <div class="flex justify-between">
+                        <span class="text-sm">
+                          {{ t('common.stats.total_pulls') }}
+                        </span>
+                        <span class="font-medium">{{
+                          banner.stats.totalPulls
+                        }}</span>
+                      </div>
+                      <div
+                        v-if="
+                          banner.bannerType === 1 || banner.bannerType === 2
+                        "
+                        class="flex justify-between"
                       >
-                        <template #icon>
-                          <n-icon>
-                            <ChartBarRegular />
-                          </n-icon>
-                        </template>
-                      </n-button>
-                    </template>
-                    <div class="min-w-40">
-                      <div class="space-y-2 px-2 text-base">
-                        <div class="flex justify-between">
-                          <span class="text-sm">
-                            {{ t('common.stats.total_pulls') }}
-                          </span>
-                          <span class="font-medium">{{
-                            banner.stats.totalPulls
-                          }}</span>
-                        </div>
-                        <div
-                          v-if="
-                            banner.bannerType === 1 || banner.bannerType === 2
-                          "
-                          class="flex justify-between"
-                        >
-                          <span class="text-sm">
-                            {{ t('tracker.banner.stats.total_5star') }}
-                          </span>
-                          <span class="font-medium text-amber-500">{{
-                            banner.stats.total5StarItems
-                          }}</span>
-                        </div>
-                        <div
-                          v-if="
-                            banner.bannerType === 1 || banner.bannerType === 2
-                          "
-                          class="flex justify-between"
-                        >
-                          <span class="text-sm">
-                            {{ t('tracker.banner.stats.avg_5star') }}
-                          </span>
-                          <span class="font-medium text-amber-500">{{
-                            banner.stats.avg5StarPulls.toFixed(2)
-                          }}</span>
-                        </div>
-                        <div
-                          v-if="
-                            (banner.bannerType === 1 ||
-                              banner.bannerType === 2) &&
-                            banner.stats.completion < 2
-                          "
-                          class="flex justify-between"
-                        >
-                          <span class="text-sm">
-                            {{ t('tracker.banner.stats.pity_5star') }}
-                          </span>
-                          <span class="font-medium">{{
-                            banner.stats.pity5Star
-                          }}</span>
-                        </div>
-                        <div
-                          v-if="
-                            banner.bannerType === 1 || banner.bannerType === 2
-                          "
-                          class="flex justify-between"
-                        >
-                          <span class="text-sm">
-                            {{ t('tracker.banner.stats.total_4star') }}
-                          </span>
-                          <span class="font-medium text-blue-500">{{
-                            banner.stats.total4StarItems
-                          }}</span>
-                        </div>
-                        <div
-                          v-if="
-                            banner.bannerType === 1 || banner.bannerType === 2
-                          "
-                          class="flex justify-between"
-                        >
-                          <span class="text-sm">
-                            {{ t('tracker.banner.stats.avg_4star') }}
-                          </span>
-                          <span class="font-medium text-blue-500">{{
-                            banner.stats.avg4StarPulls.toFixed(2)
-                          }}</span>
-                        </div>
-                        <div
-                          v-if="banner.bannerType === 3"
-                          class="flex justify-between"
-                        >
-                          <span class="text-sm">
-                            {{ t('tracker.banner.stats.total_4star') }}
-                          </span>
-                          <span class="font-medium text-blue-500">{{
-                            banner.stats.total4StarOnlyItems
-                          }}</span>
-                        </div>
-                        <div
-                          v-if="banner.bannerType === 3"
-                          class="flex justify-between"
-                        >
-                          <span class="text-sm">
-                            {{ t('tracker.banner.stats.avg_4star') }}
-                          </span>
-                          <span class="font-medium text-blue-500">{{
-                            banner.stats.avg4StarOnlyPulls.toFixed(2)
-                          }}</span>
-                        </div>
-                        <div
-                          v-if="
-                            banner.bannerType === 3 &&
-                            banner.stats.completion < 2
-                          "
-                          class="flex justify-between"
-                        >
-                          <span class="text-sm">
-                            {{ t('tracker.banner.stats.pity_4star') }}
-                          </span>
-                          <span class="font-medium">{{
-                            banner.stats.pity4Star
-                          }}</span>
-                        </div>
+                        <span class="text-sm">
+                          {{ t('tracker.banner.stats.total_5star') }}
+                        </span>
+                        <span class="font-medium text-amber-500">{{
+                          banner.stats.total5StarItems
+                        }}</span>
+                      </div>
+                      <div
+                        v-if="
+                          banner.bannerType === 1 || banner.bannerType === 2
+                        "
+                        class="flex justify-between"
+                      >
+                        <span class="text-sm">
+                          {{ t('tracker.banner.stats.avg_5star') }}
+                        </span>
+                        <span class="font-medium text-amber-500">{{
+                          banner.stats.avg5StarPulls.toFixed(2)
+                        }}</span>
+                      </div>
+                      <div
+                        v-if="
+                          (banner.bannerType === 1 ||
+                            banner.bannerType === 2) &&
+                          banner.stats.completion < 2
+                        "
+                        class="flex justify-between"
+                      >
+                        <span class="text-sm">
+                          {{ t('tracker.banner.stats.pity_5star') }}
+                        </span>
+                        <span class="font-medium">{{
+                          banner.stats.pity5Star
+                        }}</span>
+                      </div>
+                      <div
+                        v-if="
+                          banner.bannerType === 1 || banner.bannerType === 2
+                        "
+                        class="flex justify-between"
+                      >
+                        <span class="text-sm">
+                          {{ t('tracker.banner.stats.total_4star') }}
+                        </span>
+                        <span class="font-medium text-blue-500">{{
+                          banner.stats.total4StarItems
+                        }}</span>
+                      </div>
+                      <div
+                        v-if="
+                          banner.bannerType === 1 || banner.bannerType === 2
+                        "
+                        class="flex justify-between"
+                      >
+                        <span class="text-sm">
+                          {{ t('tracker.banner.stats.avg_4star') }}
+                        </span>
+                        <span class="font-medium text-blue-500">{{
+                          banner.stats.avg4StarPulls.toFixed(2)
+                        }}</span>
+                      </div>
+                      <div
+                        v-if="banner.bannerType === 3"
+                        class="flex justify-between"
+                      >
+                        <span class="text-sm">
+                          {{ t('tracker.banner.stats.total_4star') }}
+                        </span>
+                        <span class="font-medium text-blue-500">{{
+                          banner.stats.total4StarOnlyItems
+                        }}</span>
+                      </div>
+                      <div
+                        v-if="banner.bannerType === 3"
+                        class="flex justify-between"
+                      >
+                        <span class="text-sm">
+                          {{ t('tracker.banner.stats.avg_4star') }}
+                        </span>
+                        <span class="font-medium text-blue-500">{{
+                          banner.stats.avg4StarOnlyPulls.toFixed(2)
+                        }}</span>
+                      </div>
+                      <div
+                        v-if="
+                          banner.bannerType === 3 && banner.stats.completion < 2
+                        "
+                        class="flex justify-between"
+                      >
+                        <span class="text-sm">
+                          {{ t('tracker.banner.stats.pity_4star') }}
+                        </span>
+                        <span class="font-medium">{{
+                          banner.stats.pity4Star
+                        }}</span>
                       </div>
                     </div>
-                  </n-popover>
+                  </div>
+                </n-popover>
 
-                  <n-button
-                    v-if="!exporting"
-                    text
-                    size="small"
-                    class="text-gray-500"
-                    @click="
-                      () => {
-                        selectedBannerId = banner.bannerId
-                        showCollectionEditor = true
-                      }
-                    "
-                  >
-                    <template #icon>
-                      <n-icon><Edit /></n-icon>
-                    </template>
-                  </n-button>
-                </div>
+                <n-button
+                  v-if="!exporting"
+                  text
+                  size="small"
+                  class="text-gray-500"
+                  @click="
+                    () => {
+                      selectedBannerId = banner.bannerId
+                      showCollectionEditor = true
+                    }
+                  "
+                >
+                  <template #icon>
+                    <n-icon><Edit /></n-icon>
+                  </template>
+                </n-button>
               </div>
 
               <!-- Combined Outfits View -->
               <template v-if="settings.combineOutfits">
                 <div
-                  class="grid grid-cols-5 sm:grid-cols-8 lg:grid-cols-10 gap-2 mt-2"
+                  class="mt-2 grid grid-cols-5 gap-2 sm:grid-cols-8 lg:grid-cols-10"
                 >
                   <ItemDataCard
                     v-for="pull in banner.combinedPulls"
@@ -969,7 +957,7 @@
                 <div
                   v-for="outfitGroup in banner.separatedOutfitPulls"
                   :key="outfitGroup.outfitId"
-                  class="grid grid-cols-5 sm:grid-cols-8 lg:grid-cols-10 gap-2 mt-2"
+                  class="mt-2 grid grid-cols-5 gap-2 sm:grid-cols-8 lg:grid-cols-10"
                 >
                   <ItemDataCard
                     v-for="pull in outfitGroup.pulls"

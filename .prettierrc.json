@@ -5,5 +5,6 @@
   "printWidth": 80,
   "trailingComma": "es5",
   "vueIndentScriptAndStyle": true,
-  "singleAttributePerLine": true
+  "singleAttributePerLine": true,
+  "plugins": ["prettier-plugin-tailwindcss"]
 }

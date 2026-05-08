@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-7xl mx-auto space-y-2 sm:space-y-4">
+  <div class="mx-auto max-w-7xl space-y-2 sm:space-y-4">
     <!-- Loading State -->
     <template v-if="loading">
       <n-card
@@ -8,17 +8,17 @@
         content-class="p-2 sm:p-4"
       >
         <!-- Summary Cards Skeleton -->
-        <div class="grid grid-cols-2 md:grid-cols-6 gap-2">
+        <div class="grid grid-cols-2 gap-2 md:grid-cols-6">
           <n-card
             v-for="i in 6"
             :key="i"
             size="small"
-            class="text-center rounded-lg"
+            class="rounded-lg text-center"
           >
             <n-skeleton
               height="20px"
               width="80%"
-              class="mb-2 mx-auto"
+              class="mx-auto mb-2"
             />
             <n-skeleton
               height="24px"
@@ -35,13 +35,13 @@
         class="rounded-xl"
         content-class="p-2 sm:p-4"
       >
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
           <!-- Pulls per Banner Chart Skeleton -->
           <n-card
             size="small"
             class="col-span-1 md:col-span-3"
           >
-            <div class="flex justify-center items-center mb-4">
+            <div class="mb-4 flex items-center justify-center">
               <n-skeleton
                 height="24px"
                 width="160px"
@@ -60,14 +60,14 @@
         class="rounded-xl"
         content-class="p-2 sm:p-4"
       >
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
           <!-- Distribution Charts Skeleton -->
           <n-card
             v-for="i in 3"
             :key="i"
             size="small"
           >
-            <div class="flex justify-between items-center mb-4">
+            <div class="mb-4 flex items-center justify-between">
               <n-skeleton
                 height="24px"
                 width="160px"
@@ -94,15 +94,15 @@
         size="small"
         class="rounded-xl"
       >
-        <div class="grid grid-cols-2 md:grid-cols-6 gap-2">
+        <div class="grid grid-cols-2 gap-2 md:grid-cols-6">
           <n-card
             size="small"
-            class="text-center rounded-lg"
+            class="rounded-lg text-center"
           >
             <div class="text-sm text-gray-400">
               {{ $t('common.stats.total_pulls') }}
             </div>
-            <div class="text-lg font-medium tabular-nums mt-1">
+            <div class="mt-1 text-lg font-medium tabular-nums">
               <n-number-animation
                 show-separator
                 :from="0"
@@ -113,12 +113,12 @@
           </n-card>
           <n-card
             size="small"
-            class="text-center rounded-lg"
+            class="rounded-lg text-center"
           >
             <div class="text-sm text-gray-400">
               {{ $t('global.stats.unique_users') }}
             </div>
-            <div class="text-lg font-medium tabular-nums mt-1">
+            <div class="mt-1 text-lg font-medium tabular-nums">
               <n-number-animation
                 show-separator
                 :from="0"
@@ -129,12 +129,12 @@
           </n-card>
           <n-card
             size="small"
-            class="text-center rounded-lg"
+            class="rounded-lg text-center"
           >
             <div class="text-sm text-gray-400">
               {{ $t('common.stats.avg_5star') }}
             </div>
-            <div class="text-lg font-medium tabular-nums mt-1">
+            <div class="mt-1 text-lg font-medium tabular-nums">
               <n-number-animation
                 :from="0"
                 :to="averagePullsTo5Star"
@@ -145,12 +145,12 @@
           </n-card>
           <n-card
             size="small"
-            class="text-center rounded-lg"
+            class="rounded-lg text-center"
           >
             <div class="text-sm text-gray-400">
               {{ $t('common.stats.avg_4star_mixed') }}
             </div>
-            <div class="text-lg font-medium tabular-nums mt-1">
+            <div class="mt-1 text-lg font-medium tabular-nums">
               <n-number-animation
                 :from="0"
                 :to="averagePullsTo4StarType2"
@@ -161,12 +161,12 @@
           </n-card>
           <n-card
             size="small"
-            class="text-center rounded-lg"
+            class="rounded-lg text-center"
           >
             <div class="text-sm text-gray-400">
               {{ $t('common.stats.avg_4star_only') }}
             </div>
-            <div class="text-lg font-medium tabular-nums mt-1">
+            <div class="mt-1 text-lg font-medium tabular-nums">
               <n-number-animation
                 :from="0"
                 :to="averagePullsTo4StarType3"
@@ -177,12 +177,12 @@
           </n-card>
           <n-card
             size="small"
-            class="text-center rounded-lg"
+            class="rounded-lg text-center"
           >
             <div class="text-sm text-gray-400">
               {{ $t('global.stats.data_as_of') }}
             </div>
-            <div class="text-lg font-medium tabular-nums mt-1">
+            <div class="mt-1 text-lg font-medium tabular-nums">
               <n-time
                 v-if="data?.date"
                 :time="effectiveDate"
@@ -217,7 +217,7 @@
             :class="{
               'h-[calc(100vh-116px)] sm:h-[calc(100vh-148px)]':
                 maximizedChart === 'pullsPerBanner',
-              'h-[320px]': maximizedChart !== 'pullsPerBanner',
+              'h-80': maximizedChart !== 'pullsPerBanner',
             }"
           >
             <div class="absolute top-2 right-12 z-10 flex items-center gap-2">
@@ -314,7 +314,7 @@
             :class="{
               'h-[calc(100vh-116px)] sm:h-[calc(100vh-148px)]':
                 maximizedChart === 'fiveStar',
-              'h-[200px]': maximizedChart !== 'fiveStar',
+              'h-50': maximizedChart !== 'fiveStar',
             }"
           >
             <n-button
@@ -357,7 +357,7 @@
             :class="{
               'h-[calc(100vh-116px)] sm:h-[calc(100vh-148px)]':
                 maximizedChart === 'fourStarType2',
-              'h-[200px]': maximizedChart !== 'fourStarType2',
+              'h-50': maximizedChart !== 'fourStarType2',
             }"
           >
             <n-button
@@ -402,7 +402,7 @@
             :class="{
               'h-[calc(100vh-116px)] sm:h-[calc(100vh-148px)]':
                 maximizedChart === 'fourStarType3',
-              'h-[200px]': maximizedChart !== 'fourStarType3',
+              'h-50': maximizedChart !== 'fourStarType3',
             }"
           >
             <n-button
@@ -452,7 +452,7 @@
             :class="{
               'h-[calc(100vh-116px)] sm:h-[calc(100vh-148px)]':
                 maximizedChart === 'firstItemDistribution',
-              'h-[240px]': maximizedChart !== 'firstItemDistribution',
+              'h-60': maximizedChart !== 'firstItemDistribution',
             }"
           >
             <n-tooltip

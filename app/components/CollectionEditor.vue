@@ -20,7 +20,7 @@
             <n-button
               size="tiny"
               text
-              class="ml-4 z-10"
+              class="z-10 ml-4"
             >
               <template #icon>
                 <n-icon>
@@ -41,7 +41,7 @@
         <!-- Items section -->
         <div class="rounded-lg">
           <div
-            class="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-2"
+            class="grid grid-cols-4 gap-2 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10"
           >
             <div
               v-for="itemId in selectedOutfit.items"
@@ -53,7 +53,7 @@
                   <NuxtImg
                     :src="getImageSrc('itemIcon', itemId)"
                     :alt="$t(`item.${itemId}.name`)"
-                    class="w-full aspect-square object-cover rounded-md"
+                    class="aspect-square w-full rounded-md object-cover"
                     preset="iconLg"
                     fit="cover"
                     loading="lazy"
@@ -91,7 +91,7 @@
 
         <!-- Bulk update section -->
         <div
-          class="w-full flex flex-wrap justify-center items-center gap-4"
+          class="flex w-full flex-wrap items-center justify-center gap-4"
           :show-label="false"
           :show-feedback="false"
         >
@@ -154,7 +154,7 @@
         </div>
 
         <!-- Action buttons -->
-        <div class="flex justify-center gap-2 mt-4">
+        <div class="mt-4 flex justify-center gap-2">
           <n-button @click="closeDialog">{{ t('common.cancel') }}</n-button>
           <n-button
             type="primary"

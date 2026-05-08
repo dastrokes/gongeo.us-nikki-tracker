@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-7xl mx-auto space-y-2 sm:space-y-3">
+  <div class="mx-auto max-w-7xl space-y-2 sm:space-y-3">
     <n-card
       size="small"
       class="rounded-xl p-0 sm:p-2"
@@ -25,11 +25,11 @@
               class="flex flex-col gap-2 sm:gap-3 lg:w-36"
             >
               <div
-                class="relative grid grid-cols-2 gap-2 text-[10px] sm:text-xs text-gray-600 dark:text-gray-300 min-h-8 lg:grid-cols-1 rounded-lg border border-gray-200/80 dark:border-gray-700/70 bg-gray-50/80 dark:bg-gray-900/40 px-2 py-2"
+                class="relative grid min-h-8 grid-cols-2 gap-2 rounded-lg border border-gray-200/80 bg-gray-50/80 px-2 py-2 text-[10px] text-gray-600 sm:text-xs lg:grid-cols-1 dark:border-gray-700/70 dark:bg-gray-900/40 dark:text-gray-300"
               >
                 <div class="flex items-center justify-between gap-2 px-2">
                   <span
-                    class="uppercase tracking-wide text-gray-500 dark:text-gray-400"
+                    class="tracking-wide text-gray-500 uppercase dark:text-gray-400"
                     >{{ $t('quiz.round') }}</span
                   >
                   <span
@@ -39,21 +39,21 @@
                 </div>
                 <div class="flex items-center justify-between gap-2 px-2">
                   <span
-                    class="uppercase tracking-wide text-gray-500 dark:text-gray-400"
+                    class="tracking-wide text-gray-500 uppercase dark:text-gray-400"
                     >{{ $t('quiz.score') }}</span
                   >
                   <span
-                    class="font-semibold text-gray-900 dark:text-gray-100 tabular-nums"
+                    class="font-semibold text-gray-900 tabular-nums dark:text-gray-100"
                     >{{ score }}</span
                   >
                 </div>
                 <div class="flex items-center justify-between gap-2 px-2">
                   <span
-                    class="uppercase tracking-wide text-gray-500 dark:text-gray-400"
+                    class="tracking-wide text-gray-500 uppercase dark:text-gray-400"
                     >{{ $t('quiz.streak') }}</span
                   >
                   <span
-                    class="font-semibold text-gray-900 dark:text-gray-100 tabular-nums"
+                    class="font-semibold text-gray-900 tabular-nums dark:text-gray-100"
                     >{{ streak }}</span
                   >
                 </div>
@@ -77,7 +77,7 @@
                   <div class="w-40 space-y-3 p-1">
                     <div class="space-y-1">
                       <p
-                        class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400"
+                        class="text-xs tracking-wide text-gray-500 uppercase dark:text-gray-400"
                       >
                         {{ t('quiz.answer_mode') }}
                       </p>
@@ -89,7 +89,7 @@
                     </div>
                     <div class="space-y-1">
                       <p
-                        class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400"
+                        class="text-xs tracking-wide text-gray-500 uppercase dark:text-gray-400"
                       >
                         {{ t('quiz.reveal_direction') }}
                       </p>
@@ -101,7 +101,7 @@
                     </div>
                     <div class="space-y-1">
                       <p
-                        class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400"
+                        class="text-xs tracking-wide text-gray-500 uppercase dark:text-gray-400"
                       >
                         {{ t('quiz.blur') }}
                       </p>
@@ -117,18 +117,18 @@
                 </n-popover>
               </div>
             </div>
-            <div class="rounded-xl flex items-center justify-center lg:flex-1">
+            <div class="flex items-center justify-center rounded-xl lg:flex-1">
               <div
-                class="relative max-w-full flex items-center justify-center overflow-hidden rounded-xl"
+                class="relative flex max-w-full items-center justify-center overflow-hidden rounded-xl"
                 :class="
                   gameState === 'done'
                     ? 'w-full'
-                    : 'aspect-2/3 h-[clamp(200px,40vh,360px)] mx-auto'
+                    : 'mx-auto aspect-2/3 h-[clamp(200px,40vh,360px)]'
                 "
               >
                 <div
                   v-if="gameState === 'done'"
-                  class="grid w-full grid-cols-5 grid-rows-2 gap-2 overflow-hidden rounded-xl border border-emerald-200/70 dark:border-emerald-700/60 bg-emerald-50/70 dark:bg-emerald-950/30 p-3"
+                  class="grid w-full grid-cols-5 grid-rows-2 gap-2 overflow-hidden rounded-xl border border-emerald-200/70 bg-emerald-50/70 p-3 dark:border-emerald-700/60 dark:bg-emerald-950/30"
                 >
                   <div
                     v-for="(entry, index) in guessedOutfits"
@@ -158,7 +158,7 @@
                         :component="entry.correct ? Check : Times"
                       />
                       <p
-                        class="h-[14px] sm:h-[16px] leading-[14px] sm:leading-[16px] max-w-full overflow-hidden whitespace-nowrap text-ellipsis text-center text-[10px] text-gray-600 dark:text-gray-300"
+                        class="h-3.5 max-w-full overflow-hidden text-center text-[10px] leading-3.5 text-ellipsis whitespace-nowrap text-gray-600 sm:h-4 sm:leading-4 dark:text-gray-300"
                       >
                         {{ t(`outfit.${entry.id}.name`) }}
                       </p>
@@ -167,7 +167,7 @@
                 </div>
                 <div
                   v-else-if="!currentOutfitId"
-                  class="absolute inset-0 flex items-center justify-center border-2 border-dashed rounded-xl border-gray-300 dark:border-gray-600 px-4 py-3 text-center text-sm text-gray-500 dark:text-gray-400"
+                  class="absolute inset-0 flex items-center justify-center rounded-xl border-2 border-dashed border-gray-300 px-4 py-3 text-center text-sm text-gray-500 dark:border-gray-600 dark:text-gray-400"
                 >
                   <div
                     v-if="gameState === 'idle'"
@@ -191,7 +191,7 @@
                     class="absolute inset-0 z-10 flex flex-col items-center justify-center gap-2 rounded-xl text-gray-500 dark:text-gray-300"
                   >
                     <n-spin size="large" />
-                    <span class="text-xs uppercase tracking-widest">{{
+                    <span class="text-xs tracking-widest uppercase">{{
                       t('common.loading')
                     }}</span>
                   </div>
@@ -204,7 +204,7 @@
                     sizes="200px"
                     loading="eager"
                     draggable="false"
-                    class="h-full w-auto max-w-full rounded-xl [transition:clip-path_200ms_linear] will-change-[clip-path]"
+                    class="h-full w-auto max-w-full rounded-xl will-change-[clip-path] [transition:clip-path_200ms_linear]"
                     :class="isImageReady ? 'opacity-100' : 'opacity-0'"
                     :style="isRevealed ? undefined : silhouetteStyle"
                     @load="handleOutfitImageLoaded(currentOutfitId)"
@@ -219,7 +219,7 @@
                     preset="tallLg"
                     sizes="200px"
                     draggable="false"
-                    class="absolute left-1/2 top-1/2 h-full w-auto max-w-full -translate-x-1/2 -translate-y-1/2 rounded-xl motion-reduce:animate-none"
+                    class="absolute top-1/2 left-1/2 h-full w-auto max-w-full -translate-x-1/2 -translate-y-1/2 rounded-xl motion-reduce:animate-none"
                     :class="revealAnimationClass"
                   />
                 </template>
@@ -231,73 +231,73 @@
         <div class="space-y-3">
           <template v-if="gameState === 'done'">
             <div
-              class="rounded-xl border border-emerald-200/70 dark:border-emerald-700/60 bg-emerald-50/70 dark:bg-emerald-950/30 p-4 sm:p-5 space-y-3"
+              class="space-y-3 rounded-xl border border-emerald-200/70 bg-emerald-50/70 p-4 sm:p-5 dark:border-emerald-700/60 dark:bg-emerald-950/30"
             >
               <div class="space-y-1">
                 <p
-                  class="text-xs uppercase tracking-widest text-emerald-700/80 dark:text-emerald-200/80"
+                  class="text-xs tracking-widest text-emerald-700/80 uppercase dark:text-emerald-200/80"
                 >
                   {{ $t('quiz.game_complete') }}
                 </p>
                 <h2
-                  class="text-lg sm:text-xl font-semibold text-emerald-900 dark:text-emerald-100"
+                  class="text-lg font-semibold text-emerald-900 sm:text-xl dark:text-emerald-100"
                 >
                   {{ $t('quiz.final_score', { score }) }}
                 </h2>
               </div>
               <div class="grid grid-cols-2 gap-3 text-sm">
                 <div
-                  class="rounded-lg bg-white/80 dark:bg-gray-900/40 px-3 py-2"
+                  class="rounded-lg bg-white/80 px-3 py-2 dark:bg-gray-900/40"
                 >
                   <p
-                    class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400"
+                    class="text-xs tracking-wide text-gray-500 uppercase dark:text-gray-400"
                   >
                     {{ $t('quiz.best_streak') }}
                   </p>
                   <p
-                    class="text-base font-semibold text-gray-900 dark:text-gray-100 tabular-nums"
+                    class="text-base font-semibold text-gray-900 tabular-nums dark:text-gray-100"
                   >
                     {{ bestStreak }}
                   </p>
                 </div>
                 <div
-                  class="rounded-lg bg-white/80 dark:bg-gray-900/40 px-3 py-2"
+                  class="rounded-lg bg-white/80 px-3 py-2 dark:bg-gray-900/40"
                 >
                   <p
-                    class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400"
+                    class="text-xs tracking-wide text-gray-500 uppercase dark:text-gray-400"
                   >
                     {{ $t('quiz.rounds') }}
                   </p>
                   <p
-                    class="text-base font-semibold text-gray-900 dark:text-gray-100 tabular-nums"
+                    class="text-base font-semibold text-gray-900 tabular-nums dark:text-gray-100"
                   >
                     {{ totalRounds }}
                   </p>
                 </div>
                 <div
-                  class="rounded-lg bg-white/80 dark:bg-gray-900/40 px-3 py-2"
+                  class="rounded-lg bg-white/80 px-3 py-2 dark:bg-gray-900/40"
                 >
                   <p
-                    class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400"
+                    class="text-xs tracking-wide text-gray-500 uppercase dark:text-gray-400"
                   >
                     {{ $t('quiz.right') }}
                   </p>
                   <p
-                    class="text-base font-semibold text-gray-900 dark:text-gray-100 tabular-nums"
+                    class="text-base font-semibold text-gray-900 tabular-nums dark:text-gray-100"
                   >
                     {{ correctCount }}
                   </p>
                 </div>
                 <div
-                  class="rounded-lg bg-white/80 dark:bg-gray-900/40 px-3 py-2"
+                  class="rounded-lg bg-white/80 px-3 py-2 dark:bg-gray-900/40"
                 >
                   <p
-                    class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400"
+                    class="text-xs tracking-wide text-gray-500 uppercase dark:text-gray-400"
                   >
                     {{ $t('quiz.wrong') }}
                   </p>
                   <p
-                    class="text-base font-semibold text-gray-900 dark:text-gray-100 tabular-nums"
+                    class="text-base font-semibold text-gray-900 tabular-nums dark:text-gray-100"
                   >
                     {{ wrongCount }}
                   </p>
@@ -313,7 +313,7 @@
             </div>
           </template>
           <template v-else>
-            <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-1 gap-2">
+            <div class="grid grid-cols-2 gap-2 sm:grid-cols-2 lg:grid-cols-1">
               <template v-if="answerMode === 'select'">
                 <template v-if="!isImageReady">
                   <div
@@ -333,13 +333,13 @@
                     v-for="option in options"
                     :key="option"
                     :disabled="roundResult !== 'unanswered'"
-                    class="min-h-12 whitespace-normal rounded-lg py-2 text-left sm:min-h-14 disabled:opacity-100 disabled:text-gray-900 dark:disabled:text-gray-100"
+                    class="min-h-12 rounded-lg py-2 text-left whitespace-normal disabled:text-gray-900 disabled:opacity-100 sm:min-h-14 dark:disabled:text-gray-100"
                     :class="getOptionClass(option)"
                     @click="submitGuess(option)"
                   >
                     <span class="flex w-full items-start justify-between gap-2">
                       <span
-                        class="min-w-0 font-semibold text-gray-900 dark:text-gray-100 line-clamp-3 leading-snug"
+                        class="line-clamp-3 min-w-0 leading-snug font-semibold text-gray-900 dark:text-gray-100"
                       >
                         {{ $t(`outfit.${option}.name`) }}
                       </span>
@@ -380,7 +380,7 @@
                 </div>
               </template>
             </div>
-            <div class="flex flex-wrap gap-2 min-h-10">
+            <div class="flex min-h-10 flex-wrap gap-2">
               <template v-if="gameState === 'playing'">
                 <n-button
                   v-if="roundResult !== 'unanswered'"

@@ -4,7 +4,6 @@
     :class="{ 'is-rolling': rolling, 'is-revealed': revealed }"
     viewBox="0 0 512 640"
     role="img"
-    aria-label="Whim-O-Matic gachapon machine"
     xmlns="http://www.w3.org/2000/svg"
   >
     <defs>

@@ -135,7 +135,7 @@
                 <kbd
                   class="rounded-sm border border-slate-200 bg-white px-1.5 py-0.5 font-semibold text-slate-500 shadow-xs dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400"
                 >
-                  {{ $t('common.keys.shift') }} + Enter
+                  {{ $t('common.keys.shift') }} + {{ $t('common.keys.enter') }}
                 </kbd>
               </span>
             </button>
@@ -226,6 +226,10 @@
   const { search, searchOptions, buildSearchIndex, isIndexBuilt } = useSearch()
   const { getImageSrc } = imageProvider()
   const localePath = useLocalePath()
+  const pendingLuckyAutoroll = useState(
+    'whim-search-pending-lucky-autoroll',
+    () => false
+  )
 
   const searchQuery = ref('')
   const showSearch = ref(false)
@@ -250,16 +254,14 @@
   }
 
   const goToRandomSearch = () => {
+    pendingLuckyAutoroll.value = true
     if (searchQuery.value.trim()) {
       navigateTo({
         path: localePath('/random'),
         query: { q: searchQuery.value.trim() },
       })
     } else {
-      navigateTo({
-        path: localePath('/random'),
-        query: { pull: Date.now().toString() },
-      })
+      navigateTo(localePath('/random'))
     }
     closeSearch()
   }

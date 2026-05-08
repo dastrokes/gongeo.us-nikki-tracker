@@ -73,7 +73,8 @@
     "view_compendium": "Ver compendio",
     "keys": {
       "enter": "Enter",
-      "esc": "ESC"
+      "esc": "ESC",
+      "shift": "Mayús"
     }
   },
   "navigation": {
@@ -780,7 +781,16 @@
     "close_details": "Cerrar detalles",
     "error_description": "No se pudo consultar el índice de búsqueda.",
     "no_matches": "Sin coincidencias",
-    "match_score": "{score}% de coincidencia"
+    "match_score": "{score}% de coincidencia",
+    "random_placeholder": "Añadir una pista o darme una sorpresa",
+    "search_action": "Buscar",
+    "filters_title": "Filtros de búsqueda",
+    "find_similar": "Buscar similares",
+    "similar_prefix": "Similar",
+    "lucky_machine_title": "Maravie-O-Matic",
+    "lucky_pull_action": "Tirar",
+    "mode_search_description": "Buscar objetos por detalle",
+    "mode_random_description": "Sacar una sorpresa"
   },
   "feedback": {
     "queue_title": "Revisión de comentarios",

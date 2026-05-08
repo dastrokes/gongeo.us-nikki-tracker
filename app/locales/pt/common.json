@@ -73,7 +73,8 @@
     "view_compendium": "Ver compêndio",
     "keys": {
       "enter": "Enter",
-      "esc": "ESC"
+      "esc": "ESC",
+      "shift": "Shift"
     }
   },
   "navigation": {
@@ -780,7 +781,16 @@
     "close_details": "Fechar detalhes",
     "error_description": "Falha ao consultar o índice de pesquisa.",
     "no_matches": "Sem correspondências",
-    "match_score": "{score}% de correspondência"
+    "match_score": "{score}% de correspondência",
+    "random_placeholder": "Adicionar uma dica ou me surpreenda",
+    "search_action": "Pesquisar",
+    "filters_title": "Filtros de pesquisa",
+    "find_similar": "Encontrar similares",
+    "similar_prefix": "Similar",
+    "lucky_machine_title": "Gira-encantos",
+    "lucky_pull_action": "Puxar",
+    "mode_search_description": "Encontrar itens por detalhe",
+    "mode_random_description": "Tirar uma surpresa"
   },
   "feedback": {
     "queue_title": "Revisão de feedback",

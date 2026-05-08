@@ -73,6 +73,7 @@
     "view_compendium": "查看图鉴",
     "keys": {
       "enter": "回车",
+      "shift": "Shift",
       "esc": "ESC"
     }
   },
@@ -197,9 +198,7 @@
     },
     "search": {
       "placeholder": "按名称搜索",
-      "whim_hint": "搜索更多细节",
-      "for_query": "搜索 “{query}”",
-      "to_search": "搜索"
+      "for_query": "搜索 “{query}”"
     },
     "social": {
       "discord": "加入我们的 Discord 社区",
@@ -778,9 +777,18 @@
   "search_page": {
     "title": "奇想搜索",
     "placeholder": "试试“{example}”",
+    "random_placeholder": "Add a hint or surprise me",
+    "search_action": "Search",
     "clear_query": "清除搜索",
     "close_details": "关闭详情",
+    "filters_title": "Search filters",
+    "find_similar": "Find Similar",
+    "similar_prefix": "Similar",
     "error_description": "搜索索引查询失败。",
+    "lucky_machine_title": "Whim-O-Matic",
+    "lucky_pull_action": "Pull",
+    "mode_search_description": "Find items by detail",
+    "mode_random_description": "Pull a surprise",
     "no_matches": "没有匹配结果",
     "match_score": "匹配度 {score}%"
   },

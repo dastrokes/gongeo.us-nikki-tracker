@@ -73,6 +73,7 @@
     "view_compendium": "View Compendium",
     "keys": {
       "enter": "Enter",
+      "shift": "Shift",
       "esc": "ESC"
     }
   },
@@ -197,9 +198,7 @@
     },
     "search": {
       "placeholder": "Search by name",
-      "whim_hint": "Search for more details",
-      "for_query": "for \"{query}\"",
-      "to_search": "to search"
+      "for_query": "for \"{query}\""
     },
     "social": {
       "discord": "Join our Discord community",
@@ -778,9 +777,18 @@
   "search_page": {
     "title": "Whim Search",
     "placeholder": "Try '{example}'",
+    "random_placeholder": "Add a hint or surprise me",
+    "search_action": "Search",
     "clear_query": "Clear search",
     "close_details": "Close details",
+    "filters_title": "Search filters",
+    "find_similar": "Find Similar",
+    "similar_prefix": "Similar",
     "error_description": "Failed to query search index.",
+    "lucky_machine_title": "Whim-O-Matic",
+    "lucky_pull_action": "Pull",
+    "mode_search_description": "Find items by detail",
+    "mode_random_description": "Pull a surprise",
     "no_matches": "No matches",
     "match_score": "{score}% match"
   },

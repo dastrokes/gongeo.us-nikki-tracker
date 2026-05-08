@@ -5,8 +5,8 @@
       :class="[
         'z-10 flex w-full flex-col',
         hasSearched
-          ? 'items-start pt-6 pb-6 sm:pt-8 sm:pb-8 md:pt-10'
-          : 'flex-1 items-center justify-center pt-20 pb-28 sm:pt-28 sm:pb-32 md:pt-32',
+          ? 'items-start pt-4 pb-4 sm:pt-6 sm:pb-6'
+          : 'flex-1 items-center justify-center pt-20 pb-28 sm:pt-28 sm:pb-32',
       ]"
     >
       <div
@@ -17,7 +17,7 @@
             : 'max-w-2xl text-center',
         ]"
       >
-        <div :class="[hasSearched ? 'shrink-0' : 'mb-9 sm:mb-10']">
+        <div :class="[hasSearched ? 'shrink-0' : 'mb-6 sm:mb-7']">
           <h1
             :class="[
               'bg-linear-to-br from-[#c084fc] via-[#f472b6] to-[#fb923c] bg-clip-text font-black text-transparent drop-shadow-xs',
@@ -30,13 +30,18 @@
             @click="hasSearched && clearSearch()"
             @keydown.enter="hasSearched && clearSearch()"
           >
-            {{ pageHeading }}
+            <span
+              :key="mode"
+              class="animate-fade-in-up inline-block bg-linear-to-br from-[#c084fc] via-[#f472b6] to-[#fb923c] bg-clip-text text-transparent motion-reduce:animate-none"
+            >
+              {{ pageHeading }}
+            </span>
           </h1>
         </div>
 
         <div :class="['w-full max-w-2xl xl:shrink-0']">
           <form
-            class="group relative flex flex-col gap-6"
+            class="group relative"
             @submit.prevent="handlePrimarySubmit"
           >
             <div class="relative min-w-0 flex-1">
@@ -65,7 +70,7 @@
                   v-model="searchQuery"
                   type="text"
                   :placeholder="currentPlaceholder"
-                  :aria-label="t('search_page.title')"
+                  :aria-label="pageHeading"
                   enterkeyhint="search"
                   autocomplete="off"
                   autocapitalize="off"
@@ -74,28 +79,7 @@
                   @input="handleSearchInput"
                   @keydown.esc.prevent="clearSearchQuery"
                 />
-                <div class="mr-2 flex items-center gap-1 sm:mr-3">
-                  <n-badge
-                    :value="activeFilterCount"
-                    :show="hasActiveFilter"
-                    type="error"
-                    :offset="[-6, 6]"
-                  >
-                    <n-button
-                      attr-type="button"
-                      quaternary
-                      circle
-                      strong
-                      size="medium"
-                      class="text-slate-400 hover:text-rose-500 dark:text-slate-500 dark:hover:text-rose-300"
-                      :aria-label="t('search_page.filters_action')"
-                      @click="openFilterModal"
-                    >
-                      <template #icon>
-                        <n-icon><Filter /></n-icon>
-                      </template>
-                    </n-button>
-                  </n-badge>
+                <div class="mr-2 flex items-center gap-2 sm:mr-3">
                   <n-button
                     v-if="searchQuery"
                     attr-type="button"
@@ -111,47 +95,82 @@
                       <n-icon><Times /></n-icon>
                     </template>
                   </n-button>
+                  <div class="relative inline-flex">
+                    <n-button
+                      attr-type="button"
+                      quaternary
+                      circle
+                      strong
+                      size="medium"
+                      class="text-slate-400 hover:text-rose-500 dark:text-slate-500 dark:hover:text-rose-300"
+                      :aria-label="t('search_page.filters_action')"
+                      @click="openFilterModal"
+                    >
+                      <template #icon>
+                        <n-icon><Filter /></n-icon>
+                      </template>
+                    </n-button>
+                    <span
+                      v-if="hasActiveFilter"
+                      aria-hidden="true"
+                      class="absolute bottom-0 left-0 flex h-4 min-w-4 -translate-x-0.5 translate-y-0.5 items-center justify-center rounded-full bg-rose-500 px-1 text-[10px] leading-none font-bold text-white shadow-sm ring-2 ring-white dark:bg-rose-400 dark:text-slate-950 dark:ring-slate-950"
+                    >
+                      {{ activeFilterCount }}
+                    </span>
+                  </div>
+                  <n-button
+                    attr-type="submit"
+                    round
+                    strong
+                    type="primary"
+                    size="medium"
+                    :loading="isPrimaryActionLoading"
+                    class="min-w-20 shrink-0 px-4 font-bold shadow-md sm:min-w-24 sm:px-5"
+                  >
+                    {{ primaryActionLabel }}
+                  </n-button>
                 </div>
               </div>
             </div>
-            <div
-              class="flex flex-wrap justify-center gap-3"
-              :class="hasSearched ? 'xl:justify-start' : 'sm:justify-center'"
-            >
-              <n-button
-                type="primary"
-                attr-type="submit"
-                size="medium"
-                class="min-w-34 overflow-hidden rounded-xl px-5 font-bold hover:shadow-md"
-                :loading="isRandomMode ? luckyLoading : loading"
-              >
-                {{
-                  isRandomMode
-                    ? t('search_page.lucky_action')
-                    : t('search_page.title')
-                }}
-              </n-button>
-              <n-button
-                secondary
-                attr-type="button"
-                size="medium"
-                class="min-w-34 rounded-xl px-5 font-bold"
-                :disabled="loading || luckyLoading"
-                :aria-label="
-                  isRandomMode
-                    ? t('search_page.title')
-                    : t('search_page.lucky_action')
-                "
-                @click="handleSecondaryAction"
-              >
-                {{
-                  isRandomMode
-                    ? t('search_page.title')
-                    : t('search_page.lucky_action')
-                }}
-              </n-button>
-            </div>
           </form>
+
+          <div
+            v-if="!hasSearched"
+            class="mx-auto mt-4 grid w-full max-w-lg grid-cols-2 gap-2 sm:mt-5 sm:gap-3"
+          >
+            <button
+              v-for="option in modeOptions"
+              :key="option.mode"
+              type="button"
+              :class="getModeCardClass(option.mode)"
+              :aria-current="option.mode === mode ? 'page' : undefined"
+              @click="switchMode(option.mode)"
+            >
+              <span :class="getModeIconClass(option.mode)">
+                <n-icon size="20">
+                  <Search v-if="option.mode === 'search'" />
+                  <Magic v-else />
+                </n-icon>
+              </span>
+              <span class="min-w-0 text-left">
+                <span
+                  :class="[
+                    'block text-sm leading-tight font-black sm:text-base',
+                    option.mode === 'random'
+                      ? 'text-amber-500'
+                      : 'text-rose-500',
+                  ]"
+                >
+                  {{ option.title }}
+                </span>
+                <span
+                  class="mt-0.5 block text-[11px] leading-snug font-semibold text-slate-500 sm:text-xs dark:text-slate-400"
+                >
+                  {{ option.description }}
+                </span>
+              </span>
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -285,237 +304,190 @@
         !error &&
         !(showLuckyModal && isDesktopDetails)
       "
-      class="animate-fade-in grid flex-1 gap-4 transition-all duration-500 xl:grid-cols-[minmax(0,1fr)_340px]"
+      class="animate-fade-in flex-1 transition-all duration-500"
     >
-      <!-- Results Grid -->
-      <div class="gap-4">
-        <div
-          v-if="loading"
-          class="grid grid-cols-3 gap-3 sm:grid-cols-4 sm:gap-4 lg:grid-cols-6"
-        >
-          <div
-            v-for="i in 12"
-            :key="`search-skeleton-${i}`"
-            class="aspect-2/3 animate-pulse rounded-2xl border border-slate-200 bg-slate-200/50 dark:border-slate-800 dark:bg-slate-800/50"
-          />
-        </div>
-
-        <div
-          v-else-if="hasResults"
-          class="grid grid-cols-3 gap-3 sm:grid-cols-4 sm:gap-4 lg:grid-cols-6"
-        >
-          <button
-            v-for="(item, index) in displayResults"
-            :key="item.id"
-            type="button"
-            class="group animate-fade-in-up relative cursor-pointer overflow-hidden rounded-2xl border border-slate-200/80 bg-white text-left transition-all duration-300 focus:ring-2 focus:ring-rose-400 focus:outline-hidden dark:border-slate-800/80 dark:bg-slate-900"
-            :style="{ animationDelay: `${Math.min(index, 15) * 0.05}s` }"
-            :aria-label="item.itemName"
-            :aria-pressed="item.id === selectedId"
-            :class="[
-              item.id === selectedId
-                ? 'shadow-lg ring-2 shadow-rose-500/20 ring-rose-400 ring-offset-2 ring-offset-slate-50 dark:ring-offset-slate-950'
-                : '',
-            ]"
-            @click="setSelected(item.id)"
-          >
-            <!-- Image Area -->
-            <div
-              class="relative aspect-2/3 w-full overflow-hidden bg-slate-100 dark:bg-slate-950"
-            >
-              <NuxtImg
-                v-if="item.imageSrc"
-                :src="item.imageSrc"
-                :alt="item.itemName"
-                class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
-                preset="tallSm"
-                fit="cover"
-                loading="lazy"
-                sizes="100px"
-              />
-              <div
-                v-else
-                class="absolute inset-0 flex items-center justify-center opacity-30"
-              >
-                <n-icon size="40"><Box /></n-icon>
-              </div>
-
-              <!-- Gradient & Text Bottom Overlay -->
-              <div
-                class="absolute inset-x-0 bottom-0 bg-linear-to-t from-black/90 via-black/50 to-transparent p-3 pt-8 pb-3"
-              >
-                <div
-                  class="line-clamp-2 text-sm leading-tight font-bold text-white shadow-black drop-shadow-md"
-                >
-                  {{ item.itemName }}
-                </div>
-                <div
-                  v-if="item.itemTypeLabel"
-                  class="mt-1 text-[9px] font-semibold tracking-widest text-rose-300 uppercase drop-shadow-md"
-                >
-                  {{ item.itemTypeLabel }}
-                </div>
-              </div>
-            </div>
-          </button>
-        </div>
-
-        <div
-          v-else
-          class="flex min-h-64 flex-col items-center justify-center rounded-2xl border-2 border-dashed border-slate-300/60 bg-white/30 p-12 text-center backdrop-blur-xs dark:border-slate-800 dark:bg-slate-900/40"
-        >
-          <n-icon
-            size="48"
-            class="mb-4 text-slate-300 dark:text-slate-600"
-            ><Ghost
-          /></n-icon>
-          <div class="text-sm text-slate-500">
-            {{ t('search_page.no_matches') }}
-          </div>
-        </div>
-      </div>
-
-      <!-- Side Details Panel -->
-      <div
-        v-if="hasResults"
-        class="hidden xl:block"
+      <n-card
+        size="small"
+        class="rounded-xl p-0 sm:flex sm:flex-1 sm:flex-col sm:p-2"
+        content-class="p-2 sm:p-4 sm:flex-1 sm:flex sm:flex-col"
       >
-        <div class="sticky top-6">
-          <n-collapse-transition
-            mode="out-in"
-            appear
-          >
-            <div
-              v-if="activeResult"
-              :key="activeResult.id"
-              class="relative flex flex-col items-center overflow-hidden rounded-3xl border border-white/50 bg-white/70 shadow-2xl shadow-rose-500/5 backdrop-blur-2xl dark:border-slate-700/50 dark:bg-slate-900/80"
+        <div class="min-h-0 sm:flex sm:flex-1 sm:flex-col">
+          <div class="space-y-3 sm:space-y-4">
+            <n-collapse-transition
+              mode="out-in"
+              appear
             >
-              <!-- Fancy blurred bg graphic -->
               <div
-                class="pointer-events-none absolute -top-24 -right-24 h-48 w-48 rounded-full bg-rose-400/20 blur-3xl"
-              ></div>
-              <div
-                class="pointer-events-none absolute -bottom-24 -left-24 h-48 w-48 rounded-full bg-fuchsia-500/10 blur-3xl"
-              ></div>
-
-              <div class="relative z-10 w-full">
-                <!-- Header Image -->
-                <div
-                  class="relative flex min-h-120 items-center justify-center overflow-visible border-b border-slate-200/50 bg-slate-100 p-8 dark:border-slate-800/50 dark:bg-slate-950/50"
+                v-if="!loading && hasResults"
+                key="grid"
+                class="grid grid-cols-3 gap-2 sm:grid-cols-6 sm:content-start sm:gap-3"
+              >
+                <button
+                  v-for="(item, index) in displayResults"
+                  :key="item.id"
+                  type="button"
+                  class="animate-fade-in-up block w-full cursor-pointer text-left motion-reduce:animate-none"
+                  :style="{
+                    animationDelay: `${Math.min(index + 1, 12) * 0.05}s`,
+                  }"
+                  :aria-label="item.itemName"
+                  :aria-pressed="item.id === selectedId"
+                  @click="setSelected(item.id)"
                 >
                   <div
-                    class="relative aspect-2/3 w-full max-w-74 overflow-hidden rounded-3xl bg-white shadow-2xl ring-1 shadow-rose-950/10 ring-black/5 dark:bg-slate-950 dark:ring-white/10"
+                    class="relative aspect-2/3 overflow-hidden rounded-lg shadow-md transition-shadow duration-300 hover:shadow-xl"
+                    style="
+                      background-image: url('/images/bg.webp');
+                      background-size: cover;
+                      background-position: center;
+                    "
                   >
+                    <div
+                      class="absolute inset-0"
+                      :class="getSearchQualityOverlayClass(item.quality)"
+                    ></div>
                     <NuxtImg
-                      v-if="activeResult.imageSrc"
-                      :src="activeResult.imageSrc"
-                      class="absolute inset-0 h-full w-full object-cover"
+                      v-if="item.imageSrc"
+                      :src="item.imageSrc"
+                      :alt="item.itemName"
+                      class="absolute inset-0 z-10 h-full w-full object-cover transition-transform duration-500 ease-out hover:scale-110"
                       preset="tallLg"
-                      sizes="200px"
                       fit="cover"
+                      loading="lazy"
+                      sizes="200px"
                     />
                     <div
                       v-else
-                      class="absolute inset-0 flex items-center justify-center text-slate-300 dark:text-slate-600"
+                      class="absolute inset-0 z-10 flex items-center justify-center text-slate-300 dark:text-slate-600"
                     >
-                      <n-icon size="56"><Box /></n-icon>
+                      <n-icon size="40"><Box /></n-icon>
                     </div>
-                  </div>
-                  <!-- Confidence metric -->
-                  <div
-                    v-if="isDev"
-                    class="absolute right-3 bottom-3 flex items-center justify-center gap-1.5 rounded-full border border-white/40 bg-white/80 px-3 py-1.5 shadow-lg backdrop-blur-md dark:border-slate-700/60 dark:bg-slate-950/80"
-                  >
-                    <div
-                      class="h-1.5 w-1.5 animate-pulse rounded-full bg-rose-500"
-                    ></div>
-                    <span
-                      class="text-xs font-black text-slate-800 dark:text-slate-200"
-                    >
-                      {{ activeResult.matchScoreLabel }}
-                    </span>
-                  </div>
-                </div>
 
-                <!-- Info Content -->
-                <div class="flex w-full flex-col gap-5 p-5">
-                  <SearchResultInfo
-                    :item-name="activeResult.itemName"
-                    :quality="activeResult.quality ?? null"
-                    :item-type-label="activeResult.itemTypeLabel"
-                    :item-type="activeResult.resolvedItemType"
-                    :category-label="activeResult.categoryLabel"
-                    :subcategory-label="activeResult.subcategoryLabel"
-                    :metadata="activeResult.metadata"
-                    :style-key="activeResult.styleKey"
-                    :style-label="activeResult.styleLabel"
-                    :label-tags="activeResult.labelTags"
-                    :version-display="activeResult.versionDisplay"
-                    :obtain-label="activeResult.obtainLabel"
-                  />
-
-                  <div
-                    v-if="activeResult.itemId !== null"
-                    class="flex flex-wrap gap-2"
-                  >
-                    <n-button
-                      secondary
-                      attr-type="button"
-                      size="small"
-                      class="rounded-xl font-semibold"
-                      @click="findSimilar(activeResult)"
-                    >
-                      <template #icon>
-                        <n-icon><SearchPlus /></n-icon>
-                      </template>
-                      {{ t('search_page.find_similar') }}
-                    </n-button>
-                  </div>
-
-                  <div class="flex flex-col gap-3">
-                    <div
-                      v-if="
-                        activeResult.itemId !== null &&
-                        activeResult.supportsFeedback
-                      "
-                      class="flex flex-wrap items-center justify-between gap-2"
-                    >
-                      <div
-                        class="text-[11px] font-semibold tracking-[0.16em] text-slate-500 uppercase dark:text-slate-400"
+                    <div class="absolute top-2 left-2 z-20">
+                      <n-tag
+                        v-if="item.itemTypeLabel"
+                        round
+                        size="small"
+                        :bordered="false"
+                        type="warning"
+                        class="bg-black/50 text-gray-200 backdrop-blur-xs"
                       >
-                        {{ t('feedback.current_tags') }}
+                        {{ item.itemTypeLabel }}
+                      </n-tag>
+                    </div>
+                    <div
+                      v-if="item.quality"
+                      class="absolute top-2 right-2 z-20"
+                    >
+                      <n-tag
+                        round
+                        size="small"
+                        :bordered="false"
+                        :color="getQualityTagTheme(item.quality)"
+                        class="backdrop-blur-xs"
+                      >
+                        <span class="flex items-center gap-1">
+                          {{ item.quality }}
+                          <n-icon>
+                            <Star />
+                          </n-icon>
+                        </span>
+                      </n-tag>
+                    </div>
+                    <div
+                      class="absolute right-0 bottom-0 left-0 z-20 bg-linear-to-t from-black/90 to-transparent p-3"
+                    >
+                      <p
+                        class="line-clamp-2 text-xs font-semibold text-white sm:text-sm"
+                      >
+                        {{ item.itemName }}
+                      </p>
+                      <div class="mt-1 flex flex-wrap gap-1">
+                        <n-tag
+                          v-if="item.styleLabel"
+                          size="tiny"
+                          :bordered="false"
+                          type="default"
+                          :color="getStyleTagTheme(item.styleKey)"
+                          class="text-xs font-semibold shadow-[inset_0_-2px_0_rgba(0,0,0,0.18)]"
+                        >
+                          {{ item.styleLabel }}
+                        </n-tag>
                       </div>
-                      <n-button
-                        tertiary
-                        size="tiny"
-                        @click="openFeedbackModal(activeResult)"
-                      >
-                        {{ t('feedback.suggest_action') }}
-                      </n-button>
+                      <div class="mt-1 flex flex-wrap gap-0.5">
+                        <n-tag
+                          v-for="label in item.labelTags"
+                          :key="label.key"
+                          size="tiny"
+                          type="default"
+                          :color="getLabelTagTheme(label.themeValue)"
+                          round
+                          class="text-xs font-semibold"
+                        >
+                          {{ label.text }}
+                        </n-tag>
+                      </div>
                     </div>
-
-                    <AttributeCard
-                      :metadata="activeResult.metadata"
-                      :item-type="activeResult.resolvedItemType"
-                      layout="compact"
-                    />
                   </div>
-                </div>
+                </button>
               </div>
+
+              <div
+                v-else-if="loading"
+                key="loading"
+                class="grid grid-cols-3 gap-2 sm:grid-cols-6 sm:content-start sm:gap-3"
+              >
+                <div
+                  v-for="(i, index) in 18"
+                  :key="`search-skeleton-${i}`"
+                  class="relative aspect-3/4 animate-pulse overflow-hidden rounded-lg bg-gray-200 dark:bg-gray-700"
+                  :style="{
+                    animationDelay: `${Math.min(index + 1, 9) * 0.05}s`,
+                  }"
+                ></div>
+              </div>
+            </n-collapse-transition>
+
+            <div
+              v-if="!loading && !hasResults"
+              class="py-12 text-center"
+            >
+              <n-result
+                size="small"
+                status="info"
+                :title="t('common.no_results_found')"
+                :description="t('search_page.no_matches')"
+              >
+                <template #icon>
+                  <n-icon
+                    size="48"
+                    class="text-slate-300 dark:text-slate-600"
+                    ><Ghost
+                  /></n-icon>
+                </template>
+              </n-result>
             </div>
-          </n-collapse-transition>
+          </div>
         </div>
-      </div>
+      </n-card>
     </div>
 
-    <!-- Mobile Details Modal -->
+    <!-- Search Details Modal -->
     <n-modal
       v-model:show="isMobileModalOpen"
-      class="w-[calc(100vw-2rem)] max-w-96 bg-transparent shadow-none"
+      :class="[
+        'w-[calc(100vw-2rem)] bg-transparent shadow-none',
+        isDesktopDetails ? 'max-w-3xl' : 'max-w-96',
+      ]"
     >
       <div
         v-if="activeResult"
-        class="relative grid h-[calc(100dvh-2rem)] max-h-192 w-full grid-rows-[minmax(0,1fr)] overflow-hidden rounded-3xl bg-white/95 shadow-2xl backdrop-blur-2xl dark:bg-slate-900/95"
+        :class="[
+          'relative grid w-full overflow-hidden rounded-3xl bg-white/95 shadow-md backdrop-blur-2xl dark:bg-slate-900/95',
+          isDesktopDetails
+            ? 'h-120 grid-cols-[minmax(0,1fr)_minmax(20rem,24rem)]'
+            : 'h-[calc(100dvh-2rem)] max-h-192 grid-rows-[minmax(0,1fr)]',
+        ]"
       >
         <div class="absolute top-3 right-3 z-20">
           <n-button
@@ -534,24 +506,96 @@
           </n-button>
         </div>
 
-        <!-- Scrollable Content Wrapper -->
-        <div class="relative z-10 min-h-0 overflow-hidden">
+        <div
+          v-if="isDesktopDetails"
+          :class="[
+            'relative flex items-center justify-center overflow-visible bg-slate-100 dark:bg-slate-950/50',
+            'min-h-120 p-8',
+          ]"
+        >
+          <div
+            class="group relative aspect-2/3 w-full max-w-74 overflow-hidden rounded-3xl bg-white shadow-md ring-1 shadow-rose-950/10 ring-black/5 dark:bg-slate-950 dark:ring-white/10"
+          >
+            <div
+              class="absolute inset-0 bg-slate-100 bg-[url('/images/bg.webp')] bg-cover bg-center dark:bg-slate-300"
+            ></div>
+            <div
+              class="absolute inset-0"
+              :class="getSearchQualityOverlayClass(activeResult.quality)"
+            ></div>
+            <NuxtImg
+              v-if="getResultImageSrc(activeResult)"
+              :src="getResultImageSrc(activeResult) ?? ''"
+              class="absolute inset-0 z-10 h-full w-full transition-all duration-300"
+              :class="getResultImageClass(activeResult)"
+              :preset="getResultImagePreset(activeResult)"
+              sizes="200px"
+              fit="cover"
+            />
+            <div
+              v-else
+              class="absolute inset-0 flex items-center justify-center text-slate-300 dark:text-slate-600"
+            >
+              <n-icon size="56"><Box /></n-icon>
+            </div>
+            <div
+              v-if="activeResult.itemId !== null"
+              class="absolute top-2 right-2 z-30 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+            >
+              <button
+                type="button"
+                class="flex items-center justify-center rounded-full border border-white/20 bg-black/30 p-1.5 text-white/90 opacity-70 backdrop-blur-md transition-colors hover:bg-black/50 hover:opacity-100 dark:bg-black/50 dark:hover:bg-black/70"
+                :aria-pressed="isResultIconImage(activeResult)"
+                @click.stop="toggleResultIconImage(activeResult)"
+              >
+                <n-icon size="14"><Images /></n-icon>
+              </button>
+            </div>
+          </div>
+          <div
+            v-if="isDev"
+            class="absolute top-8 flex items-center justify-center gap-1.5 rounded-full border border-white/40 bg-white/80 px-3 py-1.5 shadow-lg backdrop-blur-md dark:border-slate-700/60 dark:bg-slate-950/80"
+          >
+            <div
+              class="h-1.5 w-1.5 animate-pulse rounded-full bg-rose-500"
+            ></div>
+            <span class="text-xs font-black text-slate-800 dark:text-slate-200">
+              {{ activeResult.matchScoreLabel }}
+            </span>
+          </div>
+        </div>
+
+        <div
+          class="relative z-10 grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden text-left"
+        >
           <n-scrollbar
             class="h-full"
-            content-style="display: flex; flex-direction: column;"
+            :content-style="
+              isDesktopDetails
+                ? 'display: flex; flex-direction: column; gap: 1.25rem; padding: 1.25rem;'
+                : 'display: flex; flex-direction: column;'
+            "
           >
-            <!-- Header Image -->
             <div
+              v-if="!isDesktopDetails"
               class="relative flex min-h-80 shrink-0 items-center justify-center overflow-visible bg-slate-100 p-6 dark:bg-slate-950/50"
             >
               <div
-                class="relative aspect-2/3 w-full max-w-[min(62vw,14.5rem)] overflow-hidden rounded-3xl bg-white shadow-2xl ring-1 shadow-rose-950/10 ring-black/5 dark:bg-slate-950 dark:ring-white/10"
+                class="group relative aspect-2/3 w-full max-w-[min(62vw,14.5rem)] overflow-hidden rounded-3xl bg-white shadow-md ring-1 shadow-rose-950/10 ring-black/5 dark:bg-slate-950 dark:ring-white/10"
               >
+                <div
+                  class="absolute inset-0 bg-slate-100 bg-[url('/images/bg.webp')] bg-cover bg-center dark:bg-slate-300"
+                ></div>
+                <div
+                  class="absolute inset-0"
+                  :class="getSearchQualityOverlayClass(activeResult.quality)"
+                ></div>
                 <NuxtImg
-                  v-if="activeResult.imageSrc"
-                  :src="activeResult.imageSrc"
-                  class="absolute inset-0 h-full w-full object-cover"
-                  preset="tallLg"
+                  v-if="getResultImageSrc(activeResult)"
+                  :src="getResultImageSrc(activeResult) ?? ''"
+                  class="absolute inset-0 z-10 h-full w-full transition-all duration-300"
+                  :class="getResultImageClass(activeResult)"
+                  :preset="getResultImagePreset(activeResult)"
                   sizes="200px"
                   fit="cover"
                 />
@@ -561,10 +605,23 @@
                 >
                   <n-icon size="56"><Box /></n-icon>
                 </div>
+                <div
+                  v-if="activeResult.itemId !== null"
+                  class="absolute top-2 right-2 z-30 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                >
+                  <button
+                    type="button"
+                    class="flex items-center justify-center rounded-full border border-white/20 bg-black/30 p-1.5 text-white/90 opacity-70 backdrop-blur-md transition-colors hover:bg-black/50 hover:opacity-100 dark:bg-black/50 dark:hover:bg-black/70"
+                    :aria-pressed="isResultIconImage(activeResult)"
+                    @click.stop="toggleResultIconImage(activeResult)"
+                  >
+                    <n-icon size="14"><Images /></n-icon>
+                  </button>
+                </div>
               </div>
               <div
                 v-if="isDev"
-                class="absolute right-3 bottom-3 flex items-center justify-center gap-1.5 rounded-full border border-white/40 bg-white/80 px-3 py-1.5 shadow-lg backdrop-blur-md dark:border-slate-700/60 dark:bg-slate-950/80"
+                class="absolute top-8 flex items-center justify-center gap-1.5 rounded-full border border-white/40 bg-white/80 px-3 py-1.5 shadow-lg backdrop-blur-md dark:border-slate-700/60 dark:bg-slate-950/80"
               >
                 <div
                   class="h-1.5 w-1.5 animate-pulse rounded-full bg-rose-500"
@@ -577,8 +634,12 @@
               </div>
             </div>
 
-            <!-- Info Content -->
-            <div class="flex w-full flex-col gap-5 p-5">
+            <div
+              :class="[
+                'flex w-full flex-col gap-5 text-left',
+                isDesktopDetails ? '' : 'p-5',
+              ]"
+            >
               <SearchResultInfo
                 :item-name="activeResult.itemName"
                 :quality="activeResult.quality ?? null"
@@ -594,31 +655,13 @@
                 :obtain-label="activeResult.obtainLabel"
               />
 
-              <div
-                v-if="activeResult.itemId !== null"
-                class="flex flex-wrap gap-2"
-              >
-                <n-button
-                  secondary
-                  attr-type="button"
-                  size="small"
-                  class="rounded-xl font-semibold"
-                  @click="findSimilar(activeResult)"
-                >
-                  <template #icon>
-                    <n-icon><SearchPlus /></n-icon>
-                  </template>
-                  {{ t('search_page.find_similar') }}
-                </n-button>
-              </div>
-
               <div class="flex flex-col gap-3">
                 <div
                   v-if="
                     activeResult.itemId !== null &&
                     activeResult.supportsFeedback
                   "
-                  class="flex flex-wrap items-center justify-between gap-2"
+                  class="flex flex-wrap items-center gap-2"
                 >
                   <div
                     class="text-[11px] font-semibold tracking-[0.16em] text-slate-500 uppercase dark:text-slate-400"
@@ -632,6 +675,12 @@
                   >
                     {{ t('feedback.suggest_action') }}
                   </n-button>
+                  <NuxtLinkLocale
+                    to="/feedback"
+                    class="text-xs font-semibold text-rose-500 hover:text-rose-600 dark:text-rose-300 dark:hover:text-rose-200"
+                  >
+                    {{ t('feedback.view_queue') }}
+                  </NuxtLinkLocale>
                 </div>
 
                 <AttributeCard
@@ -642,6 +691,42 @@
               </div>
             </div>
           </n-scrollbar>
+
+          <div
+            v-if="activeResult.compendiumPath || activeResult.itemId !== null"
+            class="relative z-20 flex flex-col gap-2 border-t border-slate-200/70 bg-white/95 p-4 backdrop-blur-xl dark:border-slate-800/70 dark:bg-slate-900/95"
+          >
+            <n-button
+              v-if="activeResult.compendiumPath"
+              type="primary"
+              attr-type="button"
+              size="medium"
+              class="min-w-0 rounded-xl font-semibold"
+              @click="viewCompendium(activeResult)"
+            >
+              <template #icon>
+                <n-icon><Book /></n-icon>
+              </template>
+              <span class="truncate">
+                {{ t('common.view_compendium') }}
+              </span>
+            </n-button>
+            <n-button
+              v-if="activeResult.itemId !== null"
+              secondary
+              attr-type="button"
+              size="medium"
+              class="min-w-0 rounded-xl font-semibold"
+              @click="findSimilar(activeResult)"
+            >
+              <template #icon>
+                <n-icon><SearchPlus /></n-icon>
+              </template>
+              <span class="truncate">
+                {{ t('search_page.find_similar') }}
+              </span>
+            </n-button>
+          </div>
         </div>
       </div>
     </n-modal>
@@ -683,13 +768,13 @@
         </div>
 
         <div
-          class="grid overflow-hidden rounded-3xl bg-white/95 shadow-2xl backdrop-blur-2xl lg:h-120 lg:grid-cols-[minmax(0,1fr)_minmax(20rem,24rem)] dark:bg-slate-900/95"
+          class="grid overflow-hidden rounded-3xl bg-white/95 shadow-md backdrop-blur-2xl lg:h-120 lg:grid-cols-[minmax(0,1fr)_minmax(20rem,24rem)] dark:bg-slate-900/95"
         >
           <div
             class="relative flex min-h-120 items-center justify-center overflow-visible bg-slate-100 p-8 dark:bg-slate-950/50"
           >
             <div
-              class="lucky-reveal-card relative aspect-2/3 w-full max-w-74 origin-[50%_44%] overflow-visible rounded-3xl shadow-2xl ring-1 shadow-rose-950/10 ring-black/5 will-change-[transform,opacity,box-shadow] dark:ring-white/10"
+              class="lucky-reveal-card group relative aspect-2/3 w-full max-w-74 origin-[50%_44%] overflow-visible rounded-3xl shadow-md ring-1 shadow-rose-950/10 ring-black/5 will-change-[transform,opacity,box-shadow] dark:ring-white/10"
               :class="{
                 'lucky-reveal-card--revealed': luckyRevealPhase === 'revealed',
               }"
@@ -698,14 +783,32 @@
                 class="lucky-reveal-surface absolute inset-0 overflow-hidden rounded-3xl bg-white dark:bg-slate-950"
                 :style="luckyRevealSurfaceStyle"
               >
+                <div
+                  v-if="
+                    luckyRevealPhase === 'revealed' &&
+                    Boolean(luckyDisplayResult)
+                  "
+                  class="absolute inset-0 bg-slate-100 bg-[url('/images/bg.webp')] bg-cover bg-center dark:bg-slate-300"
+                ></div>
+                <div
+                  v-if="
+                    luckyRevealPhase === 'revealed' &&
+                    Boolean(luckyDisplayResult)
+                  "
+                  class="absolute inset-0"
+                  :class="
+                    getSearchQualityOverlayClass(luckyDisplayResult?.quality)
+                  "
+                ></div>
                 <img
                   v-if="
                     luckyRevealPhase === 'revealed' &&
-                    luckyDisplayResult?.imageSrc
+                    getResultImageSrc(luckyDisplayResult)
                   "
-                  :src="luckyDisplayResult.imageSrc"
-                  :alt="luckyDisplayResult.itemName"
-                  class="lucky-reveal-image h-full w-full object-cover"
+                  :src="getResultImageSrc(luckyDisplayResult) ?? ''"
+                  :alt="luckyDisplayResult?.itemName"
+                  class="lucky-reveal-image relative z-10 h-full w-full transition-all duration-300"
+                  :class="getResultImageClass(luckyDisplayResult)"
                   loading="eager"
                   decoding="async"
                 />
@@ -721,12 +824,29 @@
                     aria-hidden="true"
                   />
                 </div>
+                <div
+                  v-if="
+                    luckyRevealPhase === 'revealed' &&
+                    Boolean(luckyDisplayResult) &&
+                    luckyDisplayResult?.itemId !== null
+                  "
+                  class="absolute top-2 right-2 z-30 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                >
+                  <button
+                    type="button"
+                    class="flex items-center justify-center rounded-full border border-white/20 bg-black/30 p-1.5 text-white/90 opacity-70 backdrop-blur-md transition-colors hover:bg-black/50 hover:opacity-100 dark:bg-black/50 dark:hover:bg-black/70"
+                    :aria-pressed="isResultIconImage(luckyDisplayResult)"
+                    @click.stop="toggleResultIconImage(luckyDisplayResult)"
+                  >
+                    <n-icon size="14"><Images /></n-icon>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
 
           <div
-            class="grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)] overflow-hidden text-left"
+            class="grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden text-left"
           >
             <div class="min-h-0 overflow-hidden">
               <n-scrollbar
@@ -863,7 +983,7 @@
                       luckyDisplayResult?.itemId !== null &&
                       luckyDisplayResult?.supportsFeedback
                     "
-                    class="flex flex-wrap items-center justify-between gap-2"
+                    class="flex flex-wrap items-center gap-2"
                   >
                     <div
                       class="text-[11px] font-semibold tracking-[0.16em] text-slate-500 uppercase dark:text-slate-400"
@@ -878,6 +998,12 @@
                     >
                       {{ t('feedback.suggest_action') }}
                     </n-button>
+                    <NuxtLinkLocale
+                      to="/feedback"
+                      class="text-xs font-semibold text-rose-500 hover:text-rose-600 dark:text-rose-300 dark:hover:text-rose-200"
+                    >
+                      {{ t('feedback.view_queue') }}
+                    </NuxtLinkLocale>
                   </div>
 
                   <AttributeCard
@@ -887,6 +1013,46 @@
                   />
                 </div>
               </n-scrollbar>
+            </div>
+
+            <div
+              v-if="
+                luckyRevealPhase === 'revealed' && Boolean(luckyDisplayResult)
+              "
+              class="relative z-20 flex flex-col gap-2 border-t border-slate-200/70 bg-white/95 p-4 backdrop-blur-xl dark:border-slate-800/70 dark:bg-slate-900/95"
+            >
+              <n-button
+                v-if="luckyDisplayResult?.compendiumPath"
+                type="primary"
+                attr-type="button"
+                size="medium"
+                class="min-w-0 rounded-xl font-semibold"
+                :disabled="isLuckyAnimating"
+                @click="viewCompendium(luckyDisplayResult)"
+              >
+                <template #icon>
+                  <n-icon><Book /></n-icon>
+                </template>
+                <span class="truncate">
+                  {{ t('common.view_compendium') }}
+                </span>
+              </n-button>
+              <n-button
+                v-if="luckyDisplayResult?.itemId !== null"
+                secondary
+                attr-type="button"
+                size="medium"
+                class="min-w-0 rounded-xl font-semibold"
+                :disabled="isLuckyAnimating"
+                @click="findSimilar(luckyDisplayResult)"
+              >
+                <template #icon>
+                  <n-icon><SearchPlus /></n-icon>
+                </template>
+                <span class="truncate">
+                  {{ t('search_page.find_similar') }}
+                </span>
+              </n-button>
             </div>
           </div>
         </div>
@@ -901,7 +1067,7 @@
       @update:show="handleLuckyModalShowUpdate"
     >
       <div
-        class="relative grid h-[calc(100dvh-2rem)] max-h-192 w-full grid-rows-[minmax(0,1fr)] overflow-hidden rounded-3xl bg-white/95 shadow-2xl backdrop-blur-2xl dark:bg-slate-900/95"
+        class="relative grid h-[calc(100dvh-2rem)] max-h-192 w-full grid-rows-[minmax(0,1fr)_auto] overflow-hidden rounded-3xl bg-white/95 shadow-md backdrop-blur-2xl dark:bg-slate-900/95"
       >
         <div class="absolute top-3 right-3 z-20">
           <n-button
@@ -930,7 +1096,7 @@
               class="relative flex min-h-80 shrink-0 items-center justify-center overflow-visible bg-slate-100 p-6 dark:bg-slate-950/50"
             >
               <div
-                class="lucky-reveal-card relative aspect-2/3 w-full max-w-[min(62vw,14.5rem)] origin-[50%_44%] overflow-visible rounded-3xl shadow-2xl ring-1 shadow-rose-950/10 ring-black/5 will-change-[transform,opacity,box-shadow] dark:ring-white/10"
+                class="lucky-reveal-card group relative aspect-2/3 w-full max-w-[min(62vw,14.5rem)] origin-[50%_44%] overflow-visible rounded-3xl shadow-md ring-1 shadow-rose-950/10 ring-black/5 will-change-[transform,opacity,box-shadow] dark:ring-white/10"
                 :class="{
                   'lucky-reveal-card--revealed':
                     luckyRevealPhase === 'revealed',
@@ -940,14 +1106,32 @@
                   class="lucky-reveal-surface absolute inset-0 overflow-hidden rounded-3xl bg-white dark:bg-slate-950"
                   :style="luckyRevealSurfaceStyle"
                 >
+                  <div
+                    v-if="
+                      luckyRevealPhase === 'revealed' &&
+                      Boolean(luckyDisplayResult)
+                    "
+                    class="absolute inset-0 bg-slate-100 bg-[url('/images/bg.webp')] bg-cover bg-center dark:bg-slate-300"
+                  ></div>
+                  <div
+                    v-if="
+                      luckyRevealPhase === 'revealed' &&
+                      Boolean(luckyDisplayResult)
+                    "
+                    class="absolute inset-0"
+                    :class="
+                      getSearchQualityOverlayClass(luckyDisplayResult?.quality)
+                    "
+                  ></div>
                   <img
                     v-if="
                       luckyRevealPhase === 'revealed' &&
-                      luckyDisplayResult?.imageSrc
+                      getResultImageSrc(luckyDisplayResult)
                     "
-                    :src="luckyDisplayResult.imageSrc"
-                    :alt="luckyDisplayResult.itemName"
-                    class="lucky-reveal-image h-full w-full object-cover"
+                    :src="getResultImageSrc(luckyDisplayResult) ?? ''"
+                    :alt="luckyDisplayResult?.itemName"
+                    class="lucky-reveal-image relative z-10 h-full w-full transition-all duration-300"
+                    :class="getResultImageClass(luckyDisplayResult)"
                     loading="eager"
                     decoding="async"
                   />
@@ -962,6 +1146,23 @@
                       :revealed="false"
                       aria-hidden="true"
                     />
+                  </div>
+                  <div
+                    v-if="
+                      luckyRevealPhase === 'revealed' &&
+                      Boolean(luckyDisplayResult) &&
+                      luckyDisplayResult?.itemId !== null
+                    "
+                    class="absolute top-2 right-2 z-30 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                  >
+                    <button
+                      type="button"
+                      class="flex items-center justify-center rounded-full border border-white/20 bg-black/30 p-1.5 text-white/90 opacity-70 backdrop-blur-md transition-colors hover:bg-black/50 hover:opacity-100 dark:bg-black/50 dark:hover:bg-black/70"
+                      :aria-pressed="isResultIconImage(luckyDisplayResult)"
+                      @click.stop="toggleResultIconImage(luckyDisplayResult)"
+                    >
+                      <n-icon size="14"><Images /></n-icon>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -1094,7 +1295,7 @@
                     luckyDisplayResult?.itemId !== null &&
                     luckyDisplayResult?.supportsFeedback
                   "
-                  class="flex flex-wrap items-center justify-between gap-2"
+                  class="flex flex-wrap items-center gap-2"
                 >
                   <div
                     class="text-[11px] font-semibold tracking-[0.16em] text-slate-500 uppercase dark:text-slate-400"
@@ -1109,6 +1310,12 @@
                   >
                     {{ t('feedback.suggest_action') }}
                   </n-button>
+                  <NuxtLinkLocale
+                    to="/feedback"
+                    class="text-xs font-semibold text-rose-500 hover:text-rose-600 dark:text-rose-300 dark:hover:text-rose-200"
+                  >
+                    {{ t('feedback.view_queue') }}
+                  </NuxtLinkLocale>
                 </div>
 
                 <AttributeCard
@@ -1119,6 +1326,43 @@
               </div>
             </div>
           </n-scrollbar>
+        </div>
+
+        <div
+          v-if="luckyRevealPhase === 'revealed' && Boolean(luckyDisplayResult)"
+          class="relative z-20 flex flex-col gap-2 border-t border-slate-200/70 bg-white/95 p-4 backdrop-blur-xl dark:border-slate-800/70 dark:bg-slate-900/95"
+        >
+          <n-button
+            v-if="luckyDisplayResult?.compendiumPath"
+            type="primary"
+            attr-type="button"
+            size="medium"
+            class="min-w-0 rounded-xl font-semibold"
+            :disabled="isLuckyAnimating"
+            @click="viewCompendium(luckyDisplayResult)"
+          >
+            <template #icon>
+              <n-icon><Book /></n-icon>
+            </template>
+            <span class="truncate">
+              {{ t('common.view_compendium') }}
+            </span>
+          </n-button>
+          <n-button
+            secondary
+            attr-type="button"
+            size="medium"
+            class="min-w-0 rounded-xl font-semibold"
+            :disabled="isLuckyAnimating"
+            @click="findSimilar(luckyDisplayResult)"
+          >
+            <template #icon>
+              <n-icon><SearchPlus /></n-icon>
+            </template>
+            <span class="truncate">
+              {{ t('search_page.find_similar') }}
+            </span>
+          </n-button>
         </div>
       </div>
     </n-modal>
@@ -1134,6 +1378,9 @@
     Times,
     Filter,
     Star,
+    Magic,
+    Book,
+    Images,
     SearchPlus,
   } from '@vicons/fa'
 
@@ -1242,14 +1489,6 @@
     'whim-search-pending-lucky-autoroll',
     () => false
   )
-  const pendingSearchDisplayQuery = useState<string | null>(
-    'whim-search-pending-display-query',
-    () => null
-  )
-  const pendingRandomDisplayQuery = useState<string | null>(
-    'whim-random-pending-display-query',
-    () => null
-  )
   const isRandomRoute = computed(
     () => route.path.split('/').filter(Boolean).at(-1) === 'random'
   )
@@ -1271,21 +1510,55 @@
       ? t('search_page.lucky_machine_title')
       : t('search_page.title')
   )
+  const currentPlaceholder = computed(() =>
+    mode.value === 'random'
+      ? t('search_page.random_placeholder')
+      : searchPlaceholder.value
+  )
+  const primaryActionLabel = computed(() =>
+    isRandomMode.value
+      ? t('search_page.lucky_pull_action')
+      : t('search_page.search_action')
+  )
+  const isPrimaryActionLoading = computed(() =>
+    isRandomMode.value ? luckyLoading.value : loading.value
+  )
+  const modeOptions = computed(() => [
+    {
+      mode: 'search' as const,
+      title: t('search_page.title'),
+      description: t('search_page.mode_search_description'),
+    },
+    {
+      mode: 'random' as const,
+      title: t('search_page.lucky_machine_title'),
+      description: t('search_page.mode_random_description'),
+    },
+  ])
+  const getModeCardClass = (cardMode: SearchRouteMode) => {
+    const isActive = cardMode === mode.value
+    const accent =
+      cardMode === 'random'
+        ? isActive
+          ? 'border-amber-300 bg-amber-50/60 shadow-amber-200/30 dark:border-amber-300/45 dark:bg-amber-950/30 dark:shadow-black/25'
+          : 'border-amber-200/60 bg-white/45 hover:border-amber-300/80 hover:bg-amber-50/40 dark:border-amber-400/20 dark:bg-slate-950/30 dark:shadow-black/10 dark:hover:border-amber-300/45 dark:hover:bg-amber-950/20 dark:hover:shadow-black/25'
+        : isActive
+          ? 'border-rose-300 bg-rose-50/60 shadow-rose-200/30 dark:border-rose-300/45 dark:bg-rose-950/30 dark:shadow-black/25'
+          : 'border-rose-200/60 bg-white/45 hover:border-rose-300/80 hover:bg-rose-50/40 dark:border-rose-400/20 dark:bg-slate-950/30 dark:shadow-black/10 dark:hover:border-rose-300/45 dark:hover:bg-rose-950/20 dark:hover:shadow-black/25'
 
-  // Rotating placeholder examples built from existing filter locale keys
-  const PLACEHOLDER_EXAMPLES: string[][] = [
-    ['sleeve_style.puff_sleeve', 'category.tops.blouse'],
-    ['structure.pleated', 'bottom_length.mini', 'category.bottoms.skirt'],
-    ['category.handhelds.handheld', 'category.handhelds.weapon'],
-    ['ornament.bow', 'ornament.tie', 'category.headwear.hair_ornament'],
-    [
-      'dress_silhouette.mermaid',
-      'bottom_length.floor_length',
-      'subcategory.dresses.gown',
-    ],
-    ['ornament.flower', 'subcategory.hairAccessories.hairpin'],
-    ['ornament.embroidery', 'category.shoes.flats'],
-    ['bangs.wispy_bangs', 'category.hair.twin_tails'],
+    return [
+      'group flex min-h-16 items-center gap-2 rounded-xl border px-3 py-2.5 text-left shadow-sm backdrop-blur-md transition-all duration-300 focus:ring-2 focus:ring-rose-400 focus:outline-hidden sm:min-h-18 sm:gap-2.5 sm:px-3.5 sm:py-3',
+      isActive
+        ? 'shadow-md dark:shadow-sm'
+        : 'shadow-slate-200/30 hover:-translate-y-0.5 hover:shadow-md dark:hover:-translate-y-px dark:hover:shadow-sm',
+      accent,
+    ]
+  }
+  const getModeIconClass = (cardMode: SearchRouteMode) => [
+    'flex h-8 w-8 shrink-0 items-center justify-center rounded-full transition-colors sm:h-9 sm:w-9',
+    cardMode === 'random'
+      ? 'bg-amber-100 text-amber-500 dark:bg-amber-400/10 dark:text-amber-300'
+      : 'bg-rose-100 text-rose-500 dark:bg-rose-400/10 dark:text-rose-300',
   ]
 
   const LUCKY_DISCOVERY_TYPES = [
@@ -1301,56 +1574,39 @@
   const LUCKY_ROLL_DURATION_MS = 2500
   const LUCKY_PRIZE_HOLD_MS = 520
 
-  const exampleIndex = ref(0)
+  // Rotating placeholder examples built from existing filter locale keys.
+  const PLACEHOLDER_EXAMPLES: string[][] = [
+    ['sleeve_style.puff_sleeve', 'category.tops.blouse'],
+    ['structure.pleated', 'bottom_length.mini', 'category.bottoms.skirt'],
+    ['category.handhelds.handheld', 'category.handhelds.weapon'],
+    ['ornament.bow', 'ornament.tie', 'category.headwear.hair_ornament'],
+    [
+      'dress_silhouette.mermaid',
+      'bottom_length.floor_length',
+      'subcategory.dresses.gown',
+    ],
+    ['ornament.flower', 'subcategory.hairAccessories.hairpin'],
+    ['ornament.embroidery', 'category.shoes.flats'],
+    ['bangs.wispy_bangs', 'category.hair.twin_tails'],
+  ]
 
+  const exampleIndex = ref(0)
   const currentExample = computed(() => {
     const isCJK = ['zh', 'tw', 'ja', 'ko'].includes(locale.value)
     return (PLACEHOLDER_EXAMPLES[exampleIndex.value] ?? [])
       .map((path) => t(`filter.${path}`))
       .join(isCJK ? '' : ' ')
   })
-
-  const targetPlaceholder = computed(() =>
+  const searchPlaceholder = computed(() =>
     t('search_page.placeholder', { example: currentExample.value })
   )
 
-  const typedCharCount = ref(0)
-  const isTypingFinished = ref(false)
-
-  const currentPlaceholder = computed(() => {
-    if (isTypingFinished.value) return targetPlaceholder.value
-    return targetPlaceholder.value.substring(0, typedCharCount.value)
-  })
-
-  let typeInterval: ReturnType<typeof setInterval> | null = null
   let activeSearch: ActiveSearch | null = null
   let lastCompletedSearchKey: string | null = null
   let luckyRollStartedAt = 0
   let luckyRollId = 0
   let similarSearchRunId = 0
   let shouldPreserveResultsOnEmptyRoute = false
-
-  const stopPlaceholderTyping = () => {
-    if (!typeInterval) return
-    clearInterval(typeInterval)
-    typeInterval = null
-  }
-
-  const restartPlaceholderTyping = () => {
-    stopPlaceholderTyping()
-    typedCharCount.value = 0
-    isTypingFinished.value = false
-
-    typeInterval = setInterval(() => {
-      if (typedCharCount.value < targetPlaceholder.value.length) {
-        typedCharCount.value++
-        return
-      }
-
-      isTypingFinished.value = true
-      stopPlaceholderTyping()
-    }, 50)
-  }
 
   const cancelActiveSearch = () => {
     if (!activeSearch) return
@@ -1404,32 +1660,14 @@
 
   onMounted(() => {
     exampleIndex.value = Math.floor(Math.random() * PLACEHOLDER_EXAMPLES.length)
-    restartPlaceholderTyping()
   })
 
   onUnmounted(() => {
-    stopPlaceholderTyping()
     cancelActiveSearch()
   })
 
   const initialCatalogFilters = normalizeCatalogSearchFilters(route.query)
-  const consumeInitialDisplayQuery = () => {
-    const pendingState = isRandomMode.value
-      ? pendingRandomDisplayQuery
-      : pendingSearchDisplayQuery
-    const pendingQuery = pendingState.value
-    pendingState.value = null
-
-    if (
-      pendingQuery &&
-      normalizeSearchQuery(pendingQuery) === initialCatalogFilters.query
-    ) {
-      return pendingQuery
-    }
-
-    return initialCatalogFilters.query
-  }
-  const searchQuery = ref(consumeInitialDisplayQuery())
+  const searchQuery = ref(initialCatalogFilters.query)
   const selectedItemTypes = ref<string[]>(
     initialCatalogFilters.itemTypes.slice(0, 1)
   )
@@ -1807,6 +2045,19 @@
     return tags
   }
 
+  const getSearchQualityOverlayClass = (quality?: number | null) => {
+    switch (quality) {
+      case 5:
+        return 'bg-yellow-500/5'
+      case 4:
+        return 'bg-blue-500/5'
+      case 3:
+        return 'bg-green-500/5'
+      default:
+        return 'bg-gray-500/5'
+    }
+  }
+
   const getSearchVersionDisplay = (obtainType: number | null) => {
     if (obtainType === null) return null
 
@@ -1873,15 +2124,49 @@
     luckyResult.value ? toSearchDisplayHit(luckyResult.value) : null
   )
 
+  const iconImageResultKeys = ref<Set<string>>(new Set())
+  const getResultImageKey = (item: SearchDisplayHit | null) =>
+    item?.itemId !== null && item?.itemId !== undefined
+      ? `item:${item.itemId}`
+      : null
+
+  const isResultIconImage = (item: SearchDisplayHit | null) => {
+    const key = getResultImageKey(item)
+    return Boolean(key && iconImageResultKeys.value.has(key))
+  }
+
+  const toggleResultIconImage = (item: SearchDisplayHit | null) => {
+    const key = getResultImageKey(item)
+    if (!key) return
+
+    const nextKeys = new Set(iconImageResultKeys.value)
+    if (nextKeys.has(key)) {
+      nextKeys.delete(key)
+    } else {
+      nextKeys.add(key)
+    }
+    iconImageResultKeys.value = nextKeys
+  }
+
+  const getResultImageSrc = (item: SearchDisplayHit | null) => {
+    if (!item) return null
+    if (item.itemId !== null && isResultIconImage(item)) {
+      return getImageSrc('itemIcon', item.itemId)
+    }
+    return item.imageSrc
+  }
+
+  const getResultImageClass = (item: SearchDisplayHit | null) =>
+    isResultIconImage(item) ? 'object-contain p-10' : 'object-cover'
+  const getResultImagePreset = (item: SearchDisplayHit | null) =>
+    isResultIconImage(item) ? 'iconLg' : 'tallLg'
+
   const hasResults = computed(() => displayResults.value.length > 0)
 
   const activeResult = computed<SearchDisplayHit | null>(
     () =>
-      displayResults.value.find((item) => item.id === selectedId.value) ??
-      displayResults.value[0] ??
-      null
+      displayResults.value.find((item) => item.id === selectedId.value) ?? null
   )
-
   const activeFeedbackResult = computed(() => {
     const currentResult = activeResult.value
     if (!currentResult || currentResult.itemId === null) {
@@ -1893,9 +2178,7 @@
 
   const setSelected = (id: string) => {
     selectedId.value = id
-    if (!isDesktopDetails.value) {
-      isMobileModalOpen.value = true
-    }
+    isMobileModalOpen.value = true
   }
 
   const getSimilarSearchHit = (
@@ -1945,8 +2228,8 @@
     }
   }
 
-  const findSimilar = async (item: SearchDisplayHit) => {
-    if (item.itemId === null) return
+  const findSimilar = async (item: SearchDisplayHit | null) => {
+    if (!item || item.itemId === null) return
 
     isMobileModalOpen.value = false
     resetLuckyState()
@@ -1960,6 +2243,14 @@
     if (activeSimilarItemId.value === item.itemId) {
       void runSimilarSearch(item.itemId)
     }
+  }
+
+  const viewCompendium = async (item: SearchDisplayHit | null) => {
+    if (!item?.compendiumPath) return
+
+    isMobileModalOpen.value = false
+    resetLuckyState()
+    await navigateTo(item.compendiumPath)
   }
 
   const resetSearchState = () => {
@@ -2072,21 +2363,6 @@
     }
   }
 
-  const handleSecondaryAction = () => {
-    if (isRandomMode.value) {
-      const normalizedQuery = resolveNormalizedSearchQuery(true)
-      if (!normalizedQuery) return
-      pendingSearchDisplayQuery.value = searchQuery.value
-      void switchMode('search')
-      return
-    }
-
-    if (normalizeSearchQuery(searchQuery.value)) {
-      pendingRandomDisplayQuery.value = searchQuery.value
-    }
-    void switchMode('random', { autoroll: true })
-  }
-
   const clearSearch = async () => {
     searchQuery.value = ''
     selectedItemTypes.value = []
@@ -2096,9 +2372,6 @@
     labelFilter.value = null
     sourceFilter.value = null
     resetSearchState()
-    if (import.meta.client) {
-      restartPlaceholderTyping()
-    }
     await updateSearchRoute(null)
   }
 
@@ -2118,9 +2391,6 @@
     if (activeSimilarItemId.value !== null) {
       shouldPreserveResultsOnEmptyRoute = true
       await updateSearchRoute(null)
-    }
-    if (import.meta.client) {
-      restartPlaceholderTyping()
     }
   }
 
@@ -2177,10 +2447,7 @@
 
   const applySearchResults = (nextResults: SearchHit[]) => {
     results.value = nextResults
-    selectedId.value =
-      nextResults.find((item) => item.id === selectedId.value)?.id ??
-      nextResults[0]?.id ??
-      null
+    selectedId.value = null
     isMobileModalOpen.value = false
     showFeedbackModal.value = false
     feedbackModalTarget.value = null
@@ -2447,26 +2714,25 @@
     closeLuckyModal()
   }
 
-  const resolveNormalizedSearchQuery = (pushToUrl: boolean) => {
+  const resolveNormalizedSearchQuery = () => {
     const normalizedQuery = normalizeSearchQuery(searchQuery.value)
     if (normalizedQuery) {
       return normalizedQuery
     }
 
-    if (!pushToUrl) {
-      return null
+    if (!isRandomMode.value) {
+      return normalizeSearchQuery(currentExample.value)
     }
 
-    // Use current placeholder example as the query and cycle to the next.
-    searchQuery.value = currentExample.value
-    exampleIndex.value = (exampleIndex.value + 1) % PLACEHOLDER_EXAMPLES.length
-    isTypingFinished.value = true
-
-    return normalizeSearchQuery(searchQuery.value)
+    return null
   }
 
   const runSearch = async (pushToUrl = false) => {
-    const normalizedQuery = resolveNormalizedSearchQuery(pushToUrl)
+    if (!normalizeSearchQuery(searchQuery.value) && !isRandomMode.value) {
+      searchQuery.value = currentExample.value
+    }
+
+    const normalizedQuery = resolveNormalizedSearchQuery()
     if (!normalizedQuery) {
       return
     }
@@ -2590,23 +2856,6 @@
     }
   }
 
-  watch(targetPlaceholder, (nextPlaceholder, previousPlaceholder) => {
-    if (
-      import.meta.client &&
-      nextPlaceholder !== previousPlaceholder &&
-      !normalizeSearchQuery(searchQuery.value)
-    ) {
-      restartPlaceholderTyping()
-    }
-  })
-
-  watch(isDesktopDetails, (isDesktop) => {
-    if (isDesktop) {
-      blurActiveElement()
-      isMobileModalOpen.value = false
-    }
-  })
-
   watch(activeResult, (nextResult) => {
     if (!nextResult) {
       isMobileModalOpen.value = false
@@ -2667,16 +2916,10 @@
         if (shouldPreserveResultsOnEmptyRoute) {
           shouldPreserveResultsOnEmptyRoute = false
           hasSearched.value = results.value.length > 0
-          if (import.meta.client) {
-            restartPlaceholderTyping()
-          }
           return
         }
 
         resetSearchState()
-        if (import.meta.client) {
-          restartPlaceholderTyping()
-        }
         return
       }
 
@@ -2686,9 +2929,17 @@
   )
 
   watch(
-    isRandomMode,
-    (nextIsRandomMode) => {
-      if (!nextIsRandomMode || !pendingLuckyAutoroll.value) return
+    [isRandomMode, () => route.query.pull],
+    ([nextIsRandomMode, pullQuery]) => {
+      const shouldPullFromRoute = Array.isArray(pullQuery)
+        ? pullQuery.some(Boolean)
+        : Boolean(pullQuery)
+      if (
+        !nextIsRandomMode ||
+        (!pendingLuckyAutoroll.value && !shouldPullFromRoute)
+      ) {
+        return
+      }
 
       pendingLuckyAutoroll.value = false
       void nextTick(() => runLuckySearch())

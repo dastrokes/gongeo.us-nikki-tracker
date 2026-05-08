@@ -197,9 +197,7 @@
     },
     "search": {
       "placeholder": "Nach Namen suchen",
-      "whim_hint": "Nach weiteren Details suchen",
-      "for_query": "für \"{query}\"",
-      "to_search": "suchen"
+      "for_query": "für \"{query}\""
     },
     "social": {
       "discord": "Werde Teil unserer Discord-Community",

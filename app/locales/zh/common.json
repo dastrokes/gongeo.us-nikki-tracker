@@ -73,6 +73,7 @@
     "view_compendium": "查看图鉴",
     "keys": {
       "enter": "回车",
+      "shift": "Shift",
       "esc": "ESC"
     }
   },
@@ -197,9 +198,7 @@
     },
     "search": {
       "placeholder": "按名称搜索",
-      "whim_hint": "搜索更多细节",
-      "for_query": "搜索 “{query}”",
-      "to_search": "搜索"
+      "for_query": "搜索 “{query}”"
     },
     "social": {
       "discord": "加入我们的 Discord 社区",
@@ -728,7 +727,6 @@
     "filter_category": "按类别筛选",
     "filter_subcategory": "按细分类筛选",
     "filter_version": "按版本筛选",
-    "filter_quality": "按星级筛选",
     "filter_style": "按风格筛选",
     "filter_label": "按标签筛选",
     "filter_obtain": "按来源筛选",
@@ -779,6 +777,8 @@
   "search_page": {
     "title": "奇想搜索",
     "placeholder": "试试“{example}”",
+    "random_placeholder": "添加提示或给我惊喜",
+    "search_action": "搜索",
     "clear_query": "清除搜索",
     "close_details": "关闭详情",
     "filters_action": "打开搜索筛选",
@@ -786,15 +786,10 @@
     "find_similar": "查找相似",
     "similar_prefix": "相似",
     "error_description": "搜索索引查询失败。",
-    "lucky_action": "奇想滚滚机",
-    "lucky_action_aria": "随机选择一个匹配的物品",
     "lucky_machine_title": "奇想滚滚机",
-    "lucky_machine_subtitle": "转出一份惊喜",
-    "lucky_machine_result_title": "抽到了",
-    "lucky_spin_again": "再试一次",
-    "lucky_spin_action": "转动",
-    "random_stage_title": "在当前搜索中随机抽取",
-    "random_stage_description": "使用同一组搜索词和图鉴筛选条件，让奇想滚滚机抽出一个匹配物品。",
+    "lucky_pull_action": "抽取",
+    "mode_search_description": "按细节查找物品",
+    "mode_random_description": "抽一份惊喜",
     "no_matches": "没有匹配结果",
     "match_score": "匹配度 {score}%"
   },

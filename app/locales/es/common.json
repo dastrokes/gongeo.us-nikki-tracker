@@ -73,6 +73,7 @@
     "view_compendium": "Ver compendio",
     "keys": {
       "enter": "Enter",
+      "shift": "Shift",
       "esc": "ESC"
     }
   },
@@ -197,9 +198,7 @@
     },
     "search": {
       "placeholder": "Buscar por nombre",
-      "whim_hint": "Buscar más detalles",
-      "for_query": "para \"{query}\"",
-      "to_search": "para buscar"
+      "for_query": "para \"{query}\""
     },
     "social": {
       "discord": "Únete a nuestra comunidad de Discord",
@@ -778,9 +777,18 @@
   "search_page": {
     "title": "Búsqueda de caprichos",
     "placeholder": "Prueba '{example}'",
+    "random_placeholder": "Add a hint or surprise me",
+    "search_action": "Search",
     "clear_query": "Borrar búsqueda",
     "close_details": "Cerrar detalles",
+    "filters_title": "Search filters",
+    "find_similar": "Find Similar",
+    "similar_prefix": "Similar",
     "error_description": "No se pudo consultar el índice de búsqueda.",
+    "lucky_machine_title": "Whim-O-Matic",
+    "lucky_pull_action": "Pull",
+    "mode_search_description": "Find items by detail",
+    "mode_random_description": "Pull a surprise",
     "no_matches": "Sin coincidencias",
     "match_score": "{score}% de coincidencia"
   },

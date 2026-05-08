@@ -73,6 +73,7 @@
     "view_compendium": "도감 보기",
     "keys": {
       "enter": "Enter",
+      "shift": "Shift",
       "esc": "ESC"
     }
   },
@@ -197,9 +198,7 @@
     },
     "search": {
       "placeholder": "이름으로 검색",
-      "whim_hint": "더 자세히 검색",
-      "for_query": "\"{query}\" 검색",
-      "to_search": "검색"
+      "for_query": "\"{query}\" 검색"
     },
     "social": {
       "discord": "디스코드 커뮤니티에 가입하세요",
@@ -778,9 +777,18 @@
   "search_page": {
     "title": "상상 검색",
     "placeholder": "'{example}' 검색해보기",
+    "random_placeholder": "Add a hint or surprise me",
+    "search_action": "Search",
     "clear_query": "검색 지우기",
     "close_details": "상세 닫기",
+    "filters_title": "Search filters",
+    "find_similar": "Find Similar",
+    "similar_prefix": "Similar",
     "error_description": "검색 인덱스 쿼리에 실패했습니다.",
+    "lucky_machine_title": "Whim-O-Matic",
+    "lucky_pull_action": "Pull",
+    "mode_search_description": "Find items by detail",
+    "mode_random_description": "Pull a surprise",
     "no_matches": "검색 결과 없음",
     "match_score": "{score}% 일치"
   },

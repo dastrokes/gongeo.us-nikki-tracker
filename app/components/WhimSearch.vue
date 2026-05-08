@@ -103,7 +103,7 @@
                       strong
                       size="medium"
                       class="text-slate-400 hover:text-rose-500 dark:text-slate-500 dark:hover:text-rose-300"
-                      :aria-label="t('search_page.filters_action')"
+                      :aria-label="t('search_page.filters_title')"
                       @click="openFilterModal"
                     >
                       <template #icon>
@@ -2333,6 +2333,7 @@
     isFilterModalOpen.value = false
     lastCompletedSearchKey = null
     if (isRandomMode.value) {
+      void updateSearchRoute(normalizeSearchQuery(searchQuery.value) || null)
       return
     }
 
@@ -2388,10 +2389,10 @@
     if (!searchQuery.value) return
 
     searchQuery.value = ''
-    if (activeSimilarItemId.value !== null) {
+    if (mode.value === 'search' && hasSearched.value) {
       shouldPreserveResultsOnEmptyRoute = true
-      await updateSearchRoute(null)
     }
+    await updateSearchRoute(null)
   }
 
   const closeMobileModal = () => {
@@ -2817,10 +2818,12 @@
     if (luckyLoading.value || loading.value) return
 
     luckyLoading.value = true
-    const rollId = beginLuckyRoll()
+    let rollId = 0
 
     try {
       const normalizedQuery = normalizeSearchQuery(searchQuery.value)
+      await updateSearchRoute(normalizedQuery || null)
+      rollId = beginLuckyRoll()
 
       cancelActiveSearch()
       loading.value = false
@@ -2915,7 +2918,7 @@
       if (!filters.query) {
         if (shouldPreserveResultsOnEmptyRoute) {
           shouldPreserveResultsOnEmptyRoute = false
-          hasSearched.value = results.value.length > 0
+          hasSearched.value = true
           return
         }
 
@@ -2929,15 +2932,9 @@
   )
 
   watch(
-    [isRandomMode, () => route.query.pull],
-    ([nextIsRandomMode, pullQuery]) => {
-      const shouldPullFromRoute = Array.isArray(pullQuery)
-        ? pullQuery.some(Boolean)
-        : Boolean(pullQuery)
-      if (
-        !nextIsRandomMode ||
-        (!pendingLuckyAutoroll.value && !shouldPullFromRoute)
-      ) {
+    [isRandomMode, pendingLuckyAutoroll],
+    ([nextIsRandomMode, nextPendingLuckyAutoroll]) => {
+      if (!nextIsRandomMode || !nextPendingLuckyAutoroll) {
         return
       }
 

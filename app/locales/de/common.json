@@ -73,6 +73,7 @@
     "view_compendium": "Kompendium ansehen",
     "keys": {
       "enter": "Eingabe",
+      "shift": "Shift",
       "esc": "Esc"
     }
   },
@@ -197,9 +198,7 @@
     },
     "search": {
       "placeholder": "Nach Namen suchen",
-      "whim_hint": "Nach weiteren Details suchen",
-      "for_query": "für \"{query}\"",
-      "to_search": "suchen"
+      "for_query": "für \"{query}\""
     },
     "social": {
       "discord": "Werde Teil unserer Discord-Community",
@@ -778,9 +777,18 @@
   "search_page": {
     "title": "Whim-Suche",
     "placeholder": "Versuch '{example}'",
+    "random_placeholder": "Add a hint or surprise me",
+    "search_action": "Search",
     "clear_query": "Suche zurücksetzen",
     "close_details": "Details schließen",
+    "filters_title": "Search filters",
+    "find_similar": "Find Similar",
+    "similar_prefix": "Similar",
     "error_description": "Suchindex konnte nicht abgerufen werden.",
+    "lucky_machine_title": "Whim-O-Matic",
+    "lucky_pull_action": "Pull",
+    "mode_search_description": "Find items by detail",
+    "mode_random_description": "Pull a surprise",
     "no_matches": "Keine Treffer",
     "match_score": "{score}% Treffer"
   },

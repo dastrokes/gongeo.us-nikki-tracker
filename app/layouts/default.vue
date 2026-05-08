@@ -527,6 +527,7 @@
     CaretDown,
     Search,
     CommentDots,
+    Magic,
   } from '@vicons/fa'
 
   type NavigationItem = {
@@ -586,9 +587,14 @@
       key: 'compendium',
       label: t('navigation.groups.compendium'),
       items: [
-        { key: 'search', label: t('search_page.title'), icon: Search },
-        { key: 'outfits', label: t('navigation.outfit'), icon: Tshirt },
         { key: 'items', label: t('navigation.item'), icon: ListAlt },
+        { key: 'outfits', label: t('navigation.outfit'), icon: Tshirt },
+        { key: 'search', label: t('search_page.title'), icon: Search },
+        {
+          key: 'random',
+          label: t('search_page.lucky_machine_title'),
+          icon: Magic,
+        },
       ],
     },
     {

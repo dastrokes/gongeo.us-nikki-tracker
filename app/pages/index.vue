@@ -173,8 +173,99 @@
           </button>
         </div>
 
-        <!-- Tier List & Quiz Row -->
-        <div class="grid grid-cols-2 gap-3">
+        <!-- Feature Row -->
+        <div class="grid grid-cols-2 gap-3 lg:grid-cols-4">
+          <!-- Whim Search -->
+          <NuxtLinkLocale
+            no-prefetch
+            class="group relative flex h-36 w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg border border-gray-200/70 bg-linear-to-b from-gray-100 to-gray-200 dark:border-gray-700/70 dark:from-gray-800 dark:to-gray-900"
+            :to="'/search'"
+          >
+            <!-- Decorative Search Interface Background -->
+            <div
+              class="absolute inset-0 flex flex-col items-center justify-start gap-1.5 pt-3 transition-transform duration-500 group-hover:-translate-y-1"
+            >
+              <!-- Mini Searchbar -->
+              <div
+                class="relative flex h-7 w-[80%] shrink-0 items-center overflow-hidden rounded-full bg-white shadow-xs ring-1 ring-black/5 dark:bg-slate-900 dark:ring-white/10"
+              >
+                <n-icon
+                  class="ml-2.5 shrink-0 text-rose-400"
+                  size="11"
+                  ><Search
+                /></n-icon>
+                <div
+                  class="ml-2 h-1.5 w-1/4 rounded-full bg-slate-200 dark:bg-slate-700"
+                ></div>
+                <div class="ml-auto flex shrink-0 items-center gap-1 pr-1">
+                  <!-- Filter button -->
+                  <div
+                    class="flex h-4 w-4 items-center justify-center rounded-full text-slate-400 dark:text-slate-500"
+                  >
+                    <n-icon size="8"><Filter /></n-icon>
+                  </div>
+                  <!-- Search button -->
+                  <div
+                    class="flex h-5 w-9 items-center justify-center rounded-full bg-rose-500 shadow-sm dark:bg-rose-600"
+                  >
+                    <div class="h-1 w-3.5 rounded-full bg-white/70"></div>
+                  </div>
+                </div>
+              </div>
+              <!-- Mini Results Grid (Item Cards) -->
+              <div
+                class="grid h-[60%] shrink-0 grid-cols-6 gap-1.5 opacity-70 mix-blend-multiply dark:opacity-80 dark:mix-blend-normal"
+              >
+                <div
+                  v-for="index in 18"
+                  :key="`mini-result-${index}`"
+                  class="aspect-3/4 rounded-[3px] shadow-xs"
+                  :class="
+                    ['bg-amber-500/80', 'bg-sky-500/80', 'bg-slate-500/80'][
+                      (index - 1) % 3
+                    ]
+                  "
+                ></div>
+              </div>
+            </div>
+
+            <div class="absolute right-2 bottom-2 left-2 z-10">
+              <div
+                class="pointer-events-none flex w-full items-center justify-center gap-1 rounded-md border border-white/60 bg-white/80 px-3 py-1.5 text-sm font-medium text-rose-500 shadow-xs backdrop-blur-xs dark:border-white/10 dark:bg-slate-900/70 dark:text-rose-300"
+              >
+                <n-icon><Search /></n-icon>
+                <span>{{ $t('search_page.title') }}</span>
+              </div>
+            </div>
+          </NuxtLinkLocale>
+
+          <!-- Whim-O-Matic -->
+          <NuxtLinkLocale
+            no-prefetch
+            class="group relative flex h-36 w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg border border-gray-200/70 bg-linear-to-b from-gray-100 to-gray-200 dark:border-gray-700/70 dark:from-gray-800 dark:to-gray-900"
+            :to="'/random'"
+          >
+            <!-- GachaponMachineSvg bg -->
+            <div
+              class="absolute h-30 transition-transform duration-500 group-hover:-translate-y-1 group-hover:scale-105"
+            >
+              <GachaponMachineSvg class="h-full w-full drop-shadow-sm" />
+            </div>
+
+            <div
+              class="absolute inset-x-0 bottom-0 h-16 bg-linear-to-t from-white/90 via-white/50 to-transparent dark:from-slate-900/90 dark:via-slate-900/50"
+            ></div>
+
+            <div class="absolute right-2 bottom-2 left-2 z-10">
+              <div
+                class="pointer-events-none flex w-full items-center justify-center gap-1 rounded-md border border-white/60 bg-white/80 px-3 py-1.5 text-sm font-medium text-rose-500 shadow-xs backdrop-blur-xs dark:border-white/10 dark:bg-slate-900/70 dark:text-rose-300"
+              >
+                <n-icon><Magic /></n-icon>
+                <span>{{ $t('search_page.lucky_machine_title') }}</span>
+              </div>
+            </div>
+          </NuxtLinkLocale>
+
           <!-- Tier List Preview -->
           <NuxtLinkLocale
             no-prefetch
@@ -182,7 +273,7 @@
             :to="'/tierlist'"
           >
             <div
-              class="flex h-full flex-col gap-1.5 rounded-md p-2 backdrop-blur-[1px]"
+              class="flex h-full flex-col gap-1.5 rounded-md p-2 backdrop-blur-[1px] transition-transform duration-500 group-hover:-translate-y-1"
             >
               <div
                 v-for="(row, rowIndex) in tierPreviewRows"
@@ -215,7 +306,9 @@
             class="group relative flex h-36 w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg border border-gray-200/70 bg-linear-to-b from-gray-100 to-gray-200 dark:border-gray-700/70 dark:from-gray-800 dark:to-gray-900"
             :to="'/quiz'"
           >
-            <div class="aspect-2/3 h-full shrink-0 p-1">
+            <div
+              class="aspect-2/3 h-full shrink-0 p-1 transition-transform duration-500 group-hover:-translate-y-1 group-hover:scale-105"
+            >
               <NuxtImg
                 :src="getImageSrc('outfit', featuredOutfitId)"
                 preset="tallSm"
@@ -373,6 +466,9 @@
     ListAlt,
     PuzzlePiece,
     SortAmountDown,
+    Search,
+    Magic,
+    Filter,
   } from '@vicons/fa'
 
   const { t } = useI18n()
@@ -452,14 +548,14 @@
       icon: CalendarAlt,
       label: 'common.banners',
     },
-    { key: 'outfits', path: '/outfits', icon: Tshirt, label: 'common.outfits' },
-    { key: 'items', path: '/items', icon: ListAlt, label: 'common.items' },
     {
       key: 'timeline',
       path: '/timeline',
       icon: AlignRight,
       label: 'navigation.timeline',
     },
+    { key: 'items', path: '/items', icon: ListAlt, label: 'common.items' },
+    { key: 'outfits', path: '/outfits', icon: Tshirt, label: 'common.outfits' },
   ] as const
 
   // ── Current banners ────────────────────────────

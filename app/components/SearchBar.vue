@@ -56,7 +56,8 @@
               class="min-w-0 flex-1 border-none bg-transparent p-0 text-lg text-slate-800 placeholder-slate-400 outline-hidden focus:ring-0 dark:text-slate-100"
               autocomplete="off"
               @input="handleInput"
-              @keydown.enter.prevent="goToWhimSearch"
+              @keydown.enter.exact.prevent="goToWhimSearch"
+              @keydown.shift.enter.prevent="goToRandomSearch"
             />
             <div class="flex shrink-0 items-center gap-2">
               <n-spin
@@ -71,25 +72,20 @@
             </div>
           </div>
 
-          <button
-            type="button"
-            class="group mt-3 flex w-full min-w-0 cursor-pointer items-center justify-between gap-3 rounded-lg border border-rose-200/80 bg-rose-50/80 px-3 py-2 text-left text-sm text-slate-600 shadow-xs transition hover:border-rose-300 hover:bg-rose-100/80 hover:text-slate-900 focus-visible:ring-2 focus-visible:ring-rose-500/80 focus-visible:outline-hidden dark:border-rose-900/50 dark:bg-rose-950/30 dark:text-slate-300 dark:hover:border-rose-800 dark:hover:bg-rose-950/50 dark:hover:text-slate-100"
-            @click="goToWhimSearch"
-          >
-            <span class="flex min-w-0 flex-1 items-center gap-3">
-              <span
-                class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white text-rose-500 shadow-xs ring-1 ring-rose-200 transition group-hover:bg-rose-500 group-hover:text-white dark:bg-slate-900 dark:text-rose-400 dark:ring-rose-900/50"
-              >
-                <n-icon size="14"><Magic /></n-icon>
-              </span>
-              <span class="min-w-0 flex-1">
+          <div class="mt-3 grid grid-cols-2 gap-2">
+            <button
+              type="button"
+              class="group flex min-w-0 cursor-pointer items-center justify-between gap-2 rounded-lg border border-rose-200/80 bg-rose-50/80 px-3 py-2 text-left text-sm text-slate-600 shadow-xs transition hover:border-rose-300 hover:bg-rose-100/80 hover:text-slate-900 focus-visible:ring-2 focus-visible:ring-rose-500/80 focus-visible:outline-hidden dark:border-rose-900/50 dark:bg-rose-950/30 dark:text-slate-300 dark:hover:border-rose-800 dark:hover:bg-rose-950/50 dark:hover:text-slate-100"
+              @click="goToWhimSearch"
+            >
+              <span class="min-w-0">
                 <span
-                  class="block text-xs font-medium text-slate-500 dark:text-slate-400"
+                  class="block truncate text-[11px] leading-snug font-medium text-slate-500 dark:text-slate-400"
                 >
-                  {{ $t('default.search.whim_hint') }}
+                  {{ $t('search_page.mode_search_description') }}
                 </span>
                 <span
-                  class="block truncate font-bold text-rose-500 group-hover:text-rose-600 dark:text-rose-400"
+                  class="mt-0.5 block truncate text-sm font-bold text-rose-500 group-hover:text-rose-600 dark:text-rose-400"
                 >
                   {{ $t('search_page.title') }}
                   <span
@@ -100,18 +96,50 @@
                   </span>
                 </span>
               </span>
-            </span>
-            <span
-              class="hidden shrink-0 items-center gap-2 text-xs text-slate-400/80 sm:flex"
-            >
-              <kbd
-                class="rounded-sm border border-slate-200 bg-white px-1.5 py-0.5 font-semibold text-slate-500 shadow-xs dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400"
+              <span
+                class="hidden shrink-0 items-center text-[11px] text-slate-400/80 sm:flex"
               >
-                {{ $t('common.keys.enter') }}
-              </kbd>
-              <span>{{ $t('default.search.to_search') }}</span>
-            </span>
-          </button>
+                <kbd
+                  class="rounded-sm border border-slate-200 bg-white px-1.5 py-0.5 font-semibold text-slate-500 shadow-xs dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400"
+                >
+                  {{ $t('common.keys.enter') }}
+                </kbd>
+              </span>
+            </button>
+            <button
+              type="button"
+              class="group flex min-w-0 cursor-pointer items-center justify-between gap-2 rounded-lg border border-amber-200/80 bg-amber-50/80 px-3 py-2 text-left text-sm text-slate-600 shadow-xs transition hover:border-amber-300 hover:bg-amber-100/80 hover:text-slate-900 focus-visible:ring-2 focus-visible:ring-amber-500/80 focus-visible:outline-hidden dark:border-amber-900/50 dark:bg-amber-950/30 dark:text-slate-300 dark:hover:border-amber-800 dark:hover:bg-amber-950/50 dark:hover:text-slate-100"
+              @click="goToRandomSearch"
+            >
+              <span class="min-w-0">
+                <span
+                  class="block truncate text-[11px] leading-snug font-medium text-slate-500 dark:text-slate-400"
+                >
+                  {{ $t('search_page.mode_random_description') }}
+                </span>
+                <span
+                  class="mt-0.5 block truncate text-sm font-bold text-amber-600 group-hover:text-amber-700 dark:text-amber-300"
+                >
+                  {{ $t('search_page.lucky_machine_title') }}
+                  <span
+                    v-if="searchQuery"
+                    class="font-normal text-slate-500 dark:text-slate-400"
+                  >
+                    {{ $t('default.search.for_query', { query: searchQuery }) }}
+                  </span>
+                </span>
+              </span>
+              <span
+                class="hidden shrink-0 items-center gap-1 text-[11px] text-slate-400/80 sm:flex"
+              >
+                <kbd
+                  class="rounded-sm border border-slate-200 bg-white px-1.5 py-0.5 font-semibold text-slate-500 shadow-xs dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400"
+                >
+                  {{ $t('common.keys.shift') }} + {{ $t('common.keys.enter') }}
+                </kbd>
+              </span>
+            </button>
+          </div>
         </div>
 
         <!-- Quick Results Body -->
@@ -193,11 +221,15 @@
 </template>
 
 <script setup lang="ts">
-  import { Search, Magic } from '@vicons/fa'
+  import { Search } from '@vicons/fa'
 
   const { search, searchOptions, buildSearchIndex, isIndexBuilt } = useSearch()
   const { getImageSrc } = imageProvider()
   const localePath = useLocalePath()
+  const pendingLuckyAutoroll = useState(
+    'whim-search-pending-lucky-autoroll',
+    () => false
+  )
 
   const searchQuery = ref('')
   const showSearch = ref(false)
@@ -217,6 +249,19 @@
       })
     } else {
       navigateTo(localePath('/search'))
+    }
+    closeSearch()
+  }
+
+  const goToRandomSearch = () => {
+    pendingLuckyAutoroll.value = true
+    if (searchQuery.value.trim()) {
+      navigateTo({
+        path: localePath('/random'),
+        query: { q: searchQuery.value.trim() },
+      })
+    } else {
+      navigateTo(localePath('/random'))
     }
     closeSearch()
   }

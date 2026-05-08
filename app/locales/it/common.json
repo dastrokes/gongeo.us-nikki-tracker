@@ -73,7 +73,8 @@
     "view_compendium": "Vedi compendio",
     "keys": {
       "enter": "Invio",
-      "esc": "ESC"
+      "esc": "ESC",
+      "shift": "Maiusc"
     }
   },
   "navigation": {
@@ -197,9 +198,7 @@
     },
     "search": {
       "placeholder": "Cerca per nome",
-      "whim_hint": "Cerca altri dettagli",
-      "for_query": "per \"{query}\"",
-      "to_search": "per cercare"
+      "for_query": "per \"{query}\""
     },
     "social": {
       "discord": "Unisciti alla nostra comunità Discord",
@@ -782,7 +781,16 @@
     "close_details": "Chiudi dettagli",
     "error_description": "Impossibile interrogare l'indice di ricerca.",
     "no_matches": "Nessuna corrispondenza",
-    "match_score": "{score}% di corrispondenza"
+    "match_score": "{score}% di corrispondenza",
+    "random_placeholder": "Aggiungi un indizio o fammi una sorpresa",
+    "search_action": "Cerca",
+    "filters_title": "Filtri di ricerca",
+    "find_similar": "Trova simili",
+    "similar_prefix": "Simile",
+    "lucky_machine_title": "Estromatic",
+    "lucky_pull_action": "Tira",
+    "mode_search_description": "Trova oggetti per dettaglio",
+    "mode_random_description": "Pesca una sorpresa"
   },
   "feedback": {
     "queue_title": "Revisione feedback",

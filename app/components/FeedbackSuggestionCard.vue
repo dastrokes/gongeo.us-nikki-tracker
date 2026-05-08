@@ -26,7 +26,7 @@
           <div class="min-w-0">
             <NuxtLinkLocale
               :to="`/items/${suggestion.entityId}`"
-              class="block text-xl font-black leading-tight transition-opacity hover:opacity-80"
+              class="block text-xl leading-tight font-black transition-opacity hover:opacity-80"
             >
               {{ itemName }}
             </NuxtLinkLocale>
@@ -71,7 +71,7 @@
             class="rounded-2xl border border-black/5 bg-slate-50/90 p-4 dark:border-white/10 dark:bg-slate-900/70"
           >
             <div
-              class="text-xs font-bold uppercase tracking-[0.22em] text-slate-500 dark:text-slate-400"
+              class="text-xs font-bold tracking-[0.22em] text-slate-500 uppercase dark:text-slate-400"
             >
               {{ t(getItemSearchFieldLabelKey(entry.field)) }}
             </div>
@@ -81,7 +81,7 @@
                 class="rounded-xl border border-black/5 bg-white/85 px-3 py-2 dark:border-white/10 dark:bg-slate-950/70"
               >
                 <div
-                  class="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400"
+                  class="text-[11px] font-semibold tracking-[0.18em] text-slate-500 uppercase dark:text-slate-400"
                 >
                   {{ t('feedback.before') }}
                 </div>
@@ -94,7 +94,7 @@
                 class="rounded-xl border border-rose-200/70 bg-rose-50/80 px-3 py-2 dark:border-rose-400/20 dark:bg-rose-500/10"
               >
                 <div
-                  class="text-[11px] font-semibold uppercase tracking-[0.18em] text-rose-600 dark:text-rose-300"
+                  class="text-[11px] font-semibold tracking-[0.18em] text-rose-600 uppercase dark:text-rose-300"
                 >
                   {{ t('feedback.after') }}
                 </div>
@@ -163,7 +163,7 @@
 
             <NuxtLinkLocale
               :to="`/items/${suggestion.entityId}`"
-              class="inline-flex min-h-10 items-center justify-center rounded-xl border border-black/5 bg-white px-4 text-sm font-semibold text-rose-500 hover:border-rose-200 hover:text-rose-600 dark:border-white/10 dark:bg-slate-950 dark:text-rose-300 dark:hover:border-rose-300/20 dark:hover:text-rose-200 sm:ml-auto"
+              class="inline-flex min-h-10 items-center justify-center rounded-xl border border-black/5 bg-white px-4 text-sm font-semibold text-rose-500 hover:border-rose-200 hover:text-rose-600 sm:ml-auto dark:border-white/10 dark:bg-slate-950 dark:text-rose-300 dark:hover:border-rose-300/20 dark:hover:text-rose-200"
             >
               {{ t('common.view_compendium') }}
             </NuxtLinkLocale>
@@ -175,7 +175,7 @@
           class="rounded-2xl border border-amber-200/70 bg-amber-50/80 p-3 dark:border-amber-400/20 dark:bg-amber-400/10"
         >
           <div
-            class="mb-3 text-xs font-bold uppercase tracking-[0.22em] text-amber-600/90 dark:text-amber-300/80"
+            class="mb-3 text-xs font-bold tracking-[0.22em] text-amber-600/90 uppercase dark:text-amber-300/80"
           >
             {{ t('feedback.maintainer_actions') }}
           </div>

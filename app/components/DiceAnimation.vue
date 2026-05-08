@@ -35,7 +35,7 @@
         <div
           v-for="i in 6"
           :key="i"
-          class="flex items-center gap-2 w-fit text-sm"
+          class="flex w-fit items-center gap-2 text-sm"
           :class="
             getLuckDice(props.percentile) === i ? 'font-bold' : 'opacity-50'
           "

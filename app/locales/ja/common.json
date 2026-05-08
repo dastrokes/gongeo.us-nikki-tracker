@@ -73,8 +73,8 @@
     "view_compendium": "図鑑を見る",
     "keys": {
       "enter": "Enter",
-      "shift": "Shift",
-      "esc": "ESC"
+      "esc": "ESC",
+      "shift": "Shift"
     }
   },
   "navigation": {
@@ -790,7 +790,16 @@
     "mode_search_description": "Find items by detail",
     "mode_random_description": "Pull a surprise",
     "no_matches": "該当なし",
-    "match_score": "一致度 {score}%"
+    "match_score": "一致度 {score}%",
+    "random_placeholder": "ヒントを追加するか、おまかせ",
+    "search_action": "検索",
+    "filters_title": "検索フィルタ",
+    "find_similar": "似たものを探す",
+    "similar_prefix": "似ている",
+    "lucky_machine_title": "奇想ガチャ",
+    "lucky_pull_action": "引く",
+    "mode_search_description": "詳細からアイテムを探す",
+    "mode_random_description": "サプライズを引く"
   },
   "feedback": {
     "queue_title": "フィードバック審査",

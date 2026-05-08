@@ -1,19 +1,21 @@
 # gongeo.us - Infinity Nikki Resonance Tracker
 
-A web application for tracking and analyzing Infinity Nikki resonance history and statistics.
+[简体中文](./README.zh-CN.md)
+
+A fan-made web app for tracking Infinity Nikki resonance history, banner stats, and community insights.
 
 <a href="https://gongeo.us">
-  <img src="public/og.png" width="600px">
+  <img src="public/og.jpg" width="600px" alt="gongeo.us preview">
 </a>
 
-## Connect With Us
+## Links
 
+- **Website**: [gongeo.us](https://gongeo.us)
 - **Discord**: [Join our community](https://discord.gg/qymsW3j4Zw)
 - **Ko-fi**: [Support the project](https://ko-fi.com/gongeous)
 - **X/Twitter**: [Follow for updates](https://x.com/gongeo_us)
 
 [![Deploys by Netlify](https://www.netlify.com/assets/badges/netlify-badge-color-accent.svg)](https://www.netlify.com)
-
 [![Crowdin | Agile localization for tech companies](https://badges.crowdin.net/badge/dark/crowdin-on-light.png)](https://crowdin.com/project/gongeous)
 
 ## Tech Stack
@@ -23,7 +25,7 @@ A web application for tracking and analyzing Infinity Nikki resonance history an
 - [Naive UI](https://www.naiveui.com/) - Vue component library
 - [Tailwind CSS](https://tailwindcss.com/) - Utility-first CSS framework
 - [Pinia](https://pinia.vuejs.org/) - State management
-- [i18n](https://i18n.nuxtjs.org/) - Internationalization
+- [Nuxt i18n](https://i18n.nuxtjs.org/) - Internationalization
 - [Supabase](https://supabase.com/) - Backend and authentication
 - [ECharts](https://echarts.apache.org/) - Data visualization
 
@@ -31,4 +33,4 @@ A web application for tracking and analyzing Infinity Nikki resonance history an
 
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/dastrokes/gongeo.us-nikki-tracker/blob/master/LICENSE)
 
-This project is a fan-made tool and is not affiliated with Infinity Nikki or Infold Games. All game assets and trademarks belong to their respective owners.
+This project is a fan-made tool and is not affiliated with Infinity Nikki, Infold Games, or related official entities. All game assets, names, and trademarks belong to their respective owners.

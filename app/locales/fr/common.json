@@ -73,8 +73,8 @@
     "view_compendium": "Voir le compendium",
     "keys": {
       "enter": "Entrée",
-      "shift": "Shift",
-      "esc": "ÉCHAP"
+      "esc": "ÉCHAP",
+      "shift": "Maj"
     }
   },
   "navigation": {
@@ -790,7 +790,16 @@
     "mode_search_description": "Find items by detail",
     "mode_random_description": "Pull a surprise",
     "no_matches": "Aucun résultat",
-    "match_score": "{score}% de correspondance"
+    "match_score": "{score}% de correspondance",
+    "random_placeholder": "Ajouter un indice ou me surprendre",
+    "search_action": "Rechercher",
+    "filters_title": "Filtres de recherche",
+    "find_similar": "Trouver des similaires",
+    "similar_prefix": "Similaire",
+    "lucky_machine_title": "Chic-o-matic",
+    "lucky_pull_action": "Tirer",
+    "mode_search_description": "Trouver des objets par détail",
+    "mode_random_description": "Tirer une surprise"
   },
   "feedback": {
     "queue_title": "Révision des commentaires",

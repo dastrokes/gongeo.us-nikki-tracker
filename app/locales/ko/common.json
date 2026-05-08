@@ -73,8 +73,8 @@
     "view_compendium": "도감 보기",
     "keys": {
       "enter": "Enter",
-      "shift": "Shift",
-      "esc": "ESC"
+      "esc": "ESC",
+      "shift": "Shift"
     }
   },
   "navigation": {
@@ -790,7 +790,16 @@
     "mode_search_description": "Find items by detail",
     "mode_random_description": "Pull a surprise",
     "no_matches": "검색 결과 없음",
-    "match_score": "{score}% 일치"
+    "match_score": "{score}% 일치",
+    "random_placeholder": "힌트 추가 또는 서프라이즈",
+    "search_action": "검색",
+    "filters_title": "검색 필터",
+    "find_similar": "유사한 항목 찾기",
+    "similar_prefix": "유사",
+    "lucky_machine_title": "상상 가챠",
+    "lucky_pull_action": "뽑기",
+    "mode_search_description": "상세 내용으로 아이템 찾기",
+    "mode_random_description": "깜짝 뽑기"
   },
   "feedback": {
     "queue_title": "피드백 심사",

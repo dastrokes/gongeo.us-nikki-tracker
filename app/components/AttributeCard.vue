@@ -17,7 +17,7 @@
         class="min-w-0 rounded-lg border border-slate-200/70 bg-slate-50/60 p-3 dark:border-slate-800 dark:bg-slate-900/35"
       >
         <div
-          class="text-[10px] sm:text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest"
+          class="text-[10px] font-bold tracking-widest text-slate-500 uppercase sm:text-[11px] dark:text-slate-400"
         >
           {{ t(field.labelKey) }}
         </div>
@@ -28,7 +28,7 @@
             size="small"
             type="default"
             :bordered="false"
-            class="font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 shadow-xs border border-slate-200/50 dark:border-slate-700/50"
+            class="border border-slate-200/50 bg-slate-100 font-medium text-slate-700 shadow-xs dark:border-slate-700/50 dark:bg-slate-800 dark:text-slate-300"
           >
             {{
               translateFilterToken(
@@ -48,7 +48,7 @@
         @click="emit('expand')"
       >
         <span
-          class="flex items-center justify-center gap-1 text-[11px] font-semibold uppercase tracking-[0.16em]"
+          class="flex items-center justify-center gap-1 text-[11px] font-semibold tracking-[0.16em] uppercase"
         >
           <span class="text-sm leading-none">+</span>
           {{ t('feedback.more_tags') }}
@@ -72,7 +72,7 @@
             class="min-w-0 rounded-lg border border-slate-200/70 bg-slate-50/60 p-3 dark:border-slate-800 dark:bg-slate-900/35"
           >
             <div
-              class="text-[10px] sm:text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest"
+              class="text-[10px] font-bold tracking-widest text-slate-500 uppercase sm:text-[11px] dark:text-slate-400"
             >
               {{ t(field.labelKey) }}
             </div>
@@ -83,7 +83,7 @@
                 size="small"
                 type="default"
                 :bordered="false"
-                class="font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 shadow-xs border border-slate-200/50 dark:border-slate-700/50"
+                class="border border-slate-200/50 bg-slate-100 font-medium text-slate-700 shadow-xs dark:border-slate-700/50 dark:bg-slate-800 dark:text-slate-300"
               >
                 {{
                   translateFilterToken(

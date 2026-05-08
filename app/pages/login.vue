@@ -1,13 +1,13 @@
 <template>
-  <div class="max-w-7xl mx-auto space-y-2 sm:space-y-4">
+  <div class="mx-auto max-w-7xl space-y-2 sm:space-y-4">
     <n-card
       size="small"
       class="rounded-xl p-0 sm:p-2"
       content-class="p-2 sm:p-4"
     >
-      <div class="space-y-4 max-w-sm mx-auto">
+      <div class="mx-auto max-w-sm space-y-4">
         <!-- Header -->
-        <div class="text-center space-y-2">
+        <div class="space-y-2 text-center">
           <n-h2 class="text-2xl font-bold">{{ $t('login.sign_in') }}</n-h2>
           <n-text>
             {{ $t('login.welcome_description') }}
@@ -250,7 +250,7 @@
     <!-- Password Reset Modal -->
     <n-modal v-model:show="showResetPassword">
       <n-card
-        class="max-w-sm w-full mx-auto"
+        class="mx-auto w-full max-w-sm"
         :title="t('login.reset_password')"
         :bordered="false"
         size="huge"

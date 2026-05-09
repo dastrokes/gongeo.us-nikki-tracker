@@ -161,6 +161,33 @@ Typical ownership questions:
 - is the current artifact introducing the same concept under a second field (`mesh`, `cross`, `filigree`, `paper`)?
 - should the concept move into an existing owner field, or should the source token be dropped entirely?
 
+## LLM Review Playbook
+
+When using an LLM to review a new or existing index, keep the review split into three buckets:
+
+1. canonical additions:
+   - genuinely new concepts that deserve new tracker terms or taxonomy values
+2. normalization fixes:
+   - tokens that should collapse to an existing canonical token
+   - tokens that belong to an existing owner field instead of the field where they appear now
+3. stale live rows:
+   - rows already in the published local mirror that no longer match the current Python normalizer or ownership rules
+
+Useful review principles:
+
+- category and subcategory should describe the item type, not a material, pattern, ornament, or structure token unless that concept is clearly the whole item class
+- prefer one long-term owner field per concept whenever the same word can appear under multiple fields
+- do not backfill a new term until ownership and synonym collapse are settled
+- low-frequency tokens are review targets, not automatic deletions
+- when a live row is stale under the current normalizer, treat that as a targeted cleanup batch, not as evidence that tracker terms should expand again
+
+Useful outputs from an LLM review:
+
+- accepted new canonical tokens
+- alias or ownership changes to add in `gongeo.us-image-search`
+- specific stale item IDs that need a refresh-only or override-backed republish
+- doc or checklist improvements for the next maintainer pass
+
 ## Review-First Workflow
 
 For a normal search-artifact update, the main maintainer workflow is:
@@ -182,6 +209,59 @@ node scripts/sync-item-search-terms-from-attributes.mjs --dry-run --item-attribu
 10. Publish from tracker to Supabase and Pinecone.
 
 This review/collapse/backfill/localization loop is the default workflow. Treat it as the normal path, not a special cleanup path.
+
+## Historical Index Audit
+
+Use this when you need to review the current published local mirror, not just a fresh extraction artifact.
+
+Audit the tracker-owned local copy against the current image-search normalizer:
+
+```powershell
+@'
+import json
+import sys
+from pathlib import Path
+
+tracker_index = Path(r'C:\Users\dastrokes\Dev\git\gongeo.us-nikki-tracker\data\item-search\generated\supabase\item-attributes.jsonl')
+sys.path.insert(0, r'C:\Users\dastrokes\Dev\git\gongeo.us-image-search\src')
+
+from pipeline.extraction import VisionStructuredExtractor
+
+rows = [json.loads(line) for line in tracker_index.read_text(encoding='utf-8').splitlines() if line.strip()]
+
+def compact(payload: dict[str, object]) -> dict[str, object]:
+    compacted: dict[str, object] = {}
+    for key, value in payload.items():
+        if value is None:
+            continue
+        if isinstance(value, list) and not value:
+            continue
+        compacted[key] = value
+    return compacted
+
+for row in rows:
+    current = {
+        'category': row.get('category'),
+        'subcategory': row.get('subcategory'),
+        **(row.get('metadata') or {}),
+    }
+    normalized = compact(
+        VisionStructuredExtractor.normalize_payload(row['item_type'], current)
+    )
+    current = compact(current)
+    if normalized != current:
+        print(row['item_id'], row['item_type'])
+        print(' current   ', json.dumps(current, ensure_ascii=False, sort_keys=True))
+        print(' normalized', json.dumps(normalized, ensure_ascii=False, sort_keys=True))
+@ | python -
+```
+
+Interpretation:
+
+- if the local mirror differs from the current normalizer, those rows are stale under today's rules
+- if the difference is only ownership or synonym collapse, prefer a targeted refresh-only or override-backed republish
+- if the difference reflects a better canonical term set, update the Python normalizer first, then rebuild and republish the affected IDs
+- do not expand tracker terms just to preserve historical stale rows
 
 Tracker-side preparation:
 

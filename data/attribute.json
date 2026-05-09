@@ -687,6 +687,11 @@
   {
     "field": "ornament",
     "itemType": null,
+    "value": "cage"
+  },
+  {
+    "field": "ornament",
+    "itemType": null,
     "value": "cat_ears"
   },
   {
@@ -1673,11 +1678,6 @@
     "field": "structure",
     "itemType": null,
     "value": "cable_knit"
-  },
-  {
-    "field": "structure",
-    "itemType": null,
-    "value": "cage"
   },
   {
     "field": "structure",

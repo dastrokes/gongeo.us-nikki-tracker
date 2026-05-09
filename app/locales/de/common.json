@@ -73,8 +73,8 @@
     "view_compendium": "Kompendium ansehen",
     "keys": {
       "enter": "Eingabe",
-      "esc": "Esc",
-      "shift": "Umschalt"
+      "shift": "Umschalttaste",
+      "esc": "Esc"
     }
   },
   "navigation": {
@@ -125,7 +125,7 @@
       "items": "Durchsuche alle Infinity Nikki Stücke mit Filtern nach Slot, Qualität, Status-Boni und verwandten Outfits oder Bannern. Finde, vergleiche und verfolge jedes Stück ganz leicht.",
       "item_detail": "Schau dir detaillierte Informationen über das Stück {name} an, einschließlich Qualität, Evolution und Verschönerung, Statuswerten und verwandter Outfits und Bannern.",
       "search": "Entdecke die einzigartigen Suchmöglichkeiten von Infinity Nikki via Wunder-Suche. Finde Stücke und Outfits mit natürlicher Sprache, Stil-Tags und semantischen Attributen.",
-      "random": "Ziehe mit dem Wunder-O-Mat ein zufälliges Infinity Nikki-Stück. Füge optionale Hinweise oder Filter hinzu, entdecke Überraschungen und öffne die Details im Kompendium.",
+      "random": "Roll a random Infinity Nikki item with Whim-O-Matic. Add optional hints or filters, discover surprise pieces, and jump into compendium details.",
       "faq": "Finde die Antworten auf häufig gestellte Fragen über gongeo.us, einschließlich Datenschutz, Importmethoden und Nutzungsrichtlinien.",
       "about": "Lerne mehr über gongeo.us, einschließlich seiner Zwecke, Datenschutzrichtlinien, Haftungsausschlüsse und wie es die Infinity Nikki Community unterstützt.",
       "stats": "Schau dir deine persönlichen Infinity Nikki Resonanz-Statistiken, Glücksanalyse, Serien und Resonanz-Aktivität an."
@@ -791,16 +791,7 @@
     "mode_search_description": "Stück nach Details finden",
     "mode_random_description": "Überraschung ziehen",
     "no_matches": "Keine Treffer",
-    "match_score": "{score}% Treffer",
-    "random_placeholder": "Hinweis hinzufügen oder überraschen lassen",
-    "search_action": "Suche",
-    "filters_title": "Suchfilter",
-    "find_similar": "Ähnliche finden",
-    "similar_prefix": "Ähnlich",
-    "lucky_machine_title": "Wunder-O-Mat",
-    "lucky_pull_action": "Ziehen",
-    "mode_search_description": "Gegenstände nach Details finden",
-    "mode_random_description": "Eine Überraschung ziehen"
+    "match_score": "{score}% Treffer"
   },
   "feedback": {
     "queue_title": "Feedback-Prüfung",

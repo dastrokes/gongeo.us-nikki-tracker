@@ -73,7 +73,7 @@
     "view_compendium": "Voir le compendium",
     "keys": {
       "enter": "Entrée",
-      "shift": "Shift",
+      "shift": "Maj",
       "esc": "ÉCHAP"
     }
   },
@@ -125,7 +125,7 @@
       "items": "Parcourez tous les articles Infinity Nikki avec des filtres par emplacement, qualité, bonus de statistiques et tenues ou bannières associées. Trouvez, comparez et suivez facilement chaque article.",
       "item_detail": "Affichez des informations détaillées sur l'objet {name}, notamment sa qualité, son évolution et son éclat, ses statistiques, ainsi que les tenues et bannières associées.",
       "search": "Découvrez les capacités de recherche uniques d'Infinity Nikki avec la Recherche de Caprices. Trouvez des articles et des tenues en utilisant le langage naturel, les étiquettes de style et les attributs sémantiques.",
-      "random": "Roll a random Infinity Nikki item with Whim-O-Matic. Add optional hints or filters, discover surprise pieces, and jump into compendium details.",
+      "random": "Tirez un article aléatoire d'Infinity Nikki avec Chic-o-matic. Ajoutez des indices ou filtres optionnels, découvrez des pièces surprise et ouvrez leurs détails dans le compendium.",
       "faq": "Trouvez des réponses aux questions fréquemment posées sur gongeo.us, notamment sur la confidentialité des données, les méthodes d'importation et les directives d'utilisation.",
       "about": "Apprenez-en davantage sur gongeo.us, y compris son objectif, sa politique de confidentialité, ses clauses de non-responsabilité et la manière dont il prend en charge la communauté Infinity Nikki.",
       "stats": "Consultez vos statistiques personnelles de pulls de résonance Infinity Nikki, l'analyse de chance, les séries et l'activité de pulls."
@@ -778,18 +778,18 @@
   "search_page": {
     "title": "Recherche de chimères",
     "placeholder": "Essaye '{example}'",
-    "random_placeholder": "Add a hint or surprise me",
-    "search_action": "Search",
+    "random_placeholder": "Ajouter un indice ou me surprendre",
+    "search_action": "Rechercher",
     "clear_query": "Effacer la recherche",
     "close_details": "Fermer les détails",
-    "filters_title": "Search filters",
-    "find_similar": "Find Similar",
-    "similar_prefix": "Similar",
+    "filters_title": "Filtres de recherche",
+    "find_similar": "Trouver des similaires",
+    "similar_prefix": "Similaire",
     "error_description": "Échec de la requête à l'index de recherche.",
-    "lucky_machine_title": "Whim-O-Matic",
-    "lucky_pull_action": "Pull",
-    "mode_search_description": "Find items by detail",
-    "mode_random_description": "Pull a surprise",
+    "lucky_machine_title": "Chic-o-matic",
+    "lucky_pull_action": "Tirer",
+    "mode_search_description": "Trouver des objets par détail",
+    "mode_random_description": "Tirer une surprise",
     "no_matches": "Aucun résultat",
     "match_score": "{score}% de correspondance"
   },

@@ -73,8 +73,8 @@
     "view_compendium": "Ver compendio",
     "keys": {
       "enter": "Enter",
-      "esc": "ESC",
-      "shift": "Mayús"
+      "shift": "Shift",
+      "esc": "ESC"
     }
   },
   "navigation": {
@@ -125,7 +125,7 @@
       "items": "Explore todos los artículos Infinity Nikki con filtros por ranura, calidad, bonificaciones de estadísticas y atuendos o banners relacionados. Encuentre, compare y rastree cada artículo fácilmente.",
       "item_detail": "Vea información detallada sobre el artículo {name}, incluida la calidad, la evolución y el brillo, las estadísticas y los atuendos y banners relacionados.",
       "search": "Descubre las capacidades de búsqueda únicas de Infinity Nikki con la Búsqueda de Caprichos. Encuentra artículos y atuendos usando lenguaje natural, etiquetas de estilo y atributos semánticos.",
-      "random": "Saca un artículo aleatorio de Infinity Nikki con Maravie-O-Matic. Añade pistas o filtros opcionales, descubre piezas sorpresa y abre sus detalles en el compendio.",
+      "random": "Roll a random Infinity Nikki item with Whim-O-Matic. Add optional hints or filters, discover surprise pieces, and jump into compendium details.",
       "faq": "Encuentra respuestas a las preguntas más frecuentes sobre gongeo.us, incluyendo privacidad de datos, métodos de importación y pautas de uso.",
       "about": "Obtenga más información sobre gongeo.us, incluido su propósito, política de privacidad, exenciones de responsabilidad y cómo apoya a la comunidad Infinity Nikki.",
       "stats": "Ve tus estadísticas personales de pulls de resonancia de Infinity Nikki, análisis de suerte, rachas y actividad de pulls."
@@ -791,16 +791,7 @@
     "mode_search_description": "Find items by detail",
     "mode_random_description": "Pull a surprise",
     "no_matches": "Sin coincidencias",
-    "match_score": "{score}% de coincidencia",
-    "random_placeholder": "Añadir una pista o darme una sorpresa",
-    "search_action": "Buscar",
-    "filters_title": "Filtros de búsqueda",
-    "find_similar": "Buscar similares",
-    "similar_prefix": "Similar",
-    "lucky_machine_title": "Maravie-O-Matic",
-    "lucky_pull_action": "Tirar",
-    "mode_search_description": "Buscar objetos por detalle",
-    "mode_random_description": "Sacar una sorpresa"
+    "match_score": "{score}% de coincidencia"
   },
   "feedback": {
     "queue_title": "Revisión de comentarios",

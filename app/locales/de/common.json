@@ -73,8 +73,8 @@
     "view_compendium": "Kompendium ansehen",
     "keys": {
       "enter": "Eingabe",
-      "esc": "Esc",
-      "shift": "Umschalt"
+      "shift": "Umschalttaste",
+      "esc": "Esc"
     }
   },
   "navigation": {
@@ -791,16 +791,7 @@
     "mode_search_description": "Stück nach Details finden",
     "mode_random_description": "Überraschung ziehen",
     "no_matches": "Keine Treffer",
-    "match_score": "{score}% Treffer",
-    "random_placeholder": "Hinweis hinzufügen oder überraschen lassen",
-    "search_action": "Suche",
-    "filters_title": "Suchfilter",
-    "find_similar": "Ähnliche finden",
-    "similar_prefix": "Ähnlich",
-    "lucky_machine_title": "Wunder-O-Mat",
-    "lucky_pull_action": "Ziehen",
-    "mode_search_description": "Gegenstände nach Details finden",
-    "mode_random_description": "Eine Überraschung ziehen"
+    "match_score": "{score}% Treffer"
   },
   "feedback": {
     "queue_title": "Feedback-Prüfung",

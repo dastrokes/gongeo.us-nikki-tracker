@@ -1877,16 +1877,28 @@
         draftSourceFilter.value,
       ].filter((value) => value !== null && value !== '').length
   )
+  const seoPageTitle = computed(() =>
+    isRandomMode.value
+      ? t('search_page.lucky_machine_title')
+      : t('search_page.title')
+  )
+  const seoDescription = computed(() =>
+    isRandomMode.value
+      ? t('meta.description.random')
+      : t('meta.description.search')
+  )
+  const seoTitle = computed(
+    () =>
+      `${seoPageTitle.value} - ${t('meta.game_title')} - ${t('navigation.title')}`
+  )
+
   useSeoMeta({
-    title: () =>
-      `${t('search_page.title')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
-    description: () => t('meta.description.search'),
-    ogTitle: () =>
-      `${t('search_page.title')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
-    ogDescription: () => t('meta.description.search'),
-    twitterTitle: () =>
-      `${t('search_page.title')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
-    twitterDescription: () => t('meta.description.search'),
+    title: () => seoTitle.value,
+    description: () => seoDescription.value,
+    ogTitle: () => seoTitle.value,
+    ogDescription: () => seoDescription.value,
+    twitterTitle: () => seoTitle.value,
+    twitterDescription: () => seoDescription.value,
   })
 
   const getResolvedItemType = (

@@ -1228,6 +1228,13 @@
   const themeVars = useThemeVars()
   const breakpoints = useBreakpoints(breakpointsTailwind)
   const isMobile = computed(() => !breakpoints.greater('sm').value)
+
+  // Helper to check if current locale uses CJK characters
+  const isCJKLocale = computed(() => {
+    const cjkLocales = ['zh', 'tw', 'ja', 'ko']
+    return cjkLocales.includes(locale.value)
+  })
+
   const generatedDateLabel = ref('')
   const localDataSource = useDataSource()
   const effectiveDataSource = computed({
@@ -2131,7 +2138,16 @@
         },
         axisLabel: {
           ...textStyle,
-          rotate: isMobile.value ? 90 : 30,
+          margin: 12,
+          rotate:
+            isMobile.value && !isCJKLocale.value ? 90 : isMobile.value ? 0 : 30,
+          formatter: (value: string) => {
+            // For CJK languages on mobile, split characters with newlines
+            if (isMobile.value && isCJKLocale.value) {
+              return value.split('').join('\n')
+            }
+            return value
+          },
         },
       },
       yAxis: [

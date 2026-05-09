@@ -442,6 +442,11 @@
   {
     "field": "material",
     "itemType": null,
+    "value": "paper"
+  },
+  {
+    "field": "material",
+    "itemType": null,
     "value": "pearl"
   },
   {
@@ -637,6 +642,11 @@
   {
     "field": "ornament",
     "itemType": null,
+    "value": "bookmark"
+  },
+  {
+    "field": "ornament",
+    "itemType": null,
     "value": "bow"
   },
   {
@@ -698,6 +708,11 @@
     "field": "ornament",
     "itemType": null,
     "value": "cherry"
+  },
+  {
+    "field": "ornament",
+    "itemType": null,
+    "value": "clasp"
   },
   {
     "field": "ornament",
@@ -877,6 +892,11 @@
   {
     "field": "ornament",
     "itemType": null,
+    "value": "life_buoy"
+  },
+  {
+    "field": "ornament",
+    "itemType": null,
     "value": "light_bulb"
   },
   {
@@ -992,12 +1012,22 @@
   {
     "field": "ornament",
     "itemType": null,
+    "value": "screw"
+  },
+  {
+    "field": "ornament",
+    "itemType": null,
     "value": "sequin"
   },
   {
     "field": "ornament",
     "itemType": null,
     "value": "shell"
+  },
+  {
+    "field": "ornament",
+    "itemType": null,
+    "value": "snowflake"
   },
   {
     "field": "ornament",
@@ -1357,11 +1387,6 @@
   {
     "field": "pattern",
     "itemType": null,
-    "value": "snowflake"
-  },
-  {
-    "field": "pattern",
-    "itemType": null,
     "value": "solid"
   },
   {
@@ -1647,6 +1672,11 @@
   {
     "field": "structure",
     "itemType": null,
+    "value": "bristled"
+  },
+  {
+    "field": "structure",
+    "itemType": null,
     "value": "cable_knit"
   },
   {
@@ -1708,11 +1738,6 @@
     "field": "structure",
     "itemType": null,
     "value": "faceted"
-  },
-  {
-    "field": "structure",
-    "itemType": null,
-    "value": "filigree"
   },
   {
     "field": "structure",
@@ -3248,6 +3273,11 @@
     "field": "subcategory",
     "itemType": "handhelds",
     "value": "sword"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "handhelds",
+    "value": "tambourine"
   },
   {
     "field": "subcategory",

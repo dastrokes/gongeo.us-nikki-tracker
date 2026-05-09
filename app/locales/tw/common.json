@@ -73,8 +73,8 @@
     "view_compendium": "查看圖鑑",
     "keys": {
       "enter": "回車",
-      "esc": "ESC",
-      "shift": "Shift"
+      "shift": "Shift",
+      "esc": "ESC"
     }
   },
   "navigation": {
@@ -125,7 +125,7 @@
       "items": "瀏覽所有無限暖暖物品，支援依物品部位、品質、屬性加成，以及所屬套裝或卡池進行進階篩選，輕鬆查找並比較遊戲中的所有物品。",
       "item_detail": "查看 {name} 物品的詳細資訊，包括品質、進化與煥新、屬性效果，以及相關的套裝與卡池。",
       "search": "使用奇想搜尋，通過自然語言、款式標籤和屬性精準查找無限暖暖部件。",
-      "random": "使用奇想滾滾機隨機抽取無限暖暖部件。可加入提示或篩選條件，發現驚喜部件並前往圖鑑查看詳情。",
+      "random": "Roll a random Infinity Nikki item with Whim-O-Matic. Add optional hints or filters, discover surprise pieces, and jump into compendium details.",
       "faq": "檢視關於暖暖共鳴錄的常見問題解答，包括資料隱私、匯入方式和使用指南等資訊。",
       "about": "瞭解暖暖共鳴錄的相關資訊，包括免責宣告、隱私政策等資訊。",
       "stats": "查看你的無限暖暖個人共鳴抽卡統計、運氣分析、連抽記錄和抽卡活動。"
@@ -791,16 +791,7 @@
     "mode_search_description": "Find items by detail",
     "mode_random_description": "Pull a surprise",
     "no_matches": "沒有符合結果",
-    "match_score": "匹配度 {score}%",
-    "random_placeholder": "添加提示或給我驚喜",
-    "search_action": "搜尋",
-    "filters_title": "搜尋篩選",
-    "find_similar": "查找相似",
-    "similar_prefix": "相似",
-    "lucky_machine_title": "奇想滾滾機",
-    "lucky_pull_action": "抽取",
-    "mode_search_description": "按細節查找物品",
-    "mode_random_description": "抽一份驚喜"
+    "match_score": "匹配度 {score}%"
   },
   "feedback": {
     "queue_title": "回饋審核",

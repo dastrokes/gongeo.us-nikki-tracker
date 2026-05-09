@@ -48,6 +48,7 @@ export const ITEM_SEARCH_SUBCATEGORY_PARENT_BY_TYPE = {
     spellbook: 'book',
     suitcase: 'handbag',
     sword: 'weapon',
+    tambourine: 'instrument',
     violin: 'instrument',
     watering_can: 'tool',
   },

@@ -73,8 +73,8 @@
     "view_compendium": "Ver compendio",
     "keys": {
       "enter": "Enter",
-      "esc": "ESC",
-      "shift": "Mayús"
+      "shift": "Mayús",
+      "esc": "ESC"
     }
   },
   "navigation": {
@@ -778,29 +778,20 @@
   "search_page": {
     "title": "Búsqueda de caprichos",
     "placeholder": "Prueba '{example}'",
-    "random_placeholder": "Add a hint or surprise me",
-    "search_action": "Search",
-    "clear_query": "Borrar búsqueda",
-    "close_details": "Cerrar detalles",
-    "filters_title": "Search filters",
-    "find_similar": "Find Similar",
-    "similar_prefix": "Similar",
-    "error_description": "No se pudo consultar el índice de búsqueda.",
-    "lucky_machine_title": "Whim-O-Matic",
-    "lucky_pull_action": "Pull",
-    "mode_search_description": "Find items by detail",
-    "mode_random_description": "Pull a surprise",
-    "no_matches": "Sin coincidencias",
-    "match_score": "{score}% de coincidencia",
     "random_placeholder": "Añadir una pista o darme una sorpresa",
     "search_action": "Buscar",
+    "clear_query": "Borrar búsqueda",
+    "close_details": "Cerrar detalles",
     "filters_title": "Filtros de búsqueda",
     "find_similar": "Buscar similares",
     "similar_prefix": "Similar",
+    "error_description": "No se pudo consultar el índice de búsqueda.",
     "lucky_machine_title": "Maravie-O-Matic",
     "lucky_pull_action": "Tirar",
     "mode_search_description": "Buscar objetos por detalle",
-    "mode_random_description": "Sacar una sorpresa"
+    "mode_random_description": "Sacar una sorpresa",
+    "no_matches": "Sin coincidencias",
+    "match_score": "{score}% de coincidencia"
   },
   "feedback": {
     "queue_title": "Revisión de comentarios",

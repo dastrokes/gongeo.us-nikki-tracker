@@ -73,7 +73,7 @@
     "view_compendium": "Vedi compendio",
     "keys": {
       "enter": "Invio",
-      "shift": "Shift",
+      "shift": "Maiusc",
       "esc": "ESC"
     }
   },
@@ -125,7 +125,7 @@
       "items": "Sfoglia tutti gli oggetti Infinity Nikki con filtri per slot, qualità, bonus statistiche e relativi abiti o banner. Trova, confronta e monitora facilmente ogni articolo.",
       "item_detail": "Visualizza informazioni dettagliate sull'oggetto {name}, inclusi qualità, evoluzione e luminosità, statistiche e relativi abiti e stendardi.",
       "search": "Scopri le straordinarie capacità di ricerca di Infinity Nikki con la Ricerca dei Capricci. Trova articoli e outfit utilizzando il linguaggio naturale, i tag di stile e gli attributi semantici.",
-      "random": "Roll a random Infinity Nikki item with Whim-O-Matic. Add optional hints or filters, discover surprise pieces, and jump into compendium details.",
+      "random": "Estrai un articolo casuale di Infinity Nikki con Estromatic. Aggiungi indizi o filtri opzionali, scopri pezzi a sorpresa e apri i dettagli nel compendio.",
       "faq": "Trovate le risposte alle domande più frequenti su gongeo.us, tra cui la privacy dei dati, i metodi di importazione e le linee guida per l'uso.",
       "about": "Scopri di più su gongeo.us, incluso il suo scopo, l'informativa sulla privacy, le dichiarazioni di non responsabilità e il modo in cui supporta la comunità Infinity Nikki.",
       "stats": "Visualizza le tue statistiche personali di pull di risonanza di Infinity Nikki, analisi della fortuna, serie e attività di pull."
@@ -778,18 +778,18 @@
   "search_page": {
     "title": "Ricerca dei capricci",
     "placeholder": "Prova '{example}'",
-    "random_placeholder": "Add a hint or surprise me",
-    "search_action": "Search",
+    "random_placeholder": "Aggiungi un indizio o fammi una sorpresa",
+    "search_action": "Cerca",
     "clear_query": "Cancella ricerca",
     "close_details": "Chiudi dettagli",
-    "filters_title": "Search filters",
-    "find_similar": "Find Similar",
-    "similar_prefix": "Similar",
+    "filters_title": "Filtri di ricerca",
+    "find_similar": "Trova simili",
+    "similar_prefix": "Simile",
     "error_description": "Impossibile interrogare l'indice di ricerca.",
-    "lucky_machine_title": "Whim-O-Matic",
-    "lucky_pull_action": "Pull",
-    "mode_search_description": "Find items by detail",
-    "mode_random_description": "Pull a surprise",
+    "lucky_machine_title": "Estromatic",
+    "lucky_pull_action": "Tira",
+    "mode_search_description": "Trova oggetti per dettaglio",
+    "mode_random_description": "Pesca una sorpresa",
     "no_matches": "Nessuna corrispondenza",
     "match_score": "{score}% di corrispondenza"
   },

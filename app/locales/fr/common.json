@@ -73,8 +73,8 @@
     "view_compendium": "Voir le compendium",
     "keys": {
       "enter": "Entrée",
-      "esc": "ÉCHAP",
-      "shift": "Maj"
+      "shift": "Shift",
+      "esc": "ÉCHAP"
     }
   },
   "navigation": {
@@ -125,7 +125,7 @@
       "items": "Parcourez tous les articles Infinity Nikki avec des filtres par emplacement, qualité, bonus de statistiques et tenues ou bannières associées. Trouvez, comparez et suivez facilement chaque article.",
       "item_detail": "Affichez des informations détaillées sur l'objet {name}, notamment sa qualité, son évolution et son éclat, ses statistiques, ainsi que les tenues et bannières associées.",
       "search": "Découvrez les capacités de recherche uniques d'Infinity Nikki avec la Recherche de Caprices. Trouvez des articles et des tenues en utilisant le langage naturel, les étiquettes de style et les attributs sémantiques.",
-      "random": "Tirez un article aléatoire d'Infinity Nikki avec Chic-o-matic. Ajoutez des indices ou filtres optionnels, découvrez des pièces surprise et ouvrez leurs détails dans le compendium.",
+      "random": "Roll a random Infinity Nikki item with Whim-O-Matic. Add optional hints or filters, discover surprise pieces, and jump into compendium details.",
       "faq": "Trouvez des réponses aux questions fréquemment posées sur gongeo.us, notamment sur la confidentialité des données, les méthodes d'importation et les directives d'utilisation.",
       "about": "Apprenez-en davantage sur gongeo.us, y compris son objectif, sa politique de confidentialité, ses clauses de non-responsabilité et la manière dont il prend en charge la communauté Infinity Nikki.",
       "stats": "Consultez vos statistiques personnelles de pulls de résonance Infinity Nikki, l'analyse de chance, les séries et l'activité de pulls."
@@ -791,16 +791,7 @@
     "mode_search_description": "Find items by detail",
     "mode_random_description": "Pull a surprise",
     "no_matches": "Aucun résultat",
-    "match_score": "{score}% de correspondance",
-    "random_placeholder": "Ajouter un indice ou me surprendre",
-    "search_action": "Rechercher",
-    "filters_title": "Filtres de recherche",
-    "find_similar": "Trouver des similaires",
-    "similar_prefix": "Similaire",
-    "lucky_machine_title": "Chic-o-matic",
-    "lucky_pull_action": "Tirer",
-    "mode_search_description": "Trouver des objets par détail",
-    "mode_random_description": "Tirer une surprise"
+    "match_score": "{score}% de correspondance"
   },
   "feedback": {
     "queue_title": "Révision des commentaires",

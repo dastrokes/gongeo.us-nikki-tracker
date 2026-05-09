@@ -214,12 +214,12 @@
               </div>
               <!-- Mini Results Grid (Item Cards) -->
               <div
-                class="grid h-[60%] shrink-0 grid-cols-6 gap-1.5 opacity-70 mix-blend-multiply dark:opacity-80 dark:mix-blend-normal"
+                class="grid h-[60%] shrink-0 grid-cols-6 gap-1.5 opacity-70 dark:opacity-80"
               >
                 <div
                   v-for="index in 18"
                   :key="`mini-result-${index}`"
-                  class="aspect-3/4 rounded-[3px] shadow-xs"
+                  class="h-6 w-4 rounded-[3px] shadow-xs"
                   :class="
                     ['bg-amber-500/80', 'bg-sky-500/80', 'bg-slate-500/80'][
                       (index - 1) % 3
@@ -251,10 +251,6 @@
             >
               <GachaponMachineSvg class="h-full w-full drop-shadow-sm" />
             </div>
-
-            <div
-              class="absolute inset-x-0 bottom-0 h-16 bg-linear-to-t from-white/90 via-white/50 to-transparent dark:from-slate-900/90 dark:via-slate-900/50"
-            ></div>
 
             <div class="absolute right-2 bottom-2 left-2 z-10">
               <div
@@ -307,7 +303,7 @@
             :to="'/quiz'"
           >
             <div
-              class="aspect-2/3 h-full shrink-0 p-1 transition-transform duration-500 group-hover:-translate-y-1 group-hover:scale-105"
+              class="mb-4 aspect-2/3 h-full shrink-0 p-1 transition-transform duration-500 group-hover:-translate-y-1 group-hover:scale-105"
             >
               <NuxtImg
                 :src="getImageSrc('outfit', featuredOutfitId)"

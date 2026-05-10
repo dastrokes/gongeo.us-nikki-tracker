@@ -52,7 +52,9 @@ export const useSupabaseItems = () => {
    * @param id - The item ID to fetch
    * @returns Promise resolving to item with outfits or null if not found
    */
-  const fetchItemById = async (id: number): Promise<ItemWithOutfits | null> => {
+  const fetchItemById = async (
+    id: number
+  ): Promise<ItemWithOutfits | null> => {
     loading.value = true
     error.value = null
 
@@ -177,6 +179,33 @@ export const useSupabaseItems = () => {
     }
   }
 
+  const fetchFullMakeupsPaginated = async (
+    filters: Pick<ItemFilters, 'page'> = {}
+  ): Promise<PaginatedItemsResponse> => {
+    loading.value = true
+    error.value = null
+    const page = filters.page ?? 1
+
+    try {
+      return await $fetch<PaginatedItemsResponse>('/api/items/makeups', {
+        params: { page },
+        headers: gameVersionHeader,
+      })
+    } catch (e) {
+      const normalizedError = toError(e, 'Failed to fetch full makeups')
+      error.value = normalizedError
+      console.error(`Failed to fetch full makeups: ${normalizedError.message}`)
+      return {
+        data: [],
+        total: 0,
+        page,
+        totalPages: 0,
+      }
+    } finally {
+      loading.value = false
+    }
+  }
+
   const fetchItemSearchFacets = async (
     filters: ItemFilters = {}
   ): Promise<ItemSearchFacetResponse> => {
@@ -254,6 +283,7 @@ export const useSupabaseItems = () => {
     error,
     fetchItemById,
     fetchItemsPaginated,
+    fetchFullMakeupsPaginated,
     fetchItemSearchFacets,
   }
 }

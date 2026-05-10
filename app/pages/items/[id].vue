@@ -104,15 +104,21 @@
                   :style="getQualityOverlayStyle(item.quality)"
                 ></div>
                 <NuxtImg
-                  :src="getImageSrc(showIcon ? 'itemIcon' : 'item', item.id)"
+                  :src="
+                    isFullMakeup
+                      ? getImageSrc('fullMakeup', item.id)
+                      : getImageSrc(showIcon ? 'itemIcon' : 'item', item.id)
+                  "
                   :alt="itemName"
                   class="absolute inset-0 z-10 h-full w-full transition-all duration-300"
                   :class="
-                    showIcon
+                    isFullMakeup
+                      ? 'object-cover group-hover:scale-110'
+                      : showIcon
                       ? 'object-contain p-8'
                       : 'object-cover group-hover:scale-110'
                   "
-                  :preset="showIcon ? 'iconLg' : 'tallLg'"
+                  :preset="!isFullMakeup && showIcon ? 'iconLg' : 'tallLg'"
                   fit="cover"
                   loading="eager"
                   sizes="200px"
@@ -120,6 +126,7 @@
 
                 <!-- Toggle Button -->
                 <div
+                  v-if="!isFullMakeup"
                   class="absolute top-2 right-2 z-30 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
                 >
                   <button
@@ -632,6 +639,46 @@
 <script setup lang="ts">
   import { CaretDown, CaretUp, Star, Images } from '@vicons/fa'
 
+  type DetailItem = {
+    id: number
+    quality: number
+    type: string
+  }
+
+  type DetailOutfit = {
+    id: number
+    quality: number
+    outfit_items?: Array<{
+      items: DetailItem
+    }>
+  }
+
+  type FullMakeupDetail = {
+    kind: 'fullMakeup'
+    id: number
+    quality: number
+    type: 'fullMakeup'
+    props?: Array<number | string> | null
+    style_key?: string | null
+    tags?: Array<number | string> | null
+    obtain_type?: number | null
+    description?: string
+    full_makeup_items?: Array<{
+      slot_order: number
+      items: DetailItem
+    }>
+    full_makeup_outfits?: Array<{
+      outfits: DetailOutfit
+    }>
+  }
+
+  type OutfitItemSet = {
+    id: number
+    name: string
+    outfitItems: DetailItem[]
+    makeupItems: DetailItem[]
+  }
+
   const { t, te, locale } = useI18n()
   const localePath = useLocalePath()
   const route = useRoute()
@@ -669,10 +716,22 @@
     applyPageCacheHeaders(requestEvent, 'noStore')
   }
 
+  const isFullMakeup = computed(
+    () => (item.value as { kind?: string } | null)?.kind === 'fullMakeup'
+  )
+
   // Computed related outfits with names from i18n
   const relatedOutfits = computed(() => {
-    if (!item.value?.outfit_items) return []
-    return item.value.outfit_items.map((sc) => ({
+    if (!item.value) return []
+    if (isFullMakeup.value) {
+      const fullMakeup = item.value as unknown as FullMakeupDetail
+      return (fullMakeup.full_makeup_outfits || []).map((sc) => ({
+        ...sc.outfits,
+        name: t(`outfit.${sc.outfits.id}.name`),
+      }))
+    }
+
+    return ((item.value as ItemWithOutfits).outfit_items || []).map((sc) => ({
       ...sc.outfits,
       name: t(`outfit.${sc.outfits.id}.name`),
     }))
@@ -683,8 +742,13 @@
   )
 
   const relatedOutfit = computed(() => {
-    const outfits =
-      item.value?.outfit_items?.map((entry) => entry.outfits) ?? []
+    const outfits = isFullMakeup.value
+      ? ((item.value as unknown as FullMakeupDetail | null)
+          ?.full_makeup_outfits || []
+        ).map((entry) => entry.outfits)
+      : ((item.value as ItemWithOutfits | null)?.outfit_items || []).map(
+          (entry) => entry.outfits
+        )
     if (!outfits.length) return null
     const baseId = baseOutfitId.value
     if (Number.isFinite(baseId)) {
@@ -708,7 +772,24 @@
   const resolveItemType = (item: { id: number; type?: string }) =>
     item.type ? getItemType(item.type) : getItemType(item.id)
 
-  const outfitItemSets = computed(() => {
+  const outfitItemSets = computed<OutfitItemSet[]>(() => {
+    if (isFullMakeup.value) {
+      const fullMakeup = item.value as unknown as FullMakeupDetail | null
+      const makeupItems = sortItemsByCategory(
+        (fullMakeup?.full_makeup_items || []).map((entry) => entry.items)
+      )
+      return makeupItems.length
+        ? [
+            {
+              id: itemId.value,
+              name: itemName.value,
+              outfitItems: [],
+              makeupItems,
+            },
+          ]
+        : []
+    }
+
     const outfit = relatedOutfit.value
     if (!outfit?.outfit_items?.length) return []
     const allItems = outfit.outfit_items.map((entry) => entry.items)
@@ -807,11 +888,13 @@
   // Get item type
   const itemType = computed(() => {
     if (!item.value) return 'unknown'
+    if (isFullMakeup.value) return 'fullMakeup'
     return item.value.type
       ? getItemType(item.value.type)
       : getItemType(item.value.id)
   })
   const itemTypeListLocation = computed(() => {
+    if (isFullMakeup.value) return '/items/makeups'
     const slug = resolveSeoItemTypeSlug(itemType.value)
     return slug
       ? `/items/${slug}`
@@ -853,12 +936,17 @@
         }
   }
   const itemSearchMetadata = computed(() =>
-    getItemSearchMetadataFromAttributes(item.value?.item_attributes ?? null)
+    getItemSearchMetadataFromAttributes(
+      isFullMakeup.value
+        ? null
+        : ((item.value as ItemWithOutfits | null)?.item_attributes ?? null)
+    )
   )
   const supportsItemFeedback = computed(
     () =>
+      !isFullMakeup.value &&
       Boolean(itemSearchMetadata.value) &&
-      isSupportedItemSearchItemType(itemType.value)
+      isSupportedItemSearchItemType(itemType.value as ItemType)
   )
 
   const isMakeupItem = computed(() => makeupTypes.includes(itemType.value))
@@ -890,12 +978,15 @@
   // Get item name from i18n
   const itemName = computed(() => {
     if (!item.value) return ''
+    if (isFullMakeup.value) return t(`full_makeup.${itemId.value}.name`)
     return t(`item.${itemId.value}.name`)
   })
 
   const itemVersion = computed(() => {
     if (!item.value) return null
-    const obtainType = (item.value as ItemWithOutfits).obtain_type
+    const obtainType = (
+      item.value as ItemWithOutfits | (FullMakeupDetail & { obtain_type?: number | null })
+    ).obtain_type
     return getVersionFromId(obtainType)
   })
 
@@ -919,7 +1010,9 @@
 
   const itemObtainType = computed(() => {
     if (!item.value) return null
-    return (item.value as ItemWithOutfits).obtain_type
+    return (
+      item.value as ItemWithOutfits | (FullMakeupDetail & { obtain_type?: number | null })
+    ).obtain_type
   })
 
   const itemObtainLabel = computed(() => {
@@ -987,7 +1080,7 @@
   })
 
   const showStyleScores = computed(
-    () => !isMakeupItem.value && styleScores.value.length > 0
+    () => !isFullMakeup.value && !isMakeupItem.value && styleScores.value.length > 0
   )
 
   const itemLabelTags = computed(() => {
@@ -1031,28 +1124,30 @@
 
   // SEO Meta Tags
   const ogItemImage = computed(() =>
-    item.value ? getOgImageSrc('item', item.value.id) : undefined
+    item.value
+      ? getOgImageSrc(isFullMakeup.value ? 'fullMakeup' : 'item', item.value.id)
+      : undefined
   )
 
   useSeoMeta({
     title: () =>
-      `${t(`item.${itemId.value}.name`)} - ${t('navigation.item_detail')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
+      `${itemName.value} - ${t('navigation.item_detail')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     description: () =>
       t('meta.description.item_detail', {
-        name: t(`item.${itemId.value}.name`) || '',
+        name: itemName.value || '',
       }),
     ogTitle: () =>
-      `${t(`item.${itemId.value}.name`)} - ${t('navigation.item_detail')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
+      `${itemName.value} - ${t('navigation.item_detail')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     ogDescription: () =>
       t('meta.description.item_detail', {
-        name: t(`item.${itemId.value}.name`) || '',
+        name: itemName.value || '',
       }),
     ogImage: () => ogItemImage.value,
     twitterTitle: () =>
-      `${t(`item.${itemId.value}.name`)} - ${t('navigation.item_detail')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
+      `${itemName.value} - ${t('navigation.item_detail')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     twitterDescription: () =>
       t('meta.description.item_detail', {
-        name: t(`item.${itemId.value}.name`) || '',
+        name: itemName.value || '',
       }),
     twitterImage: () => ogItemImage.value,
   })

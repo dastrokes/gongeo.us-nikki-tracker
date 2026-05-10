@@ -45,6 +45,44 @@ interface ItemData {
   variations?: Array<{ id: number; quality: number; type: string }>
 }
 
+interface FullMakeupTranslation {
+  description?: string | null
+  language_code?: string | null
+}
+
+interface FullMakeupData {
+  id: number
+  quality: number
+  type: 'fullMakeup'
+  kind: 'fullMakeup'
+  props?: Array<number | string> | null
+  style_key?: string | null
+  tags?: Array<number | string> | null
+  obtain_type?: number | null
+  description?: string
+  full_makeup_items?: Array<{
+    slot_order: number
+    items: {
+      id: number
+      quality: number
+      type: string
+    }
+  }>
+  full_makeup_outfits?: Array<{
+    outfits: {
+      id: number
+      quality: number
+      outfit_items?: Array<{
+        items: {
+          id: number
+          quality: number
+          type: string
+        }
+      }>
+    }
+  }>
+}
+
 interface ItemVariation {
   id: number
   quality: number
@@ -80,6 +118,72 @@ function compactItemSearchMetadata(
   return compactedEntries.length > 0
     ? (Object.fromEntries(compactedEntries) as ItemSearchMetadata)
     : null
+}
+
+async function fetchFullMakeupData(
+  supabase: ReturnType<typeof useSupabaseDataClient>,
+  id: number,
+  languageCode: string | null
+): Promise<FullMakeupData> {
+  const selectQuery = [
+    'id',
+    'quality',
+    'props',
+    'style_key',
+    'tags',
+    'obtain_type',
+    'full_makeup_items(slot_order,items(id,quality,type))',
+    'full_makeup_outfits(outfits(id,quality,outfit_items(items(id,quality,type))))',
+  ].join(',')
+
+  const { data, error } = await withSupabaseRetry(() =>
+    supabase.from('full_makeups').select(selectQuery).eq('id', id).single()
+  )
+
+  if (error) {
+    if (error.code === 'PGRST116') {
+      throw createNotFoundError('item')
+    }
+    throw error
+  }
+
+  const fullMakeupData = {
+    ...(data as Omit<FullMakeupData, 'type' | 'kind'>),
+    type: 'fullMakeup',
+    kind: 'fullMakeup',
+  } satisfies FullMakeupData
+
+  fullMakeupData.full_makeup_items = (
+    fullMakeupData.full_makeup_items ?? []
+  ).sort((a, b) => a.slot_order - b.slot_order)
+
+  if (languageCode) {
+    const translationCodes = Array.from(new Set([languageCode, 'en']))
+    const { data: translationRows, error: translationError } =
+      await withSupabaseRetry(() =>
+        supabase
+          .from('full_makeup_translations')
+          .select('description,language_code')
+          .eq('full_makeup_id', id)
+          .in('language_code', translationCodes)
+      )
+
+    if (translationError) {
+      throw translationError
+    }
+
+    const translations =
+      (translationRows as FullMakeupTranslation[] | null) ?? []
+    const translation = translations.find(
+      (t) => t.language_code === languageCode
+    )
+    const enTranslation = translations.find((t) => t.language_code === 'en')
+
+    fullMakeupData.description =
+      translation?.description || enTranslation?.description || ''
+  }
+
+  return fullMakeupData
 }
 
 /**
@@ -122,7 +226,7 @@ export default defineCachedApiEventHandler(
 
       if (supabaseError) {
         if (supabaseError.code === 'PGRST116') {
-          throw createNotFoundError('item')
+          return await fetchFullMakeupData(supabase, id, languageCode)
         }
         throw supabaseError
       }

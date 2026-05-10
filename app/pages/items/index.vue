@@ -516,8 +516,11 @@
   const { getImageSrc } = imageProvider()
 
   const routeListSlug = computed(() => getSeoListRouteSlug(route.path, 'items'))
+  const isFullMakeupRoute = computed(() => routeListSlug.value === 'makeups')
   const routeItemType = computed(() =>
-    resolveSeoItemTypeFromSlug(routeListSlug.value)
+    isFullMakeupRoute.value
+      ? null
+      : resolveSeoItemTypeFromSlug(routeListSlug.value)
   )
   const routeSeoFilter = computed(() =>
     getSeoListRouteFilter(route.path, 'items')
@@ -822,8 +825,10 @@
         )
       ).length
   )
-  const showTypeFilter = computed(() => true)
-  const supportsCategoryFilters = computed(() => !!typeFilter.value)
+  const showTypeFilter = computed(() => !isFullMakeupRoute.value)
+  const supportsCategoryFilters = computed(
+    () => !isFullMakeupRoute.value && !!typeFilter.value
+  )
   const isCategoryFilterEnabled = computed(
     () =>
       showTypeFilter.value &&
@@ -844,6 +849,7 @@
   )
   const shouldFetchFacets = computed(
     () =>
+      !isFullMakeupRoute.value &&
       Boolean(typeFilter.value) &&
       (!!typeFilter.value || isAdvancedFiltersEnabled.value)
   )
@@ -860,7 +866,11 @@
       activeAdvancedFilterCount.value > 0
   )
 
-  const { fetchItemsPaginated, fetchItemSearchFacets } = useSupabaseItems()
+  const {
+    fetchItemsPaginated,
+    fetchFullMakeupsPaginated,
+    fetchItemSearchFacets,
+  } = useSupabaseItems()
 
   const facetCacheKey = computed(() =>
     shouldFetchFacets.value
@@ -876,7 +886,7 @@
 
   const cacheKey = computed(
     () =>
-      `items-${qualityFilter.value ?? 'all'}-${typeFilter.value ?? 'all'}-${
+      `items-${isFullMakeupRoute.value ? 'makeups' : 'normal'}-${qualityFilter.value ?? 'all'}-${typeFilter.value ?? 'all'}-${
         categoryFilter.value ?? 'all'
       }-${subcategoryFilter.value ?? 'all'}-${
         activeAdvancedFiltersKey.value || 'none'
@@ -925,6 +935,12 @@
     useAsyncData(
       () => cacheKey.value,
       async () => {
+        if (isFullMakeupRoute.value) {
+          return fetchFullMakeupsPaginated({
+            page: currentPage.value,
+          })
+        }
+
         return fetchItemsPaginated({
           quality: qualityFilter.value,
           type: typeFilter.value,
@@ -961,8 +977,14 @@
     return data.map((entry) => ({
       id: entry.id,
       quality: entry.quality,
-      name: t(`item.${entry.id}.name`),
-      image: getImageSrc('item', entry.id),
+      name:
+        entry.type === 'fullMakeup'
+          ? t(`full_makeup.${entry.id}.name`)
+          : t(`item.${entry.id}.name`),
+      image:
+        entry.type === 'fullMakeup'
+          ? getImageSrc('fullMakeup', entry.id)
+          : getImageSrc('item', entry.id),
       type: entry.type ? t(`type.${entry.type}`) : null,
       styleLabel: entry.style ? t(entry.style) : null,
       styleKey: entry.style ? resolveStyleKeyFromI18nKey(entry.style) : null,
@@ -976,8 +998,10 @@
   const totalItems = computed(() => compendiumData.value?.total || 0)
 
   const countLabels = computed(() => ({
-    singular: t('common.item'),
-    plural: t('common.items'),
+    singular: isFullMakeupRoute.value ? t('common.full_makeup') : t('common.item'),
+    plural: isFullMakeupRoute.value
+      ? t('common.full_makeups')
+      : t('common.items'),
   }))
   const TIER_ENTRY_LIMIT = 200
   const isTierlistDisabled = computed(
@@ -992,6 +1016,13 @@
     )
 
   const currentListingPath = computed(() => {
+    if (isFullMakeupRoute.value || typeFilter.value === 'fullMakeup') {
+      return {
+        path: '/items/makeups',
+        primaryFilter: 'type' as ItemListingPrimaryFilter,
+      }
+    }
+
     const typeSlug = resolveSeoItemTypeSlug(typeFilter.value)
     if (typeSlug) {
       return {

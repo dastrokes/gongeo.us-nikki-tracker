@@ -26,6 +26,7 @@ export type ItemType =
   | 'eyelashes'
   | 'contactLenses'
   | 'lips'
+  | 'fullMakeup'
   | 'unknown'
 
 // Map based on 5th and 6th digits of item ID
@@ -142,6 +143,7 @@ export const itemCategoryOrder: Record<string, number> = {
   eyelashes: 33,
   contactLenses: 34,
   lips: 35,
+  fullMakeup: 36,
   // Others
   unknown: 99,
 }
@@ -176,7 +178,14 @@ export const itemTypeCategories = {
     'armDecorations',
     'bodyPaint',
   ],
-  makeups: ['baseMakeup', 'eyebrows', 'eyelashes', 'contactLenses', 'lips'],
+  makeups: [
+    'baseMakeup',
+    'eyebrows',
+    'eyelashes',
+    'contactLenses',
+    'lips',
+    'fullMakeup',
+  ],
 } as const
 
 /**

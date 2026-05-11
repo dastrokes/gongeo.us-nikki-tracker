@@ -519,7 +519,7 @@
   const isFullMakeupRoute = computed(() => routeListSlug.value === 'makeups')
   const routeItemType = computed(() =>
     isFullMakeupRoute.value
-      ? null
+      ? 'fullMakeup'
       : resolveSeoItemTypeFromSlug(routeListSlug.value)
   )
   const routeSeoFilter = computed(() =>
@@ -825,15 +825,11 @@
         )
       ).length
   )
-  const showTypeFilter = computed(() => !isFullMakeupRoute.value)
   const supportsCategoryFilters = computed(
     () => !isFullMakeupRoute.value && !!typeFilter.value
   )
   const isCategoryFilterEnabled = computed(
-    () =>
-      showTypeFilter.value &&
-      supportsCategoryFilters.value &&
-      categoryOptions.value.length > 0
+    () => supportsCategoryFilters.value && categoryOptions.value.length > 0
   )
   const isSubcategoryFilterEnabled = computed(
     () =>
@@ -856,7 +852,7 @@
   const hasFilters = computed(
     () =>
       qualityFilter.value !== null ||
-      (showTypeFilter.value && typeFilter.value !== null) ||
+      typeFilter.value !== null ||
       categoryFilter.value !== null ||
       subcategoryFilter.value !== null ||
       versionFilter.value !== null ||
@@ -937,7 +933,13 @@
       async () => {
         if (isFullMakeupRoute.value) {
           return fetchFullMakeupsPaginated({
+            quality: qualityFilter.value,
+            version: versionFilter.value,
+            style: styleFilter.value,
+            label: labelFilter.value,
+            source: obtainFilter.value,
             page: currentPage.value,
+            pageSize,
           })
         }
 
@@ -979,7 +981,7 @@
       quality: entry.quality,
       name:
         entry.type === 'fullMakeup'
-          ? t(`full_makeup.${entry.id}.name`)
+          ? t(`makeup.${entry.id}.name`)
           : t(`item.${entry.id}.name`),
       image:
         entry.type === 'fullMakeup'
@@ -998,11 +1000,9 @@
   const totalItems = computed(() => compendiumData.value?.total || 0)
 
   const countLabels = computed(() => ({
-    singular: isFullMakeupRoute.value
-      ? t('common.full_makeup')
-      : t('common.item'),
+    singular: isFullMakeupRoute.value ? t('common.makeup') : t('common.item'),
     plural: isFullMakeupRoute.value
-      ? t('common.full_makeups')
+      ? t('tracker.items.category.makeups')
       : t('common.items'),
   }))
   const TIER_ENTRY_LIMIT = 200
@@ -1088,7 +1088,6 @@
       qualityFilter.value && { quality: qualityFilter.value }),
     ...(primaryFilter !== 'type' &&
       includeType &&
-      showTypeFilter.value &&
       typeFilter.value && {
         type: typeFilter.value,
       }),
@@ -1118,10 +1117,7 @@
   const buildTierlistQuery = () => ({
     mode: 'items',
     ...(qualityFilter.value !== null && { quality: qualityFilter.value }),
-    ...(showTypeFilter.value &&
-      typeFilter.value && {
-        type: typeFilter.value,
-      }),
+    ...(typeFilter.value && { type: typeFilter.value }),
     ...(supportsCategoryFilters.value &&
       categoryFilter.value && {
         category: categoryFilter.value,
@@ -1316,10 +1312,6 @@
   })
 
   const typeOptions = computed(() => {
-    if (!showTypeFilter.value) {
-      return []
-    }
-
     const types = availableTypes.value
 
     const grouped: Record<

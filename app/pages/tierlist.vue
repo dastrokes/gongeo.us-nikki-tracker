@@ -1040,6 +1040,7 @@
     useSortable,
     type UseSortableOptions,
   } from '@vueuse/integrations/useSortable'
+  import type { SelectGroupOption, SelectOption } from 'naive-ui'
   import type { SortableEvent } from 'sortablejs'
   import { BANNER_DATA } from '~~/data/banners'
 
@@ -1339,7 +1340,7 @@
   )
   const isAdvancedFiltersDrawerOpen = ref(false)
   const advancedFilterFields = computed(() =>
-    mode.value === 'items'
+    mode.value === 'items' && itemTypeFilter.value !== 'fullMakeup'
       ? getItemSearchCompendiumAdvancedFields(itemTypeFilter.value)
       : []
   )
@@ -1364,7 +1365,10 @@
       ).length
   )
   const supportsItemSearchCategories = computed(
-    () => mode.value === 'items' && !!itemTypeFilter.value
+    () =>
+      mode.value === 'items' &&
+      !!itemTypeFilter.value &&
+      itemTypeFilter.value !== 'fullMakeup'
   )
   const showAdvancedFiltersButton = computed(
     () => mode.value === 'items' && advancedFilterFields.value.length > 0
@@ -1417,22 +1421,86 @@
     )
   })
 
-  const itemTypeOptions = computed(() =>
-    availableItemTypes
-      .slice()
-      .sort((a, b) => {
-        const orderA = itemCategoryOrder[a] ?? 999
-        const orderB = itemCategoryOrder[b] ?? 999
-        return orderA - orderB
+  const itemTypeOptions = computed(() => {
+    const types = availableItemTypes.slice().sort((a, b) => {
+      const orderA = itemCategoryOrder[a] ?? 999
+      const orderB = itemCategoryOrder[b] ?? 999
+      return orderA - orderB
+    })
+
+    const grouped: Record<
+      'clothes' | 'accessories' | 'makeups' | 'other',
+      ItemType[]
+    > = {
+      clothes: [],
+      accessories: [],
+      makeups: [],
+      other: [],
+    }
+
+    types.forEach((type) => {
+      grouped[getItemTypeCategory(type)].push(type)
+    })
+
+    const options: Array<SelectOption | SelectGroupOption> = []
+
+    if (grouped.clothes.length > 0) {
+      options.push({
+        type: 'group',
+        label: t('tracker.items.category.clothes'),
+        key: 'clothes',
+        children: grouped.clothes.map((type) => ({
+          label: t(`type.${type}`),
+          value: type,
+        })),
       })
-      .map((type) => ({
-        label: t(`type.${type}`),
-        value: type,
-      }))
-  )
+    }
+
+    if (grouped.accessories.length > 0) {
+      options.push({
+        type: 'group',
+        label: t('tracker.items.category.accessories'),
+        key: 'accessories',
+        children: grouped.accessories.map((type) => ({
+          label: t(`type.${type}`),
+          value: type,
+        })),
+      })
+    }
+
+    if (grouped.makeups.length > 0) {
+      options.push({
+        type: 'group',
+        label: t('tracker.items.category.makeups'),
+        key: 'makeups',
+        children: grouped.makeups.map((type) => ({
+          label: t(`type.${type}`),
+          value: type,
+        })),
+      })
+    }
+
+    if (grouped.other.length > 0) {
+      options.push({
+        type: 'group',
+        label: t('common.other'),
+        key: 'other',
+        children: grouped.other.map((type) => ({
+          label: t(`type.${type}`),
+          value: type,
+        })),
+      })
+    }
+
+    return options
+  })
 
   const { fetchOutfitsPaginated } = useSupabaseOutfits()
-  const { fetchItemsPaginated, fetchItemSearchFacets } = useSupabaseItems()
+  const {
+    fetchItemsPaginated,
+    fetchFullMakeupsPaginated,
+    fetchItemSearchFacets,
+  } = useSupabaseItems()
 
   const itemFacetCacheKey = computed(
     () =>
@@ -1858,6 +1926,32 @@
   }
 
   const loadItemEntries = async (): Promise<TierDataPayload> => {
+    if (itemTypeFilter.value === 'fullMakeup') {
+      const { data: items, total } = await fetchFullMakeupsPaginated({
+        quality: qualityFilter.value,
+        version: versionFilter.value,
+        style: styleFilter.value,
+        label: labelFilter.value,
+        source: obtainFilter.value,
+        page: 1,
+        pageSize: TIER_ENTRY_LIMIT,
+      })
+      const overLimit = total > TIER_ENTRY_LIMIT
+
+      const entries = items.map((item) => ({
+        id: String(item.id),
+        numericId: item.id,
+        name: t(`makeup.${item.id}.name`),
+        image: getImageSrc('fullMakeup', item.id),
+        quality: item.quality,
+      }))
+
+      return {
+        entries,
+        overLimit,
+      }
+    }
+
     const { data: items, total } = await fetchItemsPaginated({
       quality: qualityFilter.value,
       type: itemTypeFilter.value,

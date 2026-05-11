@@ -42,7 +42,6 @@ export const SEO_ITEM_TYPE_ROUTES = getAllItemTypes()
     type,
     slug: type === 'fullMakeup' ? 'makeups' : toSeoListSlug(type),
   }))
-  .concat([{ type: 'fullMakeup' as const, slug: 'makeups' }])
 
 export const SEO_ITEM_TYPE_SLUGS = SEO_ITEM_TYPE_ROUTES.map(
   (route) => route.slug

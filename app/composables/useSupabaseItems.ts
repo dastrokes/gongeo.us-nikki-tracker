@@ -178,15 +178,48 @@ export const useSupabaseItems = () => {
   }
 
   const fetchFullMakeupsPaginated = async (
-    filters: Pick<ItemFilters, 'page'> = {}
+    filters: Pick<
+      ItemFilters,
+      'quality' | 'style' | 'label' | 'version' | 'source' | 'page' | 'pageSize'
+    > = {}
   ): Promise<PaginatedItemsResponse> => {
     loading.value = true
     error.value = null
-    const page = filters.page ?? 1
+    const {
+      quality = null,
+      style = null,
+      label = null,
+      version = null,
+      source = null,
+      page = 1,
+      pageSize = null,
+    } = filters
 
     try {
+      const params: Record<string, string | number> = { page }
+
+      if (pageSize !== null && pageSize !== undefined) {
+        params.pageSize = pageSize
+      }
+
+      if (quality !== null && quality !== undefined) {
+        params.quality = quality
+      }
+      if (style && style !== 'all') {
+        params.style = style
+      }
+      if (label && label !== 'all') {
+        params.label = label
+      }
+      if (version) {
+        params.version = version
+      }
+      if (source !== null && source !== undefined) {
+        params.source = source
+      }
+
       return await $fetch<PaginatedItemsResponse>('/api/items/makeups', {
-        params: { page },
+        params,
         headers: gameVersionHeader,
       })
     } catch (e) {

@@ -61,6 +61,11 @@ export const itemTypeMap: Record<string, ItemType> = {
   '85': 'lips',
 }
 
+const itemTypeValues = new Set<ItemType>([
+  ...Object.values(itemTypeMap),
+  'fullMakeup',
+])
+
 /**
  * Get item type from item ID or type string
  * @param itemIdOrType - Item ID (number/string) or type string from database
@@ -73,10 +78,9 @@ export function getItemType(itemIdOrType: string | number): ItemType {
   }
 
   // Check if it's a known type value
-  const typeValues = Object.values(itemTypeMap)
   if (
     typeof itemIdOrType === 'string' &&
-    typeValues.includes(itemIdOrType as ItemType)
+    itemTypeValues.has(itemIdOrType as ItemType)
   ) {
     return itemIdOrType as ItemType
   }
@@ -95,7 +99,7 @@ export function getItemType(itemIdOrType: string | number): ItemType {
 
 // Get all available item types for filtering
 export function getAllItemTypes(): ItemType[] {
-  return Array.from(new Set(Object.values(itemTypeMap))).sort()
+  return Array.from(itemTypeValues).sort()
 }
 
 /**
@@ -138,12 +142,12 @@ export const itemCategoryOrder: Record<string, number> = {
   armDecorations: 24,
   bodyPaint: 25,
   // Makeups
-  baseMakeup: 31,
-  eyebrows: 32,
-  eyelashes: 33,
-  contactLenses: 34,
-  lips: 35,
-  fullMakeup: 36,
+  fullMakeup: 31,
+  baseMakeup: 32,
+  eyebrows: 33,
+  eyelashes: 34,
+  contactLenses: 35,
+  lips: 36,
   // Others
   unknown: 99,
 }
@@ -179,12 +183,12 @@ export const itemTypeCategories = {
     'bodyPaint',
   ],
   makeups: [
+    'fullMakeup',
     'baseMakeup',
     'eyebrows',
     'eyelashes',
     'contactLenses',
     'lips',
-    'fullMakeup',
   ],
 } as const
 
@@ -206,12 +210,12 @@ export function getItemTypeCategory(
 /**
  * Sort items by category order
  */
-export function sortItemsByCategory<T extends { id: number | string }>(
-  items: T[]
-): T[] {
+export function sortItemsByCategory<
+  T extends { id: number | string; type?: string },
+>(items: T[]): T[] {
   return items.sort((a, b) => {
-    const typeA = getItemType(a.id)
-    const typeB = getItemType(b.id)
+    const typeA = a.type ? getItemType(a.type) : getItemType(a.id)
+    const typeB = b.type ? getItemType(b.type) : getItemType(b.id)
     const orderA = itemCategoryOrder[typeA] ?? 999
     const orderB = itemCategoryOrder[typeB] ?? 999
     return orderA - orderB

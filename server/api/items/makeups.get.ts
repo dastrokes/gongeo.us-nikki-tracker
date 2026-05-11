@@ -22,20 +22,89 @@ export default defineCachedApiEventHandler(
       Number.isNaN(Number(query.page)) || Number(query.page) < 1
         ? 1
         : Number(query.page ?? 1)
-    const from = (page - 1) * DEFAULT_PAGE_SIZE
-    const to = from + DEFAULT_PAGE_SIZE - 1
+    const parsedPageSize = Number(query.pageSize)
+    const pageSize =
+      Number.isFinite(parsedPageSize) && parsedPageSize > 0
+        ? Math.min(Math.floor(parsedPageSize), 200)
+        : DEFAULT_PAGE_SIZE
+    const qualityParam = query.quality?.toString().trim() ?? ''
+    const qualityParsed = qualityParam ? Number(qualityParam) : null
+    const invalidQuality =
+      qualityParam.length > 0 && !Number.isFinite(qualityParsed)
+    const quality = invalidQuality ? null : qualityParsed
+    const styleParam = query.style?.toString() || null
+    const versionParam = query.version?.toString() || null
+    const sourceParam = query.source
+      ? query.source.toString()
+      : query.obtain
+        ? query.obtain.toString()
+        : null
+    const labelParam = query.label?.toString() || null
+    const normalizedStyle = styleParam ? normalizeTraitKey(styleParam) : null
+    const styleFilter = normalizedStyle
+      ? STYLE_BY_KEY.get(normalizedStyle)
+      : null
+    const normalizedLabel = labelParam ? normalizeTraitKey(labelParam) : null
+    const labelFilter = normalizedLabel ? TAG_BY_KEY.get(normalizedLabel) : null
+    const versionPrefixRange = versionParam
+      ? getVersionPrefixRange(versionParam)
+      : null
+    const obtainTypeRange = versionPrefixRange
+      ? {
+          min: getVersionRangeFromPrefix(versionPrefixRange.min, 2).min,
+          max: getVersionRangeFromPrefix(versionPrefixRange.max, 2).max,
+        }
+      : null
+    const obtainIds = sourceParam
+      ? resolveObtainIdsFromValue(sourceParam)
+      : null
+    const from = (page - 1) * pageSize
+    const to = from + pageSize - 1
     const supabase = useSupabaseDataClient()
 
+    if (
+      invalidQuality ||
+      (styleParam && !styleFilter) ||
+      (labelParam && !labelFilter) ||
+      (versionParam && obtainTypeRange === null) ||
+      (sourceParam && (!obtainIds || obtainIds.length === 0))
+    ) {
+      return {
+        data: [],
+        total: 0,
+        page,
+        totalPages: 0,
+      }
+    }
+
     try {
-      const { data, error, count } = await withSupabaseRetry(() =>
-        supabase
+      const { data, error, count } = await withSupabaseRetry(() => {
+        let builder = supabase
           .from('full_makeups')
           .select('id,quality,props,style_key,tags,obtain_type', {
             count: 'exact',
           })
-          .order('id', { ascending: true })
-          .range(from, to)
-      )
+
+        if (quality !== null && quality !== undefined) {
+          builder = builder.eq('quality', quality)
+        }
+        if (styleFilter) {
+          builder = builder.eq('style_key', styleFilter.key)
+        }
+        if (labelFilter) {
+          builder = builder.contains('tags', [labelFilter.id])
+        }
+        if (obtainTypeRange) {
+          builder = builder
+            .gte('obtain_type', obtainTypeRange.min)
+            .lte('obtain_type', obtainTypeRange.max)
+        }
+        if (obtainIds && obtainIds.length > 0) {
+          builder = builder.in('obtain_type', obtainIds)
+        }
+
+        return builder.order('id', { ascending: true }).range(from, to)
+      })
 
       if (error) {
         throw error
@@ -84,7 +153,17 @@ export default defineCachedApiEventHandler(
         const version = getGameVersion()
         const query = getQuery(event)
         const page = query.page ? Number(query.page) : 1
-        return `${version}:full-makeups:p${page}`
+        const pageSize = query.pageSize?.toString() || String(DEFAULT_PAGE_SIZE)
+        const quality = query.quality?.toString() || 'all'
+        const style = query.style?.toString() || 'all'
+        const label = query.label?.toString() || 'all'
+        const itemVersion = query.version?.toString() || 'all'
+        const source = query.source
+          ? query.source.toString()
+          : query.obtain
+            ? query.obtain.toString()
+            : 'all'
+        return `${version}:full-makeups:p${page}:ps${pageSize}:q${quality}:s${style}:l${label}:v${itemVersion}:src${source}`
       },
       swr: true,
     },

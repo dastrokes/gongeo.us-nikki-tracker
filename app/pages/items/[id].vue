@@ -309,6 +309,7 @@
               >
                 <n-collapse>
                   <n-collapse-item
+                    v-if="!isFullMakeup && outfitSet.outfitItems.length > 0"
                     :title="
                       outfitItemSets.length > 1
                         ? `${$t('common.items')} (${outfitSet.outfitItems.length}) - ${outfitSet.name}`
@@ -496,8 +497,16 @@
                   :style="getQualityOverlayStyle(variation.quality)"
                 ></div>
                 <NuxtImg
-                  :src="getImageSrc('item', variation.id)"
-                  :alt="$t(`item.${variation.id}.name`)"
+                  :src="
+                    variation.type === 'fullMakeup'
+                      ? getImageSrc('fullMakeup', variation.id)
+                      : getImageSrc('item', variation.id)
+                  "
+                  :alt="
+                    variation.type === 'fullMakeup'
+                      ? $t(`makeup.${variation.id}.name`)
+                      : $t(`item.${variation.id}.name`)
+                  "
                   class="absolute inset-0 z-10 h-full w-full object-cover"
                   preset="tallSm"
                   fit="cover"
@@ -824,7 +833,9 @@
       })
       .map((v) => {
         let levelKey = '1' // base
-        if (v.type === 'glowup') {
+        if (v.type === 'fullMakeup') {
+          levelKey = 'full_makeup'
+        } else if (v.type === 'glowup') {
           levelKey = 'glow'
         } else if (v.type === 'evo1') {
           levelKey = '2'
@@ -837,7 +848,11 @@
         return {
           id: v.id,
           quality: v.quality,
-          label: t(`banner.outfit.level.${levelKey}`),
+          type: v.type,
+          label:
+            v.type === 'fullMakeup'
+              ? t('common.full_makeup')
+              : t(`banner.outfit.level.${levelKey}`),
         }
       })
   })
@@ -849,8 +864,12 @@
     let banner = getBannerForItem(item.value.id)
     if (banner) return banner
 
-    const linkedOutfitIds =
-      item.value.outfit_items?.map((entry) => String(entry.outfits.id)) ?? []
+    const linkedOutfitIds = isFullMakeup.value
+      ? (
+          (item.value as unknown as FullMakeupDetail).full_makeup_outfits || []
+        ).map((entry) => String(entry.outfits.id))
+      : (item.value.outfit_items?.map((entry) => String(entry.outfits.id)) ??
+        [])
     for (const outfitId of linkedOutfitIds) {
       banner = getBannerForOutfit(outfitId)
       if (banner) return banner
@@ -979,7 +998,7 @@
   // Get item name from i18n
   const itemName = computed(() => {
     if (!item.value) return ''
-    if (isFullMakeup.value) return t(`full_makeup.${itemId.value}.name`)
+    if (isFullMakeup.value) return t(`makeup.${itemId.value}.name`)
     return t(`item.${itemId.value}.name`)
   })
 

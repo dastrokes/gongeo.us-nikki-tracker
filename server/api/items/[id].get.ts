@@ -42,6 +42,12 @@ interface ItemData {
       }>
     }
   }>
+  full_makeup_items?: Array<{
+    full_makeups: {
+      id: number
+      quality: number
+    }
+  }>
   variations?: Array<{ id: number; quality: number; type: string }>
 }
 
@@ -217,6 +223,7 @@ export default defineCachedApiEventHandler(
       selectParts.push(
         'outfit_items(outfits(id,quality,outfit_items(items(id,quality,type))))'
       )
+      selectParts.push('full_makeup_items(full_makeups(id,quality))')
 
       const selectQuery = selectParts.join(',')
 
@@ -301,6 +308,36 @@ export default defineCachedApiEventHandler(
             }))
             .sort((a, b) => a.id - b.id)
         }
+      }
+
+      if (Array.isArray(itemData.full_makeup_items)) {
+        const fullMakeupVariations = itemData.full_makeup_items
+          .map((entry) => entry.full_makeups)
+          .filter(
+            (
+              entry
+            ): entry is {
+              id: number
+              quality: number
+            } =>
+              Boolean(entry) &&
+              typeof entry.id === 'number' &&
+              typeof entry.quality === 'number'
+          )
+          .map((entry) => ({
+            id: entry.id,
+            quality: entry.quality,
+            type: 'fullMakeup',
+          }))
+
+        if (fullMakeupVariations.length > 0) {
+          itemData.variations = [
+            ...(itemData.variations ?? []),
+            ...fullMakeupVariations,
+          ].sort((a, b) => a.id - b.id)
+        }
+
+        delete itemData.full_makeup_items
       }
 
       return itemData

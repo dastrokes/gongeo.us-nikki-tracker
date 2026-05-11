@@ -36,7 +36,7 @@ const STATIC_SITEMAP_PATHS = [...BASE_PATHS, ...SEO_LIST_PATHS]
 
 type TranslationDictionary = Record<string, string>
 type LocaleCode = (typeof i18nLocales)[number]['code']
-type TranslationSection = 'banner' | 'outfit' | 'item' | 'full_makeup'
+type TranslationSection = 'banner' | 'outfit' | 'item' | 'makeup'
 type TranslationLoader = () => Promise<TranslationDictionary>
 
 type SitemapUrl = {
@@ -70,8 +70,8 @@ const translationLoaders = {
       import('./en/item.json').then(
         (module) => module.default as TranslationDictionary
       ),
-    full_makeup: () =>
-      import('./en/full_makeup.json').then(
+    makeup: () =>
+      import('./en/makeup.json').then(
         (module) => module.default as TranslationDictionary
       ),
   },
@@ -88,8 +88,8 @@ const translationLoaders = {
       import('./de/item.json').then(
         (module) => module.default as TranslationDictionary
       ),
-    full_makeup: () =>
-      import('./de/full_makeup.json').then(
+    makeup: () =>
+      import('./de/makeup.json').then(
         (module) => module.default as TranslationDictionary
       ),
   },
@@ -106,8 +106,8 @@ const translationLoaders = {
       import('./es/item.json').then(
         (module) => module.default as TranslationDictionary
       ),
-    full_makeup: () =>
-      import('./es/full_makeup.json').then(
+    makeup: () =>
+      import('./es/makeup.json').then(
         (module) => module.default as TranslationDictionary
       ),
   },
@@ -124,8 +124,8 @@ const translationLoaders = {
       import('./fr/item.json').then(
         (module) => module.default as TranslationDictionary
       ),
-    full_makeup: () =>
-      import('./fr/full_makeup.json').then(
+    makeup: () =>
+      import('./fr/makeup.json').then(
         (module) => module.default as TranslationDictionary
       ),
   },
@@ -143,8 +143,8 @@ const translationLoaders = {
       import('./it/item.json').then(
         (module) => module.default as TranslationDictionary
       ),
-    full_makeup: () =>
-      import('./it/full_makeup.json').then(
+    makeup: () =>
+      import('./it/makeup.json').then(
         (module) => module.default as TranslationDictionary
       ),
   },
@@ -161,8 +161,8 @@ const translationLoaders = {
       import('./ja/item.json').then(
         (module) => module.default as TranslationDictionary
       ),
-    full_makeup: () =>
-      import('./ja/full_makeup.json').then(
+    makeup: () =>
+      import('./ja/makeup.json').then(
         (module) => module.default as TranslationDictionary
       ),
   },
@@ -179,8 +179,8 @@ const translationLoaders = {
       import('./ko/item.json').then(
         (module) => module.default as TranslationDictionary
       ),
-    full_makeup: () =>
-      import('./ko/full_makeup.json').then(
+    makeup: () =>
+      import('./ko/makeup.json').then(
         (module) => module.default as TranslationDictionary
       ),
   },
@@ -197,8 +197,8 @@ const translationLoaders = {
       import('./pt/item.json').then(
         (module) => module.default as TranslationDictionary
       ),
-    full_makeup: () =>
-      import('./pt/full_makeup.json').then(
+    makeup: () =>
+      import('./pt/makeup.json').then(
         (module) => module.default as TranslationDictionary
       ),
   },
@@ -216,8 +216,8 @@ const translationLoaders = {
       import('./zh/item.json').then(
         (module) => module.default as TranslationDictionary
       ),
-    full_makeup: () =>
-      import('./zh/full_makeup.json').then(
+    makeup: () =>
+      import('./zh/makeup.json').then(
         (module) => module.default as TranslationDictionary
       ),
   },
@@ -234,8 +234,8 @@ const translationLoaders = {
       import('./tw/item.json').then(
         (module) => module.default as TranslationDictionary
       ),
-    full_makeup: () =>
-      import('./tw/full_makeup.json').then(
+    makeup: () =>
+      import('./tw/makeup.json').then(
         (module) => module.default as TranslationDictionary
       ),
   },
@@ -299,7 +299,7 @@ const loadContentConfigs = () =>
     loadContentConfig('banner', 'banners', 'banner', 'Banner'),
     loadContentConfig('outfit', 'outfits', 'outfit', 'Outfit'),
     loadContentConfig('item', 'items', 'item', 'Item'),
-    loadContentConfig('full_makeup', 'items', 'fullMakeup', 'Full Makeup'),
+    loadContentConfig('makeup', 'items', 'fullMakeup', 'Full Makeup'),
   ])
 
 function resolveLocales(localeCode?: LocaleCode) {

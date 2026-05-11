@@ -267,54 +267,9 @@
             </div>
 
             <div
-              v-if="
-                outfitItems.length > 0 ||
-                makeupItems.length > 0 ||
-                linkedFullMakeups.length > 0
-              "
+              v-if="outfitItems.length > 0 || makeupItems.length > 0"
               class="space-y-2"
             >
-              <n-collapse>
-                <n-collapse-item
-                  v-if="linkedFullMakeups.length > 0"
-                  :title="`${$t('common.full_makeup')} (${linkedFullMakeups.length})`"
-                  name="full-makeup"
-                >
-                  <div
-                    class="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5"
-                  >
-                    <NuxtLinkLocale
-                      v-for="fullMakeup in linkedFullMakeups"
-                      :key="fullMakeup.id"
-                      :to="`/items/${fullMakeup.id}`"
-                      class="group block"
-                    >
-                      <div
-                        class="relative aspect-2/3 overflow-hidden rounded-lg bg-slate-100 bg-[url('/images/bg.webp')] bg-cover bg-center shadow-md transition-all duration-200 ease-in-out group-hover:scale-105 group-hover:shadow-xl dark:bg-slate-300"
-                      >
-                        <div
-                          class="absolute inset-0"
-                          :style="getQualityOverlayStyle(fullMakeup.quality)"
-                        ></div>
-                        <NuxtImg
-                          :src="getImageSrc('fullMakeup', fullMakeup.id)"
-                          :alt="$t(`full_makeup.${fullMakeup.id}.name`)"
-                          class="absolute inset-0 z-10 h-full w-full object-cover"
-                          preset="tallSm"
-                          fit="cover"
-                          loading="lazy"
-                          sizes="160px"
-                        />
-                      </div>
-                      <p
-                        class="mt-1 line-clamp-2 text-center text-xs font-medium"
-                      >
-                        {{ $t(`full_makeup.${fullMakeup.id}.name`) }}
-                      </p>
-                    </NuxtLinkLocale>
-                  </div>
-                </n-collapse-item>
-              </n-collapse>
               <n-collapse>
                 <n-collapse-item
                   v-if="outfitItems.length > 0"
@@ -557,19 +512,6 @@
       .map((oi) => oi.items)
       .filter((item) => makeupTypes.includes(resolveItemType(item)))
     return sortItemsByCategory(items)
-  })
-
-  const linkedFullMakeups = computed(() => {
-    const links =
-      (
-        outfit.value as OutfitWithItems & {
-          full_makeup_outfits?: Array<{
-            full_makeups: { id: number; quality: number }
-          }>
-        }
-      )?.full_makeup_outfits || []
-
-    return links.map((entry) => entry.full_makeups).sort((a, b) => a.id - b.id)
   })
 
   const outfitStyleLabels = computed(() => {

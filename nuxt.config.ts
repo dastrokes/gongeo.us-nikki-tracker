@@ -122,8 +122,75 @@ export default defineNuxtConfig({
   },
 
   robots: {
-    blockNonSeoBots: true,
     disallow: ['/error'],
+
+    groups: [
+      {
+        userAgent: [
+          // Security scanners / brute-force tooling
+          'Acunetix',
+          'DirBuster',
+          'GoBuster',
+          'masscan',
+          'Netsparker',
+          'Nikto',
+          'Nmap',
+          'Nuclei',
+          'OpenVAS',
+          'sqlmap',
+          'WPScan',
+          'zgrab',
+
+          // AI / model / commercial data crawlers
+          'Amazonbot',
+          'anthropic-ai',
+          'Applebot-Extended',
+          'Bytespider',
+          'CCBot',
+          'Claude-Web',
+          'ClaudeBot',
+          'cohere-ai',
+          'Diffbot',
+          'FacebookBot',
+          'Google-Extended',
+          'GPTBot',
+          'ImagesiftBot',
+          'meta-externalagent',
+          'Omigili',
+          'OmigiliBot',
+
+          // SEO / backlink / rank-tracking crawlers
+          'AhrefsBot',
+          'BLEXBot',
+          'dotbot',
+          'Exabot',
+          'linkdexbot',
+          'MegaIndex',
+          'MJ12bot',
+          'rogerbot',
+          'SemrushBot',
+          'SERankingBacklinksBot',
+          'serpstatbot',
+          'SeznamBot',
+          'SISTRIX',
+
+          // Broad data aggregators / legacy crawlers
+          'Barkrowler',
+          'CazoodleBot',
+          'Gigabot',
+          'magpie-crawler',
+          'proximic',
+          'Riddler',
+          'WikiDo',
+          'Zoominfobot',
+
+          // Tooling / libraries
+          'Go-http-client',
+          'Node/simplecrawler',
+        ],
+        disallow: ['/'],
+      },
+    ],
   },
 
   runtimeConfig: {

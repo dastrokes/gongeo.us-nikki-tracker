@@ -115,8 +115,8 @@
                     isFullMakeup
                       ? 'object-cover group-hover:scale-110'
                       : showIcon
-                      ? 'object-contain p-8'
-                      : 'object-cover group-hover:scale-110'
+                        ? 'object-contain p-8'
+                        : 'object-cover group-hover:scale-110'
                   "
                   :preset="!isFullMakeup && showIcon ? 'iconLg' : 'tallLg'"
                   fit="cover"
@@ -743,8 +743,9 @@
 
   const relatedOutfit = computed(() => {
     const outfits = isFullMakeup.value
-      ? ((item.value as unknown as FullMakeupDetail | null)
-          ?.full_makeup_outfits || []
+      ? (
+          (item.value as unknown as FullMakeupDetail | null)
+            ?.full_makeup_outfits || []
         ).map((entry) => entry.outfits)
       : ((item.value as ItemWithOutfits | null)?.outfit_items || []).map(
           (entry) => entry.outfits
@@ -985,7 +986,9 @@
   const itemVersion = computed(() => {
     if (!item.value) return null
     const obtainType = (
-      item.value as ItemWithOutfits | (FullMakeupDetail & { obtain_type?: number | null })
+      item.value as
+        | ItemWithOutfits
+        | (FullMakeupDetail & { obtain_type?: number | null })
     ).obtain_type
     return getVersionFromId(obtainType)
   })
@@ -1011,7 +1014,9 @@
   const itemObtainType = computed(() => {
     if (!item.value) return null
     return (
-      item.value as ItemWithOutfits | (FullMakeupDetail & { obtain_type?: number | null })
+      item.value as
+        | ItemWithOutfits
+        | (FullMakeupDetail & { obtain_type?: number | null })
     ).obtain_type
   })
 
@@ -1080,7 +1085,8 @@
   })
 
   const showStyleScores = computed(
-    () => !isFullMakeup.value && !isMakeupItem.value && styleScores.value.length > 0
+    () =>
+      !isFullMakeup.value && !isMakeupItem.value && styleScores.value.length > 0
   )
 
   const itemLabelTags = computed(() => {

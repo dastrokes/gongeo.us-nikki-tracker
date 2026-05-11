@@ -306,7 +306,9 @@
                           sizes="160px"
                         />
                       </div>
-                      <p class="mt-1 line-clamp-2 text-center text-xs font-medium">
+                      <p
+                        class="mt-1 line-clamp-2 text-center text-xs font-medium"
+                      >
                         {{ $t(`full_makeup.${fullMakeup.id}.name`) }}
                       </p>
                     </NuxtLinkLocale>

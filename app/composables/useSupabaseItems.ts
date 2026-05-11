@@ -52,9 +52,7 @@ export const useSupabaseItems = () => {
    * @param id - The item ID to fetch
    * @returns Promise resolving to item with outfits or null if not found
    */
-  const fetchItemById = async (
-    id: number
-  ): Promise<ItemWithOutfits | null> => {
+  const fetchItemById = async (id: number): Promise<ItemWithOutfits | null> => {
     loading.value = true
     error.value = null
 

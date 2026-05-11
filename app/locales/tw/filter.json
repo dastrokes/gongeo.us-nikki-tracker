@@ -233,6 +233,7 @@
       "snowflake": "雪花",
       "spike": "尖刺",
       "star": "星形",
+      "sticker": "貼紙",
       "stitching": "縫線",
       "strap": "帶子",
       "stud": "鉚釘",
@@ -721,6 +722,7 @@
         "lower_face_mask": "下半臉面具",
         "medical_eyepatch": "醫療單眼罩",
         "monocle": "單片眼鏡",
+        "mouth_held": "口銜飾物",
         "ornamental_mask": "裝飾面具",
         "sunglasses": "太陽鏡"
       },
@@ -774,6 +776,7 @@
         "flute": "長笛",
         "hammer": "錘子",
         "hoe": "鋤頭",
+        "letter": "信件",
         "musket": "火槍",
         "net": "網",
         "pipa": "琵琶",

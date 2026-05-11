@@ -233,6 +233,7 @@
       "snowflake": "Snowflake",
       "spike": "Spike",
       "star": "Star",
+      "sticker": "Sticker",
       "stitching": "Stitching",
       "strap": "Strap",
       "stud": "Stud",
@@ -721,6 +722,7 @@
         "lower_face_mask": "Lower Face Mask",
         "medical_eyepatch": "Medical Eyepatch",
         "monocle": "Monocle",
+        "mouth_held": "Mouth Held",
         "ornamental_mask": "Ornamental Mask",
         "sunglasses": "Sunglasses"
       },
@@ -774,6 +776,7 @@
         "flute": "Flute",
         "hammer": "Hammer",
         "hoe": "Hoe",
+        "letter": "Letter",
         "musket": "Musket",
         "net": "Net",
         "pipa": "Pipa",

@@ -233,6 +233,7 @@
       "snowflake": "Flocon de Neige",
       "spike": "Pointe",
       "star": "Étoile",
+      "sticker": "Autocollant",
       "stitching": "Surpiqûres",
       "strap": "Sangle",
       "stud": "Clou",
@@ -721,6 +722,7 @@
         "lower_face_mask": "Masque bas du visage",
         "medical_eyepatch": "Cache-œil médical",
         "monocle": "Monocle",
+        "mouth_held": "Tenu dans la bouche",
         "ornamental_mask": "Masque d'ornement",
         "sunglasses": "Lunettes de soleil"
       },
@@ -774,6 +776,7 @@
         "flute": "Flûte",
         "hammer": "Marteau",
         "hoe": "Houe",
+        "letter": "Lettre",
         "musket": "Mousquet",
         "net": "Filet",
         "pipa": "Pipa",

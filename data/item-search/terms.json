@@ -212,6 +212,7 @@
       "snowflake",
       "spike",
       "star",
+      "sticker",
       "stitching",
       "strap",
       "stud",
@@ -618,6 +619,7 @@
         "lower_face_mask",
         "medical_eyepatch",
         "monocle",
+        "mouth_held",
         "ornamental_mask",
         "sunglasses"
       ],
@@ -667,6 +669,7 @@
         "flute",
         "hammer",
         "hoe",
+        "letter",
         "musket",
         "net",
         "pipa",

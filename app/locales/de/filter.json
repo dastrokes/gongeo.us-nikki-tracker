@@ -233,6 +233,7 @@
       "snowflake": "Schneeflocke",
       "spike": "Stachel",
       "star": "Stern",
+      "sticker": "Aufkleber",
       "stitching": "Ziernähte",
       "strap": "Riemen",
       "stud": "Niete",
@@ -721,6 +722,7 @@
         "lower_face_mask": "Untere Gesichtsmaske",
         "medical_eyepatch": "Med. Augenklappe",
         "monocle": "Monokel",
+        "mouth_held": "Im Mund gehalten",
         "ornamental_mask": "Zier-Maske",
         "sunglasses": "Sonnenbrille"
       },
@@ -774,6 +776,7 @@
         "flute": "Flöte",
         "hammer": "Hammer",
         "hoe": "Hacke",
+        "letter": "Brief",
         "musket": "Muskete",
         "net": "Netz",
         "pipa": "Pipa",

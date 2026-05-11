@@ -233,6 +233,7 @@
       "snowflake": "Fiocco di Neve",
       "spike": "Bborchia a Punta",
       "star": "Stella",
+      "sticker": "Adesivo",
       "stitching": "Cuciture",
       "strap": "Cinturino",
       "stud": "Borchia",
@@ -721,6 +722,7 @@
         "lower_face_mask": "Maschera viso",
         "medical_eyepatch": "Benda oculare medica",
         "monocle": "Monocolo",
+        "mouth_held": "Tenuto in bocca",
         "ornamental_mask": "Maschera ornamentale",
         "sunglasses": "Occhiali da sole"
       },
@@ -774,6 +776,7 @@
         "flute": "Flauto",
         "hammer": "Martello",
         "hoe": "Zappa",
+        "letter": "Lettera",
         "musket": "Moschetto",
         "net": "Rete",
         "pipa": "Pipa",

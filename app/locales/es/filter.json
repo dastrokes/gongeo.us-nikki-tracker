@@ -233,6 +233,7 @@
       "snowflake": "Copo de Nieve",
       "spike": "Púa/Punta",
       "star": "Estrella",
+      "sticker": "Pegatina",
       "stitching": "Costuras",
       "strap": "Correa",
       "stud": "Tachuela",
@@ -721,6 +722,7 @@
         "lower_face_mask": "Cubrebocas",
         "medical_eyepatch": "Parche Médico",
         "monocle": "Monóculo",
+        "mouth_held": "Sostenido en la boca",
         "ornamental_mask": "Escuena Máscara",
         "sunglasses": "Gafas de Sol"
       },
@@ -774,6 +776,7 @@
         "flute": "Flauta",
         "hammer": "Martillo",
         "hoe": "Azada",
+        "letter": "Carta",
         "musket": "Mosquete",
         "net": "Red",
         "pipa": "Pipa",

@@ -22,23 +22,7 @@ const blockedUserAgents = [
   'zgrab',
 
   // AI / model / commercial data crawlers
-  'amazonbot',
-  'anthropic-ai',
-  'applebot-extended',
-  'bytespider',
-  'chatgpt-user',
-  'claude-web',
-  'claudebot',
-  'cohere-ai',
-  'diffbot',
-  'facebookbot',
-  'google-extended',
-  'gptbot',
-  'imagesiftbot',
   'meta-externalagent',
-  'omigili',
-  'omigilibot',
-  'perplexitybot',
 
   // SEO / backlink / rank-tracking crawlers
   'ahrefsbot',

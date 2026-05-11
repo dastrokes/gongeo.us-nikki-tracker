@@ -998,7 +998,9 @@
   const totalItems = computed(() => compendiumData.value?.total || 0)
 
   const countLabels = computed(() => ({
-    singular: isFullMakeupRoute.value ? t('common.full_makeup') : t('common.item'),
+    singular: isFullMakeupRoute.value
+      ? t('common.full_makeup')
+      : t('common.item'),
     plural: isFullMakeupRoute.value
       ? t('common.full_makeups')
       : t('common.items'),

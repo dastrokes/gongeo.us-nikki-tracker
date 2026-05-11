@@ -233,6 +233,7 @@
       "snowflake": "雪の結晶",
       "spike": "スパイク",
       "star": "星",
+      "sticker": "ステッカー",
       "stitching": "ステッチ",
       "strap": "ストラップ",
       "stud": "スタッド",
@@ -721,6 +722,7 @@
         "lower_face_mask": "フェイスガード",
         "medical_eyepatch": "医療用眼帯",
         "monocle": "片眼鏡",
+        "mouth_held": "口にくわえる",
         "ornamental_mask": "装飾マスク",
         "sunglasses": "サングラス"
       },
@@ -774,6 +776,7 @@
         "flute": "フルート",
         "hammer": "ハンマー",
         "hoe": "鍬",
+        "letter": "手紙",
         "musket": "マスケット銃",
         "net": "網",
         "pipa": "琵琶",

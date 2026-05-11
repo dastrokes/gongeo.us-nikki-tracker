@@ -1,7 +1,6 @@
 import type { Context } from '@netlify/edge-functions'
 
 // All entries are lowercase and matched as substrings against the UA header.
-// All entries are lowercase and matched as substrings against the UA header.
 // Keep this as a hard-block list only for low-value / abusive / high-cost agents.
 // Do NOT add useful search, ad, image, or social-preview bots here.
 
@@ -22,7 +21,21 @@ const blockedUserAgents = [
   'zgrab',
 
   // AI / model / commercial data crawlers
+  'amazonbot',
+  'anthropic-ai',
+  'applebot-extended',
+  'bytespider',
+  'claude-web',
+  'claudebot',
+  'cohere-ai',
+  'diffbot',
+  'facebookbot',
+  'google-extended',
+  'gptbot',
+  'imagesiftbot',
   'meta-externalagent',
+  'omigili',
+  'omigilibot',
 
   // SEO / backlink / rank-tracking crawlers
   'ahrefsbot',
@@ -45,7 +58,6 @@ const blockedUserAgents = [
   'ccbot',
   'gigabot',
   'magpie-crawler',
-  'petalbot',
   'proximic',
   'riddler',
   'wikido',

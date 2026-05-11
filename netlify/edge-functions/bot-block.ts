@@ -1,6 +1,10 @@
 import type { Context } from '@netlify/edge-functions'
 
 // All entries are lowercase and matched as substrings against the UA header.
+// All entries are lowercase and matched as substrings against the UA header.
+// Keep this as a hard-block list only for low-value / abusive / high-cost agents.
+// Do NOT add useful search, ad, image, or social-preview bots here.
+
 const blockedUserAgents = [
   // Security scanners / brute-force tooling
   'acunetix',
@@ -17,26 +21,48 @@ const blockedUserAgents = [
   'wpscan',
   'zgrab',
 
-  // SEO / backlink / data crawlers
+  // AI / model / commercial data crawlers
+  'amazonbot',
+  'anthropic-ai',
+  'applebot-extended',
+  'bytespider',
+  'chatgpt-user',
+  'claude-web',
+  'claudebot',
+  'cohere-ai',
+  'diffbot',
+  'facebookbot',
+  'google-extended',
+  'gptbot',
+  'imagesiftbot',
+  'meta-externalagent',
+  'omigili',
+  'omigilibot',
+  'perplexitybot',
+
+  // SEO / backlink / rank-tracking crawlers
   'ahrefsbot',
   'blexbot',
-  'ccbot',
   'dotbot',
   'exabot',
   'linkdexbot',
   'megaindex',
   'mj12bot',
   'rogerbot',
-  'seznambot',
   'semrushbot',
+  'serankingbacklinksbot',
   'serpstatbot',
+  'seznambot',
   'sistrix',
 
-  // Data aggregators / legacy crawlers
+  // Broad data aggregators / legacy crawlers
   'barkrowler',
   'cazoodlebot',
+  'ccbot',
   'gigabot',
   'magpie-crawler',
+  'petalbot',
+  'proximic',
   'riddler',
   'wikido',
   'zoominfobot',

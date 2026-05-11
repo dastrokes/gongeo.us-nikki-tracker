@@ -1042,6 +1042,11 @@
   {
     "field": "ornament",
     "itemType": null,
+    "value": "sticker"
+  },
+  {
+    "field": "ornament",
+    "itemType": null,
     "value": "stitching"
   },
   {
@@ -3007,6 +3012,11 @@
   {
     "field": "subcategory",
     "itemType": "faceDecorations",
+    "value": "mouth_held"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "faceDecorations",
     "value": "ornamental_mask"
   },
   {
@@ -3228,6 +3238,11 @@
     "field": "subcategory",
     "itemType": "handhelds",
     "value": "hoe"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "handhelds",
+    "value": "letter"
   },
   {
     "field": "subcategory",

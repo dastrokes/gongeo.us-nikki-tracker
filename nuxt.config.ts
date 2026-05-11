@@ -122,6 +122,7 @@ export default defineNuxtConfig({
   },
 
   robots: {
+    blockAiBots: true,
     blockNonSeoBots: true,
     disallow: ['/error'],
   },

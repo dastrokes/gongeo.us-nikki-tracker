@@ -553,7 +553,7 @@
         "fan": "Fächer",
         "hair_ornament": "Haarschmuck",
         "handbag": "Handtasche",
-        "handheld": "Handheld",
+        "handheld": "In der Hand",
         "instrument": "Instrument",
         "lantern": "Laterne",
         "parasol": "Sonnenschirm",
@@ -722,7 +722,7 @@
         "lower_face_mask": "Untere Gesichtsmaske",
         "medical_eyepatch": "Med. Augenklappe",
         "monocle": "Monokel",
-        "mouth_held": "Im Mund gehalten",
+        "mouth_held": "Im Mund",
         "ornamental_mask": "Zier-Maske",
         "sunglasses": "Sonnenbrille"
       },

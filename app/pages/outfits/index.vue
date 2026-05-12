@@ -309,13 +309,7 @@
 </template>
 
 <script setup lang="ts">
-  import {
-    Star,
-    Tshirt,
-    ListAlt,
-    PaintBrush,
-    SortAmountDown,
-  } from '@vicons/fa'
+  import { Star, Tshirt, ListAlt, PaintBrush, SortAmountDown } from '@vicons/fa'
   import { NIcon } from 'naive-ui'
   import type { SelectOption } from 'naive-ui'
   import { h, type Component } from 'vue'
@@ -365,6 +359,10 @@
     | null
   type CompendiumSection = 'outfits' | 'items' | 'makeups'
   type IconSelectOption = SelectOption & { icon: Component }
+  type BuildListingQueryOptions = {
+    primaryFilter?: OutfitListingPrimaryFilter
+    includePage?: boolean
+  }
 
   const messages = computed(
     () => getLocaleMessage(locale.value) as Record<string, string>
@@ -694,9 +692,10 @@
     ])
   }
 
-  const buildListingQuery = (
-    primaryFilter: OutfitListingPrimaryFilter = null
-  ) => ({
+  const buildListingQuery = ({
+    primaryFilter = null,
+    includePage = true,
+  }: BuildListingQueryOptions = {}) => ({
     ...(primaryFilter !== 'quality' &&
       qualityFilter.value && { quality: qualityFilter.value }),
     ...(primaryFilter !== 'version' &&
@@ -707,14 +706,18 @@
       labelFilter.value && { label: labelFilter.value }),
     ...(primaryFilter !== 'source' &&
       obtainFilter.value && { source: obtainFilter.value }),
-    ...(currentPage.value > 1 && { page: currentPage.value }),
+    ...(includePage && currentPage.value > 1 && { page: currentPage.value }),
   })
-  const buildMakeupListingQuery = () => ({
+  const buildMakeupListingQuery = ({
+    includePage = true,
+  }: {
+    includePage?: boolean
+  } = {}) => ({
     ...(qualityFilter.value !== null && { quality: qualityFilter.value }),
     ...(versionFilter.value && { version: versionFilter.value }),
     ...(styleFilter.value && { style: styleFilter.value }),
     ...(obtainFilter.value && { source: obtainFilter.value }),
-    ...(currentPage.value > 1 && { page: currentPage.value }),
+    ...(includePage && currentPage.value > 1 && { page: currentPage.value }),
   })
 
   const buildTierlistQuery = () => ({
@@ -745,7 +748,7 @@
       navigateTo(
         localePath({
           path: '/items',
-          query: buildListingQuery(),
+          query: buildListingQuery({ includePage: false }),
         })
       )
       return
@@ -754,7 +757,7 @@
     navigateTo(
       localePath({
         path: '/makeups',
-        query: buildMakeupListingQuery(),
+        query: buildMakeupListingQuery({ includePage: false }),
       })
     )
   }
@@ -763,7 +766,9 @@
     const listingPath = currentListingPath.value
     router.replace({
       path: localePath(listingPath.path),
-      query: buildListingQuery(listingPath.primaryFilter),
+      query: buildListingQuery({
+        primaryFilter: listingPath.primaryFilter,
+      }),
     })
   }
 

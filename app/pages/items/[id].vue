@@ -913,7 +913,7 @@
       : getItemType(item.value.id)
   })
   const itemTypeListLocation = computed(() => {
-    if (isFullMakeup.value) return '/items/full-makeup'
+    if (isFullMakeup.value) return '/makeups/full-makeup'
     const slug = resolveSeoItemTypeSlug(itemType.value)
     return slug
       ? `/items/${slug}`

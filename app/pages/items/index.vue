@@ -536,6 +536,7 @@
   type BuildListingQueryOptions = {
     includeType?: boolean
     includeScopedFilters?: boolean
+    includePage?: boolean
     primaryFilter?: ItemListingPrimaryFilter
   }
 
@@ -1033,6 +1034,7 @@
   const buildListingQuery = ({
     includeType = true,
     includeScopedFilters = includeType,
+    includePage = true,
     primaryFilter = null,
   }: BuildListingQueryOptions = {}) => ({
     ...(primaryFilter !== 'quality' &&
@@ -1062,16 +1064,8 @@
     ...(primaryFilter !== 'source' &&
       obtainFilter.value && { source: obtainFilter.value }),
     ...(includeScopedFilters && buildAdvancedFilterQuery()),
-    ...(currentPage.value > 1 && { page: currentPage.value }),
+    ...(includePage && currentPage.value > 1 && { page: currentPage.value }),
   })
-  const buildCrossCompendiumQuery = () => ({
-    ...(qualityFilter.value !== null && { quality: qualityFilter.value }),
-    ...(versionFilter.value && { version: versionFilter.value }),
-    ...(styleFilter.value && { style: styleFilter.value }),
-    ...(obtainFilter.value && { source: obtainFilter.value }),
-    ...(currentPage.value > 1 && { page: currentPage.value }),
-  })
-
   const buildTierlistQuery = () => ({
     mode: 'items',
     ...(qualityFilter.value !== null && { quality: qualityFilter.value }),
@@ -1107,23 +1101,14 @@
     const nextSection = value as CompendiumSection
     if (nextSection === 'items') return
 
-    if (nextSection === 'outfits') {
-      navigateTo(
-        localePath({
-          path: '/outfits',
-          query: buildListingQuery({
-            includeType: false,
-            includeScopedFilters: false,
-          }),
-        })
-      )
-      return
-    }
-
     navigateTo(
       localePath({
-        path: '/makeups',
-        query: buildCrossCompendiumQuery(),
+        path: `/${nextSection}`,
+        query: buildListingQuery({
+          includeType: false,
+          includeScopedFilters: false,
+          includePage: false,
+        }),
       })
     )
   }

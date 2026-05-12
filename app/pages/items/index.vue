@@ -11,52 +11,16 @@
           <div
             class="flex min-w-0 flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center"
           >
-            <n-button-group class="self-start">
-              <n-tooltip trigger="hover">
-                <template #trigger>
-                  <n-button
-                    size="small"
-                    class="w-12 px-0"
-                    :aria-label="$t('common.outfits')"
-                    @click="
-                      navigateTo(
-                        localePath({
-                          path: '/outfits',
-                          query: buildListingQuery({
-                            includeType: false,
-                            includeScopedFilters: false,
-                          }),
-                        })
-                      )
-                    "
-                  >
-                    <template #icon>
-                      <n-icon>
-                        <Tshirt />
-                      </n-icon>
-                    </template>
-                  </n-button>
-                </template>
-                {{ $t('common.outfits') }}
-              </n-tooltip>
-              <n-tooltip trigger="hover">
-                <template #trigger>
-                  <n-button
-                    size="small"
-                    type="primary"
-                    class="w-12 px-0"
-                    :aria-label="$t('common.items')"
-                  >
-                    <template #icon>
-                      <n-icon>
-                        <ListAlt />
-                      </n-icon>
-                    </template>
-                  </n-button>
-                </template>
-                {{ $t('common.items') }}
-              </n-tooltip>
-            </n-button-group>
+            <n-select
+              :value="compendiumSection"
+              :options="compendiumSectionOptions"
+              :render-label="renderCompendiumSectionOptionLabel"
+              size="small"
+              class="w-full self-start sm:w-40"
+              :show-checkmark="false"
+              :clearable="false"
+              @update:value="handleCompendiumSectionChange"
+            />
 
             <div class="hidden min-w-0 overflow-x-auto sm:block">
               <n-button-group class="min-w-max">
@@ -505,8 +469,17 @@
 </template>
 
 <script setup lang="ts">
-  import { Star, Tshirt, ListAlt, SortAmountDown, Times } from '@vicons/fa'
+  import {
+    Star,
+    Tshirt,
+    ListAlt,
+    PaintBrush,
+    SortAmountDown,
+    Times,
+  } from '@vicons/fa'
+  import { NIcon } from 'naive-ui'
   import type { SelectGroupOption, SelectOption } from 'naive-ui'
+  import { h, type Component } from 'vue'
 
   const { t, locale, getLocaleMessage } = useI18n()
   const { translateFilterToken } = useFilterToken()
@@ -549,7 +522,7 @@
   )
 
   const pageSize = 18
-  const availableItemTypes = getAllItemTypes()
+  const availableItemTypes = standardItemTypes
   type ItemListingPrimaryFilter =
     | 'type'
     | 'quality'
@@ -558,9 +531,12 @@
     | 'label'
     | 'source'
     | null
+  type CompendiumSection = 'outfits' | 'items' | 'makeups'
+  type IconSelectOption = SelectOption & { icon: Component }
   type BuildListingQueryOptions = {
     includeType?: boolean
     includeScopedFilters?: boolean
+    includePage?: boolean
     primaryFilter?: ItemListingPrimaryFilter
   }
 
@@ -822,13 +798,9 @@
         )
       ).length
   )
-  const showTypeFilter = computed(() => true)
   const supportsCategoryFilters = computed(() => !!typeFilter.value)
   const isCategoryFilterEnabled = computed(
-    () =>
-      showTypeFilter.value &&
-      supportsCategoryFilters.value &&
-      categoryOptions.value.length > 0
+    () => supportsCategoryFilters.value && categoryOptions.value.length > 0
   )
   const isSubcategoryFilterEnabled = computed(
     () =>
@@ -850,7 +822,7 @@
   const hasFilters = computed(
     () =>
       qualityFilter.value !== null ||
-      (showTypeFilter.value && typeFilter.value !== null) ||
+      typeFilter.value !== null ||
       categoryFilter.value !== null ||
       subcategoryFilter.value !== null ||
       versionFilter.value !== null ||
@@ -1045,17 +1017,30 @@
       primaryFilter: null,
     }
   })
+  const compendiumSection = 'items' as const
+  const compendiumSectionOptions = computed<IconSelectOption[]>(() => [
+    { label: t('common.outfits'), value: 'outfits', icon: Tshirt },
+    { label: t('common.items'), value: 'items', icon: ListAlt },
+    { label: t('common.makeups'), value: 'makeups', icon: PaintBrush },
+  ])
+  const renderCompendiumSectionOptionLabel = (option: SelectOption) => {
+    const { icon } = option as IconSelectOption
+    return h('div', { class: 'flex items-center gap-2' }, [
+      h(NIcon, { size: 16 }, { default: () => h(icon) }),
+      h('span', null, String(option.label ?? '')),
+    ])
+  }
 
   const buildListingQuery = ({
     includeType = true,
     includeScopedFilters = includeType,
+    includePage = true,
     primaryFilter = null,
   }: BuildListingQueryOptions = {}) => ({
     ...(primaryFilter !== 'quality' &&
       qualityFilter.value && { quality: qualityFilter.value }),
     ...(primaryFilter !== 'type' &&
       includeType &&
-      showTypeFilter.value &&
       typeFilter.value && {
         type: typeFilter.value,
       }),
@@ -1079,16 +1064,12 @@
     ...(primaryFilter !== 'source' &&
       obtainFilter.value && { source: obtainFilter.value }),
     ...(includeScopedFilters && buildAdvancedFilterQuery()),
-    ...(currentPage.value > 1 && { page: currentPage.value }),
+    ...(includePage && currentPage.value > 1 && { page: currentPage.value }),
   })
-
   const buildTierlistQuery = () => ({
     mode: 'items',
     ...(qualityFilter.value !== null && { quality: qualityFilter.value }),
-    ...(showTypeFilter.value &&
-      typeFilter.value && {
-        type: typeFilter.value,
-      }),
+    ...(typeFilter.value && { type: typeFilter.value }),
     ...(supportsCategoryFilters.value &&
       categoryFilter.value && {
         category: categoryFilter.value,
@@ -1112,6 +1093,22 @@
       localePath({
         path: '/tierlist',
         query: buildTierlistQuery(),
+      })
+    )
+  }
+
+  const handleCompendiumSectionChange = (value: string) => {
+    const nextSection = value as CompendiumSection
+    if (nextSection === 'items') return
+
+    navigateTo(
+      localePath({
+        path: `/${nextSection}`,
+        query: buildListingQuery({
+          includeType: false,
+          includeScopedFilters: false,
+          includePage: false,
+        }),
       })
     )
   }
@@ -1274,7 +1271,7 @@
   }
 
   const availableTypes = computed(() => {
-    const types = getAllItemTypes()
+    const types = standardItemTypes.slice()
     return types.sort((a, b) => {
       const orderA = itemCategoryOrder[a] ?? 999
       const orderB = itemCategoryOrder[b] ?? 999
@@ -1283,27 +1280,18 @@
   })
 
   const typeOptions = computed(() => {
-    if (!showTypeFilter.value) {
-      return []
-    }
-
     const types = availableTypes.value
 
-    const grouped: Record<
-      'clothes' | 'accessories' | 'makeups' | 'other',
-      ItemType[]
-    > = {
+    const grouped: Record<'clothes' | 'accessories' | 'other', ItemType[]> = {
       clothes: [],
       accessories: [],
-      makeups: [],
       other: [],
     }
 
     types.forEach((type) => {
       const category = getItemTypeCategory(type)
-      if (grouped[category]) {
-        grouped[category].push(type)
-      }
+      if (category === 'makeups') return
+      grouped[category].push(type)
     })
 
     const options: Array<SelectOption | SelectGroupOption> = []
@@ -1326,18 +1314,6 @@
         label: t('tracker.items.category.accessories'),
         key: 'accessories',
         children: grouped.accessories.map((type) => ({
-          label: t(`type.${type}`),
-          value: type,
-        })),
-      })
-    }
-
-    if (grouped.makeups && grouped.makeups.length > 0) {
-      options.push({
-        type: 'group',
-        label: t('tracker.items.category.makeups'),
-        key: 'makeups',
-        children: grouped.makeups.map((type) => ({
           label: t(`type.${type}`),
           value: type,
         })),

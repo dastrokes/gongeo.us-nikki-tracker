@@ -20,7 +20,7 @@ import {
   toSeoVersionSlug,
   type SeoListRouteFilter,
 } from '../../shared/utils/seoListRoutes'
-import { getAllItemTypes, type ItemType } from './itemType'
+import { makeupItemTypes, standardItemTypes, type ItemType } from './itemType'
 
 type SeoValueRoute = {
   value: string
@@ -36,12 +36,29 @@ export const SEO_ITEM_QUALITY_VALUES = [5, 4, 3, 2] as const
 export const SEO_OUTFIT_QUALITY_VALUES = [5, 4, 3] as const
 export const SEO_BANNER_QUALITY_VALUES = [5, 4] as const
 
-export const SEO_ITEM_TYPE_ROUTES = getAllItemTypes()
+export const SEO_ITEM_TYPE_ROUTES = standardItemTypes
   .filter((type): type is Exclude<ItemType, 'unknown'> => type !== 'unknown')
   .map((type) => ({
     type,
     slug: toSeoListSlug(type),
   }))
+
+export const SEO_MAKEUP_TYPE_ROUTES = makeupItemTypes.map((type) => ({
+  type,
+  slug: toSeoListSlug(type),
+}))
+
+export const SEO_MAKEUP_TYPE_SLUGS = SEO_MAKEUP_TYPE_ROUTES.map(
+  (route) => route.slug
+)
+
+const MAKEUP_TYPE_BY_SEO_SLUG: ReadonlyMap<string, string> = new Map(
+  SEO_MAKEUP_TYPE_ROUTES.map((route) => [route.slug, route.type])
+)
+
+const MAKEUP_TYPE_SEO_SLUG_BY_TYPE: ReadonlyMap<string, string> = new Map(
+  SEO_MAKEUP_TYPE_ROUTES.map((route) => [route.type, route.slug])
+)
 
 export const SEO_ITEM_TYPE_SLUGS = SEO_ITEM_TYPE_ROUTES.map(
   (route) => route.slug
@@ -197,6 +214,10 @@ export const SEO_ITEM_LIST_PATHS = [
   ...SEO_ITEM_SOURCE_SLUGS.map((slug) => `/items/source/${slug}`),
 ]
 
+export const SEO_MAKEUP_LIST_PATHS = SEO_MAKEUP_TYPE_SLUGS.map(
+  (slug) => `/makeups/${slug}`
+)
+
 export const SEO_OUTFIT_LIST_PATHS = [
   ...SEO_OUTFIT_QUALITY_SLUGS.map((slug) => `/outfits/quality/${slug}`),
   ...SEO_VERSION_SLUGS.map((slug) => `/outfits/version/${slug}`),
@@ -218,6 +239,16 @@ export const resolveSeoItemTypeFromSlug = (slug?: string | null) => {
 export const resolveSeoItemTypeSlug = (type?: string | null) => {
   if (!type) return null
   return ITEM_TYPE_SEO_SLUG_BY_TYPE.get(type) ?? null
+}
+
+export const resolveSeoMakeupTypeFromSlug = (slug?: string | null) => {
+  if (!slug) return null
+  return MAKEUP_TYPE_BY_SEO_SLUG.get(slug) ?? null
+}
+
+export const resolveSeoMakeupTypeSlug = (type?: string | null) => {
+  if (!type) return null
+  return MAKEUP_TYPE_SEO_SLUG_BY_TYPE.get(type) ?? null
 }
 
 export const resolveSeoItemQualityFromSlug = (slug?: string | null) => {

@@ -3,6 +3,7 @@ import { getOgImageSrc } from '../utils/imageProvider'
 import {
   SEO_BANNER_LIST_PATHS,
   SEO_ITEM_LIST_PATHS,
+  SEO_MAKEUP_LIST_PATHS,
   SEO_OUTFIT_LIST_PATHS,
 } from '../utils/seoListRouteDefinitions'
 
@@ -22,6 +23,7 @@ const BASE_PATHS = [
   '/login',
   '/profile',
   '/items',
+  '/makeups',
   '/outfits',
   '/banners',
   '/tierlist',
@@ -29,6 +31,7 @@ const BASE_PATHS = [
 
 const SEO_LIST_PATHS = [
   ...SEO_ITEM_LIST_PATHS,
+  ...SEO_MAKEUP_LIST_PATHS,
   ...SEO_OUTFIT_LIST_PATHS,
   ...SEO_BANNER_LIST_PATHS,
 ]
@@ -36,7 +39,7 @@ const STATIC_SITEMAP_PATHS = [...BASE_PATHS, ...SEO_LIST_PATHS]
 
 type TranslationDictionary = Record<string, string>
 type LocaleCode = (typeof i18nLocales)[number]['code']
-type TranslationSection = 'banner' | 'outfit' | 'item'
+type TranslationSection = 'banner' | 'outfit' | 'item' | 'makeup'
 type TranslationLoader = () => Promise<TranslationDictionary>
 
 type SitemapUrl = {
@@ -52,7 +55,7 @@ type ContentConfig = {
   ids: string[]
   localeKey: TranslationSection
   routePrefix: string
-  imageFolder: string
+  imageType: Parameters<typeof getOgImageSrc>[0]
   fallbackLabel: string
 }
 
@@ -70,6 +73,10 @@ const translationLoaders = {
       import('./en/item.json').then(
         (module) => module.default as TranslationDictionary
       ),
+    makeup: () =>
+      import('./en/makeup.json').then(
+        (module) => module.default as TranslationDictionary
+      ),
   },
   de: {
     banner: () =>
@@ -82,6 +89,10 @@ const translationLoaders = {
       ),
     item: () =>
       import('./de/item.json').then(
+        (module) => module.default as TranslationDictionary
+      ),
+    makeup: () =>
+      import('./de/makeup.json').then(
         (module) => module.default as TranslationDictionary
       ),
   },
@@ -98,6 +109,10 @@ const translationLoaders = {
       import('./es/item.json').then(
         (module) => module.default as TranslationDictionary
       ),
+    makeup: () =>
+      import('./es/makeup.json').then(
+        (module) => module.default as TranslationDictionary
+      ),
   },
   fr: {
     banner: () =>
@@ -110,6 +125,10 @@ const translationLoaders = {
       ),
     item: () =>
       import('./fr/item.json').then(
+        (module) => module.default as TranslationDictionary
+      ),
+    makeup: () =>
+      import('./fr/makeup.json').then(
         (module) => module.default as TranslationDictionary
       ),
   },
@@ -127,6 +146,10 @@ const translationLoaders = {
       import('./it/item.json').then(
         (module) => module.default as TranslationDictionary
       ),
+    makeup: () =>
+      import('./it/makeup.json').then(
+        (module) => module.default as TranslationDictionary
+      ),
   },
   ja: {
     banner: () =>
@@ -139,6 +162,10 @@ const translationLoaders = {
       ),
     item: () =>
       import('./ja/item.json').then(
+        (module) => module.default as TranslationDictionary
+      ),
+    makeup: () =>
+      import('./ja/makeup.json').then(
         (module) => module.default as TranslationDictionary
       ),
   },
@@ -155,6 +182,10 @@ const translationLoaders = {
       import('./ko/item.json').then(
         (module) => module.default as TranslationDictionary
       ),
+    makeup: () =>
+      import('./ko/makeup.json').then(
+        (module) => module.default as TranslationDictionary
+      ),
   },
   pt: {
     banner: () =>
@@ -167,6 +198,10 @@ const translationLoaders = {
       ),
     item: () =>
       import('./pt/item.json').then(
+        (module) => module.default as TranslationDictionary
+      ),
+    makeup: () =>
+      import('./pt/makeup.json').then(
         (module) => module.default as TranslationDictionary
       ),
   },
@@ -184,6 +219,10 @@ const translationLoaders = {
       import('./zh/item.json').then(
         (module) => module.default as TranslationDictionary
       ),
+    makeup: () =>
+      import('./zh/makeup.json').then(
+        (module) => module.default as TranslationDictionary
+      ),
   },
   tw: {
     banner: () =>
@@ -196,6 +235,10 @@ const translationLoaders = {
       ),
     item: () =>
       import('./tw/item.json').then(
+        (module) => module.default as TranslationDictionary
+      ),
+    makeup: () =>
+      import('./tw/makeup.json').then(
         (module) => module.default as TranslationDictionary
       ),
   },
@@ -230,7 +273,7 @@ const loadTranslations = async (
 const loadContentConfig = async (
   localeKey: TranslationSection,
   routePrefix: string,
-  imageFolder: string,
+  imageType: Parameters<typeof getOgImageSrc>[0],
   fallbackLabel: string
 ): Promise<ContentConfig> => {
   const cacheKey = `${localeKey}:${routePrefix}`
@@ -245,7 +288,7 @@ const loadContentConfig = async (
       ids: extractIds(Object.keys(translations)),
       localeKey,
       routePrefix,
-      imageFolder,
+      imageType,
       fallbackLabel,
     })
   )
@@ -256,9 +299,10 @@ const loadContentConfig = async (
 
 const loadContentConfigs = () =>
   Promise.all([
-    loadContentConfig('banner', 'banners', 'banners', 'Banner'),
-    loadContentConfig('outfit', 'outfits', 'outfits', 'Outfit'),
-    loadContentConfig('item', 'items', 'items', 'Item'),
+    loadContentConfig('banner', 'banners', 'banner', 'Banner'),
+    loadContentConfig('outfit', 'outfits', 'outfit', 'Outfit'),
+    loadContentConfig('item', 'items', 'item', 'Item'),
+    loadContentConfig('makeup', 'items', 'fullMakeup', 'Full Makeup'),
   ])
 
 function resolveLocales(localeCode?: LocaleCode) {
@@ -320,7 +364,7 @@ export async function contentSitemap(localeCode?: LocaleCode) {
           loc: `${prefix}/${config.routePrefix}/${contentId}`,
           images: [
             {
-              loc: getOgImageSrc(config.localeKey, contentId),
+              loc: getOgImageSrc(config.imageType, contentId),
               title: name,
               caption: name,
             },

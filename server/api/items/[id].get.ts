@@ -51,11 +51,6 @@ interface ItemData {
   variations?: Array<{ id: number; quality: number; type: string }>
 }
 
-interface FullMakeupTranslation {
-  description?: string | null
-  language_code?: string | null
-}
-
 interface FullMakeupData {
   id: number
   quality: number
@@ -65,7 +60,6 @@ interface FullMakeupData {
   style_key?: string | null
   tags?: Array<number | string> | null
   obtain_type?: number | null
-  description?: string
   full_makeup_items?: Array<{
     slot_order: number
     items: {
@@ -128,8 +122,7 @@ function compactItemSearchMetadata(
 
 async function fetchFullMakeupData(
   supabase: ReturnType<typeof useSupabaseDataClient>,
-  id: number,
-  languageCode: string | null
+  id: number
 ): Promise<FullMakeupData> {
   const selectQuery = [
     'id',
@@ -162,32 +155,6 @@ async function fetchFullMakeupData(
   fullMakeupData.full_makeup_items = (
     fullMakeupData.full_makeup_items ?? []
   ).sort((a, b) => a.slot_order - b.slot_order)
-
-  if (languageCode) {
-    const translationCodes = Array.from(new Set([languageCode, 'en']))
-    const { data: translationRows, error: translationError } =
-      await withSupabaseRetry(() =>
-        supabase
-          .from('full_makeup_translations')
-          .select('description,language_code')
-          .eq('full_makeup_id', id)
-          .in('language_code', translationCodes)
-      )
-
-    if (translationError) {
-      throw translationError
-    }
-
-    const translations =
-      (translationRows as FullMakeupTranslation[] | null) ?? []
-    const translation = translations.find(
-      (t) => t.language_code === languageCode
-    )
-    const enTranslation = translations.find((t) => t.language_code === 'en')
-
-    fullMakeupData.description =
-      translation?.description || enTranslation?.description || ''
-  }
 
   return fullMakeupData
 }
@@ -233,7 +200,7 @@ export default defineCachedApiEventHandler(
 
       if (supabaseError) {
         if (supabaseError.code === 'PGRST116') {
-          return await fetchFullMakeupData(supabase, id, languageCode)
+          return await fetchFullMakeupData(supabase, id)
         }
         throw supabaseError
       }

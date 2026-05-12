@@ -3,6 +3,7 @@ import { getOgImageSrc } from '../utils/imageProvider'
 import {
   SEO_BANNER_LIST_PATHS,
   SEO_ITEM_LIST_PATHS,
+  SEO_MAKEUP_LIST_PATHS,
   SEO_OUTFIT_LIST_PATHS,
 } from '../utils/seoListRouteDefinitions'
 
@@ -22,6 +23,7 @@ const BASE_PATHS = [
   '/login',
   '/profile',
   '/items',
+  '/makeups',
   '/outfits',
   '/banners',
   '/tierlist',
@@ -29,6 +31,7 @@ const BASE_PATHS = [
 
 const SEO_LIST_PATHS = [
   ...SEO_ITEM_LIST_PATHS,
+  ...SEO_MAKEUP_LIST_PATHS,
   ...SEO_OUTFIT_LIST_PATHS,
   ...SEO_BANNER_LIST_PATHS,
 ]

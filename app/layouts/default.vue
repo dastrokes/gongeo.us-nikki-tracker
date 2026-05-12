@@ -91,7 +91,8 @@
               class="w-auto!"
             >
               <div
-                class="overflow-hidden rounded-xl border border-black/6 bg-white shadow-lg ring-1 ring-black/5 dark:border-white/2 dark:bg-slate-900 dark:ring-white/5"
+                class="overflow-hidden rounded-xl border border-black/6 bg-white shadow-lg ring-1 ring-black/5 transition-[height] duration-300 ease-in-out dark:border-white/2 dark:bg-slate-900 dark:ring-white/5"
+                :style="{ height: desktopMenuHeight }"
               >
                 <div class="min-w-50 p-1.5">
                   <button
@@ -528,6 +529,7 @@
     Search,
     CommentDots,
     Magic,
+    PaintBrush,
   } from '@vicons/fa'
 
   type NavigationItem = {
@@ -589,6 +591,11 @@
       items: [
         { key: 'items', label: t('navigation.item'), icon: ListAlt },
         { key: 'outfits', label: t('navigation.outfit'), icon: Tshirt },
+        {
+          key: 'makeups',
+          label: t('navigation.makeup'),
+          icon: PaintBrush,
+        },
         { key: 'search', label: t('search_page.title'), icon: Search },
         {
           key: 'random',
@@ -709,6 +716,11 @@
         (group) => group.key === openDesktopGroup.value
       ) ?? null
     )
+  })
+
+  const desktopMenuHeight = computed(() => {
+    const itemsCount = openDesktopMenuGroup.value?.items.length || 0
+    return itemsCount > 0 ? `${itemsCount * 44 + 14}px` : undefined
   })
 
   const isNavItemActive = (key: string) => activeRouteSegment.value === key

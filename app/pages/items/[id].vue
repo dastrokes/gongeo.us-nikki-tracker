@@ -671,7 +671,6 @@
     style_key?: string | null
     tags?: Array<number | string> | null
     obtain_type?: number | null
-    description?: string
     full_makeup_items?: Array<{
       slot_order: number
       items: DetailItem
@@ -851,7 +850,7 @@
           type: v.type,
           label:
             v.type === 'fullMakeup'
-              ? t('common.full_makeup')
+              ? t('type.fullMakeup')
               : t(`banner.outfit.level.${levelKey}`),
         }
       })
@@ -914,7 +913,7 @@
       : getItemType(item.value.id)
   })
   const itemTypeListLocation = computed(() => {
-    if (isFullMakeup.value) return '/items/makeups'
+    if (isFullMakeup.value) return '/items/full-makeup'
     const slug = resolveSeoItemTypeSlug(itemType.value)
     return slug
       ? `/items/${slug}`

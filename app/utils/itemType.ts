@@ -192,6 +192,12 @@ export const itemTypeCategories = {
   ],
 } as const
 
+export const makeupItemTypes = itemTypeCategories.makeups
+
+export const standardItemTypes = getAllItemTypes().filter(
+  (type) => !(makeupItemTypes as readonly string[]).includes(type)
+)
+
 /**
  * Get category for an item type
  */

@@ -6,6 +6,7 @@ import { defaultLocale, i18nLocales } from './app/locales/locales'
 import {
   SEO_BANNER_LIST_PATHS,
   SEO_ITEM_LIST_PATHS,
+  SEO_MAKEUP_LIST_PATHS,
   SEO_OUTFIT_LIST_PATHS,
 } from './app/utils/seoListRouteDefinitions'
 import {
@@ -110,6 +111,7 @@ export default defineNuxtConfig({
         })
       }
 
+      addSeoListRoutes('/makeups', 'seo-makeups', SEO_MAKEUP_LIST_PATHS)
       addSeoListRoutes('/items', 'seo-items', SEO_ITEM_LIST_PATHS)
       addSeoListRoutes('/outfits', 'seo-outfits', SEO_OUTFIT_LIST_PATHS)
       addSeoListRoutes('/banners', 'seo-banners', SEO_BANNER_LIST_PATHS)
@@ -209,6 +211,7 @@ export default defineNuxtConfig({
       type I18nRouteRule = {
         prerender?: boolean
         headers?: Record<string, string>
+        redirect?: string | { to: string; statusCode: number }
       }
 
       const buildLocalizedRules = (paths: string[], rule: I18nRouteRule) =>
@@ -222,6 +225,26 @@ export default defineNuxtConfig({
             ].map((route) => [route, rule])
           )
         )
+
+      const buildLocalizedRedirectRules = (redirects: [string, string][]) =>
+        Object.fromEntries(
+          redirects.flatMap(([from, to]) =>
+            [
+              [from, to],
+              ...localePrefixes.map((prefix) => [
+                `${prefix}${from}`,
+                `${prefix}${to}`,
+              ]),
+            ].map(([route, target]) => [
+              route,
+              { redirect: { to: target, statusCode: 301 } },
+            ])
+          )
+        )
+
+      const makeupListRedirects = SEO_MAKEUP_LIST_PATHS.map(
+        (path): [string, string] => [path.replace('/makeups/', '/items/'), path]
+      )
 
       return {
         ...buildLocalizedRules(['/error'], {
@@ -240,15 +263,22 @@ export default defineNuxtConfig({
             headers: pageTheme,
           }
         ),
-        ...buildLocalizedRules(['/banners/**', '/outfits/**', '/items/**'], {
-          headers: pageThemeNoTag,
-        }),
-        ...buildLocalizedRules(['/outfits', '/items', '/tierlist', '/search'], {
-          headers: pageThemeQuery,
-        }),
+        ...buildLocalizedRules(
+          ['/banners/**', '/outfits/**', '/items/**', '/makeups/**'],
+          {
+            headers: pageThemeNoTag,
+          }
+        ),
+        ...buildLocalizedRules(
+          ['/outfits', '/items', '/makeups', '/tierlist', '/search'],
+          {
+            headers: pageThemeQuery,
+          }
+        ),
         ...buildLocalizedRules(['/tracker', '/login', '/profile', '/stats'], {
           headers: noStoreHeaders,
         }),
+        ...buildLocalizedRedirectRules(makeupListRedirects),
       }
     })(),
   },

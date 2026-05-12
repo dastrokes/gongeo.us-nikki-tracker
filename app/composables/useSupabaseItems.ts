@@ -218,7 +218,7 @@ export const useSupabaseItems = () => {
         params.source = source
       }
 
-      return await $fetch<PaginatedItemsResponse>('/api/items/makeups', {
+      return await $fetch<PaginatedItemsResponse>('/api/items/full-makeup', {
         params,
         headers: gameVersionHeader,
       })
@@ -226,6 +226,65 @@ export const useSupabaseItems = () => {
       const normalizedError = toError(e, 'Failed to fetch full makeups')
       error.value = normalizedError
       console.error(`Failed to fetch full makeups: ${normalizedError.message}`)
+      return {
+        data: [],
+        total: 0,
+        page,
+        totalPages: 0,
+      }
+    } finally {
+      loading.value = false
+    }
+  }
+
+  const fetchMakeupsPaginated = async (
+    filters: Pick<
+      ItemFilters,
+      'quality' | 'type' | 'style' | 'version' | 'source' | 'page' | 'pageSize'
+    > = {}
+  ): Promise<PaginatedItemsResponse> => {
+    loading.value = true
+    error.value = null
+    const {
+      quality = null,
+      type = null,
+      style = null,
+      version = null,
+      source = null,
+      page = 1,
+      pageSize = null,
+    } = filters
+
+    try {
+      const params: Record<string, string | number> = { page }
+
+      if (pageSize !== null && pageSize !== undefined) {
+        params.pageSize = pageSize
+      }
+      if (quality !== null && quality !== undefined) {
+        params.quality = quality
+      }
+      if (type && type !== 'all') {
+        params.type = type
+      }
+      if (style && style !== 'all') {
+        params.style = style
+      }
+      if (version) {
+        params.version = version
+      }
+      if (source !== null && source !== undefined) {
+        params.source = source
+      }
+
+      return await $fetch<PaginatedItemsResponse>('/api/items/makeups', {
+        params,
+        headers: gameVersionHeader,
+      })
+    } catch (e) {
+      const normalizedError = toError(e, 'Failed to fetch makeups')
+      error.value = normalizedError
+      console.error(`Failed to fetch makeups: ${normalizedError.message}`)
       return {
         data: [],
         total: 0,
@@ -315,6 +374,7 @@ export const useSupabaseItems = () => {
     fetchItemById,
     fetchItemsPaginated,
     fetchFullMakeupsPaginated,
+    fetchMakeupsPaginated,
     fetchItemSearchFacets,
   }
 }

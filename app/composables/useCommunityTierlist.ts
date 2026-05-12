@@ -14,7 +14,7 @@ export type CommunityScope = {
   scopeFilters: CommunityScopeFilters
 }
 
-export type TierMode = 'banners' | 'outfits' | 'items'
+export type TierMode = 'banners' | 'outfits' | 'items' | 'makeups'
 
 export type CommunityScopeFromTierlistInput = {
   mode: TierMode
@@ -360,6 +360,7 @@ const normalizeAggregateJson = (
     banners: normalizeMode(modesSource.banners),
     outfits: normalizeMode(modesSource.outfits),
     items: normalizeMode(modesSource.items),
+    makeups: normalizeMode(modesSource.makeups),
   }
 
   return {
@@ -490,7 +491,7 @@ export const resolveCommunityScopeFromTierlistFilters = (
     }
   }
 
-  if (input.mode === 'items') {
+  if (input.mode === 'items' || input.mode === 'makeups') {
     const scopeFilters: CommunityScopeFilters = {}
     if (
       input.qualityFilter === 5 ||

@@ -7,8 +7,7 @@
     "item": "Item",
     "items": "Items",
     "makeup": "Makeup",
-    "full_makeup": "Full Makeup",
-    "full_makeups": "Full Makeups",
+    "makeups": "Makeups",
     "variations": "Variations",
     "slot": "Slot",
     "pulls": "Pulls",
@@ -97,6 +96,7 @@
     "outfit": "Outfit Compendium",
     "outfit_detail": "Outfit Detail",
     "item": "Item Compendium",
+    "makeup": "Makeup Compendium",
     "item_detail": "Item Detail",
     "tierlist": "Tier List Maker",
     "compendium": "Compendium",
@@ -123,6 +123,7 @@
       "timeline": "Explore an interactive timeline of Infinity Nikki resonance banners, major updates, release periods, and reruns to track event history at a glance.",
       "tierlist": "Create and share an Infinity Nikki tier list for banners, outfits, and items with drag-and-drop ranking, filters, and easy image export.",
       "outfits": "Browse all Infinity Nikki outfits with filters for quality, evolution, glow-up, style tags, and stats. See full components and discover every outfit.",
+      "makeups": "Browse all Infinity Nikki makeups, including full makeups and individual makeup parts, with filters for slot, quality, style, version, and source.",
       "outfit_detail": "View detailed information about the {name} outfit, including quality, outfit pieces, evolution and glow-up, makeups, stats, and related resonance banners.",
       "items": "Browse all Infinity Nikki items with filters for slot, quality, stat bonuses, and related outfits or banners. Find, compare, and track every item easily.",
       "item_detail": "View detailed information about the {name} item, including quality, evolution and glow-up, stats, and related outfits and banners.",
@@ -455,8 +456,7 @@
       "pull": "Pull #{number}",
       "category": {
         "clothes": "Clothes",
-        "accessories": "Accessories",
-        "makeups": "Makeups"
+        "accessories": "Accessories"
       }
     },
     "export": {

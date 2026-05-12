@@ -135,9 +135,9 @@
       <!-- Base Shadow -->
       <ellipse
         cx="256"
-        cy="622"
+        cy="612"
         rx="150"
-        ry="14"
+        ry="12"
         fill="#4D2232"
         opacity="0.42"
       />
@@ -508,7 +508,7 @@
   }
 
   .lucky-gachapon-machine--loading {
-    width: min(78%, 13rem);
+    width: min(90%, 18rem);
     filter: drop-shadow(0 1rem 1rem rgb(72 32 34 / 0.2));
   }
 

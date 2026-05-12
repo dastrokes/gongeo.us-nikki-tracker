@@ -11,6 +11,8 @@ type RpcCapableClient = {
   ) => PromiseLike<{ data: unknown; error: unknown }>
 }
 
+const ITEM_FACET_EXCLUDED_TYPES = [...CATALOG_SEARCH_EXCLUDED_ITEM_TYPES]
+
 /**
  * API endpoint for fetching distinct item-search facet values.
  * Response is intentionally minimal so the client can humanize labels locally.
@@ -24,6 +26,13 @@ export default defineCachedApiEventHandler(
       qualityParam.length > 0 && !Number.isFinite(qualityParsed)
     const quality = invalidQuality ? null : qualityParsed
     const type = query.type?.toString() || null
+    const hasExcludedType = Boolean(
+      type &&
+      type !== 'all' &&
+      CATALOG_SEARCH_EXCLUDED_ITEM_TYPES.includes(
+        type as (typeof CATALOG_SEARCH_EXCLUDED_ITEM_TYPES)[number]
+      )
+    )
     const selectedCategory =
       normalizeItemSearchTokenKey(query.category?.toString() ?? null) || null
     const selectedSubcategory =
@@ -66,6 +75,7 @@ export default defineCachedApiEventHandler(
       invalidQuality ||
       !type ||
       type === 'all' ||
+      hasExcludedType ||
       (styleParam && !styleFilter) ||
       (labelParam && !labelFilter) ||
       (versionParam && obtainTypeRange === null) ||
@@ -93,6 +103,7 @@ export default defineCachedApiEventHandler(
         rpcClient.rpc('list_item_facets', {
           p_quality: quality ?? null,
           p_type: type && type !== 'all' ? type : null,
+          p_exclude_types: ITEM_FACET_EXCLUDED_TYPES,
           p_style_key: styleFilter?.key ?? null,
           p_label_id: labelFilter?.id ?? null,
           p_obtain_min: obtainTypeRange?.min ?? null,

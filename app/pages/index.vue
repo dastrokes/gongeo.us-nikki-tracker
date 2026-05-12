@@ -457,7 +457,6 @@
     Book,
     Globe,
     CalendarAlt,
-    AlignRight,
     Tshirt,
     ListAlt,
     PuzzlePiece,
@@ -465,6 +464,7 @@
     Search,
     Magic,
     Filter,
+    PaintBrush,
   } from '@vicons/fa'
 
   const { t } = useI18n()
@@ -544,14 +544,14 @@
       icon: CalendarAlt,
       label: 'common.banners',
     },
-    {
-      key: 'timeline',
-      path: '/timeline',
-      icon: AlignRight,
-      label: 'navigation.timeline',
-    },
     { key: 'items', path: '/items', icon: ListAlt, label: 'common.items' },
     { key: 'outfits', path: '/outfits', icon: Tshirt, label: 'common.outfits' },
+    {
+      key: 'makeups',
+      path: '/makeups',
+      icon: PaintBrush,
+      label: 'common.makeups',
+    },
   ] as const
 
   // ── Current banners ────────────────────────────

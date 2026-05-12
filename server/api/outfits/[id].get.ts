@@ -19,6 +19,12 @@ interface OutfitData {
       type: string
     }
   }>
+  full_makeup_outfits?: Array<{
+    full_makeups: {
+      id: number
+      quality: number
+    }
+  }>
   variations?: Array<{ id: number; quality: number; type: string }>
 }
 
@@ -81,6 +87,7 @@ export default defineCachedApiEventHandler(
       ]
 
       selectParts.push('outfit_items(items(id,quality,type))')
+      selectParts.push('full_makeup_outfits(full_makeups(id,quality))')
 
       const selectQuery = selectParts.join(',')
 

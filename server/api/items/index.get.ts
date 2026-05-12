@@ -19,6 +19,7 @@ type RpcCapableClient = {
 const DEFAULT_PAGE_SIZE = 18
 const TIERLIST_PAGE_SIZE = 200
 const ALLOWED_PAGE_SIZES = new Set([DEFAULT_PAGE_SIZE, TIERLIST_PAGE_SIZE])
+const ITEM_LIST_EXCLUDED_TYPES = [...CATALOG_SEARCH_EXCLUDED_ITEM_TYPES]
 
 const parsePageSize = (value: unknown): number => {
   const parsed = Number(value)
@@ -46,6 +47,13 @@ export default defineCachedApiEventHandler(
       qualityParam.length > 0 && !Number.isFinite(qualityParsed)
     const quality = invalidQuality ? null : qualityParsed
     const type = query.type?.toString() || null
+    const hasExcludedType = Boolean(
+      type &&
+      type !== 'all' &&
+      CATALOG_SEARCH_EXCLUDED_ITEM_TYPES.includes(
+        type as (typeof CATALOG_SEARCH_EXCLUDED_ITEM_TYPES)[number]
+      )
+    )
     const category =
       normalizeItemSearchTokenKey(query.category?.toString() ?? null) || null
     const subcategory =
@@ -101,6 +109,7 @@ export default defineCachedApiEventHandler(
 
     if (
       invalidQuality ||
+      hasExcludedType ||
       (styleParam && !styleFilter) ||
       (labelParam && !labelFilter) ||
       (versionParam && obtainTypeRange === null) ||
@@ -123,6 +132,8 @@ export default defineCachedApiEventHandler(
         p_page_size: pageSize,
         p_quality: quality ?? null,
         p_type: type && type !== 'all' ? type : null,
+        p_exclude_types:
+          type && type !== 'all' ? null : ITEM_LIST_EXCLUDED_TYPES,
         p_style_key: styleFilter?.key ?? null,
         p_label_id: labelFilter?.id ?? null,
         p_obtain_min: obtainTypeRange?.min ?? null,

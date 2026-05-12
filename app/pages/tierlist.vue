@@ -293,6 +293,18 @@
 
         <div class="grid grid-cols-2 gap-2 sm:grid-cols-2 xl:grid-cols-4">
           <n-select
+            v-if="mode === 'makeups'"
+            v-model:value="itemTypeFilter"
+            :options="makeupTypeOptions"
+            size="small"
+            class="min-w-0"
+            :clearable="true"
+            filterable
+            :show-checkmark="false"
+            :placeholder="t('compendium.filter_slot')"
+          />
+
+          <n-select
             v-model:value="versionFilter"
             :options="versionOptions"
             :render-label="renderVersionOptionLabel"
@@ -341,15 +353,15 @@
         </div>
 
         <div
-          v-if="mode === 'items' || mode === 'makeups'"
+          v-if="mode === 'items'"
           class="grid grid-cols-2 gap-2 sm:grid-cols-2 xl:grid-cols-4"
         >
           <n-select
             v-model:value="itemTypeFilter"
-            :options="mode === 'makeups' ? makeupTypeOptions : itemTypeOptions"
+            :options="itemTypeOptions"
             size="small"
             class="min-w-0"
-            :clearable="mode === 'items'"
+            clearable
             filterable
             :show-checkmark="false"
             :placeholder="t('compendium.filter_slot')"
@@ -1191,7 +1203,6 @@
 
   const availableStyles = STYLE_DEFINITIONS.map((style) => style.key)
   const availableLabels = TAG_DEFINITIONS.map((tag) => tag.key)
-  const defaultMakeupType = 'fullMakeup' as const
   const availableItemTypes = standardItemTypes
   const isMakeupItemType = (value?: string | null): value is ItemType =>
     !!value && (makeupItemTypes as readonly string[]).includes(value)
@@ -1279,8 +1290,7 @@
   )
   const initialItemTypeFilter =
     initialMode === 'makeups'
-      ? (resolveMakeupType(route.query.type?.toString() ?? null) ??
-        defaultMakeupType)
+      ? resolveMakeupType(route.query.type?.toString() ?? null)
       : resolveItemType(route.query.type?.toString() ?? null)
   const itemTypeFilter = ref<ItemType | null>(initialItemTypeFilter)
   const itemCategoryFilter = ref<string | null>(
@@ -1377,7 +1387,7 @@
     }
 
     if (nextMode === 'makeups' && !isMakeupItemType(itemTypeFilter.value)) {
-      itemTypeFilter.value = defaultMakeupType
+      itemTypeFilter.value = null
     }
 
     if (nextMode === 'items' && isMakeupItemType(itemTypeFilter.value)) {
@@ -1412,7 +1422,7 @@
           itemCategoryFilter.value !== null ||
           itemSubcategoryFilter.value !== null ||
           activeAdvancedFilterCount.value > 0)) ||
-      (mode.value === 'makeups' && itemTypeFilter.value !== defaultMakeupType)
+      (mode.value === 'makeups' && itemTypeFilter.value !== null)
     )
   })
   const effectiveLabelFilter = computed(() =>
@@ -1500,11 +1510,8 @@
   )
 
   const { fetchOutfitsPaginated } = useSupabaseOutfits()
-  const {
-    fetchItemsPaginated,
-    fetchFullMakeupsPaginated,
-    fetchItemSearchFacets,
-  } = useSupabaseItems()
+  const { fetchItemsPaginated, fetchMakeupsPaginated, fetchItemSearchFacets } =
+    useSupabaseItems()
 
   const itemFacetCacheKey = computed(
     () =>
@@ -1973,34 +1980,9 @@
   const loadMakeupEntries = async (): Promise<TierDataPayload> => {
     const makeupType = isMakeupItemType(itemTypeFilter.value)
       ? itemTypeFilter.value
-      : defaultMakeupType
+      : null
 
-    if (makeupType === 'fullMakeup') {
-      const { data: items, total } = await fetchFullMakeupsPaginated({
-        quality: qualityFilter.value,
-        version: versionFilter.value,
-        style: styleFilter.value,
-        source: obtainFilter.value,
-        page: 1,
-        pageSize: TIER_ENTRY_LIMIT,
-      })
-      const overLimit = total > TIER_ENTRY_LIMIT
-
-      const entries = items.map((item) => ({
-        id: String(item.id),
-        numericId: item.id,
-        name: t(`makeup.${item.id}.name`),
-        image: getImageSrc('fullMakeup', item.id),
-        quality: item.quality,
-      }))
-
-      return {
-        entries,
-        overLimit,
-      }
-    }
-
-    const { data: items, total } = await fetchItemsPaginated({
+    const { data: items, total } = await fetchMakeupsPaginated({
       quality: qualityFilter.value,
       type: makeupType,
       version: versionFilter.value,
@@ -2014,8 +1996,14 @@
     const entries = items.map((item) => ({
       id: String(item.id),
       numericId: item.id,
-      name: t(`item.${item.id}.name`),
-      image: getImageSrc('item', item.id),
+      name:
+        item.type === 'fullMakeup'
+          ? t(`makeup.${item.id}.name`)
+          : t(`item.${item.id}.name`),
+      image:
+        item.type === 'fullMakeup'
+          ? getImageSrc('fullMakeup', item.id)
+          : getImageSrc('item', item.id),
       quality: item.quality,
     }))
 
@@ -3200,7 +3188,7 @@
 
   const clearFilters = () => {
     qualityFilter.value = null
-    itemTypeFilter.value = mode.value === 'makeups' ? defaultMakeupType : null
+    itemTypeFilter.value = null
     itemCategoryFilter.value = null
     itemSubcategoryFilter.value = null
     bannerQualityFilter.value = null

@@ -363,9 +363,7 @@
                   }}</span>
                   <span>
                     {{
-                      itemCount === 1
-                        ? t('common.makeup')
-                        : t('common.makeups')
+                      itemCount === 1 ? t('common.makeup') : t('common.makeups')
                     }}
                   </span>
                 </div>
@@ -379,13 +377,7 @@
 </template>
 
 <script setup lang="ts">
-  import {
-    Star,
-    Tshirt,
-    ListAlt,
-    PaintBrush,
-    SortAmountDown,
-  } from '@vicons/fa'
+  import { Star, Tshirt, ListAlt, PaintBrush, SortAmountDown } from '@vicons/fa'
   import { NIcon } from 'naive-ui'
   import type { SelectOption } from 'naive-ui'
   import { h, type Component } from 'vue'
@@ -406,6 +398,9 @@
     | null
   type BuildListingQueryOptions = {
     primaryFilter?: MakeupListingPrimaryFilter
+  }
+  type BuildCrossCompendiumQueryOptions = {
+    includePage?: boolean
   }
   type CompendiumSection = 'outfits' | 'items' | 'makeups'
   type IconSelectOption = SelectOption & { icon: Component }
@@ -548,8 +543,7 @@
   }
 
   const resolveRouteSlotFilter = () =>
-    routeMakeupType.value ??
-    resolveSlot(route.query.type?.toString() ?? null)
+    routeMakeupType.value ?? resolveSlot(route.query.type?.toString() ?? null)
   const resolveRouteQualityFilter = () =>
     routeQualityFilter.value ??
     resolveQuality(route.query.quality?.toString() ?? null)
@@ -571,9 +565,7 @@
   const currentPage = ref(Number(route.query.page) || 1)
 
   const activeSlotLabel = computed(() =>
-    slotFilter.value
-      ? t(`type.${slotFilter.value}`)
-      : t('common.makeups')
+    slotFilter.value ? t(`type.${slotFilter.value}`) : t('common.makeups')
   )
   const pageTitle = computed(() => {
     if (slotFilter.value) {
@@ -718,12 +710,14 @@
     ...(styleFilter.value && { style: styleFilter.value }),
     ...(obtainFilter.value && { source: obtainFilter.value }),
   })
-  const buildCrossCompendiumQuery = () => ({
+  const buildCrossCompendiumQuery = ({
+    includePage = true,
+  }: BuildCrossCompendiumQueryOptions = {}) => ({
     ...(qualityFilter.value !== null && { quality: qualityFilter.value }),
     ...(versionFilter.value && { version: versionFilter.value }),
     ...(styleFilter.value && { style: styleFilter.value }),
     ...(obtainFilter.value && { source: obtainFilter.value }),
-    ...(currentPage.value > 1 && { page: currentPage.value }),
+    ...(includePage && currentPage.value > 1 && { page: currentPage.value }),
   })
 
   const goToTierlist = () => {
@@ -744,10 +738,7 @@
     navigateTo(
       localePath({
         path: `/${nextSection}`,
-        query:
-          nextSection === 'items'
-            ? buildCrossCompendiumQuery()
-            : buildCrossCompendiumQuery(),
+        query: buildCrossCompendiumQuery({ includePage: false }),
       })
     )
   }
@@ -796,12 +787,9 @@
     }
   )
 
-  watch(
-    [slotFilter, qualityFilter, versionFilter, styleFilter],
-    () => {
-      currentPage.value = 1
-    }
-  )
+  watch([slotFilter, qualityFilter, versionFilter, styleFilter], () => {
+    currentPage.value = 1
+  })
   watch(obtainFilter, () => {
     currentPage.value = 1
   })

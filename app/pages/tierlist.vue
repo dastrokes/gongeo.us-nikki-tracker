@@ -10,56 +10,16 @@
           <div
             class="flex min-w-0 flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center"
           >
-            <n-button-group class="self-start">
-              <n-tooltip trigger="hover">
-                <template #trigger>
-                  <n-button
-                    size="small"
-                    class="w-12 px-0"
-                    :aria-label="t('common.banners')"
-                    :type="mode === 'banners' ? 'primary' : 'default'"
-                    @click="setMode('banners')"
-                  >
-                    <template #icon>
-                      <n-icon><CalendarAlt /></n-icon>
-                    </template>
-                  </n-button>
-                </template>
-                {{ t('common.banners') }}
-              </n-tooltip>
-              <n-tooltip trigger="hover">
-                <template #trigger>
-                  <n-button
-                    size="small"
-                    class="w-12 px-0"
-                    :aria-label="t('common.outfits')"
-                    :type="mode === 'outfits' ? 'primary' : 'default'"
-                    @click="setMode('outfits')"
-                  >
-                    <template #icon>
-                      <n-icon><Tshirt /></n-icon>
-                    </template>
-                  </n-button>
-                </template>
-                {{ t('common.outfits') }}
-              </n-tooltip>
-              <n-tooltip trigger="hover">
-                <template #trigger>
-                  <n-button
-                    size="small"
-                    class="w-12 px-0"
-                    :aria-label="t('common.items')"
-                    :type="mode === 'items' ? 'primary' : 'default'"
-                    @click="setMode('items')"
-                  >
-                    <template #icon>
-                      <n-icon><ListAlt /></n-icon>
-                    </template>
-                  </n-button>
-                </template>
-                {{ t('common.items') }}
-              </n-tooltip>
-            </n-button-group>
+            <n-select
+              :value="mode"
+              :options="tierModeOptions"
+              :render-label="renderTierModeOptionLabel"
+              size="small"
+              class="w-full self-start sm:w-44"
+              :show-checkmark="false"
+              :clearable="false"
+              @update:value="handleTierModeChange"
+            />
 
             <div class="hidden min-w-0 overflow-x-auto sm:block">
               <n-button-group
@@ -356,7 +316,7 @@
           />
 
           <n-select
-            v-if="mode !== 'banners'"
+            v-if="mode === 'items' || mode === 'outfits'"
             v-model:value="labelFilter"
             :options="labelOptions"
             size="small"
@@ -381,21 +341,22 @@
         </div>
 
         <div
-          v-if="mode === 'items'"
+          v-if="mode === 'items' || mode === 'makeups'"
           class="grid grid-cols-2 gap-2 sm:grid-cols-2 xl:grid-cols-4"
         >
           <n-select
             v-model:value="itemTypeFilter"
-            :options="itemTypeOptions"
+            :options="mode === 'makeups' ? makeupTypeOptions : itemTypeOptions"
             size="small"
             class="min-w-0"
-            clearable
+            :clearable="mode === 'items'"
             filterable
             :show-checkmark="false"
             :placeholder="t('compendium.filter_slot')"
           />
 
           <n-select
+            v-if="mode === 'items'"
             v-model:value="itemCategoryFilter"
             :options="itemCategoryOptions"
             size="small"
@@ -408,6 +369,7 @@
           />
 
           <n-select
+            v-if="mode === 'items'"
             v-model:value="itemSubcategoryFilter"
             :options="itemSubcategoryOptions"
             size="small"
@@ -420,6 +382,7 @@
           />
 
           <n-button
+            v-if="mode === 'items'"
             size="small"
             class="justify-between"
             :disabled="!showAdvancedFiltersButton"
@@ -1031,20 +994,24 @@
     Download,
     ExternalLinkAlt,
     ListAlt,
+    PaintBrush,
     Star,
     Sync,
     Tshirt,
     Users,
   } from '@vicons/fa'
+  import { NIcon } from 'naive-ui'
   import {
     useSortable,
     type UseSortableOptions,
   } from '@vueuse/integrations/useSortable'
   import type { SelectGroupOption, SelectOption } from 'naive-ui'
   import type { SortableEvent } from 'sortablejs'
+  import { h, type Component } from 'vue'
   import { BANNER_DATA } from '~~/data/banners'
 
-  type TierMode = 'banners' | 'outfits' | 'items'
+  type TierMode = 'banners' | 'outfits' | 'items' | 'makeups'
+  type IconSelectOption = SelectOption & { icon: Component }
   type TierKey = 'S' | 'A' | 'B' | 'C' | 'D' | 'F'
   type TierTarget = TierKey | typeof UNRANKED_TARGET
   type TierEntry = {
@@ -1224,10 +1191,18 @@
 
   const availableStyles = STYLE_DEFINITIONS.map((style) => style.key)
   const availableLabels = TAG_DEFINITIONS.map((tag) => tag.key)
-  const availableItemTypes = getAllItemTypes()
+  const defaultMakeupType = 'fullMakeup' as const
+  const availableItemTypes = standardItemTypes
+  const isMakeupItemType = (value?: string | null): value is ItemType =>
+    !!value && (makeupItemTypes as readonly string[]).includes(value)
 
   const resolveMode = (value?: string | null): TierMode => {
-    if (value === 'banners' || value === 'outfits' || value === 'items') {
+    if (
+      value === 'banners' ||
+      value === 'outfits' ||
+      value === 'items' ||
+      value === 'makeups'
+    ) {
       return value
     }
     return 'banners'
@@ -1274,6 +1249,13 @@
     return null
   }
 
+  const resolveMakeupType = (value?: string | null): ItemType | null => {
+    if (!value || value === 'all') return null
+    if (isMakeupItemType(value)) return value
+    const seoType = resolveSeoMakeupTypeFromSlug(value)
+    return isMakeupItemType(seoType) ? seoType : null
+  }
+
   const resolveBannerQuality = (value?: string | null): number | null => {
     if (!value || value === 'all') return null
     const parsed = Number(value)
@@ -1288,15 +1270,18 @@
     return null
   }
 
-  const mode = ref<TierMode>(resolveMode(route.query.mode?.toString() ?? null))
+  const initialMode = resolveMode(route.query.mode?.toString() ?? null)
+  const mode = ref<TierMode>(initialMode)
   const poolPage = ref(1)
   const communityPoolPage = ref(1)
   const qualityFilter = ref<number | null>(
     resolveQuality(route.query.quality?.toString() ?? null)
   )
-  const initialItemTypeFilter = resolveItemType(
-    route.query.type?.toString() ?? null
-  )
+  const initialItemTypeFilter =
+    initialMode === 'makeups'
+      ? (resolveMakeupType(route.query.type?.toString() ?? null) ??
+        defaultMakeupType)
+      : resolveItemType(route.query.type?.toString() ?? null)
   const itemTypeFilter = ref<ItemType | null>(initialItemTypeFilter)
   const itemCategoryFilter = ref<string | null>(
     initialItemTypeFilter
@@ -1340,7 +1325,7 @@
   )
   const isAdvancedFiltersDrawerOpen = ref(false)
   const advancedFilterFields = computed(() =>
-    mode.value === 'items' && itemTypeFilter.value !== 'fullMakeup'
+    mode.value === 'items'
       ? getItemSearchCompendiumAdvancedFields(itemTypeFilter.value)
       : []
   )
@@ -1365,10 +1350,7 @@
       ).length
   )
   const supportsItemSearchCategories = computed(
-    () =>
-      mode.value === 'items' &&
-      !!itemTypeFilter.value &&
-      itemTypeFilter.value !== 'fullMakeup'
+    () => mode.value === 'items' && !!itemTypeFilter.value
   )
   const showAdvancedFiltersButton = computed(
     () => mode.value === 'items' && advancedFilterFields.value.length > 0
@@ -1394,6 +1376,18 @@
       }
     }
 
+    if (nextMode === 'makeups' && !isMakeupItemType(itemTypeFilter.value)) {
+      itemTypeFilter.value = defaultMakeupType
+    }
+
+    if (nextMode === 'items' && isMakeupItemType(itemTypeFilter.value)) {
+      itemTypeFilter.value = null
+    }
+
+    if (nextMode === 'makeups') {
+      labelFilter.value = null
+    }
+
     if (nextMode !== 'items') {
       advancedFilters.value = createEmptyItemSearchAdvancedFilters()
       isAdvancedFiltersDrawerOpen.value = false
@@ -1411,15 +1405,32 @@
       qualityFilter.value !== null ||
       versionFilter.value !== null ||
       styleFilter.value !== null ||
-      labelFilter.value !== null ||
+      effectiveLabelFilter.value !== null ||
       obtainFilter.value !== null ||
       (mode.value === 'items' &&
         (itemTypeFilter.value !== null ||
           itemCategoryFilter.value !== null ||
           itemSubcategoryFilter.value !== null ||
-          activeAdvancedFilterCount.value > 0))
+          activeAdvancedFilterCount.value > 0)) ||
+      (mode.value === 'makeups' && itemTypeFilter.value !== defaultMakeupType)
     )
   })
+  const effectiveLabelFilter = computed(() =>
+    mode.value === 'makeups' ? null : labelFilter.value
+  )
+  const tierModeOptions = computed<IconSelectOption[]>(() => [
+    { label: t('common.banners'), value: 'banners', icon: CalendarAlt },
+    { label: t('common.outfits'), value: 'outfits', icon: Tshirt },
+    { label: t('common.items'), value: 'items', icon: ListAlt },
+    { label: t('common.makeups'), value: 'makeups', icon: PaintBrush },
+  ])
+  const renderTierModeOptionLabel = (option: SelectOption) => {
+    const { icon } = option as IconSelectOption
+    return h('div', { class: 'flex items-center gap-2' }, [
+      h(NIcon, { size: 16 }, { default: () => h(icon) }),
+      h('span', null, String(option.label ?? '')),
+    ])
+  }
 
   const itemTypeOptions = computed(() => {
     const types = availableItemTypes.slice().sort((a, b) => {
@@ -1428,18 +1439,16 @@
       return orderA - orderB
     })
 
-    const grouped: Record<
-      'clothes' | 'accessories' | 'makeups' | 'other',
-      ItemType[]
-    > = {
+    const grouped: Record<'clothes' | 'accessories' | 'other', ItemType[]> = {
       clothes: [],
       accessories: [],
-      makeups: [],
       other: [],
     }
 
     types.forEach((type) => {
-      grouped[getItemTypeCategory(type)].push(type)
+      const category = getItemTypeCategory(type)
+      if (category === 'makeups') return
+      grouped[category].push(type)
     })
 
     const options: Array<SelectOption | SelectGroupOption> = []
@@ -1468,18 +1477,6 @@
       })
     }
 
-    if (grouped.makeups.length > 0) {
-      options.push({
-        type: 'group',
-        label: t('tracker.items.category.makeups'),
-        key: 'makeups',
-        children: grouped.makeups.map((type) => ({
-          label: t(`type.${type}`),
-          value: type,
-        })),
-      })
-    }
-
     if (grouped.other.length > 0) {
       options.push({
         type: 'group',
@@ -1495,6 +1492,13 @@
     return options
   })
 
+  const makeupTypeOptions = computed<SelectOption[]>(() =>
+    makeupItemTypes.map((type) => ({
+      label: t(`type.${type}`),
+      value: type,
+    }))
+  )
+
   const { fetchOutfitsPaginated } = useSupabaseOutfits()
   const {
     fetchItemsPaginated,
@@ -1508,7 +1512,7 @@
         itemTypeFilter.value ?? 'all'
       }-${itemCategoryFilter.value ?? 'all'}-${itemSubcategoryFilter.value ?? 'all'}-${
         activeAdvancedFiltersKey.value || 'none'
-      }-${styleFilter.value ?? 'all'}-${labelFilter.value ?? 'all'}-${
+      }-${styleFilter.value ?? 'all'}-${effectiveLabelFilter.value ?? 'all'}-${
         versionFilter.value ?? 'all'
       }-${obtainFilter.value ?? 'all'}`
   )
@@ -1535,7 +1539,7 @@
           : null,
         version: versionFilter.value,
         style: styleFilter.value,
-        label: labelFilter.value,
+        label: effectiveLabelFilter.value,
         source: obtainFilter.value,
         ...activeAdvancedFilters.value,
       })
@@ -1759,7 +1763,10 @@
       query.quality = qualityFilter.value
     }
 
-    if (mode.value === 'items' && itemTypeFilter.value) {
+    if (
+      (mode.value === 'items' || mode.value === 'makeups') &&
+      itemTypeFilter.value
+    ) {
       query.type = itemTypeFilter.value
     }
 
@@ -1794,8 +1801,8 @@
       query.style = styleFilter.value
     }
 
-    if (labelFilter.value) {
-      query.label = labelFilter.value
+    if (effectiveLabelFilter.value) {
+      query.label = effectiveLabelFilter.value
     }
 
     if (obtainFilter.value) {
@@ -1803,6 +1810,10 @@
     }
 
     return query
+  }
+
+  const handleTierModeChange = (value: string) => {
+    setMode(value as TierMode)
   }
 
   watch(
@@ -1904,7 +1915,7 @@
       quality: qualityFilter.value,
       version: versionFilter.value,
       style: styleFilter.value,
-      label: labelFilter.value,
+      label: effectiveLabelFilter.value,
       source: obtainFilter.value,
       page: 1,
       pageSize: TIER_ENTRY_LIMIT,
@@ -1926,12 +1937,49 @@
   }
 
   const loadItemEntries = async (): Promise<TierDataPayload> => {
-    if (itemTypeFilter.value === 'fullMakeup') {
+    const { data: items, total } = await fetchItemsPaginated({
+      quality: qualityFilter.value,
+      type: itemTypeFilter.value,
+      category: supportsItemSearchCategories.value
+        ? itemCategoryFilter.value
+        : null,
+      subcategory: supportsItemSearchCategories.value
+        ? itemSubcategoryFilter.value
+        : null,
+      version: versionFilter.value,
+      style: styleFilter.value,
+      label: effectiveLabelFilter.value,
+      source: obtainFilter.value,
+      ...activeAdvancedFilters.value,
+      page: 1,
+      pageSize: TIER_ENTRY_LIMIT,
+    })
+    const overLimit = total > TIER_ENTRY_LIMIT
+
+    const entries = items.map((item) => ({
+      id: String(item.id),
+      numericId: item.id,
+      name: t(`item.${item.id}.name`),
+      image: getImageSrc('item', item.id),
+      quality: item.quality,
+    }))
+
+    return {
+      entries,
+      overLimit,
+    }
+  }
+
+  const loadMakeupEntries = async (): Promise<TierDataPayload> => {
+    const makeupType = isMakeupItemType(itemTypeFilter.value)
+      ? itemTypeFilter.value
+      : defaultMakeupType
+
+    if (makeupType === 'fullMakeup') {
       const { data: items, total } = await fetchFullMakeupsPaginated({
         quality: qualityFilter.value,
         version: versionFilter.value,
         style: styleFilter.value,
-        label: labelFilter.value,
         source: obtainFilter.value,
         page: 1,
         pageSize: TIER_ENTRY_LIMIT,
@@ -1954,18 +2002,10 @@
 
     const { data: items, total } = await fetchItemsPaginated({
       quality: qualityFilter.value,
-      type: itemTypeFilter.value,
-      category: supportsItemSearchCategories.value
-        ? itemCategoryFilter.value
-        : null,
-      subcategory: supportsItemSearchCategories.value
-        ? itemSubcategoryFilter.value
-        : null,
+      type: makeupType,
       version: versionFilter.value,
       style: styleFilter.value,
-      label: labelFilter.value,
       source: obtainFilter.value,
-      ...activeAdvancedFilters.value,
       page: 1,
       pageSize: TIER_ENTRY_LIMIT,
     })
@@ -2011,6 +2051,10 @@
         return loadItemEntries()
       }
 
+      if (mode.value === 'makeups') {
+        return loadMakeupEntries()
+      }
+
       return loadOutfitEntries()
     },
     {
@@ -2038,6 +2082,11 @@
         return {
           singular: t('common.outfit'),
           plural: t('common.outfits'),
+        }
+      case 'makeups':
+        return {
+          singular: t('common.makeup'),
+          plural: t('common.makeups'),
         }
       default:
         return {
@@ -2329,7 +2378,8 @@
     () =>
       mode.value === 'banners' ||
       mode.value === 'outfits' ||
-      mode.value === 'items'
+      mode.value === 'items' ||
+      mode.value === 'makeups'
   )
   const showCommunityInsightsAction = computed(
     () =>
@@ -2560,7 +2610,7 @@
       itemTypeFilter: itemTypeFilter.value,
       versionFilter: versionFilter.value,
       styleFilter: styleFilter.value,
-      labelFilter: labelFilter.value,
+      labelFilter: effectiveLabelFilter.value,
       obtainFilter: obtainFilter.value,
     })
   )
@@ -3150,7 +3200,7 @@
 
   const clearFilters = () => {
     qualityFilter.value = null
-    itemTypeFilter.value = null
+    itemTypeFilter.value = mode.value === 'makeups' ? defaultMakeupType : null
     itemCategoryFilter.value = null
     itemSubcategoryFilter.value = null
     bannerQualityFilter.value = null

@@ -11,52 +11,16 @@
           <div
             class="flex min-w-0 flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center"
           >
-            <n-button-group class="self-start">
-              <n-tooltip trigger="hover">
-                <template #trigger>
-                  <n-button
-                    size="small"
-                    class="w-12 px-0"
-                    :aria-label="$t('common.outfits')"
-                    @click="
-                      navigateTo(
-                        localePath({
-                          path: '/outfits',
-                          query: buildListingQuery({
-                            includeType: false,
-                            includeScopedFilters: false,
-                          }),
-                        })
-                      )
-                    "
-                  >
-                    <template #icon>
-                      <n-icon>
-                        <Tshirt />
-                      </n-icon>
-                    </template>
-                  </n-button>
-                </template>
-                {{ $t('common.outfits') }}
-              </n-tooltip>
-              <n-tooltip trigger="hover">
-                <template #trigger>
-                  <n-button
-                    size="small"
-                    type="primary"
-                    class="w-12 px-0"
-                    :aria-label="$t('common.items')"
-                  >
-                    <template #icon>
-                      <n-icon>
-                        <ListAlt />
-                      </n-icon>
-                    </template>
-                  </n-button>
-                </template>
-                {{ $t('common.items') }}
-              </n-tooltip>
-            </n-button-group>
+            <n-select
+              :value="compendiumSection"
+              :options="compendiumSectionOptions"
+              :render-label="renderCompendiumSectionOptionLabel"
+              size="small"
+              class="w-full self-start sm:w-40"
+              :show-checkmark="false"
+              :clearable="false"
+              @update:value="handleCompendiumSectionChange"
+            />
 
             <div class="hidden min-w-0 overflow-x-auto sm:block">
               <n-button-group class="min-w-max">
@@ -505,8 +469,17 @@
 </template>
 
 <script setup lang="ts">
-  import { Star, Tshirt, ListAlt, SortAmountDown, Times } from '@vicons/fa'
+  import {
+    Star,
+    Tshirt,
+    ListAlt,
+    PaintBrush,
+    SortAmountDown,
+    Times,
+  } from '@vicons/fa'
+  import { NIcon } from 'naive-ui'
   import type { SelectGroupOption, SelectOption } from 'naive-ui'
+  import { h, type Component } from 'vue'
 
   const { t, locale, getLocaleMessage } = useI18n()
   const { translateFilterToken } = useFilterToken()
@@ -516,11 +489,8 @@
   const { getImageSrc } = imageProvider()
 
   const routeListSlug = computed(() => getSeoListRouteSlug(route.path, 'items'))
-  const isFullMakeupRoute = computed(() => routeListSlug.value === 'makeups')
   const routeItemType = computed(() =>
-    isFullMakeupRoute.value
-      ? 'fullMakeup'
-      : resolveSeoItemTypeFromSlug(routeListSlug.value)
+    resolveSeoItemTypeFromSlug(routeListSlug.value)
   )
   const routeSeoFilter = computed(() =>
     getSeoListRouteFilter(route.path, 'items')
@@ -552,7 +522,7 @@
   )
 
   const pageSize = 18
-  const availableItemTypes = getAllItemTypes()
+  const availableItemTypes = standardItemTypes
   type ItemListingPrimaryFilter =
     | 'type'
     | 'quality'
@@ -561,6 +531,8 @@
     | 'label'
     | 'source'
     | null
+  type CompendiumSection = 'outfits' | 'items' | 'makeups'
+  type IconSelectOption = SelectOption & { icon: Component }
   type BuildListingQueryOptions = {
     includeType?: boolean
     includeScopedFilters?: boolean
@@ -825,9 +797,7 @@
         )
       ).length
   )
-  const supportsCategoryFilters = computed(
-    () => !isFullMakeupRoute.value && !!typeFilter.value
-  )
+  const supportsCategoryFilters = computed(() => !!typeFilter.value)
   const isCategoryFilterEnabled = computed(
     () => supportsCategoryFilters.value && categoryOptions.value.length > 0
   )
@@ -845,7 +815,6 @@
   )
   const shouldFetchFacets = computed(
     () =>
-      !isFullMakeupRoute.value &&
       Boolean(typeFilter.value) &&
       (!!typeFilter.value || isAdvancedFiltersEnabled.value)
   )
@@ -862,11 +831,7 @@
       activeAdvancedFilterCount.value > 0
   )
 
-  const {
-    fetchItemsPaginated,
-    fetchFullMakeupsPaginated,
-    fetchItemSearchFacets,
-  } = useSupabaseItems()
+  const { fetchItemsPaginated, fetchItemSearchFacets } = useSupabaseItems()
 
   const facetCacheKey = computed(() =>
     shouldFetchFacets.value
@@ -882,7 +847,7 @@
 
   const cacheKey = computed(
     () =>
-      `items-${isFullMakeupRoute.value ? 'makeups' : 'normal'}-${qualityFilter.value ?? 'all'}-${typeFilter.value ?? 'all'}-${
+      `items-${qualityFilter.value ?? 'all'}-${typeFilter.value ?? 'all'}-${
         categoryFilter.value ?? 'all'
       }-${subcategoryFilter.value ?? 'all'}-${
         activeAdvancedFiltersKey.value || 'none'
@@ -931,18 +896,6 @@
     useAsyncData(
       () => cacheKey.value,
       async () => {
-        if (isFullMakeupRoute.value) {
-          return fetchFullMakeupsPaginated({
-            quality: qualityFilter.value,
-            version: versionFilter.value,
-            style: styleFilter.value,
-            label: labelFilter.value,
-            source: obtainFilter.value,
-            page: currentPage.value,
-            pageSize,
-          })
-        }
-
         return fetchItemsPaginated({
           quality: qualityFilter.value,
           type: typeFilter.value,
@@ -979,14 +932,8 @@
     return data.map((entry) => ({
       id: entry.id,
       quality: entry.quality,
-      name:
-        entry.type === 'fullMakeup'
-          ? t(`makeup.${entry.id}.name`)
-          : t(`item.${entry.id}.name`),
-      image:
-        entry.type === 'fullMakeup'
-          ? getImageSrc('fullMakeup', entry.id)
-          : getImageSrc('item', entry.id),
+      name: t(`item.${entry.id}.name`),
+      image: getImageSrc('item', entry.id),
       type: entry.type ? t(`type.${entry.type}`) : null,
       styleLabel: entry.style ? t(entry.style) : null,
       styleKey: entry.style ? resolveStyleKeyFromI18nKey(entry.style) : null,
@@ -1000,10 +947,8 @@
   const totalItems = computed(() => compendiumData.value?.total || 0)
 
   const countLabels = computed(() => ({
-    singular: isFullMakeupRoute.value ? t('common.makeup') : t('common.item'),
-    plural: isFullMakeupRoute.value
-      ? t('tracker.items.category.makeups')
-      : t('common.items'),
+    singular: t('common.item'),
+    plural: t('common.items'),
   }))
   const TIER_ENTRY_LIMIT = 200
   const isTierlistDisabled = computed(
@@ -1018,13 +963,6 @@
     )
 
   const currentListingPath = computed(() => {
-    if (isFullMakeupRoute.value || typeFilter.value === 'fullMakeup') {
-      return {
-        path: '/items/makeups',
-        primaryFilter: 'type' as ItemListingPrimaryFilter,
-      }
-    }
-
     const typeSlug = resolveSeoItemTypeSlug(typeFilter.value)
     if (typeSlug) {
       return {
@@ -1078,6 +1016,19 @@
       primaryFilter: null,
     }
   })
+  const compendiumSection = 'items' as const
+  const compendiumSectionOptions = computed<IconSelectOption[]>(() => [
+    { label: t('common.outfits'), value: 'outfits', icon: Tshirt },
+    { label: t('common.items'), value: 'items', icon: ListAlt },
+    { label: t('common.makeups'), value: 'makeups', icon: PaintBrush },
+  ])
+  const renderCompendiumSectionOptionLabel = (option: SelectOption) => {
+    const { icon } = option as IconSelectOption
+    return h('div', { class: 'flex items-center gap-2' }, [
+      h(NIcon, { size: 16 }, { default: () => h(icon) }),
+      h('span', null, String(option.label ?? '')),
+    ])
+  }
 
   const buildListingQuery = ({
     includeType = true,
@@ -1113,6 +1064,13 @@
     ...(includeScopedFilters && buildAdvancedFilterQuery()),
     ...(currentPage.value > 1 && { page: currentPage.value }),
   })
+  const buildCrossCompendiumQuery = () => ({
+    ...(qualityFilter.value !== null && { quality: qualityFilter.value }),
+    ...(versionFilter.value && { version: versionFilter.value }),
+    ...(styleFilter.value && { style: styleFilter.value }),
+    ...(obtainFilter.value && { source: obtainFilter.value }),
+    ...(currentPage.value > 1 && { page: currentPage.value }),
+  })
 
   const buildTierlistQuery = () => ({
     mode: 'items',
@@ -1141,6 +1099,31 @@
       localePath({
         path: '/tierlist',
         query: buildTierlistQuery(),
+      })
+    )
+  }
+
+  const handleCompendiumSectionChange = (value: string) => {
+    const nextSection = value as CompendiumSection
+    if (nextSection === 'items') return
+
+    if (nextSection === 'outfits') {
+      navigateTo(
+        localePath({
+          path: '/outfits',
+          query: buildListingQuery({
+            includeType: false,
+            includeScopedFilters: false,
+          }),
+        })
+      )
+      return
+    }
+
+    navigateTo(
+      localePath({
+        path: '/makeups',
+        query: buildCrossCompendiumQuery(),
       })
     )
   }
@@ -1303,7 +1286,7 @@
   }
 
   const availableTypes = computed(() => {
-    const types = getAllItemTypes()
+    const types = standardItemTypes.slice()
     return types.sort((a, b) => {
       const orderA = itemCategoryOrder[a] ?? 999
       const orderB = itemCategoryOrder[b] ?? 999
@@ -1314,21 +1297,16 @@
   const typeOptions = computed(() => {
     const types = availableTypes.value
 
-    const grouped: Record<
-      'clothes' | 'accessories' | 'makeups' | 'other',
-      ItemType[]
-    > = {
+    const grouped: Record<'clothes' | 'accessories' | 'other', ItemType[]> = {
       clothes: [],
       accessories: [],
-      makeups: [],
       other: [],
     }
 
     types.forEach((type) => {
       const category = getItemTypeCategory(type)
-      if (grouped[category]) {
-        grouped[category].push(type)
-      }
+      if (category === 'makeups') return
+      grouped[category].push(type)
     })
 
     const options: Array<SelectOption | SelectGroupOption> = []
@@ -1351,18 +1329,6 @@
         label: t('tracker.items.category.accessories'),
         key: 'accessories',
         children: grouped.accessories.map((type) => ({
-          label: t(`type.${type}`),
-          value: type,
-        })),
-      })
-    }
-
-    if (grouped.makeups && grouped.makeups.length > 0) {
-      options.push({
-        type: 'group',
-        label: t('tracker.items.category.makeups'),
-        key: 'makeups',
-        children: grouped.makeups.map((type) => ({
           label: t(`type.${type}`),
           value: type,
         })),

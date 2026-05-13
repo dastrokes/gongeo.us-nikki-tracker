@@ -599,12 +599,19 @@
     if (suffix === '03') return '4'
     return '1'
   }
+  const formatFullMakeupVariantLabel = (id: number) => {
+    const level = t(`banner.outfit.level.${getFullMakeupVariantLevelKey(id)}`)
+    const separator = ['ja', 'ko', 'tw', 'zh'].includes(locale.value)
+      ? '·'
+      : ': '
+    return `${level}${separator}${t('type.fullMakeup')}`
+  }
   const itemVariations = computed(() =>
     (makeup.value?.variations ?? []).map((variation) => {
       if (variation.type === 'fullMakeup' && !isFullMakeup.value) {
         return {
           ...variation,
-          label: t('type.fullMakeup'),
+          label: formatFullMakeupVariantLabel(variation.id),
         }
       }
 
@@ -633,22 +640,11 @@
   const inBanner = computed(() => {
     if (!makeup.value) return null
 
-    let banner = isFullMakeup.value ? null : getBannerForItem(makeup.value.id)
-    if (banner) return banner
-
     for (const outfit of relatedOutfits.value) {
-      banner = getBannerForOutfit(String(outfit.id))
-      if (banner) return banner
-    }
-
-    for (const component of componentMakeups.value) {
-      banner = getBannerForItem(component.id)
-      if (banner) return banner
-    }
-
-    for (const variation of itemVariations.value) {
-      if (variation.type === 'fullMakeup') continue
-      banner = getBannerForItem(variation.id)
+      const outfitId = String(outfit.id)
+      const banner =
+        getBannerForOutfit(outfitId) ||
+        getBannerForOutfit(getBaseOutfitId(outfitId))
       if (banner) return banner
     }
 

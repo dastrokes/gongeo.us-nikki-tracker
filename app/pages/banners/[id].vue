@@ -120,7 +120,7 @@
                   preset="bannerHero"
                   fit="cover"
                   loading="lazy"
-                  sizes="400px sm:800px"
+                  sizes="300px sm:600px"
                 />
               </div>
               <div

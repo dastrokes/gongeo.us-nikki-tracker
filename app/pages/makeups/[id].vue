@@ -641,6 +641,11 @@
       if (banner) return banner
     }
 
+    for (const component of componentMakeups.value) {
+      banner = getBannerForItem(component.id)
+      if (banner) return banner
+    }
+
     for (const variation of itemVariations.value) {
       if (variation.type === 'fullMakeup') continue
       banner = getBannerForItem(variation.id)

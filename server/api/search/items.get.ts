@@ -118,10 +118,6 @@ const buildPineconeMetadataFilter = (
           ? { $eq: filters.itemTypes[0] }
           : { $in: filters.itemTypes },
     })
-  } else {
-    clauses.push({
-      item_type: { $nin: [...CATALOG_SEARCH_EXCLUDED_ITEM_TYPES] },
-    })
   }
 
   if (filters.quality !== null) {

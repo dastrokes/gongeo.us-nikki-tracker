@@ -300,15 +300,27 @@
                   <div
                     class="grid grid-cols-5 gap-1.5 sm:grid-cols-6 md:grid-cols-7 lg:grid-cols-8 xl:grid-cols-10"
                   >
-                    <ItemCard
+                    <NuxtLinkLocale
                       v-for="item in makeupItems"
                       :key="item.id"
-                      :item-id="item.id"
-                      :quality="item.quality"
-                      :type="resolveItemType(item)"
-                      :name="$t(`item.${item.id}.name`)"
-                      size="sm"
-                    />
+                      :to="`/makeups/${item.id}`"
+                      class="group block"
+                    >
+                      <div
+                        class="relative aspect-square overflow-hidden rounded-md ring-1 transition-transform duration-200 group-hover:scale-105"
+                        :class="getQualityGradient(item.quality)"
+                      >
+                        <NuxtImg
+                          :src="getImageSrc('itemIcon', item.id)"
+                          :alt="$t(`item.${item.id}.name`)"
+                          class="h-full w-full object-cover p-2"
+                          preset="iconSm"
+                          fit="cover"
+                          loading="lazy"
+                          sizes="60px sm:80px"
+                        />
+                      </div>
+                    </NuxtLinkLocale>
                   </div>
                 </n-collapse-item>
               </n-collapse>
@@ -484,34 +496,23 @@
     applyPageCacheHeaders(requestEvent, 'noStore')
   }
 
-  // Makeup types
-  const makeupTypes: ItemType[] = [
-    'baseMakeup',
-    'eyebrows',
-    'eyelashes',
-    'contactLenses',
-    'lips',
-  ]
-
   const resolveItemType = (item: { id: number; type?: string }) =>
     item.type ? getItemType(item.type) : getItemType(item.id)
 
-  // Computed component items (excluding makeup) sorted by category order
+  // Computed component items sorted by category order
   const outfitItems = computed(() => {
     if (!outfit.value?.outfit_items) return []
-    const items = outfit.value.outfit_items
-      .map((oi) => oi.items)
-      .filter((item) => !makeupTypes.includes(resolveItemType(item)))
+    const items = outfit.value.outfit_items.map((oi) => oi.items)
     return sortItemsByCategory(items)
   })
 
-  // Computed makeup items sorted by category order
+  // Computed full makeup component rows sorted by canonical makeup type order
   const makeupItems = computed(() => {
-    if (!outfit.value?.outfit_items) return []
-    const items = outfit.value.outfit_items
-      .map((oi) => oi.items)
-      .filter((item) => makeupTypes.includes(resolveItemType(item)))
-    return sortItemsByCategory(items)
+    const components = (
+      (outfit.value as OutfitWithItems | null)?.makeup_outfits || []
+    ).flatMap((entry) => entry.makeups.components || [])
+    const uniqueComponents = new Map(components.map((item) => [item.id, item]))
+    return sortItemsByCategory(Array.from(uniqueComponents.values()))
   })
 
   const outfitStyleLabels = computed(() => {

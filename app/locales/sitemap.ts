@@ -1,5 +1,6 @@
 import { defaultLocale, i18nLocales } from './locales'
 import { getOgImageSrc } from '../utils/imageProvider'
+import { getItemType, makeupItemTypes } from '../utils/itemType'
 import {
   SEO_BANNER_LIST_PATHS,
   SEO_ITEM_LIST_PATHS,
@@ -57,6 +58,10 @@ type ContentConfig = {
   routePrefix: string
   imageType: Parameters<typeof getOgImageSrc>[0]
   fallbackLabel: string
+}
+
+type ContentConfigOptions = {
+  idFilter?: (id: string) => boolean
 }
 
 const translationLoaders = {
@@ -274,9 +279,10 @@ const loadContentConfig = async (
   localeKey: TranslationSection,
   routePrefix: string,
   imageType: Parameters<typeof getOgImageSrc>[0],
-  fallbackLabel: string
+  fallbackLabel: string,
+  options: ContentConfigOptions = {}
 ): Promise<ContentConfig> => {
-  const cacheKey = `${localeKey}:${routePrefix}`
+  const cacheKey = `${localeKey}:${routePrefix}:${fallbackLabel}`
   const cached = contentConfigCache.get(cacheKey)
 
   if (cached) {
@@ -285,7 +291,9 @@ const loadContentConfig = async (
 
   const promise = loadTranslations(defaultLocale, localeKey).then(
     (translations) => ({
-      ids: extractIds(Object.keys(translations)),
+      ids: extractIds(Object.keys(translations)).filter(
+        options.idFilter ?? (() => true)
+      ),
       localeKey,
       routePrefix,
       imageType,
@@ -301,8 +309,15 @@ const loadContentConfigs = () =>
   Promise.all([
     loadContentConfig('banner', 'banners', 'banner', 'Banner'),
     loadContentConfig('outfit', 'outfits', 'outfit', 'Outfit'),
-    loadContentConfig('item', 'items', 'item', 'Item'),
-    loadContentConfig('makeup', 'items', 'fullMakeup', 'Full Makeup'),
+    loadContentConfig('item', 'items', 'item', 'Item', {
+      idFilter: (id) =>
+        !(makeupItemTypes as readonly string[]).includes(getItemType(id)),
+    }),
+    loadContentConfig('item', 'makeups', 'item', 'Makeup', {
+      idFilter: (id) =>
+        (makeupItemTypes as readonly string[]).includes(getItemType(id)),
+    }),
+    loadContentConfig('makeup', 'makeups', 'fullMakeup', 'Full Makeup'),
   ])
 
 function resolveLocales(localeCode?: LocaleCode) {

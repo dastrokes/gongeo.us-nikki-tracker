@@ -19,10 +19,16 @@ interface OutfitData {
       type: string
     }
   }>
-  full_makeup_outfits?: Array<{
-    full_makeups: {
+  makeup_outfits?: Array<{
+    makeups: {
       id: number
       quality: number
+      type: string
+      components?: Array<{
+        id: number
+        quality: number
+        type: string
+      }>
     }
   }>
   variations?: Array<{ id: number; quality: number; type: string }>
@@ -32,6 +38,37 @@ interface OutfitVariation {
   id: number
   quality: number
 }
+
+interface MakeupOutfitRow {
+  full_makeup_id: number
+}
+
+interface MakeupRow {
+  id: number
+  quality: number
+  type: string
+}
+
+interface MakeupItemRow {
+  full_makeup_id: number
+  makeup_id: number
+}
+
+const MAKEUP_TYPE_ORDER = new Map([
+  ['baseMakeup', 1],
+  ['eyebrows', 2],
+  ['eyelashes', 3],
+  ['contactLenses', 4],
+  ['lips', 5],
+  ['fullMakeup', 99],
+])
+
+const sortMakeupsByType = (rows: MakeupRow[]): MakeupRow[] =>
+  [...rows].sort((left, right) => {
+    const leftOrder = MAKEUP_TYPE_ORDER.get(left.type) ?? 999
+    const rightOrder = MAKEUP_TYPE_ORDER.get(right.type) ?? 999
+    return leftOrder - rightOrder || left.id - right.id
+  })
 
 /**
  * Calculate related outfit variation IDs
@@ -87,7 +124,6 @@ export default defineCachedApiEventHandler(
       ]
 
       selectParts.push('outfit_items(items(id,quality,type))')
-      selectParts.push('full_makeup_outfits(full_makeups(id,quality))')
 
       const selectQuery = selectParts.join(',')
 
@@ -103,6 +139,91 @@ export default defineCachedApiEventHandler(
       }
 
       const outfitData = data as OutfitData
+
+      const { data: makeupOutfitRows, error: makeupOutfitError } =
+        await withSupabaseRetry(() =>
+          supabase
+            .from('makeup_outfits')
+            .select('full_makeup_id')
+            .eq('outfit_id', id)
+        )
+
+      if (makeupOutfitError) {
+        throw makeupOutfitError
+      }
+
+      const fullMakeupIds = (
+        (makeupOutfitRows as MakeupOutfitRow[] | null) ?? []
+      )
+        .map((row) => row.full_makeup_id)
+        .filter((makeupId) => typeof makeupId === 'number')
+
+      if (fullMakeupIds.length > 0) {
+        const { data: fullMakeups, error: fullMakeupsError } =
+          await withSupabaseRetry(() =>
+            supabase
+              .from('makeups')
+              .select('id,quality,type')
+              .in('id', fullMakeupIds)
+          )
+
+        if (fullMakeupsError) {
+          throw fullMakeupsError
+        }
+
+        const { data: relationRows, error: relationRowsError } =
+          await withSupabaseRetry(() =>
+            supabase
+              .from('makeup_items')
+              .select('full_makeup_id,makeup_id')
+              .in('full_makeup_id', fullMakeupIds)
+          )
+
+        if (relationRowsError) {
+          throw relationRowsError
+        }
+
+        const relations = (relationRows as MakeupItemRow[] | null) ?? []
+        const componentIds = Array.from(
+          new Set(relations.map((row) => row.makeup_id))
+        )
+        const componentMap = new Map<number, MakeupRow>()
+
+        if (componentIds.length > 0) {
+          const { data: components, error: componentsError } =
+            await withSupabaseRetry(() =>
+              supabase
+                .from('makeups')
+                .select('id,quality,type')
+                .in('id', componentIds)
+            )
+
+          if (componentsError) {
+            throw componentsError
+          }
+
+          for (const component of (components as MakeupRow[] | null) ?? []) {
+            componentMap.set(component.id, component)
+          }
+        }
+
+        outfitData.makeup_outfits = ((fullMakeups as MakeupRow[] | null) ?? [])
+          .sort((left, right) => left.id - right.id)
+          .map((makeup) => ({
+            makeups: {
+              ...makeup,
+              components: sortMakeupsByType(
+                relations
+                  .filter((row) => row.full_makeup_id === makeup.id)
+                  .map((row) => componentMap.get(row.makeup_id))
+                  .filter(
+                    (component): component is MakeupRow =>
+                      component !== undefined
+                  )
+              ),
+            },
+          }))
+      }
 
       if (languageCode) {
         const translationCodes = Array.from(new Set([languageCode, 'en']))

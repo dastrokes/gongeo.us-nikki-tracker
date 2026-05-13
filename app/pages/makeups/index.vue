@@ -862,7 +862,7 @@
   }
 
   const navigateToDetail = (id: number) => {
-    navigateTo(localePath(`/items/${id}`))
+    navigateTo(localePath(`/makeups/${id}`))
   }
 
   const getQualityOverlayClass = (quality: number) => {

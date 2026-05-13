@@ -300,27 +300,16 @@
                   <div
                     class="grid grid-cols-5 gap-1.5 sm:grid-cols-6 md:grid-cols-7 lg:grid-cols-8 xl:grid-cols-10"
                   >
-                    <NuxtLinkLocale
+                    <ItemCard
                       v-for="item in makeupItems"
                       :key="item.id"
+                      :item-id="item.id"
+                      :quality="item.quality"
+                      :type="resolveItemType(item)"
+                      :name="$t(`item.${item.id}.name`)"
                       :to="`/makeups/${item.id}`"
-                      class="group block"
-                    >
-                      <div
-                        class="relative aspect-square overflow-hidden rounded-md ring-1 transition-transform duration-200 group-hover:scale-105"
-                        :class="getQualityGradient(item.quality)"
-                      >
-                        <NuxtImg
-                          :src="getImageSrc('itemIcon', item.id)"
-                          :alt="$t(`item.${item.id}.name`)"
-                          class="h-full w-full object-cover p-2"
-                          preset="iconSm"
-                          fit="cover"
-                          loading="lazy"
-                          sizes="60px sm:80px"
-                        />
-                      </div>
-                    </NuxtLinkLocale>
+                      size="sm"
+                    />
                   </div>
                 </n-collapse-item>
               </n-collapse>

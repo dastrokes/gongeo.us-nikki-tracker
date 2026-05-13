@@ -37,6 +37,7 @@
                   size="small"
                   v-bind="getQualityButtonTheme(q, qualityFilter === q)"
                   class="min-w-10"
+                  :disabled="q === 2"
                   @click="qualityFilter = q"
                 >
                   <span class="flex items-center gap-1">
@@ -103,6 +104,7 @@
                 size="small"
                 v-bind="getQualityButtonTheme(q, qualityFilter === q)"
                 class="min-w-10"
+                :disabled="q === 2"
                 @click="qualityFilter = q"
               >
                 <span class="flex items-center gap-1">
@@ -539,7 +541,7 @@
       typeof value === 'number' && Number.isFinite(value)
         ? value
         : Number(value)
-    return resolveSeoItemQualitySlug(parsed) !== null ? parsed : null
+    return resolveSeoMakeupQualitySlug(parsed) !== null ? parsed : null
   }
 
   const resolveRouteSlotFilter = () =>
@@ -665,9 +667,48 @@
 
   const currentListingPath = computed(() => {
     const typeSlug = resolveSeoMakeupTypeSlug(slotFilter.value)
+    if (typeSlug) {
+      return {
+        path: `/makeups/${typeSlug}`,
+        primaryFilter: 'type' as MakeupListingPrimaryFilter,
+      }
+    }
+
+    const qualitySlug = resolveSeoMakeupQualitySlug(qualityFilter.value)
+    if (qualitySlug) {
+      return {
+        path: `/makeups/quality/${qualitySlug}`,
+        primaryFilter: 'quality' as MakeupListingPrimaryFilter,
+      }
+    }
+
+    const versionSlug = resolveSeoVersionSlug(versionFilter.value)
+    if (versionSlug) {
+      return {
+        path: `/makeups/version/${versionSlug}`,
+        primaryFilter: 'version' as MakeupListingPrimaryFilter,
+      }
+    }
+
+    const styleSlug = resolveSeoStyleSlug(styleFilter.value)
+    if (styleSlug) {
+      return {
+        path: `/makeups/style/${styleSlug}`,
+        primaryFilter: 'style' as MakeupListingPrimaryFilter,
+      }
+    }
+
+    const sourceSlug = resolveSeoItemSourceSlug(obtainFilter.value)
+    if (sourceSlug) {
+      return {
+        path: `/makeups/source/${sourceSlug}`,
+        primaryFilter: 'source' as MakeupListingPrimaryFilter,
+      }
+    }
+
     return {
-      path: typeSlug ? `/makeups/${typeSlug}` : '/makeups',
-      primaryFilter: 'type' as MakeupListingPrimaryFilter,
+      path: '/makeups',
+      primaryFilter: null,
     }
   })
   const compendiumSection = 'makeups' as const

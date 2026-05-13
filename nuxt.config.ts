@@ -314,7 +314,6 @@ export default defineNuxtConfig({
       type I18nRouteRule = {
         prerender?: boolean
         headers?: Record<string, string>
-        redirect?: string | { to: string; statusCode: number }
       }
 
       const buildLocalizedRules = (paths: string[], rule: I18nRouteRule) =>
@@ -328,26 +327,6 @@ export default defineNuxtConfig({
             ].map((route) => [route, rule])
           )
         )
-
-      const buildLocalizedRedirectRules = (redirects: [string, string][]) =>
-        Object.fromEntries(
-          redirects.flatMap(([from, to]) =>
-            [
-              [from, to],
-              ...localePrefixes.map((prefix) => [
-                `${prefix}${from}`,
-                `${prefix}${to}`,
-              ]),
-            ].map(([route, target]) => [
-              route,
-              { redirect: { to: target, statusCode: 301 } },
-            ])
-          )
-        )
-
-      const makeupListRedirects = SEO_MAKEUP_LIST_PATHS.map(
-        (path): [string, string] => [path.replace('/makeups/', '/items/'), path]
-      )
 
       return {
         ...buildLocalizedRules(['/error'], {
@@ -381,7 +360,6 @@ export default defineNuxtConfig({
         ...buildLocalizedRules(['/tracker', '/login', '/profile', '/stats'], {
           headers: noStoreHeaders,
         }),
-        ...buildLocalizedRedirectRules(makeupListRedirects),
       }
     })(),
   },

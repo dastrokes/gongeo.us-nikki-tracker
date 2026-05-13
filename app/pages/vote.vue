@@ -44,7 +44,7 @@
                   preset="bannerHero"
                   fit="cover"
                   loading="eager"
-                  sizes="400px sm:800px"
+                  sizes="300px sm:600px"
                 />
                 <div
                   v-if="selectedBanner === currentPair.banner1.id"
@@ -123,7 +123,7 @@
                   preset="bannerHero"
                   fit="cover"
                   loading="eager"
-                  sizes="400px sm:800px"
+                  sizes="300px sm:600px"
                 />
                 <div
                   v-if="selectedBanner === currentPair.banner2.id"

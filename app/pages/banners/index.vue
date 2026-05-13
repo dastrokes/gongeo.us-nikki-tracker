@@ -312,7 +312,7 @@
                       class="absolute inset-0 h-full w-full object-cover"
                       preset="bannerHero"
                       fit="cover"
-                      sizes="400px sm:800px"
+                      sizes="300px sm:600px"
                       :loading="
                         banner.bannerId === firstDisplayedBannerId
                           ? 'eager'

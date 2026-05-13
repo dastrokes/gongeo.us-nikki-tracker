@@ -41,7 +41,7 @@
             fit="cover"
             :loading="slideIndex === activeIndex ? 'eager' : 'lazy'"
             :fetchpriority="slideIndex === activeIndex ? 'high' : 'auto'"
-            sizes="400px sm:800px"
+            sizes="300px sm:600px"
           />
           <div
             class="pointer-events-none absolute inset-0 bg-linear-to-t from-slate-950/10 via-transparent to-white/10"

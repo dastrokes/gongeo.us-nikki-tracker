@@ -26,6 +26,10 @@ const cloudinaryBaseUrl =
   'https://res.cloudinary.com/gongeous/image/upload'
 const bunnyBaseUrl =
   process.env.NUXT_PUBLIC_BUNNY_BASE_URL || 'https://cdn.gongeo.us'
+const activeImageProvider = getImageProvider()
+const transformedImageFormat =
+  activeImageProvider === 'imagekit' ? 'auto' : 'webp'
+const imageQuality = 80
 
 export default defineNuxtConfig({
   devtools: { enabled: false },
@@ -212,13 +216,13 @@ export default defineNuxtConfig({
       imagekitBaseUrl,
       cloudinaryBaseUrl,
       bunnyBaseUrl,
-      imageProvider: getImageProvider(),
+      imageProvider: activeImageProvider,
     },
   },
 
   image: {
     dir: '../public',
-    provider: getImageProvider(),
+    provider: activeImageProvider,
     domains: [imagekitBaseUrl, cloudinaryBaseUrl, bunnyBaseUrl],
     imagekit: {
       baseURL: imagekitBaseUrl,
@@ -230,22 +234,52 @@ export default defineNuxtConfig({
     quality: 80,
     presets: {
       bannerHero: {
-        modifiers: { width: 800, height: 400, format: 'webp' },
+        modifiers: {
+          width: 600,
+          height: 300,
+          format: transformedImageFormat,
+          quality: imageQuality,
+        },
       },
       bannerThumb: {
-        modifiers: { width: 200, height: 100, format: 'webp' },
+        modifiers: {
+          width: 200,
+          height: 100,
+          format: transformedImageFormat,
+          quality: imageQuality,
+        },
       },
       tallLg: {
-        modifiers: { width: 200, height: 300, format: 'webp' },
+        modifiers: {
+          width: 200,
+          height: 300,
+          format: transformedImageFormat,
+          quality: imageQuality,
+        },
       },
       tallSm: {
-        modifiers: { width: 100, height: 150, format: 'webp' },
+        modifiers: {
+          width: 100,
+          height: 150,
+          format: transformedImageFormat,
+          quality: imageQuality,
+        },
       },
       iconLg: {
-        modifiers: { width: 120, height: 120, format: 'webp' },
+        modifiers: {
+          width: 120,
+          height: 120,
+          format: transformedImageFormat,
+          quality: imageQuality,
+        },
       },
       iconSm: {
-        modifiers: { width: 60, height: 60, format: 'webp' },
+        modifiers: {
+          width: 60,
+          height: 60,
+          format: transformedImageFormat,
+          quality: imageQuality,
+        },
       },
     },
     screens: {

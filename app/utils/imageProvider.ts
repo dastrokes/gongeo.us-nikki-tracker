@@ -11,7 +11,7 @@ export const getImageProvider = () => {
     return configuredProvider
   }
 
-  return process.env.NODE_ENV === 'production' ? 'netlify' : 'ipx'
+  return process.env.NODE_ENV === 'production' ? 'imagekit' : 'ipx'
 }
 
 const imagekitBaseUrl =

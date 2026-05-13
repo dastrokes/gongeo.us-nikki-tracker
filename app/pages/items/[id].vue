@@ -104,21 +104,15 @@
                   :style="getQualityOverlayStyle(item.quality)"
                 ></div>
                 <NuxtImg
-                  :src="
-                    isFullMakeup
-                      ? getImageSrc('fullMakeup', item.id)
-                      : getImageSrc(showIcon ? 'itemIcon' : 'item', item.id)
-                  "
+                  :src="getImageSrc(showIcon ? 'itemIcon' : 'item', item.id)"
                   :alt="itemName"
                   class="absolute inset-0 z-10 h-full w-full transition-all duration-300"
                   :class="
-                    isFullMakeup
-                      ? 'object-cover group-hover:scale-110'
-                      : showIcon
-                        ? 'object-contain p-8'
-                        : 'object-cover group-hover:scale-110'
+                    showIcon
+                      ? 'object-contain p-8'
+                      : 'object-cover group-hover:scale-110'
                   "
-                  :preset="!isFullMakeup && showIcon ? 'iconLg' : 'tallLg'"
+                  :preset="showIcon ? 'iconLg' : 'tallLg'"
                   fit="cover"
                   loading="eager"
                   sizes="200px"
@@ -126,7 +120,6 @@
 
                 <!-- Toggle Button -->
                 <div
-                  v-if="!isFullMakeup"
                   class="absolute top-2 right-2 z-30 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
                 >
                   <button
@@ -309,7 +302,7 @@
               >
                 <n-collapse>
                   <n-collapse-item
-                    v-if="!isFullMakeup && outfitSet.outfitItems.length > 0"
+                    v-if="outfitSet.outfitItems.length > 0"
                     :title="
                       outfitItemSets.length > 1
                         ? `${$t('common.items')} (${outfitSet.outfitItems.length}) - ${outfitSet.name}`
@@ -337,41 +330,6 @@
                         :quality="outfitItem.quality"
                         :type="resolveItemType(outfitItem)"
                         :name="$t(`item.${outfitItem.id}.name`)"
-                        size="sm"
-                      />
-                    </div>
-                  </n-collapse-item>
-                </n-collapse>
-                <n-collapse>
-                  <n-collapse-item
-                    v-if="outfitSet.makeupItems.length > 0"
-                    :title="
-                      outfitItemSets.length > 1
-                        ? `${$t('common.makeup')} (${outfitSet.makeupItems.length}) - ${outfitSet.name}`
-                        : `${$t('common.makeup')} (${outfitSet.makeupItems.length})`
-                    "
-                    :name="`makeup-${outfitSet.id}`"
-                  >
-                    <div
-                      class="grid grid-cols-5 gap-1.5 sm:grid-cols-6 md:grid-cols-7 lg:grid-cols-8 xl:grid-cols-10"
-                    >
-                      <ItemCard
-                        v-for="makeupItem in outfitSet.makeupItems"
-                        :key="makeupItem.id"
-                        :class="
-                          makeupItem.id === itemId
-                            ? 'pointer-events-none rounded-md'
-                            : ''
-                        "
-                        :style="
-                          makeupItem.id === itemId
-                            ? getQualityRingStyle(makeupItem.quality)
-                            : ''
-                        "
-                        :item-id="makeupItem.id"
-                        :quality="makeupItem.quality"
-                        :type="resolveItemType(makeupItem)"
-                        :name="$t(`item.${makeupItem.id}.name`)"
                         size="sm"
                       />
                     </div>
@@ -497,16 +455,8 @@
                   :style="getQualityOverlayStyle(variation.quality)"
                 ></div>
                 <NuxtImg
-                  :src="
-                    variation.type === 'fullMakeup'
-                      ? getImageSrc('fullMakeup', variation.id)
-                      : getImageSrc('item', variation.id)
-                  "
-                  :alt="
-                    variation.type === 'fullMakeup'
-                      ? $t(`makeup.${variation.id}.name`)
-                      : $t(`item.${variation.id}.name`)
-                  "
+                  :src="getImageSrc('item', variation.id)"
+                  :alt="$t(`item.${variation.id}.name`)"
                   class="absolute inset-0 z-10 h-full w-full object-cover"
                   preset="tallSm"
                   fit="cover"
@@ -654,37 +604,10 @@
     type: string
   }
 
-  type DetailOutfit = {
-    id: number
-    quality: number
-    outfit_items?: Array<{
-      items: DetailItem
-    }>
-  }
-
-  type FullMakeupDetail = {
-    kind: 'fullMakeup'
-    id: number
-    quality: number
-    type: 'fullMakeup'
-    props?: Array<number | string> | null
-    style_key?: string | null
-    tags?: Array<number | string> | null
-    obtain_type?: number | null
-    full_makeup_items?: Array<{
-      slot_order: number
-      items: DetailItem
-    }>
-    full_makeup_outfits?: Array<{
-      outfits: DetailOutfit
-    }>
-  }
-
   type OutfitItemSet = {
     id: number
     name: string
     outfitItems: DetailItem[]
-    makeupItems: DetailItem[]
   }
 
   const { t, te, locale } = useI18n()
@@ -724,21 +647,9 @@
     applyPageCacheHeaders(requestEvent, 'noStore')
   }
 
-  const isFullMakeup = computed(
-    () => (item.value as { kind?: string } | null)?.kind === 'fullMakeup'
-  )
-
   // Computed related outfits with names from i18n
   const relatedOutfits = computed(() => {
     if (!item.value) return []
-    if (isFullMakeup.value) {
-      const fullMakeup = item.value as unknown as FullMakeupDetail
-      return (fullMakeup.full_makeup_outfits || []).map((sc) => ({
-        ...sc.outfits,
-        name: t(`outfit.${sc.outfits.id}.name`),
-      }))
-    }
-
     return ((item.value as ItemWithOutfits).outfit_items || []).map((sc) => ({
       ...sc.outfits,
       name: t(`outfit.${sc.outfits.id}.name`),
@@ -750,14 +661,9 @@
   )
 
   const relatedOutfit = computed(() => {
-    const outfits = isFullMakeup.value
-      ? (
-          (item.value as unknown as FullMakeupDetail | null)
-            ?.full_makeup_outfits || []
-        ).map((entry) => entry.outfits)
-      : ((item.value as ItemWithOutfits | null)?.outfit_items || []).map(
-          (entry) => entry.outfits
-        )
+    const outfits = (
+      (item.value as ItemWithOutfits | null)?.outfit_items || []
+    ).map((entry) => entry.outfits)
     if (!outfits.length) return null
     const baseId = baseOutfitId.value
     if (Number.isFinite(baseId)) {
@@ -769,53 +675,21 @@
     )
   })
 
-  // Makeup types
-  const makeupTypes: ItemType[] = [
-    'baseMakeup',
-    'eyebrows',
-    'eyelashes',
-    'contactLenses',
-    'lips',
-  ]
-
   const resolveItemType = (item: { id: number; type?: string }) =>
     item.type ? getItemType(item.type) : getItemType(item.id)
 
   const outfitItemSets = computed<OutfitItemSet[]>(() => {
-    if (isFullMakeup.value) {
-      const fullMakeup = item.value as unknown as FullMakeupDetail | null
-      const makeupItems = sortItemsByCategory(
-        (fullMakeup?.full_makeup_items || []).map((entry) => entry.items)
-      )
-      return makeupItems.length
-        ? [
-            {
-              id: itemId.value,
-              name: itemName.value,
-              outfitItems: [],
-              makeupItems,
-            },
-          ]
-        : []
-    }
-
     const outfit = relatedOutfit.value
     if (!outfit?.outfit_items?.length) return []
     const allItems = outfit.outfit_items.map((entry) => entry.items)
-    const outfitItems = sortItemsByCategory(
-      allItems.filter((entry) => !makeupTypes.includes(resolveItemType(entry)))
-    )
-    const makeupItems = sortItemsByCategory(
-      allItems.filter((entry) => makeupTypes.includes(resolveItemType(entry)))
-    )
-    if (!outfitItems.length && !makeupItems.length) return []
+    const outfitItems = sortItemsByCategory(allItems)
+    if (!outfitItems.length) return []
 
     return [
       {
         id: outfit.id,
         name: t(`outfit.${outfit.id}.name`),
         outfitItems,
-        makeupItems,
       },
     ]
   })
@@ -832,9 +706,7 @@
       })
       .map((v) => {
         let levelKey = '1' // base
-        if (v.type === 'fullMakeup') {
-          levelKey = 'full_makeup'
-        } else if (v.type === 'glowup') {
+        if (v.type === 'glowup') {
           levelKey = 'glow'
         } else if (v.type === 'evo1') {
           levelKey = '2'
@@ -848,10 +720,7 @@
           id: v.id,
           quality: v.quality,
           type: v.type,
-          label:
-            v.type === 'fullMakeup'
-              ? t('type.fullMakeup')
-              : t(`banner.outfit.level.${levelKey}`),
+          label: t(`banner.outfit.level.${levelKey}`),
         }
       })
   })
@@ -863,12 +732,8 @@
     let banner = getBannerForItem(item.value.id)
     if (banner) return banner
 
-    const linkedOutfitIds = isFullMakeup.value
-      ? (
-          (item.value as unknown as FullMakeupDetail).full_makeup_outfits || []
-        ).map((entry) => String(entry.outfits.id))
-      : (item.value.outfit_items?.map((entry) => String(entry.outfits.id)) ??
-        [])
+    const linkedOutfitIds =
+      item.value.outfit_items?.map((entry) => String(entry.outfits.id)) ?? []
     for (const outfitId of linkedOutfitIds) {
       banner = getBannerForOutfit(outfitId)
       if (banner) return banner
@@ -907,13 +772,11 @@
   // Get item type
   const itemType = computed(() => {
     if (!item.value) return 'unknown'
-    if (isFullMakeup.value) return 'fullMakeup'
     return item.value.type
       ? getItemType(item.value.type)
       : getItemType(item.value.id)
   })
   const itemTypeListLocation = computed(() => {
-    if (isFullMakeup.value) return '/makeups/full-makeup'
     const slug = resolveSeoItemTypeSlug(itemType.value)
     return slug
       ? `/items/${slug}`
@@ -956,19 +819,15 @@
   }
   const itemSearchMetadata = computed(() =>
     getItemSearchMetadataFromAttributes(
-      isFullMakeup.value
-        ? null
-        : ((item.value as ItemWithOutfits | null)?.item_attributes ?? null)
+      (item.value as ItemWithOutfits | null)?.item_attributes ?? null
     )
   )
   const supportsItemFeedback = computed(
     () =>
-      !isFullMakeup.value &&
       Boolean(itemSearchMetadata.value) &&
       isSupportedItemSearchItemType(itemType.value as ItemType)
   )
 
-  const isMakeupItem = computed(() => makeupTypes.includes(itemType.value))
   const currentTagSections = computed(() =>
     supportsItemFeedback.value
       ? getItemSearchMetadataSections(
@@ -997,17 +856,12 @@
   // Get item name from i18n
   const itemName = computed(() => {
     if (!item.value) return ''
-    if (isFullMakeup.value) return t(`makeup.${itemId.value}.name`)
     return t(`item.${itemId.value}.name`)
   })
 
   const itemVersion = computed(() => {
     if (!item.value) return null
-    const obtainType = (
-      item.value as
-        | ItemWithOutfits
-        | (FullMakeupDetail & { obtain_type?: number | null })
-    ).obtain_type
+    const obtainType = (item.value as ItemWithOutfits).obtain_type
     return getVersionFromId(obtainType)
   })
 
@@ -1031,11 +885,7 @@
 
   const itemObtainType = computed(() => {
     if (!item.value) return null
-    return (
-      item.value as
-        | ItemWithOutfits
-        | (FullMakeupDetail & { obtain_type?: number | null })
-    ).obtain_type
+    return (item.value as ItemWithOutfits).obtain_type
   })
 
   const itemObtainLabel = computed(() => {
@@ -1102,14 +952,12 @@
     })
   })
 
-  const showStyleScores = computed(
-    () =>
-      !isFullMakeup.value && !isMakeupItem.value && styleScores.value.length > 0
-  )
+  const showStyleScores = computed(() => styleScores.value.length > 0)
 
   const itemLabelTags = computed(() => {
     if (!item.value) return []
-    return resolveTagI18nKeys(item.value.tags).map((key) => {
+    const tags = 'tags' in item.value ? item.value.tags : null
+    return resolveTagI18nKeys(tags).map((key) => {
       const tagDef = TAG_DEFINITIONS.find((t) => t.i18nKey === key)
       return {
         text: t(key),
@@ -1148,9 +996,7 @@
 
   // SEO Meta Tags
   const ogItemImage = computed(() =>
-    item.value
-      ? getOgImageSrc(isFullMakeup.value ? 'fullMakeup' : 'item', item.value.id)
-      : undefined
+    item.value ? getOgImageSrc('item', item.value.id) : undefined
   )
 
   useSeoMeta({

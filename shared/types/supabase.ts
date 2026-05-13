@@ -33,6 +33,16 @@ export interface SupabaseItem {
   obtain_type?: number | null
 }
 
+export interface SupabaseMakeup {
+  id: number
+  quality: number
+  type: string
+  kind?: 'makeup'
+  style_key?: string | null
+  obtain_type?: number | null
+  description?: string
+}
+
 export interface SupabaseItemAttributes {
   item_id: number
   item_type: string
@@ -64,6 +74,24 @@ export interface OutfitWithItems extends SupabaseOutfit {
     props?: Array<number | string> | null
     tags?: Array<number | string> | null
   }>
+  makeup_outfits?: Array<{
+    makeups: SupabaseMakeup & {
+      components?: SupabaseMakeup[]
+    }
+  }>
+}
+
+export interface MakeupWithRelations extends SupabaseMakeup {
+  kind: 'makeup'
+  components?: SupabaseMakeup[]
+  variations?: SupabaseMakeup[]
+  related_outfits?: Array<
+    SupabaseOutfit & {
+      outfit_items?: {
+        items: SupabaseItem
+      }[]
+    }
+  >
 }
 
 /**

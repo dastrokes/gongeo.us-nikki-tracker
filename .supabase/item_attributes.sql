@@ -28,6 +28,22 @@ drop function if exists public.list_items(
   integer[],
   text,
   text,
+  jsonb,
+  text[]
+);
+
+drop function if exists public.list_items(
+  integer,
+  integer,
+  integer,
+  text,
+  varchar,
+  integer,
+  integer,
+  integer,
+  integer[],
+  text,
+  text,
   jsonb
 );
 
@@ -43,8 +59,7 @@ create or replace function public.list_items(
   p_obtain_ids integer[] default null,
   p_category text default null,
   p_subcategory text default null,
-  p_metadata jsonb default null,
-  p_exclude_types text[] default null
+  p_metadata jsonb default null
 )
 returns table (
   id bigint,
@@ -81,14 +96,9 @@ as $$
       or (i.id between 1027000000 and 1027999999)
       or (i.id between 1028000000 and 1028999999)
       or (i.id between 1029000000 and 1029999999)
-    )
+      )
       and (p_quality is null or i.quality = p_quality)
       and (p_type is null or p_type = 'all' or i.type = p_type)
-      and (
-        p_exclude_types is null
-        or cardinality(p_exclude_types) = 0
-        or i.type::text <> all(p_exclude_types)
-      )
       and (p_style_key is null or i.style_key = p_style_key)
       and (p_label_id is null or i.tags @> array[p_label_id]::integer[])
       and (p_obtain_min is null or i.obtain_type >= p_obtain_min)
@@ -207,44 +217,19 @@ stable
 as $$
   with makeup_rows as (
     select
-      fm.id,
-      fm.quality,
-      'fullMakeup'::varchar(50) as type,
-      fm.props,
-      fm.style_key,
-      fm.tags,
-      fm.obtain_type,
+      m.id,
+      m.quality,
+      m.type,
+      null::integer[] as props,
+      m.style_key,
+      null::integer[] as tags,
+      m.obtain_type,
       case
-        when fm.obtain_type is null then null
-        else substring(fm.obtain_type::text from 1 for 3)::integer
+        when m.obtain_type is null then null
+        else substring(m.obtain_type::text from 1 for 3)::integer
       end as obtain_version_prefix,
-      0 as type_order
-    from public.full_makeups fm
-    where (p_type is null or p_type = 'all' or p_type = 'fullMakeup')
-      and (p_quality is null or fm.quality = p_quality)
-      and (p_style_key is null or fm.style_key = p_style_key)
-      and (p_label_id is null or fm.tags @> array[p_label_id]::integer[])
-      and (p_obtain_min is null or fm.obtain_type >= p_obtain_min)
-      and (p_obtain_max is null or fm.obtain_type <= p_obtain_max)
-      and (
-        p_obtain_ids is null
-        or cardinality(p_obtain_ids) = 0
-        or fm.obtain_type = any(p_obtain_ids)
-      )
-    union all
-    select
-      i.id,
-      i.quality,
-      i.type,
-      i.props,
-      i.style_key,
-      i.tags,
-      i.obtain_type,
-      case
-        when i.obtain_type is null then null
-        else substring(i.obtain_type::text from 1 for 3)::integer
-      end as obtain_version_prefix,
-      case i.type
+      case m.type
+        when 'fullMakeup' then 0
         when 'baseMakeup' then 1
         when 'eyebrows' then 2
         when 'eyelashes' then 3
@@ -252,24 +237,17 @@ as $$
         when 'lips' then 5
         else 999
       end as type_order
-    from public.items i
-    where i.type in (
-      'baseMakeup',
-      'eyebrows',
-      'eyelashes',
-      'contactLenses',
-      'lips'
-    )
-      and (p_type is null or p_type = 'all' or i.type = p_type)
-      and (p_quality is null or i.quality = p_quality)
-      and (p_style_key is null or i.style_key = p_style_key)
-      and (p_label_id is null or i.tags @> array[p_label_id]::integer[])
-      and (p_obtain_min is null or i.obtain_type >= p_obtain_min)
-      and (p_obtain_max is null or i.obtain_type <= p_obtain_max)
+    from public.makeups m
+    where (p_type is null or p_type = 'all' or m.type = p_type)
+      and (p_quality is null or m.quality = p_quality)
+      and (p_style_key is null or m.style_key = p_style_key)
+      and (p_label_id is null)
+      and (p_obtain_min is null or m.obtain_type >= p_obtain_min)
+      and (p_obtain_max is null or m.obtain_type <= p_obtain_max)
       and (
         p_obtain_ids is null
         or cardinality(p_obtain_ids) = 0
-        or i.obtain_type = any(p_obtain_ids)
+        or m.obtain_type = any(p_obtain_ids)
       )
   ),
   totals as (
@@ -364,6 +342,20 @@ drop function if exists public.list_item_facets(
   integer[],
   text,
   text,
+  jsonb,
+  text[]
+);
+
+drop function if exists public.list_item_facets(
+  integer,
+  text,
+  varchar,
+  integer,
+  integer,
+  integer,
+  integer[],
+  text,
+  text,
   jsonb
 );
 
@@ -377,8 +369,7 @@ create or replace function public.list_item_facets(
   p_obtain_ids integer[] default null,
   p_category text default null,
   p_subcategory text default null,
-  p_selected_metadata jsonb default null,
-  p_exclude_types text[] default null
+  p_selected_metadata jsonb default null
 )
 returns table (
   facet_group text,
@@ -402,14 +393,9 @@ as $$
       or (i.id between 1027000000 and 1027999999)
       or (i.id between 1028000000 and 1028999999)
       or (i.id between 1029000000 and 1029999999)
-    )
+      )
       and (p_quality is null or i.quality = p_quality)
       and (p_type is null or p_type = 'all' or i.type = p_type)
-      and (
-        p_exclude_types is null
-        or cardinality(p_exclude_types) = 0
-        or i.type::text <> all(p_exclude_types)
-      )
       and (p_style_key is null or i.style_key = p_style_key)
       and (p_label_id is null or i.tags @> array[p_label_id]::integer[])
       and (p_obtain_min is null or i.obtain_type >= p_obtain_min)

@@ -2962,6 +2962,8 @@
       path = `/banners/${entry.numericId}`
     } else if (mode.value === 'outfits') {
       path = `/outfits/${entry.numericId}`
+    } else if (mode.value === 'makeups') {
+      path = `/makeups/${entry.numericId}`
     }
 
     window.open(localePath(path), '_blank', 'noopener,noreferrer')

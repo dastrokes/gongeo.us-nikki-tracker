@@ -11,9 +11,7 @@ type MakeupRpcRow = {
   id: number | null
   quality: number | null
   type: string | null
-  props: Array<number | string> | null
   style_key?: string | null
-  tags: Array<number | string> | null
   obtain_type?: number | null
   total_count?: number | string | null
 }
@@ -132,10 +130,10 @@ export default defineCachedApiEventHandler(
           quality: row.quality,
           type: row.type,
           obtain_type: row.obtain_type ?? null,
-          style:
-            (row.style_key ? STYLE_BY_KEY.get(row.style_key)?.i18nKey : null) ??
-            resolveStyleI18nKeyFromProps(row.props),
-          labels: resolveTagI18nKeys(row.tags),
+          style: row.style_key
+            ? (STYLE_BY_KEY.get(row.style_key)?.i18nKey ?? null)
+            : null,
+          labels: [],
         }))
 
     try {

@@ -34,6 +34,7 @@ const blockedUserAgents = [
   'gptbot',
   'imagesiftbot',
   'meta-externalagent',
+  'meta-webindexer',
   'omigili',
   'omigilibot',
 

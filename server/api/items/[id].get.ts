@@ -42,45 +42,7 @@ interface ItemData {
       }>
     }
   }>
-  full_makeup_items?: Array<{
-    full_makeups: {
-      id: number
-      quality: number
-    }
-  }>
   variations?: Array<{ id: number; quality: number; type: string }>
-}
-
-interface FullMakeupData {
-  id: number
-  quality: number
-  type: 'fullMakeup'
-  kind: 'fullMakeup'
-  props?: Array<number | string> | null
-  style_key?: string | null
-  tags?: Array<number | string> | null
-  obtain_type?: number | null
-  full_makeup_items?: Array<{
-    slot_order: number
-    items: {
-      id: number
-      quality: number
-      type: string
-    }
-  }>
-  full_makeup_outfits?: Array<{
-    outfits: {
-      id: number
-      quality: number
-      outfit_items?: Array<{
-        items: {
-          id: number
-          quality: number
-          type: string
-        }
-      }>
-    }
-  }>
 }
 
 interface ItemVariation {
@@ -120,45 +82,6 @@ function compactItemSearchMetadata(
     : null
 }
 
-async function fetchFullMakeupData(
-  supabase: ReturnType<typeof useSupabaseDataClient>,
-  id: number
-): Promise<FullMakeupData> {
-  const selectQuery = [
-    'id',
-    'quality',
-    'props',
-    'style_key',
-    'tags',
-    'obtain_type',
-    'full_makeup_items(slot_order,items(id,quality,type))',
-    'full_makeup_outfits(outfits(id,quality,outfit_items(items(id,quality,type))))',
-  ].join(',')
-
-  const { data, error } = await withSupabaseRetry(() =>
-    supabase.from('full_makeups').select(selectQuery).eq('id', id).single()
-  )
-
-  if (error) {
-    if (error.code === 'PGRST116') {
-      throw createNotFoundError('item')
-    }
-    throw error
-  }
-
-  const fullMakeupData = {
-    ...(data as Omit<FullMakeupData, 'type' | 'kind'>),
-    type: 'fullMakeup',
-    kind: 'fullMakeup',
-  } satisfies FullMakeupData
-
-  fullMakeupData.full_makeup_items = (
-    fullMakeupData.full_makeup_items ?? []
-  ).sort((a, b) => a.slot_order - b.slot_order)
-
-  return fullMakeupData
-}
-
 /**
  * API endpoint for fetching a single item by ID
  * App-level caching enabled (30 days), Netlify edge caching enabled via Cache-Control header
@@ -190,7 +113,6 @@ export default defineCachedApiEventHandler(
       selectParts.push(
         'outfit_items(outfits(id,quality,outfit_items(items(id,quality,type))))'
       )
-      selectParts.push('full_makeup_items(full_makeups(id,quality))')
 
       const selectQuery = selectParts.join(',')
 
@@ -200,7 +122,7 @@ export default defineCachedApiEventHandler(
 
       if (supabaseError) {
         if (supabaseError.code === 'PGRST116') {
-          return await fetchFullMakeupData(supabase, id)
+          throw createNotFoundError('item')
         }
         throw supabaseError
       }
@@ -275,36 +197,6 @@ export default defineCachedApiEventHandler(
             }))
             .sort((a, b) => a.id - b.id)
         }
-      }
-
-      if (Array.isArray(itemData.full_makeup_items)) {
-        const fullMakeupVariations = itemData.full_makeup_items
-          .map((entry) => entry.full_makeups)
-          .filter(
-            (
-              entry
-            ): entry is {
-              id: number
-              quality: number
-            } =>
-              Boolean(entry) &&
-              typeof entry.id === 'number' &&
-              typeof entry.quality === 'number'
-          )
-          .map((entry) => ({
-            id: entry.id,
-            quality: entry.quality,
-            type: 'fullMakeup',
-          }))
-
-        if (fullMakeupVariations.length > 0) {
-          itemData.variations = [
-            ...(itemData.variations ?? []),
-            ...fullMakeupVariations,
-          ].sort((a, b) => a.id - b.id)
-        }
-
-        delete itemData.full_makeup_items
       }
 
       return itemData

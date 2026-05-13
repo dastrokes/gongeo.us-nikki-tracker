@@ -207,10 +207,6 @@ export default defineEventHandler(
           filtered = filtered.eq('type', itemTypes[0])
         } else if (itemTypes.length > 1) {
           filtered = filtered.in('type', itemTypes)
-        } else {
-          for (const itemType of CATALOG_SEARCH_EXCLUDED_ITEM_TYPES) {
-            filtered = filtered.neq('type', itemType)
-          }
         }
 
         if (filters.styleFilter) {

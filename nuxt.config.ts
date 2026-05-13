@@ -158,6 +158,7 @@ export default defineNuxtConfig({
           'GPTBot',
           'ImagesiftBot',
           'meta-externalagent',
+          'meta-webindexer',
           'Omigili',
           'OmigiliBot',
 

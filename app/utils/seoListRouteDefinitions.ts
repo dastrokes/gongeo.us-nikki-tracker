@@ -33,6 +33,7 @@ type SeoQualityRoute = {
 }
 
 export const SEO_ITEM_QUALITY_VALUES = [5, 4, 3, 2] as const
+export const SEO_MAKEUP_QUALITY_VALUES = [5, 4, 3] as const
 export const SEO_OUTFIT_QUALITY_VALUES = [5, 4, 3] as const
 export const SEO_BANNER_QUALITY_VALUES = [5, 4] as const
 
@@ -79,10 +80,15 @@ const createQualityRoutes = (qualities: readonly number[]): SeoQualityRoute[] =>
   })
 
 const SEO_ITEM_QUALITY_ROUTES = createQualityRoutes(SEO_ITEM_QUALITY_VALUES)
+const SEO_MAKEUP_QUALITY_ROUTES = createQualityRoutes(SEO_MAKEUP_QUALITY_VALUES)
 const SEO_OUTFIT_QUALITY_ROUTES = createQualityRoutes(SEO_OUTFIT_QUALITY_VALUES)
 const SEO_BANNER_QUALITY_ROUTES = createQualityRoutes(SEO_BANNER_QUALITY_VALUES)
 
 export const SEO_ITEM_QUALITY_SLUGS = SEO_ITEM_QUALITY_ROUTES.map(
+  (route) => route.slug
+)
+
+export const SEO_MAKEUP_QUALITY_SLUGS = SEO_MAKEUP_QUALITY_ROUTES.map(
   (route) => route.slug
 )
 
@@ -100,6 +106,14 @@ const ITEM_QUALITY_BY_SEO_SLUG: ReadonlyMap<string, number> = new Map(
 
 const ITEM_QUALITY_SEO_SLUG_BY_VALUE: ReadonlyMap<number, string> = new Map(
   SEO_ITEM_QUALITY_ROUTES.map((route) => [route.quality, route.slug])
+)
+
+const MAKEUP_QUALITY_BY_SEO_SLUG: ReadonlyMap<string, number> = new Map(
+  SEO_MAKEUP_QUALITY_ROUTES.map((route) => [route.slug, route.quality])
+)
+
+const MAKEUP_QUALITY_SEO_SLUG_BY_VALUE: ReadonlyMap<number, string> = new Map(
+  SEO_MAKEUP_QUALITY_ROUTES.map((route) => [route.quality, route.slug])
 )
 
 const OUTFIT_QUALITY_BY_SEO_SLUG: ReadonlyMap<string, number> = new Map(
@@ -214,9 +228,13 @@ export const SEO_ITEM_LIST_PATHS = [
   ...SEO_ITEM_SOURCE_SLUGS.map((slug) => `/items/source/${slug}`),
 ]
 
-export const SEO_MAKEUP_LIST_PATHS = SEO_MAKEUP_TYPE_SLUGS.map(
-  (slug) => `/makeups/${slug}`
-)
+export const SEO_MAKEUP_LIST_PATHS = [
+  ...SEO_MAKEUP_TYPE_SLUGS.map((slug) => `/makeups/${slug}`),
+  ...SEO_MAKEUP_QUALITY_SLUGS.map((slug) => `/makeups/quality/${slug}`),
+  ...SEO_VERSION_SLUGS.map((slug) => `/makeups/version/${slug}`),
+  ...SEO_STYLE_SLUGS.map((slug) => `/makeups/style/${slug}`),
+  ...SEO_ITEM_SOURCE_SLUGS.map((slug) => `/makeups/source/${slug}`),
+]
 
 export const SEO_OUTFIT_LIST_PATHS = [
   ...SEO_OUTFIT_QUALITY_SLUGS.map((slug) => `/outfits/quality/${slug}`),
@@ -259,6 +277,16 @@ export const resolveSeoItemQualityFromSlug = (slug?: string | null) => {
 export const resolveSeoItemQualitySlug = (quality?: number | null) => {
   if (quality === null || quality === undefined) return null
   return ITEM_QUALITY_SEO_SLUG_BY_VALUE.get(quality) ?? null
+}
+
+export const resolveSeoMakeupQualityFromSlug = (slug?: string | null) => {
+  if (!slug) return null
+  return MAKEUP_QUALITY_BY_SEO_SLUG.get(slug) ?? null
+}
+
+export const resolveSeoMakeupQualitySlug = (quality?: number | null) => {
+  if (quality === null || quality === undefined) return null
+  return MAKEUP_QUALITY_SEO_SLUG_BY_VALUE.get(quality) ?? null
 }
 
 export const resolveSeoOutfitQualityFromSlug = (slug?: string | null) => {
@@ -355,9 +383,11 @@ export const getSeoListRouteFilter = (
     const value =
       section === 'items'
         ? resolveSeoItemQualityFromSlug(filter.slug)
-        : section === 'outfits'
-          ? resolveSeoOutfitQualityFromSlug(filter.slug)
-          : resolveSeoBannerQualityFromSlug(filter.slug)
+        : section === 'makeups'
+          ? resolveSeoMakeupQualityFromSlug(filter.slug)
+          : section === 'outfits'
+            ? resolveSeoOutfitQualityFromSlug(filter.slug)
+            : resolveSeoBannerQualityFromSlug(filter.slug)
 
     return value
       ? { ...filter, slug: resolveSeoQualitySlug(value) ?? filter.slug, value }
@@ -385,7 +415,7 @@ export const getSeoListRouteFilter = (
 
   if (filter.kind === 'source') {
     const value =
-      section === 'items'
+      section === 'items' || section === 'makeups'
         ? resolveSeoItemSourceFromSlug(filter.slug)
         : section === 'outfits'
           ? resolveSeoOutfitSourceFromSlug(filter.slug)

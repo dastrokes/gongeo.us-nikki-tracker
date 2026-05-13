@@ -60,6 +60,7 @@ export default defineNuxtConfig({
           src: 'https://api.gongeo.us/script.js',
           defer: true,
           'data-website-id': 'dd22ab5d-2045-4450-aaff-f513339b5ca6',
+          'data-domains': 'gongeo.us',
         },
       ],
     },

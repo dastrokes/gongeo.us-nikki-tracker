@@ -1,6 +1,6 @@
 <template>
   <NuxtLinkLocale
-    :to="`/items/${itemId}`"
+    :to="cardLocation"
     class="group relative block transition-all duration-300 ease-out hover:z-10 hover:scale-[1.05]"
     @click="$emit('click', itemId)"
   >
@@ -51,10 +51,12 @@
     type: string
     name: string
     size?: 'sm' | 'lg'
+    to?: string
   }
 
   const props = withDefaults(defineProps<Props>(), {
     size: 'lg',
+    to: undefined,
   })
 
   defineEmits<{
@@ -73,6 +75,7 @@
     boxShadow: themeVars.value.boxShadow2,
   }))
   const imageStyle = computed(() => getCardImageSeparationStyle(isDark.value))
+  const cardLocation = computed(() => props.to ?? `/items/${props.itemId}`)
 
   // Get item name from i18n
   const itemName = computed(() => {

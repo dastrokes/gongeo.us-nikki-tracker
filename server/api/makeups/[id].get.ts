@@ -345,9 +345,13 @@ export default defineCachedApiEventHandler(
         throw outfitRowsError
       }
 
-      const outfitIds = ((outfitRows as MakeupOutfitRow[] | null) ?? [])
-        .map((row) => row.outfit_id)
-        .filter((outfitId) => typeof outfitId === 'number')
+      const outfitIds = Array.from(
+        new Set(
+          ((outfitRows as MakeupOutfitRow[] | null) ?? [])
+            .map((row) => row.outfit_id)
+            .filter((outfitId) => typeof outfitId === 'number')
+        )
+      )
 
       if (outfitIds.length > 0) {
         const { data: outfits, error: outfitsError } = await withSupabaseRetry(

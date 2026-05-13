@@ -15,15 +15,56 @@
             key="chart"
             class="relative h-[calc(100vh-116px)] min-h-125 rounded-xl sm:h-[calc(100vh-148px)]"
           >
-            <div class="absolute top-2 left-2 z-10 w-40">
+            <div
+              class="absolute top-2 left-2 z-10 flex max-w-[calc(100%-3rem)] items-start gap-2"
+            >
               <n-select
                 v-model:value="timelineSortOrder"
                 size="small"
+                class="w-40 shrink-0"
                 :options="timelineSortOptions"
                 :show-checkmark="false"
                 :consistent-menu-width="false"
                 :aria-label="t('timeline.sort.label')"
               />
+              <div class="min-w-0 overflow-x-auto">
+                <n-button-group class="min-w-max">
+                  <n-button
+                    size="small"
+                    :type="
+                      timelineQualityFilter === null ? 'primary' : 'default'
+                    "
+                    class="min-w-10"
+                    @click="timelineQualityFilter = null"
+                  >
+                    {{ t('common.all') }}
+                  </n-button>
+                  <n-button
+                    v-bind="timelineQualityButtonThemes.star5"
+                    size="small"
+                    @click="timelineQualityFilter = 5"
+                  >
+                    <span class="flex items-center gap-1">
+                      5
+                      <n-icon>
+                        <Star />
+                      </n-icon>
+                    </span>
+                  </n-button>
+                  <n-button
+                    v-bind="timelineQualityButtonThemes.star4"
+                    size="small"
+                    @click="timelineQualityFilter = 4"
+                  >
+                    <span class="flex items-center gap-1">
+                      4
+                      <n-icon>
+                        <Star />
+                      </n-icon>
+                    </span>
+                  </n-button>
+                </n-button-group>
+              </div>
             </div>
             <VChart
               id="bannerTimelineChart"
@@ -112,7 +153,7 @@
 </template>
 
 <script setup lang="ts">
-  import { SearchMinus, SearchPlus } from '@vicons/fa'
+  import { SearchMinus, SearchPlus, Star } from '@vicons/fa'
   import type { CustomSeriesRenderItemReturn } from 'echarts'
   import type { ECElementEvent } from 'echarts/core'
   import type { SelectOption } from 'naive-ui'
@@ -146,6 +187,7 @@
   }
 
   type TimelineSortOrder = 'newest' | 'oldest' | 'longest_gap' | 'shortest_gap'
+  type TimelineQualityFilter = 4 | 5 | null
 
   interface BannerTimelineRow {
     bannerId: number
@@ -245,6 +287,7 @@
   const showTimelineChart = ref(false)
   const timelineChartAnimationEnabled = ref(true)
   const timelineSortOrder = ref<TimelineSortOrder>('newest')
+  const timelineQualityFilter = ref<TimelineQualityFilter>(null)
 
   interface TimelineSkeletonBar {
     key: string
@@ -350,6 +393,17 @@
     timelineChartAnimationEnabled.value = true
   })
 
+  watch(timelineQualityFilter, (nextQuality, previousQuality) => {
+    if (nextQuality === previousQuality) {
+      return
+    }
+
+    clearTimelineHoveredRow()
+    timelineChartAnimationEnabled.value = true
+    xZoomWindow.value = createDefaultZoomWindow()
+    yZoomWindow.value = createDefaultZoomWindow()
+  })
+
   const isTimelineBanner = (
     banner: Banner
   ): banner is Banner & { bannerType: 2 | 3 } =>
@@ -439,8 +493,19 @@
     shadowColor: isDark.value ? 'rgba(0, 0, 0, 0.4)' : 'rgba(15, 23, 42, 0.16)',
   }))
 
+  const timelineQualityButtonThemes = computed(() => ({
+    star5: getQualityButtonTheme(5, timelineQualityFilter.value === 5),
+    star4: getQualityButtonTheme(4, timelineQualityFilter.value === 4),
+  }))
+
   const timelineBanners = computed(() =>
-    Object.values(BANNER_DATA).filter(isTimelineBanner)
+    Object.values(BANNER_DATA)
+      .filter(isTimelineBanner)
+      .filter((banner) => {
+        if (timelineQualityFilter.value === 5) return banner.bannerType === 2
+        if (timelineQualityFilter.value === 4) return banner.bannerType === 3
+        return true
+      })
   )
 
   const timelineSortOptions = computed<SelectOption[]>(() => [

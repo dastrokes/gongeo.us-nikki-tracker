@@ -120,7 +120,6 @@ export default defineEventHandler(async (event) => {
     if (!hasAuthorization && requestedScope === 'all' && scope === 'all') {
       setCacheHeaders(event, 'feedback', {
         varyQuery: true,
-        varyHeaders: ['Authorization'],
       })
     } else {
       applyNoStoreHeaders(event)

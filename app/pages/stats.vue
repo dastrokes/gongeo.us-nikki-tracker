@@ -672,9 +672,9 @@
                 <NuxtImg
                   :src="shareCardEmoteSrc"
                   :alt="$t('banner.luck.' + luckTier)"
-                  class="relative z-10 h-32 w-32 object-contain"
+                  class="relative z-10 h-32 w-32 object-cover"
                   preset="iconLg"
-                  fit="contain"
+                  fit="cover"
                   loading="lazy"
                   sizes="128px"
                 />
@@ -940,9 +940,9 @@
                 <NuxtImg
                   :src="shareCardEmoteSrc"
                   :alt="$t('banner.luck.' + luckTier)"
-                  class="relative z-10 h-32 w-32 object-contain"
+                  class="relative z-10 h-32 w-32 object-cover"
                   preset="iconLg"
-                  fit="contain"
+                  fit="cover"
                   loading="lazy"
                   sizes="128px"
                 />

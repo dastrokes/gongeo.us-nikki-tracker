@@ -2,12 +2,18 @@
 
 Condensed schema reference for LLM/agent context.
 
+Canonical source for detailed SQL/query behavior:
+
+- `C:\Users\dastrokes\Dev\git\gongeo.us-data-processor\scripts\create-schema.sql`
+- `C:\Users\dastrokes\Dev\git\gongeo.us-data-processor\docs\database-query-reference.md`
+
 ## Functions
 
-- `public.list_items(p_page integer default 1, p_page_size integer default 18, p_quality integer default null, p_type text default null, p_style_key varchar(16) default null, p_label_id integer default null, p_obtain_min integer default null, p_obtain_max integer default null, p_obtain_ids integer[] default null, p_category text default null, p_subcategory text default null, p_metadata jsonb default null) -> table(id, quality, type, props, style_key, tags, obtain_type, total_count)`
-- `public.list_item_facets(p_quality integer default null, p_type text default null, p_style_key varchar(16) default null, p_label_id integer default null, p_obtain_min integer default null, p_obtain_max integer default null, p_obtain_ids integer[] default null, p_category text default null, p_subcategory text default null, p_selected_metadata jsonb default null) -> table(facet_group, facet_key, facet_value)`
-- `public.list_makeups(p_page integer default 1, p_page_size integer default 18, p_quality integer default null, p_type text default null, p_style_key varchar(16) default null, p_label_id integer default null, p_obtain_min integer default null, p_obtain_max integer default null, p_obtain_ids integer[] default null) -> table(id, quality, type, props, style_key, tags, obtain_type, total_count)`
-- `public.list_outfits(p_page integer default 1, p_page_size integer default 18, p_quality integer default null, p_style_key varchar(16) default null, p_label_id integer default null, p_obtain_min integer default null, p_obtain_max integer default null, p_obtain_ids integer[] default null) -> table(id, quality, props, style_key, tags, obtain_type, total_count)`
+- `public.list_items(...)` returns paged item rows plus `total_count`; supports quality/type/style/label/obtain/category/subcategory/metadata filters.
+- `public.list_item_facets(...)` returns item facet groups/keys/values for the current filter selection.
+- `public.list_makeups(...)` returns paged makeup rows plus `total_count`; supports quality/type/style/obtain filters.
+- `public.list_momo(...)` returns paged momo rows plus `total_count`; supports quality/obtain filters.
+- `public.list_outfits(...)` returns paged outfit rows plus `total_count`; supports quality/style/label/obtain filters.
 
 ## Tables
 
@@ -35,6 +41,19 @@ Condensed schema reference for LLM/agent context.
 - `language_code varchar(10)` (PK part)
 - `description text`
 
+### `public.momo`
+
+- `id bigint` (PK)
+- `quality integer`
+- `obtain_type integer`
+
+### `public.momo_translations`
+
+- `momo_id bigint` (PK part, FK -> `momo.id`)
+- `language_code varchar(10)` (PK part)
+- `name text`
+- `description text`
+
 ### `public.outfits`
 
 - `id bigint` (PK)
@@ -55,23 +74,13 @@ Condensed schema reference for LLM/agent context.
 - `outfit_id bigint` (PK part, FK -> `outfits.id`)
 - `item_id bigint` (PK part, FK -> `items.id`)
 
-## Explicit Indexes in Reference Schema
+## Key Indexes
 
-- `idx_item_translations_language` on `item_translations(language_code)`
-- `idx_items_obtain_type` on `items(obtain_type)`
-- `idx_items_quality_type` on `items(quality, type)`
-- `idx_items_style_key` on `items(style_key)`
-- `idx_items_tags_gin` on `items(tags)` (GIN)
-- `idx_items_type` on `items(type)`
-- `idx_item_attributes_metadata` on `item_attributes(metadata)` (GIN)
-- `idx_item_attributes_type_category` on `item_attributes(item_type, category)`
-- `idx_item_attributes_type_category_subcategory` on `item_attributes(item_type, category, subcategory)`
-- `idx_outfit_items_item_id` on `outfit_items(item_id)`
-- `idx_outfit_translations_language` on `outfit_translations(language_code)`
-- `idx_outfits_quality_id` on `outfits(quality, id)`
-- `idx_outfits_style_key` on `outfits(style_key)`
-- `item_translations_item_id_idx` on `item_translations(item_id)`
-- `outfit_items_outfit_id_idx` on `outfit_items(outfit_id)`
-- `outfit_translations_outfit_id_idx` on `outfit_translations(outfit_id)`
-- `outfits_obtain_type_idx` on `outfits(obtain_type)`
-- `outfits_quality_idx` on `outfits(quality)`
+- `items`: `type`, `(quality, type)`, `style_key`, `obtain_type`, `tags` (GIN)
+- `item_attributes`: `(item_type, category)`, `(item_type, category, subcategory)`, `metadata` (GIN)
+- `item_translations`: `language_code`, `item_id`
+- `momo`: `quality`, `obtain_type`
+- `momo_translations`: `language_code`, `momo_id`
+- `outfits`: `(quality, id)`, `quality`, `style_key`, `obtain_type`
+- `outfit_translations`: `language_code`, `outfit_id`
+- `outfit_items`: `item_id`, `outfit_id`

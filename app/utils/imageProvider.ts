@@ -31,6 +31,8 @@ type ImageSrcType =
   | 'outfit'
   | 'item'
   | 'itemIcon'
+  | 'momo'
+  | 'momoIcon'
   | 'fullMakeup'
   | 'emote'
   | 'static'
@@ -51,6 +53,10 @@ const getImagePath = (
       return `/images/items/${id}.png`
     case 'itemIcon':
       return `/images/items/icons/${id}.png`
+    case 'momo':
+      return `/images/momo/${id}.png`
+    case 'momoIcon':
+      return `/images/momo/icons/${id}.png`
     case 'fullMakeup':
       return `/images/items/makeups/${id}.png`
     case 'emote':

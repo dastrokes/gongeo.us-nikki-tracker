@@ -357,7 +357,7 @@
     | 'label'
     | 'source'
     | null
-  type CompendiumSection = 'outfits' | 'items' | 'makeups'
+  type CompendiumSection = 'outfits' | 'items' | 'momo' | 'makeups'
   type IconSelectOption = SelectOption & { icon: Component }
   type BuildListingQueryOptions = {
     primaryFilter?: OutfitListingPrimaryFilter
@@ -682,6 +682,7 @@
   const compendiumSectionOptions = computed<IconSelectOption[]>(() => [
     { label: t('common.outfits'), value: 'outfits', icon: Tshirt },
     { label: t('common.items'), value: 'items', icon: ListAlt },
+    { label: t('common.momo'), value: 'momo', icon: Star },
     { label: t('common.makeups'), value: 'makeups', icon: PaintBrush },
   ])
   const renderCompendiumSectionOptionLabel = (option: SelectOption) => {
@@ -749,6 +750,22 @@
         localePath({
           path: '/items',
           query: buildListingQuery({ includePage: false }),
+        })
+      )
+      return
+    }
+
+    if (nextSection === 'momo') {
+      navigateTo(
+        localePath({
+          path: '/momo',
+          query: {
+            ...(qualityFilter.value !== null && {
+              quality: qualityFilter.value,
+            }),
+            ...(versionFilter.value && { version: versionFilter.value }),
+            ...(obtainFilter.value && { source: obtainFilter.value }),
+          },
         })
       )
       return

@@ -15,6 +15,7 @@ dist/
 # Generated image assets
 public/images/outfits/
 public/images/items/
+public/images/momo/
 
 # Generated item-search artifacts
 data/item-search/generated/

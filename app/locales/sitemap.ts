@@ -5,6 +5,7 @@ import {
   SEO_BANNER_LIST_PATHS,
   SEO_ITEM_LIST_PATHS,
   SEO_MAKEUP_LIST_PATHS,
+  SEO_MOMO_LIST_PATHS,
   SEO_OUTFIT_LIST_PATHS,
 } from '../utils/seoListRouteDefinitions'
 
@@ -24,6 +25,7 @@ const BASE_PATHS = [
   '/login',
   '/profile',
   '/items',
+  '/momo',
   '/makeups',
   '/outfits',
   '/banners',
@@ -33,6 +35,7 @@ const BASE_PATHS = [
 const SEO_LIST_PATHS = [
   ...SEO_ITEM_LIST_PATHS,
   ...SEO_MAKEUP_LIST_PATHS,
+  ...SEO_MOMO_LIST_PATHS,
   ...SEO_OUTFIT_LIST_PATHS,
   ...SEO_BANNER_LIST_PATHS,
 ]
@@ -40,7 +43,7 @@ const STATIC_SITEMAP_PATHS = [...BASE_PATHS, ...SEO_LIST_PATHS]
 
 type TranslationDictionary = Record<string, string>
 type LocaleCode = (typeof i18nLocales)[number]['code']
-type TranslationSection = 'banner' | 'outfit' | 'item' | 'makeup'
+type TranslationSection = 'banner' | 'outfit' | 'item' | 'momo' | 'makeup'
 type TranslationLoader = () => Promise<TranslationDictionary>
 
 type SitemapUrl = {
@@ -78,6 +81,10 @@ const translationLoaders = {
       import('./en/item.json').then(
         (module) => module.default as TranslationDictionary
       ),
+    momo: () =>
+      import('./en/momo.json').then(
+        (module) => module.default as TranslationDictionary
+      ),
     makeup: () =>
       import('./en/makeup.json').then(
         (module) => module.default as TranslationDictionary
@@ -94,6 +101,10 @@ const translationLoaders = {
       ),
     item: () =>
       import('./de/item.json').then(
+        (module) => module.default as TranslationDictionary
+      ),
+    momo: () =>
+      import('./de/momo.json').then(
         (module) => module.default as TranslationDictionary
       ),
     makeup: () =>
@@ -114,6 +125,10 @@ const translationLoaders = {
       import('./es/item.json').then(
         (module) => module.default as TranslationDictionary
       ),
+    momo: () =>
+      import('./es/momo.json').then(
+        (module) => module.default as TranslationDictionary
+      ),
     makeup: () =>
       import('./es/makeup.json').then(
         (module) => module.default as TranslationDictionary
@@ -130,6 +145,10 @@ const translationLoaders = {
       ),
     item: () =>
       import('./fr/item.json').then(
+        (module) => module.default as TranslationDictionary
+      ),
+    momo: () =>
+      import('./fr/momo.json').then(
         (module) => module.default as TranslationDictionary
       ),
     makeup: () =>
@@ -151,6 +170,10 @@ const translationLoaders = {
       import('./it/item.json').then(
         (module) => module.default as TranslationDictionary
       ),
+    momo: () =>
+      import('./it/momo.json').then(
+        (module) => module.default as TranslationDictionary
+      ),
     makeup: () =>
       import('./it/makeup.json').then(
         (module) => module.default as TranslationDictionary
@@ -167,6 +190,10 @@ const translationLoaders = {
       ),
     item: () =>
       import('./ja/item.json').then(
+        (module) => module.default as TranslationDictionary
+      ),
+    momo: () =>
+      import('./ja/momo.json').then(
         (module) => module.default as TranslationDictionary
       ),
     makeup: () =>
@@ -187,6 +214,10 @@ const translationLoaders = {
       import('./ko/item.json').then(
         (module) => module.default as TranslationDictionary
       ),
+    momo: () =>
+      import('./ko/momo.json').then(
+        (module) => module.default as TranslationDictionary
+      ),
     makeup: () =>
       import('./ko/makeup.json').then(
         (module) => module.default as TranslationDictionary
@@ -203,6 +234,10 @@ const translationLoaders = {
       ),
     item: () =>
       import('./pt/item.json').then(
+        (module) => module.default as TranslationDictionary
+      ),
+    momo: () =>
+      import('./pt/momo.json').then(
         (module) => module.default as TranslationDictionary
       ),
     makeup: () =>
@@ -224,6 +259,10 @@ const translationLoaders = {
       import('./zh/item.json').then(
         (module) => module.default as TranslationDictionary
       ),
+    momo: () =>
+      import('./zh/momo.json').then(
+        (module) => module.default as TranslationDictionary
+      ),
     makeup: () =>
       import('./zh/makeup.json').then(
         (module) => module.default as TranslationDictionary
@@ -240,6 +279,10 @@ const translationLoaders = {
       ),
     item: () =>
       import('./tw/item.json').then(
+        (module) => module.default as TranslationDictionary
+      ),
+    momo: () =>
+      import('./tw/momo.json').then(
         (module) => module.default as TranslationDictionary
       ),
     makeup: () =>
@@ -313,6 +356,7 @@ const loadContentConfigs = () =>
       idFilter: (id) =>
         !(makeupItemTypes as readonly string[]).includes(getItemType(id)),
     }),
+    loadContentConfig('momo', 'momo', 'momo', "Momo's Cloak"),
     loadContentConfig('item', 'makeups', 'item', 'Makeup', {
       idFilter: (id) =>
         (makeupItemTypes as readonly string[]).includes(getItemType(id)),

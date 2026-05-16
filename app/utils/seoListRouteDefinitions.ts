@@ -11,6 +11,7 @@ import {
   OBTAIN_GROUPS,
   isObtainGroupVisibleInOutfits,
 } from '../../shared/utils/obtainGroups'
+import { MOMO_SOURCE_GROUPS } from '../../shared/utils/momoSourceGroups'
 import {
   resolveSeoQuality,
   resolveSeoQualitySlug,
@@ -138,6 +139,10 @@ export const SEO_OUTFIT_SOURCE_SLUGS = OBTAIN_GROUPS.filter((group) =>
   isObtainGroupVisibleInOutfits(group.key)
 ).map((group) => group.key)
 
+export const SEO_MOMO_SOURCE_SLUGS = MOMO_SOURCE_GROUPS.map(
+  (group) => group.key
+)
+
 const ITEM_SOURCE_BY_SEO_SLUG: ReadonlyMap<string, string> = new Map(
   SEO_ITEM_SOURCE_SLUGS.map((slug) => [slug, slug])
 )
@@ -152,6 +157,14 @@ const OUTFIT_SOURCE_BY_SEO_SLUG: ReadonlyMap<string, string> = new Map(
 
 const OUTFIT_SOURCE_SEO_SLUG_BY_VALUE: ReadonlyMap<string, string> = new Map(
   SEO_OUTFIT_SOURCE_SLUGS.map((slug) => [slug, slug])
+)
+
+const MOMO_SOURCE_BY_SEO_SLUG: ReadonlyMap<string, string> = new Map(
+  SEO_MOMO_SOURCE_SLUGS.map((slug) => [slug, slug])
+)
+
+const MOMO_SOURCE_SEO_SLUG_BY_VALUE: ReadonlyMap<string, string> = new Map(
+  SEO_MOMO_SOURCE_SLUGS.map((slug) => [slug, slug])
 )
 
 const createVersionRoutes = (
@@ -244,6 +257,10 @@ export const SEO_OUTFIT_LIST_PATHS = [
   ...SEO_OUTFIT_SOURCE_SLUGS.map((slug) => `/outfits/source/${slug}`),
 ]
 
+export const SEO_MOMO_LIST_PATHS = [
+  ...SEO_MOMO_SOURCE_SLUGS.map((slug) => `/momo/source/${slug}`),
+]
+
 export const SEO_BANNER_LIST_PATHS = [
   ...SEO_BANNER_QUALITY_SLUGS.map((slug) => `/banners/quality/${slug}`),
   ...SEO_BANNER_VERSION_SLUGS.map((slug) => `/banners/version/${slug}`),
@@ -327,6 +344,16 @@ export const resolveSeoOutfitSourceFromSlug = (slug?: string | null) => {
 export const resolveSeoOutfitSourceSlug = (source?: string | null) => {
   if (!source) return null
   return OUTFIT_SOURCE_SEO_SLUG_BY_VALUE.get(source) ?? null
+}
+
+export const resolveSeoMomoSourceFromSlug = (slug?: string | null) => {
+  if (!slug) return null
+  return MOMO_SOURCE_BY_SEO_SLUG.get(slug) ?? null
+}
+
+export const resolveSeoMomoSourceSlug = (source?: string | null) => {
+  if (!source) return null
+  return MOMO_SOURCE_SEO_SLUG_BY_VALUE.get(source) ?? null
 }
 
 export const resolveSeoVersionFromSlug = (slug?: string | null) => {
@@ -419,7 +446,9 @@ export const getSeoListRouteFilter = (
         ? resolveSeoItemSourceFromSlug(filter.slug)
         : section === 'outfits'
           ? resolveSeoOutfitSourceFromSlug(filter.slug)
-          : null
+          : section === 'momo'
+            ? resolveSeoMomoSourceFromSlug(filter.slug)
+            : null
     return value ? { ...filter, value } : null
   }
 

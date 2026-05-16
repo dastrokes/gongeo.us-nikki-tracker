@@ -590,6 +590,11 @@
       label: t('navigation.groups.compendium'),
       items: [
         { key: 'items', label: t('navigation.item'), icon: ListAlt },
+        {
+          key: 'momo',
+          label: t('navigation.momo'),
+          icon: Tshirt,
+        },
         { key: 'outfits', label: t('navigation.outfit'), icon: Tshirt },
         {
           key: 'makeups',

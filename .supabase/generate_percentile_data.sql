@@ -285,22 +285,14 @@ begin
             from
               generate_subscripts(labels, 1) as idx
           )
-        ) as value
+        ) as payload
       from
         metric_arrays
     )
   select
-    jsonb_build_object(
-      'generated_at',
-      to_char(
-        now() at time zone 'UTC',
-        'YYYY-MM-DD"T"HH24:MI:SS"Z"'
-      ),
-      'metrics',
-      metrics.value
-    ) into result
+    payload into result
   from
     metrics;
 
-  return result;
+  return coalesce(result, '{}'::jsonb);
 end;

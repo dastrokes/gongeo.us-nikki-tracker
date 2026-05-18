@@ -7,6 +7,7 @@ import {
   SEO_BANNER_LIST_PATHS,
   SEO_ITEM_LIST_PATHS,
   SEO_MAKEUP_LIST_PATHS,
+  SEO_MOMO_LIST_PATHS,
   SEO_OUTFIT_LIST_PATHS,
 } from './app/utils/seoListRouteDefinitions'
 import {
@@ -119,6 +120,7 @@ export default defineNuxtConfig({
       addSeoListRoutes('/makeups', 'seo-makeups', SEO_MAKEUP_LIST_PATHS)
       addSeoListRoutes('/items', 'seo-items', SEO_ITEM_LIST_PATHS)
       addSeoListRoutes('/outfits', 'seo-outfits', SEO_OUTFIT_LIST_PATHS)
+      addSeoListRoutes('/momo', 'seo-momo', SEO_MOMO_LIST_PATHS)
       addSeoListRoutes('/banners', 'seo-banners', SEO_BANNER_LIST_PATHS)
     },
   },

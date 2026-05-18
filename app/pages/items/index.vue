@@ -322,12 +322,7 @@
                 @click="navigateToDetail(entry.id)"
               >
                 <div
-                  class="relative aspect-2/3 overflow-hidden rounded-lg shadow-md transition-shadow duration-300 hover:shadow-xl"
-                  style="
-                    background-image: url('/images/bg.webp');
-                    background-size: cover;
-                    background-position: center;
-                  "
+                  class="relative aspect-2/3 overflow-hidden rounded-lg bg-[url('/images/bg.webp')] bg-cover bg-center shadow-md transition-shadow duration-300 hover:shadow-xl"
                 >
                   <!-- Tint overlay -->
                   <div
@@ -474,6 +469,7 @@
     Tshirt,
     ListAlt,
     PaintBrush,
+    Paw,
     SortAmountDown,
     Times,
   } from '@vicons/fa'
@@ -531,7 +527,7 @@
     | 'label'
     | 'source'
     | null
-  type CompendiumSection = 'outfits' | 'items' | 'makeups'
+  type CompendiumSection = 'outfits' | 'items' | 'momo' | 'makeups'
   type IconSelectOption = SelectOption & { icon: Component }
   type BuildListingQueryOptions = {
     includeType?: boolean
@@ -1022,6 +1018,7 @@
     { label: t('common.outfits'), value: 'outfits', icon: Tshirt },
     { label: t('common.items'), value: 'items', icon: ListAlt },
     { label: t('common.makeups'), value: 'makeups', icon: PaintBrush },
+    { label: t('common.momo'), value: 'momo', icon: Paw },
   ])
   const renderCompendiumSectionOptionLabel = (option: SelectOption) => {
     const { icon } = option as IconSelectOption
@@ -1100,6 +1097,22 @@
   const handleCompendiumSectionChange = (value: string) => {
     const nextSection = value as CompendiumSection
     if (nextSection === 'items') return
+
+    if (nextSection === 'momo') {
+      navigateTo(
+        localePath({
+          path: '/momo',
+          query: {
+            ...(qualityFilter.value !== null && {
+              quality: qualityFilter.value,
+            }),
+            ...(versionFilter.value && { version: versionFilter.value }),
+            ...(obtainFilter.value && { source: obtainFilter.value }),
+          },
+        })
+      )
+      return
+    }
 
     navigateTo(
       localePath({

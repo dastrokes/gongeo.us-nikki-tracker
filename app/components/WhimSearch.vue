@@ -335,12 +335,7 @@
                   @click="setSelected(item.id)"
                 >
                   <div
-                    class="relative aspect-2/3 overflow-hidden rounded-lg shadow-md transition-shadow duration-300 hover:shadow-xl"
-                    style="
-                      background-image: url('/images/bg.webp');
-                      background-size: cover;
-                      background-position: center;
-                    "
+                    class="relative aspect-2/3 overflow-hidden rounded-lg bg-[url('/images/bg.webp')] bg-cover bg-center shadow-md transition-shadow duration-300 hover:shadow-xl"
                   >
                     <div
                       class="absolute inset-0"

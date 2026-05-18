@@ -1,0 +1,42 @@
+[
+  {
+    "key": "cadenceborn",
+    "labelKey": "source.momo.cadenceborn.106",
+    "ids": [106]
+  },
+  {
+    "key": "limited",
+    "labelKey": "source.momo.limited.120",
+    "ids": [120]
+  },
+  {
+    "key": "merchant",
+    "labelKey": "source.momo.merchant.111",
+    "ids": [110, 111]
+  },
+  {
+    "key": "journey",
+    "labelKey": "source.momo.journey.121",
+    "ids": [121]
+  },
+  {
+    "key": "pear",
+    "labelKey": "source.momo.pear.115",
+    "ids": [115]
+  },
+  {
+    "key": "permanent",
+    "labelKey": "source.momo.permanent.113",
+    "ids": [113]
+  },
+  {
+    "key": "quest",
+    "labelKey": "source.momo.quest.101",
+    "ids": [101]
+  },
+  {
+    "key": "course",
+    "labelKey": "source.momo.course.105",
+    "ids": [105]
+  }
+]

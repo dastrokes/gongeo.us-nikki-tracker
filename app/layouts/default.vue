@@ -91,35 +91,44 @@
               class="w-auto!"
             >
               <div
-                class="overflow-hidden rounded-xl border border-black/6 bg-white shadow-lg ring-1 ring-black/5 transition-[height] duration-300 ease-in-out dark:border-white/2 dark:bg-slate-900 dark:ring-white/5"
-                :style="{ height: desktopMenuHeight }"
+                class="overflow-hidden rounded-xl border border-black/6 bg-white shadow-lg ring-1 ring-black/5 transition-[height,width] duration-300 ease-in-out dark:border-white/2 dark:bg-slate-900 dark:ring-white/5"
+                :style="{
+                  height: desktopMenuHeight,
+                  width: desktopMenuWidth,
+                }"
               >
-                <div class="min-w-50 p-1.5">
-                  <button
-                    v-for="item in openDesktopMenuGroup?.items ?? []"
-                    :key="item.key"
-                    type="button"
-                    class="group flex w-full cursor-pointer items-center gap-3 rounded-lg px-3 py-3 text-left text-sm whitespace-nowrap hover:bg-slate-100 dark:hover:bg-slate-800/80"
-                    :class="
-                      isNavItemActive(item.key)
-                        ? 'text-rose-500 dark:text-rose-400'
-                        : 'text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white'
-                    "
-                    @click="handleMenuSelect(item.key)"
+                <div class="flex gap-1 p-1.5">
+                  <div
+                    v-for="(column, columnIndex) in desktopMenuColumns"
+                    :key="columnIndex"
+                    class="min-w-50"
                   >
-                    <n-icon
-                      size="16"
-                      class="shrink-0"
+                    <button
+                      v-for="item in column"
+                      :key="item.key"
+                      type="button"
+                      class="group flex w-full cursor-pointer items-center gap-3 rounded-lg px-3 py-3 text-left text-sm whitespace-nowrap hover:bg-slate-100 dark:hover:bg-slate-800/80"
                       :class="
                         isNavItemActive(item.key)
                           ? 'text-rose-500 dark:text-rose-400'
-                          : 'text-slate-400 group-hover:text-slate-500 dark:text-slate-500 dark:group-hover:text-slate-400'
+                          : 'text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white'
                       "
+                      @click="handleMenuSelect(item.key)"
                     >
-                      <component :is="item.icon" />
-                    </n-icon>
-                    <span>{{ item.label }}</span>
-                  </button>
+                      <n-icon
+                        size="16"
+                        class="shrink-0"
+                        :class="
+                          isNavItemActive(item.key)
+                            ? 'text-rose-500 dark:text-rose-400'
+                            : 'text-slate-400 group-hover:text-slate-500 dark:text-slate-500 dark:group-hover:text-slate-400'
+                        "
+                      >
+                        <component :is="item.icon" />
+                      </n-icon>
+                      <span>{{ item.label }}</span>
+                    </button>
+                  </div>
                 </div>
               </div>
             </n-collapse-transition>
@@ -530,6 +539,7 @@
     CommentDots,
     Magic,
     PaintBrush,
+    Paw,
   } from '@vicons/fa'
 
   type NavigationItem = {
@@ -573,6 +583,7 @@
       items: [
         { key: 'tracker', label: t('navigation.tracker'), icon: Book },
         { key: 'stats', label: t('navigation.stats'), icon: ChartBar },
+        { key: 'global', label: t('navigation.global'), icon: Globe },
         { key: 'import', label: t('navigation.import'), icon: FileImport },
       ],
     },
@@ -582,19 +593,23 @@
       items: [
         { key: 'banners', label: t('navigation.banner'), icon: CalendarAlt },
         { key: 'timeline', label: t('navigation.timeline'), icon: AlignRight },
-        { key: 'global', label: t('navigation.global'), icon: Globe },
       ],
     },
     {
       key: 'compendium',
       label: t('navigation.groups.compendium'),
       items: [
-        { key: 'items', label: t('navigation.item'), icon: ListAlt },
         { key: 'outfits', label: t('navigation.outfit'), icon: Tshirt },
+        { key: 'items', label: t('navigation.item'), icon: ListAlt },
         {
           key: 'makeups',
           label: t('navigation.makeup'),
           icon: PaintBrush,
+        },
+        {
+          key: 'momo',
+          label: t('common.momo'),
+          icon: Paw,
         },
         { key: 'search', label: t('search_page.title'), icon: Search },
         {
@@ -702,6 +717,8 @@
   const activeNavGroupKey = computed(
     () => navItemGroupMap.value[activeRouteSegment.value] ?? null
   )
+  const compendiumMenuColumnKeys = new Set(['outfits', 'items', 'makeups'])
+  const compendiumMenuSecondaryColumnKeys = ['search', 'random', 'momo']
 
   const openDesktopGroup = ref<string | null>(null)
   const mobileDrawerOpen = ref(false)
@@ -718,9 +735,33 @@
     )
   })
 
+  const desktopMenuColumns = computed<NavigationItem[][]>(() => {
+    const items = openDesktopMenuGroup.value?.items ?? []
+
+    if (items.length === 0) return []
+    if (openDesktopGroup.value !== 'compendium') return [items]
+
+    return [
+      items.filter((item) => compendiumMenuColumnKeys.has(item.key)),
+      compendiumMenuSecondaryColumnKeys
+        .map((key) => items.find((item) => item.key === key))
+        .filter((item): item is NavigationItem => Boolean(item)),
+    ].filter((column) => column.length > 0)
+  })
+
   const desktopMenuHeight = computed(() => {
-    const itemsCount = openDesktopMenuGroup.value?.items.length || 0
+    const itemsCount = Math.max(
+      0,
+      ...desktopMenuColumns.value.map((column) => column.length)
+    )
     return itemsCount > 0 ? `${itemsCount * 44 + 14}px` : undefined
+  })
+
+  const desktopMenuWidth = computed(() => {
+    const columnsCount = desktopMenuColumns.value.length
+    return columnsCount > 0
+      ? `${columnsCount * 200 + Math.max(0, columnsCount - 1) * 4 + 12}px`
+      : undefined
   })
 
   const isNavItemActive = (key: string) => activeRouteSegment.value === key

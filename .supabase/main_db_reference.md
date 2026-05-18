@@ -2,15 +2,20 @@
 
 Condensed schema reference for LLM/agent context.
 
+Canonical source for expanded query notes:
+
+- `C:\Users\dastrokes\Dev\git\gongeo.us-data-processor\docs\database-query-reference.md`
+- `C:\Users\dastrokes\Dev\git\gongeo.us-nikki-tracker\.supabase\generate_percentile_data.sql`
+
 ## Functions
 
-- `public.generate_first_item_json_for_banner(p_banner_id integer) -> jsonb`
-- `public.generate_global_core_json() -> jsonb`
-- `public.generate_percentile_data() -> jsonb`
-- `public.generate_tierlist_data() -> jsonb`
-- `public.refresh_global_banner_stats(p_banner_id integer) -> jsonb`
-- `public.refresh_global_banner_stats_all() -> integer`
-- `public.refresh_global_core_stats() -> jsonb`
+- `public.generate_first_item_json_for_banner(...)`
+- `public.generate_global_core_json()`
+- `public.generate_percentile_data()`
+- `public.generate_tierlist_data()`
+- `public.refresh_global_banner_stats(...)`
+- `public.refresh_global_banner_stats_all()`
+- `public.refresh_global_core_stats()`
 
 ## Tables
 
@@ -45,7 +50,7 @@ Condensed schema reference for LLM/agent context.
 
 ### `public.user_tierlists`
 
-- `scope_type text` (allowed: `banners|outfits|items`)
+- `scope_type text` (allowed: `banners|outfits|items|momo`)
 - `scope_filters jsonb` (default `{}`)
 - `voter_fingerprint text`
 - `tiers_json jsonb`
@@ -57,10 +62,9 @@ Condensed schema reference for LLM/agent context.
 
 ### `public.user_banner_stats_view`
 
-- Combines `user_banner_stats` and `user_banner_stats_pearpal`.
+- Merges `user_banner_stats` and `user_banner_stats_pearpal`.
 - Join key: `(uid, region, banner_id)`.
-- Chooses source row by `prefer_game` rule based on availability and `total_pulls`.
-- Includes derived `source_table` (`game` or `pearpal`).
+- Exposes derived `source_table` (`game` or `pearpal`).
 
 ## Explicit Indexes in Reference Schema
 

@@ -515,13 +515,8 @@
                       >
                         <template #trigger>
                           <div
-                            class="relative overflow-hidden rounded-md border border-gray-200/70 bg-gray-100 shadow-xs transition-shadow duration-200 hover:shadow-md dark:border-gray-700/70 dark:bg-gray-800"
+                            class="relative overflow-hidden rounded-md border border-gray-200/70 bg-gray-100 bg-[url('/images/bg.webp')] bg-cover bg-center shadow-xs transition-shadow duration-200 hover:shadow-md dark:border-gray-700/70 dark:bg-gray-800"
                             :class="cardAspectClass"
-                            style="
-                              background-image: url('/images/bg.webp');
-                              background-size: cover;
-                              background-position: center;
-                            "
                           >
                             <div
                               class="absolute inset-0"
@@ -632,13 +627,8 @@
                   >
                     <template #trigger>
                       <div
-                        class="relative overflow-hidden rounded-md border border-gray-200/70 bg-gray-100 shadow-xs transition-shadow duration-200 hover:shadow-md dark:border-gray-700/70 dark:bg-gray-800"
+                        class="relative overflow-hidden rounded-md border border-gray-200/70 bg-gray-100 bg-[url('/images/bg.webp')] bg-cover bg-center shadow-xs transition-shadow duration-200 hover:shadow-md dark:border-gray-700/70 dark:bg-gray-800"
                         :class="cardAspectClass"
-                        style="
-                          background-image: url('/images/bg.webp');
-                          background-size: cover;
-                          background-position: center;
-                        "
                       >
                         <div
                           class="absolute inset-0"
@@ -841,13 +831,8 @@
                     @contextmenu="openRankContextMenu(entry.id, $event)"
                   >
                     <div
-                      class="relative overflow-hidden rounded-md border border-gray-200/70 bg-gray-100 shadow-xs transition-shadow duration-200 hover:shadow-md dark:border-gray-700/70 dark:bg-gray-800"
+                      class="relative overflow-hidden rounded-md border border-gray-200/70 bg-gray-100 bg-[url('/images/bg.webp')] bg-cover bg-center shadow-xs transition-shadow duration-200 hover:shadow-md dark:border-gray-700/70 dark:bg-gray-800"
                       :class="cardAspectClass"
-                      style="
-                        background-image: url('/images/bg.webp');
-                        background-size: cover;
-                        background-position: center;
-                      "
                     >
                       <div
                         class="absolute inset-0"
@@ -906,13 +891,8 @@
               @contextmenu="openRankContextMenu(entry.id, $event)"
             >
               <div
-                class="relative overflow-hidden rounded-md border border-gray-200/70 bg-gray-100 shadow-xs transition-shadow duration-200 hover:shadow-md dark:border-gray-700/70 dark:bg-gray-800"
+                class="relative overflow-hidden rounded-md border border-gray-200/70 bg-gray-100 bg-[url('/images/bg.webp')] bg-cover bg-center shadow-xs transition-shadow duration-200 hover:shadow-md dark:border-gray-700/70 dark:bg-gray-800"
                 :class="cardAspectClass"
-                style="
-                  background-image: url('/images/bg.webp');
-                  background-size: cover;
-                  background-position: center;
-                "
               >
                 <div
                   class="absolute inset-0"
@@ -1007,6 +987,7 @@
     ExternalLinkAlt,
     ListAlt,
     PaintBrush,
+    Paw,
     Star,
     Sync,
     Tshirt,
@@ -1022,7 +1003,7 @@
   import { h, type Component } from 'vue'
   import { BANNER_DATA } from '~~/data/banners'
 
-  type TierMode = 'banners' | 'outfits' | 'items' | 'makeups'
+  type TierMode = 'banners' | 'outfits' | 'items' | 'makeups' | 'momo'
   type IconSelectOption = SelectOption & { icon: Component }
   type TierKey = 'S' | 'A' | 'B' | 'C' | 'D' | 'F'
   type TierTarget = TierKey | typeof UNRANKED_TARGET
@@ -1212,7 +1193,8 @@
       value === 'banners' ||
       value === 'outfits' ||
       value === 'items' ||
-      value === 'makeups'
+      value === 'makeups' ||
+      value === 'momo'
     ) {
       return value
     }
@@ -1398,6 +1380,12 @@
       labelFilter.value = null
     }
 
+    if (nextMode === 'momo') {
+      styleFilter.value = null
+      labelFilter.value = null
+      itemTypeFilter.value = null
+    }
+
     if (nextMode !== 'items') {
       advancedFilters.value = createEmptyItemSearchAdvancedFilters()
       isAdvancedFiltersDrawerOpen.value = false
@@ -1426,13 +1414,14 @@
     )
   })
   const effectiveLabelFilter = computed(() =>
-    mode.value === 'makeups' ? null : labelFilter.value
+    mode.value === 'makeups' || mode.value === 'momo' ? null : labelFilter.value
   )
   const tierModeOptions = computed<IconSelectOption[]>(() => [
     { label: t('common.banners'), value: 'banners', icon: CalendarAlt },
     { label: t('common.outfits'), value: 'outfits', icon: Tshirt },
     { label: t('common.items'), value: 'items', icon: ListAlt },
     { label: t('common.makeups'), value: 'makeups', icon: PaintBrush },
+    { label: t('common.momo'), value: 'momo', icon: Paw },
   ])
   const renderTierModeOptionLabel = (option: SelectOption) => {
     const { icon } = option as IconSelectOption
@@ -1512,6 +1501,7 @@
   const { fetchOutfitsPaginated } = useSupabaseOutfits()
   const { fetchItemsPaginated, fetchMakeupsPaginated, fetchItemSearchFacets } =
     useSupabaseItems()
+  const { fetchMomoPaginated } = useMomo()
 
   const itemFacetCacheKey = computed(
     () =>
@@ -1766,6 +1756,22 @@
       return query
     }
 
+    if (mode.value === 'momo') {
+      if (qualityFilter.value !== null) {
+        query.quality = qualityFilter.value
+      }
+
+      if (versionFilter.value) {
+        query.version = versionFilter.value
+      }
+
+      if (obtainFilter.value) {
+        query.source = obtainFilter.value
+      }
+
+      return query
+    }
+
     if (qualityFilter.value !== null) {
       query.quality = qualityFilter.value
     }
@@ -2013,6 +2019,30 @@
     }
   }
 
+  const loadMomoEntries = async (): Promise<TierDataPayload> => {
+    const { data: momoItems, total } = await fetchMomoPaginated({
+      quality: qualityFilter.value,
+      version: versionFilter.value,
+      source: obtainFilter.value,
+      page: 1,
+      pageSize: TIER_ENTRY_LIMIT,
+    })
+    const overLimit = total > TIER_ENTRY_LIMIT
+
+    const entries = momoItems.map((item) => ({
+      id: String(item.id),
+      numericId: item.id,
+      name: t(`momo.${item.id}.name`),
+      image: getImageSrc('momo', item.id),
+      quality: item.quality,
+    }))
+
+    return {
+      entries,
+      overLimit,
+    }
+  }
+
   const dataCacheKey = computed(() => {
     const query = buildTierQuery()
     const serialized = Object.entries(query)
@@ -2041,6 +2071,10 @@
 
       if (mode.value === 'makeups') {
         return loadMakeupEntries()
+      }
+
+      if (mode.value === 'momo') {
+        return loadMomoEntries()
       }
 
       return loadOutfitEntries()
@@ -2075,6 +2109,11 @@
         return {
           singular: t('common.makeup'),
           plural: t('common.makeups'),
+        }
+      case 'momo':
+        return {
+          singular: t('common.momo_entry'),
+          plural: t('common.momo'),
         }
       default:
         return {
@@ -2367,7 +2406,8 @@
       mode.value === 'banners' ||
       mode.value === 'outfits' ||
       mode.value === 'items' ||
-      mode.value === 'makeups'
+      mode.value === 'makeups' ||
+      mode.value === 'momo'
   )
   const showCommunityInsightsAction = computed(
     () =>
@@ -2964,6 +3004,8 @@
       path = `/outfits/${entry.numericId}`
     } else if (mode.value === 'makeups') {
       path = `/makeups/${entry.numericId}`
+    } else if (mode.value === 'momo') {
+      path = `/momo/${entry.numericId}`
     }
 
     window.open(localePath(path), '_blank', 'noopener,noreferrer')

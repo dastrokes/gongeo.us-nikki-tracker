@@ -309,7 +309,14 @@
 </template>
 
 <script setup lang="ts">
-  import { Star, Tshirt, ListAlt, PaintBrush, SortAmountDown } from '@vicons/fa'
+  import {
+    Star,
+    Tshirt,
+    ListAlt,
+    PaintBrush,
+    Paw,
+    SortAmountDown,
+  } from '@vicons/fa'
   import { NIcon } from 'naive-ui'
   import type { SelectOption } from 'naive-ui'
   import { h, type Component } from 'vue'
@@ -357,7 +364,7 @@
     | 'label'
     | 'source'
     | null
-  type CompendiumSection = 'outfits' | 'items' | 'makeups'
+  type CompendiumSection = 'outfits' | 'items' | 'momo' | 'makeups'
   type IconSelectOption = SelectOption & { icon: Component }
   type BuildListingQueryOptions = {
     primaryFilter?: OutfitListingPrimaryFilter
@@ -683,6 +690,7 @@
     { label: t('common.outfits'), value: 'outfits', icon: Tshirt },
     { label: t('common.items'), value: 'items', icon: ListAlt },
     { label: t('common.makeups'), value: 'makeups', icon: PaintBrush },
+    { label: t('common.momo'), value: 'momo', icon: Paw },
   ])
   const renderCompendiumSectionOptionLabel = (option: SelectOption) => {
     const { icon } = option as IconSelectOption
@@ -749,6 +757,22 @@
         localePath({
           path: '/items',
           query: buildListingQuery({ includePage: false }),
+        })
+      )
+      return
+    }
+
+    if (nextSection === 'momo') {
+      navigateTo(
+        localePath({
+          path: '/momo',
+          query: {
+            ...(qualityFilter.value !== null && {
+              quality: qualityFilter.value,
+            }),
+            ...(versionFilter.value && { version: versionFilter.value }),
+            ...(obtainFilter.value && { source: obtainFilter.value }),
+          },
         })
       )
       return

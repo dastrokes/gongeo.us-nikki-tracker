@@ -57,14 +57,6 @@
     "outfit": false
   },
   {
-    "key": "pear",
-    "labelKey": "obtain.10014.name",
-    "ids": [
-      10014, 10107, 10206, 10303, 10404, 10502, 10603, 10704, 10805, 10904,
-      11005, 11103, 20017, 20105, 20202, 20303, 20403, 20510
-    ]
-  },
-  {
     "key": "permanent",
     "labelKey": "import.banner_groups.permanent_banners",
     "ids": [10011]
@@ -89,6 +81,14 @@
     "outfit": false
   },
   {
+    "key": "pear",
+    "labelKey": "obtain.10014.name",
+    "ids": [
+      10014, 10107, 10206, 10303, 10404, 10502, 10603, 10704, 10805, 10904,
+      11005, 11103, 20017, 20105, 20202, 20303, 20403, 20510
+    ]
+  },
+  {
     "key": "surprise",
     "labelKey": "obtain.10010.name",
     "ids": [10010, 20014],
@@ -97,6 +97,7 @@
   {
     "key": "world",
     "labelKey": "obtain.10018.name",
-    "ids": [20305, 20406, 20513]
+    "ids": [20305, 20406, 20513],
+    "outfit": false
   }
 ]

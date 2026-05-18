@@ -1,6 +1,5 @@
 {
   "momo.1160100001.name": "モモのマント・夢の羽根",
-  "momo.1160100003.name": "モモのマント・舞踏会",
   "momo.1160100004.name": "モモのマント・燦めく金",
   "momo.1160100005.name": "モモのマント・悠々自適",
   "momo.1160100006.name": "モモのマント・蛍の花",
@@ -109,5 +108,5 @@
   "source.momo.merchant.111": "ブティック",
   "source.momo.permanent.113": "常設バナー",
   "source.momo.quest.101": "クエスト",
-  "source.momo.store.115": "ビアリーモール特選品"
+  "source.momo.pear.115": "ビアリーモール特選品"
 }

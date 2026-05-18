@@ -1,6 +1,5 @@
 {
   "momo.1160100001.name": "Capa do Momo: Sonhos",
-  "momo.1160100003.name": "Capa do Momo: Dança",
   "momo.1160100004.name": "Capa do Momo: Ouro Brilhante",
   "momo.1160100005.name": "Capa do Momo: Ócio",
   "momo.1160100006.name": "Capa do Momo: Brilhestrelada",
@@ -109,5 +108,5 @@
   "source.momo.merchant.111": "Loja de Roupas",
   "source.momo.permanent.113": "Banner Permanente",
   "source.momo.quest.101": "Missão",
-  "source.momo.store.115": "Item Premium da Loja da Pera-miga"
+  "source.momo.pear.115": "Item Premium da Loja da Pera-miga"
 }

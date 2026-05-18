@@ -1,6 +1,5 @@
 {
   "momo.1160100001.name": "Mantello di Momo: sogno",
-  "momo.1160100003.name": "Mantello di Momo: danza",
   "momo.1160100004.name": "Mantello di Momo: oro luccicante",
   "momo.1160100005.name": "Mantello di Momo: ozio",
   "momo.1160100006.name": "Mantello di Momo: Stellato",
@@ -109,5 +108,5 @@
   "source.momo.merchant.111": "Negozio di vestiti",
   "source.momo.permanent.113": "Banner permanente",
   "source.momo.quest.101": "Missione",
-  "source.momo.store.115": "Oggetto premium del Negozio Pa-Pero"
+  "source.momo.pear.115": "Oggetto premium del Negozio Pa-Pero"
 }

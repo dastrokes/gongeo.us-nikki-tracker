@@ -608,7 +608,7 @@
         },
         {
           key: 'momo',
-          label: t('navigation.momo'),
+          label: t('common.momo'),
           icon: Paw,
         },
         { key: 'search', label: t('search_page.title'), icon: Search },

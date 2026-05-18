@@ -361,6 +361,7 @@ const normalizeAggregateJson = (
     outfits: normalizeMode(modesSource.outfits),
     items: normalizeMode(modesSource.items),
     makeups: normalizeMode(modesSource.makeups),
+    momo: normalizeMode(modesSource.momo),
   }
 
   return {

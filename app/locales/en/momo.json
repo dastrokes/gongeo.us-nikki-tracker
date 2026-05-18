@@ -1,6 +1,5 @@
 {
   "momo.1160100001.name": "Momo's Cloak: Dream",
-  "momo.1160100003.name": "Momo's Cloak: Dance",
   "momo.1160100004.name": "Momo's Cloak: Bright Gold",
   "momo.1160100005.name": "Momo's Cloak: Leisure",
   "momo.1160100006.name": "Momo's Cloak: Starlit",
@@ -109,5 +108,5 @@
   "source.momo.merchant.111": "Clothing Store",
   "source.momo.permanent.113": "Permanent Banner",
   "source.momo.quest.101": "Quest",
-  "source.momo.store.115": "Pear-Pal Premium"
+  "source.momo.pear.115": "Pear-Pal Premium"
 }

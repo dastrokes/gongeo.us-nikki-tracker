@@ -1,6 +1,5 @@
 {
   "momo.1160100001.name": "Momos Mantel: Traum",
-  "momo.1160100003.name": "Momos Mantel: Tanz",
   "momo.1160100004.name": "Momos Mantel: Helles Gold",
   "momo.1160100005.name": "Momos Mantel: Freizeit",
   "momo.1160100006.name": "Momos Mantel: Sternenhell",
@@ -109,5 +108,5 @@
   "source.momo.merchant.111": "Klamottenladen",
   "source.momo.permanent.113": "Permanentes Banner",
   "source.momo.quest.101": "Auftrag",
-  "source.momo.store.115": "Birnen-Buddy – Premium"
+  "source.momo.pear.115": "Birnen-Buddy – Premium"
 }

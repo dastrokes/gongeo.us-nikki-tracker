@@ -1,6 +1,5 @@
 {
   "momo.1160100001.name": "Cape de Momo : Rêve",
-  "momo.1160100003.name": "Cape de Momo : Danse",
   "momo.1160100004.name": "Cape de Momo : Or éclatant",
   "momo.1160100005.name": "Cape de Momo : Flânerie",
   "momo.1160100006.name": "Cape de Momo : Fleur étoilée",
@@ -109,5 +108,5 @@
   "source.momo.merchant.111": "Magasin de vêtements",
   "source.momo.permanent.113": "Bannière permanente",
   "source.momo.quest.101": "Quête",
-  "source.momo.store.115": "Premium de Poir'pote"
+  "source.momo.pear.115": "Premium de Poir'pote"
 }

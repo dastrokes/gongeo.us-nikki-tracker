@@ -258,6 +258,7 @@ export const SEO_OUTFIT_LIST_PATHS = [
 ]
 
 export const SEO_MOMO_LIST_PATHS = [
+  ...SEO_VERSION_SLUGS.map((slug) => `/momo/version/${slug}`),
   ...SEO_MOMO_SOURCE_SLUGS.map((slug) => `/momo/source/${slug}`),
 ]
 

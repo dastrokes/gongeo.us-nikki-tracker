@@ -160,16 +160,26 @@
           <button
             v-for="item in compendiumItems"
             :key="item.key"
-            class="group flex cursor-pointer flex-col items-center justify-center rounded-xl border border-black/4 bg-linear-to-br from-[#e8ddf9]/30 to-[#fce4ec]/30 p-6 hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(244,63,94,0.1)] dark:border-white/5 dark:from-[#1e1b4b]/40 dark:to-[#581c64]/30 dark:hover:shadow-[0_6px_20px_rgba(168,85,247,0.12)]"
+            class="group relative isolate flex cursor-pointer flex-col items-center justify-center overflow-hidden rounded-xl border border-black/4 bg-linear-to-br from-[#e8ddf9]/30 via-white/60 to-[#fce4ec]/40 p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:border-rose-200/70 hover:shadow-[0_10px_28px_rgba(244,63,94,0.16)] motion-reduce:transform-none motion-reduce:transition-none dark:border-white/5 dark:from-[#1e1b4b]/45 dark:via-[#221834]/55 dark:to-[#581c64]/35 dark:hover:border-fuchsia-300/20 dark:hover:shadow-[0_10px_28px_rgba(168,85,247,0.16)]"
             @click="navigateTo(localePath(item.path))"
           >
+            <div
+              class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.95),transparent_58%)] opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100 motion-reduce:transition-none dark:bg-[radial-gradient(circle_at_top,rgba(244,114,182,0.18),transparent_58%)]"
+            />
+            <div
+              class="pointer-events-none absolute -top-8 -right-8 h-20 w-20 rounded-full bg-rose-300/25 blur-2xl transition-all duration-300 ease-out group-hover:scale-125 group-hover:bg-amber-300/30 motion-reduce:transition-none dark:bg-fuchsia-500/20 dark:group-hover:bg-rose-400/30"
+            />
             <n-icon
               :size="28"
-              class="mb-2 text-rose-500 transition-transform group-hover:scale-110 dark:text-rose-400"
+              class="relative mb-2 text-rose-500 transition-all duration-300 ease-out group-hover:-translate-y-0.5 group-hover:scale-105 motion-reduce:transform-none motion-reduce:transition-none dark:text-rose-400"
             >
               <component :is="item.icon" />
             </n-icon>
-            <span class="text-sm font-semibold">{{ $t(item.label) }}</span>
+            <span
+              class="relative text-sm font-semibold tracking-[0.02em] transition-all duration-300 ease-out group-hover:tracking-[0.05em] group-hover:text-rose-600 motion-reduce:transition-none dark:group-hover:text-rose-200"
+            >
+              {{ $t(item.label) }}
+            </span>
           </button>
         </div>
 

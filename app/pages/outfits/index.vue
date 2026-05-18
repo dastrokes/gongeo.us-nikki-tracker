@@ -309,7 +309,14 @@
 </template>
 
 <script setup lang="ts">
-  import { Star, Tshirt, ListAlt, PaintBrush, SortAmountDown } from '@vicons/fa'
+  import {
+    Star,
+    Tshirt,
+    ListAlt,
+    PaintBrush,
+    Paw,
+    SortAmountDown,
+  } from '@vicons/fa'
   import { NIcon } from 'naive-ui'
   import type { SelectOption } from 'naive-ui'
   import { h, type Component } from 'vue'
@@ -682,8 +689,8 @@
   const compendiumSectionOptions = computed<IconSelectOption[]>(() => [
     { label: t('common.outfits'), value: 'outfits', icon: Tshirt },
     { label: t('common.items'), value: 'items', icon: ListAlt },
-    { label: t('common.momo'), value: 'momo', icon: Star },
     { label: t('common.makeups'), value: 'makeups', icon: PaintBrush },
+    { label: t('common.momo'), value: 'momo', icon: Paw },
   ])
   const renderCompendiumSectionOptionLabel = (option: SelectOption) => {
     const { icon } = option as IconSelectOption

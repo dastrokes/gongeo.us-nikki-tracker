@@ -12,7 +12,7 @@ Canonical source for detailed SQL/query behavior:
 - `public.list_items(...)` returns paged item rows plus `total_count`; supports quality/type/style/label/obtain/category/subcategory/metadata filters.
 - `public.list_item_facets(...)` returns item facet groups/keys/values for the current filter selection.
 - `public.list_makeups(...)` returns paged makeup rows plus `total_count`; supports quality/type/style/obtain filters.
-- `public.list_momo(...)` returns paged momo rows plus `total_count`; supports quality/obtain filters.
+- `public.list_momo(...)` returns paged momo rows plus `total_count`; supports quality/obtain/version filters.
 - `public.list_outfits(...)` returns paged outfit rows plus `total_count`; supports quality/style/label/obtain filters.
 
 ## Tables
@@ -46,6 +46,7 @@ Canonical source for detailed SQL/query behavior:
 - `id bigint` (PK)
 - `quality integer`
 - `obtain_type integer`
+- `version varchar(16)` (synced from the data-processor Momo metadata config)
 
 ### `public.momo_translations`
 
@@ -74,13 +75,19 @@ Canonical source for detailed SQL/query behavior:
 - `outfit_id bigint` (PK part, FK -> `outfits.id`)
 - `item_id bigint` (PK part, FK -> `items.id`)
 
+### `public.momo_outfits`
+
+- `momo_id bigint` (PK part, FK -> `momo.id`)
+- `outfit_id bigint` (PK part, FK -> `outfits.id`)
+
 ## Key Indexes
 
 - `items`: `type`, `(quality, type)`, `style_key`, `obtain_type`, `tags` (GIN)
 - `item_attributes`: `(item_type, category)`, `(item_type, category, subcategory)`, `metadata` (GIN)
 - `item_translations`: `language_code`, `item_id`
-- `momo`: `quality`, `obtain_type`
+- `momo`: `quality`, `obtain_type`, `version`
 - `momo_translations`: `language_code`, `momo_id`
 - `outfits`: `(quality, id)`, `quality`, `style_key`, `obtain_type`
 - `outfit_translations`: `language_code`, `outfit_id`
 - `outfit_items`: `item_id`, `outfit_id`
+- `momo_outfits`: `momo_id`, `outfit_id`

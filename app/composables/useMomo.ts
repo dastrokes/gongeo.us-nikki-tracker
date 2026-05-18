@@ -1,5 +1,6 @@
 export type MomoFilters = {
   quality?: number | null
+  version?: string | null
   source?: string | number | null
   page?: number
   pageSize?: number
@@ -51,7 +52,13 @@ export const useMomo = () => {
     loading.value = true
     error.value = null
 
-    const { quality = null, source = null, page = 1, pageSize } = filters
+    const {
+      quality = null,
+      version = null,
+      source = null,
+      page = 1,
+      pageSize,
+    } = filters
 
     try {
       const params: Record<string, string | number> = {
@@ -65,6 +72,10 @@ export const useMomo = () => {
 
       if (quality !== null && quality !== undefined) {
         params.quality = quality
+      }
+
+      if (version) {
+        params.version = version
       }
 
       if (source !== null && source !== undefined) {

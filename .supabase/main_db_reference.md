@@ -50,7 +50,7 @@ Canonical source for expanded query notes:
 
 ### `public.user_tierlists`
 
-- `scope_type text` (allowed: `banners|outfits|items`)
+- `scope_type text` (allowed: `banners|outfits|items|momo`)
 - `scope_filters jsonb` (default `{}`)
 - `voter_fingerprint text`
 - `tiers_json jsonb`

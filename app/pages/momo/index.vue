@@ -39,6 +39,7 @@
                     getQualityButtonTheme(quality, qualityFilter === quality)
                   "
                   class="min-w-10"
+                  :disabled="quality === 2"
                   @click="qualityFilter = quality"
                 >
                   <span class="flex items-center gap-1">
@@ -60,6 +61,32 @@
               {{ t('common.clear') }}
             </n-button>
           </div>
+
+          <n-tooltip
+            :disabled="totalItems <= TIER_ENTRY_LIMIT"
+            trigger="hover"
+          >
+            <template #trigger>
+              <div class="shrink-0 self-start">
+                <n-button
+                  size="small"
+                  type="primary"
+                  :disabled="isTierlistDisabled"
+                  @click="goToTierlist"
+                >
+                  <template #icon>
+                    <n-icon><SortAmountDown /></n-icon>
+                  </template>
+                  {{ t('navigation.tierlist') }}
+                </n-button>
+              </div>
+            </template>
+            {{
+              t('tierlist.over_limit.description', {
+                max: TIER_ENTRY_LIMIT,
+              })
+            }}
+          </n-tooltip>
         </div>
 
         <div class="flex items-start gap-2 sm:hidden">
@@ -81,6 +108,7 @@
                   getQualityButtonTheme(quality, qualityFilter === quality)
                 "
                 class="min-w-10"
+                :disabled="quality === 2"
                 @click="qualityFilter = quality"
               >
                 <span class="flex items-center gap-1">
@@ -104,7 +132,19 @@
           </div>
         </div>
 
-        <div class="grid grid-cols-1 gap-2 sm:grid-cols-2 xl:grid-cols-4">
+        <div class="grid grid-cols-2 gap-2 sm:grid-cols-2 xl:grid-cols-4">
+          <n-select
+            v-model:value="versionFilter"
+            :options="versionOptions"
+            :render-label="renderVersionOptionLabel"
+            size="small"
+            class="min-w-0"
+            clearable
+            filterable
+            :show-checkmark="false"
+            :placeholder="t('compendium.filter_version')"
+          />
+
           <n-select
             v-model:value="obtainFilter"
             :options="obtainOptions"
@@ -190,12 +230,7 @@
                 }"
               >
                 <div
-                  class="relative aspect-2/3 overflow-hidden rounded-lg shadow-md transition-shadow duration-300 group-hover:shadow-xl"
-                  style="
-                    background-image: url('/images/bg.webp');
-                    background-size: cover;
-                    background-position: center;
-                  "
+                  class="relative aspect-2/3 overflow-hidden rounded-lg bg-[url('/images/momo_bg.webp')] bg-cover bg-center shadow-md transition-shadow duration-300 group-hover:shadow-xl"
                 >
                   <div
                     class="absolute inset-0"
@@ -234,16 +269,6 @@
                     >
                       {{ entry.name }}
                     </p>
-                    <div class="mt-1">
-                      <n-tag
-                        size="tiny"
-                        :bordered="false"
-                        type="warning"
-                        class="bg-black/50 text-gray-200 backdrop-blur-xs"
-                      >
-                        {{ t('common.momo_entry') }}
-                      </n-tag>
-                    </div>
                   </div>
                 </div>
               </NuxtLinkLocale>
@@ -298,12 +323,19 @@
 </template>
 
 <script setup lang="ts">
-  import { Star, Tshirt, ListAlt, PaintBrush } from '@vicons/fa'
+  import {
+    Star,
+    Tshirt,
+    ListAlt,
+    PaintBrush,
+    Paw,
+    SortAmountDown,
+  } from '@vicons/fa'
   import { NIcon } from 'naive-ui'
   import type { SelectOption } from 'naive-ui'
   import { h, type Component } from 'vue'
 
-  const { t } = useI18n()
+  const { t, locale, getLocaleMessage } = useI18n()
   const localePath = useLocalePath()
   const route = useRoute()
   const router = useRouter()
@@ -318,11 +350,31 @@
       ? String(routeSeoFilter.value.value)
       : null
   )
+  const routeVersionFilter = computed(() =>
+    routeSeoFilter.value?.kind === 'version'
+      ? String(routeSeoFilter.value.value)
+      : null
+  )
 
   const pageSize = 18
-  const qualityOptions = [5, 4, 3] as const
+  const qualityOptions = [5, 4, 3, 2] as const
+  type MomoListingPrimaryFilter = 'version' | 'source' | null
   type CompendiumSection = 'outfits' | 'items' | 'momo' | 'makeups'
   type IconSelectOption = SelectOption & { icon: Component }
+  type BuildListingQueryOptions = {
+    primaryFilter?: MomoListingPrimaryFilter
+    includePage?: boolean
+  }
+
+  const messages = computed(
+    () => getLocaleMessage(locale.value) as Record<string, string>
+  )
+  const availableVersions = computed(() =>
+    getExactVersionsFromLocaleMessages(messages.value)
+  )
+  const availableVersionFilters = computed(() =>
+    getVersionFilters(availableVersions.value)
+  )
 
   const parsePage = (value: unknown) => {
     const rawValue = Array.isArray(value) ? value[0] : value
@@ -368,15 +420,21 @@
     if (!groupKey) return null
     return availableObtainValues.value.includes(groupKey) ? groupKey : null
   }
+  const resolveVersion = (value?: string | null) =>
+    resolveVersionFilter(value, availableVersionFilters.value)
+  const resolveRouteVersionFilter = () =>
+    resolveVersion(routeVersionFilter.value ?? route.query.version?.toString())
+  const resolveRouteSourceFilter = () =>
+    routeSourceFilter.value ??
+    resolveObtain(
+      (route.query.source ?? route.query.obtain)?.toString() ?? null
+    )
+  const resolveRouteQualityFilter = () => parseQuality(route.query.quality)
 
   const currentPage = ref(parsePage(route.query.page))
-  const qualityFilter = ref<number | null>(parseQuality(route.query.quality))
-  const obtainFilter = ref<string | null>(
-    routeSourceFilter.value ??
-      resolveObtain(
-        (route.query.source ?? route.query.obtain)?.toString() ?? null
-      )
-  )
+  const qualityFilter = ref<number | null>(resolveRouteQualityFilter())
+  const versionFilter = ref<string | null>(resolveRouteVersionFilter())
+  const obtainFilter = ref<string | null>(resolveRouteSourceFilter())
 
   const pageTitle = computed(
     () =>
@@ -393,14 +451,17 @@
   })
 
   const hasFilters = computed(
-    () => qualityFilter.value !== null || obtainFilter.value !== null
+    () =>
+      qualityFilter.value !== null ||
+      versionFilter.value !== null ||
+      obtainFilter.value !== null
   )
 
   const cacheKey = computed(
     () =>
       `momo-${qualityFilter.value ?? 'all'}-${
-        obtainFilter.value ?? 'all'
-      }-${currentPage.value}-${pageSize}`
+        versionFilter.value ?? 'all'
+      }-${obtainFilter.value ?? 'all'}-${currentPage.value}-${pageSize}`
   )
 
   const {
@@ -413,6 +474,7 @@
     () =>
       fetchMomoPaginated({
         quality: qualityFilter.value,
+        version: versionFilter.value,
         source: obtainFilter.value,
         page: currentPage.value,
         pageSize,
@@ -430,16 +492,21 @@
       quality: entry.quality,
       name: t(`momo.${entry.id}.name`),
       image: getImageSrc('momo', entry.id),
+      version: entry.version ?? null,
     }))
   })
 
   const totalItems = computed(() => data.value?.total || 0)
+  const TIER_ENTRY_LIMIT = 200
+  const isTierlistDisabled = computed(
+    () => loading.value || !!error.value || totalItems.value > TIER_ENTRY_LIMIT
+  )
   const compendiumSection = 'momo' as const
   const compendiumSectionOptions = computed<IconSelectOption[]>(() => [
     { label: t('common.outfits'), value: 'outfits', icon: Tshirt },
     { label: t('common.items'), value: 'items', icon: ListAlt },
-    { label: t('common.momo'), value: 'momo', icon: Star },
     { label: t('common.makeups'), value: 'makeups', icon: PaintBrush },
+    { label: t('common.momo'), value: 'momo', icon: Paw },
   ])
   const renderCompendiumSectionOptionLabel = (option: SelectOption) => {
     const { icon } = option as IconSelectOption
@@ -451,17 +518,30 @@
   const buildListingQuery = ({
     includePage = true,
     primaryFilter = null,
-  }: {
-    includePage?: boolean
-    primaryFilter?: 'source' | null
-  } = {}) => ({
+  }: BuildListingQueryOptions = {}) => ({
     ...(qualityFilter.value !== null && { quality: qualityFilter.value }),
+    ...(primaryFilter !== 'version' &&
+      versionFilter.value && { version: versionFilter.value }),
     ...(primaryFilter !== 'source' &&
       obtainFilter.value && { source: obtainFilter.value }),
     ...(includePage && currentPage.value > 1 && { page: currentPage.value }),
   })
+  const buildTierlistQuery = () => ({
+    mode: 'momo',
+    ...(qualityFilter.value !== null && { quality: qualityFilter.value }),
+    ...(versionFilter.value && { version: versionFilter.value }),
+    ...(obtainFilter.value && { source: obtainFilter.value }),
+  })
 
   const buildListingLocation = () => {
+    const versionSlug = resolveSeoVersionSlug(versionFilter.value)
+    if (versionSlug) {
+      return {
+        path: `/momo/version/${versionSlug}`,
+        primaryFilter: 'version' as const,
+      }
+    }
+
     const sourceSlug = resolveSeoMomoSourceSlug(obtainFilter.value)
     if (sourceSlug) {
       return {
@@ -488,6 +568,17 @@
     )
   }
 
+  const goToTierlist = () => {
+    if (isTierlistDisabled.value) return
+
+    navigateTo(
+      localePath({
+        path: '/tierlist',
+        query: buildTierlistQuery(),
+      })
+    )
+  }
+
   const syncListingRoute = () => {
     const listingLocation = buildListingLocation()
     router.replace({
@@ -501,10 +592,38 @@
   watch(qualityFilter, () => {
     currentPage.value = 1
   })
+  watch(versionFilter, () => {
+    currentPage.value = 1
+  })
   watch(obtainFilter, () => {
     currentPage.value = 1
   })
-  watch([qualityFilter, obtainFilter, currentPage], () => {
+
+  watch(
+    () => route.query.quality,
+    () => {
+      const nextQuality = resolveRouteQualityFilter()
+      if (nextQuality !== qualityFilter.value) {
+        qualityFilter.value = nextQuality
+      }
+    }
+  )
+  watch([routeVersionFilter, () => route.query.version], () => {
+    const nextVersion = resolveRouteVersionFilter()
+    if (nextVersion !== versionFilter.value) {
+      versionFilter.value = nextVersion
+    }
+  })
+  watch(
+    [routeSourceFilter, () => route.query.source, () => route.query.obtain],
+    () => {
+      const nextSource = resolveRouteSourceFilter()
+      if (nextSource !== obtainFilter.value) {
+        obtainFilter.value = nextSource
+      }
+    }
+  )
+  watch([qualityFilter, versionFilter, obtainFilter, currentPage], () => {
     syncListingRoute()
   })
 
@@ -514,6 +633,7 @@
 
   const clearFilters = () => {
     qualityFilter.value = null
+    versionFilter.value = null
     obtainFilter.value = null
     currentPage.value = 1
   }
@@ -533,5 +653,38 @@
       default:
         return 'bg-gray-500/5'
     }
+  }
+
+  const getVersionFilterLabel = (version?: string | null) => {
+    if (!version) return null
+    const key = `version.${version}`
+    const translated = t(key)
+    return translated !== key ? `${version} - ${translated}` : version
+  }
+
+  const versionOptions = computed(() =>
+    createVersionFilterOptions(
+      availableVersions.value,
+      (version) => getVersionFilterLabel(version) ?? version
+    )
+  )
+
+  const renderVersionOptionLabel = (option: {
+    label?: string | number
+    value?: string | number
+    isMajor?: boolean
+  }) => {
+    const label = String(option.label ?? option.value ?? '')
+    if (!option.isMajor) return label
+
+    return h(
+      'span',
+      {
+        style: {
+          fontWeight: '700',
+        },
+      },
+      label
+    )
   }
 </script>

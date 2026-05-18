@@ -246,12 +246,7 @@
                 @click="navigateToDetail(entry.id)"
               >
                 <div
-                  class="relative aspect-2/3 overflow-hidden rounded-lg shadow-md transition-shadow duration-300 hover:shadow-xl"
-                  style="
-                    background-image: url('/images/bg.webp');
-                    background-size: cover;
-                    background-position: center;
-                  "
+                  class="relative aspect-2/3 overflow-hidden rounded-lg bg-[url('/images/bg.webp')] bg-cover bg-center shadow-md transition-shadow duration-300 hover:shadow-xl"
                 >
                   <div
                     class="absolute inset-0"
@@ -379,7 +374,14 @@
 </template>
 
 <script setup lang="ts">
-  import { Star, Tshirt, ListAlt, PaintBrush, SortAmountDown } from '@vicons/fa'
+  import {
+    Star,
+    Tshirt,
+    ListAlt,
+    PaintBrush,
+    Paw,
+    SortAmountDown,
+  } from '@vicons/fa'
   import { NIcon } from 'naive-ui'
   import type { SelectOption } from 'naive-ui'
   import { h, type Component } from 'vue'
@@ -715,8 +717,8 @@
   const compendiumSectionOptions = computed<IconSelectOption[]>(() => [
     { label: t('common.outfits'), value: 'outfits', icon: Tshirt },
     { label: t('common.items'), value: 'items', icon: ListAlt },
-    { label: t('common.momo'), value: 'momo', icon: Star },
     { label: t('common.makeups'), value: 'makeups', icon: PaintBrush },
+    { label: t('common.momo'), value: 'momo', icon: Paw },
   ])
   const renderCompendiumSectionOptionLabel = (option: SelectOption) => {
     const { icon } = option as IconSelectOption

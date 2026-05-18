@@ -2,6 +2,7 @@ type MomoRow = {
   id: number | null
   quality: number | null
   obtain_type?: number | null
+  version?: string | null
   total_count?: number | string | null
 }
 
@@ -15,7 +16,7 @@ type RpcCapableClient = {
 const DEFAULT_PAGE_SIZE = 18
 const TIERLIST_PAGE_SIZE = 200
 const ALLOWED_PAGE_SIZES = new Set([DEFAULT_PAGE_SIZE, TIERLIST_PAGE_SIZE])
-const MOMO_LIST_CACHE_VERSION = 'momo-source-v1'
+const MOMO_LIST_CACHE_VERSION = 'momo-metadata-v1'
 
 const parsePage = (value: unknown): number => {
   const parsed = Number(value)
@@ -49,14 +50,20 @@ export default defineCachedApiEventHandler(
       : query.obtain
         ? query.obtain.toString()
         : null
+    const versionParam = query.version?.toString().trim() || null
     const page = parsePage(query.page)
     const pageSize = parsePageSize(query.pageSize ?? query.page_size)
     const obtainIds = sourceParam
       ? resolveMomoSourceIdsFromValue(sourceParam)
       : null
+    const invalidVersion =
+      versionParam !== null &&
+      versionParam !== 'all' &&
+      getVersionPrefixRange(versionParam) === null
 
     if (
       invalidQuality ||
+      invalidVersion ||
       (sourceParam && (!obtainIds || obtainIds.length === 0))
     ) {
       return {
@@ -78,6 +85,8 @@ export default defineCachedApiEventHandler(
         p_obtain_min: null,
         p_obtain_max: null,
         p_obtain_ids: obtainIds ?? null,
+        p_version:
+          versionParam === null || versionParam === 'all' ? null : versionParam,
       }
       const { data: rpcData, error: rpcError } = await withSupabaseRetry(() =>
         rpcClient.rpc('list_momo', rpcParams)
@@ -109,6 +118,7 @@ export default defineCachedApiEventHandler(
           id: row.id,
           quality: row.quality,
           obtain_type: row.obtain_type ?? null,
+          version: row.version ?? null,
         })),
         total,
         page,
@@ -143,7 +153,8 @@ export default defineCachedApiEventHandler(
           : query.obtain
             ? query.obtain.toString()
             : 'all'
-        return `${version}:${MOMO_LIST_CACHE_VERSION}:momo:p${page}:ps${pageSize}:q${quality}:src${source}`
+        const momoVersion = query.version?.toString().trim() || 'all'
+        return `${version}:${MOMO_LIST_CACHE_VERSION}:momo:p${page}:ps${pageSize}:q${quality}:v${momoVersion}:src${source}`
       },
       swr: true,
     },

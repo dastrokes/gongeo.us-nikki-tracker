@@ -89,7 +89,7 @@
                 class="group relative aspect-2/3 w-full overflow-hidden rounded-lg shadow-lg"
               >
                 <div
-                  class="absolute inset-0 bg-slate-100 bg-[url('/images/bg.webp')] bg-cover bg-center dark:bg-slate-300"
+                  class="absolute inset-0 bg-slate-100 bg-[url('/images/momo_bg.webp')] bg-cover bg-center dark:bg-slate-300"
                 ></div>
                 <div
                   class="absolute inset-0"
@@ -208,6 +208,46 @@
           </div>
         </div>
       </n-card>
+
+      <div class="grid grid-cols-1 gap-2 sm:gap-4 lg:grid-cols-2">
+        <n-card
+          v-if="relatedOutfits.length > 0"
+          size="small"
+          class="rounded-xl p-0 sm:p-2"
+          content-class="p-2 sm:p-4"
+        >
+          <h2 class="mb-3 text-lg font-bold">
+            {{ t('common.outfit') }}
+          </h2>
+          <div
+            class="grid grid-cols-4 gap-2 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-4 xl:grid-cols-5"
+          >
+            <div
+              v-for="outfit in relatedOutfits"
+              :key="outfit.id"
+            >
+              <NuxtLinkLocale
+                :to="`/outfits/${outfit.id}`"
+                class="group block"
+              >
+                <OutfitCard
+                  :outfit-id="outfit.id"
+                  :quality="outfit.quality"
+                  :name="getRelatedOutfitName(outfit.id)"
+                  size="sm"
+                  :show-info="false"
+                  class="transition-all duration-200 ease-in-out group-hover:scale-105 group-hover:shadow-xl"
+                />
+                <div class="mt-1 text-center">
+                  <p class="line-clamp-2 text-xs font-medium">
+                    {{ getRelatedOutfitName(outfit.id) }}
+                  </p>
+                </div>
+              </NuxtLinkLocale>
+            </div>
+          </div>
+        </n-card>
+      </div>
     </template>
 
     <n-card
@@ -295,7 +335,7 @@
   })
 
   const momoObtainType = computed(() => momo.value?.obtain_type ?? null)
-  const momoVersion = computed(() => getVersionFromId(momoObtainType.value))
+  const momoVersion = computed(() => momo.value?.version ?? null)
   const momoVersionDisplay = computed(() => {
     if (!momoVersion.value) return null
     const key = `version.${momoVersion.value}`
@@ -305,11 +345,19 @@
   const momoVersionListLocation = computed(() => {
     if (!momoVersion.value) return '/momo'
 
-    return {
-      path: '/momo',
-      query: { version: momoVersion.value },
-    }
+    const slug = resolveSeoVersionSlug(momoVersion.value)
+    return slug
+      ? `/momo/version/${slug}`
+      : {
+          path: '/momo',
+          query: { version: momoVersion.value },
+        }
   })
+  const relatedOutfits = computed(() => momo.value?.related_outfits ?? [])
+  const getRelatedOutfitName = (outfitId: number) => {
+    const key = `outfit.${outfitId}.name`
+    return te(key) ? t(key) : `${outfitId}`
+  }
   const momoObtainLabel = computed(() => {
     const obtainType = momoObtainType.value
     if (obtainType === null || obtainType === undefined) return null
@@ -323,12 +371,16 @@
     const obtainType = momoObtainType.value
     if (obtainType === null || obtainType === undefined) return '/momo'
 
-    return {
-      path: '/momo',
-      query: {
-        source: resolveMomoSourceGroupKeyFromIds([obtainType]) ?? obtainType,
-      },
-    }
+    const groupKey = resolveMomoSourceGroupKeyFromIds([obtainType])
+    const slug = resolveSeoMomoSourceSlug(groupKey)
+    return slug
+      ? `/momo/source/${slug}`
+      : {
+          path: '/momo',
+          query: {
+            source: groupKey ?? obtainType,
+          },
+        }
   })
 
   const listingPath = computed(() => localePath('/momo'))

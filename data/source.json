@@ -81,7 +81,7 @@
     "outfit": false
   },
   {
-    "key": "store",
+    "key": "pear",
     "labelKey": "obtain.10014.name",
     "ids": [
       10014, 10107, 10206, 10303, 10404, 10502, 10603, 10704, 10805, 10904,
@@ -97,6 +97,7 @@
   {
     "key": "world",
     "labelKey": "obtain.10018.name",
-    "ids": [20305, 20406, 20513]
+    "ids": [20305, 20406, 20513],
+    "outfit": false
   }
 ]

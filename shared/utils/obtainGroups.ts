@@ -1,10 +1,21 @@
 import sourceGroups from '../../data/source.json'
+import {
+  compareOptionalVersionsAsc,
+  getOldestVersion,
+  getVersionFromId,
+} from './contentVersion'
 
 export type ObtainGroupDefinition = {
   key: string
   labelKey: string
   ids: number[]
   outfit?: boolean
+  makeup?: boolean
+}
+
+export type ObtainFilterOption = {
+  label: string
+  value: string
 }
 
 const sortIds = (ids: number[]) => ids.slice().sort((a, b) => a - b)
@@ -45,6 +56,12 @@ export const isObtainGroupVisibleInOutfits = (groupKey: string): boolean => {
   return group.outfit !== false
 }
 
+export const isObtainGroupVisibleInMakeups = (groupKey: string): boolean => {
+  const group = GROUP_BY_KEY.get(groupKey)
+  if (!group) return false
+  return group.makeup !== false
+}
+
 export const resolveObtainIdsFromValue = (value: string): number[] | null => {
   const trimmed = value.trim()
   if (!trimmed) return null
@@ -80,4 +97,79 @@ export const resolveObtainGroupKeyFromIds = (ids: number[]) => {
     return null
   }
   return null
+}
+
+export const createObtainFilterOptions = (
+  availableObtainIds: readonly number[],
+  translate: (key: string) => string,
+  options: {
+    includeGroup?: (groupKey: string) => boolean
+    fallbackLabel?: (id: number, labelKey: string) => string
+  } = {}
+): ObtainFilterOption[] => {
+  const { includeGroup, fallbackLabel } = options
+  const groupMap = new Map<string, { labelKey: string; ids: number[] }>()
+
+  availableObtainIds.forEach((id) => {
+    const groupKey = resolveObtainGroupKey(id)
+    if (!groupKey || (includeGroup && !includeGroup(groupKey))) {
+      return
+    }
+
+    const existing = groupMap.get(groupKey)
+    if (existing) {
+      existing.ids.push(id)
+      return
+    }
+
+    const labelKey = resolveObtainGroupLabelKey(groupKey)
+    if (!labelKey) {
+      return
+    }
+
+    groupMap.set(groupKey, {
+      labelKey,
+      ids: [id],
+    })
+  })
+
+  return Array.from(groupMap.entries())
+    .map(([groupKey, group]) => {
+      const translated = translate(group.labelKey)
+      const label =
+        translated !== group.labelKey
+          ? translated
+          : (fallbackLabel?.(group.ids[0] ?? 0, group.labelKey) ??
+            group.labelKey)
+      const sortKey = getOldestVersion(
+        group.ids
+          .map((id) => getVersionFromId(id))
+          .filter((value): value is string => Boolean(value))
+      )
+
+      return {
+        label,
+        value: groupKey,
+        sortKey: sortKey ?? '',
+      }
+    })
+    .sort((a, b) => {
+      const versionComparison = compareOptionalVersionsAsc(a.sortKey, b.sortKey)
+      if (versionComparison !== 0) return versionComparison
+      return a.label.localeCompare(b.label)
+    })
+    .map(({ label, value }) => ({ label, value }))
+}
+
+export const resolveObtainFilterValue = (
+  value: string | null | undefined,
+  availableValues: readonly string[]
+): string | null => {
+  if (!value || value === 'all') return null
+  if (availableValues.includes(value)) return value
+  const ids = resolveObtainIdsFromValue(value)
+  if (!ids) return null
+  const groupKey = resolveObtainGroupKeyFromIds(ids)
+  if (!groupKey) return null
+  return availableValues.includes(groupKey) ? groupKey : null
 }

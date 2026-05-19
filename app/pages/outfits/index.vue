@@ -390,61 +390,12 @@
       .filter((value) => !Number.isNaN(value))
   )
 
-  const obtainOptions = computed(() => {
-    const groupMap = new Map<string, { labelKey: string; ids: number[] }>()
-
-    availableObtains.value.forEach((id) => {
-      const groupKey = resolveObtainGroupKey(id)
-      if (!groupKey || !isObtainGroupVisibleInOutfits(groupKey)) {
-        return
-      }
-      const group = groupMap.get(groupKey)
-      if (group) {
-        group.ids.push(id)
-      } else {
-        const labelKey = resolveObtainGroupLabelKey(groupKey)
-        if (!labelKey) {
-          return
-        }
-        groupMap.set(groupKey, {
-          labelKey,
-          ids: [id],
-        })
-      }
+  const obtainOptions = computed(() =>
+    createObtainFilterOptions(availableObtains.value, t, {
+      includeGroup: isObtainGroupVisibleInOutfits,
+      fallbackLabel: (id) => `Obtain ${id}`,
     })
-
-    return Array.from(groupMap.entries())
-      .map(([groupKey, group]) => {
-        const translated = t(group.labelKey)
-        const fallback = group.labelKey.startsWith('obtain.')
-          ? `Obtain ${group.ids[0]}`
-          : group.labelKey
-        const label = translated !== group.labelKey ? translated : fallback
-        const enriched = group.ids.map((id) => ({
-          id,
-          version: getVersionFromId(id),
-        }))
-        const sortKey = getOldestVersion(
-          enriched
-            .map((entry) => entry.version)
-            .filter((value): value is string => !!value)
-        )
-        return {
-          label,
-          value: groupKey,
-          sortKey: sortKey ?? '',
-        }
-      })
-      .sort((a, b) => {
-        const versionComparison = compareOptionalVersionsAsc(
-          a.sortKey,
-          b.sortKey
-        )
-        if (versionComparison !== 0) return versionComparison
-        return a.label.localeCompare(b.label)
-      })
-      .map(({ label, value }) => ({ label, value }))
-  })
+  )
 
   const availableObtainValues = computed(() =>
     obtainOptions.value.map((option) => option.value as string)
@@ -472,16 +423,8 @@
   const resolveVersion = (value?: string | null) =>
     resolveVersionFilter(value, availableVersionFilters.value)
 
-  const resolveObtain = (value?: string | null) => {
-    if (!value) return null
-    if (value === 'all') return null
-    if (availableObtainValues.value.includes(value)) return value
-    const ids = resolveObtainIdsFromValue(value)
-    if (!ids) return null
-    const groupKey = resolveObtainGroupKeyFromIds(ids)
-    if (!groupKey) return null
-    return availableObtainValues.value.includes(groupKey) ? groupKey : null
-  }
+  const resolveObtain = (value?: string | null) =>
+    resolveObtainFilterValue(value, availableObtainValues.value)
 
   const resolveQuality = (value?: string | number | null) => {
     if (value === null || value === undefined || value === '') return null

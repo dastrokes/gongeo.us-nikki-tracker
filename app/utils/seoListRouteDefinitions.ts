@@ -9,6 +9,7 @@ import {
 import { STYLE_DEFINITIONS, TAG_DEFINITIONS } from '../../shared/utils/itemInfo'
 import {
   OBTAIN_GROUPS,
+  isObtainGroupVisibleInMakeups,
   isObtainGroupVisibleInOutfits,
 } from '../../shared/utils/obtainGroups'
 import { MOMO_SOURCE_GROUPS } from '../../shared/utils/momoSourceGroups'
@@ -139,6 +140,10 @@ export const SEO_OUTFIT_SOURCE_SLUGS = OBTAIN_GROUPS.filter((group) =>
   isObtainGroupVisibleInOutfits(group.key)
 ).map((group) => group.key)
 
+export const SEO_MAKEUP_SOURCE_SLUGS = OBTAIN_GROUPS.filter((group) =>
+  isObtainGroupVisibleInMakeups(group.key)
+).map((group) => group.key)
+
 export const SEO_MOMO_SOURCE_SLUGS = MOMO_SOURCE_GROUPS.map(
   (group) => group.key
 )
@@ -157,6 +162,14 @@ const OUTFIT_SOURCE_BY_SEO_SLUG: ReadonlyMap<string, string> = new Map(
 
 const OUTFIT_SOURCE_SEO_SLUG_BY_VALUE: ReadonlyMap<string, string> = new Map(
   SEO_OUTFIT_SOURCE_SLUGS.map((slug) => [slug, slug])
+)
+
+const MAKEUP_SOURCE_BY_SEO_SLUG: ReadonlyMap<string, string> = new Map(
+  SEO_MAKEUP_SOURCE_SLUGS.map((slug) => [slug, slug])
+)
+
+const MAKEUP_SOURCE_SEO_SLUG_BY_VALUE: ReadonlyMap<string, string> = new Map(
+  SEO_MAKEUP_SOURCE_SLUGS.map((slug) => [slug, slug])
 )
 
 const MOMO_SOURCE_BY_SEO_SLUG: ReadonlyMap<string, string> = new Map(
@@ -246,7 +259,7 @@ export const SEO_MAKEUP_LIST_PATHS = [
   ...SEO_MAKEUP_QUALITY_SLUGS.map((slug) => `/makeups/quality/${slug}`),
   ...SEO_VERSION_SLUGS.map((slug) => `/makeups/version/${slug}`),
   ...SEO_STYLE_SLUGS.map((slug) => `/makeups/style/${slug}`),
-  ...SEO_ITEM_SOURCE_SLUGS.map((slug) => `/makeups/source/${slug}`),
+  ...SEO_MAKEUP_SOURCE_SLUGS.map((slug) => `/makeups/source/${slug}`),
 ]
 
 export const SEO_OUTFIT_LIST_PATHS = [
@@ -347,6 +360,16 @@ export const resolveSeoOutfitSourceSlug = (source?: string | null) => {
   return OUTFIT_SOURCE_SEO_SLUG_BY_VALUE.get(source) ?? null
 }
 
+export const resolveSeoMakeupSourceFromSlug = (slug?: string | null) => {
+  if (!slug) return null
+  return MAKEUP_SOURCE_BY_SEO_SLUG.get(slug) ?? null
+}
+
+export const resolveSeoMakeupSourceSlug = (source?: string | null) => {
+  if (!source) return null
+  return MAKEUP_SOURCE_SEO_SLUG_BY_VALUE.get(source) ?? null
+}
+
 export const resolveSeoMomoSourceFromSlug = (slug?: string | null) => {
   if (!slug) return null
   return MOMO_SOURCE_BY_SEO_SLUG.get(slug) ?? null
@@ -443,8 +466,10 @@ export const getSeoListRouteFilter = (
 
   if (filter.kind === 'source') {
     const value =
-      section === 'items' || section === 'makeups'
+      section === 'items'
         ? resolveSeoItemSourceFromSlug(filter.slug)
+        : section === 'makeups'
+          ? resolveSeoMakeupSourceFromSlug(filter.slug)
         : section === 'outfits'
           ? resolveSeoOutfitSourceFromSlug(filter.slug)
           : section === 'momo'

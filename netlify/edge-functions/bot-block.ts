@@ -25,7 +25,6 @@ const blockedUserAgents = [
   'anthropic-ai',
   'applebot-extended',
   'bytespider',
-  'claude-web',
   'claudebot',
   'cohere-ai',
   'diffbot',

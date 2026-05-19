@@ -156,7 +156,6 @@ export default defineNuxtConfig({
           'Applebot-Extended',
           'Bytespider',
           'CCBot',
-          'Claude-Web',
           'ClaudeBot',
           'cohere-ai',
           'Diffbot',

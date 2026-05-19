@@ -34,13 +34,14 @@
           class="absolute inset-0 z-0 overflow-hidden rounded-xl bg-slate-100 dark:bg-slate-800"
         >
           <NuxtImg
+            v-if="shouldRenderSlideImage(slideIndex)"
             :src="getImageSrc('banner', banner.bannerId)"
             :alt="t(`banner.${banner.bannerId}.name`)"
             class="h-full w-full object-cover"
             preset="bannerHero"
             fit="cover"
             :loading="slideIndex === activeIndex ? 'eager' : 'lazy'"
-            :fetchpriority="slideIndex === activeIndex ? 'high' : 'auto'"
+            :fetchpriority="getSlideFetchPriority(slideIndex)"
             sizes="300px sm:600px"
           />
           <div
@@ -120,6 +121,7 @@
   const props = defineProps<{
     banners: Banner[]
     targetTime: Date
+    priority?: boolean
   }>()
 
   const { t, locale } = useI18n()
@@ -129,6 +131,7 @@
 
   const carouselRef = ref<HTMLElement | null>(null)
   const activeIndex = ref(0)
+  const loadedSlideIndexes = ref<number[]>([0])
   const hasMultipleSlides = computed(() => props.banners.length > 1)
   let autoAdvanceTimer: ReturnType<typeof setTimeout> | null = null
   const didSwipe = ref(false)
@@ -167,6 +170,12 @@
     if (props.banners.length === 0) return
     activeIndex.value = normalizeIndex(index)
   }
+
+  const shouldRenderSlideImage = (index: number) =>
+    index === activeIndex.value || loadedSlideIndexes.value.includes(index)
+
+  const getSlideFetchPriority = (index: number) =>
+    props.priority && index === activeIndex.value ? 'high' : 'auto'
 
   const next = () => {
     if (!hasMultipleSlides.value) return
@@ -210,6 +219,7 @@
     () => props.banners.length,
     () => {
       activeIndex.value = normalizeIndex(activeIndex.value)
+      loadedSlideIndexes.value = [activeIndex.value]
       restartAutoAdvance()
     },
     { immediate: true }
@@ -223,6 +233,10 @@
   )
 
   watch(activeIndex, (nextIndex, previousIndex) => {
+    if (!loadedSlideIndexes.value.includes(nextIndex)) {
+      loadedSlideIndexes.value = [...loadedSlideIndexes.value, nextIndex]
+    }
+
     if (
       props.banners.length === 0 ||
       previousIndex === undefined ||

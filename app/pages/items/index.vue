@@ -315,10 +315,9 @@
               <div
                 v-for="(entry, index) in entries"
                 :key="entry.id"
-                class="animate-fade-in-up cursor-pointer motion-reduce:animate-none"
-                :style="{
-                  animationDelay: `${Math.min(index + 1, 12) * 0.05}s`,
-                }"
+                class="cursor-pointer"
+                :class="getListingCardAnimationClass(index)"
+                :style="getListingCardAnimationStyle(index)"
                 @click="navigateToDetail(entry.id)"
               >
                 <div
@@ -335,7 +334,8 @@
                     class="absolute inset-0 z-10 h-full w-full object-cover transition-transform duration-500 ease-out hover:scale-110"
                     preset="tallLg"
                     fit="cover"
-                    loading="lazy"
+                    :loading="getListingImageLoading(index)"
+                    :fetchpriority="getListingImageFetchPriority(index)"
                     sizes="200px"
                   />
 

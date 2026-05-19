@@ -23,6 +23,9 @@
   const runtimeConfig = useRuntimeConfig()
   const gameVersion = getGameVersion()
   const { locale } = useI18n()
+  const imagePreconnectHref = computed(() =>
+    getImagePreconnectHref(runtimeConfig.public)
+  )
   const ogImageUrl = computed(() => {
     const siteUrl = String(runtimeConfig.public.siteUrl || '').replace(
       /\/$/,
@@ -146,6 +149,15 @@
         href: '/favicon-16x16.png',
       },
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      ...(imagePreconnectHref.value
+        ? [
+            {
+              rel: 'preconnect',
+              href: imagePreconnectHref.value,
+              crossorigin: 'anonymous',
+            },
+          ]
+        : []),
       {
         rel: 'preconnect',
         href: 'https://api.gongeo.us',

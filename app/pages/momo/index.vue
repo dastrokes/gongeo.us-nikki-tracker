@@ -224,10 +224,9 @@
                 :key="entry.id"
                 no-prefetch
                 :to="`/momo/${entry.id}`"
-                class="group animate-fade-in-up block cursor-pointer motion-reduce:animate-none"
-                :style="{
-                  animationDelay: `${Math.min(index + 1, 12) * 0.05}s`,
-                }"
+                class="group block cursor-pointer"
+                :class="getListingCardAnimationClass(index)"
+                :style="getListingCardAnimationStyle(index)"
               >
                 <div
                   class="relative aspect-2/3 overflow-hidden rounded-lg bg-[url('/images/momo_bg.webp')] bg-cover bg-center shadow-md transition-shadow duration-300 group-hover:shadow-xl"
@@ -242,7 +241,8 @@
                     class="absolute inset-0 z-10 h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-110"
                     preset="tallLg"
                     fit="cover"
-                    loading="lazy"
+                    :loading="getListingImageLoading(index)"
+                    :fetchpriority="getListingImageFetchPriority(index)"
                     sizes="200px"
                   />
                   <div class="absolute top-2 right-2 z-20">

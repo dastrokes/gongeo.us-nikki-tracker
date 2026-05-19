@@ -1,6 +1,7 @@
 export interface UseBannerLoadOptions {
   allBanners: Ref<Banner[]>
   batchSize?: number
+  initialBatchSize?: number
   scrollThreshold?: number
 }
 
@@ -15,7 +16,12 @@ export interface UseBannerLoadReturn {
 export function useBannerLoad(
   options: UseBannerLoadOptions
 ): UseBannerLoadReturn {
-  const { allBanners, batchSize = 4, scrollThreshold = 500 } = options
+  const {
+    allBanners,
+    batchSize = 4,
+    initialBatchSize = batchSize,
+    scrollThreshold = 500,
+  } = options
 
   // Reactive state
   const displayedBanners = ref<Banner[]>([])
@@ -33,23 +39,25 @@ export function useBannerLoad(
     await new Promise((resolve) => requestAnimationFrame(resolve))
   }
 
-  // Load more banners
-  const loadMore = () => {
+  const loadBatch = (size: number) => {
     if (isLoading.value || !hasMore.value) return
 
     isLoading.value = true
 
     const startIndex = currentIndex.value
-    const endIndex = Math.min(startIndex + batchSize, allBanners.value.length)
+    const endIndex = Math.min(startIndex + size, allBanners.value.length)
 
-    // Load next batch
     const nextBatch = allBanners.value.slice(startIndex, endIndex)
     displayedBanners.value.push(...nextBatch)
 
-    // Update state
     currentIndex.value = endIndex
     hasMore.value = endIndex < allBanners.value.length
     isLoading.value = false
+  }
+
+  // Load more banners
+  const loadMore = () => {
+    loadBatch(batchSize)
   }
 
   const loadInitialBatch = () => {
@@ -60,7 +68,7 @@ export function useBannerLoad(
     }
 
     hasMore.value = true
-    loadMore()
+    loadBatch(initialBatchSize)
   }
 
   // Reset state
@@ -68,7 +76,7 @@ export function useBannerLoad(
     displayedBanners.value = []
     currentIndex.value = 0
     hasMore.value = true
-    loadMore()
+    loadBatch(initialBatchSize)
   }
 
   // Load until specific banner

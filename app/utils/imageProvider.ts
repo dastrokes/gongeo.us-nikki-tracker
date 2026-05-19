@@ -25,6 +25,15 @@ const siteUrl = process.env.NUXT_PUBLIC_SITE_URL || 'https://gongeo.us'
 
 const cdnImageBaseUrl = cloudinaryBaseUrl || imagekitBaseUrl || bunnyBaseUrl
 
+type ImageProvider = 'ipx' | 'netlify' | 'imagekit' | 'cloudinary' | 'bunny'
+
+interface ImageRuntimeConfig {
+  imageProvider?: unknown
+  imagekitBaseUrl?: unknown
+  cloudinaryBaseUrl?: unknown
+  bunnyBaseUrl?: unknown
+}
+
 type ImageSrcType =
   | 'banner'
   | 'bannerThumb'
@@ -81,10 +90,28 @@ export const getOgImageSrc = (
   return cdnImageBaseUrl ? `${cdnImageBaseUrl}${path}` : `${siteUrl}${path}`
 }
 
+export const getImagePreconnectHref = (publicConfig: ImageRuntimeConfig) => {
+  const provider = publicConfig.imageProvider as ImageProvider | undefined
+  const baseUrl =
+    provider === 'cloudinary'
+      ? publicConfig.cloudinaryBaseUrl
+      : provider === 'bunny'
+        ? publicConfig.bunnyBaseUrl
+        : provider === 'imagekit'
+          ? publicConfig.imagekitBaseUrl
+          : null
+
+  if (!baseUrl) return null
+
+  try {
+    return new URL(String(baseUrl)).origin
+  } catch {
+    return null
+  }
+}
+
 export const imageProvider = () => {
   const runtimeConfig = useRuntimeConfig()
-
-  type ImageProvider = 'ipx' | 'netlify' | 'imagekit' | 'cloudinary' | 'bunny'
 
   const imagekitBase = runtimeConfig.public.imagekitBaseUrl as string
   const cloudinaryBase = runtimeConfig.public.cloudinaryBaseUrl as string

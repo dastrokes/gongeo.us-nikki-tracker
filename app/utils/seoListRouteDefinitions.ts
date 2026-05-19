@@ -470,11 +470,11 @@ export const getSeoListRouteFilter = (
         ? resolveSeoItemSourceFromSlug(filter.slug)
         : section === 'makeups'
           ? resolveSeoMakeupSourceFromSlug(filter.slug)
-        : section === 'outfits'
-          ? resolveSeoOutfitSourceFromSlug(filter.slug)
-          : section === 'momo'
-            ? resolveSeoMomoSourceFromSlug(filter.slug)
-            : null
+          : section === 'outfits'
+            ? resolveSeoOutfitSourceFromSlug(filter.slug)
+            : section === 'momo'
+              ? resolveSeoMomoSourceFromSlug(filter.slug)
+              : null
     return value ? { ...filter, value } : null
   }
 

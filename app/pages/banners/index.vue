@@ -8,14 +8,19 @@
       <div
         class="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between sm:gap-4"
       >
-        <div class="order-2 min-w-0 sm:order-1 sm:flex-1">
+        <div
+          class="order-2 min-w-0 sm:order-1 sm:flex-1"
+          @focusin="revealBannerRail"
+          @pointerenter="revealBannerRail"
+          @touchstart.passive="revealBannerRail"
+        >
           <n-scrollbar
             x-scrollable
             class="pb-2"
           >
             <div class="flex min-w-max flex-row gap-2 pb-2">
               <div
-                v-for="banner in filteredBanners"
+                v-for="banner in displayedRailBanners"
                 :key="banner.bannerId"
                 class="shrink-0 cursor-pointer transition-opacity hover:opacity-80"
               >
@@ -28,6 +33,7 @@
                       preset="bannerThumb"
                       fit="cover"
                       loading="lazy"
+                      fetchpriority="low"
                       sizes="200px"
                       @click="handleBannerClick(banner.bannerId)"
                     />
@@ -149,7 +155,7 @@
         size="large"
       >
         <n-timeline-item
-          v-for="banner in displayedBanners"
+          v-for="(banner, bannerIndex) in displayedBanners"
           :id="banner.bannerId.toString()"
           :key="banner.bannerId"
           :type="getBannerTypeColor(banner.bannerType)"
@@ -313,11 +319,8 @@
                       preset="bannerHero"
                       fit="cover"
                       sizes="300px sm:600px"
-                      :loading="
-                        banner.bannerId === firstDisplayedBannerId
-                          ? 'eager'
-                          : 'lazy'
-                      "
+                      :loading="getListingImageLoading(bannerIndex, 1)"
+                      :fetchpriority="getListingImageFetchPriority(bannerIndex)"
                     />
                     <n-tooltip
                       overlap
@@ -489,6 +492,15 @@
 
     return banners
   })
+  const isBannerRailExpanded = ref(false)
+  const displayedRailBanners = computed(() =>
+    isBannerRailExpanded.value
+      ? filteredBanners.value
+      : filteredBanners.value.slice(0, BANNER_RAIL_INITIAL_IMAGE_COUNT)
+  )
+  const revealBannerRail = () => {
+    isBannerRailExpanded.value = true
+  }
   const isTierlistDisabled = computed(
     () => filteredBanners.value.length > TIER_ENTRY_LIMIT
   )
@@ -557,16 +569,14 @@
   const { displayedBanners, reset, loadUntilBanner, observerTarget } =
     useBannerLoad({
       allBanners: filteredBanners,
+      initialBatchSize: 1,
     })
-
-  const firstDisplayedBannerId = computed(
-    () => displayedBanners.value[0]?.bannerId
-  )
 
   // Watch filter changes with debouncing
   watchDebounced(
     () => [qualityFilter.value, versionFilter.value],
     () => {
+      isBannerRailExpanded.value = false
       reset()
       syncListingRoute()
       if (import.meta.client) {

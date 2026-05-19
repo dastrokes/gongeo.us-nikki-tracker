@@ -243,10 +243,9 @@
                 :key="entry.id"
                 no-prefetch
                 :to="`/outfits/${entry.id}`"
-                class="group animate-fade-in-up block cursor-pointer motion-reduce:animate-none"
-                :style="{
-                  animationDelay: `${Math.min(index + 1, 12) * 0.05}s`,
-                }"
+                class="group block cursor-pointer"
+                :class="getListingCardAnimationClass(index)"
+                :style="getListingCardAnimationStyle(index)"
               >
                 <OutfitCard
                   :outfit-id="entry.id"
@@ -255,6 +254,8 @@
                   :style-key="entry.styleKey"
                   :labels="entry.labels"
                   :show-info="true"
+                  :loading="getListingImageLoading(index)"
+                  :fetchpriority="getListingImageFetchPriority(index)"
                   class="transition-shadow duration-300 group-hover:shadow-xl"
                 />
               </NuxtLinkLocale>

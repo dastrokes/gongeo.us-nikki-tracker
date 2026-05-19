@@ -14,7 +14,8 @@
       :class="imageClasses"
       :preset="imagePreset"
       fit="cover"
-      loading="lazy"
+      :loading="loading"
+      :fetchpriority="fetchpriority"
       :sizes="imageSizes"
     />
 
@@ -96,12 +97,16 @@
       labels?: Array<string | { text: string; theme?: Record<string, string> }>
       showInfo?: boolean
       size?: 'sm' | 'md' | 'lg'
+      loading?: 'eager' | 'lazy'
+      fetchpriority?: 'high' | 'low' | 'auto'
     }>(),
     {
       styleKey: null,
       labels: () => [],
       showInfo: false,
       size: 'md',
+      loading: 'lazy',
+      fetchpriority: 'auto',
     }
   )
 

@@ -317,7 +317,7 @@
           />
 
           <n-select
-            v-if="mode !== 'banners'"
+            v-if="supportsStyleFilter"
             v-model:value="styleFilter"
             :options="styleOptions"
             size="small"
@@ -1123,59 +1123,26 @@
       .filter((value) => !Number.isNaN(value))
   )
   const obtainOptions = computed(() => {
-    const groupMap = new Map<string, { labelKey: string; ids: number[] }>()
+    if (mode.value === 'momo') {
+      return createMomoSourceFilterOptions(t)
+    }
 
-    availableObtains.value.forEach((id) => {
-      const groupKey = resolveObtainGroupKey(id)
-      if (!groupKey) {
-        return
-      }
+    const includeGroup =
+      mode.value === 'outfits'
+        ? isObtainGroupVisibleInOutfits
+        : mode.value === 'makeups'
+          ? isObtainGroupVisibleInMakeups
+          : undefined
 
-      const existing = groupMap.get(groupKey)
-      if (existing) {
-        existing.ids.push(id)
-        return
-      }
-
-      const labelKey = resolveObtainGroupLabelKey(groupKey)
-      if (!labelKey) {
-        return
-      }
-
-      groupMap.set(groupKey, {
-        labelKey,
-        ids: [id],
-      })
+    return createObtainFilterOptions(availableObtains.value, t, {
+      includeGroup,
+      fallbackLabel: (id, labelKey) =>
+        mode.value === 'outfits'
+          ? `Obtain ${id}`
+          : labelKey.startsWith('obtain.')
+            ? t('tierlist.obtain_fallback', { id })
+            : labelKey,
     })
-
-    return Array.from(groupMap.entries())
-      .map(([groupKey, group]) => {
-        const translated = t(group.labelKey)
-        const fallback = group.labelKey.startsWith('obtain.')
-          ? t('tierlist.obtain_fallback', { id: group.ids[0] })
-          : group.labelKey
-        const label = translated !== group.labelKey ? translated : fallback
-        const sortKey = getOldestVersion(
-          group.ids
-            .map((id) => getVersionFromId(id))
-            .filter((value): value is string => Boolean(value))
-        )
-
-        return {
-          label,
-          value: groupKey,
-          sortKey: sortKey ?? '',
-        }
-      })
-      .sort((a, b) => {
-        const versionComparison = compareOptionalVersionsAsc(
-          a.sortKey,
-          b.sortKey
-        )
-        if (versionComparison !== 0) return versionComparison
-        return a.label.localeCompare(b.label)
-      })
-      .map(({ label, value }) => ({ label, value }))
   })
 
   const availableObtainValues = computed(() =>
@@ -1225,13 +1192,11 @@
   }
 
   const resolveObtain = (value?: string | null) => {
-    if (!value || value === 'all') return null
-    if (availableObtainValues.value.includes(value)) return value
-    const ids = resolveObtainIdsFromValue(value)
-    if (!ids) return null
-    const groupKey = resolveObtainGroupKeyFromIds(ids)
-    if (!groupKey) return null
-    return availableObtainValues.value.includes(groupKey) ? groupKey : null
+    if (mode.value === 'momo') {
+      return resolveMomoSourceFilterValue(value, availableObtainValues.value)
+    }
+
+    return resolveObtainFilterValue(value, availableObtainValues.value)
   }
 
   const resolveItemType = (value?: string | null): ItemType | null => {
@@ -1296,7 +1261,10 @@
     resolveVersion(route.query.version?.toString() ?? null)
   )
   const styleFilter = ref<string | null>(
-    resolveStyle(route.query.style?.toString() ?? null)
+    normalizeTierlistStyleFilter(
+      initialMode,
+      resolveStyle(route.query.style?.toString() ?? null)
+    )
   )
   const labelFilter = ref<string | null>(
     resolveLabel(route.query.label?.toString() ?? null)
@@ -1316,6 +1284,9 @@
     )
   )
   const isAdvancedFiltersDrawerOpen = ref(false)
+  const supportsStyleFilter = computed(() =>
+    supportsTierlistStyleFilter(mode.value)
+  )
   const advancedFilterFields = computed(() =>
     mode.value === 'items'
       ? getItemSearchCompendiumAdvancedFields(itemTypeFilter.value)
@@ -1380,8 +1351,11 @@
       labelFilter.value = null
     }
 
-    if (nextMode === 'momo') {
+    if (!supportsTierlistStyleFilter(nextMode)) {
       styleFilter.value = null
+    }
+
+    if (nextMode === 'momo') {
       labelFilter.value = null
       itemTypeFilter.value = null
     }
@@ -1392,6 +1366,7 @@
     }
 
     mode.value = nextMode
+    obtainFilter.value = resolveObtain(obtainFilter.value)
   }
 
   const hasFilters = computed(() => {
@@ -1402,7 +1377,7 @@
     return (
       qualityFilter.value !== null ||
       versionFilter.value !== null ||
-      styleFilter.value !== null ||
+      (supportsStyleFilter.value && styleFilter.value !== null) ||
       effectiveLabelFilter.value !== null ||
       obtainFilter.value !== null ||
       (mode.value === 'items' &&
@@ -1810,7 +1785,7 @@
       query.version = versionFilter.value
     }
 
-    if (styleFilter.value) {
+    if (supportsStyleFilter.value && styleFilter.value) {
       query.style = styleFilter.value
     }
 

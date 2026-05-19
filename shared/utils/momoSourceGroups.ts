@@ -6,6 +6,11 @@ export type MomoSourceGroupDefinition = {
   ids: number[]
 }
 
+export type MomoSourceFilterOption = {
+  label: string
+  value: string
+}
+
 const sortIds = (ids: number[]) => ids.slice().sort((a, b) => a - b)
 
 export const MOMO_SOURCE_GROUPS: MomoSourceGroupDefinition[] =
@@ -68,4 +73,37 @@ export const resolveMomoSourceGroupLabelKey = (
 ): string | null => {
   if (!groupKey) return null
   return MOMO_GROUP_BY_KEY.get(groupKey)?.labelKey ?? null
+}
+
+export const createMomoSourceFilterOptions = (
+  translate: (key: string) => string
+): MomoSourceFilterOption[] => {
+  return MOMO_SOURCE_GROUPS.map((group) => {
+    const translated = translate(group.labelKey)
+    const fallback = `Source ${group.ids[0]}`
+    const label = translated !== group.labelKey ? translated : fallback
+    return {
+      label,
+      value: group.key,
+      sortKey: group.ids[0] ?? 0,
+    }
+  })
+    .sort((a, b) => {
+      if (a.sortKey !== b.sortKey) return a.sortKey - b.sortKey
+      return a.label.localeCompare(b.label)
+    })
+    .map(({ label, value }) => ({ label, value }))
+}
+
+export const resolveMomoSourceFilterValue = (
+  value: string | null | undefined,
+  availableValues: readonly string[]
+): string | null => {
+  if (!value || value === 'all') return null
+  if (availableValues.includes(value)) return value
+  const ids = resolveMomoSourceIdsFromValue(value)
+  if (!ids) return null
+  const groupKey = resolveMomoSourceGroupKeyFromIds(ids)
+  if (!groupKey) return null
+  return availableValues.includes(groupKey) ? groupKey : null
 }

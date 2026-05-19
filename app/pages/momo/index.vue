@@ -390,36 +390,13 @@
       : null
   }
 
-  const obtainOptions = computed(() => {
-    return MOMO_SOURCE_GROUPS.map((group) => {
-      const translated = t(group.labelKey)
-      const fallback = `Source ${group.ids[0]}`
-      const label = translated !== group.labelKey ? translated : fallback
-      return {
-        label,
-        value: group.key,
-        sortKey: group.ids[0] ?? 0,
-      }
-    })
-      .sort((a, b) => {
-        if (a.sortKey !== b.sortKey) return a.sortKey - b.sortKey
-        return a.label.localeCompare(b.label)
-      })
-      .map(({ label, value }) => ({ label, value }))
-  })
+  const obtainOptions = computed(() => createMomoSourceFilterOptions(t))
   const availableObtainValues = computed(() =>
     obtainOptions.value.map((option) => option.value as string)
   )
 
-  const resolveObtain = (value?: string | null) => {
-    if (!value || value === 'all') return null
-    if (availableObtainValues.value.includes(value)) return value
-    const ids = resolveMomoSourceIdsFromValue(value)
-    if (!ids) return null
-    const groupKey = resolveMomoSourceGroupKeyFromIds(ids)
-    if (!groupKey) return null
-    return availableObtainValues.value.includes(groupKey) ? groupKey : null
-  }
+  const resolveObtain = (value?: string | null) =>
+    resolveMomoSourceFilterValue(value, availableObtainValues.value)
   const resolveVersion = (value?: string | null) =>
     resolveVersionFilter(value, availableVersionFilters.value)
   const resolveRouteVersionFilter = () =>

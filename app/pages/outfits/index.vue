@@ -269,9 +269,7 @@
                 v-for="(i, index) in pageSize"
                 :key="`skeleton-${i}`"
                 class="relative aspect-3/4 animate-pulse overflow-hidden rounded-lg bg-gray-200 dark:bg-gray-700"
-                :style="{
-                  animationDelay: `${Math.min(index + 1, 9) * 0.05}s`,
-                }"
+                :style="getListingCardAnimationStyle(index)"
               ></div>
             </div>
           </n-collapse-transition>

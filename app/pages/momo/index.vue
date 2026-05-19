@@ -233,7 +233,7 @@
                 >
                   <div
                     class="absolute inset-0"
-                    :class="getQualityOverlayClass(entry.quality)"
+                    :class="getListingQualityOverlayClass(entry.quality)"
                   ></div>
                   <NuxtImg
                     :src="entry.image"
@@ -282,9 +282,7 @@
                 v-for="(i, index) in pageSize"
                 :key="`skeleton-${i}`"
                 class="relative aspect-3/4 animate-pulse overflow-hidden rounded-lg bg-gray-200 dark:bg-gray-700"
-                :style="{
-                  animationDelay: `${Math.min(index + 1, 9) * 0.05}s`,
-                }"
+                :style="getListingCardAnimationStyle(index)"
               ></div>
             </div>
           </n-collapse-transition>
@@ -617,19 +615,6 @@
 
   const retryFetch = () => {
     loadData()
-  }
-
-  const getQualityOverlayClass = (quality: number) => {
-    switch (quality) {
-      case 5:
-        return 'bg-yellow-500/5'
-      case 4:
-        return 'bg-blue-500/5'
-      case 3:
-        return 'bg-green-500/5'
-      default:
-        return 'bg-gray-500/5'
-    }
   }
 
   const getVersionFilterLabel = (version?: string | null) => {

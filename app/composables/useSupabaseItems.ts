@@ -8,6 +8,7 @@ export type ItemFilters = {
   label?: string | null
   version?: string | null
   source?: string | number | null
+  ids?: number[]
   page?: number
   pageSize?: number
 } & Partial<Record<ItemSearchAdvancedField, ItemSearchAdvancedFilterValue>>
@@ -138,6 +139,7 @@ export const useSupabaseItems = () => {
     error.value = null
 
     const {
+      ids = [],
       quality = null,
       type = null,
       category = null,
@@ -153,6 +155,11 @@ export const useSupabaseItems = () => {
     try {
       const params: Record<string, string | number> = {
         page,
+      }
+
+      const normalizedIds = normalizeWardrobeItemIds(ids)
+      if (normalizedIds.length > 0) {
+        params.ids = normalizedIds.join(',')
       }
 
       if (pageSize !== undefined && Number.isFinite(pageSize) && pageSize > 0) {
@@ -347,6 +354,76 @@ export const useSupabaseItems = () => {
     }
   }
 
+  const fetchItemIds = async (
+    filters: ItemFilters = {}
+  ): Promise<WardrobeItemIdsResponse> => {
+    loading.value = true
+    error.value = null
+
+    const {
+      quality = null,
+      type = null,
+      category = null,
+      subcategory = null,
+      style = null,
+      label = null,
+      version = null,
+      source = null,
+    } = filters
+
+    try {
+      const params: Record<string, string | number> = {}
+
+      if (quality !== null && quality !== undefined) {
+        params.quality = quality
+      }
+
+      if (type && type !== 'all') {
+        params.type = type
+      }
+
+      if (category) {
+        params.category = category
+      }
+
+      if (subcategory) {
+        params.subcategory = subcategory
+      }
+
+      appendAdvancedFilterParams(params, filters, type, {
+        includeArrayFields: true,
+      })
+
+      if (style && style !== 'all') {
+        params.style = style
+      }
+
+      if (label && label !== 'all') {
+        params.label = label
+      }
+
+      if (version) {
+        params.version = version
+      }
+
+      if (source !== null && source !== undefined) {
+        params.source = source
+      }
+
+      return await $fetch<WardrobeItemIdsResponse>('/api/items/ids', {
+        params,
+        headers: gameVersionHeader,
+      })
+    } catch (e) {
+      const normalizedError = toError(e, 'Failed to fetch item ids')
+      error.value = normalizedError
+      console.error(`Failed to fetch item ids: ${normalizedError.message}`)
+      throw normalizedError
+    } finally {
+      loading.value = false
+    }
+  }
+
   return {
     loading,
     error,
@@ -355,5 +432,6 @@ export const useSupabaseItems = () => {
     fetchItemsPaginated,
     fetchMakeupsPaginated,
     fetchItemSearchFacets,
+    fetchItemIds,
   }
 }

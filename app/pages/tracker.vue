@@ -1365,6 +1365,8 @@
         evo: evoData,
         pearpal: rawPearpalData,
       } = await loadData()
+      const { loadWardrobe } = useIndexedDB()
+      const wardrobe = await loadWardrobe()
 
       // Filter out banners with 0 pulls
       const filteredPullData = Object.fromEntries(
@@ -1389,7 +1391,8 @@
         Object.keys(filteredPullData).length === 0 &&
         Object.keys(filteredEditData).length === 0 &&
         Object.keys(filteredEvoData).length === 0 &&
-        Object.keys(filteredPearpalData).length === 0
+        Object.keys(filteredPearpalData).length === 0 &&
+        wardrobe.ownedItemIds.length === 0
       ) {
         return
       } else {
@@ -1404,6 +1407,7 @@
           edits: filteredEditData,
           evo: filteredEvoData,
           pearpal: filteredPearpalData,
+          wardrobe,
           ...(profile ? { profile } : {}),
         }
       }

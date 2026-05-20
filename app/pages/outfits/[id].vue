@@ -145,6 +145,12 @@
                       </span>
                     </n-tag>
                   </NuxtLinkLocale>
+                  <WardrobeStatusBadge
+                    v-if="wardrobeInitialized"
+                    :status="outfitProgress.status"
+                    :owned="outfitProgress.owned"
+                    :total="outfitProgress.total"
+                  />
                 </div>
 
                 <div class="flex flex-wrap gap-2">
@@ -194,6 +200,24 @@
                       {{ label.text }}
                     </n-tag>
                   </template>
+                </div>
+
+                <div v-if="wardrobeInitialized">
+                  <n-button
+                    size="small"
+                    :type="
+                      outfitProgress.status === 'owned' ? 'default' : 'primary'
+                    "
+                    :disabled="!isWardrobeReady || outfitItems.length === 0"
+                    :loading="wardrobeSaving"
+                    @click="toggleCurrentOutfitOwned"
+                  >
+                    {{
+                      outfitProgress.status === 'owned'
+                        ? t('wardrobe.actions.mark_outfit_unowned')
+                        : t('wardrobe.actions.mark_outfit_owned')
+                    }}
+                  </n-button>
                 </div>
 
                 <div class="flex flex-wrap gap-2">
@@ -454,6 +478,8 @@
   import { Star } from '@vicons/fa'
 
   const { t, te, locale } = useI18n()
+  const message = useMessage()
+  const dialog = useDialog()
   const localePath = useLocalePath()
   const route = useRoute()
   const requestEvent = useRequestEvent()
@@ -464,6 +490,13 @@
   // Composable
   const { fetchOutfitById } = useSupabaseOutfits()
   const { getImageSrc } = imageProvider()
+  const {
+    initialized: wardrobeInitialized,
+    saving: wardrobeSaving,
+    canMutate: isWardrobeReady,
+    getOutfitProgress,
+    markOutfitOwned,
+  } = useWardrobe()
   const outfitKey = computed(() => `outfit-${outfitId.value}-${locale.value}`)
 
   const {
@@ -494,6 +527,9 @@
     const items = outfit.value.outfit_items.map((oi) => oi.items)
     return sortItemsByCategory(items)
   })
+  const outfitProgress = computed(() =>
+    getOutfitProgress(outfitItems.value.map((item) => item.id))
+  )
 
   // Computed full makeup component rows sorted by canonical makeup type order
   const makeupItems = computed(() => {
@@ -701,6 +737,37 @@
   // Retry fetch
   const retryFetch = () => {
     refresh()
+  }
+
+  const confirmOutfitUnowned = () =>
+    new Promise<boolean>((resolve) => {
+      dialog.warning({
+        title: t('common.confirm'),
+        content: t('wardrobe.confirm.outfit_unowned', {
+          count: outfitItems.value.length,
+        }),
+        positiveText: t('common.confirm'),
+        negativeText: t('common.cancel'),
+        onPositiveClick: () => resolve(true),
+        onNegativeClick: () => resolve(false),
+        onClose: () => resolve(false),
+      })
+    })
+
+  const toggleCurrentOutfitOwned = async () => {
+    const owned = outfitProgress.value.status !== 'owned'
+    if (!owned && !(await confirmOutfitUnowned())) {
+      return
+    }
+
+    try {
+      await markOutfitOwned(
+        outfitItems.value.map((item) => item.id),
+        owned
+      )
+    } catch {
+      message.error(t('wardrobe.error.save'))
+    }
   }
 
   // Navigate to list

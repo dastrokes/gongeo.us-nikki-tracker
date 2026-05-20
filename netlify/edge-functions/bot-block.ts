@@ -26,6 +26,7 @@ const blockedUserAgents = [
   'applebot-extended',
   'bytespider',
   'claudebot',
+  'claude-searchbot',
   'cohere-ai',
   'diffbot',
   'facebookbot',

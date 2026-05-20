@@ -191,6 +191,7 @@ export default defineNuxtConfig({
           'magpie-crawler',
           'proximic',
           'Riddler',
+          'SleepBot',
           'WikiDo',
           'Zoominfobot',
 

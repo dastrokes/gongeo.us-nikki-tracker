@@ -1,9 +1,10 @@
 const DB_NAME = 'gongeousDB'
-const DB_VERSION = 4
+const DB_VERSION = 5
 const PULLS_STORE = 'pullsByBanner'
 const EDITS_STORE = 'editsByBanner'
 const EVO_STORE = 'evoByBanner'
 const PEARPAL_STORE = 'pearpalByBanner'
+const WARDROBE_STORE = 'wardrobeByProfile'
 
 export function useIndexedDB() {
   const pullsData = ref<Record<number, PullRecord[]>>({})
@@ -17,7 +18,13 @@ export function useIndexedDB() {
     dbName: DB_NAME,
     dbVersion: DB_VERSION,
     connectionLabel: 'Tracker',
-    healthCheckStoreNames: [PULLS_STORE, EDITS_STORE, EVO_STORE, PEARPAL_STORE],
+    healthCheckStoreNames: [
+      PULLS_STORE,
+      EDITS_STORE,
+      EVO_STORE,
+      PEARPAL_STORE,
+      WARDROBE_STORE,
+    ],
     retryIntervalMs: 1000,
     maxRetries: 3,
     openDBCallbacks: {
@@ -36,6 +43,10 @@ export function useIndexedDB() {
 
         if (!db.objectStoreNames.contains(PEARPAL_STORE)) {
           db.createObjectStore(PEARPAL_STORE)
+        }
+
+        if (!db.objectStoreNames.contains(WARDROBE_STORE)) {
+          db.createObjectStore(WARDROBE_STORE)
         }
       },
     },
@@ -258,12 +269,14 @@ export function useIndexedDB() {
       const editsKey = resolveSlotKey(EDITS_STORE)
       const evoKey = resolveSlotKey(EVO_STORE)
       const pearpalKey = resolveSlotKey(PEARPAL_STORE)
+      const wardrobeKey = resolveSlotKey(WARDROBE_STORE)
 
       await runWithRecovery('clearData', async (db) => {
         await db.delete(PULLS_STORE, pullsKey)
         await db.delete(EDITS_STORE, editsKey)
         await db.delete(EVO_STORE, evoKey)
         await db.delete(PEARPAL_STORE, pearpalKey)
+        await db.delete(WARDROBE_STORE, wardrobeKey)
       })
 
       pullsData.value = {}
@@ -317,12 +330,14 @@ export function useIndexedDB() {
       const editsKey = resolveSlotKey(EDITS_STORE, slot)
       const evoKey = resolveSlotKey(EVO_STORE, slot)
       const pearpalKey = resolveSlotKey(PEARPAL_STORE, slot)
+      const wardrobeKey = resolveSlotKey(WARDROBE_STORE, slot)
 
       await runWithRecovery('clearSlotData', async (db) => {
         await db.delete(PULLS_STORE, pullsKey)
         await db.delete(EDITS_STORE, editsKey)
         await db.delete(EVO_STORE, evoKey)
         await db.delete(PEARPAL_STORE, pearpalKey)
+        await db.delete(WARDROBE_STORE, wardrobeKey)
       })
 
       if (slot === activeSlot.value) {
@@ -332,6 +347,45 @@ export function useIndexedDB() {
       }
     } catch (error) {
       console.error('Failed to clear slot data:', error)
+      throw error
+    }
+  }
+
+  const loadWardrobe = async (
+    slotOverride?: number
+  ): Promise<WardrobeDataV1> => {
+    try {
+      if (lastSavePromise) {
+        await lastSavePromise
+      }
+
+      const wardrobeKey = resolveSlotKey(WARDROBE_STORE, slotOverride)
+
+      const result = await runWithRecovery('loadWardrobe', async (db) => {
+        return db.get(WARDROBE_STORE, wardrobeKey)
+      })
+
+      return normalizeWardrobeData(result)
+    } catch (error) {
+      console.error('Failed to load wardrobe data:', error)
+      throw error
+    }
+  }
+
+  const saveWardrobe = async (data: WardrobeDataV1, slotOverride?: number) => {
+    try {
+      if (lastSavePromise) {
+        await lastSavePromise
+      }
+
+      const wardrobeKey = resolveSlotKey(WARDROBE_STORE, slotOverride)
+      const cleanData = normalizeWardrobeData(data)
+
+      await runWithRecovery('saveWardrobe', async (db) => {
+        await db.put(WARDROBE_STORE, cleanData, wardrobeKey)
+      })
+    } catch (error) {
+      console.error('Failed to save wardrobe data:', error)
       throw error
     }
   }
@@ -348,5 +402,7 @@ export function useIndexedDB() {
     mergePullData,
     mergeEditData,
     savePearpalData,
+    loadWardrobe,
+    saveWardrobe,
   }
 }

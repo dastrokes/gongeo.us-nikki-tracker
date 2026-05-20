@@ -22,6 +22,16 @@
               @update:value="handleCompendiumSectionChange"
             />
 
+            <n-select
+              v-model:value="wardrobeFilter"
+              :options="wardrobeFilterOptions"
+              size="small"
+              class="w-full self-start sm:w-36"
+              :show-checkmark="false"
+              :clearable="false"
+              :disabled="!isWardrobeReady"
+            />
+
             <div class="hidden min-w-0 overflow-x-auto sm:block">
               <n-button-group class="min-w-max">
                 <n-button
@@ -61,6 +71,7 @@
           </div>
 
           <n-tooltip
+            v-if="!editMode"
             :disabled="totalItems <= TIER_ENTRY_LIMIT"
             trigger="hover"
           >
@@ -85,6 +96,18 @@
               })
             }}
           </n-tooltip>
+
+          <n-button
+            size="small"
+            :type="editMode ? 'primary' : 'default'"
+            :disabled="!isWardrobeReady"
+            class="shrink-0 self-start"
+            @click="toggleEditMode"
+          >
+            {{
+              editMode ? t('wardrobe.actions.done') : t('wardrobe.actions.edit')
+            }}
+          </n-button>
         </div>
 
         <div class="flex items-start gap-2 sm:hidden">
@@ -259,8 +282,42 @@
     >
       <div class="min-h-0 sm:flex sm:flex-1 sm:flex-col">
         <div class="space-y-3 sm:space-y-4">
+          <WardrobeBatchToolbar
+            v-if="editMode"
+            v-model:scope="batchScope"
+            :edit-mode="editMode"
+            :selected-count="selectedItemIds.size"
+            :page-count="entries.length"
+            :all-matching-count="totalItems"
+            :disabled="!isWardrobeReady || loading"
+            @mark-owned="applyBatchOwnership(true)"
+            @mark-unowned="applyBatchOwnership(false)"
+            @clear-selection="clearSelection"
+          />
+
           <div
-            v-if="error"
+            v-if="wardrobeError"
+            class="py-12 text-center"
+          >
+            <n-result
+              size="small"
+              status="error"
+              :title="t('wardrobe.error.mode_title')"
+              :description="t('wardrobe.error.mode_description')"
+            >
+              <template #footer>
+                <n-button
+                  type="primary"
+                  @click="retryWardrobeMode"
+                >
+                  {{ t('wardrobe.actions.retry') }}
+                </n-button>
+              </template>
+            </n-result>
+          </div>
+
+          <div
+            v-else-if="error"
             class="py-12 text-center"
           >
             <n-result
@@ -315,13 +372,18 @@
               <div
                 v-for="(entry, index) in entries"
                 :key="entry.id"
-                class="cursor-pointer"
+                class="relative cursor-pointer"
                 :class="getListingCardAnimationClass(index)"
                 :style="getListingCardAnimationStyle(index)"
-                @click="navigateToDetail(entry.id)"
+                @click="handleItemCardClick(entry.id)"
               >
                 <div
                   class="relative aspect-2/3 overflow-hidden rounded-lg bg-[url('/images/bg.webp')] bg-cover bg-center shadow-md transition-shadow duration-300 hover:shadow-xl"
+                  :class="
+                    selectedItemIds.has(entry.id)
+                      ? 'ring-2 ring-sky-500 ring-offset-2 ring-offset-white dark:ring-offset-gray-950'
+                      : ''
+                  "
                 >
                   <!-- Tint overlay -->
                   <div
@@ -341,7 +403,7 @@
 
                   <div class="absolute top-2 left-2 z-20">
                     <n-tag
-                      v-if="entry.type"
+                      v-if="entry.type && !editMode"
                       round
                       size="small"
                       :bordered="false"
@@ -350,6 +412,12 @@
                     >
                       {{ entry.type }}
                     </n-tag>
+                    <n-checkbox
+                      v-else-if="editMode"
+                      :checked="selectedItemIds.has(entry.id)"
+                      @click.stop
+                      @update:checked="toggleSelection(entry.id)"
+                    />
                   </div>
                   <div class="absolute top-2 right-2 z-20">
                     <n-tag
@@ -366,6 +434,18 @@
                         </n-icon>
                       </span>
                     </n-tag>
+                  </div>
+                  <div
+                    v-if="wardrobeInitialized"
+                    class="absolute top-11 left-2 z-20"
+                    @click.stop
+                  >
+                    <WardrobeOwnedButton
+                      :owned="isItemOwned(entry.id)"
+                      :disabled="!isWardrobeReady"
+                      :loading="wardrobeSaving"
+                      @toggle="toggleVisibleItemOwned(entry.id)"
+                    />
                   </div>
                   <div
                     class="absolute right-0 bottom-0 left-0 z-20 bg-linear-to-t from-black/90 to-transparent p-3"
@@ -476,6 +556,8 @@
   import { h, type Component } from 'vue'
 
   const { t, locale, getLocaleMessage } = useI18n()
+  const dialog = useDialog()
+  const message = useMessage()
   const { translateFilterToken } = useFilterToken()
   const localePath = useLocalePath()
   const route = useRoute()
@@ -774,6 +856,37 @@
   )
   const isAdvancedFiltersDrawerOpen = ref(false)
   const currentPage = ref(Number(route.query.page) || 1)
+  type ItemWardrobeFilter = 'all' | 'owned' | 'missing'
+  type BatchScope = 'selected' | 'page' | 'all'
+  const resolveWardrobeFilter = (value?: string | null): ItemWardrobeFilter => {
+    if (value === 'owned' || value === 'missing') return value
+    return 'all'
+  }
+  const wardrobeFilter = ref<ItemWardrobeFilter>(
+    resolveWardrobeFilter(route.query.wardrobe?.toString() ?? null)
+  )
+  const editMode = ref(false)
+  const batchScope = ref<BatchScope>('selected')
+  const selectedItemIds = ref<Set<number>>(new Set())
+
+  const {
+    initialized: wardrobeInitialized,
+    saving: wardrobeSaving,
+    error: storageError,
+    canMutate: isWardrobeReady,
+    mutationVersion: wardrobeMutationVersion,
+    init: initWardrobe,
+    retry: retryWardrobeStorage,
+    isItemOwned,
+    toggleItemOwned,
+    markItemsOwned,
+  } = useWardrobe()
+  const wardrobeModeError = ref<Error | null>(null)
+  const wardrobeError = computed(() =>
+    wardrobeFilter.value !== 'all' || editMode.value
+      ? (storageError.value ?? wardrobeModeError.value)
+      : wardrobeModeError.value
+  )
 
   const advancedFilterFields = computed(() =>
     getItemSearchCompendiumAdvancedFields(typeFilter.value)
@@ -823,10 +936,12 @@
       styleFilter.value !== null ||
       labelFilter.value !== null ||
       obtainFilter.value !== null ||
+      wardrobeFilter.value !== 'all' ||
       activeAdvancedFilterCount.value > 0
   )
 
-  const { fetchItemsPaginated, fetchItemSearchFacets } = useSupabaseItems()
+  const { fetchItemsPaginated, fetchItemSearchFacets, fetchItemIds } =
+    useSupabaseItems()
 
   const facetCacheKey = computed(() =>
     shouldFetchFacets.value
@@ -850,8 +965,56 @@
         styleFilter.value ?? 'all'
       }-${labelFilter.value ?? 'all'}-${versionFilter.value ?? 'all'}-${
         obtainFilter.value ?? 'all'
-      }-${currentPage.value}-${pageSize}`
+      }-${wardrobeFilter.value}-${wardrobeMutationVersion.value}-${
+        currentPage.value
+      }-${pageSize}`
   )
+
+  const buildItemFetchFilters = () => ({
+    quality: qualityFilter.value,
+    type: typeFilter.value,
+    category: supportsCategoryFilters.value ? categoryFilter.value : null,
+    subcategory: supportsCategoryFilters.value ? subcategoryFilter.value : null,
+    version: versionFilter.value,
+    style: styleFilter.value,
+    label: labelFilter.value,
+    source: obtainFilter.value,
+    ...activeAdvancedFilters.value,
+  })
+
+  const filterItemIdsByWardrobe = (itemIds: number[]) => {
+    if (wardrobeFilter.value === 'all') return itemIds
+    return itemIds.filter((itemId) => {
+      const owned = isItemOwned(itemId)
+      return wardrobeFilter.value === 'owned' ? owned : !owned
+    })
+  }
+
+  const fetchWardrobeFilteredItems = async () => {
+    if (import.meta.client && !wardrobeInitialized.value) {
+      await initWardrobe()
+    }
+
+    if (storageError.value) {
+      throw storageError.value
+    }
+
+    const idResponse = await fetchItemIds(buildItemFetchFilters())
+    const filteredIds = filterItemIdsByWardrobe(idResponse.itemIds)
+    const start = (currentPage.value - 1) * pageSize
+    const pageIds = filteredIds.slice(start, start + pageSize)
+    const hydrated =
+      pageIds.length > 0
+        ? await fetchItemsPaginated({ ids: pageIds, page: 1, pageSize })
+        : { data: [], page: currentPage.value, total: 0, totalPages: 0 }
+
+    return {
+      data: hydrated.data,
+      total: filteredIds.length,
+      page: currentPage.value,
+      totalPages: Math.ceil(filteredIds.length / pageSize),
+    }
+  }
 
   const [facetsAsyncData, itemsAsyncData] = await Promise.all([
     useAsyncData(
@@ -891,20 +1054,31 @@
     useAsyncData(
       () => cacheKey.value,
       async () => {
-        return fetchItemsPaginated({
-          quality: qualityFilter.value,
-          type: typeFilter.value,
-          category: supportsCategoryFilters.value ? categoryFilter.value : null,
-          subcategory: supportsCategoryFilters.value
-            ? subcategoryFilter.value
-            : null,
-          version: versionFilter.value,
-          style: styleFilter.value,
-          label: labelFilter.value,
-          source: obtainFilter.value,
-          ...activeAdvancedFilters.value,
-          page: currentPage.value,
-        })
+        wardrobeModeError.value = null
+        try {
+          if (wardrobeFilter.value !== 'all') {
+            if (import.meta.server) {
+              return {
+                data: [],
+                total: 0,
+                page: currentPage.value,
+                totalPages: 0,
+              }
+            }
+            return await fetchWardrobeFilteredItems()
+          }
+
+          return fetchItemsPaginated({
+            ...buildItemFetchFilters(),
+            page: currentPage.value,
+          })
+        } catch (caughtError) {
+          wardrobeModeError.value = toError(
+            caughtError,
+            'Failed to load wardrobe item mode'
+          )
+          throw wardrobeModeError.value
+        }
       },
       {
         default: () => ({ data: [], total: 0, totalPages: 0 }),
@@ -939,7 +1113,22 @@
     }))
   })
 
+  watch(entries, () => {
+    if (!editMode.value) return
+    const visibleIds = new Set(entries.value.map((entry) => entry.id))
+    selectedItemIds.value = new Set(
+      Array.from(selectedItemIds.value).filter((itemId) =>
+        visibleIds.has(itemId)
+      )
+    )
+  })
+
   const totalItems = computed(() => compendiumData.value?.total || 0)
+  const wardrobeFilterOptions = computed(() => [
+    { label: t('wardrobe.filters.all'), value: 'all' },
+    { label: t('wardrobe.filters.owned'), value: 'owned' },
+    { label: t('wardrobe.filters.missing'), value: 'missing' },
+  ])
 
   const countLabels = computed(() => ({
     singular: t('common.item'),
@@ -947,7 +1136,11 @@
   }))
   const TIER_ENTRY_LIMIT = 200
   const isTierlistDisabled = computed(
-    () => loading.value || !!error.value || totalItems.value > TIER_ENTRY_LIMIT
+    () =>
+      editMode.value ||
+      loading.value ||
+      !!error.value ||
+      totalItems.value > TIER_ENTRY_LIMIT
   )
 
   const buildAdvancedFilterQuery = () =>
@@ -1059,6 +1252,7 @@
     ...(primaryFilter !== 'source' &&
       obtainFilter.value && { source: obtainFilter.value }),
     ...(includeScopedFilters && buildAdvancedFilterQuery()),
+    ...(wardrobeFilter.value !== 'all' && { wardrobe: wardrobeFilter.value }),
     ...(includePage && currentPage.value > 1 && { page: currentPage.value }),
   })
   const buildTierlistQuery = () => ({
@@ -1090,6 +1284,94 @@
         query: buildTierlistQuery(),
       })
     )
+  }
+
+  const toggleEditMode = () => {
+    editMode.value = !editMode.value
+    if (!editMode.value) {
+      clearSelection()
+    }
+  }
+
+  const toggleSelection = (itemId: number) => {
+    const nextSelection = new Set(selectedItemIds.value)
+    if (nextSelection.has(itemId)) {
+      nextSelection.delete(itemId)
+    } else {
+      nextSelection.add(itemId)
+    }
+    selectedItemIds.value = nextSelection
+  }
+
+  const clearSelection = () => {
+    selectedItemIds.value = new Set()
+  }
+
+  const handleItemCardClick = (itemId: number) => {
+    if (editMode.value) {
+      toggleSelection(itemId)
+      return
+    }
+
+    navigateToDetail(itemId)
+  }
+
+  const toggleVisibleItemOwned = async (itemId: number) => {
+    try {
+      await toggleItemOwned(itemId)
+    } catch {
+      message.error(t('wardrobe.error.save'))
+    }
+  }
+
+  const getBatchItemIds = async () => {
+    if (batchScope.value === 'selected') {
+      return Array.from(selectedItemIds.value)
+    }
+
+    if (batchScope.value === 'page') {
+      return entries.value.map((entry) => entry.id)
+    }
+
+    const idResponse = await fetchItemIds(buildItemFetchFilters())
+    return filterItemIdsByWardrobe(idResponse.itemIds)
+  }
+
+  const confirmAllMatching = (owned: boolean, count: number) =>
+    new Promise<boolean>((resolve) => {
+      dialog.warning({
+        title: t('common.confirm'),
+        content: t(
+          owned ? 'wardrobe.confirm.all_owned' : 'wardrobe.confirm.all_unowned',
+          { count }
+        ),
+        positiveText: t('common.confirm'),
+        negativeText: t('common.cancel'),
+        onPositiveClick: () => resolve(true),
+        onNegativeClick: () => resolve(false),
+        onClose: () => resolve(false),
+      })
+    })
+
+  const applyBatchOwnership = async (owned: boolean) => {
+    try {
+      const itemIds = await getBatchItemIds()
+      if (itemIds.length === 0) return
+
+      if (
+        batchScope.value === 'all' &&
+        !(await confirmAllMatching(owned, itemIds.length))
+      ) {
+        return
+      }
+
+      await markItemsOwned(itemIds, owned)
+      if (batchScope.value === 'selected') {
+        clearSelection()
+      }
+    } catch {
+      message.error(t('wardrobe.error.save'))
+    }
   }
 
   const handleCompendiumSectionChange = (value: string) => {
@@ -1193,6 +1475,18 @@
     }
   )
 
+  watch(
+    () => route.query.wardrobe,
+    () => {
+      const nextWardrobeFilter = resolveWardrobeFilter(
+        route.query.wardrobe?.toString() ?? null
+      )
+      if (nextWardrobeFilter !== wardrobeFilter.value) {
+        wardrobeFilter.value = nextWardrobeFilter
+      }
+    }
+  )
+
   watch(supportsCategoryFilters, (isSupported) => {
     if (isSupported) return
 
@@ -1225,6 +1519,10 @@
     currentPage.value = 1
   })
 
+  watch(wardrobeFilter, () => {
+    currentPage.value = 1
+  })
+
   watch(activeAdvancedFiltersKey, () => {
     currentPage.value = 1
   })
@@ -1239,6 +1537,7 @@
       styleFilter,
       labelFilter,
       obtainFilter,
+      wardrobeFilter,
       activeAdvancedFiltersKey,
       currentPage,
     ],
@@ -1249,9 +1548,18 @@
 
   onMounted(() => {
     syncListingRoute()
+    if (wardrobeFilter.value !== 'all') {
+      loadData()
+    }
   })
 
   const retryFetch = () => {
+    loadData()
+  }
+
+  const retryWardrobeMode = () => {
+    wardrobeModeError.value = null
+    retryWardrobeStorage()
     loadData()
   }
 
@@ -1276,6 +1584,7 @@
     styleFilter.value = null
     labelFilter.value = null
     obtainFilter.value = null
+    wardrobeFilter.value = 'all'
     advancedFilters.value = createEmptyItemSearchAdvancedFilters()
     isAdvancedFiltersDrawerOpen.value = false
     currentPage.value = 1

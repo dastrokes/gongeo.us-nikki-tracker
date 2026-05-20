@@ -90,6 +90,7 @@
       "community": "Community"
     },
     "tracker": "Resonance Tracker",
+    "wardrobe": "Wardrobe",
     "import": "Import Data",
     "global": "Global Data",
     "banner": "Banner History",
@@ -118,6 +119,7 @@
       "default": "Track Infinity Nikki resonance banner pull history and statistics. A fan-made tracking and analysis tool for the Infinity Nikki community.",
       "login": "Sign in to gongeo.us using your email or a third-party account to upload, back up, and sync your Infinity Nikki resonance data across devices.",
       "tracker": "Track and analyze your Infinity Nikki resonance pull history. View all 5★ and 4★ banner items and compare your luck with other stylists.",
+      "wardrobe": "Track owned Infinity Nikki items locally, filter compendium pages by ownership, and infer outfit completion from component items.",
       "import": "Import your Infinity Nikki resonance pull history easily from game, Whim-Log data or backup files with detailed step-by-step guides.",
       "global": "Explore Infinity Nikki resonance global data, including banner popularity, pull rates, item drop rates, and community pull statistics.",
       "banner": "Explore Infinity Nikki resonance banner history with current, upcoming, and past events, featured outfits, pull rates, durations, and rerun details.",
@@ -235,6 +237,67 @@
       "cloud": "Cloud Data",
       "last_sync": "Last Sync",
       "never": "Never"
+    }
+  },
+  "wardrobe": {
+    "title": "Wardrobe",
+    "subtitle": "Track owned items for the active profile.",
+    "active_profile": "Active profile",
+    "owned_items": "Owned items",
+    "storage_unavailable": "Wardrobe storage is unavailable.",
+    "storage_recovery": "Retry storage",
+    "empty_title": "No owned items yet",
+    "empty_description": "Mark items from the item compendium or import owned banner items from tracker data.",
+    "open_items": "Open Items",
+    "open_outfits": "Open Outfits",
+    "manage_profiles": "Manage Profiles",
+    "sync_profiles": "Sync and Profiles",
+    "import_tracker": "Import from Tracker",
+    "import_tracker_description": "Adds item IDs found in local resonance tracker data. Existing wardrobe entries stay unchanged.",
+    "import_success": "Imported {imported} of {found} tracker items.",
+    "import_empty": "No tracker items were available to import.",
+    "import_error": "Failed to import tracker items.",
+    "filters": {
+      "all": "All",
+      "owned": "Owned",
+      "missing": "Missing",
+      "partial": "Partial"
+    },
+    "actions": {
+      "edit": "Edit",
+      "done": "Done",
+      "mark_owned": "Mark Owned",
+      "mark_unowned": "Mark Unowned",
+      "mark_outfit_owned": "Mark Outfit Owned",
+      "mark_outfit_unowned": "Mark Outfit Unowned",
+      "clear_selection": "Clear",
+      "retry": "Retry"
+    },
+    "status": {
+      "owned": "Owned",
+      "missing": "Missing",
+      "partial": "Partial",
+      "progress": "{owned}/{total}"
+    },
+    "scope": {
+      "selected": "Selected",
+      "page": "Page",
+      "all": "All matching"
+    },
+    "count": {
+      "selected": "{count} selected",
+      "page": "{count} on page",
+      "all": "{count} matching"
+    },
+    "confirm": {
+      "all_owned": "Mark all {count} matching items as owned?",
+      "all_unowned": "Mark all {count} matching items as unowned?",
+      "outfit_unowned": "Mark all {count} outfit items as unowned?"
+    },
+    "error": {
+      "mode_title": "Wardrobe mode unavailable",
+      "mode_description": "Could not load the matching catalog IDs needed for wardrobe filtering.",
+      "save": "Failed to update wardrobe."
     }
   },
   "login": {

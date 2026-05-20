@@ -5,6 +5,7 @@ export interface OutfitFilters {
   label?: string | null
   version?: string | null
   source?: string | number | null
+  ids?: number[]
   page?: number
   pageSize?: number
 }
@@ -81,6 +82,7 @@ export const useSupabaseOutfits = () => {
     error.value = null
 
     const {
+      ids = [],
       quality = null,
       style = null,
       label = null,
@@ -93,6 +95,11 @@ export const useSupabaseOutfits = () => {
     try {
       const params: Record<string, string | number> = {
         page,
+      }
+
+      const normalizedIds = normalizeWardrobeItemIds(ids)
+      if (normalizedIds.length > 0) {
+        params.ids = normalizedIds.join(',')
       }
 
       if (pageSize !== undefined && Number.isFinite(pageSize) && pageSize > 0) {
@@ -140,10 +147,67 @@ export const useSupabaseOutfits = () => {
     }
   }
 
+  const fetchOutfitIds = async (
+    filters: OutfitFilters & { includeItemIds?: boolean } = {}
+  ): Promise<WardrobeOutfitIdsResponse> => {
+    loading.value = true
+    error.value = null
+
+    const {
+      quality = null,
+      style = null,
+      label = null,
+      version = null,
+      source = null,
+      includeItemIds = false,
+    } = filters
+
+    try {
+      const params: Record<string, string | number> = {}
+
+      if (includeItemIds) {
+        params.includeItemIds = 1
+      }
+
+      if (quality !== null && quality !== undefined) {
+        params.quality = quality
+      }
+
+      if (style && style !== 'all') {
+        params.style = style
+      }
+
+      if (label && label !== 'all') {
+        params.label = label
+      }
+
+      if (version) {
+        params.version = version
+      }
+
+      if (source !== null && source !== undefined) {
+        params.source = source
+      }
+
+      return await $fetch<WardrobeOutfitIdsResponse>('/api/outfits/ids', {
+        params,
+        headers: gameVersionHeader,
+      })
+    } catch (e) {
+      const normalizedError = toError(e, 'Failed to fetch outfit ids')
+      error.value = normalizedError
+      console.error(`Failed to fetch outfit ids: ${normalizedError.message}`)
+      throw normalizedError
+    } finally {
+      loading.value = false
+    }
+  }
+
   return {
     loading,
     error,
     fetchOutfitById,
     fetchOutfitsPaginated,
+    fetchOutfitIds,
   }
 }

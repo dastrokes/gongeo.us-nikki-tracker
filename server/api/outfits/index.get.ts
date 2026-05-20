@@ -32,6 +32,41 @@ const normalizeTotalCount = (value: unknown): number => {
   return Math.floor(parsed)
 }
 
+const hydrateOutfitsByIds = async (ids: number[]) => {
+  const supabase = useSupabaseDataClient()
+  const { data, error } = await withSupabaseRetry(() =>
+    supabase
+      .from('outfits')
+      .select('id,quality,props,style_key,tags,obtain_type')
+      .in('id', ids)
+  )
+
+  if (error) {
+    throw error
+  }
+
+  const rows = ((data as OutfitRow[] | null) ?? []).filter(
+    (row): row is OutfitRow & { id: number; quality: number } =>
+      row.id !== null && row.quality !== null
+  )
+  const resolvedRows = sortByCatalogIdOrder(rows, ids)
+
+  return {
+    data: resolvedRows.map((row) => ({
+      id: row.id,
+      quality: row.quality,
+      style:
+        (row.style_key ? STYLE_BY_KEY.get(row.style_key)?.i18nKey : null) ??
+        resolveStyleI18nKeyFromProps(row.props),
+      labels: resolveTagI18nKeys(row.tags),
+      obtain_type: row.obtain_type ?? null,
+    })),
+    total: resolvedRows.length,
+    page: 1,
+    totalPages: resolvedRows.length > 0 ? 1 : 0,
+  }
+}
+
 /**
  * API endpoint for fetching paginated outfits
  * App-level caching enabled (30d), Netlify edge caching enabled via Cache-Control header
@@ -39,6 +74,24 @@ const normalizeTotalCount = (value: unknown): number => {
 export default defineCachedApiEventHandler(
   async (event) => {
     const query = getQuery(event)
+    const requestedIds = parseCatalogIdList(query.ids, DEFAULT_PAGE_SIZE)
+    if (requestedIds.length > 0) {
+      try {
+        return await hydrateOutfitsByIds(requestedIds)
+      } catch (error: unknown) {
+        if (error && typeof error === 'object' && 'statusCode' in error) {
+          throw error
+        }
+        const message = toErrorMessage(error, 'Failed to fetch outfits')
+        if (isTransientSupabaseError(error)) {
+          console.warn(`Failed to fetch outfits by ids: ${message}`)
+          throw createUpstreamUnavailableError('outfits')
+        }
+        console.error(`Failed to fetch outfits by ids: ${message}`)
+        throw createInternalError('outfits')
+      }
+    }
+
     const qualityParam = query.quality?.toString().trim() ?? ''
     const qualityParsed = qualityParam ? Number(qualityParam) : null
     const invalidQuality =
@@ -193,6 +246,11 @@ export default defineCachedApiEventHandler(
       getKey: (event) => {
         const version = getGameVersion()
         const query = getQuery(event)
+        const ids = parseCatalogIdList(query.ids, DEFAULT_PAGE_SIZE)
+        if (ids.length > 0) {
+          return `${version}:outfits:ids:${ids.join(',')}`
+        }
+
         const page = query.page ? Number(query.page) : 1
         const pageSize = parsePageSize(query.pageSize ?? query.page_size)
         const qualityParam = query.quality?.toString().trim() ?? ''

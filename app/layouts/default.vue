@@ -582,6 +582,7 @@
       label: t('navigation.groups.data'),
       items: [
         { key: 'tracker', label: t('navigation.tracker'), icon: Book },
+        { key: 'wardrobe', label: t('navigation.wardrobe'), icon: Tshirt },
         { key: 'stats', label: t('navigation.stats'), icon: ChartBar },
         { key: 'global', label: t('navigation.global'), icon: Globe },
         { key: 'import', label: t('navigation.import'), icon: FileImport },

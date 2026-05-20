@@ -33,6 +33,42 @@ const normalizeTotalCount = (value: unknown): number => {
   return Math.floor(parsed)
 }
 
+const hydrateItemsByIds = async (ids: number[]) => {
+  const supabase = useSupabaseDataClient()
+  const { data, error } = await withSupabaseRetry(() =>
+    supabase
+      .from('items')
+      .select('id,quality,type,props,style_key,tags,obtain_type')
+      .in('id', ids)
+  )
+
+  if (error) {
+    throw error
+  }
+
+  const rows = ((data as ItemRow[] | null) ?? []).filter(
+    (row): row is ItemRow & { id: number; quality: number; type: string } =>
+      row.id !== null && row.quality !== null && typeof row.type === 'string'
+  )
+  const resolvedRows = sortByCatalogIdOrder(rows, ids)
+
+  return {
+    data: resolvedRows.map((row) => ({
+      id: row.id,
+      quality: row.quality,
+      type: row.type,
+      obtain_type: row.obtain_type ?? null,
+      style:
+        (row.style_key ? STYLE_BY_KEY.get(row.style_key)?.i18nKey : null) ??
+        resolveStyleI18nKeyFromProps(row.props),
+      labels: resolveTagI18nKeys(row.tags),
+    })),
+    total: resolvedRows.length,
+    page: 1,
+    totalPages: resolvedRows.length > 0 ? 1 : 0,
+  }
+}
+
 /**
  * API endpoint for fetching paginated items
  * App-level caching enabled (30d), Netlify edge caching enabled via Cache-Control header
@@ -40,6 +76,24 @@ const normalizeTotalCount = (value: unknown): number => {
 export default defineCachedApiEventHandler(
   async (event) => {
     const query = getQuery(event)
+    const requestedIds = parseCatalogIdList(query.ids, DEFAULT_PAGE_SIZE)
+    if (requestedIds.length > 0) {
+      try {
+        return await hydrateItemsByIds(requestedIds)
+      } catch (error: unknown) {
+        if (error && typeof error === 'object' && 'statusCode' in error) {
+          throw error
+        }
+        const message = toErrorMessage(error, 'Failed to fetch items')
+        if (isTransientSupabaseError(error)) {
+          console.warn(`Failed to fetch items by ids: ${message}`)
+          throw createUpstreamUnavailableError('items')
+        }
+        console.error(`Failed to fetch items by ids: ${message}`)
+        throw createInternalError('items')
+      }
+    }
+
     const qualityParam = query.quality?.toString().trim() ?? ''
     const qualityParsed = qualityParam ? Number(qualityParam) : null
     const invalidQuality =
@@ -209,6 +263,11 @@ export default defineCachedApiEventHandler(
       getKey: (event) => {
         const version = getGameVersion()
         const query = getQuery(event)
+        const ids = parseCatalogIdList(query.ids, DEFAULT_PAGE_SIZE)
+        if (ids.length > 0) {
+          return `${version}:items:ids:${ids.join(',')}`
+        }
+
         const page = query.page ? Number(query.page) : 1
         const pageSize = parsePageSize(query.pageSize ?? query.page_size)
         const qualityParam = query.quality?.toString().trim() ?? ''

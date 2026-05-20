@@ -5,6 +5,7 @@ interface SyncData {
   edits: Record<number, EditRecord[]>
   evo: Record<number, EvoRecord[]>
   pearpal: Record<number, PearpalTrackerItem[]>
+  wardrobe?: WardrobeDataV1
   profile?: {
     label: string
   }
@@ -13,8 +14,15 @@ interface SyncData {
 export const useDataSync = () => {
   const supabase = useSupabaseClient()
   const { user } = useAuth()
-  const { saveData, loadData, savePearpalData, mergePullData, mergeEditData } =
-    useIndexedDB()
+  const {
+    saveData,
+    loadData,
+    savePearpalData,
+    mergePullData,
+    mergeEditData,
+    loadWardrobe,
+    saveWardrobe,
+  } = useIndexedDB()
   const { activeSlot, addProfile, renameProfile, slots, setLastSync } =
     useProfileSlots()
   const { initFromData } = usePullStoreData()
@@ -77,22 +85,14 @@ export const useDataSync = () => {
       // Get current data from IndexedDB
       const rawData = await loadData(slotOverride ?? activeSlot.value)
       const slot = slotOverride ?? activeSlot.value
+      const wardrobe = await loadWardrobe(slot)
       const syncData: SyncData = {
         pulls: rawData.pulls,
         edits: rawData.edits,
         evo: rawData.evo,
         pearpal: rawData.pearpal,
+        wardrobe,
         profile: buildProfileMeta(slot),
-      }
-
-      // Check if there's any data to upload
-      if (
-        Object.keys(syncData.pulls).length === 0 &&
-        Object.keys(syncData.edits).length === 0 &&
-        Object.keys(syncData.evo).length === 0 &&
-        Object.keys(syncData.pearpal).length === 0
-      ) {
-        return { success: false }
       }
 
       // Compress the data
@@ -241,9 +241,18 @@ export const useDataSync = () => {
       const mergedEdits = mergeEditData(localData.edits, remoteData.edits)
       const mergedEvo = { ...localData.evo, ...remoteData.evo }
       const mergedPearpal = { ...localData.pearpal, ...remoteData.pearpal }
+      const remoteWardrobe = remoteData.wardrobe
+        ? normalizeWardrobeData(remoteData.wardrobe)
+        : null
 
       await saveData(mergedPulls, mergedEdits, mergedEvo, resolvedSlot)
       await savePearpalData(mergedPearpal, resolvedSlot)
+      if (remoteWardrobe) {
+        await saveWardrobe(remoteWardrobe, resolvedSlot)
+        if (resolvedSlot === activeSlot.value) {
+          await useWardrobe().init({ force: true })
+        }
+      }
 
       await initFromData({
         pulls: mergedPulls,

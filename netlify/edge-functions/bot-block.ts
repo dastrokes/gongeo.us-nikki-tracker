@@ -61,6 +61,7 @@ const blockedUserAgents = [
   'magpie-crawler',
   'proximic',
   'riddler',
+  'sleepbot',
   'wikido',
   'zoominfobot',
 

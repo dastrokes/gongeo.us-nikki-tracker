@@ -61,7 +61,7 @@ export const useWardrobe = () => {
   } = wardrobeState()
   const { activeSlot } = useProfileSlots()
   const { loadWardrobe, saveWardrobe, loadData } = useIndexedDB()
-  const gameVersionHeader = { [GAME_VERSION_HEADER]: getGameVersion() }
+  const catalogIndex = useCatalogIndex()
 
   const ownedItemIds = computed(() => data.value.ownedItemIds)
   const ownedItemIdSet = computed(() => new Set(data.value.ownedItemIds))
@@ -194,13 +194,10 @@ export const useWardrobe = () => {
       return { found: 0, imported: 0 }
     }
 
-    const catalogResponse = await $fetch<WardrobeItemIdsResponse>(
-      '/api/items/ids',
-      {
-        headers: gameVersionHeader,
-      }
+    await catalogIndex.load()
+    const catalogItemSet = new Set(
+      catalogIndex.index.value?.items.map((item) => item.id) ?? []
     )
-    const catalogItemSet = new Set(catalogResponse.itemIds)
     const validItemIds = trackerItemIds.filter((itemId) =>
       catalogItemSet.has(itemId)
     )

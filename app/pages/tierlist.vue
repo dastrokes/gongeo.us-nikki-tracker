@@ -357,7 +357,7 @@
           class="grid grid-cols-2 gap-2 sm:grid-cols-2 xl:grid-cols-4"
         >
           <n-select
-            v-model:value="itemTypeFilter"
+            :value="itemTypeFilter"
             :options="itemTypeOptions"
             size="small"
             class="min-w-0"
@@ -365,6 +365,7 @@
             filterable
             :show-checkmark="false"
             :placeholder="t('compendium.filter_slot')"
+            @update:value="updateItemTypeFilter"
           />
 
           <n-select
@@ -1003,6 +1004,10 @@
   import { h, type Component } from 'vue'
   import { BANNER_DATA } from '~~/data/banners'
 
+  definePageMeta({
+    key: 'tierlist',
+  })
+
   type TierMode = 'banners' | 'outfits' | 'items' | 'makeups' | 'momo'
   type IconSelectOption = SelectOption & { icon: Component }
   type TierKey = 'S' | 'A' | 'B' | 'C' | 'D' | 'F'
@@ -1473,10 +1478,20 @@
     }))
   )
 
-  const { fetchOutfitsPaginated } = useSupabaseOutfits()
-  const { fetchItemsPaginated, fetchMakeupsPaginated, fetchItemSearchFacets } =
-    useSupabaseItems()
-  const { fetchMomoPaginated } = useMomo()
+  const { fetchItemSearchFacets } = useSupabaseItems()
+  const catalogIndex = useCatalogIndex()
+  const attributeMatches = useItemAttributeMatches()
+
+  type TierItemFacetData = ItemSearchFacetResponse & { cacheKey: string }
+
+  const createEmptyTierItemFacetData = (
+    cacheKey: string
+  ): TierItemFacetData => ({
+    categories: [],
+    subcategories: [],
+    advanced: {},
+    cacheKey,
+  })
 
   const itemFacetCacheKey = computed(
     () =>
@@ -1488,19 +1503,15 @@
         versionFilter.value ?? 'all'
       }-${obtainFilter.value ?? 'all'}`
   )
-
   const { data: itemSearchFacets } = await useAsyncData(
-    () => itemFacetCacheKey.value,
+    'tierlist-item-facets',
     async () => {
+      const requestFacetCacheKey = itemFacetCacheKey.value
       if (mode.value !== 'items' || !itemTypeFilter.value) {
-        return {
-          categories: [],
-          subcategories: [],
-          advanced: {},
-        }
+        return createEmptyTierItemFacetData(requestFacetCacheKey)
       }
 
-      return fetchItemSearchFacets({
+      const facets = await fetchItemSearchFacets({
         quality: qualityFilter.value,
         type: itemTypeFilter.value,
         category: supportsItemSearchCategories.value
@@ -1515,26 +1526,41 @@
         source: obtainFilter.value,
         ...activeAdvancedFilters.value,
       })
+
+      return {
+        ...facets,
+        cacheKey: requestFacetCacheKey,
+      }
     },
     {
-      default: () => ({
-        categories: [],
-        subcategories: [],
-        advanced: {},
-      }),
+      default: () => createEmptyTierItemFacetData(itemFacetCacheKey.value),
+      dedupe: 'defer',
+      deep: false,
       lazy: true,
+      server: false,
+      watch: [itemFacetCacheKey],
     }
   )
 
-  const availableItemCategories = computed(
-    () => itemSearchFacets.value?.categories ?? []
+  const isCurrentItemFacetDataReady = computed(
+    () => itemSearchFacets.value?.cacheKey === itemFacetCacheKey.value
   )
 
-  const availableItemSubcategories = computed(
-    () => itemSearchFacets.value?.subcategories ?? []
+  const availableItemCategories = computed(() =>
+    isCurrentItemFacetDataReady.value
+      ? (itemSearchFacets.value?.categories ?? [])
+      : []
   )
-  const advancedFacetOptions = computed<ItemSearchAdvancedFacetMap>(
-    () => itemSearchFacets.value?.advanced ?? {}
+
+  const availableItemSubcategories = computed(() =>
+    isCurrentItemFacetDataReady.value
+      ? (itemSearchFacets.value?.subcategories ?? [])
+      : []
+  )
+  const advancedFacetOptions = computed<ItemSearchAdvancedFacetMap>(() =>
+    isCurrentItemFacetDataReady.value
+      ? (itemSearchFacets.value?.advanced ?? {})
+      : {}
   )
 
   const isItemCategoryFilterEnabled = computed(
@@ -1551,8 +1577,9 @@
   )
 
   watch(
-    availableItemCategories,
-    (nextCategories) => {
+    [availableItemCategories, isCurrentItemFacetDataReady],
+    ([nextCategories, isReady]) => {
+      if (!isReady) return
       if (!itemCategoryFilter.value) return
 
       const resolved = resolveItemSearchFacetValue(
@@ -1573,8 +1600,9 @@
   )
 
   watch(
-    availableItemSubcategories,
-    (nextSubcategories) => {
+    [availableItemSubcategories, isCurrentItemFacetDataReady],
+    ([nextSubcategories, isReady]) => {
+      if (!isReady) return
       if (!itemSubcategoryFilter.value) return
 
       const resolved = resolveItemSearchFacetValue(
@@ -1594,6 +1622,14 @@
   )
 
   const validateAdvancedFilters = () => {
+    if (
+      mode.value === 'items' &&
+      itemTypeFilter.value &&
+      !isCurrentItemFacetDataReady.value
+    ) {
+      return
+    }
+
     const allowedFields = new Set(advancedFilterFields.value)
     const nextFilters = {
       ...createEmptyItemSearchAdvancedFilters(),
@@ -1804,6 +1840,19 @@
     setMode(value as TierMode)
   }
 
+  const updateItemTypeFilter = (nextType: ItemType | null) => {
+    if (nextType === itemTypeFilter.value) return
+
+    if (mode.value === 'items') {
+      itemCategoryFilter.value = null
+      itemSubcategoryFilter.value = null
+      advancedFilters.value = createEmptyItemSearchAdvancedFilters()
+      isAdvancedFiltersDrawerOpen.value = false
+    }
+
+    itemTypeFilter.value = nextType
+  }
+
   watch(
     [
       mode,
@@ -1824,13 +1873,6 @@
       router.replace({ query: buildTierQuery() })
     }
   )
-
-  watch(itemTypeFilter, () => {
-    itemCategoryFilter.value = null
-    itemSubcategoryFilter.value = null
-    advancedFilters.value = createEmptyItemSearchAdvancedFilters()
-    isAdvancedFiltersDrawerOpen.value = false
-  })
 
   watch(supportsItemSearchCategories, (isSupported) => {
     if (isSupported) return
@@ -1898,16 +1940,62 @@
     }
   }
 
-  const loadOutfitEntries = async (): Promise<TierDataPayload> => {
-    const { data: outfits, total } = await fetchOutfitsPaginated({
-      quality: qualityFilter.value,
-      version: versionFilter.value,
-      style: styleFilter.value,
-      label: effectiveLabelFilter.value,
-      source: obtainFilter.value,
-      page: 1,
-      pageSize: TIER_ENTRY_LIMIT,
+  const loadStaticTierListing = async <
+    TEntry extends ItemListEntry | OutfitListEntry | MomoListEntry,
+  >(
+    query: StaticCatalogListingQuery
+  ) => {
+    if (import.meta.server) {
+      return createEmptyCatalogListingResult<TEntry>(query.page)
+    }
+
+    await catalogIndex.load()
+
+    if (
+      query.entity === 'item' &&
+      itemListingRequiresAttributeMatches(query.filters)
+    ) {
+      const attributeMatchingIds = await attributeMatches.fetchMatchingIds(
+        query.filters
+      )
+
+      const index = catalogIndex.index.value
+      if (!index) {
+        throw new Error('Catalog index is unavailable')
+      }
+
+      return getLocalStaticCatalogListing<TEntry>({
+        query,
+        index,
+        attributeMatchingIds,
+      })
+    }
+
+    const index = catalogIndex.index.value
+    if (!index) {
+      throw new Error('Catalog index is unavailable')
+    }
+
+    return getLocalStaticCatalogListing<TEntry>({
+      query,
+      index,
     })
+  }
+
+  const loadOutfitEntries = async (): Promise<TierDataPayload> => {
+    const { data: outfits, total } =
+      await loadStaticTierListing<OutfitListEntry>({
+        entity: 'outfit',
+        filters: {
+          quality: qualityFilter.value,
+          version: versionFilter.value,
+          style: styleFilter.value,
+          label: effectiveLabelFilter.value,
+          source: obtainFilter.value,
+        },
+        page: 1,
+        pageSize: TIER_ENTRY_LIMIT,
+      })
     const overLimit = total > TIER_ENTRY_LIMIT
 
     const entries = outfits.map((outfit) => ({
@@ -1925,20 +2013,23 @@
   }
 
   const loadItemEntries = async (): Promise<TierDataPayload> => {
-    const { data: items, total } = await fetchItemsPaginated({
-      quality: qualityFilter.value,
-      type: itemTypeFilter.value,
-      category: supportsItemSearchCategories.value
-        ? itemCategoryFilter.value
-        : null,
-      subcategory: supportsItemSearchCategories.value
-        ? itemSubcategoryFilter.value
-        : null,
-      version: versionFilter.value,
-      style: styleFilter.value,
-      label: effectiveLabelFilter.value,
-      source: obtainFilter.value,
-      ...activeAdvancedFilters.value,
+    const { data: items, total } = await loadStaticTierListing<ItemListEntry>({
+      entity: 'item',
+      filters: {
+        quality: qualityFilter.value,
+        type: itemTypeFilter.value,
+        category: supportsItemSearchCategories.value
+          ? itemCategoryFilter.value
+          : null,
+        subcategory: supportsItemSearchCategories.value
+          ? itemSubcategoryFilter.value
+          : null,
+        version: versionFilter.value,
+        style: styleFilter.value,
+        label: effectiveLabelFilter.value,
+        source: obtainFilter.value,
+        ...activeAdvancedFilters.value,
+      },
       page: 1,
       pageSize: TIER_ENTRY_LIMIT,
     })
@@ -1963,12 +2054,15 @@
       ? itemTypeFilter.value
       : null
 
-    const { data: items, total } = await fetchMakeupsPaginated({
-      quality: qualityFilter.value,
-      type: makeupType,
-      version: versionFilter.value,
-      style: styleFilter.value,
-      source: obtainFilter.value,
+    const { data: items, total } = await loadStaticTierListing<ItemListEntry>({
+      entity: 'makeup',
+      filters: {
+        quality: qualityFilter.value,
+        type: makeupType,
+        version: versionFilter.value,
+        style: styleFilter.value,
+        source: obtainFilter.value,
+      },
       page: 1,
       pageSize: TIER_ENTRY_LIMIT,
     })
@@ -1995,13 +2089,17 @@
   }
 
   const loadMomoEntries = async (): Promise<TierDataPayload> => {
-    const { data: momoItems, total } = await fetchMomoPaginated({
-      quality: qualityFilter.value,
-      version: versionFilter.value,
-      source: obtainFilter.value,
-      page: 1,
-      pageSize: TIER_ENTRY_LIMIT,
-    })
+    const { data: momoItems, total } =
+      await loadStaticTierListing<MomoListEntry>({
+        entity: 'momo',
+        filters: {
+          quality: qualityFilter.value,
+          version: versionFilter.value,
+          source: obtainFilter.value,
+        },
+        page: 1,
+        pageSize: TIER_ENTRY_LIMIT,
+      })
     const overLimit = total > TIER_ENTRY_LIMIT
 
     const entries = momoItems.map((item) => ({
@@ -3207,7 +3305,7 @@
 
   const clearFilters = () => {
     qualityFilter.value = null
-    itemTypeFilter.value = null
+    updateItemTypeFilter(null)
     itemCategoryFilter.value = null
     itemSubcategoryFilter.value = null
     bannerQualityFilter.value = null

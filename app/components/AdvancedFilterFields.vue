@@ -26,6 +26,7 @@
         "
         :value="Array.isArray(filters[field]) ? filters[field] : []"
         :options="buildOptions(field)"
+        :fallback-option="(value) => getFallbackOption(field, value)"
         size="small"
         multiple
         clearable
@@ -51,6 +52,7 @@
               : null
         "
         :options="buildOptions(field)"
+        :fallback-option="(value) => getFallbackOption(field, value)"
         size="small"
         clearable
         filterable
@@ -87,6 +89,16 @@
       label: translateFilterToken(field, value),
       value,
     }))
+  const getFallbackOption = (
+    field: ItemSearchAdvancedField,
+    value: string | number
+  ) => {
+    const normalizedValue = normalizeItemSearchTokenKey(String(value))
+    return {
+      label: translateFilterToken(field, normalizedValue),
+      value,
+    }
+  }
 
   const updateField = (
     field: ItemSearchAdvancedField,

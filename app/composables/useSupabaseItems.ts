@@ -13,22 +13,43 @@ export type ItemFilters = {
   pageSize?: number
 } & Partial<Record<ItemSearchAdvancedField, ItemSearchAdvancedFilterValue>>
 
-export interface PaginatedItemsResponse {
-  data: ItemListEntry[]
-  total: number
-  page: number
-  totalPages: number
-}
-
 /**
  * Composable for fetching and managing item data
- * Uses edge-cached API routes to reduce database egress
  */
 export const useSupabaseItems = () => {
   const { locale } = useI18n()
   const loading = ref(false)
   const error = ref<Error | null>(null)
   const gameVersionHeader = { [GAME_VERSION_HEADER]: getGameVersion() }
+  const appendCanonicalFilterParam = (
+    params: Record<string, string | number>,
+    key: 'category' | 'subcategory' | 'style' | 'label' | 'version' | 'source',
+    value: string | number | null | undefined
+  ) => {
+    if (value === null || value === undefined || value === '') return
+    if (value === 'all') return
+
+    params[key] = value
+  }
+
+  const appendCanonicalQualityParam = (
+    params: Record<string, string | number>,
+    quality: number | null | undefined
+  ) => {
+    if (quality === null || quality === undefined) return
+
+    params.quality = quality
+  }
+
+  const appendCanonicalTypeParam = (
+    params: Record<string, string | number>,
+    type: string | null | undefined
+  ) => {
+    if (!type || type === 'all') return
+
+    params.type = type
+  }
+
   const appendAdvancedFilterParams = (
     params: Record<string, string | number>,
     filters: ItemFilters,
@@ -126,162 +147,6 @@ export const useSupabaseItems = () => {
     }
   }
 
-  /**
-   * Fetch items with server-side filtering and pagination
-   * Uses edge-cached API route (15 minutes cache)
-   * @param filters - Object containing search, quality, type, style, label, and page
-   * @returns Promise resolving to paginated response with data and metadata
-   */
-  const fetchItemsPaginated = async (
-    filters: ItemFilters = {}
-  ): Promise<PaginatedItemsResponse> => {
-    loading.value = true
-    error.value = null
-
-    const {
-      ids = [],
-      quality = null,
-      type = null,
-      category = null,
-      subcategory = null,
-      style = null,
-      label = null,
-      version = null,
-      source = null,
-      page = 1,
-      pageSize,
-    } = filters
-
-    try {
-      const params: Record<string, string | number> = {
-        page,
-      }
-
-      const normalizedIds = normalizeWardrobeItemIds(ids)
-      if (normalizedIds.length > 0) {
-        params.ids = normalizedIds.join(',')
-      }
-
-      if (pageSize !== undefined && Number.isFinite(pageSize) && pageSize > 0) {
-        params.pageSize = Math.floor(pageSize)
-      }
-
-      if (quality !== null && quality !== undefined) {
-        params.quality = quality
-      }
-
-      if (type && type !== 'all') {
-        params.type = type
-      }
-
-      if (category) {
-        params.category = category
-      }
-
-      if (subcategory) {
-        params.subcategory = subcategory
-      }
-
-      appendAdvancedFilterParams(params, filters, type, {
-        includeArrayFields: true,
-      })
-
-      if (style && style !== 'all') {
-        params.style = style
-      }
-
-      if (label && label !== 'all') {
-        params.label = label
-      }
-
-      if (version) {
-        params.version = version
-      }
-
-      if (source !== null && source !== undefined) {
-        params.source = source
-      }
-
-      const result = await $fetch<PaginatedItemsResponse>('/api/items', {
-        params,
-        headers: gameVersionHeader,
-      })
-
-      return result
-    } catch (e) {
-      const normalizedError = toError(e, 'Failed to fetch items')
-      error.value = normalizedError
-      console.error(`Failed to fetch items: ${normalizedError.message}`)
-      return {
-        data: [],
-        total: 0,
-        page,
-        totalPages: 0,
-      }
-    } finally {
-      loading.value = false
-    }
-  }
-
-  const fetchMakeupsPaginated = async (
-    filters: Pick<
-      ItemFilters,
-      'quality' | 'type' | 'style' | 'version' | 'source' | 'page' | 'pageSize'
-    > = {}
-  ): Promise<PaginatedItemsResponse> => {
-    loading.value = true
-    error.value = null
-    const {
-      quality = null,
-      type = null,
-      style = null,
-      version = null,
-      source = null,
-      page = 1,
-      pageSize = null,
-    } = filters
-
-    try {
-      const params: Record<string, string | number> = { page }
-
-      if (pageSize !== null && pageSize !== undefined) {
-        params.pageSize = pageSize
-      }
-      if (quality !== null && quality !== undefined) {
-        params.quality = quality
-      }
-      if (type && type !== 'all') {
-        params.type = type
-      }
-      if (style && style !== 'all') {
-        params.style = style
-      }
-      if (version) {
-        params.version = version
-      }
-      if (source !== null && source !== undefined) {
-        params.source = source
-      }
-
-      return await $fetch<PaginatedItemsResponse>('/api/items/makeups', {
-        params,
-        headers: gameVersionHeader,
-      })
-    } catch (e) {
-      const normalizedError = toError(e, 'Failed to fetch makeups')
-      error.value = normalizedError
-      console.error(`Failed to fetch makeups: ${normalizedError.message}`)
-      return {
-        data: [],
-        total: 0,
-        page,
-        totalPages: 0,
-      }
-    } finally {
-      loading.value = false
-    }
-  }
-
   const fetchItemSearchFacets = async (
     filters: ItemFilters = {}
   ): Promise<ItemSearchFacetResponse> => {
@@ -302,39 +167,23 @@ export const useSupabaseItems = () => {
     try {
       const params: Record<string, string | number> = {}
 
-      if (quality !== null && quality !== undefined) {
-        params.quality = quality
-      }
+      appendCanonicalQualityParam(params, quality)
 
-      if (type && type !== 'all') {
-        params.type = type
-      }
+      appendCanonicalTypeParam(params, type)
 
-      if (category) {
-        params.category = category
-      }
+      appendCanonicalFilterParam(params, 'category', category)
 
-      if (subcategory) {
-        params.subcategory = subcategory
-      }
+      appendCanonicalFilterParam(params, 'subcategory', subcategory)
 
       appendAdvancedFilterParams(params, filters, type)
 
-      if (style && style !== 'all') {
-        params.style = style
-      }
+      appendCanonicalFilterParam(params, 'style', style)
 
-      if (label && label !== 'all') {
-        params.label = label
-      }
+      appendCanonicalFilterParam(params, 'label', label)
 
-      if (version) {
-        params.version = version
-      }
+      appendCanonicalFilterParam(params, 'version', version)
 
-      if (source !== null && source !== undefined) {
-        params.source = source
-      }
+      appendCanonicalFilterParam(params, 'source', source)
 
       return await $fetch<ItemSearchFacetResponse>('/api/items/facets', {
         params,
@@ -354,84 +203,11 @@ export const useSupabaseItems = () => {
     }
   }
 
-  const fetchItemIds = async (
-    filters: ItemFilters = {}
-  ): Promise<WardrobeItemIdsResponse> => {
-    loading.value = true
-    error.value = null
-
-    const {
-      quality = null,
-      type = null,
-      category = null,
-      subcategory = null,
-      style = null,
-      label = null,
-      version = null,
-      source = null,
-    } = filters
-
-    try {
-      const params: Record<string, string | number> = {}
-
-      if (quality !== null && quality !== undefined) {
-        params.quality = quality
-      }
-
-      if (type && type !== 'all') {
-        params.type = type
-      }
-
-      if (category) {
-        params.category = category
-      }
-
-      if (subcategory) {
-        params.subcategory = subcategory
-      }
-
-      appendAdvancedFilterParams(params, filters, type, {
-        includeArrayFields: true,
-      })
-
-      if (style && style !== 'all') {
-        params.style = style
-      }
-
-      if (label && label !== 'all') {
-        params.label = label
-      }
-
-      if (version) {
-        params.version = version
-      }
-
-      if (source !== null && source !== undefined) {
-        params.source = source
-      }
-
-      return await $fetch<WardrobeItemIdsResponse>('/api/items/ids', {
-        params,
-        headers: gameVersionHeader,
-      })
-    } catch (e) {
-      const normalizedError = toError(e, 'Failed to fetch item ids')
-      error.value = normalizedError
-      console.error(`Failed to fetch item ids: ${normalizedError.message}`)
-      throw normalizedError
-    } finally {
-      loading.value = false
-    }
-  }
-
   return {
     loading,
     error,
     fetchItemById,
     fetchMakeupById,
-    fetchItemsPaginated,
-    fetchMakeupsPaginated,
     fetchItemSearchFacets,
-    fetchItemIds,
   }
 }

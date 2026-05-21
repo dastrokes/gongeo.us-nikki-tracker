@@ -15,10 +15,3 @@ export interface MomoDetailEntry extends MomoListEntry {
   description: string
   related_outfits?: MomoRelatedOutfit[]
 }
-
-export interface PaginatedMomoResponse {
-  data: MomoListEntry[]
-  total: number
-  page: number
-  totalPages: number
-}

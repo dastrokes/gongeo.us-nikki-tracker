@@ -367,6 +367,10 @@
   } from '@vicons/fa'
   import { BANNER_DATA } from '~~/data/banners'
 
+  definePageMeta({
+    key: 'banners-listing',
+  })
+
   const { t } = useI18n()
   const localePath = useLocalePath()
   const route = useRoute()

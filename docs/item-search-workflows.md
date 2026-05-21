@@ -101,6 +101,18 @@ node scripts/item-search-publish.mjs --scope feedback-selected --feedback-id 123
 node scripts/refresh-item-search-local-copy.mjs
 ```
 
+No-overwrite Supabase/Pinecone sync:
+
+`scripts/item-search-publish.mjs` always runs Supabase and Pinecone syncs in overwrite mode. To sync only missing rows/records, run the lower-level sync scripts directly and omit `--overwrite`:
+
+```bash
+node scripts/sync-index-supabase.mjs --item-attributes-path ../gongeo.us-image-search/index/item-attributes.jsonl
+node scripts/sync-index-pinecore.mjs --item-attributes-path ../gongeo.us-image-search/index/item-attributes.jsonl --namespace en
+node scripts/sync-index-pinecore.mjs --item-attributes-path ../gongeo.us-image-search/index/item-attributes.jsonl --namespace zh
+```
+
+Without `--overwrite`, Supabase skips existing `item_id` rows and Pinecone skips existing IDs in each namespace. This bypasses publish report generation; run `node scripts/refresh-item-search-local-copy.mjs` afterward if the tracker local mirror should be refreshed.
+
 Publish report behavior:
 
 - Every publish writes `latest.json` plus a timestamped `publish-*.json`.
@@ -406,5 +418,6 @@ Normalization or document-format change:
 - Supabase and Pinecone are the only supported publish targets in this workflow.
 - Unsupported item types must not appear in feedback edit surfaces until the tracker registry adds them.
 - Routine publishes should use overwrite mode for deterministic sync behavior.
+- No-overwrite syncs should use the lower-level Supabase and Pinecone scripts directly, because `item-search-publish.mjs` always passes `--overwrite`.
 - Only `en` and `zh` are treated as reviewed Pinecone namespaces in the normal flow.
 - Tracker publish assumes the canonical artifact has already been reviewed for token quality; it is not the place to decide synonym collapse after the fact.

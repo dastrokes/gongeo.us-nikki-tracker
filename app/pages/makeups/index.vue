@@ -232,8 +232,8 @@
             appear
           >
             <div
-              v-if="!loading && !error && entries.length > 0"
-              key="grid"
+              v-if="!error && entries.length > 0"
+              :key="listingAnimationKey"
               class="grid grid-cols-3 gap-2 sm:grid-cols-6 sm:content-start sm:gap-3"
             >
               <div
@@ -383,6 +383,10 @@
   import { NIcon } from 'naive-ui'
   import type { SelectOption } from 'naive-ui'
   import { h, type Component } from 'vue'
+
+  definePageMeta({
+    key: 'makeups-listing',
+  })
 
   const { t, locale, getLocaleMessage } = useI18n()
   const localePath = useLocalePath()
@@ -550,8 +554,6 @@
       obtainFilter.value !== null
   )
 
-  const { fetchMakeupsPaginated } = useSupabaseItems()
-
   const cacheKey = computed(
     () =>
       `makeups-${slotFilter.value}-${qualityFilter.value ?? 'all'}-${
@@ -560,29 +562,27 @@
         currentPage.value
       }-${pageSize}`
   )
-
   const {
     data: compendiumData,
-    pending: loading,
+    pending: isListingPending,
+    status: requestStatus,
     error,
     refresh: loadData,
-  } = await useAsyncData(
-    () => cacheKey.value,
-    () =>
-      fetchMakeupsPaginated({
+  } = await useStaticCatalogListing<ItemListEntry>({
+    key: () => cacheKey.value,
+    query: () => ({
+      entity: 'makeup',
+      filters: {
         quality: qualityFilter.value,
         type: slotFilter.value,
         version: versionFilter.value,
         style: styleFilter.value,
         source: obtainFilter.value,
-        page: currentPage.value,
-        pageSize,
-      }),
-    {
-      default: () => ({ data: [], total: 0, totalPages: 0 }),
-      lazy: true,
-    }
-  )
+      },
+      page: currentPage.value,
+      pageSize,
+    }),
+  })
 
   const entries = computed(() => {
     const data = (compendiumData.value?.data || []) as ItemListEntry[]
@@ -608,6 +608,15 @@
       }
     })
   })
+  const loading = computed(() =>
+    isListingInitialLoading({
+      error: error.value,
+      entryCount: entries.value.length,
+      pending: isListingPending.value,
+      status: requestStatus.value,
+    })
+  )
+  const listingAnimationKey = computed(() => cacheKey.value)
 
   const totalItems = computed(() => compendiumData.value?.total || 0)
   const TIER_ENTRY_LIMIT = 200

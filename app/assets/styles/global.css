@@ -4,7 +4,8 @@
 
 @theme {
   --animate-button-shimmer: button-shimmer 4s infinite;
-  --animate-fade-in-up: fade-in-up 0.5s ease-out backwards;
+  --animate-fade-in-up: fade-in-up 0.5s ease-out
+    var(--listing-animation-delay, 0s) backwards;
   --animate-reveal-success: reveal-success 500ms cubic-bezier(0.2, 0.8, 0.2, 1)
     both;
   --animate-reveal-fail: reveal-fail 500ms cubic-bezier(0.2, 0.8, 0.2, 1) both;

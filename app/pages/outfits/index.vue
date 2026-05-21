@@ -291,8 +291,8 @@
             appear
           >
             <div
-              v-if="!loading && !error && entries.length > 0"
-              key="grid"
+              v-if="!error && entries.length > 0"
+              :key="listingAnimationKey"
               class="grid grid-cols-3 gap-2 sm:grid-cols-6 sm:content-start sm:gap-3"
             >
               <div
@@ -406,6 +406,10 @@
   import { NIcon } from 'naive-ui'
   import type { SelectOption } from 'naive-ui'
   import { h, type Component } from 'vue'
+
+  definePageMeta({
+    key: 'outfits-listing',
+  })
 
   const { t, locale, getLocaleMessage } = useI18n()
   const dialog = useDialog()
@@ -604,7 +608,7 @@
     twitterDescription: () => description.value,
   })
 
-  const currentPage = ref(Number(route.query.page) || 1)
+  const currentPage = ref(normalizeCatalogListingPage(route.query.page))
   type OutfitWardrobeFilter = 'all' | WardrobeOutfitStatus
   type BatchScope = 'selected' | 'page' | 'all'
   const resolveWardrobeFilter = (
@@ -623,6 +627,7 @@
   const selectedOutfitIds = ref<Set<number>>(new Set())
   const {
     initialized: wardrobeInitialized,
+    ownedItemIds,
     saving: wardrobeSaving,
     error: storageError,
     canMutate: isWardrobeReady,
@@ -648,8 +653,6 @@
       wardrobeFilter.value !== 'all'
   )
 
-  const { fetchOutfitsPaginated, fetchOutfitIds } = useSupabaseOutfits()
-
   const cacheKey = computed(
     () =>
       `outfits-${qualityFilter.value ?? 'all'}-${styleFilter.value ?? 'all'}-${
@@ -658,7 +661,6 @@
         wardrobeFilter.value
       }-${wardrobeMutationVersion.value}-${currentPage.value}-${pageSize}`
   )
-
   const buildOutfitFetchFilters = () => ({
     quality: qualityFilter.value,
     version: versionFilter.value,
@@ -667,90 +669,36 @@
     source: obtainFilter.value,
   })
 
-  const filterOutfitIdsByWardrobe = (
-    outfitIds: number[],
-    outfitItems: Record<string, number[]>
-  ) => {
-    if (wardrobeFilter.value === 'all') return outfitIds
-    return outfitIds.filter((outfitId) => {
-      const progress = getOutfitProgress(outfitItems[outfitId] ?? [])
-      return progress.status === wardrobeFilter.value
-    })
-  }
-
-  const fetchWardrobeFilteredOutfits = async () => {
-    if (import.meta.client && !wardrobeInitialized.value) {
-      await initWardrobe()
-    }
-
-    if (storageError.value) {
-      throw storageError.value
-    }
-
-    const idResponse = await fetchOutfitIds({
-      ...buildOutfitFetchFilters(),
-      includeItemIds: true,
-    })
-    const outfitItems = idResponse.outfitItems ?? {}
-    const filteredIds = filterOutfitIdsByWardrobe(
-      idResponse.outfitIds,
-      outfitItems
-    )
-    const start = (currentPage.value - 1) * pageSize
-    const pageIds = filteredIds.slice(start, start + pageSize)
-    const hydrated =
-      pageIds.length > 0
-        ? await fetchOutfitsPaginated({ ids: pageIds, page: 1, pageSize })
-        : { data: [], page: currentPage.value, total: 0, totalPages: 0 }
-
-    return {
-      data: hydrated.data,
-      total: filteredIds.length,
-      page: currentPage.value,
-      totalPages: Math.ceil(filteredIds.length / pageSize),
-      wardrobeOutfitItems: outfitItems,
-    }
-  }
+  const catalogListingQuery = computed(() => ({
+    entity: 'outfit' as const,
+    filters: buildOutfitFetchFilters(),
+    page: currentPage.value,
+    pageSize,
+    ownershipMode: wardrobeFilter.value,
+  }))
 
   const {
     data: compendiumData,
-    pending: loading,
+    pending: isListingPending,
+    status: requestStatus,
     error,
     refresh: loadData,
-  } = await useAsyncData(
-    () => cacheKey.value,
-    async () => {
-      wardrobeModeError.value = null
-      try {
-        if (wardrobeFilter.value !== 'all') {
-          if (import.meta.server) {
-            return {
-              data: [],
-              total: 0,
-              page: currentPage.value,
-              totalPages: 0,
-            }
-          }
-          return await fetchWardrobeFilteredOutfits()
-        }
-
-        return fetchOutfitsPaginated({
-          ...buildOutfitFetchFilters(),
-          page: currentPage.value,
-        })
-      } catch (caughtError) {
-        wardrobeModeError.value = toError(
-          caughtError,
-          'Failed to load wardrobe outfit mode'
-        )
-        throw wardrobeModeError.value
-      }
+    fetchMatchingIds: fetchMatchingOutfitIds,
+    fetchOutfitRelations,
+  } = await useCatalogListing<OutfitListEntry>({
+    key: cacheKey,
+    query: catalogListingQuery,
+    wardrobe: {
+      initialized: wardrobeInitialized,
+      storageError,
+      ownedItemIds,
+      init: initWardrobe,
+      getOutfitProgress,
     },
-    {
-      default: () => ({ data: [], total: 0, totalPages: 0 }),
-      lazy: true,
-    }
-  )
+    onWardrobeModeError: (nextError) => {
+      wardrobeModeError.value = nextError
+    },
+  })
 
   const entries = computed(() => {
     const data = (compendiumData.value?.data || []) as OutfitListEntry[]
@@ -773,6 +721,15 @@
         : null,
     }))
   })
+  const loading = computed(() =>
+    isListingInitialLoading({
+      error: error.value,
+      entryCount: entries.value.length,
+      pending: isListingPending.value,
+      status: requestStatus.value,
+    })
+  )
+  const listingAnimationKey = computed(() => cacheKey.value)
 
   watch(entries, () => {
     if (!editMode.value) return
@@ -945,41 +902,38 @@
     navigateTo(localePath(`/outfits/${outfitId}`))
   }
 
-  const getBatchOutfitIds = async () => {
+  const getOutfitItemIdsFromRecord = (
+    outfitIds: number[],
+    outfitItems: Record<string, number[]>
+  ) => outfitIds.flatMap((outfitId) => outfitItems[String(outfitId)] ?? [])
+
+  const getVisibleOutfitItems = () =>
+    Object.fromEntries(
+      entries.value.map((entry) => [String(entry.id), entry.itemIds])
+    )
+
+  const getBatchOutfitItemIds = async () => {
     if (batchScope.value === 'selected') {
-      return Array.from(selectedOutfitIds.value)
+      const outfitIds = Array.from(selectedOutfitIds.value)
+      const visibleOutfitItems = getVisibleOutfitItems()
+      const missingRelations = outfitIds.some(
+        (outfitId) => !visibleOutfitItems[String(outfitId)]?.length
+      )
+      return getOutfitItemIdsFromRecord(
+        outfitIds,
+        missingRelations ? await fetchOutfitRelations() : visibleOutfitItems
+      )
     }
+
     if (batchScope.value === 'page') {
-      return entries.value.map((entry) => entry.id)
+      const outfitIds = entries.value.map((entry) => entry.id)
+      return getOutfitItemIdsFromRecord(outfitIds, getVisibleOutfitItems())
     }
 
-    const idResponse = await fetchOutfitIds({
-      ...buildOutfitFetchFilters(),
-      includeItemIds: true,
-    })
-    return filterOutfitIdsByWardrobe(
-      idResponse.outfitIds,
-      idResponse.outfitItems ?? {}
-    )
-  }
-
-  const getOutfitItemIds = async (outfitIds: number[]) => {
-    const existingItems = new Map(
-      entries.value.map((entry) => [entry.id, entry.itemIds])
-    )
-    const missingRelations = outfitIds.some(
-      (outfitId) => !existingItems.get(outfitId)?.length
-    )
-    if (!missingRelations) {
-      return outfitIds.flatMap((outfitId) => existingItems.get(outfitId) ?? [])
-    }
-
-    const idResponse = await fetchOutfitIds({
-      ...buildOutfitFetchFilters(),
-      includeItemIds: true,
-    })
-    return outfitIds.flatMap(
-      (outfitId) => idResponse.outfitItems?.[outfitId] ?? []
+    const idResponse = await fetchMatchingOutfitIds()
+    return getOutfitItemIdsFromRecord(
+      idResponse.ids,
+      idResponse.outfitItems ?? (await fetchOutfitRelations())
     )
   }
 
@@ -1010,11 +964,7 @@
 
   const applyBatchOwnership = async (owned: boolean) => {
     try {
-      const outfitIds = await getBatchOutfitIds()
-      if (outfitIds.length === 0) return
-      const itemIds = normalizeWardrobeItemIds(
-        await getOutfitItemIds(outfitIds)
-      )
+      const itemIds = normalizeWardrobeItemIds(await getBatchOutfitItemIds())
       if (itemIds.length === 0) return
 
       if (

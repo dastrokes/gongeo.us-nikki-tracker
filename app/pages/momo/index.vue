@@ -215,8 +215,8 @@
             appear
           >
             <div
-              v-if="!loading && !error && entries.length > 0"
-              key="grid"
+              v-if="!error && entries.length > 0"
+              :key="listingAnimationKey"
               class="grid grid-cols-3 gap-2 sm:grid-cols-6 sm:content-start sm:gap-3"
             >
               <NuxtLinkLocale
@@ -333,12 +333,15 @@
   import type { SelectOption } from 'naive-ui'
   import { h, type Component } from 'vue'
 
+  definePageMeta({
+    key: 'momo-listing',
+  })
+
   const { t, locale, getLocaleMessage } = useI18n()
   const localePath = useLocalePath()
   const route = useRoute()
   const router = useRouter()
   const { getImageSrc } = imageProvider()
-  const { fetchMomoPaginated } = useMomo()
 
   const routeSeoFilter = computed(() =>
     getSeoListRouteFilter(route.path, 'momo')
@@ -438,27 +441,25 @@
         versionFilter.value ?? 'all'
       }-${obtainFilter.value ?? 'all'}-${currentPage.value}-${pageSize}`
   )
-
   const {
     data,
-    pending: loading,
+    pending: isListingPending,
+    status: requestStatus,
     error,
     refresh: loadData,
-  } = await useAsyncData(
-    () => cacheKey.value,
-    () =>
-      fetchMomoPaginated({
+  } = await useStaticCatalogListing<MomoListEntry>({
+    key: () => cacheKey.value,
+    query: () => ({
+      entity: 'momo',
+      filters: {
         quality: qualityFilter.value,
         version: versionFilter.value,
         source: obtainFilter.value,
-        page: currentPage.value,
-        pageSize,
-      }),
-    {
-      default: () => ({ data: [], total: 0, page: 1, totalPages: 0 }),
-      lazy: true,
-    }
-  )
+      },
+      page: currentPage.value,
+      pageSize,
+    }),
+  })
 
   const entries = computed(() => {
     const rows = (data.value?.data || []) as MomoListEntry[]
@@ -470,6 +471,15 @@
       version: entry.version ?? null,
     }))
   })
+  const loading = computed(() =>
+    isListingInitialLoading({
+      error: error.value,
+      entryCount: entries.value.length,
+      pending: isListingPending.value,
+      status: requestStatus.value,
+    })
+  )
+  const listingAnimationKey = computed(() => cacheKey.value)
 
   const totalItems = computed(() => data.value?.total || 0)
   const TIER_ENTRY_LIMIT = 200

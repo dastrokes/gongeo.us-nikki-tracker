@@ -1,6 +1,20 @@
 export const LISTING_CRITICAL_IMAGE_COUNT = 6
 export const BANNER_RAIL_INITIAL_IMAGE_COUNT = 8
 
+type ListingAsyncStatus = 'idle' | 'pending' | 'success' | 'error'
+
+export const isListingInitialLoading = ({
+  error,
+  entryCount,
+  pending,
+  status,
+}: {
+  error: unknown
+  entryCount: number
+  pending: boolean
+  status: ListingAsyncStatus | string
+}) => !error && entryCount === 0 && (status === 'idle' || pending)
+
 export const getListingImageLoading = (
   index: number,
   eagerCount = LISTING_CRITICAL_IMAGE_COUNT
@@ -12,9 +26,14 @@ export const getListingImageFetchPriority = (index: number) =>
 export const getListingCardAnimationClass = (_index: number) =>
   'animate-fade-in-up motion-reduce:animate-none'
 
-export const getListingCardAnimationStyle = (index: number) => ({
-  animationDelay: `${Math.min(index + 1, 9) * 0.05}s`,
-})
+export const getListingCardAnimationStyle = (index: number) => {
+  const delay = `${Math.min(index + 1, 9) * 50}ms`
+
+  return {
+    '--animate-fade-in-up': `fade-in-up 0.5s ease-out ${delay} backwards`,
+    '--listing-animation-delay': delay,
+  }
+}
 
 export const getListingQualityOverlayClass = (quality: number) => {
   switch (quality) {

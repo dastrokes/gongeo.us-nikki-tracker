@@ -198,7 +198,7 @@
 
         <div class="grid grid-cols-2 gap-2 sm:grid-cols-2 xl:grid-cols-4">
           <n-select
-            v-model:value="typeFilter"
+            :value="typeFilter"
             :options="typeOptions"
             size="small"
             class="min-w-0"
@@ -206,11 +206,13 @@
             filterable
             :show-checkmark="false"
             :placeholder="t('compendium.filter_slot')"
+            @update:value="updateTypeFilter"
           />
 
           <n-select
             v-model:value="categoryFilter"
             :options="categoryOptions"
+            :fallback-option="getCategoryFallbackOption"
             size="small"
             class="min-w-0"
             clearable
@@ -223,6 +225,7 @@
           <n-select
             v-model:value="subcategoryFilter"
             :options="subcategoryOptions"
+            :fallback-option="getSubcategoryFallbackOption"
             size="small"
             class="min-w-0"
             clearable
@@ -365,8 +368,8 @@
             appear
           >
             <div
-              v-if="!loading && !error && entries.length > 0"
-              key="grid"
+              v-if="!error && entries.length > 0"
+              :key="listingAnimationKey"
               class="grid grid-cols-3 gap-2 sm:grid-cols-6 sm:content-start sm:gap-3"
             >
               <div
@@ -554,6 +557,10 @@
   import { NIcon } from 'naive-ui'
   import type { SelectGroupOption, SelectOption } from 'naive-ui'
   import { h, type Component } from 'vue'
+
+  definePageMeta({
+    key: 'items-listing',
+  })
 
   const { t, locale, getLocaleMessage } = useI18n()
   const dialog = useDialog()
@@ -855,7 +862,7 @@
     )
   )
   const isAdvancedFiltersDrawerOpen = ref(false)
-  const currentPage = ref(Number(route.query.page) || 1)
+  const currentPage = ref(normalizeCatalogListingPage(route.query.page))
   type ItemWardrobeFilter = 'all' | 'owned' | 'missing'
   type BatchScope = 'selected' | 'page' | 'all'
   const resolveWardrobeFilter = (value?: string | null): ItemWardrobeFilter => {
@@ -871,6 +878,7 @@
 
   const {
     initialized: wardrobeInitialized,
+    ownedItemIds,
     saving: wardrobeSaving,
     error: storageError,
     canMutate: isWardrobeReady,
@@ -940,8 +948,16 @@
       activeAdvancedFilterCount.value > 0
   )
 
-  const { fetchItemsPaginated, fetchItemSearchFacets, fetchItemIds } =
-    useSupabaseItems()
+  const { fetchItemSearchFacets } = useSupabaseItems()
+
+  type ItemFacetData = ItemSearchFacetResponse & { cacheKey: string }
+
+  const createEmptyFacetData = (cacheKey: string): ItemFacetData => ({
+    categories: [],
+    subcategories: [],
+    advanced: {},
+    cacheKey,
+  })
 
   const facetCacheKey = computed(() =>
     shouldFetchFacets.value
@@ -954,7 +970,6 @@
         }-${obtainFilter.value ?? 'all'}`
       : 'item-facets-disabled'
   )
-
   const cacheKey = computed(
     () =>
       `items-${qualityFilter.value ?? 'all'}-${typeFilter.value ?? 'all'}-${
@@ -969,7 +984,6 @@
         currentPage.value
       }-${pageSize}`
   )
-
   const buildItemFetchFilters = () => ({
     quality: qualityFilter.value,
     type: typeFilter.value,
@@ -982,53 +996,24 @@
     ...activeAdvancedFilters.value,
   })
 
-  const filterItemIdsByWardrobe = (itemIds: number[]) => {
-    if (wardrobeFilter.value === 'all') return itemIds
-    return itemIds.filter((itemId) => {
-      const owned = isItemOwned(itemId)
-      return wardrobeFilter.value === 'owned' ? owned : !owned
-    })
-  }
-
-  const fetchWardrobeFilteredItems = async () => {
-    if (import.meta.client && !wardrobeInitialized.value) {
-      await initWardrobe()
-    }
-
-    if (storageError.value) {
-      throw storageError.value
-    }
-
-    const idResponse = await fetchItemIds(buildItemFetchFilters())
-    const filteredIds = filterItemIdsByWardrobe(idResponse.itemIds)
-    const start = (currentPage.value - 1) * pageSize
-    const pageIds = filteredIds.slice(start, start + pageSize)
-    const hydrated =
-      pageIds.length > 0
-        ? await fetchItemsPaginated({ ids: pageIds, page: 1, pageSize })
-        : { data: [], page: currentPage.value, total: 0, totalPages: 0 }
-
-    return {
-      data: hydrated.data,
-      total: filteredIds.length,
-      page: currentPage.value,
-      totalPages: Math.ceil(filteredIds.length / pageSize),
-    }
-  }
+  const catalogListingQuery = computed(() => ({
+    entity: 'item' as const,
+    filters: buildItemFetchFilters(),
+    page: currentPage.value,
+    pageSize,
+    ownershipMode: wardrobeFilter.value,
+  }))
 
   const [facetsAsyncData, itemsAsyncData] = await Promise.all([
     useAsyncData(
-      () => facetCacheKey.value,
+      'items-facets',
       async () => {
+        const requestFacetCacheKey = facetCacheKey.value
         if (!shouldFetchFacets.value) {
-          return {
-            categories: [],
-            subcategories: [],
-            advanced: {},
-          }
+          return createEmptyFacetData(requestFacetCacheKey)
         }
 
-        return fetchItemSearchFacets({
+        const facets = await fetchItemSearchFacets({
           quality: qualityFilter.value,
           type: typeFilter.value,
           category: supportsCategoryFilters.value ? categoryFilter.value : null,
@@ -1041,58 +1026,45 @@
           source: obtainFilter.value,
           ...activeAdvancedFilters.value,
         })
-      },
-      {
-        default: () => ({
-          categories: [],
-          subcategories: [],
-          advanced: {},
-        }),
-        lazy: true,
-      }
-    ),
-    useAsyncData(
-      () => cacheKey.value,
-      async () => {
-        wardrobeModeError.value = null
-        try {
-          if (wardrobeFilter.value !== 'all') {
-            if (import.meta.server) {
-              return {
-                data: [],
-                total: 0,
-                page: currentPage.value,
-                totalPages: 0,
-              }
-            }
-            return await fetchWardrobeFilteredItems()
-          }
 
-          return fetchItemsPaginated({
-            ...buildItemFetchFilters(),
-            page: currentPage.value,
-          })
-        } catch (caughtError) {
-          wardrobeModeError.value = toError(
-            caughtError,
-            'Failed to load wardrobe item mode'
-          )
-          throw wardrobeModeError.value
+        return {
+          ...facets,
+          cacheKey: requestFacetCacheKey,
         }
       },
       {
-        default: () => ({ data: [], total: 0, totalPages: 0 }),
+        default: () => createEmptyFacetData(facetCacheKey.value),
+        dedupe: 'defer',
+        deep: false,
         lazy: true,
+        server: false,
+        watch: [facetCacheKey],
       }
     ),
+    useCatalogListing<ItemListEntry>({
+      key: cacheKey,
+      query: catalogListingQuery,
+      wardrobe: {
+        initialized: wardrobeInitialized,
+        storageError,
+        ownedItemIds,
+        init: initWardrobe,
+        isItemOwned,
+      },
+      onWardrobeModeError: (nextError) => {
+        wardrobeModeError.value = nextError
+      },
+    }),
   ])
 
-  const { data: itemSearchFacets, status: facetsStatus } = facetsAsyncData
+  const { data: itemSearchFacets } = facetsAsyncData
   const {
     data: compendiumData,
-    pending: loading,
+    pending: isListingPending,
+    status: requestStatus,
     error,
     refresh: loadData,
+    fetchMatchingIds: fetchMatchingItemIds,
   } = itemsAsyncData
 
   const entries = computed(() => {
@@ -1112,6 +1084,15 @@
       })),
     }))
   })
+  const loading = computed(() =>
+    isListingInitialLoading({
+      error: error.value,
+      entryCount: entries.value.length,
+      pending: isListingPending.value,
+      status: requestStatus.value,
+    })
+  )
+  const listingAnimationKey = computed(() => cacheKey.value)
 
   watch(entries, () => {
     if (!editMode.value) return
@@ -1333,8 +1314,8 @@
       return entries.value.map((entry) => entry.id)
     }
 
-    const idResponse = await fetchItemIds(buildItemFetchFilters())
-    return filterItemIdsByWardrobe(idResponse.itemIds)
+    const idResponse = await fetchMatchingItemIds()
+    return idResponse.ids
   }
 
   const confirmAllMatching = (owned: boolean, count: number) =>
@@ -1418,22 +1399,25 @@
     })
   }
 
-  watch(qualityFilter, () => {
-    currentPage.value = 1
-  })
+  const updateTypeFilter = (nextType: string | null) => {
+    if (nextType === typeFilter.value) return
 
-  watch(typeFilter, () => {
-    currentPage.value = 1
     categoryFilter.value = null
     subcategoryFilter.value = null
     advancedFilters.value = createEmptyItemSearchAdvancedFilters()
     isAdvancedFiltersDrawerOpen.value = false
+    currentPage.value = 1
+    typeFilter.value = nextType
+  }
+
+  watch(qualityFilter, () => {
+    currentPage.value = 1
   })
 
   watch([routeItemType, () => route.query.type], () => {
     const nextType = resolveRouteTypeFilter()
     if (nextType !== typeFilter.value) {
-      typeFilter.value = nextType
+      updateTypeFilter(nextType)
     }
   })
 
@@ -1577,7 +1561,7 @@
 
   const clearFilters = () => {
     qualityFilter.value = null
-    typeFilter.value = null
+    updateTypeFilter(null)
     categoryFilter.value = null
     subcategoryFilter.value = null
     versionFilter.value = null
@@ -1655,20 +1639,31 @@
     return options
   })
 
-  const availableCategories = computed(
-    () => itemSearchFacets.value?.categories ?? []
+  const isCurrentFacetDataReady = computed(
+    () => itemSearchFacets.value?.cacheKey === facetCacheKey.value
   )
 
-  const availableSubcategories = computed(
-    () => itemSearchFacets.value?.subcategories ?? []
+  const availableCategories = computed(() =>
+    isCurrentFacetDataReady.value
+      ? (itemSearchFacets.value?.categories ?? [])
+      : []
   )
-  const advancedFacetOptions = computed<ItemSearchAdvancedFacetMap>(
-    () => itemSearchFacets.value?.advanced ?? {}
+
+  const availableSubcategories = computed(() =>
+    isCurrentFacetDataReady.value
+      ? (itemSearchFacets.value?.subcategories ?? [])
+      : []
+  )
+  const advancedFacetOptions = computed<ItemSearchAdvancedFacetMap>(() =>
+    isCurrentFacetDataReady.value
+      ? (itemSearchFacets.value?.advanced ?? {})
+      : {}
   )
 
   watch(
-    availableCategories,
-    (nextCategories) => {
+    [availableCategories, isCurrentFacetDataReady],
+    ([nextCategories, isReady]) => {
+      if (!isReady) return
       if (!categoryFilter.value) return
 
       const resolved = resolveItemSearchFacetValue(
@@ -1689,8 +1684,9 @@
   )
 
   watch(
-    availableSubcategories,
-    (nextSubcategories) => {
+    [availableSubcategories, isCurrentFacetDataReady],
+    ([nextSubcategories, isReady]) => {
+      if (!isReady) return
       if (!subcategoryFilter.value) return
 
       const resolved = resolveItemSearchFacetValue(
@@ -1710,7 +1706,7 @@
   )
 
   const validateAdvancedFilters = () => {
-    if (typeFilter.value && facetsStatus.value !== 'success') {
+    if (typeFilter.value && !isCurrentFacetDataReady.value) {
       return
     }
 
@@ -1759,7 +1755,7 @@
     [
       advancedFilterFields,
       () => JSON.stringify(advancedFacetOptions.value),
-      facetsStatus,
+      isCurrentFacetDataReady,
     ],
     validateAdvancedFilters,
     { immediate: true }
@@ -1795,6 +1791,30 @@
       value,
     }))
   )
+  const getCategoryFallbackOption = (value: string | number) => {
+    const normalizedValue = normalizeItemSearchTokenKey(String(value))
+    return {
+      label:
+        normalizedValue === ITEM_SEARCH_UNCATEGORIZED_VALUE
+          ? t('compendium.uncategorized')
+          : translateFilterToken('category', normalizedValue, typeFilter.value),
+      value,
+    }
+  }
+  const getSubcategoryFallbackOption = (value: string | number) => {
+    const normalizedValue = normalizeItemSearchTokenKey(String(value))
+    return {
+      label:
+        normalizedValue === ITEM_SEARCH_UNCATEGORIZED_VALUE
+          ? t('compendium.uncategorized')
+          : translateFilterToken(
+              'subcategory',
+              normalizedValue,
+              typeFilter.value
+            ),
+      value,
+    }
+  }
 
   const styleOptions = computed(() =>
     STYLE_DEFINITIONS.map((style) => ({

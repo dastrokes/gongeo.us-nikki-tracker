@@ -213,6 +213,7 @@
             v-model:value="categoryFilter"
             :options="categoryOptions"
             :fallback-option="getCategoryFallbackOption"
+            :loading="isFacetOptionsRefreshing"
             size="small"
             class="min-w-0"
             clearable
@@ -226,6 +227,7 @@
             v-model:value="subcategoryFilter"
             :options="subcategoryOptions"
             :fallback-option="getSubcategoryFallbackOption"
+            :loading="isFacetOptionsRefreshing"
             size="small"
             class="min-w-0"
             clearable
@@ -536,6 +538,7 @@
       :show="isAdvancedFiltersDrawerOpen"
       :fields="advancedFilterFields"
       :filters="advancedFilters"
+      :loading="isFacetOptionsRefreshing"
       :options="advancedFacetOptions"
       ignore-close-selector="[data-advanced-filters-trigger]"
       @update:show="isAdvancedFiltersDrawerOpen = $event"
@@ -1034,7 +1037,7 @@
       },
       {
         default: () => createEmptyFacetData(facetCacheKey.value),
-        dedupe: 'defer',
+        dedupe: 'cancel',
         deep: false,
         lazy: true,
         server: false,
@@ -1642,26 +1645,58 @@
   const isCurrentFacetDataReady = computed(
     () => itemSearchFacets.value?.cacheKey === facetCacheKey.value
   )
+  const isFacetOptionsRefreshing = computed(
+    () => shouldFetchFacets.value && !isCurrentFacetDataReady.value
+  )
+  const lastReadyFacetData = shallowRef<ItemFacetData | null>(null)
+  const lastReadyFacetType = ref<string | null>(null)
 
-  const availableCategories = computed(() =>
+  watch(
+    [itemSearchFacets, isCurrentFacetDataReady],
+    ([nextFacets, isReady]) => {
+      if (!isReady || !nextFacets) return
+      lastReadyFacetData.value = nextFacets
+      lastReadyFacetType.value = typeFilter.value
+    },
+    { immediate: true }
+  )
+
+  const currentAvailableCategories = computed(() =>
     isCurrentFacetDataReady.value
       ? (itemSearchFacets.value?.categories ?? [])
       : []
   )
 
-  const availableSubcategories = computed(() =>
+  const currentAvailableSubcategories = computed(() =>
     isCurrentFacetDataReady.value
       ? (itemSearchFacets.value?.subcategories ?? [])
       : []
   )
-  const advancedFacetOptions = computed<ItemSearchAdvancedFacetMap>(() =>
+  const currentAdvancedFacetOptions = computed<ItemSearchAdvancedFacetMap>(
+    () =>
+      isCurrentFacetDataReady.value
+        ? (itemSearchFacets.value?.advanced ?? {})
+        : {}
+  )
+  const displayFacetData = computed(() =>
     isCurrentFacetDataReady.value
-      ? (itemSearchFacets.value?.advanced ?? {})
-      : {}
+      ? (itemSearchFacets.value ?? null)
+      : lastReadyFacetType.value === typeFilter.value
+        ? lastReadyFacetData.value
+        : null
+  )
+  const availableCategories = computed(
+    () => displayFacetData.value?.categories ?? []
+  )
+  const availableSubcategories = computed(
+    () => displayFacetData.value?.subcategories ?? []
+  )
+  const advancedFacetOptions = computed<ItemSearchAdvancedFacetMap>(
+    () => displayFacetData.value?.advanced ?? {}
   )
 
   watch(
-    [availableCategories, isCurrentFacetDataReady],
+    [currentAvailableCategories, isCurrentFacetDataReady],
     ([nextCategories, isReady]) => {
       if (!isReady) return
       if (!categoryFilter.value) return
@@ -1684,7 +1719,7 @@
   )
 
   watch(
-    [availableSubcategories, isCurrentFacetDataReady],
+    [currentAvailableSubcategories, isCurrentFacetDataReady],
     ([nextSubcategories, isReady]) => {
       if (!isReady) return
       if (!subcategoryFilter.value) return
@@ -1731,7 +1766,7 @@
         const resolved = getItemSearchAdvancedFacetValue(
           field,
           value,
-          advancedFacetOptions.value
+          currentAdvancedFacetOptions.value
         )
         if (!hasActiveItemSearchAdvancedFilterValue(resolved)) {
           nextFilters[field] = isItemSearchArrayField(field) ? [] : null
@@ -1754,7 +1789,7 @@
   watch(
     [
       advancedFilterFields,
-      () => JSON.stringify(advancedFacetOptions.value),
+      () => JSON.stringify(currentAdvancedFacetOptions.value),
       isCurrentFacetDataReady,
     ],
     validateAdvancedFilters,

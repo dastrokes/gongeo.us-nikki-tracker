@@ -27,6 +27,7 @@
         :value="Array.isArray(filters[field]) ? filters[field] : []"
         :options="buildOptions(field)"
         :fallback-option="(value) => getFallbackOption(field, value)"
+        :loading="loading"
         size="small"
         multiple
         clearable
@@ -53,6 +54,7 @@
         "
         :options="buildOptions(field)"
         :fallback-option="(value) => getFallbackOption(field, value)"
+        :loading="loading"
         size="small"
         clearable
         filterable
@@ -74,6 +76,7 @@
   const props = defineProps<{
     fields: ItemSearchAdvancedField[]
     filters: ItemSearchAdvancedFilters
+    loading?: boolean
     options: ItemSearchAdvancedFacetMap
   }>()
 

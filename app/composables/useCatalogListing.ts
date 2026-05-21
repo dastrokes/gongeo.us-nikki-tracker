@@ -32,6 +32,11 @@ type UseCatalogListingOptions = {
   onWardrobeModeError?: (error: Error | null) => void
 }
 
+type KeyedCatalogListingResult<TEntry> =
+  CatalogListingHydratedResult<TEntry> & {
+    cacheKey: string
+  }
+
 const resolveReactiveInput = <T>(input: ReactiveInput<T>) => {
   if (typeof input === 'function') {
     return (input as () => T)()
@@ -57,6 +62,13 @@ export const useCatalogListing = async <
 
   const getQuery = () => resolveReactiveInput(query)
   const getKey = () => resolveReactiveInput(key)
+  const createDefaultData = (): KeyedCatalogListingResult<TEntry> => {
+    const currentQuery = getQuery()
+    return {
+      ...createEmptyCatalogListingResult<TEntry>(currentQuery.page),
+      cacheKey: getKey(),
+    }
+  }
   const getWardrobeAccess = () => ({
     ownedItemIds: wardrobe.ownedItemIds?.value,
     isItemOwned: wardrobe.isItemOwned,
@@ -161,14 +173,16 @@ export const useCatalogListing = async <
     return {}
   }
 
-  const fetchListing = async (): Promise<
-    CatalogListingHydratedResult<TEntry>
-  > => {
+  const fetchListing = async (): Promise<KeyedCatalogListingResult<TEntry>> => {
     const currentQuery = getQuery()
+    const currentKey = getKey()
     onWardrobeModeError?.(null)
 
     try {
-      return await tryFetchLocalListing(currentQuery)
+      return {
+        ...(await tryFetchLocalListing(currentQuery)),
+        cacheKey: currentKey,
+      }
     } catch (caughtError) {
       const normalizedError = toError(
         caughtError,
@@ -184,17 +198,28 @@ export const useCatalogListing = async <
     () => `catalog-listing-${getQuery().entity}`,
     fetchListing,
     {
-      default: () => createEmptyCatalogListingResult<TEntry>(getQuery().page),
-      dedupe: 'defer',
+      default: createDefaultData,
+      dedupe: 'cancel',
       deep: false,
       lazy: true,
       server: false,
       watch: [refreshKey],
     }
   )
+  const isCurrentDataReady = computed(
+    () => asyncData.data.value?.cacheKey === refreshKey.value
+  )
+  const currentData = computed(() =>
+    isCurrentDataReady.value ? asyncData.data.value : createDefaultData()
+  )
+  const currentPending = computed(
+    () => asyncData.pending.value || !isCurrentDataReady.value
+  )
 
   return {
     ...asyncData,
+    data: currentData,
+    pending: currentPending,
     fetchMatchingIds,
     fetchOutfitRelations,
   }

@@ -43,6 +43,7 @@
           v-if="visibleFields.length > 0"
           :fields="visibleFields"
           :filters="filters"
+          :loading="loading"
           :options="options"
           @update:filters="emit('update:filters', $event)"
         />
@@ -63,6 +64,7 @@
     show: boolean
     fields: ItemSearchAdvancedField[]
     filters: ItemSearchAdvancedFilters
+    loading?: boolean
     options: ItemSearchAdvancedFacetMap
     ignoreCloseSelector?: string
   }>()

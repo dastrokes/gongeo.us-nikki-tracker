@@ -6,6 +6,11 @@ type UseStaticCatalogListingOptions = {
   onError?: (error: Error | null) => void
 }
 
+type KeyedStaticCatalogListingResult<TEntry> =
+  CatalogListingHydratedResult<TEntry> & {
+    cacheKey: string
+  }
+
 const resolveStaticReactiveInput = <T>(input: StaticReactiveInput<T>) => {
   if (typeof input === 'function') {
     return (input as () => T)()
@@ -30,13 +35,23 @@ export const useStaticCatalogListing = async <
 
   const getQuery = () => resolveStaticReactiveInput(query)
   const getKey = () => resolveStaticReactiveInput(key)
-
-  const fetchListing = async () => {
+  const createDefaultData = (): KeyedStaticCatalogListingResult<TEntry> => {
     const currentQuery = getQuery()
+    return {
+      ...createEmptyCatalogListingResult<TEntry>(currentQuery.page),
+      cacheKey: getKey(),
+    }
+  }
+
+  const fetchListing = async (): Promise<
+    KeyedStaticCatalogListingResult<TEntry>
+  > => {
+    const currentQuery = getQuery()
+    const currentKey = getKey()
     onError?.(null)
 
     if (import.meta.server) {
-      return createEmptyCatalogListingResult<TEntry>(currentQuery.page)
+      return createDefaultData()
     }
 
     try {
@@ -53,11 +68,14 @@ export const useStaticCatalogListing = async <
         throw new Error('Catalog index is unavailable')
       }
 
-      return getLocalStaticCatalogListing<TEntry>({
-        query: currentQuery,
-        index,
-        attributeMatchingIds,
-      })
+      return {
+        ...getLocalStaticCatalogListing<TEntry>({
+          query: currentQuery,
+          index,
+          attributeMatchingIds,
+        }),
+        cacheKey: currentKey,
+      }
     } catch (caughtError) {
       const normalizedError = toError(
         caughtError,
@@ -70,16 +88,32 @@ export const useStaticCatalogListing = async <
 
   const refreshKey = computed(getKey)
 
-  return await useAsyncData(
+  const asyncData = await useAsyncData(
     () => `static-catalog-listing-${getQuery().entity}`,
     fetchListing,
     {
-      default: () => createEmptyCatalogListingResult<TEntry>(getQuery().page),
-      dedupe: 'defer',
+      default: createDefaultData,
+      dedupe: 'cancel',
       deep: false,
       lazy: true,
       server: false,
       watch: [refreshKey],
     }
   )
+
+  const isCurrentDataReady = computed(
+    () => asyncData.data.value?.cacheKey === refreshKey.value
+  )
+  const currentData = computed(() =>
+    isCurrentDataReady.value ? asyncData.data.value : createDefaultData()
+  )
+  const currentPending = computed(
+    () => asyncData.pending.value || !isCurrentDataReady.value
+  )
+
+  return {
+    ...asyncData,
+    data: currentData,
+    pending: currentPending,
+  }
 }

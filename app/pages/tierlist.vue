@@ -1534,7 +1534,7 @@
     },
     {
       default: () => createEmptyTierItemFacetData(itemFacetCacheKey.value),
-      dedupe: 'defer',
+      dedupe: 'cancel',
       deep: false,
       lazy: true,
       server: false,

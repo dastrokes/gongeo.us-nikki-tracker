@@ -32,6 +32,8 @@
               :disabled="!isWardrobeReady"
             />
 
+            <CatalogVariationToggle v-model:value="variationFilter" />
+
             <div class="hidden min-w-0 overflow-x-auto sm:block">
               <n-button-group class="min-w-max">
                 <n-button
@@ -200,6 +202,19 @@
       </div>
     </n-card>
 
+    <WardrobeBatchToolbar
+      v-if="editMode"
+      v-model:scope="batchScope"
+      :edit-mode="editMode"
+      :selected-count="selectedOutfitIds.size"
+      :page-count="entries.length"
+      :all-matching-count="totalItems"
+      :disabled="!isWardrobeReady || loading"
+      @mark-owned="applyBatchOwnership(true)"
+      @mark-unowned="applyBatchOwnership(false)"
+      @clear-selection="clearSelection"
+    />
+
     <!-- Grid Card -->
     <n-card
       size="small"
@@ -208,19 +223,6 @@
     >
       <div class="min-h-0 sm:flex sm:flex-1 sm:flex-col">
         <div class="space-y-3 sm:space-y-4">
-          <WardrobeBatchToolbar
-            v-if="editMode"
-            v-model:scope="batchScope"
-            :edit-mode="editMode"
-            :selected-count="selectedOutfitIds.size"
-            :page-count="entries.length"
-            :all-matching-count="totalItems"
-            :disabled="!isWardrobeReady || loading"
-            @mark-owned="applyBatchOwnership(true)"
-            @mark-unowned="applyBatchOwnership(false)"
-            @clear-selection="clearSelection"
-          />
-
           <div
             v-if="wardrobeError"
             class="py-12 text-center"
@@ -301,7 +303,7 @@
                 class="group relative block cursor-pointer"
                 :class="getListingCardAnimationClass(index)"
                 :style="getListingCardAnimationStyle(index)"
-                @click="handleOutfitCardClick(entry.id)"
+                @click="handleOutfitCardClick(entry.id, $event)"
               >
                 <OutfitCard
                   :outfit-id="entry.id"
@@ -310,38 +312,54 @@
                   :style-key="entry.styleKey"
                   :labels="entry.labels"
                   :show-info="true"
+                  :meta="
+                    editMode ? 'edit' : entry.progress ? 'status' : 'default'
+                  "
                   :loading="getListingImageLoading(index)"
                   :fetchpriority="getListingImageFetchPriority(index)"
                   class="transition-shadow duration-300 group-hover:shadow-xl"
-                  :class="
+                  :style="
                     selectedOutfitIds.has(entry.id)
-                      ? 'ring-2 ring-sky-500 ring-offset-2 ring-offset-white dark:ring-offset-gray-950'
-                      : ''
+                      ? getQualityRingStyle(entry.quality)
+                      : undefined
                   "
                 />
                 <div class="absolute top-2 left-2 z-30">
                   <n-checkbox
                     v-if="editMode"
                     :checked="selectedOutfitIds.has(entry.id)"
+                    :theme-overrides="
+                      getWardrobeSelectionCheckboxTheme(entry.quality)
+                    "
+                    :aria-label="t('common.select')"
                     @click.stop
                     @update:checked="toggleSelection(entry.id)"
                   />
+                </div>
+                <div
+                  v-if="entry.progress && !editMode"
+                  class="absolute right-2 bottom-2 z-30"
+                  @click.stop
+                >
                   <WardrobeStatusBadge
-                    v-else-if="entry.progress"
                     :status="entry.progress.status"
                     :owned="entry.progress.owned"
                     :total="entry.progress.total"
+                    variant="overlay"
                   />
                 </div>
                 <div
-                  v-if="entry.itemIds.length > 0"
-                  class="absolute top-11 left-2 z-30"
+                  v-else-if="
+                    wardrobeInitialized && editMode && entry.itemIds.length > 0
+                  "
+                  class="absolute right-2 bottom-2 z-30"
                   @click.stop
                 >
                   <WardrobeOwnedButton
                     :owned="entry.progress?.status === 'owned'"
                     :disabled="!isWardrobeReady"
-                    :loading="wardrobeSaving"
+                    :loading="isOutfitToggleLoading(entry.id)"
+                    variant="overlay"
                     @toggle="toggleVisibleOutfitOwned(entry.id)"
                   />
                 </div>
@@ -526,6 +544,32 @@
         : Number(value)
     return resolveSeoOutfitQualitySlug(parsed) !== null ? parsed : null
   }
+  type CatalogVariationFilter =
+    | 'base'
+    | 'all'
+    | 'glowup'
+    | 'evo1'
+    | 'evo2'
+    | 'evo3'
+    | 'all-evos'
+
+  const variationFilterValues = new Set<CatalogVariationFilter>([
+    'base',
+    'all',
+    'glowup',
+    'evo1',
+    'evo2',
+    'evo3',
+    'all-evos',
+  ])
+  const resolveVariationFilter = (
+    value?: string | null
+  ): CatalogVariationFilter => {
+    if (value === 'show' || value === 'true' || value === '1') return 'all'
+    return variationFilterValues.has(value as CatalogVariationFilter)
+      ? (value as CatalogVariationFilter)
+      : 'base'
+  }
   const resolveRouteQualityFilter = () =>
     routeQualityFilter.value ??
     resolveQuality(route.query.quality?.toString() ?? null)
@@ -545,6 +589,9 @@
   const styleFilter = ref<string | null>(resolveRouteStyleFilter())
   const labelFilter = ref<string | null>(resolveRouteLabelFilter())
   const obtainFilter = ref<string | null>(resolveRouteSourceFilter())
+  const variationFilter = ref<CatalogVariationFilter>(
+    resolveVariationFilter(route.query.variations?.toString() ?? null)
+  )
   const activeSourceLabel = computed(() => {
     const labelKey = resolveObtainGroupLabelKey(obtainFilter.value)
     if (!labelKey) return null
@@ -625,10 +672,10 @@
   const editMode = ref(false)
   const batchScope = ref<BatchScope>('selected')
   const selectedOutfitIds = ref<Set<number>>(new Set())
+  const togglingOutfitIds = ref<Set<number>>(new Set())
   const {
     initialized: wardrobeInitialized,
     ownedItemIds,
-    saving: wardrobeSaving,
     error: storageError,
     canMutate: isWardrobeReady,
     mutationVersion: wardrobeMutationVersion,
@@ -650,6 +697,7 @@
       styleFilter.value !== null ||
       labelFilter.value !== null ||
       obtainFilter.value !== null ||
+      variationFilter.value !== 'base' ||
       wardrobeFilter.value !== 'all'
   )
 
@@ -658,8 +706,10 @@
       `outfits-${qualityFilter.value ?? 'all'}-${styleFilter.value ?? 'all'}-${
         labelFilter.value ?? 'all'
       }-${versionFilter.value ?? 'all'}-${obtainFilter.value ?? 'all'}-${
-        wardrobeFilter.value
-      }-${wardrobeMutationVersion.value}-${currentPage.value}-${pageSize}`
+        variationFilter.value
+      }-${wardrobeFilter.value}-${wardrobeMutationVersion.value}-${
+        currentPage.value
+      }-${pageSize}`
   )
   const buildOutfitFetchFilters = () => ({
     quality: qualityFilter.value,
@@ -667,6 +717,7 @@
     style: styleFilter.value,
     label: labelFilter.value,
     source: obtainFilter.value,
+    variations: variationFilter.value,
   })
 
   const catalogListingQuery = computed(() => ({
@@ -837,6 +888,9 @@
       labelFilter.value && { label: labelFilter.value }),
     ...(primaryFilter !== 'source' &&
       obtainFilter.value && { source: obtainFilter.value }),
+    ...(variationFilter.value !== 'base' && {
+      variations: variationFilter.value,
+    }),
     ...(wardrobeFilter.value !== 'all' && { wardrobe: wardrobeFilter.value }),
     ...(includePage && currentPage.value > 1 && { page: currentPage.value }),
   })
@@ -849,6 +903,9 @@
     ...(versionFilter.value && { version: versionFilter.value }),
     ...(styleFilter.value && { style: styleFilter.value }),
     ...(obtainFilter.value && { source: obtainFilter.value }),
+    ...(variationFilter.value !== 'base' && {
+      variations: variationFilter.value,
+    }),
     ...(includePage && currentPage.value > 1 && { page: currentPage.value }),
   })
 
@@ -893,7 +950,59 @@
     selectedOutfitIds.value = new Set()
   }
 
-  const handleOutfitCardClick = (outfitId: number) => {
+  const getWardrobeSelectionCheckboxTheme = (quality: number) => {
+    const color = getQualityColor(quality)
+    return {
+      color: `${color}22`,
+      colorChecked: color,
+      border: `1px solid ${color}AA`,
+      borderChecked: `1px solid ${color}`,
+      borderFocus: `1px solid ${color}`,
+      boxShadowFocus: 'none',
+      checkMarkColor: '#ffffff',
+    }
+  }
+
+  const setOutfitToggleLoading = (outfitId: number, loading: boolean) => {
+    const nextIds = new Set(togglingOutfitIds.value)
+    if (loading) {
+      nextIds.add(outfitId)
+    } else {
+      nextIds.delete(outfitId)
+    }
+    togglingOutfitIds.value = nextIds
+  }
+
+  const isOutfitToggleLoading = (outfitId: number) =>
+    togglingOutfitIds.value.has(outfitId)
+
+  const toggleVisibleOutfitOwned = async (outfitId: number) => {
+    if (isOutfitToggleLoading(outfitId)) return
+
+    const entry = entries.value.find((candidate) => candidate.id === outfitId)
+    if (!entry?.itemIds.length) return
+
+    setOutfitToggleLoading(outfitId, true)
+    try {
+      await markOutfitOwned(entry.itemIds, entry.progress?.status !== 'owned')
+    } catch {
+      message.error(t('wardrobe.error.save'))
+    } finally {
+      setOutfitToggleLoading(outfitId, false)
+    }
+  }
+
+  const isListingCardControlClick = (event: MouseEvent) => {
+    const target = event.target
+    return (
+      target instanceof HTMLElement &&
+      Boolean(target.closest('button, input, label, [role="button"]'))
+    )
+  }
+
+  const handleOutfitCardClick = (outfitId: number, event: MouseEvent) => {
+    if (isListingCardControlClick(event)) return
+
     if (editMode.value) {
       toggleSelection(outfitId)
       return
@@ -951,16 +1060,6 @@
         onClose: () => resolve(false),
       })
     })
-
-  const toggleVisibleOutfitOwned = async (outfitId: number) => {
-    const entry = entries.value.find((candidate) => candidate.id === outfitId)
-    if (!entry?.itemIds.length) return
-    try {
-      await markOutfitOwned(entry.itemIds, entry.progress?.status !== 'owned')
-    } catch {
-      message.error(t('wardrobe.error.save'))
-    }
-  }
 
   const applyBatchOwnership = async (owned: boolean) => {
     try {
@@ -1051,6 +1150,10 @@
     currentPage.value = 1
   })
 
+  watch(variationFilter, () => {
+    currentPage.value = 1
+  })
+
   watch(wardrobeFilter, () => {
     currentPage.value = 1
   })
@@ -1094,6 +1197,18 @@
   })
 
   watch(
+    () => route.query.variations,
+    () => {
+      const nextVariations = resolveVariationFilter(
+        route.query.variations?.toString() ?? null
+      )
+      if (nextVariations !== variationFilter.value) {
+        variationFilter.value = nextVariations
+      }
+    }
+  )
+
+  watch(
     () => route.query.wardrobe,
     () => {
       const nextWardrobeFilter = resolveWardrobeFilter(
@@ -1112,6 +1227,7 @@
       styleFilter,
       labelFilter,
       obtainFilter,
+      variationFilter,
       wardrobeFilter,
       currentPage,
     ],
@@ -1143,6 +1259,7 @@
     styleFilter.value = null
     labelFilter.value = null
     obtainFilter.value = null
+    variationFilter.value = 'base'
     wardrobeFilter.value = 'all'
     currentPage.value = 1
   }

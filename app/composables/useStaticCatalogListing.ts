@@ -55,7 +55,7 @@ export const useStaticCatalogListing = async <
     }
 
     try {
-      await catalogIndex.load()
+      await catalogIndex.loadEntity(currentQuery.entity)
 
       const attributeMatchingIds =
         currentQuery.entity === 'item' &&

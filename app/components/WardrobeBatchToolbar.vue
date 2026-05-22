@@ -1,55 +1,78 @@
 <template>
-  <div
+  <n-card
     v-if="editMode"
-    class="sticky bottom-3 z-30 mx-auto flex w-[calc(100%-1rem)] max-w-4xl flex-wrap items-center justify-between gap-2 rounded-lg border border-gray-200 bg-white/95 p-2 shadow-lg backdrop-blur-sm dark:border-gray-700 dark:bg-gray-900/95"
+    size="small"
+    class="rounded-xl p-0 sm:p-2"
+    content-class="p-2 sm:p-4"
   >
-    <div class="flex min-w-0 flex-wrap items-center gap-2">
-      <n-radio-group
-        :value="scope"
-        size="small"
-        @update:value="$emit('update:scope', $event as WardrobeBatchScope)"
-      >
-        <n-radio-button
-          v-for="option in scopeOptions"
-          :key="option.value"
-          :value="option.value"
+    <div
+      class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"
+    >
+      <div class="flex min-w-0 flex-col gap-2 sm:flex-row sm:items-center">
+        <div class="min-w-0">
+          <div
+            class="text-xs font-semibold tracking-wide text-sky-600 uppercase dark:text-sky-300"
+          >
+            {{ t('wardrobe.batch.title') }}
+          </div>
+          <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
+            {{ activeCountLabel }}
+          </div>
+        </div>
+        <n-radio-group
+          :value="scope"
+          size="small"
+          class="sm:ml-2"
+          @update:value="$emit('update:scope', $event as WardrobeBatchScope)"
         >
-          {{ option.label }}
-        </n-radio-button>
-      </n-radio-group>
-      <span class="text-sm font-medium text-gray-700 dark:text-gray-200">
-        {{ countLabel }}
-      </span>
-    </div>
+          <n-radio-button
+            v-for="option in scopeOptions"
+            :key="option.value"
+            :value="option.value"
+          >
+            {{ option.label }}
+          </n-radio-button>
+        </n-radio-group>
+      </div>
 
-    <div class="flex flex-wrap items-center gap-2">
-      <n-button
-        size="small"
-        :disabled="disabled || activeCount === 0"
-        @click="$emit('mark-owned')"
-      >
-        {{ t('wardrobe.actions.mark_owned') }}
-      </n-button>
-      <n-button
-        size="small"
-        :disabled="disabled || activeCount === 0"
-        @click="$emit('mark-unowned')"
-      >
-        {{ t('wardrobe.actions.mark_unowned') }}
-      </n-button>
-      <n-button
-        size="small"
-        quaternary
-        :disabled="selectedCount === 0"
-        @click="$emit('clear-selection')"
-      >
-        {{ t('wardrobe.actions.clear_selection') }}
-      </n-button>
+      <div class="grid grid-cols-3 gap-2 sm:flex sm:flex-wrap sm:items-center">
+        <n-button
+          size="small"
+          type="primary"
+          :disabled="disabled || activeCount === 0"
+          @click="$emit('mark-owned')"
+        >
+          <template #icon>
+            <n-icon><Check /></n-icon>
+          </template>
+          {{ t('wardrobe.actions.mark_owned') }}
+        </n-button>
+        <n-button
+          size="small"
+          :disabled="disabled || activeCount === 0"
+          @click="$emit('mark-unowned')"
+        >
+          <template #icon>
+            <n-icon><Times /></n-icon>
+          </template>
+          {{ t('wardrobe.actions.mark_unowned') }}
+        </n-button>
+        <n-button
+          size="small"
+          quaternary
+          :disabled="selectedCount === 0"
+          @click="$emit('clear-selection')"
+        >
+          {{ t('wardrobe.actions.clear_selection') }}
+        </n-button>
+      </div>
     </div>
-  </div>
+  </n-card>
 </template>
 
 <script setup lang="ts">
+  import { Check, Times } from '@vicons/fa'
+
   export type WardrobeBatchScope = 'selected' | 'page' | 'all'
 
   const props = defineProps<{
@@ -80,7 +103,7 @@
     return props.allMatchingCount ?? 0
   })
 
-  const countLabel = computed(() => {
+  const activeCountLabel = computed(() => {
     if (props.scope === 'selected') {
       return t('wardrobe.count.selected', { count: props.selectedCount })
     }

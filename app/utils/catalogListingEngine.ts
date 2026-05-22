@@ -110,6 +110,49 @@ const getStringFilter = (filters: Record<string, unknown>, key: string) => {
   return typeof value === 'string' && hasFilterValue(value) ? value : null
 }
 
+type CatalogVariationFilter =
+  | 'base'
+  | 'all'
+  | 'glowup'
+  | 'evo1'
+  | 'evo2'
+  | 'evo3'
+  | 'all-evos'
+
+const catalogVariationFilters = new Set<CatalogVariationFilter>([
+  'base',
+  'all',
+  'glowup',
+  'evo1',
+  'evo2',
+  'evo3',
+  'all-evos',
+])
+
+const getCatalogVariationFilter = (
+  filters: Record<string, unknown>
+): CatalogVariationFilter => {
+  const value = filters.variations
+  if (value === true || value === 'show' || value === 'true' || value === '1') {
+    return 'all'
+  }
+
+  return catalogVariationFilters.has(value as CatalogVariationFilter)
+    ? (value as CatalogVariationFilter)
+    : 'base'
+}
+
+const matchesCatalogVariationFilter = (
+  filters: Record<string, unknown>,
+  variantType: VariantType
+) => {
+  const variationFilter = getCatalogVariationFilter(filters)
+
+  if (variationFilter === 'all') return true
+  if (variationFilter === 'all-evos') return variantType.startsWith('evo')
+  return variantType === variationFilter
+}
+
 const getNumberFilter = (filters: Record<string, unknown>, key: string) => {
   const value = filters[key]
   return typeof value === 'number' && Number.isFinite(value) ? value : null
@@ -206,15 +249,49 @@ const matchesStableCatalogFilters = (
   matchesVersion(entry, filters) &&
   matchesSource(entry, filters)
 
+const matchesOutfitStableFilters = (
+  outfit: CatalogLocalOutfit,
+  filters: Record<string, unknown>
+) =>
+  matchesStableCatalogFilters(outfit, filters) &&
+  matchesCatalogVariationFilter(
+    filters,
+    getOutfitVariantType(String(outfit.id))
+  )
+
 const matchesItemStableFilters = (
   item: CatalogLocalItem,
   filters: Record<string, unknown>
 ) => {
   if (!matchesStableCatalogFilters(item, filters)) return false
+  if (!matchesCatalogVariationFilter(filters, getItemVariantType(item.id))) {
+    return false
+  }
 
   const type = getStringFilter(filters, 'type')
   return !type || item.type === type
 }
+
+const matchesItemAttributeFilters = (
+  item: CatalogLocalItem,
+  attributeMatchingIdSet: ReadonlySet<number>
+) =>
+  attributeMatchingIdSet.has(item.id) ||
+  attributeMatchingIdSet.has(Number(getBaseItemId(item.id)))
+
+const getFullMakeupVariantType = (id: number): VariantType =>
+  String(id).endsWith('03') ? 'evo3' : 'base'
+
+const matchesMakeupVariationFilter = (
+  makeup: CatalogLocalMakeup,
+  filters: Record<string, unknown>
+) =>
+  matchesCatalogVariationFilter(
+    filters,
+    makeup.type === 'fullMakeup'
+      ? getFullMakeupVariantType(makeup.id)
+      : getItemVariantType(makeup.id)
+  )
 
 const MAKEUP_TYPE_ORDER = new Map([
   ['fullMakeup', 0],
@@ -356,7 +433,9 @@ const getLocalItemMatchingIds = ({
     matchesItemStableFilters(item, query.filters)
   )
   const attributeFiltered = attributeMatchingIdSet
-    ? stableFiltered.filter((item) => attributeMatchingIdSet.has(item.id))
+    ? stableFiltered.filter((item) =>
+        matchesItemAttributeFilters(item, attributeMatchingIdSet)
+      )
     : stableFiltered
 
   return filterItemIdsByOwnership(
@@ -376,7 +455,7 @@ const getLocalOutfitMatchingIds = ({
   wardrobe: CatalogListingWardrobeAccess
 }) => {
   const stableFiltered = index.outfits.filter((outfit) =>
-    matchesStableCatalogFilters(outfit, query.filters)
+    matchesOutfitStableFilters(outfit, query.filters)
   )
   const outfitIds = stableFiltered.map((outfit) => outfit.id)
 
@@ -498,7 +577,9 @@ const filterStaticItemIds = ({
     matchesItemStableFilters(item, query.filters)
   )
   const attributeFiltered = attributeMatchingIdSet
-    ? stableFiltered.filter((item) => attributeMatchingIdSet.has(item.id))
+    ? stableFiltered.filter((item) =>
+        matchesItemAttributeFilters(item, attributeMatchingIdSet)
+      )
     : stableFiltered
 
   return attributeFiltered.map((item) => item.id)
@@ -512,7 +593,7 @@ const filterStaticOutfitIds = ({
   index: CatalogLocalIndex
 }) =>
   index.outfits
-    .filter((outfit) => matchesStableCatalogFilters(outfit, query.filters))
+    .filter((outfit) => matchesOutfitStableFilters(outfit, query.filters))
     .map((outfit) => outfit.id)
 
 const filterStaticMakeupIds = ({
@@ -525,6 +606,7 @@ const filterStaticMakeupIds = ({
   sortMakeupsForFilters(
     index.makeups.filter((makeup) => {
       if (!matchesStableCatalogFilters(makeup, query.filters)) return false
+      if (!matchesMakeupVariationFilter(makeup, query.filters)) return false
 
       const type = getStringFilter(query.filters, 'type')
       return !type || makeup.type === type

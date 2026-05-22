@@ -21,6 +21,8 @@
               @update:value="handleCompendiumSectionChange"
             />
 
+            <CatalogVariationToggle v-model:value="variationFilter" />
+
             <div class="hidden min-w-0 overflow-x-auto sm:block">
               <n-button-group class="min-w-max">
                 <n-button
@@ -497,6 +499,32 @@
         : Number(value)
     return resolveSeoMakeupQualitySlug(parsed) !== null ? parsed : null
   }
+  type CatalogVariationFilter =
+    | 'base'
+    | 'all'
+    | 'glowup'
+    | 'evo1'
+    | 'evo2'
+    | 'evo3'
+    | 'all-evos'
+
+  const variationFilterValues = new Set<CatalogVariationFilter>([
+    'base',
+    'all',
+    'glowup',
+    'evo1',
+    'evo2',
+    'evo3',
+    'all-evos',
+  ])
+  const resolveVariationFilter = (
+    value?: string | null
+  ): CatalogVariationFilter => {
+    if (value === 'show' || value === 'true' || value === '1') return 'all'
+    return variationFilterValues.has(value as CatalogVariationFilter)
+      ? (value as CatalogVariationFilter)
+      : 'base'
+  }
 
   const resolveRouteSlotFilter = () =>
     routeMakeupType.value ?? resolveSlot(route.query.type?.toString() ?? null)
@@ -518,6 +546,9 @@
   const versionFilter = ref<string | null>(resolveRouteVersionFilter())
   const styleFilter = ref<string | null>(resolveRouteStyleFilter())
   const obtainFilter = ref<string | null>(resolveRouteSourceFilter())
+  const variationFilter = ref<CatalogVariationFilter>(
+    resolveVariationFilter(route.query.variations?.toString() ?? null)
+  )
   const currentPage = ref(Number(route.query.page) || 1)
 
   const activeSlotLabel = computed(() =>
@@ -551,7 +582,8 @@
       qualityFilter.value !== null ||
       versionFilter.value !== null ||
       styleFilter.value !== null ||
-      obtainFilter.value !== null
+      obtainFilter.value !== null ||
+      variationFilter.value !== 'base'
   )
 
   const cacheKey = computed(
@@ -559,8 +591,8 @@
       `makeups-${slotFilter.value}-${qualityFilter.value ?? 'all'}-${
         styleFilter.value ?? 'all'
       }-${versionFilter.value ?? 'all'}-${obtainFilter.value ?? 'all'}-${
-        currentPage.value
-      }-${pageSize}`
+        variationFilter.value
+      }-${currentPage.value}-${pageSize}`
   )
   const {
     data: compendiumData,
@@ -578,6 +610,7 @@
         version: versionFilter.value,
         style: styleFilter.value,
         source: obtainFilter.value,
+        variations: variationFilter.value,
       },
       page: currentPage.value,
       pageSize,
@@ -700,6 +733,9 @@
       styleFilter.value && { style: styleFilter.value }),
     ...(primaryFilter !== 'source' &&
       obtainFilter.value && { source: obtainFilter.value }),
+    ...(variationFilter.value !== 'base' && {
+      variations: variationFilter.value,
+    }),
     ...(currentPage.value > 1 && { page: currentPage.value }),
   })
 
@@ -718,6 +754,9 @@
     ...(versionFilter.value && { version: versionFilter.value }),
     ...(styleFilter.value && { style: styleFilter.value }),
     ...(obtainFilter.value && { source: obtainFilter.value }),
+    ...(variationFilter.value !== 'base' && {
+      variations: variationFilter.value,
+    }),
     ...(includePage && currentPage.value > 1 && { page: currentPage.value }),
   })
 
@@ -804,10 +843,25 @@
     }
   )
 
+  watch(
+    () => route.query.variations,
+    () => {
+      const nextVariations = resolveVariationFilter(
+        route.query.variations?.toString() ?? null
+      )
+      if (nextVariations !== variationFilter.value) {
+        variationFilter.value = nextVariations
+      }
+    }
+  )
+
   watch([slotFilter, qualityFilter, versionFilter, styleFilter], () => {
     currentPage.value = 1
   })
   watch(obtainFilter, () => {
+    currentPage.value = 1
+  })
+  watch(variationFilter, () => {
     currentPage.value = 1
   })
   watch(
@@ -817,6 +871,7 @@
       versionFilter,
       styleFilter,
       obtainFilter,
+      variationFilter,
       currentPage,
     ],
     () => {
@@ -838,6 +893,7 @@
     versionFilter.value = null
     styleFilter.value = null
     obtainFilter.value = null
+    variationFilter.value = 'base'
     currentPage.value = 1
   }
 

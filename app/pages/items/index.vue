@@ -32,6 +32,8 @@
               :disabled="!isWardrobeReady"
             />
 
+            <CatalogVariationToggle v-model:value="variationFilter" />
+
             <div class="hidden min-w-0 overflow-x-auto sm:block">
               <n-button-group class="min-w-max">
                 <n-button
@@ -279,6 +281,19 @@
       </div>
     </n-card>
 
+    <WardrobeBatchToolbar
+      v-if="editMode"
+      v-model:scope="batchScope"
+      :edit-mode="editMode"
+      :selected-count="selectedItemIds.size"
+      :page-count="entries.length"
+      :all-matching-count="totalItems"
+      :disabled="!isWardrobeReady || loading"
+      @mark-owned="applyBatchOwnership(true)"
+      @mark-unowned="applyBatchOwnership(false)"
+      @clear-selection="clearSelection"
+    />
+
     <!-- Grid Card -->
     <n-card
       size="small"
@@ -287,19 +302,6 @@
     >
       <div class="min-h-0 sm:flex sm:flex-1 sm:flex-col">
         <div class="space-y-3 sm:space-y-4">
-          <WardrobeBatchToolbar
-            v-if="editMode"
-            v-model:scope="batchScope"
-            :edit-mode="editMode"
-            :selected-count="selectedItemIds.size"
-            :page-count="entries.length"
-            :all-matching-count="totalItems"
-            :disabled="!isWardrobeReady || loading"
-            @mark-owned="applyBatchOwnership(true)"
-            @mark-unowned="applyBatchOwnership(false)"
-            @clear-selection="clearSelection"
-          />
-
           <div
             v-if="wardrobeError"
             class="py-12 text-center"
@@ -380,14 +382,14 @@
                 class="relative cursor-pointer"
                 :class="getListingCardAnimationClass(index)"
                 :style="getListingCardAnimationStyle(index)"
-                @click="handleItemCardClick(entry.id)"
+                @click="handleItemCardClick(entry.id, $event)"
               >
                 <div
                   class="relative aspect-2/3 overflow-hidden rounded-lg bg-[url('/images/bg.webp')] bg-cover bg-center shadow-md transition-shadow duration-300 hover:shadow-xl"
-                  :class="
+                  :style="
                     selectedItemIds.has(entry.id)
-                      ? 'ring-2 ring-sky-500 ring-offset-2 ring-offset-white dark:ring-offset-gray-950'
-                      : ''
+                      ? getQualityRingStyle(entry.quality)
+                      : undefined
                   "
                 >
                   <!-- Tint overlay -->
@@ -420,6 +422,10 @@
                     <n-checkbox
                       v-else-if="editMode"
                       :checked="selectedItemIds.has(entry.id)"
+                      :theme-overrides="
+                        getWardrobeSelectionCheckboxTheme(entry.quality)
+                      "
+                      :aria-label="t('common.select')"
                       @click.stop
                       @update:checked="toggleSelection(entry.id)"
                     />
@@ -441,28 +447,53 @@
                     </n-tag>
                   </div>
                   <div
-                    v-if="wardrobeInitialized"
-                    class="absolute top-11 left-2 z-20"
+                    v-if="
+                      wardrobeInitialized && !editMode && isItemOwned(entry.id)
+                    "
+                    class="absolute right-2 bottom-2 z-30"
+                    @click.stop
+                  >
+                    <WardrobeStatusBadge
+                      status="item-owned"
+                      variant="overlay"
+                    />
+                  </div>
+                  <div
+                    v-else-if="wardrobeInitialized && editMode"
+                    class="absolute right-2 bottom-2 z-30"
                     @click.stop
                   >
                     <WardrobeOwnedButton
                       :owned="isItemOwned(entry.id)"
                       :disabled="!isWardrobeReady"
-                      :loading="wardrobeSaving"
+                      :loading="isItemToggleLoading(entry.id)"
+                      variant="overlay"
                       @toggle="toggleVisibleItemOwned(entry.id)"
                     />
                   </div>
                   <div
-                    class="absolute right-0 bottom-0 left-0 z-20 bg-linear-to-t from-black/90 to-transparent p-3"
+                    class="absolute right-0 bottom-0 left-0 z-20 bg-linear-to-t from-black/90 to-transparent"
+                    :class="[
+                      editMode ? 'p-2' : 'p-3',
+                      wardrobeInitialized && editMode
+                        ? 'pr-12'
+                        : wardrobeInitialized &&
+                            !editMode &&
+                            isItemOwned(entry.id)
+                          ? 'pr-10 sm:pr-12'
+                          : '',
+                    ]"
                   >
                     <p
                       class="line-clamp-2 text-xs font-semibold text-white sm:text-sm"
                     >
                       {{ entry.name }}
                     </p>
-                    <div class="mt-1 flex flex-wrap gap-1">
+                    <div
+                      v-if="!editMode && entry.styleLabel"
+                      class="mt-1 hidden flex-wrap gap-1 sm:flex"
+                    >
                       <n-tag
-                        v-if="entry.styleLabel"
                         size="tiny"
                         :bordered="false"
                         type="default"
@@ -472,7 +503,10 @@
                         {{ entry.styleLabel }}
                       </n-tag>
                     </div>
-                    <div class="mt-1 flex flex-wrap gap-0.5">
+                    <div
+                      v-if="!editMode && entry.labelTags.length"
+                      class="mt-1 hidden flex-wrap gap-0.5 sm:flex"
+                    >
                       <n-tag
                         v-for="label in entry.labelTags"
                         :key="label.text"
@@ -757,6 +791,32 @@
         : Number(value)
     return resolveSeoItemQualitySlug(parsed) !== null ? parsed : null
   }
+  type CatalogVariationFilter =
+    | 'base'
+    | 'all'
+    | 'glowup'
+    | 'evo1'
+    | 'evo2'
+    | 'evo3'
+    | 'all-evos'
+
+  const variationFilterValues = new Set<CatalogVariationFilter>([
+    'base',
+    'all',
+    'glowup',
+    'evo1',
+    'evo2',
+    'evo3',
+    'all-evos',
+  ])
+  const resolveVariationFilter = (
+    value?: string | null
+  ): CatalogVariationFilter => {
+    if (value === 'show' || value === 'true' || value === '1') return 'all'
+    return variationFilterValues.has(value as CatalogVariationFilter)
+      ? (value as CatalogVariationFilter)
+      : 'base'
+  }
   const resolveRouteQualityFilter = () =>
     routeQualityFilter.value ??
     resolveQuality(route.query.quality?.toString() ?? null)
@@ -794,6 +854,9 @@
   const styleFilter = ref<string | null>(resolveRouteStyleFilter())
   const labelFilter = ref<string | null>(resolveRouteLabelFilter())
   const obtainFilter = ref<string | null>(resolveRouteSourceFilter())
+  const variationFilter = ref<CatalogVariationFilter>(
+    resolveVariationFilter(route.query.variations?.toString() ?? null)
+  )
 
   const activeTypeLabel = computed(() =>
     typeFilter.value ? t(`type.${typeFilter.value}`) : null
@@ -878,11 +941,11 @@
   const editMode = ref(false)
   const batchScope = ref<BatchScope>('selected')
   const selectedItemIds = ref<Set<number>>(new Set())
+  const togglingItemIds = ref<Set<number>>(new Set())
 
   const {
     initialized: wardrobeInitialized,
     ownedItemIds,
-    saving: wardrobeSaving,
     error: storageError,
     canMutate: isWardrobeReady,
     mutationVersion: wardrobeMutationVersion,
@@ -947,6 +1010,7 @@
       styleFilter.value !== null ||
       labelFilter.value !== null ||
       obtainFilter.value !== null ||
+      variationFilter.value !== 'base' ||
       wardrobeFilter.value !== 'all' ||
       activeAdvancedFilterCount.value > 0
   )
@@ -983,9 +1047,9 @@
         styleFilter.value ?? 'all'
       }-${labelFilter.value ?? 'all'}-${versionFilter.value ?? 'all'}-${
         obtainFilter.value ?? 'all'
-      }-${wardrobeFilter.value}-${wardrobeMutationVersion.value}-${
-        currentPage.value
-      }-${pageSize}`
+      }-${variationFilter.value}-${
+        wardrobeFilter.value
+      }-${wardrobeMutationVersion.value}-${currentPage.value}-${pageSize}`
   )
   const buildItemFetchFilters = () => ({
     quality: qualityFilter.value,
@@ -996,6 +1060,7 @@
     style: styleFilter.value,
     label: labelFilter.value,
     source: obtainFilter.value,
+    variations: variationFilter.value,
     ...activeAdvancedFilters.value,
   })
 
@@ -1235,6 +1300,9 @@
       labelFilter.value && { label: labelFilter.value }),
     ...(primaryFilter !== 'source' &&
       obtainFilter.value && { source: obtainFilter.value }),
+    ...(variationFilter.value !== 'base' && {
+      variations: variationFilter.value,
+    }),
     ...(includeScopedFilters && buildAdvancedFilterQuery()),
     ...(wardrobeFilter.value !== 'all' && { wardrobe: wardrobeFilter.value }),
     ...(includePage && currentPage.value > 1 && { page: currentPage.value }),
@@ -1291,21 +1359,62 @@
     selectedItemIds.value = new Set()
   }
 
-  const handleItemCardClick = (itemId: number) => {
+  const getWardrobeSelectionCheckboxTheme = (quality: number) => {
+    const color = getQualityColor(quality)
+    return {
+      color: `${color}22`,
+      colorChecked: color,
+      border: `1px solid ${color}AA`,
+      borderChecked: `1px solid ${color}`,
+      borderFocus: `1px solid ${color}`,
+      boxShadowFocus: 'none',
+      checkMarkColor: '#ffffff',
+    }
+  }
+
+  const setItemToggleLoading = (itemId: number, loading: boolean) => {
+    const nextIds = new Set(togglingItemIds.value)
+    if (loading) {
+      nextIds.add(itemId)
+    } else {
+      nextIds.delete(itemId)
+    }
+    togglingItemIds.value = nextIds
+  }
+
+  const isItemToggleLoading = (itemId: number) =>
+    togglingItemIds.value.has(itemId)
+
+  const toggleVisibleItemOwned = async (itemId: number) => {
+    if (isItemToggleLoading(itemId)) return
+
+    setItemToggleLoading(itemId, true)
+    try {
+      await toggleItemOwned(itemId)
+    } catch {
+      message.error(t('wardrobe.error.save'))
+    } finally {
+      setItemToggleLoading(itemId, false)
+    }
+  }
+
+  const isListingCardControlClick = (event: MouseEvent) => {
+    const target = event.target
+    return (
+      target instanceof HTMLElement &&
+      Boolean(target.closest('button, input, label, [role="button"]'))
+    )
+  }
+
+  const handleItemCardClick = (itemId: number, event: MouseEvent) => {
+    if (isListingCardControlClick(event)) return
+
     if (editMode.value) {
       toggleSelection(itemId)
       return
     }
 
     navigateToDetail(itemId)
-  }
-
-  const toggleVisibleItemOwned = async (itemId: number) => {
-    try {
-      await toggleItemOwned(itemId)
-    } catch {
-      message.error(t('wardrobe.error.save'))
-    }
   }
 
   const getBatchItemIds = async () => {
@@ -1463,6 +1572,18 @@
   )
 
   watch(
+    () => route.query.variations,
+    () => {
+      const nextVariations = resolveVariationFilter(
+        route.query.variations?.toString() ?? null
+      )
+      if (nextVariations !== variationFilter.value) {
+        variationFilter.value = nextVariations
+      }
+    }
+  )
+
+  watch(
     () => route.query.wardrobe,
     () => {
       const nextWardrobeFilter = resolveWardrobeFilter(
@@ -1506,6 +1627,10 @@
     currentPage.value = 1
   })
 
+  watch(variationFilter, () => {
+    currentPage.value = 1
+  })
+
   watch(wardrobeFilter, () => {
     currentPage.value = 1
   })
@@ -1524,6 +1649,7 @@
       styleFilter,
       labelFilter,
       obtainFilter,
+      variationFilter,
       wardrobeFilter,
       activeAdvancedFiltersKey,
       currentPage,
@@ -1571,6 +1697,7 @@
     styleFilter.value = null
     labelFilter.value = null
     obtainFilter.value = null
+    variationFilter.value = 'base'
     wardrobeFilter.value = 'all'
     advancedFilters.value = createEmptyItemSearchAdvancedFilters()
     isAdvancedFiltersDrawerOpen.value = false

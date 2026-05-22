@@ -1949,7 +1949,7 @@
       return createEmptyCatalogListingResult<TEntry>(query.page)
     }
 
-    await catalogIndex.load()
+    await catalogIndex.loadEntity(query.entity)
 
     if (
       query.entity === 'item' &&

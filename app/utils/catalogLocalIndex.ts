@@ -22,16 +22,16 @@ export const createCatalogLocalIndex = ({
   momo,
   outfitItems,
 }: {
-  items: readonly CatalogLocalItem[]
-  outfits: readonly CatalogLocalOutfit[]
-  makeups: readonly CatalogLocalMakeup[]
-  momo: readonly CatalogLocalMomo[]
+  items?: readonly CatalogLocalItem[] | null
+  outfits?: readonly CatalogLocalOutfit[] | null
+  makeups?: readonly CatalogLocalMakeup[] | null
+  momo?: readonly CatalogLocalMomo[] | null
   outfitItems: Record<string, number[]> | null | undefined
 }): CatalogLocalIndex => {
-  const itemRows = Array.from(items)
-  const outfitRows = Array.from(outfits)
-  const makeupRows = Array.from(makeups)
-  const momoRows = Array.from(momo)
+  const itemRows = Array.from(items ?? [])
+  const outfitRows = Array.from(outfits ?? [])
+  const makeupRows = Array.from(makeups ?? [])
+  const momoRows = Array.from(momo ?? [])
   const outfitItemsById = new Map<number, number[]>()
 
   for (const [rawOutfitId, rawItemIds] of Object.entries(outfitItems ?? {})) {

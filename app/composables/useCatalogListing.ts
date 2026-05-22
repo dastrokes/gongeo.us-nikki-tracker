@@ -90,7 +90,7 @@ export const useCatalogListing = async <
   ) => {
     if (import.meta.server) return null
 
-    await catalogIndex.load()
+    await catalogIndex.loadEntity(currentQuery.entity)
     const index = catalogIndex.index.value
     if (!index) {
       throw new Error('Catalog index is unavailable')

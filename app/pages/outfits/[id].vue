@@ -151,6 +151,13 @@
                     :owned="outfitProgress.owned"
                     :total="outfitProgress.total"
                   />
+                  <WardrobeOwnedButton
+                    v-if="wardrobeInitialized"
+                    :owned="outfitProgress.status === 'owned'"
+                    :disabled="!isWardrobeReady || outfitItems.length === 0"
+                    :loading="wardrobeSaving"
+                    @toggle="toggleCurrentOutfitOwned"
+                  />
                 </div>
 
                 <div class="flex flex-wrap gap-2">
@@ -200,24 +207,6 @@
                       {{ label.text }}
                     </n-tag>
                   </template>
-                </div>
-
-                <div v-if="wardrobeInitialized">
-                  <n-button
-                    size="small"
-                    :type="
-                      outfitProgress.status === 'owned' ? 'default' : 'primary'
-                    "
-                    :disabled="!isWardrobeReady || outfitItems.length === 0"
-                    :loading="wardrobeSaving"
-                    @click="toggleCurrentOutfitOwned"
-                  >
-                    {{
-                      outfitProgress.status === 'owned'
-                        ? t('wardrobe.actions.mark_outfit_unowned')
-                        : t('wardrobe.actions.mark_outfit_owned')
-                    }}
-                  </n-button>
                 </div>
 
                 <div class="flex flex-wrap gap-2">

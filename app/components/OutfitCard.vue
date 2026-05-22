@@ -49,8 +49,8 @@
         {{ name }}
       </p>
       <div
-        v-if="styleLabel"
-        class="mt-1 flex flex-wrap gap-1"
+        v-if="showMetaTags && styleLabel"
+        class="mt-1 hidden flex-wrap gap-1 sm:flex"
       >
         <n-tag
           size="tiny"
@@ -63,8 +63,8 @@
         </n-tag>
       </div>
       <div
-        v-if="normalizedLabels.length"
-        class="mt-1 flex flex-wrap gap-0.5"
+        v-if="showMetaTags && normalizedLabels.length"
+        class="mt-1 hidden flex-wrap gap-0.5 sm:flex"
       >
         <n-tag
           v-for="label in normalizedLabels"
@@ -85,6 +85,8 @@
 <script setup lang="ts">
   import { Star } from '@vicons/fa'
 
+  type OutfitCardMeta = 'default' | 'status' | 'edit'
+
   const { t } = useI18n()
   const { getImageSrc } = imageProvider()
 
@@ -99,6 +101,7 @@
       size?: 'sm' | 'md' | 'lg'
       loading?: 'eager' | 'lazy'
       fetchpriority?: 'high' | 'low' | 'auto'
+      meta?: OutfitCardMeta
     }>(),
     {
       styleKey: null,
@@ -107,6 +110,7 @@
       size: 'md',
       loading: 'lazy',
       fetchpriority: 'auto',
+      meta: 'default',
     }
   )
 
@@ -164,7 +168,18 @@
     props.size === 'sm' ? 'top-1 right-1' : 'top-2 right-2'
   )
 
-  const metaPaddingClass = computed(() => (props.size === 'sm' ? 'p-2' : 'p-3'))
+  const showMetaTags = computed(() => props.meta !== 'edit')
+
+  const metaPaddingClass = computed(() => [
+    props.meta === 'edit' || props.size === 'sm' ? 'p-2' : 'p-3',
+    props.meta === 'edit'
+      ? 'pr-12'
+      : props.meta === 'status'
+        ? props.size === 'sm'
+          ? 'pr-10'
+          : 'pr-10 sm:pr-12'
+        : '',
+  ])
 
   const cardClasses = computed(() => [
     'relative aspect-2/3 rounded-lg overflow-hidden shadow-md',

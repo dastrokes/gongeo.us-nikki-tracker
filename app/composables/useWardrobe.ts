@@ -194,7 +194,7 @@ export const useWardrobe = () => {
       return { found: 0, imported: 0 }
     }
 
-    await catalogIndex.load()
+    await catalogIndex.load(['items'])
     const catalogItemSet = new Set(
       catalogIndex.index.value?.items.map((item) => item.id) ?? []
     )

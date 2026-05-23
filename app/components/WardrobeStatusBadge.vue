@@ -2,14 +2,15 @@
   <n-tooltip
     v-if="visible"
     trigger="hover"
+    :show-arrow="false"
   >
     <template #trigger>
       <div
-        class="inline-flex items-center justify-center"
-        :class="[variantClass, badgeClass]"
+        class="inline-flex h-5 w-5 items-center justify-center"
+        :style="iconStyle"
         :aria-label="label"
       >
-        <n-icon :size="variant === 'overlay' ? 13 : 12">
+        <n-icon :size="13">
           <component :is="statusIcon" />
         </n-icon>
       </div>
@@ -19,7 +20,7 @@
 </template>
 
 <script setup lang="ts">
-  import { CheckCircle, ExclamationCircle, TimesCircle } from '@vicons/fa'
+  import { CheckCircle, Adjust, TimesCircle } from '@vicons/fa'
 
   const props = withDefaults(
     defineProps<{
@@ -27,13 +28,13 @@
       owned?: number
       total?: number
       showMissing?: boolean
-      variant?: 'inline' | 'overlay'
+      quality?: number
     }>(),
     {
       owned: 0,
       total: 0,
       showMissing: false,
-      variant: 'inline',
+      quality: undefined,
     }
   )
 
@@ -45,31 +46,35 @@
     return true
   })
 
-  const badgeClass = computed(() => {
+  const iconStyle = computed(() => {
+    if (props.quality !== undefined) {
+      const color = getQualityColor(props.quality)
+      return {
+        color,
+      }
+    }
+
+    // fallback: status-based fixed colors
     if (props.status === 'owned' || props.status === 'item-owned') {
-      return props.variant === 'overlay'
-        ? 'text-emerald-200 drop-shadow-[0_1px_2px_rgba(0,0,0,0.85)]'
-        : 'text-emerald-500 dark:text-emerald-300'
+      return {
+        color: 'rgb(167 243 208)',
+      }
     }
     if (props.status === 'partial') {
-      return props.variant === 'overlay'
-        ? 'text-amber-200 drop-shadow-[0_1px_2px_rgba(0,0,0,0.85)]'
-        : 'text-amber-500 dark:text-amber-300'
+      return {
+        color: 'rgb(253 230 138)',
+      }
     }
-    return props.variant === 'overlay'
-      ? 'text-white/90 drop-shadow-[0_1px_2px_rgba(0,0,0,0.85)]'
-      : 'text-gray-400 dark:text-gray-300'
+    return {
+      color: 'rgba(255,255,255,0.9)',
+    }
   })
-
-  const variantClass = computed(() =>
-    props.variant === 'overlay' ? 'h-5 w-5' : 'h-4 w-4'
-  )
 
   const statusIcon = computed(() => {
     if (props.status === 'owned' || props.status === 'item-owned') {
       return CheckCircle
     }
-    if (props.status === 'partial') return ExclamationCircle
+    if (props.status === 'partial') return Adjust
     return TimesCircle
   })
 

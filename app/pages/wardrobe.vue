@@ -1,16 +1,16 @@
 <template>
-  <div class="mx-auto max-w-7xl space-y-4">
-    <section
-      class="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm dark:border-gray-800 dark:bg-gray-950"
+  <div class="mx-auto max-w-7xl space-y-2 sm:space-y-4">
+    <n-card
+      size="small"
+      class="rounded-xl bg-gradient-to-r from-purple-50/50 via-pink-50/30 to-amber-50/40 dark:from-indigo-950/20 dark:via-purple-950/20 dark:to-pink-950/20"
+      content-class="p-4 sm:p-5"
     >
-      <div
-        class="grid gap-4 p-4 sm:p-5 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-start"
-      >
+      <div class="grid gap-4 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-start">
         <div class="min-w-0 space-y-4">
           <div class="flex flex-wrap items-center gap-2">
-            <h1 class="text-2xl leading-tight font-bold sm:text-3xl">
+            <n-h1 class="m-0 text-2xl leading-tight font-bold sm:text-3xl">
               {{ t('wardrobe.title') }}
-            </h1>
+            </n-h1>
             <n-tag
               size="small"
               :bordered="false"
@@ -20,19 +20,27 @@
             </n-tag>
           </div>
 
-          <p class="max-w-2xl text-sm text-gray-600 dark:text-gray-300">
+          <n-text
+            depth="3"
+            class="block max-w-2xl text-sm"
+          >
             {{ t('wardrobe.hub_subtitle') }}
-          </p>
+          </n-text>
 
           <div class="grid gap-3 sm:grid-cols-3">
-            <div
+            <n-card
               v-for="metric in summaryMetrics"
               :key="metric.label"
-              class="rounded-lg border border-gray-100 bg-gray-50/80 p-3 dark:border-gray-800 dark:bg-gray-900/70"
+              size="small"
+              class="rounded-lg"
+              embedded
             >
-              <div class="text-xs font-medium text-gray-500 dark:text-gray-400">
+              <n-text
+                depth="3"
+                class="text-xs font-medium text-slate-500 uppercase dark:text-slate-400"
+              >
                 {{ metric.label }}
-              </div>
+              </n-text>
               <div class="mt-1 flex items-baseline gap-2">
                 <n-skeleton
                   v-if="isSummaryLoading"
@@ -40,15 +48,18 @@
                   width="72px"
                 />
                 <template v-else>
-                  <span class="text-2xl font-bold tabular-nums">
+                  <n-text class="text-2xl font-bold tabular-nums">
                     {{ metric.value }}
-                  </span>
-                  <span class="text-xs text-gray-500 dark:text-gray-400">
+                  </n-text>
+                  <n-text
+                    depth="3"
+                    class="text-xs text-slate-500 dark:text-slate-400"
+                  >
                     {{ metric.detail }}
-                  </span>
+                  </n-text>
                 </template>
               </div>
-            </div>
+            </n-card>
           </div>
         </div>
 
@@ -75,7 +86,7 @@
           </n-button>
         </div>
       </div>
-    </section>
+    </n-card>
 
     <n-alert
       v-if="wardrobeError"
@@ -111,25 +122,30 @@
 
     <section class="grid gap-4 lg:grid-cols-[minmax(0,1fr)_360px]">
       <div class="space-y-4">
-        <div
-          class="rounded-xl border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-800 dark:bg-gray-950"
+        <n-card
+          size="small"
+          class="rounded-xl"
+          content-class="p-4"
         >
-          <div
-            class="flex flex-col gap-1 border-b border-gray-100 pb-3 dark:border-gray-800"
-          >
-            <h2 class="text-base font-semibold">
-              {{ t('wardrobe.progress_title') }}
-            </h2>
-            <p class="text-sm text-gray-600 dark:text-gray-400">
-              {{ t('wardrobe.progress_description') }}
-            </p>
-          </div>
+          <template #header>
+            <div class="flex flex-col gap-1 pb-1">
+              <n-h2 class="m-0 text-base font-semibold">
+                {{ t('wardrobe.progress_title') }}
+              </n-h2>
+              <n-text
+                depth="3"
+                class="text-sm"
+              >
+                {{ t('wardrobe.progress_description') }}
+              </n-text>
+            </div>
+          </template>
 
-          <div class="mt-4 grid gap-5 xl:grid-cols-2">
+          <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             <div class="space-y-3">
-              <div class="text-sm font-semibold">
+              <n-text class="block text-sm font-semibold">
                 {{ t('wardrobe.by_quality') }}
-              </div>
+              </n-text>
               <template v-if="summary">
                 <NuxtLinkLocale
                   v-for="row in qualityRows"
@@ -154,12 +170,12 @@
             </div>
 
             <div class="space-y-3">
-              <div class="text-sm font-semibold">
+              <n-text class="block text-sm font-semibold">
                 {{ t('wardrobe.by_slot') }}
-              </div>
+              </n-text>
               <template v-if="summary">
                 <NuxtLinkLocale
-                  v-for="row in typeRows"
+                  v-for="row in apparelRows"
                   :key="row.type"
                   :to="{
                     path: '/items',
@@ -174,124 +190,117 @@
                     :percent="row.completionPercent"
                   />
                 </NuxtLinkLocale>
+
+                <div
+                  v-if="accessoryRows.length > 0"
+                  class="mt-2"
+                >
+                  <n-collapse-transition :show="showAccessories">
+                    <div class="space-y-3 pt-2">
+                      <NuxtLinkLocale
+                        v-for="row in accessoryRows"
+                        :key="row.type"
+                        :to="{
+                          path: '/items',
+                          query: { type: row.type, wardrobe: 'missing' },
+                        }"
+                        class="block rounded-lg px-2 py-1.5 transition hover:bg-gray-50 dark:hover:bg-gray-900"
+                      >
+                        <WardrobeProgressRow
+                          :label="t(`type.${row.type}`)"
+                          :owned="row.owned"
+                          :total="row.total"
+                          :percent="row.completionPercent"
+                        />
+                      </NuxtLinkLocale>
+                    </div>
+                  </n-collapse-transition>
+
+                  <div class="mt-3 flex justify-center">
+                    <n-button
+                      size="tiny"
+                      text
+                      type="primary"
+                      class="flex items-center gap-1 font-medium transition hover:opacity-80"
+                      @click="showAccessories = !showAccessories"
+                    >
+                      <template #icon>
+                        <n-icon
+                          class="text-[10px] transition-transform duration-300"
+                          :class="{ 'rotate-180': showAccessories }"
+                        >
+                          <ChevronDown />
+                        </n-icon>
+                      </template>
+                      {{
+                        showAccessories
+                          ? t('wardrobe.hide_accessories')
+                          : t('wardrobe.show_accessories')
+                      }}
+                    </n-button>
+                  </div>
+                </div>
+              </template>
+              <WardrobeProgressSkeletonRows v-else />
+            </div>
+
+            <div class="space-y-3">
+              <n-text class="block text-sm font-semibold">
+                {{ t('wardrobe.by_version') }}
+              </n-text>
+              <template v-if="summary">
+                <NuxtLinkLocale
+                  v-for="row in versionRows"
+                  :key="row.version"
+                  :to="getVersionLink(row.version)"
+                  class="block rounded-lg px-2 py-1.5 transition hover:bg-gray-50 dark:hover:bg-gray-900"
+                >
+                  <WardrobeProgressRow
+                    :label="
+                      t('wardrobe.version_label', { version: row.version })
+                    "
+                    :owned="row.owned"
+                    :total="row.total"
+                    :percent="row.completionPercent"
+                  />
+                </NuxtLinkLocale>
               </template>
               <WardrobeProgressSkeletonRows v-else />
             </div>
           </div>
-        </div>
-
-        <div
-          class="rounded-xl border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-800 dark:bg-gray-950"
-        >
-          <div
-            class="flex flex-col gap-1 border-b border-gray-100 pb-3 dark:border-gray-800"
-          >
-            <h2 class="text-base font-semibold">
-              {{ t('wardrobe.near_complete_title') }}
-            </h2>
-            <p class="text-sm text-gray-600 dark:text-gray-400">
-              {{ t('wardrobe.near_complete_description') }}
-            </p>
-          </div>
-
-          <div
-            v-if="summary && nearCompleteOutfits.length > 0"
-            class="mt-4 divide-y divide-gray-100 dark:divide-gray-800"
-          >
-            <div
-              v-for="outfit in nearCompleteOutfits"
-              :key="outfit.id"
-              class="group grid grid-cols-[64px_minmax(0,1fr)] gap-3 py-3 first:pt-0 last:pb-0 sm:grid-cols-[72px_minmax(0,1fr)_auto]"
-            >
-              <NuxtImg
-                :src="outfit.image"
-                :alt="outfit.name"
-                class="aspect-2/3 rounded-lg object-cover"
-                preset="tallSm"
-                fit="cover"
-                sizes="72px"
-                loading="lazy"
-              />
-              <div class="min-w-0 space-y-2">
-                <div class="min-w-0">
-                  <p class="truncate text-sm font-semibold">
-                    {{ outfit.name }}
-                  </p>
-                  <p class="text-xs text-gray-500 dark:text-gray-400">
-                    {{
-                      t('wardrobe.missing_items_count', {
-                        count: outfit.missing,
-                      })
-                    }}
-                  </p>
-                </div>
-                <WardrobeProgressRow
-                  :label="
-                    t('wardrobe.status.progress', {
-                      owned: outfit.owned,
-                      total: outfit.total,
-                    })
-                  "
-                  :owned="outfit.owned"
-                  :total="outfit.total"
-                  :percent="outfit.completionPercent"
-                  compact
-                />
-              </div>
-              <div class="col-span-2 flex items-center gap-2 sm:col-span-1">
-                <NuxtLinkLocale :to="`/outfits/${outfit.id}`">
-                  <n-button size="small">
-                    {{ t('wardrobe.view_outfit') }}
-                  </n-button>
-                </NuxtLinkLocale>
-              </div>
-            </div>
-          </div>
-
-          <n-result
-            v-else-if="summary"
-            size="small"
-            status="info"
-            :title="t('wardrobe.no_partial_outfits_title')"
-            :description="t('wardrobe.no_partial_outfits_description')"
-          />
-
-          <div
-            v-else
-            class="mt-4 space-y-3"
-          >
-            <n-skeleton
-              v-for="row in 3"
-              :key="row"
-              height="72px"
-              round
-            />
-          </div>
-        </div>
+        </n-card>
       </div>
 
       <aside class="space-y-4">
-        <div
-          class="rounded-xl border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-800 dark:bg-gray-950"
+        <n-card
+          size="small"
+          class="rounded-xl"
+          content-class="p-4"
         >
-          <h2 class="text-base font-semibold">
-            {{ t('wardrobe.continue_title') }}
-          </h2>
-          <div class="mt-3 grid gap-2">
+          <template #header>
+            <n-h2 class="m-0 text-base font-semibold">
+              {{ t('wardrobe.continue_title') }}
+            </n-h2>
+          </template>
+
+          <div class="grid gap-2">
             <NuxtLinkLocale
               v-for="action in quickActions"
               :key="action.label"
               :to="action.to"
-              class="group rounded-lg border border-gray-100 p-3 transition hover:border-sky-200 hover:bg-sky-50/70 dark:border-gray-800 dark:hover:border-sky-900 dark:hover:bg-sky-950/30"
+              class="group block rounded-lg border border-gray-100 p-3 transition hover:border-sky-200 hover:bg-sky-50/70 dark:border-gray-800 dark:hover:border-sky-900 dark:hover:bg-sky-950/30"
             >
               <div class="flex items-center justify-between gap-3">
                 <div class="min-w-0">
-                  <div class="text-sm font-semibold">
+                  <n-text class="block text-sm font-semibold">
                     {{ action.label }}
-                  </div>
-                  <div class="text-xs text-gray-500 dark:text-gray-400">
+                  </n-text>
+                  <n-text
+                    depth="3"
+                    class="block text-xs"
+                  >
                     {{ action.detail }}
-                  </div>
+                  </n-text>
                 </div>
                 <n-icon
                   class="text-gray-400 transition group-hover:text-sky-500"
@@ -301,28 +310,42 @@
               </div>
             </NuxtLinkLocale>
           </div>
-        </div>
+        </n-card>
 
-        <div
-          class="rounded-xl border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-800 dark:bg-gray-950"
+        <n-card
+          size="small"
+          class="rounded-xl"
+          content-class="p-4"
         >
-          <h2 class="text-base font-semibold">
-            {{ t('wardrobe.import_panel_title') }}
-          </h2>
-          <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
-            {{ t('wardrobe.import_tracker_description') }}
-          </p>
-          <div
-            v-if="lastImportResult"
-            class="mt-3 rounded-lg bg-gray-50 p-3 text-sm dark:bg-gray-900"
+          <template #header>
+            <n-h2 class="m-0 text-base font-semibold">
+              {{ t('wardrobe.import_panel_title') }}
+            </n-h2>
+          </template>
+
+          <n-text
+            depth="3"
+            class="block text-sm"
           >
-            {{
-              t('wardrobe.import_last_result', {
-                found: lastImportResult.found,
-                imported: lastImportResult.imported,
-              })
-            }}
-          </div>
+            {{ t('wardrobe.import_tracker_description') }}
+          </n-text>
+
+          <n-card
+            v-if="lastImportResult"
+            size="small"
+            class="mt-3 rounded-lg"
+            embedded
+          >
+            <n-text class="text-sm">
+              {{
+                t('wardrobe.import_last_result', {
+                  found: lastImportResult.found,
+                  imported: lastImportResult.imported,
+                })
+              }}
+            </n-text>
+          </n-card>
+
           <n-button
             class="mt-3 w-full"
             type="primary"
@@ -335,42 +358,47 @@
             </template>
             {{ t('wardrobe.import_tracker') }}
           </n-button>
-        </div>
+        </n-card>
 
-        <n-result
+        <n-card
           v-if="initialized && ownedItemIds.length === 0"
           size="small"
-          status="info"
-          class="rounded-xl border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-800 dark:bg-gray-950"
-          :title="t('wardrobe.empty_title')"
-          :description="t('wardrobe.empty_description')"
+          class="rounded-xl"
+          content-class="p-4"
         >
-          <template #footer>
-            <div class="flex justify-center gap-2">
-              <NuxtLinkLocale to="/items">
-                <n-button type="primary">
-                  {{ t('wardrobe.open_items') }}
-                </n-button>
-              </NuxtLinkLocale>
-              <NuxtLinkLocale to="/tracker">
-                <n-button>
-                  {{ t('navigation.tracker') }}
-                </n-button>
-              </NuxtLinkLocale>
-            </div>
-          </template>
-        </n-result>
+          <n-result
+            size="small"
+            status="info"
+            :title="t('wardrobe.empty_title')"
+            :description="t('wardrobe.empty_description')"
+          >
+            <template #footer>
+              <div class="flex justify-center gap-2">
+                <NuxtLinkLocale to="/items">
+                  <n-button type="primary">
+                    {{ t('wardrobe.open_items') }}
+                  </n-button>
+                </NuxtLinkLocale>
+                <NuxtLinkLocale to="/tracker">
+                  <n-button>
+                    {{ t('navigation.tracker') }}
+                  </n-button>
+                </NuxtLinkLocale>
+              </div>
+            </template>
+          </n-result>
+        </n-card>
       </aside>
     </section>
   </div>
 </template>
 
 <script setup lang="ts">
-  import { ExternalLinkAlt, Upload, User } from '@vicons/fa'
+  import { ChevronDown, ExternalLinkAlt, Upload, User } from '@vicons/fa'
+  import { BANNER_DATA } from '~~/data/banners'
 
   const { t } = useI18n()
   const message = useMessage()
-  const { getImageSrc } = imageProvider()
   const { activeSlot, getSlotLabel } = useProfileSlots()
   const {
     ownedItemIds,
@@ -424,15 +452,117 @@
     },
   ])
 
+  const catalogIndex = useCatalogIndex()
+  const showAccessories = ref(false)
+
   const qualityRows = computed(() => summary.value?.qualityRows ?? [])
-  const typeRows = computed(() => summary.value?.typeRows.slice(0, 8) ?? [])
-  const nearCompleteOutfits = computed(() =>
-    (summary.value?.nearCompleteOutfits ?? []).map((outfit) => ({
-      ...outfit,
-      name: t(`outfit.${outfit.id}.name`),
-      image: getImageSrc('outfit', outfit.id),
-    }))
-  )
+
+  const apparelRows = computed(() => {
+    if (!summary.value) return []
+    return summary.value.typeRows.filter(
+      (row) => getItemTypeCategory(row.type as ItemType) === 'clothes'
+    )
+  })
+
+  const accessoryRows = computed(() => {
+    if (!summary.value) return []
+    return summary.value.typeRows.filter(
+      (row) => getItemTypeCategory(row.type as ItemType) !== 'clothes'
+    )
+  })
+
+  const getVersionPrefix = (version: string) => {
+    const parts = version.split('.')
+    if (parts.length >= 2) {
+      return `${parts[0]}.${parts[1]}`
+    }
+    return version
+  }
+
+  const getVersionLink = (version: string) => {
+    const slug = resolveSeoVersionSlug(version)
+    if (slug) {
+      return { path: `/outfits/version/${slug}` }
+    }
+    return { path: '/outfits', query: { version } }
+  }
+
+  const versionRows = computed(() => {
+    const index = catalogIndex.index.value
+    if (!index || !ownedItemIds.value) return []
+
+    const outfitsByVersion = new Map<string, Set<number>>()
+
+    Object.values(BANNER_DATA).forEach((banner) => {
+      if (!banner.runs || banner.runs.length === 0) return
+
+      const releaseVersion = banner.runs[0].version
+      const prefix = getVersionPrefix(releaseVersion)
+
+      if (!outfitsByVersion.has(prefix)) {
+        outfitsByVersion.set(prefix, new Set())
+      }
+
+      const outfitSet = outfitsByVersion.get(prefix)!
+
+      const addOutfit = (outfitIdStr: string) => {
+        const id = Number(outfitIdStr)
+        if (!isNaN(id) && index.outfitItemsById.has(id)) {
+          outfitSet.add(id)
+        }
+      }
+
+      banner.outfit4StarId.forEach(addOutfit)
+      banner.outfit5StarId.forEach(addOutfit)
+    })
+
+    const ownedSet = new Set(ownedItemIds.value)
+    const rows: Array<{
+      version: string
+      owned: number
+      total: number
+      completionPercent: number
+    }> = []
+
+    outfitsByVersion.forEach((outfitIdSet, version) => {
+      let completedCount = 0
+
+      outfitIdSet.forEach((outfitId) => {
+        const itemIds = index.outfitItemsById.get(outfitId) ?? []
+        if (itemIds.length === 0) return
+
+        const isCompleted = itemIds.every((id) => ownedSet.has(id))
+        if (isCompleted) {
+          completedCount++
+        }
+      })
+
+      if (outfitIdSet.size > 0) {
+        rows.push({
+          version,
+          owned: completedCount,
+          total: outfitIdSet.size,
+          completionPercent: Math.round(
+            (completedCount / outfitIdSet.size) * 100
+          ),
+        })
+      }
+    })
+
+    return rows.sort((a, b) => {
+      const aParts = a.version.split('.').map(Number)
+      const bParts = b.version.split('.').map(Number)
+
+      for (let i = 0; i < Math.max(aParts.length, bParts.length); i++) {
+        const aVal = aParts[i] ?? 0
+        const bVal = bParts[i] ?? 0
+        if (aVal !== bVal) {
+          return bVal - aVal
+        }
+      }
+      return 0
+    })
+  })
   const quickActions = computed(() => [
     {
       label: t('wardrobe.open_missing_items'),

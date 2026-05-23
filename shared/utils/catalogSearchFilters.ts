@@ -1,3 +1,5 @@
+export type CatalogSearchOwnershipMode = 'all' | 'owned'
+
 export type CatalogSearchFilters = {
   query: string
   itemTypes: string[]
@@ -6,6 +8,7 @@ export type CatalogSearchFilters = {
   style: string | null
   label: string | null
   source: string | null
+  ownershipMode: CatalogSearchOwnershipMode
 }
 
 export type CatalogSearchFilterQuery = Record<string, unknown>
@@ -53,6 +56,9 @@ const normalizeItemTypes = (value: unknown) => {
   ).sort((left, right) => left.localeCompare(right))
 }
 
+const normalizeOwnershipMode = (value: unknown): CatalogSearchOwnershipMode =>
+  normalizeString(value) === 'owned' ? 'owned' : 'all'
+
 export const normalizeCatalogSearchFilters = (
   query: CatalogSearchFilterQuery
 ): CatalogSearchFilters => ({
@@ -63,6 +69,7 @@ export const normalizeCatalogSearchFilters = (
   style: normalizeTrait(query.style),
   label: normalizeTrait(query.label),
   source: normalizeString(query.source ?? query.obtain),
+  ownershipMode: normalizeOwnershipMode(query.wardrobe),
 })
 
 export const buildCatalogSearchFilterQuery = (
@@ -79,6 +86,7 @@ export const buildCatalogSearchFilterQuery = (
   ...(filters.style && { style: filters.style }),
   ...(filters.label && { label: filters.label }),
   ...(filters.source && { source: filters.source }),
+  ...(filters.ownershipMode === 'owned' && { wardrobe: 'owned' }),
 })
 
 export const getCatalogSearchFilterKey = (filters: CatalogSearchFilters) =>
@@ -90,4 +98,5 @@ export const getCatalogSearchFilterKey = (filters: CatalogSearchFilters) =>
     filters.style ?? '',
     filters.label ?? '',
     filters.source ?? '',
+    filters.ownershipMode,
   ].join(':')

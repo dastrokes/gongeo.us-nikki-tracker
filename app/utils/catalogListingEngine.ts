@@ -15,13 +15,6 @@ export type CatalogListingQuery = {
   ownershipMode: ItemOwnershipMode | OutfitOwnershipMode
 }
 
-export type StaticCatalogListingQuery = {
-  entity: StaticCatalogListingEntity
-  filters: Record<string, unknown>
-  page: number
-  pageSize: number
-}
-
 export type CatalogListingResult<TEntry> = {
   data: TEntry[]
   total: number
@@ -55,12 +48,21 @@ type CatalogLocalListingQuery =
   | CatalogLocalListingItemQuery
   | CatalogLocalListingOutfitQuery
 
-type CatalogListingWardrobeAccess = {
+export type CatalogListingWardrobeAccess = {
   ownedItemIds?: readonly number[]
   isItemOwned?: (itemId: number) => boolean
   getOutfitProgress?: (itemIds: readonly number[]) => {
     status: OutfitOwnershipMode
   }
+}
+
+export type StaticCatalogListingQuery = {
+  entity: StaticCatalogListingEntity
+  filters: Record<string, unknown>
+  page: number
+  pageSize: number
+  ownershipMode?: ItemOwnershipMode | OutfitOwnershipMode
+  wardrobe?: CatalogListingWardrobeAccess
 }
 
 export const createEmptyCatalogListingResult = <TEntry>(
@@ -445,6 +447,28 @@ const getLocalItemMatchingIds = ({
   )
 }
 
+export const getLocalCatalogItemMatchingIds = ({
+  filters,
+  index,
+  attributeMatchingIds,
+}: {
+  filters: Record<string, unknown>
+  index: CatalogLocalIndex
+  attributeMatchingIds?: readonly number[] | null
+}) =>
+  getLocalItemMatchingIds({
+    query: {
+      entity: 'item',
+      filters,
+      page: 1,
+      pageSize: Number.MAX_SAFE_INTEGER,
+      ownershipMode: 'all',
+    },
+    index,
+    attributeMatchingIds,
+    wardrobe: {},
+  })
+
 const getLocalOutfitMatchingIds = ({
   query,
   index,
@@ -582,7 +606,16 @@ const filterStaticItemIds = ({
       )
     : stableFiltered
 
-  return attributeFiltered.map((item) => item.id)
+  const ownershipMode =
+    query.entity === 'item' && query.ownershipMode !== 'partial'
+      ? (query.ownershipMode ?? 'all')
+      : 'all'
+
+  return filterItemIdsByOwnership(
+    attributeFiltered.map((item) => item.id),
+    ownershipMode,
+    query.wardrobe ?? {}
+  )
 }
 
 const filterStaticOutfitIds = ({
@@ -591,10 +624,27 @@ const filterStaticOutfitIds = ({
 }: {
   query: StaticCatalogListingQuery
   index: CatalogLocalIndex
-}) =>
-  index.outfits
+}) => {
+  const outfitIds = index.outfits
     .filter((outfit) => matchesOutfitStableFilters(outfit, query.filters))
     .map((outfit) => outfit.id)
+
+  const ownershipMode =
+    query.entity === 'outfit' ? (query.ownershipMode ?? 'all') : 'all'
+  if (ownershipMode === 'all') return outfitIds
+
+  const wardrobe = query.wardrobe ?? {}
+  if (!wardrobe.getOutfitProgress) {
+    throw new Error('Outfit wardrobe progress is unavailable')
+  }
+
+  return outfitIds.filter((outfitId) => {
+    const progress = wardrobe.getOutfitProgress!(
+      index.outfitItemsById.get(outfitId) ?? []
+    )
+    return progress.status === ownershipMode
+  })
+}
 
 const filterStaticMakeupIds = ({
   query,

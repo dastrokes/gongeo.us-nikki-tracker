@@ -179,6 +179,8 @@
                     :owned="isItemOwned(itemId)"
                     :disabled="!isWardrobeReady"
                     :loading="wardrobeSaving"
+                    :quality="item.quality"
+                    variant="overlay"
                     @toggle="toggleCurrentItemOwned"
                   />
                 </div>

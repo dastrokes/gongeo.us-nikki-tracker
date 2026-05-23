@@ -9,14 +9,14 @@
       <div class="flex flex-col gap-2">
         <div class="flex items-start justify-between gap-2">
           <div
-            class="flex min-w-0 flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center"
+            class="flex w-full min-w-0 flex-col gap-2 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center"
           >
             <n-select
               :value="compendiumSection"
               :options="compendiumSectionOptions"
               :render-label="renderCompendiumSectionOptionLabel"
               size="small"
-              class="w-full self-start sm:w-40"
+              class="w-full max-w-40 self-start sm:w-40"
               :show-checkmark="false"
               :clearable="false"
               @update:value="handleCompendiumSectionChange"
@@ -25,8 +25,9 @@
             <n-select
               v-model:value="wardrobeFilter"
               :options="wardrobeFilterOptions"
+              :render-label="renderWardrobeFilterOptionLabel"
               size="small"
-              class="w-full self-start sm:w-36"
+              class="w-full max-w-40 self-start sm:w-40"
               :show-checkmark="false"
               :clearable="false"
               :disabled="!isWardrobeReady"
@@ -73,13 +74,12 @@
             </n-button>
           </div>
 
-          <n-tooltip
-            v-if="!editMode"
-            :disabled="totalItems <= TIER_ENTRY_LIMIT"
-            trigger="hover"
-          >
-            <template #trigger>
-              <div class="shrink-0 self-start">
+          <div class="flex shrink-0 items-center gap-2 self-start">
+            <n-tooltip
+              :disabled="totalItems <= TIER_ENTRY_LIMIT"
+              trigger="hover"
+            >
+              <template #trigger>
                 <n-button
                   size="small"
                   type="primary"
@@ -91,26 +91,44 @@
                   </template>
                   {{ t('navigation.tierlist') }}
                 </n-button>
-              </div>
-            </template>
-            {{
-              t('tierlist.over_limit.description', {
-                max: TIER_ENTRY_LIMIT,
-              })
-            }}
-          </n-tooltip>
+              </template>
+              {{
+                t('tierlist.over_limit.description', {
+                  max: TIER_ENTRY_LIMIT,
+                })
+              }}
+            </n-tooltip>
 
-          <n-button
-            size="small"
-            :type="editMode ? 'primary' : 'default'"
-            :disabled="!isWardrobeReady"
-            class="shrink-0 self-start"
-            @click="toggleEditMode"
-          >
-            {{
-              editMode ? t('wardrobe.actions.done') : t('wardrobe.actions.edit')
-            }}
-          </n-button>
+            <n-tooltip trigger="hover">
+              <template #trigger>
+                <n-button
+                  size="small"
+                  text
+                  :type="editMode ? 'primary' : 'default'"
+                  :disabled="!isWardrobeReady"
+                  class="w-8"
+                  :aria-label="
+                    editMode
+                      ? t('wardrobe.actions.view_mode')
+                      : t('wardrobe.actions.edit_mode')
+                  "
+                  @click="toggleEditMode"
+                >
+                  <template #icon>
+                    <n-icon>
+                      <BookOpen v-if="editMode" />
+                      <UserEdit v-else />
+                    </n-icon>
+                  </template>
+                </n-button>
+              </template>
+              {{
+                editMode
+                  ? t('wardrobe.actions.view_mode')
+                  : t('wardrobe.actions.edit_mode')
+              }}
+            </n-tooltip>
+          </div>
         </div>
 
         <div class="flex items-start gap-2 sm:hidden">
@@ -319,7 +337,7 @@
                   :fetchpriority="getListingImageFetchPriority(index)"
                   class="transition-shadow duration-300 group-hover:shadow-xl"
                   :style="
-                    selectedOutfitIds.has(entry.id)
+                    isOutfitBatchSelected(entry.id)
                       ? getQualityRingStyle(entry.quality)
                       : undefined
                   "
@@ -327,13 +345,15 @@
                 <div class="absolute top-2 left-2 z-30">
                   <n-checkbox
                     v-if="editMode"
-                    :checked="selectedOutfitIds.has(entry.id)"
+                    :checked="isOutfitBatchSelected(entry.id)"
                     :theme-overrides="
                       getWardrobeSelectionCheckboxTheme(entry.quality)
                     "
                     :aria-label="t('common.select')"
                     @click.stop
-                    @update:checked="toggleSelection(entry.id)"
+                    @update:checked="
+                      (checked) => updateOutfitSelection(entry.id, checked)
+                    "
                   />
                 </div>
                 <div
@@ -345,7 +365,7 @@
                     :status="entry.progress.status"
                     :owned="entry.progress.owned"
                     :total="entry.progress.total"
-                    variant="overlay"
+                    :quality="entry.quality"
                   />
                 </div>
                 <div
@@ -359,6 +379,7 @@
                     :owned="entry.progress?.status === 'owned'"
                     :disabled="!isWardrobeReady"
                     :loading="isOutfitToggleLoading(entry.id)"
+                    :quality="entry.quality"
                     variant="overlay"
                     @toggle="toggleVisibleOutfitOwned(entry.id)"
                   />
@@ -414,12 +435,18 @@
 
 <script setup lang="ts">
   import {
+    BookOpen,
+    UserEdit,
     Star,
     Tshirt,
     ListAlt,
     PaintBrush,
     Paw,
     SortAmountDown,
+    CheckCircle,
+    Adjust,
+    TimesCircle,
+    DotCircle,
   } from '@vicons/fa'
   import { NIcon } from 'naive-ui'
   import type { SelectOption } from 'naive-ui'
@@ -700,6 +727,17 @@
       variationFilter.value !== 'base' ||
       wardrobeFilter.value !== 'all'
   )
+  const selectionFilterKey = computed(() =>
+    JSON.stringify({
+      quality: qualityFilter.value,
+      version: versionFilter.value,
+      style: styleFilter.value,
+      label: labelFilter.value,
+      obtain: obtainFilter.value,
+      variations: variationFilter.value,
+      wardrobe: wardrobeFilter.value,
+    })
+  )
 
   const cacheKey = computed(
     () =>
@@ -782,28 +820,29 @@
   )
   const listingAnimationKey = computed(() => cacheKey.value)
 
-  watch(entries, () => {
-    if (!editMode.value) return
-    const visibleIds = new Set(entries.value.map((entry) => entry.id))
-    selectedOutfitIds.value = new Set(
-      Array.from(selectedOutfitIds.value).filter((outfitId) =>
-        visibleIds.has(outfitId)
-      )
-    )
-  })
-
   const totalItems = computed(() => compendiumData.value?.total || 0)
 
   const countLabels = computed(() => ({
     singular: t('common.outfit'),
     plural: t('common.outfits'),
   }))
-  const wardrobeFilterOptions = computed(() => [
-    { label: t('wardrobe.filters.all'), value: 'all' },
-    { label: t('wardrobe.filters.owned'), value: 'owned' },
-    { label: t('wardrobe.filters.partial'), value: 'partial' },
-    { label: t('wardrobe.filters.missing'), value: 'missing' },
+  const wardrobeFilterOptions = computed<IconSelectOption[]>(() => [
+    { label: t('wardrobe.filters.all'), value: 'all', icon: DotCircle },
+    { label: t('wardrobe.filters.owned'), value: 'owned', icon: CheckCircle },
+    { label: t('wardrobe.filters.partial'), value: 'partial', icon: Adjust },
+    {
+      label: t('wardrobe.filters.missing'),
+      value: 'missing',
+      icon: TimesCircle,
+    },
   ])
+  const renderWardrobeFilterOptionLabel = (option: SelectOption) => {
+    const { icon } = option as IconSelectOption
+    return h('div', { class: 'flex items-center gap-2' }, [
+      h(NIcon, { size: 16 }, { default: () => h(icon) }),
+      h('span', null, String(option.label ?? '')),
+    ])
+  }
   const TIER_ENTRY_LIMIT = 200
   const isTierlistDisabled = computed(
     () =>
@@ -916,6 +955,10 @@
     ...(styleFilter.value && { style: styleFilter.value }),
     ...(labelFilter.value && { label: labelFilter.value }),
     ...(obtainFilter.value && { source: obtainFilter.value }),
+    ...(variationFilter.value !== 'base' && {
+      variations: variationFilter.value,
+    }),
+    ...(wardrobeFilter.value !== 'all' && { wardrobe: wardrobeFilter.value }),
   })
 
   const goToTierlist = () => {
@@ -936,18 +979,33 @@
     }
   }
 
-  const toggleSelection = (outfitId: number) => {
+  const isOutfitBatchSelected = (outfitId: number) =>
+    batchScope.value === 'selected'
+      ? selectedOutfitIds.value.has(outfitId)
+      : true
+
+  const materializeVisibleOutfitSelection = () => {
+    selectedOutfitIds.value = new Set(entries.value.map((entry) => entry.id))
+    batchScope.value = 'selected'
+  }
+
+  const updateOutfitSelection = (outfitId: number, checked: boolean) => {
+    if (batchScope.value !== 'selected') {
+      materializeVisibleOutfitSelection()
+    }
+
     const nextSelection = new Set(selectedOutfitIds.value)
-    if (nextSelection.has(outfitId)) {
-      nextSelection.delete(outfitId)
-    } else {
+    if (checked) {
       nextSelection.add(outfitId)
+    } else {
+      nextSelection.delete(outfitId)
     }
     selectedOutfitIds.value = nextSelection
   }
 
   const clearSelection = () => {
     selectedOutfitIds.value = new Set()
+    batchScope.value = 'selected'
   }
 
   const getWardrobeSelectionCheckboxTheme = (quality: number) => {
@@ -1004,7 +1062,7 @@
     if (isListingCardControlClick(event)) return
 
     if (editMode.value) {
-      toggleSelection(outfitId)
+      updateOutfitSelection(outfitId, !isOutfitBatchSelected(outfitId))
       return
     }
 
@@ -1156,6 +1214,12 @@
 
   watch(wardrobeFilter, () => {
     currentPage.value = 1
+  })
+
+  watch(selectionFilterKey, () => {
+    if (editMode.value) {
+      clearSelection()
+    }
   })
 
   watch(

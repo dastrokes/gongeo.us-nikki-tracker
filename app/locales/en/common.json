@@ -241,9 +241,7 @@
   },
   "wardrobe": {
     "title": "Wardrobe",
-    "subtitle": "Track owned items for the active profile.",
     "hub_subtitle": "Review ownership progress, find missing pieces, and continue wardrobe updates for the active profile.",
-    "active_profile": "Active profile",
     "owned_items": "Owned items",
     "item_completion": "Item completion",
     "outfit_completion": "Outfit completion",
@@ -256,7 +254,6 @@
     "empty_title": "No owned items yet",
     "empty_description": "Mark items from the item compendium or import owned banner items from tracker data.",
     "open_items": "Open Items",
-    "open_outfits": "Open Outfits",
     "open_missing_items": "Missing items",
     "open_missing_items_detail": "{count} left to mark",
     "open_owned_items": "Owned items",
@@ -267,7 +264,6 @@
     "open_missing_outfits_detail": "{count} not started",
     "view_outfit": "View Outfit",
     "manage_profiles": "Manage Profiles",
-    "sync_profiles": "Sync and Profiles",
     "import_tracker": "Import from Tracker",
     "import_panel_title": "Tracker Import",
     "import_tracker_description": "Adds item IDs found in local resonance tracker data. Existing wardrobe entries stay unchanged.",
@@ -281,11 +277,11 @@
     "by_quality": "By Quality",
     "by_slot": "By Slot",
     "quality_label": "{quality} Star",
-    "near_complete_title": "Near-Complete Outfits",
-    "near_complete_description": "Partial outfits with the fewest missing pieces.",
-    "missing_items_count": "{count} missing",
-    "no_partial_outfits_title": "No partial outfits",
-    "no_partial_outfits_description": "Mark more items to see outfits in progress.",
+    "show_accessories": "Show Accessories",
+    "hide_accessories": "Hide Accessories",
+    "by_version": "By Version / Event",
+    "version_outfits_completed": "{completed} of {total} outfits",
+    "version_label": "Version {version}",
     "filters": {
       "all": "All",
       "owned": "Owned",
@@ -294,19 +290,17 @@
     },
     "actions": {
       "edit": "Edit",
+      "edit_mode": "Edit Mode",
       "done": "Done",
+      "view_mode": "View Mode",
       "mark_owned": "Mark Owned",
       "mark_unowned": "Mark Unowned",
-      "mark_outfit_owned": "Mark Outfit Owned",
-      "mark_outfit_unowned": "Mark Outfit Unowned",
       "clear_selection": "Clear",
       "retry": "Retry"
     },
     "status": {
       "owned": "Owned",
-      "not_owned": "Not owned",
       "missing": "Missing",
-      "partial": "Partial",
       "progress": "{owned}/{total}"
     },
     "scope": {
@@ -324,7 +318,6 @@
     },
     "confirm": {
       "all_owned": "Mark all {count} matching items as owned?",
-      "all_unowned": "Mark all {count} matching items as unowned?",
       "outfit_unowned": "Mark all {count} outfit items as unowned?"
     },
     "error": {
@@ -798,6 +791,7 @@
         "error": "Cannot submit while entries failed to load.",
         "over_limit": "Apply more filters before submitting.",
         "scope_unavailable": "Community sharing is not available for this selection yet.",
+        "wardrobe_filtered": "Community submit is unavailable while ownership filters are active.",
         "filtered_items_only": "Community submit is unavailable while advanced filters are active.",
         "incomplete": "Rank all loaded entries before submitting.",
         "no_changes": "No changes since your last submit."
@@ -888,6 +882,8 @@
     "clear_query": "Clear search",
     "close_details": "Close details",
     "filters_title": "Search filters",
+    "scope_all": "All items",
+    "scope_owned": "Owned items",
     "find_similar": "Find Similar",
     "similar_prefix": "Similar",
     "error_description": "Failed to query search index.",

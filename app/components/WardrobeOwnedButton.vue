@@ -1,5 +1,5 @@
 <template>
-  <n-tooltip>
+  <n-tooltip :show-arrow="false">
     <template #trigger>
       <n-button
         :circle="variant === 'overlay'"
@@ -12,8 +12,8 @@
           variant === 'overlay'
             ? 'h-7 w-7 shadow-sm backdrop-blur-md hover:-translate-y-px hover:shadow-md'
             : 'h-6 rounded-full px-1.5 text-xs font-medium',
-          owned ? ownedClass : unownedClass,
         ]"
+        :style="buttonStyle"
         :aria-label="actionLabel"
         @click.stop="$emit('toggle')"
       >
@@ -43,11 +43,13 @@
       variant?: 'inline' | 'overlay'
       activeLabel?: string
       inactiveLabel?: string
+      quality?: number
     }>(),
     {
       variant: 'inline',
       activeLabel: undefined,
       inactiveLabel: undefined,
+      quality: undefined,
     }
   )
 
@@ -69,17 +71,50 @@
       : t('wardrobe.actions.mark_owned')
   )
 
-  const ownedClass = computed(() =>
-    props.variant === 'overlay'
-      ? 'border-emerald-300/70 bg-emerald-500/90 text-white hover:bg-emerald-500 dark:border-emerald-400/50'
-      : 'border-emerald-200/80 bg-emerald-50/80 text-emerald-700 hover:bg-emerald-100/80 dark:border-emerald-500/40 dark:bg-emerald-950/40 dark:text-emerald-300'
-  )
+  const buttonStyle = computed(() => {
+    if (props.owned && props.quality !== undefined) {
+      const color = getQualityColor(props.quality)
+      if (props.variant === 'overlay') {
+        return {
+          borderColor: `${color}b3`,
+          backgroundColor: `${color}e6`,
+          color: '#ffffff',
+        }
+      }
+      return {
+        borderColor: `${color}40`,
+        backgroundColor: `${color}1a`,
+        color,
+      }
+    }
 
-  const unownedClass = computed(() =>
-    props.variant === 'overlay'
-      ? 'border-white/70 bg-white/85 text-gray-700 hover:bg-white dark:border-white/15 dark:bg-gray-950/80 dark:text-gray-200'
-      : 'border-gray-200 bg-gray-50/70 text-gray-600 hover:bg-gray-100/80 dark:border-gray-700 dark:bg-gray-950/50 dark:text-gray-300 dark:hover:bg-gray-900'
-  )
+    // fallback fixed colors
+    if (props.owned) {
+      return props.variant === 'overlay'
+        ? {
+            borderColor: 'rgb(110 231 183 / 0.7)',
+            backgroundColor: 'rgb(16 185 129 / 0.9)',
+            color: '#ffffff',
+          }
+        : {
+            borderColor: 'rgb(167 243 208 / 0.8)',
+            backgroundColor: 'rgb(236 253 245 / 0.8)',
+            color: 'rgb(4 120 87)',
+          }
+    }
+
+    return props.variant === 'overlay'
+      ? {
+          borderColor: 'rgba(255,255,255,0.7)',
+          backgroundColor: 'rgba(255,255,255,0.85)',
+          color: 'rgb(55 65 81)',
+        }
+      : {
+          borderColor: 'rgb(229 231 235)',
+          backgroundColor: 'rgb(249 250 251 / 0.7)',
+          color: 'rgb(75 85 99)',
+        }
+  })
 </script>
 
 <style scoped>

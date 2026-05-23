@@ -8,14 +8,14 @@
       <div class="flex flex-col gap-2">
         <div class="flex items-start justify-between gap-2">
           <div
-            class="flex min-w-0 flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center"
+            class="flex w-full min-w-0 flex-col gap-2 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center"
           >
             <n-select
               :value="compendiumSection"
               :options="compendiumSectionOptions"
               :render-label="renderCompendiumSectionOptionLabel"
               size="small"
-              class="w-full self-start sm:w-40"
+              class="w-full max-w-40 self-start sm:w-40"
               :show-checkmark="false"
               :clearable="false"
               @update:value="handleCompendiumSectionChange"

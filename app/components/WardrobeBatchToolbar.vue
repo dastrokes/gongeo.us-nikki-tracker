@@ -8,34 +8,37 @@
     <div
       class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"
     >
-      <div class="flex min-w-0 flex-col gap-2 sm:flex-row sm:items-center">
-        <div class="min-w-0">
-          <div
-            class="text-xs font-semibold tracking-wide text-sky-600 uppercase dark:text-sky-300"
-          >
-            {{ t('wardrobe.batch.title') }}
-          </div>
-          <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
-            {{ activeCountLabel }}
-          </div>
-        </div>
-        <n-radio-group
-          :value="scope"
-          size="small"
-          class="sm:ml-2"
-          @update:value="$emit('update:scope', $event as WardrobeBatchScope)"
-        >
-          <n-radio-button
+      <div
+        class="flex min-w-0 flex-col gap-2 sm:flex-row sm:items-center sm:gap-3"
+      >
+        <n-button-group>
+          <n-button
             v-for="option in scopeOptions"
             :key="option.value"
-            :value="option.value"
+            size="small"
+            :type="scope === option.value ? 'primary' : 'default'"
+            @click="$emit('update:scope', option.value)"
           >
             {{ option.label }}
-          </n-radio-button>
-        </n-radio-group>
+          </n-button>
+        </n-button-group>
+
+        <div
+          class="flex items-center gap-2 text-sm font-medium text-gray-900 dark:text-gray-100"
+        >
+          {{ activeCountLabel }}
+          <n-button
+            size="small"
+            tertiary
+            :disabled="!canClearSelection"
+            @click="$emit('clear-selection')"
+          >
+            {{ t('wardrobe.actions.clear_selection') }}
+          </n-button>
+        </div>
       </div>
 
-      <div class="grid grid-cols-3 gap-2 sm:flex sm:flex-wrap sm:items-center">
+      <div class="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:items-center">
         <n-button
           size="small"
           type="primary"
@@ -56,14 +59,6 @@
             <n-icon><Times /></n-icon>
           </template>
           {{ t('wardrobe.actions.mark_unowned') }}
-        </n-button>
-        <n-button
-          size="small"
-          quaternary
-          :disabled="selectedCount === 0"
-          @click="$emit('clear-selection')"
-        >
-          {{ t('wardrobe.actions.clear_selection') }}
         </n-button>
       </div>
     </div>
@@ -91,7 +86,9 @@
 
   const { t } = useI18n()
 
-  const scopeOptions = computed(() => [
+  const scopeOptions = computed<
+    Array<{ label: string; value: WardrobeBatchScope }>
+  >(() => [
     { label: t('wardrobe.scope.selected'), value: 'selected' },
     { label: t('wardrobe.scope.page'), value: 'page' },
     { label: t('wardrobe.scope.all'), value: 'all' },
@@ -117,4 +114,8 @@
       count: props.allMatchingCount,
     })
   })
+
+  const canClearSelection = computed(
+    () => props.scope !== 'selected' || props.selectedCount > 0
+  )
 </script>

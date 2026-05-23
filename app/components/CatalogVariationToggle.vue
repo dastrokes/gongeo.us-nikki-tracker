@@ -1,13 +1,13 @@
 <template>
-  <div class="flex items-center gap-2 self-start text-sm whitespace-nowrap">
-    <span class="text-gray-500 dark:text-gray-400">
-      {{ t('common.variations') }}
-    </span>
+  <div
+    class="flex w-full max-w-40 items-center gap-2 self-start text-sm whitespace-nowrap sm:w-40"
+  >
     <n-select
       :value="value"
       size="small"
-      class="w-32"
+      class="w-full"
       :options="variationOptions"
+      :render-label="renderVariationOptionLabel"
       :aria-label="t('common.variations')"
       @update:value="handleUpdate"
     />
@@ -15,6 +15,11 @@
 </template>
 
 <script setup lang="ts">
+  import { Palette } from '@vicons/fa'
+  import { NIcon } from 'naive-ui'
+  import type { SelectOption } from 'naive-ui'
+  import { h } from 'vue'
+
   type CatalogVariationFilter =
     | 'base'
     | 'all'
@@ -43,6 +48,12 @@
     { label: t('banner.outfit.level.4'), value: 'evo3' },
     { label: t('compendium.variation_filter.all_evos'), value: 'all-evos' },
   ])
+
+  const renderVariationOptionLabel = (option: SelectOption) =>
+    h('div', { class: 'flex items-center gap-2' }, [
+      h(NIcon, { size: 16 }, { default: () => h(Palette) }),
+      h('span', null, String(option.label ?? '')),
+    ])
 
   const handleUpdate = (value: CatalogVariationFilter) => {
     emit('update:value', value)

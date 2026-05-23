@@ -145,17 +145,13 @@
                       </span>
                     </n-tag>
                   </NuxtLinkLocale>
-                  <WardrobeStatusBadge
-                    v-if="wardrobeInitialized"
-                    :status="outfitProgress.status"
-                    :owned="outfitProgress.owned"
-                    :total="outfitProgress.total"
-                  />
                   <WardrobeOwnedButton
                     v-if="wardrobeInitialized"
                     :owned="outfitProgress.status === 'owned'"
                     :disabled="!isWardrobeReady || outfitItems.length === 0"
                     :loading="wardrobeSaving"
+                    :quality="outfit.quality"
+                    variant="overlay"
                     @toggle="toggleCurrentOutfitOwned"
                   />
                 </div>

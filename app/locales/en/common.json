@@ -168,7 +168,9 @@
         "sync_success": "Data synced successfully!",
         "sync_error": "Failed to sync data.",
         "confirm_upload": {
-          "content": "This will upload local data for {profile} profile to cloud storage, overwriting any existing cloud data for this profile. Continue?"
+          "content": "This will upload local data for {profile} profile to cloud storage, overwriting any existing cloud data for this profile. Continue?",
+          "empty_resonance_warning": "Warning: this local profile has no resonance data. Uploading will clear any resonance data currently stored in cloud for this profile.",
+          "empty_wardrobe_warning": "Warning: this local profile has no wardrobe data. Uploading will clear any wardrobe data currently stored in cloud for this profile."
         },
         "confirm_sync": {
           "content": "This will sync local data for {profile} profile with cloud data by merging them together. Continue?"

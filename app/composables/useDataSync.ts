@@ -64,72 +64,8 @@ const normalizeSyncWardrobe = (value: unknown): WardrobeData => {
   }
 }
 
-const getLatestTimestamp = (timestamps: readonly string[]) => {
-  const valid = timestamps.filter((timestamp) => timestamp.trim().length > 0)
-  if (valid.length === 0) return ''
-
-  return valid.sort((left, right) => {
-    const leftTime = Date.parse(left)
-    const rightTime = Date.parse(right)
-    if (
-      Number.isFinite(leftTime) &&
-      Number.isFinite(rightTime) &&
-      leftTime !== rightTime
-    ) {
-      return rightTime - leftTime
-    }
-    return right.localeCompare(left)
-  })[0]!
-}
-
-const compareWardrobeFreshness = (
-  local: WardrobeData,
-  remote: WardrobeData
-) => {
-  const localTime = Date.parse(local.updatedAt)
-  const remoteTime = Date.parse(remote.updatedAt)
-  const hasLocalTime = Number.isFinite(localTime)
-  const hasRemoteTime = Number.isFinite(remoteTime)
-
-  if (hasLocalTime && hasRemoteTime && localTime !== remoteTime) {
-    return localTime > remoteTime ? 1 : -1
-  }
-
-  if (hasLocalTime !== hasRemoteTime) {
-    return hasLocalTime ? 1 : -1
-  }
-
-  return 0
-}
-
-const mergeSyncWardrobe = (
-  localWardrobe: unknown,
-  remoteWardrobe: unknown
-): WardrobeData => {
-  const local = normalizeSyncWardrobe(localWardrobe)
-  const remote = normalizeSyncWardrobe(remoteWardrobe)
-  const freshness = compareWardrobeFreshness(local, remote)
-
-  if (freshness > 0) return local
-  if (freshness < 0) return remote
-
-  return {
-    version: 1,
-    ownedItemIds: normalizeOwnedIds([
-      ...local.ownedItemIds,
-      ...remote.ownedItemIds,
-    ]),
-    ownedMakeupIds: normalizeOwnedIds([
-      ...local.ownedMakeupIds,
-      ...remote.ownedMakeupIds,
-    ]),
-    ownedMomoIds: normalizeOwnedIds([
-      ...local.ownedMomoIds,
-      ...remote.ownedMomoIds,
-    ]),
-    updatedAt: getLatestTimestamp([local.updatedAt, remote.updatedAt]),
-  }
-}
+const mergeSyncWardrobe = (remoteWardrobe: unknown): WardrobeData =>
+  normalizeSyncWardrobe(remoteWardrobe)
 
 const mergeCloudData = (
   localData: SyncData,
@@ -140,9 +76,26 @@ const mergeCloudData = (
   edits: mergeEditData(localData.edits, remoteData?.edits ?? {}),
   evo: mergeEvoData(localData.evo, remoteData?.evo, mode),
   pearpal: mergePearpalData(localData.pearpal, remoteData?.pearpal),
-  wardrobe: mergeSyncWardrobe(localData.wardrobe, remoteData?.wardrobe),
+  wardrobe: mergeSyncWardrobe(remoteData?.wardrobe),
   profile: localData.profile ?? remoteData?.profile,
 })
+
+const hasResonanceBackupData = (data: SyncData): boolean =>
+  Object.keys(data.pulls).length > 0 ||
+  Object.keys(data.edits).length > 0 ||
+  Object.keys(data.evo).length > 0 ||
+  Object.keys(data.pearpal).length > 0
+
+const hasWardrobeBackupData = (wardrobe: WardrobeData | undefined): boolean =>
+  Boolean(
+    wardrobe &&
+    (wardrobe.ownedItemIds.length > 0 ||
+      wardrobe.ownedMakeupIds.length > 0 ||
+      wardrobe.ownedMomoIds.length > 0)
+  )
+
+const hasSyncData = (data: SyncData): boolean =>
+  hasResonanceBackupData(data) || hasWardrobeBackupData(data.wardrobe)
 
 export const useDataSync = () => {
   const supabase = useSupabaseClient()
@@ -221,22 +174,13 @@ export const useDataSync = () => {
         profile: buildProfileMeta(slot),
       }
       const filePath = getUserDataPath(user.value.id, slot)
-      const remoteFiles = await listUserSlotFiles(user.value.id)
-      if (!remoteFiles) {
+
+      if (!hasSyncData(localSyncData)) {
         return { success: false }
       }
 
-      let syncData = localSyncData
-      if (remoteFiles.has(filePath)) {
-        const { success, data: remoteData } = await downloadData(slot)
-        if (!success || !remoteData) {
-          return { success: false }
-        }
-        syncData = mergeCloudData(localSyncData, remoteData, 'upload')
-      }
-
       // Compress the data
-      const compressedData = compressData(syncData)
+      const compressedData = compressData(localSyncData)
 
       // Upload to Supabase Storage
       const { error: uploadError } = await supabase.storage

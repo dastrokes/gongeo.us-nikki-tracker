@@ -30,7 +30,7 @@
     TrashAlt,
     Trash,
   } from '@vicons/fa'
-  import { NIcon } from 'naive-ui'
+  import { NAlert, NIcon } from 'naive-ui'
   import type {
     DropdownDividerOption,
     DropdownGroupOption,
@@ -50,7 +50,7 @@
   const localePath = useLocalePath()
   const userStore = useUserStore()
   const pullStore = usePullStore()
-  const { clearData, loadData } = useIndexedDB()
+  const { clearData, loadData, loadWardrobe } = useIndexedDB()
   const { user, signOut } = useAuth()
   const { uploadData, syncData, clearCloudData } = useDataSync()
   const { resetToDefaults } = useTrackerSettings()
@@ -86,6 +86,86 @@
       user.value.user_metadata?.custom_claims?.global_name || user.value.email
     return displayName || t('default.user_profile.guest')
   })
+
+  type ProfileUploadDataState = {
+    hasResonanceData: boolean
+    hasWardrobeData: boolean
+  }
+
+  const hasResonanceBackupData = (data: {
+    pulls: Record<number, PullRecord[]>
+    edits: Record<number, EditRecord[]>
+    evo: Record<number, EvoRecord[]>
+    pearpal: Record<number, PearpalTrackerItem[]>
+  }): boolean =>
+    Object.keys(data.pulls).length > 0 ||
+    Object.keys(data.edits).length > 0 ||
+    Object.keys(data.evo).length > 0 ||
+    Object.keys(data.pearpal).length > 0
+
+  const hasWardrobeBackupData = (wardrobe: WardrobeData | undefined): boolean =>
+    Boolean(
+      wardrobe &&
+      (wardrobe.ownedItemIds.length > 0 ||
+        wardrobe.ownedMakeupIds.length > 0 ||
+        wardrobe.ownedMomoIds.length > 0)
+    )
+
+  const hasProfileBackupData = (state: ProfileUploadDataState): boolean =>
+    state.hasResonanceData || state.hasWardrobeData
+
+  const getProfileUploadWarningKeys = (state: ProfileUploadDataState) => {
+    const warnings: string[] = []
+    if (!state.hasResonanceData) {
+      warnings.push(
+        'default.user_profile.sync.confirm_upload.empty_resonance_warning'
+      )
+    }
+    if (!state.hasWardrobeData) {
+      warnings.push(
+        'default.user_profile.sync.confirm_upload.empty_wardrobe_warning'
+      )
+    }
+    return warnings
+  }
+
+  const renderProfileUploadConfirmation = (
+    content: string,
+    warnings: readonly string[]
+  ) =>
+    h('div', { class: 'space-y-3' }, [
+      h('p', { class: 'm-0' }, content),
+      ...warnings.map((warning) =>
+        h(
+          NAlert,
+          {
+            key: warning,
+            type: 'warning',
+            showIcon: true,
+            bordered: true,
+          },
+          { default: () => warning }
+        )
+      ),
+    ])
+
+  const getActiveProfileUploadDataState =
+    async (): Promise<ProfileUploadDataState> => {
+      const data = await loadData(activeSlot.value)
+      const wardrobe = await loadWardrobe(activeSlot.value)
+      return {
+        hasResonanceData: hasResonanceBackupData(data),
+        hasWardrobeData: hasWardrobeBackupData(wardrobe),
+      }
+    }
+
+  const getUploadConfirmationContent = (state: ProfileUploadDataState) => () =>
+    renderProfileUploadConfirmation(
+      t('default.user_profile.sync.confirm_upload.content', {
+        profile: activeProfileLabel.value,
+      }),
+      getProfileUploadWarningKeys(state).map((key) => t(key))
+    )
 
   function renderIcon(icon: Component) {
     return () => h(NIcon, null, { default: () => h(icon) })
@@ -227,26 +307,17 @@
     }
 
     if (key === 'upload') {
+      const uploadDataState = await getActiveProfileUploadDataState()
       dialog.warning({
         title: t('common.profile.upload_data'),
-        content: t('default.user_profile.sync.confirm_upload.content', {
-          profile: activeProfileLabel.value,
-        }),
+        content: getUploadConfirmationContent(uploadDataState),
         positiveText: t('common.confirm'),
         negativeText: t('common.cancel'),
         onPositiveClick: async () => {
           try {
             message.loading(t('common.loading'))
 
-            // Check if data exists in IndexedDB
-            const existingData = await loadData()
-            const hasLocalData =
-              Object.keys(existingData.pulls).length > 0 ||
-              Object.keys(existingData.edits).length > 0 ||
-              Object.keys(existingData.evo).length > 0 ||
-              Object.keys(existingData.pearpal).length > 0
-
-            if (!hasLocalData) {
+            if (!hasProfileBackupData(uploadDataState)) {
               // Load data from IndexedDB first
               const { pulls, edits, evo, pearpal } = await loadData()
               await initFromData({ pulls, edits, evo, pearpal })

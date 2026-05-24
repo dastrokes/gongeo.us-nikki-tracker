@@ -286,7 +286,7 @@
 </template>
 
 <script setup lang="ts">
-  import { NInput } from 'naive-ui'
+  import { NAlert, NInput } from 'naive-ui'
   import {
     CheckCircle,
     Cloud,
@@ -437,10 +437,95 @@
     return lastSyncAt ? 'text-slate-500' : 'text-slate-400'
   }
 
-  const hasLocalWardrobeData = (wardrobe: WardrobeData): boolean =>
-    wardrobe.ownedItemIds.length > 0 ||
-    wardrobe.ownedMakeupIds.length > 0 ||
-    wardrobe.ownedMomoIds.length > 0
+  type ProfileUploadDataState = {
+    hasResonanceData: boolean
+    hasWardrobeData: boolean
+  }
+
+  const hasResonanceBackupData = (data: {
+    pulls: Record<number, PullRecord[]>
+    edits: Record<number, EditRecord[]>
+    evo: Record<number, EvoRecord[]>
+    pearpal: Record<number, PearpalTrackerItem[]>
+  }): boolean =>
+    Object.keys(data.pulls).length > 0 ||
+    Object.keys(data.edits).length > 0 ||
+    Object.keys(data.evo).length > 0 ||
+    Object.keys(data.pearpal).length > 0
+
+  const hasWardrobeBackupData = (wardrobe: WardrobeData | undefined): boolean =>
+    Boolean(
+      wardrobe &&
+      (wardrobe.ownedItemIds.length > 0 ||
+        wardrobe.ownedMakeupIds.length > 0 ||
+        wardrobe.ownedMomoIds.length > 0)
+    )
+
+  const hasProfileBackupData = (state: ProfileUploadDataState): boolean =>
+    state.hasResonanceData || state.hasWardrobeData
+
+  const getProfileUploadWarningKeys = (state: ProfileUploadDataState) => {
+    const warnings: string[] = []
+    if (!state.hasResonanceData) {
+      warnings.push(
+        'default.user_profile.sync.confirm_upload.empty_resonance_warning'
+      )
+    }
+    if (!state.hasWardrobeData) {
+      warnings.push(
+        'default.user_profile.sync.confirm_upload.empty_wardrobe_warning'
+      )
+    }
+    return warnings
+  }
+
+  const renderProfileUploadConfirmation = (
+    content: string,
+    warnings: readonly string[]
+  ) =>
+    h('div', { class: 'space-y-3' }, [
+      h('p', { class: 'm-0' }, content),
+      ...warnings.map((warning) =>
+        h(
+          NAlert,
+          {
+            key: warning,
+            type: 'warning',
+            showIcon: true,
+            bordered: true,
+          },
+          { default: () => warning }
+        )
+      ),
+    ])
+
+  const getProfileUploadDataState = async (
+    slot: number
+  ): Promise<ProfileUploadDataState> => {
+    const data = await loadData(slot)
+    const wardrobe = await loadWardrobe(slot)
+    return {
+      hasResonanceData: hasResonanceBackupData(data),
+      hasWardrobeData: hasWardrobeBackupData(wardrobe),
+    }
+  }
+
+  const getUploadConfirmationContent = (
+    profile: string,
+    states: readonly ProfileUploadDataState[]
+  ) => {
+    const warningKeys = Array.from(
+      new Set(states.flatMap((state) => getProfileUploadWarningKeys(state)))
+    )
+
+    return () =>
+      renderProfileUploadConfirmation(
+        t('default.user_profile.sync.confirm_upload.content', {
+          profile,
+        }),
+        warningKeys.map((key) => t(key))
+      )
+  }
 
   const requireAuth = async () => {
     if (user.value) return true
@@ -465,14 +550,8 @@
     localStatusReady.value = false
     const results = await Promise.all(
       slotNumbers.value.map(async (slot) => {
-        const data = await loadData(slot)
-        const wardrobe = await loadWardrobe(slot)
-        const hasData =
-          Object.keys(data.pulls).length > 0 ||
-          Object.keys(data.edits).length > 0 ||
-          Object.keys(data.evo).length > 0 ||
-          Object.keys(data.pearpal).length > 0 ||
-          hasLocalWardrobeData(wardrobe)
+        const state = await getProfileUploadDataState(slot)
+        const hasData = hasProfileBackupData(state)
         return [slot, hasData] as const
       })
     )
@@ -486,12 +565,13 @@
 
   const handleUploadToCloud = async () => {
     if (!(await requireAuth())) return
+    const uploadDataState = await getProfileUploadDataState(activeSlot.value)
 
     dialog.warning({
       title: t('common.profile.upload_data'),
-      content: t('default.user_profile.sync.confirm_upload.content', {
-        profile: activeProfileLabel.value,
-      }),
+      content: getUploadConfirmationContent(activeProfileLabel.value, [
+        uploadDataState,
+      ]),
       positiveText: t('common.confirm'),
       negativeText: t('common.cancel'),
       onPositiveClick: async () => {
@@ -662,14 +742,8 @@
   ): Promise<number[]> => {
     const results = await Promise.all(
       slotsToCheck.map(async (slot) => {
-        const data = await loadData(slot)
-        const wardrobe = await loadWardrobe(slot)
-        const hasData =
-          Object.keys(data.pulls).length > 0 ||
-          Object.keys(data.edits).length > 0 ||
-          Object.keys(data.evo).length > 0 ||
-          Object.keys(data.pearpal).length > 0 ||
-          hasLocalWardrobeData(wardrobe)
+        const state = await getProfileUploadDataState(slot)
+        const hasData = hasProfileBackupData(state)
         return hasData ? slot : null
       })
     )
@@ -679,20 +753,22 @@
 
   const handleUploadAllProfiles = async () => {
     if (!(await requireAuth())) return
+    const slotsToUpload = await getSlotsWithLocalData(existingSlotNumbers.value)
+    const uploadDataStates = await Promise.all(
+      slotsToUpload.map((slot) => getProfileUploadDataState(slot))
+    )
 
     dialog.warning({
       title: t('common.profile.upload_data'),
-      content: t('default.user_profile.sync.confirm_upload.content', {
-        profile: allProfilesLabel.value,
-      }),
+      content: getUploadConfirmationContent(
+        allProfilesLabel.value,
+        uploadDataStates
+      ),
       positiveText: t('common.confirm'),
       negativeText: t('common.cancel'),
       onPositiveClick: async () => {
         try {
           message.loading(t('common.loading'))
-          const slotsToUpload = await getSlotsWithLocalData(
-            existingSlotNumbers.value
-          )
           await runCloudActionForSlots(
             slotsToUpload,
             uploadData,

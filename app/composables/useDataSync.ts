@@ -22,26 +22,6 @@ interface MergedSyncData {
   }
 }
 
-const hasRecordRows = <T>(records: Record<number, T[]> | undefined) =>
-  !!records &&
-  Object.values(records).some((rows) => Array.isArray(rows) && rows.length > 0)
-
-const hasResonanceData = (data: SyncData | null | undefined) =>
-  !!data &&
-  (hasRecordRows(data.pulls) ||
-    hasRecordRows(data.edits) ||
-    hasRecordRows(data.evo) ||
-    hasRecordRows(data.pearpal))
-
-const getResonanceData = (
-  data: SyncData | null | undefined
-): Pick<MergedSyncData, 'pulls' | 'edits' | 'evo' | 'pearpal'> => ({
-  pulls: data?.pulls ?? {},
-  edits: data?.edits ?? {},
-  evo: data?.evo ?? {},
-  pearpal: data?.pearpal ?? {},
-})
-
 const normalizeOwnedIds = (values: unknown): number[] => {
   if (!Array.isArray(values)) return []
   return Array.from(
@@ -102,12 +82,36 @@ const getLatestTimestamp = (timestamps: readonly string[]) => {
   })[0]!
 }
 
+const compareWardrobeFreshness = (
+  local: WardrobeData,
+  remote: WardrobeData
+) => {
+  const localTime = Date.parse(local.updatedAt)
+  const remoteTime = Date.parse(remote.updatedAt)
+  const hasLocalTime = Number.isFinite(localTime)
+  const hasRemoteTime = Number.isFinite(remoteTime)
+
+  if (hasLocalTime && hasRemoteTime && localTime !== remoteTime) {
+    return localTime > remoteTime ? 1 : -1
+  }
+
+  if (hasLocalTime !== hasRemoteTime) {
+    return hasLocalTime ? 1 : -1
+  }
+
+  return 0
+}
+
 const mergeSyncWardrobe = (
   localWardrobe: unknown,
   remoteWardrobe: unknown
 ): WardrobeData => {
   const local = normalizeSyncWardrobe(localWardrobe)
   const remote = normalizeSyncWardrobe(remoteWardrobe)
+  const freshness = compareWardrobeFreshness(local, remote)
+
+  if (freshness > 0) return local
+  if (freshness < 0) return remote
 
   return {
     version: 1,
@@ -131,22 +135,14 @@ const mergeCloudData = (
   localData: SyncData,
   remoteData: SyncData | null | undefined,
   mode: 'upload' | 'download'
-): MergedSyncData => {
-  const resonanceSource =
-    mode === 'upload'
-      ? hasResonanceData(localData)
-        ? localData
-        : remoteData
-      : hasResonanceData(remoteData)
-        ? remoteData
-        : localData
-
-  return {
-    ...getResonanceData(resonanceSource),
-    wardrobe: mergeSyncWardrobe(localData.wardrobe, remoteData?.wardrobe),
-    profile: localData.profile ?? remoteData?.profile,
-  }
-}
+): MergedSyncData => ({
+  pulls: mergePullData(localData.pulls, remoteData?.pulls ?? {}),
+  edits: mergeEditData(localData.edits, remoteData?.edits ?? {}),
+  evo: mergeEvoData(localData.evo, remoteData?.evo, mode),
+  pearpal: mergePearpalData(localData.pearpal, remoteData?.pearpal),
+  wardrobe: mergeSyncWardrobe(localData.wardrobe, remoteData?.wardrobe),
+  profile: localData.profile ?? remoteData?.profile,
+})
 
 export const useDataSync = () => {
   const supabase = useSupabaseClient()

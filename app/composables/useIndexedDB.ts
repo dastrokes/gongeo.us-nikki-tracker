@@ -63,81 +63,6 @@ export function useIndexedDB() {
     return slotOverride === activeSlot.value
   }
 
-  const mergePullData = (
-    existingData: Record<number, PullRecord[]>,
-    newData: Record<number, PullRecord[]>
-  ): Record<number, PullRecord[]> => {
-    const mergedData: Record<number, PullRecord[]> = { ...existingData }
-
-    Object.entries(newData).forEach(([bannerIdStr, newPulls]) => {
-      const bannerId = Number(bannerIdStr)
-      const existingPulls = mergedData[bannerId] ?? []
-
-      if (existingPulls.length === 0) {
-        mergedData[bannerId] = [...newPulls]
-        return
-      }
-
-      const existingNewest = existingPulls[0]![0] // first = newest
-      const existingOldest = existingPulls.at(-1)![0] // last = oldest
-
-      const existingTimestamps = new Set(existingPulls.map(([ts]) => ts))
-
-      const toPrepend: PullRecord[] = []
-      const toAppend: PullRecord[] = []
-
-      for (const [timestamp, itemId] of newPulls) {
-        if (existingTimestamps.has(timestamp)) continue
-
-        if (timestamp > existingNewest) {
-          toPrepend.push([timestamp, itemId])
-        } else if (timestamp < existingOldest) {
-          toAppend.push([timestamp, itemId])
-        } else {
-          continue
-        }
-      }
-
-      mergedData[bannerId] = [...toPrepend, ...existingPulls, ...toAppend]
-    })
-
-    return mergedData
-  }
-
-  const mergeEditData = (
-    existingEdits: Record<number, EditRecord[]>,
-    newEdits: Record<number, EditRecord[]>
-  ): Record<number, EditRecord[]> => {
-    const mergedEdits: Record<number, EditRecord[]> = { ...existingEdits }
-
-    // Process each banner separately to reduce lookup map size
-    Object.entries(newEdits).forEach(([bannerIdStr, newEditRecords]) => {
-      const bannerId = parseInt(bannerIdStr)
-      const existingRecords = mergedEdits[bannerId] || []
-
-      // Create a map of existing edits by itemId for this banner only
-      const existingEditMap = new Map<string, EditRecord>()
-      existingRecords.forEach((edit) => {
-        existingEditMap.set(edit[1], edit)
-      })
-
-      // Process new edits for this banner
-      newEditRecords.forEach((newEdit) => {
-        const existingEdit = existingEditMap.get(newEdit[1])
-
-        if (!existingEdit) {
-          // New edit doesn't exist, add it
-          existingRecords.push(newEdit)
-        }
-        // If existing edit exists, keep the existing one (existing data takes priority)
-      })
-
-      mergedEdits[bannerId] = existingRecords
-    })
-
-    return mergedEdits
-  }
-
   const saveData = async (
     pullsByBanner: Record<number, PullRecord[]>,
     editsByBanner: Record<number, EditRecord[]>,
@@ -282,6 +207,7 @@ export function useIndexedDB() {
       pullsData.value = {}
       editsData.value = {}
       evoData.value = {}
+      await useWardrobe().init({ force: true })
     } catch (error) {
       console.error('Failed to clear data:', error)
       throw error
@@ -344,6 +270,7 @@ export function useIndexedDB() {
         pullsData.value = {}
         editsData.value = {}
         evoData.value = {}
+        await useWardrobe().init({ force: true })
       }
     } catch (error) {
       console.error('Failed to clear slot data:', error)

@@ -260,7 +260,7 @@
   onMounted(() => {
     initTheme()
     initProfile()
-    void initWardrobe()
+    initWardrobe()
     initAuth()
   })
 </script>

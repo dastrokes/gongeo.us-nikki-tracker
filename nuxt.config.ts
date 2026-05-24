@@ -157,6 +157,7 @@ export default defineNuxtConfig({
           'Bytespider',
           'CCBot',
           'ClaudeBot',
+          'Claude-SearchBot',
           'cohere-ai',
           'Diffbot',
           'FacebookBot',
@@ -190,6 +191,7 @@ export default defineNuxtConfig({
           'magpie-crawler',
           'proximic',
           'Riddler',
+          'SleepBot',
           'WikiDo',
           'Zoominfobot',
 

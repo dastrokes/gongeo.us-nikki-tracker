@@ -813,17 +813,19 @@
                     getSearchQualityOverlayClass(luckyDisplayResult?.quality)
                   "
                 ></div>
-                <img
+                <NuxtImg
                   v-if="
                     luckyRevealPhase === 'revealed' &&
                     getResultImageSrc(luckyDisplayResult)
                   "
                   :src="getResultImageSrc(luckyDisplayResult) ?? ''"
                   :alt="luckyDisplayResult?.itemName"
-                  class="lucky-reveal-image relative z-10 h-full w-full transition-all duration-300"
+                  class="lucky-reveal-image absolute inset-0 z-10 h-full w-full transition-all duration-300"
                   :class="getResultImageClass(luckyDisplayResult)"
+                  :preset="getResultImagePreset(luckyDisplayResult)"
+                  sizes="200px"
+                  fit="cover"
                   loading="eager"
-                  decoding="async"
                 />
                 <div
                   v-else
@@ -1136,17 +1138,19 @@
                       getSearchQualityOverlayClass(luckyDisplayResult?.quality)
                     "
                   ></div>
-                  <img
+                  <NuxtImg
                     v-if="
                       luckyRevealPhase === 'revealed' &&
                       getResultImageSrc(luckyDisplayResult)
                     "
                     :src="getResultImageSrc(luckyDisplayResult) ?? ''"
                     :alt="luckyDisplayResult?.itemName"
-                    class="lucky-reveal-image relative z-10 h-full w-full transition-all duration-300"
+                    class="lucky-reveal-image absolute inset-0 z-10 h-full w-full transition-all duration-300"
                     :class="getResultImageClass(luckyDisplayResult)"
+                    :preset="getResultImagePreset(luckyDisplayResult)"
+                    sizes="200px"
+                    fit="cover"
                     loading="eager"
-                    decoding="async"
                   />
                   <div
                     v-else

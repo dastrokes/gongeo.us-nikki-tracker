@@ -1,9 +1,21 @@
-export const useWardrobeSummary = () => {
+export const useWardrobeSummary = (
+  options: {
+    scope?: Ref<WardrobeSummaryScope>
+  } = {}
+) => {
   const catalogIndex = useCatalogIndex()
-  const { ownedItemIds, mutationVersion } = useWardrobe()
+  const { ownedItemIds, ownedMakeupIds, ownedMomoIds, mutationVersion } =
+    useWardrobe()
 
   const load = async () => {
-    await catalogIndex.load(['items', 'outfits', 'outfitItems'])
+    await catalogIndex.load([
+      'items',
+      'outfits',
+      'outfitItems',
+      'makeups',
+      'makeupItems',
+      'momo',
+    ])
   }
 
   const summary = computed(() => {
@@ -13,7 +25,10 @@ export const useWardrobeSummary = () => {
     return createWardrobeSummary({
       index,
       ownedItemIds: ownedItemIds.value,
+      ownedMakeupIds: ownedMakeupIds.value,
+      ownedMomoIds: ownedMomoIds.value,
       nearCompleteLimit: 6,
+      scope: options.scope?.value ?? 'base',
     })
   })
 

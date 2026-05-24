@@ -351,9 +351,7 @@ export function useIndexedDB() {
     }
   }
 
-  const loadWardrobe = async (
-    slotOverride?: number
-  ): Promise<WardrobeDataV1> => {
+  const loadWardrobe = async (slotOverride?: number): Promise<WardrobeData> => {
     try {
       if (lastSavePromise) {
         await lastSavePromise
@@ -372,7 +370,7 @@ export function useIndexedDB() {
     }
   }
 
-  const saveWardrobe = async (data: WardrobeDataV1, slotOverride?: number) => {
+  const saveWardrobe = async (data: WardrobeData, slotOverride?: number) => {
     try {
       if (lastSavePromise) {
         await lastSavePromise

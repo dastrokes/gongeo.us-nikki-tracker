@@ -163,6 +163,13 @@
                     {{ t('common.momo_entry') }}
                   </n-tag>
                 </NuxtLinkLocale>
+                <WardrobeOwnedButton
+                  :owned="isMomoTracked"
+                  :disabled="!isWardrobeReady"
+                  :loading="wardrobeToggleLoading"
+                  :quality="momo.quality"
+                  @toggle="toggleTrackedMomo"
+                />
               </div>
 
               <div class="flex flex-wrap gap-2">
@@ -290,6 +297,7 @@
   import { Images, Star } from '@vicons/fa'
 
   const { t, te, locale } = useI18n()
+  const message = useMessage()
   const localePath = useLocalePath()
   const route = useRoute()
   const router = useRouter()
@@ -297,6 +305,13 @@
   const { getImageSrc } = imageProvider()
   const { fetchMomoById } = useMomo()
   const showIcon = ref(false)
+  const wardrobeToggleLoading = ref(false)
+  const {
+    canMutate: isWardrobeReady,
+    init: initWardrobe,
+    isMomoOwned,
+    toggleMomoOwned,
+  } = useWardrobe()
 
   const momoId = computed(() => Number(route.params.id))
   const momoKey = computed(() => `momo-detail-${momoId.value}-${locale.value}`)
@@ -325,6 +340,9 @@
     return te(key) ? t(key) : (momo.value?.name ?? '')
   })
   const momoDescription = computed(() => momo.value?.description ?? '')
+  const isMomoTracked = computed(() =>
+    momo.value ? isMomoOwned(momo.value.id) : false
+  )
   const momoQualityListLocation = computed(() => {
     if (!momo.value) return '/momo'
 
@@ -395,6 +413,19 @@
     refresh()
   }
 
+  const toggleTrackedMomo = async () => {
+    if (!momo.value || wardrobeToggleLoading.value) return
+
+    wardrobeToggleLoading.value = true
+    try {
+      await toggleMomoOwned(momo.value.id)
+    } catch {
+      message.error(t('wardrobe.error.save'))
+    } finally {
+      wardrobeToggleLoading.value = false
+    }
+  }
+
   const navigateToList = () => {
     if (canNavigateBackToList.value) {
       router.back()
@@ -403,6 +434,10 @@
 
     navigateTo(listingPath.value)
   }
+
+  onMounted(() => {
+    void initWardrobe()
+  })
 
   const ogMomoImage = computed(() =>
     momo.value ? getOgImageSrc('momo', momo.value.id) : undefined

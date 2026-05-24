@@ -1,8 +1,10 @@
 export const WARDROBE_DATA_VERSION = 1 as const
 
-export const createEmptyWardrobeData = (): WardrobeDataV1 => ({
+export const createEmptyWardrobeData = (): WardrobeData => ({
   version: WARDROBE_DATA_VERSION,
   ownedItemIds: [],
+  ownedMakeupIds: [],
+  ownedMomoIds: [],
   updatedAt: '',
 })
 
@@ -30,23 +32,25 @@ export const normalizeWardrobeItemIds = (values: unknown): number[] => {
   ).sort((left, right) => left - right)
 }
 
-export const normalizeWardrobeData = (value: unknown): WardrobeDataV1 => {
+export const normalizeWardrobeData = (value: unknown): WardrobeData => {
   if (!value || typeof value !== 'object' || Array.isArray(value)) {
     return createEmptyWardrobeData()
   }
 
-  const candidate = value as Partial<WardrobeDataV1>
+  const candidate = value as Partial<WardrobeData>
   const updatedAt =
     typeof candidate.updatedAt === 'string' ? candidate.updatedAt : ''
 
   return {
     version: WARDROBE_DATA_VERSION,
     ownedItemIds: normalizeWardrobeItemIds(candidate.ownedItemIds),
+    ownedMakeupIds: normalizeWardrobeItemIds(candidate.ownedMakeupIds),
+    ownedMomoIds: normalizeWardrobeItemIds(candidate.ownedMomoIds),
     updatedAt,
   }
 }
 
-export const getWardrobeOutfitProgress = (
+export const getWardrobeSetProgress = (
   itemIds: readonly number[],
   ownedItemIds: ReadonlySet<number>
 ): WardrobeOutfitProgress => {
@@ -65,3 +69,5 @@ export const getWardrobeOutfitProgress = (
     total,
   }
 }
+
+export const getWardrobeOutfitProgress = getWardrobeSetProgress

@@ -138,7 +138,7 @@ const decodeCompactMomoRows = (rows: unknown[][]) =>
     }))
   )
 
-const decodeCompactOutfitItemRows = (rows: unknown[][]) =>
+const decodeCompactRelationRows = (rows: unknown[][]) =>
   Object.fromEntries(
     rows.map(([outfitId, itemIds]) => [
       String(outfitId),
@@ -154,11 +154,16 @@ export const decodeCatalogPartPayload = (
   part: CatalogIndexPartKey,
   payload: unknown
 ) => {
-  if (part === 'outfitItems') {
+  if (
+    part === 'outfitItems' ||
+    part === 'makeupItems' ||
+    part === 'makeupOutfits' ||
+    part === 'momoOutfits'
+  ) {
     return isCompactCatalogPayload(payload)
-      ? decodeCompactOutfitItemRows(payload.r!)
+      ? decodeCompactRelationRows(payload.r!)
       : isCompactRowPayload(payload)
-        ? decodeCompactOutfitItemRows(payload)
+        ? decodeCompactRelationRows(payload)
         : payload
   }
 

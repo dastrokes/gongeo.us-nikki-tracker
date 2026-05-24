@@ -9,6 +9,9 @@ const CATALOG_INDEX_PARTS = [
   'makeups',
   'momo',
   'outfitItems',
+  'makeupItems',
+  'makeupOutfits',
+  'momoOutfits',
 ] as const satisfies readonly CatalogIndexPartKey[]
 
 const catalogIndex = shallowRef<CatalogLocalIndex | null>(null)
@@ -24,6 +27,9 @@ const catalogPartData: {
   makeups?: ItemListEntry[]
   momo?: MomoListEntry[]
   outfitItems?: Record<string, number[]>
+  makeupItems?: Record<string, number[]>
+  makeupOutfits?: Record<string, number[]>
+  momoOutfits?: Record<string, number[]>
 } = {}
 
 const isCatalogIndexPart = (part: string): part is CatalogIndexPartKey =>
@@ -75,6 +81,9 @@ const rebuildCatalogLocalIndex = () => {
     makeups: catalogPartData.makeups,
     momo: catalogPartData.momo,
     outfitItems: catalogPartData.outfitItems,
+    makeupItems: catalogPartData.makeupItems,
+    makeupOutfits: catalogPartData.makeupOutfits,
+    momoOutfits: catalogPartData.momoOutfits,
   })
 }
 
@@ -84,6 +93,9 @@ const applyLegacyManifestPayload = (manifest: CatalogIndexManifestResponse) => {
   catalogPartData.makeups = manifest.makeups ?? []
   catalogPartData.momo = manifest.momo ?? []
   catalogPartData.outfitItems = manifest.outfitItems ?? {}
+  catalogPartData.makeupItems = manifest.makeupItems ?? {}
+  catalogPartData.makeupOutfits = manifest.makeupOutfits ?? {}
+  catalogPartData.momoOutfits = manifest.momoOutfits ?? {}
   CATALOG_INDEX_PARTS.forEach((part) => catalogLoadedParts.add(part))
   rebuildCatalogLocalIndex()
 }
@@ -129,7 +141,10 @@ const loadCatalogManifest = async () => {
 
 const validateCatalogPart = (part: CatalogIndexPartKey, value: unknown) => {
   const valid =
-    part === 'outfitItems'
+    part === 'outfitItems' ||
+    part === 'makeupItems' ||
+    part === 'makeupOutfits' ||
+    part === 'momoOutfits'
       ? !!value && typeof value === 'object' && !Array.isArray(value)
       : Array.isArray(value)
 
@@ -198,7 +213,7 @@ const loadCatalogEntity = async (
       : entity === 'outfit'
         ? ['outfits', 'outfitItems']
         : entity === 'makeup'
-          ? ['makeups']
+          ? ['makeups', 'makeupItems', 'makeupOutfits']
           : ['momo']
 
   await loadCatalogIndex(parts)

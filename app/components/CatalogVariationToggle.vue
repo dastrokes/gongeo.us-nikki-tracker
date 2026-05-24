@@ -29,9 +29,23 @@
     | 'evo3'
     | 'all-evos'
 
-  defineProps<{
-    value: CatalogVariationFilter
-  }>()
+  const props = withDefaults(
+    defineProps<{
+      value: CatalogVariationFilter
+      options?: readonly CatalogVariationFilter[]
+    }>(),
+    {
+      options: () => [
+        'base',
+        'all',
+        'evo1',
+        'evo2',
+        'evo3',
+        'all-evos',
+        'glowup',
+      ],
+    }
+  )
 
   const emit = defineEmits<{
     (event: 'update:value', value: CatalogVariationFilter): void
@@ -39,15 +53,24 @@
 
   const { t } = useI18n()
 
-  const variationOptions = computed(() => [
-    { label: t('banner.outfit.level.1'), value: 'base' },
-    { label: t('common.all'), value: 'all' },
-    { label: t('banner.outfit.level.glow'), value: 'glowup' },
-    { label: t('banner.outfit.level.2'), value: 'evo1' },
-    { label: t('banner.outfit.level.3'), value: 'evo2' },
-    { label: t('banner.outfit.level.4'), value: 'evo3' },
-    { label: t('compendium.variation_filter.all_evos'), value: 'all-evos' },
-  ])
+  const variationOptionMap = computed<
+    Record<CatalogVariationFilter, SelectOption>
+  >(() => ({
+    base: { label: t('banner.outfit.level.1'), value: 'base' },
+    all: { label: t('common.all'), value: 'all' },
+    evo1: { label: t('banner.outfit.level.2'), value: 'evo1' },
+    evo2: { label: t('banner.outfit.level.3'), value: 'evo2' },
+    evo3: { label: t('banner.outfit.level.4'), value: 'evo3' },
+    'all-evos': {
+      label: t('compendium.variation_filter.all_evos'),
+      value: 'all-evos',
+    },
+    glowup: { label: t('banner.outfit.level.glow'), value: 'glowup' },
+  }))
+
+  const variationOptions = computed(() =>
+    props.options.map((option) => variationOptionMap.value[option])
+  )
 
   const renderVariationOptionLabel = (option: SelectOption) =>
     h('div', { class: 'flex items-center gap-2' }, [

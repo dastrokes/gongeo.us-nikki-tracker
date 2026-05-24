@@ -6,6 +6,8 @@ export type StaticCatalogListingEntity =
 
 export type ItemOwnershipMode = 'all' | 'owned' | 'missing'
 export type OutfitOwnershipMode = 'all' | 'owned' | 'partial' | 'missing'
+export type MakeupOwnershipMode = 'all' | 'owned' | 'partial' | 'missing'
+export type MomoOwnershipMode = 'all' | 'owned' | 'missing'
 
 export type CatalogListingQuery = {
   entity: CatalogListingEntity
@@ -31,8 +33,14 @@ export type CatalogListingOutfitRelations = {
   wardrobeOutfitItems?: Record<string, number[]>
 }
 
+export type CatalogListingMakeupRelations = {
+  wardrobeMakeupItems?: Record<string, number[]>
+}
+
 export type CatalogListingHydratedResult<TEntry> =
-  CatalogListingResult<TEntry> & CatalogListingOutfitRelations
+  CatalogListingResult<TEntry> &
+    CatalogListingOutfitRelations &
+    CatalogListingMakeupRelations
 
 type CatalogLocalListingItemQuery = CatalogListingQuery & {
   entity: 'item'
@@ -50,9 +58,14 @@ type CatalogLocalListingQuery =
 
 export type CatalogListingWardrobeAccess = {
   ownedItemIds?: readonly number[]
+  ownedMakeupIds?: readonly number[]
+  ownedMomoIds?: readonly number[]
   isItemOwned?: (itemId: number) => boolean
   getOutfitProgress?: (itemIds: readonly number[]) => {
     status: OutfitOwnershipMode
+  }
+  getFullMakeupProgress?: (makeupIds: readonly number[]) => {
+    status: MakeupOwnershipMode
   }
 }
 
@@ -61,7 +74,11 @@ export type StaticCatalogListingQuery = {
   filters: Record<string, unknown>
   page: number
   pageSize: number
-  ownershipMode?: ItemOwnershipMode | OutfitOwnershipMode
+  ownershipMode?:
+    | ItemOwnershipMode
+    | OutfitOwnershipMode
+    | MakeupOwnershipMode
+    | MomoOwnershipMode
   wardrobe?: CatalogListingWardrobeAccess
 }
 
@@ -349,11 +366,12 @@ const sortMakeupsForFilters = (
     if (!type) {
       const leftOrder = MAKEUP_TYPE_ORDER.get(left.type) ?? 999
       const rightOrder = MAKEUP_TYPE_ORDER.get(right.type) ?? 999
-      return leftOrder - rightOrder || right.id - left.id
+      if (leftOrder !== rightOrder) return leftOrder - rightOrder
+      return compareByObtainOrder(left, right)
     }
 
     if (type === 'fullMakeup') {
-      return left.id - right.id
+      return right.id - left.id
     }
 
     return compareByObtainOrder(left, right)
@@ -399,6 +417,22 @@ const filterItemIdsByOwnership = (
   })
 }
 
+const filterDirectIdsByOwnership = (
+  ids: number[],
+  mode: ItemOwnershipMode | MomoOwnershipMode,
+  ownedIds: readonly number[] | undefined,
+  unavailableMessage: string
+) => {
+  if (mode === 'all') return ids
+  if (!ownedIds) throw new Error(unavailableMessage)
+
+  const ownedIdSet = new Set(ownedIds)
+  return ids.filter((id) => {
+    const owned = ownedIdSet.has(id)
+    return mode === 'owned' ? owned : !owned
+  })
+}
+
 const toOutfitItemsRecord = (
   outfitIds: readonly number[],
   outfitItemsById: ReadonlyMap<number, number[]>
@@ -407,6 +441,17 @@ const toOutfitItemsRecord = (
     outfitIds.map((outfitId) => [
       String(outfitId),
       outfitItemsById.get(outfitId) ?? [],
+    ])
+  )
+
+const toMakeupItemsRecord = (
+  makeupIds: readonly number[],
+  makeupItemsById: ReadonlyMap<number, number[]>
+) =>
+  Object.fromEntries(
+    makeupIds.map((makeupId) => [
+      String(makeupId),
+      makeupItemsById.get(makeupId) ?? [],
     ])
   )
 
@@ -652,17 +697,56 @@ const filterStaticMakeupIds = ({
 }: {
   query: StaticCatalogListingQuery
   index: CatalogLocalIndex
-}) =>
-  sortMakeupsForFilters(
+}) => {
+  const makeupIds = sortMakeupsForFilters(
     index.makeups.filter((makeup) => {
       if (!matchesStableCatalogFilters(makeup, query.filters)) return false
-      if (!matchesMakeupVariationFilter(makeup, query.filters)) return false
 
       const type = getStringFilter(query.filters, 'type')
-      return !type || makeup.type === type
+      if (type && makeup.type !== type) return false
+
+      return matchesMakeupVariationFilter(makeup, query.filters)
     }),
     query.filters
   ).map((makeup) => makeup.id)
+
+  const ownershipMode =
+    query.entity === 'makeup'
+      ? ((query.ownershipMode ?? 'all') as MakeupOwnershipMode)
+      : 'all'
+  if (ownershipMode === 'all') return makeupIds
+
+  const wardrobe = query.wardrobe ?? {}
+  const ownedMakeupIds = wardrobe.ownedMakeupIds
+  const ownedMakeupIdSet = ownedMakeupIds ? new Set(ownedMakeupIds) : null
+
+  if (!ownedMakeupIdSet && !wardrobe.getFullMakeupProgress) {
+    throw new Error('Makeup wardrobe progress is unavailable')
+  }
+
+  return makeupIds.filter((makeupId) => {
+    const makeup = index.makeupById.get(makeupId)
+    if (!makeup) return false
+
+    if (makeup.type !== 'fullMakeup') {
+      if (!ownedMakeupIdSet) {
+        throw new Error('Makeup wardrobe ownership is unavailable')
+      }
+
+      const owned = ownedMakeupIdSet.has(makeupId)
+      return ownershipMode === 'owned'
+        ? owned
+        : ownershipMode === 'missing' && !owned
+    }
+
+    const componentIds = index.makeupItemsById.get(makeupId) ?? []
+    const progress = wardrobe.getFullMakeupProgress
+      ? wardrobe.getFullMakeupProgress(componentIds)
+      : getWardrobeSetProgress(componentIds, ownedMakeupIdSet!)
+
+    return progress.status === ownershipMode
+  })
+}
 
 const filterStaticMomoIds = ({
   query,
@@ -670,8 +754,8 @@ const filterStaticMomoIds = ({
 }: {
   query: StaticCatalogListingQuery
   index: CatalogLocalIndex
-}) =>
-  index.momo
+}) => {
+  const momoIds = index.momo
     .filter(
       (momo) =>
         matchesQuality(momo, query.filters) &&
@@ -679,6 +763,54 @@ const filterStaticMomoIds = ({
         matchesMomoSource(momo, query.filters)
     )
     .map((momo) => momo.id)
+
+  const ownershipMode =
+    query.entity === 'momo' && query.ownershipMode !== 'partial'
+      ? ((query.ownershipMode ?? 'all') as MomoOwnershipMode)
+      : 'all'
+
+  return filterDirectIdsByOwnership(
+    momoIds,
+    ownershipMode,
+    query.wardrobe?.ownedMomoIds,
+    'Momo wardrobe ownership is unavailable'
+  )
+}
+
+export const getLocalStaticCatalogListingMatchingIds = ({
+  query,
+  index,
+  attributeMatchingIds,
+}: {
+  query: StaticCatalogListingQuery
+  index: CatalogLocalIndex
+  attributeMatchingIds?: readonly number[] | null
+}): CatalogListingIdsResult & CatalogListingMakeupRelations => {
+  switch (query.entity) {
+    case 'item':
+      return {
+        ids: filterStaticItemIds({ query, index, attributeMatchingIds }),
+      }
+    case 'outfit': {
+      const ids = filterStaticOutfitIds({ query, index })
+      return {
+        ids,
+        outfitItems: toOutfitItemsRecord(ids, index.outfitItemsById),
+      }
+    }
+    case 'makeup': {
+      const ids = filterStaticMakeupIds({ query, index })
+      return {
+        ids,
+        wardrobeMakeupItems: toMakeupItemsRecord(ids, index.makeupItemsById),
+      }
+    }
+    case 'momo':
+      return {
+        ids: filterStaticMomoIds({ query, index }),
+      }
+  }
+}
 
 export const getLocalStaticCatalogListing = <
   TEntry extends ItemListEntry | OutfitListEntry | MomoListEntry,
@@ -691,21 +823,12 @@ export const getLocalStaticCatalogListing = <
   index: CatalogLocalIndex
   attributeMatchingIds?: readonly number[] | null
 }): CatalogListingHydratedResult<TEntry> => {
-  let ids: number[]
-  switch (query.entity) {
-    case 'item':
-      ids = filterStaticItemIds({ query, index, attributeMatchingIds })
-      break
-    case 'outfit':
-      ids = filterStaticOutfitIds({ query, index })
-      break
-    case 'makeup':
-      ids = filterStaticMakeupIds({ query, index })
-      break
-    case 'momo':
-      ids = filterStaticMomoIds({ query, index })
-      break
-  }
+  const idResult = getLocalStaticCatalogListingMatchingIds({
+    query,
+    index,
+    attributeMatchingIds,
+  })
+  const ids = idResult.ids
   const pageIds = getCatalogListingPageIds(ids, query.page, query.pageSize)
 
   const data =
@@ -730,5 +853,13 @@ export const getLocalStaticCatalogListing = <
     total: ids.length,
     page: query.page,
     totalPages: getCatalogListingTotalPages(ids.length, query.pageSize),
+    ...(query.entity === 'makeup'
+      ? {
+          wardrobeMakeupItems: toMakeupItemsRecord(
+            pageIds,
+            index.makeupItemsById
+          ),
+        }
+      : {}),
   }
 }

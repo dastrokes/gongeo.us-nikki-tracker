@@ -160,8 +160,9 @@ export const createWardrobeSummary = ({
     scope === 'all' ? index.outfits : index.outfits.filter(isBaseSummaryOutfit)
   const makeups =
     scope === 'all' ? index.makeups : index.makeups.filter(isBaseSummaryMakeup)
+  const makeupItems = makeups.filter((makeup) => makeup.type !== 'fullMakeup')
   const itemIdSet = new Set(items.map((item) => item.id))
-  const makeupIdSet = new Set(makeups.map((makeup) => makeup.id))
+  const makeupItemIdSet = new Set(makeupItems.map((makeup) => makeup.id))
   const ownedItemIdSet = new Set(normalizeSummaryItemIds([...ownedItemIds]))
   const ownedMakeupIdSet = new Set(normalizeSummaryItemIds([...ownedMakeupIds]))
   const ownedMomoIdSet = new Set(normalizeSummaryItemIds([...ownedMomoIds]))
@@ -223,7 +224,7 @@ export const createWardrobeSummary = ({
     }
   })
 
-  makeups.forEach((makeup) => {
+  makeupItems.forEach((makeup) => {
     if (ownedMakeupIdSet.has(makeup.id)) {
       ownedMakeupCount += 1
     }
@@ -239,7 +240,7 @@ export const createWardrobeSummary = ({
     .forEach((makeup) => {
       const makeupIds = normalizeSummaryItemIds(
         index.makeupItemsById.get(makeup.id) ?? []
-      ).filter((makeupId) => makeupIdSet.has(makeupId))
+      ).filter((makeupId) => makeupItemIdSet.has(makeupId))
       const ownedCount = makeupIds.reduce(
         (count, makeupId) => count + (ownedMakeupIdSet.has(makeupId) ? 1 : 0),
         0
@@ -288,7 +289,7 @@ export const createWardrobeSummary = ({
       missing: missingOutfitCount,
       completionPercent: getCompletionPercent(ownedOutfitCount, outfits.length),
     },
-    makeups: createProgress(ownedMakeupCount, makeups.length),
+    makeups: createProgress(ownedMakeupCount, makeupItems.length),
     fullMakeups: {
       total:
         ownedFullMakeupCount + partialFullMakeupCount + missingFullMakeupCount,

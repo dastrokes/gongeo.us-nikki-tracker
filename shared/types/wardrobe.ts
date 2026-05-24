@@ -1,6 +1,8 @@
-export interface WardrobeDataV1 {
+export interface WardrobeData {
   version: 1
   ownedItemIds: number[]
+  ownedMakeupIds: number[]
+  ownedMomoIds: number[]
   updatedAt: string
 }
 

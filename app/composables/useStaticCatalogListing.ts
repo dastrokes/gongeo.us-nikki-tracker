@@ -3,6 +3,21 @@ type StaticReactiveInput<T> = T | { readonly value: T } | (() => T)
 type UseStaticCatalogListingOptions = {
   key: StaticReactiveInput<string>
   query: StaticReactiveInput<StaticCatalogListingQuery>
+  wardrobe?: {
+    initialized: { readonly value: boolean }
+    storageError: { readonly value: Error | null }
+    ownedItemIds?: { readonly value: readonly number[] }
+    ownedMakeupIds?: { readonly value: readonly number[] }
+    ownedMomoIds?: { readonly value: readonly number[] }
+    init: () => Promise<void>
+    isItemOwned?: (itemId: number) => boolean
+    getOutfitProgress?: (itemIds: readonly number[]) => {
+      status: OutfitOwnershipMode
+    }
+    getFullMakeupProgress?: (makeupIds: readonly number[]) => {
+      status: MakeupOwnershipMode
+    }
+  }
   onError?: (error: Error | null) => void
 }
 
@@ -28,6 +43,7 @@ export const useStaticCatalogListing = async <
 >({
   key,
   query,
+  wardrobe,
   onError,
 }: UseStaticCatalogListingOptions) => {
   const catalogIndex = useCatalogIndex()
@@ -42,6 +58,69 @@ export const useStaticCatalogListing = async <
       cacheKey: getKey(),
     }
   }
+  const getWardrobeAccess = () => ({
+    ownedItemIds: wardrobe?.ownedItemIds?.value,
+    ownedMakeupIds: wardrobe?.ownedMakeupIds?.value,
+    ownedMomoIds: wardrobe?.ownedMomoIds?.value,
+    isItemOwned: wardrobe?.isItemOwned,
+    getOutfitProgress: wardrobe?.getOutfitProgress,
+    getFullMakeupProgress: wardrobe?.getFullMakeupProgress,
+  })
+  const ensureWardrobeReady = async () => {
+    if (!wardrobe) return
+    if (import.meta.client && !wardrobe.initialized.value) {
+      await wardrobe.init()
+    }
+
+    if (wardrobe.storageError.value) {
+      throw wardrobe.storageError.value
+    }
+  }
+
+  const getRequiredLocalCatalogData = async (
+    currentQuery: StaticCatalogListingQuery
+  ) => {
+    if (import.meta.server) return null
+
+    await catalogIndex.loadEntity(currentQuery.entity)
+
+    const attributeMatchingIds =
+      currentQuery.entity === 'item' &&
+      itemListingRequiresAttributeMatches(currentQuery.filters)
+        ? await attributeMatches.fetchMatchingIds(currentQuery.filters)
+        : null
+
+    const index = catalogIndex.index.value
+    if (!index) {
+      throw new Error('Catalog index is unavailable')
+    }
+
+    return {
+      index,
+      attributeMatchingIds,
+    }
+  }
+
+  const fetchMatchingIds = async () => {
+    const currentQuery = getQuery()
+    if (currentQuery.ownershipMode && currentQuery.ownershipMode !== 'all') {
+      await ensureWardrobeReady()
+    }
+
+    const localData = await getRequiredLocalCatalogData(currentQuery)
+    if (!localData) {
+      return { ids: [] }
+    }
+
+    return getLocalStaticCatalogListingMatchingIds({
+      query: {
+        ...currentQuery,
+        wardrobe: getWardrobeAccess(),
+      },
+      index: localData.index,
+      attributeMatchingIds: localData.attributeMatchingIds,
+    })
+  }
 
   const fetchListing = async (): Promise<
     KeyedStaticCatalogListingResult<TEntry>
@@ -55,24 +134,21 @@ export const useStaticCatalogListing = async <
     }
 
     try {
-      await catalogIndex.loadEntity(currentQuery.entity)
-
-      const attributeMatchingIds =
-        currentQuery.entity === 'item' &&
-        itemListingRequiresAttributeMatches(currentQuery.filters)
-          ? await attributeMatches.fetchMatchingIds(currentQuery.filters)
-          : null
-
-      const index = catalogIndex.index.value
-      if (!index) {
-        throw new Error('Catalog index is unavailable')
+      if (currentQuery.ownershipMode && currentQuery.ownershipMode !== 'all') {
+        await ensureWardrobeReady()
       }
+
+      const localData = await getRequiredLocalCatalogData(currentQuery)
+      if (!localData) return createDefaultData()
 
       return {
         ...getLocalStaticCatalogListing<TEntry>({
-          query: currentQuery,
-          index,
-          attributeMatchingIds,
+          query: {
+            ...currentQuery,
+            wardrobe: getWardrobeAccess(),
+          },
+          index: localData.index,
+          attributeMatchingIds: localData.attributeMatchingIds,
         }),
         cacheKey: currentKey,
       }
@@ -115,5 +191,6 @@ export const useStaticCatalogListing = async <
     ...asyncData,
     data: currentData,
     pending: currentPending,
+    fetchMatchingIds,
   }
 }

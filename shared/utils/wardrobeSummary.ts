@@ -7,8 +7,18 @@ type WardrobeSummaryCatalogIndex = {
   outfits: Array<{
     id: number
   }>
+  makeups: Array<{
+    id: number
+    type: string
+  }>
+  momo: Array<{
+    id: number
+  }>
   outfitItemsById: ReadonlyMap<number, number[]>
+  makeupItemsById: ReadonlyMap<number, number[]>
 }
+
+export type WardrobeSummaryScope = 'base' | 'all'
 
 export type WardrobeSummaryProgress = {
   total: number
@@ -43,12 +53,26 @@ export type WardrobeSummaryNearCompleteOutfit = {
   completionPercent: number
 }
 
+export type WardrobeSummaryNearCompleteFullMakeup = {
+  id: number
+  makeupIds: number[]
+  missingMakeupIds: number[]
+  owned: number
+  total: number
+  missing: number
+  completionPercent: number
+}
+
 export type WardrobeSummary = {
   items: WardrobeSummaryProgress
   outfits: WardrobeSummaryOutfitProgress
+  makeups: WardrobeSummaryProgress
+  fullMakeups: WardrobeSummaryOutfitProgress
+  momo: WardrobeSummaryProgress
   qualityRows: WardrobeSummaryQualityRow[]
   typeRows: WardrobeSummaryTypeRow[]
   nearCompleteOutfits: WardrobeSummaryNearCompleteOutfit[]
+  nearCompleteFullMakeups: WardrobeSummaryNearCompleteFullMakeup[]
 }
 
 const getCompletionPercent = (owned: number, total: number) =>
@@ -104,21 +128,50 @@ const incrementGroup = <TKey extends string | number>(
   groups.set(key, current)
 }
 
+const isBaseSummaryItem = (item: { id: number }) =>
+  getItemVariantType(item.id) === 'base'
+
+const isBaseSummaryOutfit = (outfit: { id: number }) =>
+  getOutfitVariantType(String(outfit.id)) === 'base'
+
+const isBaseSummaryMakeup = (makeup: { id: number; type: string }) =>
+  makeup.type === 'fullMakeup'
+    ? !String(makeup.id).endsWith('03')
+    : getItemVariantType(makeup.id) === 'base'
+
 export const createWardrobeSummary = ({
   index,
   ownedItemIds,
+  ownedMakeupIds = [],
+  ownedMomoIds = [],
   nearCompleteLimit = 6,
+  scope = 'base',
 }: {
   index: WardrobeSummaryCatalogIndex
   ownedItemIds: readonly number[]
+  ownedMakeupIds?: readonly number[]
+  ownedMomoIds?: readonly number[]
   nearCompleteLimit?: number
+  scope?: WardrobeSummaryScope
 }): WardrobeSummary => {
+  const items =
+    scope === 'all' ? index.items : index.items.filter(isBaseSummaryItem)
+  const outfits =
+    scope === 'all' ? index.outfits : index.outfits.filter(isBaseSummaryOutfit)
+  const makeups =
+    scope === 'all' ? index.makeups : index.makeups.filter(isBaseSummaryMakeup)
+  const itemIdSet = new Set(items.map((item) => item.id))
+  const makeupIdSet = new Set(makeups.map((makeup) => makeup.id))
   const ownedItemIdSet = new Set(normalizeSummaryItemIds([...ownedItemIds]))
+  const ownedMakeupIdSet = new Set(normalizeSummaryItemIds([...ownedMakeupIds]))
+  const ownedMomoIdSet = new Set(normalizeSummaryItemIds([...ownedMomoIds]))
   let ownedItemCount = 0
+  let ownedMakeupCount = 0
+  let ownedMomoCount = 0
   const qualityGroups = new Map<number, { total: number; owned: number }>()
   const typeGroups = new Map<string, { total: number; owned: number }>()
 
-  index.items.forEach((item) => {
+  items.forEach((item) => {
     const owned = ownedItemIdSet.has(item.id)
     if (owned) {
       ownedItemCount += 1
@@ -133,10 +186,10 @@ export const createWardrobeSummary = ({
   let missingOutfitCount = 0
   const nearCompleteOutfits: WardrobeSummaryNearCompleteOutfit[] = []
 
-  index.outfits.forEach((outfit) => {
+  outfits.forEach((outfit) => {
     const itemIds = normalizeSummaryItemIds(
       index.outfitItemsById.get(outfit.id) ?? []
-    )
+    ).filter((itemId) => itemIdSet.has(itemId))
     const ownedCount = itemIds.reduce(
       (count, itemId) => count + (ownedItemIdSet.has(itemId) ? 1 : 0),
       0
@@ -170,18 +223,84 @@ export const createWardrobeSummary = ({
     }
   })
 
+  makeups.forEach((makeup) => {
+    if (ownedMakeupIdSet.has(makeup.id)) {
+      ownedMakeupCount += 1
+    }
+  })
+
+  let ownedFullMakeupCount = 0
+  let partialFullMakeupCount = 0
+  let missingFullMakeupCount = 0
+  const nearCompleteFullMakeups: WardrobeSummaryNearCompleteFullMakeup[] = []
+
+  makeups
+    .filter((makeup) => makeup.type === 'fullMakeup')
+    .forEach((makeup) => {
+      const makeupIds = normalizeSummaryItemIds(
+        index.makeupItemsById.get(makeup.id) ?? []
+      ).filter((makeupId) => makeupIdSet.has(makeupId))
+      const ownedCount = makeupIds.reduce(
+        (count, makeupId) => count + (ownedMakeupIdSet.has(makeupId) ? 1 : 0),
+        0
+      )
+      const status =
+        ownedCount === makeupIds.length && makeupIds.length > 0
+          ? 'owned'
+          : ownedCount > 0
+            ? 'partial'
+            : 'missing'
+
+      if (status === 'owned') {
+        ownedFullMakeupCount += 1
+      } else if (status === 'partial') {
+        partialFullMakeupCount += 1
+        const missingMakeupIds = makeupIds.filter(
+          (makeupId) => !ownedMakeupIdSet.has(makeupId)
+        )
+
+        nearCompleteFullMakeups.push({
+          id: makeup.id,
+          makeupIds,
+          missingMakeupIds,
+          owned: ownedCount,
+          total: makeupIds.length,
+          missing: missingMakeupIds.length,
+          completionPercent: getCompletionPercent(ownedCount, makeupIds.length),
+        })
+      } else {
+        missingFullMakeupCount += 1
+      }
+    })
+
+  index.momo.forEach((momo) => {
+    if (ownedMomoIdSet.has(momo.id)) {
+      ownedMomoCount += 1
+    }
+  })
+
   return {
-    items: createProgress(ownedItemCount, index.items.length),
+    items: createProgress(ownedItemCount, items.length),
     outfits: {
-      total: index.outfits.length,
+      total: outfits.length,
       owned: ownedOutfitCount,
       partial: partialOutfitCount,
       missing: missingOutfitCount,
+      completionPercent: getCompletionPercent(ownedOutfitCount, outfits.length),
+    },
+    makeups: createProgress(ownedMakeupCount, makeups.length),
+    fullMakeups: {
+      total:
+        ownedFullMakeupCount + partialFullMakeupCount + missingFullMakeupCount,
+      owned: ownedFullMakeupCount,
+      partial: partialFullMakeupCount,
+      missing: missingFullMakeupCount,
       completionPercent: getCompletionPercent(
-        ownedOutfitCount,
-        index.outfits.length
+        ownedFullMakeupCount,
+        ownedFullMakeupCount + partialFullMakeupCount + missingFullMakeupCount
       ),
     },
+    momo: createProgress(ownedMomoCount, index.momo.length),
     qualityRows: Array.from(qualityGroups.entries())
       .map(([quality, progress]) => ({
         quality,
@@ -200,6 +319,14 @@ export const createWardrobeSummary = ({
           left.type.localeCompare(right.type)
       ),
     nearCompleteOutfits: nearCompleteOutfits
+      .sort(
+        (left, right) =>
+          left.missing - right.missing ||
+          right.completionPercent - left.completionPercent ||
+          left.id - right.id
+      )
+      .slice(0, nearCompleteLimit),
+    nearCompleteFullMakeups: nearCompleteFullMakeups
       .sort(
         (left, right) =>
           left.missing - right.missing ||

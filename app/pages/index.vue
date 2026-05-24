@@ -174,7 +174,7 @@
               <component :is="item.icon" />
             </n-icon>
             <span
-              class="relative text-sm font-semibold tracking-[0.02em] transition-all duration-300 ease-out group-hover:tracking-[0.05em] group-hover:text-rose-600 motion-reduce:transition-none dark:group-hover:text-rose-200"
+              class="relative text-sm font-semibold tracking-[0.02em] transition-all duration-300 ease-out group-hover:tracking-wider group-hover:text-rose-600 motion-reduce:transition-none dark:group-hover:text-rose-200"
             >
               {{ $t(item.label) }}
             </span>
@@ -433,7 +433,7 @@
             </div>
           </div>
           <div
-            class="flex h-[200px] items-end gap-4 rounded-xl bg-[#e8ddf9]/15 p-2 lg:gap-8 lg:p-4 dark:bg-[#1e1b4b]/25"
+            class="flex h-50 items-end gap-4 rounded-xl bg-[#e8ddf9]/15 p-2 lg:gap-8 lg:p-4 dark:bg-[#1e1b4b]/25"
           >
             <n-skeleton
               v-for="(height, index) in communityStatsSkeletonHeights"
@@ -543,8 +543,8 @@
       icon: CalendarAlt,
       label: 'common.banners',
     },
-    { key: 'items', path: '/items', icon: ListAlt, label: 'common.items' },
     { key: 'outfits', path: '/outfits', icon: Tshirt, label: 'common.outfits' },
+    { key: 'items', path: '/items', icon: ListAlt, label: 'common.items' },
     {
       key: 'makeups',
       path: '/makeups',

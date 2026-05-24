@@ -311,7 +311,7 @@
   const userStore = useUserStore()
   const pullStore = usePullStore()
   const { resetToDefaults } = useTrackerSettings()
-  const { clearSlotData, loadData } = useIndexedDB()
+  const { clearSlotData, loadData, loadWardrobe } = useIndexedDB()
   const { user, initialized } = useAuth()
   const { uploadData, syncData, clearCloudData, getRemoteSlotsWithData } =
     useDataSync()
@@ -437,6 +437,11 @@
     return lastSyncAt ? 'text-slate-500' : 'text-slate-400'
   }
 
+  const hasLocalWardrobeData = (wardrobe: WardrobeData): boolean =>
+    wardrobe.ownedItemIds.length > 0 ||
+    wardrobe.ownedMakeupIds.length > 0 ||
+    wardrobe.ownedMomoIds.length > 0
+
   const requireAuth = async () => {
     if (user.value) return true
     await handleSignIn()
@@ -461,11 +466,13 @@
     const results = await Promise.all(
       slotNumbers.value.map(async (slot) => {
         const data = await loadData(slot)
+        const wardrobe = await loadWardrobe(slot)
         const hasData =
           Object.keys(data.pulls).length > 0 ||
           Object.keys(data.edits).length > 0 ||
           Object.keys(data.evo).length > 0 ||
-          Object.keys(data.pearpal).length > 0
+          Object.keys(data.pearpal).length > 0 ||
+          hasLocalWardrobeData(wardrobe)
         return [slot, hasData] as const
       })
     )
@@ -656,11 +663,13 @@
     const results = await Promise.all(
       slotsToCheck.map(async (slot) => {
         const data = await loadData(slot)
+        const wardrobe = await loadWardrobe(slot)
         const hasData =
           Object.keys(data.pulls).length > 0 ||
           Object.keys(data.edits).length > 0 ||
           Object.keys(data.evo).length > 0 ||
-          Object.keys(data.pearpal).length > 0
+          Object.keys(data.pearpal).length > 0 ||
+          hasLocalWardrobeData(wardrobe)
         return hasData ? slot : null
       })
     )

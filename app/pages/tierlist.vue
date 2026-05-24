@@ -36,6 +36,7 @@
             <CatalogVariationToggle
               v-if="supportsVariationFilter"
               v-model:value="variationFilter"
+              :options="variationFilterOptions"
             />
 
             <div class="hidden min-w-0 overflow-x-auto sm:block">
@@ -1228,24 +1229,41 @@
 
   type TierWardrobeFilter = 'all' | 'owned' | 'partial' | 'missing'
 
-  const variationFilterValues = new Set<CatalogVariationFilter>([
+  const itemOutfitVariationFilterValues = new Set<CatalogVariationFilter>([
     'base',
     'all',
-    'glowup',
     'evo1',
     'evo2',
     'evo3',
     'all-evos',
+    'glowup',
   ])
+  const makeupVariationFilterValues = new Set<CatalogVariationFilter>([
+    'base',
+    'all',
+    'evo3',
+  ])
+  const getVariationFilterValues = (tierMode: TierMode) =>
+    tierMode === 'makeups'
+      ? makeupVariationFilterValues
+      : itemOutfitVariationFilterValues
+  const variationFilterOptions = computed<CatalogVariationFilter[]>(() =>
+    mode.value === 'makeups'
+      ? ['base', 'all', 'evo3']
+      : ['base', 'all', 'evo1', 'evo2', 'evo3', 'all-evos', 'glowup']
+  )
   const supportsTierModeVariationFilter = (tierMode: TierMode) =>
     tierMode === 'items' || tierMode === 'outfits' || tierMode === 'makeups'
   const supportsTierModeWardrobeFilter = (tierMode: TierMode) =>
     tierMode === 'items' || tierMode === 'outfits'
   const resolveVariationFilter = (
-    value?: string | null
+    value?: string | null,
+    tierMode: TierMode = mode.value
   ): CatalogVariationFilter => {
     if (value === 'show' || value === 'true' || value === '1') return 'all'
-    return variationFilterValues.has(value as CatalogVariationFilter)
+    return getVariationFilterValues(tierMode).has(
+      value as CatalogVariationFilter
+    )
       ? (value as CatalogVariationFilter)
       : 'base'
   }
@@ -1307,7 +1325,10 @@
   const mode = ref<TierMode>(initialMode)
   const variationFilter = ref<CatalogVariationFilter>(
     supportsTierModeVariationFilter(initialMode)
-      ? resolveVariationFilter(route.query.variations?.toString() ?? null)
+      ? resolveVariationFilter(
+          route.query.variations?.toString() ?? null,
+          initialMode
+        )
       : 'base'
   )
   const wardrobeFilter = ref<TierWardrobeFilter>(
@@ -1485,6 +1506,11 @@
 
     if (!supportsTierModeVariationFilter(nextMode)) {
       variationFilter.value = 'base'
+    } else {
+      variationFilter.value = resolveVariationFilter(
+        variationFilter.value,
+        nextMode
+      )
     }
 
     wardrobeFilter.value = resolveWardrobeFilter(wardrobeFilter.value, nextMode)

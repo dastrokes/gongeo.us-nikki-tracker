@@ -182,6 +182,13 @@
                       {{ $t(`type.${makeup.type}`) }}
                     </n-tag>
                   </NuxtLinkLocale>
+                  <WardrobeOwnedButton
+                    :owned="isMakeupTracked"
+                    :disabled="!canToggleMakeupTracked"
+                    :loading="wardrobeToggleLoading"
+                    :quality="makeup.quality"
+                    @toggle="toggleTrackedMakeup"
+                  />
                 </div>
 
                 <div class="flex flex-wrap gap-2">
@@ -469,6 +476,7 @@
   import { Images, Star } from '@vicons/fa'
 
   const { t, te, locale } = useI18n()
+  const message = useMessage()
   const localePath = useLocalePath()
   const route = useRoute()
   const router = useRouter()
@@ -476,6 +484,15 @@
   const { fetchMakeupById } = useSupabaseItems()
   const { getImageSrc } = imageProvider()
   const showIcon = ref(false)
+  const wardrobeToggleLoading = ref(false)
+  const {
+    canMutate: isWardrobeReady,
+    init: initWardrobe,
+    isMakeupOwned,
+    getFullMakeupProgress,
+    markMakeupsOwned,
+    toggleMakeupOwned,
+  } = useWardrobe()
 
   const makeupId = computed(() => Number(route.params.id))
   const makeupKey = computed(() => `makeup-${makeupId.value}-${locale.value}`)
@@ -584,6 +601,25 @@
       : '/makeups'
   )
   const componentMakeups = computed(() => makeup.value?.components ?? [])
+  const trackedMakeupIds = computed(() =>
+    isFullMakeup.value
+      ? componentMakeups.value.map((item) => item.id)
+      : makeup.value
+        ? [makeup.value.id]
+        : []
+  )
+  const isMakeupTracked = computed(() => {
+    if (!makeup.value) return false
+    if (!isFullMakeup.value) return isMakeupOwned(makeup.value.id)
+
+    return (
+      getFullMakeupProgress(trackedMakeupIds.value).status === 'owned' &&
+      trackedMakeupIds.value.length > 0
+    )
+  })
+  const canToggleMakeupTracked = computed(
+    () => isWardrobeReady.value && trackedMakeupIds.value.length > 0
+  )
   const relatedOutfits = computed(() => makeup.value?.related_outfits ?? [])
   const resolveMakeupType = (item: { id: number; type?: string }) =>
     item.type ? getItemType(item.type) : getItemType(item.id)
@@ -660,6 +696,22 @@
   const retryFetch = () => {
     refresh()
   }
+  const toggleTrackedMakeup = async () => {
+    if (!makeup.value || wardrobeToggleLoading.value) return
+
+    wardrobeToggleLoading.value = true
+    try {
+      if (isFullMakeup.value) {
+        await markMakeupsOwned(trackedMakeupIds.value, !isMakeupTracked.value)
+      } else {
+        await toggleMakeupOwned(makeup.value.id)
+      }
+    } catch {
+      message.error(t('wardrobe.error.save'))
+    } finally {
+      wardrobeToggleLoading.value = false
+    }
+  }
   const navigateToList = () => {
     if (canNavigateBackToList.value) {
       router.back()
@@ -670,6 +722,10 @@
 
   watch(makeupId, () => {
     showIcon.value = false
+  })
+
+  onMounted(() => {
+    void initWardrobe()
   })
 
   const ogImage = computed(() =>

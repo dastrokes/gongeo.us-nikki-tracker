@@ -13,7 +13,7 @@ export const useBannerPullData = () => {
           edits?: Record<number, EditRecord[]>
           evo?: Record<number, EvoRecord[]>
           pearpal?: Record<number, PearpalTrackerItem[]>
-          wardrobe?: WardrobeDataV1
+          wardrobe?: WardrobeData
         }
   ) => {
     const {
@@ -37,8 +37,14 @@ export const useBannerPullData = () => {
     let evoData: Record<number, EvoRecord[]> = {}
     let pearpalData: Record<number, PearpalTrackerItem[]> = {}
 
-    if ('pulls' in jsonData || 'edits' in jsonData || 'pearpal' in jsonData) {
-      // New format: { pulls: {...}, edits: {...}, evo: {...}, pearpal: {...} }
+    if (
+      'pulls' in jsonData ||
+      'edits' in jsonData ||
+      'evo' in jsonData ||
+      'pearpal' in jsonData ||
+      'wardrobe' in jsonData
+    ) {
+      // New format: { pulls: {...}, edits: {...}, evo: {...}, pearpal: {...}, wardrobe: {...} }
       pullsData =
         (jsonData as { pulls?: Record<number, PullRecord[]> }).pulls || {}
       editsData =
@@ -66,11 +72,11 @@ export const useBannerPullData = () => {
 
     if (
       'wardrobe' in jsonData &&
-      (jsonData as { wardrobe?: WardrobeDataV1 }).wardrobe
+      (jsonData as { wardrobe?: WardrobeData }).wardrobe
     ) {
       await saveWardrobe(
         normalizeWardrobeData(
-          (jsonData as { wardrobe?: WardrobeDataV1 }).wardrobe
+          (jsonData as { wardrobe?: WardrobeData }).wardrobe
         )
       )
       await useWardrobe().init({ force: true })

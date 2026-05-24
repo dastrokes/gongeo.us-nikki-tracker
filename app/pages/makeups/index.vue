@@ -21,7 +21,21 @@
               @update:value="handleCompendiumSectionChange"
             />
 
-            <CatalogVariationToggle v-model:value="variationFilter" />
+            <n-select
+              v-model:value="wardrobeFilter"
+              :options="wardrobeFilterOptions"
+              :render-label="renderWardrobeFilterOptionLabel"
+              size="small"
+              class="w-full max-w-40 self-start sm:w-40"
+              :show-checkmark="false"
+              :clearable="false"
+              :disabled="!isWardrobeReady"
+            />
+
+            <CatalogVariationToggle
+              v-model:value="variationFilter"
+              :options="variationFilterOptions"
+            />
 
             <div class="hidden min-w-0 overflow-x-auto sm:block">
               <n-button-group class="min-w-max">
@@ -62,12 +76,12 @@
             </n-button>
           </div>
 
-          <n-tooltip
-            :disabled="totalItems <= TIER_ENTRY_LIMIT"
-            trigger="hover"
-          >
-            <template #trigger>
-              <div class="shrink-0 self-start">
+          <div class="flex shrink-0 items-center gap-2 self-start">
+            <n-tooltip
+              :disabled="totalItems <= TIER_ENTRY_LIMIT"
+              trigger="hover"
+            >
+              <template #trigger>
                 <n-button
                   size="small"
                   type="primary"
@@ -79,14 +93,44 @@
                   </template>
                   {{ t('navigation.tierlist') }}
                 </n-button>
-              </div>
-            </template>
-            {{
-              t('tierlist.over_limit.description', {
-                max: TIER_ENTRY_LIMIT,
-              })
-            }}
-          </n-tooltip>
+              </template>
+              {{
+                t('tierlist.over_limit.description', {
+                  max: TIER_ENTRY_LIMIT,
+                })
+              }}
+            </n-tooltip>
+
+            <n-tooltip trigger="hover">
+              <template #trigger>
+                <n-button
+                  size="small"
+                  text
+                  :type="editMode ? 'primary' : 'default'"
+                  :disabled="!isWardrobeReady"
+                  class="w-8"
+                  :aria-label="
+                    editMode
+                      ? t('wardrobe.actions.view_mode')
+                      : t('wardrobe.actions.edit_mode')
+                  "
+                  @click="toggleEditMode"
+                >
+                  <template #icon>
+                    <n-icon>
+                      <BookOpen v-if="editMode" />
+                      <UserEdit v-else />
+                    </n-icon>
+                  </template>
+                </n-button>
+              </template>
+              {{
+                editMode
+                  ? t('wardrobe.actions.view_mode')
+                  : t('wardrobe.actions.edit_mode')
+              }}
+            </n-tooltip>
+          </div>
         </div>
 
         <div class="flex items-start gap-2 sm:hidden">
@@ -178,6 +222,19 @@
       </div>
     </n-card>
 
+    <WardrobeBatchToolbar
+      v-if="editMode"
+      v-model:scope="batchScope"
+      :edit-mode="editMode"
+      :selected-count="selectedMakeupIds.size"
+      :page-count="entries.length"
+      :all-matching-count="totalItems"
+      :disabled="!isWardrobeReady || loading"
+      @mark-owned="applyBatchOwnership(true)"
+      @mark-unowned="applyBatchOwnership(false)"
+      @clear-selection="clearSelection"
+    />
+
     <n-card
       size="small"
       class="rounded-xl p-0 sm:flex sm:flex-1 sm:flex-col sm:p-2"
@@ -186,7 +243,28 @@
       <div class="min-h-0 sm:flex sm:flex-1 sm:flex-col">
         <div class="space-y-3 sm:space-y-4">
           <div
-            v-if="error"
+            v-if="wardrobeError"
+            class="py-12 text-center"
+          >
+            <n-result
+              size="small"
+              status="error"
+              :title="t('wardrobe.error.mode_title')"
+              :description="t('wardrobe.error.mode_description')"
+            >
+              <template #footer>
+                <n-button
+                  type="primary"
+                  @click="retryWardrobeMode"
+                >
+                  {{ t('wardrobe.actions.retry') }}
+                </n-button>
+              </template>
+            </n-result>
+          </div>
+
+          <div
+            v-else-if="error"
             class="py-12 text-center"
           >
             <n-result
@@ -241,13 +319,18 @@
               <div
                 v-for="(entry, index) in entries"
                 :key="entry.id"
-                class="cursor-pointer"
+                class="relative cursor-pointer"
                 :class="getListingCardAnimationClass(index)"
                 :style="getListingCardAnimationStyle(index)"
-                @click="navigateToDetail(entry.id)"
+                @click="handleMakeupCardClick(entry.id, $event)"
               >
                 <div
                   class="relative aspect-2/3 overflow-hidden rounded-lg bg-[url('/images/bg.webp')] bg-cover bg-center shadow-md transition-shadow duration-300 hover:shadow-xl"
+                  :style="
+                    isMakeupBatchSelected(entry.id)
+                      ? getQualityRingStyle(entry.quality)
+                      : undefined
+                  "
                 >
                   <div
                     class="absolute inset-0"
@@ -266,6 +349,7 @@
 
                   <div class="absolute top-2 left-2 z-20">
                     <n-tag
+                      v-if="!editMode"
                       round
                       size="small"
                       :bordered="false"
@@ -274,6 +358,18 @@
                     >
                       {{ entry.type }}
                     </n-tag>
+                    <n-checkbox
+                      v-else
+                      :checked="isMakeupBatchSelected(entry.id)"
+                      :theme-overrides="
+                        getWardrobeSelectionCheckboxTheme(entry.quality)
+                      "
+                      :aria-label="t('common.select')"
+                      @click.stop
+                      @update:checked="
+                        (checked) => updateMakeupSelection(entry.id, checked)
+                      "
+                    />
                   </div>
                   <div class="absolute top-2 right-2 z-20">
                     <n-tag
@@ -292,7 +388,60 @@
                     </n-tag>
                   </div>
                   <div
+                    v-if="
+                      wardrobeInitialized &&
+                      !editMode &&
+                      entry.progress?.status === 'owned'
+                    "
+                    class="absolute right-2 bottom-2 z-30"
+                    @click.stop
+                  >
+                    <WardrobeStatusBadge
+                      status="item-owned"
+                      :quality="entry.quality"
+                    />
+                  </div>
+                  <div
+                    v-else-if="
+                      wardrobeInitialized && !editMode && entry.progress
+                    "
+                    class="absolute right-2 bottom-2 z-30"
+                    @click.stop
+                  >
+                    <WardrobeStatusBadge
+                      :status="entry.progress.status"
+                      :owned="entry.progress.owned"
+                      :total="entry.progress.total"
+                      :quality="entry.quality"
+                    />
+                  </div>
+                  <div
+                    v-else-if="wardrobeInitialized && editMode"
+                    class="absolute right-2 bottom-2 z-30"
+                    @click.stop
+                  >
+                    <WardrobeOwnedButton
+                      :owned="entry.progress?.status === 'owned'"
+                      :disabled="
+                        !isWardrobeReady || entry.trackedMakeupIds.length === 0
+                      "
+                      :loading="isMakeupToggleLoading(entry.id)"
+                      :quality="entry.quality"
+                      variant="overlay"
+                      @toggle="toggleVisibleMakeupOwned(entry.id)"
+                    />
+                  </div>
+                  <div
                     class="absolute right-0 bottom-0 left-0 z-20 bg-linear-to-t from-black/90 to-transparent p-3"
+                    :class="
+                      wardrobeInitialized
+                        ? editMode
+                          ? 'pr-12'
+                          : entry.progress
+                            ? 'pr-10 sm:pr-12'
+                            : ''
+                        : ''
+                    "
                   >
                     <p
                       class="line-clamp-2 text-xs font-semibold text-white sm:text-sm"
@@ -376,11 +525,17 @@
 <script setup lang="ts">
   import {
     Star,
+    BookOpen,
+    UserEdit,
     Tshirt,
     ListAlt,
     PaintBrush,
     Paw,
     SortAmountDown,
+    CheckCircle,
+    Adjust,
+    TimesCircle,
+    DotCircle,
   } from '@vicons/fa'
   import { NIcon } from 'naive-ui'
   import type { SelectOption } from 'naive-ui'
@@ -391,6 +546,8 @@
   })
 
   const { t, locale, getLocaleMessage } = useI18n()
+  const dialog = useDialog()
+  const message = useMessage()
   const localePath = useLocalePath()
   const route = useRoute()
   const router = useRouter()
@@ -412,6 +569,7 @@
   }
   type CompendiumSection = 'outfits' | 'items' | 'momo' | 'makeups'
   type IconSelectOption = SelectOption & { icon: Component }
+  type MakeupWardrobeFilter = 'all' | 'owned' | 'partial' | 'missing'
 
   const pageSize = 18
   const routeListSlug = computed(() =>
@@ -511,12 +669,13 @@
   const variationFilterValues = new Set<CatalogVariationFilter>([
     'base',
     'all',
-    'glowup',
-    'evo1',
-    'evo2',
     'evo3',
-    'all-evos',
   ])
+  const variationFilterOptions: CatalogVariationFilter[] = [
+    'base',
+    'all',
+    'evo3',
+  ]
   const resolveVariationFilter = (
     value?: string | null
   ): CatalogVariationFilter => {
@@ -524,6 +683,21 @@
     return variationFilterValues.has(value as CatalogVariationFilter)
       ? (value as CatalogVariationFilter)
       : 'base'
+  }
+  const supportsPartialWardrobeFilter = (slot?: MakeupSlot | null) =>
+    slot === null || slot === undefined || slot === 'fullMakeup'
+
+  const resolveWardrobeFilter = (
+    value?: string | null,
+    slot?: MakeupSlot | null
+  ): MakeupWardrobeFilter => {
+    if (value === 'partial') {
+      return supportsPartialWardrobeFilter(slot) ? 'partial' : 'all'
+    }
+    if (value === 'owned' || value === 'missing') {
+      return value
+    }
+    return 'all'
   }
 
   const resolveRouteSlotFilter = () =>
@@ -541,7 +715,8 @@
       (route.query.source ?? route.query.obtain)?.toString() ?? null
     )
 
-  const slotFilter = ref<MakeupSlot | null>(resolveRouteSlotFilter())
+  const initialSlotFilter = resolveRouteSlotFilter()
+  const slotFilter = ref<MakeupSlot | null>(initialSlotFilter)
   const qualityFilter = ref<number | null>(resolveRouteQualityFilter())
   const versionFilter = ref<string | null>(resolveRouteVersionFilter())
   const styleFilter = ref<string | null>(resolveRouteStyleFilter())
@@ -549,7 +724,37 @@
   const variationFilter = ref<CatalogVariationFilter>(
     resolveVariationFilter(route.query.variations?.toString() ?? null)
   )
+  const wardrobeFilter = ref<MakeupWardrobeFilter>(
+    resolveWardrobeFilter(
+      route.query.wardrobe?.toString() ?? null,
+      initialSlotFilter
+    )
+  )
   const currentPage = ref(Number(route.query.page) || 1)
+  type BatchScope = 'selected' | 'page' | 'all'
+  const editMode = ref(false)
+  const batchScope = ref<BatchScope>('selected')
+  const selectedMakeupIds = ref<Set<number>>(new Set())
+  const togglingMakeupIds = ref<Set<number>>(new Set())
+  const {
+    initialized: wardrobeInitialized,
+    ownedMakeupIds,
+    error: storageError,
+    canMutate: isWardrobeReady,
+    mutationVersion: wardrobeMutationVersion,
+    init: initWardrobe,
+    retry: retryWardrobeStorage,
+    isMakeupOwned,
+    getFullMakeupProgress,
+    markMakeupsOwned,
+    toggleMakeupOwned,
+  } = useWardrobe()
+  const wardrobeModeError = ref<Error | null>(null)
+  const wardrobeError = computed(() =>
+    wardrobeFilter.value !== 'all'
+      ? (storageError.value ?? wardrobeModeError.value)
+      : null
+  )
 
   const activeSlotLabel = computed(() =>
     slotFilter.value ? t(`type.${slotFilter.value}`) : t('common.makeups')
@@ -583,7 +788,8 @@
       versionFilter.value !== null ||
       styleFilter.value !== null ||
       obtainFilter.value !== null ||
-      variationFilter.value !== 'base'
+      variationFilter.value !== 'base' ||
+      wardrobeFilter.value !== 'all'
   )
 
   const cacheKey = computed(
@@ -592,7 +798,9 @@
         styleFilter.value ?? 'all'
       }-${versionFilter.value ?? 'all'}-${obtainFilter.value ?? 'all'}-${
         variationFilter.value
-      }-${currentPage.value}-${pageSize}`
+      }-${wardrobeFilter.value}-${wardrobeMutationVersion.value}-${
+        currentPage.value
+      }-${pageSize}`
   )
   const {
     data: compendiumData,
@@ -600,6 +808,7 @@
     status: requestStatus,
     error,
     refresh: loadData,
+    fetchMatchingIds: fetchMatchingMakeupIds,
   } = await useStaticCatalogListing<ItemListEntry>({
     key: () => cacheKey.value,
     query: () => ({
@@ -614,17 +823,47 @@
       },
       page: currentPage.value,
       pageSize,
+      ownershipMode: wardrobeFilter.value,
     }),
+    wardrobe: {
+      initialized: wardrobeInitialized,
+      storageError,
+      ownedMakeupIds,
+      init: initWardrobe,
+      getFullMakeupProgress,
+    },
+    onError: (nextError) => {
+      wardrobeModeError.value = nextError
+    },
   })
 
   const entries = computed(() => {
     const data = (compendiumData.value?.data || []) as ItemListEntry[]
+    const makeupItems =
+      (
+        compendiumData.value as {
+          wardrobeMakeupItems?: Record<string, number[]>
+        } | null
+      )?.wardrobeMakeupItems ?? {}
 
     return data.map((entry) => {
       const isFullMakeup = entry.type === 'fullMakeup'
+      const componentIds = makeupItems[entry.id] ?? []
+      const trackedMakeupIds = isFullMakeup ? componentIds : [entry.id]
+      const progress = isFullMakeup
+        ? componentIds.length > 0
+          ? getFullMakeupProgress(componentIds)
+          : null
+        : {
+            status: isMakeupOwned(entry.id) ? 'owned' : 'missing',
+            owned: isMakeupOwned(entry.id) ? 1 : 0,
+            total: 1,
+          }
       return {
         id: entry.id,
         quality: entry.quality,
+        trackedMakeupIds,
+        progress,
         name: isFullMakeup
           ? t(`makeup.${entry.id}.name`)
           : t(`item.${entry.id}.name`),
@@ -654,7 +893,22 @@
   const totalItems = computed(() => compendiumData.value?.total || 0)
   const TIER_ENTRY_LIMIT = 200
   const isTierlistDisabled = computed(
-    () => loading.value || !!error.value || totalItems.value > TIER_ENTRY_LIMIT
+    () =>
+      editMode.value ||
+      loading.value ||
+      !!error.value ||
+      totalItems.value > TIER_ENTRY_LIMIT
+  )
+  const selectionFilterKey = computed(() =>
+    JSON.stringify({
+      slot: slotFilter.value,
+      quality: qualityFilter.value,
+      version: versionFilter.value,
+      style: styleFilter.value,
+      obtain: obtainFilter.value,
+      variations: variationFilter.value,
+      wardrobe: wardrobeFilter.value,
+    })
   )
 
   const currentListingPath = computed(() => {
@@ -717,6 +971,38 @@
       h('span', null, String(option.label ?? '')),
     ])
   }
+  const hasFullMakeupInResult = computed(() =>
+    supportsPartialWardrobeFilter(slotFilter.value)
+  )
+  const wardrobeFilterOptions = computed<IconSelectOption[]>(() => {
+    const options: IconSelectOption[] = [
+      { label: t('wardrobe.filters.all'), value: 'all', icon: DotCircle },
+      { label: t('wardrobe.filters.owned'), value: 'owned', icon: CheckCircle },
+    ]
+
+    if (hasFullMakeupInResult.value) {
+      options.push({
+        label: t('wardrobe.filters.partial'),
+        value: 'partial',
+        icon: Adjust,
+      })
+    }
+
+    options.push({
+      label: t('wardrobe.filters.missing'),
+      value: 'missing',
+      icon: TimesCircle,
+    })
+
+    return options
+  })
+  const renderWardrobeFilterOptionLabel = (option: SelectOption) => {
+    const { icon } = option as IconSelectOption
+    return h('div', { class: 'flex items-center gap-2' }, [
+      h(NIcon, { size: 16 }, { default: () => h(icon) }),
+      h('span', null, String(option.label ?? '')),
+    ])
+  }
 
   const buildListingQuery = ({
     primaryFilter = null,
@@ -736,6 +1022,7 @@
     ...(variationFilter.value !== 'base' && {
       variations: variationFilter.value,
     }),
+    ...(wardrobeFilter.value !== 'all' && { wardrobe: wardrobeFilter.value }),
     ...(currentPage.value > 1 && { page: currentPage.value }),
   })
 
@@ -757,6 +1044,7 @@
     ...(variationFilter.value !== 'base' && {
       variations: variationFilter.value,
     }),
+    ...(wardrobeFilter.value !== 'all' && { wardrobe: wardrobeFilter.value }),
     ...(includePage && currentPage.value > 1 && { page: currentPage.value }),
   })
 
@@ -769,6 +1057,188 @@
         query: buildTierlistQuery(),
       })
     )
+  }
+
+  const toggleEditMode = () => {
+    editMode.value = !editMode.value
+    if (!editMode.value) {
+      clearSelection()
+    }
+  }
+
+  const isMakeupBatchSelected = (makeupId: number) =>
+    batchScope.value === 'selected'
+      ? selectedMakeupIds.value.has(makeupId)
+      : true
+
+  const materializeVisibleMakeupSelection = () => {
+    selectedMakeupIds.value = new Set(entries.value.map((entry) => entry.id))
+    batchScope.value = 'selected'
+  }
+
+  const updateMakeupSelection = (makeupId: number, checked: boolean) => {
+    if (batchScope.value !== 'selected') {
+      materializeVisibleMakeupSelection()
+    }
+
+    const nextSelection = new Set(selectedMakeupIds.value)
+    if (checked) {
+      nextSelection.add(makeupId)
+    } else {
+      nextSelection.delete(makeupId)
+    }
+    selectedMakeupIds.value = nextSelection
+  }
+
+  const clearSelection = () => {
+    selectedMakeupIds.value = new Set()
+    batchScope.value = 'selected'
+  }
+
+  const getWardrobeSelectionCheckboxTheme = (quality: number) => {
+    const color = getQualityColor(quality)
+    return {
+      color: `${color}22`,
+      colorChecked: color,
+      border: `1px solid ${color}AA`,
+      borderChecked: `1px solid ${color}`,
+      borderFocus: `1px solid ${color}`,
+      boxShadowFocus: 'none',
+      checkMarkColor: '#ffffff',
+    }
+  }
+
+  const setMakeupToggleLoading = (makeupId: number, loading: boolean) => {
+    const nextIds = new Set(togglingMakeupIds.value)
+    if (loading) {
+      nextIds.add(makeupId)
+    } else {
+      nextIds.delete(makeupId)
+    }
+    togglingMakeupIds.value = nextIds
+  }
+
+  const isMakeupToggleLoading = (makeupId: number) =>
+    togglingMakeupIds.value.has(makeupId)
+
+  const toggleVisibleMakeupOwned = async (makeupId: number) => {
+    if (isMakeupToggleLoading(makeupId)) return
+
+    const entry = entries.value.find((candidate) => candidate.id === makeupId)
+    if (!entry || entry.trackedMakeupIds.length === 0) return
+
+    setMakeupToggleLoading(makeupId, true)
+    try {
+      if (
+        entry.trackedMakeupIds.length === 1 &&
+        entry.trackedMakeupIds[0] === makeupId
+      ) {
+        await toggleMakeupOwned(makeupId)
+      } else {
+        await markMakeupsOwned(
+          entry.trackedMakeupIds,
+          entry.progress?.status !== 'owned'
+        )
+      }
+    } catch {
+      message.error(t('wardrobe.error.save'))
+    } finally {
+      setMakeupToggleLoading(makeupId, false)
+    }
+  }
+
+  const isListingCardControlClick = (event: MouseEvent) => {
+    const target = event.target
+    return (
+      target instanceof HTMLElement &&
+      Boolean(target.closest('button, input, label, [role="button"]'))
+    )
+  }
+
+  const handleMakeupCardClick = (makeupId: number, event: MouseEvent) => {
+    if (isListingCardControlClick(event)) return
+
+    if (editMode.value) {
+      updateMakeupSelection(makeupId, !isMakeupBatchSelected(makeupId))
+      return
+    }
+
+    navigateToDetail(makeupId)
+  }
+
+  const getVisibleMakeupRows = () =>
+    Object.fromEntries(entries.value.map((entry) => [String(entry.id), entry]))
+
+  const getTrackedMakeupIdsFromRows = (
+    makeupIds: number[],
+    makeupItems: Record<string, number[]>
+  ) =>
+    normalizeWardrobeItemIds(
+      makeupIds.flatMap((makeupId) => {
+        const visibleEntry = getVisibleMakeupRows()[String(makeupId)]
+        if (visibleEntry) return visibleEntry.trackedMakeupIds
+
+        const componentIds = makeupItems[String(makeupId)]
+        return componentIds?.length ? componentIds : [makeupId]
+      })
+    )
+
+  const getBatchMakeupIds = async () => {
+    if (batchScope.value === 'selected') {
+      return getTrackedMakeupIdsFromRows(
+        Array.from(selectedMakeupIds.value),
+        {}
+      )
+    }
+
+    if (batchScope.value === 'page') {
+      return normalizeWardrobeItemIds(
+        entries.value.flatMap((entry) => entry.trackedMakeupIds)
+      )
+    }
+
+    const idResponse = await fetchMatchingMakeupIds()
+    return getTrackedMakeupIdsFromRows(
+      idResponse.ids,
+      idResponse.wardrobeMakeupItems ?? {}
+    )
+  }
+
+  const confirmAllMatching = (owned: boolean, count: number) =>
+    new Promise<boolean>((resolve) => {
+      dialog.warning({
+        title: t('common.confirm'),
+        content: t(
+          owned ? 'wardrobe.confirm.all_owned' : 'wardrobe.confirm.all_unowned',
+          { count }
+        ),
+        positiveText: t('common.confirm'),
+        negativeText: t('common.cancel'),
+        onPositiveClick: () => resolve(true),
+        onNegativeClick: () => resolve(false),
+        onClose: () => resolve(false),
+      })
+    })
+
+  const applyBatchOwnership = async (owned: boolean) => {
+    try {
+      const makeupIds = await getBatchMakeupIds()
+      if (makeupIds.length === 0) return
+
+      if (
+        batchScope.value === 'all' &&
+        !(await confirmAllMatching(owned, makeupIds.length))
+      ) {
+        return
+      }
+
+      await markMakeupsOwned(makeupIds, owned)
+      if (batchScope.value === 'selected') {
+        clearSelection()
+      }
+    } catch {
+      message.error(t('wardrobe.error.save'))
+    }
   }
 
   const handleCompendiumSectionChange = (value: string) => {
@@ -854,7 +1324,27 @@
       }
     }
   )
+  watch(
+    () => route.query.wardrobe,
+    () => {
+      const nextWardrobeFilter = resolveWardrobeFilter(
+        route.query.wardrobe?.toString() ?? null,
+        slotFilter.value
+      )
+      if (nextWardrobeFilter !== wardrobeFilter.value) {
+        wardrobeFilter.value = nextWardrobeFilter
+      }
+    }
+  )
 
+  watch(slotFilter, () => {
+    if (
+      wardrobeFilter.value === 'partial' &&
+      !supportsPartialWardrobeFilter(slotFilter.value)
+    ) {
+      wardrobeFilter.value = 'all'
+    }
+  })
   watch([slotFilter, qualityFilter, versionFilter, styleFilter], () => {
     currentPage.value = 1
   })
@@ -864,6 +1354,14 @@
   watch(variationFilter, () => {
     currentPage.value = 1
   })
+  watch(wardrobeFilter, () => {
+    currentPage.value = 1
+  })
+  watch(selectionFilterKey, () => {
+    if (editMode.value) {
+      clearSelection()
+    }
+  })
   watch(
     [
       slotFilter,
@@ -872,6 +1370,7 @@
       styleFilter,
       obtainFilter,
       variationFilter,
+      wardrobeFilter,
       currentPage,
     ],
     () => {
@@ -881,6 +1380,9 @@
 
   onMounted(() => {
     syncListingRoute()
+    if (wardrobeFilter.value !== 'all') {
+      loadData()
+    }
   })
 
   const retryFetch = () => {
@@ -894,7 +1396,14 @@
     styleFilter.value = null
     obtainFilter.value = null
     variationFilter.value = 'base'
+    wardrobeFilter.value = 'all'
     currentPage.value = 1
+  }
+
+  const retryWardrobeMode = () => {
+    wardrobeModeError.value = null
+    retryWardrobeStorage()
+    loadData()
   }
 
   const slotOptions = computed<SelectOption[]>(() =>

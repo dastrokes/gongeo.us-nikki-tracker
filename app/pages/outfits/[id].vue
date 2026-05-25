@@ -145,6 +145,15 @@
                       </span>
                     </n-tag>
                   </NuxtLinkLocale>
+                  <WardrobeOwnedButton
+                    v-if="wardrobeInitialized"
+                    :owned="outfitProgress.status === 'owned'"
+                    :disabled="!isWardrobeReady || outfitItems.length === 0"
+                    :loading="wardrobeSaving"
+                    :quality="outfit.quality"
+                    variant="overlay"
+                    @toggle="toggleCurrentOutfitOwned"
+                  />
                 </div>
 
                 <div class="flex flex-wrap gap-2">
@@ -454,6 +463,8 @@
   import { Star } from '@vicons/fa'
 
   const { t, te, locale } = useI18n()
+  const message = useMessage()
+  const dialog = useDialog()
   const localePath = useLocalePath()
   const route = useRoute()
   const requestEvent = useRequestEvent()
@@ -464,6 +475,13 @@
   // Composable
   const { fetchOutfitById } = useSupabaseOutfits()
   const { getImageSrc } = imageProvider()
+  const {
+    initialized: wardrobeInitialized,
+    saving: wardrobeSaving,
+    canMutate: isWardrobeReady,
+    getOutfitProgress,
+    markOutfitOwned,
+  } = useWardrobe()
   const outfitKey = computed(() => `outfit-${outfitId.value}-${locale.value}`)
 
   const {
@@ -494,6 +512,9 @@
     const items = outfit.value.outfit_items.map((oi) => oi.items)
     return sortItemsByCategory(items)
   })
+  const outfitProgress = computed(() =>
+    getOutfitProgress(outfitItems.value.map((item) => item.id))
+  )
 
   // Computed full makeup component rows sorted by canonical makeup type order
   const makeupItems = computed(() => {
@@ -701,6 +722,37 @@
   // Retry fetch
   const retryFetch = () => {
     refresh()
+  }
+
+  const confirmOutfitUnowned = () =>
+    new Promise<boolean>((resolve) => {
+      dialog.warning({
+        title: t('common.confirm'),
+        content: t('wardrobe.confirm.outfit_unowned', {
+          count: outfitItems.value.length,
+        }),
+        positiveText: t('common.confirm'),
+        negativeText: t('common.cancel'),
+        onPositiveClick: () => resolve(true),
+        onNegativeClick: () => resolve(false),
+        onClose: () => resolve(false),
+      })
+    })
+
+  const toggleCurrentOutfitOwned = async () => {
+    const owned = outfitProgress.value.status !== 'owned'
+    if (!owned && !(await confirmOutfitUnowned())) {
+      return
+    }
+
+    try {
+      await markOutfitOwned(
+        outfitItems.value.map((item) => item.id),
+        owned
+      )
+    } catch {
+      message.error(t('wardrobe.error.save'))
+    }
   }
 
   // Navigate to list

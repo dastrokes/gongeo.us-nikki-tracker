@@ -33,8 +33,14 @@
     "retry": "Retry",
     "copy": "Copy",
     "select": "Select",
+    "share_card": "Share Card",
+    "export_as_image": "Export as Image",
     "no_results_found": "No Results Found",
     "error": "Error",
+    "orientation": {
+      "landscape": "Landscape",
+      "portrait": "Portrait"
+    },
     "sort": {
       "newest_first": "Newest first",
       "oldest_first": "Oldest first"
@@ -90,6 +96,7 @@
       "community": "Community"
     },
     "tracker": "Resonance Tracker",
+    "wardrobe": "My Wardrobe",
     "import": "Import Data",
     "global": "Global Data",
     "banner": "Banner History",
@@ -118,6 +125,7 @@
       "default": "Track Infinity Nikki resonance banner pull history and statistics. A fan-made tracking and analysis tool for the Infinity Nikki community.",
       "login": "Sign in to gongeo.us using your email or a third-party account to upload, back up, and sync your Infinity Nikki resonance data across devices.",
       "tracker": "Track and analyze your Infinity Nikki resonance pull history. View all 5★ and 4★ banner items and compare your luck with other stylists.",
+      "wardrobe": "Track owned Infinity Nikki items, outfits, makeup, and Momo's Cloaks locally, then share your collection progress.",
       "import": "Import your Infinity Nikki resonance pull history easily from game, Whim-Log data or backup files with detailed step-by-step guides.",
       "global": "Explore Infinity Nikki resonance global data, including banner popularity, pull rates, item drop rates, and community pull statistics.",
       "banner": "Explore Infinity Nikki resonance banner history with current, upcoming, and past events, featured outfits, pull rates, durations, and rerun details.",
@@ -166,7 +174,9 @@
         "sync_success": "Data synced successfully!",
         "sync_error": "Failed to sync data.",
         "confirm_upload": {
-          "content": "This will upload local data for {profile} profile to cloud storage, overwriting any existing cloud data for this profile. Continue?"
+          "content": "This will upload local data for {profile} profile to cloud storage, overwriting any existing cloud data for this profile. Continue?",
+          "empty_resonance_warning": "Warning: this local profile has no resonance data. Uploading will clear any resonance data currently stored in cloud for this profile.",
+          "empty_wardrobe_warning": "Warning: this local profile has no wardrobe data. Uploading will clear any wardrobe data currently stored in cloud for this profile."
         },
         "confirm_sync": {
           "content": "This will sync local data for {profile} profile with cloud data by merging them together. Continue?"
@@ -237,6 +247,128 @@
       "never": "Never"
     }
   },
+  "wardrobe": {
+    "storage_unavailable": "Wardrobe storage is unavailable.",
+    "summary_unavailable": "Wardrobe summary is unavailable.",
+    "storage_recovery": "Retry storage",
+    "empty_title": "No owned items yet",
+    "empty_description": "Mark items from the item compendium or import owned banner items from tracker data.",
+    "open_items": "Open Items",
+    "open_missing_items": "Missing items",
+    "open_missing_outfits": "Missing outfits",
+    "open_missing_makeups": "Missing makeup",
+    "open_missing_momo": "Missing Momo's Cloaks",
+    "manage_title": "Manage Wardrobe",
+    "f2p_basics": "Base Collection",
+    "resonance_collection": "Resonance Collection",
+    "complete": "Complete",
+    "f2p_basics_success": "Marked {count} base collection entries as owned.",
+    "export_file": "Export Data",
+    "collection_detail": "{owned} of {total}",
+    "import_success": "Imported {imported} of {found} tracker wardrobe entries.",
+    "import_empty": "No tracker wardrobe entries were available to import.",
+    "import_no_new": "Tracker data found {found} wardrobe entries, but they are already owned.",
+    "import_error": "Failed to import tracker wardrobe entries.",
+    "file_import_success": "Data imported successfully.",
+    "file_import_error": "Failed to import data file.",
+    "export": {
+      "in_progress": "Preparing data file...",
+      "success": "Data exported.",
+      "empty": "No tracker or wardrobe data to export.",
+      "error": "Failed to export data file."
+    },
+    "continue_title": "Continue Tracking",
+    "progress_title": "Progress Overview",
+    "by_quality": "By Quality",
+    "by_slot": "By Slot",
+    "quality_label": "{quality}★",
+    "show_more": "Show More",
+    "show_less": "Show Less",
+    "by_version": "By Version",
+    "version_label": "Version {version}",
+    "stats_scope": {
+      "base": "Base only",
+      "all": "All variations"
+    },
+    "share": {
+      "customize": "Customize",
+      "customize_title": "Customize Share Card",
+      "in_progress": "Preparing wardrobe card...",
+      "success": "Wardrobe card exported.",
+      "error": "Failed to export wardrobe card.",
+      "lookbook": "Favorite Outfits",
+      "empty_slot": "Pick an owned piece",
+      "search_placeholder": "Search owned wardrobe",
+      "no_candidates": "No owned entries match this slot.",
+      "match": "match",
+      "matches": "matches",
+      "options": {
+        "show_stats": "Show stats cards"
+      },
+      "entity": {
+        "banner": "{quality}★ Banner",
+        "outfit": "{quality}★ Outfit"
+      },
+      "slots": {
+        "banner_five_star": "Favorite 5★ Banner",
+        "banner_four_star": "Favorite 4★ Banner",
+        "outfit_five_star": "Favorite 5★ Outfit",
+        "outfit_four_star": "Favorite 4★ Outfit",
+        "outfit_three_star": "Favorite 3★ Outfit",
+        "dress": "Favorite Dress",
+        "hair": "Favorite Hair",
+        "item": "Favorite Item",
+        "momo": "Favorite Momo's Cloak"
+      },
+      "slot_descriptions": {
+        "banner_five_star": "Choose a 5★ banner for the banner area.",
+        "banner_four_star": "Choose a 4★ banner for the banner area.",
+        "outfit_five_star": "Choose an owned 5★ outfit for the favorite outfit row.",
+        "outfit_four_star": "Choose an owned 4★ outfit for the favorite outfit row.",
+        "outfit_three_star": "Choose an owned 3★ outfit for the favorite outfit row.",
+        "dress": "Choose an owned dress item.",
+        "hair": "Choose an owned hair item.",
+        "item": "Choose any owned item as the flexible highlight.",
+        "momo": "Choose a Momo's Cloak you own."
+      }
+    },
+    "filters": {
+      "partial": "Partial"
+    },
+    "actions": {
+      "edit_mode": "Edit Mode",
+      "view_mode": "View Mode",
+      "mark_owned": "Mark Owned",
+      "mark_unowned": "Mark Unowned"
+    },
+    "status": {
+      "owned": "Owned",
+      "missing": "Missing",
+      "progress": "{owned}/{total}"
+    },
+    "scope": {
+      "selected": "Selected",
+      "page": "Page",
+      "all": "All matching"
+    },
+    "batch": {},
+    "count": {
+      "selected": "{count} selected",
+      "page": "{count} on page",
+      "all": "{count} matching"
+    },
+    "confirm": {
+      "all_owned": "Mark all {count} matching items as owned?",
+      "f2p_basics": "Mark {count} F2P, permanently available wardrobe entries as owned for this profile?",
+      "tracker_import": "Import {imported} new wardrobe entries from tracker data? Found {found} total: {foundItems} items, {foundMakeups} makeup entries, and {foundMomo} Momo's Cloaks.",
+      "outfit_unowned": "Mark all {count} outfit items as unowned?"
+    },
+    "error": {
+      "mode_title": "Wardrobe mode unavailable",
+      "mode_description": "Could not load the matching catalog IDs needed for wardrobe filtering.",
+      "save": "Failed to update wardrobe."
+    }
+  },
   "login": {
     "sign_in": "Sign In",
     "sign_up": "Sign Up",
@@ -296,7 +428,7 @@
     "import_from_file": "Import from File",
     "import_from_pearpal": "Import from Whim-Log",
     "file_import": "File Import",
-    "file_import_desc": "Import from a previously exported nikki-resonance-data file.",
+    "file_import_desc": "Import from a previously exported profile data file.",
     "select_file": "Select File",
     "select_region": "Select Region",
     "select_region_desc": "Select your game server region.",
@@ -702,6 +834,7 @@
         "error": "Cannot submit while entries failed to load.",
         "over_limit": "Apply more filters before submitting.",
         "scope_unavailable": "Community sharing is not available for this selection yet.",
+        "wardrobe_filtered": "Community submit is unavailable while ownership filters are active.",
         "filtered_items_only": "Community submit is unavailable while advanced filters are active.",
         "incomplete": "Rank all loaded entries before submitting.",
         "no_changes": "No changes since your last submit."
@@ -737,6 +870,9 @@
     "filter_style": "Filter by Style",
     "filter_label": "Filter by Label",
     "filter_obtain": "Filter by Source",
+    "variation_filter": {
+      "all_evos": "All Evos"
+    },
     "advanced_filters": "Advanced Filters",
     "advanced_filters_empty": "No advanced filters are available for this slot.",
     "advanced_filter_placeholder": "Select {field}",
@@ -789,6 +925,8 @@
     "clear_query": "Clear search",
     "close_details": "Close details",
     "filters_title": "Search filters",
+    "scope_all": "All items",
+    "scope_owned": "Owned items",
     "find_similar": "Find Similar",
     "similar_prefix": "Similar",
     "error_description": "Failed to query search index.",
@@ -921,10 +1059,6 @@
       "frequency": "Frequency"
     },
     "share": {
-      "title": "Share Card",
-      "export_image": "Export as Image",
-      "landscape": "Landscape",
-      "portrait": "Portrait",
       "in_progress": "Generating share card…",
       "success": "Share card exported!",
       "error": "Failed to export share card.",

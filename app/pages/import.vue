@@ -1282,16 +1282,28 @@
         throw new Error('Invalid JSON format')
       }
 
-      // Check if it's the new format with pulls/edits or legacy format
+      // Check if it's the structured export format or legacy pull-only format
       const hasPulls = 'pulls' in jsonData
       const hasEdits = 'edits' in jsonData
+      const hasEvo = 'evo' in jsonData
+      const hasPearpal = 'pearpal' in jsonData
+      const hasWardrobe = 'wardrobe' in jsonData
 
-      if (hasPulls || hasEdits) {
-        // New format: { pulls: {...}, edits: {...} }
+      if (hasPulls || hasEdits || hasEvo || hasPearpal || hasWardrobe) {
+        // Structured format: { pulls, edits, evo, pearpal, wardrobe }
         if (hasPulls && typeof jsonData.pulls !== 'object') {
           throw new Error('Invalid JSON format')
         }
         if (hasEdits && typeof jsonData.edits !== 'object') {
+          throw new Error('Invalid JSON format')
+        }
+        if (hasEvo && typeof jsonData.evo !== 'object') {
+          throw new Error('Invalid JSON format')
+        }
+        if (hasPearpal && typeof jsonData.pearpal !== 'object') {
+          throw new Error('Invalid JSON format')
+        }
+        if (hasWardrobe && typeof jsonData.wardrobe !== 'object') {
           throw new Error('Invalid JSON format')
         }
       } else {

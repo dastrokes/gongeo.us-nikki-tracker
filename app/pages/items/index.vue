@@ -9,18 +9,31 @@
       <div class="flex flex-col gap-2">
         <div class="flex items-start justify-between gap-2">
           <div
-            class="flex min-w-0 flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center"
+            class="flex w-full min-w-0 flex-col gap-2 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center"
           >
             <n-select
               :value="compendiumSection"
               :options="compendiumSectionOptions"
               :render-label="renderCompendiumSectionOptionLabel"
               size="small"
-              class="w-full self-start sm:w-40"
+              class="w-full max-w-40 self-start sm:w-40"
               :show-checkmark="false"
               :clearable="false"
               @update:value="handleCompendiumSectionChange"
             />
+
+            <n-select
+              v-model:value="wardrobeFilter"
+              :options="wardrobeFilterOptions"
+              :render-label="renderWardrobeFilterOptionLabel"
+              size="small"
+              class="w-full max-w-40 self-start sm:w-40"
+              :show-checkmark="false"
+              :clearable="false"
+              :disabled="!isWardrobeReady"
+            />
+
+            <CatalogVariationToggle v-model:value="variationFilter" />
 
             <div class="hidden min-w-0 overflow-x-auto sm:block">
               <n-button-group class="min-w-max">
@@ -60,12 +73,12 @@
             </n-button>
           </div>
 
-          <n-tooltip
-            :disabled="totalItems <= TIER_ENTRY_LIMIT"
-            trigger="hover"
-          >
-            <template #trigger>
-              <div class="shrink-0 self-start">
+          <div class="flex shrink-0 items-center gap-2 self-start">
+            <n-tooltip
+              :disabled="totalItems <= TIER_ENTRY_LIMIT"
+              trigger="hover"
+            >
+              <template #trigger>
                 <n-button
                   size="small"
                   type="primary"
@@ -77,14 +90,44 @@
                   </template>
                   {{ t('navigation.tierlist') }}
                 </n-button>
-              </div>
-            </template>
-            {{
-              t('tierlist.over_limit.description', {
-                max: TIER_ENTRY_LIMIT,
-              })
-            }}
-          </n-tooltip>
+              </template>
+              {{
+                t('tierlist.over_limit.description', {
+                  max: TIER_ENTRY_LIMIT,
+                })
+              }}
+            </n-tooltip>
+
+            <n-tooltip trigger="hover">
+              <template #trigger>
+                <n-button
+                  size="small"
+                  text
+                  :type="editMode ? 'primary' : 'default'"
+                  :disabled="!isWardrobeReady"
+                  class="w-8"
+                  :aria-label="
+                    editMode
+                      ? t('wardrobe.actions.view_mode')
+                      : t('wardrobe.actions.edit_mode')
+                  "
+                  @click="toggleEditMode"
+                >
+                  <template #icon>
+                    <n-icon>
+                      <BookOpen v-if="editMode" />
+                      <Edit v-else />
+                    </n-icon>
+                  </template>
+                </n-button>
+              </template>
+              {{
+                editMode
+                  ? t('wardrobe.actions.view_mode')
+                  : t('wardrobe.actions.edit_mode')
+              }}
+            </n-tooltip>
+          </div>
         </div>
 
         <div class="flex items-start gap-2 sm:hidden">
@@ -175,7 +218,7 @@
 
         <div class="grid grid-cols-2 gap-2 sm:grid-cols-2 xl:grid-cols-4">
           <n-select
-            v-model:value="typeFilter"
+            :value="typeFilter"
             :options="typeOptions"
             size="small"
             class="min-w-0"
@@ -183,11 +226,14 @@
             filterable
             :show-checkmark="false"
             :placeholder="t('compendium.filter_slot')"
+            @update:value="updateTypeFilter"
           />
 
           <n-select
             v-model:value="categoryFilter"
             :options="categoryOptions"
+            :fallback-option="getCategoryFallbackOption"
+            :loading="isFacetOptionsRefreshing"
             size="small"
             class="min-w-0"
             clearable
@@ -200,6 +246,8 @@
           <n-select
             v-model:value="subcategoryFilter"
             :options="subcategoryOptions"
+            :fallback-option="getSubcategoryFallbackOption"
+            :loading="isFacetOptionsRefreshing"
             size="small"
             class="min-w-0"
             clearable
@@ -251,6 +299,19 @@
       </div>
     </n-card>
 
+    <WardrobeBatchToolbar
+      v-if="editMode"
+      v-model:scope="batchScope"
+      :edit-mode="editMode"
+      :selected-count="selectedItemIds.size"
+      :page-count="entries.length"
+      :all-matching-count="totalItems"
+      :disabled="!isWardrobeReady || loading"
+      @mark-owned="applyBatchOwnership(true)"
+      @mark-unowned="applyBatchOwnership(false)"
+      @clear-selection="clearSelection"
+    />
+
     <!-- Grid Card -->
     <n-card
       size="small"
@@ -260,7 +321,28 @@
       <div class="min-h-0 sm:flex sm:flex-1 sm:flex-col">
         <div class="space-y-3 sm:space-y-4">
           <div
-            v-if="error"
+            v-if="wardrobeError"
+            class="py-12 text-center"
+          >
+            <n-result
+              size="small"
+              status="error"
+              :title="t('wardrobe.error.mode_title')"
+              :description="t('wardrobe.error.mode_description')"
+            >
+              <template #footer>
+                <n-button
+                  type="primary"
+                  @click="retryWardrobeMode"
+                >
+                  {{ t('common.retry') }}
+                </n-button>
+              </template>
+            </n-result>
+          </div>
+
+          <div
+            v-else-if="error"
             class="py-12 text-center"
           >
             <n-result
@@ -308,20 +390,25 @@
             appear
           >
             <div
-              v-if="!loading && !error && entries.length > 0"
-              key="grid"
+              v-if="!error && entries.length > 0"
+              :key="listingAnimationKey"
               class="grid grid-cols-3 gap-2 sm:grid-cols-6 sm:content-start sm:gap-3"
             >
               <div
                 v-for="(entry, index) in entries"
                 :key="entry.id"
-                class="cursor-pointer"
+                class="relative cursor-pointer"
                 :class="getListingCardAnimationClass(index)"
                 :style="getListingCardAnimationStyle(index)"
-                @click="navigateToDetail(entry.id)"
+                @click="handleItemCardClick(entry.id, $event)"
               >
                 <div
                   class="relative aspect-2/3 overflow-hidden rounded-lg bg-[url('/images/bg.webp')] bg-cover bg-center shadow-md transition-shadow duration-300 hover:shadow-xl"
+                  :style="
+                    isItemBatchSelected(entry.id)
+                      ? getQualityRingStyle(entry.quality)
+                      : undefined
+                  "
                 >
                   <!-- Tint overlay -->
                   <div
@@ -341,7 +428,7 @@
 
                   <div class="absolute top-2 left-2 z-20">
                     <n-tag
-                      v-if="entry.type"
+                      v-if="entry.type && !editMode"
                       round
                       size="small"
                       :bordered="false"
@@ -350,6 +437,18 @@
                     >
                       {{ entry.type }}
                     </n-tag>
+                    <n-checkbox
+                      v-else-if="editMode"
+                      :checked="isItemBatchSelected(entry.id)"
+                      :theme-overrides="
+                        getWardrobeSelectionCheckboxTheme(entry.quality)
+                      "
+                      :aria-label="t('common.select')"
+                      @click.stop
+                      @update:checked="
+                        (checked) => updateItemSelection(entry.id, checked)
+                      "
+                    />
                   </div>
                   <div class="absolute top-2 right-2 z-20">
                     <n-tag
@@ -368,16 +467,54 @@
                     </n-tag>
                   </div>
                   <div
-                    class="absolute right-0 bottom-0 left-0 z-20 bg-linear-to-t from-black/90 to-transparent p-3"
+                    v-if="
+                      wardrobeInitialized && !editMode && isItemOwned(entry.id)
+                    "
+                    class="absolute right-2 bottom-2 z-30"
+                    @click.stop
+                  >
+                    <WardrobeStatusBadge
+                      status="item-owned"
+                      :quality="entry.quality"
+                    />
+                  </div>
+                  <div
+                    v-else-if="wardrobeInitialized && editMode"
+                    class="absolute right-2 bottom-2 z-30"
+                    @click.stop
+                  >
+                    <WardrobeOwnedButton
+                      :owned="isItemOwned(entry.id)"
+                      :disabled="!isWardrobeReady"
+                      :loading="isItemToggleLoading(entry.id)"
+                      :quality="entry.quality"
+                      variant="overlay"
+                      @toggle="toggleVisibleItemOwned(entry.id)"
+                    />
+                  </div>
+                  <div
+                    class="absolute right-0 bottom-0 left-0 z-20 bg-linear-to-t from-black/90 to-transparent"
+                    :class="[
+                      editMode ? 'p-2' : 'p-3',
+                      wardrobeInitialized && editMode
+                        ? 'pr-12'
+                        : wardrobeInitialized &&
+                            !editMode &&
+                            isItemOwned(entry.id)
+                          ? 'pr-10 sm:pr-12'
+                          : '',
+                    ]"
                   >
                     <p
                       class="line-clamp-2 text-xs font-semibold text-white sm:text-sm"
                     >
                       {{ entry.name }}
                     </p>
-                    <div class="mt-1 flex flex-wrap gap-1">
+                    <div
+                      v-if="!editMode && entry.styleLabel"
+                      class="mt-1 hidden flex-wrap gap-1 sm:flex"
+                    >
                       <n-tag
-                        v-if="entry.styleLabel"
                         size="tiny"
                         :bordered="false"
                         type="default"
@@ -387,7 +524,10 @@
                         {{ entry.styleLabel }}
                       </n-tag>
                     </div>
-                    <div class="mt-1 flex flex-wrap gap-0.5">
+                    <div
+                      v-if="!editMode && entry.labelTags.length"
+                      class="mt-1 hidden flex-wrap gap-0.5 sm:flex"
+                    >
                       <n-tag
                         v-for="label in entry.labelTags"
                         :key="label.text"
@@ -453,6 +593,7 @@
       :show="isAdvancedFiltersDrawerOpen"
       :fields="advancedFilterFields"
       :filters="advancedFilters"
+      :loading="isFacetOptionsRefreshing"
       :options="advancedFacetOptions"
       ignore-close-selector="[data-advanced-filters-trigger]"
       @update:show="isAdvancedFiltersDrawerOpen = $event"
@@ -463,6 +604,8 @@
 
 <script setup lang="ts">
   import {
+    BookOpen,
+    Edit,
     Star,
     Tshirt,
     ListAlt,
@@ -470,12 +613,21 @@
     Paw,
     SortAmountDown,
     Times,
+    CheckCircle,
+    TimesCircle,
+    DotCircle,
   } from '@vicons/fa'
   import { NIcon } from 'naive-ui'
   import type { SelectGroupOption, SelectOption } from 'naive-ui'
   import { h, type Component } from 'vue'
 
+  definePageMeta({
+    key: 'items-listing',
+  })
+
   const { t, locale, getLocaleMessage } = useI18n()
+  const dialog = useDialog()
+  const message = useMessage()
   const { translateFilterToken } = useFilterToken()
   const localePath = useLocalePath()
   const route = useRoute()
@@ -665,6 +817,32 @@
         : Number(value)
     return resolveSeoItemQualitySlug(parsed) !== null ? parsed : null
   }
+  type CatalogVariationFilter =
+    | 'base'
+    | 'all'
+    | 'glowup'
+    | 'evo1'
+    | 'evo2'
+    | 'evo3'
+    | 'all-evos'
+
+  const variationFilterValues = new Set<CatalogVariationFilter>([
+    'base',
+    'all',
+    'glowup',
+    'evo1',
+    'evo2',
+    'evo3',
+    'all-evos',
+  ])
+  const resolveVariationFilter = (
+    value?: string | null
+  ): CatalogVariationFilter => {
+    if (value === 'show' || value === 'true' || value === '1') return 'all'
+    return variationFilterValues.has(value as CatalogVariationFilter)
+      ? (value as CatalogVariationFilter)
+      : 'base'
+  }
   const resolveRouteQualityFilter = () =>
     routeQualityFilter.value ??
     resolveQuality(route.query.quality?.toString() ?? null)
@@ -702,6 +880,9 @@
   const styleFilter = ref<string | null>(resolveRouteStyleFilter())
   const labelFilter = ref<string | null>(resolveRouteLabelFilter())
   const obtainFilter = ref<string | null>(resolveRouteSourceFilter())
+  const variationFilter = ref<CatalogVariationFilter>(
+    resolveVariationFilter(route.query.variations?.toString() ?? null)
+  )
 
   const activeTypeLabel = computed(() =>
     typeFilter.value ? t(`type.${typeFilter.value}`) : null
@@ -773,7 +954,39 @@
     )
   )
   const isAdvancedFiltersDrawerOpen = ref(false)
-  const currentPage = ref(Number(route.query.page) || 1)
+  const currentPage = ref(normalizeCatalogListingPage(route.query.page))
+  type ItemWardrobeFilter = 'all' | 'owned' | 'missing'
+  type BatchScope = 'selected' | 'page' | 'all'
+  const resolveWardrobeFilter = (value?: string | null): ItemWardrobeFilter => {
+    if (value === 'owned' || value === 'missing') return value
+    return 'all'
+  }
+  const wardrobeFilter = ref<ItemWardrobeFilter>(
+    resolveWardrobeFilter(route.query.wardrobe?.toString() ?? null)
+  )
+  const editMode = ref(false)
+  const batchScope = ref<BatchScope>('selected')
+  const selectedItemIds = ref<Set<number>>(new Set())
+  const togglingItemIds = ref<Set<number>>(new Set())
+
+  const {
+    initialized: wardrobeInitialized,
+    ownedItemIds,
+    error: storageError,
+    canMutate: isWardrobeReady,
+    mutationVersion: wardrobeMutationVersion,
+    init: initWardrobe,
+    retry: retryWardrobeStorage,
+    isItemOwned,
+    toggleItemOwned,
+    markItemsOwned,
+  } = useWardrobe()
+  const wardrobeModeError = ref<Error | null>(null)
+  const wardrobeError = computed(() =>
+    wardrobeFilter.value !== 'all' || editMode.value
+      ? (storageError.value ?? wardrobeModeError.value)
+      : wardrobeModeError.value
+  )
 
   const advancedFilterFields = computed(() =>
     getItemSearchCompendiumAdvancedFields(typeFilter.value)
@@ -823,10 +1036,36 @@
       styleFilter.value !== null ||
       labelFilter.value !== null ||
       obtainFilter.value !== null ||
+      variationFilter.value !== 'base' ||
+      wardrobeFilter.value !== 'all' ||
       activeAdvancedFilterCount.value > 0
   )
+  const selectionFilterKey = computed(() =>
+    JSON.stringify({
+      quality: qualityFilter.value,
+      type: typeFilter.value,
+      category: categoryFilter.value,
+      subcategory: subcategoryFilter.value,
+      version: versionFilter.value,
+      style: styleFilter.value,
+      label: labelFilter.value,
+      obtain: obtainFilter.value,
+      variations: variationFilter.value,
+      wardrobe: wardrobeFilter.value,
+      advanced: activeAdvancedFiltersKey.value,
+    })
+  )
 
-  const { fetchItemsPaginated, fetchItemSearchFacets } = useSupabaseItems()
+  const { fetchItemSearchFacets } = useSupabaseItems()
+
+  type ItemFacetData = ItemSearchFacetResponse & { cacheKey: string }
+
+  const createEmptyFacetData = (cacheKey: string): ItemFacetData => ({
+    categories: [],
+    subcategories: [],
+    advanced: {},
+    cacheKey,
+  })
 
   const facetCacheKey = computed(() =>
     shouldFetchFacets.value
@@ -839,7 +1078,6 @@
         }-${obtainFilter.value ?? 'all'}`
       : 'item-facets-disabled'
   )
-
   const cacheKey = computed(
     () =>
       `items-${qualityFilter.value ?? 'all'}-${typeFilter.value ?? 'all'}-${
@@ -850,22 +1088,41 @@
         styleFilter.value ?? 'all'
       }-${labelFilter.value ?? 'all'}-${versionFilter.value ?? 'all'}-${
         obtainFilter.value ?? 'all'
-      }-${currentPage.value}-${pageSize}`
+      }-${variationFilter.value}-${
+        wardrobeFilter.value
+      }-${wardrobeMutationVersion.value}-${currentPage.value}-${pageSize}`
   )
+  const buildItemFetchFilters = () => ({
+    quality: qualityFilter.value,
+    type: typeFilter.value,
+    category: supportsCategoryFilters.value ? categoryFilter.value : null,
+    subcategory: supportsCategoryFilters.value ? subcategoryFilter.value : null,
+    version: versionFilter.value,
+    style: styleFilter.value,
+    label: labelFilter.value,
+    source: obtainFilter.value,
+    variations: variationFilter.value,
+    ...activeAdvancedFilters.value,
+  })
+
+  const catalogListingQuery = computed(() => ({
+    entity: 'item' as const,
+    filters: buildItemFetchFilters(),
+    page: currentPage.value,
+    pageSize,
+    ownershipMode: wardrobeFilter.value,
+  }))
 
   const [facetsAsyncData, itemsAsyncData] = await Promise.all([
     useAsyncData(
-      () => facetCacheKey.value,
+      'items-facets',
       async () => {
+        const requestFacetCacheKey = facetCacheKey.value
         if (!shouldFetchFacets.value) {
-          return {
-            categories: [],
-            subcategories: [],
-            advanced: {},
-          }
+          return createEmptyFacetData(requestFacetCacheKey)
         }
 
-        return fetchItemSearchFacets({
+        const facets = await fetchItemSearchFacets({
           quality: qualityFilter.value,
           type: typeFilter.value,
           category: supportsCategoryFilters.value ? categoryFilter.value : null,
@@ -878,47 +1135,45 @@
           source: obtainFilter.value,
           ...activeAdvancedFilters.value,
         })
+
+        return {
+          ...facets,
+          cacheKey: requestFacetCacheKey,
+        }
       },
       {
-        default: () => ({
-          categories: [],
-          subcategories: [],
-          advanced: {},
-        }),
+        default: () => createEmptyFacetData(facetCacheKey.value),
+        dedupe: 'cancel',
+        deep: false,
         lazy: true,
+        server: false,
+        watch: [facetCacheKey],
       }
     ),
-    useAsyncData(
-      () => cacheKey.value,
-      async () => {
-        return fetchItemsPaginated({
-          quality: qualityFilter.value,
-          type: typeFilter.value,
-          category: supportsCategoryFilters.value ? categoryFilter.value : null,
-          subcategory: supportsCategoryFilters.value
-            ? subcategoryFilter.value
-            : null,
-          version: versionFilter.value,
-          style: styleFilter.value,
-          label: labelFilter.value,
-          source: obtainFilter.value,
-          ...activeAdvancedFilters.value,
-          page: currentPage.value,
-        })
+    useCatalogListing<ItemListEntry>({
+      key: cacheKey,
+      query: catalogListingQuery,
+      wardrobe: {
+        initialized: wardrobeInitialized,
+        storageError,
+        ownedItemIds,
+        init: initWardrobe,
+        isItemOwned,
       },
-      {
-        default: () => ({ data: [], total: 0, totalPages: 0 }),
-        lazy: true,
-      }
-    ),
+      onWardrobeModeError: (nextError) => {
+        wardrobeModeError.value = nextError
+      },
+    }),
   ])
 
-  const { data: itemSearchFacets, status: facetsStatus } = facetsAsyncData
+  const { data: itemSearchFacets } = facetsAsyncData
   const {
     data: compendiumData,
-    pending: loading,
+    pending: isListingPending,
+    status: requestStatus,
     error,
     refresh: loadData,
+    fetchMatchingIds: fetchMatchingItemIds,
   } = itemsAsyncData
 
   const entries = computed(() => {
@@ -938,8 +1193,33 @@
       })),
     }))
   })
+  const loading = computed(() =>
+    isListingInitialLoading({
+      error: error.value,
+      entryCount: entries.value.length,
+      pending: isListingPending.value,
+      status: requestStatus.value,
+    })
+  )
+  const listingAnimationKey = computed(() => cacheKey.value)
 
   const totalItems = computed(() => compendiumData.value?.total || 0)
+  const wardrobeFilterOptions = computed<IconSelectOption[]>(() => [
+    { label: t('common.all'), value: 'all', icon: DotCircle },
+    { label: t('wardrobe.status.owned'), value: 'owned', icon: CheckCircle },
+    {
+      label: t('wardrobe.status.missing'),
+      value: 'missing',
+      icon: TimesCircle,
+    },
+  ])
+  const renderWardrobeFilterOptionLabel = (option: SelectOption) => {
+    const { icon } = option as IconSelectOption
+    return h('div', { class: 'flex items-center gap-2' }, [
+      h(NIcon, { size: 16 }, { default: () => h(icon) }),
+      h('span', null, String(option.label ?? '')),
+    ])
+  }
 
   const countLabels = computed(() => ({
     singular: t('common.item'),
@@ -947,7 +1227,11 @@
   }))
   const TIER_ENTRY_LIMIT = 200
   const isTierlistDisabled = computed(
-    () => loading.value || !!error.value || totalItems.value > TIER_ENTRY_LIMIT
+    () =>
+      editMode.value ||
+      loading.value ||
+      !!error.value ||
+      totalItems.value > TIER_ENTRY_LIMIT
   )
 
   const buildAdvancedFilterQuery = () =>
@@ -1058,7 +1342,11 @@
       labelFilter.value && { label: labelFilter.value }),
     ...(primaryFilter !== 'source' &&
       obtainFilter.value && { source: obtainFilter.value }),
+    ...(variationFilter.value !== 'base' && {
+      variations: variationFilter.value,
+    }),
     ...(includeScopedFilters && buildAdvancedFilterQuery()),
+    ...(wardrobeFilter.value !== 'all' && { wardrobe: wardrobeFilter.value }),
     ...(includePage && currentPage.value > 1 && { page: currentPage.value }),
   })
   const buildTierlistQuery = () => ({
@@ -1078,6 +1366,10 @@
     ...(styleFilter.value && { style: styleFilter.value }),
     ...(labelFilter.value && { label: labelFilter.value }),
     ...(obtainFilter.value && { source: obtainFilter.value }),
+    ...(variationFilter.value !== 'base' && {
+      variations: variationFilter.value,
+    }),
+    ...(wardrobeFilter.value !== 'all' && { wardrobe: wardrobeFilter.value }),
     ...buildAdvancedFilterQuery(),
   })
 
@@ -1090,6 +1382,148 @@
         query: buildTierlistQuery(),
       })
     )
+  }
+
+  const toggleEditMode = () => {
+    editMode.value = !editMode.value
+    if (!editMode.value) {
+      clearSelection()
+    }
+  }
+
+  const isItemBatchSelected = (itemId: number) =>
+    batchScope.value === 'selected' ? selectedItemIds.value.has(itemId) : true
+
+  const materializeVisibleItemSelection = () => {
+    selectedItemIds.value = new Set(entries.value.map((entry) => entry.id))
+    batchScope.value = 'selected'
+  }
+
+  const updateItemSelection = (itemId: number, checked: boolean) => {
+    if (batchScope.value !== 'selected') {
+      materializeVisibleItemSelection()
+    }
+
+    const nextSelection = new Set(selectedItemIds.value)
+    if (checked) {
+      nextSelection.add(itemId)
+    } else {
+      nextSelection.delete(itemId)
+    }
+    selectedItemIds.value = nextSelection
+  }
+
+  const clearSelection = () => {
+    selectedItemIds.value = new Set()
+    batchScope.value = 'selected'
+  }
+
+  const getWardrobeSelectionCheckboxTheme = (quality: number) => {
+    const color = getQualityColor(quality)
+    return {
+      color: `${color}22`,
+      colorChecked: color,
+      border: `1px solid ${color}AA`,
+      borderChecked: `1px solid ${color}`,
+      borderFocus: `1px solid ${color}`,
+      boxShadowFocus: 'none',
+      checkMarkColor: '#ffffff',
+    }
+  }
+
+  const setItemToggleLoading = (itemId: number, loading: boolean) => {
+    const nextIds = new Set(togglingItemIds.value)
+    if (loading) {
+      nextIds.add(itemId)
+    } else {
+      nextIds.delete(itemId)
+    }
+    togglingItemIds.value = nextIds
+  }
+
+  const isItemToggleLoading = (itemId: number) =>
+    togglingItemIds.value.has(itemId)
+
+  const toggleVisibleItemOwned = async (itemId: number) => {
+    if (isItemToggleLoading(itemId)) return
+
+    setItemToggleLoading(itemId, true)
+    try {
+      await toggleItemOwned(itemId)
+    } catch {
+      message.error(t('wardrobe.error.save'))
+    } finally {
+      setItemToggleLoading(itemId, false)
+    }
+  }
+
+  const isListingCardControlClick = (event: MouseEvent) => {
+    const target = event.target
+    return (
+      target instanceof HTMLElement &&
+      Boolean(target.closest('button, input, label, [role="button"]'))
+    )
+  }
+
+  const handleItemCardClick = (itemId: number, event: MouseEvent) => {
+    if (isListingCardControlClick(event)) return
+
+    if (editMode.value) {
+      updateItemSelection(itemId, !isItemBatchSelected(itemId))
+      return
+    }
+
+    navigateToDetail(itemId)
+  }
+
+  const getBatchItemIds = async () => {
+    if (batchScope.value === 'selected') {
+      return Array.from(selectedItemIds.value)
+    }
+
+    if (batchScope.value === 'page') {
+      return entries.value.map((entry) => entry.id)
+    }
+
+    const idResponse = await fetchMatchingItemIds()
+    return idResponse.ids
+  }
+
+  const confirmAllMatching = (owned: boolean, count: number) =>
+    new Promise<boolean>((resolve) => {
+      dialog.warning({
+        title: t('common.confirm'),
+        content: t(
+          owned ? 'wardrobe.confirm.all_owned' : 'wardrobe.confirm.all_unowned',
+          { count }
+        ),
+        positiveText: t('common.confirm'),
+        negativeText: t('common.cancel'),
+        onPositiveClick: () => resolve(true),
+        onNegativeClick: () => resolve(false),
+        onClose: () => resolve(false),
+      })
+    })
+
+  const applyBatchOwnership = async (owned: boolean) => {
+    try {
+      const itemIds = await getBatchItemIds()
+      if (itemIds.length === 0) return
+
+      if (
+        batchScope.value === 'all' &&
+        !(await confirmAllMatching(owned, itemIds.length))
+      ) {
+        return
+      }
+
+      await markItemsOwned(itemIds, owned)
+      if (batchScope.value === 'selected') {
+        clearSelection()
+      }
+    } catch {
+      message.error(t('wardrobe.error.save'))
+    }
   }
 
   const handleCompendiumSectionChange = (value: string) => {
@@ -1136,22 +1570,25 @@
     })
   }
 
-  watch(qualityFilter, () => {
-    currentPage.value = 1
-  })
+  const updateTypeFilter = (nextType: string | null) => {
+    if (nextType === typeFilter.value) return
 
-  watch(typeFilter, () => {
-    currentPage.value = 1
     categoryFilter.value = null
     subcategoryFilter.value = null
     advancedFilters.value = createEmptyItemSearchAdvancedFilters()
     isAdvancedFiltersDrawerOpen.value = false
+    currentPage.value = 1
+    typeFilter.value = nextType
+  }
+
+  watch(qualityFilter, () => {
+    currentPage.value = 1
   })
 
   watch([routeItemType, () => route.query.type], () => {
     const nextType = resolveRouteTypeFilter()
     if (nextType !== typeFilter.value) {
-      typeFilter.value = nextType
+      updateTypeFilter(nextType)
     }
   })
 
@@ -1193,6 +1630,30 @@
     }
   )
 
+  watch(
+    () => route.query.variations,
+    () => {
+      const nextVariations = resolveVariationFilter(
+        route.query.variations?.toString() ?? null
+      )
+      if (nextVariations !== variationFilter.value) {
+        variationFilter.value = nextVariations
+      }
+    }
+  )
+
+  watch(
+    () => route.query.wardrobe,
+    () => {
+      const nextWardrobeFilter = resolveWardrobeFilter(
+        route.query.wardrobe?.toString() ?? null
+      )
+      if (nextWardrobeFilter !== wardrobeFilter.value) {
+        wardrobeFilter.value = nextWardrobeFilter
+      }
+    }
+  )
+
   watch(supportsCategoryFilters, (isSupported) => {
     if (isSupported) return
 
@@ -1225,8 +1686,22 @@
     currentPage.value = 1
   })
 
+  watch(variationFilter, () => {
+    currentPage.value = 1
+  })
+
+  watch(wardrobeFilter, () => {
+    currentPage.value = 1
+  })
+
   watch(activeAdvancedFiltersKey, () => {
     currentPage.value = 1
+  })
+
+  watch(selectionFilterKey, () => {
+    if (editMode.value) {
+      clearSelection()
+    }
   })
 
   watch(
@@ -1239,6 +1714,8 @@
       styleFilter,
       labelFilter,
       obtainFilter,
+      variationFilter,
+      wardrobeFilter,
       activeAdvancedFiltersKey,
       currentPage,
     ],
@@ -1249,9 +1726,18 @@
 
   onMounted(() => {
     syncListingRoute()
+    if (wardrobeFilter.value !== 'all') {
+      loadData()
+    }
   })
 
   const retryFetch = () => {
+    loadData()
+  }
+
+  const retryWardrobeMode = () => {
+    wardrobeModeError.value = null
+    retryWardrobeStorage()
     loadData()
   }
 
@@ -1269,13 +1755,15 @@
 
   const clearFilters = () => {
     qualityFilter.value = null
-    typeFilter.value = null
+    updateTypeFilter(null)
     categoryFilter.value = null
     subcategoryFilter.value = null
     versionFilter.value = null
     styleFilter.value = null
     labelFilter.value = null
     obtainFilter.value = null
+    variationFilter.value = 'base'
+    wardrobeFilter.value = 'all'
     advancedFilters.value = createEmptyItemSearchAdvancedFilters()
     isAdvancedFiltersDrawerOpen.value = false
     currentPage.value = 1
@@ -1346,20 +1834,63 @@
     return options
   })
 
-  const availableCategories = computed(
-    () => itemSearchFacets.value?.categories ?? []
+  const isCurrentFacetDataReady = computed(
+    () => itemSearchFacets.value?.cacheKey === facetCacheKey.value
+  )
+  const isFacetOptionsRefreshing = computed(
+    () => shouldFetchFacets.value && !isCurrentFacetDataReady.value
+  )
+  const lastReadyFacetData = shallowRef<ItemFacetData | null>(null)
+  const lastReadyFacetType = ref<string | null>(null)
+
+  watch(
+    [itemSearchFacets, isCurrentFacetDataReady],
+    ([nextFacets, isReady]) => {
+      if (!isReady || !nextFacets) return
+      lastReadyFacetData.value = nextFacets
+      lastReadyFacetType.value = typeFilter.value
+    },
+    { immediate: true }
   )
 
+  const currentAvailableCategories = computed(() =>
+    isCurrentFacetDataReady.value
+      ? (itemSearchFacets.value?.categories ?? [])
+      : []
+  )
+
+  const currentAvailableSubcategories = computed(() =>
+    isCurrentFacetDataReady.value
+      ? (itemSearchFacets.value?.subcategories ?? [])
+      : []
+  )
+  const currentAdvancedFacetOptions = computed<ItemSearchAdvancedFacetMap>(
+    () =>
+      isCurrentFacetDataReady.value
+        ? (itemSearchFacets.value?.advanced ?? {})
+        : {}
+  )
+  const displayFacetData = computed(() =>
+    isCurrentFacetDataReady.value
+      ? (itemSearchFacets.value ?? null)
+      : lastReadyFacetType.value === typeFilter.value
+        ? lastReadyFacetData.value
+        : null
+  )
+  const availableCategories = computed(
+    () => displayFacetData.value?.categories ?? []
+  )
   const availableSubcategories = computed(
-    () => itemSearchFacets.value?.subcategories ?? []
+    () => displayFacetData.value?.subcategories ?? []
   )
   const advancedFacetOptions = computed<ItemSearchAdvancedFacetMap>(
-    () => itemSearchFacets.value?.advanced ?? {}
+    () => displayFacetData.value?.advanced ?? {}
   )
 
   watch(
-    availableCategories,
-    (nextCategories) => {
+    [currentAvailableCategories, isCurrentFacetDataReady],
+    ([nextCategories, isReady]) => {
+      if (!isReady) return
       if (!categoryFilter.value) return
 
       const resolved = resolveItemSearchFacetValue(
@@ -1380,8 +1911,9 @@
   )
 
   watch(
-    availableSubcategories,
-    (nextSubcategories) => {
+    [currentAvailableSubcategories, isCurrentFacetDataReady],
+    ([nextSubcategories, isReady]) => {
+      if (!isReady) return
       if (!subcategoryFilter.value) return
 
       const resolved = resolveItemSearchFacetValue(
@@ -1401,7 +1933,7 @@
   )
 
   const validateAdvancedFilters = () => {
-    if (typeFilter.value && facetsStatus.value !== 'success') {
+    if (typeFilter.value && !isCurrentFacetDataReady.value) {
       return
     }
 
@@ -1426,7 +1958,7 @@
         const resolved = getItemSearchAdvancedFacetValue(
           field,
           value,
-          advancedFacetOptions.value
+          currentAdvancedFacetOptions.value
         )
         if (!hasActiveItemSearchAdvancedFilterValue(resolved)) {
           nextFilters[field] = isItemSearchArrayField(field) ? [] : null
@@ -1449,8 +1981,8 @@
   watch(
     [
       advancedFilterFields,
-      () => JSON.stringify(advancedFacetOptions.value),
-      facetsStatus,
+      () => JSON.stringify(currentAdvancedFacetOptions.value),
+      isCurrentFacetDataReady,
     ],
     validateAdvancedFilters,
     { immediate: true }
@@ -1486,6 +2018,30 @@
       value,
     }))
   )
+  const getCategoryFallbackOption = (value: string | number) => {
+    const normalizedValue = normalizeItemSearchTokenKey(String(value))
+    return {
+      label:
+        normalizedValue === ITEM_SEARCH_UNCATEGORIZED_VALUE
+          ? t('compendium.uncategorized')
+          : translateFilterToken('category', normalizedValue, typeFilter.value),
+      value,
+    }
+  }
+  const getSubcategoryFallbackOption = (value: string | number) => {
+    const normalizedValue = normalizeItemSearchTokenKey(String(value))
+    return {
+      label:
+        normalizedValue === ITEM_SEARCH_UNCATEGORIZED_VALUE
+          ? t('compendium.uncategorized')
+          : translateFilterToken(
+              'subcategory',
+              normalizedValue,
+              typeFilter.value
+            ),
+      value,
+    }
+  }
 
   const styleOptions = computed(() =>
     STYLE_DEFINITIONS.map((style) => ({

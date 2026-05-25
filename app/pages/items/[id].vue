@@ -174,6 +174,15 @@
                       {{ $t(`type.${itemType}`) }}
                     </n-tag>
                   </NuxtLinkLocale>
+                  <WardrobeOwnedButton
+                    v-if="wardrobeInitialized"
+                    :owned="isItemOwned(itemId)"
+                    :disabled="!isWardrobeReady"
+                    :loading="wardrobeSaving"
+                    :quality="item.quality"
+                    variant="overlay"
+                    @toggle="toggleCurrentItemOwned"
+                  />
                 </div>
 
                 <div class="flex flex-wrap gap-2">
@@ -611,6 +620,7 @@
   }
 
   const { t, te, locale } = useI18n()
+  const message = useMessage()
   const localePath = useLocalePath()
   const route = useRoute()
   const router = useRouter()
@@ -625,6 +635,13 @@
   const showFeedbackModal = ref(false)
   const showExpandedCurrentTags = ref(false)
   const showIcon = ref(false)
+  const {
+    initialized: wardrobeInitialized,
+    saving: wardrobeSaving,
+    canMutate: isWardrobeReady,
+    isItemOwned,
+    toggleItemOwned,
+  } = useWardrobe()
 
   const itemKey = computed(() => `item-${itemId.value}-${locale.value}`)
 
@@ -978,6 +995,14 @@
   // Retry fetch
   const retryFetch = () => {
     refresh()
+  }
+
+  const toggleCurrentItemOwned = async () => {
+    try {
+      await toggleItemOwned(itemId.value)
+    } catch {
+      message.error(t('wardrobe.error.save'))
+    }
   }
 
   watch(itemId, () => {

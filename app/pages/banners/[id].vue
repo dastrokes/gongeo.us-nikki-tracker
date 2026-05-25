@@ -698,7 +698,6 @@
   const getOutfitCompletionLevels = (outfitId: string, quality: number) => {
     if (!bannerPulls.value) return []
 
-    const levels = []
     const totalPulls = bannerPulls.value.stats.totalPulls
     const outfitCompletion =
       bannerPulls.value.outfits.find((outfit: Outfit) => outfit.id === outfitId)
@@ -708,29 +707,12 @@
       outfitId
     )
 
-    if (quality === 5) {
-      if (outfitCompletion >= 1) {
-        levels.push('0')
-        levels.push('1')
-      }
-      if ((totalPulls >= 180 || manualEvoLevel >= 2) && outfitCompletion >= 1) {
-        levels.push('2')
-      }
-      if ((totalPulls >= 230 || manualEvoLevel >= 3) && outfitCompletion >= 1) {
-        levels.push('3')
-      }
-      if (outfitCompletion >= 2) {
-        levels.push('4')
-      }
-    } else {
-      if (outfitCompletion >= 1) {
-        levels.push('0')
-        levels.push('1')
-      }
-      if (outfitCompletion >= 2) levels.push('2')
-    }
-
-    return levels
+    return getBannerOutfitVariantLevels({
+      quality,
+      totalPulls,
+      outfitCompletion,
+      manualEvoLevel,
+    }).map(toBannerDisplayLevelKey)
   }
 
   // Function to load and process data based on current data source

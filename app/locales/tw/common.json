@@ -78,6 +78,12 @@
       "enter": "回車",
       "shift": "Shift",
       "esc": "ESC"
+    },
+    "share_card": "分享卡片",
+    "export_as_image": "匯出圖片",
+    "orientation": {
+      "landscape": "橫版",
+      "portrait": "直版"
     }
   },
   "navigation": {
@@ -109,7 +115,8 @@
     "join_community": "加入社群",
     "support_website": "支持本站",
     "nuan5pro": "無暖助手",
-    "stats": "個人統計"
+    "stats": "個人統計",
+    "wardrobe": "我的衣櫥"
   },
   "meta": {
     "title": "暖暖共鳴錄 - 無限暖暖共鳴歷史追蹤與抽卡資料分析",
@@ -135,7 +142,8 @@
       "random": "使用奇想滾滾機隨機抽取無限暖暖部件。可加入提示或篩選條件，發現驚喜部件並前往圖鑑查看詳情。",
       "faq": "檢視關於暖暖共鳴錄的常見問題解答，包括資料隱私、匯入方式和使用指南等資訊。",
       "about": "瞭解暖暖共鳴錄的相關資訊，包括免責宣告、隱私政策等資訊。",
-      "stats": "查看你的無限暖暖個人共鳴抽卡統計、運氣分析、連抽記錄和抽卡活動。"
+      "stats": "查看你的無限暖暖個人共鳴抽卡統計、運氣分析、連抽記錄和抽卡活動。",
+      "wardrobe": "在本機記錄你已擁有的無限暖暖服飾、套裝、妝容和大喵斗篷，並分享收藏進度。"
     }
   },
   "default": {
@@ -166,7 +174,9 @@
         "sync_success": "資料同步成功！",
         "sync_error": "資料同步失敗。",
         "confirm_upload": {
-          "content": "這將把 {profile} 設定檔的本地資料上傳到雲端儲存，覆蓋該設定檔在雲端的現有資料。確認繼續嗎？"
+          "content": "這將把 {profile} 設定檔的本地資料上傳到雲端儲存，覆蓋該設定檔在雲端的現有資料。確認繼續嗎？",
+          "empty_resonance_warning": "警告：此本機檔案沒有共鳴資料。上傳後將清除此檔案目前儲存在雲端的共鳴資料。",
+          "empty_wardrobe_warning": "警告：此本機檔案沒有衣櫥資料。上傳後將清除此檔案目前儲存在雲端的衣櫥資料。"
         },
         "confirm_sync": {
           "content": "這將透過合併 {profile} 設定檔的本地資料與雲端資料來同步。確認繼續嗎？"
@@ -704,7 +714,8 @@
         "scope_unavailable": "目前篩選範圍暫不支援社群分享。",
         "filtered_items_only": "啟用進階篩選時，暫時無法提交到社群。",
         "incomplete": "請先將所有已載入項目完成排名後再提交。",
-        "no_changes": "自上次提交後沒有新的修改。"
+        "no_changes": "自上次提交後沒有新的修改。",
+        "wardrobe_filtered": "啟用擁有篩選時無法提交社群排行。"
       }
     },
     "community_insights": {
@@ -779,6 +790,9 @@
       "miracrown": "奇迹之冠",
       "miracle": "奇迹套裝",
       "home": "家園"
+    },
+    "variation_filter": {
+      "all_evos": "全部進化"
     }
   },
   "search_page": {
@@ -797,7 +811,9 @@
     "mode_search_description": "按細節查找物品",
     "mode_random_description": "抽一份驚喜",
     "no_matches": "沒有符合結果",
-    "match_score": "匹配度 {score}%"
+    "match_score": "匹配度 {score}%",
+    "scope_all": "全部物品",
+    "scope_owned": "已擁有物品"
   },
   "feedback": {
     "queue_title": "回饋審核",
@@ -921,15 +937,133 @@
       "frequency": "次數"
     },
     "share": {
-      "title": "分享卡片",
-      "export_image": "匯出圖片",
-      "landscape": "橫版",
-      "portrait": "豎版",
       "in_progress": "正在生成分享卡片…",
       "success": "分享卡片匯出成功！",
       "error": "分享卡片匯出失敗。",
       "best_luck": "運氣最好",
       "worst_luck": "運氣最差"
+    }
+  },
+  "wardrobe": {
+    "storage_unavailable": "衣櫥儲存不可用。",
+    "summary_unavailable": "衣櫥摘要不可用。",
+    "storage_recovery": "重試儲存",
+    "empty_title": "還沒有已擁有物品",
+    "empty_description": "可以在物品圖鑑中標記已擁有物品，也可以從抽卡记录匯入已獲得的卡池物品。",
+    "open_items": "開啟物品",
+    "open_missing_items": "缺少的物品",
+    "open_missing_outfits": "缺少的套裝",
+    "open_missing_makeups": "缺少的妝容",
+    "open_missing_momo": "缺少的大喵斗篷",
+    "manage_title": "管理衣櫥",
+    "f2p_basics": "基礎收藏",
+    "resonance_collection": "共鳴收藏",
+    "complete": "完成",
+    "f2p_basics_success": "已將 {count} 個基礎收藏項目標記為已擁有。",
+    "export_file": "匯出資料",
+    "collection_detail": "{owned}/{total}",
+    "import_success": "已從抽卡记录中找到的 {found} 個衣櫥項目裡匯入 {imported} 個。",
+    "import_empty": "抽卡记录中沒有可匯入的衣櫥項目。",
+    "import_no_new": "抽卡记录中找到 {found} 個衣櫥項目，但這些項目都已擁有。",
+    "import_error": "匯入抽卡记录中的衣櫥項目失敗。",
+    "file_import_success": "資料已成功匯入。",
+    "file_import_error": "匯入資料檔案失敗。",
+    "export": {
+      "in_progress": "正在準備資料檔案...",
+      "success": "資料已匯出。",
+      "empty": "沒有可匯出的抽卡记录或衣櫥資料。",
+      "error": "匯出資料檔案失敗。"
+    },
+    "continue_title": "繼續追蹤",
+    "progress_title": "進度概覽",
+    "by_quality": "按品質",
+    "by_slot": "按部位",
+    "quality_label": "{quality}★",
+    "show_more": "顯示更多",
+    "show_less": "顯示較少",
+    "by_version": "按版本",
+    "version_label": "版本 {version}",
+    "stats_scope": {
+      "base": "僅基礎",
+      "all": "全部變化"
+    },
+    "share": {
+      "customize": "自訂",
+      "customize_title": "自訂分享卡片",
+      "in_progress": "正在準備衣櫥卡片...",
+      "success": "衣櫥卡片已匯出。",
+      "error": "匯出衣櫥卡片失敗。",
+      "lookbook": "喜愛套裝",
+      "empty_slot": "選擇一個已擁有的部件",
+      "search_placeholder": "搜尋已擁有的衣櫥內容",
+      "no_candidates": "沒有符合此部位的已擁有項目。",
+      "match": "個結果",
+      "matches": "個結果",
+      "options": {
+        "show_stats": "顯示統計卡片"
+      },
+      "entity": {
+        "banner": "{quality}★ 卡池",
+        "outfit": "{quality}★ 套裝"
+      },
+      "slots": {
+        "banner_five_star": "最喜歡的5★ 卡池",
+        "banner_four_star": "最喜歡的4★ 卡池",
+        "outfit_five_star": "最喜歡的5★ 套装",
+        "outfit_four_star": "最喜歡的4★ 套装",
+        "outfit_three_star": "最喜歡的3★ 套装",
+        "dress": "最喜歡的連衣裙",
+        "hair": "最喜歡的髮型",
+        "item": "最喜歡的物品",
+        "momo": "最喜歡的大喵斗篷"
+      },
+      "slot_descriptions": {
+        "banner_five_star": "為卡池區域選擇一個 5★ 卡池。",
+        "banner_four_star": "為卡池區域選擇一個 4★ 卡池。",
+        "outfit_five_star": "為喜愛套裝列選擇一個已擁有的 5★ 套裝。",
+        "outfit_four_star": "為喜愛套裝列選擇一個已擁有的 4★ 套裝。",
+        "outfit_three_star": "為喜愛套裝列選擇一個已擁有的 3★ 套裝。",
+        "dress": "選擇一個已擁有的連衣裙物品。",
+        "hair": "選擇一個已擁有的髮型物品。",
+        "item": "選擇任意已擁有物品作為自由展示位。",
+        "momo": "選擇一個已擁有的大喵斗篷。"
+      }
+    },
+    "filters": {
+      "partial": "部分"
+    },
+    "actions": {
+      "edit_mode": "編輯模式",
+      "view_mode": "檢視模式",
+      "mark_owned": "標記為擁有",
+      "mark_unowned": "標記為未擁有"
+    },
+    "status": {
+      "owned": "已擁有",
+      "missing": "缺少",
+      "progress": "{owned}/{total}"
+    },
+    "scope": {
+      "selected": "已選擇",
+      "page": "頁面",
+      "all": "所有符合"
+    },
+    "batch": {},
+    "count": {
+      "selected": "已選擇 {count} 個",
+      "page": "本頁 {count} 個",
+      "all": "共 {count} 個符合結果"
+    },
+    "confirm": {
+      "all_owned": "將所有 {count} 個符合物品標記為擁有？",
+      "f2p_basics": "將此檔案中的 {count} 個 F2P 常駐衣櫥項目標記為擁有？",
+      "tracker_import": "要從抽卡记录匯入 {imported} 個新的衣櫥項目嗎？共找到 {found} 個：{foundItems} 個物品、{foundMakeups} 個妝容項目和 {foundMomo} 個大喵斗篷。",
+      "outfit_unowned": "將所有 {count} 個套裝物品標記為未擁有？"
+    },
+    "error": {
+      "mode_title": "衣櫥模式不可用",
+      "mode_description": "無法載入衣櫥篩選所需的目錄 ID。",
+      "save": "更新衣櫥失敗。"
     }
   }
 }

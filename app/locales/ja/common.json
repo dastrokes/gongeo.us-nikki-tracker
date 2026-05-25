@@ -78,6 +78,12 @@
       "enter": "Enter",
       "shift": "Shift",
       "esc": "ESC"
+    },
+    "share_card": "シェアカード",
+    "export_as_image": "画像として書き出す",
+    "orientation": {
+      "landscape": "横向き",
+      "portrait": "縦向き"
     }
   },
   "navigation": {
@@ -109,7 +115,8 @@
     "join_community": "コミュニティに参加",
     "support_website": "サイトを支援",
     "nuan5pro": "Nuan5.Pro",
-    "stats": "個人統計"
+    "stats": "個人統計",
+    "wardrobe": "マイワードローブ"
   },
   "meta": {
     "title": "ニキ共鳴録 - インフィニティニキの共鳴履歴と統計",
@@ -135,7 +142,8 @@
       "random": "奇想ガチャでインフィニティニキのアイテムをランダムに引けます。ヒントやフィルターを追加し、思いがけないパーツを見つけて詳細を確認できます。",
       "faq": "データプライバシー、インポート方法、利用ガイドなど、ニキ共鳴録に関するよくある質問をご覧ください。",
       "about": "ニキ共鳴録の概要、プライバシーポリシー、免責事項、そしてインフィニティニキコミュニティへの取り組みについてご案内します。",
-      "stats": "個人のインフィニティニキ共鳴プル統計、運勢分析、連続記録、プル活動を確認できます。"
+      "stats": "個人のインフィニティニキ共鳴プル統計、運勢分析、連続記録、プル活動を確認できます。",
+      "wardrobe": "インフィニティニキの所持アイテム、コーデ、メイク、モモのマントをローカルで記録し、コレクションの進捗を共有できます。"
     }
   },
   "default": {
@@ -166,7 +174,9 @@
         "sync_success": "データは正常に同期されました。",
         "sync_error": "データの同期に失敗しました。",
         "confirm_upload": {
-          "content": "これにより、{profile} プロファイルのローカル データがクラウド ストレージにアップロードされ、このプロファイルの既存のクラウド データが上書きされます。続く？"
+          "content": "これにより、{profile} プロファイルのローカル データがクラウド ストレージにアップロードされ、このプロファイルの既存のクラウド データが上書きされます。続く？",
+          "empty_resonance_warning": "警告: このローカルプロフィールには共鳴データがありません。アップロードすると、このプロフィールのクラウド上の共鳴データが消去されます。",
+          "empty_wardrobe_warning": "警告: このローカルプロフィールにはワードローブデータがありません。アップロードすると、このプロフィールのクラウド上のワードローブデータが消去されます。"
         },
         "confirm_sync": {
           "content": "これにより、{profile} プロファイルのローカル データが結合されてクラウド データと同期されます。続く？"
@@ -704,7 +714,8 @@
         "scope_unavailable": "この選択ではコミュニティ共有はまだ利用できません。",
         "filtered_items_only": "詳細フィルターが有効な間は、コミュニティへの投稿は利用できません。",
         "incomplete": "送信する前に、読み込まれたすべてのエントリをランク付けします。",
-        "no_changes": "前回の送信以降、変更はありません。"
+        "no_changes": "前回の送信以降、変更はありません。",
+        "wardrobe_filtered": "所持フィルターが有効な間はコミュニティ投稿を利用できません。"
       }
     },
     "community_insights": {
@@ -779,6 +790,9 @@
       "miracrown": "クラウン",
       "miracle": "ミラクル",
       "home": "ホーム"
+    },
+    "variation_filter": {
+      "all_evos": "全進化"
     }
   },
   "search_page": {
@@ -797,7 +811,9 @@
     "mode_search_description": "詳細からアイテムを探す",
     "mode_random_description": "サプライズを引く",
     "no_matches": "該当なし",
-    "match_score": "一致度 {score}%"
+    "match_score": "一致度 {score}%",
+    "scope_all": "すべてのアイテム",
+    "scope_owned": "所持アイテム"
   },
   "feedback": {
     "queue_title": "フィードバック審査",
@@ -921,15 +937,133 @@
       "frequency": "頻度"
     },
     "share": {
-      "title": "シェアカード",
-      "export_image": "画像として書き出す",
-      "landscape": "横向き",
-      "portrait": "縦向き",
       "in_progress": "シェアカードを生成中…",
       "success": "シェアカードを書き出しました！",
       "error": "シェアカードの書き出しに失敗しました。",
       "best_luck": "最高の運勢",
       "worst_luck": "最低の運勢"
+    }
+  },
+  "wardrobe": {
+    "storage_unavailable": "ワードローブストレージを利用できません。",
+    "summary_unavailable": "ワードローブ概要を利用できません。",
+    "storage_recovery": "ストレージを再試行",
+    "empty_title": "所持アイテムはまだありません",
+    "empty_description": "アイテム図鑑で所持アイテムをマークするか、共鳴記録から所持済みのバナーアイテムをインポートできます。",
+    "open_items": "アイテムを開く",
+    "open_missing_items": "未所持アイテム",
+    "open_missing_outfits": "未所持コーデ",
+    "open_missing_makeups": "未所持メイク",
+    "open_missing_momo": "未所持のモモのマント",
+    "manage_title": "ワードローブ管理",
+    "f2p_basics": "基本コレクション",
+    "resonance_collection": "共鳴コレクション",
+    "complete": "完了",
+    "f2p_basics_success": "基本コレクションの{count}件を所持済みにしました。",
+    "export_file": "データのエクスポート",
+    "collection_detail": "{owned}/{total}",
+    "import_success": "共鳴記録のワードローブ項目 {found} 件のうち {imported} 件をインポートしました。",
+    "import_empty": "共鳴記録からインポートできるワードローブ項目はありません。",
+    "import_no_new": "共鳴記録にワードローブ項目が {found} 件見つかりましたが、すべて所持済みです。",
+    "import_error": "共鳴記録のワードローブ項目をインポートできませんでした。",
+    "file_import_success": "データをインポートしました。",
+    "file_import_error": "データファイルのインポートに失敗しました。",
+    "export": {
+      "in_progress": "データファイルを準備中...",
+      "success": "データを書き出しました。",
+      "empty": "書き出せる共鳴記録またはワードローブデータがありません。",
+      "error": "データファイルの書き出しに失敗しました。"
+    },
+    "continue_title": "記録を続ける",
+    "progress_title": "進捗概要",
+    "by_quality": "品質別",
+    "by_slot": "スロット別",
+    "quality_label": "{quality}★",
+    "show_more": "もっと表示",
+    "show_less": "少なく表示",
+    "by_version": "バージョン別",
+    "version_label": "バージョン {version}",
+    "stats_scope": {
+      "base": "基本のみ",
+      "all": "すべてのバリエーション"
+    },
+    "share": {
+      "customize": "カスタマイズ",
+      "customize_title": "シェアカードをカスタマイズ",
+      "in_progress": "ワードローブカードを準備中...",
+      "success": "ワードローブカードを書き出しました。",
+      "error": "ワードローブカードの書き出しに失敗しました。",
+      "lookbook": "お気に入りコーデ",
+      "empty_slot": "所持しているパーツを選択",
+      "search_placeholder": "所持ワードローブを検索",
+      "no_candidates": "このスロットに一致する所持項目はありません。",
+      "match": "件一致",
+      "matches": "件一致",
+      "options": {
+        "show_stats": "統計カードを表示"
+      },
+      "entity": {
+        "banner": "{quality}★ バナー",
+        "outfit": "{quality}★ コーデ"
+      },
+      "slots": {
+        "banner_five_star": "お気に入り5★バナー",
+        "banner_four_star": "お気に入り4★バナー",
+        "outfit_five_star": "お気に入り5★コーデ",
+        "outfit_four_star": "お気に入り4★コーデ",
+        "outfit_three_star": "お気に入り3★コーデ",
+        "dress": "お気に入りドレス",
+        "hair": "お気に入りヘア",
+        "item": "お気に入りアイテム",
+        "momo": "お気に入りモモのマント"
+      },
+      "slot_descriptions": {
+        "banner_five_star": "バナーエリアに使う5★バナーを選択します。",
+        "banner_four_star": "バナーエリアに使う4★バナーを選択します。",
+        "outfit_five_star": "お気に入りコーデ行に使う所持済み5★コーデを選択します。",
+        "outfit_four_star": "お気に入りコーデ行に使う所持済み4★コーデを選択します。",
+        "outfit_three_star": "お気に入りコーデ行に使う所持済み3★コーデを選択します。",
+        "dress": "所持しているドレスアイテムを選択します。",
+        "hair": "所持しているヘアアイテムを選択します。",
+        "item": "自由枠のハイライトとして所持アイテムを選択します。",
+        "momo": "所持しているモモのマントを選択します。"
+      }
+    },
+    "filters": {
+      "partial": "一部所持"
+    },
+    "actions": {
+      "edit_mode": "編集モード",
+      "view_mode": "表示モード",
+      "mark_owned": "所持済みにする",
+      "mark_unowned": "未所持にする"
+    },
+    "status": {
+      "owned": "所持済み",
+      "missing": "未所持",
+      "progress": "{owned}/{total}"
+    },
+    "scope": {
+      "selected": "選択中",
+      "page": "ページ",
+      "all": "一致するすべて"
+    },
+    "batch": {},
+    "count": {
+      "selected": "{count} 件選択中",
+      "page": "ページ内 {count} 件",
+      "all": "一致 {count} 件"
+    },
+    "confirm": {
+      "all_owned": "一致する{count}件のアイテムをすべて所持済みにしますか？",
+      "f2p_basics": "このプロフィールで、常設のF2Pワードローブ項目{count}件を所持済みにしますか？",
+      "tracker_import": "共鳴記録から新しいワードローブ項目 {imported} 件をインポートしますか？ 合計 {found} 件（アイテム {foundItems} 件、メイク {foundMakeups} 件、モモのマント {foundMomo} 件）が見つかりました。",
+      "outfit_unowned": "{count}件のコーデアイテムをすべて未所持にしますか？"
+    },
+    "error": {
+      "mode_title": "ワードローブモードを利用できません",
+      "mode_description": "ワードローブフィルターに必要なカタログIDを読み込めませんでした。",
+      "save": "ワードローブの更新に失敗しました。"
     }
   }
 }

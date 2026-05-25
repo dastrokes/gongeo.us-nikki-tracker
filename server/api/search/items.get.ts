@@ -33,8 +33,8 @@ type SearchResponse = {
   }>
 }
 
-const DEFAULT_LIMIT = 18
-const MAX_LIMIT = 36
+const DEFAULT_LIMIT = SEARCH_DEFAULT_LIMIT
+const MAX_LIMIT = SEARCH_MAX_LIMIT
 const DEFAULT_PINECONE_TEXT_FIELD = 'text'
 const PINECONE_API_VERSION = '2026-04'
 const PINECONE_TEXT_FIELD_FALLBACKS = ['text', 'chunk_text']

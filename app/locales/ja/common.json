@@ -119,10 +119,10 @@
     "stats": "個人統計"
   },
   "meta": {
-    "title": "ニキ共鳴録 - インフィニティニキの共鳴履歴と統計",
+    "title": "Infinity Nikki Resonance Tracker & Styling Companion",
     "game_title": "インフィニティニキ",
     "description": {
-      "default": "インフィニティニキの共鳴バナー履歴と統計を追跡できる、コミュニティ向けのファン製分析ツールです。",
+      "default": "Infinity Nikki Resonance Tracker & Styling Companion for pull history, banner stats, wardrobe tracking, item search, and styling ideas.",
       "login": "メールアドレスまたは外部アカウントでニキ共鳴録にサインインすると、インフィニティニキの共鳴データをクラウドへアップロードし、デバイス間で同期やバックアップができます。",
       "tracker": "インフィニティニキの共鳴履歴を追跡・分析し、5★と4★のバナーアイテムを確認できます。他のスタイリストと運勢も比較できます。",
       "wardrobe": "インフィニティニキの所持アイテム、コーデ、メイク、モモのマントをローカルで記録し、コレクションの進捗を共有できます。",
@@ -147,7 +147,7 @@
     }
   },
   "default": {
-    "description": "インフィニティニキの共鳴履歴と統計を追跡する",
+    "description": "Infinity Nikki Resonance Tracker & Styling Companion",
     "your_data": "あなたのデータ",
     "community_stats": "コミュニティ統計",
     "view_all_stats": "すべての統計を見る",

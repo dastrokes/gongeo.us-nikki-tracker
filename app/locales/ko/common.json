@@ -33,8 +33,14 @@
     "retry": "재시도",
     "copy": "복사",
     "select": "선택",
+    "share_card": "Share Card",
+    "export_as_image": "Export as Image",
     "no_results_found": "검색결과가 없습니다",
     "error": "오류",
+    "orientation": {
+      "landscape": "Landscape",
+      "portrait": "Portrait"
+    },
     "sort": {
       "newest_first": "최신순",
       "oldest_first": "오래된 순"
@@ -78,12 +84,6 @@
       "enter": "Enter",
       "shift": "Shift",
       "esc": "ESC"
-    },
-    "share_card": "공유 카드",
-    "export_as_image": "이미지로 내보내기",
-    "orientation": {
-      "landscape": "가로",
-      "portrait": "세로"
     }
   },
   "navigation": {
@@ -96,6 +96,7 @@
       "community": "커뮤니티"
     },
     "tracker": "공명 기록",
+    "wardrobe": "My Wardrobe",
     "import": "데이터 가져오기",
     "global": "글로벌 데이터",
     "banner": "배너 역사",
@@ -115,8 +116,7 @@
     "join_community": "커뮤니티 참여",
     "support_website": "사이트 후원",
     "nuan5pro": "Nuan5.Pro",
-    "stats": "개인 통계",
-    "wardrobe": "내 옷장"
+    "stats": "개인 통계"
   },
   "meta": {
     "title": "니키 공명록 - 인피니티 니키 공명 기록과 통계",
@@ -125,6 +125,7 @@
       "default": "인피니티 니키 공명 배너를 추적하세요. 인피니티 니키 커뮤니티를 위한 팬 제작 추적 및 분석 도구입니다.",
       "login": "이메일이나 외부 계정으로 니키 공명록에 로그인하면 인피니티 니키 공명 데이터를 클라우드에 업로드하고, 여러 기기에서 동기화하고 백업할 수 있습니다.",
       "tracker": "인피니티 니키 공명 뽑기 기록을 추적하고 분석하세요. 5★ 및 4★ 배너 항목을 모두 확인하고 다른 스타일리스트와 운을 비교하세요.",
+      "wardrobe": "Track owned Infinity Nikki items, outfits, makeup, and Momo's Cloaks locally, then share your collection progress.",
       "import": "게임, 상상 노트 데이터 또는 백업 파일에서 인피니티 니키 공명 뽑기 기록을 쉽게 가져올 수 있습니다. 자세한 단계별 가이드가 포함되어 있습니다.",
       "global": "배너 인기도, 뽑기 확률, 아이템 드롭률, 커뮤니티 뽑기 통계 등 인피니티 니키 공명 글로벌 데이터를 살펴보세요.",
       "banner": "현재, 예정된 및 과거 이벤트, 주요 의상, 뽑기 확률, 기간 및 재실행 세부 정보가 포함된 인피니티 니키 공명 배너 기록을 살펴보세요.",
@@ -142,8 +143,7 @@
       "random": "상상 가챠로 인피니티 니키 아이템을 랜덤으로 뽑아보세요. 힌트나 필터를 더해 뜻밖의 파츠를 발견하고 도감 상세로 이동할 수 있습니다.",
       "faq": "데이터 프라이버시, 가져오기 방법, 이용 가이드를 포함해 니키 공명록에 대해 자주 묻는 질문을 확인해 보세요.",
       "about": "니키 공명록의 목적, 개인정보 처리방침, 면책 조항과 인피니티 니키 커뮤니티를 위한 역할을 소개합니다.",
-      "stats": "개인 인피니티 니키 공명 뽑기 통계, 행운 분석, 연속 기록 및 풀 활동을 확인하세요.",
-      "wardrobe": "인피니티 니키에서 보유한 아이템, 의상, 메이크업, 모모 망토를 로컬에 기록하고 컬렉션 진행도를 공유하세요."
+      "stats": "개인 인피니티 니키 공명 뽑기 통계, 행운 분석, 연속 기록 및 풀 활동을 확인하세요."
     }
   },
   "default": {
@@ -175,8 +175,8 @@
         "sync_error": "데이터를 동기화하지 못했습니다.",
         "confirm_upload": {
           "content": "이렇게 하면 {profile} 프로필의 로컬 데이터가 클라우드 저장소에 업로드되어 이 프로필의 기존 클라우드 데이터를 덮어쓰게 됩니다. 계속하다?",
-          "empty_resonance_warning": "경고: 이 로컬 프로필에는 공명 데이터가 없습니다. 업로드하면 이 프로필의 클라우드에 저장된 공명 데이터가 지워집니다.",
-          "empty_wardrobe_warning": "경고: 이 로컬 프로필에는 옷장 데이터가 없습니다. 업로드하면 이 프로필의 클라우드에 저장된 옷장 데이터가 지워집니다."
+          "empty_resonance_warning": "Warning: this local profile has no resonance data. Uploading will clear any resonance data currently stored in cloud for this profile.",
+          "empty_wardrobe_warning": "Warning: this local profile has no wardrobe data. Uploading will clear any wardrobe data currently stored in cloud for this profile."
         },
         "confirm_sync": {
           "content": "{profile} 프로필의 로컬 데이터를 클라우드 데이터와 병합하여 동기화합니다. 계속하다?"
@@ -247,6 +247,128 @@
       "never": "절대"
     }
   },
+  "wardrobe": {
+    "storage_unavailable": "Wardrobe storage is unavailable.",
+    "summary_unavailable": "Wardrobe summary is unavailable.",
+    "storage_recovery": "Retry storage",
+    "empty_title": "No owned items yet",
+    "empty_description": "Mark items from the item compendium or import owned banner items from tracker data.",
+    "open_items": "Open Items",
+    "open_missing_items": "Missing items",
+    "open_missing_outfits": "Missing outfits",
+    "open_missing_makeups": "Missing makeup",
+    "open_missing_momo": "Missing Momo's Cloaks",
+    "manage_title": "Manage Wardrobe",
+    "f2p_basics": "Base Collection",
+    "resonance_collection": "Resonance Collection",
+    "complete": "Complete",
+    "f2p_basics_success": "Marked {count} base collection entries as owned.",
+    "export_file": "Export Data",
+    "collection_detail": "{owned} of {total}",
+    "import_success": "Imported {imported} of {found} tracker wardrobe entries.",
+    "import_empty": "No tracker wardrobe entries were available to import.",
+    "import_no_new": "Tracker data found {found} wardrobe entries, but they are already owned.",
+    "import_error": "Failed to import tracker wardrobe entries.",
+    "file_import_success": "Data imported successfully.",
+    "file_import_error": "Failed to import data file.",
+    "export": {
+      "in_progress": "Preparing data file...",
+      "success": "Data exported.",
+      "empty": "No tracker or wardrobe data to export.",
+      "error": "Failed to export data file."
+    },
+    "continue_title": "Continue Tracking",
+    "progress_title": "Progress Overview",
+    "by_quality": "By Quality",
+    "by_slot": "By Slot",
+    "quality_label": "{quality}★",
+    "show_more": "Show More",
+    "show_less": "Show Less",
+    "by_version": "By Version",
+    "version_label": "Version {version}",
+    "stats_scope": {
+      "base": "Base only",
+      "all": "All variations"
+    },
+    "share": {
+      "customize": "Customize",
+      "customize_title": "Customize Share Card",
+      "in_progress": "Preparing wardrobe card...",
+      "success": "Wardrobe card exported.",
+      "error": "Failed to export wardrobe card.",
+      "lookbook": "Favorite Outfits",
+      "empty_slot": "Pick an owned piece",
+      "search_placeholder": "Search owned wardrobe",
+      "no_candidates": "No owned entries match this slot.",
+      "match": "match",
+      "matches": "matches",
+      "options": {
+        "show_stats": "Show stats cards"
+      },
+      "entity": {
+        "banner": "{quality}★ Banner",
+        "outfit": "{quality}★ Outfit"
+      },
+      "slots": {
+        "banner_five_star": "Favorite 5★ Banner",
+        "banner_four_star": "Favorite 4★ Banner",
+        "outfit_five_star": "Favorite 5★ Outfit",
+        "outfit_four_star": "Favorite 4★ Outfit",
+        "outfit_three_star": "Favorite 3★ Outfit",
+        "dress": "Favorite Dress",
+        "hair": "Favorite Hair",
+        "item": "Favorite Item",
+        "momo": "Favorite Momo's Cloak"
+      },
+      "slot_descriptions": {
+        "banner_five_star": "Choose a 5★ banner for the banner area.",
+        "banner_four_star": "Choose a 4★ banner for the banner area.",
+        "outfit_five_star": "Choose an owned 5★ outfit for the favorite outfit row.",
+        "outfit_four_star": "Choose an owned 4★ outfit for the favorite outfit row.",
+        "outfit_three_star": "Choose an owned 3★ outfit for the favorite outfit row.",
+        "dress": "Choose an owned dress item.",
+        "hair": "Choose an owned hair item.",
+        "item": "Choose any owned item as the flexible highlight.",
+        "momo": "Choose a Momo's Cloak you own."
+      }
+    },
+    "filters": {
+      "partial": "Partial"
+    },
+    "actions": {
+      "edit_mode": "Edit Mode",
+      "view_mode": "View Mode",
+      "mark_owned": "Mark Owned",
+      "mark_unowned": "Mark Unowned"
+    },
+    "status": {
+      "owned": "Owned",
+      "missing": "Missing",
+      "progress": "{owned}/{total}"
+    },
+    "scope": {
+      "selected": "Selected",
+      "page": "Page",
+      "all": "All matching"
+    },
+    "batch": {},
+    "count": {
+      "selected": "{count} selected",
+      "page": "{count} on page",
+      "all": "{count} matching"
+    },
+    "confirm": {
+      "all_owned": "Mark all {count} matching items as owned?",
+      "f2p_basics": "Mark {count} F2P, permanently available wardrobe entries as owned for this profile?",
+      "tracker_import": "Import {imported} new wardrobe entries from tracker data? Found {found} total: {foundItems} items, {foundMakeups} makeup entries, and {foundMomo} Momo's Cloaks.",
+      "outfit_unowned": "Mark all {count} outfit items as unowned?"
+    },
+    "error": {
+      "mode_title": "Wardrobe mode unavailable",
+      "mode_description": "Could not load the matching catalog IDs needed for wardrobe filtering.",
+      "save": "Failed to update wardrobe."
+    }
+  },
   "login": {
     "sign_in": "로그인",
     "sign_up": "회원가입",
@@ -306,7 +428,7 @@
     "import_from_file": "파일에서 가져오기",
     "import_from_pearpal": "상상 노트에서 가져오기",
     "file_import": "파일 가져오기",
-    "file_import_desc": "이전에 내보낸 nikki-resonance-data 파일에서 가져옵니다.",
+    "file_import_desc": "Import from a previously exported profile data file.",
     "select_file": "파일 선택",
     "select_region": "지역 선택",
     "select_region_desc": "게임 서버 지역을 선택하세요.",
@@ -712,10 +834,10 @@
         "error": "항목을 로드하지 못한 동안에는 제출할 수 없습니다.",
         "over_limit": "제출하기 전에 더 많은 필터를 적용하세요.",
         "scope_unavailable": "이 선택 항목에는 아직 커뮤니티 공유를 사용할 수 없습니다.",
+        "wardrobe_filtered": "Community submit is unavailable while ownership filters are active.",
         "filtered_items_only": "상세 필터가 활성화된 동안에는 커뮤니티 제출을 이용할 수 없습니다.",
         "incomplete": "제출하기 전에 로드된 모든 항목의 순위를 지정하세요.",
-        "no_changes": "마지막 제출 이후 변경사항이 없습니다.",
-        "wardrobe_filtered": "보유 필터가 활성화된 동안에는 커뮤니티 제출을 사용할 수 없습니다."
+        "no_changes": "마지막 제출 이후 변경사항이 없습니다."
       }
     },
     "community_insights": {
@@ -748,6 +870,9 @@
     "filter_style": "스타일별 필터링",
     "filter_label": "라벨별 필터링",
     "filter_obtain": "획득처별 필터링",
+    "variation_filter": {
+      "all_evos": "All Evos"
+    },
     "advanced_filters": "고급 필터",
     "advanced_filters_empty": "이 부위에 사용할 수 있는 고급 필터가 없습니다.",
     "advanced_filter_placeholder": "{field} 선택",
@@ -790,9 +915,6 @@
       "miracrown": "기적의 왕관",
       "miracle": "기적 세트",
       "home": "홈"
-    },
-    "variation_filter": {
-      "all_evos": "모든 진화"
     }
   },
   "search_page": {
@@ -803,6 +925,8 @@
     "clear_query": "검색 지우기",
     "close_details": "상세 닫기",
     "filters_title": "검색 필터",
+    "scope_all": "All items",
+    "scope_owned": "Owned items",
     "find_similar": "유사한 항목 찾기",
     "similar_prefix": "유사",
     "error_description": "검색 인덱스 쿼리에 실패했습니다.",
@@ -811,9 +935,7 @@
     "mode_search_description": "상세 내용으로 아이템 찾기",
     "mode_random_description": "깜짝 뽑기",
     "no_matches": "검색 결과 없음",
-    "match_score": "{score}% 일치",
-    "scope_all": "모든 아이템",
-    "scope_owned": "보유 아이템"
+    "match_score": "{score}% 일치"
   },
   "feedback": {
     "queue_title": "피드백 심사",
@@ -942,128 +1064,6 @@
       "error": "공유 카드 내보내기에 실패했습니다.",
       "best_luck": "최고 행운",
       "worst_luck": "최저 행운"
-    }
-  },
-  "wardrobe": {
-    "storage_unavailable": "옷장 저장소를 사용할 수 없습니다.",
-    "summary_unavailable": "옷장 요약을 사용할 수 없습니다.",
-    "storage_recovery": "저장소 재시도",
-    "empty_title": "아직 보유한 아이템이 없습니다",
-    "empty_description": "아이템 도감에서 보유 아이템을 표시하거나 공명 기록에서 보유한 배너 아이템을 가져오세요.",
-    "open_items": "아이템 열기",
-    "open_missing_items": "미보유 아이템",
-    "open_missing_outfits": "미보유 의상",
-    "open_missing_makeups": "미보유 메이크업",
-    "open_missing_momo": "미보유 모모 망토",
-    "manage_title": "옷장 관리",
-    "f2p_basics": "기본 컬렉션",
-    "resonance_collection": "공명 컬렉션",
-    "complete": "완료",
-    "f2p_basics_success": "기본 컬렉션 항목 {count}개를 보유로 표시했습니다.",
-    "export_file": "데이터 내보내기",
-    "collection_detail": "{owned}/{total}",
-    "import_success": "공명 기록의 옷장 항목 {found}개 중 {imported}개를 가져왔습니다.",
-    "import_empty": "공명 기록에서 가져올 옷장 항목이 없습니다.",
-    "import_no_new": "공명 기록에서 옷장 항목 {found}개를 찾았지만 모두 이미 보유 중입니다.",
-    "import_error": "공명 기록의 옷장 항목을 가져오지 못했습니다.",
-    "file_import_success": "데이터를 가져왔습니다.",
-    "file_import_error": "데이터 파일 가져오기에 실패했습니다.",
-    "export": {
-      "in_progress": "데이터 파일 준비 중...",
-      "success": "데이터를 내보냈습니다.",
-      "empty": "내보낼 공명 기록 또는 옷장 데이터가 없습니다.",
-      "error": "데이터 파일 내보내기에 실패했습니다."
-    },
-    "continue_title": "추적 계속하기",
-    "progress_title": "진행도 개요",
-    "by_quality": "품질별",
-    "by_slot": "슬롯별",
-    "quality_label": "{quality}★",
-    "show_more": "더 보기",
-    "show_less": "간단히 보기",
-    "by_version": "버전별",
-    "version_label": "버전 {version}",
-    "stats_scope": {
-      "base": "기본만",
-      "all": "모든 변형"
-    },
-    "share": {
-      "customize": "사용자 지정",
-      "customize_title": "공유 카드 사용자 지정",
-      "in_progress": "옷장 카드 준비 중...",
-      "success": "옷장 카드를 내보냈습니다.",
-      "error": "옷장 카드 내보내기에 실패했습니다.",
-      "lookbook": "즐겨찾는 의상",
-      "empty_slot": "보유한 파츠 선택",
-      "search_placeholder": "보유 옷장 검색",
-      "no_candidates": "이 슬롯과 일치하는 보유 항목이 없습니다.",
-      "match": "개 일치",
-      "matches": "개 일치",
-      "options": {
-        "show_stats": "통계 카드 표시"
-      },
-      "entity": {
-        "banner": "{quality}★ 배너",
-        "outfit": "{quality}★ 의상"
-      },
-      "slots": {
-        "banner_five_star": "즐겨찾는5★ 배너",
-        "banner_four_star": "즐겨찾는4★ 배너",
-        "outfit_five_star": "즐겨찾는5★ 의상",
-        "outfit_four_star": "즐겨찾는4★ 의상",
-        "outfit_three_star": "즐겨찾는3★ 의상",
-        "dress": "즐겨찾는 드레스",
-        "hair": "즐겨찾는 헤어",
-        "item": "즐겨찾는아이템",
-        "momo": "즐겨찾는 모모 망토"
-      },
-      "slot_descriptions": {
-        "banner_five_star": "배너 영역에 사용할 5★ 배너를 선택하세요.",
-        "banner_four_star": "배너 영역에 사용할 4★ 배너를 선택하세요.",
-        "outfit_five_star": "즐겨찾는 의상 행에 사용할 보유 5★ 의상을 선택하세요.",
-        "outfit_four_star": "즐겨찾는 의상 행에 사용할 보유 4★ 의상을 선택하세요.",
-        "outfit_three_star": "즐겨찾는 의상 행에 사용할 보유 3★ 의상을 선택하세요.",
-        "dress": "보유한 드레스 아이템을 선택하세요.",
-        "hair": "보유한 헤어 아이템을 선택하세요.",
-        "item": "자유 하이라이트로 사용할 보유 아이템을 선택하세요.",
-        "momo": "보유한 모모 망토를 선택하세요."
-      }
-    },
-    "filters": {
-      "partial": "일부"
-    },
-    "actions": {
-      "edit_mode": "편집 모드",
-      "view_mode": "보기 모드",
-      "mark_owned": "보유로 표시",
-      "mark_unowned": "미보유로 표시"
-    },
-    "status": {
-      "owned": "보유",
-      "missing": "미보유",
-      "progress": "{owned}/{total}"
-    },
-    "scope": {
-      "selected": "선택됨",
-      "page": "페이지",
-      "all": "모든 일치 항목"
-    },
-    "batch": {},
-    "count": {
-      "selected": "{count}개 선택됨",
-      "page": "페이지 내 {count}개",
-      "all": "{count}개 일치"
-    },
-    "confirm": {
-      "all_owned": "일치하는 아이템 {count}개를 모두 보유로 표시할까요?",
-      "f2p_basics": "이 프로필에 대해 상시 제공 F2P 옷장 항목 {count}개를 보유로 표시할까요?",
-      "tracker_import": "공명 기록에서 새 옷장 항목 {imported}개를 가져올까요? 총 {found}개를 찾았습니다: 아이템 {foundItems}개, 메이크업 {foundMakeups}개, 모모 망토 {foundMomo}개.",
-      "outfit_unowned": "의상 아이템 {count}개를 모두 미보유로 표시할까요?"
-    },
-    "error": {
-      "mode_title": "옷장 모드를 사용할 수 없음",
-      "mode_description": "옷장 필터링에 필요한 카탈로그 ID를 불러올 수 없습니다.",
-      "save": "옷장 업데이트에 실패했습니다."
     }
   }
 }

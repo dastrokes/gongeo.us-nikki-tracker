@@ -119,10 +119,10 @@
     "stats": "个人统计"
   },
   "meta": {
-    "title": "Infinity Nikki Resonance Tracker & Styling Companion",
+    "title": "暖暖共鸣录 - 无限暖暖共鸣记录与搭配助手",
     "game_title": "无限暖暖",
     "description": {
-      "default": "Infinity Nikki Resonance Tracker & Styling Companion for pull history, banner stats, wardrobe tracking, item search, and styling ideas.",
+      "default": "无限暖暖共鸣记录与搭配助手，用于抽卡历史、卡池统计、衣柜记录、物品搜索与搭配灵感。",
       "login": "使用第三方账号或邮箱登录暖暖共鸣录，将抽卡数据上传云端，在多设备间同步和备份您的共鸣记录。",
       "tracker": "追踪并分析您的无限暖暖共鸣抽卡历史，查看所有卡池中的5★和4★部件记录。与其他玩家比较您的抽卡运气。",
       "wardrobe": "在本地记录你已拥有的无限暖暖服饰、套装、妆容和大喵斗篷，并分享收藏进度。",
@@ -147,7 +147,7 @@
     }
   },
   "default": {
-    "description": "Infinity Nikki Resonance Tracker & Styling Companion",
+    "description": "无限暖暖共鸣记录与搭配助手",
     "your_data": "您的数据",
     "community_stats": "社区统计",
     "view_all_stats": "查看所有统计",
@@ -933,7 +933,8 @@
     "mode_search_description": "按细节查找物品",
     "mode_random_description": "抽一份惊喜",
     "no_matches": "没有匹配结果",
-    "match_score": "匹配度 {score}%"
+    "match_score": "匹配度 {score}%",
+    "owned_empty_description": "Add items to your wardrobe before using Owned items in Whim Search or Whim-O-Matic."
   },
   "feedback": {
     "queue_title": "反馈队列",

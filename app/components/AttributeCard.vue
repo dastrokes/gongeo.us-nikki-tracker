@@ -1,15 +1,17 @@
 <template>
   <div
     v-if="sections.length > 0"
-    :class="[
-      'attribute-card flex flex-col gap-3',
-      `attribute-card--${props.layout}`,
-    ]"
+    class="@container/attribute-card flex flex-col gap-3"
   >
     <div
       v-for="(section, index) in previewSections"
       :key="section.key"
-      class="attribute-card__grid grid gap-x-2 gap-y-2"
+      class="grid grid-cols-1 gap-x-2 gap-y-2 @min-[20rem]/attribute-card:grid-cols-2"
+      :class="
+        props.layout === 'default'
+          ? '@min-[34rem]/attribute-card:grid-cols-3 @min-[48rem]/attribute-card:grid-cols-4'
+          : undefined
+      "
     >
       <div
         v-for="field in section.fields"
@@ -64,7 +66,12 @@
         <div
           v-for="section in extraSections"
           :key="`${section.key}-extra`"
-          class="attribute-card__grid grid gap-x-2 gap-y-2"
+          class="grid grid-cols-1 gap-x-2 gap-y-2 @min-[20rem]/attribute-card:grid-cols-2"
+          :class="
+            props.layout === 'default'
+              ? '@min-[34rem]/attribute-card:grid-cols-3 @min-[48rem]/attribute-card:grid-cols-4'
+              : undefined
+          "
         >
           <div
             v-for="field in section.fields"
@@ -169,32 +176,3 @@
     () => !props.collapsible || props.expanded
   )
 </script>
-
-<style scoped>
-  .attribute-card {
-    container-type: inline-size;
-    container-name: attribute-card;
-  }
-
-  .attribute-card__grid {
-    grid-template-columns: repeat(1, minmax(0, 1fr));
-  }
-
-  @container attribute-card (min-width: 20rem) {
-    .attribute-card__grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-  }
-
-  @container attribute-card (min-width: 34rem) {
-    .attribute-card--default .attribute-card__grid {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-  }
-
-  @container attribute-card (min-width: 48rem) {
-    .attribute-card--default .attribute-card__grid {
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-    }
-  }
-</style>

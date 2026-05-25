@@ -1023,7 +1023,6 @@
   } from '@vueuse/integrations/useSortable'
   import type { SelectGroupOption, SelectOption } from 'naive-ui'
   import type { SortableEvent } from 'sortablejs'
-  import { h, type Component } from 'vue'
   import { BANNER_DATA } from '~~/data/banners'
 
   definePageMeta({

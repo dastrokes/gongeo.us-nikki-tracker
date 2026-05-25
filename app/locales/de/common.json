@@ -119,10 +119,10 @@
     "stats": "Persönliche Statistiken"
   },
   "meta": {
-    "title": "Infinity Nikki Resonanz-Tracker - Bannerverlauf & Statistiken",
+    "title": "Infinity Nikki Resonanz-Tracker & Styling-Begleiter",
     "game_title": "Infinity Nikki",
     "description": {
-      "default": "Verfolge Infinity Nikki Resonanz-Verlauf und Statistiken. Ein Fan-erstelltes Tracking- und Analysewerkzeug für die Infinity Nikki Community.",
+      "default": "Infinity Nikki Resonanz-Tracker & Styling-Begleiter für Pull-Verlauf, Banner-Statistiken, Garderoben-Tracking, Item-Suche und Styling-Ideen.",
       "login": "Melde dich bei gongeo.us mit E-Mail oder einem Drittanbieter-Konto an, um deine Infinity Nikki Resonanz-Daten über mehrere Geräte hochzuladen, zu sichern und zu synchronisieren.",
       "tracker": "Verfolge und analysiere deinen Infinity Nikki Resonanz-Verlauf. Schau dir alle 5★ und 4★ Banner Stücke an. Vergleiche dein Glück mit dem anderer Stylisten.",
       "wardrobe": "Verfolge lokal deine eigenen Infinity Nikki-Items, Outfits, Make-ups und Momos Mäntel und teile anschließend deinen Sammlungsfortschritt.",
@@ -147,7 +147,7 @@
     }
   },
   "default": {
-    "description": "Verfolge Infinity Nikki Resonanz-Verlauf und Statistiken",
+    "description": "Infinity Nikki Resonanz-Tracker & Styling-Begleiter",
     "your_data": "Deine Daten",
     "community_stats": "Community-Statistiken",
     "view_all_stats": "Alle Statistiken ansehen",

@@ -758,7 +758,7 @@
                     <div
                       v-for="entry in shareSignatureEntries"
                       :key="entry.slot.key"
-                      class="grid h-40 grid-rows-[1.25rem_5rem_2rem] gap-1 rounded-xl p-2 ring-1"
+                      class="flex h-40 flex-col gap-1 rounded-xl p-2 ring-1"
                       :class="getShareSignatureAccentClass(entry.slot.key)"
                     >
                       <div
@@ -766,37 +766,35 @@
                       >
                         {{ entry.slot.label }}
                       </div>
-                      <div class="contents">
-                        <div
-                          class="flex h-20 items-center justify-center overflow-hidden rounded-lg bg-white/40 p-1 dark:bg-white/10"
+                      <div
+                        class="flex h-20 items-center justify-center overflow-hidden rounded-lg bg-white/40 p-1 dark:bg-white/10"
+                      >
+                        <NuxtImg
+                          v-if="entry.item"
+                          :src="entry.item.imageSrc"
+                          :alt="entry.item.name"
+                          class="max-h-full max-w-full object-contain"
+                          :preset="entry.item.imagePreset"
+                          fit="contain"
+                          loading="lazy"
+                          sizes="72px"
+                        />
+                        <button
+                          v-else
+                          type="button"
+                          class="flex h-full w-full items-center justify-center opacity-70 transition hover:opacity-100"
+                          @click="openSharePicker(entry.slot.key)"
                         >
-                          <NuxtImg
-                            v-if="entry.item"
-                            :src="entry.item.imageSrc"
-                            :alt="entry.item.name"
-                            class="max-h-full max-w-full object-contain"
-                            :preset="entry.item.imagePreset"
-                            fit="contain"
-                            loading="lazy"
-                            sizes="72px"
-                          />
-                          <button
-                            v-else
-                            type="button"
-                            class="flex h-full w-full items-center justify-center opacity-70 transition hover:opacity-100"
-                            @click="openSharePicker(entry.slot.key)"
-                          >
-                            <n-icon size="16"><Plus /></n-icon>
-                          </button>
-                        </div>
-                        <div class="contents">
-                          <div
-                            class="line-clamp-2 h-8 min-w-0 text-xs leading-tight font-bold"
-                          >
-                            {{
-                              entry.item?.name ?? t('wardrobe.share.empty_slot')
-                            }}
-                          </div>
+                          <n-icon size="16"><Plus /></n-icon>
+                        </button>
+                      </div>
+                      <div class="min-h-0 flex-1">
+                        <div
+                          class="line-clamp-2 text-xs leading-tight font-bold text-slate-900 dark:text-white"
+                        >
+                          {{
+                            entry.item?.name ?? t('wardrobe.share.empty_slot')
+                          }}
                         </div>
                       </div>
                     </div>

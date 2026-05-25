@@ -78,6 +78,12 @@
       "enter": "回车",
       "shift": "Shift",
       "esc": "ESC"
+    },
+    "share_card": "分享卡片",
+    "export_as_image": "导出图片",
+    "orientation": {
+      "landscape": "横版",
+      "portrait": "竖版"
     }
   },
   "navigation": {
@@ -109,7 +115,8 @@
     "join_community": "加入社区",
     "support_website": "支持本站",
     "nuan5pro": "无暖助手",
-    "stats": "个人统计"
+    "stats": "个人统计",
+    "wardrobe": "我的衣橱"
   },
   "meta": {
     "title": "暖暖共鸣录 - 无限暖暖共鸣历史追踪与抽卡数据分析",
@@ -135,7 +142,8 @@
       "random": "使用奇想滚滚机随机抽取无限暖暖部件。可加入提示或筛选条件，发现惊喜部件并前往图鉴查看详情。",
       "faq": "查看关于暖暖共鸣录的常见问题解答，包括数据隐私、导入方式和使用指南等信息。",
       "about": "了解暖暖共鸣录的相关信息，包括免责声明、隐私政策等信息。",
-      "stats": "查看你的无限暖暖个人共鸣抽卡统计、运气分析、连抽记录和抽卡活动。"
+      "stats": "查看你的无限暖暖个人共鸣抽卡统计、运气分析、连抽记录和抽卡活动。",
+      "wardrobe": "在本地记录你已拥有的无限暖暖服饰、套装、妆容和大喵斗篷，并分享收藏进度。"
     }
   },
   "default": {
@@ -166,7 +174,9 @@
         "sync_success": "数据同步成功！",
         "sync_error": "数据同步失败。",
         "confirm_upload": {
-          "content": "这将把 {profile} 档案的本地数据上传到云端存储，覆盖该档案在云端的现有数据。确认继续吗？"
+          "content": "这将把 {profile} 档案的本地数据上传到云端存储，覆盖该档案在云端的现有数据。确认继续吗？",
+          "empty_resonance_warning": "警告：此本地档案没有共鸣数据。上传后将清除此档案当前存储在云端的共鸣数据。",
+          "empty_wardrobe_warning": "警告：此本地档案没有衣橱数据。上传后将清除此档案当前存储在云端的衣橱数据。"
         },
         "confirm_sync": {
           "content": "这将通过合并 {profile} 档案的本地数据与云端数据来同步。确认继续吗？"
@@ -704,7 +714,8 @@
         "scope_unavailable": "当前筛选范围暂不支持社区共享。",
         "filtered_items_only": "启用高级筛选时，暂时无法提交到社区。",
         "incomplete": "请先为所有已加载条目完成排名后再提交。",
-        "no_changes": "上次提交后没有新的修改。"
+        "no_changes": "上次提交后没有新的修改。",
+        "wardrobe_filtered": "启用拥有筛选时无法提交社区排行。"
       }
     },
     "community_insights": {
@@ -779,6 +790,9 @@
       "miracrown": "奇迹之冠",
       "miracle": "奇迹套装",
       "home": "家园"
+    },
+    "variation_filter": {
+      "all_evos": "全部进化"
     }
   },
   "search_page": {
@@ -797,7 +811,9 @@
     "mode_search_description": "按细节查找物品",
     "mode_random_description": "抽一份惊喜",
     "no_matches": "没有匹配结果",
-    "match_score": "匹配度 {score}%"
+    "match_score": "匹配度 {score}%",
+    "scope_all": "全部物品",
+    "scope_owned": "已拥有物品"
   },
   "feedback": {
     "queue_title": "反馈队列",
@@ -921,15 +937,133 @@
       "frequency": "次数"
     },
     "share": {
-      "title": "分享卡片",
-      "export_image": "导出图片",
-      "landscape": "横版",
-      "portrait": "竖版",
       "in_progress": "正在生成分享卡片…",
       "success": "分享卡片导出成功！",
       "error": "分享卡片导出失败。",
       "best_luck": "运气最好",
       "worst_luck": "运气最差"
+    }
+  },
+  "wardrobe": {
+    "storage_unavailable": "衣橱存储不可用。",
+    "summary_unavailable": "衣橱汇总不可用。",
+    "storage_recovery": "重试存储",
+    "empty_title": "还没有已拥有物品",
+    "empty_description": "可以在物品图鉴中标记已拥有物品，也可以从抽卡记录导入已获得的卡池物品。",
+    "open_items": "打开物品",
+    "open_missing_items": "缺少的物品",
+    "open_missing_outfits": "缺少的套装",
+    "open_missing_makeups": "缺少的妆容",
+    "open_missing_momo": "缺少的大喵斗篷",
+    "manage_title": "管理衣橱",
+    "f2p_basics": "基础收藏",
+    "resonance_collection": "共鸣收藏",
+    "complete": "完成",
+    "f2p_basics_success": "已将 {count} 个基础收藏条目标记为已拥有。",
+    "export_file": "导出数据",
+    "collection_detail": "{owned}/{total}",
+    "import_success": "已从抽卡记录中找到的 {found} 个衣橱条目里导入 {imported} 个。",
+    "import_empty": "抽卡记录中没有可导入的衣橱条目。",
+    "import_no_new": "抽卡记录中找到 {found} 个衣橱条目，但这些条目都已拥有。",
+    "import_error": "导入抽卡记录中的衣橱条目失败。",
+    "file_import_success": "数据已成功导入。",
+    "file_import_error": "导入数据文件失败。",
+    "export": {
+      "in_progress": "正在准备数据文件...",
+      "success": "数据已导出。",
+      "empty": "没有可导出的抽卡记录或衣橱数据。",
+      "error": "导出数据文件失败。"
+    },
+    "continue_title": "继续追踪",
+    "progress_title": "进度概览",
+    "by_quality": "按品质",
+    "by_slot": "按部位",
+    "quality_label": "{quality}★",
+    "show_more": "显示更多",
+    "show_less": "显示更少",
+    "by_version": "按版本",
+    "version_label": "版本 {version}",
+    "stats_scope": {
+      "base": "仅基础",
+      "all": "全部变化"
+    },
+    "share": {
+      "customize": "自定义",
+      "customize_title": "自定义分享卡片",
+      "in_progress": "正在准备衣橱卡片...",
+      "success": "衣橱卡片已导出。",
+      "error": "导出衣橱卡片失败。",
+      "lookbook": "喜爱套装",
+      "empty_slot": "选择一个已拥有的部件",
+      "search_placeholder": "搜索已拥有的衣橱内容",
+      "no_candidates": "没有符合此部位的已拥有条目。",
+      "match": "个结果",
+      "matches": "个结果",
+      "options": {
+        "show_stats": "显示统计卡片"
+      },
+      "entity": {
+        "banner": "{quality}★ 卡池",
+        "outfit": "{quality}★ 套装"
+      },
+      "slots": {
+        "banner_five_star": "最喜欢的5★ 卡池",
+        "banner_four_star": "最喜欢的4★ 卡池",
+        "outfit_five_star": "最喜欢的5★ 套装",
+        "outfit_four_star": "最喜欢的4★ 套装",
+        "outfit_three_star": "最喜欢的3★ 套装",
+        "dress": "最喜欢的连衣裙",
+        "hair": "最喜欢的发型",
+        "item": "最喜欢的物品",
+        "momo": "最喜欢的大喵斗篷"
+      },
+      "slot_descriptions": {
+        "banner_five_star": "为卡池区域选择一个 5★ 卡池。",
+        "banner_four_star": "为卡池区域选择一个 4★ 卡池。",
+        "outfit_five_star": "为喜爱套装行选择一个已拥有的 5★ 套装。",
+        "outfit_four_star": "为喜爱套装行选择一个已拥有的 4★ 套装。",
+        "outfit_three_star": "为喜爱套装行选择一个已拥有的 3★ 套装。",
+        "dress": "选择一个已拥有的连衣裙物品。",
+        "hair": "选择一个已拥有的发型物品。",
+        "item": "选择任意已拥有物品作为自由展示位。",
+        "momo": "选择一个已拥有的大喵斗篷。"
+      }
+    },
+    "filters": {
+      "partial": "部分"
+    },
+    "actions": {
+      "edit_mode": "编辑模式",
+      "view_mode": "查看模式",
+      "mark_owned": "标记为拥有",
+      "mark_unowned": "标记为未拥有"
+    },
+    "status": {
+      "owned": "已拥有",
+      "missing": "缺少",
+      "progress": "{owned}/{total}"
+    },
+    "scope": {
+      "selected": "已选择",
+      "page": "页面",
+      "all": "所有匹配"
+    },
+    "batch": {},
+    "count": {
+      "selected": "已选择 {count} 个",
+      "page": "本页 {count} 个",
+      "all": "共 {count} 个匹配结果"
+    },
+    "confirm": {
+      "all_owned": "将所有 {count} 个匹配物品标记为拥有？",
+      "f2p_basics": "将此档案中的 {count} 个 F2P 常驻衣橱条目标记为拥有？",
+      "tracker_import": "要从抽卡记录导入 {imported} 个新的衣橱条目吗？共找到 {found} 个：{foundItems} 个物品、{foundMakeups} 个妆容条目和 {foundMomo} 个大喵斗篷。",
+      "outfit_unowned": "将所有 {count} 个套装物品标记为未拥有？"
+    },
+    "error": {
+      "mode_title": "衣橱模式不可用",
+      "mode_description": "无法加载衣橱筛选所需的目录 ID。",
+      "save": "更新衣橱失败。"
     }
   }
 }

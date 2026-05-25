@@ -256,7 +256,7 @@
                   type="primary"
                   @click="retryWardrobeMode"
                 >
-                  {{ t('wardrobe.actions.retry') }}
+                  {{ t('common.retry') }}
                 </n-button>
               </template>
             </n-result>
@@ -827,11 +827,11 @@
     plural: t('common.outfits'),
   }))
   const wardrobeFilterOptions = computed<IconSelectOption[]>(() => [
-    { label: t('wardrobe.filters.all'), value: 'all', icon: DotCircle },
-    { label: t('wardrobe.filters.owned'), value: 'owned', icon: CheckCircle },
+    { label: t('common.all'), value: 'all', icon: DotCircle },
+    { label: t('wardrobe.status.owned'), value: 'owned', icon: CheckCircle },
     { label: t('wardrobe.filters.partial'), value: 'partial', icon: Adjust },
     {
-      label: t('wardrobe.filters.missing'),
+      label: t('wardrobe.status.missing'),
       value: 'missing',
       icon: TimesCircle,
     },

@@ -33,7 +33,7 @@
             :disabled="!canClearSelection"
             @click="$emit('clear-selection')"
           >
-            {{ t('wardrobe.actions.clear_selection') }}
+            {{ t('common.clear') }}
           </n-button>
         </div>
       </div>

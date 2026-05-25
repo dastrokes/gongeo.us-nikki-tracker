@@ -934,7 +934,7 @@
     "mode_random_description": "サプライズを引く",
     "no_matches": "該当なし",
     "match_score": "一致度 {score}%",
-    "owned_empty_description": "Add items to your wardrobe before using Owned items in Whim Search or Whim-O-Matic."
+    "owned_empty_description": "奇想検索や奇想ガチャで所持アイテムを使う前に、ワードローブにアイテムを追加してください。"
   },
   "feedback": {
     "queue_title": "フィードバック審査",

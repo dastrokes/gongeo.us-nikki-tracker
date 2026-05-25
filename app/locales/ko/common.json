@@ -934,7 +934,7 @@
     "mode_random_description": "깜짝 뽑기",
     "no_matches": "검색 결과 없음",
     "match_score": "{score}% 일치",
-    "owned_empty_description": "Add items to your wardrobe before using Owned items in Whim Search or Whim-O-Matic."
+    "owned_empty_description": "상상 검색 또는 상상 가챠에서 보유 아이템을 사용하기 전에 옷장에 아이템을 먼저 추가하세요."
   },
   "feedback": {
     "queue_title": "피드백 심사",

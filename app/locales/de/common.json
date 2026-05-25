@@ -78,6 +78,12 @@
       "enter": "Eingabe",
       "shift": "Umschalttaste",
       "esc": "Esc"
+    },
+    "share_card": "Teilen-Karte",
+    "export_as_image": "Als Bild exportieren",
+    "orientation": {
+      "landscape": "Querformat",
+      "portrait": "Hochformat"
     }
   },
   "navigation": {
@@ -109,7 +115,8 @@
     "join_community": "Community beitreten",
     "support_website": "Support-Webseite",
     "nuan5pro": "Nuan5.Pro",
-    "stats": "Persönliche Statistiken"
+    "stats": "Persönliche Statistiken",
+    "wardrobe": "Meine Garderobe"
   },
   "meta": {
     "title": "Infinity Nikki Resonanz-Tracker - Bannerverlauf & Statistiken",
@@ -135,7 +142,8 @@
       "random": "Ziehe mit dem Wunder-O-Mat ein zufälliges Infinity Nikki-Stück. Füge optionale Hinweise oder Filter hinzu, entdecke Überraschungen und öffne die Details im Kompendium.",
       "faq": "Finde die Antworten auf häufig gestellte Fragen über gongeo.us, einschließlich Datenschutz, Importmethoden und Nutzungsrichtlinien.",
       "about": "Lerne mehr über gongeo.us, einschließlich seiner Zwecke, Datenschutzrichtlinien, Haftungsausschlüsse und wie es die Infinity Nikki Community unterstützt.",
-      "stats": "Schau dir deine persönlichen Infinity Nikki Resonanz-Statistiken, Glücksanalyse, Serien und Resonanz-Aktivität an."
+      "stats": "Schau dir deine persönlichen Infinity Nikki Resonanz-Statistiken, Glücksanalyse, Serien und Resonanz-Aktivität an.",
+      "wardrobe": "Verfolge lokal deine eigenen Infinity Nikki-Items, Outfits, Make-ups und Momos Mäntel und teile anschließend deinen Sammlungsfortschritt."
     }
   },
   "default": {
@@ -166,7 +174,9 @@
         "sync_success": "Daten erfolgreich synchronisiert!",
         "sync_error": "Datensynchronisierung fehlgeschlagen.",
         "confirm_upload": {
-          "content": "Dies wird deine lokalen Daten für das Profil {profile} auf den Cloud-Speicher hochladen und alle vorhandenen Cloud-Daten überschreiben. Fortfahren?"
+          "content": "Dies wird deine lokalen Daten für das Profil {profile} auf den Cloud-Speicher hochladen und alle vorhandenen Cloud-Daten überschreiben. Fortfahren?",
+          "empty_resonance_warning": "Warnung: Dieses lokale Profil enthält keine Resonanzdaten. Beim Hochladen werden alle Resonanzdaten gelöscht, die derzeit für dieses Profil in der Cloud gespeichert sind.",
+          "empty_wardrobe_warning": "Warnung: Dieses lokale Profil enthält keine Garderobendaten. Beim Hochladen werden alle Garderobendaten gelöscht, die derzeit für dieses Profil in der Cloud gespeichert sind."
         },
         "confirm_sync": {
           "content": "Dies wird deine lokalen Daten für das Profil {profile} mit deinen Cloud-Daten synchronisieren, indem sie zusammengeführt werden. Fortfahren?"
@@ -704,7 +714,8 @@
         "scope_unavailable": "Community-Freigabe ist für diese Auswahl noch nicht verfügbar.",
         "filtered_items_only": "Community-Übermittlung ist nicht verfügbar, während erweiterte Filter aktiv sind.",
         "incomplete": "Rangiere alle geladenen Einträge vor der Übermittlung.",
-        "no_changes": "Keine Änderungen seit deiner letzten Übermittlung."
+        "no_changes": "Keine Änderungen seit deiner letzten Übermittlung.",
+        "wardrobe_filtered": "Community-Einreichungen sind nicht verfügbar, solange Besitzfilter aktiv sind."
       }
     },
     "community_insights": {
@@ -779,6 +790,9 @@
       "miracrown": "Mira-Krone",
       "miracle": "Wunder-Outfits",
       "home": "Zuhause"
+    },
+    "variation_filter": {
+      "all_evos": "Alle Evos"
     }
   },
   "search_page": {
@@ -797,7 +811,9 @@
     "mode_search_description": "Stück nach Details finden",
     "mode_random_description": "Überraschung ziehen",
     "no_matches": "Keine Treffer",
-    "match_score": "{score}% Treffer"
+    "match_score": "{score}% Treffer",
+    "scope_all": "Alle Items",
+    "scope_owned": "Eigene Items"
   },
   "feedback": {
     "queue_title": "Feedback-Prüfung",
@@ -921,15 +937,133 @@
       "frequency": "Häufigkeit"
     },
     "share": {
-      "title": "Teilen-Karte",
-      "export_image": "Als Bild exportieren",
-      "landscape": "Landschaft",
-      "portrait": "Porträt",
       "in_progress": "Teilen-Karte wird erstellt...",
       "success": "Teilen-Karte exportiert!",
       "error": "Teilen-Karte konnte nicht exportiert werden.",
       "best_luck": "Bestes Glück",
       "worst_luck": "Schlimmstes Glück"
+    }
+  },
+  "wardrobe": {
+    "storage_unavailable": "Garderobenspeicher ist nicht verfügbar.",
+    "summary_unavailable": "Garderobenzusammenfassung ist nicht verfügbar.",
+    "storage_recovery": "Speicher erneut versuchen",
+    "empty_title": "Noch keine eigenen Items",
+    "empty_description": "Markiere Items im Item-Kompendium oder importiere eigene Banner-Items aus Tracker-Daten.",
+    "open_items": "Items öffnen",
+    "open_missing_items": "Fehlende Items",
+    "open_missing_outfits": "Fehlende Outfits",
+    "open_missing_makeups": "Fehlendes Make-up",
+    "open_missing_momo": "Fehlende Momos Mäntel",
+    "manage_title": "Garderobe verwalten",
+    "f2p_basics": "Basissammlung",
+    "resonance_collection": "Resonanzsammlung",
+    "complete": "Vollständig",
+    "f2p_basics_success": "{count} Einträge der Basissammlung als im Besitz markiert.",
+    "export_file": "Daten exportieren",
+    "collection_detail": "{owned} von {total}",
+    "import_success": "{imported} von {found} Tracker-Garderobeneinträgen importiert.",
+    "import_empty": "Es waren keine Tracker-Garderobeneinträge zum Importieren verfügbar.",
+    "import_no_new": "Tracker-Daten enthalten {found} Garderobeneinträge, aber sie sind bereits im Besitz.",
+    "import_error": "Tracker-Garderobeneinträge konnten nicht importiert werden.",
+    "file_import_success": "Daten erfolgreich importiert.",
+    "file_import_error": "Datendatei konnte nicht importiert werden.",
+    "export": {
+      "in_progress": "Datendatei wird vorbereitet...",
+      "success": "Daten exportiert.",
+      "empty": "Keine Tracker- oder Garderobendaten zum Exportieren.",
+      "error": "Datendatei konnte nicht exportiert werden."
+    },
+    "continue_title": "Tracking fortsetzen",
+    "progress_title": "Fortschrittsübersicht",
+    "by_quality": "Nach Qualität",
+    "by_slot": "Nach Slot",
+    "quality_label": "{quality}★",
+    "show_more": "Mehr anzeigen",
+    "show_less": "Weniger anzeigen",
+    "by_version": "Nach Version",
+    "version_label": "Version {version}",
+    "stats_scope": {
+      "base": "Nur Basis",
+      "all": "Alle Variationen"
+    },
+    "share": {
+      "customize": "Anpassen",
+      "customize_title": "Teilen-Karte anpassen",
+      "in_progress": "Garderobenkarte wird vorbereitet...",
+      "success": "Garderobenkarte exportiert.",
+      "error": "Garderobenkarte konnte nicht exportiert werden.",
+      "lookbook": "Lieblingsoutfits",
+      "empty_slot": "Wähle ein eigenes Teil",
+      "search_placeholder": "Eigene Garderobe durchsuchen",
+      "no_candidates": "Keine eigenen Einträge passen zu diesem Slot.",
+      "match": "Treffer",
+      "matches": "Treffer",
+      "options": {
+        "show_stats": "Statistikkarten anzeigen"
+      },
+      "entity": {
+        "banner": "{quality}★ Banner",
+        "outfit": "{quality}★ Outfit"
+      },
+      "slots": {
+        "banner_five_star": "Lieblings-5★-Banner",
+        "banner_four_star": "Lieblings-4★-Banner",
+        "outfit_five_star": "Lieblings-5★-Outfit",
+        "outfit_four_star": "Lieblings-4★-Outfit",
+        "outfit_three_star": "Lieblings-3★-Outfit",
+        "dress": "Lieblingskleid",
+        "hair": "Lieblingsfrisur",
+        "item": "Lieblingsitem",
+        "momo": "Lieblings-Momos Mantel"
+      },
+      "slot_descriptions": {
+        "banner_five_star": "Wähle ein 5★-Banner für den Bannerbereich.",
+        "banner_four_star": "Wähle ein 4★-Banner für den Bannerbereich.",
+        "outfit_five_star": "Wähle ein eigenes 5★-Outfit für die Lieblingsoutfit-Zeile.",
+        "outfit_four_star": "Wähle ein eigenes 4★-Outfit für die Lieblingsoutfit-Zeile.",
+        "outfit_three_star": "Wähle ein eigenes 3★-Outfit für die Lieblingsoutfit-Zeile.",
+        "dress": "Wähle ein eigenes Kleid-Item.",
+        "hair": "Wähle ein eigenes Haar-Item.",
+        "item": "Wähle ein beliebiges eigenes Item als flexibles Highlight.",
+        "momo": "Wähle einen eigenen Momos Mantel."
+      }
+    },
+    "filters": {
+      "partial": "Teilweise"
+    },
+    "actions": {
+      "edit_mode": "Bearbeitungsmodus",
+      "view_mode": "Ansichtsmodus",
+      "mark_owned": "Als im Besitz markieren",
+      "mark_unowned": "Als nicht im Besitz markieren"
+    },
+    "status": {
+      "owned": "Im Besitz",
+      "missing": "Fehlt",
+      "progress": "{owned}/{total}"
+    },
+    "scope": {
+      "selected": "Ausgewählt",
+      "page": "Seite",
+      "all": "Alle passenden"
+    },
+    "batch": {},
+    "count": {
+      "selected": "{count} ausgewählt",
+      "page": "{count} auf der Seite",
+      "all": "{count} passend"
+    },
+    "confirm": {
+      "all_owned": "Alle {count} passenden Items als im Besitz markieren?",
+      "f2p_basics": "{count} F2P, dauerhaft verfügbare Garderobeneinträge für dieses Profil als im Besitz markieren?",
+      "tracker_import": "{imported} neue Garderobeneinträge aus Tracker-Daten importieren? Insgesamt {found} gefunden: {foundItems} Items, {foundMakeups} Make-up-Einträge und {foundMomo} Momos Mäntel.",
+      "outfit_unowned": "Alle {count} Outfit-Items als nicht im Besitz markieren?"
+    },
+    "error": {
+      "mode_title": "Garderobenmodus nicht verfügbar",
+      "mode_description": "Die passenden Katalog-IDs für die Garderobenfilter konnten nicht geladen werden.",
+      "save": "Garderobe konnte nicht aktualisiert werden."
     }
   }
 }

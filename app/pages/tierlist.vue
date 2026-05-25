@@ -8,17 +8,35 @@
       <div class="flex flex-col gap-2">
         <div class="flex items-start justify-between gap-2 sm:items-center">
           <div
-            class="flex min-w-0 flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center"
+            class="flex w-full min-w-0 flex-col gap-2 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center"
           >
             <n-select
               :value="mode"
               :options="tierModeOptions"
               :render-label="renderTierModeOptionLabel"
               size="small"
-              class="w-full self-start sm:w-44"
+              class="w-full max-w-40 self-start sm:w-40"
               :show-checkmark="false"
               :clearable="false"
               @update:value="handleTierModeChange"
+            />
+
+            <n-select
+              v-if="supportsWardrobeFilter"
+              v-model:value="wardrobeFilter"
+              :options="wardrobeFilterOptions"
+              :render-label="renderWardrobeFilterOptionLabel"
+              size="small"
+              class="w-full max-w-40 self-start sm:w-40"
+              :show-checkmark="false"
+              :clearable="false"
+              :disabled="!isWardrobeReady"
+            />
+
+            <CatalogVariationToggle
+              v-if="supportsVariationFilter"
+              v-model:value="variationFilter"
+              :options="variationFilterOptions"
             />
 
             <div class="hidden min-w-0 overflow-x-auto sm:block">
@@ -357,7 +375,7 @@
           class="grid grid-cols-2 gap-2 sm:grid-cols-2 xl:grid-cols-4"
         >
           <n-select
-            v-model:value="itemTypeFilter"
+            :value="itemTypeFilter"
             :options="itemTypeOptions"
             size="small"
             class="min-w-0"
@@ -365,6 +383,7 @@
             filterable
             :show-checkmark="false"
             :placeholder="t('compendium.filter_slot')"
+            @update:value="updateItemTypeFilter"
           />
 
           <n-select
@@ -992,6 +1011,10 @@
     Sync,
     Tshirt,
     Users,
+    CheckCircle,
+    Adjust,
+    TimesCircle,
+    DotCircle,
   } from '@vicons/fa'
   import { NIcon } from 'naive-ui'
   import {
@@ -1002,6 +1025,10 @@
   import type { SortableEvent } from 'sortablejs'
   import { h, type Component } from 'vue'
   import { BANNER_DATA } from '~~/data/banners'
+
+  definePageMeta({
+    key: 'tierlist',
+  })
 
   type TierMode = 'banners' | 'outfits' | 'items' | 'makeups' | 'momo'
   type IconSelectOption = SelectOption & { icon: Component }
@@ -1191,6 +1218,72 @@
     return null
   }
 
+  type CatalogVariationFilter =
+    | 'base'
+    | 'all'
+    | 'glowup'
+    | 'evo1'
+    | 'evo2'
+    | 'evo3'
+    | 'all-evos'
+
+  type TierWardrobeFilter = 'all' | 'owned' | 'partial' | 'missing'
+
+  const itemOutfitVariationFilterValues = new Set<CatalogVariationFilter>([
+    'base',
+    'all',
+    'evo1',
+    'evo2',
+    'evo3',
+    'all-evos',
+    'glowup',
+  ])
+  const makeupVariationFilterValues = new Set<CatalogVariationFilter>([
+    'base',
+    'all',
+    'evo3',
+  ])
+  const getVariationFilterValues = (tierMode: TierMode) =>
+    tierMode === 'makeups'
+      ? makeupVariationFilterValues
+      : itemOutfitVariationFilterValues
+  const variationFilterOptions = computed<CatalogVariationFilter[]>(() =>
+    mode.value === 'makeups'
+      ? ['base', 'all', 'evo3']
+      : ['base', 'all', 'evo1', 'evo2', 'evo3', 'all-evos', 'glowup']
+  )
+  const supportsTierModeVariationFilter = (tierMode: TierMode) =>
+    tierMode === 'items' || tierMode === 'outfits' || tierMode === 'makeups'
+  const supportsTierModeWardrobeFilter = (tierMode: TierMode) =>
+    tierMode === 'items' || tierMode === 'outfits'
+  const resolveVariationFilter = (
+    value?: string | null,
+    tierMode: TierMode = mode.value
+  ): CatalogVariationFilter => {
+    if (value === 'show' || value === 'true' || value === '1') return 'all'
+    return getVariationFilterValues(tierMode).has(
+      value as CatalogVariationFilter
+    )
+      ? (value as CatalogVariationFilter)
+      : 'base'
+  }
+  const resolveWardrobeFilter = (
+    value: string | null | undefined,
+    tierMode: TierMode
+  ): TierWardrobeFilter => {
+    if (!supportsTierModeWardrobeFilter(tierMode)) return 'all'
+    if (tierMode === 'items' && (value === 'owned' || value === 'missing')) {
+      return value
+    }
+    if (
+      tierMode === 'outfits' &&
+      (value === 'owned' || value === 'partial' || value === 'missing')
+    ) {
+      return value
+    }
+    return 'all'
+  }
+
   const resolveObtain = (value?: string | null) => {
     if (mode.value === 'momo') {
       return resolveMomoSourceFilterValue(value, availableObtainValues.value)
@@ -1230,6 +1323,17 @@
 
   const initialMode = resolveMode(route.query.mode?.toString() ?? null)
   const mode = ref<TierMode>(initialMode)
+  const variationFilter = ref<CatalogVariationFilter>(
+    supportsTierModeVariationFilter(initialMode)
+      ? resolveVariationFilter(
+          route.query.variations?.toString() ?? null,
+          initialMode
+        )
+      : 'base'
+  )
+  const wardrobeFilter = ref<TierWardrobeFilter>(
+    resolveWardrobeFilter(route.query.wardrobe?.toString() ?? null, initialMode)
+  )
   const poolPage = ref(1)
   const communityPoolPage = ref(1)
   const qualityFilter = ref<number | null>(
@@ -1318,6 +1422,41 @@
   const showAdvancedFiltersButton = computed(
     () => mode.value === 'items' && advancedFilterFields.value.length > 0
   )
+  const supportsVariationFilter = computed(() =>
+    supportsTierModeVariationFilter(mode.value)
+  )
+  const supportsWardrobeFilter = computed(() =>
+    supportsTierModeWardrobeFilter(mode.value)
+  )
+  const isWardrobeFiltered = computed(() => wardrobeFilter.value !== 'all')
+  const wardrobeFilterOptions = computed<IconSelectOption[]>(() => {
+    const options: IconSelectOption[] = [
+      { label: t('common.all'), value: 'all', icon: DotCircle },
+      { label: t('wardrobe.status.owned'), value: 'owned', icon: CheckCircle },
+    ]
+
+    if (mode.value === 'outfits') {
+      options.push({
+        label: t('wardrobe.filters.partial'),
+        value: 'partial',
+        icon: Adjust,
+      })
+    }
+
+    options.push({
+      label: t('wardrobe.status.missing'),
+      value: 'missing',
+      icon: TimesCircle,
+    })
+    return options
+  })
+  const renderWardrobeFilterOptionLabel = (option: SelectOption) => {
+    const { icon } = option as IconSelectOption
+    return h('div', { class: 'flex items-center gap-2' }, [
+      h(NIcon, { size: 16 }, { default: () => h(icon) }),
+      h('span', null, String(option.label ?? '')),
+    ])
+  }
 
   const setMode = (nextMode: TierMode) => {
     if (nextMode === mode.value) return
@@ -1365,6 +1504,17 @@
       isAdvancedFiltersDrawerOpen.value = false
     }
 
+    if (!supportsTierModeVariationFilter(nextMode)) {
+      variationFilter.value = 'base'
+    } else {
+      variationFilter.value = resolveVariationFilter(
+        variationFilter.value,
+        nextMode
+      )
+    }
+
+    wardrobeFilter.value = resolveWardrobeFilter(wardrobeFilter.value, nextMode)
+
     mode.value = nextMode
     obtainFilter.value = resolveObtain(obtainFilter.value)
   }
@@ -1376,6 +1526,8 @@
 
     return (
       qualityFilter.value !== null ||
+      (supportsVariationFilter.value && variationFilter.value !== 'base') ||
+      (supportsWardrobeFilter.value && wardrobeFilter.value !== 'all') ||
       versionFilter.value !== null ||
       (supportsStyleFilter.value && styleFilter.value !== null) ||
       effectiveLabelFilter.value !== null ||
@@ -1473,10 +1625,28 @@
     }))
   )
 
-  const { fetchOutfitsPaginated } = useSupabaseOutfits()
-  const { fetchItemsPaginated, fetchMakeupsPaginated, fetchItemSearchFacets } =
-    useSupabaseItems()
-  const { fetchMomoPaginated } = useMomo()
+  const { fetchItemSearchFacets } = useSupabaseItems()
+  const catalogIndex = useCatalogIndex()
+  const attributeMatches = useItemAttributeMatches()
+  const {
+    ownedItemIds,
+    error: wardrobeError,
+    canMutate: isWardrobeReady,
+    mutationVersion: wardrobeMutationVersion,
+    init: initWardrobe,
+    getOutfitProgress,
+  } = useWardrobe()
+
+  type TierItemFacetData = ItemSearchFacetResponse & { cacheKey: string }
+
+  const createEmptyTierItemFacetData = (
+    cacheKey: string
+  ): TierItemFacetData => ({
+    categories: [],
+    subcategories: [],
+    advanced: {},
+    cacheKey,
+  })
 
   const itemFacetCacheKey = computed(
     () =>
@@ -1488,19 +1658,15 @@
         versionFilter.value ?? 'all'
       }-${obtainFilter.value ?? 'all'}`
   )
-
   const { data: itemSearchFacets } = await useAsyncData(
-    () => itemFacetCacheKey.value,
+    'tierlist-item-facets',
     async () => {
+      const requestFacetCacheKey = itemFacetCacheKey.value
       if (mode.value !== 'items' || !itemTypeFilter.value) {
-        return {
-          categories: [],
-          subcategories: [],
-          advanced: {},
-        }
+        return createEmptyTierItemFacetData(requestFacetCacheKey)
       }
 
-      return fetchItemSearchFacets({
+      const facets = await fetchItemSearchFacets({
         quality: qualityFilter.value,
         type: itemTypeFilter.value,
         category: supportsItemSearchCategories.value
@@ -1515,26 +1681,41 @@
         source: obtainFilter.value,
         ...activeAdvancedFilters.value,
       })
+
+      return {
+        ...facets,
+        cacheKey: requestFacetCacheKey,
+      }
     },
     {
-      default: () => ({
-        categories: [],
-        subcategories: [],
-        advanced: {},
-      }),
+      default: () => createEmptyTierItemFacetData(itemFacetCacheKey.value),
+      dedupe: 'cancel',
+      deep: false,
       lazy: true,
+      server: false,
+      watch: [itemFacetCacheKey],
     }
   )
 
-  const availableItemCategories = computed(
-    () => itemSearchFacets.value?.categories ?? []
+  const isCurrentItemFacetDataReady = computed(
+    () => itemSearchFacets.value?.cacheKey === itemFacetCacheKey.value
   )
 
-  const availableItemSubcategories = computed(
-    () => itemSearchFacets.value?.subcategories ?? []
+  const availableItemCategories = computed(() =>
+    isCurrentItemFacetDataReady.value
+      ? (itemSearchFacets.value?.categories ?? [])
+      : []
   )
-  const advancedFacetOptions = computed<ItemSearchAdvancedFacetMap>(
-    () => itemSearchFacets.value?.advanced ?? {}
+
+  const availableItemSubcategories = computed(() =>
+    isCurrentItemFacetDataReady.value
+      ? (itemSearchFacets.value?.subcategories ?? [])
+      : []
+  )
+  const advancedFacetOptions = computed<ItemSearchAdvancedFacetMap>(() =>
+    isCurrentItemFacetDataReady.value
+      ? (itemSearchFacets.value?.advanced ?? {})
+      : {}
   )
 
   const isItemCategoryFilterEnabled = computed(
@@ -1551,8 +1732,9 @@
   )
 
   watch(
-    availableItemCategories,
-    (nextCategories) => {
+    [availableItemCategories, isCurrentItemFacetDataReady],
+    ([nextCategories, isReady]) => {
+      if (!isReady) return
       if (!itemCategoryFilter.value) return
 
       const resolved = resolveItemSearchFacetValue(
@@ -1573,8 +1755,9 @@
   )
 
   watch(
-    availableItemSubcategories,
-    (nextSubcategories) => {
+    [availableItemSubcategories, isCurrentItemFacetDataReady],
+    ([nextSubcategories, isReady]) => {
+      if (!isReady) return
       if (!itemSubcategoryFilter.value) return
 
       const resolved = resolveItemSearchFacetValue(
@@ -1594,6 +1777,14 @@
   )
 
   const validateAdvancedFilters = () => {
+    if (
+      mode.value === 'items' &&
+      itemTypeFilter.value &&
+      !isCurrentItemFacetDataReady.value
+    ) {
+      return
+    }
+
     const allowedFields = new Set(advancedFilterFields.value)
     const nextFilters = {
       ...createEmptyItemSearchAdvancedFilters(),
@@ -1731,6 +1922,14 @@
       return query
     }
 
+    if (supportsVariationFilter.value && variationFilter.value !== 'base') {
+      query.variations = variationFilter.value
+    }
+
+    if (supportsWardrobeFilter.value && wardrobeFilter.value !== 'all') {
+      query.wardrobe = wardrobeFilter.value
+    }
+
     if (mode.value === 'momo') {
       if (qualityFilter.value !== null) {
         query.quality = qualityFilter.value
@@ -1804,6 +2003,19 @@
     setMode(value as TierMode)
   }
 
+  const updateItemTypeFilter = (nextType: ItemType | null) => {
+    if (nextType === itemTypeFilter.value) return
+
+    if (mode.value === 'items') {
+      itemCategoryFilter.value = null
+      itemSubcategoryFilter.value = null
+      advancedFilters.value = createEmptyItemSearchAdvancedFilters()
+      isAdvancedFiltersDrawerOpen.value = false
+    }
+
+    itemTypeFilter.value = nextType
+  }
+
   watch(
     [
       mode,
@@ -1817,6 +2029,8 @@
       styleFilter,
       labelFilter,
       obtainFilter,
+      variationFilter,
+      wardrobeFilter,
     ],
     () => {
       poolPage.value = 1
@@ -1824,13 +2038,6 @@
       router.replace({ query: buildTierQuery() })
     }
   )
-
-  watch(itemTypeFilter, () => {
-    itemCategoryFilter.value = null
-    itemSubcategoryFilter.value = null
-    advancedFilters.value = createEmptyItemSearchAdvancedFilters()
-    isAdvancedFiltersDrawerOpen.value = false
-  })
 
   watch(supportsItemSearchCategories, (isSupported) => {
     if (isSupported) return
@@ -1844,6 +2051,13 @@
   })
 
   const toBannerVersion = toMajorMinorVersion
+
+  const prepareWardrobeFilteredListing = async () => {
+    if (!isWardrobeFiltered.value) return
+    if (import.meta.server) return
+    await initWardrobe()
+    if (wardrobeError.value) throw wardrobeError.value
+  }
 
   const loadBannerEntries = async (): Promise<TierDataPayload> => {
     let banners = Object.values(BANNER_DATA).filter(
@@ -1898,16 +2112,69 @@
     }
   }
 
-  const loadOutfitEntries = async (): Promise<TierDataPayload> => {
-    const { data: outfits, total } = await fetchOutfitsPaginated({
-      quality: qualityFilter.value,
-      version: versionFilter.value,
-      style: styleFilter.value,
-      label: effectiveLabelFilter.value,
-      source: obtainFilter.value,
-      page: 1,
-      pageSize: TIER_ENTRY_LIMIT,
+  const loadStaticTierListing = async <
+    TEntry extends ItemListEntry | OutfitListEntry | MomoListEntry,
+  >(
+    query: StaticCatalogListingQuery
+  ) => {
+    if (import.meta.server) {
+      return createEmptyCatalogListingResult<TEntry>(query.page)
+    }
+
+    await catalogIndex.loadEntity(query.entity)
+
+    if (
+      query.entity === 'item' &&
+      itemListingRequiresAttributeMatches(query.filters)
+    ) {
+      const attributeMatchingIds = await attributeMatches.fetchMatchingIds(
+        query.filters
+      )
+
+      const index = catalogIndex.index.value
+      if (!index) {
+        throw new Error('Catalog index is unavailable')
+      }
+
+      return getLocalStaticCatalogListing<TEntry>({
+        query,
+        index,
+        attributeMatchingIds,
+      })
+    }
+
+    const index = catalogIndex.index.value
+    if (!index) {
+      throw new Error('Catalog index is unavailable')
+    }
+
+    return getLocalStaticCatalogListing<TEntry>({
+      query,
+      index,
     })
+  }
+
+  const loadOutfitEntries = async (): Promise<TierDataPayload> => {
+    await prepareWardrobeFilteredListing()
+
+    const { data: outfits, total } =
+      await loadStaticTierListing<OutfitListEntry>({
+        entity: 'outfit',
+        filters: {
+          quality: qualityFilter.value,
+          version: versionFilter.value,
+          style: styleFilter.value,
+          label: effectiveLabelFilter.value,
+          source: obtainFilter.value,
+          variations: variationFilter.value,
+        },
+        page: 1,
+        pageSize: TIER_ENTRY_LIMIT,
+        ownershipMode: wardrobeFilter.value,
+        wardrobe: {
+          getOutfitProgress,
+        },
+      })
     const overLimit = total > TIER_ENTRY_LIMIT
 
     const entries = outfits.map((outfit) => ({
@@ -1925,22 +2192,33 @@
   }
 
   const loadItemEntries = async (): Promise<TierDataPayload> => {
-    const { data: items, total } = await fetchItemsPaginated({
-      quality: qualityFilter.value,
-      type: itemTypeFilter.value,
-      category: supportsItemSearchCategories.value
-        ? itemCategoryFilter.value
-        : null,
-      subcategory: supportsItemSearchCategories.value
-        ? itemSubcategoryFilter.value
-        : null,
-      version: versionFilter.value,
-      style: styleFilter.value,
-      label: effectiveLabelFilter.value,
-      source: obtainFilter.value,
-      ...activeAdvancedFilters.value,
+    await prepareWardrobeFilteredListing()
+
+    const { data: items, total } = await loadStaticTierListing<ItemListEntry>({
+      entity: 'item',
+      filters: {
+        quality: qualityFilter.value,
+        type: itemTypeFilter.value,
+        category: supportsItemSearchCategories.value
+          ? itemCategoryFilter.value
+          : null,
+        subcategory: supportsItemSearchCategories.value
+          ? itemSubcategoryFilter.value
+          : null,
+        version: versionFilter.value,
+        style: styleFilter.value,
+        label: effectiveLabelFilter.value,
+        source: obtainFilter.value,
+        variations: variationFilter.value,
+        ...activeAdvancedFilters.value,
+      },
       page: 1,
       pageSize: TIER_ENTRY_LIMIT,
+      ownershipMode:
+        wardrobeFilter.value === 'partial' ? 'all' : wardrobeFilter.value,
+      wardrobe: {
+        ownedItemIds: ownedItemIds.value,
+      },
     })
     const overLimit = total > TIER_ENTRY_LIMIT
 
@@ -1963,12 +2241,16 @@
       ? itemTypeFilter.value
       : null
 
-    const { data: items, total } = await fetchMakeupsPaginated({
-      quality: qualityFilter.value,
-      type: makeupType,
-      version: versionFilter.value,
-      style: styleFilter.value,
-      source: obtainFilter.value,
+    const { data: items, total } = await loadStaticTierListing<ItemListEntry>({
+      entity: 'makeup',
+      filters: {
+        quality: qualityFilter.value,
+        type: makeupType,
+        version: versionFilter.value,
+        style: styleFilter.value,
+        source: obtainFilter.value,
+        variations: variationFilter.value,
+      },
       page: 1,
       pageSize: TIER_ENTRY_LIMIT,
     })
@@ -1995,13 +2277,17 @@
   }
 
   const loadMomoEntries = async (): Promise<TierDataPayload> => {
-    const { data: momoItems, total } = await fetchMomoPaginated({
-      quality: qualityFilter.value,
-      version: versionFilter.value,
-      source: obtainFilter.value,
-      page: 1,
-      pageSize: TIER_ENTRY_LIMIT,
-    })
+    const { data: momoItems, total } =
+      await loadStaticTierListing<MomoListEntry>({
+        entity: 'momo',
+        filters: {
+          quality: qualityFilter.value,
+          version: versionFilter.value,
+          source: obtainFilter.value,
+        },
+        page: 1,
+        pageSize: TIER_ENTRY_LIMIT,
+      })
     const overLimit = total > TIER_ENTRY_LIMIT
 
     const entries = momoItems.map((item) => ({
@@ -2025,7 +2311,11 @@
       .map(([key, value]) => `${key}=${value}`)
       .join('&')
 
-    return `tier-data:${locale.value}:${serialized}:limit${TIER_ENTRY_LIMIT}`
+    const wardrobeVersion = isWardrobeFiltered.value
+      ? wardrobeMutationVersion.value
+      : 'all'
+
+    return `tier-data:${locale.value}:${serialized}:wardrobe${wardrobeVersion}:limit${TIER_ENTRY_LIMIT}`
   })
 
   const {
@@ -2386,8 +2676,9 @@
   )
   const showCommunityInsightsAction = computed(
     () =>
-      mode.value === 'banners' ||
-      (mode.value === 'outfits' && !isOverLimit.value)
+      !isWardrobeFiltered.value &&
+      (mode.value === 'banners' ||
+        (mode.value === 'outfits' && !isOverLimit.value))
   )
   const showCommunityInsightPanel = computed(
     () => showCommunityInsightsAction.value && showCommunityInsights.value
@@ -2650,6 +2941,7 @@
     | 'error'
     | 'over_limit'
     | 'scope_unavailable'
+    | 'wardrobe_filtered'
     | 'filtered_items_only'
     | 'incomplete'
     | 'no_changes'
@@ -2666,6 +2958,7 @@
     if (boardLoading.value) return 'loading'
     if (error.value) return 'error'
     if (isOverLimit.value) return 'over_limit'
+    if (isWardrobeFiltered.value) return 'wardrobe_filtered'
     if (!isCommunityScopeEligible.value) return 'scope_unavailable'
     if (hasFragmentedCommunityScope.value) return 'filtered_items_only'
     if (!hasCompleteCommunityRanking.value) return 'incomplete'
@@ -2685,6 +2978,8 @@
         return t('tierlist.community_submit.blocked.over_limit')
       case 'scope_unavailable':
         return t('tierlist.community_submit.blocked.scope_unavailable')
+      case 'wardrobe_filtered':
+        return t('tierlist.community_submit.blocked.wardrobe_filtered')
       case 'filtered_items_only':
         return t('tierlist.community_submit.blocked.filtered_items_only')
       case 'incomplete':
@@ -3207,7 +3502,7 @@
 
   const clearFilters = () => {
     qualityFilter.value = null
-    itemTypeFilter.value = null
+    updateItemTypeFilter(null)
     itemCategoryFilter.value = null
     itemSubcategoryFilter.value = null
     bannerQualityFilter.value = null
@@ -3215,6 +3510,8 @@
     styleFilter.value = null
     labelFilter.value = null
     obtainFilter.value = null
+    variationFilter.value = 'base'
+    wardrobeFilter.value = 'all'
     advancedFilters.value = createEmptyItemSearchAdvancedFilters()
     isAdvancedFiltersDrawerOpen.value = false
   }

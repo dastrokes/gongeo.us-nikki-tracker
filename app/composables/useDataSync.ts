@@ -5,15 +5,102 @@ interface SyncData {
   edits: Record<number, EditRecord[]>
   evo: Record<number, EvoRecord[]>
   pearpal: Record<number, PearpalTrackerItem[]>
+  wardrobe?: WardrobeData
   profile?: {
     label: string
   }
 }
 
+interface MergedSyncData {
+  pulls: Record<number, PullRecord[]>
+  edits: Record<number, EditRecord[]>
+  evo: Record<number, EvoRecord[]>
+  pearpal: Record<number, PearpalTrackerItem[]>
+  wardrobe: WardrobeData
+  profile?: {
+    label: string
+  }
+}
+
+const normalizeOwnedIds = (values: unknown): number[] => {
+  if (!Array.isArray(values)) return []
+  return Array.from(
+    new Set(
+      values
+        .map((value) =>
+          typeof value === 'number'
+            ? value
+            : typeof value === 'string'
+              ? Number(value)
+              : null
+        )
+        .filter(
+          (value): value is number =>
+            Number.isInteger(value) && value !== null && value > 0
+        )
+    )
+  ).sort((left, right) => left - right)
+}
+
+const normalizeSyncWardrobe = (value: unknown): WardrobeData => {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) {
+    return {
+      version: 1,
+      ownedItemIds: [],
+      ownedMakeupIds: [],
+      ownedMomoIds: [],
+      updatedAt: '',
+    }
+  }
+
+  const candidate = value as Partial<WardrobeData>
+  return {
+    version: 1,
+    ownedItemIds: normalizeOwnedIds(candidate.ownedItemIds),
+    ownedMakeupIds: normalizeOwnedIds(candidate.ownedMakeupIds),
+    ownedMomoIds: normalizeOwnedIds(candidate.ownedMomoIds),
+    updatedAt:
+      typeof candidate.updatedAt === 'string' ? candidate.updatedAt : '',
+  }
+}
+
+const mergeSyncWardrobe = (remoteWardrobe: unknown): WardrobeData =>
+  normalizeSyncWardrobe(remoteWardrobe)
+
+const mergeCloudData = (
+  localData: SyncData,
+  remoteData: SyncData | null | undefined,
+  mode: 'upload' | 'download'
+): MergedSyncData => ({
+  pulls: mergePullData(localData.pulls, remoteData?.pulls ?? {}),
+  edits: mergeEditData(localData.edits, remoteData?.edits ?? {}),
+  evo: mergeEvoData(localData.evo, remoteData?.evo, mode),
+  pearpal: mergePearpalData(localData.pearpal, remoteData?.pearpal),
+  wardrobe: mergeSyncWardrobe(remoteData?.wardrobe),
+  profile: localData.profile ?? remoteData?.profile,
+})
+
+const hasResonanceBackupData = (data: SyncData): boolean =>
+  Object.keys(data.pulls).length > 0 ||
+  Object.keys(data.edits).length > 0 ||
+  Object.keys(data.evo).length > 0 ||
+  Object.keys(data.pearpal).length > 0
+
+const hasWardrobeBackupData = (wardrobe: WardrobeData | undefined): boolean =>
+  Boolean(
+    wardrobe &&
+    (wardrobe.ownedItemIds.length > 0 ||
+      wardrobe.ownedMakeupIds.length > 0 ||
+      wardrobe.ownedMomoIds.length > 0)
+  )
+
+const hasSyncData = (data: SyncData): boolean =>
+  hasResonanceBackupData(data) || hasWardrobeBackupData(data.wardrobe)
+
 export const useDataSync = () => {
   const supabase = useSupabaseClient()
   const { user } = useAuth()
-  const { saveData, loadData, savePearpalData, mergePullData, mergeEditData } =
+  const { saveData, loadData, savePearpalData, loadWardrobe, saveWardrobe } =
     useIndexedDB()
   const { activeSlot, addProfile, renameProfile, slots, setLastSync } =
     useProfileSlots()
@@ -77,30 +164,25 @@ export const useDataSync = () => {
       // Get current data from IndexedDB
       const rawData = await loadData(slotOverride ?? activeSlot.value)
       const slot = slotOverride ?? activeSlot.value
-      const syncData: SyncData = {
+      const wardrobe = await loadWardrobe(slot)
+      const localSyncData: SyncData = {
         pulls: rawData.pulls,
         edits: rawData.edits,
         evo: rawData.evo,
         pearpal: rawData.pearpal,
+        wardrobe,
         profile: buildProfileMeta(slot),
       }
+      const filePath = getUserDataPath(user.value.id, slot)
 
-      // Check if there's any data to upload
-      if (
-        Object.keys(syncData.pulls).length === 0 &&
-        Object.keys(syncData.edits).length === 0 &&
-        Object.keys(syncData.evo).length === 0 &&
-        Object.keys(syncData.pearpal).length === 0
-      ) {
+      if (!hasSyncData(localSyncData)) {
         return { success: false }
       }
 
       // Compress the data
-      const compressedData = compressData(syncData)
+      const compressedData = compressData(localSyncData)
 
       // Upload to Supabase Storage
-      const filePath = getUserDataPath(user.value.id, slot)
-
       const { error: uploadError } = await supabase.storage
         .from(BUCKET_NAME)
         .upload(filePath, compressedData, {
@@ -236,20 +318,38 @@ export const useDataSync = () => {
 
       // Merge local and remote data
       const localData = await loadData(resolvedSlot)
+      const localWardrobe = await loadWardrobe(resolvedSlot)
 
-      const mergedPulls = mergePullData(localData.pulls, remoteData.pulls)
-      const mergedEdits = mergeEditData(localData.edits, remoteData.edits)
-      const mergedEvo = { ...localData.evo, ...remoteData.evo }
-      const mergedPearpal = { ...localData.pearpal, ...remoteData.pearpal }
+      const mergedData = mergeCloudData(
+        {
+          pulls: localData.pulls,
+          edits: localData.edits,
+          evo: localData.evo,
+          pearpal: localData.pearpal,
+          wardrobe: localWardrobe,
+          profile: buildProfileMeta(resolvedSlot),
+        },
+        remoteData,
+        'download'
+      )
 
-      await saveData(mergedPulls, mergedEdits, mergedEvo, resolvedSlot)
-      await savePearpalData(mergedPearpal, resolvedSlot)
+      await saveData(
+        mergedData.pulls,
+        mergedData.edits,
+        mergedData.evo,
+        resolvedSlot
+      )
+      await savePearpalData(mergedData.pearpal, resolvedSlot)
+      await saveWardrobe(mergedData.wardrobe, resolvedSlot)
+      if (resolvedSlot === activeSlot.value) {
+        await useWardrobe().init({ force: true })
+      }
 
       await initFromData({
-        pulls: mergedPulls,
-        edits: mergedEdits,
-        evo: mergedEvo,
-        pearpal: mergedPearpal,
+        pulls: mergedData.pulls,
+        edits: mergedData.edits,
+        evo: mergedData.evo,
+        pearpal: mergedData.pearpal,
       })
 
       setLastSync(resolvedSlot, new Date().toISOString())

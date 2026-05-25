@@ -1,9 +1,10 @@
 const DB_NAME = 'gongeousDB'
-const DB_VERSION = 4
+const DB_VERSION = 5
 const PULLS_STORE = 'pullsByBanner'
 const EDITS_STORE = 'editsByBanner'
 const EVO_STORE = 'evoByBanner'
 const PEARPAL_STORE = 'pearpalByBanner'
+const WARDROBE_STORE = 'wardrobeByProfile'
 
 export function useIndexedDB() {
   const pullsData = ref<Record<number, PullRecord[]>>({})
@@ -17,7 +18,13 @@ export function useIndexedDB() {
     dbName: DB_NAME,
     dbVersion: DB_VERSION,
     connectionLabel: 'Tracker',
-    healthCheckStoreNames: [PULLS_STORE, EDITS_STORE, EVO_STORE, PEARPAL_STORE],
+    healthCheckStoreNames: [
+      PULLS_STORE,
+      EDITS_STORE,
+      EVO_STORE,
+      PEARPAL_STORE,
+      WARDROBE_STORE,
+    ],
     retryIntervalMs: 1000,
     maxRetries: 3,
     openDBCallbacks: {
@@ -37,6 +44,10 @@ export function useIndexedDB() {
         if (!db.objectStoreNames.contains(PEARPAL_STORE)) {
           db.createObjectStore(PEARPAL_STORE)
         }
+
+        if (!db.objectStoreNames.contains(WARDROBE_STORE)) {
+          db.createObjectStore(WARDROBE_STORE)
+        }
       },
     },
   })
@@ -50,81 +61,6 @@ export function useIndexedDB() {
   const checkActiveSlot = (slotOverride?: number): boolean => {
     if (slotOverride === undefined || slotOverride === null) return true
     return slotOverride === activeSlot.value
-  }
-
-  const mergePullData = (
-    existingData: Record<number, PullRecord[]>,
-    newData: Record<number, PullRecord[]>
-  ): Record<number, PullRecord[]> => {
-    const mergedData: Record<number, PullRecord[]> = { ...existingData }
-
-    Object.entries(newData).forEach(([bannerIdStr, newPulls]) => {
-      const bannerId = Number(bannerIdStr)
-      const existingPulls = mergedData[bannerId] ?? []
-
-      if (existingPulls.length === 0) {
-        mergedData[bannerId] = [...newPulls]
-        return
-      }
-
-      const existingNewest = existingPulls[0]![0] // first = newest
-      const existingOldest = existingPulls.at(-1)![0] // last = oldest
-
-      const existingTimestamps = new Set(existingPulls.map(([ts]) => ts))
-
-      const toPrepend: PullRecord[] = []
-      const toAppend: PullRecord[] = []
-
-      for (const [timestamp, itemId] of newPulls) {
-        if (existingTimestamps.has(timestamp)) continue
-
-        if (timestamp > existingNewest) {
-          toPrepend.push([timestamp, itemId])
-        } else if (timestamp < existingOldest) {
-          toAppend.push([timestamp, itemId])
-        } else {
-          continue
-        }
-      }
-
-      mergedData[bannerId] = [...toPrepend, ...existingPulls, ...toAppend]
-    })
-
-    return mergedData
-  }
-
-  const mergeEditData = (
-    existingEdits: Record<number, EditRecord[]>,
-    newEdits: Record<number, EditRecord[]>
-  ): Record<number, EditRecord[]> => {
-    const mergedEdits: Record<number, EditRecord[]> = { ...existingEdits }
-
-    // Process each banner separately to reduce lookup map size
-    Object.entries(newEdits).forEach(([bannerIdStr, newEditRecords]) => {
-      const bannerId = parseInt(bannerIdStr)
-      const existingRecords = mergedEdits[bannerId] || []
-
-      // Create a map of existing edits by itemId for this banner only
-      const existingEditMap = new Map<string, EditRecord>()
-      existingRecords.forEach((edit) => {
-        existingEditMap.set(edit[1], edit)
-      })
-
-      // Process new edits for this banner
-      newEditRecords.forEach((newEdit) => {
-        const existingEdit = existingEditMap.get(newEdit[1])
-
-        if (!existingEdit) {
-          // New edit doesn't exist, add it
-          existingRecords.push(newEdit)
-        }
-        // If existing edit exists, keep the existing one (existing data takes priority)
-      })
-
-      mergedEdits[bannerId] = existingRecords
-    })
-
-    return mergedEdits
   }
 
   const saveData = async (
@@ -258,17 +194,20 @@ export function useIndexedDB() {
       const editsKey = resolveSlotKey(EDITS_STORE)
       const evoKey = resolveSlotKey(EVO_STORE)
       const pearpalKey = resolveSlotKey(PEARPAL_STORE)
+      const wardrobeKey = resolveSlotKey(WARDROBE_STORE)
 
       await runWithRecovery('clearData', async (db) => {
         await db.delete(PULLS_STORE, pullsKey)
         await db.delete(EDITS_STORE, editsKey)
         await db.delete(EVO_STORE, evoKey)
         await db.delete(PEARPAL_STORE, pearpalKey)
+        await db.delete(WARDROBE_STORE, wardrobeKey)
       })
 
       pullsData.value = {}
       editsData.value = {}
       evoData.value = {}
+      await useWardrobe().init({ force: true })
     } catch (error) {
       console.error('Failed to clear data:', error)
       throw error
@@ -317,21 +256,61 @@ export function useIndexedDB() {
       const editsKey = resolveSlotKey(EDITS_STORE, slot)
       const evoKey = resolveSlotKey(EVO_STORE, slot)
       const pearpalKey = resolveSlotKey(PEARPAL_STORE, slot)
+      const wardrobeKey = resolveSlotKey(WARDROBE_STORE, slot)
 
       await runWithRecovery('clearSlotData', async (db) => {
         await db.delete(PULLS_STORE, pullsKey)
         await db.delete(EDITS_STORE, editsKey)
         await db.delete(EVO_STORE, evoKey)
         await db.delete(PEARPAL_STORE, pearpalKey)
+        await db.delete(WARDROBE_STORE, wardrobeKey)
       })
 
       if (slot === activeSlot.value) {
         pullsData.value = {}
         editsData.value = {}
         evoData.value = {}
+        await useWardrobe().init({ force: true })
       }
     } catch (error) {
       console.error('Failed to clear slot data:', error)
+      throw error
+    }
+  }
+
+  const loadWardrobe = async (slotOverride?: number): Promise<WardrobeData> => {
+    try {
+      if (lastSavePromise) {
+        await lastSavePromise
+      }
+
+      const wardrobeKey = resolveSlotKey(WARDROBE_STORE, slotOverride)
+
+      const result = await runWithRecovery('loadWardrobe', async (db) => {
+        return db.get(WARDROBE_STORE, wardrobeKey)
+      })
+
+      return normalizeWardrobeData(result)
+    } catch (error) {
+      console.error('Failed to load wardrobe data:', error)
+      throw error
+    }
+  }
+
+  const saveWardrobe = async (data: WardrobeData, slotOverride?: number) => {
+    try {
+      if (lastSavePromise) {
+        await lastSavePromise
+      }
+
+      const wardrobeKey = resolveSlotKey(WARDROBE_STORE, slotOverride)
+      const cleanData = normalizeWardrobeData(data)
+
+      await runWithRecovery('saveWardrobe', async (db) => {
+        await db.put(WARDROBE_STORE, cleanData, wardrobeKey)
+      })
+    } catch (error) {
+      console.error('Failed to save wardrobe data:', error)
       throw error
     }
   }
@@ -348,5 +327,7 @@ export function useIndexedDB() {
     mergePullData,
     mergeEditData,
     savePearpalData,
+    loadWardrobe,
+    saveWardrobe,
   }
 }

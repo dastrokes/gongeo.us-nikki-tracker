@@ -1,0 +1,4 @@
+export const SEARCH_DEFAULT_LIMIT = 18
+export const SEARCH_MAX_LIMIT = 72
+export const OWNED_SEARCH_OVERSAMPLE_LIMIT = 72
+export const SEARCH_DISPLAY_LIMIT = 18

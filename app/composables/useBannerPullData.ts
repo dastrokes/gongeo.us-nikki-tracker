@@ -13,6 +13,7 @@ export const useBannerPullData = () => {
           edits?: Record<number, EditRecord[]>
           evo?: Record<number, EvoRecord[]>
           pearpal?: Record<number, PearpalTrackerItem[]>
+          wardrobe?: WardrobeData
         }
   ) => {
     const {
@@ -21,6 +22,7 @@ export const useBannerPullData = () => {
       mergePullData,
       mergeEditData,
       savePearpalData,
+      saveWardrobe,
     } = useIndexedDB()
     const {
       pulls: existingPullData,
@@ -35,8 +37,14 @@ export const useBannerPullData = () => {
     let evoData: Record<number, EvoRecord[]> = {}
     let pearpalData: Record<number, PearpalTrackerItem[]> = {}
 
-    if ('pulls' in jsonData || 'edits' in jsonData || 'pearpal' in jsonData) {
-      // New format: { pulls: {...}, edits: {...}, evo: {...}, pearpal: {...} }
+    if (
+      'pulls' in jsonData ||
+      'edits' in jsonData ||
+      'evo' in jsonData ||
+      'pearpal' in jsonData ||
+      'wardrobe' in jsonData
+    ) {
+      // New format: { pulls: {...}, edits: {...}, evo: {...}, pearpal: {...}, wardrobe: {...} }
       pullsData =
         (jsonData as { pulls?: Record<number, PullRecord[]> }).pulls || {}
       editsData =
@@ -61,6 +69,18 @@ export const useBannerPullData = () => {
     // Save all data, including pearpal if present
     await saveData(mergedPullsData, mergedEditsData, mergedEvoData)
     await savePearpalData(mergedPearpalData)
+
+    if (
+      'wardrobe' in jsonData &&
+      (jsonData as { wardrobe?: WardrobeData }).wardrobe
+    ) {
+      await saveWardrobe(
+        normalizeWardrobeData(
+          (jsonData as { wardrobe?: WardrobeData }).wardrobe
+        )
+      )
+      await useWardrobe().init({ force: true })
+    }
   }
 
   const fetchBannerPullData = async (selectedBannerIds?: number[]) => {

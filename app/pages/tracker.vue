@@ -1365,47 +1365,25 @@
         evo: evoData,
         pearpal: rawPearpalData,
       } = await loadData()
+      const { loadWardrobe } = useIndexedDB()
+      const wardrobe = await loadWardrobe()
 
-      // Filter out banners with 0 pulls
-      const filteredPullData = Object.fromEntries(
-        Object.entries(rawPullData).filter(([_, pulls]) => pulls.length > 0)
-      )
+      const slotIndex = activeSlot.value - 1
+      const slotData = slots.value[slotIndex]
+      const trimmedLabel = slotData?.label?.trim()
+      const profile =
+        slotData?.exists && trimmedLabel ? { label: trimmedLabel } : undefined
+      const exportData = createProfileDataExportPayload({
+        pulls: rawPullData,
+        edits: rawEditData,
+        evo: evoData,
+        pearpal: rawPearpalData,
+        wardrobe,
+        profile,
+      })
 
-      const filteredEditData = Object.fromEntries(
-        Object.entries(rawEditData).filter(([_, edits]) => edits.length > 0)
-      )
-
-      const filteredEvoData = Object.fromEntries(
-        Object.entries(evoData).filter(([_, evo]) => evo.length > 0)
-      )
-
-      const filteredPearpalData = Object.fromEntries(
-        Object.entries(rawPearpalData).filter(([_, items]) => items.length > 0)
-      )
-
-      // Determine what to export based on which data is available
-      let exportData
-      if (
-        Object.keys(filteredPullData).length === 0 &&
-        Object.keys(filteredEditData).length === 0 &&
-        Object.keys(filteredEvoData).length === 0 &&
-        Object.keys(filteredPearpalData).length === 0
-      ) {
+      if (!exportData) {
         return
-      } else {
-        const slotIndex = activeSlot.value - 1
-        const slotData = slots.value[slotIndex]
-        const trimmedLabel = slotData?.label?.trim()
-        const profile =
-          slotData?.exists && trimmedLabel ? { label: trimmedLabel } : undefined
-
-        exportData = {
-          pulls: filteredPullData,
-          edits: filteredEditData,
-          evo: filteredEvoData,
-          pearpal: filteredPearpalData,
-          ...(profile ? { profile } : {}),
-        }
       }
 
       // Create a Blob with the JSON data
@@ -1415,9 +1393,7 @@
 
       // Create a link element and trigger download
       const link = document.createElement('a')
-      link.download = `nikki-resonance-data-${
-        new Date().toISOString().split('T')[0]
-      }-${activeSlot.value}.json`
+      link.download = getProfileDataExportFileName(activeSlot.value)
       link.href = URL.createObjectURL(blob)
       link.click()
 

@@ -360,9 +360,12 @@ export default defineNuxtConfig({
             headers: pageThemeQuery,
           }
         ),
-        ...buildLocalizedRules(['/tracker', '/login', '/profile', '/stats'], {
-          headers: noStoreHeaders,
-        }),
+        ...buildLocalizedRules(
+          ['/tracker', '/login', '/profile', '/stats', '/wardrobe'],
+          {
+            headers: noStoreHeaders,
+          }
+        ),
       }
     })(),
   },

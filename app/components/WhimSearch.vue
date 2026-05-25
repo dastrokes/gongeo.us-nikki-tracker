@@ -182,6 +182,24 @@
       class="w-[calc(100vw-2rem)] max-w-xl"
     >
       <div class="grid gap-2">
+        <n-button-group class="w-full">
+          <n-button
+            size="small"
+            :type="draftOwnershipMode === 'all' ? 'primary' : 'default'"
+            class="flex-1"
+            @click="draftOwnershipMode = 'all'"
+          >
+            {{ t('search_page.scope_all') }}
+          </n-button>
+          <n-button
+            size="small"
+            :type="draftOwnershipMode === 'owned' ? 'primary' : 'default'"
+            class="flex-1"
+            @click="draftOwnershipMode = 'owned'"
+          >
+            {{ t('search_page.scope_owned') }}
+          </n-button>
+        </n-button-group>
         <div class="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-3">
           <n-select
             v-model:value="itemTypeFilter"
@@ -1666,6 +1684,8 @@
   })
 
   const initialCatalogFilters = normalizeCatalogSearchFilters(route.query)
+  const ownedSearchCandidates = useOwnedSearchCandidates()
+  const catalogIndex = useCatalogIndex()
   const searchQuery = ref(initialCatalogFilters.query)
   const selectedItemTypes = ref<string[]>(
     initialCatalogFilters.itemTypes.slice(0, 1)
@@ -1675,12 +1695,18 @@
   const styleFilter = ref<string | null>(initialCatalogFilters.style)
   const labelFilter = ref<string | null>(initialCatalogFilters.label)
   const sourceFilter = ref<string | null>(initialCatalogFilters.source)
+  const ownershipMode = ref<CatalogSearchOwnershipMode>(
+    initialCatalogFilters.ownershipMode
+  )
   const draftSelectedItemTypes = ref<string[]>([])
   const draftVersionFilter = ref<string | null>(null)
   const draftQualityFilter = ref<number | null>(null)
   const draftStyleFilter = ref<string | null>(null)
   const draftLabelFilter = ref<string | null>(null)
   const draftSourceFilter = ref<string | null>(null)
+  const draftOwnershipMode = ref<CatalogSearchOwnershipMode>(
+    initialCatalogFilters.ownershipMode
+  )
   const hasSearched = ref(mode.value === 'search' && !!route.query.q)
   const results = ref<SearchHit[]>([])
   const selectedId = ref<string | null>(null)
@@ -1695,6 +1721,7 @@
   const error = ref('')
   const showFeedbackModal = ref(false)
   const feedbackModalTarget = ref<FeedbackModalTarget | null>(null)
+  const isOwnedSearchMode = computed(() => ownershipMode.value === 'owned')
 
   const messages = computed(
     () => getLocaleMessage(locale.value) as Record<string, string>
@@ -1856,6 +1883,7 @@
   const activeFilterCount = computed(
     () =>
       selectedItemTypes.value.length +
+      (ownershipMode.value === 'owned' ? 1 : 0) +
       [
         versionFilter.value,
         qualityFilter.value,
@@ -1868,6 +1896,7 @@
   const draftActiveFilterCount = computed(
     () =>
       draftSelectedItemTypes.value.length +
+      (draftOwnershipMode.value === 'owned' ? 1 : 0) +
       [
         draftVersionFilter.value,
         draftQualityFilter.value,
@@ -2287,10 +2316,17 @@
     style: styleFilter.value,
     label: labelFilter.value,
     source: sourceFilter.value,
+    ownershipMode: ownershipMode.value,
   })
 
   const getCurrentRouteQuery = (query?: string | null) =>
     buildCatalogSearchFilterQuery(getCurrentCatalogFilters(query))
+
+  const getCurrentSearchApiQuery = (query?: string | null) =>
+    buildCatalogSearchFilterQuery({
+      ...getCurrentCatalogFilters(query),
+      ownershipMode: 'all',
+    })
 
   const updateSearchRoute = async (query: string | null) => {
     const nextQuery = getCurrentRouteQuery(query)
@@ -2312,6 +2348,7 @@
     draftStyleFilter.value = styleFilter.value
     draftLabelFilter.value = labelFilter.value
     draftSourceFilter.value = sourceFilter.value
+    draftOwnershipMode.value = ownershipMode.value
   }
 
   const commitFilterDrafts = () => {
@@ -2321,6 +2358,7 @@
     styleFilter.value = draftStyleFilter.value
     labelFilter.value = draftLabelFilter.value
     sourceFilter.value = draftSourceFilter.value
+    ownershipMode.value = draftOwnershipMode.value
   }
 
   const switchMode = async (
@@ -2383,6 +2421,7 @@
     styleFilter.value = null
     labelFilter.value = null
     sourceFilter.value = null
+    ownershipMode.value = 'all'
     resetSearchState()
     await updateSearchRoute(null)
   }
@@ -2394,6 +2433,7 @@
     draftStyleFilter.value = null
     draftLabelFilter.value = null
     draftSourceFilter.value = null
+    draftOwnershipMode.value = 'all'
   }
 
   const clearSearchQuery = async () => {
@@ -2452,7 +2492,13 @@
   }
 
   const getSearchRequestKey = (query: string) =>
-    `${locale.value}:${getCatalogSearchFilterKey(getCurrentCatalogFilters(query))}`
+    [
+      locale.value,
+      getCatalogSearchFilterKey(getCurrentCatalogFilters(query)),
+      isOwnedSearchMode.value
+        ? ownedSearchCandidates.mutationVersion.value
+        : '',
+    ].join(':')
 
   const shouldSkipSearch = (searchKey: string) =>
     searchKey === activeSearch?.key || searchKey === lastCompletedSearchKey
@@ -2463,6 +2509,20 @@
     isMobileModalOpen.value = false
     showFeedbackModal.value = false
     feedbackModalTarget.value = null
+  }
+
+  const getSearchLimit = () =>
+    isOwnedSearchMode.value
+      ? OWNED_SEARCH_OVERSAMPLE_LIMIT
+      : SEARCH_DISPLAY_LIMIT
+
+  const applyOwnershipScopeToHits = async (hits: SearchHit[]) => {
+    if (!isOwnedSearchMode.value) {
+      return hits.slice(0, SEARCH_DISPLAY_LIMIT)
+    }
+
+    const ownedHits = await ownedSearchCandidates.filterOwnedHits(hits)
+    return ownedHits.slice(0, SEARCH_DISPLAY_LIMIT)
   }
 
   const getLuckyCandidateType = (item: SearchHit) =>
@@ -2542,11 +2602,35 @@
     }
   }
 
+  const toCatalogSearchHit = (item: CatalogLocalItem): SearchHit => {
+    const itemType = normalizeItemSearchItemType(
+      item.type ?? getItemType(item.id)
+    )
+
+    return {
+      id: String(item.id),
+      itemId: item.id,
+      itemType,
+      category: null,
+      subcategory: null,
+      score: item.quality >= 5 ? 0.95 : 0.82,
+      quality: item.quality,
+      image: getImageSrc('item', item.id),
+      metadata: {
+        item_id: item.id,
+        item_type: itemType,
+        slot: itemType,
+        obtain_type: item.obtain_type ?? null,
+      },
+    }
+  }
+
   const fetchLuckySearchHits = async (normalizedQuery: string) => {
     const queryParams: Record<string, string | number> = {
       q: normalizedQuery,
       lang: locale.value,
-      ...getCurrentRouteQuery(normalizedQuery),
+      limit: getSearchLimit(),
+      ...getCurrentSearchApiQuery(normalizedQuery),
     }
 
     const response = await $fetch<SearchApiResponse>('/api/search/items', {
@@ -2554,13 +2638,22 @@
       headers: gameVersionHeaders,
     })
 
-    return (response.data ?? []).filter(
-      (item) => item.itemId !== null && item.score > 0
+    return applyOwnershipScopeToHits(
+      (response.data ?? []).filter(
+        (item) => item.itemId !== null && item.score > 0
+      )
     )
   }
 
   const runSimilarSearch = async (itemId: number) => {
-    const searchKey = `${locale.value}:similar:${itemId}`
+    const searchKey = [
+      locale.value,
+      'similar',
+      itemId,
+      isOwnedSearchMode.value
+        ? ownedSearchCandidates.mutationVersion.value
+        : '',
+    ].join(':')
     if (shouldSkipSearch(searchKey)) {
       return
     }
@@ -2613,6 +2706,7 @@
         query: {
           id: String(itemId),
           lang: locale.value,
+          limit: getSearchLimit(),
         },
         headers: gameVersionHeaders,
         signal: search.controller.signal,
@@ -2627,7 +2721,10 @@
       }
 
       lastCompletedSearchKey = search.key
-      applySearchResults((response.data ?? []).filter((hit) => hit.score > 0))
+      const scopedResults = await applyOwnershipScopeToHits(
+        (response.data ?? []).filter((hit) => hit.score > 0)
+      )
+      applySearchResults(scopedResults)
     } catch (caughtError) {
       if (
         search?.controller.signal.aborted ||
@@ -2659,7 +2756,7 @@
   }
 
   const fetchLuckyRandomHit = async () => {
-    const queryParams = getCurrentRouteQuery(null)
+    const queryParams = getCurrentSearchApiQuery(null)
 
     const response = await $fetch<RandomItemApiResponse>('/api/items/random', {
       query: queryParams,
@@ -2667,6 +2764,18 @@
     })
 
     return response.item ? toRandomSearchHit(response.item) : null
+  }
+
+  const fetchOwnedRandomHit = async () => {
+    const itemIds = await ownedSearchCandidates.getRandomCandidateIds(
+      getCurrentCatalogFilters(null)
+    )
+    if (itemIds.length === 0) return null
+
+    const randomId = itemIds[Math.floor(Math.random() * itemIds.length)]
+    const item = catalogIndex.index.value?.itemById.get(randomId)
+
+    return item ? toCatalogSearchHit(item) : null
   }
 
   const pickLuckySearchHit = (hits: SearchHit[]) => {
@@ -2790,7 +2899,8 @@
       const queryParams: Record<string, string | number> = {
         q: normalizedQuery,
         lang: locale.value,
-        ...getCurrentRouteQuery(normalizedQuery),
+        limit: getSearchLimit(),
+        ...getCurrentSearchApiQuery(normalizedQuery),
       }
 
       const response = await $fetch<SearchApiResponse>('/api/search/items', {
@@ -2802,7 +2912,10 @@
       if (activeSearch !== search) return
 
       lastCompletedSearchKey = search.key
-      applySearchResults((response.data ?? []).filter((item) => item.score > 0))
+      const scopedResults = await applyOwnershipScopeToHits(
+        (response.data ?? []).filter((item) => item.score > 0)
+      )
+      applySearchResults(scopedResults)
     } catch (caughtError) {
       if (
         !search ||
@@ -2843,8 +2956,13 @@
         ? await fetchLuckySearchHits(normalizedQuery)
         : []
       const luckyHit = normalizedQuery
-        ? (pickLuckySearchHit(queryHits) ?? (await fetchLuckyRandomHit()))
-        : await fetchLuckyRandomHit()
+        ? (pickLuckySearchHit(queryHits) ??
+          (isOwnedSearchMode.value
+            ? await fetchOwnedRandomHit()
+            : await fetchLuckyRandomHit()))
+        : isOwnedSearchMode.value
+          ? await fetchOwnedRandomHit()
+          : await fetchLuckyRandomHit()
 
       if (!luckyHit) {
         showLuckyModal.value = false
@@ -2918,6 +3036,7 @@
       styleFilter.value = filters.style
       labelFilter.value = filters.label
       sourceFilter.value = filters.source
+      ownershipMode.value = filters.ownershipMode
       if (!isFilterModalOpen.value) {
         syncFilterDrafts()
       }

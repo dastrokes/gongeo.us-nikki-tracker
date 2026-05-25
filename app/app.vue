@@ -238,6 +238,7 @@
   // Initialize authentication
   const { initAuth } = useAuth()
   const { initProfile } = useProfileSlots()
+  const { init: initWardrobe } = useWardrobe()
 
   if (import.meta.client) {
     watch(
@@ -259,6 +260,7 @@
   onMounted(() => {
     initTheme()
     initProfile()
+    initWardrobe()
     initAuth()
   })
 </script>

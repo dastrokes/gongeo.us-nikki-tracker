@@ -88,7 +88,7 @@
             <n-collapse-transition
               appear
               :show="openDesktopGroup !== null"
-              class="w-auto!"
+              class="-mx-4 -mb-4 w-auto! px-4 pb-4"
             >
               <div
                 class="overflow-hidden rounded-xl border border-black/6 bg-white shadow-lg ring-1 ring-black/5 transition-[height,width] duration-300 ease-in-out dark:border-white/2 dark:bg-slate-900 dark:ring-white/5"
@@ -124,7 +124,14 @@
                             : 'text-slate-400 group-hover:text-slate-500 dark:text-slate-500 dark:group-hover:text-slate-400'
                         "
                       >
-                        <component :is="item.icon" />
+                        <SvgIcon
+                          v-if="item.svgIcon"
+                          :name="item.svgIcon"
+                        />
+                        <component
+                          :is="item.icon"
+                          v-else
+                        />
                       </n-icon>
                       <span>{{ item.label }}</span>
                     </button>
@@ -165,7 +172,7 @@
         <n-layout-footer
           class="mt-12 border-t border-gray-400/20 bg-linear-to-r from-[#f5f0fa]/80 via-[#fff0f5]/80 to-[#fffacd]/50 backdrop-blur-xs dark:border-white/8 dark:from-[#1a1b2e]/80 dark:via-[#2d1b36]/80 dark:to-[#3d1b2e]/50"
         >
-          <div class="mx-auto max-w-5xl p-4">
+          <div class="mx-auto max-w-5xl p-8">
             <div
               class="mb-8 grid gap-4 md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] md:items-center lg:grid-cols-[auto_auto_auto] lg:justify-between"
             >
@@ -497,7 +504,14 @@
                             : 'text-slate-400 group-hover:text-slate-500 dark:text-slate-500 dark:group-hover:text-slate-400'
                         "
                       >
-                        <component :is="item.icon" />
+                        <SvgIcon
+                          v-if="item.svgIcon"
+                          :name="item.svgIcon"
+                        />
+                        <component
+                          :is="item.icon"
+                          v-else
+                        />
                       </n-icon>
                       <span>{{ item.label }}</span>
                     </button>
@@ -545,7 +559,8 @@
   type NavigationItem = {
     key: string
     label: string
-    icon: Component
+    icon?: Component
+    svgIcon?: 'wardrobe'
   }
 
   type NavigationGroup = {
@@ -582,7 +597,11 @@
       label: t('navigation.groups.data'),
       items: [
         { key: 'tracker', label: t('navigation.tracker'), icon: Book },
-        { key: 'wardrobe', label: t('navigation.wardrobe'), icon: Tshirt },
+        {
+          key: 'wardrobe',
+          label: t('navigation.wardrobe'),
+          svgIcon: 'wardrobe',
+        },
         { key: 'stats', label: t('navigation.stats'), icon: ChartBar },
         { key: 'global', label: t('navigation.global'), icon: Globe },
         { key: 'import', label: t('navigation.import'), icon: FileImport },

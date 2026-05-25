@@ -5,9 +5,10 @@
         :circle="variant === 'overlay'"
         size="small"
         quaternary
+        :bordered="false"
         :disabled="disabled"
         :loading="loading"
-        class="wardrobe-owned-button border transition-all duration-150"
+        class="border transition-all duration-150"
         :class="[
           variant === 'overlay'
             ? 'h-7 w-7 shadow-sm backdrop-blur-md hover:-translate-y-px hover:shadow-md'
@@ -116,10 +117,3 @@
         }
   })
 </script>
-
-<style scoped>
-  .wardrobe-owned-button :deep(.n-button__border),
-  .wardrobe-owned-button :deep(.n-button__state-border) {
-    display: none;
-  }
-</style>

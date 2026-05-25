@@ -464,7 +464,6 @@
   } from '@vicons/fa'
   import { NIcon } from 'naive-ui'
   import type { SelectOption } from 'naive-ui'
-  import { h, type Component } from 'vue'
 
   definePageMeta({
     key: 'momo-listing',

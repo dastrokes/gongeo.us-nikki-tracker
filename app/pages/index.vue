@@ -1,12 +1,14 @@
 <template>
   <div class="landing-page mx-auto max-w-7xl space-y-4 sm:space-y-8">
     <!-- ═══ Hero Section ═══ -->
-    <section class="hero-section relative py-4 text-center sm:py-8">
-      <div class="mb-4 flex flex-row items-center justify-center gap-4">
+    <section
+      class="hero-section relative overflow-hidden bg-[radial-gradient(ellipse_at_center,rgba(252,231,243,0.74)_0%,rgba(237,233,254,0.46)_48%,transparent_74%)] px-4 py-8 text-center sm:py-12 dark:bg-[radial-gradient(ellipse_at_center,rgba(88,28,100,0.34)_0%,rgba(30,27,75,0.34)_50%,transparent_74%)]"
+    >
+      <div class="mb-5 flex flex-row items-center justify-center gap-3">
         <button
           type="button"
           :aria-label="$t('navigation.title')"
-          class="group flex h-12 w-12 shrink-0 cursor-help items-center justify-center rounded-2xl bg-white/60 p-2 shadow-md ring-1 ring-purple-200/50 backdrop-blur-xs transition-all duration-300 hover:-translate-y-0.5 active:scale-95 sm:h-16 sm:w-16 dark:bg-slate-800/60 dark:shadow-[0_4px_10px_rgba(0,0,0,0.3)] dark:ring-purple-800/20"
+          class="group flex h-12 w-12 shrink-0 cursor-help items-center justify-center rounded-2xl bg-white/75 p-2 shadow-[0_10px_26px_rgba(109,40,217,0.14)] ring-1 ring-purple-200/50 backdrop-blur-xs transition-all duration-300 hover:-translate-y-0.5 active:scale-95 sm:h-16 sm:w-16 dark:bg-slate-900/60 dark:shadow-[0_8px_22px_rgba(0,0,0,0.3)] dark:ring-purple-800/20"
           @click="handleHeroLogoClick"
         >
           <NuxtImg
@@ -24,18 +26,18 @@
           >
             {{ $t('meta.game_title') }}
           </p>
-          <p class="text-2xl leading-tight font-black sm:text-3xl">
+          <p class="text-2xl leading-tight font-bold sm:text-3xl">
             {{ $t('navigation.title') }}
           </p>
         </div>
       </div>
       <h1
-        class="bg-linear-to-r from-[#c084fc] via-[#f472b6] to-[#fb923c] bg-clip-text pb-4 text-2xl font-extrabold whitespace-pre-line text-transparent sm:text-4xl dark:from-[#a78bfa] dark:via-[#f9a8d4] dark:to-[#fdba74]"
+        class="bg-linear-to-r from-[#d946ef] via-[#f472b6] to-[#fb7185] bg-clip-text pb-4 text-3xl leading-tight font-bold whitespace-pre-line text-transparent sm:text-4xl dark:from-[#f0abfc] dark:via-[#f9a8d4] dark:to-[#fb7185]"
       >
         {{ $t('navigation.subtitle') }}
       </h1>
       <p
-        class="mx-auto mb-6 max-w-xl text-base text-gray-600 sm:text-lg dark:text-gray-300"
+        class="mx-auto mb-7 max-w-2xl text-base font-medium text-slate-600 sm:text-lg dark:text-slate-200"
       >
         {{ $t('default.description') }}
       </p>
@@ -45,7 +47,7 @@
           size="large"
           round
           strong
-          class="after:animate-button-shimmer relative overflow-hidden shadow-sm transition-all after:absolute after:inset-y-0 after:-left-full after:w-[60%] after:bg-linear-to-r after:from-transparent after:via-white/15 after:to-transparent after:content-[''] hover:-translate-y-0.5 hover:shadow-md motion-reduce:after:animate-none"
+          class="after:animate-button-shimmer relative min-w-36 overflow-hidden shadow-[0_10px_24px_rgba(244,63,94,0.22)] transition-all after:absolute after:inset-y-0 after:-left-full after:w-[60%] after:bg-linear-to-r after:from-transparent after:via-white/20 after:to-transparent after:content-[''] hover:-translate-y-0.5 hover:shadow-[0_14px_30px_rgba(244,63,94,0.28)] motion-reduce:after:animate-none"
           @click="navigateTo(localePath('/tracker'))"
         >
           <template #icon>
@@ -58,7 +60,7 @@
           size="large"
           round
           strong
-          class="after:animate-button-shimmer relative overflow-hidden shadow-sm transition-all after:absolute after:inset-y-0 after:-left-full after:w-[60%] after:bg-linear-to-r after:from-transparent after:via-white/15 after:to-transparent after:content-[''] hover:-translate-y-0.5 hover:shadow-md motion-reduce:after:animate-none"
+          class="after:animate-button-shimmer relative min-w-36 overflow-hidden shadow-[0_10px_24px_rgba(244,63,94,0.22)] transition-all after:absolute after:inset-y-0 after:-left-full after:w-[60%] after:bg-linear-to-r after:from-transparent after:via-white/20 after:to-transparent after:content-[''] hover:-translate-y-0.5 hover:shadow-[0_14px_30px_rgba(244,63,94,0.28)] motion-reduce:after:animate-none"
           @click="navigateTo(localePath('/global'))"
         >
           <template #icon>
@@ -67,30 +69,40 @@
           {{ $t('navigation.global') }}
         </n-button>
       </div>
-      <div class="mt-6 flex max-w-full flex-wrap justify-center gap-2">
+      <div
+        class="mx-auto mt-6 grid max-w-md grid-cols-2 gap-2 sm:flex sm:max-w-full sm:flex-wrap sm:justify-center"
+      >
         <button
           type="button"
-          class="transform-all inline-flex cursor-pointer items-center gap-2 rounded-full border border-white/45 bg-white/55 px-3 py-1 text-xs font-semibold text-slate-700 shadow-xs backdrop-blur-md duration-200 hover:-translate-y-0.5 hover:bg-white/70 hover:shadow-md dark:border-white/10 dark:bg-slate-950/35 dark:text-slate-100 dark:hover:bg-slate-900/50"
-          @click="scrollToSection(bannersSectionRef)"
+          class="inline-flex min-w-0 cursor-pointer items-center justify-center gap-2 rounded-full border border-white/70 bg-white/75 px-3 py-1.5 text-xs font-semibold text-slate-700 shadow-[0_8px_20px_rgba(71,85,105,0.08)] backdrop-blur-md transition-all duration-200 hover:-translate-y-0.5 hover:bg-white/90 hover:text-slate-900 hover:shadow-[0_10px_24px_rgba(71,85,105,0.12)] sm:px-4 dark:border-white/10 dark:bg-slate-950/40 dark:text-slate-100 dark:hover:bg-slate-900/55"
+          @click="navigateTo(localePath('/wardrobe'))"
         >
-          <n-icon><CalendarAlt /></n-icon>
-          {{ $t('default.current_banners') }}
+          <n-icon><SvgIcon name="wardrobe" /></n-icon>
+          {{ $t('navigation.wardrobe') }}
         </button>
         <button
           type="button"
-          class="transform-all inline-flex cursor-pointer items-center gap-2 rounded-full border border-white/45 bg-white/55 px-3 py-1 text-xs font-semibold text-slate-700 shadow-xs backdrop-blur-md duration-200 hover:-translate-y-0.5 hover:bg-white/70 hover:shadow-md dark:border-white/10 dark:bg-slate-950/35 dark:text-slate-100 dark:hover:bg-slate-900/50"
-          @click="scrollToSection(compendiumSectionRef)"
+          class="inline-flex min-w-0 cursor-pointer items-center justify-center gap-2 rounded-full border border-white/70 bg-white/75 px-3 py-1.5 text-xs font-semibold text-slate-700 shadow-[0_8px_20px_rgba(71,85,105,0.08)] backdrop-blur-md transition-all duration-200 hover:-translate-y-0.5 hover:bg-white/90 hover:text-slate-900 hover:shadow-[0_10px_24px_rgba(71,85,105,0.12)] sm:px-4 dark:border-white/10 dark:bg-slate-950/40 dark:text-slate-100 dark:hover:bg-slate-900/55"
+          @click="navigateTo(localePath('/banners'))"
+        >
+          <n-icon><CalendarAlt /></n-icon>
+          {{ $t('navigation.banner') }}
+        </button>
+        <button
+          type="button"
+          class="inline-flex min-w-0 cursor-pointer items-center justify-center gap-2 rounded-full border border-white/70 bg-white/75 px-3 py-1.5 text-xs font-semibold text-slate-700 shadow-[0_8px_20px_rgba(71,85,105,0.08)] backdrop-blur-md transition-all duration-200 hover:-translate-y-0.5 hover:bg-white/90 hover:text-slate-900 hover:shadow-[0_10px_24px_rgba(71,85,105,0.12)] sm:px-4 dark:border-white/10 dark:bg-slate-950/40 dark:text-slate-100 dark:hover:bg-slate-900/55"
+          @click="navigateTo(localePath('/items'))"
         >
           <n-icon><ListAlt /></n-icon>
           {{ $t('navigation.compendium') }}
         </button>
         <button
           type="button"
-          class="transform-all inline-flex cursor-pointer items-center gap-2 rounded-full border border-white/45 bg-white/55 px-3 py-1 text-xs font-semibold text-slate-700 shadow-xs backdrop-blur-md duration-200 hover:-translate-y-0.5 hover:bg-white/70 hover:shadow-md dark:border-white/10 dark:bg-slate-950/35 dark:text-slate-100 dark:hover:bg-slate-900/50"
-          @click="scrollToStatsSection"
+          class="inline-flex min-w-0 cursor-pointer items-center justify-center gap-2 rounded-full border border-white/70 bg-white/75 px-3 py-1.5 text-xs font-semibold text-slate-700 shadow-[0_8px_20px_rgba(71,85,105,0.08)] backdrop-blur-md transition-all duration-200 hover:-translate-y-0.5 hover:bg-white/90 hover:text-slate-900 hover:shadow-[0_10px_24px_rgba(71,85,105,0.12)] sm:px-4 dark:border-white/10 dark:bg-slate-950/40 dark:text-slate-100 dark:hover:bg-slate-900/55"
+          @click="navigateTo(localePath('/search'))"
         >
-          <n-icon><Globe /></n-icon>
-          {{ $t('default.community_stats') }}
+          <n-icon><Search /></n-icon>
+          {{ $t('search_page.title') }}
         </button>
       </div>
 
@@ -480,10 +492,12 @@
       rootMargin: '300px',
     }
   )
-  const { shouldRender: shouldRenderStatsSection, renderNow: renderStatsNow } =
-    useDeferredSectionRender(statsSectionRef, {
+  const { shouldRender: shouldRenderStatsSection } = useDeferredSectionRender(
+    statsSectionRef,
+    {
       rootMargin: '500px',
-    })
+    }
+  )
   const heroLogoColorStep = ref(0)
   const heroLogoClickStreak = ref(0)
   const showGongeousEasterEgg = ref(false)
@@ -519,20 +533,6 @@
     if (nextClickStreak === 0) {
       showGongeous()
     }
-  }
-
-  const scrollToSection = (sectionElement: HTMLElement | null) => {
-    if (!import.meta.client || !sectionElement) return
-
-    sectionElement.scrollIntoView({
-      behavior: 'smooth',
-      block: 'start',
-    })
-  }
-
-  const scrollToStatsSection = () => {
-    renderStatsNow()
-    scrollToSection(statsSectionRef.value)
   }
 
   // ── Compendium items ───────────────────────────

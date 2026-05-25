@@ -2773,6 +2773,8 @@
     if (itemIds.length === 0) return null
 
     const randomId = itemIds[Math.floor(Math.random() * itemIds.length)]
+    if (randomId === undefined) return null
+
     const item = catalogIndex.index.value?.itemById.get(randomId)
 
     return item ? toCatalogSearchHit(item) : null
@@ -2868,6 +2870,8 @@
       return
     }
 
+    loading.value = true
+
     let search: ActiveSearch | null = null
 
     try {
@@ -2894,7 +2898,6 @@
         controller: new AbortController(),
       }
       activeSearch = search
-      loading.value = true
 
       const queryParams: Record<string, string | number> = {
         q: normalizedQuery,
@@ -3074,76 +3077,3 @@
     { immediate: true }
   )
 </script>
-
-<style scoped>
-  .lucky-pull-loader {
-    background:
-      radial-gradient(
-        circle at 50% 28%,
-        rgb(251 191 36 / 0.24),
-        transparent 32%
-      ),
-      linear-gradient(135deg, rgb(255 255 255 / 0.86), rgb(255 241 242 / 0.8));
-  }
-
-  :global(.dark) .lucky-pull-loader {
-    background:
-      radial-gradient(
-        circle at 50% 28%,
-        rgb(251 191 36 / 0.2),
-        transparent 32%
-      ),
-      linear-gradient(135deg, rgb(15 23 42 / 0.86), rgb(67 20 34 / 0.7));
-  }
-
-  .lucky-reveal-image {
-    animation: lucky-item-reveal 420ms ease-out both;
-  }
-
-  .lucky-reveal-card--revealed {
-    animation: lucky-card-reveal 620ms cubic-bezier(0.16, 1, 0.3, 1) both;
-  }
-
-  @keyframes lucky-item-reveal {
-    0% {
-      opacity: 0;
-    }
-
-    100% {
-      opacity: 1;
-    }
-  }
-
-  @keyframes lucky-card-reveal {
-    0% {
-      opacity: 0;
-      transform: translateY(-1.5rem) scale(0.24);
-      box-shadow:
-        0 0.25rem 0.5rem rgb(72 32 34 / 0.08),
-        0 0 0 rgb(251 113 133 / 0);
-    }
-
-    72% {
-      opacity: 1;
-      transform: translateY(0) scale(1.04);
-      box-shadow:
-        0 1.8rem 2.5rem rgb(72 32 34 / 0.18),
-        0 0 1.6rem rgb(251 113 133 / 0.16);
-    }
-
-    100% {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-      box-shadow:
-        0 1.5rem 2rem rgb(72 32 34 / 0.1),
-        0 0 1rem rgb(251 113 133 / 0.08);
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .lucky-reveal-card--revealed,
-    .lucky-reveal-image {
-      animation: none;
-    }
-  }
-</style>

@@ -18,7 +18,6 @@
   import { Palette } from '@vicons/fa'
   import { NIcon } from 'naive-ui'
   import type { SelectOption } from 'naive-ui'
-  import { h } from 'vue'
 
   type CatalogVariationFilter =
     | 'base'

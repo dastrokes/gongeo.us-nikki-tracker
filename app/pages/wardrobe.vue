@@ -725,7 +725,7 @@
                           :quality="entry.quality"
                           show-info
                           size="lg"
-                          class="share-outfit-card h-full max-w-full rounded-xl"
+                          class="h-full max-w-full rounded-xl [&_p]:text-xs [&_p]:leading-[1.05]"
                         />
                       </template>
                       <button
@@ -972,7 +972,7 @@
                         :quality="entry.quality"
                         show-info
                         size="lg"
-                        class="share-outfit-card h-full max-w-full rounded-xl"
+                        class="h-full max-w-full rounded-xl [&_p]:text-xs [&_p]:leading-[1.05]"
                       />
                     </template>
                     <button
@@ -2466,10 +2466,3 @@
     description: () => t('meta.description.wardrobe'),
   })
 </script>
-
-<style scoped>
-  :deep(.share-outfit-card p) {
-    font-size: 0.75rem;
-    line-height: 1.05;
-  }
-</style>

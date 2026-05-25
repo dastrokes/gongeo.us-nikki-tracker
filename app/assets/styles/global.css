@@ -100,6 +100,57 @@
   }
 }
 
+.lucky-reveal-image {
+  animation: lucky-item-reveal 420ms ease-out both;
+}
+
+.lucky-reveal-card--revealed {
+  animation: lucky-card-reveal 620ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes lucky-item-reveal {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes lucky-card-reveal {
+  0% {
+    opacity: 0;
+    transform: translateY(-1.5rem) scale(0.24);
+    box-shadow:
+      0 0.25rem 0.5rem rgb(72 32 34 / 0.08),
+      0 0 0 rgb(251 113 133 / 0);
+  }
+
+  72% {
+    opacity: 1;
+    transform: translateY(0) scale(1.04);
+    box-shadow:
+      0 1.8rem 2.5rem rgb(72 32 34 / 0.18),
+      0 0 1.6rem rgb(251 113 133 / 0.16);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    box-shadow:
+      0 1.5rem 2rem rgb(72 32 34 / 0.1),
+      0 0 1rem rgb(251 113 133 / 0.08);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lucky-reveal-card--revealed,
+  .lucky-reveal-image {
+    animation: none;
+  }
+}
+
 :root {
   --font-family-default:
     'Outfit', ui-sans-serif, system-ui, sans-serif, 'Noto Color Emoji',

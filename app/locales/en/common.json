@@ -281,6 +281,7 @@
     "progress_title": "Progress Overview",
     "by_quality": "By Quality",
     "by_slot": "By Slot",
+    "quality_label": "{quality}★",
     "show_more": "Show More",
     "show_less": "Show Less",
     "by_version": "By Version",
@@ -342,7 +343,8 @@
     },
     "status": {
       "owned": "Owned",
-      "missing": "Missing"
+      "missing": "Missing",
+      "progress": "{owned}/{total}"
     },
     "scope": {
       "selected": "Selected",

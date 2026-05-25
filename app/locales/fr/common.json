@@ -281,7 +281,6 @@
     "progress_title": "Aperçu de la progression",
     "by_quality": "Par qualité",
     "by_slot": "Par emplacement",
-    "quality_label": "{quality}★",
     "show_more": "Afficher plus",
     "show_less": "Afficher moins",
     "by_version": "Par version",
@@ -343,8 +342,7 @@
     },
     "status": {
       "owned": "Possédé",
-      "missing": "Manquant",
-      "progress": "{owned}/{total}"
+      "missing": "Manquant"
     },
     "scope": {
       "selected": "Sélection",

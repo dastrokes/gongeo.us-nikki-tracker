@@ -281,7 +281,6 @@
     "progress_title": "Fortschrittsübersicht",
     "by_quality": "Nach Qualität",
     "by_slot": "Nach Slot",
-    "quality_label": "{quality}★",
     "show_more": "Mehr anzeigen",
     "show_less": "Weniger anzeigen",
     "by_version": "Nach Version",
@@ -343,8 +342,7 @@
     },
     "status": {
       "owned": "Im Besitz",
-      "missing": "Fehlt",
-      "progress": "{owned}/{total}"
+      "missing": "Fehlt"
     },
     "scope": {
       "selected": "Ausgewählt",

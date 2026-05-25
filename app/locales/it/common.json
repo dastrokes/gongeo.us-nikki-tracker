@@ -119,10 +119,10 @@
     "stats": "Statistiche Personali"
   },
   "meta": {
-    "title": "Infinity Nikki Resonance Tracker & Styling Companion",
+    "title": "Tracker di risonanza e compagno di styling di Infinity Nikki",
     "game_title": "Infinity Nikki",
     "description": {
-      "default": "Infinity Nikki Resonance Tracker & Styling Companion for pull history, banner stats, wardrobe tracking, item search, and styling ideas.",
+      "default": "Tracker di risonanza e compagno di styling di Infinity Nikki per cronologia dei pull, statistiche banner, tracciamento guardaroba, ricerca oggetti e idee di styling.",
       "login": "Accedi a gongeo.us utilizzando la tua email o un account di terze parti per caricare, eseguire il backup e sincronizzare i dati di risonanza Infinity Nikki su tutti i dispositivi.",
       "tracker": "Tieni traccia e analizza la cronologia dei tiri di risonanza Infinity Nikki. Visualizza tutti gli elementi dei banner 5★ e 4★ e confronta la tua fortuna con quella degli altri stilisti.",
       "wardrobe": "Tieni traccia localmente di oggetti, outfit, makeup e Mantelli di Momo di Infinity Nikki, poi condividi i progressi della tua collezione.",
@@ -147,7 +147,7 @@
     }
   },
   "default": {
-    "description": "Infinity Nikki Resonance Tracker & Styling Companion",
+    "description": "Tracker di risonanza e compagno di styling di Infinity Nikki",
     "your_data": "I tuoi dati",
     "community_stats": "Statistiche della community",
     "view_all_stats": "Vedi tutte le statistiche",
@@ -933,7 +933,8 @@
     "mode_search_description": "Trova oggetti per dettaglio",
     "mode_random_description": "Pesca una sorpresa",
     "no_matches": "Nessuna corrispondenza",
-    "match_score": "{score}% di corrispondenza"
+    "match_score": "{score}% di corrispondenza",
+    "owned_empty_description": "Add items to your wardrobe before using Owned items in Whim Search or Whim-O-Matic."
   },
   "feedback": {
     "queue_title": "Revisione feedback",

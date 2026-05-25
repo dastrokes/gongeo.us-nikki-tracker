@@ -119,10 +119,10 @@
     "stats": "개인 통계"
   },
   "meta": {
-    "title": "니키 공명록 - 인피니티 니키 공명 기록과 통계",
+    "title": "Infinity Nikki Resonance Tracker & Styling Companion",
     "game_title": "인피니티 니키",
     "description": {
-      "default": "인피니티 니키 공명 배너를 추적하세요. 인피니티 니키 커뮤니티를 위한 팬 제작 추적 및 분석 도구입니다.",
+      "default": "Infinity Nikki Resonance Tracker & Styling Companion for pull history, banner stats, wardrobe tracking, item search, and styling ideas.",
       "login": "이메일이나 외부 계정으로 니키 공명록에 로그인하면 인피니티 니키 공명 데이터를 클라우드에 업로드하고, 여러 기기에서 동기화하고 백업할 수 있습니다.",
       "tracker": "인피니티 니키 공명 뽑기 기록을 추적하고 분석하세요. 5★ 및 4★ 배너 항목을 모두 확인하고 다른 스타일리스트와 운을 비교하세요.",
       "wardrobe": "인피니티 니키에서 보유한 아이템, 의상, 메이크업, 모모 망토를 로컬에 기록하고 컬렉션 진행도를 공유하세요.",
@@ -147,7 +147,7 @@
     }
   },
   "default": {
-    "description": "인피니티 니키 공명 역사 및 통계 추적",
+    "description": "Infinity Nikki Resonance Tracker & Styling Companion",
     "your_data": "당신의 데이터",
     "community_stats": "커뮤니티 통계",
     "view_all_stats": "모든 통계 보기",

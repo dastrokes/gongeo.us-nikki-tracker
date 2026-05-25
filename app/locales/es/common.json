@@ -33,8 +33,14 @@
     "retry": "Reintentar",
     "copy": "Copiar",
     "select": "Seleccionar",
+    "share_card": "Share Card",
+    "export_as_image": "Export as Image",
     "no_results_found": "No se encontraron resultados",
     "error": "Error",
+    "orientation": {
+      "landscape": "Landscape",
+      "portrait": "Portrait"
+    },
     "sort": {
       "newest_first": "Más reciente primero",
       "oldest_first": "Más antiguo primero"
@@ -78,12 +84,6 @@
       "enter": "Enter",
       "shift": "Mayús",
       "esc": "ESC"
-    },
-    "share_card": "Tarjeta para compartir",
-    "export_as_image": "Exportar como imagen",
-    "orientation": {
-      "landscape": "Horizontal",
-      "portrait": "Vertical"
     }
   },
   "navigation": {
@@ -96,6 +96,7 @@
       "community": "Comunidad"
     },
     "tracker": "Tracker de Resonancia",
+    "wardrobe": "My Wardrobe",
     "import": "Importar datos",
     "global": "Datos globales",
     "banner": "Historia del banner",
@@ -115,8 +116,7 @@
     "join_community": "Unirse a la comunidad",
     "support_website": "Apoyar el sitio",
     "nuan5pro": "Nuan5.Pro",
-    "stats": "Estadísticas Personales",
-    "wardrobe": "Mi guardarropa"
+    "stats": "Estadísticas Personales"
   },
   "meta": {
     "title": "Rastreador de resonancia Infinity Nikki: historial de extracción y estadísticas",
@@ -125,6 +125,7 @@
       "default": "Realice un seguimiento del historial y las estadísticas de extracción del banner de resonancia Infinity Nikki. Una herramienta de seguimiento y análisis creada por fans para la comunidad Infinity Nikki.",
       "login": "Inicie sesión en gongeo.us usando su correo electrónico o una cuenta de terceros para cargar, realizar copias de seguridad y sincronizar sus datos de resonancia Infinity Nikki en todos los dispositivos.",
       "tracker": "Realice un seguimiento y analice su historial de extracción de resonancia Infinity Nikki. Vea todos los artículos de banner de 5★ y 4★ y compare su suerte con la de otros estilistas.",
+      "wardrobe": "Track owned Infinity Nikki items, outfits, makeup, and Momo's Cloaks locally, then share your collection progress.",
       "import": "Importe fácilmente su historial de extracción de resonancia Infinity Nikki desde el juego, datos de Whim-Log o archivos de respaldo con guías detalladas paso a paso.",
       "global": "Explore los datos globales de resonancia de Infinity Nikki, incluida la popularidad de los banners, las tasas de extracción, las tasas de caída de artículos y las estadísticas de extracción de la comunidad.",
       "banner": "Explore el historial del banner de resonancia Infinity Nikki con eventos actuales, futuros y pasados, conjuntos destacados, tasas de atracción, duraciones y detalles de repetición.",
@@ -142,8 +143,7 @@
       "random": "Saca un artículo aleatorio de Infinity Nikki con Maravie-O-Matic. Añade pistas o filtros opcionales, descubre piezas sorpresa y abre sus detalles en el compendio.",
       "faq": "Encuentra respuestas a las preguntas más frecuentes sobre gongeo.us, incluyendo privacidad de datos, métodos de importación y pautas de uso.",
       "about": "Obtenga más información sobre gongeo.us, incluido su propósito, política de privacidad, exenciones de responsabilidad y cómo apoya a la comunidad Infinity Nikki.",
-      "stats": "Ve tus estadísticas personales de pulls de resonancia de Infinity Nikki, análisis de suerte, rachas y actividad de pulls.",
-      "wardrobe": "Registra localmente tus objetos, atuendos, maquillajes y capas de Momo de Infinity Nikki, y comparte el progreso de tu colección."
+      "stats": "Ve tus estadísticas personales de pulls de resonancia de Infinity Nikki, análisis de suerte, rachas y actividad de pulls."
     }
   },
   "default": {
@@ -175,8 +175,8 @@
         "sync_error": "No se pudieron sincronizar los datos.",
         "confirm_upload": {
           "content": "Esto cargará los datos locales del perfil {profile} al almacenamiento en la nube, sobrescribiendo cualquier dato en la nube existente para este perfil. ¿Continuar?",
-          "empty_resonance_warning": "Advertencia: este perfil local no tiene datos de resonancia. Al subirlo se borrarán los datos de resonancia guardados actualmente en la nube para este perfil.",
-          "empty_wardrobe_warning": "Advertencia: este perfil local no tiene datos de guardarropa. Al subirlo se borrarán los datos de guardarropa guardados actualmente en la nube para este perfil."
+          "empty_resonance_warning": "Warning: this local profile has no resonance data. Uploading will clear any resonance data currently stored in cloud for this profile.",
+          "empty_wardrobe_warning": "Warning: this local profile has no wardrobe data. Uploading will clear any wardrobe data currently stored in cloud for this profile."
         },
         "confirm_sync": {
           "content": "Esto sincronizará los datos locales del perfil {profile} con los datos de la nube fusionándolos. ¿Continuar?"
@@ -247,6 +247,128 @@
       "never": "Nunca"
     }
   },
+  "wardrobe": {
+    "storage_unavailable": "Wardrobe storage is unavailable.",
+    "summary_unavailable": "Wardrobe summary is unavailable.",
+    "storage_recovery": "Retry storage",
+    "empty_title": "No owned items yet",
+    "empty_description": "Mark items from the item compendium or import owned banner items from tracker data.",
+    "open_items": "Open Items",
+    "open_missing_items": "Missing items",
+    "open_missing_outfits": "Missing outfits",
+    "open_missing_makeups": "Missing makeup",
+    "open_missing_momo": "Missing Momo's Cloaks",
+    "manage_title": "Manage Wardrobe",
+    "f2p_basics": "Base Collection",
+    "resonance_collection": "Resonance Collection",
+    "complete": "Complete",
+    "f2p_basics_success": "Marked {count} base collection entries as owned.",
+    "export_file": "Export Data",
+    "collection_detail": "{owned} of {total}",
+    "import_success": "Imported {imported} of {found} tracker wardrobe entries.",
+    "import_empty": "No tracker wardrobe entries were available to import.",
+    "import_no_new": "Tracker data found {found} wardrobe entries, but they are already owned.",
+    "import_error": "Failed to import tracker wardrobe entries.",
+    "file_import_success": "Data imported successfully.",
+    "file_import_error": "Failed to import data file.",
+    "export": {
+      "in_progress": "Preparing data file...",
+      "success": "Data exported.",
+      "empty": "No tracker or wardrobe data to export.",
+      "error": "Failed to export data file."
+    },
+    "continue_title": "Continue Tracking",
+    "progress_title": "Progress Overview",
+    "by_quality": "By Quality",
+    "by_slot": "By Slot",
+    "quality_label": "{quality}★",
+    "show_more": "Show More",
+    "show_less": "Show Less",
+    "by_version": "By Version",
+    "version_label": "Version {version}",
+    "stats_scope": {
+      "base": "Base only",
+      "all": "All variations"
+    },
+    "share": {
+      "customize": "Customize",
+      "customize_title": "Customize Share Card",
+      "in_progress": "Preparing wardrobe card...",
+      "success": "Wardrobe card exported.",
+      "error": "Failed to export wardrobe card.",
+      "lookbook": "Favorite Outfits",
+      "empty_slot": "Pick an owned piece",
+      "search_placeholder": "Search owned wardrobe",
+      "no_candidates": "No owned entries match this slot.",
+      "match": "match",
+      "matches": "matches",
+      "options": {
+        "show_stats": "Show stats cards"
+      },
+      "entity": {
+        "banner": "{quality}★ Banner",
+        "outfit": "{quality}★ Outfit"
+      },
+      "slots": {
+        "banner_five_star": "Favorite 5★ Banner",
+        "banner_four_star": "Favorite 4★ Banner",
+        "outfit_five_star": "Favorite 5★ Outfit",
+        "outfit_four_star": "Favorite 4★ Outfit",
+        "outfit_three_star": "Favorite 3★ Outfit",
+        "dress": "Favorite Dress",
+        "hair": "Favorite Hair",
+        "item": "Favorite Item",
+        "momo": "Favorite Momo's Cloak"
+      },
+      "slot_descriptions": {
+        "banner_five_star": "Choose a 5★ banner for the banner area.",
+        "banner_four_star": "Choose a 4★ banner for the banner area.",
+        "outfit_five_star": "Choose an owned 5★ outfit for the favorite outfit row.",
+        "outfit_four_star": "Choose an owned 4★ outfit for the favorite outfit row.",
+        "outfit_three_star": "Choose an owned 3★ outfit for the favorite outfit row.",
+        "dress": "Choose an owned dress item.",
+        "hair": "Choose an owned hair item.",
+        "item": "Choose any owned item as the flexible highlight.",
+        "momo": "Choose a Momo's Cloak you own."
+      }
+    },
+    "filters": {
+      "partial": "Partial"
+    },
+    "actions": {
+      "edit_mode": "Edit Mode",
+      "view_mode": "View Mode",
+      "mark_owned": "Mark Owned",
+      "mark_unowned": "Mark Unowned"
+    },
+    "status": {
+      "owned": "Owned",
+      "missing": "Missing",
+      "progress": "{owned}/{total}"
+    },
+    "scope": {
+      "selected": "Selected",
+      "page": "Page",
+      "all": "All matching"
+    },
+    "batch": {},
+    "count": {
+      "selected": "{count} selected",
+      "page": "{count} on page",
+      "all": "{count} matching"
+    },
+    "confirm": {
+      "all_owned": "Mark all {count} matching items as owned?",
+      "f2p_basics": "Mark {count} F2P, permanently available wardrobe entries as owned for this profile?",
+      "tracker_import": "Import {imported} new wardrobe entries from tracker data? Found {found} total: {foundItems} items, {foundMakeups} makeup entries, and {foundMomo} Momo's Cloaks.",
+      "outfit_unowned": "Mark all {count} outfit items as unowned?"
+    },
+    "error": {
+      "mode_title": "Wardrobe mode unavailable",
+      "mode_description": "Could not load the matching catalog IDs needed for wardrobe filtering.",
+      "save": "Failed to update wardrobe."
+    }
+  },
   "login": {
     "sign_in": "Iniciar sesión",
     "sign_up": "Registrarse",
@@ -306,7 +428,7 @@
     "import_from_file": "Importar desde archivo",
     "import_from_pearpal": "Importar desde Whim-Log",
     "file_import": "Importación de archivos",
-    "file_import_desc": "Importe desde un archivo de datos de resonancia de nikki previamente exportado.",
+    "file_import_desc": "Import from a previously exported profile data file.",
     "select_file": "Seleccionar archivo",
     "select_region": "Seleccionar Región",
     "select_region_desc": "Seleccione la región de su servidor de juegos.",
@@ -712,10 +834,10 @@
         "error": "No se puede enviar mientras las entradas no se cargaron.",
         "over_limit": "Aplique más filtros antes de enviar.",
         "scope_unavailable": "El uso compartido en comunidad aún no está disponible para esta selección.",
+        "wardrobe_filtered": "Community submit is unavailable while ownership filters are active.",
         "filtered_items_only": "El envío a la comunidad no está disponible mientras los filtros avanzados estén activos.",
         "incomplete": "Clasifique todas las entradas cargadas antes de enviarlas.",
-        "no_changes": "No hay cambios desde su último envío.",
-        "wardrobe_filtered": "No se puede enviar a la comunidad mientras los filtros de posesión están activos."
+        "no_changes": "No hay cambios desde su último envío."
       }
     },
     "community_insights": {
@@ -748,6 +870,9 @@
     "filter_style": "Filtrar por estilo",
     "filter_label": "Filtrar por etiqueta",
     "filter_obtain": "Filtrar por fuente",
+    "variation_filter": {
+      "all_evos": "All Evos"
+    },
     "advanced_filters": "Filtros avanzados",
     "advanced_filters_empty": "No hay filtros avanzados disponibles para esta ranura.",
     "advanced_filter_placeholder": "Seleccionar {field}",
@@ -790,9 +915,6 @@
       "miracrown": "Maravicorona",
       "miracle": "Atuendos Milagrosos",
       "home": "Hogar"
-    },
-    "variation_filter": {
-      "all_evos": "Todas las evos"
     }
   },
   "search_page": {
@@ -803,6 +925,8 @@
     "clear_query": "Borrar búsqueda",
     "close_details": "Cerrar detalles",
     "filters_title": "Filtros de búsqueda",
+    "scope_all": "All items",
+    "scope_owned": "Owned items",
     "find_similar": "Buscar similares",
     "similar_prefix": "Similar",
     "error_description": "No se pudo consultar el índice de búsqueda.",
@@ -811,9 +935,7 @@
     "mode_search_description": "Buscar objetos por detalle",
     "mode_random_description": "Sacar una sorpresa",
     "no_matches": "Sin coincidencias",
-    "match_score": "{score}% de coincidencia",
-    "scope_all": "Todos los objetos",
-    "scope_owned": "Objetos propios"
+    "match_score": "{score}% de coincidencia"
   },
   "feedback": {
     "queue_title": "Revisión de comentarios",
@@ -942,128 +1064,6 @@
       "error": "Error al exportar la tarjeta.",
       "best_luck": "Mejor Suerte",
       "worst_luck": "Peor Suerte"
-    }
-  },
-  "wardrobe": {
-    "storage_unavailable": "El almacenamiento del guardarropa no está disponible.",
-    "summary_unavailable": "El resumen del guardarropa no está disponible.",
-    "storage_recovery": "Reintentar almacenamiento",
-    "empty_title": "Aún no hay objetos propios",
-    "empty_description": "Marca objetos desde el compendio de objetos o importa objetos de banner propios desde los datos del tracker.",
-    "open_items": "Abrir objetos",
-    "open_missing_items": "Objetos faltantes",
-    "open_missing_outfits": "Atuendos faltantes",
-    "open_missing_makeups": "maquillaje faltante",
-    "open_missing_momo": "Capas de Momo faltantes",
-    "manage_title": "Gestionar guardarropa",
-    "f2p_basics": "Colección base",
-    "resonance_collection": "Colección de resonancia",
-    "complete": "Completo",
-    "f2p_basics_success": "Se marcaron {count} entradas de la colección base como propias.",
-    "export_file": "Exportar datos",
-    "collection_detail": "{owned} de {total}",
-    "import_success": "{imported} de {found} entradas de guardarropa importadas.",
-    "import_empty": "No había entradas de guardarropa del tracker disponibles para importar.",
-    "import_no_new": "Los datos del tracker encontraron {found} entradas de guardarropa, pero ya están marcadas como propias.",
-    "import_error": "Error al importar entradas de guardarropa del tracker.",
-    "file_import_success": "Datos importados correctamente.",
-    "file_import_error": "Error al importar el archivo de datos.",
-    "export": {
-      "in_progress": "Preparando archivo de datos...",
-      "success": "Datos exportados.",
-      "empty": "No hay datos del tracker o guardarropa para exportar.",
-      "error": "Error al exportar el archivo de datos."
-    },
-    "continue_title": "Continuar seguimiento",
-    "progress_title": "Resumen de progreso",
-    "by_quality": "Por calidad",
-    "by_slot": "Por ranura",
-    "quality_label": "{quality}★",
-    "show_more": "Mostrar más",
-    "show_less": "Mostrar menos",
-    "by_version": "Por versión",
-    "version_label": "Versión {version}",
-    "stats_scope": {
-      "base": "Solo base",
-      "all": "Todas las variaciones"
-    },
-    "share": {
-      "customize": "Personalizar",
-      "customize_title": "Personalizar tarjeta para compartir",
-      "in_progress": "Preparando tarjeta del guardarropa...",
-      "success": "Tarjeta del guardarropa exportada.",
-      "error": "Error al exportar la tarjeta del guardarropa.",
-      "lookbook": "Atuendos favoritos",
-      "empty_slot": "Elige una pieza propia",
-      "search_placeholder": "Buscar en guardarropa propio",
-      "no_candidates": "No hay entradas propias que coincidan con esta ranura.",
-      "match": "coincidencia",
-      "matches": "coincidencias",
-      "options": {
-        "show_stats": "Mostrar tarjetas de estadísticas"
-      },
-      "entity": {
-        "banner": "Banner {quality}★",
-        "outfit": "Atuendo {quality}★"
-      },
-      "slots": {
-        "banner_five_star": "Banner 5★ favorito",
-        "banner_four_star": "Banner 4★ favorito",
-        "outfit_five_star": "Atuendo 5★ favorito",
-        "outfit_four_star": "Atuendo 4★ favorito",
-        "outfit_three_star": "Atuendo 3★ favorito",
-        "dress": "Vestido favorito",
-        "hair": "Cabello favorito",
-        "item": "Objeto favorito",
-        "momo": "Capa de Momo favorita"
-      },
-      "slot_descriptions": {
-        "banner_five_star": "Elige un banner 5★ para el área de banner.",
-        "banner_four_star": "Elige un banner 4★ para el área de banner.",
-        "outfit_five_star": "Elige un atuendo 5★ propio para la fila de atuendos favoritos.",
-        "outfit_four_star": "Elige un atuendo 4★ propio para la fila de atuendos favoritos.",
-        "outfit_three_star": "Elige un atuendo 3★ propio para la fila de atuendos favoritos.",
-        "dress": "Elige un objeto de vestido propio.",
-        "hair": "Elige un objeto de cabello propio.",
-        "item": "Elige cualquier objeto propio como destacado flexible.",
-        "momo": "Elige una Capa de Momo propia."
-      }
-    },
-    "filters": {
-      "partial": "Parcial"
-    },
-    "actions": {
-      "edit_mode": "Modo edición",
-      "view_mode": "Modo vista",
-      "mark_owned": "Marcar como propio",
-      "mark_unowned": "Marcar como no propio"
-    },
-    "status": {
-      "owned": "Propio",
-      "missing": "Faltante",
-      "progress": "{owned}/{total}"
-    },
-    "scope": {
-      "selected": "Seleccionados",
-      "page": "Página",
-      "all": "Todas las coincidencias"
-    },
-    "batch": {},
-    "count": {
-      "selected": "{count} seleccionados",
-      "page": "{count} en la página",
-      "all": "{count} coincidencias"
-    },
-    "confirm": {
-      "all_owned": "¿Marcar los {count} objetos coincidentes como propios?",
-      "f2p_basics": "¿Marcar {count} entradas de guardarropa F2P disponibles permanentemente como propias para este perfil?",
-      "tracker_import": "¿Importar {imported} entradas nuevas de guardarropa desde los datos del tracker? Se encontraron {found} en total: {foundItems} objetos, {foundMakeups} entradas de maquillaje y {foundMomo} capas de Momo.",
-      "outfit_unowned": "¿Marcar los {count} objetos del atuendo como no propios?"
-    },
-    "error": {
-      "mode_title": "Modo guardarropa no disponible",
-      "mode_description": "No se pudieron cargar los ID de catálogo necesarios para filtrar el guardarropa.",
-      "save": "Error al actualizar el guardarropa."
     }
   }
 }

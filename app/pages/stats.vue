@@ -602,7 +602,7 @@
       >
         <div class="mb-3 flex items-center justify-between">
           <div class="text-base font-semibold text-gray-500 dark:text-gray-400">
-            {{ $t('stats.share.title') }}
+            {{ $t('common.share_card') }}
           </div>
           <div class="flex items-center gap-2">
             <n-tooltip
@@ -615,8 +615,8 @@
                   text
                   :aria-label="
                     isShareLandscape
-                      ? $t('stats.share.landscape')
-                      : $t('stats.share.portrait')
+                      ? $t('common.orientation.landscape')
+                      : $t('common.orientation.portrait')
                   "
                   @click="toggleShareOrientation"
                 >
@@ -627,8 +627,8 @@
               </template>
               {{
                 isShareLandscape
-                  ? $t('stats.share.landscape')
-                  : $t('stats.share.portrait')
+                  ? $t('common.orientation.landscape')
+                  : $t('common.orientation.portrait')
               }}
             </n-tooltip>
             <n-tooltip trigger="hover">
@@ -643,7 +643,7 @@
                   </template>
                 </n-button>
               </template>
-              {{ $t('stats.share.export_image') }}
+              {{ $t('common.export_as_image') }}
             </n-tooltip>
           </div>
         </div>

@@ -335,7 +335,7 @@
                   type="primary"
                   @click="retryWardrobeMode"
                 >
-                  {{ t('wardrobe.actions.retry') }}
+                  {{ t('common.retry') }}
                 </n-button>
               </template>
             </n-result>
@@ -1205,10 +1205,10 @@
 
   const totalItems = computed(() => compendiumData.value?.total || 0)
   const wardrobeFilterOptions = computed<IconSelectOption[]>(() => [
-    { label: t('wardrobe.filters.all'), value: 'all', icon: DotCircle },
-    { label: t('wardrobe.filters.owned'), value: 'owned', icon: CheckCircle },
+    { label: t('common.all'), value: 'all', icon: DotCircle },
+    { label: t('wardrobe.status.owned'), value: 'owned', icon: CheckCircle },
     {
-      label: t('wardrobe.filters.missing'),
+      label: t('wardrobe.status.missing'),
       value: 'missing',
       icon: TimesCircle,
     },

@@ -1431,8 +1431,8 @@
   const isWardrobeFiltered = computed(() => wardrobeFilter.value !== 'all')
   const wardrobeFilterOptions = computed<IconSelectOption[]>(() => {
     const options: IconSelectOption[] = [
-      { label: t('wardrobe.filters.all'), value: 'all', icon: DotCircle },
-      { label: t('wardrobe.filters.owned'), value: 'owned', icon: CheckCircle },
+      { label: t('common.all'), value: 'all', icon: DotCircle },
+      { label: t('wardrobe.status.owned'), value: 'owned', icon: CheckCircle },
     ]
 
     if (mode.value === 'outfits') {
@@ -1444,7 +1444,7 @@
     }
 
     options.push({
-      label: t('wardrobe.filters.missing'),
+      label: t('wardrobe.status.missing'),
       value: 'missing',
       icon: TimesCircle,
     })

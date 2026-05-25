@@ -12,7 +12,7 @@
           <div class="flex flex-wrap items-center gap-2">
             <div class="flex min-w-0 flex-wrap items-center gap-2">
               <n-h1 class="m-0 text-2xl leading-tight font-bold sm:text-3xl">
-                {{ t('wardrobe.title') }}
+                {{ t('navigation.wardrobe') }}
               </n-h1>
               <n-tag
                 v-if="showProfileTag"
@@ -195,7 +195,7 @@
               <template #icon>
                 <n-icon size="16"><FileImport /></n-icon>
               </template>
-              {{ t('wardrobe.import_file') }}
+              {{ t('navigation.import') }}
             </n-button>
           </div>
         </div>
@@ -229,7 +229,7 @@
           size="small"
           @click="loadSummary"
         >
-          {{ t('wardrobe.actions.retry') }}
+          {{ t('common.retry') }}
         </n-button>
       </div>
     </n-alert>
@@ -524,7 +524,7 @@
       <template #header>
         <div class="flex items-center justify-between gap-3">
           <n-h2 class="m-0 text-base font-semibold">
-            {{ t('wardrobe.share.title') }}
+            {{ t('common.share_card') }}
           </n-h2>
           <div class="flex items-center gap-2">
             <n-button
@@ -544,8 +544,8 @@
                   text
                   :aria-label="
                     isShareLandscape
-                      ? t('wardrobe.share.landscape')
-                      : t('wardrobe.share.portrait')
+                      ? t('common.orientation.landscape')
+                      : t('common.orientation.portrait')
                   "
                   @click="toggleShareOrientation"
                 >
@@ -556,8 +556,8 @@
               </template>
               {{
                 isShareLandscape
-                  ? t('wardrobe.share.landscape')
-                  : t('wardrobe.share.portrait')
+                  ? t('common.orientation.landscape')
+                  : t('common.orientation.portrait')
               }}
             </n-tooltip>
             <n-tooltip trigger="hover">
@@ -572,7 +572,7 @@
                   </template>
                 </n-button>
               </template>
-              {{ t('wardrobe.share.export_image') }}
+              {{ t('common.export_as_image') }}
             </n-tooltip>
           </div>
         </div>
@@ -594,7 +594,7 @@
                   <div class="flex items-start justify-between gap-3">
                     <div class="min-w-0">
                       <div class="text-[1.35rem] leading-none font-black">
-                        {{ t('wardrobe.share.card_title') }}
+                        {{ t('navigation.wardrobe') }}
                       </div>
                       <div
                         v-if="showProfileTag"
@@ -812,7 +812,7 @@
               <div class="flex items-start justify-between gap-3">
                 <div class="min-w-0">
                   <div class="mt-0.5 text-2xl leading-none font-black">
-                    {{ t('wardrobe.share.card_title') }}
+                    {{ t('navigation.wardrobe') }}
                   </div>
                   <div
                     v-if="showProfileTag"
@@ -2464,7 +2464,7 @@
 
   useSeoMeta({
     title: () =>
-      `${t('wardrobe.title')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
+      `${t('navigation.wardrobe')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     description: () => t('meta.description.wardrobe'),
   })
 </script>

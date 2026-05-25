@@ -119,10 +119,10 @@
     "stats": "Statistiques Personnelles"
   },
   "meta": {
-    "title": "Infinity Nikki Resonance Tracker - Historique et statistiques d'extraction",
+    "title": "Infinity Nikki Resonance Tracker & Styling Companion",
     "game_title": "Infinity Nikki",
     "description": {
-      "default": "Suivez l'historique et les statistiques d'extraction de la bannière de résonance Infinity Nikki. Un outil de suivi et d'analyse créé par des fans pour la communauté Infinity Nikki.",
+      "default": "Infinity Nikki Resonance Tracker & Styling Companion for pull history, banner stats, wardrobe tracking, item search, and styling ideas.",
       "login": "Connectez-vous à gongeo.us à l'aide de votre adresse e-mail ou d'un compte tiers pour télécharger, sauvegarder et synchroniser vos données de résonance Infinity Nikki sur tous les appareils.",
       "tracker": "Suivez et analysez l’historique de votre traction par résonance Infinity Nikki. Consultez tous les articles des bannières 5★ et 4★ et comparez votre chance avec d'autres stylistes.",
       "wardrobe": "Suivez localement vos objets, tenues, maquillages et capes de Momo Infinity Nikki, puis partagez la progression de votre collection.",
@@ -147,7 +147,7 @@
     }
   },
   "default": {
-    "description": "Suivre l’historique et les statistiques de résonance du Infinity Nikki",
+    "description": "Infinity Nikki Resonance Tracker & Styling Companion",
     "your_data": "Vos données",
     "community_stats": "Statistiques de la communauté",
     "view_all_stats": "Voir toutes les statistiques",

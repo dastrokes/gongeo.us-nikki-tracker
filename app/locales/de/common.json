@@ -934,7 +934,7 @@
     "mode_random_description": "Überraschung ziehen",
     "no_matches": "Keine Treffer",
     "match_score": "{score}% Treffer",
-    "owned_empty_description": "Add items to your wardrobe before using Owned items in Whim Search or Whim-O-Matic."
+    "owned_empty_description": "Füge deiner Garderobe zuerst Items hinzu, bevor du Eigene Items in Wunder-Suche oder Wunder-O-Mat verwendest."
   },
   "feedback": {
     "queue_title": "Feedback-Prüfung",

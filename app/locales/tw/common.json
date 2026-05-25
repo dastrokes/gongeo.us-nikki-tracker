@@ -119,10 +119,10 @@
     "stats": "個人統計"
   },
   "meta": {
-    "title": "暖暖共鳴錄 - 無限暖暖共鳴歷史追蹤與抽卡資料分析",
+    "title": "Infinity Nikki Resonance Tracker & Styling Companion",
     "game_title": "無限暖暖",
     "description": {
-      "default": "追蹤無限暖暖的卡池歷史與抽卡資料，提供詳細的統計與分析。專為無限暖暖玩家社群打造的實用粉絲工具。",
+      "default": "Infinity Nikki Resonance Tracker & Styling Companion for pull history, banner stats, wardrobe tracking, item search, and styling ideas.",
       "login": "使用第三方賬號或電子郵件登入暖暖共鳴錄，將抽卡資料上傳雲端，在多裝置間同步和備份您的共鳴記錄。",
       "tracker": "追蹤並分析您的無限暖暖共鳴抽卡歷史，檢視所有卡池中的5★和4★部件記錄。與其他玩家比較您的抽卡運氣。",
       "wardrobe": "在本機記錄你已擁有的無限暖暖服飾、套裝、妝容和大喵斗篷，並分享收藏進度。",
@@ -147,7 +147,7 @@
     }
   },
   "default": {
-    "description": "記錄無限暖暖共鳴歷史和統計資料",
+    "description": "Infinity Nikki Resonance Tracker & Styling Companion",
     "your_data": "您的資料",
     "community_stats": "社群統計",
     "view_all_stats": "查看所有統計",

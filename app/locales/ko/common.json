@@ -119,10 +119,10 @@
     "stats": "개인 통계"
   },
   "meta": {
-    "title": "Infinity Nikki Resonance Tracker & Styling Companion",
+    "title": "니키 공명록 - 인피니티 니키 공명 기록 및 스타일링 도우미",
     "game_title": "인피니티 니키",
     "description": {
-      "default": "Infinity Nikki Resonance Tracker & Styling Companion for pull history, banner stats, wardrobe tracking, item search, and styling ideas.",
+      "default": "인피니티 니키 공명 기록 및 스타일링 도우미로 뽑기 기록, 배너 통계, 옷장 기록, 아이템 검색, 스타일링 아이디어를 확인하세요.",
       "login": "이메일이나 외부 계정으로 니키 공명록에 로그인하면 인피니티 니키 공명 데이터를 클라우드에 업로드하고, 여러 기기에서 동기화하고 백업할 수 있습니다.",
       "tracker": "인피니티 니키 공명 뽑기 기록을 추적하고 분석하세요. 5★ 및 4★ 배너 항목을 모두 확인하고 다른 스타일리스트와 운을 비교하세요.",
       "wardrobe": "인피니티 니키에서 보유한 아이템, 의상, 메이크업, 모모 망토를 로컬에 기록하고 컬렉션 진행도를 공유하세요.",
@@ -147,7 +147,7 @@
     }
   },
   "default": {
-    "description": "Infinity Nikki Resonance Tracker & Styling Companion",
+    "description": "인피니티 니키 공명 기록 및 스타일링 도우미",
     "your_data": "당신의 데이터",
     "community_stats": "커뮤니티 통계",
     "view_all_stats": "모든 통계 보기",
@@ -933,7 +933,8 @@
     "mode_search_description": "상세 내용으로 아이템 찾기",
     "mode_random_description": "깜짝 뽑기",
     "no_matches": "검색 결과 없음",
-    "match_score": "{score}% 일치"
+    "match_score": "{score}% 일치",
+    "owned_empty_description": "Add items to your wardrobe before using Owned items in Whim Search or Whim-O-Matic."
   },
   "feedback": {
     "queue_title": "피드백 심사",

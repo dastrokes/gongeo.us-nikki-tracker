@@ -933,7 +933,8 @@
     "mode_search_description": "Buscar objetos por detalle",
     "mode_random_description": "Sacar una sorpresa",
     "no_matches": "Sin coincidencias",
-    "match_score": "{score}% de coincidencia"
+    "match_score": "{score}% de coincidencia",
+    "owned_empty_description": "Añade objetos a tu guardarropa antes de usar Objetos propios en Búsqueda de caprichos o Maravie-O-Matic."
   },
   "feedback": {
     "queue_title": "Revisión de comentarios",

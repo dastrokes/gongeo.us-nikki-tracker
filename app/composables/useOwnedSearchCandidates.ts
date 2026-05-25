@@ -17,6 +17,7 @@ export const useOwnedSearchCandidates = () => {
   const catalogIndex = useCatalogIndex()
   const error = ref<Error | null>(null)
   const loading = ref(false)
+  const hasOwnedItems = computed(() => wardrobe.ownedItemIds.value.length > 0)
 
   const ensureWardrobeReady = async () => {
     if (!wardrobe.initialized.value) {
@@ -78,6 +79,7 @@ export const useOwnedSearchCandidates = () => {
   return {
     loading: readonly(loading),
     error: readonly(error),
+    hasOwnedItems: readonly(hasOwnedItems),
     mutationVersion: wardrobe.mutationVersion,
     ensureWardrobeReady,
     isOwned,

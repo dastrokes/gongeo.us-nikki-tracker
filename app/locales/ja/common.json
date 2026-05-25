@@ -933,7 +933,8 @@
     "mode_search_description": "詳細からアイテムを探す",
     "mode_random_description": "サプライズを引く",
     "no_matches": "該当なし",
-    "match_score": "一致度 {score}%"
+    "match_score": "一致度 {score}%",
+    "owned_empty_description": "奇想検索や奇想ガチャで所持アイテムを使う前に、ワードローブにアイテムを追加してください。"
   },
   "feedback": {
     "queue_title": "フィードバック審査",

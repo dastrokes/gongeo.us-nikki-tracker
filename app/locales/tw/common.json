@@ -934,7 +934,7 @@
     "mode_random_description": "抽一份驚喜",
     "no_matches": "沒有符合結果",
     "match_score": "匹配度 {score}%",
-    "owned_empty_description": "Add items to your wardrobe before using Owned items in Whim Search or Whim-O-Matic."
+    "owned_empty_description": "在奇想搜尋或奇想滾滾機中使用「已擁有部件」前，請先將部件加入衣櫥。"
   },
   "feedback": {
     "queue_title": "回饋審核",

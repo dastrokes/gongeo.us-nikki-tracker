@@ -304,14 +304,75 @@
       v-if="error"
       class="animate-fade-in w-full"
     >
-      <n-alert
-        type="error"
-        :title="t('common.error')"
-        :show-icon="true"
-        class="rounded-xl shadow-xs"
+      <n-card
+        size="small"
+        class="rounded-xl p-0 sm:flex sm:flex-1 sm:flex-col sm:p-2"
+        content-class="p-2 sm:p-4 sm:flex-1 sm:flex sm:flex-col"
       >
-        {{ error }}
-      </n-alert>
+        <div class="py-12 text-center">
+          <n-result
+            size="small"
+            status="error"
+            :title="t('common.error')"
+            :description="error"
+          >
+            <template #icon>
+              <NuxtImg
+                :src="getImageSrc('emote', 'think')"
+                :alt="t('common.error')"
+                class="mx-auto h-24 w-24 object-cover sm:h-32 sm:w-32"
+                preset="iconLg"
+                fit="cover"
+                sizes="160px sm:200px"
+              />
+            </template>
+          </n-result>
+        </div>
+      </n-card>
+    </div>
+
+    <!-- Owned Empty State -->
+    <div
+      v-if="showOwnedSearchEmpty"
+      class="animate-fade-in flex-1 transition-all duration-500"
+    >
+      <n-card
+        size="small"
+        class="rounded-xl p-0 sm:flex sm:flex-1 sm:flex-col sm:p-2"
+        content-class="p-2 sm:p-4 sm:flex-1 sm:flex sm:flex-col"
+      >
+        <div class="py-12 text-center">
+          <n-result
+            size="small"
+            status="info"
+            :title="t('wardrobe.empty_title')"
+            :description="t('search_page.owned_empty_description')"
+          >
+            <template #icon>
+              <NuxtImg
+                :src="getImageSrc('emote', 'think')"
+                :alt="t('wardrobe.empty_title')"
+                class="mx-auto h-24 w-24 object-cover sm:h-32 sm:w-32"
+                preset="iconLg"
+                fit="cover"
+                sizes="160px sm:200px"
+              />
+            </template>
+            <template #footer>
+              <n-button
+                type="primary"
+                round
+                @click="openWardrobe"
+              >
+                <template #icon>
+                  <n-icon><SvgIcon name="wardrobe" /></n-icon>
+                </template>
+                {{ t('navigation.wardrobe') }}
+              </n-button>
+            </template>
+          </n-result>
+        </div>
+      </n-card>
     </div>
 
     <!-- Main Content Area -->
@@ -320,6 +381,7 @@
         mode === 'search' &&
         hasSearched &&
         !error &&
+        !showOwnedSearchEmpty &&
         !(showLuckyModal && isDesktopDetails)
       "
       class="animate-fade-in flex-1 transition-all duration-500"
@@ -472,11 +534,14 @@
                 :description="t('search_page.no_matches')"
               >
                 <template #icon>
-                  <n-icon
-                    size="48"
-                    class="text-slate-300 dark:text-slate-600"
-                    ><Ghost
-                  /></n-icon>
+                  <NuxtImg
+                    :src="getImageSrc('emote', 'think')"
+                    :alt="t('common.no_results_found')"
+                    class="mx-auto h-24 w-24 object-cover sm:h-32 sm:w-32"
+                    preset="iconLg"
+                    fit="cover"
+                    sizes="160px sm:200px"
+                  />
                 </template>
               </n-result>
             </div>
@@ -1391,7 +1456,6 @@
   import {
     Search,
     Box,
-    Ghost,
     Times,
     Filter,
     Star,
@@ -1673,6 +1737,7 @@
     isLuckyAnimating.value = false
     luckyRevealPhase.value = 'idle'
     luckyResult.value = null
+    showOwnedSearchEmpty.value = false
   }
 
   onMounted(() => {
@@ -1719,6 +1784,7 @@
   const luckyRevealPhase = ref<LuckyRevealPhase>('idle')
   const luckyResult = ref<SearchHit | null>(null)
   const error = ref('')
+  const showOwnedSearchEmpty = ref(false)
   const showFeedbackModal = ref(false)
   const feedbackModalTarget = ref<FeedbackModalTarget | null>(null)
   const isOwnedSearchMode = computed(() => ownershipMode.value === 'owned')
@@ -2293,6 +2359,10 @@
     await navigateTo(item.compendiumPath)
   }
 
+  const openWardrobe = async () => {
+    await navigateTo(localePath('/wardrobe'))
+  }
+
   const resetSearchState = () => {
     cancelActiveSearch()
     similarSearchRunId += 1
@@ -2302,6 +2372,7 @@
     selectedId.value = null
     loading.value = false
     error.value = ''
+    showOwnedSearchEmpty.value = false
     hasSearched.value = false
     isMobileModalOpen.value = false
     showFeedbackModal.value = false
@@ -2379,6 +2450,9 @@
 
   const applyFilters = () => {
     commitFilterDrafts()
+    if (!isOwnedSearchMode.value) {
+      showOwnedSearchEmpty.value = false
+    }
     isFilterModalOpen.value = false
     lastCompletedSearchKey = null
     if (isRandomMode.value) {
@@ -2507,8 +2581,34 @@
     results.value = nextResults
     selectedId.value = null
     isMobileModalOpen.value = false
+    showOwnedSearchEmpty.value = false
     showFeedbackModal.value = false
     feedbackModalTarget.value = null
+  }
+
+  const showOwnedSearchEmptyState = () => {
+    applySearchResults([])
+    showOwnedSearchEmpty.value = true
+    hasSearched.value = true
+    showLuckyModal.value = false
+    isLuckyAnimating.value = false
+    luckyRevealPhase.value = 'idle'
+    loading.value = false
+    error.value = ''
+  }
+
+  const showOwnedSearchEmptyStateIfNeeded = async () => {
+    if (!isOwnedSearchMode.value) {
+      return false
+    }
+
+    await ownedSearchCandidates.ensureWardrobeReady()
+    if (ownedSearchCandidates.hasOwnedItems.value) {
+      return false
+    }
+
+    showOwnedSearchEmptyState()
+    return true
   }
 
   const getSearchLimit = () =>
@@ -2694,6 +2794,10 @@
       sourceFilter.value = null
       if (!isFilterModalOpen.value) {
         syncFilterDrafts()
+      }
+
+      if (await showOwnedSearchEmptyStateIfNeeded()) {
+        return
       }
 
       search = {
@@ -2892,6 +2996,10 @@
         return
       }
 
+      if (await showOwnedSearchEmptyStateIfNeeded()) {
+        return
+      }
+
       cancelActiveSearch()
       search = {
         key: searchKey,
@@ -2921,9 +3029,8 @@
       applySearchResults(scopedResults)
     } catch (caughtError) {
       if (
-        !search ||
-        search.controller.signal.aborted ||
-        activeSearch !== search
+        search &&
+        (search.controller.signal.aborted || activeSearch !== search)
       ) {
         return
       }
@@ -2950,6 +3057,11 @@
     try {
       const normalizedQuery = normalizeSearchQuery(searchQuery.value)
       await updateSearchRoute(normalizedQuery || null)
+
+      if (await showOwnedSearchEmptyStateIfNeeded()) {
+        return
+      }
+
       rollId = beginLuckyRoll()
 
       cancelActiveSearch()
@@ -2973,6 +3085,9 @@
         luckyRevealPhase.value = 'idle'
         selectedId.value = null
         isMobileModalOpen.value = false
+        if (await showOwnedSearchEmptyStateIfNeeded()) {
+          return
+        }
         error.value = t('search_page.no_matches')
         return
       }
@@ -3040,6 +3155,9 @@
       labelFilter.value = filters.label
       sourceFilter.value = filters.source
       ownershipMode.value = filters.ownershipMode
+      if (!isOwnedSearchMode.value) {
+        showOwnedSearchEmpty.value = false
+      }
       if (!isFilterModalOpen.value) {
         syncFilterDrafts()
       }

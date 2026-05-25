@@ -933,7 +933,8 @@
     "mode_search_description": "按细节查找物品",
     "mode_random_description": "抽一份惊喜",
     "no_matches": "没有匹配结果",
-    "match_score": "匹配度 {score}%"
+    "match_score": "匹配度 {score}%",
+    "owned_empty_description": "在奇想搜索或奇想滚滚机中使用“已拥有部件”前，请先将部件添加到衣橱。"
   },
   "feedback": {
     "queue_title": "反馈队列",

@@ -933,7 +933,8 @@
     "mode_search_description": "Find items by detail",
     "mode_random_description": "Pull a surprise",
     "no_matches": "No matches",
-    "match_score": "{score}% match"
+    "match_score": "{score}% match",
+    "owned_empty_description": "Add items to your wardrobe before using Owned items in Whim Search or Whim-O-Matic."
   },
   "feedback": {
     "queue_title": "Feedback Review",

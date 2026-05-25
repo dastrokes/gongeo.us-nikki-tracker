@@ -933,7 +933,8 @@
     "mode_search_description": "Trova oggetti per dettaglio",
     "mode_random_description": "Pesca una sorpresa",
     "no_matches": "Nessuna corrispondenza",
-    "match_score": "{score}% di corrispondenza"
+    "match_score": "{score}% di corrispondenza",
+    "owned_empty_description": "Aggiungi oggetti al tuo guardaroba prima di usare Oggetti posseduti in Ricerca dei capricci o Estromatic."
   },
   "feedback": {
     "queue_title": "Revisione feedback",

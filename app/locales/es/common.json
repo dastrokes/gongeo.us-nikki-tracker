@@ -281,7 +281,6 @@
     "progress_title": "Resumen de progreso",
     "by_quality": "Por calidad",
     "by_slot": "Por ranura",
-    "quality_label": "{quality}★",
     "show_more": "Mostrar más",
     "show_less": "Mostrar menos",
     "by_version": "Por versión",
@@ -343,8 +342,7 @@
     },
     "status": {
       "owned": "Propio",
-      "missing": "Faltante",
-      "progress": "{owned}/{total}"
+      "missing": "Faltante"
     },
     "scope": {
       "selected": "Seleccionados",

@@ -281,7 +281,6 @@
     "progress_title": "進捗概要",
     "by_quality": "品質別",
     "by_slot": "スロット別",
-    "quality_label": "{quality}★",
     "show_more": "もっと表示",
     "show_less": "少なく表示",
     "by_version": "バージョン別",
@@ -343,8 +342,7 @@
     },
     "status": {
       "owned": "所持済み",
-      "missing": "未所持",
-      "progress": "{owned}/{total}"
+      "missing": "未所持"
     },
     "scope": {
       "selected": "選択中",

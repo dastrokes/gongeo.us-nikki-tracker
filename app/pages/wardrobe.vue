@@ -263,7 +263,7 @@
               class="block min-h-10 rounded-lg px-2 py-1.5 transition hover:bg-gray-50 dark:hover:bg-gray-900"
             >
               <WardrobeProgressRow
-                :label="t('wardrobe.quality_label', { quality: row.quality })"
+                :label="`${row.quality}★`"
                 :owned="row.owned"
                 :total="row.total"
                 :percent="row.completionPercent"
@@ -2020,7 +2020,7 @@
         owned: formatCount(summary.value?.outfits.owned),
         total: formatCount(summary.value?.outfits.total),
       }),
-      to: { path: '/outfits', query: getWardrobeStatsQuery({}) },
+      to: { path: '/outfits', query: getWardrobeOwnedQuery({}) },
     },
     {
       key: 'items',
@@ -2031,7 +2031,7 @@
         owned: formatCount(summary.value?.items.owned),
         total: formatCount(summary.value?.items.total),
       }),
-      to: { path: '/items', query: getWardrobeStatsQuery({}) },
+      to: { path: '/items', query: getWardrobeOwnedQuery({}) },
     },
     {
       key: 'makeups',
@@ -2042,7 +2042,7 @@
         owned: formatCount(summary.value?.makeups.owned),
         total: formatCount(summary.value?.makeups.total),
       }),
-      to: { path: '/makeups', query: getWardrobeStatsQuery({}) },
+      to: { path: '/makeups', query: getWardrobeOwnedQuery({}) },
     },
     {
       key: 'momo',
@@ -2053,7 +2053,7 @@
         owned: formatCount(summary.value?.momo.owned),
         total: formatCount(summary.value?.momo.total),
       }),
-      to: { path: '/momo', query: getWardrobeStatsQuery({}, false) },
+      to: { path: '/momo', query: getWardrobeOwnedQuery({}, false) },
     },
   ])
 

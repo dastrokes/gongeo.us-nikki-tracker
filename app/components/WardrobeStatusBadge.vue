@@ -83,14 +83,8 @@
       return t('wardrobe.status.owned')
     }
     if (props.status === 'partial') {
-      return t('wardrobe.status.progress', {
-        owned: props.owned,
-        total: props.total,
-      })
+      return `${props.owned}/${props.total}`
     }
-    return t('wardrobe.status.progress', {
-      owned: props.owned,
-      total: props.total,
-    })
+    return `${props.owned}/${props.total}`
   })
 </script>

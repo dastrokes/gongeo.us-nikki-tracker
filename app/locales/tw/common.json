@@ -251,10 +251,10 @@
     "storage_unavailable": "衣櫥儲存不可用。",
     "summary_unavailable": "衣櫥摘要不可用。",
     "storage_recovery": "重試儲存",
-    "empty_title": "還沒有已擁有物品",
-    "empty_description": "可以在物品圖鑑中標記已擁有物品，也可以從抽卡记录匯入已獲得的卡池物品。",
+    "empty_title": "還沒有已擁有部件",
+    "empty_description": "可以在物品圖鑑中標記已擁有部件，也可以從抽卡记录匯入已獲得的卡池部件。",
     "open_items": "開啟物品",
-    "open_missing_items": "缺少的物品",
+    "open_missing_items": "缺少的部件",
     "open_missing_outfits": "缺少的套裝",
     "open_missing_makeups": "缺少的妝容",
     "open_missing_momo": "缺少的大喵斗篷",
@@ -281,7 +281,6 @@
     "progress_title": "進度概覽",
     "by_quality": "按品質",
     "by_slot": "按部位",
-    "quality_label": "{quality}★",
     "show_more": "顯示更多",
     "show_less": "顯示較少",
     "by_version": "按版本",
@@ -317,7 +316,7 @@
         "outfit_three_star": "最喜歡的3★ 套装",
         "dress": "最喜歡的連衣裙",
         "hair": "最喜歡的髮型",
-        "item": "最喜歡的物品",
+        "item": "最喜歡的部件",
         "momo": "最喜歡的大喵斗篷"
       },
       "slot_descriptions": {
@@ -326,9 +325,9 @@
         "outfit_five_star": "為喜愛套裝列選擇一個已擁有的 5★ 套裝。",
         "outfit_four_star": "為喜愛套裝列選擇一個已擁有的 4★ 套裝。",
         "outfit_three_star": "為喜愛套裝列選擇一個已擁有的 3★ 套裝。",
-        "dress": "選擇一個已擁有的連衣裙物品。",
-        "hair": "選擇一個已擁有的髮型物品。",
-        "item": "選擇任意已擁有物品作為自由展示位。",
+        "dress": "選擇一個已擁有的連衣裙部件。",
+        "hair": "選擇一個已擁有的髮型部件。",
+        "item": "選擇任意已擁有部件作為自由展示位。",
         "momo": "選擇一個已擁有的大喵斗篷。"
       }
     },
@@ -343,8 +342,7 @@
     },
     "status": {
       "owned": "已擁有",
-      "missing": "缺少",
-      "progress": "{owned}/{total}"
+      "missing": "缺少"
     },
     "scope": {
       "selected": "已選擇",
@@ -358,10 +356,10 @@
       "all": "共 {count} 個符合結果"
     },
     "confirm": {
-      "all_owned": "將所有 {count} 個符合物品標記為擁有？",
-      "f2p_basics": "將此檔案中的 {count} 個 F2P 常駐衣櫥項目標記為擁有？",
-      "tracker_import": "要從抽卡记录匯入 {imported} 個新的衣櫥項目嗎？共找到 {found} 個：{foundItems} 個物品、{foundMakeups} 個妝容項目和 {foundMomo} 個大喵斗篷。",
-      "outfit_unowned": "將所有 {count} 個套裝物品標記為未擁有？"
+      "all_owned": "將所有 {count} 個符合部件標記為擁有？",
+      "f2p_basics": "將此檔案中的 {count} 個免費常駐衣櫥項目標記為擁有？",
+      "tracker_import": "要從抽卡记录匯入 {imported} 個新的衣櫥項目嗎？共找到 {found} 個：{foundItems} 個部件、{foundMakeups} 個妝容和 {foundMomo} 個大喵斗篷。",
+      "outfit_unowned": "將所有 {count} 個套裝部件標記為未擁有？"
     },
     "error": {
       "mode_title": "衣櫥模式不可用",
@@ -925,8 +923,8 @@
     "clear_query": "清除搜尋",
     "close_details": "關閉詳情",
     "filters_title": "搜尋篩選",
-    "scope_all": "全部物品",
-    "scope_owned": "已擁有物品",
+    "scope_all": "全部部件",
+    "scope_owned": "已擁有部件",
     "find_similar": "查找相似",
     "similar_prefix": "相似",
     "error_description": "搜尋索引查詢失敗。",

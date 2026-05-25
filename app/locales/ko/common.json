@@ -281,7 +281,6 @@
     "progress_title": "진행도 개요",
     "by_quality": "품질별",
     "by_slot": "슬롯별",
-    "quality_label": "{quality}★",
     "show_more": "더 보기",
     "show_less": "간단히 보기",
     "by_version": "버전별",
@@ -343,8 +342,7 @@
     },
     "status": {
       "owned": "보유",
-      "missing": "미보유",
-      "progress": "{owned}/{total}"
+      "missing": "미보유"
     },
     "scope": {
       "selected": "선택됨",

@@ -934,7 +934,7 @@
     "mode_random_description": "Tirer une surprise",
     "no_matches": "Aucun résultat",
     "match_score": "{score}% de correspondance",
-    "owned_empty_description": "Add items to your wardrobe before using Owned items in Whim Search or Whim-O-Matic."
+    "owned_empty_description": "Ajoutez des objets à votre garde-robe avant d'utiliser les objets possédés dans Recherche de chimères ou Chic-o-matic."
   },
   "feedback": {
     "queue_title": "Révision des commentaires",

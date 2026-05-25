@@ -119,10 +119,10 @@
     "stats": "Estadísticas Personales"
   },
   "meta": {
-    "title": "Infinity Nikki Resonance Tracker & Styling Companion",
+    "title": "Rastreador de resonancia y compañero de estilismo de Infinity Nikki",
     "game_title": "Infinity Nikki",
     "description": {
-      "default": "Infinity Nikki Resonance Tracker & Styling Companion for pull history, banner stats, wardrobe tracking, item search, and styling ideas.",
+      "default": "Rastreador de resonancia y compañero de estilismo de Infinity Nikki para historial de tiradas, estadísticas de banners, seguimiento de guardarropa, búsqueda de objetos e ideas de estilismo.",
       "login": "Inicie sesión en gongeo.us usando su correo electrónico o una cuenta de terceros para cargar, realizar copias de seguridad y sincronizar sus datos de resonancia Infinity Nikki en todos los dispositivos.",
       "tracker": "Realice un seguimiento y analice su historial de extracción de resonancia Infinity Nikki. Vea todos los artículos de banner de 5★ y 4★ y compare su suerte con la de otros estilistas.",
       "wardrobe": "Registra localmente tus objetos, atuendos, maquillajes y capas de Momo de Infinity Nikki, y comparte el progreso de tu colección.",
@@ -147,7 +147,7 @@
     }
   },
   "default": {
-    "description": "Infinity Nikki Resonance Tracker & Styling Companion",
+    "description": "Rastreador de resonancia y compañero de estilismo de Infinity Nikki",
     "your_data": "Tus datos",
     "community_stats": "Estadísticas de la comunidad",
     "view_all_stats": "Ver todas las estadísticas",
@@ -933,7 +933,8 @@
     "mode_search_description": "Buscar objetos por detalle",
     "mode_random_description": "Sacar una sorpresa",
     "no_matches": "Sin coincidencias",
-    "match_score": "{score}% de coincidencia"
+    "match_score": "{score}% de coincidencia",
+    "owned_empty_description": "Add items to your wardrobe before using Owned items in Whim Search or Whim-O-Matic."
   },
   "feedback": {
     "queue_title": "Revisión de comentarios",

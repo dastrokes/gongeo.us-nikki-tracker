@@ -934,7 +934,7 @@
     "mode_random_description": "Pesca una sorpresa",
     "no_matches": "Nessuna corrispondenza",
     "match_score": "{score}% di corrispondenza",
-    "owned_empty_description": "Add items to your wardrobe before using Owned items in Whim Search or Whim-O-Matic."
+    "owned_empty_description": "Aggiungi oggetti al tuo guardaroba prima di usare Oggetti posseduti in Ricerca dei capricci o Estromatic."
   },
   "feedback": {
     "queue_title": "Revisione feedback",

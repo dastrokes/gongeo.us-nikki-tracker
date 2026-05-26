@@ -42,7 +42,7 @@
 
     <div
       v-if="showInfo"
-      class="absolute right-0 bottom-0 left-0 z-20 bg-linear-to-t from-black/90 to-transparent"
+      class="absolute right-0 bottom-0 left-0 z-20 bg-[url('/images/fade.png')] [background-size:100%_100%] bg-no-repeat"
       :class="metaPaddingClass"
     >
       <p class="line-clamp-2 text-xs font-semibold text-white sm:text-sm">

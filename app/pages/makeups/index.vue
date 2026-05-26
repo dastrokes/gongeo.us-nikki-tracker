@@ -812,9 +812,10 @@
         styleFilter.value ?? 'all'
       }-${versionFilter.value ?? 'all'}-${obtainFilter.value ?? 'all'}-${
         makeupKindFilter.value
-      }-${variationFilter.value}-${wardrobeFilter.value}-${activeRegionScope.value}-${
+      }-${variationFilter.value}-${wardrobeFilter.value}-${activeRegionScope.value}-${getListingWardrobeCacheKey(
+        wardrobeFilter.value,
         wardrobeMutationVersion.value
-      }-${currentPage.value}-${pageSize}`
+      )}-${currentPage.value}-${pageSize}`
   )
   const {
     data: compendiumData,

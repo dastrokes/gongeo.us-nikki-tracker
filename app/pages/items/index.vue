@@ -1122,9 +1122,10 @@
         obtainFilter.value ?? 'all'
       }-${pieceFilter.value}-${variationFilter.value}-${
         wardrobeFilter.value
-      }-${activeRegionScope.value}-${wardrobeMutationVersion.value}-${
-        currentPage.value
-      }-${pageSize}`
+      }-${activeRegionScope.value}-${getListingWardrobeCacheKey(
+        wardrobeFilter.value,
+        wardrobeMutationVersion.value
+      )}-${currentPage.value}-${pageSize}`
   )
   const buildItemFetchFilters = () => ({
     quality: qualityFilter.value,

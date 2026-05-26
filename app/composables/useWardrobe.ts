@@ -63,10 +63,13 @@ export const useWardrobe = () => {
       const nextData = await loadWardrobe(slot)
       if (runId !== wardrobeInitRunId) return
 
+      const wasInitialized = initialized.value
       data.value = nextData
       activeSlotLoaded.value = slot
       initialized.value = true
-      mutationVersion.value += 1
+      if (wasInitialized) {
+        mutationVersion.value += 1
+      }
     } catch (caughtError) {
       if (runId !== wardrobeInitRunId) return
 

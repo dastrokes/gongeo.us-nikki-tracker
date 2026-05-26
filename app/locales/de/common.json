@@ -38,8 +38,8 @@
     "no_results_found": "Keine Treffer gefunden",
     "error": "Fehler",
     "orientation": {
-      "landscape": "Querformat",
-      "portrait": "Hochformat"
+      "landscape": "Landschaft",
+      "portrait": "Porträt"
     },
     "sort": {
       "newest_first": "Neueste zuerst",
@@ -56,9 +56,9 @@
     },
     "stats": {
       "total_pulls": "Resonanzen insges.",
-      "avg_5star": "5★ durchschn. (5★ Banner)",
-      "avg_4star_mixed": "4★ durchschn. (5★ Banner)",
-      "avg_4star_only": "4★ durchschn. (4★ Banner)",
+      "avg_5star": "5★ durchschn. (5★-Banner)",
+      "avg_4star_mixed": "4★ durchschn. (5★-Banner)",
+      "avg_4star_only": "4★ durchschn. (4★-Banner)",
       "total_votes": "Stimmen insgesamt",
       "personal_votes": "Persönliche Stimmen",
       "total_voters": "Wähler insgesamt",
@@ -122,10 +122,10 @@
     "title": "Infinity Nikki Resonanz-Tracker & Styling-Begleiter",
     "game_title": "Infinity Nikki",
     "description": {
-      "default": "Infinity Nikki Resonanz-Tracker & Styling-Begleiter für Pull-Verlauf, Banner-Statistiken, Garderoben-Tracking, Item-Suche und Styling-Ideen.",
+      "default": "Infinity Nikki Resonanz-Tracker & Styling-Begleiter für Pull-Verlauf, Banner-Statistiken, Garderoben-Tracking, Stück-Suche und Styling-Ideen.",
       "login": "Melde dich bei gongeo.us mit E-Mail oder einem Drittanbieter-Konto an, um deine Infinity Nikki Resonanz-Daten über mehrere Geräte hochzuladen, zu sichern und zu synchronisieren.",
-      "tracker": "Verfolge und analysiere deinen Infinity Nikki Resonanz-Verlauf. Schau dir alle 5★ und 4★ Banner Stücke an. Vergleiche dein Glück mit dem anderer Stylisten.",
-      "wardrobe": "Verfolge lokal deine eigenen Infinity Nikki-Items, Outfits, Make-ups und Momos Mäntel und teile anschließend deinen Sammlungsfortschritt.",
+      "tracker": "Verfolge und analysiere deinen Infinity Nikki Resonanz-Verlauf. Schau dir alle 5★- und 4★-Banner Stücke an. Vergleiche dein Glück mit dem anderer Stylisten.",
+      "wardrobe": "Verfolge deine besessenen Infinity Nikki-Stücke, Outfits, Make-ups und Momos Umhänge, und teile anschließend deinen Sammlungsfortschritt.",
       "import": "Importiere deinen Infinity Nikki Resonanz-Verlauf ganz leicht aus dem Spiel, Wunder-Log oder Backup-Dateien, mit detaillierten Schritt-für-Schritt-Anleitungen.",
       "global": "Erkunde die globalen Infinity Nikki Resonanz-Daten, einschließlich Bannerbeliebtheit, Resonanz-Raten, Stück-Dropraten und Community Resonanz-Statistiken.",
       "banner": "Erkunde Infinity Nikki Resonanzbanner-Verlauf mit aktuellen, kommenden und vergangenen Events, vorgestellten Outfits, Resonanzraten, Dauer und Wiederholungs-Details.",
@@ -251,13 +251,13 @@
     "storage_unavailable": "Garderobenspeicher ist nicht verfügbar.",
     "summary_unavailable": "Garderobenzusammenfassung ist nicht verfügbar.",
     "storage_recovery": "Speicher erneut versuchen",
-    "empty_title": "Noch keine eigenen Items",
-    "empty_description": "Markiere Items im Item-Kompendium oder importiere eigene Banner-Items aus Tracker-Daten.",
-    "open_items": "Items öffnen",
-    "open_missing_items": "Fehlende Items",
+    "empty_title": "Noch keine Stücke im Besitz",
+    "empty_description": "Markiere Stücke im Stück-Kompendium oder importiere besessene Banner-Stücke aus Tracker-Daten.",
+    "open_items": "Stücke öffnen",
+    "open_missing_items": "Fehlende Stücke",
     "open_missing_outfits": "Fehlende Outfits",
     "open_missing_makeups": "Fehlendes Make-up",
-    "open_missing_momo": "Fehlende Momos Mäntel",
+    "open_missing_momo": "Fehlende Momos Umhänge",
     "manage_title": "Garderobe verwalten",
     "f2p_basics": "Basissammlung",
     "resonance_collection": "Resonanzsammlung",
@@ -296,8 +296,8 @@
       "success": "Garderobenkarte exportiert.",
       "error": "Garderobenkarte konnte nicht exportiert werden.",
       "lookbook": "Lieblingsoutfits",
-      "empty_slot": "Wähle ein eigenes Teil",
-      "search_placeholder": "Eigene Garderobe durchsuchen",
+      "empty_slot": "Wähle ein besessenes Stück",
+      "search_placeholder": "Besessene Garderobe durchsuchen",
       "no_candidates": "Keine eigenen Einträge passen zu diesem Slot.",
       "match": "Treffer",
       "matches": "Treffer",
@@ -305,8 +305,8 @@
         "show_stats": "Statistikkarten anzeigen"
       },
       "entity": {
-        "banner": "{quality}★ Banner",
-        "outfit": "{quality}★ Outfit"
+        "banner": "{quality}★-Banner",
+        "outfit": "{quality}★-Outfit"
       },
       "slots": {
         "banner_five_star": "Lieblings-5★-Banner",
@@ -580,7 +580,7 @@
         "item_display": "Stück-Anzeige",
         "combined": "Kombiniert",
         "separated": "Getrennt",
-        "show_4star": "4★ (5★ Banner)",
+        "show_4star": "4★ (5★-Banner)",
         "show_missing": "Fehlende Stücke",
         "duplicate_items": "Doppelte Stücke",
         "empty_banners": "Leere Banner"
@@ -662,13 +662,13 @@
     },
     "charts": {
       "pulls_per_banner": "Resonanzen pro Banner",
-      "five_star_distribution": "5★ Resonanz-Verteilung",
-      "four_star_type2_distribution": "4★ Verteilung (5★ Banner)",
-      "four_star_type3_distribution": "4★ Verteilung (4★ Banner)",
+      "five_star_distribution": "5★-Resonanzen-Verteilung",
+      "four_star_type2_distribution": "4★-Verteilung (5★-Banner)",
+      "four_star_type3_distribution": "4★-Verteilung (4★-Banner)",
       "first_item_distribution": "Verteilung des ersten Stückes",
       "all_banners": "Alle Banner",
-      "five_star_banners": "5★ Banner",
-      "four_star_banners": "4★ Banner",
+      "five_star_banners": "5★-Banner",
+      "four_star_banners": "4★-Banner",
       "recent_only": "Neueste",
       "all_time": "Gesamt",
       "first_item_distribution_tooltip": "Dieses Banner enthält Resonanzen älter als 180 Tage, welche nicht mehr im Spiel verfügbar sind. Daher können die Daten der Erst-Stück-Verteilung ungenau sein."
@@ -702,7 +702,7 @@
       },
       "server_data": {
         "question": "Welche Daten werden an den Server gesendet?",
-        "answer": "Es werden nur deine Resonanz-Statistiken zur Berechnung der globalen Statistiken gesendet, wenn du dich dafür entscheidest. Das beinhaltet eine gehashte Version deiner UID und die Informationen über deine resonierten 4★ und 5★ Stücke."
+        "answer": "Es werden nur deine Resonanz-Statistiken zur Berechnung der globalen Statistiken gesendet, wenn du dich dafür entscheidest. Das beinhaltet eine gehashte Version deiner UID und die Informationen über deine resonierten 4★- und 5★-Stücke."
       },
       "platform_support": {
         "question": "Funktioniert es auch, wenn ich auf dem Handy oder der PS5 spiele?",
@@ -832,7 +832,7 @@
         "error": "Kann nicht übermittelt werden, wenn Einträge nicht geladen wurden.",
         "over_limit": "Wende vor dem Übermitteln mehr Filter an.",
         "scope_unavailable": "Community-Freigabe ist für diese Auswahl noch nicht verfügbar.",
-        "wardrobe_filtered": "Community-Einreichungen sind nicht verfügbar, solange Besitzfilter aktiv sind.",
+        "wardrobe_filtered": "Community-Übermittlung ist nicht verfügbar, solange Besitzfilter aktiv sind.",
         "filtered_items_only": "Community-Übermittlung ist nicht verfügbar, während erweiterte Filter aktiv sind.",
         "incomplete": "Rangiere alle geladenen Einträge vor der Übermittlung.",
         "no_changes": "Keine Änderungen seit deiner letzten Übermittlung."
@@ -1052,7 +1052,7 @@
     "charts": {
       "luck_per_banner": "5★ Glück pro Banner",
       "luck_per_banner_type3": "4★ Glück pro Banner",
-      "five_star_distribution": "5★ Resonanz--Verteilung",
+      "five_star_distribution": "5★-Resonanz--Verteilung",
       "pull_timeline": "Resonanz-Aktivität",
       "cumulative_pulls": "Kumulativ",
       "frequency": "Häufigkeit"

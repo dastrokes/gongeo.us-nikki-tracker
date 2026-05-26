@@ -15,6 +15,11 @@ export const isListingInitialLoading = ({
   status: ListingAsyncStatus | string
 }) => !error && entryCount === 0 && (status === 'idle' || pending)
 
+export const getListingWardrobeCacheKey = (
+  ownershipMode: string,
+  mutationVersion: number
+) => (ownershipMode === 'all' ? 'all' : mutationVersion)
+
 export const getListingImageLoading = (
   index: number,
   eagerCount = LISTING_CRITICAL_IMAGE_COUNT

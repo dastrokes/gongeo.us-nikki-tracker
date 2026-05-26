@@ -608,7 +608,10 @@
         versionFilter.value ?? 'all'
       }-${obtainFilter.value ?? 'all'}-${wardrobeFilter.value}-${
         activeRegionScope.value
-      }-${wardrobeMutationVersion.value}-${currentPage.value}-${pageSize}`
+      }-${getListingWardrobeCacheKey(
+        wardrobeFilter.value,
+        wardrobeMutationVersion.value
+      )}-${currentPage.value}-${pageSize}`
   )
   const {
     data,

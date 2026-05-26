@@ -745,9 +745,10 @@
         labelFilter.value ?? 'all'
       }-${versionFilter.value ?? 'all'}-${obtainFilter.value ?? 'all'}-${
         variationFilter.value
-      }-${wardrobeFilter.value}-${activeRegionScope.value}-${
+      }-${wardrobeFilter.value}-${activeRegionScope.value}-${getListingWardrobeCacheKey(
+        wardrobeFilter.value,
         wardrobeMutationVersion.value
-      }-${currentPage.value}-${pageSize}`
+      )}-${currentPage.value}-${pageSize}`
   )
   const buildOutfitFetchFilters = () => ({
     quality: qualityFilter.value,

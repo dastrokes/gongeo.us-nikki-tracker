@@ -35,6 +35,16 @@
 
             <CatalogVariationToggle v-model:value="variationFilter" />
 
+            <n-select
+              v-model:value="pieceFilter"
+              :options="pieceFilterOptions"
+              :render-label="renderIconSelectOptionLabel"
+              size="small"
+              class="w-full max-w-40 self-start sm:w-40"
+              :show-checkmark="false"
+              :clearable="false"
+            />
+
             <div class="hidden min-w-0 overflow-x-auto sm:block">
               <n-button-group class="min-w-max">
                 <n-button
@@ -681,6 +691,7 @@
   type BuildListingQueryOptions = {
     includeType?: boolean
     includeScopedFilters?: boolean
+    includePiece?: boolean
     includePage?: boolean
     primaryFilter?: ItemListingPrimaryFilter
   }
@@ -882,10 +893,20 @@
   const variationFilter = ref<CatalogVariationFilter>(
     resolveVariationFilter(route.query.variations?.toString() ?? null)
   )
+  const pieceFilter = ref(
+    resolveCatalogItemPieceFilter(route.query.piece?.toString() ?? null)
+  )
 
   const activeTypeLabel = computed(() =>
     typeFilter.value ? t(`type.${typeFilter.value}`) : null
   )
+  const getPieceFilterLabel = (piece?: string | null) => {
+    if (piece === 'outfit') return t('compendium.item_piece_filter.outfit')
+    if (piece === 'individual') {
+      return t('compendium.item_piece_filter.individual')
+    }
+    return null
+  }
   const getVersionFilterLabel = (version?: string | null) => {
     if (!version) return null
     const key = `version.${version}`
@@ -915,6 +936,7 @@
   const activeListFilterLabel = computed(
     () =>
       activeTypeLabel.value ??
+      getPieceFilterLabel(pieceFilter.value) ??
       getQualityFilterLabel(qualityFilter.value) ??
       getVersionFilterLabel(versionFilter.value) ??
       getStyleFilterLabel(styleFilter.value) ??
@@ -1036,6 +1058,7 @@
       styleFilter.value !== null ||
       labelFilter.value !== null ||
       obtainFilter.value !== null ||
+      pieceFilter.value !== 'all' ||
       variationFilter.value !== 'base' ||
       wardrobeFilter.value !== 'all' ||
       activeAdvancedFilterCount.value > 0
@@ -1050,6 +1073,7 @@
       style: styleFilter.value,
       label: labelFilter.value,
       obtain: obtainFilter.value,
+      piece: pieceFilter.value,
       variations: variationFilter.value,
       wardrobe: wardrobeFilter.value,
       advanced: activeAdvancedFiltersKey.value,
@@ -1096,7 +1120,7 @@
         styleFilter.value ?? 'all'
       }-${labelFilter.value ?? 'all'}-${versionFilter.value ?? 'all'}-${
         obtainFilter.value ?? 'all'
-      }-${variationFilter.value}-${
+      }-${pieceFilter.value}-${variationFilter.value}-${
         wardrobeFilter.value
       }-${activeRegionScope.value}-${wardrobeMutationVersion.value}-${
         currentPage.value
@@ -1111,6 +1135,7 @@
     style: styleFilter.value,
     label: labelFilter.value,
     source: obtainFilter.value,
+    piece: pieceFilter.value,
     variations: variationFilter.value,
     ...activeAdvancedFilters.value,
   })
@@ -1225,13 +1250,14 @@
       icon: TimesCircle,
     },
   ])
-  const renderWardrobeFilterOptionLabel = (option: SelectOption) => {
+  const renderIconSelectOptionLabel = (option: SelectOption) => {
     const { icon } = option as IconSelectOption
     return h('div', { class: 'flex items-center gap-2' }, [
       h(NIcon, { size: 16 }, { default: () => h(icon) }),
       h('span', null, String(option.label ?? '')),
     ])
   }
+  const renderWardrobeFilterOptionLabel = renderIconSelectOptionLabel
 
   const countLabels = computed(() => ({
     singular: t('common.item'),
@@ -1314,17 +1340,12 @@
     { label: t('common.makeups'), value: 'makeups', icon: PaintBrush },
     { label: t('common.momo'), value: 'momo', icon: Paw },
   ])
-  const renderCompendiumSectionOptionLabel = (option: SelectOption) => {
-    const { icon } = option as IconSelectOption
-    return h('div', { class: 'flex items-center gap-2' }, [
-      h(NIcon, { size: 16 }, { default: () => h(icon) }),
-      h('span', null, String(option.label ?? '')),
-    ])
-  }
+  const renderCompendiumSectionOptionLabel = renderIconSelectOptionLabel
 
   const buildListingQuery = ({
     includeType = true,
     includeScopedFilters = includeType,
+    includePiece = true,
     includePage = true,
     primaryFilter = null,
   }: BuildListingQueryOptions = {}) => ({
@@ -1354,6 +1375,10 @@
       labelFilter.value && { label: labelFilter.value }),
     ...(primaryFilter !== 'source' &&
       obtainFilter.value && { source: obtainFilter.value }),
+    ...(includePiece &&
+      pieceFilter.value !== 'all' && {
+        piece: pieceFilter.value,
+      }),
     ...(variationFilter.value !== 'base' && {
       variations: variationFilter.value,
     }),
@@ -1564,6 +1589,7 @@
         query: buildListingQuery({
           includeType: false,
           includeScopedFilters: false,
+          includePiece: false,
           includePage: false,
         }),
       })
@@ -1655,6 +1681,18 @@
   )
 
   watch(
+    () => route.query.piece,
+    () => {
+      const nextPieceFilter = resolveCatalogItemPieceFilter(
+        route.query.piece?.toString() ?? null
+      )
+      if (nextPieceFilter !== pieceFilter.value) {
+        pieceFilter.value = nextPieceFilter
+      }
+    }
+  )
+
+  watch(
     () => route.query.wardrobe,
     () => {
       const nextWardrobeFilter = resolveWardrobeFilter(
@@ -1702,6 +1740,10 @@
     currentPage.value = 1
   })
 
+  watch(pieceFilter, () => {
+    currentPage.value = 1
+  })
+
   watch(wardrobeFilter, () => {
     currentPage.value = 1
   })
@@ -1726,6 +1768,7 @@
       styleFilter,
       labelFilter,
       obtainFilter,
+      pieceFilter,
       variationFilter,
       wardrobeFilter,
       activeAdvancedFiltersKey,
@@ -1738,9 +1781,6 @@
 
   onMounted(() => {
     syncListingRoute()
-    if (wardrobeFilter.value !== 'all') {
-      loadData()
-    }
   })
 
   const retryFetch = () => {
@@ -1774,6 +1814,7 @@
     styleFilter.value = null
     labelFilter.value = null
     obtainFilter.value = null
+    pieceFilter.value = 'all'
     variationFilter.value = 'base'
     wardrobeFilter.value = 'all'
     advancedFilters.value = createEmptyItemSearchAdvancedFilters()
@@ -2063,6 +2104,20 @@
       value: style.key,
     }))
   )
+
+  const pieceFilterOptions = computed<IconSelectOption[]>(() => [
+    { label: t('common.all'), value: 'all', icon: DotCircle },
+    {
+      label: t('compendium.item_piece_filter.outfit'),
+      value: 'outfit',
+      icon: Tshirt,
+    },
+    {
+      label: t('compendium.item_piece_filter.individual'),
+      value: 'individual',
+      icon: ListAlt,
+    },
+  ])
 
   const labelOptions = computed(() =>
     TAG_DEFINITIONS.map((tag) => ({

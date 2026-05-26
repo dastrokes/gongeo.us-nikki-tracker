@@ -888,6 +888,13 @@
     "filter_style": "スタイルで絞り込む",
     "filter_label": "ラベルで絞り込む",
     "filter_obtain": "入手方法で絞り込む",
+    "item_piece_filter": {
+      "outfit": "コーデパーツ",
+      "individual": "単品パーツ"
+    },
+    "makeup_kind_filter": {
+      "individual": "単品メイク"
+    },
     "variation_filter": {
       "all_evos": "全進化"
     },

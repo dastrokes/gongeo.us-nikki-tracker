@@ -888,6 +888,13 @@
     "filter_style": "Filtra per stile",
     "filter_label": "Filtra per etichetta",
     "filter_obtain": "Filtra per fonte",
+    "item_piece_filter": {
+      "outfit": "Pezzi outfit",
+      "individual": "Pezzi individuali"
+    },
+    "makeup_kind_filter": {
+      "individual": "Trucco individuale"
+    },
     "variation_filter": {
       "all_evos": "Tutte le evo"
     },

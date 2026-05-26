@@ -988,9 +988,6 @@
 
   onMounted(() => {
     syncListingRoute()
-    if (wardrobeFilter.value !== 'all') {
-      loadData()
-    }
   })
 
   const clearFilters = () => {

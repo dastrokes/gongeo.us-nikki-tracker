@@ -37,6 +37,16 @@
               :options="variationFilterOptions"
             />
 
+            <n-select
+              v-model:value="makeupKindFilter"
+              :options="makeupKindFilterOptions"
+              :render-label="renderIconSelectOptionLabel"
+              size="small"
+              class="w-full max-w-40 self-start sm:w-40"
+              :show-checkmark="false"
+              :clearable="false"
+            />
+
             <div class="hidden min-w-0 overflow-x-auto sm:block">
               <n-button-group class="min-w-max">
                 <n-button
@@ -723,6 +733,9 @@
   const variationFilter = ref<CatalogVariationFilter>(
     resolveVariationFilter(route.query.variations?.toString() ?? null)
   )
+  const makeupKindFilter = ref(
+    resolveCatalogMakeupKindFilter(route.query.kind?.toString() ?? null)
+  )
   const wardrobeFilter = ref<MakeupWardrobeFilter>(
     resolveWardrobeFilter(
       route.query.wardrobe?.toString() ?? null,
@@ -788,6 +801,7 @@
       versionFilter.value !== null ||
       styleFilter.value !== null ||
       obtainFilter.value !== null ||
+      makeupKindFilter.value !== 'all' ||
       variationFilter.value !== 'base' ||
       wardrobeFilter.value !== 'all'
   )
@@ -797,8 +811,8 @@
       `makeups-${slotFilter.value}-${qualityFilter.value ?? 'all'}-${
         styleFilter.value ?? 'all'
       }-${versionFilter.value ?? 'all'}-${obtainFilter.value ?? 'all'}-${
-        variationFilter.value
-      }-${wardrobeFilter.value}-${activeRegionScope.value}-${
+        makeupKindFilter.value
+      }-${variationFilter.value}-${wardrobeFilter.value}-${activeRegionScope.value}-${
         wardrobeMutationVersion.value
       }-${currentPage.value}-${pageSize}`
   )
@@ -819,6 +833,7 @@
         version: versionFilter.value,
         style: styleFilter.value,
         source: obtainFilter.value,
+        kind: makeupKindFilter.value,
         variations: variationFilter.value,
       },
       page: currentPage.value,
@@ -907,6 +922,7 @@
       version: versionFilter.value,
       style: styleFilter.value,
       obtain: obtainFilter.value,
+      kind: makeupKindFilter.value,
       variations: variationFilter.value,
       wardrobe: wardrobeFilter.value,
     })
@@ -965,13 +981,14 @@
     { label: t('common.makeups'), value: 'makeups', icon: PaintBrush },
     { label: t('common.momo'), value: 'momo', icon: Paw },
   ])
-  const renderCompendiumSectionOptionLabel = (option: SelectOption) => {
+  const renderIconSelectOptionLabel = (option: SelectOption) => {
     const { icon } = option as IconSelectOption
     return h('div', { class: 'flex items-center gap-2' }, [
       h(NIcon, { size: 16 }, { default: () => h(icon) }),
       h('span', null, String(option.label ?? '')),
     ])
   }
+  const renderCompendiumSectionOptionLabel = renderIconSelectOptionLabel
   const hasFullMakeupInResult = computed(() =>
     supportsPartialWardrobeFilter(slotFilter.value)
   )
@@ -997,13 +1014,7 @@
 
     return options
   })
-  const renderWardrobeFilterOptionLabel = (option: SelectOption) => {
-    const { icon } = option as IconSelectOption
-    return h('div', { class: 'flex items-center gap-2' }, [
-      h(NIcon, { size: 16 }, { default: () => h(icon) }),
-      h('span', null, String(option.label ?? '')),
-    ])
-  }
+  const renderWardrobeFilterOptionLabel = renderIconSelectOptionLabel
 
   const buildListingQuery = ({
     primaryFilter = null,
@@ -1020,6 +1031,7 @@
       styleFilter.value && { style: styleFilter.value }),
     ...(primaryFilter !== 'source' &&
       obtainFilter.value && { source: obtainFilter.value }),
+    ...(makeupKindFilter.value !== 'all' && { kind: makeupKindFilter.value }),
     ...(variationFilter.value !== 'base' && {
       variations: variationFilter.value,
     }),
@@ -1326,6 +1338,17 @@
     }
   )
   watch(
+    () => route.query.kind,
+    () => {
+      const nextKindFilter = resolveCatalogMakeupKindFilter(
+        route.query.kind?.toString() ?? null
+      )
+      if (nextKindFilter !== makeupKindFilter.value) {
+        makeupKindFilter.value = nextKindFilter
+      }
+    }
+  )
+  watch(
     () => route.query.wardrobe,
     () => {
       const nextWardrobeFilter = resolveWardrobeFilter(
@@ -1355,6 +1378,9 @@
   watch(variationFilter, () => {
     currentPage.value = 1
   })
+  watch(makeupKindFilter, () => {
+    currentPage.value = 1
+  })
   watch(wardrobeFilter, () => {
     currentPage.value = 1
   })
@@ -1370,6 +1396,7 @@
       versionFilter,
       styleFilter,
       obtainFilter,
+      makeupKindFilter,
       variationFilter,
       wardrobeFilter,
       currentPage,
@@ -1381,9 +1408,6 @@
 
   onMounted(() => {
     syncListingRoute()
-    if (wardrobeFilter.value !== 'all') {
-      loadData()
-    }
   })
 
   const retryFetch = () => {
@@ -1396,6 +1420,7 @@
     versionFilter.value = null
     styleFilter.value = null
     obtainFilter.value = null
+    makeupKindFilter.value = 'all'
     variationFilter.value = 'base'
     wardrobeFilter.value = 'all'
     currentPage.value = 1
@@ -1420,6 +1445,19 @@
       value: style.key,
     }))
   )
+  const makeupKindFilterOptions = computed<IconSelectOption[]>(() => [
+    { label: t('common.all'), value: 'all', icon: DotCircle },
+    {
+      label: t('common.makeups'),
+      value: 'full',
+      icon: PaintBrush,
+    },
+    {
+      label: t('compendium.makeup_kind_filter.individual'),
+      value: 'individual',
+      icon: UserEdit,
+    },
+  ])
   const versionOptions = computed<SelectOption[]>(() =>
     createVersionFilterOptions(availableVersions.value, (version) => {
       const key = `version.${version}`

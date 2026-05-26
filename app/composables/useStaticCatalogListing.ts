@@ -82,7 +82,18 @@ export const useStaticCatalogListing = async <
   ) => {
     if (import.meta.server) return null
 
-    await catalogIndex.loadEntity(currentQuery.entity)
+    if (
+      currentQuery.entity === 'item' &&
+      catalogItemPieceFilterRequiresOutfitItems(
+        typeof currentQuery.filters.piece === 'string'
+          ? currentQuery.filters.piece
+          : null
+      )
+    ) {
+      await catalogIndex.load(['items', 'outfitItems'])
+    } else {
+      await catalogIndex.loadEntity(currentQuery.entity)
+    }
 
     const attributeMatchingIds =
       currentQuery.entity === 'item' &&
@@ -126,7 +137,6 @@ export const useStaticCatalogListing = async <
     KeyedStaticCatalogListingResult<TEntry>
   > => {
     const currentQuery = getQuery()
-    const currentKey = getKey()
     onError?.(null)
 
     if (import.meta.server) {
@@ -138,6 +148,7 @@ export const useStaticCatalogListing = async <
         await ensureWardrobeReady()
       }
 
+      const currentKey = getKey()
       const localData = await getRequiredLocalCatalogData(currentQuery)
       if (!localData) return createDefaultData()
 

@@ -15,7 +15,7 @@
  * Items use 10-digit IDs where the first 4 digits are the prefix that
  * encodes the variant type. The remaining 6 digits identify the specific item.
  *
- *   Base:    1020xxxxxx  (alt base: 1021xxxxxx)
+ *   Base:    1020xxxxxx  (alt base: 1021xxxxxx / 1029xxxxxx)
  *   Glow-up: 1022xxxxxx  (alt glow-up: 1026xxxxxx)
  *   Evo 1:   1023xxxxxx
  *   Evo 2:   1024xxxxxx
@@ -98,7 +98,7 @@ export function getItemPrefixForOutfitId(outfitId: string): string {
 // ---------------------------------------------------------------------------
 
 /** Item ID prefixes that identify a base (non-variant) item. */
-const ITEM_BASE_PREFIXES = new Set(['1020', '1021'])
+const ITEM_BASE_PREFIXES = new Set(['1020', '1021', '1029'])
 
 /** Item ID prefix → variant type. Prefixes absent from this map are 'base'. */
 const ITEM_PREFIX_MAP: Record<string, VariantType> = {
@@ -128,7 +128,7 @@ export function isItemVariantId(itemId: string | number): boolean {
 
 /**
  * Classifies an item ID into its variant type.
- * Returns `'base'` for base items (prefix 1020/1021) or unrecognised IDs.
+ * Returns `'base'` for base items (prefix 1020/1021/1029) or unrecognised IDs.
  */
 export function getItemVariantType(itemId: string | number): VariantType {
   const prefix = getItemPrefix(String(itemId))
@@ -149,8 +149,10 @@ export function getItemBody(itemId: string | number): string {
  * Returns the canonical base item ID for any item ID, by replacing a variant
  * prefix with the appropriate base prefix.
  *
- * Items using the alt glow-up scheme (prefix 1021/1026) keep prefix 1021;
- * all others get prefix 1020.
+ * Items using an alternate base prefix keep that base prefix when it is
+ * present. Prefix 1026 is shared by 1021 and 1029 base schemes, so callers
+ * that need exact reverse matching should use getRelatedItemIds and filter
+ * existing candidates by metadata.
  *
  * @example
  *   getBaseItemId('1022900001') // → '1020900001'
@@ -162,7 +164,7 @@ export function getBaseItemId(itemId: string | number): string {
   const prefix = getItemPrefix(s)
   if (!prefix) return s
 
-  // Alt glow-up (1026) pairs with alt base (1021); everything else with 1020
+  // Alt glow-up (1026) can pair with 1021 or 1029; 1021 is the legacy default.
   const usesAltScheme = prefix === '1021' || prefix === '1026'
   if (ITEM_BASE_PREFIXES.has(prefix)) return s // already base
 
@@ -185,18 +187,28 @@ export function getRelatedItemIds(baseId: number, quality: number): number[] {
 
   const prefix = idStr.substring(0, 4)
   const body = idStr.substring(4)
-  const usesAltScheme = prefix === '1021' || prefix === '1026'
-  const basePrefix = usesAltScheme ? '1021' : '1020'
-  const glowupPrefix = usesAltScheme ? '1026' : '1022'
+
+  if (prefix === '1021') {
+    return [parseInt(`1021${body}`), parseInt(`1026${body}`)]
+  }
+
+  if (prefix === '1029') {
+    return [parseInt(`1029${body}`), parseInt(`1026${body}`)]
+  }
+
+  if (prefix === '1026') {
+    return [
+      parseInt(`1021${body}`),
+      parseInt(`1029${body}`),
+      parseInt(`1026${body}`),
+    ]
+  }
 
   const variations = [
-    parseInt(`${basePrefix}${body}`), // base
-    parseInt(`${glowupPrefix}${body}`), // glowup
+    parseInt(`1020${body}`), // base
+    parseInt(`1022${body}`), // glowup
+    parseInt(`1023${body}`), // evo1
   ]
-
-  if (!usesAltScheme) {
-    variations.push(parseInt(`1023${body}`)) // evo1
-  }
 
   if (quality === 5) {
     variations.push(parseInt(`1024${body}`)) // evo2

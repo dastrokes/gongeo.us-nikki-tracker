@@ -1,4 +1,6 @@
-export type CatalogLocalItem = ItemListEntry
+export type CatalogLocalItem = ItemListEntry & {
+  catalogGroupIds?: number[]
+}
 export type CatalogLocalOutfit = OutfitListEntry
 export type CatalogLocalMakeup = ItemListEntry
 export type CatalogLocalMomo = MomoListEntry
@@ -6,6 +8,7 @@ export type CatalogLocalMomo = MomoListEntry
 export type CatalogLocalIndex = {
   items: CatalogLocalItem[]
   itemById: Map<number, CatalogLocalItem>
+  itemGroupIdsById: Map<number, number[]>
   outfits: CatalogLocalOutfit[]
   outfitById: Map<number, CatalogLocalOutfit>
   makeups: CatalogLocalMakeup[]
@@ -16,6 +19,20 @@ export type CatalogLocalIndex = {
   makeupItemsById: Map<number, number[]>
   fullMakeupIdsByOutfitId: Map<number, number[]>
   momoIdsByOutfitId: Map<number, number[]>
+}
+
+const buildItemGroupIdsById = (items: readonly CatalogLocalItem[]) => {
+  const itemIds = new Set(items.map((item) => item.id))
+  const itemGroupIdsById = new Map<number, number[]>()
+
+  for (const item of items) {
+    const groupIds =
+      item.catalogGroupIds?.filter((itemId) => itemIds.has(itemId)) ?? []
+
+    itemGroupIdsById.set(item.id, groupIds.length > 0 ? groupIds : [item.id])
+  }
+
+  return itemGroupIdsById
 }
 
 export const createCatalogLocalIndex = ({
@@ -79,6 +96,7 @@ export const createCatalogLocalIndex = ({
   return {
     items: itemRows,
     itemById: new Map(itemRows.map((item) => [item.id, item])),
+    itemGroupIdsById: buildItemGroupIdsById(itemRows),
     outfits: outfitRows,
     outfitById: new Map(outfitRows.map((outfit) => [outfit.id, outfit])),
     makeups: makeupRows,

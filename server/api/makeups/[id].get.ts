@@ -69,6 +69,15 @@ const sortByIdList = <T extends { id: number }>(
   )
 }
 
+const isMatchingMakeupVariation = (
+  makeup: MakeupRow,
+  variation: MakeupRow
+): boolean =>
+  variation.quality === makeup.quality &&
+  variation.type === makeup.type &&
+  (variation.style_key ?? null) === (makeup.style_key ?? null) &&
+  (variation.obtain_type ?? null) === (makeup.obtain_type ?? null)
+
 const getRelatedFullMakeupIds = (baseId: number): number[] => {
   const baseIdString = baseId.toString()
   if (baseIdString.length < 3) return [baseId]
@@ -157,7 +166,9 @@ export default defineCachedApiEventHandler(
           }
 
           makeup.variations = sortByIdList(
-            (relatedMakeups as MakeupRow[] | null) ?? [],
+            ((relatedMakeups as MakeupRow[] | null) ?? []).filter((variation) =>
+              isMatchingMakeupVariation(makeup, variation)
+            ),
             relatedItemIds
           )
         }

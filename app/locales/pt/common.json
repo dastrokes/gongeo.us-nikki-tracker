@@ -266,24 +266,24 @@
     "export_file": "Exportar dados",
     "collection_detail": "{owned} de {total}",
     "region": {
-      "label": "Game Region",
+      "label": "Região do jogo",
       "global": "Global"
     },
     "settings": {
-      "title": "Wardrobe Settings",
-      "onboarding_title": "Wardrobe Setup",
-      "onboarding_description": "Show the setup walkthrough again for this profile.",
-      "reset_onboarding": "Reset Setup"
+      "title": "Configurações do guarda-roupa",
+      "onboarding_title": "Configuração do guarda-roupa",
+      "onboarding_description": "Mostrar o passo a passo de configuração novamente para este perfil.",
+      "reset_onboarding": "Redefinir configuração"
     },
     "onboarding": {
-      "region_step": "Region",
-      "tracking_step": "Track",
-      "region_title": "Choose Your Game Region",
-      "base_tip_description": "Optional: use Base Collection to mark F2P, permanently available wardrobe entries as owned. If you own most of them, it is usually faster to unmark the few missing entries afterward.",
-      "resonance_tip_description": "Optional: use Resonance Collection to import owned wardrobe entries inferred from your Resonance data. You can also import later or mark entries manually.",
-      "tracking_title": "Track from the Compendium",
-      "tracking_description": "Use listing pages, detail pages, and single or batch actions to mark wardrobe ownership while browsing the Compendium. You can use ownership filters in the Compendium, Whim Search, Whim-O-Matic, and Tier List Maker.",
-      "finish_setup": "Finish Setup"
+      "region_step": "Região",
+      "tracking_step": "Rastrear",
+      "region_title": "Escolha a região do seu servidor de jogo",
+      "base_tip_description": "Opcional: use a Coleção base para marcar entradas de guarda-roupa F2P, disponíveis permanentemente, como possuídas. Se você possui a maioria delas, geralmente é mais rápido desmarcar as poucas entradas restantes depois.",
+      "resonance_tip_description": "Opcional: use a Coleção de ressonância para importar entradas de guarda-roupa possuídas inferidas de seus dados de ressonância. Você também pode importar mais tarde ou marcar entradas manualmente.",
+      "tracking_title": "Rastrear a partir do compêndio",
+      "tracking_description": "Use as páginas de lista, páginas de detalhes e ações individuais ou em lote para marcar a posse do guarda-roupa ao navegar pelo Compêndio. Você pode usar filtros de posse no Compêndio, na Busca de Caprichos, no Gira-encantos e no Criador de lista de níveis.",
+      "finish_setup": "Concluir configuração"
     },
     "import_success": "{imported} de {found} entradas de guarda-roupa importadas.",
     "import_empty": "Nenhuma entrada de guarda-roupa do tracker estava disponível para importação.",
@@ -889,11 +889,11 @@
     "filter_label": "Filtrar por etiqueta",
     "filter_obtain": "Filtrar por fonte",
     "item_piece_filter": {
-      "outfit": "Outfit Pieces",
-      "individual": "Individual Pieces"
+      "outfit": "Peças de traje",
+      "individual": "Peças individuais"
     },
     "makeup_kind_filter": {
-      "individual": "Individual Makeup"
+      "individual": "Maquiagem individual"
     },
     "variation_filter": {
       "all_evos": "Todas as evos"

@@ -265,6 +265,26 @@
     "f2p_basics_success": "已將 {count} 個基礎收藏項目標記為已擁有。",
     "export_file": "匯出資料",
     "collection_detail": "{owned}/{total}",
+    "region": {
+      "label": "Game Region",
+      "global": "Global"
+    },
+    "settings": {
+      "title": "Wardrobe Settings",
+      "onboarding_title": "Wardrobe Setup",
+      "onboarding_description": "Show the setup walkthrough again for this profile.",
+      "reset_onboarding": "Reset Setup"
+    },
+    "onboarding": {
+      "region_step": "Region",
+      "tracking_step": "Track",
+      "region_title": "Choose Your Game Region",
+      "base_tip_description": "Optional: use Base Collection to mark F2P, permanently available wardrobe entries as owned. If you own most of them, it is usually faster to unmark the few missing entries afterward.",
+      "resonance_tip_description": "Optional: use Resonance Collection to import owned wardrobe entries inferred from your Resonance data. You can also import later or mark entries manually.",
+      "tracking_title": "Track from the Compendium",
+      "tracking_description": "Use listing pages, detail pages, and single or batch actions to mark wardrobe ownership while browsing the Compendium. You can use ownership filters in the Compendium, Whim Search, Whim-O-Matic, and Tier List Maker.",
+      "finish_setup": "Finish Setup"
+    },
     "import_success": "已從抽卡记录中找到的 {found} 個衣櫥項目裡匯入 {imported} 個。",
     "import_empty": "抽卡记录中沒有可匯入的衣櫥項目。",
     "import_no_new": "抽卡记录中找到 {found} 個衣櫥項目，但這些項目都已擁有。",
@@ -868,6 +888,13 @@
     "filter_style": "依風格篩選",
     "filter_label": "依標籤篩選",
     "filter_obtain": "依來源篩選",
+    "item_piece_filter": {
+      "outfit": "Outfit Pieces",
+      "individual": "Individual Pieces"
+    },
+    "makeup_kind_filter": {
+      "individual": "Individual Makeup"
+    },
     "variation_filter": {
       "all_evos": "全部進化"
     },

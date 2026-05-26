@@ -503,7 +503,7 @@
                     />
                   </div>
                   <div
-                    class="absolute right-0 bottom-0 left-0 z-20 bg-linear-to-t from-black/90 to-transparent"
+                    class="absolute right-0 bottom-0 left-0 z-20 bg-[url('/images/fade.png')] [background-size:100%_100%] bg-no-repeat"
                     :class="[
                       editMode ? 'p-2' : 'p-3',
                       wardrobeInitialized && editMode

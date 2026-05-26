@@ -13,18 +13,6 @@ const getOutfitsContainingItem = (itemId: string) => {
     }
   }
 
-  if (itemId.length === 10) {
-    const extractedId = '1' + itemId.slice(6)
-    if (extractedId in OUTFIT_DATA) {
-      outfitsWithItem.add(extractedId)
-    }
-  } else if (itemId.length === 8) {
-    const extractedId = itemId.slice(0, 5)
-    if (extractedId in OUTFIT_DATA) {
-      outfitsWithItem.add(extractedId)
-    }
-  }
-
   return outfitsWithItem
 }
 

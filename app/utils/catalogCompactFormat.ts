@@ -87,16 +87,19 @@ const decodeCompactItemRows = (
   types: readonly string[] = CATALOG_ITEM_TYPES,
   styles: readonly string[] = CATALOG_STYLES
 ) =>
-  rows.flatMap(([ids, quality, typeIndex, styleIndex, labels, obtain]) =>
-    unpackCompactIds(ids).map((id) => ({
+  rows.flatMap(([ids, quality, typeIndex, styleIndex, labels, obtain]) => {
+    const itemIds = unpackCompactIds(ids)
+
+    return itemIds.map((id) => ({
       id,
       quality: Number(quality),
       type: getCompactDictionaryValue(types, typeIndex) ?? '',
       style: expandCompactStyle(styles, styleIndex),
       labels: expandCompactLabels(labels),
       ...(obtain === undefined ? {} : { obtain_type: Number(obtain) }),
+      ...(itemIds.length > 1 ? { catalogGroupIds: itemIds } : {}),
     }))
-  )
+  })
 
 const decodeCompactOutfitRows = (
   rows: unknown[][],

@@ -1057,13 +1057,21 @@
 
   const { fetchItemSearchFacets } = useSupabaseItems()
 
-  type ItemFacetData = ItemSearchFacetResponse & { cacheKey: string }
+  type ItemFacetData = ItemSearchFacetResponse & {
+    cacheKey: string
+    resolved: boolean
+  }
 
   const createEmptyFacetData = (cacheKey: string): ItemFacetData => ({
     categories: [],
     subcategories: [],
     advanced: {},
     cacheKey,
+    resolved: true,
+  })
+  const createPendingFacetData = (cacheKey: string): ItemFacetData => ({
+    ...createEmptyFacetData(cacheKey),
+    resolved: false,
   })
 
   const facetCacheKey = computed(() =>
@@ -1138,10 +1146,11 @@
         return {
           ...facets,
           cacheKey: requestFacetCacheKey,
+          resolved: true,
         }
       },
       {
-        default: () => createEmptyFacetData(facetCacheKey.value),
+        default: () => createPendingFacetData(facetCacheKey.value),
         dedupe: 'cancel',
         deep: false,
         lazy: true,
@@ -1834,7 +1843,9 @@
   })
 
   const isCurrentFacetDataReady = computed(
-    () => itemSearchFacets.value?.cacheKey === facetCacheKey.value
+    () =>
+      itemSearchFacets.value?.resolved === true &&
+      itemSearchFacets.value.cacheKey === facetCacheKey.value
   )
   const isFacetOptionsRefreshing = computed(
     () => shouldFetchFacets.value && !isCurrentFacetDataReady.value

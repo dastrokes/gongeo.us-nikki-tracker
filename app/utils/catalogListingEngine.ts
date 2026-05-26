@@ -293,10 +293,14 @@ const matchesItemStableFilters = (
 
 const matchesItemAttributeFilters = (
   item: CatalogLocalItem,
-  attributeMatchingIdSet: ReadonlySet<number>
+  attributeMatchingIdSet: ReadonlySet<number>,
+  itemGroupIdsById: ReadonlyMap<number, readonly number[]>
 ) =>
   attributeMatchingIdSet.has(item.id) ||
-  attributeMatchingIdSet.has(Number(getBaseItemId(item.id)))
+  attributeMatchingIdSet.has(Number(getBaseItemId(item.id))) ||
+  (itemGroupIdsById.get(item.id) ?? []).some((itemId) =>
+    attributeMatchingIdSet.has(itemId)
+  )
 
 const getFullMakeupVariantType = (id: number): VariantType =>
   String(id).endsWith('03') ? 'evo3' : 'base'
@@ -481,7 +485,11 @@ const getLocalItemMatchingIds = ({
   )
   const attributeFiltered = attributeMatchingIdSet
     ? stableFiltered.filter((item) =>
-        matchesItemAttributeFilters(item, attributeMatchingIdSet)
+        matchesItemAttributeFilters(
+          item,
+          attributeMatchingIdSet,
+          index.itemGroupIdsById
+        )
       )
     : stableFiltered
 
@@ -647,7 +655,11 @@ const filterStaticItemIds = ({
   )
   const attributeFiltered = attributeMatchingIdSet
     ? stableFiltered.filter((item) =>
-        matchesItemAttributeFilters(item, attributeMatchingIdSet)
+        matchesItemAttributeFilters(
+          item,
+          attributeMatchingIdSet,
+          index.itemGroupIdsById
+        )
       )
     : stableFiltered
 

@@ -49,6 +49,10 @@ interface ItemVariation {
   id: number
   quality: number
   type: string
+  props?: Array<number | string> | null
+  style_key?: string | null
+  tags?: Array<number | string> | null
+  obtain_type?: number | null
 }
 
 function compactItemSearchMetadata(
@@ -80,6 +84,28 @@ function compactItemSearchMetadata(
   return compactedEntries.length > 0
     ? (Object.fromEntries(compactedEntries) as ItemSearchMetadata)
     : null
+}
+
+function normalizeAttributeValues(
+  values?: Array<number | string> | null
+): string {
+  return (values ?? []).map(String).sort().join('|')
+}
+
+function isMatchingItemVariation(
+  itemData: ItemData,
+  variation: ItemVariation
+): boolean {
+  return (
+    variation.quality === itemData.quality &&
+    variation.type === itemData.type &&
+    (variation.style_key ?? null) === (itemData.style_key ?? null) &&
+    (variation.obtain_type ?? null) === (itemData.obtain_type ?? null) &&
+    normalizeAttributeValues(variation.props) ===
+      normalizeAttributeValues(itemData.props) &&
+    normalizeAttributeValues(variation.tags) ===
+      normalizeAttributeValues(itemData.tags)
+  )
 }
 
 /**
@@ -180,7 +206,7 @@ export default defineCachedApiEventHandler(
 
             return supabase
               .from('items')
-              .select('id, quality, type')
+              .select('id, quality, type, props, style_key, tags, obtain_type')
               .in('id', relatedIds)
           })
 
@@ -190,6 +216,7 @@ export default defineCachedApiEventHandler(
 
         if (variations && Array.isArray(variations)) {
           itemData.variations = variations
+            .filter((v: ItemVariation) => isMatchingItemVariation(itemData, v))
             .map((v: ItemVariation) => ({
               id: v.id,
               quality: v.quality,

@@ -572,6 +572,7 @@
     toggleMomoOwned,
     markMomoOwned,
   } = useWardrobe()
+  const { activeRegionScope } = useWardrobeSettings()
   const wardrobeModeError = ref<Error | null>(null)
   const wardrobeError = computed(() =>
     wardrobeFilter.value !== 'all'
@@ -606,8 +607,8 @@
       `momo-${qualityFilter.value ?? 'all'}-${
         versionFilter.value ?? 'all'
       }-${obtainFilter.value ?? 'all'}-${wardrobeFilter.value}-${
-        wardrobeMutationVersion.value
-      }-${currentPage.value}-${pageSize}`
+        activeRegionScope.value
+      }-${wardrobeMutationVersion.value}-${currentPage.value}-${pageSize}`
   )
   const {
     data,
@@ -628,6 +629,7 @@
       page: currentPage.value,
       pageSize,
       ownershipMode: wardrobeFilter.value,
+      regionScope: activeRegionScope.value,
     }),
     wardrobe: {
       initialized: wardrobeInitialized,

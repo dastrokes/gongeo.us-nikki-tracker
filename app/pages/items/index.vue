@@ -980,6 +980,7 @@
     toggleItemOwned,
     markItemsOwned,
   } = useWardrobe()
+  const { activeRegionScope } = useWardrobeSettings()
   const wardrobeModeError = ref<Error | null>(null)
   const wardrobeError = computed(() =>
     wardrobeFilter.value !== 'all' || editMode.value
@@ -1097,7 +1098,9 @@
         obtainFilter.value ?? 'all'
       }-${variationFilter.value}-${
         wardrobeFilter.value
-      }-${wardrobeMutationVersion.value}-${currentPage.value}-${pageSize}`
+      }-${activeRegionScope.value}-${wardrobeMutationVersion.value}-${
+        currentPage.value
+      }-${pageSize}`
   )
   const buildItemFetchFilters = () => ({
     quality: qualityFilter.value,
@@ -1118,6 +1121,7 @@
     page: currentPage.value,
     pageSize,
     ownershipMode: wardrobeFilter.value,
+    regionScope: activeRegionScope.value,
   }))
 
   const [facetsAsyncData, itemsAsyncData] = await Promise.all([

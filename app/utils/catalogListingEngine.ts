@@ -15,6 +15,7 @@ export type CatalogListingQuery = {
   page: number
   pageSize: number
   ownershipMode: ItemOwnershipMode | OutfitOwnershipMode
+  regionScope?: CatalogRegionScope
 }
 
 export type CatalogListingResult<TEntry> = {
@@ -74,6 +75,7 @@ export type StaticCatalogListingQuery = {
   filters: Record<string, unknown>
   page: number
   pageSize: number
+  regionScope?: CatalogRegionScope
   ownershipMode?:
     | ItemOwnershipMode
     | OutfitOwnershipMode
@@ -437,25 +439,44 @@ const filterDirectIdsByOwnership = (
   })
 }
 
+const getCatalogQueryRegionScope = (
+  query: Pick<CatalogListingQuery | StaticCatalogListingQuery, 'regionScope'>
+) => normalizeCatalogRegionScope(query.regionScope)
+
+const getRegionScopedItemIds = (
+  itemIds: readonly number[],
+  scope: CatalogRegionScope
+) => filterCatalogIdsByRegionScope('item', itemIds, scope)
+
+const getRegionScopedMakeupIds = (
+  makeupIds: readonly number[],
+  scope: CatalogRegionScope
+) => filterCatalogIdsByRegionScope('makeup', makeupIds, scope)
+
 const toOutfitItemsRecord = (
   outfitIds: readonly number[],
-  outfitItemsById: ReadonlyMap<number, number[]>
+  outfitItemsById: ReadonlyMap<number, number[]>,
+  regionScope: CatalogRegionScope = 'global'
 ) =>
   Object.fromEntries(
     outfitIds.map((outfitId) => [
       String(outfitId),
-      outfitItemsById.get(outfitId) ?? [],
+      getRegionScopedItemIds(outfitItemsById.get(outfitId) ?? [], regionScope),
     ])
   )
 
 const toMakeupItemsRecord = (
   makeupIds: readonly number[],
-  makeupItemsById: ReadonlyMap<number, number[]>
+  makeupItemsById: ReadonlyMap<number, number[]>,
+  regionScope: CatalogRegionScope = 'global'
 ) =>
   Object.fromEntries(
     makeupIds.map((makeupId) => [
       String(makeupId),
-      makeupItemsById.get(makeupId) ?? [],
+      getRegionScopedMakeupIds(
+        makeupItemsById.get(makeupId) ?? [],
+        regionScope
+      ),
     ])
   )
 
@@ -480,8 +501,14 @@ const getLocalItemMatchingIds = ({
   const attributeMatchingIdSet = attributeMatchingIds
     ? new Set(attributeMatchingIds)
     : null
-  const stableFiltered = index.items.filter((item) =>
-    matchesItemStableFilters(item, query.filters)
+  const stableFiltered = index.items.filter(
+    (item) =>
+      matchesItemStableFilters(item, query.filters) &&
+      isCatalogEntryAvailableInScope(
+        'item',
+        item.id,
+        getCatalogQueryRegionScope(query)
+      )
   )
   const attributeFiltered = attributeMatchingIdSet
     ? stableFiltered.filter((item) =>
@@ -531,8 +558,14 @@ const getLocalOutfitMatchingIds = ({
   index: CatalogLocalIndex
   wardrobe: CatalogListingWardrobeAccess
 }) => {
-  const stableFiltered = index.outfits.filter((outfit) =>
-    matchesOutfitStableFilters(outfit, query.filters)
+  const regionScope = getCatalogQueryRegionScope(query)
+  const stableFiltered = index.outfits.filter(
+    (outfit) =>
+      matchesOutfitStableFilters(outfit, query.filters) &&
+      getRegionScopedItemIds(
+        index.outfitItemsById.get(outfit.id) ?? [],
+        regionScope
+      ).length > 0
   )
   const outfitIds = stableFiltered.map((outfit) => outfit.id)
 
@@ -574,7 +607,11 @@ export const getLocalCatalogListingMatchingIds = ({
   const ids = getLocalOutfitMatchingIds({ query, index, wardrobe })
   return {
     ids,
-    outfitItems: toOutfitItemsRecord(ids, index.outfitItemsById),
+    outfitItems: toOutfitItemsRecord(
+      ids,
+      index.outfitItemsById,
+      getCatalogQueryRegionScope(query)
+    ),
   }
 }
 
@@ -624,7 +661,8 @@ export const getLocalCatalogListing = <
       ? {
           wardrobeOutfitItems: toOutfitItemsRecord(
             pageIds,
-            index.outfitItemsById
+            index.outfitItemsById,
+            getCatalogQueryRegionScope(query)
           ),
         }
       : {}),
@@ -650,8 +688,14 @@ const filterStaticItemIds = ({
   const attributeMatchingIdSet = attributeMatchingIds
     ? new Set(attributeMatchingIds)
     : null
-  const stableFiltered = index.items.filter((item) =>
-    matchesItemStableFilters(item, query.filters)
+  const stableFiltered = index.items.filter(
+    (item) =>
+      matchesItemStableFilters(item, query.filters) &&
+      isCatalogEntryAvailableInScope(
+        'item',
+        item.id,
+        getCatalogQueryRegionScope(query)
+      )
   )
   const attributeFiltered = attributeMatchingIdSet
     ? stableFiltered.filter((item) =>
@@ -683,7 +727,14 @@ const filterStaticOutfitIds = ({
   index: CatalogLocalIndex
 }) => {
   const outfitIds = index.outfits
-    .filter((outfit) => matchesOutfitStableFilters(outfit, query.filters))
+    .filter(
+      (outfit) =>
+        matchesOutfitStableFilters(outfit, query.filters) &&
+        getRegionScopedItemIds(
+          index.outfitItemsById.get(outfit.id) ?? [],
+          getCatalogQueryRegionScope(query)
+        ).length > 0
+    )
     .map((outfit) => outfit.id)
 
   const ownershipMode =
@@ -697,7 +748,10 @@ const filterStaticOutfitIds = ({
 
   return outfitIds.filter((outfitId) => {
     const progress = wardrobe.getOutfitProgress!(
-      index.outfitItemsById.get(outfitId) ?? []
+      getRegionScopedItemIds(
+        index.outfitItemsById.get(outfitId) ?? [],
+        getCatalogQueryRegionScope(query)
+      )
     )
     return progress.status === ownershipMode
   })
@@ -713,6 +767,15 @@ const filterStaticMakeupIds = ({
   const makeupIds = sortMakeupsForFilters(
     index.makeups.filter((makeup) => {
       if (!matchesStableCatalogFilters(makeup, query.filters)) return false
+      if (
+        !isCatalogEntryAvailableInScope(
+          'makeup',
+          makeup.id,
+          getCatalogQueryRegionScope(query)
+        )
+      ) {
+        return false
+      }
 
       const type = getStringFilter(query.filters, 'type')
       if (type && makeup.type !== type) return false
@@ -739,6 +802,15 @@ const filterStaticMakeupIds = ({
   return makeupIds.filter((makeupId) => {
     const makeup = index.makeupById.get(makeupId)
     if (!makeup) return false
+    if (
+      !isCatalogEntryAvailableInScope(
+        'makeup',
+        makeup.id,
+        getCatalogQueryRegionScope(query)
+      )
+    ) {
+      return false
+    }
 
     if (makeup.type !== 'fullMakeup') {
       if (!ownedMakeupIdSet) {
@@ -751,7 +823,10 @@ const filterStaticMakeupIds = ({
         : ownershipMode === 'missing' && !owned
     }
 
-    const componentIds = index.makeupItemsById.get(makeupId) ?? []
+    const componentIds = getRegionScopedMakeupIds(
+      index.makeupItemsById.get(makeupId) ?? [],
+      getCatalogQueryRegionScope(query)
+    )
     const progress = wardrobe.getFullMakeupProgress
       ? wardrobe.getFullMakeupProgress(componentIds)
       : getWardrobeSetProgress(componentIds, ownedMakeupIdSet!)
@@ -772,7 +847,12 @@ const filterStaticMomoIds = ({
       (momo) =>
         matchesQuality(momo, query.filters) &&
         matchesMomoVersion(momo, query.filters) &&
-        matchesMomoSource(momo, query.filters)
+        matchesMomoSource(momo, query.filters) &&
+        isCatalogEntryAvailableInScope(
+          'momo',
+          momo.id,
+          getCatalogQueryRegionScope(query)
+        )
     )
     .map((momo) => momo.id)
 
@@ -807,14 +887,22 @@ export const getLocalStaticCatalogListingMatchingIds = ({
       const ids = filterStaticOutfitIds({ query, index })
       return {
         ids,
-        outfitItems: toOutfitItemsRecord(ids, index.outfitItemsById),
+        outfitItems: toOutfitItemsRecord(
+          ids,
+          index.outfitItemsById,
+          getCatalogQueryRegionScope(query)
+        ),
       }
     }
     case 'makeup': {
       const ids = filterStaticMakeupIds({ query, index })
       return {
         ids,
-        wardrobeMakeupItems: toMakeupItemsRecord(ids, index.makeupItemsById),
+        wardrobeMakeupItems: toMakeupItemsRecord(
+          ids,
+          index.makeupItemsById,
+          getCatalogQueryRegionScope(query)
+        ),
       }
     }
     case 'momo':
@@ -869,7 +957,8 @@ export const getLocalStaticCatalogListing = <
       ? {
           wardrobeMakeupItems: toMakeupItemsRecord(
             pageIds,
-            index.makeupItemsById
+            index.makeupItemsById,
+            getCatalogQueryRegionScope(query)
           ),
         }
       : {}),

@@ -265,6 +265,26 @@
     "f2p_basics_success": "{count} entradas da coleção base marcadas como possuídas.",
     "export_file": "Exportar dados",
     "collection_detail": "{owned} de {total}",
+    "region": {
+      "label": "Região do jogo",
+      "global": "Global"
+    },
+    "settings": {
+      "title": "Configurações do guarda-roupa",
+      "onboarding_title": "Configuração do guarda-roupa",
+      "onboarding_description": "Mostrar o passo a passo de configuração novamente para este perfil.",
+      "reset_onboarding": "Redefinir configuração"
+    },
+    "onboarding": {
+      "region_step": "Região",
+      "tracking_step": "Rastrear",
+      "region_title": "Escolha a região do seu servidor de jogo",
+      "base_tip_description": "Opcional: use a Coleção base para marcar entradas de guarda-roupa F2P, disponíveis permanentemente, como possuídas. Se você possui a maioria delas, geralmente é mais rápido desmarcar as poucas entradas restantes depois.",
+      "resonance_tip_description": "Opcional: use a Coleção de ressonância para importar entradas de guarda-roupa possuídas inferidas de seus dados de ressonância. Você também pode importar mais tarde ou marcar entradas manualmente.",
+      "tracking_title": "Rastrear a partir do compêndio",
+      "tracking_description": "Use as páginas de lista, páginas de detalhes e ações individuais ou em lote para marcar a posse do guarda-roupa ao navegar pelo Compêndio. Você pode usar filtros de posse no Compêndio, na Busca de Caprichos, no Gira-encantos e no Criador de lista de níveis.",
+      "finish_setup": "Concluir configuração"
+    },
     "import_success": "{imported} de {found} entradas de guarda-roupa importadas.",
     "import_empty": "Nenhuma entrada de guarda-roupa do tracker estava disponível para importação.",
     "import_no_new": "Os dados do tracker encontraram {found} entradas de guarda-roupa, mas elas já estão possuídas.",

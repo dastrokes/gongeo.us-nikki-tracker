@@ -266,24 +266,24 @@
     "export_file": "导出数据",
     "collection_detail": "{owned}/{total}",
     "region": {
-      "label": "Game Region",
-      "global": "Global"
+      "label": "游戏区服",
+      "global": "国际服"
     },
     "settings": {
-      "title": "Wardrobe Settings",
-      "onboarding_title": "Wardrobe Setup",
-      "onboarding_description": "Show the setup walkthrough again for this profile.",
-      "reset_onboarding": "Reset Setup"
+      "title": "衣橱设置",
+      "onboarding_title": "衣橱设置引导",
+      "onboarding_description": "为当前档案再次显示设置引导。",
+      "reset_onboarding": "重置引导"
     },
     "onboarding": {
-      "region_step": "Region",
-      "tracking_step": "Track",
-      "region_title": "Choose Your Game Region",
-      "base_tip_description": "Optional: use Base Collection to mark F2P, permanently available wardrobe entries as owned. If you own most of them, it is usually faster to unmark the few missing entries afterward.",
-      "resonance_tip_description": "Optional: use Resonance Collection to import owned wardrobe entries inferred from your Resonance data. You can also import later or mark entries manually.",
-      "tracking_title": "Track from the Compendium",
-      "tracking_description": "Use listing pages, detail pages, and single or batch actions to mark wardrobe ownership while browsing the Compendium. You can use ownership filters in the Compendium, Whim Search, Whim-O-Matic, and Tier List Maker.",
-      "finish_setup": "Finish Setup"
+      "region_step": "服务器",
+      "tracking_step": "追踪",
+      "region_title": "选择您的游戏服务器",
+      "base_tip_description": "可选：使用基础收藏将免费、常驻的衣橱部件标记为已拥有。如果您拥有大部分常驻部件，通常先标记全部，然后取消标记少数缺少的部件会更快。",
+      "resonance_tip_description": "可选：使用共鸣收藏导入根据您的共鸣数据推断的已拥有部件。您也可以稍后导入或手动标记。",
+      "tracking_title": "从图鉴进行追踪",
+      "tracking_description": "在浏览图鉴时，使用列表页面、详情页面以及单项或批量操作来标记衣橱拥有状态。您可以在图鉴、奇想搜索、奇想滚滚机和排行榜单中使用拥有状态筛选。",
+      "finish_setup": "完成设置"
     },
     "import_success": "已从抽卡记录中找到的 {found} 个衣橱条目里导入 {imported} 个。",
     "import_empty": "抽卡记录中没有可导入的衣橱条目。",
@@ -889,11 +889,11 @@
     "filter_label": "按标签筛选",
     "filter_obtain": "按来源筛选",
     "item_piece_filter": {
-      "outfit": "Outfit Pieces",
-      "individual": "Individual Pieces"
+      "outfit": "套装部件",
+      "individual": "单品部件"
     },
     "makeup_kind_filter": {
-      "individual": "Individual Makeup"
+      "individual": "单品妆容"
     },
     "variation_filter": {
       "all_evos": "全部进化"

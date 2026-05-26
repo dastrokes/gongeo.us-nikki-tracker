@@ -888,6 +888,13 @@
     "filter_style": "按风格筛选",
     "filter_label": "按标签筛选",
     "filter_obtain": "按来源筛选",
+    "item_piece_filter": {
+      "outfit": "套装部件",
+      "individual": "单品部件"
+    },
+    "makeup_kind_filter": {
+      "individual": "单品妆容"
+    },
     "variation_filter": {
       "all_evos": "全部进化"
     },

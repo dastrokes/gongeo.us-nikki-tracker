@@ -453,6 +453,36 @@ const getRegionScopedMakeupIds = (
   scope: CatalogRegionScope
 ) => filterCatalogIdsByRegionScope('makeup', makeupIds, scope)
 
+const getOutfitItemIdsForScope = (
+  index: CatalogLocalIndex,
+  scope: CatalogRegionScope
+) => {
+  const outfitItemIds = new Set<number>()
+
+  index.outfitItemsById.forEach((itemIds) => {
+    getRegionScopedItemIds(itemIds, scope).forEach((itemId) => {
+      outfitItemIds.add(itemId)
+    })
+  })
+
+  return outfitItemIds
+}
+
+const getFullMakeupComponentIdsForScope = (
+  index: CatalogLocalIndex,
+  scope: CatalogRegionScope
+) => {
+  const makeupIds = new Set<number>()
+
+  index.makeupItemsById.forEach((componentIds) => {
+    getRegionScopedMakeupIds(componentIds, scope).forEach((makeupId) => {
+      makeupIds.add(makeupId)
+    })
+  })
+
+  return makeupIds
+}
+
 const toOutfitItemsRecord = (
   outfitIds: readonly number[],
   outfitItemsById: ReadonlyMap<number, number[]>,
@@ -501,14 +531,18 @@ const getLocalItemMatchingIds = ({
   const attributeMatchingIdSet = attributeMatchingIds
     ? new Set(attributeMatchingIds)
     : null
+  const regionScope = getCatalogQueryRegionScope(query)
+  const pieceFilter = resolveCatalogItemPieceFilter(
+    getStringFilter(query.filters, 'piece')
+  )
+  const outfitItemIds =
+    pieceFilter === 'all' ? null : getOutfitItemIdsForScope(index, regionScope)
   const stableFiltered = index.items.filter(
     (item) =>
       matchesItemStableFilters(item, query.filters) &&
-      isCatalogEntryAvailableInScope(
-        'item',
-        item.id,
-        getCatalogQueryRegionScope(query)
-      )
+      isCatalogEntryAvailableInScope('item', item.id, regionScope) &&
+      (!outfitItemIds ||
+        matchesCatalogItemPieceFilter(item.id, pieceFilter, outfitItemIds))
   )
   const attributeFiltered = attributeMatchingIdSet
     ? stableFiltered.filter((item) =>
@@ -688,14 +722,18 @@ const filterStaticItemIds = ({
   const attributeMatchingIdSet = attributeMatchingIds
     ? new Set(attributeMatchingIds)
     : null
+  const regionScope = getCatalogQueryRegionScope(query)
+  const pieceFilter = resolveCatalogItemPieceFilter(
+    getStringFilter(query.filters, 'piece')
+  )
+  const outfitItemIds =
+    pieceFilter === 'all' ? null : getOutfitItemIdsForScope(index, regionScope)
   const stableFiltered = index.items.filter(
     (item) =>
       matchesItemStableFilters(item, query.filters) &&
-      isCatalogEntryAvailableInScope(
-        'item',
-        item.id,
-        getCatalogQueryRegionScope(query)
-      )
+      isCatalogEntryAvailableInScope('item', item.id, regionScope) &&
+      (!outfitItemIds ||
+        matchesCatalogItemPieceFilter(item.id, pieceFilter, outfitItemIds))
   )
   const attributeFiltered = attributeMatchingIdSet
     ? stableFiltered.filter((item) =>
@@ -764,16 +802,29 @@ const filterStaticMakeupIds = ({
   query: StaticCatalogListingQuery
   index: CatalogLocalIndex
 }) => {
+  const kindFilter = resolveCatalogMakeupKindFilter(
+    getStringFilter(query.filters, 'kind')
+  )
+  const regionScope = getCatalogQueryRegionScope(query)
+  const fullMakeupComponentIds =
+    kindFilter === 'all'
+      ? null
+      : getFullMakeupComponentIdsForScope(index, regionScope)
   const makeupIds = sortMakeupsForFilters(
     index.makeups.filter((makeup) => {
       if (!matchesStableCatalogFilters(makeup, query.filters)) return false
       if (
-        !isCatalogEntryAvailableInScope(
-          'makeup',
+        fullMakeupComponentIds &&
+        !matchesCatalogMakeupKindFilter(
           makeup.id,
-          getCatalogQueryRegionScope(query)
+          makeup.type,
+          kindFilter,
+          fullMakeupComponentIds
         )
       ) {
+        return false
+      }
+      if (!isCatalogEntryAvailableInScope('makeup', makeup.id, regionScope)) {
         return false
       }
 

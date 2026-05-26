@@ -888,6 +888,13 @@
     "filter_style": "스타일별 필터링",
     "filter_label": "라벨별 필터링",
     "filter_obtain": "획득처별 필터링",
+    "item_piece_filter": {
+      "outfit": "의상 파츠",
+      "individual": "개별 파츠"
+    },
+    "makeup_kind_filter": {
+      "individual": "개별 메이크업"
+    },
     "variation_filter": {
       "all_evos": "모든 진화"
     },

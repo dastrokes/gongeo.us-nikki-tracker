@@ -90,7 +90,19 @@ export const useCatalogListing = async <
   ) => {
     if (import.meta.server) return null
 
-    await catalogIndex.loadEntity(currentQuery.entity)
+    if (
+      currentQuery.entity === 'item' &&
+      catalogItemPieceFilterRequiresOutfitItems(
+        typeof currentQuery.filters.piece === 'string'
+          ? currentQuery.filters.piece
+          : null
+      )
+    ) {
+      await catalogIndex.load(['items', 'outfitItems'])
+    } else {
+      await catalogIndex.loadEntity(currentQuery.entity)
+    }
+
     const index = catalogIndex.index.value
     if (!index) {
       throw new Error('Catalog index is unavailable')
@@ -175,10 +187,14 @@ export const useCatalogListing = async <
 
   const fetchListing = async (): Promise<KeyedCatalogListingResult<TEntry>> => {
     const currentQuery = getQuery()
-    const currentKey = getKey()
     onWardrobeModeError?.(null)
 
     try {
+      if (currentQuery.ownershipMode !== 'all') {
+        await ensureWardrobeReady()
+      }
+
+      const currentKey = getKey()
       return {
         ...(await tryFetchLocalListing(currentQuery)),
         cacheKey: currentKey,

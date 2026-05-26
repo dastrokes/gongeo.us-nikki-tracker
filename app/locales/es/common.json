@@ -888,6 +888,13 @@
     "filter_style": "Filtrar por estilo",
     "filter_label": "Filtrar por etiqueta",
     "filter_obtain": "Filtrar por fuente",
+    "item_piece_filter": {
+      "outfit": "Piezas de atuendo",
+      "individual": "Piezas individuales"
+    },
+    "makeup_kind_filter": {
+      "individual": "Maquillaje individual"
+    },
     "variation_filter": {
       "all_evos": "Todas las evos"
     },

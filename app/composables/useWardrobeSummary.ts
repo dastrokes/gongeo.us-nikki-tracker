@@ -6,6 +6,7 @@ export const useWardrobeSummary = (
   const catalogIndex = useCatalogIndex()
   const { ownedItemIds, ownedMakeupIds, ownedMomoIds, mutationVersion } =
     useWardrobe()
+  const { activeRegionScope } = useWardrobeSettings()
 
   const load = async () => {
     await catalogIndex.load([
@@ -29,6 +30,7 @@ export const useWardrobeSummary = (
       ownedMomoIds: ownedMomoIds.value,
       nearCompleteLimit: 6,
       scope: options.scope?.value ?? 'base',
+      regionScope: activeRegionScope.value,
     })
   })
 

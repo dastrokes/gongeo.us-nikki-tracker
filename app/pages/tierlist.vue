@@ -1635,6 +1635,7 @@
     init: initWardrobe,
     getOutfitProgress,
   } = useWardrobe()
+  const { activeRegionScope } = useWardrobeSettings()
 
   type TierItemFacetData = ItemSearchFacetResponse & { cacheKey: string }
 
@@ -2170,6 +2171,7 @@
         page: 1,
         pageSize: TIER_ENTRY_LIMIT,
         ownershipMode: wardrobeFilter.value,
+        regionScope: activeRegionScope.value,
         wardrobe: {
           getOutfitProgress,
         },
@@ -2213,6 +2215,7 @@
       },
       page: 1,
       pageSize: TIER_ENTRY_LIMIT,
+      regionScope: activeRegionScope.value,
       ownershipMode:
         wardrobeFilter.value === 'partial' ? 'all' : wardrobeFilter.value,
       wardrobe: {
@@ -2252,6 +2255,7 @@
       },
       page: 1,
       pageSize: TIER_ENTRY_LIMIT,
+      regionScope: activeRegionScope.value,
     })
     const overLimit = total > TIER_ENTRY_LIMIT
 
@@ -2286,6 +2290,7 @@
         },
         page: 1,
         pageSize: TIER_ENTRY_LIMIT,
+        regionScope: activeRegionScope.value,
       })
     const overLimit = total > TIER_ENTRY_LIMIT
 
@@ -2314,7 +2319,7 @@
       ? wardrobeMutationVersion.value
       : 'all'
 
-    return `tier-data:${locale.value}:${serialized}:wardrobe${wardrobeVersion}:limit${TIER_ENTRY_LIMIT}`
+    return `tier-data:${locale.value}:${serialized}:region${activeRegionScope.value}:wardrobe${wardrobeVersion}:limit${TIER_ENTRY_LIMIT}`
   })
 
   const {

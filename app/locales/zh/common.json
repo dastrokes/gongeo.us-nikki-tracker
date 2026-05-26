@@ -265,6 +265,26 @@
     "f2p_basics_success": "已将 {count} 个基础收藏条目标记为已拥有。",
     "export_file": "导出数据",
     "collection_detail": "{owned}/{total}",
+    "region": {
+      "label": "游戏区服",
+      "global": "国际服"
+    },
+    "settings": {
+      "title": "衣橱设置",
+      "onboarding_title": "衣橱设置引导",
+      "onboarding_description": "为当前档案再次显示设置引导。",
+      "reset_onboarding": "重置引导"
+    },
+    "onboarding": {
+      "region_step": "服务器",
+      "tracking_step": "追踪",
+      "region_title": "选择您的游戏服务器",
+      "base_tip_description": "可选：使用基础收藏将免费、常驻的衣橱部件标记为已拥有。如果您拥有大部分常驻部件，通常先标记全部，然后取消标记少数缺少的部件会更快。",
+      "resonance_tip_description": "可选：使用共鸣收藏导入根据您的共鸣数据推断的已拥有部件。您也可以稍后导入或手动标记。",
+      "tracking_title": "从图鉴进行追踪",
+      "tracking_description": "在浏览图鉴时，使用列表页面、详情页面以及单项或批量操作来标记衣橱拥有状态。您可以在图鉴、奇想搜索、奇想滚滚机和排行榜单中使用拥有状态筛选。",
+      "finish_setup": "完成设置"
+    },
     "import_success": "已从抽卡记录中找到的 {found} 个衣橱条目里导入 {imported} 个。",
     "import_empty": "抽卡记录中没有可导入的衣橱条目。",
     "import_no_new": "抽卡记录中找到 {found} 个衣橱条目，但这些条目都已拥有。",

@@ -265,6 +265,26 @@
     "f2p_basics_success": "Se marcaron {count} entradas de la colección base como propias.",
     "export_file": "Exportar datos",
     "collection_detail": "{owned} de {total}",
+    "region": {
+      "label": "Región del juego",
+      "global": "Global"
+    },
+    "settings": {
+      "title": "Ajustes del guardarropa",
+      "onboarding_title": "Configuración del guardarropa",
+      "onboarding_description": "Mostrar la guía de configuración de nuevo para este perfil.",
+      "reset_onboarding": "Restablecer configuración"
+    },
+    "onboarding": {
+      "region_step": "Región",
+      "tracking_step": "Seguimiento",
+      "region_title": "Elige la región de tu servidor de juego",
+      "base_tip_description": "Opcional: usa la Colección base para marcar como propias las entradas del guardarropa F2P disponibles permanentemente. Si posees la mayoría, suele ser más rápido desmarcar las pocas entradas que te falten después.",
+      "resonance_tip_description": "Opcional: usa la Colección de resonancia para importar las entradas del guardarropa propias inferidas de tus datos de resonancia. También puedes importarlas más tarde o marcarlas manualmente.",
+      "tracking_title": "Seguimiento desde el Compendio",
+      "tracking_description": "Usa las páginas de lista, las páginas de detalles y las acciones individuales o por lotes para marcar la propiedad del guardarropa mientras exploras el Compendio. Puedes usar filtros de propiedad en el Compendio, la Búsqueda de Caprichos, el Whim-O-Matic y el Creador de Tier List.",
+      "finish_setup": "Finalizar configuración"
+    },
     "import_success": "{imported} de {found} entradas de guardarropa importadas.",
     "import_empty": "No había entradas de guardarropa del tracker disponibles para importar.",
     "import_no_new": "Los datos del tracker encontraron {found} entradas de guardarropa, pero ya están marcadas como propias.",

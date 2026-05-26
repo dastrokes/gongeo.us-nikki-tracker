@@ -265,6 +265,26 @@
     "f2p_basics_success": "{count} Einträge der Basissammlung als im Besitz markiert.",
     "export_file": "Daten exportieren",
     "collection_detail": "{owned} von {total}",
+    "region": {
+      "label": "Spielregion",
+      "global": "Global"
+    },
+    "settings": {
+      "title": "Garderoben-Einstellungen",
+      "onboarding_title": "Garderoben-Einrichtung",
+      "onboarding_description": "Zeige die Einrichtungshilfe für dieses Profil erneut an.",
+      "reset_onboarding": "Einrichtung zurücksetzen"
+    },
+    "onboarding": {
+      "region_step": "Region",
+      "tracking_step": "Verfolgen",
+      "region_title": "Wähle deine Spielserverregion aus",
+      "base_tip_description": "Optional: Verwende die Basissammlung, um dauerhaft verfügbare F2P-Garderobeneinträge als im Besitz zu markieren. Wenn du die meisten davon besitzt, ist es meist schneller, danach die wenigen fehlenden Einträge abzuwählen.",
+      "resonance_tip_description": "Optional: Verwende die Resonanzsammlung, um Garderobeneinträge zu importieren, die aus deinen Resonanzdaten abgeleitet wurden. Du kannst sie auch später importieren oder manuell markieren.",
+      "tracking_title": "Aus dem Kompendium verfolgen",
+      "tracking_description": "Verwende Auflistungsseiten, Detailseiten sowie Einzel- oder Sammelaktionen, um den Garderobenbesitz beim Durchsuchen des Kompendiums zu markieren. Du kannst Besitzfilter im Kompendium, in der Launen-Suche, im Launen-O-Mat und im Tier-List-Maker verwenden.",
+      "finish_setup": "Einrichtung abschließen"
+    },
     "import_success": "{imported} von {found} Tracker-Garderobeneinträgen importiert.",
     "import_empty": "Es waren keine Tracker-Garderobeneinträge zum Importieren verfügbar.",
     "import_no_new": "Tracker-Daten enthalten {found} Garderobeneinträge, aber sie sind bereits im Besitz.",

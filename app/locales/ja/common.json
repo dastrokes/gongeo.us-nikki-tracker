@@ -265,6 +265,26 @@
     "f2p_basics_success": "基本コレクションの{count}件を所持済みにしました。",
     "export_file": "データのエクスポート",
     "collection_detail": "{owned}/{total}",
+    "region": {
+      "label": "ゲーム地域",
+      "global": "グローバル"
+    },
+    "settings": {
+      "title": "ワードローブ設定",
+      "onboarding_title": "ワードローブのセットアップ",
+      "onboarding_description": "このプロフィールでセットアップの案内を再表示します。",
+      "reset_onboarding": "セットアップをリセット"
+    },
+    "onboarding": {
+      "region_step": "地域",
+      "tracking_step": "追跡",
+      "region_title": "ゲームサーバーの地域を選択してください",
+      "base_tip_description": "任意：基本コレクションを使用して、常設のF2Pワードローブ項目を所持済みにします。大部分を所持している場合、一旦すべて所持済みにしてから、不足している少数の項目のみチェックを外す方が素早く行えます。",
+      "resonance_tip_description": "任意：共鳴コレクションを使用して、共鳴履歴から推測される所持済み項目をインポートします。後でインポートすることも、手動でマークすることもできます。",
+      "tracking_title": "図鑑からトラッキング",
+      "tracking_description": "図鑑の閲覧中に、一覧ページ、詳細ページ、または単体・一括アクションを使用してワードローブの所持状況をマークできます。図鑑、奇想検索、奇想滾滾機、およびティアリストメーカーで所持フィルターが使用可能です。",
+      "finish_setup": "セットアップ完了"
+    },
     "import_success": "共鳴記録のワードローブ項目 {found} 件のうち {imported} 件をインポートしました。",
     "import_empty": "共鳴記録からインポートできるワードローブ項目はありません。",
     "import_no_new": "共鳴記録にワードローブ項目が {found} 件見つかりましたが、すべて所持済みです。",

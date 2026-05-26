@@ -108,9 +108,22 @@
         <div
           class="flex flex-col justify-between gap-3 rounded-lg bg-gray-50 p-4 dark:bg-gray-900/60"
         >
-          <n-text class="block text-sm font-semibold">
-            {{ t('wardrobe.manage_title') }}
-          </n-text>
+          <div class="flex items-center justify-between gap-3">
+            <n-text class="block text-sm font-semibold">
+              {{ t('wardrobe.manage_title') }}
+            </n-text>
+            <n-button
+              circle
+              size="small"
+              secondary
+              :aria-label="t('wardrobe.settings.title')"
+              @click="wardrobeSettingsOpen = true"
+            >
+              <template #icon>
+                <n-icon size="16"><Cog /></n-icon>
+              </template>
+            </n-button>
+          </div>
 
           <n-button
             block
@@ -201,6 +214,273 @@
         </div>
       </div>
     </n-card>
+
+    <n-modal
+      :show="showWardrobeOnboarding"
+      preset="card"
+      :title="t('wardrobe.settings.onboarding_title')"
+      class="pointer-events-auto mx-auto w-[calc(100vw-2rem)] max-w-md"
+      content-class="space-y-5"
+      :closable="false"
+      :mask-closable="false"
+      :close-on-esc="false"
+      :auto-focus="false"
+    >
+      <div class="space-y-5">
+        <div class="flex items-center gap-2">
+          <div
+            v-for="step in onboardingSteps"
+            :key="step.step"
+            class="flex items-center rounded-full border text-xs font-medium transition"
+            :aria-label="step.label"
+            :class="[
+              onboardingStep === step.step
+                ? 'min-w-0 flex-1 gap-2 border-sky-300 bg-sky-50 px-2.5 py-1.5 text-sky-700 dark:border-sky-700 dark:bg-sky-950/40 dark:text-sky-200'
+                : onboardingStep > step.step
+                  ? 'size-8 justify-center border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-900 dark:bg-emerald-950/30 dark:text-emerald-200'
+                  : 'size-8 justify-center border-gray-100 bg-gray-50 text-gray-500 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-400',
+            ]"
+          >
+            <span
+              class="flex shrink-0 items-center justify-center rounded-full text-[11px] font-semibold"
+              :class="
+                onboardingStep === step.step ? 'size-5 bg-current/15' : ''
+              "
+            >
+              {{ step.step }}
+            </span>
+            <span
+              v-if="onboardingStep === step.step"
+              class="min-w-0 truncate"
+            >
+              {{ step.label }}
+            </span>
+          </div>
+        </div>
+
+        <div
+          v-if="onboardingStep === 1"
+          class="rounded-xl border border-gray-100 bg-gray-50/70 p-3 dark:border-gray-800 dark:bg-gray-900/60"
+        >
+          <div class="space-y-1">
+            <n-text class="block text-sm font-semibold">
+              {{ t('wardrobe.onboarding.region_title') }}
+            </n-text>
+          </div>
+          <n-button-group
+            size="medium"
+            class="mt-3 w-full"
+          >
+            <n-button
+              v-for="option in wardrobeRegionOptions"
+              :key="option.value"
+              class="flex-1 justify-center"
+              :type="
+                onboardingRegionScope === option.value ? 'primary' : 'default'
+              "
+              :secondary="onboardingRegionScope !== option.value"
+              :aria-pressed="onboardingRegionScope === option.value"
+              @click="onboardingRegionScope = option.value"
+            >
+              {{ option.label }}
+            </n-button>
+          </n-button-group>
+        </div>
+
+        <div
+          v-else-if="onboardingStep === 2"
+          class="space-y-2"
+        >
+          <div class="space-y-1">
+            <n-text class="block text-sm font-semibold">
+              {{ t('wardrobe.f2p_basics') }}
+            </n-text>
+            <n-text
+              depth="3"
+              class="block text-sm"
+            >
+              {{ t('wardrobe.onboarding.base_tip_description') }}
+            </n-text>
+          </div>
+
+          <n-button
+            block
+            type="primary"
+            secondary
+            class="h-10 justify-center"
+            :disabled="!canMarkF2PBasics"
+            :aria-busy="markingF2PBasics"
+            @click="handleMarkF2PBasics"
+          >
+            <template #icon>
+              <n-icon size="16"><CheckCircle /></n-icon>
+            </template>
+            <span class="flex min-w-0 items-center gap-2">
+              <span class="truncate">{{ t('wardrobe.f2p_basics') }}</span>
+              <n-tag
+                size="small"
+                :bordered="false"
+                round
+              >
+                {{ f2pBasicsCountLabel }}
+              </n-tag>
+            </span>
+          </n-button>
+        </div>
+
+        <div
+          v-else-if="onboardingStep === 3"
+          class="space-y-2"
+        >
+          <div class="space-y-1">
+            <n-text class="block text-sm font-semibold">
+              {{ t('wardrobe.resonance_collection') }}
+            </n-text>
+            <n-text
+              depth="3"
+              class="block text-sm"
+            >
+              {{ t('wardrobe.onboarding.resonance_tip_description') }}
+            </n-text>
+          </div>
+
+          <n-button
+            block
+            type="primary"
+            secondary
+            class="h-10 justify-center"
+            :disabled="!canImportResonanceCollection"
+            :aria-busy="importing || loadingTrackerImportPreview"
+            @click="handleTrackerImport"
+          >
+            <template #icon>
+              <n-icon size="16"><CheckCircle /></n-icon>
+            </template>
+            <span class="flex min-w-0 items-center gap-2">
+              <span class="truncate">
+                {{ t('wardrobe.resonance_collection') }}
+              </span>
+              <n-tag
+                size="small"
+                :bordered="false"
+                round
+              >
+                {{ resonanceCollectionCountLabel }}
+              </n-tag>
+            </span>
+          </n-button>
+        </div>
+
+        <div
+          v-else
+          class="space-y-3 rounded-xl border border-gray-100 bg-gray-50/70 p-3 dark:border-gray-800 dark:bg-gray-900/60"
+        >
+          <div class="space-y-1">
+            <n-text class="block text-sm font-semibold">
+              {{ t('wardrobe.onboarding.tracking_title') }}
+            </n-text>
+            <n-text
+              depth="3"
+              class="block text-sm"
+            >
+              {{ t('wardrobe.onboarding.tracking_description') }}
+            </n-text>
+          </div>
+
+          <div class="flex flex-wrap gap-2">
+            <n-tag
+              type="info"
+              :bordered="false"
+              round
+            >
+              {{ t('wardrobe.region.label') }}: {{ onboardingRegionLabel }}
+            </n-tag>
+          </div>
+        </div>
+      </div>
+
+      <template #footer>
+        <div
+          class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between"
+        >
+          <n-button
+            v-if="onboardingStep < onboardingLastStep"
+            tertiary
+            @click="handleCompleteOnboarding"
+          >
+            {{ t('common.skip') }}
+          </n-button>
+
+          <div class="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
+            <n-button
+              v-if="onboardingStep > 1"
+              secondary
+              @click="handleOnboardingBack"
+            >
+              {{ t('common.previous') }}
+            </n-button>
+            <n-button
+              v-if="onboardingStep < onboardingLastStep"
+              type="primary"
+              @click="handleOnboardingNext"
+            >
+              {{ t('common.next') }}
+            </n-button>
+            <n-button
+              v-else
+              type="primary"
+              @click="handleCompleteOnboarding"
+            >
+              {{ t('wardrobe.onboarding.finish_setup') }}
+            </n-button>
+          </div>
+        </div>
+      </template>
+    </n-modal>
+
+    <n-modal
+      v-model:show="wardrobeSettingsOpen"
+      preset="card"
+      :title="t('wardrobe.settings.title')"
+      class="pointer-events-auto mx-auto w-[calc(100vw-2rem)] max-w-md"
+      :auto-focus="false"
+    >
+      <div class="space-y-3">
+        <div class="space-y-1">
+          <n-text class="block text-sm font-semibold">
+            {{ t('wardrobe.region.label') }}
+          </n-text>
+        </div>
+        <n-select
+          :value="activeRegionScope"
+          :options="wardrobeRegionOptions"
+          @update:value="handleRegionScopeChange"
+        />
+
+        <n-divider class="my-2" />
+
+        <div class="space-y-2">
+          <div class="space-y-1">
+            <n-text class="block text-sm font-semibold">
+              {{ t('wardrobe.settings.onboarding_title') }}
+            </n-text>
+            <n-text
+              depth="3"
+              class="block text-sm"
+            >
+              {{ t('wardrobe.settings.onboarding_description') }}
+            </n-text>
+          </div>
+          <n-button
+            block
+            secondary
+            @click="resetWardrobeOnboarding"
+          >
+            {{ t('wardrobe.settings.reset_onboarding') }}
+          </n-button>
+        </div>
+      </div>
+    </n-modal>
 
     <n-alert
       v-if="wardrobeError"
@@ -1287,6 +1567,7 @@
   import {
     ChevronDown,
     CheckCircle,
+    Cog,
     ExternalLinkAlt,
     FileExport,
     FileImageRegular,
@@ -1303,7 +1584,7 @@
   import momoSourceGroups from '~~/data/momoSource.json'
   import sourceGroups from '~~/data/source.json'
 
-  const { t } = useI18n()
+  const { t, locale } = useI18n()
   const message = useMessage()
   const dialog = useDialog()
   const { activeSlot, slots, getSlotLabel } = useProfileSlots()
@@ -1327,6 +1608,15 @@
     error: summaryError,
     load: loadSummary,
   } = useWardrobeSummary({ scope: wardrobeSummaryScope })
+  const {
+    activeRegionScope,
+    onboardingCompleted,
+    activeShareSettings,
+    setActiveRegionScope,
+    setActiveShareSettings,
+    updateActiveProfileSettings,
+    completeOnboarding,
+  } = useWardrobeSettings()
 
   const catalogIndex = useCatalogIndex()
   const { loadData, loadWardrobe } = useIndexedDB()
@@ -1348,9 +1638,23 @@
   const isHydrated = ref(false)
   const isShareLandscape = ref(false)
   const sharePickerOpen = ref(false)
+  const wardrobeSettingsOpen = ref(false)
   const sharePickerSearch = ref('')
   const showAllSlots = ref(false)
   const showAllVersions = ref(false)
+  const onboardingLastStep = 4
+  const onboardingStep = ref(1)
+  const onboardingRegionScope = ref<CatalogRegionScope>(
+    activeRegionScope.value === 'global' && locale.value === 'zh'
+      ? 'cn'
+      : activeRegionScope.value
+  )
+  const onboardingSteps = computed(() => [
+    { step: 1, label: t('wardrobe.onboarding.region_step') },
+    { step: 2, label: t('wardrobe.f2p_basics') },
+    { step: 3, label: t('wardrobe.resonance_collection') },
+    { step: 4, label: t('wardrobe.onboarding.tracking_step') },
+  ])
 
   const activeProfileLabel = computed(() => getSlotLabel(activeSlot.value))
   const showProfileTag = computed(
@@ -1369,6 +1673,31 @@
     new Intl.NumberFormat().format(value ?? 0)
 
   const formatPercent = (value: number | undefined) => value ?? 0
+  const wardrobeRegionOptions = computed(() => {
+    const globalOption = {
+      label: t('wardrobe.region.global'),
+      value: 'global' as const,
+    }
+    const cnOption = {
+      label: t('import.regions.china'),
+      value: 'cn' as const,
+    }
+    return locale.value === 'zh'
+      ? [cnOption, globalOption]
+      : [globalOption, cnOption]
+  })
+  const showWardrobeOnboarding = computed(
+    () => initialized.value && !onboardingCompleted.value
+  )
+  const onboardingRegionLabel = computed(
+    () =>
+      wardrobeRegionOptions.value.find(
+        (option) => option.value === onboardingRegionScope.value
+      )?.label ?? t('wardrobe.region.global')
+  )
+  const handleRegionScopeChange = (value: string) => {
+    setActiveRegionScope(normalizeCatalogRegionScope(value))
+  }
 
   const getWardrobeStatsQuery = (
     query: Record<string, string | number>,
@@ -1422,8 +1751,6 @@
     picks?: Partial<WardrobeSharePicks>
     options?: Partial<WardrobeShareOptions>
   }
-
-  type WardrobeShareState = Record<string, WardrobeShareProfileState>
 
   type SharePickCandidate = {
     key: string
@@ -1491,19 +1818,17 @@
       : {}),
   })
 
-  const storedShare = useLocalStorage<WardrobeShareState>(
-    'gongeous-wardrobe-share',
-    {}
-  )
-
   const activeSharePickSlotKey = ref<SharePickSlotKey>('bannerFiveStar')
   const sharePickerPage = ref(1)
   const sharePickerPageSize = 18
+  const activeShareState = computed(
+    () => activeShareSettings.value as WardrobeShareProfileState
+  )
   const activeSharePicks = computed(() =>
-    normalizeSharePicks(storedShare.value[String(activeSlot.value)]?.picks)
+    normalizeSharePicks(activeShareState.value.picks)
   )
   const activeShareOptions = computed(() =>
-    normalizeShareOptions(storedShare.value[String(activeSlot.value)]?.options)
+    normalizeShareOptions(activeShareState.value.options)
   )
 
   const ownedItemIdSet = computed(() => new Set(ownedItemIds.value))
@@ -1512,14 +1837,10 @@
   const updateSharePicks = (
     updater: (current: WardrobeSharePicks) => WardrobeSharePicks
   ) => {
-    const profileKey = String(activeSlot.value)
-    storedShare.value = {
-      ...storedShare.value,
-      [profileKey]: {
-        ...storedShare.value[profileKey],
-        picks: updater(activeSharePicks.value),
-      },
-    }
+    setActiveShareSettings({
+      ...activeShareSettings.value,
+      picks: updater(activeSharePicks.value),
+    })
   }
 
   const getSavedSharePickId = (slotKey: SharePickSlotKey) =>
@@ -1548,17 +1869,13 @@
     key: Key,
     value: WardrobeShareOptions[Key]
   ) => {
-    const profileKey = String(activeSlot.value)
-    storedShare.value = {
-      ...storedShare.value,
-      [profileKey]: {
-        ...storedShare.value[profileKey],
-        options: {
-          ...activeShareOptions.value,
-          [key]: value,
-        },
+    setActiveShareSettings({
+      ...activeShareSettings.value,
+      options: {
+        ...activeShareOptions.value,
+        [key]: value,
       },
-    }
+    })
   }
 
   const sharePickSlots = computed<SharePickSlot[]>(() => [
@@ -1698,7 +2015,11 @@
 
     return index.outfits
       .filter((outfit) => {
-        const itemIds = index.outfitItemsById.get(outfit.id) ?? []
+        const itemIds = filterCatalogIdsByRegionScope(
+          'item',
+          index.outfitItemsById.get(outfit.id) ?? [],
+          activeRegionScope.value
+        )
         return (
           getOutfitVariantType(String(outfit.id)) === 'base' &&
           itemIds.length > 0 &&
@@ -1732,7 +2053,12 @@
         (item) =>
           item.type === 'dresses' &&
           getItemVariantType(item.id) === 'base' &&
-          ownedItemIdSet.value.has(item.id)
+          ownedItemIdSet.value.has(item.id) &&
+          isCatalogEntryAvailableInScope(
+            'item',
+            item.id,
+            activeRegionScope.value
+          )
       )
       .sort((left, right) => right.quality - left.quality || left.id - right.id)
       .map(createItemShareCandidate)
@@ -1747,7 +2073,12 @@
         (item) =>
           item.type === 'hair' &&
           getItemVariantType(item.id) === 'base' &&
-          ownedItemIdSet.value.has(item.id)
+          ownedItemIdSet.value.has(item.id) &&
+          isCatalogEntryAvailableInScope(
+            'item',
+            item.id,
+            activeRegionScope.value
+          )
       )
       .sort((left, right) => right.quality - left.quality || left.id - right.id)
       .map(createItemShareCandidate)
@@ -1760,6 +2091,9 @@
     return index.items
       .filter((item) => ownedItemIdSet.value.has(item.id))
       .filter((item) => getItemVariantType(item.id) === 'base')
+      .filter((item) =>
+        isCatalogEntryAvailableInScope('item', item.id, activeRegionScope.value)
+      )
       .sort((left, right) => right.quality - left.quality || left.id - right.id)
       .map(createItemShareCandidate)
   })
@@ -1770,6 +2104,9 @@
 
     return index.momo
       .filter((momo) => ownedMomoIdSet.value.has(momo.id))
+      .filter((momo) =>
+        isCatalogEntryAvailableInScope('momo', momo.id, activeRegionScope.value)
+      )
       .sort((left, right) => right.quality - left.quality || left.id - right.id)
       .map(createMomoShareCandidate)
   })
@@ -1923,13 +2260,21 @@
 
       index.outfitItemsById
         .get(outfit.id)
-        ?.forEach((itemId) => itemIds.add(itemId))
+        ?.filter((itemId) =>
+          isCatalogEntryAvailableInScope(
+            'item',
+            itemId,
+            activeRegionScope.value
+          )
+        )
+        .forEach((itemId) => itemIds.add(itemId))
     })
 
     index.items.forEach((item) => {
       if (
         typeof item.obtain_type === 'number' &&
-        f2pBasicSourceIds.has(item.obtain_type)
+        f2pBasicSourceIds.has(item.obtain_type) &&
+        isCatalogEntryAvailableInScope('item', item.id, activeRegionScope.value)
       ) {
         itemIds.add(item.id)
       }
@@ -1946,17 +2291,33 @@
       if (makeup.type === 'fullMakeup') {
         index.makeupItemsById
           .get(makeup.id)
-          ?.forEach((makeupId) => makeupIds.add(makeupId))
+          ?.filter((makeupId) =>
+            isCatalogEntryAvailableInScope(
+              'makeup',
+              makeupId,
+              activeRegionScope.value
+            )
+          )
+          .forEach((makeupId) => makeupIds.add(makeupId))
         return
       }
 
-      makeupIds.add(makeup.id)
+      if (
+        isCatalogEntryAvailableInScope(
+          'makeup',
+          makeup.id,
+          activeRegionScope.value
+        )
+      ) {
+        makeupIds.add(makeup.id)
+      }
     })
 
     index.momo.forEach((momo) => {
       if (
         typeof momo.obtain_type === 'number' &&
-        f2pBasicMomoSourceIds.has(momo.obtain_type)
+        f2pBasicMomoSourceIds.has(momo.obtain_type) &&
+        isCatalogEntryAvailableInScope('momo', momo.id, activeRegionScope.value)
       ) {
         momoIds.add(momo.id)
       }
@@ -2007,7 +2368,6 @@
       !loadingTrackerImportPreview.value &&
       resonanceCollectionMissingCount.value > 0
   )
-
   const collectionCards = computed(() => [
     {
       key: 'outfits',
@@ -2114,6 +2474,16 @@
         : index.items.filter((item) => getItemVariantType(item.id) === 'base')
 
     scopedItems.forEach((item) => {
+      if (
+        !isCatalogEntryAvailableInScope(
+          'item',
+          item.id,
+          activeRegionScope.value
+        )
+      ) {
+        return
+      }
+
       const itemVersion = getVersionFromId(item.obtain_type)
       if (!itemVersion) return
 
@@ -2294,31 +2664,42 @@
     }
   }
 
-  const handleTrackerImport = async () => {
-    if (!canImportResonanceCollection.value) return
+  const importTrackerWardrobeEntries = async ({
+    confirm = true,
+    showEmptyDialog = true,
+  }: {
+    confirm?: boolean
+    showEmptyDialog?: boolean
+  } = {}) => {
+    if (!canMutate.value) return false
+
     importing.value = true
     try {
       const result = await getTrackerWardrobeImportPreview()
       trackerImportPreview.value = result
       if (result.found === 0) {
-        dialog.info({
-          title: t('wardrobe.resonance_collection'),
-          content: t('wardrobe.import_empty'),
-          positiveText: t('common.ok'),
-        })
-        return
+        if (showEmptyDialog) {
+          dialog.info({
+            title: t('wardrobe.resonance_collection'),
+            content: t('wardrobe.import_empty'),
+            positiveText: t('common.ok'),
+          })
+        }
+        return true
       }
 
       if (result.imported === 0) {
-        dialog.info({
-          title: t('wardrobe.resonance_collection'),
-          content: t('wardrobe.import_no_new', { found: result.found }),
-          positiveText: t('common.ok'),
-        })
-        return
+        if (showEmptyDialog) {
+          dialog.info({
+            title: t('wardrobe.resonance_collection'),
+            content: t('wardrobe.import_no_new', { found: result.found }),
+            positiveText: t('common.ok'),
+          })
+        }
+        return true
       }
 
-      if (!(await confirmTrackerImport(result))) return
+      if (confirm && !(await confirmTrackerImport(result))) return false
 
       const imported = await markWardrobeIdsOwned({
         itemIds: result.itemIds,
@@ -2332,19 +2713,50 @@
         })
       )
       await refreshTrackerImportPreview()
+      return true
     } catch {
       message.error(t('wardrobe.import_error'))
+      return false
     } finally {
       importing.value = false
     }
   }
 
-  const handleMarkF2PBasics = async () => {
-    if (!canMarkF2PBasics.value) return
+  const handleTrackerImport = async () => {
+    if (!canImportResonanceCollection.value) return
+    await importTrackerWardrobeEntries()
+  }
+
+  const applyOnboardingRegion = () => {
+    setActiveRegionScope(onboardingRegionScope.value)
+  }
+
+  const handleOnboardingNext = () => {
+    if (onboardingStep.value === 1) {
+      applyOnboardingRegion()
+    }
+
+    onboardingStep.value = Math.min(
+      onboardingStep.value + 1,
+      onboardingLastStep
+    )
+  }
+
+  const handleOnboardingBack = () => {
+    onboardingStep.value = Math.max(onboardingStep.value - 1, 1)
+  }
+
+  const markF2PBasicWardrobeEntries = async ({
+    confirm = true,
+  }: {
+    confirm?: boolean
+  } = {}) => {
+    if (!canMutate.value) return false
 
     const wardrobeIds = f2pBasicMissingWardrobeIds.value
     const count = f2pBasicMissingCount.value
-    if (!(await confirmMarkF2PBasics(count))) return
+    if (count === 0) return true
+    if (confirm && !(await confirmMarkF2PBasics(count))) return false
 
     markingF2PBasics.value = true
     try {
@@ -2354,11 +2766,36 @@
           count,
         })
       )
+      return true
     } catch {
       message.error(t('wardrobe.error.save'))
+      return false
     } finally {
       markingF2PBasics.value = false
     }
+  }
+
+  const handleCompleteOnboarding = () => {
+    applyOnboardingRegion()
+    completeOnboarding()
+  }
+
+  const resetWardrobeOnboarding = () => {
+    onboardingStep.value = 1
+    onboardingRegionScope.value =
+      activeRegionScope.value === 'global' && locale.value === 'zh'
+        ? 'cn'
+        : activeRegionScope.value
+    updateActiveProfileSettings((profile) => ({
+      ...profile,
+      onboardingCompleted: false,
+    }))
+    wardrobeSettingsOpen.value = false
+  }
+
+  const handleMarkF2PBasics = async () => {
+    if (!canMarkF2PBasics.value) return
+    await markF2PBasicWardrobeEntries()
   }
 
   const openProfileFilePicker = () => {
@@ -2457,6 +2894,12 @@
   })
 
   watch([activeSlot, mutationVersion, canMutate], () => {
+    void refreshTrackerImportPreview()
+  })
+
+  watch(activeRegionScope, (regionScope) => {
+    onboardingRegionScope.value =
+      regionScope === 'global' && locale.value === 'zh' ? 'cn' : regionScope
     void refreshTrackerImportPreview()
   })
 

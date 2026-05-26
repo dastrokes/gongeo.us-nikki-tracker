@@ -146,6 +146,7 @@ export const createWardrobeSummary = ({
   ownedMomoIds = [],
   nearCompleteLimit = 6,
   scope = 'base',
+  regionScope = 'global',
 }: {
   index: WardrobeSummaryCatalogIndex
   ownedItemIds: readonly number[]
@@ -153,15 +154,31 @@ export const createWardrobeSummary = ({
   ownedMomoIds?: readonly number[]
   nearCompleteLimit?: number
   scope?: WardrobeSummaryScope
+  regionScope?: CatalogRegionScope
 }): WardrobeSummary => {
-  const items =
+  const normalizedRegionScope = normalizeCatalogRegionScope(regionScope)
+  const items = (
     scope === 'all' ? index.items : index.items.filter(isBaseSummaryItem)
-  const outfits =
-    scope === 'all' ? index.outfits : index.outfits.filter(isBaseSummaryOutfit)
-  const makeups =
+  ).filter((item) =>
+    isCatalogEntryAvailableInScope('item', item.id, normalizedRegionScope)
+  )
+  const makeups = (
     scope === 'all' ? index.makeups : index.makeups.filter(isBaseSummaryMakeup)
+  ).filter((makeup) =>
+    isCatalogEntryAvailableInScope('makeup', makeup.id, normalizedRegionScope)
+  )
+  const momoEntries = index.momo.filter((momo) =>
+    isCatalogEntryAvailableInScope('momo', momo.id, normalizedRegionScope)
+  )
   const makeupItems = makeups.filter((makeup) => makeup.type !== 'fullMakeup')
   const itemIdSet = new Set(items.map((item) => item.id))
+  const outfits = (
+    scope === 'all' ? index.outfits : index.outfits.filter(isBaseSummaryOutfit)
+  ).filter((outfit) =>
+    normalizeSummaryItemIds(index.outfitItemsById.get(outfit.id) ?? []).some(
+      (itemId) => itemIdSet.has(itemId)
+    )
+  )
   const makeupItemIdSet = new Set(makeupItems.map((makeup) => makeup.id))
   const ownedItemIdSet = new Set(normalizeSummaryItemIds([...ownedItemIds]))
   const ownedMakeupIdSet = new Set(normalizeSummaryItemIds([...ownedMakeupIds]))
@@ -274,7 +291,7 @@ export const createWardrobeSummary = ({
       }
     })
 
-  index.momo.forEach((momo) => {
+  momoEntries.forEach((momo) => {
     if (ownedMomoIdSet.has(momo.id)) {
       ownedMomoCount += 1
     }
@@ -301,7 +318,7 @@ export const createWardrobeSummary = ({
         ownedFullMakeupCount + partialFullMakeupCount + missingFullMakeupCount
       ),
     },
-    momo: createProgress(ownedMomoCount, index.momo.length),
+    momo: createProgress(ownedMomoCount, momoEntries.length),
     qualityRows: Array.from(qualityGroups.entries())
       .map(([quality, progress]) => ({
         quality,

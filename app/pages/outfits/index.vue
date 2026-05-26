@@ -710,6 +710,7 @@
     getOutfitProgress,
     markOutfitOwned,
   } = useWardrobe()
+  const { activeRegionScope } = useWardrobeSettings()
   const wardrobeModeError = ref<Error | null>(null)
   const wardrobeError = computed(() =>
     wardrobeFilter.value !== 'all' || editMode.value
@@ -744,9 +745,9 @@
         labelFilter.value ?? 'all'
       }-${versionFilter.value ?? 'all'}-${obtainFilter.value ?? 'all'}-${
         variationFilter.value
-      }-${wardrobeFilter.value}-${wardrobeMutationVersion.value}-${
-        currentPage.value
-      }-${pageSize}`
+      }-${wardrobeFilter.value}-${activeRegionScope.value}-${
+        wardrobeMutationVersion.value
+      }-${currentPage.value}-${pageSize}`
   )
   const buildOutfitFetchFilters = () => ({
     quality: qualityFilter.value,
@@ -763,6 +764,7 @@
     page: currentPage.value,
     pageSize,
     ownershipMode: wardrobeFilter.value,
+    regionScope: activeRegionScope.value,
   }))
 
   const {

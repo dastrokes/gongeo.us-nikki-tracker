@@ -265,6 +265,26 @@
     "f2p_basics_success": "已將 {count} 個基礎收藏項目標記為已擁有。",
     "export_file": "匯出資料",
     "collection_detail": "{owned}/{total}",
+    "region": {
+      "label": "遊戲區服",
+      "global": "國際服"
+    },
+    "settings": {
+      "title": "衣櫥設定",
+      "onboarding_title": "衣櫥設定引導",
+      "onboarding_description": "為目前檔案再次顯示設定引導。",
+      "reset_onboarding": "重置引導"
+    },
+    "onboarding": {
+      "region_step": "伺服器",
+      "tracking_step": "追蹤",
+      "region_title": "選擇您的遊戲伺服器",
+      "base_tip_description": "可選：使用基礎收藏將免費、常駐的衣櫥項目標記為已擁有。如果您擁有大部分常駐項目，通常先標記全部，然後取消標記少數缺少的項目會更快。",
+      "resonance_tip_description": "可選：使用共鳴收藏導入根據您的共鳴數據推斷的已擁有項目。您也可以稍後導入或手動標記。",
+      "tracking_title": "從圖鑑進行追蹤",
+      "tracking_description": "在瀏覽圖鑑時，使用列表頁面、詳情頁面以及單個或批次操作來標記衣櫥擁有狀態。您可以在圖鑑、奇想搜尋、奇想滾滾機和排行榜單中使用擁有狀態篩選。",
+      "finish_setup": "完成設定"
+    },
     "import_success": "已從抽卡记录中找到的 {found} 個衣櫥項目裡匯入 {imported} 個。",
     "import_empty": "抽卡记录中沒有可匯入的衣櫥項目。",
     "import_no_new": "抽卡记录中找到 {found} 個衣櫥項目，但這些項目都已擁有。",

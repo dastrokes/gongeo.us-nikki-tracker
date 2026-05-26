@@ -265,6 +265,26 @@
     "f2p_basics_success": "{count} voci della collezione base segnate come possedute.",
     "export_file": "Esporta dati",
     "collection_detail": "{owned} di {total}",
+    "region": {
+      "label": "Regione di gioco",
+      "global": "Globale"
+    },
+    "settings": {
+      "title": "Impostazioni guardaroba",
+      "onboarding_title": "Configurazione guardaroba",
+      "onboarding_description": "Mostra di nuovo la guida alla configurazione per questo profilo.",
+      "reset_onboarding": "Ripristina configurazione"
+    },
+    "onboarding": {
+      "region_step": "Regione",
+      "tracking_step": "Monitora",
+      "region_title": "Scegli la regione del tuo server di gioco",
+      "base_tip_description": "Facoltativo: usa la Collezione base per segnare come possedute le voci del guardaroba F2P permanentemente disponibili. Se possiedi la maggior parte di esse, di solito è più veloce deselezionare le poche voci mancanti in seguito.",
+      "resonance_tip_description": "Facoltativo: usa la Collezione risonanza per importare le voci del guardaroba possedute dedotte dai dati di risonanza. Puoi anche importarle in seguito o contrassegnarle manualmente.",
+      "tracking_title": "Monitora dal Compendio",
+      "tracking_description": "Usa le pagine di elenco, le pagine di dettaglio e le azioni singole o di gruppo per segnare il possesso del guardaroba mentre navighi nel Compendio. Puoi usare i filtri di possesso nel Compendio, nella Ricerca di Capricci, nel Whim-O-Matic e nel Tier List Maker.",
+      "finish_setup": "Completa configurazione"
+    },
     "import_success": "Importate {imported} di {found} voci guardaroba del tracker.",
     "import_empty": "Nessuna voce guardaroba del tracker disponibile da importare.",
     "import_no_new": "I dati del tracker hanno trovato {found} voci guardaroba, ma sono già possedute.",

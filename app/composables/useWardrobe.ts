@@ -33,6 +33,7 @@ export const useWardrobe = () => {
   const { activeSlot } = useProfileSlots()
   const { loadWardrobe, saveWardrobe, loadData } = useIndexedDB()
   const catalogIndex = useCatalogIndex()
+  const { activeRegionScope } = useWardrobeSettings()
 
   const ownedItemIds = computed(() => data.value.ownedItemIds)
   const ownedMakeupIds = computed(() => data.value.ownedMakeupIds)
@@ -350,15 +351,32 @@ export const useWardrobe = () => {
       catalogIndex: index,
     })
 
+    const availableItemIds = filterCatalogIdsByRegionScope(
+      'item',
+      inferred.itemIds,
+      activeRegionScope.value
+    )
+    const availableMakeupIds = filterCatalogIdsByRegionScope(
+      'makeup',
+      inferred.makeupIds,
+      activeRegionScope.value
+    )
+    const availableMomoIds = filterCatalogIdsByRegionScope(
+      'momo',
+      inferred.momoIds,
+      activeRegionScope.value
+    )
     const totalFound =
-      inferred.found.items + inferred.found.makeups + inferred.found.momo
-    const itemIds = inferred.itemIds.filter(
+      availableItemIds.length +
+      availableMakeupIds.length +
+      availableMomoIds.length
+    const itemIds = availableItemIds.filter(
       (itemId) => !ownedItemIdSet.value.has(itemId)
     )
-    const makeupIds = inferred.makeupIds.filter(
+    const makeupIds = availableMakeupIds.filter(
       (makeupId) => !ownedMakeupIdSet.value.has(makeupId)
     )
-    const momoIds = inferred.momoIds.filter(
+    const momoIds = availableMomoIds.filter(
       (momoId) => !ownedMomoIdSet.value.has(momoId)
     )
 
@@ -368,9 +386,9 @@ export const useWardrobe = () => {
       momoIds,
       found: totalFound,
       imported: itemIds.length + makeupIds.length + momoIds.length,
-      foundItems: inferred.found.items,
-      foundMakeups: inferred.found.makeups,
-      foundMomo: inferred.found.momo,
+      foundItems: availableItemIds.length,
+      foundMakeups: availableMakeupIds.length,
+      foundMomo: availableMomoIds.length,
       importedItems: itemIds.length,
       importedMakeups: makeupIds.length,
       importedMomo: momoIds.length,

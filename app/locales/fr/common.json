@@ -265,6 +265,26 @@
     "f2p_basics_success": "{count} entrées de la collection de base marquées comme possédées.",
     "export_file": "Exporter les données",
     "collection_detail": "{owned} sur {total}",
+    "region": {
+      "label": "Région du jeu",
+      "global": "Global"
+    },
+    "settings": {
+      "title": "Paramètres de garde-robe",
+      "onboarding_title": "Configuration de la garde-robe",
+      "onboarding_description": "Afficher à nouveau le guide de configuration pour ce profil.",
+      "reset_onboarding": "Réinitialiser la configuration"
+    },
+    "onboarding": {
+      "region_step": "Région",
+      "tracking_step": "Suivi",
+      "region_title": "Choisissez la région de votre serveur de jeu",
+      "base_tip_description": "Facultatif : utilisez la Collection de base pour marquer comme possédées les entrées de garde-robe F2P disponibles en permanence. Si vous possédez la plupart d'entre elles, il est généralement plus rapide de décocher ensuite les quelques entrées manquantes.",
+      "resonance_tip_description": "Facultatif : utilisez la Collection de résonance pour importer les entrées de garde-robe possédées déduites de vos données de résonance. Vous pouvez également les importer plus tard ou les marquer manuellement.",
+      "tracking_title": "Suivi depuis le Compendium",
+      "tracking_description": "Utilisez les pages de liste, les pages de détails ainsi que des actions individuelles ou groupées pour marquer la possession de votre garde-robe tout en naviguant dans le Compendium. Vous pouvez utiliser les filtres de possession dans le Compendium, la Recherche de Caprices, le Whim-O-Matic et le Créateur de Tier List.",
+      "finish_setup": "Terminer la configuration"
+    },
     "import_success": "{imported} entrées de garde-robe du tracker importées sur {found}.",
     "import_empty": "Aucune entrée de garde-robe du tracker n’était disponible à importer.",
     "import_no_new": "Les données du tracker ont trouvé {found} entrées de garde-robe, mais elles sont déjà possédées.",

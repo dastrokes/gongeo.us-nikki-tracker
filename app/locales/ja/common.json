@@ -266,24 +266,24 @@
     "export_file": "データのエクスポート",
     "collection_detail": "{owned}/{total}",
     "region": {
-      "label": "Game Region",
-      "global": "Global"
+      "label": "ゲーム地域",
+      "global": "グローバル"
     },
     "settings": {
-      "title": "Wardrobe Settings",
-      "onboarding_title": "Wardrobe Setup",
-      "onboarding_description": "Show the setup walkthrough again for this profile.",
-      "reset_onboarding": "Reset Setup"
+      "title": "ワードローブ設定",
+      "onboarding_title": "ワードローブのセットアップ",
+      "onboarding_description": "このプロフィールでセットアップの案内を再表示します。",
+      "reset_onboarding": "セットアップをリセット"
     },
     "onboarding": {
-      "region_step": "Region",
-      "tracking_step": "Track",
-      "region_title": "Choose Your Game Region",
-      "base_tip_description": "Optional: use Base Collection to mark F2P, permanently available wardrobe entries as owned. If you own most of them, it is usually faster to unmark the few missing entries afterward.",
-      "resonance_tip_description": "Optional: use Resonance Collection to import owned wardrobe entries inferred from your Resonance data. You can also import later or mark entries manually.",
-      "tracking_title": "Track from the Compendium",
-      "tracking_description": "Use listing pages, detail pages, and single or batch actions to mark wardrobe ownership while browsing the Compendium. You can use ownership filters in the Compendium, Whim Search, Whim-O-Matic, and Tier List Maker.",
-      "finish_setup": "Finish Setup"
+      "region_step": "地域",
+      "tracking_step": "追跡",
+      "region_title": "ゲームサーバーの地域を選択してください",
+      "base_tip_description": "任意：基本コレクションを使用して、常設のF2Pワードローブ項目を所持済みにします。大部分を所持している場合、一旦すべて所持済みにしてから、不足している少数の項目のみチェックを外す方が素早く行えます。",
+      "resonance_tip_description": "任意：共鳴コレクションを使用して、共鳴履歴から推測される所持済み項目をインポートします。後でインポートすることも、手動でマークすることもできます。",
+      "tracking_title": "図鑑からトラッキング",
+      "tracking_description": "図鑑の閲覧中に、一覧ページ、詳細ページ、または単体・一括アクションを使用してワードローブの所持状況をマークできます。図鑑、奇想検索、奇想滾滾機、およびティアリストメーカーで所持フィルターが使用可能です。",
+      "finish_setup": "セットアップ完了"
     },
     "import_success": "共鳴記録のワードローブ項目 {found} 件のうち {imported} 件をインポートしました。",
     "import_empty": "共鳴記録からインポートできるワードローブ項目はありません。",
@@ -889,11 +889,11 @@
     "filter_label": "ラベルで絞り込む",
     "filter_obtain": "入手方法で絞り込む",
     "item_piece_filter": {
-      "outfit": "Outfit Pieces",
-      "individual": "Individual Pieces"
+      "outfit": "コーデパーツ",
+      "individual": "単品パーツ"
     },
     "makeup_kind_filter": {
-      "individual": "Individual Makeup"
+      "individual": "単品メイク"
     },
     "variation_filter": {
       "all_evos": "全進化"

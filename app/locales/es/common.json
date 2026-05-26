@@ -265,6 +265,26 @@
     "f2p_basics_success": "Se marcaron {count} entradas de la colección base como propias.",
     "export_file": "Exportar datos",
     "collection_detail": "{owned} de {total}",
+    "region": {
+      "label": "Game Region",
+      "global": "Global"
+    },
+    "settings": {
+      "title": "Wardrobe Settings",
+      "onboarding_title": "Wardrobe Setup",
+      "onboarding_description": "Show the setup walkthrough again for this profile.",
+      "reset_onboarding": "Reset Setup"
+    },
+    "onboarding": {
+      "region_step": "Region",
+      "tracking_step": "Track",
+      "region_title": "Choose Your Game Region",
+      "base_tip_description": "Optional: use Base Collection to mark F2P, permanently available wardrobe entries as owned. If you own most of them, it is usually faster to unmark the few missing entries afterward.",
+      "resonance_tip_description": "Optional: use Resonance Collection to import owned wardrobe entries inferred from your Resonance data. You can also import later or mark entries manually.",
+      "tracking_title": "Track from the Compendium",
+      "tracking_description": "Use listing pages, detail pages, and single or batch actions to mark wardrobe ownership while browsing the Compendium. You can use ownership filters in the Compendium, Whim Search, Whim-O-Matic, and Tier List Maker.",
+      "finish_setup": "Finish Setup"
+    },
     "import_success": "{imported} de {found} entradas de guardarropa importadas.",
     "import_empty": "No había entradas de guardarropa del tracker disponibles para importar.",
     "import_no_new": "Los datos del tracker encontraron {found} entradas de guardarropa, pero ya están marcadas como propias.",
@@ -868,6 +888,13 @@
     "filter_style": "Filtrar por estilo",
     "filter_label": "Filtrar por etiqueta",
     "filter_obtain": "Filtrar por fuente",
+    "item_piece_filter": {
+      "outfit": "Outfit Pieces",
+      "individual": "Individual Pieces"
+    },
+    "makeup_kind_filter": {
+      "individual": "Individual Makeup"
+    },
     "variation_filter": {
       "all_evos": "Todas las evos"
     },

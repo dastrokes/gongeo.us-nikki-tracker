@@ -380,8 +380,6 @@
         class="h-1"
       ></div>
     </n-card>
-
-    <AdSenseDisplayPlacement />
   </div>
 </template>
 

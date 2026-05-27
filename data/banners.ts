@@ -1,5 +1,5 @@
-/* 
- Banner Types: 
+/*
+ Banner Types:
  1 - Permanent
  2 - Limited 5★ with 4★
  3 - Limited 4★
@@ -122,6 +122,11 @@ export const BANNER_DATA: BannerData = {
         start: '2025-01-12',
         end: '2025-01-23',
       },
+      {
+        version: '2.6.1',
+        start: '2026-05-28',
+        end: '2026-06-10',
+      },
     ],
     rewardIds: ['1021730005', '1021710007', '1020300072'],
   },
@@ -223,6 +228,11 @@ export const BANNER_DATA: BannerData = {
         version: '1.3.1',
         start: '2025-02-25',
         end: '2025-03-25',
+      },
+      {
+        version: '2.6.2',
+        start: '2026-06-10',
+        end: '2026-06-23',
       },
     ],
   },
@@ -360,6 +370,11 @@ export const BANNER_DATA: BannerData = {
         version: '1.5.2',
         start: '2025-05-20',
         end: '2025-06-12',
+      },
+      {
+        version: '2.6.1',
+        start: '2026-05-28',
+        end: '2026-06-10',
       },
     ],
     rewardIds: ['1029730008', '1029500008', '1021780017'],

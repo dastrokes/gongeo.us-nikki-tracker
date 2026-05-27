@@ -169,11 +169,6 @@
           <slot />
         </div>
 
-        <AdSenseSlot
-          variant="display"
-          class="mx-auto mt-10 max-w-5xl px-2 sm:px-4"
-        />
-
         <n-layout-footer
           class="mt-12 border-t border-gray-400/20 bg-linear-to-r from-[#f5f0fa]/80 via-[#fff0f5]/80 to-[#fffacd]/50 backdrop-blur-xs dark:border-white/8 dark:from-[#1a1b2e]/80 dark:via-[#2d1b36]/80 dark:to-[#3d1b2e]/50"
         >

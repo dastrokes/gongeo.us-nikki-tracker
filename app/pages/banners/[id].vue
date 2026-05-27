@@ -577,6 +577,8 @@
       </n-result>
     </n-card>
 
+    <AdSenseDisplayPlacement v-if="banner" />
+
     <!-- Collection Editor Modal -->
     <n-modal
       v-model:show="showCollectionEditor"

@@ -593,6 +593,8 @@
       </n-result>
     </n-card>
 
+    <AdSenseDisplayPlacement v-if="item" />
+
     <FeedbackSubmitModal
       v-if="item && supportsItemFeedback"
       v-model:show="showFeedbackModal"

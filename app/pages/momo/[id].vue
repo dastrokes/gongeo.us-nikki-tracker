@@ -290,6 +290,8 @@
         </template>
       </n-result>
     </n-card>
+
+    <AdSenseDisplayPlacement v-if="momo" />
   </div>
 </template>
 

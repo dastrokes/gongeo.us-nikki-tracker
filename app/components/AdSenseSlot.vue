@@ -7,7 +7,7 @@
   >
     <ClientOnly>
       <ins
-        v-if="isAdSenseEnabled"
+        v-if="shouldShowAdElement"
         ref="adElement"
         class="adsbygoogle"
         :style="adStyle"
@@ -138,6 +138,9 @@
       props.variant === 'display' ||
       (isAdSenseEnabled.value && adStatus.value !== 'fallback')
   )
+  const shouldShowAdElement = computed(
+    () => isAdSenseEnabled.value && adStatus.value !== 'fallback'
+  )
   const shouldShowFallback = computed(
     () =>
       props.variant === 'display' &&
@@ -161,6 +164,8 @@
 
     adStatus.value = 'fallback'
     clearFallbackTimer()
+    observer?.disconnect()
+    observer = null
 
     if (isInFeedAd.value) {
       emit('collapse')
@@ -209,9 +214,11 @@
     if (!import.meta.client || !isAdSenseEnabled.value || hasRequestedAd.value)
       return
 
+    hasRequestedAd.value = true
     await nextTick()
 
     if (!adElement.value) {
+      hasRequestedAd.value = false
       return
     }
 
@@ -232,10 +239,8 @@
 
     try {
       adsbygoogle.push({})
-      hasRequestedAd.value = true
       startFallbackTimer()
     } catch {
-      hasRequestedAd.value = true
       setAdFallback()
     }
   }

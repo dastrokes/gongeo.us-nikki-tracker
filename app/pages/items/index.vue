@@ -599,6 +599,8 @@
       </div>
     </n-card>
 
+    <AdSenseDisplayPlacement />
+
     <AdvancedFiltersDrawer
       :show="isAdvancedFiltersDrawerOpen"
       :fields="advancedFilterFields"

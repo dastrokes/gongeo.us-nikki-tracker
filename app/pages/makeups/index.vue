@@ -529,6 +529,8 @@
         </div>
       </div>
     </n-card>
+
+    <AdSenseDisplayPlacement />
   </div>
 </template>
 

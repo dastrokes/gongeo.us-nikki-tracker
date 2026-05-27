@@ -469,6 +469,8 @@
         </template>
       </n-result>
     </n-card>
+
+    <AdSenseDisplayPlacement v-if="makeup" />
   </div>
 </template>
 

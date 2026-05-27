@@ -282,7 +282,7 @@
       "base_tip_description": "Optional: Verwende die Basissammlung, um dauerhaft verfügbare F2P-Garderobeneinträge als im Besitz zu markieren. Wenn du die meisten davon besitzt, ist es meist schneller, danach die wenigen fehlenden Einträge abzuwählen.",
       "resonance_tip_description": "Optional: Verwende die Resonanzsammlung, um Garderobeneinträge zu importieren, die aus deinen Resonanzdaten abgeleitet wurden. Du kannst sie auch später importieren oder manuell markieren.",
       "tracking_title": "Aus dem Kompendium verfolgen",
-      "tracking_description": "Verwende Auflistungsseiten, Detailseiten sowie Einzel- oder Sammelaktionen, um den Garderobenbesitz beim Durchsuchen des Kompendiums zu markieren. Du kannst Besitzfilter im Kompendium, in der Launen-Suche, im Launen-O-Mat und im Tier-List-Maker verwenden.",
+      "tracking_description": "Verwende Auflistungsseiten, Detailseiten sowie Einzel- oder Sammelaktionen, um den Garderobenbesitz beim Durchsuchen des Kompendiums zu markieren. Du kannst Besitzfilter im Kompendium, in der Wunder-Suche, im Wunder-O-Mat und im Ranglisten-Ersteller verwenden.",
       "finish_setup": "Einrichtung abschließen"
     },
     "import_success": "{imported} von {found} Tracker-Garderobeneinträgen importiert.",

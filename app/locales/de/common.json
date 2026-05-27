@@ -107,7 +107,7 @@
     "item": "Stück-Kompendium",
     "makeup": "Make-up-Kompendium",
     "item_detail": "Stück-Detail",
-    "tierlist": "Ranglisten-Macher",
+    "tierlist": "Ranglisten-Ersteller",
     "compendium": "Kompendium",
     "vote": "Banner-Abstimmung",
     "faq": "FAQ",
@@ -250,7 +250,7 @@
   "wardrobe": {
     "storage_unavailable": "Garderobenspeicher ist nicht verfügbar.",
     "summary_unavailable": "Garderobenzusammenfassung ist nicht verfügbar.",
-    "storage_recovery": "Speicher erneut versuchen",
+    "storage_recovery": "Speicher erneut laden",
     "empty_title": "Noch keine Stücke im Besitz",
     "empty_description": "Markiere Stücke im Stück-Kompendium oder importiere Banner-Stücke im Besitz aus Tracker-Daten.",
     "open_items": "Stücke öffnen",
@@ -278,7 +278,7 @@
     "onboarding": {
       "region_step": "Region",
       "tracking_step": "Verfolgen",
-      "region_title": "Wähle deine Spielserverregion aus",
+      "region_title": "Wähle deine Spielregion aus",
       "base_tip_description": "Optional: Verwende die Basissammlung, um dauerhaft verfügbare F2P-Garderobeneinträge als im Besitz zu markieren. Wenn du die meisten davon besitzt, ist es meist schneller, danach die wenigen fehlenden Einträge abzuwählen.",
       "resonance_tip_description": "Optional: Verwende die Resonanzsammlung, um Garderobeneinträge zu importieren, die aus deinen Resonanzdaten abgeleitet wurden. Du kannst sie auch später importieren oder manuell markieren.",
       "tracking_title": "Aus dem Kompendium verfolgen",
@@ -890,10 +890,10 @@
     "filter_obtain": "Nach Herkunft filtern",
     "item_piece_filter": {
       "outfit": "Outfit-Teile",
-      "individual": "Einzelteile"
+      "individual": "Individuelle Teile"
     },
     "makeup_kind_filter": {
-      "individual": "Einzelnes Make-up"
+      "individual": "Individuelles Make-up"
     },
     "variation_filter": {
       "all_evos": "Alle Evos"

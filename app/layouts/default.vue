@@ -159,15 +159,20 @@
     <n-layout-content
       ref="scrollbarRef"
       position="absolute"
-      class="top-0 bg-[#F8FAFC] bg-[radial-gradient(ellipse_at_50%_0%,rgba(232,221,249,0.56)_0%,transparent_68%)] dark:bg-[#101014] dark:bg-[radial-gradient(ellipse_at_50%_0%,rgba(88,28,100,0.36)_0%,transparent_68%)]"
-      :native-scrollbar="false"
-      :scrollbar-props="{ verticalRailStyle: { top: '3.5rem' } }"
+      class="top-14 bg-[#F8FAFC] bg-[radial-gradient(ellipse_at_50%_0%,rgba(232,221,249,0.56)_0%,transparent_68%)] dark:bg-[#101014] dark:bg-[radial-gradient(ellipse_at_50%_0%,rgba(88,28,100,0.36)_0%,transparent_68%)]"
+      :native-scrollbar="true"
+      content-class="app-layout-native-scrollbar"
       @scroll="onScroll"
     >
-      <div class="flex min-h-screen flex-col px-2 pt-16 sm:pt-18">
+      <div class="flex min-h-[calc(100vh-3.5rem)] flex-col px-2 pt-2 sm:pt-4">
         <div class="flex-1">
           <slot />
         </div>
+
+        <AdSenseSlot
+          variant="display"
+          class="mx-auto mt-10 w-full max-w-5xl"
+        />
 
         <n-layout-footer
           class="mt-12 border-t border-gray-400/20 bg-linear-to-r from-[#f5f0fa]/80 via-[#fff0f5]/80 to-[#fffacd]/50 backdrop-blur-xs dark:border-white/8 dark:from-[#1a1b2e]/80 dark:via-[#2d1b36]/80 dark:to-[#3d1b2e]/50"

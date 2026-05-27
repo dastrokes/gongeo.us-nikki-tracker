@@ -456,8 +456,6 @@
         </template>
       </n-result>
     </n-card>
-
-    <AdSenseDisplayPlacement v-if="outfit" />
   </div>
 </template>
 

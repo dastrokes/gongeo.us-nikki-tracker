@@ -154,197 +154,224 @@
         :icon-size="16"
         size="large"
       >
-        <n-timeline-item
+        <template
           v-for="(banner, bannerIndex) in displayedBanners"
-          :id="banner.bannerId.toString()"
           :key="banner.bannerId"
-          :type="getBannerTypeColor(banner.bannerType)"
         >
-          <template #icon>
-            <n-button
-              text
-              :type="getBannerTypeColor(banner.bannerType)"
-            >
-              <n-icon size="20">
-                <Gift />
-              </n-icon>
-            </n-button>
-          </template>
-          <template #header>
-            <NuxtLinkLocale
-              no-prefetch
-              :to="`/banners/${banner.bannerId}`"
-              class="inline w-fit transition-opacity hover:opacity-95"
-            >
-              <n-gradient-text
-                :size="18"
-                class="m-0 font-medium wrap-break-word"
-                :type="banner.bannerType === 2 ? 'warning' : 'info'"
+          <n-timeline-item
+            :id="banner.bannerId.toString()"
+            :type="getBannerTypeColor(banner.bannerType)"
+          >
+            <template #icon>
+              <n-button
+                text
+                :type="getBannerTypeColor(banner.bannerType)"
               >
-                {{ $t(`banner.${banner.bannerId}.name`) }}
-              </n-gradient-text>
-            </NuxtLinkLocale>
-          </template>
-          <template #default>
-            <div class="grid grid-cols-1 gap-2 lg:grid-cols-4">
-              <div class="space-y-2">
-                <div
-                  v-for="(run, index) in banner.runs"
-                  :key="index"
-                  class="space-y-2"
+                <n-icon size="20">
+                  <Gift />
+                </n-icon>
+              </n-button>
+            </template>
+            <template #header>
+              <NuxtLinkLocale
+                no-prefetch
+                :to="`/banners/${banner.bannerId}`"
+                class="inline w-fit transition-opacity hover:opacity-95"
+              >
+                <n-gradient-text
+                  :size="18"
+                  class="m-0 font-medium wrap-break-word"
+                  :type="banner.bannerType === 2 ? 'warning' : 'info'"
                 >
-                  <div class="flex flex-col gap-1">
-                    <div class="flex items-center gap-1">
-                      <NuxtLinkLocale
-                        :to="
-                          getBannerVersionListLocation(getVersion(run.version))
-                        "
-                        class="transition-opacity hover:opacity-80"
-                      >
-                        <n-tag
-                          :bordered="false"
-                          class="cursor-pointer"
+                  {{ $t(`banner.${banner.bannerId}.name`) }}
+                </n-gradient-text>
+              </NuxtLinkLocale>
+            </template>
+            <template #default>
+              <div class="grid grid-cols-1 gap-2 lg:grid-cols-4">
+                <div class="space-y-2">
+                  <div
+                    v-for="(run, index) in banner.runs"
+                    :key="index"
+                    class="space-y-2"
+                  >
+                    <div class="flex flex-col gap-1">
+                      <div class="flex items-center gap-1">
+                        <NuxtLinkLocale
+                          :to="
+                            getBannerVersionListLocation(
+                              getVersion(run.version)
+                            )
+                          "
+                          class="transition-opacity hover:opacity-80"
                         >
-                          {{ $t(`version.${getVersion(run.version)}`) }}
+                          <n-tag
+                            :bordered="false"
+                            class="cursor-pointer"
+                          >
+                            {{ $t(`version.${getVersion(run.version)}`) }}
+                          </n-tag>
+                        </NuxtLinkLocale>
+                        <NuxtLinkLocale
+                          :to="
+                            getBannerVersionListLocation(
+                              getVersion(run.version)
+                            )
+                          "
+                          class="transition-opacity hover:opacity-80"
+                        >
+                          <n-tag
+                            :bordered="false"
+                            class="cursor-pointer"
+                          >
+                            {{ $t('banner.version') }}
+                            {{ getVersion(run.version) }}
+                          </n-tag>
+                        </NuxtLinkLocale>
+                      </div>
+                      <div class="flex items-center gap-1">
+                        <n-tag :bordered="false">
+                          <template #avatar>
+                            <n-icon><CalendarDay /></n-icon>
+                          </template>
+                          <n-time
+                            :time="getRunStartTime(run)"
+                            type="date"
+                          />
+                          -
+                          <n-time
+                            :time="getRunEndTime(run)"
+                            type="date"
+                          />
                         </n-tag>
-                      </NuxtLinkLocale>
+                        <n-tag
+                          v-if="index > 0"
+                          :bordered="false"
+                        >
+                          {{ t('default.rerun') }}
+                        </n-tag>
+                      </div>
+                    </div>
+                  </div>
+                  <n-divider />
+                  <div class="inline-flex flex-col items-start gap-2">
+                    <div
+                      v-for="outfitId in banner.outfit5StarId"
+                      :key="outfitId"
+                      class="inline-flex flex-col"
+                    >
                       <NuxtLinkLocale
-                        :to="
-                          getBannerVersionListLocation(getVersion(run.version))
-                        "
-                        class="transition-opacity hover:opacity-80"
+                        no-prefetch
+                        :to="`/outfits/${outfitId}`"
+                        class="inline w-fit cursor-pointer transition-opacity hover:opacity-80"
                       >
                         <n-tag
+                          size="large"
+                          :color="qualityTextTheme5"
                           :bordered="false"
+                          round
                           class="cursor-pointer"
                         >
-                          {{ $t('banner.version') }}
-                          {{ getVersion(run.version) }}
+                          <span class="flex items-center gap-1">
+                            {{ t(`outfit.${outfitId}.name`) }} 5
+                            <n-icon>
+                              <Star />
+                            </n-icon>
+                          </span>
                         </n-tag>
                       </NuxtLinkLocale>
                     </div>
-                    <div class="flex items-center gap-1">
-                      <n-tag :bordered="false">
-                        <template #avatar>
-                          <n-icon><CalendarDay /></n-icon>
+                    <div
+                      v-for="outfitId in banner.outfit4StarId"
+                      :key="outfitId"
+                      class="inline-flex flex-col"
+                    >
+                      <NuxtLinkLocale
+                        no-prefetch
+                        :to="`/outfits/${outfitId}`"
+                        class="inline w-fit cursor-pointer transition-opacity hover:opacity-80"
+                      >
+                        <n-tag
+                          size="large"
+                          :color="qualityTextTheme4"
+                          :bordered="false"
+                          round
+                          class="cursor-pointer"
+                        >
+                          <span class="flex items-center gap-1">
+                            {{ t(`outfit.${outfitId}.name`) }} 4
+                            <n-icon>
+                              <Star />
+                            </n-icon>
+                          </span>
+                        </n-tag>
+                      </NuxtLinkLocale>
+                    </div>
+                  </div>
+                </div>
+                <div class="lg:col-span-3">
+                  <div
+                    class="mx-auto flex max-w-2xl flex-col items-center space-y-1"
+                  >
+                    <NuxtLinkLocale
+                      no-prefetch
+                      :to="`/banners/${banner.bannerId}`"
+                      class="relative aspect-2/1 min-h-35 w-full overflow-hidden rounded-lg transition-opacity hover:opacity-95 sm:min-h-82.5"
+                    >
+                      <NuxtImg
+                        :src="getImageSrc('banner', banner.bannerId)"
+                        :alt="t(`banner.${banner.bannerId}.name`)"
+                        class="absolute inset-0 h-full w-full object-cover"
+                        preset="bannerHero"
+                        fit="cover"
+                        sizes="300px sm:600px"
+                        :loading="getListingImageLoading(bannerIndex, 1)"
+                        :fetchpriority="
+                          getListingImageFetchPriority(bannerIndex)
+                        "
+                      />
+                      <n-tooltip
+                        overlap
+                        placement="top-end"
+                        class="m-2 cursor-pointer rounded-lg px-2 py-1 text-xs"
+                        :z-index="10"
+                        @click.stop.prevent="
+                          navigateTo(localePath(`/banners/${banner.bannerId}`))
+                        "
+                      >
+                        <template #trigger>
+                          <div class="absolute inset-0" />
                         </template>
-                        <n-time
-                          :time="getRunStartTime(run)"
-                          type="date"
-                        />
-                        -
-                        <n-time
-                          :time="getRunEndTime(run)"
-                          type="date"
-                        />
-                      </n-tag>
-                      <n-tag
-                        v-if="index > 0"
-                        :bordered="false"
-                      >
-                        {{ t('default.rerun') }}
-                      </n-tag>
-                    </div>
-                  </div>
-                </div>
-                <n-divider />
-                <div class="inline-flex flex-col items-start gap-2">
-                  <div
-                    v-for="outfitId in banner.outfit5StarId"
-                    :key="outfitId"
-                    class="inline-flex flex-col"
-                  >
-                    <NuxtLinkLocale
-                      no-prefetch
-                      :to="`/outfits/${outfitId}`"
-                      class="inline w-fit cursor-pointer transition-opacity hover:opacity-80"
-                    >
-                      <n-tag
-                        size="large"
-                        :color="qualityTextTheme5"
-                        :bordered="false"
-                        round
-                        class="cursor-pointer"
-                      >
-                        <span class="flex items-center gap-1">
-                          {{ t(`outfit.${outfitId}.name`) }} 5
-                          <n-icon>
-                            <Star />
-                          </n-icon>
+                        <span class="inline-flex items-center gap-2">
+                          {{ t('navigation.banner_detail') }}
+                          <n-icon><ExternalLinkAlt /></n-icon>
                         </span>
-                      </n-tag>
-                    </NuxtLinkLocale>
-                  </div>
-                  <div
-                    v-for="outfitId in banner.outfit4StarId"
-                    :key="outfitId"
-                    class="inline-flex flex-col"
-                  >
-                    <NuxtLinkLocale
-                      no-prefetch
-                      :to="`/outfits/${outfitId}`"
-                      class="inline w-fit cursor-pointer transition-opacity hover:opacity-80"
-                    >
-                      <n-tag
-                        size="large"
-                        :color="qualityTextTheme4"
-                        :bordered="false"
-                        round
-                        class="cursor-pointer"
-                      >
-                        <span class="flex items-center gap-1">
-                          {{ t(`outfit.${outfitId}.name`) }} 4
-                          <n-icon>
-                            <Star />
-                          </n-icon>
-                        </span>
-                      </n-tag>
+                      </n-tooltip>
                     </NuxtLinkLocale>
                   </div>
                 </div>
               </div>
-              <div class="lg:col-span-3">
-                <div
-                  class="mx-auto flex max-w-2xl flex-col items-center space-y-1"
-                >
-                  <NuxtLinkLocale
-                    no-prefetch
-                    :to="`/banners/${banner.bannerId}`"
-                    class="relative aspect-2/1 min-h-35 w-full overflow-hidden rounded-lg transition-opacity hover:opacity-95 sm:min-h-82.5"
-                  >
-                    <NuxtImg
-                      :src="getImageSrc('banner', banner.bannerId)"
-                      :alt="t(`banner.${banner.bannerId}.name`)"
-                      class="absolute inset-0 h-full w-full object-cover"
-                      preset="bannerHero"
-                      fit="cover"
-                      sizes="300px sm:600px"
-                      :loading="getListingImageLoading(bannerIndex, 1)"
-                      :fetchpriority="getListingImageFetchPriority(bannerIndex)"
-                    />
-                    <n-tooltip
-                      overlap
-                      placement="top-end"
-                      class="m-2 cursor-pointer rounded-lg px-2 py-1 text-xs"
-                      :z-index="10"
-                      @click.stop.prevent="
-                        navigateTo(localePath(`/banners/${banner.bannerId}`))
-                      "
-                    >
-                      <template #trigger>
-                        <div class="absolute inset-0" />
-                      </template>
-                      <span class="inline-flex items-center gap-2">
-                        {{ t('navigation.banner_detail') }}
-                        <n-icon><ExternalLinkAlt /></n-icon>
-                      </span>
-                    </n-tooltip>
-                  </NuxtLinkLocale>
-                </div>
-              </div>
-            </div>
-          </template>
-        </n-timeline-item>
+            </template>
+          </n-timeline-item>
+
+          <n-timeline-item
+            v-if="shouldShowInFeedAd(bannerIndex)"
+            type="default"
+          >
+            <template #icon>
+              <span
+                class="block size-2 rounded-full bg-slate-300/80 dark:bg-slate-600/80"
+              />
+            </template>
+            <template #default>
+              <AdSenseSlot
+                variant="in-feed"
+                class="mx-auto max-w-2xl"
+                @collapse="hideInFeedAd(bannerIndex)"
+              />
+            </template>
+          </n-timeline-item>
+        </template>
       </n-timeline>
 
       <!-- Observer target for infinite scroll -->
@@ -375,7 +402,9 @@
   const localePath = useLocalePath()
   const route = useRoute()
   const router = useRouter()
+  const config = useRuntimeConfig()
   const { getImageSrc } = imageProvider()
+  const isAdSenseEnabled = computed(() => Boolean(config.public.adsenseEnabled))
 
   const routeSeoFilter = computed(() =>
     getSeoListRouteFilter(route.path, 'banners')
@@ -414,7 +443,10 @@
       : null
   )
   const versionFilter = ref<string | null>(resolveRouteVersionFilter())
+  const collapsedInFeedAdIndexes = ref<number[]>([])
   const TIER_ENTRY_LIMIT = 200
+  const BANNER_LOAD_BATCH_SIZE = 4
+  const BANNER_IN_FEED_AD_INTERVAL = BANNER_LOAD_BATCH_SIZE * 2
 
   const resolveSelectedBannerQuality = (): number | null => {
     return resolveSeoBannerQualitySlug(qualityFilter.value) !== null
@@ -573,13 +605,35 @@
   const { displayedBanners, reset, loadUntilBanner, observerTarget } =
     useBannerLoad({
       allBanners: filteredBanners,
+      batchSize: BANNER_LOAD_BATCH_SIZE,
       initialBatchSize: 1,
     })
+  const shouldShowInFeedAd = (bannerIndex: number) => {
+    const bannerPosition = bannerIndex + 1
+
+    return (
+      isAdSenseEnabled.value &&
+      !collapsedInFeedAdIndexes.value.includes(bannerIndex) &&
+      bannerIndex < displayedBanners.value.length - 1 &&
+      bannerPosition >= BANNER_LOAD_BATCH_SIZE &&
+      (bannerPosition - BANNER_LOAD_BATCH_SIZE) % BANNER_IN_FEED_AD_INTERVAL ===
+        0
+    )
+  }
+  const hideInFeedAd = (bannerIndex: number) => {
+    if (collapsedInFeedAdIndexes.value.includes(bannerIndex)) return
+
+    collapsedInFeedAdIndexes.value = [
+      ...collapsedInFeedAdIndexes.value,
+      bannerIndex,
+    ]
+  }
 
   // Watch filter changes with debouncing
   watchDebounced(
     () => [qualityFilter.value, versionFilter.value],
     () => {
+      collapsedInFeedAdIndexes.value = []
       isBannerRailExpanded.value = false
       reset()
       syncListingRoute()

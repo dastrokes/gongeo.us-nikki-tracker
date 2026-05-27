@@ -169,6 +169,11 @@
           <slot />
         </div>
 
+        <AdSenseSlot
+          variant="display"
+          class="mx-auto mt-10 max-w-5xl px-2 sm:px-4"
+        />
+
         <n-layout-footer
           class="mt-12 border-t border-gray-400/20 bg-linear-to-r from-[#f5f0fa]/80 via-[#fff0f5]/80 to-[#fffacd]/50 backdrop-blur-xs dark:border-white/8 dark:from-[#1a1b2e]/80 dark:via-[#2d1b36]/80 dark:to-[#3d1b2e]/50"
         >
@@ -335,6 +340,56 @@
             </div>
 
             <n-divider class="my-4" />
+            <div class="my-8 flex items-center justify-center gap-4">
+              <a
+                href="https://www.netlify.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Deploys by Netlify"
+                class="opacity-80 transition-opacity duration-200 hover:opacity-100"
+              >
+                <img
+                  src="https://www.netlify.com/img/global/badges/netlify-dark.svg"
+                  alt="Deploys by Netlify"
+                  class="h-9 w-auto dark:hidden"
+                  loading="lazy"
+                />
+                <img
+                  src="https://www.netlify.com/img/global/badges/netlify-light.svg"
+                  alt="Deploys by Netlify"
+                  class="hidden h-9 w-auto dark:block"
+                  loading="lazy"
+                />
+              </a>
+              <a
+                href="https://crowdin.com/?utm_term=click-badge-add-on"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Localized with Crowdin"
+                class="opacity-80 transition-opacity duration-200 hover:opacity-100"
+              >
+                <img
+                  src="https://badges.crowdin.net/badge/dark/crowdin-on-light.png"
+                  srcset="
+                    https://badges.crowdin.net/badge/dark/crowdin-on-light.png    1x,
+                    https://badges.crowdin.net/badge/dark/crowdin-on-light@2x.png 2x
+                  "
+                  alt="Crowdin | Agile localization for tech companies"
+                  class="h-9 w-auto dark:hidden"
+                  loading="lazy"
+                />
+                <img
+                  src="https://badges.crowdin.net/badge/light/crowdin-on-dark.png"
+                  srcset="
+                    https://badges.crowdin.net/badge/light/crowdin-on-dark.png    1x,
+                    https://badges.crowdin.net/badge/light/crowdin-on-dark@2x.png 2x
+                  "
+                  alt="Crowdin | Agile localization for tech companies"
+                  class="hidden h-9 w-auto dark:block"
+                  loading="lazy"
+                />
+              </a>
+            </div>
             <div
               class="space-y-1 text-center text-xs text-gray-400 dark:text-gray-500"
             >
@@ -384,7 +439,7 @@
       ghost
       circle
       size="small"
-      class="fixed right-4 bottom-4 z-20 bg-white opacity-60 shadow-[0_0_10px_rgba(244,63,94,0.25),0_0_20px_rgba(168,85,247,0.15)] transition-all duration-300 ease-in-out hover:bg-slate-100 hover:opacity-100 hover:shadow-[0_0_14px_rgba(244,63,94,0.4),0_0_28px_rgba(168,85,247,0.25)] sm:right-8 sm:bottom-8 dark:bg-slate-800 dark:hover:bg-slate-700"
+      class="fixed right-4 bottom-4 z-20 bg-white opacity-80 shadow-[0_0_10px_rgba(244,63,94,0.25),0_0_20px_rgba(168,85,247,0.15)] transition-all duration-300 ease-in-out hover:bg-slate-100 hover:opacity-100 hover:shadow-[0_0_14px_rgba(244,63,94,0.4),0_0_28px_rgba(168,85,247,0.25)] sm:right-8 sm:bottom-8 dark:bg-slate-800 dark:hover:bg-slate-700"
       :class="{
         'translate-y-0': showScrollTop,
         'translate-y-16': !showScrollTop,

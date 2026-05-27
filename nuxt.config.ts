@@ -31,6 +31,10 @@ const activeImageProvider = getImageProvider()
 const transformedImageFormat =
   activeImageProvider === 'imagekit' ? 'auto' : 'webp'
 const imageQuality = 80
+const isAdSenseEnabled =
+  process.env.NUXT_PUBLIC_ENABLE_ADSENSE === 'true' ||
+  (process.env.NODE_ENV === 'production' &&
+    process.env.CONTEXT === 'production')
 
 export default defineNuxtConfig({
   devtools: { enabled: false },
@@ -56,11 +60,15 @@ export default defineNuxtConfig({
   app: {
     head: {
       script: [
-        {
-          src: 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9717879492261560',
-          async: true,
-          crossorigin: 'anonymous',
-        },
+        ...(isAdSenseEnabled
+          ? [
+              {
+                src: 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9717879492261560',
+                async: true,
+                crossorigin: 'anonymous',
+              },
+            ]
+          : []),
         {
           src: 'https://api.gongeo.us/script.js',
           defer: true,
@@ -220,6 +228,7 @@ export default defineNuxtConfig({
       cloudinaryBaseUrl,
       bunnyBaseUrl,
       imageProvider: activeImageProvider,
+      adsenseEnabled: isAdSenseEnabled,
     },
   },
 

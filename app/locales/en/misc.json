@@ -222,6 +222,13 @@
   "obtain.20513.name": "World Tales",
   "obtain.20514.name": "Random Surprises",
   "obtain.20515.name": "Travel Insight",
+  "obtain.20601.name": "Limited-Time Resonance",
+  "obtain.20602.name": "Pear-Pal Premium",
+  "obtain.20603.name": "Secrets of the Dungeons",
+  "obtain.20604.name": "Starlit Shop",
+  "obtain.20605.name": "Exclusive Treasures",
+  "obtain.20606.name": "World Tales",
+  "obtain.20607.name": "Candlelight Reverie",
   "style.cool": "Cool",
   "style.elegant": "Elegant",
   "style.fresh": "Fresh",
@@ -246,5 +253,6 @@
   "version.2.3": "Uncrowned Heart",
   "version.2.4": "The Forest Need Not Listen",
   "version.2.5": "Where All Souls Return",
+  "version.2.6": "Until Tide Ends",
   "version.2.x": "Itzaland"
 }

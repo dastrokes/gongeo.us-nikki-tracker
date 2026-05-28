@@ -222,6 +222,13 @@
   "obtain.20513.name": "Weltgeschichten",
   "obtain.20514.name": "Zufällige Überraschungen",
   "obtain.20515.name": "Reise-Erkenntnis",
+  "obtain.20601.name": "Zeitlich begrenzte Resonanz",
+  "obtain.20602.name": "Birnen-Buddy – Premium",
+  "obtain.20603.name": "Geheimnisse der Kerker",
+  "obtain.20604.name": "Sternenheller Laden",
+  "obtain.20605.name": "Exklusive Schätze",
+  "obtain.20606.name": "Weltgeschichten",
+  "obtain.20607.name": "Kerzenlicht-Träumerei",
   "style.cool": "Cool",
   "style.elegant": "Elegant",
   "style.fresh": "Frisch",
@@ -246,5 +253,6 @@
   "version.2.3": "Ungekröntes Herz",
   "version.2.4": "Der Wald muss nicht zuhören",
   "version.2.5": "Wohin alle Seelen zurückkehren",
+  "version.2.6": "Bis die Gezeiten enden",
   "version.2.x": "Itzaland"
 }

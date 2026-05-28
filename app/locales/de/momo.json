@@ -20,6 +20,7 @@
   "momo.1160100038.name": "Momos Mantel: Sanfte Brise",
   "momo.1160100039.name": "Momos Mantel: Traumland",
   "momo.1160100040.name": "Momos Mantel: Schmetterlingsgehölz",
+  "momo.1160100043.name": "Momos Mantel: Wunschgeflüster",
   "momo.1160100046.name": "Momos Mantel: Welle",
   "momo.1160100047.name": "Momos Mantel: Kristall",
   "momo.1160100052.name": "Momos Mantel: Konfetti",
@@ -57,6 +58,7 @@
   "momo.1160100104.name": "Momos Mantel: Knochenschwingen",
   "momo.1160100105.name": "Momos Mantel: Blüteneid",
   "momo.1160100107.name": "Momos Mantel: Schimmern",
+  "momo.1160100112.name": "Momos Mantel: Gezeitenhymne",
   "momo.1160100114.name": "Momos Mantel: Sternenmeer",
   "momo.1160100116.name": "Momos Mantel: Windschiffchen",
   "momo.1160100117.name": "Momos Mantel: Behemomo",
@@ -100,13 +102,14 @@
   "momo.1160100188.name": "Momos Mantel: Kerzenseele",
   "momo.1160100189.name": "Momos Mantel: Spur",
   "momo.1160100190.name": "Momos Mantel: Frostfall",
+  "momo.1160100197.name": "Momos Mantel: Reisduft",
   "momo.1162100136.name": "Momos Mantel: Kampfeswille",
   "source.momo.cadenceborn.106": "Das Geschenk des Kadenzgeborenen",
   "source.momo.course.105": "Kurse",
   "source.momo.journey.121": "Mira-Reise",
   "source.momo.limited.120": "Limitierte Banner",
   "source.momo.merchant.111": "Klamottenladen",
+  "source.momo.pear.115": "Birnen-Buddy – Premium",
   "source.momo.permanent.113": "Permanentes Banner",
-  "source.momo.quest.101": "Auftrag",
-  "source.momo.pear.115": "Birnen-Buddy – Premium"
+  "source.momo.quest.101": "Auftrag"
 }

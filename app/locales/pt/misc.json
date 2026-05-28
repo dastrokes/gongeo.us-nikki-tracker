@@ -222,6 +222,12 @@
   "obtain.20513.name": "Contos do Mundo",
   "obtain.20514.name": "Surpresas aleatórias",
   "obtain.20515.name": "Dicas de viagem",
+  "obtain.20602.name": "Pear-Pal Premium",
+  "obtain.20603.name": "Segredos das Masmorras",
+  "obtain.20604.name": "Loja Starlit",
+  "obtain.20605.name": "Tesouros Exclusivos",
+  "obtain.20606.name": "Contos do Mundo",
+  "obtain.20607.name": "Devaneio à luz de velas",
   "style.cool": "Legal",
   "style.elegant": "Elegante",
   "style.fresh": "Fresco",
@@ -246,5 +252,6 @@
   "version.2.3": "Coração sem coroa",
   "version.2.4": "A floresta não precisa ouvir",
   "version.2.5": "Para onde todas as almas retornam",
+  "version.2.6": "Até a maré acabar",
   "version.2.x": "Itzaland"
 }

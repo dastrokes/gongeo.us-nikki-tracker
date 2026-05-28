@@ -20,6 +20,7 @@
   "momo.1160100038.name": "Capa do Momo: Brisa Gentil",
   "momo.1160100039.name": "Capa do Momo: Terra dos Sonhos",
   "momo.1160100040.name": "Manto de Momo: Bosque das Borboletas",
+  "momo.1160100043.name": "Manto de Momo: Sussurro de Desejos",
   "momo.1160100046.name": "Capa do Momo: Onda",
   "momo.1160100047.name": "Capa do Momo: Cristal",
   "momo.1160100052.name": "Capa do Momo: Confete",
@@ -57,6 +58,7 @@
   "momo.1160100104.name": "Manto de Momo: Asas de Osso",
   "momo.1160100105.name": "Manto de Momo: Juramento Floral",
   "momo.1160100107.name": "Manto de Momo: Brilho",
+  "momo.1160100112.name": "Manto de Momo: Hino da Maré",
   "momo.1160100114.name": "Capa do Momo: Mar das Estrelas",
   "momo.1160100116.name": "Manto de Momo: Lançadeira Eólica",
   "momo.1160100117.name": "Manto de Momo: Behemomo",
@@ -100,13 +102,14 @@
   "momo.1160100188.name": "Manto de Momo: Alma de Vela",
   "momo.1160100189.name": "Manto de Momo: Trilha",
   "momo.1160100190.name": "Manto de Momo: Queda de Gelo",
+  "momo.1160100197.name": "Manto de Momo: Fragrância de Arroz",
   "momo.1162100136.name": "Manto de Momo: Vontade de Batalha",
   "source.momo.cadenceborn.106": "Presente de Dragobardo",
   "source.momo.course.105": "Cursos",
   "source.momo.journey.121": "Jornada Milágria",
   "source.momo.limited.120": "Banners Limitados",
   "source.momo.merchant.111": "Loja de Roupas",
+  "source.momo.pear.115": "Item Premium da Loja da Pera-miga",
   "source.momo.permanent.113": "Banner Permanente",
-  "source.momo.quest.101": "Missão",
-  "source.momo.pear.115": "Item Premium da Loja da Pera-miga"
+  "source.momo.quest.101": "Missão"
 }

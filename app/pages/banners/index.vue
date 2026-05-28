@@ -353,24 +353,6 @@
               </div>
             </template>
           </n-timeline-item>
-
-          <n-timeline-item
-            v-if="shouldShowInFeedAd(bannerIndex)"
-            type="default"
-          >
-            <template #icon>
-              <span
-                class="block size-2 rounded-full bg-slate-300/80 dark:bg-slate-600/80"
-              />
-            </template>
-            <template #default>
-              <AdSenseSlot
-                variant="in-feed"
-                class="mx-auto max-w-2xl"
-                @collapse="hideInFeedAd(bannerIndex)"
-              />
-            </template>
-          </n-timeline-item>
         </template>
       </n-timeline>
 
@@ -402,9 +384,7 @@
   const localePath = useLocalePath()
   const route = useRoute()
   const router = useRouter()
-  const config = useRuntimeConfig()
   const { getImageSrc } = imageProvider()
-  const isAdSenseEnabled = computed(() => Boolean(config.public.adsenseEnabled))
 
   const routeSeoFilter = computed(() =>
     getSeoListRouteFilter(route.path, 'banners')
@@ -443,10 +423,8 @@
       : null
   )
   const versionFilter = ref<string | null>(resolveRouteVersionFilter())
-  const collapsedInFeedAdIndexes = ref<number[]>([])
   const TIER_ENTRY_LIMIT = 200
   const BANNER_LOAD_BATCH_SIZE = 4
-  const BANNER_IN_FEED_AD_INTERVAL = BANNER_LOAD_BATCH_SIZE * 2
 
   const resolveSelectedBannerQuality = (): number | null => {
     return resolveSeoBannerQualitySlug(qualityFilter.value) !== null
@@ -608,32 +586,11 @@
       batchSize: BANNER_LOAD_BATCH_SIZE,
       initialBatchSize: 1,
     })
-  const shouldShowInFeedAd = (bannerIndex: number) => {
-    const bannerPosition = bannerIndex + 1
-
-    return (
-      isAdSenseEnabled.value &&
-      !collapsedInFeedAdIndexes.value.includes(bannerIndex) &&
-      bannerIndex < displayedBanners.value.length - 1 &&
-      bannerPosition >= BANNER_LOAD_BATCH_SIZE &&
-      (bannerPosition - BANNER_LOAD_BATCH_SIZE) % BANNER_IN_FEED_AD_INTERVAL ===
-        0
-    )
-  }
-  const hideInFeedAd = (bannerIndex: number) => {
-    if (collapsedInFeedAdIndexes.value.includes(bannerIndex)) return
-
-    collapsedInFeedAdIndexes.value = [
-      ...collapsedInFeedAdIndexes.value,
-      bannerIndex,
-    ]
-  }
 
   // Watch filter changes with debouncing
   watchDebounced(
     () => [qualityFilter.value, versionFilter.value],
     () => {
-      collapsedInFeedAdIndexes.value = []
       isBannerRailExpanded.value = false
       reset()
       syncListingRoute()

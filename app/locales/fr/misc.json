@@ -222,6 +222,13 @@
   "obtain.20513.name": "Histoires du monde",
   "obtain.20514.name": "Anecdote de voyage",
   "obtain.20515.name": "Expertise de voyage",
+  "obtain.20601.name": "Résonance à durée limitée",
+  "obtain.20602.name": "Poir'pote de qualité",
+  "obtain.20603.name": "Secrets des donjons",
+  "obtain.20604.name": "Boutique stellaire",
+  "obtain.20605.name": "Trésors exclusifs",
+  "obtain.20606.name": "Histoires du Monde",
+  "obtain.20607.name": "Flamme des bougies",
   "style.cool": "Décontraction",
   "style.elegant": "Élégance",
   "style.fresh": "Fraîcheur",
@@ -246,5 +253,6 @@
   "version.2.3": "Cœur sans couronne",
   "version.2.4": "Que la forêt n'entende pas",
   "version.2.5": "Là où reposent les âmes",
+  "version.2.6": "Au bout des marées",
   "version.2.x": "Itzalis"
 }

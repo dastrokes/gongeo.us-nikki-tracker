@@ -20,6 +20,7 @@
   "momo.1160100038.name": "Cape de Momo : Douce brise",
   "momo.1160100039.name": "Cape de Momo : Pays des rêves",
   "momo.1160100040.name": "Cape de Momo : bosquet aux papillons",
+  "momo.1160100043.name": "Cape de Momo : vœu",
   "momo.1160100046.name": "Cape de Momo : Vague",
   "momo.1160100047.name": "Cape de Momo : Cristal",
   "momo.1160100052.name": "Cape de Momo : Confetti",
@@ -57,6 +58,7 @@
   "momo.1160100104.name": "Cape de Momo : ailes d'os",
   "momo.1160100105.name": "Cape de Momo : serment floral",
   "momo.1160100107.name": "Cape de Momo : éclat",
+  "momo.1160100112.name": "Cape de Momo : marée",
   "momo.1160100114.name": "Cape de Momo : Mer d'étoiles",
   "momo.1160100116.name": "Cape de Momo : Navette éolienne",
   "momo.1160100117.name": "Cape de Momo : Momostodonte",
@@ -100,13 +102,14 @@
   "momo.1160100188.name": "Cape de Momo : âme à la chandelle",
   "momo.1160100189.name": "Cape de Momo : sillage",
   "momo.1160100190.name": "Cape de Momo : givre",
+  "momo.1160100197.name": "Cape de Momo : parfum de riz",
   "momo.1162100136.name": "Cape de Momo : combat",
   "source.momo.cadenceborn.106": "Cadeau de la kadence",
   "source.momo.course.105": "Formations",
   "source.momo.journey.121": "Voyage de Mira",
   "source.momo.limited.120": "Bannières limitées",
   "source.momo.merchant.111": "Magasin de vêtements",
+  "source.momo.pear.115": "Premium de Poir'pote",
   "source.momo.permanent.113": "Bannière permanente",
-  "source.momo.quest.101": "Quête",
-  "source.momo.pear.115": "Premium de Poir'pote"
+  "source.momo.quest.101": "Quête"
 }

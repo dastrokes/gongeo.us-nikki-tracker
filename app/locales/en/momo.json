@@ -20,6 +20,7 @@
   "momo.1160100038.name": "Momo's Cloak: Gentle Breeze",
   "momo.1160100039.name": "Momo's Cloak: Dreamland",
   "momo.1160100040.name": "Momo's Cloak: Butterfly Grove",
+  "momo.1160100043.name": "Momo's Cloak: Wish Whisper",
   "momo.1160100046.name": "Momo's Cloak: Wave",
   "momo.1160100047.name": "Momo's Cloak: Crystal",
   "momo.1160100052.name": "Momo's Cloak: Confetti",
@@ -57,6 +58,7 @@
   "momo.1160100104.name": "Momo's Cloak: Bone Wings",
   "momo.1160100105.name": "Momo's Cloak: Floral Oath",
   "momo.1160100107.name": "Momo's Cloak: Glimmer",
+  "momo.1160100112.name": "Momo's Cloak: Tide's Hymn",
   "momo.1160100114.name": "Momo's Cloak: Sea of Stars",
   "momo.1160100116.name": "Momo's Cloak: Wind Shuttle",
   "momo.1160100117.name": "Momo's Cloak: Behemomo",
@@ -100,13 +102,14 @@
   "momo.1160100188.name": "Momo's Cloak: Candle Soul",
   "momo.1160100189.name": "Momo's Cloak: Trail",
   "momo.1160100190.name": "Momo's Cloak: Frostfall",
+  "momo.1160100197.name": "Momo's Cloak: Rice Fragrance",
   "momo.1162100136.name": "Momo's Cloak: Battle Will",
   "source.momo.cadenceborn.106": "Cadenceborn's Gift",
   "source.momo.course.105": "Courses",
   "source.momo.journey.121": "Mira Journey",
   "source.momo.limited.120": "Limited Banners",
   "source.momo.merchant.111": "Clothing Store",
+  "source.momo.pear.115": "Pear-Pal Premium",
   "source.momo.permanent.113": "Permanent Banner",
-  "source.momo.quest.101": "Quest",
-  "source.momo.pear.115": "Pear-Pal Premium"
+  "source.momo.quest.101": "Quest"
 }

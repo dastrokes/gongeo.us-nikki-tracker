@@ -222,6 +222,13 @@
   "obtain.20513.name": "Racconti del mondo",
   "obtain.20514.name": "Sorprese a caso",
   "obtain.20515.name": "Approfondimenti di viaggio",
+  "obtain.20601.name": "Risonanza a tempo limitato",
+  "obtain.20602.name": "Pear-Pal Premium",
+  "obtain.20603.name": "Segreti dei sotterranei",
+  "obtain.20604.name": "Negozio illuminato dalle stelle",
+  "obtain.20605.name": "Tesori esclusivi",
+  "obtain.20606.name": "Racconti del mondo",
+  "obtain.20607.name": "Sogno a lume di candela",
   "style.cool": "Freddo",
   "style.elegant": "Elegante",
   "style.fresh": "Fresco",
@@ -246,5 +253,6 @@
   "version.2.3": "Cuore senza corona",
   "version.2.4": "La foresta non ha bisogno di ascoltare",
   "version.2.5": "Dove tutte le anime ritornano",
+  "version.2.6": "Fino alla fine della marea",
   "version.2.x": "Itzaland"
 }

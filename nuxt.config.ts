@@ -342,7 +342,6 @@ export default defineNuxtConfig({
 
       return {
         ...buildLocalizedRules(['/error'], {
-          prerender: true,
           headers: pageStatic,
         }),
         ...buildLocalizedRules(

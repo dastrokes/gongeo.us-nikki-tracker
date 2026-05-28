@@ -164,22 +164,19 @@
       content-class="app-layout-native-scrollbar"
       @scroll="onScroll"
     >
-      <div class="flex min-h-[calc(100vh-3.5rem)] flex-col px-2 pt-2 sm:pt-4">
+      <div class="flex min-h-[calc(100vh-3.5rem)] flex-col pt-2 sm:pt-4">
         <div class="flex-1">
           <slot />
         </div>
 
-        <AdSenseSlot
-          variant="display"
-          class="mx-auto mt-10 w-full max-w-5xl"
-        />
+        <AdSenseSlot />
 
         <n-layout-footer
-          class="mt-12 border-t border-gray-400/20 bg-linear-to-r from-[#f5f0fa]/80 via-[#fff0f5]/80 to-[#fffacd]/50 backdrop-blur-xs dark:border-white/8 dark:from-[#1a1b2e]/80 dark:via-[#2d1b36]/80 dark:to-[#3d1b2e]/50"
+          class="mt-2 border-t border-gray-400/20 bg-linear-to-r from-[#f5f0fa]/80 via-[#fff0f5]/80 to-[#fffacd]/50 backdrop-blur-xs dark:border-white/8 dark:from-[#1a1b2e]/80 dark:via-[#2d1b36]/80 dark:to-[#3d1b2e]/50"
         >
           <div class="mx-auto max-w-5xl p-8">
             <div
-              class="mb-8 grid gap-4 md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] md:items-center lg:grid-cols-[auto_auto_auto] lg:justify-between"
+              class="mb-4 grid gap-4 md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] md:items-center lg:grid-cols-[auto_auto_auto] lg:justify-between"
             >
               <div
                 class="flex flex-col items-center gap-6 md:items-start lg:justify-self-start"
@@ -339,8 +336,8 @@
               </div>
             </div>
 
-            <n-divider class="my-4" />
-            <div class="my-8 flex items-center justify-center gap-4">
+            <n-divider class="my-2" />
+            <div class="my-4 flex items-center justify-center gap-4">
               <a
                 href="https://www.netlify.com/"
                 target="_blank"

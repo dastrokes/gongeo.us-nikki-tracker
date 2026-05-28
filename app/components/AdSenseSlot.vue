@@ -1,9 +1,8 @@
 <template>
   <div
-    v-if="shouldRenderSlot"
     role="complementary"
     :aria-label="t('about.advertising.title')"
-    :class="containerClasses"
+    class="adsense-slot mx-auto mt-4 mb-2 h-[100px] w-80 max-w-[calc(100vw-24px)] overflow-hidden sm:mt-8 sm:mb-6 sm:h-[90px] sm:w-[728px] sm:max-w-[calc(100vw-32px)]"
   >
     <ClientOnly>
       <ins
@@ -12,23 +11,21 @@
         class="adsbygoogle"
         :style="adStyle"
         :data-ad-client="ADSENSE_CLIENT"
-        :data-ad-slot="adConfig.slot"
-        :data-ad-format="adConfig.format"
-        v-bind="adConfig.attributes"
+        :data-ad-slot="ADSENSE_SLOT"
+        data-ad-format="auto"
+        data-full-width-responsive="true"
       />
     </ClientOnly>
 
     <n-card
       v-if="shouldShowFallback"
       size="small"
-      content-class="flex flex-col items-center justify-center gap-4 p-3 text-center sm:flex-row sm:p-4"
-      :class="fallbackClasses"
+      content-class="flex h-full items-center justify-between gap-2 p-3 text-left sm:gap-4 sm:p-4"
+      class="h-full w-full rounded-xl p-0"
     >
-      <div
-        class="flex flex-col items-center gap-3 text-center sm:flex-row sm:text-left"
-      >
+      <div class="flex min-w-0 flex-1 items-center gap-3">
         <div
-          class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-white/70 p-2 shadow-xs ring-1 ring-black/5 dark:bg-slate-800/70 dark:ring-white/10"
+          class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/70 p-2 shadow-xs ring-1 ring-black/5 sm:h-12 sm:w-12 dark:bg-slate-800/70 dark:ring-white/10"
         >
           <NuxtImg
             src="images/logo.webp"
@@ -39,11 +36,15 @@
             class="h-full w-full"
           />
         </div>
-        <div class="min-w-0">
-          <p class="text-sm font-semibold text-slate-700 dark:text-slate-200">
+        <div class="hidden min-w-0 sm:block">
+          <p
+            class="truncate text-xs font-semibold text-slate-700 sm:text-sm dark:text-slate-200"
+          >
             {{ t('navigation.support_website') }}
           </p>
-          <p class="mt-1 max-w-md text-sm text-slate-500 dark:text-slate-400">
+          <p
+            class="mt-1 line-clamp-1 max-w-md text-xs text-slate-500 sm:text-sm dark:text-slate-400"
+          >
             {{ t('default.description') }}
           </p>
         </div>
@@ -55,29 +56,21 @@
         href="https://ko-fi.com/gongeous"
         target="_blank"
         rel="noopener noreferrer"
+        :aria-label="t('default.social.kofi')"
+        class="shrink-0"
       >
         <template #icon>
           <n-icon>
             <SvgIcon name="kofi" />
           </n-icon>
         </template>
-        {{ t('default.social.kofi') }}
+        <span>{{ t('default.social.kofi') }}</span>
       </n-button>
     </n-card>
   </div>
 </template>
 
 <script setup lang="ts">
-  type AdSenseVariant = 'display' | 'in-feed'
-
-  type AdSenseConfig = {
-    slot: string
-    format: string
-    attributes: Record<string, string>
-    containerClass: string
-    fallbackClass: string
-  }
-
   type AdSenseQueue = Array<Record<string, unknown>>
   type AdSenseStatus = 'loading' | 'filled' | 'fallback'
 
@@ -88,39 +81,8 @@
   }
 
   const ADSENSE_CLIENT = 'ca-pub-9717879492261560'
-  const AD_CONFIG = {
-    display: {
-      slot: '8191507909',
-      format: 'auto',
-      attributes: {
-        'data-full-width-responsive': 'true',
-      },
-      containerClass:
-        'min-h-[120px] border-y border-slate-200/70 py-4 dark:border-white/10 sm:min-h-[160px]',
-      fallbackClass: 'min-h-[112px] rounded-xl p-0 sm:min-h-[132px] sm:p-2',
-    },
-    'in-feed': {
-      slot: '3174984944',
-      format: 'fluid',
-      attributes: {
-        'data-ad-layout-key': '-gw-3+1f-3d+2z',
-      },
-      containerClass: '',
-      fallbackClass: '',
-    },
-  } satisfies Record<AdSenseVariant, AdSenseConfig>
-
-  const props = withDefaults(
-    defineProps<{
-      variant?: AdSenseVariant
-    }>(),
-    {
-      variant: 'display',
-    }
-  )
-  const emit = defineEmits<{
-    collapse: []
-  }>()
+  const ADSENSE_SLOT = '8191507909'
+  const FALLBACK_TIMEOUT_MS = 3000
 
   const { t } = useI18n()
   const config = useRuntimeConfig()
@@ -129,29 +91,19 @@
   const adStatus = ref<AdSenseStatus>('loading')
   const fallbackTimer = ref<ReturnType<typeof setTimeout> | null>(null)
   let observer: MutationObserver | null = null
-  const adStyle = { display: 'block' }
   const isAdSenseEnabled = computed(() => Boolean(config.public.adsenseEnabled))
-  const adConfig = computed(() => AD_CONFIG[props.variant])
-  const isInFeedAd = computed(() => props.variant === 'in-feed')
-  const shouldRenderSlot = computed(
-    () =>
-      props.variant === 'display' ||
-      (isAdSenseEnabled.value && adStatus.value !== 'fallback')
-  )
+  const adStyle = {
+    display: 'block',
+    height: '100%',
+    maxHeight: '100%',
+    width: '100%',
+  }
   const shouldShowAdElement = computed(
     () => isAdSenseEnabled.value && adStatus.value !== 'fallback'
   )
   const shouldShowFallback = computed(
-    () =>
-      props.variant === 'display' &&
-      (!isAdSenseEnabled.value || adStatus.value === 'fallback')
+    () => !isAdSenseEnabled.value || adStatus.value === 'fallback'
   )
-  const containerClasses = computed(() => [
-    'adsense-slot w-full overflow-hidden',
-    adConfig.value.containerClass,
-  ])
-  const fallbackClasses = computed(() => [adConfig.value.fallbackClass])
-
   const clearFallbackTimer = () => {
     if (!fallbackTimer.value) return
 
@@ -166,10 +118,6 @@
     clearFallbackTimer()
     observer?.disconnect()
     observer = null
-
-    if (isInFeedAd.value) {
-      emit('collapse')
-    }
   }
 
   const updateAdStatus = () => {
@@ -207,7 +155,7 @@
       if (adStatus.value !== 'filled') {
         setAdFallback()
       }
-    }, 3000)
+    }, FALLBACK_TIMEOUT_MS)
   }
 
   const requestAd = async () => {
@@ -246,11 +194,6 @@
   }
 
   onMounted(() => {
-    if (!isAdSenseEnabled.value && isInFeedAd.value) {
-      emit('collapse')
-      return
-    }
-
     void requestAd()
   })
 

@@ -2,7 +2,7 @@
   <div
     role="complementary"
     :aria-label="t('about.advertising.title')"
-    class="adsense-slot mx-auto mt-4 mb-2 h-[100px] w-80 max-w-[calc(100vw-24px)] overflow-hidden sm:mt-8 sm:mb-6 sm:h-[90px] sm:w-[728px] sm:max-w-[calc(100vw-32px)]"
+    class="adsense-slot mx-auto mt-4 h-[100px] w-80 max-w-[calc(100vw-24px)] overflow-hidden sm:mt-8 sm:h-[90px] sm:w-[728px] sm:max-w-[calc(100vw-32px)]"
   >
     <ClientOnly>
       <ins

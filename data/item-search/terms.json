@@ -50,6 +50,7 @@
       "canvas",
       "ceramic",
       "chiffon",
+      "chocolate",
       "cord",
       "corduroy",
       "cork",
@@ -59,6 +60,7 @@
       "feather",
       "felt",
       "fleece",
+      "frosting",
       "fur",
       "gemstone",
       "glass",
@@ -220,6 +222,7 @@
       "suspenders",
       "tag",
       "tassel",
+      "teapot",
       "tie",
       "tie_clip",
       "vine",
@@ -233,6 +236,7 @@
       "bamboo",
       "bee",
       "bird",
+      "brick",
       "bubble",
       "butterfly",
       "cable_knit",
@@ -396,6 +400,7 @@
       "t_strap",
       "textured",
       "tiered",
+      "twined",
       "twisted",
       "vest",
       "visor",
@@ -571,7 +576,7 @@
         "tailored_shorts",
         "wrap_skirt"
       ],
-      "bracelets": ["bangle", "beaded_bracelet", "charm_bracelet"],
+      "bracelets": ["bangle", "beaded_bracelet", "charm_bracelet", "scrunchie"],
       "chestAccessories": ["bow_brooch", "pin"],
       "chokers": [
         "fur_choker",
@@ -662,6 +667,7 @@
         "bow",
         "brush",
         "candelabra",
+        "candy",
         "clipboard",
         "crossbow",
         "fishing_rod",
@@ -686,6 +692,7 @@
       "headwear": [
         "aviator_hat",
         "bandana",
+        "bucket_hat",
         "coronet",
         "hairpin",
         "head_chain",
@@ -693,6 +700,7 @@
         "headscarf",
         "mask",
         "mini_hat",
+        "newsboy_cap",
         "sunglasses",
         "tiara",
         "top_hat",
@@ -785,6 +793,7 @@
         "sailor_blouse",
         "school_uniform_blouse",
         "sweater_vest",
+        "tailored_jacket",
         "track_jacket"
       ]
     }

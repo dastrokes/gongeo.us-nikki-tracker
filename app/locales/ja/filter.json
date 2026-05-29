@@ -71,6 +71,7 @@
       "canvas": "キャンバス",
       "ceramic": "セラミック",
       "chiffon": "シフォン",
+      "chocolate": "チョコレート",
       "cord": "コード",
       "corduroy": "コーデュロイ",
       "cork": "コルク",
@@ -80,6 +81,7 @@
       "feather": "羽",
       "felt": "フェルト",
       "fleece": "フリース",
+      "frosting": "フロスティング/糖衣",
       "fur": "ファー",
       "gemstone": "宝石",
       "glass": "ガラス",
@@ -241,6 +243,7 @@
       "suspenders": "サスペンダー",
       "tag": "タグ",
       "tassel": "タッセル",
+      "teapot": "ティーポット",
       "tie": "ネクタイ",
       "tie_clip": "ネクタイピン",
       "vine": "蔦",
@@ -260,6 +263,7 @@
       "bamboo": "竹",
       "bee": "蜂",
       "bird": "鳥",
+      "brick": "レンガ",
       "bubble": "バブル",
       "butterfly": "蝶",
       "cable_knit": "ケーブル編み",
@@ -437,6 +441,7 @@
       "t_strap": "Tストラップ",
       "textured": "テクスチャ",
       "tiered": "ティアード",
+      "twined": "より合わせ/ツイン",
       "twisted": "ツイスト",
       "vest": "ベスト",
       "visor": "バイザー",
@@ -670,7 +675,8 @@
       "bracelets": {
         "bangle": "バングル",
         "beaded_bracelet": "ビーズブレスレット",
-        "charm_bracelet": "チャームブレスレット"
+        "charm_bracelet": "チャームブレスレット",
+        "scrunchie": "シュシュ"
       },
       "chestAccessories": {
         "bow_brooch": "リボンブローチ",
@@ -769,6 +775,7 @@
         "bow": "弓",
         "brush": "筆",
         "candelabra": "燭台",
+        "candy": "キャンディ",
         "clipboard": "バインダー",
         "crossbow": "クロスボウ",
         "fishing_rod": "釣竿",
@@ -793,6 +800,7 @@
       "headwear": {
         "aviator_hat": "飛行帽",
         "bandana": "バンダナ",
+        "bucket_hat": "バケットハット",
         "coronet": "コロネット",
         "hairpin": "ヘアピン",
         "head_chain": "ヘッドチェーン",
@@ -800,6 +808,7 @@
         "headscarf": "ヘッドスカーフ",
         "mask": "マスク",
         "mini_hat": "ミニハット",
+        "newsboy_cap": "ニュースボーイキャップ",
         "sunglasses": "サングラス",
         "tiara": "ティアラ",
         "top_hat": "シルクハット",
@@ -892,6 +901,7 @@
         "sailor_blouse": "セーラーブラウス",
         "school_uniform_blouse": "制服シャツ",
         "sweater_vest": "ニットベスト",
+        "tailored_jacket": "テーラードジャケット",
         "track_jacket": "トラックジャケット"
       }
     }

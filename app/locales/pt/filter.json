@@ -71,6 +71,7 @@
       "canvas": "Lona",
       "ceramic": "Cerâmica",
       "chiffon": "Chiffon",
+      "chocolate": "Chocolate",
       "cord": "Cordão",
       "corduroy": "Veludo Cotelê",
       "cork": "Cortiça",
@@ -80,6 +81,7 @@
       "feather": "Pena",
       "felt": "Feltro",
       "fleece": "Fleece",
+      "frosting": "Glacê/Cobertura",
       "fur": "Pelo/Pele Sintética",
       "gemstone": "Pedra Preciosa",
       "glass": "Vidro",
@@ -241,6 +243,7 @@
       "suspenders": "Suspensórios",
       "tag": "Etiqueta",
       "tassel": "Borla",
+      "teapot": "Bule de Chá",
       "tie": "Laço/Amarração",
       "tie_clip": "Prende-gravata",
       "vine": "Videira",
@@ -260,6 +263,7 @@
       "bamboo": "Bambu",
       "bee": "Abelha",
       "bird": "Pássaro",
+      "brick": "Tijolo",
       "bubble": "Bolhas",
       "butterfly": "Borboleta",
       "cable_knit": "Malha trançada",
@@ -437,6 +441,7 @@
       "t_strap": "Tira em T",
       "textured": "Texturizado",
       "tiered": "Escalonado",
+      "twined": "Entrelaçado",
       "twisted": "Torcido",
       "vest": "Colete",
       "visor": "Viseira",
@@ -670,7 +675,8 @@
       "bracelets": {
         "bangle": "Bangle (Pulseira Rígida)",
         "beaded_bracelet": "Pulseira de Contas",
-        "charm_bracelet": "Pulseira com Pingentes"
+        "charm_bracelet": "Pulseira com Pingentes",
+        "scrunchie": "Scrunchie/Elástico de cabelo"
       },
       "chestAccessories": {
         "bow_brooch": "Broche de Laço",
@@ -769,6 +775,7 @@
         "bow": "Arco",
         "brush": "Pincel",
         "candelabra": "Candelabro",
+        "candy": "Doce/Bala",
         "clipboard": "Prancheta",
         "crossbow": "Bestas",
         "fishing_rod": "Vara de Pescar",
@@ -793,6 +800,7 @@
       "headwear": {
         "aviator_hat": "Gorro de Aviador",
         "bandana": "Bandana",
+        "bucket_hat": "Chapéu Bucket",
         "coronet": "Coronilha",
         "hairpin": "Alfinete de Cabelo",
         "head_chain": "Corrente de cabeça",
@@ -800,6 +808,7 @@
         "headscarf": "Lenço",
         "mask": "Máscara",
         "mini_hat": "Mini Chapéu",
+        "newsboy_cap": "Boné Newsboy",
         "sunglasses": "Óculos de Sol",
         "tiara": "Tiara",
         "top_hat": "Cartola",
@@ -892,6 +901,7 @@
         "sailor_blouse": "Blusa Marinheira",
         "school_uniform_blouse": "Blusa de Uniforme",
         "sweater_vest": "Colete de Tricô",
+        "tailored_jacket": "Blazer/Jaqueta Alfaiataria",
         "track_jacket": "Jaqueta esportiva"
       }
     }

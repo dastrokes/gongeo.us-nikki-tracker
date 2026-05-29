@@ -71,6 +71,7 @@
       "canvas": "Canvas",
       "ceramic": "Keramik",
       "chiffon": "Chiffon",
+      "chocolate": "Schokolade",
       "cord": "Kordel",
       "corduroy": "Cord",
       "cork": "Kork",
@@ -80,6 +81,7 @@
       "feather": "Feder",
       "felt": "Filz",
       "fleece": "Vlies",
+      "frosting": "Zuckerguss",
       "fur": "Pelz",
       "gemstone": "Edelstein",
       "glass": "Glas",
@@ -241,6 +243,7 @@
       "suspenders": "Hosenträger",
       "tag": "Etikett",
       "tassel": "Quaste",
+      "teapot": "Teekanne",
       "tie": "Krawatte",
       "tie_clip": "Krawattennadel",
       "vine": "Ranke",
@@ -260,6 +263,7 @@
       "bamboo": "Bambus",
       "bee": "Biene",
       "bird": "Vogel",
+      "brick": "Ziegelstein",
       "bubble": "Blase",
       "butterfly": "Schmetterling",
       "cable_knit": "Zopfmuster",
@@ -437,6 +441,7 @@
       "t_strap": "T-Riemen",
       "textured": "Texturiert",
       "tiered": "Gestuft",
+      "twined": "Geflochten/Gedreht",
       "twisted": "Verdreht",
       "vest": "Weste",
       "visor": "Visier",
@@ -670,7 +675,8 @@
       "bracelets": {
         "bangle": "Armreif",
         "beaded_bracelet": "Perlenarmband",
-        "charm_bracelet": "Bettelarmband"
+        "charm_bracelet": "Bettelarmband",
+        "scrunchie": "Haargummi"
       },
       "chestAccessories": {
         "bow_brooch": "Schleifenbrosche",
@@ -769,6 +775,7 @@
         "bow": "Bogen",
         "brush": "Pinsel",
         "candelabra": "Kerzenleuchter",
+        "candy": "Süßigkeit",
         "clipboard": "Klemmbrett",
         "crossbow": "Armbrust",
         "fishing_rod": "Angelrute",
@@ -793,6 +800,7 @@
       "headwear": {
         "aviator_hat": "Fliegermütze",
         "bandana": "Bandana",
+        "bucket_hat": "Fischerhut",
         "coronet": "Diadem",
         "hairpin": "Haarnadel",
         "head_chain": "Kopfkette",
@@ -800,6 +808,7 @@
         "headscarf": "Kopftuch",
         "mask": "Maske",
         "mini_hat": "Mini-Hut",
+        "newsboy_cap": "Schiebermütze",
         "sunglasses": "Sonnenbrille",
         "tiara": "Tiara",
         "top_hat": "Zylinder",
@@ -892,6 +901,7 @@
         "sailor_blouse": "Matrosenbluse",
         "school_uniform_blouse": "Schulbluse",
         "sweater_vest": "Pulloverweste",
+        "tailored_jacket": "Maßgeschneiderte Jacke",
         "track_jacket": "Trainingsjacke"
       }
     }

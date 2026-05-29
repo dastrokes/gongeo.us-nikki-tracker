@@ -71,6 +71,7 @@
       "canvas": "캔버스",
       "ceramic": "세라믹",
       "chiffon": "시폰",
+      "chocolate": "초콜릿",
       "cord": "코드",
       "corduroy": "코듀로이",
       "cork": "코르크",
@@ -80,6 +81,7 @@
       "feather": "깃털",
       "felt": "펠트",
       "fleece": "플리스",
+      "frosting": "프로스팅/설탕 장식",
       "fur": "퍼",
       "gemstone": "보석",
       "glass": "유리",
@@ -241,6 +243,7 @@
       "suspenders": "서스펜더",
       "tag": "태그",
       "tassel": "태슬",
+      "teapot": "찻주전자",
       "tie": "타이",
       "tie_clip": "넥타이핀",
       "vine": "덩굴",
@@ -260,6 +263,7 @@
       "bamboo": "대나무",
       "bee": "벌",
       "bird": "새",
+      "brick": "벽돌",
       "bubble": "버블",
       "butterfly": "나비",
       "cable_knit": "꽈배기 니트",
@@ -437,6 +441,7 @@
       "t_strap": "T스트랩",
       "textured": "텍스처",
       "tiered": "티어드",
+      "twined": "꼬임/트와인드",
       "twisted": "트위스트",
       "vest": "조끼",
       "visor": "바이저",
@@ -670,7 +675,8 @@
       "bracelets": {
         "bangle": "뱅글",
         "beaded_bracelet": "비즈 팔찌",
-        "charm_bracelet": "참 팔찌"
+        "charm_bracelet": "참 팔찌",
+        "scrunchie": "슈크링/헤어밴드"
       },
       "chestAccessories": {
         "bow_brooch": "리본 브로치",
@@ -769,6 +775,7 @@
         "bow": "활",
         "brush": "브러시/붓",
         "candelabra": "촛대",
+        "candy": "사탕",
         "clipboard": "클립보드",
         "crossbow": "석궁",
         "fishing_rod": "낚싯대",
@@ -793,6 +800,7 @@
       "headwear": {
         "aviator_hat": "에비에이터 모자",
         "bandana": "반다나",
+        "bucket_hat": "버킷햇",
         "coronet": "코로넷",
         "hairpin": "비녀/헤어핀",
         "head_chain": "헤드 체인",
@@ -800,6 +808,7 @@
         "headscarf": "헤드스카프",
         "mask": "마스크",
         "mini_hat": "미니 햇",
+        "newsboy_cap": "뉴스보이 캡",
         "sunglasses": "선글라스",
         "tiara": "티아라",
         "top_hat": "탑 햇",
@@ -892,6 +901,7 @@
         "sailor_blouse": "세일러 블라우스",
         "school_uniform_blouse": "교복 블라우스",
         "sweater_vest": "니트 조끼",
+        "tailored_jacket": "테일러드 재킷",
         "track_jacket": "트랙 자켓"
       }
     }

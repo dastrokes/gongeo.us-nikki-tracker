@@ -71,6 +71,7 @@
       "canvas": "Canvas",
       "ceramic": "Ceramic",
       "chiffon": "Chiffon",
+      "chocolate": "Chocolate",
       "cord": "Cord",
       "corduroy": "Corduroy",
       "cork": "Cork",
@@ -80,6 +81,7 @@
       "feather": "Feather",
       "felt": "Felt",
       "fleece": "Fleece",
+      "frosting": "Frosting",
       "fur": "Fur",
       "gemstone": "Gemstone",
       "glass": "Glass",
@@ -241,6 +243,7 @@
       "suspenders": "Suspenders",
       "tag": "Tag",
       "tassel": "Tassel",
+      "teapot": "Teapot",
       "tie": "Tie",
       "tie_clip": "Tie Clip",
       "vine": "Vine",
@@ -260,6 +263,7 @@
       "bamboo": "Bamboo",
       "bee": "Bee",
       "bird": "Bird",
+      "brick": "Brick",
       "bubble": "Bubble",
       "butterfly": "Butterfly",
       "cable_knit": "Cable Knit",
@@ -437,6 +441,7 @@
       "t_strap": "T Strap",
       "textured": "Textured",
       "tiered": "Tiered",
+      "twined": "Twined",
       "twisted": "Twisted",
       "vest": "Vest",
       "visor": "Visor",
@@ -670,7 +675,8 @@
       "bracelets": {
         "bangle": "Bangle",
         "beaded_bracelet": "Beaded Bracelet",
-        "charm_bracelet": "Charm Bracelet"
+        "charm_bracelet": "Charm Bracelet",
+        "scrunchie": "Scrunchie"
       },
       "chestAccessories": {
         "bow_brooch": "Bow Brooch",
@@ -769,6 +775,7 @@
         "bow": "Bow",
         "brush": "Brush",
         "candelabra": "Candelabra",
+        "candy": "Candy",
         "clipboard": "Clipboard",
         "crossbow": "Crossbow",
         "fishing_rod": "Fishing Rod",
@@ -793,6 +800,7 @@
       "headwear": {
         "aviator_hat": "Aviator Hat",
         "bandana": "Bandana",
+        "bucket_hat": "Bucket Hat",
         "coronet": "Coronet",
         "hairpin": "Hairpin",
         "head_chain": "Head Chain",
@@ -800,6 +808,7 @@
         "headscarf": "Headscarf",
         "mask": "Mask",
         "mini_hat": "Mini Hat",
+        "newsboy_cap": "Newsboy Cap",
         "sunglasses": "Sunglasses",
         "tiara": "Tiara",
         "top_hat": "Top Hat",
@@ -892,6 +901,7 @@
         "sailor_blouse": "Sailor Blouse",
         "school_uniform_blouse": "School Uniform Blouse",
         "sweater_vest": "Sweater Vest",
+        "tailored_jacket": "Tailored Jacket",
         "track_jacket": "Track Jacket"
       }
     }

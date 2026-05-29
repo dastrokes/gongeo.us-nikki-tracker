@@ -337,6 +337,11 @@
   {
     "field": "material",
     "itemType": null,
+    "value": "chocolate"
+  },
+  {
+    "field": "material",
+    "itemType": null,
     "value": "cord"
   },
   {
@@ -378,6 +383,11 @@
     "field": "material",
     "itemType": null,
     "value": "fleece"
+  },
+  {
+    "field": "material",
+    "itemType": null,
+    "value": "frosting"
   },
   {
     "field": "material",
@@ -1082,6 +1092,11 @@
   {
     "field": "ornament",
     "itemType": null,
+    "value": "teapot"
+  },
+  {
+    "field": "ornament",
+    "itemType": null,
     "value": "tie"
   },
   {
@@ -1153,6 +1168,11 @@
     "field": "pattern",
     "itemType": null,
     "value": "bird"
+  },
+  {
+    "field": "pattern",
+    "itemType": null,
+    "value": "brick"
   },
   {
     "field": "pattern",
@@ -1958,6 +1978,11 @@
     "field": "structure",
     "itemType": null,
     "value": "tiered"
+  },
+  {
+    "field": "structure",
+    "itemType": null,
+    "value": "twined"
   },
   {
     "field": "structure",
@@ -2806,6 +2831,11 @@
   },
   {
     "field": "subcategory",
+    "itemType": "bracelets",
+    "value": "scrunchie"
+  },
+  {
+    "field": "subcategory",
     "itemType": "chestAccessories",
     "value": "bow_brooch"
   },
@@ -3207,6 +3237,11 @@
   {
     "field": "subcategory",
     "itemType": "handhelds",
+    "value": "candy"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "handhelds",
     "value": "clipboard"
   },
   {
@@ -3317,6 +3352,11 @@
   {
     "field": "subcategory",
     "itemType": "headwear",
+    "value": "bucket_hat"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "headwear",
     "value": "coronet"
   },
   {
@@ -3348,6 +3388,11 @@
     "field": "subcategory",
     "itemType": "headwear",
     "value": "mini_hat"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "headwear",
+    "value": "newsboy_cap"
   },
   {
     "field": "subcategory",
@@ -3748,6 +3793,11 @@
     "field": "subcategory",
     "itemType": "tops",
     "value": "sweater_vest"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "tops",
+    "value": "tailored_jacket"
   },
   {
     "field": "subcategory",

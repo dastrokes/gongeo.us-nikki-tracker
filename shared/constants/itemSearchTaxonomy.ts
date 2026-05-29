@@ -32,6 +32,7 @@ export const ITEM_SEARCH_SUBCATEGORY_PARENT_BY_TYPE = {
     bow: 'weapon',
     brush: 'tool',
     candelabra: 'lantern',
+    candy: 'handheld',
     clipboard: 'tool',
     crossbow: 'weapon',
     fishing_rod: 'tool',
@@ -98,6 +99,7 @@ export const ITEM_SEARCH_SUBCATEGORY_PARENT_BY_TYPE = {
     bangle: 'bracelet',
     beaded_bracelet: 'bracelet',
     charm_bracelet: 'bracelet',
+    scrunchie: 'bracelet',
   },
   chestAccessories: {
     bow_brooch: 'brooch',
@@ -211,6 +213,7 @@ export const ITEM_SEARCH_SUBCATEGORY_PARENT_BY_TYPE = {
   headwear: {
     aviator_hat: 'hat',
     bandana: 'hair_ornament',
+    bucket_hat: 'hat',
     coronet: 'crown',
     hairpin: 'hair_ornament',
     head_chain: 'headpiece',
@@ -218,6 +221,7 @@ export const ITEM_SEARCH_SUBCATEGORY_PARENT_BY_TYPE = {
     headscarf: 'headpiece',
     mask: 'headpiece',
     mini_hat: 'hat',
+    newsboy_cap: 'hat',
     sunglasses: 'eyewear',
     tiara: 'crown',
     top_hat: 'hat',
@@ -324,6 +328,7 @@ export const ITEM_SEARCH_SUBCATEGORY_PARENT_BY_TYPE = {
     sailor_blouse: 'blouse',
     school_uniform_blouse: 'blouse',
     sweater_vest: 'sweater',
+    tailored_jacket: 'blouse',
     track_jacket: 'sweatshirt',
   },
 } as const

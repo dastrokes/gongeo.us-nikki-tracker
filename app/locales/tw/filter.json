@@ -71,6 +71,7 @@
       "canvas": "帆布",
       "ceramic": "陶瓷",
       "chiffon": "雪紡",
+      "chocolate": "巧克力",
       "cord": "繩線",
       "corduroy": "燈芯絨",
       "cork": "軟木",
@@ -80,6 +81,7 @@
       "feather": "羽毛",
       "felt": "氈",
       "fleece": "抓絨",
+      "frosting": "糖霜",
       "fur": "仿皮草",
       "gemstone": "寶石",
       "glass": "玻璃",
@@ -241,6 +243,7 @@
       "suspenders": "背帶",
       "tag": "標籤",
       "tassel": "穗飾",
+      "teapot": "茶壺",
       "tie": "領帶",
       "tie_clip": "領帶夾",
       "vine": "藤蔓",
@@ -260,6 +263,7 @@
       "bamboo": "竹子",
       "bee": "蜜蜂",
       "bird": "鳥",
+      "brick": "磚紋",
       "bubble": "氣泡",
       "butterfly": "蝴蝶",
       "cable_knit": "麻花編織",
@@ -437,6 +441,7 @@
       "t_strap": "T字帶",
       "textured": "材質感",
       "tiered": "層疊",
+      "twined": "纏繞編織",
       "twisted": "扭結",
       "vest": "馬甲",
       "visor": "帽簷",
@@ -670,7 +675,8 @@
       "bracelets": {
         "bangle": "手鐲",
         "beaded_bracelet": "串珠手鍊",
-        "charm_bracelet": "吊墜手鍊"
+        "charm_bracelet": "吊墜手鍊",
+        "scrunchie": "髮圈/絲絨髮束"
       },
       "chestAccessories": {
         "bow_brooch": "蝴蝶結胸針",
@@ -769,6 +775,7 @@
         "bow": "弓",
         "brush": "畫筆",
         "candelabra": "燭台",
+        "candy": "糖果",
         "clipboard": "寫字板",
         "crossbow": "弩",
         "fishing_rod": "釣魚竿",
@@ -793,6 +800,7 @@
       "headwear": {
         "aviator_hat": "飛行員帽",
         "bandana": "方巾",
+        "bucket_hat": "漁夫帽",
         "coronet": "小冠",
         "hairpin": "髮簪",
         "head_chain": "額鏈",
@@ -800,6 +808,7 @@
         "headscarf": "頭巾",
         "mask": "面具",
         "mini_hat": "迷你帽",
+        "newsboy_cap": "報童帽",
         "sunglasses": "太陽鏡",
         "tiara": "冕狀頭飾",
         "top_hat": "大禮帽",
@@ -892,6 +901,7 @@
         "sailor_blouse": "水手服襯衫",
         "school_uniform_blouse": "校服襯衫",
         "sweater_vest": "毛衣背心",
+        "tailored_jacket": "西裝外套",
         "track_jacket": "運動夾克"
       }
     }

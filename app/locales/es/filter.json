@@ -81,7 +81,7 @@
       "feather": "Pluma",
       "felt": "Fieltro",
       "fleece": "Forro polar",
-      "frosting": "Frosting",
+      "frosting": "Glaseado",
       "fur": "Piel Sintética/Pelo",
       "gemstone": "Piedra Preciosa",
       "glass": "Vidrio",
@@ -243,7 +243,7 @@
       "suspenders": "Tirantes",
       "tag": "Etiqueta",
       "tassel": "Borla",
-      "teapot": "Teapot",
+      "teapot": "Tetera",
       "tie": "Lazo/Atadura",
       "tie_clip": "Pisacorbatas",
       "vine": "Vid",
@@ -263,7 +263,7 @@
       "bamboo": "Bambú",
       "bee": "Abeja",
       "bird": "Pájaro",
-      "brick": "Brick",
+      "brick": "Ladrillo",
       "bubble": "Burbujas",
       "butterfly": "Mariposa",
       "cable_knit": "Punto de ocho",
@@ -441,7 +441,7 @@
       "t_strap": "Correa en T",
       "textured": "Texturizado",
       "tiered": "Escalonado",
-      "twined": "Twined",
+      "twined": "Entrelazado",
       "twisted": "Retorcido",
       "vest": "Chaleco",
       "visor": "Visera",
@@ -676,7 +676,7 @@
         "bangle": "Aro de Muñeca",
         "beaded_bracelet": "Pulsera de Cuentas",
         "charm_bracelet": "Pulsera con Dijes",
-        "scrunchie": "Scrunchie"
+        "scrunchie": "Coletero/Scrunchie"
       },
       "chestAccessories": {
         "bow_brooch": "Broche de Lazo",
@@ -775,7 +775,7 @@
         "bow": "Arco",
         "brush": "Pincel",
         "candelabra": "Candelabro",
-        "candy": "Candy",
+        "candy": "Caramelo/Dulce",
         "clipboard": "Portapapeles",
         "crossbow": "Ballesta",
         "fishing_rod": "Caña de Pescar",
@@ -800,7 +800,7 @@
       "headwear": {
         "aviator_hat": "Gorro de Aviador",
         "bandana": "Bandana",
-        "bucket_hat": "Bucket Hat",
+        "bucket_hat": "Sombrero Pescador",
         "coronet": "Coronilla",
         "hairpin": "Horquilla/Pasador",
         "head_chain": "Cadena para la cabeza",
@@ -808,7 +808,7 @@
         "headscarf": "Pañuelo",
         "mask": "Máscara",
         "mini_hat": "Mini Sombrero",
-        "newsboy_cap": "Newsboy Cap",
+        "newsboy_cap": "Gorra Newsboy",
         "sunglasses": "Gafas de Sol",
         "tiara": "Tiara",
         "top_hat": "Sombrero de Copa",
@@ -901,7 +901,7 @@
         "sailor_blouse": "Blusa Marinera",
         "school_uniform_blouse": "Blusa Escolar",
         "sweater_vest": "Chaleco de Punto",
-        "tailored_jacket": "Tailored Jacket",
+        "tailored_jacket": "Chaqueta Sastre",
         "track_jacket": "Chaqueta de chándal"
       }
     }

@@ -203,7 +203,9 @@ const parseTaxonomyFilters = (query: Record<string, unknown>, type: string) => {
 
   if (
     categoryInput !== null &&
-    (!normalizedCategoryInput || !validCategories.has(normalizedCategoryInput))
+    (!normalizedCategoryInput ||
+      (!isItemSearchUncategorizedValue(normalizedCategoryInput) &&
+        !validCategories.has(normalizedCategoryInput)))
   ) {
     throw createCatalogBadRequestError('category must be a valid category')
   }
@@ -211,20 +213,24 @@ const parseTaxonomyFilters = (query: Record<string, unknown>, type: string) => {
   if (
     subcategoryInput !== null &&
     (!normalizedSubcategoryInput ||
-      !validSubcategories.has(normalizedSubcategoryInput))
+      (!isItemSearchUncategorizedValue(normalizedSubcategoryInput) &&
+        !validSubcategories.has(normalizedSubcategoryInput)))
   ) {
     throw createCatalogBadRequestError(
       'subcategory must be a valid subcategory'
     )
   }
 
-  const subcategoryParent = normalizedSubcategoryInput
-    ? getItemSearchSubcategoryParent(type, normalizedSubcategoryInput)
-    : null
+  const subcategoryParent =
+    normalizedSubcategoryInput &&
+    !isItemSearchUncategorizedValue(normalizedSubcategoryInput)
+      ? getItemSearchSubcategoryParent(type, normalizedSubcategoryInput)
+      : null
 
   if (
     normalizedCategoryInput &&
     normalizedSubcategoryInput &&
+    !isItemSearchUncategorizedValue(normalizedSubcategoryInput) &&
     subcategoryParent &&
     subcategoryParent !== normalizedCategoryInput
   ) {

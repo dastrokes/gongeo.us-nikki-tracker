@@ -2,7 +2,11 @@
   <div
     role="complementary"
     :aria-label="t('about.advertising.title')"
-    class="adsense-slot mx-auto mt-4 h-[100px] w-80 max-w-[calc(100vw-24px)] overflow-hidden sm:mt-8 sm:h-[90px] sm:w-[728px] sm:max-w-[calc(100vw-32px)]"
+    :aria-hidden="isPageLoading"
+    class="adsense-slot mx-auto mt-4 h-[100px] w-80 max-w-[calc(100vw-24px)] overflow-hidden transition-opacity duration-300 ease-out motion-reduce:transition-none sm:mt-8 sm:h-[90px] sm:w-[728px] sm:max-w-[calc(100vw-32px)]"
+    :class="
+      isPageLoading ? 'pointer-events-none opacity-0 duration-0' : 'opacity-100'
+    "
   >
     <ClientOnly>
       <ins
@@ -86,6 +90,7 @@
 
   const { t } = useI18n()
   const config = useRuntimeConfig()
+  const isPageLoading = useState<boolean>('loading', () => false)
   const adElement = ref<HTMLElement | null>(null)
   const hasRequestedAd = ref(false)
   const adStatus = ref<AdSenseStatus>('loading')

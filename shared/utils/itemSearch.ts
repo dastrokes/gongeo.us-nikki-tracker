@@ -1005,6 +1005,12 @@ export const resolveItemSearchFacetValue = (
   const normalized = normalizeItemSearchTokenKey(value)
   if (!normalized) return null
 
+  if (isItemSearchUncategorizedValue(normalized)) {
+    return (
+      options.find((option) => isItemSearchUncategorizedValue(option)) ?? null
+    )
+  }
+
   const match = options.find(
     (option) => normalizeItemSearchTokenKey(option) === normalized
   )

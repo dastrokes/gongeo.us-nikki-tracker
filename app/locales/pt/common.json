@@ -899,8 +899,8 @@
       "all_evos": "Todas as evos"
     },
     "view_mode": {
-      "standard": "Standard view",
-      "thumbnail": "Thumbnail view"
+      "standard": "Visualização padrão",
+      "thumbnail": "Visualização em miniatura"
     },
     "advanced_filters": "Filtros avançados",
     "advanced_filters_empty": "Não há filtros avançados disponíveis para este slot.",
@@ -944,12 +944,12 @@
       "miracrown": "Coroa Milágria",
       "miracle": "Looks Milagrosos",
       "home": "Lar",
-      "cadenceborn": "Cadenceborn's Gift",
-      "course": "Courses",
-      "journey": "Mira Journey",
-      "limited": "Limited Banners",
-      "pear": "Pear-Pal Premium",
-      "permanent": "Permanent Banner"
+      "cadenceborn": "Presente de Dragobardo",
+      "course": "Cursos",
+      "journey": "Jornada Milágria",
+      "limited": "Banners Limitados",
+      "pear": "Item Premium da Loja da Pera-miga",
+      "permanent": "Banner Permanente"
     }
   },
   "search_page": {

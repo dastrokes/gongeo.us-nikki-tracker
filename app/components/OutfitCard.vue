@@ -20,7 +20,7 @@
     />
 
     <div
-      v-if="showInfo"
+      v-if="showInfo && !isThumbnailListing && meta !== 'edit'"
       class="absolute z-20"
       :class="qualityTagPositionClass"
     >
@@ -41,7 +41,17 @@
     </div>
 
     <div
-      v-if="showInfo"
+      v-if="showInfo && isThumbnailListing"
+      class="absolute inset-x-0 bottom-0 z-20 flex h-1/2 w-full flex-col justify-end bg-[url('/images/fade.png')] [background-size:100%_100%] bg-bottom bg-no-repeat px-1.5 pb-1"
+    >
+      <p
+        class="line-clamp-2 w-full min-w-0 text-left text-[10px] leading-snug font-semibold text-white"
+      >
+        {{ name }}
+      </p>
+    </div>
+    <div
+      v-else-if="showInfo"
       class="absolute right-0 bottom-0 left-0 z-20 bg-[url('/images/fade.png')] [background-size:100%_100%] bg-no-repeat"
       :class="metaPaddingClass"
     >
@@ -89,6 +99,11 @@
 
   const { t } = useI18n()
   const { getImageSrc } = imageProvider()
+
+  const compendiumListingView = inject(compendiumListingViewKey, null)
+  const isThumbnailListing = computed(
+    () => compendiumListingView?.isThumbnailView.value ?? false
+  )
 
   const props = withDefaults(
     defineProps<{
@@ -160,25 +175,27 @@
     }
   })
 
-  const qualityTagSize = computed(() =>
-    props.size === 'sm' ? 'tiny' : 'small'
-  )
+  const qualityTagSize = computed(() => {
+    if (isThumbnailListing.value) return 'tiny'
+    return props.size === 'sm' ? 'tiny' : 'small'
+  })
 
-  const qualityTagPositionClass = computed(() =>
-    props.size === 'sm' ? 'top-1 right-1' : 'top-2 right-2'
-  )
+  const qualityTagPositionClass = computed(() => {
+    if (isThumbnailListing.value) return 'top-0.5 right-0.5'
+    return props.size === 'sm' ? 'top-1 right-1' : 'top-2 right-2'
+  })
 
-  const showMetaTags = computed(() => props.meta !== 'edit')
+  const showMetaTags = computed(
+    () => props.meta !== 'edit' && !isThumbnailListing.value
+  )
 
   const metaPaddingClass = computed(() => [
     props.meta === 'edit' || props.size === 'sm' ? 'p-2' : 'p-3',
-    props.meta === 'edit'
-      ? 'pr-12'
-      : props.meta === 'status'
-        ? props.size === 'sm'
-          ? 'pr-10'
-          : 'pr-10 sm:pr-12'
-        : '',
+    props.meta === 'status'
+      ? props.size === 'sm'
+        ? 'pr-10'
+        : 'pr-10 sm:pr-12'
+      : '',
   ])
 
   const cardClasses = computed(() => [

@@ -1,547 +1,301 @@
 <template>
-  <div class="mx-auto max-w-7xl space-y-2 sm:space-y-4">
-    <n-card
-      size="small"
-      class="rounded-xl p-0 sm:p-2"
-      content-class="p-2 sm:p-4"
-    >
-      <div class="flex flex-col gap-2">
-        <div class="flex items-start justify-between gap-2">
-          <div
-            class="flex w-full min-w-0 flex-col gap-2 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center"
-          >
-            <n-select
-              :value="compendiumSection"
-              :options="compendiumSectionOptions"
-              :render-label="renderCompendiumSectionOptionLabel"
-              size="small"
-              class="w-full max-w-40 self-start sm:w-40"
-              :show-checkmark="false"
-              :clearable="false"
-              @update:value="handleCompendiumSectionChange"
-            />
+  <CompendiumListingPage
+    v-model:page="currentPage"
+    v-model:quality-filter="qualityFilter"
+    v-model:batch-scope="batchScope"
+    :disabled-qualities="[2]"
+    :entries="entries"
+    :total-count="totalItems"
+    :loading="loading"
+    :error="error"
+    :wardrobe-error="wardrobeError"
+    :grid-key="cacheKey"
+    :entry-count-labels="entryCountLabels"
+    :edit-mode="editMode"
+    :wardrobe-ready="isWardrobeReady"
+    :tierlist-disabled="isTierlistDisabled"
+    :selected-count="selectedMakeupIds.size"
+    :show-clear-filters="hasFilters"
+    :edit-mode-icon="UserEdit"
+    @toggle-edit-mode="toggleEditMode"
+    @open-tierlist="goToTierlist"
+    @retry="retryFetch"
+    @retry-wardrobe-mode="retryWardrobeMode"
+    @clear-filters="clearFilters"
+    @mark-owned="applyBatchOwnership(true)"
+    @mark-unowned="applyBatchOwnership(false)"
+    @clear-selection="clearSelection"
+  >
+    <template #filter-controls>
+      <n-select
+        :value="compendiumSection"
+        :options="compendiumSectionOptions"
+        :render-label="renderCompendiumSectionOptionLabel"
+        size="small"
+        class="w-full max-w-40 self-start sm:w-40"
+        :show-checkmark="false"
+        :clearable="false"
+        @update:value="handleCompendiumSectionChange"
+      />
 
-            <n-select
-              v-model:value="wardrobeFilter"
-              :options="wardrobeFilterOptions"
-              :render-label="renderWardrobeFilterOptionLabel"
-              size="small"
-              class="w-full max-w-40 self-start sm:w-40"
-              :show-checkmark="false"
-              :clearable="false"
-              :disabled="!isWardrobeReady"
-            />
+      <n-select
+        v-model:value="wardrobeFilter"
+        :options="wardrobeFilterOptions"
+        :render-label="renderWardrobeFilterOptionLabel"
+        size="small"
+        class="w-full max-w-40 self-start sm:w-40"
+        :show-checkmark="false"
+        :clearable="false"
+        :disabled="!isWardrobeReady"
+      />
 
-            <CatalogVariationToggle
-              v-model:value="variationFilter"
-              :options="variationFilterOptions"
-            />
+      <CatalogVariationToggle
+        v-model:value="variationFilter"
+        :options="variationFilterOptions"
+      />
 
-            <n-select
-              v-model:value="makeupKindFilter"
-              :options="makeupKindFilterOptions"
-              :render-label="renderIconSelectOptionLabel"
-              size="small"
-              class="w-full max-w-40 self-start sm:w-40"
-              :show-checkmark="false"
-              :clearable="false"
-            />
+      <n-select
+        v-model:value="makeupKindFilter"
+        :options="makeupKindFilterOptions"
+        :render-label="renderIconSelectOptionLabel"
+        size="small"
+        class="w-full max-w-40 self-start sm:w-40"
+        :show-checkmark="false"
+        :clearable="false"
+      />
+    </template>
 
-            <div class="hidden min-w-0 overflow-x-auto sm:block">
-              <n-button-group class="min-w-max">
-                <n-button
-                  size="small"
-                  :type="qualityFilter === null ? 'primary' : 'default'"
-                  class="min-w-10"
-                  @click="qualityFilter = null"
-                >
-                  {{ t('common.all') }}
-                </n-button>
-                <n-button
-                  v-for="q in [5, 4, 3, 2]"
-                  :key="q"
-                  size="small"
-                  v-bind="getQualityButtonTheme(q, qualityFilter === q)"
-                  class="min-w-10"
-                  :disabled="q === 2"
-                  @click="qualityFilter = q"
-                >
-                  <span class="flex items-center gap-1">
-                    {{ q }}
-                    <n-icon>
-                      <Star />
-                    </n-icon>
-                  </span>
-                </n-button>
-              </n-button-group>
-            </div>
+    <template #filter-row>
+      <div class="grid grid-cols-2 gap-2 sm:grid-cols-2 xl:grid-cols-4">
+        <n-select
+          v-model:value="slotFilter"
+          :options="slotOptions"
+          size="small"
+          class="min-w-0"
+          clearable
+          filterable
+          :show-checkmark="false"
+          :placeholder="t('compendium.filter_slot')"
+        />
 
-            <n-button
-              v-if="hasFilters"
-              size="small"
-              class="hidden sm:inline-flex"
-              @click="clearFilters"
-            >
-              {{ t('common.clear') }}
-            </n-button>
-          </div>
+        <n-select
+          v-model:value="versionFilter"
+          :options="versionOptions"
+          :render-label="renderVersionOptionLabel"
+          size="small"
+          class="min-w-0"
+          clearable
+          filterable
+          :show-checkmark="false"
+          :placeholder="t('compendium.filter_version')"
+        />
 
-          <div class="flex shrink-0 items-center gap-2 self-start">
-            <n-tooltip
-              :disabled="totalItems <= TIER_ENTRY_LIMIT"
-              trigger="hover"
-            >
-              <template #trigger>
-                <n-button
-                  size="small"
-                  type="primary"
-                  :disabled="isTierlistDisabled"
-                  @click="goToTierlist"
-                >
-                  <template #icon>
-                    <n-icon><SortAmountDown /></n-icon>
-                  </template>
-                  {{ t('navigation.tierlist') }}
-                </n-button>
-              </template>
-              {{
-                t('tierlist.over_limit.description', {
-                  max: TIER_ENTRY_LIMIT,
-                })
-              }}
-            </n-tooltip>
+        <n-select
+          v-model:value="styleFilter"
+          :options="styleOptions"
+          size="small"
+          class="min-w-0"
+          clearable
+          :show-checkmark="false"
+          :placeholder="t('compendium.filter_style')"
+        />
 
-            <n-tooltip trigger="hover">
-              <template #trigger>
-                <n-button
-                  size="small"
-                  text
-                  :type="editMode ? 'primary' : 'default'"
-                  :disabled="!isWardrobeReady"
-                  class="w-8"
-                  :aria-label="
-                    editMode
-                      ? t('wardrobe.actions.view_mode')
-                      : t('wardrobe.actions.edit_mode')
-                  "
-                  @click="toggleEditMode"
-                >
-                  <template #icon>
-                    <n-icon>
-                      <BookOpen v-if="editMode" />
-                      <UserEdit v-else />
-                    </n-icon>
-                  </template>
-                </n-button>
-              </template>
-              {{
-                editMode
-                  ? t('wardrobe.actions.view_mode')
-                  : t('wardrobe.actions.edit_mode')
-              }}
-            </n-tooltip>
-          </div>
-        </div>
-
-        <div class="flex items-start gap-2 sm:hidden">
-          <div class="min-w-0 flex-1 overflow-x-auto pb-1">
-            <n-button-group class="min-w-max">
-              <n-button
-                size="small"
-                :type="qualityFilter === null ? 'primary' : 'default'"
-                class="min-w-10"
-                @click="qualityFilter = null"
-              >
-                {{ t('common.all') }}
-              </n-button>
-              <n-button
-                v-for="q in [5, 4, 3, 2]"
-                :key="q"
-                size="small"
-                v-bind="getQualityButtonTheme(q, qualityFilter === q)"
-                class="min-w-10"
-                :disabled="q === 2"
-                @click="qualityFilter = q"
-              >
-                <span class="flex items-center gap-1">
-                  {{ q }}
-                  <n-icon>
-                    <Star />
-                  </n-icon>
-                </span>
-              </n-button>
-            </n-button-group>
-          </div>
-
-          <div class="flex shrink-0 items-center gap-2">
-            <n-button
-              v-if="hasFilters"
-              size="small"
-              @click="clearFilters"
-            >
-              {{ t('common.clear') }}
-            </n-button>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-2 gap-2 sm:grid-cols-2 xl:grid-cols-4">
-          <n-select
-            v-model:value="slotFilter"
-            :options="slotOptions"
-            size="small"
-            class="min-w-0"
-            clearable
-            filterable
-            :show-checkmark="false"
-            :placeholder="t('compendium.filter_slot')"
-          />
-
-          <n-select
-            v-model:value="versionFilter"
-            :options="versionOptions"
-            :render-label="renderVersionOptionLabel"
-            size="small"
-            class="min-w-0"
-            clearable
-            filterable
-            :show-checkmark="false"
-            :placeholder="t('compendium.filter_version')"
-          />
-
-          <n-select
-            v-model:value="styleFilter"
-            :options="styleOptions"
-            size="small"
-            class="min-w-0"
-            clearable
-            :show-checkmark="false"
-            :placeholder="t('compendium.filter_style')"
-          />
-
-          <n-select
-            v-model:value="obtainFilter"
-            :options="obtainOptions"
-            size="small"
-            class="min-w-0"
-            clearable
-            filterable
-            :show-checkmark="false"
-            :placeholder="t('compendium.filter_obtain')"
-          />
-        </div>
+        <n-select
+          v-model:value="obtainFilter"
+          :options="obtainOptions"
+          size="small"
+          class="min-w-0"
+          clearable
+          filterable
+          :show-checkmark="false"
+          :placeholder="t('compendium.filter_obtain')"
+        />
       </div>
-    </n-card>
+    </template>
 
-    <WardrobeBatchToolbar
-      v-if="editMode"
-      v-model:scope="batchScope"
-      :edit-mode="editMode"
-      :selected-count="selectedMakeupIds.size"
-      :page-count="entries.length"
-      :all-matching-count="totalItems"
-      :disabled="!isWardrobeReady || loading"
-      @mark-owned="applyBatchOwnership(true)"
-      @mark-unowned="applyBatchOwnership(false)"
-      @clear-selection="clearSelection"
-    />
-
-    <n-card
-      size="small"
-      class="rounded-xl p-0 sm:flex sm:flex-1 sm:flex-col sm:p-2"
-      content-class="p-2 sm:p-4 sm:flex-1 sm:flex sm:flex-col"
-    >
-      <div class="min-h-0 sm:flex sm:flex-1 sm:flex-col">
-        <div class="space-y-3 sm:space-y-4">
+    <template #entry="{ entry, index }">
+      <div
+        class="relative cursor-pointer"
+        :class="getListingCardAnimationClass(index)"
+        :style="getListingCardAnimationStyle(index)"
+        @click="handleMakeupCardClick(entry.id, $event)"
+      >
+        <div
+          class="relative aspect-2/3 overflow-hidden rounded-lg bg-[url('/images/bg.webp')] bg-cover bg-center shadow-md transition-shadow duration-300 hover:shadow-xl"
+          :style="
+            isMakeupBatchSelected(entry.id)
+              ? getQualityRingStyle(entry.quality)
+              : undefined
+          "
+        >
           <div
-            v-if="wardrobeError"
-            class="py-12 text-center"
+            class="absolute inset-0"
+            :class="getListingQualityOverlayClass(entry.quality)"
+          ></div>
+          <NuxtImg
+            :src="entry.image"
+            :alt="entry.name"
+            class="absolute inset-0 z-10 h-full w-full object-cover transition-transform duration-500 ease-out hover:scale-110"
+            :preset="imagePreset"
+            fit="cover"
+            :loading="getListingImageLoading(index)"
+            :fetchpriority="getListingImageFetchPriority(index)"
+            :sizes="imageSizes"
+          />
+
+          <div
+            v-if="!isThumbnailView || editMode"
+            class="absolute"
+            :class="overlayCornerClasses['top-left']"
           >
-            <n-result
+            <n-tag
+              v-if="!editMode && !isThumbnailView"
+              round
               size="small"
-              status="error"
-              :title="t('wardrobe.error.mode_title')"
-              :description="t('wardrobe.error.mode_description')"
+              :bordered="false"
+              type="warning"
+              class="bg-black/50 text-gray-200 backdrop-blur-xs"
             >
-              <template #footer>
-                <n-button
-                  type="primary"
-                  @click="retryWardrobeMode"
-                >
-                  {{ t('common.retry') }}
-                </n-button>
-              </template>
-            </n-result>
+              {{ entry.type }}
+            </n-tag>
+            <n-checkbox
+              v-else-if="editMode"
+              :checked="isMakeupBatchSelected(entry.id)"
+              :theme-overrides="
+                getWardrobeSelectionCheckboxTheme(entry.quality)
+              "
+              :aria-label="t('common.select')"
+              @click.stop
+              @update:checked="
+                (checked) => updateMakeupSelection(entry.id, checked)
+              "
+            />
           </div>
 
           <div
-            v-else-if="error"
-            class="py-12 text-center"
+            v-if="!isThumbnailView || editMode"
+            class="absolute"
+            :class="overlayCornerClasses['top-right']"
+            @click.stop
           >
-            <n-result
+            <n-tag
+              v-if="!editMode && !isThumbnailView"
+              round
               size="small"
-              status="error"
-              :title="t('compendium.error_title')"
-              :description="t('compendium.error_description')"
+              :bordered="false"
+              :color="getQualityTagTheme(entry.quality)"
+              class="backdrop-blur-xs"
             >
-              <template #footer>
-                <n-button
-                  type="primary"
-                  @click="retryFetch"
-                >
-                  {{ $t('common.retry') }}
-                </n-button>
-              </template>
-            </n-result>
+              <span class="flex items-center gap-1">
+                {{ entry.quality }}
+                <n-icon>
+                  <Star />
+                </n-icon>
+              </span>
+            </n-tag>
+            <WardrobeOwnedButton
+              v-else-if="wardrobeInitialized && editMode"
+              :owned="entry.progress?.status === 'owned'"
+              :disabled="
+                !isWardrobeReady || entry.trackedMakeupIds.length === 0
+              "
+              :loading="isMakeupToggleLoading(entry.id)"
+              :quality="entry.quality"
+              variant="overlay"
+              @toggle="toggleVisibleMakeupOwned(entry.id)"
+            />
           </div>
 
           <div
-            v-else-if="!loading && entries.length === 0"
-            class="py-12 text-center"
+            v-if="wardrobeInitialized && !editMode && entry.progress"
+            class="absolute"
+            :class="overlayCornerClasses.wardrobe"
+            @click.stop
           >
-            <n-result
-              size="small"
-              status="info"
-              :title="t('common.no_results_found')"
-              :description="t('compendium.no_results_description')"
-            >
-              <template #icon>
-                <NuxtImg
-                  :src="getImageSrc('emote', 'think')"
-                  class="mx-auto h-24 w-24 object-cover sm:h-32 sm:w-32"
-                  preset="iconLg"
-                  fit="cover"
-                  sizes="160px sm:200px"
-                />
-              </template>
-            </n-result>
+            <WardrobeStatusBadge
+              v-if="entry.progress.status === 'owned'"
+              status="item-owned"
+              :quality="entry.quality"
+            />
+            <WardrobeStatusBadge
+              v-else
+              :status="entry.progress.status"
+              :owned="entry.progress.owned"
+              :total="entry.progress.total"
+              :quality="entry.quality"
+            />
           </div>
 
-          <n-collapse-transition
-            v-else
-            mode="out-in"
-            appear
-          >
-            <div
-              v-if="!error && entries.length > 0"
-              :key="listingAnimationKey"
-              class="grid grid-cols-3 gap-2 sm:grid-cols-6 sm:content-start sm:gap-3"
-            >
-              <div
-                v-for="(entry, index) in entries"
-                :key="entry.id"
-                class="relative cursor-pointer"
-                :class="getListingCardAnimationClass(index)"
-                :style="getListingCardAnimationStyle(index)"
-                @click="handleMakeupCardClick(entry.id, $event)"
-              >
-                <div
-                  class="relative aspect-2/3 overflow-hidden rounded-lg bg-[url('/images/bg.webp')] bg-cover bg-center shadow-md transition-shadow duration-300 hover:shadow-xl"
-                  :style="
-                    isMakeupBatchSelected(entry.id)
-                      ? getQualityRingStyle(entry.quality)
-                      : undefined
-                  "
-                >
-                  <div
-                    class="absolute inset-0"
-                    :class="getListingQualityOverlayClass(entry.quality)"
-                  ></div>
-                  <NuxtImg
-                    :src="entry.image"
-                    :alt="entry.name"
-                    class="absolute inset-0 z-10 h-full w-full object-cover transition-transform duration-500 ease-out hover:scale-110"
-                    preset="tallLg"
-                    fit="cover"
-                    :loading="getListingImageLoading(index)"
-                    :fetchpriority="getListingImageFetchPriority(index)"
-                    sizes="200px"
-                  />
-
-                  <div class="absolute top-2 left-2 z-20">
-                    <n-tag
-                      v-if="!editMode"
-                      round
-                      size="small"
-                      :bordered="false"
-                      type="warning"
-                      class="bg-black/50 text-gray-200 backdrop-blur-xs"
-                    >
-                      {{ entry.type }}
-                    </n-tag>
-                    <n-checkbox
-                      v-else
-                      :checked="isMakeupBatchSelected(entry.id)"
-                      :theme-overrides="
-                        getWardrobeSelectionCheckboxTheme(entry.quality)
-                      "
-                      :aria-label="t('common.select')"
-                      @click.stop
-                      @update:checked="
-                        (checked) => updateMakeupSelection(entry.id, checked)
-                      "
-                    />
-                  </div>
-                  <div class="absolute top-2 right-2 z-20">
-                    <n-tag
-                      round
-                      size="small"
-                      :bordered="false"
-                      :color="getQualityTagTheme(entry.quality)"
-                      class="backdrop-blur-xs"
-                    >
-                      <span class="flex items-center gap-1">
-                        {{ entry.quality }}
-                        <n-icon>
-                          <Star />
-                        </n-icon>
-                      </span>
-                    </n-tag>
-                  </div>
-                  <div
-                    v-if="
-                      wardrobeInitialized &&
-                      !editMode &&
-                      entry.progress?.status === 'owned'
-                    "
-                    class="absolute right-2 bottom-2 z-30"
-                    @click.stop
-                  >
-                    <WardrobeStatusBadge
-                      status="item-owned"
-                      :quality="entry.quality"
-                    />
-                  </div>
-                  <div
-                    v-else-if="
-                      wardrobeInitialized && !editMode && entry.progress
-                    "
-                    class="absolute right-2 bottom-2 z-30"
-                    @click.stop
-                  >
-                    <WardrobeStatusBadge
-                      :status="entry.progress.status"
-                      :owned="entry.progress.owned"
-                      :total="entry.progress.total"
-                      :quality="entry.quality"
-                    />
-                  </div>
-                  <div
-                    v-else-if="wardrobeInitialized && editMode"
-                    class="absolute right-2 bottom-2 z-30"
-                    @click.stop
-                  >
-                    <WardrobeOwnedButton
-                      :owned="entry.progress?.status === 'owned'"
-                      :disabled="
-                        !isWardrobeReady || entry.trackedMakeupIds.length === 0
-                      "
-                      :loading="isMakeupToggleLoading(entry.id)"
-                      :quality="entry.quality"
-                      variant="overlay"
-                      @toggle="toggleVisibleMakeupOwned(entry.id)"
-                    />
-                  </div>
-                  <div
-                    class="absolute right-0 bottom-0 left-0 z-20 bg-[url('/images/fade.png')] [background-size:100%_100%] bg-no-repeat p-3"
-                    :class="
-                      wardrobeInitialized
-                        ? editMode
-                          ? 'pr-12'
-                          : entry.progress
-                            ? 'pr-10 sm:pr-12'
-                            : ''
+          <div
+            :class="
+              isThumbnailView
+                ? nameFadeThumbnailClass
+                : [
+                    nameFadeStandardClass,
+                    'p-3',
+                    wardrobeInitialized
+                      ? !editMode && entry.progress
+                        ? 'pr-10 sm:pr-12'
                         : ''
-                    "
-                  >
-                    <p
-                      class="line-clamp-2 text-xs font-semibold text-white sm:text-sm"
-                    >
-                      {{ entry.name }}
-                    </p>
-                    <div class="mt-1 flex flex-wrap gap-1">
-                      <n-tag
-                        v-if="entry.styleLabel"
-                        size="tiny"
-                        :bordered="false"
-                        type="default"
-                        :color="getStyleTagTheme(entry.styleKey)"
-                        class="text-xs font-semibold shadow-[inset_0_-2px_0_rgba(0,0,0,0.18)]"
-                      >
-                        {{ entry.styleLabel }}
-                      </n-tag>
-                    </div>
-                    <div class="mt-1 flex flex-wrap gap-0.5">
-                      <n-tag
-                        v-for="label in entry.labelTags"
-                        :key="label.text"
-                        size="tiny"
-                        type="default"
-                        :color="label.theme"
-                        round
-                        class="text-xs font-semibold"
-                      >
-                        {{ label.text }}
-                      </n-tag>
-                    </div>
-                  </div>
-                </div>
-              </div>
+                      : '',
+                  ]
+            "
+          >
+            <p
+              class="font-semibold text-white"
+              :class="
+                isThumbnailView
+                  ? 'line-clamp-2 w-full min-w-0 text-left text-[10px] leading-snug'
+                  : 'line-clamp-2 text-xs sm:text-sm'
+              "
+            >
+              {{ entry.name }}
+            </p>
+            <div
+              v-if="showEntryMeta && entry.styleLabel"
+              class="mt-1 flex flex-wrap gap-1"
+            >
+              <n-tag
+                size="tiny"
+                :bordered="false"
+                type="default"
+                :color="getStyleTagTheme(entry.styleKey)"
+                class="text-xs font-semibold shadow-[inset_0_-2px_0_rgba(0,0,0,0.18)]"
+              >
+                {{ entry.styleLabel }}
+              </n-tag>
             </div>
             <div
-              v-else-if="loading"
-              key="loading"
-              class="grid grid-cols-3 gap-2 sm:grid-cols-6 sm:content-start sm:gap-3"
+              v-if="showEntryMeta && entry.labelTags.length"
+              class="mt-1 flex flex-wrap gap-0.5"
             >
-              <div
-                v-for="(i, index) in pageSize"
-                :key="`skeleton-${i}`"
-                class="relative aspect-3/4 animate-pulse overflow-hidden rounded-lg bg-gray-200 dark:bg-gray-700"
-                :style="getListingCardAnimationStyle(index)"
-              ></div>
+              <n-tag
+                v-for="label in entry.labelTags"
+                :key="label.text"
+                size="tiny"
+                type="default"
+                :color="label.theme"
+                round
+                class="text-xs font-semibold"
+              >
+                {{ label.text }}
+              </n-tag>
             </div>
-          </n-collapse-transition>
-
-          <div class="flex items-center justify-center sm:pr-2">
-            <n-pagination
-              v-model:page="currentPage"
-              :page-size="pageSize"
-              :item-count="totalItems"
-              :show-size-picker="false"
-              :disabled="loading || !!error"
-              :page-slot="5"
-            >
-              <template #prefix="{ itemCount }">
-                <div
-                  class="inline-flex items-baseline gap-1 text-sm text-gray-600 dark:text-gray-400"
-                >
-                  <span class="font-semibold text-gray-900 dark:text-white">{{
-                    totalItems
-                  }}</span>
-                  <span>
-                    {{
-                      itemCount === 1 ? t('common.makeup') : t('common.makeups')
-                    }}
-                  </span>
-                </div>
-              </template>
-            </n-pagination>
           </div>
         </div>
       </div>
-    </n-card>
-  </div>
+    </template>
+  </CompendiumListingPage>
 </template>
 
 <script setup lang="ts">
   import {
     Star,
-    BookOpen,
     UserEdit,
     Tshirt,
     ListAlt,
     PaintBrush,
     Paw,
-    SortAmountDown,
     CheckCircle,
     Adjust,
     TimesCircle,
@@ -580,7 +334,6 @@
   type IconSelectOption = SelectOption & { icon: Component }
   type MakeupWardrobeFilter = 'all' | 'owned' | 'partial' | 'missing'
 
-  const pageSize = 18
   const routeListSlug = computed(() =>
     getSeoListRouteSlug(route.path, 'makeups')
   )
@@ -743,6 +496,17 @@
     )
   )
   const currentPage = ref(Number(route.query.page) || 1)
+  const {
+    viewMode,
+    pageSize,
+    imageSizes,
+    imagePreset,
+    isThumbnailView,
+    showEntryMeta,
+    overlayCornerClasses,
+    nameFadeThumbnailClass,
+    nameFadeStandardClass,
+  } = provideCompendiumListingView({ currentPage })
   type BatchScope = 'selected' | 'page' | 'all'
   const editMode = ref(false)
   const batchScope = ref<BatchScope>('selected')
@@ -815,7 +579,7 @@
       }-${variationFilter.value}-${wardrobeFilter.value}-${activeRegionScope.value}-${getListingWardrobeCacheKey(
         wardrobeFilter.value,
         wardrobeMutationVersion.value
-      )}-${currentPage.value}-${pageSize}`
+      )}-${currentPage.value}-${pageSize.value}-${viewMode.value}`
   )
   const {
     data: compendiumData,
@@ -838,7 +602,7 @@
         variations: variationFilter.value,
       },
       page: currentPage.value,
-      pageSize,
+      pageSize: pageSize.value,
       ownershipMode: wardrobeFilter.value,
       regionScope: activeRegionScope.value,
     }),
@@ -905,8 +669,10 @@
       status: requestStatus.value,
     })
   )
-  const listingAnimationKey = computed(() => cacheKey.value)
-
+  const entryCountLabels = computed(() => ({
+    singular: t('common.makeup'),
+    plural: t('common.makeups'),
+  }))
   const totalItems = computed(() => compendiumData.value?.total || 0)
   const TIER_ENTRY_LIMIT = 200
   const isTierlistDisabled = computed(

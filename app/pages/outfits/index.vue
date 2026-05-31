@@ -1,448 +1,188 @@
 <template>
-  <div class="mx-auto max-w-7xl space-y-2 sm:space-y-4">
-    <!-- Filter Card -->
-    <n-card
-      size="small"
-      class="rounded-xl p-0 sm:p-2"
-      content-class="p-2 sm:p-4"
-    >
-      <div class="flex flex-col gap-2">
-        <div class="flex items-start justify-between gap-2">
-          <div
-            class="flex w-full min-w-0 flex-col gap-2 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center"
-          >
-            <n-select
-              :value="compendiumSection"
-              :options="compendiumSectionOptions"
-              :render-label="renderCompendiumSectionOptionLabel"
-              size="small"
-              class="w-full max-w-40 self-start sm:w-40"
-              :show-checkmark="false"
-              :clearable="false"
-              @update:value="handleCompendiumSectionChange"
-            />
+  <CompendiumListingPage
+    v-model:page="currentPage"
+    v-model:quality-filter="qualityFilter"
+    v-model:batch-scope="batchScope"
+    :disabled-qualities="[2]"
+    :entries="entries"
+    :total-count="totalItems"
+    :loading="loading"
+    :error="error"
+    :wardrobe-error="wardrobeError"
+    :grid-key="cacheKey"
+    :entry-count-labels="entryCountLabels"
+    :edit-mode="editMode"
+    :wardrobe-ready="isWardrobeReady"
+    :tierlist-disabled="isTierlistDisabled"
+    :selected-count="selectedOutfitIds.size"
+    :show-clear-filters="hasFilters"
+    :edit-mode-icon="UserEdit"
+    @toggle-edit-mode="toggleEditMode"
+    @open-tierlist="goToTierlist"
+    @retry="retryFetch"
+    @retry-wardrobe-mode="retryWardrobeMode"
+    @clear-filters="clearFilters"
+    @mark-owned="applyBatchOwnership(true)"
+    @mark-unowned="applyBatchOwnership(false)"
+    @clear-selection="clearSelection"
+  >
+    <template #filter-controls>
+      <n-select
+        :value="compendiumSection"
+        :options="compendiumSectionOptions"
+        :render-label="renderCompendiumSectionOptionLabel"
+        size="small"
+        class="w-full max-w-40 self-start sm:w-40"
+        :show-checkmark="false"
+        :clearable="false"
+        @update:value="handleCompendiumSectionChange"
+      />
 
-            <n-select
-              v-model:value="wardrobeFilter"
-              :options="wardrobeFilterOptions"
-              :render-label="renderWardrobeFilterOptionLabel"
-              size="small"
-              class="w-full max-w-40 self-start sm:w-40"
-              :show-checkmark="false"
-              :clearable="false"
-              :disabled="!isWardrobeReady"
-            />
+      <n-select
+        v-model:value="wardrobeFilter"
+        :options="wardrobeFilterOptions"
+        :render-label="renderWardrobeFilterOptionLabel"
+        size="small"
+        class="w-full max-w-40 self-start sm:w-40"
+        :show-checkmark="false"
+        :clearable="false"
+        :disabled="!isWardrobeReady"
+      />
 
-            <CatalogVariationToggle v-model:value="variationFilter" />
+      <CatalogVariationToggle v-model:value="variationFilter" />
+    </template>
 
-            <div class="hidden min-w-0 overflow-x-auto sm:block">
-              <n-button-group class="min-w-max">
-                <n-button
-                  size="small"
-                  :type="qualityFilter === null ? 'primary' : 'default'"
-                  class="min-w-10"
-                  @click="qualityFilter = null"
-                >
-                  {{ t('common.all') }}
-                </n-button>
-                <n-button
-                  v-for="q in [5, 4, 3, 2]"
-                  :key="q"
-                  size="small"
-                  v-bind="getQualityButtonTheme(q, qualityFilter === q)"
-                  class="min-w-10"
-                  :disabled="q === 2"
-                  @click="qualityFilter = q"
-                >
-                  <span class="flex items-center gap-1">
-                    {{ q }}
-                    <n-icon>
-                      <Star />
-                    </n-icon>
-                  </span>
-                </n-button>
-              </n-button-group>
-            </div>
+    <template #filter-row>
+      <div class="grid grid-cols-2 gap-2 sm:grid-cols-2 xl:grid-cols-4">
+        <n-select
+          v-model:value="versionFilter"
+          :options="versionOptions"
+          :render-label="renderVersionOptionLabel"
+          size="small"
+          class="min-w-0"
+          clearable
+          filterable
+          :show-checkmark="false"
+          :placeholder="t('compendium.filter_version')"
+        />
 
-            <n-button
-              v-if="hasFilters"
-              size="small"
-              class="hidden sm:inline-flex"
-              @click="clearFilters"
-            >
-              {{ t('common.clear') }}
-            </n-button>
-          </div>
+        <n-select
+          v-model:value="styleFilter"
+          :options="styleOptions"
+          size="small"
+          class="min-w-0"
+          clearable
+          :show-checkmark="false"
+          :placeholder="t('compendium.filter_style')"
+        />
 
-          <div class="flex shrink-0 items-center gap-2 self-start">
-            <n-tooltip
-              :disabled="totalItems <= TIER_ENTRY_LIMIT"
-              trigger="hover"
-            >
-              <template #trigger>
-                <n-button
-                  size="small"
-                  type="primary"
-                  :disabled="isTierlistDisabled"
-                  @click="goToTierlist"
-                >
-                  <template #icon>
-                    <n-icon><SortAmountDown /></n-icon>
-                  </template>
-                  {{ t('navigation.tierlist') }}
-                </n-button>
-              </template>
-              {{
-                t('tierlist.over_limit.description', {
-                  max: TIER_ENTRY_LIMIT,
-                })
-              }}
-            </n-tooltip>
+        <n-select
+          v-model:value="labelFilter"
+          :options="labelOptions"
+          size="small"
+          class="min-w-0"
+          clearable
+          filterable
+          :show-checkmark="false"
+          :placeholder="t('compendium.filter_label')"
+        />
 
-            <n-tooltip trigger="hover">
-              <template #trigger>
-                <n-button
-                  size="small"
-                  text
-                  :type="editMode ? 'primary' : 'default'"
-                  :disabled="!isWardrobeReady"
-                  class="w-8"
-                  :aria-label="
-                    editMode
-                      ? t('wardrobe.actions.view_mode')
-                      : t('wardrobe.actions.edit_mode')
-                  "
-                  @click="toggleEditMode"
-                >
-                  <template #icon>
-                    <n-icon>
-                      <BookOpen v-if="editMode" />
-                      <UserEdit v-else />
-                    </n-icon>
-                  </template>
-                </n-button>
-              </template>
-              {{
-                editMode
-                  ? t('wardrobe.actions.view_mode')
-                  : t('wardrobe.actions.edit_mode')
-              }}
-            </n-tooltip>
-          </div>
+        <n-select
+          v-model:value="obtainFilter"
+          :options="obtainOptions"
+          size="small"
+          class="min-w-0"
+          clearable
+          filterable
+          :show-checkmark="false"
+          :placeholder="t('compendium.filter_obtain')"
+        />
+      </div>
+    </template>
+
+    <template #entry="{ entry, index }">
+      <div
+        class="group relative block cursor-pointer"
+        :class="getListingCardAnimationClass(index)"
+        :style="getListingCardAnimationStyle(index)"
+        @click="handleOutfitCardClick(entry.id, $event)"
+      >
+        <OutfitCard
+          :outfit-id="entry.id"
+          :quality="entry.quality"
+          :name="entry.name"
+          :style-key="entry.styleKey"
+          :labels="entry.labels"
+          :size="outfitCardSize"
+          :show-info="true"
+          :meta="editMode ? 'edit' : entry.progress ? 'status' : 'default'"
+          :loading="getListingImageLoading(index)"
+          :fetchpriority="getListingImageFetchPriority(index)"
+          class="transition-shadow duration-300 group-hover:shadow-xl"
+          :style="
+            isOutfitBatchSelected(entry.id)
+              ? getQualityRingStyle(entry.quality)
+              : undefined
+          "
+        />
+
+        <div
+          v-if="editMode"
+          class="absolute"
+          :class="overlayCornerClasses['top-left']"
+        >
+          <n-checkbox
+            :checked="isOutfitBatchSelected(entry.id)"
+            :theme-overrides="getWardrobeSelectionCheckboxTheme(entry.quality)"
+            :aria-label="t('common.select')"
+            @click.stop
+            @update:checked="
+              (checked) => updateOutfitSelection(entry.id, checked)
+            "
+          />
         </div>
 
-        <div class="flex items-start gap-2 sm:hidden">
-          <div class="min-w-0 flex-1 overflow-x-auto pb-1">
-            <n-button-group class="min-w-max">
-              <n-button
-                size="small"
-                :type="qualityFilter === null ? 'primary' : 'default'"
-                class="min-w-10"
-                @click="qualityFilter = null"
-              >
-                {{ t('common.all') }}
-              </n-button>
-              <n-button
-                v-for="q in [5, 4, 3, 2]"
-                :key="q"
-                size="small"
-                v-bind="getQualityButtonTheme(q, qualityFilter === q)"
-                class="min-w-10"
-                :disabled="q === 2"
-                @click="qualityFilter = q"
-              >
-                <span class="flex items-center gap-1">
-                  {{ q }}
-                  <n-icon>
-                    <Star />
-                  </n-icon>
-                </span>
-              </n-button>
-            </n-button-group>
-          </div>
-
-          <div class="flex shrink-0 items-center gap-2">
-            <n-button
-              v-if="hasFilters"
-              size="small"
-              @click="clearFilters"
-            >
-              {{ t('common.clear') }}
-            </n-button>
-          </div>
+        <div
+          v-if="entry.progress && !editMode"
+          class="absolute"
+          :class="overlayCornerClasses.wardrobe"
+          @click.stop
+        >
+          <WardrobeStatusBadge
+            :status="entry.progress.status"
+            :owned="entry.progress.owned"
+            :total="entry.progress.total"
+            :quality="entry.quality"
+          />
         </div>
 
-        <div class="grid grid-cols-2 gap-2 sm:grid-cols-2 xl:grid-cols-4">
-          <n-select
-            v-model:value="versionFilter"
-            :options="versionOptions"
-            :render-label="renderVersionOptionLabel"
-            size="small"
-            class="min-w-0"
-            clearable
-            filterable
-            :show-checkmark="false"
-            :placeholder="t('compendium.filter_version')"
-          />
-
-          <n-select
-            v-model:value="styleFilter"
-            :options="styleOptions"
-            size="small"
-            class="min-w-0"
-            clearable
-            :show-checkmark="false"
-            :placeholder="t('compendium.filter_style')"
-          />
-
-          <n-select
-            v-model:value="labelFilter"
-            :options="labelOptions"
-            size="small"
-            class="min-w-0"
-            clearable
-            filterable
-            :show-checkmark="false"
-            :placeholder="t('compendium.filter_label')"
-          />
-
-          <n-select
-            v-model:value="obtainFilter"
-            :options="obtainOptions"
-            size="small"
-            class="min-w-0"
-            clearable
-            filterable
-            :show-checkmark="false"
-            :placeholder="t('compendium.filter_obtain')"
+        <div
+          v-if="wardrobeInitialized && editMode && entry.itemIds.length > 0"
+          class="absolute"
+          :class="overlayCornerClasses['top-right']"
+          @click.stop
+        >
+          <WardrobeOwnedButton
+            :owned="entry.progress?.status === 'owned'"
+            :disabled="!isWardrobeReady"
+            :loading="isOutfitToggleLoading(entry.id)"
+            :quality="entry.quality"
+            variant="overlay"
+            @toggle="toggleVisibleOutfitOwned(entry.id)"
           />
         </div>
       </div>
-    </n-card>
-
-    <WardrobeBatchToolbar
-      v-if="editMode"
-      v-model:scope="batchScope"
-      :edit-mode="editMode"
-      :selected-count="selectedOutfitIds.size"
-      :page-count="entries.length"
-      :all-matching-count="totalItems"
-      :disabled="!isWardrobeReady || loading"
-      @mark-owned="applyBatchOwnership(true)"
-      @mark-unowned="applyBatchOwnership(false)"
-      @clear-selection="clearSelection"
-    />
-
-    <!-- Grid Card -->
-    <n-card
-      size="small"
-      class="rounded-xl p-0 sm:flex sm:flex-1 sm:flex-col sm:p-2"
-      content-class="p-2 sm:p-4 sm:flex-1 sm:flex sm:flex-col"
-    >
-      <div class="min-h-0 sm:flex sm:flex-1 sm:flex-col">
-        <div class="space-y-3 sm:space-y-4">
-          <div
-            v-if="wardrobeError"
-            class="py-12 text-center"
-          >
-            <n-result
-              size="small"
-              status="error"
-              :title="t('wardrobe.error.mode_title')"
-              :description="t('wardrobe.error.mode_description')"
-            >
-              <template #footer>
-                <n-button
-                  type="primary"
-                  @click="retryWardrobeMode"
-                >
-                  {{ t('common.retry') }}
-                </n-button>
-              </template>
-            </n-result>
-          </div>
-
-          <div
-            v-else-if="error"
-            class="py-12 text-center"
-          >
-            <n-result
-              size="small"
-              status="error"
-              :title="t('compendium.error_title')"
-              :description="t('compendium.error_description')"
-            >
-              <template #footer>
-                <n-button
-                  type="primary"
-                  @click="retryFetch"
-                >
-                  {{ $t('common.retry') }}
-                </n-button>
-              </template>
-            </n-result>
-          </div>
-
-          <div
-            v-else-if="!loading && entries.length === 0"
-            class="py-12 text-center"
-          >
-            <n-result
-              size="small"
-              status="info"
-              :title="t('common.no_results_found')"
-              :description="t('compendium.no_results_description')"
-            >
-              <template #icon>
-                <NuxtImg
-                  :src="getImageSrc('emote', 'think')"
-                  class="mx-auto h-24 w-24 object-cover sm:h-32 sm:w-32"
-                  preset="iconLg"
-                  fit="cover"
-                  sizes="160px sm:200px"
-                />
-              </template>
-            </n-result>
-          </div>
-
-          <n-collapse-transition
-            v-else
-            mode="out-in"
-            appear
-          >
-            <div
-              v-if="!error && entries.length > 0"
-              :key="listingAnimationKey"
-              class="grid grid-cols-3 gap-2 sm:grid-cols-6 sm:content-start sm:gap-3"
-            >
-              <div
-                v-for="(entry, index) in entries"
-                :key="entry.id"
-                class="group relative block cursor-pointer"
-                :class="getListingCardAnimationClass(index)"
-                :style="getListingCardAnimationStyle(index)"
-                @click="handleOutfitCardClick(entry.id, $event)"
-              >
-                <OutfitCard
-                  :outfit-id="entry.id"
-                  :quality="entry.quality"
-                  :name="entry.name"
-                  :style-key="entry.styleKey"
-                  :labels="entry.labels"
-                  :show-info="true"
-                  :meta="
-                    editMode ? 'edit' : entry.progress ? 'status' : 'default'
-                  "
-                  :loading="getListingImageLoading(index)"
-                  :fetchpriority="getListingImageFetchPriority(index)"
-                  class="transition-shadow duration-300 group-hover:shadow-xl"
-                  :style="
-                    isOutfitBatchSelected(entry.id)
-                      ? getQualityRingStyle(entry.quality)
-                      : undefined
-                  "
-                />
-                <div class="absolute top-2 left-2 z-30">
-                  <n-checkbox
-                    v-if="editMode"
-                    :checked="isOutfitBatchSelected(entry.id)"
-                    :theme-overrides="
-                      getWardrobeSelectionCheckboxTheme(entry.quality)
-                    "
-                    :aria-label="t('common.select')"
-                    @click.stop
-                    @update:checked="
-                      (checked) => updateOutfitSelection(entry.id, checked)
-                    "
-                  />
-                </div>
-                <div
-                  v-if="entry.progress && !editMode"
-                  class="absolute right-2 bottom-2 z-30"
-                  @click.stop
-                >
-                  <WardrobeStatusBadge
-                    :status="entry.progress.status"
-                    :owned="entry.progress.owned"
-                    :total="entry.progress.total"
-                    :quality="entry.quality"
-                  />
-                </div>
-                <div
-                  v-else-if="
-                    wardrobeInitialized && editMode && entry.itemIds.length > 0
-                  "
-                  class="absolute right-2 bottom-2 z-30"
-                  @click.stop
-                >
-                  <WardrobeOwnedButton
-                    :owned="entry.progress?.status === 'owned'"
-                    :disabled="!isWardrobeReady"
-                    :loading="isOutfitToggleLoading(entry.id)"
-                    :quality="entry.quality"
-                    variant="overlay"
-                    @toggle="toggleVisibleOutfitOwned(entry.id)"
-                  />
-                </div>
-              </div>
-            </div>
-            <div
-              v-else-if="loading"
-              key="loading"
-              class="grid grid-cols-3 gap-2 sm:grid-cols-6 sm:content-start sm:gap-3"
-            >
-              <div
-                v-for="(i, index) in pageSize"
-                :key="`skeleton-${i}`"
-                class="relative aspect-3/4 animate-pulse overflow-hidden rounded-lg bg-gray-200 dark:bg-gray-700"
-                :style="getListingCardAnimationStyle(index)"
-              ></div>
-            </div>
-          </n-collapse-transition>
-
-          <div class="flex items-center justify-center sm:pr-2">
-            <n-pagination
-              v-model:page="currentPage"
-              :page-size="pageSize"
-              :item-count="totalItems"
-              :show-size-picker="false"
-              :disabled="loading || !!error"
-              :page-slot="5"
-            >
-              <template #prefix="{ itemCount }">
-                <div
-                  class="inline-flex items-baseline gap-1 text-sm text-gray-600 dark:text-gray-400"
-                >
-                  <span class="font-semibold text-gray-900 dark:text-white">{{
-                    totalItems
-                  }}</span>
-                  <span>
-                    {{
-                      itemCount === 1
-                        ? countLabels.singular
-                        : countLabels.plural
-                    }}
-                  </span>
-                </div>
-              </template>
-            </n-pagination>
-          </div>
-        </div>
-      </div>
-    </n-card>
-  </div>
+    </template>
+  </CompendiumListingPage>
 </template>
 
 <script setup lang="ts">
   import {
-    BookOpen,
     UserEdit,
-    Star,
     Tshirt,
     ListAlt,
     PaintBrush,
     Paw,
-    SortAmountDown,
     CheckCircle,
     Adjust,
     TimesCircle,
@@ -461,7 +201,6 @@
   const localePath = useLocalePath()
   const route = useRoute()
   const router = useRouter()
-  const { getImageSrc } = imageProvider()
 
   const routeSeoFilter = computed(() =>
     getSeoListRouteFilter(route.path, 'outfits')
@@ -492,7 +231,6 @@
       : null
   )
 
-  const pageSize = 18
   type OutfitListingPrimaryFilter =
     | 'quality'
     | 'version'
@@ -682,6 +420,8 @@
   })
 
   const currentPage = ref(normalizeCatalogListingPage(route.query.page))
+  const { viewMode, pageSize, outfitCardSize, overlayCornerClasses } =
+    provideCompendiumListingView({ currentPage })
   type OutfitWardrobeFilter = 'all' | WardrobeOutfitStatus
   type BatchScope = 'selected' | 'page' | 'all'
   const resolveWardrobeFilter = (
@@ -748,7 +488,7 @@
       }-${wardrobeFilter.value}-${activeRegionScope.value}-${getListingWardrobeCacheKey(
         wardrobeFilter.value,
         wardrobeMutationVersion.value
-      )}-${currentPage.value}-${pageSize}`
+      )}-${currentPage.value}-${pageSize.value}-${viewMode.value}`
   )
   const buildOutfitFetchFilters = () => ({
     quality: qualityFilter.value,
@@ -763,7 +503,7 @@
     entity: 'outfit' as const,
     filters: buildOutfitFetchFilters(),
     page: currentPage.value,
-    pageSize,
+    pageSize: pageSize.value,
     ownershipMode: wardrobeFilter.value,
     regionScope: activeRegionScope.value,
   }))
@@ -820,14 +560,11 @@
       status: requestStatus.value,
     })
   )
-  const listingAnimationKey = computed(() => cacheKey.value)
-
-  const totalItems = computed(() => compendiumData.value?.total || 0)
-
-  const countLabels = computed(() => ({
+  const entryCountLabels = computed(() => ({
     singular: t('common.outfit'),
     plural: t('common.outfits'),
   }))
+  const totalItems = computed(() => compendiumData.value?.total || 0)
   const wardrobeFilterOptions = computed<IconSelectOption[]>(() => [
     { label: t('common.all'), value: 'all', icon: DotCircle },
     { label: t('wardrobe.status.owned'), value: 'owned', icon: CheckCircle },

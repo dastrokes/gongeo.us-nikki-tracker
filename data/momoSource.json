@@ -1,42 +1,47 @@
 [
   {
     "key": "cadenceborn",
-    "labelKey": "source.momo.cadenceborn.106",
-    "ids": [106]
-  },
-  {
-    "key": "limited",
-    "labelKey": "source.momo.limited.120",
-    "ids": [120]
-  },
-  {
-    "key": "merchant",
-    "labelKey": "source.momo.merchant.111",
-    "ids": [110, 111]
-  },
-  {
-    "key": "journey",
-    "labelKey": "source.momo.journey.121",
-    "ids": [121]
-  },
-  {
-    "key": "pear",
-    "labelKey": "source.momo.pear.115",
-    "ids": [115]
-  },
-  {
-    "key": "permanent",
-    "labelKey": "source.momo.permanent.113",
-    "ids": [113]
-  },
-  {
-    "key": "quest",
-    "labelKey": "source.momo.quest.101",
-    "ids": [101]
+    "labelKey": "compendium.source.cadenceborn",
+    "ids": [12]
   },
   {
     "key": "course",
-    "labelKey": "source.momo.course.105",
-    "ids": [105]
+    "labelKey": "compendium.source.course",
+    "ids": [20]
+  },
+  {
+    "key": "event",
+    "labelKey": "compendium.source.event",
+    "ids": [14, 16]
+  },
+  {
+    "key": "journey",
+    "labelKey": "compendium.source.journey",
+    "ids": [21]
+  },
+  {
+    "key": "limited",
+    "labelKey": "compendium.source.limited",
+    "ids": [3]
+  },
+  {
+    "key": "merchant",
+    "labelKey": "compendium.source.merchant",
+    "ids": [10]
+  },
+  {
+    "key": "pear",
+    "labelKey": "compendium.source.pear",
+    "ids": [4]
+  },
+  {
+    "key": "permanent",
+    "labelKey": "compendium.source.permanent",
+    "ids": [2]
+  },
+  {
+    "key": "quest",
+    "labelKey": "compendium.source.quest",
+    "ids": [7, 8, 28]
   }
 ]

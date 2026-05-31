@@ -1,7 +1,30 @@
 export const LISTING_CRITICAL_IMAGE_COUNT = 6
 export const BANNER_RAIL_INITIAL_IMAGE_COUNT = 8
 
+export const LISTING_PAGE_SIZE_STANDARD = 18
+export const LISTING_PAGE_SIZE_THUMBNAIL = 72
+export const COMPENDIUM_TIER_ENTRY_LIMIT = 200
+
+export type ListingDisplayMode = 'standard' | 'thumbnail'
+
+export type ListingCardCorner = 'top-right' | 'top-left' | 'wardrobe'
+
 type ListingAsyncStatus = 'idle' | 'pending' | 'success' | 'error'
+
+export const getListingPageSize = (mode: ListingDisplayMode) =>
+  mode === 'thumbnail'
+    ? LISTING_PAGE_SIZE_THUMBNAIL
+    : LISTING_PAGE_SIZE_STANDARD
+
+export const getListingImageSizes = (mode: ListingDisplayMode) =>
+  mode === 'thumbnail' ? '100px' : '200px'
+
+export const getListingImagePreset = (mode: ListingDisplayMode) =>
+  mode === 'thumbnail' ? 'tallSm' : 'tallLg'
+
+export const getListingOutfitCardSize = (
+  mode: ListingDisplayMode
+): 'sm' | 'md' => (mode === 'thumbnail' ? 'sm' : 'md')
 
 export const isListingInitialLoading = ({
   error,

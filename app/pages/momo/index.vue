@@ -1,463 +1,214 @@
 <template>
-  <div class="mx-auto max-w-7xl space-y-2 sm:space-y-4">
-    <n-card
-      size="small"
-      class="rounded-xl p-0 sm:p-2"
-      content-class="p-2 sm:p-4"
-    >
-      <div class="flex flex-col gap-2">
-        <div class="flex items-start justify-between gap-2">
-          <div
-            class="flex w-full min-w-0 flex-col gap-2 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center"
-          >
-            <n-select
-              :value="compendiumSection"
-              :options="compendiumSectionOptions"
-              :render-label="renderCompendiumSectionOptionLabel"
-              size="small"
-              class="w-full max-w-40 self-start sm:w-40"
-              :show-checkmark="false"
-              :clearable="false"
-              @update:value="handleCompendiumSectionChange"
-            />
+  <CompendiumListingPage
+    v-model:page="currentPage"
+    v-model:quality-filter="qualityFilter"
+    v-model:batch-scope="batchScope"
+    :disabled-qualities="[2]"
+    :entries="entries"
+    :total-count="totalItems"
+    :loading="loading"
+    :error="error"
+    :wardrobe-error="wardrobeError"
+    :grid-key="cacheKey"
+    :entry-count-labels="entryCountLabels"
+    :edit-mode="editMode"
+    :wardrobe-ready="isWardrobeReady"
+    :tierlist-disabled="isTierlistDisabled"
+    :selected-count="selectedMomoIds.size"
+    :show-clear-filters="hasFilters"
+    :edit-mode-icon="UserEdit"
+    @toggle-edit-mode="toggleEditMode"
+    @open-tierlist="goToTierlist"
+    @retry="retryFetch"
+    @retry-wardrobe-mode="retryWardrobeMode"
+    @clear-filters="clearFilters"
+    @mark-owned="applyBatchOwnership(true)"
+    @mark-unowned="applyBatchOwnership(false)"
+    @clear-selection="clearSelection"
+  >
+    <template #filter-controls>
+      <n-select
+        :value="compendiumSection"
+        :options="compendiumSectionOptions"
+        :render-label="renderCompendiumSectionOptionLabel"
+        size="small"
+        class="w-full max-w-40 self-start sm:w-40"
+        :show-checkmark="false"
+        :clearable="false"
+        @update:value="handleCompendiumSectionChange"
+      />
 
-            <n-select
-              v-model:value="wardrobeFilter"
-              :options="wardrobeFilterOptions"
-              :render-label="renderWardrobeFilterOptionLabel"
+      <n-select
+        v-model:value="wardrobeFilter"
+        :options="wardrobeFilterOptions"
+        :render-label="renderWardrobeFilterOptionLabel"
+        size="small"
+        class="w-full max-w-40 self-start sm:w-40"
+        :show-checkmark="false"
+        :clearable="false"
+        :disabled="!isWardrobeReady"
+      />
+    </template>
+
+    <template #filter-row>
+      <div class="grid grid-cols-2 gap-2 sm:grid-cols-2 xl:grid-cols-4">
+        <n-select
+          v-model:value="versionFilter"
+          :options="versionOptions"
+          :render-label="renderVersionOptionLabel"
+          size="small"
+          class="min-w-0"
+          clearable
+          filterable
+          :show-checkmark="false"
+          :placeholder="t('compendium.filter_version')"
+        />
+
+        <n-select
+          v-model:value="obtainFilter"
+          :options="obtainOptions"
+          size="small"
+          class="min-w-0"
+          clearable
+          filterable
+          :show-checkmark="false"
+          :placeholder="t('compendium.filter_obtain')"
+        />
+      </div>
+    </template>
+
+    <template #entry="{ entry, index }">
+      <div
+        class="group relative block cursor-pointer"
+        :class="getListingCardAnimationClass(index)"
+        :style="getListingCardAnimationStyle(index)"
+        @click="handleMomoCardClick(entry.id, $event)"
+      >
+        <div
+          class="relative aspect-2/3 overflow-hidden rounded-lg bg-[url('/images/momo_bg.webp')] bg-cover bg-center shadow-md transition-shadow duration-300 group-hover:shadow-xl"
+          :style="
+            isMomoBatchSelected(entry.id)
+              ? getQualityRingStyle(entry.quality)
+              : undefined
+          "
+        >
+          <div
+            class="absolute inset-0"
+            :class="getListingQualityOverlayClass(entry.quality)"
+          ></div>
+          <NuxtImg
+            :src="entry.image"
+            :alt="entry.name"
+            class="absolute inset-0 z-10 h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-110"
+            :preset="imagePreset"
+            fit="cover"
+            :loading="getListingImageLoading(index)"
+            :fetchpriority="getListingImageFetchPriority(index)"
+            :sizes="imageSizes"
+          />
+
+          <div
+            v-if="!isThumbnailView || editMode"
+            class="absolute"
+            :class="overlayCornerClasses['top-right']"
+            @click.stop
+          >
+            <n-tag
+              v-if="!editMode && !isThumbnailView"
+              round
               size="small"
-              class="w-full max-w-40 self-start sm:w-40"
-              :show-checkmark="false"
-              :clearable="false"
+              :bordered="false"
+              :color="getQualityTagTheme(entry.quality)"
+              class="backdrop-blur-xs"
+            >
+              <span class="flex items-center gap-1">
+                {{ entry.quality }}
+                <n-icon>
+                  <Star />
+                </n-icon>
+              </span>
+            </n-tag>
+            <WardrobeOwnedButton
+              v-else-if="wardrobeInitialized && editMode"
+              :owned="isMomoOwned(entry.id)"
               :disabled="!isWardrobeReady"
+              :loading="isMomoToggleLoading(entry.id)"
+              :quality="entry.quality"
+              variant="overlay"
+              @toggle="toggleVisibleMomoOwned(entry.id)"
             />
-
-            <div class="hidden min-w-0 overflow-x-auto sm:block">
-              <n-button-group class="min-w-max">
-                <n-button
-                  size="small"
-                  :type="qualityFilter === null ? 'primary' : 'default'"
-                  class="min-w-10"
-                  @click="qualityFilter = null"
-                >
-                  {{ t('common.all') }}
-                </n-button>
-                <n-button
-                  v-for="quality in qualityOptions"
-                  :key="quality"
-                  size="small"
-                  v-bind="
-                    getQualityButtonTheme(quality, qualityFilter === quality)
-                  "
-                  class="min-w-10"
-                  :disabled="quality === 2"
-                  @click="qualityFilter = quality"
-                >
-                  <span class="flex items-center gap-1">
-                    {{ quality }}
-                    <n-icon>
-                      <Star />
-                    </n-icon>
-                  </span>
-                </n-button>
-              </n-button-group>
-            </div>
-
-            <n-button
-              v-if="hasFilters"
-              size="small"
-              class="hidden sm:inline-flex"
-              @click="clearFilters"
-            >
-              {{ t('common.clear') }}
-            </n-button>
-          </div>
-
-          <div class="flex shrink-0 items-center gap-2 self-start">
-            <n-tooltip
-              :disabled="totalItems <= TIER_ENTRY_LIMIT"
-              trigger="hover"
-            >
-              <template #trigger>
-                <n-button
-                  size="small"
-                  type="primary"
-                  :disabled="isTierlistDisabled"
-                  @click="goToTierlist"
-                >
-                  <template #icon>
-                    <n-icon><SortAmountDown /></n-icon>
-                  </template>
-                  {{ t('navigation.tierlist') }}
-                </n-button>
-              </template>
-              {{
-                t('tierlist.over_limit.description', {
-                  max: TIER_ENTRY_LIMIT,
-                })
-              }}
-            </n-tooltip>
-
-            <n-tooltip trigger="hover">
-              <template #trigger>
-                <n-button
-                  size="small"
-                  text
-                  :type="editMode ? 'primary' : 'default'"
-                  :disabled="!isWardrobeReady"
-                  class="w-8"
-                  :aria-label="
-                    editMode
-                      ? t('wardrobe.actions.view_mode')
-                      : t('wardrobe.actions.edit_mode')
-                  "
-                  @click="toggleEditMode"
-                >
-                  <template #icon>
-                    <n-icon>
-                      <BookOpen v-if="editMode" />
-                      <UserEdit v-else />
-                    </n-icon>
-                  </template>
-                </n-button>
-              </template>
-              {{
-                editMode
-                  ? t('wardrobe.actions.view_mode')
-                  : t('wardrobe.actions.edit_mode')
-              }}
-            </n-tooltip>
-          </div>
-        </div>
-
-        <div class="flex items-start gap-2 sm:hidden">
-          <div class="min-w-0 flex-1 overflow-x-auto pb-1">
-            <n-button-group class="min-w-max">
-              <n-button
-                size="small"
-                :type="qualityFilter === null ? 'primary' : 'default'"
-                class="min-w-10"
-                @click="qualityFilter = null"
-              >
-                {{ t('common.all') }}
-              </n-button>
-              <n-button
-                v-for="quality in qualityOptions"
-                :key="quality"
-                size="small"
-                v-bind="
-                  getQualityButtonTheme(quality, qualityFilter === quality)
-                "
-                class="min-w-10"
-                :disabled="quality === 2"
-                @click="qualityFilter = quality"
-              >
-                <span class="flex items-center gap-1">
-                  {{ quality }}
-                  <n-icon>
-                    <Star />
-                  </n-icon>
-                </span>
-              </n-button>
-            </n-button-group>
-          </div>
-
-          <div class="flex shrink-0 items-center gap-2">
-            <n-button
-              v-if="hasFilters"
-              size="small"
-              @click="clearFilters"
-            >
-              {{ t('common.clear') }}
-            </n-button>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-2 gap-2 sm:grid-cols-2 xl:grid-cols-4">
-          <n-select
-            v-model:value="versionFilter"
-            :options="versionOptions"
-            :render-label="renderVersionOptionLabel"
-            size="small"
-            class="min-w-0"
-            clearable
-            filterable
-            :show-checkmark="false"
-            :placeholder="t('compendium.filter_version')"
-          />
-
-          <n-select
-            v-model:value="obtainFilter"
-            :options="obtainOptions"
-            size="small"
-            class="min-w-0"
-            clearable
-            filterable
-            :show-checkmark="false"
-            :placeholder="t('compendium.filter_obtain')"
-          />
-        </div>
-      </div>
-    </n-card>
-
-    <WardrobeBatchToolbar
-      v-if="editMode"
-      v-model:scope="batchScope"
-      :edit-mode="editMode"
-      :selected-count="selectedMomoIds.size"
-      :page-count="entries.length"
-      :all-matching-count="totalItems"
-      :disabled="!isWardrobeReady || loading"
-      @mark-owned="applyBatchOwnership(true)"
-      @mark-unowned="applyBatchOwnership(false)"
-      @clear-selection="clearSelection"
-    />
-
-    <n-card
-      size="small"
-      class="rounded-xl p-0 sm:flex sm:flex-1 sm:flex-col sm:p-2"
-      content-class="p-2 sm:p-4 sm:flex-1 sm:flex sm:flex-col"
-    >
-      <div class="min-h-0 sm:flex sm:flex-1 sm:flex-col">
-        <div class="space-y-3 sm:space-y-4">
-          <div
-            v-if="wardrobeError"
-            class="py-12 text-center"
-          >
-            <n-result
-              size="small"
-              status="error"
-              :title="t('wardrobe.error.mode_title')"
-              :description="t('wardrobe.error.mode_description')"
-            >
-              <template #footer>
-                <n-button
-                  type="primary"
-                  @click="retryWardrobeMode"
-                >
-                  {{ t('common.retry') }}
-                </n-button>
-              </template>
-            </n-result>
           </div>
 
           <div
-            v-else-if="error"
-            class="py-12 text-center"
+            v-if="editMode"
+            class="absolute"
+            :class="overlayCornerClasses['top-left']"
           >
-            <n-result
-              size="small"
-              status="error"
-              :title="t('compendium.error_title')"
-              :description="t('compendium.error_description')"
-            >
-              <template #footer>
-                <n-button
-                  type="primary"
-                  @click="retryFetch"
-                >
-                  {{ t('common.retry') }}
-                </n-button>
-              </template>
-            </n-result>
+            <n-checkbox
+              :checked="isMomoBatchSelected(entry.id)"
+              :theme-overrides="
+                getWardrobeSelectionCheckboxTheme(entry.quality)
+              "
+              :aria-label="t('common.select')"
+              @click.stop
+              @update:checked="
+                (checked) => updateMomoSelection(entry.id, checked)
+              "
+            />
           </div>
 
           <div
-            v-else-if="!loading && entries.length === 0"
-            class="py-12 text-center"
+            v-if="wardrobeInitialized && !editMode && isMomoOwned(entry.id)"
+            class="absolute"
+            :class="overlayCornerClasses.wardrobe"
+            @click.stop
           >
-            <n-result
-              size="small"
-              status="info"
-              :title="t('common.no_results_found')"
-              :description="t('compendium.no_results_description')"
-            >
-              <template #icon>
-                <NuxtImg
-                  :src="getImageSrc('emote', 'think')"
-                  class="mx-auto h-24 w-24 object-cover sm:h-32 sm:w-32"
-                  preset="iconLg"
-                  fit="cover"
-                  sizes="160px sm:200px"
-                />
-              </template>
-            </n-result>
+            <WardrobeStatusBadge
+              status="item-owned"
+              :quality="entry.quality"
+            />
           </div>
 
-          <n-collapse-transition
-            v-else
-            mode="out-in"
-            appear
-          >
-            <div
-              v-if="!error && entries.length > 0"
-              :key="listingAnimationKey"
-              class="grid grid-cols-3 gap-2 sm:grid-cols-6 sm:content-start sm:gap-3"
-            >
-              <div
-                v-for="(entry, index) in entries"
-                :key="entry.id"
-                class="group relative block cursor-pointer"
-                :class="getListingCardAnimationClass(index)"
-                :style="getListingCardAnimationStyle(index)"
-                @click="handleMomoCardClick(entry.id, $event)"
-              >
-                <div
-                  class="relative aspect-2/3 overflow-hidden rounded-lg bg-[url('/images/momo_bg.webp')] bg-cover bg-center shadow-md transition-shadow duration-300 group-hover:shadow-xl"
-                  :style="
-                    isMomoBatchSelected(entry.id)
-                      ? getQualityRingStyle(entry.quality)
-                      : undefined
-                  "
-                >
-                  <div
-                    class="absolute inset-0"
-                    :class="getListingQualityOverlayClass(entry.quality)"
-                  ></div>
-                  <NuxtImg
-                    :src="entry.image"
-                    :alt="entry.name"
-                    class="absolute inset-0 z-10 h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-110"
-                    preset="tallLg"
-                    fit="cover"
-                    :loading="getListingImageLoading(index)"
-                    :fetchpriority="getListingImageFetchPriority(index)"
-                    sizes="200px"
-                  />
-                  <div class="absolute top-2 right-2 z-20">
-                    <n-tag
-                      round
-                      size="small"
-                      :bordered="false"
-                      :color="getQualityTagTheme(entry.quality)"
-                      class="backdrop-blur-xs"
-                    >
-                      <span class="flex items-center gap-1">
-                        {{ entry.quality }}
-                        <n-icon>
-                          <Star />
-                        </n-icon>
-                      </span>
-                    </n-tag>
-                  </div>
-                  <div class="absolute top-2 left-2 z-20">
-                    <n-checkbox
-                      v-if="editMode"
-                      :checked="isMomoBatchSelected(entry.id)"
-                      :theme-overrides="
-                        getWardrobeSelectionCheckboxTheme(entry.quality)
-                      "
-                      :aria-label="t('common.select')"
-                      @click.stop
-                      @update:checked="
-                        (checked) => updateMomoSelection(entry.id, checked)
-                      "
-                    />
-                  </div>
-                  <div
-                    v-if="
-                      wardrobeInitialized && !editMode && isMomoOwned(entry.id)
-                    "
-                    class="absolute right-2 bottom-2 z-30"
-                    @click.stop
-                  >
-                    <WardrobeStatusBadge
-                      status="item-owned"
-                      :quality="entry.quality"
-                    />
-                  </div>
-                  <div
-                    v-else-if="wardrobeInitialized && editMode"
-                    class="absolute right-2 bottom-2 z-30"
-                    @click.stop
-                  >
-                    <WardrobeOwnedButton
-                      :owned="isMomoOwned(entry.id)"
-                      :disabled="!isWardrobeReady"
-                      :loading="isMomoToggleLoading(entry.id)"
-                      :quality="entry.quality"
-                      variant="overlay"
-                      @toggle="toggleVisibleMomoOwned(entry.id)"
-                    />
-                  </div>
-                  <div
-                    class="absolute right-0 bottom-0 left-0 z-20 bg-[url('/images/fade.png')] [background-size:100%_100%] bg-no-repeat p-3"
-                    :class="
-                      wardrobeInitialized
-                        ? editMode
-                          ? 'pr-12'
-                          : isMomoOwned(entry.id)
-                            ? 'pr-10 sm:pr-12'
-                            : ''
+          <div
+            :class="
+              isThumbnailView
+                ? nameFadeThumbnailClass
+                : [
+                    nameFadeStandardClass,
+                    'p-3',
+                    wardrobeInitialized
+                      ? !editMode && isMomoOwned(entry.id)
+                        ? 'pr-10 sm:pr-12'
                         : ''
-                    "
-                  >
-                    <p
-                      class="line-clamp-2 text-xs font-semibold text-white sm:text-sm"
-                    >
-                      {{ entry.name }}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              v-else-if="loading"
-              key="loading"
-              class="grid grid-cols-3 gap-2 sm:grid-cols-6 sm:content-start sm:gap-3"
+                      : '',
+                  ]
+            "
+          >
+            <p
+              class="font-semibold text-white"
+              :class="
+                isThumbnailView
+                  ? 'line-clamp-2 w-full min-w-0 text-left text-[10px] leading-snug'
+                  : 'line-clamp-2 text-xs sm:text-sm'
+              "
             >
-              <div
-                v-for="(i, index) in pageSize"
-                :key="`skeleton-${i}`"
-                class="relative aspect-3/4 animate-pulse overflow-hidden rounded-lg bg-gray-200 dark:bg-gray-700"
-                :style="getListingCardAnimationStyle(index)"
-              ></div>
-            </div>
-          </n-collapse-transition>
-
-          <div class="flex items-center justify-center sm:pr-2">
-            <n-pagination
-              v-model:page="currentPage"
-              :page-size="pageSize"
-              :item-count="totalItems"
-              :show-size-picker="false"
-              :disabled="loading || !!error"
-              :page-slot="5"
-            >
-              <template #prefix="{ itemCount }">
-                <div
-                  class="inline-flex items-baseline gap-1 text-sm text-gray-600 dark:text-gray-400"
-                >
-                  <span class="font-semibold text-gray-900 dark:text-white">
-                    {{ totalItems }}
-                  </span>
-                  <span>
-                    {{
-                      itemCount === 1
-                        ? t('common.momo_entry')
-                        : t('common.momo')
-                    }}
-                  </span>
-                </div>
-              </template>
-            </n-pagination>
+              {{ entry.name }}
+            </p>
           </div>
         </div>
       </div>
-    </n-card>
-  </div>
+    </template>
+  </CompendiumListingPage>
 </template>
 
 <script setup lang="ts">
   import {
     Star,
-    BookOpen,
     UserEdit,
     Tshirt,
     ListAlt,
     PaintBrush,
     Paw,
-    SortAmountDown,
     CheckCircle,
     TimesCircle,
     DotCircle,
@@ -491,7 +242,6 @@
       : null
   )
 
-  const pageSize = 18
   const qualityOptions = [5, 4, 3, 2] as const
   type MomoListingPrimaryFilter = 'version' | 'source' | null
   type MomoWardrobeFilter = 'all' | 'owned' | 'missing'
@@ -549,6 +299,16 @@
   const resolveRouteQualityFilter = () => parseQuality(route.query.quality)
 
   const currentPage = ref(parsePage(route.query.page))
+  const {
+    viewMode,
+    pageSize,
+    imageSizes,
+    imagePreset,
+    isThumbnailView,
+    overlayCornerClasses,
+    nameFadeThumbnailClass,
+    nameFadeStandardClass,
+  } = provideCompendiumListingView({ currentPage })
   const qualityFilter = ref<number | null>(resolveRouteQualityFilter())
   const versionFilter = ref<string | null>(resolveRouteVersionFilter())
   const obtainFilter = ref<string | null>(resolveRouteSourceFilter())
@@ -611,7 +371,7 @@
       }-${getListingWardrobeCacheKey(
         wardrobeFilter.value,
         wardrobeMutationVersion.value
-      )}-${currentPage.value}-${pageSize}`
+      )}-${currentPage.value}-${pageSize.value}-${viewMode.value}`
   )
   const {
     data,
@@ -630,7 +390,7 @@
         source: obtainFilter.value,
       },
       page: currentPage.value,
-      pageSize,
+      pageSize: pageSize.value,
       ownershipMode: wardrobeFilter.value,
       regionScope: activeRegionScope.value,
     }),
@@ -663,8 +423,10 @@
       status: requestStatus.value,
     })
   )
-  const listingAnimationKey = computed(() => cacheKey.value)
-
+  const entryCountLabels = computed(() => ({
+    singular: t('common.momo_entry'),
+    plural: t('common.momo'),
+  }))
   const totalItems = computed(() => data.value?.total || 0)
   const TIER_ENTRY_LIMIT = 200
   const isTierlistDisabled = computed(

@@ -899,8 +899,8 @@
       "all_evos": "Alle Evos"
     },
     "view_mode": {
-      "standard": "Standard view",
-      "thumbnail": "Thumbnail view"
+      "standard": "Standardansicht",
+      "thumbnail": "Miniaturansicht"
     },
     "advanced_filters": "Erweiterte Filter",
     "advanced_filters_empty": "Es sind keine erweiterten Filter für diesen Slot verfügbar.",
@@ -944,12 +944,12 @@
       "miracrown": "Mira-Krone",
       "miracle": "Wunder-Outfits",
       "home": "Zuhause",
-      "cadenceborn": "Cadenceborn's Gift",
-      "course": "Courses",
-      "journey": "Mira Journey",
-      "limited": "Limited Banners",
-      "pear": "Pear-Pal Premium",
-      "permanent": "Permanent Banner"
+      "cadenceborn": "Das Geschenk des Kadenzgeborenen",
+      "course": "Kurse",
+      "journey": "Mira-Reise",
+      "limited": "Limitierte Banner",
+      "pear": "Birnen-Buddy – Premium",
+      "permanent": "Permanentes Banner"
     }
   },
   "search_page": {

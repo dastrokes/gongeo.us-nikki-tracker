@@ -899,8 +899,8 @@
       "all_evos": "全部進化"
     },
     "view_mode": {
-      "standard": "Standard view",
-      "thumbnail": "Thumbnail view"
+      "standard": "標準檢視",
+      "thumbnail": "縮圖檢視"
     },
     "advanced_filters": "進階篩選",
     "advanced_filters_empty": "此部位沒有可用的進階篩選。",
@@ -944,12 +944,12 @@
       "miracrown": "奇迹之冠",
       "miracle": "奇迹套裝",
       "home": "家園",
-      "cadenceborn": "Cadenceborn's Gift",
-      "course": "Courses",
-      "journey": "Mira Journey",
-      "limited": "Limited Banners",
-      "pear": "Pear-Pal Premium",
-      "permanent": "Permanent Banner"
+      "cadenceborn": "唱詩藍龍的贈禮",
+      "course": "搭配師課題",
+      "journey": "奇迹之旅",
+      "limited": "限定卡池",
+      "pear": "美鴨梨商城精品",
+      "permanent": "常駐卡池"
     }
   },
   "search_page": {

@@ -898,6 +898,10 @@
     "variation_filter": {
       "all_evos": "모든 진화"
     },
+    "view_mode": {
+      "standard": "Standard view",
+      "thumbnail": "Thumbnail view"
+    },
     "advanced_filters": "고급 필터",
     "advanced_filters_empty": "이 부위에 사용할 수 있는 고급 필터가 없습니다.",
     "advanced_filter_placeholder": "{field} 선택",
@@ -939,7 +943,13 @@
       "merchant": "상점",
       "miracrown": "기적의 왕관",
       "miracle": "기적 세트",
-      "home": "홈"
+      "home": "홈",
+      "cadenceborn": "Cadenceborn's Gift",
+      "course": "Courses",
+      "journey": "Mira Journey",
+      "limited": "Limited Banners",
+      "pear": "Pear-Pal Premium",
+      "permanent": "Permanent Banner"
     }
   },
   "search_page": {

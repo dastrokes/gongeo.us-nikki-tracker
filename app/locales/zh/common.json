@@ -898,6 +898,10 @@
     "variation_filter": {
       "all_evos": "全部进化"
     },
+    "view_mode": {
+      "standard": "Standard view",
+      "thumbnail": "Thumbnail view"
+    },
     "advanced_filters": "高级筛选",
     "advanced_filters_empty": "当前部位没有可用的高级筛选。",
     "advanced_filter_placeholder": "选择{field}",
@@ -939,7 +943,13 @@
       "merchant": "服裝商店",
       "miracrown": "奇迹之冠",
       "miracle": "奇迹套装",
-      "home": "家园"
+      "home": "家园",
+      "cadenceborn": "Cadenceborn's Gift",
+      "course": "Courses",
+      "journey": "Mira Journey",
+      "limited": "Limited Banners",
+      "pear": "Pear-Pal Premium",
+      "permanent": "Permanent Banner"
     }
   },
   "search_page": {

@@ -899,8 +899,8 @@
       "all_evos": "Toutes les évos"
     },
     "view_mode": {
-      "standard": "Standard view",
-      "thumbnail": "Thumbnail view"
+      "standard": "Vue standard",
+      "thumbnail": "Vue miniature"
     },
     "advanced_filters": "Filtres avancés",
     "advanced_filters_empty": "Il n'y a pas de filtres avancés disponibles pour cet emplacement.",
@@ -944,12 +944,12 @@
       "miracrown": "Couronne de Mira",
       "miracle": "Tenues miraculeuses",
       "home": "Maison",
-      "cadenceborn": "Cadenceborn's Gift",
-      "course": "Courses",
-      "journey": "Mira Journey",
-      "limited": "Limited Banners",
-      "pear": "Pear-Pal Premium",
-      "permanent": "Permanent Banner"
+      "cadenceborn": "Cadeau de la kadence",
+      "course": "Formations",
+      "journey": "Voyage de Mira",
+      "limited": "Bannières limitées",
+      "pear": "Premium de Poir'pote",
+      "permanent": "Bannière permanente"
     }
   },
   "search_page": {

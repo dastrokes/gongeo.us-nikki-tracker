@@ -898,6 +898,10 @@
     "variation_filter": {
       "all_evos": "Todas as evos"
     },
+    "view_mode": {
+      "standard": "Visualização padrão",
+      "thumbnail": "Visualização em miniatura"
+    },
     "advanced_filters": "Filtros avançados",
     "advanced_filters_empty": "Não há filtros avançados disponíveis para este slot.",
     "advanced_filter_placeholder": "Selecionar {field}",
@@ -939,7 +943,13 @@
       "merchant": "Loja de Roupas",
       "miracrown": "Coroa Milágria",
       "miracle": "Looks Milagrosos",
-      "home": "Lar"
+      "home": "Lar",
+      "cadenceborn": "Presente de Dragobardo",
+      "course": "Cursos",
+      "journey": "Jornada Milágria",
+      "limited": "Banners Limitados",
+      "pear": "Item Premium da Loja da Pera-miga",
+      "permanent": "Banner Permanente"
     }
   },
   "search_page": {

@@ -898,6 +898,10 @@
     "variation_filter": {
       "all_evos": "全進化"
     },
+    "view_mode": {
+      "standard": "標準表示",
+      "thumbnail": "サムネイル表示"
+    },
     "advanced_filters": "詳細フィルター",
     "advanced_filters_empty": "この部位で利用可能な詳細フィルターはありません。",
     "advanced_filter_placeholder": "{field}を選択",
@@ -939,7 +943,13 @@
       "merchant": "ブティック",
       "miracrown": "クラウン",
       "miracle": "ミラクル",
-      "home": "ホーム"
+      "home": "ホーム",
+      "cadenceborn": "吟遊青竜のプレゼント",
+      "course": "ステップアップ課題",
+      "journey": "ミラクルツアー",
+      "limited": "限定バナー",
+      "pear": "ビアリーモール特選品",
+      "permanent": "常設バナー"
     }
   },
   "search_page": {

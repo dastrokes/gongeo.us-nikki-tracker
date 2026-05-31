@@ -898,6 +898,10 @@
     "variation_filter": {
       "all_evos": "全部進化"
     },
+    "view_mode": {
+      "standard": "標準檢視",
+      "thumbnail": "縮圖檢視"
+    },
     "advanced_filters": "進階篩選",
     "advanced_filters_empty": "此部位沒有可用的進階篩選。",
     "advanced_filter_placeholder": "選擇{field}",
@@ -939,7 +943,13 @@
       "merchant": "服装商店",
       "miracrown": "奇迹之冠",
       "miracle": "奇迹套裝",
-      "home": "家園"
+      "home": "家園",
+      "cadenceborn": "唱詩藍龍的贈禮",
+      "course": "搭配師課題",
+      "journey": "奇迹之旅",
+      "limited": "限定卡池",
+      "pear": "美鴨梨商城精品",
+      "permanent": "常駐卡池"
     }
   },
   "search_page": {

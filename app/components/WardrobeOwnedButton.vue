@@ -1,40 +1,81 @@
 <template>
-  <n-tooltip :show-arrow="false">
-    <template #trigger>
+  <div
+    class="inline-flex items-center"
+    :class="variant === 'overlay' ? 'gap-1' : 'gap-0.5'"
+  >
+    <n-tooltip :show-arrow="false">
+      <template #trigger>
+        <n-button
+          :circle="variant === 'overlay'"
+          size="small"
+          quaternary
+          :bordered="false"
+          :disabled="disabled"
+          :loading="loading"
+          class="border transition-all duration-150"
+          :class="[
+            variant === 'overlay'
+              ? 'h-7 w-7 shadow-sm backdrop-blur-md hover:-translate-y-px hover:shadow-md'
+              : 'h-6 rounded-full px-1.5 text-xs font-medium',
+          ]"
+          :style="buttonStyle"
+          :aria-label="actionLabel"
+          @click.stop="$emit('toggle')"
+        >
+          <template #icon>
+            <n-icon :size="owned ? 13 : 12">
+              <CheckCircle v-if="owned" />
+              <Plus v-else />
+            </n-icon>
+          </template>
+          <span v-if="variant === 'inline'">
+            {{ label }}
+          </span>
+        </n-button>
+      </template>
+      {{ actionLabel }}
+    </n-tooltip>
+
+    <n-dropdown
+      v-if="menuOptions.length > 0"
+      trigger="click"
+      :options="menuOptions"
+      :disabled="disabled || loading"
+      @select="handleMenuSelect"
+    >
       <n-button
         :circle="variant === 'overlay'"
         size="small"
         quaternary
         :bordered="false"
-        :disabled="disabled"
-        :loading="loading"
+        :disabled="disabled || loading"
         class="border transition-all duration-150"
         :class="[
           variant === 'overlay'
             ? 'h-7 w-7 shadow-sm backdrop-blur-md hover:-translate-y-px hover:shadow-md'
             : 'h-6 rounded-full px-1.5 text-xs font-medium',
         ]"
-        :style="buttonStyle"
-        :aria-label="actionLabel"
-        @click.stop="$emit('toggle')"
+        :style="menuButtonStyle"
+        :aria-label="t('wardrobe.actions.more_mark_options')"
+        @click.stop
       >
         <template #icon>
-          <n-icon :size="owned ? 13 : 12">
-            <CheckCircle v-if="owned" />
-            <Plus v-else />
+          <n-icon :size="12">
+            <EllipsisH />
           </n-icon>
         </template>
-        <span v-if="variant === 'inline'">
-          {{ label }}
-        </span>
       </n-button>
-    </template>
-    {{ actionLabel }}
-  </n-tooltip>
+    </n-dropdown>
+  </div>
 </template>
 
 <script setup lang="ts">
-  import { CheckCircle, Plus } from '@vicons/fa'
+  import { CheckCircle, EllipsisH, Plus } from '@vicons/fa'
+  import type { DropdownOption } from 'naive-ui'
+
+  export type WardrobeOwnedButtonMenuOption = DropdownOption & {
+    key: string
+  }
 
   const props = withDefaults(
     defineProps<{
@@ -45,17 +86,20 @@
       activeLabel?: string
       inactiveLabel?: string
       quality?: number
+      menuOptions?: WardrobeOwnedButtonMenuOption[]
     }>(),
     {
       variant: 'inline',
       activeLabel: undefined,
       inactiveLabel: undefined,
       quality: undefined,
+      menuOptions: () => [],
     }
   )
 
-  defineEmits<{
+  const emit = defineEmits<{
     (e: 'toggle'): void
+    (e: 'menu-select', key: string): void
   }>()
 
   const { t } = useI18n()
@@ -116,4 +160,13 @@
           color: 'rgb(75 85 99)',
         }
   })
+
+  const menuButtonStyle = computed(() => ({
+    ...buttonStyle.value,
+    opacity: props.owned ? 0.95 : 0.9,
+  }))
+
+  const handleMenuSelect = (key: string | number) => {
+    emit('menu-select', String(key))
+  }
 </script>

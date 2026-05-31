@@ -151,8 +151,10 @@
                     :disabled="!isWardrobeReady || outfitItems.length === 0"
                     :loading="wardrobeSaving"
                     :quality="outfit.quality"
+                    :menu-options="outfitVariationMarkOptions"
                     variant="overlay"
                     @toggle="toggleCurrentOutfitOwned"
+                    @menu-select="markCurrentOutfitVariantOwned"
                   />
                 </div>
 
@@ -461,6 +463,12 @@
 
 <script setup lang="ts">
   import { Star } from '@vicons/fa'
+  import type { DropdownOption } from 'naive-ui'
+
+  type WardrobeVariantMarkKey = VariantType | 'all-variations'
+  type WardrobeVariantMarkOption = DropdownOption & {
+    key: WardrobeVariantMarkKey
+  }
 
   const { t, te, locale } = useI18n()
   const message = useMessage()
@@ -475,6 +483,7 @@
   // Composable
   const { fetchOutfitById } = useSupabaseOutfits()
   const { getImageSrc } = imageProvider()
+  const catalogIndex = useCatalogIndex()
   const {
     initialized: wardrobeInitialized,
     saving: wardrobeSaving,
@@ -724,6 +733,37 @@
     refresh()
   }
 
+  const outfitVariationMarkOptions = computed<WardrobeVariantMarkOption[]>(
+    () => {
+      if (
+        !outfit.value ||
+        getOutfitVariantType(String(outfitId.value)) !== 'base'
+      ) {
+        return []
+      }
+      if (outfit.value.quality < 4) return []
+
+      return [
+        {
+          key: 'all-variations',
+          label: t('wardrobe.actions.mark_all_variations'),
+        },
+        { key: 'glowup', label: t('wardrobe.actions.mark_glowup') },
+        { key: 'evo1', label: t('wardrobe.actions.mark_evo1') },
+        {
+          key: 'evo2',
+          label: t('wardrobe.actions.mark_evo2'),
+          disabled: outfit.value.quality < 5,
+        },
+        {
+          key: 'evo3',
+          label: t('wardrobe.actions.mark_evo3'),
+          disabled: outfit.value.quality < 5,
+        },
+      ]
+    }
+  )
+
   const confirmOutfitUnowned = () =>
     new Promise<boolean>((resolve) => {
       dialog.warning({
@@ -750,6 +790,38 @@
         outfitItems.value.map((item) => item.id),
         owned
       )
+    } catch {
+      message.error(t('wardrobe.error.save'))
+    }
+  }
+
+  const markCurrentOutfitVariantOwned = async (key: string) => {
+    if (!outfit.value) return
+
+    try {
+      const variantKey = key as WardrobeVariantMarkKey
+      const relatedOutfitIds = getRelatedOutfitIds(
+        outfitId.value,
+        outfit.value.quality
+      )
+      const targetOutfitIds =
+        variantKey === 'all-variations'
+          ? relatedOutfitIds
+          : relatedOutfitIds.filter(
+              (relatedId) =>
+                getOutfitVariantType(String(relatedId)) === variantKey
+            )
+      await catalogIndex.load(['outfits', 'outfitItems'])
+      const index = catalogIndex.index.value
+      const itemIds = normalizeWardrobeItemIds(
+        targetOutfitIds.flatMap(
+          (targetOutfitId) => index?.outfitItemsById.get(targetOutfitId) ?? []
+        )
+      )
+
+      if (itemIds.length > 0) {
+        await markOutfitOwned(itemIds, true)
+      }
     } catch {
       message.error(t('wardrobe.error.save'))
     }

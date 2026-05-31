@@ -200,8 +200,10 @@
       :page-count="entries.length"
       :all-matching-count="totalCount"
       :disabled="!wardrobeReady || loading"
+      :mark-owned-menu-options="markOwnedMenuOptions"
       @mark-owned="emit('mark-owned')"
       @mark-unowned="emit('mark-unowned')"
+      @mark-owned-menu-select="(key) => emit('mark-owned-menu-select', key)"
       @clear-selection="emit('clear-selection')"
     />
 
@@ -348,7 +350,10 @@
 
 <script setup lang="ts">
   import { BookOpen, Edit, SortAmountDown, Star, Th, ThLarge } from '@vicons/fa'
+  import type { DropdownOption } from 'naive-ui'
   import type { Component } from 'vue'
+
+  type WardrobeBatchMenuOption = DropdownOption & { key: string }
 
   type EntryCountLabels = {
     singular: string
@@ -373,6 +378,7 @@
       disabledQualities?: number[]
       editModeIcon?: Component
       entryKey?: (entry: unknown, index: number) => string | number
+      markOwnedMenuOptions?: WardrobeBatchMenuOption[]
     }>(),
     {
       showClearFilters: false,
@@ -380,6 +386,7 @@
       disabledQualities: () => [],
       editModeIcon: () => Edit,
       entryKey: undefined,
+      markOwnedMenuOptions: () => [],
     }
   )
 
@@ -390,6 +397,7 @@
     'open-tierlist': []
     'clear-filters': []
     'mark-owned': []
+    'mark-owned-menu-select': [key: string]
     'mark-unowned': []
     'clear-selection': []
   }>()

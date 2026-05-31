@@ -180,8 +180,10 @@
                     :disabled="!isWardrobeReady"
                     :loading="wardrobeSaving"
                     :quality="item.quality"
+                    :menu-options="itemVariationMarkOptions"
                     variant="overlay"
                     @toggle="toggleCurrentItemOwned"
+                    @menu-select="markCurrentItemVariantOwned"
                   />
                 </div>
 
@@ -606,6 +608,12 @@
 
 <script setup lang="ts">
   import { CaretDown, CaretUp, Star, Images } from '@vicons/fa'
+  import type { DropdownOption } from 'naive-ui'
+
+  type WardrobeVariantMarkKey = VariantType | 'all-variations'
+  type WardrobeVariantMarkOption = DropdownOption & {
+    key: WardrobeVariantMarkKey
+  }
 
   type DetailItem = {
     id: number
@@ -641,6 +649,7 @@
     canMutate: isWardrobeReady,
     isItemOwned,
     toggleItemOwned,
+    markItemsOwned,
   } = useWardrobe()
 
   const itemKey = computed(() => `item-${itemId.value}-${locale.value}`)
@@ -972,6 +981,30 @@
     return typeof back === 'string' && back.startsWith(listingPath.value)
   })
 
+  const itemVariationMarkOptions = computed<WardrobeVariantMarkOption[]>(() => {
+    if (!item.value || getItemVariantType(itemId.value) !== 'base') return []
+    if (item.value.quality < 4) return []
+
+    return [
+      {
+        key: 'all-variations',
+        label: t('wardrobe.actions.mark_all_variations'),
+      },
+      { key: 'glowup', label: t('wardrobe.actions.mark_glowup') },
+      { key: 'evo1', label: t('wardrobe.actions.mark_evo1') },
+      {
+        key: 'evo2',
+        label: t('wardrobe.actions.mark_evo2'),
+        disabled: item.value.quality < 5,
+      },
+      {
+        key: 'evo3',
+        label: t('wardrobe.actions.mark_evo3'),
+        disabled: item.value.quality < 5,
+      },
+    ]
+  })
+
   // Retry fetch
   const retryFetch = () => {
     refresh()
@@ -980,6 +1013,32 @@
   const toggleCurrentItemOwned = async () => {
     try {
       await toggleItemOwned(itemId.value)
+    } catch {
+      message.error(t('wardrobe.error.save'))
+    }
+  }
+
+  const markCurrentItemVariantOwned = async (key: string) => {
+    if (!item.value) return
+
+    try {
+      const variantKey = key as WardrobeVariantMarkKey
+      const relatedIds = getRelatedItemIds(itemId.value, item.value.quality)
+      const knownIds = new Set([
+        item.value.id,
+        ...(item.value.variations ?? []).map((variation) => variation.id),
+      ])
+      const itemIds = (
+        variantKey === 'all-variations'
+          ? relatedIds
+          : relatedIds.filter(
+              (relatedId) => getItemVariantType(relatedId) === variantKey
+            )
+      ).filter((relatedId) => knownIds.has(relatedId))
+
+      if (itemIds.length > 0) {
+        await markItemsOwned(itemIds, true)
+      }
     } catch {
       message.error(t('wardrobe.error.save'))
     }

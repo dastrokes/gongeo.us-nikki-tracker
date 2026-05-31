@@ -358,7 +358,13 @@
       "edit_mode": "Mode édition",
       "view_mode": "Mode vue",
       "mark_owned": "Marquer comme possédé",
-      "mark_unowned": "Marquer comme non possédé"
+      "mark_unowned": "Marquer comme non possédé",
+      "more_mark_options": "More mark options",
+      "mark_all_variations": "Mark all variations",
+      "mark_glowup": "Mark Glow Up",
+      "mark_evo1": "Mark Evo 1",
+      "mark_evo2": "Mark Evo 2",
+      "mark_evo3": "Mark Evo 3"
     },
     "status": {
       "owned": "Possédé",

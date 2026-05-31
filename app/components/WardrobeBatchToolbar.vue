@@ -39,17 +39,38 @@
       </div>
 
       <div class="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:items-center">
-        <n-button
-          size="small"
-          type="primary"
-          :disabled="disabled || activeCount === 0"
-          @click="$emit('mark-owned')"
-        >
-          <template #icon>
-            <n-icon><Check /></n-icon>
-          </template>
-          {{ t('wardrobe.actions.mark_owned') }}
-        </n-button>
+        <n-button-group>
+          <n-button
+            size="small"
+            type="primary"
+            :disabled="disabled || activeCount === 0"
+            @click="$emit('mark-owned')"
+          >
+            <template #icon>
+              <n-icon><Check /></n-icon>
+            </template>
+            {{ t('wardrobe.actions.mark_owned') }}
+          </n-button>
+          <n-dropdown
+            v-if="markOwnedMenuOptions.length > 0"
+            trigger="click"
+            :options="markOwnedMenuOptions"
+            :disabled="disabled || activeCount === 0"
+            @select="handleMarkOwnedMenuSelect"
+          >
+            <n-button
+              size="small"
+              type="primary"
+              :disabled="disabled || activeCount === 0"
+              :aria-label="t('wardrobe.actions.more_mark_options')"
+              @click.stop
+            >
+              <template #icon>
+                <n-icon><EllipsisH /></n-icon>
+              </template>
+            </n-button>
+          </n-dropdown>
+        </n-button-group>
         <n-button
           size="small"
           :disabled="disabled || activeCount === 0"
@@ -66,9 +87,12 @@
 </template>
 
 <script setup lang="ts">
-  import { Check, Times } from '@vicons/fa'
+  import { Check, EllipsisH, Times } from '@vicons/fa'
+  import type { DropdownOption } from 'naive-ui'
 
   export type WardrobeBatchScope = 'selected' | 'page' | 'all'
+
+  export type WardrobeBatchMenuOption = DropdownOption & { key: string }
 
   const props = defineProps<{
     editMode: boolean
@@ -77,14 +101,22 @@
     pageCount: number
     allMatchingCount: number | null
     disabled?: boolean
+    markOwnedMenuOptions?: WardrobeBatchMenuOption[]
   }>()
 
-  defineEmits<{
+  const emit = defineEmits<{
     (e: 'update:scope', value: WardrobeBatchScope): void
     (e: 'mark-owned' | 'mark-unowned' | 'clear-selection'): void
+    (e: 'mark-owned-menu-select', key: string): void
   }>()
 
   const { t } = useI18n()
+
+  const markOwnedMenuOptions = computed(() => props.markOwnedMenuOptions ?? [])
+
+  const handleMarkOwnedMenuSelect = (key: string | number) => {
+    emit('mark-owned-menu-select', String(key))
+  }
 
   const scopeOptions = computed<
     Array<{ label: string; value: WardrobeBatchScope }>

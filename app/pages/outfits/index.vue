@@ -17,12 +17,14 @@
     :selected-count="selectedOutfitIds.size"
     :show-clear-filters="hasFilters"
     :edit-mode-icon="UserEdit"
+    :mark-owned-menu-options="batchVariationMarkOptions"
     @toggle-edit-mode="toggleEditMode"
     @open-tierlist="goToTierlist"
     @retry="retryFetch"
     @retry-wardrobe-mode="retryWardrobeMode"
     @clear-filters="clearFilters"
     @mark-owned="applyBatchOwnership(true)"
+    @mark-owned-menu-select="applyBatchVariantOwnership"
     @mark-unowned="applyBatchOwnership(false)"
     @clear-selection="clearSelection"
   >
@@ -168,7 +170,9 @@
             :loading="isOutfitToggleLoading(entry.id)"
             :quality="entry.quality"
             variant="overlay"
+            :menu-options="getOutfitVariationMarkOptions(entry.quality)"
             @toggle="toggleVisibleOutfitOwned(entry.id)"
+            @menu-select="(key) => markVisibleOutfitVariantOwned(entry.id, key)"
           />
         </div>
       </div>
@@ -189,7 +193,7 @@
     DotCircle,
   } from '@vicons/fa'
   import { NIcon } from 'naive-ui'
-  import type { SelectOption } from 'naive-ui'
+  import type { DropdownOption, SelectOption } from 'naive-ui'
 
   definePageMeta({
     key: 'outfits-listing',
@@ -230,6 +234,11 @@
       ? String(routeSeoFilter.value.value)
       : null
   )
+
+  type WardrobeVariantMarkKey = VariantType | 'all-variations'
+  type WardrobeVariantMarkOption = DropdownOption & {
+    key: WardrobeVariantMarkKey
+  }
 
   type OutfitListingPrimaryFilter =
     | 'quality'
@@ -439,6 +448,7 @@
   const batchScope = ref<BatchScope>('selected')
   const selectedOutfitIds = ref<Set<number>>(new Set())
   const togglingOutfitIds = ref<Set<number>>(new Set())
+  const catalogIndex = useCatalogIndex()
   const {
     initialized: wardrobeInitialized,
     ownedItemIds,
@@ -747,6 +757,62 @@
     batchScope.value = 'selected'
   }
 
+  const variantMarkOptions = computed<WardrobeVariantMarkOption[]>(() => [
+    {
+      key: 'all-variations',
+      label: t('wardrobe.actions.mark_all_variations'),
+    },
+    { key: 'glowup', label: t('wardrobe.actions.mark_glowup') },
+    { key: 'evo1', label: t('wardrobe.actions.mark_evo1') },
+    { key: 'evo2', label: t('wardrobe.actions.mark_evo2') },
+    { key: 'evo3', label: t('wardrobe.actions.mark_evo3') },
+  ])
+  const batchVariationMarkOptions = computed(() =>
+    variationFilter.value === 'base' ? variantMarkOptions.value : []
+  )
+  const getOutfitVariationMarkOptions = (quality: number) =>
+    variationFilter.value === 'base' && quality >= 4
+      ? variantMarkOptions.value.map((option) => ({
+          ...option,
+          disabled:
+            quality < 5 && (option.key === 'evo2' || option.key === 'evo3'),
+        }))
+      : []
+  const getOutfitIdsForVariantMark = async (
+    outfitIds: readonly number[],
+    key: string
+  ) => {
+    await catalogIndex.load(['outfits', 'outfitItems'])
+    const index = catalogIndex.index.value
+    const variantKey = key as WardrobeVariantMarkKey
+
+    return outfitIds.flatMap((outfitId) => {
+      const outfit = index?.outfitById.get(outfitId)
+      const quality = outfit?.quality ?? 5
+      const relatedIds = getRelatedOutfitIds(outfitId, quality).filter(
+        (relatedId) => !index || index.outfitById.has(relatedId)
+      )
+      return variantKey === 'all-variations'
+        ? relatedIds
+        : relatedIds.filter(
+            (relatedId) =>
+              getOutfitVariantType(String(relatedId)) === variantKey
+          )
+    })
+  }
+  const getOutfitItemIdsForVariantMark = async (
+    outfitIds: readonly number[],
+    key: string
+  ) => {
+    const targetOutfitIds = await getOutfitIdsForVariantMark(outfitIds, key)
+    const index = catalogIndex.index.value
+    return normalizeWardrobeItemIds(
+      targetOutfitIds.flatMap(
+        (outfitId) => index?.outfitItemsById.get(outfitId) ?? []
+      )
+    )
+  }
+
   const getWardrobeSelectionCheckboxTheme = (quality: number) => {
     const color = getQualityColor(quality)
     return {
@@ -789,6 +855,25 @@
     }
   }
 
+  const markVisibleOutfitVariantOwned = async (
+    outfitId: number,
+    key: string
+  ) => {
+    if (isOutfitToggleLoading(outfitId)) return
+
+    setOutfitToggleLoading(outfitId, true)
+    try {
+      const itemIds = await getOutfitItemIdsForVariantMark([outfitId], key)
+      if (itemIds.length > 0) {
+        await markOutfitOwned(itemIds, true)
+      }
+    } catch {
+      message.error(t('wardrobe.error.save'))
+    } finally {
+      setOutfitToggleLoading(outfitId, false)
+    }
+  }
+
   const isListingCardControlClick = (event: MouseEvent) => {
     const target = event.target
     return (
@@ -817,6 +902,19 @@
     Object.fromEntries(
       entries.value.map((entry) => [String(entry.id), entry.itemIds])
     )
+
+  const getBatchOutfitIds = async () => {
+    if (batchScope.value === 'selected') {
+      return Array.from(selectedOutfitIds.value)
+    }
+
+    if (batchScope.value === 'page') {
+      return entries.value.map((entry) => entry.id)
+    }
+
+    const idResponse = await fetchMatchingOutfitIds()
+    return idResponse.ids
+  }
 
   const getBatchOutfitItemIds = async () => {
     if (batchScope.value === 'selected') {
@@ -871,6 +969,30 @@
       }
 
       await markOutfitOwned(itemIds, owned)
+      if (batchScope.value === 'selected') {
+        clearSelection()
+      }
+    } catch {
+      message.error(t('wardrobe.error.save'))
+    }
+  }
+
+  const applyBatchVariantOwnership = async (key: string) => {
+    try {
+      const outfitIds = await getBatchOutfitIds()
+      if (outfitIds.length === 0) return
+
+      const itemIds = await getOutfitItemIdsForVariantMark(outfitIds, key)
+      if (itemIds.length === 0) return
+
+      if (
+        batchScope.value === 'all' &&
+        !(await confirmBroadOutfitChange(true, itemIds.length))
+      ) {
+        return
+      }
+
+      await markOutfitOwned(itemIds, true)
       if (batchScope.value === 'selected') {
         clearSelection()
       }

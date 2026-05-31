@@ -16,12 +16,14 @@
     :selected-count="selectedItemIds.size"
     :show-clear-filters="hasFilters"
     :edit-mode-icon="Edit"
+    :mark-owned-menu-options="batchVariationMarkOptions"
     @toggle-edit-mode="toggleEditMode"
     @open-tierlist="goToTierlist"
     @retry="retryFetch"
     @retry-wardrobe-mode="retryWardrobeMode"
     @clear-filters="clearFilters"
     @mark-owned="applyBatchOwnership(true)"
+    @mark-owned-menu-select="applyBatchVariantOwnership"
     @mark-unowned="applyBatchOwnership(false)"
     @clear-selection="clearSelection"
   >
@@ -279,7 +281,9 @@
               :loading="isItemToggleLoading(entry.id)"
               :quality="entry.quality"
               variant="overlay"
+              :menu-options="getItemVariationMarkOptions(entry.quality)"
               @toggle="toggleVisibleItemOwned(entry.id)"
+              @menu-select="(key) => markVisibleItemVariantOwned(entry.id, key)"
             />
           </div>
 
@@ -382,7 +386,11 @@
     DotCircle,
   } from '@vicons/fa'
   import { NIcon } from 'naive-ui'
-  import type { SelectGroupOption, SelectOption } from 'naive-ui'
+  import type {
+    DropdownOption,
+    SelectGroupOption,
+    SelectOption,
+  } from 'naive-ui'
 
   definePageMeta({
     key: 'items-listing',
@@ -431,6 +439,11 @@
   )
 
   const availableItemTypes = standardItemTypes
+  type WardrobeVariantMarkKey = VariantType | 'all-variations'
+  type WardrobeVariantMarkOption = DropdownOption & {
+    key: WardrobeVariantMarkKey
+  }
+
   type ItemListingPrimaryFilter =
     | 'type'
     | 'quality'
@@ -766,6 +779,7 @@
     toggleItemOwned,
     markItemsOwned,
   } = useWardrobe()
+  const catalogIndex = useCatalogIndex()
   const { activeRegionScope } = useWardrobeSettings()
   const wardrobeModeError = ref<Error | null>(null)
   const wardrobeError = computed(() =>
@@ -1218,6 +1232,49 @@
     batchScope.value = 'selected'
   }
 
+  const variantMarkOptions = computed<WardrobeVariantMarkOption[]>(() => [
+    {
+      key: 'all-variations',
+      label: t('wardrobe.actions.mark_all_variations'),
+    },
+    { key: 'glowup', label: t('wardrobe.actions.mark_glowup') },
+    { key: 'evo1', label: t('wardrobe.actions.mark_evo1') },
+    { key: 'evo2', label: t('wardrobe.actions.mark_evo2') },
+    { key: 'evo3', label: t('wardrobe.actions.mark_evo3') },
+  ])
+  const batchVariationMarkOptions = computed(() =>
+    variationFilter.value === 'base' ? variantMarkOptions.value : []
+  )
+  const getItemVariationMarkOptions = (quality: number) =>
+    variationFilter.value === 'base' && quality >= 4
+      ? variantMarkOptions.value.map((option) => ({
+          ...option,
+          disabled:
+            quality < 5 && (option.key === 'evo2' || option.key === 'evo3'),
+        }))
+      : []
+  const getItemIdsForVariantMark = async (
+    itemIds: readonly number[],
+    key: string
+  ) => {
+    await catalogIndex.load(['items'])
+    const index = catalogIndex.index.value
+    const variantKey = key as WardrobeVariantMarkKey
+
+    return normalizeWardrobeItemIds(
+      itemIds.flatMap((itemId) => {
+        const item = index?.itemById.get(itemId)
+        const quality = item?.quality ?? 5
+        const relatedIds = getRelatedItemIds(itemId, quality)
+        return variantKey === 'all-variations'
+          ? relatedIds
+          : relatedIds.filter(
+              (relatedId) => getItemVariantType(relatedId) === variantKey
+            )
+      })
+    ).filter((itemId) => !index || index.itemById.has(itemId))
+  }
+
   const getWardrobeSelectionCheckboxTheme = (quality: number) => {
     const color = getQualityColor(quality)
     return {
@@ -1250,6 +1307,22 @@
     setItemToggleLoading(itemId, true)
     try {
       await toggleItemOwned(itemId)
+    } catch {
+      message.error(t('wardrobe.error.save'))
+    } finally {
+      setItemToggleLoading(itemId, false)
+    }
+  }
+
+  const markVisibleItemVariantOwned = async (itemId: number, key: string) => {
+    if (isItemToggleLoading(itemId)) return
+
+    setItemToggleLoading(itemId, true)
+    try {
+      const itemIds = await getItemIdsForVariantMark([itemId], key)
+      if (itemIds.length > 0) {
+        await markItemsOwned(itemIds, true)
+      }
     } catch {
       message.error(t('wardrobe.error.save'))
     } finally {
@@ -1318,6 +1391,30 @@
       }
 
       await markItemsOwned(itemIds, owned)
+      if (batchScope.value === 'selected') {
+        clearSelection()
+      }
+    } catch {
+      message.error(t('wardrobe.error.save'))
+    }
+  }
+
+  const applyBatchVariantOwnership = async (key: string) => {
+    try {
+      const baseItemIds = await getBatchItemIds()
+      if (baseItemIds.length === 0) return
+
+      const itemIds = await getItemIdsForVariantMark(baseItemIds, key)
+      if (itemIds.length === 0) return
+
+      if (
+        batchScope.value === 'all' &&
+        !(await confirmAllMatching(true, itemIds.length))
+      ) {
+        return
+      }
+
+      await markItemsOwned(itemIds, true)
       if (batchScope.value === 'selected') {
         clearSelection()
       }

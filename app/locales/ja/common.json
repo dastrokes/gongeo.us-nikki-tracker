@@ -358,7 +358,13 @@
       "edit_mode": "編集モード",
       "view_mode": "表示モード",
       "mark_owned": "所持済みにする",
-      "mark_unowned": "未所持にする"
+      "mark_unowned": "未所持にする",
+      "more_mark_options": "More mark options",
+      "mark_all_variations": "Mark all variations",
+      "mark_glowup": "Mark Glow Up",
+      "mark_evo1": "Mark Evo 1",
+      "mark_evo2": "Mark Evo 2",
+      "mark_evo3": "Mark Evo 3"
     },
     "status": {
       "owned": "所持済み",

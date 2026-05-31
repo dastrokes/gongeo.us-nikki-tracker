@@ -899,8 +899,8 @@
       "all_evos": "Tutte le evo"
     },
     "view_mode": {
-      "standard": "Standard view",
-      "thumbnail": "Thumbnail view"
+      "standard": "Vista standard",
+      "thumbnail": "Vista miniatura"
     },
     "advanced_filters": "Filtri avanzati",
     "advanced_filters_empty": "Non ci sono filtri avanzati disponibili per questo slot.",
@@ -944,12 +944,12 @@
       "miracrown": "Miracorona",
       "miracle": "Completi Mirabilia",
       "home": "Casa",
-      "cadenceborn": "Cadenceborn's Gift",
-      "course": "Courses",
-      "journey": "Mira Journey",
-      "limited": "Limited Banners",
-      "pear": "Pear-Pal Premium",
-      "permanent": "Permanent Banner"
+      "cadenceborn": "Dono del Cantore Celeste",
+      "course": "Corsi",
+      "journey": "Miraviaggio",
+      "limited": "Banner limitati",
+      "pear": "Oggetto premium del Negozio Pa-Pero",
+      "permanent": "Banner permanente"
     }
   },
   "search_page": {

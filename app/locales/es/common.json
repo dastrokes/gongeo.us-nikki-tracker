@@ -899,8 +899,8 @@
       "all_evos": "Todas las evos"
     },
     "view_mode": {
-      "standard": "Standard view",
-      "thumbnail": "Thumbnail view"
+      "standard": "Vista estándar",
+      "thumbnail": "Vista en miniatura"
     },
     "advanced_filters": "Filtros avanzados",
     "advanced_filters_empty": "No hay filtros avanzados disponibles para esta ranura.",
@@ -944,12 +944,12 @@
       "miracrown": "Maravicorona",
       "miracle": "Atuendos Milagrosos",
       "home": "Hogar",
-      "cadenceborn": "Cadenceborn's Gift",
-      "course": "Courses",
-      "journey": "Mira Journey",
-      "limited": "Limited Banners",
-      "pear": "Pear-Pal Premium",
-      "permanent": "Permanent Banner"
+      "cadenceborn": "Regalo del Dragocadencioso",
+      "course": "Cursos",
+      "journey": "Maraviviaje",
+      "limited": "Pancartas limitadas",
+      "pear": "Objeto premium de la tienda de Amipera",
+      "permanent": "pancarta permanente"
     }
   },
   "search_page": {

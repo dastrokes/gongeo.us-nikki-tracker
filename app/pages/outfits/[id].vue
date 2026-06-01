@@ -760,16 +760,16 @@
           key: 'all-variations',
           label: t('wardrobe.actions.mark_all_variations'),
         },
-        { key: 'base', label: t('wardrobe.actions.mark_base') },
-        { key: 'evo1', label: t('wardrobe.actions.mark_evo1') },
+        { key: 'base', label: t('banner.outfit.level.1') },
+        { key: 'evo1', label: t('banner.outfit.level.2') },
         {
           key: 'evo2',
-          label: t('wardrobe.actions.mark_evo2'),
+          label: t('banner.outfit.level.3'),
           disabled: outfit.value.quality < 5,
         },
         {
           key: 'evo3',
-          label: t('wardrobe.actions.mark_evo3'),
+          label: t('banner.outfit.level.4'),
           disabled: outfit.value.quality < 5,
         },
         {

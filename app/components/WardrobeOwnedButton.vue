@@ -19,7 +19,7 @@
         class="border transition-all duration-150"
         :class="[
           variant === 'overlay'
-            ? 'h-7 w-7 rounded-full shadow-sm backdrop-blur-md hover:shadow-md'
+            ? 'h-7 w-7 rounded-full ring-1 ring-black/10 backdrop-blur-md dark:ring-white/10'
             : 'h-6 rounded-full px-2 text-xs font-medium',
         ]"
         :style="buttonStyle"
@@ -50,7 +50,7 @@
           class="border transition-all duration-150"
           :class="[
             variant === 'overlay'
-              ? 'h-7 w-7 rounded-full shadow-sm backdrop-blur-md hover:shadow-md'
+              ? 'h-7 w-7 rounded-full ring-1 ring-black/10 backdrop-blur-md dark:ring-white/10'
               : 'h-6 rounded-full px-2 text-xs font-medium',
           ]"
           :style="buttonStyle"

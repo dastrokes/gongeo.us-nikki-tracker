@@ -359,12 +359,9 @@
       "view_mode": "보기 모드",
       "mark_owned": "보유로 표시",
       "mark_unowned": "미보유로 표시",
-      "more_mark_options": "More mark options",
-      "mark_all_variations": "Mark all variations",
-      "mark_glowup": "Mark Glow Up",
-      "mark_evo1": "Mark Evo 1",
-      "mark_evo2": "Mark Evo 2",
-      "mark_evo3": "Mark Evo 3"
+      "mark_all_variations": "모든 변형 표시",
+      "mark_glowup": "환신 완료 표시",
+      "unmark_glowup": "환신 완료 표시 해제"
     },
     "status": {
       "owned": "보유",

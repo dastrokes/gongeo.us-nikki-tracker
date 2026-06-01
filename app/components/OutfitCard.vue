@@ -42,7 +42,8 @@
 
     <div
       v-if="showInfo && isThumbnailListing"
-      class="absolute inset-x-0 bottom-0 z-20 flex h-1/2 w-full flex-col justify-end bg-[url('/images/fade.png')] [background-size:100%_100%] bg-bottom bg-no-repeat px-1.5 pb-1"
+      class="absolute inset-x-0 bottom-0 z-20 flex h-16 w-full flex-col justify-end bg-[url('/images/fade.png')] [background-size:100%_100%] bg-bottom bg-no-repeat px-1.5 pb-1"
+      :class="thumbnailMetaPaddingClass"
     >
       <p
         class="line-clamp-2 w-full min-w-0 text-left text-[10px] leading-snug font-semibold text-white"
@@ -52,10 +53,12 @@
     </div>
     <div
       v-else-if="showInfo"
-      class="absolute right-0 bottom-0 left-0 z-20 bg-[url('/images/fade.png')] [background-size:100%_100%] bg-no-repeat"
+      class="absolute right-0 bottom-0 left-0 z-20 flex h-28 flex-col justify-end bg-[url('/images/fade.png')] [background-size:100%_100%] bg-no-repeat"
       :class="metaPaddingClass"
     >
-      <p class="line-clamp-2 text-xs font-semibold text-white sm:text-sm">
+      <p
+        class="line-clamp-2 text-xs leading-snug font-semibold text-white sm:text-sm"
+      >
         {{ name }}
       </p>
       <div
@@ -185,18 +188,13 @@
     return props.size === 'sm' ? 'top-1 right-1' : 'top-2 right-2'
   })
 
-  const showMetaTags = computed(
-    () => props.meta !== 'edit' && !isThumbnailListing.value
-  )
+  const showMetaTags = computed(() => !isThumbnailListing.value)
 
   const metaPaddingClass = computed(() => [
     props.meta === 'edit' || props.size === 'sm' ? 'p-2' : 'p-3',
-    props.meta === 'status'
-      ? props.size === 'sm'
-        ? 'pr-10'
-        : 'pr-10 sm:pr-12'
-      : '',
+    'pr-8',
   ])
+  const thumbnailMetaPaddingClass = 'pr-6'
 
   const cardClasses = computed(() => [
     'relative aspect-2/3 rounded-lg overflow-hidden shadow-md',

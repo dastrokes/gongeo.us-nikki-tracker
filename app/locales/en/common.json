@@ -360,14 +360,18 @@
       "mark_owned": "Mark Owned",
       "mark_unowned": "Mark Unowned",
       "more_mark_options": "More mark options",
+      "mark_base": "Mark Base",
       "mark_all_variations": "Mark all variations",
       "mark_glowup": "Mark Glow Up",
+      "unmark_glowup": "Unmark Glow Up",
       "mark_evo1": "Mark Evo 1",
       "mark_evo2": "Mark Evo 2",
       "mark_evo3": "Mark Evo 3"
     },
     "status": {
       "owned": "Owned",
+      "glowup_owned": "Glow Up owned",
+      "evo_level_owned": "Evo {level} owned",
       "missing": "Missing"
     },
     "scope": {

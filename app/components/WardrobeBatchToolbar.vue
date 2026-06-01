@@ -39,38 +39,43 @@
       </div>
 
       <div class="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:items-center">
-        <n-button-group>
+        <n-dropdown
+          v-if="actionMarkOwnedMenuOptions.length > 0"
+          trigger="click"
+          placement="bottom-end"
+          :options="actionMarkOwnedMenuOptions"
+          :disabled="disabled || activeCount === 0"
+          @select="handleMarkOwnedMenuSelect"
+        >
           <n-button
             size="small"
             type="primary"
             :disabled="disabled || activeCount === 0"
-            @click="$emit('mark-owned')"
+            :aria-label="t('wardrobe.actions.mark_owned')"
           >
             <template #icon>
               <n-icon><Check /></n-icon>
             </template>
-            {{ t('wardrobe.actions.mark_owned') }}
+            <span class="inline-flex items-center gap-1">
+              {{ t('wardrobe.actions.mark_owned') }}
+              <n-icon size="10">
+                <CaretDown />
+              </n-icon>
+            </span>
           </n-button>
-          <n-dropdown
-            v-if="markOwnedMenuOptions.length > 0"
-            trigger="click"
-            :options="markOwnedMenuOptions"
-            :disabled="disabled || activeCount === 0"
-            @select="handleMarkOwnedMenuSelect"
-          >
-            <n-button
-              size="small"
-              type="primary"
-              :disabled="disabled || activeCount === 0"
-              :aria-label="t('wardrobe.actions.more_mark_options')"
-              @click.stop
-            >
-              <template #icon>
-                <n-icon><EllipsisH /></n-icon>
-              </template>
-            </n-button>
-          </n-dropdown>
-        </n-button-group>
+        </n-dropdown>
+        <n-button
+          v-else
+          size="small"
+          type="primary"
+          :disabled="disabled || activeCount === 0"
+          @click="$emit('mark-owned')"
+        >
+          <template #icon>
+            <n-icon><Check /></n-icon>
+          </template>
+          {{ t('wardrobe.actions.mark_owned') }}
+        </n-button>
         <n-button
           size="small"
           :disabled="disabled || activeCount === 0"
@@ -87,7 +92,7 @@
 </template>
 
 <script setup lang="ts">
-  import { Check, EllipsisH, Times } from '@vicons/fa'
+  import { CaretDown, Check, Times } from '@vicons/fa'
   import type { DropdownOption } from 'naive-ui'
 
   export type WardrobeBatchScope = 'selected' | 'page' | 'all'
@@ -113,8 +118,23 @@
   const { t } = useI18n()
 
   const markOwnedMenuOptions = computed(() => props.markOwnedMenuOptions ?? [])
+  const actionMarkOwnedMenuOptions = computed<WardrobeBatchMenuOption[]>(() =>
+    markOwnedMenuOptions.value.length > 0
+      ? [
+          {
+            key: 'mark-owned',
+            label: t('wardrobe.actions.mark_owned'),
+          },
+          ...markOwnedMenuOptions.value,
+        ]
+      : []
+  )
 
   const handleMarkOwnedMenuSelect = (key: string | number) => {
+    if (key === 'mark-owned') {
+      emit('mark-owned')
+      return
+    }
     emit('mark-owned-menu-select', String(key))
   }
 

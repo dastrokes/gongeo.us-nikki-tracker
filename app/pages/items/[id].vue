@@ -174,12 +174,20 @@
                       {{ $t(`type.${itemType}`) }}
                     </n-tag>
                   </NuxtLinkLocale>
+                  <WardrobeStatusBadge
+                    v-if="wardrobeInitialized && currentItemWardrobeStatus"
+                    :status="currentItemWardrobeStatus"
+                    :quality="item.quality"
+                    :evo-level="currentItemDisplayEvoLevel"
+                    :glow-up-owned="currentItemDisplayGlowUpOwned"
+                  />
                   <WardrobeOwnedButton
                     v-if="wardrobeInitialized"
-                    :owned="isItemOwned(itemId)"
+                    :owned="currentItemActionOwned"
                     :disabled="!isWardrobeReady"
                     :loading="wardrobeSaving"
                     :quality="item.quality"
+                    :evo-level="currentItemDisplayEvoLevel"
                     :menu-options="itemVariationMarkOptions"
                     variant="overlay"
                     @toggle="toggleCurrentItemOwned"
@@ -648,7 +656,6 @@
     saving: wardrobeSaving,
     canMutate: isWardrobeReady,
     isItemOwned,
-    toggleItemOwned,
     markItemsOwned,
   } = useWardrobe()
 
@@ -990,7 +997,7 @@
         key: 'all-variations',
         label: t('wardrobe.actions.mark_all_variations'),
       },
-      { key: 'glowup', label: t('wardrobe.actions.mark_glowup') },
+      { key: 'base', label: t('wardrobe.actions.mark_base') },
       { key: 'evo1', label: t('wardrobe.actions.mark_evo1') },
       {
         key: 'evo2',
@@ -1002,8 +1009,94 @@
         label: t('wardrobe.actions.mark_evo3'),
         disabled: item.value.quality < 5,
       },
+      {
+        key: 'glowup',
+        label: t(
+          currentItemGlowUpOwned.value
+            ? 'wardrobe.actions.unmark_glowup'
+            : 'wardrobe.actions.mark_glowup'
+        ),
+      },
     ]
   })
+
+  const getVariantMarkMaxRank = (key: WardrobeVariantMarkKey) => {
+    if (key === 'all-variations') return Number.POSITIVE_INFINITY
+    if (key === 'base') return 0
+    if (key === 'glowup') return 1
+    if (key === 'evo1') return 2
+    if (key === 'evo2') return 3
+    return 4
+  }
+  const getVariantRank = (variantType: VariantType) => {
+    if (variantType === 'base') return 0
+    if (variantType === 'glowup') return 1
+    if (variantType === 'evo1') return 2
+    if (variantType === 'evo2') return 3
+    return 4
+  }
+  const getEvoLevel = (variantType: VariantType) => {
+    if (variantType === 'evo1') return 1
+    if (variantType === 'evo2') return 2
+    if (variantType === 'evo3') return 3
+    return null
+  }
+
+  const currentItemEvoLevel = computed(() => {
+    if (!item.value) return null
+
+    return (item.value.variations ?? []).reduce<number | null>(
+      (level, variation) => {
+        const variantType = getItemVariantType(variation.id)
+        const evoLevel = getEvoLevel(variantType)
+        return evoLevel && isItemOwned(variation.id)
+          ? Math.max(level ?? 0, evoLevel)
+          : level
+      },
+      null
+    )
+  })
+  const currentItemGlowUpIds = computed(() => {
+    if (!item.value) return []
+    const knownIds = new Set([
+      item.value.id,
+      ...(item.value.variations ?? []).map((variation) => variation.id),
+    ])
+    return getRelatedItemIds(itemId.value, item.value.quality)
+      .filter((relatedId) => getItemVariantType(relatedId) === 'glowup')
+      .filter((relatedId) => knownIds.has(relatedId))
+  })
+  const currentItemGlowUpOwned = computed(
+    () =>
+      currentItemGlowUpIds.value.length > 0 &&
+      currentItemGlowUpIds.value.every(isItemOwned)
+  )
+  const currentItemVariantType = computed(() =>
+    getItemVariantType(itemId.value)
+  )
+  const currentItemEffectiveOwned = computed(
+    () => isItemOwned(itemId.value) || Boolean(currentItemEvoLevel.value)
+  )
+  const currentItemActionOwned = computed(() =>
+    currentItemVariantType.value === 'base'
+      ? currentItemEffectiveOwned.value
+      : isItemOwned(itemId.value)
+  )
+  const currentItemWardrobeStatus = computed(() => {
+    if (currentItemVariantType.value === 'base') {
+      if (currentItemEvoLevel.value) return 'evo-owned'
+      if (currentItemGlowUpOwned.value) return 'glowup-owned'
+      return isItemOwned(itemId.value) ? 'item-owned' : null
+    }
+    return isItemOwned(itemId.value) ? 'item-owned' : null
+  })
+  const currentItemDisplayEvoLevel = computed(() =>
+    currentItemVariantType.value === 'base' ? currentItemEvoLevel.value : null
+  )
+  const currentItemDisplayGlowUpOwned = computed(
+    () =>
+      currentItemVariantType.value === 'base' && currentItemGlowUpOwned.value
+  )
 
   // Retry fetch
   const retryFetch = () => {
@@ -1011,8 +1104,29 @@
   }
 
   const toggleCurrentItemOwned = async () => {
+    if (!item.value) return
+
     try {
-      await toggleItemOwned(itemId.value)
+      if (currentItemActionOwned.value) {
+        const currentRank = getVariantRank(currentItemVariantType.value)
+        const knownIds = new Set([
+          item.value.id,
+          ...(item.value.variations ?? []).map((variation) => variation.id),
+        ])
+        const itemIds = getRelatedItemIds(itemId.value, item.value.quality)
+          .filter(
+            (relatedId) =>
+              getVariantRank(getItemVariantType(relatedId)) >= currentRank
+          )
+          .filter((relatedId) => knownIds.has(relatedId))
+
+        if (itemIds.length > 0) {
+          await markItemsOwned(itemIds, false)
+        }
+        return
+      }
+
+      await markItemsOwned([itemId.value], true)
     } catch {
       message.error(t('wardrobe.error.save'))
     }
@@ -1024,20 +1138,40 @@
     try {
       const variantKey = key as WardrobeVariantMarkKey
       const relatedIds = getRelatedItemIds(itemId.value, item.value.quality)
+      const maxRank = getVariantMarkMaxRank(variantKey)
       const knownIds = new Set([
         item.value.id,
         ...(item.value.variations ?? []).map((variation) => variation.id),
       ])
-      const itemIds = (
-        variantKey === 'all-variations'
+      if (variantKey === 'glowup' && currentItemGlowUpOwned.value) {
+        await markItemsOwned(currentItemGlowUpIds.value, false)
+        return
+      }
+
+      const itemIds = relatedIds
+        .filter(
+          (relatedId) =>
+            getVariantRank(getItemVariantType(relatedId)) <= maxRank
+        )
+        .filter((relatedId) => knownIds.has(relatedId))
+      const clearItemIds =
+        Number.isFinite(maxRank) && variantKey !== 'glowup'
           ? relatedIds
-          : relatedIds.filter(
-              (relatedId) => getItemVariantType(relatedId) === variantKey
-            )
-      ).filter((relatedId) => knownIds.has(relatedId))
+              .filter((relatedId) => {
+                const variantType = getItemVariantType(relatedId)
+                return (
+                  variantType !== 'glowup' &&
+                  getVariantRank(variantType) > maxRank
+                )
+              })
+              .filter((relatedId) => knownIds.has(relatedId))
+          : []
 
       if (itemIds.length > 0) {
         await markItemsOwned(itemIds, true)
+      }
+      if (clearItemIds.length > 0) {
+        await markItemsOwned(clearItemIds, false)
       }
     } catch {
       message.error(t('wardrobe.error.save'))

@@ -358,7 +358,10 @@
       "edit_mode": "편집 모드",
       "view_mode": "보기 모드",
       "mark_owned": "보유로 표시",
-      "mark_unowned": "미보유로 표시"
+      "mark_unowned": "미보유로 표시",
+      "mark_all_variations": "Mark All Variations",
+      "mark_glowup": "Mark Glow Up",
+      "unmark_glowup": "Unmark Glow Up"
     },
     "status": {
       "owned": "보유",

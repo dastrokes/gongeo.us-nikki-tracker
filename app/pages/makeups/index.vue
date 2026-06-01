@@ -16,7 +16,6 @@
     :tierlist-disabled="isTierlistDisabled"
     :selected-count="selectedMakeupIds.size"
     :show-clear-filters="hasFilters"
-    :edit-mode-icon="UserEdit"
     @toggle-edit-mode="toggleEditMode"
     @open-tierlist="goToTierlist"
     @retry="retryFetch"
@@ -207,7 +206,7 @@
           </div>
 
           <div
-            v-if="wardrobeInitialized && !editMode && entry.progress"
+            v-if="wardrobeInitialized && entry.progress"
             class="absolute"
             :class="overlayCornerClasses.wardrobe"
             @click.stop
@@ -229,16 +228,8 @@
           <div
             :class="
               isThumbnailView
-                ? nameFadeThumbnailClass
-                : [
-                    nameFadeStandardClass,
-                    'p-3',
-                    wardrobeInitialized
-                      ? !editMode && entry.progress
-                        ? 'pr-10 sm:pr-12'
-                        : ''
-                      : '',
-                  ]
+                ? [nameFadeThumbnailClass, 'pr-6']
+                : [nameFadeStandardClass, 'p-3', 'pr-8']
             "
           >
             <p
@@ -246,7 +237,7 @@
               :class="
                 isThumbnailView
                   ? 'line-clamp-2 w-full min-w-0 text-left text-[10px] leading-snug'
-                  : 'line-clamp-2 text-xs sm:text-sm'
+                  : 'line-clamp-2 text-xs leading-snug sm:text-sm'
               "
             >
               {{ entry.name }}

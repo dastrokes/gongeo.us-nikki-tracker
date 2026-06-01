@@ -358,7 +358,10 @@
       "edit_mode": "Bearbeitungsmodus",
       "view_mode": "Ansichtsmodus",
       "mark_owned": "Als im Besitz markieren",
-      "mark_unowned": "Als nicht im Besitz markieren"
+      "mark_unowned": "Als nicht im Besitz markieren",
+      "mark_all_variations": "Alle Variationen markieren",
+      "mark_glowup": "Verschönert markieren",
+      "unmark_glowup": "Verschönert abwählen"
     },
     "status": {
       "owned": "Im Besitz",

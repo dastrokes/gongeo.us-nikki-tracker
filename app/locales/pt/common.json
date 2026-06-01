@@ -358,7 +358,10 @@
       "edit_mode": "Modo de edição",
       "view_mode": "Modo de visualização",
       "mark_owned": "Marcar como possuído",
-      "mark_unowned": "Marcar como não possuído"
+      "mark_unowned": "Marcar como não possuído",
+      "mark_all_variations": "Marcar todas as variações",
+      "mark_glowup": "Marcar cintilado",
+      "unmark_glowup": "Desmarcar cintilado"
     },
     "status": {
       "owned": "Possuído",

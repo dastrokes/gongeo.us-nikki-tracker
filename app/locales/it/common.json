@@ -358,7 +358,10 @@
       "edit_mode": "Modalità modifica",
       "view_mode": "Modalità vista",
       "mark_owned": "Segna come posseduto",
-      "mark_unowned": "Segna come non posseduto"
+      "mark_unowned": "Segna come non posseduto",
+      "mark_all_variations": "Segna tutte le varianti",
+      "mark_glowup": "Segna rinnovo effettuato",
+      "unmark_glowup": "Deseleziona rinnovo effettuato"
     },
     "status": {
       "owned": "Posseduto",

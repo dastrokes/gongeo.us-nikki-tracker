@@ -30,7 +30,16 @@ for = "/.netlify/images*"
 
   [headers.values]
   Cache-Control = "public, max-age=31536000, immutable"
-  Netlify-CDN-Cache-Control = "public, s-maxage=31536000, stale-while-revalidate=604800"
+  Netlify-CDN-Cache-Control = "public, durable, s-maxage=31536000, stale-while-revalidate=604800, stale-if-error=604800"
+  Netlify-Cache-ID = "images"
+
+[[headers]]
+for = "/images/*"
+
+  [headers.values]
+  Cache-Control = "public, max-age=31536000, immutable"
+  Netlify-CDN-Cache-Control = "public, durable, s-maxage=31536000, stale-while-revalidate=604800, stale-if-error=604800"
+  Netlify-Cache-ID = "images"
 
 [[headers]]
 for = "/catalog/index.json"

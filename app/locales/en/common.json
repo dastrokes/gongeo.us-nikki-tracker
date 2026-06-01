@@ -901,10 +901,9 @@
     "variation_filter": {
       "all_evos": "All Evos"
     },
-    "listing_settings": "Listing settings",
-    "settings": {
-      "thumbnail_view": "Thumbnail view",
-      "compact_page_size": "Show more per page"
+    "view_mode": {
+      "standard": "Standard view",
+      "thumbnail": "Thumbnail view"
     },
     "advanced_filters": "Advanced Filters",
     "advanced_filters_empty": "No advanced filters are available for this slot.",

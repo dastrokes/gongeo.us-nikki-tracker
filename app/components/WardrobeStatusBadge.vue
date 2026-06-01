@@ -146,16 +146,14 @@
       return t('wardrobe.status.owned')
     }
     if (props.status === 'glowup-owned') {
-      return t('wardrobe.status.glowup_owned')
+      return t('banner.outfit.level.glow')
     }
     if (props.status === 'evo-owned') {
       const evoLabel = props.evoLevel
-        ? t('wardrobe.status.evo_level_owned', {
-            level: normalizedEvoLevel.value,
-          })
+        ? t(`banner.outfit.level.${normalizedEvoLevel.value + 1}`)
         : t('wardrobe.status.owned')
       return props.glowUpOwned
-        ? `${evoLabel} / ${t('wardrobe.status.glowup_owned')}`
+        ? `${evoLabel} / ${t('banner.outfit.level.glow')}`
         : evoLabel
     }
     if (props.status === 'partial') {

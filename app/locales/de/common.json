@@ -359,12 +359,9 @@
       "view_mode": "Ansichtsmodus",
       "mark_owned": "Als im Besitz markieren",
       "mark_unowned": "Als nicht im Besitz markieren",
-      "more_mark_options": "More mark options",
-      "mark_all_variations": "Mark all variations",
-      "mark_glowup": "Mark Glow Up",
-      "mark_evo1": "Mark Evo 1",
-      "mark_evo2": "Mark Evo 2",
-      "mark_evo3": "Mark Evo 3"
+      "mark_all_variations": "Alle Variationen markieren",
+      "mark_glowup": "Verschönert markieren",
+      "unmark_glowup": "Verschönert abwählen"
     },
     "status": {
       "owned": "Im Besitz",

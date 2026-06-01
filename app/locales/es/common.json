@@ -359,12 +359,9 @@
       "view_mode": "Modo vista",
       "mark_owned": "Marcar como propio",
       "mark_unowned": "Marcar como no propio",
-      "more_mark_options": "More mark options",
-      "mark_all_variations": "Mark all variations",
-      "mark_glowup": "Mark Glow Up",
-      "mark_evo1": "Mark Evo 1",
-      "mark_evo2": "Mark Evo 2",
-      "mark_evo3": "Mark Evo 3"
+      "mark_all_variations": "Marcar todas las variaciones",
+      "mark_glowup": "Marcar transformación",
+      "unmark_glowup": "Desmarcar transformación"
     },
     "status": {
       "owned": "Propio",

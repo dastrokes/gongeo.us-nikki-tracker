@@ -155,7 +155,7 @@
                       :aria-label="t('common.export')"
                     >
                       <template #icon>
-                        <n-icon depth="3">
+                        <n-icon :depth="3">
                           <Download />
                         </n-icon>
                       </template>

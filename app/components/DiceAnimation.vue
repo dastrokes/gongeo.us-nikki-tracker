@@ -8,12 +8,12 @@
         <n-button
           text
           circle
-          class="text-gray-500"
           :aria-label="t('default.accessibility.luck_stats')"
         >
           <n-icon
             class="origin-center"
             size="16px"
+            :depth="3"
             :component="isAnimating ? diceComponents[currentFace] : finalDice"
             :style="{
               transform: isAnimating

@@ -79,7 +79,7 @@
                         {{ card.percent }}%
                       </n-text>
                       <n-text
-                        depth="3"
+                        :depth="3"
                         class="text-xs"
                       >
                         {{ card.detail }}
@@ -296,7 +296,7 @@
               {{ t('wardrobe.f2p_basics') }}
             </n-text>
             <n-text
-              depth="3"
+              :depth="3"
               class="block text-sm"
             >
               {{ t('wardrobe.onboarding.base_tip_description') }}
@@ -337,7 +337,7 @@
               {{ t('wardrobe.resonance_collection') }}
             </n-text>
             <n-text
-              depth="3"
+              :depth="3"
               class="block text-sm"
             >
               {{ t('wardrobe.onboarding.resonance_tip_description') }}
@@ -380,7 +380,7 @@
               {{ t('wardrobe.onboarding.tracking_title') }}
             </n-text>
             <n-text
-              depth="3"
+              :depth="3"
               class="block text-sm"
             >
               {{ t('wardrobe.onboarding.tracking_description') }}
@@ -465,7 +465,7 @@
               {{ t('wardrobe.settings.onboarding_title') }}
             </n-text>
             <n-text
-              depth="3"
+              :depth="3"
               class="block text-sm"
             >
               {{ t('wardrobe.settings.onboarding_description') }}
@@ -782,7 +782,7 @@
                 {{ action.label }}
               </n-text>
               <n-text
-                depth="3"
+                :depth="3"
                 class="block text-xs"
               >
                 {{ action.detail }}
@@ -830,7 +830,7 @@
                   @click="toggleShareOrientation"
                 >
                   <template #icon>
-                    <n-icon :depth="3"><Sync /></n-icon>
+                    <n-icon ::depth="3"><Sync /></n-icon>
                   </template>
                 </n-button>
               </template>
@@ -848,7 +848,7 @@
                   @click="exportShareCard"
                 >
                   <template #icon>
-                    <n-icon :depth="3"><FileImageRegular /></n-icon>
+                    <n-icon ::depth="3"><FileImageRegular /></n-icon>
                   </template>
                 </n-button>
               </template>

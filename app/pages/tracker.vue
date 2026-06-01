@@ -307,11 +307,10 @@
                       size="small"
                       text
                       circle
-                      class="text-gray-500"
                     >
                       <n-icon
                         size="20"
-                        depth="3"
+                        :depth="3"
                       >
                         <Users />
                       </n-icon>
@@ -469,11 +468,10 @@
                       size="small"
                       text
                       circle
-                      class="text-gray-500"
                       @click="showPopover = !showPopover"
                     >
                       <template #icon>
-                        <n-icon>
+                        <n-icon :depth="3">
                           <Download />
                         </n-icon>
                       </template>
@@ -486,7 +484,7 @@
                       @click="exportPNG"
                     >
                       <template #icon>
-                        <n-icon>
+                        <n-icon :depth="3">
                           <FileImageRegular />
                         </n-icon>
                       </template>
@@ -499,7 +497,7 @@
                       @click="exportJSON"
                     >
                       <template #icon>
-                        <n-icon>
+                        <n-icon :depth="3">
                           <FileExport />
                         </n-icon>
                       </template>
@@ -515,10 +513,9 @@
                       size="small"
                       text
                       circle
-                      class="text-gray-500"
                     >
                       <template #icon>
-                        <n-icon>
+                        <n-icon :depth="3">
                           <Cog />
                         </n-icon>
                       </template>
@@ -795,11 +792,10 @@
                       size="small"
                       text
                       circle
-                      class="text-gray-500"
                       @click="toggleStatsPopover(banner.bannerId)"
                     >
                       <template #icon>
-                        <n-icon>
+                        <n-icon :depth="3">
                           <ChartBarRegular />
                         </n-icon>
                       </template>
@@ -925,7 +921,6 @@
                   v-if="!exporting"
                   text
                   size="small"
-                  class="text-gray-500"
                   @click="
                     () => {
                       selectedBannerId = banner.bannerId
@@ -934,7 +929,7 @@
                   "
                 >
                   <template #icon>
-                    <n-icon><Edit /></n-icon>
+                    <n-icon :depth="3"><Edit /></n-icon>
                   </template>
                 </n-button>
               </div>

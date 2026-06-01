@@ -85,7 +85,7 @@
                     @click="exportListingPng"
                   >
                     <template #icon>
-                      <n-icon>
+                      <n-icon :depth="3">
                         <FileImageRegular />
                       </n-icon>
                     </template>
@@ -103,35 +103,36 @@
                   <n-button
                     size="small"
                     text
-                    :type="isListingSettingsActive ? 'primary' : 'default'"
-                    class="w-8"
+                    circle
                     :aria-label="t('compendium.listing_settings')"
                   >
                     <template #icon>
-                      <n-icon>
+                      <n-icon :depth="3">
                         <Cog />
                       </n-icon>
                     </template>
                   </n-button>
                 </template>
-                <div class="w-56 space-y-3 p-1">
-                  <div class="flex items-center gap-3">
-                    <n-switch
-                      :value="isThumbnailView"
-                      @update:value="setThumbnailView"
-                    />
-                    <span class="text-sm text-gray-700 dark:text-gray-200">
-                      {{ t('compendium.settings.thumbnail_view') }}
-                    </span>
-                  </div>
-                  <div class="flex items-center gap-3">
-                    <n-switch
-                      :value="!compactPageSize"
-                      @update:value="setExpandedPageSize"
-                    />
-                    <span class="text-sm text-gray-700 dark:text-gray-200">
-                      {{ t('compendium.settings.compact_page_size') }}
-                    </span>
+                <div class="min-w-50">
+                  <div class="space-y-4">
+                    <div class="flex items-center justify-between">
+                      <n-switch
+                        :value="isThumbnailView"
+                        @update:value="setThumbnailView"
+                      />
+                      <span class="ml-3 text-sm text-gray-400">
+                        {{ t('compendium.settings.thumbnail_view') }}
+                      </span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                      <n-switch
+                        :value="!compactPageSize"
+                        @update:value="setExpandedPageSize"
+                      />
+                      <span class="ml-3 text-sm text-gray-400">
+                        {{ t('compendium.settings.compact_page_size') }}
+                      </span>
+                    </div>
                   </div>
                 </div>
               </n-popover>
@@ -155,7 +156,7 @@
                     @click="emit('toggle-edit-mode')"
                   >
                     <template #icon>
-                      <n-icon>
+                      <n-icon :depth="3">
                         <BookOpen v-if="editMode" />
                         <UserEdit v-else />
                       </n-icon>
@@ -423,10 +424,6 @@
   } = useCompendiumListingViewContext()
   const listingExportRef = ref<HTMLElement | null>(null)
   const exporting = ref(false)
-
-  const isListingSettingsActive = computed(
-    () => isThumbnailView.value || compactPageSize.value
-  )
 
   const setThumbnailView = (enabled: boolean) => {
     setViewMode(enabled ? 'thumbnail' : 'standard')

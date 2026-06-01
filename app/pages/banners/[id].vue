@@ -76,7 +76,7 @@
                     @click="showCollectionEditor = true"
                   >
                     <template #icon>
-                      <n-icon depth="3"><Edit /></n-icon>
+                      <n-icon :depth="3"><Edit /></n-icon>
                     </template>
                   </n-button>
                 </template>
@@ -92,7 +92,7 @@
                     @click="showItems = !showItems"
                   >
                     <template #icon>
-                      <n-icon depth="3">
+                      <n-icon :depth="3">
                         <Th v-if="!showItems" />
                         <ThLarge v-else />
                       </n-icon>
@@ -395,7 +395,7 @@
                             <template #icon>
                               <n-icon
                                 size="16"
-                                depth="3"
+                                :depth="3"
                                 ><FileImport
                               /></n-icon>
                             </template>

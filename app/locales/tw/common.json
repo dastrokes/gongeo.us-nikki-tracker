@@ -359,9 +359,9 @@
       "view_mode": "檢視模式",
       "mark_owned": "標記為擁有",
       "mark_unowned": "標記為未擁有",
-      "mark_all_variations": "Mark All Variations",
-      "mark_glowup": "Mark Glow Up",
-      "unmark_glowup": "Unmark Glow Up"
+      "mark_all_variations": "標記所有變化",
+      "mark_glowup": "標記煥新",
+      "unmark_glowup": "取消標記煥新"
     },
     "status": {
       "owned": "已擁有",

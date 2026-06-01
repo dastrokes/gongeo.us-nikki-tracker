@@ -901,11 +901,10 @@
     "variation_filter": {
       "all_evos": "全進化"
     },
-    "view_mode": {},
-    "listing_settings": "リスト設定",
+    "listing_settings": "Listing settings",
     "settings": {
-      "thumbnail_view": "サムネイル表示",
-      "compact_page_size": "ページごとにもっと表示"
+      "thumbnail_view": "Thumbnail view",
+      "compact_page_size": "Show more per page"
     },
     "advanced_filters": "詳細フィルター",
     "advanced_filters_empty": "この部位で利用可能な詳細フィルターはありません。",

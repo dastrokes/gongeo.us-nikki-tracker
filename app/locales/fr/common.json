@@ -901,11 +901,10 @@
     "variation_filter": {
       "all_evos": "Toutes les évos"
     },
-    "view_mode": {},
-    "listing_settings": "Paramètres de la liste",
+    "listing_settings": "Listing settings",
     "settings": {
-      "thumbnail_view": "Vue miniature",
-      "compact_page_size": "Afficher plus par page"
+      "thumbnail_view": "Thumbnail view",
+      "compact_page_size": "Show more per page"
     },
     "advanced_filters": "Filtres avancés",
     "advanced_filters_empty": "Il n'y a pas de filtres avancés disponibles pour cet emplacement.",

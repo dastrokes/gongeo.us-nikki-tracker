@@ -901,9 +901,11 @@
     "variation_filter": {
       "all_evos": "모든 진화"
     },
-    "view_mode": {
-      "standard": "표준 보기",
-      "thumbnail": "썸네일 보기"
+    "view_mode": {},
+    "listing_settings": "목록 설정",
+    "settings": {
+      "thumbnail_view": "썸네일 보기",
+      "compact_page_size": "페이지당 더 보기"
     },
     "advanced_filters": "고급 필터",
     "advanced_filters_empty": "이 부위에 사용할 수 있는 고급 필터가 없습니다.",

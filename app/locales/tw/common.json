@@ -901,9 +901,11 @@
     "variation_filter": {
       "all_evos": "全部進化"
     },
-    "view_mode": {
-      "standard": "標準檢視",
-      "thumbnail": "縮圖檢視"
+    "view_mode": {},
+    "listing_settings": "列表設定",
+    "settings": {
+      "thumbnail_view": "縮圖檢視",
+      "compact_page_size": "每頁顯示更多"
     },
     "advanced_filters": "進階篩選",
     "advanced_filters_empty": "此部位沒有可用的進階篩選。",

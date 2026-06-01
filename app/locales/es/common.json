@@ -901,9 +901,11 @@
     "variation_filter": {
       "all_evos": "Todas las evos"
     },
-    "view_mode": {
-      "standard": "Vista estándar",
-      "thumbnail": "Vista en miniatura"
+    "view_mode": {},
+    "listing_settings": "Ajustes de la lista",
+    "settings": {
+      "thumbnail_view": "Vista en miniatura",
+      "compact_page_size": "Mostrar más por página"
     },
     "advanced_filters": "Filtros avanzados",
     "advanced_filters_empty": "No hay filtros avanzados disponibles para esta ranura.",

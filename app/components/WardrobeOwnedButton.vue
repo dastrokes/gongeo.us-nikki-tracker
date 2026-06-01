@@ -27,7 +27,7 @@
       >
         <template #icon>
           <n-icon :size="12">
-            <Edit />
+            <Pen />
           </n-icon>
         </template>
         <span v-if="variant === 'inline'">
@@ -59,7 +59,7 @@
         >
           <template #icon>
             <n-icon :size="12">
-              <Edit />
+              <Pen />
             </n-icon>
           </template>
           <span v-if="variant === 'inline'">
@@ -73,7 +73,7 @@
 </template>
 
 <script setup lang="ts">
-  import { Edit } from '@vicons/fa'
+  import { Pen } from '@vicons/fa'
   import type { DropdownOption } from 'naive-ui'
 
   export type WardrobeOwnedButtonMenuOption = DropdownOption & {

@@ -2,21 +2,29 @@ type UseCompendiumListingViewOptions = {
   currentPage?: Ref<number>
 }
 
+type ListingPreferences = {
+  viewMode?: ListingDisplayMode
+  compactPageSize?: boolean
+}
+
+const LISTING_PREFERENCES_KEY = 'gongeous-compendium-settings'
+
 export const compendiumListingViewKey = Symbol('compendiumListingView')
 
 export const useCompendiumListingView = (
   options: UseCompendiumListingViewOptions = {}
 ) => {
-  const viewMode = useState<ListingDisplayMode>(
-    'compendium-listing-view-mode',
-    () => 'standard'
-  )
+  const viewMode = ref<ListingDisplayMode>('standard')
+  const compactPageSize = ref(true)
+  const preferencesReady = ref(false)
 
   const isThumbnailView = computed(() => viewMode.value === 'thumbnail')
 
   const showEntryMeta = computed(() => !isThumbnailView.value)
 
-  const pageSize = computed(() => getListingPageSize(viewMode.value))
+  const pageSize = computed(() =>
+    getListingPageSize(viewMode.value, compactPageSize.value)
+  )
 
   const imageSizes = computed(() => getListingImageSizes(viewMode.value))
 
@@ -58,8 +66,60 @@ export const useCompendiumListingView = (
     viewMode.value = mode
   }
 
+  const setCompactPageSize = (compact: boolean) => {
+    compactPageSize.value = compact
+  }
+
   const toggleViewMode = () => {
     viewMode.value = viewMode.value === 'thumbnail' ? 'standard' : 'thumbnail'
+  }
+
+  const toggleCompactPageSize = () => {
+    compactPageSize.value = !compactPageSize.value
+  }
+
+  const loadPreferences = () => {
+    if (preferencesReady.value) return
+
+    try {
+      const stored = localStorage.getItem(LISTING_PREFERENCES_KEY)
+      const preferences = stored
+        ? (JSON.parse(stored) as ListingPreferences)
+        : null
+
+      if (
+        preferences?.viewMode === 'standard' ||
+        preferences?.viewMode === 'thumbnail'
+      ) {
+        viewMode.value = preferences.viewMode
+      }
+
+      compactPageSize.value =
+        typeof preferences?.compactPageSize === 'boolean'
+          ? preferences.compactPageSize
+          : true
+    } catch (error) {
+      console.warn('Failed to load listing preferences:', error)
+      compactPageSize.value = true
+    } finally {
+      preferencesReady.value = true
+    }
+  }
+
+  const savePreferences = () => {
+    if (!preferencesReady.value) return
+
+    try {
+      localStorage.setItem(
+        LISTING_PREFERENCES_KEY,
+        JSON.stringify({
+          viewMode: viewMode.value,
+          compactPageSize: compactPageSize.value,
+        } satisfies ListingPreferences)
+      )
+    } catch (error) {
+      console.warn('Failed to save listing preferences:', error)
+    }
   }
 
   watch(viewMode, () => {
@@ -68,9 +128,15 @@ export const useCompendiumListingView = (
     }
   })
 
+  watch([viewMode, compactPageSize], savePreferences)
+
+  onMounted(loadPreferences)
+
   const context = {
     viewMode,
     isThumbnailView,
+    compactPageSize,
+    preferencesReady,
     showEntryMeta,
     pageSize,
     imageSizes,
@@ -81,7 +147,9 @@ export const useCompendiumListingView = (
     nameFadeThumbnailClass,
     nameFadeStandardClass,
     setViewMode,
+    setCompactPageSize,
     toggleViewMode,
+    toggleCompactPageSize,
   }
 
   return context
@@ -104,4 +172,12 @@ export const useCompendiumListingViewContext = () => {
   }
 
   return context
+}
+
+export const useCompendiumListingPreferencesReady = () => {
+  const context = inject(compendiumListingViewKey, null) as ReturnType<
+    typeof useCompendiumListingView
+  > | null
+
+  return computed(() => context?.preferencesReady.value ?? true)
 }

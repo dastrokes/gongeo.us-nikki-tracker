@@ -59,6 +59,7 @@ export const useCatalogListing = async <
 }: UseCatalogListingOptions) => {
   const catalogIndex = useCatalogIndex()
   const attributeMatches = useItemAttributeMatches()
+  const preferencesReady = useCompendiumListingPreferencesReady()
 
   const getQuery = () => resolveReactiveInput(query)
   const getKey = () => resolveReactiveInput(key)
@@ -186,6 +187,10 @@ export const useCatalogListing = async <
   }
 
   const fetchListing = async (): Promise<KeyedCatalogListingResult<TEntry>> => {
+    if (!preferencesReady.value) {
+      return createDefaultData()
+    }
+
     const currentQuery = getQuery()
     onWardrobeModeError?.(null)
 
@@ -217,19 +222,34 @@ export const useCatalogListing = async <
       default: createDefaultData,
       dedupe: 'cancel',
       deep: false,
+      immediate: false,
       lazy: true,
       server: false,
-      watch: [refreshKey],
+      watch: [],
     }
   )
   const isCurrentDataReady = computed(
-    () => asyncData.data.value?.cacheKey === refreshKey.value
+    () =>
+      !preferencesReady.value ||
+      asyncData.data.value?.cacheKey === refreshKey.value
   )
   const currentData = computed(() =>
     isCurrentDataReady.value ? asyncData.data.value : createDefaultData()
   )
   const currentPending = computed(
-    () => asyncData.pending.value || !isCurrentDataReady.value
+    () =>
+      preferencesReady.value &&
+      (asyncData.pending.value || !isCurrentDataReady.value)
+  )
+
+  watch(
+    [refreshKey, preferencesReady],
+    ([, ready]) => {
+      if (import.meta.client && ready) {
+        void asyncData.refresh()
+      }
+    },
+    { immediate: true }
   )
 
   return {

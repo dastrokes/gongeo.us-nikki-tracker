@@ -901,9 +901,11 @@
     "variation_filter": {
       "all_evos": "全部进化"
     },
-    "view_mode": {
-      "standard": "标准视图",
-      "thumbnail": "缩略视图"
+    "view_mode": {},
+    "listing_settings": "列表设置",
+    "settings": {
+      "thumbnail_view": "缩略视图",
+      "compact_page_size": "每页显示更多"
     },
     "advanced_filters": "高级筛选",
     "advanced_filters_empty": "当前部位没有可用的高级筛选。",

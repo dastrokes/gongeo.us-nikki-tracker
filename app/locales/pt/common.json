@@ -901,9 +901,11 @@
     "variation_filter": {
       "all_evos": "Todas as evos"
     },
-    "view_mode": {
-      "standard": "Visualização padrão",
-      "thumbnail": "Visualização em miniatura"
+    "view_mode": {},
+    "listing_settings": "Configurações da lista",
+    "settings": {
+      "thumbnail_view": "Visualização em miniatura",
+      "compact_page_size": "Mostrar mais por página"
     },
     "advanced_filters": "Filtros avançados",
     "advanced_filters_empty": "Não há filtros avançados disponíveis para este slot.",

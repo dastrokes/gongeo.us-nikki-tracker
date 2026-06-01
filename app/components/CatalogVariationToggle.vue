@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex w-full max-w-40 items-center gap-2 self-start text-sm whitespace-nowrap sm:w-40"
+    class="flex w-full items-center gap-2 self-start text-sm whitespace-nowrap sm:w-40"
   >
     <n-select
       :value="value"

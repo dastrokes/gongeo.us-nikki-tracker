@@ -901,9 +901,11 @@
     "variation_filter": {
       "all_evos": "Alle Evos"
     },
-    "view_mode": {
-      "standard": "Standardansicht",
-      "thumbnail": "Miniaturansicht"
+    "view_mode": {},
+    "listing_settings": "Listeneinstellungen",
+    "settings": {
+      "thumbnail_view": "Miniaturansicht",
+      "compact_page_size": "Mehr pro Seite anzeigen"
     },
     "advanced_filters": "Erweiterte Filter",
     "advanced_filters_empty": "Es sind keine erweiterten Filter für diesen Slot verfügbar.",

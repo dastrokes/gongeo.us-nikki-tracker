@@ -1,7 +1,6 @@
 <template>
   <CompendiumListingPage
     v-model:page="currentPage"
-    v-model:quality-filter="qualityFilter"
     v-model:batch-scope="batchScope"
     :entries="entries"
     :total-count="totalItems"
@@ -32,18 +31,20 @@
         :options="compendiumSectionOptions"
         :render-label="renderCompendiumSectionOptionLabel"
         size="small"
-        class="w-full max-w-40 self-start sm:w-40"
+        class="w-full self-start sm:w-40"
         :show-checkmark="false"
         :clearable="false"
         @update:value="handleCompendiumSectionChange"
       />
+
+      <CompendiumQualityFilter v-model:value="qualityFilter" />
 
       <n-select
         v-model:value="wardrobeFilter"
         :options="wardrobeFilterOptions"
         :render-label="renderWardrobeFilterOptionLabel"
         size="small"
-        class="w-full max-w-40 self-start sm:w-40"
+        class="w-full self-start sm:w-40"
         :show-checkmark="false"
         :clearable="false"
         :disabled="!isWardrobeReady"
@@ -56,7 +57,7 @@
         :options="pieceFilterOptions"
         :render-label="renderIconSelectOptionLabel"
         size="small"
-        class="w-full max-w-40 self-start sm:w-40"
+        class="w-full self-start sm:w-40"
         :show-checkmark="false"
         :clearable="false"
       />

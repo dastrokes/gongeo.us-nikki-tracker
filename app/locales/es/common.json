@@ -358,7 +358,10 @@
       "edit_mode": "Modo edición",
       "view_mode": "Modo vista",
       "mark_owned": "Marcar como propio",
-      "mark_unowned": "Marcar como no propio"
+      "mark_unowned": "Marcar como no propio",
+      "mark_all_variations": "Mark All Variations",
+      "mark_glowup": "Mark Glow Up",
+      "unmark_glowup": "Unmark Glow Up"
     },
     "status": {
       "owned": "Propio",

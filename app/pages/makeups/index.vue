@@ -102,9 +102,9 @@
           :placeholder="t('compendium.filter_style')"
         />
 
-        <n-select
-          v-model:value="obtainFilter"
-          :options="obtainOptions"
+        <n-tree-select
+          v-model:value="sourceTreeFilter"
+          :options="sourceTreeOptions"
           size="small"
           class="min-w-0"
           clearable
@@ -296,7 +296,7 @@
     DotCircle,
   } from '@vicons/fa'
   import { NIcon } from 'naive-ui'
-  import type { SelectOption } from 'naive-ui'
+  import type { SelectOption, TreeSelectOption } from 'naive-ui'
 
   definePageMeta({
     key: 'makeups-listing',
@@ -390,6 +390,9 @@
       fallbackLabel: (id) => `Obtain ${id}`,
     })
   )
+  const sourceTreeOptions = computed<TreeSelectOption[]>(() =>
+    createSourceTreeFilterOptions(obtainOptions.value, t, 'makeup')
+  )
   const availableObtainValues = computed(() =>
     obtainOptions.value.map((option) => option.value as string)
   )
@@ -470,6 +473,12 @@
     resolveObtain(
       (route.query.source ?? route.query.obtain)?.toString() ?? null
     )
+  const resolveRouteSourceDetailFilter = (source: string | null) =>
+    resolveSourceDetailFilterValue(
+      route.query.sourceDetail?.toString() ?? null,
+      source,
+      'makeup'
+    )
 
   const initialSlotFilter = resolveRouteSlotFilter()
   const slotFilter = ref<MakeupSlot | null>(initialSlotFilter)
@@ -477,6 +486,22 @@
   const versionFilter = ref<string | null>(resolveRouteVersionFilter())
   const styleFilter = ref<string | null>(resolveRouteStyleFilter())
   const obtainFilter = ref<string | null>(resolveRouteSourceFilter())
+  const sourceDetailFilter = ref<string | null>(
+    resolveRouteSourceDetailFilter(obtainFilter.value)
+  )
+  const sourceTreeFilter = computed({
+    get: () =>
+      getSourceTreeFilterValue(
+        obtainFilter.value,
+        sourceDetailFilter.value,
+        'makeup'
+      ),
+    set: (value: string | null) => {
+      const next = parseSourceTreeFilterValue(value, 'makeup')
+      obtainFilter.value = resolveObtain(next.source)
+      sourceDetailFilter.value = next.sourceDetail
+    },
+  })
   const variationFilter = ref<CatalogVariationFilter>(
     resolveVariationFilter(route.query.variations?.toString() ?? null)
   )
@@ -559,6 +584,7 @@
       versionFilter.value !== null ||
       styleFilter.value !== null ||
       obtainFilter.value !== null ||
+      sourceDetailFilter.value !== null ||
       makeupKindFilter.value !== 'all' ||
       variationFilter.value !== 'base' ||
       wardrobeFilter.value !== 'all'
@@ -569,6 +595,8 @@
       `makeups-${slotFilter.value}-${qualityFilter.value ?? 'all'}-${
         styleFilter.value ?? 'all'
       }-${versionFilter.value ?? 'all'}-${obtainFilter.value ?? 'all'}-${
+        sourceDetailFilter.value ?? 'all'
+      }-${
         makeupKindFilter.value
       }-${variationFilter.value}-${wardrobeFilter.value}-${activeRegionScope.value}-${getListingWardrobeCacheKey(
         wardrobeFilter.value,
@@ -592,6 +620,7 @@
         version: versionFilter.value,
         style: styleFilter.value,
         source: obtainFilter.value,
+        sourceDetail: sourceDetailFilter.value,
         kind: makeupKindFilter.value,
         variations: variationFilter.value,
       },
@@ -683,6 +712,7 @@
       version: versionFilter.value,
       style: styleFilter.value,
       obtain: obtainFilter.value,
+      sourceDetail: sourceDetailFilter.value,
       kind: makeupKindFilter.value,
       variations: variationFilter.value,
       wardrobe: wardrobeFilter.value,
@@ -792,6 +822,9 @@
       styleFilter.value && { style: styleFilter.value }),
     ...(primaryFilter !== 'source' &&
       obtainFilter.value && { source: obtainFilter.value }),
+    ...(sourceDetailFilter.value && {
+      sourceDetail: sourceDetailFilter.value,
+    }),
     ...(makeupKindFilter.value !== 'all' && { kind: makeupKindFilter.value }),
     ...(variationFilter.value !== 'base' && {
       variations: variationFilter.value,
@@ -807,6 +840,9 @@
     ...(versionFilter.value && { version: versionFilter.value }),
     ...(styleFilter.value && { style: styleFilter.value }),
     ...(obtainFilter.value && { source: obtainFilter.value }),
+    ...(sourceDetailFilter.value && {
+      sourceDetail: sourceDetailFilter.value,
+    }),
   })
   const buildCrossCompendiumQuery = ({
     includePage = true,
@@ -815,6 +851,9 @@
     ...(versionFilter.value && { version: versionFilter.value }),
     ...(styleFilter.value && { style: styleFilter.value }),
     ...(obtainFilter.value && { source: obtainFilter.value }),
+    ...(sourceDetailFilter.value && {
+      sourceDetail: sourceDetailFilter.value,
+    }),
     ...(variationFilter.value !== 'base' && {
       variations: variationFilter.value,
     }),
@@ -1078,11 +1117,20 @@
     }
   })
   watch(
-    [routeSourceFilter, () => route.query.source, () => route.query.obtain],
+    [
+      routeSourceFilter,
+      () => route.query.source,
+      () => route.query.obtain,
+      () => route.query.sourceDetail,
+    ],
     () => {
       const nextSource = resolveRouteSourceFilter()
       if (nextSource !== obtainFilter.value) {
         obtainFilter.value = nextSource
+      }
+      const nextSourceDetail = resolveRouteSourceDetailFilter(nextSource)
+      if (nextSourceDetail !== sourceDetailFilter.value) {
+        sourceDetailFilter.value = nextSourceDetail
       }
     }
   )
@@ -1135,6 +1183,14 @@
   })
   watch(obtainFilter, () => {
     currentPage.value = 1
+    sourceDetailFilter.value = resolveSourceDetailFilterValue(
+      sourceDetailFilter.value,
+      obtainFilter.value,
+      'makeup'
+    )
+  })
+  watch(sourceDetailFilter, () => {
+    currentPage.value = 1
   })
   watch(variationFilter, () => {
     currentPage.value = 1
@@ -1157,6 +1213,7 @@
       versionFilter,
       styleFilter,
       obtainFilter,
+      sourceDetailFilter,
       makeupKindFilter,
       variationFilter,
       wardrobeFilter,
@@ -1181,6 +1238,7 @@
     versionFilter.value = null
     styleFilter.value = null
     obtainFilter.value = null
+    sourceDetailFilter.value = null
     makeupKindFilter.value = 'all'
     variationFilter.value = 'base'
     wardrobeFilter.value = 'all'

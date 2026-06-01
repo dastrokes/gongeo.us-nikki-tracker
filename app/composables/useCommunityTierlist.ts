@@ -6,6 +6,7 @@ export type CommunityScopeFilters = {
   style?: string
   label?: string
   source?: string
+  sourceDetail?: string
   type?: string
 }
 
@@ -25,6 +26,7 @@ export type CommunityScopeFromTierlistInput = {
   styleFilter: string | null
   labelFilter: string | null
   obtainFilter: string | null
+  sourceDetailFilter: string | null
 }
 
 export const COMMUNITY_TIER_KEYS = ['S', 'A', 'B', 'C', 'D', 'F'] as const
@@ -391,8 +393,16 @@ export const resolveCommunityScope = (
       : scopeType === 'momo'
         ? ['quality', 'version', 'source']
         : scopeType === 'outfits'
-          ? ['quality', 'version', 'style', 'label', 'source']
-          : ['quality', 'version', 'style', 'label', 'source', 'type']
+          ? ['quality', 'version', 'style', 'label', 'source', 'sourceDetail']
+          : [
+              'quality',
+              'version',
+              'style',
+              'label',
+              'source',
+              'sourceDetail',
+              'type',
+            ]
   const supportedKeySet = new Set(supportedKeys)
   const unsupportedKeys = keys.filter((key) => !supportedKeySet.has(key))
   if (unsupportedKeys.length > 0) return null
@@ -429,6 +439,14 @@ export const resolveCommunityScope = (
       const source = normalizeCommunityStringFilter(scopeFilters.source)
       if (!source) return null
       normalizedFilters.source = source
+    }
+
+    if ('sourceDetail' in scopeFilters) {
+      const sourceDetail = normalizeCommunityStringFilter(
+        scopeFilters.sourceDetail
+      )
+      if (!sourceDetail) return null
+      normalizedFilters.sourceDetail = sourceDetail
     }
   }
 
@@ -494,6 +512,9 @@ export const resolveCommunityScopeFromTierlistFilters = (
     if (input.obtainFilter) {
       scopeFilters.source = input.obtainFilter
     }
+    if (input.sourceDetailFilter) {
+      scopeFilters.sourceDetail = input.sourceDetailFilter
+    }
 
     return {
       scopeType: 'outfits',
@@ -524,6 +545,9 @@ export const resolveCommunityScopeFromTierlistFilters = (
     }
     if (input.obtainFilter) {
       scopeFilters.source = input.obtainFilter
+    }
+    if (input.sourceDetailFilter) {
+      scopeFilters.sourceDetail = input.sourceDetailFilter
     }
     if (input.itemTypeFilter) {
       scopeFilters.type = input.itemTypeFilter

@@ -357,10 +357,10 @@
             :placeholder="t('compendium.filter_label')"
           />
 
-          <n-select
+          <n-tree-select
             v-if="mode !== 'banners'"
-            v-model:value="obtainFilter"
-            :options="obtainOptions"
+            v-model:value="sourceTreeFilter"
+            :options="sourceTreeOptions"
             size="small"
             class="min-w-0"
             clearable
@@ -1021,7 +1021,11 @@
     useSortable,
     type UseSortableOptions,
   } from '@vueuse/integrations/useSortable'
-  import type { SelectGroupOption, SelectOption } from 'naive-ui'
+  import type {
+    SelectGroupOption,
+    SelectOption,
+    TreeSelectOption,
+  } from 'naive-ui'
   import type { SortableEvent } from 'sortablejs'
   import { BANNER_DATA } from '~~/data/banners'
 
@@ -1170,6 +1174,27 @@
             : labelKey,
     })
   })
+  const sourceDetailEntity = computed<SourceDetailEntity | null>(() =>
+    mode.value === 'items' ||
+    mode.value === 'outfits' ||
+    mode.value === 'makeups'
+      ? (mode.value.slice(0, -1) as SourceDetailEntity)
+      : null
+  )
+  const sourceTreeOptions = computed<TreeSelectOption[]>(() => {
+    if (!sourceDetailEntity.value) {
+      return obtainOptions.value.map((option) => ({
+        ...option,
+        key: String(option.value),
+      }))
+    }
+
+    return createSourceTreeFilterOptions(
+      obtainOptions.value,
+      t,
+      sourceDetailEntity.value
+    )
+  })
 
   const availableObtainValues = computed(() =>
     obtainOptions.value.map((option) => option.value as string)
@@ -1290,6 +1315,13 @@
 
     return resolveObtainFilterValue(value, availableObtainValues.value)
   }
+  const resolveSourceDetail = (
+    value: string | null | undefined,
+    source: string | null
+  ) =>
+    sourceDetailEntity.value
+      ? resolveSourceDetailFilterValue(value, source, sourceDetailEntity.value)
+      : null
 
   const resolveItemType = (value?: string | null): ItemType | null => {
     if (!value || value === 'all') return null
@@ -1377,6 +1409,33 @@
       (route.query.source ?? route.query.obtain)?.toString() ?? null
     )
   )
+  const sourceDetailFilter = ref<string | null>(
+    resolveSourceDetail(
+      route.query.sourceDetail?.toString() ?? null,
+      obtainFilter.value
+    )
+  )
+  const sourceTreeFilter = computed({
+    get: () =>
+      sourceDetailEntity.value
+        ? getSourceTreeFilterValue(
+            obtainFilter.value,
+            sourceDetailFilter.value,
+            sourceDetailEntity.value
+          )
+        : obtainFilter.value,
+    set: (value: string | null) => {
+      if (!sourceDetailEntity.value) {
+        obtainFilter.value = resolveObtain(value)
+        sourceDetailFilter.value = null
+        return
+      }
+
+      const next = parseSourceTreeFilterValue(value, sourceDetailEntity.value)
+      obtainFilter.value = resolveObtain(next.source)
+      sourceDetailFilter.value = next.sourceDetail
+    },
+  })
   const advancedFilters = ref<ItemSearchAdvancedFilters>(
     normalizeItemSearchCompendiumAdvancedFilters(
       resolveItemSearchAdvancedFilters(
@@ -1516,6 +1575,10 @@
 
     mode.value = nextMode
     obtainFilter.value = resolveObtain(obtainFilter.value)
+    sourceDetailFilter.value = resolveSourceDetail(
+      sourceDetailFilter.value,
+      obtainFilter.value
+    )
   }
 
   const hasFilters = computed(() => {
@@ -1531,6 +1594,7 @@
       (supportsStyleFilter.value && styleFilter.value !== null) ||
       effectiveLabelFilter.value !== null ||
       obtainFilter.value !== null ||
+      sourceDetailFilter.value !== null ||
       (mode.value === 'items' &&
         (itemTypeFilter.value !== null ||
           itemCategoryFilter.value !== null ||
@@ -1656,7 +1720,7 @@
         activeAdvancedFiltersKey.value || 'none'
       }-${styleFilter.value ?? 'all'}-${effectiveLabelFilter.value ?? 'all'}-${
         versionFilter.value ?? 'all'
-      }-${obtainFilter.value ?? 'all'}`
+      }-${obtainFilter.value ?? 'all'}-${sourceDetailFilter.value ?? 'all'}`
   )
   const { data: itemSearchFacets } = await useAsyncData(
     'tierlist-item-facets',
@@ -1996,6 +2060,10 @@
       query.source = obtainFilter.value
     }
 
+    if (sourceDetailFilter.value) {
+      query.sourceDetail = sourceDetailFilter.value
+    }
+
     return query
   }
 
@@ -2029,6 +2097,7 @@
       styleFilter,
       labelFilter,
       obtainFilter,
+      sourceDetailFilter,
       variationFilter,
       wardrobeFilter,
     ],
@@ -2048,6 +2117,13 @@
 
   watch(itemCategoryFilter, () => {
     itemSubcategoryFilter.value = null
+  })
+
+  watch(obtainFilter, () => {
+    sourceDetailFilter.value = resolveSourceDetail(
+      sourceDetailFilter.value,
+      obtainFilter.value
+    )
   })
 
   const toBannerVersion = toMajorMinorVersion
@@ -2166,6 +2242,7 @@
           style: styleFilter.value,
           label: effectiveLabelFilter.value,
           source: obtainFilter.value,
+          sourceDetail: sourceDetailFilter.value,
           variations: variationFilter.value,
         },
         page: 1,
@@ -2210,6 +2287,7 @@
         style: styleFilter.value,
         label: effectiveLabelFilter.value,
         source: obtainFilter.value,
+        sourceDetail: sourceDetailFilter.value,
         variations: variationFilter.value,
         ...activeAdvancedFilters.value,
       },
@@ -2251,6 +2329,7 @@
         version: versionFilter.value,
         style: styleFilter.value,
         source: obtainFilter.value,
+        sourceDetail: sourceDetailFilter.value,
         variations: variationFilter.value,
       },
       page: 1,
@@ -2910,6 +2989,7 @@
       styleFilter: styleFilter.value,
       labelFilter: effectiveLabelFilter.value,
       obtainFilter: obtainFilter.value,
+      sourceDetailFilter: sourceDetailFilter.value,
     })
   )
 

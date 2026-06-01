@@ -358,7 +358,10 @@
       "edit_mode": "Edit Mode",
       "view_mode": "View Mode",
       "mark_owned": "Mark Owned",
-      "mark_unowned": "Mark Unowned"
+      "mark_unowned": "Mark Unowned",
+      "mark_all_variations": "Mark All Variations",
+      "mark_glowup": "Mark Glow Up",
+      "unmark_glowup": "Unmark Glow Up"
     },
     "status": {
       "owned": "Owned",

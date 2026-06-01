@@ -120,10 +120,7 @@
                   <template #icon>
                     <n-icon>
                       <BookOpen v-if="editMode" />
-                      <component
-                        :is="editModeIcon"
-                        v-else
-                      />
+                      <UserEdit v-else />
                     </n-icon>
                   </template>
                 </n-button>
@@ -349,9 +346,15 @@
 </template>
 
 <script setup lang="ts">
-  import { BookOpen, Edit, SortAmountDown, Star, Th, ThLarge } from '@vicons/fa'
+  import {
+    BookOpen,
+    SortAmountDown,
+    Star,
+    Th,
+    ThLarge,
+    UserEdit,
+  } from '@vicons/fa'
   import type { DropdownOption } from 'naive-ui'
-  import type { Component } from 'vue'
 
   type WardrobeBatchMenuOption = DropdownOption & { key: string }
 
@@ -376,7 +379,6 @@
       showClearFilters?: boolean
       qualityOptions?: number[]
       disabledQualities?: number[]
-      editModeIcon?: Component
       entryKey?: (entry: unknown, index: number) => string | number
       markOwnedMenuOptions?: WardrobeBatchMenuOption[]
     }>(),
@@ -384,7 +386,6 @@
       showClearFilters: false,
       qualityOptions: () => [5, 4, 3, 2],
       disabledQualities: () => [],
-      editModeIcon: () => Edit,
       entryKey: undefined,
       markOwnedMenuOptions: () => [],
     }

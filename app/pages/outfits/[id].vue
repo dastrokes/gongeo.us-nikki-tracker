@@ -145,12 +145,22 @@
                       </span>
                     </n-tag>
                   </NuxtLinkLocale>
+                  <WardrobeStatusBadge
+                    v-if="wardrobeInitialized && currentOutfitWardrobeStatus"
+                    :status="currentOutfitWardrobeStatus"
+                    :owned="outfitProgress.owned"
+                    :total="outfitProgress.total"
+                    :quality="outfit.quality"
+                    :evo-level="currentOutfitDisplayEvoLevel"
+                    :glow-up-owned="currentOutfitDisplayGlowUpOwned"
+                  />
                   <WardrobeOwnedButton
                     v-if="wardrobeInitialized"
-                    :owned="outfitProgress.status === 'owned'"
+                    :owned="currentOutfitActionOwned"
                     :disabled="!isWardrobeReady || outfitItems.length === 0"
                     :loading="wardrobeSaving"
                     :quality="outfit.quality"
+                    :evo-level="currentOutfitDisplayEvoLevel"
                     :menu-options="outfitVariationMarkOptions"
                     variant="overlay"
                     @toggle="toggleCurrentOutfitOwned"
@@ -488,9 +498,11 @@
     initialized: wardrobeInitialized,
     saving: wardrobeSaving,
     canMutate: isWardrobeReady,
+    ownedItemIds,
     getOutfitProgress,
     markOutfitOwned,
   } = useWardrobe()
+  const ownedItemIdSet = computed(() => new Set(ownedItemIds.value))
   const outfitKey = computed(() => `outfit-${outfitId.value}-${locale.value}`)
 
   const {
@@ -748,7 +760,7 @@
           key: 'all-variations',
           label: t('wardrobe.actions.mark_all_variations'),
         },
-        { key: 'glowup', label: t('wardrobe.actions.mark_glowup') },
+        { key: 'base', label: t('wardrobe.actions.mark_base') },
         { key: 'evo1', label: t('wardrobe.actions.mark_evo1') },
         {
           key: 'evo2',
@@ -760,8 +772,112 @@
           label: t('wardrobe.actions.mark_evo3'),
           disabled: outfit.value.quality < 5,
         },
+        {
+          key: 'glowup',
+          label: t(
+            currentOutfitGlowUpOwned.value
+              ? 'wardrobe.actions.unmark_glowup'
+              : 'wardrobe.actions.mark_glowup'
+          ),
+        },
       ]
     }
+  )
+
+  const getVariantMarkMaxRank = (key: WardrobeVariantMarkKey) => {
+    if (key === 'all-variations') return Number.POSITIVE_INFINITY
+    if (key === 'base') return 0
+    if (key === 'glowup') return 1
+    if (key === 'evo1') return 2
+    if (key === 'evo2') return 3
+    return 4
+  }
+  const getVariantRank = (variantType: VariantType) => {
+    if (variantType === 'base') return 0
+    if (variantType === 'glowup') return 1
+    if (variantType === 'evo1') return 2
+    if (variantType === 'evo2') return 3
+    return 4
+  }
+  const getEvoLevel = (variantType: VariantType) => {
+    if (variantType === 'evo1') return 1
+    if (variantType === 'evo2') return 2
+    if (variantType === 'evo3') return 3
+    return null
+  }
+
+  const currentOutfitEvoLevel = computed(() => {
+    if (!outfit.value || outfitItems.value.length === 0) return null
+
+    return (
+      (['evo3', 'evo2', 'evo1'] as const)
+        .map((variantType) => ({
+          variantType,
+          level: getEvoLevel(variantType),
+        }))
+        .find(({ variantType }) =>
+          outfitItems.value.every((item) =>
+            getRelatedItemIds(item.id, outfit.value!.quality).some(
+              (relatedId) =>
+                getItemVariantType(relatedId) === variantType &&
+                ownedItemIdSet.value.has(relatedId)
+            )
+          )
+        )?.level ?? null
+    )
+  })
+  const currentOutfitGlowUpItemIds = computed(() => {
+    if (!outfit.value || outfitItems.value.length === 0) return []
+
+    return normalizeWardrobeItemIds(
+      outfitItems.value.flatMap((item) =>
+        getRelatedItemIds(item.id, outfit.value!.quality).filter(
+          (relatedId) => getItemVariantType(relatedId) === 'glowup'
+        )
+      )
+    )
+  })
+  const currentOutfitGlowUpOwned = computed(
+    () =>
+      currentOutfitGlowUpItemIds.value.length > 0 &&
+      currentOutfitGlowUpItemIds.value.every((itemId) =>
+        ownedItemIdSet.value.has(itemId)
+      )
+  )
+  const currentOutfitEffectiveOwned = computed(
+    () =>
+      outfitProgress.value.status === 'owned' ||
+      Boolean(currentOutfitEvoLevel.value)
+  )
+  const currentOutfitVariantType = computed(() =>
+    getOutfitVariantType(String(outfitId.value))
+  )
+  const currentOutfitActionOwned = computed(() =>
+    currentOutfitVariantType.value === 'base'
+      ? currentOutfitEffectiveOwned.value
+      : outfitProgress.value.status === 'owned'
+  )
+  const currentOutfitWardrobeStatus = computed(() => {
+    if (currentOutfitVariantType.value === 'base') {
+      if (currentOutfitEvoLevel.value) return 'evo-owned'
+      if (currentOutfitGlowUpOwned.value) return 'glowup-owned'
+      return outfitProgress.value.status === 'missing'
+        ? null
+        : outfitProgress.value.status
+    }
+    return outfitProgress.value.status === 'missing'
+      ? null
+      : outfitProgress.value.status
+  })
+  const currentOutfitDisplayEvoLevel = computed(() =>
+    currentOutfitVariantType.value === 'base'
+      ? currentOutfitEvoLevel.value
+      : null
+  )
+  const currentOutfitDisplayGlowUpOwned = computed(
+    () =>
+      currentOutfitVariantType.value === 'base' &&
+      currentOutfitGlowUpOwned.value
   )
 
   const confirmOutfitUnowned = () =>
@@ -780,12 +896,37 @@
     })
 
   const toggleCurrentOutfitOwned = async () => {
-    const owned = outfitProgress.value.status !== 'owned'
+    const owned = !currentOutfitActionOwned.value
     if (!owned && !(await confirmOutfitUnowned())) {
       return
     }
 
     try {
+      if (!owned && outfit.value) {
+        const currentRank = getVariantRank(currentOutfitVariantType.value)
+        const targetOutfitIds = getRelatedOutfitIds(
+          outfitId.value,
+          outfit.value.quality
+        ).filter(
+          (relatedId) =>
+            getVariantRank(getOutfitVariantType(String(relatedId))) >=
+            currentRank
+        )
+
+        await catalogIndex.load(['outfits', 'outfitItems'])
+        const index = catalogIndex.index.value
+        const itemIds = normalizeWardrobeItemIds(
+          targetOutfitIds.flatMap(
+            (targetOutfitId) => index?.outfitItemsById.get(targetOutfitId) ?? []
+          )
+        )
+
+        if (itemIds.length > 0) {
+          await markOutfitOwned(itemIds, false)
+        }
+        return
+      }
+
       await markOutfitOwned(
         outfitItems.value.map((item) => item.id),
         owned
@@ -804,13 +945,26 @@
         outfitId.value,
         outfit.value.quality
       )
-      const targetOutfitIds =
-        variantKey === 'all-variations'
-          ? relatedOutfitIds
-          : relatedOutfitIds.filter(
-              (relatedId) =>
-                getOutfitVariantType(String(relatedId)) === variantKey
-            )
+      const maxRank = getVariantMarkMaxRank(variantKey)
+      if (variantKey === 'glowup' && currentOutfitGlowUpOwned.value) {
+        await markOutfitOwned(currentOutfitGlowUpItemIds.value, false)
+        return
+      }
+
+      const targetOutfitIds = relatedOutfitIds.filter(
+        (relatedId) =>
+          getVariantRank(getOutfitVariantType(String(relatedId))) <= maxRank
+      )
+      const clearOutfitIds =
+        Number.isFinite(maxRank) && variantKey !== 'glowup'
+          ? relatedOutfitIds.filter((relatedId) => {
+              const variantType = getOutfitVariantType(String(relatedId))
+              return (
+                variantType !== 'glowup' &&
+                getVariantRank(variantType) > maxRank
+              )
+            })
+          : []
       await catalogIndex.load(['outfits', 'outfitItems'])
       const index = catalogIndex.index.value
       const itemIds = normalizeWardrobeItemIds(
@@ -818,9 +972,17 @@
           (targetOutfitId) => index?.outfitItemsById.get(targetOutfitId) ?? []
         )
       )
+      const clearItemIds = normalizeWardrobeItemIds(
+        clearOutfitIds.flatMap(
+          (targetOutfitId) => index?.outfitItemsById.get(targetOutfitId) ?? []
+        )
+      )
 
       if (itemIds.length > 0) {
         await markOutfitOwned(itemIds, true)
+      }
+      if (clearItemIds.length > 0) {
+        await markOutfitOwned(clearItemIds, false)
       }
     } catch {
       message.error(t('wardrobe.error.save'))

@@ -358,7 +358,10 @@
       "edit_mode": "編輯模式",
       "view_mode": "檢視模式",
       "mark_owned": "標記為擁有",
-      "mark_unowned": "標記為未擁有"
+      "mark_unowned": "標記為未擁有",
+      "mark_all_variations": "Mark All Variations",
+      "mark_glowup": "Mark Glow Up",
+      "unmark_glowup": "Unmark Glow Up"
     },
     "status": {
       "owned": "已擁有",

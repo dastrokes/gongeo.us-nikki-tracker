@@ -358,7 +358,10 @@
       "edit_mode": "Mode édition",
       "view_mode": "Mode vue",
       "mark_owned": "Marquer comme possédé",
-      "mark_unowned": "Marquer comme non possédé"
+      "mark_unowned": "Marquer comme non possédé",
+      "mark_all_variations": "Marquer toutes les variations",
+      "mark_glowup": "Marquer embelli",
+      "unmark_glowup": "Démarquer embelli"
     },
     "status": {
       "owned": "Possédé",

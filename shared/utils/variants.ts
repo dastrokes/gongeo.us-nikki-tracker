@@ -93,6 +93,45 @@ export function getItemPrefixForOutfitId(outfitId: string): string {
   return OUTFIT_VARIANT_TO_ITEM_PREFIX[getOutfitVariantType(outfitId)]
 }
 
+/**
+ * Returns all related outfit IDs for a given outfit (base + all variants),
+ * limited by the outfit quality. Only 4★ and 5★ outfits have variants.
+ */
+export function getRelatedOutfitIds(baseId: number, quality: number): number[] {
+  if (quality < 4) return [baseId]
+
+  const baseIdNum = parseInt(getBaseOutfitId(baseId.toString()))
+
+  const variations = [
+    baseIdNum,
+    parseInt(`${baseIdNum}01`), // glow-up
+    parseInt(`${baseIdNum}02`), // evo1
+  ]
+
+  if (quality === 5) {
+    variations.push(parseInt(`${baseIdNum}03`)) // evo2
+    variations.push(parseInt(`${baseIdNum}04`)) // evo3
+  }
+
+  return variations
+}
+
+/**
+ * Returns the related outfit ID for a specific variant type, or null when the
+ * requested variant does not exist for the given quality.
+ */
+export function getRelatedOutfitIdForVariant(
+  outfitId: number,
+  quality: number,
+  variantType: VariantType
+): number | null {
+  return (
+    getRelatedOutfitIds(outfitId, quality).find(
+      (relatedId) => getOutfitVariantType(String(relatedId)) === variantType
+    ) ?? null
+  )
+}
+
 // ---------------------------------------------------------------------------
 // Item variant utilities
 // ---------------------------------------------------------------------------

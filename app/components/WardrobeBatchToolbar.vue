@@ -39,7 +39,33 @@
       </div>
 
       <div class="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:items-center">
+        <n-dropdown
+          v-if="actionMarkOwnedMenuOptions.length > 0"
+          trigger="click"
+          placement="bottom-end"
+          :options="actionMarkOwnedMenuOptions"
+          :disabled="disabled || activeCount === 0"
+          @select="handleMarkOwnedMenuSelect"
+        >
+          <n-button
+            size="small"
+            type="primary"
+            :disabled="disabled || activeCount === 0"
+            :aria-label="t('wardrobe.actions.mark_owned')"
+          >
+            <template #icon>
+              <n-icon><Check /></n-icon>
+            </template>
+            <span class="inline-flex items-center gap-1">
+              {{ t('wardrobe.actions.mark_owned') }}
+              <n-icon size="10">
+                <CaretDown />
+              </n-icon>
+            </span>
+          </n-button>
+        </n-dropdown>
         <n-button
+          v-else
           size="small"
           type="primary"
           :disabled="disabled || activeCount === 0"
@@ -66,9 +92,12 @@
 </template>
 
 <script setup lang="ts">
-  import { Check, Times } from '@vicons/fa'
+  import { CaretDown, Check, Times } from '@vicons/fa'
+  import type { DropdownOption } from 'naive-ui'
 
   export type WardrobeBatchScope = 'selected' | 'page' | 'all'
+
+  export type WardrobeBatchMenuOption = DropdownOption & { key: string }
 
   const props = defineProps<{
     editMode: boolean
@@ -77,14 +106,37 @@
     pageCount: number
     allMatchingCount: number | null
     disabled?: boolean
+    markOwnedMenuOptions?: WardrobeBatchMenuOption[]
   }>()
 
-  defineEmits<{
+  const emit = defineEmits<{
     (e: 'update:scope', value: WardrobeBatchScope): void
     (e: 'mark-owned' | 'mark-unowned' | 'clear-selection'): void
+    (e: 'mark-owned-menu-select', key: string): void
   }>()
 
   const { t } = useI18n()
+
+  const markOwnedMenuOptions = computed(() => props.markOwnedMenuOptions ?? [])
+  const actionMarkOwnedMenuOptions = computed<WardrobeBatchMenuOption[]>(() =>
+    markOwnedMenuOptions.value.length > 0
+      ? [
+          {
+            key: 'mark-owned',
+            label: t('wardrobe.actions.mark_owned'),
+          },
+          ...markOwnedMenuOptions.value,
+        ]
+      : []
+  )
+
+  const handleMarkOwnedMenuSelect = (key: string | number) => {
+    if (key === 'mark-owned') {
+      emit('mark-owned')
+      return
+    }
+    emit('mark-owned-menu-select', String(key))
+  }
 
   const scopeOptions = computed<
     Array<{ label: string; value: WardrobeBatchScope }>

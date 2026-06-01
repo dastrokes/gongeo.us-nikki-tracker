@@ -37,7 +37,7 @@ export const useCompendiumListingView = (
       return {
         'top-right': 'top-1 right-1 z-20',
         'top-left': 'top-1 left-1 z-20',
-        wardrobe: 'top-1 right-1 z-30',
+        wardrobe: 'right-1 bottom-1 z-30',
       } satisfies Record<ListingCardCorner, string>
     }
 
@@ -49,10 +49,10 @@ export const useCompendiumListingView = (
   })
 
   const nameFadeThumbnailClass =
-    "absolute inset-x-0 bottom-0 z-20 flex h-1/2 w-full flex-col justify-end bg-[url('/images/fade.png')] [background-size:100%_100%] bg-bottom bg-no-repeat px-1.5 pb-1"
+    "absolute inset-x-0 bottom-0 z-20 flex h-16 w-full flex-col justify-end bg-[url('/images/fade.png')] [background-size:100%_100%] bg-bottom bg-no-repeat px-1.5 pb-1"
 
   const nameFadeStandardClass =
-    "absolute right-0 bottom-0 left-0 z-20 bg-[url('/images/fade.png')] [background-size:100%_100%] bg-no-repeat"
+    "absolute right-0 bottom-0 left-0 z-20 flex h-28 flex-col justify-end bg-[url('/images/fade.png')] [background-size:100%_100%] bg-no-repeat"
 
   const setViewMode = (mode: ListingDisplayMode) => {
     viewMode.value = mode

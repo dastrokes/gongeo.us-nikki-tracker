@@ -120,10 +120,7 @@
                   <template #icon>
                     <n-icon>
                       <BookOpen v-if="editMode" />
-                      <component
-                        :is="editModeIcon"
-                        v-else
-                      />
+                      <UserEdit v-else />
                     </n-icon>
                   </template>
                 </n-button>
@@ -200,8 +197,10 @@
       :page-count="entries.length"
       :all-matching-count="totalCount"
       :disabled="!wardrobeReady || loading"
+      :mark-owned-menu-options="markOwnedMenuOptions"
       @mark-owned="emit('mark-owned')"
       @mark-unowned="emit('mark-unowned')"
+      @mark-owned-menu-select="(key) => emit('mark-owned-menu-select', key)"
       @clear-selection="emit('clear-selection')"
     />
 
@@ -347,8 +346,17 @@
 </template>
 
 <script setup lang="ts">
-  import { BookOpen, Edit, SortAmountDown, Star, Th, ThLarge } from '@vicons/fa'
-  import type { Component } from 'vue'
+  import {
+    BookOpen,
+    SortAmountDown,
+    Star,
+    Th,
+    ThLarge,
+    UserEdit,
+  } from '@vicons/fa'
+  import type { DropdownOption } from 'naive-ui'
+
+  type WardrobeBatchMenuOption = DropdownOption & { key: string }
 
   type EntryCountLabels = {
     singular: string
@@ -371,15 +379,15 @@
       showClearFilters?: boolean
       qualityOptions?: number[]
       disabledQualities?: number[]
-      editModeIcon?: Component
       entryKey?: (entry: unknown, index: number) => string | number
+      markOwnedMenuOptions?: WardrobeBatchMenuOption[]
     }>(),
     {
       showClearFilters: false,
       qualityOptions: () => [5, 4, 3, 2],
       disabledQualities: () => [],
-      editModeIcon: () => Edit,
       entryKey: undefined,
+      markOwnedMenuOptions: () => [],
     }
   )
 
@@ -390,6 +398,7 @@
     'open-tierlist': []
     'clear-filters': []
     'mark-owned': []
+    'mark-owned-menu-select': [key: string]
     'mark-unowned': []
     'clear-selection': []
   }>()

@@ -16,7 +16,6 @@
     :tierlist-disabled="isTierlistDisabled"
     :selected-count="selectedMomoIds.size"
     :show-clear-filters="hasFilters"
-    :edit-mode-icon="UserEdit"
     @toggle-edit-mode="toggleEditMode"
     @open-tierlist="goToTierlist"
     @retry="retryFetch"
@@ -158,7 +157,7 @@
           </div>
 
           <div
-            v-if="wardrobeInitialized && !editMode && isMomoOwned(entry.id)"
+            v-if="wardrobeInitialized && isMomoOwned(entry.id)"
             class="absolute"
             :class="overlayCornerClasses.wardrobe"
             @click.stop
@@ -172,16 +171,8 @@
           <div
             :class="
               isThumbnailView
-                ? nameFadeThumbnailClass
-                : [
-                    nameFadeStandardClass,
-                    'p-3',
-                    wardrobeInitialized
-                      ? !editMode && isMomoOwned(entry.id)
-                        ? 'pr-10 sm:pr-12'
-                        : ''
-                      : '',
-                  ]
+                ? [nameFadeThumbnailClass, 'pr-6']
+                : [nameFadeStandardClass, 'p-3', 'pr-8']
             "
           >
             <p
@@ -189,7 +180,7 @@
               :class="
                 isThumbnailView
                   ? 'line-clamp-2 w-full min-w-0 text-left text-[10px] leading-snug'
-                  : 'line-clamp-2 text-xs sm:text-sm'
+                  : 'line-clamp-2 text-xs leading-snug sm:text-sm'
               "
             >
               {{ entry.name }}
@@ -204,7 +195,6 @@
 <script setup lang="ts">
   import {
     Star,
-    UserEdit,
     Tshirt,
     ListAlt,
     PaintBrush,

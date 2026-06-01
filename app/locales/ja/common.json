@@ -358,7 +358,10 @@
       "edit_mode": "編集モード",
       "view_mode": "表示モード",
       "mark_owned": "所持済みにする",
-      "mark_unowned": "未所持にする"
+      "mark_unowned": "未所持にする",
+      "mark_all_variations": "すべてのバリエーションをマーク",
+      "mark_glowup": "煥新済をマーク",
+      "unmark_glowup": "煥新済のマークを解除"
     },
     "status": {
       "owned": "所持済み",

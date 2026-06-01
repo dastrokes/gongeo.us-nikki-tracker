@@ -99,9 +99,9 @@
             :placeholder="t('compendium.filter_label')"
           />
 
-          <n-select
-            v-model:value="obtainFilter"
-            :options="obtainOptions"
+          <n-tree-select
+            v-model:value="sourceTreeFilter"
+            :options="sourceTreeOptions"
             size="small"
             class="min-w-0"
             clearable
@@ -404,6 +404,7 @@
     DropdownOption,
     SelectGroupOption,
     SelectOption,
+    TreeSelectOption,
   } from 'naive-ui'
 
   definePageMeta({
@@ -561,6 +562,9 @@
       })
       .map(({ label, value }) => ({ label, value }))
   })
+  const sourceTreeOptions = computed<TreeSelectOption[]>(() =>
+    createSourceTreeFilterOptions(obtainOptions.value, t, 'item')
+  )
 
   const availableObtainValues = computed(() =>
     obtainOptions.value.map((option) => option.value as string)
@@ -650,6 +654,12 @@
     resolveObtain(
       (route.query.source ?? route.query.obtain)?.toString() ?? null
     )
+  const resolveRouteSourceDetailFilter = (source: string | null) =>
+    resolveSourceDetailFilterValue(
+      route.query.sourceDetail?.toString() ?? null,
+      source,
+      'item'
+    )
   const initialTypeFilter = resolveRouteTypeFilter()
   const typeFilter = ref<string | null>(initialTypeFilter)
 
@@ -670,6 +680,22 @@
   const styleFilter = ref<string | null>(resolveRouteStyleFilter())
   const labelFilter = ref<string | null>(resolveRouteLabelFilter())
   const obtainFilter = ref<string | null>(resolveRouteSourceFilter())
+  const sourceDetailFilter = ref<string | null>(
+    resolveRouteSourceDetailFilter(obtainFilter.value)
+  )
+  const sourceTreeFilter = computed({
+    get: () =>
+      getSourceTreeFilterValue(
+        obtainFilter.value,
+        sourceDetailFilter.value,
+        'item'
+      ),
+    set: (value: string | null) => {
+      const next = parseSourceTreeFilterValue(value, 'item')
+      obtainFilter.value = resolveObtain(next.source)
+      sourceDetailFilter.value = next.sourceDetail
+    },
+  })
   const variationFilter = ref<CatalogVariationFilter>(
     resolveVariationFilter(route.query.variations?.toString() ?? null)
   )
@@ -703,6 +729,13 @@
     if (translated !== labelKey) return translated
     return labelKey.startsWith('obtain.') ? source : labelKey
   }
+  const getSourceDetailFilterLabel = (sourceDetail?: string | null) => {
+    if (!sourceDetail) return null
+    const detail = getLimitedBannerSourceDetails('item').find(
+      (entry) => entry.key === sourceDetail
+    )
+    return detail ? t(detail.labelKey) : null
+  }
   const getStyleFilterLabel = (style?: string | null) => {
     if (!style) return null
     const definition = STYLE_BY_KEY.get(style)
@@ -721,6 +754,7 @@
       getVersionFilterLabel(versionFilter.value) ??
       getStyleFilterLabel(styleFilter.value) ??
       getTagFilterLabel(labelFilter.value) ??
+      getSourceDetailFilterLabel(sourceDetailFilter.value) ??
       getSourceFilterLabel(obtainFilter.value)
   )
   const pageTitle = computed(() => {
@@ -849,6 +883,7 @@
       styleFilter.value !== null ||
       labelFilter.value !== null ||
       obtainFilter.value !== null ||
+      sourceDetailFilter.value !== null ||
       pieceFilter.value !== 'all' ||
       variationFilter.value !== 'base' ||
       wardrobeFilter.value !== 'all' ||
@@ -864,6 +899,7 @@
       style: styleFilter.value,
       label: labelFilter.value,
       obtain: obtainFilter.value,
+      sourceDetail: sourceDetailFilter.value,
       piece: pieceFilter.value,
       variations: variationFilter.value,
       wardrobe: wardrobeFilter.value,
@@ -898,7 +934,7 @@
           styleFilter.value ?? 'all'
         }-${labelFilter.value ?? 'all'}-${
           versionFilter.value ?? 'all'
-        }-${obtainFilter.value ?? 'all'}`
+        }-${obtainFilter.value ?? 'all'}-${sourceDetailFilter.value ?? 'all'}`
       : 'item-facets-disabled'
   )
   const cacheKey = computed(
@@ -911,7 +947,7 @@
         styleFilter.value ?? 'all'
       }-${labelFilter.value ?? 'all'}-${versionFilter.value ?? 'all'}-${
         obtainFilter.value ?? 'all'
-      }-${pieceFilter.value}-${variationFilter.value}-${
+      }-${sourceDetailFilter.value ?? 'all'}-${pieceFilter.value}-${variationFilter.value}-${
         wardrobeFilter.value
       }-${activeRegionScope.value}-${getListingWardrobeCacheKey(
         wardrobeFilter.value,
@@ -927,6 +963,7 @@
     style: styleFilter.value,
     label: labelFilter.value,
     source: obtainFilter.value,
+    sourceDetail: sourceDetailFilter.value,
     piece: pieceFilter.value,
     variations: variationFilter.value,
     ...activeAdvancedFilters.value,
@@ -1165,6 +1202,9 @@
       labelFilter.value && { label: labelFilter.value }),
     ...(primaryFilter !== 'source' &&
       obtainFilter.value && { source: obtainFilter.value }),
+    ...(sourceDetailFilter.value && {
+      sourceDetail: sourceDetailFilter.value,
+    }),
     ...(includePiece &&
       pieceFilter.value !== 'all' && {
         piece: pieceFilter.value,
@@ -1193,6 +1233,9 @@
     ...(styleFilter.value && { style: styleFilter.value }),
     ...(labelFilter.value && { label: labelFilter.value }),
     ...(obtainFilter.value && { source: obtainFilter.value }),
+    ...(sourceDetailFilter.value && {
+      sourceDetail: sourceDetailFilter.value,
+    }),
     ...(variationFilter.value !== 'base' && {
       variations: variationFilter.value,
     }),
@@ -1684,6 +1727,9 @@
             }),
             ...(versionFilter.value && { version: versionFilter.value }),
             ...(obtainFilter.value && { source: obtainFilter.value }),
+            ...(sourceDetailFilter.value && {
+              sourceDetail: sourceDetailFilter.value,
+            }),
           },
         })
       )
@@ -1766,11 +1812,20 @@
   })
 
   watch(
-    [routeSourceFilter, () => route.query.source, () => route.query.obtain],
+    [
+      routeSourceFilter,
+      () => route.query.source,
+      () => route.query.obtain,
+      () => route.query.sourceDetail,
+    ],
     () => {
       const nextSource = resolveRouteSourceFilter()
       if (nextSource !== obtainFilter.value) {
         obtainFilter.value = nextSource
+      }
+      const nextSourceDetail = resolveRouteSourceDetailFilter(nextSource)
+      if (nextSourceDetail !== sourceDetailFilter.value) {
+        sourceDetailFilter.value = nextSourceDetail
       }
     }
   )
@@ -1841,6 +1896,15 @@
 
   watch(obtainFilter, () => {
     currentPage.value = 1
+    sourceDetailFilter.value = resolveSourceDetailFilterValue(
+      sourceDetailFilter.value,
+      obtainFilter.value,
+      'item'
+    )
+  })
+
+  watch(sourceDetailFilter, () => {
+    currentPage.value = 1
   })
 
   watch(variationFilter, () => {
@@ -1875,6 +1939,7 @@
       styleFilter,
       labelFilter,
       obtainFilter,
+      sourceDetailFilter,
       pieceFilter,
       variationFilter,
       wardrobeFilter,
@@ -1921,6 +1986,7 @@
     styleFilter.value = null
     labelFilter.value = null
     obtainFilter.value = null
+    sourceDetailFilter.value = null
     pieceFilter.value = 'all'
     variationFilter.value = 'base'
     wardrobeFilter.value = 'all'

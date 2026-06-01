@@ -1,3 +1,8 @@
+import {
+  matchesSourceDetailFilter,
+  type SourceDetailEntity,
+} from '../../shared/utils/sourceDetailFilters'
+
 export type CatalogListingEntity = 'item' | 'outfit'
 export type StaticCatalogListingEntity =
   | CatalogListingEntity
@@ -262,19 +267,21 @@ const matchesMomoSource = (
 
 const matchesStableCatalogFilters = (
   entry: ItemListEntry | OutfitListEntry,
-  filters: Record<string, unknown>
+  filters: Record<string, unknown>,
+  entity: SourceDetailEntity
 ) =>
   matchesQuality(entry, filters) &&
   matchesStyle(entry, filters) &&
   matchesLabel(entry, filters) &&
   matchesVersion(entry, filters) &&
-  matchesSource(entry, filters)
+  matchesSource(entry, filters) &&
+  matchesSourceDetailFilter(entry, filters, entity)
 
 const matchesOutfitStableFilters = (
   outfit: CatalogLocalOutfit,
   filters: Record<string, unknown>
 ) =>
-  matchesStableCatalogFilters(outfit, filters) &&
+  matchesStableCatalogFilters(outfit, filters, 'outfit') &&
   matchesCatalogVariationFilter(
     filters,
     getOutfitVariantType(String(outfit.id))
@@ -284,7 +291,7 @@ const matchesItemStableFilters = (
   item: CatalogLocalItem,
   filters: Record<string, unknown>
 ) => {
-  if (!matchesStableCatalogFilters(item, filters)) return false
+  if (!matchesStableCatalogFilters(item, filters, 'item')) return false
   if (!matchesCatalogVariationFilter(filters, getItemVariantType(item.id))) {
     return false
   }
@@ -812,7 +819,9 @@ const filterStaticMakeupIds = ({
       : getFullMakeupComponentIdsForScope(index, regionScope)
   const makeupIds = sortMakeupsForFilters(
     index.makeups.filter((makeup) => {
-      if (!matchesStableCatalogFilters(makeup, query.filters)) return false
+      if (!matchesStableCatalogFilters(makeup, query.filters, 'makeup')) {
+        return false
+      }
       if (
         fullMakeupComponentIds &&
         !matchesCatalogMakeupKindFilter(

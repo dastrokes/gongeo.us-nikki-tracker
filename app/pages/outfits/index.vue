@@ -209,7 +209,6 @@
     PaintBrush,
     Paw,
     CheckCircle,
-    Adjust,
     TimesCircle,
     DotCircle,
   } from '@vicons/fa'
@@ -490,7 +489,8 @@
   const resolveWardrobeFilter = (
     value?: string | null
   ): OutfitWardrobeFilter => {
-    if (value === 'owned' || value === 'partial' || value === 'missing') {
+    if (value === 'partial') return 'owned'
+    if (value === 'owned' || value === 'missing') {
       return value
     }
     return 'all'
@@ -638,7 +638,6 @@
   const wardrobeFilterOptions = computed<IconSelectOption[]>(() => [
     { label: t('common.all'), value: 'all', icon: DotCircle },
     { label: t('wardrobe.status.owned'), value: 'owned', icon: CheckCircle },
-    { label: t('wardrobe.filters.partial'), value: 'partial', icon: Adjust },
     {
       label: t('wardrobe.status.missing'),
       value: 'missing',

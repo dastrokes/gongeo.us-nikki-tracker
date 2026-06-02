@@ -155,16 +155,40 @@ export const useCompendiumListingView = (
   return context
 }
 
+type CompendiumListingViewContext = ReturnType<typeof useCompendiumListingView>
+
+const compendiumListingViewContextByInstance = new WeakMap<
+  object,
+  CompendiumListingViewContext
+>()
+
+const getCompendiumListingViewContext = () => {
+  const injectedContext = inject(
+    compendiumListingViewKey,
+    null
+  ) as CompendiumListingViewContext | null
+  if (injectedContext) return injectedContext
+
+  const instance = getCurrentInstance()
+  return instance
+    ? (compendiumListingViewContextByInstance.get(instance) ?? null)
+    : null
+}
+
 export const provideCompendiumListingView = (
   options: UseCompendiumListingViewOptions = {}
 ) => {
   const context = useCompendiumListingView(options)
+  const instance = getCurrentInstance()
+  if (instance) {
+    compendiumListingViewContextByInstance.set(instance, context)
+  }
   provide(compendiumListingViewKey, context)
   return context
 }
 
 export const useCompendiumListingViewContext = () => {
-  const context = inject(compendiumListingViewKey)
+  const context = getCompendiumListingViewContext()
   if (!context) {
     throw new Error(
       'useCompendiumListingViewContext requires provideCompendiumListingView'
@@ -175,9 +199,7 @@ export const useCompendiumListingViewContext = () => {
 }
 
 export const useCompendiumListingPreferencesReady = () => {
-  const context = inject(compendiumListingViewKey, null) as ReturnType<
-    typeof useCompendiumListingView
-  > | null
+  const context = getCompendiumListingViewContext()
 
   return computed(() => context?.preferencesReady.value ?? true)
 }

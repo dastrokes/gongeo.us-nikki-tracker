@@ -619,6 +619,9 @@ const getLocalOutfitMatchingIds = ({
     const progress = wardrobe.getOutfitProgress!(
       index.outfitItemsById.get(outfitId) ?? []
     )
+    if (query.ownershipMode === 'owned') {
+      return progress.status === 'owned' || progress.status === 'partial'
+    }
     return progress.status === query.ownershipMode
   })
 }
@@ -798,6 +801,9 @@ const filterStaticOutfitIds = ({
         getCatalogQueryRegionScope(query)
       )
     )
+    if (ownershipMode === 'owned') {
+      return progress.status === 'owned' || progress.status === 'partial'
+    }
     return progress.status === ownershipMode
   })
 }
@@ -891,6 +897,9 @@ const filterStaticMakeupIds = ({
       ? wardrobe.getFullMakeupProgress(componentIds)
       : getWardrobeSetProgress(componentIds, ownedMakeupIdSet!)
 
+    if (ownershipMode === 'owned') {
+      return progress.status === 'owned' || progress.status === 'partial'
+    }
     return progress.status === ownershipMode
   })
 }

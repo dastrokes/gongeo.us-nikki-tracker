@@ -37,6 +37,7 @@
               v-if="supportsVariationFilter"
               v-model:value="variationFilter"
               :options="variationFilterOptions"
+              class="max-w-40"
             />
 
             <div class="hidden min-w-0 overflow-x-auto sm:block">

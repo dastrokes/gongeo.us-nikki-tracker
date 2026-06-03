@@ -894,7 +894,7 @@
                         sizes="32px"
                       />
                       <div
-                        class="text-xs font-semibold tracking-wider text-sky-600 dark:text-sky-300"
+                        class="shrink-0 text-xs font-semibold tracking-wider whitespace-nowrap text-sky-600 dark:text-sky-300"
                       >
                         gongeo.us
                       </div>
@@ -1038,7 +1038,7 @@
                     <div
                       v-for="entry in shareSignatureEntries"
                       :key="entry.slot.key"
-                      class="flex h-40 flex-col gap-1 rounded-xl p-2 ring-1"
+                      class="grid h-40 grid-rows-[0.75rem_minmax(0,1fr)_1rem] rounded-xl p-2 ring-1"
                       :class="getShareSignatureAccentClass(entry.slot.key)"
                     >
                       <div
@@ -1047,7 +1047,7 @@
                         {{ entry.slot.label }}
                       </div>
                       <div
-                        class="flex h-20 items-center justify-center overflow-hidden rounded-lg bg-white/40 p-1 dark:bg-white/10"
+                        class="mt-1 flex min-h-0 items-center justify-center overflow-hidden rounded-lg bg-white/40 p-1 dark:bg-white/10"
                       >
                         <NuxtImg
                           v-if="entry.item"
@@ -1068,9 +1068,9 @@
                           <n-icon size="16"><Plus /></n-icon>
                         </button>
                       </div>
-                      <div class="min-h-0 flex-1">
+                      <div class="min-w-0 self-end">
                         <div
-                          class="line-clamp-2 text-xs leading-tight font-bold text-slate-900 dark:text-white"
+                          class="line-clamp-1 text-center text-[10px] leading-tight font-bold text-slate-900 dark:text-white"
                         >
                           {{
                             entry.item?.name ?? t('wardrobe.share.empty_slot')
@@ -1110,7 +1110,7 @@
                     sizes="32px"
                   />
                   <div
-                    class="text-xs font-semibold tracking-wider text-sky-600 dark:text-sky-300"
+                    class="shrink-0 text-xs font-semibold tracking-wider whitespace-nowrap text-sky-600 dark:text-sky-300"
                   >
                     gongeo.us
                   </div>
@@ -1280,19 +1280,19 @@
                 </div>
               </div>
 
-              <div class="mt-2 grid h-44 grid-cols-2 gap-2">
+              <div class="mt-2 grid h-56 grid-cols-2 gap-2">
                 <div
                   v-for="entry in shareSignatureEntries"
                   :key="`share-portrait-${entry.slot.key}`"
-                  class="grid min-h-0 grid-rows-[0.75rem_minmax(0,1fr)] rounded-xl p-1.5 ring-1"
+                  class="grid min-h-0 grid-rows-[1.25rem_minmax(0,1fr)_2.25rem] rounded-xl p-1.5 ring-1"
                   :class="getShareSignatureAccentClass(entry.slot.key)"
                 >
                   <div
-                    class="line-clamp-1 h-3 text-[9px] leading-tight font-semibold tracking-wide uppercase opacity-50"
+                    class="overflow-hidden text-[9px] leading-[1.05] font-semibold uppercase opacity-50"
                   >
                     {{ entry.slot.label }}
                   </div>
-                  <div class="mt-1 flex min-h-0 items-center gap-2.5">
+                  <div class="mt-1 flex min-h-0 items-center justify-center">
                     <div
                       class="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-white/40 p-1 dark:bg-white/10"
                     >
@@ -1315,12 +1315,12 @@
                         <n-icon size="14"><Plus /></n-icon>
                       </button>
                     </div>
-                    <div class="min-w-0">
-                      <div
-                        class="line-clamp-2 text-[11px] leading-[1.05] font-bold"
-                      >
-                        {{ entry.item?.name ?? t('wardrobe.share.empty_slot') }}
-                      </div>
+                  </div>
+                  <div class="min-w-0 self-end">
+                    <div
+                      class="overflow-hidden text-center text-[9px] leading-[1.05] font-bold break-words"
+                    >
+                      {{ entry.item?.name ?? t('wardrobe.share.empty_slot') }}
                     </div>
                   </div>
                 </div>

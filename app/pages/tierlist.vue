@@ -3572,6 +3572,7 @@
     const contextKey = tierlistStorageKey.value
     suppressBoardAutoSave.value = true
     tiers.value = createEmptyTierBoard()
+    tierLabels.value = createDefaultTierLabels()
     unranked.value = entries.value.map((entry) => entry.id)
     lastSubmittedAt.value = null
     lastModifiedAt.value = null

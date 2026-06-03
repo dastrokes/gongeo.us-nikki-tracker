@@ -56,10 +56,10 @@
           >
             <button
               type="button"
-              class="text-md flex cursor-pointer items-center gap-1.5 px-4 py-2 font-semibold"
+              class="text-md flex cursor-pointer items-center gap-1.5 rounded-full px-4 py-2 font-semibold transition-colors duration-200 hover:bg-black/3 focus-visible:ring-2 focus-visible:ring-rose-500/80 focus-visible:outline-hidden motion-reduce:transition-none dark:hover:bg-white/8"
               :class="
                 isNavGroupActive(group.key) || openDesktopGroup === group.key
-                  ? 'text-rose-500 dark:text-rose-400'
+                  ? 'bg-black/3 text-rose-500 dark:bg-white/8 dark:text-rose-300'
                   : 'text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-slate-50'
               "
             >

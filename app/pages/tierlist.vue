@@ -815,7 +815,15 @@
                   backgroundColor: tierLabelBackgroundByKey[tier],
                 }"
               >
+                <div
+                  v-if="exporting"
+                  class="w-full min-w-0 px-1 text-center leading-tight font-bold break-words whitespace-pre-wrap"
+                  :style="getTierLabelInputStyle(tier)"
+                >
+                  {{ getTierLabelText(tier) }}
+                </div>
                 <n-input
+                  v-else
                   :value="tierLabels[tier]"
                   type="textarea"
                   :autosize="{ minRows: 1 }"
@@ -1013,7 +1021,6 @@
     Tshirt,
     Users,
     CheckCircle,
-    Adjust,
     TimesCircle,
     DotCircle,
   } from '@vicons/fa'
@@ -1095,8 +1102,11 @@
     F: 'rgba(107, 114, 128, 0.28)',
   }
 
+  const getTierLabelText = (tier: TierKey) =>
+    tierLabels.value[tier].trim() || tier
+
   const getTierLabelInputStyle = (tier: TierKey) => {
-    const label = tierLabels.value[tier].trim() || tier
+    const label = getTierLabelText(tier)
     const characterCount = Array.from(label).length
     const responsiveSize = 1.6 - Math.max(0, characterCount - 2) * 0.06
     const fontSizeRem = Math.min(1.6, Math.max(0.8, responsiveSize))
@@ -1252,7 +1262,7 @@
     | 'evo3'
     | 'all-evos'
 
-  type TierWardrobeFilter = 'all' | 'owned' | 'partial' | 'missing'
+  type TierWardrobeFilter = 'all' | 'owned' | 'missing'
 
   const itemOutfitVariationFilterValues = new Set<CatalogVariationFilter>([
     'base',
@@ -1300,10 +1310,8 @@
     if (tierMode === 'items' && (value === 'owned' || value === 'missing')) {
       return value
     }
-    if (
-      tierMode === 'outfits' &&
-      (value === 'owned' || value === 'partial' || value === 'missing')
-    ) {
+    if (tierMode === 'outfits' && value === 'partial') return 'owned'
+    if (tierMode === 'outfits' && (value === 'owned' || value === 'missing')) {
       return value
     }
     return 'all'
@@ -1493,14 +1501,6 @@
       { label: t('common.all'), value: 'all', icon: DotCircle },
       { label: t('wardrobe.status.owned'), value: 'owned', icon: CheckCircle },
     ]
-
-    if (mode.value === 'outfits') {
-      options.push({
-        label: t('wardrobe.filters.partial'),
-        value: 'partial',
-        icon: Adjust,
-      })
-    }
 
     options.push({
       label: t('wardrobe.status.missing'),
@@ -2295,8 +2295,7 @@
       page: 1,
       pageSize: TIER_ENTRY_LIMIT,
       regionScope: activeRegionScope.value,
-      ownershipMode:
-        wardrobeFilter.value === 'partial' ? 'all' : wardrobeFilter.value,
+      ownershipMode: wardrobeFilter.value,
       wardrobe: {
         ownedItemIds: ownedItemIds.value,
       },
@@ -2434,6 +2433,7 @@
         overLimit: false,
       }),
       lazy: true,
+      server: false,
     }
   )
   const handleReloadEntries = (): void => {

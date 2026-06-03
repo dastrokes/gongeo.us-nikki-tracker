@@ -8,9 +8,9 @@
       :aria-label="$t('default.accessibility.language_switcher')"
       text
       size="tiny"
-      class="flex items-center"
+      class="flex h-7 w-7 items-center justify-center rounded-full bg-black/3 text-slate-600 transition-colors duration-200 hover:bg-black/5 hover:text-slate-800 focus-visible:ring-2 focus-visible:ring-rose-500/80 focus-visible:outline-hidden motion-reduce:transition-none dark:bg-white/5 dark:text-slate-300 dark:hover:bg-white/8 dark:hover:text-slate-100"
     >
-      <n-icon :size="16">
+      <n-icon :size="18">
         <SvgIcon name="language" />
       </n-icon>
     </n-button>

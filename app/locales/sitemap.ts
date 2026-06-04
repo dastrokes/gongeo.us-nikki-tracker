@@ -21,6 +21,7 @@ const BASE_PATHS = [
   '/guideline',
   '/faq',
   '/about',
+  '/contact',
   '/vote',
   '/login',
   '/profile',

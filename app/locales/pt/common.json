@@ -118,7 +118,8 @@
     "join_community": "Entrar na comunidade",
     "support_website": "Apoiar o site",
     "nuan5pro": "Nuan5.Pro",
-    "stats": "Estatísticas Pessoais"
+    "stats": "Estatísticas Pessoais",
+    "contact": "Contato"
   },
   "meta": {
     "title": "Rastreador de Ressonância e companheiro de estilo do Infinity Nikki",
@@ -145,7 +146,8 @@
       "random": "Sorteie um item aleatório de Infinity Nikki com o Gira-encantos. Adicione dicas ou filtros opcionais, descubra peças surpresa e abra os detalhes no compêndio.",
       "faq": "Encontre respostas para perguntas frequentes sobre o gongeo.us, incluindo privacidade de dados, métodos de importação e diretrizes de uso.",
       "about": "Saiba mais sobre gongeo.us, incluindo sua finalidade, política de privacidade, isenções de responsabilidade e como ele oferece suporte à comunidade Infinity Nikki.",
-      "stats": "Veja suas estatísticas pessoais de pulls de ressonância de Infinity Nikki, análise de sorte, sequências e atividade de pulls."
+      "stats": "Veja suas estatísticas pessoais de pulls de ressonância de Infinity Nikki, análise de sorte, sequências e atividade de pulls.",
+      "contact": "Envie feedback geral, relatórios de bugs ou sugestões para gongeo.us."
     }
   },
   "default": {
@@ -1110,5 +1112,13 @@
       "best_luck": "Melhor Sorte",
       "worst_luck": "Pior Sorte"
     }
+  },
+  "contact": {
+    "name_label": "Nome",
+    "optional_label": "(opcional)",
+    "name_placeholder": "Seu nome",
+    "message_label": "Mensagem",
+    "success": "Obrigado, seu feedback foi enviado.",
+    "error": "Falha ao enviar feedback. Tente novamente."
   }
 }

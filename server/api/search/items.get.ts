@@ -428,7 +428,11 @@ export default defineCachedApiEventHandler(
     const limit = normalizeLimit(query.limit)
     const filterResult = normalizeCatalogFilterResult(query)
 
-    if ((!normalizedQuery && !recordId) || (!recordId && !filterResult.valid)) {
+    if (
+      (!normalizedQuery && !recordId) ||
+      (!recordId && !filterResult.valid) ||
+      (recordId && !filterResult.valid)
+    ) {
       return {
         query: '',
         total: 0,
@@ -459,9 +463,7 @@ export default defineCachedApiEventHandler(
         recordId: recordId ?? undefined,
         limit,
         searchNamespace,
-        metadataFilter: recordId
-          ? undefined
-          : buildPineconeMetadataFilter(filterResult),
+        metadataFilter: buildPineconeMetadataFilter(filterResult),
       })
 
       return {

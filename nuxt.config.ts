@@ -76,7 +76,7 @@ export default defineNuxtConfig({
               {
                 src: 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9717879492261560',
                 async: true,
-                crossorigin: 'anonymous',
+                crossorigin: 'anonymous' as const,
               },
             ]
           : []),
@@ -365,7 +365,7 @@ export default defineNuxtConfig({
           headers: pageStatic,
         }),
         ...buildLocalizedRules(
-          ['/faq', '/about', '/vote', '/ranking', '/timeline'],
+          ['/faq', '/about', '/contact', '/vote', '/ranking', '/timeline'],
           {
             headers: pageStatic,
           }

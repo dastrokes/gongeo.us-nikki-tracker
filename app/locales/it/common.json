@@ -114,7 +114,7 @@
     "vote": "Voto Banner",
     "faq": "Domande frequenti",
     "about": "Di",
-    "contact": "Contact",
+    "contact": "Contatti",
     "official_website": "Sito ufficiale",
     "join_community": "Unisciti alla community",
     "support_website": "Supporta il sito",
@@ -146,7 +146,7 @@
       "random": "Estrai un articolo casuale di Infinity Nikki con Estromatic. Aggiungi indizi o filtri opzionali, scopri pezzi a sorpresa e apri i dettagli nel compendio.",
       "faq": "Trovate le risposte alle domande più frequenti su gongeo.us, tra cui la privacy dei dati, i metodi di importazione e le linee guida per l'uso.",
       "about": "Scopri di più su gongeo.us, incluso il suo scopo, l'informativa sulla privacy, le dichiarazioni di non responsabilità e il modo in cui supporta la comunità Infinity Nikki.",
-      "contact": "Send general feedback, bug reports, or suggestions for gongeo.us.",
+      "contact": "Invia feedback generali, segnalazioni di bug o suggerimenti per gongeo.us.",
       "stats": "Visualizza le tue statistiche personali di pull di risonanza di Infinity Nikki, analisi della fortuna, serie e attività di pull."
     }
   },
@@ -1088,12 +1088,12 @@
     }
   },
   "contact": {
-    "name_label": "Name",
-    "optional_label": "(optional)",
-    "name_placeholder": "Your name",
-    "message_label": "Message",
-    "success": "Thanks, your feedback was sent.",
-    "error": "Failed to send feedback. Please try again."
+    "name_label": "Nome",
+    "optional_label": "(facoltativo)",
+    "name_placeholder": "Il tuo nome",
+    "message_label": "Messaggio",
+    "success": "Grazie, il tuo feedback è stato inviato.",
+    "error": "Impossibile inviare il feedback. Riprova."
   },
   "stats": {
     "overview": {

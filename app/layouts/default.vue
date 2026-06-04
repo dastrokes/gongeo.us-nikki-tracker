@@ -719,6 +719,7 @@
       items: [
         { key: 'faq', label: 'navigation.faq' },
         { key: 'about', label: 'navigation.about' },
+        { key: 'contact', label: 'navigation.contact' },
       ],
     },
     {

@@ -57,19 +57,36 @@
                   ><Search
                 /></n-icon>
                 <n-tag
-                  v-if="activeSimilarItemId !== null"
-                  size="small"
+                  v-if="activeSimilarSource"
+                  size="medium"
                   round
+                  closable
                   :bordered="false"
                   type="info"
-                  class="mr-2 shrink-0 font-bold"
+                  class="mr-2 max-w-[58vw] shrink-0 p-2 text-sm font-bold sm:max-w-80"
+                  @close="clearSimilarSearch"
                 >
-                  {{ t('search_page.similar_prefix') }}
+                  <span class="flex min-w-0 items-center gap-1.5">
+                    <NuxtImg
+                      v-if="activeSimilarSource.itemId !== null"
+                      :src="getImageSrc('itemIcon', activeSimilarSource.itemId)"
+                      :alt="activeSimilarSource.itemName"
+                      preset="iconSm"
+                      class="h-7 w-7 shrink-0 rounded-full object-cover"
+                      loading="lazy"
+                    />
+                    <span class="shrink-0">
+                      {{ t('search_page.similar_prefix') }}
+                    </span>
+                    <span class="truncate">
+                      {{ activeSimilarSource.itemName }}
+                    </span>
+                  </span>
                 </n-tag>
                 <input
                   v-model="searchQuery"
                   type="text"
-                  :placeholder="currentPlaceholder"
+                  :placeholder="isSimilarSearchActive ? '' : currentPlaceholder"
                   :aria-label="pageHeading"
                   enterkeyhint="search"
                   autocomplete="off"
@@ -125,6 +142,7 @@
                     type="primary"
                     size="medium"
                     :loading="isPrimaryActionLoading"
+                    :disabled="isSimilarSearchActive"
                     class="min-w-20 shrink-0 px-4 font-bold shadow-md sm:min-w-24 sm:px-5"
                   >
                     {{ primaryActionLabel }}
@@ -747,18 +765,45 @@
                     {{ t('feedback.current_tags') }}
                   </div>
                   <n-button
+                    type="info"
+                    secondary
+                    round
+                    size="tiny"
+                    @click="findSimilar(activeResult)"
+                  >
+                    <template #icon>
+                      <n-icon>
+                        <SearchPlus />
+                      </n-icon>
+                    </template>
+                    {{ t('search_page.find_similar') }}
+                  </n-button>
+                  <n-button
                     tertiary
+                    round
                     size="tiny"
                     @click="openFeedbackModal(activeResult)"
                   >
+                    <template #icon>
+                      <n-icon>
+                        <PencilAlt />
+                      </n-icon>
+                    </template>
                     {{ t('feedback.suggest_action') }}
                   </n-button>
-                  <NuxtLinkLocale
-                    to="/feedback"
-                    class="text-xs font-semibold text-rose-500 hover:text-rose-600 dark:text-rose-300 dark:hover:text-rose-200"
+                  <n-button
+                    tertiary
+                    round
+                    size="tiny"
+                    @click="navigateTo(localePath('/feedback'))"
                   >
+                    <template #icon>
+                      <n-icon>
+                        <ClipboardList />
+                      </n-icon>
+                    </template>
                     {{ t('feedback.view_queue') }}
-                  </NuxtLinkLocale>
+                  </n-button>
                 </div>
 
                 <AttributeCard
@@ -771,7 +816,7 @@
           </n-scrollbar>
 
           <div
-            v-if="activeResult.compendiumPath || activeResult.itemId !== null"
+            v-if="activeResult.compendiumPath"
             class="relative z-20 flex flex-col gap-2 border-t border-slate-200/70 bg-white/95 p-4 backdrop-blur-xl dark:border-slate-800/70 dark:bg-slate-900/95"
           >
             <n-button
@@ -787,21 +832,6 @@
               </template>
               <span class="truncate">
                 {{ t('common.view_compendium') }}
-              </span>
-            </n-button>
-            <n-button
-              v-if="activeResult.itemId !== null"
-              secondary
-              attr-type="button"
-              size="medium"
-              class="min-w-0 rounded-xl font-semibold"
-              @click="findSimilar(activeResult)"
-            >
-              <template #icon>
-                <n-icon><SearchPlus /></n-icon>
-              </template>
-              <span class="truncate">
-                {{ t('search_page.find_similar') }}
               </span>
             </n-button>
           </div>
@@ -1071,19 +1101,48 @@
                       {{ t('feedback.current_tags') }}
                     </div>
                     <n-button
+                      type="info"
+                      secondary
+                      round
+                      size="tiny"
+                      :disabled="isLuckyAnimating"
+                      @click="findSimilar(luckyDisplayResult)"
+                    >
+                      <template #icon>
+                        <n-icon>
+                          <SearchPlus />
+                        </n-icon>
+                      </template>
+                      {{ t('search_page.find_similar') }}
+                    </n-button>
+                    <n-button
                       tertiary
+                      round
                       size="tiny"
                       :disabled="isLuckyAnimating"
                       @click="openFeedbackModal(luckyDisplayResult)"
                     >
+                      <template #icon>
+                        <n-icon>
+                          <PencilAlt />
+                        </n-icon>
+                      </template>
                       {{ t('feedback.suggest_action') }}
                     </n-button>
-                    <NuxtLinkLocale
-                      to="/feedback"
-                      class="text-xs font-semibold text-rose-500 hover:text-rose-600 dark:text-rose-300 dark:hover:text-rose-200"
+                    <n-button
+                      tertiary
+                      round
+                      size="tiny"
+                      :disabled="isLuckyAnimating"
+                      @click="navigateTo(localePath('/feedback'))"
                     >
+                      <template #icon>
+                        <n-icon>
+                          <ClipboardList />
+                        </n-icon>
+                      </template>
                       {{ t('feedback.view_queue') }}
-                    </NuxtLinkLocale>
+                    </n-button>
                   </div>
 
                   <AttributeCard
@@ -1097,7 +1156,8 @@
 
             <div
               v-if="
-                luckyRevealPhase === 'revealed' && Boolean(luckyDisplayResult)
+                luckyRevealPhase === 'revealed' &&
+                Boolean(luckyDisplayResult?.compendiumPath)
               "
               class="relative z-20 flex flex-col gap-2 border-t border-slate-200/70 bg-white/95 p-4 backdrop-blur-xl dark:border-slate-800/70 dark:bg-slate-900/95"
             >
@@ -1115,22 +1175,6 @@
                 </template>
                 <span class="truncate">
                   {{ t('common.view_compendium') }}
-                </span>
-              </n-button>
-              <n-button
-                v-if="luckyDisplayResult?.itemId !== null"
-                secondary
-                attr-type="button"
-                size="medium"
-                class="min-w-0 rounded-xl font-semibold"
-                :disabled="isLuckyAnimating"
-                @click="findSimilar(luckyDisplayResult)"
-              >
-                <template #icon>
-                  <n-icon><SearchPlus /></n-icon>
-                </template>
-                <span class="truncate">
-                  {{ t('search_page.find_similar') }}
                 </span>
               </n-button>
             </div>
@@ -1385,19 +1429,48 @@
                     {{ t('feedback.current_tags') }}
                   </div>
                   <n-button
+                    type="info"
+                    secondary
+                    round
+                    size="tiny"
+                    :disabled="isLuckyAnimating"
+                    @click="findSimilar(luckyDisplayResult)"
+                  >
+                    <template #icon>
+                      <n-icon>
+                        <SearchPlus />
+                      </n-icon>
+                    </template>
+                    {{ t('search_page.find_similar') }}
+                  </n-button>
+                  <n-button
                     tertiary
+                    round
                     size="tiny"
                     :disabled="isLuckyAnimating"
                     @click="openFeedbackModal(luckyDisplayResult)"
                   >
+                    <template #icon>
+                      <n-icon>
+                        <PencilAlt />
+                      </n-icon>
+                    </template>
                     {{ t('feedback.suggest_action') }}
                   </n-button>
-                  <NuxtLinkLocale
-                    to="/feedback"
-                    class="text-xs font-semibold text-rose-500 hover:text-rose-600 dark:text-rose-300 dark:hover:text-rose-200"
+                  <n-button
+                    tertiary
+                    round
+                    size="tiny"
+                    :disabled="isLuckyAnimating"
+                    @click="navigateTo(localePath('/feedback'))"
                   >
+                    <template #icon>
+                      <n-icon>
+                        <ClipboardList />
+                      </n-icon>
+                    </template>
                     {{ t('feedback.view_queue') }}
-                  </NuxtLinkLocale>
+                  </n-button>
                 </div>
 
                 <AttributeCard
@@ -1411,7 +1484,10 @@
         </div>
 
         <div
-          v-if="luckyRevealPhase === 'revealed' && Boolean(luckyDisplayResult)"
+          v-if="
+            luckyRevealPhase === 'revealed' &&
+            Boolean(luckyDisplayResult?.compendiumPath)
+          "
           class="relative z-20 flex flex-col gap-2 border-t border-slate-200/70 bg-white/95 p-4 backdrop-blur-xl dark:border-slate-800/70 dark:bg-slate-900/95"
         >
           <n-button
@@ -1430,21 +1506,6 @@
               {{ t('common.view_compendium') }}
             </span>
           </n-button>
-          <n-button
-            secondary
-            attr-type="button"
-            size="medium"
-            class="min-w-0 rounded-xl font-semibold"
-            :disabled="isLuckyAnimating"
-            @click="findSimilar(luckyDisplayResult)"
-          >
-            <template #icon>
-              <n-icon><SearchPlus /></n-icon>
-            </template>
-            <span class="truncate">
-              {{ t('search_page.find_similar') }}
-            </span>
-          </n-button>
         </div>
       </div>
     </n-modal>
@@ -1461,7 +1522,9 @@
     Star,
     Magic,
     Book,
+    ClipboardList,
     Images,
+    PencilAlt,
     SearchPlus,
   } from '@vicons/fa'
 
@@ -1585,6 +1648,9 @@
   }
   const activeSimilarItemId = computed(() =>
     normalizeSimilarItemId(route.query.similar)
+  )
+  const isSimilarSearchActive = computed(
+    () => mode.value === 'search' && activeSimilarSource.value !== null
   )
   const pageHeading = computed(() =>
     isRandomMode.value
@@ -1775,6 +1841,7 @@
   const hasSearched = ref(mode.value === 'search' && !!route.query.q)
   const results = ref<SearchHit[]>([])
   const selectedId = ref<string | null>(null)
+  const activeSimilarSource = ref<SearchDisplayHit | null>(null)
   const isMobileModalOpen = ref(false)
   const isFilterModalOpen = ref(false)
   const loading = ref(false)
@@ -2370,6 +2437,7 @@
     lastCompletedSearchKey = null
     results.value = []
     selectedId.value = null
+    activeSimilarSource.value = null
     loading.value = false
     error.value = ''
     showOwnedSearchEmpty.value = false
@@ -2393,6 +2461,11 @@
   const getCurrentRouteQuery = (query?: string | null) =>
     buildCatalogSearchFilterQuery(getCurrentCatalogFilters(query))
 
+  const getCurrentSimilarRouteQuery = (itemId: number) => ({
+    similar: itemId,
+    ...buildCatalogSearchFilterQuery(getCurrentCatalogFilters('')),
+  })
+
   const getCurrentSearchApiQuery = (query?: string | null) =>
     buildCatalogSearchFilterQuery({
       ...getCurrentCatalogFilters(query),
@@ -2405,11 +2478,12 @@
     await router.replace({ query: nextQuery })
   }
 
+  const updateSimilarSearchRoute = async (itemId: number) => {
+    await router.replace({ query: getCurrentSimilarRouteQuery(itemId) })
+  }
+
   const openFilterModal = () => {
     isFilterModalOpen.value = true
-    if (activeSimilarItemId.value !== null) {
-      void updateSearchRoute(normalizeSearchQuery(searchQuery.value) || null)
-    }
   }
 
   const syncFilterDrafts = () => {
@@ -2455,6 +2529,12 @@
     }
     isFilterModalOpen.value = false
     lastCompletedSearchKey = null
+    const similarItemId = activeSimilarItemId.value
+    if (similarItemId !== null && mode.value === 'search') {
+      void updateSimilarSearchRoute(similarItemId)
+      return
+    }
+
     if (isRandomMode.value) {
       void updateSearchRoute(normalizeSearchQuery(searchQuery.value) || null)
       return
@@ -2465,6 +2545,9 @@
       return
     }
 
+    if (hasSearched.value) {
+      shouldPreserveResultsOnEmptyRoute = true
+    }
     void updateSearchRoute(normalizeSearchQuery(searchQuery.value) || null)
   }
 
@@ -2473,6 +2556,8 @@
   }
 
   const handlePrimarySubmit = () => {
+    if (isSimilarSearchActive.value) return
+
     if (isRandomMode.value) {
       void runLuckySearch()
       return
@@ -2482,9 +2567,7 @@
   }
 
   const handleSearchInput = () => {
-    if (activeSimilarItemId.value !== null) {
-      void updateSearchRoute(normalizeSearchQuery(searchQuery.value) || null)
-    }
+    lastCompletedSearchKey = null
   }
 
   const clearSearch = async () => {
@@ -2514,10 +2597,22 @@
     if (!searchQuery.value) return
 
     searchQuery.value = ''
+    if (activeSimilarItemId.value !== null) {
+      return
+    }
+
     if (mode.value === 'search' && hasSearched.value) {
       shouldPreserveResultsOnEmptyRoute = true
     }
     await updateSearchRoute(null)
+  }
+
+  const clearSimilarSearch = async () => {
+    similarSearchRunId += 1
+    activeSimilarSource.value = null
+    lastCompletedSearchKey = null
+    shouldPreserveResultsOnEmptyRoute = true
+    await updateSearchRoute(normalizeSearchQuery(searchQuery.value) || '')
   }
 
   const closeMobileModal = () => {
@@ -2750,6 +2845,7 @@
       locale.value,
       'similar',
       itemId,
+      getCatalogSearchFilterKey(getCurrentCatalogFilters('')),
       isOwnedSearchMode.value
         ? ownedSearchCandidates.mutationVersion.value
         : '',
@@ -2785,13 +2881,8 @@
       }
 
       const similarDisplayHit = toSearchDisplayHit(getSimilarSearchHit(item))
-      searchQuery.value = similarDisplayHit.itemName
-      selectedItemTypes.value = []
-      versionFilter.value = null
-      qualityFilter.value = null
-      styleFilter.value = null
-      labelFilter.value = null
-      sourceFilter.value = null
+      activeSimilarSource.value = similarDisplayHit
+      searchQuery.value = ''
       if (!isFilterModalOpen.value) {
         syncFilterDrafts()
       }
@@ -2810,7 +2901,8 @@
         query: {
           id: String(itemId),
           lang: locale.value,
-          limit: getSearchLimit(),
+          limit: getSearchLimit() + 1,
+          ...getCurrentSearchApiQuery(''),
         },
         headers: gameVersionHeaders,
         signal: search.controller.signal,
@@ -2826,7 +2918,9 @@
 
       lastCompletedSearchKey = search.key
       const scopedResults = await applyOwnershipScopeToHits(
-        (response.data ?? []).filter((hit) => hit.score > 0)
+        (response.data ?? []).filter(
+          (hit) => hit.score > 0 && hit.itemId !== itemId
+        )
       )
       applySearchResults(scopedResults)
     } catch (caughtError) {
@@ -3137,17 +3231,7 @@
       activeSimilarItemId.value,
     ],
     () => {
-      const similarItemId = activeSimilarItemId.value
-      if (mode.value === 'search' && similarItemId !== null) {
-        void runSimilarSearch(similarItemId)
-        return
-      }
-
-      similarSearchRunId += 1
       const filters = normalizeCatalogSearchFilters(route.query)
-      if (normalizeSearchQuery(searchQuery.value) !== filters.query) {
-        searchQuery.value = filters.query
-      }
       selectedItemTypes.value = filters.itemTypes.slice(0, 1)
       versionFilter.value = filters.version
       qualityFilter.value = filters.quality
@@ -3160,6 +3244,18 @@
       }
       if (!isFilterModalOpen.value) {
         syncFilterDrafts()
+      }
+
+      const similarItemId = activeSimilarItemId.value
+      if (mode.value === 'search' && similarItemId !== null) {
+        void runSimilarSearch(similarItemId)
+        return
+      }
+
+      similarSearchRunId += 1
+      activeSimilarSource.value = null
+      if (normalizeSearchQuery(searchQuery.value) !== filters.query) {
+        searchQuery.value = filters.query
       }
 
       if (mode.value !== 'search') {

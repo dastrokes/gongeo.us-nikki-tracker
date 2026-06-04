@@ -361,30 +361,59 @@
               v-if="supportsItemFeedback"
               class="rounded-lg border border-slate-200/70 bg-slate-50/80 p-3 dark:border-slate-800 dark:bg-slate-900/60"
             >
-              <div class="flex flex-row items-center justify-between gap-2">
-                <div class="flex flex-wrap items-center gap-2">
-                  <div
-                    class="text-[11px] font-semibold tracking-[0.16em] text-slate-500 uppercase dark:text-slate-400"
+              <div class="flex flex-wrap items-center gap-2">
+                <div
+                  class="order-1 text-[11px] font-semibold tracking-[0.16em] text-slate-500 uppercase dark:text-slate-400"
+                >
+                  {{ t('feedback.current_tags') }}
+                </div>
+                <div
+                  class="order-3 flex w-full flex-wrap items-center gap-2 sm:order-2 sm:w-auto"
+                >
+                  <n-button
+                    type="info"
+                    secondary
+                    round
+                    size="tiny"
+                    @click="navigateTo(similarSearchPath)"
                   >
-                    {{ t('feedback.current_tags') }}
-                  </div>
+                    <template #icon>
+                      <n-icon>
+                        <Search />
+                      </n-icon>
+                    </template>
+                    {{ t('search_page.find_similar') }}
+                  </n-button>
                   <n-button
                     tertiary
+                    round
                     size="tiny"
                     @click="showFeedbackModal = true"
                   >
+                    <template #icon>
+                      <n-icon>
+                        <PencilAlt />
+                      </n-icon>
+                    </template>
                     {{ t('feedback.suggest_action') }}
                   </n-button>
-                  <NuxtLinkLocale
-                    to="/feedback"
-                    class="text-xs font-semibold text-rose-500 hover:text-rose-600 dark:text-rose-300 dark:hover:text-rose-200"
+                  <n-button
+                    tertiary
+                    round
+                    size="tiny"
+                    @click="navigateTo(feedbackQueuePath)"
                   >
+                    <template #icon>
+                      <n-icon>
+                        <ClipboardList />
+                      </n-icon>
+                    </template>
                     {{ t('feedback.view_queue') }}
-                  </NuxtLinkLocale>
+                  </n-button>
                 </div>
                 <div
                   v-if="showCurrentTagsToggle"
-                  class="flex justify-end"
+                  class="order-2 ml-auto flex justify-end sm:order-3"
                 >
                   <n-button
                     secondary
@@ -615,7 +644,15 @@
 </template>
 
 <script setup lang="ts">
-  import { CaretDown, CaretUp, Star, Images } from '@vicons/fa'
+  import {
+    CaretDown,
+    CaretUp,
+    ClipboardList,
+    Images,
+    PencilAlt,
+    Search,
+    Star,
+  } from '@vicons/fa'
   import type { DropdownOption } from 'naive-ui'
 
   type WardrobeVariantMarkKey = VariantType | 'all-variations'
@@ -981,6 +1018,13 @@
   })
 
   const listingPath = computed(() => localePath('/items'))
+  const feedbackQueuePath = computed(() => localePath('/feedback'))
+  const similarSearchPath = computed(() =>
+    localePath({
+      path: '/search',
+      query: { similar: itemId.value },
+    })
+  )
   const canNavigateBackToList = computed(() => {
     if (!import.meta.client) return false
 

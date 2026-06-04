@@ -118,7 +118,8 @@
     "join_community": "Community beitreten",
     "support_website": "Support-Webseite",
     "nuan5pro": "Nuan5.Pro",
-    "stats": "Persönliche Statistiken"
+    "stats": "Persönliche Statistiken",
+    "contact": "Kontakt"
   },
   "meta": {
     "title": "Infinity Nikki Resonanz-Tracker & Styling-Begleiter",
@@ -145,7 +146,8 @@
       "random": "Ziehe mit dem Wunder-O-Mat ein zufälliges Infinity Nikki-Stück. Füge optionale Hinweise oder Filter hinzu, entdecke Überraschungen und öffne die Details im Kompendium.",
       "faq": "Finde die Antworten auf häufig gestellte Fragen über gongeo.us, einschließlich Datenschutz, Importmethoden und Nutzungsrichtlinien.",
       "about": "Lerne mehr über gongeo.us, einschließlich seiner Zwecke, Datenschutzrichtlinien, Haftungsausschlüsse und wie es die Infinity Nikki Community unterstützt.",
-      "stats": "Schau dir deine persönlichen Infinity Nikki Resonanz-Statistiken, Glücksanalyse, Serien und Resonanz-Aktivität an."
+      "stats": "Schau dir deine persönlichen Infinity Nikki Resonanz-Statistiken, Glücksanalyse, Serien und Resonanz-Aktivität an.",
+      "contact": "Sende allgemeines Feedback, Fehlerberichte oder Vorschläge für gongeo.us."
     }
   },
   "default": {
@@ -1110,5 +1112,13 @@
       "best_luck": "Bestes Glück",
       "worst_luck": "Schlimmstes Glück"
     }
+  },
+  "contact": {
+    "name_label": "Name",
+    "optional_label": "(optional)",
+    "name_placeholder": "Dein Name",
+    "message_label": "Nachricht",
+    "success": "Danke, dein Feedback wurde gesendet.",
+    "error": "Feedback konnte nicht gesendet werden. Bitte versuche es erneut."
   }
 }

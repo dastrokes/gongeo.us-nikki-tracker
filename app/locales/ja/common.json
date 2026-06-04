@@ -114,6 +114,7 @@
     "vote": "バナー投票",
     "faq": "よくある質問",
     "about": "について",
+    "contact": "Contact",
     "official_website": "公式サイト",
     "join_community": "コミュニティに参加",
     "support_website": "サイトを支援",
@@ -145,6 +146,7 @@
       "random": "奇想ガチャでインフィニティニキのアイテムをランダムに引けます。ヒントやフィルターを追加し、思いがけないパーツを見つけて詳細を確認できます。",
       "faq": "データプライバシー、インポート方法、利用ガイドなど、ニキ共鳴録に関するよくある質問をご覧ください。",
       "about": "ニキ共鳴録の概要、プライバシーポリシー、免責事項、そしてインフィニティニキコミュニティへの取り組みについてご案内します。",
+      "contact": "Send general feedback, bug reports, or suggestions for gongeo.us.",
       "stats": "個人のインフィニティニキ共鳴プル統計、運勢分析、連続記録、プル活動を確認できます。"
     }
   },
@@ -1084,6 +1086,14 @@
       "apply_failed": "提案の適用に失敗しました。",
       "reject_failed": "提案の却下に失敗しました。"
     }
+  },
+  "contact": {
+    "name_label": "Name",
+    "optional_label": "(optional)",
+    "name_placeholder": "Your name",
+    "message_label": "Message",
+    "success": "Thanks, your feedback was sent.",
+    "error": "Failed to send feedback. Please try again."
   },
   "stats": {
     "overview": {

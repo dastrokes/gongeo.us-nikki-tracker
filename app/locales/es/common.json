@@ -114,7 +114,7 @@
     "vote": "Voto de pancarta",
     "faq": "Preguntas frecuentes",
     "about": "Acerca de",
-    "contact": "Contact",
+    "contact": "Contacto",
     "official_website": "Sitio web oficial",
     "join_community": "Unirse a la comunidad",
     "support_website": "Apoyar el sitio",
@@ -146,7 +146,7 @@
       "random": "Saca un artículo aleatorio de Infinity Nikki con Maravie-O-Matic. Añade pistas o filtros opcionales, descubre piezas sorpresa y abre sus detalles en el compendio.",
       "faq": "Encuentra respuestas a las preguntas más frecuentes sobre gongeo.us, incluyendo privacidad de datos, métodos de importación y pautas de uso.",
       "about": "Obtenga más información sobre gongeo.us, incluido su propósito, política de privacidad, exenciones de responsabilidad y cómo apoya a la comunidad Infinity Nikki.",
-      "contact": "Send general feedback, bug reports, or suggestions for gongeo.us.",
+      "contact": "Envía comentarios generales, informes de errores o sugerencias para gongeo.us.",
       "stats": "Ve tus estadísticas personales de pulls de resonancia de Infinity Nikki, análisis de suerte, rachas y actividad de pulls."
     }
   },
@@ -1088,12 +1088,12 @@
     }
   },
   "contact": {
-    "name_label": "Name",
-    "optional_label": "(optional)",
-    "name_placeholder": "Your name",
-    "message_label": "Message",
-    "success": "Thanks, your feedback was sent.",
-    "error": "Failed to send feedback. Please try again."
+    "name_label": "Nombre",
+    "optional_label": "(opcional)",
+    "name_placeholder": "Tu nombre",
+    "message_label": "Mensaje",
+    "success": "Gracias, tus comentarios se enviaron.",
+    "error": "No se pudieron enviar los comentarios. Inténtalo de nuevo."
   },
   "stats": {
     "overview": {

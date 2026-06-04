@@ -114,7 +114,7 @@
     "vote": "Banner-Abstimmung",
     "faq": "FAQ",
     "about": "Über gongeo.us",
-    "contact": "Contact",
+    "contact": "Kontakt",
     "official_website": "Offizielle Webseite",
     "join_community": "Community beitreten",
     "support_website": "Support-Webseite",
@@ -146,7 +146,7 @@
       "random": "Ziehe mit dem Wunder-O-Mat ein zufälliges Infinity Nikki-Stück. Füge optionale Hinweise oder Filter hinzu, entdecke Überraschungen und öffne die Details im Kompendium.",
       "faq": "Finde die Antworten auf häufig gestellte Fragen über gongeo.us, einschließlich Datenschutz, Importmethoden und Nutzungsrichtlinien.",
       "about": "Lerne mehr über gongeo.us, einschließlich seiner Zwecke, Datenschutzrichtlinien, Haftungsausschlüsse und wie es die Infinity Nikki Community unterstützt.",
-      "contact": "Send general feedback, bug reports, or suggestions for gongeo.us.",
+      "contact": "Sende allgemeines Feedback, Fehlerberichte oder Vorschläge für gongeo.us.",
       "stats": "Schau dir deine persönlichen Infinity Nikki Resonanz-Statistiken, Glücksanalyse, Serien und Resonanz-Aktivität an."
     }
   },
@@ -1090,10 +1090,10 @@
   "contact": {
     "name_label": "Name",
     "optional_label": "(optional)",
-    "name_placeholder": "Your name",
-    "message_label": "Message",
-    "success": "Thanks, your feedback was sent.",
-    "error": "Failed to send feedback. Please try again."
+    "name_placeholder": "Dein Name",
+    "message_label": "Nachricht",
+    "success": "Danke, dein Feedback wurde gesendet.",
+    "error": "Feedback konnte nicht gesendet werden. Bitte versuche es erneut."
   },
   "stats": {
     "overview": {

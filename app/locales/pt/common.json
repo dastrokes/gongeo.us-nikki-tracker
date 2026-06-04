@@ -114,6 +114,7 @@
     "vote": "Votação de banner",
     "faq": "Perguntas frequentes",
     "about": "Sobre",
+    "contact": "Contact",
     "official_website": "Site oficial",
     "join_community": "Entrar na comunidade",
     "support_website": "Apoiar o site",
@@ -145,6 +146,7 @@
       "random": "Sorteie um item aleatório de Infinity Nikki com o Gira-encantos. Adicione dicas ou filtros opcionais, descubra peças surpresa e abra os detalhes no compêndio.",
       "faq": "Encontre respostas para perguntas frequentes sobre o gongeo.us, incluindo privacidade de dados, métodos de importação e diretrizes de uso.",
       "about": "Saiba mais sobre gongeo.us, incluindo sua finalidade, política de privacidade, isenções de responsabilidade e como ele oferece suporte à comunidade Infinity Nikki.",
+      "contact": "Send general feedback, bug reports, or suggestions for gongeo.us.",
       "stats": "Veja suas estatísticas pessoais de pulls de ressonância de Infinity Nikki, análise de sorte, sequências e atividade de pulls."
     }
   },
@@ -1084,6 +1086,14 @@
       "apply_failed": "Falha ao aplicar a sugestão.",
       "reject_failed": "Falha ao rejeitar a sugestão."
     }
+  },
+  "contact": {
+    "name_label": "Name",
+    "optional_label": "(optional)",
+    "name_placeholder": "Your name",
+    "message_label": "Message",
+    "success": "Thanks, your feedback was sent.",
+    "error": "Failed to send feedback. Please try again."
   },
   "stats": {
     "overview": {

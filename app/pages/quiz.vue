@@ -387,7 +387,7 @@
                   type="primary"
                   @click="nextRound"
                 >
-                  {{ $t('common.next') }}
+                  {{ $t('quiz.next_round') }}
                 </n-button>
                 <n-button
                   :disabled="roundResult !== 'unanswered' || !isImageReady"

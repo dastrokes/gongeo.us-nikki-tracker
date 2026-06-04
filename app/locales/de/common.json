@@ -29,6 +29,7 @@
     "confirm": "Bestätigen",
     "ok": "OK",
     "next": "Weiter",
+    "next_step": "Weiter",
     "submit": "Übermitteln",
     "retry": "Erneut versuchen",
     "copy": "Kopieren",
@@ -79,6 +80,7 @@
       "delete_profile": "Profil löschen"
     },
     "previous": "Zurück",
+    "previous_step": "Zurück",
     "view_compendium": "Kompendium ansehen",
     "keys": {
       "enter": "Eingabe",
@@ -645,6 +647,7 @@
     "wrong": "Falsch",
     "start": "Start",
     "play_again": "Noch einmal spielen",
+    "next_round": "Nächste Runde",
     "reveal_direction": "Aufdeckungs-Richtung",
     "blur": "Unschärfe",
     "answer_mode": "Antwort-Modus",
@@ -982,6 +985,8 @@
     "page_description": "Durchsuche strukturierte Tag-Korrekturen, stimme über existierende Vorschläge ab und hilf dabei, das Kompendium ordentlich zu halten.",
     "quick_review_empty": "Du bist auf dem neusten Stand der aktuellen Warteschlange.",
     "list_empty": "Kein Feedback entspricht diesen Filtern.",
+    "vote_queue_remaining": "Noch {count} übrig",
+    "load_next_batch": "Mehr laden",
     "refresh": "Aktualisieren",
     "mode_filter_label": "Modus",
     "mode_vote": "Abstimmung",

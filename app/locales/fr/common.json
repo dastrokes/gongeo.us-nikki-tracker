@@ -29,6 +29,7 @@
     "confirm": "Confirmer",
     "ok": "OK",
     "next": "Suivant",
+    "next_step": "Suivant",
     "submit": "Soumettre",
     "retry": "Réessayer",
     "copy": "Copier",
@@ -79,6 +80,7 @@
       "delete_profile": "Supprimer le profil"
     },
     "previous": "Précédent",
+    "previous_step": "Précédent",
     "view_compendium": "Voir le compendium",
     "keys": {
       "enter": "Entrée",
@@ -645,6 +647,7 @@
     "wrong": "Faux",
     "start": "Commencer",
     "play_again": "Rejouer",
+    "next_round": "Manche suivante",
     "reveal_direction": "Révéler la direction",
     "blur": "Se brouiller",
     "answer_mode": "Mode de réponse",
@@ -982,6 +985,8 @@
     "page_description": "Parcourez les corrections de tags structurées, votez pour les suggestions existantes et aidez à garder le compendium bien rangé.",
     "quick_review_empty": "Vous êtes à jour dans la file d'attente.",
     "list_empty": "Aucun retour ne correspond à ces filtres.",
+    "vote_queue_remaining": "{count} restants",
+    "load_next_batch": "Charger plus",
     "refresh": "Actualiser",
     "mode_filter_label": "Mode",
     "mode_vote": "Vote",

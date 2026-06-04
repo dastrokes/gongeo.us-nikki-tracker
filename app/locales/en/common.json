@@ -29,6 +29,7 @@
     "confirm": "Confirm",
     "ok": "OK",
     "next": "Next",
+    "next_step": "Next",
     "submit": "Submit",
     "retry": "Retry",
     "copy": "Copy",
@@ -79,6 +80,7 @@
       "delete_profile": "Delete Profile"
     },
     "previous": "Previous",
+    "previous_step": "Previous",
     "view_compendium": "View Compendium",
     "keys": {
       "enter": "Enter",
@@ -645,6 +647,7 @@
     "wrong": "Wrong",
     "start": "Start",
     "play_again": "Play again",
+    "next_round": "Next round",
     "reveal_direction": "Reveal direction",
     "blur": "Blur",
     "answer_mode": "Answer mode",
@@ -982,6 +985,8 @@
     "page_description": "Browse structured tag corrections, vote on existing suggestions, and help keep the compendium tidy.",
     "quick_review_empty": "You're caught up on the current queue.",
     "list_empty": "No feedback matches these filters.",
+    "vote_queue_remaining": "{count} left",
+    "load_next_batch": "Load more",
     "refresh": "Refresh",
     "mode_filter_label": "Mode",
     "mode_vote": "Voting",

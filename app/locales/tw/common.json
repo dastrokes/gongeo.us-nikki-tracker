@@ -114,6 +114,7 @@
     "vote": "卡池投票",
     "faq": "常見問題",
     "about": "關於本站",
+    "contact": "Contact",
     "official_website": "官方網站",
     "join_community": "加入社群",
     "support_website": "支持本站",
@@ -145,6 +146,7 @@
       "random": "使用奇想滾滾機隨機抽取無限暖暖部件。可加入提示或篩選條件，發現驚喜部件並前往圖鑑查看詳情。",
       "faq": "檢視關於暖暖共鳴錄的常見問題解答，包括資料隱私、匯入方式和使用指南等資訊。",
       "about": "瞭解暖暖共鳴錄的相關資訊，包括免責宣告、隱私政策等資訊。",
+      "contact": "Send general feedback, bug reports, or suggestions for gongeo.us.",
       "stats": "查看你的無限暖暖個人共鳴抽卡統計、運氣分析、連抽記錄和抽卡活動。"
     }
   },
@@ -1084,6 +1086,14 @@
       "apply_failed": "套用提案失敗。",
       "reject_failed": "拒絕提案失敗。"
     }
+  },
+  "contact": {
+    "name_label": "Name",
+    "optional_label": "(optional)",
+    "name_placeholder": "Your name",
+    "message_label": "Message",
+    "success": "Thanks, your feedback was sent.",
+    "error": "Failed to send feedback. Please try again."
   },
   "stats": {
     "overview": {

@@ -417,14 +417,14 @@
               secondary
               @click="handleOnboardingBack"
             >
-              {{ t('common.previous') }}
+              {{ t('common.previous_step') }}
             </n-button>
             <n-button
               v-if="onboardingStep < onboardingLastStep"
               type="primary"
               @click="handleOnboardingNext"
             >
-              {{ t('common.next') }}
+              {{ t('common.next_step') }}
             </n-button>
             <n-button
               v-else

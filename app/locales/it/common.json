@@ -29,6 +29,7 @@
     "confirm": "Confermare",
     "ok": "OK",
     "next": "Successivo",
+    "next_step": "Successivo",
     "submit": "Invia",
     "retry": "Riprova",
     "copy": "Copia",
@@ -79,6 +80,7 @@
       "delete_profile": "Elimina profilo"
     },
     "previous": "Precedente",
+    "previous_step": "Precedente",
     "view_compendium": "Vedi compendio",
     "keys": {
       "enter": "Invio",
@@ -645,6 +647,7 @@
     "wrong": "Sbagliato",
     "start": "Inizio",
     "play_again": "Gioca di nuovo",
+    "next_round": "Round successivo",
     "reveal_direction": "Rivela la direzione",
     "blur": "Sfocatura",
     "answer_mode": "Modalità di risposta",
@@ -982,6 +985,8 @@
     "page_description": "Sfoglia le correzioni dei tag strutturati, vota i suggerimenti esistenti e aiuta a mantenere ordinato il compendio.",
     "quick_review_empty": "Sei in pari con la coda attuale.",
     "list_empty": "Nessun feedback corrisponde a questi filtri.",
+    "vote_queue_remaining": "{count} rimanenti",
+    "load_next_batch": "Carica altro",
     "refresh": "Aggiorna",
     "mode_filter_label": "Modalità",
     "mode_vote": "Votazione",

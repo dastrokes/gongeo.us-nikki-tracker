@@ -187,11 +187,29 @@
             <div class="text-base font-semibold">
               {{ emptyStateTitle }}
             </div>
+            <n-button
+              v-if="showLoadNextBatchAction"
+              class="mt-4"
+              size="small"
+              secondary
+              @click="refreshQueue"
+            >
+              {{ t('feedback.load_next_batch') }}
+            </n-button>
           </div>
         </n-spin>
 
         <div
-          v-if="totalPages > 1"
+          v-if="isVoteMode && visibleQueue.length > 0"
+          class="flex justify-center text-xs font-medium text-slate-500 dark:text-slate-400"
+        >
+          {{
+            t('feedback.vote_queue_remaining', { count: visibleQueue.length })
+          }}
+        </div>
+
+        <div
+          v-if="showPagination"
           class="flex justify-center pt-2"
         >
           <n-pagination
@@ -319,6 +337,9 @@
     isMineScope.value ? 'all' : reviewState.value
   )
   const isVoteMode = computed(() => viewMode.value === 'vote')
+  const showPagination = computed(
+    () => !isVoteMode.value && totalPages.value > 1
+  )
 
   const handleScopeChange = (value: string) => {
     const nextScope = parseScope(value)
@@ -411,6 +432,13 @@
       })
       if (requestId !== viewerStateRequestId) return
 
+      const nextPage =
+        response.totalPages > 0 ? Math.min(page.value, response.totalPages) : 1
+      if (page.value !== nextPage) {
+        page.value = nextPage
+        return
+      }
+
       queue.value = response.data
       totalPages.value = response.totalPages
       hiddenSuggestionIds.value = []
@@ -446,6 +474,11 @@
     dismissalHistory.value = []
 
     if (!initialized.value) return
+    if (isVoteMode.value && page.value !== 1) {
+      page.value = 1
+      return
+    }
+
     await syncQuery()
   })
 
@@ -526,6 +559,12 @@
         ? [currentSuggestion.value]
         : []
       : queue.value
+  )
+  const showLoadNextBatchAction = computed(
+    () =>
+      isVoteMode.value &&
+      queue.value.length > 0 &&
+      visibleQueue.value.length === 0
   )
   const isBootstrappingQueue = computed(
     () => loading.value && queue.value.length === 0

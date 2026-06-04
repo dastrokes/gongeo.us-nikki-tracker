@@ -114,12 +114,12 @@
     "vote": "Vote par bannière",
     "faq": "FAQ",
     "about": "À propos",
+    "contact": "Contact",
     "official_website": "Site officiel",
     "join_community": "Rejoindre la communauté",
     "support_website": "Soutenir le site",
     "nuan5pro": "Nuan5.Pro",
-    "stats": "Statistiques Personnelles",
-    "contact": "Contact"
+    "stats": "Statistiques Personnelles"
   },
   "meta": {
     "title": "Suivi de Résonance et compagnon de style d'Infinity Nikki",
@@ -146,8 +146,8 @@
       "random": "Tirez un article aléatoire d'Infinity Nikki avec Chic-o-matic. Ajoutez des indices ou filtres optionnels, découvrez des pièces surprise et ouvrez leurs détails dans le compendium.",
       "faq": "Trouvez des réponses aux questions fréquemment posées sur gongeo.us, notamment sur la confidentialité des données, les méthodes d'importation et les directives d'utilisation.",
       "about": "Apprenez-en davantage sur gongeo.us, y compris son objectif, sa politique de confidentialité, ses clauses de non-responsabilité et la manière dont il prend en charge la communauté Infinity Nikki.",
-      "stats": "Consultez vos statistiques personnelles de pulls de résonance Infinity Nikki, l'analyse de chance, les séries et l'activité de pulls.",
-      "contact": "Envoyez des retours généraux, des rapports de bugs ou des suggestions pour gongeo.us."
+      "contact": "Envoyez des retours généraux, des rapports de bugs ou des suggestions pour gongeo.us.",
+      "stats": "Consultez vos statistiques personnelles de pulls de résonance Infinity Nikki, l'analyse de chance, les séries et l'activité de pulls."
     }
   },
   "default": {
@@ -1087,6 +1087,14 @@
       "reject_failed": "Échec du rejet de la suggestion."
     }
   },
+  "contact": {
+    "name_label": "Nom",
+    "optional_label": "(facultatif)",
+    "name_placeholder": "Votre nom",
+    "message_label": "Message",
+    "success": "Merci, votre message a été envoyé.",
+    "error": "Impossible d'envoyer le message. Veuillez réessayer."
+  },
   "stats": {
     "overview": {
       "luck_rating": "Indice de Chance"
@@ -1112,13 +1120,5 @@
       "best_luck": "Meilleure Chance",
       "worst_luck": "Pire Chance"
     }
-  },
-  "contact": {
-    "name_label": "Nom",
-    "optional_label": "(facultatif)",
-    "name_placeholder": "Votre nom",
-    "message_label": "Message",
-    "success": "Merci, votre message a été envoyé.",
-    "error": "Impossible d'envoyer le message. Veuillez réessayer."
   }
 }

@@ -114,6 +114,7 @@
     "vote": "배너 투표",
     "faq": "자주 묻는 질문",
     "about": "정보",
+    "contact": "Contact",
     "official_website": "공식 웹사이트",
     "join_community": "커뮤니티 참여",
     "support_website": "사이트 후원",
@@ -145,6 +146,7 @@
       "random": "상상 가챠로 인피니티 니키 아이템을 랜덤으로 뽑아보세요. 힌트나 필터를 더해 뜻밖의 파츠를 발견하고 도감 상세로 이동할 수 있습니다.",
       "faq": "데이터 프라이버시, 가져오기 방법, 이용 가이드를 포함해 니키 공명록에 대해 자주 묻는 질문을 확인해 보세요.",
       "about": "니키 공명록의 목적, 개인정보 처리방침, 면책 조항과 인피니티 니키 커뮤니티를 위한 역할을 소개합니다.",
+      "contact": "Send general feedback, bug reports, or suggestions for gongeo.us.",
       "stats": "개인 인피니티 니키 공명 뽑기 통계, 행운 분석, 연속 기록 및 풀 활동을 확인하세요."
     }
   },
@@ -1084,6 +1086,14 @@
       "apply_failed": "제안 적용에 실패했습니다.",
       "reject_failed": "제안 거절에 실패했습니다."
     }
+  },
+  "contact": {
+    "name_label": "Name",
+    "optional_label": "(optional)",
+    "name_placeholder": "Your name",
+    "message_label": "Message",
+    "success": "Thanks, your feedback was sent.",
+    "error": "Failed to send feedback. Please try again."
   },
   "stats": {
     "overview": {

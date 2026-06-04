@@ -114,12 +114,12 @@
     "vote": "Voto de pancarta",
     "faq": "Preguntas frecuentes",
     "about": "Acerca de",
+    "contact": "Contacto",
     "official_website": "Sitio web oficial",
     "join_community": "Unirse a la comunidad",
     "support_website": "Apoyar el sitio",
     "nuan5pro": "Nuan5.Pro",
-    "stats": "Estadísticas Personales",
-    "contact": "Contacto"
+    "stats": "Estadísticas Personales"
   },
   "meta": {
     "title": "Rastreador de resonancia y compañero de estilismo de Infinity Nikki",
@@ -146,8 +146,8 @@
       "random": "Saca un artículo aleatorio de Infinity Nikki con Maravie-O-Matic. Añade pistas o filtros opcionales, descubre piezas sorpresa y abre sus detalles en el compendio.",
       "faq": "Encuentra respuestas a las preguntas más frecuentes sobre gongeo.us, incluyendo privacidad de datos, métodos de importación y pautas de uso.",
       "about": "Obtenga más información sobre gongeo.us, incluido su propósito, política de privacidad, exenciones de responsabilidad y cómo apoya a la comunidad Infinity Nikki.",
-      "stats": "Ve tus estadísticas personales de pulls de resonancia de Infinity Nikki, análisis de suerte, rachas y actividad de pulls.",
-      "contact": "Envía comentarios generales, informes de errores o sugerencias para gongeo.us."
+      "contact": "Envía comentarios generales, informes de errores o sugerencias para gongeo.us.",
+      "stats": "Ve tus estadísticas personales de pulls de resonancia de Infinity Nikki, análisis de suerte, rachas y actividad de pulls."
     }
   },
   "default": {
@@ -1087,6 +1087,14 @@
       "reject_failed": "Error al rechazar la sugerencia."
     }
   },
+  "contact": {
+    "name_label": "Nombre",
+    "optional_label": "(opcional)",
+    "name_placeholder": "Tu nombre",
+    "message_label": "Mensaje",
+    "success": "Gracias, tus comentarios se enviaron.",
+    "error": "No se pudieron enviar los comentarios. Inténtalo de nuevo."
+  },
   "stats": {
     "overview": {
       "luck_rating": "Clasificación de Suerte"
@@ -1112,13 +1120,5 @@
       "best_luck": "Mejor Suerte",
       "worst_luck": "Peor Suerte"
     }
-  },
-  "contact": {
-    "name_label": "Nombre",
-    "optional_label": "(opcional)",
-    "name_placeholder": "Tu nombre",
-    "message_label": "Mensaje",
-    "success": "Gracias, tus comentarios se enviaron.",
-    "error": "No se pudieron enviar los comentarios. Inténtalo de nuevo."
   }
 }

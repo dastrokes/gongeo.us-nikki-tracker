@@ -114,6 +114,7 @@
     "vote": "Banner Vote",
     "faq": "FAQ",
     "about": "About",
+    "contact": "Contact",
     "official_website": "Official Website",
     "join_community": "Join Community",
     "support_website": "Support Website",
@@ -145,6 +146,7 @@
       "random": "Roll a random Infinity Nikki item with Whim-O-Matic. Add optional hints or filters, discover surprise pieces, and jump into compendium details.",
       "faq": "Find answers to frequently asked questions about gongeo.us, including data privacy, import methods, and usage guidelines.",
       "about": "Learn more about gongeo.us, including its purpose, privacy policy, disclaimers, and how it supports the Infinity Nikki community.",
+      "contact": "Send general feedback, bug reports, or suggestions for gongeo.us.",
       "stats": "View your personal Infinity Nikki resonance pull statistics, luck analysis, streaks, and pulling activity."
     }
   },
@@ -1084,6 +1086,14 @@
       "apply_failed": "Failed to apply suggestion.",
       "reject_failed": "Failed to reject suggestion."
     }
+  },
+  "contact": {
+    "name_label": "Name",
+    "optional_label": "(optional)",
+    "name_placeholder": "Your name",
+    "message_label": "Message",
+    "success": "Thanks, your feedback was sent.",
+    "error": "Failed to send feedback. Please try again."
   },
   "stats": {
     "overview": {

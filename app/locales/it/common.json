@@ -359,18 +359,18 @@
       "partial": "Parziale"
     },
     "actions": {
-      "edit_mode": "Modalità modifica",
-      "view_mode": "Modalità vista",
-      "edit_ownership": "Modifica possesso",
-      "mark_owned": "Segna come posseduto",
-      "mark_unowned": "Segna come non posseduto",
-      "base_only": "Solo base",
-      "mark_all": "Segna tutte le varianti",
-      "unmark_all": "Deseleziona tutto",
-      "mark_selected_owned": "Segna selezionati come posseduti",
-      "unmark_selected": "Deseleziona selezionati",
-      "mark_glowup": "Segna rinnovo effettuato",
-      "unmark_glowup": "Deseleziona rinnovo effettuato"
+      "edit_mode": "Edit mode",
+      "view_mode": "View mode",
+      "edit_ownership": "Edit ownership",
+      "mark_owned": "Mark owned",
+      "mark_unowned": "Mark unowned",
+      "base_only": "Base only",
+      "mark_all": "Mark all variations",
+      "unmark_all": "Unmark all",
+      "mark_selected_owned": "Mark selected owned",
+      "unmark_selected": "Unmark selected",
+      "mark_glowup": "Mark glow up",
+      "unmark_glowup": "Unmark glow up"
     },
     "status": {
       "owned": "Posseduto",

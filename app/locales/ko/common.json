@@ -359,18 +359,18 @@
       "partial": "일부"
     },
     "actions": {
-      "edit_mode": "편집 모드",
-      "view_mode": "보기 모드",
-      "edit_ownership": "소유 상태 편집",
-      "mark_owned": "보유로 표시",
-      "mark_unowned": "미보유로 표시",
-      "base_only": "기본만",
-      "mark_all": "모든 변형 표시",
-      "unmark_all": "모두 표시 해제",
-      "mark_selected_owned": "선택 항목 보유 표시",
-      "unmark_selected": "선택 항목 표시 해제",
-      "mark_glowup": "환신 완료 표시",
-      "unmark_glowup": "환신 완료 표시 해제"
+      "edit_mode": "Edit mode",
+      "view_mode": "View mode",
+      "edit_ownership": "Edit ownership",
+      "mark_owned": "Mark owned",
+      "mark_unowned": "Mark unowned",
+      "base_only": "Base only",
+      "mark_all": "Mark all variations",
+      "unmark_all": "Unmark all",
+      "mark_selected_owned": "Mark selected owned",
+      "unmark_selected": "Unmark selected",
+      "mark_glowup": "Mark glow up",
+      "unmark_glowup": "Unmark glow up"
     },
     "status": {
       "owned": "보유",

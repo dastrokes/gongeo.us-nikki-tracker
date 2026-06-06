@@ -454,10 +454,27 @@
   )
 
   const availableItemTypes = standardItemTypes
-  type WardrobeVariantMarkKey = VariantType | 'all-variations'
+  type WardrobeVariantMarkKey =
+    | VariantType
+    | 'complete-set'
+    | 'unmark-all'
+    | 'mark-current-owned'
+    | 'unmark-current'
+  type WardrobeVariantMarkDividerKey = 'divider-glowup' | 'divider-bulk'
   type WardrobeVariantMarkOption = DropdownOption & {
-    key: WardrobeVariantMarkKey
+    key: WardrobeVariantMarkKey | WardrobeVariantMarkDividerKey
   }
+  const markCurrentVariantOption = (
+    option: WardrobeVariantMarkOption,
+    currentVariantType?: VariantType | null
+  ): WardrobeVariantMarkOption =>
+    currentVariantType && option.key === currentVariantType
+      ? {
+          ...option,
+          label: () =>
+            h('span', { class: 'font-semibold' }, String(option.label ?? '')),
+        }
+      : option
 
   type ItemListingPrimaryFilter =
     | 'type'
@@ -1289,25 +1306,36 @@
   }
 
   const getVariantMarkOptions = (
-    glowUpOwned: boolean
-  ): WardrobeVariantMarkOption[] => [
-    {
-      key: 'all-variations',
-      label: t('wardrobe.actions.mark_all_variations'),
-    },
-    { key: 'base', label: t('banner.outfit.level.1') },
-    { key: 'evo1', label: t('banner.outfit.level.2') },
-    { key: 'evo2', label: t('banner.outfit.level.3') },
-    { key: 'evo3', label: t('banner.outfit.level.4') },
-    {
-      key: 'glowup',
-      label: t(
-        glowUpOwned
-          ? 'wardrobe.actions.unmark_glowup'
-          : 'wardrobe.actions.mark_glowup'
-      ),
-    },
-  ]
+    glowUpOwned: boolean,
+    currentVariantType?: VariantType | null
+  ): WardrobeVariantMarkOption[] =>
+    [
+      { key: 'base', label: t('wardrobe.actions.base_only') },
+      { key: 'evo1', label: t('banner.outfit.level.2') },
+      { key: 'evo2', label: t('banner.outfit.level.3') },
+      { key: 'evo3', label: t('banner.outfit.level.4') },
+      { key: 'divider-glowup', type: 'divider' },
+      {
+        key: 'glowup',
+        label: t(
+          glowUpOwned
+            ? 'wardrobe.actions.unmark_glowup'
+            : 'wardrobe.actions.mark_glowup'
+        ),
+      },
+      { key: 'divider-bulk', type: 'divider' },
+      { key: 'complete-set', label: t('wardrobe.actions.mark_all') },
+      { key: 'unmark-all', label: t('wardrobe.actions.unmark_all') },
+    ].map((option) => markCurrentVariantOption(option, currentVariantType))
+  const selectedVariationMarkOptions = computed<WardrobeVariantMarkOption[]>(
+    () => [
+      {
+        key: 'mark-current-owned',
+        label: t('wardrobe.actions.mark_selected_owned'),
+      },
+      { key: 'unmark-current', label: t('wardrobe.actions.unmark_selected') },
+    ]
+  )
 
   const isVariantMarkApplicableToQuality = (key: string, quality: number) => {
     if (quality < 4) return false
@@ -1316,13 +1344,15 @@
   }
   const getApplicableVariantMarkOptions = (
     qualities: readonly number[],
-    glowUpOwned: boolean
+    glowUpOwned: boolean,
+    currentVariantType?: VariantType | null
   ) =>
-    variationFilter.value === 'base' && qualities.length > 0
-      ? getVariantMarkOptions(glowUpOwned).filter((option) =>
-          qualities.every((quality) =>
-            isVariantMarkApplicableToQuality(option.key, quality)
-          )
+    qualities.length > 0
+      ? getVariantMarkOptions(glowUpOwned, currentVariantType).filter(
+          (option) =>
+            qualities.every((quality) =>
+              isVariantMarkApplicableToQuality(option.key, quality)
+            )
         )
       : []
   const itemQualityById = computed(
@@ -1373,23 +1403,26 @@
       : []
   })
   const batchVariationMarkOptions = computed(() =>
-    getApplicableVariantMarkOptions(
-      batchItemQualities.value,
-      areItemGlowUpsOwned(batchItemIdsForMenu.value)
-    )
+    variationFilter.value === 'base'
+      ? getApplicableVariantMarkOptions(
+          batchItemQualities.value,
+          areItemGlowUpsOwned(batchItemIdsForMenu.value)
+        )
+      : selectedVariationMarkOptions.value
   )
   const getItemVariationMarkOptions = (itemId: number, quality: number) =>
     getApplicableVariantMarkOptions(
       [quality],
-      isItemGlowUpOwned(itemId, quality)
+      isItemGlowUpOwned(itemId, quality),
+      getItemVariantType(itemId)
     )
   const getVariantMarkMaxRank = (key: WardrobeVariantMarkKey) => {
-    if (key === 'all-variations') return Number.POSITIVE_INFINITY
     if (key === 'base') return 0
     if (key === 'glowup') return 1
     if (key === 'evo1') return 2
     if (key === 'evo2') return 3
-    return 4
+    if (key === 'evo3') return 4
+    return 0
   }
   const getVariantRank = (variantType: VariantType) => {
     if (variantType === 'base') return 0
@@ -1418,10 +1451,14 @@
         const quality = item?.quality ?? 5
         const relatedIds = getRelatedItemIds(itemId, quality)
         const maxRank = getVariantMarkMaxRank(variantKey)
-        return relatedIds.filter(
-          (relatedId) =>
-            getVariantRank(getItemVariantType(relatedId)) <= maxRank
-        )
+        if (variantKey === 'complete-set') return relatedIds
+
+        return relatedIds.filter((relatedId) => {
+          const variantType = getItemVariantType(relatedId)
+          return variantKey === 'glowup'
+            ? variantType === 'base' || variantType === 'glowup'
+            : variantType !== 'glowup' && getVariantRank(variantType) <= maxRank
+        })
       })
     ).filter((itemId) => !index || index.itemById.has(itemId))
   }
@@ -1433,7 +1470,13 @@
     const index = catalogIndex.index.value
     const variantKey = key as WardrobeVariantMarkKey
     const maxRank = getVariantMarkMaxRank(variantKey)
-    if (!Number.isFinite(maxRank) || variantKey === 'glowup') return []
+    if (
+      !Number.isFinite(maxRank) ||
+      variantKey === 'glowup' ||
+      variantKey === 'complete-set'
+    ) {
+      return []
+    }
 
     return normalizeWardrobeItemIds(
       itemIds.flatMap((itemId) => {
@@ -1473,6 +1516,37 @@
           (relatedId) =>
             getVariantRank(getItemVariantType(relatedId)) >= minRank
         )
+      })
+    ).filter((itemId) => !index || index.itemById.has(itemId))
+  }
+  const getItemIdsForVariantFamilyUnmark = async (
+    itemIds: readonly number[]
+  ) => {
+    await catalogIndex.load(['items'])
+    const index = catalogIndex.index.value
+
+    return normalizeWardrobeItemIds(
+      itemIds.flatMap((itemId) => {
+        const item = index?.itemById.get(itemId)
+        const quality = item?.quality ?? 5
+        return getRelatedItemIds(itemId, quality)
+      })
+    ).filter((itemId) => !index || index.itemById.has(itemId))
+  }
+  const getItemIdsForCurrentMark = async (itemIds: readonly number[]) => {
+    await catalogIndex.load(['items'])
+    const index = catalogIndex.index.value
+
+    return normalizeWardrobeItemIds(
+      itemIds.flatMap((itemId) => {
+        if (getItemVariantType(itemId) !== 'glowup') return [itemId]
+
+        const item = index?.itemById.get(itemId)
+        const quality = item?.quality ?? 5
+        return getRelatedItemIds(itemId, quality).filter((relatedId) => {
+          const variantType = getItemVariantType(relatedId)
+          return variantType === 'base' || relatedId === itemId
+        })
       })
     ).filter((itemId) => !index || index.itemById.has(itemId))
   }
@@ -1544,6 +1618,11 @@
     setItemToggleLoading(itemId, true)
     try {
       if (getVisibleItemWardrobeStatus(itemId, quality)) {
+        if (variationFilter.value !== 'base') {
+          await markItemsOwned([itemId], false)
+          return
+        }
+
         const itemIds = await getItemIdsForVariantUnmark([itemId])
         if (itemIds.length > 0) {
           await markItemsOwned(itemIds, false)
@@ -1551,7 +1630,11 @@
         return
       }
 
-      await markItemsOwned([itemId], true)
+      const itemIds =
+        variationFilter.value !== 'base'
+          ? await getItemIdsForCurrentMark([itemId])
+          : [itemId]
+      await markItemsOwned(itemIds, true)
     } catch {
       message.error(t('wardrobe.error.save'))
     } finally {
@@ -1564,6 +1647,22 @@
 
     setItemToggleLoading(itemId, true)
     try {
+      if (key === 'mark-current-owned') {
+        const itemIds = await getItemIdsForCurrentMark([itemId])
+        await markItemsOwned(itemIds, true)
+        return
+      }
+      if (key === 'unmark-current') {
+        await markItemsOwned([itemId], false)
+        return
+      }
+      if (key === 'unmark-all') {
+        const itemIds = await getItemIdsForVariantFamilyUnmark([itemId])
+        if (itemIds.length > 0) {
+          await markItemsOwned(itemIds, false)
+        }
+        return
+      }
       if (key === 'glowup') {
         const glowUpIds = await getItemIdsForGlowUp([itemId])
         if (glowUpIds.length > 0 && glowUpIds.every(isItemOwned)) {
@@ -1665,6 +1764,43 @@
     try {
       const baseItemIds = await getBatchItemIds()
       if (baseItemIds.length === 0) return
+
+      if (key === 'mark-current-owned' || key === 'unmark-current') {
+        const owned = key === 'mark-current-owned'
+        const itemIds = owned
+          ? await getItemIdsForCurrentMark(baseItemIds)
+          : baseItemIds
+        if (
+          batchScope.value === 'all' &&
+          !(await confirmAllMatching(owned, itemIds.length))
+        ) {
+          return
+        }
+
+        await markItemsOwned(itemIds, owned)
+        if (batchScope.value === 'selected') {
+          clearSelection()
+        }
+        return
+      }
+
+      if (key === 'unmark-all') {
+        const itemIds = await getItemIdsForVariantFamilyUnmark(baseItemIds)
+        if (itemIds.length === 0) return
+
+        if (
+          batchScope.value === 'all' &&
+          !(await confirmAllMatching(false, itemIds.length))
+        ) {
+          return
+        }
+
+        await markItemsOwned(itemIds, false)
+        if (batchScope.value === 'selected') {
+          clearSelection()
+        }
+        return
+      }
 
       if (key === 'glowup') {
         const glowUpIds = await getItemIdsForGlowUp(baseItemIds)

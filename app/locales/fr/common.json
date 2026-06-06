@@ -361,9 +361,14 @@
     "actions": {
       "edit_mode": "Mode édition",
       "view_mode": "Mode vue",
+      "edit_ownership": "Modifier la possession",
       "mark_owned": "Marquer comme possédé",
       "mark_unowned": "Marquer comme non possédé",
-      "mark_all_variations": "Marquer toutes les variations",
+      "base_only": "Base uniquement",
+      "mark_all": "Marquer toutes les variations",
+      "unmark_all": "Tout démarquer",
+      "mark_selected_owned": "Marquer la sélection comme possédée",
+      "unmark_selected": "Démarquer la sélection",
       "mark_glowup": "Marquer embelli",
       "unmark_glowup": "Démarquer embelli"
     },

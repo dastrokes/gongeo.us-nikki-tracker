@@ -361,9 +361,14 @@
     "actions": {
       "edit_mode": "편집 모드",
       "view_mode": "보기 모드",
+      "edit_ownership": "소유 상태 편집",
       "mark_owned": "보유로 표시",
       "mark_unowned": "미보유로 표시",
-      "mark_all_variations": "모든 변형 표시",
+      "base_only": "기본만",
+      "mark_all": "모든 변형 표시",
+      "unmark_all": "모두 표시 해제",
+      "mark_selected_owned": "선택 항목 보유 표시",
+      "unmark_selected": "선택 항목 표시 해제",
       "mark_glowup": "환신 완료 표시",
       "unmark_glowup": "환신 완료 표시 해제"
     },

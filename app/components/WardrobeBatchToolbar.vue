@@ -38,12 +38,11 @@
         </div>
       </div>
 
-      <div class="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:items-center">
+      <div class="grid grid-cols-1 gap-2 sm:flex sm:flex-wrap sm:items-center">
         <n-dropdown
-          v-if="actionMarkOwnedMenuOptions.length > 0"
           trigger="click"
           placement="bottom-end"
-          :options="actionMarkOwnedMenuOptions"
+          :options="markOwnedMenuOptions"
           :disabled="disabled || activeCount === 0"
           @select="handleMarkOwnedMenuSelect"
         >
@@ -51,49 +50,27 @@
             size="small"
             type="primary"
             :disabled="disabled || activeCount === 0"
-            :aria-label="t('wardrobe.actions.mark_owned')"
+            :aria-label="t('wardrobe.actions.edit_ownership')"
           >
             <template #icon>
-              <n-icon><Check /></n-icon>
+              <n-icon><Pen /></n-icon>
             </template>
             <span class="inline-flex items-center gap-1">
-              {{ t('wardrobe.actions.mark_owned') }}
+              {{ t('wardrobe.actions.edit_ownership') }}
               <n-icon size="10">
                 <CaretDown />
               </n-icon>
             </span>
           </n-button>
         </n-dropdown>
-        <n-button
-          v-else
-          size="small"
-          type="primary"
-          :disabled="disabled || activeCount === 0"
-          @click="$emit('mark-owned')"
-        >
-          <template #icon>
-            <n-icon><Check /></n-icon>
-          </template>
-          {{ t('wardrobe.actions.mark_owned') }}
-        </n-button>
-        <n-button
-          size="small"
-          :disabled="disabled || activeCount === 0"
-          @click="$emit('mark-unowned')"
-        >
-          <template #icon>
-            <n-icon><Times /></n-icon>
-          </template>
-          {{ t('wardrobe.actions.mark_unowned') }}
-        </n-button>
       </div>
     </div>
   </n-card>
 </template>
 
 <script setup lang="ts">
-  import { CaretDown, Check, Times } from '@vicons/fa'
-  import type { DropdownOption } from 'naive-ui'
+  import { CaretDown, Pen } from '@vicons/fa'
+  import type { DropdownMixedOption, DropdownOption } from 'naive-ui'
 
   export type WardrobeBatchScope = 'selected' | 'page' | 'all'
 
@@ -117,22 +94,41 @@
 
   const { t } = useI18n()
 
-  const markOwnedMenuOptions = computed(() => props.markOwnedMenuOptions ?? [])
-  const actionMarkOwnedMenuOptions = computed<WardrobeBatchMenuOption[]>(() =>
-    markOwnedMenuOptions.value.length > 0
-      ? [
+  const menuHeaderOption = computed<DropdownMixedOption>(() => ({
+    type: 'render',
+    key: 'ownership-menu-header',
+    props: {
+      class: 'border-b border-gray-100 px-3 pb-2 pt-2.5 dark:border-gray-800',
+    },
+    render: () =>
+      h(
+        'div',
+        {
+          class: 'text-xs font-semibold text-gray-500 dark:text-gray-400',
+        },
+        t('wardrobe.actions.edit_ownership')
+      ),
+  }))
+
+  const markOwnedMenuOptions = computed<DropdownMixedOption[]>(() => [
+    menuHeaderOption.value,
+    ...(props.markOwnedMenuOptions?.length
+      ? props.markOwnedMenuOptions
+      : [
           {
             key: 'mark-owned',
             label: t('wardrobe.actions.mark_owned'),
           },
-          ...markOwnedMenuOptions.value,
-        ]
-      : []
-  )
-
+          {
+            key: 'mark-unowned',
+            label: t('wardrobe.actions.mark_unowned'),
+          },
+        ]),
+  ])
   const handleMarkOwnedMenuSelect = (key: string | number) => {
-    if (key === 'mark-owned') {
-      emit('mark-owned')
+    if (key === 'ownership-menu-header') return
+    if (key === 'mark-owned' || key === 'mark-unowned') {
+      emit(key)
       return
     }
     emit('mark-owned-menu-select', String(key))

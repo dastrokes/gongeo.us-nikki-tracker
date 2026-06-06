@@ -1021,6 +1021,7 @@
     Tshirt,
     Users,
     CheckCircle,
+    Adjust,
     TimesCircle,
     DotCircle,
   } from '@vicons/fa'
@@ -1262,7 +1263,7 @@
     | 'evo3'
     | 'all-evos'
 
-  type TierWardrobeFilter = 'all' | 'owned' | 'missing'
+  type TierWardrobeFilter = 'all' | 'owned' | 'partial' | 'missing'
 
   const itemOutfitVariationFilterValues = new Set<CatalogVariationFilter>([
     'base',
@@ -1310,8 +1311,10 @@
     if (tierMode === 'items' && (value === 'owned' || value === 'missing')) {
       return value
     }
-    if (tierMode === 'outfits' && value === 'partial') return 'owned'
-    if (tierMode === 'outfits' && (value === 'owned' || value === 'missing')) {
+    if (
+      tierMode === 'outfits' &&
+      (value === 'owned' || value === 'partial' || value === 'missing')
+    ) {
       return value
     }
     return 'all'
@@ -1501,6 +1504,14 @@
       { label: t('common.all'), value: 'all', icon: DotCircle },
       { label: t('wardrobe.status.owned'), value: 'owned', icon: CheckCircle },
     ]
+
+    if (mode.value === 'outfits') {
+      options.push({
+        label: t('wardrobe.filters.partial'),
+        value: 'partial',
+        icon: Adjust,
+      })
+    }
 
     options.push({
       label: t('wardrobe.status.missing'),
@@ -2295,7 +2306,8 @@
       page: 1,
       pageSize: TIER_ENTRY_LIMIT,
       regionScope: activeRegionScope.value,
-      ownershipMode: wardrobeFilter.value,
+      ownershipMode:
+        wardrobeFilter.value === 'partial' ? 'all' : wardrobeFilter.value,
       wardrobe: {
         ownedItemIds: ownedItemIds.value,
       },

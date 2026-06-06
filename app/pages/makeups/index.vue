@@ -291,6 +291,7 @@
     PaintBrush,
     Paw,
     CheckCircle,
+    Adjust,
     TimesCircle,
     DotCircle,
   } from '@vicons/fa'
@@ -450,7 +451,7 @@
     slot?: MakeupSlot | null
   ): MakeupWardrobeFilter => {
     if (value === 'partial') {
-      return supportsPartialWardrobeFilter(slot) ? 'owned' : 'all'
+      return supportsPartialWardrobeFilter(slot) ? 'partial' : 'all'
     }
     if (value === 'owned' || value === 'missing') {
       return value
@@ -779,11 +780,22 @@
     ])
   }
   const renderCompendiumSectionOptionLabel = renderIconSelectOptionLabel
+  const hasFullMakeupInResult = computed(() =>
+    supportsPartialWardrobeFilter(slotFilter.value)
+  )
   const wardrobeFilterOptions = computed<IconSelectOption[]>(() => {
     const options: IconSelectOption[] = [
       { label: t('common.all'), value: 'all', icon: DotCircle },
       { label: t('wardrobe.status.owned'), value: 'owned', icon: CheckCircle },
     ]
+
+    if (hasFullMakeupInResult.value) {
+      options.push({
+        label: t('wardrobe.filters.partial'),
+        value: 'partial',
+        icon: Adjust,
+      })
+    }
 
     options.push({
       label: t('wardrobe.status.missing'),
@@ -1158,6 +1170,14 @@
     }
   )
 
+  watch(slotFilter, () => {
+    if (
+      wardrobeFilter.value === 'partial' &&
+      !supportsPartialWardrobeFilter(slotFilter.value)
+    ) {
+      wardrobeFilter.value = 'all'
+    }
+  })
   watch([slotFilter, qualityFilter, versionFilter, styleFilter], () => {
     currentPage.value = 1
   })

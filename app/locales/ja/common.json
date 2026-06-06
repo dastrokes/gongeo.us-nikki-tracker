@@ -359,18 +359,18 @@
       "partial": "一部所持"
     },
     "actions": {
-      "edit_mode": "編集モード",
-      "view_mode": "表示モード",
-      "edit_ownership": "所有状態を編集",
-      "mark_owned": "所持済みにする",
-      "mark_unowned": "未所持にする",
-      "base_only": "ベースのみ",
-      "mark_all": "すべてのバリエーションをマーク",
-      "unmark_all": "すべて解除",
-      "mark_selected_owned": "選択中を所有済みにする",
-      "unmark_selected": "選択中を解除",
-      "mark_glowup": "煥新済をマーク",
-      "unmark_glowup": "煥新済のマークを解除"
+      "edit_mode": "Edit mode",
+      "view_mode": "View mode",
+      "edit_ownership": "Edit ownership",
+      "mark_owned": "Mark owned",
+      "mark_unowned": "Mark unowned",
+      "base_only": "Base only",
+      "mark_all": "Mark all variations",
+      "unmark_all": "Unmark all",
+      "mark_selected_owned": "Mark selected owned",
+      "unmark_selected": "Unmark selected",
+      "mark_glowup": "Mark glow up",
+      "unmark_glowup": "Unmark glow up"
     },
     "status": {
       "owned": "所持済み",

@@ -359,18 +359,13 @@
       "partial": "Partial"
     },
     "actions": {
-      "edit_mode": "Edit mode",
-      "view_mode": "View mode",
-      "edit_ownership": "Edit ownership",
-      "mark_owned": "Mark owned",
-      "mark_unowned": "Mark unowned",
-      "base_only": "Base only",
-      "mark_all": "Mark all variations",
-      "unmark_all": "Unmark all",
-      "mark_selected_owned": "Mark selected owned",
-      "unmark_selected": "Unmark selected",
-      "mark_glowup": "Mark glow up",
-      "unmark_glowup": "Unmark glow up"
+      "edit_mode": "Edit Mode",
+      "view_mode": "View Mode",
+      "mark_owned": "Mark Owned",
+      "mark_unowned": "Mark Unowned",
+      "mark_all_variations": "Mark All Variations",
+      "mark_glowup": "Mark Glow Up",
+      "unmark_glowup": "Unmark Glow Up"
     },
     "status": {
       "owned": "Owned",

@@ -43,10 +43,6 @@ const SCALAR_FIELDS = Object.entries(itemSearchRegistry.fieldKindByName)
 const SEARCH_DOCUMENT_VALUE_EXCLUDED_FIELDS = new Set([
   'category',
   'subcategory',
-  'placement',
-  'primary_color',
-  'secondary_color',
-  'ornament',
 ])
 const LOCAL_COPY_FIELD_ORDER_BY_ITEM_TYPE = {
   hair: [
@@ -189,7 +185,7 @@ export const parseArgs = (argv) => {
     const arg = argv[index]
     if (!arg) continue
 
-    if (arg === '--item-attributes-path' || arg === '--documents-path') {
+    if (arg === '--item-attributes-path') {
       args.itemAttributesPath = argv[index + 1]
       index += 1
       continue
@@ -581,15 +577,6 @@ const buildSearchTextFromStructuredRecord = (structuredRecord) => {
     searchTerms.push(subcategory)
   }
 
-  const placement = normalizeSearchTextValue(structuredRecord.data.placement)
-  if (placement) {
-    searchTerms.push(placement)
-  }
-
-  searchTerms.push(
-    ...dedupeSearchTerms(flattenSearchValues(structuredRecord.data.ornament))
-  )
-
   const fieldOrder = getStructuredFieldOrder(structuredRecord.item_type)
   const extraFields = Object.keys(structuredRecord.data)
     .filter((field) => !fieldOrder.includes(field))
@@ -771,16 +758,6 @@ export const refreshItemSearchLocalCopy = async ({
     normalizedOutputRoot,
     'item-attributes.jsonl'
   )
-  for (const staleFileName of [
-    'item-structured-final.jsonl',
-    'item-search-documents.jsonl',
-    'item-search-snapshot.jsonl',
-  ]) {
-    fs.rmSync(path.join(normalizedOutputRoot, staleFileName), {
-      force: true,
-    })
-  }
-
   writeJsonLines(itemAttributesPath, normalizedRows)
 
   return {

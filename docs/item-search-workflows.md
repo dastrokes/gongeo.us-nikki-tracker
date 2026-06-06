@@ -323,7 +323,6 @@ What it does:
 - Reads all `item_attributes` rows from the data Supabase project.
 - Normalizes each row into the canonical `{ item_id, item_type, category, subcategory, metadata }` shape.
 - Writes `item-attributes.jsonl` into `data/item-search/generated/supabase/` by default.
-- Removes older stale files such as `item-structured-final.jsonl`, `item-search-documents.jsonl`, and `item-search-snapshot.jsonl` from that output directory.
 
 Flags:
 

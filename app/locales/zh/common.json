@@ -359,18 +359,18 @@
       "partial": "部分"
     },
     "actions": {
-      "edit_mode": "Edit mode",
-      "view_mode": "View mode",
-      "edit_ownership": "Edit ownership",
-      "mark_owned": "Mark owned",
-      "mark_unowned": "Mark unowned",
-      "base_only": "Base only",
-      "mark_all": "Mark all variations",
-      "unmark_all": "Unmark all",
-      "mark_selected_owned": "Mark selected owned",
-      "unmark_selected": "Unmark selected",
-      "mark_glowup": "Mark glow up",
-      "unmark_glowup": "Unmark glow up"
+      "edit_mode": "编辑模式",
+      "view_mode": "查看模式",
+      "edit_ownership": "编辑拥有状态",
+      "mark_owned": "标记为拥有",
+      "mark_unowned": "标记为未拥有",
+      "base_only": "仅基础",
+      "mark_all": "标记所有变化",
+      "unmark_all": "取消标记全部",
+      "mark_selected_owned": "标记所选为已拥有",
+      "unmark_selected": "取消标记所选",
+      "mark_glowup": "标记焕新",
+      "unmark_glowup": "取消标记焕新"
     },
     "status": {
       "owned": "已拥有",

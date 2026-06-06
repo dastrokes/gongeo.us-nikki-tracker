@@ -359,18 +359,18 @@
       "partial": "Parcial"
     },
     "actions": {
-      "edit_mode": "Edit mode",
-      "view_mode": "View mode",
-      "edit_ownership": "Edit ownership",
-      "mark_owned": "Mark owned",
-      "mark_unowned": "Mark unowned",
-      "base_only": "Base only",
-      "mark_all": "Mark all variations",
-      "unmark_all": "Unmark all",
-      "mark_selected_owned": "Mark selected owned",
-      "unmark_selected": "Unmark selected",
-      "mark_glowup": "Mark glow up",
-      "unmark_glowup": "Unmark glow up"
+      "edit_mode": "Modo edición",
+      "view_mode": "Modo vista",
+      "edit_ownership": "Editar propiedad",
+      "mark_owned": "Marcar como propio",
+      "mark_unowned": "Marcar como no propio",
+      "base_only": "Solo base",
+      "mark_all": "Marcar todas las variaciones",
+      "unmark_all": "Desmarcar todo",
+      "mark_selected_owned": "Marcar selección como propia",
+      "unmark_selected": "Desmarcar selección",
+      "mark_glowup": "Marcar transformación",
+      "unmark_glowup": "Desmarcar transformación"
     },
     "status": {
       "owned": "Propio",

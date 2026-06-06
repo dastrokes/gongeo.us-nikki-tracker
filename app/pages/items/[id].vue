@@ -655,10 +655,27 @@
   } from '@vicons/fa'
   import type { DropdownOption } from 'naive-ui'
 
-  type WardrobeVariantMarkKey = VariantType | 'all-variations'
+  type WardrobeVariantMarkKey =
+    | VariantType
+    | 'complete-set'
+    | 'unmark-all'
+    | 'mark-current-owned'
+    | 'unmark-current'
+  type WardrobeVariantMarkDividerKey = 'divider-glowup' | 'divider-bulk'
   type WardrobeVariantMarkOption = DropdownOption & {
-    key: WardrobeVariantMarkKey
+    key: WardrobeVariantMarkKey | WardrobeVariantMarkDividerKey
   }
+  const markCurrentVariantOption = (
+    option: WardrobeVariantMarkOption,
+    currentVariantType?: VariantType | null
+  ): WardrobeVariantMarkOption =>
+    currentVariantType && option.key === currentVariantType
+      ? {
+          ...option,
+          label: () =>
+            h('span', { class: 'font-semibold' }, String(option.label ?? '')),
+        }
+      : option
 
   type DetailItem = {
     id: number
@@ -1033,26 +1050,25 @@
   })
 
   const itemVariationMarkOptions = computed<WardrobeVariantMarkOption[]>(() => {
-    if (!item.value || getItemVariantType(itemId.value) !== 'base') return []
+    if (!item.value) return []
     if (item.value.quality < 4) return []
 
     return [
-      {
-        key: 'all-variations',
-        label: t('wardrobe.actions.mark_all_variations'),
-      },
-      { key: 'base', label: t('banner.outfit.level.1') },
+      { key: 'base', label: t('wardrobe.actions.base_only') },
       { key: 'evo1', label: t('banner.outfit.level.2') },
-      {
-        key: 'evo2',
-        label: t('banner.outfit.level.3'),
-        disabled: item.value.quality < 5,
-      },
-      {
-        key: 'evo3',
-        label: t('banner.outfit.level.4'),
-        disabled: item.value.quality < 5,
-      },
+      ...(item.value.quality >= 5
+        ? [
+            {
+              key: 'evo2',
+              label: t('banner.outfit.level.3'),
+            },
+            {
+              key: 'evo3',
+              label: t('banner.outfit.level.4'),
+            },
+          ]
+        : []),
+      { key: 'divider-glowup', type: 'divider' },
       {
         key: 'glowup',
         label: t(
@@ -1061,16 +1077,21 @@
             : 'wardrobe.actions.mark_glowup'
         ),
       },
-    ]
+      { key: 'divider-bulk', type: 'divider' },
+      { key: 'complete-set', label: t('wardrobe.actions.mark_all') },
+      { key: 'unmark-all', label: t('wardrobe.actions.unmark_all') },
+    ].map((option) =>
+      markCurrentVariantOption(option, getItemVariantType(itemId.value))
+    )
   })
 
   const getVariantMarkMaxRank = (key: WardrobeVariantMarkKey) => {
-    if (key === 'all-variations') return Number.POSITIVE_INFINITY
     if (key === 'base') return 0
     if (key === 'glowup') return 1
     if (key === 'evo1') return 2
     if (key === 'evo2') return 3
-    return 4
+    if (key === 'evo3') return 4
+    return 0
   }
   const getVariantRank = (variantType: VariantType) => {
     if (variantType === 'base') return 0
@@ -1132,6 +1153,9 @@
       if (currentItemGlowUpOwned.value) return 'glowup-owned'
       return isItemOwned(itemId.value) ? 'item-owned' : null
     }
+    if (currentItemVariantType.value === 'glowup') {
+      return isItemOwned(itemId.value) ? 'glowup-owned' : null
+    }
     return isItemOwned(itemId.value) ? 'item-owned' : null
   })
   const currentItemDisplayEvoLevel = computed(() =>
@@ -1152,6 +1176,11 @@
 
     try {
       if (currentItemActionOwned.value) {
+        if (currentItemVariantType.value !== 'base') {
+          await markItemsOwned([itemId.value], false)
+          return
+        }
+
         const currentRank = getVariantRank(currentItemVariantType.value)
         const knownIds = new Set([
           item.value.id,
@@ -1170,7 +1199,23 @@
         return
       }
 
-      await markItemsOwned([itemId.value], true)
+      const itemIds =
+        currentItemVariantType.value === 'glowup'
+          ? getRelatedItemIds(itemId.value, item.value.quality)
+              .filter((relatedId) => {
+                const variantType = getItemVariantType(relatedId)
+                return variantType === 'base' || relatedId === itemId.value
+              })
+              .filter((relatedId) =>
+                [
+                  item.value!.id,
+                  ...(item.value!.variations ?? []).map(
+                    (variation) => variation.id
+                  ),
+                ].includes(relatedId)
+              )
+          : [itemId.value]
+      await markItemsOwned(itemIds, true)
     } catch {
       message.error(t('wardrobe.error.save'))
     }
@@ -1187,16 +1232,40 @@
         item.value.id,
         ...(item.value.variations ?? []).map((variation) => variation.id),
       ])
+      if (variantKey === 'unmark-all') {
+        const itemIds = relatedIds
+          .filter(
+            (relatedId) => getVariantRank(getItemVariantType(relatedId)) >= 0
+          )
+          .filter((relatedId) => knownIds.has(relatedId))
+
+        if (itemIds.length > 0) {
+          await markItemsOwned(itemIds, false)
+        }
+        return
+      }
+      if (variantKey === 'complete-set') {
+        const itemIds = relatedIds.filter((relatedId) =>
+          knownIds.has(relatedId)
+        )
+
+        if (itemIds.length > 0) {
+          await markItemsOwned(itemIds, true)
+        }
+        return
+      }
       if (variantKey === 'glowup' && currentItemGlowUpOwned.value) {
         await markItemsOwned(currentItemGlowUpIds.value, false)
         return
       }
 
       const itemIds = relatedIds
-        .filter(
-          (relatedId) =>
-            getVariantRank(getItemVariantType(relatedId)) <= maxRank
-        )
+        .filter((relatedId) => {
+          const variantType = getItemVariantType(relatedId)
+          return variantKey === 'glowup'
+            ? variantType === 'base' || variantType === 'glowup'
+            : variantType !== 'glowup' && getVariantRank(variantType) <= maxRank
+        })
         .filter((relatedId) => knownIds.has(relatedId))
       const clearItemIds =
         Number.isFinite(maxRank) && variantKey !== 'glowup'

@@ -361,9 +361,14 @@
     "actions": {
       "edit_mode": "編集モード",
       "view_mode": "表示モード",
+      "edit_ownership": "所有状態を編集",
       "mark_owned": "所持済みにする",
       "mark_unowned": "未所持にする",
-      "mark_all_variations": "すべてのバリエーションをマーク",
+      "base_only": "ベースのみ",
+      "mark_all": "すべてのバリエーションをマーク",
+      "unmark_all": "すべて解除",
+      "mark_selected_owned": "選択中を所有済みにする",
+      "unmark_selected": "選択中を解除",
       "mark_glowup": "煥新済をマーク",
       "unmark_glowup": "煥新済のマークを解除"
     },

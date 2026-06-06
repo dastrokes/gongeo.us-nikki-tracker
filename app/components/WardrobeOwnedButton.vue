@@ -74,7 +74,7 @@
 
 <script setup lang="ts">
   import { Pen } from '@vicons/fa'
-  import type { DropdownOption } from 'naive-ui'
+  import type { DropdownMixedOption, DropdownOption } from 'naive-ui'
 
   export type WardrobeOwnedButtonMenuOption = DropdownOption & {
     key: string
@@ -132,15 +132,36 @@
         }
   )
 
-  const actionMenuOptions = computed<WardrobeOwnedButtonMenuOption[]>(() => [
-    {
-      key: 'toggle-ownership',
-      label: actionLabel.value,
+  const menuHeaderOption = computed<DropdownMixedOption>(() => ({
+    type: 'render',
+    key: 'ownership-menu-header',
+    props: {
+      class: 'border-b border-gray-100 px-3 pb-2 pt-2.5 dark:border-gray-800',
     },
-    ...props.menuOptions,
+    render: () =>
+      h(
+        'div',
+        {
+          class: 'text-xs font-semibold text-gray-500 dark:text-gray-400',
+        },
+        t('wardrobe.actions.edit_ownership')
+      ),
+  }))
+
+  const actionMenuOptions = computed<DropdownMixedOption[]>(() => [
+    menuHeaderOption.value,
+    ...(props.menuOptions.length > 0
+      ? props.menuOptions
+      : [
+          {
+            key: 'toggle-ownership',
+            label: actionLabel.value,
+          },
+        ]),
   ])
 
   const handleMenuSelect = (key: string | number) => {
+    if (key === 'ownership-menu-header') return
     if (key === 'toggle-ownership') {
       emit('toggle')
       return

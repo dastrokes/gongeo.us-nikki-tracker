@@ -361,9 +361,14 @@
     "actions": {
       "edit_mode": "Modalità modifica",
       "view_mode": "Modalità vista",
+      "edit_ownership": "Modifica possesso",
       "mark_owned": "Segna come posseduto",
       "mark_unowned": "Segna come non posseduto",
-      "mark_all_variations": "Segna tutte le varianti",
+      "base_only": "Solo base",
+      "mark_all": "Segna tutte le varianti",
+      "unmark_all": "Deseleziona tutto",
+      "mark_selected_owned": "Segna selezionati come posseduti",
+      "unmark_selected": "Deseleziona selezionati",
       "mark_glowup": "Segna rinnovo effettuato",
       "unmark_glowup": "Deseleziona rinnovo effettuato"
     },

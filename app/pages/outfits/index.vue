@@ -209,6 +209,7 @@
     PaintBrush,
     Paw,
     CheckCircle,
+    Adjust,
     TimesCircle,
     DotCircle,
   } from '@vicons/fa'
@@ -255,10 +256,27 @@
       : null
   )
 
-  type WardrobeVariantMarkKey = VariantType | 'all-variations'
+  type WardrobeVariantMarkKey =
+    | VariantType
+    | 'complete-set'
+    | 'unmark-all'
+    | 'mark-current-owned'
+    | 'unmark-current'
+  type WardrobeVariantMarkDividerKey = 'divider-glowup' | 'divider-bulk'
   type WardrobeVariantMarkOption = DropdownOption & {
-    key: WardrobeVariantMarkKey
+    key: WardrobeVariantMarkKey | WardrobeVariantMarkDividerKey
   }
+  const markCurrentVariantOption = (
+    option: WardrobeVariantMarkOption,
+    currentVariantType?: VariantType | null
+  ): WardrobeVariantMarkOption =>
+    currentVariantType && option.key === currentVariantType
+      ? {
+          ...option,
+          label: () =>
+            h('span', { class: 'font-semibold' }, String(option.label ?? '')),
+        }
+      : option
 
   type OutfitListingPrimaryFilter =
     | 'quality'
@@ -489,8 +507,7 @@
   const resolveWardrobeFilter = (
     value?: string | null
   ): OutfitWardrobeFilter => {
-    if (value === 'partial') return 'owned'
-    if (value === 'owned' || value === 'missing') {
+    if (value === 'owned' || value === 'partial' || value === 'missing') {
       return value
     }
     return 'all'
@@ -638,6 +655,7 @@
   const wardrobeFilterOptions = computed<IconSelectOption[]>(() => [
     { label: t('common.all'), value: 'all', icon: DotCircle },
     { label: t('wardrobe.status.owned'), value: 'owned', icon: CheckCircle },
+    { label: t('wardrobe.filters.partial'), value: 'partial', icon: Adjust },
     {
       label: t('wardrobe.status.missing'),
       value: 'missing',
@@ -826,25 +844,36 @@
   }
 
   const getVariantMarkOptions = (
-    glowUpOwned: boolean
-  ): WardrobeVariantMarkOption[] => [
-    {
-      key: 'all-variations',
-      label: t('wardrobe.actions.mark_all_variations'),
-    },
-    { key: 'base', label: t('banner.outfit.level.1') },
-    { key: 'evo1', label: t('banner.outfit.level.2') },
-    { key: 'evo2', label: t('banner.outfit.level.3') },
-    { key: 'evo3', label: t('banner.outfit.level.4') },
-    {
-      key: 'glowup',
-      label: t(
-        glowUpOwned
-          ? 'wardrobe.actions.unmark_glowup'
-          : 'wardrobe.actions.mark_glowup'
-      ),
-    },
-  ]
+    glowUpOwned: boolean,
+    currentVariantType?: VariantType | null
+  ): WardrobeVariantMarkOption[] =>
+    [
+      { key: 'base', label: t('wardrobe.actions.base_only') },
+      { key: 'evo1', label: t('banner.outfit.level.2') },
+      { key: 'evo2', label: t('banner.outfit.level.3') },
+      { key: 'evo3', label: t('banner.outfit.level.4') },
+      { key: 'divider-glowup', type: 'divider' },
+      {
+        key: 'glowup',
+        label: t(
+          glowUpOwned
+            ? 'wardrobe.actions.unmark_glowup'
+            : 'wardrobe.actions.mark_glowup'
+        ),
+      },
+      { key: 'divider-bulk', type: 'divider' },
+      { key: 'complete-set', label: t('wardrobe.actions.mark_all') },
+      { key: 'unmark-all', label: t('wardrobe.actions.unmark_all') },
+    ].map((option) => markCurrentVariantOption(option, currentVariantType))
+  const selectedVariationMarkOptions = computed<WardrobeVariantMarkOption[]>(
+    () => [
+      {
+        key: 'mark-current-owned',
+        label: t('wardrobe.actions.mark_selected_owned'),
+      },
+      { key: 'unmark-current', label: t('wardrobe.actions.unmark_selected') },
+    ]
+  )
 
   const isVariantMarkApplicableToQuality = (key: string, quality: number) => {
     if (quality < 4) return false
@@ -853,13 +882,15 @@
   }
   const getApplicableVariantMarkOptions = (
     qualities: readonly number[],
-    glowUpOwned: boolean
+    glowUpOwned: boolean,
+    currentVariantType?: VariantType | null
   ) =>
-    variationFilter.value === 'base' && qualities.length > 0
-      ? getVariantMarkOptions(glowUpOwned).filter((option) =>
-          qualities.every((quality) =>
-            isVariantMarkApplicableToQuality(option.key, quality)
-          )
+    qualities.length > 0
+      ? getVariantMarkOptions(glowUpOwned, currentVariantType).filter(
+          (option) =>
+            qualities.every((quality) =>
+              isVariantMarkApplicableToQuality(option.key, quality)
+            )
         )
       : []
   const outfitQualityById = computed(
@@ -924,10 +955,12 @@
       : []
   })
   const batchVariationMarkOptions = computed(() =>
-    getApplicableVariantMarkOptions(
-      batchOutfitQualities.value,
-      areOutfitGlowUpsOwned(batchOutfitIdsForMenu.value)
-    )
+    variationFilter.value === 'base'
+      ? getApplicableVariantMarkOptions(
+          batchOutfitQualities.value,
+          areOutfitGlowUpsOwned(batchOutfitIdsForMenu.value)
+        )
+      : selectedVariationMarkOptions.value
   )
   const getOutfitVariationMarkOptions = (entry: {
     itemIds: readonly number[]
@@ -935,15 +968,16 @@
   }) =>
     getApplicableVariantMarkOptions(
       [entry.quality],
-      isOutfitGlowUpOwned(entry.itemIds, entry.quality)
+      isOutfitGlowUpOwned(entry.itemIds, entry.quality),
+      getOutfitVariantType(String(entry.id))
     )
   const getVariantMarkMaxRank = (key: WardrobeVariantMarkKey) => {
-    if (key === 'all-variations') return Number.POSITIVE_INFINITY
     if (key === 'base') return 0
     if (key === 'glowup') return 1
     if (key === 'evo1') return 2
     if (key === 'evo2') return 3
-    return 4
+    if (key === 'evo3') return 4
+    return 0
   }
   const getVariantRank = (variantType: VariantType) => {
     if (variantType === 'base') return 0
@@ -973,10 +1007,14 @@
         (relatedId) => !index || index.outfitById.has(relatedId)
       )
       const maxRank = getVariantMarkMaxRank(variantKey)
-      return relatedIds.filter(
-        (relatedId) =>
-          getVariantRank(getOutfitVariantType(String(relatedId))) <= maxRank
-      )
+      if (variantKey === 'complete-set') return relatedIds
+
+      return relatedIds.filter((relatedId) => {
+        const variantType = getOutfitVariantType(String(relatedId))
+        return variantKey === 'glowup'
+          ? variantType === 'base' || variantType === 'glowup'
+          : variantType !== 'glowup' && getVariantRank(variantType) <= maxRank
+      })
     })
   }
   const getOutfitIdsForVariantMarkClear = async (
@@ -987,7 +1025,13 @@
     const index = catalogIndex.index.value
     const variantKey = key as WardrobeVariantMarkKey
     const maxRank = getVariantMarkMaxRank(variantKey)
-    if (!Number.isFinite(maxRank) || variantKey === 'glowup') return []
+    if (
+      !Number.isFinite(maxRank) ||
+      variantKey === 'glowup' ||
+      variantKey === 'complete-set'
+    ) {
+      return []
+    }
 
     return Array.from(
       new Set(
@@ -1024,6 +1068,24 @@
                 getVariantRank(getOutfitVariantType(String(relatedId))) >=
                 minRank
             )
+        })
+      )
+    )
+  }
+  const getOutfitIdsForVariantFamilyUnmark = async (
+    outfitIds: readonly number[]
+  ) => {
+    await catalogIndex.load(['outfits', 'outfitItems'])
+    const index = catalogIndex.index.value
+
+    return Array.from(
+      new Set(
+        outfitIds.flatMap((outfitId) => {
+          const outfit = index?.outfitById.get(outfitId)
+          const quality = outfit?.quality ?? 5
+          return getRelatedOutfitIds(outfitId, quality).filter(
+            (relatedId) => !index || index.outfitById.has(relatedId)
+          )
         })
       )
     )
@@ -1078,6 +1140,41 @@
   ) => {
     const targetOutfitIds = await getOutfitIdsForVariantUnmark(outfitIds)
     const index = catalogIndex.index.value
+    return normalizeWardrobeItemIds(
+      targetOutfitIds.flatMap(
+        (outfitId) => index?.outfitItemsById.get(outfitId) ?? []
+      )
+    )
+  }
+  const getOutfitItemIdsForVariantFamilyUnmark = async (
+    outfitIds: readonly number[]
+  ) => {
+    const targetOutfitIds = await getOutfitIdsForVariantFamilyUnmark(outfitIds)
+    const index = catalogIndex.index.value
+    return normalizeWardrobeItemIds(
+      targetOutfitIds.flatMap(
+        (outfitId) => index?.outfitItemsById.get(outfitId) ?? []
+      )
+    )
+  }
+  const getOutfitItemIdsForCurrentMark = async (
+    outfitIds: readonly number[]
+  ) => {
+    await catalogIndex.load(['outfits', 'outfitItems'])
+    const index = catalogIndex.index.value
+    const targetOutfitIds = outfitIds.flatMap((outfitId) => {
+      if (getOutfitVariantType(String(outfitId)) !== 'glowup') {
+        return [outfitId]
+      }
+
+      const outfit = index?.outfitById.get(outfitId)
+      const quality = outfit?.quality ?? 5
+      return getRelatedOutfitIds(outfitId, quality).filter((relatedId) => {
+        const variantType = getOutfitVariantType(String(relatedId))
+        return variantType === 'base' || relatedId === outfitId
+      })
+    })
+
     return normalizeWardrobeItemIds(
       targetOutfitIds.flatMap(
         (outfitId) => index?.outfitItemsById.get(outfitId) ?? []
@@ -1187,14 +1284,27 @@
       }
 
       if (getVisibleOutfitWardrobeStatus(entryWithProgress)) {
-        const itemIds = await getOutfitItemIdsForVariantUnmark([outfitId])
-        if (itemIds.length > 0) {
+        if (variationFilter.value !== 'base') {
           await markOutfitOwned(itemIds, false)
+          return
+        }
+
+        const relatedItemIds = await getOutfitItemIdsForVariantUnmark([
+          outfitId,
+        ])
+        if (relatedItemIds.length > 0) {
+          await markOutfitOwned(relatedItemIds, false)
         }
         return
       }
 
-      await markOutfitOwned(itemIds, true)
+      const markItemIds =
+        variationFilter.value !== 'base'
+          ? await getOutfitItemIdsForCurrentMark([outfitId])
+          : itemIds
+      if (markItemIds.length > 0) {
+        await markOutfitOwned(markItemIds, true)
+      }
     } catch {
       message.error(t('wardrobe.error.save'))
     } finally {
@@ -1210,6 +1320,33 @@
 
     setOutfitToggleLoading(outfitId, true)
     try {
+      const entry = entries.value.find((candidate) => candidate.id === outfitId)
+      const currentItemIds =
+        entry && entry.itemIds.length
+          ? entry.itemIds
+          : getOutfitItemIdsFromRecord([outfitId], await fetchOutfitRelations())
+
+      if (key === 'mark-current-owned') {
+        const itemIds = await getOutfitItemIdsForCurrentMark([outfitId])
+        if (itemIds.length > 0) {
+          await markOutfitOwned(itemIds, true)
+        }
+        return
+      }
+      if (key === 'unmark-current') {
+        if (currentItemIds.length > 0) {
+          await markOutfitOwned(currentItemIds, false)
+        }
+        return
+      }
+      if (key === 'unmark-all') {
+        const itemIds = await getOutfitItemIdsForVariantFamilyUnmark([outfitId])
+        if (itemIds.length > 0) {
+          await markOutfitOwned(itemIds, false)
+        }
+        return
+      }
+
       if (key === 'glowup') {
         const glowUpItemIds = await getOutfitItemIdsForGlowUp([outfitId])
         if (
@@ -1350,6 +1487,47 @@
     try {
       const outfitIds = await getBatchOutfitIds()
       if (outfitIds.length === 0) return
+
+      if (key === 'mark-current-owned' || key === 'unmark-current') {
+        const owned = key === 'mark-current-owned'
+        const itemIds = normalizeWardrobeItemIds(
+          owned
+            ? await getOutfitItemIdsForCurrentMark(outfitIds)
+            : await getBatchOutfitItemIds()
+        )
+        if (itemIds.length === 0) return
+
+        if (
+          batchScope.value === 'all' &&
+          !(await confirmBroadOutfitChange(owned, itemIds.length))
+        ) {
+          return
+        }
+
+        await markOutfitOwned(itemIds, owned)
+        if (batchScope.value === 'selected') {
+          clearSelection()
+        }
+        return
+      }
+
+      if (key === 'unmark-all') {
+        const itemIds = await getOutfitItemIdsForVariantFamilyUnmark(outfitIds)
+        if (itemIds.length === 0) return
+
+        if (
+          batchScope.value === 'all' &&
+          !(await confirmBroadOutfitChange(false, itemIds.length))
+        ) {
+          return
+        }
+
+        await markOutfitOwned(itemIds, false)
+        if (batchScope.value === 'selected') {
+          clearSelection()
+        }
+        return
+      }
 
       if (key === 'glowup') {
         const glowUpItemIds = await getOutfitItemIdsForGlowUp(outfitIds)

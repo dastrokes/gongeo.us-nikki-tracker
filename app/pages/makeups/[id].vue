@@ -280,7 +280,7 @@
                       :quality="item.quality"
                       :type="resolveMakeupType(item)"
                       :name="$t(`item.${item.id}.name`)"
-                      :to="`/makeups/${item.id}`"
+                      :to="getEntityDetailPath('makeup', item.id)"
                       size="sm"
                     />
                   </div>
@@ -309,7 +309,7 @@
             <NuxtLinkLocale
               v-for="variation in itemVariations"
               :key="variation.id"
-              :to="`/makeups/${variation.id}`"
+              :to="getEntityDetailPath('makeup', variation.id)"
               class="group block"
               :class="[
                 variation.id === makeupId
@@ -379,7 +379,7 @@
               :key="outfit.id"
             >
               <NuxtLinkLocale
-                :to="`/outfits/${outfit.id}`"
+                :to="getEntityDetailPath('outfit', outfit.id)"
                 class="group block"
               >
                 <OutfitCard
@@ -410,7 +410,7 @@
             {{ $t('common.banner') }}
           </h2>
           <NuxtLinkLocale
-            :to="`/banners/${inBanner.bannerId}`"
+            :to="getEntityDetailPath('banner', inBanner.bannerId)"
             class="group block"
           >
             <div
@@ -478,7 +478,6 @@
   const { t, te, locale } = useI18n()
   const message = useMessage()
   const localePath = useLocalePath()
-  const route = useRoute()
   const router = useRouter()
   const requestEvent = useRequestEvent()
   const { fetchMakeupById } = useSupabaseItems()
@@ -494,7 +493,13 @@
     toggleMakeupOwned,
   } = useWardrobe()
 
-  const makeupId = computed(() => Number(route.params.id))
+  const {
+    entityId: makeupId,
+    canonicalUrl: canonicalMakeupUrl,
+    redirectToCanonicalSlug,
+  } = useEntityDetailRoute('makeup')
+
+  await redirectToCanonicalSlug()
   const makeupKey = computed(() => `makeup-${makeupId.value}-${locale.value}`)
 
   const {
@@ -504,7 +509,8 @@
     refresh,
   } = await useAsyncData(
     () => makeupKey.value,
-    () => fetchMakeupById(makeupId.value),
+    () =>
+      Number.isFinite(makeupId.value) ? fetchMakeupById(makeupId.value) : null,
     {
       default: () => null,
       lazy: true,
@@ -758,5 +764,12 @@
         name: makeupName.value || '',
       }),
     twitterImage: () => ogImage.value,
+  })
+
+  useHead({
+    link: () =>
+      canonicalMakeupUrl.value
+        ? [{ rel: 'canonical', href: canonicalMakeupUrl.value }]
+        : [],
   })
 </script>

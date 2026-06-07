@@ -475,7 +475,7 @@
             <NuxtLinkLocale
               v-for="variation in itemVariations"
               :key="variation.id"
-              :to="`/items/${variation.id}`"
+              :to="getItemEntityDetailPath(variation.id)"
               class="group block"
               :class="[
                 variation.id === itemId
@@ -539,7 +539,7 @@
               :key="outfit.id"
             >
               <NuxtLinkLocale
-                :to="`/outfits/${outfit.id}`"
+                :to="getEntityDetailPath('outfit', outfit.id)"
                 class="group block"
               >
                 <OutfitCard
@@ -571,7 +571,7 @@
             {{ $t('common.banner') }}
           </h2>
           <NuxtLinkLocale
-            :to="`/banners/${inBanner.bannerId}`"
+            :to="getEntityDetailPath('banner', inBanner.bannerId)"
             class="group block"
           >
             <div
@@ -692,12 +692,17 @@
   const { t, te, locale } = useI18n()
   const message = useMessage()
   const localePath = useLocalePath()
-  const route = useRoute()
   const router = useRouter()
   const requestEvent = useRequestEvent()
 
   // Get item ID from route
-  const itemId = computed(() => Number(route.params.id))
+  const {
+    entityId: itemId,
+    canonicalUrl: canonicalItemUrl,
+    redirectToCanonicalSlug,
+  } = useEntityDetailRoute('item')
+
+  await redirectToCanonicalSlug()
 
   // Composable
   const { fetchItemById } = useSupabaseItems()
@@ -722,7 +727,7 @@
     refresh,
   } = await useAsyncData(
     () => itemKey.value,
-    () => fetchItemById(itemId.value),
+    () => (Number.isFinite(itemId.value) ? fetchItemById(itemId.value) : null),
     {
       default: () => null,
       lazy: true,
@@ -1331,5 +1336,12 @@
         name: itemName.value || '',
       }),
     twitterImage: () => ogItemImage.value,
+  })
+
+  useHead({
+    link: () =>
+      canonicalItemUrl.value
+        ? [{ rel: 'canonical', href: canonicalItemUrl.value }]
+        : [],
   })
 </script>

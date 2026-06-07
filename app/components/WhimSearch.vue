@@ -2088,7 +2088,7 @@
     })
 
   const buildCompendiumPath = (itemId: number | null) =>
-    itemId !== null ? localePath(`/items/${itemId}`) : null
+    itemId !== null ? localePath(getItemEntityDetailPath(itemId)) : null
 
   const buildSearchDisplayMetadata = (
     item: SearchHit,

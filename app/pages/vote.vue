@@ -74,7 +74,7 @@
             </div>
             <div class="mt-2 text-center sm:mt-3">
               <NuxtLinkLocale
-                :to="`/banners/${currentPair.banner1.id}`"
+                :to="getEntityDetailPath('banner', currentPair.banner1.id)"
                 target="_blank"
                 class="inline-flex items-center gap-1 transition-opacity hover:opacity-80"
               >
@@ -153,7 +153,7 @@
             </div>
             <div class="mt-2 text-center sm:mt-3">
               <NuxtLinkLocale
-                :to="`/banners/${currentPair.banner2.id}`"
+                :to="getEntityDetailPath('banner', currentPair.banner2.id)"
                 target="_blank"
                 class="inline-flex items-center gap-1 transition-opacity hover:opacity-80"
               >

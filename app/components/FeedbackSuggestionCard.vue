@@ -25,7 +25,7 @@
         <div class="flex flex-wrap items-start justify-between gap-3">
           <div class="min-w-0">
             <NuxtLinkLocale
-              :to="`/items/${suggestion.entityId}`"
+              :to="getItemEntityDetailPath(suggestion.entityId)"
               class="block text-xl leading-tight font-black transition-opacity hover:opacity-80"
             >
               {{ itemName }}
@@ -162,7 +162,7 @@
             </n-button>
 
             <NuxtLinkLocale
-              :to="`/items/${suggestion.entityId}`"
+              :to="getItemEntityDetailPath(suggestion.entityId)"
               class="inline-flex min-h-10 items-center justify-center rounded-xl border border-black/5 bg-white px-4 text-sm font-semibold text-rose-500 hover:border-rose-200 hover:text-rose-600 sm:ml-auto dark:border-white/10 dark:bg-slate-950 dark:text-rose-300 dark:hover:border-rose-300/20 dark:hover:text-rose-200"
             >
               {{ t('common.view_compendium') }}

@@ -3,7 +3,7 @@
     <div class="flex items-center gap-2">
       <NuxtLinkLocale
         no-prefetch
-        :to="`/outfits/${outfitId}`"
+        :to="getEntityDetailPath('outfit', outfitId)"
         class="cursor-pointer transition-opacity hover:opacity-80"
       >
         <n-tag
@@ -43,7 +43,7 @@
           >
             <NuxtLinkLocale
               no-prefetch
-              :to="`/outfits/${image.outfitId}`"
+              :to="getEntityDetailPath('outfit', image.outfitId)"
               class="group relative block aspect-2/3 cursor-pointer overflow-hidden rounded-lg transition-all duration-300 ease-in-out"
             >
               <div

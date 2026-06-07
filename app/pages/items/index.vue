@@ -2459,6 +2459,6 @@
   }
 
   const navigateToDetail = (id: number) => {
-    navigateTo(localePath(`/items/${id}`))
+    navigateTo(localePath(getItemEntityDetailPath(id)))
   }
 </script>

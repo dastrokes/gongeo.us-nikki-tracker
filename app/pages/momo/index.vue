@@ -621,7 +621,7 @@
       return
     }
 
-    navigateTo(localePath(`/momo/${momoId}`))
+    navigateTo(localePath(getEntityDetailPath('momo', momoId)))
   }
 
   const getBatchMomoIds = async () => {

@@ -599,7 +599,7 @@
   }
 
   const navigateToBanner = (bannerId: number) => {
-    navigateTo(localePath(`/banners/${bannerId}`))
+    navigateTo(localePath(getEntityDetailPath('banner', bannerId)))
   }
 
   const rowProps = (row: BannerRanking) => {

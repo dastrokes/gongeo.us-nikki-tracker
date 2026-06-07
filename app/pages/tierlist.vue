@@ -3364,18 +3364,22 @@
     const entry = entryMap.value.get(id)
     if (!entry) return
 
-    let path = `/items/${entry.numericId}`
-    if (mode.value === 'banners') {
-      path = `/banners/${entry.numericId}`
-    } else if (mode.value === 'outfits') {
-      path = `/outfits/${entry.numericId}`
-    } else if (mode.value === 'makeups') {
-      path = `/makeups/${entry.numericId}`
-    } else if (mode.value === 'momo') {
-      path = `/momo/${entry.numericId}`
-    }
+    const entity =
+      mode.value === 'banners'
+        ? 'banner'
+        : mode.value === 'outfits'
+          ? 'outfit'
+          : mode.value === 'makeups'
+            ? 'makeup'
+            : mode.value === 'momo'
+              ? 'momo'
+              : 'item'
 
-    window.open(localePath(path), '_blank', 'noopener,noreferrer')
+    window.open(
+      localePath(getEntityDetailPath(entity, entry.numericId)),
+      '_blank',
+      'noopener,noreferrer'
+    )
   }
 
   const closeRankContextMenu = () => {

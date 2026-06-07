@@ -237,9 +237,7 @@
   const searchResults = ref<SearchCategory[]>([])
   const searchInputRef = ref<HTMLInputElement | null>(null)
 
-  const getBannerId = (result: SearchResult) => {
-    return result.route.match(/\/banners?\/(\d+)\/?/i)?.[1] || '0'
-  }
+  const getBannerId = (result: SearchResult) => result.id
 
   const goToWhimSearch = () => {
     if (searchQuery.value.trim()) {

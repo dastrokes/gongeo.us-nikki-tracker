@@ -1376,7 +1376,9 @@
       return
     }
 
-    navigateTo(localePath(`/banners/${params.data.row.bannerId}`))
+    navigateTo(
+      localePath(getEntityDetailPath('banner', params.data.row.bannerId))
+    )
   }
 
   const handleZrMousewheel = (params: ZrWheelEventParams) => {

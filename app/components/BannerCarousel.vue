@@ -26,7 +26,7 @@
     >
       <NuxtLinkLocale
         no-prefetch
-        :to="`/banners/${banner.bannerId}`"
+        :to="getEntityDetailPath('banner', banner.bannerId)"
         class="relative block h-full w-full overflow-hidden rounded-xl transition-opacity hover:opacity-95"
         @click.capture="handleSlideClickCapture"
       >
@@ -53,7 +53,9 @@
           placement="top-end"
           class="m-2 cursor-pointer rounded-lg px-2 py-1 text-xs"
           @click.stop.prevent="
-            navigateTo(localePath(`/banners/${banner.bannerId}`))
+            navigateTo(
+              localePath(getEntityDetailPath('banner', banner.bannerId))
+            )
           "
         >
           <template #trigger>

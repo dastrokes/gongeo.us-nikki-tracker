@@ -328,7 +328,7 @@
                       :quality="item.quality"
                       :type="resolveItemType(item)"
                       :name="$t(`item.${item.id}.name`)"
-                      :to="`/makeups/${item.id}`"
+                      :to="getEntityDetailPath('makeup', item.id)"
                       size="sm"
                     />
                   </div>
@@ -363,7 +363,7 @@
               :key="variation.id"
             >
               <NuxtLinkLocale
-                :to="`/outfits/${variation.id}`"
+                :to="getEntityDetailPath('outfit', variation.id)"
                 class="group block"
                 :class="[
                   variation.id === outfitId
@@ -408,7 +408,7 @@
             {{ $t('common.banner') }}
           </h2>
           <NuxtLinkLocale
-            :to="`/banners/${inBanner.bannerId}`"
+            :to="getEntityDetailPath('banner', inBanner.bannerId)"
             class="group block"
           >
             <div
@@ -501,11 +501,16 @@
   const message = useMessage()
   const dialog = useDialog()
   const localePath = useLocalePath()
-  const route = useRoute()
   const requestEvent = useRequestEvent()
 
   // Get outfit ID from route
-  const outfitId = computed(() => Number(route.params.id))
+  const {
+    entityId: outfitId,
+    canonicalUrl: canonicalOutfitUrl,
+    redirectToCanonicalSlug,
+  } = useEntityDetailRoute('outfit')
+
+  await redirectToCanonicalSlug()
 
   // Composable
   const { fetchOutfitById } = useSupabaseOutfits()
@@ -529,7 +534,8 @@
     refresh,
   } = await useAsyncData(
     () => outfitKey.value,
-    () => fetchOutfitById(outfitId.value),
+    () =>
+      Number.isFinite(outfitId.value) ? fetchOutfitById(outfitId.value) : null,
     {
       default: () => null,
       lazy: true,
@@ -1111,5 +1117,12 @@
         name: t(`outfit.${outfitId.value}.name`) || '',
       }),
     twitterImage: () => ogOutfitImage.value,
+  })
+
+  useHead({
+    link: () =>
+      canonicalOutfitUrl.value
+        ? [{ rel: 'canonical', href: canonicalOutfitUrl.value }]
+        : [],
   })
 </script>

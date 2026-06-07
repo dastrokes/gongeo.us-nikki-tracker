@@ -178,7 +178,7 @@
               >
                 <NuxtLinkLocale
                   no-prefetch
-                  :to="`/banners/${banner.bannerId}`"
+                  :to="getEntityDetailPath('banner', banner.bannerId)"
                   class="inline-flex min-h-8 items-center transition-opacity hover:opacity-95"
                 >
                   <n-gradient-text
@@ -200,7 +200,7 @@
                     <div class="flex items-center gap-2">
                       <NuxtLinkLocale
                         no-prefetch
-                        :to="`/outfits/${outfit.id}`"
+                        :to="getEntityDetailPath('outfit', outfit.id)"
                         class="inline w-fit cursor-pointer transition-opacity hover:opacity-80"
                       >
                         <n-tag
@@ -689,7 +689,7 @@
                 <div class="flex items-center gap-2">
                   <NuxtLinkLocale
                     no-prefetch
-                    :to="`/banners/${banner.bannerId}`"
+                    :to="getEntityDetailPath('banner', banner.bannerId)"
                     class="inline-flex min-h-8 items-center transition-opacity hover:opacity-95"
                   >
                     <n-gradient-text
@@ -711,7 +711,7 @@
                   >
                     <NuxtLinkLocale
                       no-prefetch
-                      :to="`/outfits/${outfit.id}`"
+                      :to="getEntityDetailPath('outfit', outfit.id)"
                       class="inline-block"
                     >
                       <n-tag

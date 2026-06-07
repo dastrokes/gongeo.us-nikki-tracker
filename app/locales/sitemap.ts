@@ -2,12 +2,17 @@ import { defaultLocale, i18nLocales } from './locales'
 import { getOgImageSrc } from '../utils/imageProvider'
 import { getItemType, makeupItemTypes } from '../utils/itemType'
 import {
+  getEntityNameMessageIds,
+  getLocaleMessageText,
+} from '../utils/entityLocaleMessages'
+import {
   SEO_BANNER_LIST_PATHS,
   SEO_ITEM_LIST_PATHS,
   SEO_MAKEUP_LIST_PATHS,
   SEO_MOMO_LIST_PATHS,
   SEO_OUTFIT_LIST_PATHS,
 } from '../utils/seoListRouteDefinitions'
+import { getEntityDetailPath, type EntitySlugType } from '../utils/entitySlugs'
 
 const BASE_PATHS = [
   '/',
@@ -42,7 +47,7 @@ const SEO_LIST_PATHS = [
 ]
 const STATIC_SITEMAP_PATHS = [...BASE_PATHS, ...SEO_LIST_PATHS]
 
-type TranslationDictionary = Record<string, string>
+type TranslationDictionary = Record<string, unknown>
 type LocaleCode = (typeof i18nLocales)[number]['code']
 type TranslationSection = 'banner' | 'outfit' | 'item' | 'momo' | 'makeup'
 type TranslationLoader = () => Promise<TranslationDictionary>
@@ -58,6 +63,7 @@ type SitemapUrl = {
 
 type ContentConfig = {
   ids: string[]
+  entity: EntitySlugType
   localeKey: TranslationSection
   routePrefix: string
   imageType: Parameters<typeof getOgImageSrc>[0]
@@ -293,15 +299,6 @@ const translationLoaders = {
   },
 } satisfies Record<LocaleCode, Record<TranslationSection, TranslationLoader>>
 
-const extractIds = (keys: string[]) =>
-  Array.from(
-    new Set(
-      keys
-        .map((key) => key.split('.')[1])
-        .filter((value): value is string => Boolean(value))
-    )
-  )
-
 const contentConfigCache = new Map<string, Promise<ContentConfig>>()
 
 const loadTranslations = async (
@@ -321,6 +318,7 @@ const loadTranslations = async (
 
 const loadContentConfig = async (
   localeKey: TranslationSection,
+  entity: EntitySlugType,
   routePrefix: string,
   imageType: Parameters<typeof getOgImageSrc>[0],
   fallbackLabel: string,
@@ -335,9 +333,10 @@ const loadContentConfig = async (
 
   const promise = loadTranslations(defaultLocale, localeKey).then(
     (translations) => ({
-      ids: extractIds(Object.keys(translations)).filter(
-        options.idFilter ?? (() => true)
-      ),
+      ids: getEntityNameMessageIds(translations, localeKey, {
+        idFilter: options.idFilter,
+      }),
+      entity,
       localeKey,
       routePrefix,
       imageType,
@@ -351,18 +350,24 @@ const loadContentConfig = async (
 
 const loadContentConfigs = () =>
   Promise.all([
-    loadContentConfig('banner', 'banners', 'banner', 'Banner'),
-    loadContentConfig('outfit', 'outfits', 'outfit', 'Outfit'),
-    loadContentConfig('item', 'items', 'item', 'Item', {
+    loadContentConfig('banner', 'banner', 'banners', 'banner', 'Banner'),
+    loadContentConfig('outfit', 'outfit', 'outfits', 'outfit', 'Outfit'),
+    loadContentConfig('item', 'item', 'items', 'item', 'Item', {
       idFilter: (id) =>
         !(makeupItemTypes as readonly string[]).includes(getItemType(id)),
     }),
-    loadContentConfig('momo', 'momo', 'momo', "Momo's Cloak"),
-    loadContentConfig('item', 'makeups', 'item', 'Makeup', {
+    loadContentConfig('momo', 'momo', 'momo', 'momo', "Momo's Cloak"),
+    loadContentConfig('item', 'makeup', 'makeups', 'item', 'Makeup', {
       idFilter: (id) =>
         (makeupItemTypes as readonly string[]).includes(getItemType(id)),
     }),
-    loadContentConfig('makeup', 'makeups', 'fullMakeup', 'Full Makeup'),
+    loadContentConfig(
+      'makeup',
+      'makeup',
+      'makeups',
+      'fullMakeup',
+      'Full Makeup'
+    ),
   ])
 
 function resolveLocales(localeCode?: LocaleCode) {
@@ -416,12 +421,12 @@ export async function contentSitemap(localeCode?: LocaleCode) {
         const prefix = code === defaultLocale ? '' : `/${code}`
         const translationKey = `${config.localeKey}.${contentId}.name`
         const name =
-          localeTranslations?.[translationKey] ||
-          fallbackTranslations?.[translationKey] ||
+          getLocaleMessageText(localeTranslations?.[translationKey]) ||
+          getLocaleMessageText(fallbackTranslations?.[translationKey]) ||
           `${config.fallbackLabel} ${contentId}`
 
         results.push({
-          loc: `${prefix}/${config.routePrefix}/${contentId}`,
+          loc: `${prefix}${getEntityDetailPath(config.entity, contentId)}`,
           images: [
             {
               loc: getOgImageSrc(config.imageType, contentId),

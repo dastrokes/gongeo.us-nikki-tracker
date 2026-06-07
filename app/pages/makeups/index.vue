@@ -1302,6 +1302,6 @@
   }
 
   const navigateToDetail = (id: number) => {
-    navigateTo(localePath(`/makeups/${id}`))
+    navigateTo(localePath(getEntityDetailPath('makeup', id)))
   }
 </script>

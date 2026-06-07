@@ -234,7 +234,7 @@
               :key="outfit.id"
             >
               <NuxtLinkLocale
-                :to="`/outfits/${outfit.id}`"
+                :to="getEntityDetailPath('outfit', outfit.id)"
                 class="group block"
               >
                 <OutfitCard
@@ -299,7 +299,6 @@
   const { t, te, locale } = useI18n()
   const message = useMessage()
   const localePath = useLocalePath()
-  const route = useRoute()
   const router = useRouter()
   const requestEvent = useRequestEvent()
   const { getImageSrc } = imageProvider()
@@ -313,7 +312,13 @@
     toggleMomoOwned,
   } = useWardrobe()
 
-  const momoId = computed(() => Number(route.params.id))
+  const {
+    entityId: momoId,
+    canonicalUrl: canonicalMomoUrl,
+    redirectToCanonicalSlug,
+  } = useEntityDetailRoute('momo')
+
+  await redirectToCanonicalSlug()
   const momoKey = computed(() => `momo-detail-${momoId.value}-${locale.value}`)
 
   const {
@@ -323,7 +328,7 @@
     refresh,
   } = await useAsyncData(
     () => momoKey.value,
-    () => fetchMomoById(momoId.value),
+    () => (Number.isFinite(momoId.value) ? fetchMomoById(momoId.value) : null),
     {
       default: () => null,
       lazy: true,
@@ -464,5 +469,12 @@
         name: momoName.value || '',
       }),
     twitterImage: () => ogMomoImage.value,
+  })
+
+  useHead({
+    link: () =>
+      canonicalMomoUrl.value
+        ? [{ rel: 'canonical', href: canonicalMomoUrl.value }]
+        : [],
   })
 </script>

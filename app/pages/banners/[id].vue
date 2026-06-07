@@ -33,7 +33,11 @@
                 size="small"
                 text
                 @click="
-                  navigateTo(localePath(`/banners/${prevBanner.bannerId}`))
+                  navigateTo(
+                    localePath(
+                      getEntityDetailPath('banner', prevBanner.bannerId)
+                    )
+                  )
                 "
               >
                 <template #icon>
@@ -55,7 +59,11 @@
                 size="small"
                 text
                 @click="
-                  navigateTo(localePath(`/banners/${nextBanner.bannerId}`))
+                  navigateTo(
+                    localePath(
+                      getEntityDetailPath('banner', nextBanner.bannerId)
+                    )
+                  )
                 "
               >
                 <template #icon>
@@ -608,7 +616,6 @@
   } from '@vicons/fa'
   import { BANNER_DATA } from '~~/data/banners'
 
-  const route = useRoute()
   const { t } = useI18n()
   const { getImageSrc } = imageProvider()
   const requestEvent = useRequestEvent()
@@ -623,7 +630,13 @@
   const showItems = ref(true)
 
   // Get banner ID from route
-  const bannerId = computed(() => Number(route.params.id))
+  const {
+    entityId: bannerId,
+    canonicalUrl: canonicalBannerUrl,
+    redirectToCanonicalSlug,
+  } = useEntityDetailRoute('banner')
+
+  await redirectToCanonicalSlug()
 
   // Import percentile functions from utils (pure functions)
   const { getBannerAvg5StarPercentile, getBannerAvg4StarType3Percentile } =
@@ -762,5 +775,12 @@
         name: t(`banner.${bannerId.value}.name`),
       }),
     twitterImage: () => ogItemImage.value,
+  })
+
+  useHead({
+    link: () =>
+      canonicalBannerUrl.value
+        ? [{ rel: 'canonical', href: canonicalBannerUrl.value }]
+        : [],
   })
 </script>

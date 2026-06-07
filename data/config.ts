@@ -9,12 +9,12 @@ export const CURRENT_BANNER_GROUPS: CurrentBannerGroupConfig[] = [
   {
     key: 'left',
     bannerIds: [63],
-    targetTime: '2026-05-28T20:00:00Z',
+    targetTime: '2026-06-23T20:00:00Z',
   },
   {
     key: 'right',
     bannerIds: [7, 22],
-    targetTime: '2026-05-28T20:00:00Z',
+    targetTime: '2026-06-10T20:00:00Z',
   },
 ]
 

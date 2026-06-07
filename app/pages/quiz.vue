@@ -463,16 +463,13 @@
   ])
 
   const messages = computed(
-    () => getLocaleMessage(locale.value) as Record<string, string>
+    () => getLocaleMessage(locale.value) as Record<string, unknown>
   )
 
   const allOutfitIds = computed(() => {
-    const keys = Object.keys(messages.value)
-    const ids = keys
-      .filter((key) => key.startsWith('outfit.') && key.endsWith('.name'))
-      .map((key) => key.slice('outfit.'.length, -'.name'.length))
-      .filter((id) => id.length <= 5)
-    return Array.from(new Set(ids))
+    return getEntityNameMessageIds(messages.value, 'outfit', {
+      idFilter: (id) => id.length <= 5,
+    })
   })
 
   const currentOutfitName = computed(() =>

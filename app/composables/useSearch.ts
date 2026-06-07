@@ -110,13 +110,9 @@ export const useSearch = () => {
       // Import the English item translations to get all available item IDs
       const itemMessages = await import('~/locales/en/item.json')
 
-      Object.keys(itemMessages.default || itemMessages).forEach((key) => {
-        // Extract ID from keys like "item.1020100001.name"
-        const match = key.match(/^item\.(\d+)\.name$/)
-        if (match && match[1]) {
-          itemIds.push(match[1])
-        }
-      })
+      itemIds.push(
+        ...getEntityNameMessageIds(unwrapLocaleMessages(itemMessages), 'item')
+      )
     } catch (error) {
       console.error('Failed to load item translations:', error)
     }
@@ -134,13 +130,12 @@ export const useSearch = () => {
       // Import the English outfit translations to get all available outfit IDs
       const outfitMessages = await import('~/locales/en/outfit.json')
 
-      Object.keys(outfitMessages.default || outfitMessages).forEach((key) => {
-        // Extract ID from keys like "outfit.10001.name"
-        const match = key.match(/^outfit\.(\d+)\.name$/)
-        if (match && match[1]) {
-          outfitIds.push(match[1])
-        }
-      })
+      outfitIds.push(
+        ...getEntityNameMessageIds(
+          unwrapLocaleMessages(outfitMessages),
+          'outfit'
+        )
+      )
     } catch (error) {
       console.error('Failed to load outfit translations:', error)
     }
@@ -179,7 +174,7 @@ export const useSearch = () => {
                 type: 'banner',
                 name: name[locale.value] || name.en,
                 quality,
-                route: localePath(`/banners/${id}`),
+                route: localePath(getEntityDetailPath('banner', id)),
               })
             )
           })
@@ -202,7 +197,7 @@ export const useSearch = () => {
                 type: 'outfit',
                 name: name[locale.value] || name.en,
                 ...(searchAliases.length > 0 ? { searchAliases } : {}),
-                route: localePath(`/outfits/${outfitId}`),
+                route: localePath(getEntityDetailPath('outfit', outfitId)),
               })
             )
           }
@@ -224,7 +219,7 @@ export const useSearch = () => {
                 id: itemId,
                 type: 'item',
                 name: name[locale.value] || name.en,
-                route: localePath(`/items/${itemId}`),
+                route: localePath(getItemEntityDetailPath(itemId)),
               })
             )
           }

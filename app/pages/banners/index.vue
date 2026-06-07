@@ -175,7 +175,7 @@
             <template #header>
               <NuxtLinkLocale
                 no-prefetch
-                :to="`/banners/${banner.bannerId}`"
+                :to="getEntityDetailPath('banner', banner.bannerId)"
                 class="inline w-fit transition-opacity hover:opacity-95"
               >
                 <n-gradient-text
@@ -262,7 +262,7 @@
                     >
                       <NuxtLinkLocale
                         no-prefetch
-                        :to="`/outfits/${outfitId}`"
+                        :to="getEntityDetailPath('outfit', outfitId)"
                         class="inline w-fit cursor-pointer transition-opacity hover:opacity-80"
                       >
                         <n-tag
@@ -288,7 +288,7 @@
                     >
                       <NuxtLinkLocale
                         no-prefetch
-                        :to="`/outfits/${outfitId}`"
+                        :to="getEntityDetailPath('outfit', outfitId)"
                         class="inline w-fit cursor-pointer transition-opacity hover:opacity-80"
                       >
                         <n-tag
@@ -315,7 +315,7 @@
                   >
                     <NuxtLinkLocale
                       no-prefetch
-                      :to="`/banners/${banner.bannerId}`"
+                      :to="getEntityDetailPath('banner', banner.bannerId)"
                       class="relative aspect-2/1 min-h-35 w-full overflow-hidden rounded-lg transition-opacity hover:opacity-95 sm:min-h-82.5"
                     >
                       <NuxtImg
@@ -336,7 +336,11 @@
                         class="m-2 cursor-pointer rounded-lg px-2 py-1 text-xs"
                         :z-index="10"
                         @click.stop.prevent="
-                          navigateTo(localePath(`/banners/${banner.bannerId}`))
+                          navigateTo(
+                            localePath(
+                              getEntityDetailPath('banner', banner.bannerId)
+                            )
+                          )
                         "
                       >
                         <template #trigger>

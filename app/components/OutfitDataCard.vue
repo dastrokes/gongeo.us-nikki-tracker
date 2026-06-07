@@ -3,7 +3,7 @@
     <div class="flex items-center gap-2">
       <NuxtLinkLocale
         no-prefetch
-        :to="`/outfits/${outfitId}`"
+        :to="getEntityDetailPath('outfit', outfitId)"
         class="cursor-pointer transition-opacity hover:opacity-80"
       >
         <n-tag
@@ -26,7 +26,7 @@
         v-for="level in outfitLevels"
         :key="level"
         no-prefetch
-        :to="`/outfits/${getVariantId(level)}`"
+        :to="getEntityDetailPath('outfit', getVariantId(level))"
         class="group block cursor-pointer"
       >
         <div class="relative">

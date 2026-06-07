@@ -1392,7 +1392,7 @@
       return
     }
 
-    navigateTo(localePath(`/outfits/${outfitId}`))
+    navigateTo(localePath(getEntityDetailPath('outfit', outfitId)))
   }
 
   const getOutfitItemIdsFromRecord = (

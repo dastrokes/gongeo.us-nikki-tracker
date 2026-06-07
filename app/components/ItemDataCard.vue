@@ -1,7 +1,7 @@
 <template>
   <NuxtLinkLocale
     no-prefetch
-    :to="`/items/${item.itemId}`"
+    :to="getItemEntityDetailPath(item.itemId)"
     class="group relative block transition-all duration-300 ease-out hover:z-10 hover:scale-[1.05]"
   >
     <n-card

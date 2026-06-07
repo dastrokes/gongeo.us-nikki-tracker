@@ -75,7 +75,9 @@
     boxShadow: themeVars.value.boxShadow2,
   }))
   const imageStyle = computed(() => getCardImageSeparationStyle(isDark.value))
-  const cardLocation = computed(() => props.to ?? `/items/${props.itemId}`)
+  const cardLocation = computed(
+    () => props.to ?? getItemEntityDetailPath(props.itemId)
+  )
 
   // Get item name from i18n
   const itemName = computed(() => {

@@ -369,8 +369,8 @@
       "unmark_all": "Alle abwählen",
       "mark_selected_owned": "Auswahl als im Besitz markieren",
       "unmark_selected": "Auswahl abwählen",
-      "mark_glowup": "Verschönert markieren",
-      "unmark_glowup": "Verschönert abwählen"
+      "mark_glowup": "Verschönerung markieren",
+      "unmark_glowup": "Verschönerung abwählen"
     },
     "status": {
       "owned": "Im Besitz",

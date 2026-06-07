@@ -100,49 +100,6 @@ export const useSearch = () => {
     ...getChineseSearchMeta([payload.name, ...(payload.searchAliases ?? [])]),
   })
 
-  /**
-   * Extract all item IDs from i18n JSON files
-   */
-  const getAllItemIdsFromI18n = async () => {
-    const itemIds: string[] = []
-
-    try {
-      // Import the English item translations to get all available item IDs
-      const itemMessages = await import('~/locales/en/item.json')
-
-      itemIds.push(
-        ...getEntityNameMessageIds(unwrapLocaleMessages(itemMessages), 'item')
-      )
-    } catch (error) {
-      console.error('Failed to load item translations:', error)
-    }
-
-    return itemIds
-  }
-
-  /**
-   * Extract all outfit IDs from i18n JSON files
-   */
-  const getAllOutfitIdsFromI18n = async () => {
-    const outfitIds: string[] = []
-
-    try {
-      // Import the English outfit translations to get all available outfit IDs
-      const outfitMessages = await import('~/locales/en/outfit.json')
-
-      outfitIds.push(
-        ...getEntityNameMessageIds(
-          unwrapLocaleMessages(outfitMessages),
-          'outfit'
-        )
-      )
-    } catch (error) {
-      console.error('Failed to load outfit translations:', error)
-    }
-
-    return outfitIds
-  }
-
   const buildSearchIndex = async () => {
     if (import.meta.server || isIndexBuilt.value) return
 
@@ -179,8 +136,8 @@ export const useSearch = () => {
             )
           })
 
-        // Index all outfits from i18n files (base versions only)
-        const allOutfitIds = await getAllOutfitIdsFromI18n()
+        // Index all outfits from the catalog slug map (base versions only)
+        const allOutfitIds = getEntitySlugIds('outfit')
         for (const outfitId of allOutfitIds) {
           // Skip variant outfits (glow-up / evo); only index base 5-digit IDs
           if (isOutfitVariantId(outfitId)) continue
@@ -203,8 +160,8 @@ export const useSearch = () => {
           }
         }
 
-        // Index all items from i18n files (base versions only)
-        const allItemIds = await getAllItemIdsFromI18n()
+        // Index all items from the catalog slug map (base versions only)
+        const allItemIds = getEntitySlugIds('item')
         for (const itemId of allItemIds) {
           // Skip variant items (glow-up / evo); only index base prefix 1020/1021
           if (isItemVariantId(itemId)) continue

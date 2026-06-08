@@ -114,7 +114,7 @@
     "vote": "バナー投票",
     "faq": "よくある質問",
     "about": "について",
-    "contact": "Contact Us",
+    "contact": "お問い合わせ",
     "official_website": "公式サイト",
     "join_community": "コミュニティに参加",
     "support_website": "サイトを支援",
@@ -1097,7 +1097,7 @@
     "optional_label": "（任意）",
     "name_placeholder": "お名前",
     "message_label": "メッセージ",
-    "screenshot_label": "Image / screenshot",
+    "screenshot_label": "画像 / スクリーンショット",
     "success": "ありがとうございます。フィードバックを送信しました。",
     "error": "フィードバックの送信に失敗しました。もう一度お試しください。"
   },

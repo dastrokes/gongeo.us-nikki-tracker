@@ -114,7 +114,7 @@
     "vote": "Banner-Abstimmung",
     "faq": "FAQ",
     "about": "Über gongeo.us",
-    "contact": "Contact Us",
+    "contact": "Kontaktiere uns",
     "official_website": "Offizielle Webseite",
     "join_community": "Community beitreten",
     "support_website": "Support-Webseite",
@@ -1097,7 +1097,7 @@
     "optional_label": "(optional)",
     "name_placeholder": "Dein Name",
     "message_label": "Nachricht",
-    "screenshot_label": "Image / screenshot",
+    "screenshot_label": "Bild / Screenshot",
     "success": "Danke, dein Feedback wurde gesendet.",
     "error": "Feedback konnte nicht gesendet werden. Bitte versuche es erneut."
   },

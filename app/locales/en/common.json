@@ -558,7 +558,8 @@
       "import_success": "Data imported successfully!",
       "import_failed": "Failed to import file",
       "pearpal_tracker_success": "Pearpal data imported successfully!",
-      "pearpal_tracker_failed": "Failed to import Pearpal data."
+      "pearpal_tracker_failed": "Failed to import Pearpal data.",
+      "no_file_selected": "No file selected"
     },
     "supported_browsers": "Supported Browsers",
     "supported_browsers_list": {
@@ -1099,7 +1100,8 @@
     "message_label": "Message",
     "screenshot_label": "Image / screenshot",
     "success": "Thanks, your feedback was sent.",
-    "error": "Failed to send feedback. Please try again."
+    "error": "Failed to send feedback. Please try again.",
+    "screenshot_too_large": "Image must be 8 MB or smaller."
   },
   "stats": {
     "overview": {

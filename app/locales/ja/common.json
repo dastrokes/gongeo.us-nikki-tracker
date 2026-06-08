@@ -558,7 +558,8 @@
       "import_success": "データは正常にインポートされました。",
       "import_failed": "ファイルのインポートに失敗しました",
       "pearpal_tracker_success": "Pearpal データは正常にインポートされました。",
-      "pearpal_tracker_failed": "Pearpal データのインポートに失敗しました。"
+      "pearpal_tracker_failed": "Pearpal データのインポートに失敗しました。",
+      "no_file_selected": "ファイルが選択されていません"
     },
     "supported_browsers": "サポートされているブラウザ",
     "supported_browsers_list": {
@@ -1099,7 +1100,8 @@
     "message_label": "メッセージ",
     "screenshot_label": "画像 / スクリーンショット",
     "success": "ありがとうございます。フィードバックを送信しました。",
-    "error": "フィードバックの送信に失敗しました。もう一度お試しください。"
+    "error": "フィードバックの送信に失敗しました。もう一度お試しください。",
+    "screenshot_too_large": "画像は8 MB以下にしてください。"
   },
   "stats": {
     "overview": {

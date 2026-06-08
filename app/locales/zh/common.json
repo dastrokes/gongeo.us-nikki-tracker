@@ -558,7 +558,8 @@
       "import_success": "数据导入成功！",
       "import_failed": "导入文件失败",
       "pearpal_tracker_success": "奇想手账数据导入成功！",
-      "pearpal_tracker_failed": "导入奇想手账数据失败。"
+      "pearpal_tracker_failed": "导入奇想手账数据失败。",
+      "no_file_selected": "未选择文件"
     },
     "supported_browsers": "支持的浏览器",
     "supported_browsers_list": {
@@ -1099,7 +1100,8 @@
     "message_label": "消息",
     "screenshot_label": "图片 / 截图",
     "success": "谢谢，你的反馈已发送。",
-    "error": "反馈发送失败，请再试一次。"
+    "error": "反馈发送失败，请再试一次。",
+    "screenshot_too_large": "图片大小必须为 8 MB 或更小。"
   },
   "stats": {
     "overview": {

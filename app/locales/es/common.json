@@ -558,7 +558,8 @@
       "import_success": "¡Datos importados exitosamente!",
       "import_failed": "No se pudo importar el archivo",
       "pearpal_tracker_success": "¡Los datos de Pearlal se importaron exitosamente!",
-      "pearpal_tracker_failed": "No se pudieron importar los datos de Pearpal."
+      "pearpal_tracker_failed": "No se pudieron importar los datos de Pearpal.",
+      "no_file_selected": "No se seleccionó ningún archivo"
     },
     "supported_browsers": "Navegadores compatibles",
     "supported_browsers_list": {
@@ -1099,7 +1100,8 @@
     "message_label": "Mensaje",
     "screenshot_label": "Imagen / captura de pantalla",
     "success": "Gracias, tus comentarios se enviaron.",
-    "error": "No se pudieron enviar los comentarios. Inténtalo de nuevo."
+    "error": "No se pudieron enviar los comentarios. Inténtalo de nuevo.",
+    "screenshot_too_large": "La imagen debe tener 8 MB o menos."
   },
   "stats": {
     "overview": {

@@ -1098,7 +1098,7 @@
     "optional_label": "(optional)",
     "name_placeholder": "Dein Name",
     "message_label": "Nachricht",
-    "screenshot_label": "Bild / Screenshot",
+    "screenshot_label": "Bild / Bildschirmaufnahme",
     "success": "Danke, dein Feedback wurde gesendet.",
     "error": "Feedback konnte nicht gesendet werden. Bitte versuche es erneut.",
     "screenshot_too_large": "Das Bild darf höchstens 8 MB groß sein."

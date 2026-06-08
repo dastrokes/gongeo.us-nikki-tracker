@@ -114,7 +114,7 @@
     "vote": "Voto Banner",
     "faq": "Domande frequenti",
     "about": "Di",
-    "contact": "Contatti",
+    "contact": "Contattaci",
     "official_website": "Sito ufficiale",
     "join_community": "Unisciti alla community",
     "support_website": "Supporta il sito",
@@ -1097,6 +1097,7 @@
     "optional_label": "(facoltativo)",
     "name_placeholder": "Il tuo nome",
     "message_label": "Messaggio",
+    "screenshot_label": "Immagine / screenshot",
     "success": "Grazie, il tuo feedback è stato inviato.",
     "error": "Impossibile inviare il feedback. Riprova."
   },

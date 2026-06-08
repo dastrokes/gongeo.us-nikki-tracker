@@ -1097,6 +1097,7 @@
     "optional_label": "（选填）",
     "name_placeholder": "你的姓名",
     "message_label": "消息",
+    "screenshot_label": "图片 / 截图",
     "success": "谢谢，你的反馈已发送。",
     "error": "反馈发送失败，请再试一次。"
   },

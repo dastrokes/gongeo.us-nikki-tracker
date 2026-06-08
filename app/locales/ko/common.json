@@ -114,7 +114,7 @@
     "vote": "배너 투표",
     "faq": "자주 묻는 질문",
     "about": "정보",
-    "contact": "문의",
+    "contact": "문의하기",
     "official_website": "공식 웹사이트",
     "join_community": "커뮤니티 참여",
     "support_website": "사이트 후원",
@@ -1097,6 +1097,7 @@
     "optional_label": "(선택 사항)",
     "name_placeholder": "이름",
     "message_label": "메시지",
+    "screenshot_label": "이미지 / 스크린샷",
     "success": "감사합니다. 피드백이 전송되었습니다.",
     "error": "피드백을 보내지 못했습니다. 다시 시도해 주세요."
   },

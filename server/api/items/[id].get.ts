@@ -101,8 +101,6 @@ function isMatchingItemVariation(
     variation.type === itemData.type &&
     (variation.style_key ?? null) === (itemData.style_key ?? null) &&
     (variation.obtain_type ?? null) === (itemData.obtain_type ?? null) &&
-    normalizeAttributeValues(variation.props) ===
-      normalizeAttributeValues(itemData.props) &&
     normalizeAttributeValues(variation.tags) ===
       normalizeAttributeValues(itemData.tags)
   )

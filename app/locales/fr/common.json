@@ -114,7 +114,7 @@
     "vote": "Vote par bannière",
     "faq": "FAQ",
     "about": "À propos",
-    "contact": "Contact",
+    "contact": "Nous contacter",
     "official_website": "Site officiel",
     "join_community": "Rejoindre la communauté",
     "support_website": "Soutenir le site",
@@ -1097,6 +1097,7 @@
     "optional_label": "(facultatif)",
     "name_placeholder": "Votre nom",
     "message_label": "Message",
+    "screenshot_label": "Image / capture d’écran",
     "success": "Merci, votre message a été envoyé.",
     "error": "Impossible d'envoyer le message. Veuillez réessayer."
   },

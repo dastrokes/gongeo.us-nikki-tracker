@@ -8,6 +8,7 @@
     <form
       name="site-feedback"
       method="POST"
+      enctype="multipart/form-data"
       data-netlify="true"
       netlify-honeypot="bot-field"
       hidden
@@ -17,6 +18,11 @@
       <input type="text" name="name" />
       <input type="email" name="email" />
       <textarea name="message"></textarea>
+      <input
+        type="file"
+        name="screenshot"
+        accept="image/png,image/jpeg,image/gif,image/webp"
+      />
       <input name="bot-field" />
     </form>
   </body>

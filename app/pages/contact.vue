@@ -21,7 +21,7 @@
         </n-alert>
 
         <n-alert
-          v-else-if="submitState === 'error'"
+          v-if="submitState === 'error'"
           type="error"
           :show-icon="false"
         >
@@ -120,12 +120,60 @@
               </span>
             </span>
             <input
+              ref="screenshotInputRef"
               name="screenshot"
               type="file"
               accept="image/png,image/jpeg,image/gif,image/webp"
               :disabled="submitting"
-              class="block w-full cursor-pointer rounded-[8px] border border-slate-200 bg-white text-sm text-slate-700 file:mr-4 file:border-0 file:bg-rose-50 file:px-4 file:py-2.5 file:text-sm file:font-semibold file:text-rose-600 hover:file:bg-rose-100 disabled:cursor-not-allowed disabled:opacity-60 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:file:bg-rose-500/10 dark:file:text-rose-200 dark:hover:file:bg-rose-500/20"
+              class="sr-only"
+              @change="handleScreenshotChange"
             />
+            <div class="flex flex-col gap-2 sm:flex-row sm:items-center">
+              <n-button
+                attr-type="button"
+                :disabled="submitting"
+                @click="screenshotInputRef?.click()"
+              >
+                {{ t('import.select_file') }}
+              </n-button>
+              <span
+                class="min-w-0 truncate text-sm text-slate-500 dark:text-slate-400"
+              >
+                {{ screenshotName || t('import.messages.no_file_selected') }}
+              </span>
+            </div>
+            <n-alert
+              v-if="screenshotError"
+              type="warning"
+              :show-icon="false"
+            >
+              {{ t(`contact.${screenshotError}`) }}
+            </n-alert>
+            <div
+              v-if="screenshotPreviewUrl"
+              class="space-y-2 rounded-[8px] border border-slate-200 bg-slate-50 p-2 dark:border-slate-700 dark:bg-slate-900/60"
+            >
+              <img
+                :src="screenshotPreviewUrl"
+                :alt="t('contact.screenshot_label')"
+                class="max-h-64 w-full rounded-[6px] object-contain"
+              />
+              <div class="flex items-center justify-between gap-3">
+                <span
+                  class="min-w-0 truncate text-xs text-slate-500 dark:text-slate-400"
+                >
+                  {{ screenshotName }}
+                </span>
+                <n-button
+                  size="tiny"
+                  quaternary
+                  :disabled="submitting"
+                  @click="clearScreenshot"
+                >
+                  {{ t('common.clear') }}
+                </n-button>
+              </div>
+            </div>
           </label>
 
           <div class="flex justify-end">
@@ -150,19 +198,86 @@
 
 <script setup lang="ts">
   const { t } = useI18n()
+  const MAX_SCREENSHOT_BYTES = 8 * 1024 * 1024
+
   const formRef = ref<HTMLFormElement | null>(null)
+  const screenshotInputRef = ref<HTMLInputElement | null>(null)
   const submitting = ref(false)
   const submitState = ref<'idle' | 'success' | 'error'>('idle')
+  const screenshotPreviewUrl = ref<string | null>(null)
+  const screenshotName = ref('')
+  const screenshotError = ref<'screenshot_too_large' | null>(null)
+  const lastSubmittedSignature = ref<string | null>(null)
+
+  const revokeScreenshotPreview = () => {
+    if (!screenshotPreviewUrl.value) return
+
+    URL.revokeObjectURL(screenshotPreviewUrl.value)
+    screenshotPreviewUrl.value = null
+  }
+
+  const clearScreenshot = () => {
+    revokeScreenshotPreview()
+    screenshotName.value = ''
+    screenshotError.value = null
+
+    if (screenshotInputRef.value) {
+      screenshotInputRef.value.value = ''
+    }
+  }
+
+  const handleScreenshotChange = (event: Event) => {
+    const input = event.currentTarget as HTMLInputElement
+    const file = input.files?.[0] ?? null
+
+    revokeScreenshotPreview()
+    screenshotName.value = ''
+    screenshotError.value = null
+
+    if (!file) return
+
+    if (file.size > MAX_SCREENSHOT_BYTES) {
+      screenshotError.value = 'screenshot_too_large'
+      input.value = ''
+      return
+    }
+
+    screenshotName.value = file.name
+    screenshotPreviewUrl.value = URL.createObjectURL(file)
+  }
+
+  const getFormSignature = (formData: FormData) => {
+    const screenshot = formData.get('screenshot')
+    const screenshotSignature =
+      screenshot instanceof File && screenshot.name
+        ? `${screenshot.name}:${screenshot.size}:${screenshot.lastModified}`
+        : ''
+
+    return JSON.stringify({
+      name: formData.get('name')?.toString().trim() ?? '',
+      email: formData.get('email')?.toString().trim() ?? '',
+      message: formData.get('message')?.toString().trim() ?? '',
+      screenshot: screenshotSignature,
+    })
+  }
 
   const submitForm = async () => {
     const form = formRef.value
     if (!form || submitting.value) return
 
+    if (screenshotError.value) return
+
+    const formData = new FormData(form)
+    const formSignature = getFormSignature(formData)
+    if (formSignature === lastSubmittedSignature.value) {
+      submitState.value = 'success'
+      return
+    }
+
     submitting.value = true
     submitState.value = 'idle'
 
     try {
-      const formData = new FormData(form)
       const screenshot = formData.get('screenshot')
       if (
         screenshot instanceof File &&
@@ -182,6 +297,8 @@
       }
 
       form.reset()
+      clearScreenshot()
+      lastSubmittedSignature.value = formSignature
       submitState.value = 'success'
     } catch (error) {
       submitState.value = 'error'
@@ -190,6 +307,10 @@
       submitting.value = false
     }
   }
+
+  onUnmounted(() => {
+    revokeScreenshotPreview()
+  })
 
   useSeoMeta({
     title: () =>

@@ -558,7 +558,8 @@
       "import_success": "데이터를 성공적으로 가져왔습니다!",
       "import_failed": "파일을 가져오지 못했습니다.",
       "pearpal_tracker_success": "Pearpal 데이터를 성공적으로 가져왔습니다!",
-      "pearpal_tracker_failed": "Pearpal 데이터를 가져오지 못했습니다."
+      "pearpal_tracker_failed": "Pearpal 데이터를 가져오지 못했습니다.",
+      "no_file_selected": "선택한 파일이 없습니다"
     },
     "supported_browsers": "지원되는 브라우저",
     "supported_browsers_list": {
@@ -1099,7 +1100,8 @@
     "message_label": "메시지",
     "screenshot_label": "이미지 / 스크린샷",
     "success": "감사합니다. 피드백이 전송되었습니다.",
-    "error": "피드백을 보내지 못했습니다. 다시 시도해 주세요."
+    "error": "피드백을 보내지 못했습니다. 다시 시도해 주세요.",
+    "screenshot_too_large": "이미지는 8MB 이하여야 합니다."
   },
   "stats": {
     "overview": {

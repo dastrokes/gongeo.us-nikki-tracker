@@ -1270,7 +1270,7 @@
 
   const handleJsonSubmit = async () => {
     if (!jsonFile.value) {
-      message.warning('No file selected')
+      message.warning(t('import.messages.no_file_selected'))
       return
     }
     try {

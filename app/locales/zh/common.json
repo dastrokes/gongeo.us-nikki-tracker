@@ -114,7 +114,7 @@
     "vote": "卡池投票",
     "faq": "常见问题",
     "about": "关于本站",
-    "contact": "联系我们",
+    "contact": "Contact Us",
     "official_website": "官方网站",
     "join_community": "加入社区",
     "support_website": "支持本站",
@@ -1097,6 +1097,7 @@
     "optional_label": "（选填）",
     "name_placeholder": "你的姓名",
     "message_label": "消息",
+    "screenshot_label": "Image / screenshot",
     "success": "谢谢，你的反馈已发送。",
     "error": "反馈发送失败，请再试一次。"
   },

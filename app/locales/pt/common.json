@@ -114,7 +114,7 @@
     "vote": "Votação de banner",
     "faq": "Perguntas frequentes",
     "about": "Sobre",
-    "contact": "Contato",
+    "contact": "Contact Us",
     "official_website": "Site oficial",
     "join_community": "Entrar na comunidade",
     "support_website": "Apoiar o site",
@@ -1097,6 +1097,7 @@
     "optional_label": "(opcional)",
     "name_placeholder": "Seu nome",
     "message_label": "Mensagem",
+    "screenshot_label": "Image / screenshot",
     "success": "Obrigado, seu feedback foi enviado.",
     "error": "Falha ao enviar feedback. Tente novamente."
   },

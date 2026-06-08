@@ -180,6 +180,7 @@
             <n-button
               attr-type="submit"
               type="primary"
+              :disabled="submitState === 'success'"
               :loading="submitting"
               class="sm:self-end"
             >
@@ -207,7 +208,6 @@
   const screenshotPreviewUrl = ref<string | null>(null)
   const screenshotName = ref('')
   const screenshotError = ref<'screenshot_too_large' | null>(null)
-  const lastSubmittedSignature = ref<string | null>(null)
 
   const revokeScreenshotPreview = () => {
     if (!screenshotPreviewUrl.value) return
@@ -246,33 +246,13 @@
     screenshotPreviewUrl.value = URL.createObjectURL(file)
   }
 
-  const getFormSignature = (formData: FormData) => {
-    const screenshot = formData.get('screenshot')
-    const screenshotSignature =
-      screenshot instanceof File && screenshot.name
-        ? `${screenshot.name}:${screenshot.size}:${screenshot.lastModified}`
-        : ''
-
-    return JSON.stringify({
-      name: formData.get('name')?.toString().trim() ?? '',
-      email: formData.get('email')?.toString().trim() ?? '',
-      message: formData.get('message')?.toString().trim() ?? '',
-      screenshot: screenshotSignature,
-    })
-  }
-
   const submitForm = async () => {
     const form = formRef.value
-    if (!form || submitting.value) return
+    if (!form || submitting.value || submitState.value === 'success') return
 
     if (screenshotError.value) return
 
     const formData = new FormData(form)
-    const formSignature = getFormSignature(formData)
-    if (formSignature === lastSubmittedSignature.value) {
-      submitState.value = 'success'
-      return
-    }
 
     submitting.value = true
     submitState.value = 'idle'
@@ -298,7 +278,6 @@
 
       form.reset()
       clearScreenshot()
-      lastSubmittedSignature.value = formSignature
       submitState.value = 'success'
     } catch (error) {
       submitState.value = 'error'

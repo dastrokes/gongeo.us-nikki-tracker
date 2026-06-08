@@ -114,7 +114,7 @@
     "vote": "Banner Vote",
     "faq": "FAQ",
     "about": "About",
-    "contact": "Contact",
+    "contact": "Contact Us",
     "official_website": "Official Website",
     "join_community": "Join Community",
     "support_website": "Support Website",
@@ -1097,6 +1097,7 @@
     "optional_label": "(optional)",
     "name_placeholder": "Your name",
     "message_label": "Message",
+    "screenshot_label": "Image / screenshot",
     "success": "Thanks, your feedback was sent.",
     "error": "Failed to send feedback. Please try again."
   },

@@ -114,7 +114,7 @@
     "vote": "Voto de pancarta",
     "faq": "Preguntas frecuentes",
     "about": "Acerca de",
-    "contact": "Contacto",
+    "contact": "Contáctanos",
     "official_website": "Sitio web oficial",
     "join_community": "Unirse a la comunidad",
     "support_website": "Apoyar el sitio",
@@ -1097,6 +1097,7 @@
     "optional_label": "(opcional)",
     "name_placeholder": "Tu nombre",
     "message_label": "Mensaje",
+    "screenshot_label": "Imagen / captura de pantalla",
     "success": "Gracias, tus comentarios se enviaron.",
     "error": "No se pudieron enviar los comentarios. Inténtalo de nuevo."
   },

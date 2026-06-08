@@ -1097,6 +1097,7 @@
     "optional_label": "（任意）",
     "name_placeholder": "お名前",
     "message_label": "メッセージ",
+    "screenshot_label": "画像 / スクリーンショット",
     "success": "ありがとうございます。フィードバックを送信しました。",
     "error": "フィードバックの送信に失敗しました。もう一度お試しください。"
   },

@@ -33,6 +33,7 @@
           name="site-feedback"
           action="/__forms.html"
           method="POST"
+          enctype="multipart/form-data"
           data-netlify="true"
           netlify-honeypot="bot-field"
           class="space-y-4"
@@ -109,6 +110,24 @@
             />
           </label>
 
+          <label class="block space-y-1.5">
+            <span
+              class="text-sm font-medium text-slate-700 dark:text-slate-200"
+            >
+              {{ t('contact.screenshot_label') }}
+              <span class="font-normal text-slate-500 dark:text-slate-400">
+                {{ t('contact.optional_label') }}
+              </span>
+            </span>
+            <input
+              name="screenshot"
+              type="file"
+              accept="image/png,image/jpeg,image/gif,image/webp"
+              :disabled="submitting"
+              class="block w-full cursor-pointer rounded-[8px] border border-slate-200 bg-white text-sm text-slate-700 file:mr-4 file:border-0 file:bg-rose-50 file:px-4 file:py-2.5 file:text-sm file:font-semibold file:text-rose-600 hover:file:bg-rose-100 disabled:cursor-not-allowed disabled:opacity-60 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:file:bg-rose-500/10 dark:file:text-rose-200 dark:hover:file:bg-rose-500/20"
+            />
+          </label>
+
           <div class="flex justify-end">
             <n-button
               attr-type="submit"
@@ -120,6 +139,10 @@
             </n-button>
           </div>
         </form>
+
+        <div class="space-y-4">
+          <SocialLinks />
+        </div>
       </div>
     </n-card>
   </div>
@@ -131,18 +154,6 @@
   const submitting = ref(false)
   const submitState = ref<'idle' | 'success' | 'error'>('idle')
 
-  const encodeFormData = (formData: FormData) => {
-    const body = new URLSearchParams()
-
-    for (const [key, value] of formData.entries()) {
-      if (typeof value === 'string') {
-        body.append(key, value)
-      }
-    }
-
-    return body.toString()
-  }
-
   const submitForm = async () => {
     const form = formRef.value
     if (!form || submitting.value) return
@@ -151,10 +162,19 @@
     submitState.value = 'idle'
 
     try {
+      const formData = new FormData(form)
+      const screenshot = formData.get('screenshot')
+      if (
+        screenshot instanceof File &&
+        screenshot.name === '' &&
+        screenshot.size === 0
+      ) {
+        formData.delete('screenshot')
+      }
+
       const response = await fetch('/__forms.html', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: encodeFormData(new FormData(form)),
+        body: formData,
       })
 
       if (!response.ok) {

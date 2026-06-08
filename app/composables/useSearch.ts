@@ -136,12 +136,9 @@ export const useSearch = () => {
             )
           })
 
-        // Index all outfits from the catalog slug map (base versions only)
+        // Index all outfits from the catalog slug map, including variations
         const allOutfitIds = getEntitySlugIds('outfit')
         for (const outfitId of allOutfitIds) {
-          // Skip variant outfits (glow-up / evo); only index base 5-digit IDs
-          if (isOutfitVariantId(outfitId)) continue
-
           const name = getLocalizedOutfitName(outfitId)
           const searchAliases = getOutfitSearchAliases(locale.value, outfitId)
 
@@ -160,12 +157,9 @@ export const useSearch = () => {
           }
         }
 
-        // Index all items from the catalog slug map (base versions only)
+        // Index all items from the catalog slug map, including variations
         const allItemIds = getEntitySlugIds('item')
         for (const itemId of allItemIds) {
-          // Skip variant items (glow-up / evo); only index base prefix 1020/1021
-          if (isItemVariantId(itemId)) continue
-
           const name = getLocalizedItemName(itemId)
 
           // Only add if the item has a valid localized name

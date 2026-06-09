@@ -5,25 +5,21 @@
     @click="$emit('click', itemId)"
   >
     <n-card
-      :class="[
-        getCardGradient(quality),
-        'relative aspect-square cursor-pointer overflow-hidden rounded-md ring-1 transition-all duration-300 ease-out',
-        getSizeClass(size),
-      ]"
+      :class="[getCardGradient(quality), cardFrameClass, getSizeClass(size)]"
       :bordered="false"
       size="small"
-      content-class="p-2"
+      :content-class="cardContentClass"
     >
       <NuxtImg
-        :src="getImageSrc('itemIcon', itemId)"
+        :src="cardImageSrc"
         :alt="itemName"
-        class="aspect-square h-full w-full object-cover"
+        :class="cardImageClass"
         :style="imageStyle"
-        :preset="getImagePreset(size)"
+        :preset="imagePreset"
         fit="cover"
         loading="lazy"
         placeholder="/images/loading.webp"
-        :sizes="getImageSizes(size)"
+        :sizes="imageSizes"
       />
     </n-card>
     <div
@@ -52,11 +48,13 @@
     name: string
     size?: 'sm' | 'lg'
     to?: string
+    imageMode?: 'icon' | 'preview'
   }
 
   const props = withDefaults(defineProps<Props>(), {
     size: 'lg',
     to: undefined,
+    imageMode: 'icon',
   })
 
   defineEmits<{
@@ -74,10 +72,41 @@
     color: isDark.value ? palette.textDark : palette.textLight,
     boxShadow: themeVars.value.boxShadow2,
   }))
-  const imageStyle = computed(() => getCardImageSeparationStyle(isDark.value))
+  const isPreviewImage = computed(() => props.imageMode === 'preview')
+  const imageStyle = computed(() =>
+    isPreviewImage.value ? undefined : getCardImageSeparationStyle(isDark.value)
+  )
   const cardLocation = computed(
     () => props.to ?? getItemEntityDetailPath(props.itemId)
   )
+  const cardImageSrc = computed(() =>
+    getImageSrc(isPreviewImage.value ? 'item' : 'itemIcon', props.itemId)
+  )
+  const cardFrameClass = computed(() => [
+    'relative cursor-pointer overflow-hidden rounded-md ring-1 transition-all duration-300 ease-out',
+    isPreviewImage.value
+      ? "aspect-2/3 bg-[url('/images/bg.webp')] bg-cover bg-center shadow-sm"
+      : 'aspect-square',
+  ])
+  const cardContentClass = computed(() =>
+    isPreviewImage.value ? 'p-0' : 'p-2'
+  )
+  const cardImageClass = computed(() =>
+    isPreviewImage.value
+      ? 'aspect-2/3 h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105'
+      : 'aspect-square h-full w-full object-cover'
+  )
+  const imagePreset = computed(() => {
+    if (isPreviewImage.value) return 'tallLg'
+    return props.size === 'sm' ? 'iconSm' : 'iconLg'
+  })
+  const imageSizes = computed(() => {
+    if (isPreviewImage.value) {
+      return props.size === 'sm' ? '64px sm:80px' : '80px sm:120px'
+    }
+
+    return props.size === 'sm' ? '60px sm:80px' : '80px sm:120px'
+  })
 
   // Get item name from i18n
   const itemName = computed(() => {
@@ -99,19 +128,6 @@
         return 'min-h-20 xl:min-h-30'
       default:
         return 'min-h-20 xl:min-h-30'
-    }
-  }
-
-  const getImagePreset = (size: 'sm' | 'lg') => {
-    return size === 'sm' ? 'iconSm' : 'iconLg'
-  }
-
-  const getImageSizes = (size: 'sm' | 'lg') => {
-    switch (size) {
-      case 'sm':
-        return '60px sm:80px'
-      default:
-        return '80px sm:120px'
     }
   }
 </script>

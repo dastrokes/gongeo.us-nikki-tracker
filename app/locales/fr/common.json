@@ -107,6 +107,7 @@
     "outfit": "Recueil de tenues",
     "outfit_detail": "Détail de la tenue",
     "item": "Recueil d'articles",
+    "lookbook_preview": "Aperçu du lookbook",
     "makeup": "Recueil de maquillages",
     "item_detail": "Détail de l'article",
     "tierlist": "Créateur de liste de niveaux",
@@ -118,7 +119,6 @@
     "official_website": "Site officiel",
     "join_community": "Rejoindre la communauté",
     "support_website": "Soutenir le site",
-    "nuan5pro": "Nuan5.Pro",
     "stats": "Statistiques Personnelles"
   },
   "meta": {
@@ -139,6 +139,7 @@
       "makeups": "Parcourez tous les maquillages d'Infinity Nikki, y compris les maquillages complets et les éléments individuels, avec des filtres par emplacement, qualité, style, version et source.",
       "outfit_detail": "Affichez des informations détaillées sur la tenue {name}, notamment la qualité, les pièces de la tenue, l'évolution et l'éclat, les maquillages, les statistiques et les bannières de résonance associées.",
       "items": "Parcourez tous les articles Infinity Nikki avec des filtres par emplacement, qualité, bonus de statistiques et tenues ou bannières associées. Trouvez, comparez et suivez facilement chaque article.",
+      "lookbook": "Décodez un code de lookbook Infinity Nikki en une carte partageable avec liste d’articles, icônes et liens vers le compendium.",
       "momo": "Parcourez toutes les Capes de Momo d'Infinity Nikki avec des filtres par qualité, version et source, ainsi que l'illustration de l'objet dans un compendium dédié.",
       "momo_detail": "Affichez des informations détaillées sur {name}, notamment sa qualité, sa source, sa description, son aperçu et son icône.",
       "item_detail": "Affichez des informations détaillées sur l'objet {name}, notamment sa qualité, son évolution et son éclat, ses statistiques, ainsi que les tenues et bannières associées.",
@@ -1128,5 +1129,18 @@
       "best_luck": "Meilleure Chance",
       "worst_luck": "Pire Chance"
     }
+  },
+  "lookbook": {
+    "description": "Décodez un code de lookbook en une carte d’articles partageable.",
+    "api_credit": "API de décodage aimablement fournie par",
+    "input_placeholder": "Code ou URL",
+    "decode": "Décoder",
+    "paste": "Coller",
+    "paste_failed": "Échec du collage.",
+    "hide_item_info": "Masquer les infos",
+    "preview_image": "Image d’aperçu",
+    "display_options": "Options d’affichage",
+    "invalid_code": "Code invalide.",
+    "card_title": "Lookbook Infinity Nikki"
   }
 }

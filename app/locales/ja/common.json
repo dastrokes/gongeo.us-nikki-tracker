@@ -107,6 +107,7 @@
     "outfit": "衣装図鑑",
     "outfit_detail": "衣装の詳細",
     "item": "アイテム図鑑",
+    "lookbook_preview": "Lookbookプレビュー",
     "makeup": "メイク図鑑",
     "item_detail": "アイテム詳細",
     "tierlist": "ティアリストメーカー",
@@ -118,7 +119,6 @@
     "official_website": "公式サイト",
     "join_community": "コミュニティに参加",
     "support_website": "サイトを支援",
-    "nuan5pro": "Nuan5.Pro",
     "stats": "個人統計"
   },
   "meta": {
@@ -139,6 +139,7 @@
       "makeups": "インフィニティニキのすべてのメイクを閲覧できます。フルメイクと各メイクパーツを、部位、レア度、スタイル、バージョン、入手元で絞り込めます。",
       "outfit_detail": "品質、衣装ピース、進化とグローアップ、メイクアップ、ステータス、関連する共鳴バナーなど、{name} 衣装に関する詳細情報を表示します。",
       "items": "部位、品質、ステータスボーナス、関連する衣装やバナーのフィルターを使用して、すべての インフィニティニキ アイテムを参照します。すべてのアイテムを簡単に検索、比較、追跡します。",
+      "lookbook": "Infinity NikkiのLookbookコードを、アイコンと図鑑リンク付きの共有用アイテムリストカードに変換します。",
       "momo": "品質、バージョン、入手元のフィルターを使用して、インフィニティニキに登場するすべてのモモのマントを、アイテム画像とあわせて一覧できます。",
       "momo_detail": "{name} のレア度、入手元、説明、プレビュー、アイコン画像などの詳細情報を表示します。",
       "item_detail": "品質、進化とグローアップ、ステータス、関連する衣装やバナーなど、{name} アイテムに関する詳細情報を表示します。",
@@ -1128,5 +1129,18 @@
       "best_luck": "最高の運勢",
       "worst_luck": "最低の運勢"
     }
+  },
+  "lookbook": {
+    "description": "Lookbookコードを共有用のアイテムカードに変換します。",
+    "api_credit": "デコードAPI提供",
+    "input_placeholder": "コードまたはURL",
+    "decode": "デコード",
+    "paste": "貼り付け",
+    "paste_failed": "貼り付けに失敗しました。",
+    "hide_item_info": "アイテム情報を隠す",
+    "preview_image": "プレビュー画像",
+    "display_options": "表示オプション",
+    "invalid_code": "無効なコードです。",
+    "card_title": "Infinity Nikki Lookbook"
   }
 }

@@ -320,7 +320,7 @@
                       :to="`/${link.key}`"
                       class="font-medium text-gray-500 no-underline hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-100"
                     >
-                      {{ $t(link.label) }}
+                      {{ link.rawLabel ?? $t(link.label ?? '') }}
                     </NuxtLinkLocale>
                     <a
                       v-else
@@ -329,7 +329,7 @@
                       rel="noopener noreferrer"
                       class="font-medium text-gray-500 no-underline hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-100"
                     >
-                      {{ $t(link.label) }}
+                      {{ link.rawLabel ?? $t(link.label ?? '') }}
                     </a>
                   </template>
                 </div>
@@ -718,7 +718,7 @@
 
   const footerLinkGroups = computed<
     {
-      items: { key: string; label: string; to?: string }[]
+      items: { key: string; label?: string; rawLabel?: string; to?: string }[]
     }[]
   >(() => [
     {
@@ -759,8 +759,23 @@
         },
         {
           key: 'nuan5',
-          label: 'navigation.nuan5pro',
+          rawLabel:
+            locale.value === 'zh'
+              ? '无暖助手'
+              : locale.value === 'tw'
+                ? '無暖助手'
+                : 'Nuan5.Pro',
           to: 'https://nuan5.pro',
+        },
+        {
+          key: 'nikki-albums',
+          rawLabel:
+            locale.value === 'zh'
+              ? '暖暖相册'
+              : locale.value === 'tw'
+                ? '暖暖相冊'
+                : 'Nikki Albums',
+          to: 'https://nikki.ranaxro.com/',
         },
       ],
     },

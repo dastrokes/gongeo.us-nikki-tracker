@@ -107,6 +107,7 @@
     "outfit": "Outfit-Kompendium",
     "outfit_detail": "Outfit-Detail",
     "item": "Stück-Kompendium",
+    "lookbook_preview": "Lookbook-Vorschau",
     "makeup": "Make-up-Kompendium",
     "item_detail": "Stück-Detail",
     "tierlist": "Ranglisten-Ersteller",
@@ -118,7 +119,6 @@
     "official_website": "Offizielle Webseite",
     "join_community": "Community beitreten",
     "support_website": "Support-Webseite",
-    "nuan5pro": "Nuan5.Pro",
     "stats": "Persönliche Statistiken"
   },
   "meta": {
@@ -139,6 +139,7 @@
       "makeups": "Durchsuche alle Infinity Nikki Make-ups, einschließlich voller Make-ups und einzelner Make-up-Stücke, mit Filtern nach Slot, Qualität, Stil, Version und Herkunft.",
       "outfit_detail": "Schau dir detaillierte Informationen über das Outfit {name} an, einschließlich Qualität, Evolution und Verschönerung, Statuswerten und verwandter Resonanz-Bannern.",
       "items": "Durchsuche alle Infinity Nikki Stücke mit Filtern nach Slot, Qualität, Status-Boni und verwandten Outfits oder Bannern. Finde, vergleiche und verfolge jedes Stück ganz leicht.",
+      "lookbook": "Dekodiere einen Infinity Nikki Lookbook-Code in eine teilbare Stücklisten-Karte mit Icons und Kompendium-Links.",
       "momo": "Durchsuche alle Momos Mäntel in Infinity Nikki mit Filtern nach Qualität, Version und Quelle und sieh dir Stück-Kunstwerke in einem eigenen Kompendium an.",
       "momo_detail": "Schau dir detaillierte Informationen über {name} an, einschließlich Qualität, Herkunft, Beschreibung, Vorschau und Stück-Artwork.",
       "item_detail": "Schau dir detaillierte Informationen über das Stück {name} an, einschließlich Qualität, Evolution und Verschönerung, Statuswerten und verwandter Outfits und Bannern.",
@@ -1128,5 +1129,18 @@
       "best_luck": "Bestes Glück",
       "worst_luck": "Schlimmstes Glück"
     }
+  },
+  "lookbook": {
+    "description": "Dekodiere einen Lookbook-Code in eine teilbare Stückkarte.",
+    "api_credit": "Decode-API freundlicherweise bereitgestellt von",
+    "input_placeholder": "Code oder URL",
+    "decode": "Dekodieren",
+    "paste": "Einfügen",
+    "paste_failed": "Einfügen fehlgeschlagen.",
+    "hide_item_info": "Stückinfo ausblenden",
+    "preview_image": "Vorschaubild",
+    "display_options": "Anzeigeoptionen",
+    "invalid_code": "Ungültiger Code.",
+    "card_title": "Infinity Nikki Lookbook"
   }
 }

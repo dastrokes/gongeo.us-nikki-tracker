@@ -48,12 +48,18 @@ const SEO_LIST_PATHS = [
 const STATIC_SITEMAP_PATHS = [...BASE_PATHS, ...SEO_LIST_PATHS]
 
 type TranslationDictionary = Record<string, unknown>
+type LocaleDefinition = (typeof i18nLocales)[number]
 type LocaleCode = (typeof i18nLocales)[number]['code']
 type TranslationSection = 'banner' | 'outfit' | 'item' | 'momo' | 'makeup'
 type TranslationLoader = () => Promise<TranslationDictionary>
 
 type SitemapUrl = {
   loc: string
+  _sitemap: string
+  alternatives: Array<{
+    href: string
+    hreflang: string
+  }>
   images: Array<{
     loc: string
     title: string
@@ -301,6 +307,41 @@ const translationLoaders = {
 
 const contentConfigCache = new Map<string, Promise<ContentConfig>>()
 
+const getSitemapLocaleName = (locale: LocaleDefinition) =>
+  locale.language || locale.code
+
+const getLocalePrefix = (localeCode: LocaleCode) =>
+  localeCode === defaultLocale ? '' : `/${localeCode}`
+
+const getLocalizedPath = (path: string, localeCode: LocaleCode) => {
+  const prefix = getLocalePrefix(localeCode)
+  return path === '/' ? `${prefix}/` : `${prefix}${path}`
+}
+
+const getSitemapAlternatives = (path: string) => [
+  {
+    href: getLocalizedPath(path, defaultLocale),
+    hreflang: 'x-default',
+  },
+  ...i18nLocales.map((locale) => ({
+    href: getLocalizedPath(path, locale.code),
+    hreflang: getSitemapLocaleName(locale),
+  })),
+]
+
+export function resolveSitemapLocaleCode(
+  localeValue?: string | null
+): LocaleCode | undefined {
+  if (!localeValue) return undefined
+
+  const normalizedLocale = localeValue.trim().toLowerCase()
+  return i18nLocales.find(
+    (locale) =>
+      locale.code.toLowerCase() === normalizedLocale ||
+      getSitemapLocaleName(locale).toLowerCase() === normalizedLocale
+  )?.code
+}
+
 const loadTranslations = async (
   localeCode: LocaleCode,
   section: TranslationSection
@@ -376,22 +417,22 @@ function resolveLocales(localeCode?: LocaleCode) {
     : i18nLocales
 }
 
-export function buildSitemap() {
-  return Promise.all([Promise.resolve(baseSitemap()), contentSitemap()]).then(
-    ([baseRoutes, contentRoutes]) => [...baseRoutes, ...contentRoutes]
-  )
+export function buildSitemap(localeCode?: LocaleCode) {
+  return Promise.all([
+    Promise.resolve(baseSitemap(localeCode)),
+    contentSitemap(localeCode),
+  ]).then(([baseRoutes, contentRoutes]) => [...baseRoutes, ...contentRoutes])
 }
 
 export function baseSitemap(localeCode?: LocaleCode) {
   const results: SitemapUrl[] = []
 
-  resolveLocales(localeCode).forEach(({ code }) => {
-    const prefix = code === defaultLocale ? '' : `/${code}`
-
+  resolveLocales(localeCode).forEach((locale) => {
     STATIC_SITEMAP_PATHS.forEach((path) => {
-      const loc = path === '/' ? `${prefix}/` : `${prefix}${path}`
       results.push({
-        loc,
+        loc: getLocalizedPath(path, locale.code),
+        _sitemap: getSitemapLocaleName(locale),
+        alternatives: getSitemapAlternatives(path),
         images: [],
       })
     })
@@ -411,14 +452,15 @@ export async function contentSitemap(localeCode?: LocaleCode) {
       config.localeKey
     )
 
-    for (const { code } of locales) {
+    for (const locale of locales) {
+      const { code } = locale
       const localeTranslations =
         code === defaultLocale
           ? fallbackTranslations
           : await loadTranslations(code, config.localeKey)
 
       for (const contentId of config.ids) {
-        const prefix = code === defaultLocale ? '' : `/${code}`
+        const path = getEntityDetailPath(config.entity, contentId)
         const translationKey = `${config.localeKey}.${contentId}.name`
         const name =
           getLocaleMessageText(localeTranslations?.[translationKey]) ||
@@ -426,7 +468,9 @@ export async function contentSitemap(localeCode?: LocaleCode) {
           `${config.fallbackLabel} ${contentId}`
 
         results.push({
-          loc: `${prefix}${getEntityDetailPath(config.entity, contentId)}`,
+          loc: getLocalizedPath(path, code),
+          _sitemap: getSitemapLocaleName(locale),
+          alternatives: getSitemapAlternatives(path),
           images: [
             {
               loc: getOgImageSrc(config.imageType, contentId),

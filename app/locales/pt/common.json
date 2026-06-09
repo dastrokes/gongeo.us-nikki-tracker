@@ -989,6 +989,19 @@
     "match_score": "{score}% de correspondência",
     "owned_empty_description": "Adicione itens ao seu guarda-roupa antes de usar Itens possuídos na Pesquisa de caprichos ou no Gira-encantos."
   },
+  "lookbook": {
+    "description": "Decodifique um código de lookbook em um cartão de itens compartilhável.",
+    "api_credit": "API de decodificação gentilmente fornecida por",
+    "input_placeholder": "Código ou URL",
+    "decode": "Decodificar",
+    "paste": "Colar",
+    "paste_failed": "Falha ao colar.",
+    "hide_item_info": "Ocultar info do item",
+    "preview_image": "Imagem prévia",
+    "display_options": "Opções de exibição",
+    "invalid_code": "Código inválido.",
+    "card_title": "Lookbook Infinity Nikki"
+  },
   "feedback": {
     "queue_title": "Revisão de feedback",
     "page_description": "Navegue por correções de tags estruturadas, vote em sugestões existentes e ajude a manter o compêndio organizado.",

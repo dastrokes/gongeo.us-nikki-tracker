@@ -989,6 +989,19 @@
     "match_score": "匹配度 {score}%",
     "owned_empty_description": "在奇想搜索或奇想滚滚机中使用“已拥有部件”前，请先将部件添加到衣橱。"
   },
+  "lookbook": {
+    "description": "将搭配码解析成可分享的部件卡片。",
+    "api_credit": "解析 API 由以下网站友情提供",
+    "input_placeholder": "代码或网址",
+    "decode": "解析",
+    "paste": "粘贴",
+    "paste_failed": "粘贴失败。",
+    "hide_item_info": "隐藏部件信息",
+    "preview_image": "预览图片",
+    "display_options": "显示选项",
+    "invalid_code": "代码无效。",
+    "card_title": "无限暖暖搭配码"
+  },
   "feedback": {
     "queue_title": "反馈队列",
     "page_description": "浏览结构化标签修正提案，快速投票，一起整理图鉴标签。",

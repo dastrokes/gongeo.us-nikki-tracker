@@ -20,6 +20,24 @@ import {
 import { getImageProvider } from './app/utils/imageProvider'
 
 const siteUrl = process.env.NUXT_PUBLIC_SITE_URL || 'https://gongeo.us'
+const sitemapSourceTimeout = 10000
+const getSitemapLocaleSource = (
+  localeCode: string
+): [string, { timeout: number }] => [
+  `/api/__sitemap__/urls?locale=${encodeURIComponent(localeCode)}`,
+  { timeout: sitemapSourceTimeout },
+]
+const sitemapLocaleSources: Record<
+  string,
+  { sources: [string, { timeout: number }][] }
+> = Object.fromEntries(
+  i18nLocales.map((locale) => [
+    locale.language || locale.code,
+    {
+      sources: [getSitemapLocaleSource(locale.code)],
+    },
+  ])
+)
 const imagekitBaseUrl =
   process.env.NUXT_PUBLIC_IMAGEKIT_BASE_URL || 'https://ik.imagekit.io/gongeous'
 const cloudinaryBaseUrl =
@@ -145,8 +163,8 @@ export default defineNuxtConfig({
   },
 
   sitemap: {
-    excludeAppSources: true,
-    sources: ['/api/__sitemap__/urls'],
+    cacheMaxAgeSeconds: 60 * 60 * 24,
+    sitemaps: sitemapLocaleSources,
   },
 
   robots: {

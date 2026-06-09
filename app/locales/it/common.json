@@ -989,6 +989,19 @@
     "match_score": "{score}% di corrispondenza",
     "owned_empty_description": "Aggiungi oggetti al tuo guardaroba prima di usare Oggetti posseduti in Ricerca dei capricci o Estromatic."
   },
+  "lookbook": {
+    "description": "Decodifica un codice lookbook in una scheda articoli condivisibile.",
+    "api_credit": "API di decodifica gentilmente fornita da",
+    "input_placeholder": "Codice o URL",
+    "decode": "Decodifica",
+    "paste": "Incolla",
+    "paste_failed": "Incolla non riuscito.",
+    "hide_item_info": "Nascondi info articolo",
+    "preview_image": "Immagine anteprima",
+    "display_options": "Opzioni di visualizzazione",
+    "invalid_code": "Codice non valido.",
+    "card_title": "Lookbook Infinity Nikki"
+  },
   "feedback": {
     "queue_title": "Revisione feedback",
     "page_description": "Sfoglia le correzioni dei tag strutturati, vota i suggerimenti esistenti e aiuta a mantenere ordinato il compendio.",

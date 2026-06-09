@@ -989,6 +989,19 @@
     "match_score": "{score}% de correspondance",
     "owned_empty_description": "Ajoutez des objets à votre garde-robe avant d'utiliser les objets possédés dans Recherche de chimères ou Chic-o-matic."
   },
+  "lookbook": {
+    "description": "Décodez un code de lookbook en une carte d’articles partageable.",
+    "api_credit": "API de décodage aimablement fournie par",
+    "input_placeholder": "Code ou URL",
+    "decode": "Décoder",
+    "paste": "Coller",
+    "paste_failed": "Échec du collage.",
+    "hide_item_info": "Masquer les infos",
+    "preview_image": "Image d’aperçu",
+    "display_options": "Options d’affichage",
+    "invalid_code": "Code invalide.",
+    "card_title": "Lookbook Infinity Nikki"
+  },
   "feedback": {
     "queue_title": "Révision des commentaires",
     "page_description": "Parcourez les corrections de tags structurées, votez pour les suggestions existantes et aidez à garder le compendium bien rangé.",

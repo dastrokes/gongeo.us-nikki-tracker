@@ -989,6 +989,19 @@
     "match_score": "{score}% de coincidencia",
     "owned_empty_description": "Añade objetos a tu guardarropa antes de usar Objetos propios en Búsqueda de caprichos o Maravie-O-Matic."
   },
+  "lookbook": {
+    "description": "Decodifica un código de lookbook en una tarjeta de artículos compartible.",
+    "api_credit": "API de decodificación proporcionada amablemente por",
+    "input_placeholder": "Código o URL",
+    "decode": "Decodificar",
+    "paste": "Pegar",
+    "paste_failed": "No se pudo pegar.",
+    "hide_item_info": "Ocultar información",
+    "preview_image": "Imagen previa",
+    "display_options": "Opciones de visualización",
+    "invalid_code": "Código inválido.",
+    "card_title": "Lookbook de Infinity Nikki"
+  },
   "feedback": {
     "queue_title": "Revisión de comentarios",
     "page_description": "Examine las correcciones de etiquetas estructuradas, vote las sugerencias existentes y ayude a mantener ordenado el compendio.",

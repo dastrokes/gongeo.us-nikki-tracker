@@ -989,6 +989,19 @@
     "match_score": "{score}% Treffer",
     "owned_empty_description": "Füge deiner Garderobe zuerst Stücke hinzu, bevor du Stücke im Besitz in der Wunder-Suche oder dem Wunder-O-Mat verwendest."
   },
+  "lookbook": {
+    "description": "Dekodiere einen Lookbook-Code in eine teilbare Stückkarte.",
+    "api_credit": "Decode-API freundlicherweise bereitgestellt von",
+    "input_placeholder": "Code oder URL",
+    "decode": "Dekodieren",
+    "paste": "Einfügen",
+    "paste_failed": "Einfügen fehlgeschlagen.",
+    "hide_item_info": "Stückinfo ausblenden",
+    "preview_image": "Vorschaubild",
+    "display_options": "Anzeigeoptionen",
+    "invalid_code": "Ungültiger Code.",
+    "card_title": "Infinity Nikki Lookbook"
+  },
   "feedback": {
     "queue_title": "Feedback-Prüfung",
     "page_description": "Durchsuche strukturierte Tag-Korrekturen, stimme über existierende Vorschläge ab und hilf dabei, das Kompendium ordentlich zu halten.",

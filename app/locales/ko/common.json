@@ -989,6 +989,19 @@
     "match_score": "{score}% 일치",
     "owned_empty_description": "상상 검색 또는 상상 가챠에서 보유 아이템을 사용하기 전에 옷장에 아이템을 먼저 추가하세요."
   },
+  "lookbook": {
+    "description": "Lookbook 코드를 공유용 아이템 카드로 변환합니다.",
+    "api_credit": "디코드 API 제공",
+    "input_placeholder": "코드 또는 URL",
+    "decode": "디코드",
+    "paste": "붙여넣기",
+    "paste_failed": "붙여넣기에 실패했습니다.",
+    "hide_item_info": "아이템 정보 숨기기",
+    "preview_image": "미리보기 이미지",
+    "display_options": "표시 옵션",
+    "invalid_code": "잘못된 코드입니다.",
+    "card_title": "Infinity Nikki Lookbook"
+  },
   "feedback": {
     "queue_title": "피드백 심사",
     "page_description": "구조화된 태그 수정안을 탐색하고, 기존 제안에 투표하며, 도감을 깔끔하게 유지하는 데 도움을 주세요.",

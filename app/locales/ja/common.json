@@ -989,6 +989,19 @@
     "match_score": "一致度 {score}%",
     "owned_empty_description": "奇想検索や奇想ガチャで所持アイテムを使う前に、ワードローブにアイテムを追加してください。"
   },
+  "lookbook": {
+    "description": "Lookbookコードを共有用のアイテムカードに変換します。",
+    "api_credit": "デコードAPI提供",
+    "input_placeholder": "コードまたはURL",
+    "decode": "デコード",
+    "paste": "貼り付け",
+    "paste_failed": "貼り付けに失敗しました。",
+    "hide_item_info": "アイテム情報を隠す",
+    "preview_image": "プレビュー画像",
+    "display_options": "表示オプション",
+    "invalid_code": "無効なコードです。",
+    "card_title": "Infinity Nikki Lookbook"
+  },
   "feedback": {
     "queue_title": "フィードバック審査",
     "page_description": "構造化されたタグの修正案を閲覧し、既存の提案に投票して、図鑑を整理しましょう。",

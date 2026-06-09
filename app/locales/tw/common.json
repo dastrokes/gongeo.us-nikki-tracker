@@ -989,6 +989,19 @@
     "match_score": "匹配度 {score}%",
     "owned_empty_description": "在奇想搜尋或奇想滾滾機中使用「已擁有部件」前，請先將部件加入衣櫥。"
   },
+  "lookbook": {
+    "description": "將搭配碼解析成可分享的部件卡片。",
+    "api_credit": "解析 API 由以下網站友情提供",
+    "input_placeholder": "代碼或網址",
+    "decode": "解析",
+    "paste": "貼上",
+    "paste_failed": "貼上失敗。",
+    "hide_item_info": "隱藏部件資訊",
+    "preview_image": "預覽圖片",
+    "display_options": "顯示選項",
+    "invalid_code": "代碼無效。",
+    "card_title": "無限暖暖搭配碼"
+  },
   "feedback": {
     "queue_title": "回饋審核",
     "page_description": "瀏覽結構化標籤修正提案，快速投票，一起整理圖鑑標籤。",

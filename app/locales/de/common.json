@@ -107,6 +107,7 @@
     "outfit": "Outfit-Kompendium",
     "outfit_detail": "Outfit-Detail",
     "item": "Stück-Kompendium",
+    "lookbook_preview": "Lookbook Preview",
     "makeup": "Make-up-Kompendium",
     "item_detail": "Stück-Detail",
     "tierlist": "Ranglisten-Ersteller",
@@ -118,7 +119,6 @@
     "official_website": "Offizielle Webseite",
     "join_community": "Community beitreten",
     "support_website": "Support-Webseite",
-    "nuan5pro": "Nuan5.Pro",
     "stats": "Persönliche Statistiken"
   },
   "meta": {
@@ -139,6 +139,7 @@
       "makeups": "Durchsuche alle Infinity Nikki Make-ups, einschließlich voller Make-ups und einzelner Make-up-Stücke, mit Filtern nach Slot, Qualität, Stil, Version und Herkunft.",
       "outfit_detail": "Schau dir detaillierte Informationen über das Outfit {name} an, einschließlich Qualität, Evolution und Verschönerung, Statuswerten und verwandter Resonanz-Bannern.",
       "items": "Durchsuche alle Infinity Nikki Stücke mit Filtern nach Slot, Qualität, Status-Boni und verwandten Outfits oder Bannern. Finde, vergleiche und verfolge jedes Stück ganz leicht.",
+      "lookbook": "Decode an Infinity Nikki lookbook code into a shareable item list card with icons and compendium links.",
       "momo": "Durchsuche alle Momos Mäntel in Infinity Nikki mit Filtern nach Qualität, Version und Quelle und sieh dir Stück-Kunstwerke in einem eigenen Kompendium an.",
       "momo_detail": "Schau dir detaillierte Informationen über {name} an, einschließlich Qualität, Herkunft, Beschreibung, Vorschau und Stück-Artwork.",
       "item_detail": "Schau dir detaillierte Informationen über das Stück {name} an, einschließlich Qualität, Evolution und Verschönerung, Statuswerten und verwandter Outfits und Bannern.",
@@ -987,6 +988,19 @@
     "no_matches": "Keine Treffer",
     "match_score": "{score}% Treffer",
     "owned_empty_description": "Füge deiner Garderobe zuerst Stücke hinzu, bevor du Stücke im Besitz in der Wunder-Suche oder dem Wunder-O-Mat verwendest."
+  },
+  "lookbook": {
+    "description": "Decode a lookbook code into a shareable item card.",
+    "api_credit": "Decode API kindly provided by",
+    "input_placeholder": "Code or URL",
+    "decode": "Decode",
+    "paste": "Paste",
+    "paste_failed": "Paste failed.",
+    "hide_item_info": "Hide item info",
+    "preview_image": "Preview image",
+    "display_options": "Display options",
+    "invalid_code": "Invalid code.",
+    "card_title": "Infinity Nikki Lookbook"
   },
   "feedback": {
     "queue_title": "Feedback-Prüfung",

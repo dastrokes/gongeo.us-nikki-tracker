@@ -765,7 +765,13 @@
     () => route.query.code,
     (value) => {
       const code = normalizeLookbookInput(value)
-      if (!code) return
+      if (!code) {
+        lookbookInput.value = ''
+        decodedCode.value = ''
+        wearingClothes.value = []
+        error.value = ''
+        return
+      }
 
       if (LOOKBOOK_CODE_PATTERN.test(code)) {
         const canonicalCode = toCanonicalLookbookCode(code)

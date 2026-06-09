@@ -107,6 +107,7 @@
     "outfit": "의상 도감",
     "outfit_detail": "의상 상세 정보",
     "item": "아이템 도감",
+    "lookbook_preview": "Lookbook Preview",
     "makeup": "메이크업 도감",
     "item_detail": "아이템 상세 정보",
     "tierlist": "티어리스트 메이커",
@@ -118,7 +119,6 @@
     "official_website": "공식 웹사이트",
     "join_community": "커뮤니티 참여",
     "support_website": "사이트 후원",
-    "nuan5pro": "Nuan5.Pro",
     "stats": "개인 통계"
   },
   "meta": {
@@ -139,6 +139,7 @@
       "makeups": "전체 인피니티 니키 메이크업을 둘러보세요. 풀 메이크업과 각 메이크업 파츠를 부위, 등급, 스타일, 버전, 획득처로 필터링할 수 있습니다.",
       "outfit_detail": "품질, 의상 조각, 진화 및 발광, 메이크업, 통계 및 관련 공명 배너를 포함하여 {name} 의상에 대한 자세한 정보를 확인하세요.",
       "items": "부위, 품질, 능력치 보너스 및 관련 복장이나 배너에 대한 필터를 사용하여 모든 인피니티 니키 아이템을 찾아보세요. 모든 아이템을 쉽게 찾고, 비교하고, 추적하세요.",
+      "lookbook": "Decode an Infinity Nikki lookbook code into a shareable item list card with icons and compendium links.",
       "momo": "등급, 버전 및 획득처 필터를 사용하여 인피니티 니키의 모든 모모 망토를 아이템 아트워크와 함께 한곳에서 살펴보세요.",
       "momo_detail": "{name}의 등급, 획득처, 설명, 미리보기, 아이콘 아트워크를 포함한 자세한 정보를 확인하세요.",
       "item_detail": "품질, 진화 및 발광, 통계, 관련 의상 및 배너를 포함하여 {name} 아이템에 대한 자세한 정보를 확인하세요.",
@@ -987,6 +988,19 @@
     "no_matches": "검색 결과 없음",
     "match_score": "{score}% 일치",
     "owned_empty_description": "상상 검색 또는 상상 가챠에서 보유 아이템을 사용하기 전에 옷장에 아이템을 먼저 추가하세요."
+  },
+  "lookbook": {
+    "description": "Decode a lookbook code into a shareable item card.",
+    "api_credit": "Decode API kindly provided by",
+    "input_placeholder": "Code or URL",
+    "decode": "Decode",
+    "paste": "Paste",
+    "paste_failed": "Paste failed.",
+    "hide_item_info": "Hide item info",
+    "preview_image": "Preview image",
+    "display_options": "Display options",
+    "invalid_code": "Invalid code.",
+    "card_title": "Infinity Nikki Lookbook"
   },
   "feedback": {
     "queue_title": "피드백 심사",

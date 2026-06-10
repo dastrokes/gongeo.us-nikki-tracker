@@ -13,7 +13,7 @@
             <h1
               class="text-2xl leading-tight font-bold text-slate-900 dark:text-white"
             >
-              {{ t('navigation.lookbook_preview') }}
+              {{ t('navigation.lookbook') }}
             </h1>
             <p
               class="max-w-3xl text-sm leading-6 text-slate-600 dark:text-slate-300"
@@ -80,9 +80,9 @@
               @click="decodeCurrentInput"
             >
               <template #icon>
-                <n-icon><Qrcode /></n-icon>
+                <n-icon><Th /></n-icon>
               </template>
-              {{ t('lookbook.decode') }}
+              {{ t('lookbook.preview') }}
             </n-button>
           </div>
 
@@ -398,7 +398,7 @@
     CopyRegular,
     ExternalLinkAlt,
     FileImageRegular,
-    Qrcode,
+    Th,
   } from '@vicons/fa'
 
   type LookbookDisplayItem =
@@ -425,7 +425,7 @@
     key: 'lookbook',
   })
 
-  const LOOKBOOK_CODE_PATTERN = /^[A-Za-z0-9]{11}#?$/
+  const LOOKBOOK_CODE_PATTERN = /^[A-Za-z0-9]{11}#$/
   const skeletonSectionCounts = [4, 8, 5] as const
 
   const { locale, t } = useI18n()
@@ -451,47 +451,45 @@
 
   const normalizeLookbookInput = (value: unknown) => {
     const raw = Array.isArray(value) ? value[0] : value
-    const input = typeof raw === 'string' ? raw.trim() : ''
+    let input = typeof raw === 'string' ? raw.trim() : ''
     if (!input) return ''
 
     try {
       const url = new URL(input, 'https://gongeo.us')
       const code = url.searchParams.get('code')?.trim() ?? ''
-      if (code) return code
+      if (code) {
+        input = code
+      }
     } catch {
       // Fall through to raw-code handling.
+    }
+
+    if (/^[A-Za-z0-9]{11}$/.test(input)) {
+      input = `${input}#`
     }
 
     return input
   }
 
-  const toCanonicalLookbookCode = (code: string) =>
-    code.endsWith('#') ? code.slice(0, -1) : code
-
-  const toOfficialLookbookCode = (code: string) =>
-    `${toCanonicalLookbookCode(code)}#`
-
   const initialRouteCode = normalizeLookbookInput(route.query.code)
   if (LOOKBOOK_CODE_PATTERN.test(initialRouteCode)) {
-    lookbookInput.value = toOfficialLookbookCode(initialRouteCode)
+    lookbookInput.value = initialRouteCode
   }
 
   const normalizedInputCode = computed(() => {
     const code = normalizeLookbookInput(lookbookInput.value)
-    return LOOKBOOK_CODE_PATTERN.test(code) ? toCanonicalLookbookCode(code) : ''
+    return LOOKBOOK_CODE_PATTERN.test(code) ? code : ''
   })
   const routeInputCode = computed(() =>
     normalizeLookbookInput(route.query.code)
   )
-  const routeCanonicalCode = computed(() =>
-    LOOKBOOK_CODE_PATTERN.test(routeInputCode.value)
-      ? toCanonicalLookbookCode(routeInputCode.value)
-      : ''
+  const routeCode = computed(() =>
+    LOOKBOOK_CODE_PATTERN.test(routeInputCode.value) ? routeInputCode.value : ''
   )
   const hasPendingRouteDecode = computed(
     () =>
-      Boolean(routeCanonicalCode.value) &&
-      routeCanonicalCode.value !== decodedCode.value &&
+      Boolean(routeCode.value) &&
+      routeCode.value !== decodedCode.value &&
       !error.value
   )
   const isLookbookLoading = computed(
@@ -504,13 +502,9 @@
     const code = normalizeLookbookInput(lookbookInput.value)
     return Boolean(code) && !LOOKBOOK_CODE_PATTERN.test(code)
   })
-  const officialDecodedCode = computed(() =>
-    decodedCode.value ? toOfficialLookbookCode(decodedCode.value) : ''
-  )
+  const officialDecodedCode = computed(() => decodedCode.value)
   const pendingOfficialCode = computed(() => {
-    const code =
-      decodedCode.value || normalizedInputCode.value || routeCanonicalCode.value
-    return code ? toOfficialLookbookCode(code) : ''
+    return decodedCode.value || normalizedInputCode.value || routeCode.value
   })
   const shareCardStyle = computed(() => ({
     background: isDark.value
@@ -600,12 +594,15 @@
   const shareUrl = computed(() => {
     if (!decodedCode.value || !import.meta.client) return ''
 
+    const codeWithoutHash = decodedCode.value.endsWith('#')
+      ? decodedCode.value.slice(0, -1)
+      : decodedCode.value
     const url = new URL(window.location.href)
     url.pathname = localePath('/lookbook')
     url.search = ''
     url.hash = ''
-    url.searchParams.set('code', decodedCode.value)
-    return url.toString()
+    url.searchParams.set('code', codeWithoutHash)
+    return `${url.toString()}#`
   })
 
   const syncRouteCode = async (code: string) => {
@@ -634,8 +631,7 @@
     code: string,
     options: { syncRoute?: boolean } = {}
   ) => {
-    const canonicalCode = toCanonicalLookbookCode(code)
-    if (!canonicalCode || loading.value) return
+    if (!code || loading.value) return
 
     loading.value = true
     error.value = ''
@@ -643,12 +639,12 @@
     try {
       await catalogIndex.load(['items', 'makeups'])
       const response = await $fetch<LookbookDecodeResponse>('/api/lookbook', {
-        query: { code: canonicalCode },
+        query: { code },
       })
 
-      decodedCode.value = toCanonicalLookbookCode(response.code)
+      decodedCode.value = response.code
       wearingClothes.value = response.wearingClothes
-      lookbookInput.value = toOfficialLookbookCode(decodedCode.value)
+      lookbookInput.value = decodedCode.value
 
       if (options.syncRoute ?? true) {
         await syncRouteCode(decodedCode.value)
@@ -713,7 +709,7 @@
         throw new Error('Clipboard did not include a valid lookbook code.')
       }
 
-      lookbookInput.value = toOfficialLookbookCode(code)
+      lookbookInput.value = code
       error.value = ''
     } catch {
       message.error(t('lookbook.paste_failed'))
@@ -740,10 +736,10 @@
 
   useSeoMeta({
     title: () =>
-      `${t('navigation.lookbook_preview')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
+      `${t('navigation.lookbook')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     description: () => t('meta.description.lookbook'),
     ogTitle: () =>
-      `${t('navigation.lookbook_preview')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
+      `${t('navigation.lookbook')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     ogDescription: () => t('meta.description.lookbook'),
   })
 
@@ -752,9 +748,10 @@
     if (!code) return
 
     if (LOOKBOOK_CODE_PATTERN.test(code)) {
-      const canonicalCode = toCanonicalLookbookCode(code)
-      lookbookInput.value = toOfficialLookbookCode(canonicalCode)
-      void decodeLookbook(canonicalCode, { syncRoute: code !== canonicalCode })
+      lookbookInput.value = code
+      void decodeLookbook(code, {
+        syncRoute: route.query.code?.toString() !== code,
+      })
     } else {
       lookbookInput.value = code
       error.value = t('lookbook.invalid_code')
@@ -774,16 +771,13 @@
       }
 
       if (LOOKBOOK_CODE_PATTERN.test(code)) {
-        const canonicalCode = toCanonicalLookbookCode(code)
-        if (canonicalCode === decodedCode.value) {
-          if (code !== canonicalCode) void syncRouteCode(canonicalCode)
+        if (code === decodedCode.value) {
+          if (value?.toString() !== code) void syncRouteCode(code)
           return
         }
 
-        lookbookInput.value = toOfficialLookbookCode(canonicalCode)
-        void decodeLookbook(canonicalCode, {
-          syncRoute: code !== canonicalCode,
-        })
+        lookbookInput.value = code
+        void decodeLookbook(code, { syncRoute: value?.toString() !== code })
       } else {
         if (code === lookbookInput.value) return
 

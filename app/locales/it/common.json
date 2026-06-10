@@ -1,4 +1,4 @@
-{
+﻿{
   "common": {
     "banner": "Banner",
     "banners": "Banner",
@@ -107,7 +107,7 @@
     "outfit": "Compendio Abiti",
     "outfit_detail": "Dettagli Abito",
     "item": "Compendio Articoli",
-    "lookbook_preview": "Anteprima Lookbook",
+    "lookbook": "Anteprima lookbook",
     "makeup": "Compendio Trucchi",
     "item_detail": "Dettagli Articolo",
     "tierlist": "Tier List Maker",
@@ -139,7 +139,7 @@
       "makeups": "Esplora tutti i trucchi di Infinity Nikki, inclusi i trucchi completi e i singoli componenti, con filtri per slot, qualità, stile, versione e fonte.",
       "outfit_detail": "Visualizza informazioni dettagliate sull'outfit {name}, inclusi qualità, componenti dell'outfit, evoluzione e luminosità, trucchi, statistiche e relativi banner di risonanza.",
       "items": "Sfoglia tutti gli oggetti Infinity Nikki con filtri per slot, qualità, bonus statistiche e relativi abiti o banner. Trova, confronta e monitora facilmente ogni articolo.",
-      "lookbook": "Decodifica un codice lookbook di Infinity Nikki in una scheda condivisibile con elenco articoli, icone e link al compendio.",
+      "lookbook": "Visualizza in anteprima un codice Lookbook a colori di Infinity Nikki come una scheda condivisibile con elenco articoli, icone e link al compendio.",
       "momo": "Esplora tutti i Mantelli di Momo di Infinity Nikki con filtri per qualità, versione e fonte, oltre alle illustrazioni degli oggetti in un compendio dedicato.",
       "momo_detail": "Visualizza informazioni dettagliate su {name}, inclusi qualità, fonte, descrizione, anteprima e icona.",
       "item_detail": "Visualizza informazioni dettagliate sull'oggetto {name}, inclusi qualità, evoluzione e luminosità, statistiche e relativi abiti e stendardi.",
@@ -990,17 +990,17 @@
     "owned_empty_description": "Aggiungi oggetti al tuo guardaroba prima di usare Oggetti posseduti in Ricerca dei capricci o Estromatic."
   },
   "lookbook": {
-    "description": "Decodifica un codice lookbook in una scheda articoli condivisibile.",
+    "description": "Visualizza in anteprima un codice Lookbook a colori di Infinity Nikki come una scheda articoli condivisibile.",
     "api_credit": "API di decodifica gentilmente fornita da",
     "input_placeholder": "Codice o URL",
-    "decode": "Decodifica",
+    "preview": "Anteprima",
     "paste": "Incolla",
     "paste_failed": "Incolla non riuscito.",
     "hide_item_info": "Nascondi info articolo",
     "preview_image": "Immagine anteprima",
     "display_options": "Opzioni di visualizzazione",
     "invalid_code": "Codice non valido.",
-    "card_title": "Lookbook Infinity Nikki"
+    "card_title": "Lookbook a colori"
   },
   "feedback": {
     "queue_title": "Revisione feedback",
@@ -1142,18 +1142,5 @@
       "best_luck": "Miglior Fortuna",
       "worst_luck": "Peggior Fortuna"
     }
-  },
-  "lookbook": {
-    "description": "Decodifica un codice lookbook in una scheda articoli condivisibile.",
-    "api_credit": "API di decodifica gentilmente fornita da",
-    "input_placeholder": "Codice o URL",
-    "decode": "Decodifica",
-    "paste": "Incolla",
-    "paste_failed": "Incolla non riuscito.",
-    "hide_item_info": "Nascondi info articolo",
-    "preview_image": "Immagine anteprima",
-    "display_options": "Opzioni di visualizzazione",
-    "invalid_code": "Codice non valido.",
-    "card_title": "Lookbook Infinity Nikki"
   }
 }

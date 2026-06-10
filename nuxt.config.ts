@@ -363,6 +363,7 @@ export default defineNuxtConfig({
 
       type I18nRouteRule = {
         prerender?: boolean
+        ssr?: boolean
         headers?: Record<string, string>
       }
 
@@ -379,6 +380,14 @@ export default defineNuxtConfig({
         )
 
       return {
+        '/detail-shell': {
+          prerender: true,
+          ssr: false,
+          headers: {
+            ...pageStatic,
+            'X-Robots-Tag': 'noindex, nofollow',
+          },
+        },
         ...buildLocalizedRules(['/error'], {
           headers: pageStatic,
         }),
@@ -395,13 +404,20 @@ export default defineNuxtConfig({
           }
         ),
         ...buildLocalizedRules(
-          ['/banners/**', '/outfits/**', '/items/**', '/makeups/**'],
+          [
+            '/banners/**',
+            '/outfits/**',
+            '/items/**',
+            '/makeups/**',
+            '/momo/**',
+          ],
           {
+            ssr: false,
             headers: pageThemeNoTag,
           }
         ),
         ...buildLocalizedRules(
-          ['/outfits', '/items', '/makeups', '/tierlist', '/search'],
+          ['/outfits', '/items', '/makeups', '/momo', '/tierlist', '/search'],
           {
             headers: pageThemeQuery,
           }

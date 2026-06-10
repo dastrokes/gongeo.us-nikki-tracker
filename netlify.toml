@@ -9,6 +9,90 @@ command = "npm run build"
 [images]
 remote_images = [ "https://ik.imagekit.io/.*", "https://res.cloudinary.com/gongeous/.*", "https://cdn.gongeo.us/.*" ]
 
+[[redirects]]
+from = "/banners/:id"
+to = "/detail-shell.html"
+status = 200
+force = true
+
+[[redirects]]
+from = "/items/:id"
+to = "/detail-shell.html"
+status = 200
+force = true
+
+[[redirects]]
+from = "/makeups/:id"
+to = "/detail-shell.html"
+status = 200
+force = true
+
+[[redirects]]
+from = "/momo/:id"
+to = "/detail-shell.html"
+status = 200
+force = true
+
+[[redirects]]
+from = "/outfits/:id"
+to = "/detail-shell.html"
+status = 200
+force = true
+
+[[redirects]]
+from = "/de/:section/:id"
+to = "/detail-shell.html"
+status = 200
+force = true
+
+[[redirects]]
+from = "/es/:section/:id"
+to = "/detail-shell.html"
+status = 200
+force = true
+
+[[redirects]]
+from = "/fr/:section/:id"
+to = "/detail-shell.html"
+status = 200
+force = true
+
+[[redirects]]
+from = "/it/:section/:id"
+to = "/detail-shell.html"
+status = 200
+force = true
+
+[[redirects]]
+from = "/pt/:section/:id"
+to = "/detail-shell.html"
+status = 200
+force = true
+
+[[redirects]]
+from = "/ja/:section/:id"
+to = "/detail-shell.html"
+status = 200
+force = true
+
+[[redirects]]
+from = "/ko/:section/:id"
+to = "/detail-shell.html"
+status = 200
+force = true
+
+[[redirects]]
+from = "/zh/:section/:id"
+to = "/detail-shell.html"
+status = 200
+force = true
+
+[[redirects]]
+from = "/tw/:section/:id"
+to = "/detail-shell.html"
+status = 200
+force = true
+
 [[edge_functions]]
 function = "bot-block"
 path = "/*"

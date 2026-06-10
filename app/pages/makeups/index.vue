@@ -379,10 +379,7 @@
     getVersionFilters(availableVersions.value)
   )
   const availableObtains = computed(() =>
-    Object.keys(messages.value)
-      .filter((key) => key.startsWith('obtain.') && key.endsWith('.name'))
-      .map((key) => Number(key.split('.')[1]))
-      .filter((value) => !Number.isNaN(value))
+    getLocaleMessageNumericIds(messages.value, 'obtain')
   )
   const obtainOptions = computed(() =>
     createObtainFilterOptions(availableObtains.value, t, {

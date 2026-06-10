@@ -380,7 +380,7 @@ export default defineNuxtConfig({
         )
 
       return {
-        '/detail-shell': {
+        '/static-shell': {
           prerender: true,
           ssr: false,
           headers: {
@@ -389,17 +389,32 @@ export default defineNuxtConfig({
           },
         },
         ...buildLocalizedRules(['/error'], {
+          prerender: true,
           headers: pageStatic,
         }),
         ...buildLocalizedRules(
-          ['/faq', '/about', '/contact', '/vote', '/ranking', '/timeline'],
+          [
+            '/faq',
+            '/about',
+            '/contact',
+            '/feedback',
+            '/guideline',
+            '/lookbook',
+            '/og-preview',
+            '/random',
+            '/vote',
+            '/ranking',
+            '/timeline',
+          ],
           {
+            prerender: true,
             headers: pageStatic,
           }
         ),
         ...buildLocalizedRules(
           ['/', '/import', '/banners', '/quiz', '/global'],
           {
+            prerender: true,
             headers: pageTheme,
           }
         ),
@@ -419,12 +434,14 @@ export default defineNuxtConfig({
         ...buildLocalizedRules(
           ['/outfits', '/items', '/makeups', '/momo', '/tierlist', '/search'],
           {
+            prerender: true,
             headers: pageThemeQuery,
           }
         ),
         ...buildLocalizedRules(
           ['/tracker', '/login', '/profile', '/stats', '/wardrobe'],
           {
+            prerender: true,
             headers: noStoreHeaders,
           }
         ),

@@ -1,4 +1,4 @@
-{
+﻿{
   "common": {
     "banner": "Banner",
     "banners": "Banners",
@@ -107,7 +107,7 @@
     "outfit": "Outfit Compendium",
     "outfit_detail": "Outfit Detail",
     "item": "Item Compendium",
-    "lookbook_preview": "Lookbook Preview",
+    "lookbook": "Lookbook Preview",
     "makeup": "Makeup Compendium",
     "item_detail": "Item Detail",
     "tierlist": "Tier List Maker",
@@ -139,7 +139,7 @@
       "makeups": "Browse all Infinity Nikki makeups, including full makeups and individual makeup parts, with filters for slot, quality, style, version, and source.",
       "outfit_detail": "View detailed information about the {name} outfit, including quality, outfit pieces, evolution and glow-up, makeups, stats, and related resonance banners.",
       "items": "Browse all Infinity Nikki items with filters for slot, quality, stat bonuses, and related outfits or banners. Find, compare, and track every item easily.",
-      "lookbook": "Decode an Infinity Nikki lookbook code into a shareable item list card with icons and compendium links.",
+      "lookbook": "Preview an Infinity Nikki Color Lookbook code as a shareable item list card with icons and compendium links.",
       "momo": "Browse every Momo's Cloak in Infinity Nikki with filters for quality, version, and source, and view item artwork in one focused compendium.",
       "momo_detail": "View detailed information about {name}, including quality, source, description, preview, and icon artwork.",
       "item_detail": "View detailed information about the {name} item, including quality, evolution and glow-up, stats, and related outfits and banners.",
@@ -990,17 +990,17 @@
     "owned_empty_description": "Add items to your wardrobe before using Owned items in Whim Search or Whim-O-Matic."
   },
   "lookbook": {
-    "description": "Decode a lookbook code into a shareable item card.",
+    "description": "Preview an Infinity Nikki Color Lookbook code as a shareable item card.",
     "api_credit": "Decode API kindly provided by",
     "input_placeholder": "Code or URL",
-    "decode": "Decode",
+    "preview": "Preview",
     "paste": "Paste",
     "paste_failed": "Paste failed.",
     "hide_item_info": "Hide item info",
     "preview_image": "Preview image",
     "display_options": "Display options",
     "invalid_code": "Invalid code.",
-    "card_title": "Infinity Nikki Lookbook"
+    "card_title": "Color Lookbook"
   },
   "feedback": {
     "queue_title": "Feedback Review",

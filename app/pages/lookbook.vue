@@ -172,14 +172,39 @@
       </div>
     </n-card>
 
-    <n-alert
+    <n-card
       v-if="error"
-      type="error"
-      :bordered="false"
-      class="rounded-md"
+      size="small"
+      class="mx-auto w-full max-w-lg rounded-xl"
+      content-class="p-4 sm:p-6"
     >
-      {{ error }}
-    </n-alert>
+      <n-result
+        size="small"
+        status="info"
+        :title="
+          errorType === 'code_not_found'
+            ? t('lookbook.not_found')
+            : t('common.error')
+        "
+        :description="
+          errorType === 'code_not_found'
+            ? t('error.404')
+            : t('lookbook.invalid_code')
+        "
+      >
+        <template #icon>
+          <div class="flex justify-center">
+            <NuxtImg
+              :src="getImageSrc('emote', 'think')"
+              class="mx-auto h-24 w-24 object-cover sm:h-32 sm:w-32"
+              preset="iconLg"
+              fit="cover"
+              sizes="160px sm:200px"
+            />
+          </div>
+        </template>
+      </n-result>
+    </n-card>
 
     <div>
       <n-card
@@ -378,14 +403,6 @@
             />
           </div>
         </n-card>
-
-        <n-card
-          v-else
-          :bordered="false"
-          class="rounded-md border border-dashed border-slate-300 bg-white/70 dark:border-slate-700 dark:bg-slate-950/50"
-        >
-          <n-empty :description="t('common.no_results_found')" />
-        </n-card>
       </ClientOnly>
     </div>
   </div>
@@ -435,6 +452,7 @@
   const message = useMessage()
   const catalogIndex = useCatalogIndex()
   const { isDark } = useTheme()
+  const { getImageSrc } = imageProvider()
 
   const lookbookInput = ref('')
   const decodedCode = ref('')
@@ -444,6 +462,7 @@
   const hideItemInfo = ref(false)
   const showPreviewImages = ref(false)
   const error = ref('')
+  const errorType = ref<'code_not_found' | 'generic'>('generic')
   const shareCardRef = ref<HTMLElement | null>(null)
 
   const catalogLoading = computed(() => catalogIndex.status.value === 'loading')
@@ -635,6 +654,7 @@
 
     loading.value = true
     error.value = ''
+    errorType.value = 'generic'
 
     try {
       await catalogIndex.load(['items', 'makeups'])
@@ -649,8 +669,21 @@
       if (options.syncRoute ?? true) {
         await syncRouteCode(decodedCode.value)
       }
-    } catch (decodeError) {
+    } catch (decodeError: unknown) {
       console.error('Failed to decode lookbook:', decodeError)
+
+      const data =
+        decodeError && typeof decodeError === 'object' && 'data' in decodeError
+          ? (decodeError as { data?: { data?: { code?: string } } }).data
+          : null
+      const errorCode = data?.data?.code ?? null
+
+      if (errorCode === 'INVALID_LOOKBOOK_CODE') {
+        errorType.value = 'code_not_found'
+      } else {
+        errorType.value = 'generic'
+      }
+
       error.value = t('common.error')
       decodedCode.value = ''
       wearingClothes.value = []
@@ -767,6 +800,7 @@
         decodedCode.value = ''
         wearingClothes.value = []
         error.value = ''
+        errorType.value = 'generic'
         return
       }
 

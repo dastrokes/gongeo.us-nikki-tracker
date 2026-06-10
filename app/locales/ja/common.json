@@ -1,4 +1,4 @@
-﻿{
+{
   "common": {
     "banner": "バナー",
     "banners": "バナー",
@@ -1000,6 +1000,7 @@
     "preview_image": "プレビュー画像",
     "display_options": "表示オプション",
     "invalid_code": "無効なコードです。",
+    "not_found": "ルックブックが見つかりません",
     "card_title": "星彩の画集"
   },
   "feedback": {

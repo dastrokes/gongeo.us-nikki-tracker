@@ -78,6 +78,8 @@ const parseLookbookPayload = (value: string) => {
   }
 }
 
+class LookbookUpstreamCodeError extends Error {}
+
 const fetchLookbookPayload = async (code: string) => {
   const url = `${LOOKBOOK_API_BASE_URL}?${encodeURIComponent(code)}`
   const response = await fetch(url, {
@@ -87,6 +89,11 @@ const fetchLookbookPayload = async (code: string) => {
   })
 
   if (!response.ok) {
+    if (response.status === 404 || response.status === 400) {
+      throw new LookbookUpstreamCodeError(
+        `Lookbook upstream rejected code with ${response.status}`
+      )
+    }
     throw new Error(
       `Lookbook upstream failed with ${response.status} ${response.statusText}`
     )
@@ -114,6 +121,15 @@ export default defineCachedApiEventHandler(
     } catch (error: unknown) {
       if (error && typeof error === 'object' && 'statusCode' in error) {
         throw error
+      }
+
+      if (error instanceof LookbookUpstreamCodeError) {
+        throw createError({
+          statusCode: 400,
+          statusMessage: 'Invalid lookbook code',
+          message: 'Invalid lookbook code',
+          data: { code: 'INVALID_LOOKBOOK_CODE' },
+        })
       }
 
       const message = toErrorMessage(error, 'Failed to decode lookbook')

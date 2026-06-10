@@ -21,6 +21,10 @@ excludedPattern = '^/(?:robots\.txt|(?:banners|items|makeups|momo|outfits)/.*|(?
 function = "root-redirect"
 path = "/"
 
+[[edge_functions]]
+function = "redirects"
+pattern = "^/(?:[a-z]{2}/)?(banner|item|outfit)(?:/.*)?$"
+
 [[headers]]
 for = "/.netlify/images*"
 

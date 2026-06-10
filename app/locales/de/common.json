@@ -107,7 +107,7 @@
     "outfit": "Outfit-Kompendium",
     "outfit_detail": "Outfit-Detail",
     "item": "Stück-Kompendium",
-    "lookbook": "Lookbook Preview",
+    "lookbook": "Lookbook-Vorschau",
     "makeup": "Make-up-Kompendium",
     "item_detail": "Stück-Detail",
     "tierlist": "Ranglisten-Ersteller",
@@ -139,7 +139,7 @@
       "makeups": "Durchsuche alle Infinity Nikki Make-ups, einschließlich voller Make-ups und einzelner Make-up-Stücke, mit Filtern nach Slot, Qualität, Stil, Version und Herkunft.",
       "outfit_detail": "Schau dir detaillierte Informationen über das Outfit {name} an, einschließlich Qualität, Evolution und Verschönerung, Statuswerten und verwandter Resonanz-Bannern.",
       "items": "Durchsuche alle Infinity Nikki Stücke mit Filtern nach Slot, Qualität, Status-Boni und verwandten Outfits oder Bannern. Finde, vergleiche und verfolge jedes Stück ganz leicht.",
-      "lookbook": "Preview an Infinity Nikki Color Lookbook code as a shareable item list card with icons and compendium links.",
+      "lookbook": "Sieh dir einen Infinity Nikki Farb-Lookbook-Code als teilbare Stücklisten-Karte mit Icons und Kompendium-Links an.",
       "momo": "Durchsuche alle Momos Mäntel in Infinity Nikki mit Filtern nach Qualität, Version und Quelle und sieh dir Stück-Kunstwerke in einem eigenen Kompendium an.",
       "momo_detail": "Schau dir detaillierte Informationen über {name} an, einschließlich Qualität, Herkunft, Beschreibung, Vorschau und Stück-Artwork.",
       "item_detail": "Schau dir detaillierte Informationen über das Stück {name} an, einschließlich Qualität, Evolution und Verschönerung, Statuswerten und verwandter Outfits und Bannern.",
@@ -990,17 +990,17 @@
     "owned_empty_description": "Füge deiner Garderobe zuerst Stücke hinzu, bevor du Stücke im Besitz in der Wunder-Suche oder dem Wunder-O-Mat verwendest."
   },
   "lookbook": {
-    "description": "Preview an Infinity Nikki Color Lookbook code as a shareable item card.",
+    "description": "Sieh dir einen Infinity Nikki Farb-Lookbook-Code als teilbare Stückkarte an.",
     "api_credit": "Decode-API freundlicherweise bereitgestellt von",
     "input_placeholder": "Code oder URL",
-    "preview": "Preview",
+    "preview": "Vorschau",
     "paste": "Einfügen",
     "paste_failed": "Einfügen fehlgeschlagen.",
     "hide_item_info": "Stückinfo ausblenden",
     "preview_image": "Vorschaubild",
     "display_options": "Anzeigeoptionen",
     "invalid_code": "Ungültiger Code.",
-    "card_title": "Color Lookbook"
+    "card_title": "Farb-Lookbook"
   },
   "feedback": {
     "queue_title": "Feedback-Prüfung",

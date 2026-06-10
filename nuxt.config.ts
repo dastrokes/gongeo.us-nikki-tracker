@@ -389,7 +389,6 @@ export default defineNuxtConfig({
           },
         },
         ...buildLocalizedRules(['/error'], {
-          prerender: true,
           headers: pageStatic,
         }),
         ...buildLocalizedRules(
@@ -407,14 +406,12 @@ export default defineNuxtConfig({
             '/timeline',
           ],
           {
-            prerender: true,
             headers: pageStatic,
           }
         ),
         ...buildLocalizedRules(
           ['/', '/import', '/banners', '/quiz', '/global'],
           {
-            prerender: true,
             headers: pageTheme,
           }
         ),
@@ -434,14 +431,12 @@ export default defineNuxtConfig({
         ...buildLocalizedRules(
           ['/outfits', '/items', '/makeups', '/momo', '/tierlist', '/search'],
           {
-            prerender: true,
             headers: pageThemeQuery,
           }
         ),
         ...buildLocalizedRules(
           ['/tracker', '/login', '/profile', '/stats', '/wardrobe'],
           {
-            prerender: true,
             headers: noStoreHeaders,
           }
         ),

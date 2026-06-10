@@ -1,4 +1,4 @@
-{
+﻿{
   "common": {
     "banner": "배너",
     "banners": "배너",
@@ -107,7 +107,7 @@
     "outfit": "의상 도감",
     "outfit_detail": "의상 상세 정보",
     "item": "아이템 도감",
-    "lookbook_preview": "Lookbook 미리보기",
+    "lookbook": "룩북 미리보기",
     "makeup": "메이크업 도감",
     "item_detail": "아이템 상세 정보",
     "tierlist": "티어리스트 메이커",
@@ -139,7 +139,7 @@
       "makeups": "전체 인피니티 니키 메이크업을 둘러보세요. 풀 메이크업과 각 메이크업 파츠를 부위, 등급, 스타일, 버전, 획득처로 필터링할 수 있습니다.",
       "outfit_detail": "품질, 의상 조각, 진화 및 발광, 메이크업, 통계 및 관련 공명 배너를 포함하여 {name} 의상에 대한 자세한 정보를 확인하세요.",
       "items": "부위, 품질, 능력치 보너스 및 관련 복장이나 배너에 대한 필터를 사용하여 모든 인피니티 니키 아이템을 찾아보세요. 모든 아이템을 쉽게 찾고, 비교하고, 추적하세요.",
-      "lookbook": "Infinity Nikki Lookbook 코드를 아이콘과 도감 링크가 포함된 공유용 아이템 목록 카드로 변환합니다.",
+      "lookbook": "Infinity Nikki 별그림 앨범 코드를 아이콘과 도감 링크가 포함된 공유 가능한 아이템 목록 카드로 미리 봅니다.",
       "momo": "등급, 버전 및 획득처 필터를 사용하여 인피니티 니키의 모든 모모 망토를 아이템 아트워크와 함께 한곳에서 살펴보세요.",
       "momo_detail": "{name}의 등급, 획득처, 설명, 미리보기, 아이콘 아트워크를 포함한 자세한 정보를 확인하세요.",
       "item_detail": "품질, 진화 및 발광, 통계, 관련 의상 및 배너를 포함하여 {name} 아이템에 대한 자세한 정보를 확인하세요.",
@@ -990,17 +990,17 @@
     "owned_empty_description": "상상 검색 또는 상상 가챠에서 보유 아이템을 사용하기 전에 옷장에 아이템을 먼저 추가하세요."
   },
   "lookbook": {
-    "description": "Lookbook 코드를 공유용 아이템 카드로 변환합니다.",
+    "description": "Infinity Nikki 별그림 앨범 코드를 공유 가능한 아이템 카드로 미리 봅니다.",
     "api_credit": "디코드 API 제공",
     "input_placeholder": "코드 또는 URL",
-    "decode": "디코드",
+    "preview": "미리보기",
     "paste": "붙여넣기",
     "paste_failed": "붙여넣기에 실패했습니다.",
     "hide_item_info": "아이템 정보 숨기기",
     "preview_image": "미리보기 이미지",
     "display_options": "표시 옵션",
     "invalid_code": "잘못된 코드입니다.",
-    "card_title": "Infinity Nikki Lookbook"
+    "card_title": "별그림 앨범"
   },
   "feedback": {
     "queue_title": "피드백 심사",
@@ -1142,18 +1142,5 @@
       "best_luck": "최고 행운",
       "worst_luck": "최저 행운"
     }
-  },
-  "lookbook": {
-    "description": "Lookbook 코드를 공유용 아이템 카드로 변환합니다.",
-    "api_credit": "디코드 API 제공",
-    "input_placeholder": "코드 또는 URL",
-    "decode": "디코드",
-    "paste": "붙여넣기",
-    "paste_failed": "붙여넣기에 실패했습니다.",
-    "hide_item_info": "아이템 정보 숨기기",
-    "preview_image": "미리보기 이미지",
-    "display_options": "표시 옵션",
-    "invalid_code": "잘못된 코드입니다.",
-    "card_title": "Infinity Nikki Lookbook"
   }
 }

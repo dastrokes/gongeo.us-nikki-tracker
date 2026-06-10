@@ -1,4 +1,4 @@
-﻿{
+{
   "common": {
     "banner": "Banner",
     "banners": "Banners",
@@ -1000,6 +1000,7 @@
     "preview_image": "Imagem prévia",
     "display_options": "Opções de exibição",
     "invalid_code": "Código inválido.",
+    "not_found": "Lookbook não encontrado",
     "card_title": "Lookbook de cores"
   },
   "feedback": {

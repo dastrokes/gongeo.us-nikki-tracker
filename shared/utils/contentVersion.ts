@@ -28,7 +28,7 @@ export const isExactVersion = (version: string) =>
 export const getExactVersionsFromLocaleMessages = (
   messages: Record<string, unknown>
 ) =>
-  Object.keys(messages)
+  getLocaleMessageKeys(messages, 'version')
     .filter((key) => key.startsWith('version.'))
     .map((key) => key.slice(8))
     .filter(isExactVersion)

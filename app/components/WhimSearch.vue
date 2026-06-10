@@ -1973,23 +1973,19 @@
   const sourceOptions = computed(() => {
     const groupMap = new Map<string, { labelKey: string; ids: number[] }>()
 
-    Object.keys(messages.value)
-      .filter((key) => key.startsWith('obtain.') && key.endsWith('.name'))
-      .map((key) => Number(key.split('.')[1]))
-      .filter((id) => Number.isFinite(id))
-      .forEach((id) => {
-        const groupKey = resolveObtainGroupKey(id)
-        const labelKey = groupKey ? resolveObtainGroupLabelKey(groupKey) : null
-        if (!groupKey || !labelKey) return
+    getLocaleMessageNumericIds(messages.value, 'obtain').forEach((id) => {
+      const groupKey = resolveObtainGroupKey(id)
+      const labelKey = groupKey ? resolveObtainGroupLabelKey(groupKey) : null
+      if (!groupKey || !labelKey) return
 
-        const group = groupMap.get(groupKey)
-        if (group) {
-          group.ids.push(id)
-          return
-        }
+      const group = groupMap.get(groupKey)
+      if (group) {
+        group.ids.push(id)
+        return
+      }
 
-        groupMap.set(groupKey, { labelKey, ids: [id] })
-      })
+      groupMap.set(groupKey, { labelKey, ids: [id] })
+    })
 
     return Array.from(groupMap.entries())
       .map(([value, group]) => ({

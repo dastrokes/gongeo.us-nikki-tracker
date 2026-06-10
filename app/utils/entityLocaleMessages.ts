@@ -64,7 +64,7 @@ export const getEntityNameMessageEntries = (
   messages: EntityMessageDictionary,
   sectionFilter?: EntityMessageSection
 ): EntityNameMessageEntry[] =>
-  Object.entries(messages).flatMap(([key, message]) => {
+  getLocaleMessageKeys(messages, sectionFilter).flatMap((key) => {
     const match = key.match(ENTITY_NAME_KEY_PATTERN)
     const section = match?.[1] as EntityMessageSection | undefined
     const id = match?.[2]
@@ -72,6 +72,7 @@ export const getEntityNameMessageEntries = (
       return []
     }
 
+    const message = getLocaleMessageValue(messages, key)
     const name = getLocaleMessageText(message)
     return name ? [{ section, id, name }] : []
   })

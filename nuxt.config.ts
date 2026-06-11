@@ -363,7 +363,6 @@ export default defineNuxtConfig({
 
       type I18nRouteRule = {
         prerender?: boolean
-        ssr?: boolean
         headers?: Record<string, string>
       }
 
@@ -380,14 +379,6 @@ export default defineNuxtConfig({
         )
 
       return {
-        '/static-shell': {
-          prerender: true,
-          ssr: false,
-          headers: {
-            ...pageStatic,
-            'X-Robots-Tag': 'noindex, nofollow',
-          },
-        },
         ...buildLocalizedRules(['/error'], {
           headers: pageStatic,
         }),
@@ -424,7 +415,6 @@ export default defineNuxtConfig({
             '/momo/**',
           ],
           {
-            ssr: false,
             headers: pageThemeNoTag,
           }
         ),

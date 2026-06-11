@@ -10,13 +10,13 @@ export default defineCachedApiEventHandler(
     cache: {
       maxAge: 60 * 60 * 24 * 30,
       staleMaxAge: 60 * 60 * 24 * 7,
-      name: 'sitemap-urls-static-only',
+      name: 'sitemap-urls',
       swr: true,
       getKey: (event) => {
         const localeCode = resolveSitemapLocaleCode(
           String(getQuery(event).locale ?? '')
         )
-        return `static-only:${getGameVersion()}:${localeCode ?? 'all'}`
+        return `${getGameVersion()}:${localeCode ?? 'all'}`
       },
     },
     headers: {

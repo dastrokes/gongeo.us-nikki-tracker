@@ -596,6 +596,7 @@
     CalendarAlt,
     ArrowUp,
     AlignRight,
+    Th,
     Tshirt,
     ListAlt,
     SortAmountDown,
@@ -701,6 +702,7 @@
           label: t('navigation.tierlist'),
           icon: SortAmountDown,
         },
+        { key: 'lookbook', label: t('navigation.lookbook'), icon: Th },
         { key: 'quiz', label: t('quiz.title'), icon: PuzzlePiece },
         {
           key: 'feedback',

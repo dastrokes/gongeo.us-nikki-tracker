@@ -500,7 +500,6 @@ export default defineNuxtConfig({
     },
 
     telemetry: false,
-    autoInjectServerSentry: 'top-level-import',
     enabled: process.env.NODE_ENV === 'production',
   },
 

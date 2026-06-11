@@ -418,7 +418,10 @@ function resolveLocales(localeCode?: LocaleCode) {
 }
 
 export function buildSitemap(localeCode?: LocaleCode) {
-  return Promise.resolve(baseSitemap(localeCode))
+  return Promise.all([
+    Promise.resolve(baseSitemap(localeCode)),
+    contentSitemap(localeCode),
+  ]).then(([baseRoutes, contentRoutes]) => [...baseRoutes, ...contentRoutes])
 }
 
 export function baseSitemap(localeCode?: LocaleCode) {

@@ -12,7 +12,7 @@ remote_images = [ "https://ik.imagekit.io/.*", "https://res.cloudinary.com/gonge
 [[edge_functions]]
 function = "bot-block"
 path = "/*"
-excludedPattern = '^/(?:robots\.txt|(?:banners|items|makeups|momo|outfits)/.*|(?:de|es|fr|it|pt|ja|ko|zh|tw)/(?:banners|items|makeups|momo|outfits)/.*)$'
+excludedPath = "/robots.txt"
 
   [edge_functions.header]
   netlify-agent-category = "^(ai-agent|page-preview|crawler|tooling|other|none)(;.*)?$"

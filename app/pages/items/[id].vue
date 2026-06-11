@@ -706,6 +706,7 @@
 
   // Composable
   const { fetchItemById } = useSupabaseItems()
+  const catalogIndex = useCatalogIndex()
   const { getImageSrc } = imageProvider()
   const showFeedbackModal = ref(false)
   const showExpandedCurrentTags = ref(false)
@@ -718,7 +719,18 @@
     markItemsOwned,
   } = useWardrobe()
 
-  const itemKey = computed(() => `item-${itemId.value}-${locale.value}`)
+  await catalogIndex.load(['items']).catch(() => undefined)
+
+  const itemVariationIds = computed(
+    () =>
+      catalogIndex.index.value?.itemGroupIdsById.get(itemId.value) ?? [
+        itemId.value,
+      ]
+  )
+  const itemKey = computed(
+    () =>
+      `item-${itemId.value}-${locale.value}-${itemVariationIds.value.join('-')}`
+  )
 
   const {
     data: item,
@@ -727,7 +739,10 @@
     refresh,
   } = await useAsyncData(
     () => itemKey.value,
-    () => (Number.isFinite(itemId.value) ? fetchItemById(itemId.value) : null),
+    () =>
+      Number.isFinite(itemId.value)
+        ? fetchItemById(itemId.value, itemVariationIds.value)
+        : null,
     {
       default: () => null,
       lazy: true,

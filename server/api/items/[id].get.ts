@@ -106,6 +106,21 @@ function isMatchingItemVariation(
   )
 }
 
+function parseCatalogVariationIds(value: unknown, itemId: number): number[] {
+  if (typeof value !== 'string') return []
+
+  const ids = Array.from(
+    new Set(
+      value
+        .split(',')
+        .map(Number)
+        .filter((id) => Number.isSafeInteger(id) && id > 0)
+    )
+  )
+
+  return ids.length > 1 && ids.length <= 5 && ids.includes(itemId) ? ids : []
+}
+
 /**
  * API endpoint for fetching a single item by ID
  * App-level caching enabled (30 days), Netlify edge caching enabled via Cache-Control header
@@ -193,8 +208,18 @@ export default defineCachedApiEventHandler(
       }
 
       // Fetch variations if quality is 4★ or 5★
-      if (itemData.quality >= 4) {
-        const relatedIds = getRelatedItemIds(id, itemData.quality)
+      const catalogVariationIds = parseCatalogVariationIds(
+        getQuery(event).variations,
+        id
+      )
+
+      // Prefer catalog groups because newer variation prefixes can be
+      // ambiguous and variants do not always share item metadata.
+      if (catalogVariationIds.length > 1 || itemData.quality >= 4) {
+        const relatedIds =
+          catalogVariationIds.length > 1
+            ? catalogVariationIds
+            : getRelatedItemIds(id, itemData.quality)
 
         const { data: variations, error: variationsError } =
           await withSupabaseRetry(async () => {
@@ -214,7 +239,11 @@ export default defineCachedApiEventHandler(
 
         if (variations && Array.isArray(variations)) {
           itemData.variations = variations
-            .filter((v: ItemVariation) => isMatchingItemVariation(itemData, v))
+            .filter(
+              (v: ItemVariation) =>
+                catalogVariationIds.length > 1 ||
+                isMatchingItemVariation(itemData, v)
+            )
             .map((v: ItemVariation) => ({
               id: v.id,
               quality: v.quality,
@@ -246,7 +275,8 @@ export default defineCachedApiEventHandler(
       getKey: (event) => {
         const id = getRouterParam(event, 'id')
         const languageCode = resolveRequestLocale(event)
-        return `item:${id}:${languageCode}`
+        const variations = getQuery(event).variations
+        return `item:${id}:${languageCode}:${typeof variations === 'string' ? variations : ''}`
       },
       swr: true,
     },

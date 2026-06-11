@@ -146,6 +146,7 @@ const ITEM_PREFIX_MAP: Record<string, VariantType> = {
   '1024': 'evo2',
   '1025': 'evo3',
   '1026': 'glowup', // alt glow-up scheme (paired with base prefix 1021)
+  '1027': 'glowup', // alternate glow-up paired with base prefix 1021 or 1029
 }
 
 /**

@@ -514,6 +514,9 @@
   const selectedOutfitIds = ref<Set<number>>(new Set())
   const togglingOutfitIds = ref<Set<number>>(new Set())
   const catalogIndex = useCatalogIndex()
+  await catalogIndex
+    .load(['items', 'outfits', 'outfitItems'])
+    .catch(() => undefined)
   const {
     initialized: wardrobeInitialized,
     ownedItemIds,
@@ -894,10 +897,19 @@
     outfitQualityById.value.get(outfitId) ??
     catalogIndex.index.value?.outfitById.get(outfitId)?.quality ??
     null
-  const isOutfitGlowUpOwned = (itemIds: readonly number[], quality: number) => {
+  const getItemGroupIds = (itemId: number) =>
+    getCatalogGroupIds(catalogIndex.index.value, 'item', itemId)
+  const getOutfitGroupIds = (
+    outfitId: number,
+    index: CatalogLocalIndex | null = catalogIndex.index.value
+  ) => getCatalogGroupIds(index, 'outfit', outfitId)
+  const isOutfitGlowUpOwned = (
+    itemIds: readonly number[],
+    _quality: number
+  ) => {
     if (itemIds.length === 0) return false
     return itemIds.every((itemId) =>
-      getRelatedItemIds(itemId, quality).some(
+      getItemGroupIds(itemId).some(
         (relatedId) =>
           getItemVariantType(relatedId) === 'glowup' &&
           ownedItemIdSet.value.has(relatedId)
@@ -995,11 +1007,7 @@
     const variantKey = key as WardrobeVariantMarkKey
 
     return outfitIds.flatMap((outfitId) => {
-      const outfit = index?.outfitById.get(outfitId)
-      const quality = outfit?.quality ?? 5
-      const relatedIds = getRelatedOutfitIds(outfitId, quality).filter(
-        (relatedId) => !index || index.outfitById.has(relatedId)
-      )
+      const relatedIds = getOutfitGroupIds(outfitId, index)
       const maxRank = getVariantMarkMaxRank(variantKey)
       if (variantKey === 'complete-set') return relatedIds
 
@@ -1030,17 +1038,12 @@
     return Array.from(
       new Set(
         outfitIds.flatMap((outfitId) => {
-          const outfit = index?.outfitById.get(outfitId)
-          const quality = outfit?.quality ?? 5
-          return getRelatedOutfitIds(outfitId, quality)
-            .filter((relatedId) => !index || index.outfitById.has(relatedId))
-            .filter((relatedId) => {
-              const variantType = getOutfitVariantType(String(relatedId))
-              return (
-                variantType !== 'glowup' &&
-                getVariantRank(variantType) > maxRank
-              )
-            })
+          return getOutfitGroupIds(outfitId, index).filter((relatedId) => {
+            const variantType = getOutfitVariantType(String(relatedId))
+            return (
+              variantType !== 'glowup' && getVariantRank(variantType) > maxRank
+            )
+          })
         })
       )
     )
@@ -1052,16 +1055,11 @@
     return Array.from(
       new Set(
         outfitIds.flatMap((outfitId) => {
-          const outfit = index?.outfitById.get(outfitId)
-          const quality = outfit?.quality ?? 5
           const minRank = getVariantRank(getOutfitVariantType(String(outfitId)))
-          return getRelatedOutfitIds(outfitId, quality)
-            .filter((relatedId) => !index || index.outfitById.has(relatedId))
-            .filter(
-              (relatedId) =>
-                getVariantRank(getOutfitVariantType(String(relatedId))) >=
-                minRank
-            )
+          return getOutfitGroupIds(outfitId, index).filter(
+            (relatedId) =>
+              getVariantRank(getOutfitVariantType(String(relatedId))) >= minRank
+          )
         })
       )
     )
@@ -1075,11 +1073,7 @@
     return Array.from(
       new Set(
         outfitIds.flatMap((outfitId) => {
-          const outfit = index?.outfitById.get(outfitId)
-          const quality = outfit?.quality ?? 5
-          return getRelatedOutfitIds(outfitId, quality).filter(
-            (relatedId) => !index || index.outfitById.has(relatedId)
-          )
+          return getOutfitGroupIds(outfitId, index)
         })
       )
     )
@@ -1115,13 +1109,9 @@
     await catalogIndex.load(['outfits', 'outfitItems'])
     const index = catalogIndex.index.value
     const targetOutfitIds = outfitIds.flatMap((outfitId) => {
-      const outfit = index?.outfitById.get(outfitId)
-      const quality = outfit?.quality ?? 5
-      return getRelatedOutfitIds(outfitId, quality)
-        .filter((relatedId) => !index || index.outfitById.has(relatedId))
-        .filter(
-          (relatedId) => getOutfitVariantType(String(relatedId)) === 'glowup'
-        )
+      return getOutfitGroupIds(outfitId, index).filter(
+        (relatedId) => getOutfitVariantType(String(relatedId)) === 'glowup'
+      )
     })
     return normalizeWardrobeItemIds(
       targetOutfitIds.flatMap(
@@ -1161,9 +1151,7 @@
         return [outfitId]
       }
 
-      const outfit = index?.outfitById.get(outfitId)
-      const quality = outfit?.quality ?? 5
-      return getRelatedOutfitIds(outfitId, quality).filter((relatedId) => {
+      return getOutfitGroupIds(outfitId, index).filter((relatedId) => {
         const variantType = getOutfitVariantType(String(relatedId))
         return variantType === 'base' || relatedId === outfitId
       })
@@ -1213,7 +1201,7 @@
         }))
         .find(({ variantType }) =>
           itemIds.every((itemId) =>
-            getRelatedItemIds(itemId, quality).some(
+            getItemGroupIds(itemId).some(
               (relatedId) =>
                 getItemVariantType(relatedId) === variantType &&
                 ownedItemIdSet.value.has(relatedId)

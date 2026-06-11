@@ -31,12 +31,6 @@ interface OutfitData {
       }>
     }
   }>
-  variations?: Array<{ id: number; quality: number; type: string }>
-}
-
-interface OutfitVariation {
-  id: number
-  quality: number
 }
 
 interface MakeupOutfitRow {
@@ -69,34 +63,6 @@ const sortMakeupsByType = (rows: MakeupRow[]): MakeupRow[] =>
     const rightOrder = MAKEUP_TYPE_ORDER.get(right.type) ?? 999
     return leftOrder - rightOrder || left.id - right.id
   })
-
-/**
- * Calculate related outfit variation IDs
- * Only 4★ and 5★ outfits can have variations
- *
- * Logic:
- * - If ID length is 7 and ends with 01-04, it's a variation (e.g., 1000101)
- * - Base ID is the first 5 digits (e.g., 10001)
- * - Otherwise, the ID itself is the base
- */
-function getRelatedOutfitIds(baseId: number, quality: number): number[] {
-  if (quality < 4) return [baseId]
-
-  const baseIdNum = parseInt(getBaseOutfitId(baseId.toString()))
-
-  const variations = [
-    baseIdNum, // base
-    parseInt(`${baseIdNum}01`), // glowup
-    parseInt(`${baseIdNum}02`), // evo1
-  ]
-
-  if (quality === 5) {
-    variations.push(parseInt(`${baseIdNum}03`)) // evo2
-    variations.push(parseInt(`${baseIdNum}04`)) // evo3
-  }
-
-  return variations
-}
 
 /**
  * API endpoint for fetching a single outfit by ID
@@ -249,37 +215,6 @@ export default defineCachedApiEventHandler(
 
         outfitData.description =
           translation?.description || enTranslation?.description || ''
-      }
-
-      // Fetch variations if quality is 4★ or 5★
-      if (outfitData.quality >= 4) {
-        const relatedIds = getRelatedOutfitIds(id, outfitData.quality)
-
-        const { data: variations, error: variationsError } =
-          await withSupabaseRetry(async () => {
-            if (relatedIds.length <= 1) {
-              return { data: null, error: null }
-            }
-
-            return supabase
-              .from('outfits')
-              .select('id, quality')
-              .in('id', relatedIds)
-          })
-
-        if (variationsError) {
-          throw variationsError
-        }
-
-        if (variations && Array.isArray(variations)) {
-          outfitData.variations = variations
-            .map((v: OutfitVariation) => ({
-              id: v.id,
-              quality: v.quality,
-              type: getOutfitVariantType(v.id.toString()),
-            }))
-            .sort((a, b) => a.id - b.id)
-        }
       }
 
       return outfitData

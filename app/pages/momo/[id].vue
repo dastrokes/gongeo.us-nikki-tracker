@@ -168,6 +168,7 @@
                   :disabled="!isWardrobeReady"
                   :loading="wardrobeToggleLoading"
                   :quality="momo.quality"
+                  variant="overlay"
                   @toggle="toggleTrackedMomo"
                 />
               </div>

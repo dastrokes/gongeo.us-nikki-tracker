@@ -187,6 +187,7 @@
                     :disabled="!canToggleMakeupTracked"
                     :loading="wardrobeToggleLoading"
                     :quality="makeup.quality"
+                    variant="overlay"
                     @toggle="toggleTrackedMakeup"
                   />
                 </div>
@@ -481,6 +482,7 @@
   const router = useRouter()
   const requestEvent = useRequestEvent()
   const { fetchMakeupById } = useSupabaseItems()
+  const catalogIndex = useCatalogIndex()
   const { getImageSrc } = imageProvider()
   const showIcon = ref(false)
   const wardrobeToggleLoading = ref(false)
@@ -500,6 +502,11 @@
   } = useEntityDetailRoute('makeup')
 
   await redirectToCanonicalSlug()
+  await catalogIndex.load(['makeups']).catch(() => undefined)
+
+  const makeupVariationIds = computed(() =>
+    getCatalogGroupIds(catalogIndex.index.value, 'makeup', makeupId.value)
+  )
   const makeupKey = computed(() => `makeup-${makeupId.value}-${locale.value}`)
 
   const {
@@ -648,32 +655,54 @@
       : ': '
     return `${level}${separator}${t('type.fullMakeup')}`
   }
-  const itemVariations = computed(() =>
-    (makeup.value?.variations ?? []).map((variation) => {
-      if (variation.type === 'fullMakeup' && !isFullMakeup.value) {
+  const itemVariations = computed(() => {
+    if (!makeup.value) return []
+
+    const catalogIds =
+      isFullMakeup.value || makeupVariationIds.value.length > 1
+        ? makeupVariationIds.value
+        : []
+    const parentFullMakeupIds = isFullMakeup.value
+      ? []
+      : (makeup.value.variations ?? []).map((variation) => variation.id)
+    const parentFullMakeupIdSet = new Set(parentFullMakeupIds)
+    const variationIds = [
+      ...catalogIds,
+      ...parentFullMakeupIds.filter((id) => !catalogIds.includes(id)),
+    ]
+
+    return variationIds.map((id) => {
+      const isFullMakeupVariation =
+        isFullMakeup.value || parentFullMakeupIdSet.has(id)
+      const type = isFullMakeupVariation ? 'fullMakeup' : makeup.value!.type
+      const variation = {
+        id,
+        quality: makeup.value!.quality,
+        type,
+      }
+
+      if (isFullMakeupVariation && !isFullMakeup.value) {
         return {
           ...variation,
-          label: formatFullMakeupVariantLabel(variation.id),
+          label: formatFullMakeupVariantLabel(id),
         }
       }
 
-      if (variation.type === 'fullMakeup') {
+      if (isFullMakeupVariation) {
         return {
           ...variation,
-          label: t(
-            `banner.outfit.level.${getFullMakeupVariantLevelKey(variation.id)}`
-          ),
+          label: t(`banner.outfit.level.${getFullMakeupVariantLevelKey(id)}`),
         }
       }
 
-      const variantType = getItemVariantType(variation.id)
+      const variantType = getItemVariantType(id)
 
       return {
         ...variation,
         label: t(`banner.outfit.level.${getVariantLevelKey(variantType)}`),
       }
     })
-  )
+  })
   const showVariationSection = computed(() =>
     isFullMakeup.value
       ? itemVariations.value.length > 1

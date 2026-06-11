@@ -74,10 +74,7 @@ export const useSupabaseItems = () => {
    * @param id - The item ID to fetch
    * @returns Promise resolving to item with outfits or null if not found
    */
-  const fetchItemById = async (
-    id: number,
-    variationIds: readonly number[] = []
-  ): Promise<ItemWithOutfits | null> => {
+  const fetchItemById = async (id: number): Promise<ItemWithOutfits | null> => {
     loading.value = true
     error.value = null
 
@@ -85,8 +82,6 @@ export const useSupabaseItems = () => {
       const response = await $fetch.raw<ItemWithOutfits>(`/api/items/${id}`, {
         params: {
           lang: locale.value,
-          variations:
-            variationIds.length > 1 ? variationIds.join(',') : undefined,
         },
         ignoreResponseError: true,
       })
@@ -125,7 +120,9 @@ export const useSupabaseItems = () => {
       const response = await $fetch.raw<MakeupWithRelations>(
         `/api/makeups/${id}`,
         {
-          params: { lang: locale.value },
+          params: {
+            lang: locale.value,
+          },
           ignoreResponseError: true,
         }
       )

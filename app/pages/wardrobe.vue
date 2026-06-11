@@ -546,7 +546,7 @@
                 :label="`${row.quality}★`"
                 :owned="row.owned"
                 :total="row.total"
-                :percent="row.completionPercent"
+                :percent="formatPercent(row.completionPercent)"
               />
             </NuxtLinkLocale>
           </template>
@@ -616,7 +616,7 @@
                 :label="t(`type.${row.type}`)"
                 :owned="row.owned"
                 :total="row.total"
-                :percent="row.completionPercent"
+                :percent="formatPercent(row.completionPercent)"
               />
             </NuxtLinkLocale>
 
@@ -635,7 +635,7 @@
                     :label="t(`type.${row.type}`)"
                     :owned="row.owned"
                     :total="row.total"
-                    :percent="row.completionPercent"
+                    :percent="formatPercent(row.completionPercent)"
                   />
                 </NuxtLinkLocale>
               </div>
@@ -706,7 +706,7 @@
                 :label="t('wardrobe.version_label', { version: row.version })"
                 :owned="row.owned"
                 :total="row.total"
-                :percent="row.completionPercent"
+                :percent="formatPercent(row.completionPercent)"
               />
             </NuxtLinkLocale>
 
@@ -724,7 +724,7 @@
                     "
                     :owned="row.owned"
                     :total="row.total"
-                    :percent="row.completionPercent"
+                    :percent="formatPercent(row.completionPercent)"
                   />
                 </NuxtLinkLocale>
               </div>
@@ -1672,7 +1672,12 @@
   const formatCount = (value: number | undefined) =>
     new Intl.NumberFormat().format(value ?? 0)
 
-  const formatPercent = (value: number | undefined) => value ?? 0
+  const formatPercent = (value: number | undefined) => {
+    if (!value || value <= 0) return 0
+    if (value >= 100) return 100
+
+    return Math.min(Math.floor(value), 99)
+  }
   const wardrobeRegionOptions = computed(() => {
     const globalOption = {
       label: t('wardrobe.region.global'),
@@ -2500,8 +2505,7 @@
       version,
       owned: row.owned,
       total: row.total,
-      completionPercent:
-        row.total > 0 ? Math.round((row.owned / row.total) * 100) : 0,
+      completionPercent: formatPercent((row.owned / row.total) * 100),
     }))
 
     return rows.sort((a, b) => {

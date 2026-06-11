@@ -35,6 +35,12 @@
         <div class="mt-0.5 text-[10px] font-medium opacity-80 sm:text-xs">
           {{ $t(`type.${itemType}`) }}
         </div>
+        <div
+          v-if="tooltipMeta"
+          class="mt-1 text-[10px] font-semibold opacity-90 sm:text-xs"
+        >
+          {{ tooltipMeta }}
+        </div>
       </div>
     </div>
   </NuxtLinkLocale>
@@ -49,12 +55,14 @@
     size?: 'sm' | 'lg'
     to?: string
     imageMode?: 'icon' | 'preview'
+    tooltipMeta?: string
   }
 
   const props = withDefaults(defineProps<Props>(), {
     size: 'lg',
     to: undefined,
     imageMode: 'icon',
+    tooltipMeta: undefined,
   })
 
   defineEmits<{

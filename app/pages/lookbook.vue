@@ -124,6 +124,15 @@
                       size="small"
                     />
                   </label>
+                  <label
+                    class="flex items-center justify-between gap-4 font-medium whitespace-nowrap text-slate-600 dark:text-slate-300"
+                  >
+                    {{ t('lookbook.show_ownership') }}
+                    <n-switch
+                      v-model:value="showOwnership"
+                      size="small"
+                    />
+                  </label>
                 </div>
               </n-popover>
 
@@ -346,17 +355,55 @@
                     :key="entry.id"
                   >
                     <div class="min-w-0">
-                      <ItemCard
+                      <div
                         v-if="entry.resolved"
-                        :item-id="entry.id"
-                        :quality="entry.quality"
-                        :type="entry.type"
-                        :name="entry.name"
-                        :to="getItemEntityDetailPath(entry.id)"
-                        :image-mode="showPreviewImages ? 'preview' : 'icon'"
-                        size="sm"
-                        class="w-full"
-                      />
+                        class="relative"
+                      >
+                        <ItemCard
+                          :item-id="entry.id"
+                          :quality="entry.quality"
+                          :type="entry.type"
+                          :name="entry.name"
+                          :to="getItemEntityDetailPath(entry.id)"
+                          :image-mode="showPreviewImages ? 'preview' : 'icon'"
+                          :tooltip-meta="
+                            wardrobeInitialized
+                              ? getLookbookOwnershipMarker(
+                                  getLookbookWardrobeStatus(entry)
+                                ).label
+                              : undefined
+                          "
+                          size="sm"
+                          class="w-full"
+                        />
+                        <div
+                          v-if="wardrobeInitialized && showOwnership"
+                          class="pointer-events-none absolute right-1 bottom-1 z-10"
+                          @click.stop
+                        >
+                          <span
+                            class="flex items-center justify-center"
+                            :style="{
+                              color: getQualityColor(entry.quality),
+                            }"
+                            :aria-label="
+                              getLookbookOwnershipMarker(
+                                getLookbookWardrobeStatus(entry)
+                              ).label
+                            "
+                          >
+                            <n-icon :size="12">
+                              <component
+                                :is="
+                                  getLookbookOwnershipMarker(
+                                    getLookbookWardrobeStatus(entry)
+                                  ).icon
+                                "
+                              />
+                            </n-icon>
+                          </span>
+                        </div>
+                      </div>
                       <NuxtLinkLocale
                         v-else
                         to="/items"
@@ -410,17 +457,21 @@
 
 <script setup lang="ts">
   import {
+    CheckCircle,
     ClipboardRegular,
     Cog,
     CopyRegular,
+    ExclamationCircle,
     ExternalLinkAlt,
     FileImageRegular,
     Th,
+    TimesCircle,
   } from '@vicons/fa'
 
   type LookbookDisplayItem =
     | {
         id: number
+        entity: 'item' | 'makeup'
         name: string
         quality: number
         type: string
@@ -438,6 +489,8 @@
     items: LookbookDisplayItem[]
   }
 
+  type LookbookWardrobeStatus = 'item-owned' | 'variant-owned' | 'missing'
+
   definePageMeta({
     key: 'lookbook',
   })
@@ -453,6 +506,12 @@
   const catalogIndex = useCatalogIndex()
   const { isDark } = useTheme()
   const { getImageSrc } = imageProvider()
+  const {
+    initialized: wardrobeInitialized,
+    init: initWardrobe,
+    isItemOwned,
+    isMakeupOwned,
+  } = useWardrobe()
 
   const lookbookInput = ref('')
   const decodedCode = ref('')
@@ -461,6 +520,7 @@
   const exporting = ref(false)
   const hideItemInfo = ref(false)
   const showPreviewImages = ref(false)
+  const showOwnership = ref(false)
   const error = ref('')
   const errorType = ref<'code_not_found' | 'generic'>('generic')
   const shareCardRef = ref<HTMLElement | null>(null)
@@ -565,6 +625,7 @@
 
       return {
         id,
+        entity: item ? 'item' : 'makeup',
         name: t(`item.${id}.name`),
         quality: entry.quality,
         type: entry.type || getItemType(id),
@@ -572,6 +633,46 @@
       }
     })
   )
+
+  const getLookbookWardrobeStatus = (
+    entry: Extract<LookbookDisplayItem, { resolved: true }>
+  ): LookbookWardrobeStatus => {
+    const isOwned =
+      entry.entity === 'item' ? isItemOwned(entry.id) : isMakeupOwned(entry.id)
+    if (isOwned) return 'item-owned'
+
+    if (
+      entry.entity === 'item' &&
+      getRelatedItemIds(entry.id, entry.quality).some(
+        (relatedId) => relatedId !== entry.id && isItemOwned(relatedId)
+      )
+    ) {
+      return 'variant-owned'
+    }
+
+    return 'missing'
+  }
+
+  const getLookbookOwnershipMarker = (status: LookbookWardrobeStatus) => {
+    if (status === 'item-owned') {
+      return {
+        icon: CheckCircle,
+        label: t('wardrobe.status.owned'),
+      }
+    }
+
+    if (status === 'variant-owned') {
+      return {
+        icon: ExclamationCircle,
+        label: t('wardrobe.actions.base_only'),
+      }
+    }
+
+    return {
+      icon: TimesCircle,
+      label: t('wardrobe.status.missing'),
+    }
+  }
 
   const sortedDisplayItems = computed(() =>
     sortItemsByCategory([...displayItems.value])
@@ -755,6 +856,7 @@
     exporting.value = true
     message.info(t('stats.share.in_progress'))
     try {
+      await nextTick()
       await waitForCardImages()
       const fileName = `gongeous-lookbook-${officialDecodedCode.value}.png`
       await exportToPng(shareCardRef.value, fileName)
@@ -777,6 +879,8 @@
   })
 
   onMounted(() => {
+    void initWardrobe()
+
     const code = normalizeLookbookInput(route.query.code)
     if (!code) return
 

@@ -217,7 +217,7 @@ node scripts/sync-item-search-terms-from-attributes.mjs --dry-run --item-attribu
 6. Collapse near-synonyms or over-specific values in `gongeo.us-image-search` when a simpler canonical token is better.
 7. Run the non-dry tracker sync to backfill canonical terms/taxonomy.
 8. Regenerate tracker-side derived assets so `filter.json`, registry constants, and `data/attribute.json` match the canonical token set.
-9. Verify localization coverage for the affected filter fields and namespaces, keeping locale schema and key order aligned with English.
+9. Add native translations for every accepted new filter key in all supported `app/locales/*/filter.json` files. Do not leave generated English placeholders in non-English locales; keep locale schema and key order aligned with English.
 10. Publish from tracker to Supabase and Pinecone.
 
 This review/collapse/backfill/localization loop is the default workflow. Treat it as the normal path, not a special cleanup path.
@@ -391,7 +391,7 @@ Taxonomy or metadata-term backfill from generated attributes:
 3. Review whether any reported values should collapse to existing canonical tokens before tracker sync.
 4. Run `node scripts/sync-item-search-terms-from-attributes.mjs` to update `data/item-search/terms.json`, `data/item-search/taxonomy.json`, generated registry assets, and English filter labels.
 5. Review any reported `parentConflicts`; the script reports but does not overwrite existing parent mappings when the observed data disagrees with the registry.
-6. Confirm that the affected locale `filter.json` files now include the accepted new field/value combinations.
+6. Add native translations for every accepted new field/value combination in all supported locale `filter.json` files, then confirm locale schema and key-order parity with English before publish.
 
 Localization-only correction:
 

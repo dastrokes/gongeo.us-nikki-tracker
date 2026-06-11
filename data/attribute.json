@@ -637,6 +637,11 @@
   {
     "field": "ornament",
     "itemType": null,
+    "value": "bear"
+  },
+  {
+    "field": "ornament",
+    "itemType": null,
     "value": "bell"
   },
   {
@@ -1947,6 +1952,11 @@
   {
     "field": "structure",
     "itemType": null,
+    "value": "spherical"
+  },
+  {
+    "field": "structure",
+    "itemType": null,
     "value": "spiral"
   },
   {
@@ -1978,6 +1988,11 @@
     "field": "structure",
     "itemType": null,
     "value": "tiered"
+  },
+  {
+    "field": "structure",
+    "itemType": null,
+    "value": "tinted"
   },
   {
     "field": "structure",
@@ -3297,6 +3312,11 @@
   {
     "field": "subcategory",
     "itemType": "handhelds",
+    "value": "pouch"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "handhelds",
     "value": "purse"
   },
   {
@@ -3648,6 +3668,11 @@
     "field": "subcategory",
     "itemType": "shoes",
     "value": "high_top_sneakers"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "shoes",
+    "value": "lace_up_boots"
   },
   {
     "field": "subcategory",

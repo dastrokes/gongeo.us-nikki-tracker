@@ -727,10 +727,7 @@
         itemId.value,
       ]
   )
-  const itemKey = computed(
-    () =>
-      `item-${itemId.value}-${locale.value}-${itemVariationIds.value.join('-')}`
-  )
+  const itemKey = computed(() => `item-${itemId.value}-${locale.value}`)
 
   const {
     data: item,
@@ -739,10 +736,7 @@
     refresh,
   } = await useAsyncData(
     () => itemKey.value,
-    () =>
-      Number.isFinite(itemId.value)
-        ? fetchItemById(itemId.value, itemVariationIds.value)
-        : null,
+    () => (Number.isFinite(itemId.value) ? fetchItemById(itemId.value) : null),
     {
       default: () => null,
       lazy: true,
@@ -801,15 +795,29 @@
     ]
   })
 
+  const getVariationDisplayRank = (variantType: VariantType) => {
+    if (variantType === 'base') return 0
+    if (variantType === 'evo1') return 1
+    if (variantType === 'evo2') return 2
+    if (variantType === 'evo3') return 3
+    return 4
+  }
+
   // Computed item variations with labels
   const itemVariations = computed(() => {
-    if (!item.value?.variations) return []
+    if (!item.value) return []
 
-    return [...item.value.variations]
+    return itemVariationIds.value
+      .map((id) => ({
+        id,
+        quality: item.value!.quality,
+        type: getItemVariantType(id),
+      }))
       .sort((a, b) => {
-        if (a.type === 'glowup') return 1
-        if (b.type === 'glowup') return -1
-        return 0
+        return (
+          getVariationDisplayRank(a.type) - getVariationDisplayRank(b.type) ||
+          a.id - b.id
+        )
       })
       .map((v) => {
         let levelKey = '1' // base
@@ -846,11 +854,9 @@
       if (banner) return banner
     }
 
-    if (item.value.variations) {
-      for (const variation of item.value.variations) {
-        banner = getBannerForItem(variation.id)
-        if (banner) return banner
-      }
+    for (const variationId of itemVariationIds.value) {
+      banner = getBannerForItem(variationId)
+      if (banner) return banner
     }
 
     return null
@@ -1130,26 +1136,19 @@
   const currentItemEvoLevel = computed(() => {
     if (!item.value) return null
 
-    return (item.value.variations ?? []).reduce<number | null>(
-      (level, variation) => {
-        const variantType = getItemVariantType(variation.id)
-        const evoLevel = getEvoLevel(variantType)
-        return evoLevel && isItemOwned(variation.id)
-          ? Math.max(level ?? 0, evoLevel)
-          : level
-      },
-      null
-    )
+    return itemVariationIds.value.reduce<number | null>((level, variation) => {
+      const variantType = getItemVariantType(variation)
+      const evoLevel = getEvoLevel(variantType)
+      return evoLevel && isItemOwned(variation)
+        ? Math.max(level ?? 0, evoLevel)
+        : level
+    }, null)
   })
   const currentItemGlowUpIds = computed(() => {
     if (!item.value) return []
-    const knownIds = new Set([
-      item.value.id,
-      ...(item.value.variations ?? []).map((variation) => variation.id),
-    ])
-    return getRelatedItemIds(itemId.value, item.value.quality)
-      .filter((relatedId) => getItemVariantType(relatedId) === 'glowup')
-      .filter((relatedId) => knownIds.has(relatedId))
+    return itemVariationIds.value.filter(
+      (relatedId) => getItemVariantType(relatedId) === 'glowup'
+    )
   })
   const currentItemGlowUpOwned = computed(
     () =>
@@ -1202,16 +1201,10 @@
         }
 
         const currentRank = getVariantRank(currentItemVariantType.value)
-        const knownIds = new Set([
-          item.value.id,
-          ...(item.value.variations ?? []).map((variation) => variation.id),
-        ])
-        const itemIds = getRelatedItemIds(itemId.value, item.value.quality)
-          .filter(
-            (relatedId) =>
-              getVariantRank(getItemVariantType(relatedId)) >= currentRank
-          )
-          .filter((relatedId) => knownIds.has(relatedId))
+        const itemIds = itemVariationIds.value.filter(
+          (relatedId) =>
+            getVariantRank(getItemVariantType(relatedId)) >= currentRank
+        )
 
         if (itemIds.length > 0) {
           await markItemsOwned(itemIds, false)
@@ -1221,19 +1214,10 @@
 
       const itemIds =
         currentItemVariantType.value === 'glowup'
-          ? getRelatedItemIds(itemId.value, item.value.quality)
-              .filter((relatedId) => {
-                const variantType = getItemVariantType(relatedId)
-                return variantType === 'base' || relatedId === itemId.value
-              })
-              .filter((relatedId) =>
-                [
-                  item.value!.id,
-                  ...(item.value!.variations ?? []).map(
-                    (variation) => variation.id
-                  ),
-                ].includes(relatedId)
-              )
+          ? itemVariationIds.value.filter((relatedId) => {
+              const variantType = getItemVariantType(relatedId)
+              return variantType === 'base' || relatedId === itemId.value
+            })
           : [itemId.value]
       await markItemsOwned(itemIds, true)
     } catch {
@@ -1246,18 +1230,12 @@
 
     try {
       const variantKey = key as WardrobeVariantMarkKey
-      const relatedIds = getRelatedItemIds(itemId.value, item.value.quality)
+      const relatedIds = itemVariationIds.value
       const maxRank = getVariantMarkMaxRank(variantKey)
-      const knownIds = new Set([
-        item.value.id,
-        ...(item.value.variations ?? []).map((variation) => variation.id),
-      ])
       if (variantKey === 'unmark-all') {
-        const itemIds = relatedIds
-          .filter(
-            (relatedId) => getVariantRank(getItemVariantType(relatedId)) >= 0
-          )
-          .filter((relatedId) => knownIds.has(relatedId))
+        const itemIds = relatedIds.filter(
+          (relatedId) => getVariantRank(getItemVariantType(relatedId)) >= 0
+        )
 
         if (itemIds.length > 0) {
           await markItemsOwned(itemIds, false)
@@ -1265,9 +1243,7 @@
         return
       }
       if (variantKey === 'complete-set') {
-        const itemIds = relatedIds.filter((relatedId) =>
-          knownIds.has(relatedId)
-        )
+        const itemIds = relatedIds
 
         if (itemIds.length > 0) {
           await markItemsOwned(itemIds, true)
@@ -1279,25 +1255,21 @@
         return
       }
 
-      const itemIds = relatedIds
-        .filter((relatedId) => {
-          const variantType = getItemVariantType(relatedId)
-          return variantKey === 'glowup'
-            ? variantType === 'base' || variantType === 'glowup'
-            : variantType !== 'glowup' && getVariantRank(variantType) <= maxRank
-        })
-        .filter((relatedId) => knownIds.has(relatedId))
+      const itemIds = relatedIds.filter((relatedId) => {
+        const variantType = getItemVariantType(relatedId)
+        return variantKey === 'glowup'
+          ? variantType === 'base' || variantType === 'glowup'
+          : variantType !== 'glowup' && getVariantRank(variantType) <= maxRank
+      })
       const clearItemIds =
         Number.isFinite(maxRank) && variantKey !== 'glowup'
-          ? relatedIds
-              .filter((relatedId) => {
-                const variantType = getItemVariantType(relatedId)
-                return (
-                  variantType !== 'glowup' &&
-                  getVariantRank(variantType) > maxRank
-                )
-              })
-              .filter((relatedId) => knownIds.has(relatedId))
+          ? relatedIds.filter((relatedId) => {
+              const variantType = getItemVariantType(relatedId)
+              return (
+                variantType !== 'glowup' &&
+                getVariantRank(variantType) > maxRank
+              )
+            })
           : []
 
       if (itemIds.length > 0) {

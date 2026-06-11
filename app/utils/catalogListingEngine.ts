@@ -287,11 +287,34 @@ const matchesOutfitStableFilters = (
     getOutfitVariantType(String(outfit.id))
   )
 
+const matchesItemSourceDetailFilter = (
+  item: CatalogLocalItem,
+  filters: Record<string, unknown>,
+  itemGroupIdsById: ReadonlyMap<number, readonly number[]>
+) =>
+  matchesSourceDetailFilter(item, filters, 'item') ||
+  (itemGroupIdsById.get(item.id) ?? []).some((itemId) =>
+    matchesSourceDetailFilter({ id: itemId }, filters, 'item')
+  )
+
 const matchesItemStableFilters = (
   item: CatalogLocalItem,
-  filters: Record<string, unknown>
+  filters: Record<string, unknown>,
+  itemGroupIdsById: ReadonlyMap<number, readonly number[]>
 ) => {
-  if (!matchesStableCatalogFilters(item, filters, 'item')) return false
+  if (
+    !(
+      matchesQuality(item, filters) &&
+      matchesStyle(item, filters) &&
+      matchesLabel(item, filters) &&
+      matchesVersion(item, filters) &&
+      matchesSource(item, filters) &&
+      matchesItemSourceDetailFilter(item, filters, itemGroupIdsById)
+    )
+  ) {
+    return false
+  }
+
   if (!matchesCatalogVariationFilter(filters, getItemVariantType(item.id))) {
     return false
   }
@@ -306,7 +329,6 @@ const matchesItemAttributeFilters = (
   itemGroupIdsById: ReadonlyMap<number, readonly number[]>
 ) =>
   attributeMatchingIdSet.has(item.id) ||
-  attributeMatchingIdSet.has(Number(getBaseItemId(item.id))) ||
   (itemGroupIdsById.get(item.id) ?? []).some((itemId) =>
     attributeMatchingIdSet.has(itemId)
   )
@@ -546,7 +568,7 @@ const getLocalItemMatchingIds = ({
     pieceFilter === 'all' ? null : getOutfitItemIdsForScope(index, regionScope)
   const stableFiltered = index.items.filter(
     (item) =>
-      matchesItemStableFilters(item, query.filters) &&
+      matchesItemStableFilters(item, query.filters, index.itemGroupIdsById) &&
       isCatalogEntryAvailableInScope('item', item.id, regionScope) &&
       (!outfitItemIds ||
         matchesCatalogItemPieceFilter(item.id, pieceFilter, outfitItemIds))
@@ -740,7 +762,7 @@ const filterStaticItemIds = ({
     pieceFilter === 'all' ? null : getOutfitItemIdsForScope(index, regionScope)
   const stableFiltered = index.items.filter(
     (item) =>
-      matchesItemStableFilters(item, query.filters) &&
+      matchesItemStableFilters(item, query.filters, index.itemGroupIdsById) &&
       isCatalogEntryAvailableInScope('item', item.id, regionScope) &&
       (!outfitItemIds ||
         matchesCatalogItemPieceFilter(item.id, pieceFilter, outfitItemIds))

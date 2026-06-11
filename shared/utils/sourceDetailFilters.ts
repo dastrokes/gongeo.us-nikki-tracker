@@ -1,6 +1,6 @@
 import { BANNER_DATA } from '../../data/banners'
 import OUTFIT_DATA from '../../data/outfits'
-import { getBaseItemId, getBaseOutfitId } from './variants'
+import { getBaseOutfitId } from './variants'
 
 export type SourceDetailEntity = 'item' | 'outfit' | 'makeup'
 
@@ -46,7 +46,7 @@ export const LIMITED_BANNER_SOURCE_DETAILS: readonly SourceDetailDefinition[] =
       key: 'deep-echo',
       labelKey: 'banner.deep_echoes',
       source: LIMITED_BANNER_SOURCE_KEY,
-      entities: ['item', 'makeup'],
+      entities: ['item'],
     },
   ] as const
 
@@ -207,7 +207,7 @@ Object.values(BANNER_DATA).forEach((banner) => {
 })
 
 const hasItemInSet = (itemIds: ReadonlySet<number>, itemId: number) =>
-  itemIds.has(itemId) || itemIds.has(Number(getBaseItemId(itemId)))
+  itemIds.has(itemId)
 
 const hasOutfitInSet = (outfitIds: ReadonlySet<number>, outfitId: number) =>
   outfitIds.has(outfitId) ||
@@ -243,5 +243,5 @@ export const matchesSourceDetailFilter = (
       : hasOutfitInSet(limitedStandaloneFourStarOutfitIds, entry.id)
   }
 
-  return deepEchoRewardIds.has(entry.id)
+  return entity === 'item' && hasItemInSet(deepEchoRewardIds, entry.id)
 }

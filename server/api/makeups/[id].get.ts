@@ -7,6 +7,10 @@ interface MakeupRow {
   description?: string
 }
 
+interface MakeupVariationRow {
+  id: number
+}
+
 interface MakeupTranslation {
   description?: string | null
   language_code?: string | null
@@ -69,26 +73,6 @@ const sortByIdList = <T extends { id: number }>(
   )
 }
 
-const isMatchingMakeupVariation = (
-  makeup: MakeupRow,
-  variation: MakeupRow
-): boolean =>
-  variation.quality === makeup.quality &&
-  variation.type === makeup.type &&
-  (variation.style_key ?? null) === (makeup.style_key ?? null) &&
-  (variation.obtain_type ?? null) === (makeup.obtain_type ?? null)
-
-const getRelatedFullMakeupIds = (baseId: number): number[] => {
-  const baseIdString = baseId.toString()
-  if (baseIdString.length < 3) return [baseId]
-
-  const suffix = baseIdString.slice(-2)
-  if (suffix !== '01' && suffix !== '03') return [baseId]
-
-  const prefix = baseIdString.slice(0, -2)
-  return [Number(`${prefix}01`), Number(`${prefix}03`)]
-}
-
 export default defineCachedApiEventHandler(
   async (event) => {
     const id = Number(getRouterParam(event, 'id'))
@@ -121,7 +105,7 @@ export default defineCachedApiEventHandler(
         kind: 'makeup' as const,
         components: [] as MakeupRow[],
         related_outfits: [] as OutfitRow[],
-        variations: [] as MakeupRow[],
+        variations: [] as MakeupVariationRow[],
       }
 
       if (makeup.type !== 'fullMakeup' && languageCode) {
@@ -151,28 +135,6 @@ export default defineCachedApiEventHandler(
       }
 
       if (makeup.type !== 'fullMakeup') {
-        const relatedItemIds = getRelatedItemIds(id, makeup.quality)
-        if (relatedItemIds.length > 1) {
-          const { data: relatedMakeups, error: relatedMakeupsError } =
-            await withSupabaseRetry(() =>
-              supabase
-                .from('makeups')
-                .select('id,quality,type,style_key,obtain_type')
-                .in('id', relatedItemIds)
-            )
-
-          if (relatedMakeupsError) {
-            throw relatedMakeupsError
-          }
-
-          makeup.variations = sortByIdList(
-            ((relatedMakeups as MakeupRow[] | null) ?? []).filter((variation) =>
-              isMatchingMakeupVariation(makeup, variation)
-            ),
-            relatedItemIds
-          )
-        }
-
         const { data: parentRows, error: parentRowsError } =
           await withSupabaseRetry(() =>
             supabase
@@ -192,10 +154,7 @@ export default defineCachedApiEventHandler(
         if (parentIds.length > 0) {
           const { data: fullMakeups, error: fullMakeupsError } =
             await withSupabaseRetry(() =>
-              supabase
-                .from('makeups')
-                .select('id,quality,type,style_key,obtain_type')
-                .in('id', parentIds)
+              supabase.from('makeups').select('id').in('id', parentIds)
             )
 
           if (fullMakeupsError) {
@@ -203,7 +162,7 @@ export default defineCachedApiEventHandler(
           }
 
           const parentFullMakeups = sortByIdList(
-            (fullMakeups as MakeupRow[] | null) ?? [],
+            (fullMakeups as MakeupVariationRow[] | null) ?? [],
             parentIds
           )
           const variationIds = new Set(makeup.variations.map((row) => row.id))
@@ -288,26 +247,6 @@ export default defineCachedApiEventHandler(
         }
 
         return makeup
-      }
-
-      const relatedFullMakeupIds = getRelatedFullMakeupIds(id)
-      if (relatedFullMakeupIds.length > 1) {
-        const { data: relatedFullMakeups, error: relatedFullMakeupsError } =
-          await withSupabaseRetry(() =>
-            supabase
-              .from('makeups')
-              .select('id,quality,type,style_key,obtain_type')
-              .in('id', relatedFullMakeupIds)
-          )
-
-        if (relatedFullMakeupsError) {
-          throw relatedFullMakeupsError
-        }
-
-        makeup.variations = sortByIdList(
-          (relatedFullMakeups as MakeupRow[] | null) ?? [],
-          relatedFullMakeupIds
-        )
       }
 
       const { data: componentRows, error: componentError } =

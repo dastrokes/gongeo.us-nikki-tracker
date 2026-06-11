@@ -76,7 +76,9 @@
               size="medium"
               class="w-full sm:w-auto"
               :loading="loading"
-              :disabled="!normalizedInputCode"
+              :disabled="
+                !normalizedInputCode || normalizedInputCode === decodedCode
+              "
               @click="decodeCurrentInput"
             >
               <template #icon>
@@ -643,7 +645,7 @@
 
     if (
       entry.entity === 'item' &&
-      getRelatedItemIds(entry.id, entry.quality).some(
+      getCatalogGroupIds(catalogIndex.index.value, 'item', entry.id).some(
         (relatedId) => relatedId !== entry.id && isItemOwned(relatedId)
       )
     ) {

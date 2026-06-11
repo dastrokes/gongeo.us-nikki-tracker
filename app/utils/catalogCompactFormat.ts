@@ -105,41 +105,50 @@ const decodeCompactOutfitRows = (
   rows: unknown[][],
   styles: readonly string[] = CATALOG_STYLES
 ) =>
-  rows.flatMap(([ids, quality, styleIndex, labels, obtain]) =>
-    unpackCompactIds(ids).map((id) => ({
+  rows.flatMap(([ids, quality, styleIndex, labels, obtain]) => {
+    const outfitIds = unpackCompactIds(ids)
+
+    return outfitIds.map((id) => ({
       id,
       quality: Number(quality),
       style: expandCompactStyle(styles, styleIndex),
       labels: expandCompactLabels(labels),
       ...(obtain === undefined ? {} : { obtain_type: Number(obtain) }),
+      ...(outfitIds.length > 1 ? { catalogGroupIds: outfitIds } : {}),
     }))
-  )
+  })
 
 const decodeCompactMakeupRows = (
   rows: unknown[][],
   types: readonly string[] = CATALOG_MAKEUP_TYPES,
   styles: readonly string[] = CATALOG_STYLES
 ) =>
-  rows.flatMap(([ids, quality, typeIndex, styleIndex, obtain]) =>
-    unpackCompactIds(ids).map((id) => ({
+  rows.flatMap(([ids, quality, typeIndex, styleIndex, obtain]) => {
+    const makeupIds = unpackCompactIds(ids)
+
+    return makeupIds.map((id) => ({
       id,
       quality: Number(quality),
       type: getCompactDictionaryValue(types, typeIndex) ?? '',
       style: expandCompactStyle(styles, styleIndex),
       labels: [],
       ...(obtain === undefined ? {} : { obtain_type: Number(obtain) }),
+      ...(makeupIds.length > 1 ? { catalogGroupIds: makeupIds } : {}),
     }))
-  )
+  })
 
 const decodeCompactMomoRows = (rows: unknown[][]) =>
-  rows.flatMap(([ids, quality, obtain, version]) =>
-    unpackCompactIds(ids).map((id) => ({
+  rows.flatMap(([ids, quality, obtain, version]) => {
+    const momoIds = unpackCompactIds(ids)
+
+    return momoIds.map((id) => ({
       id,
       quality: Number(quality),
       ...(obtain === undefined ? {} : { obtain_type: Number(obtain) }),
       ...(version === undefined ? {} : { version: String(version) }),
+      ...(momoIds.length > 1 ? { catalogGroupIds: momoIds } : {}),
     }))
-  )
+  })
 
 const decodeCompactRelationRows = (rows: unknown[][]) =>
   Object.fromEntries(

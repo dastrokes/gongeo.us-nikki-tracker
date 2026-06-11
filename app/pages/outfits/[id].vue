@@ -525,6 +525,12 @@
     markOutfitOwned,
   } = useWardrobe()
   const ownedItemIdSet = computed(() => new Set(ownedItemIds.value))
+
+  await catalogIndex.load(['items', 'outfits']).catch(() => undefined)
+
+  const outfitVariationIds = computed(() =>
+    getCatalogGroupIds(catalogIndex.index.value, 'outfit', outfitId.value)
+  )
   const outfitKey = computed(() => `outfit-${outfitId.value}-${locale.value}`)
 
   const {
@@ -642,15 +648,29 @@
         }
   }
 
+  const getVariationDisplayRank = (variantType: VariantType) => {
+    if (variantType === 'base') return 0
+    if (variantType === 'evo1') return 1
+    if (variantType === 'evo2') return 2
+    if (variantType === 'evo3') return 3
+    return 4
+  }
+
   // Computed outfit variations with labels
   const outfitVariations = computed(() => {
-    if (!outfit.value?.variations) return []
+    if (!outfit.value) return []
 
-    return [...outfit.value.variations]
+    return outfitVariationIds.value
+      .map((id) => ({
+        id,
+        quality: outfit.value!.quality,
+        type: getOutfitVariantType(String(id)),
+      }))
       .sort((a, b) => {
-        if (a.type === 'glowup') return 1
-        if (b.type === 'glowup') return -1
-        return 0
+        return (
+          getVariationDisplayRank(a.type) - getVariationDisplayRank(b.type) ||
+          a.id - b.id
+        )
       })
       .map((v) => {
         let levelKey = '1' // base
@@ -681,11 +701,9 @@
     if (banner) return banner
 
     // Check all variation IDs
-    if (outfit.value.variations) {
-      for (const variation of outfit.value.variations) {
-        banner = getBannerForOutfit(String(variation.id))
-        if (banner) return banner
-      }
+    for (const variationId of outfitVariationIds.value) {
+      banner = getBannerForOutfit(String(variationId))
+      if (banner) return banner
     }
 
     return null
@@ -830,6 +848,13 @@
     if (variantType === 'evo3') return 3
     return null
   }
+  const getCurrentOutfitGroupIds = (
+    index: CatalogLocalIndex | null = catalogIndex.index.value
+  ) => getCatalogGroupIds(index, 'outfit', outfitId.value)
+  const getItemGroupIds = (
+    itemId: number,
+    index: CatalogLocalIndex | null = catalogIndex.index.value
+  ) => getCatalogGroupIds(index, 'item', itemId)
 
   const currentOutfitEvoLevel = computed(() => {
     if (!outfit.value || outfitItems.value.length === 0) return null
@@ -842,7 +867,7 @@
         }))
         .find(({ variantType }) =>
           outfitItems.value.every((item) =>
-            getRelatedItemIds(item.id, outfit.value!.quality).some(
+            getItemGroupIds(item.id).some(
               (relatedId) =>
                 getItemVariantType(relatedId) === variantType &&
                 ownedItemIdSet.value.has(relatedId)
@@ -856,7 +881,7 @@
 
     return normalizeWardrobeItemIds(
       outfitItems.value.flatMap((item) =>
-        getRelatedItemIds(item.id, outfit.value!.quality).filter(
+        getItemGroupIds(item.id).filter(
           (relatedId) => getItemVariantType(relatedId) === 'glowup'
         )
       )
@@ -944,10 +969,7 @@
         }
 
         const currentRank = getVariantRank(currentOutfitVariantType.value)
-        const targetOutfitIds = getRelatedOutfitIds(
-          outfitId.value,
-          outfit.value.quality
-        ).filter(
+        const targetOutfitIds = getCurrentOutfitGroupIds().filter(
           (relatedId) =>
             getVariantRank(getOutfitVariantType(String(relatedId))) >=
             currentRank
@@ -970,13 +992,12 @@
       if (owned && currentOutfitVariantType.value === 'glowup') {
         await catalogIndex.load(['outfits', 'outfitItems'])
         const index = catalogIndex.index.value
-        const targetOutfitIds = getRelatedOutfitIds(
-          outfitId.value,
-          outfit.value?.quality ?? 5
-        ).filter((relatedId) => {
-          const variantType = getOutfitVariantType(String(relatedId))
-          return variantType === 'base' || relatedId === outfitId.value
-        })
+        const targetOutfitIds = getCurrentOutfitGroupIds(index).filter(
+          (relatedId) => {
+            const variantType = getOutfitVariantType(String(relatedId))
+            return variantType === 'base' || relatedId === outfitId.value
+          }
+        )
         const itemIds = normalizeWardrobeItemIds(
           targetOutfitIds.flatMap(
             (targetOutfitId) => index?.outfitItemsById.get(targetOutfitId) ?? []
@@ -1003,10 +1024,7 @@
 
     try {
       const variantKey = key as WardrobeVariantMarkKey
-      const relatedOutfitIds = getRelatedOutfitIds(
-        outfitId.value,
-        outfit.value.quality
-      )
+      const relatedOutfitIds = getCurrentOutfitGroupIds()
       const maxRank = getVariantMarkMaxRank(variantKey)
       if (variantKey === 'unmark-all') {
         const targetOutfitIds = relatedOutfitIds.filter(

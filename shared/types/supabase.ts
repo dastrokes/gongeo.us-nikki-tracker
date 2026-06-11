@@ -67,13 +67,6 @@ export interface OutfitWithItems extends SupabaseOutfit {
   outfit_items: {
     items: SupabaseItem
   }[]
-  variations?: Array<{
-    id: number
-    quality: number
-    type: string
-    props?: Array<number | string> | null
-    tags?: Array<number | string> | null
-  }>
   makeup_outfits?: Array<{
     makeups: SupabaseMakeup & {
       components?: SupabaseMakeup[]
@@ -84,7 +77,7 @@ export interface OutfitWithItems extends SupabaseOutfit {
 export interface MakeupWithRelations extends SupabaseMakeup {
   kind: 'makeup'
   components?: SupabaseMakeup[]
-  variations?: SupabaseMakeup[]
+  variations?: Array<{ id: number }>
   related_outfits?: Array<
     SupabaseOutfit & {
       outfit_items?: {
@@ -112,9 +105,4 @@ export interface ItemWithOutfits extends SupabaseItem {
     metadata?: ItemSearchMetadata | null
   } | null
   description?: string
-  variations?: Array<{
-    id: number
-    quality: number
-    type: string
-  }>
 }

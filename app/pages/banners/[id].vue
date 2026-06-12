@@ -655,6 +655,14 @@
     if (!banner.value) return ''
     return t(`banner.${bannerId.value}.name`)
   })
+  const bannerSeoName = computed(
+    () => bannerName.value || t('navigation.banner_detail')
+  )
+  const bannerSeoTitle = computed(() =>
+    bannerName.value
+      ? `${bannerName.value} - ${t('navigation.banner_detail')}`
+      : t('navigation.banner_detail')
+  )
 
   const bannerPulls = computed(() => {
     if (!banner.value) return null
@@ -756,23 +764,23 @@
 
   useSeoMeta({
     title: () =>
-      `${t(`banner.${bannerId.value}.name`)} - ${t('navigation.banner_detail')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
+      `${bannerSeoTitle.value} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     description: () =>
       t('meta.description.banner_detail', {
-        name: t(`banner.${bannerId.value}.name`),
+        name: bannerSeoName.value,
       }),
     ogTitle: () =>
-      `${t(`banner.${bannerId.value}.name`)} - ${t('navigation.banner_detail')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
+      `${bannerSeoTitle.value} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     ogDescription: () =>
       t('meta.description.banner_detail', {
-        name: t(`banner.${bannerId.value}.name`),
+        name: bannerSeoName.value,
       }),
     ogImage: () => ogItemImage.value,
     twitterTitle: () =>
-      `${t(`banner.${bannerId.value}.name`)} - ${t('navigation.banner_detail')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
+      `${bannerSeoTitle.value} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     twitterDescription: () =>
       t('meta.description.banner_detail', {
-        name: t(`banner.${bannerId.value}.name`),
+        name: bannerSeoName.value,
       }),
     twitterImage: () => ogItemImage.value,
   })

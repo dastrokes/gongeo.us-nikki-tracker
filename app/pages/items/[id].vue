@@ -951,6 +951,14 @@
     if (!item.value) return ''
     return t(`item.${itemId.value}.name`)
   })
+  const itemSeoName = computed(
+    () => itemName.value || t('navigation.item_detail')
+  )
+  const itemSeoTitle = computed(() =>
+    itemName.value
+      ? `${itemName.value} - ${t('navigation.item_detail')}`
+      : t('navigation.item_detail')
+  )
 
   const itemVersion = computed(() => {
     if (!item.value) return null
@@ -1304,23 +1312,23 @@
 
   useSeoMeta({
     title: () =>
-      `${itemName.value} - ${t('navigation.item_detail')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
+      `${itemSeoTitle.value} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     description: () =>
       t('meta.description.item_detail', {
-        name: itemName.value || '',
+        name: itemSeoName.value,
       }),
     ogTitle: () =>
-      `${itemName.value} - ${t('navigation.item_detail')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
+      `${itemSeoTitle.value} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     ogDescription: () =>
       t('meta.description.item_detail', {
-        name: itemName.value || '',
+        name: itemSeoName.value,
       }),
     ogImage: () => ogItemImage.value,
     twitterTitle: () =>
-      `${itemName.value} - ${t('navigation.item_detail')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
+      `${itemSeoTitle.value} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     twitterDescription: () =>
       t('meta.description.item_detail', {
-        name: itemName.value || '',
+        name: itemSeoName.value,
       }),
     twitterImage: () => ogItemImage.value,
   })

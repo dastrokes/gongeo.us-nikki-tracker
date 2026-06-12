@@ -608,6 +608,10 @@
       label: t('tierlist.share.copy_link'),
       value: 'link',
     },
+    {
+      label: t('lookbook.copy_item_list'),
+      value: 'items',
+    },
   ])
 
   const displayItems = computed<LookbookDisplayItem[]>(() =>
@@ -827,11 +831,35 @@
     }
   }
 
+  const copyLookbookItemList = async () => {
+    if (!import.meta.client) return
+
+    const itemRows = sortedDisplayItems.value.map((entry) => {
+      if (!entry.resolved) {
+        return `${t('common.error')}: ${entry.id}`
+      }
+
+      const itemType = t(`type.${entry.type}`)
+      return `${itemType}: ${entry.name}`
+    })
+    const itemList = [...itemRows, shareUrl.value].filter(Boolean).join('\n')
+    if (!itemList) return
+
+    try {
+      await navigator.clipboard.writeText(itemList)
+      message.success(t('import.messages.code_copied'))
+    } catch {
+      message.error(t('import.messages.code_copy_failed'))
+    }
+  }
+
   const handleCopyAction = (value: unknown) => {
     if (value === 'code') {
       void copyLookbookCode()
     } else if (value === 'link') {
       void copyShareLink()
+    } else if (value === 'items') {
+      void copyLookbookItemList()
     }
   }
 

@@ -345,6 +345,12 @@
     const key = `momo.${momoId.value}.name`
     return te(key) ? t(key) : (momo.value?.name ?? '')
   })
+  const momoSeoName = computed(() => momoName.value || t('common.momo'))
+  const momoSeoTitle = computed(() =>
+    momoName.value
+      ? `${momoName.value} - ${t('common.momo')}`
+      : t('common.momo')
+  )
   const momoDescription = computed(() => momo.value?.description ?? '')
   const isMomoTracked = computed(() =>
     momo.value ? isMomoOwned(momo.value.id) : false
@@ -451,23 +457,23 @@
 
   useSeoMeta({
     title: () =>
-      `${momoName.value} - ${t('common.momo')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
+      `${momoSeoTitle.value} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     description: () =>
       t('meta.description.momo_detail', {
-        name: momoName.value || '',
+        name: momoSeoName.value,
       }),
     ogTitle: () =>
-      `${momoName.value} - ${t('common.momo')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
+      `${momoSeoTitle.value} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     ogDescription: () =>
       t('meta.description.momo_detail', {
-        name: momoName.value || '',
+        name: momoSeoName.value,
       }),
     ogImage: () => ogMomoImage.value,
     twitterTitle: () =>
-      `${momoName.value} - ${t('common.momo')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
+      `${momoSeoTitle.value} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     twitterDescription: () =>
       t('meta.description.momo_detail', {
-        name: momoName.value || '',
+        name: momoSeoName.value,
       }),
     twitterImage: () => ogMomoImage.value,
   })

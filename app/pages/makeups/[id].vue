@@ -536,6 +536,14 @@
       ? t(`makeup.${makeup.value.id}.name`)
       : t(`item.${makeup.value.id}.name`)
   })
+  const makeupSeoName = computed(
+    () => makeupName.value || t('navigation.makeup')
+  )
+  const makeupSeoTitle = computed(() =>
+    makeupName.value
+      ? `${makeupName.value} - ${t('navigation.makeup')}`
+      : t('navigation.makeup')
+  )
   const makeupDescription = computed(() =>
     isFullMakeup.value ? '' : makeup.value?.description || ''
   )
@@ -774,23 +782,23 @@
 
   useSeoMeta({
     title: () =>
-      `${makeupName.value} - ${t('navigation.makeup')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
+      `${makeupSeoTitle.value} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     description: () =>
       t('meta.description.item_detail', {
-        name: makeupName.value || '',
+        name: makeupSeoName.value,
       }),
     ogTitle: () =>
-      `${makeupName.value} - ${t('navigation.makeup')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
+      `${makeupSeoTitle.value} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     ogDescription: () =>
       t('meta.description.item_detail', {
-        name: makeupName.value || '',
+        name: makeupSeoName.value,
       }),
     ogImage: () => ogImage.value,
     twitterTitle: () =>
-      `${makeupName.value} - ${t('navigation.makeup')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
+      `${makeupSeoTitle.value} - ${t('meta.game_title')} - ${t('navigation.title')}`,
     twitterDescription: () =>
       t('meta.description.item_detail', {
-        name: makeupName.value || '',
+        name: makeupSeoName.value,
       }),
     twitterImage: () => ogImage.value,
   })

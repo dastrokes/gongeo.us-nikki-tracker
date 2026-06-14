@@ -6,7 +6,7 @@ export const getImageProvider = () => {
     configuredProvider === 'netlify' ||
     configuredProvider === 'imagekit' ||
     configuredProvider === 'cloudinary' ||
-    configuredProvider === 'bunny'
+    configuredProvider === 'cdn'
   ) {
     return configuredProvider
   }
@@ -19,19 +19,22 @@ const imagekitBaseUrl =
 const cloudinaryBaseUrl =
   process.env.NUXT_PUBLIC_CLOUDINARY_BASE_URL ||
   'https://res.cloudinary.com/gongeous/image/upload'
-const bunnyBaseUrl =
-  process.env.NUXT_PUBLIC_BUNNY_BASE_URL || 'https://cdn.gongeo.us'
+const cdnBaseUrl =
+  process.env.NUXT_PUBLIC_IMAGE_CDN_BASE_URL || 'https://cdn.gongeo.us'
 const siteUrl = process.env.NUXT_PUBLIC_SITE_URL || 'https://gongeo.us'
 
-const cdnImageBaseUrl = cloudinaryBaseUrl || imagekitBaseUrl || bunnyBaseUrl
+const cdnImageBaseUrl =
+  getImageProvider() === 'cdn' || getImageProvider() === 'netlify'
+    ? cdnBaseUrl
+    : cloudinaryBaseUrl || imagekitBaseUrl || cdnBaseUrl
 
-type ImageProvider = 'ipx' | 'netlify' | 'imagekit' | 'cloudinary' | 'bunny'
+type ImageProvider = 'ipx' | 'netlify' | 'imagekit' | 'cloudinary' | 'cdn'
 
 interface ImageRuntimeConfig {
   imageProvider?: unknown
   imagekitBaseUrl?: unknown
   cloudinaryBaseUrl?: unknown
-  bunnyBaseUrl?: unknown
+  cdnBaseUrl?: unknown
 }
 
 type ImageSrcType =
@@ -95,8 +98,8 @@ export const getImagePreconnectHref = (publicConfig: ImageRuntimeConfig) => {
   const baseUrl =
     provider === 'cloudinary'
       ? publicConfig.cloudinaryBaseUrl
-      : provider === 'bunny'
-        ? publicConfig.bunnyBaseUrl
+      : provider === 'cdn'
+        ? publicConfig.cdnBaseUrl
         : provider === 'imagekit'
           ? publicConfig.imagekitBaseUrl
           : null
@@ -113,9 +116,7 @@ export const getImagePreconnectHref = (publicConfig: ImageRuntimeConfig) => {
 export const imageProvider = () => {
   const runtimeConfig = useRuntimeConfig()
 
-  const imagekitBase = runtimeConfig.public.imagekitBaseUrl as string
-  const cloudinaryBase = runtimeConfig.public.cloudinaryBaseUrl as string
-  const bunnyBase = runtimeConfig.public.bunnyBaseUrl as string
+  const cdnBase = runtimeConfig.public.cdnBaseUrl as string
   const defaultProvider = runtimeConfig.public.imageProvider as ImageProvider
 
   const getImageSrc = (
@@ -129,20 +130,18 @@ export const imageProvider = () => {
     const path = getImagePath(type, id, options?.variant)
     const provider = options?.provider || defaultProvider
 
-    // Serve images from netlify directly
-    if (type === 'banner' || type === 'bannerThumb' || type === 'emote') {
-      return path
+    if (provider === 'netlify') {
+      return `${cdnBase}${path}`
     }
 
-    if (provider === 'netlify') {
-      return `${imagekitBase || cloudinaryBase || bunnyBase}${path}`
+    if (provider === 'cdn') {
+      return `${cdnBase}${path}`
     }
 
     if (
       provider === 'ipx' ||
       provider === 'imagekit' ||
-      provider === 'cloudinary' ||
-      provider === 'bunny'
+      provider === 'cloudinary'
     ) {
       return path
     }

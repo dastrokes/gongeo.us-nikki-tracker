@@ -11,11 +11,13 @@ import {
   SEO_OUTFIT_LIST_PATHS,
 } from './app/utils/seoListRouteDefinitions'
 import {
+  i18nMessages,
   noStoreHeaders,
   pageStatic,
   pageTheme,
   pageThemeNoTag,
   pageThemeQuery,
+  sitemapHeaders,
 } from './shared/utils/cacheProfiles'
 import { getImageProvider } from './app/utils/imageProvider'
 
@@ -357,6 +359,15 @@ export default defineNuxtConfig({
         )
 
       return {
+        '/_i18n/**': {
+          headers: i18nMessages,
+        },
+        '/sitemap_index.xml': {
+          headers: sitemapHeaders,
+        },
+        '/__sitemap__/**': {
+          headers: sitemapHeaders,
+        },
         ...buildLocalizedRules(['/error'], {
           headers: pageStatic,
         }),

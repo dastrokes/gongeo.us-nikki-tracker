@@ -9,6 +9,7 @@ export const CACHE_TAGS = {
 const HEADER = {
   cache: 'Cache-Control',
   cdn: 'Netlify-CDN-Cache-Control',
+  sharedCdn: 'CDN-Cache-Control',
   cacheId: 'Netlify-Cache-ID',
   vary: 'Netlify-Vary',
 } as const
@@ -16,10 +17,14 @@ const HEADER = {
 const THEME_COOKIE = 'theme'
 
 const NO_STORE = 'no-store'
-const BROWSER_SHORT = 'public, max-age=3600, stale-while-revalidate=86400'
+const BROWSER_REVALIDATE = 'public, max-age=0, must-revalidate'
 const BROWSER_LONG = 'public, max-age=86400, stale-while-revalidate=604800'
 const CDN_LONG =
   'public, s-maxage=2592000, stale-while-revalidate=604800, stale-if-error=86400'
+const CDN_IMMUTABLE =
+  'public, s-maxage=31536000, stale-while-revalidate=604800, stale-if-error=86400'
+const CDN_SITEMAP =
+  'public, s-maxage=86400, stale-while-revalidate=3600, stale-if-error=3600'
 const CDN_API_SHORT =
   'public, durable, s-maxage=86400, stale-while-revalidate=86400, stale-if-error=86400'
 const CDN_API_LONG =
@@ -68,15 +73,21 @@ function createProfile(
   cdn: string,
   {
     cacheIds = [],
+    sharedCdn = false,
     vary,
     includeVersion = false,
   }: {
     cacheIds?: string[]
+    sharedCdn?: string | false
     vary?: string
     includeVersion?: boolean
   } = {}
 ): CacheProfile {
   const extra: CacheHeaders = {}
+
+  if (sharedCdn) {
+    extra[HEADER.sharedCdn] = sharedCdn
+  }
 
   if (vary) {
     extra[HEADER.vary] = vary
@@ -90,21 +101,29 @@ function createProfile(
 }
 
 const sharedProfiles = {
-  noStore: createProfile(NO_STORE, NO_STORE),
+  noStore: createProfile(NO_STORE, NO_STORE, { sharedCdn: NO_STORE }),
 } as const
 
 const pageProfiles = {
   rootNoStore: sharedProfiles.noStore,
-  prerenderedStatic: createProfile(BROWSER_LONG, CDN_LONG),
-  themeAware: createProfile(BROWSER_SHORT, CDN_LONG, { vary: THEME_VARY }),
-  themeAwareQuery: createProfile(BROWSER_SHORT, CDN_LONG, {
+  prerenderedStatic: createProfile(BROWSER_REVALIDATE, CDN_LONG),
+  themeAware: createProfile(BROWSER_REVALIDATE, CDN_LONG, {
+    vary: THEME_VARY,
+  }),
+  themeAwareQuery: createProfile(BROWSER_REVALIDATE, CDN_LONG, {
     vary: THEME_QUERY_VARY,
+  }),
+  i18nMessages: createProfile(BROWSER_LONG, CDN_IMMUTABLE, {
+    sharedCdn: CDN_IMMUTABLE,
+  }),
+  sitemap: createProfile(BROWSER_LONG, CDN_SITEMAP, {
+    sharedCdn: CDN_SITEMAP,
   }),
   noStore: sharedProfiles.noStore,
 } as const satisfies Record<string, CacheProfile>
 
 const apiProfiles = {
-  catalog: createProfile(BROWSER_SHORT, CDN_API_LONG, {
+  catalog: createProfile(BROWSER_REVALIDATE, CDN_API_LONG, {
     cacheIds: [CACHE_TAGS.game],
     includeVersion: true,
   }),
@@ -113,7 +132,7 @@ const apiProfiles = {
     includeVersion: true,
   }),
   feedback: createProfile(NO_STORE, CDN_FEEDBACK),
-  stats: createProfile(BROWSER_SHORT, CDN_API_SHORT, {
+  stats: createProfile(BROWSER_REVALIDATE, CDN_API_SHORT, {
     cacheIds: [CACHE_TAGS.stats],
     includeVersion: true,
   }),
@@ -224,6 +243,8 @@ export const pageTheme = getCacheHeaders('page', 'themeAware', {
 export const pageThemeQuery = getCacheHeaders('page', 'themeAwareQuery', {
   ...pageVersionVaryOptions,
 })
+export const i18nMessages = getCacheHeaders('page', 'i18nMessages')
+export const sitemapHeaders = getCacheHeaders('page', 'sitemap')
 export const noStoreHeaders = getCacheHeaders('page', 'noStore')
 export const rootNoStoreHeaders = getCacheHeaders('page', 'rootNoStore')
 

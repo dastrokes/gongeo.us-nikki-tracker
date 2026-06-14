@@ -12,7 +12,6 @@ import {
 } from './app/utils/seoListRouteDefinitions'
 import {
   i18nMessages,
-  noStoreHeaders,
   pageStatic,
   pageTheme,
   pageThemeNoTag,
@@ -343,6 +342,7 @@ export default defineNuxtConfig({
 
       type I18nRouteRule = {
         prerender?: boolean
+        ssr?: boolean
         headers?: Record<string, string>
       }
 
@@ -368,29 +368,17 @@ export default defineNuxtConfig({
         '/__sitemap__/**': {
           headers: sitemapHeaders,
         },
-        ...buildLocalizedRules(['/error'], {
-          headers: pageStatic,
-        }),
         ...buildLocalizedRules(
           [
-            '/faq',
-            '/about',
-            '/contact',
-            '/feedback',
-            '/guideline',
-            '/lookbook',
-            '/og-preview',
-            '/random',
-            '/vote',
-            '/ranking',
+            '/',
+            '/import',
+            '/tracker',
+            '/global',
             '/timeline',
+            '/stats',
+            '/wardrobe',
+            '/lookbook',
           ],
-          {
-            headers: pageStatic,
-          }
-        ),
-        ...buildLocalizedRules(
-          ['/', '/import', '/banners', '/quiz', '/global'],
           {
             headers: pageTheme,
           }
@@ -408,15 +396,38 @@ export default defineNuxtConfig({
           }
         ),
         ...buildLocalizedRules(
-          ['/outfits', '/items', '/makeups', '/momo', '/tierlist', '/search'],
+          [
+            '/banners',
+            '/outfits',
+            '/items',
+            '/makeups',
+            '/momo',
+            '/tierlist',
+            '/search',
+            '/random',
+          ],
           {
             headers: pageThemeQuery,
           }
         ),
         ...buildLocalizedRules(
-          ['/tracker', '/login', '/profile', '/stats', '/wardrobe'],
+          [
+            '/error',
+            '/faq',
+            '/about',
+            '/login',
+            '/profile',
+            '/quiz',
+            '/ranking',
+            '/vote',
+            '/feedback',
+            '/guideline',
+            '/contact',
+            '/og-preview',
+          ],
           {
-            headers: noStoreHeaders,
+            headers: pageStatic,
+            ssr: false,
           }
         ),
       }

@@ -5,8 +5,7 @@ export const getImageProvider = () => {
     configuredProvider === 'ipx' ||
     configuredProvider === 'netlify' ||
     configuredProvider === 'imagekit' ||
-    configuredProvider === 'cloudinary' ||
-    configuredProvider === 'cdn'
+    configuredProvider === 'cloudinary'
   ) {
     return configuredProvider
   }
@@ -24,11 +23,11 @@ const cdnBaseUrl =
 const siteUrl = process.env.NUXT_PUBLIC_SITE_URL || 'https://gongeo.us'
 
 const cdnImageBaseUrl =
-  getImageProvider() === 'cdn' || getImageProvider() === 'netlify'
+  getImageProvider() === 'netlify'
     ? cdnBaseUrl
     : cloudinaryBaseUrl || imagekitBaseUrl || cdnBaseUrl
 
-type ImageProvider = 'ipx' | 'netlify' | 'imagekit' | 'cloudinary' | 'cdn'
+type ImageProvider = 'ipx' | 'netlify' | 'imagekit' | 'cloudinary'
 
 interface ImageRuntimeConfig {
   imageProvider?: unknown
@@ -98,11 +97,9 @@ export const getImagePreconnectHref = (publicConfig: ImageRuntimeConfig) => {
   const baseUrl =
     provider === 'cloudinary'
       ? publicConfig.cloudinaryBaseUrl
-      : provider === 'cdn'
-        ? publicConfig.cdnBaseUrl
-        : provider === 'imagekit'
-          ? publicConfig.imagekitBaseUrl
-          : null
+      : provider === 'imagekit'
+        ? publicConfig.imagekitBaseUrl
+        : null
 
   if (!baseUrl) return null
 
@@ -131,10 +128,6 @@ export const imageProvider = () => {
     const provider = options?.provider || defaultProvider
 
     if (provider === 'netlify') {
-      return `${cdnBase}${path}`
-    }
-
-    if (provider === 'cdn') {
       return `${cdnBase}${path}`
     }
 

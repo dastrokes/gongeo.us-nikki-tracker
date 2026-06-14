@@ -1548,19 +1548,6 @@
     data: SearchHit[]
   }
 
-  type RandomItemApiResponse = {
-    item: {
-      id: number
-      quality: number
-      type: string
-      obtain_type: number | null
-      category: string | null
-      subcategory: string | null
-      metadata: ItemSearchMetadata | null
-    } | null
-    total: number
-  }
-
   type SearchDisplayHit = SearchHit & {
     resolvedItemType: string | null
     itemName: string
@@ -1598,6 +1585,9 @@
     key: string
     controller: AbortController
   }
+
+  const RANDOM_ITEM_ID_MIN = 1020000000
+  const RANDOM_ITEM_ID_MAX_EXCLUSIVE = 1022000000
 
   const props = withDefaults(
     defineProps<{
@@ -2767,36 +2757,26 @@
     return weighted.at(-1)?.hit ?? null
   }
 
-  const toRandomSearchHit = (
-    item: NonNullable<RandomItemApiResponse['item']>
-  ): SearchHit => {
-    const itemType = normalizeItemSearchItemType(
-      item.type ?? getItemType(item.id)
-    )
+  const getCatalogItemStyleKey = (item: CatalogLocalItem) =>
+    resolveStyleKeyFromI18nKey(item.style)
 
-    return {
-      id: String(item.id),
-      itemId: item.id,
-      itemType,
-      category: item.category,
-      subcategory: item.subcategory,
-      score: item.quality >= 5 ? 0.95 : 0.82,
-      quality: item.quality,
-      image: getImageSrc('item', item.id),
-      metadata: {
-        ...(item.metadata ?? {}),
-        item_id: item.id,
-        item_type: itemType,
-        slot: itemType,
-        obtain_type: item.obtain_type,
-      },
-    }
-  }
+  const getCatalogItemLabelDefinitions = (item: CatalogLocalItem) =>
+    item.labels
+      .map((label) =>
+        label.startsWith('label.') && label.endsWith('.name')
+          ? TAG_DEFINITIONS.find((definition) => definition.i18nKey === label)
+          : TAG_BY_KEY.get(label)
+      )
+      .filter((definition): definition is (typeof TAG_DEFINITIONS)[number] =>
+        Boolean(definition)
+      )
 
   const toCatalogSearchHit = (item: CatalogLocalItem): SearchHit => {
     const itemType = normalizeItemSearchItemType(
       item.type ?? getItemType(item.id)
     )
+    const styleKey = getCatalogItemStyleKey(item)
+    const labelDefinitions = getCatalogItemLabelDefinitions(item)
 
     return {
       id: String(item.id),
@@ -2811,10 +2791,80 @@
         item_id: item.id,
         item_type: itemType,
         slot: itemType,
+        style_key: styleKey,
+        label_ids: labelDefinitions.map((definition) => String(definition.id)),
+        label_keys: labelDefinitions.map((definition) => definition.key),
         obtain_type: item.obtain_type ?? null,
       },
     }
   }
+
+  const isRandomCatalogItemInScope = (item: CatalogLocalItem) =>
+    item.id >= RANDOM_ITEM_ID_MIN && item.id < RANDOM_ITEM_ID_MAX_EXCLUSIVE
+
+  const matchesRandomItemTypes = (
+    item: CatalogLocalItem,
+    filters: CatalogSearchFilters
+  ) => {
+    if (filters.itemTypes.length === 0) return true
+
+    const itemType = normalizeItemSearchItemType(
+      item.type ?? getItemType(item.id)
+    )
+    return filters.itemTypes.includes(itemType)
+  }
+
+  const matchesRandomItemStyle = (
+    item: CatalogLocalItem,
+    filters: CatalogSearchFilters
+  ) => !filters.style || getCatalogItemStyleKey(item) === filters.style
+
+  const matchesRandomItemLabel = (
+    item: CatalogLocalItem,
+    filters: CatalogSearchFilters
+  ) => {
+    if (!filters.label) return true
+
+    const definition = TAG_BY_KEY.get(filters.label)
+    const expected = definition?.i18nKey ?? filters.label
+    return item.labels.includes(expected) || item.labels.includes(filters.label)
+  }
+
+  const matchesRandomItemVersion = (
+    item: CatalogLocalItem,
+    filters: CatalogSearchFilters
+  ) => {
+    if (!filters.version) return true
+
+    const version = getVersionFromId(item.obtain_type)
+    return version ? matchesVersionFilter(version, filters.version) : false
+  }
+
+  const matchesRandomItemSource = (
+    item: CatalogLocalItem,
+    filters: CatalogSearchFilters
+  ) => {
+    if (!filters.source) return true
+
+    const sourceIds = resolveObtainIdsFromValue(filters.source)
+    return Boolean(
+      item.obtain_type !== null &&
+      item.obtain_type !== undefined &&
+      sourceIds?.includes(item.obtain_type)
+    )
+  }
+
+  const matchesRandomCatalogFilters = (
+    item: CatalogLocalItem,
+    filters: CatalogSearchFilters
+  ) =>
+    isRandomCatalogItemInScope(item) &&
+    (filters.quality === null || item.quality === filters.quality) &&
+    matchesRandomItemTypes(item, filters) &&
+    matchesRandomItemStyle(item, filters) &&
+    matchesRandomItemLabel(item, filters) &&
+    matchesRandomItemVersion(item, filters) &&
+    matchesRandomItemSource(item, filters)
 
   const fetchLuckySearchHits = async (normalizedQuery: string) => {
     const queryParams: Record<string, string | number> = {
@@ -2950,14 +3000,17 @@
   }
 
   const fetchLuckyRandomHit = async () => {
-    const queryParams = getCurrentSearchApiQuery(null)
+    await catalogIndex.load(['items'])
 
-    const response = await $fetch<RandomItemApiResponse>('/api/items/random', {
-      query: queryParams,
-      headers: gameVersionHeaders,
-    })
+    const filters = getCurrentCatalogFilters(null)
+    const items =
+      catalogIndex.index.value?.items.filter((item) =>
+        matchesRandomCatalogFilters(item, filters)
+      ) ?? []
+    if (items.length === 0) return null
 
-    return response.item ? toRandomSearchHit(response.item) : null
+    const randomItem = items[Math.floor(Math.random() * items.length)]
+    return randomItem ? toCatalogSearchHit(randomItem) : null
   }
 
   const fetchOwnedRandomHit = async () => {

@@ -46,18 +46,7 @@ const cloudinaryBaseUrl =
 const cdnBaseUrl =
   process.env.NUXT_PUBLIC_IMAGE_CDN_BASE_URL || 'https://cdn.gongeo.us'
 const activeImageProvider = getImageProvider()
-const configuredBannerImageProvider =
-  process.env.NUXT_PUBLIC_BANNER_IMAGE_PROVIDER
-const activeBannerImageProvider =
-  configuredBannerImageProvider === 'imagekit' ||
-  configuredBannerImageProvider === 'netlify' ||
-  configuredBannerImageProvider === 'cdn'
-    ? configuredBannerImageProvider
-    : process.env.NODE_ENV === 'production'
-      ? 'netlify'
-      : 'imagekit'
-const nuxtImageProvider =
-  activeImageProvider === 'imagekit' ? 'gongeous' : activeImageProvider
+const nuxtImageProvider = activeImageProvider
 const transformedImageFormat =
   activeImageProvider === 'imagekit' ? 'auto' : 'webp'
 const imageQuality = 80
@@ -266,22 +255,6 @@ export default defineNuxtConfig({
     dir: '../public',
     provider: nuxtImageProvider,
     domains: [imagekitBaseUrl, cloudinaryBaseUrl, cdnBaseUrl],
-    providers: {
-      gongeous: {
-        provider: './app/providers/gongeousImageProvider.ts',
-        options: {
-          baseURL: imagekitBaseUrl,
-          bannerImageProvider: activeBannerImageProvider,
-          cdnBaseURL: cdnBaseUrl,
-        },
-      },
-      cdn: {
-        provider: './app/providers/cdnImageProvider.ts',
-        options: {
-          baseURL: cdnBaseUrl,
-        },
-      },
-    },
     imagekit: {
       baseURL: imagekitBaseUrl,
     },

@@ -526,7 +526,9 @@
   } = useWardrobe()
   const ownedItemIdSet = computed(() => new Set(ownedItemIds.value))
 
-  await catalogIndex.load(['items', 'outfits']).catch(() => undefined)
+  if (import.meta.client) {
+    void catalogIndex.load(['items', 'outfits']).catch(() => undefined)
+  }
 
   const outfitVariationIds = computed(() =>
     getCatalogGroupIds(catalogIndex.index.value, 'outfit', outfitId.value)
@@ -535,7 +537,8 @@
 
   const {
     data: outfit,
-    pending: loading,
+    pending: outfitPending,
+    status: outfitStatus,
     error,
     refresh,
   } = await useAsyncData(
@@ -545,10 +548,14 @@
     {
       default: () => null,
       lazy: true,
+      server: false,
     }
   )
+  const loading = computed(
+    () => outfitPending.value || outfitStatus.value === 'idle'
+  )
 
-  if (import.meta.server && requestEvent && !error.value && !outfit.value) {
+  if (import.meta.server && requestEvent && !Number.isFinite(outfitId.value)) {
     setResponseStatus(requestEvent, 404)
     applyPageCacheHeaders(requestEvent, 'noStore')
   }

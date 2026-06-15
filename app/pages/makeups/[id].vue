@@ -502,7 +502,9 @@
   } = useEntityDetailRoute('makeup')
 
   await redirectToCanonicalSlug()
-  await catalogIndex.load(['makeups']).catch(() => undefined)
+  if (import.meta.client) {
+    void catalogIndex.load(['makeups']).catch(() => undefined)
+  }
 
   const makeupVariationIds = computed(() =>
     getCatalogGroupIds(catalogIndex.index.value, 'makeup', makeupId.value)
@@ -511,7 +513,8 @@
 
   const {
     data: makeup,
-    pending: loading,
+    pending: makeupPending,
+    status: makeupStatus,
     error,
     refresh,
   } = await useAsyncData(
@@ -521,10 +524,14 @@
     {
       default: () => null,
       lazy: true,
+      server: false,
     }
   )
+  const loading = computed(
+    () => makeupPending.value || makeupStatus.value === 'idle'
+  )
 
-  if (import.meta.server && requestEvent && !error.value && !makeup.value) {
+  if (import.meta.server && requestEvent && !Number.isFinite(makeupId.value)) {
     setResponseStatus(requestEvent, 404)
     applyPageCacheHeaders(requestEvent, 'noStore')
   }

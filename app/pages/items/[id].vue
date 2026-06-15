@@ -719,7 +719,9 @@
     markItemsOwned,
   } = useWardrobe()
 
-  await catalogIndex.load(['items']).catch(() => undefined)
+  if (import.meta.client) {
+    void catalogIndex.load(['items']).catch(() => undefined)
+  }
 
   const itemVariationIds = computed(
     () =>
@@ -731,7 +733,8 @@
 
   const {
     data: item,
-    pending: loading,
+    pending: itemPending,
+    status: itemStatus,
     error,
     refresh,
   } = await useAsyncData(
@@ -740,10 +743,14 @@
     {
       default: () => null,
       lazy: true,
+      server: false,
     }
   )
+  const loading = computed(
+    () => itemPending.value || itemStatus.value === 'idle'
+  )
 
-  if (import.meta.server && requestEvent && !error.value && !item.value) {
+  if (import.meta.server && requestEvent && !Number.isFinite(itemId.value)) {
     setResponseStatus(requestEvent, 404)
     applyPageCacheHeaders(requestEvent, 'noStore')
   }

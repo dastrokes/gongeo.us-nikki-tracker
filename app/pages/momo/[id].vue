@@ -324,7 +324,8 @@
 
   const {
     data: momo,
-    pending: loading,
+    pending: momoPending,
+    status: momoStatus,
     error,
     refresh,
   } = await useAsyncData(
@@ -333,10 +334,14 @@
     {
       default: () => null,
       lazy: true,
+      server: false,
     }
   )
+  const loading = computed(
+    () => momoPending.value || momoStatus.value === 'idle'
+  )
 
-  if (import.meta.server && requestEvent && !error.value && !momo.value) {
+  if (import.meta.server && requestEvent && !Number.isFinite(momoId.value)) {
     setResponseStatus(requestEvent, 404)
     applyPageCacheHeaders(requestEvent, 'noStore')
   }

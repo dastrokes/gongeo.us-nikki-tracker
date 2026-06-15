@@ -10,14 +10,6 @@ command = "npm run build"
 remote_images = [ "https://ik.imagekit.io/.*", "https://res.cloudinary.com/gongeous/.*", "https://cdn.gongeo.us/.*" ]
 
 [[edge_functions]]
-function = "bot-block"
-path = "/*"
-excludedPath = "/robots.txt"
-
-  [edge_functions.header]
-  netlify-agent-category = "^(ai-agent|page-preview|crawler|tooling|other|none)(;.*)?$"
-
-[[edge_functions]]
 function = "root-redirect"
 path = "/"
 

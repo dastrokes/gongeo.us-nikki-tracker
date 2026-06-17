@@ -131,6 +131,7 @@
       "wardrobe": "Verfolge deine Infinity Nikki-Stücke, Outfits, Make-ups und Momos Mäntel im Besitz, und teile anschließend deinen Sammlungsfortschritt.",
       "import": "Importiere deinen Infinity Nikki Resonanz-Verlauf ganz leicht aus dem Spiel, Wunder-Log oder Backup-Dateien, mit detaillierten Schritt-für-Schritt-Anleitungen.",
       "global": "Erkunde die globalen Infinity Nikki Resonanz-Daten, einschließlich Bannerbeliebtheit, Resonanz-Raten, Stück-Dropraten und Community Resonanz-Statistiken.",
+      "global_banner": "Explore community pull statistics for the {name} resonance banner, including item order and completion pull distributions.",
       "banner": "Erkunde Infinity Nikki Resonanzbanner-Verlauf mit aktuellen, kommenden und vergangenen Events, vorgestellten Outfits, Resonanzraten, Dauer und Wiederholungs-Details.",
       "banner_detail": "Schau dir die {name} Resonanzbanner-Details an, einschließlich vorgestellter Outfits, Stück-Dropraten, Resonanz-Statistiken, Dauer, Evolutions-Info und Wiederholungsstatus.",
       "timeline": "Erkunde eine interaktive Zeitleiste von Infinity Nikki Resonanzbannern, wesentlichen Updates, Veröffentlichungszeitraum und Wiederholungen, um den Eventverlauf auf einen Blick zu verfolgen.",
@@ -707,6 +708,20 @@
       "recent_only": "Neueste",
       "all_time": "Gesamt",
       "first_item_distribution_tooltip": "Dieses Banner enthält Resonanzen älter als 180 Tage, welche nicht mehr im Spiel verfügbar sind. Daher können die Daten der Erst-Stück-Verteilung ungenau sein."
+    },
+    "banner_stats": {
+      "title": "Banner Stats",
+      "completion_rate": "Completion Rate",
+      "completed_stylists": "Completed Stylists",
+      "median_completion_pulls": "Median Completion",
+      "overall_pull_distribution": "Pull Distribution",
+      "completion_pull_distribution": "Completed Set Pull Distribution",
+      "fifth_item_distribution": "5th Item Distribution",
+      "option_completed_set": "Complete",
+      "option_first_item": "1st",
+      "option_fifth_item": "5th",
+      "load_failed": "Failed to load banner global stats.",
+      "empty": "No community stats are available for this banner yet."
     }
   },
   "timeline": {

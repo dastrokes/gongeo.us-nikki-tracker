@@ -474,22 +474,22 @@
               </template>
               {{ t('global.charts.first_item_distribution_tooltip') }}
             </n-tooltip>
-            <n-tooltip v-if="bannerDetailPath">
+            <n-tooltip v-if="bannerStatsPath">
               <template #trigger>
                 <n-button
                   size="tiny"
                   text
                   class="absolute top-4 left-4 z-10"
-                  @click="goToSelectedBanner"
+                  @click="goToSelectedBannerStats"
                 >
                   <template #icon>
                     <n-icon :depth="3">
-                      <CalendarDay />
+                      <ChartLine />
                     </n-icon>
                   </template>
                 </n-button>
               </template>
-              {{ t('navigation.banner_detail') }}
+              {{ t('global.banner_stats.title') }}
             </n-tooltip>
             <n-tree-select
               v-model:value="selectedOutfit"
@@ -554,6 +554,7 @@
     ExclamationCircle,
     CalendarDay,
     CalendarAlt,
+    ChartLine,
   } from '@vicons/fa'
 
   // Type definitions for ECharts formatter parameters
@@ -706,6 +707,10 @@
 
   const maximizedChart = ref<string | null>(null)
   const selectedOutfit = ref<string | null>(null)
+  const storedSelectedScopeValue = useState<string | null>(
+    'global-banner-selected-scope',
+    () => null
+  )
 
   interface SelectedOutfitDetails {
     bannerId: number
@@ -734,14 +739,14 @@
   const getSelectedOutfitDetails = (): SelectedOutfitDetails | null =>
     parseSelectedOutfitValue(selectedOutfit.value)
 
-  const bannerDetailPath = computed(() => {
+  const bannerStatsPath = computed(() => {
     const outfitDetails = getSelectedOutfitDetails()
     if (!outfitDetails) return null
 
     const banner = BANNER_DATA[outfitDetails.bannerId]
     if (!banner?.bannerId) return null
 
-    return `${localePath('/banners')}/${banner.bannerId}`
+    return localePath(`/global/${getEntitySlug('banner', banner.bannerId)}`)
   })
 
   const hasOutfit = (id: string): id is OutfitKey =>
@@ -991,9 +996,18 @@
     maximizedChart.value = maximizedChart.value === chartId ? null : chartId
   }
 
-  const goToSelectedBanner = () => {
-    if (!bannerDetailPath.value) return
-    navigateTo(bannerDetailPath.value)
+  const goToSelectedBannerStats = () => {
+    if (!bannerStatsPath.value) return
+    const outfitDetails = getSelectedOutfitDetails()
+    if (outfitDetails?.outfitId) {
+      storedSelectedScopeValue.value = [
+        outfitDetails.bannerId,
+        outfitDetails.quality,
+        outfitDetails.outfitId,
+      ].join(':')
+    }
+
+    navigateTo(bannerStatsPath.value)
   }
 
   // Function to manually update pulls per banner chart when banner type selection changes

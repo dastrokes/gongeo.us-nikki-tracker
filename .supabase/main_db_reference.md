@@ -46,6 +46,7 @@ Canonical source for expanded query notes:
 
 - `banner_id integer` (PK, check `banner_id >= 0`)
 - `payload jsonb`
+- `detail_payload jsonb` (optional per-banner canonical detail stats)
 - `updated_at timestamptz`
 
 ### `public.user_tierlists`

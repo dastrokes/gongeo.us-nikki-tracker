@@ -131,6 +131,7 @@
       "wardrobe": "Acompanhe localmente seus itens, trajes, maquiagens e capas do Momo de Infinity Nikki, depois compartilhe o progresso da sua coleção.",
       "import": "Importe facilmente seu histórico de extração de ressonância Infinity Nikki do jogo, dados Whim-Log ou arquivos de backup com guias passo a passo detalhados.",
       "global": "Explore dados globais de ressonância Infinity Nikki, incluindo popularidade de banner, taxas de pull, taxas de drop de itens e estatísticas de pull da comunidade.",
+      "global_banner": "Explore estatísticas de pulls da comunidade para o banner de ressonância {name}, incluindo a ordem dos itens e distribuições de pulls para completar o conjunto.",
       "banner": "Explore o histórico do banner de ressonância Infinity Nikki com eventos atuais, futuros e passados, roupas em destaque, taxas de pull, durações e detalhes de repetição.",
       "banner_detail": "Veja os detalhes do banner de ressonância {name}, incluindo trajes em destaque, taxas de queda de itens, estatísticas de pull, duração, informações de evolução e status de reexecução.",
       "timeline": "Explore uma linha do tempo interativa de banners de ressonância Infinity Nikki, principais atualizações, períodos de lançamento e repetições para rastrear rapidamente o histórico de eventos.",
@@ -707,6 +708,20 @@
       "recent_only": "Recente",
       "all_time": "Todos os tempos",
       "first_item_distribution_tooltip": "Este banner inclui pulls com mais de 180 dias, que não estão mais disponíveis no jogo. Como resultado, os dados de distribuição do primeiro item podem ser imprecisos."
+    },
+    "banner_stats": {
+      "title": "Estatísticas do banner",
+      "completion_rate": "Taxa de conclusão",
+      "completed_stylists": "Estilistas que concluíram",
+      "median_completion_pulls": "Mediana para concluir",
+      "overall_pull_distribution": "Distribuição de pulls",
+      "completion_pull_distribution": "Distribuição de pulls para conclusão",
+      "fifth_item_distribution": "Distribuição do 5º item",
+      "option_completed_set": "Concluído",
+      "option_first_item": "1º",
+      "option_fifth_item": "5º",
+      "load_failed": "Falha ao carregar estatísticas globais do banner.",
+      "empty": "Ainda não há estatísticas da comunidade disponíveis para este banner."
     }
   },
   "timeline": {

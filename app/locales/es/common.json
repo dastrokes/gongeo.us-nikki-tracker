@@ -131,6 +131,7 @@
       "wardrobe": "Registra localmente tus objetos, atuendos, maquillajes y capas de Momo de Infinity Nikki, y comparte el progreso de tu colección.",
       "import": "Importe fácilmente su historial de extracción de resonancia Infinity Nikki desde el juego, datos de Whim-Log o archivos de respaldo con guías detalladas paso a paso.",
       "global": "Explore los datos globales de resonancia de Infinity Nikki, incluida la popularidad de los banners, las tasas de extracción, las tasas de caída de artículos y las estadísticas de extracción de la comunidad.",
+      "global_banner": "Explora las estadísticas comunitarias de extracción del banner de resonancia {name}, incluida la distribución del orden de artículos y de extracciones para completar el set.",
       "banner": "Explore el historial del banner de resonancia Infinity Nikki con eventos actuales, futuros y pasados, conjuntos destacados, tasas de atracción, duraciones y detalles de repetición.",
       "banner_detail": "Vea los detalles del banner de resonancia {name}, incluidos los atuendos destacados, las tasas de aparición de artículos, las estadísticas de extracción, la duración, la información de evolución y el estado de repetición.",
       "timeline": "Explore una línea de tiempo interactiva de banners de resonancia Infinity Nikki, actualizaciones importantes, períodos de lanzamiento y reposiciones para realizar un seguimiento del historial de eventos de un vistazo.",
@@ -707,6 +708,20 @@
       "recent_only": "Reciente",
       "all_time": "Todo el tiempo",
       "first_item_distribution_tooltip": "Este banner incluye extracciones de más de 180 días que ya no están disponibles en el juego. Como resultado, los datos de distribución del primer artículo pueden ser inexactos."
+    },
+    "banner_stats": {
+      "title": "Estadísticas de banner",
+      "completion_rate": "Tasa de finalización",
+      "completed_stylists": "Estilistas completados",
+      "median_completion_pulls": "Mediana para completar",
+      "overall_pull_distribution": "Distribución de extracciones",
+      "completion_pull_distribution": "Distribución para completar set",
+      "fifth_item_distribution": "Distribución del 5.º artículo",
+      "option_completed_set": "Completo",
+      "option_first_item": "1.º",
+      "option_fifth_item": "5.º",
+      "load_failed": "No se pudieron cargar las estadísticas globales del banner.",
+      "empty": "Todavía no hay estadísticas comunitarias disponibles para este banner."
     }
   },
   "timeline": {

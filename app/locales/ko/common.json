@@ -131,7 +131,7 @@
       "wardrobe": "인피니티 니키에서 보유한 아이템, 의상, 메이크업, 모모 망토를 로컬에 기록하고 컬렉션 진행도를 공유하세요.",
       "import": "게임, 상상 노트 데이터 또는 백업 파일에서 인피니티 니키 공명 뽑기 기록을 쉽게 가져올 수 있습니다. 자세한 단계별 가이드가 포함되어 있습니다.",
       "global": "배너 인기도, 뽑기 확률, 아이템 드롭률, 커뮤니티 뽑기 통계 등 인피니티 니키 공명 글로벌 데이터를 살펴보세요.",
-      "global_banner": "Explore community pull statistics for the {name} resonance banner, including item order and completion pull distributions.",
+      "global_banner": "{name} 공명 배너의 커뮤니티 뽑기 통계를 살펴보세요. 아이템 순서와 세트 완성 뽑기 분포를 포함합니다.",
       "banner": "현재, 예정된 및 과거 이벤트, 주요 의상, 뽑기 확률, 기간 및 재실행 세부 정보가 포함된 인피니티 니키 공명 배너 기록을 살펴보세요.",
       "banner_detail": "추천 의상, 아이템 드롭률, 뽑기 통계, 기간, 진화 정보 및 재실행 상태를 포함한 {name} 공명 배너 세부 정보를 확인하세요.",
       "timeline": "인피니티 니키 공명 배너, 주요 업데이트, 출시 기간 및 재실행에 대한 대화형 타임라인을 탐색하여 이벤트 기록을 한눈에 추적하세요.",
@@ -710,18 +710,18 @@
       "first_item_distribution_tooltip": "이 배너에는 180일이 지난 풀이 포함되어 있으며, 이는 게임에서 더 이상 사용할 수 없습니다. 결과적으로, 첫 번째 아이템 분포 데이터가 정확하지 않을 수 있습니다."
     },
     "banner_stats": {
-      "title": "Banner Stats",
-      "completion_rate": "Completion Rate",
-      "completed_stylists": "Completed Stylists",
-      "median_completion_pulls": "Median Completion",
-      "overall_pull_distribution": "Pull Distribution",
-      "completion_pull_distribution": "Completed Set Pull Distribution",
-      "fifth_item_distribution": "5th Item Distribution",
-      "option_completed_set": "Complete",
-      "option_first_item": "1st",
-      "option_fifth_item": "5th",
-      "load_failed": "Failed to load banner global stats.",
-      "empty": "No community stats are available for this banner yet."
+      "title": "배너 통계",
+      "completion_rate": "완성률",
+      "completed_stylists": "완성한 스타일리스트",
+      "median_completion_pulls": "완성 뽑기 중앙값",
+      "overall_pull_distribution": "뽑기 분포",
+      "completion_pull_distribution": "세트 완성 뽑기 분포",
+      "fifth_item_distribution": "5번째 아이템 분포",
+      "option_completed_set": "완성",
+      "option_first_item": "1번째",
+      "option_fifth_item": "5번째",
+      "load_failed": "배너 글로벌 통계를 불러오지 못했습니다.",
+      "empty": "아직 이 배너의 커뮤니티 통계가 없습니다."
     }
   },
   "timeline": {

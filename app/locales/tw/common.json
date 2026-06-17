@@ -131,7 +131,7 @@
       "wardrobe": "在本機記錄你已擁有的無限暖暖服飾、套裝、妝容和大喵斗篷，並分享收藏進度。",
       "import": "輕鬆匯入您的無限暖暖共鳴抽卡記錄，支援遊戲資料、奇想手賬和備份檔案匯入，並提供詳細的操作指南。",
       "global": "探索無限暖暖社群抽卡資料，包括卡池受歡迎程度、平均機率、抽卡分佈和部件掉落機率統計。",
-      "global_banner": "Explore community pull statistics for the {name} resonance banner, including item order and completion pull distributions.",
+      "global_banner": "查看 {name} 共鳴卡池的社群抽卡統計，包含部件順序與套裝完成抽數分佈。",
       "banner": "探索完整的無限暖暖共鳴卡池歷史，包含目前、即將推出與過往卡池，限定與常駐活動、卡池套裝、抽卡統計、卡池持續時間與復刻紀錄。",
       "banner_detail": "查看 {name} 共鳴卡池的詳細資訊，包括抽卡統計、卡池套裝、單一物品掉落機率、套裝進化與煥新、卡池持續時間與復刻狀態。",
       "timeline": "探索無限暖暖共鳴卡池與版本更新的可視化卡池排程。",
@@ -710,18 +710,18 @@
       "first_item_distribution_tooltip": "此卡池包含180天之前的抽卡記錄，這些記錄已無法在遊戲中獲取。因此，首件部件的分佈資料可能不準確。"
     },
     "banner_stats": {
-      "title": "Banner Stats",
-      "completion_rate": "Completion Rate",
-      "completed_stylists": "Completed Stylists",
-      "median_completion_pulls": "Median Completion",
-      "overall_pull_distribution": "Pull Distribution",
-      "completion_pull_distribution": "Completed Set Pull Distribution",
-      "fifth_item_distribution": "5th Item Distribution",
-      "option_completed_set": "Complete",
-      "option_first_item": "1st",
-      "option_fifth_item": "5th",
-      "load_failed": "Failed to load banner global stats.",
-      "empty": "No community stats are available for this banner yet."
+      "title": "卡池統計",
+      "completion_rate": "完成率",
+      "completed_stylists": "完成搭配師",
+      "median_completion_pulls": "完成抽數中位數",
+      "overall_pull_distribution": "抽數分佈",
+      "completion_pull_distribution": "套裝完成抽數分佈",
+      "fifth_item_distribution": "第 5 件部件分佈",
+      "option_completed_set": "完成",
+      "option_first_item": "第 1 件",
+      "option_fifth_item": "第 5 件",
+      "load_failed": "無法載入卡池全域統計。",
+      "empty": "此卡池尚無社群統計資料。"
     }
   },
   "timeline": {

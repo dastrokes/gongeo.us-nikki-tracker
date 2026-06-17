@@ -131,6 +131,7 @@
       "wardrobe": "在本地记录你已拥有的无限暖暖服饰、套装、妆容和大喵斗篷，并分享收藏进度。",
       "import": "轻松导入您的无限暖暖共鸣抽卡记录，支持游戏数据、奇想手账和备份文件导入，并提供详细的操作指南。",
       "global": "探索无限暖暖社区抽卡数据，包括卡池受欢迎程度、平均概率、抽卡分布和部件掉落概率统计。",
+      "global_banner": "查看 {name} 共鸣卡池的社区抽卡统计，包含部件顺序与套装完成抽数分布。",
       "banner": "探索完整的无限暖暖共鸣卡池历史，包括当前、即将上线和过往卡池，限定与常驻活动、卡池套装、抽卡统计、卡池持续时间以及复刻记录。",
       "banner_detail": "查看 {name} 共鸣卡池的详细信息，包括抽卡统计、卡池套装、单个物品掉落概率、套装进化与焕新、卡池持续时间以及复刻状态。",
       "timeline": "探索无限暖暖共鸣卡池与版本更新的可视化卡池排期。",
@@ -707,6 +708,20 @@
       "recent_only": "近期",
       "all_time": "全部",
       "first_item_distribution_tooltip": "此卡池包含180天之前的抽卡记录，这些记录已无法在游戏中获取。因此，首件部件的分布数据可能不准确。"
+    },
+    "banner_stats": {
+      "title": "卡池统计",
+      "completion_rate": "完成率",
+      "completed_stylists": "完成搭配师",
+      "median_completion_pulls": "完成抽数中位数",
+      "overall_pull_distribution": "抽数分布",
+      "completion_pull_distribution": "套装完成抽数分布",
+      "fifth_item_distribution": "第 5 件部件分布",
+      "option_completed_set": "完成",
+      "option_first_item": "第 1 件",
+      "option_fifth_item": "第 5 件",
+      "load_failed": "无法加载卡池全局统计。",
+      "empty": "此卡池暂无社区统计数据。"
     }
   },
   "timeline": {

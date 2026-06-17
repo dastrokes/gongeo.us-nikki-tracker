@@ -198,221 +198,259 @@
                 :bordered="false"
                 class="rounded-lg px-2"
               >
-                <div class="space-y-2">
+                <div
+                  class="mb-2 flex items-center justify-center gap-2 text-base text-gray-500"
+                >
+                  <n-text class="font-medium text-gray-500">{{
+                    t('tracker.stats.title')
+                  }}</n-text>
+                </div>
+                <div class="space-y-3">
                   <div
-                    class="flex items-center justify-center gap-2 text-base text-gray-500"
-                  >
-                    <n-tooltip trigger="hover">
-                      <template #trigger>
-                        <n-button
-                          text
-                          size="tiny"
-                          @click="navigateTo(localePath('/tracker'))"
-                        >
-                          <template #icon>
-                            <n-icon :depth="3"><Book /></n-icon>
-                          </template>
-                        </n-button>
-                      </template>
-                      {{ $t('navigation.tracker') }}
-                    </n-tooltip>
-                    <n-text class="font-medium text-gray-500">{{
-                      t('tracker.stats.title')
-                    }}</n-text>
-
-                    <DiceAnimation
-                      v-if="
-                        bannerPulls &&
-                        (banner.bannerType === 1 || banner.bannerType === 2) &&
-                        bannerPulls.stats.avg5StarPulls > 0
-                      "
-                      :percentile="
-                        getBannerAvg5StarPercentile(
-                          bannerPulls.stats.avg5StarPulls
-                        )
-                      "
-                    />
-
-                    <DiceAnimation
-                      v-if="
-                        bannerPulls &&
-                        banner.bannerType === 3 &&
-                        bannerPulls.stats.avg4StarOnlyPulls > 0
-                      "
-                      :percentile="
-                        getBannerAvg4StarType3Percentile(
-                          bannerPulls.stats.avg4StarOnlyPulls
-                        )
-                      "
-                    />
-                  </div>
-                  <div
-                    v-if="loading"
-                    class="space-y-2 px-8 text-base"
+                    class="rounded-lg border border-gray-200/70 px-3 py-2 dark:border-gray-700/70"
                   >
                     <div
-                      v-for="i in banner.bannerType === 3 ? 4 : 6"
-                      :key="i"
-                      class="flex items-center justify-between"
+                      class="mb-2 flex items-center justify-between gap-2 text-gray-500"
                     >
-                      <n-skeleton
-                        text
-                        :width="100"
-                        :sharp="false"
-                        size="small"
-                      />
-                      <n-skeleton
-                        text
-                        :width="40"
-                        :sharp="false"
-                        size="small"
-                      />
-                    </div>
-                  </div>
-                  <div
-                    v-else-if="bannerPulls && bannerPulls.stats.totalPulls > 0"
-                    class="grid grid-cols-1 gap-2"
-                  >
-                    <div class="space-y-2 px-8 text-base">
-                      <div class="flex justify-between">
-                        <span class="text-sm">
-                          {{ t('common.stats.total_pulls') }}
-                        </span>
-                        <span class="font-medium">{{
-                          bannerPulls.stats.totalPulls
-                        }}</span>
+                      <div class="flex items-center gap-2 text-sm font-medium">
+                        <n-tooltip trigger="hover">
+                          <template #trigger>
+                            <n-button
+                              text
+                              size="tiny"
+                              @click="navigateTo(localePath('/tracker'))"
+                            >
+                              <template #icon>
+                                <n-icon :depth="3"><Book /></n-icon>
+                              </template>
+                            </n-button>
+                          </template>
+                          {{ $t('navigation.tracker') }}
+                        </n-tooltip>
+                        <span>{{ t('default.your_data') }}</span>
                       </div>
-                      <div
+
+                      <DiceAnimation
                         v-if="
-                          banner.bannerType === 1 || banner.bannerType === 2
-                        "
-                        class="flex justify-between"
-                      >
-                        <span class="text-sm">
-                          {{ t('tracker.banner.stats.total_5star') }}
-                        </span>
-                        <span class="font-medium text-amber-500">{{
-                          bannerPulls.stats.total5StarItems
-                        }}</span>
-                      </div>
-                      <div
-                        v-if="
-                          banner.bannerType === 1 || banner.bannerType === 2
-                        "
-                        class="flex justify-between"
-                      >
-                        <span class="text-sm">
-                          {{ t('tracker.banner.stats.avg_5star') }}
-                        </span>
-                        <span class="font-medium text-amber-500">{{
-                          bannerPulls.stats.avg5StarPulls.toFixed(2)
-                        }}</span>
-                      </div>
-                      <div
-                        v-if="
+                          bannerPulls &&
                           (banner.bannerType === 1 ||
                             banner.bannerType === 2) &&
-                          bannerPulls.stats.completion < 2
+                          bannerPulls.stats.avg5StarPulls > 0
                         "
-                        class="flex justify-between"
-                      >
-                        <span class="text-sm">
-                          {{ t('tracker.banner.stats.pity_5star') }}
-                        </span>
-                        <span class="font-medium">{{
-                          bannerPulls.stats.pity5Star
-                        }}</span>
-                      </div>
-                      <div
-                        v-if="
-                          banner.bannerType === 1 || banner.bannerType === 2
+                        :percentile="
+                          getBannerAvg5StarPercentile(
+                            bannerPulls.stats.avg5StarPulls
+                          )
                         "
-                        class="flex justify-between"
-                      >
-                        <span class="text-sm">
-                          {{ t('tracker.banner.stats.total_4star') }}
-                        </span>
-                        <span class="font-medium text-blue-500">{{
-                          bannerPulls.stats.total4StarItems
-                        }}</span>
-                      </div>
-                      <div
+                      />
+
+                      <DiceAnimation
                         v-if="
-                          banner.bannerType === 1 || banner.bannerType === 2
-                        "
-                        class="flex justify-between"
-                      >
-                        <span class="text-sm">
-                          {{ t('tracker.banner.stats.avg_4star') }}
-                        </span>
-                        <span class="font-medium text-blue-500">{{
-                          bannerPulls.stats.avg4StarPulls.toFixed(2)
-                        }}</span>
-                      </div>
-                      <div
-                        v-if="banner.bannerType === 3"
-                        class="flex justify-between"
-                      >
-                        <span class="text-sm">
-                          {{ t('tracker.banner.stats.total_4star') }}
-                        </span>
-                        <span class="font-medium text-blue-500">{{
-                          bannerPulls.stats.total4StarOnlyItems
-                        }}</span>
-                      </div>
-                      <div
-                        v-if="banner.bannerType === 3"
-                        class="flex justify-between"
-                      >
-                        <span class="text-sm">
-                          {{ t('tracker.banner.stats.avg_4star') }}
-                        </span>
-                        <span class="font-medium text-blue-500">{{
-                          bannerPulls.stats.avg4StarOnlyPulls.toFixed(2)
-                        }}</span>
-                      </div>
-                      <div
-                        v-if="
+                          bannerPulls &&
                           banner.bannerType === 3 &&
-                          bannerPulls.stats.completion < 2
+                          bannerPulls.stats.avg4StarOnlyPulls > 0
                         "
-                        class="flex justify-between"
+                        :percentile="
+                          getBannerAvg4StarType3Percentile(
+                            bannerPulls.stats.avg4StarOnlyPulls
+                          )
+                        "
+                      />
+                    </div>
+                    <div
+                      v-if="loading"
+                      class="space-y-2 text-base"
+                    >
+                      <div
+                        v-for="i in banner.bannerType === 3 ? 4 : 6"
+                        :key="i"
+                        class="flex items-center justify-between"
                       >
-                        <span class="text-sm">
-                          {{ t('tracker.banner.stats.pity_4star') }}
-                        </span>
-                        <span class="font-medium">{{
-                          bannerPulls.stats.pity4Star
-                        }}</span>
+                        <n-skeleton
+                          text
+                          :width="100"
+                          :sharp="false"
+                          size="small"
+                        />
+                        <n-skeleton
+                          text
+                          :width="40"
+                          :sharp="false"
+                          size="small"
+                        />
                       </div>
                     </div>
+                    <div
+                      v-else-if="
+                        bannerPulls && bannerPulls.stats.totalPulls > 0
+                      "
+                      class="grid grid-cols-1 gap-2"
+                    >
+                      <div class="space-y-2 text-base">
+                        <div class="flex justify-between">
+                          <span class="text-sm">
+                            {{ t('common.stats.total_pulls') }}
+                          </span>
+                          <span class="font-medium">{{
+                            bannerPulls.stats.totalPulls
+                          }}</span>
+                        </div>
+                        <div
+                          v-if="
+                            banner.bannerType === 1 || banner.bannerType === 2
+                          "
+                          class="flex justify-between"
+                        >
+                          <span class="text-sm">
+                            {{ t('tracker.banner.stats.total_5star') }}
+                          </span>
+                          <span class="font-medium text-amber-500">{{
+                            bannerPulls.stats.total5StarItems
+                          }}</span>
+                        </div>
+                        <div
+                          v-if="
+                            banner.bannerType === 1 || banner.bannerType === 2
+                          "
+                          class="flex justify-between"
+                        >
+                          <span class="text-sm">
+                            {{ t('tracker.banner.stats.avg_5star') }}
+                          </span>
+                          <span class="font-medium text-amber-500">{{
+                            bannerPulls.stats.avg5StarPulls.toFixed(2)
+                          }}</span>
+                        </div>
+                        <div
+                          v-if="
+                            (banner.bannerType === 1 ||
+                              banner.bannerType === 2) &&
+                            bannerPulls.stats.completion < 2
+                          "
+                          class="flex justify-between"
+                        >
+                          <span class="text-sm">
+                            {{ t('tracker.banner.stats.pity_5star') }}
+                          </span>
+                          <span class="font-medium">{{
+                            bannerPulls.stats.pity5Star
+                          }}</span>
+                        </div>
+                        <div
+                          v-if="
+                            banner.bannerType === 1 || banner.bannerType === 2
+                          "
+                          class="flex justify-between"
+                        >
+                          <span class="text-sm">
+                            {{ t('tracker.banner.stats.total_4star') }}
+                          </span>
+                          <span class="font-medium text-blue-500">{{
+                            bannerPulls.stats.total4StarItems
+                          }}</span>
+                        </div>
+                        <div
+                          v-if="
+                            banner.bannerType === 1 || banner.bannerType === 2
+                          "
+                          class="flex justify-between"
+                        >
+                          <span class="text-sm">
+                            {{ t('tracker.banner.stats.avg_4star') }}
+                          </span>
+                          <span class="font-medium text-blue-500">{{
+                            bannerPulls.stats.avg4StarPulls.toFixed(2)
+                          }}</span>
+                        </div>
+                        <div
+                          v-if="banner.bannerType === 3"
+                          class="flex justify-between"
+                        >
+                          <span class="text-sm">
+                            {{ t('tracker.banner.stats.total_4star') }}
+                          </span>
+                          <span class="font-medium text-blue-500">{{
+                            bannerPulls.stats.total4StarOnlyItems
+                          }}</span>
+                        </div>
+                        <div
+                          v-if="banner.bannerType === 3"
+                          class="flex justify-between"
+                        >
+                          <span class="text-sm">
+                            {{ t('tracker.banner.stats.avg_4star') }}
+                          </span>
+                          <span class="font-medium text-blue-500">{{
+                            bannerPulls.stats.avg4StarOnlyPulls.toFixed(2)
+                          }}</span>
+                        </div>
+                        <div
+                          v-if="
+                            banner.bannerType === 3 &&
+                            bannerPulls.stats.completion < 2
+                          "
+                          class="flex justify-between"
+                        >
+                          <span class="text-sm">
+                            {{ t('tracker.banner.stats.pity_4star') }}
+                          </span>
+                          <span class="font-medium">{{
+                            bannerPulls.stats.pity4Star
+                          }}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      v-else
+                      class="text-center text-gray-400"
+                    >
+                      <span class="inline-flex items-center gap-1">
+                        {{ t('tracker.stats.no_pulls') }}
+                        <n-tooltip trigger="hover">
+                          <template #trigger>
+                            <n-button
+                              text
+                              size="small"
+                              @click="navigateTo(localePath('/import'))"
+                            >
+                              <template #icon>
+                                <n-icon
+                                  size="16"
+                                  :depth="3"
+                                  ><FileImport
+                                /></n-icon>
+                              </template>
+                            </n-button>
+                          </template>
+                          {{ $t('navigation.import') }}
+                        </n-tooltip>
+                      </span>
+                    </div>
                   </div>
-                  <div
-                    v-else
-                    class="text-center text-gray-400"
+
+                  <button
+                    v-if="bannerStatsPath"
+                    type="button"
+                    class="w-full cursor-pointer rounded-lg border border-gray-200/70 px-3 py-2 text-left transition-colors hover:border-pink-200 hover:bg-pink-50/40 focus-visible:ring-2 focus-visible:ring-pink-300/60 focus-visible:outline-none dark:border-gray-700/70 dark:hover:border-pink-900/50 dark:hover:bg-pink-950/10"
+                    @click="navigateTo(bannerStatsPath)"
                   >
-                    <span class="inline-flex items-center gap-1">
-                      {{ t('tracker.stats.no_pulls') }}
-                      <n-tooltip trigger="hover">
-                        <template #trigger>
-                          <n-button
-                            text
-                            size="small"
-                            @click="navigateTo(localePath('/import'))"
-                          >
-                            <template #icon>
-                              <n-icon
-                                size="16"
-                                :depth="3"
-                                ><FileImport
-                              /></n-icon>
-                            </template>
-                          </n-button>
-                        </template>
-                        {{ $t('navigation.import') }}
-                      </n-tooltip>
-                    </span>
-                  </div>
+                    <div
+                      class="flex w-full items-center justify-between gap-3 text-sm font-medium text-gray-500 transition-colors"
+                    >
+                      <span class="flex min-w-0 items-center gap-2">
+                        <n-icon :depth="3"><ChartLine /></n-icon>
+                        <span class="truncate">{{
+                          t('navigation.global')
+                        }}</span>
+                      </span>
+                      <n-icon
+                        :depth="3"
+                        class="shrink-0"
+                      >
+                        <ChevronRight />
+                      </n-icon>
+                    </div>
+                  </button>
                 </div>
               </div>
             </div>
@@ -613,6 +651,7 @@
     CalendarDay,
     ChevronLeft,
     ChevronRight,
+    ChartLine,
   } from '@vicons/fa'
   import { BANNER_DATA } from '~~/data/banners'
 
@@ -654,6 +693,13 @@
   const bannerName = computed(() => {
     if (!banner.value) return ''
     return t(`banner.${bannerId.value}.name`)
+  })
+  const bannerStatsPath = computed(() => {
+    if (!banner.value || banner.value.bannerType === 1) return ''
+
+    return localePath(
+      `/global/${getEntitySlug('banner', banner.value.bannerId)}`
+    )
   })
   const bannerSeoName = computed(
     () => bannerName.value || t('navigation.banner_detail')

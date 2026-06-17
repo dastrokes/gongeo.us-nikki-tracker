@@ -113,7 +113,7 @@
                           ? 'text-rose-500 dark:text-rose-400'
                           : 'text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white'
                       "
-                      @click="handleMenuSelect(item.key)"
+                      @click="handleMenuSelect(item)"
                     >
                       <n-icon
                         size="16"
@@ -545,7 +545,7 @@
                           ? 'text-rose-500 dark:text-rose-400'
                           : 'text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white'
                       "
-                      @click="handleMenuSelect(item.key)"
+                      @click="handleMenuSelect(item)"
                     >
                       <n-icon
                         size="18"
@@ -601,6 +601,7 @@
     ListAlt,
     SortAmountDown,
     ChartBar,
+    ChartLine,
     CaretDown,
     Search,
     CommentDots,
@@ -609,12 +610,14 @@
     PaintBrush,
     Paw,
   } from '@vicons/fa'
+  import { LATEST_BANNER_ID } from '~~/data/config'
 
   type NavigationItem = {
     key: string
     label: string
     icon?: Component
     svgIcon?: 'wardrobe'
+    to?: string
   }
 
   type NavigationGroup = {
@@ -630,6 +633,9 @@
   const nuxtApp = useNuxtApp()
   const loading = useState<boolean>('loading', () => false)
   const isDesktop = useMediaQuery('(min-width: 1024px)')
+  const latestBannerStatsPath = computed(
+    () => `/global/${getEntitySlug('banner', LATEST_BANNER_ID)}`
+  )
 
   nuxtApp.hook('page:start', () => {
     loading.value = true
@@ -667,6 +673,12 @@
       items: [
         { key: 'banners', label: t('navigation.banner'), icon: CalendarAlt },
         { key: 'timeline', label: t('navigation.timeline'), icon: AlignRight },
+        {
+          key: 'banner-stats',
+          label: t('global.banner_stats.title'),
+          icon: ChartLine,
+          to: latestBannerStatsPath.value,
+        },
       ],
     },
     {
@@ -795,6 +807,18 @@
 
     return mainSegment || ''
   })
+  const activeRouteSubSegment = computed(() => {
+    const pathSegments = route.path.split('/').filter(Boolean)
+    const firstSegment = pathSegments[0] || ''
+    const isLocalePrefix = routeLocaleCodes.value.includes(firstSegment)
+
+    return isLocalePrefix ? pathSegments[2] : pathSegments[1]
+  })
+  const isBannerStatsRoute = computed(
+    () =>
+      activeRouteSegment.value === 'global' &&
+      Boolean(activeRouteSubSegment.value)
+  )
 
   const navItemGroupMap = computed<Record<string, string>>(() => {
     const map = Object.fromEntries(
@@ -805,6 +829,7 @@
 
     return {
       ...map,
+      global: isBannerStatsRoute.value ? 'banner' : 'data',
       vote: 'community',
       ranking: 'community',
     }
@@ -860,7 +885,11 @@
       : undefined
   })
 
-  const isNavItemActive = (key: string) => activeRouteSegment.value === key
+  const isNavItemActive = (key: string) =>
+    key === 'banner-stats'
+      ? isBannerStatsRoute.value
+      : activeRouteSegment.value === key &&
+        !(key === 'global' && isBannerStatsRoute.value)
   const isNavGroupActive = (groupKey: string) =>
     activeNavGroupKey.value === groupKey
 
@@ -912,9 +941,9 @@
     resetDesktopMenu()
   }
 
-  const handleMenuSelect = async (key: string) => {
+  const handleMenuSelect = async (item: NavigationItem) => {
     closeAllMenus()
-    await navigateTo(localePath(`/${key}`))
+    await navigateTo(localePath(item.to ?? `/${item.key}`))
   }
 
   const scrollToTop = () => {

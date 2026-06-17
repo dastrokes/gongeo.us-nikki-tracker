@@ -131,7 +131,7 @@
       "wardrobe": "インフィニティニキの所持アイテム、コーデ、メイク、モモのマントをローカルで記録し、コレクションの進捗を共有できます。",
       "import": "詳細なガイドに沿って、ゲームデータ、奇想の手帳、またはバックアップファイルからインフィニティニキの共鳴履歴を簡単にインポートできます。",
       "global": "バナーの人気度、共鳴確率、アイテムのドロップ率、コミュニティ統計など、インフィニティニキの共鳴データを確認できます。",
-      "global_banner": "Explore community pull statistics for the {name} resonance banner, including item order and completion pull distributions.",
+      "global_banner": "{name} 共鳴バナーのコミュニティ統計を確認できます。アイテム順序やセット完成までのプル分布を含みます。",
       "banner": "現在・今後・過去のイベントを含むインフィニティニキの共鳴バナー履歴を確認できます。注目衣装、排出率、開催期間、復刻情報も掲載しています。",
       "banner_detail": "注目衣装、アイテム排出率、統計、開催期間、進化情報、復刻状況など、{name} 共鳴バナーの詳細を表示します。",
       "timeline": "インフィニティニキの共鳴バナー、メジャーアップデート、開催期間、復刻をまとめたタイムラインで、イベントの流れを一目で確認できます。",
@@ -710,18 +710,18 @@
       "first_item_distribution_tooltip": "このバナーには、ゲーム内で利用できなくなった 180 日より古いプルが含まれています。その結果、最初のアイテム分布データは不正確になる可能性があります。"
     },
     "banner_stats": {
-      "title": "Banner Stats",
-      "completion_rate": "Completion Rate",
-      "completed_stylists": "Completed Stylists",
-      "median_completion_pulls": "Median Completion",
-      "overall_pull_distribution": "Pull Distribution",
-      "completion_pull_distribution": "Completed Set Pull Distribution",
-      "fifth_item_distribution": "5th Item Distribution",
-      "option_completed_set": "Complete",
-      "option_first_item": "1st",
-      "option_fifth_item": "5th",
-      "load_failed": "Failed to load banner global stats.",
-      "empty": "No community stats are available for this banner yet."
+      "title": "バナー統計",
+      "completion_rate": "完成率",
+      "completed_stylists": "完成したスタイリスト",
+      "median_completion_pulls": "完成プル中央値",
+      "overall_pull_distribution": "プル分布",
+      "completion_pull_distribution": "セット完成プル分布",
+      "fifth_item_distribution": "5個目アイテム分布",
+      "option_completed_set": "完成",
+      "option_first_item": "1個目",
+      "option_fifth_item": "5個目",
+      "load_failed": "バナーのグローバル統計を読み込めませんでした。",
+      "empty": "このバナーのコミュニティ統計はまだありません。"
     }
   },
   "timeline": {

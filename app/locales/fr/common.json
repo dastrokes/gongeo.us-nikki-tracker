@@ -131,7 +131,7 @@
       "wardrobe": "Suivez localement vos objets, tenues, maquillages et capes de Momo Infinity Nikki, puis partagez la progression de votre collection.",
       "import": "Importez facilement votre historique d'extraction de résonance Infinity Nikki à partir du jeu, des données Whim-Log ou des fichiers de sauvegarde avec des guides détaillés étape par étape.",
       "global": "Explorez les données mondiales de résonance Infinity Nikki, notamment la popularité des bannières, les taux d'extraction, les taux d'abandon d'articles et les statistiques d'attraction de la communauté.",
-      "global_banner": "Explore community pull statistics for the {name} resonance banner, including item order and completion pull distributions.",
+      "global_banner": "Explorez les statistiques communautaires de tirages pour la bannière de résonance {name}, y compris l'ordre des articles et les distributions de tirages de complétion.",
       "banner": "Explorez l'historique des bannières de résonance Infinity Nikki avec les événements actuels, à venir et passés, les tenues en vedette, les taux de tirage, les durées et les détails des rediffusions.",
       "banner_detail": "Consultez les détails de la bannière de résonance {name}, y compris les tenues en vedette, les taux d'obtention des objets, les statistiques d'extraction, la durée, les informations d'évolution et le statut de réexécution.",
       "timeline": "Explorez une chronologie interactive des bannières de résonance Infinity Nikki, des mises à jour majeures, des périodes de sortie et des rediffusions pour suivre l'historique des événements en un coup d'œil.",
@@ -710,18 +710,18 @@
       "first_item_distribution_tooltip": "Cette bannière inclut des tirages datant de plus de 180 jours, qui ne sont plus disponibles dans le jeu. En conséquence, les premières données de distribution d'articles peuvent être inexactes."
     },
     "banner_stats": {
-      "title": "Banner Stats",
-      "completion_rate": "Completion Rate",
-      "completed_stylists": "Completed Stylists",
-      "median_completion_pulls": "Median Completion",
-      "overall_pull_distribution": "Pull Distribution",
-      "completion_pull_distribution": "Completed Set Pull Distribution",
-      "fifth_item_distribution": "5th Item Distribution",
-      "option_completed_set": "Complete",
-      "option_first_item": "1st",
-      "option_fifth_item": "5th",
-      "load_failed": "Failed to load banner global stats.",
-      "empty": "No community stats are available for this banner yet."
+      "title": "Stats de bannière",
+      "completion_rate": "Taux de complétion",
+      "completed_stylists": "Stylistes ayant complété",
+      "median_completion_pulls": "Médiane de complétion",
+      "overall_pull_distribution": "Distribution des tirages",
+      "completion_pull_distribution": "Distribution des tirages de complétion",
+      "fifth_item_distribution": "Distribution du 5e article",
+      "option_completed_set": "Complété",
+      "option_first_item": "1er",
+      "option_fifth_item": "5e",
+      "load_failed": "Impossible de charger les stats globales de la bannière.",
+      "empty": "Aucune statistique communautaire n'est encore disponible pour cette bannière."
     }
   },
   "timeline": {

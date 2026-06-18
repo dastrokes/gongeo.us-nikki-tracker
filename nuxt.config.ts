@@ -115,7 +115,6 @@ export default defineNuxtConfig({
     experimental: {
       httpCacheDuration: 86400,
       compactRoutes: true,
-      preload: true,
     },
   },
 

@@ -1,9 +1,6 @@
--- Per-banner global detail stats.
+-- Per-banner global stats.
 
-alter table public.user_global_stats
-  add column if not exists detail_payload jsonb;
-
-create table if not exists public.global_banner_scope_config (
+create table if not exists public.global_banner_config (
   banner_id integer not null,
   banner_type smallint not null check (banner_type in (1, 2, 3)),
   quality smallint not null check (quality in (4, 5)),
@@ -14,10 +11,137 @@ create table if not exists public.global_banner_scope_config (
 
 select pg_notify('pgrst', 'reload schema');
 
-create index if not exists idx_global_banner_scope_config_banner_id
-  on public.global_banner_scope_config (banner_id);
+create index if not exists idx_global_banner_config_banner_id
+  on public.global_banner_config (banner_id);
 
-create or replace function public.generate_global_banner_detail_json_for_banner(
+create or replace function public.generate_global_core_json()
+returns jsonb
+language sql
+stable
+as $$
+with banner_rows as (
+  select
+    uid,
+    region,
+    banner_id,
+    banner_type,
+    total_pulls,
+    total_4star_items,
+    total_5star_items,
+    pulls_4star,
+    pulls_5star
+  from public.user_banner_stats_view
+  where total_pulls > 0
+),
+core_totals as (
+  select
+    count(distinct (uid, region))::integer as users,
+    coalesce(sum(total_pulls), 0)::integer as pulls
+  from banner_rows
+),
+pulls_per_banner as (
+  select
+    coalesce(
+      jsonb_object_agg(
+        banner_id::text,
+        jsonb_build_array(three_star_items, four_star_items, five_star_items)
+        order by banner_id
+      ),
+      '{}'::jsonb
+    ) as payload
+  from (
+    select
+      banner_id,
+      greatest(
+        coalesce(sum(total_pulls), 0)
+          - coalesce(sum(total_4star_items), 0)
+          - coalesce(sum(total_5star_items), 0),
+        0
+      )::integer as three_star_items,
+      coalesce(sum(total_4star_items), 0)::integer as four_star_items,
+      coalesce(sum(total_5star_items), 0)::integer as five_star_items
+    from banner_rows
+    group by banner_id
+  ) grouped
+),
+five_star_distribution as (
+  select
+    coalesce(
+      jsonb_object_agg(pulls_to_obtain::text, users order by pulls_to_obtain),
+      '{}'::jsonb
+    ) as payload
+  from (
+    select
+      (pull ->> 'pulls_to_obtain')::integer as pulls_to_obtain,
+      count(*)::integer as users
+    from banner_rows
+    cross join lateral jsonb_array_elements(
+      case
+        when jsonb_typeof(pulls_5star) = 'array' then pulls_5star
+        else '[]'::jsonb
+      end
+    ) as pull
+    where banner_type <> 1
+      and pull ->> 'pulls_to_obtain' is not null
+    group by pulls_to_obtain
+  ) grouped
+),
+four_star_type2_distribution as (
+  select
+    coalesce(
+      jsonb_object_agg(pulls_to_obtain::text, users order by pulls_to_obtain),
+      '{}'::jsonb
+    ) as payload
+  from (
+    select
+      (pull ->> 'pulls_to_obtain')::integer as pulls_to_obtain,
+      count(*)::integer as users
+    from banner_rows
+    cross join lateral jsonb_array_elements(
+      case
+        when jsonb_typeof(pulls_4star) = 'array' then pulls_4star
+        else '[]'::jsonb
+      end
+    ) as pull
+    where banner_type = 2
+      and pull ->> 'pulls_to_obtain' is not null
+    group by pulls_to_obtain
+  ) grouped
+),
+four_star_type3_distribution as (
+  select
+    coalesce(
+      jsonb_object_agg(pulls_to_obtain::text, users order by pulls_to_obtain),
+      '{}'::jsonb
+    ) as payload
+  from (
+    select
+      (pull ->> 'pulls_to_obtain')::integer as pulls_to_obtain,
+      count(*)::integer as users
+    from banner_rows
+    cross join lateral jsonb_array_elements(
+      case
+        when jsonb_typeof(pulls_4star) = 'array' then pulls_4star
+        else '[]'::jsonb
+      end
+    ) as pull
+    where banner_type = 3
+      and pull ->> 'pulls_to_obtain' is not null
+    group by pulls_to_obtain
+  ) grouped
+)
+select jsonb_build_object(
+  'date', now(),
+  'pulls', (select pulls from core_totals),
+  'users', (select users from core_totals),
+  'pullsPerBanner', (select payload from pulls_per_banner),
+  'fiveStarDistribution', (select payload from five_star_distribution),
+  'fourStarType2Distribution', (select payload from four_star_type2_distribution),
+  'fourStarType3Distribution', (select payload from four_star_type3_distribution)
+);
+$$;
+
+create or replace function public.generate_global_banner_json_for_banner(
   p_banner_id integer
 )
 returns jsonb
@@ -32,7 +156,7 @@ with scope_config as (
     outfit_id,
     item_count,
     concat(quality::text, ':', outfit_id) as scope_key
-  from public.global_banner_scope_config
+  from public.global_banner_config
   where banner_id = p_banner_id
     and banner_type <> 1
 ),
@@ -232,37 +356,66 @@ select jsonb_build_object(
 );
 $$;
 
-create or replace function public.refresh_global_banner_detail_stats(
+create or replace function public.refresh_global_banner_stats(
   p_banner_id integer
 )
 returns void
 language sql
 as $$
-insert into public.user_global_stats (banner_id, payload, detail_payload)
+insert into public.user_global_stats (banner_id, payload)
 values (
   p_banner_id,
-  '{}'::jsonb,
-  public.generate_global_banner_detail_json_for_banner(p_banner_id)
+  case
+    when exists (
+      select 1
+      from public.global_banner_config
+      where banner_id = p_banner_id
+        and banner_type <> 1
+    )
+      then public.generate_global_banner_json_for_banner(p_banner_id)
+    else '{}'::jsonb
+  end
 )
 on conflict (banner_id)
 do update set
-  detail_payload = excluded.detail_payload;
+  payload = excluded.payload,
+  updated_at = now();
 $$;
 
-create or replace function public.refresh_global_banner_detail_stats_all()
+create or replace function public.refresh_global_core_stats()
+returns void
+language sql
+as $$
+insert into public.user_global_stats (banner_id, payload)
+values (0, public.generate_global_core_json())
+on conflict (banner_id)
+do update set
+  payload = excluded.payload,
+  updated_at = now();
+$$;
+
+create or replace function public.refresh_global_banner_stats_all()
 returns void
 language plpgsql
 as $$
 declare
   current_banner_id integer;
 begin
+  perform public.refresh_global_core_stats();
+
   for current_banner_id in
     select distinct banner_id
-    from public.global_banner_scope_config
+    from public.global_banner_config
     where banner_type <> 1
     order by banner_id
   loop
-    perform public.refresh_global_banner_detail_stats(current_banner_id);
+    perform public.refresh_global_banner_stats(current_banner_id);
   end loop;
 end;
 $$;
+
+alter table public.user_global_stats
+  drop column if exists detail_payload;
+
+drop function if exists public.refresh_global_banner_detail_stats(integer);
+drop function if exists public.refresh_global_banner_detail_stats_all();

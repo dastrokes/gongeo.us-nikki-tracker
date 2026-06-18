@@ -763,7 +763,7 @@
   ) => {
     if (!payload) return
     firstItemDataByBanner.value[payload.bannerId ?? latestBannerId] =
-      payload.f ?? {}
+      payload.firstItemDistribution ?? {}
   }
 
   const setDefaultSelectedOutfit = () => {
@@ -909,7 +909,7 @@
   })
 
   async function fetchBannerFirstItemData(bannerId: number) {
-    return $fetch<GlobalBannerPayload>(`/api/global/${bannerId}`, {
+    return $fetch<GlobalBootstrapData>(`/api/global/${bannerId}`, {
       headers: gameVersionHeaders,
     })
   }
@@ -923,14 +923,14 @@
     }
 
     if (bannerId === bootstrapFirstItemBannerId.value && data.value) {
-      const distribution = data.value.f ?? {}
+      const distribution = data.value.firstItemDistribution ?? {}
       firstItemDataByBanner.value[bannerId] = distribution
       return distribution
     }
 
     try {
       const bannerData = await fetchBannerFirstItemData(bannerId)
-      const distribution = bannerData?.f ?? {}
+      const distribution = bannerData?.firstItemDistribution ?? {}
       firstItemDataByBanner.value[bannerId] = distribution
       return distribution
     } catch (error) {
@@ -1412,7 +1412,7 @@
   }
 
   const createFirstItemDistributionChart = (
-    chartData: Record<string, { o: number; i: string }[]>
+    chartData: FirstItemDistribution
   ) => {
     const parsed = getSelectedOutfitDetails()
     if (!chartData || !parsed) {
@@ -1439,29 +1439,27 @@
       outfitId && hasOutfit(outfitId) ? OUTFIT_DATA[outfitId].items : []
 
     const bannerItemsMap = new Map(
-      bannerItems.map((item: { o: number; i: string }) => [item.i, item])
+      bannerItems.map((item) => [item.itemId, item])
     )
     const outfitItemsSet = new Set(outfitItems)
 
     const completeBannerItems = outfitItems.length
       ? [
           ...outfitItems.map((itemId) => ({
-            o: bannerItemsMap.get(itemId)?.o ?? 0,
-            i: itemId,
+            users: bannerItemsMap.get(itemId)?.users ?? 0,
+            itemId,
           })),
-          ...bannerItems.filter((item) => !outfitItemsSet.has(item.i)),
+          ...bannerItems.filter((item) => !outfitItemsSet.has(item.itemId)),
         ]
       : [...bannerItems]
-    completeBannerItems.sort((a, b) => b.o - a.o)
+    completeBannerItems.sort((a, b) => b.users - a.users)
 
     // Calculate total for percentage
     const totalOccurrences = completeBannerItems.reduce(
-      (sum: number, item: { o: number }) => sum + item.o,
+      (sum, item) => sum + item.users,
       0
     )
-    const occurrenceValues = completeBannerItems.map(
-      (item: { o: number }) => item.o
-    )
+    const occurrenceValues = completeBannerItems.map((item) => item.users)
     const minOccurrence = Math.min(...occurrenceValues)
     const maxOccurrence = Math.max(...occurrenceValues)
     const colorShades = isDark.value
@@ -1476,21 +1474,19 @@
       return `${colorShades[index]}80`
     }
 
-    const dataArr = completeBannerItems.map(
-      (item: { o: number; i: string }) => ({
-        value: item.o,
-        percentage:
-          totalOccurrences > 0
-            ? ((item.o / totalOccurrences) * 100).toFixed(2)
-            : '0.00',
-        itemId: item.i,
-        itemStyle: {
-          color: pickColor(item.o),
-        },
-      })
-    )
+    const dataArr = completeBannerItems.map((item) => ({
+      value: item.users,
+      percentage:
+        totalOccurrences > 0
+          ? ((item.users / totalOccurrences) * 100).toFixed(2)
+          : '0.00',
+      itemId: item.itemId,
+      itemStyle: {
+        color: pickColor(item.users),
+      },
+    }))
     // Prepare itemId to item mapping for labels
-    const itemsData = completeBannerItems.map((item: { i: string }) => item.i)
+    const itemsData = completeBannerItems.map((item) => item.itemId)
     const richLabels: Record<
       string,
       {

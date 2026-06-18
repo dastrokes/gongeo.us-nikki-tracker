@@ -125,50 +125,21 @@ const toBannerScopes = (value: unknown): Record<string, BannerScopePayload> => {
 const toCorePayload = (value: unknown): GlobalCorePayload => {
   if (!isRecord(value)) return {}
   return {
-    date:
-      typeof value.date === 'string'
-        ? value.date
-        : typeof value.dataAsOf === 'string'
-          ? value.dataAsOf
-          : typeof value.d === 'string'
-            ? value.d
-            : undefined,
-    pulls:
-      typeof value.pulls === 'number'
-        ? value.pulls
-        : typeof value.totalPulls === 'number'
-          ? value.totalPulls
-          : typeof value.t === 'number'
-            ? value.t
-            : 0,
-    users:
-      typeof value.users === 'number'
-        ? value.users
-        : typeof value.uniqueUsers === 'number'
-          ? value.uniqueUsers
-          : typeof value.u === 'number'
-            ? value.u
-            : 0,
+    date: typeof value.date === 'string' ? value.date : undefined,
+    pulls: typeof value.pulls === 'number' ? value.pulls : 0,
+    users: typeof value.users === 'number' ? value.users : 0,
     pullsPerBanner: isRecord(value.pullsPerBanner)
       ? (value.pullsPerBanner as Record<string, [number, number, number]>)
-      : isRecord(value.p)
-        ? (value.p as Record<string, [number, number, number]>)
-        : {},
+      : {},
     fiveStarDistribution: isRecord(value.fiveStarDistribution)
       ? (value.fiveStarDistribution as Record<string, number>)
-      : isRecord(value.f5)
-        ? (value.f5 as Record<string, number>)
-        : {},
+      : {},
     fourStarType2Distribution: isRecord(value.fourStarType2Distribution)
       ? (value.fourStarType2Distribution as Record<string, number>)
-      : isRecord(value.f4_2)
-        ? (value.f4_2 as Record<string, number>)
-        : {},
+      : {},
     fourStarType3Distribution: isRecord(value.fourStarType3Distribution)
       ? (value.fourStarType3Distribution as Record<string, number>)
-      : isRecord(value.f4_3)
-        ? (value.f4_3 as Record<string, number>)
-        : {},
+      : {},
   }
 }
 
@@ -187,20 +158,8 @@ const toBannerPayload = (
   }
 
   return {
-    date:
-      typeof value.date === 'string'
-        ? value.date
-        : typeof value.dataAsOf === 'string'
-          ? value.dataAsOf
-          : typeof value.d === 'string'
-            ? value.d
-            : undefined,
-    bannerId:
-      typeof value.bannerId === 'number'
-        ? value.bannerId
-        : typeof value.banner_id === 'number'
-          ? value.banner_id
-          : bannerId,
+    date: typeof value.date === 'string' ? value.date : undefined,
+    bannerId: typeof value.bannerId === 'number' ? value.bannerId : bannerId,
     bannerType:
       value.bannerType === 1 || value.bannerType === 2 || value.bannerType === 3
         ? value.bannerType
@@ -218,11 +177,25 @@ const toBannerPayload = (
   }
 }
 
-const toStoredFirstItemDistribution = (
-  value: unknown
+const toFirstItemDistribution = (
+  payload: GlobalBannerPayload
 ): FirstItemDistribution => {
-  if (!isRecord(value) || !isRecord(value.f)) return {}
-  return value.f as FirstItemDistribution
+  return Object.values(payload.scopes).reduce<FirstItemDistribution>(
+    (result, scope) => {
+      const dataKey =
+        payload.bannerType === 2 && scope.quality === 4
+          ? `${payload.bannerId}_4`
+          : payload.bannerId.toString()
+
+      result[dataKey] ??= scope.firstItemDistribution.map((item) => ({
+        users: item.users,
+        itemId: item.itemId,
+      }))
+
+      return result
+    },
+    {}
+  )
 }
 
 const fetchCoreStatsRow = async (
@@ -258,19 +231,19 @@ const fetchBannerStatsRow = async (
   const { data, error } = await withSupabaseRetry(() =>
     supabase
       .from('user_global_stats')
-      .select('banner_id,payload,detail_payload,updated_at')
+      .select('banner_id,payload,updated_at')
       .eq('banner_id', bannerId)
       .maybeSingle()
   )
 
   if (error) throw error
   if (!isRecord(data)) return null
-  const payload = toBannerPayload(data.detail_payload, bannerId)
+  const payload = toBannerPayload(data.payload, bannerId)
 
   return {
     banner_id: typeof data.banner_id === 'number' ? data.banner_id : bannerId,
     payload,
-    firstItemDistribution: toStoredFirstItemDistribution(data.payload),
+    firstItemDistribution: toFirstItemDistribution(payload),
     updated_at: typeof data.updated_at === 'string' ? data.updated_at : '',
   }
 }

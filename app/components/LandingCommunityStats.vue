@@ -208,7 +208,7 @@
     () => {
       const banner = communityFirstItemBanner.value
       const selectedOutfit = communitySelectedOutfit.value
-      const distribution = globalStats.value?.f
+      const distribution = globalStats.value?.firstItemDistribution
 
       if (!banner || !selectedOutfit || !distribution) return []
 
@@ -221,20 +221,22 @@
       if (!bannerItems || bannerItems.length === 0) return []
 
       const outfitItems = OUTFIT_DATA[selectedOutfit.outfitId].items
-      const bannerItemsMap = new Map(bannerItems.map((item) => [item.i, item]))
+      const bannerItemsMap = new Map(
+        bannerItems.map((item) => [item.itemId, item])
+      )
       const outfitItemsSet = new Set(outfitItems)
 
       const completeBannerItems = outfitItems.length
         ? [
             ...outfitItems.map((itemId) => ({
-              o: bannerItemsMap.get(itemId)?.o ?? 0,
-              i: itemId,
+              users: bannerItemsMap.get(itemId)?.users ?? 0,
+              itemId,
             })),
-            ...bannerItems.filter((item) => !outfitItemsSet.has(item.i)),
+            ...bannerItems.filter((item) => !outfitItemsSet.has(item.itemId)),
           ]
         : [...bannerItems]
 
-      completeBannerItems.sort((a, b) => b.o - a.o)
+      completeBannerItems.sort((a, b) => b.users - a.users)
       return completeBannerItems
     }
   )
@@ -264,10 +266,13 @@
     const textStyle = getChartTextStyle()
     const imageSize = communityFirstItemImageSize.value
     const imageRequestSize = communityFirstItemImageRequestSize.value
-    const occurrenceValues = chartItems.map((item) => item.o)
+    const occurrenceValues = chartItems.map((item) => item.users)
     const minOccurrence = Math.min(...occurrenceValues)
     const maxOccurrence = Math.max(...occurrenceValues)
-    const totalOccurrences = chartItems.reduce((sum, item) => sum + item.o, 0)
+    const totalOccurrences = chartItems.reduce(
+      (sum, item) => sum + item.users,
+      0
+    )
     const colorShades = isDark.value
       ? ['#6366F1', '#818CF8', '#A5B4FC']
       : ['#4338CA', '#4F46E5', '#8B5CF6']
@@ -281,17 +286,17 @@
     }
 
     const dataArr = chartItems.map((item) => ({
-      value: item.o,
+      value: item.users,
       percentage:
         totalOccurrences > 0
-          ? ((item.o / totalOccurrences) * 100).toFixed(2)
+          ? ((item.users / totalOccurrences) * 100).toFixed(2)
           : '0.00',
-      itemId: item.i,
+      itemId: item.itemId,
       itemStyle: {
-        color: pickColor(item.o),
+        color: pickColor(item.users),
       },
     }))
-    const itemsData = chartItems.map((item) => item.i)
+    const itemsData = chartItems.map((item) => item.itemId)
     const richLabels: Record<
       string,
       {

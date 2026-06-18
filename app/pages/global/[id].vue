@@ -413,6 +413,9 @@
   const palette = usePalette()
   const themeVars = useThemeVars()
   const breakpoints = useBreakpoints(breakpointsTailwind)
+  const pullStore = usePullStore()
+  const { processedPulls } = storeToRefs(pullStore)
+  const { initFromIndexedDB } = usePullStoreData()
 
   const routeParam = computed(() =>
     Array.isArray(route.params.id) ? route.params.id[0] : route.params.id
@@ -474,6 +477,7 @@
   const selectedPullDistributionValue = ref('')
   const selectedItemDistributionValue = ref('')
   const maximizedChart = ref<ChartId | null>(null)
+  const userMarkerColor = '#F43F5E'
 
   const {
     data: bannerPayload,
@@ -926,11 +930,39 @@
       ? selectedScopeStats.value?.completionRate
       : undefined
   )
+  const userBannerPulls = computed(() => processedPulls.value[bannerId.value])
+  const userPullMarkerValue = computed(() => {
+    const selectedOption = selectedPullDistributionOption.value
+    const currentPulls = userBannerPulls.value
+    if (!selectedOption || !currentPulls?.stats.totalPulls) return null
+
+    if (selectedOption.type === 'overall') return currentPulls.stats.totalPulls
+
+    const scopeStats = selectedOption.scopeKey
+      ? statsData.value?.scopes[selectedOption.scopeKey]
+      : undefined
+    if (!scopeStats) return null
+
+    return (
+      currentPulls.pulls
+        .filter(
+          (pull) =>
+            pull.count > 0 &&
+            pull.quality === scopeStats.quality &&
+            pull.outfitId === scopeStats.outfitId &&
+            pull.pullIndex > 0
+        )
+        .sort((left, right) => left.pullIndex - right.pullIndex)[
+        scopeStats.itemCount - 1
+      ]?.pullIndex ?? currentPulls.stats.totalPulls
+    )
+  })
 
   const createHistogramChartOption = (
     histogram: GlobalBannerHistogram | undefined,
     title: string,
-    color: string
+    color: string,
+    userPullValue?: number | null
   ) => {
     const entries = Object.entries(histogram ?? {})
       .map(([key, count]) => [Number.parseInt(key, 10), count] as const)
@@ -939,10 +971,14 @@
 
     if (entries.length === 0) return {}
 
-    const labels = entries.map(([key]) => key.toString())
-    const values = entries.map(([, count]) => count)
-    const total = values.reduce((sum, value) => sum + value, 0)
+    const total = entries.reduce((sum, [, count]) => sum + count, 0)
+    const minPull = Math.max(0, entries[0][0])
+    const maxPull = Math.max(minPull + 1, entries.at(-1)![0])
     const textStyle = getChartTextStyle()
+    const hasUserMarker =
+      typeof userPullValue === 'number' &&
+      Number.isFinite(userPullValue) &&
+      userPullValue > 0
 
     return {
       textStyle,
@@ -960,17 +996,23 @@
         trigger: 'axis',
         confine: true,
         formatter: (
-          params: { axisValue: string; value: number; dataIndex: number }[]
+          params: {
+            axisValue: string | number
+            value: number | [number, number]
+          }[]
         ) => {
           const barData = params[0]
           if (!barData) return ''
+          const [pulls, count] = Array.isArray(barData.value)
+            ? barData.value
+            : [Number(barData.axisValue), barData.value]
 
           return `
             <div style="font-weight: bold; margin-bottom: 4px;">
-              ${t('common.charts.number_of_pulls')}: ${barData.axisValue}
+              ${t('common.charts.number_of_pulls')}: ${pulls}
             </div>
-            <div>${t('stats.charts.frequency')}: <strong>${barData.value}</strong></div>
-            <div>${t('common.charts.probability')}: <strong>${((barData.value / total) * 100).toFixed(2)}%</strong></div>
+            <div>${t('stats.charts.frequency')}: <strong>${count}</strong></div>
+            <div>${t('common.charts.probability')}: <strong>${((count / total) * 100).toFixed(2)}%</strong></div>
           `
         },
         backgroundColor: isDark.value ? palette.dark : palette.light,
@@ -988,13 +1030,13 @@
         containLabel: true,
       },
       xAxis: {
-        type: 'category',
-        data: labels,
-        axisLine: {
-          lineStyle: {
-            color: isDark.value ? palette.textLight : palette.textDark,
-          },
-        },
+        type: 'value',
+        min: minPull,
+        max: maxPull,
+        minInterval: 1,
+        axisLine: { show: false },
+        axisTick: { show: false },
+        splitLine: { show: false },
         axisLabel: {
           ...textStyle,
           hideOverlap: true,
@@ -1003,17 +1045,47 @@
       },
       yAxis: {
         type: 'value',
+        min: 0,
         splitLine: { show: false },
         axisLabel: { show: false },
+        axisLine: { show: false },
+        axisTick: { show: false },
       },
       series: [
         {
           type: 'bar',
-          data: values,
-          itemStyle: {
-            color,
-            borderRadius: [4, 4, 0, 0],
-          },
+          data: entries.map(([pulls, count]) => ({
+            value: [pulls, count],
+            itemStyle: {
+              color: pulls === userPullValue ? userMarkerColor : color,
+              borderColor:
+                pulls === userPullValue
+                  ? isDark.value
+                    ? '#FFFFFF'
+                    : '#881337'
+                  : undefined,
+              borderWidth: pulls === userPullValue ? 2 : 0,
+              borderRadius: [4, 4, 0, 0],
+            },
+          })),
+          markLine: hasUserMarker
+            ? {
+                symbol: 'none',
+                silent: true,
+                label: {
+                  show: true,
+                  color: userMarkerColor,
+                  fontWeight: 'bold',
+                  formatter: `${t('default.your_data')}: ${userPullValue}`,
+                },
+                lineStyle: {
+                  color: userMarkerColor,
+                  type: 'dashed',
+                  width: 2,
+                },
+                data: [{ xAxis: userPullValue }],
+              }
+            : undefined,
         },
       ],
     }
@@ -1176,15 +1248,27 @@
       return createHistogramChartOption(
         scopeStats?.completionPullDistribution,
         selectedOption.title,
-        getQualityColor(scopeStats?.quality ?? 5) + 'CC'
+        getQualityColor(scopeStats?.quality ?? 5) + 'CC',
+        userPullMarkerValue.value
       )
     }
 
     return createHistogramChartOption(
       statsData.value?.overallPullDistribution,
       selectedOption.title,
-      getQualityColor(banner.value?.bannerType === 2 ? 5 : 4) + 'CC'
+      getQualityColor(banner.value?.bannerType === 2 ? 5 : 4) + 'CC',
+      userPullMarkerValue.value
     )
+  })
+
+  onMounted(async () => {
+    if (Object.keys(processedPulls.value).length > 0) return
+
+    try {
+      await initFromIndexedDB()
+    } catch (error) {
+      console.error('Failed to load local pull data:', error)
+    }
   })
 
   const itemDistributionChartOption = computed(() => {

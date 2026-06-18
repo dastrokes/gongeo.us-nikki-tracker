@@ -9,13 +9,15 @@ Canonical source for expanded query notes:
 
 ## Functions
 
-- `public.generate_first_item_json_for_banner(...)`
+- `public.generate_global_banner_json_for_banner(...)`
 - `public.generate_global_core_json()`
 - `public.generate_percentile_data()`
 - `public.generate_tierlist_data()`
 - `public.refresh_global_banner_stats(...)`
 - `public.refresh_global_banner_stats_all()`
 - `public.refresh_global_core_stats()`
+
+Generator helpers may exist behind these refresh functions, but are not app or cron entrypoints.
 
 ## Tables
 
@@ -46,8 +48,15 @@ Canonical source for expanded query notes:
 
 - `banner_id integer` (PK, check `banner_id >= 0`)
 - `payload jsonb`
-- `detail_payload jsonb` (optional per-banner canonical detail stats)
 - `updated_at timestamptz`
+
+### `public.global_banner_config`
+
+- `banner_id integer` (PK part)
+- `banner_type smallint`
+- `quality smallint` (PK part)
+- `outfit_id text` (PK part)
+- `item_count smallint`
 
 ### `public.user_tierlists`
 

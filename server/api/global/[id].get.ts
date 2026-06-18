@@ -36,7 +36,7 @@ export default defineCachedApiEventHandler(
       return {
         date,
         bannerId: bannerCache.payload.bannerId ?? bannerId,
-        f: bannerCache.firstItemDistribution,
+        firstItemDistribution: bannerCache.firstItemDistribution,
       }
     } catch (error: unknown) {
       if (error && typeof error === 'object' && 'statusCode' in error) {
@@ -64,9 +64,9 @@ export default defineCachedApiEventHandler(
     cache: {
       maxAge: 60 * 60 * 24,
       staleMaxAge: 60 * 60 * 24,
-      name: 'global-banner-first-item',
+      name: 'global-banner-first-item-v2',
       getKey: (event) =>
-        `${getGameVersion()}:global:banner:${getRouterParam(event, 'id') ?? 'invalid'}:${getQuery(event).detail === '1' || getQuery(event).detail === 'true' ? 'detail' : 'minimal'}`,
+        `${getGameVersion()}:global:banner:${getRouterParam(event, 'id') ?? 'invalid'}:${getQuery(event).detail === '1' || getQuery(event).detail === 'true' ? 'detail' : 'minimal'}:v2`,
       swr: true,
     },
     headers: {

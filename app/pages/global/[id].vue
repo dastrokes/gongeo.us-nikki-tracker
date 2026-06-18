@@ -162,17 +162,6 @@
             class="rounded-lg text-center"
           >
             <div class="text-sm text-gray-400">
-              {{ t('global.stats.unique_users') }}
-            </div>
-            <div class="mt-1 text-lg font-medium tabular-nums">
-              {{ statsData?.users.toLocaleString() ?? '-' }}
-            </div>
-          </n-card>
-          <n-card
-            size="small"
-            class="rounded-lg text-center"
-          >
-            <div class="text-sm text-gray-400">
               {{ t('common.stats.total_pulls') }}
             </div>
             <div class="mt-1 text-lg font-medium tabular-nums">
@@ -188,10 +177,10 @@
             class="rounded-lg text-center"
           >
             <div class="text-sm text-gray-400">
-              {{ t('global.banner_stats.completion_rate') }}
+              {{ t('global.stats.unique_users') }}
             </div>
             <div class="mt-1 text-lg font-medium tabular-nums">
-              {{ formatPercent(displayCompletionRate) }}
+              {{ statsData?.users.toLocaleString() ?? '-' }}
             </div>
           </n-card>
           <n-card
@@ -203,6 +192,17 @@
             </div>
             <div class="mt-1 text-lg font-medium tabular-nums">
               {{ selectedScopeStats?.completedUsers?.toLocaleString() ?? '-' }}
+            </div>
+          </n-card>
+          <n-card
+            size="small"
+            class="rounded-lg text-center"
+          >
+            <div class="text-sm text-gray-400">
+              {{ t('global.banner_stats.completion_rate') }}
+            </div>
+            <div class="mt-1 text-lg font-medium tabular-nums">
+              {{ formatPercent(displayCompletionRate) }}
             </div>
           </n-card>
           <n-card
@@ -280,7 +280,7 @@
               />
               <ChartMaximizeButton
                 chart-id="pullDistribution"
-                :active-chart="maximizedChart"
+                :active-chart="maximizedChart ?? undefined"
                 @toggle="toggleMaximize"
               />
               <VChart
@@ -315,7 +315,7 @@
               />
               <ChartMaximizeButton
                 chart-id="itemDistribution"
-                :active-chart="maximizedChart"
+                :active-chart="maximizedChart ?? undefined"
                 @toggle="toggleMaximize"
               />
               <VChart
@@ -331,7 +331,7 @@
 </template>
 
 <script setup lang="ts">
-  import type { TreeSelectOption } from 'naive-ui'
+  import type { SelectOption, TreeSelectOption } from 'naive-ui'
   import {
     ChevronLeft,
     ChevronRight,
@@ -353,7 +353,7 @@
   type PullDistributionType = 'overall' | 'completion'
   type ItemDistributionType = 'first' | 'fifth'
 
-  interface DistributionSelectOption<T extends string> {
+  type DistributionSelectOption<T extends string> = SelectOption & {
     label: string
     title: string
     value: string
@@ -477,7 +477,6 @@
   const selectedPullDistributionValue = ref('')
   const selectedItemDistributionValue = ref('')
   const maximizedChart = ref<ChartId | null>(null)
-  const userMarkerColor = '#F43F5E'
 
   const {
     data: bannerPayload,
@@ -584,8 +583,12 @@
         })
       }
 
-      bannerData.outfit5StarId.forEach((outfitId) => addEntry(5, outfitId))
-      bannerData.outfit4StarId.forEach((outfitId) => addEntry(4, outfitId))
+      bannerData.outfit5StarId.forEach((outfitId: string) =>
+        addEntry(5, outfitId)
+      )
+      bannerData.outfit4StarId.forEach((outfitId: string) =>
+        addEntry(4, outfitId)
+      )
     })
 
     return entries.sort(
@@ -962,7 +965,8 @@
     histogram: GlobalBannerHistogram | undefined,
     title: string,
     color: string,
-    userPullValue?: number | null
+    userPullValue?: number | null,
+    quality: number = 5
   ) => {
     const entries = Object.entries(histogram ?? {})
       .map(([key, count]) => [Number.parseInt(key, 10), count] as const)
@@ -971,14 +975,25 @@
 
     if (entries.length === 0) return {}
 
+    const firstEntry = entries[0]
+    const lastEntry = entries[entries.length - 1]
+    if (!firstEntry || !lastEntry) return {}
+
     const total = entries.reduce((sum, [, count]) => sum + count, 0)
-    const minPull = Math.max(0, entries[0][0])
-    const maxPull = Math.max(minPull + 1, entries.at(-1)![0])
+    const minPull = Math.max(0, firstEntry[0])
+    const maxPull = Math.max(minPull + 1, lastEntry[0])
     const textStyle = getChartTextStyle()
     const hasUserMarker =
       typeof userPullValue === 'number' &&
       Number.isFinite(userPullValue) &&
       userPullValue > 0
+
+    const getAccentColor = (q: number) => {
+      if (q === 5) return '#ea580c' // Orange-600: related to Amber (5★)
+      if (q === 4) return '#4f46e5' // Indigo-600: related to Sky (4★)
+      return '#0d9488' // Teal-600
+    }
+    const accentColor = getAccentColor(quality)
 
     return {
       textStyle,
@@ -1007,12 +1022,21 @@
             ? barData.value
             : [Number(barData.axisValue), barData.value]
 
+          const isUserData =
+            typeof userPullValue === 'number' && pulls === userPullValue
+          const userDataHtml = isUserData
+            ? `<div style="margin-top: 4px; color: ${accentColor}; font-weight: bold;">
+                ★ ${t('default.your_data')}
+              </div>`
+            : ''
+
           return `
             <div style="font-weight: bold; margin-bottom: 4px;">
               ${t('common.charts.number_of_pulls')}: ${pulls}
             </div>
-            <div>${t('stats.charts.frequency')}: <strong>${count}</strong></div>
-            <div>${t('common.charts.probability')}: <strong>${((count / total) * 100).toFixed(2)}%</strong></div>
+            <div>${t('common.charts.occurrences')}: <strong>${count}</strong></div>
+            <div>${t('common.charts.percentage')}: <strong>${((count / total) * 100).toFixed(2)}%</strong></div>
+            ${userDataHtml}
           `
         },
         backgroundColor: isDark.value ? palette.dark : palette.light,
@@ -1057,14 +1081,7 @@
           data: entries.map(([pulls, count]) => ({
             value: [pulls, count],
             itemStyle: {
-              color: pulls === userPullValue ? userMarkerColor : color,
-              borderColor:
-                pulls === userPullValue
-                  ? isDark.value
-                    ? '#FFFFFF'
-                    : '#881337'
-                  : undefined,
-              borderWidth: pulls === userPullValue ? 2 : 0,
+              color: pulls === userPullValue ? accentColor : color,
               borderRadius: [4, 4, 0, 0],
             },
           })),
@@ -1074,12 +1091,12 @@
                 silent: true,
                 label: {
                   show: true,
-                  color: userMarkerColor,
+                  color: accentColor,
                   fontWeight: 'bold',
                   formatter: `${t('default.your_data')}: ${userPullValue}`,
                 },
                 lineStyle: {
-                  color: userMarkerColor,
+                  color: accentColor,
                   type: 'dashed',
                   width: 2,
                 },
@@ -1249,15 +1266,18 @@
         scopeStats?.completionPullDistribution,
         selectedOption.title,
         getQualityColor(scopeStats?.quality ?? 5) + 'CC',
-        userPullMarkerValue.value
+        userPullMarkerValue.value,
+        scopeStats?.quality ?? 5
       )
     }
 
+    const q = banner.value?.bannerType === 2 ? 5 : 4
     return createHistogramChartOption(
       statsData.value?.overallPullDistribution,
       selectedOption.title,
-      getQualityColor(banner.value?.bannerType === 2 ? 5 : 4) + 'CC',
-      userPullMarkerValue.value
+      getQualityColor(q) + 'CC',
+      userPullMarkerValue.value,
+      q
     )
   })
 

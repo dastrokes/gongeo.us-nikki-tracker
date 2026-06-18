@@ -173,19 +173,36 @@
               </n-button>
             </template>
             <template #header>
-              <NuxtLinkLocale
-                no-prefetch
-                :to="getEntityDetailPath('banner', banner.bannerId)"
-                class="inline w-fit transition-opacity hover:opacity-95"
-              >
-                <n-gradient-text
-                  :size="18"
-                  class="m-0 font-medium wrap-break-word"
-                  :type="banner.bannerType === 2 ? 'warning' : 'info'"
+              <div>
+                <NuxtLinkLocale
+                  no-prefetch
+                  :to="getEntityDetailPath('banner', banner.bannerId)"
+                  class="inline w-fit transition-opacity hover:opacity-95"
                 >
-                  {{ $t(`banner.${banner.bannerId}.name`) }}
-                </n-gradient-text>
-              </NuxtLinkLocale>
+                  <n-gradient-text
+                    :size="18"
+                    class="m-0 font-medium wrap-break-word"
+                    :type="banner.bannerType === 2 ? 'warning' : 'info'"
+                  >
+                    {{ $t(`banner.${banner.bannerId}.name`) }}
+                  </n-gradient-text>
+                </NuxtLinkLocale>
+                <div
+                  v-if="getBannerStatsPath(banner)"
+                  class="mt-2"
+                >
+                  <NuxtLinkLocale
+                    no-prefetch
+                    :to="getBannerStatsPath(banner)!"
+                    class="inline-flex items-center gap-1.5 rounded-full border border-gray-200 bg-gray-50/50 px-3 py-1 text-sm font-medium text-gray-600 transition-all hover:border-gray-300 hover:bg-gray-100/70 hover:text-gray-900 dark:border-gray-800 dark:bg-gray-900/50 dark:text-gray-300 dark:hover:border-gray-700 dark:hover:bg-gray-800/70 dark:hover:text-gray-100"
+                  >
+                    <n-icon size="14">
+                      <ChartLine />
+                    </n-icon>
+                    <span>{{ t('global.banner_stats.title') }}</span>
+                  </NuxtLinkLocale>
+                </div>
+              </div>
             </template>
             <template #default>
               <div class="grid grid-cols-1 gap-2 lg:grid-cols-4">
@@ -377,8 +394,10 @@
     CalendarDay,
     SortAmountDown,
     AlignRight,
+    ChartLine,
   } from '@vicons/fa'
   import { BANNER_DATA } from '~~/data/banners'
+  import { LATEST_BANNER_ID } from '~~/data/config'
 
   definePageMeta({
     key: 'banners-listing',
@@ -740,5 +759,14 @@
       default:
         return 'default'
     }
+  }
+
+  const getBannerStatsPath = (banner: {
+    bannerId: number
+    bannerType: number
+  }) => {
+    if (banner.bannerType === 1 || banner.bannerId > LATEST_BANNER_ID)
+      return null
+    return `/global/${getEntitySlug('banner', banner.bannerId)}`
   }
 </script>

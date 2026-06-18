@@ -24,7 +24,7 @@ export default defineCachedApiEventHandler(
         fourStarType3Distribution:
           coreCache.payload.fourStarType3Distribution ?? {},
         bannerId: latestBannerCache.payload.bannerId ?? LATEST_BANNER_ID,
-        f: latestBannerCache.firstItemDistribution,
+        firstItemDistribution: latestBannerCache.firstItemDistribution,
       }
     } catch (error: unknown) {
       if (error && typeof error === 'object' && 'statusCode' in error) {
@@ -45,8 +45,8 @@ export default defineCachedApiEventHandler(
     cache: {
       maxAge: 60 * 60 * 24,
       staleMaxAge: 60 * 60 * 24,
-      name: 'global-bootstrap',
-      getKey: () => `${getGameVersion()}:global:latest`,
+      name: 'global-bootstrap-v2',
+      getKey: () => `${getGameVersion()}:global:latest:v2`,
       swr: true,
     },
     headers: {

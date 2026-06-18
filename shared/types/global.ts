@@ -1,4 +1,7 @@
-export type FirstItemDistribution = Record<string, { o: number; i: string }[]>
+export type FirstItemDistribution = Record<
+  string,
+  { users: number; itemId: string }[]
+>
 
 export type GlobalBannerHistogram = Record<string, number>
 
@@ -32,7 +35,7 @@ export interface GlobalCorePayload {
 
 export interface GlobalBootstrapData extends GlobalCorePayload {
   bannerId?: number
-  f?: FirstItemDistribution
+  firstItemDistribution?: FirstItemDistribution
 }
 
 export interface GlobalBannerPayload {
@@ -43,12 +46,6 @@ export interface GlobalBannerPayload {
   totalPulls: number
   overallPullDistribution: GlobalBannerHistogram
   scopes: Record<string, GlobalBannerScopePayload>
-}
-
-export interface GlobalBannerMinimalPayload {
-  date?: string
-  bannerId: number
-  f: FirstItemDistribution
 }
 
 export interface GlobalCoreStatsRow {

@@ -208,7 +208,7 @@ export const syncGlobalBannerScopes = async (argv = process.argv.slice(2)) => {
 
   while (true) {
     const { data, error } = await client
-      .from('global_banner_scope_config')
+      .from('global_banner_config')
       .select('banner_id,quality,outfit_id')
       .range(from, from + args.batchSize - 1)
 
@@ -229,18 +229,16 @@ export const syncGlobalBannerScopes = async (argv = process.argv.slice(2)) => {
   )
 
   for (const batch of chunkArray(rows, args.batchSize)) {
-    const { error } = await client
-      .from('global_banner_scope_config')
-      .upsert(batch, {
-        onConflict: 'banner_id,quality,outfit_id',
-      })
+    const { error } = await client.from('global_banner_config').upsert(batch, {
+      onConflict: 'banner_id,quality,outfit_id',
+    })
 
     if (error) throw error
   }
 
   for (const row of staleRows) {
     const { error } = await client
-      .from('global_banner_scope_config')
+      .from('global_banner_config')
       .delete()
       .eq('banner_id', row.banner_id)
       .eq('quality', row.quality)

@@ -717,6 +717,8 @@
       "overall_pull_distribution": "Distribuzione pull",
       "completion_pull_distribution": "Distribuzione pull completamento",
       "fifth_item_distribution": "Distribuzione 5° articolo",
+      "item_luck": "Fortuna oggetti",
+      "item_luck_tooltip": "Valuta quanto erano rari i tuoi primi quattro pezzi dell'outfit. Non è collegata al numero di pull o al pity.",
       "option_completed_set": "Completo",
       "option_first_item": "1°",
       "option_fifth_item": "5°",
@@ -931,7 +933,8 @@
     "listing_settings": "Impostazioni elenco",
     "settings": {
       "thumbnail_view": "Vista miniatura",
-      "compact_page_size": "Mostra di più per pagina"
+      "compact_page_size": "Mostra di più per pagina",
+      "hide_ownership_status": "Nascondi stato di possesso"
     },
     "advanced_filters": "Filtri avanzati",
     "advanced_filters_empty": "Non ci sono filtri avanzati disponibili per questo slot.",

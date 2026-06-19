@@ -717,6 +717,8 @@
       "overall_pull_distribution": "Pull Distribution",
       "completion_pull_distribution": "Completed Set Pull Distribution",
       "fifth_item_distribution": "5th Item Distribution",
+      "item_luck": "Item Luck",
+      "item_luck_tooltip": "Rates how rare your first four outfit items were. Not related to pull count or pity.",
       "option_completed_set": "Complete",
       "option_first_item": "1st",
       "option_fifth_item": "5th",
@@ -931,7 +933,8 @@
     "listing_settings": "Listing settings",
     "settings": {
       "thumbnail_view": "Thumbnail view",
-      "compact_page_size": "Show more per page"
+      "compact_page_size": "Show more per page",
+      "hide_ownership_status": "Hide ownership status"
     },
     "advanced_filters": "Advanced Filters",
     "advanced_filters_empty": "No advanced filters are available for this slot.",

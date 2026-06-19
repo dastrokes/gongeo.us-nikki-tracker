@@ -717,6 +717,8 @@
       "overall_pull_distribution": "プル分布",
       "completion_pull_distribution": "セット完成プル分布",
       "fifth_item_distribution": "5個目アイテム分布",
+      "item_luck": "アイテム運",
+      "item_luck_tooltip": "最初の4個の衣装アイテムがどれだけレアだったかを評価します。共鳴回数や天井とは関係ありません。",
       "option_completed_set": "完成",
       "option_first_item": "1個目",
       "option_fifth_item": "5個目",
@@ -931,7 +933,8 @@
     "listing_settings": "リスト設定",
     "settings": {
       "thumbnail_view": "サムネイル表示",
-      "compact_page_size": "ページごとにもっと表示"
+      "compact_page_size": "ページごとにもっと表示",
+      "hide_ownership_status": "所有状況を非表示"
     },
     "advanced_filters": "詳細フィルター",
     "advanced_filters_empty": "この部位で利用可能な詳細フィルターはありません。",

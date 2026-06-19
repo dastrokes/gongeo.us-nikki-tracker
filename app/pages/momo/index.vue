@@ -160,7 +160,11 @@
           </div>
 
           <div
-            v-if="wardrobeInitialized && isMomoOwned(entry.id)"
+            v-if="
+              wardrobeInitialized &&
+              !hideOwnershipStatus &&
+              isMomoOwned(entry.id)
+            "
             class="absolute"
             :class="overlayCornerClasses.wardrobe"
             @click.stop
@@ -298,6 +302,7 @@
     imageSizes,
     imagePreset,
     isThumbnailView,
+    hideOwnershipStatus,
     overlayCornerClasses,
     nameFadeThumbnailClass,
     nameFadeStandardClass,

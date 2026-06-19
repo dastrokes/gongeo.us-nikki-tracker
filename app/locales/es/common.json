@@ -717,6 +717,8 @@
       "overall_pull_distribution": "Distribución de extracciones",
       "completion_pull_distribution": "Distribución para completar set",
       "fifth_item_distribution": "Distribución del 5.º artículo",
+      "item_luck": "Suerte de piezas",
+      "item_luck_tooltip": "Evalúa qué tan raras fueron tus primeras cuatro piezas del atuendo. No está relacionada con el número de pulls ni con el pity.",
       "option_completed_set": "Completo",
       "option_first_item": "1.º",
       "option_fifth_item": "5.º",
@@ -931,7 +933,8 @@
     "listing_settings": "Ajustes de la lista",
     "settings": {
       "thumbnail_view": "Vista en miniatura",
-      "compact_page_size": "Mostrar más por página"
+      "compact_page_size": "Mostrar más por página",
+      "hide_ownership_status": "Ocultar estado de propiedad"
     },
     "advanced_filters": "Filtros avanzados",
     "advanced_filters_empty": "No hay filtros avanzados disponibles para esta ranura.",

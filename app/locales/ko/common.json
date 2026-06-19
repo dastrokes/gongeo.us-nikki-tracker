@@ -717,6 +717,8 @@
       "overall_pull_distribution": "뽑기 분포",
       "completion_pull_distribution": "세트 완성 뽑기 분포",
       "fifth_item_distribution": "5번째 아이템 분포",
+      "item_luck": "아이템 운",
+      "item_luck_tooltip": "처음 얻은 의상 아이템 4개의 희귀도를 평가합니다. 뽑기 횟수나 천장과는 관련이 없습니다.",
       "option_completed_set": "완성",
       "option_first_item": "1번째",
       "option_fifth_item": "5번째",
@@ -931,7 +933,8 @@
     "listing_settings": "목록 설정",
     "settings": {
       "thumbnail_view": "썸네일 보기",
-      "compact_page_size": "페이지당 더 보기"
+      "compact_page_size": "페이지당 더 보기",
+      "hide_ownership_status": "보유 상태 숨기기"
     },
     "advanced_filters": "고급 필터",
     "advanced_filters_empty": "이 부위에 사용할 수 있는 고급 필터가 없습니다.",

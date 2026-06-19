@@ -25,12 +25,42 @@
         </n-button>
       </template>
       <div class="flex flex-wrap gap-2">
-        <div class="text-sm">
-          {{
-            t('tracker.stats.luckier', {
-              percent: props.percentile?.toFixed(1) || '0.0',
-            })
-          }}
+        <div
+          v-if="props.title"
+          class="w-full text-sm font-medium"
+        >
+          {{ props.title }}: {{ props.percentile.toFixed(0) }} / 100
+        </div>
+        <div
+          v-if="summaryText"
+          class="text-sm"
+        >
+          {{ summaryText }}
+        </div>
+        <div
+          v-if="props.description"
+          class="w-full text-sm opacity-80"
+        >
+          {{ props.description }}
+        </div>
+        <div
+          v-if="props.itemIds?.length"
+          class="flex w-full gap-1"
+        >
+          <NuxtImg
+            v-for="itemId in props.itemIds"
+            :key="itemId"
+            :src="getImageSrc('itemIcon', itemId)"
+            :alt="t(`item.${itemId}.name`, itemId)"
+            preset="iconSm"
+            class="size-10 rounded-md bg-gray-100 object-contain p-0.5 dark:bg-gray-800"
+          />
+        </div>
+        <div
+          v-if="props.note"
+          class="w-full text-sm opacity-80"
+        >
+          {{ props.note }}
         </div>
         <div
           v-for="i in 6"
@@ -64,9 +94,23 @@
 
   const props = defineProps<{
     percentile: number
+    title?: string
+    summary?: string
+    description?: string
+    note?: string
+    itemIds?: string[]
   }>()
 
   const { t } = useI18n()
+  const { getImageSrc } = imageProvider()
+  const summaryText = computed(() => {
+    if (props.summary !== undefined) return props.summary
+    if (props.description) return ''
+
+    return t('tracker.stats.luckier', {
+      percent: props.percentile.toFixed(1),
+    })
+  })
   const isAnimating = ref(false)
   const currentFace = ref(0)
   const rotation = ref(45)

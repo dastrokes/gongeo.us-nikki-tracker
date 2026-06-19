@@ -5,6 +5,7 @@ type UseCompendiumListingViewOptions = {
 type ListingPreferences = {
   viewMode?: ListingDisplayMode
   compactPageSize?: boolean
+  hideOwnershipStatus?: boolean
 }
 
 const LISTING_PREFERENCES_KEY = 'gongeous-compendium-settings'
@@ -16,6 +17,7 @@ export const useCompendiumListingView = (
 ) => {
   const viewMode = ref<ListingDisplayMode>('standard')
   const compactPageSize = ref(true)
+  const hideOwnershipStatus = ref(false)
   const preferencesReady = ref(false)
 
   const isThumbnailView = computed(() => viewMode.value === 'thumbnail')
@@ -70,6 +72,10 @@ export const useCompendiumListingView = (
     compactPageSize.value = compact
   }
 
+  const setHideOwnershipStatus = (hide: boolean) => {
+    hideOwnershipStatus.value = hide
+  }
+
   const toggleViewMode = () => {
     viewMode.value = viewMode.value === 'thumbnail' ? 'standard' : 'thumbnail'
   }
@@ -98,9 +104,14 @@ export const useCompendiumListingView = (
         typeof preferences?.compactPageSize === 'boolean'
           ? preferences.compactPageSize
           : true
+      hideOwnershipStatus.value =
+        typeof preferences?.hideOwnershipStatus === 'boolean'
+          ? preferences.hideOwnershipStatus
+          : false
     } catch (error) {
       console.warn('Failed to load listing preferences:', error)
       compactPageSize.value = true
+      hideOwnershipStatus.value = false
     } finally {
       preferencesReady.value = true
     }
@@ -115,6 +126,7 @@ export const useCompendiumListingView = (
         JSON.stringify({
           viewMode: viewMode.value,
           compactPageSize: compactPageSize.value,
+          hideOwnershipStatus: hideOwnershipStatus.value,
         } satisfies ListingPreferences)
       )
     } catch (error) {
@@ -128,7 +140,7 @@ export const useCompendiumListingView = (
     }
   })
 
-  watch([viewMode, compactPageSize], savePreferences)
+  watch([viewMode, compactPageSize, hideOwnershipStatus], savePreferences)
 
   onMounted(loadPreferences)
 
@@ -136,6 +148,7 @@ export const useCompendiumListingView = (
     viewMode,
     isThumbnailView,
     compactPageSize,
+    hideOwnershipStatus,
     preferencesReady,
     showEntryMeta,
     pageSize,
@@ -148,6 +161,7 @@ export const useCompendiumListingView = (
     nameFadeStandardClass,
     setViewMode,
     setCompactPageSize,
+    setHideOwnershipStatus,
     toggleViewMode,
     toggleCompactPageSize,
   }

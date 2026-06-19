@@ -122,7 +122,7 @@
           :meta="
             editMode
               ? 'edit'
-              : getVisibleOutfitWardrobeStatus(entry)
+              : !hideOwnershipStatus && getVisibleOutfitWardrobeStatus(entry)
                 ? 'status'
                 : 'default'
           "
@@ -153,7 +153,11 @@
         </div>
 
         <div
-          v-if="entry.progress && getVisibleOutfitWardrobeStatus(entry)"
+          v-if="
+            entry.progress &&
+            !hideOwnershipStatus &&
+            getVisibleOutfitWardrobeStatus(entry)
+          "
           class="absolute"
           :class="overlayCornerClasses.wardrobe"
           @click.stop
@@ -494,8 +498,13 @@
   })
 
   const currentPage = ref(normalizeCatalogListingPage(route.query.page))
-  const { viewMode, pageSize, outfitCardSize, overlayCornerClasses } =
-    provideCompendiumListingView({ currentPage })
+  const {
+    viewMode,
+    pageSize,
+    outfitCardSize,
+    overlayCornerClasses,
+    hideOwnershipStatus,
+  } = provideCompendiumListingView({ currentPage })
   type OutfitWardrobeFilter = 'all' | WardrobeOutfitStatus
   type BatchScope = 'selected' | 'page' | 'all'
   const resolveWardrobeFilter = (

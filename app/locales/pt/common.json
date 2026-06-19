@@ -717,6 +717,8 @@
       "overall_pull_distribution": "Distribuição de pulls",
       "completion_pull_distribution": "Distribuição de pulls para conclusão",
       "fifth_item_distribution": "Distribuição do 5º item",
+      "item_luck": "Sorte de itens",
+      "item_luck_tooltip": "Avalia quão raros foram seus quatro primeiros itens do traje. Não está relacionada à contagem de pulls ou ao pity.",
       "option_completed_set": "Concluído",
       "option_first_item": "1º",
       "option_fifth_item": "5º",
@@ -931,7 +933,8 @@
     "listing_settings": "Configurações da lista",
     "settings": {
       "thumbnail_view": "Visualização em miniatura",
-      "compact_page_size": "Mostrar mais por página"
+      "compact_page_size": "Mostrar mais por página",
+      "hide_ownership_status": "Ocultar status de posse"
     },
     "advanced_filters": "Filtros avançados",
     "advanced_filters_empty": "Não há filtros avançados disponíveis para este slot.",

@@ -64,9 +64,9 @@ export default defineCachedApiEventHandler(
     cache: {
       maxAge: 60 * 60 * 24,
       staleMaxAge: 60 * 60 * 24,
-      name: 'global-banner-first-item-v2',
+      name: 'global-banner-first-item',
       getKey: (event) =>
-        `${getGameVersion()}:global:banner:${getRouterParam(event, 'id') ?? 'invalid'}:${getQuery(event).detail === '1' || getQuery(event).detail === 'true' ? 'detail' : 'minimal'}:v2`,
+        `${getGameVersion()}:global:banner:${getRouterParam(event, 'id') ?? 'invalid'}:${getQuery(event).detail === '1' || getQuery(event).detail === 'true' ? 'detail' : 'minimal'}`,
       swr: true,
     },
     headers: {

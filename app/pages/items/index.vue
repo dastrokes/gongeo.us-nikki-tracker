@@ -299,6 +299,7 @@
           <div
             v-if="
               wardrobeInitialized &&
+              !hideOwnershipStatus &&
               getVisibleItemWardrobeStatus(entry.id, entry.quality)
             "
             class="absolute"
@@ -807,6 +808,7 @@
     imageSizes,
     imagePreset,
     isThumbnailView,
+    hideOwnershipStatus,
     showEntryMeta,
     overlayCornerClasses,
     nameFadeThumbnailClass,

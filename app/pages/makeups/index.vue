@@ -209,7 +209,7 @@
           </div>
 
           <div
-            v-if="wardrobeInitialized && entry.progress"
+            v-if="wardrobeInitialized && !hideOwnershipStatus && entry.progress"
             class="absolute"
             :class="overlayCornerClasses.wardrobe"
             @click.stop
@@ -518,6 +518,7 @@
     imageSizes,
     imagePreset,
     isThumbnailView,
+    hideOwnershipStatus,
     showEntryMeta,
     overlayCornerClasses,
     nameFadeThumbnailClass,

@@ -717,6 +717,8 @@
       "overall_pull_distribution": "Resonanz-Verteilung",
       "completion_pull_distribution": "Fertigstellungs-Resonanz-Verteilung",
       "fifth_item_distribution": "Verteilung des 5. Stückes",
+      "item_luck": "Teileglück",
+      "item_luck_tooltip": "Bewertet, wie selten deine ersten vier Outfit-Teile waren. Nicht mit Pull-Anzahl oder Pity verbunden.",
       "option_completed_set": "Fertig",
       "option_first_item": "1.",
       "option_fifth_item": "5.",
@@ -931,7 +933,8 @@
     "listing_settings": "Auflistungseinstellungen",
     "settings": {
       "thumbnail_view": "Miniaturansicht",
-      "compact_page_size": "Mehr pro Seite anzeigen"
+      "compact_page_size": "Mehr pro Seite anzeigen",
+      "hide_ownership_status": "Besitzstatus ausblenden"
     },
     "advanced_filters": "Erweiterte Filter",
     "advanced_filters_empty": "Es sind keine erweiterten Filter für diesen Slot verfügbar.",

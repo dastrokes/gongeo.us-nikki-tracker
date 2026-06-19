@@ -133,6 +133,15 @@
                         {{ t('compendium.settings.compact_page_size') }}
                       </span>
                     </div>
+                    <div class="flex items-center justify-between">
+                      <n-switch
+                        :value="hideOwnershipStatus"
+                        @update:value="setHideOwnershipStatus"
+                      />
+                      <span class="ml-3 text-sm text-gray-400">
+                        {{ t('compendium.settings.hide_ownership_status') }}
+                      </span>
+                    </div>
                   </div>
                 </div>
               </n-popover>
@@ -416,9 +425,11 @@
   const {
     isThumbnailView,
     compactPageSize,
+    hideOwnershipStatus,
     preferencesReady,
     setViewMode,
     setCompactPageSize,
+    setHideOwnershipStatus,
     gridClass,
     pageSize,
   } = useCompendiumListingViewContext()

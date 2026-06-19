@@ -151,6 +151,7 @@
       </n-card>
 
       <n-card
+        v-if="hasAnyStats"
         v-show="!maximizedChart"
         size="small"
         class="rounded-xl"
@@ -304,6 +305,21 @@
             class="transition-all duration-300"
           >
             <div :class="chartHeightClass('itemDistribution')">
+              <div
+                v-if="
+                  itemLuckFactor &&
+                  selectedItemDistributionOption?.type === 'first'
+                "
+                class="absolute top-2 left-2 z-10"
+              >
+                <DiceAnimation
+                  :percentile="itemLuckFactor.percentile"
+                  :title="t('global.banner_stats.item_luck')"
+                  summary=""
+                  :description="t('global.banner_stats.item_luck_tooltip')"
+                  :item-ids="itemLuckItemIds"
+                />
+              </div>
               <n-select
                 v-if="itemDistributionOptions.length > 1"
                 v-model:value="selectedItemDistributionValue"
@@ -839,8 +855,13 @@
   const hasItemDistributionCharts = computed(
     () => itemDistributionOptions.value.length > 0
   )
+  const hasGlobalStatsEnabled = computed(
+    () => bannerId.value <= LATEST_BANNER_ID
+  )
   const hasAnyStats = computed(
-    () => hasPullDistributionCharts.value || hasItemDistributionCharts.value
+    () =>
+      hasGlobalStatsEnabled.value &&
+      (hasPullDistributionCharts.value || hasItemDistributionCharts.value)
   )
 
   watch(
@@ -934,6 +955,52 @@
       : undefined
   )
   const userBannerPulls = computed(() => processedPulls.value[bannerId.value])
+  const selectedItemScopeStats = computed(() => {
+    const selectedOption = selectedItemDistributionOption.value
+    if (!selectedOption?.scopeKey) return null
+
+    return statsData.value?.scopes[selectedOption.scopeKey] ?? null
+  })
+  const userFirstItemsForSelectedScope = computed(() => {
+    const scopeStats = selectedItemScopeStats.value
+    const currentPulls = userBannerPulls.value
+    if (!scopeStats || !currentPulls) return []
+
+    return currentPulls.pulls
+      .filter(
+        (pull) =>
+          pull.count === 1 &&
+          pull.quality === scopeStats.quality &&
+          pull.outfitId === scopeStats.outfitId &&
+          pull.pullIndex > 0
+      )
+      .sort((left, right) => left.pullIndex - right.pullIndex)
+      .map((pull) => pull.itemId)
+  })
+  const selectedOutfitItemIds = computed(() => {
+    const outfitId = selectedItemScopeStats.value?.outfitId
+    return outfitId ? (getOutfitData(outfitId)?.items ?? []) : []
+  })
+  const itemLuckFactor = computed(() => {
+    if (selectedItemDistributionOption.value?.type !== 'first') return null
+
+    const scopeStats = selectedItemScopeStats.value
+    if (!scopeStats) return null
+
+    return calculateItemLuckFactor({
+      userFirstItems: userFirstItemsForSelectedScope.value,
+      outfitItemIds: selectedOutfitItemIds.value,
+      firstItemDistribution: scopeStats.firstItemDistribution,
+    })
+  })
+  const itemLuckItemIds = computed(() =>
+    itemLuckFactor.value
+      ? userFirstItemsForSelectedScope.value.slice(
+          0,
+          itemLuckFactor.value.usedItemCount
+        )
+      : []
+  )
   const userPullMarkerValue = computed(() => {
     const selectedOption = selectedPullDistributionOption.value
     const currentPulls = userBannerPulls.value

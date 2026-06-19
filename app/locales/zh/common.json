@@ -717,6 +717,8 @@
       "overall_pull_distribution": "抽数分布",
       "completion_pull_distribution": "套装完成抽数分布",
       "fifth_item_distribution": "第 5 件部件分布",
+      "item_luck": "部件运气",
+      "item_luck_tooltip": "评估你最初 4 件套装部件的稀有程度。与抽数或保底无关。",
       "option_completed_set": "完成",
       "option_first_item": "第 1 件",
       "option_fifth_item": "第 5 件",
@@ -931,7 +933,8 @@
     "listing_settings": "列表设置",
     "settings": {
       "thumbnail_view": "缩略视图",
-      "compact_page_size": "每页显示更多"
+      "compact_page_size": "每页显示更多",
+      "hide_ownership_status": "隐藏拥有状态"
     },
     "advanced_filters": "高级筛选",
     "advanced_filters_empty": "当前部位没有可用的高级筛选。",

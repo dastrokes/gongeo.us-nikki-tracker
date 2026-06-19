@@ -717,6 +717,8 @@
       "overall_pull_distribution": "Distribution des tirages",
       "completion_pull_distribution": "Distribution des tirages de complétion",
       "fifth_item_distribution": "Distribution du 5e article",
+      "item_luck": "Chance des pièces",
+      "item_luck_tooltip": "Évalue la rareté de tes quatre premières pièces de tenue. Sans rapport avec le nombre de tirages ou la pity.",
       "option_completed_set": "Complété",
       "option_first_item": "1er",
       "option_fifth_item": "5e",
@@ -931,7 +933,8 @@
     "listing_settings": "Paramètres de la liste",
     "settings": {
       "thumbnail_view": "Vue miniature",
-      "compact_page_size": "Afficher plus par page"
+      "compact_page_size": "Afficher plus par page",
+      "hide_ownership_status": "Masquer le statut de possession"
     },
     "advanced_filters": "Filtres avancés",
     "advanced_filters_empty": "Il n'y a pas de filtres avancés disponibles pour cet emplacement.",

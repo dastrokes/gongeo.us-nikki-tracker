@@ -246,6 +246,6 @@ export default defineCachedApiEventHandler(
     headers: {
       varyQuery: true,
     },
-    profile: 'catalog',
+    profile: 'detail',
   }
 )

@@ -2,7 +2,8 @@ import { getGameVersion } from './gameVersion'
 
 export const GAME_VERSION_HEADER = 'X-Game-Version'
 export const CACHE_TAGS = {
-  game: 'game',
+  catalog: 'catalog',
+  details: 'details',
   stats: 'stats',
 } as const
 
@@ -124,11 +125,18 @@ const pageProfiles = {
 
 const apiProfiles = {
   catalog: createProfile(BROWSER_REVALIDATE, CDN_API_LONG, {
-    cacheIds: [CACHE_TAGS.game],
+    cacheIds: [CACHE_TAGS.catalog],
+    includeVersion: true,
+  }),
+  detail: createProfile(BROWSER_REVALIDATE, CDN_API_LONG, {
+    cacheIds: [CACHE_TAGS.details],
     includeVersion: true,
   }),
   search: createProfile(NO_STORE, CDN_SEARCH, {
-    cacheIds: [CACHE_TAGS.game],
+    cacheIds: [CACHE_TAGS.catalog],
+    includeVersion: true,
+  }),
+  lookbook: createProfile(NO_STORE, CDN_SEARCH, {
     includeVersion: true,
   }),
   feedback: createProfile(NO_STORE, CDN_FEEDBACK),

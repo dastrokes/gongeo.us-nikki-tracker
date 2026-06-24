@@ -132,7 +132,7 @@ export const useUserBannerStats = () => {
         err instanceof Error
           ? err.message
           : 'Failed to import pearpal tracker data'
-      throw new Error(error)
+      throw new Error(error, { cause: err })
     }
   }
 

@@ -32,10 +32,10 @@ export const useBannerPullData = () => {
     } = await loadData()
 
     // Handle the new export format that can include pulls, edits, evo, and pearpal
-    let pullsData: Record<number, PullRecord[]> = {}
-    let editsData: Record<number, EditRecord[]> = {}
-    let evoData: Record<number, EvoRecord[]> = {}
-    let pearpalData: Record<number, PearpalTrackerItem[]> = {}
+    let pullsData: Record<number, PullRecord[]>
+    let editsData: Record<number, EditRecord[]>
+    let evoData: Record<number, EvoRecord[]>
+    let pearpalData: Record<number, PearpalTrackerItem[]>
 
     if (
       'pulls' in jsonData ||

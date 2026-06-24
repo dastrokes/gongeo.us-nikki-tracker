@@ -316,7 +316,6 @@ const queryPineconeSearch = async ({
 }): Promise<SearchResponse['data']> => {
   const endpoint = `${resolvePineconeBaseUrl(pineconeIndexHost)}/records/namespaces/${encodeURIComponent(searchNamespace)}/search`
   let attempt = 0
-  let lastError: unknown
 
   while (true) {
     try {
@@ -360,7 +359,6 @@ const queryPineconeSearch = async ({
           attempt < PINECONE_SEARCH_RETRIES &&
           PINECONE_TRANSIENT_STATUS_CODES.has(response.status)
         ) {
-          lastError = error
           const delay =
             PINECONE_SEARCH_RETRY_BASE_DELAY_MS * Math.pow(2, attempt)
           attempt += 1
@@ -403,7 +401,6 @@ const queryPineconeSearch = async ({
         attempt < PINECONE_SEARCH_RETRIES &&
         isRetryablePineconeError(error)
       ) {
-        lastError = error
         const delay = PINECONE_SEARCH_RETRY_BASE_DELAY_MS * Math.pow(2, attempt)
         attempt += 1
         await sleep(delay)
@@ -413,8 +410,6 @@ const queryPineconeSearch = async ({
       throw error
     }
   }
-
-  throw lastError
 }
 
 export default defineCachedApiEventHandler(

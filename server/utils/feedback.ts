@@ -531,7 +531,7 @@ export const createFeedbackSuggestion = async ({
     updated_at: now,
   }
 
-  let insertedId: string | null = null
+  let insertedId: string | null
 
   try {
     const { data, error } = await withSupabaseRetry(() =>

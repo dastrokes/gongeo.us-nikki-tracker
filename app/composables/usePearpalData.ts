@@ -19,7 +19,7 @@ export const usePearpalData = () => {
       }
     } catch (error) {
       console.error('Snappy decompression failed:', error)
-      throw new Error('Failed to decode snappy data')
+      throw new Error('Failed to decode snappy data', { cause: error })
     }
   }
 

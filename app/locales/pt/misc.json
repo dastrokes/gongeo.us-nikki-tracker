@@ -229,6 +229,12 @@
   "obtain.20605.name": "Tesouros Exclusivos",
   "obtain.20606.name": "Contos do Mundo",
   "obtain.20607.name": "Devaneio à luz de velas",
+  "obtain.20608.name": "Diversos eventos",
+  "obtain.20701.name": "Sorte do Aventureiro",
+  "obtain.20702.name": "Ressonância por tempo limitado",
+  "obtain.20703.name": "Pear-Pal Premium",
+  "obtain.20704.name": "Loja Starlit",
+  "obtain.20705.name": "Brisa marítima ensolarada",
   "style.cool": "Legal",
   "style.elegant": "Elegante",
   "style.fresh": "Fresco",
@@ -254,5 +260,6 @@
   "version.2.4": "A floresta não precisa ouvir",
   "version.2.5": "Para onde todas as almas retornam",
   "version.2.6": "Até a maré acabar",
+  "version.2.7": "Onde as estrelas anseiam",
   "version.2.x": "Itzaland"
 }

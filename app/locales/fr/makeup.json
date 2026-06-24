@@ -11,6 +11,7 @@
   "makeup.10016002.name": "Feuille en fuite : maquillage",
   "makeup.10018002.name": "Blings scintillés : maquillage",
   "makeup.10019002.name": "Liens rompus : maquillage",
+  "makeup.10020002.name": "Douceur adorable : maquillage",
   "makeup.10021002.name": "Rêve déchu : maquillage",
   "makeup.10022002.name": "Soie enchantée : maquillage",
   "makeup.10025002.name": "Passage mortel : maquillage",
@@ -20,6 +21,7 @@
   "makeup.10093001.name": "Éclosion d'étoiles : maquillage",
   "makeup.10117001.name": "Éclat de Poussière d'Étoile : Maquillage",
   "makeup.10126001.name": "Tempête papillonnante : maquillage",
+  "makeup.10126003.name": "Papillon d'ombrerêve : maquillage",
   "makeup.10128001.name": "Aria du rossignol d'argent : maquillage",
   "makeup.10129001.name": "Ailes des souhaits : maquillage",
   "makeup.10129003.name": "Vœux vagabonds : maquillage",
@@ -69,5 +71,7 @@
   "makeup.10355001.name": "Au fil du rêve : maquillage",
   "makeup.10355003.name": "Rêverie tissée : maquillage",
   "makeup.10364001.name": "Marée des âmes : maquillage",
-  "makeup.10364003.name": "Courant au vent : maquillage"
+  "makeup.10364003.name": "Courant au vent : maquillage",
+  "makeup.10382001.name": "Rêverie ondoyante : maquillage",
+  "makeup.10382003.name": "Arc-en-ciel tracé : maquillage"
 }

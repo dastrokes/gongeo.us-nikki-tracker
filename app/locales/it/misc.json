@@ -229,6 +229,12 @@
   "obtain.20605.name": "Tesori esclusivi",
   "obtain.20606.name": "Racconti del mondo",
   "obtain.20607.name": "Sogno a lume di candela",
+  "obtain.20608.name": "Vari eventi",
+  "obtain.20701.name": "Fortuna dell'avventuriero",
+  "obtain.20702.name": "Risonanza a tempo limitato",
+  "obtain.20703.name": "Pear-Pal Premium",
+  "obtain.20704.name": "Negozio illuminato dalle stelle",
+  "obtain.20705.name": "Brezza marina soleggiata",
   "style.cool": "Freddo",
   "style.elegant": "Elegante",
   "style.fresh": "Fresco",
@@ -254,5 +260,6 @@
   "version.2.4": "La foresta non ha bisogno di ascoltare",
   "version.2.5": "Dove tutte le anime ritornano",
   "version.2.6": "Fino alla fine della marea",
+  "version.2.7": "Dove le stelle bramano",
   "version.2.x": "Itzaland"
 }

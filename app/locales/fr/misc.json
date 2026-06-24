@@ -229,6 +229,12 @@
   "obtain.20605.name": "Trésors exclusifs",
   "obtain.20606.name": "Histoires du Monde",
   "obtain.20607.name": "Flamme des bougies",
+  "obtain.20608.name": "Événements",
+  "obtain.20701.name": "Surprise inattendue",
+  "obtain.20702.name": "Résonance à durée limitée",
+  "obtain.20703.name": "Premium de Poir'pote",
+  "obtain.20704.name": "Boutique stellaire",
+  "obtain.20705.name": "Brise marine ensoleillée",
   "style.cool": "Décontraction",
   "style.elegant": "Élégance",
   "style.fresh": "Fraîcheur",
@@ -254,5 +260,6 @@
   "version.2.4": "Que la forêt n'entende pas",
   "version.2.5": "Là où reposent les âmes",
   "version.2.6": "Au bout des marées",
+  "version.2.7": "Là où les étoiles rêvent",
   "version.2.x": "Itzalis"
 }

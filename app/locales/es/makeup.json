@@ -11,6 +11,7 @@
   "makeup.10016002.name": "Hoja fugitiva: maquillaje",
   "makeup.10018002.name": "Destellante como purpurina: maquillaje",
   "makeup.10019002.name": "Lazos rotos: maquillaje",
+  "makeup.10020002.name": "Corazón entrañable: maquillaje",
   "makeup.10021002.name": "Sueño embriagador: maquillaje",
   "makeup.10022002.name": "Camino hilado: maquillaje",
   "makeup.10025002.name": "Cruce mortal: maquillaje",
@@ -20,6 +21,7 @@
   "makeup.10093001.name": "Estrellas florecientes: maquillaje",
   "makeup.10117001.name": "Destello de la noche: maquillaje",
   "makeup.10126001.name": "Tormenta revoloteante: maquillaje",
+  "makeup.10126003.name": "Mariposa onírica: maquillaje",
   "makeup.10128001.name": "Aria del orniargento: maquillaje",
   "makeup.10129001.name": "Alas del deseo: maquillaje",
   "makeup.10129003.name": "Deseos errantes: maquillaje",
@@ -69,5 +71,7 @@
   "makeup.10355001.name": "Sueños otorgados: maquillaje",
   "makeup.10355003.name": "Dulce y luminoso corazón: maquillaje",
   "makeup.10364001.name": "Marea de Almas a la deriva: maquillaje",
-  "makeup.10364003.name": "Arroyo del viento salvaje: maquillaje"
+  "makeup.10364003.name": "Arroyo del viento salvaje: maquillaje",
+  "makeup.10382001.name": "Econíria del corazón: maquillaje",
+  "makeup.10382003.name": "Rastros de arcoíris: maquillaje"
 }

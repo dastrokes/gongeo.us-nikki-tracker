@@ -229,6 +229,12 @@
   "obtain.20605.name": "Tesoros exclusivos",
   "obtain.20606.name": "Cuentos del mundo",
   "obtain.20607.name": "Velada quimérica",
+  "obtain.20608.name": "Eventos variados",
+  "obtain.20701.name": "Aventura con sorpresa",
+  "obtain.20702.name": "Resonancia de tiempo limitado",
+  "obtain.20703.name": "Premium de Amipera",
+  "obtain.20704.name": "Puesto de luz estelar",
+  "obtain.20705.name": "Brisa en el océano soleado",
   "style.cool": "Alucinante",
   "style.elegant": "Elegante",
   "style.fresh": "Refrescante",
@@ -254,5 +260,6 @@
   "version.2.4": "Secretos en el bosque",
   "version.2.5": "Allá donde regresan las almas",
   "version.2.6": "Un mañana sin Marea",
+  "version.2.7": "Trayectoria astral",
   "version.2.x": "Itzalanda"
 }

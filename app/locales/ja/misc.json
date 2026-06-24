@@ -229,6 +229,12 @@
   "obtain.20605.name": "風物コレクション",
   "obtain.20606.name": "巡り会う逸話",
   "obtain.20607.name": "甘薫る燭火の夢",
+  "obtain.20608.name": "カラフルイベント",
+  "obtain.20701.name": "冒険のサプライズ",
+  "obtain.20702.name": "限定共鳴",
+  "obtain.20703.name": "ビアリーモール特選品",
+  "obtain.20704.name": "星光交換",
+  "obtain.20705.name": "晴れ日の海風",
   "style.cool": "クール",
   "style.elegant": "エレガント",
   "style.fresh": "ピュア",
@@ -254,5 +260,6 @@
   "version.2.4": "森よ、聞かないで",
   "version.2.5": "帰路につく諸霊",
   "version.2.6": "潮汐の果て",
+  "version.2.7": "星々の行路",
   "version.2.x": "イザンの地"
 }

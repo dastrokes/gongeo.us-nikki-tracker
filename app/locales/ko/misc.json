@@ -229,6 +229,12 @@
   "obtain.20605.name": "풍물 소장",
   "obtain.20606.name": "세계 일화",
   "obtain.20607.name": "달콤한 꿈의 촛불",
+  "obtain.20608.name": "다채로운 이벤트",
+  "obtain.20701.name": "모험 중의 서프라이즈",
+  "obtain.20702.name": "한정 공명",
+  "obtain.20703.name": "큐티 페어 상점 우수 제품",
+  "obtain.20704.name": "별빛 상점",
+  "obtain.20705.name": "화창한 바닷바람",
   "style.cool": "시크",
   "style.elegant": "우아",
   "style.fresh": "청순",
@@ -254,5 +260,6 @@
   "version.2.4": "쉿! 숲은 듣지 마",
   "version.2.5": "만령의 귀로",
   "version.2.6": "조수의 끝에 닿은 내일",
+  "version.2.7": "뭇별이 이끄는 여정",
   "version.2.x": "이잔의 땅"
 }

@@ -229,6 +229,12 @@
   "obtain.20605.name": "Exclusive Treasures",
   "obtain.20606.name": "World Tales",
   "obtain.20607.name": "Candlelight Reverie",
+  "obtain.20608.name": "Various Events",
+  "obtain.20701.name": "Adventurer's Luck",
+  "obtain.20702.name": "Limited-Time Resonance",
+  "obtain.20703.name": "Pear-Pal Premium",
+  "obtain.20704.name": "Starlit Shop",
+  "obtain.20705.name": "Sunny Sea Breeze",
   "style.cool": "Cool",
   "style.elegant": "Elegant",
   "style.fresh": "Fresh",
@@ -254,5 +260,6 @@
   "version.2.4": "The Forest Need Not Listen",
   "version.2.5": "Where All Souls Return",
   "version.2.6": "Until Tide Ends",
+  "version.2.7": "Where Stars Yearn",
   "version.2.x": "Itzaland"
 }

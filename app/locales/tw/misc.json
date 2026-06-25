@@ -229,6 +229,12 @@
   "obtain.20605.name": "風物珍存",
   "obtain.20606.name": "世界逸事",
   "obtain.20607.name": "燭火燃甜夢",
+  "obtain.20608.name": "繽紛活動",
+  "obtain.20701.name": "冒險中的意外之喜",
+  "obtain.20702.name": "限定共鳴",
+  "obtain.20703.name": "美鴨梨商城精品",
+  "obtain.20704.name": "星光小舖",
+  "obtain.20705.name": "晴日海風吹",
   "style.cool": "帥氣",
   "style.elegant": "典雅",
   "style.fresh": "清新",
@@ -254,5 +260,6 @@
   "version.2.4": "噓！森林不必聽",
   "version.2.5": "萬靈的歸途",
   "version.2.6": "潮汐盡頭的明天",
+  "version.2.7": "千星所向的旅途",
   "version.2.x": "伊贊之土"
 }

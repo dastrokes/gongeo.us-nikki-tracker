@@ -397,6 +397,11 @@
   {
     "field": "material",
     "itemType": null,
+    "value": "gel"
+  },
+  {
+    "field": "material",
+    "itemType": null,
     "value": "gemstone"
   },
   {
@@ -413,6 +418,11 @@
     "field": "material",
     "itemType": null,
     "value": "gold"
+  },
+  {
+    "field": "material",
+    "itemType": null,
+    "value": "iridescent"
   },
   {
     "field": "material",
@@ -532,7 +542,17 @@
   {
     "field": "material",
     "itemType": null,
+    "value": "twine"
+  },
+  {
+    "field": "material",
+    "itemType": null,
     "value": "velvet"
+  },
+  {
+    "field": "material",
+    "itemType": null,
+    "value": "water"
   },
   {
     "field": "material",
@@ -687,6 +707,11 @@
   {
     "field": "ornament",
     "itemType": null,
+    "value": "bubble"
+  },
+  {
+    "field": "ornament",
+    "itemType": null,
     "value": "buckle"
   },
   {
@@ -703,6 +728,11 @@
     "field": "ornament",
     "itemType": null,
     "value": "cage"
+  },
+  {
+    "field": "ornament",
+    "itemType": null,
+    "value": "candy"
   },
   {
     "field": "ornament",
@@ -833,6 +863,11 @@
     "field": "ornament",
     "itemType": null,
     "value": "frog_button"
+  },
+  {
+    "field": "ornament",
+    "itemType": null,
+    "value": "fruit"
   },
   {
     "field": "ornament",
@@ -1057,6 +1092,11 @@
   {
     "field": "ornament",
     "itemType": null,
+    "value": "starfish"
+  },
+  {
+    "field": "ornament",
+    "itemType": null,
     "value": "sticker"
   },
   {
@@ -1113,6 +1153,11 @@
     "field": "ornament",
     "itemType": null,
     "value": "vine"
+  },
+  {
+    "field": "ornament",
+    "itemType": null,
+    "value": "whistle"
   },
   {
     "field": "ornament",
@@ -1218,6 +1263,11 @@
     "field": "pattern",
     "itemType": null,
     "value": "cloud"
+  },
+  {
+    "field": "pattern",
+    "itemType": null,
+    "value": "cow_print"
   },
   {
     "field": "pattern",
@@ -1707,6 +1757,11 @@
   {
     "field": "structure",
     "itemType": null,
+    "value": "bubble"
+  },
+  {
+    "field": "structure",
+    "itemType": null,
     "value": "cable_knit"
   },
   {
@@ -1738,6 +1793,16 @@
     "field": "structure",
     "itemType": null,
     "value": "crescent"
+  },
+  {
+    "field": "structure",
+    "itemType": null,
+    "value": "crystalline"
+  },
+  {
+    "field": "structure",
+    "itemType": null,
+    "value": "cube"
   },
   {
     "field": "structure",
@@ -1852,6 +1917,11 @@
   {
     "field": "structure",
     "itemType": null,
+    "value": "lantern"
+  },
+  {
+    "field": "structure",
+    "itemType": null,
     "value": "layered"
   },
   {
@@ -1863,6 +1933,11 @@
     "field": "structure",
     "itemType": null,
     "value": "liquid"
+  },
+  {
+    "field": "structure",
+    "itemType": null,
+    "value": "liquid_filled"
   },
   {
     "field": "structure",
@@ -1962,6 +2037,11 @@
   {
     "field": "structure",
     "itemType": null,
+    "value": "splash"
+  },
+  {
+    "field": "structure",
+    "itemType": null,
     "value": "stitched"
   },
   {
@@ -1993,6 +2073,11 @@
     "field": "structure",
     "itemType": null,
     "value": "tinted"
+  },
+  {
+    "field": "structure",
+    "itemType": null,
+    "value": "translucent"
   },
   {
     "field": "structure",
@@ -2882,6 +2967,11 @@
   {
     "field": "subcategory",
     "itemType": "chokers",
+    "value": "ruffle_choker"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "chokers",
     "value": "strand_necklace"
   },
   {
@@ -3267,6 +3357,11 @@
   {
     "field": "subcategory",
     "itemType": "handhelds",
+    "value": "cup"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "handhelds",
     "value": "fishing_rod"
   },
   {
@@ -3282,12 +3377,22 @@
   {
     "field": "subcategory",
     "itemType": "handhelds",
+    "value": "goblet"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "handhelds",
     "value": "hammer"
   },
   {
     "field": "subcategory",
     "itemType": "handhelds",
     "value": "hoe"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "handhelds",
+    "value": "kickboard"
   },
   {
     "field": "subcategory",
@@ -3378,6 +3483,11 @@
     "field": "subcategory",
     "itemType": "headwear",
     "value": "coronet"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "headwear",
+    "value": "goggles"
   },
   {
     "field": "subcategory",
@@ -3637,6 +3747,11 @@
   {
     "field": "subcategory",
     "itemType": "shoes",
+    "value": "clogs"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "shoes",
     "value": "combat_boots"
   },
   {
@@ -3798,6 +3913,11 @@
     "field": "subcategory",
     "itemType": "tops",
     "value": "peasant_blouse"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "tops",
+    "value": "polo_shirt"
   },
   {
     "field": "subcategory",

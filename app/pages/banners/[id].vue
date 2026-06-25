@@ -654,6 +654,7 @@
     ChartLine,
   } from '@vicons/fa'
   import { BANNER_DATA } from '~~/data/banners'
+  import { LATEST_BANNER_ID } from '~~/data/config'
 
   const { t } = useI18n()
   const { getImageSrc } = imageProvider()
@@ -695,7 +696,12 @@
     return t(`banner.${bannerId.value}.name`)
   })
   const bannerStatsPath = computed(() => {
-    if (!banner.value || banner.value.bannerType === 1) return ''
+    if (
+      !banner.value ||
+      banner.value.bannerType === 1 ||
+      banner.value.bannerId > LATEST_BANNER_ID
+    )
+      return ''
 
     return localePath(
       `/global/${getEntitySlug('banner', banner.value.bannerId)}`

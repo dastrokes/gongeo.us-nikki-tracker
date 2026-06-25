@@ -149,6 +149,6 @@ export default defineCachedApiEventHandler(
       varyQuery: true,
       varyHeaders: [GAME_VERSION_HEADER],
     },
-    profile: 'catalog',
+    profile: 'detail',
   }
 )

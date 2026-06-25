@@ -1118,7 +1118,8 @@
         bottom: 24,
         left: 36,
         right: 24,
-        containLabel: true,
+        outerBoundsMode: 'same',
+        outerBoundsContain: 'axisLabel',
       },
       xAxis: {
         type: 'value',
@@ -1277,7 +1278,8 @@
         right: 0,
         bottom: 12,
         top: 64,
-        containLabel: true,
+        outerBoundsMode: 'same',
+        outerBoundsContain: 'axisLabel',
       },
       xAxis: {
         type: 'category',

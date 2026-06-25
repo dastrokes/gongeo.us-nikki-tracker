@@ -706,8 +706,8 @@
         "fur_choker": "Pelz",
         "lace_choker": "Spitze",
         "pendant_choker": "Anhänger",
-        "ribbon_choker": "Band",
-        "ruffle_choker": "Rüschenhalsband",
+        "ribbon_choker": "Schleife",
+        "ruffle_choker": "Rüschen",
         "strand_necklace": "Strangkette"
       },
       "dresses": {
@@ -849,7 +849,7 @@
         "lariat_necklace": "Lariat Halskette",
         "locket": "Amulett",
         "pendant_necklace": "Anhänger-Kette",
-        "ribbon_choker": "Band",
+        "ribbon_choker": "Schleife",
         "strand_necklace": "Strangkette"
       },
       "outerwear": {

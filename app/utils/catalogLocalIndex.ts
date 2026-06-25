@@ -1,14 +1,18 @@
 export type CatalogLocalItem = ItemListEntry & {
   catalogGroupIds?: number[]
+  catalogGroupRootId?: number
 }
 export type CatalogLocalOutfit = OutfitListEntry & {
   catalogGroupIds?: number[]
+  catalogGroupRootId?: number
 }
 export type CatalogLocalMakeup = ItemListEntry & {
   catalogGroupIds?: number[]
+  catalogGroupRootId?: number
 }
 export type CatalogLocalMomo = MomoListEntry & {
   catalogGroupIds?: number[]
+  catalogGroupRootId?: number
 }
 
 export type CatalogLocalIndex = {
@@ -31,21 +35,36 @@ export type CatalogLocalIndex = {
 }
 
 const buildEntityGroupIdsById = <
-  T extends { id: number; catalogGroupIds?: number[] },
+  T extends {
+    id: number
+    catalogGroupIds?: number[]
+    catalogGroupRootId?: number
+  },
 >(
   rows: readonly T[]
 ) => {
-  const ids = new Set(rows.map((row) => row.id))
-  const groupIdsById = new Map<number, number[]>()
+  const validIds = new Set(rows.map((row) => row.id))
+  const familyIdsByRoot = new Map<number, number[]>()
 
   for (const row of rows) {
-    const groupIds =
-      row.catalogGroupIds?.filter((entityId) => ids.has(entityId)) ?? []
-
-    groupIdsById.set(row.id, groupIds.length > 0 ? groupIds : [row.id])
+    if (row.catalogGroupRootId === undefined) continue
+    const familyIds = familyIdsByRoot.get(row.catalogGroupRootId) ?? []
+    familyIds.push(row.id)
+    familyIdsByRoot.set(row.catalogGroupRootId, familyIds)
   }
 
-  return groupIdsById
+  return new Map(
+    rows.map((row) => {
+      const rootedIds =
+        row.catalogGroupRootId === undefined
+          ? []
+          : (familyIdsByRoot.get(row.catalogGroupRootId) ?? [])
+      const legacyIds =
+        row.catalogGroupIds?.filter((id) => validIds.has(id)) ?? []
+      const ids = rootedIds.length > 0 ? rootedIds : legacyIds
+      return [row.id, ids.length > 0 ? ids : [row.id]]
+    })
+  )
 }
 
 export const createCatalogLocalIndex = ({

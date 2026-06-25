@@ -82,39 +82,51 @@ const getCompactDictionaryValue = (
   index: unknown
 ) => (typeof index === 'number' ? dictionary?.[index] : undefined)
 
+const normalizeCompactFamilyRoot = (value: unknown) =>
+  typeof value === 'number' && Number.isSafeInteger(value) ? value : undefined
+
+const hasCompactValue = (value: unknown) =>
+  value !== undefined && value !== null
+
 const decodeCompactItemRows = (
   rows: unknown[][],
   types: readonly string[] = CATALOG_ITEM_TYPES,
   styles: readonly string[] = CATALOG_STYLES
 ) =>
-  rows.flatMap(([ids, quality, typeIndex, styleIndex, labels, obtain]) => {
-    const itemIds = unpackCompactIds(ids)
+  rows.flatMap(
+    ([ids, quality, typeIndex, styleIndex, labels, obtain, familyRootId]) => {
+      const itemIds = unpackCompactIds(ids)
+      const catalogGroupRootId = normalizeCompactFamilyRoot(familyRootId)
 
-    return itemIds.map((id) => ({
-      id,
-      quality: Number(quality),
-      type: getCompactDictionaryValue(types, typeIndex) ?? '',
-      style: expandCompactStyle(styles, styleIndex),
-      labels: expandCompactLabels(labels),
-      ...(obtain === undefined ? {} : { obtain_type: Number(obtain) }),
-      ...(itemIds.length > 1 ? { catalogGroupIds: itemIds } : {}),
-    }))
-  })
+      return itemIds.map((id) => ({
+        id,
+        quality: Number(quality),
+        type: getCompactDictionaryValue(types, typeIndex) ?? '',
+        style: expandCompactStyle(styles, styleIndex),
+        labels: expandCompactLabels(labels),
+        ...(hasCompactValue(obtain) ? { obtain_type: Number(obtain) } : {}),
+        ...(itemIds.length > 1 ? { catalogGroupIds: itemIds } : {}),
+        ...(catalogGroupRootId === undefined ? {} : { catalogGroupRootId }),
+      }))
+    }
+  )
 
 const decodeCompactOutfitRows = (
   rows: unknown[][],
   styles: readonly string[] = CATALOG_STYLES
 ) =>
-  rows.flatMap(([ids, quality, styleIndex, labels, obtain]) => {
+  rows.flatMap(([ids, quality, styleIndex, labels, obtain, familyRootId]) => {
     const outfitIds = unpackCompactIds(ids)
+    const catalogGroupRootId = normalizeCompactFamilyRoot(familyRootId)
 
     return outfitIds.map((id) => ({
       id,
       quality: Number(quality),
       style: expandCompactStyle(styles, styleIndex),
       labels: expandCompactLabels(labels),
-      ...(obtain === undefined ? {} : { obtain_type: Number(obtain) }),
+      ...(hasCompactValue(obtain) ? { obtain_type: Number(obtain) } : {}),
       ...(outfitIds.length > 1 ? { catalogGroupIds: outfitIds } : {}),
+      ...(catalogGroupRootId === undefined ? {} : { catalogGroupRootId }),
     }))
   })
 
@@ -123,30 +135,36 @@ const decodeCompactMakeupRows = (
   types: readonly string[] = CATALOG_MAKEUP_TYPES,
   styles: readonly string[] = CATALOG_STYLES
 ) =>
-  rows.flatMap(([ids, quality, typeIndex, styleIndex, obtain]) => {
-    const makeupIds = unpackCompactIds(ids)
+  rows.flatMap(
+    ([ids, quality, typeIndex, styleIndex, obtain, familyRootId]) => {
+      const makeupIds = unpackCompactIds(ids)
+      const catalogGroupRootId = normalizeCompactFamilyRoot(familyRootId)
 
-    return makeupIds.map((id) => ({
-      id,
-      quality: Number(quality),
-      type: getCompactDictionaryValue(types, typeIndex) ?? '',
-      style: expandCompactStyle(styles, styleIndex),
-      labels: [],
-      ...(obtain === undefined ? {} : { obtain_type: Number(obtain) }),
-      ...(makeupIds.length > 1 ? { catalogGroupIds: makeupIds } : {}),
-    }))
-  })
+      return makeupIds.map((id) => ({
+        id,
+        quality: Number(quality),
+        type: getCompactDictionaryValue(types, typeIndex) ?? '',
+        style: expandCompactStyle(styles, styleIndex),
+        labels: [],
+        ...(hasCompactValue(obtain) ? { obtain_type: Number(obtain) } : {}),
+        ...(makeupIds.length > 1 ? { catalogGroupIds: makeupIds } : {}),
+        ...(catalogGroupRootId === undefined ? {} : { catalogGroupRootId }),
+      }))
+    }
+  )
 
 const decodeCompactMomoRows = (rows: unknown[][]) =>
-  rows.flatMap(([ids, quality, obtain, version]) => {
+  rows.flatMap(([ids, quality, obtain, version, familyRootId]) => {
     const momoIds = unpackCompactIds(ids)
+    const catalogGroupRootId = normalizeCompactFamilyRoot(familyRootId)
 
     return momoIds.map((id) => ({
       id,
       quality: Number(quality),
-      ...(obtain === undefined ? {} : { obtain_type: Number(obtain) }),
-      ...(version === undefined ? {} : { version: String(version) }),
+      ...(hasCompactValue(obtain) ? { obtain_type: Number(obtain) } : {}),
+      ...(hasCompactValue(version) ? { version: String(version) } : {}),
       ...(momoIds.length > 1 ? { catalogGroupIds: momoIds } : {}),
+      ...(catalogGroupRootId === undefined ? {} : { catalogGroupRootId }),
     }))
   })
 

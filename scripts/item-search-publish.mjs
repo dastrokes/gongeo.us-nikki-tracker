@@ -12,6 +12,10 @@ import {
   markFeedbackSuggestionsApplied,
   promoteFeedbackSuggestions,
 } from './item-search-feedback.mjs'
+import {
+  buildItemSearchCacheTags,
+  purgeNetlifyCache,
+} from './netlify-cache-lib.mjs'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -46,6 +50,18 @@ const validScopes = new Set([
   'locales-only',
   'feedback-selected',
 ])
+
+const assertNetlifyPurgeConfig = () => {
+  if (!process.env.NETLIFY_SITE_ID) {
+    throw new Error('NETLIFY_SITE_ID is required before publishing item search')
+  }
+
+  if (!process.env.NETLIFY_AUTH_TOKEN) {
+    throw new Error(
+      'NETLIFY_AUTH_TOKEN is required before publishing item search'
+    )
+  }
+}
 
 const normalizeString = (value) =>
   typeof value === 'string' && value.trim() ? value.trim() : null
@@ -271,6 +287,8 @@ export const runItemSearchPublish = async (argv = process.argv.slice(2)) => {
     )
   }
 
+  assertNetlifyPurgeConfig()
+
   let effectiveScope = args.scope
   let effectiveItemIds = [...args.itemIds]
   const promotedFeedback =
@@ -361,6 +379,14 @@ export const runItemSearchPublish = async (argv = process.argv.slice(2)) => {
     localCopyResult = await refreshItemSearchLocalCopy()
   }
 
+  const cacheTags = buildItemSearchCacheTags(finalSummary.itemIds, {
+    localesOnly: effectiveScope === 'locales-only',
+  })
+  const cacheInvalidation = {
+    requestedTags: cacheTags,
+    result: await purgeNetlifyCache({ tags: cacheTags }),
+  }
+
   const publishId = `publish-${new Date().toISOString().replace(/[:.]/g, '-')}`
   const report = {
     publishId,
@@ -375,17 +401,19 @@ export const runItemSearchPublish = async (argv = process.argv.slice(2)) => {
     pinecone: pineconeResult,
     localCopy: localCopyResult,
     feedback: promotedFeedback,
+    cacheInvalidation,
     itemAttributesSource,
     overridesOnly: shouldSyncFromOverrides,
     failedItems: [],
   }
-  const reportPath = writePublishReport(report)
 
   if (promotedFeedback.ids.length > 0) {
     await markFeedbackSuggestionsApplied({
       ids: promotedFeedback.ids,
     })
   }
+
+  const reportPath = writePublishReport(report)
 
   return {
     reportPath,

@@ -1,4 +1,4 @@
-import { getCookie, getQuery, type H3Event } from 'h3'
+import { getCookie, getHeader, getQuery, type H3Event } from 'h3'
 
 import {
   defaultLocale,
@@ -11,6 +11,7 @@ const supportedLocaleCodeSet = new Set<SupportedLocaleCode>(
 )
 const cjkLocaleCodeSet = new Set<SupportedLocaleCode>(['ja', 'ko', 'zh', 'tw'])
 export const REQUEST_LOCALE_COOKIE = 'i18n_redirected'
+export const REQUEST_LOCALE_HEADER = 'X-Locale'
 
 export type SearchNamespace = 'en' | 'zh'
 
@@ -30,10 +31,14 @@ export const resolveLocaleCode = (
 export const resolveRequestLocale = (event: H3Event): SupportedLocaleCode => {
   const query = getQuery(event)
   const langQuery = Array.isArray(query.lang) ? query.lang[0] : query.lang
+  const headerLocale = getHeader(event, REQUEST_LOCALE_HEADER)
   const cookieLocale = getCookie(event, REQUEST_LOCALE_COOKIE)
 
   return resolveLocaleCode(
-    langQuery?.toString() ?? cookieLocale?.toString() ?? null
+    langQuery?.toString() ??
+      headerLocale?.toString() ??
+      cookieLocale?.toString() ??
+      null
   )
 }
 

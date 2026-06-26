@@ -83,6 +83,7 @@ export interface FeedbackMaintainerActionRequest {
 export interface FeedbackMaintainerApplyResult {
   applyId: string
   touchedItemIds: number[]
+  purgedCacheIds: string[]
   searchNamespaces: string[]
 }
 

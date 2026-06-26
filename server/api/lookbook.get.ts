@@ -1,8 +1,5 @@
-import type { H3Event } from 'h3'
-
 const LOOKBOOK_API_BASE_URL = 'https://api-nikki.ranaxro.com/conv-clothdiydata'
 const LOOKBOOK_CODE_PATTERN = /^[A-Za-z0-9]{11}#$/
-const LOOKBOOK_CACHE_MAX_AGE = 60 * 60 * 24 * 365
 const SKIN_TONE_CLOTH_TYPE = 86
 const IGNORED_LOOKBOOK_ITEM_IDS = new Set([
   1021860042, 1022860042, 1023860042, 1020860231,
@@ -138,19 +135,9 @@ export default defineCachedApiEventHandler(
     }
   },
   {
-    cache: {
-      maxAge: LOOKBOOK_CACHE_MAX_AGE,
-      staleMaxAge: LOOKBOOK_CACHE_MAX_AGE,
-      name: 'lookbook',
-      getKey: (event: H3Event) => {
-        const code = normalizeLookbookCode(getQuery(event).code)
-        return `${getGameVersion()}:lookbook:${code}`
-      },
-      swr: true,
-    },
+    cache: false,
     headers: {
       varyQuery: true,
-      varyHeaders: [GAME_VERSION_HEADER],
     },
     profile: 'lookbook',
   }

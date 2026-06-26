@@ -15,6 +15,7 @@
     "generate:og": "node ./scripts/generate-og-image.mjs",
     "preview": "nuxt preview",
     "sync:banner": "node ./scripts/sync-global-banner-scopes.mjs",
+    "cache:purge": "node scripts/purge-netlify-cache.mjs",
     "postinstall": "nuxt prepare",
     "format": "prettier --write .",
     "prepare": "husky",
@@ -22,6 +23,7 @@
   },
   "dependencies": {
     "@fingerprintjs/fingerprintjs": "5.2.0",
+    "@netlify/functions": "5.3.0",
     "@nuxt/eslint": "1.16.0",
     "@nuxt/fonts": "0.14.0",
     "@nuxt/image": "2.0.0",

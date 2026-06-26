@@ -1,8 +1,3 @@
-import type { H3Event } from 'h3'
-import { hash } from 'ohash'
-
-import { resolveRequestSearchNamespace } from '../../utils/locale'
-
 type SearchIndexMetadata = ItemSearchMetadata & {
   [key: string]: unknown
   quality?: number
@@ -479,30 +474,11 @@ export default defineCachedApiEventHandler(
     }
   },
   {
-    cache: {
-      maxAge: 60 * 60 * 24,
-      staleMaxAge: 60 * 60 * 24,
-      name: 'search-items',
-      getKey: (event: H3Event) => {
-        const version = getGameVersion()
-        const query = getQuery(event)
-        const q = normalizeSearchCacheKey(query.q)
-        const qHash = q ? hash(q) : 'empty'
-        const recordId = normalizeRecordId(
-          query.id ?? query.recordId ?? query.record_id
-        )
-        const recordHash = recordId ? hash(recordId) : 'empty'
-        const limit = normalizeLimit(query.limit)
-        const searchNamespace = resolveRequestSearchNamespace(event)
-        const filters = normalizeCatalogSearchFilters(query)
-        const filterHash = hash(getCatalogSearchFilterKey(filters))
-        return `${version}:search:pinecore:${searchNamespace}:q${qHash}:r${recordHash}:l${limit}:f${filterHash}`
-      },
-      swr: true,
-    },
+    cache: false,
     headers: {
       varyQuery: true,
-      varyHeaders: [GAME_VERSION_HEADER],
+      varyHeaders: [REQUEST_LOCALE_HEADER],
+      varyCookies: [REQUEST_LOCALE_COOKIE],
     },
     profile: 'search',
   }

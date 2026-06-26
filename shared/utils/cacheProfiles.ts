@@ -2,10 +2,21 @@ import { getGameVersion } from './gameVersion'
 
 export const GAME_VERSION_HEADER = 'X-Game-Version'
 export const CACHE_TAGS = {
-  catalog: 'catalog',
-  details: 'details',
+  catalogAssets: 'catalog-assets',
+  itemSearch: 'item-search',
+  itemDetails: 'item-details',
+  outfitDetails: 'outfit-details',
+  makeupDetails: 'makeup-details',
+  momoDetails: 'momo-details',
   stats: 'stats',
+  images: 'images',
+  lookbook: 'lookbook',
 } as const
+
+export const itemDetailCacheId = (id: string) => `item-detail-${id}`
+export const outfitDetailCacheId = (id: string) => `outfit-detail-${id}`
+export const makeupDetailCacheId = (id: string) => `makeup-detail-${id}`
+export const momoDetailCacheId = (id: string) => `momo-detail-${id}`
 
 const HEADER = {
   cache: 'Cache-Control',
@@ -47,7 +58,9 @@ interface CacheProfile {
 }
 
 export interface CacheHeaderOptions {
+  cacheIds?: string[]
   includeVersion?: boolean
+  varyCookies?: string[]
   varyQuery?: boolean
   varyHeaders?: string[]
 }
@@ -125,18 +138,17 @@ const pageProfiles = {
 
 const apiProfiles = {
   catalog: createProfile(BROWSER_REVALIDATE, CDN_API_LONG, {
-    cacheIds: [CACHE_TAGS.catalog],
     includeVersion: true,
   }),
   detail: createProfile(BROWSER_REVALIDATE, CDN_API_LONG, {
-    cacheIds: [CACHE_TAGS.details],
     includeVersion: true,
   }),
   search: createProfile(NO_STORE, CDN_SEARCH, {
-    cacheIds: [CACHE_TAGS.catalog],
+    cacheIds: [CACHE_TAGS.itemSearch],
     includeVersion: true,
   }),
   lookbook: createProfile(NO_STORE, CDN_SEARCH, {
+    cacheIds: [CACHE_TAGS.lookbook],
     includeVersion: true,
   }),
   feedback: createProfile(NO_STORE, CDN_FEEDBACK),
@@ -157,10 +169,15 @@ export type ApiCacheProfile = keyof typeof apiProfiles
 export type AnyCacheProfile = PageCacheProfile | ApiCacheProfile
 
 function buildVary({
+  varyCookies = [],
   varyQuery = false,
   varyHeaders = [],
 }: CacheHeaderOptions = {}): string | undefined {
   const parts: string[] = []
+
+  if (varyCookies.length) {
+    parts.push(`cookie=${varyCookies.join('|')}`)
+  }
 
   if (varyHeaders.length) {
     parts.push(`header=${varyHeaders.join('|')}`)
@@ -196,7 +213,10 @@ export function resolveCacheHeaders(
   const config = getProfile(scope, profile)
   const headers: CacheHeaders = { ...config.headers }
   const vary = mergeVary(headers[HEADER.vary], buildVary(options))
-  const cacheIds = normalizeCacheIds(config.cacheIds)
+  const cacheIds = normalizeCacheIds([
+    ...(config.cacheIds ?? []),
+    ...(options.cacheIds ?? []),
+  ])
   const includeVersion = options.includeVersion ?? config.includeVersion
 
   if (includeVersion) {

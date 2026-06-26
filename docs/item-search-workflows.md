@@ -62,6 +62,13 @@ Use [scripts/item-search-publish.mjs](../scripts/item-search-publish.mjs) for th
 
 Each publish also refreshes a tracker-owned local copy of the synced `item_attributes` dataset under `data/item-search/generated/supabase/`.
 
+Required cache purge environment:
+
+- `NETLIFY_SITE_ID`: Netlify site to purge.
+- `NETLIFY_AUTH_TOKEN`: token used for the Netlify purge API.
+
+After Supabase, Pinecone, and the local copy refresh all succeed, publish purges Netlify Durable cache entries. Normal publishes purge `item-search` plus touched `item-detail-{id}` tags. `locales-only` purges only `item-search`. See [cache invalidation](cache-invalidation.md) for the cache ID list and one-off purge commands.
+
 Canonical local copy:
 
 - `item-attributes.jsonl`: the only persisted final artifact
@@ -116,7 +123,7 @@ Without `--overwrite`, Supabase skips existing `item_id` rows and Pinecone skips
 Publish report behavior:
 
 - Every publish writes `latest.json` plus a timestamped `publish-*.json`.
-- Reports include requested scope inputs, touched item ids, final row count, Supabase sync summary, Pinecone sync summary, local-copy export summary, promoted feedback ids, and the item-attributes source path that was published.
+- Reports include requested scope inputs, touched item ids, final row count, Supabase sync summary, Pinecone sync summary, local-copy export summary, Netlify cache invalidation tags/results, promoted feedback ids, and the item-attributes source path that was published.
 - Override-only publishes stage temporary JSONL rows under `data/item-search/generated/reports/publish/staging/`.
 
 ## Split Workflow

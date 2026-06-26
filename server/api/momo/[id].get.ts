@@ -133,21 +133,18 @@ export default defineCachedApiEventHandler(
     }
   },
   {
-    cache: {
-      maxAge: 60 * 60 * 24 * 30,
-      staleMaxAge: 60 * 60 * 24 * 7,
-      name: 'momo-detail',
-      getKey: (event) => {
-        const version = getGameVersion()
-        const id = getRouterParam(event, 'id')
-        const languageCode = resolveRequestLocale(event) || 'en'
-        return `${version}:momo-relations-v1:${id}:${languageCode}`
-      },
-      swr: true,
-    },
-    headers: {
-      varyQuery: true,
-      varyHeaders: [GAME_VERSION_HEADER],
+    cache: false,
+    headers: (event) => {
+      const id = getRouterParam(event, 'id')
+      return {
+        varyQuery: true,
+        varyHeaders: [REQUEST_LOCALE_HEADER],
+        varyCookies: [REQUEST_LOCALE_COOKIE],
+        cacheIds: [
+          CACHE_TAGS.momoDetails,
+          ...(id ? [momoDetailCacheId(id)] : []),
+        ],
+      }
     },
     profile: 'detail',
   }

@@ -232,19 +232,18 @@ export default defineCachedApiEventHandler(
     }
   },
   {
-    cache: {
-      maxAge: 60 * 60 * 24 * 30,
-      staleMaxAge: 60 * 60 * 24 * 7,
-      name: 'outfit-detail',
-      getKey: (event) => {
-        const id = getRouterParam(event, 'id')
-        const languageCode = resolveRequestLocale(event)
-        return `outfit:${id}:${languageCode}`
-      },
-      swr: true,
-    },
-    headers: {
-      varyQuery: true,
+    cache: false,
+    headers: (event) => {
+      const id = getRouterParam(event, 'id')
+      return {
+        varyQuery: true,
+        varyHeaders: [REQUEST_LOCALE_HEADER],
+        varyCookies: [REQUEST_LOCALE_COOKIE],
+        cacheIds: [
+          CACHE_TAGS.outfitDetails,
+          ...(id ? [outfitDetailCacheId(id)] : []),
+        ],
+      }
     },
     profile: 'detail',
   }

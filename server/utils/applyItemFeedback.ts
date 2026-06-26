@@ -463,14 +463,31 @@ export const applyItemFeedback = async (
 
   await upsertItemAttributeRow(itemAttributeRow)
   const searchNamespaces = await upsertPineconeRows(itemAttributeRow)
+  const applyId = `feedback-apply-${suggestion.id}`
+  const touchedItemIds = [itemAttributeRow.item_id]
+  let purgedCacheIds: string[]
+
+  try {
+    purgedCacheIds = await purgeNetlifyCacheIds([
+      CACHE_TAGS.itemSearch,
+      ...touchedItemIds.map((itemId) => itemDetailCacheId(String(itemId))),
+    ])
+  } catch (error: unknown) {
+    console.error(
+      `Failed to purge Netlify cache for ${applyId} items ${touchedItemIds.join(',')}: ${toErrorMessage(error, 'Unknown purge error')}`
+    )
+    throw error
+  }
+
   await updateFeedbackSuggestionStatus({
     suggestionId: suggestion.id,
     status: 'applied',
   })
 
   return {
-    applyId: `feedback-apply-${suggestion.id}`,
-    touchedItemIds: [itemAttributeRow.item_id],
+    applyId,
+    touchedItemIds,
+    purgedCacheIds,
     searchNamespaces,
   }
 }

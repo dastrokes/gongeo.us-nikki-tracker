@@ -176,19 +176,18 @@ export default defineCachedApiEventHandler(
     }
   },
   {
-    cache: {
-      maxAge: 60 * 60 * 24 * 30,
-      staleMaxAge: 60 * 60 * 24 * 7,
-      name: 'item-detail',
-      getKey: (event) => {
-        const id = getRouterParam(event, 'id')
-        const languageCode = resolveRequestLocale(event)
-        return `item:${id}:${languageCode}`
-      },
-      swr: true,
-    },
-    headers: {
-      varyQuery: true,
+    cache: false,
+    headers: (event) => {
+      const id = getRouterParam(event, 'id')
+      return {
+        varyQuery: true,
+        varyHeaders: [REQUEST_LOCALE_HEADER],
+        varyCookies: [REQUEST_LOCALE_COOKIE],
+        cacheIds: [
+          CACHE_TAGS.itemDetails,
+          ...(id ? [itemDetailCacheId(id)] : []),
+        ],
+      }
     },
     profile: 'detail',
   }

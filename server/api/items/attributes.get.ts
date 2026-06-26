@@ -57,23 +57,9 @@ export default defineCachedApiEventHandler(
     }
   },
   {
-    cache: {
-      maxAge: 60 * 5,
-      staleMaxAge: 60 * 5,
-      name: 'item-attributes',
-      getKey: (event) => {
-        const query = parseItemAttributeMatchQuery(getQuery(event))
-        return buildItemCatalogCacheKey(
-          'item-attributes',
-          query,
-          getGameVersion()
-        )
-      },
-      swr: true,
-    },
+    cache: false,
     headers: {
       varyQuery: true,
-      varyHeaders: [GAME_VERSION_HEADER],
     },
     profile: 'search',
   }

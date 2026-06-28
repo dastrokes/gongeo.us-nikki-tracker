@@ -1494,6 +1494,9 @@
         width: number
         backgroundColor: { image: string }
         align: string
+        shadowBlur?: number
+        shadowColor?: string
+        shadowOffsetY?: number
       }
     > = {}
     // Get viewport width to detect mobile vs desktop
@@ -1514,6 +1517,11 @@
           ),
         },
         align: 'center',
+        shadowBlur: isMobile.value ? 8 : 10,
+        shadowColor: isDark.value
+          ? 'rgba(255, 255, 255, 0.36)'
+          : 'rgba(71, 85, 105, 0.26)',
+        shadowOffsetY: 1,
       }
     })
     const textStyle = getChartTextStyle()

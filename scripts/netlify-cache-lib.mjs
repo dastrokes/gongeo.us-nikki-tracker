@@ -5,14 +5,13 @@ const ITEM_SEARCH_TAG = 'item-search'
 export const itemDetailCacheId = (id) => `item-detail-${String(id).trim()}`
 
 export const normalizeCacheTags = (tags) => [
-  ...new Set(
-    tags
-      .map((tag) => String(tag ?? '').trim())
-      .filter(Boolean)
-  ),
+  ...new Set(tags.map((tag) => String(tag ?? '').trim()).filter(Boolean)),
 ]
 
-export const buildItemSearchCacheTags = (itemIds, { localesOnly = false } = {}) => {
+export const buildItemSearchCacheTags = (
+  itemIds,
+  { localesOnly = false } = {}
+) => {
   if (localesOnly) return [ITEM_SEARCH_TAG]
 
   return normalizeCacheTags([

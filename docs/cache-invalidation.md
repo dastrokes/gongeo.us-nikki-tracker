@@ -4,17 +4,17 @@ This app uses `Netlify-Cache-ID` as the purgeable cache identity for mutable cac
 
 ## IDs
 
-| Area | Cache IDs |
-| --- | --- |
-| Item search, facets, attributes | `item-search` |
-| Item detail | `item-details`, `item-detail-{id}` |
-| Outfit detail | `outfit-details`, `outfit-detail-{id}` |
-| Makeup detail | `makeup-details`, `makeup-detail-{id}` |
-| Momo detail | `momo-details`, `momo-detail-{id}` |
-| Hashed catalog parts | `catalog-assets` |
-| Lookbook | `lookbook` |
-| Stats | `stats` |
-| Images | `images` |
+| Area                            | Cache IDs                              |
+| ------------------------------- | -------------------------------------- |
+| Item search, facets, attributes | `item-search`                          |
+| Item detail                     | `item-details`, `item-detail-{id}`     |
+| Outfit detail                   | `outfit-details`, `outfit-detail-{id}` |
+| Makeup detail                   | `makeup-details`, `makeup-detail-{id}` |
+| Momo detail                     | `momo-details`, `momo-detail-{id}`     |
+| Hashed catalog parts            | `catalog-assets`                       |
+| Lookbook                        | `lookbook`                             |
+| Stats                           | `stats`                                |
+| Images                          | `images`                               |
 
 ## Normal Purges
 
@@ -31,14 +31,16 @@ Localized detail and search APIs vary by query string, `X-Locale`, and `i18n_red
 
 ## Commands
 
+The CLI loads `.env` and requires `NETLIFY_SITE_ID` plus `NETLIFY_AUTH_TOKEN`.
+
 One-off purge:
 
 ```powershell
-rtk npm run cache:purge -- --tag item-search --tag item-detail-1020780298
+npm run cache:purge -- --tag item-search --tag item-detail-1020780298
 ```
 
 Old identity cleanup after deploying this cache model:
 
 ```powershell
-rtk npm run cache:purge -- --tag game --tag details --tag catalog
+npm run cache:purge -- --tag game --tag details --tag catalog
 ```

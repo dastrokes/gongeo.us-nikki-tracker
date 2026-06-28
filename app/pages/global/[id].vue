@@ -1209,6 +1209,9 @@
         width: number
         backgroundColor: { image: string }
         align: string
+        shadowBlur?: number
+        shadowColor?: string
+        shadowOffsetY?: number
       }
     > = {}
 
@@ -1226,6 +1229,11 @@
           ),
         },
         align: 'center',
+        shadowBlur: isMobile.value ? 8 : 10,
+        shadowColor: isDark.value
+          ? 'rgba(255, 255, 255, 0.36)'
+          : 'rgba(71, 85, 105, 0.26)',
+        shadowOffsetY: 1,
       }
     })
 
@@ -1261,6 +1269,7 @@
               <div style="font-weight: bold; margin-bottom: 5px;">
                 ${t(`item.${itemId}.name`, itemId)}
               </div>
+              <div>${t('common.slot')}: <strong>${t(`type.${getItemType(itemId)}`)}</strong></div>
               <div>${t('common.charts.occurrences')}: <strong>${params[0]?.data?.value ?? 0}</strong></div>
               <div>${t('common.charts.percentage')}: <strong>${params[0]?.data?.percentage ?? '0.00'}%</strong></div>
             </div>

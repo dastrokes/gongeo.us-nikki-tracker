@@ -1,8 +1,11 @@
 #!/usr/bin/env node
 
 import { purgeNetlifyCache } from './netlify-cache-lib.mjs'
+import { loadEnvFile } from './item-search-index-lib.mjs'
 
 const tags = []
+
+loadEnvFile()
 
 for (let index = 2; index < process.argv.length; index += 1) {
   const arg = process.argv[index]

@@ -95,12 +95,6 @@ export default defineNuxtConfig({
           'data-website-id': 'dd22ab5d-2045-4450-aaff-f513339b5ca6',
           'data-domains': 'gongeo.us',
         },
-        {
-          src: 'https://api.gongeo.us/recorder.js',
-          defer: true,
-          'data-website-id': 'dd22ab5d-2045-4450-aaff-f513339b5ca6',
-          'data-domains': 'gongeo.us',
-        },
       ],
     },
   },
@@ -425,6 +419,7 @@ export default defineNuxtConfig({
     },
 
     telemetry: false,
+    autoInjectServerSentry: 'top-level-import',
     enabled: process.env.NODE_ENV === 'production',
   },
 

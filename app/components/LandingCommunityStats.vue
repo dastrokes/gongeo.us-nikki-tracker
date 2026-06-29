@@ -138,6 +138,7 @@
   const palette = usePalette()
   const themeVars = useThemeVars()
   const breakpoints = useBreakpoints(breakpointsTailwind)
+  const isMobile = computed(() => !breakpoints.greater('sm').value)
   const localePath = useLocalePath()
 
   const communityFirstItemSkeletonHeights = [
@@ -241,11 +242,9 @@
     }
   )
 
-  const communityFirstItemImageSize = computed(() =>
-    breakpoints.greater('sm').value ? 60 : 32
-  )
+  const communityFirstItemImageSize = computed(() => (isMobile.value ? 32 : 60))
   const communityFirstItemImageRequestSize = computed(() =>
-    breakpoints.greater('sm').value ? 120 : 60
+    isMobile.value ? 60 : 120
   )
 
   const communityFirstItemChartHeight = computed(() => '200px')

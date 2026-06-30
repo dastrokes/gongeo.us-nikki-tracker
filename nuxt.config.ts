@@ -165,7 +165,7 @@ export default defineNuxtConfig({
     supabaseSecretKey: process.env.SUPABASE_SECRET_KEY,
     supabaseDataSecretKey: process.env.SUPABASE_DATA_SECRET_KEY,
     pineconeApiKey: process.env.PINECONE_API_KEY,
-    pineconeIndexHost: process.env.PINECONE_INDEX_HOST,
+    pineconeSearchHost: process.env.PINECONE_SEARCH_HOST,
 
     public: {
       supabaseUrl: process.env.SUPABASE_DATABASE_URL,

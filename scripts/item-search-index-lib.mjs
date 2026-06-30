@@ -171,7 +171,7 @@ export const parseArgs = (argv) => {
   // Shared CLI flags for both sync entrypoints:
   // --item-attributes-path <path> selects the canonical JSONL source
   // --batch-size <n> controls write batch size
-  // --overwrite forces existing records to be updated instead of skipped
+  // --overwrite forces existing Supabase rows / Pinecone documents to be updated instead of skipped
   // --namespace <en|zh> applies to Pinecone sync flows
   const args = {
     itemAttributesPath: defaultItemAttributesPath,
@@ -844,9 +844,40 @@ export const syncItemIndexToSupabase = async (argv = process.argv.slice(2)) => {
   }
 }
 
-const PINECONE_API_VERSION = '2025-10'
-const PINECONE_TEXT_FIELD = 'text'
-const PINECONE_MAX_UPSERT_BATCH_SIZE = 96
+const PINECONE_DOCUMENT_API_VERSION = '2026-01.alpha'
+const PINECONE_INFERENCE_API_VERSION = '2026-04'
+const PINECONE_EMBED_MODEL = 'multilingual-e5-large'
+const PINECONE_EMBED_BATCH_SIZE = 96
+const RRF_RANK_CONSTANT = 60
+const RRF_LEXICAL_WEIGHT = 2
+const RRF_DENSE_WEIGHT = 1
+
+export const fusePineconeSearchMatches = ({
+  lexicalMatches,
+  denseMatches,
+  limit,
+}) => {
+  const matchesById = new Map()
+
+  const addMatches = (matches, weight) => {
+    matches.forEach((match, index) => {
+      const id = String(match?._id ?? '')
+      if (!id) return
+
+      const current = matchesById.get(id) ?? { match, score: 0 }
+      current.score += weight / (RRF_RANK_CONSTANT + index + 1)
+      matchesById.set(id, current)
+    })
+  }
+
+  addMatches(lexicalMatches, RRF_LEXICAL_WEIGHT)
+  addMatches(denseMatches, RRF_DENSE_WEIGHT)
+
+  return Array.from(matchesById.values())
+    .sort((left, right) => right.score - left.score)
+    .slice(0, limit)
+    .map(({ match, score }) => ({ ...match, _score: score }))
+}
 
 const resolvePineconeBaseUrl = (host) => {
   const normalizedHost = host.trim().replace(/\/$/, '')
@@ -855,24 +886,78 @@ const resolvePineconeBaseUrl = (host) => {
     : `https://${normalizedHost}`
 }
 
-const buildPineconeNdjson = (rows, textField = PINECONE_TEXT_FIELD) =>
-  rows
-    .map((row) =>
-      JSON.stringify({
-        _id: row.id,
-        [textField]: row.data,
-        ...row.metadata,
-      })
+const embedPineconeTexts = async (texts, inputType) => {
+  const response = await fetch('https://api.pinecone.io/embed', {
+    method: 'POST',
+    headers: {
+      'Api-Key': process.env.PINECONE_API_KEY,
+      'Content-Type': 'application/json',
+      'X-Pinecone-Api-Version': PINECONE_INFERENCE_API_VERSION,
+    },
+    body: JSON.stringify({
+      model: PINECONE_EMBED_MODEL,
+      parameters: { input_type: inputType, truncate: 'END' },
+      inputs: texts.map((text) => ({ text })),
+    }),
+  })
+
+  if (!response.ok) {
+    const message = await response.text().catch(() => '')
+    throw new Error(
+      `Pinecone embedding failed with ${response.status} ${response.statusText}${message ? `: ${message}` : ''}`
     )
-    .join('\n')
+  }
+
+  const payload = await response.json()
+  const vectors = Array.isArray(payload.data)
+    ? payload.data.map((entry) => entry.values)
+    : []
+
+  if (
+    vectors.length !== texts.length ||
+    vectors.some((values) => !Array.isArray(values))
+  ) {
+    throw new Error(
+      `Pinecone returned ${vectors.length} embeddings for ${texts.length} inputs`
+    )
+  }
+
+  return vectors
+}
+
+const fetchExistingPineconeDocumentIds = async ({ host, namespace, ids }) => {
+  if (ids.length === 0) return new Set()
+
+  const response = await fetch(
+    `${resolvePineconeBaseUrl(host)}/namespaces/${encodeURIComponent(namespace)}/documents/fetch`,
+    {
+      method: 'POST',
+      headers: {
+        'Api-Key': process.env.PINECONE_API_KEY,
+        'Content-Type': 'application/json',
+        'X-Pinecone-Api-Version': PINECONE_DOCUMENT_API_VERSION,
+      },
+      body: JSON.stringify({ ids, include_fields: ['item_id'] }),
+    }
+  )
+
+  if (!response.ok) {
+    const message = await response.text().catch(() => '')
+    throw new Error(
+      `Pinecone document fetch failed for namespace ${namespace} with ${response.status} ${response.statusText}${message ? `: ${message}` : ''}`
+    )
+  }
+
+  const payload = await response.json()
+  return new Set(Object.keys(payload.documents ?? {}))
+}
 
 export const syncItemIndexToPinecone = async (argv = process.argv.slice(2)) => {
   loadEnvFile()
 
-  if (!process.env.PINECONE_API_KEY || !process.env.PINECONE_INDEX_HOST) {
-    throw new Error(
-      'PINECONE_API_KEY and PINECONE_INDEX_HOST must be set in the environment or .env'
-    )
+  const { PINECONE_API_KEY, PINECONE_SEARCH_HOST } = process.env
+  if (!PINECONE_API_KEY || !PINECONE_SEARCH_HOST) {
+    throw new Error('PINECONE_API_KEY and PINECONE_SEARCH_HOST are required')
   }
 
   const args = parseArgs(argv)
@@ -888,14 +973,6 @@ export const syncItemIndexToPinecone = async (argv = process.argv.slice(2)) => {
     )
   }
 
-  const pineconeBaseUrl = resolvePineconeBaseUrl(
-    process.env.PINECONE_INDEX_HOST
-  )
-  const textField = process.env.PINECONE_TEXT_FIELD || PINECONE_TEXT_FIELD
-  const effectiveBatchSize = Math.min(
-    args.batchSize,
-    PINECONE_MAX_UPSERT_BATCH_SIZE
-  )
   const itemRows = parseJsonLines(args.itemAttributesPath).map((row) =>
     buildItemAttributeRow(row)
   )
@@ -904,91 +981,69 @@ export const syncItemIndexToPinecone = async (argv = process.argv.slice(2)) => {
     client,
     itemIds: itemRows.map((row) => row.item_id),
   })
-  const pineconeWrittenCounts = Object.fromEntries(
-    targetNamespaces.map(({ namespace }) => [namespace, 0])
-  )
-  const vectorRowsByNamespace = targetNamespaces.reduce(
-    (accumulator, { namespace }) => {
-      accumulator[namespace] = []
-      return accumulator
-    },
-    {}
+  const rowsByNamespace = Object.fromEntries(
+    targetNamespaces.map(({ namespace }) => [namespace, []])
   )
 
-  for (const itemRow of itemRows) {
-    const searchRows = buildSearchVectorUpsertRows(
+  itemRows.forEach((itemRow) => {
+    buildSearchVectorUpsertRows(
       itemRow,
       catalogRows.get(itemRow.item_id) ?? null
-    )
-
-    searchRows.forEach(({ namespace, row }) => {
-      if (!(namespace in vectorRowsByNamespace)) return
-      vectorRowsByNamespace[namespace].push(row)
+    ).forEach(({ namespace, row }) => {
+      if (rowsByNamespace[namespace]) {
+        rowsByNamespace[namespace].push(row)
+      }
     })
-  }
+  })
 
+  const batchSize = Math.min(args.batchSize, PINECONE_EMBED_BATCH_SIZE)
+  const written = {}
   for (const { namespace } of targetNamespaces) {
-    const upsertEndpoint = `${pineconeBaseUrl}/records/namespaces/${encodeURIComponent(namespace)}/upsert`
-    const fetchEndpoint = `${pineconeBaseUrl}/vectors/fetch`
+    written[namespace] = 0
+    const endpoint = `${resolvePineconeBaseUrl(PINECONE_SEARCH_HOST)}/namespaces/${encodeURIComponent(namespace)}/documents/upsert`
+    const batches = chunkArray(rowsByNamespace[namespace], batchSize)
 
-    for (const batch of chunkArray(
-      vectorRowsByNamespace[namespace],
-      effectiveBatchSize
-    )) {
+    for (const [batchIndex, batch] of batches.entries()) {
       let rowsToWrite = batch
-
       if (!args.overwrite) {
-        // Default behavior is append-only for Pinecone too: probe existing ids
-        // in the target namespace and only write rows that are missing.
-        const fetchUrl = new URL(fetchEndpoint)
-        fetchUrl.searchParams.set('namespace', namespace)
-        batch.forEach((row) => {
-          fetchUrl.searchParams.append('ids', row.id)
+        const existingIds = await fetchExistingPineconeDocumentIds({
+          host: PINECONE_SEARCH_HOST,
+          namespace,
+          ids: batch.map((row) => row.id),
         })
-
-        const fetchResponse = await fetch(fetchUrl, {
-          method: 'GET',
-          headers: {
-            'Api-Key': process.env.PINECONE_API_KEY,
-            'X-Pinecone-Api-Version': PINECONE_API_VERSION,
-          },
-        })
-
-        if (!fetchResponse.ok) {
-          const message = await fetchResponse.text().catch(() => '')
-          throw new Error(
-            `Pinecone fetch failed for namespace ${namespace} with ${fetchResponse.status} ${fetchResponse.statusText}${message ? `: ${message}` : ''}`
-          )
-        }
-
-        const fetchPayload = await fetchResponse.json()
-        const fetchedVectors = fetchPayload?.vectors ?? {}
-
-        rowsToWrite = batch.filter((row) => !fetchedVectors[row.id])
+        rowsToWrite = batch.filter((row) => !existingIds.has(row.id))
       }
 
-      if (rowsToWrite.length === 0) {
-        continue
-      }
+      if (rowsToWrite.length === 0) continue
 
-      const response = await fetch(upsertEndpoint, {
+      const embeddings = await embedPineconeTexts(
+        rowsToWrite.map((row) => row.data),
+        'passage'
+      )
+      const documents = rowsToWrite.map((row, index) => ({
+        _id: row.id,
+        text: row.data,
+        embedding: embeddings[index],
+        ...row.metadata,
+      }))
+      const response = await fetch(endpoint, {
         method: 'POST',
         headers: {
-          'Api-Key': process.env.PINECONE_API_KEY,
-          'Content-Type': 'application/x-ndjson',
-          'X-Pinecone-Api-Version': PINECONE_API_VERSION,
+          'Api-Key': PINECONE_API_KEY,
+          'Content-Type': 'application/json',
+          'X-Pinecone-Api-Version': PINECONE_DOCUMENT_API_VERSION,
         },
-        body: buildPineconeNdjson(rowsToWrite, textField),
+        body: JSON.stringify({ documents }),
       })
 
       if (!response.ok) {
         const message = await response.text().catch(() => '')
         throw new Error(
-          `Pinecone upsert failed for namespace ${namespace} with ${response.status} ${response.statusText}${message ? `: ${message}` : ''}`
+          `Pinecone document upsert failed for namespace ${namespace} batch ${batchIndex + 1} with ${response.status} ${response.statusText}${message ? `: ${message}` : ''}`
         )
       }
 
-      pineconeWrittenCounts[namespace] += rowsToWrite.length
+      written[namespace] += documents.length
     }
   }
 
@@ -997,14 +1052,101 @@ export const syncItemIndexToPinecone = async (argv = process.argv.slice(2)) => {
     imported_count: itemRows.length,
     namespace: args.namespace,
     overwrite: args.overwrite,
-    batch_size: effectiveBatchSize,
-    pinecone_namespaces: Object.fromEntries(
-      targetNamespaces.map(({ namespace }) => [
-        namespace,
-        vectorRowsByNamespace[namespace].length,
-      ])
-    ),
-    pinecone_written: pineconeWrittenCounts,
-    text_field: textField,
+    batch_size: batchSize,
+    pinecone_written: written,
   }
+}
+
+const searchPineconeDocuments = async ({
+  host,
+  namespace,
+  scoreBy,
+  topK,
+  filter,
+}) => {
+  const endpoint = `${resolvePineconeBaseUrl(host)}/namespaces/${encodeURIComponent(namespace)}/documents/search`
+  const response = await fetch(endpoint, {
+    method: 'POST',
+    headers: {
+      'Api-Key': process.env.PINECONE_API_KEY,
+      'Content-Type': 'application/json',
+      'X-Pinecone-Api-Version': PINECONE_DOCUMENT_API_VERSION,
+    },
+    body: JSON.stringify({
+      score_by: [scoreBy],
+      top_k: topK,
+      include_fields: [
+        'text',
+        'item_id',
+        'item_type',
+        'slot',
+        'category',
+        'subcategory',
+        'quality',
+        'style_key',
+        'label_ids',
+        'obtain_type',
+      ],
+      ...(filter ? { filter } : {}),
+    }),
+  })
+
+  if (!response.ok) {
+    const message = await response.text().catch(() => '')
+    throw new Error(
+      `Pinecone document search failed with ${response.status} ${response.statusText}${message ? `: ${message}` : ''}`
+    )
+  }
+
+  const payload = await response.json()
+  return Array.isArray(payload.matches) ? payload.matches : []
+}
+
+export const queryItemIndexPineconeSearch = async ({
+  query,
+  namespace,
+  limit = 18,
+  filter,
+}) => {
+  loadEnvFile()
+
+  const { PINECONE_API_KEY, PINECONE_SEARCH_HOST } = process.env
+  if (!PINECONE_API_KEY || !PINECONE_SEARCH_HOST) {
+    throw new Error('PINECONE_API_KEY and PINECONE_SEARCH_HOST are required')
+  }
+
+  const normalizedQuery = String(query ?? '')
+    .trim()
+    .toLowerCase()
+  if (!normalizedQuery) return []
+
+  const [queryVector] = await embedPineconeTexts([normalizedQuery], 'query')
+  const normalizedLimit = Math.max(1, Math.floor(Number(limit) || 18))
+  const candidateLimit = Math.min(normalizedLimit * 4, 72)
+  const [lexicalMatches, denseMatches] = await Promise.all([
+    searchPineconeDocuments({
+      host: PINECONE_SEARCH_HOST,
+      namespace,
+      scoreBy: { type: 'text', field: 'text', query: normalizedQuery },
+      topK: candidateLimit,
+      filter,
+    }),
+    searchPineconeDocuments({
+      host: PINECONE_SEARCH_HOST,
+      namespace,
+      scoreBy: {
+        type: 'dense_vector',
+        field: 'embedding',
+        values: queryVector,
+      },
+      topK: candidateLimit,
+      filter,
+    }),
+  ])
+
+  return fusePineconeSearchMatches({
+    lexicalMatches,
+    denseMatches,
+    limit: normalizedLimit,
+  })
 }

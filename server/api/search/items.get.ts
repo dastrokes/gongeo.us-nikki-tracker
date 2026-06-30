@@ -7,10 +7,9 @@ type SearchIndexMetadata = ItemSearchMetadata & {
   obtain_type?: number
 }
 
-type PineconeSearchHit = {
+type PineconeDocumentMatch = Record<string, unknown> & {
   _id?: string | number
   _score?: number
-  fields?: Record<string, unknown> | null
 }
 
 type SearchResponse = {
@@ -30,23 +29,25 @@ type SearchResponse = {
 
 const DEFAULT_LIMIT = SEARCH_DEFAULT_LIMIT
 const MAX_LIMIT = SEARCH_MAX_LIMIT
-const DEFAULT_PINECONE_TEXT_FIELD = 'text'
-const PINECONE_API_VERSION = '2026-04'
-const PINECONE_TEXT_FIELD_FALLBACKS = ['text', 'chunk_text']
-const PINECONE_SEARCH_RETRIES = 2
-const PINECONE_SEARCH_RETRY_BASE_DELAY_MS = 150
-const PINECONE_TRANSIENT_STATUS_CODES = new Set([408, 429, 500, 502, 503, 504])
-const PINECONE_TRANSIENT_ERROR_HINTS = [
-  'aborted',
-  'connection reset',
-  'eai_again',
-  'econnreset',
-  'etimedout',
-  'fetch failed',
-  'network',
-  'timeout',
-  'timed out',
+const PINECONE_RESULT_FIELDS = [
+  'text',
+  'item_id',
+  'item_type',
+  'slot',
+  'category',
+  'subcategory',
+  'quality',
+  'style_key',
+  'label_ids',
+  'obtain_type',
+  ...getItemSearchAdvancedFields(),
 ]
+const PINECONE_NON_METADATA_FIELDS = new Set([
+  '_id',
+  '_score',
+  'text',
+  'embedding',
+])
 
 const normalizeLimit = (value: unknown) => {
   const parsed = Number(value)
@@ -235,28 +236,6 @@ const compactMetadata = (
     : null
 }
 
-const resolvePineconeBaseUrl = (host: string) => {
-  const normalized = host.trim().replace(/\/$/, '')
-  return /^https?:\/\//i.test(normalized) ? normalized : `https://${normalized}`
-}
-
-const sleep = (ms: number) =>
-  new Promise((resolve) => {
-    setTimeout(resolve, ms)
-  })
-
-const isRetryablePineconeError = (error: unknown): boolean => {
-  const message = toErrorMessage(error, '').toLowerCase()
-  return PINECONE_TRANSIENT_ERROR_HINTS.some((hint) => message.includes(hint))
-}
-
-const createPineconeSearchError = async (response: Response) => {
-  const message = await response.text().catch(() => '')
-  return new Error(
-    `Pinecone search failed with ${response.status} ${response.statusText}${message ? `: ${message}` : ''}`
-  )
-}
-
 const normalizeSearchHit = ({
   id,
   score,
@@ -292,8 +271,7 @@ const normalizeSearchHit = ({
 
 const queryPineconeSearch = async ({
   pineconeApiKey,
-  pineconeIndexHost,
-  pineconeTextField,
+  pineconeSearchHost,
   normalizedQuery,
   recordId,
   limit,
@@ -301,110 +279,90 @@ const queryPineconeSearch = async ({
   metadataFilter,
 }: {
   pineconeApiKey: string
-  pineconeIndexHost: string
-  pineconeTextField: string
+  pineconeSearchHost: string
   normalizedQuery?: string
   recordId?: string
   limit: number
   searchNamespace: string
   metadataFilter?: unknown
 }): Promise<SearchResponse['data']> => {
-  const endpoint = `${resolvePineconeBaseUrl(pineconeIndexHost)}/records/namespaces/${encodeURIComponent(searchNamespace)}/search`
-  let attempt = 0
+  let matches: PineconeDocumentMatch[]
 
-  while (true) {
-    try {
-      const queryBody: {
-        query: {
-          inputs?: { text: string }
-          id?: string
-          top_k: number
-          filter?: unknown
-        }
-      } = {
-        query: {
-          ...(recordId
-            ? { id: recordId }
-            : { inputs: { text: normalizedQuery ?? '' } }),
-          top_k: limit,
-        },
-      }
+  if (recordId) {
+    const embedding = await fetchPineconeDocumentEmbedding({
+      apiKey: pineconeApiKey,
+      host: pineconeSearchHost,
+      namespace: searchNamespace,
+      id: recordId,
+    })
+    if (!embedding) return []
 
-      if (metadataFilter) {
-        queryBody.query = {
-          ...queryBody.query,
-          filter: metadataFilter,
-        }
-      }
-
-      const response = await fetch(endpoint, {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Api-Key': pineconeApiKey,
-          'Content-Type': 'application/json',
-          'X-Pinecone-Api-Version': PINECONE_API_VERSION,
-        },
-        body: JSON.stringify(queryBody),
-      })
-
-      if (!response.ok) {
-        const error = await createPineconeSearchError(response)
-        if (
-          attempt < PINECONE_SEARCH_RETRIES &&
-          PINECONE_TRANSIENT_STATUS_CODES.has(response.status)
-        ) {
-          const delay =
-            PINECONE_SEARCH_RETRY_BASE_DELAY_MS * Math.pow(2, attempt)
-          attempt += 1
-          await sleep(delay)
-          continue
-        }
-
-        throw error
-      }
-
-      const payload = (await response.json()) as Record<string, unknown>
-      const hits =
-        isRecord(payload.result) && Array.isArray(payload.result.hits)
-          ? (payload.result.hits as PineconeSearchHit[])
-          : []
-
-      return hits
-        .map((hit) => {
-          const fields = isRecord(hit.fields) ? { ...hit.fields } : {}
-          const candidateTextFields = Array.from(
-            new Set([pineconeTextField, ...PINECONE_TEXT_FIELD_FALLBACKS])
-          )
-          const matchedTextField = candidateTextFields.find(
-            (field) => typeof fields[field] === 'string'
-          )
-          const metadata = Object.fromEntries(
-            Object.entries(fields).filter(([key]) => key !== matchedTextField)
-          )
-
-          return normalizeSearchHit({
-            id: hit._id,
-            score: hit._score,
-            metadata: Object.keys(metadata).length > 0 ? metadata : null,
-            fallbackId: recordId ?? normalizedQuery ?? '',
-          })
-        })
-        .filter((hit): hit is SearchResponse['data'][number] => Boolean(hit))
-    } catch (error: unknown) {
-      if (
-        attempt < PINECONE_SEARCH_RETRIES &&
-        isRetryablePineconeError(error)
-      ) {
-        const delay = PINECONE_SEARCH_RETRY_BASE_DELAY_MS * Math.pow(2, attempt)
-        attempt += 1
-        await sleep(delay)
-        continue
-      }
-
-      throw error
+    matches = await searchPineconeDocuments({
+      apiKey: pineconeApiKey,
+      host: pineconeSearchHost,
+      namespace: searchNamespace,
+      scoreBy: { type: 'dense_vector', field: 'embedding', values: embedding },
+      topK: limit,
+      filter: metadataFilter,
+      includeFields: PINECONE_RESULT_FIELDS,
+    })
+  } else {
+    const query = normalizedQuery ?? ''
+    const [embedding] = await embedPineconeTexts({
+      apiKey: pineconeApiKey,
+      texts: [query],
+      inputType: 'query',
+    })
+    if (!embedding) {
+      throw new Error('Pinecone did not return a query embedding')
     }
+    const candidateLimit = Math.min(limit * 4, MAX_LIMIT)
+    const [lexicalMatches, denseMatches] = await Promise.all([
+      searchPineconeDocuments({
+        apiKey: pineconeApiKey,
+        host: pineconeSearchHost,
+        namespace: searchNamespace,
+        scoreBy: { type: 'text', field: 'text', query },
+        topK: candidateLimit,
+        filter: metadataFilter,
+        includeFields: PINECONE_RESULT_FIELDS,
+      }),
+      searchPineconeDocuments({
+        apiKey: pineconeApiKey,
+        host: pineconeSearchHost,
+        namespace: searchNamespace,
+        scoreBy: {
+          type: 'dense_vector',
+          field: 'embedding',
+          values: embedding,
+        },
+        topK: candidateLimit,
+        filter: metadataFilter,
+        includeFields: PINECONE_RESULT_FIELDS,
+      }),
+    ])
+    matches = fusePineconeDocumentMatches({
+      lexicalMatches,
+      denseMatches,
+      limit,
+    })
   }
+
+  return matches
+    .map((match) => {
+      const metadata = Object.fromEntries(
+        Object.entries(match).filter(
+          ([key]) => !PINECONE_NON_METADATA_FIELDS.has(key)
+        )
+      )
+      return normalizeSearchHit({
+        id: match._id,
+        score: match._score,
+        metadata,
+        fallbackId: recordId ?? normalizedQuery ?? '',
+      })
+    })
+    .filter((hit): hit is SearchResponse['data'][number] => Boolean(hit))
 }
 
 export default defineCachedApiEventHandler(
@@ -435,20 +393,18 @@ export default defineCachedApiEventHandler(
     const pineconeApiKey = normalizeRuntimeConfigString(
       runtimeConfig.pineconeApiKey
     )
-    const pineconeIndexHost = normalizeRuntimeConfigString(
-      runtimeConfig.pineconeIndexHost
+    const pineconeSearchHost = normalizeRuntimeConfigString(
+      runtimeConfig.pineconeSearchHost
     )
-    const pineconeTextField = DEFAULT_PINECONE_TEXT_FIELD
 
     try {
-      if (!pineconeApiKey || !pineconeIndexHost) {
+      if (!pineconeApiKey || !pineconeSearchHost) {
         throw createUpstreamUnavailableError('search')
       }
 
       const data = await queryPineconeSearch({
         pineconeApiKey,
-        pineconeIndexHost,
-        pineconeTextField,
+        pineconeSearchHost,
         normalizedQuery,
         recordId: recordId ?? undefined,
         limit,

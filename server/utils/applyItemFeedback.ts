@@ -37,9 +37,6 @@ type LocaleResources = {
   misc: Record<string, unknown>
 }
 
-const PINECONE_API_VERSION = '2025-10'
-const PINECONE_TEXT_FIELD = 'text'
-
 const LOCALE_RESOURCES = {
   en: {
     filter: enFilter,
@@ -91,13 +88,6 @@ const toUniqueStrings = (values: unknown) =>
 
 const normalizeNullableToken = (value: unknown) =>
   typeof value === 'string' ? normalizeItemSearchTokenKey(value) || null : null
-
-const resolvePineconeBaseUrl = (host: string) => {
-  const normalizedHost = host.trim().replace(/\/$/, '')
-  return /^https?:\/\//i.test(normalizedHost)
-    ? normalizedHost
-    : `https://${normalizedHost}`
-}
 
 const normalizeRuntimeConfigString = (value: unknown) =>
   typeof value === 'string' && value.trim() ? value.trim() : ''
@@ -279,13 +269,6 @@ const buildSearchVectorUpsertRows = (
   }))
 }
 
-const buildPineconeNdjson = (row: PineconeUpsertRow) =>
-  JSON.stringify({
-    _id: row.id,
-    [PINECONE_TEXT_FIELD]: row.data,
-    ...row.metadata,
-  })
-
 const buildItemAttributeRow = ({
   itemId,
   itemType,
@@ -381,11 +364,11 @@ const upsertPineconeRows = async (row: ItemAttributeRow) => {
   const pineconeApiKey = normalizeRuntimeConfigString(
     runtimeConfig.pineconeApiKey
   )
-  const pineconeIndexHost = normalizeRuntimeConfigString(
-    runtimeConfig.pineconeIndexHost
+  const pineconeSearchHost = normalizeRuntimeConfigString(
+    runtimeConfig.pineconeSearchHost
   )
 
-  if (!pineconeApiKey || !pineconeIndexHost) {
+  if (!pineconeApiKey || !pineconeSearchHost) {
     throw createError({
       statusCode: 500,
       statusMessage: 'Search index is not configured',
@@ -393,32 +376,34 @@ const upsertPineconeRows = async (row: ItemAttributeRow) => {
     })
   }
 
-  const pineconeBaseUrl = resolvePineconeBaseUrl(pineconeIndexHost)
-  const upsertedNamespaces: SearchNamespace[] = []
   const catalog = await fetchItemCatalogRow(row.item_id)
+  const searchRows = buildSearchVectorUpsertRows(row, catalog)
+  const embeddings = await embedPineconeTexts({
+    apiKey: pineconeApiKey,
+    texts: searchRows.map(({ row: vectorRow }) => vectorRow.data),
+    inputType: 'passage',
+  })
+  const upsertedNamespaces: SearchNamespace[] = []
 
-  for (const { namespace, row: vectorRow } of buildSearchVectorUpsertRows(
-    row,
-    catalog
-  )) {
-    const endpoint = `${pineconeBaseUrl}/records/namespaces/${encodeURIComponent(namespace)}/upsert`
-    const response = await fetch(endpoint, {
-      method: 'POST',
-      headers: {
-        'Api-Key': pineconeApiKey,
-        'Content-Type': 'application/x-ndjson',
-        'X-Pinecone-Api-Version': PINECONE_API_VERSION,
-      },
-      body: buildPineconeNdjson(vectorRow),
-    })
-
-    if (!response.ok) {
-      const message = await response.text().catch(() => '')
-      throw new Error(
-        `Pinecone upsert failed for namespace ${namespace} with ${response.status} ${response.statusText}${message ? `: ${message}` : ''}`
-      )
+  for (const [index, { namespace, row: vectorRow }] of searchRows.entries()) {
+    const embedding = embeddings[index]
+    if (!embedding) {
+      throw new Error(`Missing Pinecone embedding for namespace ${namespace}`)
     }
 
+    await upsertPineconeDocuments({
+      apiKey: pineconeApiKey,
+      host: pineconeSearchHost,
+      namespace,
+      documents: [
+        {
+          _id: vectorRow.id,
+          text: vectorRow.data,
+          embedding,
+          ...vectorRow.metadata,
+        },
+      ],
+    })
     upsertedNamespaces.push(namespace)
   }
 

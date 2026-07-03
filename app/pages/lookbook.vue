@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-auto flex w-full max-w-6xl flex-col gap-6 p-4 sm:p-6">
+  <div class="mx-auto max-w-5xl space-y-2 sm:space-y-4">
     <n-card
       size="small"
       class="rounded-xl"

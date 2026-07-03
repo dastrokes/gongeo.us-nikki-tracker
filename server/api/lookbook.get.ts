@@ -86,7 +86,12 @@ const fetchLookbookPayload = async (code: string) => {
   })
 
   if (!response.ok) {
-    if (response.status === 404 || response.status === 400) {
+    if (
+      response.status === 404 ||
+      response.status === 400 ||
+      (response.status === 502 &&
+        (await response.text()).trim() === 'Upstream API error: 404')
+    ) {
       throw new LookbookUpstreamCodeError(
         `Lookbook upstream rejected code with ${response.status}`
       )

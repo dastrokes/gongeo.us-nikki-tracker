@@ -892,6 +892,30 @@
     { immediate: true }
   )
 
+  watch(
+    [selectedScopeValue, pullDistributionOptions, itemDistributionOptions],
+    ([scopeValue, pullOptions, itemOptions]) => {
+      const entry = scopeValue
+        ? scopeEntryByValue.value.get(scopeValue)
+        : undefined
+      if (entry?.bannerId !== bannerId.value) return
+
+      const pullOption = pullOptions.find(
+        (option) => option.scopeKey === entry.scopeKey
+      )
+      if (pullOption) selectedPullDistributionValue.value = pullOption.value
+
+      const itemOption =
+        itemOptions.find(
+          (option) =>
+            option.scopeKey === entry.scopeKey &&
+            option.type === selectedItemDistributionOption.value?.type
+        ) ?? itemOptions.find((option) => option.scopeKey === entry.scopeKey)
+      if (itemOption) selectedItemDistributionValue.value = itemOption.value
+    },
+    { immediate: true }
+  )
+
   const getChartTextStyle = () => ({
     fontFamily:
       "'Outfit', ui-sans-serif, system-ui, sans-serif, 'Noto Color Emoji', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'",

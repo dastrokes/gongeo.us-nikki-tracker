@@ -3,7 +3,7 @@
     <!-- Hero / Search Header -->
     <div
       :class="[
-        'z-10 flex w-full flex-col',
+        'z-10 flex w-full flex-col px-4',
         hasSearched
           ? 'items-start pt-4 pb-4 sm:pt-6 sm:pb-6'
           : 'flex-1 items-center justify-center pt-20 pb-28 sm:pt-28 sm:pb-32',

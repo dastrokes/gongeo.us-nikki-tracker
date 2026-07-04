@@ -53,11 +53,18 @@
               ref="searchInputRef"
               v-model="searchQuery"
               :placeholder="$t('default.search.placeholder')"
+              role="combobox"
+              aria-autocomplete="list"
+              aria-controls="global-search-results"
+              :aria-expanded="showResultList"
+              :aria-activedescendant="activeResultOptionId"
               class="min-w-0 flex-1 border-none bg-transparent p-0 text-lg text-slate-800 placeholder-slate-400 outline-hidden focus:ring-0 dark:text-slate-100"
               autocomplete="off"
+              @focus="openAutocomplete"
               @input="handleInput"
-              @keydown.enter.exact.prevent="goToWhimSearch"
-              @keydown.shift.enter.prevent="goToRandomSearch"
+              @compositionstart="handleSearchCompositionStart"
+              @compositionend="handleSearchCompositionEnd"
+              @keydown="handleSearchKeyDown"
             />
             <div class="flex shrink-0 items-center gap-2">
               <n-spin
@@ -144,76 +151,162 @@
 
         <!-- Quick Results Body -->
         <div
-          v-if="searchQuery"
-          class="custom-scrollbar min-h-0 flex-1 overflow-y-auto px-2 py-3"
+          v-if="showResultList"
+          class="max-h-[calc(100dvh-10rem)] overflow-hidden sm:max-h-[calc(100dvh-15rem)]"
         >
-          <template v-if="searchResults.length > 0">
+          <n-scrollbar style="height: auto; max-height: inherit">
             <div
-              v-for="category in searchResults"
-              :key="category.type"
-              class="mb-4 last:mb-0"
+              id="global-search-results"
+              role="listbox"
+              class="p-2"
             >
-              <div
-                class="px-3 pb-1.5 text-xs font-bold tracking-widest text-slate-400 uppercase"
+              <template
+                v-for="group in autocompleteGroupOrder"
+                :key="group"
               >
-                {{ category.label }}
-              </div>
-              <div class="space-y-0.5">
-                <button
-                  v-for="item in category.results"
-                  :key="item.id"
-                  class="group flex w-full cursor-pointer items-center gap-3 rounded-xl px-3 py-2 text-left text-slate-700 hover:bg-rose-50 dark:text-slate-200 dark:hover:bg-rose-950/40"
-                  @click="selectResult(item)"
+                <section
+                  v-if="group === 'names' && entitySuggestions.length"
+                  role="group"
+                  :aria-label="t('search_page.autocomplete_names')"
                 >
-                  <div class="flex shrink-0 items-center justify-center">
-                    <template v-if="item.type === 'banner'">
-                      <NuxtImg
-                        :src="getImageSrc('bannerThumb', getBannerId(item))"
-                        preset="bannerThumb"
-                        class="h-8 w-16 rounded-md object-cover shadow-xs ring-1 ring-black/5 dark:ring-white/10"
-                        :alt="item.name"
-                        loading="lazy"
-                      />
-                    </template>
-                    <template v-else-if="item.type === 'outfit'">
-                      <NuxtImg
-                        :src="getImageSrc('outfit', item.id)"
-                        preset="tallSm"
-                        class="h-10 w-7 rounded-md object-cover shadow-xs ring-1 ring-black/5 dark:ring-white/10"
-                        :alt="item.name"
-                        loading="lazy"
-                      />
-                    </template>
-                    <template v-else-if="item.type === 'item'">
-                      <NuxtImg
-                        :src="getImageSrc('item', item.id)"
-                        preset="tallSm"
-                        class="h-10 w-7 rounded-md object-cover shadow-xs ring-1 ring-black/5 dark:ring-white/10"
-                        :alt="item.name"
-                        loading="lazy"
-                      />
-                    </template>
-                  </div>
-                  <span
-                    class="truncate font-medium group-hover:text-rose-600 dark:group-hover:text-rose-300"
-                    >{{ item.name }}</span
+                  <p
+                    class="px-3 py-1 text-xs font-bold tracking-widest text-slate-400 uppercase"
                   >
-                </button>
-              </div>
+                    {{ t('search_page.autocomplete_names') }}
+                  </p>
+                  <button
+                    v-for="item in entitySuggestions"
+                    :id="getEntityAutocompleteOptionId(item)"
+                    :key="getEntityAutocompleteKey(item)"
+                    role="option"
+                    type="button"
+                    :aria-selected="
+                      highlightedAutocompleteKey ===
+                      getEntityAutocompleteKey(item)
+                    "
+                    :aria-label="
+                      t('search_page.autocomplete_open_entity', {
+                        type: getAutocompleteEntityTypeLabel(item),
+                        name: item.name,
+                      })
+                    "
+                    :class="[
+                      'group flex w-full cursor-pointer items-center gap-3 rounded-xl px-3 py-2 text-left text-slate-700 hover:bg-rose-50 dark:text-slate-200 dark:hover:bg-rose-950/40',
+                      highlightedAutocompleteKey ===
+                      getEntityAutocompleteKey(item)
+                        ? 'bg-rose-50 dark:bg-rose-950/40'
+                        : '',
+                    ]"
+                    @mousedown.prevent
+                    @mouseenter="
+                      highlightedAutocompleteKey =
+                        getEntityAutocompleteKey(item)
+                    "
+                    @click="selectEntitySuggestion(item)"
+                  >
+                    <div class="flex shrink-0 items-center justify-center">
+                      <template v-if="item.type === 'banner'">
+                        <NuxtImg
+                          :src="getImageSrc('bannerThumb', item.id)"
+                          preset="bannerThumb"
+                          class="h-8 w-16 rounded-md object-cover shadow-xs ring-1 ring-black/5 dark:ring-white/10"
+                          :alt="item.name"
+                          loading="lazy"
+                        />
+                      </template>
+                      <template v-else-if="item.type === 'outfit'">
+                        <NuxtImg
+                          :src="getImageSrc('outfit', item.id)"
+                          preset="tallSm"
+                          class="h-10 w-7 rounded-md object-cover shadow-xs ring-1 ring-black/5 dark:ring-white/10"
+                          :alt="item.name"
+                          loading="lazy"
+                        />
+                      </template>
+                      <template v-else-if="item.type === 'item'">
+                        <NuxtImg
+                          :src="getImageSrc('item', item.id)"
+                          preset="tallSm"
+                          class="h-10 w-7 rounded-md object-cover shadow-xs ring-1 ring-black/5 dark:ring-white/10"
+                          :alt="item.name"
+                          loading="lazy"
+                        />
+                      </template>
+                    </div>
+                    <span class="min-w-0">
+                      <span
+                        class="block truncate font-medium group-hover:text-rose-600 dark:group-hover:text-rose-300"
+                      >
+                        {{ item.name }}
+                      </span>
+                      <span class="block truncate text-xs text-slate-400">
+                        {{ getAutocompleteEntityMetaLabel(item) }}
+                      </span>
+                    </span>
+                  </button>
+                </section>
+
+                <section
+                  v-else-if="group === 'terms' && termSuggestions.length"
+                  role="group"
+                  :aria-label="t('search_page.autocomplete_terms')"
+                >
+                  <p
+                    class="px-3 py-1 text-xs font-bold tracking-widest text-slate-400 uppercase"
+                  >
+                    {{ t('search_page.autocomplete_terms') }}
+                  </p>
+                  <button
+                    v-for="term in termSuggestions"
+                    :id="getTermAutocompleteOptionId(term)"
+                    :key="getTermAutocompleteKey(term)"
+                    type="button"
+                    role="option"
+                    :aria-selected="
+                      highlightedAutocompleteKey ===
+                      getTermAutocompleteKey(term)
+                    "
+                    :aria-label="
+                      t('search_page.autocomplete_add_term', {
+                        term: term.value,
+                      })
+                    "
+                    :class="[
+                      'flex w-full cursor-pointer items-center rounded-xl px-3 py-2 text-left text-slate-700 hover:bg-rose-50 dark:text-slate-200 dark:hover:bg-rose-950/40',
+                      highlightedAutocompleteKey ===
+                      getTermAutocompleteKey(term)
+                        ? 'bg-rose-50 dark:bg-rose-950/40'
+                        : '',
+                    ]"
+                    @mousedown.prevent
+                    @mouseenter="
+                      highlightedAutocompleteKey = getTermAutocompleteKey(term)
+                    "
+                    @click="selectTermSuggestion(term)"
+                  >
+                    <span
+                      class="mr-2 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-rose-100 text-sm font-bold text-rose-600 dark:bg-rose-400/15 dark:text-rose-300"
+                      aria-hidden="true"
+                    >
+                      +
+                    </span>
+                    <span class="min-w-0 flex-1">
+                      <span class="block truncate font-medium">
+                        {{ term.value }}
+                      </span>
+                      <span class="block truncate text-xs text-slate-400">
+                        {{
+                          t('search_page.autocomplete_add_term', {
+                            term: term.value,
+                          })
+                        }}
+                      </span>
+                    </span>
+                  </button>
+                </section>
+              </template>
             </div>
-          </template>
-          <template v-else-if="!isLoading">
-            <div
-              class="flex flex-col items-center justify-center gap-3 py-10 text-slate-400"
-            >
-              <n-icon
-                size="32"
-                class="opacity-50"
-                ><Search
-              /></n-icon>
-              <p>{{ $t('common.no_results_found') }}</p>
-            </div>
-          </template>
+          </n-scrollbar>
         </div>
       </div>
     </div>
@@ -223,7 +316,27 @@
 <script setup lang="ts">
   import { Search } from '@vicons/fa'
 
-  const { search, searchOptions, buildSearchIndex, isIndexBuilt } = useSearch()
+  type GlobalSearchAutocompleteOption =
+    | {
+        key: string
+        elementId: string
+        kind: 'name'
+        result: SearchResult
+      }
+    | {
+        key: string
+        elementId: string
+        kind: 'term'
+        term: SearchAutocompleteTerm
+      }
+
+  const { t } = useI18n()
+  const {
+    buildSearchIndex: buildAutocompleteEntityIndex,
+    isIndexBuilt: isAutocompleteEntityIndexBuilt,
+    searchEntities: searchAutocompleteEntities,
+    searchTerms: searchAutocompleteTerms,
+  } = useWhimSearchAutocomplete()
   const { getImageSrc } = imageProvider()
   const localePath = useLocalePath()
   const pendingLuckyAutoroll = useState(
@@ -234,10 +347,110 @@
   const searchQuery = ref('')
   const showSearch = ref(false)
   const isLoading = ref(false)
-  const searchResults = ref<SearchCategory[]>([])
   const searchInputRef = ref<HTMLInputElement | null>(null)
+  const isAutocompleteOpen = ref(false)
+  const isAutocompleteComposing = ref(false)
+  const autocompleteQuery = ref('')
+  const highlightedAutocompleteKey = ref<string | null>(null)
+  const areResultsDismissed = ref(false)
+  let autocompleteEntityIndexPromise: Promise<void> | null = null
 
-  const getBannerId = (result: SearchResult) => result.id
+  const syncAutocompleteQuery = useDebounceFn(() => {
+    autocompleteQuery.value = searchQuery.value.trim()
+  }, 100)
+  const entitySuggestions = computed(() =>
+    isAutocompleteOpen.value &&
+    !isAutocompleteComposing.value &&
+    autocompleteQuery.value
+      ? searchAutocompleteEntities(autocompleteQuery.value, 5)
+      : []
+  )
+  const termSuggestions = computed(() =>
+    isAutocompleteOpen.value &&
+    !isAutocompleteComposing.value &&
+    autocompleteQuery.value
+      ? searchAutocompleteTerms(autocompleteQuery.value)
+      : []
+  )
+  const normalizeAutocompleteValue = (value: string) =>
+    value.trim().toLocaleLowerCase()
+  const hasExactEntitySuggestion = computed(() => {
+    const query = normalizeAutocompleteValue(autocompleteQuery.value)
+    return entitySuggestions.value.some(
+      (entry) =>
+        normalizeAutocompleteValue(entry.name) === query ||
+        (entry.matchedAlias
+          ? normalizeAutocompleteValue(entry.matchedAlias) === query
+          : false)
+    )
+  })
+  const hasExactTermSuggestion = computed(() => {
+    const query = normalizeAutocompleteValue(autocompleteQuery.value)
+    return termSuggestions.value.some(
+      (entry) => normalizeAutocompleteValue(entry.value) === query
+    )
+  })
+  const autocompleteGroupOrder = computed(() =>
+    getAutocompleteGroupOrder(
+      hasExactEntitySuggestion.value,
+      hasExactTermSuggestion.value
+    )
+  )
+
+  const getEntityAutocompleteKey = (result: SearchResult) =>
+    `name:${result.type}:${result.id}`
+  const getTermAutocompleteKey = (term: SearchAutocompleteTerm) =>
+    `term:${term.id}`
+  const getEntityAutocompleteOptionId = (result: SearchResult) =>
+    `global-search-name-${result.type}-${result.id}`
+  const getTermAutocompleteOptionId = (term: SearchAutocompleteTerm) =>
+    `global-search-term-${term.id.replaceAll(':', '-')}`
+  const getAutocompleteEntityTypeLabel = (result: SearchResult) =>
+    t(
+      result.type === 'banner'
+        ? 'common.banners'
+        : result.type === 'outfit'
+          ? 'common.outfits'
+          : 'common.items'
+    )
+  const autocompleteOptions = computed<GlobalSearchAutocompleteOption[]>(() =>
+    autocompleteGroupOrder.value.flatMap((group) =>
+      group === 'names'
+        ? entitySuggestions.value.map((result) => ({
+            key: getEntityAutocompleteKey(result),
+            elementId: getEntityAutocompleteOptionId(result),
+            kind: 'name' as const,
+            result,
+          }))
+        : termSuggestions.value.map((term) => ({
+            key: getTermAutocompleteKey(term),
+            elementId: getTermAutocompleteOptionId(term),
+            kind: 'term' as const,
+            term,
+          }))
+    )
+  )
+  const getAutocompleteEntityMetaLabel = (result: SearchResult) => {
+    const alias = getAutocompleteDisplayAlias(result)
+    if (!alias) return getAutocompleteEntityTypeLabel(result)
+
+    return `${getAutocompleteEntityTypeLabel(result)} · ${t(
+      getAutocompleteDisplayAliasKey(result),
+      { alias }
+    )}`
+  }
+  const showResultList = computed(
+    () =>
+      isAutocompleteOpen.value &&
+      !areResultsDismissed.value &&
+      autocompleteOptions.value.length > 0
+  )
+  const activeResultOptionId = computed(
+    () =>
+      autocompleteOptions.value.find(
+        (option) => option.key === highlightedAutocompleteKey.value
+      )?.elementId
+  )
 
   const goToWhimSearch = () => {
     if (searchQuery.value.trim()) {
@@ -264,44 +477,165 @@
     closeSearch()
   }
 
-  const performSearch = async (query: string) => {
-    const normalizedQuery = query?.trim() ?? ''
+  const closeAutocomplete = () => {
+    isAutocompleteOpen.value = false
+    autocompleteQuery.value = ''
+    highlightedAutocompleteKey.value = null
+  }
 
-    if (!normalizedQuery) {
-      searchResults.value = []
-      return
-    }
-
-    if (normalizedQuery.length < searchOptions.minMatchCharLength) {
-      searchResults.value = []
-      return
-    }
+  const ensureAutocompleteEntityIndex = async () => {
+    if (isAutocompleteEntityIndexBuilt.value) return
+    if (autocompleteEntityIndexPromise) return autocompleteEntityIndexPromise
 
     isLoading.value = true
-    try {
-      searchResults.value = search(normalizedQuery)
-    } finally {
-      isLoading.value = false
+    autocompleteEntityIndexPromise = buildAutocompleteEntityIndex().finally(
+      () => {
+        autocompleteEntityIndexPromise = null
+        isLoading.value = false
+      }
+    )
+    return autocompleteEntityIndexPromise
+  }
+
+  const openAutocomplete = () => {
+    if (isAutocompleteComposing.value) {
+      closeAutocomplete()
+      return
+    }
+
+    autocompleteQuery.value = searchQuery.value.trim()
+    isAutocompleteOpen.value = Boolean(autocompleteQuery.value)
+    if (autocompleteQuery.value && !isAutocompleteEntityIndexBuilt.value) {
+      void ensureAutocompleteEntityIndex()
     }
   }
 
-  // Debounced search
-  const debouncedSearch = useDebounceFn(performSearch, 300)
+  const handleInput = (event?: Event) => {
+    if ((event as InputEvent | undefined)?.isComposing) return
 
-  const handleInput = async (event: Event) => {
-    const query = (event.target as HTMLInputElement).value
-    if (!isIndexBuilt.value) {
-      await buildSearchIndex()
+    const query = searchQuery.value.trim()
+    highlightedAutocompleteKey.value = null
+    areResultsDismissed.value = false
+
+    if (!query) {
+      closeAutocomplete()
+      return
     }
-    debouncedSearch(query)
+
+    isAutocompleteOpen.value = true
+    syncAutocompleteQuery()
+    if (!isAutocompleteEntityIndexBuilt.value) {
+      void ensureAutocompleteEntityIndex()
+    }
+  }
+
+  const handleSearchCompositionStart = () => {
+    isAutocompleteComposing.value = true
+    closeAutocomplete()
+  }
+
+  const handleSearchCompositionEnd = () => {
+    isAutocompleteComposing.value = false
+    void nextTick(() => handleInput())
+  }
+
+  const moveResultHighlight = (direction: 1 | -1) => {
+    const options = autocompleteOptions.value
+    if (options.length === 0) return
+
+    const currentIndex = options.findIndex(
+      (option) => option.key === highlightedAutocompleteKey.value
+    )
+    const nextIndex =
+      currentIndex < 0
+        ? direction > 0
+          ? 0
+          : options.length - 1
+        : (currentIndex + direction + options.length) % options.length
+    const option = options[nextIndex]
+    highlightedAutocompleteKey.value = option?.key ?? null
+
+    void nextTick(() => {
+      if (!option || !import.meta.client) return
+      document.getElementById(option.elementId)?.scrollIntoView({
+        block: 'nearest',
+      })
+    })
+  }
+
+  const selectEntitySuggestion = (result: SearchResult) => {
+    navigateTo(result.route)
+    closeSearch()
+  }
+
+  const selectTermSuggestion = async (term: SearchAutocompleteTerm) => {
+    const input = searchInputRef.value
+    const insertion = insertSearchTermAtCaret(
+      searchQuery.value,
+      term.value,
+      input?.selectionStart ?? searchQuery.value.length,
+      input?.selectionEnd ?? input?.selectionStart ?? searchQuery.value.length
+    )
+
+    searchQuery.value = insertion.value
+    autocompleteQuery.value = insertion.value.trim()
+    highlightedAutocompleteKey.value = null
+    areResultsDismissed.value = false
+    isAutocompleteOpen.value = true
+
+    await nextTick()
+    input?.focus()
+    input?.setSelectionRange(insertion.caret, insertion.caret)
+  }
+
+  const handleSearchKeyDown = (event: KeyboardEvent) => {
+    if (event.isComposing || isAutocompleteComposing.value) return
+
+    if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+      if (!showResultList.value) return
+      event.preventDefault()
+      moveResultHighlight(event.key === 'ArrowDown' ? 1 : -1)
+      return
+    }
+
+    if (event.key === 'Enter') {
+      const highlightedOption = autocompleteOptions.value.find(
+        (option) => option.key === highlightedAutocompleteKey.value
+      )
+      if (highlightedOption) {
+        event.preventDefault()
+        if (highlightedOption.kind === 'name') {
+          selectEntitySuggestion(highlightedOption.result)
+        } else {
+          void selectTermSuggestion(highlightedOption.term)
+        }
+        return
+      }
+
+      if (event.shiftKey) {
+        event.preventDefault()
+        goToRandomSearch()
+      } else if (!event.altKey && !event.ctrlKey && !event.metaKey) {
+        event.preventDefault()
+        goToWhimSearch()
+      }
+      return
+    }
+
+    if (event.key === 'Escape' && showResultList.value) {
+      event.preventDefault()
+      event.stopPropagation()
+      areResultsDismissed.value = true
+      closeAutocomplete()
+    }
   }
 
   const toggleSearch = async () => {
     showSearch.value = true
 
     // Build search index on first open if not already built
-    if (!isIndexBuilt.value) {
-      await buildSearchIndex()
+    if (!isAutocompleteEntityIndexBuilt.value) {
+      void ensureAutocompleteEntityIndex()
     }
 
     // Focus the search input after modal is rendered
@@ -312,12 +646,8 @@
   const closeSearch = () => {
     showSearch.value = false
     searchQuery.value = ''
-    searchResults.value = []
-  }
-
-  const selectResult = (result: SearchResult) => {
-    navigateTo(result.route)
-    closeSearch()
+    closeAutocomplete()
+    areResultsDismissed.value = false
   }
 
   // Handle "/" hotkey to open search

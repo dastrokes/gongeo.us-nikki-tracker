@@ -1,4 +1,7 @@
-import { getOutfitSearchAliases as getOutfitAliases } from '~~/data/aliases'
+import {
+  getOutfitAbilityAliases,
+  getOutfitSearchAliases as getOutfitAliases,
+} from '~~/data/aliases'
 
 const CHINESE_CHAR_REGEX = /[\u4e00-\u9fff]/
 const DEFAULT_SEARCH_KEYS = ['name', 'searchAliases']
@@ -8,6 +11,8 @@ const CHINESE_SEARCH_KEYS = [
   'pinyin',
   'pinyinInitials',
 ]
+const DEFAULT_SEARCH_THRESHOLD = 0.2
+const PINYIN_SEARCH_THRESHOLD = 0
 
 type PinyinFunction = (typeof import('pinyin-pro'))['pinyin']
 
@@ -98,11 +103,15 @@ export const useSearchFields = (isChineseLocale: () => boolean) => {
   const getSearchKeys = (): string[] => [
     ...(isChineseLocale() ? CHINESE_SEARCH_KEYS : DEFAULT_SEARCH_KEYS),
   ]
+  const getSearchThreshold = () =>
+    isChineseLocale() ? PINYIN_SEARCH_THRESHOLD : DEFAULT_SEARCH_THRESHOLD
 
   return {
     ensurePinyinLoaded,
     getChineseSearchMeta,
+    getOutfitAbilityAliases,
     getOutfitSearchAliases: getOutfitAliases,
     getSearchKeys,
+    getSearchThreshold,
   }
 }

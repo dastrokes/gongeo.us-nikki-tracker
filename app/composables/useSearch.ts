@@ -1,4 +1,5 @@
 import type Fuse from 'fuse.js'
+import type { FuseResult } from 'fuse.js'
 
 type FuseConstructor = (typeof import('fuse.js'))['default']
 
@@ -21,14 +22,17 @@ export const useSearch = () => {
   const {
     ensurePinyinLoaded,
     getChineseSearchMeta,
+    getOutfitAbilityAliases,
     getOutfitSearchAliases,
     getSearchKeys,
+    getSearchThreshold,
   } = useSearchFields(() => isChineseLocale.value)
 
   const searchOptions: SearchOptions = {
-    threshold: 0.2,
+    threshold: getSearchThreshold(),
     keys: ['name'],
     includeScore: true,
+    includeMatches: true,
     minMatchCharLength: 1,
     ignoreDiacritics: true,
   }
@@ -106,6 +110,7 @@ export const useSearch = () => {
     if (!buildIndexPromise) {
       buildIndexPromise = (async () => {
         searchOptions.keys = getSearchKeys()
+        searchOptions.threshold = getSearchThreshold()
 
         await ensureFuseLoaded()
         if (isChineseLocale.value) {
@@ -141,6 +146,10 @@ export const useSearch = () => {
         for (const outfitId of allOutfitIds) {
           const name = getLocalizedOutfitName(outfitId)
           const searchAliases = getOutfitSearchAliases(locale.value, outfitId)
+          const searchAbilityAliases = getOutfitAbilityAliases(
+            locale.value,
+            outfitId
+          )
 
           // Only add if the outfit has a valid localized name
           if (name.en && name.en !== `outfit.${outfitId}.name`) {
@@ -151,6 +160,9 @@ export const useSearch = () => {
                 type: 'outfit',
                 name: name[locale.value] || name.en,
                 ...(searchAliases.length > 0 ? { searchAliases } : {}),
+                ...(searchAbilityAliases.length > 0
+                  ? { searchAbilityAliases }
+                  : {}),
                 route: localePath(getEntityDetailPath('outfit', outfitId)),
               })
             )
@@ -198,7 +210,21 @@ export const useSearch = () => {
     await buildIndexPromise
   }
 
-  const search = (query: string): SearchCategory[] => {
+  const toSearchResult = (result: FuseResult<SearchResult>): SearchResult => {
+    const aliasMatch = result.matches?.find(
+      (match) => match.key === 'searchAliases' && match.refIndex !== undefined
+    )
+
+    return {
+      ...result.item,
+      matchedAlias:
+        aliasMatch?.refIndex !== undefined
+          ? result.item.searchAliases?.[aliasMatch.refIndex]
+          : undefined,
+    }
+  }
+
+  const searchEntities = (query: string, limit?: number): SearchResult[] => {
     // Only run on client side
     if (import.meta.server) return []
 
@@ -212,8 +238,15 @@ export const useSearch = () => {
       return []
     }
 
-    const results = fuseInstance.value.search(normalizedQuery)
-    const searchResults = results.map((result) => result.item)
+    const searchResults = fuseInstance.value
+      .search(normalizedQuery)
+      .map(toSearchResult)
+
+    return limit === undefined ? searchResults : searchResults.slice(0, limit)
+  }
+
+  const search = (query: string): SearchCategory[] => {
+    const searchResults = searchEntities(query)
 
     // Group results by type with fixed limits
     const itemResults = searchResults
@@ -280,6 +313,7 @@ export const useSearch = () => {
     isIndexBuilt: readonly(isIndexBuilt),
     buildSearchIndex,
     search,
+    searchEntities,
     searchOptions,
   }
 }

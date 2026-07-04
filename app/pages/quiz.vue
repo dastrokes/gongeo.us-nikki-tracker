@@ -483,6 +483,7 @@
     getChineseSearchMeta,
     getOutfitSearchAliases,
     getSearchKeys,
+    getSearchThreshold,
   } = useSearchFields(() => isChineseLocale.value)
   const outfitSearchMatchMap = computed(() => {
     const map = new Map<string, string>()
@@ -536,7 +537,7 @@
 
     const { default: Fuse } = await import('fuse.js')
     fuseInstance.value = new Fuse(items, {
-      threshold: 0.3,
+      threshold: getSearchThreshold(),
       keys: getSearchKeys(),
       includeScore: true,
       minMatchCharLength: 1,

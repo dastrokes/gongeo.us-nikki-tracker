@@ -78,6 +78,70 @@ const ZH_ABILITY_ALIASES = {
   worldRhythms: ['万物交响'],
 } as const
 
+type OutfitAbilityAliasKey = keyof typeof EN_ABILITY_ALIASES
+
+const OUTFIT_ABILITY_ALIAS_KEYS: Partial<
+  Record<string, OutfitAbilityAliasKey>
+> = {
+  '10161': 'floating',
+  '10129': 'floating',
+  '10001': 'gliding',
+  '10183': 'purification',
+  '10223': 'transformation',
+  '10226': 'animalGrooming',
+  '10162': 'waterWalking',
+  '10178': 'wingedHover',
+  '10167': 'worldRhythms',
+  '10154': 'animalGrooming',
+  '10231': 'worldRhythms',
+  '10330': 'roamingLoong',
+  '10331': 'purification',
+  '10239': 'danceOfVerses',
+  '10085': 'lyre',
+  '10313': 'electricGuitar',
+  '10250': 'floating',
+  '10258': 'planting',
+  '10349': 'archery',
+  '10350': 'stickyClaw',
+  '10324': 'bugCatching',
+  '10268': 'battleCompanion',
+  '10290': 'bugCatching',
+  '10364': 'archery',
+  '10045': 'purification',
+  '10165': 'purification',
+  '10048': 'floating',
+  '10029': 'bugCatching',
+  '10058': 'bugCatching',
+  '10028': 'fishing',
+  '10056': 'fishing',
+  '10020': 'gliding',
+  '10009': 'shrinking',
+  '10036': 'electrician',
+  '10060': 'animalGrooming',
+  '10084': 'animalGrooming',
+  '10148': 'construction',
+  '10371': 'construction',
+  '10186': 'stickyClaw',
+  '10286': 'gigantification',
+  '10213': 'fireworks',
+  '10130': 'violinist',
+  '10128': 'rainbowSummoning',
+  '10131': 'planting',
+  '10264': 'awakenSpringbloom',
+  '10220': 'pipa',
+  '10052': 'dizi',
+  '10263': 'worldRhythms',
+  '10326': 'celestialPromise',
+  '10327': 'archery',
+  '10322': 'danqing',
+  '10342': 'starCollecting',
+  '10340': 'fishKeeping',
+  '10091': 'animalInviting',
+  '10007': 'cooking',
+  '10215': 'dragonboneMaster',
+  '10011': 'battleCompanion',
+}
+
 /**
  * Search-only outfit aliases. Canonical display names stay in app/locales.
  */
@@ -290,3 +354,13 @@ export const getOutfitSearchAliases = (
   outfitId: string | number
 ): string[] =>
   normalizeAliases(OUTFIT_SEARCH_ALIASES[locale]?.[String(outfitId)])
+
+export const getOutfitAbilityAliases = (
+  locale: string,
+  outfitId: string | number
+): string[] => {
+  const abilityKey = OUTFIT_ABILITY_ALIAS_KEYS[String(outfitId)]
+  if (!abilityKey || locale !== 'en') return []
+
+  return normalizeAliases(EN_ABILITY_ALIASES[abilityKey])
+}

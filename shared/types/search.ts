@@ -3,6 +3,8 @@ export interface SearchResult {
   type: 'banner' | 'outfit' | 'item'
   name: string
   searchAliases?: string[]
+  searchAbilityAliases?: string[]
+  matchedAlias?: string
   quality?: number
   route: string
   pinyin?: string[]
@@ -19,8 +21,15 @@ export interface SearchOptions {
   threshold: number
   keys: string[]
   includeScore: boolean
+  includeMatches?: boolean
   minMatchCharLength: number
   ignoreDiacritics: boolean
+}
+
+export interface SearchAutocompleteTerm {
+  id: string
+  value: string
+  searchValues: string[]
 }
 
 export interface SearchCategory {

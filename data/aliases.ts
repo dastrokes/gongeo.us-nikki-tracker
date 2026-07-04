@@ -360,7 +360,11 @@ export const getOutfitAbilityAliases = (
   outfitId: string | number
 ): string[] => {
   const abilityKey = OUTFIT_ABILITY_ALIAS_KEYS[String(outfitId)]
-  if (!abilityKey || locale !== 'en') return []
+  if (!abilityKey || !['en', 'zh'].includes(locale)) return []
 
-  return normalizeAliases(EN_ABILITY_ALIASES[abilityKey])
+  return normalizeAliases(
+    locale === 'zh'
+      ? ZH_ABILITY_ALIASES[abilityKey]
+      : EN_ABILITY_ALIASES[abilityKey]
+  )
 }

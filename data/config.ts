@@ -8,16 +8,16 @@ export interface CurrentBannerGroupConfig {
 export const CURRENT_BANNER_GROUPS: CurrentBannerGroupConfig[] = [
   {
     key: 'left',
-    bannerIds: [66],
+    bannerIds: [66, 23],
     targetTime: '2026-07-16T20:00:00Z',
   },
   {
     key: 'right',
-    bannerIds: [18, 21],
-    targetTime: '2026-07-05T20:00:00Z',
+    bannerIds: [67, 68],
+    targetTime: '2026-07-16T20:00:00Z',
   },
 ]
 
 export const LATEST_BANNER_ID = 66
 
-export const IMPORT_PAGE_MAINTENANCE = true
+export const IMPORT_PAGE_MAINTENANCE = false

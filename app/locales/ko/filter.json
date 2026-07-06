@@ -98,6 +98,7 @@
       "metal": "메탈",
       "paper": "종이",
       "pearl": "진주",
+      "plant": "Plant",
       "plastic": "플라스틱",
       "resin": "레진",
       "ribbon": "리본",
@@ -256,6 +257,7 @@
       "tie": "타이",
       "tie_clip": "넥타이핀",
       "vine": "덩굴",
+      "water_droplet": "Water Droplet",
       "whistle": "호루라기",
       "wing": "날개"
     },

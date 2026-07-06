@@ -98,6 +98,7 @@
       "metal": "Metall",
       "paper": "Papier",
       "pearl": "Muschelperle",
+      "plant": "Pflanze",
       "plastic": "Kunststoff",
       "resin": "Harz",
       "ribbon": "Band",
@@ -256,6 +257,7 @@
       "tie": "Krawatte",
       "tie_clip": "Krawattennadel",
       "vine": "Ranke",
+      "water_droplet": "Wassertropfen",
       "whistle": "Pfeife",
       "wing": "Flügel"
     },

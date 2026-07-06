@@ -98,6 +98,7 @@
       "metal": "金属",
       "paper": "纸",
       "pearl": "珍珠",
+      "plant": "植物",
       "plastic": "塑料",
       "resin": "树脂",
       "ribbon": "丝带",
@@ -256,6 +257,7 @@
       "tie": "领带",
       "tie_clip": "领带夹",
       "vine": "藤蔓",
+      "water_droplet": "水滴",
       "whistle": "口哨",
       "wing": "翅膀"
     },

@@ -98,6 +98,7 @@
       "metal": "Metal",
       "paper": "Paper",
       "pearl": "Pearl",
+      "plant": "Plant",
       "plastic": "Plastic",
       "resin": "Resin",
       "ribbon": "Ribbon",
@@ -256,6 +257,7 @@
       "tie": "Tie",
       "tie_clip": "Tie Clip",
       "vine": "Vine",
+      "water_droplet": "Water Droplet",
       "whistle": "Whistle",
       "wing": "Wing"
     },

@@ -98,6 +98,7 @@
       "metal": "Métal",
       "paper": "Papier",
       "pearl": "Perle",
+      "plant": "Plante",
       "plastic": "Plastique",
       "resin": "Résine",
       "ribbon": "Ruban",
@@ -256,6 +257,7 @@
       "tie": "Lien",
       "tie_clip": "Pince à cravate",
       "vine": "Vigne",
+      "water_droplet": "Goutte d’Eau",
       "whistle": "Sifflet",
       "wing": "Aile"
     },

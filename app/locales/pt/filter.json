@@ -98,6 +98,7 @@
       "metal": "Metal",
       "paper": "Papel",
       "pearl": "Pérola",
+      "plant": "Plant",
       "plastic": "Plástico",
       "resin": "Resina",
       "ribbon": "Fita",
@@ -256,6 +257,7 @@
       "tie": "Laço/Amarração",
       "tie_clip": "Prende-gravata",
       "vine": "Videira",
+      "water_droplet": "Water Droplet",
       "whistle": "Apito",
       "wing": "Asa"
     },

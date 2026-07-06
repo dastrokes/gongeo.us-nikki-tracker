@@ -98,6 +98,7 @@
       "metal": "Metallo",
       "paper": "Carta",
       "pearl": "Perla",
+      "plant": "Plant",
       "plastic": "Plastica",
       "resin": "Resina",
       "ribbon": "Nastro",
@@ -256,6 +257,7 @@
       "tie": "Laccetto",
       "tie_clip": "Fermacravatta",
       "vine": "Vite",
+      "water_droplet": "Water Droplet",
       "whistle": "Fischietto",
       "wing": "Ala"
     },

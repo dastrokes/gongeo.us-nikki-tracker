@@ -72,12 +72,20 @@ function getItemPrefix(itemId: string): string | null {
   return itemId.length === 10 ? itemId.substring(0, 4) : null
 }
 
-export function isItemVariantId(itemId: string | number): boolean {
+export function isItemVariantId(
+  itemId: string | number,
+  familyRootId?: string | number
+): boolean {
+  if (String(itemId) === String(familyRootId)) return false
   const prefix = getItemPrefix(String(itemId))
   return prefix !== null && prefix in ITEM_PREFIX_MAP
 }
 
-export function getItemVariantType(itemId: string | number): VariantType {
+export function getItemVariantType(
+  itemId: string | number,
+  familyRootId?: string | number
+): VariantType {
+  if (String(itemId) === String(familyRootId)) return 'base'
   const prefix = getItemPrefix(String(itemId))
   if (!prefix) return 'base'
   return ITEM_PREFIX_MAP[prefix] ?? 'base'

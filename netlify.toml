@@ -43,3 +43,13 @@ for = "/catalog/*.*.json"
   CDN-Cache-Control = "public, s-maxage=31536000, stale-while-revalidate=604800"
   Netlify-CDN-Cache-Control = "public, s-maxage=31536000, stale-while-revalidate=604800"
   Netlify-Cache-ID = "catalog-assets"
+
+[[headers]]
+for = "/catalog/index.json"
+
+  [headers.values]
+  Cache-Control = "public, max-age=0, must-revalidate"
+  CDN-Cache-Control = "public, s-maxage=3600, stale-while-revalidate=86400, stale-if-error=86400"
+  Netlify-CDN-Cache-Control = "public, s-maxage=3600, stale-while-revalidate=86400, stale-if-error=86400"
+  Netlify-Cache-ID = "catalog"
+  Netlify-Vary = "query=r"

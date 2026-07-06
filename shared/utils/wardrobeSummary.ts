@@ -3,6 +3,7 @@ type WardrobeSummaryCatalogIndex = {
     id: number
     quality: number
     type: string
+    catalogGroupRootId?: number
   }>
   outfits: Array<{
     id: number
@@ -128,8 +129,8 @@ const incrementGroup = <TKey extends string | number>(
   groups.set(key, current)
 }
 
-const isBaseSummaryItem = (item: { id: number }) =>
-  getItemVariantType(item.id) === 'base'
+const isBaseSummaryItem = (item: { id: number; catalogGroupRootId?: number }) =>
+  getItemVariantType(item.id, item.catalogGroupRootId) === 'base'
 
 const isBaseSummaryOutfit = (outfit: { id: number }) =>
   getOutfitVariantType(String(outfit.id)) === 'base'

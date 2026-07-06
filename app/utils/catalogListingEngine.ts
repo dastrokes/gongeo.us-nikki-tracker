@@ -315,7 +315,12 @@ const matchesItemStableFilters = (
     return false
   }
 
-  if (!matchesCatalogVariationFilter(filters, getItemVariantType(item.id))) {
+  if (
+    !matchesCatalogVariationFilter(
+      filters,
+      getItemVariantType(item.id, item.catalogGroupRootId)
+    )
+  ) {
     return false
   }
 

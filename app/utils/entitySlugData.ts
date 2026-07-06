@@ -6404,6 +6404,7 @@ export const ENTITY_SLUG_DATA = {
     [1024770355, 'quiet-embers'],
     [1024770364, 'tender-echoes'],
     [1024770382, 'drop-of-dew'],
+    [1024780093, 'fragrant-blessing'],
     [1024780223, 'wind-wandering'],
     [1024780231, 'exquisite-heart'],
     [1024780239, 'moonlit-waves'],

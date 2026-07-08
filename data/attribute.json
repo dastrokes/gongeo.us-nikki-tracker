@@ -472,6 +472,11 @@
   {
     "field": "material",
     "itemType": null,
+    "value": "plant"
+  },
+  {
+    "field": "material",
+    "itemType": null,
     "value": "plastic"
   },
   {
@@ -1153,6 +1158,11 @@
     "field": "ornament",
     "itemType": null,
     "value": "vine"
+  },
+  {
+    "field": "ornament",
+    "itemType": null,
+    "value": "water_droplet"
   },
   {
     "field": "ornament",

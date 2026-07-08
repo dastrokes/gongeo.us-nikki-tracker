@@ -729,6 +729,11 @@
         itemId.value,
       ]
   )
+  const getCatalogItemVariantType = (id: number) =>
+    getItemVariantType(
+      id,
+      catalogIndex.index.value?.itemById.get(id)?.catalogGroupRootId
+    )
   const itemKey = computed(() => `item-${itemId.value}-${locale.value}`)
 
   const {
@@ -818,7 +823,7 @@
       .map((id) => ({
         id,
         quality: item.value!.quality,
-        type: getItemVariantType(id),
+        type: getCatalogItemVariantType(id),
       }))
       .sort((a, b) => {
         return (
@@ -1122,7 +1127,7 @@
       { key: 'complete-set', label: t('wardrobe.actions.mark_all') },
       { key: 'unmark-all', label: t('wardrobe.actions.unmark_all') },
     ].map((option) =>
-      markCurrentVariantOption(option, getItemVariantType(itemId.value))
+      markCurrentVariantOption(option, getCatalogItemVariantType(itemId.value))
     )
   })
 
@@ -1152,7 +1157,7 @@
     if (!item.value) return null
 
     return itemVariationIds.value.reduce<number | null>((level, variation) => {
-      const variantType = getItemVariantType(variation)
+      const variantType = getCatalogItemVariantType(variation)
       const evoLevel = getEvoLevel(variantType)
       return evoLevel && isItemOwned(variation)
         ? Math.max(level ?? 0, evoLevel)
@@ -1162,7 +1167,7 @@
   const currentItemGlowUpIds = computed(() => {
     if (!item.value) return []
     return itemVariationIds.value.filter(
-      (relatedId) => getItemVariantType(relatedId) === 'glowup'
+      (relatedId) => getCatalogItemVariantType(relatedId) === 'glowup'
     )
   })
   const currentItemGlowUpOwned = computed(
@@ -1171,7 +1176,7 @@
       currentItemGlowUpIds.value.every(isItemOwned)
   )
   const currentItemVariantType = computed(() =>
-    getItemVariantType(itemId.value)
+    getCatalogItemVariantType(itemId.value)
   )
   const currentItemEffectiveOwned = computed(
     () => isItemOwned(itemId.value) || Boolean(currentItemEvoLevel.value)
@@ -1218,7 +1223,7 @@
         const currentRank = getVariantRank(currentItemVariantType.value)
         const itemIds = itemVariationIds.value.filter(
           (relatedId) =>
-            getVariantRank(getItemVariantType(relatedId)) >= currentRank
+            getVariantRank(getCatalogItemVariantType(relatedId)) >= currentRank
         )
 
         if (itemIds.length > 0) {
@@ -1230,7 +1235,7 @@
       const itemIds =
         currentItemVariantType.value === 'glowup'
           ? itemVariationIds.value.filter((relatedId) => {
-              const variantType = getItemVariantType(relatedId)
+              const variantType = getCatalogItemVariantType(relatedId)
               return variantType === 'base' || relatedId === itemId.value
             })
           : [itemId.value]
@@ -1249,7 +1254,8 @@
       const maxRank = getVariantMarkMaxRank(variantKey)
       if (variantKey === 'unmark-all') {
         const itemIds = relatedIds.filter(
-          (relatedId) => getVariantRank(getItemVariantType(relatedId)) >= 0
+          (relatedId) =>
+            getVariantRank(getCatalogItemVariantType(relatedId)) >= 0
         )
 
         if (itemIds.length > 0) {
@@ -1271,7 +1277,7 @@
       }
 
       const itemIds = relatedIds.filter((relatedId) => {
-        const variantType = getItemVariantType(relatedId)
+        const variantType = getCatalogItemVariantType(relatedId)
         return variantKey === 'glowup'
           ? variantType === 'base' || variantType === 'glowup'
           : variantType !== 'glowup' && getVariantRank(variantType) <= maxRank
@@ -1279,7 +1285,7 @@
       const clearItemIds =
         Number.isFinite(maxRank) && variantKey !== 'glowup'
           ? relatedIds.filter((relatedId) => {
-              const variantType = getItemVariantType(relatedId)
+              const variantType = getCatalogItemVariantType(relatedId)
               return (
                 variantType !== 'glowup' &&
                 getVariantRank(variantType) > maxRank

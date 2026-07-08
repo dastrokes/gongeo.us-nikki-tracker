@@ -840,6 +840,11 @@
     markItemsOwned,
   } = useWardrobe()
   const catalogIndex = useCatalogIndex()
+  const getCatalogItemVariantType = (itemId: number) =>
+    getItemVariantType(
+      itemId,
+      catalogIndex.index.value?.itemById.get(itemId)?.catalogGroupRootId
+    )
   const { activeRegionScope } = useWardrobeSettings()
   const wardrobeModeError = ref<Error | null>(null)
   const wardrobeError = computed(() =>
@@ -1364,7 +1369,7 @@
   ) => getCatalogGroupIds(index, 'item', itemId)
   const getItemGlowUpIds = (itemId: number) =>
     getCatalogRelatedItemIds(itemId).filter(
-      (relatedId) => getItemVariantType(relatedId) === 'glowup'
+      (relatedId) => getCatalogItemVariantType(relatedId) === 'glowup'
     )
   const isItemGlowUpOwned = (itemId: number, _quality: number) => {
     const glowUpIds = getItemGlowUpIds(itemId)
@@ -1414,7 +1419,7 @@
     getApplicableVariantMarkOptions(
       [quality],
       isItemGlowUpOwned(itemId, quality),
-      getItemVariantType(itemId)
+      getCatalogItemVariantType(itemId)
     )
   const getVariantMarkMaxRank = (key: WardrobeVariantMarkKey) => {
     if (key === 'base') return 0
@@ -1452,7 +1457,7 @@
         if (variantKey === 'complete-set') return relatedIds
 
         return relatedIds.filter((relatedId) => {
-          const variantType = getItemVariantType(relatedId)
+          const variantType = getCatalogItemVariantType(relatedId)
           return variantKey === 'glowup'
             ? variantType === 'base' || variantType === 'glowup'
             : variantType !== 'glowup' && getVariantRank(variantType) <= maxRank
@@ -1479,7 +1484,7 @@
     return normalizeWardrobeItemIds(
       itemIds.flatMap((itemId) => {
         return getCatalogRelatedItemIds(itemId, index).filter((relatedId) => {
-          const variantType = getItemVariantType(relatedId)
+          const variantType = getCatalogItemVariantType(relatedId)
           return (
             variantType !== 'glowup' && getVariantRank(variantType) > maxRank
           )
@@ -1505,10 +1510,10 @@
 
     return normalizeWardrobeItemIds(
       itemIds.flatMap((itemId) => {
-        const minRank = getVariantRank(getItemVariantType(itemId))
+        const minRank = getVariantRank(getCatalogItemVariantType(itemId))
         return getCatalogRelatedItemIds(itemId, index).filter(
           (relatedId) =>
-            getVariantRank(getItemVariantType(relatedId)) >= minRank
+            getVariantRank(getCatalogItemVariantType(relatedId)) >= minRank
         )
       })
     ).filter((itemId) => !index || index.itemById.has(itemId))
@@ -1531,10 +1536,10 @@
 
     return normalizeWardrobeItemIds(
       itemIds.flatMap((itemId) => {
-        if (getItemVariantType(itemId) !== 'glowup') return [itemId]
+        if (getCatalogItemVariantType(itemId) !== 'glowup') return [itemId]
 
         return getCatalogRelatedItemIds(itemId, index).filter((relatedId) => {
-          const variantType = getItemVariantType(relatedId)
+          const variantType = getCatalogItemVariantType(relatedId)
           return variantType === 'base' || relatedId === itemId
         })
       })
@@ -1572,7 +1577,7 @@
 
     return getCatalogRelatedItemIds(itemId).reduce<number | null>(
       (level, relatedId) => {
-        const variantType = getItemVariantType(relatedId)
+        const variantType = getCatalogItemVariantType(relatedId)
         const evoLevel = getEvoLevel(variantType)
         return evoLevel && isItemOwned(relatedId)
           ? Math.max(level ?? 0, evoLevel)

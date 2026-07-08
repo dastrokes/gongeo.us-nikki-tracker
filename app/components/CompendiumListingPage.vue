@@ -261,7 +261,7 @@
               <div
                 v-for="index in 12"
                 :key="`preferences-placeholder-${index}`"
-                class="relative aspect-3/4 animate-pulse overflow-hidden rounded-lg bg-gray-200 dark:bg-gray-700"
+                class="relative aspect-2/3 animate-pulse overflow-hidden rounded-lg bg-gray-200 dark:bg-gray-700"
                 :style="getListingCardAnimationStyle(index - 1)"
               ></div>
             </div>
@@ -288,11 +288,7 @@
               </n-result>
             </div>
 
-            <n-collapse-transition
-              v-else
-              mode="out-in"
-              appear
-            >
+            <template v-else>
               <div
                 v-if="!error && entries.length > 0"
                 :key="gridKey"
@@ -317,17 +313,21 @@
                 <div
                   v-for="(i, index) in pageSize"
                   :key="`skeleton-${i}`"
-                  class="relative aspect-3/4 animate-pulse overflow-hidden rounded-lg bg-gray-200 dark:bg-gray-700"
+                  class="relative aspect-2/3 animate-pulse overflow-hidden rounded-lg bg-gray-200 dark:bg-gray-700"
                   :style="getListingCardAnimationStyle(index)"
                 ></div>
               </div>
-            </n-collapse-transition>
+            </template>
 
-            <div
-              v-if="preferencesReady"
-              class="flex items-center justify-center sm:pr-2"
-            >
+            <div class="flex items-center justify-center sm:pr-2">
+              <n-skeleton
+                v-if="!preferencesReady || loading"
+                width="min(100%, 28rem)"
+                :height="28"
+                round
+              />
               <n-pagination
+                v-else
                 v-model:page="page"
                 :page-size="pageSize"
                 :item-count="totalCount"

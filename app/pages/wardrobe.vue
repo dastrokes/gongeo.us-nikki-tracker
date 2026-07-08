@@ -2057,7 +2057,7 @@
       .filter(
         (item) =>
           item.type === 'dresses' &&
-          getItemVariantType(item.id) === 'base' &&
+          getItemVariantType(item.id, item.catalogGroupRootId) === 'base' &&
           ownedItemIdSet.value.has(item.id) &&
           isCatalogEntryAvailableInScope(
             'item',
@@ -2077,7 +2077,7 @@
       .filter(
         (item) =>
           item.type === 'hair' &&
-          getItemVariantType(item.id) === 'base' &&
+          getItemVariantType(item.id, item.catalogGroupRootId) === 'base' &&
           ownedItemIdSet.value.has(item.id) &&
           isCatalogEntryAvailableInScope(
             'item',
@@ -2095,7 +2095,10 @@
 
     return index.items
       .filter((item) => ownedItemIdSet.value.has(item.id))
-      .filter((item) => getItemVariantType(item.id) === 'base')
+      .filter(
+        (item) =>
+          getItemVariantType(item.id, item.catalogGroupRootId) === 'base'
+      )
       .filter((item) =>
         isCatalogEntryAvailableInScope('item', item.id, activeRegionScope.value)
       )
@@ -2476,7 +2479,10 @@
     const scopedItems =
       wardrobeSummaryScope.value === 'all'
         ? index.items
-        : index.items.filter((item) => getItemVariantType(item.id) === 'base')
+        : index.items.filter(
+            (item) =>
+              getItemVariantType(item.id, item.catalogGroupRootId) === 'base'
+          )
 
     scopedItems.forEach((item) => {
       if (

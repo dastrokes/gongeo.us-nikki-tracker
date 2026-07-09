@@ -332,7 +332,7 @@ export const ITEM_SEARCH_SUBCATEGORY_PARENT_BY_TYPE = {
     officer_shirt: 'shirt',
     peasant_blouse: 'blouse',
     polo_shirt: 'shirt',
-    puffer_jacket: 'blouse',
+    puffer_jacket: 'jacket',
     sailor_blouse: 'blouse',
     school_uniform_blouse: 'blouse',
     sweater_vest: 'sweater',

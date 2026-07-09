@@ -20,6 +20,7 @@ export default defineCachedApiEventHandler(
       },
     },
     headers: {
+      cacheIds: [CACHE_TAGS.sitemap],
       varyQuery: true,
       varyHeaders: [GAME_VERSION_HEADER],
     },

@@ -11,6 +11,7 @@ export const CACHE_TAGS = {
   stats: 'stats',
   images: 'images',
   lookbook: 'lookbook',
+  sitemap: 'sitemap',
 } as const
 
 export const itemDetailCacheId = (id: string) => `item-detail-${id}`
@@ -131,6 +132,7 @@ const pageProfiles = {
     sharedCdn: CDN_IMMUTABLE,
   }),
   sitemap: createProfile(BROWSER_LONG, CDN_SITEMAP, {
+    cacheIds: [CACHE_TAGS.sitemap],
     sharedCdn: CDN_SITEMAP,
   }),
   noStore: sharedProfiles.noStore,

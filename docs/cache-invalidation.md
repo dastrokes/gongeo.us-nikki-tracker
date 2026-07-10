@@ -15,6 +15,7 @@ This app uses `Netlify-Cache-ID` as the purgeable cache identity for mutable cac
 | Lookbook                        | `lookbook`                             |
 | Stats                           | `stats`                                |
 | Images                          | `images`                               |
+| Sitemaps                        | `sitemap`                              |
 
 ## Normal Purges
 
@@ -37,6 +38,12 @@ One-off purge:
 
 ```powershell
 npm run cache:purge -- --tag item-search --tag item-detail-1020780298
+```
+
+Sitemap purge:
+
+```powershell
+npm run cache:purge -- --tag sitemap
 ```
 
 Old identity cleanup after deploying this cache model:

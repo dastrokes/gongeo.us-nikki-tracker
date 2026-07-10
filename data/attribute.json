@@ -312,11 +312,6 @@
   {
     "field": "material",
     "itemType": null,
-    "value": "bead"
-  },
-  {
-    "field": "material",
-    "itemType": null,
     "value": "bone"
   },
   {
@@ -372,11 +367,6 @@
   {
     "field": "material",
     "itemType": null,
-    "value": "feather"
-  },
-  {
-    "field": "material",
-    "itemType": null,
     "value": "felt"
   },
   {
@@ -398,11 +388,6 @@
     "field": "material",
     "itemType": null,
     "value": "gel"
-  },
-  {
-    "field": "material",
-    "itemType": null,
-    "value": "gemstone"
   },
   {
     "field": "material",
@@ -467,11 +452,6 @@
   {
     "field": "material",
     "itemType": null,
-    "value": "pearl"
-  },
-  {
-    "field": "material",
-    "itemType": null,
     "value": "plant"
   },
   {
@@ -487,11 +467,6 @@
   {
     "field": "material",
     "itemType": null,
-    "value": "ribbon"
-  },
-  {
-    "field": "material",
-    "itemType": null,
     "value": "rope"
   },
   {
@@ -503,11 +478,6 @@
     "field": "material",
     "itemType": null,
     "value": "satin"
-  },
-  {
-    "field": "material",
-    "itemType": null,
-    "value": "sequin"
   },
   {
     "field": "material",
@@ -792,11 +762,6 @@
   {
     "field": "ornament",
     "itemType": null,
-    "value": "crystal"
-  },
-  {
-    "field": "ornament",
-    "itemType": null,
     "value": "cube"
   },
   {
@@ -842,11 +807,6 @@
   {
     "field": "ornament",
     "itemType": null,
-    "value": "floral"
-  },
-  {
-    "field": "ornament",
-    "itemType": null,
     "value": "flower"
   },
   {
@@ -873,11 +833,6 @@
     "field": "ornament",
     "itemType": null,
     "value": "fruit"
-  },
-  {
-    "field": "ornament",
-    "itemType": null,
-    "value": "fur"
   },
   {
     "field": "ornament",
@@ -923,16 +878,6 @@
     "field": "ornament",
     "itemType": null,
     "value": "knot"
-  },
-  {
-    "field": "ornament",
-    "itemType": null,
-    "value": "lace"
-  },
-  {
-    "field": "ornament",
-    "itemType": null,
-    "value": "lace_up"
   },
   {
     "field": "ornament",
@@ -983,11 +928,6 @@
     "field": "ornament",
     "itemType": null,
     "value": "patch"
-  },
-  {
-    "field": "ornament",
-    "itemType": null,
-    "value": "paw_print"
   },
   {
     "field": "ornament",
@@ -1088,11 +1028,6 @@
     "field": "ornament",
     "itemType": null,
     "value": "spike"
-  },
-  {
-    "field": "ornament",
-    "itemType": null,
-    "value": "star"
   },
   {
     "field": "ornament",
@@ -1217,37 +1152,12 @@
   {
     "field": "pattern",
     "itemType": null,
-    "value": "bamboo"
-  },
-  {
-    "field": "pattern",
-    "itemType": null,
     "value": "bee"
   },
   {
     "field": "pattern",
     "itemType": null,
-    "value": "bird"
-  },
-  {
-    "field": "pattern",
-    "itemType": null,
     "value": "brick"
-  },
-  {
-    "field": "pattern",
-    "itemType": null,
-    "value": "bubble"
-  },
-  {
-    "field": "pattern",
-    "itemType": null,
-    "value": "butterfly"
-  },
-  {
-    "field": "pattern",
-    "itemType": null,
-    "value": "cable_knit"
   },
   {
     "field": "pattern",
@@ -1268,11 +1178,6 @@
     "field": "pattern",
     "itemType": null,
     "value": "chevron"
-  },
-  {
-    "field": "pattern",
-    "itemType": null,
-    "value": "cloud"
   },
   {
     "field": "pattern",
@@ -1317,11 +1222,6 @@
   {
     "field": "pattern",
     "itemType": null,
-    "value": "fish"
-  },
-  {
-    "field": "pattern",
-    "itemType": null,
     "value": "fishnet"
   },
   {
@@ -1338,11 +1238,6 @@
     "field": "pattern",
     "itemType": null,
     "value": "food_print"
-  },
-  {
-    "field": "pattern",
-    "itemType": null,
-    "value": "fruit"
   },
   {
     "field": "pattern",
@@ -1372,11 +1267,6 @@
   {
     "field": "pattern",
     "itemType": null,
-    "value": "heart"
-  },
-  {
-    "field": "pattern",
-    "itemType": null,
     "value": "honeycomb"
   },
   {
@@ -1397,11 +1287,6 @@
   {
     "field": "pattern",
     "itemType": null,
-    "value": "leaf"
-  },
-  {
-    "field": "pattern",
-    "itemType": null,
     "value": "leaf_vein"
   },
   {
@@ -1418,16 +1303,6 @@
     "field": "pattern",
     "itemType": null,
     "value": "moon"
-  },
-  {
-    "field": "pattern",
-    "itemType": null,
-    "value": "musical_note"
-  },
-  {
-    "field": "pattern",
-    "itemType": null,
-    "value": "origami_crane"
   },
   {
     "field": "pattern",
@@ -1462,11 +1337,6 @@
   {
     "field": "pattern",
     "itemType": null,
-    "value": "quilted"
-  },
-  {
-    "field": "pattern",
-    "itemType": null,
     "value": "ripple"
   },
   {
@@ -1478,11 +1348,6 @@
     "field": "pattern",
     "itemType": null,
     "value": "solid"
-  },
-  {
-    "field": "pattern",
-    "itemType": null,
-    "value": "spiral"
   },
   {
     "field": "pattern",
@@ -1757,17 +1622,7 @@
   {
     "field": "structure",
     "itemType": null,
-    "value": "branch"
-  },
-  {
-    "field": "structure",
-    "itemType": null,
     "value": "bristled"
-  },
-  {
-    "field": "structure",
-    "itemType": null,
-    "value": "bubble"
   },
   {
     "field": "structure",
@@ -1778,11 +1633,6 @@
     "field": "structure",
     "itemType": null,
     "value": "carved"
-  },
-  {
-    "field": "structure",
-    "itemType": null,
-    "value": "chain"
   },
   {
     "field": "structure",
@@ -1808,11 +1658,6 @@
     "field": "structure",
     "itemType": null,
     "value": "crystalline"
-  },
-  {
-    "field": "structure",
-    "itemType": null,
-    "value": "cube"
   },
   {
     "field": "structure",
@@ -1857,11 +1702,6 @@
   {
     "field": "structure",
     "itemType": null,
-    "value": "floral"
-  },
-  {
-    "field": "structure",
-    "itemType": null,
     "value": "fluffy"
   },
   {
@@ -1888,11 +1728,6 @@
     "field": "structure",
     "itemType": null,
     "value": "gauntlet"
-  },
-  {
-    "field": "structure",
-    "itemType": null,
-    "value": "grid"
   },
   {
     "field": "structure",
@@ -1927,17 +1762,7 @@
   {
     "field": "structure",
     "itemType": null,
-    "value": "lantern"
-  },
-  {
-    "field": "structure",
-    "itemType": null,
     "value": "layered"
-  },
-  {
-    "field": "structure",
-    "itemType": null,
-    "value": "leaf"
   },
   {
     "field": "structure",
@@ -1997,11 +1822,6 @@
   {
     "field": "structure",
     "itemType": null,
-    "value": "ribbon"
-  },
-  {
-    "field": "structure",
-    "itemType": null,
     "value": "ruched"
   },
   {
@@ -2057,11 +1877,6 @@
   {
     "field": "structure",
     "itemType": null,
-    "value": "strap"
-  },
-  {
-    "field": "structure",
-    "itemType": null,
     "value": "structured"
   },
   {
@@ -2108,11 +1923,6 @@
     "field": "structure",
     "itemType": null,
     "value": "visor"
-  },
-  {
-    "field": "structure",
-    "itemType": null,
-    "value": "wing"
   },
   {
     "field": "structure",
@@ -2738,6 +2548,11 @@
     "field": "category",
     "itemType": "tops",
     "value": "corset"
+  },
+  {
+    "field": "category",
+    "itemType": "tops",
+    "value": "jacket"
   },
   {
     "field": "category",

@@ -16,7 +16,7 @@
  * encodes the variant type. The remaining 6 digits identify the specific item.
  *
  *   Base:    1020xxxxxx  (alt base: 1021xxxxxx / 1029xxxxxx)
- *   Glow-up: 1022xxxxxx  (alt glow-up: 1026xxxxxx / 1027xxxxxx)
+ *   Glow-up: 1022xxxxxx  (alt glow-up: 1026xxxxxx / 1027xxxxxx / 1028xxxxxx)
  *   Evo 1:   1023xxxxxx
  *   Evo 2:   1024xxxxxx
  *   Evo 3:   1025xxxxxx
@@ -66,6 +66,7 @@ const ITEM_PREFIX_MAP: Record<string, VariantType> = {
   '1025': 'evo3',
   '1026': 'glowup',
   '1027': 'glowup',
+  '1028': 'glowup',
 }
 
 function getItemPrefix(itemId: string): string | null {

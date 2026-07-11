@@ -1014,7 +1014,7 @@ export const BANNER_DATA: BannerData = {
     runs: [
       {
         version: '2.7.2',
-        start: '2025-01-05',
+        start: '2026-07-05',
         end: '2026-07-16',
       },
     ],

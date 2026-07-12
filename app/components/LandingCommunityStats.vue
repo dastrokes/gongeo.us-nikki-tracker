@@ -13,12 +13,16 @@
     >
       <div class="flex flex-col gap-3">
         <div class="grid grid-cols-2 gap-3 text-center lg:grid-cols-1">
-          <div class="rounded-xl bg-[#e8ddf9]/15 p-3 dark:bg-[#1e1b4b]/25">
-            <div class="mb-1 text-sm text-gray-400">
+          <div
+            class="rounded-xl border border-black/6 bg-linear-to-br from-[#e8ddf9]/25 via-white/55 to-[#fce4ec]/30 p-3 shadow-xs dark:border-white/8 dark:from-[#1e1b4b]/35 dark:via-[#221834]/45 dark:to-[#581c64]/25"
+          >
+            <div
+              class="mb-1 text-sm font-medium text-gray-600 dark:text-gray-300"
+            >
               {{ $t('common.stats.total_pulls') }}
             </div>
             <div
-              class="min-h-7 text-xl font-bold tabular-nums sm:min-h-8 sm:text-2xl"
+              class="min-h-7 text-xl font-bold text-slate-900 tabular-nums sm:min-h-8 sm:text-2xl dark:text-white"
             >
               <n-number-animation
                 v-if="globalStats"
@@ -36,12 +40,16 @@
               <span v-else>-</span>
             </div>
           </div>
-          <div class="rounded-xl bg-[#e8ddf9]/15 p-3 dark:bg-[#1e1b4b]/25">
-            <div class="mb-1 text-sm text-gray-400">
+          <div
+            class="rounded-xl border border-black/6 bg-linear-to-br from-[#e8ddf9]/25 via-white/55 to-[#fce4ec]/30 p-3 shadow-xs dark:border-white/8 dark:from-[#1e1b4b]/35 dark:via-[#221834]/45 dark:to-[#581c64]/25"
+          >
+            <div
+              class="mb-1 text-sm font-medium text-gray-600 dark:text-gray-300"
+            >
               {{ $t('global.stats.unique_users') }}
             </div>
             <div
-              class="min-h-7 text-xl font-bold tabular-nums sm:min-h-8 sm:text-2xl"
+              class="min-h-7 text-xl font-bold text-slate-900 tabular-nums sm:min-h-8 sm:text-2xl dark:text-white"
             >
               <n-number-animation
                 v-if="globalStats"
@@ -68,11 +76,16 @@
             class="min-w-40"
             @click="navigateTo(localePath('/global'))"
           >
-            {{ $t('default.view_all_stats') }} ->
+            <template #icon>
+              <n-icon><ChartBar /></n-icon>
+            </template>
+            {{ $t('default.view_all_stats') }}
           </n-button>
         </div>
       </div>
-      <div class="rounded-xl bg-[#e8ddf9]/15 p-2 lg:p-4 dark:bg-[#1e1b4b]/25">
+      <div
+        class="rounded-xl border border-black/6 bg-linear-to-br from-[#e8ddf9]/25 via-white/55 to-[#fce4ec]/30 p-2 shadow-xs lg:p-4 dark:border-white/8 dark:from-[#1e1b4b]/35 dark:via-[#221834]/45 dark:to-[#581c64]/25"
+      >
         <div
           v-if="globalStats"
           :style="{ height: communityFirstItemChartHeight }"
@@ -100,9 +113,12 @@
         </div>
         <div
           v-else
-          class="flex h-40 items-center justify-center text-xl text-gray-400"
+          class="flex h-40 items-center justify-center"
         >
-          -
+          <n-empty
+            size="small"
+            :description="$t('common.error')"
+          />
         </div>
       </div>
     </div>
@@ -110,6 +126,7 @@
 </template>
 
 <script setup lang="ts">
+  import { ChartBar } from '@vicons/fa'
   import { breakpointsTailwind } from '@vueuse/core'
   import { BANNER_DATA } from '~~/data/banners'
   import OUTFIT_DATA, { type OutfitKey } from '~~/data/outfits'

@@ -80,11 +80,14 @@
     </template>
 
     <template #entry="{ entry, index }">
-      <div
-        class="group relative block cursor-pointer"
+      <component
+        :is="editMode ? 'div' : NuxtLinkLocaleComponent"
+        :to="editMode ? undefined : getMomoDetailPath(entry.id)"
+        class="group relative block cursor-pointer rounded-lg focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:ring-offset-2 focus-visible:outline-hidden dark:focus-visible:ring-offset-slate-950"
         :class="getListingCardAnimationClass(index)"
         :style="getListingCardAnimationStyle(index)"
-        @click="handleMomoCardClick(entry.id, $event)"
+        :aria-label="entry.name"
+        @click="editMode && handleMomoCardClick(entry.id, $event)"
       >
         <div
           class="relative aspect-2/3 overflow-hidden rounded-lg bg-[url('/images/momo_bg.webp')] bg-cover bg-center shadow-md transition-shadow duration-300 group-hover:shadow-xl"
@@ -194,7 +197,7 @@
             </p>
           </div>
         </div>
-      </div>
+      </component>
     </template>
   </CompendiumListingPage>
 </template>
@@ -221,6 +224,7 @@
   const dialog = useDialog()
   const message = useMessage()
   const localePath = useLocalePath()
+  const NuxtLinkLocaleComponent = resolveComponent('NuxtLinkLocale')
   const route = useRoute()
   const router = useRouter()
   const { getImageSrc } = imageProvider()
@@ -338,18 +342,45 @@
       : null
   )
 
-  const pageTitle = computed(
+  const getVersionFilterLabel = (version?: string | null) => {
+    if (!version) return null
+    const key = `version.${version}`
+    const translated = t(key)
+    return translated !== key ? `${version} - ${translated}` : version
+  }
+  const getSourceFilterLabel = (source?: string | null) => {
+    if (!source) return null
+    const labelKey = resolveMomoSourceGroupLabelKey(source)
+    if (!labelKey) return source
+    const translated = t(labelKey)
+    return translated !== labelKey ? translated : source
+  }
+  const activeListFilterLabel = computed(
     () =>
-      `${t('common.momo')} - ${t('meta.game_title')} - ${t('navigation.title')}`
+      (qualityFilter.value ? `${qualityFilter.value}★` : null) ??
+      getVersionFilterLabel(versionFilter.value) ??
+      getSourceFilterLabel(obtainFilter.value)
   )
+  const pageTitle = computed(() => {
+    const title = activeListFilterLabel.value
+      ? `${t('common.momo')} - ${activeListFilterLabel.value}`
+      : t('common.momo')
+    return `${title} - ${t('meta.game_title')} - ${t('navigation.title')}`
+  })
+  const description = computed(() => {
+    const baseDescription = t('meta.description.momo')
+    return activeListFilterLabel.value
+      ? `${activeListFilterLabel.value} - ${baseDescription}`
+      : baseDescription
+  })
 
   useSeoMeta({
     title: () => pageTitle.value,
-    description: () => t('meta.description.momo'),
+    description: () => description.value,
     ogTitle: () => pageTitle.value,
-    ogDescription: () => t('meta.description.momo'),
+    ogDescription: () => description.value,
     twitterTitle: () => pageTitle.value,
-    twitterDescription: () => t('meta.description.momo'),
+    twitterDescription: () => description.value,
   })
 
   const hasFilters = computed(
@@ -610,15 +641,19 @@
     }
   }
 
-  const isListingCardControlClick = (event: MouseEvent) => {
+  const isListingCardControlClick = (event: MouseEvent | KeyboardEvent) => {
     const target = event.target
-    return (
-      target instanceof HTMLElement &&
-      Boolean(target.closest('button, input, label, [role="button"]'))
-    )
+    const control =
+      target instanceof HTMLElement
+        ? target.closest('button, input, label, [role="button"]')
+        : null
+    return control !== null && control !== event.currentTarget
   }
 
-  const handleMomoCardClick = (momoId: number, event: MouseEvent) => {
+  const handleMomoCardClick = (
+    momoId: number,
+    event: MouseEvent | KeyboardEvent
+  ) => {
     if (isListingCardControlClick(event)) return
 
     if (editMode.value) {
@@ -626,7 +661,7 @@
       return
     }
 
-    navigateTo(localePath(getEntityDetailPath('momo', momoId)))
+    navigateTo(localePath(getMomoDetailPath(momoId)))
   }
 
   const getBatchMomoIds = async () => {
@@ -769,13 +804,6 @@
     wardrobeModeError.value = null
     retryWardrobeStorage()
     loadData()
-  }
-
-  const getVersionFilterLabel = (version?: string | null) => {
-    if (!version) return null
-    const key = `version.${version}`
-    const translated = t(key)
-    return translated !== key ? `${version} - ${translated}` : version
   }
 
   const versionOptions = computed(() =>

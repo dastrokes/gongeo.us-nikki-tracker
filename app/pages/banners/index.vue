@@ -176,7 +176,7 @@
               <div>
                 <NuxtLinkLocale
                   no-prefetch
-                  :to="getEntityDetailPath('banner', banner.bannerId)"
+                  :to="getBannerDetailPath(banner.bannerId)"
                   class="inline w-fit transition-opacity hover:opacity-95"
                 >
                   <n-gradient-text
@@ -187,24 +187,20 @@
                     {{ $t(`banner.${banner.bannerId}.name`) }}
                   </n-gradient-text>
                 </NuxtLinkLocale>
-                <div
-                  v-if="getBannerStatsPath(banner)"
-                  class="mt-2"
-                >
-                  <NuxtLinkLocale
-                    no-prefetch
-                    :to="getBannerStatsPath(banner)!"
-                    class="inline-flex items-center gap-1.5 rounded-full border border-gray-200 bg-gray-50/50 px-3 py-1 text-sm font-medium text-gray-600 transition-all hover:border-gray-300 hover:bg-gray-100/70 hover:text-gray-900 dark:border-gray-800 dark:bg-gray-900/50 dark:text-gray-300 dark:hover:border-gray-700 dark:hover:bg-gray-800/70 dark:hover:text-gray-100"
-                  >
-                    <n-icon size="14">
-                      <ChartLine />
-                    </n-icon>
-                    <span>{{ t('global.banner_stats.title') }}</span>
-                  </NuxtLinkLocale>
-                </div>
               </div>
             </template>
             <template #default>
+              <div
+                aria-hidden="true"
+                class="pointer-events-none absolute top-5 bottom-0 left-[7px] z-1 w-0.5 rounded-full bg-linear-to-b"
+                :class="
+                  banner.bannerType === 2
+                    ? 'from-amber-400/70 to-amber-400/20'
+                    : banner.bannerType === 3
+                      ? 'from-cyan-400/70 to-cyan-400/20'
+                      : 'from-violet-400/70 to-violet-400/20'
+                "
+              ></div>
               <div class="grid grid-cols-1 gap-2 lg:grid-cols-4">
                 <div class="space-y-2">
                   <div
@@ -270,60 +266,68 @@
                       </div>
                     </div>
                   </div>
-                  <n-divider />
-                  <div class="inline-flex flex-col items-start gap-2">
-                    <div
-                      v-for="outfitId in banner.outfit5StarId"
-                      :key="outfitId"
-                      class="inline-flex flex-col"
+                  <div v-if="getBannerStatsPath(banner)">
+                    <NuxtLinkLocale
+                      no-prefetch
+                      :to="getBannerStatsPath(banner)!"
+                      class="inline-flex items-center gap-2 rounded-lg border border-gray-200/80 bg-white/50 px-3 py-1.5 text-sm leading-none font-medium text-gray-600 shadow-xs focus-visible:ring-2 focus-visible:ring-violet-300/50 focus-visible:ring-offset-2 focus-visible:outline-hidden dark:border-gray-700/80 dark:bg-gray-900/40 dark:text-gray-300 dark:focus-visible:ring-offset-gray-900"
                     >
-                      <NuxtLinkLocale
-                        no-prefetch
-                        :to="getEntityDetailPath('outfit', outfitId)"
-                        class="inline w-fit cursor-pointer transition-opacity hover:opacity-80"
+                      <n-icon size="14">
+                        <ChartLine />
+                      </n-icon>
+                      <span>{{ t('global.banner_stats.title') }}</span>
+                    </NuxtLinkLocale>
+                  </div>
+                  <div class="grid max-w-sm grid-cols-2 gap-1 lg:grid-cols-1">
+                    <NuxtLinkLocale
+                      v-for="outfitId in banner.outfit5StarId.concat(
+                        banner.outfit4StarId
+                      )"
+                      :key="outfitId"
+                      no-prefetch
+                      :to="getOutfitDetailPath(outfitId)"
+                      class="group focus-visible:outline-primary flex min-w-0 items-center gap-2 rounded-lg p-1 transition-colors hover:bg-gray-100/70 focus-visible:outline-2 focus-visible:outline-offset-2 dark:hover:bg-gray-800/70"
+                    >
+                      <div
+                        class="relative h-20 w-14 shrink-0 overflow-hidden rounded-md border border-gray-200/70 bg-slate-100 bg-[url('/images/bg.webp')] bg-cover bg-center sm:h-24 sm:w-16 dark:border-gray-700/70 dark:bg-slate-300"
                       >
+                        <NuxtImg
+                          :src="getImageSrc('outfit', outfitId)"
+                          :alt="t(`outfit.${outfitId}.name`)"
+                          class="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.04]"
+                          preset="tallSm"
+                          fit="cover"
+                          loading="lazy"
+                          fetchpriority="low"
+                          sizes="100px"
+                        />
+                      </div>
+                      <div class="min-w-0 flex-1">
+                        <p
+                          class="line-clamp-2 text-sm leading-snug font-medium text-gray-700 dark:text-gray-200"
+                        >
+                          {{ t(`outfit.${outfitId}.name`) }}
+                        </p>
                         <n-tag
-                          size="large"
-                          :color="qualityTextTheme5"
+                          size="small"
                           :bordered="false"
+                          :color="
+                            getQualityTextTheme(
+                              banner.outfit5StarId.includes(outfitId) ? 5 : 4
+                            )
+                          "
                           round
-                          class="cursor-pointer"
+                          class="mt-1"
                         >
                           <span class="flex items-center gap-1">
-                            {{ t(`outfit.${outfitId}.name`) }} 5
-                            <n-icon>
-                              <Star />
-                            </n-icon>
+                            {{
+                              banner.outfit5StarId.includes(outfitId) ? 5 : 4
+                            }}
+                            <n-icon><Star /></n-icon>
                           </span>
                         </n-tag>
-                      </NuxtLinkLocale>
-                    </div>
-                    <div
-                      v-for="outfitId in banner.outfit4StarId"
-                      :key="outfitId"
-                      class="inline-flex flex-col"
-                    >
-                      <NuxtLinkLocale
-                        no-prefetch
-                        :to="getEntityDetailPath('outfit', outfitId)"
-                        class="inline w-fit cursor-pointer transition-opacity hover:opacity-80"
-                      >
-                        <n-tag
-                          size="large"
-                          :color="qualityTextTheme4"
-                          :bordered="false"
-                          round
-                          class="cursor-pointer"
-                        >
-                          <span class="flex items-center gap-1">
-                            {{ t(`outfit.${outfitId}.name`) }} 4
-                            <n-icon>
-                              <Star />
-                            </n-icon>
-                          </span>
-                        </n-tag>
-                      </NuxtLinkLocale>
-                    </div>
+                      </div>
+                    </NuxtLinkLocale>
                   </div>
                 </div>
                 <div class="lg:col-span-3">
@@ -332,7 +336,7 @@
                   >
                     <NuxtLinkLocale
                       no-prefetch
-                      :to="getEntityDetailPath('banner', banner.bannerId)"
+                      :to="getBannerDetailPath(banner.bannerId)"
                       class="relative aspect-2/1 min-h-35 w-full overflow-hidden rounded-lg transition-opacity hover:opacity-95 sm:min-h-82.5"
                     >
                       <NuxtImg
@@ -354,9 +358,7 @@
                         :z-index="10"
                         @click.stop.prevent="
                           navigateTo(
-                            localePath(
-                              getEntityDetailPath('banner', banner.bannerId)
-                            )
+                            localePath(getBannerDetailPath(banner.bannerId))
                           )
                         "
                       >
@@ -375,6 +377,10 @@
             </template>
           </n-timeline-item>
         </template>
+        <span
+          aria-hidden="true"
+          class="hidden"
+        ></span>
       </n-timeline>
 
       <!-- Observer target for infinite scroll -->
@@ -488,8 +494,6 @@
     twitterDescription: () => description.value,
   })
 
-  const qualityTextTheme5 = getQualityTextTheme(5)
-  const qualityTextTheme4 = getQualityTextTheme(4)
   const qualityButtonThemes = computed(() => ({
     star5: getQualityButtonTheme(5, qualityFilter.value === 5),
     star4: getQualityButtonTheme(4, qualityFilter.value === 4),
@@ -607,7 +611,7 @@
     useBannerLoad({
       allBanners: filteredBanners,
       batchSize: BANNER_LOAD_BATCH_SIZE,
-      initialBatchSize: 1,
+      initialBatchSize: 2,
     })
 
   // Watch filter changes with debouncing
@@ -767,6 +771,6 @@
   }) => {
     if (banner.bannerType === 1 || banner.bannerId > LATEST_BANNER_ID)
       return null
-    return `/global/${getEntitySlug('banner', banner.bannerId)}`
+    return `/global/${getBannerSlug(banner.bannerId)}`
   }
 </script>

@@ -1,7 +1,7 @@
 <template>
   <NuxtLinkLocale
     :to="cardLocation"
-    class="group relative block transition-all duration-300 ease-out hover:z-10 hover:scale-[1.05]"
+    class="group relative block rounded-md transition-all duration-300 ease-out hover:z-10 hover:scale-[1.05] focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:ring-offset-2 focus-visible:outline-hidden dark:focus-visible:ring-offset-slate-950"
     @click="$emit('click', itemId)"
   >
     <n-card

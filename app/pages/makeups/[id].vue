@@ -281,7 +281,7 @@
                       :quality="item.quality"
                       :type="resolveMakeupType(item)"
                       :name="$t(`item.${item.id}.name`)"
-                      :to="getEntityDetailPath('makeup', item.id)"
+                      :to="getMakeupDetailPath(item.id)"
                       size="sm"
                     />
                   </div>
@@ -310,7 +310,7 @@
             <NuxtLinkLocale
               v-for="variation in itemVariations"
               :key="variation.id"
-              :to="getEntityDetailPath('makeup', variation.id)"
+              :to="getMakeupDetailPath(variation.id)"
               class="group block"
               :class="[
                 variation.id === makeupId
@@ -380,7 +380,7 @@
               :key="outfit.id"
             >
               <NuxtLinkLocale
-                :to="getEntityDetailPath('outfit', outfit.id)"
+                :to="getOutfitDetailPath(outfit.id)"
                 class="group block"
               >
                 <OutfitCard
@@ -411,7 +411,7 @@
             {{ $t('common.banner') }}
           </h2>
           <NuxtLinkLocale
-            :to="getEntityDetailPath('banner', inBanner.bannerId)"
+            :to="getBannerDetailPath(inBanner.bannerId)"
             class="group block"
           >
             <div
@@ -499,7 +499,7 @@
     entityId: makeupId,
     canonicalUrl: canonicalMakeupUrl,
     redirectToCanonicalSlug,
-  } = useEntityDetailRoute('makeup')
+  } = useEntityDetailRoute(makeupSlugHelpers)
 
   await redirectToCanonicalSlug()
   if (import.meta.client) {

@@ -1,5 +1,6 @@
 const LOOKBOOK_API_BASE_URL = 'https://api-nikki.ranaxro.com/conv-clothdiydata'
 const LOOKBOOK_CODE_PATTERN = /^[A-Za-z0-9]{11}#$/
+const LOOKBOOK_REQUEST_TIMEOUT_MS = 10000
 const SKIN_TONE_CLOTH_TYPE = 86
 const IGNORED_LOOKBOOK_ITEM_IDS = new Set([
   1021860042, 1022860042, 1023860042, 1020860231,
@@ -80,6 +81,7 @@ class LookbookUpstreamCodeError extends Error {}
 const fetchLookbookPayload = async (code: string) => {
   const url = `${LOOKBOOK_API_BASE_URL}?${encodeURIComponent(code)}`
   const response = await fetch(url, {
+    signal: AbortSignal.timeout(LOOKBOOK_REQUEST_TIMEOUT_MS),
     headers: {
       Accept: 'application/json',
     },

@@ -1,7 +1,7 @@
 <template>
   <div
     ref="carouselRef"
-    class="relative h-full w-full touch-pan-y overflow-hidden rounded-xl"
+    class="relative h-full w-full touch-pan-y overflow-hidden rounded-xl shadow-sm ring-1 ring-black/5 dark:ring-white/10"
     role="group"
     aria-roledescription="carousel"
   >
@@ -26,8 +26,8 @@
     >
       <NuxtLinkLocale
         no-prefetch
-        :to="getEntityDetailPath('banner', banner.bannerId)"
-        class="relative block h-full w-full overflow-hidden rounded-xl transition-opacity hover:opacity-95"
+        :to="getBannerDetailPath(banner.bannerId)"
+        class="relative block h-full w-full overflow-hidden rounded-xl transition-opacity duration-200 hover:opacity-95 focus-visible:ring-2 focus-visible:ring-rose-400 focus-visible:outline-hidden focus-visible:ring-inset"
         @click.capture="handleSlideClickCapture"
       >
         <div
@@ -45,7 +45,7 @@
             sizes="300px sm:600px"
           />
           <div
-            class="pointer-events-none absolute inset-0 bg-linear-to-t from-slate-950/10 via-transparent to-white/10"
+            class="pointer-events-none absolute inset-0 bg-linear-to-t from-slate-950/35 via-transparent to-white/10"
           />
         </div>
         <n-tooltip
@@ -53,9 +53,7 @@
           placement="top-end"
           class="m-2 cursor-pointer rounded-lg px-2 py-1 text-xs"
           @click.stop.prevent="
-            navigateTo(
-              localePath(getEntityDetailPath('banner', banner.bannerId))
-            )
+            navigateTo(localePath(getBannerDetailPath(banner.bannerId)))
           "
         >
           <template #trigger>
@@ -73,7 +71,7 @@
         round
         :bordered="false"
         size="small"
-        class="absolute right-2 bottom-2 z-20 origin-bottom-right scale-90 opacity-90 sm:scale-100"
+        class="absolute right-2 bottom-2 z-20 origin-bottom-right scale-90 bg-white/80! text-slate-700! shadow-sm ring-1 ring-black/10 backdrop-blur-md sm:scale-100 dark:bg-slate-950/70! dark:text-white! dark:ring-white/15"
       >
         {{ formattedTime }}
         <template #icon>
@@ -87,7 +85,7 @@
         round
         :bordered="false"
         size="small"
-        class="absolute top-2 left-2 z-20 origin-top-left scale-90 opacity-80 sm:scale-100"
+        class="absolute top-2 left-2 z-20 origin-top-left scale-90 bg-white/80! text-slate-700! shadow-sm ring-1 ring-black/10 backdrop-blur-md sm:scale-100 dark:bg-slate-950/70! dark:text-white! dark:ring-white/15"
       >
         {{ $t('default.rerun') }}
       </n-tag>

@@ -370,6 +370,14 @@ export default defineCachedApiEventHandler(
     const query = getQuery(event)
     const rawQuery = query.q?.toString() ?? ''
     const normalizedQuery = normalizeSearchQuery(rawQuery)
+    if (!isSearchQueryWithinLimit(normalizedQuery)) {
+      throw createError({
+        statusCode: 400,
+        statusMessage: 'Search query is too long',
+        message: `Search query must be ${SEARCH_MAX_QUERY_LENGTH} characters or fewer`,
+        data: { code: 'SEARCH_QUERY_TOO_LONG' },
+      })
+    }
     const recordId = normalizeRecordId(
       query.id ?? query.recordId ?? query.record_id
     )

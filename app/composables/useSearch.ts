@@ -136,13 +136,13 @@ export const useSearch = () => {
                 type: 'banner',
                 name: name[locale.value] || name.en,
                 quality,
-                route: localePath(getEntityDetailPath('banner', id)),
+                route: localePath(getBannerDetailPath(id)),
               })
             )
           })
 
         // Index all outfits from the catalog slug map, including variations
-        const allOutfitIds = getEntitySlugIds('outfit')
+        const allOutfitIds = getOutfitSlugIds()
         for (const outfitId of allOutfitIds) {
           const name = getLocalizedOutfitName(outfitId)
           const searchAliases = getOutfitSearchAliases(locale.value, outfitId)
@@ -163,14 +163,14 @@ export const useSearch = () => {
                 ...(searchAbilityAliases.length > 0
                   ? { searchAbilityAliases }
                   : {}),
-                route: localePath(getEntityDetailPath('outfit', outfitId)),
+                route: localePath(getOutfitDetailPath(outfitId)),
               })
             )
           }
         }
 
         // Index all items from the catalog slug map, including variations
-        const allItemIds = getEntitySlugIds('item')
+        const allItemIds = getItemSlugIds()
         for (const itemId of allItemIds) {
           const name = getLocalizedItemName(itemId)
 

@@ -1,12 +1,18 @@
-export const useEntityDetailRoute = (entity: EntitySlugType) => {
+type EntityDetailRouteSlugHelpers = {
+  getSlug: (id: number | string) => string
+  getDetailPath: (id: number | string) => string
+  resolveRouteId: (routeParam: unknown) => number
+}
+
+export const useEntityDetailRoute = (helpers: EntityDetailRouteSlugHelpers) => {
   const route = useRoute()
   const localePath = useLocalePath()
   const runtimeConfig = useRuntimeConfig()
 
-  const entityId = computed(() => resolveEntityRouteId(entity, route.params.id))
+  const entityId = computed(() => helpers.resolveRouteId(route.params.id))
   const canonicalPath = computed(() =>
     Number.isFinite(entityId.value)
-      ? localePath(getEntityDetailPath(entity, entityId.value))
+      ? localePath(helpers.getDetailPath(entityId.value))
       : ''
   )
   const canonicalUrl = computed(() => {
@@ -25,7 +31,7 @@ export const useEntityDetailRoute = (entity: EntitySlugType) => {
   const shouldRedirectToSlug = computed(
     () =>
       Number.isFinite(entityId.value) &&
-      String(routeParam.value ?? '') !== getEntitySlug(entity, entityId.value)
+      String(routeParam.value ?? '') !== helpers.getSlug(entityId.value)
   )
 
   const redirectToCanonicalSlug = () => {

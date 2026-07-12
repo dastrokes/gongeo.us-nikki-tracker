@@ -13,6 +13,7 @@ const EMBED_MODEL = 'multilingual-e5-large'
 const TRANSIENT_STATUS_CODES = new Set([408, 429, 500, 502, 503, 504])
 const MAX_RETRIES = 2
 const RETRY_BASE_DELAY_MS = 150
+const REQUEST_TIMEOUT_MS = 10000
 const RRF_RANK_CONSTANT = 60
 const RRF_LEXICAL_WEIGHT = 2
 const RRF_DENSE_WEIGHT = 1
@@ -33,13 +34,14 @@ const requestPinecone = async (
   context: string
 ) => {
   let attempt = 0
+  const signal = AbortSignal.timeout(REQUEST_TIMEOUT_MS)
 
   while (true) {
     let response: Response
     try {
-      response = await fetch(url, init)
+      response = await fetch(url, { ...init, signal })
     } catch (error: unknown) {
-      if (attempt >= MAX_RETRIES) throw error
+      if (signal.aborted || attempt >= MAX_RETRIES) throw error
       await sleep(RETRY_BASE_DELAY_MS * Math.pow(2, attempt))
       attempt += 1
       continue

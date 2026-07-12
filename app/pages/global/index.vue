@@ -746,7 +746,7 @@
     const banner = BANNER_DATA[outfitDetails.bannerId]
     if (!banner?.bannerId) return null
 
-    return localePath(`/global/${getEntitySlug('banner', banner.bannerId)}`)
+    return localePath(`/global/${getBannerSlug(banner.bannerId)}`)
   })
 
   const hasOutfit = (id: string): id is OutfitKey =>

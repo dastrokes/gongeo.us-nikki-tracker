@@ -328,7 +328,7 @@
                       :quality="item.quality"
                       :type="resolveItemType(item)"
                       :name="$t(`item.${item.id}.name`)"
-                      :to="getEntityDetailPath('makeup', item.id)"
+                      :to="getMakeupDetailPath(item.id)"
                       size="sm"
                     />
                   </div>
@@ -363,7 +363,7 @@
               :key="variation.id"
             >
               <NuxtLinkLocale
-                :to="getEntityDetailPath('outfit', variation.id)"
+                :to="getOutfitDetailPath(variation.id)"
                 class="group block"
                 :class="[
                   variation.id === outfitId
@@ -408,7 +408,7 @@
             {{ $t('common.banner') }}
           </h2>
           <NuxtLinkLocale
-            :to="getEntityDetailPath('banner', inBanner.bannerId)"
+            :to="getBannerDetailPath(inBanner.bannerId)"
             class="group block"
           >
             <div
@@ -508,7 +508,7 @@
     entityId: outfitId,
     canonicalUrl: canonicalOutfitUrl,
     redirectToCanonicalSlug,
-  } = useEntityDetailRoute('outfit')
+  } = useEntityDetailRoute(outfitSlugHelpers)
 
   await redirectToCanonicalSlug()
 

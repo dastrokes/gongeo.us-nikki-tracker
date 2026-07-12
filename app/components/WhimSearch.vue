@@ -88,6 +88,7 @@
                   ref="searchInputRef"
                   v-model="searchQuery"
                   type="text"
+                  :maxlength="SEARCH_MAX_QUERY_LENGTH"
                   :placeholder="isSimilarSearchActive ? '' : currentPlaceholder"
                   :aria-label="pageHeading"
                   role="combobox"

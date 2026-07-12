@@ -217,7 +217,7 @@
     },
     Card: {
       color: isDark.value ? '#1E2035' : '#F5F0FA',
-      borderColor: isDark.value ? '#2F2D48' : '#E4DAF0',
+      borderColor: isDark.value ? '#3A3858' : '#DDD2E8',
     },
     Menu: {
       itemTextColorActive: isDark.value ? palette.light : palette.dark,

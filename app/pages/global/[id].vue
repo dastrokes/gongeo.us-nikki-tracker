@@ -91,7 +91,7 @@
             <n-tooltip trigger="hover">
               <template #trigger>
                 <NuxtLinkLocale
-                  :to="getEntityDetailPath('banner', banner.bannerId)"
+                  :to="getBannerDetailPath(banner.bannerId)"
                   class="shrink-0 transition-opacity hover:opacity-80"
                 >
                   <NuxtImg
@@ -436,19 +436,16 @@
   const routeParam = computed(() =>
     Array.isArray(route.params.id) ? route.params.id[0] : route.params.id
   )
-  const bannerId = computed(() =>
-    resolveEntityRouteId('banner', routeParam.value)
-  )
+  const bannerId = computed(() => resolveBannerRouteId(routeParam.value))
   const canonicalGlobalStatsPath = computed(() =>
     Number.isFinite(bannerId.value)
-      ? localePath(`/global/${getEntitySlug('banner', bannerId.value)}`)
+      ? localePath(`/global/${getBannerSlug(bannerId.value)}`)
       : ''
   )
   const shouldRedirectToCanonicalSlug = computed(
     () =>
       Number.isFinite(bannerId.value) &&
-      (String(routeParam.value ?? '') !==
-        getEntitySlug('banner', bannerId.value) ||
+      (String(routeParam.value ?? '') !== getBannerSlug(bannerId.value) ||
         route.query.scope !== undefined)
   )
 
@@ -545,7 +542,7 @@
     outfitId: string
   ) => `${bannerIdValue}:${createScopeKey(quality, outfitId)}`
   const createGlobalStatsPath = (bannerIdValue: number) =>
-    localePath(`/global/${getEntitySlug('banner', bannerIdValue)}`)
+    localePath(`/global/${getBannerSlug(bannerIdValue)}`)
   const statsBannerIds = computed(() =>
     Object.values(BANNER_DATA)
       .filter(

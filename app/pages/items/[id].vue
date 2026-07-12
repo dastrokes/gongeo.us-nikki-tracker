@@ -539,7 +539,7 @@
               :key="outfit.id"
             >
               <NuxtLinkLocale
-                :to="getEntityDetailPath('outfit', outfit.id)"
+                :to="getOutfitDetailPath(outfit.id)"
                 class="group block"
               >
                 <OutfitCard
@@ -571,7 +571,7 @@
             {{ $t('common.banner') }}
           </h2>
           <NuxtLinkLocale
-            :to="getEntityDetailPath('banner', inBanner.bannerId)"
+            :to="getBannerDetailPath(inBanner.bannerId)"
             class="group block"
           >
             <div
@@ -700,7 +700,7 @@
     entityId: itemId,
     canonicalUrl: canonicalItemUrl,
     redirectToCanonicalSlug,
-  } = useEntityDetailRoute('item')
+  } = useEntityDetailRoute(itemSlugHelpers)
 
   await redirectToCanonicalSlug()
 

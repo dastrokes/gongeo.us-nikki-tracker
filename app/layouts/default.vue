@@ -4,7 +4,7 @@
       class="fixed inset-x-0 top-0 z-50 h-14 border-b border-white/20 bg-transparent bg-[linear-gradient(to_right,rgba(232,221,249,0.78),rgba(252,228,236,0.76),rgba(253,237,220,0.74))] backdrop-blur-xl backdrop-saturate-50 dark:border-white/5 dark:bg-[linear-gradient(to_right,rgba(30,27,75,0.82),rgba(88,28,100,0.78),rgba(120,40,70,0.76))]"
     >
       <div
-        class="mx-auto flex h-full max-w-7xl items-center gap-4 px-3 sm:gap-5 sm:px-5"
+        class="mx-auto flex h-full max-w-7xl items-center gap-2 px-2 sm:gap-5 sm:px-5"
       >
         <div class="flex min-w-0 items-center gap-1 sm:gap-2">
           <n-button
@@ -38,7 +38,7 @@
             </div>
 
             <span
-              class="truncate text-xl font-bold hover:opacity-80 hover:drop-shadow-xs"
+              class="truncate text-xl font-bold text-slate-900 hover:opacity-80 hover:drop-shadow-xs dark:text-white"
             >
               {{ $t('navigation.title') }}
             </span>
@@ -142,11 +142,11 @@
           </div>
         </div>
 
-        <div class="ml-auto flex items-center gap-3">
+        <div class="ml-auto flex items-center gap-1.5 sm:gap-3">
           <LazySearchBar />
 
           <div
-            class="flex items-center gap-3 border-l border-slate-400/80 pl-3 dark:border-white/25"
+            class="flex items-center gap-1.5 border-l border-slate-400/80 pl-1.5 sm:gap-3 sm:pl-3 dark:border-white/25"
           >
             <LanguageSwitcher />
             <ThemeSwitcher />
@@ -165,21 +165,21 @@
       @scroll="onScroll"
     >
       <div class="flex min-h-[calc(100vh-3.5rem)] flex-col pt-2 sm:pt-4">
-        <div class="flex-1">
+        <div class="flex-1 sm:px-4">
           <slot />
         </div>
 
         <AdSenseSlot />
 
         <n-layout-footer
-          class="mt-4 border-t border-gray-400/20 bg-linear-to-r from-[#f5f0fa]/80 via-[#fff0f5]/80 to-[#fffacd]/50 backdrop-blur-xs sm:mt-8 dark:border-white/8 dark:from-[#1a1b2e]/80 dark:via-[#2d1b36]/80 dark:to-[#3d1b2e]/50"
+          class="mt-4 border-t border-gray-400/30 bg-linear-to-r from-[#f5f0fa]/80 via-[#fff0f5]/80 to-[#fffacd]/50 backdrop-blur-xs sm:mt-6 dark:border-white/12 dark:from-[#1a1b2e]/80 dark:via-[#2d1b36]/80 dark:to-[#3d1b2e]/50"
         >
-          <div class="mx-auto max-w-5xl p-8">
+          <div class="mx-auto max-w-5xl px-4 py-6 sm:px-6 sm:py-7">
             <div
               class="mb-4 grid gap-4 md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] md:items-center lg:grid-cols-[auto_auto_auto] lg:justify-between"
             >
               <div
-                class="flex flex-col items-center gap-6 md:items-start lg:justify-self-start"
+                class="flex flex-col items-center gap-4 md:items-start lg:justify-self-start"
               >
                 <div class="flex items-center gap-3">
                   <div
@@ -200,7 +200,9 @@
                     >
                       {{ $t('meta.game_title') }}
                     </p>
-                    <p class="text-xl leading-tight font-semibold">
+                    <p
+                      class="text-xl leading-tight font-semibold text-slate-900 dark:text-white"
+                    >
                       {{ $t('navigation.title') }}
                     </p>
                   </div>
@@ -224,7 +226,7 @@
                       target="_blank"
                       rel="noopener noreferrer"
                       :aria-label="$t('default.social.discord')"
-                      class="group relative inline-flex aspect-square w-16 items-center justify-center"
+                      class="group relative inline-flex aspect-square w-14 items-center justify-center sm:w-16"
                     >
                       <div
                         class="flex h-full w-full items-center justify-center overflow-hidden rounded-full border border-rose-200/50 shadow-[0_8px_18px_rgba(244,114,182,0.10)] dark:border-black/20 dark:shadow-[0_6px_14px_rgba(2,6,23,0.10)]"
@@ -253,7 +255,7 @@
                       target="_blank"
                       rel="noopener noreferrer"
                       :aria-label="$t('default.social.kofi')"
-                      class="group relative inline-flex aspect-square w-16 items-center justify-center"
+                      class="group relative inline-flex aspect-square w-14 items-center justify-center sm:w-16"
                     >
                       <div
                         class="flex h-full w-full items-center justify-center overflow-hidden rounded-full border border-pink-200/50 shadow-[0_8px_18px_rgba(244,114,182,0.10)] dark:border-black/20 dark:shadow-[0_6px_14px_rgba(2,6,23,0.10)]"
@@ -282,7 +284,7 @@
                       target="_blank"
                       rel="noopener noreferrer"
                       :aria-label="$t('default.social.twitter')"
-                      class="group relative inline-flex aspect-square w-16 items-center justify-center"
+                      class="group relative inline-flex aspect-square w-14 items-center justify-center sm:w-16"
                     >
                       <div
                         class="flex h-full w-full items-center justify-center overflow-hidden rounded-full border border-sky-200/50 shadow-[0_8px_18px_rgba(56,189,248,0.10)] dark:border-black/20 dark:shadow-[0_6px_14px_rgba(2,6,23,0.10)]"
@@ -303,12 +305,12 @@
               </div>
 
               <div
-                class="flex flex-col flex-wrap justify-center gap-x-12 gap-y-8 pt-2 text-sm sm:flex-row md:justify-end lg:justify-self-end"
+                class="flex flex-col flex-wrap justify-center gap-x-12 gap-y-4 pt-1 text-sm sm:flex-row md:justify-end lg:justify-self-end"
               >
                 <div
                   v-for="(group, index) in footerLinkGroups"
                   :key="index"
-                  class="flex flex-col items-center gap-3 sm:items-start"
+                  class="flex flex-col items-center gap-2.5 sm:items-start"
                 >
                   <template
                     v-for="link in group.items"
@@ -318,7 +320,7 @@
                       v-if="!link.to"
                       no-prefetch
                       :to="`/${link.key}`"
-                      class="font-medium text-gray-500 no-underline hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-100"
+                      class="font-medium text-gray-600 no-underline hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
                     >
                       {{ link.rawLabel ?? $t(link.label ?? '') }}
                     </NuxtLinkLocale>
@@ -327,7 +329,7 @@
                       :href="link.to"
                       target="_blank"
                       rel="noopener noreferrer"
-                      class="font-medium text-gray-500 no-underline hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-100"
+                      class="font-medium text-gray-600 no-underline hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
                     >
                       {{ link.rawLabel ?? $t(link.label ?? '') }}
                     </a>
@@ -388,7 +390,7 @@
               </a>
             </div>
             <div
-              class="space-y-1 text-center text-xs text-gray-400 dark:text-gray-500"
+              class="space-y-1 text-center text-xs text-gray-500 dark:text-gray-400"
             >
               <n-popover
                 trigger="hover"
@@ -436,10 +438,10 @@
       ghost
       circle
       size="small"
-      class="fixed right-4 bottom-4 z-20 bg-white opacity-80 shadow-[0_0_10px_rgba(244,63,94,0.25),0_0_20px_rgba(168,85,247,0.15)] transition-all duration-300 ease-in-out hover:bg-slate-100 hover:opacity-100 hover:shadow-[0_0_14px_rgba(244,63,94,0.4),0_0_28px_rgba(168,85,247,0.25)] sm:right-8 sm:bottom-8 dark:bg-slate-800 dark:hover:bg-slate-700"
+      class="fixed right-4 bottom-4 z-20 h-8! w-8! bg-white shadow-[0_0_10px_rgba(244,63,94,0.25),0_0_20px_rgba(168,85,247,0.15)] transition-all duration-300 ease-in-out hover:bg-slate-100 hover:opacity-100 hover:shadow-[0_0_14px_rgba(244,63,94,0.4),0_0_28px_rgba(168,85,247,0.25)] sm:right-8 sm:bottom-8 dark:bg-slate-800 dark:hover:bg-slate-700"
       :class="{
-        'translate-y-0': showScrollTop,
-        'translate-y-16': !showScrollTop,
+        'visible translate-y-0 opacity-80': showScrollTop,
+        'invisible translate-y-4 opacity-0': !showScrollTop,
       }"
       :aria-label="t('default.accessibility.scroll_to_top')"
       @click="scrollToTop"
@@ -494,7 +496,7 @@
                 </div>
 
                 <span
-                  class="truncate text-xl font-bold hover:opacity-80 hover:drop-shadow-xs"
+                  class="truncate text-xl font-bold text-slate-900 hover:opacity-80 hover:drop-shadow-xs dark:text-white"
                 >
                   {{ $t('navigation.title') }}
                 </span>
@@ -511,7 +513,7 @@
               >
                 <button
                   type="button"
-                  class="text-md flex w-full cursor-pointer items-center justify-between gap-1.5 px-4 py-2 text-left font-semibold"
+                  class="text-md flex min-h-11 w-full cursor-pointer items-center justify-between gap-1.5 px-4 py-2 text-left font-semibold"
                   :class="
                     isNavGroupActive(group.key) ||
                     expandedMobileGroup === group.key
@@ -634,7 +636,7 @@
   const loading = useState<boolean>('loading', () => false)
   const isDesktop = useMediaQuery('(min-width: 1024px)')
   const latestBannerStatsPath = computed(
-    () => `/global/${getEntitySlug('banner', LATEST_BANNER_ID)}`
+    () => `/global/${getBannerSlug(LATEST_BANNER_ID)}`
   )
 
   nuxtApp.hook('page:start', () => {

@@ -105,11 +105,14 @@
     </template>
 
     <template #entry="{ entry, index }">
-      <div
-        class="group relative block cursor-pointer"
+      <component
+        :is="editMode ? 'div' : NuxtLinkLocaleComponent"
+        :to="editMode ? undefined : getOutfitDetailPath(entry.id)"
+        class="group relative block cursor-pointer rounded-lg focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:ring-offset-2 focus-visible:outline-hidden dark:focus-visible:ring-offset-slate-950"
         :class="getListingCardAnimationClass(index)"
         :style="getListingCardAnimationStyle(index)"
-        @click="handleOutfitCardClick(entry.id, $event)"
+        :aria-label="entry.name"
+        @click="editMode && handleOutfitCardClick(entry.id, $event)"
       >
         <OutfitCard
           :outfit-id="entry.id"
@@ -201,7 +204,7 @@
             @menu-select="(key) => markVisibleOutfitVariantOwned(entry.id, key)"
           />
         </div>
-      </div>
+      </component>
     </template>
   </CompendiumListingPage>
 </template>
@@ -228,6 +231,7 @@
   const dialog = useDialog()
   const message = useMessage()
   const localePath = useLocalePath()
+  const NuxtLinkLocaleComponent = resolveComponent('NuxtLinkLocale')
   const route = useRoute()
   const router = useRouter()
 
@@ -1367,15 +1371,19 @@
     }
   }
 
-  const isListingCardControlClick = (event: MouseEvent) => {
+  const isListingCardControlClick = (event: MouseEvent | KeyboardEvent) => {
     const target = event.target
-    return (
-      target instanceof HTMLElement &&
-      Boolean(target.closest('button, input, label, [role="button"]'))
-    )
+    const control =
+      target instanceof HTMLElement
+        ? target.closest('button, input, label, [role="button"]')
+        : null
+    return control !== null && control !== event.currentTarget
   }
 
-  const handleOutfitCardClick = (outfitId: number, event: MouseEvent) => {
+  const handleOutfitCardClick = (
+    outfitId: number,
+    event: MouseEvent | KeyboardEvent
+  ) => {
     if (isListingCardControlClick(event)) return
 
     if (editMode.value) {
@@ -1383,7 +1391,7 @@
       return
     }
 
-    navigateTo(localePath(getEntityDetailPath('outfit', outfitId)))
+    navigateTo(localePath(getOutfitDetailPath(outfitId)))
   }
 
   const getOutfitItemIdsFromRecord = (

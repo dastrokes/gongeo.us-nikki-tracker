@@ -21,7 +21,9 @@
               <n-button
                 v-if="showClearFilters"
                 size="small"
-                class="w-full sm:w-auto"
+                tertiary
+                type="primary"
+                class="w-full font-medium sm:w-auto"
                 @click="emit('clear-filters')"
               >
                 {{ t('common.clear') }}
@@ -120,7 +122,9 @@
                         :value="isThumbnailView"
                         @update:value="setThumbnailView"
                       />
-                      <span class="ml-3 text-sm text-gray-400">
+                      <span
+                        class="ml-3 text-sm text-gray-600 dark:text-gray-300"
+                      >
                         {{ t('compendium.settings.thumbnail_view') }}
                       </span>
                     </div>
@@ -129,7 +133,9 @@
                         :value="!compactPageSize"
                         @update:value="setExpandedPageSize"
                       />
-                      <span class="ml-3 text-sm text-gray-400">
+                      <span
+                        class="ml-3 text-sm text-gray-600 dark:text-gray-300"
+                      >
                         {{ t('compendium.settings.compact_page_size') }}
                       </span>
                     </div>
@@ -138,7 +144,9 @@
                         :value="hideOwnershipStatus"
                         @update:value="setHideOwnershipStatus"
                       />
-                      <span class="ml-3 text-sm text-gray-400">
+                      <span
+                        class="ml-3 text-sm text-gray-600 dark:text-gray-300"
+                      >
                         {{ t('compendium.settings.hide_ownership_status') }}
                       </span>
                     </div>
@@ -207,7 +215,7 @@
 
       <n-card
         size="small"
-        class="rounded-xl p-0 sm:flex sm:flex-1 sm:flex-col sm:p-2"
+        class="overflow-hidden rounded-xl p-0 sm:flex sm:flex-1 sm:flex-col sm:p-2"
         content-class="p-2 sm:p-4 sm:flex-1 sm:flex sm:flex-col"
       >
         <div class="min-h-0 sm:flex sm:flex-1 sm:flex-col">
@@ -261,7 +269,7 @@
               <div
                 v-for="index in 12"
                 :key="`preferences-placeholder-${index}`"
-                class="relative aspect-2/3 animate-pulse overflow-hidden rounded-lg bg-gray-200 dark:bg-gray-700"
+                class="relative aspect-2/3 animate-pulse overflow-hidden rounded-lg bg-linear-to-b from-slate-100 to-slate-200 ring-1 ring-black/5 dark:from-slate-700 dark:to-slate-800 dark:ring-white/8"
                 :style="getListingCardAnimationStyle(index - 1)"
               ></div>
             </div>
@@ -284,6 +292,19 @@
                     fit="cover"
                     sizes="160px sm:200px"
                   />
+                </template>
+                <template
+                  v-if="showClearFilters"
+                  #footer
+                >
+                  <n-button
+                    type="primary"
+                    secondary
+                    size="small"
+                    @click="emit('clear-filters')"
+                  >
+                    {{ t('common.clear') }}
+                  </n-button>
                 </template>
               </n-result>
             </div>
@@ -313,7 +334,7 @@
                 <div
                   v-for="(i, index) in pageSize"
                   :key="`skeleton-${i}`"
-                  class="relative aspect-2/3 animate-pulse overflow-hidden rounded-lg bg-gray-200 dark:bg-gray-700"
+                  class="relative aspect-2/3 animate-pulse overflow-hidden rounded-lg bg-linear-to-b from-slate-100 to-slate-200 ring-1 ring-black/5 dark:from-slate-700 dark:to-slate-800 dark:ring-white/8"
                   :style="getListingCardAnimationStyle(index)"
                 ></div>
               </div>
@@ -337,7 +358,7 @@
               >
                 <template #prefix="{ itemCount }">
                   <div
-                    class="inline-flex items-baseline gap-1 text-sm text-gray-600 dark:text-gray-400"
+                    class="inline-flex items-baseline gap-1 text-sm font-medium text-gray-600 dark:text-gray-300"
                   >
                     <span class="font-semibold text-gray-900 dark:text-white">
                       {{ totalCount }}

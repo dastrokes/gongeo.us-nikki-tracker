@@ -34,9 +34,7 @@
                 text
                 @click="
                   navigateTo(
-                    localePath(
-                      getEntityDetailPath('banner', prevBanner.bannerId)
-                    )
+                    localePath(getBannerDetailPath(prevBanner.bannerId))
                   )
                 "
               >
@@ -60,9 +58,7 @@
                 text
                 @click="
                   navigateTo(
-                    localePath(
-                      getEntityDetailPath('banner', nextBanner.bannerId)
-                    )
+                    localePath(getBannerDetailPath(nextBanner.bannerId))
                   )
                 "
               >
@@ -674,7 +670,7 @@
     entityId: bannerId,
     canonicalUrl: canonicalBannerUrl,
     redirectToCanonicalSlug,
-  } = useEntityDetailRoute('banner')
+  } = useEntityDetailRoute(bannerSlugHelpers)
 
   await redirectToCanonicalSlug()
 
@@ -703,9 +699,7 @@
     )
       return ''
 
-    return localePath(
-      `/global/${getEntitySlug('banner', banner.value.bannerId)}`
-    )
+    return localePath(`/global/${getBannerSlug(banner.value.bannerId)}`)
   })
   const bannerSeoName = computed(
     () => bannerName.value || t('navigation.banner_detail')

@@ -157,6 +157,13 @@
     'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
 }
 
+html,
+body,
+#__nuxt {
+  height: 100%;
+  overflow: hidden;
+}
+
 body {
   font-family: var(--font-family-default);
 }

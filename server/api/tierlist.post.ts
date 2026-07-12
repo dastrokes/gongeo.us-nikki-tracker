@@ -2,6 +2,8 @@ import {
   COMMUNITY_TIER_KEYS,
   resolveCommunityScope,
 } from '~/composables/useCommunityTierlist'
+import { getEntitySlugIds } from '~/utils/entitySlugs'
+import { COMPENDIUM_TIER_ENTRY_LIMIT } from '~/utils/listingUtils'
 
 type TierKey = (typeof COMMUNITY_TIER_KEYS)[number]
 
@@ -13,7 +15,12 @@ type SubmitCommunityTierlistBody = {
 }
 
 const tierKeys: readonly TierKey[] = COMMUNITY_TIER_KEYS
-const tierKeySet = new Set<string>(tierKeys)
+const validEntryIdsByScopeType = {
+  banners: new Set(getEntitySlugIds('banner')),
+  outfits: new Set(getEntitySlugIds('outfit')),
+  items: new Set([...getEntitySlugIds('item'), ...getEntitySlugIds('makeup')]),
+  momo: new Set(getEntitySlugIds('momo')),
+} satisfies Record<CommunityScopeType, ReadonlySet<string>>
 
 const createBadRequestError = (message: string) =>
   createError({
@@ -60,63 +67,27 @@ const parseVoterFingerprint = (value: unknown): string => {
   return normalized
 }
 
-const parseTiers = (value: unknown): Record<TierKey, string[]> => {
-  if (!isRecord(value)) {
-    throw createBadRequestError('tiers_json must be an object')
-  }
-
-  const source = value as Record<string, unknown>
-  const output: Record<TierKey, string[]> = {
-    S: [],
-    A: [],
-    B: [],
-    C: [],
-    D: [],
-    F: [],
-  }
-
-  const keys = Object.keys(source)
-  const unexpectedKeys = keys.filter((key) => !tierKeySet.has(key))
-  if (unexpectedKeys.length > 0) {
-    throw createBadRequestError('tiers_json contains unsupported tier keys')
-  }
-
-  tierKeys.forEach((tierKey) => {
-    const list = source[tierKey]
-    if (!Array.isArray(list)) {
-      throw createBadRequestError(`tiers_json.${tierKey} must be an array`)
-    }
-
-    output[tierKey] = list.map((entryId) => {
-      if (typeof entryId !== 'string') {
-        throw createBadRequestError(
-          `tiers_json.${tierKey} must contain strings`
-        )
-      }
-
-      const normalized = entryId.trim()
-      if (!normalized) {
-        throw createBadRequestError(
-          `tiers_json.${tierKey} contains empty entry id`
-        )
-      }
-
-      return normalized
-    })
-  })
-
-  return output
-}
-
 export default defineEventHandler(async (event) => {
   try {
-    const body = (await readBody(event)) as SubmitCommunityTierlistBody
+    const body = await readBody(event)
+    if (!isRecord(body)) {
+      throw createBadRequestError('Request body must be an object')
+    }
+    const submission = body as SubmitCommunityTierlistBody
     const scope = parseCommunityScopeOrThrow(
-      body.scope_type,
-      body.scope_filters ?? {}
+      submission.scope_type,
+      submission.scope_filters ?? {}
     )
-    const voterFingerprint = parseVoterFingerprint(body.voter_fingerprint)
-    const tiers = parseTiers(body.tiers_json)
+    const voterFingerprint = parseVoterFingerprint(submission.voter_fingerprint)
+    // ponytail: validates entity membership without duplicating the client
+    // filter engine; enforce filter-level membership when catalog metadata is
+    // available server-side.
+    const tiers = parseCommunityTierSubmission(
+      submission.tiers_json,
+      tierKeys,
+      validEntryIdsByScopeType[scope.scopeType],
+      COMPENDIUM_TIER_ENTRY_LIMIT
+    )
 
     const supabase = useSupabaseServerClient()
     const now = new Date().toISOString()

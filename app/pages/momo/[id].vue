@@ -235,7 +235,7 @@
               :key="outfit.id"
             >
               <NuxtLinkLocale
-                :to="getEntityDetailPath('outfit', outfit.id)"
+                :to="getOutfitDetailPath(outfit.id)"
                 class="group block"
               >
                 <OutfitCard
@@ -317,7 +317,7 @@
     entityId: momoId,
     canonicalUrl: canonicalMomoUrl,
     redirectToCanonicalSlug,
-  } = useEntityDetailRoute('momo')
+  } = useEntityDetailRoute(momoSlugHelpers)
 
   await redirectToCanonicalSlug()
   const momoKey = computed(() => `momo-detail-${momoId.value}-${locale.value}`)

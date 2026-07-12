@@ -47,7 +47,7 @@
           size="large"
           round
           strong
-          class="after:animate-button-shimmer relative min-w-36 overflow-hidden shadow-[0_10px_24px_rgba(244,63,94,0.22)] transition-all after:absolute after:inset-y-0 after:-left-full after:w-[60%] after:bg-linear-to-r after:from-transparent after:via-white/20 after:to-transparent after:content-[''] hover:-translate-y-0.5 hover:shadow-[0_14px_30px_rgba(244,63,94,0.28)] motion-reduce:after:animate-none"
+          class="after:animate-button-shimmer relative min-w-36 overflow-hidden shadow-[0_8px_20px_rgba(244,63,94,0.20)] transition-all duration-200 after:absolute after:inset-y-0 after:-left-full after:w-[60%] after:bg-linear-to-r after:from-transparent after:via-white/18 after:to-transparent after:content-[''] hover:-translate-y-0.5 hover:shadow-[0_12px_26px_rgba(244,63,94,0.25)] focus-visible:ring-2 focus-visible:ring-rose-500/80 motion-reduce:transform-none motion-reduce:after:animate-none"
           @click="navigateTo(localePath('/tracker'))"
         >
           <template #icon>
@@ -59,8 +59,8 @@
           type="primary"
           size="large"
           round
-          strong
-          class="after:animate-button-shimmer relative min-w-36 overflow-hidden shadow-[0_10px_24px_rgba(244,63,94,0.22)] transition-all after:absolute after:inset-y-0 after:-left-full after:w-[60%] after:bg-linear-to-r after:from-transparent after:via-white/20 after:to-transparent after:content-[''] hover:-translate-y-0.5 hover:shadow-[0_14px_30px_rgba(244,63,94,0.28)] motion-reduce:after:animate-none"
+          secondary
+          class="relative min-w-36 border border-rose-300/50 shadow-[0_6px_16px_rgba(244,63,94,0.12)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_10px_22px_rgba(244,63,94,0.18)] focus-visible:ring-2 focus-visible:ring-rose-500/80 motion-reduce:transform-none dark:border-rose-300/15"
           @click="navigateTo(localePath('/global'))"
         >
           <template #icon>
@@ -74,7 +74,7 @@
       >
         <button
           type="button"
-          class="inline-flex min-w-0 cursor-pointer items-center justify-center gap-2 rounded-full border border-white/70 bg-white/75 px-3 py-1.5 text-xs font-semibold text-slate-700 shadow-[0_8px_20px_rgba(71,85,105,0.08)] backdrop-blur-md transition-all duration-200 hover:-translate-y-0.5 hover:bg-white/90 hover:text-slate-900 hover:shadow-[0_10px_24px_rgba(71,85,105,0.12)] sm:px-4 dark:border-white/10 dark:bg-slate-950/40 dark:text-slate-100 dark:hover:bg-slate-900/55"
+          class="inline-flex min-w-0 cursor-pointer items-center justify-center gap-2 rounded-full border border-slate-200/80 bg-white/75 px-3 py-1.5 text-xs font-semibold text-slate-700 shadow-xs backdrop-blur-md transition-colors duration-200 hover:border-rose-200 hover:bg-white hover:text-slate-900 focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden sm:px-4 dark:border-white/10 dark:bg-slate-950/40 dark:text-slate-100 dark:hover:border-rose-300/25 dark:hover:bg-slate-900/60"
           @click="navigateTo(localePath('/wardrobe'))"
         >
           <n-icon><SvgIcon name="wardrobe" /></n-icon>
@@ -82,7 +82,7 @@
         </button>
         <button
           type="button"
-          class="inline-flex min-w-0 cursor-pointer items-center justify-center gap-2 rounded-full border border-white/70 bg-white/75 px-3 py-1.5 text-xs font-semibold text-slate-700 shadow-[0_8px_20px_rgba(71,85,105,0.08)] backdrop-blur-md transition-all duration-200 hover:-translate-y-0.5 hover:bg-white/90 hover:text-slate-900 hover:shadow-[0_10px_24px_rgba(71,85,105,0.12)] sm:px-4 dark:border-white/10 dark:bg-slate-950/40 dark:text-slate-100 dark:hover:bg-slate-900/55"
+          class="inline-flex min-w-0 cursor-pointer items-center justify-center gap-2 rounded-full border border-slate-200/80 bg-white/75 px-3 py-1.5 text-xs font-semibold text-slate-700 shadow-xs backdrop-blur-md transition-colors duration-200 hover:border-rose-200 hover:bg-white hover:text-slate-900 focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden sm:px-4 dark:border-white/10 dark:bg-slate-950/40 dark:text-slate-100 dark:hover:border-rose-300/25 dark:hover:bg-slate-900/60"
           @click="navigateTo(localePath('/banners'))"
         >
           <n-icon><CalendarAlt /></n-icon>
@@ -90,7 +90,7 @@
         </button>
         <button
           type="button"
-          class="inline-flex min-w-0 cursor-pointer items-center justify-center gap-2 rounded-full border border-white/70 bg-white/75 px-3 py-1.5 text-xs font-semibold text-slate-700 shadow-[0_8px_20px_rgba(71,85,105,0.08)] backdrop-blur-md transition-all duration-200 hover:-translate-y-0.5 hover:bg-white/90 hover:text-slate-900 hover:shadow-[0_10px_24px_rgba(71,85,105,0.12)] sm:px-4 dark:border-white/10 dark:bg-slate-950/40 dark:text-slate-100 dark:hover:bg-slate-900/55"
+          class="inline-flex min-w-0 cursor-pointer items-center justify-center gap-2 rounded-full border border-slate-200/80 bg-white/75 px-3 py-1.5 text-xs font-semibold text-slate-700 shadow-xs backdrop-blur-md transition-colors duration-200 hover:border-rose-200 hover:bg-white hover:text-slate-900 focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden sm:px-4 dark:border-white/10 dark:bg-slate-950/40 dark:text-slate-100 dark:hover:border-rose-300/25 dark:hover:bg-slate-900/60"
           @click="navigateTo(localePath('/items'))"
         >
           <n-icon><ListAlt /></n-icon>
@@ -98,7 +98,7 @@
         </button>
         <button
           type="button"
-          class="inline-flex min-w-0 cursor-pointer items-center justify-center gap-2 rounded-full border border-white/70 bg-white/75 px-3 py-1.5 text-xs font-semibold text-slate-700 shadow-[0_8px_20px_rgba(71,85,105,0.08)] backdrop-blur-md transition-all duration-200 hover:-translate-y-0.5 hover:bg-white/90 hover:text-slate-900 hover:shadow-[0_10px_24px_rgba(71,85,105,0.12)] sm:px-4 dark:border-white/10 dark:bg-slate-950/40 dark:text-slate-100 dark:hover:bg-slate-900/55"
+          class="inline-flex min-w-0 cursor-pointer items-center justify-center gap-2 rounded-full border border-slate-200/80 bg-white/75 px-3 py-1.5 text-xs font-semibold text-slate-700 shadow-xs backdrop-blur-md transition-colors duration-200 hover:border-rose-200 hover:bg-white hover:text-slate-900 focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden sm:px-4 dark:border-white/10 dark:bg-slate-950/40 dark:text-slate-100 dark:hover:border-rose-300/25 dark:hover:bg-slate-900/60"
           @click="navigateTo(localePath('/search'))"
         >
           <n-icon><Search /></n-icon>
@@ -170,23 +170,23 @@
           <button
             v-for="item in compendiumItems"
             :key="item.key"
-            class="group relative isolate flex cursor-pointer flex-col items-center justify-center overflow-hidden rounded-xl border border-black/4 bg-linear-to-br from-[#e8ddf9]/30 via-white/60 to-[#fce4ec]/40 p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:border-rose-200/70 hover:shadow-[0_10px_28px_rgba(244,63,94,0.16)] motion-reduce:transform-none motion-reduce:transition-none dark:border-white/5 dark:from-[#1e1b4b]/45 dark:via-[#221834]/55 dark:to-[#581c64]/35 dark:hover:border-fuchsia-300/20 dark:hover:shadow-[0_10px_28px_rgba(168,85,247,0.16)]"
+            class="group relative isolate flex cursor-pointer flex-col items-center justify-center overflow-hidden rounded-xl border border-black/6 bg-linear-to-br from-[#e8ddf9]/35 via-white/70 to-[#fce4ec]/45 p-6 shadow-xs transition-[border-color,box-shadow,transform] duration-200 ease-out hover:-translate-y-0.5 hover:border-rose-200 hover:shadow-[0_8px_22px_rgba(244,63,94,0.13)] focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden motion-reduce:transform-none motion-reduce:transition-none dark:border-white/8 dark:from-[#1e1b4b]/45 dark:via-[#221834]/60 dark:to-[#581c64]/35 dark:hover:border-fuchsia-300/25 dark:hover:shadow-[0_8px_22px_rgba(168,85,247,0.13)]"
             @click="navigateTo(localePath(item.path))"
           >
             <div
-              class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.95),transparent_58%)] opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100 motion-reduce:transition-none dark:bg-[radial-gradient(circle_at_top,rgba(244,114,182,0.18),transparent_58%)]"
+              class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.9),transparent_62%)] opacity-0 transition-opacity duration-200 ease-out group-hover:opacity-80 motion-reduce:transition-none dark:bg-[radial-gradient(circle_at_top,rgba(244,114,182,0.14),transparent_62%)]"
             />
             <div
-              class="pointer-events-none absolute -top-8 -right-8 h-20 w-20 rounded-full bg-rose-300/25 blur-2xl transition-all duration-300 ease-out group-hover:scale-125 group-hover:bg-amber-300/30 motion-reduce:transition-none dark:bg-fuchsia-500/20 dark:group-hover:bg-rose-400/30"
+              class="pointer-events-none absolute -top-8 -right-8 h-20 w-20 rounded-full bg-rose-300/18 blur-2xl transition-colors duration-200 ease-out group-hover:bg-amber-300/22 motion-reduce:transition-none dark:bg-fuchsia-500/15 dark:group-hover:bg-rose-400/22"
             />
             <n-icon
               :size="28"
-              class="relative mb-2 text-rose-500 transition-all duration-300 ease-out group-hover:-translate-y-0.5 group-hover:scale-105 motion-reduce:transform-none motion-reduce:transition-none dark:text-rose-400"
+              class="relative mb-2 text-rose-500 transition-transform duration-200 ease-out group-hover:-translate-y-0.5 motion-reduce:transform-none motion-reduce:transition-none dark:text-rose-400"
             >
               <component :is="item.icon" />
             </n-icon>
             <span
-              class="relative text-sm font-semibold tracking-[0.02em] transition-all duration-300 ease-out group-hover:tracking-wider group-hover:text-rose-600 motion-reduce:transition-none dark:group-hover:text-rose-200"
+              class="relative text-sm font-semibold tracking-[0.01em] text-slate-800 group-hover:text-rose-600 dark:text-slate-100 dark:group-hover:text-rose-200"
             >
               {{ $t(item.label) }}
             </span>
@@ -201,13 +201,13 @@
           <!-- Whim Search -->
           <NuxtLinkLocale
             no-prefetch
-            class="group relative flex h-36 w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg border border-gray-200/70 bg-linear-to-b from-gray-100 to-gray-200 dark:border-gray-700/70 dark:from-gray-800 dark:to-gray-900"
+            class="group relative flex h-36 w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl border border-slate-200/80 bg-linear-to-b from-slate-50 to-slate-200 shadow-xs transition-[border-color,box-shadow] duration-200 hover:border-rose-200 hover:shadow-[0_8px_20px_rgba(71,85,105,0.12)] focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden dark:border-slate-700/80 dark:from-slate-800 dark:to-slate-900 dark:hover:border-rose-300/25"
             :to="'/search'"
           >
             <!-- Decorative Search Interface Background -->
             <div
               v-if="shouldRenderFeatureAssets"
-              class="absolute inset-0 flex flex-col items-center justify-start gap-1.5 pt-3 transition-transform duration-500 group-hover:-translate-y-1"
+              class="absolute inset-0 flex flex-col items-center justify-start gap-1.5 pt-3 transition-transform duration-300 group-hover:-translate-y-0.5 motion-reduce:transform-none motion-reduce:transition-none"
             >
               <!-- Mini Searchbar -->
               <div
@@ -261,7 +261,7 @@
 
             <div class="absolute right-2 bottom-2 left-2 z-10">
               <div
-                class="pointer-events-none flex w-full items-center justify-center gap-1 rounded-md border border-white/60 bg-white/80 px-3 py-1.5 text-sm font-medium text-rose-500 shadow-xs backdrop-blur-xs dark:border-white/10 dark:bg-slate-900/70 dark:text-rose-300"
+                class="pointer-events-none flex w-full items-center justify-center gap-1 rounded-lg border border-white/80 bg-white/90 px-3 py-1.5 text-sm font-semibold text-rose-600 shadow-sm backdrop-blur-md dark:border-white/10 dark:bg-slate-950/80 dark:text-rose-300"
               >
                 <n-icon><Search /></n-icon>
                 <span>{{ $t('search_page.title') }}</span>
@@ -272,13 +272,13 @@
           <!-- Whim-O-Matic -->
           <NuxtLinkLocale
             no-prefetch
-            class="group relative flex h-36 w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg border border-gray-200/70 bg-linear-to-b from-gray-100 to-gray-200 dark:border-gray-700/70 dark:from-gray-800 dark:to-gray-900"
+            class="group relative flex h-36 w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl border border-slate-200/80 bg-linear-to-b from-slate-50 to-slate-200 shadow-xs transition-[border-color,box-shadow] duration-200 hover:border-rose-200 hover:shadow-[0_8px_20px_rgba(71,85,105,0.12)] focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden dark:border-slate-700/80 dark:from-slate-800 dark:to-slate-900 dark:hover:border-rose-300/25"
             :to="'/random'"
           >
             <!-- GachaponMachineSvg bg -->
             <div
               v-if="shouldRenderFeatureAssets"
-              class="absolute h-30 transition-transform duration-500 group-hover:-translate-y-1 group-hover:scale-105"
+              class="absolute h-30 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:scale-[1.03] motion-reduce:transform-none motion-reduce:transition-none"
             >
               <LazyGachaponMachineSvg class="h-full w-full drop-shadow-sm" />
             </div>
@@ -291,7 +291,7 @@
 
             <div class="absolute right-2 bottom-2 left-2 z-10">
               <div
-                class="pointer-events-none flex w-full items-center justify-center gap-1 rounded-md border border-white/60 bg-white/80 px-3 py-1.5 text-sm font-medium text-rose-500 shadow-xs backdrop-blur-xs dark:border-white/10 dark:bg-slate-900/70 dark:text-rose-300"
+                class="pointer-events-none flex w-full items-center justify-center gap-1 rounded-lg border border-white/80 bg-white/90 px-3 py-1.5 text-sm font-semibold text-rose-600 shadow-sm backdrop-blur-md dark:border-white/10 dark:bg-slate-950/80 dark:text-rose-300"
               >
                 <n-icon><Magic /></n-icon>
                 <span>{{ $t('search_page.lucky_machine_title') }}</span>
@@ -302,12 +302,12 @@
           <!-- Tier List Preview -->
           <NuxtLinkLocale
             no-prefetch
-            class="group relative flex h-36 w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg border border-gray-200/70 bg-linear-to-b from-gray-100 to-gray-200 dark:border-gray-700/70 dark:from-gray-800 dark:to-gray-900"
+            class="group relative flex h-36 w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl border border-slate-200/80 bg-linear-to-b from-slate-50 to-slate-200 shadow-xs transition-[border-color,box-shadow] duration-200 hover:border-rose-200 hover:shadow-[0_8px_20px_rgba(71,85,105,0.12)] focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden dark:border-slate-700/80 dark:from-slate-800 dark:to-slate-900 dark:hover:border-rose-300/25"
             :to="'/tierlist'"
           >
             <div
               v-if="shouldRenderFeatureAssets"
-              class="flex h-full flex-col gap-1.5 rounded-md p-2 backdrop-blur-[1px] transition-transform duration-500 group-hover:-translate-y-1"
+              class="flex h-full flex-col gap-1.5 rounded-md p-2 backdrop-blur-[1px] transition-transform duration-300 group-hover:-translate-y-0.5 motion-reduce:transform-none motion-reduce:transition-none"
             >
               <div
                 v-for="(row, rowIndex) in tierPreviewRows"
@@ -332,7 +332,7 @@
             </div>
             <div class="absolute right-2 bottom-2 left-2">
               <div
-                class="pointer-events-none flex w-full items-center justify-center gap-1 rounded-md border border-white/60 bg-white/80 px-3 py-1.5 text-sm font-medium text-rose-500 shadow-xs backdrop-blur-xs dark:border-white/10 dark:bg-slate-900/70 dark:text-rose-300"
+                class="pointer-events-none flex w-full items-center justify-center gap-1 rounded-lg border border-white/80 bg-white/90 px-3 py-1.5 text-sm font-semibold text-rose-600 shadow-sm backdrop-blur-md dark:border-white/10 dark:bg-slate-950/80 dark:text-rose-300"
               >
                 <n-icon><SortAmountDown /></n-icon>
                 <span>{{ $t('navigation.tierlist') }}</span>
@@ -343,12 +343,12 @@
           <!-- Outfit Silhouette Quiz -->
           <NuxtLinkLocale
             no-prefetch
-            class="group relative flex h-36 w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg border border-gray-200/70 bg-linear-to-b from-gray-100 to-gray-200 dark:border-gray-700/70 dark:from-gray-800 dark:to-gray-900"
+            class="group relative flex h-36 w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl border border-slate-200/80 bg-linear-to-b from-slate-50 to-slate-200 shadow-xs transition-[border-color,box-shadow] duration-200 hover:border-rose-200 hover:shadow-[0_8px_20px_rgba(71,85,105,0.12)] focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden dark:border-slate-700/80 dark:from-slate-800 dark:to-slate-900 dark:hover:border-rose-300/25"
             :to="'/quiz'"
           >
             <div
               v-if="shouldRenderFeatureAssets"
-              class="mb-4 aspect-2/3 h-full shrink-0 p-1 transition-transform duration-500 group-hover:-translate-y-1 group-hover:scale-105"
+              class="mb-4 aspect-2/3 h-full shrink-0 p-1 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:scale-[1.03] motion-reduce:transform-none motion-reduce:transition-none"
             >
               <LazyNuxtImg
                 :src="getImageSrc('outfit', featuredOutfitId)"
@@ -368,7 +368,7 @@
             </div>
             <div class="absolute right-2 bottom-2 left-2">
               <div
-                class="pointer-events-none flex w-full items-center justify-center gap-1 rounded-md border border-white/60 bg-white/80 px-3 py-1.5 text-sm font-medium text-rose-500 shadow-xs backdrop-blur-xs dark:border-white/10 dark:bg-slate-900/70 dark:text-rose-300"
+                class="pointer-events-none flex w-full items-center justify-center gap-1 rounded-lg border border-white/80 bg-white/90 px-3 py-1.5 text-sm font-semibold text-rose-600 shadow-sm backdrop-blur-md dark:border-white/10 dark:bg-slate-950/80 dark:text-rose-300"
               >
                 <n-icon><PuzzlePiece /></n-icon>
                 <span>{{ $t('quiz.title') }}</span>
@@ -403,7 +403,9 @@
         >
           <div class="flex flex-col gap-3">
             <div class="grid grid-cols-2 gap-3 text-center lg:grid-cols-1">
-              <div class="rounded-xl bg-[#e8ddf9]/15 p-3 dark:bg-[#1e1b4b]/25">
+              <div
+                class="rounded-xl border border-black/6 bg-linear-to-br from-[#e8ddf9]/25 via-white/55 to-[#fce4ec]/30 p-3 shadow-xs dark:border-white/8 dark:from-[#1e1b4b]/35 dark:via-[#221834]/45 dark:to-[#581c64]/25"
+              >
                 <div class="mb-1 flex h-5 items-center justify-center">
                   <n-skeleton
                     text
@@ -421,7 +423,9 @@
                   />
                 </div>
               </div>
-              <div class="rounded-xl bg-[#e8ddf9]/15 p-3 dark:bg-[#1e1b4b]/25">
+              <div
+                class="rounded-xl border border-black/6 bg-linear-to-br from-[#e8ddf9]/25 via-white/55 to-[#fce4ec]/30 p-3 shadow-xs dark:border-white/8 dark:from-[#1e1b4b]/35 dark:via-[#221834]/45 dark:to-[#581c64]/25"
+              >
                 <div class="mb-1 flex h-5 items-center justify-center">
                   <n-skeleton
                     text
@@ -445,7 +449,7 @@
             </div>
           </div>
           <div
-            class="flex h-50 items-end gap-4 rounded-xl bg-[#e8ddf9]/15 p-2 lg:gap-8 lg:p-4 dark:bg-[#1e1b4b]/25"
+            class="flex h-50 items-end gap-4 rounded-xl border border-black/6 bg-linear-to-br from-[#e8ddf9]/25 via-white/55 to-[#fce4ec]/30 p-2 shadow-xs lg:gap-8 lg:p-4 dark:border-white/8 dark:from-[#1e1b4b]/35 dark:via-[#221834]/45 dark:to-[#581c64]/25"
           >
             <n-skeleton
               v-for="(height, index) in communityStatsSkeletonHeights"

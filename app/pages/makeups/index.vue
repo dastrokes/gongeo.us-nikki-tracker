@@ -116,11 +116,14 @@
     </template>
 
     <template #entry="{ entry, index }">
-      <div
-        class="relative cursor-pointer"
+      <component
+        :is="editMode ? 'div' : NuxtLinkLocaleComponent"
+        :to="editMode ? undefined : getMakeupDetailPath(entry.id)"
+        class="relative cursor-pointer rounded-lg focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:ring-offset-2 focus-visible:outline-hidden dark:focus-visible:ring-offset-slate-950"
         :class="getListingCardAnimationClass(index)"
         :style="getListingCardAnimationStyle(index)"
-        @click="handleMakeupCardClick(entry.id, $event)"
+        :aria-label="entry.name"
+        @click="editMode && handleMakeupCardClick(entry.id, $event)"
       >
         <div
           class="relative aspect-2/3 overflow-hidden rounded-lg bg-[url('/images/bg.webp')] bg-cover bg-center shadow-md transition-shadow duration-300 hover:shadow-xl"
@@ -277,7 +280,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </component>
     </template>
   </CompendiumListingPage>
 </template>
@@ -306,6 +309,7 @@
   const dialog = useDialog()
   const message = useMessage()
   const localePath = useLocalePath()
+  const NuxtLinkLocaleComponent = resolveComponent('NuxtLinkLocale')
   const route = useRoute()
   const router = useRouter()
   const { getImageSrc } = imageProvider()
@@ -958,15 +962,19 @@
     }
   }
 
-  const isListingCardControlClick = (event: MouseEvent) => {
+  const isListingCardControlClick = (event: MouseEvent | KeyboardEvent) => {
     const target = event.target
-    return (
-      target instanceof HTMLElement &&
-      Boolean(target.closest('button, input, label, [role="button"]'))
-    )
+    const control =
+      target instanceof HTMLElement
+        ? target.closest('button, input, label, [role="button"]')
+        : null
+    return control !== null && control !== event.currentTarget
   }
 
-  const handleMakeupCardClick = (makeupId: number, event: MouseEvent) => {
+  const handleMakeupCardClick = (
+    makeupId: number,
+    event: MouseEvent | KeyboardEvent
+  ) => {
     if (isListingCardControlClick(event)) return
 
     if (editMode.value) {
@@ -1300,6 +1308,6 @@
   }
 
   const navigateToDetail = (id: number) => {
-    navigateTo(localePath(getEntityDetailPath('makeup', id)))
+    navigateTo(localePath(getMakeupDetailPath(id)))
   }
 </script>

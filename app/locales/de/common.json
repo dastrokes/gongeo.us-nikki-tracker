@@ -670,7 +670,7 @@
   },
   "banner": {
     "version": "Version",
-    "reruns": "Reruns",
+    "reruns": "Wiederholungen",
     "luck": {
       "1": "Schleier des Dunklen",
       "2": "Verblasstes Sternenlicht",

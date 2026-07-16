@@ -670,6 +670,7 @@
   },
   "banner": {
     "version": "Versão",
+    "reruns": "Reruns",
     "luck": {
       "1": "Véu da Escuridão",
       "2": "Luz das estrelas desbotada",

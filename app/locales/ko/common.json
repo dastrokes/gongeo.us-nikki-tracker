@@ -670,6 +670,7 @@
   },
   "banner": {
     "version": "버전",
+    "reruns": "Reruns",
     "luck": {
       "1": "어둠의 베일",
       "2": "바랜 별빛",

@@ -670,6 +670,7 @@
   },
   "banner": {
     "version": "Version",
+    "reruns": "Reruns",
     "luck": {
       "1": "Voile des Ténèbres",
       "2": "Lumière des étoiles fanée",

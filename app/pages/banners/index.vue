@@ -159,6 +159,28 @@
           :key="banner.bannerId"
         >
           <n-timeline-item
+            v-if="banner.bannerId === firstRerunBannerId"
+            type="warning"
+          >
+            <template #icon>
+              <n-icon size="20">
+                <History />
+              </n-icon>
+            </template>
+            <template #header>
+              <h2
+                class="text-lg font-semibold text-gray-800 dark:text-gray-100"
+              >
+                {{ t('banner.reruns') }}
+              </h2>
+            </template>
+            <template #default>
+              <p class="pb-6 text-sm text-gray-500 dark:text-gray-400">
+                {{ getVersionFilterLabel(versionFilter) }}
+              </p>
+            </template>
+          </n-timeline-item>
+          <n-timeline-item
             :id="banner.bannerId.toString()"
             :type="getBannerTypeColor(banner.bannerType)"
           >
@@ -204,8 +226,8 @@
               <div class="grid grid-cols-1 gap-2 lg:grid-cols-4">
                 <div class="space-y-2">
                   <div
-                    v-for="(run, index) in banner.runs"
-                    :key="index"
+                    v-for="run in getDisplayedRuns(banner)"
+                    :key="`${run.version}-${run.start}`"
                     class="space-y-2"
                   >
                     <div class="flex flex-col gap-1">
@@ -258,7 +280,8 @@
                           />
                         </n-tag>
                         <n-tag
-                          v-if="index > 0"
+                          v-if="run !== banner.runs[0]"
+                          type="warning"
                           :bordered="false"
                         >
                           {{ t('default.rerun') }}
@@ -401,6 +424,7 @@
     SortAmountDown,
     AlignRight,
     ChartLine,
+    History,
   } from '@vicons/fa'
   import { BANNER_DATA } from '~~/data/banners'
   import { LATEST_BANNER_ID } from '~~/data/config'
@@ -527,12 +551,32 @@
     const selectedVersion = versionFilter.value
     if (selectedVersion) {
       banners = banners.filter((banner) =>
-        matchesFirstRunVersionFilter(banner.runs, selectedVersion)
+        isExactVersion(selectedVersion)
+          ? banner.runs.some((run) =>
+              matchesVersionFilter(run.version, selectedVersion)
+            )
+          : matchesFirstRunVersionFilter(banner.runs, selectedVersion)
       )
     }
 
     return banners
   })
+  const getDisplayedRuns = (banner: Banner) => {
+    const selectedVersion = versionFilter.value
+    if (!selectedVersion) return banner.runs
+    if (!isExactVersion(selectedVersion)) return banner.runs.slice(0, 1)
+    return banner.runs.filter((run) =>
+      matchesVersionFilter(run.version, selectedVersion)
+    )
+  }
+  const isRerunForSelectedVersion = (banner: Banner) => {
+    const selectedVersion = versionFilter.value
+    return (
+      !!selectedVersion &&
+      isExactVersion(selectedVersion) &&
+      !matchesVersionFilter(banner.runs[0]?.version ?? '', selectedVersion)
+    )
+  }
   const isBannerRailExpanded = ref(false)
   const displayedRailBanners = computed(() =>
     isBannerRailExpanded.value
@@ -613,6 +657,10 @@
       batchSize: BANNER_LOAD_BATCH_SIZE,
       initialBatchSize: 2,
     })
+  const firstRerunBannerId = computed(
+    () =>
+      displayedBanners.value.find(isRerunForSelectedVersion)?.bannerId ?? null
+  )
 
   // Watch filter changes with debouncing
   watchDebounced(

@@ -1,5 +1,4 @@
 import { ENTITY_SLUG_DATA } from '../../data/entitySlugs/momo'
-import { createEntitySlugHelpers } from '../../lib/entitySlugHelpers'
 
 export const momoSlugHelpers = createEntitySlugHelpers('momo', ENTITY_SLUG_DATA)
 

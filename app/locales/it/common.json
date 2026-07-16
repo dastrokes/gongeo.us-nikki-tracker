@@ -670,6 +670,7 @@
   },
   "banner": {
     "version": "Versione",
+    "reruns": "Repliche",
     "luck": {
       "1": "Velo dell'Oscurità",
       "2": "Luce stellare sbiadita",

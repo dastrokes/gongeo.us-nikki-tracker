@@ -1,5 +1,4 @@
 import { ENTITY_SLUG_DATA } from '../../data/entitySlugs/banner'
-import { createEntitySlugHelpers } from '../../lib/entitySlugHelpers'
 
 export const bannerSlugHelpers = createEntitySlugHelpers(
   'banners',

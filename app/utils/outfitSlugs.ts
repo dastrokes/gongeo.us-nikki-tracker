@@ -1,5 +1,4 @@
 import { ENTITY_SLUG_DATA } from '../../data/entitySlugs/outfit'
-import { createEntitySlugHelpers } from '../../lib/entitySlugHelpers'
 
 export const outfitSlugHelpers = createEntitySlugHelpers(
   'outfits',

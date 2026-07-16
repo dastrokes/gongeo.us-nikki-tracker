@@ -3,7 +3,6 @@ import { ENTITY_SLUG_DATA as ITEM_SLUG_DATA } from '../../data/entitySlugs/item'
 import { ENTITY_SLUG_DATA as MAKEUP_SLUG_DATA } from '../../data/entitySlugs/makeup'
 import { ENTITY_SLUG_DATA as MOMO_SLUG_DATA } from '../../data/entitySlugs/momo'
 import { ENTITY_SLUG_DATA as OUTFIT_SLUG_DATA } from '../../data/entitySlugs/outfit'
-import { createEntitySlugHelpers } from '../../lib/entitySlugHelpers'
 
 export type EntitySlugType = 'banner' | 'item' | 'makeup' | 'momo' | 'outfit'
 

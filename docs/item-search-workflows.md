@@ -180,6 +180,16 @@ Typical ownership questions:
 - is the current artifact introducing the same concept under a second field (`mesh`, `cross`, `filigree`, `paper`)?
 - should the concept move into an existing owner field, or should the source token be dropped entirely?
 
+### Field Boundary Review
+
+Review every field as a distinct search concept, not as a fallback for values that do not fit elsewhere. For each review pass, inspect both the new artifact and the full published mirror across all fields:
+
+- prefer an existing canonical term over adding a synonym or minor variant
+- confirm each value matches the field's intended meaning
+- keep one long-term owner for a concept when fields overlap
+- treat identical values in different fields as valid only when the fields represent distinct searchable dimensions
+- reject generic visual descriptions unless repeated search needs justify a dedicated field
+
 ## LLM Review Playbook
 
 When using an LLM to review a new or existing index, keep the review split into three buckets:

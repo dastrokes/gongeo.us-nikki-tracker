@@ -12,7 +12,7 @@
   {
     "key": "event",
     "labelKey": "compendium.source.event",
-    "ids": [14, 16]
+    "ids": [14, 16, 29]
   },
   {
     "key": "journey",

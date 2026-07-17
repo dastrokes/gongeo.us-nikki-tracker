@@ -117,7 +117,7 @@ export const useBannerPullData = () => {
       } = await loadData()
 
       const mergedData = mergePullData(existingPullData, pullsByBanner)
-      saveData(mergedData, existingEditData, existingEvoData)
+      await saveData(mergedData, existingEditData, existingEvoData)
 
       await pullStore.processPullData(mergedData, existingEditData)
     } catch (error) {

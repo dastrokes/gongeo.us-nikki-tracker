@@ -69,4 +69,6 @@ export const ENTITY_SLUG_DATA = [
   [66, 'refrain-of-reunion'],
   [67, 'toward-clear-skies'],
   [68, 'drums-of-yesteryear'],
+  [69, 'at-dreams-dawn'],
+  [70, 'through-songbound-night'],
 ] as const

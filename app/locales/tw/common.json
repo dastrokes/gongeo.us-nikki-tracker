@@ -258,7 +258,7 @@
     "summary_unavailable": "衣櫥摘要不可用。",
     "storage_recovery": "重試儲存",
     "empty_title": "還沒有已擁有部件",
-    "empty_description": "可以在物品圖鑑中標記已擁有部件，也可以從抽卡记录匯入已獲得的卡池部件。",
+    "empty_description": "可以在物品圖鑑中標記已擁有部件，也可以從抽卡記錄匯入已獲得的卡池部件。",
     "open_items": "開啟物品",
     "open_missing_items": "缺少的部件",
     "open_missing_outfits": "缺少的套裝",
@@ -291,16 +291,16 @@
       "tracking_description": "在瀏覽圖鑑時，使用列表頁面、詳情頁面以及單個或批次操作來標記衣櫥擁有狀態。您可以在圖鑑、奇想搜尋、奇想滾滾機和排行榜單中使用擁有狀態篩選。",
       "finish_setup": "完成設定"
     },
-    "import_success": "已從抽卡记录中找到的 {found} 個衣櫥項目裡匯入 {imported} 個。",
-    "import_empty": "抽卡记录中沒有可匯入的衣櫥項目。",
-    "import_no_new": "抽卡记录中找到 {found} 個衣櫥項目，但這些項目都已擁有。",
-    "import_error": "匯入抽卡记录中的衣櫥項目失敗。",
+    "import_success": "已從抽卡記錄中找到的 {found} 個衣櫥項目裡匯入 {imported} 個。",
+    "import_empty": "抽卡記錄中沒有可匯入的衣櫥項目。",
+    "import_no_new": "抽卡記錄中找到 {found} 個衣櫥項目，但這些項目都已擁有。",
+    "import_error": "匯入抽卡記錄中的衣櫥項目失敗。",
     "file_import_success": "資料已成功匯入。",
     "file_import_error": "匯入資料檔案失敗。",
     "export": {
       "in_progress": "正在準備資料檔案...",
       "success": "資料已匯出。",
-      "empty": "沒有可匯出的抽卡记录或衣櫥資料。",
+      "empty": "沒有可匯出的抽卡記錄或衣櫥資料。",
       "error": "匯出資料檔案失敗。"
     },
     "continue_title": "繼續追蹤",
@@ -337,9 +337,9 @@
       "slots": {
         "banner_five_star": "最喜歡的5★ 卡池",
         "banner_four_star": "最喜歡的4★ 卡池",
-        "outfit_five_star": "最喜歡的5★ 套装",
-        "outfit_four_star": "最喜歡的4★ 套装",
-        "outfit_three_star": "最喜歡的3★ 套装",
+        "outfit_five_star": "最喜歡的5★ 套裝",
+        "outfit_four_star": "最喜歡的4★ 套裝",
+        "outfit_three_star": "最喜歡的3★ 套裝",
         "dress": "最喜歡的連衣裙",
         "hair": "最喜歡的髮型",
         "item": "最喜歡的部件",
@@ -392,7 +392,7 @@
     "confirm": {
       "all_owned": "將所有 {count} 個符合部件標記為擁有？",
       "f2p_basics": "將此檔案中的 {count} 個免費常駐衣櫥項目標記為擁有？",
-      "tracker_import": "要從抽卡记录匯入 {imported} 個新的衣櫥項目嗎？共找到 {found} 個：{foundItems} 個部件、{foundMakeups} 個妝容和 {foundMomo} 個大喵斗篷。",
+      "tracker_import": "要從抽卡記錄匯入 {imported} 個新的衣櫥項目嗎？共找到 {found} 個：{foundItems} 個部件、{foundMakeups} 個妝容和 {foundMomo} 個大喵斗篷。",
       "outfit_unowned": "將所有 {count} 個套裝部件標記為未擁有？"
     },
     "error": {
@@ -767,7 +767,7 @@
       },
       "data_loss": {
         "question": "為什麼有些卡池的抽卡記錄不完整或缺失？",
-        "answer": "這是因為抽卡記錄僅在遊戲中保留180天。超過180天后，這些記錄將從遊戲伺服器中刪除，導致資料不可用。為了保留您的資料，您可以將資料儲存在瀏覽器中或匯出為備份。這樣，您可以保留那些在遊戲中已無法獲取的記錄。如果您在將來匯入資料，您的現有資料將與新資料合併。"
+        "answer": "這是因為抽卡記錄僅在遊戲中保留180天。超過180天後，這些記錄將從遊戲伺服器中刪除，導致資料不可用。為了保留您的資料，您可以將資料儲存在瀏覽器中或匯出為備份。這樣，您可以保留那些在遊戲中已無法獲取的記錄。如果您在將來匯入資料，您的現有資料將與新資料合併。"
       },
       "no_pulls": {
         "question": "我按照匯入步驟操作，看到卡池都已處理，但為什麼沒有顯示抽卡記錄？",
@@ -804,7 +804,7 @@
     "dataCollection": {
       "title": "資料收集與儲存",
       "content": "我們僅收集維持服務執行所必需的最小資料。我們不收集或儲存任何個人資訊或跟蹤 Cookie。您提供的任何 Cookie 或 UID 僅用於與 Infold Games 伺服器通訊以驗證您的賬號並獲取您的抽卡記錄。",
-      "pullHistory": "您的抽卡記錄在匯入後會儲存在您的瀏覽器中。如果需要雲端備份或跨裝置訪問，您可以選擇透過 Discord、Google 或電子郵件登入，將資料同步至由 Supabase 提供的雲端儲存。您也可以選擇貢獻匿名統計資料，幫助生成社群統計資料。"
+      "pullHistory": "您的抽卡記錄在匯入後會儲存在您的瀏覽器中。如果需要雲端備份或跨裝置訪問，您可以選擇透過 Discord、Google 或電子郵件登入，將資料同步至由 Supabase 提供的雲端儲存。您也可以選擇貢獻關於四星和五星抽卡的匿名統計資料，幫助生成社群統計資料。"
     },
     "accountSecurity": {
       "title": "賬號安全與資料保護",
@@ -975,7 +975,7 @@
     "source": {
       "event": "活動",
       "quest": "任務",
-      "merchant": "服装商店",
+      "merchant": "服裝商店",
       "miracrown": "奇迹之冠",
       "miracle": "奇迹套裝",
       "home": "家園",

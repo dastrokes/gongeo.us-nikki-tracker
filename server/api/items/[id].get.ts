@@ -110,7 +110,7 @@ export default defineCachedApiEventHandler(
       const selectQuery = selectParts.join(',')
 
       const { data, error: supabaseError } = await withSupabaseRetry(() =>
-        supabase.from('items').select(selectQuery).eq('id', id).single()
+        supabase.from('items').select(selectQuery).eq('id', id).maybeSingle()
       )
 
       if (supabaseError) {
@@ -118,6 +118,10 @@ export default defineCachedApiEventHandler(
           throw createNotFoundError('item')
         }
         throw supabaseError
+      }
+
+      if (!data) {
+        throw createNotFoundError('item')
       }
 
       const itemData = data as ItemData

@@ -16,6 +16,19 @@ const DEFAULT_MAX_RETRIES = 2
 const sleep = (ms: number) =>
   new Promise<void>((resolve) => setTimeout(resolve, ms))
 
+export const createIndexedDBOperationQueue = () => {
+  let pending: Promise<void> = Promise.resolve()
+
+  return <T>(operation: () => Promise<T>) => {
+    const result = pending.then(operation, operation)
+    pending = result.then(
+      () => undefined,
+      () => undefined
+    )
+    return result
+  }
+}
+
 export function createIndexedDBConnection({
   dbName,
   dbVersion,

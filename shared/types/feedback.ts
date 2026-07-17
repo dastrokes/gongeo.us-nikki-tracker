@@ -45,7 +45,6 @@ export interface FeedbackSuggestion {
   proposedPatch: ItemTagFeedbackPatch
   changedFields: ItemTagFeedbackField[]
   status: FeedbackSuggestionStatus
-  userId: string | null
   createdAt: string
   updatedAt: string
   agreeCount: number

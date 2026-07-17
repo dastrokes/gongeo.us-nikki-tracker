@@ -1027,6 +1027,7 @@
     "display_options": "Anzeigeoptionen",
     "copy_item_list": "Stückliste kopieren",
     "invalid_code": "Ungültiger Code.",
+    "try_again_later": "Etwas ist schiefgelaufen. Bitte versuche es später erneut.",
     "not_found": "Lookbook nicht gefunden",
     "card_title": "Farb-Lookbook"
   },

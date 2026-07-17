@@ -200,6 +200,8 @@
         :description="
           errorType === 'code_not_found'
             ? t('error.404')
+            : errorType === 'upstream_unavailable'
+              ? t('lookbook.try_again_later')
             : t('lookbook.invalid_code')
         "
       >
@@ -524,7 +526,9 @@
   const showPreviewImages = ref(false)
   const showOwnership = ref(false)
   const error = ref('')
-  const errorType = ref<'code_not_found' | 'generic'>('generic')
+  const errorType = ref<
+    'code_not_found' | 'upstream_unavailable' | 'generic'
+  >('generic')
   const shareCardRef = ref<HTMLElement | null>(null)
 
   const catalogLoading = computed(() => catalogIndex.status.value === 'loading')
@@ -787,6 +791,8 @@
 
       if (errorCode === 'INVALID_LOOKBOOK_CODE') {
         errorType.value = 'code_not_found'
+      } else if (errorCode === 'UPSTREAM_UNAVAILABLE') {
+        errorType.value = 'upstream_unavailable'
       } else {
         errorType.value = 'generic'
       }

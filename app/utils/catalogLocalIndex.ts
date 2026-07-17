@@ -30,8 +30,29 @@ export type CatalogLocalIndex = {
   momoGroupIdsById: Map<number, number[]>
   outfitItemsById: Map<number, number[]>
   makeupItemsById: Map<number, number[]>
+  fullMakeupIdsByMakeupId: Map<number, number[]>
   fullMakeupIdsByOutfitId: Map<number, number[]>
+  outfitIdsByFullMakeupId: Map<number, number[]>
   momoIdsByOutfitId: Map<number, number[]>
+  outfitIdsByMomoId: Map<number, number[]>
+}
+
+const invertRelations = (relations: Map<number, number[]>) => {
+  const inverse = new Map<number, number[]>()
+
+  for (const [parentId, childIds] of relations) {
+    for (const childId of childIds) {
+      const parentIds = inverse.get(childId) ?? []
+      parentIds.push(parentId)
+      inverse.set(childId, parentIds)
+    }
+  }
+
+  for (const parentIds of inverse.values()) {
+    parentIds.sort((left, right) => left - right)
+  }
+
+  return inverse
 }
 
 const buildEntityGroupIdsById = <
@@ -140,7 +161,10 @@ export const createCatalogLocalIndex = ({
     momoGroupIdsById: buildEntityGroupIdsById(momoRows),
     outfitItemsById,
     makeupItemsById,
+    fullMakeupIdsByMakeupId: invertRelations(makeupItemsById),
     fullMakeupIdsByOutfitId,
+    outfitIdsByFullMakeupId: invertRelations(fullMakeupIdsByOutfitId),
     momoIdsByOutfitId,
+    outfitIdsByMomoId: invertRelations(momoIdsByOutfitId),
   }
 }

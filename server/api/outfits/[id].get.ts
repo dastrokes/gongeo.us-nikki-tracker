@@ -1,100 +1,34 @@
-interface OutfitTranslation {
+type OutfitTranslation = {
   description?: string | null
   language_code?: string | null
 }
 
-interface OutfitData {
+type OutfitData = {
   id: number
-  quality: number
   props?: Array<number | string> | null
-  style_key?: string | null
-  tags?: Array<number | string> | null
-  obtain_type?: number | null
-  outfit_translations?: OutfitTranslation[]
-  description?: string
   outfit_items?: Array<{
-    items: {
-      id: number
-      quality: number
-      type: string
-    }
-  }>
-  makeup_outfits?: Array<{
-    makeups: {
-      id: number
-      quality: number
-      type: string
-      components?: Array<{
-        id: number
-        quality: number
-        type: string
-      }>
-    }
-  }>
+    item_id?: number | null
+  }> | null
 }
 
-interface MakeupOutfitRow {
-  full_makeup_id: number
-}
-
-interface MakeupRow {
-  id: number
-  quality: number
-  type: string
-}
-
-interface MakeupItemRow {
-  full_makeup_id: number
-  makeup_id: number
-}
-
-const MAKEUP_TYPE_ORDER = new Map([
-  ['baseMakeup', 1],
-  ['eyebrows', 2],
-  ['eyelashes', 3],
-  ['contactLenses', 4],
-  ['lips', 5],
-  ['fullMakeup', 99],
-])
-
-const sortMakeupsByType = (rows: MakeupRow[]): MakeupRow[] =>
-  [...rows].sort((left, right) => {
-    const leftOrder = MAKEUP_TYPE_ORDER.get(left.type) ?? 999
-    const rightOrder = MAKEUP_TYPE_ORDER.get(right.type) ?? 999
-    return leftOrder - rightOrder || left.id - right.id
-  })
-
-/**
- * API endpoint for fetching a single outfit by ID
- * App-level caching enabled (30 days), Netlify edge caching enabled via Cache-Control header
- */
 export default defineCachedApiEventHandler(
   async (event) => {
     const id = Number(getRouterParam(event, 'id'))
-    const languageCode = resolveRequestLocale(event)
-    if (!id || isNaN(id)) {
+    const languageCode = resolveRequestLocale(event) || 'en'
+
+    if (!id || Number.isNaN(id)) {
       throw createInvalidIdError('outfit')
     }
 
     const supabase = useSupabaseDataClient()
 
     try {
-      // Build query conditionally to minimize data transfer
-      const selectParts = [
-        'id',
-        'quality',
-        'props',
-        'style_key',
-        'tags',
-        'obtain_type',
-      ]
-
-      selectParts.push('outfit_items(items(id,quality,type))')
-
-      const selectQuery = selectParts.join(',')
-
       const { data, error: supabaseError } = await withSupabaseRetry(() =>
-        supabase.from('outfits').select(selectQuery).eq('id', id).single()
+        supabase
+          .from('outfits')
+          .select('id,props,outfit_items(item_id)')
+          .eq('id', id)
+          .single()
       )
 
       if (supabaseError) {
@@ -104,120 +38,42 @@ export default defineCachedApiEventHandler(
         throw supabaseError
       }
 
-      const outfitData = data as OutfitData
-
-      const { data: makeupOutfitRows, error: makeupOutfitError } =
+      const outfit = data as OutfitData
+      const translationCodes = Array.from(new Set([languageCode, 'en']))
+      const { data: translationRows, error: translationError } =
         await withSupabaseRetry(() =>
           supabase
-            .from('makeup_outfits')
-            .select('full_makeup_id')
+            .from('outfit_translations')
+            .select('description,language_code')
             .eq('outfit_id', id)
+            .in('language_code', translationCodes)
         )
 
-      if (makeupOutfitError) {
-        throw makeupOutfitError
+      if (translationError) {
+        throw translationError
       }
 
-      const fullMakeupIds = (
-        (makeupOutfitRows as MakeupOutfitRow[] | null) ?? []
+      const translations = (translationRows as OutfitTranslation[] | null) ?? []
+      const translation = translations.find(
+        (row) => row.language_code === languageCode
       )
-        .map((row) => row.full_makeup_id)
-        .filter((makeupId) => typeof makeupId === 'number')
+      const enTranslation = translations.find(
+        (row) => row.language_code === 'en'
+      )
 
-      if (fullMakeupIds.length > 0) {
-        const { data: fullMakeups, error: fullMakeupsError } =
-          await withSupabaseRetry(() =>
-            supabase
-              .from('makeups')
-              .select('id,quality,type')
-              .in('id', fullMakeupIds)
+      return {
+        id: outfit.id,
+        props: outfit.props,
+        description:
+          translation?.description || enTranslation?.description || '',
+        item_ids: Array.from(
+          new Set(
+            (outfit.outfit_items ?? [])
+              .map((row) => row.item_id)
+              .filter((itemId): itemId is number => typeof itemId === 'number')
           )
-
-        if (fullMakeupsError) {
-          throw fullMakeupsError
-        }
-
-        const { data: relationRows, error: relationRowsError } =
-          await withSupabaseRetry(() =>
-            supabase
-              .from('makeup_items')
-              .select('full_makeup_id,makeup_id')
-              .in('full_makeup_id', fullMakeupIds)
-          )
-
-        if (relationRowsError) {
-          throw relationRowsError
-        }
-
-        const relations = (relationRows as MakeupItemRow[] | null) ?? []
-        const componentIds = Array.from(
-          new Set(relations.map((row) => row.makeup_id))
-        )
-        const componentMap = new Map<number, MakeupRow>()
-
-        if (componentIds.length > 0) {
-          const { data: components, error: componentsError } =
-            await withSupabaseRetry(() =>
-              supabase
-                .from('makeups')
-                .select('id,quality,type')
-                .in('id', componentIds)
-            )
-
-          if (componentsError) {
-            throw componentsError
-          }
-
-          for (const component of (components as MakeupRow[] | null) ?? []) {
-            componentMap.set(component.id, component)
-          }
-        }
-
-        outfitData.makeup_outfits = ((fullMakeups as MakeupRow[] | null) ?? [])
-          .sort((left, right) => left.id - right.id)
-          .map((makeup) => ({
-            makeups: {
-              ...makeup,
-              components: sortMakeupsByType(
-                relations
-                  .filter((row) => row.full_makeup_id === makeup.id)
-                  .map((row) => componentMap.get(row.makeup_id))
-                  .filter(
-                    (component): component is MakeupRow =>
-                      component !== undefined
-                  )
-              ),
-            },
-          }))
-      }
-
-      if (languageCode) {
-        const translationCodes = Array.from(new Set([languageCode, 'en']))
-        const { data: translationRows, error: translationError } =
-          await withSupabaseRetry(() =>
-            supabase
-              .from('outfit_translations')
-              .select('description,language_code')
-              .eq('outfit_id', id)
-              .in('language_code', translationCodes)
-          )
-
-        if (translationError) {
-          throw translationError
-        }
-
-        const translations =
-          (translationRows as OutfitTranslation[] | null) ?? []
-        const translation = translations.find(
-          (t) => t.language_code === languageCode
-        )
-        const enTranslation = translations.find((t) => t.language_code === 'en')
-
-        outfitData.description =
-          translation?.description || enTranslation?.description || ''
-      }
-
-      return outfitData
+        ),
+      } satisfies OutfitDetailApiResponse
     } catch (error: unknown) {
       if (error && typeof error === 'object' && 'statusCode' in error) {
         throw error

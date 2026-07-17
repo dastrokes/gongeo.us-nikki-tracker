@@ -1027,6 +1027,7 @@
     "display_options": "显示选项",
     "copy_item_list": "复制部件列表",
     "invalid_code": "搭配码无效。",
+    "try_again_later": "出了点问题，请稍后重试。",
     "not_found": "未找到搭配码",
     "card_title": "星绘图册"
   },

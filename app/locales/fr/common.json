@@ -1027,6 +1027,7 @@
     "display_options": "Options d’affichage",
     "copy_item_list": "Copier la liste d'articles",
     "invalid_code": "Code invalide.",
+    "try_again_later": "Une erreur s’est produite. Veuillez réessayer plus tard.",
     "not_found": "Lookbook introuvable",
     "card_title": "Atlas stellaire"
   },

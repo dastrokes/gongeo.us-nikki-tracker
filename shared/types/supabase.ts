@@ -37,7 +37,6 @@ export interface SupabaseMakeup {
   id: number
   quality: number
   type: string
-  kind?: 'makeup'
   style_key?: string | null
   obtain_type?: number | null
   description?: string
@@ -49,6 +48,29 @@ export interface SupabaseItemAttributes {
   category?: string | null
   subcategory?: string | null
   metadata?: ItemSearchMetadata | null
+}
+
+export interface ItemDetailApiResponse {
+  id: number
+  props?: Array<number | string> | null
+  description?: string
+  item_attributes?: Omit<SupabaseItemAttributes, 'item_id' | 'item_type'> | null
+  related_outfits: Array<{
+    id: number
+    item_ids: number[]
+  }>
+}
+
+export interface OutfitDetailApiResponse {
+  id: number
+  props?: Array<number | string> | null
+  description?: string
+  item_ids: number[]
+}
+
+export interface MakeupDetailApiResponse {
+  id: number
+  description?: string
 }
 
 /**
@@ -64,6 +86,7 @@ export interface OutfitItem {
  * Used when fetching outfit details with component items
  */
 export interface OutfitWithItems extends SupabaseOutfit {
+  description?: string
   outfit_items: {
     items: SupabaseItem
   }[]
@@ -75,7 +98,6 @@ export interface OutfitWithItems extends SupabaseOutfit {
 }
 
 export interface MakeupWithRelations extends SupabaseMakeup {
-  kind: 'makeup'
   components?: SupabaseMakeup[]
   variations?: Array<{ id: number }>
   related_outfits?: Array<

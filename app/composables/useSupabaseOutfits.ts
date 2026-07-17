@@ -15,6 +15,7 @@ export interface OutfitFilters {
  */
 export const useSupabaseOutfits = () => {
   const { locale } = useI18n()
+  const catalogIndex = useCatalogIndex()
   const loading = ref(false)
   const error = ref<Error | null>(null)
 
@@ -31,12 +32,21 @@ export const useSupabaseOutfits = () => {
     error.value = null
 
     try {
-      const response = await $fetch.raw<OutfitWithItems>(`/api/outfits/${id}`, {
-        params: {
-          lang: locale.value,
-        },
-        ignoreResponseError: true,
-      })
+      const [response] = await Promise.all([
+        $fetch.raw<OutfitDetailApiResponse>(`/api/outfits/${id}`, {
+          params: {
+            lang: locale.value,
+          },
+          ignoreResponseError: true,
+        }),
+        catalogIndex.load([
+          'items',
+          'outfits',
+          'makeups',
+          'makeupItems',
+          'makeupOutfits',
+        ]),
+      ])
 
       if (isNotFoundResponse(response)) {
         return null
@@ -51,7 +61,46 @@ export const useSupabaseOutfits = () => {
         )
       }
 
-      return response._data ?? null
+      const detail = response._data
+      const index = catalogIndex.index.value
+      const catalogOutfit = index?.outfitById.get(id)
+      if (!detail || !index || !catalogOutfit) {
+        throw new Error(`Catalog outfit ${id} is unavailable`)
+      }
+
+      return {
+        ...toSupabaseOutfit(catalogOutfit),
+        props: detail.props,
+        description: detail.description,
+        outfit_items: detail.item_ids.flatMap((itemId) => {
+          const item = index.itemById.get(itemId)
+          return item ? [{ items: toSupabaseItem(item) }] : []
+        }),
+        makeup_outfits: (index.fullMakeupIdsByOutfitId.get(id) ?? []).flatMap(
+          (fullMakeupId) => {
+            const fullMakeup = index.makeupById.get(fullMakeupId)
+            if (!fullMakeup) return []
+
+            const components = sortItemsByCategory(
+              (index.makeupItemsById.get(fullMakeupId) ?? []).flatMap(
+                (componentId) => {
+                  const component = index.makeupById.get(componentId)
+                  return component ? [toSupabaseMakeup(component)] : []
+                }
+              )
+            )
+
+            return [
+              {
+                makeups: {
+                  ...toSupabaseMakeup(fullMakeup),
+                  components,
+                },
+              },
+            ]
+          }
+        ),
+      }
     } catch (e) {
       const normalizedError = toError(e, `Failed to fetch outfit ${id}`)
       error.value = normalizedError

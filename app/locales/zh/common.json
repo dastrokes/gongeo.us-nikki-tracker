@@ -804,7 +804,7 @@
     "dataCollection": {
       "title": "数据收集与存储",
       "content": "我们仅收集维持服务运行所必需的最小数据。我们不收集或存储任何个人信息或跟踪 Cookie。您提供的任何 Cookie 或 UID 仅用于与 Infold Games 服务器通信以验证您的账号并获取您的抽卡记录。",
-      "pullHistory": "您的抽卡记录在导入后会存储在您的浏览器中。如果需要云端备份或跨设备访问，您可以选择通过 Discord、Google 或邮箱登录，将数据同步至由 Supabase 提供的云端存储。您也可以选择贡献匿名统计数据，帮助生成社区统计数据。"
+      "pullHistory": "您的抽卡记录在导入后会存储在您的浏览器中。如果需要云端备份或跨设备访问，您可以选择通过 Discord、Google 或邮箱登录，将数据同步至由 Supabase 提供的云端存储。您也可以选择贡献关于四星和五星抽卡的匿名统计数据，帮助生成社区统计数据。"
     },
     "accountSecurity": {
       "title": "账号安全与数据保护",
@@ -975,7 +975,7 @@
     "source": {
       "event": "活动",
       "quest": "任务",
-      "merchant": "服裝商店",
+      "merchant": "服装商店",
       "miracrown": "奇迹之冠",
       "miracle": "奇迹套装",
       "home": "家园",

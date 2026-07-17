@@ -803,7 +803,7 @@
     },
     "dataCollection": {
       "title": "Datenerfassung und Datenspeicherung",
-      "content": "Wir sammeln nur Daten, die für den Betrieb unseres Dienstes absolut notwendig sind. Wir sammeln und speichern keine persönlichen Informationen oder Tracking-Cookies. Alle Cookies und UIDs, die Sie uns zur Verfügung stellen, werden ausschlißlich an die Server von Infold Games übertragen, um Ihr Konto zu verifizieren und Ihren Resonanz-Verlauf abzurufen.",
+      "content": "Wir sammeln nur Daten, die für den Betrieb unseres Dienstes absolut notwendig sind. Wir sammeln und speichern keine persönlichen Informationen oder Tracking-Cookies. Alle Cookies und UIDs, die Sie uns zur Verfügung stellen, werden ausschließlich an die Server von Infold Games übertragen, um Ihr Konto zu verifizieren und Ihren Resonanz-Verlauf abzurufen.",
       "pullHistory": "Ihr Resonanz-Verlauf wird lokal in Ihrem Browser gespeichert, sobald er importiert wurde. Für Cloud-Backups oder geräteübergreifenden Zugriff können Sie sich via Discord, Google, oder E-Mail anmelden, um Ihre Daten über den sicheren Cloudspeicher von Supabase zu synchronisieren. Sie können sich auch dazu entscheiden, anonymisierte Statistiken über Ihre 4-Sterne und 5-Sterne Resonanzen, zur Unterstützung der Erstellung von gemeinschaftsweiten Statistiken, beizutragen."
     },
     "accountSecurity": {
@@ -1151,14 +1151,14 @@
     },
     "notice_limited": "Statistiken sind nur von limitierten Bannern. Permanente Banner sind ausgeschlossen.",
     "luck": {
-      "avg_pulls": "Durschn. {count} Resonanzen",
+      "avg_pulls": "Durchschn. {count} Resonanzen",
       "top_percent": "Top {percent}%",
       "bottom_percent": "Unteres {percent}%"
     },
     "charts": {
       "luck_per_banner": "5★ Glück pro Banner",
       "luck_per_banner_type3": "4★ Glück pro Banner",
-      "five_star_distribution": "5★-Resonanz--Verteilung",
+      "five_star_distribution": "5★-Resonanz-Verteilung",
       "pull_timeline": "Resonanz-Aktivität",
       "cumulative_pulls": "Kumulativ",
       "frequency": "Häufigkeit"

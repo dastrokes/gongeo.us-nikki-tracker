@@ -139,7 +139,6 @@ const mapSuggestionRow = (
         ALL_ITEM_TAG_FEEDBACK_FIELDS.includes(field as ItemTagFeedbackField)
     ),
     status,
-    userId: row.user_id ?? null,
     createdAt,
     updatedAt,
     agreeCount: normalizeCount(row.agree_count),

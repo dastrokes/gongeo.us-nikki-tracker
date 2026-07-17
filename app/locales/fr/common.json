@@ -127,10 +127,10 @@
     "description": {
       "default": "Suivi de Résonance et compagnon de style d'Infinity Nikki pour l'historique des tirages, les statistiques de bannières, le suivi de garde-robe, la recherche d'objets et les idées de style.",
       "login": "Connectez-vous à gongeo.us à l'aide de votre adresse e-mail ou d'un compte tiers pour télécharger, sauvegarder et synchroniser vos données de résonance Infinity Nikki sur tous les appareils.",
-      "tracker": "Suivez et analysez l’historique de votre traction par résonance Infinity Nikki. Consultez tous les articles des bannières 5★ et 4★ et comparez votre chance avec d'autres stylistes.",
+      "tracker": "Suivez et analysez l’historique de vos tirages de résonance Infinity Nikki. Consultez tous les articles des bannières 5★ et 4★ et comparez votre chance avec d'autres stylistes.",
       "wardrobe": "Suivez localement vos objets, tenues, maquillages et capes de Momo Infinity Nikki, puis partagez la progression de votre collection.",
       "import": "Importez facilement votre historique d'extraction de résonance Infinity Nikki à partir du jeu, des données Whim-Log ou des fichiers de sauvegarde avec des guides détaillés étape par étape.",
-      "global": "Explorez les données mondiales de résonance Infinity Nikki, notamment la popularité des bannières, les taux d'extraction, les taux d'abandon d'articles et les statistiques d'attraction de la communauté.",
+      "global": "Explorez les données mondiales de résonance Infinity Nikki, notamment la popularité des bannières, les taux d'extraction, les taux d'obtention des objets et les statistiques de tirage de la communauté.",
       "global_banner": "Explorez les statistiques communautaires de tirages pour la bannière de résonance {name}, y compris l'ordre des articles et les distributions de tirages de complétion.",
       "banner": "Explorez l'historique des bannières de résonance Infinity Nikki avec les événements actuels, à venir et passés, les tenues en vedette, les taux de tirage, les durées et les détails des rediffusions.",
       "banner_detail": "Consultez les détails de la bannière de résonance {name}, y compris les tenues en vedette, les taux d'obtention des objets, les statistiques d'extraction, la durée, les informations d'évolution et le statut de réexécution.",
@@ -681,7 +681,7 @@
     },
     "outfit": {
       "level": {
-        "0": "Désarmé",
+        "0": "Non défini",
         "1": "Base",
         "2": "Évo 1",
         "3": "Évo 2",
@@ -797,7 +797,7 @@
     },
     "intellectualProperty": {
       "title": "Propriété intellectuelle",
-      "content": "gongeo.us est un projet de ventilateur indépendant. Toutes les marques commerciales, le contenu du jeu et la propriété intellectuelle liés à Infinity Nikki restent la propriété exclusive de Infold Games et de leurs concédants de licence.",
+      "content": "gongeo.us est un projet de fans indépendant. Toutes les marques commerciales, le contenu du jeu et la propriété intellectuelle liés à Infinity Nikki restent la propriété exclusive d'Infold Games et de ses concédants de licence.",
       "siteContent": "Sauf indication contraire explicite, tous les codes originaux, la conception du site et les actifs personnalisés de cette plate-forme sont la propriété de gongeo.us et sont protégés par les lois applicables sur le droit d'auteur et la propriété intellectuelle. La copie, la réutilisation ou la distribution non autorisée est interdite sans autorisation écrite.",
       "usage": "Cette plateforme est fournie « telle quelle » et destinée uniquement à un usage personnel et non commercial."
     },

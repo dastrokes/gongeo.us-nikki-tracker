@@ -112,7 +112,7 @@
     "item_detail": "Detalle del artículo",
     "tierlist": "Creador de listas de niveles",
     "compendium": "Compendio",
-    "vote": "Voto de pancarta",
+    "vote": "Voto de banner",
     "faq": "Preguntas frecuentes",
     "about": "Acerca de",
     "contact": "Contáctanos",
@@ -132,7 +132,7 @@
       "import": "Importe fácilmente su historial de extracción de resonancia Infinity Nikki desde el juego, datos de Whim-Log o archivos de respaldo con guías detalladas paso a paso.",
       "global": "Explore los datos globales de resonancia de Infinity Nikki, incluida la popularidad de los banners, las tasas de extracción, las tasas de caída de artículos y las estadísticas de extracción de la comunidad.",
       "global_banner": "Explora las estadísticas comunitarias de extracción del banner de resonancia {name}, incluida la distribución del orden de artículos y de extracciones para completar el set.",
-      "banner": "Explore el historial del banner de resonancia Infinity Nikki con eventos actuales, futuros y pasados, conjuntos destacados, tasas de atracción, duraciones y detalles de repetición.",
+      "banner": "Explore el historial del banner de resonancia Infinity Nikki con eventos actuales, futuros y pasados, conjuntos destacados, tasas de tirada, duraciones y detalles de repetición.",
       "banner_detail": "Vea los detalles del banner de resonancia {name}, incluidos los atuendos destacados, las tasas de aparición de artículos, las estadísticas de extracción, la duración, la información de evolución y el estado de repetición.",
       "timeline": "Explore una línea de tiempo interactiva de banners de resonancia Infinity Nikki, actualizaciones importantes, períodos de lanzamiento y reposiciones para realizar un seguimiento del historial de eventos de un vistazo.",
       "tierlist": "Cree y comparta una lista de niveles Infinity Nikki para banners, conjuntos y artículos con clasificación de arrastrar y soltar, filtros y exportación de imágenes sencilla.",
@@ -537,13 +537,13 @@
       "paste_from_clipboard": "Pegar desde el portapapeles",
       "select_all": "Seleccionar todo"
     },
-    "select_banners": "Seleccione los carteles que sacó",
+    "select_banners": "Seleccione los banners en los que tiró",
     "select_banners_desc": "No es necesario volver a importar",
     "banner_groups": {
       "quick_select": "Selección rápida",
-      "limited_banners": "Pancartas limitadas",
-      "permanent_banners": "pancarta permanente",
-      "individual": "pancartas individuales"
+      "limited_banners": "Banners limitados",
+      "permanent_banners": "Banner permanente",
+      "individual": "Banners individuales"
     },
     "messages": {
       "code_copied": "¡Código copiado al portapapeles!",
@@ -681,7 +681,7 @@
     },
     "outfit": {
       "level": {
-        "0": "Desarmado",
+        "0": "Sin definir",
         "1": "Base",
         "2": "Evo 1",
         "3": "Evo 2",
@@ -699,13 +699,13 @@
     },
     "charts": {
       "pulls_per_banner": "Tiradas por banner",
-      "five_star_distribution": "5★ Distribución de tirones",
+      "five_star_distribution": "Distribución de tiradas de 5★",
       "four_star_type2_distribution": "4★ Distribución (Banner 5★)",
       "four_star_type3_distribution": "4★ Distribución (Banner 4★)",
       "first_item_distribution": "Distribución del primer artículo",
-      "all_banners": "Todos los carteles",
-      "five_star_banners": "5★ pancartas",
-      "four_star_banners": "4★ pancartas",
+      "all_banners": "Todos los banners",
+      "five_star_banners": "Banners de 5★",
+      "four_star_banners": "Banners de 4★",
       "recent_only": "Reciente",
       "all_time": "Todo el tiempo",
       "first_item_distribution_tooltip": "Este banner incluye extracciones de más de 180 días que ya no están disponibles en el juego. Como resultado, los datos de distribución del primer artículo pueden ser inexactos."
@@ -775,7 +775,7 @@
       },
       "auto_update": {
         "question": "¿Mis datos de extracción se actualizarán automáticamente?",
-        "answer": "No, sus datos de extracción no se actualizarán automáticamente. El sitio web debe actualizarse para admitir nuevos carteles después de cada actualización del juego. Por razones de seguridad, su cookie caducará después de un tiempo, por lo que deberá volver a importar sus datos. Sin embargo, si almacena sus datos en su navegador, solo necesitará volver a importarlos para obtener nuevos banners."
+        "answer": "No, sus datos de extracción no se actualizarán automáticamente. El sitio web debe actualizarse para admitir nuevos banners después de cada actualización del juego. Por razones de seguridad, su cookie caducará después de un tiempo, por lo que deberá volver a importar sus datos. Sin embargo, si almacena sus datos en su navegador, solo necesitará volver a importarlos para obtener nuevos banners."
       },
       "export": {
         "question": "¿Cómo puedo exportar mi historial de extracción?",
@@ -826,7 +826,7 @@
     }
   },
   "vote": {
-    "description": "¡Ayúdanos a determinar los banners más populares de la versión 1.x! Vota por tus carteles favoritos en enfrentamientos cara a cara.",
+    "description": "¡Ayúdanos a determinar los banners más populares de la versión 1.x! Vota por tus banners favoritos en enfrentamientos cara a cara.",
     "howItWorks": "Elija su banner favorito y envíe su voto para ayudar a clasificar los banners más populares. Omita si no está seguro. Puedes votar hasta 50 veces cada 24 horas.",
     "abuseNotice": "Por favor, no abuse del sistema de votación. Se detectarán patrones de votación inusuales y esos votos podrán eliminarse.",
     "success": "¡Voto enviado exitosamente!",
@@ -982,9 +982,9 @@
       "cadenceborn": "Regalo del Dragocadencioso",
       "course": "Cursos",
       "journey": "Maraviviaje",
-      "limited": "Pancartas limitadas",
+      "limited": "Banners limitados",
       "pear": "Objeto premium de la tienda de Amipera",
-      "permanent": "pancarta permanente"
+      "permanent": "Banner permanente"
     }
   },
   "search_page": {

@@ -437,6 +437,11 @@
   {
     "field": "material",
     "itemType": null,
+    "value": "linen"
+  },
+  {
+    "field": "material",
+    "itemType": null,
     "value": "mesh"
   },
   {
@@ -622,7 +627,17 @@
   {
     "field": "ornament",
     "itemType": null,
+    "value": "armband"
+  },
+  {
+    "field": "ornament",
+    "itemType": null,
     "value": "badge"
+  },
+  {
+    "field": "ornament",
+    "itemType": null,
+    "value": "bangle"
   },
   {
     "field": "ornament",
@@ -737,6 +752,11 @@
   {
     "field": "ornament",
     "itemType": null,
+    "value": "claw"
+  },
+  {
+    "field": "ornament",
+    "itemType": null,
     "value": "clip"
   },
   {
@@ -762,12 +782,27 @@
   {
     "field": "ornament",
     "itemType": null,
+    "value": "crescent_moon"
+  },
+  {
+    "field": "ornament",
+    "itemType": null,
     "value": "cube"
   },
   {
     "field": "ornament",
     "itemType": null,
+    "value": "cuff"
+  },
+  {
+    "field": "ornament",
+    "itemType": null,
     "value": "dangle"
+  },
+  {
+    "field": "ornament",
+    "itemType": null,
+    "value": "ear_cuff"
   },
   {
     "field": "ornament",
@@ -877,6 +912,11 @@
   {
     "field": "ornament",
     "itemType": null,
+    "value": "knee_guard"
+  },
+  {
+    "field": "ornament",
+    "itemType": null,
     "value": "knot"
   },
   {
@@ -903,6 +943,16 @@
     "field": "ornament",
     "itemType": null,
     "value": "locket"
+  },
+  {
+    "field": "ornament",
+    "itemType": null,
+    "value": "lyre"
+  },
+  {
+    "field": "ornament",
+    "itemType": null,
+    "value": "measuring_tape"
   },
   {
     "field": "ornament",
@@ -943,6 +993,16 @@
     "field": "ornament",
     "itemType": null,
     "value": "pin"
+  },
+  {
+    "field": "ornament",
+    "itemType": null,
+    "value": "pinecone"
+  },
+  {
+    "field": "ornament",
+    "itemType": null,
+    "value": "pincushion"
   },
   {
     "field": "ornament",
@@ -1110,6 +1170,11 @@
     "value": "wing"
   },
   {
+    "field": "ornament",
+    "itemType": null,
+    "value": "yarn_ball"
+  },
+  {
     "field": "pant_shape",
     "itemType": null,
     "value": "flared"
@@ -1178,6 +1243,11 @@
     "field": "pattern",
     "itemType": null,
     "value": "chevron"
+  },
+  {
+    "field": "pattern",
+    "itemType": null,
+    "value": "circuit"
   },
   {
     "field": "pattern",
@@ -1702,11 +1772,6 @@
   {
     "field": "structure",
     "itemType": null,
-    "value": "fluffy"
-  },
-  {
-    "field": "structure",
-    "itemType": null,
     "value": "frayed"
   },
   {
@@ -1797,11 +1862,6 @@
   {
     "field": "structure",
     "itemType": null,
-    "value": "pinecone"
-  },
-  {
-    "field": "structure",
-    "itemType": null,
     "value": "platform"
   },
   {
@@ -1887,22 +1947,7 @@
   {
     "field": "structure",
     "itemType": null,
-    "value": "textured"
-  },
-  {
-    "field": "structure",
-    "itemType": null,
     "value": "tiered"
-  },
-  {
-    "field": "structure",
-    "itemType": null,
-    "value": "tinted"
-  },
-  {
-    "field": "structure",
-    "itemType": null,
-    "value": "translucent"
   },
   {
     "field": "structure",
@@ -1913,16 +1958,6 @@
     "field": "structure",
     "itemType": null,
     "value": "twisted"
-  },
-  {
-    "field": "structure",
-    "itemType": null,
-    "value": "vest"
-  },
-  {
-    "field": "structure",
-    "itemType": null,
-    "value": "visor"
   },
   {
     "field": "structure",
@@ -2937,6 +2972,11 @@
   {
     "field": "subcategory",
     "itemType": "faceDecorations",
+    "value": "disguise"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "faceDecorations",
     "value": "eye_mask"
   },
   {
@@ -3008,6 +3048,11 @@
     "field": "subcategory",
     "itemType": "hair",
     "value": "crown_braid"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "hair",
+    "value": "double_ring_bun"
   },
   {
     "field": "subcategory",
@@ -3262,6 +3307,11 @@
   {
     "field": "subcategory",
     "itemType": "handhelds",
+    "value": "scroll"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "handhelds",
     "value": "spellbook"
   },
   {
@@ -3278,6 +3328,11 @@
     "field": "subcategory",
     "itemType": "handhelds",
     "value": "tambourine"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "handhelds",
+    "value": "ukulele"
   },
   {
     "field": "subcategory",
@@ -3623,6 +3678,11 @@
     "field": "subcategory",
     "itemType": "shoes",
     "value": "penny_loafers"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "shoes",
+    "value": "platform_heels"
   },
   {
     "field": "subcategory",

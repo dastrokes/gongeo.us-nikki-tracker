@@ -1027,6 +1027,7 @@
     "display_options": "顯示選項",
     "copy_item_list": "複製部件清單",
     "invalid_code": "搭配碼無效。",
+    "try_again_later": "發生了一些問題，請稍後再試。",
     "not_found": "未找到搭配碼",
     "card_title": "星繪圖冊"
   },

@@ -1,5 +1,6 @@
 export const useMomo = () => {
   const { locale } = useI18n()
+  const catalogIndex = useCatalogIndex()
   const loading = ref(false)
   const error = ref<Error | null>(null)
 
@@ -8,10 +9,13 @@ export const useMomo = () => {
     error.value = null
 
     try {
-      const response = await $fetch.raw<MomoDetailEntry>(`/api/momo/${id}`, {
-        params: { lang: locale.value },
-        ignoreResponseError: true,
-      })
+      const [response] = await Promise.all([
+        $fetch.raw<MomoDetailApiResponse>(`/api/momo/${id}`, {
+          params: { lang: locale.value },
+          ignoreResponseError: true,
+        }),
+        catalogIndex.load(['momo', 'outfits', 'momoOutfits']),
+      ])
 
       if (isNotFoundResponse(response)) {
         return null
@@ -26,7 +30,24 @@ export const useMomo = () => {
         )
       }
 
-      return response._data ?? null
+      const detail = response._data
+      const index = catalogIndex.index.value
+      const catalogMomo = index?.momoById.get(id)
+      if (!detail || !index || !catalogMomo) {
+        throw new Error(`Catalog Momo ${id} is unavailable`)
+      }
+
+      return {
+        ...catalogMomo,
+        name: detail.name,
+        description: detail.description,
+        related_outfits: (index.outfitIdsByMomoId.get(id) ?? []).flatMap(
+          (outfitId) => {
+            const outfit = index.outfitById.get(outfitId)
+            return outfit ? [{ id: outfit.id, quality: outfit.quality }] : []
+          }
+        ),
+      }
     } catch (e) {
       const normalizedError = toError(e, `Failed to fetch Momo ${id}`)
       error.value = normalizedError

@@ -1,47 +1,26 @@
-interface ItemTranslation {
+type ItemTranslation = {
   description?: string | null
   language_code?: string | null
 }
 
-interface ItemData {
+type ItemAttributeRow = {
+  category?: string | null
+  subcategory?: string | null
+  metadata?: Record<string, unknown> | null
+}
+
+type ItemData = {
   id: number
-  quality: number
-  type: string
   props?: Array<number | string> | null
-  style_key?: string | null
-  tags?: Array<number | string> | null
-  obtain_type?: number | null
-  item_translations?: ItemTranslation[]
-  description?: string
-  item_attributes?:
-    | {
-        item_id?: number
-        item_type?: string
-        category?: string | null
-        subcategory?: string | null
-        metadata?: Record<string, unknown> | null
-      }
-    | Array<{
-        item_id?: number
-        item_type?: string
-        category?: string | null
-        subcategory?: string | null
-        metadata?: Record<string, unknown> | null
-      }>
-    | null
+  item_attributes?: ItemAttributeRow | ItemAttributeRow[] | null
   outfit_items?: Array<{
-    outfits: {
-      id: number
-      quality: number
+    outfit_id?: number | null
+    outfits?: {
       outfit_items?: Array<{
-        items: {
-          id: number
-          quality: number
-          type: string
-        }
-      }>
-    }
-  }>
+        item_id?: number | null
+      }> | null
+    } | null
+  }> | null
 }
 
 function compactItemSearchMetadata(
@@ -51,22 +30,10 @@ function compactItemSearchMetadata(
   if (!metadata) return null
 
   const compactedEntries = Object.entries(metadata).filter(([key, value]) => {
-    if (excludedKeys.includes(key)) {
-      return false
-    }
-
-    if (value === null || value === undefined) {
-      return false
-    }
-
-    if (Array.isArray(value)) {
-      return value.length > 0
-    }
-
-    if (typeof value === 'string') {
-      return value.trim().length > 0
-    }
-
+    if (excludedKeys.includes(key)) return false
+    if (value === null || value === undefined) return false
+    if (Array.isArray(value)) return value.length > 0
+    if (typeof value === 'string') return value.trim().length > 0
     return true
   })
 
@@ -75,42 +42,26 @@ function compactItemSearchMetadata(
     : null
 }
 
-/**
- * API endpoint for fetching a single item by ID
- * App-level caching enabled (30 days), Netlify edge caching enabled via Cache-Control header
- */
 export default defineCachedApiEventHandler(
   async (event) => {
     const id = Number(getRouterParam(event, 'id'))
-    const languageCode = resolveRequestLocale(event)
+    const languageCode = resolveRequestLocale(event) || 'en'
 
-    if (!id || isNaN(id)) {
+    if (!id || Number.isNaN(id)) {
       throw createInvalidIdError('item')
     }
 
     const supabase = useSupabaseDataClient()
 
     try {
-      // Build query conditionally to minimize data transfer
-      const selectParts = [
-        'id',
-        'quality',
-        'type',
-        'props',
-        'style_key',
-        'tags',
-        'obtain_type',
-      ]
-
-      selectParts.push('item_attributes(category,subcategory,metadata)')
-      selectParts.push(
-        'outfit_items(outfits(id,quality,outfit_items(items(id,quality,type))))'
-      )
-
-      const selectQuery = selectParts.join(',')
-
       const { data, error: supabaseError } = await withSupabaseRetry(() =>
-        supabase.from('items').select(selectQuery).eq('id', id).maybeSingle()
+        supabase
+          .from('items')
+          .select(
+            'id,props,item_attributes(category,subcategory,metadata),outfit_items(outfit_id,outfits(outfit_items(item_id)))'
+          )
+          .eq('id', id)
+          .maybeSingle()
       )
 
       if (supabaseError) {
@@ -124,48 +75,70 @@ export default defineCachedApiEventHandler(
         throw createNotFoundError('item')
       }
 
-      const itemData = data as ItemData
-      const searchAttributes = Array.isArray(itemData.item_attributes)
-        ? (itemData.item_attributes[0] ?? null)
-        : itemData.item_attributes
+      const item = data as ItemData
+      const rawAttributes = Array.isArray(item.item_attributes)
+        ? (item.item_attributes[0] ?? null)
+        : (item.item_attributes ?? null)
+      const itemAttributes = rawAttributes
+        ? {
+            category: rawAttributes.category ?? null,
+            subcategory: rawAttributes.subcategory ?? null,
+            metadata: compactItemSearchMetadata(
+              normalizeItemSearchMetadata(rawAttributes.metadata ?? {}),
+              ['item_id', 'item_type', 'slot', 'category', 'subcategory']
+            ),
+          }
+        : null
 
-      if (searchAttributes) {
-        itemData.item_attributes = {
-          category: searchAttributes.category ?? null,
-          subcategory: searchAttributes.subcategory ?? null,
-          metadata: compactItemSearchMetadata(
-            normalizeItemSearchMetadata(searchAttributes.metadata ?? {}),
-            ['item_id', 'item_type', 'slot', 'category', 'subcategory']
-          ),
-        }
-      }
-
-      if (languageCode) {
-        const translationCodes = Array.from(new Set([languageCode, 'en']))
-        const { data: translationRows, error: translationError } =
-          await withSupabaseRetry(() =>
-            supabase
-              .from('item_translations')
-              .select('description,language_code')
-              .eq('item_id', id)
-              .in('language_code', translationCodes)
-          )
-
-        if (translationError) {
-          throw translationError
-        }
-
-        const translations = (translationRows as ItemTranslation[] | null) ?? []
-        const translation = translations.find(
-          (t) => t.language_code === languageCode
+      const translationCodes = Array.from(new Set([languageCode, 'en']))
+      const { data: translationRows, error: translationError } =
+        await withSupabaseRetry(() =>
+          supabase
+            .from('item_translations')
+            .select('description,language_code')
+            .eq('item_id', id)
+            .in('language_code', translationCodes)
         )
-        const enTranslation = translations.find((t) => t.language_code === 'en')
 
-        itemData.description =
-          translation?.description || enTranslation?.description || ''
+      if (translationError) {
+        throw translationError
       }
 
-      return itemData
+      const translations = (translationRows as ItemTranslation[] | null) ?? []
+      const translation = translations.find(
+        (row) => row.language_code === languageCode
+      )
+      const enTranslation = translations.find(
+        (row) => row.language_code === 'en'
+      )
+
+      return {
+        id: item.id,
+        props: item.props,
+        description:
+          translation?.description || enTranslation?.description || '',
+        item_attributes: itemAttributes,
+        related_outfits: (item.outfit_items ?? [])
+          .flatMap((relation) => {
+            if (typeof relation.outfit_id !== 'number') return []
+
+            return [
+              {
+                id: relation.outfit_id,
+                item_ids: Array.from(
+                  new Set(
+                    (relation.outfits?.outfit_items ?? [])
+                      .map((row) => row.item_id)
+                      .filter(
+                        (itemId): itemId is number => typeof itemId === 'number'
+                      )
+                  )
+                ),
+              },
+            ]
+          })
+          .sort((left, right) => left.id - right.id),
+      } satisfies ItemDetailApiResponse
     } catch (error: unknown) {
       if (error && typeof error === 'object' && 'statusCode' in error) {
         throw error

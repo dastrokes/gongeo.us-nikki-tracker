@@ -18,6 +18,7 @@ export type ItemFilters = {
  */
 export const useSupabaseItems = () => {
   const { locale } = useI18n()
+  const catalogIndex = useCatalogIndex()
   const loading = ref(false)
   const error = ref<Error | null>(null)
   const gameVersionHeader = { [GAME_VERSION_HEADER]: getGameVersion() }
@@ -79,12 +80,15 @@ export const useSupabaseItems = () => {
     error.value = null
 
     try {
-      const response = await $fetch.raw<ItemWithOutfits>(`/api/items/${id}`, {
-        params: {
-          lang: locale.value,
-        },
-        ignoreResponseError: true,
-      })
+      const [response] = await Promise.all([
+        $fetch.raw<ItemDetailApiResponse>(`/api/items/${id}`, {
+          params: {
+            lang: locale.value,
+          },
+          ignoreResponseError: true,
+        }),
+        catalogIndex.load(['items', 'outfits']),
+      ])
 
       if (isNotFoundResponse(response)) {
         return null
@@ -99,7 +103,35 @@ export const useSupabaseItems = () => {
         )
       }
 
-      return response._data ?? null
+      const detail = response._data
+      const index = catalogIndex.index.value
+      const catalogItem = index?.itemById.get(id)
+      if (!detail || !index || !catalogItem) {
+        throw new Error(`Catalog item ${id} is unavailable`)
+      }
+
+      return {
+        ...toSupabaseItem(catalogItem),
+        props: detail.props,
+        description: detail.description,
+        item_attributes: detail.item_attributes,
+        outfit_items: detail.related_outfits.flatMap((relatedOutfit) => {
+          const outfit = index.outfitById.get(relatedOutfit.id)
+          if (!outfit) return []
+
+          return [
+            {
+              outfits: {
+                ...toSupabaseOutfit(outfit),
+                outfit_items: relatedOutfit.item_ids.flatMap((itemId) => {
+                  const item = index.itemById.get(itemId)
+                  return item ? [{ items: toSupabaseItem(item) }] : []
+                }),
+              },
+            },
+          ]
+        }),
+      }
     } catch (e) {
       const normalizedError = toError(e, `Failed to fetch item ${id}`)
       error.value = normalizedError
@@ -117,15 +149,20 @@ export const useSupabaseItems = () => {
     error.value = null
 
     try {
-      const response = await $fetch.raw<MakeupWithRelations>(
-        `/api/makeups/${id}`,
-        {
+      const [response] = await Promise.all([
+        $fetch.raw<MakeupDetailApiResponse>(`/api/makeups/${id}`, {
           params: {
             lang: locale.value,
           },
           ignoreResponseError: true,
-        }
-      )
+        }),
+        catalogIndex.load([
+          'makeups',
+          'outfits',
+          'makeupItems',
+          'makeupOutfits',
+        ]),
+      ])
 
       if (isNotFoundResponse(response)) {
         return null
@@ -140,7 +177,52 @@ export const useSupabaseItems = () => {
         )
       }
 
-      return response._data ?? null
+      const detail = response._data
+      const index = catalogIndex.index.value
+      const catalogMakeup = index?.makeupById.get(id)
+      if (!detail || !index || !catalogMakeup) {
+        throw new Error(`Catalog makeup ${id} is unavailable`)
+      }
+
+      const fullMakeupIds =
+        catalogMakeup.type === 'fullMakeup'
+          ? [id]
+          : (index.fullMakeupIdsByMakeupId.get(id) ?? [])
+      const componentIds = Array.from(
+        new Set(
+          fullMakeupIds.flatMap(
+            (fullMakeupId) => index.makeupItemsById.get(fullMakeupId) ?? []
+          )
+        )
+      )
+      const components = sortItemsByCategory(
+        componentIds.flatMap((componentId) => {
+          const component = index.makeupById.get(componentId)
+          return component ? [toSupabaseMakeup(component)] : []
+        })
+      )
+      const relatedOutfitIds = Array.from(
+        new Set(
+          fullMakeupIds.flatMap(
+            (fullMakeupId) =>
+              index.outfitIdsByFullMakeupId.get(fullMakeupId) ?? []
+          )
+        )
+      ).sort((left, right) => left - right)
+
+      return {
+        ...toSupabaseMakeup(catalogMakeup),
+        description: detail.description,
+        components,
+        variations:
+          catalogMakeup.type === 'fullMakeup'
+            ? []
+            : fullMakeupIds.map((fullMakeupId) => ({ id: fullMakeupId })),
+        related_outfits: relatedOutfitIds.flatMap((outfitId) => {
+          const outfit = index.outfitById.get(outfitId)
+          return outfit ? [toSupabaseOutfit(outfit)] : []
+        }),
+      }
     } catch (e) {
       const normalizedError = toError(e, `Failed to fetch makeup ${id}`)
       error.value = normalizedError

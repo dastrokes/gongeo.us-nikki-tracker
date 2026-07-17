@@ -1,23 +1,7 @@
-type MomoDetailRow = {
-  id: number
-  quality: number
-  obtain_type?: number | null
-  version?: string | null
-}
-
 type MomoDetailTranslation = {
   language_code?: string | null
   name?: string | null
   description?: string | null
-}
-
-type MomoOutfitRow = {
-  outfit_id?: number | null
-}
-
-type OutfitRow = {
-  id: number
-  quality: number | null
 }
 
 export default defineCachedApiEventHandler(
@@ -33,11 +17,7 @@ export default defineCachedApiEventHandler(
 
     try {
       const { data, error: supabaseError } = await withSupabaseRetry(() =>
-        supabase
-          .from('momo')
-          .select('id,quality,obtain_type,version')
-          .eq('id', id)
-          .single()
+        supabase.from('momo').select('id').eq('id', id).single()
       )
 
       if (supabaseError) {
@@ -45,45 +25,6 @@ export default defineCachedApiEventHandler(
           throw createNotFoundError('momo')
         }
         throw supabaseError
-      }
-
-      const momoData = data as MomoDetailRow
-      const { data: relationRows, error: relationError } =
-        await withSupabaseRetry(() =>
-          supabase.from('momo_outfits').select('outfit_id').eq('momo_id', id)
-        )
-
-      if (relationError) {
-        throw relationError
-      }
-
-      const relatedOutfitIds = Array.from(
-        new Set(
-          ((relationRows as MomoOutfitRow[] | null) ?? [])
-            .map((row) => row.outfit_id)
-            .filter(
-              (outfitId): outfitId is number => typeof outfitId === 'number'
-            )
-        )
-      )
-      let relatedOutfits: OutfitRow[] = []
-
-      if (relatedOutfitIds.length > 0) {
-        const { data: outfitRows, error: outfitError } =
-          await withSupabaseRetry(() =>
-            supabase
-              .from('outfits')
-              .select('id,quality')
-              .in('id', relatedOutfitIds)
-          )
-
-        if (outfitError) {
-          throw outfitError
-        }
-
-        relatedOutfits = ((outfitRows as OutfitRow[] | null) ?? []).sort(
-          (left, right) => left.id - right.id
-        )
       }
 
       const translationCodes = Array.from(new Set([languageCode, 'en']))
@@ -110,15 +51,11 @@ export default defineCachedApiEventHandler(
       )
 
       return {
-        ...momoData,
+        id: (data as { id: number }).id,
         name: translation?.name || enTranslation?.name || `Momo's Cloak ${id}`,
         description:
           translation?.description || enTranslation?.description || '',
-        related_outfits: relatedOutfits.map((outfit) => ({
-          id: outfit.id,
-          quality: outfit.quality ?? 5,
-        })),
-      }
+      } satisfies MomoDetailApiResponse
     } catch (error: unknown) {
       if (error && typeof error === 'object' && 'statusCode' in error) {
         throw error

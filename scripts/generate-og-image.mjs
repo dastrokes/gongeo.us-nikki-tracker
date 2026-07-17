@@ -1,5 +1,6 @@
 import { mkdir } from 'node:fs/promises'
 import { spawn } from 'node:child_process'
+import { createConnection } from 'node:net'
 import path from 'node:path'
 import process from 'node:process'
 import { fileURLToPath } from 'node:url'
@@ -21,28 +22,31 @@ const serverUrl = `http://${host}:${port}`
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 
-const canReachServer = async (url) => {
-  try {
-    const res = await fetch(url, {
+const canReachServer = () =>
+  new Promise((resolve) => {
+    const socket = createConnection({
+      host,
+      port,
       signal: AbortSignal.timeout(1000),
     })
 
-    return res.ok || res.status < 500
-  } catch {
-    return false
-  }
-}
+    socket.once('connect', () => {
+      socket.destroy()
+      resolve(true)
+    })
+    socket.once('error', () => resolve(false))
+  })
 
-const waitForServer = async (url, timeoutMs = 60_000) => {
+const waitForServer = async (timeoutMs = 60_000) => {
   const start = Date.now()
 
   while (Date.now() - start < timeoutMs) {
-    if (await canReachServer(url)) return
+    if (await canReachServer()) return
 
     await sleep(1000)
   }
 
-  throw new Error(`Timed out waiting for Nuxt dev server at ${url}`)
+  throw new Error(`Timed out waiting for Nuxt dev server at ${serverUrl}`)
 }
 
 const launchBrowser = async () => {
@@ -148,7 +152,7 @@ const captureOg = async (page, lang, outPath) => {
 
   await root.waitFor({
     state: 'visible',
-    timeout: 15_000,
+    timeout: 60_000,
   })
 
   await page.evaluate(async () => {
@@ -185,7 +189,7 @@ let devProcess = null
 let startedServer = false
 
 try {
-  const serverAlreadyRunning = await canReachServer(serverUrl)
+  const serverAlreadyRunning = await canReachServer()
 
   if (serverAlreadyRunning) {
     console.log(`Using existing server at ${serverUrl}`)
@@ -199,7 +203,7 @@ try {
       throw error
     })
 
-    await waitForServer(serverUrl)
+    await waitForServer()
   }
 
   browser = await launchBrowser()

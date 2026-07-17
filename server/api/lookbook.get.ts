@@ -107,7 +107,7 @@ const fetchLookbookPayload = async (code: string) => {
 }
 
 export default defineCachedApiEventHandler(
-  async (event): Promise<LookbookDecodeResponse> => {
+  async (event) => {
     const code = normalizeLookbookCode(getQuery(event).code)
 
     try {
@@ -138,7 +138,13 @@ export default defineCachedApiEventHandler(
 
       const message = toErrorMessage(error, 'Failed to decode lookbook')
       console.error(`Failed to decode lookbook ${code}: ${message}`)
-      throw createUpstreamUnavailableError('lookbook')
+      const upstreamError = createUpstreamUnavailableError('lookbook')
+      setResponseStatus(
+        event,
+        upstreamError.statusCode,
+        upstreamError.statusMessage
+      )
+      return upstreamError.toJSON()
     }
   },
   {

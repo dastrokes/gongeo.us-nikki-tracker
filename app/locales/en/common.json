@@ -1027,6 +1027,7 @@
     "display_options": "Display options",
     "copy_item_list": "Copy item list",
     "invalid_code": "Invalid code.",
+    "try_again_later": "Something went wrong. Please try again later.",
     "not_found": "Lookbook not found",
     "card_title": "Color Lookbook"
   },

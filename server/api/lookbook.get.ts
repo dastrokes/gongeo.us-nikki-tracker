@@ -110,7 +110,7 @@ const normalizeDyeSwatch = (
   return {
     targetGroupId,
     featureTag,
-    paletteId: colorGrid < 0 ? -1 : 1 + Math.floor(colorGrid / 8),
+    paletteId: colorGrid < 0 ? -1 : Math.ceil(colorGrid / 8),
     slot: colorGrid < 0 ? null : colorGrid % 8 || 8,
     color: hex,
   }

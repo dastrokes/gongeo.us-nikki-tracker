@@ -407,7 +407,7 @@
                                   {{ t('common.dye_palette') }}
                                 </span>
                                 <span>
-                                  {{ t('common.slot') }}
+                                  {{ t('lookbook.color_number') }}
                                 </span>
                                 <span>
                                   {{ t('common.color') }}
@@ -419,15 +419,13 @@
                                 :key="row.key"
                                 class="grid grid-cols-4 items-center gap-x-1 border-b border-black/5 py-0.5 text-center text-[0.625rem] leading-tight last:border-b-0 dark:border-white/5"
                               >
-                                <span
-                                  class="text-center font-semibold opacity-70"
-                                >
+                                <span class="font-medium tabular-nums">
                                   {{ row.areaLabel }}
                                 </span>
-                                <span class="text-center font-medium">
+                                <span class="font-medium tabular-nums">
                                   {{ row.paletteLabel }}
                                 </span>
-                                <span class="text-center opacity-70">
+                                <span class="font-medium tabular-nums">
                                   {{ row.slot ?? '—' }}
                                 </span>
                                 <span
@@ -790,16 +788,19 @@
   const getDyeArea = (
     itemId: number,
     targetGroupId: number,
-    featureTag: number
+    featureTag: number,
+    fallbackPrimaryCount: number
   ) => {
     const areaInfo =
       catalogIndex.itemDyes.value?.areas[String(getDyeCatalogItemId(itemId))]
-    if (!areaInfo || (featureTag !== 1 && featureTag !== 3)) {
-      return targetGroupId
-    }
+    if (featureTag !== 1 && featureTag !== 3) return targetGroupId
 
     let area =
-      featureTag === 3 ? areaInfo.primaryCount + targetGroupId : targetGroupId
+      featureTag === 3
+        ? (areaInfo?.primaryCount ?? fallbackPrimaryCount) + targetGroupId
+        : targetGroupId
+    if (!areaInfo) return area
+
     const customIndex = areaInfo.customOrder.indexOf(area)
     if (customIndex >= 0) return customIndex + 1
 
@@ -869,6 +870,12 @@
       const catalogItemId = getDyeCatalogItemId(item.itemId)
       const rawGroups = catalog.rawItems[String(catalogItemId)]
       const paletteOrder = rawGroups?.flat() ?? []
+      const primaryCount = Math.max(
+        0,
+        ...item.dyes
+          .filter((dye) => dye.featureTag === 1)
+          .map((dye) => dye.targetGroupId)
+      )
       const rows = item.dyes.map((dye, index) => {
         const paletteIndex = paletteOrder.indexOf(dye.paletteId)
         const paletteNumber = paletteIndex >= 0 ? paletteIndex + 1 : null
@@ -881,7 +888,12 @@
         return {
           key: `${dye.featureTag}:${dye.targetGroupId}:${index}`,
           areaLabel: String(
-            getDyeArea(item.itemId, dye.targetGroupId, dye.featureTag)
+            getDyeArea(
+              item.itemId,
+              dye.targetGroupId,
+              dye.featureTag,
+              primaryCount
+            )
           ),
           paletteLabel:
             paletteNumber === null

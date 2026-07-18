@@ -265,10 +265,22 @@ export const decodeItemDyesPayload = (payload: unknown): ItemDyeCatalog => {
     }
   }
 
+  const items = decodeItems(raw.items)
+  const rawItems = decodeItems(raw.raw)
+  for (const [itemId, groups] of Object.entries(items)) {
+    rawItems[itemId] ??= [
+      [5, 6, 3, 4, 2, 1],
+      groups[1],
+      groups[2],
+      groups[3],
+      groups[4],
+    ]
+  }
+
   return {
     palettes,
-    items: decodeItems(raw.items),
-    rawItems: decodeItems(raw.raw),
+    items,
+    rawItems,
     areas,
   }
 }

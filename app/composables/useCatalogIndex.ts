@@ -15,10 +15,12 @@ const CATALOG_INDEX_PARTS = [
 ] as const satisfies readonly CatalogIndexPartKey[]
 
 const catalogIndex = shallowRef<CatalogLocalIndex | null>(null)
+const itemDyes = shallowRef<ItemDyeCatalog | null>(null)
 const catalogManifest = shallowRef<CatalogIndexManifestResponse | null>(null)
 const catalogIndexStatus = ref<CatalogIndexStatus>('idle')
 const catalogIndexError = ref<Error | null>(null)
 let catalogManifestLoadPromise: Promise<void> | null = null
+let itemDyesLoadPromise: Promise<ItemDyeCatalog> | null = null
 const catalogPartLoadPromises = new Map<CatalogIndexPartKey, Promise<void>>()
 const catalogLoadedParts = new Set<CatalogIndexPartKey>()
 const catalogPartData: {
@@ -183,6 +185,27 @@ const loadCatalogPart = async (part: CatalogIndexPartKey) => {
   }
 }
 
+const loadItemDyes = async (): Promise<ItemDyeCatalog> => {
+  if (itemDyes.value) return itemDyes.value
+  if (itemDyesLoadPromise) return itemDyesLoadPromise
+
+  itemDyesLoadPromise = (async () => {
+    await loadCatalogManifest()
+    const file = catalogManifest.value?.files?.palettes
+    if (!file) throw new Error('Catalog palettes file is unavailable')
+
+    const decoded = decodeItemDyesPayload(await $fetch<unknown>(file.path))
+    itemDyes.value = decoded
+    return decoded
+  })()
+
+  try {
+    return await itemDyesLoadPromise
+  } finally {
+    itemDyesLoadPromise = null
+  }
+}
+
 const loadCatalogIndex = async (parts?: readonly CatalogIndexPartKey[]) => {
   const requestedParts = normalizeRequestedParts(parts)
   if (requestedParts.every((part) => catalogLoadedParts.has(part))) {
@@ -222,16 +245,20 @@ const loadCatalogEntity = async (
 
 export const useCatalogIndex = (): {
   index: ShallowRef<CatalogLocalIndex | null>
+  itemDyes: ShallowRef<ItemDyeCatalog | null>
   status: Ref<CatalogIndexStatus>
   error: Ref<Error | null>
   load: (parts?: readonly CatalogIndexPartKey[]) => Promise<void>
   loadEntity: (entity: 'item' | 'outfit' | 'makeup' | 'momo') => Promise<void>
+  loadItemDyes: () => Promise<ItemDyeCatalog>
   hasPart: (part: CatalogIndexPartKey) => boolean
 } => ({
   index: catalogIndex,
+  itemDyes,
   status: catalogIndexStatus,
   error: catalogIndexError,
   load: loadCatalogIndex,
   loadEntity: loadCatalogEntity,
+  loadItemDyes,
   hasPart: (part) => isCatalogIndexPart(part) && catalogLoadedParts.has(part),
 })

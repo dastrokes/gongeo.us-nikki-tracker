@@ -11,7 +11,11 @@
     "makeup": "Trucco",
     "makeups": "Trucchi",
     "variations": "Variazioni",
+    "dye_palette": "Palette di tintura",
+    "available_immediately": "Disponibile subito",
+    "complete_outfit": "Outfit completo",
     "slot": "Slot",
+    "color": "Colore",
     "pulls": "Pull",
     "total": "Totale",
     "export": "Esportare",
@@ -1029,7 +1033,12 @@
     "invalid_code": "Codice non valido.",
     "try_again_later": "Qualcosa è andato storto. Riprova più tardi.",
     "not_found": "Lookbook non trovato",
-    "card_title": "Lookbook a colori"
+    "card_title": "Lookbook a colori",
+    "area_heading": "Area",
+    "custom_colors": "Colori personalizzati",
+    "dye_available": "Tintura disponibile",
+    "dye_unavailable": "Tintura non disponibile",
+    "dye_availability_unknown": "Disponibilità della tintura sconosciuta"
   },
   "feedback": {
     "queue_title": "Revisione feedback",

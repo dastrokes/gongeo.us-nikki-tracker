@@ -10,9 +10,30 @@ type LookbookPayload = {
   clothes?: Array<{
     cloth?: {
       id?: unknown
+      outfit?: unknown
       cloth_type?: unknown
     }
+    diy?: unknown
   }>
+}
+
+type DyeColorPayload = {
+  rgba?: unknown
+  color_grid?: unknown
+}
+
+type NormalizedLookbookDyeSwatch = {
+  targetGroupId: number
+  featureTag: number
+  paletteId: number
+  slot: number | null
+  color: string
+}
+
+type NormalizedLookbookDyeItem = {
+  itemId: number
+  outfitId: number | null
+  dyes: NormalizedLookbookDyeSwatch[]
 }
 
 const normalizeLookbookCode = (value: unknown) => {
@@ -48,10 +69,88 @@ const isIgnoredLookbookCloth = (cloth: {
   )
 }
 
+const linearChannelToSrgb = (value: number) => {
+  const channel = Math.max(0, Math.min(1, value))
+  return channel <= 0.0031308
+    ? 12.92 * channel
+    : 1.055 * channel ** (1 / 2.4) - 0.055
+}
+
+const rgbaToHex = (value: unknown) => {
+  if (
+    !Array.isArray(value) ||
+    value.length < 3 ||
+    value.slice(0, 3).some((channel) => !Number.isFinite(Number(channel)))
+  ) {
+    return null
+  }
+
+  return `#${value
+    .slice(0, 3)
+    .map((channel) =>
+      Math.round(linearChannelToSrgb(Number(channel)) * 255)
+        .toString(16)
+        .padStart(2, '0')
+    )
+    .join('')}`
+}
+
+const normalizeDyeSwatch = (
+  value: unknown,
+  targetGroupId: number,
+  featureTag: number
+): NormalizedLookbookDyeSwatch | null => {
+  if (!value || typeof value !== 'object') return null
+
+  const color = value as DyeColorPayload
+  const colorGrid = Number(color.color_grid)
+  const hex = rgbaToHex(color.rgba)
+  if (!Number.isInteger(colorGrid) || !hex) return null
+
+  return {
+    targetGroupId,
+    featureTag,
+    paletteId: colorGrid < 0 ? -1 : 1 + Math.floor(colorGrid / 8),
+    slot: colorGrid < 0 ? null : colorGrid % 8 || 8,
+    color: hex,
+  }
+}
+
+const normalizeDyes = (value: unknown): NormalizedLookbookDyeSwatch[] => {
+  if (!value || typeof value !== 'object') return []
+
+  const outfitDye = (value as { outfit_dye?: unknown }).outfit_dye
+  if (!Array.isArray(outfitDye)) return []
+
+  return outfitDye
+    .map((entry) => {
+      if (!entry || typeof entry !== 'object') return null
+
+      const general = (entry as { General?: unknown }).General
+      const hair = (entry as { Hair?: unknown }).Hair
+      const dye = general ?? hair
+      if (!dye || typeof dye !== 'object') return null
+
+      const targetGroupId = Number(
+        (dye as { target_group_id?: unknown }).target_group_id
+      )
+      const featureTag = Number((dye as { feature_tag?: unknown }).feature_tag)
+      if (!Number.isInteger(targetGroupId) || !Number.isInteger(featureTag)) {
+        return null
+      }
+
+      const color = general
+        ? (dye as { color?: unknown }).color
+        : (dye as { color_0?: unknown }).color_0
+      return normalizeDyeSwatch(color, targetGroupId, featureTag)
+    })
+    .filter((dye): dye is NormalizedLookbookDyeSwatch => dye !== null)
+}
+
 const normalizeClothes = (value: unknown) => {
   if (!Array.isArray(value)) return null
 
-  const itemIds = value
+  const clothes = value
     .map((entry) => {
       if (!entry || typeof entry !== 'object') return null
 
@@ -60,11 +159,22 @@ const normalizeClothes = (value: unknown) => {
       if (isIgnoredLookbookCloth(cloth)) return null
 
       const id = Number((cloth as { id?: unknown }).id)
-      return Number.isSafeInteger(id) && id > 0 ? id : null
-    })
-    .filter((id): id is number => id !== null)
+      if (!Number.isSafeInteger(id) || id <= 0) return null
 
-  return itemIds
+      const outfitId = Number((cloth as { outfit?: unknown }).outfit)
+      return {
+        itemId: id,
+        outfitId:
+          Number.isSafeInteger(outfitId) && outfitId > 0 ? outfitId : null,
+        dyes: normalizeDyes((entry as { diy?: unknown }).diy),
+      }
+    })
+    .filter((cloth): cloth is NormalizedLookbookDyeItem => cloth !== null)
+
+  return {
+    wearingClothes: clothes.map((cloth) => cloth.itemId),
+    dyeItems: clothes.filter((cloth) => cloth.dyes.length > 0),
+  }
 }
 
 const parseLookbookPayload = (value: string) => {
@@ -112,15 +222,15 @@ export default defineCachedApiEventHandler(
 
     try {
       const payload = await fetchLookbookPayload(code)
-      const wearingClothes = parseLookbookPayload(payload)
+      const lookbook = parseLookbookPayload(payload)
 
-      if (!wearingClothes) {
+      if (!lookbook) {
         throw new Error('Lookbook upstream response is missing clothes')
       }
 
       return {
         code,
-        wearingClothes,
+        ...lookbook,
       }
     } catch (error: unknown) {
       if (error && typeof error === 'object' && 'statusCode' in error) {

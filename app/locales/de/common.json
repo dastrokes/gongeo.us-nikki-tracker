@@ -11,7 +11,11 @@
     "makeup": "Make-up",
     "makeups": "Make-ups",
     "variations": "Variationen",
+    "dye_palette": "Farbpalette",
+    "available_immediately": "Sofort verfügbar",
+    "complete_outfit": "Komplettes Outfit",
     "slot": "Slot",
+    "color": "Farbe",
     "pulls": "Resonanzen",
     "total": "Insgesamt",
     "export": "Exportieren",
@@ -1029,7 +1033,12 @@
     "invalid_code": "Ungültiger Code.",
     "try_again_later": "Etwas ist schiefgelaufen. Bitte versuche es später erneut.",
     "not_found": "Lookbook nicht gefunden",
-    "card_title": "Farb-Lookbook"
+    "card_title": "Farb-Lookbook",
+    "area_heading": "Bereich",
+    "custom_colors": "Benutzerdefinierte Farben",
+    "dye_available": "Färbung verfügbar",
+    "dye_unavailable": "Färbung nicht verfügbar",
+    "dye_availability_unknown": "Verfügbarkeit der Färbung unbekannt"
   },
   "feedback": {
     "queue_title": "Feedback-Prüfung",

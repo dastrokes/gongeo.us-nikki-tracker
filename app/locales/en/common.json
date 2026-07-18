@@ -11,7 +11,11 @@
     "makeup": "Makeup",
     "makeups": "Makeups",
     "variations": "Variations",
+    "dye_palette": "Dye Palette",
+    "available_immediately": "Available Immediately",
+    "complete_outfit": "Complete Outfit",
     "slot": "Slot",
+    "color": "Color",
     "pulls": "Pulls",
     "total": "Total",
     "export": "Export",
@@ -1029,7 +1033,12 @@
     "invalid_code": "Invalid code.",
     "try_again_later": "Something went wrong. Please try again later.",
     "not_found": "Lookbook not found",
-    "card_title": "Color Lookbook"
+    "card_title": "Color Lookbook",
+    "area_heading": "Area",
+    "custom_colors": "Custom Colors",
+    "dye_available": "Dye available",
+    "dye_unavailable": "Dye unavailable",
+    "dye_availability_unknown": "Dye availability unknown"
   },
   "feedback": {
     "queue_title": "Feedback Review",

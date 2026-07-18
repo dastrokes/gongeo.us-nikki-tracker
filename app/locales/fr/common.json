@@ -11,7 +11,11 @@
     "makeup": "Maquillage",
     "makeups": "Maquillages",
     "variations": "Variantes",
+    "dye_palette": "Palette de teinture",
+    "available_immediately": "Disponible immédiatement",
+    "complete_outfit": "Tenue complète",
     "slot": "Emplacement",
+    "color": "Couleur",
     "pulls": "Tirages",
     "total": "Total",
     "export": "Exporter",
@@ -1029,7 +1033,12 @@
     "invalid_code": "Code invalide.",
     "try_again_later": "Une erreur s’est produite. Veuillez réessayer plus tard.",
     "not_found": "Lookbook introuvable",
-    "card_title": "Atlas stellaire"
+    "card_title": "Atlas stellaire",
+    "area_heading": "Zone",
+    "custom_colors": "Couleurs personnalisées",
+    "dye_available": "Teinture disponible",
+    "dye_unavailable": "Teinture indisponible",
+    "dye_availability_unknown": "Disponibilité de la teinture inconnue"
   },
   "feedback": {
     "queue_title": "Révision des commentaires",

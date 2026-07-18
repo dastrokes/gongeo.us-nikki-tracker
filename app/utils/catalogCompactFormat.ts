@@ -180,6 +180,99 @@ const decodeCompactRelationRows = (rows: unknown[][]) =>
     ])
   )
 
+export const decodeItemDyesPayload = (payload: unknown): ItemDyeCatalog => {
+  if (!payload || typeof payload !== 'object' || Array.isArray(payload)) {
+    throw new Error('Catalog palettes payload is malformed')
+  }
+
+  const raw = payload as {
+    palettes?: unknown
+    items?: unknown
+    raw?: unknown
+    areas?: unknown
+  }
+  if (
+    !raw.palettes ||
+    typeof raw.palettes !== 'object' ||
+    Array.isArray(raw.palettes) ||
+    !Array.isArray(raw.items) ||
+    !Array.isArray(raw.raw) ||
+    !Array.isArray(raw.areas)
+  ) {
+    throw new Error('Catalog palettes payload is malformed')
+  }
+
+  const palettes: ItemDyeCatalog['palettes'] = {}
+  for (const [paletteId, palette] of Object.entries(raw.palettes)) {
+    const colors = (palette as { colors?: unknown })?.colors
+    if (
+      !Array.isArray(colors) ||
+      colors.length !== 8 ||
+      colors.some((color) => typeof color !== 'string')
+    ) {
+      throw new Error(`Catalog dye palette ${paletteId} is malformed`)
+    }
+    palettes[paletteId] = { colors }
+  }
+
+  const decodeItems = (rows: unknown[]) => {
+    const items: Record<string, ItemDyeUnlockGroups> = {}
+    for (const row of rows) {
+      if (!Array.isArray(row) || row.length !== 6) {
+        throw new Error('Catalog palettes row is malformed')
+      }
+
+      const ids = unpackCompactIds(row[0])
+      const groups = row.slice(1).map((group) => {
+        if (
+          !Array.isArray(group) ||
+          group.some((paletteId) => typeof paletteId !== 'number')
+        ) {
+          throw new Error('Catalog palettes group is malformed')
+        }
+        return group as number[]
+      }) as ItemDyeUnlockGroups
+
+      if (ids.length === 0) {
+        throw new Error('Catalog palettes row has no item IDs')
+      }
+      for (const id of ids) items[String(id)] = groups
+    }
+    return items
+  }
+
+  const areas: ItemDyeCatalog['areas'] = {}
+  for (const row of raw.areas) {
+    if (
+      !Array.isArray(row) ||
+      row.length !== 3 ||
+      typeof row[1] !== 'number' ||
+      !Array.isArray(row[2]) ||
+      row[2].some((area) => typeof area !== 'number')
+    ) {
+      throw new Error('Catalog dye area row is malformed')
+    }
+
+    const ids = unpackCompactIds(row[0])
+    if (ids.length === 0) {
+      throw new Error('Catalog dye area row has no item IDs')
+    }
+    for (const id of ids) {
+      areas[String(id)] = {
+        primaryCount: row[1],
+        customOrder: row[2] as number[],
+      }
+    }
+  }
+
+  return {
+    palettes,
+    items: decodeItems(raw.items),
+    rawItems: decodeItems(raw.raw),
+    areas,
+  }
+}
+
 export const decodeCatalogPartPayload = (
   part: CatalogIndexPartKey,
   payload: unknown

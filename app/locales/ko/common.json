@@ -11,7 +11,11 @@
     "makeup": "메이크업",
     "makeups": "메이크업",
     "variations": "변형",
+    "dye_palette": "염색 팔레트",
+    "available_immediately": "즉시 사용 가능",
+    "complete_outfit": "세트 의상 완성",
     "slot": "부위",
+    "color": "색상",
     "pulls": "뽑기",
     "total": "총",
     "export": "내보내기",
@@ -1029,7 +1033,12 @@
     "invalid_code": "잘못된 코드입니다.",
     "try_again_later": "문제가 발생했습니다. 나중에 다시 시도해 주세요.",
     "not_found": "룩북을 찾을 수 없습니다",
-    "card_title": "별그림 앨범"
+    "card_title": "별그림 앨범",
+    "area_heading": "구역",
+    "custom_colors": "사용자 지정 색상",
+    "dye_available": "염색 가능",
+    "dye_unavailable": "염색 불가",
+    "dye_availability_unknown": "염색 가능 여부 알 수 없음"
   },
   "feedback": {
     "queue_title": "피드백 심사",

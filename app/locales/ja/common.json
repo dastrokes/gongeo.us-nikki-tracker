@@ -11,7 +11,11 @@
     "makeup": "メイク",
     "makeups": "メイク",
     "variations": "バリエーション",
+    "dye_palette": "染色パレット",
+    "available_immediately": "すぐに利用可能",
+    "complete_outfit": "コーデ一式",
     "slot": "部位",
+    "color": "色",
     "pulls": "共鳴",
     "total": "合計",
     "export": "エクスポート",
@@ -1029,7 +1033,12 @@
     "invalid_code": "無効なコードです。",
     "try_again_later": "問題が発生しました。後でもう一度お試しください。",
     "not_found": "ルックブックが見つかりません",
-    "card_title": "星彩の画集"
+    "card_title": "星彩の画集",
+    "area_heading": "エリア",
+    "custom_colors": "カスタムカラー",
+    "dye_available": "染色可能",
+    "dye_unavailable": "染色不可",
+    "dye_availability_unknown": "染色可否不明"
   },
   "feedback": {
     "queue_title": "フィードバック審査",

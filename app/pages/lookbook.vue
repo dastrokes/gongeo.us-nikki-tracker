@@ -202,7 +202,7 @@
             ? t('error.404')
             : errorType === 'upstream_unavailable'
               ? t('lookbook.try_again_later')
-            : t('lookbook.invalid_code')
+              : t('lookbook.invalid_code')
         "
       >
         <template #icon>
@@ -307,7 +307,7 @@
         <n-card
           v-if="hasDecodedLookbook"
           size="small"
-          class="mx-auto w-full max-w-lg overflow-visible! rounded-2xl"
+          class="mx-auto w-full max-w-2xl overflow-visible! rounded-2xl"
           content-class="!overflow-visible p-0"
         >
           <div
@@ -370,16 +370,94 @@
                           :name="entry.name"
                           :to="getItemEntityDetailPath(entry.id)"
                           :image-mode="showPreviewImages ? 'preview' : 'icon'"
-                          :tooltip-meta="
-                            wardrobeInitialized
-                              ? getLookbookOwnershipMarker(
-                                  getLookbookWardrobeStatus(entry)
-                                ).label
-                              : undefined
-                          "
                           size="sm"
-                          class="w-full"
-                        />
+                        >
+                          <template #tooltip>
+                            <div
+                              class="w-52 max-w-[calc(100vw-2rem)] text-left"
+                            >
+                              <div class="text-center">
+                                <div
+                                  class="line-clamp-2 text-xs leading-tight font-bold"
+                                >
+                                  {{ entry.name }}
+                                </div>
+                                <div
+                                  class="mt-0.5 text-[10px] font-medium opacity-80 sm:text-xs"
+                                >
+                                  {{ t(`type.${entry.type}`) }}
+                                </div>
+                                <div
+                                  v-if="wardrobeInitialized && showOwnership"
+                                  class="mt-1 text-[10px] font-semibold opacity-90 sm:text-xs"
+                                >
+                                  {{
+                                    getLookbookOwnershipMarker(
+                                      getLookbookWardrobeStatus(entry)
+                                    ).label
+                                  }}
+                                </div>
+                              </div>
+                              <div
+                                v-if="displayDyeByItemId.has(entry.id)"
+                                class="mt-1.5 grid grid-cols-4 items-center gap-x-1 border-b border-black/10 pb-1 text-center text-[0.5625rem] leading-none font-semibold opacity-60 dark:border-white/10"
+                              >
+                                <span>{{ t('lookbook.area_heading') }}</span>
+                                <span>
+                                  {{ t('common.dye_palette') }}
+                                </span>
+                                <span>
+                                  {{ t('common.slot') }}
+                                </span>
+                                <span>
+                                  {{ t('common.color') }}
+                                </span>
+                              </div>
+                              <div
+                                v-for="row in displayDyeByItemId.get(entry.id)
+                                  ?.rows ?? []"
+                                :key="row.key"
+                                class="grid grid-cols-4 items-center gap-x-1 border-b border-black/5 py-0.5 text-center text-[0.625rem] leading-tight last:border-b-0 dark:border-white/5"
+                              >
+                                <span
+                                  class="text-center font-semibold opacity-70"
+                                >
+                                  {{ row.areaLabel }}
+                                </span>
+                                <span class="text-center font-medium">
+                                  {{ row.paletteLabel }}
+                                </span>
+                                <span class="text-center opacity-70">
+                                  {{ row.slot ?? '—' }}
+                                </span>
+                                <span
+                                  class="relative flex h-4 w-4 items-center justify-center justify-self-center rounded-full ring-1 ring-black/10 dark:ring-white/15"
+                                  :style="{ backgroundColor: row.color }"
+                                >
+                                  <n-icon
+                                    v-if="
+                                      showOwnership &&
+                                      wardrobeInitialized &&
+                                      getLookbookWardrobeStatus(entry) ===
+                                        'item-owned' &&
+                                      row.available === false
+                                    "
+                                    :size="8"
+                                    class="text-white drop-shadow-sm"
+                                    :aria-label="
+                                      getDyeAvailabilityLabel(row.available)
+                                    "
+                                    :title="
+                                      getDyeAvailabilityLabel(row.available)
+                                    "
+                                  >
+                                    <Lock />
+                                  </n-icon>
+                                </span>
+                              </div>
+                            </div>
+                          </template>
+                        </ItemCard>
                         <div
                           v-if="wardrobeInitialized && showOwnership"
                           class="pointer-events-none absolute right-1 bottom-1 z-10"
@@ -468,6 +546,7 @@
     ExclamationCircle,
     ExternalLinkAlt,
     FileImageRegular,
+    Lock,
     Th,
     TimesCircle,
   } from '@vicons/fa'
@@ -491,6 +570,20 @@
   type LookbookDisplaySection = {
     key: string
     items: LookbookDisplayItem[]
+  }
+
+  type LookbookDyeDisplayRow = {
+    key: string
+    areaLabel: string
+    paletteLabel: string
+    slot: number | null
+    color: string
+    available: boolean | null
+  }
+
+  type LookbookDyeDisplayItem = {
+    itemId: number
+    rows: LookbookDyeDisplayRow[]
   }
 
   type LookbookWardrobeStatus = 'item-owned' | 'variant-owned' | 'missing'
@@ -520,15 +613,16 @@
   const lookbookInput = ref('')
   const decodedCode = ref('')
   const wearingClothes = ref<number[]>([])
+  const dyeItems = ref<LookbookDyeItem[]>([])
   const loading = ref(false)
   const exporting = ref(false)
   const hideItemInfo = ref(false)
   const showPreviewImages = ref(false)
   const showOwnership = ref(false)
   const error = ref('')
-  const errorType = ref<
-    'code_not_found' | 'upstream_unavailable' | 'generic'
-  >('generic')
+  const errorType = ref<'code_not_found' | 'upstream_unavailable' | 'generic'>(
+    'generic'
+  )
   const shareCardRef = ref<HTMLElement | null>(null)
 
   const catalogLoading = computed(() => catalogIndex.status.value === 'loading')
@@ -684,6 +778,139 @@
     }
   }
 
+  const getDyeCatalogItemId = (itemId: number) => {
+    const catalog = catalogIndex.itemDyes.value
+    if (catalog?.rawItems[String(itemId)]) return itemId
+
+    const rootId =
+      catalogIndex.index.value?.itemById.get(itemId)?.catalogGroupRootId
+    return rootId && catalog?.rawItems[String(rootId)] ? rootId : itemId
+  }
+
+  const getDyeArea = (
+    itemId: number,
+    targetGroupId: number,
+    featureTag: number
+  ) => {
+    const areaInfo =
+      catalogIndex.itemDyes.value?.areas[String(getDyeCatalogItemId(itemId))]
+    if (!areaInfo || (featureTag !== 1 && featureTag !== 3)) {
+      return targetGroupId
+    }
+
+    let area =
+      featureTag === 3 ? areaInfo.primaryCount + targetGroupId : targetGroupId
+    const customIndex = areaInfo.customOrder.indexOf(area)
+    if (customIndex >= 0) return customIndex + 1
+
+    area += areaInfo.customOrder.filter((value) => value > area).length
+    return area
+  }
+
+  const getDyeAvailability = (
+    itemId: number,
+    outfitId: number | null,
+    unlockGroup: number | null
+  ): boolean | null => {
+    if (unlockGroup === null) return null
+
+    const familyIds = getCatalogGroupIds(
+      catalogIndex.index.value,
+      'item',
+      itemId
+    )
+    const ownedTypes = new Set(
+      familyIds
+        .filter((id) => isItemOwned(id))
+        .map((id) =>
+          getItemVariantType(
+            id,
+            catalogIndex.index.value?.itemById.get(id)?.catalogGroupRootId
+          )
+        )
+    )
+
+    if (unlockGroup === 0) return ownedTypes.size > 0
+    if (unlockGroup === 1) {
+      if (!outfitId) return false
+      const baseOutfitId = Number(getBaseOutfitId(String(outfitId)))
+      const outfitItems =
+        catalogIndex.index.value?.outfitItemsById.get(baseOutfitId) ?? []
+      return (
+        outfitItems.length > 0 && outfitItems.every((id) => isItemOwned(id))
+      )
+    }
+    if (unlockGroup === 2) return ownedTypes.has('glowup')
+    if (unlockGroup === 3) {
+      return (
+        ownedTypes.has('evo1') ||
+        ownedTypes.has('evo2') ||
+        ownedTypes.has('evo3')
+      )
+    }
+    if (unlockGroup === 4) {
+      return ownedTypes.has('evo2') || ownedTypes.has('evo3')
+    }
+    return ownedTypes.has('evo3')
+  }
+
+  const getDyeAvailabilityLabel = (available: boolean | null) =>
+    available === true
+      ? t('lookbook.dye_available')
+      : available === false
+        ? t('lookbook.dye_unavailable')
+        : t('lookbook.dye_availability_unknown')
+
+  const displayDyeItems = computed<LookbookDyeDisplayItem[]>(() => {
+    const catalog = catalogIndex.itemDyes.value
+    if (!catalog) return []
+
+    return dyeItems.value.map((item) => {
+      const catalogItemId = getDyeCatalogItemId(item.itemId)
+      const rawGroups = catalog.rawItems[String(catalogItemId)]
+      const paletteOrder = rawGroups?.flat() ?? []
+      const rows = item.dyes.map((dye, index) => {
+        const paletteIndex = paletteOrder.indexOf(dye.paletteId)
+        const paletteNumber = paletteIndex >= 0 ? paletteIndex + 1 : null
+        const unlockGroup =
+          dye.paletteId < 0
+            ? 5
+            : (rawGroups?.findIndex((group) => group.includes(dye.paletteId)) ??
+              -1)
+        const normalizedUnlockGroup = unlockGroup >= 0 ? unlockGroup : null
+        return {
+          key: `${dye.featureTag}:${dye.targetGroupId}:${index}`,
+          areaLabel: String(
+            getDyeArea(item.itemId, dye.targetGroupId, dye.featureTag)
+          ),
+          paletteLabel:
+            paletteNumber === null
+              ? '—'
+              : String(paletteNumber).padStart(2, '0'),
+          slot: dye.slot,
+          color: dye.color,
+          available: getDyeAvailability(
+            item.itemId,
+            item.outfitId,
+            normalizedUnlockGroup
+          ),
+        }
+      })
+
+      return {
+        itemId: item.itemId,
+        rows: rows.sort(
+          (left, right) => Number(left.areaLabel) - Number(right.areaLabel)
+        ),
+      }
+    })
+  })
+
+  const displayDyeByItemId = computed(
+    () =>
+      new Map(displayDyeItems.value.map((item) => [item.itemId, item] as const))
+  )
+
   const sortedDisplayItems = computed(() =>
     sortItemsByCategory([...displayItems.value])
   )
@@ -768,13 +995,17 @@
     errorType.value = 'generic'
 
     try {
-      await catalogIndex.load(['items', 'makeups'])
+      await Promise.all([
+        catalogIndex.load(['items', 'outfitItems', 'makeups']),
+        catalogIndex.loadItemDyes().catch(() => undefined),
+      ])
       const response = await $fetch<LookbookDecodeResponse>('/api/lookbook', {
         query: { code },
       })
 
       decodedCode.value = response.code
       wearingClothes.value = response.wearingClothes
+      dyeItems.value = response.dyeItems
       lookbookInput.value = decodedCode.value
 
       if (options.syncRoute ?? true) {
@@ -800,6 +1031,7 @@
       error.value = t('common.error')
       decodedCode.value = ''
       wearingClothes.value = []
+      dyeItems.value = []
     } finally {
       loading.value = false
     }
@@ -939,6 +1171,7 @@
         lookbookInput.value = ''
         decodedCode.value = ''
         wearingClothes.value = []
+        dyeItems.value = []
         error.value = ''
         errorType.value = 'generic'
         return

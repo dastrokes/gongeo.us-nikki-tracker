@@ -11,7 +11,11 @@
     "makeup": "妝容",
     "makeups": "妝容",
     "variations": "變化",
+    "dye_palette": "染色盤",
+    "available_immediately": "立即可用",
+    "complete_outfit": "套裝集齊",
     "slot": "部位",
+    "color": "顏色",
     "pulls": "抽",
     "total": "總數",
     "export": "匯出",
@@ -1029,7 +1033,12 @@
     "invalid_code": "搭配碼無效。",
     "try_again_later": "發生了一些問題，請稍後再試。",
     "not_found": "未找到搭配碼",
-    "card_title": "星繪圖冊"
+    "card_title": "星繪圖冊",
+    "area_heading": "區域",
+    "custom_colors": "自訂顏色",
+    "dye_available": "染色可用",
+    "dye_unavailable": "染色不可用",
+    "dye_availability_unknown": "染色可用狀態未知"
   },
   "feedback": {
     "queue_title": "回饋審核",

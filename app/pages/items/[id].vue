@@ -313,6 +313,60 @@
               </div>
             </div>
 
+            <n-collapse v-if="itemDyeGroups.length > 0">
+              <n-collapse-item
+                :title="`${t('common.dye_palette')} (${itemDyePaletteCount})`"
+                name="dye-information"
+              >
+                <div class="space-y-4">
+                  <section
+                    v-for="group in itemDyeGroups"
+                    :key="group.labelKey"
+                    class="space-y-2"
+                  >
+                    <h3
+                      class="text-xs font-semibold tracking-wide uppercase opacity-65"
+                    >
+                      {{ t(group.labelKey) }}
+                    </h3>
+                    <div
+                      class="grid grid-cols-[repeat(auto-fill,minmax(14rem,1fr))] gap-3"
+                    >
+                      <div
+                        v-for="palette in group.palettes"
+                        :key="palette.id"
+                        role="group"
+                        :aria-label="palette.name"
+                        class="rounded-lg border border-slate-200/80 bg-slate-50/70 p-2.5 dark:border-slate-700/80 dark:bg-slate-900/50"
+                      >
+                        <div class="mb-2 flex min-w-0 items-baseline gap-2">
+                          <span
+                            class="shrink-0 text-base font-semibold tabular-nums opacity-45"
+                          >
+                            {{ String(palette.order).padStart(2, '0') }}
+                          </span>
+                          <span
+                            class="min-w-0 text-sm leading-snug font-semibold"
+                          >
+                            {{ palette.name }}
+                          </span>
+                        </div>
+                        <div class="mx-auto grid w-fit grid-cols-4 gap-1.5">
+                          <span
+                            v-for="(color, colorIndex) in palette.colors"
+                            :key="`${palette.id}-${colorIndex}`"
+                            aria-hidden="true"
+                            class="size-9 rounded-full border border-black/10 shadow-sm sm:size-10 dark:border-white/15"
+                            :style="{ backgroundColor: color }"
+                          ></span>
+                        </div>
+                      </div>
+                    </div>
+                  </section>
+                </div>
+              </n-collapse-item>
+            </n-collapse>
+
             <div>
               <div
                 v-for="outfitSet in outfitItemSets"
@@ -689,6 +743,14 @@
     outfitItems: DetailItem[]
   }
 
+  const itemDyeGroupLabelKeys = [
+    'common.available_immediately',
+    'common.complete_outfit',
+    'banner.outfit.level.glow',
+    'banner.outfit.level.2',
+    'banner.outfit.level.3',
+  ] as const
+
   const { t, te, locale } = useI18n()
   const message = useMessage()
   const localePath = useLocalePath()
@@ -707,6 +769,7 @@
   // Composable
   const { fetchItemById } = useSupabaseItems()
   const catalogIndex = useCatalogIndex()
+  const itemDyeCatalog = catalogIndex.itemDyes
   const { getImageSrc } = imageProvider()
   const showFeedbackModal = ref(false)
   const showExpandedCurrentTags = ref(false)
@@ -721,6 +784,7 @@
 
   if (import.meta.client) {
     void catalogIndex.load(['items']).catch(() => undefined)
+    void catalogIndex.loadItemDyes().catch(() => undefined)
   }
 
   const itemVariationIds = computed(
@@ -735,6 +799,46 @@
       catalogIndex.index.value?.itemById.get(id)?.catalogGroupRootId
     )
   const itemKey = computed(() => `item-${itemId.value}-${locale.value}`)
+
+  const itemDyeGroups = computed(() => {
+    const dyeCatalog = itemDyeCatalog.value
+    if (!dyeCatalog) return []
+
+    const rootId = catalogIndex.index.value?.itemById.get(
+      itemId.value
+    )?.catalogGroupRootId
+    const groups =
+      dyeCatalog.items[String(itemId.value)] ??
+      (rootId ? dyeCatalog.items[String(rootId)] : undefined)
+    if (!groups) return []
+
+    let paletteOrder = 0
+    return groups.flatMap((paletteIds, groupIndex) => {
+      const labelKey = itemDyeGroupLabelKeys[groupIndex]
+      if (!labelKey || paletteIds.length === 0) return []
+
+      const palettes = paletteIds.flatMap((paletteId) => {
+        const palette = dyeCatalog.palettes[String(paletteId)]
+        if (!palette) return []
+        return [
+          {
+            id: paletteId,
+            order: ++paletteOrder,
+            colors: palette.colors,
+            name: t(`dye.palette.${paletteId}`),
+          },
+        ]
+      })
+
+      return palettes.length > 0 ? [{ labelKey, palettes }] : []
+    })
+  })
+  const itemDyePaletteCount = computed(() =>
+    itemDyeGroups.value.reduce(
+      (total, group) => total + group.palettes.length,
+      0
+    )
+  )
 
   const {
     data: item,

@@ -11,7 +11,11 @@
     "makeup": "Maquillaje",
     "makeups": "Maquillajes",
     "variations": "Variaciones",
+    "dye_palette": "Paleta de tintes",
+    "available_immediately": "Disponible de inmediato",
+    "complete_outfit": "Atuendo completo",
     "slot": "Ranura",
+    "color": "Color",
     "pulls": "Tiradas",
     "total": "Total",
     "export": "Exportar",
@@ -1029,7 +1033,12 @@
     "invalid_code": "Código inválido.",
     "try_again_later": "Algo salió mal. Inténtalo de nuevo más tarde.",
     "not_found": "Lookbook no encontrado",
-    "card_title": "Atlas estelar"
+    "card_title": "Atlas estelar",
+    "area_heading": "Zona",
+    "custom_colors": "Colores personalizados",
+    "dye_available": "Tinte disponible",
+    "dye_unavailable": "Tinte no disponible",
+    "dye_availability_unknown": "Disponibilidad del tinte desconocida"
   },
   "feedback": {
     "queue_title": "Revisión de comentarios",

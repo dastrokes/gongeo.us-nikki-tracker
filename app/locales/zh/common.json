@@ -11,7 +11,11 @@
     "makeup": "妆容",
     "makeups": "妆容",
     "variations": "变化",
+    "dye_palette": "染色盘",
+    "available_immediately": "立即可用",
+    "complete_outfit": "套装集齐",
     "slot": "部位",
+    "color": "颜色",
     "pulls": "抽",
     "total": "总数",
     "export": "导出",
@@ -1029,7 +1033,12 @@
     "invalid_code": "搭配码无效。",
     "try_again_later": "出了点问题，请稍后重试。",
     "not_found": "未找到搭配码",
-    "card_title": "星绘图册"
+    "card_title": "星绘图册",
+    "area_heading": "区域",
+    "custom_colors": "自定义颜色",
+    "dye_available": "染色可用",
+    "dye_unavailable": "染色不可用",
+    "dye_availability_unknown": "染色可用状态未知"
   },
   "feedback": {
     "queue_title": "反馈队列",

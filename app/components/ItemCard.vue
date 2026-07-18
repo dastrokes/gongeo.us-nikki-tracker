@@ -1,49 +1,71 @@
 <template>
-  <NuxtLinkLocale
-    :to="cardLocation"
-    class="group relative block rounded-md transition-all duration-300 ease-out hover:z-10 hover:scale-[1.05] focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:ring-offset-2 focus-visible:outline-hidden dark:focus-visible:ring-offset-slate-950"
-    @click="$emit('click', itemId)"
-  >
-    <n-card
-      :class="[getCardGradient(quality), cardFrameClass, getSizeClass(size)]"
-      :bordered="false"
-      size="small"
-      :content-class="cardContentClass"
+  <div>
+    <n-popover
+      trigger="manual"
+      placement="top"
+      :show="popoverOpen"
+      :show-arrow="false"
+      :flip="true"
+      :z-index="100"
+      :theme-overrides="popoverThemeOverrides"
+      to="body"
     >
-      <NuxtImg
-        :src="cardImageSrc"
-        :alt="itemName"
-        :class="cardImageClass"
-        :style="imageStyle"
-        :preset="imagePreset"
-        fit="cover"
-        loading="lazy"
-        placeholder="/images/loading.webp"
-        :sizes="imageSizes"
-      />
-    </n-card>
-    <div
-      class="pointer-events-none absolute inset-x-0 bottom-full z-20 mb-2 flex translate-y-2 scale-90 justify-center opacity-0 transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-focus-within:translate-y-0 group-focus-within:scale-100 group-focus-within:opacity-100 group-hover:translate-y-0 group-hover:scale-100 group-hover:opacity-100"
-    >
-      <div
-        :style="popoverStyle"
-        class="relative min-h-12 w-32 rounded-xl p-2 text-center ring-1 ring-black/5 backdrop-blur-md sm:w-36 dark:ring-white/10"
-      >
-        <div class="line-clamp-2 text-xs leading-tight font-bold">
-          {{ itemName }}
-        </div>
-        <div class="mt-0.5 text-[10px] font-medium opacity-80 sm:text-xs">
-          {{ $t(`type.${itemType}`) }}
-        </div>
-        <div
-          v-if="tooltipMeta"
-          class="mt-1 text-[10px] font-semibold opacity-90 sm:text-xs"
+      <template #trigger>
+        <NuxtLinkLocale
+          :to="cardLocation"
+          class="group relative block rounded-md transition-all duration-300 ease-out hover:z-10 hover:scale-[1.05] focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:ring-offset-2 focus-visible:outline-hidden dark:focus-visible:ring-offset-slate-950"
+          @click="$emit('click', itemId)"
+          @mouseenter="popoverOpen = true"
+          @mouseleave="popoverOpen = false"
+          @focus="popoverOpen = true"
+          @blur="popoverOpen = false"
         >
-          {{ tooltipMeta }}
-        </div>
+          <n-card
+            :class="[
+              getCardGradient(quality),
+              cardFrameClass,
+              getSizeClass(size),
+            ]"
+            :bordered="false"
+            size="small"
+            :content-class="cardContentClass"
+          >
+            <NuxtImg
+              :src="cardImageSrc"
+              :alt="itemName"
+              :class="cardImageClass"
+              :style="imageStyle"
+              :preset="imagePreset"
+              fit="cover"
+              loading="lazy"
+              placeholder="/images/loading.webp"
+              :sizes="imageSizes"
+            />
+          </n-card>
+        </NuxtLinkLocale>
+      </template>
+
+      <div
+        class="pointer-events-none"
+        :class="$slots.tooltip ? '' : 'w-36 text-center'"
+      >
+        <slot name="tooltip">
+          <div class="line-clamp-2 text-xs leading-tight font-bold">
+            {{ itemName }}
+          </div>
+          <div class="mt-0.5 text-[10px] font-medium opacity-80 sm:text-xs">
+            {{ $t(`type.${itemType}`) }}
+          </div>
+          <div
+            v-if="tooltipMeta"
+            class="mt-0.5 text-[10px] font-medium opacity-80 sm:text-xs"
+          >
+            {{ tooltipMeta }}
+          </div>
+        </slot>
       </div>
-    </div>
-  </NuxtLinkLocale>
+    </n-popover>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -74,11 +96,14 @@
   const { isDark } = useTheme()
   const palette = usePalette()
   const themeVars = useThemeVars()
+  const popoverOpen = ref(false)
 
-  const popoverStyle = computed(() => ({
-    backgroundColor: isDark.value ? palette.dark : palette.light,
-    color: isDark.value ? palette.textDark : palette.textLight,
+  const popoverThemeOverrides = computed(() => ({
+    borderRadius: '12px',
+    color: isDark.value ? palette.dark : palette.light,
+    textColor: isDark.value ? palette.textDark : palette.textLight,
     boxShadow: themeVars.value.boxShadow2,
+    padding: '8px',
   }))
   const isPreviewImage = computed(() => props.imageMode === 'preview')
   const imageStyle = computed(() =>

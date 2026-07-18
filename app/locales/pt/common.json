@@ -11,7 +11,11 @@
     "makeup": "Maquiagem",
     "makeups": "Maquiagens",
     "variations": "Variações",
+    "dye_palette": "Paleta de tingimento",
+    "available_immediately": "Disponível imediatamente",
+    "complete_outfit": "Traje completo",
     "slot": "Slot",
+    "color": "Cor",
     "pulls": "Tiros",
     "total": "Total",
     "export": "Exportar",
@@ -1029,7 +1033,12 @@
     "invalid_code": "Código inválido.",
     "try_again_later": "Algo deu errado. Tente novamente mais tarde.",
     "not_found": "Lookbook não encontrado",
-    "card_title": "Lookbook de cores"
+    "card_title": "Lookbook de cores",
+    "area_heading": "Área",
+    "custom_colors": "Cores personalizadas",
+    "dye_available": "Tingimento disponível",
+    "dye_unavailable": "Tingimento indisponível",
+    "dye_availability_unknown": "Disponibilidade do tingimento desconhecida"
   },
   "feedback": {
     "queue_title": "Revisão de feedback",

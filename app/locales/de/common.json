@@ -1030,6 +1030,8 @@
     "show_ownership": "Besitz anzeigen",
     "display_options": "Anzeigeoptionen",
     "copy_item_list": "Stückliste kopieren",
+    "item_list_copied": "Artikelliste in die Zwischenablage kopiert",
+    "item_list_copy_failed": "Artikelliste konnte nicht kopiert werden.",
     "invalid_code": "Ungültiger Code.",
     "try_again_later": "Etwas ist schiefgelaufen. Bitte versuche es später erneut.",
     "not_found": "Lookbook nicht gefunden",

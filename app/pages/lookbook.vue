@@ -532,6 +532,34 @@
         </n-card>
       </ClientOnly>
     </div>
+
+    <n-modal
+      v-model:show="showItemListDialog"
+      preset="card"
+      :title="t('lookbook.copy_item_list')"
+      class="pointer-events-auto mx-auto w-[calc(100vw-2rem)] max-w-lg"
+      :auto-focus="false"
+    >
+      <n-input
+        :value="lookbookItemList"
+        type="textarea"
+        readonly
+        :autosize="{ minRows: 8, maxRows: 18 }"
+      />
+      <template #footer>
+        <div class="flex justify-end gap-2">
+          <n-button @click="showItemListDialog = false">
+            {{ t('common.cancel') }}
+          </n-button>
+          <n-button
+            type="primary"
+            @click="copyLookbookItemList"
+          >
+            {{ t('common.copy') }}
+          </n-button>
+        </div>
+      </template>
+    </n-modal>
   </div>
 </template>
 
@@ -617,6 +645,7 @@
   const hideItemInfo = ref(false)
   const showPreviewImages = ref(false)
   const showOwnership = ref(false)
+  const showItemListDialog = ref(false)
   const error = ref('')
   const errorType = ref<'code_not_found' | 'upstream_unavailable' | 'generic'>(
     'generic'
@@ -791,8 +820,9 @@
     featureTag: number,
     fallbackPrimaryCount: number
   ) => {
+    const areas = catalogIndex.itemDyes.value?.areas
     const areaInfo =
-      catalogIndex.itemDyes.value?.areas[String(getDyeCatalogItemId(itemId))]
+      areas?.[String(itemId)] ?? areas?.[String(getDyeCatalogItemId(itemId))]
     if (featureTag !== 1 && featureTag !== 3) return targetGroupId
 
     let area =
@@ -1081,9 +1111,7 @@
     }
   }
 
-  const copyLookbookItemList = async () => {
-    if (!import.meta.client) return
-
+  const lookbookItemList = computed(() => {
     const itemRows = sortedDisplayItems.value.map((entry) => {
       if (!entry.resolved) {
         return `${t('common.error')}: ${entry.id}`
@@ -1092,14 +1120,19 @@
       const itemType = t(`type.${entry.type}`)
       return `${itemType}: ${entry.name}`
     })
-    const itemList = [...itemRows, shareUrl.value].filter(Boolean).join('\n')
-    if (!itemList) return
+
+    return [...itemRows, shareUrl.value].filter(Boolean).join('\n')
+  })
+
+  const copyLookbookItemList = async () => {
+    if (!import.meta.client || !lookbookItemList.value) return
 
     try {
-      await navigator.clipboard.writeText(itemList)
-      message.success(t('import.messages.code_copied'))
+      await navigator.clipboard.writeText(lookbookItemList.value)
+      showItemListDialog.value = false
+      message.success(t('lookbook.item_list_copied'))
     } catch {
-      message.error(t('import.messages.code_copy_failed'))
+      message.error(t('lookbook.item_list_copy_failed'))
     }
   }
 
@@ -1109,7 +1142,7 @@
     } else if (value === 'link') {
       void copyShareLink()
     } else if (value === 'items') {
-      void copyLookbookItemList()
+      showItemListDialog.value = true
     }
   }
 

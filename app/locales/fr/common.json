@@ -1030,6 +1030,8 @@
     "show_ownership": "Afficher la possession",
     "display_options": "Options d’affichage",
     "copy_item_list": "Copier la liste d'articles",
+    "item_list_copied": "Liste d’articles copiée dans le presse-papiers",
+    "item_list_copy_failed": "Impossible de copier la liste d’articles.",
     "invalid_code": "Code invalide.",
     "try_again_later": "Une erreur s’est produite. Veuillez réessayer plus tard.",
     "not_found": "Lookbook introuvable",

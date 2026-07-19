@@ -1030,6 +1030,8 @@
     "show_ownership": "Show ownership",
     "display_options": "Display options",
     "copy_item_list": "Copy item list",
+    "item_list_copied": "Item list copied to clipboard",
+    "item_list_copy_failed": "Failed to copy item list.",
     "invalid_code": "Invalid code.",
     "try_again_later": "Something went wrong. Please try again later.",
     "not_found": "Lookbook not found",

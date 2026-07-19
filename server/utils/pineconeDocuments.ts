@@ -34,14 +34,14 @@ const requestPinecone = async (
   context: string
 ) => {
   let attempt = 0
-  const signal = AbortSignal.timeout(REQUEST_TIMEOUT_MS)
 
   while (true) {
+    const signal = AbortSignal.timeout(REQUEST_TIMEOUT_MS)
     let response: Response
     try {
       response = await fetch(url, { ...init, signal })
     } catch (error: unknown) {
-      if (signal.aborted || attempt >= MAX_RETRIES) throw error
+      if (attempt >= MAX_RETRIES) throw error
       await sleep(RETRY_BASE_DELAY_MS * Math.pow(2, attempt))
       attempt += 1
       continue

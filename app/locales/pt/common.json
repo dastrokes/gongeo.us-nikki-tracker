@@ -1030,6 +1030,8 @@
     "show_ownership": "Mostrar posse",
     "display_options": "Opções de exibição",
     "copy_item_list": "Copiar lista de itens",
+    "item_list_copied": "Lista de itens copiada para a área de transferência",
+    "item_list_copy_failed": "Não foi possível copiar a lista de itens.",
     "invalid_code": "Código inválido.",
     "try_again_later": "Algo deu errado. Tente novamente mais tarde.",
     "not_found": "Lookbook não encontrado",

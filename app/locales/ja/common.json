@@ -1030,6 +1030,8 @@
     "show_ownership": "所持状況を表示",
     "display_options": "表示オプション",
     "copy_item_list": "アイテムリストをコピー",
+    "item_list_copied": "アイテムリストをクリップボードにコピーしました",
+    "item_list_copy_failed": "アイテムリストをコピーできませんでした。",
     "invalid_code": "無効なコードです。",
     "try_again_later": "問題が発生しました。後でもう一度お試しください。",
     "not_found": "ルックブックが見つかりません",

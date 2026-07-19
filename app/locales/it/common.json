@@ -1030,6 +1030,8 @@
     "show_ownership": "Mostra possesso",
     "display_options": "Opzioni di visualizzazione",
     "copy_item_list": "Copia elenco oggetti",
+    "item_list_copied": "Elenco oggetti copiato negli appunti",
+    "item_list_copy_failed": "Impossibile copiare l’elenco degli oggetti.",
     "invalid_code": "Codice non valido.",
     "try_again_later": "Qualcosa è andato storto. Riprova più tardi.",
     "not_found": "Lookbook non trovato",

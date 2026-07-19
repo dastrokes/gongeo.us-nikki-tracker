@@ -1030,6 +1030,8 @@
     "show_ownership": "显示拥有情况",
     "display_options": "显示选项",
     "copy_item_list": "复制部件列表",
+    "item_list_copied": "部件列表已复制到剪贴板",
+    "item_list_copy_failed": "无法复制部件列表。",
     "invalid_code": "搭配码无效。",
     "try_again_later": "出了点问题，请稍后重试。",
     "not_found": "未找到搭配码",

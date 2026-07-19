@@ -1039,9 +1039,9 @@
     "area_heading": "Bereich",
     "color_number": "Farb-Nr.",
     "custom_colors": "Benutzerdefinierte Farben",
-    "dye_available": "Färbung verfügbar",
-    "dye_unavailable": "Färbung nicht verfügbar",
-    "dye_availability_unknown": "Verfügbarkeit der Färbung unbekannt"
+    "dye_available": "Farbstoff verfügbar",
+    "dye_unavailable": "Farbstoff nicht verfügbar",
+    "dye_availability_unknown": "Verfügbarkeit des Farbstoffes unbekannt"
   },
   "feedback": {
     "queue_title": "Feedback-Prüfung",

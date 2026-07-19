@@ -366,7 +366,7 @@ const queryPineconeSearch = async ({
 }
 
 export default defineCachedApiEventHandler(
-  async (event): Promise<SearchResponse> => {
+  async (event) => {
     const query = getQuery(event)
     const rawQuery = query.q?.toString() ?? ''
     const normalizedQuery = normalizeSearchQuery(rawQuery)
@@ -407,7 +407,7 @@ export default defineCachedApiEventHandler(
 
     try {
       if (!pineconeApiKey || !pineconeSearchHost) {
-        throw createUpstreamUnavailableError('search')
+        throw new Error('Search upstream is not configured')
       }
 
       const data = await queryPineconeSearch({
@@ -434,7 +434,13 @@ export default defineCachedApiEventHandler(
       console.error(
         `Failed to query search index namespace ${searchNamespace}: ${message}`
       )
-      throw createUpstreamUnavailableError('search')
+      const upstreamError = createUpstreamUnavailableError('search')
+      setResponseStatus(
+        event,
+        upstreamError.statusCode,
+        upstreamError.statusMessage
+      )
+      return upstreamError.toJSON()
     }
   },
   {

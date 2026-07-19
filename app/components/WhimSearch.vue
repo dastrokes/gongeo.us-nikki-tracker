@@ -3414,7 +3414,7 @@
         )
       )
       applySearchResults(scopedResults)
-    } catch (caughtError) {
+    } catch {
       if (
         search?.controller.signal.aborted ||
         (search && activeSearch !== search)
@@ -3430,10 +3430,7 @@
       }
 
       applySearchResults([])
-      error.value = toErrorMessage(
-        caughtError,
-        t('search_page.error_description')
-      )
+      error.value = t('lookbook.try_again_later')
     } finally {
       if (runId === similarSearchRunId) {
         if (activeSearch === search) {
@@ -3615,7 +3612,7 @@
         (response.data ?? []).filter((item) => item.score > 0)
       )
       applySearchResults(scopedResults)
-    } catch (caughtError) {
+    } catch {
       if (
         search &&
         (search.controller.signal.aborted || activeSearch !== search)
@@ -3624,10 +3621,7 @@
       }
 
       applySearchResults([])
-      error.value = toErrorMessage(
-        caughtError,
-        t('search_page.error_description')
-      )
+      error.value = t('lookbook.try_again_later')
     } finally {
       if (activeSearch === search) {
         loading.value = false
@@ -3681,14 +3675,11 @@
       }
 
       await revealLuckyHit(luckyHit, rollId)
-    } catch (caughtError) {
+    } catch {
       showLuckyModal.value = false
       isLuckyAnimating.value = false
       luckyRevealPhase.value = 'idle'
-      error.value = toErrorMessage(
-        caughtError,
-        t('search_page.error_description')
-      )
+      error.value = t('lookbook.try_again_later')
     } finally {
       luckyLoading.value = false
     }

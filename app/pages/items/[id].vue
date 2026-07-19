@@ -330,14 +330,14 @@
                       {{ t(group.labelKey) }}
                     </h3>
                     <div
-                      class="grid grid-cols-[repeat(auto-fill,minmax(14rem,1fr))] gap-3"
+                      class="grid grid-cols-2 gap-2 sm:grid-cols-[repeat(auto-fill,minmax(14rem,1fr))] sm:gap-3"
                     >
                       <div
                         v-for="palette in group.palettes"
                         :key="palette.id"
                         role="group"
                         :aria-label="palette.name"
-                        class="rounded-lg border border-slate-200/80 bg-slate-50/70 p-2.5 dark:border-slate-700/80 dark:bg-slate-900/50"
+                        class="rounded-lg border border-slate-200/80 bg-slate-50/70 p-2 sm:p-2.5 dark:border-slate-700/80 dark:bg-slate-900/50"
                       >
                         <div class="mb-2 flex min-w-0 items-baseline gap-2">
                           <span
@@ -351,12 +351,14 @@
                             {{ palette.name }}
                           </span>
                         </div>
-                        <div class="mx-auto grid w-fit grid-cols-4 gap-1.5">
+                        <div
+                          class="mx-auto grid w-fit grid-cols-4 gap-1 sm:gap-1.5"
+                        >
                           <span
                             v-for="(color, colorIndex) in palette.colors"
                             :key="`${palette.id}-${colorIndex}`"
                             aria-hidden="true"
-                            class="size-9 rounded-full border border-black/10 shadow-sm sm:size-10 dark:border-white/15"
+                            class="size-6 rounded-full border border-black/10 shadow-sm sm:size-10 dark:border-white/15"
                             :style="{ backgroundColor: color }"
                           ></span>
                         </div>

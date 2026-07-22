@@ -546,7 +546,6 @@
         "book": "Buch",
         "bouquet": "Blumenstrauß",
         "fan": "Fächer",
-        "hair_ornament": "Haarschmuck",
         "handbag": "Handtasche",
         "handheld": "Tragbares",
         "instrument": "Instrument",
@@ -659,13 +658,11 @@
         "overall_shorts": "Latzshorts",
         "palazzo_pants": "Palazzohose",
         "ruffle_shorts": "Rüschen-Shorts",
-        "sarong": "Sarong",
         "tailored_shorts": "Maßgefertigte Shorts",
         "wrap_skirt": "Wickelrock"
       },
       "bracelets": {
         "bangle": "Armreif",
-        "beaded_bracelet": "Perlenarmband",
         "charm_bracelet": "Bettelarmband",
         "scrunchie": "Scrunchie"
       },
@@ -674,7 +671,6 @@
         "pin": "Anstecknadel"
       },
       "chokers": {
-        "fur_choker": "Pelz",
         "lace_choker": "Spitze",
         "pendant_choker": "Anhänger",
         "ribbon_choker": "Schleife",
@@ -747,7 +743,6 @@
         "side_braid": "Seitlicher Zopf",
         "side_bun": "Seitlicher Dutt",
         "side_ponytail": "Seitlicher Pferdeschwanz",
-        "side_twin_tails": "Seitenzöpfe",
         "space_buns": "Space Buns",
         "top_knot": "Top Knot",
         "twin_braids": "Zöpfe"
@@ -836,14 +831,12 @@
         "capelet": "Schulterumhang",
         "cloak": "Umhang",
         "daxiushan": "Daxiushan",
-        "duster_coat": "Staubmantel",
         "fur_coat": "Pelzmantel",
         "hooded_cape": "Mit Kapuze",
         "hooded_vest": "Kapuzenweste",
         "hoodie": "Hoodie",
         "long_cardigan": "Langer Cardigan",
         "military_jacket": "Militärjacke",
-        "pifeng": "Pifeng",
         "poncho": "Poncho",
         "shirt_jacket": "Hemdjacke",
         "shrug": "Shrug",
@@ -867,10 +860,8 @@
         "cowboy_boots": "Cowboystiefel",
         "dorsay_heels": "D’Orsay",
         "embroidered_shoes": "Bestickte Schuhe",
-        "fur_boots": "Pelzstiefel",
         "gladiator_sandals": "Römersandalen",
         "high_top_sneakers": "High-Top Sneaker",
-        "lace_up_boots": "Schnürstiefel",
         "lace_up_flats": "Schnürschuhe",
         "penny_loafers": "Penny-Slipper",
         "platform_heels": "Plateau-High-Heels",
@@ -883,10 +874,8 @@
       "socks": {
         "fishnet_tights": "Netzstrumpfhose",
         "garter_stockings": "Halterlose Strümpfe",
-        "lace_stockings": "Spitzenstrümpfe",
         "pantyhose": "Nylonstrumpfhose",
         "printed_tights": "Bedruckte Strumpfhose",
-        "ruffled_socks": "Rüschen-Socken",
         "strappy_socks": "Riemchensocken"
       },
       "tops": {
@@ -905,7 +894,6 @@
         "puffer_jacket": "Daunenjacke",
         "sailor_blouse": "Matrosenbluse",
         "school_uniform_blouse": "Schulbluse",
-        "sweater_vest": "Pulloverweste",
         "tailored_jacket": "Maßgefertigte Jacke",
         "track_jacket": "Trainingsjacke"
       }

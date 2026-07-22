@@ -546,7 +546,6 @@
         "book": "Libro",
         "bouquet": "Bouquet",
         "fan": "Ventaglio",
-        "hair_ornament": "Ornamento capelli (mano)",
         "handbag": "Borsa a mano",
         "handheld": "Oggetto in mano",
         "instrument": "Strumento",
@@ -659,13 +658,11 @@
         "overall_shorts": "Salopette corta",
         "palazzo_pants": "Pantaloni Palazzo",
         "ruffle_shorts": "Pantaloncini con volant",
-        "sarong": "Pareo",
         "tailored_shorts": "Sartoriali",
         "wrap_skirt": "Gonna a portafoglio"
       },
       "bracelets": {
         "bangle": "Bracciale a cerchio",
-        "beaded_bracelet": "Bracciale di perline",
         "charm_bracelet": "Bracciale con ciondoli",
         "scrunchie": "Elastico per capelli"
       },
@@ -674,7 +671,6 @@
         "pin": "Spilletta"
       },
       "chokers": {
-        "fur_choker": "Choker in pelliccia",
         "lace_choker": "Girocollo di pizzo",
         "pendant_choker": "Choker con pendente",
         "ribbon_choker": "Girocollo di nastro",
@@ -747,7 +743,6 @@
         "side_braid": "Treccia laterale",
         "side_bun": "Chignon laterale",
         "side_ponytail": "Coda laterale",
-        "side_twin_tails": "Codini laterali",
         "space_buns": "Space buns",
         "top_knot": "Top knot",
         "twin_braids": "Due trecce"
@@ -836,14 +831,12 @@
         "capelet": "Pellegrina",
         "cloak": "Mantello",
         "daxiushan": "Daxiushan",
-        "duster_coat": "Spolverino",
         "fur_coat": "Pelliccia",
         "hooded_cape": "Mantello con cappuccio",
         "hooded_vest": "Gilet con cappuccio",
         "hoodie": "Felpa con cappuccio",
         "long_cardigan": "Cardigan lungo",
         "military_jacket": "Giacca militare",
-        "pifeng": "Pifeng",
         "poncho": "Poncho",
         "shirt_jacket": "Giacca a camicia",
         "shrug": "Coprispalle",
@@ -867,10 +860,8 @@
         "cowboy_boots": "Stivali da cowboy",
         "dorsay_heels": "D'Orsay",
         "embroidered_shoes": "Scarpe ricamate",
-        "fur_boots": "Stivali di pelliccia",
         "gladiator_sandals": "Sandali alla schiava",
         "high_top_sneakers": "Scarpe alte",
-        "lace_up_boots": "Stivali stringati",
         "lace_up_flats": "Stringate basse",
         "penny_loafers": "Mocassini",
         "platform_heels": "Tacchi con plateau",
@@ -883,10 +874,8 @@
       "socks": {
         "fishnet_tights": "Calze a rete",
         "garter_stockings": "Calze autoreggenti",
-        "lace_stockings": "Calze di pizzo",
         "pantyhose": "Collant",
         "printed_tights": "Collant stampati",
-        "ruffled_socks": "Calzini con volant",
         "strappy_socks": "Calze con cinturini"
       },
       "tops": {
@@ -905,7 +894,6 @@
         "puffer_jacket": "Piumino",
         "sailor_blouse": "Camicetta alla marinara",
         "school_uniform_blouse": "Camicetta scolastica",
-        "sweater_vest": "Gilet in maglia",
         "tailored_jacket": "Giacca Sartoriale",
         "track_jacket": "Giacca sportiva"
       }

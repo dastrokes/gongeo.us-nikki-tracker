@@ -546,7 +546,6 @@
         "book": "Livre",
         "bouquet": "Bouquet",
         "fan": "Éventail",
-        "hair_ornament": "Ornement cheveux",
         "handbag": "Sac à main",
         "handheld": "Tenu en main",
         "instrument": "Instrument",
@@ -659,13 +658,11 @@
         "overall_shorts": "Salopette courte",
         "palazzo_pants": "Pantalon Palazzo",
         "ruffle_shorts": "Short à volants",
-        "sarong": "Pareo",
         "tailored_shorts": "Short habillé",
         "wrap_skirt": "Jupe portefeuille"
       },
       "bracelets": {
         "bangle": "Jonc",
-        "beaded_bracelet": "Bracelet de perles",
         "charm_bracelet": "Bracelet à breloques",
         "scrunchie": "Chouchou"
       },
@@ -674,7 +671,6 @@
         "pin": "Épingle"
       },
       "chokers": {
-        "fur_choker": "Ras-de-cou en fourrure",
         "lace_choker": "Ras de cou dentelle",
         "pendant_choker": "Ras-de-cou à pendentif",
         "ribbon_choker": "Ras de cou ruban",
@@ -747,7 +743,6 @@
         "side_braid": "Tresse latérale",
         "side_bun": "Chignon latéral",
         "side_ponytail": "Queue de cheval latérale",
-        "side_twin_tails": "Couettes latérales",
         "space_buns": "Macarons",
         "top_knot": "Chignon samouraï",
         "twin_braids": "Nattes"
@@ -836,14 +831,12 @@
         "capelet": "Capelette",
         "cloak": "Cape",
         "daxiushan": "Daxiushan",
-        "duster_coat": "Cache-poussière",
         "fur_coat": "Manteau de fourrure",
         "hooded_cape": "Cape à capuche",
         "hooded_vest": "Gilet à capuche",
         "hoodie": "Sweat à capuche",
         "long_cardigan": "Cardigan long",
         "military_jacket": "Veste militaire",
-        "pifeng": "Pifeng",
         "poncho": "Poncho",
         "shirt_jacket": "Veste-chemise",
         "shrug": "Boléro court",
@@ -867,10 +860,8 @@
         "cowboy_boots": "Bottes de cowboy",
         "dorsay_heels": "Escarpins d'Orsay",
         "embroidered_shoes": "Chaussures brodées",
-        "fur_boots": "Bottes en fourrure",
         "gladiator_sandals": "Spartiates",
         "high_top_sneakers": "Baskets montantes",
-        "lace_up_boots": "Bottes à lacets",
         "lace_up_flats": "Plats à lacets",
         "penny_loafers": "Mocassins",
         "platform_heels": "Talons à plateforme",
@@ -883,10 +874,8 @@
       "socks": {
         "fishnet_tights": "Collants résille",
         "garter_stockings": "Bas jarretelles",
-        "lace_stockings": "Bas dentelle",
         "pantyhose": "Collants",
         "printed_tights": "Collants imprimés",
-        "ruffled_socks": "Chaussettes à volants",
         "strappy_socks": "Chaussettes à brides"
       },
       "tops": {
@@ -905,7 +894,6 @@
         "puffer_jacket": "Doudoune",
         "sailor_blouse": "Haut marin",
         "school_uniform_blouse": "Chemisier d'uniforme",
-        "sweater_vest": "Gilet en maille",
         "tailored_jacket": "Veste Tailleur",
         "track_jacket": "Veste de survêtement"
       }

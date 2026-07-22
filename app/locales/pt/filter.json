@@ -546,7 +546,6 @@
         "book": "Livro",
         "bouquet": "Buquê",
         "fan": "Leque",
-        "hair_ornament": "Ornamento de cabelo (mão)",
         "handbag": "Bolsa de mão",
         "handheld": "Objeto na mão",
         "instrument": "Instrumento",
@@ -659,13 +658,11 @@
         "overall_shorts": "Macacão Curto",
         "palazzo_pants": "Calça Palazzo",
         "ruffle_shorts": "Shorts com Babados",
-        "sarong": "Pareô/Saída de Praia",
         "tailored_shorts": "Shorts de Alfaiataria",
         "wrap_skirt": "Saia Transpassada"
       },
       "bracelets": {
         "bangle": "Bangle (Pulseira Rígida)",
-        "beaded_bracelet": "Pulseira de Contas",
         "charm_bracelet": "Pulseira com Pingentes",
         "scrunchie": "Scrunchie/Elástico de cabelo"
       },
@@ -674,7 +671,6 @@
         "pin": "Pin/Broche"
       },
       "chokers": {
-        "fur_choker": "Gargantilha de pele",
         "lace_choker": "Choker de Renda",
         "pendant_choker": "Gargantilha com pingente",
         "ribbon_choker": "Choker de Fita",
@@ -747,7 +743,6 @@
         "side_braid": "Trança Lateral",
         "side_bun": "Coque Lateral",
         "side_ponytail": "Rabo de Cavalo Lateral",
-        "side_twin_tails": "Marias-chiquinhas Laterais",
         "space_buns": "Space Buns (Dois Coques)",
         "top_knot": "Coque no Topo",
         "twin_braids": "Duas Tranças"
@@ -836,14 +831,12 @@
         "capelet": "Capelet",
         "cloak": "Manto",
         "daxiushan": "Daxiushan",
-        "duster_coat": "Capa/Sobretudo Leve",
         "fur_coat": "Casaco de Pele",
         "hooded_cape": "Capa com Capuz",
         "hooded_vest": "Colete com Capuz",
         "hoodie": "Moletom com capuz",
         "long_cardigan": "Cardigã longo",
         "military_jacket": "Jaqueta Militar",
-        "pifeng": "Pifeng",
         "poncho": "Poncho",
         "shirt_jacket": "Jaqueta-camisa",
         "shrug": "Casaqueto",
@@ -867,10 +860,8 @@
         "cowboy_boots": "Botas Cowboy",
         "dorsay_heels": "Sapatos d'Orsay",
         "embroidered_shoes": "Sapatos Bordados",
-        "fur_boots": "Botas de pele",
         "gladiator_sandals": "Sandálias Gladiadoras",
         "high_top_sneakers": "Tênis Cano Alto",
-        "lace_up_boots": "Botas com Cadarço",
         "lace_up_flats": "Sapatos de Amarrar",
         "penny_loafers": "Loafers Penny",
         "platform_heels": "Saltos plataforma",
@@ -883,10 +874,8 @@
       "socks": {
         "fishnet_tights": "Meia-calça Arrastão",
         "garter_stockings": "Meias com Cinta-liga",
-        "lace_stockings": "Meias de Renda",
         "pantyhose": "Meia-calça Fina",
         "printed_tights": "Meia-calça Estampada",
-        "ruffled_socks": "Meias com Babados",
         "strappy_socks": "Meias com tiras"
       },
       "tops": {
@@ -905,7 +894,6 @@
         "puffer_jacket": "Jaqueta puffer",
         "sailor_blouse": "Blusa Marinheira",
         "school_uniform_blouse": "Blusa de Uniforme",
-        "sweater_vest": "Colete de Tricô",
         "tailored_jacket": "Blazer/Jaqueta Alfaiataria",
         "track_jacket": "Jaqueta esportiva"
       }

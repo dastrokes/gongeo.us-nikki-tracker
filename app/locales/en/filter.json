@@ -546,7 +546,6 @@
         "book": "Book",
         "bouquet": "Bouquet",
         "fan": "Fan",
-        "hair_ornament": "Hair Ornament",
         "handbag": "Handbag",
         "handheld": "Handheld",
         "instrument": "Instrument",
@@ -659,13 +658,11 @@
         "overall_shorts": "Overall Shorts",
         "palazzo_pants": "Palazzo Pants",
         "ruffle_shorts": "Ruffle Shorts",
-        "sarong": "Sarong",
         "tailored_shorts": "Tailored Shorts",
         "wrap_skirt": "Wrap Skirt"
       },
       "bracelets": {
         "bangle": "Bangle",
-        "beaded_bracelet": "Beaded Bracelet",
         "charm_bracelet": "Charm Bracelet",
         "scrunchie": "Scrunchie"
       },
@@ -674,7 +671,6 @@
         "pin": "Pin"
       },
       "chokers": {
-        "fur_choker": "Fur Choker",
         "lace_choker": "Lace Choker",
         "pendant_choker": "Pendant Choker",
         "ribbon_choker": "Ribbon Choker",
@@ -747,7 +743,6 @@
         "side_braid": "Side Braid",
         "side_bun": "Side Bun",
         "side_ponytail": "Side Ponytail",
-        "side_twin_tails": "Side Twin Tails",
         "space_buns": "Space Buns",
         "top_knot": "Top Knot",
         "twin_braids": "Twin Braids"
@@ -836,14 +831,12 @@
         "capelet": "Capelet",
         "cloak": "Cloak",
         "daxiushan": "Daxiushan",
-        "duster_coat": "Duster Coat",
         "fur_coat": "Fur Coat",
         "hooded_cape": "Hooded Cape",
         "hooded_vest": "Hooded Vest",
         "hoodie": "Hoodie",
         "long_cardigan": "Long Cardigan",
         "military_jacket": "Military Jacket",
-        "pifeng": "Pifeng",
         "poncho": "Poncho",
         "shirt_jacket": "Shirt Jacket",
         "shrug": "Shrug",
@@ -867,10 +860,8 @@
         "cowboy_boots": "Cowboy Boots",
         "dorsay_heels": "Dorsay Heels",
         "embroidered_shoes": "Embroidered Shoes",
-        "fur_boots": "Fur Boots",
         "gladiator_sandals": "Gladiator Sandals",
         "high_top_sneakers": "High Top Sneakers",
-        "lace_up_boots": "Lace Up Boots",
         "lace_up_flats": "Lace Up Flats",
         "penny_loafers": "Penny Loafers",
         "platform_heels": "Platform Heels",
@@ -883,10 +874,8 @@
       "socks": {
         "fishnet_tights": "Fishnet Tights",
         "garter_stockings": "Garter Stockings",
-        "lace_stockings": "Lace Stockings",
         "pantyhose": "Pantyhose",
         "printed_tights": "Printed Tights",
-        "ruffled_socks": "Ruffled Socks",
         "strappy_socks": "Strappy Socks"
       },
       "tops": {
@@ -905,7 +894,6 @@
         "puffer_jacket": "Puffer Jacket",
         "sailor_blouse": "Sailor Blouse",
         "school_uniform_blouse": "School Uniform Blouse",
-        "sweater_vest": "Sweater Vest",
         "tailored_jacket": "Tailored Jacket",
         "track_jacket": "Track Jacket"
       }

@@ -58,6 +58,7 @@ const parseArgs = (argv) => {
   const args = {
     itemAttributesPath: defaultItemAttributesPath,
     dryRun: false,
+    prune: false,
   }
 
   for (let index = 0; index < argv.length; index += 1) {
@@ -75,6 +76,11 @@ const parseArgs = (argv) => {
 
     if (arg === '--dry-run') {
       args.dryRun = true
+      continue
+    }
+
+    if (arg === '--prune') {
+      args.prune = true
       continue
     }
 
@@ -323,6 +329,74 @@ const collectAndApplyTerms = ({ terms, taxonomy, rows, registry }) => {
   return summary
 }
 
+export const pruneUnusedScopedTermsAndTaxonomy = ({
+  terms,
+  taxonomy,
+  rows,
+  registry,
+}) => {
+  const observed = { category: {}, subcategory: {} }
+  const normalizeItemType = (value) =>
+    registry.normalizeItemType(normalizeString(value) ?? '') || 'unknown'
+
+  for (const row of rows) {
+    if (!isRecord(row)) continue
+
+    const metadata = isRecord(row.metadata) ? row.metadata : {}
+    const itemType = normalizeItemType(
+      row.item_type ?? metadata.item_type ?? metadata.slot
+    )
+    for (const field of ['category', 'subcategory']) {
+      const value = normalizeTokenKey(row[field] ?? metadata[field])
+      if (!value) continue
+      ;(observed[field][itemType] ??= new Set()).add(value)
+    }
+  }
+
+  const prunedScoped = {}
+  for (const field of ['category', 'subcategory']) {
+    for (const [itemType, values] of Object.entries(
+      terms.scopedFieldValues?.[field] ?? {}
+    )) {
+      const normalizedItemType = normalizeItemType(itemType)
+      const observedValues = observed[field][normalizedItemType] ?? new Set()
+      const removed = values.filter((value) => !observedValues.has(value))
+      if (!removed.length) continue
+
+      terms.scopedFieldValues[field][itemType] = values.filter((value) =>
+        observedValues.has(value)
+      )
+      ;((prunedScoped[field] ??= {})[itemType] ??= []).push(...removed)
+    }
+  }
+
+  const prunedTaxonomy = {}
+  for (const [itemType, parentMap] of Object.entries(
+    taxonomy.subcategoryParentByType ?? {}
+  )) {
+    const normalizedItemType = normalizeItemType(itemType)
+    const categories = new Set(
+      terms.scopedFieldValues?.category?.[normalizedItemType] ?? []
+    )
+    const subcategories = new Set(
+      terms.scopedFieldValues?.subcategory?.[normalizedItemType] ?? []
+    )
+    const keptEntries = []
+
+    for (const [subcategory, category] of Object.entries(parentMap)) {
+      if (subcategories.has(subcategory) && categories.has(category)) {
+        keptEntries.push([subcategory, category])
+      } else {
+        ;(prunedTaxonomy[itemType] ??= {})[subcategory] = category
+      }
+    }
+
+    taxonomy.subcategoryParentByType[itemType] = Object.fromEntries(keptEntries)
+  }
+
+  return { prunedScoped, prunedTaxonomy }
+}
+
 const writeGeneratedAssets = async (registry) => {
   writeGeneratedJson(attributePath, buildAttributeEntries(registry))
   await formatAndWriteTs(
@@ -352,7 +426,7 @@ export const syncItemSearchTermsFromAttributes = async (
   if (args.help) {
     return {
       usage:
-        'node scripts/sync-item-search-terms-from-attributes.mjs [--item-attributes-path <path>] [--dry-run]',
+        'node scripts/sync-item-search-terms-from-attributes.mjs [--item-attributes-path <path>] [--dry-run] [--prune]',
     }
   }
 
@@ -372,6 +446,14 @@ export const syncItemSearchTermsFromAttributes = async (
     rows,
     registry,
   })
+  const pruneSummary = args.prune
+    ? pruneUnusedScopedTermsAndTaxonomy({
+        terms,
+        taxonomy,
+        rows,
+        registry,
+      })
+    : { prunedScoped: {}, prunedTaxonomy: {} }
 
   if (args.dryRun) {
     return {
@@ -379,6 +461,7 @@ export const syncItemSearchTermsFromAttributes = async (
       itemAttributesPath: args.itemAttributesPath,
       rows: rows.length,
       ...summary,
+      ...pruneSummary,
     }
   }
 
@@ -394,6 +477,7 @@ export const syncItemSearchTermsFromAttributes = async (
     rows: rows.length,
     outputs,
     ...summary,
+    ...pruneSummary,
   }
 }
 

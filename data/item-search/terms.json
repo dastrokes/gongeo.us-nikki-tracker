@@ -469,7 +469,6 @@
         "book",
         "bouquet",
         "fan",
-        "hair_ornament",
         "handbag",
         "handheld",
         "instrument",
@@ -563,14 +562,12 @@
         "overall_shorts",
         "palazzo_pants",
         "ruffle_shorts",
-        "sarong",
         "tailored_shorts",
         "wrap_skirt"
       ],
-      "bracelets": ["bangle", "beaded_bracelet", "charm_bracelet", "scrunchie"],
+      "bracelets": ["bangle", "charm_bracelet", "scrunchie"],
       "chestAccessories": ["bow_brooch", "pin"],
       "chokers": [
-        "fur_choker",
         "lace_choker",
         "pendant_choker",
         "ribbon_choker",
@@ -639,7 +636,6 @@
         "side_braid",
         "side_bun",
         "side_ponytail",
-        "side_twin_tails",
         "space_buns",
         "top_knot",
         "twin_braids"
@@ -728,14 +724,12 @@
         "capelet",
         "cloak",
         "daxiushan",
-        "duster_coat",
         "fur_coat",
         "hooded_cape",
         "hooded_vest",
         "hoodie",
         "long_cardigan",
         "military_jacket",
-        "pifeng",
         "poncho",
         "shirt_jacket",
         "shrug",
@@ -759,10 +753,8 @@
         "cowboy_boots",
         "dorsay_heels",
         "embroidered_shoes",
-        "fur_boots",
         "gladiator_sandals",
         "high_top_sneakers",
-        "lace_up_boots",
         "lace_up_flats",
         "penny_loafers",
         "platform_heels",
@@ -775,10 +767,8 @@
       "socks": [
         "fishnet_tights",
         "garter_stockings",
-        "lace_stockings",
         "pantyhose",
         "printed_tights",
-        "ruffled_socks",
         "strappy_socks"
       ],
       "tops": [
@@ -797,7 +787,6 @@
         "puffer_jacket",
         "sailor_blouse",
         "school_uniform_blouse",
-        "sweater_vest",
         "tailored_jacket",
         "track_jacket"
       ]

@@ -2322,11 +2322,6 @@
   {
     "field": "category",
     "itemType": "handhelds",
-    "value": "hair_ornament"
-  },
-  {
-    "field": "category",
-    "itemType": "handhelds",
     "value": "handbag"
   },
   {
@@ -2757,11 +2752,6 @@
   {
     "field": "subcategory",
     "itemType": "bottoms",
-    "value": "sarong"
-  },
-  {
-    "field": "subcategory",
-    "itemType": "bottoms",
     "value": "tailored_shorts"
   },
   {
@@ -2773,11 +2763,6 @@
     "field": "subcategory",
     "itemType": "bracelets",
     "value": "bangle"
-  },
-  {
-    "field": "subcategory",
-    "itemType": "bracelets",
-    "value": "beaded_bracelet"
   },
   {
     "field": "subcategory",
@@ -2798,11 +2783,6 @@
     "field": "subcategory",
     "itemType": "chestAccessories",
     "value": "pin"
-  },
-  {
-    "field": "subcategory",
-    "itemType": "chokers",
-    "value": "fur_choker"
   },
   {
     "field": "subcategory",
@@ -3113,11 +3093,6 @@
     "field": "subcategory",
     "itemType": "hair",
     "value": "side_ponytail"
-  },
-  {
-    "field": "subcategory",
-    "itemType": "hair",
-    "value": "side_twin_tails"
   },
   {
     "field": "subcategory",
@@ -3512,11 +3487,6 @@
   {
     "field": "subcategory",
     "itemType": "outerwear",
-    "value": "duster_coat"
-  },
-  {
-    "field": "subcategory",
-    "itemType": "outerwear",
     "value": "fur_coat"
   },
   {
@@ -3543,11 +3513,6 @@
     "field": "subcategory",
     "itemType": "outerwear",
     "value": "military_jacket"
-  },
-  {
-    "field": "subcategory",
-    "itemType": "outerwear",
-    "value": "pifeng"
   },
   {
     "field": "subcategory",
@@ -3647,22 +3612,12 @@
   {
     "field": "subcategory",
     "itemType": "shoes",
-    "value": "fur_boots"
-  },
-  {
-    "field": "subcategory",
-    "itemType": "shoes",
     "value": "gladiator_sandals"
   },
   {
     "field": "subcategory",
     "itemType": "shoes",
     "value": "high_top_sneakers"
-  },
-  {
-    "field": "subcategory",
-    "itemType": "shoes",
-    "value": "lace_up_boots"
   },
   {
     "field": "subcategory",
@@ -3717,22 +3672,12 @@
   {
     "field": "subcategory",
     "itemType": "socks",
-    "value": "lace_stockings"
-  },
-  {
-    "field": "subcategory",
-    "itemType": "socks",
     "value": "pantyhose"
   },
   {
     "field": "subcategory",
     "itemType": "socks",
     "value": "printed_tights"
-  },
-  {
-    "field": "subcategory",
-    "itemType": "socks",
-    "value": "ruffled_socks"
   },
   {
     "field": "subcategory",
@@ -3813,11 +3758,6 @@
     "field": "subcategory",
     "itemType": "tops",
     "value": "school_uniform_blouse"
-  },
-  {
-    "field": "subcategory",
-    "itemType": "tops",
-    "value": "sweater_vest"
   },
   {
     "field": "subcategory",

@@ -39,6 +39,7 @@ Main scripts:
 - [scripts/item-search-feedback.mjs](../scripts/item-search-feedback.mjs): review CLI for community suggestions; it lists suggestions, promotes them into overrides, rejects them, or marks them applied.
 - [scripts/refresh-item-search-local-copy.mjs](../scripts/refresh-item-search-local-copy.mjs): manual CLI wrapper that refreshes the current Supabase `item_attributes` rows into the generated local mirror.
 - [scripts/sync-item-search-terms-from-attributes.mjs](../scripts/sync-item-search-terms-from-attributes.mjs): maintainer helper that reads a canonical `item-attributes.jsonl`, adds missing registry/taxonomy terms, regenerates derived assets, and only refreshes `app/locales/en/filter.json`.
+  Pass `--prune` only with a reviewed full artifact to remove unobserved scoped terms and taxonomy mappings that are no longer reachable.
 
 ## Generated Assets
 

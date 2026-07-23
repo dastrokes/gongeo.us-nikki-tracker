@@ -108,7 +108,7 @@
               </template>
               {{ t('navigation.banner_detail') }}
             </n-tooltip>
-            <div class="min-w-0 flex-1">
+            <div class="min-w-0">
               <n-gradient-text
                 class="block truncate text-base font-medium sm:text-lg"
                 :type="banner.bannerType === 2 ? 'warning' : 'info'"

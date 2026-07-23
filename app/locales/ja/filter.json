@@ -546,7 +546,6 @@
         "book": "本",
         "bouquet": "ブーケ",
         "fan": "扇子",
-        "hair_ornament": "髪飾り/手持ち",
         "handbag": "ハンドバッグ",
         "handheld": "手持ち物",
         "instrument": "楽器",
@@ -659,13 +658,11 @@
         "overall_shorts": "サロペットショートパンツ",
         "palazzo_pants": "パラッツォパンツ",
         "ruffle_shorts": "フリルショートパンツ",
-        "sarong": "パレオ/サロン",
         "tailored_shorts": "テーラードショートパンツ",
         "wrap_skirt": "ラップスカート"
       },
       "bracelets": {
         "bangle": "バングル",
-        "beaded_bracelet": "ビーズブレスレット",
         "charm_bracelet": "チャームブレスレット",
         "scrunchie": "シュシュ"
       },
@@ -674,7 +671,6 @@
         "pin": "ピン"
       },
       "chokers": {
-        "fur_choker": "ファーチョーカー",
         "lace_choker": "レースチョーカー",
         "pendant_choker": "ペンダントチョーカー",
         "ribbon_choker": "リボンチョーカー",
@@ -747,7 +743,6 @@
         "side_braid": "サイド編み込み",
         "side_bun": "サイドお団子",
         "side_ponytail": "サイドポニー",
-        "side_twin_tails": "サイドツインテール",
         "space_buns": "ツインお団子",
         "top_knot": "トップノット",
         "twin_braids": "おさげ"
@@ -836,14 +831,12 @@
         "capelet": "ケープレット",
         "cloak": "クローク",
         "daxiushan": "大袖衫",
-        "duster_coat": "ダスターコート",
         "fur_coat": "ファーコート",
         "hooded_cape": "フード付きケープ",
         "hooded_vest": "フード付きベスト",
         "hoodie": "フーディー",
         "long_cardigan": "ロングカーディガン",
         "military_jacket": "ミリタリージャケット",
-        "pifeng": "披風",
         "poncho": "ポンチョ",
         "shirt_jacket": "シャツジャケット",
         "shrug": "シュラグ",
@@ -867,10 +860,8 @@
         "cowboy_boots": "カウボーイブーツ",
         "dorsay_heels": "ドルセーヒール",
         "embroidered_shoes": "刺繍靴",
-        "fur_boots": "ファーブーツ",
         "gladiator_sandals": "グラディエーターサンダル",
         "high_top_sneakers": "ハイカットスニーカー",
-        "lace_up_boots": "レースアップブーツ",
         "lace_up_flats": "レースアップフラット",
         "penny_loafers": "コインローファー",
         "platform_heels": "厚底ヒール",
@@ -883,10 +874,8 @@
       "socks": {
         "fishnet_tights": "網タイツ",
         "garter_stockings": "ガーターストッキング",
-        "lace_stockings": "レースストッキング",
         "pantyhose": "パンスト",
         "printed_tights": "プリントタイツ",
-        "ruffled_socks": "フリルソックス",
         "strappy_socks": "ストラップソックス"
       },
       "tops": {
@@ -905,7 +894,6 @@
         "puffer_jacket": "パファージャケット",
         "sailor_blouse": "セーラーブラウス",
         "school_uniform_blouse": "制服シャツ",
-        "sweater_vest": "ニットベスト",
         "tailored_jacket": "テーラードジャケット",
         "track_jacket": "トラックジャケット"
       }

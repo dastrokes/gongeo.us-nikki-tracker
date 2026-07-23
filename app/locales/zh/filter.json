@@ -546,7 +546,6 @@
         "book": "书",
         "bouquet": "花束",
         "fan": "扇子",
-        "hair_ornament": "发饰",
         "handbag": "手提包",
         "handheld": "手持物",
         "instrument": "乐器",
@@ -659,13 +658,11 @@
         "overall_shorts": "背带短裤",
         "palazzo_pants": "阔腿长裤",
         "ruffle_shorts": "荷叶边短裤",
-        "sarong": "围裙",
         "tailored_shorts": "西装短裤",
         "wrap_skirt": "裹身裙"
       },
       "bracelets": {
         "bangle": "手镯",
-        "beaded_bracelet": "串珠手链",
         "charm_bracelet": "吊坠手链",
         "scrunchie": "发圈/丝绒发束"
       },
@@ -674,7 +671,6 @@
         "pin": "别针"
       },
       "chokers": {
-        "fur_choker": "毛绒项圈",
         "lace_choker": "蕾丝项圈",
         "pendant_choker": "吊坠项圈",
         "ribbon_choker": "丝带项圈",
@@ -747,7 +743,6 @@
         "side_braid": "侧发辫",
         "side_bun": "侧发髻",
         "side_ponytail": "侧马尾",
-        "side_twin_tails": "侧双马尾",
         "space_buns": "哪吒头",
         "top_knot": "顶髻",
         "twin_braids": "双发辫"
@@ -836,14 +831,12 @@
         "capelet": "小披肩",
         "cloak": "斗篷",
         "daxiushan": "大袖衫",
-        "duster_coat": "防尘大衣",
         "fur_coat": "皮草大衣",
         "hooded_cape": "连帽斗篷",
         "hooded_vest": "连帽背心",
         "hoodie": "连帽衫",
         "long_cardigan": "长款开衫",
         "military_jacket": "军装风夹克",
-        "pifeng": "披风",
         "poncho": "披肩斗篷",
         "shirt_jacket": "衬衫式夹克",
         "shrug": "小坎肩",
@@ -867,10 +860,8 @@
         "cowboy_boots": "西部靴",
         "dorsay_heels": "奥赛高跟鞋",
         "embroidered_shoes": "绣花鞋",
-        "fur_boots": "毛皮靴",
         "gladiator_sandals": "罗马凉鞋",
         "high_top_sneakers": "高帮运动鞋",
-        "lace_up_boots": "系带靴",
         "lace_up_flats": "系带平底鞋",
         "penny_loafers": "乐福鞋",
         "platform_heels": "厚底高跟鞋",
@@ -883,10 +874,8 @@
       "socks": {
         "fishnet_tights": "网袜",
         "garter_stockings": "吊袜带长袜",
-        "lace_stockings": "蕾丝长袜",
         "pantyhose": "连裤袜",
         "printed_tights": "印花裤袜",
-        "ruffled_socks": "褶皱边袜",
         "strappy_socks": "系带袜"
       },
       "tops": {
@@ -905,7 +894,6 @@
         "puffer_jacket": "羽绒服",
         "sailor_blouse": "水手服衬衫",
         "school_uniform_blouse": "校服衬衫",
-        "sweater_vest": "毛衣背心",
         "tailored_jacket": "西装外套",
         "track_jacket": "运动夹克"
       }

@@ -546,7 +546,6 @@
         "book": "책",
         "bouquet": "꽃다발",
         "fan": "부채",
-        "hair_ornament": "헤어 장식/손잡이용",
         "handbag": "핸드백",
         "handheld": "손에 든 물건",
         "instrument": "악기",
@@ -659,13 +658,11 @@
         "overall_shorts": "멜빵 반바지",
         "palazzo_pants": "팔라초 팬츠",
         "ruffle_shorts": "러플 쇼츠",
-        "sarong": "사롱/파레오",
         "tailored_shorts": "테일러드 쇼츠",
         "wrap_skirt": "랩 스커트"
       },
       "bracelets": {
         "bangle": "뱅글",
-        "beaded_bracelet": "비즈 팔찌",
         "charm_bracelet": "참 팔찌",
         "scrunchie": "슈크링/헤어밴드"
       },
@@ -674,7 +671,6 @@
         "pin": "핀"
       },
       "chokers": {
-        "fur_choker": "퍼 초커",
         "lace_choker": "레이스 초커",
         "pendant_choker": "펜던트 초커",
         "ribbon_choker": "리본 초커",
@@ -747,7 +743,6 @@
         "side_braid": "옆으로 땋은 머리",
         "side_bun": "옆으로 묶은 머리",
         "side_ponytail": "사이드 포니테일",
-        "side_twin_tails": "사이드 트윈테일",
         "space_buns": "스페이스 번",
         "top_knot": "탑노트",
         "twin_braids": "양갈래 땋은 머리"
@@ -836,14 +831,12 @@
         "capelet": "케이플릿",
         "cloak": "망토",
         "daxiushan": "대수삼",
-        "duster_coat": "더스터 코트",
         "fur_coat": "퍼 코트",
         "hooded_cape": "후드 망토",
         "hooded_vest": "후드 조끼",
         "hoodie": "후디",
         "long_cardigan": "롱 가디건",
         "military_jacket": "밀리터리 재킷",
-        "pifeng": "비풍",
         "poncho": "판초",
         "shirt_jacket": "셔츠 재킷",
         "shrug": "슈러그",
@@ -867,10 +860,8 @@
         "cowboy_boots": "카우보이 부츠",
         "dorsay_heels": "도르세이 힐",
         "embroidered_shoes": "꽃신/자수화",
-        "fur_boots": "털 부츠",
         "gladiator_sandals": "글래디에이터 샌들",
         "high_top_sneakers": "하이탑 스니커즈",
-        "lace_up_boots": "레이스업 부츠",
         "lace_up_flats": "레이스업 플랫",
         "penny_loafers": "페니 로퍼",
         "platform_heels": "플랫폼 힐",
@@ -883,10 +874,8 @@
       "socks": {
         "fishnet_tights": "망사 타이츠",
         "garter_stockings": "가터 스타킹",
-        "lace_stockings": "레이스 스타킹",
         "pantyhose": "팬티스타킹",
         "printed_tights": "프린트 타이츠",
-        "ruffled_socks": "러플 양말",
         "strappy_socks": "스트랩 양말"
       },
       "tops": {
@@ -905,7 +894,6 @@
         "puffer_jacket": "푸퍼 자켓",
         "sailor_blouse": "세일러 블라우스",
         "school_uniform_blouse": "교복 블라우스",
-        "sweater_vest": "니트 조끼",
         "tailored_jacket": "테일러드 재킷",
         "track_jacket": "트랙 자켓"
       }

@@ -25,6 +25,7 @@ export default defineCachedApiEventHandler(
           coreCache.payload.fourStarType3Distribution ?? {},
         bannerId: latestBannerCache.payload.bannerId ?? LATEST_BANNER_ID,
         firstItemDistribution: latestBannerCache.firstItemDistribution,
+        completionLevels: latestBannerCache.payload.completionLevels,
       }
     } catch (error: unknown) {
       if (error && typeof error === 'object' && 'statusCode' in error) {

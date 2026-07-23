@@ -59,6 +59,22 @@ const toBannerItemDistribution = (
   }, [])
 }
 
+const toCompletionLevels = (
+  value: unknown
+): GlobalBannerPayload['completionLevels'] => {
+  if (!isRecord(value)) return undefined
+
+  const count = (level: unknown) =>
+    typeof level === 'number' && Number.isFinite(level) ? level : 0
+
+  return {
+    base: count(value.base),
+    evo1: count(value.evo1),
+    evo2: count(value.evo2),
+    evo3: count(value.evo3),
+  }
+}
+
 const toBannerScopes = (value: unknown): Record<string, BannerScopePayload> => {
   if (!isRecord(value)) return {}
 
@@ -173,6 +189,7 @@ const toBannerPayload = (
         ? value.totalPulls
         : 0,
     overallPullDistribution: toNumberRecord(value.overallPullDistribution),
+    completionLevels: toCompletionLevels(value.completionLevels),
     scopes: toBannerScopes(value.scopes),
   }
 }

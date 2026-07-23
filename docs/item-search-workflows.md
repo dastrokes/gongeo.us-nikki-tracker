@@ -161,6 +161,18 @@ Before publish, review the current `gongeo.us-image-search/index/item-attributes
 6. cross-field ownership cases where the same concept appears under multiple fields and should be normalized to one canonical owner before backfill
 7. field reuse cases where an existing token is now appearing under a new field and therefore still needs tracker/localization backfill
 
+For a taxonomy review, work through the complete batch one item type at a time. Review category and subcategory together, then inspect the other fields that may already express the same distinction. Use the overview image as the primary evidence for object family and silhouette; use the icon to confirm small details. If either view is ambiguous, inspect both rather than inferring from `item_type`, which is only the game-data namespace.
+
+Taxonomy review rules:
+
+- `category` is the broad visible object family. Prefer a registered category, but allow a concise new broad category when no registered value fits the visible item; flag it for review before registry sync.
+- `subcategory` is one primary, mutually exclusive archetype under that category.
+- Materials, decoration, construction, pattern, position, length, silhouette, texture, and other overlapping traits belong in metadata.
+- A high null-subcategory rate is not itself a defect. Add a drill-down only when a repeated, visually recognizable archetype improves search and is not already represented by metadata.
+- Preserve meaningful registered archetypes even when their names include a descriptive word; do not collapse terms mechanically.
+- Flag non-null subcategories that merely combine a category/archetype name with a metadata trait, or that could validly overlap another subcategory.
+- Check category/subcategory distributions for placeholder-heavy groups, unexpected one-off values, parent conflicts, and registered values with no observed rows.
+
 If the dry-run reports shared or scoped term additions, run the non-dry backfill before publish so tracker taxonomy, filter labels, and image-search tokens stay aligned.
 
 When reviewing new tokens, distinguish between:
@@ -205,7 +217,7 @@ When using an LLM to review a new or existing index, keep the review split into 
 
 Useful review principles:
 
-- category and subcategory should describe the item type, not a material, pattern, ornament, or structure token unless that concept is clearly the whole item class
+- apply the taxonomy review rules above rather than inferring category or subcategory from `item_type`
 - prefer one long-term owner field per concept whenever the same word can appear under multiple fields
 - do not backfill a new term until ownership and synonym collapse are settled
 - low-frequency tokens are review targets, not automatic deletions
@@ -229,6 +241,8 @@ For a normal search-artifact update, the main maintainer workflow is:
 ```bash
 node scripts/sync-item-search-terms-from-attributes.mjs --dry-run --item-attributes-path ../gongeo.us-image-search/index/item-attributes.jsonl
 ```
+
+For a full-catalog cleanup, repeat the dry run with `--prune` against the complete canonical `item-attributes.jsonl`. Review removals before applying: it should remove only unobserved category/subcategory registry values and taxonomy mappings whose child is no longer registered. Never use `--prune` with a partial item or item-type batch, because absent values outside that batch are still live.
 
 4. Review the reported new terms, scoped values, and taxonomy parents.
 5. Normalize cross-field ownership in `gongeo.us-image-search` so one concept belongs to one canonical field before tracker backfill.

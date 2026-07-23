@@ -62,8 +62,10 @@
         class="rounded-xl"
         content-class="p-2 sm:p-4"
       >
-        <div class="flex flex-col gap-3 lg:flex-row lg:items-center">
-          <div class="flex flex-1 items-center gap-2">
+        <div
+          class="flex flex-col gap-3 md:grid md:grid-cols-[minmax(0,1fr)_18rem] md:items-center lg:grid-cols-[minmax(0,1fr)_20rem_minmax(0,1fr)] xl:grid-cols-[minmax(0,1fr)_28rem_minmax(0,1fr)]"
+        >
+          <div class="flex min-w-0 items-center gap-1 sm:gap-2">
             <n-tooltip trigger="hover">
               <template #trigger>
                 <n-button
@@ -97,24 +99,23 @@
                   <NuxtImg
                     :src="getImageSrc('bannerThumb', banner.bannerId)"
                     :alt="bannerName"
-                    class="h-14 w-28 rounded-md object-cover"
+                    class="h-12 w-24 rounded-md object-cover sm:h-14 sm:w-28"
                     preset="bannerThumb"
                     fit="cover"
-                    sizes="112px"
+                    sizes="96px sm:112px"
                   />
                 </NuxtLinkLocale>
               </template>
               {{ t('navigation.banner_detail') }}
             </n-tooltip>
-            <div class="min-w-0">
+            <div class="min-w-0 flex-1">
               <n-gradient-text
-                :size="18"
-                class="font-medium wrap-break-word"
+                class="block truncate text-base font-medium sm:text-lg"
                 :type="banner.bannerType === 2 ? 'warning' : 'info'"
               >
                 {{ bannerName }}
               </n-gradient-text>
-              <div class="text-sm text-gray-400">
+              <div class="truncate text-sm text-gray-400">
                 {{ t('global.banner_stats.title') }}
               </div>
             </div>
@@ -130,7 +131,65 @@
             </n-button>
           </div>
 
-          <div class="flex flex-wrap items-center justify-end gap-2">
+          <div
+            v-if="completionLevelStats.length"
+            class="w-full md:col-span-2 md:row-start-2 lg:col-span-1 lg:col-start-2 lg:row-start-1"
+          >
+            <div
+              class="flex h-2.5 overflow-hidden rounded-full bg-gray-200/70 dark:bg-gray-700/70"
+            >
+              <div
+                v-for="level in completionLevelStats"
+                :key="level.key"
+                class="transition-[filter,opacity] duration-150"
+                :class="[
+                  level.barClass,
+                  hoveredCompletionLevel !== null &&
+                  level.index < hoveredCompletionLevel
+                    ? 'opacity-20'
+                    : hoveredCompletionLevel !== null
+                      ? 'brightness-110 saturate-150'
+                      : '',
+                ]"
+                :style="{ width: level.width }"
+              />
+            </div>
+            <div
+              class="mt-1.5 grid gap-1"
+              :style="{
+                gridTemplateColumns: `repeat(${completionLevelStats.length}, minmax(0, 1fr))`,
+              }"
+            >
+              <div
+                v-for="level in completionLevelStats"
+                :key="level.key"
+                tabindex="0"
+                class="rounded-md border px-1 py-0.5 text-center transition-shadow outline-none focus-visible:ring-2 focus-visible:ring-current"
+                :class="level.cardClass"
+                @mouseenter="hoveredCompletionLevel = level.index"
+                @mouseleave="hoveredCompletionLevel = null"
+                @focus="hoveredCompletionLevel = level.index"
+                @blur="hoveredCompletionLevel = null"
+              >
+                <div
+                  class="truncate text-[10px] font-semibold tracking-wide uppercase"
+                  :class="level.textClass"
+                >
+                  {{ level.label }}
+                </div>
+                <div
+                  class="text-xs font-semibold tabular-nums"
+                  :class="level.textClass"
+                >
+                  {{ level.value.toLocaleString() }}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="flex w-full flex-wrap items-center justify-end gap-2 md:col-start-2 md:row-start-1 lg:col-start-3"
+          >
             <n-tree-select
               v-if="scopeTreeOptions.length > 0"
               v-model:value="selectedScopeValue"
@@ -142,7 +201,7 @@
               filterable
               :indent="16"
               size="small"
-              class="w-56 sm:w-72"
+              class="w-full md:w-72"
               @update:show="handleScopeDropdownShow"
               @update:value="handleScopeSelect"
             />
@@ -365,6 +424,33 @@
     GlobalBannerScopePayload['firstItemDistribution']
   type GlobalBannerHistogram = GlobalBannerPayload['overallPullDistribution']
 
+  const completionLevelStyles = {
+    base: {
+      barClass: 'bg-teal-400',
+      cardClass:
+        'border-teal-200 bg-teal-50 dark:border-teal-800 dark:bg-teal-950',
+      textClass: 'text-teal-700 dark:text-teal-300',
+    },
+    evo1: {
+      barClass: 'bg-blue-300',
+      cardClass:
+        'border-blue-200 bg-blue-50 dark:border-blue-800 dark:bg-blue-950',
+      textClass: 'text-blue-700 dark:text-blue-300',
+    },
+    evo2: {
+      barClass: 'bg-amber-300',
+      cardClass:
+        'border-amber-200 bg-amber-50 dark:border-amber-800 dark:bg-amber-950',
+      textClass: 'text-amber-700 dark:text-amber-300',
+    },
+    evo3: {
+      barClass: 'bg-rose-300',
+      cardClass:
+        'border-rose-200 bg-rose-50 dark:border-rose-800 dark:bg-rose-950',
+      textClass: 'text-rose-700 dark:text-rose-300',
+    },
+  } as const
+
   type ChartId = 'pullDistribution' | 'itemDistribution'
   type PullDistributionType = 'overall' | 'completion'
   type ItemDistributionType = 'first' | 'fifth'
@@ -490,6 +576,7 @@
   const selectedPullDistributionValue = ref('')
   const selectedItemDistributionValue = ref('')
   const maximizedChart = ref<ChartId | null>(null)
+  const hoveredCompletionLevel = ref<number | null>(null)
 
   const {
     data: bannerPayload,
@@ -522,6 +609,7 @@
       users: payload.users,
       totalPulls: payload.totalPulls,
       overallPullDistribution: payload.overallPullDistribution,
+      completionLevels: payload.completionLevels,
       scopes: payload.scopes,
     }
   })
@@ -731,6 +819,33 @@
     return selectedScopeKeyValue
       ? (scopes[selectedScopeKeyValue] ?? Object.values(scopes)[0])
       : Object.values(scopes)[0]
+  })
+
+  const completionLevelStats = computed(() => {
+    const stats = statsData.value
+    const levels = stats?.completionLevels
+    if (!stats || !levels || levels.base <= 0) return []
+
+    const keys =
+      stats.bannerType === 2
+        ? (['base', 'evo1', 'evo2', 'evo3'] as const)
+        : (['base', 'evo3'] as const)
+
+    return keys.map((sourceKey, index) => {
+      const key = sourceKey === 'evo3' && keys.length === 2 ? 'evo1' : sourceKey
+      const value = levels[sourceKey]
+      const nextKey = keys[index + 1]
+      const nextValue = nextKey ? levels[nextKey] : 0
+
+      return {
+        key,
+        index,
+        label: t(`banner.outfit.level.${index + 1}`),
+        value,
+        width: `${(Math.max(0, value - nextValue) / levels.base) * 100}%`,
+        ...completionLevelStyles[key],
+      }
+    })
   })
 
   const effectiveDate = computed(() =>

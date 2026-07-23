@@ -162,7 +162,11 @@ with scope_config as (
 ),
 banner_scope as (
   select
-    min(banner_type) as banner_type
+    min(banner_type) as banner_type,
+    min(item_count) filter (
+      where (banner_type = 2 and quality = 5)
+        or (banner_type = 3 and quality = 4)
+    ) as required_items
   from scope_config
 ),
 banner_rows as (
@@ -170,7 +174,10 @@ banner_rows as (
     stats.uid,
     stats.region,
     stats.banner_id,
+    stats.banner_type,
     stats.total_pulls,
+    stats.total_4star_items,
+    stats.total_5star_items,
     stats.pulls_4star,
     stats.pulls_5star
   from public.user_banner_stats_view stats
@@ -181,6 +188,27 @@ banner_totals as (
     count(*)::integer as users,
     coalesce(sum(total_pulls), 0)::integer as total_pulls
   from banner_rows
+),
+banner_completion as (
+  select
+    jsonb_build_object(
+      'base', count(*) filter (
+        where (scope.banner_type = 2 and rows.total_5star_items >= scope.required_items)
+          or (scope.banner_type = 3 and rows.total_4star_items >= scope.required_items)
+      ),
+      'evo1', count(*) filter (
+        where scope.banner_type = 2 and rows.total_pulls > 180
+      ),
+      'evo2', count(*) filter (
+        where scope.banner_type = 2 and rows.total_pulls > 230
+      ),
+      'evo3', count(*) filter (
+        where (scope.banner_type = 2 and rows.total_5star_items >= scope.required_items * 2)
+          or (scope.banner_type = 3 and rows.total_4star_items >= scope.required_items * 2)
+      )
+    ) as payload
+  from banner_rows rows
+  cross join banner_scope scope
 ),
 overall_pull_distribution as (
   select
@@ -352,6 +380,7 @@ select jsonb_build_object(
   'users', (select users from banner_totals),
   'totalPulls', (select total_pulls from banner_totals),
   'overallPullDistribution', (select payload from overall_pull_distribution),
+  'completionLevels', (select payload from banner_completion),
   'scopes', (select payload from scopes_json)
 );
 $$;
@@ -414,8 +443,17 @@ begin
 end;
 $$;
 
-alter table public.user_global_stats
-  drop column if exists detail_payload;
+alter function public.generate_global_core_json()
+  set search_path = public;
 
-drop function if exists public.refresh_global_banner_detail_stats(integer);
-drop function if exists public.refresh_global_banner_detail_stats_all();
+alter function public.generate_global_banner_json_for_banner(integer)
+  set search_path = public;
+
+alter function public.refresh_global_banner_stats(integer)
+  set search_path = public;
+
+alter function public.refresh_global_core_stats()
+  set search_path = public;
+
+alter function public.refresh_global_banner_stats_all()
+  set search_path = public;

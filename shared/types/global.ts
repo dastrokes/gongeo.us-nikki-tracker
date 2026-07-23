@@ -10,6 +10,13 @@ export interface GlobalBannerItemDistributionEntry {
   users: number
 }
 
+export interface GlobalBannerCompletionLevels {
+  base: number
+  evo1: number
+  evo2: number
+  evo3: number
+}
+
 export interface GlobalBannerScopePayload {
   scopeKey: string
   quality: 4 | 5
@@ -36,6 +43,7 @@ export interface GlobalCorePayload {
 export interface GlobalBootstrapData extends GlobalCorePayload {
   bannerId?: number
   firstItemDistribution?: FirstItemDistribution
+  completionLevels?: GlobalBannerCompletionLevels
 }
 
 export interface GlobalBannerPayload {
@@ -45,6 +53,7 @@ export interface GlobalBannerPayload {
   users: number
   totalPulls: number
   overallPullDistribution: GlobalBannerHistogram
+  completionLevels?: GlobalBannerCompletionLevels
   scopes: Record<string, GlobalBannerScopePayload>
 }
 

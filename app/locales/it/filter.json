@@ -536,6 +536,7 @@
       },
       "hairAccessories": {
         "crown": "Corona",
+        "eyewear": "Occhiali",
         "hair_comb": "Pettinino",
         "hair_ornament": "Ornamento per capelli",
         "headband": "Cerchietto",
@@ -558,15 +559,11 @@
         "weapon": "Arma"
       },
       "headwear": {
-        "beret": "Basco",
-        "bonnet": "Cuffia",
         "crown": "Corona",
         "eyewear": "Occhiali",
         "hair_ornament": "Ornamento per capelli",
         "hat": "Cappello",
-        "headdress": "Acconciatura/Parure",
-        "headpiece": "Accessorio testa",
-        "veil": "Velo"
+        "headpiece": "Accessorio testa"
       },
       "neckwear": {
         "choker": "Girocollo",
@@ -620,7 +617,8 @@
         "t_shirt": "T-shirt",
         "tank_top": "Canottiera",
         "tube_top": "Top a fascia",
-        "tunic": "Tunica"
+        "tunic": "Tunica",
+        "vest": "Gilet"
       }
     },
     "subcategory": {
@@ -651,11 +649,13 @@
         "bloomers": "Pantaloni a sbuffo",
         "cargo_pants": "Cargo",
         "chaps": "Chaps",
+        "denim_shorts": "Pantaloncini di jeans",
         "harem_pants": "Harem",
         "jeans": "Jeans",
         "joggers": "Joggers",
         "ma_mian_skirt": "Gonna Mamian",
         "overall_shorts": "Salopette corta",
+        "overall_skirt": "Gonna salopette",
         "palazzo_pants": "Pantaloni Palazzo",
         "ruffle_shorts": "Pantaloncini con volant",
         "tailored_shorts": "Sartoriali",
@@ -749,12 +749,17 @@
       },
       "hairAccessories": {
         "bow": "Fiocco",
+        "coronet": "Diadema",
         "flower": "Fiore",
         "hairclip": "Fermaglio",
         "hairpin": "Forcina",
+        "head_chain": "Catena per la testa",
+        "horned_headpiece": "Copricapo con corna",
         "ribbon": "Nastro",
+        "sunglasses": "Occhiali da sole",
         "tiara": "Tiara",
-        "veil": "Velo"
+        "veil": "Velo",
+        "wreath": "Ghirlanda"
       },
       "handhelds": {
         "axe": "Ascia",
@@ -795,8 +800,14 @@
       "headwear": {
         "aviator_hat": "Cappello da aviatore",
         "bandana": "Bandana",
+        "beret": "Basco",
+        "boater_hat": "Paglietta",
+        "bonnet": "Cuffia",
+        "bowler_hat": "Bombetta",
         "bucket_hat": "Cappello Pescatore",
         "coronet": "Diadema",
+        "cowboy_hat": "Cappello da cowboy",
+        "fascinator": "Fascinator",
         "goggles": "Occhialini",
         "hairpin": "Ago per capelli",
         "head_chain": "Catena per la testa",
@@ -804,10 +815,13 @@
         "headscarf": "Foulard",
         "mask": "Maschera",
         "mini_hat": "Cappellino",
+        "mushroom_hat": "Cappello a fungo",
         "newsboy_cap": "Coppola/Berretto Newsboy",
         "sunglasses": "Occhiali da sole",
         "tiara": "Tiara",
         "top_hat": "Cilindro",
+        "tricorn_hat": "Tricorno",
+        "veil": "Velo",
         "visor": "Visiera",
         "wide_brim_hat": "Cappello a tesa larga",
         "witch_hat": "Cappello da strega",
@@ -859,17 +873,16 @@
         "combat_boots": "Anfibi",
         "cowboy_boots": "Stivali da cowboy",
         "dorsay_heels": "D'Orsay",
-        "embroidered_shoes": "Scarpe ricamate",
         "gladiator_sandals": "Sandali alla schiava",
         "high_top_sneakers": "Scarpe alte",
         "lace_up_flats": "Stringate basse",
+        "low_top_sneakers": "Sneaker basse",
         "penny_loafers": "Mocassini",
-        "platform_heels": "Tacchi con plateau",
-        "platform_sandals": "Sandali con zeppa",
         "pumps": "Dcollet",
         "riding_boots": "Stivali da cavallerizza",
         "slingback_heels": "Slingback",
-        "t_strap_heels": "T-strap"
+        "t_strap_heels": "T-strap",
+        "traditional_chinese_flats": "Scarpe basse tradizionali cinesi"
       },
       "socks": {
         "fishnet_tights": "Calze a rete",
@@ -887,11 +900,10 @@
         "hoodie": "Felpa con cappuccio",
         "leotard": "Body",
         "maid_blouse": "Camicetta da cameriera",
+        "military_jacket": "Giacca militare",
         "milkmaid_top": "Top stile contadina",
-        "officer_shirt": "Camicia da ufficiale",
         "peasant_blouse": "Blusa svasata",
         "polo_shirt": "Polo",
-        "puffer_jacket": "Piumino",
         "sailor_blouse": "Camicetta alla marinara",
         "school_uniform_blouse": "Camicetta scolastica",
         "tailored_jacket": "Giacca Sartoriale",

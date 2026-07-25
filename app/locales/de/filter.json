@@ -536,6 +536,7 @@
       },
       "hairAccessories": {
         "crown": "Krone",
+        "eyewear": "Brille",
         "hair_comb": "Haarkamm",
         "hair_ornament": "Haarschmuck",
         "headband": "Haarband",
@@ -558,15 +559,11 @@
         "weapon": "Waffe"
       },
       "headwear": {
-        "beret": "Baskenmütze",
-        "bonnet": "Haube",
         "crown": "Krone",
         "eyewear": "Brille",
         "hair_ornament": "Haarschmuck",
         "hat": "Hut",
-        "headdress": "Kopfschmuck",
-        "headpiece": "Kopfstück",
-        "veil": "Schleier"
+        "headpiece": "Kopfstück"
       },
       "neckwear": {
         "choker": "Halsband",
@@ -620,7 +617,8 @@
         "t_shirt": "T-Shirt",
         "tank_top": "Tanktop",
         "tube_top": "Tube-Top",
-        "tunic": "Tunika"
+        "tunic": "Tunika",
+        "vest": "Weste"
       }
     },
     "subcategory": {
@@ -651,11 +649,13 @@
         "bloomers": "Bloomer",
         "cargo_pants": "Cargohose",
         "chaps": "Chaps",
+        "denim_shorts": "Jeansshorts",
         "harem_pants": "Haremshose",
         "jeans": "Jeans",
         "joggers": "Jogginghose",
         "ma_mian_skirt": "Ma Mian Rock",
         "overall_shorts": "Latzshorts",
+        "overall_skirt": "Latzrock",
         "palazzo_pants": "Palazzohose",
         "ruffle_shorts": "Rüschen-Shorts",
         "tailored_shorts": "Maßgefertigte Shorts",
@@ -749,12 +749,17 @@
       },
       "hairAccessories": {
         "bow": "Schleife",
+        "coronet": "Diadem",
         "flower": "Blume",
         "hairclip": "Haarclip",
         "hairpin": "Haarnadel",
+        "head_chain": "Kopfkette",
+        "horned_headpiece": "Gehörnter Kopfschmuck",
         "ribbon": "Band",
+        "sunglasses": "Sonnenbrille",
         "tiara": "Tiara",
-        "veil": "Schleier"
+        "veil": "Schleier",
+        "wreath": "Kranz"
       },
       "handhelds": {
         "axe": "Axt",
@@ -795,8 +800,14 @@
       "headwear": {
         "aviator_hat": "Fliegermütze",
         "bandana": "Bandana",
+        "beret": "Baskenmütze",
+        "boater_hat": "Canotier",
+        "bonnet": "Haube",
+        "bowler_hat": "Melone",
         "bucket_hat": "Bucket-Hat",
         "coronet": "Diadem",
+        "cowboy_hat": "Cowboyhut",
+        "fascinator": "Fascinator",
         "goggles": "Schutzbrille",
         "hairpin": "Haarnadel",
         "head_chain": "Kopfkette",
@@ -804,10 +815,13 @@
         "headscarf": "Kopftuch",
         "mask": "Maske",
         "mini_hat": "Mini-Hut",
+        "mushroom_hat": "Pilzhut",
         "newsboy_cap": "Newsboy-Mütze",
         "sunglasses": "Sonnenbrille",
         "tiara": "Tiara",
         "top_hat": "Zylinder",
+        "tricorn_hat": "Dreispitz",
+        "veil": "Schleier",
         "visor": "Visier",
         "wide_brim_hat": "Hut mit breiter Krempe",
         "witch_hat": "Hexenhut",
@@ -859,17 +873,16 @@
         "combat_boots": "Springerstiefel",
         "cowboy_boots": "Cowboystiefel",
         "dorsay_heels": "D’Orsay",
-        "embroidered_shoes": "Bestickte Schuhe",
         "gladiator_sandals": "Römersandalen",
         "high_top_sneakers": "High-Top Sneaker",
         "lace_up_flats": "Schnürschuhe",
+        "low_top_sneakers": "Low-Top Sneaker",
         "penny_loafers": "Penny-Slipper",
-        "platform_heels": "Plateau-High-Heels",
-        "platform_sandals": "Plateaussandalen",
         "pumps": "Pumps",
         "riding_boots": "Reitstiefel",
         "slingback_heels": "Slingbacks",
-        "t_strap_heels": "T-Strap"
+        "t_strap_heels": "T-Strap",
+        "traditional_chinese_flats": "Traditionelle chinesische Schuhe"
       },
       "socks": {
         "fishnet_tights": "Netzstrumpfhose",
@@ -887,11 +900,10 @@
         "hoodie": "Hoodie",
         "leotard": "Leotard",
         "maid_blouse": "Dienstmädchenbluse",
+        "military_jacket": "Militärjacke",
         "milkmaid_top": "Milkmädchen-Top",
-        "officer_shirt": "Offiziershemd",
         "peasant_blouse": "Bauernbluse",
         "polo_shirt": "Poloshirt",
-        "puffer_jacket": "Daunenjacke",
         "sailor_blouse": "Matrosenbluse",
         "school_uniform_blouse": "Schulbluse",
         "tailored_jacket": "Maßgefertigte Jacke",

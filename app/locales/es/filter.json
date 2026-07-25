@@ -536,6 +536,7 @@
       },
       "hairAccessories": {
         "crown": "Corona",
+        "eyewear": "Gafas/Anteojos",
         "hair_comb": "Peineta",
         "hair_ornament": "Ornamento para el Pelo",
         "headband": "Diadema",
@@ -558,15 +559,11 @@
         "weapon": "Arma"
       },
       "headwear": {
-        "beret": "Boina",
-        "bonnet": "Cofia/Sombrero",
         "crown": "Corona",
         "eyewear": "Gafas/Anteojos",
         "hair_ornament": "Ornamento de Cabeza",
         "hat": "Sombrero",
-        "headdress": "Tocado",
-        "headpiece": "Accesorio de Cabeza",
-        "veil": "Velo"
+        "headpiece": "Accesorio de Cabeza"
       },
       "neckwear": {
         "choker": "Gargantilla",
@@ -620,7 +617,8 @@
         "t_shirt": "Camiseta",
         "tank_top": "Top de Tirantes",
         "tube_top": "Top de Tubo",
-        "tunic": "Túnica"
+        "tunic": "Túnica",
+        "vest": "Chaleco"
       }
     },
     "subcategory": {
@@ -651,11 +649,13 @@
         "bloomers": "Bloomers/Bombachas",
         "cargo_pants": "Pantalones Cargo",
         "chaps": "Chaparreras",
+        "denim_shorts": "Pantalones cortos vaqueros",
         "harem_pants": "Pantalones Bombachos",
         "jeans": "Vaqueros",
         "joggers": "Joggers",
         "ma_mian_skirt": "Falda Mamian",
         "overall_shorts": "Peto Corto",
+        "overall_skirt": "Falda peto",
         "palazzo_pants": "Pantalones Palazzo",
         "ruffle_shorts": "Shorts con Volantes",
         "tailored_shorts": "Shorts de Sastrería",
@@ -749,12 +749,17 @@
       },
       "hairAccessories": {
         "bow": "Lazo",
+        "coronet": "Coronilla",
         "flower": "Flor",
         "hairclip": "Pasador/Clip",
         "hairpin": "Horquilla",
+        "head_chain": "Cadena para la cabeza",
+        "horned_headpiece": "Tocado con cuernos",
         "ribbon": "Cinta",
+        "sunglasses": "Gafas de Sol",
         "tiara": "Tiara",
-        "veil": "Velo"
+        "veil": "Velo",
+        "wreath": "Guirnalda"
       },
       "handhelds": {
         "axe": "Hacha",
@@ -795,8 +800,14 @@
       "headwear": {
         "aviator_hat": "Gorro de Aviador",
         "bandana": "Bandana",
+        "beret": "Boina",
+        "boater_hat": "Sombrero canotier",
+        "bonnet": "Cofia/Sombrero",
+        "bowler_hat": "Bombín",
         "bucket_hat": "Sombrero Pescador",
         "coronet": "Coronilla",
+        "cowboy_hat": "Sombrero vaquero",
+        "fascinator": "Tocado fascinator",
         "goggles": "Gafas protectoras",
         "hairpin": "Horquilla/Pasador",
         "head_chain": "Cadena para la cabeza",
@@ -804,10 +815,13 @@
         "headscarf": "Pañuelo",
         "mask": "Máscara",
         "mini_hat": "Mini Sombrero",
+        "mushroom_hat": "Sombrero de hongo",
         "newsboy_cap": "Gorra Newsboy",
         "sunglasses": "Gafas de Sol",
         "tiara": "Tiara",
         "top_hat": "Sombrero de Copa",
+        "tricorn_hat": "Tricornio",
+        "veil": "Velo",
         "visor": "Visera",
         "wide_brim_hat": "Sombrero de Ala Ancha",
         "witch_hat": "Sombrero de Bruja",
@@ -859,17 +873,16 @@
         "combat_boots": "Botas Militares",
         "cowboy_boots": "Botas Cowboy",
         "dorsay_heels": "Zapatos d'Orsay",
-        "embroidered_shoes": "Zapatos Bordados",
         "gladiator_sandals": "Sandalias Romanas",
         "high_top_sneakers": "Zapatillas de Caña Alta",
         "lace_up_flats": "Zapatos Planos con Cordones",
+        "low_top_sneakers": "Zapatillas de Caña Baja",
         "penny_loafers": "Mocasines Penny",
-        "platform_heels": "Tacones de plataforma",
-        "platform_sandals": "Sandalias de Plataforma",
         "pumps": "Zapatos de Salón",
         "riding_boots": "Botas de Equitación",
         "slingback_heels": "Tacones Destalonados",
-        "t_strap_heels": "Zapatos T-Strap"
+        "t_strap_heels": "Zapatos T-Strap",
+        "traditional_chinese_flats": "Zapatos Planos Chinos Tradicionales"
       },
       "socks": {
         "fishnet_tights": "Medias de Rejilla",
@@ -887,11 +900,10 @@
         "hoodie": "Sudadera con Capucha",
         "leotard": "Leotardo",
         "maid_blouse": "Blusa de Sirvienta",
+        "military_jacket": "Chaqueta Militar",
         "milkmaid_top": "Top Estilo Lechera",
-        "officer_shirt": "Camisa de Oficial",
         "peasant_blouse": "Blusa Campesina",
         "polo_shirt": "Camisa polo",
-        "puffer_jacket": "Plumífero",
         "sailor_blouse": "Blusa Marinera",
         "school_uniform_blouse": "Blusa Escolar",
         "tailored_jacket": "Chaqueta Sastre",

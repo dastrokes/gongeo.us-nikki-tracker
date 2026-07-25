@@ -57,6 +57,8 @@ This regenerates:
 - `app/locales/*/filter.json`
 - [data/item-search/generated/image-search-taxonomy.json](../data/item-search/generated/image-search-taxonomy.json)
 
+`gongeo.us-image-search` validates this export on startup: every registered subcategory must have one direct registered category parent, and the parent map must not contain removed subcategories.
+
 ## Publish Entry Point
 
 Use [scripts/item-search-publish.mjs](../scripts/item-search-publish.mjs) for the tracker-side publish step. It does not run Python or invoke `gongeo.us-image-search`. Instead, it reads an already-generated canonical `item-attributes.jsonl`, syncs Supabase, syncs Pinecone, and writes a report under `data/item-search/generated/reports/publish/`.
@@ -97,6 +99,8 @@ Useful flags:
 - `--overrides-only`: skip image-search extraction and sync directly from staged override rows; only valid with `item-ids` and `feedback-selected`.
 
 `--help` and `-h` only print usage. Unknown options fail before environment loading or network access.
+
+Safety: `item-search-publish.mjs` publishes every row in the provided `item-attributes.jsonl`. `--scope item-ids`, `--scope types`, and `--scope refresh-only` validate and report intent; they do not filter a larger file. For curated IDs already present in overrides, prefer `--overrides-only`. Otherwise, pass a separately generated JSONL containing exactly the intended rows and verify its IDs and row count before publishing. Use `--scope full` only with a full-catalog artifact.
 
 Examples:
 
@@ -162,6 +166,7 @@ Before publish, review the current `gongeo.us-image-search/index/item-attributes
 5. registry drift via `node scripts/sync-item-search-terms-from-attributes.mjs --dry-run --item-attributes-path ../gongeo.us-image-search/index/item-attributes.jsonl`
 6. cross-field ownership cases where the same concept appears under multiple fields and should be normalized to one canonical owner before backfill
 7. field reuse cases where an existing token is now appearing under a new field and therefore still needs tracker/localization backfill
+8. `filter_report.parent_child_mismatch` and `filter_report.subcategory_not_in_list`; correct or register every reported value before publish
 
 For a taxonomy review, work through the complete batch one item type at a time. Review category and subcategory together, then inspect the other fields that may already express the same distinction. Use the overview image as the primary evidence for object family and silhouette; use the icon to confirm small details. If either view is ambiguous, inspect both rather than inferring from `item_type`, which is only the game-data namespace.
 
@@ -173,6 +178,7 @@ Taxonomy review rules:
 - Use an overlap test: if an item can have the distinction while also belonging to another subcategory, the distinction is a metadata trait rather than the primary subcategory.
 - When removing a trait-based subcategory, preserve the directly visible meaning in the appropriate metadata field if it is not already present. Do not silently discard or duplicate it.
 - A high null-subcategory rate is not itself a defect. Add a drill-down only when a repeated, visually recognizable archetype improves search and is not already represented by metadata.
+- Do not invent, guess, or reuse a generic subcategory merely to eliminate a null. Leave subcategory null when no stable, visually supported archetype applies.
 - Preserve meaningful registered archetypes even when their names include a descriptive or culturally specific word. Evaluate whether the whole term names a stable object type rather than collapsing it mechanically.
 - Flag non-null subcategories that merely combine a category/archetype name with a metadata trait, or that could validly overlap another subcategory.
 - Check category/subcategory distributions for placeholder-heavy groups, unexpected one-off values, parent conflicts, and registered values with no observed rows.
@@ -180,7 +186,7 @@ Taxonomy review rules:
 For a curated correction batch:
 
 1. Start from each current canonical row and store a complete override snapshot with `audit`; change only reviewed fields.
-2. Overlay the overrides onto the complete artifact for that item type and validate every resulting row, not only the changed IDs.
+2. Overlay the complete curated override registry onto the complete canonical artifact, then validate every row in each affected item type, not only changed IDs. A scoped refresh is a targeted publish artifact; it must not replace the full canonical artifact.
 3. Confirm every non-null subcategory is registered under its selected category, removed values are unreachable, and any meaning moved out of subcategory is still represented in metadata.
 4. When terms change, update tracker-owned terms/taxonomy, regenerate derived assets, and review locale coverage before publish.
 5. Update the image-search prompt or normalizer only for a repeatable rule; keep item-specific visual judgments in curated overrides.
@@ -328,10 +334,10 @@ node scripts/generate_filters.mjs
 Typical Python-side commands in `gongeo.us-image-search`:
 
 ```bash
-python cli.py index --output-root index --manifest-root manifest --regen-manifest
-python cli.py index --output-root index --manifest-root manifest --type dresses --type headwear
-python cli.py index --output-root index --manifest-root manifest --item-ids 120034 120035
-python cli.py refresh --output-root index --type hair
+uv run python cli.py index --output-root index --manifest-root manifest --regen-manifest
+uv run python cli.py index --output-root index --manifest-root manifest --type dresses --type headwear
+uv run python cli.py index --output-root index --manifest-root manifest --item-ids 120034 120035
+uv run python cli.py refresh --output-root index --type hair
 ```
 
 If `manifest/item-attributes.jsonl` exists, manifest generation uses its `item_id` values to skip already-published items. That file accepts the same canonical row shape as tracker's generated Supabase mirror.
@@ -355,7 +361,7 @@ For a normal game update with new upstream items, the usual flow is:
 7. Review the artifact for cross-field ownership, then collapse near-duplicate tokens before accepting new tracker terms.
 8. Run the non-dry term/taxonomy sync when the canonical token set looks right.
 9. Regenerate tracker-side derived assets and confirm localization coverage plus locale-schema parity for the affected filter fields.
-10. Publish the resulting `item-attributes.jsonl` with `node scripts/item-search-publish.mjs --scope full --item-attributes-path ../gongeo.us-image-search/index/item-attributes.jsonl`.
+10. Publish with `--scope full` only when `item-attributes.jsonl` is the full catalog. Otherwise, use the matching targeted scope with a separately generated artifact containing exactly the intended rows, or use `--overrides-only` for curated IDs already in the override registry.
 11. Check `data/item-search/generated/reports/publish/latest.json` and `data/item-search/generated/supabase/item-attributes.jsonl`.
 
 ## Local Copy Refresh

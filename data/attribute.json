@@ -2092,12 +2092,22 @@
   {
     "field": "category",
     "itemType": "backpieces",
+    "value": "back_effect"
+  },
+  {
+    "field": "category",
+    "itemType": "backpieces",
     "value": "backpack"
   },
   {
     "field": "category",
     "itemType": "backpieces",
-    "value": "backpiece"
+    "value": "basket"
+  },
+  {
+    "field": "category",
+    "itemType": "backpieces",
+    "value": "collar"
   },
   {
     "field": "category",
@@ -2107,7 +2117,27 @@
   {
     "field": "category",
     "itemType": "backpieces",
+    "value": "frame"
+  },
+  {
+    "field": "category",
+    "itemType": "backpieces",
+    "value": "hat"
+  },
+  {
+    "field": "category",
+    "itemType": "backpieces",
+    "value": "plush"
+  },
+  {
+    "field": "category",
+    "itemType": "backpieces",
     "value": "tail"
+  },
+  {
+    "field": "category",
+    "itemType": "backpieces",
+    "value": "wind_up_key"
   },
   {
     "field": "category",
@@ -2216,6 +2246,11 @@
   },
   {
     "field": "category",
+    "itemType": "chokers",
+    "value": "tie"
+  },
+  {
+    "field": "category",
     "itemType": "dresses",
     "value": "dress"
   },
@@ -2237,7 +2272,17 @@
   {
     "field": "category",
     "itemType": "faceDecorations",
+    "value": "bandage"
+  },
+  {
+    "field": "category",
+    "itemType": "faceDecorations",
     "value": "blindfold"
+  },
+  {
+    "field": "category",
+    "itemType": "faceDecorations",
+    "value": "card"
   },
   {
     "field": "category",
@@ -2262,17 +2307,12 @@
   {
     "field": "category",
     "itemType": "faceDecorations",
-    "value": "face_prop"
-  },
-  {
-    "field": "category",
-    "itemType": "faceDecorations",
     "value": "face_veil"
   },
   {
     "field": "category",
     "itemType": "faceDecorations",
-    "value": "facial_cover"
+    "value": "flower"
   },
   {
     "field": "category",
@@ -2282,7 +2322,7 @@
   {
     "field": "category",
     "itemType": "gloves",
-    "value": "arm_decoration"
+    "value": "arm_effect"
   },
   {
     "field": "category",
@@ -2297,7 +2337,7 @@
   {
     "field": "category",
     "itemType": "gloves",
-    "value": "hand_jewelry"
+    "value": "hand_chain"
   },
   {
     "field": "category",
@@ -2357,6 +2397,11 @@
   {
     "field": "category",
     "itemType": "hairAccessories",
+    "value": "head_effect"
+  },
+  {
+    "field": "category",
+    "itemType": "hairAccessories",
     "value": "headband"
   },
   {
@@ -2368,6 +2413,11 @@
     "field": "category",
     "itemType": "handhelds",
     "value": "balloons"
+  },
+  {
+    "field": "category",
+    "itemType": "handhelds",
+    "value": "banner"
   },
   {
     "field": "category",
@@ -2397,6 +2447,11 @@
   {
     "field": "category",
     "itemType": "handhelds",
+    "value": "candelabra"
+  },
+  {
+    "field": "category",
+    "itemType": "handhelds",
     "value": "dreamcatcher"
   },
   {
@@ -2413,6 +2468,11 @@
     "field": "category",
     "itemType": "handhelds",
     "value": "flag"
+  },
+  {
+    "field": "category",
+    "itemType": "handhelds",
+    "value": "flower"
   },
   {
     "field": "category",
@@ -2437,7 +2497,27 @@
   {
     "field": "category",
     "itemType": "handhelds",
+    "value": "kickboard"
+  },
+  {
+    "field": "category",
+    "itemType": "handhelds",
     "value": "lantern"
+  },
+  {
+    "field": "category",
+    "itemType": "handhelds",
+    "value": "letter"
+  },
+  {
+    "field": "category",
+    "itemType": "handhelds",
+    "value": "mask"
+  },
+  {
+    "field": "category",
+    "itemType": "handhelds",
+    "value": "mirror"
   },
   {
     "field": "category",
@@ -2448,6 +2528,21 @@
     "field": "category",
     "itemType": "handhelds",
     "value": "plush"
+  },
+  {
+    "field": "category",
+    "itemType": "handhelds",
+    "value": "pouch"
+  },
+  {
+    "field": "category",
+    "itemType": "handhelds",
+    "value": "scroll"
+  },
+  {
+    "field": "category",
+    "itemType": "handhelds",
+    "value": "shopping_bag"
   },
   {
     "field": "category",
@@ -2497,6 +2592,16 @@
   {
     "field": "category",
     "itemType": "headwear",
+    "value": "head_effect"
+  },
+  {
+    "field": "category",
+    "itemType": "headwear",
+    "value": "headband"
+  },
+  {
+    "field": "category",
+    "itemType": "headwear",
     "value": "headpiece"
   },
   {
@@ -2507,12 +2612,12 @@
   {
     "field": "category",
     "itemType": "neckwear",
-    "value": "choker"
+    "value": "camera"
   },
   {
     "field": "category",
     "itemType": "neckwear",
-    "value": "neck_prop"
+    "value": "choker"
   },
   {
     "field": "category",
@@ -2523,6 +2628,16 @@
     "field": "category",
     "itemType": "neckwear",
     "value": "scarf"
+  },
+  {
+    "field": "category",
+    "itemType": "neckwear",
+    "value": "stethoscope"
+  },
+  {
+    "field": "category",
+    "itemType": "neckwear",
+    "value": "whistle"
   },
   {
     "field": "category",
@@ -2573,6 +2688,11 @@
     "field": "category",
     "itemType": "pendants",
     "value": "garter"
+  },
+  {
+    "field": "category",
+    "itemType": "pendants",
+    "value": "leg_jewelry"
   },
   {
     "field": "category",
@@ -2632,7 +2752,17 @@
   {
     "field": "category",
     "itemType": "socks",
+    "value": "leg_jewelry"
+  },
+  {
+    "field": "category",
+    "itemType": "socks",
     "value": "leg_warmers"
+  },
+  {
+    "field": "category",
+    "itemType": "socks",
+    "value": "leg_wraps"
   },
   {
     "field": "category",
@@ -2737,11 +2867,6 @@
   {
     "field": "subcategory",
     "itemType": "backpieces",
-    "value": "basket"
-  },
-  {
-    "field": "subcategory",
-    "itemType": "backpieces",
     "value": "bat_wings"
   },
   {
@@ -2757,27 +2882,12 @@
   {
     "field": "subcategory",
     "itemType": "backpieces",
-    "value": "collar"
-  },
-  {
-    "field": "subcategory",
-    "itemType": "backpieces",
     "value": "feathered_wings"
   },
   {
     "field": "subcategory",
     "itemType": "backpieces",
-    "value": "frame"
-  },
-  {
-    "field": "subcategory",
-    "itemType": "backpieces",
     "value": "insect_wings"
-  },
-  {
-    "field": "subcategory",
-    "itemType": "backpieces",
-    "value": "plushie"
   },
   {
     "field": "subcategory",
@@ -2802,7 +2912,7 @@
   {
     "field": "subcategory",
     "itemType": "backpieces",
-    "value": "wind_up_key"
+    "value": "wide_brim_hat"
   },
   {
     "field": "subcategory",
@@ -2933,6 +3043,21 @@
     "field": "subcategory",
     "itemType": "chestAccessories",
     "value": "pin"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "chokers",
+    "value": "bow_tie"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "chokers",
+    "value": "cravat"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "chokers",
+    "value": "necktie"
   },
   {
     "field": "subcategory",
@@ -3072,22 +3197,12 @@
   {
     "field": "subcategory",
     "itemType": "faceDecorations",
-    "value": "bandage"
-  },
-  {
-    "field": "subcategory",
-    "itemType": "faceDecorations",
     "value": "decorative_blindfold"
   },
   {
     "field": "subcategory",
     "itemType": "faceDecorations",
     "value": "decorative_eyepatch"
-  },
-  {
-    "field": "subcategory",
-    "itemType": "faceDecorations",
-    "value": "disguise"
   },
   {
     "field": "subcategory",
@@ -3137,6 +3252,11 @@
   {
     "field": "subcategory",
     "itemType": "faceDecorations",
+    "value": "novelty_glasses"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "faceDecorations",
     "value": "ornamental_mask"
   },
   {
@@ -3153,11 +3273,6 @@
     "field": "subcategory",
     "itemType": "gloves",
     "value": "gauntlets"
-  },
-  {
-    "field": "subcategory",
-    "itemType": "gloves",
-    "value": "hand_chain"
   },
   {
     "field": "subcategory",
@@ -3337,11 +3452,6 @@
   {
     "field": "subcategory",
     "itemType": "handhelds",
-    "value": "banner"
-  },
-  {
-    "field": "subcategory",
-    "itemType": "handhelds",
     "value": "bat"
   },
   {
@@ -3358,11 +3468,6 @@
     "field": "subcategory",
     "itemType": "handhelds",
     "value": "brush"
-  },
-  {
-    "field": "subcategory",
-    "itemType": "handhelds",
-    "value": "candelabra"
   },
   {
     "field": "subcategory",
@@ -3393,11 +3498,6 @@
     "field": "subcategory",
     "itemType": "handhelds",
     "value": "fishing_rod"
-  },
-  {
-    "field": "subcategory",
-    "itemType": "handhelds",
-    "value": "flower"
   },
   {
     "field": "subcategory",
@@ -3437,16 +3537,6 @@
   {
     "field": "subcategory",
     "itemType": "handhelds",
-    "value": "kickboard"
-  },
-  {
-    "field": "subcategory",
-    "itemType": "handhelds",
-    "value": "letter"
-  },
-  {
-    "field": "subcategory",
-    "itemType": "handhelds",
     "value": "maracas"
   },
   {
@@ -3472,11 +3562,6 @@
   {
     "field": "subcategory",
     "itemType": "handhelds",
-    "value": "pouch"
-  },
-  {
-    "field": "subcategory",
-    "itemType": "handhelds",
     "value": "purse"
   },
   {
@@ -3498,11 +3583,6 @@
     "field": "subcategory",
     "itemType": "handhelds",
     "value": "scissors"
-  },
-  {
-    "field": "subcategory",
-    "itemType": "handhelds",
-    "value": "scroll"
   },
   {
     "field": "subcategory",
@@ -3538,6 +3618,11 @@
     "field": "subcategory",
     "itemType": "handhelds",
     "value": "watering_can"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "headwear",
+    "value": "animal_ears"
   },
   {
     "field": "subcategory",
@@ -3617,12 +3702,12 @@
   {
     "field": "subcategory",
     "itemType": "headwear",
-    "value": "headband"
+    "value": "headscarf"
   },
   {
     "field": "subcategory",
     "itemType": "headwear",
-    "value": "headscarf"
+    "value": "horned_headpiece"
   },
   {
     "field": "subcategory",
@@ -3702,11 +3787,6 @@
   {
     "field": "subcategory",
     "itemType": "neckwear",
-    "value": "camera"
-  },
-  {
-    "field": "subcategory",
-    "itemType": "neckwear",
     "value": "lariat_necklace"
   },
   {
@@ -3722,27 +3802,12 @@
   {
     "field": "subcategory",
     "itemType": "neckwear",
-    "value": "stethoscope"
-  },
-  {
-    "field": "subcategory",
-    "itemType": "neckwear",
     "value": "strand_necklace"
-  },
-  {
-    "field": "subcategory",
-    "itemType": "neckwear",
-    "value": "whistle"
   },
   {
     "field": "subcategory",
     "itemType": "outerwear",
     "value": "beizi"
-  },
-  {
-    "field": "subcategory",
-    "itemType": "outerwear",
-    "value": "bijia"
   },
   {
     "field": "subcategory",
@@ -3847,11 +3912,6 @@
   {
     "field": "subcategory",
     "itemType": "pendants",
-    "value": "handbag"
-  },
-  {
-    "field": "subcategory",
-    "itemType": "pendants",
     "value": "shoulder_bag"
   },
   {
@@ -3947,27 +4007,12 @@
   {
     "field": "subcategory",
     "itemType": "socks",
-    "value": "fishnet_tights"
-  },
-  {
-    "field": "subcategory",
-    "itemType": "socks",
     "value": "garter_stockings"
   },
   {
     "field": "subcategory",
     "itemType": "socks",
     "value": "pantyhose"
-  },
-  {
-    "field": "subcategory",
-    "itemType": "socks",
-    "value": "printed_tights"
-  },
-  {
-    "field": "subcategory",
-    "itemType": "socks",
-    "value": "strappy_socks"
   },
   {
     "field": "subcategory",

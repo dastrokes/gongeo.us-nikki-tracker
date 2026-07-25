@@ -800,6 +800,8 @@
       "headwear": {
         "aviator_hat": "에비에이터 모자",
         "bandana": "반다나",
+        "baseball_cap": "야구 모자",
+        "beanie": "비니",
         "beret": "베레모",
         "boater_hat": "보터 햇",
         "bonnet": "보넷",
@@ -817,6 +819,7 @@
         "mini_hat": "미니 햇",
         "mushroom_hat": "버섯 모자",
         "newsboy_cap": "뉴스보이 캡",
+        "peaked_cap": "피크드 캡",
         "sunglasses": "선글라스",
         "tiara": "티아라",
         "top_hat": "탑 햇",

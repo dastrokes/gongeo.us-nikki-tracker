@@ -201,7 +201,9 @@ export const ITEM_SEARCH_SUBCATEGORY_PARENT_BY_TYPE = {
   },
   headwear: {
     aviator_hat: 'hat',
-    bandana: 'hair_ornament',
+    bandana: 'headpiece',
+    baseball_cap: 'hat',
+    beanie: 'hat',
     beret: 'hat',
     boater_hat: 'hat',
     bonnet: 'hat',
@@ -219,6 +221,7 @@ export const ITEM_SEARCH_SUBCATEGORY_PARENT_BY_TYPE = {
     mini_hat: 'hat',
     mushroom_hat: 'hat',
     newsboy_cap: 'hat',
+    peaked_cap: 'hat',
     sunglasses: 'eyewear',
     tiara: 'crown',
     top_hat: 'hat',

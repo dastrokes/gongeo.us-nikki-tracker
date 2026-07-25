@@ -800,6 +800,8 @@
       "headwear": {
         "aviator_hat": "Aviator Hat",
         "bandana": "Bandana",
+        "baseball_cap": "Baseball Cap",
+        "beanie": "Beanie",
         "beret": "Beret",
         "boater_hat": "Boater Hat",
         "bonnet": "Bonnet",
@@ -817,6 +819,7 @@
         "mini_hat": "Mini Hat",
         "mushroom_hat": "Mushroom Hat",
         "newsboy_cap": "Newsboy Cap",
+        "peaked_cap": "Peaked Cap",
         "sunglasses": "Sunglasses",
         "tiara": "Tiara",
         "top_hat": "Top Hat",

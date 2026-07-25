@@ -3352,6 +3352,16 @@
   {
     "field": "subcategory",
     "itemType": "headwear",
+    "value": "baseball_cap"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "headwear",
+    "value": "beanie"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "headwear",
     "value": "beret"
   },
   {
@@ -3433,6 +3443,11 @@
     "field": "subcategory",
     "itemType": "headwear",
     "value": "newsboy_cap"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "headwear",
+    "value": "peaked_cap"
   },
   {
     "field": "subcategory",

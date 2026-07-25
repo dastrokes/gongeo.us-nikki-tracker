@@ -800,6 +800,8 @@
       "headwear": {
         "aviator_hat": "Chapeau aviateur",
         "bandana": "Bandana",
+        "baseball_cap": "Casquette de baseball",
+        "beanie": "Bonnet",
         "beret": "Béret",
         "boater_hat": "Canotier",
         "bonnet": "Bonnet/Béguin",
@@ -817,6 +819,7 @@
         "mini_hat": "Mini-chapeau",
         "mushroom_hat": "Chapeau champignon",
         "newsboy_cap": "Casquette Newsboy",
+        "peaked_cap": "Casquette à visière",
         "sunglasses": "Lunettes de soleil",
         "tiara": "Diadème",
         "top_hat": "Haut-de-forme",

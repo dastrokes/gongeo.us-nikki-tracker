@@ -800,6 +800,8 @@
       "headwear": {
         "aviator_hat": "Gorro de Aviador",
         "bandana": "Bandana",
+        "baseball_cap": "Gorra de béisbol",
+        "beanie": "Gorro tejido",
         "beret": "Boina",
         "boater_hat": "Sombrero canotier",
         "bonnet": "Cofia/Sombrero",
@@ -817,6 +819,7 @@
         "mini_hat": "Mini Sombrero",
         "mushroom_hat": "Sombrero de hongo",
         "newsboy_cap": "Gorra Newsboy",
+        "peaked_cap": "Gorra con visera",
         "sunglasses": "Gafas de Sol",
         "tiara": "Tiara",
         "top_hat": "Sombrero de Copa",

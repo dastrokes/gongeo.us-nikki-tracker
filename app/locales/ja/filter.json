@@ -476,10 +476,16 @@
       },
       "backpieces": {
         "back_bow": "バックリボン",
+        "back_effect": "背中エフェクト",
         "backpack": "バックパック",
-        "backpiece": "背飾り",
+        "basket": "バスケット",
+        "collar": "襟/首輪",
         "drape": "ドレープ/羽衣",
+        "frame": "フレーム",
+        "hat": "帽子",
+        "plush": "ぬいぐるみ",
         "tail": "尻尾",
+        "wind_up_key": "ネジ巻キー",
         "wings": "翼"
       },
       "bodyPaint": {
@@ -510,7 +516,8 @@
         "collar": "襟/首輪",
         "headphones": "ヘッドホン",
         "necklace": "ネックレス",
-        "scarf": "スカーフ"
+        "scarf": "スカーフ",
+        "tie": "ネクタイ"
       },
       "dresses": {
         "dress": "ドレス/ワンピース",
@@ -521,21 +528,22 @@
         "earring": "イヤリング"
       },
       "faceDecorations": {
+        "bandage": "包帯",
         "blindfold": "目隠し",
+        "card": "カード",
         "eyepatch": "眼帯",
         "eyewear": "メガネ",
         "face_jewelry": "フェイスジュエリー",
         "face_marking": "フェイスペイント/紋章",
-        "face_prop": "フェイスプロップ",
         "face_veil": "フェイスベール",
-        "facial_cover": "顔用カバー",
+        "flower": "花",
         "mask": "マスク/仮面"
       },
       "gloves": {
-        "arm_decoration": "腕飾り",
+        "arm_effect": "腕エフェクト",
         "arm_warmers": "アームウォーマー",
         "gloves": "手袋",
-        "hand_jewelry": "ハンドジュエリー"
+        "hand_chain": "ハンドチェーン"
       },
       "hair": {
         "braid": "三つ編み",
@@ -551,27 +559,38 @@
         "eyewear": "メガネ",
         "hair_comb": "ヘアコーム",
         "hair_ornament": "ヘアアクセサリー",
+        "head_effect": "頭部エフェクト",
         "headband": "カチューシャ/ヘアバンド",
         "headpiece": "ヘッドピース"
       },
       "handhelds": {
         "balloons": "風船",
+        "banner": "バナー",
         "basket": "バスケット",
         "book": "本",
         "bouquet": "ブーケ",
         "cage": "ケージ",
         "camera": "カメラ",
+        "candelabra": "燭台",
         "dreamcatcher": "ドリームキャッチャー",
         "drinkware": "飲料容器",
         "fan": "扇子",
         "flag": "旗",
+        "flower": "花",
         "food": "食べ物",
         "handbag": "ハンドバッグ",
         "handheld": "手持ち物",
         "instrument": "楽器",
+        "kickboard": "ビート板",
         "lantern": "ランタン",
+        "letter": "手紙",
+        "mask": "マスク/仮面",
+        "mirror": "鏡",
         "parasol": "日傘",
         "plush": "ぬいぐるみ",
+        "pouch": "ポーチ",
+        "scroll": "巻物",
+        "shopping_bag": "ショッピングバッグ",
         "sign": "看板",
         "staff": "スタッフ/杖",
         "tool": "道具",
@@ -583,14 +602,18 @@
         "eyewear": "メガネ",
         "hair_ornament": "髪飾り/ヘッドウェア",
         "hat": "帽子",
+        "head_effect": "頭部エフェクト",
+        "headband": "カチューシャ/ヘアバンド",
         "headpiece": "ヘッドピース"
       },
       "neckwear": {
         "body_chain": "ボディチェーン",
+        "camera": "カメラ",
         "choker": "チョーカー",
-        "neck_prop": "首掛け小物",
         "necklace": "ネックレス",
-        "scarf": "スカーフ"
+        "scarf": "スカーフ",
+        "stethoscope": "聴診器",
+        "whistle": "ホイッスル"
       },
       "outerwear": {
         "cape": "ケープ/マント",
@@ -604,7 +627,8 @@
       "pendants": {
         "anklet": "アンクレット",
         "bag": "バッグ",
-        "garter": "ガーター"
+        "garter": "ガーター",
+        "leg_jewelry": "脚飾り"
       },
       "rings": {
         "ring": "指輪"
@@ -622,7 +646,9 @@
         "sneakers": "スニーカー"
       },
       "socks": {
+        "leg_jewelry": "脚飾り",
         "leg_warmers": "レッグウォーマー",
+        "leg_wraps": "脚巻き",
         "socks": "靴下",
         "stockings": "ストッキング",
         "tights": "タイツ"
@@ -651,20 +677,16 @@
         "tattoo": "タトゥー"
       },
       "backpieces": {
-        "basket": "バスケット",
         "bat_wings": "コウモリの翼",
         "cape": "マント",
         "capelet": "ケープレット",
-        "collar": "コラー",
         "feathered_wings": "羽毛の翼",
-        "frame": "フレーム",
         "insect_wings": "昆虫の翅",
-        "plushie": "プラッシュ",
         "satchel": "サッチェル",
         "schoolbag": "通学鞄",
         "stole": "ストール",
         "train": "トレイン",
-        "wind_up_key": "ネジ巻キー"
+        "wide_brim_hat": "つば広帽"
       },
       "bodyPaint": {
         "tattoo": "タトゥー",
@@ -701,6 +723,9 @@
         "pin": "ピン"
       },
       "chokers": {
+        "bow_tie": "蝶ネクタイ",
+        "cravat": "クラバット",
+        "necktie": "ネクタイ",
         "pendant_choker": "ペンダントチョーカー",
         "ruff_collar": "ひだ襟",
         "strand_necklace": "ストランドネックレス"
@@ -734,10 +759,8 @@
         "stud_earrings": "スタッドピアス"
       },
       "faceDecorations": {
-        "bandage": "包帯",
         "decorative_blindfold": "装飾用目隠し",
         "decorative_eyepatch": "装飾用眼帯",
-        "disguise": "変装",
         "eye_mask": "アイマスク",
         "face_chain": "フェイスチェーン",
         "full_face_mask": "フルフェイスマスク",
@@ -747,13 +770,13 @@
         "medical_eyepatch": "医療用眼帯",
         "monocle": "片眼鏡",
         "mouth_held": "口にくわえる",
+        "novelty_glasses": "おもしろメガネ",
         "ornamental_mask": "装飾マスク",
         "sunglasses": "サングラス"
       },
       "gloves": {
         "fingerless_gloves": "指なし手袋",
         "gauntlets": "ガントレット",
-        "hand_chain": "ハンドチェーン",
         "mittens": "ミトン",
         "opera_gloves": "ロンググローブ"
       },
@@ -795,19 +818,16 @@
       "handhelds": {
         "axe": "斧",
         "back_scratcher": "孫の手",
-        "banner": "バナー",
         "bat": "バット",
         "birdcage": "鳥かご",
         "bow": "弓",
         "brush": "筆",
-        "candelabra": "燭台",
         "candy": "キャンディ",
         "clipboard": "バインダー",
         "clutch": "クラッチバッグ",
         "crossbow": "クロスボウ",
         "cup": "カップ",
         "fishing_rod": "釣竿",
-        "flower": "花",
         "flute": "フルート",
         "folding_fan": "扇子",
         "fruit": "果物",
@@ -815,20 +835,16 @@
         "hammer": "ハンマー",
         "hoe": "鍬",
         "ice_cream": "アイスクリーム",
-        "kickboard": "ビート板",
-        "letter": "手紙",
         "maracas": "マラカス",
         "mug": "マグカップ",
         "musket": "マスケット銃",
         "net": "網",
         "pipa": "琵琶",
-        "pouch": "ポーチ",
         "purse": "パース",
         "rattle_drum": "でんでん太鼓",
         "round_fan": "うちわ",
         "satchel": "サッチェル",
         "scissors": "ハサミ",
-        "scroll": "巻物",
         "spellbook": "魔導書",
         "suitcase": "スーツケース",
         "sword": "剣",
@@ -838,6 +854,7 @@
         "watering_can": "ジョウロ"
       },
       "headwear": {
+        "animal_ears": "ケモ耳",
         "aviator_hat": "飛行帽",
         "bandana": "バンダナ",
         "baseball_cap": "ベースボールキャップ",
@@ -853,8 +870,8 @@
         "goggles": "ゴーグル",
         "hairpin": "ヘアピン",
         "head_chain": "ヘッドチェーン",
-        "headband": "カチューシャ",
         "headscarf": "ヘッドスカーフ",
+        "horned_headpiece": "角付きヘッドピース",
         "mask": "マスク",
         "mini_hat": "ミニハット",
         "mushroom_hat": "キノコ帽",
@@ -872,17 +889,13 @@
       },
       "neckwear": {
         "bib_necklace": "ビブネックレス",
-        "camera": "カメラ",
         "lariat_necklace": "ラリアットネックレス",
         "lei": "レイ",
         "pendant_necklace": "ペンダントネックレス",
-        "stethoscope": "聴診器",
-        "strand_necklace": "ストランドネックレス",
-        "whistle": "ホイッスル"
+        "strand_necklace": "ストランドネックレス"
       },
       "outerwear": {
         "beizi": "褙子",
-        "bijia": "避甲",
         "blazer": "ブレザー",
         "bolero": "ボレロ",
         "bomber_jacket": "ボンバージャケット",
@@ -905,7 +918,6 @@
       "pendants": {
         "calf_garter": "ふくらはぎガーター",
         "crossbody_bag": "ショルダーバッグ",
-        "handbag": "ハンドバッグ",
         "shoulder_bag": "ワンショルダーバッグ",
         "thigh_garter": "タイガーター"
       },
@@ -931,11 +943,8 @@
         "traditional_chinese_flats": "中華風フラットシューズ"
       },
       "socks": {
-        "fishnet_tights": "網タイツ",
         "garter_stockings": "ガーターストッキング",
-        "pantyhose": "パンスト",
-        "printed_tights": "プリントタイツ",
-        "strappy_socks": "ストラップソックス"
+        "pantyhose": "パンスト"
       },
       "tops": {
         "bandeau_top": "バンドゥ",

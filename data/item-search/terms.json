@@ -425,31 +425,38 @@
       "armDecorations": ["armlet", "body_paint", "sleeve_garter"],
       "backpieces": [
         "back_bow",
+        "back_effect",
         "backpack",
-        "backpiece",
+        "basket",
+        "collar",
         "drape",
+        "frame",
+        "hat",
+        "plush",
         "tail",
+        "wind_up_key",
         "wings"
       ],
       "bodyPaint": ["body_effect", "body_jewelry", "body_paint"],
       "bottoms": ["overalls", "pants", "shorts", "skirt", "skort"],
       "bracelets": ["bracelet", "cuff", "hand_chain", "watch"],
       "chestAccessories": ["brooch", "chest_piece", "corsage"],
-      "chokers": ["choker", "collar", "headphones", "necklace", "scarf"],
+      "chokers": ["choker", "collar", "headphones", "necklace", "scarf", "tie"],
       "dresses": ["dress", "jumpsuit"],
       "earrings": ["ear_cuff", "earring"],
       "faceDecorations": [
+        "bandage",
         "blindfold",
+        "card",
         "eyepatch",
         "eyewear",
         "face_jewelry",
         "face_marking",
-        "face_prop",
         "face_veil",
-        "facial_cover",
+        "flower",
         "mask"
       ],
-      "gloves": ["arm_decoration", "arm_warmers", "gloves", "hand_jewelry"],
+      "gloves": ["arm_effect", "arm_warmers", "gloves", "hand_chain"],
       "hair": [
         "braid",
         "bun",
@@ -464,35 +471,62 @@
         "eyewear",
         "hair_comb",
         "hair_ornament",
+        "head_effect",
         "headband",
         "headpiece"
       ],
       "handhelds": [
         "balloons",
+        "banner",
         "basket",
         "book",
         "bouquet",
         "cage",
         "camera",
+        "candelabra",
         "dreamcatcher",
         "drinkware",
         "fan",
         "flag",
+        "flower",
         "food",
         "handbag",
         "handheld",
         "instrument",
+        "kickboard",
         "lantern",
+        "letter",
+        "mask",
+        "mirror",
         "parasol",
         "plush",
+        "pouch",
+        "scroll",
+        "shopping_bag",
         "sign",
         "staff",
         "tool",
         "wand",
         "weapon"
       ],
-      "headwear": ["crown", "eyewear", "hair_ornament", "hat", "headpiece"],
-      "neckwear": ["body_chain", "choker", "neck_prop", "necklace", "scarf"],
+      "headwear": [
+        "crown",
+        "eyewear",
+        "hair_ornament",
+        "hat",
+        "head_effect",
+        "headband",
+        "headpiece"
+      ],
+      "neckwear": [
+        "body_chain",
+        "camera",
+        "choker",
+        "necklace",
+        "scarf",
+        "stethoscope",
+        "whistle"
+      ],
       "outerwear": [
         "cape",
         "cardigan",
@@ -502,7 +536,7 @@
         "shawl",
         "vest"
       ],
-      "pendants": ["anklet", "bag", "garter"],
+      "pendants": ["anklet", "bag", "garter", "leg_jewelry"],
       "rings": ["ring"],
       "shoes": [
         "barefoot",
@@ -516,7 +550,14 @@
         "slippers",
         "sneakers"
       ],
-      "socks": ["leg_warmers", "socks", "stockings", "tights"],
+      "socks": [
+        "leg_jewelry",
+        "leg_warmers",
+        "leg_wraps",
+        "socks",
+        "stockings",
+        "tights"
+      ],
       "tops": [
         "blouse",
         "bodysuit",
@@ -536,20 +577,16 @@
     "subcategory": {
       "armDecorations": ["arm_cuff", "arm_drape", "armband", "tattoo"],
       "backpieces": [
-        "basket",
         "bat_wings",
         "cape",
         "capelet",
-        "collar",
         "feathered_wings",
-        "frame",
         "insect_wings",
-        "plushie",
         "satchel",
         "schoolbag",
         "stole",
         "train",
-        "wind_up_key"
+        "wide_brim_hat"
       ],
       "bodyPaint": ["tattoo", "wing_effect"],
       "bottoms": [
@@ -574,7 +611,14 @@
       ],
       "bracelets": ["bangle", "charm_bracelet", "scrunchie"],
       "chestAccessories": ["bow_brooch", "medal", "pin"],
-      "chokers": ["pendant_choker", "ruff_collar", "strand_necklace"],
+      "chokers": [
+        "bow_tie",
+        "cravat",
+        "necktie",
+        "pendant_choker",
+        "ruff_collar",
+        "strand_necklace"
+      ],
       "dresses": [
         "babydoll_dress",
         "coat_dress",
@@ -604,10 +648,8 @@
         "stud_earrings"
       ],
       "faceDecorations": [
-        "bandage",
         "decorative_blindfold",
         "decorative_eyepatch",
-        "disguise",
         "eye_mask",
         "face_chain",
         "full_face_mask",
@@ -617,16 +659,11 @@
         "medical_eyepatch",
         "monocle",
         "mouth_held",
+        "novelty_glasses",
         "ornamental_mask",
         "sunglasses"
       ],
-      "gloves": [
-        "fingerless_gloves",
-        "gauntlets",
-        "hand_chain",
-        "mittens",
-        "opera_gloves"
-      ],
+      "gloves": ["fingerless_gloves", "gauntlets", "mittens", "opera_gloves"],
       "hair": [
         "chignon",
         "crown_braid",
@@ -665,12 +702,10 @@
       "handhelds": [
         "axe",
         "back_scratcher",
-        "banner",
         "bat",
         "birdcage",
         "bow",
         "brush",
-        "candelabra",
         "candy",
         "clutch",
         "clipboard",
@@ -678,27 +713,22 @@
         "cup",
         "fishing_rod",
         "folding_fan",
-        "flower",
         "flute",
         "fruit",
         "goblet",
         "hammer",
         "hoe",
         "ice_cream",
-        "kickboard",
-        "letter",
         "maracas",
         "mug",
         "musket",
         "net",
         "pipa",
-        "pouch",
         "purse",
         "rattle_drum",
         "round_fan",
         "satchel",
         "scissors",
-        "scroll",
         "spellbook",
         "suitcase",
         "sword",
@@ -708,6 +738,7 @@
         "watering_can"
       ],
       "headwear": [
+        "animal_ears",
         "aviator_hat",
         "bandana",
         "baseball_cap",
@@ -723,8 +754,8 @@
         "goggles",
         "hairpin",
         "head_chain",
-        "headband",
         "headscarf",
+        "horned_headpiece",
         "mask",
         "mini_hat",
         "mushroom_hat",
@@ -742,17 +773,13 @@
       ],
       "neckwear": [
         "bib_necklace",
-        "camera",
         "lariat_necklace",
         "lei",
         "pendant_necklace",
-        "stethoscope",
-        "strand_necklace",
-        "whistle"
+        "strand_necklace"
       ],
       "outerwear": [
         "beizi",
-        "bijia",
         "blazer",
         "bolero",
         "bomber_jacket",
@@ -775,7 +802,6 @@
       "pendants": [
         "calf_garter",
         "crossbody_bag",
-        "handbag",
         "shoulder_bag",
         "thigh_garter"
       ],
@@ -798,13 +824,7 @@
         "t_strap_heels",
         "traditional_chinese_flats"
       ],
-      "socks": [
-        "fishnet_tights",
-        "garter_stockings",
-        "pantyhose",
-        "printed_tights",
-        "strappy_socks"
-      ],
+      "socks": ["garter_stockings", "pantyhose"],
       "tops": [
         "bandeau_top",
         "bralette",

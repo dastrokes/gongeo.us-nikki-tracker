@@ -476,10 +476,16 @@
       },
       "backpieces": {
         "back_bow": "Nœud Arrière",
+        "back_effect": "Effet dorsal",
         "backpack": "Sac à Dos",
-        "backpiece": "Accessoire de Dos",
+        "basket": "Panier",
+        "collar": "Col",
         "drape": "Drapé",
+        "frame": "Cadre",
+        "hat": "Chapeau",
+        "plush": "Peluche",
         "tail": "Queue",
+        "wind_up_key": "Clé à remonter",
         "wings": "Ailes"
       },
       "bodyPaint": {
@@ -510,7 +516,8 @@
         "collar": "Col",
         "headphones": "Casque audio",
         "necklace": "Collier",
-        "scarf": "Écharpe"
+        "scarf": "Écharpe",
+        "tie": "Cravate"
       },
       "dresses": {
         "dress": "Robe",
@@ -521,21 +528,22 @@
         "earring": "Boucle d'oreille"
       },
       "faceDecorations": {
+        "bandage": "Bandage",
         "blindfold": "Bandeau",
+        "card": "Carte",
         "eyepatch": "Cache-œil",
         "eyewear": "Lunettes",
         "face_jewelry": "Bijou de Visage",
         "face_marking": "Marquage Visage",
-        "face_prop": "Accessoire Visage",
         "face_veil": "Voile de Visage",
-        "facial_cover": "Masque facial",
+        "flower": "Fleur",
         "mask": "Masque"
       },
       "gloves": {
-        "arm_decoration": "Ornement de bras",
+        "arm_effect": "Effet de bras",
         "arm_warmers": "Chauffe-bras",
         "gloves": "Gants",
-        "hand_jewelry": "Bijou de main"
+        "hand_chain": "Chaîne de main"
       },
       "hair": {
         "braid": "Tresse",
@@ -551,27 +559,38 @@
         "eyewear": "Lunettes",
         "hair_comb": "Peigne à cheveux",
         "hair_ornament": "Ornement de cheveux",
+        "head_effect": "Effet de tête",
         "headband": "Serre-tête",
         "headpiece": "Coiffe"
       },
       "handhelds": {
         "balloons": "Ballons",
+        "banner": "Bannière",
         "basket": "Panier",
         "book": "Livre",
         "bouquet": "Bouquet",
         "cage": "Cage",
         "camera": "Appareil photo",
+        "candelabra": "Candélabre",
         "dreamcatcher": "Attrape-rêves",
         "drinkware": "Récipients pour boissons",
         "fan": "Éventail",
         "flag": "Drapeau",
+        "flower": "Fleur",
         "food": "Nourriture",
         "handbag": "Sac à main",
         "handheld": "Tenu en main",
         "instrument": "Instrument",
+        "kickboard": "Planche de natation",
         "lantern": "Lanterne",
+        "letter": "Lettre",
+        "mask": "Masque",
+        "mirror": "Miroir",
         "parasol": "Parasol",
         "plush": "Peluche",
+        "pouch": "Pochette",
+        "scroll": "Parchemin",
+        "shopping_bag": "Sac de shopping",
         "sign": "Panneau",
         "staff": "Bâton",
         "tool": "Outil",
@@ -583,14 +602,18 @@
         "eyewear": "Lunettes",
         "hair_ornament": "Ornement cheveux",
         "hat": "Chapeau",
+        "head_effect": "Effet de tête",
+        "headband": "Serre-tête",
         "headpiece": "Coiffe"
       },
       "neckwear": {
         "body_chain": "Chaîne de corps",
+        "camera": "Appareil photo",
         "choker": "Ras de cou",
-        "neck_prop": "Objet porté au cou",
         "necklace": "Collier",
-        "scarf": "Écharpe"
+        "scarf": "Écharpe",
+        "stethoscope": "Stéthoscope",
+        "whistle": "Sifflet"
       },
       "outerwear": {
         "cape": "Cape",
@@ -604,7 +627,8 @@
       "pendants": {
         "anklet": "Bracelet de cheville",
         "bag": "Sac",
-        "garter": "Jarretière"
+        "garter": "Jarretière",
+        "leg_jewelry": "Bijou de jambe"
       },
       "rings": {
         "ring": "Bague"
@@ -622,7 +646,9 @@
         "sneakers": "Baskets"
       },
       "socks": {
+        "leg_jewelry": "Bijou de jambe",
         "leg_warmers": "Jambières",
+        "leg_wraps": "Bandes de jambe",
         "socks": "Chaussettes",
         "stockings": "Bas",
         "tights": "Collants"
@@ -651,20 +677,16 @@
         "tattoo": "Tatouage"
       },
       "backpieces": {
-        "basket": "Panier",
         "bat_wings": "Ailes de chauve-souris",
         "cape": "Cape",
         "capelet": "Capelette",
-        "collar": "Col",
         "feathered_wings": "Ailes à plumes",
-        "frame": "Cadre",
         "insect_wings": "Ailes d'insecte",
-        "plushie": "Doudou",
         "satchel": "Besace",
         "schoolbag": "Cartable",
         "stole": "Étole",
         "train": "Traîne",
-        "wind_up_key": "Clé à remonter"
+        "wide_brim_hat": "Chapeau à large bord"
       },
       "bodyPaint": {
         "tattoo": "Tatouage",
@@ -701,6 +723,9 @@
         "pin": "Épingle"
       },
       "chokers": {
+        "bow_tie": "Nœud papillon",
+        "cravat": "Lavallière",
+        "necktie": "Cravate",
         "pendant_choker": "Ras-de-cou à pendentif",
         "ruff_collar": "Fraise",
         "strand_necklace": "Rang de perles"
@@ -734,10 +759,8 @@
         "stud_earrings": "Puces/Clous d'oreilles"
       },
       "faceDecorations": {
-        "bandage": "Bandage",
         "decorative_blindfold": "Bandeau décoratif",
         "decorative_eyepatch": "Cache-œil décoratif",
-        "disguise": "Déguisement",
         "eye_mask": "Loup",
         "face_chain": "Chaîne de visage",
         "full_face_mask": "Masque intégral",
@@ -747,13 +770,13 @@
         "medical_eyepatch": "Cache-œil médical",
         "monocle": "Monocle",
         "mouth_held": "Tenu dans la bouche",
+        "novelty_glasses": "Lunettes fantaisie",
         "ornamental_mask": "Masque d'ornement",
         "sunglasses": "Lunettes de soleil"
       },
       "gloves": {
         "fingerless_gloves": "Mitaines",
         "gauntlets": "Gantelets",
-        "hand_chain": "Chaîne de main",
         "mittens": "Mouffles",
         "opera_gloves": "Gants longs"
       },
@@ -795,19 +818,16 @@
       "handhelds": {
         "axe": "Hache",
         "back_scratcher": "Gratte-dos",
-        "banner": "Bannière",
         "bat": "Batte",
         "birdcage": "Cage à oiseaux",
         "bow": "Arc",
         "brush": "Pinceau",
-        "candelabra": "Candélabre",
         "candy": "Bonbon",
         "clipboard": "Planche à pince",
         "clutch": "Pochette",
         "crossbow": "Arbalète",
         "cup": "Tasse",
         "fishing_rod": "Canne à pêche",
-        "flower": "Fleur",
         "flute": "Flûte",
         "folding_fan": "Éventail pliant",
         "fruit": "Fruit",
@@ -815,20 +835,16 @@
         "hammer": "Marteau",
         "hoe": "Houe",
         "ice_cream": "Glace",
-        "kickboard": "Planche de natation",
-        "letter": "Lettre",
         "maracas": "Maracas",
         "mug": "Mug",
         "musket": "Mousquet",
         "net": "Filet",
         "pipa": "Pipa",
-        "pouch": "Pochette",
         "purse": "Bourse",
         "rattle_drum": "Tambour à boules",
         "round_fan": "Éventail rond",
         "satchel": "Besace",
         "scissors": "Ciseaux",
-        "scroll": "Parchemin",
         "spellbook": "Grimoire",
         "suitcase": "Valise",
         "sword": "Épée",
@@ -838,6 +854,7 @@
         "watering_can": "Arrosoir"
       },
       "headwear": {
+        "animal_ears": "Oreilles d'Animal",
         "aviator_hat": "Chapeau aviateur",
         "bandana": "Bandana",
         "baseball_cap": "Casquette de baseball",
@@ -853,8 +870,8 @@
         "goggles": "Lunettes de protection",
         "hairpin": "Épingle à cheveux",
         "head_chain": "Chaîne de tête",
-        "headband": "Serre-tête",
         "headscarf": "Foulard",
+        "horned_headpiece": "Coiffe à cornes",
         "mask": "Masque",
         "mini_hat": "Mini-chapeau",
         "mushroom_hat": "Chapeau champignon",
@@ -872,17 +889,13 @@
       },
       "neckwear": {
         "bib_necklace": "Collier plastron",
-        "camera": "Appareil photo",
         "lariat_necklace": "Lariat",
         "lei": "Collier de fleurs",
         "pendant_necklace": "Collier à pendentif",
-        "stethoscope": "Stéthoscope",
-        "strand_necklace": "Rang de perles",
-        "whistle": "Sifflet"
+        "strand_necklace": "Rang de perles"
       },
       "outerwear": {
         "beizi": "Beizi",
-        "bijia": "Bijia",
         "blazer": "Blazer",
         "bolero": "Boléro",
         "bomber_jacket": "Bomber",
@@ -905,7 +918,6 @@
       "pendants": {
         "calf_garter": "Jarretière de mollet",
         "crossbody_bag": "Sac bandoulière",
-        "handbag": "Sac à main",
         "shoulder_bag": "Sac à l'épaule",
         "thigh_garter": "Jarretière cuisse"
       },
@@ -931,11 +943,8 @@
         "traditional_chinese_flats": "Chaussures plates chinoises traditionnelles"
       },
       "socks": {
-        "fishnet_tights": "Collants résille",
         "garter_stockings": "Bas jarretelles",
-        "pantyhose": "Collants",
-        "printed_tights": "Collants imprimés",
-        "strappy_socks": "Chaussettes à brides"
+        "pantyhose": "Collants"
       },
       "tops": {
         "bandeau_top": "Top bandeau",

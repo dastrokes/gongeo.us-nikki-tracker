@@ -147,6 +147,7 @@
       "butterfly",
       "button",
       "cage",
+      "camera",
       "candy",
       "cat_ears",
       "chain",
@@ -221,6 +222,7 @@
       "shell",
       "snowflake",
       "spike",
+      "star",
       "starfish",
       "sticker",
       "stitching",
@@ -482,7 +484,7 @@
         "weapon"
       ],
       "headwear": ["crown", "eyewear", "hair_ornament", "hat", "headpiece"],
-      "neckwear": ["choker", "necklace", "pendant", "scarf"],
+      "neckwear": ["body_chain", "choker", "neck_prop", "necklace", "scarf"],
       "outerwear": [
         "cape",
         "cardigan",
@@ -687,6 +689,8 @@
       "headwear": [
         "aviator_hat",
         "bandana",
+        "baseball_cap",
+        "beanie",
         "beret",
         "boater_hat",
         "bonnet",
@@ -704,6 +708,7 @@
         "mini_hat",
         "mushroom_hat",
         "newsboy_cap",
+        "peaked_cap",
         "sunglasses",
         "tiara",
         "top_hat",
@@ -715,13 +720,14 @@
         "wreath"
       ],
       "neckwear": [
-        "charm",
-        "lace_choker",
+        "bib_necklace",
+        "camera",
         "lariat_necklace",
-        "locket",
+        "lei",
         "pendant_necklace",
-        "ribbon_choker",
-        "strand_necklace"
+        "stethoscope",
+        "strand_necklace",
+        "whistle"
       ],
       "outerwear": [
         "beizi",

@@ -717,6 +717,11 @@
   {
     "field": "ornament",
     "itemType": null,
+    "value": "camera"
+  },
+  {
+    "field": "ornament",
+    "itemType": null,
     "value": "candy"
   },
   {
@@ -1083,6 +1088,11 @@
     "field": "ornament",
     "itemType": null,
     "value": "spike"
+  },
+  {
+    "field": "ornament",
+    "itemType": null,
+    "value": "star"
   },
   {
     "field": "ornament",
@@ -2402,17 +2412,22 @@
   {
     "field": "category",
     "itemType": "neckwear",
+    "value": "body_chain"
+  },
+  {
+    "field": "category",
+    "itemType": "neckwear",
     "value": "choker"
   },
   {
     "field": "category",
     "itemType": "neckwear",
-    "value": "necklace"
+    "value": "neck_prop"
   },
   {
     "field": "category",
     "itemType": "neckwear",
-    "value": "pendant"
+    "value": "necklace"
   },
   {
     "field": "category",
@@ -3352,6 +3367,16 @@
   {
     "field": "subcategory",
     "itemType": "headwear",
+    "value": "baseball_cap"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "headwear",
+    "value": "beanie"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "headwear",
     "value": "beret"
   },
   {
@@ -3437,6 +3462,11 @@
   {
     "field": "subcategory",
     "itemType": "headwear",
+    "value": "peaked_cap"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "headwear",
     "value": "sunglasses"
   },
   {
@@ -3482,12 +3512,12 @@
   {
     "field": "subcategory",
     "itemType": "neckwear",
-    "value": "charm"
+    "value": "bib_necklace"
   },
   {
     "field": "subcategory",
     "itemType": "neckwear",
-    "value": "lace_choker"
+    "value": "camera"
   },
   {
     "field": "subcategory",
@@ -3497,7 +3527,7 @@
   {
     "field": "subcategory",
     "itemType": "neckwear",
-    "value": "locket"
+    "value": "lei"
   },
   {
     "field": "subcategory",
@@ -3507,12 +3537,17 @@
   {
     "field": "subcategory",
     "itemType": "neckwear",
-    "value": "ribbon_choker"
+    "value": "stethoscope"
   },
   {
     "field": "subcategory",
     "itemType": "neckwear",
     "value": "strand_necklace"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "neckwear",
+    "value": "whistle"
   },
   {
     "field": "subcategory",

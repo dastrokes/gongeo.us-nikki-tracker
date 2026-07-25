@@ -168,6 +168,7 @@
       "butterfly": "나비",
       "button": "단추 디테일",
       "cage": "우리",
+      "camera": "카메라",
       "candy": "사탕",
       "cat_ears": "고양이 귀",
       "chain": "체인 디테일",
@@ -242,6 +243,7 @@
       "shell": "쉘/조개",
       "snowflake": "눈송이",
       "spike": "스파이크",
+      "star": "별",
       "starfish": "불가사리",
       "sticker": "스티커",
       "stitching": "스티치",
@@ -566,9 +568,10 @@
         "headpiece": "헤드피스"
       },
       "neckwear": {
+        "body_chain": "바디 체인",
         "choker": "초커",
+        "neck_prop": "목에 거는 소품",
         "necklace": "목걸이",
-        "pendant": "펜던트",
         "scarf": "스카프"
       },
       "outerwear": {
@@ -831,13 +834,14 @@
         "wreath": "화관"
       },
       "neckwear": {
-        "charm": "참",
-        "lace_choker": "레이스 초커",
+        "bib_necklace": "빕 네크리스",
+        "camera": "카메라",
         "lariat_necklace": "라리엣 목걸이",
-        "locket": "로켓",
+        "lei": "레이",
         "pendant_necklace": "펜던트 목걸이",
-        "ribbon_choker": "리본 초커",
-        "strand_necklace": "스트랜드 목걸이"
+        "stethoscope": "청진기",
+        "strand_necklace": "스트랜드 목걸이",
+        "whistle": "호루라기"
       },
       "outerwear": {
         "beizi": "배자",

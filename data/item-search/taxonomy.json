@@ -180,7 +180,9 @@
     },
     "headwear": {
       "aviator_hat": "hat",
-      "bandana": "hair_ornament",
+      "bandana": "headpiece",
+      "baseball_cap": "hat",
+      "beanie": "hat",
       "beret": "hat",
       "boater_hat": "hat",
       "bonnet": "hat",
@@ -198,6 +200,7 @@
       "mini_hat": "hat",
       "mushroom_hat": "hat",
       "newsboy_cap": "hat",
+      "peaked_cap": "hat",
       "sunglasses": "eyewear",
       "tiara": "crown",
       "top_hat": "hat",
@@ -209,13 +212,14 @@
       "wreath": "hair_ornament"
     },
     "neckwear": {
-      "charm": "pendant",
-      "lace_choker": "choker",
+      "bib_necklace": "necklace",
+      "camera": "neck_prop",
       "lariat_necklace": "necklace",
-      "locket": "pendant",
+      "lei": "necklace",
       "pendant_necklace": "necklace",
-      "ribbon_choker": "choker",
-      "strand_necklace": "necklace"
+      "stethoscope": "neck_prop",
+      "strand_necklace": "necklace",
+      "whistle": "neck_prop"
     },
     "outerwear": {
       "beizi": "robe",

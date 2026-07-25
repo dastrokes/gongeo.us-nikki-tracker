@@ -168,6 +168,7 @@
       "butterfly": "蝴蝶",
       "button": "纽扣",
       "cage": "笼状",
+      "camera": "相机",
       "candy": "糖果",
       "cat_ears": "猫耳",
       "chain": "链条",
@@ -242,6 +243,7 @@
       "shell": "贝壳",
       "snowflake": "雪花",
       "spike": "尖刺",
+      "star": "星形",
       "starfish": "海星",
       "sticker": "贴纸",
       "stitching": "缝线",
@@ -566,9 +568,10 @@
         "headpiece": "头饰/配件"
       },
       "neckwear": {
+        "body_chain": "身体链",
         "choker": "项圈",
+        "neck_prop": "挂颈道具",
         "necklace": "项链",
-        "pendant": "项坠",
         "scarf": "围巾"
       },
       "outerwear": {
@@ -831,13 +834,14 @@
         "wreath": "花环"
       },
       "neckwear": {
-        "charm": "吊坠",
-        "lace_choker": "蕾丝项圈",
+        "bib_necklace": "围兜式项链",
+        "camera": "相机",
         "lariat_necklace": "套索项链",
-        "locket": "盒式项坠",
+        "lei": "花环项链",
         "pendant_necklace": "吊坠项链",
-        "ribbon_choker": "丝带项圈",
-        "strand_necklace": "串珠项链"
+        "stethoscope": "听诊器",
+        "strand_necklace": "串珠项链",
+        "whistle": "口哨"
       },
       "outerwear": {
         "beizi": "褙子",

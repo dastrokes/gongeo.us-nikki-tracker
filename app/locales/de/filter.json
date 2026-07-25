@@ -168,6 +168,7 @@
       "butterfly": "Schmetterling",
       "button": "Knopf",
       "cage": "Käfig",
+      "camera": "Kamera",
       "candy": "Süßigkeit",
       "cat_ears": "Katzenohren",
       "chain": "Kette",
@@ -242,6 +243,7 @@
       "shell": "Muschel",
       "snowflake": "Schneeflocke",
       "spike": "Stachel",
+      "star": "Stern",
       "starfish": "Seestern",
       "sticker": "Aufkleber",
       "stitching": "Ziernähte",
@@ -566,9 +568,10 @@
         "headpiece": "Kopfstück"
       },
       "neckwear": {
+        "body_chain": "Körperkette",
         "choker": "Halsband",
+        "neck_prop": "Umhängeobjekt",
         "necklace": "Halskette",
-        "pendant": "Anhänger",
         "scarf": "Schal"
       },
       "outerwear": {
@@ -831,13 +834,14 @@
         "wreath": "Kranz"
       },
       "neckwear": {
-        "charm": "Anhänger",
-        "lace_choker": "Spitze",
+        "bib_necklace": "Latzkette",
+        "camera": "Kamera",
         "lariat_necklace": "Lariat Halskette",
-        "locket": "Amulett",
+        "lei": "Blumenkette",
         "pendant_necklace": "Anhänger-Kette",
-        "ribbon_choker": "Schleife",
-        "strand_necklace": "Strangkette"
+        "stethoscope": "Stethoskop",
+        "strand_necklace": "Strangkette",
+        "whistle": "Pfeife"
       },
       "outerwear": {
         "beizi": "Beizi",

@@ -800,6 +800,8 @@
       "headwear": {
         "aviator_hat": "Cappello da aviatore",
         "bandana": "Bandana",
+        "baseball_cap": "Cappellino da baseball",
+        "beanie": "Berretto",
         "beret": "Basco",
         "boater_hat": "Paglietta",
         "bonnet": "Cuffia",
@@ -817,6 +819,7 @@
         "mini_hat": "Cappellino",
         "mushroom_hat": "Cappello a fungo",
         "newsboy_cap": "Coppola/Berretto Newsboy",
+        "peaked_cap": "Berretto con visiera",
         "sunglasses": "Occhiali da sole",
         "tiara": "Tiara",
         "top_hat": "Cilindro",

@@ -168,6 +168,7 @@
       "butterfly": "Borboleta",
       "button": "Detalhe de Botão",
       "cage": "Gaiola",
+      "camera": "Câmera",
       "candy": "Doce",
       "cat_ears": "Orelhas de Gato",
       "chain": "Detalhe de Corrente",
@@ -242,6 +243,7 @@
       "shell": "Concha",
       "snowflake": "Floco de Neve",
       "spike": "Spike/Espinho",
+      "star": "Estrela",
       "starfish": "Estrela-do-mar",
       "sticker": "Adesivo",
       "stitching": "Costura",
@@ -566,9 +568,10 @@
         "headpiece": "Peça de cabeça"
       },
       "neckwear": {
+        "body_chain": "Corrente corporal",
         "choker": "Choker",
+        "neck_prop": "Objeto de pescoço",
         "necklace": "Colar",
-        "pendant": "Pingente",
         "scarf": "Cachecol"
       },
       "outerwear": {
@@ -831,13 +834,14 @@
         "wreath": "Guirlanda"
       },
       "neckwear": {
-        "charm": "Pingente",
-        "lace_choker": "Choker de Renda",
+        "bib_necklace": "Colar babador",
+        "camera": "Câmera",
         "lariat_necklace": "Colar Lariat",
-        "locket": "Relicário",
+        "lei": "Colar havaiano",
         "pendant_necklace": "Colar com Pingente",
-        "ribbon_choker": "Choker de Fita",
-        "strand_necklace": "Colar de Perolas"
+        "stethoscope": "Estetoscópio",
+        "strand_necklace": "Colar de Perolas",
+        "whistle": "Apito"
       },
       "outerwear": {
         "beizi": "Beizi",

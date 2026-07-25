@@ -168,6 +168,7 @@
       "butterfly": "蝶",
       "button": "ボタン",
       "cage": "籠",
+      "camera": "カメラ",
       "candy": "キャンディ",
       "cat_ears": "猫耳",
       "chain": "チェーン",
@@ -242,6 +243,7 @@
       "shell": "シェル",
       "snowflake": "雪の結晶",
       "spike": "スパイク",
+      "star": "星",
       "starfish": "ヒトデ",
       "sticker": "ステッカー",
       "stitching": "ステッチ",
@@ -566,9 +568,10 @@
         "headpiece": "ヘッドピース"
       },
       "neckwear": {
+        "body_chain": "ボディチェーン",
         "choker": "チョーカー",
+        "neck_prop": "首掛け小物",
         "necklace": "ネックレス",
-        "pendant": "ペンダント",
         "scarf": "スカーフ"
       },
       "outerwear": {
@@ -831,13 +834,14 @@
         "wreath": "リース"
       },
       "neckwear": {
-        "charm": "チャーム",
-        "lace_choker": "レースチョーカー",
+        "bib_necklace": "ビブネックレス",
+        "camera": "カメラ",
         "lariat_necklace": "ラリアットネックレス",
-        "locket": "ロケット",
+        "lei": "レイ",
         "pendant_necklace": "ペンダントネックレス",
-        "ribbon_choker": "リボンチョーカー",
-        "strand_necklace": "ストランドネックレス"
+        "stethoscope": "聴診器",
+        "strand_necklace": "ストランドネックレス",
+        "whistle": "ホイッスル"
       },
       "outerwear": {
         "beizi": "褙子",

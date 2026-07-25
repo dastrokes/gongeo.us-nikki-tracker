@@ -168,6 +168,7 @@
       "butterfly": "Butterfly",
       "button": "Button",
       "cage": "Cage",
+      "camera": "Camera",
       "candy": "Candy",
       "cat_ears": "Cat Ears",
       "chain": "Chain",
@@ -242,6 +243,7 @@
       "shell": "Shell",
       "snowflake": "Snowflake",
       "spike": "Spike",
+      "star": "Star",
       "starfish": "Starfish",
       "sticker": "Sticker",
       "stitching": "Stitching",
@@ -566,9 +568,10 @@
         "headpiece": "Headpiece"
       },
       "neckwear": {
+        "body_chain": "Body Chain",
         "choker": "Choker",
+        "neck_prop": "Neck Prop",
         "necklace": "Necklace",
-        "pendant": "Pendant",
         "scarf": "Scarf"
       },
       "outerwear": {
@@ -800,6 +803,8 @@
       "headwear": {
         "aviator_hat": "Aviator Hat",
         "bandana": "Bandana",
+        "baseball_cap": "Baseball Cap",
+        "beanie": "Beanie",
         "beret": "Beret",
         "boater_hat": "Boater Hat",
         "bonnet": "Bonnet",
@@ -817,6 +822,7 @@
         "mini_hat": "Mini Hat",
         "mushroom_hat": "Mushroom Hat",
         "newsboy_cap": "Newsboy Cap",
+        "peaked_cap": "Peaked Cap",
         "sunglasses": "Sunglasses",
         "tiara": "Tiara",
         "top_hat": "Top Hat",
@@ -828,13 +834,14 @@
         "wreath": "Wreath"
       },
       "neckwear": {
-        "charm": "Charm",
-        "lace_choker": "Lace Choker",
+        "bib_necklace": "Bib Necklace",
+        "camera": "Camera",
         "lariat_necklace": "Lariat Necklace",
-        "locket": "Locket",
+        "lei": "Lei",
         "pendant_necklace": "Pendant Necklace",
-        "ribbon_choker": "Ribbon Choker",
-        "strand_necklace": "Strand Necklace"
+        "stethoscope": "Stethoscope",
+        "strand_necklace": "Strand Necklace",
+        "whistle": "Whistle"
       },
       "outerwear": {
         "beizi": "Beizi",

@@ -51,6 +51,21 @@ const validScopes = new Set([
   'feedback-selected',
 ])
 
+const publishUsage = `Usage:
+  node scripts/item-search-publish.mjs [options]
+
+Options:
+  --scope <scope>       One of: ${Array.from(validScopes).join(', ')}; defaults to full
+  --type <type>         Repeat for types scope
+  --item-id <id>        Repeat for item-ids scope
+  --namespace <name>    Repeat to limit Pinecone namespaces
+  --feedback-id <id>    Repeat for feedback-selected scope
+  --maintainer <name>
+  --output-root <path>
+  --item-attributes-path <path>
+  --overrides-only
+  --help, -h            Show this help without publishing`
+
 const assertNetlifyPurgeConfig = () => {
   if (!process.env.NETLIFY_SITE_ID) {
     throw new Error('NETLIFY_SITE_ID is required before publishing item search')
@@ -101,11 +116,17 @@ const parseArgs = (argv) => {
     outputRoot: defaultOutputRoot,
     itemAttributesPath: null,
     overridesOnly: false,
+    help: false,
   }
 
   for (let index = 0; index < argv.length; index += 1) {
     const arg = argv[index]
     if (!arg) continue
+
+    if (arg === '--help' || arg === '-h') {
+      args.help = true
+      continue
+    }
 
     if (arg === '--scope') {
       args.scope = normalizeString(argv[index + 1]) ?? args.scope
@@ -161,7 +182,10 @@ const parseArgs = (argv) => {
 
     if (arg === '--overrides-only') {
       args.overridesOnly = true
+      continue
     }
+
+    throw new Error(`Unknown argument '${arg}'. Run with --help for usage.`)
   }
 
   args.types = uniqueStrings(args.types)
@@ -268,8 +292,11 @@ const writePublishReport = (report) => {
 }
 
 export const runItemSearchPublish = async (argv = process.argv.slice(2)) => {
-  loadEnvFile()
   const args = parseArgs(argv)
+
+  if (args.help) {
+    return { help: true, usage: publishUsage }
+  }
 
   if (!validScopes.has(args.scope)) {
     throw new Error(
@@ -287,6 +314,7 @@ export const runItemSearchPublish = async (argv = process.argv.slice(2)) => {
     )
   }
 
+  loadEnvFile()
   assertNetlifyPurgeConfig()
 
   let effectiveScope = args.scope
@@ -432,5 +460,5 @@ const isDirectRun = () => {
 
 if (isDirectRun()) {
   const result = await runItemSearchPublish(process.argv.slice(2))
-  console.log(JSON.stringify(result, null, 2))
+  console.log(result.help ? result.usage : JSON.stringify(result, null, 2))
 }

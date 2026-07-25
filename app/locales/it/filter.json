@@ -168,6 +168,7 @@
       "butterfly": "Farfalla",
       "button": "Dettaglio Bottone",
       "cage": "Gabbia",
+      "camera": "Fotocamera",
       "candy": "Caramella",
       "cat_ears": "Orecchie da Gatto",
       "chain": "Dettaglio Catena",
@@ -242,6 +243,7 @@
       "shell": "Conchiglia",
       "snowflake": "Fiocco di Neve",
       "spike": "Bborchia a Punta",
+      "star": "Stella",
       "starfish": "Stella marina",
       "sticker": "Adesivo",
       "stitching": "Cuciture",
@@ -566,9 +568,10 @@
         "headpiece": "Accessorio testa"
       },
       "neckwear": {
+        "body_chain": "Catena per il corpo",
         "choker": "Girocollo",
+        "neck_prop": "Oggetto da collo",
         "necklace": "Collana",
-        "pendant": "Ciondolo",
         "scarf": "Sciarpa"
       },
       "outerwear": {
@@ -831,13 +834,14 @@
         "wreath": "Ghirlanda"
       },
       "neckwear": {
-        "charm": "Pendaglio",
-        "lace_choker": "Girocollo di pizzo",
+        "bib_necklace": "Collana a pettorina",
+        "camera": "Fotocamera",
         "lariat_necklace": "Collana lariat",
-        "locket": "Medaglione",
+        "lei": "Collana hawaiana",
         "pendant_necklace": "Collana con pendente",
-        "ribbon_choker": "Girocollo di nastro",
-        "strand_necklace": "Filo di perle"
+        "stethoscope": "Stetoscopio",
+        "strand_necklace": "Filo di perle",
+        "whistle": "Fischietto"
       },
       "outerwear": {
         "beizi": "Beizi",

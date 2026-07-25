@@ -233,13 +233,14 @@ export const ITEM_SEARCH_SUBCATEGORY_PARENT_BY_TYPE = {
     wreath: 'hair_ornament',
   },
   neckwear: {
-    charm: 'pendant',
-    lace_choker: 'choker',
+    bib_necklace: 'necklace',
+    camera: 'neck_prop',
     lariat_necklace: 'necklace',
-    locket: 'pendant',
+    lei: 'necklace',
     pendant_necklace: 'necklace',
-    ribbon_choker: 'choker',
+    stethoscope: 'neck_prop',
     strand_necklace: 'necklace',
+    whistle: 'neck_prop',
   },
   outerwear: {
     beizi: 'robe',

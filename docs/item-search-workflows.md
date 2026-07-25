@@ -96,6 +96,8 @@ Useful flags:
 - `--output-root <path>`: directory containing `item-attributes.jsonl` when `--item-attributes-path` is not supplied.
 - `--overrides-only`: skip image-search extraction and sync directly from staged override rows; only valid with `item-ids` and `feedback-selected`.
 
+`--help` and `-h` only print usage. Unknown options fail before environment loading or network access.
+
 Examples:
 
 ```bash

@@ -471,6 +471,7 @@
     "category": {
       "armDecorations": {
         "armlet": "Braçadeira",
+        "body_paint": "Pintura corporal",
         "sleeve_garter": "Prende-mangas"
       },
       "backpieces": {
@@ -482,6 +483,8 @@
         "wings": "Asas"
       },
       "bodyPaint": {
+        "body_effect": "Efeito corporal",
+        "body_jewelry": "Joias corporais",
         "body_paint": "Pintura corporal"
       },
       "bottoms": {
@@ -493,15 +496,19 @@
       },
       "bracelets": {
         "bracelet": "Pulseira",
-        "cuff": "Bracelete Rígido"
+        "cuff": "Bracelete Rígido",
+        "hand_chain": "Corrente de mão",
+        "watch": "Relógio"
       },
       "chestAccessories": {
         "brooch": "Broche",
+        "chest_piece": "Adorno peitoral",
         "corsage": "Corsage"
       },
       "chokers": {
         "choker": "Choker",
         "collar": "Gola/Gargantilha",
+        "headphones": "Fones de ouvido",
         "necklace": "Colar",
         "scarf": "Cachecol"
       },
@@ -525,7 +532,10 @@
         "mask": "Máscara"
       },
       "gloves": {
-        "gloves": "Luvas"
+        "arm_decoration": "Adorno de braço",
+        "arm_warmers": "Aquecedores de braço",
+        "gloves": "Luvas",
+        "hand_jewelry": "Joias de mão"
       },
       "hair": {
         "braid": "Trança",
@@ -545,16 +555,24 @@
         "headpiece": "Adereço de cabeça"
       },
       "handhelds": {
+        "balloons": "Balões",
         "basket": "Cesto",
         "book": "Livro",
         "bouquet": "Buquê",
+        "cage": "Gaiola",
+        "camera": "Câmera",
+        "dreamcatcher": "Filtro dos sonhos",
+        "drinkware": "Recipientes para bebidas",
         "fan": "Leque",
+        "flag": "Bandeira",
+        "food": "Comida",
         "handbag": "Bolsa de mão",
         "handheld": "Objeto na mão",
         "instrument": "Instrumento",
         "lantern": "Lanterna",
         "parasol": "Sombrinha",
         "plush": "Pelúcia",
+        "sign": "Placa",
         "staff": "Cajado/Bastão",
         "tool": "Ferramenta",
         "wand": "Varinha",
@@ -584,6 +602,7 @@
         "vest": "Colete"
       },
       "pendants": {
+        "anklet": "Tornozeleira",
         "bag": "Bolsa",
         "garter": "Jarreteira"
       },
@@ -626,14 +645,20 @@
     },
     "subcategory": {
       "armDecorations": {
-        "arm_cuff": "Bracelete Rígido"
+        "arm_cuff": "Bracelete Rígido",
+        "arm_drape": "Drapeado de braço",
+        "armband": "Braçadeira",
+        "tattoo": "Tatuagem"
       },
       "backpieces": {
         "basket": "Cesto",
+        "bat_wings": "Asas de morcego",
         "cape": "Capinha",
         "capelet": "Pelerine",
         "collar": "Gola",
+        "feathered_wings": "Asas de penas",
         "frame": "Moldura",
+        "insect_wings": "Asas de inseto",
         "plushie": "Pelúcia",
         "satchel": "Bolsa Tiracolo",
         "schoolbag": "Mochila Escolar",
@@ -642,7 +667,8 @@
         "wind_up_key": "Chave de Corda"
       },
       "bodyPaint": {
-        "tattoo": "Tatuagem"
+        "tattoo": "Tatuagem",
+        "wing_effect": "Efeito de asas"
       },
       "bottoms": {
         "apron_skirt": "Saia avental",
@@ -671,13 +697,12 @@
       },
       "chestAccessories": {
         "bow_brooch": "Broche de Laço",
+        "medal": "Medalha",
         "pin": "Pin/Broche"
       },
       "chokers": {
-        "lace_choker": "Choker de Renda",
         "pendant_choker": "Gargantilha com pingente",
-        "ribbon_choker": "Choker de Fita",
-        "ruffle_choker": "Gargantilha com babados",
+        "ruff_collar": "Gola de rufo",
         "strand_necklace": "Colar de Perolas"
       },
       "dresses": {
@@ -714,9 +739,10 @@
         "decorative_eyepatch": "Tapa-olho Decorativo",
         "disguise": "Disfarce",
         "eye_mask": "Máscara de dormir",
+        "face_chain": "Corrente facial",
+        "full_face_mask": "Máscara facial completa",
         "glasses": "Óculos",
         "goggles": "Óculos de Proteção",
-        "half_mask": "Meia Máscara",
         "lower_face_mask": "Máscara Facial",
         "medical_eyepatch": "Tapa-olho Médico",
         "monocle": "Monóculo",
@@ -726,6 +752,8 @@
       },
       "gloves": {
         "fingerless_gloves": "Luvas sem dedos",
+        "gauntlets": "Manoplas",
+        "hand_chain": "Corrente de mão",
         "mittens": "Mitas",
         "opera_gloves": "Luvas de Ópera (Longas)"
       },
@@ -769,27 +797,36 @@
         "back_scratcher": "Coçador de costas",
         "banner": "Estandarte",
         "bat": "Taco",
+        "birdcage": "Gaiola de pássaros",
         "bow": "Arco",
         "brush": "Pincel",
         "candelabra": "Candelabro",
         "candy": "Doce/Bala",
         "clipboard": "Prancheta",
+        "clutch": "Bolsa clutch",
         "crossbow": "Bestas",
         "cup": "Copo",
         "fishing_rod": "Vara de Pescar",
         "flower": "Flor",
         "flute": "Flauta",
+        "folding_fan": "Leque dobrável",
+        "fruit": "Fruta",
         "goblet": "Cálice",
         "hammer": "Martelo",
         "hoe": "Enxada",
+        "ice_cream": "Sorvete",
         "kickboard": "Prancha de natação",
         "letter": "Carta",
+        "maracas": "Maracas",
+        "mug": "Caneca",
         "musket": "Mosquete",
         "net": "Rede",
         "pipa": "Pipa",
         "pouch": "Bolsinha",
         "purse": "Bolsa de mão/Carteira",
         "rattle_drum": "Tamborim",
+        "round_fan": "Leque redondo",
+        "satchel": "Bolsa Tiracolo",
         "scissors": "Tesoura",
         "scroll": "Pergaminho",
         "spellbook": "Grimório",
@@ -866,12 +903,14 @@
         "windbreaker": "Corta-vento"
       },
       "pendants": {
-        "anklet": "Tornozeleira",
+        "calf_garter": "Liga de panturrilha",
         "crossbody_bag": "Bolsa Transversal",
         "handbag": "Bolsa de Mão",
-        "leg_garter": "Liga de Perna",
         "shoulder_bag": "Bolsa de Ombro",
         "thigh_garter": "Liga de Coxa"
+      },
+      "rings": {
+        "ring_set": "Conjunto de anéis"
       },
       "shoes": {
         "ankle_strap_heels": "Sandália Tira no Tornozelo",

@@ -536,6 +536,7 @@
       },
       "hairAccessories": {
         "crown": "Crown",
+        "eyewear": "Eyewear",
         "hair_comb": "Hair Comb",
         "hair_ornament": "Hair Ornament",
         "headband": "Headband",
@@ -558,15 +559,11 @@
         "weapon": "Weapon"
       },
       "headwear": {
-        "beret": "Beret",
-        "bonnet": "Bonnet",
         "crown": "Crown",
         "eyewear": "Eyewear",
         "hair_ornament": "Hair Ornament",
         "hat": "Hat",
-        "headdress": "Headdress",
-        "headpiece": "Headpiece",
-        "veil": "Veil"
+        "headpiece": "Headpiece"
       },
       "neckwear": {
         "choker": "Choker",
@@ -620,7 +617,8 @@
         "t_shirt": "T Shirt",
         "tank_top": "Tank Top",
         "tube_top": "Tube Top",
-        "tunic": "Tunic"
+        "tunic": "Tunic",
+        "vest": "Vest"
       }
     },
     "subcategory": {
@@ -651,11 +649,13 @@
         "bloomers": "Bloomers",
         "cargo_pants": "Cargo Pants",
         "chaps": "Chaps",
+        "denim_shorts": "Denim Shorts",
         "harem_pants": "Harem Pants",
         "jeans": "Jeans",
         "joggers": "Joggers",
         "ma_mian_skirt": "Ma Mian Skirt",
         "overall_shorts": "Overall Shorts",
+        "overall_skirt": "Overall Skirt",
         "palazzo_pants": "Palazzo Pants",
         "ruffle_shorts": "Ruffle Shorts",
         "tailored_shorts": "Tailored Shorts",
@@ -749,12 +749,17 @@
       },
       "hairAccessories": {
         "bow": "Bow",
+        "coronet": "Coronet",
         "flower": "Flower",
         "hairclip": "Hairclip",
         "hairpin": "Hairpin",
+        "head_chain": "Head Chain",
+        "horned_headpiece": "Horned Headpiece",
         "ribbon": "Ribbon",
+        "sunglasses": "Sunglasses",
         "tiara": "Tiara",
-        "veil": "Veil"
+        "veil": "Veil",
+        "wreath": "Wreath"
       },
       "handhelds": {
         "axe": "Axe",
@@ -795,8 +800,14 @@
       "headwear": {
         "aviator_hat": "Aviator Hat",
         "bandana": "Bandana",
+        "beret": "Beret",
+        "boater_hat": "Boater Hat",
+        "bonnet": "Bonnet",
+        "bowler_hat": "Bowler Hat",
         "bucket_hat": "Bucket Hat",
         "coronet": "Coronet",
+        "cowboy_hat": "Cowboy Hat",
+        "fascinator": "Fascinator",
         "goggles": "Goggles",
         "hairpin": "Hairpin",
         "head_chain": "Head Chain",
@@ -804,10 +815,13 @@
         "headscarf": "Headscarf",
         "mask": "Mask",
         "mini_hat": "Mini Hat",
+        "mushroom_hat": "Mushroom Hat",
         "newsboy_cap": "Newsboy Cap",
         "sunglasses": "Sunglasses",
         "tiara": "Tiara",
         "top_hat": "Top Hat",
+        "tricorn_hat": "Tricorn Hat",
+        "veil": "Veil",
         "visor": "Visor",
         "wide_brim_hat": "Wide Brim Hat",
         "witch_hat": "Witch Hat",
@@ -859,17 +873,16 @@
         "combat_boots": "Combat Boots",
         "cowboy_boots": "Cowboy Boots",
         "dorsay_heels": "Dorsay Heels",
-        "embroidered_shoes": "Embroidered Shoes",
         "gladiator_sandals": "Gladiator Sandals",
         "high_top_sneakers": "High Top Sneakers",
         "lace_up_flats": "Lace Up Flats",
+        "low_top_sneakers": "Low Top Sneakers",
         "penny_loafers": "Penny Loafers",
-        "platform_heels": "Platform Heels",
-        "platform_sandals": "Platform Sandals",
         "pumps": "Pumps",
         "riding_boots": "Riding Boots",
         "slingback_heels": "Slingback Heels",
-        "t_strap_heels": "T Strap Heels"
+        "t_strap_heels": "T Strap Heels",
+        "traditional_chinese_flats": "Traditional Chinese Flats"
       },
       "socks": {
         "fishnet_tights": "Fishnet Tights",
@@ -887,11 +900,10 @@
         "hoodie": "Hoodie",
         "leotard": "Leotard",
         "maid_blouse": "Maid Blouse",
+        "military_jacket": "Military Jacket",
         "milkmaid_top": "Milkmaid Top",
-        "officer_shirt": "Officer Shirt",
         "peasant_blouse": "Peasant Blouse",
         "polo_shirt": "Polo Shirt",
-        "puffer_jacket": "Puffer Jacket",
         "sailor_blouse": "Sailor Blouse",
         "school_uniform_blouse": "School Uniform Blouse",
         "tailored_jacket": "Tailored Jacket",

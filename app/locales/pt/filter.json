@@ -536,6 +536,7 @@
       },
       "hairAccessories": {
         "crown": "Coroa",
+        "eyewear": "Óculos",
         "hair_comb": "Pente de cabelo",
         "hair_ornament": "Ornamento de Cabelo",
         "headband": "Tiara/Arquinho",
@@ -558,15 +559,11 @@
         "weapon": "Arma"
       },
       "headwear": {
-        "beret": "Boina",
-        "bonnet": "Touca/Gorro",
         "crown": "Coroa",
         "eyewear": "Óculos",
         "hair_ornament": "Ornamento de cabelo",
         "hat": "Chapéu",
-        "headdress": "Touca/Adorno",
-        "headpiece": "Peça de cabeça",
-        "veil": "Véu"
+        "headpiece": "Peça de cabeça"
       },
       "neckwear": {
         "choker": "Choker",
@@ -620,7 +617,8 @@
         "t_shirt": "Camiseta",
         "tank_top": "Regata",
         "tube_top": "Top Tomara que Caia",
-        "tunic": "Túnica"
+        "tunic": "Túnica",
+        "vest": "Colete"
       }
     },
     "subcategory": {
@@ -651,11 +649,13 @@
         "bloomers": "Bloomers/Bombachas",
         "cargo_pants": "Calça Cargo",
         "chaps": "Perneiras",
+        "denim_shorts": "Shorts jeans",
         "harem_pants": "Calça Saruel",
         "jeans": "Jeans",
         "joggers": "Joggers",
         "ma_mian_skirt": "Saia Mamian",
         "overall_shorts": "Macacão Curto",
+        "overall_skirt": "Saia jardineira",
         "palazzo_pants": "Calça Palazzo",
         "ruffle_shorts": "Shorts com Babados",
         "tailored_shorts": "Shorts de Alfaiataria",
@@ -749,12 +749,17 @@
       },
       "hairAccessories": {
         "bow": "Laço",
+        "coronet": "Coronilha",
         "flower": "Flor",
         "hairclip": "Presilha",
         "hairpin": "Grampo/Alfinete",
+        "head_chain": "Corrente de cabeça",
+        "horned_headpiece": "Adorno de cabeça com chifres",
         "ribbon": "Fita",
+        "sunglasses": "Óculos de Sol",
         "tiara": "Tiara",
-        "veil": "Véu"
+        "veil": "Véu",
+        "wreath": "Guirlanda"
       },
       "handhelds": {
         "axe": "Machado",
@@ -795,8 +800,14 @@
       "headwear": {
         "aviator_hat": "Gorro de Aviador",
         "bandana": "Bandana",
+        "beret": "Boina",
+        "boater_hat": "Chapéu canotier",
+        "bonnet": "Touca/Gorro",
+        "bowler_hat": "Chapéu-coco",
         "bucket_hat": "Chapéu Bucket",
         "coronet": "Coronilha",
+        "cowboy_hat": "Chapéu de cowboy",
+        "fascinator": "Fascinator",
         "goggles": "Óculos de proteção",
         "hairpin": "Alfinete de Cabelo",
         "head_chain": "Corrente de cabeça",
@@ -804,10 +815,13 @@
         "headscarf": "Lenço",
         "mask": "Máscara",
         "mini_hat": "Mini Chapéu",
+        "mushroom_hat": "Chapéu cogumelo",
         "newsboy_cap": "Boné Newsboy",
         "sunglasses": "Óculos de Sol",
         "tiara": "Tiara",
         "top_hat": "Cartola",
+        "tricorn_hat": "Tricórnio",
+        "veil": "Véu",
         "visor": "Viseira",
         "wide_brim_hat": "Chapéu de Aba Larga",
         "witch_hat": "Chapéu de Bruxa",
@@ -859,17 +873,16 @@
         "combat_boots": "Coturnos",
         "cowboy_boots": "Botas Cowboy",
         "dorsay_heels": "Sapatos d'Orsay",
-        "embroidered_shoes": "Sapatos Bordados",
         "gladiator_sandals": "Sandálias Gladiadoras",
         "high_top_sneakers": "Tênis Cano Alto",
         "lace_up_flats": "Sapatos de Amarrar",
+        "low_top_sneakers": "Tênis Cano Baixo",
         "penny_loafers": "Loafers Penny",
-        "platform_heels": "Saltos plataforma",
-        "platform_sandals": "Sandálias Plataforma",
         "pumps": "Scarpins",
         "riding_boots": "Botas de Montaria",
         "slingback_heels": "Slingbacks",
-        "t_strap_heels": "Sapatos T-Strap"
+        "t_strap_heels": "Sapatos T-Strap",
+        "traditional_chinese_flats": "Sapatos Chineses Tradicionais sem Salto"
       },
       "socks": {
         "fishnet_tights": "Meia-calça Arrastão",
@@ -887,11 +900,10 @@
         "hoodie": "Moletom com Capuz",
         "leotard": "Leotard",
         "maid_blouse": "Blusa de Empregada",
+        "military_jacket": "Jaqueta Militar",
         "milkmaid_top": "Top Camponesa",
-        "officer_shirt": "Camisa de Oficial",
         "peasant_blouse": "Blusa Camponesa",
         "polo_shirt": "Camisa polo",
-        "puffer_jacket": "Jaqueta puffer",
         "sailor_blouse": "Blusa Marinheira",
         "school_uniform_blouse": "Blusa de Uniforme",
         "tailored_jacket": "Blazer/Jaqueta Alfaiataria",

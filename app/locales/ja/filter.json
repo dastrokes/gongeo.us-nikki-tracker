@@ -536,6 +536,7 @@
       },
       "hairAccessories": {
         "crown": "王冠",
+        "eyewear": "メガネ",
         "hair_comb": "ヘアコーム",
         "hair_ornament": "ヘアアクセサリー",
         "headband": "カチューシャ/ヘアバンド",
@@ -558,15 +559,11 @@
         "weapon": "武器"
       },
       "headwear": {
-        "beret": "ベレー帽",
-        "bonnet": "ボネット",
         "crown": "冠",
         "eyewear": "メガネ",
         "hair_ornament": "髪飾り/ヘッドウェア",
         "hat": "帽子",
-        "headdress": "ヘッドドレス",
-        "headpiece": "ヘッドピース",
-        "veil": "ベール"
+        "headpiece": "ヘッドピース"
       },
       "neckwear": {
         "choker": "チョーカー",
@@ -620,7 +617,8 @@
         "t_shirt": "Tシャツ",
         "tank_top": "タンクトップ",
         "tube_top": "チューブトップ",
-        "tunic": "チュニック"
+        "tunic": "チュニック",
+        "vest": "ベスト"
       }
     },
     "subcategory": {
@@ -651,11 +649,13 @@
         "bloomers": "ブルマ",
         "cargo_pants": "カーゴパンツ",
         "chaps": "チャップス",
+        "denim_shorts": "デニムショートパンツ",
         "harem_pants": "サルエルパンツ",
         "jeans": "ジーンズ",
         "joggers": "ジョガーパンツ",
         "ma_mian_skirt": "馬面裙",
         "overall_shorts": "サロペットショートパンツ",
+        "overall_skirt": "オーバーオールスカート",
         "palazzo_pants": "パラッツォパンツ",
         "ruffle_shorts": "フリルショートパンツ",
         "tailored_shorts": "テーラードショートパンツ",
@@ -749,12 +749,17 @@
       },
       "hairAccessories": {
         "bow": "蝶結び",
+        "coronet": "コロネット",
         "flower": "花",
         "hairclip": "ヘアクリップ",
         "hairpin": "ヘアピン",
+        "head_chain": "ヘッドチェーン",
+        "horned_headpiece": "角付きヘッドピース",
         "ribbon": "リボン",
+        "sunglasses": "サングラス",
         "tiara": "ティアラ",
-        "veil": "ベール"
+        "veil": "ベール",
+        "wreath": "リース"
       },
       "handhelds": {
         "axe": "斧",
@@ -795,8 +800,14 @@
       "headwear": {
         "aviator_hat": "飛行帽",
         "bandana": "バンダナ",
+        "beret": "ベレー帽",
+        "boater_hat": "カンカン帽",
+        "bonnet": "ボネット",
+        "bowler_hat": "山高帽",
         "bucket_hat": "バケットハット",
         "coronet": "コロネット",
+        "cowboy_hat": "カウボーイハット",
+        "fascinator": "ファシネーター",
         "goggles": "ゴーグル",
         "hairpin": "ヘアピン",
         "head_chain": "ヘッドチェーン",
@@ -804,10 +815,13 @@
         "headscarf": "ヘッドスカーフ",
         "mask": "マスク",
         "mini_hat": "ミニハット",
+        "mushroom_hat": "キノコ帽",
         "newsboy_cap": "ニュースボーイキャップ",
         "sunglasses": "サングラス",
         "tiara": "ティアラ",
         "top_hat": "シルクハット",
+        "tricorn_hat": "三角帽",
+        "veil": "ベール",
         "visor": "バイザー",
         "wide_brim_hat": "つば広帽",
         "witch_hat": "魔女の帽子",
@@ -859,17 +873,16 @@
         "combat_boots": "コンバットブーツ",
         "cowboy_boots": "カウボーイブーツ",
         "dorsay_heels": "ドルセーヒール",
-        "embroidered_shoes": "刺繍靴",
         "gladiator_sandals": "グラディエーターサンダル",
         "high_top_sneakers": "ハイカットスニーカー",
         "lace_up_flats": "レースアップフラット",
+        "low_top_sneakers": "ローカットスニーカー",
         "penny_loafers": "コインローファー",
-        "platform_heels": "厚底ヒール",
-        "platform_sandals": "厚底サンダル",
         "pumps": "パンプス",
         "riding_boots": "ジョッキーブーツ",
         "slingback_heels": "バックストラップヒール",
-        "t_strap_heels": "Tストラップヒール"
+        "t_strap_heels": "Tストラップヒール",
+        "traditional_chinese_flats": "中華風フラットシューズ"
       },
       "socks": {
         "fishnet_tights": "網タイツ",
@@ -887,11 +900,10 @@
         "hoodie": "パーカー",
         "leotard": "レオタード",
         "maid_blouse": "メイドブラウス",
+        "military_jacket": "ミリタリージャケット",
         "milkmaid_top": "ミルクメイドトップ",
-        "officer_shirt": "オフィサーシャツ",
         "peasant_blouse": "フィッシャーマンブラウス/ピザント",
         "polo_shirt": "ポロシャツ",
-        "puffer_jacket": "パファージャケット",
         "sailor_blouse": "セーラーブラウス",
         "school_uniform_blouse": "制服シャツ",
         "tailored_jacket": "テーラードジャケット",

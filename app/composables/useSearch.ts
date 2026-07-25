@@ -6,6 +6,7 @@ type FuseConstructor = (typeof import('fuse.js'))['default']
 export const useSearch = () => {
   const { t, locale } = useI18n()
   const localePath = useLocalePath()
+  const { activeRegionScope } = useWardrobeSettings()
   const isChineseLocale = computed(() => locale.value === 'zh')
 
   const searchIndex = ref<SearchIndex>({
@@ -241,6 +242,15 @@ export const useSearch = () => {
     const searchResults = fuseInstance.value
       .search(normalizedQuery)
       .map(toSearchResult)
+      .filter(
+        (result) =>
+          result.type !== 'item' ||
+          isCatalogEntryAvailableInScope(
+            'item',
+            Number(result.id),
+            activeRegionScope.value
+          )
+      )
 
     return limit === undefined ? searchResults : searchResults.slice(0, limit)
   }

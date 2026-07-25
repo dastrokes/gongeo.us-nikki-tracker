@@ -459,6 +459,7 @@
       ],
       "hairAccessories": [
         "crown",
+        "eyewear",
         "hair_comb",
         "hair_ornament",
         "headband",
@@ -480,17 +481,7 @@
         "wand",
         "weapon"
       ],
-      "headwear": [
-        "beret",
-        "bonnet",
-        "crown",
-        "eyewear",
-        "hair_ornament",
-        "hat",
-        "headdress",
-        "headpiece",
-        "veil"
-      ],
+      "headwear": ["crown", "eyewear", "hair_ornament", "hat", "headpiece"],
       "neckwear": ["choker", "necklace", "pendant", "scarf"],
       "outerwear": [
         "cape",
@@ -528,7 +519,8 @@
         "t_shirt",
         "tank_top",
         "tube_top",
-        "tunic"
+        "tunic",
+        "vest"
       ]
     },
     "subcategory": {
@@ -555,11 +547,13 @@
         "bloomers",
         "cargo_pants",
         "chaps",
+        "denim_shorts",
         "harem_pants",
         "jeans",
         "joggers",
         "ma_mian_skirt",
         "overall_shorts",
+        "overall_skirt",
         "palazzo_pants",
         "ruffle_shorts",
         "tailored_shorts",
@@ -642,12 +636,17 @@
       ],
       "hairAccessories": [
         "bow",
+        "coronet",
         "flower",
         "hairclip",
         "hairpin",
+        "head_chain",
+        "horned_headpiece",
         "ribbon",
+        "sunglasses",
         "tiara",
-        "veil"
+        "veil",
+        "wreath"
       ],
       "handhelds": [
         "axe",
@@ -688,8 +687,14 @@
       "headwear": [
         "aviator_hat",
         "bandana",
+        "beret",
+        "boater_hat",
+        "bonnet",
+        "bowler_hat",
         "bucket_hat",
         "coronet",
+        "cowboy_hat",
+        "fascinator",
         "goggles",
         "hairpin",
         "head_chain",
@@ -697,10 +702,13 @@
         "headscarf",
         "mask",
         "mini_hat",
+        "mushroom_hat",
         "newsboy_cap",
         "sunglasses",
         "tiara",
         "top_hat",
+        "tricorn_hat",
+        "veil",
         "visor",
         "wide_brim_hat",
         "witch_hat",
@@ -752,17 +760,16 @@
         "combat_boots",
         "cowboy_boots",
         "dorsay_heels",
-        "embroidered_shoes",
         "gladiator_sandals",
         "high_top_sneakers",
         "lace_up_flats",
+        "low_top_sneakers",
         "penny_loafers",
-        "platform_heels",
-        "platform_sandals",
         "pumps",
         "riding_boots",
         "slingback_heels",
-        "t_strap_heels"
+        "t_strap_heels",
+        "traditional_chinese_flats"
       ],
       "socks": [
         "fishnet_tights",
@@ -780,11 +787,10 @@
         "hoodie",
         "leotard",
         "maid_blouse",
+        "military_jacket",
         "milkmaid_top",
-        "officer_shirt",
         "peasant_blouse",
         "polo_shirt",
-        "puffer_jacket",
         "sailor_blouse",
         "school_uniform_blouse",
         "tailored_jacket",

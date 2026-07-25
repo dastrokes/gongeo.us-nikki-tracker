@@ -1,23 +1,19 @@
 const NETLIFY_PURGE_URL = 'https://api.netlify.com/api/v1/purge'
 const MAX_PURGE_TAGS = 500
 const ITEM_SEARCH_TAG = 'item-search'
-
-export const itemDetailCacheId = (id) => `item-detail-${String(id).trim()}`
+const ITEM_DETAILS_TAG = 'item-details'
 
 export const normalizeCacheTags = (tags) => [
   ...new Set(tags.map((tag) => String(tag ?? '').trim()).filter(Boolean)),
 ]
 
 export const buildItemSearchCacheTags = (
-  itemIds,
+  _itemIds,
   { localesOnly = false } = {}
 ) => {
   if (localesOnly) return [ITEM_SEARCH_TAG]
 
-  return normalizeCacheTags([
-    ITEM_SEARCH_TAG,
-    ...itemIds.map((id) => itemDetailCacheId(id)),
-  ])
+  return [ITEM_SEARCH_TAG, ITEM_DETAILS_TAG]
 }
 
 export const batchCacheTags = (tags, batchSize = MAX_PURGE_TAGS) => {

@@ -2282,6 +2282,11 @@
   {
     "field": "category",
     "itemType": "hairAccessories",
+    "value": "eyewear"
+  },
+  {
+    "field": "category",
+    "itemType": "hairAccessories",
     "value": "hair_comb"
   },
   {
@@ -2372,16 +2377,6 @@
   {
     "field": "category",
     "itemType": "headwear",
-    "value": "beret"
-  },
-  {
-    "field": "category",
-    "itemType": "headwear",
-    "value": "bonnet"
-  },
-  {
-    "field": "category",
-    "itemType": "headwear",
     "value": "crown"
   },
   {
@@ -2402,17 +2397,7 @@
   {
     "field": "category",
     "itemType": "headwear",
-    "value": "headdress"
-  },
-  {
-    "field": "category",
-    "itemType": "headwear",
     "value": "headpiece"
-  },
-  {
-    "field": "category",
-    "itemType": "headwear",
-    "value": "veil"
   },
   {
     "field": "category",
@@ -2615,6 +2600,11 @@
     "value": "tunic"
   },
   {
+    "field": "category",
+    "itemType": "tops",
+    "value": "vest"
+  },
+  {
     "field": "subcategory",
     "itemType": "armDecorations",
     "value": "arm_cuff"
@@ -2717,6 +2707,11 @@
   {
     "field": "subcategory",
     "itemType": "bottoms",
+    "value": "denim_shorts"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "bottoms",
     "value": "harem_pants"
   },
   {
@@ -2738,6 +2733,11 @@
     "field": "subcategory",
     "itemType": "bottoms",
     "value": "overall_shorts"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "bottoms",
+    "value": "overall_skirt"
   },
   {
     "field": "subcategory",
@@ -3117,6 +3117,11 @@
   {
     "field": "subcategory",
     "itemType": "hairAccessories",
+    "value": "coronet"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "hairAccessories",
     "value": "flower"
   },
   {
@@ -3132,7 +3137,22 @@
   {
     "field": "subcategory",
     "itemType": "hairAccessories",
+    "value": "head_chain"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "hairAccessories",
+    "value": "horned_headpiece"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "hairAccessories",
     "value": "ribbon"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "hairAccessories",
+    "value": "sunglasses"
   },
   {
     "field": "subcategory",
@@ -3143,6 +3163,11 @@
     "field": "subcategory",
     "itemType": "hairAccessories",
     "value": "veil"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "hairAccessories",
+    "value": "wreath"
   },
   {
     "field": "subcategory",
@@ -3327,12 +3352,42 @@
   {
     "field": "subcategory",
     "itemType": "headwear",
+    "value": "beret"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "headwear",
+    "value": "boater_hat"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "headwear",
+    "value": "bonnet"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "headwear",
+    "value": "bowler_hat"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "headwear",
     "value": "bucket_hat"
   },
   {
     "field": "subcategory",
     "itemType": "headwear",
     "value": "coronet"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "headwear",
+    "value": "cowboy_hat"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "headwear",
+    "value": "fascinator"
   },
   {
     "field": "subcategory",
@@ -3372,6 +3427,11 @@
   {
     "field": "subcategory",
     "itemType": "headwear",
+    "value": "mushroom_hat"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "headwear",
     "value": "newsboy_cap"
   },
   {
@@ -3388,6 +3448,16 @@
     "field": "subcategory",
     "itemType": "headwear",
     "value": "top_hat"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "headwear",
+    "value": "tricorn_hat"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "headwear",
+    "value": "veil"
   },
   {
     "field": "subcategory",
@@ -3607,11 +3677,6 @@
   {
     "field": "subcategory",
     "itemType": "shoes",
-    "value": "embroidered_shoes"
-  },
-  {
-    "field": "subcategory",
-    "itemType": "shoes",
     "value": "gladiator_sandals"
   },
   {
@@ -3627,17 +3692,12 @@
   {
     "field": "subcategory",
     "itemType": "shoes",
+    "value": "low_top_sneakers"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "shoes",
     "value": "penny_loafers"
-  },
-  {
-    "field": "subcategory",
-    "itemType": "shoes",
-    "value": "platform_heels"
-  },
-  {
-    "field": "subcategory",
-    "itemType": "shoes",
-    "value": "platform_sandals"
   },
   {
     "field": "subcategory",
@@ -3658,6 +3718,11 @@
     "field": "subcategory",
     "itemType": "shoes",
     "value": "t_strap_heels"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "shoes",
+    "value": "traditional_chinese_flats"
   },
   {
     "field": "subcategory",
@@ -3727,12 +3792,12 @@
   {
     "field": "subcategory",
     "itemType": "tops",
-    "value": "milkmaid_top"
+    "value": "military_jacket"
   },
   {
     "field": "subcategory",
     "itemType": "tops",
-    "value": "officer_shirt"
+    "value": "milkmaid_top"
   },
   {
     "field": "subcategory",
@@ -3743,11 +3808,6 @@
     "field": "subcategory",
     "itemType": "tops",
     "value": "polo_shirt"
-  },
-  {
-    "field": "subcategory",
-    "itemType": "tops",
-    "value": "puffer_jacket"
   },
   {
     "field": "subcategory",

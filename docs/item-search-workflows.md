@@ -168,10 +168,20 @@ Taxonomy review rules:
 - `category` is the broad visible object family. Prefer a registered category, but allow a concise new broad category when no registered value fits the visible item; flag it for review before registry sync.
 - `subcategory` is one primary, mutually exclusive archetype under that category.
 - Materials, decoration, construction, pattern, position, length, silhouette, texture, and other overlapping traits belong in metadata.
+- Use an overlap test: if an item can have the distinction while also belonging to another subcategory, the distinction is a metadata trait rather than the primary subcategory.
+- When removing a trait-based subcategory, preserve the directly visible meaning in the appropriate metadata field if it is not already present. Do not silently discard or duplicate it.
 - A high null-subcategory rate is not itself a defect. Add a drill-down only when a repeated, visually recognizable archetype improves search and is not already represented by metadata.
-- Preserve meaningful registered archetypes even when their names include a descriptive word; do not collapse terms mechanically.
+- Preserve meaningful registered archetypes even when their names include a descriptive or culturally specific word. Evaluate whether the whole term names a stable object type rather than collapsing it mechanically.
 - Flag non-null subcategories that merely combine a category/archetype name with a metadata trait, or that could validly overlap another subcategory.
 - Check category/subcategory distributions for placeholder-heavy groups, unexpected one-off values, parent conflicts, and registered values with no observed rows.
+
+For a curated correction batch:
+
+1. Start from each current canonical row and store a complete override snapshot with `audit`; change only reviewed fields.
+2. Overlay the overrides onto the complete artifact for that item type and validate every resulting row, not only the changed IDs.
+3. Confirm every non-null subcategory is registered under its selected category, removed values are unreachable, and any meaning moved out of subcategory is still represented in metadata.
+4. When terms change, update tracker-owned terms/taxonomy, regenerate derived assets, and review locale coverage before publish.
+5. Update the image-search prompt or normalizer only for a repeatable rule; keep item-specific visual judgments in curated overrides.
 
 If the dry-run reports shared or scoped term additions, run the non-dry backfill before publish so tracker taxonomy, filter labels, and image-search tokens stay aligned.
 
@@ -399,7 +409,7 @@ Feedback command notes:
 Manual override for one item:
 
 1. Edit or create [data/item-search/generated/overrides.json](../data/item-search/generated/overrides.json) using the same canonical row shape plus `audit`.
-2. Run `node scripts/item-search-publish.mjs --scope item-ids --item-id <id>`.
+2. Run `node scripts/item-search-publish.mjs --scope item-ids --item-id <id> --overrides-only`.
 3. Verify the item in Supabase-backed detail/facet flows and Pinecone-backed search.
 
 Community feedback intake:

@@ -536,6 +536,7 @@
       },
       "hairAccessories": {
         "crown": "皇冠",
+        "eyewear": "眼鏡",
         "hair_comb": "髮梳",
         "hair_ornament": "髮飾",
         "headband": "髮帶",
@@ -558,15 +559,11 @@
         "weapon": "武器"
       },
       "headwear": {
-        "beret": "貝雷帽",
-        "bonnet": "軟帽",
         "crown": "皇冠",
         "eyewear": "眼鏡",
         "hair_ornament": "髮飾",
         "hat": "帽子",
-        "headdress": "頭飾",
-        "headpiece": "頭飾/配件",
-        "veil": "面紗/頭紗"
+        "headpiece": "頭飾/配件"
       },
       "neckwear": {
         "choker": "項圈",
@@ -620,7 +617,8 @@
         "t_shirt": "T恤",
         "tank_top": "背心",
         "tube_top": "抹胸",
-        "tunic": "束腰外衣"
+        "tunic": "束腰外衣",
+        "vest": "背心/馬甲"
       }
     },
     "subcategory": {
@@ -651,11 +649,13 @@
         "bloomers": "燈籠褲",
         "cargo_pants": "工裝褲",
         "chaps": "寬腿皮褲",
+        "denim_shorts": "牛仔短褲",
         "harem_pants": "哈倫褲",
         "jeans": "牛仔褲",
         "joggers": "束口褲",
         "ma_mian_skirt": "馬面裙",
         "overall_shorts": "吊帶短褲",
+        "overall_skirt": "吊帶裙",
         "palazzo_pants": "闊腿長褲",
         "ruffle_shorts": "荷葉邊短褲",
         "tailored_shorts": "西裝短褲",
@@ -749,12 +749,17 @@
       },
       "hairAccessories": {
         "bow": "蝴蝶結",
+        "coronet": "小冠",
         "flower": "花朵",
         "hairclip": "髮夾",
         "hairpin": "髮簪",
+        "head_chain": "額鏈",
+        "horned_headpiece": "角形頭飾",
         "ribbon": "絲帶",
+        "sunglasses": "太陽鏡",
         "tiara": "冕狀頭飾",
-        "veil": "面紗/頭紗"
+        "veil": "面紗/頭紗",
+        "wreath": "花環"
       },
       "handhelds": {
         "axe": "斧頭",
@@ -795,8 +800,14 @@
       "headwear": {
         "aviator_hat": "飛行員帽",
         "bandana": "方巾",
+        "beret": "貝雷帽",
+        "boater_hat": "平頂草帽",
+        "bonnet": "軟帽",
+        "bowler_hat": "圓頂硬禮帽",
         "bucket_hat": "漁夫帽",
         "coronet": "小冠",
+        "cowboy_hat": "牛仔帽",
+        "fascinator": "禮帽頭飾",
         "goggles": "護目鏡",
         "hairpin": "髮簪",
         "head_chain": "額鏈",
@@ -804,10 +815,13 @@
         "headscarf": "頭巾",
         "mask": "面具",
         "mini_hat": "迷你帽",
+        "mushroom_hat": "蘑菇帽",
         "newsboy_cap": "報童帽",
         "sunglasses": "太陽鏡",
         "tiara": "冕狀頭飾",
         "top_hat": "大禮帽",
+        "tricorn_hat": "三角帽",
+        "veil": "面紗/頭紗",
         "visor": "遮陽帽",
         "wide_brim_hat": "寬檐帽",
         "witch_hat": "女巫帽",
@@ -859,17 +873,16 @@
         "combat_boots": "軍靴",
         "cowboy_boots": "西部靴",
         "dorsay_heels": "奧賽高跟鞋",
-        "embroidered_shoes": "繡花鞋",
         "gladiator_sandals": "羅馬涼鞋",
         "high_top_sneakers": "高幫運動鞋",
         "lace_up_flats": "繫帶平底鞋",
+        "low_top_sneakers": "低幫運動鞋",
         "penny_loafers": "樂福鞋",
-        "platform_heels": "厚底高跟鞋",
-        "platform_sandals": "厚底涼鞋",
         "pumps": "淺口高跟鞋",
         "riding_boots": "馬靴",
         "slingback_heels": "後空高跟鞋",
-        "t_strap_heels": "T型帶高跟鞋"
+        "t_strap_heels": "T型帶高跟鞋",
+        "traditional_chinese_flats": "中式平底鞋"
       },
       "socks": {
         "fishnet_tights": "網襪",
@@ -887,11 +900,10 @@
         "hoodie": "衛衣",
         "leotard": "緊身連體衣",
         "maid_blouse": "女僕裝襯衫",
+        "military_jacket": "軍裝風夾克",
         "milkmaid_top": "擠奶女工上衣",
-        "officer_shirt": "軍官襯衫",
         "peasant_blouse": "農婦風襯衫",
         "polo_shirt": "馬球衫",
-        "puffer_jacket": "羽絨服",
         "sailor_blouse": "水手服襯衫",
         "school_uniform_blouse": "校服襯衫",
         "tailored_jacket": "西裝外套",

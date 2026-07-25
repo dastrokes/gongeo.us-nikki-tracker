@@ -536,6 +536,7 @@
       },
       "hairAccessories": {
         "crown": "크라운",
+        "eyewear": "안경류",
         "hair_comb": "헤어 콤",
         "hair_ornament": "헤어 장식",
         "headband": "머리띠",
@@ -558,15 +559,11 @@
         "weapon": "무기"
       },
       "headwear": {
-        "beret": "베레모",
-        "bonnet": "보넷",
         "crown": "크라운/왕관",
         "eyewear": "안경류",
         "hair_ornament": "헤어 장식/머리 장식",
         "hat": "모자",
-        "headdress": "헤드드레스",
-        "headpiece": "헤드피스",
-        "veil": "베일"
+        "headpiece": "헤드피스"
       },
       "neckwear": {
         "choker": "초커",
@@ -620,7 +617,8 @@
         "t_shirt": "티셔츠",
         "tank_top": "민소매",
         "tube_top": "튜브탑",
-        "tunic": "튜닉"
+        "tunic": "튜닉",
+        "vest": "조끼"
       }
     },
     "subcategory": {
@@ -651,11 +649,13 @@
         "bloomers": "블루머",
         "cargo_pants": "카고 팬츠",
         "chaps": "챕스",
+        "denim_shorts": "데님 쇼츠",
         "harem_pants": "배기 팬츠",
         "jeans": "청바지",
         "joggers": "조거 팬츠",
         "ma_mian_skirt": "마면군",
         "overall_shorts": "멜빵 반바지",
+        "overall_skirt": "멜빵 치마",
         "palazzo_pants": "팔라초 팬츠",
         "ruffle_shorts": "러플 쇼츠",
         "tailored_shorts": "테일러드 쇼츠",
@@ -749,12 +749,17 @@
       },
       "hairAccessories": {
         "bow": "리본 매듭",
+        "coronet": "코로넷",
         "flower": "꽃",
         "hairclip": "헤어클립",
         "hairpin": "헤어핀",
+        "head_chain": "헤드 체인",
+        "horned_headpiece": "뿔 머리장식",
         "ribbon": "리본",
+        "sunglasses": "선글라스",
         "tiara": "티아라",
-        "veil": "베일"
+        "veil": "베일",
+        "wreath": "화관"
       },
       "handhelds": {
         "axe": "도끼",
@@ -795,8 +800,14 @@
       "headwear": {
         "aviator_hat": "에비에이터 모자",
         "bandana": "반다나",
+        "beret": "베레모",
+        "boater_hat": "보터 햇",
+        "bonnet": "보넷",
+        "bowler_hat": "볼러 해트",
         "bucket_hat": "버킷햇",
         "coronet": "코로넷",
+        "cowboy_hat": "카우보이모자",
+        "fascinator": "패시네이터",
         "goggles": "고글",
         "hairpin": "비녀/헤어핀",
         "head_chain": "헤드 체인",
@@ -804,10 +815,13 @@
         "headscarf": "헤드스카프",
         "mask": "마스크",
         "mini_hat": "미니 햇",
+        "mushroom_hat": "버섯 모자",
         "newsboy_cap": "뉴스보이 캡",
         "sunglasses": "선글라스",
         "tiara": "티아라",
         "top_hat": "탑 햇",
+        "tricorn_hat": "삼각모",
+        "veil": "베일",
         "visor": "바이저",
         "wide_brim_hat": "챙 넓은 모자",
         "witch_hat": "마녀 모자",
@@ -859,17 +873,16 @@
         "combat_boots": "전투화/컴뱃 부츠",
         "cowboy_boots": "카우보이 부츠",
         "dorsay_heels": "도르세이 힐",
-        "embroidered_shoes": "꽃신/자수화",
         "gladiator_sandals": "글래디에이터 샌들",
         "high_top_sneakers": "하이탑 스니커즈",
         "lace_up_flats": "레이스업 플랫",
+        "low_top_sneakers": "로우탑 스니커즈",
         "penny_loafers": "페니 로퍼",
-        "platform_heels": "플랫폼 힐",
-        "platform_sandals": "플랫폼 샌들",
         "pumps": "펌프스",
         "riding_boots": "승마 부츠",
         "slingback_heels": "슬링백 힐",
-        "t_strap_heels": "T 스트랩 힐"
+        "t_strap_heels": "T 스트랩 힐",
+        "traditional_chinese_flats": "중국 전통 플랫슈즈"
       },
       "socks": {
         "fishnet_tights": "망사 타이츠",
@@ -887,11 +900,10 @@
         "hoodie": "후드티",
         "leotard": "레오타드",
         "maid_blouse": "메이드 블라우스",
+        "military_jacket": "밀리터리 재킷",
         "milkmaid_top": "밀크메이드 탑",
-        "officer_shirt": "정복 셔츠",
         "peasant_blouse": "피전트 블라우스",
         "polo_shirt": "폴로 셔츠",
-        "puffer_jacket": "푸퍼 자켓",
         "sailor_blouse": "세일러 블라우스",
         "school_uniform_blouse": "교복 블라우스",
         "tailored_jacket": "테일러드 재킷",

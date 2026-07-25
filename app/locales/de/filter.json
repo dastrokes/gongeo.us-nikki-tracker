@@ -471,6 +471,7 @@
     "category": {
       "armDecorations": {
         "armlet": "Armreif",
+        "body_paint": "Körperfarbe",
         "sleeve_garter": "Ärmelhalter"
       },
       "backpieces": {
@@ -482,6 +483,8 @@
         "wings": "Flügel"
       },
       "bodyPaint": {
+        "body_effect": "Körpereffekt",
+        "body_jewelry": "Körperschmuck",
         "body_paint": "Körperfarbe"
       },
       "bottoms": {
@@ -493,15 +496,19 @@
       },
       "bracelets": {
         "bracelet": "Armband",
-        "cuff": "Manschette"
+        "cuff": "Manschette",
+        "hand_chain": "Handkette",
+        "watch": "Armbanduhr"
       },
       "chestAccessories": {
         "brooch": "Brosche",
+        "chest_piece": "Brustschmuck",
         "corsage": "Ansteckblume"
       },
       "chokers": {
         "choker": "Choker",
         "collar": "Kragen",
+        "headphones": "Kopfhörer",
         "necklace": "Halskette",
         "scarf": "Schal"
       },
@@ -525,7 +532,10 @@
         "mask": "Maske"
       },
       "gloves": {
-        "gloves": "Handschuhe"
+        "arm_decoration": "Armschmuck",
+        "arm_warmers": "Armstulpen",
+        "gloves": "Handschuhe",
+        "hand_jewelry": "Handschmuck"
       },
       "hair": {
         "braid": "Geflochten",
@@ -545,16 +555,24 @@
         "headpiece": "Kopfschmuck"
       },
       "handhelds": {
+        "balloons": "Luftballons",
         "basket": "Korb",
         "book": "Buch",
         "bouquet": "Blumenstrauß",
+        "cage": "Käfig",
+        "camera": "Kamera",
+        "dreamcatcher": "Traumfänger",
+        "drinkware": "Trinkgefäße",
         "fan": "Fächer",
+        "flag": "Flagge",
+        "food": "Essen",
         "handbag": "Handtasche",
         "handheld": "Tragbares",
         "instrument": "Instrument",
         "lantern": "Laterne",
         "parasol": "Sonnenschirm",
         "plush": "Stofftier",
+        "sign": "Schild",
         "staff": "Stab",
         "tool": "Werkzeug",
         "wand": "Zauberstab",
@@ -584,6 +602,7 @@
         "vest": "Weste"
       },
       "pendants": {
+        "anklet": "Fußkettchen",
         "bag": "Tasche",
         "garter": "Strumpfband"
       },
@@ -626,14 +645,20 @@
     },
     "subcategory": {
       "armDecorations": {
-        "arm_cuff": "Armbandmanschette"
+        "arm_cuff": "Armbandmanschette",
+        "arm_drape": "Armdrapierung",
+        "armband": "Oberarmreif",
+        "tattoo": "Tattoo"
       },
       "backpieces": {
         "basket": "Korb",
+        "bat_wings": "Fledermausflügel",
         "cape": "Umhang",
         "capelet": "Schulterumhang",
         "collar": "Kragen",
+        "feathered_wings": "Federflügel",
         "frame": "Rahmen",
+        "insect_wings": "Insektenflügel",
         "plushie": "Stofftier",
         "satchel": "Umhängetasche",
         "schoolbag": "Schultasche",
@@ -642,7 +667,8 @@
         "wind_up_key": "Aufziehschlüssel"
       },
       "bodyPaint": {
-        "tattoo": "Tattoo"
+        "tattoo": "Tattoo",
+        "wing_effect": "Flügeleffekt"
       },
       "bottoms": {
         "apron_skirt": "Schürzenrock",
@@ -671,13 +697,12 @@
       },
       "chestAccessories": {
         "bow_brooch": "Schleifenbrosche",
+        "medal": "Medaille",
         "pin": "Anstecknadel"
       },
       "chokers": {
-        "lace_choker": "Spitze",
         "pendant_choker": "Anhänger",
-        "ribbon_choker": "Schleife",
-        "ruffle_choker": "Rüschen",
+        "ruff_collar": "Halskrause",
         "strand_necklace": "Strangkette"
       },
       "dresses": {
@@ -714,9 +739,10 @@
         "decorative_eyepatch": "Deko-Augenklappe",
         "disguise": "Verkleidung",
         "eye_mask": "Augenmaske",
+        "face_chain": "Gesichtskette",
+        "full_face_mask": "Vollgesichtsmaske",
         "glasses": "Brille",
         "goggles": "Schutzbrille",
-        "half_mask": "Halbmaske",
         "lower_face_mask": "Untere Gesichtsmaske",
         "medical_eyepatch": "Med. Augenklappe",
         "monocle": "Monokel",
@@ -726,6 +752,8 @@
       },
       "gloves": {
         "fingerless_gloves": "Fingerlose Handschuhe",
+        "gauntlets": "Stulpenhandschuhe",
+        "hand_chain": "Handkette",
         "mittens": "Fäustlinge",
         "opera_gloves": "Opernhandschuhe"
       },
@@ -769,27 +797,36 @@
         "back_scratcher": "Rückenkratzer",
         "banner": "Banner",
         "bat": "Schläger",
+        "birdcage": "Vogelkäfig",
         "bow": "Bogen",
         "brush": "Pinsel",
         "candelabra": "Kerzenleuchter",
         "candy": "Süßigkeit",
         "clipboard": "Klemmbrett",
+        "clutch": "Clutch-Tasche",
         "crossbow": "Armbrust",
         "cup": "Becher",
         "fishing_rod": "Angelrute",
         "flower": "Blume",
         "flute": "Flöte",
+        "folding_fan": "Faltfächer",
+        "fruit": "Frucht",
         "goblet": "Kelch",
         "hammer": "Hammer",
         "hoe": "Hacke",
+        "ice_cream": "Eiscreme",
         "kickboard": "Schwimmbrett",
         "letter": "Brief",
+        "maracas": "Maracas",
+        "mug": "Henkelbecher",
         "musket": "Muskete",
         "net": "Netz",
         "pipa": "Pipa",
         "pouch": "Beutel",
         "purse": "Handtasche",
         "rattle_drum": "Rasseltrommel",
+        "round_fan": "Rundfächer",
+        "satchel": "Umhängetasche",
         "scissors": "Schere",
         "scroll": "Schriftrolle",
         "spellbook": "Zauberbuch",
@@ -866,12 +903,14 @@
         "windbreaker": "Windjacke"
       },
       "pendants": {
-        "anklet": "Fußkettchen",
+        "calf_garter": "Wadenband",
         "crossbody_bag": "Umhängetasche",
         "handbag": "Handtasche",
-        "leg_garter": "Beinstrumpfband",
         "shoulder_bag": "Schultertasche",
         "thigh_garter": "Oberschenkel-Strumpfband"
+      },
+      "rings": {
+        "ring_set": "Ring-Set"
       },
       "shoes": {
         "ankle_strap_heels": "Mit Riemchen",

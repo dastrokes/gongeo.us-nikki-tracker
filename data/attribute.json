@@ -2077,6 +2077,11 @@
   {
     "field": "category",
     "itemType": "armDecorations",
+    "value": "body_paint"
+  },
+  {
+    "field": "category",
+    "itemType": "armDecorations",
     "value": "sleeve_garter"
   },
   {
@@ -2108,6 +2113,16 @@
     "field": "category",
     "itemType": "backpieces",
     "value": "wings"
+  },
+  {
+    "field": "category",
+    "itemType": "bodyPaint",
+    "value": "body_effect"
+  },
+  {
+    "field": "category",
+    "itemType": "bodyPaint",
+    "value": "body_jewelry"
   },
   {
     "field": "category",
@@ -2151,8 +2166,23 @@
   },
   {
     "field": "category",
+    "itemType": "bracelets",
+    "value": "hand_chain"
+  },
+  {
+    "field": "category",
+    "itemType": "bracelets",
+    "value": "watch"
+  },
+  {
+    "field": "category",
     "itemType": "chestAccessories",
     "value": "brooch"
+  },
+  {
+    "field": "category",
+    "itemType": "chestAccessories",
+    "value": "chest_piece"
   },
   {
     "field": "category",
@@ -2168,6 +2198,11 @@
     "field": "category",
     "itemType": "chokers",
     "value": "collar"
+  },
+  {
+    "field": "category",
+    "itemType": "chokers",
+    "value": "headphones"
   },
   {
     "field": "category",
@@ -2247,7 +2282,22 @@
   {
     "field": "category",
     "itemType": "gloves",
+    "value": "arm_decoration"
+  },
+  {
+    "field": "category",
+    "itemType": "gloves",
+    "value": "arm_warmers"
+  },
+  {
+    "field": "category",
+    "itemType": "gloves",
     "value": "gloves"
+  },
+  {
+    "field": "category",
+    "itemType": "gloves",
+    "value": "hand_jewelry"
   },
   {
     "field": "category",
@@ -2317,6 +2367,11 @@
   {
     "field": "category",
     "itemType": "handhelds",
+    "value": "balloons"
+  },
+  {
+    "field": "category",
+    "itemType": "handhelds",
     "value": "basket"
   },
   {
@@ -2332,7 +2387,37 @@
   {
     "field": "category",
     "itemType": "handhelds",
+    "value": "cage"
+  },
+  {
+    "field": "category",
+    "itemType": "handhelds",
+    "value": "camera"
+  },
+  {
+    "field": "category",
+    "itemType": "handhelds",
+    "value": "dreamcatcher"
+  },
+  {
+    "field": "category",
+    "itemType": "handhelds",
+    "value": "drinkware"
+  },
+  {
+    "field": "category",
+    "itemType": "handhelds",
     "value": "fan"
+  },
+  {
+    "field": "category",
+    "itemType": "handhelds",
+    "value": "flag"
+  },
+  {
+    "field": "category",
+    "itemType": "handhelds",
+    "value": "food"
   },
   {
     "field": "category",
@@ -2363,6 +2448,11 @@
     "field": "category",
     "itemType": "handhelds",
     "value": "plush"
+  },
+  {
+    "field": "category",
+    "itemType": "handhelds",
+    "value": "sign"
   },
   {
     "field": "category",
@@ -2468,6 +2558,11 @@
     "field": "category",
     "itemType": "outerwear",
     "value": "vest"
+  },
+  {
+    "field": "category",
+    "itemType": "pendants",
+    "value": "anklet"
   },
   {
     "field": "category",
@@ -2626,8 +2721,28 @@
   },
   {
     "field": "subcategory",
+    "itemType": "armDecorations",
+    "value": "arm_drape"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "armDecorations",
+    "value": "armband"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "armDecorations",
+    "value": "tattoo"
+  },
+  {
+    "field": "subcategory",
     "itemType": "backpieces",
     "value": "basket"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "backpieces",
+    "value": "bat_wings"
   },
   {
     "field": "subcategory",
@@ -2647,7 +2762,17 @@
   {
     "field": "subcategory",
     "itemType": "backpieces",
+    "value": "feathered_wings"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "backpieces",
     "value": "frame"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "backpieces",
+    "value": "insect_wings"
   },
   {
     "field": "subcategory",
@@ -2683,6 +2808,11 @@
     "field": "subcategory",
     "itemType": "bodyPaint",
     "value": "tattoo"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "bodyPaint",
+    "value": "wing_effect"
   },
   {
     "field": "subcategory",
@@ -2797,12 +2927,12 @@
   {
     "field": "subcategory",
     "itemType": "chestAccessories",
-    "value": "pin"
+    "value": "medal"
   },
   {
     "field": "subcategory",
-    "itemType": "chokers",
-    "value": "lace_choker"
+    "itemType": "chestAccessories",
+    "value": "pin"
   },
   {
     "field": "subcategory",
@@ -2812,12 +2942,7 @@
   {
     "field": "subcategory",
     "itemType": "chokers",
-    "value": "ribbon_choker"
-  },
-  {
-    "field": "subcategory",
-    "itemType": "chokers",
-    "value": "ruffle_choker"
+    "value": "ruff_collar"
   },
   {
     "field": "subcategory",
@@ -2972,17 +3097,22 @@
   {
     "field": "subcategory",
     "itemType": "faceDecorations",
+    "value": "face_chain"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "faceDecorations",
+    "value": "full_face_mask"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "faceDecorations",
     "value": "glasses"
   },
   {
     "field": "subcategory",
     "itemType": "faceDecorations",
     "value": "goggles"
-  },
-  {
-    "field": "subcategory",
-    "itemType": "faceDecorations",
-    "value": "half_mask"
   },
   {
     "field": "subcategory",
@@ -3018,6 +3148,16 @@
     "field": "subcategory",
     "itemType": "gloves",
     "value": "fingerless_gloves"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "gloves",
+    "value": "gauntlets"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "gloves",
+    "value": "hand_chain"
   },
   {
     "field": "subcategory",
@@ -3207,6 +3347,11 @@
   {
     "field": "subcategory",
     "itemType": "handhelds",
+    "value": "birdcage"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "handhelds",
     "value": "bow"
   },
   {
@@ -3228,6 +3373,11 @@
     "field": "subcategory",
     "itemType": "handhelds",
     "value": "clipboard"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "handhelds",
+    "value": "clutch"
   },
   {
     "field": "subcategory",
@@ -3257,6 +3407,16 @@
   {
     "field": "subcategory",
     "itemType": "handhelds",
+    "value": "folding_fan"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "handhelds",
+    "value": "fruit"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "handhelds",
     "value": "goblet"
   },
   {
@@ -3272,12 +3432,27 @@
   {
     "field": "subcategory",
     "itemType": "handhelds",
+    "value": "ice_cream"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "handhelds",
     "value": "kickboard"
   },
   {
     "field": "subcategory",
     "itemType": "handhelds",
     "value": "letter"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "handhelds",
+    "value": "maracas"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "handhelds",
+    "value": "mug"
   },
   {
     "field": "subcategory",
@@ -3308,6 +3483,16 @@
     "field": "subcategory",
     "itemType": "handhelds",
     "value": "rattle_drum"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "handhelds",
+    "value": "round_fan"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "handhelds",
+    "value": "satchel"
   },
   {
     "field": "subcategory",
@@ -3652,7 +3837,7 @@
   {
     "field": "subcategory",
     "itemType": "pendants",
-    "value": "anklet"
+    "value": "calf_garter"
   },
   {
     "field": "subcategory",
@@ -3667,17 +3852,17 @@
   {
     "field": "subcategory",
     "itemType": "pendants",
-    "value": "leg_garter"
-  },
-  {
-    "field": "subcategory",
-    "itemType": "pendants",
     "value": "shoulder_bag"
   },
   {
     "field": "subcategory",
     "itemType": "pendants",
     "value": "thigh_garter"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "rings",
+    "value": "ring_set"
   },
   {
     "field": "subcategory",

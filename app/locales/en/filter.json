@@ -471,6 +471,7 @@
     "category": {
       "armDecorations": {
         "armlet": "Armlet",
+        "body_paint": "Body Paint",
         "sleeve_garter": "Sleeve Garter"
       },
       "backpieces": {
@@ -482,6 +483,8 @@
         "wings": "Wings"
       },
       "bodyPaint": {
+        "body_effect": "Body Effect",
+        "body_jewelry": "Body Jewelry",
         "body_paint": "Body Paint"
       },
       "bottoms": {
@@ -493,15 +496,19 @@
       },
       "bracelets": {
         "bracelet": "Bracelet",
-        "cuff": "Cuff"
+        "cuff": "Cuff",
+        "hand_chain": "Hand Chain",
+        "watch": "Watch"
       },
       "chestAccessories": {
         "brooch": "Brooch",
+        "chest_piece": "Chest Piece",
         "corsage": "Corsage"
       },
       "chokers": {
         "choker": "Choker",
         "collar": "Collar",
+        "headphones": "Headphones",
         "necklace": "Necklace",
         "scarf": "Scarf"
       },
@@ -525,7 +532,10 @@
         "mask": "Mask"
       },
       "gloves": {
-        "gloves": "Gloves"
+        "arm_decoration": "Arm Decoration",
+        "arm_warmers": "Arm Warmers",
+        "gloves": "Gloves",
+        "hand_jewelry": "Hand Jewelry"
       },
       "hair": {
         "braid": "Braid",
@@ -545,16 +555,24 @@
         "headpiece": "Headpiece"
       },
       "handhelds": {
+        "balloons": "Balloons",
         "basket": "Basket",
         "book": "Book",
         "bouquet": "Bouquet",
+        "cage": "Cage",
+        "camera": "Camera",
+        "dreamcatcher": "Dreamcatcher",
+        "drinkware": "Drinkware",
         "fan": "Fan",
+        "flag": "Flag",
+        "food": "Food",
         "handbag": "Handbag",
         "handheld": "Handheld",
         "instrument": "Instrument",
         "lantern": "Lantern",
         "parasol": "Parasol",
         "plush": "Plush",
+        "sign": "Sign",
         "staff": "Staff",
         "tool": "Tool",
         "wand": "Wand",
@@ -584,6 +602,7 @@
         "vest": "Vest"
       },
       "pendants": {
+        "anklet": "Anklet",
         "bag": "Bag",
         "garter": "Garter"
       },
@@ -626,14 +645,20 @@
     },
     "subcategory": {
       "armDecorations": {
-        "arm_cuff": "Arm Cuff"
+        "arm_cuff": "Arm Cuff",
+        "arm_drape": "Arm Drape",
+        "armband": "Armband",
+        "tattoo": "Tattoo"
       },
       "backpieces": {
         "basket": "Basket",
+        "bat_wings": "Bat Wings",
         "cape": "Cape",
         "capelet": "Capelet",
         "collar": "Collar",
+        "feathered_wings": "Feathered Wings",
         "frame": "Frame",
+        "insect_wings": "Insect Wings",
         "plushie": "Plushie",
         "satchel": "Satchel",
         "schoolbag": "Schoolbag",
@@ -642,7 +667,8 @@
         "wind_up_key": "Wind Up Key"
       },
       "bodyPaint": {
-        "tattoo": "Tattoo"
+        "tattoo": "Tattoo",
+        "wing_effect": "Wing Effect"
       },
       "bottoms": {
         "apron_skirt": "Apron Skirt",
@@ -671,13 +697,12 @@
       },
       "chestAccessories": {
         "bow_brooch": "Bow Brooch",
+        "medal": "Medal",
         "pin": "Pin"
       },
       "chokers": {
-        "lace_choker": "Lace Choker",
         "pendant_choker": "Pendant Choker",
-        "ribbon_choker": "Ribbon Choker",
-        "ruffle_choker": "Ruffle Choker",
+        "ruff_collar": "Ruff Collar",
         "strand_necklace": "Strand Necklace"
       },
       "dresses": {
@@ -714,9 +739,10 @@
         "decorative_eyepatch": "Decorative Eyepatch",
         "disguise": "Disguise",
         "eye_mask": "Eye Mask",
+        "face_chain": "Face Chain",
+        "full_face_mask": "Full Face Mask",
         "glasses": "Glasses",
         "goggles": "Goggles",
-        "half_mask": "Half Mask",
         "lower_face_mask": "Lower Face Mask",
         "medical_eyepatch": "Medical Eyepatch",
         "monocle": "Monocle",
@@ -726,6 +752,8 @@
       },
       "gloves": {
         "fingerless_gloves": "Fingerless Gloves",
+        "gauntlets": "Gauntlets",
+        "hand_chain": "Hand Chain",
         "mittens": "Mittens",
         "opera_gloves": "Opera Gloves"
       },
@@ -769,27 +797,36 @@
         "back_scratcher": "Back Scratcher",
         "banner": "Banner",
         "bat": "Bat",
+        "birdcage": "Birdcage",
         "bow": "Bow",
         "brush": "Brush",
         "candelabra": "Candelabra",
         "candy": "Candy",
         "clipboard": "Clipboard",
+        "clutch": "Clutch",
         "crossbow": "Crossbow",
         "cup": "Cup",
         "fishing_rod": "Fishing Rod",
         "flower": "Flower",
         "flute": "Flute",
+        "folding_fan": "Folding Fan",
+        "fruit": "Fruit",
         "goblet": "Goblet",
         "hammer": "Hammer",
         "hoe": "Hoe",
+        "ice_cream": "Ice Cream",
         "kickboard": "Kickboard",
         "letter": "Letter",
+        "maracas": "Maracas",
+        "mug": "Mug",
         "musket": "Musket",
         "net": "Net",
         "pipa": "Pipa",
         "pouch": "Pouch",
         "purse": "Purse",
         "rattle_drum": "Rattle Drum",
+        "round_fan": "Round Fan",
+        "satchel": "Satchel",
         "scissors": "Scissors",
         "scroll": "Scroll",
         "spellbook": "Spellbook",
@@ -866,12 +903,14 @@
         "windbreaker": "Windbreaker"
       },
       "pendants": {
-        "anklet": "Anklet",
+        "calf_garter": "Calf Garter",
         "crossbody_bag": "Crossbody Bag",
         "handbag": "Handbag",
-        "leg_garter": "Leg Garter",
         "shoulder_bag": "Shoulder Bag",
         "thigh_garter": "Thigh Garter"
+      },
+      "rings": {
+        "ring_set": "Ring Set"
       },
       "shoes": {
         "ankle_strap_heels": "Ankle Strap Heels",

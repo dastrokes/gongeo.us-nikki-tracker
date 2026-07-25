@@ -471,6 +471,7 @@
     "category": {
       "armDecorations": {
         "armlet": "臂環",
+        "body_paint": "膚繪",
         "sleeve_garter": "袖箍"
       },
       "backpieces": {
@@ -482,6 +483,8 @@
         "wings": "翅膀"
       },
       "bodyPaint": {
+        "body_effect": "身體特效",
+        "body_jewelry": "身體飾品",
         "body_paint": "膚繪"
       },
       "bottoms": {
@@ -493,15 +496,19 @@
       },
       "bracelets": {
         "bracelet": "手鍊/手鐲",
-        "cuff": "袖口/腕帶"
+        "cuff": "袖口/腕帶",
+        "hand_chain": "手部鏈飾",
+        "watch": "手錶"
       },
       "chestAccessories": {
         "brooch": "胸針",
+        "chest_piece": "胸飾",
         "corsage": "胸花"
       },
       "chokers": {
         "choker": "項圈",
         "collar": "領圈",
+        "headphones": "耳機",
         "necklace": "項鍊",
         "scarf": "圍巾"
       },
@@ -525,7 +532,10 @@
         "mask": "面具"
       },
       "gloves": {
-        "gloves": "手套"
+        "arm_decoration": "臂飾",
+        "arm_warmers": "護臂",
+        "gloves": "手套",
+        "hand_jewelry": "手部飾品"
       },
       "hair": {
         "braid": "髮辮",
@@ -545,16 +555,24 @@
         "headpiece": "頭飾"
       },
       "handhelds": {
+        "balloons": "氣球",
         "basket": "籃子",
         "book": "書",
         "bouquet": "花束",
+        "cage": "籠子",
+        "camera": "相機",
+        "dreamcatcher": "捕夢網",
+        "drinkware": "飲具",
         "fan": "扇子",
+        "flag": "旗幟",
+        "food": "食物",
         "handbag": "手提包",
         "handheld": "手持物",
         "instrument": "樂器",
         "lantern": "燈籠",
         "parasol": "遮陽傘/傘",
         "plush": "毛絨玩具",
+        "sign": "標牌",
         "staff": "權杖/長杖",
         "tool": "工具",
         "wand": "魔杖",
@@ -584,6 +602,7 @@
         "vest": "背心/馬甲"
       },
       "pendants": {
+        "anklet": "腳鏈",
         "bag": "包/手提包",
         "garter": "襪帶"
       },
@@ -626,14 +645,20 @@
     },
     "subcategory": {
       "armDecorations": {
-        "arm_cuff": "臂環"
+        "arm_cuff": "臂環",
+        "arm_drape": "臂部垂飾",
+        "armband": "臂帶",
+        "tattoo": "紋身"
       },
       "backpieces": {
         "basket": "籃子",
+        "bat_wings": "蝠翼",
         "cape": "披風",
         "capelet": "短披風",
         "collar": "衣領",
+        "feathered_wings": "羽翼",
         "frame": "背景框",
+        "insect_wings": "蟲翼",
         "plushie": "玩偶",
         "satchel": "挎包",
         "schoolbag": "書包",
@@ -642,7 +667,8 @@
         "wind_up_key": "發條"
       },
       "bodyPaint": {
-        "tattoo": "紋身"
+        "tattoo": "紋身",
+        "wing_effect": "翼形特效"
       },
       "bottoms": {
         "apron_skirt": "圍裙裙",
@@ -671,13 +697,12 @@
       },
       "chestAccessories": {
         "bow_brooch": "蝴蝶結胸針",
+        "medal": "勳章",
         "pin": "別針"
       },
       "chokers": {
-        "lace_choker": "蕾絲項圈",
         "pendant_choker": "吊墜項圈",
-        "ribbon_choker": "絲帶項圈",
-        "ruffle_choker": "荷葉邊頸圈",
+        "ruff_collar": "拉夫領",
         "strand_necklace": "串珠項鍊"
       },
       "dresses": {
@@ -714,9 +739,10 @@
         "decorative_eyepatch": "裝飾性單眼罩",
         "disguise": "偽裝",
         "eye_mask": "眼罩",
+        "face_chain": "面部鏈飾",
+        "full_face_mask": "全臉面具",
         "glasses": "眼鏡",
         "goggles": "護目鏡",
-        "half_mask": "半截面具",
         "lower_face_mask": "下半臉面具",
         "medical_eyepatch": "醫療單眼罩",
         "monocle": "單片眼鏡",
@@ -726,6 +752,8 @@
       },
       "gloves": {
         "fingerless_gloves": "露指手套",
+        "gauntlets": "護手甲",
+        "hand_chain": "手部鏈飾",
         "mittens": "連指手套",
         "opera_gloves": "禮服手套"
       },
@@ -769,27 +797,36 @@
         "back_scratcher": "不求人",
         "banner": "旗幟",
         "bat": "球棒",
+        "birdcage": "鳥籠",
         "bow": "弓",
         "brush": "畫筆",
         "candelabra": "燭台",
         "candy": "糖果",
         "clipboard": "寫字板",
+        "clutch": "手拿包",
         "crossbow": "弩",
         "cup": "杯子",
         "fishing_rod": "釣魚竿",
         "flower": "花朵",
         "flute": "長笛",
+        "folding_fan": "摺扇",
+        "fruit": "水果",
         "goblet": "高腳杯",
         "hammer": "錘子",
         "hoe": "鋤頭",
+        "ice_cream": "冰淇淋",
         "kickboard": "浮板",
         "letter": "信件",
+        "maracas": "沙槌",
+        "mug": "馬克杯",
         "musket": "火槍",
         "net": "網",
         "pipa": "琵琶",
         "pouch": "小袋",
         "purse": "錢包",
         "rattle_drum": "撥浪鼓",
+        "round_fan": "團扇",
+        "satchel": "挎包",
         "scissors": "剪刀",
         "scroll": "卷軸",
         "spellbook": "魔導書",
@@ -866,12 +903,14 @@
         "windbreaker": "風衣"
       },
       "pendants": {
-        "anklet": "腳鏈",
+        "calf_garter": "小腿襪帶",
         "crossbody_bag": "斜挎包",
         "handbag": "手提包",
-        "leg_garter": "襪帶",
         "shoulder_bag": "單肩包",
         "thigh_garter": "大腿襪帶"
+      },
+      "rings": {
+        "ring_set": "戒指套組"
       },
       "shoes": {
         "ankle_strap_heels": "踝帶高跟鞋",

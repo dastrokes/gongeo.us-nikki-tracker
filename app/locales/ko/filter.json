@@ -471,6 +471,7 @@
     "category": {
       "armDecorations": {
         "armlet": "암릿",
+        "body_paint": "바디 페인팅",
         "sleeve_garter": "슬리브 가터/토시"
       },
       "backpieces": {
@@ -482,6 +483,8 @@
         "wings": "날개"
       },
       "bodyPaint": {
+        "body_effect": "바디 이펙트",
+        "body_jewelry": "바디 주얼리",
         "body_paint": "바디 페인팅"
       },
       "bottoms": {
@@ -493,15 +496,19 @@
       },
       "bracelets": {
         "bracelet": "팔찌",
-        "cuff": "커프"
+        "cuff": "커프",
+        "hand_chain": "핸드 체인",
+        "watch": "손목시계"
       },
       "chestAccessories": {
         "brooch": "브로치",
+        "chest_piece": "가슴 장식",
         "corsage": "코사지"
       },
       "chokers": {
         "choker": "초커",
         "collar": "목 장식",
+        "headphones": "헤드폰",
         "necklace": "목걸이",
         "scarf": "스카프"
       },
@@ -525,7 +532,10 @@
         "mask": "마스크/가면"
       },
       "gloves": {
-        "gloves": "장갑"
+        "arm_decoration": "팔 장식",
+        "arm_warmers": "암 워머",
+        "gloves": "장갑",
+        "hand_jewelry": "핸드 주얼리"
       },
       "hair": {
         "braid": "땋은 머리",
@@ -545,16 +555,24 @@
         "headpiece": "헤드피스"
       },
       "handhelds": {
+        "balloons": "풍선",
         "basket": "바구니",
         "book": "책",
         "bouquet": "꽃다발",
+        "cage": "케이지",
+        "camera": "카메라",
+        "dreamcatcher": "드림캐처",
+        "drinkware": "음료 용기",
         "fan": "부채",
+        "flag": "깃발",
+        "food": "음식",
         "handbag": "핸드백",
         "handheld": "손에 든 물건",
         "instrument": "악기",
         "lantern": "랜턴/등불",
         "parasol": "양산",
         "plush": "인형",
+        "sign": "표지판",
         "staff": "지팡이",
         "tool": "도구",
         "wand": "완드",
@@ -584,6 +602,7 @@
         "vest": "조끼"
       },
       "pendants": {
+        "anklet": "발찌",
         "bag": "가방",
         "garter": "가터"
       },
@@ -626,14 +645,20 @@
     },
     "subcategory": {
       "armDecorations": {
-        "arm_cuff": "암 커프"
+        "arm_cuff": "암 커프",
+        "arm_drape": "팔 장식 천",
+        "armband": "암밴드",
+        "tattoo": "타투"
       },
       "backpieces": {
         "basket": "바구니",
+        "bat_wings": "박쥐 날개",
         "cape": "망토",
         "capelet": "케이플릿",
         "collar": "목 장식/칼라",
+        "feathered_wings": "깃털 날개",
         "frame": "프레임",
+        "insect_wings": "곤충 날개",
         "plushie": "플러시 인형",
         "satchel": "사첼백",
         "schoolbag": "책가방",
@@ -642,7 +667,8 @@
         "wind_up_key": "태엽"
       },
       "bodyPaint": {
-        "tattoo": "타투"
+        "tattoo": "타투",
+        "wing_effect": "날개 이펙트"
       },
       "bottoms": {
         "apron_skirt": "에이프런 스커트",
@@ -671,13 +697,12 @@
       },
       "chestAccessories": {
         "bow_brooch": "리본 브로치",
+        "medal": "메달",
         "pin": "핀"
       },
       "chokers": {
-        "lace_choker": "레이스 초커",
         "pendant_choker": "펜던트 초커",
-        "ribbon_choker": "리본 초커",
-        "ruffle_choker": "프릴 초커",
+        "ruff_collar": "러프 칼라",
         "strand_necklace": "스트랜드 목걸이"
       },
       "dresses": {
@@ -714,9 +739,10 @@
         "decorative_eyepatch": "장식용 안대",
         "disguise": "변장",
         "eye_mask": "수면 안대",
+        "face_chain": "페이스 체인",
+        "full_face_mask": "풀페이스 마스크",
         "glasses": "안경",
         "goggles": "고글",
-        "half_mask": "하프 마스크",
         "lower_face_mask": "페이스 커버/마스크",
         "medical_eyepatch": "의료용 안대",
         "monocle": "외알 안경",
@@ -726,6 +752,8 @@
       },
       "gloves": {
         "fingerless_gloves": "핑거리스 장갑",
+        "gauntlets": "건틀릿",
+        "hand_chain": "핸드 체인",
         "mittens": "어린이 장갑/벙어리 장갑",
         "opera_gloves": "오페라 장갑"
       },
@@ -769,27 +797,36 @@
         "back_scratcher": "효자손",
         "banner": "배너",
         "bat": "배트",
+        "birdcage": "새장",
         "bow": "활",
         "brush": "브러시/붓",
         "candelabra": "촛대",
         "candy": "사탕",
         "clipboard": "클립보드",
+        "clutch": "클러치백",
         "crossbow": "석궁",
         "cup": "컵",
         "fishing_rod": "낚싯대",
         "flower": "꽃",
         "flute": "플루트",
+        "folding_fan": "접부채",
+        "fruit": "과일",
         "goblet": "고블릿",
         "hammer": "망치",
         "hoe": "괭이",
+        "ice_cream": "아이스크림",
         "kickboard": "킥판",
         "letter": "편지",
+        "maracas": "마라카스",
+        "mug": "머그컵",
         "musket": "머스킷",
         "net": "그물",
         "pipa": "비파",
         "pouch": "파우치",
         "purse": "지갑/파우치",
         "rattle_drum": "소고",
+        "round_fan": "둥근 부채",
+        "satchel": "사첼백",
         "scissors": "가위",
         "scroll": "두루마리",
         "spellbook": "마법서",
@@ -866,12 +903,14 @@
         "windbreaker": "윈드브레이커"
       },
       "pendants": {
-        "anklet": "발찌",
+        "calf_garter": "종아리 가터",
         "crossbody_bag": "크로스백",
         "handbag": "핸드백",
-        "leg_garter": "레그 가터",
         "shoulder_bag": "숄더백",
         "thigh_garter": "허벅지 가터"
+      },
+      "rings": {
+        "ring_set": "반지 세트"
       },
       "shoes": {
         "ankle_strap_heels": "앵클 스트랩 힐",

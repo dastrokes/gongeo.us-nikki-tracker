@@ -471,6 +471,7 @@
     "category": {
       "armDecorations": {
         "armlet": "Bracciale da braccio",
+        "body_paint": "Pittura corporea",
         "sleeve_garter": "Reggimaniche"
       },
       "backpieces": {
@@ -482,6 +483,8 @@
         "wings": "Ali"
       },
       "bodyPaint": {
+        "body_effect": "Effetto corporeo",
+        "body_jewelry": "Gioielli per il corpo",
         "body_paint": "Pittura corporea"
       },
       "bottoms": {
@@ -493,15 +496,19 @@
       },
       "bracelets": {
         "bracelet": "Braccialetto",
-        "cuff": "Bracciale rigido"
+        "cuff": "Bracciale rigido",
+        "hand_chain": "Catena da mano",
+        "watch": "Orologio"
       },
       "chestAccessories": {
         "brooch": "Spilla",
+        "chest_piece": "Accessorio da petto",
         "corsage": "Boutonnière"
       },
       "chokers": {
         "choker": "Girocollo",
         "collar": "Collare",
+        "headphones": "Cuffie",
         "necklace": "Collana",
         "scarf": "Sciarpa"
       },
@@ -525,7 +532,10 @@
         "mask": "Maschera"
       },
       "gloves": {
-        "gloves": "Guanti"
+        "arm_decoration": "Decorazione da braccio",
+        "arm_warmers": "Scaldabraccia",
+        "gloves": "Guanti",
+        "hand_jewelry": "Gioielli per le mani"
       },
       "hair": {
         "braid": "Treccia",
@@ -545,16 +555,24 @@
         "headpiece": "Accessorio per testa"
       },
       "handhelds": {
+        "balloons": "Palloncini",
         "basket": "Cesto",
         "book": "Libro",
         "bouquet": "Bouquet",
+        "cage": "Gabbia",
+        "camera": "Fotocamera",
+        "dreamcatcher": "Acchiappasogni",
+        "drinkware": "Recipienti per bevande",
         "fan": "Ventaglio",
+        "flag": "Bandiera",
+        "food": "Cibo",
         "handbag": "Borsa a mano",
         "handheld": "Oggetto in mano",
         "instrument": "Strumento",
         "lantern": "Lanterna",
         "parasol": "Ombrellino",
         "plush": "Peluche",
+        "sign": "Cartello",
         "staff": "Bastone/Verga",
         "tool": "Attrezzo",
         "wand": "Bacchetta",
@@ -584,6 +602,7 @@
         "vest": "Gilet"
       },
       "pendants": {
+        "anklet": "Cavigliera",
         "bag": "Borsetta",
         "garter": "Giarrettiera"
       },
@@ -626,14 +645,20 @@
     },
     "subcategory": {
       "armDecorations": {
-        "arm_cuff": "Bracciale da braccio"
+        "arm_cuff": "Bracciale da braccio",
+        "arm_drape": "Drappeggio da braccio",
+        "armband": "Fascia da braccio",
+        "tattoo": "Tatuaggio"
       },
       "backpieces": {
         "basket": "Cestino",
+        "bat_wings": "Ali di pipistrello",
         "cape": "Mantellina",
         "capelet": "Pellegrina",
         "collar": "Collare/Colletto",
+        "feathered_wings": "Ali piumate",
         "frame": "Cornice",
+        "insect_wings": "Ali d'insetto",
         "plushie": "Peluche",
         "satchel": "Borsa a tracolla",
         "schoolbag": "Cartella",
@@ -642,7 +667,8 @@
         "wind_up_key": "Chiave a carica"
       },
       "bodyPaint": {
-        "tattoo": "Tatuaggio"
+        "tattoo": "Tatuaggio",
+        "wing_effect": "Effetto di ali"
       },
       "bottoms": {
         "apron_skirt": "Gonna a grembiule",
@@ -671,13 +697,12 @@
       },
       "chestAccessories": {
         "bow_brooch": "Fiocco spilla",
+        "medal": "Medaglia",
         "pin": "Spilletta"
       },
       "chokers": {
-        "lace_choker": "Girocollo di pizzo",
         "pendant_choker": "Choker con pendente",
-        "ribbon_choker": "Girocollo di nastro",
-        "ruffle_choker": "Girocollo con volant",
+        "ruff_collar": "Gorgiera",
         "strand_necklace": "Filo di perle"
       },
       "dresses": {
@@ -714,9 +739,10 @@
         "decorative_eyepatch": "Benda oculare decorativa",
         "disguise": "Travestimento",
         "eye_mask": "Mascherina",
+        "face_chain": "Catena per il viso",
+        "full_face_mask": "Maschera integrale",
         "glasses": "Occhiali",
         "goggles": "Occhialini",
-        "half_mask": "Mezza maschera",
         "lower_face_mask": "Maschera viso",
         "medical_eyepatch": "Benda oculare medica",
         "monocle": "Monocolo",
@@ -726,6 +752,8 @@
       },
       "gloves": {
         "fingerless_gloves": "Guanti senza dita",
+        "gauntlets": "Guanti corazzati",
+        "hand_chain": "Catena da mano",
         "mittens": "Muffole",
         "opera_gloves": "Guanti lunghi"
       },
@@ -769,27 +797,36 @@
         "back_scratcher": "Grattaschiena",
         "banner": "Stendardo",
         "bat": "Mazza",
+        "birdcage": "Gabbia per uccelli",
         "bow": "Arco",
         "brush": "Pennello",
         "candelabra": "Candelabro",
         "candy": "Caramella",
         "clipboard": "Cartelletta",
+        "clutch": "Pochette",
         "crossbow": "Balestra",
         "cup": "Tazza",
         "fishing_rod": "Canna da pesca",
         "flower": "Fiore",
         "flute": "Flauto",
+        "folding_fan": "Ventaglio pieghevole",
+        "fruit": "Frutta",
         "goblet": "Calice",
         "hammer": "Martello",
         "hoe": "Zappa",
+        "ice_cream": "Gelato",
         "kickboard": "Tavoletta da nuoto",
         "letter": "Lettera",
+        "maracas": "Maracas",
+        "mug": "Tazza",
         "musket": "Moschetto",
         "net": "Rete",
         "pipa": "Pipa",
         "pouch": "Pochette",
         "purse": "Borsellino",
         "rattle_drum": "Tamburo a sonagli",
+        "round_fan": "Ventaglio rotondo",
+        "satchel": "Borsa a tracolla",
         "scissors": "Forbici",
         "scroll": "Pergamena",
         "spellbook": "Grimorio",
@@ -866,12 +903,14 @@
         "windbreaker": "Giacca a vento"
       },
       "pendants": {
-        "anklet": "Cavigliera",
+        "calf_garter": "Giarrettiera al polpaccio",
         "crossbody_bag": "Tracolla",
         "handbag": "Borsa a mano",
-        "leg_garter": "Giarrettiera",
         "shoulder_bag": "Borsa a spalla",
         "thigh_garter": "Giarrettiera coscia"
+      },
+      "rings": {
+        "ring_set": "Set di anelli"
       },
       "shoes": {
         "ankle_strap_heels": "Tacchi con cinturino",

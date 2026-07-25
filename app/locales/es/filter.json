@@ -471,6 +471,7 @@
     "category": {
       "armDecorations": {
         "armlet": "Brazalete",
+        "body_paint": "Pintura corporal",
         "sleeve_garter": "Ligas de Manga"
       },
       "backpieces": {
@@ -482,6 +483,8 @@
         "wings": "Alas"
       },
       "bodyPaint": {
+        "body_effect": "Efecto corporal",
+        "body_jewelry": "Joyería corporal",
         "body_paint": "Pintura corporal"
       },
       "bottoms": {
@@ -493,15 +496,19 @@
       },
       "bracelets": {
         "bracelet": "Pulsera",
-        "cuff": "Brazalete Rígido"
+        "cuff": "Brazalete Rígido",
+        "hand_chain": "Cadena de mano",
+        "watch": "Reloj"
       },
       "chestAccessories": {
         "brooch": "Broche",
+        "chest_piece": "Adorno de pecho",
         "corsage": "Ramillete/Corsage"
       },
       "chokers": {
         "choker": "Gargantilla",
         "collar": "Cuello",
+        "headphones": "Auriculares",
         "necklace": "Collar",
         "scarf": "Bufanda"
       },
@@ -525,7 +532,10 @@
         "mask": "Máscara"
       },
       "gloves": {
-        "gloves": "Guantes"
+        "arm_decoration": "Adorno de brazo",
+        "arm_warmers": "Calentadores de brazos",
+        "gloves": "Guantes",
+        "hand_jewelry": "Joyería de mano"
       },
       "hair": {
         "braid": "Trenza",
@@ -545,16 +555,24 @@
         "headpiece": "Tocado"
       },
       "handhelds": {
+        "balloons": "Globos",
         "basket": "Cesta",
         "book": "Libro",
         "bouquet": "Ramo",
+        "cage": "Jaula",
+        "camera": "Cámara",
+        "dreamcatcher": "Atrapasueños",
+        "drinkware": "Recipientes para bebidas",
         "fan": "Abanico",
+        "flag": "Bandera",
+        "food": "Comida",
         "handbag": "Bolso de Mano",
         "handheld": "Objeto en Mano",
         "instrument": "Instrumento",
         "lantern": "Farol",
         "parasol": "Sombrilla",
         "plush": "Peluche",
+        "sign": "Cartel",
         "staff": "Báculo/Bastón",
         "tool": "Herramienta",
         "wand": "Varita",
@@ -584,6 +602,7 @@
         "vest": "Chaleco"
       },
       "pendants": {
+        "anklet": "Tobillera",
         "bag": "Bolso/Cartera",
         "garter": "Liga"
       },
@@ -626,14 +645,20 @@
     },
     "subcategory": {
       "armDecorations": {
-        "arm_cuff": "Brazalete Rígido"
+        "arm_cuff": "Brazalete Rígido",
+        "arm_drape": "Drapeado de brazo",
+        "armband": "Brazalete de brazo",
+        "tattoo": "Tatuaje"
       },
       "backpieces": {
         "basket": "Cesta",
+        "bat_wings": "Alas de murciélago",
         "cape": "Capa",
         "capelet": "Esclavina",
         "collar": "Cuello",
+        "feathered_wings": "Alas de plumas",
         "frame": "Marco/Estructura",
+        "insect_wings": "Alas de insecto",
         "plushie": "Muñeco",
         "satchel": "Morral/Bandolera",
         "schoolbag": "Mochila Escolar",
@@ -642,7 +667,8 @@
         "wind_up_key": "Llave de Cuerda"
       },
       "bodyPaint": {
-        "tattoo": "Tatuaje"
+        "tattoo": "Tatuaje",
+        "wing_effect": "Efecto de alas"
       },
       "bottoms": {
         "apron_skirt": "Falda delantal",
@@ -671,13 +697,12 @@
       },
       "chestAccessories": {
         "bow_brooch": "Broche de Lazo",
+        "medal": "Medalla",
         "pin": "Pin/Prendedor"
       },
       "chokers": {
-        "lace_choker": "Gargantilla de Encaje",
         "pendant_choker": "Gargantilla con colgante",
-        "ribbon_choker": "Gargantilla de Cinta",
-        "ruffle_choker": "Gargantilla con volantes",
+        "ruff_collar": "Gorguera",
         "strand_necklace": "Collar de Perlas/Hebras"
       },
       "dresses": {
@@ -714,9 +739,10 @@
         "decorative_eyepatch": "Parche de Ojo Decorativo",
         "disguise": "Disfraz",
         "eye_mask": "Antifaz",
+        "face_chain": "Cadena facial",
+        "full_face_mask": "Máscara facial completa",
         "glasses": "Gafas/Lentes",
         "goggles": "Gafas de Protección",
-        "half_mask": "Media Máscara",
         "lower_face_mask": "Cubrebocas",
         "medical_eyepatch": "Parche Médico",
         "monocle": "Monóculo",
@@ -726,6 +752,8 @@
       },
       "gloves": {
         "fingerless_gloves": "Mitones",
+        "gauntlets": "Guanteletes",
+        "hand_chain": "Cadena de mano",
         "mittens": "Manoplas",
         "opera_gloves": "Guantes de Ópera"
       },
@@ -769,27 +797,36 @@
         "back_scratcher": "Rascador",
         "banner": "Estandarte",
         "bat": "Bate",
+        "birdcage": "Jaula para pájaros",
         "bow": "Arco",
         "brush": "Pincel",
         "candelabra": "Candelabro",
         "candy": "Caramelo/Dulce",
         "clipboard": "Portapapeles",
+        "clutch": "Cartera de mano",
         "crossbow": "Ballesta",
         "cup": "Taza",
         "fishing_rod": "Caña de Pescar",
         "flower": "Flor",
         "flute": "Flauta",
+        "folding_fan": "Abanico plegable",
+        "fruit": "Fruta",
         "goblet": "Cáliz",
         "hammer": "Martillo",
         "hoe": "Azada",
+        "ice_cream": "Helado",
         "kickboard": "Tabla de natación",
         "letter": "Carta",
+        "maracas": "Maracas",
+        "mug": "Taza",
         "musket": "Mosquete",
         "net": "Red",
         "pipa": "Pipa",
         "pouch": "Bolsita",
         "purse": "Monedero",
         "rattle_drum": "Tambor de Juguete",
+        "round_fan": "Abanico redondo",
+        "satchel": "Morral/Bandolera",
         "scissors": "Tijeras",
         "scroll": "Pergamino",
         "spellbook": "Libro de Hechizos",
@@ -866,12 +903,14 @@
         "windbreaker": "Cortavientos"
       },
       "pendants": {
-        "anklet": "Tobillera",
+        "calf_garter": "Liga de pantorrilla",
         "crossbody_bag": "Bandolera",
         "handbag": "Bolso de Mano",
-        "leg_garter": "Liga de Pierna",
         "shoulder_bag": "Bolso de Hombro",
         "thigh_garter": "Liga de Muslo"
+      },
+      "rings": {
+        "ring_set": "Conjunto de anillos"
       },
       "shoes": {
         "ankle_strap_heels": "Tacones con Pulsera",

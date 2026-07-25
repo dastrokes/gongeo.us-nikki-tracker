@@ -422,7 +422,7 @@
   },
   "scopedFieldValues": {
     "category": {
-      "armDecorations": ["armlet", "sleeve_garter"],
+      "armDecorations": ["armlet", "body_paint", "sleeve_garter"],
       "backpieces": [
         "back_bow",
         "backpack",
@@ -431,11 +431,11 @@
         "tail",
         "wings"
       ],
-      "bodyPaint": ["body_paint"],
+      "bodyPaint": ["body_effect", "body_jewelry", "body_paint"],
       "bottoms": ["overalls", "pants", "shorts", "skirt", "skort"],
-      "bracelets": ["bracelet", "cuff"],
-      "chestAccessories": ["brooch", "corsage"],
-      "chokers": ["choker", "collar", "necklace", "scarf"],
+      "bracelets": ["bracelet", "cuff", "hand_chain", "watch"],
+      "chestAccessories": ["brooch", "chest_piece", "corsage"],
+      "chokers": ["choker", "collar", "headphones", "necklace", "scarf"],
       "dresses": ["dress", "jumpsuit"],
       "earrings": ["ear_cuff", "earring"],
       "faceDecorations": [
@@ -449,7 +449,7 @@
         "facial_cover",
         "mask"
       ],
-      "gloves": ["gloves"],
+      "gloves": ["arm_decoration", "arm_warmers", "gloves", "hand_jewelry"],
       "hair": [
         "braid",
         "bun",
@@ -468,16 +468,24 @@
         "headpiece"
       ],
       "handhelds": [
+        "balloons",
         "basket",
         "book",
         "bouquet",
+        "cage",
+        "camera",
+        "dreamcatcher",
+        "drinkware",
         "fan",
+        "flag",
+        "food",
         "handbag",
         "handheld",
         "instrument",
         "lantern",
         "parasol",
         "plush",
+        "sign",
         "staff",
         "tool",
         "wand",
@@ -494,7 +502,7 @@
         "shawl",
         "vest"
       ],
-      "pendants": ["bag", "garter"],
+      "pendants": ["anklet", "bag", "garter"],
       "rings": ["ring"],
       "shoes": [
         "barefoot",
@@ -526,13 +534,16 @@
       ]
     },
     "subcategory": {
-      "armDecorations": ["arm_cuff"],
+      "armDecorations": ["arm_cuff", "arm_drape", "armband", "tattoo"],
       "backpieces": [
         "basket",
+        "bat_wings",
         "cape",
         "capelet",
         "collar",
+        "feathered_wings",
         "frame",
+        "insect_wings",
         "plushie",
         "satchel",
         "schoolbag",
@@ -540,7 +551,7 @@
         "train",
         "wind_up_key"
       ],
-      "bodyPaint": ["tattoo"],
+      "bodyPaint": ["tattoo", "wing_effect"],
       "bottoms": [
         "apron_skirt",
         "athletic_shorts",
@@ -562,14 +573,8 @@
         "wrap_skirt"
       ],
       "bracelets": ["bangle", "charm_bracelet", "scrunchie"],
-      "chestAccessories": ["bow_brooch", "pin"],
-      "chokers": [
-        "lace_choker",
-        "pendant_choker",
-        "ribbon_choker",
-        "ruffle_choker",
-        "strand_necklace"
-      ],
+      "chestAccessories": ["bow_brooch", "medal", "pin"],
+      "chokers": ["pendant_choker", "ruff_collar", "strand_necklace"],
       "dresses": [
         "babydoll_dress",
         "coat_dress",
@@ -604,9 +609,10 @@
         "decorative_eyepatch",
         "disguise",
         "eye_mask",
+        "face_chain",
+        "full_face_mask",
         "glasses",
         "goggles",
-        "half_mask",
         "lower_face_mask",
         "medical_eyepatch",
         "monocle",
@@ -614,7 +620,13 @@
         "ornamental_mask",
         "sunglasses"
       ],
-      "gloves": ["fingerless_gloves", "mittens", "opera_gloves"],
+      "gloves": [
+        "fingerless_gloves",
+        "gauntlets",
+        "hand_chain",
+        "mittens",
+        "opera_gloves"
+      ],
       "hair": [
         "chignon",
         "crown_braid",
@@ -655,27 +667,36 @@
         "back_scratcher",
         "banner",
         "bat",
+        "birdcage",
         "bow",
         "brush",
         "candelabra",
         "candy",
+        "clutch",
         "clipboard",
         "crossbow",
         "cup",
         "fishing_rod",
+        "folding_fan",
         "flower",
         "flute",
+        "fruit",
         "goblet",
         "hammer",
         "hoe",
+        "ice_cream",
         "kickboard",
         "letter",
+        "maracas",
+        "mug",
         "musket",
         "net",
         "pipa",
         "pouch",
         "purse",
         "rattle_drum",
+        "round_fan",
+        "satchel",
         "scissors",
         "scroll",
         "spellbook",
@@ -752,13 +773,13 @@
         "windbreaker"
       ],
       "pendants": [
-        "anklet",
+        "calf_garter",
         "crossbody_bag",
         "handbag",
-        "leg_garter",
         "shoulder_bag",
         "thigh_garter"
       ],
+      "rings": ["ring_set"],
       "shoes": [
         "ankle_strap_heels",
         "ballet_flats",

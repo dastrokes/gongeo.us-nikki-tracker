@@ -800,6 +800,8 @@
       "headwear": {
         "aviator_hat": "飞行员帽",
         "bandana": "方巾",
+        "baseball_cap": "棒球帽",
+        "beanie": "针织帽",
         "beret": "贝雷帽",
         "boater_hat": "平顶草帽",
         "bonnet": "软帽",
@@ -817,6 +819,7 @@
         "mini_hat": "迷你帽",
         "mushroom_hat": "蘑菇帽",
         "newsboy_cap": "报童帽",
+        "peaked_cap": "大檐帽",
         "sunglasses": "太阳镜",
         "tiara": "冕状头饰",
         "top_hat": "大礼帽",

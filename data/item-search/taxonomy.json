@@ -4,14 +4,20 @@
       "spellbook": "book"
     },
     "armDecorations": {
-      "arm_cuff": "armlet"
+      "arm_cuff": "armlet",
+      "arm_drape": "armlet",
+      "armband": "armlet",
+      "tattoo": "body_paint"
     },
     "backpieces": {
       "basket": "backpack",
+      "bat_wings": "wings",
       "cape": "drape",
       "capelet": "drape",
       "collar": "backpiece",
+      "feathered_wings": "wings",
       "frame": "backpiece",
+      "insect_wings": "wings",
       "plushie": "backpiece",
       "satchel": "backpack",
       "schoolbag": "backpack",
@@ -20,7 +26,8 @@
       "wind_up_key": "backpiece"
     },
     "bodyPaint": {
-      "tattoo": "body_paint"
+      "tattoo": "body_paint",
+      "wing_effect": "body_effect"
     },
     "bottoms": {
       "apron_skirt": "skirt",
@@ -49,13 +56,12 @@
     },
     "chestAccessories": {
       "bow_brooch": "brooch",
+      "medal": "brooch",
       "pin": "brooch"
     },
     "chokers": {
-      "lace_choker": "choker",
       "pendant_choker": "choker",
-      "ribbon_choker": "choker",
-      "ruffle_choker": "choker",
+      "ruff_collar": "collar",
       "strand_necklace": "necklace"
     },
     "dresses": {
@@ -92,9 +98,10 @@
       "decorative_eyepatch": "eyepatch",
       "disguise": "face_prop",
       "eye_mask": "mask",
+      "face_chain": "face_jewelry",
+      "full_face_mask": "mask",
       "glasses": "eyewear",
       "goggles": "eyewear",
-      "half_mask": "mask",
       "lower_face_mask": "mask",
       "medical_eyepatch": "eyepatch",
       "monocle": "eyewear",
@@ -104,6 +111,8 @@
     },
     "gloves": {
       "fingerless_gloves": "gloves",
+      "gauntlets": "gloves",
+      "hand_chain": "hand_jewelry",
       "mittens": "gloves",
       "opera_gloves": "gloves"
     },
@@ -147,27 +156,36 @@
       "back_scratcher": "tool",
       "banner": "handheld",
       "bat": "weapon",
+      "birdcage": "cage",
       "bow": "weapon",
       "brush": "tool",
       "candelabra": "lantern",
-      "candy": "handheld",
+      "candy": "food",
+      "clutch": "handbag",
       "clipboard": "tool",
       "crossbow": "weapon",
-      "cup": "handheld",
+      "cup": "drinkware",
       "fishing_rod": "tool",
+      "folding_fan": "fan",
       "flower": "handheld",
       "flute": "instrument",
-      "goblet": "handheld",
+      "fruit": "food",
+      "goblet": "drinkware",
       "hammer": "tool",
       "hoe": "tool",
+      "ice_cream": "food",
       "kickboard": "handheld",
       "letter": "handheld",
+      "maracas": "instrument",
+      "mug": "drinkware",
       "musket": "weapon",
       "net": "tool",
       "pipa": "instrument",
       "pouch": "handheld",
       "purse": "handbag",
       "rattle_drum": "instrument",
+      "round_fan": "fan",
+      "satchel": "handbag",
       "scissors": "tool",
       "scroll": "handheld",
       "spellbook": "book",
@@ -244,14 +262,15 @@
       "windbreaker": "jacket"
     },
     "pendants": {
-      "anklet": "garter",
+      "calf_garter": "garter",
       "crossbody_bag": "bag",
       "handbag": "bag",
-      "leg_garter": "garter",
       "shoulder_bag": "bag",
       "thigh_garter": "garter"
     },
-    "rings": {},
+    "rings": {
+      "ring_set": "ring"
+    },
     "shoes": {
       "ankle_strap_heels": "heels",
       "ballet_flats": "flats",

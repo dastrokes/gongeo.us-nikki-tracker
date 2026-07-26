@@ -159,7 +159,7 @@
       "bolo_tie": "波洛領帶",
       "bookmark": "書籤",
       "bow": "蝴蝶結",
-      "bracelet": "手鐲",
+      "bracelet": "手鏈",
       "braid": "辮飾",
       "branch": "樹枝",
       "brooch": "胸針",
@@ -216,7 +216,7 @@
       "locket": "盒式項墜",
       "lyre": "里拉琴",
       "measuring_tape": "捲尺",
-      "medallion": "獎章",
+      "medallion": "圓形飾章",
       "mushroom": "蘑菇",
       "musical_note": "音符",
       "origami_crane": "千紙鶴",
@@ -258,7 +258,7 @@
       "tie_clip": "領帶夾",
       "vine": "藤蔓",
       "water_droplet": "水滴",
-      "whistle": "口哨",
+      "whistle": "哨子",
       "wing": "翅膀",
       "yarn_ball": "毛線球"
     },
@@ -284,7 +284,7 @@
       "crane": "仙鶴",
       "crocodile_skin": "鱷魚紋",
       "cross": "十字",
-      "damask": "大馬士革",
+      "damask": "大馬士革紋",
       "diamond": "菱形",
       "dotted": "點狀",
       "dragon": "龍",
@@ -481,16 +481,14 @@
         "basket": "籃子",
         "collar": "領圈",
         "drape": "披帛",
-        "frame": "邊框",
         "hat": "帽子",
         "plush": "毛絨玩具",
         "tail": "尾巴",
-        "wind_up_key": "發條",
+        "wind_up_key": "發條鑰匙",
         "wings": "翅膀"
       },
       "bodyPaint": {
         "body_effect": "身體特效",
-        "body_jewelry": "身體飾品",
         "body_paint": "膚繪"
       },
       "bottoms": {
@@ -557,7 +555,6 @@
       "hairAccessories": {
         "crown": "皇冠",
         "eyewear": "眼鏡",
-        "hair_comb": "髮梳",
         "hair_ornament": "髮飾",
         "head_effect": "頭部特效",
         "headband": "髮帶",
@@ -565,7 +562,7 @@
       },
       "handhelds": {
         "balloons": "氣球",
-        "banner": "旗幟",
+        "banner": "旌旗",
         "basket": "籃子",
         "book": "書",
         "bouquet": "花束",
@@ -613,7 +610,7 @@
         "necklace": "項鍊",
         "scarf": "圍巾",
         "stethoscope": "聽診器",
-        "whistle": "口哨"
+        "whistle": "哨子"
       },
       "outerwear": {
         "cape": "披肩/斗篷",
@@ -699,7 +696,7 @@
         "bib_overalls": "背帶褲",
         "bloomers": "燈籠褲",
         "cargo_pants": "工裝褲",
-        "chaps": "寬腿皮褲",
+        "chaps": "牛仔護腿",
         "denim_shorts": "牛仔短褲",
         "harem_pants": "哈倫褲",
         "jeans": "牛仔褲",
@@ -805,6 +802,7 @@
         "bow": "蝴蝶結",
         "coronet": "小冠",
         "flower": "花朵",
+        "hair_comb": "髮梳",
         "hairclip": "髮夾",
         "hairpin": "髮簪",
         "head_chain": "額鏈",
@@ -851,7 +849,7 @@
         "tambourine": "鈴鼓",
         "ukulele": "烏克麗麗",
         "violin": "小提琴",
-        "watering_can": "水壺"
+        "watering_can": "澆水壺"
       },
       "headwear": {
         "animal_ears": "動物耳朵",

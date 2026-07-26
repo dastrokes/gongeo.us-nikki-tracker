@@ -822,7 +822,7 @@
         "brush": "Pinsel",
         "candy": "Süßigkeit",
         "clipboard": "Klemmbrett",
-        "clutch": "Clutch-Tasche",
+        "clutch": "Clutch",
         "crossbow": "Armbrust",
         "cup": "Becher",
         "fishing_rod": "Angelrute",
@@ -888,7 +888,7 @@
       "neckwear": {
         "bib_necklace": "Latzkette",
         "lariat_necklace": "Lariat Halskette",
-        "lei": "Blumenkette",
+        "lei": "Lei",
         "pendant_necklace": "Anhänger-Kette",
         "strand_necklace": "Strangkette"
       },

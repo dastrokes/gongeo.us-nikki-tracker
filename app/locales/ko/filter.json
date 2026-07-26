@@ -363,7 +363,7 @@
       "daxiu_sleeve": "대수 슬리브",
       "detached_sleeves": "탈부착 소매",
       "flare_sleeve": "플레어 슬리브",
-      "puff_sleeve": "프 슬리브",
+      "puff_sleeve": "퍼프 슬리브",
       "raglan_sleeve": "래글런 슬리브",
       "shuixiu_sleeve": "수수 슬리브",
       "slit_sleeve": "슬릿 슬리브",
@@ -382,7 +382,7 @@
     },
     "structure": {
       "asymmetric": "비대칭",
-      "boned": "본드",
+      "boned": "보닝 있음",
       "braided": "땋은",
       "bristled": "솔모양",
       "cable_knit": "케이블 니트",
@@ -481,16 +481,14 @@
         "basket": "바구니",
         "collar": "목 장식",
         "drape": "드레이프/소수",
-        "frame": "프레임",
         "hat": "모자",
         "plush": "인형",
         "tail": "꼬리",
-        "wind_up_key": "태엽",
+        "wind_up_key": "태엽 열쇠",
         "wings": "날개"
       },
       "bodyPaint": {
         "body_effect": "바디 이펙트",
-        "body_jewelry": "바디 주얼리",
         "body_paint": "바디 페인팅"
       },
       "bottoms": {
@@ -557,7 +555,6 @@
       "hairAccessories": {
         "crown": "크라운",
         "eyewear": "안경류",
-        "hair_comb": "헤어 콤",
         "hair_ornament": "헤어 장식",
         "head_effect": "머리 이펙트",
         "headband": "머리띠",
@@ -805,6 +802,7 @@
         "bow": "리본 매듭",
         "coronet": "코로넷",
         "flower": "꽃",
+        "hair_comb": "헤어 콤",
         "hairclip": "헤어클립",
         "hairpin": "헤어핀",
         "head_chain": "헤드 체인",
@@ -851,7 +849,7 @@
         "tambourine": "탬버린",
         "ukulele": "우쿨렐레",
         "violin": "바이올린",
-        "watering_can": "물조개"
+        "watering_can": "물뿌리개"
       },
       "headwear": {
         "animal_ears": "동물 귀",
@@ -951,7 +949,7 @@
         "bralette": "브랄렛",
         "bustier": "뷔스티에",
         "button_up_shirt": "버튼 업 셔츠",
-        "hanfu_top": "한복 상의",
+        "hanfu_top": "한푸 상의",
         "hoodie": "후드티",
         "leotard": "레오타드",
         "maid_blouse": "메이드 블라우스",

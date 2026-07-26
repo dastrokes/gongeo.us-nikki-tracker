@@ -41,6 +41,14 @@ const overridesPath = path.join(
   'generated',
   'overrides.json'
 )
+const localItemAttributesPath = path.join(
+  repoRoot,
+  'data',
+  'item-search',
+  'generated',
+  'supabase',
+  'item-attributes.jsonl'
+)
 
 const validScopes = new Set([
   'full',
@@ -49,6 +57,7 @@ const validScopes = new Set([
   'refresh-only',
   'locales-only',
   'feedback-selected',
+  'pending-overrides',
 ])
 
 const publishUsage = `Usage:
@@ -212,6 +221,14 @@ const createEmptyOverrides = () => ({
   items: {},
 })
 
+const loadOverrideItems = () => {
+  const overrides = fs.existsSync(overridesPath)
+    ? JSON.parse(fs.readFileSync(overridesPath, 'utf8'))
+    : createEmptyOverrides()
+
+  return isRecord(overrides?.items) ? overrides.items : {}
+}
+
 const writeJsonLines = (filePath, rows) => {
   fs.mkdirSync(path.dirname(filePath), { recursive: true })
   fs.writeFileSync(
@@ -225,10 +242,7 @@ const writeJsonLines = (filePath, rows) => {
 }
 
 const loadOverrideItemAttributeRows = (itemIds) => {
-  const overrides = fs.existsSync(overridesPath)
-    ? JSON.parse(fs.readFileSync(overridesPath, 'utf8'))
-    : createEmptyOverrides()
-  const items = isRecord(overrides?.items) ? overrides.items : {}
+  const items = loadOverrideItems()
 
   return itemIds.map((itemId) => {
     const entry = items[String(itemId)]
@@ -240,6 +254,74 @@ const loadOverrideItemAttributeRows = (itemIds) => {
 
     return buildItemAttributeRow(entry)
   })
+}
+
+export const overlayCanonicalItemAttributeOverrides = (rows, items) =>
+  rows.map((row) => {
+    const canonicalRow = buildItemAttributeRow(row)
+    const override = items[String(canonicalRow.item_id)]
+    return isRecord(override) ? buildItemAttributeRow(override) : canonicalRow
+  })
+
+const canonicalRowSignature = (row) =>
+  JSON.stringify(buildItemAttributeRow(row))
+
+export const findPendingOverrideItemIds = (rows, items) => {
+  const liveById = new Map(
+    rows.map((row) => [String(row.item_id), buildItemAttributeRow(row)])
+  )
+
+  return Object.entries(items)
+    .filter(([itemId, override]) => {
+      const live = liveById.get(itemId)
+      return (
+        !live || canonicalRowSignature(live) !== canonicalRowSignature(override)
+      )
+    })
+    .map(([itemId]) => normalizeNumber(itemId))
+    .filter((itemId) => itemId !== null)
+    .sort((left, right) => left - right)
+}
+
+const loadPendingOverrideItemIds = () => {
+  if (!fs.existsSync(localItemAttributesPath)) {
+    throw new Error(
+      `Current Supabase item-attributes mirror not found at ${localItemAttributesPath}. Refresh the local copy before publishing pending overrides.`
+    )
+  }
+
+  return findPendingOverrideItemIds(
+    parseJsonLines(localItemAttributesPath),
+    loadOverrideItems()
+  )
+}
+
+const stageCanonicalItemAttributes = ({ itemAttributesPath, scope }) => {
+  const rows = parseJsonLines(itemAttributesPath)
+  const canonicalRows = overlayCanonicalItemAttributeOverrides(
+    rows,
+    loadOverrideItems()
+  )
+  const changedItemIds = canonicalRows
+    .filter(
+      (row, index) =>
+        canonicalRowSignature(row) !== canonicalRowSignature(rows[index])
+    )
+    .map((row) => row.item_id)
+
+  if (changedItemIds.length === 0) {
+    return { itemAttributesPath, changedItemIds }
+  }
+
+  const stageRoot = path.join(publishReportsRoot, 'staging')
+  const stamp = new Date().toISOString().replace(/[:.]/g, '-')
+  const stagedPath = path.join(
+    stageRoot,
+    `item-attributes-${scope}-canonical-${stamp}.jsonl`
+  )
+  writeJsonLines(stagedPath, canonicalRows)
+
+  return { itemAttributesPath: stagedPath, changedItemIds }
 }
 
 const stageOverrideItemAttributes = ({ itemIds, scope }) => {
@@ -307,10 +389,11 @@ export const runItemSearchPublish = async (argv = process.argv.slice(2)) => {
   if (
     args.overridesOnly &&
     args.scope !== 'item-ids' &&
-    args.scope !== 'feedback-selected'
+    args.scope !== 'feedback-selected' &&
+    args.scope !== 'pending-overrides'
   ) {
     throw new Error(
-      '--overrides-only is only supported for item-ids and feedback-selected scopes'
+      '--overrides-only is only supported for item-ids, feedback-selected, and pending-overrides scopes'
     )
   }
 
@@ -334,8 +417,14 @@ export const runItemSearchPublish = async (argv = process.argv.slice(2)) => {
     ])
   }
 
+  if (effectiveScope === 'pending-overrides') {
+    effectiveItemIds = loadPendingOverrideItemIds()
+  }
+
   if (
-    (effectiveScope === 'item-ids' || effectiveScope === 'feedback-selected') &&
+    (effectiveScope === 'item-ids' ||
+      effectiveScope === 'feedback-selected' ||
+      effectiveScope === 'pending-overrides') &&
     effectiveItemIds.length === 0
   ) {
     throw new Error(`${effectiveScope} scope requires at least one item id`)
@@ -346,7 +435,9 @@ export const runItemSearchPublish = async (argv = process.argv.slice(2)) => {
   }
 
   const shouldSyncFromOverrides =
-    args.overridesOnly || effectiveScope === 'feedback-selected'
+    args.overridesOnly ||
+    effectiveScope === 'feedback-selected' ||
+    effectiveScope === 'pending-overrides'
 
   let itemAttributesPath = resolveItemAttributesPath(args)
   let itemAttributesSource = {
@@ -365,6 +456,19 @@ export const runItemSearchPublish = async (argv = process.argv.slice(2)) => {
     }
   } else if (effectiveScope !== 'locales-only') {
     assertItemAttributesPathExists(itemAttributesPath)
+    const staged = stageCanonicalItemAttributes({
+      itemAttributesPath,
+      scope: effectiveScope,
+    })
+    itemAttributesPath = staged.itemAttributesPath
+    itemAttributesSource = {
+      mode:
+        staged.changedItemIds.length > 0
+          ? 'canonical-overrides-overlay'
+          : 'external-item-attributes',
+      path: itemAttributesPath,
+      overlaidItemIds: staged.changedItemIds,
+    }
   }
 
   let localCopyResult =

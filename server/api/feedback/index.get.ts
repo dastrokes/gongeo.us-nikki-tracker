@@ -1,4 +1,6 @@
-import { createError, getHeader } from 'h3'
+import { createError } from 'h3'
+
+const MAX_FEEDBACK_PAGE = 10
 
 const createBadRequestError = (message: string) =>
   createError({
@@ -10,7 +12,13 @@ const createBadRequestError = (message: string) =>
 const parsePage = (value: unknown) => {
   const parsed = Number(value)
   if (!Number.isFinite(parsed) || parsed < 1) return 1
-  return Math.floor(parsed)
+  const page = Math.floor(parsed)
+  if (page > MAX_FEEDBACK_PAGE) {
+    throw createBadRequestError(
+      `Feedback page cannot exceed ${MAX_FEEDBACK_PAGE}`
+    )
+  }
+  return page
 }
 
 const parseEntityType = (value: unknown): FeedbackEntityType | null => {
@@ -81,13 +89,11 @@ const parseChangedField = (value: unknown): ItemTagFeedbackField | null => {
   return value as ItemTagFeedbackField
 }
 
-const hasAuthorizationHeader = (event: Parameters<typeof getHeader>[0]) =>
-  Boolean(getHeader(event, 'authorization')?.trim())
-
 export default defineEventHandler(async (event) => {
+  applyNoStoreHeaders(event)
+
   try {
     const query = getQuery(event)
-    const hasAuthorization = hasAuthorizationHeader(event)
     const user = await getAuthenticatedUser(event)
     const requestedScope = parseScope(query.scope?.toString() ?? null)
     const requestedReviewState = parseReviewState(
@@ -117,18 +123,8 @@ export default defineEventHandler(async (event) => {
       page: parsePage(query.page),
     })
 
-    if (!hasAuthorization && requestedScope === 'all' && scope === 'all') {
-      setCacheHeaders(event, 'feedback', {
-        varyQuery: true,
-      })
-    } else {
-      applyNoStoreHeaders(event)
-    }
-
     return response
   } catch (error) {
-    applyNoStoreHeaders(event)
-
     if (
       error &&
       typeof error === 'object' &&

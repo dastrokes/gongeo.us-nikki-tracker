@@ -481,7 +481,6 @@
         "basket": "Korb",
         "collar": "Kragen",
         "drape": "Drapierung",
-        "frame": "Rahmen",
         "hat": "Hut",
         "plush": "Stofftier",
         "tail": "Schwanz",
@@ -490,7 +489,6 @@
       },
       "bodyPaint": {
         "body_effect": "Körpereffekt",
-        "body_jewelry": "Körperschmuck",
         "body_paint": "Körperfarbe"
       },
       "bottoms": {
@@ -557,7 +555,6 @@
       "hairAccessories": {
         "crown": "Krone",
         "eyewear": "Brille",
-        "hair_comb": "Haarkamm",
         "hair_ornament": "Haarschmuck",
         "head_effect": "Kopfeffekt",
         "headband": "Haarband",
@@ -805,6 +802,7 @@
         "bow": "Schleife",
         "coronet": "Diadem",
         "flower": "Blume",
+        "hair_comb": "Haarkamm",
         "hairclip": "Haarclip",
         "hairpin": "Haarnadel",
         "head_chain": "Kopfkette",

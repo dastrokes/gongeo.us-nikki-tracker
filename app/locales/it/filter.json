@@ -481,7 +481,6 @@
         "basket": "Cesto",
         "collar": "Collare",
         "drape": "Drappeggio",
-        "frame": "Cornice",
         "hat": "Cappello",
         "plush": "Peluche",
         "tail": "Coda",
@@ -490,7 +489,6 @@
       },
       "bodyPaint": {
         "body_effect": "Effetto corporeo",
-        "body_jewelry": "Gioielli per il corpo",
         "body_paint": "Pittura corporea"
       },
       "bottoms": {
@@ -557,7 +555,6 @@
       "hairAccessories": {
         "crown": "Corona",
         "eyewear": "Occhiali",
-        "hair_comb": "Pettinino",
         "hair_ornament": "Ornamento per capelli",
         "head_effect": "Effetto testa",
         "headband": "Cerchietto",
@@ -805,6 +802,7 @@
         "bow": "Fiocco",
         "coronet": "Diadema",
         "flower": "Fiore",
+        "hair_comb": "Pettinino",
         "hairclip": "Fermaglio",
         "hairpin": "Forcina",
         "head_chain": "Catena per la testa",

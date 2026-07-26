@@ -197,6 +197,7 @@ export const ITEM_SEARCH_SUBCATEGORY_PARENT_BY_TYPE = {
     bow: 'hair_ornament',
     coronet: 'crown',
     flower: 'hair_ornament',
+    hair_comb: 'hair_ornament',
     hairclip: 'hair_ornament',
     hairpin: 'hair_ornament',
     head_chain: 'headpiece',

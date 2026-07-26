@@ -481,7 +481,6 @@
         "basket": "바구니",
         "collar": "목 장식",
         "drape": "드레이프/소수",
-        "frame": "프레임",
         "hat": "모자",
         "plush": "인형",
         "tail": "꼬리",
@@ -490,7 +489,6 @@
       },
       "bodyPaint": {
         "body_effect": "바디 이펙트",
-        "body_jewelry": "바디 주얼리",
         "body_paint": "바디 페인팅"
       },
       "bottoms": {
@@ -557,7 +555,6 @@
       "hairAccessories": {
         "crown": "크라운",
         "eyewear": "안경류",
-        "hair_comb": "헤어 콤",
         "hair_ornament": "헤어 장식",
         "head_effect": "머리 이펙트",
         "headband": "머리띠",
@@ -805,6 +802,7 @@
         "bow": "리본 매듭",
         "coronet": "코로넷",
         "flower": "꽃",
+        "hair_comb": "헤어 콤",
         "hairclip": "헤어클립",
         "hairpin": "헤어핀",
         "head_chain": "헤드 체인",

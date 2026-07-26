@@ -2117,11 +2117,6 @@
   {
     "field": "category",
     "itemType": "backpieces",
-    "value": "frame"
-  },
-  {
-    "field": "category",
-    "itemType": "backpieces",
     "value": "hat"
   },
   {
@@ -2148,11 +2143,6 @@
     "field": "category",
     "itemType": "bodyPaint",
     "value": "body_effect"
-  },
-  {
-    "field": "category",
-    "itemType": "bodyPaint",
-    "value": "body_jewelry"
   },
   {
     "field": "category",
@@ -2383,11 +2373,6 @@
     "field": "category",
     "itemType": "hairAccessories",
     "value": "eyewear"
-  },
-  {
-    "field": "category",
-    "itemType": "hairAccessories",
-    "value": "hair_comb"
   },
   {
     "field": "category",
@@ -3393,6 +3378,11 @@
     "field": "subcategory",
     "itemType": "hairAccessories",
     "value": "flower"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "hairAccessories",
+    "value": "hair_comb"
   },
   {
     "field": "subcategory",

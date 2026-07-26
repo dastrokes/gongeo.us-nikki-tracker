@@ -8,7 +8,7 @@
       "wispy_bangs": "Frangia Sfilata"
     },
     "bottom_length": {
-      "ankle_length": "Allo Stinco",
+      "ankle_length": "Alla Caviglia",
       "floor_length": "Fino a Terra",
       "knee_length": "Al Ginocchio",
       "maxi": "Maxi",
@@ -242,7 +242,7 @@
       "sequin": "Paillette",
       "shell": "Conchiglia",
       "snowflake": "Fiocco di Neve",
-      "spike": "Bborchia a Punta",
+      "spike": "Borchia a Punta",
       "star": "Stella",
       "starfish": "Stella marina",
       "sticker": "Adesivo",
@@ -254,7 +254,7 @@
       "tag": "Etichetta",
       "tassel": "Nappina",
       "teapot": "Teiera",
-      "tie": "Laccetto",
+      "tie": "Cravatta",
       "tie_clip": "Fermacravatta",
       "vine": "Tralcio",
       "water_droplet": "Goccia d’Acqua",
@@ -326,7 +326,7 @@
       "zigzag": "Zigzag"
     },
     "shaft_height": {
-      "ankle": "Allo Stinco",
+      "ankle": "Alla Caviglia",
       "knee_high": "Sotto il Ginocchio",
       "mid_calf": "Metà Polpaccio",
       "over_knee": "Sopra il Ginocchio"
@@ -370,7 +370,7 @@
       "split_sleeve": "Manica Aperta"
     },
     "sock_height": {
-      "ankle": "Allo Stinco",
+      "ankle": "Alla Caviglia",
       "crew": "A metà polpaccio",
       "knee_high": "Al ginocchio",
       "thigh_high": "Sopra il Ginocchio"
@@ -481,7 +481,6 @@
         "basket": "Cesto",
         "collar": "Collare",
         "drape": "Drappeggio",
-        "frame": "Cornice",
         "hat": "Cappello",
         "plush": "Peluche",
         "tail": "Coda",
@@ -490,7 +489,6 @@
       },
       "bodyPaint": {
         "body_effect": "Effetto corporeo",
-        "body_jewelry": "Gioielli per il corpo",
         "body_paint": "Pittura corporea"
       },
       "bottoms": {
@@ -529,7 +527,7 @@
       },
       "faceDecorations": {
         "bandage": "Benda",
-        "blindfold": "Benda",
+        "blindfold": "Benda sugli occhi",
         "card": "Carta",
         "eyepatch": "Benda sull'occhio",
         "eyewear": "Occhiali",
@@ -557,7 +555,6 @@
       "hairAccessories": {
         "crown": "Corona",
         "eyewear": "Occhiali",
-        "hair_comb": "Pettinino",
         "hair_ornament": "Ornamento per capelli",
         "head_effect": "Effetto testa",
         "headband": "Cerchietto",
@@ -805,6 +802,7 @@
         "bow": "Fiocco",
         "coronet": "Diadema",
         "flower": "Fiore",
+        "hair_comb": "Pettinino",
         "hairclip": "Fermaglio",
         "hairpin": "Forcina",
         "head_chain": "Catena per la testa",
@@ -836,7 +834,7 @@
         "hoe": "Zappa",
         "ice_cream": "Gelato",
         "maracas": "Maracas",
-        "mug": "Tazza",
+        "mug": "Tazza con manico",
         "musket": "Moschetto",
         "net": "Rete",
         "pipa": "Pipa",
@@ -936,7 +934,7 @@
         "lace_up_flats": "Stringate basse",
         "low_top_sneakers": "Sneaker basse",
         "penny_loafers": "Mocassini",
-        "pumps": "Dcollet",
+        "pumps": "Décolleté",
         "riding_boots": "Stivali da cavallerizza",
         "slingback_heels": "Slingback",
         "t_strap_heels": "T-strap",
@@ -950,14 +948,14 @@
         "bandeau_top": "Top a fascia",
         "bralette": "Bralette",
         "bustier": "Bustier",
-        "button_up_shirt": "Camicia botton-down",
+        "button_up_shirt": "Camicia con bottoni",
         "hanfu_top": "Top Hanfu",
         "hoodie": "Felpa con cappuccio",
         "leotard": "Body",
         "maid_blouse": "Camicetta da cameriera",
         "military_jacket": "Giacca militare",
         "milkmaid_top": "Top stile contadina",
-        "peasant_blouse": "Blusa svasata",
+        "peasant_blouse": "Blusa contadina",
         "polo_shirt": "Polo",
         "sailor_blouse": "Camicetta alla marinara",
         "school_uniform_blouse": "Camicetta scolastica",

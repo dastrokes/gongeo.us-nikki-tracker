@@ -254,7 +254,7 @@
       "tag": "Étiquette",
       "tassel": "Gland",
       "teapot": "Théière",
-      "tie": "Lien",
+      "tie": "Cravate",
       "tie_clip": "Pince à cravate",
       "vine": "Vigne",
       "water_droplet": "Goutte d’Eau",
@@ -320,7 +320,7 @@
       "swirl": "Tourbillon",
       "text": "Texte",
       "tie_dye": "Tie-dye",
-      "tiger_stripe": "Tigre",
+      "tiger_stripe": "Rayures de Tigre",
       "tortoiseshell": "Écaille de tortue",
       "tribal": "Tribal",
       "zigzag": "Zigzag"
@@ -359,7 +359,7 @@
     "sleeve_style": {
       "bell_sleeve": "Manche Cloche",
       "bishop_sleeve": "Manche Évêque",
-      "cap_sleeve": "Manche Courte Évasée",
+      "cap_sleeve": "Mancheron",
       "daxiu_sleeve": "Manche Daxiu",
       "detached_sleeves": "Manches Détachables",
       "flare_sleeve": "Manche Évasée",
@@ -481,7 +481,6 @@
         "basket": "Panier",
         "collar": "Col",
         "drape": "Drapé",
-        "frame": "Cadre",
         "hat": "Chapeau",
         "plush": "Peluche",
         "tail": "Queue",
@@ -490,7 +489,6 @@
       },
       "bodyPaint": {
         "body_effect": "Effet corporel",
-        "body_jewelry": "Bijoux de corps",
         "body_paint": "Peinture corporelle"
       },
       "bottoms": {
@@ -557,7 +555,6 @@
       "hairAccessories": {
         "crown": "Couronne",
         "eyewear": "Lunettes",
-        "hair_comb": "Peigne à cheveux",
         "hair_ornament": "Ornement de cheveux",
         "head_effect": "Effet de tête",
         "headband": "Serre-tête",
@@ -805,6 +802,7 @@
         "bow": "Nœud",
         "coronet": "Coronille",
         "flower": "Fleur",
+        "hair_comb": "Peigne à cheveux",
         "hairclip": "Barrette",
         "hairpin": "Épingle à cheveux",
         "head_chain": "Chaîne de tête",

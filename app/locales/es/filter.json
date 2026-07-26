@@ -184,7 +184,7 @@
       "crescent_moon": "Luna creciente",
       "cube": "Cubo",
       "cuff": "Brazalete rígido",
-      "dangle": "Colgante",
+      "dangle": "Adorno Colgante",
       "ear_cuff": "Pendiente de cartílago",
       "emblem": "Emblema",
       "embroidery": "Bordado",
@@ -254,7 +254,7 @@
       "tag": "Etiqueta",
       "tassel": "Borla",
       "teapot": "Tetera",
-      "tie": "Lazo/Atadura",
+      "tie": "Corbata",
       "tie_clip": "Pisacorbatas",
       "vine": "Vid",
       "water_droplet": "Gota de Agua",
@@ -319,7 +319,7 @@
       "striped": "Rayas/Listado",
       "swirl": "Remolino",
       "text": "Texto",
-      "tie_dye": "Batik",
+      "tie_dye": "Tie-Dye",
       "tiger_stripe": "Rayas de tigre",
       "tortoiseshell": "Carey",
       "tribal": "Tribal",
@@ -349,7 +349,7 @@
       "trumpet": "Trompeta"
     },
     "sleeve_length": {
-      "elbow": "Codo/Manga Coda",
+      "elbow": "Manga al Codo",
       "extra_long": "Extra Larga",
       "long": "Manga Larga",
       "short": "Manga Corta",
@@ -481,7 +481,6 @@
         "basket": "Cesta",
         "collar": "Cuello",
         "drape": "Drapeado/Velo Trasero",
-        "frame": "Marco",
         "hat": "Sombrero",
         "plush": "Peluche",
         "tail": "Cola",
@@ -490,7 +489,6 @@
       },
       "bodyPaint": {
         "body_effect": "Efecto corporal",
-        "body_jewelry": "Joyería corporal",
         "body_paint": "Pintura corporal"
       },
       "bottoms": {
@@ -557,7 +555,6 @@
       "hairAccessories": {
         "crown": "Corona",
         "eyewear": "Gafas/Anteojos",
-        "hair_comb": "Peineta",
         "hair_ornament": "Ornamento para el Pelo",
         "head_effect": "Efecto de cabeza",
         "headband": "Diadema",
@@ -754,7 +751,7 @@
       },
       "earrings": {
         "chandelier_earrings": "Pendientes de Araña",
-        "drop_earrings": "Pendientes Gostas/Glargos",
+        "drop_earrings": "Pendientes Colgantes",
         "hoop_earrings": "Aros/Argollas",
         "stud_earrings": "Pendientes de Botón/Topos"
       },
@@ -771,7 +768,7 @@
         "monocle": "Monóculo",
         "mouth_held": "Sostenido en la boca",
         "novelty_glasses": "Gafas de fantasía",
-        "ornamental_mask": "Escuena Máscara",
+        "ornamental_mask": "Máscara Ornamental",
         "sunglasses": "Gafas de Sol"
       },
       "gloves": {
@@ -805,6 +802,7 @@
         "bow": "Lazo",
         "coronet": "Coronilla",
         "flower": "Flor",
+        "hair_comb": "Peineta",
         "hairclip": "Pasador/Clip",
         "hairpin": "Horquilla",
         "head_chain": "Cadena para la cabeza",
@@ -836,7 +834,7 @@
         "hoe": "Azada",
         "ice_cream": "Helado",
         "maracas": "Maracas",
-        "mug": "Taza",
+        "mug": "Taza con Asa",
         "musket": "Mosquete",
         "net": "Red",
         "pipa": "Pipa",

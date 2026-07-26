@@ -116,7 +116,7 @@
       "wool": "Wolle"
     },
     "neckline": {
-      "boat_neck": "U-Ausschnitt",
+      "boat_neck": "U-Boot-Ausschnitt",
       "crew_neck": "Rundhals",
       "halter_neck": "Neckholder",
       "keyhole_neck": "Schlüsselloch-Ausschnitt",
@@ -148,7 +148,7 @@
       "animal": "Tier",
       "animal_ears": "Tierohren",
       "apple": "Apfel",
-      "applique": "Verzierung",
+      "applique": "Applikation",
       "armband": "Oberarmreif",
       "badge": "Abzeichen",
       "bangle": "Armreif",
@@ -783,9 +783,9 @@
         "double_ring_bun": "Doppelring-Dutt",
         "drill_twin_tails": "Korkenzieherzöpfe",
         "flying_immortal_bun": "Fei Xian Ji",
-        "half_up_braid": "Geflochten",
-        "half_up_bun": "Dutt",
-        "half_up_ponytail": "Pferdeschwanz",
+        "half_up_braid": "Halboffener Flechtzopf",
+        "half_up_bun": "Halboffener Dutt",
+        "half_up_ponytail": "Halboffener Pferdeschwanz",
         "high_bun": "Hoher Dutt",
         "high_ponytail": "Hoher Pferdeschwanz",
         "high_twin_tails": "Hohe Seitenzöpfe",
@@ -901,7 +901,7 @@
         "cloak": "Umhang",
         "daxiushan": "Daxiushan",
         "fur_coat": "Pelzmantel",
-        "hooded_cape": "Mit Kapuze",
+        "hooded_cape": "Cape mit Kapuze",
         "hooded_vest": "Kapuzenweste",
         "hoodie": "Hoodie",
         "long_cardigan": "Langer Cardigan",
@@ -923,7 +923,7 @@
         "ring_set": "Ring-Set"
       },
       "shoes": {
-        "ankle_strap_heels": "Mit Riemchen",
+        "ankle_strap_heels": "Absatzschuhe mit Knöchelriemen",
         "ballet_flats": "Ballerinas",
         "clogs": "Clogs",
         "combat_boots": "Springerstiefel",

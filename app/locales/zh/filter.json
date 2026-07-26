@@ -159,7 +159,7 @@
       "bolo_tie": "波洛领带",
       "bookmark": "书签",
       "bow": "蝴蝶结",
-      "bracelet": "手镯",
+      "bracelet": "手链",
       "braid": "辫饰",
       "branch": "树枝",
       "brooch": "胸针",
@@ -216,7 +216,7 @@
       "locket": "盒式项坠",
       "lyre": "里拉琴",
       "measuring_tape": "卷尺",
-      "medallion": "奖章",
+      "medallion": "圆形饰章",
       "mushroom": "蘑菇",
       "musical_note": "音符",
       "origami_crane": "千纸鹤",
@@ -258,7 +258,7 @@
       "tie_clip": "领带夹",
       "vine": "藤蔓",
       "water_droplet": "水滴",
-      "whistle": "口哨",
+      "whistle": "哨子",
       "wing": "翅膀",
       "yarn_ball": "毛线球"
     },
@@ -284,7 +284,7 @@
       "crane": "仙鹤",
       "crocodile_skin": "鳄鱼纹",
       "cross": "十字",
-      "damask": "大马士革",
+      "damask": "大马士革纹",
       "diamond": "菱形",
       "dotted": "点状",
       "dragon": "龙",
@@ -484,7 +484,7 @@
         "hat": "帽子",
         "plush": "毛绒玩具",
         "tail": "尾巴",
-        "wind_up_key": "发条",
+        "wind_up_key": "发条钥匙",
         "wings": "翅膀"
       },
       "bodyPaint": {
@@ -562,7 +562,7 @@
       },
       "handhelds": {
         "balloons": "气球",
-        "banner": "旗帜",
+        "banner": "旌旗",
         "basket": "篮子",
         "book": "书",
         "bouquet": "花束",
@@ -610,7 +610,7 @@
         "necklace": "项链",
         "scarf": "围巾",
         "stethoscope": "听诊器",
-        "whistle": "口哨"
+        "whistle": "哨子"
       },
       "outerwear": {
         "cape": "披肩/斗篷",
@@ -696,7 +696,7 @@
         "bib_overalls": "背带裤",
         "bloomers": "灯笼裤",
         "cargo_pants": "工装裤",
-        "chaps": "宽腿皮裤",
+        "chaps": "牛仔护腿",
         "denim_shorts": "牛仔短裤",
         "harem_pants": "哈伦裤",
         "jeans": "牛仔裤",
@@ -849,7 +849,7 @@
         "tambourine": "铃鼓",
         "ukulele": "尤克里里",
         "violin": "小提琴",
-        "watering_can": "水壶"
+        "watering_can": "洒水壶"
       },
       "headwear": {
         "animal_ears": "动物耳朵",

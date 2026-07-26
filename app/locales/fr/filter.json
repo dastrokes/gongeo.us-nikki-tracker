@@ -254,7 +254,7 @@
       "tag": "Étiquette",
       "tassel": "Gland",
       "teapot": "Théière",
-      "tie": "Lien",
+      "tie": "Cravate",
       "tie_clip": "Pince à cravate",
       "vine": "Vigne",
       "water_droplet": "Goutte d’Eau",
@@ -320,7 +320,7 @@
       "swirl": "Tourbillon",
       "text": "Texte",
       "tie_dye": "Tie-dye",
-      "tiger_stripe": "Tigre",
+      "tiger_stripe": "Rayures de Tigre",
       "tortoiseshell": "Écaille de tortue",
       "tribal": "Tribal",
       "zigzag": "Zigzag"
@@ -359,7 +359,7 @@
     "sleeve_style": {
       "bell_sleeve": "Manche Cloche",
       "bishop_sleeve": "Manche Évêque",
-      "cap_sleeve": "Manche Courte Évasée",
+      "cap_sleeve": "Mancheron",
       "daxiu_sleeve": "Manche Daxiu",
       "detached_sleeves": "Manches Détachables",
       "flare_sleeve": "Manche Évasée",

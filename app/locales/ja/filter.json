@@ -312,7 +312,7 @@
       "print": "プリント",
       "puzzle_piece": "パズル",
       "ripple": "波紋",
-      "skeleton": "スケルトン",
+      "skeleton": "骸骨",
       "solid": "無地",
       "splatter": "スプラッター",
       "star": "星",
@@ -481,7 +481,6 @@
         "basket": "バスケット",
         "collar": "襟/首輪",
         "drape": "ドレープ/羽衣",
-        "frame": "フレーム",
         "hat": "帽子",
         "plush": "ぬいぐるみ",
         "tail": "尻尾",
@@ -490,7 +489,6 @@
       },
       "bodyPaint": {
         "body_effect": "ボディエフェクト",
-        "body_jewelry": "ボディジュエリー",
         "body_paint": "ボディペイント"
       },
       "bottoms": {
@@ -557,7 +555,6 @@
       "hairAccessories": {
         "crown": "王冠",
         "eyewear": "メガネ",
-        "hair_comb": "ヘアコーム",
         "hair_ornament": "ヘアアクセサリー",
         "head_effect": "頭部エフェクト",
         "headband": "カチューシャ/ヘアバンド",
@@ -592,7 +589,7 @@
         "scroll": "巻物",
         "shopping_bag": "ショッピングバッグ",
         "sign": "看板",
-        "staff": "スタッフ/杖",
+        "staff": "長杖",
         "tool": "道具",
         "wand": "杖",
         "weapon": "武器"
@@ -805,6 +802,7 @@
         "bow": "蝶結び",
         "coronet": "コロネット",
         "flower": "花",
+        "hair_comb": "ヘアコーム",
         "hairclip": "ヘアクリップ",
         "hairpin": "ヘアピン",
         "head_chain": "ヘッドチェーン",

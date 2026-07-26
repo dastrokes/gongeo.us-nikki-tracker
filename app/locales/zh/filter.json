@@ -481,7 +481,6 @@
         "basket": "篮子",
         "collar": "领圈",
         "drape": "披帛",
-        "frame": "边框",
         "hat": "帽子",
         "plush": "毛绒玩具",
         "tail": "尾巴",
@@ -490,7 +489,6 @@
       },
       "bodyPaint": {
         "body_effect": "身体特效",
-        "body_jewelry": "身体饰品",
         "body_paint": "肤绘"
       },
       "bottoms": {
@@ -557,7 +555,6 @@
       "hairAccessories": {
         "crown": "皇冠",
         "eyewear": "眼镜",
-        "hair_comb": "发梳",
         "hair_ornament": "发饰",
         "head_effect": "头部特效",
         "headband": "发带",
@@ -805,6 +802,7 @@
         "bow": "蝴蝶结",
         "coronet": "小冠",
         "flower": "花朵",
+        "hair_comb": "发梳",
         "hairclip": "发夹",
         "hairpin": "发簪",
         "head_chain": "额链",

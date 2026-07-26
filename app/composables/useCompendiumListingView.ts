@@ -65,7 +65,11 @@ export const useCompendiumListingView = (
     "absolute right-0 bottom-0 left-0 z-20 flex h-28 flex-col justify-end bg-[url('/images/fade.png')] [background-size:100%_100%] bg-no-repeat"
 
   const setViewMode = (mode: ListingDisplayMode) => {
+    if (viewMode.value === mode) return
     viewMode.value = mode
+    if (options.currentPage) {
+      options.currentPage.value = 1
+    }
   }
 
   const setCompactPageSize = (compact: boolean) => {
@@ -77,7 +81,7 @@ export const useCompendiumListingView = (
   }
 
   const toggleViewMode = () => {
-    viewMode.value = viewMode.value === 'thumbnail' ? 'standard' : 'thumbnail'
+    setViewMode(viewMode.value === 'thumbnail' ? 'standard' : 'thumbnail')
   }
 
   const toggleCompactPageSize = () => {
@@ -133,12 +137,6 @@ export const useCompendiumListingView = (
       console.warn('Failed to save listing preferences:', error)
     }
   }
-
-  watch(viewMode, () => {
-    if (options.currentPage) {
-      options.currentPage.value = 1
-    }
-  })
 
   watch([viewMode, compactPageSize, hideOwnershipStatus], savePreferences)
 

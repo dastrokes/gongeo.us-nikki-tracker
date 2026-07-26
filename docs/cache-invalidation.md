@@ -20,6 +20,7 @@ This app uses `Netlify-Cache-ID` as the purgeable cache identity for mutable cac
 ## Normal Purges
 
 - Item-search publish or feedback apply: purge `item-search` plus touched `item-detail-{id}`.
+- Feedback queue and viewer APIs: no purge; these responses are always `no-store`.
 - Locale-only search publish: purge `item-search` only.
 - Detail response logic change: purge the broad detail ID, such as `item-details`.
 - Catalog index release: no purge; the deploy invalidates `/catalog/index.json`.

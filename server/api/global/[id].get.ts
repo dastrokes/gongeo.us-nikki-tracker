@@ -62,14 +62,7 @@ export default defineCachedApiEventHandler(
     }
   },
   {
-    cache: {
-      maxAge: 60 * 60 * 24,
-      staleMaxAge: 60 * 60 * 24,
-      name: 'global-banner-first-item',
-      getKey: (event) =>
-        `${getGameVersion()}:global:banner:${getRouterParam(event, 'id') ?? 'invalid'}:${getQuery(event).detail === '1' || getQuery(event).detail === 'true' ? 'detail' : 'minimal'}`,
-      swr: true,
-    },
+    cache: false,
     headers: {
       varyHeaders: [GAME_VERSION_HEADER],
       varyQuery: true,

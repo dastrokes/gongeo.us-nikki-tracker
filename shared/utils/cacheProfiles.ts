@@ -44,8 +44,6 @@ const CDN_API_LONG =
   'public, durable, s-maxage=2592000, stale-while-revalidate=604800, stale-if-error=86400'
 const CDN_SEARCH =
   'public, durable, s-maxage=86400, stale-while-revalidate=86400, stale-if-error=3600'
-const CDN_FEEDBACK = 'public, s-maxage=30, stale-while-revalidate=30'
-
 const THEME_VARY = `cookie=${THEME_COOKIE}`
 const THEME_QUERY_VARY = `${THEME_VARY},query`
 
@@ -142,9 +140,7 @@ const apiProfiles = {
   catalog: createProfile(BROWSER_REVALIDATE, CDN_API_LONG, {
     includeVersion: true,
   }),
-  detail: createProfile(BROWSER_REVALIDATE, CDN_API_LONG, {
-    includeVersion: true,
-  }),
+  detail: createProfile(BROWSER_REVALIDATE, CDN_API_LONG),
   search: createProfile(NO_STORE, CDN_SEARCH, {
     cacheIds: [CACHE_TAGS.itemSearch],
     includeVersion: true,
@@ -153,7 +149,6 @@ const apiProfiles = {
     cacheIds: [CACHE_TAGS.lookbook],
     includeVersion: true,
   }),
-  feedback: createProfile(NO_STORE, CDN_FEEDBACK),
   stats: createProfile(BROWSER_REVALIDATE, CDN_API_SHORT, {
     cacheIds: [CACHE_TAGS.stats],
     includeVersion: true,
@@ -214,12 +209,20 @@ export function resolveCacheHeaders(
   const version = getGameVersion()
   const config = getProfile(scope, profile)
   const headers: CacheHeaders = { ...config.headers }
-  const vary = mergeVary(headers[HEADER.vary], buildVary(options))
+  const includeVersion = options.includeVersion ?? config.includeVersion
+  const vary = mergeVary(
+    headers[HEADER.vary],
+    buildVary({
+      ...options,
+      varyHeaders: includeVersion
+        ? [...new Set([...(options.varyHeaders ?? []), GAME_VERSION_HEADER])]
+        : options.varyHeaders,
+    })
+  )
   const cacheIds = normalizeCacheIds([
     ...(config.cacheIds ?? []),
     ...(options.cacheIds ?? []),
   ])
-  const includeVersion = options.includeVersion ?? config.includeVersion
 
   if (includeVersion) {
     headers[GAME_VERSION_HEADER] = version

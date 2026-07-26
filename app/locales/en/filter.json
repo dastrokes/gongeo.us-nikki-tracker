@@ -481,7 +481,6 @@
         "basket": "Basket",
         "collar": "Collar",
         "drape": "Drape",
-        "frame": "Frame",
         "hat": "Hat",
         "plush": "Plush",
         "tail": "Tail",
@@ -490,7 +489,6 @@
       },
       "bodyPaint": {
         "body_effect": "Body Effect",
-        "body_jewelry": "Body Jewelry",
         "body_paint": "Body Paint"
       },
       "bottoms": {
@@ -557,7 +555,6 @@
       "hairAccessories": {
         "crown": "Crown",
         "eyewear": "Eyewear",
-        "hair_comb": "Hair Comb",
         "hair_ornament": "Hair Ornament",
         "head_effect": "Head Effect",
         "headband": "Headband",
@@ -805,6 +802,7 @@
         "bow": "Bow",
         "coronet": "Coronet",
         "flower": "Flower",
+        "hair_comb": "Hair Comb",
         "hairclip": "Hairclip",
         "hairpin": "Hairpin",
         "head_chain": "Head Chain",

@@ -481,7 +481,6 @@
         "basket": "Cesto",
         "collar": "Gola/Gargantilha",
         "drape": "Panos/Drapeado",
-        "frame": "Moldura",
         "hat": "Chapéu",
         "plush": "Pelúcia",
         "tail": "Cauda",
@@ -490,7 +489,6 @@
       },
       "bodyPaint": {
         "body_effect": "Efeito corporal",
-        "body_jewelry": "Joias corporais",
         "body_paint": "Pintura corporal"
       },
       "bottoms": {
@@ -557,7 +555,6 @@
       "hairAccessories": {
         "crown": "Coroa",
         "eyewear": "Óculos",
-        "hair_comb": "Pente de cabelo",
         "hair_ornament": "Ornamento de Cabelo",
         "head_effect": "Efeito de cabeça",
         "headband": "Tiara/Arquinho",
@@ -805,6 +802,7 @@
         "bow": "Laço",
         "coronet": "Coronilha",
         "flower": "Flor",
+        "hair_comb": "Pente de cabelo",
         "hairclip": "Presilha",
         "hairpin": "Grampo/Alfinete",
         "head_chain": "Corrente de cabeça",

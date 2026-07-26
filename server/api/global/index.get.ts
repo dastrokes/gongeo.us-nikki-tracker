@@ -43,13 +43,7 @@ export default defineCachedApiEventHandler(
     }
   },
   {
-    cache: {
-      maxAge: 60 * 60 * 24,
-      staleMaxAge: 60 * 60 * 24,
-      name: 'global-bootstrap',
-      getKey: () => `${getGameVersion()}:global:latest`,
-      swr: true,
-    },
+    cache: false,
     headers: {
       varyHeaders: [GAME_VERSION_HEADER],
     },

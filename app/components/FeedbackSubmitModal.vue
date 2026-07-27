@@ -475,9 +475,7 @@
             ? (value as string | null | undefined)
             : getDraftScalarValue('category'),
         subcategory:
-          field === 'subcategory'
-            ? (value as string | null | undefined)
-            : getDraftScalarValue('subcategory'),
+          field === 'subcategory' ? (value as string | null | undefined) : null,
       })
 
       draft.value = {

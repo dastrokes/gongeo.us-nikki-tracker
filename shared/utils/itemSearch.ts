@@ -545,7 +545,7 @@ export const getItemSearchSubcategoryOptions = (
       normalizedCategory
   )
 
-  return scopedSubcategories.length > 0 ? scopedSubcategories : allSubcategories
+  return scopedSubcategories
 }
 
 export const getItemSearchTaxonomyTree = (

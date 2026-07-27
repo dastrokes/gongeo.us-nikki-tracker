@@ -19,28 +19,36 @@
             class="pb-2"
           >
             <div class="flex min-w-max flex-row gap-2 pb-2">
-              <div
+              <template
                 v-for="banner in displayedRailBanners"
                 :key="banner.bannerId"
-                class="shrink-0 cursor-pointer transition-opacity hover:opacity-80"
               >
-                <n-tooltip trigger="hover">
-                  <template #trigger>
-                    <NuxtImg
-                      :src="getImageSrc('bannerThumb', banner.bannerId)"
-                      :alt="$t(`banner.${banner.bannerId}.name`)"
-                      class="h-16 w-32 rounded-lg object-cover"
-                      preset="bannerThumb"
-                      fit="cover"
-                      loading="lazy"
-                      fetchpriority="low"
-                      sizes="200px"
-                      @click="handleBannerClick(banner.bannerId)"
-                    />
-                  </template>
-                  <span>{{ t(`banner.${banner.bannerId}.name`) }}</span>
-                </n-tooltip>
-              </div>
+                <div
+                  v-if="banner.bannerId === firstRerunBannerId"
+                  aria-hidden="true"
+                  class="mx-1 h-12 w-px shrink-0 self-center rounded-full bg-gray-300/70 dark:bg-gray-600/70"
+                ></div>
+                <div
+                  class="shrink-0 cursor-pointer transition-opacity hover:opacity-80"
+                >
+                  <n-tooltip trigger="hover">
+                    <template #trigger>
+                      <NuxtImg
+                        :src="getImageSrc('bannerThumb', banner.bannerId)"
+                        :alt="$t(`banner.${banner.bannerId}.name`)"
+                        class="h-16 w-32 rounded-lg object-cover"
+                        preset="bannerThumb"
+                        fit="cover"
+                        loading="lazy"
+                        fetchpriority="low"
+                        sizes="200px"
+                        @click="handleBannerClick(banner.bannerId)"
+                      />
+                    </template>
+                    <span>{{ t(`banner.${banner.bannerId}.name`) }}</span>
+                  </n-tooltip>
+                </div>
+              </template>
             </div>
           </n-scrollbar>
         </div>
@@ -659,11 +667,10 @@
     })
   const firstRerunBannerId = computed(
     () =>
-      displayedBanners.value.find(isRerunForSelectedVersion)?.bannerId ?? null
+      filteredBanners.value.find(isRerunForSelectedVersion)?.bannerId ?? null
   )
 
-  // Watch filter changes with debouncing
-  watchDebounced(
+  watch(
     () => [qualityFilter.value, versionFilter.value],
     () => {
       isBannerRailExpanded.value = false
@@ -672,8 +679,7 @@
       if (import.meta.client) {
         window.scrollTo({ top: 0, behavior: 'smooth' })
       }
-    },
-    { debounce: 300 }
+    }
   )
 
   onMounted(() => {

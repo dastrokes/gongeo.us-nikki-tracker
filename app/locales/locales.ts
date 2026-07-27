@@ -1,16 +1,7 @@
 import type { LocaleObject } from '@nuxtjs/i18n'
 
 export type SupportedLocaleCode =
-  | 'en'
-  | 'de'
-  | 'es'
-  | 'fr'
-  | 'it'
-  | 'pt'
-  | 'ja'
-  | 'ko'
-  | 'zh'
-  | 'tw'
+  'en' | 'de' | 'es' | 'fr' | 'it' | 'pt' | 'ja' | 'ko' | 'zh' | 'tw'
 
 export const defaultLocale: SupportedLocaleCode = 'en'
 

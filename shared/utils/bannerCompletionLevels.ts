@@ -1,9 +1,5 @@
 export type BannerOutfitVariantLevel =
-  | 'base'
-  | 'glowup'
-  | 'evo1'
-  | 'evo2'
-  | 'evo3'
+  'base' | 'glowup' | 'evo1' | 'evo2' | 'evo3'
 
 export type BannerOutfitVariantLevelInput = {
   quality: number

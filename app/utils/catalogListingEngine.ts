@@ -5,9 +5,7 @@ import {
 
 export type CatalogListingEntity = 'item' | 'outfit'
 export type StaticCatalogListingEntity =
-  | CatalogListingEntity
-  | 'makeup'
-  | 'momo'
+  CatalogListingEntity | 'makeup' | 'momo'
 
 export type ItemOwnershipMode = 'all' | 'owned' | 'missing'
 export type OutfitOwnershipMode = 'all' | 'owned' | 'partial' | 'missing'
@@ -59,8 +57,7 @@ type CatalogLocalListingOutfitQuery = CatalogListingQuery & {
 }
 
 type CatalogLocalListingQuery =
-  | CatalogLocalListingItemQuery
-  | CatalogLocalListingOutfitQuery
+  CatalogLocalListingItemQuery | CatalogLocalListingOutfitQuery
 
 export type CatalogListingWardrobeAccess = {
   ownedItemIds?: readonly number[]
@@ -137,13 +134,7 @@ const getStringFilter = (filters: Record<string, unknown>, key: string) => {
 }
 
 type CatalogVariationFilter =
-  | 'base'
-  | 'all'
-  | 'glowup'
-  | 'evo1'
-  | 'evo2'
-  | 'evo3'
-  | 'all-evos'
+  'base' | 'all' | 'glowup' | 'evo1' | 'evo2' | 'evo3' | 'all-evos'
 
 const catalogVariationFilters = new Set<CatalogVariationFilter>([
   'base',
@@ -302,16 +293,14 @@ const matchesItemStableFilters = (
   filters: Record<string, unknown>,
   itemGroupIdsById: ReadonlyMap<number, readonly number[]>
 ) => {
-  if (
-    !(
-      matchesQuality(item, filters) &&
-      matchesStyle(item, filters) &&
-      matchesLabel(item, filters) &&
-      matchesVersion(item, filters) &&
-      matchesSource(item, filters) &&
-      matchesItemSourceDetailFilter(item, filters, itemGroupIdsById)
-    )
-  ) {
+  if (!(
+    matchesQuality(item, filters) &&
+    matchesStyle(item, filters) &&
+    matchesLabel(item, filters) &&
+    matchesVersion(item, filters) &&
+    matchesSource(item, filters) &&
+    matchesItemSourceDetailFilter(item, filters, itemGroupIdsById)
+  )) {
     return false
   }
 

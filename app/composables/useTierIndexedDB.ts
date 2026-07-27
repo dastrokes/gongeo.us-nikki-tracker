@@ -104,8 +104,7 @@ export function useTierIndexedDB() {
   ): Promise<TierlistRecord | null> => {
     return runWithRecovery('loadTierlist', async (db) => {
       const record = (await db.get(STORE_NAME, contextKey)) as
-        | TierlistRecord
-        | undefined
+        TierlistRecord | undefined
 
       if (!record) return null
 

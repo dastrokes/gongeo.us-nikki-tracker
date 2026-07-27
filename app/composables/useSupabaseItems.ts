@@ -21,7 +21,7 @@ export const useSupabaseItems = () => {
   const catalogIndex = useCatalogIndex()
   const loading = ref(false)
   const error = ref<Error | null>(null)
-  const gameVersionHeader = { [GAME_VERSION_HEADER]: getGameVersion() }
+  const gameVersionHeader = getGameVersionRequestHeaders()
   const appendCanonicalFilterParam = (
     params: Record<string, string | number>,
     key: 'category' | 'subcategory' | 'style' | 'label' | 'version' | 'source',

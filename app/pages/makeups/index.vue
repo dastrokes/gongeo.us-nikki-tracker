@@ -316,12 +316,7 @@
 
   type MakeupSlot = (typeof makeupItemTypes)[number]
   type MakeupListingPrimaryFilter =
-    | 'type'
-    | 'quality'
-    | 'version'
-    | 'style'
-    | 'source'
-    | null
+    'type' | 'quality' | 'version' | 'style' | 'source' | null
   type BuildListingQueryOptions = {
     primaryFilter?: MakeupListingPrimaryFilter
   }
@@ -418,13 +413,7 @@
     return resolveSeoMakeupQualitySlug(parsed) !== null ? parsed : null
   }
   type CatalogVariationFilter =
-    | 'base'
-    | 'all'
-    | 'glowup'
-    | 'evo1'
-    | 'evo2'
-    | 'evo3'
-    | 'all-evos'
+    'base' | 'all' | 'glowup' | 'evo1' | 'evo2' | 'evo3' | 'all-evos'
 
   const variationFilterValues = new Set<CatalogVariationFilter>([
     'base',

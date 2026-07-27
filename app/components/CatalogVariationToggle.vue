@@ -20,13 +20,7 @@
   import type { SelectOption } from 'naive-ui'
 
   type CatalogVariationFilter =
-    | 'base'
-    | 'all'
-    | 'glowup'
-    | 'evo1'
-    | 'evo2'
-    | 'evo3'
-    | 'all-evos'
+    'base' | 'all' | 'glowup' | 'evo1' | 'evo2' | 'evo3' | 'all-evos'
 
   const props = withDefaults(
     defineProps<{

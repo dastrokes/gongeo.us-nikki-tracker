@@ -6,10 +6,7 @@ import type {
 export type FeedbackEntityType = 'item' | 'outfit'
 
 export type FeedbackSuggestionStatus =
-  | 'open'
-  | 'accepted'
-  | 'rejected'
-  | 'applied'
+  'open' | 'accepted' | 'rejected' | 'applied'
 
 export type FeedbackSortKey = 'needs-review' | 'top' | 'new'
 export type FeedbackReviewState = 'unreviewed' | 'all' | 'voted'
@@ -19,14 +16,11 @@ export type FeedbackVoteValue = -1 | 1
 export type FeedbackMaintainerAction = 'approve' | 'reject' | 'apply'
 
 export type ItemTagFeedbackScalarField =
-  | 'category'
-  | 'subcategory'
-  | ItemSearchAdvancedScalarField
+  'category' | 'subcategory' | ItemSearchAdvancedScalarField
 
 export type ItemTagFeedbackMultiField = ItemSearchArrayField
 export type ItemTagFeedbackField =
-  | ItemTagFeedbackScalarField
-  | ItemTagFeedbackMultiField
+  ItemTagFeedbackScalarField | ItemTagFeedbackMultiField
 export type ItemTagFeedbackValue = string | string[] | null
 
 export type ItemTagFeedbackSnapshot = Partial<

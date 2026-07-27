@@ -21,7 +21,7 @@ pattern = "^/(?:[a-z]{2}/)?(banner|item|outfit)(?:/.*)?$"
 for = "/.netlify/images*"
 
   [headers.values]
-  Cache-Control = "public, max-age=31536000, immutable"
+  cache-control = "public, max-age=31536000, immutable"
   CDN-Cache-Control = "public, s-maxage=31536000, stale-while-revalidate=604800, stale-if-error=604800"
   Netlify-CDN-Cache-Control = "public, durable, s-maxage=31536000, stale-while-revalidate=604800, stale-if-error=604800"
   Netlify-Cache-ID = "images"
@@ -30,7 +30,7 @@ for = "/.netlify/images*"
 for = "/images/*"
 
   [headers.values]
-  Cache-Control = "public, max-age=31536000, immutable"
+  cache-control = "public, max-age=31536000, immutable"
   CDN-Cache-Control = "public, s-maxage=31536000, stale-while-revalidate=604800, stale-if-error=604800"
   Netlify-CDN-Cache-Control = "public, durable, s-maxage=31536000, stale-while-revalidate=604800, stale-if-error=604800"
   Netlify-Cache-ID = "images"
@@ -39,7 +39,7 @@ for = "/images/*"
 for = "/catalog/*.*.json"
 
   [headers.values]
-  Cache-Control = "public, max-age=31536000, immutable"
+  cache-control = "public, max-age=31536000, immutable"
   CDN-Cache-Control = "public, s-maxage=31536000, stale-while-revalidate=604800"
   Netlify-CDN-Cache-Control = "public, s-maxage=31536000, stale-while-revalidate=604800"
   Netlify-Cache-ID = "catalog-assets"
@@ -48,7 +48,7 @@ for = "/catalog/*.*.json"
 for = "/catalog/index.json"
 
   [headers.values]
-  Cache-Control = "public, max-age=0, must-revalidate"
+  cache-control = "public, max-age=0, must-revalidate"
   CDN-Cache-Control = "public, s-maxage=3600, stale-while-revalidate=86400, stale-if-error=86400"
   Netlify-CDN-Cache-Control = "public, s-maxage=3600, stale-while-revalidate=86400, stale-if-error=86400"
   Netlify-Cache-ID = "catalog"

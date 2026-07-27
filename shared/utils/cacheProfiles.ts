@@ -20,7 +20,7 @@ export const makeupDetailCacheId = (id: string) => `makeup-detail-${id}`
 export const momoDetailCacheId = (id: string) => `momo-detail-${id}`
 
 const HEADER = {
-  cache: 'Cache-Control',
+  cache: 'cache-control',
   cdn: 'Netlify-CDN-Cache-Control',
   sharedCdn: 'CDN-Cache-Control',
   cacheId: 'Netlify-Cache-ID',

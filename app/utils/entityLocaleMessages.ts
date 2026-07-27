@@ -1,9 +1,5 @@
 export type EntityMessageSection =
-  | 'banner'
-  | 'item'
-  | 'makeup'
-  | 'momo'
-  | 'outfit'
+  'banner' | 'item' | 'makeup' | 'momo' | 'outfit'
 
 export type EntityMessageDictionary = Record<string, unknown>
 

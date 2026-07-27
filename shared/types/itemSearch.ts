@@ -30,26 +30,16 @@ export type ItemSearchAdvancedScalarField = Exclude<
 >
 
 export type ItemSearchArrayField =
-  | 'pattern'
-  | 'material'
-  | 'structure'
-  | 'ornament'
-  | 'garment_feature'
+  'pattern' | 'material' | 'structure' | 'ornament' | 'garment_feature'
 
 export type ItemSearchField = ItemSearchScalarField | ItemSearchArrayField
 export type ItemSearchAdvancedField =
-  | ItemSearchAdvancedScalarField
-  | ItemSearchArrayField
+  ItemSearchAdvancedScalarField | ItemSearchArrayField
 
 export type ItemSearchAdvancedFilterValue = string | string[] | null
 
 export type ItemSearchSchemaKey =
-  | 'garment'
-  | 'hair'
-  | 'shoes'
-  | 'socks'
-  | 'accessory'
-  | 'unknown'
+  'garment' | 'hair' | 'shoes' | 'socks' | 'accessory' | 'unknown'
 
 export interface ItemSearchMetadata {
   item_id?: number | string

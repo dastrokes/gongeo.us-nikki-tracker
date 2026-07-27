@@ -60,7 +60,7 @@ const fetchItemAttributeMatchingIds = async (
       '/api/items/attributes',
       {
         params: buildItemAttributeMatchParams(filters),
-        headers: { [GAME_VERSION_HEADER]: getGameVersion() },
+        headers: getGameVersionRequestHeaders(),
       }
     )
 

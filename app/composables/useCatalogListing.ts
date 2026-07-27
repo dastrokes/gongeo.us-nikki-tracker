@@ -11,8 +11,7 @@ type OutfitCatalogListingQuery = CatalogListingQuery & {
 }
 
 type CatalogListingQueryInput =
-  | ItemCatalogListingQuery
-  | OutfitCatalogListingQuery
+  ItemCatalogListingQuery | OutfitCatalogListingQuery
 
 type CatalogListingWardrobeContext = {
   initialized: { readonly value: boolean }

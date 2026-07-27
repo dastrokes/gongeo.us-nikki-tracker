@@ -1252,13 +1252,7 @@
   }
 
   type CatalogVariationFilter =
-    | 'base'
-    | 'all'
-    | 'glowup'
-    | 'evo1'
-    | 'evo2'
-    | 'evo3'
-    | 'all-evos'
+    'base' | 'all' | 'glowup' | 'evo1' | 'evo2' | 'evo3' | 'all-evos'
 
   type TierWardrobeFilter = 'all' | 'owned' | 'partial' | 'missing'
 

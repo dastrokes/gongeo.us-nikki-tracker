@@ -482,13 +482,7 @@
       : option
 
   type ItemListingPrimaryFilter =
-    | 'type'
-    | 'quality'
-    | 'version'
-    | 'style'
-    | 'label'
-    | 'source'
-    | null
+    'type' | 'quality' | 'version' | 'style' | 'label' | 'source' | null
   type CompendiumSection = 'outfits' | 'items' | 'momo' | 'makeups'
   type IconSelectOption = SelectOption & { icon: Component }
   type BuildListingQueryOptions = {
@@ -628,13 +622,7 @@
     return resolveSeoItemQualitySlug(parsed) !== null ? parsed : null
   }
   type CatalogVariationFilter =
-    | 'base'
-    | 'all'
-    | 'glowup'
-    | 'evo1'
-    | 'evo2'
-    | 'evo3'
-    | 'all-evos'
+    'base' | 'all' | 'glowup' | 'evo1' | 'evo2' | 'evo3' | 'all-evos'
 
   const variationFilterValues = new Set<CatalogVariationFilter>([
     'base',

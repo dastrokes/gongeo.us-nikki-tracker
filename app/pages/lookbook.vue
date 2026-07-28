@@ -223,7 +223,7 @@
       <n-card
         v-if="isLookbookLoading"
         size="small"
-        class="mx-auto w-full max-w-lg overflow-visible! rounded-2xl"
+        class="mx-auto w-full max-w-2xl overflow-visible! rounded-2xl"
         content-class="!overflow-visible p-0"
         aria-busy="true"
       >
@@ -642,9 +642,14 @@
   const dyeItems = ref<LookbookDyeItem[]>([])
   const loading = ref(false)
   const exporting = ref(false)
-  const hideItemInfo = ref(false)
-  const showPreviewImages = ref(false)
-  const showOwnership = ref(false)
+  const lookbookSettings = useLocalStorage('gongeous-lookbook-settings', {
+    hideItemInfo: false,
+    showPreviewImages: false,
+    showOwnership: false,
+  })
+  const { hideItemInfo, showPreviewImages, showOwnership } = toRefs(
+    lookbookSettings.value
+  )
   const showItemListDialog = ref(false)
   const error = ref('')
   const errorType = ref<'code_not_found' | 'upstream_unavailable' | 'generic'>(

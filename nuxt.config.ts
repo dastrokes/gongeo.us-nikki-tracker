@@ -323,7 +323,6 @@ export default defineNuxtConfig({
             '/timeline',
             '/stats',
             '/wardrobe',
-            '/lookbook',
           ],
           {
             headers: pageTheme,
@@ -351,6 +350,7 @@ export default defineNuxtConfig({
             '/tierlist',
             '/search',
             '/random',
+            '/lookbook',
           ],
           {
             headers: pageThemeQuery,

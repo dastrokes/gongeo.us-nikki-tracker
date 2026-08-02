@@ -76,8 +76,12 @@ export type WardrobeSummary = {
   nearCompleteFullMakeups: WardrobeSummaryNearCompleteFullMakeup[]
 }
 
-const getCompletionPercent = (owned: number, total: number) =>
-  total > 0 ? Math.round((owned / total) * 100) : 0
+const getCompletionPercent = (owned: number, total: number) => {
+  if (total <= 0) return 0
+  if (owned >= total) return 100
+
+  return Math.min(Math.round((owned / total) * 100), 99)
+}
 
 const normalizeSummaryItemIds = (values: unknown): number[] => {
   if (!Array.isArray(values)) return []

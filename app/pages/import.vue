@@ -567,109 +567,115 @@
           <template
             v-if="importMethod === 'game' || importMethod === 'pearpal'"
           >
-            <n-form :show-feedback="false">
-              <n-space vertical>
-                <n-form-item
-                  label="UID"
-                  class="w-full"
-                >
-                  <n-input
-                    v-model:value="formData.roleid"
-                    :placeholder="$t('import.form.uid_placeholder')"
-                    class="max-w-full"
-                  />
-                </n-form-item>
-                <n-form-item
-                  label="Momo ID"
-                  class="w-full"
-                >
-                  <n-input
-                    v-model:value="formData.id"
-                    :placeholder="$t('import.form.momo_id_placeholder')"
-                    class="max-w-full"
-                  />
-                </n-form-item>
-                <n-form-item
-                  label="Momo Token"
-                  class="w-full"
-                >
-                  <n-input
-                    v-model:value="formData.token"
-                    :placeholder="$t('import.form.momo_token_placeholder')"
-                    class="max-w-full"
-                  />
-                </n-form-item>
-                <!-- Banner selection for both game and pearpal import -->
-                <n-form-item
-                  v-if="importMethod === 'game' || importMethod === 'pearpal'"
-                  :label="$t('import.select_banners')"
-                  class="w-full"
-                >
-                  <n-select
-                    v-model:value="selectedBanners"
-                    :options="bannerOptions"
-                    :placeholder="$t('import.select_banners_desc')"
-                    :validate-status="
-                      selectedBanners.length > 0 ? 'success' : 'error'
-                    "
-                    :show-checkmark="false"
-                    multiple
-                    clearable
-                    filterable
-                    :render-label="renderBannerLabel"
-                    :render-tag="renderBannerTag"
-                    @update:value="handleBannerSelectionChange"
-                  />
-                </n-form-item>
-              </n-space>
-            </n-form>
+            <div class="w-full">
+              <n-form :show-feedback="false">
+                <n-space vertical>
+                  <n-form-item
+                    label="UID"
+                    class="w-full"
+                  >
+                    <n-input
+                      v-model:value="formData.roleid"
+                      :placeholder="$t('import.form.uid_placeholder')"
+                    />
+                  </n-form-item>
+                  <n-form-item
+                    label="Momo ID"
+                    class="w-full"
+                  >
+                    <n-input
+                      v-model:value="formData.id"
+                      :placeholder="$t('import.form.momo_id_placeholder')"
+                    />
+                  </n-form-item>
+                  <n-form-item
+                    label="Momo Token"
+                    class="w-full"
+                  >
+                    <n-input
+                      v-model:value="formData.token"
+                      :placeholder="$t('import.form.momo_token_placeholder')"
+                    />
+                  </n-form-item>
+                  <n-form-item
+                    v-if="importMethod === 'pearpal'"
+                    :label="$t('navigation.import')"
+                    class="w-full"
+                  >
+                    <div
+                      class="flex w-full flex-col gap-2 sm:flex-row sm:gap-6"
+                    >
+                      <n-checkbox v-model:checked="importPullHistory">
+                        {{ $t('import.form.import_pull_history') }}
+                      </n-checkbox>
+                      <n-checkbox v-model:checked="importWardrobeOwnership">
+                        {{ $t('import.form.import_wardrobe') }}
+                      </n-checkbox>
+                    </div>
+                  </n-form-item>
+                  <n-form-item
+                    v-if="importMethod === 'game' || importPullHistory"
+                    :label="$t('import.select_banners')"
+                    class="w-full"
+                  >
+                    <n-select
+                      v-model:value="selectedBanners"
+                      class="banner-select"
+                      :options="bannerOptions"
+                      :placeholder="$t('import.select_banners_desc')"
+                      :validate-status="
+                        selectedBanners.length > 0 ? 'success' : 'error'
+                      "
+                      :show-checkmark="false"
+                      multiple
+                      clearable
+                      filterable
+                      :max-tag-count="isCompactImportLayout ? 1 : 'responsive'"
+                      :render-label="renderBannerLabel"
+                      :render-tag="renderBannerTag"
+                      @update:value="handleBannerSelectionChange"
+                    />
+                  </n-form-item>
 
-            <!-- Data note only for game import -->
-            <n-space
-              v-if="importMethod === 'game'"
-              class="my-4 flex w-full"
-            >
-              <div class="text-sm wrap-break-word text-amber-500">
-                {{
-                  $t('import.data_note', {
-                    date: daysAgoFormatted(180),
-                  })
-                }}
-              </div>
-            </n-space>
+                  <div
+                    v-if="importMethod === 'game'"
+                    class="w-full text-sm wrap-break-word text-amber-500"
+                  >
+                    {{
+                      $t('import.data_note', {
+                        date: daysAgoFormatted(180),
+                      })
+                    }}
+                  </div>
 
-            <!-- Global stats toggle -->
-            <n-space
-              align="center"
-              class="my-4 flex w-full flex-wrap"
-            >
-              <div>{{ $t('import.form.submit_global_stats') }}</div>
-              <n-switch
-                v-model:value="submitGlobalStats"
-                class="shrink-0"
-              />
-            </n-space>
+                  <n-checkbox
+                    v-if="importMethod === 'game' || importPullHistory"
+                    v-model:checked="submitGlobalStats"
+                  >
+                    {{ $t('import.form.submit_global_stats') }}
+                  </n-checkbox>
+                </n-space>
+              </n-form>
 
-            <!-- Submit button -->
-            <n-space class="flex w-full">
               <n-button
                 type="primary"
                 :loading="
                   loading ||
                   isFetching ||
-                  (importMethod === 'pearpal' && pearpalTrackerLoading)
+                  (importMethod === 'pearpal' &&
+                    (pearpalTrackerLoading || importingPearpalWardrobe))
                 "
-                class="after:animate-button-shimmer relative grow overflow-hidden after:absolute after:inset-y-0 after:-left-full after:w-[60%] after:bg-linear-to-r after:from-transparent after:via-white/15 after:to-transparent after:content-[''] motion-reduce:after:animate-none"
+                class="after:animate-button-shimmer relative mt-4 h-10 overflow-hidden after:absolute after:inset-y-0 after:-left-full after:w-[60%] after:bg-linear-to-r after:from-transparent after:via-white/15 after:to-transparent after:content-[''] motion-reduce:after:animate-none"
                 :disabled="isSubmitDisabled"
                 @click="handleSubmit"
               >
                 {{
                   isFetching
                     ? $t('import.form.fetching')
-                    : $t('import.form.submit_button')
+                    : $t('navigation.import')
                 }}
               </n-button>
-            </n-space>
+            </div>
           </template>
 
           <!-- JSON Import -->
@@ -860,8 +866,10 @@
 
   const { t } = useI18n()
   const dialog = useDialog()
+  const route = useRoute()
   const localePath = useLocalePath()
   const { isMobileOrTablet, isAndroid, isChrome } = useDevice()
+  const isCompactImportLayout = useMediaQuery('(max-width: 639px)')
   const { getImageSrc } = imageProvider()
   // Manual collection editor variables
   const selectedManualBanner = ref<number | null>(null)
@@ -942,6 +950,7 @@
     processJsonImport,
     progress,
   } = useBannerPullData()
+  const wardrobe = useWardrobe()
 
   // Function to determine region based on timezone
   const determineRegionFromTimezone = () => {
@@ -1029,11 +1038,20 @@
     })
   })
 
-  const importMethod = ref<'game' | 'json' | 'pearpal' | 'manual'>('game')
+  const importMethod = ref<'game' | 'json' | 'pearpal' | 'manual'>(
+    route.query.method === 'pearpal' ? 'pearpal' : 'game'
+  )
   const cookieMethod = ref<'bookmark' | 'console' | 'manual'>('bookmark')
   const jsonFile = ref<File | null>(null)
-  const submitGlobalStats = ref(true)
+  const importPullHistory = ref(route.query.returnTo !== 'wardrobe')
+  const submitGlobalStats = ref(importPullHistory.value)
+  const importWardrobeOwnership = ref(true)
+  const importingPearpalWardrobe = ref(false)
   const pullStore = usePullStore()
+
+  watch(importPullHistory, (enabled) => {
+    if (!enabled) submitGlobalStats.value = false
+  })
 
   const handleFileChange = (data: {
     file: UploadFileInfo
@@ -1206,8 +1224,10 @@
       )
     } else if (importMethod.value === 'pearpal') {
       return (
-        selectedBanners.value.length === 0 ||
+        (!importPullHistory.value && !importWardrobeOwnership.value) ||
+        (importPullHistory.value && selectedBanners.value.length === 0) ||
         pearpalTrackerLoading.value ||
+        importingPearpalWardrobe.value ||
         hasEmptyFields
       )
     }
@@ -1357,7 +1377,9 @@
         userStore.setUid(serverUid || formData.value.roleid)
 
         message.success(t('import.messages.auth_success'))
-        pullStore.dataSource = 'pearpal'
+        if (importPullHistory.value) {
+          pullStore.dataSource = 'pearpal'
+        }
 
         // Now fetch the actual gacha data
         const response = await fetchNoteBookInfo(formData.value, region)
@@ -1366,16 +1388,17 @@
           // Decode the base64 response
           const decodedData = await decodeSnappyJs(response)
 
-          // Check if decodedData is a JSON object with gacha_list
-          if (
-            decodedData &&
-            typeof decodedData === 'object' &&
-            'info_from_self' in decodedData
-          ) {
-            const gachaList = (decodedData as PearpalNoteBookResponse)
-              .info_from_self?.gacha_list
+          if (decodedData && typeof decodedData === 'object') {
+            const noteBookData = decodedData as PearpalNoteBookResponse
+            let processedBanners: ReturnType<typeof processPearpalData> | null =
+              null
 
-            if (gachaList && Array.isArray(gachaList)) {
+            if (importPullHistory.value) {
+              const gachaList = noteBookData.info_from_self?.gacha_list
+              if (!Array.isArray(gachaList)) {
+                throw new Error('No gacha_list found in response data')
+              }
+
               // Filter gacha_list based on selected banners
               const filteredGachaList = gachaList.filter((item) => {
                 const bannerId = parseInt(item.card_pool_id)
@@ -1399,36 +1422,92 @@
                 await indexedDB.savePearpalData(pearpalDataByBanner)
               }
 
-              // Process data for local tracker system using pearpal tracker logic
-              const processedBanners = processPearpalData(pearpalDataByBanner)
-
+              processedBanners = processPearpalData(pearpalDataByBanner)
               message.success(t('import.messages.pearpal_tracker_success'))
-
-              navigateTo(localePath('/tracker'))
-
-              // Send analytics only if enabled and there are actual pulls
-              if (
-                submitGlobalStats.value &&
-                Object.values(processedBanners).some(
-                  (banner) => banner.stats.totalPulls > 0
-                )
-              ) {
-                try {
-                  // Convert processed banners to stats format
-                  const { convertPearpalBannersToStats } = usePearpalData()
-                  const bannerStats = await convertPearpalBannersToStats(
-                    processedBanners,
-                    serverUid || formData.value.roleid,
-                    region
-                  )
-                  await importPearpalTrackerData(bannerStats)
-                } catch {
-                  message.error(t('import.messages.stats_submit_failed'))
-                }
-              }
-            } else {
-              throw new Error('No gacha_list found in response data')
             }
+
+            if (importWardrobeOwnership.value) {
+              importingPearpalWardrobe.value = true
+
+              try {
+                const clothes = noteBookData.info_from_gm?.clothes
+                if (!Array.isArray(clothes)) {
+                  throw new Error('No clothes list found in response data')
+                }
+
+                await wardrobe.init()
+                const directImport =
+                  await wardrobe.importOwnedItemsFromPearpal(clothes)
+
+                let inferredImport = {
+                  imported: 0,
+                  importedItems: 0,
+                  importedMakeups: 0,
+                  importedMomo: 0,
+                }
+                try {
+                  inferredImport = await wardrobe.importOwnedItemsFromTracker()
+                } catch (error) {
+                  console.error(
+                    'Pearpal wardrobe tracker inference failed:',
+                    error
+                  )
+                }
+
+                const importedItems =
+                  directImport.importedItems + inferredImport.importedItems
+                const importedMakeups =
+                  directImport.importedMakeups + inferredImport.importedMakeups
+                const importedMomo = inferredImport.importedMomo
+
+                if (importedItems + importedMakeups + importedMomo > 0) {
+                  message.success(
+                    t('import.messages.wardrobe_updated', {
+                      items: importedItems,
+                      makeups: importedMakeups,
+                      momo: importedMomo,
+                    })
+                  )
+                } else {
+                  message.success(t('import.messages.wardrobe_up_to_date'))
+                }
+              } catch (error) {
+                console.error('Pearpal wardrobe import failed:', error)
+                message.error(t('import.messages.wardrobe_import_failed'))
+              } finally {
+                importingPearpalWardrobe.value = false
+              }
+            }
+
+            // Send analytics only if enabled and there are actual pulls
+            if (
+              submitGlobalStats.value &&
+              processedBanners &&
+              Object.values(processedBanners).some(
+                (banner) => banner.stats.totalPulls > 0
+              )
+            ) {
+              try {
+                // Convert processed banners to stats format
+                const { convertPearpalBannersToStats } = usePearpalData()
+                const bannerStats = await convertPearpalBannersToStats(
+                  processedBanners,
+                  serverUid || formData.value.roleid,
+                  region
+                )
+                await importPearpalTrackerData(bannerStats)
+              } catch {
+                message.error(t('import.messages.stats_submit_failed'))
+              }
+            }
+
+            navigateTo(
+              localePath(
+                route.query.returnTo === 'wardrobe' || !importPullHistory.value
+                  ? '/wardrobe'
+                  : '/tracker'
+              )
+            )
           } else {
             throw new Error('Invalid data format received from API')
           }
@@ -1516,7 +1595,17 @@
       if (!banner) return option.label as VNodeChild
       const bannerType = banner?.bannerType
 
-      return [
+      return h('div', { class: 'flex min-w-0 items-center gap-3 py-1' }, [
+        h(resolveComponent('NuxtImg'), {
+          src: getImageSrc('bannerThumb', option.value),
+          alt: option.label as string,
+          preset: 'bannerThumb',
+          width: 160,
+          height: 80,
+          loading: 'lazy',
+          class:
+            'h-10 w-20 shrink-0 rounded-md object-cover shadow-xs ring-1 ring-black/5 dark:ring-white/10',
+        }),
         h(
           NTag,
           {
@@ -1535,7 +1624,7 @@
             ],
           }
         ),
-      ]
+      ])
     }
 
     return option.label as VNodeChild
@@ -1620,3 +1709,18 @@
     return `${year}-${month}-${day}`
   }
 </script>
+
+<style scoped>
+  .banner-select :deep(.n-base-selection-tags) {
+    padding-top: 0;
+  }
+
+  .banner-select :deep(.n-base-selection-tag-wrapper) {
+    align-items: center;
+    padding-bottom: 0;
+  }
+
+  .banner-select :deep(.n-base-selection-input-tag) {
+    margin-bottom: 0;
+  }
+</style>

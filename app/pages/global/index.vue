@@ -1311,8 +1311,8 @@
       grid: {
         top: 35,
         bottom: 0,
-        left: 30,
-        right: 30,
+        left: 0,
+        right: 0,
       },
       xAxis: {
         type: 'category',
@@ -1327,9 +1327,6 @@
       yAxis: [
         {
           type: 'value',
-          name: t('common.charts.number_of_pulls'),
-          nameLocation: 'middle',
-          nameRotate: 90,
           splitLine: {
             show: false,
           },
@@ -1339,9 +1336,6 @@
         },
         {
           type: 'value',
-          name: t('common.charts.probability'),
-          nameLocation: 'middle',
-          nameRotate: 270,
           max: 100,
           splitLine: {
             show: false,

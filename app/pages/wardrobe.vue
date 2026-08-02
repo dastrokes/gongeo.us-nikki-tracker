@@ -8,7 +8,7 @@
       <div
         class="grid gap-4 lg:grid-cols-[minmax(0,1fr)_400px] lg:items-stretch"
       >
-        <div class="flex min-w-0 flex-col justify-between gap-4">
+        <div class="flex min-w-0 flex-col gap-4">
           <div class="flex flex-wrap items-center gap-2">
             <div class="flex min-w-0 flex-wrap items-center gap-2">
               <n-h1 class="m-0 text-2xl leading-tight font-bold sm:text-3xl">
@@ -48,46 +48,57 @@
             </n-button-group>
           </div>
 
-          <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <div class="grid flex-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
             <NuxtLinkLocale
               v-for="card in collectionCards"
               :key="card.key"
               :to="card.to"
-              class="group block rounded-lg border border-gray-100 bg-white/70 p-3 transition hover:border-sky-200 hover:bg-sky-50/70 lg:min-h-30 dark:border-gray-800 dark:bg-gray-950/40 dark:hover:border-sky-900 dark:hover:bg-sky-950/30"
+              class="group flex h-full min-h-28 flex-col rounded-lg border border-gray-100 bg-white/70 p-3 transition hover:border-sky-200 hover:bg-sky-50/70 dark:border-gray-800 dark:bg-gray-950/40 dark:hover:border-sky-900 dark:hover:bg-sky-950/30"
             >
-              <div class="flex items-start justify-between gap-3">
-                <div class="min-w-0 space-y-2">
-                  <div class="flex items-center gap-2">
+              <div class="flex h-full min-w-0 flex-col">
+                <div class="flex items-center justify-between gap-3">
+                  <div class="flex min-w-0 items-center gap-2">
                     <n-icon
-                      size="16"
-                      class="text-sky-500"
+                      size="20"
+                      class="shrink-0 text-sky-500"
                     >
                       <component :is="card.icon" />
                     </n-icon>
-                    <n-text class="text-sm font-semibold">
+                    <n-text class="min-w-0 truncate text-base font-semibold">
                       {{ card.label }}
                     </n-text>
                   </div>
-                  <div class="flex items-baseline gap-2">
+                  <n-icon
+                    size="14"
+                    class="shrink-0 text-gray-400 transition group-hover:text-sky-500"
+                  >
+                    <ExternalLinkAlt />
+                  </n-icon>
+                </div>
+
+                <div class="mt-auto pt-4">
+                  <div class="flex items-end justify-between gap-2">
                     <n-skeleton
                       v-if="isSummaryLoading"
                       text
                       width="64px"
                     />
                     <template v-else>
-                      <n-text class="text-2xl font-bold tabular-nums">
+                      <n-text
+                        class="text-2xl leading-none font-bold tabular-nums"
+                      >
                         {{ card.percent }}%
                       </n-text>
                       <n-text
                         :depth="3"
-                        class="text-xs"
+                        class="text-right text-xs leading-tight tabular-nums"
                       >
                         {{ card.detail }}
                       </n-text>
                     </template>
                   </div>
                   <div
-                    class="h-2 overflow-hidden rounded-full bg-gray-100 dark:bg-gray-800"
+                    class="mt-3 h-2 overflow-hidden rounded-full bg-gray-100 dark:bg-gray-800"
                   >
                     <div
                       class="h-full rounded-full bg-sky-500 transition-[width] duration-500 ease-out"
@@ -95,18 +106,13 @@
                     ></div>
                   </div>
                 </div>
-                <n-icon
-                  class="mt-0.5 text-gray-400 transition group-hover:text-sky-500"
-                >
-                  <ExternalLinkAlt />
-                </n-icon>
               </div>
             </NuxtLinkLocale>
           </div>
         </div>
 
         <div
-          class="flex flex-col justify-between gap-3 rounded-lg bg-gray-50 p-4 dark:bg-gray-900/60"
+          class="flex flex-col gap-3 rounded-lg bg-gray-50 p-3 dark:bg-gray-900/60"
         >
           <div class="flex items-center justify-between gap-3">
             <n-text class="block text-sm font-semibold">
@@ -128,52 +134,48 @@
           <n-button
             block
             type="primary"
-            secondary
-            class="h-10 justify-center"
-            :disabled="!canMarkF2PBasics"
-            :aria-busy="markingF2PBasics"
-            @click="handleMarkF2PBasics"
+            class="h-9 justify-center"
+            @click="openWhimLogWardrobeImport"
           >
             <template #icon>
-              <n-icon size="16"><CheckCircle /></n-icon>
+              <n-icon size="16"><Sync /></n-icon>
             </template>
-            <span class="flex min-w-0 items-center gap-2">
-              <span class="truncate">{{ t('wardrobe.f2p_basics') }}</span>
-              <n-tag
-                size="small"
-                :bordered="false"
-                round
-              >
-                {{ f2pBasicsCountLabel }}
-              </n-tag>
+            <span class="truncate">
+              {{ t('wardrobe.update_from_pearpal') }}
             </span>
           </n-button>
 
-          <n-button
-            block
-            type="primary"
-            secondary
-            class="h-10 justify-center"
-            :disabled="!canImportResonanceCollection"
-            :aria-busy="importing || loadingTrackerImportPreview"
-            @click="handleTrackerImport"
-          >
-            <template #icon>
-              <n-icon size="16"><CheckCircle /></n-icon>
-            </template>
-            <span class="flex min-w-0 items-center gap-2">
+          <div class="grid min-w-0 grid-cols-2 gap-2">
+            <n-button
+              block
+              type="primary"
+              secondary
+              size="small"
+              class="h-9 min-w-0 justify-center"
+              :disabled="!canMarkF2PBasics"
+              :aria-busy="markingF2PBasics"
+              @click="handleMarkF2PBasics"
+            >
+              <span class="truncate">
+                {{ t('wardrobe.f2p_basics') }}
+              </span>
+            </n-button>
+
+            <n-button
+              block
+              type="primary"
+              secondary
+              size="small"
+              class="h-9 min-w-0 justify-center"
+              :disabled="!canImportResonanceCollection"
+              :aria-busy="importing || loadingTrackerImportPreview"
+              @click="handleTrackerImport"
+            >
               <span class="truncate">
                 {{ t('wardrobe.resonance_collection') }}
               </span>
-              <n-tag
-                size="small"
-                :bordered="false"
-                round
-              >
-                {{ resonanceCollectionCountLabel }}
-              </n-tag>
-            </span>
-          </n-button>
+            </n-button>
+          </div>
 
           <input
             ref="profileFileInputRef"
@@ -183,33 +185,38 @@
             @change="handleProfileFileSelected"
           />
 
-          <div class="grid grid-cols-2 gap-2">
-            <n-button
+          <div class="border-t border-gray-200 pt-2 dark:border-gray-800">
+            <n-button-group
               size="small"
-              secondary
-              class="h-9 min-w-0 justify-center"
-              :disabled="!initialized"
-              :aria-busy="exportingProfileJson"
-              @click="exportProfileJSON"
+              class="w-full"
             >
-              <template #icon>
-                <n-icon size="16"><FileExport /></n-icon>
-              </template>
-              {{ t('wardrobe.export_file') }}
-            </n-button>
-            <n-button
-              size="small"
-              secondary
-              class="h-9 min-w-0 justify-center"
-              :disabled="!canMutate || importingProfileFile"
-              :aria-busy="importingProfileFile"
-              @click="openProfileFilePicker"
-            >
-              <template #icon>
-                <n-icon size="16"><FileImport /></n-icon>
-              </template>
-              {{ t('navigation.import') }}
-            </n-button>
+              <n-button
+                size="small"
+                secondary
+                class="flex-1 justify-center"
+                :disabled="!initialized"
+                :aria-busy="exportingProfileJson"
+                @click="exportProfileJSON"
+              >
+                <template #icon>
+                  <n-icon size="16"><FileExport /></n-icon>
+                </template>
+                {{ t('common.export') }}
+              </n-button>
+              <n-button
+                size="small"
+                secondary
+                class="flex-1 justify-center"
+                :disabled="!canMutate || importingProfileFile"
+                :aria-busy="importingProfileFile"
+                @click="openProfileFilePicker"
+              >
+                <template #icon>
+                  <n-icon size="16"><FileImport /></n-icon>
+                </template>
+                {{ t('navigation.import') }}
+              </n-button>
+            </n-button-group>
           </div>
         </div>
       </div>
@@ -219,7 +226,7 @@
       :show="showWardrobeOnboarding"
       preset="card"
       :title="t('wardrobe.settings.onboarding_title')"
-      class="pointer-events-auto mx-auto w-[calc(100vw-2rem)] max-w-md"
+      class="pointer-events-auto mx-auto w-[calc(100vw-2rem)] max-w-lg"
       content-class="space-y-5"
       :closable="false"
       :mask-closable="false"
@@ -289,86 +296,76 @@
 
         <div
           v-else-if="onboardingStep === 2"
-          class="space-y-2"
+          class="space-y-4 rounded-xl border border-gray-100 bg-gray-50/70 p-3 dark:border-gray-800 dark:bg-gray-900/60"
         >
-          <div class="space-y-1">
-            <n-text class="block text-sm font-semibold">
-              {{ t('wardrobe.f2p_basics') }}
-            </n-text>
-            <n-text
-              :depth="3"
-              class="block text-sm"
+          <div class="flex items-start justify-between gap-3">
+            <div class="min-w-0 space-y-1">
+              <n-text class="block text-sm font-semibold">
+                {{ t('wardrobe.onboarding.import_title') }}
+              </n-text>
+              <n-text
+                :depth="3"
+                class="block text-sm"
+              >
+                {{ t('wardrobe.onboarding.import_description') }}
+              </n-text>
+            </div>
+            <n-tag
+              size="small"
+              :bordered="false"
+              type="success"
+              round
+              class="shrink-0"
             >
-              {{ t('wardrobe.onboarding.base_tip_description') }}
-            </n-text>
+              {{ t('wardrobe.recommended') }}
+            </n-tag>
           </div>
 
           <n-button
             block
             type="primary"
-            secondary
             class="h-10 justify-center"
-            :disabled="!canMarkF2PBasics"
-            :aria-busy="markingF2PBasics"
-            @click="handleMarkF2PBasics"
+            @click="openWhimLogWardrobeImportFromOnboarding"
           >
             <template #icon>
-              <n-icon size="16"><CheckCircle /></n-icon>
+              <n-icon size="16"><Sync /></n-icon>
             </template>
-            <span class="flex min-w-0 items-center gap-2">
-              <span class="truncate">{{ t('wardrobe.f2p_basics') }}</span>
-              <n-tag
-                size="small"
-                :bordered="false"
-                round
-              >
-                {{ f2pBasicsCountLabel }}
-              </n-tag>
+            <span class="truncate">
+              {{ t('wardrobe.update_from_pearpal') }}
             </span>
           </n-button>
-        </div>
 
-        <div
-          v-else-if="onboardingStep === 3"
-          class="space-y-2"
-        >
-          <div class="space-y-1">
-            <n-text class="block text-sm font-semibold">
-              {{ t('wardrobe.resonance_collection') }}
-            </n-text>
-            <n-text
-              :depth="3"
-              class="block text-sm"
+          <div class="grid grid-cols-2 gap-2">
+            <n-button
+              block
+              type="primary"
+              secondary
+              size="small"
+              class="h-9 min-w-0 justify-center"
+              :disabled="!canMarkF2PBasics"
+              :aria-busy="markingF2PBasics"
+              @click="handleMarkF2PBasics"
             >
-              {{ t('wardrobe.onboarding.resonance_tip_description') }}
-            </n-text>
-          </div>
+              <span class="truncate">
+                {{ t('wardrobe.f2p_basics') }}
+              </span>
+            </n-button>
 
-          <n-button
-            block
-            type="primary"
-            secondary
-            class="h-10 justify-center"
-            :disabled="!canImportResonanceCollection"
-            :aria-busy="importing || loadingTrackerImportPreview"
-            @click="handleTrackerImport"
-          >
-            <template #icon>
-              <n-icon size="16"><CheckCircle /></n-icon>
-            </template>
-            <span class="flex min-w-0 items-center gap-2">
+            <n-button
+              block
+              type="primary"
+              secondary
+              size="small"
+              class="h-9 min-w-0 justify-center"
+              :disabled="!canImportResonanceCollection"
+              :aria-busy="importing || loadingTrackerImportPreview"
+              @click="handleTrackerImport"
+            >
               <span class="truncate">
                 {{ t('wardrobe.resonance_collection') }}
               </span>
-              <n-tag
-                size="small"
-                :bordered="false"
-                round
-              >
-                {{ resonanceCollectionCountLabel }}
-              </n-tag>
-            </span>
-          </n-button>
+            </n-button>
+          </div>
         </div>
 
         <div
@@ -395,17 +392,28 @@
             >
               {{ t('wardrobe.region.label') }}: {{ onboardingRegionLabel }}
             </n-tag>
+            <n-tag
+              :bordered="false"
+              round
+            >
+              {{
+                t('wardrobe.owned_count', {
+                  count: formatCount(totalOwnedEntries),
+                })
+              }}
+            </n-tag>
           </div>
         </div>
       </div>
 
       <template #footer>
         <div
-          class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between"
+          class="flex flex-col-reverse gap-2 sm:flex-row sm:items-center sm:justify-between"
         >
           <n-button
             v-if="onboardingStep < onboardingLastStep"
             tertiary
+            class="w-full sm:w-auto"
             @click="handleCompleteOnboarding"
           >
             {{ t('common.skip') }}
@@ -415,6 +423,7 @@
             <n-button
               v-if="onboardingStep > 1"
               secondary
+              class="w-full sm:w-auto"
               @click="handleOnboardingBack"
             >
               {{ t('common.previous_step') }}
@@ -422,6 +431,7 @@
             <n-button
               v-if="onboardingStep < onboardingLastStep"
               type="primary"
+              class="w-full sm:w-auto"
               @click="handleOnboardingNext"
             >
               {{ t('common.next_step') }}
@@ -429,6 +439,7 @@
             <n-button
               v-else
               type="primary"
+              class="w-full sm:w-auto"
               @click="handleCompleteOnboarding"
             >
               {{ t('wardrobe.onboarding.finish_setup') }}
@@ -1566,7 +1577,6 @@
   import { breakpointsTailwind } from '@vueuse/core'
   import {
     ChevronDown,
-    CheckCircle,
     Cog,
     ExternalLinkAlt,
     FileExport,
@@ -1585,6 +1595,7 @@
   import sourceGroups from '~~/data/source.json'
 
   const { t, locale } = useI18n()
+  const localePath = useLocalePath()
   const message = useMessage()
   const dialog = useDialog()
   const { activeSlot, slots, getSlotLabel } = useProfileSlots()
@@ -1642,7 +1653,7 @@
   const sharePickerSearch = ref('')
   const showAllSlots = ref(false)
   const showAllVersions = ref(false)
-  const onboardingLastStep = 4
+  const onboardingLastStep = 3
   const onboardingStep = ref(1)
   const onboardingRegionScope = ref<CatalogRegionScope>(
     activeRegionScope.value === 'global' && locale.value === 'zh'
@@ -1651,9 +1662,8 @@
   )
   const onboardingSteps = computed(() => [
     { step: 1, label: t('wardrobe.onboarding.region_step') },
-    { step: 2, label: t('wardrobe.f2p_basics') },
-    { step: 3, label: t('wardrobe.resonance_collection') },
-    { step: 4, label: t('wardrobe.onboarding.tracking_step') },
+    { step: 2, label: t('wardrobe.manage_title') },
+    { step: 3, label: t('wardrobe.onboarding.tracking_step') },
   ])
 
   const activeProfileLabel = computed(() => getSlotLabel(activeSlot.value))
@@ -2349,20 +2359,9 @@
       f2pBasicMissingWardrobeIds.value.makeupIds.length +
       f2pBasicMissingWardrobeIds.value.momoIds.length
   )
-  const f2pBasicsCountLabel = computed(() =>
-    f2pBasicMissingCount.value > 0
-      ? formatCount(f2pBasicMissingCount.value)
-      : t('wardrobe.complete')
-  )
   const resonanceCollectionMissingCount = computed(
     () => trackerImportPreview.value?.imported ?? 0
   )
-  const resonanceCollectionCountLabel = computed(() => {
-    if (loadingTrackerImportPreview.value) return t('common.loading')
-    return resonanceCollectionMissingCount.value > 0
-      ? formatCount(resonanceCollectionMissingCount.value)
-      : t('wardrobe.complete')
-  })
   const canMarkF2PBasics = computed(
     () =>
       canMutate.value &&
@@ -2737,8 +2736,23 @@
     await importTrackerWardrobeEntries()
   }
 
+  const openWhimLogWardrobeImport = () =>
+    navigateTo({
+      path: localePath('/import'),
+      query: {
+        method: 'pearpal',
+        returnTo: 'wardrobe',
+      },
+    })
+
   const applyOnboardingRegion = () => {
     setActiveRegionScope(onboardingRegionScope.value)
+  }
+
+  const openWhimLogWardrobeImportFromOnboarding = () => {
+    applyOnboardingRegion()
+    completeOnboarding()
+    return openWhimLogWardrobeImport()
   }
 
   const handleOnboardingNext = () => {

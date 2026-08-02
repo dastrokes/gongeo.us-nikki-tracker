@@ -61,6 +61,7 @@ pulls_per_banner as (
       coalesce(sum(total_4star_items), 0)::integer as four_star_items,
       coalesce(sum(total_5star_items), 0)::integer as five_star_items
     from banner_rows
+    where banner_type <> 1
     group by banner_id
   ) grouped
 ),

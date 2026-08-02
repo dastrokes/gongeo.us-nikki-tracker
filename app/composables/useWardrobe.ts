@@ -278,6 +278,51 @@ export const useWardrobe = () => {
     return { ...changed, total: totalChanged }
   }
 
+  const importOwnedItemsFromPearpal = async (
+    clothes: readonly { item_id: number }[]
+  ) => {
+    if (!canMutate.value) {
+      throw new Error('Wardrobe storage is not ready')
+    }
+
+    await catalogIndex.load(['items', 'makeups'])
+
+    const index = catalogIndex.index.value
+    if (!index) {
+      throw new Error('Catalog index is not ready')
+    }
+
+    const itemIds = new Set<number>()
+    const makeupIds = new Set<number>()
+
+    clothes.forEach(({ item_id: itemId }) => {
+      const normalizedItemId = Number(itemId)
+      if (!Number.isSafeInteger(normalizedItemId) || normalizedItemId <= 0) {
+        return
+      }
+
+      if (index.itemById.has(normalizedItemId)) {
+        itemIds.add(normalizedItemId)
+      } else if (index.makeupById.has(normalizedItemId)) {
+        makeupIds.add(normalizedItemId)
+      }
+    })
+
+    const result = await markWardrobeIdsOwned({
+      itemIds: Array.from(itemIds),
+      makeupIds: Array.from(makeupIds),
+      momoIds: [],
+    })
+
+    return {
+      foundItems: itemIds.size,
+      foundMakeups: makeupIds.size,
+      importedItems: result.items,
+      importedMakeups: result.makeups,
+      imported: result.total,
+    }
+  }
+
   const toggleMakeupOwned = async (makeupId: number, owned?: boolean) => {
     const normalizedMakeupIds = normalizeWardrobeItemIds([makeupId])
     const normalizedMakeupId = normalizedMakeupIds[0]
@@ -446,6 +491,7 @@ export const useWardrobe = () => {
     markMakeupsOwned,
     markMomoOwned,
     markWardrobeIdsOwned,
+    importOwnedItemsFromPearpal,
     getTrackerWardrobeImportPreview,
     importOwnedItemsFromTracker,
   }

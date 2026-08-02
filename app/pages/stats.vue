@@ -1973,7 +1973,7 @@
         textStyle,
         extraCssText: chartTooltipExtraCssText.value,
       },
-      grid: { top: 35, bottom: 0, left: 30, right: 30 },
+      grid: { top: 35, bottom: 0, left: 0, right: 0 },
       xAxis: {
         type: 'category',
         data: labels,

@@ -43,6 +43,12 @@ export interface PearpalUserInfoResponse {
 }
 
 export interface PearpalNoteBookResponse {
+  info_from_gm?: {
+    clothes?: Array<{
+      item_id: number
+      obtain_time: number
+    }>
+  }
   info_from_self: {
     gacha_list: PearpalTrackerItem[]
   }

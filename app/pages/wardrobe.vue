@@ -140,7 +140,7 @@
             <template #icon>
               <n-icon size="16"><Sync /></n-icon>
             </template>
-            <span class="truncate">
+            <span class="truncate leading-normal">
               {{ t('wardrobe.update_from_pearpal') }}
             </span>
           </n-button>
@@ -156,7 +156,7 @@
               :aria-busy="markingF2PBasics"
               @click="handleMarkF2PBasics"
             >
-              <span class="truncate">
+              <span class="truncate leading-normal">
                 {{ t('wardrobe.f2p_basics') }}
               </span>
             </n-button>
@@ -171,7 +171,7 @@
               :aria-busy="importing || loadingTrackerImportPreview"
               @click="handleTrackerImport"
             >
-              <span class="truncate">
+              <span class="truncate leading-normal">
                 {{ t('wardrobe.resonance_collection') }}
               </span>
             </n-button>
@@ -330,7 +330,7 @@
             <template #icon>
               <n-icon size="16"><Sync /></n-icon>
             </template>
-            <span class="truncate">
+            <span class="truncate leading-normal">
               {{ t('wardrobe.update_from_pearpal') }}
             </span>
           </n-button>
@@ -346,7 +346,7 @@
               :aria-busy="markingF2PBasics"
               @click="handleMarkF2PBasics"
             >
-              <span class="truncate">
+              <span class="truncate leading-normal">
                 {{ t('wardrobe.f2p_basics') }}
               </span>
             </n-button>
@@ -361,7 +361,7 @@
               :aria-busy="importing || loadingTrackerImportPreview"
               @click="handleTrackerImport"
             >
-              <span class="truncate">
+              <span class="truncate leading-normal">
                 {{ t('wardrobe.resonance_collection') }}
               </span>
             </n-button>

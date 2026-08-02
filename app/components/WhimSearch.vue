@@ -982,7 +982,7 @@
               <template #icon>
                 <n-icon><Book /></n-icon>
               </template>
-              <span class="truncate">
+              <span class="truncate leading-normal">
                 {{ t('common.view_compendium') }}
               </span>
             </n-button>
@@ -1325,7 +1325,7 @@
                 <template #icon>
                   <n-icon><Book /></n-icon>
                 </template>
-                <span class="truncate">
+                <span class="truncate leading-normal">
                   {{ t('common.view_compendium') }}
                 </span>
               </n-button>
@@ -1654,7 +1654,7 @@
             <template #icon>
               <n-icon><Book /></n-icon>
             </template>
-            <span class="truncate">
+            <span class="truncate leading-normal">
               {{ t('common.view_compendium') }}
             </span>
           </n-button>

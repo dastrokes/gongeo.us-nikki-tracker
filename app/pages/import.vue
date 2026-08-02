@@ -1580,11 +1580,24 @@
         },
         {
           default: () => [
-            h('span', { class: 'align-top' }, option.label as string),
+            h('span', option.label as string),
             selected &&
-              h('span', { class: 'ml-1' }, [
-                h(NIcon, null, { default: () => h(CheckCircle) }),
-              ]),
+              h(
+                'span',
+                {
+                  class:
+                    'ml-1 inline-flex items-center align-middle leading-none',
+                },
+                [
+                  h(
+                    NIcon,
+                    { size: 12 },
+                    {
+                      default: () => h(CheckCircle),
+                    }
+                  ),
+                ]
+              ),
           ],
         }
       )
@@ -1618,9 +1631,22 @@
             default: () => [
               h('span', option.label as string),
               selected &&
-                h('span', { class: 'ml-1' }, [
-                  h(NIcon, null, { default: () => h(CheckCircle) }),
-                ]),
+                h(
+                  'span',
+                  {
+                    class:
+                      'ml-1 inline-flex items-center align-middle leading-none',
+                  },
+                  [
+                    h(
+                      NIcon,
+                      { size: 12 },
+                      {
+                        default: () => h(CheckCircle),
+                      }
+                    ),
+                  ]
+                ),
             ],
           }
         ),

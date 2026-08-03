@@ -602,6 +602,11 @@
     "empty": "条件に一致する祝福の光はありません。",
     "load_failed": "祝福の光トラッカーを読み込めませんでした",
     "save_failed": "祝福の光の所持状況を保存できませんでした。",
+    "manage_title": "祝福の光を管理",
+    "actions": {
+      "export_data": "データをエクスポート",
+      "import_data": "データをインポート"
+    },
     "filters": {
       "position": "部位",
       "status": "所持状況"

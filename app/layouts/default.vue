@@ -845,6 +845,8 @@
   const activeNavGroupKey = computed(
     () => navItemGroupMap.value[activeRouteSegment.value] ?? null
   )
+  const trackerMenuColumnKeys = new Set(['tracker', 'wardrobe', 'eurekas'])
+  const trackerMenuSecondaryColumnKeys = ['stats', 'global', 'import']
   const compendiumMenuColumnKeys = new Set(['outfits', 'items', 'makeups'])
   const compendiumMenuSecondaryColumnKeys = ['search', 'random', 'momo']
 
@@ -867,6 +869,16 @@
     const items = openDesktopMenuGroup.value?.items ?? []
 
     if (items.length === 0) return []
+
+    if (openDesktopGroup.value === 'data') {
+      return [
+        items.filter((item) => trackerMenuColumnKeys.has(item.key)),
+        trackerMenuSecondaryColumnKeys
+          .map((key) => items.find((item) => item.key === key))
+          .filter((item): item is NavigationItem => Boolean(item)),
+      ].filter((column) => column.length > 0)
+    }
+
     if (openDesktopGroup.value !== 'compendium') return [items]
 
     return [

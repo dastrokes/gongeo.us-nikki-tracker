@@ -3,6 +3,13 @@ export type SearchAutocompleteGroup = 'names' | 'terms'
 const normalizeAutocompleteText = (value: string) =>
   value.trim().toLocaleLowerCase()
 
+export const formatSearchAutocompleteAlias = (value: string): string =>
+  value.replace(
+    /(^|[\s-])(\p{L})/gu,
+    (_, prefix: string, letter: string) =>
+      `${prefix}${letter.toLocaleUpperCase()}`
+  )
+
 export const getSearchMatchPriority = (value: string, query: string) => {
   const normalizedValue = normalizeAutocompleteText(value)
   const normalizedQuery = normalizeAutocompleteText(query)

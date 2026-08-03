@@ -436,7 +436,7 @@
 
     return `${getAutocompleteEntityTypeLabel(result)} · ${t(
       getAutocompleteDisplayAliasKey(result),
-      { alias }
+      { alias: formatSearchAutocompleteAlias(alias) }
     )}`
   }
   const showResultList = computed(

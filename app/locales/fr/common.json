@@ -16,6 +16,7 @@
     "complete_outfit": "Tenue complète",
     "slot": "Emplacement",
     "color": "Couleur",
+    "style": "Style",
     "pulls": "Tirages",
     "total": "Total",
     "export": "Exporter",
@@ -103,6 +104,7 @@
     },
     "tracker": "Suivi de Résonance",
     "wardrobe": "Ma garde-robe",
+    "eurekas": "Suivi des Eurêkas",
     "import": "Importer des données",
     "global": "Données mondiales",
     "banner": "Historique des bannières",
@@ -112,6 +114,7 @@
     "outfit_detail": "Détail de la tenue",
     "item": "Recueil d'articles",
     "lookbook": "Aperçu du lookbook",
+    "explore": "Explorer",
     "makeup": "Recueil de maquillages",
     "item_detail": "Détail de l'article",
     "tierlist": "Créateur de liste de niveaux",
@@ -133,6 +136,7 @@
       "login": "Connectez-vous à gongeo.us à l'aide de votre adresse e-mail ou d'un compte tiers pour télécharger, sauvegarder et synchroniser vos données de résonance Infinity Nikki sur tous les appareils.",
       "tracker": "Suivez et analysez l’historique de vos tirages de résonance Infinity Nikki. Consultez tous les articles des bannières 5★ et 4★ et comparez votre chance avec d'autres stylistes.",
       "wardrobe": "Suivez localement vos objets, tenues, maquillages et capes de Momo Infinity Nikki, puis partagez la progression de votre collection.",
+      "eurekas": "Suivez chaque Eurêka et chaque couleur d’Infinity Nikki, mettez à jour leur possession manuellement ou importez votre collection depuis Whim-Log.",
       "import": "Importez facilement votre historique d'extraction de résonance Infinity Nikki à partir du jeu, des données Whim-Log ou des fichiers de sauvegarde avec des guides détaillés étape par étape.",
       "global": "Explorez les données mondiales de résonance Infinity Nikki, notamment la popularité des bannières, les taux d'extraction, les taux d'obtention des objets et les statistiques de tirage de la communauté.",
       "global_banner": "Explorez les statistiques communautaires de tirages pour la bannière de résonance {name}, y compris l'ordre des articles et les distributions de tirages de complétion.",
@@ -531,6 +535,7 @@
       "momo_token_placeholder": "momoToken de Cookie",
       "import_pull_history": "Importer l’historique des tirages",
       "import_wardrobe": "Importer les données de garde-robe",
+      "import_eurekas": "Importer les données Eurêka",
       "submit_global_stats": "Soumettre des données pour les statistiques mondiales",
       "submit_button": "Soumettre et importer l’historique des extractions",
       "fetching": "Récupération des données de résonance, veuillez patienter…"
@@ -571,6 +576,9 @@
       "wardrobe_updated": "{items} vêtements, {makeups} maquillages et {momo} capes de Momo ajoutés.",
       "wardrobe_up_to_date": "La garde-robe est déjà à jour.",
       "wardrobe_import_failed": "Échec de l’importation de la garde-robe.",
+      "eurekas_updated": "{count} couleurs d’Eurêka ajoutées.",
+      "eurekas_up_to_date": "La collection d’Eurêkas est déjà à jour.",
+      "eurekas_import_failed": "Échec de l’importation des Eurêkas.",
       "no_file_selected": "Aucun fichier sélectionné"
     },
     "supported_browsers": "Navigateurs pris en charge",
@@ -588,6 +596,27 @@
       "title": "En maintenance",
       "message": "Nous effectuons actuellement une maintenance. L’importation de l’historique des extractions est temporairement indisponible.",
       "status": "Le service sera de retour sous peu. Merci pour votre patience !"
+    }
+  },
+  "eurekas": {
+    "empty": "Aucun Eurêka ne correspond à ces filtres.",
+    "load_failed": "Impossible de charger le suivi des Eurêkas",
+    "save_failed": "Impossible d’enregistrer la possession des Eurêkas.",
+    "filters": {
+      "position": "Position",
+      "status": "Possession"
+    },
+    "positions": {
+      "head": "Tête",
+      "hands": "Mains",
+      "feet": "Pieds"
+    },
+    "status": {
+      "complete": "Complet"
+    },
+    "progress": {
+      "total_owned": "Total possédé",
+      "complete": "Ensembles complets"
     }
   },
   "tracker": {

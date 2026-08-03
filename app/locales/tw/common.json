@@ -16,6 +16,7 @@
     "complete_outfit": "套裝集齊",
     "slot": "部位",
     "color": "顏色",
+    "style": "風格",
     "pulls": "抽",
     "total": "總數",
     "export": "匯出",
@@ -103,6 +104,7 @@
     },
     "tracker": "共鳴記錄",
     "wardrobe": "我的衣櫥",
+    "eurekas": "祝福閃光",
     "import": "匯入資料",
     "global": "社群資料",
     "banner": "卡池歷史",
@@ -112,6 +114,7 @@
     "outfit_detail": "套裝詳情",
     "item": "部件圖鑑",
     "lookbook": "搭配碼預覽",
+    "explore": "探索",
     "makeup": "妝容圖鑑",
     "item_detail": "部件詳情",
     "tierlist": "排行榜單",
@@ -133,6 +136,7 @@
       "login": "使用第三方賬號或電子郵件登入暖暖共鳴錄，將抽卡資料上傳雲端，在多裝置間同步和備份您的共鳴記錄。",
       "tracker": "追蹤並分析您的無限暖暖共鳴抽卡歷史，檢視所有卡池中的5★和4★部件記錄。與其他玩家比較您的抽卡運氣。",
       "wardrobe": "在本機記錄你已擁有的無限暖暖服飾、套裝、妝容和大喵斗篷，並分享收藏進度。",
+      "eurekas": "追蹤無限暖暖中每個祝福閃光及其顏色的擁有情況，手動更新或從奇想手賬匯入收藏。",
       "import": "輕鬆匯入您的無限暖暖共鳴抽卡記錄，支援遊戲資料、奇想手賬和備份檔案匯入，並提供詳細的操作指南。",
       "global": "探索無限暖暖社群抽卡資料，包括卡池受歡迎程度、平均機率、抽卡分佈和部件掉落機率統計。",
       "global_banner": "查看 {name} 共鳴卡池的社群抽卡統計，包含部件順序與套裝完成抽數分佈。",
@@ -531,6 +535,7 @@
       "momo_token_placeholder": "來自 Cookie 的 momoToken",
       "import_pull_history": "匯入抽卡紀錄",
       "import_wardrobe": "匯入衣櫥資料",
+      "import_eurekas": "匯入祝福閃光資料",
       "submit_global_stats": "提交資料用於社群統計",
       "submit_button": "提交併匯入抽卡歷史",
       "fetching": "正在獲取共鳴資料，請稍候…"
@@ -571,6 +576,9 @@
       "wardrobe_updated": "已新增 {items} 件服裝、{makeups} 個妝容及 {momo} 件大喵斗篷。",
       "wardrobe_up_to_date": "衣櫥已是最新狀態。",
       "wardrobe_import_failed": "衣櫥匯入失敗。",
+      "eurekas_updated": "已新增 {count} 個祝福閃光顏色。",
+      "eurekas_up_to_date": "祝福閃光收藏已是最新狀態。",
+      "eurekas_import_failed": "祝福閃光匯入失敗。",
       "no_file_selected": "未選取檔案"
     },
     "supported_browsers": "支援的瀏覽器",
@@ -588,6 +596,27 @@
       "title": "網站維護中",
       "message": "我們正在對網站進行維護更新，抽卡記錄匯入暫時無法使用。",
       "status": "服務很快就會恢復。感謝您的耐心等待！"
+    }
+  },
+  "eurekas": {
+    "empty": "沒有符合這些篩選條件的祝福閃光。",
+    "load_failed": "無法載入祝福閃光",
+    "save_failed": "無法儲存祝福閃光擁有狀態。",
+    "filters": {
+      "position": "部位",
+      "status": "擁有狀態"
+    },
+    "positions": {
+      "head": "頭部",
+      "hands": "手部",
+      "feet": "腳部"
+    },
+    "status": {
+      "complete": "已完成"
+    },
+    "progress": {
+      "total_owned": "擁有總數",
+      "complete": "完整套數"
     }
   },
   "tracker": {

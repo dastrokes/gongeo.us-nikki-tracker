@@ -38,6 +38,14 @@ const CATALOG_MAKEUP_TYPES = [
   'lips',
 ] as const
 const CATALOG_STYLES = ['sweet', 'sexy', 'fresh', 'cool', 'elegant'] as const
+const EUREKA_POSITIONS = ['head', 'hands', 'feet'] as const
+const EUREKA_STYLE_VALUE_KEYS = [
+  'elegant',
+  'fresh',
+  'sweet',
+  'sexy',
+  'cool',
+] as const
 
 const isCompactCatalogPayload = (
   value: unknown
@@ -167,6 +175,59 @@ const decodeCompactMomoRows = (rows: unknown[][]) =>
       ...(catalogGroupRootId === undefined ? {} : { catalogGroupRootId }),
     }))
   })
+
+const decodeCompactEurekaRows = (
+  rows: unknown[][],
+  styles: readonly string[] = CATALOG_STYLES
+) =>
+  rows.map(
+    ([
+      id,
+      suitId,
+      positionIndex,
+      quality,
+      styleValues,
+      mainStyleIndex,
+      tagIds,
+      provinceId,
+      colors,
+    ]) => ({
+      id: Number(id),
+      suitId: Number(suitId),
+      position: getCompactDictionaryValue(
+        EUREKA_POSITIONS,
+        positionIndex
+      ) as EurekaPosition,
+      quality: Number(quality) as EurekaCatalogEntry['quality'],
+      styles: Object.fromEntries(
+        EUREKA_STYLE_VALUE_KEYS.map((key, index) => [
+          key,
+          Number(Array.isArray(styleValues) ? styleValues[index] : 0),
+        ])
+      ) as Record<EurekaStyle, number>,
+      mainStyle: getCompactDictionaryValue(
+        styles,
+        mainStyleIndex
+      ) as EurekaStyle,
+      tagIds: Array.isArray(tagIds)
+        ? tagIds.filter((tagId): tagId is number => typeof tagId === 'number')
+        : [],
+      provinceId: Number(provinceId),
+      colors: Array.isArray(colors)
+        ? colors.flatMap((color, index) =>
+            Array.isArray(color) && typeof color[0] === 'number'
+              ? [
+                  {
+                    id: color[0],
+                    order: index + 1,
+                    colorType: Number(color[1]),
+                  },
+                ]
+              : []
+          )
+        : [],
+    })
+  )
 
 const decodeCompactRelationRows = (rows: unknown[][]) =>
   Object.fromEntries(
@@ -328,6 +389,12 @@ export const decodeCatalogPartPayload = (
         ? decodeCompactMomoRows(payload.r!)
         : isCompactRowPayload(payload)
           ? decodeCompactMomoRows(payload)
+          : payload
+    case 'eurekas':
+      return isCompactCatalogPayload(payload)
+        ? decodeCompactEurekaRows(payload.r!, payload.s)
+        : isCompactRowPayload(payload)
+          ? decodeCompactEurekaRows(payload)
           : payload
     default:
       return payload

@@ -16,6 +16,7 @@
     "complete_outfit": "Complete Outfit",
     "slot": "Slot",
     "color": "Color",
+    "style": "Style",
     "pulls": "Pulls",
     "total": "Total",
     "export": "Export",
@@ -103,6 +104,7 @@
     },
     "tracker": "Resonance Tracker",
     "wardrobe": "My Wardrobe",
+    "eurekas": "Eureka Tracker",
     "import": "Import Data",
     "global": "Global Data",
     "banner": "Banner History",
@@ -112,6 +114,7 @@
     "outfit_detail": "Outfit Detail",
     "item": "Item Compendium",
     "lookbook": "Lookbook Preview",
+    "explore": "Explore",
     "makeup": "Makeup Compendium",
     "item_detail": "Item Detail",
     "tierlist": "Tier List Maker",
@@ -133,6 +136,7 @@
       "login": "Sign in to gongeo.us using your email or a third-party account to upload, back up, and sync your Infinity Nikki resonance data across devices.",
       "tracker": "Track and analyze your Infinity Nikki resonance pull history. View all 5★ and 4★ banner items and compare your luck with other stylists.",
       "wardrobe": "Track owned Infinity Nikki items, outfits, makeup, and Momo's Cloaks locally, then share your collection progress.",
+      "eurekas": "Track every Infinity Nikki Eureka and color variant, update ownership manually, or import your collection from Whim-Log.",
       "import": "Import your Infinity Nikki resonance pull history easily from game, Whim-Log data or backup files with detailed step-by-step guides.",
       "global": "Explore Infinity Nikki resonance global data, including banner popularity, pull rates, item drop rates, and community pull statistics.",
       "global_banner": "Explore community pull statistics for the {name} resonance banner, including item order and completion pull distributions.",
@@ -531,6 +535,7 @@
       "momo_token_placeholder": "momoToken from Cookie",
       "import_pull_history": "Import Pull History",
       "import_wardrobe": "Import Wardrobe Data",
+      "import_eurekas": "Import Eureka Data",
       "submit_global_stats": "Submit data for global stats",
       "submit_button": "Submit and Import Pull History",
       "fetching": "Fetching resonance data, please wait…"
@@ -571,6 +576,9 @@
       "wardrobe_updated": "Added {items} clothes, {makeups} makeup, and {momo} Momo's Cloaks.",
       "wardrobe_up_to_date": "Wardrobe is already up to date.",
       "wardrobe_import_failed": "Wardrobe import failed.",
+      "eurekas_updated": "Added {count} Eureka colors.",
+      "eurekas_up_to_date": "Eureka collection is already up to date.",
+      "eurekas_import_failed": "Eureka import failed.",
       "no_file_selected": "No file selected"
     },
     "supported_browsers": "Supported Browsers",
@@ -588,6 +596,27 @@
       "title": "Under Maintenance",
       "message": "We're currently performing some maintenance. Pull history import is temporarily unavailable.",
       "status": "Service will be back shortly. Thank you for your patience!"
+    }
+  },
+  "eurekas": {
+    "empty": "No Eurekas match these filters.",
+    "load_failed": "Could not load the Eureka tracker",
+    "save_failed": "Could not save Eureka ownership.",
+    "filters": {
+      "position": "Position",
+      "status": "Ownership"
+    },
+    "positions": {
+      "head": "Head",
+      "hands": "Hands",
+      "feet": "Feet"
+    },
+    "status": {
+      "complete": "Complete"
+    },
+    "progress": {
+      "total_owned": "Total owned",
+      "complete": "Complete sets"
     }
   },
   "tracker": {

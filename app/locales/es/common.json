@@ -16,6 +16,7 @@
     "complete_outfit": "Atuendo completo",
     "slot": "Ranura",
     "color": "Color",
+    "style": "Estilo",
     "pulls": "Tiradas",
     "total": "Total",
     "export": "Exportar",
@@ -103,6 +104,7 @@
     },
     "tracker": "Tracker de Resonancia",
     "wardrobe": "Mi guardarropa",
+    "eurekas": "Rastreador de Eureka",
     "import": "Importar datos",
     "global": "Datos globales",
     "banner": "Historia del banner",
@@ -112,6 +114,7 @@
     "outfit_detail": "Detalle del Conjunto",
     "item": "Compendio de artículos",
     "lookbook": "Vista previa del lookbook",
+    "explore": "Explorar",
     "makeup": "Compendio de Maquillajes",
     "item_detail": "Detalle del artículo",
     "tierlist": "Creador de listas de niveles",
@@ -133,6 +136,7 @@
       "login": "Inicie sesión en gongeo.us usando su correo electrónico o una cuenta de terceros para cargar, realizar copias de seguridad y sincronizar sus datos de resonancia Infinity Nikki en todos los dispositivos.",
       "tracker": "Realice un seguimiento y analice su historial de extracción de resonancia Infinity Nikki. Vea todos los artículos de banner de 5★ y 4★ y compare su suerte con la de otros estilistas.",
       "wardrobe": "Registra localmente tus objetos, atuendos, maquillajes y capas de Momo de Infinity Nikki, y comparte el progreso de tu colección.",
+      "eurekas": "Registra cada Eureka y color de Infinity Nikki, actualiza la posesión manualmente o importa tu colección desde Whim-Log.",
       "import": "Importe fácilmente su historial de extracción de resonancia Infinity Nikki desde el juego, datos de Whim-Log o archivos de respaldo con guías detalladas paso a paso.",
       "global": "Explore los datos globales de resonancia de Infinity Nikki, incluida la popularidad de los banners, las tasas de extracción, las tasas de caída de artículos y las estadísticas de extracción de la comunidad.",
       "global_banner": "Explora las estadísticas comunitarias de extracción del banner de resonancia {name}, incluida la distribución del orden de artículos y de extracciones para completar el set.",
@@ -531,6 +535,7 @@
       "momo_token_placeholder": "momoToken de Cookie",
       "import_pull_history": "Importar historial de tiradas",
       "import_wardrobe": "Importar datos del guardarropa",
+      "import_eurekas": "Importar datos de Eureka",
       "submit_global_stats": "Enviar datos para estadísticas globales",
       "submit_button": "Enviar e importar historial de extracción",
       "fetching": "Obteniendo datos de resonancia, espere…"
@@ -571,6 +576,9 @@
       "wardrobe_updated": "Se añadieron {items} prendas, {makeups} maquillajes y {momo} capas de Momo.",
       "wardrobe_up_to_date": "El guardarropa ya está actualizado.",
       "wardrobe_import_failed": "No se pudo importar el guardarropa.",
+      "eurekas_updated": "Se añadieron {count} colores de Eureka.",
+      "eurekas_up_to_date": "La colección de Eureka ya está actualizada.",
+      "eurekas_import_failed": "No se pudo importar Eureka.",
       "no_file_selected": "No se seleccionó ningún archivo"
     },
     "supported_browsers": "Navegadores compatibles",
@@ -588,6 +596,27 @@
       "title": "En mantenimiento",
       "message": "Actualmente estamos realizando algún mantenimiento. La importación del historial de extracción no está disponible temporalmente.",
       "status": "El servicio volverá en breve. ¡Gracias por tu paciencia!"
+    }
+  },
+  "eurekas": {
+    "empty": "Ningún Eureka coincide con estos filtros.",
+    "load_failed": "No se pudo cargar el rastreador de Eureka",
+    "save_failed": "No se pudo guardar la posesión de Eureka.",
+    "filters": {
+      "position": "Posición",
+      "status": "Posesión"
+    },
+    "positions": {
+      "head": "Cabeza",
+      "hands": "Manos",
+      "feet": "Pies"
+    },
+    "status": {
+      "complete": "Completo"
+    },
+    "progress": {
+      "total_owned": "Total obtenido",
+      "complete": "Conjuntos completos"
     }
   },
   "tracker": {

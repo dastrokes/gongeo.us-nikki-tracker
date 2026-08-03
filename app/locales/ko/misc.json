@@ -294,5 +294,13 @@
   "dye.palette.16": "토끼귀 풀의 꽃술",
   "dye.palette.17": "반딧불이의 노래",
   "dye.palette.18": "셀럽 까마귀의 파티",
-  "dye.palette.19": "뽀글이 셔츠 털뭉치"
+  "dye.palette.19": "뽀글이 셔츠 털뭉치",
+  "color.blue": "파란색",
+  "color.green": "초록색",
+  "color.iridescent": "무지개색",
+  "color.pink": "분홍색",
+  "color.purple": "보라색",
+  "color.red": "빨간색",
+  "color.white": "흰색",
+  "color.yellow": "노란색"
 }

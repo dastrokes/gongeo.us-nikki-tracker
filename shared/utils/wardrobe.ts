@@ -5,6 +5,7 @@ export const createEmptyWardrobeData = (): WardrobeData => ({
   ownedItemIds: [],
   ownedMakeupIds: [],
   ownedMomoIds: [],
+  ownedEurekaColorIds: [],
   updatedAt: '',
 })
 
@@ -46,6 +47,9 @@ export const normalizeWardrobeData = (value: unknown): WardrobeData => {
     ownedItemIds: normalizeWardrobeItemIds(candidate.ownedItemIds),
     ownedMakeupIds: normalizeWardrobeItemIds(candidate.ownedMakeupIds),
     ownedMomoIds: normalizeWardrobeItemIds(candidate.ownedMomoIds),
+    ownedEurekaColorIds: normalizeWardrobeItemIds(
+      candidate.ownedEurekaColorIds
+    ),
     updatedAt,
   }
 }

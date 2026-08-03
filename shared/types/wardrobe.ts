@@ -3,6 +3,7 @@ export interface WardrobeData {
   ownedItemIds: number[]
   ownedMakeupIds: number[]
   ownedMomoIds: number[]
+  ownedEurekaColorIds: number[]
   updatedAt: string
 }
 

@@ -166,7 +166,7 @@
         </div>
 
         <!-- Compendium Grid -->
-        <div class="mb-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
+        <div class="grid grid-cols-2 gap-3 sm:grid-cols-4">
           <button
             v-for="item in compendiumItems"
             :key="item.key"
@@ -192,12 +192,123 @@
             </span>
           </button>
         </div>
+      </n-card>
+    </section>
+
+    <!-- Explore Section -->
+    <section class="scroll-mt-16">
+      <n-card
+        size="small"
+        class="rounded-xl p-0 sm:p-2"
+      >
+        <div class="mb-4 text-center">
+          <n-h2 class="m-0 font-bold">
+            {{ $t('navigation.explore') }}
+          </n-h2>
+        </div>
 
         <!-- Feature Row -->
         <div
           ref="featureRowRef"
-          class="grid grid-cols-2 gap-3 lg:grid-cols-4"
+          class="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-6"
         >
+          <!-- Eureka Tracker -->
+          <NuxtLinkLocale
+            no-prefetch
+            class="group relative flex h-36 w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl border border-slate-200/80 bg-linear-to-b from-slate-50 to-slate-200 shadow-xs transition-[border-color,box-shadow] duration-200 hover:border-rose-200 hover:shadow-[0_8px_20px_rgba(71,85,105,0.12)] focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden dark:border-slate-700/80 dark:from-slate-800 dark:to-slate-900 dark:hover:border-rose-300/25"
+            :to="'/eurekas'"
+          >
+            <div
+              v-if="shouldRenderFeatureAssets"
+              aria-hidden="true"
+              class="absolute inset-x-2 top-2 bottom-11 flex items-center justify-center gap-1.5 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:scale-[1.03] motion-reduce:transform-none motion-reduce:transition-none"
+            >
+              <div
+                v-for="(variant, index) in eurekaPreviewVariants"
+                :key="`eureka-preview-${index}`"
+                class="flex size-14 items-center justify-center overflow-hidden rounded-lg border border-gray-200 bg-gray-50 shadow-xs dark:border-gray-700 dark:bg-gray-900"
+              >
+                <n-icon
+                  size="32"
+                  :class="variant.iconClass"
+                >
+                  <SvgIcon
+                    name="sparkles"
+                    :gradient="variant.gradient"
+                  />
+                </n-icon>
+              </div>
+            </div>
+            <div
+              v-else
+              class="absolute inset-x-5 top-5 bottom-12 flex items-center justify-center"
+            >
+              <n-skeleton class="h-14 w-20 rounded-xl" />
+            </div>
+
+            <div class="absolute right-2 bottom-2 left-2 z-10">
+              <div
+                class="pointer-events-none flex w-full items-center justify-center gap-1 rounded-lg border border-white/80 bg-white/90 px-3 py-1.5 text-sm font-semibold text-rose-600 shadow-sm backdrop-blur-md dark:border-white/10 dark:bg-slate-950/80 dark:text-rose-300"
+              >
+                <n-icon><SvgIcon name="sparkles" /></n-icon>
+                <span>{{ $t('navigation.eurekas') }}</span>
+              </div>
+            </div>
+          </NuxtLinkLocale>
+
+          <!-- Lookbook Preview -->
+          <NuxtLinkLocale
+            no-prefetch
+            class="group relative flex h-36 w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl border border-slate-200/80 bg-linear-to-b from-slate-50 to-slate-200 shadow-xs transition-[border-color,box-shadow] duration-200 hover:border-rose-200 hover:shadow-[0_8px_20px_rgba(71,85,105,0.12)] focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden dark:border-slate-700/80 dark:from-slate-800 dark:to-slate-900 dark:hover:border-rose-300/25"
+            :to="'/lookbook'"
+          >
+            <div
+              v-if="shouldRenderFeatureAssets"
+              aria-hidden="true"
+              class="absolute inset-x-2 top-2 bottom-11 flex flex-col items-center justify-center gap-2 transition-transform duration-300 group-hover:-translate-y-0.5 motion-reduce:transform-none motion-reduce:transition-none"
+            >
+              <div
+                class="flex h-6 w-[82%] items-center rounded-lg bg-white/90 px-2.5 shadow-xs ring-1 ring-black/5 dark:bg-slate-900/90 dark:ring-white/10"
+              >
+                <span class="size-1.5 shrink-0 rounded-full bg-sky-400" />
+                <span
+                  class="ml-2 truncate font-mono text-[9px] font-semibold tracking-[0.16em] text-slate-500 dark:text-slate-300"
+                >
+                  gongeous#
+                </span>
+              </div>
+              <div class="flex flex-col gap-1.5">
+                <div
+                  v-for="(row, rowIndex) in lookbookPreviewRows"
+                  :key="`lookbook-preview-row-${rowIndex}`"
+                  class="flex gap-1.5"
+                >
+                  <div
+                    v-for="(squareClass, squareIndex) in row"
+                    :key="`lookbook-preview-square-${rowIndex}-${squareIndex}`"
+                    class="size-4 rounded-[3px] shadow-xs"
+                    :class="squareClass"
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              v-else
+              class="absolute inset-x-5 top-5 bottom-12 flex items-center justify-center"
+            >
+              <n-skeleton class="h-14 w-20 rounded-xl" />
+            </div>
+
+            <div class="absolute right-2 bottom-2 left-2 z-10">
+              <div
+                class="pointer-events-none flex w-full items-center justify-center gap-1 rounded-lg border border-white/80 bg-white/90 px-3 py-1.5 text-sm font-semibold text-rose-600 shadow-sm backdrop-blur-md dark:border-white/10 dark:bg-slate-950/80 dark:text-rose-300"
+              >
+                <n-icon><Th /></n-icon>
+                <span>{{ $t('navigation.lookbook') }}</span>
+              </div>
+            </div>
+          </NuxtLinkLocale>
+
           <!-- Whim Search -->
           <NuxtLinkLocale
             no-prefetch
@@ -480,6 +591,7 @@
     Magic,
     Filter,
     PaintBrush,
+    Th,
   } from '@vicons/fa'
 
   const { t } = useI18n()
@@ -659,6 +771,47 @@
       'bg-gray-500/60',
       'bg-gray-500/50',
       'bg-gray-500/40',
+    ],
+  ] as const
+
+  const eurekaPreviewVariants: ReadonlyArray<{
+    iconClass: string
+    gradient?: 'iridescent'
+  }> = [
+    {
+      iconClass: 'text-yellow-400 dark:text-yellow-300',
+    },
+    {
+      iconClass: 'text-blue-400 dark:text-blue-300',
+    },
+    {
+      iconClass:
+        'drop-shadow-[0_0_4px_rgba(217,70,239,0.55)] dark:drop-shadow-[0_0_5px_rgba(34,211,238,0.6)]',
+      gradient: 'iridescent',
+    },
+  ]
+
+  const lookbookPreviewRows = [
+    [
+      'bg-amber-500/80',
+      'bg-amber-500/80',
+      'bg-amber-500/80',
+      'bg-amber-500/80',
+      'bg-amber-500/80',
+    ],
+    [
+      'bg-sky-500/80',
+      'bg-sky-500/80',
+      'bg-sky-500/80',
+      'bg-sky-500/80',
+      'bg-sky-500/80',
+    ],
+    [
+      'bg-teal-500/80',
+      'bg-teal-500/80',
+      'bg-teal-500/80',
+      'bg-teal-500/80',
+      'bg-teal-500/80',
     ],
   ] as const
 

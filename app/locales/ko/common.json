@@ -16,6 +16,7 @@
     "complete_outfit": "세트 의상 완성",
     "slot": "부위",
     "color": "색상",
+    "style": "스타일",
     "pulls": "뽑기",
     "total": "총",
     "export": "내보내기",
@@ -103,6 +104,7 @@
     },
     "tracker": "공명 기록",
     "wardrobe": "내 옷장",
+    "eurekas": "축복 섬광 트래커",
     "import": "데이터 가져오기",
     "global": "글로벌 데이터",
     "banner": "배너 역사",
@@ -112,6 +114,7 @@
     "outfit_detail": "의상 상세 정보",
     "item": "아이템 도감",
     "lookbook": "룩북 미리보기",
+    "explore": "둘러보기",
     "makeup": "메이크업 도감",
     "item_detail": "아이템 상세 정보",
     "tierlist": "티어리스트 메이커",
@@ -133,6 +136,7 @@
       "login": "이메일이나 외부 계정으로 니키 공명록에 로그인하면 인피니티 니키 공명 데이터를 클라우드에 업로드하고, 여러 기기에서 동기화하고 백업할 수 있습니다.",
       "tracker": "인피니티 니키 공명 뽑기 기록을 추적하고 분석하세요. 5★ 및 4★ 배너 항목을 모두 확인하고 다른 스타일리스트와 운을 비교하세요.",
       "wardrobe": "인피니티 니키에서 보유한 아이템, 의상, 메이크업, 모모 망토를 로컬에 기록하고 컬렉션 진행도를 공유하세요.",
+      "eurekas": "인피니티 니키의 모든 축복 섬광과 색상 보유 상태를 기록하고, 수동으로 업데이트하거나 상상 노트에서 컬렉션을 가져오세요.",
       "import": "게임, 상상 노트 데이터 또는 백업 파일에서 인피니티 니키 공명 뽑기 기록을 쉽게 가져올 수 있습니다. 자세한 단계별 가이드가 포함되어 있습니다.",
       "global": "배너 인기도, 뽑기 확률, 아이템 드롭률, 커뮤니티 뽑기 통계 등 인피니티 니키 공명 글로벌 데이터를 살펴보세요.",
       "global_banner": "{name} 공명 배너의 커뮤니티 뽑기 통계를 살펴보세요. 아이템 순서와 세트 완성 뽑기 분포를 포함합니다.",
@@ -531,6 +535,7 @@
       "momo_token_placeholder": "쿠키의 momoToken",
       "import_pull_history": "뽑기 기록 가져오기",
       "import_wardrobe": "옷장 데이터 가져오기",
+      "import_eurekas": "축복 섬광 데이터 가져오기",
       "submit_global_stats": "글로벌 통계를 위한 데이터 제출",
       "submit_button": "뽑기 기록 제출 및 가져오기",
       "fetching": "공진 데이터를 가져오는 중입니다. 잠시 기다려 주세요…"
@@ -571,6 +576,9 @@
       "wardrobe_updated": "의상 {items}개, 메이크업 {makeups}개, 모모 망토 {momo}개를 추가했습니다.",
       "wardrobe_up_to_date": "옷장이 이미 최신 상태입니다.",
       "wardrobe_import_failed": "옷장 가져오기에 실패했습니다.",
+      "eurekas_updated": "축복 섬광 색상 {count}개를 추가했습니다.",
+      "eurekas_up_to_date": "축복 섬광 컬렉션이 이미 최신 상태입니다.",
+      "eurekas_import_failed": "축복 섬광 가져오기에 실패했습니다.",
       "no_file_selected": "선택한 파일이 없습니다"
     },
     "supported_browsers": "지원되는 브라우저",
@@ -588,6 +596,27 @@
       "title": "유지보수 중",
       "message": "현재 일부 유지보수 작업을 수행하고 있습니다. 가져오기 기록 가져오기를 일시적으로 사용할 수 없습니다.",
       "status": "곧 서비스가 다시 시작됩니다. 양해해 주셔서 감사합니다!"
+    }
+  },
+  "eurekas": {
+    "empty": "필터와 일치하는 축복 섬광이 없습니다.",
+    "load_failed": "축복 섬광 트래커를 불러오지 못했습니다",
+    "save_failed": "축복 섬광 보유 정보를 저장하지 못했습니다.",
+    "filters": {
+      "position": "부위",
+      "status": "보유 상태"
+    },
+    "positions": {
+      "head": "머리",
+      "hands": "손",
+      "feet": "발"
+    },
+    "status": {
+      "complete": "완성"
+    },
+    "progress": {
+      "total_owned": "총 보유",
+      "complete": "완성 세트"
     }
   },
   "tracker": {

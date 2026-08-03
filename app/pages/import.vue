@@ -611,6 +611,9 @@
                       <n-checkbox v-model:checked="importWardrobeOwnership">
                         {{ $t('import.form.import_wardrobe') }}
                       </n-checkbox>
+                      <n-checkbox v-model:checked="importEurekaOwnership">
+                        {{ $t('import.form.import_eurekas') }}
+                      </n-checkbox>
                     </div>
                   </n-form-item>
                   <n-form-item
@@ -663,7 +666,9 @@
                   loading ||
                   isFetching ||
                   (importMethod === 'pearpal' &&
-                    (pearpalTrackerLoading || importingPearpalWardrobe))
+                    (pearpalTrackerLoading ||
+                      importingPearpalWardrobe ||
+                      importingPearpalEurekas))
                 "
                 class="after:animate-button-shimmer relative mt-4 h-10 overflow-hidden after:absolute after:inset-y-0 after:-left-full after:w-[60%] after:bg-linear-to-r after:from-transparent after:via-white/15 after:to-transparent after:content-[''] motion-reduce:after:animate-none"
                 :disabled="isSubmitDisabled"
@@ -1043,10 +1048,15 @@
   )
   const cookieMethod = ref<'bookmark' | 'console' | 'manual'>('bookmark')
   const jsonFile = ref<File | null>(null)
-  const importPullHistory = ref(route.query.returnTo !== 'wardrobe')
+  const importTarget = route.query.returnTo
+  const importPullHistory = ref(
+    importTarget !== 'wardrobe' && importTarget !== 'eurekas'
+  )
   const submitGlobalStats = ref(importPullHistory.value)
-  const importWardrobeOwnership = ref(true)
+  const importWardrobeOwnership = ref(importTarget !== 'eurekas')
+  const importEurekaOwnership = ref(importTarget !== 'wardrobe')
   const importingPearpalWardrobe = ref(false)
+  const importingPearpalEurekas = ref(false)
   const pullStore = usePullStore()
 
   watch(importPullHistory, (enabled) => {
@@ -1224,10 +1234,13 @@
       )
     } else if (importMethod.value === 'pearpal') {
       return (
-        (!importPullHistory.value && !importWardrobeOwnership.value) ||
+        (!importPullHistory.value &&
+          !importWardrobeOwnership.value &&
+          !importEurekaOwnership.value) ||
         (importPullHistory.value && selectedBanners.value.length === 0) ||
         pearpalTrackerLoading.value ||
         importingPearpalWardrobe.value ||
+        importingPearpalEurekas.value ||
         hasEmptyFields
       )
     }
@@ -1479,6 +1492,35 @@
               }
             }
 
+            if (importEurekaOwnership.value) {
+              importingPearpalEurekas.value = true
+
+              try {
+                const magicBallList =
+                  noteBookData.info_from_self?.magic_ball_list
+                if (!Array.isArray(magicBallList)) {
+                  throw new Error('No magic_ball_list found in response data')
+                }
+
+                await wardrobe.init()
+                const result =
+                  await wardrobe.importOwnedEurekasFromPearpal(magicBallList)
+
+                message.success(
+                  result.imported > 0
+                    ? t('import.messages.eurekas_updated', {
+                        count: result.imported,
+                      })
+                    : t('import.messages.eurekas_up_to_date')
+                )
+              } catch (error) {
+                console.error('Pearpal Eureka import failed:', error)
+                message.error(t('import.messages.eurekas_import_failed'))
+              } finally {
+                importingPearpalEurekas.value = false
+              }
+            }
+
             // Send analytics only if enabled and there are actual pulls
             if (
               submitGlobalStats.value &&
@@ -1501,13 +1543,14 @@
               }
             }
 
-            navigateTo(
-              localePath(
-                route.query.returnTo === 'wardrobe' || !importPullHistory.value
+            const returnPath =
+              route.query.returnTo === 'eurekas'
+                ? '/eurekas'
+                : route.query.returnTo === 'wardrobe' ||
+                    !importPullHistory.value
                   ? '/wardrobe'
                   : '/tracker'
-              )
-            )
+            navigateTo(localePath(returnPath))
           } else {
             throw new Error('Invalid data format received from API')
           }

@@ -35,6 +35,7 @@ type ImageSrcType =
   | 'momoIcon'
   | 'fullMakeup'
   | 'emote'
+  | 'eureka'
   | 'static'
 
 const getImagePath = (
@@ -61,6 +62,8 @@ const getImagePath = (
       return `/images/items/makeups/${id}.png`
     case 'emote':
       return `/images/emotes/${id}.webp`
+    case 'eureka':
+      return `/images/eurekas/${id}.png`
     case 'static': {
       const path = typeof id === 'string' ? id : String(id)
       return path.startsWith('/') ? path : `/${path}`

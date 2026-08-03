@@ -400,6 +400,7 @@
     },
     "confirm": {
       "all_owned": "Mark all {count} matching items as owned?",
+      "all_unowned": "Mark all {count} matching items as unowned?",
       "f2p_basics": "Mark {count} F2P, permanently available wardrobe entries as owned for this profile?",
       "tracker_import": "Import {imported} new wardrobe entries from tracker data? Found {found} total: {foundItems} items, {foundMakeups} makeup entries, and {foundMomo} Momo's Cloaks.",
       "outfit_unowned": "Mark all {count} outfit items as unowned?"

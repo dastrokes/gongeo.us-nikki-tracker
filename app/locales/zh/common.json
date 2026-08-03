@@ -400,6 +400,7 @@
     },
     "confirm": {
       "all_owned": "将所有 {count} 个匹配部件标记为拥有？",
+      "all_unowned": "将所有 {count} 个匹配部件标记为未拥有？",
       "f2p_basics": "将此档案中的 {count} 个免费常驻衣橱条目标记为拥有？",
       "tracker_import": "要从抽卡记录导入 {imported} 个新的衣橱条目吗？共找到 {found} 个：{foundItems} 个部件、{foundMakeups} 个妆容和 {foundMomo} 个大喵斗篷。",
       "outfit_unowned": "将所有 {count} 个套装部件标记为未拥有？"

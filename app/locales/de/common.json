@@ -400,6 +400,7 @@
     },
     "confirm": {
       "all_owned": "Alle {count} passenden Items als im Besitz markieren?",
+      "all_unowned": "Alle {count} passenden Items als nicht im Besitz markieren?",
       "f2p_basics": "{count} F2P, dauerhaft verfügbare Garderobeneinträge für dieses Profil als im Besitz markieren?",
       "tracker_import": "{imported} neue Garderobeneinträge aus Tracker-Daten importieren? Insgesamt {found} gefunden: {foundItems} Stücke, {foundMakeups} Make-up-Einträge und {foundMomo} Momos Mäntel.",
       "outfit_unowned": "Alle {count} Outfit-Stücke als nicht im Besitz markieren?"

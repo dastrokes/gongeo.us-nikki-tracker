@@ -400,6 +400,7 @@
     },
     "confirm": {
       "all_owned": "¿Marcar los {count} objetos coincidentes como propios?",
+      "all_unowned": "¿Marcar los {count} objetos coincidentes como no propios?",
       "f2p_basics": "¿Marcar {count} entradas de guardarropa F2P disponibles permanentemente como propias para este perfil?",
       "tracker_import": "¿Importar {imported} entradas nuevas de guardarropa desde los datos del tracker? Se encontraron {found} en total: {foundItems} objetos, {foundMakeups} entradas de maquillaje y {foundMomo} capas de Momo.",
       "outfit_unowned": "¿Marcar los {count} objetos del atuendo como no propios?"

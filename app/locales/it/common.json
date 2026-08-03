@@ -400,6 +400,7 @@
     },
     "confirm": {
       "all_owned": "Segnare tutti i {count} oggetti corrispondenti come posseduti?",
+      "all_unowned": "Segnare tutti i {count} oggetti corrispondenti come non posseduti?",
       "f2p_basics": "Segnare {count} voci guardaroba F2P disponibili permanentemente come possedute per questo profilo?",
       "tracker_import": "Importare {imported} nuove voci guardaroba dai dati del tracker? Trovate {found} in totale: {foundItems} oggetti, {foundMakeups} voci makeup e {foundMomo} Mantelli di Momo.",
       "outfit_unowned": "Segnare tutti i {count} oggetti outfit come non posseduti?"

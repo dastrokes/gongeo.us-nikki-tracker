@@ -400,6 +400,7 @@
     },
     "confirm": {
       "all_owned": "一致する{count}件のアイテムをすべて所持済みにしますか？",
+      "all_unowned": "一致する{count}件のアイテムをすべて未所持にしますか？",
       "f2p_basics": "このプロフィールで、常設のF2Pワードローブ項目{count}件を所持済みにしますか？",
       "tracker_import": "共鳴記録から新しいワードローブ項目 {imported} 件をインポートしますか？ 合計 {found} 件（アイテム {foundItems} 件、メイク {foundMakeups} 件、モモのマント {foundMomo} 件）が見つかりました。",
       "outfit_unowned": "{count}件のコーデアイテムをすべて未所持にしますか？"

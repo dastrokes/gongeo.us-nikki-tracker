@@ -602,6 +602,11 @@
     "empty": "No Eurekas match these filters.",
     "load_failed": "Could not load the Eureka tracker",
     "save_failed": "Could not save Eureka ownership.",
+    "manage_title": "Manage Eurekas",
+    "actions": {
+      "export_data": "Export Data",
+      "import_data": "Import Data"
+    },
     "filters": {
       "position": "Position",
       "status": "Ownership"

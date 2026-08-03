@@ -5,8 +5,10 @@
       class="rounded-xl"
       content-class="p-4 sm:p-5"
     >
-      <div class="flex flex-col gap-4 lg:flex-row lg:items-center">
-        <div class="min-w-0 flex-1">
+      <div
+        class="grid gap-4 lg:grid-cols-[minmax(0,1fr)_400px] lg:items-stretch"
+      >
+        <div class="flex min-w-0 flex-col gap-4">
           <div class="flex flex-wrap items-center gap-2">
             <n-h1 class="m-0 text-2xl leading-tight font-bold sm:text-3xl">
               {{ t('navigation.eurekas') }}
@@ -20,69 +22,156 @@
               {{ activeProfileLabel }}
             </n-tag>
           </div>
+
+          <div class="grid flex-1 gap-3 sm:grid-cols-2">
+            <div class="rounded-lg bg-sky-50 p-3 dark:bg-sky-950/30">
+              <div class="text-xs font-medium text-sky-700 dark:text-sky-300">
+                {{ t('eurekas.progress.total_owned') }}
+              </div>
+              <n-skeleton
+                v-if="loading"
+                text
+                width="72px"
+                class="mt-2"
+              />
+              <div
+                v-else
+                class="mt-1 text-2xl font-bold tabular-nums"
+              >
+                {{ totalOwnedColors }}/{{ totalColors }}
+              </div>
+              <div
+                class="mt-2 h-2 overflow-hidden rounded-full bg-sky-100 dark:bg-sky-900"
+              >
+                <div
+                  class="h-full rounded-full bg-sky-500 transition-[width] duration-500"
+                  :style="{ width: `${overallPercent}%` }"
+                ></div>
+              </div>
+            </div>
+            <div class="rounded-lg bg-emerald-50 p-3 dark:bg-emerald-950/30">
+              <div
+                class="text-xs font-medium text-emerald-700 dark:text-emerald-300"
+              >
+                {{ t('eurekas.progress.complete') }}
+              </div>
+              <n-skeleton
+                v-if="loading"
+                text
+                width="72px"
+                class="mt-2"
+              />
+              <div
+                v-else
+                class="mt-1 text-2xl font-bold tabular-nums"
+              >
+                {{ completeCount }}/{{ totalEurekas }}
+              </div>
+              <div
+                class="mt-2 h-2 overflow-hidden rounded-full bg-emerald-100 dark:bg-emerald-900"
+              >
+                <div
+                  class="h-full rounded-full bg-emerald-500 transition-[width] duration-500"
+                  :style="{ width: `${completePercent}%` }"
+                ></div>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div class="flex flex-col gap-2 sm:flex-row">
+        <div
+          class="flex flex-col gap-3 rounded-lg bg-gray-50 p-3 dark:bg-gray-900/60"
+        >
+          <div class="flex items-center justify-between gap-3">
+            <n-text class="block text-sm font-semibold">
+              {{ t('eurekas.manage_title') }}
+            </n-text>
+            <n-tooltip trigger="hover">
+              <template #trigger>
+                <n-button
+                  size="small"
+                  text
+                  :type="editMode ? 'primary' : 'default'"
+                  class="w-8"
+                  :aria-label="
+                    editMode
+                      ? t('wardrobe.actions.view_mode')
+                      : t('wardrobe.actions.edit_ownership')
+                  "
+                  @click="editMode = !editMode"
+                >
+                  <template #icon>
+                    <n-icon :depth="3">
+                      <BookOpen v-if="editMode" />
+                      <UserEdit v-else />
+                    </n-icon>
+                  </template>
+                </n-button>
+              </template>
+              {{
+                editMode
+                  ? t('wardrobe.actions.view_mode')
+                  : t('wardrobe.actions.edit_ownership')
+              }}
+            </n-tooltip>
+          </div>
+
           <n-button
+            block
             type="primary"
-            secondary
+            class="h-9 justify-center"
             @click="openPearpalImport"
           >
-            <template #icon
-              ><n-icon><Sync /></n-icon
-            ></template>
-            {{ t('wardrobe.update_from_pearpal') }}
-          </n-button>
-          <n-button
-            :type="editMode ? 'primary' : 'default'"
-            class="sm:min-w-38"
-            @click="editMode = !editMode"
-          >
             <template #icon>
-              <n-icon><Pen v-if="!editMode" /><Eye v-else /></n-icon>
+              <n-icon size="16"><Sync /></n-icon>
             </template>
-            {{
-              editMode
-                ? t('wardrobe.actions.view_mode')
-                : t('wardrobe.actions.edit_ownership')
-            }}
+            <span class="truncate leading-normal">
+              {{ t('wardrobe.update_from_pearpal') }}
+            </span>
           </n-button>
-        </div>
-      </div>
 
-      <div class="mt-4 grid gap-3 sm:grid-cols-2">
-        <div class="rounded-lg bg-sky-50 p-3 dark:bg-sky-950/30">
-          <div class="text-xs font-medium text-sky-700 dark:text-sky-300">
-            {{ t('eurekas.progress.total_owned') }}
-          </div>
-          <div class="mt-1 text-2xl font-bold tabular-nums">
-            {{ totalOwnedColors }}/{{ totalColors }}
-          </div>
+          <input
+            ref="profileFileInputRef"
+            type="file"
+            accept="application/json,.json"
+            class="hidden"
+            @change="handleProfileFileSelected"
+          />
+
           <div
-            class="mt-2 h-2 overflow-hidden rounded-full bg-sky-100 dark:bg-sky-900"
+            class="mt-auto border-t border-gray-200 pt-2 dark:border-gray-800"
           >
-            <div
-              class="h-full rounded-full bg-sky-500 transition-[width] duration-500"
-              :style="{ width: `${overallPercent}%` }"
-            ></div>
-          </div>
-        </div>
-        <div class="rounded-lg bg-emerald-50 p-3 dark:bg-emerald-950/30">
-          <div
-            class="text-xs font-medium text-emerald-700 dark:text-emerald-300"
-          >
-            {{ t('eurekas.progress.complete') }}
-          </div>
-          <div class="mt-1 text-2xl font-bold tabular-nums">
-            {{ completeCount }}/{{ totalEurekas }}
-          </div>
-          <div
-            class="mt-2 h-2 overflow-hidden rounded-full bg-emerald-100 dark:bg-emerald-900"
-          >
-            <div
-              class="h-full rounded-full bg-emerald-500 transition-[width] duration-500"
-              :style="{ width: `${completePercent}%` }"
-            ></div>
+            <n-button-group
+              size="small"
+              class="w-full"
+            >
+              <n-button
+                size="small"
+                secondary
+                class="flex-1 justify-center"
+                :disabled="!dataReady"
+                :aria-busy="exportingProfileJson"
+                @click="exportProfileJSON"
+              >
+                <template #icon>
+                  <n-icon size="16"><FileExport /></n-icon>
+                </template>
+                {{ t('eurekas.actions.export_data') }}
+              </n-button>
+              <n-button
+                size="small"
+                secondary
+                class="flex-1 justify-center"
+                :disabled="!canMutate || importingProfileFile"
+                :aria-busy="importingProfileFile"
+                @click="openProfileFilePicker"
+              >
+                <template #icon>
+                  <n-icon size="16"><FileImport /></n-icon>
+                </template>
+                {{ t('eurekas.actions.import_data') }}
+              </n-button>
+            </n-button-group>
           </div>
         </div>
       </div>
@@ -170,12 +259,54 @@
       <n-card
         v-for="index in 6"
         :key="index"
+        size="small"
         class="rounded-xl"
+        content-class="p-3 sm:p-4"
       >
-        <n-skeleton
-          text
-          :repeat="4"
-        />
+        <div class="flex items-start justify-between gap-3">
+          <div class="min-w-0 flex-1">
+            <n-skeleton
+              text
+              width="58%"
+            />
+            <div class="mt-2 flex items-center gap-1.5">
+              <n-skeleton
+                round
+                width="56px"
+                height="18px"
+              />
+              <n-skeleton
+                round
+                width="48px"
+                height="18px"
+              />
+              <n-skeleton
+                round
+                width="52px"
+                height="18px"
+              />
+            </div>
+          </div>
+          <n-skeleton
+            round
+            width="46px"
+            height="22px"
+          />
+        </div>
+
+        <div class="mt-3 grid grid-cols-5 gap-1.5">
+          <div
+            v-for="colorIndex in 5"
+            :key="colorIndex"
+            class="aspect-square overflow-hidden rounded-lg"
+          >
+            <n-skeleton
+              width="100%"
+              height="100%"
+              :sharp="false"
+            />
+          </div>
+        </div>
       </n-card>
     </div>
 
@@ -193,12 +324,7 @@
         v-for="eureka in pageEntries"
         :key="eureka.id"
         size="small"
-        class="rounded-xl transition-shadow"
-        :class="
-          progressFor(eureka).status === 'complete'
-            ? 'ring-1 ring-emerald-400/60 dark:ring-emerald-500/50'
-            : ''
-        "
+        class="rounded-xl"
         content-class="p-3 sm:p-4"
       >
         <div class="min-w-0">
@@ -324,11 +450,13 @@
 <script setup lang="ts">
   import {
     Adjust,
+    BookOpen,
     CheckCircle,
     CircleRegular,
-    Eye,
-    Pen,
+    FileExport,
+    FileImport,
     Sync,
+    UserEdit,
   } from '@vicons/fa'
 
   const { t } = useI18n()
@@ -338,6 +466,8 @@
   const { activeSlot, slots, getSlotLabel } = useProfileSlots()
   const catalog = useEurekaCatalog()
   const wardrobe = useWardrobe()
+  const { loadData, loadWardrobe } = useIndexedDB()
+  const { processJsonImport } = useBannerPullData()
 
   const editMode = ref(false)
   const search = ref('')
@@ -348,13 +478,23 @@
   const page = ref(1)
   const pageSize = 18
   const savingEurekaIds = ref(new Set<number>())
+  const initialLoadPending = ref(true)
+  const importingProfileFile = ref(false)
+  const exportingProfileJson = ref(false)
+  const profileFileInputRef = ref<HTMLInputElement | null>(null)
 
   const loading = computed(
-    () => catalog.loading.value || wardrobe.loading.value
+    () =>
+      initialLoadPending.value ||
+      catalog.loading.value ||
+      wardrobe.loading.value
   )
   const catalogError = computed(() => catalog.error.value)
   const wardrobeError = computed(() => wardrobe.error.value)
   const canMutate = computed(() => wardrobe.canMutate.value)
+  const dataReady = computed(
+    () => wardrobe.initialized.value && !wardrobe.loading.value
+  )
   const activeProfileLabel = computed(() => getSlotLabel(activeSlot.value))
   const showProfileTag = computed(
     () => slots.value.filter((slot) => slot.exists).length > 1
@@ -508,6 +648,84 @@
     style.value = null
     ownershipStatus.value = null
   }
+
+  const openProfileFilePicker = () => {
+    if (!canMutate.value || importingProfileFile.value) return
+    profileFileInputRef.value?.click()
+  }
+
+  const handleProfileFileSelected = async (event: Event) => {
+    const input = event.target as HTMLInputElement
+    const file = input.files?.[0]
+    input.value = ''
+    if (!file) return
+
+    importingProfileFile.value = true
+    try {
+      const parsed = JSON.parse(await file.text()) as unknown
+      if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
+        throw new Error('Invalid data file')
+      }
+
+      await processJsonImport(parsed as Parameters<typeof processJsonImport>[0])
+      message.success(t('wardrobe.file_import_success'))
+    } catch (error) {
+      console.error('Profile data file import failed:', error)
+      message.error(t('wardrobe.file_import_error'))
+    } finally {
+      importingProfileFile.value = false
+    }
+  }
+
+  const exportProfileJSON = async () => {
+    if (exportingProfileJson.value) return
+    exportingProfileJson.value = true
+    message.info(t('wardrobe.export.in_progress'))
+
+    try {
+      const {
+        pulls: rawPullData,
+        edits: rawEditData,
+        evo: evoData,
+        pearpal: rawPearpalData,
+      } = await loadData(activeSlot.value)
+      const wardrobeData = await loadWardrobe(activeSlot.value)
+      const slotData = slots.value[activeSlot.value - 1]
+      const trimmedLabel = slotData?.label?.trim()
+      const profile =
+        slotData?.exists && trimmedLabel ? { label: trimmedLabel } : undefined
+      const exportData = createProfileDataExportPayload({
+        pulls: rawPullData,
+        edits: rawEditData,
+        evo: evoData,
+        pearpal: rawPearpalData,
+        wardrobe: wardrobeData,
+        profile,
+      })
+
+      if (!exportData) {
+        message.info(t('wardrobe.export.empty'))
+        return
+      }
+
+      const blob = new Blob([JSON.stringify(exportData, null, 2)], {
+        type: 'application/json',
+      })
+      const link = document.createElement('a')
+      link.download = getProfileDataExportFileName(activeSlot.value)
+      link.href = URL.createObjectURL(blob)
+      link.click()
+      URL.revokeObjectURL(link.href)
+
+      message.success(t('wardrobe.export.success'))
+    } catch (error) {
+      console.error('Profile data export failed:', error)
+      message.error(t('wardrobe.export.error'))
+    } finally {
+      exportingProfileJson.value = false
+    }
+  }
+
   const openPearpalImport = () =>
     navigateTo(
       localePath({
@@ -522,7 +740,11 @@
   })
 
   onMounted(() => {
-    void Promise.all([catalog.load(), wardrobe.init()]).catch(() => undefined)
+    void Promise.all([catalog.load(), wardrobe.init()])
+      .catch(() => undefined)
+      .finally(() => {
+        initialLoadPending.value = false
+      })
   })
 
   useSeoMeta({

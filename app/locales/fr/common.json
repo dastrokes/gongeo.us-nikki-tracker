@@ -602,6 +602,11 @@
     "empty": "Aucun Eurêka ne correspond à ces filtres.",
     "load_failed": "Impossible de charger le suivi des Eurêkas",
     "save_failed": "Impossible d’enregistrer la possession des Eurêkas.",
+    "manage_title": "Gérer les Eurêkas",
+    "actions": {
+      "export_data": "Exporter les données",
+      "import_data": "Importer les données"
+    },
     "filters": {
       "position": "Position",
       "status": "Possession"

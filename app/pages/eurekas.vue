@@ -349,7 +349,9 @@
                 <n-tag
                   size="small"
                   :bordered="false"
-                  type="info"
+                  type="default"
+                  :color="getStyleTagTheme(eureka.mainStyle)"
+                  class="text-xs font-semibold shadow-[inset_0_-2px_0_rgba(0,0,0,0.18)]"
                 >
                   {{ t(`style.${eureka.mainStyle}`) }}
                 </n-tag>
@@ -516,6 +518,20 @@
   const progressFor = (entry: EurekaCatalogEntry) =>
     getEurekaOwnershipProgress(entry, wardrobe.ownedEurekaColorIdSet.value)
   const eurekaName = (entry: EurekaCatalogEntry) => t(`eureka.${entry.id}.name`)
+  const eurekaPositionOrder: Record<EurekaPosition, number> = {
+    head: 0,
+    hands: 1,
+    feet: 2,
+  }
+  const eurekaSetSortLabels = computed(() => {
+    const labels = new Map<number, string>()
+    catalog.entries.value.forEach((entry) => {
+      if (!labels.has(entry.suitId) || entry.position === 'head') {
+        labels.set(entry.suitId, eurekaName(entry))
+      }
+    })
+    return labels
+  })
   const completeCount = computed(
     () =>
       catalog.entries.value.filter(
@@ -579,11 +595,24 @@
           (ownershipStatus.value === null ||
             progressFor(entry).status === ownershipStatus.value)
       )
-      .sort((left, right) =>
-        right.quality !== left.quality
-          ? right.quality - left.quality
-          : eurekaName(left).localeCompare(eurekaName(right))
-      )
+      .sort((left, right) => {
+        if (right.quality !== left.quality) {
+          return right.quality - left.quality
+        }
+
+        const setNameComparison = (
+          eurekaSetSortLabels.value.get(left.suitId) ?? eurekaName(left)
+        ).localeCompare(
+          eurekaSetSortLabels.value.get(right.suitId) ?? eurekaName(right)
+        )
+        if (setNameComparison !== 0) return setNameComparison
+        if (left.suitId !== right.suitId) return left.suitId - right.suitId
+
+        return (
+          eurekaPositionOrder[left.position] -
+          eurekaPositionOrder[right.position]
+        )
+      })
   })
   const pageEntries = computed(() =>
     filteredEntries.value.slice(

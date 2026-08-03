@@ -602,6 +602,11 @@
     "empty": "필터와 일치하는 축복 섬광이 없습니다.",
     "load_failed": "축복 섬광 트래커를 불러오지 못했습니다",
     "save_failed": "축복 섬광 보유 정보를 저장하지 못했습니다.",
+    "manage_title": "축복 섬광 관리",
+    "actions": {
+      "export_data": "데이터 내보내기",
+      "import_data": "데이터 가져오기"
+    },
     "filters": {
       "position": "부위",
       "status": "보유 상태"

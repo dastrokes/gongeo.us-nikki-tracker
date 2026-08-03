@@ -602,6 +602,11 @@
     "empty": "Nenhum Eureka corresponde a estes filtros.",
     "load_failed": "Não foi possível carregar o rastreador de Eureka",
     "save_failed": "Não foi possível salvar a posse de Eureka.",
+    "manage_title": "Gerenciar Eurekas",
+    "actions": {
+      "export_data": "Exportar dados",
+      "import_data": "Importar dados"
+    },
     "filters": {
       "position": "Posição",
       "status": "Posse"

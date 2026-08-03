@@ -602,6 +602,11 @@
     "empty": "没有符合这些筛选条件的祝福闪光。",
     "load_failed": "无法加载祝福闪光",
     "save_failed": "无法保存祝福闪光拥有状态。",
+    "manage_title": "管理祝福闪光",
+    "actions": {
+      "export_data": "导出数据",
+      "import_data": "导入数据"
+    },
     "filters": {
       "position": "部位",
       "status": "拥有状态"

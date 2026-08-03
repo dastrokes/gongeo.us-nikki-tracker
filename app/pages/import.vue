@@ -1060,7 +1060,7 @@
   const pullStore = usePullStore()
 
   watch(importPullHistory, (enabled) => {
-    if (!enabled) submitGlobalStats.value = false
+    submitGlobalStats.value = enabled
   })
 
   const handleFileChange = (data: {

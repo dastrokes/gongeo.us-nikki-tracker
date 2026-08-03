@@ -294,5 +294,13 @@
   "dye.palette.16": "Brote de hojas de liebre",
   "dye.palette.17": "Canción de moscarlina",
   "dye.palette.18": "Banquete del cuervo célebre",
-  "dye.palette.19": "Pelo suave de gato esmoquin"
+  "dye.palette.19": "Pelo suave de gato esmoquin",
+  "color.blue": "Azul",
+  "color.green": "Verde",
+  "color.iridescent": "Iridiscente",
+  "color.pink": "Rosa",
+  "color.purple": "Púrpura",
+  "color.red": "Rojo",
+  "color.white": "Blanco",
+  "color.yellow": "Amarillo"
 }

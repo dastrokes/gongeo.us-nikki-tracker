@@ -618,7 +618,7 @@
     key: string
     label: string
     icon?: Component
-    svgIcon?: 'wardrobe'
+    svgIcon?: 'sparkles' | 'wardrobe'
     to?: string
   }
 
@@ -663,6 +663,11 @@
           key: 'wardrobe',
           label: t('navigation.wardrobe'),
           svgIcon: 'wardrobe',
+        },
+        {
+          key: 'eurekas',
+          label: t('navigation.eurekas'),
+          svgIcon: 'sparkles',
         },
         { key: 'stats', label: t('navigation.stats'), icon: ChartBar },
         { key: 'global', label: t('navigation.global'), icon: Globe },

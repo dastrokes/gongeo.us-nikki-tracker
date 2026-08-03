@@ -8,6 +8,7 @@ const CATALOG_INDEX_PARTS = [
   'outfits',
   'makeups',
   'momo',
+  'eurekas',
   'outfitItems',
   'makeupItems',
   'makeupOutfits',
@@ -16,6 +17,7 @@ const CATALOG_INDEX_PARTS = [
 
 const catalogIndex = shallowRef<CatalogLocalIndex | null>(null)
 const itemDyes = shallowRef<ItemDyeCatalog | null>(null)
+const eurekas = shallowRef<EurekaCatalogEntry[]>([])
 const catalogManifest = shallowRef<CatalogIndexManifestResponse | null>(null)
 const catalogIndexStatus = ref<CatalogIndexStatus>('idle')
 const catalogIndexError = ref<Error | null>(null)
@@ -100,6 +102,7 @@ const applyLegacyManifestPayload = (manifest: CatalogIndexManifestResponse) => {
   catalogPartData.outfits = manifest.outfits ?? []
   catalogPartData.makeups = manifest.makeups ?? []
   catalogPartData.momo = manifest.momo ?? []
+  eurekas.value = manifest.eurekas ?? []
   catalogPartData.outfitItems = manifest.outfitItems ?? {}
   catalogPartData.makeupItems = manifest.makeupItems ?? {}
   catalogPartData.makeupOutfits = manifest.makeupOutfits ?? {}
@@ -131,6 +134,7 @@ const loadCatalogManifest = async () => {
       const normalizedError = toError(e, 'Failed to load catalog index')
       catalogManifest.value = null
       catalogIndex.value = null
+      eurekas.value = []
       catalogIndexError.value = normalizedError
       catalogIndexStatus.value = 'error'
       throw normalizedError
@@ -171,7 +175,11 @@ const loadCatalogPart = async (part: CatalogIndexPartKey) => {
     const payload = await $fetch<unknown>(file.path)
     const decodedPayload = decodeCatalogPartPayload(part, payload)
     validateCatalogPart(part, decodedPayload)
-    catalogPartData[part] = decodedPayload as never
+    if (part === 'eurekas') {
+      eurekas.value = decodedPayload as EurekaCatalogEntry[]
+    } else {
+      catalogPartData[part] = decodedPayload as never
+    }
     catalogLoadedParts.add(part)
     rebuildCatalogLocalIndex()
   })()
@@ -229,7 +237,7 @@ const loadCatalogIndex = async (parts?: readonly CatalogIndexPartKey[]) => {
 }
 
 const loadCatalogEntity = async (
-  entity: 'item' | 'outfit' | 'makeup' | 'momo'
+  entity: 'item' | 'outfit' | 'makeup' | 'momo' | 'eureka'
 ) => {
   const parts: CatalogIndexPartKey[] =
     entity === 'item'
@@ -238,7 +246,9 @@ const loadCatalogEntity = async (
         ? ['outfits', 'outfitItems']
         : entity === 'makeup'
           ? ['makeups', 'makeupItems', 'makeupOutfits']
-          : ['momo']
+          : entity === 'momo'
+            ? ['momo']
+            : ['eurekas']
 
   await loadCatalogIndex(parts)
 }
@@ -246,15 +256,19 @@ const loadCatalogEntity = async (
 export const useCatalogIndex = (): {
   index: ShallowRef<CatalogLocalIndex | null>
   itemDyes: ShallowRef<ItemDyeCatalog | null>
+  eurekas: ShallowRef<EurekaCatalogEntry[]>
   status: Ref<CatalogIndexStatus>
   error: Ref<Error | null>
   load: (parts?: readonly CatalogIndexPartKey[]) => Promise<void>
-  loadEntity: (entity: 'item' | 'outfit' | 'makeup' | 'momo') => Promise<void>
+  loadEntity: (
+    entity: 'item' | 'outfit' | 'makeup' | 'momo' | 'eureka'
+  ) => Promise<void>
   loadItemDyes: () => Promise<ItemDyeCatalog>
   hasPart: (part: CatalogIndexPartKey) => boolean
 } => ({
   index: catalogIndex,
   itemDyes,
+  eurekas,
   status: catalogIndexStatus,
   error: catalogIndexError,
   load: loadCatalogIndex,

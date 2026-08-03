@@ -38,9 +38,13 @@ export const useWardrobe = () => {
   const ownedItemIds = computed(() => data.value.ownedItemIds)
   const ownedMakeupIds = computed(() => data.value.ownedMakeupIds)
   const ownedMomoIds = computed(() => data.value.ownedMomoIds)
+  const ownedEurekaColorIds = computed(() => data.value.ownedEurekaColorIds)
   const ownedItemIdSet = computed(() => new Set(data.value.ownedItemIds))
   const ownedMakeupIdSet = computed(() => new Set(data.value.ownedMakeupIds))
   const ownedMomoIdSet = computed(() => new Set(data.value.ownedMomoIds))
+  const ownedEurekaColorIdSet = computed(
+    () => new Set(data.value.ownedEurekaColorIds)
+  )
   const canMutate = computed(
     () => initialized.value && !loading.value && !error.value
   )
@@ -139,6 +143,7 @@ export const useWardrobe = () => {
       ownedItemIds: Array.from(nextSet),
       ownedMakeupIds: data.value.ownedMakeupIds,
       ownedMomoIds: data.value.ownedMomoIds,
+      ownedEurekaColorIds: data.value.ownedEurekaColorIds,
       updatedAt: new Date().toISOString(),
     })
 
@@ -185,6 +190,7 @@ export const useWardrobe = () => {
       ownedItemIds: data.value.ownedItemIds,
       ownedMakeupIds: Array.from(nextSet),
       ownedMomoIds: data.value.ownedMomoIds,
+      ownedEurekaColorIds: data.value.ownedEurekaColorIds,
       updatedAt: new Date().toISOString(),
     })
 
@@ -216,6 +222,7 @@ export const useWardrobe = () => {
       ownedItemIds: data.value.ownedItemIds,
       ownedMakeupIds: data.value.ownedMakeupIds,
       ownedMomoIds: Array.from(nextSet),
+      ownedEurekaColorIds: data.value.ownedEurekaColorIds,
       updatedAt: new Date().toISOString(),
     })
 
@@ -272,6 +279,7 @@ export const useWardrobe = () => {
       ownedItemIds: Array.from(nextItemSet),
       ownedMakeupIds: Array.from(nextMakeupSet),
       ownedMomoIds: Array.from(nextMomoSet),
+      ownedEurekaColorIds: data.value.ownedEurekaColorIds,
       updatedAt: new Date().toISOString(),
     })
 
@@ -323,6 +331,74 @@ export const useWardrobe = () => {
     }
   }
 
+  const markEurekaColorsOwned = async (
+    colorIds: readonly number[],
+    owned: boolean
+  ) => {
+    const normalizedColorIds = normalizeWardrobeItemIds([...colorIds])
+    if (normalizedColorIds.length === 0) return { changed: 0 }
+
+    const nextSet = new Set(data.value.ownedEurekaColorIds)
+    let changed = 0
+    normalizedColorIds.forEach((colorId) => {
+      const wasOwned = nextSet.has(colorId)
+      if (owned && !wasOwned) {
+        nextSet.add(colorId)
+        changed += 1
+      } else if (!owned && wasOwned) {
+        nextSet.delete(colorId)
+        changed += 1
+      }
+    })
+
+    if (changed === 0) return { changed: 0 }
+
+    await persistOptimistic({
+      version: WARDROBE_DATA_VERSION,
+      ownedItemIds: data.value.ownedItemIds,
+      ownedMakeupIds: data.value.ownedMakeupIds,
+      ownedMomoIds: data.value.ownedMomoIds,
+      ownedEurekaColorIds: Array.from(nextSet),
+      updatedAt: new Date().toISOString(),
+    })
+
+    return { changed }
+  }
+
+  const toggleEurekaColorOwned = async (colorId: number, owned?: boolean) => {
+    const normalizedColorId = normalizeWardrobeItemIds([colorId])[0]
+    if (normalizedColorId === undefined) return { changed: 0 }
+
+    const nextOwned =
+      owned ?? !ownedEurekaColorIdSet.value.has(normalizedColorId)
+    return markEurekaColorsOwned([normalizedColorId], nextOwned)
+  }
+
+  const importOwnedEurekasFromPearpal = async (
+    rows: readonly PearpalMagicBallItem[]
+  ) => {
+    if (!canMutate.value) {
+      throw new Error('Wardrobe storage is not ready')
+    }
+
+    const eurekaCatalog = useEurekaCatalog()
+    await eurekaCatalog.load()
+    const resolved = resolvePearpalEurekaColors(
+      rows,
+      eurekaCatalog.entries.value
+    )
+    const newColorIds = resolved.colorIds.filter(
+      (colorId) => !ownedEurekaColorIdSet.value.has(colorId)
+    )
+    const result = await markEurekaColorsOwned(newColorIds, true)
+
+    return {
+      found: resolved.found,
+      invalid: resolved.invalid,
+      imported: result.changed,
+    }
+  }
+
   const toggleMakeupOwned = async (makeupId: number, owned?: boolean) => {
     const normalizedMakeupIds = normalizeWardrobeItemIds([makeupId])
     const normalizedMakeupId = normalizedMakeupIds[0]
@@ -345,6 +421,8 @@ export const useWardrobe = () => {
   const isMakeupOwned = (makeupId: number) =>
     ownedMakeupIdSet.value.has(makeupId)
   const isMomoOwned = (momoId: number) => ownedMomoIdSet.value.has(momoId)
+  const isEurekaColorOwned = (colorId: number) =>
+    ownedEurekaColorIdSet.value.has(colorId)
 
   const getOutfitProgress = (itemIds: readonly number[]) =>
     getWardrobeOutfitProgress(itemIds, ownedItemIdSet.value)
@@ -467,9 +545,11 @@ export const useWardrobe = () => {
     ownedItemIds,
     ownedMakeupIds,
     ownedMomoIds,
+    ownedEurekaColorIds,
     ownedItemIdSet,
     ownedMakeupIdSet,
     ownedMomoIdSet,
+    ownedEurekaColorIdSet,
     initialized: readonly(initialized),
     loading: readonly(loading),
     saving: readonly(saving),
@@ -481,6 +561,7 @@ export const useWardrobe = () => {
     isItemOwned,
     isMakeupOwned,
     isMomoOwned,
+    isEurekaColorOwned,
     getOutfitProgress,
     getFullMakeupProgress,
     toggleItemOwned,
@@ -490,8 +571,11 @@ export const useWardrobe = () => {
     markOutfitOwned,
     markMakeupsOwned,
     markMomoOwned,
+    markEurekaColorsOwned,
+    toggleEurekaColorOwned,
     markWardrobeIdsOwned,
     importOwnedItemsFromPearpal,
+    importOwnedEurekasFromPearpal,
     getTrackerWardrobeImportPreview,
     importOwnedItemsFromTracker,
   }

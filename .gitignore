@@ -16,6 +16,7 @@ dist/
 public/images/outfits/
 public/images/items/
 public/images/momo/
+public/images/eurekas/
 
 # Generated item-search artifacts
 data/item-search/generated/

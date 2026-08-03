@@ -294,5 +294,13 @@
   "dye.palette.16": "Orecchie di lepre in fiore",
   "dye.palette.17": "La canzone della Mosca orlina",
   "dye.palette.18": "Banchetto del Corvonoto",
-  "dye.palette.19": "Pelo di Camicetto vaporoso"
+  "dye.palette.19": "Pelo di Camicetto vaporoso",
+  "color.blue": "Blu",
+  "color.green": "Verde",
+  "color.iridescent": "Iridescente",
+  "color.pink": "Rosa",
+  "color.purple": "Viola",
+  "color.red": "Rosso",
+  "color.white": "Bianco",
+  "color.yellow": "Giallo"
 }

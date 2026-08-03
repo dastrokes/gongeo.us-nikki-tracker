@@ -294,5 +294,13 @@
   "dye.palette.16": "Bourgeon de lapinerbe",
   "dye.palette.17": "Chant de tourbiluciole",
   "dye.palette.18": "Bal de corbillustres",
-  "dye.palette.19": "Chamisier tout doux"
+  "dye.palette.19": "Chamisier tout doux",
+  "color.blue": "Bleu",
+  "color.green": "Vert",
+  "color.iridescent": "Irisé",
+  "color.pink": "Rose",
+  "color.purple": "Violet",
+  "color.red": "Rouge",
+  "color.white": "Blanc",
+  "color.yellow": "Jaune"
 }

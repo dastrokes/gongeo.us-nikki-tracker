@@ -3,6 +3,7 @@ export type CatalogIndexPartKey =
   | 'outfits'
   | 'makeups'
   | 'momo'
+  | 'eurekas'
   | 'outfitItems'
   | 'makeupItems'
   | 'makeupOutfits'
@@ -39,6 +40,7 @@ export interface CatalogIndexManifestResponse {
   outfits?: OutfitListEntry[]
   makeups?: ItemListEntry[]
   momo?: MomoListEntry[]
+  eurekas?: EurekaCatalogEntry[]
   outfitItems?: Record<string, number[]>
   makeupItems?: Record<string, number[]>
   makeupOutfits?: Record<string, number[]>

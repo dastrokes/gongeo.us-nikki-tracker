@@ -16,6 +16,7 @@
     "complete_outfit": "Komplettes Outfit",
     "slot": "Slot",
     "color": "Farbe",
+    "style": "Stil",
     "pulls": "Resonanzen",
     "total": "Insgesamt",
     "export": "Exportieren",
@@ -103,6 +104,7 @@
     },
     "tracker": "Resonanz-Tracker",
     "wardrobe": "Meine Garderobe",
+    "eurekas": "Heureka-Tracker",
     "import": "Daten importieren",
     "global": "Globale Daten",
     "banner": "Bannerverlauf",
@@ -112,6 +114,7 @@
     "outfit_detail": "Outfit-Detail",
     "item": "Stück-Kompendium",
     "lookbook": "Lookbook-Vorschau",
+    "explore": "Entdecken",
     "makeup": "Make-up-Kompendium",
     "item_detail": "Stück-Detail",
     "tierlist": "Ranglisten-Ersteller",
@@ -133,6 +136,7 @@
       "login": "Melde dich bei gongeo.us mit E-Mail oder einem Drittanbieter-Konto an, um deine Infinity Nikki Resonanz-Daten über mehrere Geräte hochzuladen, zu sichern und zu synchronisieren.",
       "tracker": "Verfolge und analysiere deinen Infinity Nikki Resonanz-Verlauf. Schau dir alle 5★- und 4★-Banner Stücke an. Vergleiche dein Glück mit dem anderer Stylisten.",
       "wardrobe": "Verfolge deine Infinity Nikki-Stücke, Outfits, Make-ups und Momos Mäntel im Besitz, und teile anschließend deinen Sammlungsfortschritt.",
+      "eurekas": "Verfolge jede Heureka und Farbe in Infinity Nikki, aktualisiere den Besitz manuell oder importiere deine Sammlung aus Wunder-Log.",
       "import": "Importiere deinen Infinity Nikki Resonanz-Verlauf ganz leicht aus dem Spiel, Wunder-Log oder Backup-Dateien, mit detaillierten Schritt-für-Schritt-Anleitungen.",
       "global": "Erkunde die globalen Infinity Nikki Resonanz-Daten, einschließlich Bannerbeliebtheit, Resonanz-Raten, Stück-Dropraten und Community Resonanz-Statistiken.",
       "global_banner": "Erkunde Community-Resonanzstatistiken für das Resonanzbanner {name}, einschließlich Stück-Reihenfolge und Fertigstellungs-Resonanz-Verteilungen.",
@@ -531,6 +535,7 @@
       "momo_token_placeholder": "momoToken vom Cookie",
       "import_pull_history": "Ziehungsverlauf importieren",
       "import_wardrobe": "Garderobendaten importieren",
+      "import_eurekas": "Heureka-Daten importieren",
       "submit_global_stats": "Für globale Statistiken übermitteln",
       "submit_button": "Übermitteln und Importieren",
       "fetching": "Resonanz-Daten werden gesammelt, bitte warten…"
@@ -571,6 +576,9 @@
       "wardrobe_updated": "{items} Kleidungsstücke, {makeups} Make-up und {momo} Mäntel von Momo hinzugefügt.",
       "wardrobe_up_to_date": "Die Garderobe ist bereits aktuell.",
       "wardrobe_import_failed": "Garderobenimport fehlgeschlagen.",
+      "eurekas_updated": "Es wurden {count} Heureka-Farben hinzugefügt.",
+      "eurekas_up_to_date": "Die Heureka-Sammlung ist bereits aktuell.",
+      "eurekas_import_failed": "Heureka-Import fehlgeschlagen.",
       "no_file_selected": "Keine Datei ausgewählt"
     },
     "supported_browsers": "Unterstützte Browser",
@@ -588,6 +596,27 @@
       "title": "Wartungsarbeiten",
       "message": "Wir führen derzeit einige Wartungsarbeiten durch. Der Import des Resonanz-Verlaufs ist vorübergehend nicht verfügbar.",
       "status": "Der Dienst wird in Kürze wieder zur Verfügung stehen. Vielen Dank für deine Geduld!"
+    }
+  },
+  "eurekas": {
+    "empty": "Keine Heureka entsprechen diesen Filtern.",
+    "load_failed": "Der Heureka-Tracker konnte nicht geladen werden",
+    "save_failed": "Der Heureka-Besitz konnte nicht gespeichert werden.",
+    "filters": {
+      "position": "Position",
+      "status": "Besitz"
+    },
+    "positions": {
+      "head": "Kopf",
+      "hands": "Hände",
+      "feet": "Füße"
+    },
+    "status": {
+      "complete": "Vollständig"
+    },
+    "progress": {
+      "total_owned": "Insgesamt im Besitz",
+      "complete": "Vollständige Sets"
     }
   },
   "tracker": {

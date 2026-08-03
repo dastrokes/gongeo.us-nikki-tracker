@@ -42,6 +42,11 @@ export interface PearpalUserInfoResponse {
   }
 }
 
+export interface PearpalMagicBallItem {
+  magic_ball_id: string | number
+  magic_ball_color: string | number
+}
+
 export interface PearpalNoteBookResponse {
   info_from_gm?: {
     clothes?: Array<{
@@ -51,5 +56,6 @@ export interface PearpalNoteBookResponse {
   }
   info_from_self: {
     gacha_list: PearpalTrackerItem[]
+    magic_ball_list?: PearpalMagicBallItem[]
   }
 }

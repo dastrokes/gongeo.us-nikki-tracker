@@ -22,50 +22,8 @@ interface MergedSyncData {
   }
 }
 
-const normalizeOwnedIds = (values: unknown): number[] => {
-  if (!Array.isArray(values)) return []
-  return Array.from(
-    new Set(
-      values
-        .map((value) =>
-          typeof value === 'number'
-            ? value
-            : typeof value === 'string'
-              ? Number(value)
-              : null
-        )
-        .filter(
-          (value): value is number =>
-            Number.isInteger(value) && value !== null && value > 0
-        )
-    )
-  ).sort((left, right) => left - right)
-}
-
-const normalizeSyncWardrobe = (value: unknown): WardrobeData => {
-  if (!value || typeof value !== 'object' || Array.isArray(value)) {
-    return {
-      version: 1,
-      ownedItemIds: [],
-      ownedMakeupIds: [],
-      ownedMomoIds: [],
-      updatedAt: '',
-    }
-  }
-
-  const candidate = value as Partial<WardrobeData>
-  return {
-    version: 1,
-    ownedItemIds: normalizeOwnedIds(candidate.ownedItemIds),
-    ownedMakeupIds: normalizeOwnedIds(candidate.ownedMakeupIds),
-    ownedMomoIds: normalizeOwnedIds(candidate.ownedMomoIds),
-    updatedAt:
-      typeof candidate.updatedAt === 'string' ? candidate.updatedAt : '',
-  }
-}
-
 const mergeSyncWardrobe = (remoteWardrobe: unknown): WardrobeData =>
-  normalizeSyncWardrobe(remoteWardrobe)
+  normalizeWardrobeData(remoteWardrobe)
 
 const mergeCloudData = (
   localData: SyncData,
@@ -91,7 +49,8 @@ const hasWardrobeBackupData = (wardrobe: WardrobeData | undefined): boolean =>
     wardrobe &&
     (wardrobe.ownedItemIds.length > 0 ||
       wardrobe.ownedMakeupIds.length > 0 ||
-      wardrobe.ownedMomoIds.length > 0)
+      wardrobe.ownedMomoIds.length > 0 ||
+      (wardrobe.ownedEurekaColorIds?.length ?? 0) > 0)
   )
 
 const hasSyncData = (data: SyncData): boolean =>

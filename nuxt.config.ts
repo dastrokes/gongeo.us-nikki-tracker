@@ -323,6 +323,7 @@ export default defineNuxtConfig({
             '/timeline',
             '/stats',
             '/wardrobe',
+            '/eurekas',
           ],
           {
             headers: pageTheme,

@@ -400,6 +400,7 @@
     },
     "confirm": {
       "all_owned": "Marquer les {count} objets correspondants comme possédés ?",
+      "all_unowned": "Marquer les {count} objets correspondants comme non possédés ?",
       "f2p_basics": "Marquer {count} entrées de garde-robe F2P disponibles en permanence comme possédées pour ce profil ?",
       "tracker_import": "Importer {imported} nouvelles entrées de garde-robe depuis les données du tracker ? {found} au total trouvées : {foundItems} objets, {foundMakeups} entrées de maquillage et {foundMomo} capes de Momo.",
       "outfit_unowned": "Marquer les {count} objets de tenue comme non possédés ?"

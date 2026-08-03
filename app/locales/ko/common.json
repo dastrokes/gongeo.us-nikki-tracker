@@ -400,6 +400,7 @@
     },
     "confirm": {
       "all_owned": "일치하는 아이템 {count}개를 모두 보유로 표시할까요?",
+      "all_unowned": "일치하는 아이템 {count}개를 모두 미보유로 표시할까요?",
       "f2p_basics": "이 프로필에 대해 상시 제공 F2P 옷장 항목 {count}개를 보유로 표시할까요?",
       "tracker_import": "공명 기록에서 새 옷장 항목 {imported}개를 가져올까요? 총 {found}개를 찾았습니다: 아이템 {foundItems}개, 메이크업 {foundMakeups}개, 모모 망토 {foundMomo}개.",
       "outfit_unowned": "의상 아이템 {count}개를 모두 미보유로 표시할까요?"

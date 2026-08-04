@@ -574,11 +574,11 @@
       "import_failed": "Datei konnte nicht importiert werden",
       "pearpal_tracker_success": "Pearpal-Daten wurden erfolgreich importiert!",
       "pearpal_tracker_failed": "Pearpal-Daten konnten nicht importiert werden.",
-      "wardrobe_updated": "{items} Kleidungsstücke, {makeups} Make-up und {momo} Mäntel von Momo hinzugefügt.",
-      "wardrobe_up_to_date": "Die Garderobe ist bereits aktuell.",
+      "wardrobe_updated": "{items} Kleidungsstücke, {makeups} Make-up und {momo} Momos Mäntel hinzugefügt.",
+      "wardrobe_up_to_date": "Garderobe ist bereits aktuell.",
       "wardrobe_import_failed": "Garderobenimport fehlgeschlagen.",
-      "eurekas_updated": "Es wurden {count} Heureka-Farben hinzugefügt.",
-      "eurekas_up_to_date": "Die Heureka-Sammlung ist bereits aktuell.",
+      "eurekas_updated": "{count} Heureka-Farben hinzugefügt.",
+      "eurekas_up_to_date": "Heureka-Sammlung ist bereits aktuell.",
       "eurekas_import_failed": "Heureka-Import fehlgeschlagen.",
       "no_file_selected": "Keine Datei ausgewählt"
     },
@@ -603,7 +603,7 @@
     "empty": "Keine Heureka entsprechen diesen Filtern.",
     "load_failed": "Der Heureka-Tracker konnte nicht geladen werden",
     "save_failed": "Der Heureka-Besitz konnte nicht gespeichert werden.",
-    "manage_title": "Heurekas verwalten",
+    "manage_title": "Heureka verwalten",
     "actions": {
       "export_data": "Daten exportieren",
       "import_data": "Daten importieren"

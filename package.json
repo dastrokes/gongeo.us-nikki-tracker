@@ -28,21 +28,21 @@
     "@nuxt/fonts": "0.14.0",
     "@nuxt/image": "2.1.0",
     "@nuxtjs/device": "4.0.0",
-    "@nuxtjs/i18n": "10.5.0",
+    "@nuxtjs/i18n": "10.6.0",
     "@nuxtjs/robots": "6.1.3",
-    "@nuxtjs/sitemap": "8.3.0",
+    "@nuxtjs/sitemap": "8.3.3",
     "@pinia/nuxt": "1.0.1",
-    "@sentry/nuxt": "10.68.0",
+    "@sentry/nuxt": "10.69.0",
     "@supabase/supabase-js": "2.110.9",
-    "@vueuse/integrations": "14.3.0",
-    "@vueuse/nuxt": "14.3.0",
-    "@zumer/snapdom": "2.22.0",
+    "@vueuse/integrations": "14.4.0",
+    "@vueuse/nuxt": "14.4.0",
+    "@zumer/snapdom": "2.23.2",
     "echarts": "6.1.0",
     "fflate": "0.8.3",
     "fuse.js": "7.5.0",
     "idb": "8.0.3",
     "naive-ui": "2.44.1",
-    "nuxt": "4.5.1",
+    "nuxt": "4.5.2",
     "nuxt-echarts": "1.0.1",
     "pinyin-pro": "3.28.2",
     "snappyjs": "0.7.0",
@@ -72,7 +72,6 @@
     "vue-eslint-parser": "10.4.1"
   },
   "overrides": {
-    "brace-expansion": "5.0.8",
     "esbuild": "0.28.1"
   }
 }

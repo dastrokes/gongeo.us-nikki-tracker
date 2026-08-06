@@ -1,20 +1,22 @@
 <template>
   <n-card
     size="small"
-    class="rounded-xl p-0 sm:p-2"
+    class="rounded-xl p-0 shadow-none sm:p-2"
   >
-    <div class="mb-4 text-center">
+    <div class="mb-5 text-center">
       <n-h2 class="m-0 font-bold">
         {{ $t('default.community_stats') }}
       </n-h2>
     </div>
     <div
-      class="grid grid-cols-1 gap-3 lg:grid-cols-[minmax(0,300px)_minmax(0,1fr)]"
+      class="grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,240px)_minmax(0,1fr)] lg:items-stretch"
     >
       <div class="flex flex-col gap-3">
-        <div class="grid grid-cols-2 gap-3 text-center lg:grid-cols-1">
+        <div
+          class="grid grid-cols-2 gap-3 text-center lg:flex lg:flex-1 lg:flex-col"
+        >
           <div
-            class="rounded-xl border border-black/6 bg-linear-to-br from-[#e8ddf9]/25 via-white/55 to-[#fce4ec]/30 p-3 shadow-xs dark:border-white/8 dark:from-[#1e1b4b]/35 dark:via-[#221834]/45 dark:to-[#581c64]/25"
+            class="flex min-h-24 flex-col justify-center rounded-xl border border-black/5 bg-slate-50/70 p-4 ring-1 ring-white/60 ring-inset lg:flex-1 dark:border-white/8 dark:bg-slate-950/30 dark:ring-white/4"
           >
             <div
               class="mb-1 text-sm font-medium text-gray-600 dark:text-gray-300"
@@ -41,7 +43,7 @@
             </div>
           </div>
           <div
-            class="rounded-xl border border-black/6 bg-linear-to-br from-[#e8ddf9]/25 via-white/55 to-[#fce4ec]/30 p-3 shadow-xs dark:border-white/8 dark:from-[#1e1b4b]/35 dark:via-[#221834]/45 dark:to-[#581c64]/25"
+            class="flex min-h-24 flex-col justify-center rounded-xl border border-black/5 bg-slate-50/70 p-4 ring-1 ring-white/60 ring-inset lg:flex-1 dark:border-white/8 dark:bg-slate-950/30 dark:ring-white/4"
           >
             <div
               class="mb-1 text-sm font-medium text-gray-600 dark:text-gray-300"
@@ -73,7 +75,7 @@
             type="primary"
             quaternary
             size="medium"
-            class="min-w-40"
+            class="min-w-40 lg:w-full"
             @click="navigateTo(localePath('/global'))"
           >
             <template #icon>
@@ -84,7 +86,7 @@
         </div>
       </div>
       <div
-        class="rounded-xl border border-black/6 bg-linear-to-br from-[#e8ddf9]/25 via-white/55 to-[#fce4ec]/30 p-2 shadow-xs lg:p-4 dark:border-white/8 dark:from-[#1e1b4b]/35 dark:via-[#221834]/45 dark:to-[#581c64]/25"
+        class="rounded-xl border border-black/5 bg-slate-50/70 p-2 ring-1 ring-white/60 ring-inset lg:p-3 dark:border-white/8 dark:bg-slate-950/30 dark:ring-white/4"
       >
         <div
           v-if="globalStats"
@@ -259,12 +261,19 @@
     }
   )
 
-  const communityFirstItemImageSize = computed(() => (isMobile.value ? 32 : 60))
+  const communityFirstItemImageSize = computed(() => (isMobile.value ? 36 : 64))
   const communityFirstItemImageRequestSize = computed(() =>
     isMobile.value ? 60 : 120
   )
 
-  const communityFirstItemChartHeight = computed(() => '200px')
+  const communityFirstItemChartHeight = computed(() => {
+    if (!isMobile.value) return '240px'
+
+    return `${Math.max(
+      280,
+      communityFirstItemEntries.value.length * 48 + 16
+    )}px`
+  })
   const chartTooltipExtraCssText = computed(
     () => `box-shadow: ${themeVars.value.boxShadow2}; border-radius: 8px;`
   )
@@ -340,10 +349,10 @@
           ),
         },
         align: 'center',
-        shadowBlur: isMobile.value ? 8 : 10,
+        shadowBlur: isMobile.value ? 4 : 6,
         shadowColor: isDark.value
-          ? 'rgba(255, 255, 255, 0.36)'
-          : 'rgba(71, 85, 105, 0.26)',
+          ? 'rgba(255, 255, 255, 0.18)'
+          : 'rgba(71, 85, 105, 0.14)',
         shadowOffsetY: 1,
       }
     })
@@ -383,50 +392,63 @@
         extraCssText: chartTooltipExtraCssText.value,
       },
       grid: {
-        left: 0,
-        right: 0,
-        bottom: 0,
+        left: isMobile.value ? 8 : 0,
+        right: isMobile.value ? 12 : 0,
+        bottom: isMobile.value ? 0 : 12,
         top: 0,
+        outerBoundsMode: 'same',
+        outerBoundsContain: 'axisLabel',
       },
-      xAxis: {
-        type: 'category',
-        data: itemsData,
-        axisLabel: {
-          show: true,
-          formatter: (value: string) => `{img${value}|}`,
-          rich: richLabels,
-          interval: 0,
-          margin: imageSize / 4,
-        },
-        axisTick: {
-          show: false,
-        },
-        axisLine: {
-          show: false,
-        },
-      },
-      yAxis: {
-        type: 'value',
-        axisLabel: {
-          show: false,
-        },
-        axisTick: {
-          show: false,
-        },
-        axisLine: {
-          show: false,
-        },
-        splitLine: {
-          show: false,
-        },
-      },
+      xAxis: isMobile.value
+        ? {
+            type: 'value',
+            axisLabel: { show: false },
+            axisTick: { show: false },
+            axisLine: { show: false },
+            splitLine: { show: false },
+          }
+        : {
+            type: 'category',
+            data: itemsData,
+            axisLabel: {
+              show: true,
+              formatter: (value: string) => `{img${value}|}`,
+              rich: richLabels,
+              interval: 0,
+              margin: imageSize / 4,
+            },
+            axisTick: { show: false },
+            axisLine: { show: false },
+          },
+      yAxis: isMobile.value
+        ? {
+            type: 'category',
+            data: itemsData,
+            inverse: true,
+            axisLabel: {
+              show: true,
+              formatter: (value: string) => `{img${value}|}`,
+              rich: richLabels,
+              interval: 0,
+              margin: 10,
+            },
+            axisTick: { show: false },
+            axisLine: { show: false },
+          }
+        : {
+            type: 'value',
+            axisLabel: { show: false },
+            axisTick: { show: false },
+            axisLine: { show: false },
+            splitLine: { show: false },
+          },
       series: [
         {
           type: 'bar',
-          barWidth: '60%',
+          barWidth: isMobile.value ? 28 : '60%',
           data: dataArr,
           itemStyle: {
-            borderRadius: [4, 4, 4, 4],
+            borderRadius: isMobile.value ? [0, 4, 4, 0] : [4, 4, 4, 4],
           },
         },
       ],

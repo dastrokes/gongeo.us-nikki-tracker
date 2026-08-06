@@ -452,8 +452,12 @@
             :class="{
               'h-[calc(100vh-116px)] sm:h-[calc(100vh-148px)]':
                 maximizedChart === 'firstItemDistribution',
-              'h-60': maximizedChart !== 'firstItemDistribution',
             }"
+            :style="
+              maximizedChart === 'firstItemDistribution'
+                ? undefined
+                : { height: firstItemDistributionChartHeight }
+            "
           >
             <n-tooltip
               v-if="showTooltip"
@@ -704,6 +708,12 @@
   const fiveStarDistributionChartOption = ref({})
   const fourStarType2ChartOption = ref({})
   const fourStarType3ChartOption = ref({})
+  const firstItemDistributionCount = ref(0)
+  const firstItemDistributionChartHeight = computed(() =>
+    isMobile.value
+      ? `${Math.max(320, firstItemDistributionCount.value * 48 + 96)}px`
+      : '280px'
+  )
 
   const maximizedChart = ref<string | null>(null)
   const selectedOutfit = ref<string | null>(null)
@@ -807,6 +817,7 @@
       firstItemData.value = distribution
       if (!distribution) {
         firstItemDistributionChartOption.value = {}
+        firstItemDistributionCount.value = 0
       }
     },
     { immediate: true }
@@ -949,6 +960,7 @@
     if (!outfitDetails) {
       firstItemData.value = null
       firstItemDistributionChartOption.value = {}
+      firstItemDistributionCount.value = 0
       return
     }
 
@@ -963,6 +975,7 @@
     firstItemData.value = bannerData
     if (!bannerData) {
       firstItemDistributionChartOption.value = {}
+      firstItemDistributionCount.value = 0
       return
     }
 
@@ -1411,6 +1424,7 @@
     const parsed = getSelectedOutfitDetails()
     if (!chartData || !parsed) {
       firstItemDistributionChartOption.value = {}
+      firstItemDistributionCount.value = 0
       return
     }
 
@@ -1426,6 +1440,7 @@
     const bannerItems = chartData[dataKey]
     if (!bannerItems || bannerItems.length === 0) {
       firstItemDistributionChartOption.value = {}
+      firstItemDistributionCount.value = 0
       return
     }
 
@@ -1447,6 +1462,7 @@
         ]
       : [...bannerItems]
     completeBannerItems.sort((a, b) => b.users - a.users)
+    firstItemDistributionCount.value = completeBannerItems.length
 
     // Calculate total for percentage
     const totalOccurrences = completeBannerItems.reduce(
@@ -1494,7 +1510,7 @@
       }
     > = {}
     // Get viewport width to detect mobile vs desktop
-    const imageSize = isMobile.value ? 32 : 80
+    const imageSize = isMobile.value ? 36 : 64
     const imageRequestSize = isMobile.value ? 60 : 120
     // Create rich label for each item
     itemsData.forEach((itemId: string) => {
@@ -1521,6 +1537,7 @@
     const textStyle = getChartTextStyle()
     // Prepare option
     firstItemDistributionChartOption.value = {
+      animationDuration: 500,
       textStyle: textStyle,
       title: {
         text: t('global.charts.first_item_distribution'),
@@ -1563,52 +1580,67 @@
         extraCssText: chartTooltipExtraCssText.value,
       },
       grid: {
-        left: 0,
-        right: 0,
-        bottom: 0,
-        top: isMobile.value ? 60 : 40,
+        left: isMobile.value ? 8 : 0,
+        right: isMobile.value ? 12 : 0,
+        bottom: isMobile.value ? 0 : 12,
+        top: 64,
+        outerBoundsMode: 'same',
+        outerBoundsContain: 'axisLabel',
       },
-      xAxis: {
-        type: 'category',
-        data: itemsData,
-        axisLabel: {
-          show: true,
-          formatter: function (value: string) {
-            return `{img${value}|}`
+      xAxis: isMobile.value
+        ? {
+            type: 'value',
+            axisLabel: { show: false },
+            axisTick: { show: false },
+            axisLine: { show: false },
+            splitLine: { show: false },
+          }
+        : {
+            type: 'category',
+            data: itemsData,
+            axisLabel: {
+              show: true,
+              formatter: function (value: string) {
+                return `{img${value}|}`
+              },
+              rich: richLabels,
+              interval: 0,
+              margin: imageSize / 4,
+            },
+            axisTick: { show: false },
+            axisLine: { show: false },
           },
-          rich: richLabels,
-          interval: 0,
-          margin: imageSize / 4,
-        },
-        axisTick: {
-          show: false,
-        },
-        axisLine: {
-          show: false,
-        },
-      },
-      yAxis: {
-        type: 'value',
-        nameLocation: 'end',
-        nameGap: 10,
-        nameTextStyle: {
-          align: 'right',
-        },
-        axisLabel: {
-          show: false,
-        },
-        splitLine: {
-          show: false,
-        },
-      },
+      yAxis: isMobile.value
+        ? {
+            type: 'category',
+            data: itemsData,
+            inverse: true,
+            axisLabel: {
+              show: true,
+              formatter: (value: string) => `{img${value}|}`,
+              rich: richLabels,
+              interval: 0,
+              margin: 10,
+            },
+            axisTick: { show: false },
+            axisLine: { show: false },
+          }
+        : {
+            type: 'value',
+            nameLocation: 'end',
+            nameGap: 10,
+            nameTextStyle: { align: 'right' },
+            axisLabel: { show: false },
+            splitLine: { show: false },
+          },
       series: [
         {
           name: t('common.charts.occurrences'),
           type: 'bar',
-          barWidth: '60%',
+          barWidth: isMobile.value ? 28 : '60%',
           data: dataArr,
           itemStyle: {
-            borderRadius: [4, 4, 4, 4],
+            borderRadius: isMobile.value ? [0, 4, 4, 0] : [4, 4, 4, 4],
           },
         },
       ],

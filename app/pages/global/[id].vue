@@ -363,7 +363,10 @@
             size="small"
             class="transition-all duration-300"
           >
-            <div :class="chartHeightClass('itemDistribution')">
+            <div
+              :class="chartHeightClass('itemDistribution')"
+              :style="chartHeightStyle('itemDistribution')"
+            >
               <div
                 v-if="
                   itemLuckFactor &&
@@ -1034,12 +1037,34 @@
     color: isDark.value ? palette.textDark : palette.textLight,
   })
 
+  const selectedItemDistributionCount = computed(() => {
+    const selectedOption = selectedItemDistributionOption.value
+    if (!selectedOption?.scopeKey) return 0
+
+    const scopeStats = statsData.value?.scopes[selectedOption.scopeKey]
+    const distribution =
+      selectedOption.type === 'fifth'
+        ? scopeStats?.fifthItemDistribution
+        : scopeStats?.firstItemDistribution
+
+    return distribution?.length ?? 0
+  })
+  const itemDistributionChartHeight = computed(() =>
+    isMobile.value
+      ? `${Math.max(320, selectedItemDistributionCount.value * 48 + 96)}px`
+      : '280px'
+  )
+
   const chartHeightClass = (chartId: ChartId) => ({
     'relative transition-all duration-300': true,
     'h-[calc(100vh-156px)] sm:h-[calc(100vh-172px)]':
       maximizedChart.value === chartId,
-    'h-80': maximizedChart.value !== chartId,
+    'h-80': maximizedChart.value !== chartId && chartId === 'pullDistribution',
   })
+  const chartHeightStyle = (chartId: ChartId) =>
+    maximizedChart.value !== chartId && chartId === 'itemDistribution'
+      ? { height: itemDistributionChartHeight.value }
+      : undefined
 
   const toggleMaximize = (chartId: ChartId) => {
     maximizedChart.value = maximizedChart.value === chartId ? null : chartId
@@ -1316,7 +1341,9 @@
     distribution: GlobalBannerItemDistribution | undefined,
     title: string
   ) => {
-    const entries = [...(distribution ?? [])]
+    const entries = [...(distribution ?? [])].sort(
+      (left, right) => right.users - left.users
+    )
     if (entries.length === 0) return {}
 
     const totalOccurrences = entries.reduce((sum, item) => sum + item.users, 0)
@@ -1334,7 +1361,7 @@
       const index = Math.round(ratio * (colorShades.length - 1))
       return `${colorShades[index]}80`
     }
-    const imageSize = isMobile.value ? 28 : 56
+    const imageSize = isMobile.value ? 36 : 64
     const imageRequestSize = isMobile.value ? 60 : 120
     const textStyle = getChartTextStyle()
     const itemIds = entries.map((item) => item.itemId)
@@ -1374,6 +1401,7 @@
     })
 
     return {
+      animationDuration: 500,
       textStyle,
       title: {
         text: title,
@@ -1419,37 +1447,60 @@
         extraCssText: chartTooltipExtraCssText.value,
       },
       grid: {
-        left: 0,
-        right: 0,
-        bottom: 12,
+        left: isMobile.value ? 8 : 0,
+        right: isMobile.value ? 12 : 0,
+        bottom: isMobile.value ? 0 : 12,
         top: 64,
         outerBoundsMode: 'same',
         outerBoundsContain: 'axisLabel',
       },
-      xAxis: {
-        type: 'category',
-        data: itemIds,
-        axisLabel: {
-          show: true,
-          formatter: (value: string) => `{img${value}|}`,
-          rich: richLabels,
-          interval: 0,
-          margin: imageSize / 4,
-        },
-        axisTick: { show: false },
-        axisLine: { show: false },
-      },
-      yAxis: {
-        type: 'value',
-        axisLabel: { show: false },
-        axisTick: { show: false },
-        axisLine: { show: false },
-        splitLine: { show: false },
-      },
+      xAxis: isMobile.value
+        ? {
+            type: 'value',
+            axisLabel: { show: false },
+            axisTick: { show: false },
+            axisLine: { show: false },
+            splitLine: { show: false },
+          }
+        : {
+            type: 'category',
+            data: itemIds,
+            axisLabel: {
+              show: true,
+              formatter: (value: string) => `{img${value}|}`,
+              rich: richLabels,
+              interval: 0,
+              margin: imageSize / 4,
+            },
+            axisTick: { show: false },
+            axisLine: { show: false },
+          },
+      yAxis: isMobile.value
+        ? {
+            type: 'category',
+            data: itemIds,
+            inverse: true,
+            axisLabel: {
+              show: true,
+              formatter: (value: string) => `{img${value}|}`,
+              rich: richLabels,
+              interval: 0,
+              margin: 10,
+            },
+            axisTick: { show: false },
+            axisLine: { show: false },
+          }
+        : {
+            type: 'value',
+            axisLabel: { show: false },
+            axisTick: { show: false },
+            axisLine: { show: false },
+            splitLine: { show: false },
+          },
       series: [
         {
           type: 'bar',
-          barWidth: '60%',
+          barWidth: isMobile.value ? 28 : '60%',
           data: entries.map((item) => ({
             value: item.users,
             percentage:
@@ -1459,7 +1510,7 @@
             itemId: item.itemId,
             itemStyle: {
               color: pickColor(item.users),
-              borderRadius: [4, 4, 4, 4],
+              borderRadius: isMobile.value ? [0, 4, 4, 0] : [4, 4, 4, 4],
             },
           })),
         },

@@ -124,7 +124,7 @@
     >
       <n-card
         size="small"
-        class="rounded-xl p-0 sm:p-2"
+        class="rounded-xl p-0 shadow-none sm:p-2"
       >
         <div class="mb-4 text-center">
           <n-h2 class="m-0 font-bold">
@@ -157,7 +157,7 @@
     >
       <n-card
         size="small"
-        class="rounded-xl p-0 sm:p-2"
+        class="rounded-xl p-0 shadow-none sm:p-2"
       >
         <div class="mb-4 text-center">
           <n-h2 class="m-0 font-bold">
@@ -170,26 +170,30 @@
           <button
             v-for="item in compendiumItems"
             :key="item.key"
-            class="group relative isolate flex cursor-pointer flex-col items-center justify-center overflow-hidden rounded-xl border border-black/6 bg-linear-to-br from-[#e8ddf9]/35 via-white/70 to-[#fce4ec]/45 p-6 shadow-xs transition-[border-color,box-shadow,transform] duration-200 ease-out hover:-translate-y-0.5 hover:border-rose-200 hover:shadow-[0_8px_22px_rgba(244,63,94,0.13)] focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden motion-reduce:transform-none motion-reduce:transition-none dark:border-white/8 dark:from-[#1e1b4b]/45 dark:via-[#221834]/60 dark:to-[#581c64]/35 dark:hover:border-fuchsia-300/25 dark:hover:shadow-[0_8px_22px_rgba(168,85,247,0.13)]"
+            class="group grid min-h-20 cursor-pointer grid-cols-[3.75rem_minmax(0,1fr)_1.5rem] items-stretch overflow-hidden rounded-xl border border-black/5 bg-slate-50/70 p-0 text-left ring-1 ring-white/60 transition-[background-color,border-color,transform] duration-200 ease-out ring-inset hover:-translate-y-0.5 hover:border-rose-200/70 hover:bg-white/80 focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden motion-reduce:transform-none motion-reduce:transition-none sm:min-h-24 sm:grid-cols-[4.5rem_minmax(0,1fr)_1.75rem] dark:border-white/8 dark:bg-slate-950/30 dark:ring-white/4 dark:hover:border-rose-300/20 dark:hover:bg-slate-900/45"
             @click="navigateTo(localePath(item.path))"
           >
             <div
-              class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.9),transparent_62%)] opacity-0 transition-opacity duration-200 ease-out group-hover:opacity-80 motion-reduce:transition-none dark:bg-[radial-gradient(circle_at_top,rgba(244,114,182,0.14),transparent_62%)]"
-            />
-            <div
-              class="pointer-events-none absolute -top-8 -right-8 h-20 w-20 rounded-full bg-rose-300/18 blur-2xl transition-colors duration-200 ease-out group-hover:bg-amber-300/22 motion-reduce:transition-none dark:bg-fuchsia-500/15 dark:group-hover:bg-rose-400/22"
-            />
-            <n-icon
-              :size="28"
-              class="relative mb-2 text-rose-500 transition-transform duration-200 ease-out group-hover:-translate-y-0.5 motion-reduce:transform-none motion-reduce:transition-none dark:text-rose-400"
+              class="flex items-center justify-center border-r border-black/5 bg-rose-50/65 ring-1 ring-white/70 transition-colors duration-200 ring-inset group-hover:bg-rose-100/65 dark:border-white/8 dark:bg-rose-400/8 dark:ring-white/4 dark:group-hover:bg-rose-400/12"
             >
-              <component :is="item.icon" />
-            </n-icon>
+              <n-icon
+                :size="28"
+                class="text-rose-500 transition-transform duration-200 ease-out group-hover:scale-105 motion-reduce:transform-none motion-reduce:transition-none dark:text-rose-400"
+              >
+                <component :is="item.icon" />
+              </n-icon>
+            </div>
             <span
-              class="relative text-sm font-semibold tracking-[0.01em] text-slate-800 group-hover:text-rose-600 dark:text-slate-100 dark:group-hover:text-rose-200"
+              class="min-w-0 self-center px-3 text-sm font-semibold tracking-[0.01em] text-slate-800 transition-colors duration-200 group-hover:text-rose-600 sm:px-4 dark:text-slate-100 dark:group-hover:text-rose-200"
             >
               {{ $t(item.label) }}
             </span>
+            <n-icon
+              :size="12"
+              class="mr-2 self-center text-slate-300 transition-[color,transform] duration-200 group-hover:translate-x-0.5 group-hover:text-rose-400 motion-reduce:transform-none dark:text-slate-600 dark:group-hover:text-rose-300"
+            >
+              <ChevronRight />
+            </n-icon>
           </button>
         </div>
       </n-card>
@@ -199,7 +203,7 @@
     <section class="scroll-mt-16">
       <n-card
         size="small"
-        class="rounded-xl p-0 sm:p-2"
+        class="rounded-xl p-0 shadow-none sm:p-2"
       >
         <div class="mb-4 text-center">
           <n-h2 class="m-0 font-bold">
@@ -215,7 +219,7 @@
           <!-- Eureka Tracker -->
           <NuxtLinkLocale
             no-prefetch
-            class="group relative flex h-36 w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl border border-slate-200/80 bg-linear-to-b from-slate-50 to-slate-200 shadow-xs transition-[border-color,box-shadow] duration-200 hover:border-rose-200 hover:shadow-[0_8px_20px_rgba(71,85,105,0.12)] focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden dark:border-slate-700/80 dark:from-slate-800 dark:to-slate-900 dark:hover:border-rose-300/25"
+            class="group relative flex h-36 w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl border border-black/5 bg-slate-50/70 ring-1 ring-white/60 transition-[background-color,border-color,transform] duration-200 ring-inset hover:-translate-y-0.5 hover:border-rose-200/70 hover:bg-white/80 focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden motion-reduce:transform-none dark:border-white/8 dark:bg-slate-950/30 dark:ring-white/4 dark:hover:border-rose-300/20 dark:hover:bg-slate-900/45"
             :to="'/eurekas'"
           >
             <div
@@ -241,14 +245,18 @@
             </div>
             <div
               v-else
-              class="absolute inset-x-5 top-5 bottom-12 flex items-center justify-center"
+              class="absolute inset-x-2 top-2 bottom-11 flex items-center justify-center gap-1.5"
             >
-              <n-skeleton class="h-14 w-20 rounded-xl" />
+              <n-skeleton
+                v-for="index in 3"
+                :key="`eureka-preview-skeleton-${index}`"
+                class="size-14 rounded-lg"
+              />
             </div>
 
             <div class="absolute right-2 bottom-2 left-2 z-10">
               <div
-                class="pointer-events-none flex w-full items-center justify-center gap-1 rounded-lg border border-white/80 bg-white/90 px-3 py-1.5 text-sm font-semibold text-rose-600 shadow-sm backdrop-blur-md dark:border-white/10 dark:bg-slate-950/80 dark:text-rose-300"
+                class="pointer-events-none flex w-full items-center justify-center gap-1 rounded-lg border border-slate-200/60 bg-white/90 px-3 py-1.5 text-sm font-semibold text-rose-600 shadow-none backdrop-blur-sm dark:border-white/8 dark:bg-slate-950/80 dark:text-rose-300"
               >
                 <n-icon><SvgIcon name="sparkles" /></n-icon>
                 <span>{{ $t('navigation.eurekas') }}</span>
@@ -259,7 +267,7 @@
           <!-- Lookbook Preview -->
           <NuxtLinkLocale
             no-prefetch
-            class="group relative flex h-36 w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl border border-slate-200/80 bg-linear-to-b from-slate-50 to-slate-200 shadow-xs transition-[border-color,box-shadow] duration-200 hover:border-rose-200 hover:shadow-[0_8px_20px_rgba(71,85,105,0.12)] focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden dark:border-slate-700/80 dark:from-slate-800 dark:to-slate-900 dark:hover:border-rose-300/25"
+            class="group relative flex h-36 w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl border border-black/5 bg-slate-50/70 ring-1 ring-white/60 transition-[background-color,border-color,transform] duration-200 ring-inset hover:-translate-y-0.5 hover:border-rose-200/70 hover:bg-white/80 focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden motion-reduce:transform-none dark:border-white/8 dark:bg-slate-950/30 dark:ring-white/4 dark:hover:border-rose-300/20 dark:hover:bg-slate-900/45"
             :to="'/lookbook'"
           >
             <div
@@ -294,14 +302,21 @@
             </div>
             <div
               v-else
-              class="absolute inset-x-5 top-5 bottom-12 flex items-center justify-center"
+              class="absolute inset-x-2 top-2 bottom-11 flex flex-col items-center justify-center gap-2"
             >
-              <n-skeleton class="h-14 w-20 rounded-xl" />
+              <n-skeleton class="h-6 w-[82%] rounded-lg" />
+              <div class="grid grid-cols-5 gap-1.5">
+                <n-skeleton
+                  v-for="index in 10"
+                  :key="`lookbook-preview-skeleton-${index}`"
+                  class="size-4 rounded-[3px]"
+                />
+              </div>
             </div>
 
             <div class="absolute right-2 bottom-2 left-2 z-10">
               <div
-                class="pointer-events-none flex w-full items-center justify-center gap-1 rounded-lg border border-white/80 bg-white/90 px-3 py-1.5 text-sm font-semibold text-rose-600 shadow-sm backdrop-blur-md dark:border-white/10 dark:bg-slate-950/80 dark:text-rose-300"
+                class="pointer-events-none flex w-full items-center justify-center gap-1 rounded-lg border border-slate-200/60 bg-white/90 px-3 py-1.5 text-sm font-semibold text-rose-600 shadow-none backdrop-blur-sm dark:border-white/8 dark:bg-slate-950/80 dark:text-rose-300"
               >
                 <n-icon><Th /></n-icon>
                 <span>{{ $t('navigation.lookbook') }}</span>
@@ -312,7 +327,7 @@
           <!-- Whim Search -->
           <NuxtLinkLocale
             no-prefetch
-            class="group relative flex h-36 w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl border border-slate-200/80 bg-linear-to-b from-slate-50 to-slate-200 shadow-xs transition-[border-color,box-shadow] duration-200 hover:border-rose-200 hover:shadow-[0_8px_20px_rgba(71,85,105,0.12)] focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden dark:border-slate-700/80 dark:from-slate-800 dark:to-slate-900 dark:hover:border-rose-300/25"
+            class="group relative flex h-36 w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl border border-black/5 bg-slate-50/70 ring-1 ring-white/60 transition-[background-color,border-color,transform] duration-200 ring-inset hover:-translate-y-0.5 hover:border-rose-200/70 hover:bg-white/80 focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden motion-reduce:transform-none dark:border-white/8 dark:bg-slate-950/30 dark:ring-white/4 dark:hover:border-rose-300/20 dark:hover:bg-slate-900/45"
             :to="'/search'"
           >
             <!-- Decorative Search Interface Background -->
@@ -365,14 +380,21 @@
             </div>
             <div
               v-else
-              class="absolute inset-x-5 top-5 bottom-12 flex items-center justify-center"
+              class="absolute inset-0 flex flex-col items-center justify-start gap-1.5 pt-3"
             >
-              <n-skeleton class="h-14 w-20 rounded-xl" />
+              <n-skeleton class="h-7 w-[80%] shrink-0 rounded-full" />
+              <div class="grid grid-cols-6 gap-1.5 opacity-70">
+                <n-skeleton
+                  v-for="index in 18"
+                  :key="`search-preview-skeleton-${index}`"
+                  class="h-6 w-4 rounded-[3px]"
+                />
+              </div>
             </div>
 
             <div class="absolute right-2 bottom-2 left-2 z-10">
               <div
-                class="pointer-events-none flex w-full items-center justify-center gap-1 rounded-lg border border-white/80 bg-white/90 px-3 py-1.5 text-sm font-semibold text-rose-600 shadow-sm backdrop-blur-md dark:border-white/10 dark:bg-slate-950/80 dark:text-rose-300"
+                class="pointer-events-none flex w-full items-center justify-center gap-1 rounded-lg border border-slate-200/60 bg-white/90 px-3 py-1.5 text-sm font-semibold text-rose-600 shadow-none backdrop-blur-sm dark:border-white/8 dark:bg-slate-950/80 dark:text-rose-300"
               >
                 <n-icon><Search /></n-icon>
                 <span>{{ $t('search_page.title') }}</span>
@@ -383,7 +405,7 @@
           <!-- Whim-O-Matic -->
           <NuxtLinkLocale
             no-prefetch
-            class="group relative flex h-36 w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl border border-slate-200/80 bg-linear-to-b from-slate-50 to-slate-200 shadow-xs transition-[border-color,box-shadow] duration-200 hover:border-rose-200 hover:shadow-[0_8px_20px_rgba(71,85,105,0.12)] focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden dark:border-slate-700/80 dark:from-slate-800 dark:to-slate-900 dark:hover:border-rose-300/25"
+            class="group relative flex h-36 w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl border border-black/5 bg-slate-50/70 ring-1 ring-white/60 transition-[background-color,border-color,transform] duration-200 ring-inset hover:-translate-y-0.5 hover:border-rose-200/70 hover:bg-white/80 focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden motion-reduce:transform-none dark:border-white/8 dark:bg-slate-950/30 dark:ring-white/4 dark:hover:border-rose-300/20 dark:hover:bg-slate-900/45"
             :to="'/random'"
           >
             <!-- GachaponMachineSvg bg -->
@@ -395,14 +417,14 @@
             </div>
             <div
               v-else
-              class="absolute inset-x-5 top-5 bottom-12 flex items-center justify-center"
+              class="absolute inset-x-3 top-2 bottom-11 flex items-center justify-center"
             >
-              <n-skeleton class="h-14 w-20 rounded-xl" />
+              <n-skeleton class="h-24 w-16 rounded-2xl" />
             </div>
 
             <div class="absolute right-2 bottom-2 left-2 z-10">
               <div
-                class="pointer-events-none flex w-full items-center justify-center gap-1 rounded-lg border border-white/80 bg-white/90 px-3 py-1.5 text-sm font-semibold text-rose-600 shadow-sm backdrop-blur-md dark:border-white/10 dark:bg-slate-950/80 dark:text-rose-300"
+                class="pointer-events-none flex w-full items-center justify-center gap-1 rounded-lg border border-slate-200/60 bg-white/90 px-3 py-1.5 text-sm font-semibold text-rose-600 shadow-none backdrop-blur-sm dark:border-white/8 dark:bg-slate-950/80 dark:text-rose-300"
               >
                 <n-icon><Magic /></n-icon>
                 <span>{{ $t('search_page.lucky_machine_title') }}</span>
@@ -413,7 +435,7 @@
           <!-- Tier List Preview -->
           <NuxtLinkLocale
             no-prefetch
-            class="group relative flex h-36 w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl border border-slate-200/80 bg-linear-to-b from-slate-50 to-slate-200 shadow-xs transition-[border-color,box-shadow] duration-200 hover:border-rose-200 hover:shadow-[0_8px_20px_rgba(71,85,105,0.12)] focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden dark:border-slate-700/80 dark:from-slate-800 dark:to-slate-900 dark:hover:border-rose-300/25"
+            class="group relative flex h-36 w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl border border-black/5 bg-slate-50/70 ring-1 ring-white/60 transition-[background-color,border-color,transform] duration-200 ring-inset hover:-translate-y-0.5 hover:border-rose-200/70 hover:bg-white/80 focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden motion-reduce:transform-none dark:border-white/8 dark:bg-slate-950/30 dark:ring-white/4 dark:hover:border-rose-300/20 dark:hover:bg-slate-900/45"
             :to="'/tierlist'"
           >
             <div
@@ -437,13 +459,19 @@
             </div>
             <div
               v-else
-              class="absolute inset-x-5 top-5 bottom-12 flex items-center justify-center"
+              class="absolute inset-x-3 top-3 bottom-11 flex items-center justify-center"
             >
-              <n-skeleton class="h-14 w-20 rounded-xl" />
+              <div class="grid grid-cols-5 gap-1.5">
+                <n-skeleton
+                  v-for="index in 20"
+                  :key="`tier-preview-skeleton-${index}`"
+                  class="size-4 rounded-[3px]"
+                />
+              </div>
             </div>
             <div class="absolute right-2 bottom-2 left-2">
               <div
-                class="pointer-events-none flex w-full items-center justify-center gap-1 rounded-lg border border-white/80 bg-white/90 px-3 py-1.5 text-sm font-semibold text-rose-600 shadow-sm backdrop-blur-md dark:border-white/10 dark:bg-slate-950/80 dark:text-rose-300"
+                class="pointer-events-none flex w-full items-center justify-center gap-1 rounded-lg border border-slate-200/60 bg-white/90 px-3 py-1.5 text-sm font-semibold text-rose-600 shadow-none backdrop-blur-sm dark:border-white/8 dark:bg-slate-950/80 dark:text-rose-300"
               >
                 <n-icon><SortAmountDown /></n-icon>
                 <span>{{ $t('navigation.tierlist') }}</span>
@@ -454,7 +482,7 @@
           <!-- Outfit Silhouette Quiz -->
           <NuxtLinkLocale
             no-prefetch
-            class="group relative flex h-36 w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl border border-slate-200/80 bg-linear-to-b from-slate-50 to-slate-200 shadow-xs transition-[border-color,box-shadow] duration-200 hover:border-rose-200 hover:shadow-[0_8px_20px_rgba(71,85,105,0.12)] focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden dark:border-slate-700/80 dark:from-slate-800 dark:to-slate-900 dark:hover:border-rose-300/25"
+            class="group relative flex h-36 w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl border border-black/5 bg-slate-50/70 ring-1 ring-white/60 transition-[background-color,border-color,transform] duration-200 ring-inset hover:-translate-y-0.5 hover:border-rose-200/70 hover:bg-white/80 focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden motion-reduce:transform-none dark:border-white/8 dark:bg-slate-950/30 dark:ring-white/4 dark:hover:border-rose-300/20 dark:hover:bg-slate-900/45"
             :to="'/quiz'"
           >
             <div
@@ -473,13 +501,13 @@
             </div>
             <div
               v-else
-              class="absolute inset-x-5 top-5 bottom-12 flex items-center justify-center"
+              class="absolute inset-x-3 top-2 bottom-11 flex items-center justify-center"
             >
-              <n-skeleton class="h-14 w-20 rounded-xl" />
+              <n-skeleton class="h-24 w-16 rounded-lg" />
             </div>
             <div class="absolute right-2 bottom-2 left-2">
               <div
-                class="pointer-events-none flex w-full items-center justify-center gap-1 rounded-lg border border-white/80 bg-white/90 px-3 py-1.5 text-sm font-semibold text-rose-600 shadow-sm backdrop-blur-md dark:border-white/10 dark:bg-slate-950/80 dark:text-rose-300"
+                class="pointer-events-none flex w-full items-center justify-center gap-1 rounded-lg border border-slate-200/60 bg-white/90 px-3 py-1.5 text-sm font-semibold text-rose-600 shadow-none backdrop-blur-sm dark:border-white/8 dark:bg-slate-950/80 dark:text-rose-300"
               >
                 <n-icon><PuzzlePiece /></n-icon>
                 <span>{{ $t('quiz.title') }}</span>
@@ -502,20 +530,22 @@
       <n-card
         v-else
         size="small"
-        class="rounded-xl p-0 sm:p-2"
+        class="rounded-xl p-0 shadow-none sm:p-2"
       >
-        <div class="mb-4 text-center">
+        <div class="mb-5 text-center">
           <n-h2 class="m-0 font-bold">
             {{ $t('default.community_stats') }}
           </n-h2>
         </div>
         <div
-          class="grid grid-cols-1 gap-3 lg:grid-cols-[minmax(0,300px)_minmax(0,1fr)]"
+          class="grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,240px)_minmax(0,1fr)] lg:items-stretch"
         >
           <div class="flex flex-col gap-3">
-            <div class="grid grid-cols-2 gap-3 text-center lg:grid-cols-1">
+            <div
+              class="grid grid-cols-2 gap-3 text-center lg:flex lg:flex-1 lg:flex-col"
+            >
               <div
-                class="rounded-xl border border-black/6 bg-linear-to-br from-[#e8ddf9]/25 via-white/55 to-[#fce4ec]/30 p-3 shadow-xs dark:border-white/8 dark:from-[#1e1b4b]/35 dark:via-[#221834]/45 dark:to-[#581c64]/25"
+                class="flex min-h-24 flex-col justify-center rounded-xl border border-black/5 bg-slate-50/70 p-4 ring-1 ring-white/60 ring-inset lg:flex-1 dark:border-white/8 dark:bg-slate-950/30 dark:ring-white/4"
               >
                 <div class="mb-1 flex h-5 items-center justify-center">
                   <n-skeleton
@@ -535,7 +565,7 @@
                 </div>
               </div>
               <div
-                class="rounded-xl border border-black/6 bg-linear-to-br from-[#e8ddf9]/25 via-white/55 to-[#fce4ec]/30 p-3 shadow-xs dark:border-white/8 dark:from-[#1e1b4b]/35 dark:via-[#221834]/45 dark:to-[#581c64]/25"
+                class="flex min-h-24 flex-col justify-center rounded-xl border border-black/5 bg-slate-50/70 p-4 ring-1 ring-white/60 ring-inset lg:flex-1 dark:border-white/8 dark:bg-slate-950/30 dark:ring-white/4"
               >
                 <div class="mb-1 flex h-5 items-center justify-center">
                   <n-skeleton
@@ -556,11 +586,11 @@
               </div>
             </div>
             <div class="flex justify-center">
-              <n-skeleton class="h-8 w-40 rounded-full" />
+              <n-skeleton class="h-8 w-40 rounded-full lg:w-full" />
             </div>
           </div>
           <div
-            class="flex h-50 items-end gap-4 rounded-xl border border-black/6 bg-linear-to-br from-[#e8ddf9]/25 via-white/55 to-[#fce4ec]/30 p-2 shadow-xs lg:gap-8 lg:p-4 dark:border-white/8 dark:from-[#1e1b4b]/35 dark:via-[#221834]/45 dark:to-[#581c64]/25"
+            class="flex h-[280px] items-end gap-4 rounded-xl border border-black/5 bg-slate-50/70 p-2 ring-1 ring-white/60 ring-inset lg:h-60 lg:gap-8 lg:p-3 dark:border-white/8 dark:bg-slate-950/30 dark:ring-white/4"
           >
             <n-skeleton
               v-for="(height, index) in communityStatsSkeletonHeights"
@@ -590,6 +620,7 @@
     Search,
     Magic,
     Filter,
+    ChevronRight,
     PaintBrush,
     Th,
   } from '@vicons/fa'

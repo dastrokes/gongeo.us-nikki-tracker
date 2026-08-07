@@ -1046,4 +1046,32 @@ export const BANNER_DATA: BannerData = {
       },
     ],
   },
+  71: {
+    bannerId: 71,
+    bannerType: 3,
+    outfit4StarId: ['10243'],
+    outfit5StarId: [],
+    runs: [
+      {
+        version: '2.8.2',
+        start: '2025-08-06',
+        end: '2026-08-27',
+      },
+    ],
+    rewardIds: ['1020930072', '1021600023', '1020300338'],
+  },
+  72: {
+    bannerId: 72,
+    bannerType: 3,
+    outfit4StarId: ['10417'],
+    outfit5StarId: [],
+    runs: [
+      {
+        version: '2.8.2',
+        start: '2025-08-06',
+        end: '2026-08-27',
+      },
+    ],
+    rewardIds: ['1020970099', '1021500039', '1021780102'],
+  },
 }

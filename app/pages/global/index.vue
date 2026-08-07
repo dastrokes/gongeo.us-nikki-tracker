@@ -905,10 +905,10 @@
     return banner.runs.every((run) => {
       if (!run.start || run.end.trim().length === 0) return true
 
-      const startDate = new Date(run.start)
-      if (Number.isNaN(startDate.getTime())) return false
+      const startTime = getBannerDateTimestamp(run.start)
+      if (Number.isNaN(startTime)) return false
 
-      return startDate.getTime() >= cutoffTime
+      return startTime >= cutoffTime
     })
   }
 

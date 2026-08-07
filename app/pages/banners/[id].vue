@@ -167,14 +167,20 @@
                       <template #avatar>
                         <n-icon><CalendarDay /></n-icon>
                       </template>
-                      <n-time
-                        :time="new Date(run.start + 'T00:00:00')"
-                        type="date"
+                      <NuxtTime
+                        :datetime="getBannerDateTime(run.start)"
+                        :locale="bannerDateLocale"
+                        year="numeric"
+                        month="short"
+                        day="numeric"
                       />
                       -
-                      <n-time
-                        :time="new Date(run.end + 'T00:00:00')"
-                        type="date"
+                      <NuxtTime
+                        :datetime="getBannerDateTime(run.end)"
+                        :locale="bannerDateLocale"
+                        year="numeric"
+                        month="short"
+                        day="numeric"
                       />
                     </n-tag>
                     <n-tag
@@ -657,6 +663,7 @@
   const requestEvent = useRequestEvent()
 
   const localePath = useLocalePath()
+  const bannerDateLocale = useIntlLocale()
   const pullStore = usePullStore()
   const { processedPulls } = storeToRefs(pullStore)
   const loading = ref(true)

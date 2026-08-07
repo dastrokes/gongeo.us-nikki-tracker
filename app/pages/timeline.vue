@@ -159,7 +159,6 @@
   import type { SelectOption } from 'naive-ui'
   import { breakpointsTailwind } from '@vueuse/core'
   import { BANNER_DATA } from '~~/data/banners'
-  import { intlLocaleMap, type SupportedLocaleCode } from '~/locales/locales'
 
   interface TimelineRunRow {
     rowId: string
@@ -273,7 +272,7 @@
     event?: ZrWheelEventData
   }
 
-  const { t, locale } = useI18n()
+  const { t } = useI18n()
   const localePath = useLocalePath()
   const { getImageSrc } = imageProvider()
   const nuxtImg = useImage()
@@ -414,25 +413,12 @@
     return major && minor ? `${major}.${minor}` : version
   }
 
-  const toStartTimestamp = (date: string) =>
-    new Date(`${date}T00:00:00`).getTime()
-  const toEndTimestamp = (date: string) =>
-    new Date(`${date}T23:59:59`).getTime()
   const DAY_IN_MS = 24 * 60 * 60 * 1000
-  const getLocalTodayDateString = () => {
-    const now = new Date()
-    const year = now.getFullYear()
-    const month = String(now.getMonth() + 1).padStart(2, '0')
-    const day = String(now.getDate()).padStart(2, '0')
-    return `${year}-${month}-${day}`
-  }
-  const getDaysAfterDate = (currentDate: string, previousDate: string) =>
+  const getDaysAfterDate = (currentTime: number, previousDate: string) =>
     Math.max(
       0,
       Math.floor(
-        (new Date(`${currentDate}T00:00:00`).getTime() -
-          new Date(`${previousDate}T00:00:00`).getTime()) /
-          DAY_IN_MS
+        (currentTime - getBannerDateTimestamp(previousDate)) / DAY_IN_MS
       )
     )
   const getGapDaysBetweenRunPeriods = (
@@ -442,16 +428,13 @@
     Math.max(
       0,
       Math.floor(
-        (new Date(`${currentStartDate}T00:00:00`).getTime() -
-          new Date(`${previousEndDate}T00:00:00`).getTime()) /
+        (getBannerDateTimestamp(currentStartDate) -
+          getBannerDateTimestamp(previousEndDate)) /
           DAY_IN_MS
       ) - 1
     )
 
-  const timelineLocale = computed(() => {
-    const code = locale.value as SupportedLocaleCode
-    return intlLocaleMap[code] ?? intlLocaleMap.en
-  })
+  const timelineLocale = useIntlLocale()
 
   const dateFormatter = computed(
     () =>
@@ -463,7 +446,7 @@
   )
 
   const formatTimelineDate = (date: string) =>
-    dateFormatter.value.format(new Date(`${date}T00:00:00`))
+    dateFormatter.value.format(getBannerDateTime(date))
 
   const chartTooltipExtraCssText = computed(
     () => `box-shadow: ${themeVars.value.boxShadow2}; border-radius: 8px;`
@@ -529,14 +512,14 @@
 
   const normalizedRows = computed<TimelineRunRow[]>(() => {
     const rerunText = t('default.rerun')
-    const todayDate = getLocalTodayDateString()
+    const now = Date.now()
 
     return timelineBanners.value.flatMap((banner) => {
       const bannerName = t(`banner.${banner.bannerId}.name`)
       const bannerImageSrc = getImageSrc('bannerThumb', banner.bannerId)
       const latestRunEndDate = banner.runs[banner.runs.length - 1]?.end
       const daysAfterLastActive = latestRunEndDate
-        ? getDaysAfterDate(todayDate, latestRunEndDate)
+        ? getDaysAfterDate(now, latestRunEndDate)
         : 0
       const markerImageUrl = nuxtImg(
         bannerImageSrc,
@@ -569,8 +552,8 @@
           versionMinor,
           startDate: run.start,
           endDate: run.end,
-          startTs: toStartTimestamp(run.start),
-          endTs: toEndTimestamp(run.end),
+          startTs: getBannerDateTimestamp(run.start),
+          endTs: getBannerDateTimestamp(run.end),
           bannerName,
           markerImageUrl,
           tooltipImageUrl,
@@ -648,13 +631,12 @@
   })
 
   const timelineTooltipBannerMap = computed(() => {
-    const todayDate = getLocalTodayDateString()
+    const now = Date.now()
     const groupedBanners = new Map<number, TimelineTooltipBanner>()
 
     normalizedRows.value.forEach((row) => {
       const existingBanner = groupedBanners.get(row.bannerId)
-      const isCurrentRun =
-        todayDate >= row.startDate && todayDate <= row.endDate
+      const isCurrentRun = row.startTs <= now && now < row.endTs
 
       if (!existingBanner) {
         groupedBanners.set(row.bannerId, {

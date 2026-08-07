@@ -879,6 +879,11 @@
       ].filter((column) => column.length > 0)
     }
 
+    if (openDesktopGroup.value === 'community') {
+      const firstColumnSize = Math.ceil(items.length / 2)
+      return [items.slice(0, firstColumnSize), items.slice(firstColumnSize)]
+    }
+
     if (openDesktopGroup.value !== 'compendium') return [items]
 
     return [

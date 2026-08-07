@@ -277,14 +277,20 @@
                           <template #avatar>
                             <n-icon><CalendarDay /></n-icon>
                           </template>
-                          <n-time
-                            :time="getRunStartTime(run)"
-                            type="date"
+                          <NuxtTime
+                            :datetime="getBannerDateTime(run.start)"
+                            :locale="bannerDateLocale"
+                            year="numeric"
+                            month="short"
+                            day="numeric"
                           />
                           -
-                          <n-time
-                            :time="getRunEndTime(run)"
-                            type="date"
+                          <NuxtTime
+                            :datetime="getBannerDateTime(run.end)"
+                            :locale="bannerDateLocale"
+                            year="numeric"
+                            month="short"
+                            day="numeric"
                           />
                         </n-tag>
                         <n-tag
@@ -443,6 +449,7 @@
 
   const { t } = useI18n()
   const localePath = useLocalePath()
+  const bannerDateLocale = useIntlLocale()
   const route = useRoute()
   const router = useRouter()
   const { getImageSrc } = imageProvider()
@@ -766,9 +773,6 @@
     },
     { immediate: true }
   )
-
-  const getRunStartTime = (run: BannerRun) => new Date(`${run.start}T00:00:00`)
-  const getRunEndTime = (run: BannerRun) => new Date(`${run.end}T00:00:00`)
 
   const getBannerVersionListLocation = (version: string) => {
     const slug = resolveSeoBannerVersionSlug(version)

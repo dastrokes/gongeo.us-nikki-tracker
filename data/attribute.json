@@ -557,6 +557,11 @@
   {
     "field": "neckline",
     "itemType": null,
+    "value": "cowl_neck"
+  },
+  {
+    "field": "neckline",
+    "itemType": null,
     "value": "crew_neck"
   },
   {
@@ -822,6 +827,11 @@
   {
     "field": "ornament",
     "itemType": null,
+    "value": "eyelet"
+  },
+  {
+    "field": "ornament",
+    "itemType": null,
     "value": "feather"
   },
   {
@@ -997,12 +1007,12 @@
   {
     "field": "ornament",
     "itemType": null,
-    "value": "pinecone"
+    "value": "pincushion"
   },
   {
     "field": "ornament",
     "itemType": null,
-    "value": "pincushion"
+    "value": "pinecone"
   },
   {
     "field": "ornament",
@@ -1047,6 +1057,11 @@
   {
     "field": "ornament",
     "itemType": null,
+    "value": "rivet"
+  },
+  {
+    "field": "ornament",
+    "itemType": null,
     "value": "rose"
   },
   {
@@ -1068,6 +1083,11 @@
     "field": "ornament",
     "itemType": null,
     "value": "screw"
+  },
+  {
+    "field": "ornament",
+    "itemType": null,
+    "value": "seal"
   },
   {
     "field": "ornament",
@@ -1228,6 +1248,11 @@
     "field": "pattern",
     "itemType": null,
     "value": "brick"
+  },
+  {
+    "field": "pattern",
+    "itemType": null,
+    "value": "calligraphy"
   },
   {
     "field": "pattern",
@@ -1413,6 +1438,11 @@
     "field": "pattern",
     "itemType": null,
     "value": "ripple"
+  },
+  {
+    "field": "pattern",
+    "itemType": null,
+    "value": "scallop"
   },
   {
     "field": "pattern",
@@ -1883,6 +1913,11 @@
     "field": "structure",
     "itemType": null,
     "value": "ribbed"
+  },
+  {
+    "field": "structure",
+    "itemType": null,
+    "value": "rolled"
   },
   {
     "field": "structure",
@@ -2588,6 +2623,11 @@
     "field": "category",
     "itemType": "headwear",
     "value": "headpiece"
+  },
+  {
+    "field": "category",
+    "itemType": "headwear",
+    "value": "helmet"
   },
   {
     "field": "category",
@@ -3577,6 +3617,11 @@
   {
     "field": "subcategory",
     "itemType": "handhelds",
+    "value": "spear"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "handhelds",
     "value": "spellbook"
   },
   {
@@ -3668,6 +3713,11 @@
     "field": "subcategory",
     "itemType": "headwear",
     "value": "cowboy_hat"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "headwear",
+    "value": "crested_helmet"
   },
   {
     "field": "subcategory",

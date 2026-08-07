@@ -1134,10 +1134,12 @@
 
       const currentRun = banner.runs[0] // Get the first run only
       if (!currentRun) return false
-      const startDate = new Date(currentRun.start)
-      const endDate = new Date(currentRun.end)
 
-      return now >= startDate && now <= endDate
+      return isBannerDateRangeActive(
+        currentRun.start,
+        currentRun.end,
+        now.getTime()
+      )
     })
   })
 

@@ -20,7 +20,7 @@
         <div :class="[hasSearched ? 'shrink-0' : 'mb-6 sm:mb-7']">
           <h1
             :class="[
-              'bg-linear-to-br from-[#c084fc] via-[#f472b6] to-[#fb923c] bg-clip-text font-black text-transparent drop-shadow-xs',
+              'bg-linear-to-br from-[#c084fc] via-[#f472b6] to-[#fb923c] bg-clip-text font-bold text-transparent drop-shadow-xs',
               hasSearched
                 ? 'cursor-pointer text-2xl opacity-95 sm:text-3xl'
                 : 'text-5xl sm:text-7xl',
@@ -325,7 +325,7 @@
               <span class="min-w-0 text-left">
                 <span
                   :class="[
-                    'block text-sm leading-tight font-black sm:text-base',
+                    'block text-sm leading-tight font-bold sm:text-base',
                     option.mode === 'random'
                       ? 'text-amber-500'
                       : 'text-rose-500',
@@ -807,7 +807,7 @@
             <div
               class="h-1.5 w-1.5 animate-pulse rounded-full bg-rose-500"
             ></div>
-            <span class="text-xs font-black text-slate-800 dark:text-slate-200">
+            <span class="text-xs font-bold text-slate-800 dark:text-slate-200">
               {{ activeResult.matchScoreLabel }}
             </span>
           </div>
@@ -875,7 +875,7 @@
                   class="h-1.5 w-1.5 animate-pulse rounded-full bg-rose-500"
                 ></div>
                 <span
-                  class="text-xs font-black text-slate-800 dark:text-slate-200"
+                  class="text-xs font-bold text-slate-800 dark:text-slate-200"
                 >
                   {{ activeResult.matchScoreLabel }}
                 </span>

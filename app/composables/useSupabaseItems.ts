@@ -249,6 +249,11 @@ export const useSupabaseItems = () => {
       version = null,
       source = null,
     } = filters
+    const taxonomy = normalizeItemSearchTaxonomyFilterSelection({
+      itemType: type,
+      category,
+      subcategory,
+    })
 
     try {
       const params: Record<string, string | number> = {}
@@ -257,9 +262,9 @@ export const useSupabaseItems = () => {
 
       appendCanonicalTypeParam(params, type)
 
-      appendCanonicalFilterParam(params, 'category', category)
+      appendCanonicalFilterParam(params, 'category', taxonomy.category)
 
-      appendCanonicalFilterParam(params, 'subcategory', subcategory)
+      appendCanonicalFilterParam(params, 'subcategory', taxonomy.subcategory)
 
       appendAdvancedFilterParams(params, filters, type)
 

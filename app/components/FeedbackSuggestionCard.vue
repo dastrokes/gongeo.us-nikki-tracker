@@ -26,7 +26,7 @@
           <div class="min-w-0">
             <NuxtLinkLocale
               :to="getItemEntityDetailPath(suggestion.entityId)"
-              class="block text-xl leading-tight font-black transition-opacity hover:opacity-80"
+              class="block text-xl leading-tight font-bold transition-opacity hover:opacity-80"
             >
               {{ itemName }}
             </NuxtLinkLocale>

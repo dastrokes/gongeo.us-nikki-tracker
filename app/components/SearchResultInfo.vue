@@ -128,7 +128,7 @@
       obtainLabel: null,
       headingTag: 'h2',
       headingClass:
-        'text-xl leading-tight font-black text-slate-800 dark:text-white',
+        'text-xl leading-tight font-bold text-slate-800 dark:text-white',
     }
   )
 </script>

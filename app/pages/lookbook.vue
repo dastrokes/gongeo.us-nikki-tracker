@@ -237,7 +237,7 @@
                 <div
                   class="flex min-w-0 flex-wrap items-baseline gap-x-2 gap-y-0.5"
                 >
-                  <span class="truncate text-sm leading-tight font-black">
+                  <span class="truncate text-sm leading-tight font-bold">
                     {{ t('lookbook.card_title') }}
                   </span>
                   <span
@@ -321,7 +321,7 @@
                   <div
                     class="flex min-w-0 flex-wrap items-baseline gap-x-2 gap-y-0.5"
                   >
-                    <span class="truncate text-sm leading-tight font-black">
+                    <span class="truncate text-sm leading-tight font-bold">
                       {{ t('lookbook.card_title') }}
                     </span>
                     <span

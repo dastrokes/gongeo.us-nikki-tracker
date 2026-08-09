@@ -23,19 +23,17 @@ const buildItemAttributeMatchParams = (filters: Record<string, unknown>) => {
     typeof filters.type === 'string' && filters.type !== 'all'
       ? filters.type
       : null
+  const taxonomy = normalizeItemSearchTaxonomyFilterSelection({
+    itemType: type,
+    category: typeof filters.category === 'string' ? filters.category : null,
+    subcategory:
+      typeof filters.subcategory === 'string' ? filters.subcategory : null,
+  })
   const params: Record<string, string> = {}
 
   appendAttributeMatchFilterParam(params, 'type', type)
-  appendAttributeMatchFilterParam(
-    params,
-    'category',
-    typeof filters.category === 'string' ? filters.category : null
-  )
-  appendAttributeMatchFilterParam(
-    params,
-    'subcategory',
-    typeof filters.subcategory === 'string' ? filters.subcategory : null
-  )
+  appendAttributeMatchFilterParam(params, 'category', taxonomy.category)
+  appendAttributeMatchFilterParam(params, 'subcategory', taxonomy.subcategory)
 
   Object.assign(
     params,

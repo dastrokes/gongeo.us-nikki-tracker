@@ -679,7 +679,7 @@
                   sizes="128px"
                 />
                 <div
-                  class="relative z-10 mt-3 text-center text-xl font-black sm:text-2xl"
+                  class="relative z-10 mt-3 text-center text-xl font-bold sm:text-2xl"
                   :class="shareCardAccentClass"
                 >
                   {{ $t('banner.luck.' + luckTier) }}
@@ -947,7 +947,7 @@
                   sizes="128px"
                 />
                 <div
-                  class="relative z-10 mt-4 max-w-60 text-center text-2xl leading-[0.95] font-black"
+                  class="relative z-10 mt-4 max-w-60 text-center text-2xl leading-[0.95] font-bold"
                   :class="shareCardAccentClass"
                 >
                   {{ $t('banner.luck.' + luckTier) }}

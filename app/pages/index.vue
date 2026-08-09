@@ -166,7 +166,7 @@
         </div>
 
         <!-- Compendium Grid -->
-        <div class="grid grid-cols-2 gap-3 sm:grid-cols-4">
+        <div class="grid grid-cols-2 gap-3 lg:grid-cols-4">
           <button
             v-for="item in compendiumItems"
             :key="item.key"

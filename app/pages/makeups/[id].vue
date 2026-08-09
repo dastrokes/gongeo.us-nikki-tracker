@@ -394,7 +394,7 @@
               </NuxtLinkLocale>
               <div class="mt-1 text-center">
                 <p class="line-clamp-2 text-xs font-medium">
-                  {{ $t(`outfit.${outfit.id}.name`) }}
+                  {{ outfit.label }}
                 </p>
               </div>
             </div>
@@ -648,28 +648,58 @@
   const canToggleMakeupTracked = computed(
     () => isWardrobeReady.value && trackedMakeupIds.value.length > 0
   )
-  const relatedOutfits = computed(() => makeup.value?.related_outfits ?? [])
   const resolveMakeupType = (item: { id: number; type?: string }) =>
     item.type ? getItemType(item.type) : getItemType(item.id)
-  const getVariantLevelKey = (variantType: string) => {
+  const getVariantLevelKey = (variantType: VariantType) => {
     if (variantType === 'glowup') return 'glow'
     if (variantType === 'evo1') return '2'
     if (variantType === 'evo2') return '3'
     if (variantType === 'evo3') return '4'
     return '1'
   }
-  const getFullMakeupVariantLevelKey = (id: number) => {
-    const suffix = id.toString().slice(-2)
-    if (suffix === '03') return '4'
-    return '1'
+  const getVariationDisplayRank = (variantType: VariantType) => {
+    if (variantType === 'base') return 0
+    if (variantType === 'evo1') return 1
+    if (variantType === 'evo2') return 2
+    if (variantType === 'evo3') return 3
+    return 4
   }
+  const getFullMakeupVariantType = (id: number): VariantType =>
+    id.toString().endsWith('03') ? 'evo3' : 'base'
+  const getMakeupVariationType = (variation: {
+    id: number
+    type: string
+  }): VariantType =>
+    variation.type === 'fullMakeup'
+      ? getFullMakeupVariantType(variation.id)
+      : getItemVariantType(variation.id)
   const formatFullMakeupVariantLabel = (id: number) => {
-    const level = t(`banner.outfit.level.${getFullMakeupVariantLevelKey(id)}`)
+    const level = t(
+      `banner.outfit.level.${getVariantLevelKey(getFullMakeupVariantType(id))}`
+    )
     const separator = ['ja', 'ko', 'tw', 'zh'].includes(locale.value)
       ? '·'
       : ': '
     return `${level}${separator}${t('type.fullMakeup')}`
   }
+  const relatedOutfits = computed(() =>
+    (makeup.value?.related_outfits ?? [])
+      .map((outfit) => ({
+        ...outfit,
+        variantType: getOutfitVariantType(String(outfit.id)),
+      }))
+      .sort(
+        (a, b) =>
+          getVariationDisplayRank(a.variantType) -
+            getVariationDisplayRank(b.variantType) || a.id - b.id
+      )
+      .map((outfit) => ({
+        ...outfit,
+        label: t(
+          `banner.outfit.level.${getVariantLevelKey(outfit.variantType)}`
+        ),
+      }))
+  )
   const itemVariations = computed(() => {
     if (!makeup.value) return []
 
@@ -686,37 +716,45 @@
       ...parentFullMakeupIds.filter((id) => !catalogIds.includes(id)),
     ]
 
-    return variationIds.map((id) => {
-      const isFullMakeupVariation =
-        isFullMakeup.value || parentFullMakeupIdSet.has(id)
-      const type = isFullMakeupVariation ? 'fullMakeup' : makeup.value!.type
-      const variation = {
-        id,
-        quality: makeup.value!.quality,
-        type,
-      }
+    return variationIds
+      .map((id) => {
+        const isFullMakeupVariation =
+          isFullMakeup.value || parentFullMakeupIdSet.has(id)
+        const type = isFullMakeupVariation ? 'fullMakeup' : makeup.value!.type
+        const variation = {
+          id,
+          quality: makeup.value!.quality,
+          type,
+        }
 
-      if (isFullMakeupVariation && !isFullMakeup.value) {
+        if (isFullMakeupVariation && !isFullMakeup.value) {
+          return {
+            ...variation,
+            label: formatFullMakeupVariantLabel(id),
+          }
+        }
+
+        if (isFullMakeupVariation) {
+          return {
+            ...variation,
+            label: t(
+              `banner.outfit.level.${getVariantLevelKey(getFullMakeupVariantType(id))}`
+            ),
+          }
+        }
+
+        const variantType = getItemVariantType(id)
+
         return {
           ...variation,
-          label: formatFullMakeupVariantLabel(id),
+          label: t(`banner.outfit.level.${getVariantLevelKey(variantType)}`),
         }
-      }
-
-      if (isFullMakeupVariation) {
-        return {
-          ...variation,
-          label: t(`banner.outfit.level.${getFullMakeupVariantLevelKey(id)}`),
-        }
-      }
-
-      const variantType = getItemVariantType(id)
-
-      return {
-        ...variation,
-        label: t(`banner.outfit.level.${getVariantLevelKey(variantType)}`),
-      }
-    })
+      })
+      .sort(
+        (a, b) =>
+          getVariationDisplayRank(getMakeupVariationType(a)) -
+          getVariationDisplayRank(getMakeupVariationType(b))
+      )
   })
   const showVariationSection = computed(() =>
     isFullMakeup.value

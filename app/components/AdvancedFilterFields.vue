@@ -28,6 +28,7 @@
         :options="buildOptions(field)"
         :fallback-option="(value) => getFallbackOption(field, value)"
         :loading="loading"
+        :disabled="loading"
         size="small"
         multiple
         clearable
@@ -55,6 +56,7 @@
         :options="buildOptions(field)"
         :fallback-option="(value) => getFallbackOption(field, value)"
         :loading="loading"
+        :disabled="loading"
         size="small"
         clearable
         filterable

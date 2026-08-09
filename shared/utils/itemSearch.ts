@@ -644,6 +644,67 @@ export const normalizeItemSearchTaxonomySelection = ({
   }
 }
 
+/**
+ * Normalizes listing filters while treating an explicit category as the
+ * authoritative selection. This prevents a stale dependent subcategory from
+ * changing the category or producing an invalid API request during UI updates.
+ */
+export const normalizeItemSearchTaxonomyFilterSelection = ({
+  itemType,
+  category,
+  subcategory,
+}: {
+  itemType?: string | null
+  category?: string | null
+  subcategory?: string | null
+}): {
+  category: string | null
+  subcategory: string | null
+} => {
+  const validCategories = new Set(
+    getItemSearchAttributeValues('category', itemType)
+  )
+  const validSubcategories = new Set(
+    getItemSearchAttributeValues('subcategory', itemType)
+  )
+  const categoryInput = normalizeItemSearchTokenKey(category)
+  const subcategoryInput = normalizeItemSearchTokenKey(subcategory)
+
+  let normalizedCategory =
+    categoryInput &&
+    (isItemSearchUncategorizedValue(categoryInput) ||
+      validCategories.has(categoryInput))
+      ? categoryInput
+      : null
+  let normalizedSubcategory =
+    subcategoryInput &&
+    (isItemSearchUncategorizedValue(subcategoryInput) ||
+      validSubcategories.has(subcategoryInput))
+      ? subcategoryInput
+      : null
+
+  const subcategoryParent =
+    normalizedSubcategory &&
+    !isItemSearchUncategorizedValue(normalizedSubcategory)
+      ? getItemSearchSubcategoryParent(itemType, normalizedSubcategory)
+      : null
+
+  if (
+    normalizedCategory &&
+    subcategoryParent &&
+    subcategoryParent !== normalizedCategory
+  ) {
+    normalizedSubcategory = null
+  } else if (!normalizedCategory && subcategoryParent) {
+    normalizedCategory = subcategoryParent
+  }
+
+  return {
+    category: normalizedCategory,
+    subcategory: normalizedSubcategory,
+  }
+}
+
 export const getItemSearchTaxonomyItemTypes = () =>
   [...ITEM_SEARCH_SUPPORTED_ITEM_TYPES].filter(
     (itemType) => getItemSearchAttributeValues('category', itemType).length > 0

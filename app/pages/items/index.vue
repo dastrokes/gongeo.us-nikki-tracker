@@ -125,7 +125,7 @@
           />
 
           <n-select
-            v-model:value="categoryFilter"
+            :value="categoryFilter"
             :options="categoryOptions"
             :fallback-option="getCategoryFallbackOption"
             :loading="isFacetOptionsRefreshing"
@@ -133,9 +133,10 @@
             class="min-w-0"
             clearable
             filterable
-            :disabled="!isCategoryFilterEnabled"
+            :disabled="!isCategoryFilterEnabled || isFacetOptionsRefreshing"
             :show-checkmark="false"
             :placeholder="t('compendium.filter_category')"
+            @update:value="updateCategoryFilter"
           />
 
           <n-select
@@ -147,7 +148,7 @@
             class="min-w-0"
             clearable
             filterable
-            :disabled="!isSubcategoryFilterEnabled"
+            :disabled="!isSubcategoryFilterEnabled || isFacetOptionsRefreshing"
             :show-checkmark="false"
             :placeholder="t('compendium.filter_subcategory')"
           />
@@ -666,19 +667,14 @@
     )
   const initialTypeFilter = resolveRouteTypeFilter()
   const typeFilter = ref<string | null>(initialTypeFilter)
-
-  const categoryFilter = ref<string | null>(
-    initialTypeFilter
-      ? normalizeItemSearchTokenKey(route.query.category?.toString() ?? null) ||
-          null
-      : null
-  )
+  const initialTaxonomyFilters = normalizeItemSearchTaxonomyFilterSelection({
+    itemType: initialTypeFilter,
+    category: route.query.category?.toString() ?? null,
+    subcategory: route.query.subcategory?.toString() ?? null,
+  })
+  const categoryFilter = ref<string | null>(initialTaxonomyFilters.category)
   const subcategoryFilter = ref<string | null>(
-    initialTypeFilter
-      ? normalizeItemSearchTokenKey(
-          route.query.subcategory?.toString() ?? null
-        ) || null
-      : null
+    initialTaxonomyFilters.subcategory
   )
   const versionFilter = ref<string | null>(resolveRouteVersionFilter())
   const styleFilter = ref<string | null>(resolveRouteStyleFilter())
@@ -1899,6 +1895,14 @@
     typeFilter.value = nextType
   }
 
+  const updateCategoryFilter = (nextCategory: string | null) => {
+    if (nextCategory === categoryFilter.value) return
+
+    subcategoryFilter.value = null
+    currentPage.value = 1
+    categoryFilter.value = nextCategory
+  }
+
   watch(qualityFilter, () => {
     currentPage.value = 1
   })
@@ -2002,7 +2006,6 @@
 
   watch(categoryFilter, () => {
     currentPage.value = 1
-    subcategoryFilter.value = null
   })
 
   watch(subcategoryFilter, () => {

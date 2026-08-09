@@ -884,7 +884,7 @@
                 <div class="shrink-0">
                   <div class="flex items-start justify-between gap-3">
                     <div class="min-w-0">
-                      <div class="text-[1.35rem] leading-none font-black">
+                      <div class="text-[1.35rem] leading-none font-bold">
                         {{ t('navigation.wardrobe') }}
                       </div>
                       <div
@@ -928,7 +928,7 @@
                     >
                       <component :is="card.icon" />
                     </n-icon>
-                    <div class="text-xs leading-none font-black tabular-nums">
+                    <div class="text-xs leading-none font-bold tabular-nums">
                       {{ card.percent }}%
                     </div>
                   </div>
@@ -966,7 +966,7 @@
                           >
                             {{ entry.slot.label }}
                           </div>
-                          <div class="line-clamp-2 text-sm font-black">
+                          <div class="line-clamp-2 text-sm font-bold">
                             {{ entry.item.name }}
                           </div>
                         </div>
@@ -1100,7 +1100,7 @@
             >
               <div class="flex items-start justify-between gap-3">
                 <div class="min-w-0">
-                  <div class="mt-0.5 text-2xl leading-none font-black">
+                  <div class="mt-0.5 text-2xl leading-none font-bold">
                     {{ t('navigation.wardrobe') }}
                   </div>
                   <div
@@ -1151,7 +1151,7 @@
                     >
                       <component :is="card.icon" />
                     </n-icon>
-                    <div class="text-base leading-none font-black tabular-nums">
+                    <div class="text-base leading-none font-bold tabular-nums">
                       {{ card.percent }}%
                     </div>
                   </div>
@@ -1192,7 +1192,7 @@
                           >
                             {{ entry.slot.label }}
                           </div>
-                          <div class="line-clamp-2 text-xs font-black">
+                          <div class="line-clamp-2 text-xs font-bold">
                             {{ entry.item.name }}
                           </div>
                         </div>
@@ -1231,7 +1231,7 @@
                       {{ entry.slot.label }}
                     </div>
                     <div
-                      class="mt-1 line-clamp-2 text-sm leading-tight font-black"
+                      class="mt-1 line-clamp-2 text-sm leading-tight font-bold"
                     >
                       {{ entry.item?.name ?? t('wardrobe.share.empty_slot') }}
                     </div>

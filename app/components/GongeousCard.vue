@@ -6,7 +6,7 @@
       <div class="mt-1">
         <div class="relative inline-flex">
           <p
-            class="relative inline-block bg-linear-to-r from-fuchsia-500 via-rose-500 to-amber-400 bg-clip-text text-2xl font-black tracking-widest text-transparent lowercase sm:text-3xl"
+            class="relative inline-block bg-linear-to-r from-fuchsia-500 via-rose-500 to-amber-400 bg-clip-text text-2xl font-bold tracking-widest text-transparent lowercase sm:text-3xl"
           >
             gongeous!
           </p>

@@ -44,13 +44,13 @@
     },
     "haircut": {
       "blunt_cut": "齊切",
-      "bob": "波波頭",
+      "bob": "鮑伯頭",
       "hime_cut": "姬髮式",
       "layered_cut": "層次剪",
       "lob": "鎖骨髮",
       "pixie_cut": "精靈頭",
-      "shag": "蓬鬆髮",
-      "wolf_cut": "鯔魚頭"
+      "shag": "層次碎髮",
+      "wolf_cut": "狼尾剪"
     },
     "heel_height": {
       "flat": "平底",
@@ -787,7 +787,7 @@
       },
       "hair": {
         "chignon": "腦後髮髻",
-        "crown_braid": "桂冠髮辮",
+        "crown_braid": "皇冠辮",
         "double_ring_bun": "雙環髮髻",
         "drill_twin_tails": "螺旋雙馬尾",
         "flying_immortal_bun": "飛天髻",

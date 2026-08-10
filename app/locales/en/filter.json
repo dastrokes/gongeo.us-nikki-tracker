@@ -47,7 +47,7 @@
       "bob": "Bob",
       "hime_cut": "Hime Cut",
       "layered_cut": "Layered Cut",
-      "lob": "Lob",
+      "lob": "Long Bob (Lob)",
       "pixie_cut": "Pixie Cut",
       "shag": "Shag",
       "wolf_cut": "Wolf Cut"
@@ -788,8 +788,8 @@
       "hair": {
         "chignon": "Chignon",
         "crown_braid": "Crown Braid",
-        "double_ring_bun": "Double Ring Bun",
-        "drill_twin_tails": "Drill Twin Tails",
+        "double_ring_bun": "Double-Loop Bun",
+        "drill_twin_tails": "Twin Drills",
         "flying_immortal_bun": "Flying Immortal Bun",
         "half_up_braid": "Half Up Braid",
         "half_up_bun": "Half Up Bun",

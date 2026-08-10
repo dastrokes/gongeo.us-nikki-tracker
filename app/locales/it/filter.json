@@ -4,7 +4,7 @@
       "blunt_bangs": "Frangia Dritta",
       "curtain_bangs": "Frangia a Tendina",
       "no_bangs": "Senza Frangia",
-      "side_swept_bangs": "Frangia Laterale",
+      "side_swept_bangs": "Side-Swept Bangs",
       "wispy_bangs": "Frangia Sfilata"
     },
     "bottom_length": {
@@ -47,9 +47,9 @@
       "bob": "Caschetto",
       "hime_cut": "Taglio Hime",
       "layered_cut": "Taglio Scalato",
-      "lob": "Long Bob",
+      "lob": "Long Bob (Lob)",
       "pixie_cut": "Taglio Pixie",
-      "shag": "Taglio Shag",
+      "shag": "Shag Cut",
       "wolf_cut": "Wolf Cut"
     },
     "heel_height": {
@@ -553,8 +553,8 @@
       "hair": {
         "braid": "Treccia",
         "bun": "Chignon",
-        "half_up": "Semiraccolto",
-        "loose": "Sciolti",
+        "half_up": "Half-Up",
+        "loose": "Loose Hair",
         "ponytail": "Coda di cavallo",
         "twin_tails": "Codini",
         "updo": "Acconciatura alta"
@@ -788,12 +788,12 @@
       "hair": {
         "chignon": "Chignon",
         "crown_braid": "Treccia a corona",
-        "double_ring_bun": "Chignon a doppio anello",
-        "drill_twin_tails": "Codini a spirale",
+        "double_ring_bun": "Double-Loop Bun",
+        "drill_twin_tails": "Twin Drills",
         "flying_immortal_bun": "Bun celestiale",
-        "half_up_braid": "Semiraccolto intrecciato",
-        "half_up_bun": "Mezzo chignon",
-        "half_up_ponytail": "Mezza coda",
+        "half_up_braid": "Half-Up Braid",
+        "half_up_bun": "Half-Up Bun",
+        "half_up_ponytail": "Half-Up Ponytail",
         "high_bun": "Chignon alto",
         "high_ponytail": "Coda alta",
         "high_twin_tails": "Codini alti",

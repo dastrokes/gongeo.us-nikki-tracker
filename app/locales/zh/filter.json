@@ -37,17 +37,17 @@
       "regular": "合身"
     },
     "hair_length": {
-      "long": "长",
-      "medium": "中",
-      "short": "短",
-      "very_long": "特长"
+      "long": "长发",
+      "medium": "中长发",
+      "short": "短发",
+      "very_long": "超长发"
     },
     "haircut": {
       "blunt_cut": "齐切",
       "bob": "波波头",
       "hime_cut": "姬发式",
       "layered_cut": "层次剪",
-      "lob": "锁骨发",
+      "lob": "长波波头",
       "pixie_cut": "精灵头",
       "shag": "层次碎发",
       "wolf_cut": "狼尾剪"
@@ -451,7 +451,7 @@
     "texture": {
       "curly": "卷发",
       "straight": "直发",
-      "wavy": "波浪"
+      "wavy": "波浪发"
     },
     "top_length": {
       "crop": "露脐",
@@ -788,12 +788,12 @@
       "hair": {
         "chignon": "脑后发髻",
         "crown_braid": "皇冠辫",
-        "double_ring_bun": "双环发髻",
+        "double_ring_bun": "双环髻",
         "drill_twin_tails": "螺旋双马尾",
-        "flying_immortal_bun": "飞天髻",
-        "half_up_braid": "半扎发发辫",
+        "flying_immortal_bun": "飞仙髻",
+        "half_up_braid": "半扎编发",
         "half_up_bun": "半扎发髻",
-        "half_up_ponytail": "半扎发马尾",
+        "half_up_ponytail": "半扎马尾",
         "high_bun": "高发髻",
         "high_ponytail": "高马尾",
         "high_twin_tails": "高双马尾",

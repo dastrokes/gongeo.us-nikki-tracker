@@ -4,7 +4,7 @@
       "blunt_bangs": "Blunt Bangs",
       "curtain_bangs": "Curtain Bangs",
       "no_bangs": "No Bangs",
-      "side_swept_bangs": "Side Swept Bangs",
+      "side_swept_bangs": "Side-Swept Bangs",
       "wispy_bangs": "Wispy Bangs"
     },
     "bottom_length": {
@@ -49,7 +49,7 @@
       "layered_cut": "Layered Cut",
       "lob": "Long Bob (Lob)",
       "pixie_cut": "Pixie Cut",
-      "shag": "Shag",
+      "shag": "Shag Cut",
       "wolf_cut": "Wolf Cut"
     },
     "heel_height": {
@@ -553,8 +553,8 @@
       "hair": {
         "braid": "Braid",
         "bun": "Bun",
-        "half_up": "Half Up",
-        "loose": "Loose",
+        "half_up": "Half-Up",
+        "loose": "Loose Hair",
         "ponytail": "Ponytail",
         "twin_tails": "Twin Tails",
         "updo": "Updo"
@@ -791,9 +791,9 @@
         "double_ring_bun": "Double-Loop Bun",
         "drill_twin_tails": "Twin Drills",
         "flying_immortal_bun": "Flying Immortal Bun",
-        "half_up_braid": "Half Up Braid",
-        "half_up_bun": "Half Up Bun",
-        "half_up_ponytail": "Half Up Ponytail",
+        "half_up_braid": "Half-Up Braid",
+        "half_up_bun": "Half-Up Bun",
+        "half_up_ponytail": "Half-Up Ponytail",
         "high_bun": "High Bun",
         "high_ponytail": "High Ponytail",
         "high_twin_tails": "High Twin Tails",

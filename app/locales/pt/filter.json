@@ -4,7 +4,7 @@
       "blunt_bangs": "Franja Reta",
       "curtain_bangs": "Franja Cortina",
       "no_bangs": "Sem Franja",
-      "side_swept_bangs": "Franja Lateral",
+      "side_swept_bangs": "Side-Swept Bangs",
       "wispy_bangs": "Franja Desfiada"
     },
     "bottom_length": {
@@ -47,9 +47,9 @@
       "bob": "Bob",
       "hime_cut": "Corte Hime",
       "layered_cut": "Corte em Camadas",
-      "lob": "Long Bob",
+      "lob": "Long Bob (Lob)",
       "pixie_cut": "Corte Pixie",
-      "shag": "Corte Shag",
+      "shag": "Shag Cut",
       "wolf_cut": "Corte Wolf"
     },
     "heel_height": {
@@ -553,8 +553,8 @@
       "hair": {
         "braid": "Trança",
         "bun": "Coque",
-        "half_up": "Semipreso",
-        "loose": "Solto",
+        "half_up": "Half-Up",
+        "loose": "Loose Hair",
         "ponytail": "Rabo de Cavalo",
         "twin_tails": "Marias-chiquinhas",
         "updo": "Penteado Preso"
@@ -788,12 +788,12 @@
       "hair": {
         "chignon": "Coque Baixo",
         "crown_braid": "Trança Coroa",
-        "double_ring_bun": "Coque de anel duplo",
-        "drill_twin_tails": "Espiral Marias-chiquinhas",
+        "double_ring_bun": "Double-Loop Bun",
+        "drill_twin_tails": "Twin Drills",
         "flying_immortal_bun": "Coque Imortal",
-        "half_up_braid": "Semipreso Trançado",
-        "half_up_bun": "Semipreso com Coque",
-        "half_up_ponytail": "Semipreso com Rabo",
+        "half_up_braid": "Half-Up Braid",
+        "half_up_bun": "Half-Up Bun",
+        "half_up_ponytail": "Half-Up Ponytail",
         "high_bun": "Coque Alto",
         "high_ponytail": "Rabo de Cavalo Alto",
         "high_twin_tails": "Marias-chiquinhas Altas",

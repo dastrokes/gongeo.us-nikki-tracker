@@ -556,7 +556,7 @@
         "half_up": "Halboffen",
         "loose": "Offen",
         "ponytail": "Pferdeschwanz",
-        "twin_tails": "Zwei Zöpfe",
+        "twin_tails": "Zöpfe",
         "updo": "Hochsteckfrisur"
       },
       "hairAccessories": {
@@ -796,15 +796,15 @@
         "half_up_ponytail": "Halboffener Pferdeschwanz",
         "high_bun": "Hoher Dutt",
         "high_ponytail": "Hoher Pferdeschwanz",
-        "high_twin_tails": "Hohe Seitenzöpfe",
+        "high_twin_tails": "Hohe Zöpfe",
         "low_ponytail": "Tiefer Pferdeschwanz",
-        "low_twin_tails": "Tiefe Seitenzöpfe",
+        "low_twin_tails": "Niedrige Zöpfe",
         "side_braid": "Seitlicher Zopf",
         "side_bun": "Seitlicher Dutt",
         "side_ponytail": "Seitlicher Pferdeschwanz",
         "space_buns": "Space Buns",
         "top_knot": "Top Knot",
-        "twin_braids": "Zöpfe"
+        "twin_braids": "Geflochtene Zöpfe"
       },
       "hairAccessories": {
         "bow": "Schleife",

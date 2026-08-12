@@ -553,8 +553,8 @@
       "hair": {
         "braid": "Treccia",
         "bun": "Chignon",
-        "half_up": "Half-Up",
-        "loose": "Loose Hair",
+        "half_up": "Semiraccolto",
+        "loose": "Sciolti",
         "ponytail": "Coda di cavallo",
         "twin_tails": "Codini",
         "updo": "Acconciatura alta"
@@ -788,12 +788,12 @@
       "hair": {
         "chignon": "Chignon",
         "crown_braid": "Treccia a corona",
-        "double_ring_bun": "Double-Loop Bun",
-        "drill_twin_tails": "Twin Drills",
+        "double_ring_bun": "Chignon a doppio anello",
+        "drill_twin_tails": "Codini a spirale",
         "flying_immortal_bun": "Bun celestiale",
-        "half_up_braid": "Half-Up Braid",
-        "half_up_bun": "Half-Up Bun",
-        "half_up_ponytail": "Half-Up Ponytail",
+        "half_up_braid": "Semiraccolto intrecciato",
+        "half_up_bun": "Mezzo chignon",
+        "half_up_ponytail": "Mezza coda",
         "high_bun": "Chignon alto",
         "high_ponytail": "Coda alta",
         "high_twin_tails": "Codini alti",

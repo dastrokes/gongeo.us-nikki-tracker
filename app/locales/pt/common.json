@@ -161,8 +161,8 @@
     }
   },
   "default": {
-    "momo": "Momo",
     "description": "Rastreador de Ressonância e companheiro de estilo do Infinity Nikki",
+    "momo": "Momo",
     "your_data": "Seus dados",
     "community_stats": "Estatísticas da comunidade",
     "view_all_stats": "Ver todas as estatísticas",

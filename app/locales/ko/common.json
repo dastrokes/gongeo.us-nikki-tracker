@@ -161,8 +161,8 @@
     }
   },
   "default": {
-    "momo": "모모",
     "description": "인피니티 니키 공명 기록 및 스타일링 도우미",
+    "momo": "모모",
     "your_data": "당신의 데이터",
     "community_stats": "커뮤니티 통계",
     "view_all_stats": "모든 통계 보기",

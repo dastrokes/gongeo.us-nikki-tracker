@@ -161,8 +161,8 @@
     }
   },
   "default": {
-    "momo": "大喵",
     "description": "無限暖暖共鳴記錄與搭配助手",
+    "momo": "大喵",
     "your_data": "您的資料",
     "community_stats": "社群統計",
     "view_all_stats": "查看所有統計",

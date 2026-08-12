@@ -161,8 +161,8 @@
     }
   },
   "default": {
-    "momo": "モモ",
     "description": "インフィニティニキ 共鳴記録＆コーデ助手",
+    "momo": "モモ",
     "your_data": "あなたのデータ",
     "community_stats": "コミュニティ統計",
     "view_all_stats": "すべての統計を見る",

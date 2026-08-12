@@ -162,6 +162,7 @@
   },
   "default": {
     "description": "Infinity Nikki Resonance Tracker & Styling Companion",
+    "momo": "Momo",
     "your_data": "Your Data",
     "community_stats": "Community Stats",
     "view_all_stats": "View All Stats",
@@ -959,6 +960,7 @@
     "not_found_item": "Item not found",
     "not_found_outfit": "Outfit not found",
     "back_to_list": "Back to List",
+    "go_to_pearpal": "Check chest location on Pearpal Map",
     "filter_slot": "Filter by Slot",
     "filter_category": "Filter by Category",
     "filter_subcategory": "Filter by Subcategory",

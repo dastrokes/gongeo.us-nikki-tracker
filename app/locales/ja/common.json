@@ -161,6 +161,7 @@
     }
   },
   "default": {
+    "momo": "モモ",
     "description": "インフィニティニキ 共鳴記録＆コーデ助手",
     "your_data": "あなたのデータ",
     "community_stats": "コミュニティ統計",
@@ -959,6 +960,7 @@
     "not_found_item": "アイテムが見つかりません",
     "not_found_outfit": "衣装が見つかりません",
     "back_to_list": "リストに戻る",
+    "go_to_pearpal": "Pearpalマップで宝箱の場所を確認",
     "filter_slot": "部位でフィルターする",
     "filter_category": "カテゴリで絞り込む",
     "filter_subcategory": "サブカテゴリで絞り込む",

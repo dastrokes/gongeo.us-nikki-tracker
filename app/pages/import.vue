@@ -1146,7 +1146,9 @@
   // Select current banners by default
   onMounted(() => {
     if (selectedBanners.value.length === 0) {
-      selectedBanners.value = [...newBannerIds.value]
+      selectedBanners.value = newBannerIds.value.filter(
+        (bannerId) => BANNER_DATA[bannerId]?.bannerType !== 1
+      )
     }
     if (selectedManualBanner.value === null) {
       selectedManualBanner.value =

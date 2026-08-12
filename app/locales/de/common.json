@@ -161,6 +161,7 @@
     }
   },
   "default": {
+    "momo": "Momo",
     "description": "Infinity Nikki Resonanz-Tracker & Styling-Begleiter",
     "your_data": "Deine Daten",
     "community_stats": "Community-Statistiken",
@@ -959,6 +960,7 @@
     "not_found_item": "Stück nicht gefunden",
     "not_found_outfit": "Outfit nicht gefunden",
     "back_to_list": "Zurück zur Liste",
+    "go_to_pearpal": "Truhenfundort auf der Pearpal-Karte prüfen",
     "filter_slot": "Nach Slot filtern",
     "filter_category": "Nach Kategorie filtern",
     "filter_subcategory": "Nach Unterkategorie filtern",

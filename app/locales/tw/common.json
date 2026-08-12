@@ -161,6 +161,7 @@
     }
   },
   "default": {
+    "momo": "大喵",
     "description": "無限暖暖共鳴記錄與搭配助手",
     "your_data": "您的資料",
     "community_stats": "社群統計",
@@ -959,6 +960,7 @@
     "not_found_item": "未找到部件",
     "not_found_outfit": "未找到套裝",
     "back_to_list": "返回物品列表",
+    "go_to_pearpal": "在美鴨梨地圖中查看寶箱位置",
     "filter_slot": "按部位篩選",
     "filter_category": "依分類篩選",
     "filter_subcategory": "依子分類篩選",

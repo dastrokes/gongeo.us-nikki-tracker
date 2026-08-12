@@ -161,6 +161,7 @@
     }
   },
   "default": {
+    "momo": "Momo",
     "description": "Suivi de Résonance et compagnon de style d'Infinity Nikki",
     "your_data": "Vos données",
     "community_stats": "Statistiques de la communauté",
@@ -959,6 +960,7 @@
     "not_found_item": "Article introuvable",
     "not_found_outfit": "Tenue introuvable",
     "back_to_list": "Retour à la liste",
+    "go_to_pearpal": "Voir l’emplacement du coffre sur la carte Pearpal",
     "filter_slot": "Filtrer par emplacement",
     "filter_category": "Filtrer par catégorie",
     "filter_subcategory": "Filtrer par sous-catégorie",

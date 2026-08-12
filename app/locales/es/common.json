@@ -161,6 +161,7 @@
     }
   },
   "default": {
+    "momo": "Momo",
     "description": "Rastreador de resonancia y compañero de estilismo de Infinity Nikki",
     "your_data": "Tus datos",
     "community_stats": "Estadísticas de la comunidad",
@@ -959,6 +960,7 @@
     "not_found_item": "Artículo no encontrado",
     "not_found_outfit": "Traje no encontrado",
     "back_to_list": "Volver a la lista",
+    "go_to_pearpal": "Consultar la ubicación del cofre en el mapa de Pearpal",
     "filter_slot": "Filtrar por ranura",
     "filter_category": "Filtrar por categoría",
     "filter_subcategory": "Filtrar por subcategoría",

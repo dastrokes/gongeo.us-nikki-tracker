@@ -259,21 +259,49 @@
                       {{ itemVersionDisplay }}
                     </n-tag>
                   </NuxtLinkLocale>
-                  <NuxtLinkLocale
+                  <div
                     v-if="itemObtainLabel && itemObtainType != null"
-                    :to="itemSourceListLocation"
-                    class="transition-opacity hover:opacity-80"
+                    class="flex items-center gap-1"
                   >
-                    <n-tag
-                      type="default"
-                      :bordered="false"
-                      round
-                      size="small"
-                      class="cursor-pointer"
+                    <NuxtLinkLocale
+                      :to="itemSourceListLocation"
+                      class="transition-opacity hover:opacity-80"
                     >
-                      {{ itemObtainLabel }}
-                    </n-tag>
-                  </NuxtLinkLocale>
+                      <n-tag
+                        type="default"
+                        :bordered="false"
+                        round
+                        size="small"
+                        class="cursor-pointer"
+                      >
+                        {{ itemObtainLabel }}
+                      </n-tag>
+                    </NuxtLinkLocale>
+                    <n-tooltip
+                      v-for="link in pearpalMapLinks"
+                      :key="link.key"
+                      trigger="hover"
+                    >
+                      <template #trigger>
+                        <a
+                          :href="link.href"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          :aria-label="link.label"
+                          class="inline-flex size-6 shrink-0 items-center justify-center self-center rounded-full opacity-70 transition hover:bg-black/5 hover:opacity-100 dark:hover:bg-white/10"
+                          @click="handlePearpalMapClick($event, link.location)"
+                        >
+                          <n-icon
+                            :size="15"
+                            class="block leading-none"
+                          >
+                            <MapMarkedAlt />
+                          </n-icon>
+                        </a>
+                      </template>
+                      {{ link.label }}
+                    </n-tooltip>
+                  </div>
                 </div>
 
                 <div
@@ -696,6 +724,29 @@
       :item-type="itemType"
       :metadata="itemSearchMetadata"
     />
+
+    <n-modal
+      v-model:show="pearpalRegionPromptOpen"
+      preset="card"
+      :title="t('wardrobe.onboarding.region_title')"
+      class="mx-auto w-[calc(100vw-2rem)] max-w-md"
+      :auto-focus="false"
+    >
+      <n-button-group
+        size="medium"
+        class="w-full"
+      >
+        <n-button
+          v-for="option in pearpalRegionOptions"
+          :key="option.value"
+          class="flex-1 justify-center"
+          secondary
+          @click="selectPearpalRegion(option.value)"
+        >
+          {{ option.label }}
+        </n-button>
+      </n-button-group>
+    </n-modal>
   </div>
 </template>
 
@@ -705,6 +756,7 @@
     CaretUp,
     ClipboardList,
     Images,
+    MapMarkedAlt,
     PencilAlt,
     Search,
     Star,
@@ -776,6 +828,25 @@
   const showFeedbackModal = ref(false)
   const showExpandedCurrentTags = ref(false)
   const showIcon = ref(false)
+  const { activeRegionScope, hasActiveRegionScope, setActiveRegionScope } =
+    useWardrobeSettings()
+  const { catalog: itemSketchCatalog, load: loadItemSketchCatalog } =
+    useItemSketchCatalog()
+  const pearpalRegionPromptOpen = ref(false)
+  const pendingPearpalLocation = ref<ItemSketchChestLocation | null>(null)
+  const pearpalRegionOptions = computed(() => {
+    const globalOption = {
+      label: t('wardrobe.region.global'),
+      value: 'global' as const,
+    }
+    const cnOption = {
+      label: t('import.regions.china'),
+      value: 'cn' as const,
+    }
+    return locale.value === 'zh'
+      ? [cnOption, globalOption]
+      : [globalOption, cnOption]
+  })
   const {
     initialized: wardrobeInitialized,
     saving: wardrobeSaving,
@@ -787,6 +858,46 @@
   if (import.meta.client) {
     void catalogIndex.load(['items']).catch(() => undefined)
     void catalogIndex.loadItemDyes().catch(() => undefined)
+  }
+
+  const itemSketch = computed(
+    () => itemSketchCatalog.value?.items[String(itemId.value)] ?? null
+  )
+  const pearpalMapLinks = computed(() => {
+    const locations = itemSketch.value?.chestLocations ?? []
+
+    return locations.map((location) => ({
+      key: `${location.worldId}:${location.spawnerId}`,
+      href: createPearpalMapUrl(location, activeRegionScope.value),
+      label: t('compendium.go_to_pearpal'),
+      location,
+    }))
+  })
+
+  const handlePearpalMapClick = (
+    event: MouseEvent,
+    location: ItemSketchChestLocation
+  ) => {
+    if (hasActiveRegionScope.value) return
+
+    event.preventDefault()
+    pendingPearpalLocation.value = location
+    pearpalRegionPromptOpen.value = true
+  }
+
+  const selectPearpalRegion = (regionScope: CatalogRegionScope) => {
+    const location = pendingPearpalLocation.value
+    setActiveRegionScope(regionScope)
+    pearpalRegionPromptOpen.value = false
+    pendingPearpalLocation.value = null
+
+    if (location) {
+      window.open(
+        createPearpalMapUrl(location, regionScope),
+        '_blank',
+        'noopener,noreferrer'
+      )
+    }
   }
 
   const itemVariationIds = computed(
@@ -1106,6 +1217,28 @@
     if (!item.value) return null
     return (item.value as ItemWithOutfits).obtain_type
   })
+
+  if (import.meta.client) {
+    watch(
+      itemObtainType,
+      (obtainType) => {
+        if (
+          obtainType === null ||
+          obtainType === undefined ||
+          resolveObtainGroupKey(obtainType) !== 'chest'
+        ) {
+          return
+        }
+
+        void loadItemSketchCatalog().catch((error) => {
+          console.warn(
+            `Failed to load item sketch catalog: ${toErrorMessage(error)}`
+          )
+        })
+      },
+      { immediate: true }
+    )
+  }
 
   const itemObtainLabel = computed(() => {
     const obtainType = itemObtainType.value

@@ -21,7 +21,7 @@
     "dress_silhouette": {
       "a_line": "Linea a A",
       "balloon": "Palloncino",
-      "fit_and_flare": "Svasato",
+      "fit_and_flare": "Aderente e Svasato",
       "mermaid": "Sirena",
       "sheath": "Tubino",
       "shift": "A sacco",
@@ -379,7 +379,7 @@
       "ankle": "Alla Caviglia",
       "crew": "A metà polpaccio",
       "knee_high": "Al ginocchio",
-      "thigh_high": "Sopra il Ginocchio"
+      "thigh_high": "Fino alla Coscia"
     },
     "sole_height": {
       "flat": "Piatta",
@@ -439,7 +439,7 @@
       "spherical": "Sferico",
       "spiral": "Spirale",
       "splash": "Schizzo",
-      "stitched": "Impuntrato",
+      "stitched": "Impunturato",
       "structured": "Strutturato",
       "t_strap": "Cinturino a T",
       "tiered": "A balze",
@@ -761,7 +761,7 @@
         "chandelier_earrings": "Orecchini chandelier",
         "drop_earrings": "Orecchini a pendente",
         "hoop_earrings": "Cerchi",
-        "stud_earrings": "Orecchini a lobo"
+        "stud_earrings": "Orecchini a bottone"
       },
       "faceDecorations": {
         "decorative_blindfold": "Benda sugli occhi decorativa",

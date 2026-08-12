@@ -6,6 +6,8 @@
     "outfits": "Completi",
     "item": "Capo",
     "items": "Capi",
+    "prop": "Decorazione",
+    "props": "Decorazioni",
     "momo": "Mantelli di Momo",
     "momo_entry": "Mantello di Momo",
     "makeup": "Trucco",
@@ -79,7 +81,7 @@
     },
     "profile": {
       "upload_data": "Carica sul cloud",
-      "sync_data": "Sincronizzazione dal cloud",
+      "sync_data": "Sincronizza dal cloud",
       "clear_cloud_data": "Cancella dati cloud",
       "clear_local_data": "Cancella dati locali",
       "delete_profile": "Elimina profilo"
@@ -113,6 +115,7 @@
     "outfit": "Compendio Abiti",
     "outfit_detail": "Dettagli Abito",
     "item": "Compendio Articoli",
+    "props": "Compendio Decorazioni",
     "lookbook": "Anteprima lookbook",
     "explore": "Esplora di più",
     "makeup": "Compendio Trucchi",
@@ -121,7 +124,7 @@
     "compendium": "Compendio",
     "vote": "Voto Banner",
     "faq": "Domande frequenti",
-    "about": "Di",
+    "about": "Informazioni",
     "contact": "Contattaci",
     "official_website": "Sito ufficiale",
     "join_community": "Unisciti alla community",
@@ -140,7 +143,7 @@
       "import": "Importa facilmente la cronologia delle risonanze Infinity Nikki dal gioco, dai dati Whim-Log o dai file di backup con guide dettagliate passo passo.",
       "global": "Esplora i dati globali sulla risonanza di Infinity Nikki, tra cui la popolarità dei banner, i tassi di estrazione, i tassi di ottenimento degli oggetti e le statistiche di estrazione della community.",
       "global_banner": "Esplora le statistiche della community per il banner risonanza {name}, incluse le distribuzioni dell'ordine degli articoli e dei pull di completamento.",
-      "banner": "Esplora la cronologia dei banner di risonanza Infinity Nikki con eventi attuali, futuri e passati, abiti in evidenza, tassi di attrazione, durate e dettagli sulle repliche.",
+      "banner": "Esplora la cronologia dei banner di risonanza Infinity Nikki con eventi attuali, futuri e passati, abiti in evidenza, tassi di estrazione, durate e dettagli sulle repliche.",
       "banner_detail": "Visualizza i dettagli del banner di risonanza {name}, inclusi gli abiti in evidenza, la percentuale di rilascio degli oggetti, le statistiche di estrazione, la durata, le informazioni sull'evoluzione e lo stato delle repliche.",
       "timeline": "Esplora una sequenza temporale interattiva di banner di risonanza Infinity Nikki, aggiornamenti principali, periodi di rilascio e repliche per tenere traccia della cronologia degli eventi a colpo d'occhio.",
       "tierlist": "Crea e condividi un elenco di livelli Infinity Nikki per banner, abiti e articoli con classificazione drag-and-drop, filtri e facile esportazione di immagini.",
@@ -148,6 +151,7 @@
       "makeups": "Esplora tutti i trucchi di Infinity Nikki, inclusi i trucchi completi e i singoli componenti, con filtri per slot, qualità, stile, versione e fonte.",
       "outfit_detail": "Visualizza informazioni dettagliate sull'outfit {name}, inclusi qualità, componenti dell'outfit, evoluzione e luminosità, trucchi, statistiche e relativi banner di risonanza.",
       "items": "Sfoglia tutti gli oggetti Infinity Nikki con filtri per slot, qualità, bonus statistiche e relativi abiti o banner. Trova, confronta e monitora facilmente ogni articolo.",
+      "props": "Esplora e registra le decorazioni di Infinity Nikki per le scene fotografiche e la Casa, inclusi qualità, dettagli di posizionamento, compatibilità con la Casa e funzioni interattive.",
       "lookbook": "Visualizza in anteprima un codice Lookbook a colori di Infinity Nikki come una scheda condivisibile con elenco articoli, icone e link al compendio.",
       "momo": "Esplora tutti i Mantelli di Momo di Infinity Nikki con filtri per qualità, versione e fonte, oltre alle illustrazioni degli oggetti in un compendio dedicato.",
       "momo_detail": "Visualizza informazioni dettagliate su {name}, inclusi qualità, fonte, descrizione, anteprima e icona.",
@@ -248,7 +252,7 @@
     "active_profile": "Profilo attivo",
     "default_profile": "Predefinito",
     "profile_slot": "Profilo {number}",
-    "switch": "Interruttore",
+    "switch": "Cambia",
     "manage_profiles": "Gestisci profili",
     "rename": "Rinominare",
     "rename_title": "Rinomina profilo",
@@ -257,7 +261,7 @@
     "rename_error": "Inserisci un nome per il profilo.",
     "status": {
       "local": "Dati locali",
-      "cloud": "Dati sulla nuvola",
+      "cloud": "Dati cloud",
       "last_sync": "Ultima sincronizzazione",
       "never": "Mai"
     }
@@ -447,18 +451,18 @@
     "or": "O",
     "google_signin_error": "Accesso con Google non riuscito. Riprova.",
     "email_not_confirmed": "Controlla la tua e-mail e conferma il tuo indirizzo.",
-    "email_already_registered": "Esiste gia un account con questa e-mail.",
+    "email_already_registered": "Esiste già un account con questa e-mail.",
     "password_update_success": "Password aggiornata con successo!",
     "password_update_error": "Impossibile aggiornare la password. Riprova.",
     "password_too_short": "La password deve contenere almeno 6 caratteri.",
-    "reset_session_expired": "La sessione di reimpostazione e scaduta. Richiedi una nuova e-mail di reimpostazione.",
+    "reset_session_expired": "La sessione di reimpostazione è scaduta. Richiedi una nuova e-mail di reimpostazione.",
     "account_not_found": "Nessun account trovato con questo indirizzo e-mail.",
     "reset_rate_limit": "Troppi tentativi. Attendi prima di riprovare."
   },
   "error": {
     "404": "\"Nikki, restiamo nell'acqua bassa\"",
     "notFound": "La pagina che stai cercando non esiste.",
-    "returnHome": "Ritorno a casa"
+    "returnHome": "Torna alla home"
   },
   "import": {
     "video_tutorial": "Esercitazione video",
@@ -471,7 +475,7 @@
     "import_from_file": "Importa da file",
     "import_from_pearpal": "Importa da Whim-Log",
     "file_import": "Importazione file",
-    "file_import_desc": "Importa da un file nikki-resonance-data precedentemente esportato.",
+    "file_import_desc": "Importa da un file di dati del profilo esportato in precedenza.",
     "select_file": "Seleziona File",
     "select_region": "Seleziona Regione",
     "select_region_desc": "Seleziona la regione del tuo server di gioco.",
@@ -482,12 +486,12 @@
       "tw": "TW/HK/Macao",
       "asia": "Asia"
     },
-    "login_pearpal": "Accedi al sito web Pearlal",
+    "login_pearpal": "Accedi al sito web Pearpal",
     "login_pearpal_desc": "Apri il sito Web Pearpal in una nuova scheda e accedi con il tuo account Infold se non hai già effettuato l'accesso.",
     "login_pearpal_incognito_hint": "Se disponi di più account, ti consigliamo di aprire Pearpal in una finestra del browser in incognito/privata.",
     "login_whimlog": "Sincronizza i dati in Whim-Log",
     "login_whimlog_desc": "Apri Whim-Log in una nuova scheda, accedi e sincronizza i tuoi dati.",
-    "get_cookie": "Ottieni cookie dal sito Web Pearlal",
+    "get_cookie": "Ottieni cookie dal sito Web Pearpal",
     "get_cookie_desc": "Scegli come vuoi ricevere il tuo Cookie:",
     "gongeous_cookie": "Gongeous Cookie",
     "bookmark_method": "Metodo segnalibro (consigliato)",
@@ -573,8 +577,8 @@
       "invalid_form": "Dati del modulo non validi",
       "import_success": "Dati importati con successo!",
       "import_failed": "Impossibile importare il file",
-      "pearpal_tracker_success": "Dati Pearlal importati con successo!",
-      "pearpal_tracker_failed": "Impossibile importare i dati Pearlal.",
+      "pearpal_tracker_success": "Dati Pearpal importati con successo!",
+      "pearpal_tracker_failed": "Impossibile importare i dati Pearpal.",
       "wardrobe_updated": "Aggiunti {items} capi, {makeups} trucchi e {momo} mantelli di Momo.",
       "wardrobe_up_to_date": "Il guardaroba è già aggiornato.",
       "wardrobe_import_failed": "Importazione del guardaroba non riuscita.",
@@ -592,7 +596,7 @@
     "check_compatibility": "Controlla la compatibilità del browser",
     "pc_recommended": "Stai utilizzando un dispositivo mobile, puoi importare utilizzando i browser supportati elencati di seguito, altri browser non sono testati e potrebbero non funzionare. Per un'esperienza ottimale, ti consigliamo di utilizzare un browser per PC per l'importazione dei dati.",
     "bookmark_script": {
-      "invalid_site": "Si prega di utilizzare questo segnalibro sul sito web Pearlal"
+      "invalid_site": "Si prega di utilizzare questo segnalibro sul sito web Pearpal"
     },
     "maintenance": {
       "title": "In manutenzione",
@@ -628,7 +632,7 @@
   },
   "tracker": {
     "stats": {
-      "title": "Tira statistiche",
+      "title": "Statistiche dei pull",
       "no_pulls": "Nessuna cronologia di pull per questo banner",
       "total_5star_4star": "5★ / 4★ Totale",
       "luckier": "Più fortunato del {percent}% degli utenti gongeo.us",
@@ -639,7 +643,7 @@
       "description": "Utilizza questa opzione solo se non desideri utilizzare l'importazione del gioco o se mancano alcuni elementi dall'importazione del gioco.",
       "note": "Nota: i dati importati manualmente verranno utilizzati solo per visualizzare lo stato di completamento dell'outfit e non saranno inclusi nei calcoli delle statistiche personali o globali.",
       "open_editor": "Apri Editor",
-      "select_banner": "Seleziona Stendardo",
+      "select_banner": "Seleziona banner",
       "apply_to_all": "Applica a tutti",
       "success": "Completo salvato con successo!",
       "error": "Impossibile salvare l'outfit",
@@ -650,15 +654,15 @@
         "total_5star": "5★ Totale",
         "avg_5star": "5★ media",
         "total_4star": "4★ Totale",
-        "avg_4star": "4★",
+        "avg_4star": "Media 4★",
         "pity_5star": "5★ Pity",
         "pity_4star": "4★ Pity"
       },
       "settings": {
-        "banner_order": "Ordine degli stendardi",
-        "item_order": "Ordine dell'articolo",
-        "outfit_display": "Esposizione dell'abito",
-        "item_display": "Visualizzazione dell'articolo",
+        "banner_order": "Ordine dei banner",
+        "item_order": "Ordine degli oggetti",
+        "outfit_display": "Visualizzazione degli outfit",
+        "item_display": "Visualizzazione degli oggetti",
         "combined": "Combinato",
         "separated": "Separato",
         "show_4star": "4★ (5★ Banner)",
@@ -668,7 +672,7 @@
       }
     },
     "items": {
-      "pull": "Tirare #{number}",
+      "pull": "Pull n. {number}",
       "category": {
         "clothes": "Vestiti",
         "accessories": "Accessori"
@@ -683,7 +687,7 @@
       "error": "Impossibile esportare i dati. Per favore riprova."
     },
     "no_data": {
-      "title": "Nessuna storia di risonanza",
+      "title": "Nessuna cronologia di risonanza",
       "subtitle": "Si prega di importare prima i dati di risonanza.",
       "error": "Impossibile caricare i dati. Per favore riprova."
     }
@@ -701,7 +705,7 @@
     "rounds": "Turni",
     "right": "Giusto",
     "wrong": "Sbagliato",
-    "start": "Inizio",
+    "start": "Inizia",
     "play_again": "Gioca di nuovo",
     "next_round": "Round successivo",
     "reveal_direction": "Rivela la direzione",
@@ -709,7 +713,7 @@
     "answer_mode": "Modalità di risposta",
     "correct_answer": "Risposta corretta",
     "reveal_options": {
-      "middle_out": "Mezzo fuori",
+      "middle_out": "Dal centro verso l'esterno",
       "top_down": "Dall'alto verso il basso",
       "bottom_up": "Dal basso verso l'alto"
     }
@@ -744,8 +748,8 @@
       "data_as_of": "Dati al"
     },
     "charts": {
-      "pulls_per_banner": "Tira per banner",
-      "five_star_distribution": "5★ Distribuzione dei tiri",
+      "pulls_per_banner": "Pull per banner",
+      "five_star_distribution": "Distribuzione dei pull 5★",
       "four_star_type2_distribution": "Distribuzione 4★ (banner 5★)",
       "four_star_type3_distribution": "Distribuzione 4★ (Banner 4★)",
       "first_item_distribution": "Distribuzione del primo articolo",

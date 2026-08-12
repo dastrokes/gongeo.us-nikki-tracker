@@ -6,6 +6,8 @@
     "outfits": "Atuendos",
     "item": "Pieza",
     "items": "Piezas",
+    "prop": "Decoración",
+    "props": "Decoraciones",
     "momo": "Capas de Momo",
     "momo_entry": "Capa de Momo",
     "makeup": "Maquillaje",
@@ -55,7 +57,7 @@
       "data_source": "Fuente de datos",
       "data_source_tooltip": "Elige una fuente de datos. Si no está disponible, se usará la otra como alternativa.",
       "auto_option": "\"Auto\" combina ambas fuentes, prefiriendo la que tiene más pulls por banner.",
-      "pearpal_website": "Sitio web de Pearlpal",
+      "pearpal_website": "Sitio web de Pearpal",
       "whimlog": "Whim-Log",
       "game": "Juego",
       "auto": "Auto"
@@ -79,7 +81,7 @@
     },
     "profile": {
       "upload_data": "Subir a la nube",
-      "sync_data": "Sincronización desde la nube",
+      "sync_data": "Sincronizar desde la nube",
       "clear_cloud_data": "Borrar datos de la nube",
       "clear_local_data": "Borrar datos locales",
       "delete_profile": "Eliminar perfil"
@@ -113,6 +115,7 @@
     "outfit": "Compendio de Conjuntos",
     "outfit_detail": "Detalle del Conjunto",
     "item": "Compendio de artículos",
+    "props": "Compendio de decoraciones",
     "lookbook": "Vista previa del lookbook",
     "explore": "Explorar más",
     "makeup": "Compendio de Maquillajes",
@@ -148,6 +151,7 @@
       "makeups": "Explora todos los maquillajes de Infinity Nikki, incluidos los maquillajes completos y las piezas individuales, con filtros por ranura, calidad, estilo, versión y fuente.",
       "outfit_detail": "Vea información detallada sobre el atuendo {name}, incluida la calidad, las piezas del atuendo, la evolución y el brillo, maquillajes, estadísticas y banners de resonancia relacionadas.",
       "items": "Explore todos los artículos Infinity Nikki con filtros por ranura, calidad, bonificaciones de estadísticas y atuendos o banners relacionados. Encuentre, compare y rastree cada artículo fácilmente.",
+      "props": "Explora y registra las decoraciones de Infinity Nikki para escenas fotográficas y la Casa, con su calidad, detalles de colocación, compatibilidad con la Casa y funciones interactivas.",
       "lookbook": "Visualiza un código de Atlas estelar de Infinity Nikki como una tarjeta compartible con lista de artículos, iconos y enlaces al compendio.",
       "momo": "Explora todas las Capas de Momo de Infinity Nikki con filtros por calidad, versión y origen, junto con ilustraciones de los artículos en un compendio dedicado.",
       "momo_detail": "Consulta información detallada sobre {name}, incluida la calidad, el origen, la descripción, la vista previa y el icono.",
@@ -181,7 +185,7 @@
         "content": "¿Está seguro de que desea borrar los datos locales del perfil {profile}? Esta acción no se puede deshacer."
       },
       "sign_out": "Cerrar sesión",
-      "sign_out_success": "Cerrado sesión exitosamente",
+      "sign_out_success": "Sesión cerrada correctamente",
       "sign_out_error": "No se pudo cerrar sesión",
       "sync": {
         "upload_success": "¡Datos cargados a la nube con éxito!",
@@ -424,7 +428,7 @@
     "sign_in_with_email": "Iniciar sesión con correo electrónico",
     "email": "Correo electrónico",
     "password": "Contraseña",
-    "confirm_password": "confirmar Contraseña",
+    "confirm_password": "Confirmar contraseña",
     "forgot_password": "¿Has olvidado tu contraseña?",
     "reset_password": "Restablecer contraseña",
     "send_reset_email": "Enviar correo electrónico de reinicio",
@@ -458,7 +462,7 @@
   "error": {
     "404": "\"Nikki, quedémonos en aguas poco profundas\"",
     "notFound": "La página que buscas no existe.",
-    "returnHome": "Regresar a casa"
+    "returnHome": "Volver al inicio"
   },
   "import": {
     "video_tutorial": "Vídeotutorial",
@@ -471,7 +475,7 @@
     "import_from_file": "Importar desde archivo",
     "import_from_pearpal": "Importar desde Whim-Log",
     "file_import": "Importación de archivos",
-    "file_import_desc": "Importe desde un archivo de datos de resonancia de nikki previamente exportado.",
+    "file_import_desc": "Importe desde un archivo de datos de perfil exportado anteriormente.",
     "select_file": "Seleccionar archivo",
     "select_region": "Seleccionar Región",
     "select_region_desc": "Seleccione la región de su servidor de juegos.",
@@ -573,7 +577,7 @@
       "invalid_form": "Datos de formulario no válidos",
       "import_success": "¡Datos importados exitosamente!",
       "import_failed": "No se pudo importar el archivo",
-      "pearpal_tracker_success": "¡Los datos de Pearlal se importaron exitosamente!",
+      "pearpal_tracker_success": "¡Los datos de Pearpal se importaron correctamente!",
       "pearpal_tracker_failed": "No se pudieron importar los datos de Pearpal.",
       "wardrobe_updated": "Se añadieron {items} prendas, {makeups} maquillajes y {momo} capas de Momo.",
       "wardrobe_up_to_date": "El guardarropa ya está actualizado.",
@@ -668,7 +672,7 @@
       }
     },
     "items": {
-      "pull": "Tire #{number}",
+      "pull": "Tirada n.º {number}",
       "category": {
         "clothes": "Ropa",
         "accessories": "Accesorios"
@@ -692,7 +696,7 @@
     "title": "Silueta De Traje",
     "meta_description": "Adivina el conjunto por su silueta en un minijuego rápido.",
     "instructions": "Adivina el conjunto por su silueta. Cuanto más rápido respondas, mayor será tu puntuación.",
-    "game_complete": "Juego completo",
+    "game_complete": "Juego terminado",
     "final_score": "Puntuación final {score}",
     "round": "Ronda",
     "score": "Puntaje",
@@ -709,7 +713,7 @@
     "answer_mode": "Modo de respuesta",
     "correct_answer": "respuesta correcta",
     "reveal_options": {
-      "middle_out": "A la mitad",
+      "middle_out": "Desde el centro hacia fuera",
       "top_down": "De arriba a abajo",
       "bottom_up": "De abajo hacia arriba"
     }
@@ -792,7 +796,7 @@
         "answer": "Estamos utilizando la misma API que la página del historial de extracción del juego para acceder a los servidores Infold Games que almacenan los datos de extracción del banner. Para acceder a los datos, necesitamos autenticarnos en el servidor Infold Games utilizando la cookie de su cuenta."
       },
       "ban_risk": {
-        "question": "¿Me prohibirán usar esto?",
+        "question": "¿Pueden suspender mi cuenta por usar esto?",
         "answer": "Esta es una herramienta de terceros, por lo que siempre existe cierto riesgo, aunque en última instancia depende de Infold Games. Sin embargo, herramientas similares se utilizan ampliamente en otros juegos gacha (Paimon.moe, Star Rail Station, WuWa Tracker, etc.) y también en la comunidad china de Infinity Nikki (小黑盒 游创工坊). Toma esta información como referencia y haz tu propio juicio."
       },
       "data_storage": {

@@ -6,6 +6,8 @@
     "outfits": "Outfits",
     "item": "Stück",
     "items": "Stücke",
+    "prop": "Dekoration",
+    "props": "Dekorationen",
     "momo": "Momos Mäntel",
     "momo_entry": "Momos Mantel",
     "makeup": "Make-up",
@@ -113,6 +115,7 @@
     "outfit": "Outfit-Kompendium",
     "outfit_detail": "Outfit-Detail",
     "item": "Stück-Kompendium",
+    "props": "Dekorations-Kompendium",
     "lookbook": "Lookbook-Vorschau",
     "explore": "Mehr entdecken",
     "makeup": "Make-up-Kompendium",
@@ -144,10 +147,11 @@
       "banner_detail": "Schau dir die {name} Resonanzbanner-Details an, einschließlich vorgestellter Outfits, Stück-Dropraten, Resonanz-Statistiken, Dauer, Evolutions-Info und Wiederholungsstatus.",
       "timeline": "Erkunde eine interaktive Zeitleiste von Infinity Nikki Resonanzbannern, wesentlichen Updates, Veröffentlichungszeitraum und Wiederholungen, um den Eventverlauf auf einen Blick zu verfolgen.",
       "tierlist": "Erstelle und teile eine Infinity Nikki Rangliste für Banner, Outfits und Stücke mit Drag-and-Drop Bewertung, Filtern und einfachem Bildexport.",
-      "outfits": "Durchsuche alle Infinity Nikki Outfits mit Filtern nach Qualität, Evolution und Verschönerung, Stil-Tags und Statuswerten. Schau dir die kompletten Outfit-Komponenten an und finde Outfit.",
+      "outfits": "Durchsuche alle Infinity Nikki Outfits mit Filtern nach Qualität, Evolution und Verschönerung, Stil-Tags und Statuswerten. Schau dir die kompletten Outfit-Komponenten an und entdecke jedes Outfit.",
       "makeups": "Durchsuche alle Infinity Nikki Make-ups, einschließlich voller Make-ups und einzelner Make-up-Stücke, mit Filtern nach Slot, Qualität, Stil, Version und Herkunft.",
-      "outfit_detail": "Schau dir detaillierte Informationen über das Outfit {name} an, einschließlich Qualität, Evolution und Verschönerung, Statuswerten und verwandter Resonanz-Bannern.",
+      "outfit_detail": "Schau dir detaillierte Informationen über das Outfit {name} an, einschließlich Qualität, Outfit-Stücken, Evolution und Verschönerung, Make-up, Statuswerten und verwandten Resonanz-Bannern.",
       "items": "Durchsuche alle Infinity Nikki Stücke mit Filtern nach Slot, Qualität, Status-Boni und verwandten Outfits oder Bannern. Finde, vergleiche und verfolge jedes Stück ganz leicht.",
+      "props": "Durchsuche und verfolge Dekorationen in Infinity Nikki für Fotoszenen und den Wohnbereich, einschließlich Qualität, Platzierungsdetails, Home-Kompatibilität und interaktiver Funktionen.",
       "lookbook": "Schau dir die Vorschau eines Infinity Nikki Farb-Lookbook-Codes als teilbare Stücklisten-Karte mit Icons und Kompendium-Links an.",
       "momo": "Durchsuche alle Momos Mäntel in Infinity Nikki mit Filtern nach Qualität, Version und Herkunft und sieh dir Stück-Kunstwerke in einem eigenen Kompendium an.",
       "momo_detail": "Schau dir detaillierte Informationen über {name} an, einschließlich Qualität, Herkunft, Beschreibung, Vorschau und Stück-Artwork.",
@@ -493,7 +497,7 @@
     "bookmark_method": "Lesezeichen-Methode (empfohlen)",
     "bookmark_method_mobile": "Lesezeichen-Methode",
     "console_method": "Konsolen-Methode",
-    "manual_input": "Manualle Methode",
+    "manual_input": "Manuelle Methode",
     "title": "Befolge die folgenden Schritte, um deine Cookie-Daten zu erhalten:",
     "bookmark_steps": {
       "step1": "Ziehe den \"Gongeous Cookie\"-Knopf in deine Lesezeichen-/Favoritenleiste (einmalige Aktion):",
@@ -813,7 +817,7 @@
       },
       "data_loss": {
         "question": "Warum sind die Daten für einige Banner unvollständig oder fehlen?",
-        "answer": "Das liegt daran, dass der Resonanz-Verlauf nur für 180 Tage im Spiel gespeichert wird. Danach wird er von den Spielservern gelöscht und ist nicht mehr verfügbar. Um deine Daten zu bewahren, kannst du sie in deinem Browser speichern oder zur Sicherung exportieren. Auf diese Weise kannst du Datensätze aufbewahren, die nicht mehr im Spiel verfügbar sind. Wenn du in Zukunft exportierst, werden deine vorhandenen Daten mit den neuen Daten zusammengeführt."
+        "answer": "Das liegt daran, dass der Resonanz-Verlauf nur für 180 Tage im Spiel gespeichert wird. Danach wird er von den Spielservern gelöscht und ist nicht mehr verfügbar. Um deine Daten zu bewahren, kannst du sie in deinem Browser speichern oder zur Sicherung exportieren. Auf diese Weise kannst du Datensätze aufbewahren, die nicht mehr im Spiel verfügbar sind. Wenn du in Zukunft importierst, werden deine vorhandenen Daten mit den neuen Daten zusammengeführt."
       },
       "no_pulls": {
         "question": "Ich habe die Anweisungen für das Importieren befolgt und die Banner wurden verarbeitet, aber warum wird kein Resonanz-Verlauf angezeigt?",
@@ -1047,7 +1051,7 @@
     "autocomplete_add_term": "Suchbegriff {term} hinzufügen",
     "autocomplete_open_entity": "{type} öffnen: {name}",
     "close_details": "Details schließen",
-    "filters_title": "Filter dursuchen",
+    "filters_title": "Suchfilter",
     "scope_all": "Alle Stücke",
     "scope_owned": "Stücke im Besitz",
     "find_similar": "Ähnliches finden",

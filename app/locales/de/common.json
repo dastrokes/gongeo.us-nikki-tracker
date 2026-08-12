@@ -161,8 +161,8 @@
     }
   },
   "default": {
-    "momo": "Momo",
     "description": "Infinity Nikki Resonanz-Tracker & Styling-Begleiter",
+    "momo": "Momo",
     "your_data": "Deine Daten",
     "community_stats": "Community-Statistiken",
     "view_all_stats": "Alle Statistiken ansehen",

@@ -161,8 +161,8 @@
     }
   },
   "default": {
-    "momo": "Momo",
     "description": "Suivi de Résonance et compagnon de style d'Infinity Nikki",
+    "momo": "Momo",
     "your_data": "Vos données",
     "community_stats": "Statistiques de la communauté",
     "view_all_stats": "Voir toutes les statistiques",

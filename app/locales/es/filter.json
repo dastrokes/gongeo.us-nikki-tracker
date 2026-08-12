@@ -4,7 +4,7 @@
       "blunt_bangs": "Flequillo Recto",
       "curtain_bangs": "Flequillo Cortina",
       "no_bangs": "Sin Flequillo",
-      "side_swept_bangs": "Side-Swept Bangs",
+      "side_swept_bangs": "Flequillo de Lado",
       "wispy_bangs": "Flequillo Desfilado"
     },
     "bottom_length": {
@@ -47,9 +47,9 @@
       "bob": "Bob",
       "hime_cut": "Corte Hime",
       "layered_cut": "Corte a Capas",
-      "lob": "Long Bob (Lob)",
+      "lob": "Lob/Bob Largo",
       "pixie_cut": "Corte Pixie",
-      "shag": "Shag Cut",
+      "shag": "Corte Shag",
       "wolf_cut": "Corte Wolf"
     },
     "heel_height": {
@@ -553,8 +553,8 @@
       "hair": {
         "braid": "Trenza",
         "bun": "Moño",
-        "half_up": "Half-Up",
-        "loose": "Loose Hair",
+        "half_up": "Semirecogido",
+        "loose": "Suelto",
         "ponytail": "Coleta",
         "twin_tails": "Dos Coletas",
         "updo": "Recogido"
@@ -788,12 +788,12 @@
       "hair": {
         "chignon": "Moño Bajo/Chignon",
         "crown_braid": "Trenza Corona",
-        "double_ring_bun": "Double-Loop Bun",
-        "drill_twin_tails": "Twin Drills",
+        "double_ring_bun": "Moño de doble anillo",
+        "drill_twin_tails": "Coletas en Espiral",
         "flying_immortal_bun": "Moño Inmortal",
-        "half_up_braid": "Half-Up Braid",
-        "half_up_bun": "Half-Up Bun",
-        "half_up_ponytail": "Half-Up Ponytail",
+        "half_up_braid": "Semirecogido Trenzado",
+        "half_up_bun": "Semirecogido con Moño",
+        "half_up_ponytail": "Semirecogido con Coleta",
         "high_bun": "Moño Alto",
         "high_ponytail": "Coleta Alta",
         "high_twin_tails": "Dos Coletas Altas",

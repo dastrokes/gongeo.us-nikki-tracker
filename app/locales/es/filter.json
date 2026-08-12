@@ -553,8 +553,8 @@
       "hair": {
         "braid": "Trenza",
         "bun": "Moño",
-        "half_up": "Half-Up",
-        "loose": "Loose Hair",
+        "half_up": "Semirecogido",
+        "loose": "Suelto",
         "ponytail": "Coleta",
         "twin_tails": "Dos Coletas",
         "updo": "Recogido"
@@ -788,12 +788,12 @@
       "hair": {
         "chignon": "Moño Bajo/Chignon",
         "crown_braid": "Trenza Corona",
-        "double_ring_bun": "Double-Loop Bun",
-        "drill_twin_tails": "Twin Drills",
+        "double_ring_bun": "Moño de doble anillo",
+        "drill_twin_tails": "Coletas en Espiral",
         "flying_immortal_bun": "Moño Inmortal",
-        "half_up_braid": "Half-Up Braid",
-        "half_up_bun": "Half-Up Bun",
-        "half_up_ponytail": "Half-Up Ponytail",
+        "half_up_braid": "Semirecogido Trenzado",
+        "half_up_bun": "Semirecogido con Moño",
+        "half_up_ponytail": "Semirecogido con Coleta",
         "high_bun": "Moño Alto",
         "high_ponytail": "Coleta Alta",
         "high_twin_tails": "Dos Coletas Altas",

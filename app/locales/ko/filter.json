@@ -4,7 +4,7 @@
       "blunt_bangs": "일자뱅",
       "curtain_bangs": "커튼뱅",
       "no_bangs": "앞머리 없음",
-      "side_swept_bangs": "옆으로 넘긴 앞머리",
+      "side_swept_bangs": "Side-Swept Bangs",
       "wispy_bangs": "시스루뱅"
     },
     "bottom_length": {
@@ -47,9 +47,9 @@
       "bob": "보브/단발",
       "hime_cut": "히메컷",
       "layered_cut": "레이어드컷",
-      "lob": "롭",
+      "lob": "Long Bob (Lob)",
       "pixie_cut": "픽시컷",
-      "shag": "샤기컷",
+      "shag": "Shag Cut",
       "wolf_cut": "울프컷"
     },
     "heel_height": {
@@ -553,8 +553,8 @@
       "hair": {
         "braid": "땋은 머리",
         "bun": "번 헤어",
-        "half_up": "반묶음",
-        "loose": "푼 머리",
+        "half_up": "Half-Up",
+        "loose": "Loose Hair",
         "ponytail": "포니테일",
         "twin_tails": "트윈테일",
         "updo": "업도"
@@ -788,12 +788,12 @@
       "hair": {
         "chignon": "시뇽",
         "crown_braid": "크라운 브레이드",
-        "double_ring_bun": "이중 고리 번",
-        "drill_twin_tails": "드릴 트윈테일",
+        "double_ring_bun": "Double-Loop Bun",
+        "drill_twin_tails": "Twin Drills",
         "flying_immortal_bun": "비천계",
-        "half_up_braid": "반묶음 땋은 머리",
-        "half_up_bun": "반묶음 번",
-        "half_up_ponytail": "반묶음 포니테일",
+        "half_up_braid": "Half-Up Braid",
+        "half_up_bun": "Half-Up Bun",
+        "half_up_ponytail": "Half-Up Ponytail",
         "high_bun": "하이 번",
         "high_ponytail": "높은 포니테일",
         "high_twin_tails": "높은 트윈테일",

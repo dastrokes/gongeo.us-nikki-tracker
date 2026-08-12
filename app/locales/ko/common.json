@@ -161,6 +161,7 @@
     }
   },
   "default": {
+    "momo": "모모",
     "description": "인피니티 니키 공명 기록 및 스타일링 도우미",
     "your_data": "당신의 데이터",
     "community_stats": "커뮤니티 통계",
@@ -959,6 +960,7 @@
     "not_found_item": "항목을 찾을 수 없습니다",
     "not_found_outfit": "의상을 찾을 수 없습니다",
     "back_to_list": "목록으로 돌아가기",
+    "go_to_pearpal": "Pearpal 지도에서 보물상자 위치 확인",
     "filter_slot": "부위별 필터",
     "filter_category": "카테고리로 필터링",
     "filter_subcategory": "하위 카테고리로 필터링",

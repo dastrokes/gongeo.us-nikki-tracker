@@ -161,6 +161,7 @@
     }
   },
   "default": {
+    "momo": "Momo",
     "description": "Rastreador de Ressonância e companheiro de estilo do Infinity Nikki",
     "your_data": "Seus dados",
     "community_stats": "Estatísticas da comunidade",
@@ -959,6 +960,7 @@
     "not_found_item": "Item não encontrado",
     "not_found_outfit": "Roupa não encontrada",
     "back_to_list": "Voltar à lista",
+    "go_to_pearpal": "Ver localização do baú no mapa do Pearpal",
     "filter_slot": "Filtrar por slot",
     "filter_category": "Filtrar por categoria",
     "filter_subcategory": "Filtrar por subcategoria",

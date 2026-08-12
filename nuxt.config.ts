@@ -23,20 +23,18 @@ import {
 import { getImageProvider } from './app/utils/imageProvider'
 
 const siteUrl = process.env.NUXT_PUBLIC_SITE_URL || 'https://gongeo.us'
-const catalogRevision =
-  process.env.NUXT_PUBLIC_CATALOG_REVISION ||
-  (() => {
-    try {
-      return createHash('sha256')
-        .update(
-          readFileSync(new URL('./public/catalog/index.json', import.meta.url))
-        )
-        .digest('hex')
-        .slice(0, 12)
-    } catch {
-      return process.env.COMMIT_REF || process.env.DEPLOY_ID || 'dev'
-    }
-  })()
+const catalogRevision = (() => {
+  try {
+    return createHash('sha256')
+      .update(
+        readFileSync(new URL('./public/catalog/index.json', import.meta.url))
+      )
+      .digest('hex')
+      .slice(0, 12)
+  } catch {
+    return process.env.COMMIT_REF || process.env.DEPLOY_ID || 'dev'
+  }
+})()
 const sitemapSourceTimeout = 10000
 const getSitemapLocaleSource = (
   localeCode: string

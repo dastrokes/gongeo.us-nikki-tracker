@@ -161,6 +161,7 @@
     }
   },
   "default": {
+    "momo": "Momo",
     "description": "Tracker di risonanza e compagno di styling di Infinity Nikki",
     "your_data": "I tuoi dati",
     "community_stats": "Statistiche della community",
@@ -959,6 +960,7 @@
     "not_found_item": "Articolo non trovato",
     "not_found_outfit": "Abito non trovato",
     "back_to_list": "Torna alla lista",
+    "go_to_pearpal": "Controlla la posizione del forziere sulla mappa di Pearpal",
     "filter_slot": "Filtra per slot",
     "filter_category": "Filtra per categoria",
     "filter_subcategory": "Filtra per sottocategoria",

@@ -126,10 +126,23 @@
         size="small"
         class="rounded-xl p-0 shadow-none sm:p-2"
       >
-        <div class="mb-4 text-center">
-          <n-h2 class="m-0 font-bold">
-            {{ $t('default.current_banners') }}
-          </n-h2>
+        <div class="mb-4 flex items-center justify-between gap-4">
+          <div>
+            <h2
+              class="text-xl font-semibold text-slate-900 dark:text-slate-100"
+            >
+              {{ $t('default.current_banners') }}
+            </h2>
+            <span class="mt-2 block h-0.5 w-5 rounded-full bg-rose-500" />
+          </div>
+          <NuxtLinkLocale
+            no-prefetch
+            to="/banners"
+            class="inline-flex min-h-11 items-center gap-1.5 text-sm font-semibold text-rose-500 hover:text-rose-600 focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden dark:text-rose-300 dark:hover:text-rose-200"
+          >
+            {{ $t('navigation.banner') }}
+            <n-icon size="12"><ChevronRight /></n-icon>
+          </NuxtLinkLocale>
         </div>
         <div
           v-if="bannerGroups.length > 0"
@@ -150,76 +163,121 @@
         </div>
       </n-card>
     </section>
-    <!-- ═══ Compendium Section ═══ -->
+
+    <!-- ═══ Compendium and Explore More ═══ -->
     <section
       ref="compendiumSectionRef"
-      class="scroll-mt-16"
+      class="grid scroll-mt-16 gap-4 lg:grid-cols-[0.9fr_1.1fr] lg:items-stretch"
     >
       <n-card
         size="small"
-        class="rounded-xl p-0 shadow-none sm:p-2"
+        class="h-full rounded-xl p-0 shadow-none sm:p-2"
+        content-class="lg:flex lg:h-full lg:flex-col"
       >
-        <div class="mb-4 text-center">
-          <n-h2 class="m-0 font-bold">
-            {{ $t('navigation.compendium') }}
-          </n-h2>
+        <div class="mb-4 flex items-end justify-between gap-4">
+          <div>
+            <h2
+              class="text-xl font-semibold text-slate-900 dark:text-slate-100"
+            >
+              {{ $t('navigation.compendium') }}
+            </h2>
+            <span class="mt-2 block h-0.5 w-5 rounded-full bg-rose-500" />
+          </div>
+          <NuxtLinkLocale
+            no-prefetch
+            to="/items"
+            class="inline-flex min-h-11 items-center gap-1.5 text-sm font-semibold text-rose-500 hover:text-rose-600 focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden dark:text-rose-300 dark:hover:text-rose-200"
+          >
+            {{ $t('common.view_compendium') }}
+            <n-icon size="12"><ChevronRight /></n-icon>
+          </NuxtLinkLocale>
         </div>
 
         <!-- Compendium Grid -->
-        <div class="grid grid-cols-2 gap-3 lg:grid-cols-4">
-          <button
-            v-for="item in compendiumItems"
-            :key="item.key"
-            class="group grid min-h-20 cursor-pointer grid-cols-[3.75rem_minmax(0,1fr)_1.5rem] items-stretch overflow-hidden rounded-xl border border-black/5 bg-slate-50/70 p-0 text-left ring-1 ring-white/60 transition-[background-color,border-color,transform] duration-200 ease-out ring-inset hover:-translate-y-0.5 hover:border-rose-200/70 hover:bg-white/80 focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden motion-reduce:transform-none motion-reduce:transition-none sm:min-h-24 sm:grid-cols-[4.5rem_minmax(0,1fr)_1.75rem] dark:border-white/8 dark:bg-slate-950/30 dark:ring-white/4 dark:hover:border-rose-300/20 dark:hover:bg-slate-900/45"
-            @click="navigateTo(localePath(item.path))"
+        <div
+          class="grid grid-cols-4 gap-2 sm:gap-3 md:grid-cols-2 lg:flex-1 lg:grid-cols-4"
+        >
+          <div
+            v-for="column in compendiumColumns"
+            :key="column.key"
+            class="min-w-0 md:grid md:grid-cols-[minmax(0,1fr)_8rem] md:gap-2 lg:flex lg:flex-col lg:gap-0"
           >
-            <div
-              class="flex items-center justify-center border-r border-black/5 bg-rose-50/65 ring-1 ring-white/70 transition-colors duration-200 ring-inset group-hover:bg-rose-100/65 dark:border-white/8 dark:bg-rose-400/8 dark:ring-white/4 dark:group-hover:bg-rose-400/12"
+            <NuxtLinkLocale
+              no-prefetch
+              :to="column.path"
+              class="group flex min-h-20 flex-col items-center justify-center gap-1.5 rounded-lg border border-black/5 bg-white/70 px-1 py-2 text-center ring-1 ring-white/60 transition-[border-color,background-color,transform] duration-200 ring-inset hover:-translate-y-0.5 hover:border-rose-200 hover:bg-white focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden motion-reduce:transform-none sm:gap-2 sm:px-2 sm:py-3 md:min-h-0 lg:min-h-20 lg:flex-1 dark:border-white/8 dark:bg-slate-950/25 dark:ring-white/4 dark:hover:border-rose-300/20 dark:hover:bg-slate-900/45"
             >
               <n-icon
-                :size="28"
-                class="text-rose-500 transition-transform duration-200 ease-out group-hover:scale-105 motion-reduce:transform-none motion-reduce:transition-none dark:text-rose-400"
+                :size="24"
+                class="text-rose-500 transition-transform duration-200 group-hover:scale-105 motion-reduce:transform-none dark:text-rose-300"
               >
-                <component :is="item.icon" />
+                <component :is="column.icon" />
               </n-icon>
-            </div>
-            <span
-              class="min-w-0 self-center px-3 text-sm font-semibold tracking-[0.01em] text-slate-800 transition-colors duration-200 group-hover:text-rose-600 sm:px-4 dark:text-slate-100 dark:group-hover:text-rose-200"
+              <span
+                class="max-w-full truncate text-xs leading-tight font-semibold whitespace-nowrap text-slate-700 sm:text-sm dark:text-slate-200"
+              >
+                {{ $t(column.label) }}
+              </span>
+            </NuxtLinkLocale>
+
+            <NuxtLinkLocale
+              no-prefetch
+              :to="column.preview.path"
+              class="group relative mt-2 block aspect-2/3 w-full overflow-hidden rounded-lg bg-slate-100 bg-[url('/images/bg.webp')] bg-cover bg-center transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-rose-500/80 focus-visible:outline-hidden focus-visible:ring-inset md:mt-0 lg:mt-2 dark:bg-slate-800"
+              :aria-label="column.preview.linkLabel"
             >
-              {{ $t(item.label) }}
-            </span>
-            <n-icon
-              :size="12"
-              class="mr-2 self-center text-slate-300 transition-[color,transform] duration-200 group-hover:translate-x-0.5 group-hover:text-rose-400 motion-reduce:transform-none dark:text-slate-600 dark:group-hover:text-rose-300"
-            >
-              <ChevronRight />
-            </n-icon>
-          </button>
+              <LazyNuxtImg
+                v-if="column.preview.imageId"
+                :src="
+                  getImageSrc(column.preview.imageType, column.preview.imageId)
+                "
+                :alt="column.preview.imageAlt"
+                :preset="column.preview.transparent ? 'tallLg' : undefined"
+                :fit="column.preview.transparent ? 'cover' : undefined"
+                :width="column.preview.transparent ? undefined : 200"
+                loading="lazy"
+                class="h-full w-full transition-[filter] duration-200 group-hover:brightness-105"
+                :class="
+                  column.preview.transparent
+                    ? 'object-cover object-top'
+                    : 'object-cover object-center'
+                "
+                sizes="25vw lg:140px"
+              />
+              <n-skeleton
+                v-else
+                class="h-full w-full rounded-none"
+              />
+              <span
+                aria-hidden="true"
+                class="pointer-events-none absolute inset-0 z-10 rounded-lg ring-1 ring-slate-300/80 transition-colors duration-200 ring-inset group-hover:ring-rose-200 dark:ring-white/15 dark:group-hover:ring-rose-300/25"
+              />
+            </NuxtLinkLocale>
+          </div>
         </div>
       </n-card>
-    </section>
 
-    <!-- Explore Section -->
-    <section class="scroll-mt-16">
       <n-card
         size="small"
-        class="rounded-xl p-0 shadow-none sm:p-2"
+        class="h-full rounded-xl p-0 shadow-none sm:p-2"
+        content-class="lg:flex lg:h-full lg:flex-col"
       >
-        <div class="mb-4 text-center">
-          <n-h2 class="m-0 font-bold">
+        <div class="mb-4">
+          <h2 class="text-xl font-semibold text-slate-900 dark:text-slate-100">
             {{ $t('navigation.explore') }}
-          </n-h2>
+          </h2>
+          <span class="mt-2 block h-0.5 w-5 rounded-full bg-rose-500" />
         </div>
 
         <!-- Feature Row -->
         <div
           ref="featureRowRef"
-          class="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-6"
+          class="grid grid-cols-2 gap-3 md:grid-cols-3 lg:flex-1 lg:grid-rows-2"
         >
           <!-- Eureka Tracker -->
           <NuxtLinkLocale
             no-prefetch
-            class="group relative flex h-36 w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl border border-black/5 bg-slate-50/70 ring-1 ring-white/60 transition-[background-color,border-color,transform] duration-200 ring-inset hover:-translate-y-0.5 hover:border-rose-200/70 hover:bg-white/80 focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden motion-reduce:transform-none dark:border-white/8 dark:bg-slate-950/30 dark:ring-white/4 dark:hover:border-rose-300/20 dark:hover:bg-slate-900/45"
+            class="group relative order-4 flex h-36 w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl border border-black/5 bg-slate-50/70 ring-1 ring-white/60 transition-[background-color,border-color,transform] duration-200 ring-inset hover:-translate-y-0.5 hover:border-rose-200/70 hover:bg-white/80 focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden motion-reduce:transform-none lg:h-auto lg:min-h-28 dark:border-white/8 dark:bg-slate-950/30 dark:ring-white/4 dark:hover:border-rose-300/20 dark:hover:bg-slate-900/45"
             :to="'/eurekas'"
           >
             <div
@@ -267,7 +325,7 @@
           <!-- Lookbook Preview -->
           <NuxtLinkLocale
             no-prefetch
-            class="group relative flex h-36 w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl border border-black/5 bg-slate-50/70 ring-1 ring-white/60 transition-[background-color,border-color,transform] duration-200 ring-inset hover:-translate-y-0.5 hover:border-rose-200/70 hover:bg-white/80 focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden motion-reduce:transform-none dark:border-white/8 dark:bg-slate-950/30 dark:ring-white/4 dark:hover:border-rose-300/20 dark:hover:bg-slate-900/45"
+            class="group relative order-5 flex h-36 w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl border border-black/5 bg-slate-50/70 ring-1 ring-white/60 transition-[background-color,border-color,transform] duration-200 ring-inset hover:-translate-y-0.5 hover:border-rose-200/70 hover:bg-white/80 focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden motion-reduce:transform-none lg:h-auto lg:min-h-28 dark:border-white/8 dark:bg-slate-950/30 dark:ring-white/4 dark:hover:border-rose-300/20 dark:hover:bg-slate-900/45"
             :to="'/lookbook'"
           >
             <div
@@ -327,7 +385,7 @@
           <!-- Whim Search -->
           <NuxtLinkLocale
             no-prefetch
-            class="group relative flex h-36 w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl border border-black/5 bg-slate-50/70 ring-1 ring-white/60 transition-[background-color,border-color,transform] duration-200 ring-inset hover:-translate-y-0.5 hover:border-rose-200/70 hover:bg-white/80 focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden motion-reduce:transform-none dark:border-white/8 dark:bg-slate-950/30 dark:ring-white/4 dark:hover:border-rose-300/20 dark:hover:bg-slate-900/45"
+            class="group relative order-1 flex h-36 w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl border border-black/5 bg-slate-50/70 ring-1 ring-white/60 transition-[background-color,border-color,transform] duration-200 ring-inset hover:-translate-y-0.5 hover:border-rose-200/70 hover:bg-white/80 focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden motion-reduce:transform-none lg:h-auto lg:min-h-28 dark:border-white/8 dark:bg-slate-950/30 dark:ring-white/4 dark:hover:border-rose-300/20 dark:hover:bg-slate-900/45"
             :to="'/search'"
           >
             <!-- Decorative Search Interface Background -->
@@ -405,7 +463,7 @@
           <!-- Whim-O-Matic -->
           <NuxtLinkLocale
             no-prefetch
-            class="group relative flex h-36 w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl border border-black/5 bg-slate-50/70 ring-1 ring-white/60 transition-[background-color,border-color,transform] duration-200 ring-inset hover:-translate-y-0.5 hover:border-rose-200/70 hover:bg-white/80 focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden motion-reduce:transform-none dark:border-white/8 dark:bg-slate-950/30 dark:ring-white/4 dark:hover:border-rose-300/20 dark:hover:bg-slate-900/45"
+            class="group relative order-2 flex h-36 w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl border border-black/5 bg-slate-50/70 ring-1 ring-white/60 transition-[background-color,border-color,transform] duration-200 ring-inset hover:-translate-y-0.5 hover:border-rose-200/70 hover:bg-white/80 focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden motion-reduce:transform-none lg:h-auto lg:min-h-28 dark:border-white/8 dark:bg-slate-950/30 dark:ring-white/4 dark:hover:border-rose-300/20 dark:hover:bg-slate-900/45"
             :to="'/random'"
           >
             <!-- GachaponMachineSvg bg -->
@@ -435,7 +493,7 @@
           <!-- Tier List Preview -->
           <NuxtLinkLocale
             no-prefetch
-            class="group relative flex h-36 w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl border border-black/5 bg-slate-50/70 ring-1 ring-white/60 transition-[background-color,border-color,transform] duration-200 ring-inset hover:-translate-y-0.5 hover:border-rose-200/70 hover:bg-white/80 focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden motion-reduce:transform-none dark:border-white/8 dark:bg-slate-950/30 dark:ring-white/4 dark:hover:border-rose-300/20 dark:hover:bg-slate-900/45"
+            class="group relative order-3 flex h-36 w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl border border-black/5 bg-slate-50/70 ring-1 ring-white/60 transition-[background-color,border-color,transform] duration-200 ring-inset hover:-translate-y-0.5 hover:border-rose-200/70 hover:bg-white/80 focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden motion-reduce:transform-none lg:h-auto lg:min-h-28 dark:border-white/8 dark:bg-slate-950/30 dark:ring-white/4 dark:hover:border-rose-300/20 dark:hover:bg-slate-900/45"
             :to="'/tierlist'"
           >
             <div
@@ -482,7 +540,7 @@
           <!-- Outfit Silhouette Quiz -->
           <NuxtLinkLocale
             no-prefetch
-            class="group relative flex h-36 w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl border border-black/5 bg-slate-50/70 ring-1 ring-white/60 transition-[background-color,border-color,transform] duration-200 ring-inset hover:-translate-y-0.5 hover:border-rose-200/70 hover:bg-white/80 focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden motion-reduce:transform-none dark:border-white/8 dark:bg-slate-950/30 dark:ring-white/4 dark:hover:border-rose-300/20 dark:hover:bg-slate-900/45"
+            class="group relative order-6 flex h-36 w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl border border-black/5 bg-slate-50/70 ring-1 ring-white/60 transition-[background-color,border-color,transform] duration-200 ring-inset hover:-translate-y-0.5 hover:border-rose-200/70 hover:bg-white/80 focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden motion-reduce:transform-none lg:h-auto lg:min-h-28 dark:border-white/8 dark:bg-slate-950/30 dark:ring-white/4 dark:hover:border-rose-300/20 dark:hover:bg-slate-900/45"
             :to="'/quiz'"
           >
             <div
@@ -532,10 +590,11 @@
         size="small"
         class="rounded-xl p-0 shadow-none sm:p-2"
       >
-        <div class="mb-5 text-center">
-          <n-h2 class="m-0 font-bold">
+        <div class="mb-4">
+          <h2 class="text-xl font-semibold text-slate-900 dark:text-slate-100">
             {{ $t('default.community_stats') }}
-          </n-h2>
+          </h2>
+          <span class="mt-2 block h-0.5 w-5 rounded-full bg-rose-500" />
         </div>
         <div
           class="grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,240px)_minmax(0,1fr)] lg:items-stretch"
@@ -622,6 +681,7 @@
     Filter,
     ChevronRight,
     PaintBrush,
+    Paw,
     Th,
   } from '@vicons/fa'
 
@@ -639,6 +699,10 @@
       rootMargin: '300px',
     }
   )
+  const { shouldRender: shouldLoadCompendiumPreviews } =
+    useDeferredSectionRender(compendiumSectionRef, {
+      rootMargin: '300px',
+    })
   const { shouldRender: shouldRenderStatsSection } = useDeferredSectionRender(
     statsSectionRef,
     {
@@ -684,12 +748,6 @@
 
   // ── Compendium items ───────────────────────────
   const compendiumItems = [
-    {
-      key: 'banners',
-      path: '/banners',
-      icon: CalendarAlt,
-      label: 'common.banners',
-    },
     { key: 'outfits', path: '/outfits', icon: Tshirt, label: 'common.outfits' },
     { key: 'items', path: '/items', icon: ListAlt, label: 'common.items' },
     {
@@ -698,7 +756,19 @@
       icon: PaintBrush,
       label: 'common.makeups',
     },
+    { key: 'momo', path: '/momo', icon: Paw, label: 'default.momo' },
   ] as const
+
+  type CompendiumPreviewImageType = 'outfit' | 'item' | 'fullMakeup' | 'momo'
+
+  interface CompendiumPreview {
+    imageType: CompendiumPreviewImageType
+    imageId: string | number | null
+    imageAlt: string
+    linkLabel: string
+    path: string
+    transparent: boolean
+  }
 
   // ── Current banners ────────────────────────────
   interface BannerGroup {
@@ -731,11 +801,128 @@
   const featuredCurrentBanners =
     newCurrentBanners.length > 0 ? newCurrentBanners : currentBanners
 
-  // ── Outfit silhouette ──────────────────────────
+  // ── Compendium previews and outfit silhouette ──
   const outfitKeys = featuredCurrentBanners.flatMap((banner) => [
     ...banner.outfit5StarId,
     ...banner.outfit4StarId,
   ]) as OutfitKey[]
+  const catalogIndex = useCatalogIndex()
+  const { activeRegionScope } = useWardrobeSettings()
+  const compendiumPreviewIds = ref({
+    outfits: null as number | null,
+    items: null as number | null,
+    makeups: null as number | null,
+    momo: null as number | null,
+  })
+  let compendiumPreviewRequest = 0
+
+  const loadCompendiumPreviewIds = async () => {
+    const request = ++compendiumPreviewRequest
+
+    try {
+      await catalogIndex.load([
+        'items',
+        'outfits',
+        'outfitItems',
+        'makeups',
+        'momo',
+      ])
+    } catch {
+      return
+    }
+
+    if (request !== compendiumPreviewRequest) return
+
+    const index = catalogIndex.index.value
+    if (!index) return
+
+    const getFirstId = (
+      entity: 'item' | 'outfit' | 'makeup' | 'momo',
+      filters: Record<string, unknown>
+    ) =>
+      getLocalStaticCatalogListingMatchingIds({
+        query: {
+          entity,
+          filters,
+          page: 1,
+          pageSize: 1,
+          ownershipMode: 'all',
+          regionScope: activeRegionScope.value,
+        },
+        index,
+      }).ids[0] ?? null
+
+    compendiumPreviewIds.value = {
+      outfits: getFirstId('outfit', { variations: 'base' }),
+      items: getFirstId('item', { piece: 'all', variations: 'base' }),
+      makeups: getFirstId('makeup', {
+        kind: 'all',
+        variations: 'base',
+      }),
+      momo: getFirstId('momo', {}),
+    }
+  }
+
+  watch(
+    [shouldLoadCompendiumPreviews, activeRegionScope],
+    ([shouldLoad]) => {
+      if (import.meta.client && shouldLoad) {
+        void loadCompendiumPreviewIds()
+      }
+    },
+    { immediate: true }
+  )
+
+  const compendiumPreviewByKey = computed<
+    Record<(typeof compendiumItems)[number]['key'], CompendiumPreview>
+  >(() => {
+    const { outfits, items, makeups, momo } = compendiumPreviewIds.value
+    const makeup = makeups
+      ? catalogIndex.index.value?.makeupById.get(makeups)
+      : null
+
+    return {
+      outfits: {
+        imageType: 'outfit',
+        imageId: outfits,
+        imageAlt: outfits ? t(`outfit.${outfits}.name`) : t('common.outfits'),
+        linkLabel: outfits ? t(`outfit.${outfits}.name`) : t('common.outfits'),
+        path: outfits ? getOutfitDetailPath(outfits) : '/outfits',
+        transparent: true,
+      },
+      items: {
+        imageType: 'item',
+        imageId: items,
+        imageAlt: items ? t(`item.${items}.name`) : t('common.items'),
+        linkLabel: items ? t(`item.${items}.name`) : t('common.items'),
+        path: items ? getItemEntityDetailPath(items) : '/items',
+        transparent: false,
+      },
+      makeups: {
+        imageType: makeup?.type === 'fullMakeup' ? 'fullMakeup' : 'item',
+        imageId: makeups,
+        imageAlt: makeups ? t(`makeup.${makeups}.name`) : t('common.makeups'),
+        linkLabel: makeups ? t(`makeup.${makeups}.name`) : t('common.makeups'),
+        path: makeups ? getMakeupDetailPath(makeups) : '/makeups',
+        transparent: false,
+      },
+      momo: {
+        imageType: 'momo',
+        imageId: momo,
+        imageAlt: momo ? t(`momo.${momo}.name`) : t('common.momo'),
+        linkLabel: momo ? t(`momo.${momo}.name`) : t('common.momo'),
+        path: momo ? getMomoDetailPath(momo) : '/momo',
+        transparent: true,
+      },
+    }
+  })
+
+  const compendiumColumns = computed(() =>
+    compendiumItems.map((item) => ({
+      ...item,
+      preview: compendiumPreviewByKey.value[item.key],
+    }))
+  )
 
   const featuredOutfitId = useState<OutfitKey>(
     'landing-featured-outfit-id',

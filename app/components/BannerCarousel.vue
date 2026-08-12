@@ -89,6 +89,16 @@
       >
         {{ $t('default.rerun') }}
       </n-tag>
+      <div
+        class="pointer-events-none absolute left-3 z-20 max-w-[60%]"
+        :class="hasMultipleSlides ? 'bottom-8' : 'bottom-3'"
+      >
+        <span
+          class="line-clamp-2 text-sm font-semibold text-white drop-shadow-[0_1px_4px_rgba(15,23,42,0.9)] sm:text-base"
+        >
+          {{ t(`banner.${banner.bannerId}.name`) }}
+        </span>
+      </div>
     </div>
 
     <div

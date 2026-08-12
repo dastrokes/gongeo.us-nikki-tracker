@@ -14,6 +14,12 @@ export const useWardrobeSettings = () => {
   const activeRegionScope = computed(
     () => activeProfileSettings.value.regionScope
   )
+  const hasActiveRegionScope = computed(() =>
+    Object.prototype.hasOwnProperty.call(
+      settings.value.profiles,
+      activeProfileKey.value
+    )
+  )
   const onboardingCompleted = computed(
     () => activeProfileSettings.value.onboardingCompleted
   )
@@ -54,6 +60,7 @@ export const useWardrobeSettings = () => {
     settings,
     activeProfileSettings,
     activeRegionScope,
+    hasActiveRegionScope,
     onboardingCompleted,
     activeShareSettings,
     setActiveRegionScope,

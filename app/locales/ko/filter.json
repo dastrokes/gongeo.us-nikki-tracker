@@ -4,7 +4,7 @@
       "blunt_bangs": "일자뱅",
       "curtain_bangs": "커튼뱅",
       "no_bangs": "앞머리 없음",
-      "side_swept_bangs": "Side-Swept Bangs",
+      "side_swept_bangs": "옆으로 넘긴 앞머리",
       "wispy_bangs": "시스루뱅"
     },
     "bottom_length": {
@@ -47,9 +47,9 @@
       "bob": "보브/단발",
       "hime_cut": "히메컷",
       "layered_cut": "레이어드컷",
-      "lob": "Long Bob (Lob)",
+      "lob": "롭",
       "pixie_cut": "픽시컷",
-      "shag": "Shag Cut",
+      "shag": "샤기컷",
       "wolf_cut": "울프컷"
     },
     "heel_height": {

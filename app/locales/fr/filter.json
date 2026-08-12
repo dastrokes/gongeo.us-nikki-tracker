@@ -4,7 +4,7 @@
       "blunt_bangs": "Frange Droite",
       "curtain_bangs": "Frange Rideau",
       "no_bangs": "Sans Frange",
-      "side_swept_bangs": "Frange sur le Côté",
+      "side_swept_bangs": "Side-Swept Bangs",
       "wispy_bangs": "Frange Effilée"
     },
     "bottom_length": {
@@ -47,9 +47,9 @@
       "bob": "Carré",
       "hime_cut": "Coupe Hime",
       "layered_cut": "Dégradé",
-      "lob": "Carré Long",
+      "lob": "Long Bob (Lob)",
       "pixie_cut": "Coupe Pixie",
-      "shag": "Coupe Shag",
+      "shag": "Shag Cut",
       "wolf_cut": "Wolf Cut"
     },
     "heel_height": {
@@ -553,8 +553,8 @@
       "hair": {
         "braid": "Tresse",
         "bun": "Chignon",
-        "half_up": "Demi-Queue",
-        "loose": "Détachés",
+        "half_up": "Half-Up",
+        "loose": "Loose Hair",
         "ponytail": "Queue de cheval",
         "twin_tails": "Couettes",
         "updo": "Coiffure relevée"
@@ -788,12 +788,12 @@
       "hair": {
         "chignon": "Petit Chignon",
         "crown_braid": "Tresse couronne",
-        "double_ring_bun": "Chignon à double anneau",
-        "drill_twin_tails": "Couettes tubulaires",
+        "double_ring_bun": "Double-Loop Bun",
+        "drill_twin_tails": "Twin Drills",
         "flying_immortal_bun": "Chignon céleste",
-        "half_up_braid": "Demi-queue tressée",
-        "half_up_bun": "Demi-chignon",
-        "half_up_ponytail": "Demi-queue de cheval",
+        "half_up_braid": "Half-Up Braid",
+        "half_up_bun": "Half-Up Bun",
+        "half_up_ponytail": "Half-Up Ponytail",
         "high_bun": "Chignon haut",
         "high_ponytail": "Queue de cheval haute",
         "high_twin_tails": "Couettes hautes",

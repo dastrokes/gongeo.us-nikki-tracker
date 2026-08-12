@@ -6,6 +6,8 @@
     "outfits": "Tenues",
     "item": "Pièce",
     "items": "Pièces",
+    "prop": "Décoration",
+    "props": "Décorations",
     "momo": "Capes de Momo",
     "momo_entry": "Cape de Momo",
     "makeup": "Maquillage",
@@ -113,6 +115,7 @@
     "outfit": "Recueil de tenues",
     "outfit_detail": "Détail de la tenue",
     "item": "Recueil d'articles",
+    "props": "Recueil de décorations",
     "lookbook": "Aperçu du lookbook",
     "explore": "Explorer davantage",
     "makeup": "Recueil de maquillages",
@@ -141,13 +144,14 @@
       "global": "Explorez les données mondiales de résonance Infinity Nikki, notamment la popularité des bannières, les taux d'extraction, les taux d'obtention des objets et les statistiques de tirage de la communauté.",
       "global_banner": "Explorez les statistiques communautaires de tirages pour la bannière de résonance {name}, y compris l'ordre des articles et les distributions de tirages de complétion.",
       "banner": "Explorez l'historique des bannières de résonance Infinity Nikki avec les événements actuels, à venir et passés, les tenues en vedette, les taux de tirage, les durées et les détails des rediffusions.",
-      "banner_detail": "Consultez les détails de la bannière de résonance {name}, y compris les tenues en vedette, les taux d'obtention des objets, les statistiques d'extraction, la durée, les informations d'évolution et le statut de réexécution.",
+      "banner_detail": "Consultez les détails de la bannière de résonance {name}, y compris les tenues en vedette, les taux d'obtention des objets, les statistiques d'extraction, la durée, les informations d'évolution et le statut de réédition.",
       "timeline": "Explorez une chronologie interactive des bannières de résonance Infinity Nikki, des mises à jour majeures, des périodes de sortie et des rediffusions pour suivre l'historique des événements en un coup d'œil.",
       "tierlist": "Créez et partagez une liste de niveaux Infinity Nikki pour les bannières, les tenues et les articles avec un classement par glisser-déposer, des filtres et une exportation facile d'images.",
       "outfits": "Parcourez toutes les tenues Infinity Nikki avec des filtres de qualité, d'évolution, d'éclat, de balises de style et de statistiques. Voir les composants complets et découvrir chaque tenue.",
       "makeups": "Parcourez tous les maquillages d'Infinity Nikki, y compris les maquillages complets et les éléments individuels, avec des filtres par emplacement, qualité, style, version et source.",
       "outfit_detail": "Affichez des informations détaillées sur la tenue {name}, notamment la qualité, les pièces de la tenue, l'évolution et l'éclat, les maquillages, les statistiques et les bannières de résonance associées.",
       "items": "Parcourez tous les articles Infinity Nikki avec des filtres par emplacement, qualité, bonus de statistiques et tenues ou bannières associées. Trouvez, comparez et suivez facilement chaque article.",
+      "props": "Parcourez et suivez les décorations d'Infinity Nikki pour les scènes photo et la Maison, avec leur qualité, leurs détails de placement, leur compatibilité avec la Maison et leurs fonctions interactives.",
       "lookbook": "Prévisualisez un code Atlas stellaire Infinity Nikki sous forme de carte partageable avec liste d'articles, icônes et liens vers le compendium.",
       "momo": "Parcourez toutes les Capes de Momo d'Infinity Nikki avec des filtres par qualité, version et source, ainsi que l'illustration de l'objet dans un compendium dédié.",
       "momo_detail": "Affichez des informations détaillées sur {name}, notamment sa qualité, sa source, sa description, son aperçu et son icône.",
@@ -439,7 +443,7 @@
     "passwords_dont_match": "Les mots de passe ne correspondent pas",
     "invalid_email": "S'il vous plaît, mettez une adresse email valide",
     "signup_success": "Compte créé avec succès ! Veuillez vérifier votre courrier électronique pour vérification.",
-    "signin_success": "Connectez-vous avec succès !",
+    "signin_success": "Connexion réussie !",
     "reset_success": "E-mail de réinitialisation du mot de passe envoyé ! Veuillez vérifier votre boîte de réception.",
     "email_signin_error": "Échec de la connexion avec l'e-mail. Veuillez vérifier vos informations d'identification.",
     "email_signup_error": "Échec de la création du compte. Veuillez réessayer.",
@@ -458,7 +462,7 @@
   "error": {
     "404": "\"Nikki, restons dans les eaux peu profondes\"",
     "notFound": "La page que vous recherchez n'existe pas.",
-    "returnHome": "Retour à la maison"
+    "returnHome": "Retour à l’accueil"
   },
   "import": {
     "video_tutorial": "Tutoriel vidéo",
@@ -471,7 +475,7 @@
     "import_from_file": "Importer à partir d'un fichier",
     "import_from_pearpal": "Importer depuis Whim-Log",
     "file_import": "Importation de fichiers",
-    "file_import_desc": "Importez à partir d'un fichier de données nikki-resonance précédemment exporté.",
+    "file_import_desc": "Importez à partir d'un fichier de données de profil précédemment exporté.",
     "select_file": "Sélectionnez un fichier",
     "select_region": "Sélectionnez une région",
     "select_region_desc": "Sélectionnez la région de votre serveur de jeu.",
@@ -655,7 +659,7 @@
         "pity_4star": "4★ Pity"
       },
       "settings": {
-        "banner_order": "Commande de bannière",
+        "banner_order": "Ordre des bannières",
         "item_order": "Ordre des articles",
         "outfit_display": "Affichage des tenues",
         "item_display": "Affichage de l'article",
@@ -668,7 +672,7 @@
       }
     },
     "items": {
-      "pull": "Tirez #{number}",
+      "pull": "Tirage n° {number}",
       "category": {
         "clothes": "Vêtements",
         "accessories": "Accessoires"
@@ -699,17 +703,17 @@
     "streak": "Série",
     "best_streak": "Meilleure séquence",
     "rounds": "Tours",
-    "right": "Droite",
+    "right": "Correct",
     "wrong": "Faux",
     "start": "Commencer",
     "play_again": "Rejouer",
     "next_round": "Manche suivante",
     "reveal_direction": "Révéler la direction",
-    "blur": "Se brouiller",
+    "blur": "Flou",
     "answer_mode": "Mode de réponse",
     "correct_answer": "Bonne réponse",
     "reveal_options": {
-      "middle_out": "Au milieu",
+      "middle_out": "Du centre vers l’extérieur",
       "top_down": "De haut en bas",
       "bottom_up": "De bas en haut"
     }
@@ -745,7 +749,7 @@
     },
     "charts": {
       "pulls_per_banner": "Tirages par bannière",
-      "five_star_distribution": "5★ Tire la distribution",
+      "five_star_distribution": "Distribution des tirages 5★",
       "four_star_type2_distribution": "4★ Distribution (Bannière 5★)",
       "four_star_type3_distribution": "4★ Distribution (Bannière 4★)",
       "first_item_distribution": "Distribution du premier article",
@@ -753,7 +757,7 @@
       "five_star_banners": "Bannières 5★",
       "four_star_banners": "Bannières 4★",
       "recent_only": "Récent",
-      "all_time": "Tout le temps",
+      "all_time": "Toute la période",
       "first_item_distribution_tooltip": "Cette bannière inclut des tirages datant de plus de 180 jours, qui ne sont plus disponibles dans le jeu. En conséquence, les premières données de distribution d'articles peuvent être inexactes."
     },
     "banner_stats": {
@@ -801,7 +805,7 @@
       },
       "server_data": {
         "question": "Quelles données sont envoyées au serveur ?",
-        "answer": "Seules vos statistiques d'extraction sont envoyées pour vous aider à calculer les statistiques globales si vous vous inscrivez. Cela inclut une version hachée de votre UID et les informations sur les éléments 4★ et 5★ que vous avez extraits."
+        "answer": "Seules vos statistiques d'extraction sont envoyées pour aider à calculer les statistiques globales si vous choisissez de participer. Cela inclut une version hachée de votre UID et les informations sur les objets 4★ et 5★ que vous avez obtenus."
       },
       "platform_support": {
         "question": "Est-ce que ça fonctionnera si je joue sur mobile ou PS5 ?",

@@ -338,7 +338,7 @@
       "over_knee": "Au-dessus du Genou"
     },
     "shoulder_style": {
-      "cold_shoulder": "Épaules Dénudées",
+      "cold_shoulder": "Épaules Découpées",
       "halter": "Dos Nu",
       "off_shoulder": "Épaules Nues",
       "one_shoulder": "Une Épaule",
@@ -622,7 +622,7 @@
       },
       "outerwear": {
         "cape": "Cape",
-        "cardigan": "Gilet",
+        "cardigan": "Cardigan",
         "coat": "Manteau",
         "jacket": "Veste",
         "robe": "Robe/Robe de chambre",
@@ -641,7 +641,7 @@
       "shoes": {
         "barefoot": "Pieds nus",
         "boots": "Bottes",
-        "flats": "Plats",
+        "flats": "Chaussures plates",
         "heels": "Talons",
         "loafers": "Mocassins",
         "mary_janes": "Babies",
@@ -808,7 +808,7 @@
       },
       "hairAccessories": {
         "bow": "Nœud",
-        "coronet": "Coronille",
+        "coronet": "Petite couronne",
         "flower": "Fleur",
         "hair_comb": "Peigne à cheveux",
         "hairclip": "Barrette",
@@ -871,7 +871,7 @@
         "bonnet": "Bonnet/Béguin",
         "bowler_hat": "Chapeau melon",
         "bucket_hat": "Bob",
-        "coronet": "Coronille",
+        "coronet": "Petite couronne",
         "cowboy_hat": "Chapeau de cow-boy",
         "crested_helmet": "Casque à crête",
         "fascinator": "Bibi",
@@ -941,7 +941,7 @@
         "dorsay_heels": "Escarpins d'Orsay",
         "gladiator_sandals": "Spartiates",
         "high_top_sneakers": "Baskets montantes",
-        "lace_up_flats": "Plats à lacets",
+        "lace_up_flats": "Chaussures plates à lacets",
         "low_top_sneakers": "Baskets basses",
         "penny_loafers": "Mocassins",
         "pumps": "Escarpins",

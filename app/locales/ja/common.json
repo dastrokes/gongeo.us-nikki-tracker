@@ -6,6 +6,8 @@
     "outfits": "セットコーデ",
     "item": "パーツ",
     "items": "パーツ",
+    "prop": "装飾品",
+    "props": "装飾品",
     "momo": "モモのマント",
     "momo_entry": "モモのマント",
     "makeup": "メイク",
@@ -113,6 +115,7 @@
     "outfit": "衣装図鑑",
     "outfit_detail": "衣装の詳細",
     "item": "アイテム図鑑",
+    "props": "装飾品図鑑",
     "lookbook": "ルックブックプレビュー",
     "explore": "さらに探索",
     "makeup": "メイク図鑑",
@@ -143,11 +146,12 @@
       "banner": "現在・今後・過去のイベントを含むインフィニティニキの共鳴バナー履歴を確認できます。注目衣装、排出率、開催期間、復刻情報も掲載しています。",
       "banner_detail": "注目衣装、アイテム排出率、統計、開催期間、進化情報、復刻状況など、{name} 共鳴バナーの詳細を表示します。",
       "timeline": "インフィニティニキの共鳴バナー、メジャーアップデート、開催期間、復刻をまとめたタイムラインで、イベントの流れを一目で確認できます。",
-      "tierlist": "ドラッグ アンド ドロップのランキング、フィルター、簡単な画像エクスポートを使用して、バナー、衣装、アイテムの インフィニティニキ 階層リストを作成して共有します。",
+      "tierlist": "ドラッグ＆ドロップによるランキング、フィルター、簡単な画像エクスポートを使って、インフィニティニキのバナー、衣装、アイテムのティアリストを作成・共有できます。",
       "outfits": "品質、進化、グローアップ、スタイルタグ、統計のフィルターを使用して、すべての インフィニティニキ の衣装を閲覧します。コンポーネント全体を確認し、すべての衣装を発見してください。",
       "makeups": "インフィニティニキのすべてのメイクを閲覧できます。フルメイクと各メイクパーツを、部位、レア度、スタイル、バージョン、入手元で絞り込めます。",
       "outfit_detail": "品質、衣装ピース、進化とグローアップ、メイクアップ、ステータス、関連する共鳴バナーなど、{name} 衣装に関する詳細情報を表示します。",
       "items": "部位、品質、ステータスボーナス、関連する衣装やバナーのフィルターを使用して、すべての インフィニティニキ アイテムを参照します。すべてのアイテムを簡単に検索、比較、追跡します。",
+      "props": "インフィニティニキのフォトシーンやマイホーム用装飾品を、レア度、配置情報、マイホーム対応、インタラクティブ機能とともに閲覧・管理できます。",
       "lookbook": "Infinity Nikki の星彩の画集コードを、アイコンと図鑑リンク付きの共有可能なアイテムリストカードとしてプレビューします。",
       "momo": "品質、バージョン、入手元のフィルターを使用して、インフィニティニキに登場するすべてのモモのマントを、アイテム画像とあわせて一覧できます。",
       "momo_detail": "{name} のレア度、入手元、説明、プレビュー、アイコン画像などの詳細情報を表示します。",
@@ -248,7 +252,7 @@
     "active_profile": "アクティブなプロファイル",
     "default_profile": "デフォルト",
     "profile_slot": "プロフィール {number}",
-    "switch": "スイッチ",
+    "switch": "切り替え",
     "manage_profiles": "プロファイルの管理",
     "rename": "名前の変更",
     "rename_title": "プロファイル名の変更",
@@ -424,7 +428,7 @@
     "sign_in_with_email": "電子メールでサインインする",
     "email": "電子メール",
     "password": "パスワード",
-    "confirm_password": "パスワードを認証する",
+    "confirm_password": "パスワードの確認",
     "forgot_password": "パスワードをお忘れですか？",
     "reset_password": "パスワードのリセット",
     "send_reset_email": "リセットメールを送信する",
@@ -458,7 +462,7 @@
   "error": {
     "404": "「ニッキ、浅瀬に留まろう」",
     "notFound": "お探しのページは存在しません。",
-    "returnHome": "家に帰る"
+    "returnHome": "ホームに戻る"
   },
   "import": {
     "video_tutorial": "ビデオチュートリアル",
@@ -471,7 +475,7 @@
     "import_from_file": "ファイルからインポート",
     "import_from_pearpal": "奇想の手帳 からインポート",
     "file_import": "ファイルのインポート",
-    "file_import_desc": "以前にエクスポートした nikki-resonance-data ファイルからインポートします。",
+    "file_import_desc": "以前にエクスポートしたプロファイルデータファイルからインポートします。",
     "select_file": "ファイルの選択",
     "select_region": "地域の選択",
     "select_region_desc": "ゲームサーバーの地域を選択します。",
@@ -655,8 +659,8 @@
         "pity_4star": "4★天井まで"
       },
       "settings": {
-        "banner_order": "バナーの注文",
-        "item_order": "アイテムの注文",
+        "banner_order": "バナーの順序",
+        "item_order": "アイテムの順序",
         "outfit_display": "衣装の展示",
         "item_display": "項目表示",
         "combined": "統合",
@@ -668,7 +672,7 @@
       }
     },
     "items": {
-      "pull": "#{number} をプルします",
+      "pull": "第{number}回",
       "category": {
         "clothes": "衣装",
         "accessories": "アクセサリー"
@@ -704,7 +708,7 @@
     "start": "始める",
     "play_again": "もう一度プレイしてください",
     "next_round": "次のラウンド",
-    "reveal_direction": "方向性を明らかにする",
+    "reveal_direction": "表示方向",
     "blur": "ぼかし",
     "answer_mode": "応答モード",
     "correct_answer": "正解",
@@ -745,14 +749,14 @@
     },
     "charts": {
       "pulls_per_banner": "バナーごとのプル数",
-      "five_star_distribution": "5★プル配布",
-      "four_star_type2_distribution": "4★配布（5★バナー）",
-      "four_star_type3_distribution": "4★配布（4★バナー）",
-      "first_item_distribution": "最初のアイテム配布",
+      "five_star_distribution": "5★プル分布",
+      "four_star_type2_distribution": "4★分布（5★バナー）",
+      "four_star_type3_distribution": "4★分布（4★バナー）",
+      "first_item_distribution": "最初のアイテム分布",
       "all_banners": "すべてのバナー",
       "five_star_banners": "5★バナー",
       "four_star_banners": "4★バナー",
-      "recent_only": "最近の",
+      "recent_only": "最近",
       "all_time": "オールタイム",
       "first_item_distribution_tooltip": "このバナーには、ゲーム内で利用できなくなった 180 日より古いプルが含まれています。その結果、最初のアイテム分布データは不正確になる可能性があります。"
     },
@@ -792,7 +796,7 @@
         "answer": "ゲーム内のプル履歴ページと同じ API を使用して、バナー プル データを保存する Infold Games サーバーにアクセスします。データにアクセスするには、アカウントの Cookie を使用して Infold Games サーバーで認証する必要があります。"
       },
       "ban_risk": {
-        "question": "これを使用すると禁止されますか?",
+        "question": "これを使用するとアカウントが停止されますか?",
         "answer": "これはサードパーティ ツールであるため、常にある程度のリスクが伴いますが、最終的には Infold Games 次第です。ただし、同様のツールは他のガチャ ゲーム (Paimon.moe、Star Rail Station、WuWa Tracker など) や インフィニティニキ (小黑盒 游创工坊) の中国語コミュニティでも広く使用されています。この情報は参考として捉え、ご自身で判断してください。"
       },
       "data_storage": {
@@ -919,14 +923,14 @@
     "unranked_empty": "ランク付けされていないエントリーはありません",
     "obtain_fallback": "{id}を入手",
     "rank_menu": {
-      "tier_label": "{tier} 層",
+      "tier_label": "{tier}ティア",
       "send_back": "送り返す"
     },
     "community_submit": {
-      "tooltip_ready": "完成した Tier リストをコミュニティ ランキングに送信します。",
+      "tooltip_ready": "完成したティアリストをコミュニティランキングに送信します。",
       "scope_unavailable_toast": "このスコープではコミュニティ送信は利用できません。",
-      "success": "コミュニティ Tier リストが提出されました",
-      "failed": "コミュニティ層リストの送信に失敗しました",
+      "success": "コミュニティティアリストを送信しました",
+      "failed": "コミュニティティアリストの送信に失敗しました",
       "blocked": {
         "error": "エントリの読み込みに失敗したため送信できません。",
         "over_limit": "送信する前にさらにフィルターを適用します。",
@@ -938,11 +942,11 @@
       }
     },
     "community_insights": {
-      "toggle": "コミュニティ階層リストを表示",
+      "toggle": "コミュニティティアリストを表示",
       "error": "コミュニティスナップショットのロードに失敗しました。",
       "empty": "コミュニティ データはまだありません。",
       "rank_position": "コミュニティランク #{rank}",
-      "avg_tier": "コミュニティ層: {tier} 層",
+      "avg_tier": "コミュニティティア: {tier}ティア",
       "rank_higher_than": "あなたはこれをスタイリストの {percent}% よりも高くランク付けしています",
       "total_votes": "総投票数: {count}",
       "not_enough_votes": "ランク付けに必要な投票数が不足しています（最低 {min} 票）"

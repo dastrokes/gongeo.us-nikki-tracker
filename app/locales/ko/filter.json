@@ -720,7 +720,7 @@
       "bracelets": {
         "bangle": "뱅글",
         "charm_bracelet": "참 팔찌",
-        "scrunchie": "슈크링/헤어밴드"
+        "scrunchie": "스크런치/곱창밴드"
       },
       "chestAccessories": {
         "bow_brooch": "리본 브로치",
@@ -761,7 +761,7 @@
         "chandelier_earrings": "샹들리에 귀걸이",
         "drop_earrings": "드롭 귀걸이",
         "hoop_earrings": "링 귀걸이/후프",
-        "stud_earrings": "스티드 귀걸이"
+        "stud_earrings": "스터드 귀걸이"
       },
       "faceDecorations": {
         "decorative_blindfold": "장식용 눈가리개",
@@ -847,7 +847,7 @@
         "net": "그물",
         "pipa": "비파",
         "purse": "지갑/파우치",
-        "rattle_drum": "소고",
+        "rattle_drum": "딸랑이북",
         "round_fan": "둥근 부채",
         "satchel": "사첼백",
         "scissors": "가위",

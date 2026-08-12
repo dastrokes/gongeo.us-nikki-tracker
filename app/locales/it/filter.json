@@ -4,7 +4,7 @@
       "blunt_bangs": "Frangia Dritta",
       "curtain_bangs": "Frangia a Tendina",
       "no_bangs": "Senza Frangia",
-      "side_swept_bangs": "Side-Swept Bangs",
+      "side_swept_bangs": "Frangia Laterale",
       "wispy_bangs": "Frangia Sfilata"
     },
     "bottom_length": {
@@ -47,9 +47,9 @@
       "bob": "Caschetto",
       "hime_cut": "Taglio Hime",
       "layered_cut": "Taglio Scalato",
-      "lob": "Long Bob (Lob)",
+      "lob": "Long Bob",
       "pixie_cut": "Taglio Pixie",
-      "shag": "Shag Cut",
+      "shag": "Taglio Shag",
       "wolf_cut": "Wolf Cut"
     },
     "heel_height": {

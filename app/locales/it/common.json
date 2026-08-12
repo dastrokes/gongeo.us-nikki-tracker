@@ -161,8 +161,8 @@
     }
   },
   "default": {
-    "momo": "Momo",
     "description": "Tracker di risonanza e compagno di styling di Infinity Nikki",
+    "momo": "Momo",
     "your_data": "I tuoi dati",
     "community_stats": "Statistiche della community",
     "view_all_stats": "Vedi tutte le statistiche",

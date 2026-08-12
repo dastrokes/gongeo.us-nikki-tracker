@@ -4,7 +4,7 @@
       "blunt_bangs": "Frange Droite",
       "curtain_bangs": "Frange Rideau",
       "no_bangs": "Sans Frange",
-      "side_swept_bangs": "Side-Swept Bangs",
+      "side_swept_bangs": "Frange sur le Côté",
       "wispy_bangs": "Frange Effilée"
     },
     "bottom_length": {
@@ -47,9 +47,9 @@
       "bob": "Carré",
       "hime_cut": "Coupe Hime",
       "layered_cut": "Dégradé",
-      "lob": "Long Bob (Lob)",
+      "lob": "Carré Long",
       "pixie_cut": "Coupe Pixie",
-      "shag": "Shag Cut",
+      "shag": "Coupe Shag",
       "wolf_cut": "Wolf Cut"
     },
     "heel_height": {

@@ -1,7 +1,8 @@
-export type CommunityScopeType = 'banners' | 'outfits' | 'items' | 'momo'
+export type CommunityScopeType =
+  'banners' | 'outfits' | 'items' | 'momo' | 'props'
 
 export type CommunityScopeFilters = {
-  quality?: 2 | 3 | 4 | 5
+  quality?: 2 | 3 | 4 | 5 | 6
   version?: string
   style?: string
   label?: string
@@ -15,7 +16,8 @@ export type CommunityScope = {
   scopeFilters: CommunityScopeFilters
 }
 
-export type TierMode = 'banners' | 'outfits' | 'items' | 'makeups' | 'momo'
+export type TierMode =
+  'banners' | 'outfits' | 'items' | 'makeups' | 'momo' | 'props'
 
 export type CommunityScopeFromTierlistInput = {
   mode: TierMode
@@ -83,7 +85,9 @@ const isRecord = (value: unknown): value is Record<string, unknown> =>
 const normalizeCommunityQuality = (
   value: unknown
 ): CommunityScopeFilters['quality'] | null => {
-  if (value === 2 || value === 3 || value === 4 || value === 5) return value
+  if (value === 2 || value === 3 || value === 4 || value === 5 || value === 6) {
+    return value
+  }
   return null
 }
 
@@ -364,6 +368,7 @@ const normalizeAggregateJson = (
     items: normalizeMode(modesSource.items),
     makeups: normalizeMode(modesSource.makeups),
     momo: normalizeMode(modesSource.momo),
+    props: normalizeMode(modesSource.props),
   }
 
   return {
@@ -381,7 +386,8 @@ export const resolveCommunityScope = (
     scopeType !== 'banners' &&
     scopeType !== 'outfits' &&
     scopeType !== 'items' &&
-    scopeType !== 'momo'
+    scopeType !== 'momo' &&
+    scopeType !== 'props'
   )
     return null
   if (!isRecord(scopeFilters)) return null
@@ -390,7 +396,7 @@ export const resolveCommunityScope = (
   const supportedKeys =
     scopeType === 'banners'
       ? ['quality', 'version']
-      : scopeType === 'momo'
+      : scopeType === 'momo' || scopeType === 'props'
         ? ['quality', 'version', 'source']
         : scopeType === 'outfits'
           ? ['quality', 'version', 'style', 'label', 'source', 'sourceDetail']
@@ -413,6 +419,16 @@ export const resolveCommunityScope = (
     const quality = normalizeCommunityQuality(scopeFilters.quality)
     if (!quality) return null
     if (scopeType === 'banners' && quality !== 4 && quality !== 5) return null
+    if (
+      scopeType === 'props' &&
+      quality !== 6 &&
+      quality !== 5 &&
+      quality !== 4 &&
+      quality !== 3
+    ) {
+      return null
+    }
+    if (scopeType !== 'props' && quality === 6) return null
     normalizedFilters.quality = quality
   }
 
@@ -450,7 +466,10 @@ export const resolveCommunityScope = (
     }
   }
 
-  if (scopeType === 'momo' && 'source' in scopeFilters) {
+  if (
+    (scopeType === 'momo' || scopeType === 'props') &&
+    'source' in scopeFilters
+  ) {
     const source = normalizeCommunityStringFilter(scopeFilters.source)
     if (!source) return null
     normalizedFilters.source = source
@@ -580,6 +599,31 @@ export const resolveCommunityScopeFromTierlistFilters = (
 
     return {
       scopeType: 'momo',
+      scopeFilters,
+    }
+  }
+
+  if (input.mode === 'props') {
+    const scopeFilters: CommunityScopeFilters = {}
+    if (
+      input.qualityFilter === 6 ||
+      input.qualityFilter === 5 ||
+      input.qualityFilter === 4 ||
+      input.qualityFilter === 3
+    ) {
+      scopeFilters.quality = input.qualityFilter
+    } else if (input.qualityFilter !== null) {
+      return null
+    }
+    if (input.versionFilter) {
+      scopeFilters.version = input.versionFilter
+    }
+    if (input.obtainFilter) {
+      scopeFilters.source = input.obtainFilter
+    }
+
+    return {
+      scopeType: 'props',
       scopeFilters,
     }
   }

@@ -20,6 +20,7 @@ const validEntryIdsByScopeType = {
   outfits: new Set(getEntitySlugIds('outfit')),
   items: new Set([...getEntitySlugIds('item'), ...getEntitySlugIds('makeup')]),
   momo: new Set(getEntitySlugIds('momo')),
+  props: new Set(getEntitySlugIds('prop')),
 } satisfies Record<CommunityScopeType, ReadonlySet<string>>
 
 const createBadRequestError = (message: string) =>
@@ -44,7 +45,7 @@ const parseCommunityScopeOrThrow = (
   const scope = resolveCommunityScope(scopeType, scopeFilters)
   if (!scope) {
     throw createForbiddenError(
-      'Community submit supports banner, outfit, and item scopes with valid filter values only'
+      'Community submit supports valid compendium scopes and filter values only'
     )
   }
   return scope

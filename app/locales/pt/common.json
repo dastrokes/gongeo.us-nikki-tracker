@@ -6,6 +6,8 @@
     "outfits": "Looks",
     "item": "Peça",
     "items": "Peças",
+    "prop": "Decoração",
+    "props": "Decorações",
     "momo": "Capas do Momo",
     "momo_entry": "Capa do Momo",
     "makeup": "Maquiagem",
@@ -113,6 +115,7 @@
     "outfit": "Compêndio de trajes",
     "outfit_detail": "Detalhes do Traje",
     "item": "Compêndio de Itens",
+    "props": "Compêndio de Decorações",
     "lookbook": "Pré-visualização do lookbook",
     "explore": "Explorar mais",
     "makeup": "Compêndio de Maquiagens",
@@ -148,6 +151,7 @@
       "makeups": "Explore todas as maquiagens de Infinity Nikki, incluindo maquiagens completas e partes individuais, com filtros por categoria, qualidade, estilo, versão e origem.",
       "outfit_detail": "Veja informações detalhadas sobre o traje {name}, incluindo qualidade, peças do traje, evolução e brilho, maquiagens, estatísticas e banners de ressonância relacionados.",
       "items": "Procure todos os itens Infinity Nikki com filtros de slot, qualidade, bônus de estatísticas e roupas ou banners relacionados. Encontre, compare e acompanhe cada item facilmente.",
+      "props": "Explore e acompanhe as decorações de Infinity Nikki com filtros de qualidade, versão e fonte, além de imagens e variações.",
       "lookbook": "Visualize um código de Lookbook de cores de Infinity Nikki como um cartão compartilhável com lista de itens, ícones e links do compêndio.",
       "momo": "Explore todas as Capas do Momo de Infinity Nikki com filtros de qualidade, versão e origem, além das artes dos itens em um compêndio dedicado.",
       "momo_detail": "Veja informações detalhadas sobre {name}, incluindo qualidade, origem, descrição, prévia e arte do ícone.",
@@ -403,7 +407,7 @@
       "all_owned": "Marcar todos os {count} itens correspondentes como possuídos?",
       "all_unowned": "Marcar todos os {count} itens correspondentes como não possuídos?",
       "f2p_basics": "Marcar {count} entradas de guarda-roupa F2P permanentemente disponíveis como possuídas para este perfil?",
-      "tracker_import": "Importar {imported} novas entradas de guarda-roupa dos dados do tracker? {found} no total encontrados: {foundItems} itens, {foundMakeups} entradas de maquiagem e {foundMomo} capas do Momo.",
+      "tracker_import": "Importar {imported} novas entradas de guarda-roupa dos dados do tracker? {found} no total encontrados: {foundItems} itens, {foundMakeups} entradas de maquiagem, {foundMomo} capas do Momo e {foundProps} decorações.",
       "outfit_unowned": "Marcar todos os {count} itens do traje como não possuídos?"
     },
     "error": {
@@ -575,7 +579,7 @@
       "import_failed": "Falha ao importar arquivo",
       "pearpal_tracker_success": "Dados Pearpal importados com sucesso!",
       "pearpal_tracker_failed": "Falha ao importar dados do Pearpal.",
-      "wardrobe_updated": "Adicionados {items} trajes, {makeups} maquiagens e {momo} capas do Momo.",
+      "wardrobe_updated": "Adicionados {items} trajes, {makeups} maquiagens, {momo} capas do Momo e {props} decorações.",
       "wardrobe_up_to_date": "O guarda-roupa já está atualizado.",
       "wardrobe_import_failed": "Falha ao importar o guarda-roupa.",
       "eurekas_updated": "Foram adicionadas {count} cores de Eureka.",
@@ -968,6 +972,8 @@
     "filter_style": "Filtrar por estilo",
     "filter_label": "Filtrar por etiqueta",
     "filter_obtain": "Filtrar por fonte",
+    "momo_search_placeholder": "Buscar capas do Momo",
+    "prop_search_placeholder": "Buscar decorações",
     "item_piece_filter": {
       "outfit": "Peças de traje",
       "individual": "Peças individuais"
@@ -988,6 +994,7 @@
     "advanced_filters_empty": "Não há filtros avançados disponíveis para este slot.",
     "advanced_filter_placeholder": "Selecionar {field}",
     "uncategorized": "Sem categoria",
+    "missing_value": "Sem valor",
     "search_field": {
       "category": "Categoria",
       "subcategory": "Subcategoria",

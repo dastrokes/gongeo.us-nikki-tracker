@@ -6,6 +6,8 @@
     "outfits": "套装",
     "item": "部件",
     "items": "部件",
+    "prop": "摆件",
+    "props": "摆件",
     "momo": "大喵斗篷",
     "momo_entry": "大喵斗篷",
     "makeup": "妆容",
@@ -113,6 +115,7 @@
     "outfit": "套装图鉴",
     "outfit_detail": "套装详情",
     "item": "部件图鉴",
+    "props": "摆件图鉴",
     "lookbook": "搭配码预览",
     "explore": "探索更多",
     "makeup": "妆容图鉴",
@@ -148,6 +151,7 @@
       "makeups": "浏览所有无限暖暖妆容，包含全妆与各个妆容部位，并可按部位、品质、风格、版本和来源进行筛选。",
       "outfit_detail": "查看 {name} 套装的详细信息，包括品质、套装部件、进化与焕新、妆容、属性数值以及关联的共鸣卡池。",
       "items": "浏览所有无限暖暖物品，支持按物品部位、品质、属性加成以及所属套装或卡池进行高级筛选，轻松查找和对比游戏中的所有物品。",
+      "props": "浏览并记录无限暖暖中的摆件，支持按品质、版本和来源筛选，并查看图片与异彩款式。",
       "lookbook": "将无限暖暖星绘图册搭配码预览为带有图标与图鉴链接的可分享部件清单卡片。",
       "momo": "浏览无限暖暖所有大喵斗篷，支持按品质、版本与来源进行筛选，并集中查看斗篷图像。",
       "momo_detail": "查看 {name} 的详细信息，包括品质、来源、描述、预览图与图标。",
@@ -403,7 +407,7 @@
       "all_owned": "将所有 {count} 个匹配部件标记为拥有？",
       "all_unowned": "将所有 {count} 个匹配部件标记为未拥有？",
       "f2p_basics": "将此档案中的 {count} 个免费常驻衣橱条目标记为拥有？",
-      "tracker_import": "要从抽卡记录导入 {imported} 个新的衣橱条目吗？共找到 {found} 个：{foundItems} 个部件、{foundMakeups} 个妆容和 {foundMomo} 个大喵斗篷。",
+      "tracker_import": "要从抽卡记录导入 {imported} 个新的衣橱条目吗？共找到 {found} 个：{foundItems} 个部件、{foundMakeups} 个妆容、{foundMomo} 个大喵斗篷和 {foundProps} 个摆件。",
       "outfit_unowned": "将所有 {count} 个套装部件标记为未拥有？"
     },
     "error": {
@@ -575,7 +579,7 @@
       "import_failed": "导入文件失败",
       "pearpal_tracker_success": "奇想手账数据导入成功！",
       "pearpal_tracker_failed": "导入奇想手账数据失败。",
-      "wardrobe_updated": "已添加 {items} 件服装、{makeups} 个妆容和 {momo} 件大喵斗篷。",
+      "wardrobe_updated": "已添加 {items} 件服装、{makeups} 个妆容、{momo} 件大喵斗篷和 {props} 个摆件。",
       "wardrobe_up_to_date": "衣橱已是最新状态。",
       "wardrobe_import_failed": "衣橱导入失败。",
       "eurekas_updated": "已添加 {count} 个祝福闪光颜色。",
@@ -968,6 +972,8 @@
     "filter_style": "按风格筛选",
     "filter_label": "按标签筛选",
     "filter_obtain": "按来源筛选",
+    "momo_search_placeholder": "搜索大喵斗篷",
+    "prop_search_placeholder": "搜索摆件",
     "item_piece_filter": {
       "outfit": "套装部件",
       "individual": "单品部件"
@@ -988,6 +994,7 @@
     "advanced_filters_empty": "当前部位没有可用的高级筛选。",
     "advanced_filter_placeholder": "选择{field}",
     "uncategorized": "未分类",
+    "missing_value": "缺少值",
     "search_field": {
       "category": "类别",
       "subcategory": "细分类",

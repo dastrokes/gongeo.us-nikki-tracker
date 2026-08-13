@@ -11,12 +11,12 @@
     :entry-count-labels="entryCountLabels"
     :edit-mode="editMode"
     :wardrobe-ready="isWardrobeReady"
-    :tierlist-disabled="true"
+    :tierlist-disabled="isTierlistDisabled"
     :selected-count="selectedPropIds.size"
     :show-clear-filters="hasFilters"
     skeleton-aspect-class="aspect-square"
     @toggle-edit-mode="toggleEditMode"
-    @open-tierlist="noop"
+    @open-tierlist="goToTierlist"
     @retry="loadCatalogProps"
     @retry-wardrobe-mode="retryWardrobe"
     @clear-filters="clearFilters"
@@ -506,6 +506,15 @@
       sourceFilter.value !== null ||
       ownershipFilter.value !== 'all'
   )
+  const TIER_ENTRY_LIMIT = 200
+  const isTierlistDisabled = computed(
+    () =>
+      editMode.value ||
+      searchQuery.value.trim().length > 0 ||
+      loading.value ||
+      !!catalogError.value ||
+      filteredEntries.value.length > TIER_ENTRY_LIMIT
+  )
   const cacheKey = computed(() =>
     JSON.stringify({
       search: searchQuery.value,
@@ -621,7 +630,21 @@
   const markImageFailed = (propId: number) => {
     failedImageIds.value = new Set(failedImageIds.value).add(propId)
   }
-  const noop = () => undefined
+  const buildTierlistQuery = () => ({
+    mode: 'props',
+    ...(qualityFilter.value !== null && { quality: qualityFilter.value }),
+    ...(versionFilter.value && { version: versionFilter.value }),
+    ...(sourceFilter.value && { source: sourceFilter.value }),
+  })
+  const goToTierlist = () => {
+    if (isTierlistDisabled.value) return
+    navigateTo(
+      localePath({
+        path: '/tierlist',
+        query: buildTierlistQuery(),
+      })
+    )
+  }
   let applyingRouteQuery = false
 
   const syncRoute = () => {

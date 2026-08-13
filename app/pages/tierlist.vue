@@ -54,7 +54,7 @@
                   {{ t('common.all') }}
                 </n-button>
                 <n-button
-                  v-for="q in [5, 4, 3, 2]"
+                  v-for="q in qualityFilterOptions"
                   :key="q"
                   size="small"
                   v-bind="getQualityButtonTheme(q, qualityFilter === q)"
@@ -252,7 +252,7 @@
                 {{ t('common.all') }}
               </n-button>
               <n-button
-                v-for="q in [5, 4, 3, 2]"
+                v-for="q in qualityFilterOptions"
                 :key="q"
                 size="small"
                 v-bind="getQualityButtonTheme(q, qualityFilter === q)"
@@ -545,11 +545,12 @@
                             <NuxtImg
                               :src="entry.image"
                               :alt="entry.name"
-                              class="absolute inset-0 z-10 h-full w-full object-cover"
-                              :preset="
-                                mode === 'banners' ? 'bannerThumb' : 'tallLg'
-                              "
-                              fit="cover"
+                              :class="[
+                                'absolute inset-0 z-10 h-full w-full',
+                                tierCardImageClass,
+                              ]"
+                              :preset="tierCardImagePreset"
+                              :fit="tierCardImageFit"
                               loading="lazy"
                               :sizes="mode === 'banners' ? '200px' : '160px'"
                             />
@@ -657,11 +658,12 @@
                         <NuxtImg
                           :src="entry.image"
                           :alt="entry.name"
-                          class="absolute inset-0 z-10 h-full w-full object-cover"
-                          :preset="
-                            mode === 'banners' ? 'bannerThumb' : 'tallLg'
-                          "
-                          fit="cover"
+                          :class="[
+                            'absolute inset-0 z-10 h-full w-full',
+                            tierCardImageClass,
+                          ]"
+                          :preset="tierCardImagePreset"
+                          :fit="tierCardImageFit"
                           loading="lazy"
                           :sizes="mode === 'banners' ? '200px' : '160px'"
                         />
@@ -869,9 +871,12 @@
                       <NuxtImg
                         :src="entry.image"
                         :alt="entry.name"
-                        class="absolute inset-0 z-10 h-full w-full object-cover"
-                        :preset="mode === 'banners' ? 'bannerThumb' : 'tallLg'"
-                        fit="cover"
+                        :class="[
+                          'absolute inset-0 z-10 h-full w-full',
+                          tierCardImageClass,
+                        ]"
+                        :preset="tierCardImagePreset"
+                        :fit="tierCardImageFit"
                         loading="lazy"
                         :sizes="mode === 'banners' ? '200px' : '160px'"
                       />
@@ -929,9 +934,12 @@
                 <NuxtImg
                   :src="entry.image"
                   :alt="entry.name"
-                  class="absolute inset-0 z-10 h-full w-full object-cover"
-                  :preset="mode === 'banners' ? 'bannerThumb' : 'tallLg'"
-                  fit="cover"
+                  :class="[
+                    'absolute inset-0 z-10 h-full w-full',
+                    tierCardImageClass,
+                  ]"
+                  :preset="tierCardImagePreset"
+                  :fit="tierCardImageFit"
                   loading="lazy"
                   :sizes="mode === 'banners' ? '200px' : '160px'"
                 />
@@ -1010,6 +1018,7 @@
 
 <script setup lang="ts">
   import {
+    Box,
     CalendarAlt,
     Download,
     ExternalLinkAlt,
@@ -1042,7 +1051,7 @@
     key: 'tierlist',
   })
 
-  type TierMode = 'banners' | 'outfits' | 'items' | 'makeups' | 'momo'
+  type TierMode = 'banners' | 'outfits' | 'items' | 'makeups' | 'momo' | 'props'
   type IconSelectOption = SelectOption & { icon: Component }
   type TierKey = 'S' | 'A' | 'B' | 'C' | 'D' | 'F'
   type TierTarget = TierKey | typeof UNRANKED_TARGET
@@ -1083,6 +1092,13 @@
   const TIER_ENTRY_LIMIT = 200
   const TIER_LABEL_MAX_LENGTH = 30
   const POOL_PAGE_SIZE = 24
+  const PROP_SOURCES = [
+    'resonance',
+    'starlit',
+    'store',
+    'event',
+    'home',
+  ] as const
 
   const tierKeys = ['S', 'A', 'B', 'C', 'D', 'F'] as const
 
@@ -1166,6 +1182,18 @@
       return createMomoSourceFilterOptions(t)
     }
 
+    if (mode.value === 'props') {
+      return PROP_SOURCES.map((source) => {
+        const labelKey = resolvePropSourceLabelKey(source)
+        const translated = t(labelKey)
+        const value = resolveObtainGroupKeyFromPropSource(source)
+        return {
+          label: translated === labelKey ? value : translated,
+          value,
+        }
+      })
+    }
+
     const includeGroup =
       mode.value === 'outfits'
         ? isObtainGroupVisibleInOutfits
@@ -1221,17 +1249,20 @@
       value === 'outfits' ||
       value === 'items' ||
       value === 'makeups' ||
-      value === 'momo'
+      value === 'momo' ||
+      value === 'props'
     ) {
       return value
     }
     return 'banners'
   }
 
-  const resolveQuality = (value?: string | null) => {
+  const resolveQuality = (value?: string | null, tierMode?: TierMode) => {
     if (!value) return null
     const parsed = Number(value)
-    return [5, 4, 3, 2].includes(parsed) ? parsed : null
+    const availableQualities =
+      tierMode === 'props' ? [6, 5, 4, 3] : [5, 4, 3, 2]
+    return availableQualities.includes(parsed) ? parsed : null
   }
 
   const resolveVersion = (value?: string | null) =>
@@ -1316,6 +1347,14 @@
       return resolveMomoSourceFilterValue(value, availableObtainValues.value)
     }
 
+    if (mode.value === 'props') {
+      const source = String(value ?? '')
+      if (resolvePropSourceFromObtainGroupKey(source)) return source
+      return PROP_SOURCES.includes(source as PropSource)
+        ? resolveObtainGroupKeyFromPropSource(source as PropSource)
+        : null
+    }
+
     return resolveObtainFilterValue(value, availableObtainValues.value)
   }
   const resolveSourceDetail = (
@@ -1371,7 +1410,7 @@
   const poolPage = ref(1)
   const communityPoolPage = ref(1)
   const qualityFilter = ref<number | null>(
-    resolveQuality(route.query.quality?.toString() ?? null)
+    resolveQuality(route.query.quality?.toString() ?? null, initialMode)
   )
   const initialItemTypeFilter =
     initialMode === 'makeups'
@@ -1451,6 +1490,9 @@
   const isAdvancedFiltersDrawerOpen = ref(false)
   const supportsStyleFilter = computed(() =>
     supportsTierlistStyleFilter(mode.value)
+  )
+  const qualityFilterOptions = computed(() =>
+    mode.value === 'props' ? [6, 5, 4, 3] : [5, 4, 3, 2]
   )
   const advancedFilterFields = computed(() =>
     mode.value === 'items'
@@ -1555,9 +1597,19 @@
       styleFilter.value = null
     }
 
-    if (nextMode === 'momo') {
+    if (nextMode === 'momo' || nextMode === 'props') {
       labelFilter.value = null
       itemTypeFilter.value = null
+    }
+
+    if (
+      nextMode === 'props' &&
+      qualityFilter.value !== null &&
+      ![6, 5, 4, 3].includes(qualityFilter.value)
+    ) {
+      qualityFilter.value = null
+    } else if (nextMode !== 'props' && qualityFilter.value === 6) {
+      qualityFilter.value = null
     }
 
     if (nextMode !== 'items') {
@@ -1607,7 +1659,9 @@
     )
   })
   const effectiveLabelFilter = computed(() =>
-    mode.value === 'makeups' || mode.value === 'momo' ? null : labelFilter.value
+    mode.value === 'makeups' || mode.value === 'momo' || mode.value === 'props'
+      ? null
+      : labelFilter.value
   )
   const tierModeOptions = computed<IconSelectOption[]>(() => [
     { label: t('common.banners'), value: 'banners', icon: CalendarAlt },
@@ -1615,6 +1669,7 @@
     { label: t('common.items'), value: 'items', icon: ListAlt },
     { label: t('common.makeups'), value: 'makeups', icon: PaintBrush },
     { label: t('common.momo'), value: 'momo', icon: Paw },
+    { label: t('common.props'), value: 'props', icon: Box },
   ])
   const renderTierModeOptionLabel = (option: SelectOption) => {
     const { icon } = option as IconSelectOption
@@ -1997,7 +2052,7 @@
       query.wardrobe = wardrobeFilter.value
     }
 
-    if (mode.value === 'momo') {
+    if (mode.value === 'momo' || mode.value === 'props') {
       if (qualityFilter.value !== null) {
         query.quality = qualityFilter.value
       }
@@ -2390,6 +2445,45 @@
     }
   }
 
+  const loadPropEntries = async (): Promise<TierDataPayload> => {
+    await catalogIndex.loadEntity('prop')
+
+    const selectedSource = obtainFilter.value
+      ? resolvePropSourceFromObtainGroupKey(obtainFilter.value)
+      : null
+    const props = catalogIndex.props.value.filter((prop) => {
+      if (prop.variantRootId !== undefined) return false
+      if (
+        qualityFilter.value !== null &&
+        prop.quality !== qualityFilter.value
+      ) {
+        return false
+      }
+      if (
+        versionFilter.value &&
+        (!prop.version ||
+          !matchesVersionFilter(prop.version, versionFilter.value))
+      ) {
+        return false
+      }
+      return (
+        !obtainFilter.value ||
+        (!!selectedSource && prop.sources?.includes(selectedSource))
+      )
+    })
+
+    return {
+      entries: props.slice(0, TIER_ENTRY_LIMIT).map((prop) => ({
+        id: String(prop.id),
+        numericId: prop.id,
+        name: t(`prop.${prop.id}.name`),
+        image: getImageSrc('prop', prop.id),
+        quality: prop.quality,
+      })),
+      overLimit: props.length > TIER_ENTRY_LIMIT,
+    }
+  }
+
   const dataCacheKey = computed(() => {
     const query = buildTierQuery()
     const serialized = Object.entries(query)
@@ -2426,6 +2520,10 @@
 
       if (mode.value === 'momo') {
         return loadMomoEntries()
+      }
+
+      if (mode.value === 'props') {
+        return loadPropEntries()
       }
 
       return loadOutfitEntries()
@@ -2467,6 +2565,11 @@
           singular: t('common.momo_entry'),
           plural: t('common.momo'),
         }
+      case 'props':
+        return {
+          singular: t('common.prop'),
+          plural: t('common.props'),
+        }
       default:
         return {
           singular: t('common.item'),
@@ -2475,7 +2578,24 @@
     }
   })
   const cardAspectClass = computed(() =>
-    mode.value === 'banners' ? 'aspect-2/1' : 'aspect-2/3'
+    mode.value === 'banners'
+      ? 'aspect-2/1'
+      : mode.value === 'props'
+        ? 'aspect-square'
+        : 'aspect-2/3'
+  )
+  const tierCardImagePreset = computed(() =>
+    mode.value === 'banners'
+      ? 'bannerThumb'
+      : mode.value === 'props'
+        ? 'squareLg'
+        : 'tallLg'
+  )
+  const tierCardImageFit = computed(() =>
+    mode.value === 'props' ? 'contain' : 'cover'
+  )
+  const tierCardImageClass = computed(() =>
+    mode.value === 'props' ? 'object-contain p-1' : 'object-cover'
   )
   const cardGridClass = computed(() =>
     mode.value === 'banners'
@@ -2759,7 +2879,8 @@
       mode.value === 'outfits' ||
       mode.value === 'items' ||
       mode.value === 'makeups' ||
-      mode.value === 'momo'
+      mode.value === 'momo' ||
+      mode.value === 'props'
   )
   const showCommunityInsightsAction = computed(
     () =>
@@ -3364,7 +3485,9 @@
             ? 'makeup'
             : mode.value === 'momo'
               ? 'momo'
-              : 'item'
+              : mode.value === 'props'
+                ? 'prop'
+                : 'item'
 
     window.open(
       localePath(getEntityDetailPath(entity, entry.numericId)),

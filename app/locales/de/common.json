@@ -211,7 +211,7 @@
       },
       "clear_cloud_success": "Cloud-Daten wurden erfolgreich gelöscht!",
       "clear_cloud_error": "Löschen der Cloud-Daten fehlgeschlagen.",
-      "clear_success": "Daten wurden erfolgreich gelöscht!",
+      "clear_success": "Daten wurden erfolgreich exportiert!",
       "profiles": {
         "active": "Aktiv",
         "delete_confirm": {

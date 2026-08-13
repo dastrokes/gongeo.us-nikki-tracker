@@ -6,6 +6,8 @@
     "outfits": "Outfits",
     "item": "Stück",
     "items": "Stücke",
+    "prop": "Dekoration",
+    "props": "Dekorationen",
     "momo": "Momos Mäntel",
     "momo_entry": "Momos Mantel",
     "makeup": "Make-up",
@@ -113,6 +115,7 @@
     "outfit": "Outfit-Kompendium",
     "outfit_detail": "Outfit-Detail",
     "item": "Stück-Kompendium",
+    "props": "Dekorations-Kompendium",
     "lookbook": "Lookbook-Vorschau",
     "explore": "Mehr entdecken",
     "makeup": "Make-up-Kompendium",
@@ -148,6 +151,7 @@
       "makeups": "Durchsuche alle Infinity Nikki Make-ups, einschließlich voller Make-ups und einzelner Make-up-Stücke, mit Filtern nach Slot, Qualität, Stil, Version und Herkunft.",
       "outfit_detail": "Schau dir detaillierte Informationen über das Outfit {name} an, einschließlich Qualität, Outfit-Stücken, Evolution und Verschönerung, Make-up, Statuswerten und verwandten Resonanz-Bannern.",
       "items": "Durchsuche alle Infinity Nikki Stücke mit Filtern nach Slot, Qualität, Status-Boni und verwandten Outfits oder Bannern. Finde, vergleiche und verfolge jedes Stück ganz leicht.",
+      "props": "Durchsuche und verfolge Dekorationen in Infinity Nikki mit Filtern nach Qualität, Version und Herkunft sowie Bildern und Varianten.",
       "lookbook": "Schau dir die Vorschau eines Infinity Nikki Farb-Lookbook-Codes als teilbare Stücklisten-Karte mit Icons und Kompendium-Links an.",
       "momo": "Durchsuche alle Momos Mäntel in Infinity Nikki mit Filtern nach Qualität, Version und Herkunft und sieh dir Stück-Kunstwerke in einem eigenen Kompendium an.",
       "momo_detail": "Schau dir detaillierte Informationen über {name} an, einschließlich Qualität, Herkunft, Beschreibung, Vorschau und Stück-Artwork.",
@@ -403,7 +407,7 @@
       "all_owned": "Alle {count} passenden Items als im Besitz markieren?",
       "all_unowned": "Alle {count} passenden Items als nicht im Besitz markieren?",
       "f2p_basics": "{count} F2P, dauerhaft verfügbare Garderobeneinträge für dieses Profil als im Besitz markieren?",
-      "tracker_import": "{imported} neue Garderobeneinträge aus Tracker-Daten importieren? Insgesamt {found} gefunden: {foundItems} Stücke, {foundMakeups} Make-up-Einträge und {foundMomo} Momos Mäntel.",
+      "tracker_import": "{imported} neue Garderobeneinträge aus Tracker-Daten importieren? Insgesamt {found} gefunden: {foundItems} Stücke, {foundMakeups} Make-up-Einträge, {foundMomo} Momos Mäntel und {foundProps} Dekorationen.",
       "outfit_unowned": "Alle {count} Outfit-Stücke als nicht im Besitz markieren?"
     },
     "error": {
@@ -575,7 +579,7 @@
       "import_failed": "Datei konnte nicht importiert werden",
       "pearpal_tracker_success": "Pearpal-Daten wurden erfolgreich importiert!",
       "pearpal_tracker_failed": "Pearpal-Daten konnten nicht importiert werden.",
-      "wardrobe_updated": "{items} Kleidungsstücke, {makeups} Make-up und {momo} Momos Mäntel hinzugefügt.",
+      "wardrobe_updated": "{items} Kleidungsstücke, {makeups} Make-up, {momo} Momos Mäntel und {props} Dekorationen hinzugefügt.",
       "wardrobe_up_to_date": "Garderobe ist bereits aktuell.",
       "wardrobe_import_failed": "Garderobenimport fehlgeschlagen.",
       "eurekas_updated": "{count} Heureka-Farben hinzugefügt.",
@@ -968,6 +972,8 @@
     "filter_style": "Nach Style filtern",
     "filter_label": "Nach Label filtern",
     "filter_obtain": "Nach Herkunft filtern",
+    "momo_search_placeholder": "Momos Mäntel durchsuchen",
+    "prop_search_placeholder": "Dekorationen durchsuchen",
     "item_piece_filter": {
       "outfit": "Outfit-Teile",
       "individual": "Individuelle Teile"
@@ -988,6 +994,7 @@
     "advanced_filters_empty": "Es sind keine erweiterten Filter für diesen Slot verfügbar.",
     "advanced_filter_placeholder": "{field} auswählen",
     "uncategorized": "Nicht kategorisiert",
+    "missing_value": "Fehlender Wert",
     "search_field": {
       "category": "Kategorie",
       "subcategory": "Unterkategorie",

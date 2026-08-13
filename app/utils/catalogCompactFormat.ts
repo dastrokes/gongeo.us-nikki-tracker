@@ -229,6 +229,35 @@ const decodeCompactEurekaRows = (
     })
   )
 
+const decodeCompactPropRows = (rows: unknown[][]): PropCatalogEntry[] =>
+  rows.map(([id, quality, variantRootId, sources, version, bannerIds]) => ({
+    id: Number(id),
+    quality: Number(quality),
+    ...(hasCompactValue(variantRootId)
+      ? { variantRootId: Number(variantRootId) }
+      : {}),
+    ...(Array.isArray(sources)
+      ? {
+          sources: sources.filter(
+            (source): source is PropSource =>
+              source === 'event' ||
+              source === 'home' ||
+              source === 'resonance' ||
+              source === 'starlit' ||
+              source === 'store'
+          ),
+        }
+      : {}),
+    ...(hasCompactValue(version) ? { version: String(version) } : {}),
+    ...(Array.isArray(bannerIds)
+      ? {
+          bannerIds: bannerIds.filter(
+            (bannerId): bannerId is number => typeof bannerId === 'number'
+          ),
+        }
+      : {}),
+  }))
+
 const decodeCompactRelationRows = (rows: unknown[][]) =>
   Object.fromEntries(
     rows.map(([outfitId, itemIds]) => [
@@ -395,6 +424,12 @@ export const decodeCatalogPartPayload = (
         ? decodeCompactEurekaRows(payload.r!, payload.s)
         : isCompactRowPayload(payload)
           ? decodeCompactEurekaRows(payload)
+          : payload
+    case 'props':
+      return isCompactCatalogPayload(payload)
+        ? decodeCompactPropRows(payload.r!)
+        : isCompactRowPayload(payload)
+          ? decodeCompactPropRows(payload)
           : payload
     default:
       return payload

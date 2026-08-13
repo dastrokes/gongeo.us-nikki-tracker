@@ -41,6 +41,7 @@ export const createProfileDataExportPayload = ({
     wardrobe.ownedItemIds.length > 0 ||
     wardrobe.ownedMakeupIds.length > 0 ||
     wardrobe.ownedMomoIds.length > 0 ||
+    wardrobe.ownedPropIds.length > 0 ||
     (wardrobe.ownedEurekaColorIds?.length ?? 0) > 0
 
   if (

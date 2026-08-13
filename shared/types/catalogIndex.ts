@@ -4,12 +4,13 @@ export type CatalogIndexPartKey =
   | 'makeups'
   | 'momo'
   | 'eurekas'
+  | 'props'
   | 'outfitItems'
   | 'makeupItems'
   | 'makeupOutfits'
   | 'momoOutfits'
 
-export type CatalogIndexFileKey = CatalogIndexPartKey | 'palettes'
+export type CatalogIndexFileKey = CatalogIndexPartKey | 'palettes' | 'sketches'
 
 export type ItemDyeUnlockGroups = [
   number[],
@@ -41,6 +42,7 @@ export interface CatalogIndexManifestResponse {
   makeups?: ItemListEntry[]
   momo?: MomoListEntry[]
   eurekas?: EurekaCatalogEntry[]
+  props?: PropCatalogEntry[]
   outfitItems?: Record<string, number[]>
   makeupItems?: Record<string, number[]>
   makeupOutfits?: Record<string, number[]>

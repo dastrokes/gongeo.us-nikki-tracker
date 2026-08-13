@@ -475,9 +475,10 @@
   const availableVersions = computed(() =>
     getFirstRunVersions(Object.values(BANNER_DATA).map((banner) => banner.runs))
   )
-  const availableVersionFilters = computed(() =>
-    getVersionFilters(availableVersions.value)
-  )
+  const availableVersionFilters = computed(() => [
+    ...getVersionFilters(availableVersions.value),
+    LISTING_MISSING_FILTER_VALUE,
+  ])
 
   const resolveVersion = (value?: string | null) =>
     resolveVersionFilter(value, availableVersionFilters.value)
@@ -502,6 +503,9 @@
   const getBannerQualityLabel = (quality: number) => `${quality}★`
   const getVersionFilterLabel = (version?: string | null) => {
     if (!version) return null
+    if (isListingMissingFilterValue(version)) {
+      return t('compendium.missing_value')
+    }
     const key = `version.${version}`
     const translated = t(key)
     return translated !== key ? `${version} - ${translated}` : version
@@ -565,13 +569,19 @@
 
     const selectedVersion = versionFilter.value
     if (selectedVersion) {
-      banners = banners.filter((banner) =>
-        isExactVersion(selectedVersion)
+      banners = banners.filter((banner) => {
+        if (isListingMissingFilterValue(selectedVersion)) {
+          return (
+            banner.runs.length === 0 ||
+            banner.runs.some((run) => isListingFieldMissing(run.version))
+          )
+        }
+        return isExactVersion(selectedVersion)
           ? banner.runs.some((run) =>
               matchesVersionFilter(run.version, selectedVersion)
             )
           : matchesFirstRunVersionFilter(banner.runs, selectedVersion)
-      )
+      })
     }
 
     return banners
@@ -579,6 +589,9 @@
   const getDisplayedRuns = (banner: Banner) => {
     const selectedVersion = versionFilter.value
     if (!selectedVersion) return banner.runs
+    if (isListingMissingFilterValue(selectedVersion)) {
+      return banner.runs.filter((run) => isListingFieldMissing(run.version))
+    }
     if (!isExactVersion(selectedVersion)) return banner.runs.slice(0, 1)
     return banner.runs.filter((run) =>
       matchesVersionFilter(run.version, selectedVersion)
@@ -588,6 +601,7 @@
     const selectedVersion = versionFilter.value
     return (
       !!selectedVersion &&
+      !isListingMissingFilterValue(selectedVersion) &&
       isExactVersion(selectedVersion) &&
       !matchesVersionFilter(banner.runs[0]?.version ?? '', selectedVersion)
     )
@@ -784,12 +798,20 @@
         }
   }
 
-  const versionOptions = computed(() =>
-    createVersionFilterOptions(
+  const versionOptions = computed(() => [
+    ...createVersionFilterOptions(
       availableVersions.value,
       (version) => getVersionFilterLabel(version) ?? version
-    )
-  )
+    ),
+    ...(SHOW_LISTING_MISSING_FILTER_OPTIONS
+      ? [
+          {
+            label: t('compendium.missing_value'),
+            value: LISTING_MISSING_FILTER_VALUE,
+          },
+        ]
+      : []),
+  ])
   const renderVersionOptionLabel = (option: {
     label?: string | number
     value?: string | number

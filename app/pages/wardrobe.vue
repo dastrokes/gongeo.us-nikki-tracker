@@ -1604,6 +1604,7 @@
     ownedItemIds,
     ownedMakeupIds,
     ownedMomoIds,
+    ownedPropIds,
     initialized,
     loading: wardrobeLoading,
     error: wardrobeError,
@@ -1674,7 +1675,8 @@
     () =>
       ownedItemIds.value.length +
       ownedMakeupIds.value.length +
-      ownedMomoIds.value.length
+      ownedMomoIds.value.length +
+      ownedPropIds.value.length
   )
   const isSummaryLoading = computed(
     () => !summary.value && (summaryLoading.value || wardrobeLoading.value)
@@ -2619,9 +2621,11 @@
     foundItems: number
     foundMakeups: number
     foundMomo: number
+    foundProps: number
     importedItems: number
     importedMakeups: number
     importedMomo: number
+    importedProps: number
     skippedPartialFiveStarMakeupOutfits: number
   }) =>
     new Promise<boolean>((resolve) => {
@@ -2633,9 +2637,11 @@
           foundItems: result.foundItems,
           foundMakeups: result.foundMakeups,
           foundMomo: result.foundMomo,
+          foundProps: result.foundProps,
           importedItems: result.importedItems,
           importedMakeups: result.importedMakeups,
           importedMomo: result.importedMomo,
+          importedProps: result.importedProps,
           skipped: result.skippedPartialFiveStarMakeupOutfits,
         }),
         positiveText: t('common.confirm'),
@@ -2714,6 +2720,7 @@
         itemIds: result.itemIds,
         makeupIds: result.makeupIds,
         momoIds: result.momoIds,
+        propIds: result.propIds,
       })
       message.success(
         t('wardrobe.import_success', {

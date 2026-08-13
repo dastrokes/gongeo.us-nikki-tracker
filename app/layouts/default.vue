@@ -611,6 +611,7 @@
     Magic,
     PaintBrush,
     Paw,
+    Box,
   } from '@vicons/fa'
   import { LATEST_BANNER_ID } from '~~/data/config'
 
@@ -699,17 +700,18 @@
           label: t('navigation.makeup'),
           icon: PaintBrush,
         },
-        {
-          key: 'momo',
-          label: t('common.momo'),
-          icon: Paw,
-        },
         { key: 'search', label: t('search_page.title'), icon: Search },
         {
           key: 'random',
           label: t('search_page.lucky_machine_title'),
           icon: Magic,
         },
+        {
+          key: 'momo',
+          label: t('common.momo'),
+          icon: Paw,
+        },
+        { key: 'props', label: t('common.props'), icon: Box },
       ],
     },
     {
@@ -848,7 +850,12 @@
   const trackerMenuColumnKeys = new Set(['tracker', 'wardrobe', 'eurekas'])
   const trackerMenuSecondaryColumnKeys = ['stats', 'global', 'import']
   const compendiumMenuColumnKeys = new Set(['outfits', 'items', 'makeups'])
-  const compendiumMenuSecondaryColumnKeys = ['search', 'random', 'momo']
+  const compendiumMenuSecondaryColumnKeys = [
+    'search',
+    'random',
+    'momo',
+    'props',
+  ]
 
   const openDesktopGroup = ref<string | null>(null)
   const mobileDrawerOpen = ref(false)

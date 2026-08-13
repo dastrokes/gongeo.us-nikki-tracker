@@ -31,6 +31,7 @@ const BASE_PATHS = [
   '/login',
   '/profile',
   '/items',
+  '/props',
   '/momo',
   '/makeups',
   '/outfits',
@@ -50,7 +51,8 @@ const STATIC_SITEMAP_PATHS = [...BASE_PATHS, ...SEO_LIST_PATHS]
 type TranslationDictionary = Record<string, unknown>
 type LocaleDefinition = (typeof i18nLocales)[number]
 type LocaleCode = (typeof i18nLocales)[number]['code']
-type TranslationSection = 'banner' | 'outfit' | 'item' | 'momo' | 'makeup'
+type TranslationSection =
+  'banner' | 'outfit' | 'item' | 'momo' | 'makeup' | 'prop'
 type TranslationLoader = () => Promise<TranslationDictionary>
 
 type SitemapUrl = {
@@ -102,6 +104,10 @@ const translationLoaders = {
       import('./en/makeup.json').then(
         (module) => module.default as TranslationDictionary
       ),
+    prop: () =>
+      import('./en/prop.json').then(
+        (module) => module.default as TranslationDictionary
+      ),
   },
   de: {
     banner: () =>
@@ -122,6 +128,10 @@ const translationLoaders = {
       ),
     makeup: () =>
       import('./de/makeup.json').then(
+        (module) => module.default as TranslationDictionary
+      ),
+    prop: () =>
+      import('./de/prop.json').then(
         (module) => module.default as TranslationDictionary
       ),
   },
@@ -146,6 +156,10 @@ const translationLoaders = {
       import('./es/makeup.json').then(
         (module) => module.default as TranslationDictionary
       ),
+    prop: () =>
+      import('./es/prop.json').then(
+        (module) => module.default as TranslationDictionary
+      ),
   },
   fr: {
     banner: () =>
@@ -166,6 +180,10 @@ const translationLoaders = {
       ),
     makeup: () =>
       import('./fr/makeup.json').then(
+        (module) => module.default as TranslationDictionary
+      ),
+    prop: () =>
+      import('./fr/prop.json').then(
         (module) => module.default as TranslationDictionary
       ),
   },
@@ -191,6 +209,10 @@ const translationLoaders = {
       import('./it/makeup.json').then(
         (module) => module.default as TranslationDictionary
       ),
+    prop: () =>
+      import('./it/prop.json').then(
+        (module) => module.default as TranslationDictionary
+      ),
   },
   ja: {
     banner: () =>
@@ -211,6 +233,10 @@ const translationLoaders = {
       ),
     makeup: () =>
       import('./ja/makeup.json').then(
+        (module) => module.default as TranslationDictionary
+      ),
+    prop: () =>
+      import('./ja/prop.json').then(
         (module) => module.default as TranslationDictionary
       ),
   },
@@ -235,6 +261,10 @@ const translationLoaders = {
       import('./ko/makeup.json').then(
         (module) => module.default as TranslationDictionary
       ),
+    prop: () =>
+      import('./ko/prop.json').then(
+        (module) => module.default as TranslationDictionary
+      ),
   },
   pt: {
     banner: () =>
@@ -255,6 +285,10 @@ const translationLoaders = {
       ),
     makeup: () =>
       import('./pt/makeup.json').then(
+        (module) => module.default as TranslationDictionary
+      ),
+    prop: () =>
+      import('./pt/prop.json').then(
         (module) => module.default as TranslationDictionary
       ),
   },
@@ -280,6 +314,10 @@ const translationLoaders = {
       import('./zh/makeup.json').then(
         (module) => module.default as TranslationDictionary
       ),
+    prop: () =>
+      import('./zh/prop.json').then(
+        (module) => module.default as TranslationDictionary
+      ),
   },
   tw: {
     banner: () =>
@@ -300,6 +338,10 @@ const translationLoaders = {
       ),
     makeup: () =>
       import('./tw/makeup.json').then(
+        (module) => module.default as TranslationDictionary
+      ),
+    prop: () =>
+      import('./tw/prop.json').then(
         (module) => module.default as TranslationDictionary
       ),
   },
@@ -409,6 +451,7 @@ const loadContentConfigs = () =>
       'fullMakeup',
       'Full Makeup'
     ),
+    loadContentConfig('prop', 'prop', 'props', 'prop', 'Decoration'),
   ])
 
 function resolveLocales(localeCode?: LocaleCode) {

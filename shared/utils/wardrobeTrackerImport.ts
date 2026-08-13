@@ -18,6 +18,7 @@ export type WardrobeTrackerImportInferenceInput = {
   processedBanners: Record<string, ProcessedBanner>
   evoData?: Record<number, EvoRecord[]>
   catalogIndex: WardrobeTrackerCatalogIndex
+  propEntries?: readonly PropCatalogEntry[]
   bannerData?: BannerData
 }
 
@@ -25,10 +26,12 @@ export type WardrobeTrackerImportInference = {
   itemIds: number[]
   makeupIds: number[]
   momoIds: number[]
+  propIds: number[]
   found: {
     items: number
     makeups: number
     momo: number
+    props: number
   }
   skipped: {
     partialFiveStarMakeupOutfits: number
@@ -124,11 +127,13 @@ export const inferWardrobeIdsFromTracker = ({
   processedBanners,
   evoData,
   catalogIndex,
+  propEntries = [],
   bannerData = BANNER_DATA,
 }: WardrobeTrackerImportInferenceInput): WardrobeTrackerImportInference => {
   const itemIds = new Set<number>()
   const makeupIds = new Set<number>()
   const momoIds = new Set<number>()
+  const propIds = new Set<number>()
   let skippedPartialFiveStarMakeupOutfits = 0
 
   Object.values(processedBanners).forEach((banner) => {
@@ -201,16 +206,41 @@ export const inferWardrobeIdsFromTracker = ({
           addValidId(itemIds, catalogIndex.itemById, rewardId)
         )
     }
+
+    const relatedBaseProps = propEntries.filter(
+      (prop) =>
+        prop.sources?.includes('resonance') &&
+        prop.bannerIds?.includes(banner.bannerId) &&
+        prop.variantRootId === undefined
+    )
+    if (banner.stats.totalPulls >= 160) {
+      relatedBaseProps.forEach((prop) => propIds.add(prop.id))
+    }
+
+    if (banner.stats.totalPulls >= 230) {
+      const relatedBasePropIds = new Set(
+        relatedBaseProps.map((prop) => prop.id)
+      )
+      propEntries
+        .filter(
+          (prop) =>
+            prop.variantRootId !== undefined &&
+            relatedBasePropIds.has(prop.variantRootId)
+        )
+        .forEach((prop) => propIds.add(prop.id))
+    }
   })
 
   return {
     itemIds: Array.from(itemIds).sort((left, right) => left - right),
     makeupIds: Array.from(makeupIds).sort((left, right) => left - right),
     momoIds: Array.from(momoIds).sort((left, right) => left - right),
+    propIds: Array.from(propIds).sort((left, right) => left - right),
     found: {
       items: itemIds.size,
       makeups: makeupIds.size,
       momo: momoIds.size,
+      props: propIds.size,
     },
     skipped: {
       partialFiveStarMakeupOutfits: skippedPartialFiveStarMakeupOutfits,

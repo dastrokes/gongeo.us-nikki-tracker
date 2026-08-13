@@ -6,6 +6,8 @@
     "outfits": "Outfits",
     "item": "Item",
     "items": "Items",
+    "prop": "Decoration",
+    "props": "Decorations",
     "momo": "Momo's Cloaks",
     "momo_entry": "Momo's Cloak",
     "makeup": "Makeup",
@@ -113,6 +115,7 @@
     "outfit": "Outfit Compendium",
     "outfit_detail": "Outfit Detail",
     "item": "Item Compendium",
+    "props": "Decoration Compendium",
     "lookbook": "Lookbook Preview",
     "explore": "Explore More",
     "makeup": "Makeup Compendium",
@@ -148,6 +151,7 @@
       "makeups": "Browse all Infinity Nikki makeups, including full makeups and individual makeup parts, with filters for slot, quality, style, version, and source.",
       "outfit_detail": "View detailed information about the {name} outfit, including quality, outfit pieces, evolution and glow-up, makeups, stats, and related resonance banners.",
       "items": "Browse all Infinity Nikki items with filters for slot, quality, stat bonuses, and related outfits or banners. Find, compare, and track every item easily.",
+      "props": "Browse and track Infinity Nikki decorations with filters for quality, version, and source, plus artwork and variations.",
       "lookbook": "Preview an Infinity Nikki Color Lookbook code as a shareable item list card with icons and compendium links.",
       "momo": "Browse every Momo's Cloak in Infinity Nikki with filters for quality, version, and source, and view item artwork in one focused compendium.",
       "momo_detail": "View detailed information about {name}, including quality, source, description, preview, and icon artwork.",
@@ -403,7 +407,7 @@
       "all_owned": "Mark all {count} matching items as owned?",
       "all_unowned": "Mark all {count} matching items as unowned?",
       "f2p_basics": "Mark {count} F2P, permanently available wardrobe entries as owned for this profile?",
-      "tracker_import": "Import {imported} new wardrobe entries from tracker data? Found {found} total: {foundItems} items, {foundMakeups} makeup entries, and {foundMomo} Momo's Cloaks.",
+      "tracker_import": "Import {imported} new wardrobe entries from tracker data? Found {found} total: {foundItems} items, {foundMakeups} makeup entries, {foundMomo} Momo's Cloaks, and {foundProps} Decorations.",
       "outfit_unowned": "Mark all {count} outfit items as unowned?"
     },
     "error": {
@@ -575,7 +579,7 @@
       "import_failed": "Failed to import file",
       "pearpal_tracker_success": "Pearpal data imported successfully!",
       "pearpal_tracker_failed": "Failed to import Pearpal data.",
-      "wardrobe_updated": "Added {items} clothes, {makeups} makeup, and {momo} Momo's Cloaks.",
+      "wardrobe_updated": "Added {items} clothes, {makeups} makeup, {momo} Momo's Cloaks, and {props} Decorations.",
       "wardrobe_up_to_date": "Wardrobe is already up to date.",
       "wardrobe_import_failed": "Wardrobe import failed.",
       "eurekas_updated": "Added {count} Eureka colors.",
@@ -968,6 +972,8 @@
     "filter_style": "Filter by Style",
     "filter_label": "Filter by Label",
     "filter_obtain": "Filter by Source",
+    "momo_search_placeholder": "Search Momo's Cloaks",
+    "prop_search_placeholder": "Search decorations",
     "item_piece_filter": {
       "outfit": "Outfit Pieces",
       "individual": "Individual Pieces"
@@ -988,6 +994,7 @@
     "advanced_filters_empty": "No advanced filters are available for this slot.",
     "advanced_filter_placeholder": "Select {field}",
     "uncategorized": "Uncategorized",
+    "missing_value": "Missing value",
     "search_field": {
       "category": "Category",
       "subcategory": "Subcategory",

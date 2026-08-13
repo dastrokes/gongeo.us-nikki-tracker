@@ -38,10 +38,12 @@ export const useWardrobe = () => {
   const ownedItemIds = computed(() => data.value.ownedItemIds)
   const ownedMakeupIds = computed(() => data.value.ownedMakeupIds)
   const ownedMomoIds = computed(() => data.value.ownedMomoIds)
+  const ownedPropIds = computed(() => data.value.ownedPropIds)
   const ownedEurekaColorIds = computed(() => data.value.ownedEurekaColorIds)
   const ownedItemIdSet = computed(() => new Set(data.value.ownedItemIds))
   const ownedMakeupIdSet = computed(() => new Set(data.value.ownedMakeupIds))
   const ownedMomoIdSet = computed(() => new Set(data.value.ownedMomoIds))
+  const ownedPropIdSet = computed(() => new Set(data.value.ownedPropIds))
   const ownedEurekaColorIdSet = computed(
     () => new Set(data.value.ownedEurekaColorIds)
   )
@@ -143,6 +145,7 @@ export const useWardrobe = () => {
       ownedItemIds: Array.from(nextSet),
       ownedMakeupIds: data.value.ownedMakeupIds,
       ownedMomoIds: data.value.ownedMomoIds,
+      ownedPropIds: data.value.ownedPropIds,
       ownedEurekaColorIds: data.value.ownedEurekaColorIds,
       updatedAt: new Date().toISOString(),
     })
@@ -190,6 +193,7 @@ export const useWardrobe = () => {
       ownedItemIds: data.value.ownedItemIds,
       ownedMakeupIds: Array.from(nextSet),
       ownedMomoIds: data.value.ownedMomoIds,
+      ownedPropIds: data.value.ownedPropIds,
       ownedEurekaColorIds: data.value.ownedEurekaColorIds,
       updatedAt: new Date().toISOString(),
     })
@@ -222,6 +226,39 @@ export const useWardrobe = () => {
       ownedItemIds: data.value.ownedItemIds,
       ownedMakeupIds: data.value.ownedMakeupIds,
       ownedMomoIds: Array.from(nextSet),
+      ownedPropIds: data.value.ownedPropIds,
+      ownedEurekaColorIds: data.value.ownedEurekaColorIds,
+      updatedAt: new Date().toISOString(),
+    })
+
+    return { changed }
+  }
+
+  const markPropsOwned = async (propIds: readonly number[], owned: boolean) => {
+    const normalizedPropIds = normalizeWardrobeItemIds([...propIds])
+    if (normalizedPropIds.length === 0) return { changed: 0 }
+
+    const nextSet = new Set(data.value.ownedPropIds)
+    let changed = 0
+    normalizedPropIds.forEach((propId) => {
+      const wasOwned = nextSet.has(propId)
+      if (owned && !wasOwned) {
+        nextSet.add(propId)
+        changed += 1
+      } else if (!owned && wasOwned) {
+        nextSet.delete(propId)
+        changed += 1
+      }
+    })
+
+    if (changed === 0) return { changed: 0 }
+
+    await persistOptimistic({
+      version: WARDROBE_DATA_VERSION,
+      ownedItemIds: data.value.ownedItemIds,
+      ownedMakeupIds: data.value.ownedMakeupIds,
+      ownedMomoIds: data.value.ownedMomoIds,
+      ownedPropIds: Array.from(nextSet),
       ownedEurekaColorIds: data.value.ownedEurekaColorIds,
       updatedAt: new Date().toISOString(),
     })
@@ -233,22 +270,27 @@ export const useWardrobe = () => {
     itemIds,
     makeupIds,
     momoIds,
+    propIds = [],
   }: {
     itemIds: readonly number[]
     makeupIds: readonly number[]
     momoIds: readonly number[]
+    propIds?: readonly number[]
   }) => {
     const normalizedItemIds = normalizeWardrobeItemIds([...itemIds])
     const normalizedMakeupIds = normalizeWardrobeItemIds([...makeupIds])
     const normalizedMomoIds = normalizeWardrobeItemIds([...momoIds])
+    const normalizedPropIds = normalizeWardrobeItemIds([...propIds])
 
     const nextItemSet = new Set(data.value.ownedItemIds)
     const nextMakeupSet = new Set(data.value.ownedMakeupIds)
     const nextMomoSet = new Set(data.value.ownedMomoIds)
+    const nextPropSet = new Set(data.value.ownedPropIds)
     const changed = {
       items: 0,
       makeups: 0,
       momo: 0,
+      props: 0,
     }
 
     normalizedItemIds.forEach((itemId) => {
@@ -269,7 +311,14 @@ export const useWardrobe = () => {
       changed.momo += 1
     })
 
-    const totalChanged = changed.items + changed.makeups + changed.momo
+    normalizedPropIds.forEach((propId) => {
+      if (nextPropSet.has(propId)) return
+      nextPropSet.add(propId)
+      changed.props += 1
+    })
+
+    const totalChanged =
+      changed.items + changed.makeups + changed.momo + changed.props
     if (totalChanged === 0) {
       return { ...changed, total: 0 }
     }
@@ -279,6 +328,7 @@ export const useWardrobe = () => {
       ownedItemIds: Array.from(nextItemSet),
       ownedMakeupIds: Array.from(nextMakeupSet),
       ownedMomoIds: Array.from(nextMomoSet),
+      ownedPropIds: Array.from(nextPropSet),
       ownedEurekaColorIds: data.value.ownedEurekaColorIds,
       updatedAt: new Date().toISOString(),
     })
@@ -358,6 +408,7 @@ export const useWardrobe = () => {
       ownedItemIds: data.value.ownedItemIds,
       ownedMakeupIds: data.value.ownedMakeupIds,
       ownedMomoIds: data.value.ownedMomoIds,
+      ownedPropIds: data.value.ownedPropIds,
       ownedEurekaColorIds: Array.from(nextSet),
       updatedAt: new Date().toISOString(),
     })
@@ -421,6 +472,14 @@ export const useWardrobe = () => {
   const isMakeupOwned = (makeupId: number) =>
     ownedMakeupIdSet.value.has(makeupId)
   const isMomoOwned = (momoId: number) => ownedMomoIdSet.value.has(momoId)
+  const togglePropOwned = async (propId: number, owned?: boolean) => {
+    const normalizedPropId = normalizeWardrobeItemIds([propId])[0]
+    if (normalizedPropId === undefined) return { changed: 0 }
+
+    const nextOwned = owned ?? !ownedPropIdSet.value.has(normalizedPropId)
+    return markPropsOwned([normalizedPropId], nextOwned)
+  }
+  const isPropOwned = (propId: number) => ownedPropIdSet.value.has(propId)
   const isEurekaColorOwned = (colorId: number) =>
     ownedEurekaColorIdSet.value.has(colorId)
 
@@ -464,6 +523,7 @@ export const useWardrobe = () => {
       'makeupOutfits',
       'momo',
       'momoOutfits',
+      'props',
     ])
 
     const index = catalogIndex.index.value
@@ -475,6 +535,7 @@ export const useWardrobe = () => {
       processedBanners,
       evoData: trackerData.evo,
       catalogIndex: index,
+      propEntries: catalogIndex.props.value,
     })
 
     const availableItemIds = filterCatalogIdsByRegionScope(
@@ -492,10 +553,12 @@ export const useWardrobe = () => {
       inferred.momoIds,
       activeRegionScope.value
     )
+    const availablePropIds = inferred.propIds
     const totalFound =
       availableItemIds.length +
       availableMakeupIds.length +
-      availableMomoIds.length
+      availableMomoIds.length +
+      availablePropIds.length
     const itemIds = availableItemIds.filter(
       (itemId) => !ownedItemIdSet.value.has(itemId)
     )
@@ -505,19 +568,26 @@ export const useWardrobe = () => {
     const momoIds = availableMomoIds.filter(
       (momoId) => !ownedMomoIdSet.value.has(momoId)
     )
+    const propIds = availablePropIds.filter(
+      (propId) => !ownedPropIdSet.value.has(propId)
+    )
 
     return {
       itemIds,
       makeupIds,
       momoIds,
+      propIds,
       found: totalFound,
-      imported: itemIds.length + makeupIds.length + momoIds.length,
+      imported:
+        itemIds.length + makeupIds.length + momoIds.length + propIds.length,
       foundItems: availableItemIds.length,
       foundMakeups: availableMakeupIds.length,
       foundMomo: availableMomoIds.length,
+      foundProps: availablePropIds.length,
       importedItems: itemIds.length,
       importedMakeups: makeupIds.length,
       importedMomo: momoIds.length,
+      importedProps: propIds.length,
       skippedPartialFiveStarMakeupOutfits:
         inferred.skipped.partialFiveStarMakeupOutfits,
     }
@@ -529,6 +599,7 @@ export const useWardrobe = () => {
       itemIds: preview.itemIds,
       makeupIds: preview.makeupIds,
       momoIds: preview.momoIds,
+      propIds: preview.propIds,
     })
 
     return {
@@ -537,6 +608,7 @@ export const useWardrobe = () => {
       importedItems: result.items,
       importedMakeups: result.makeups,
       importedMomo: result.momo,
+      importedProps: result.props,
     }
   }
 
@@ -545,10 +617,12 @@ export const useWardrobe = () => {
     ownedItemIds,
     ownedMakeupIds,
     ownedMomoIds,
+    ownedPropIds,
     ownedEurekaColorIds,
     ownedItemIdSet,
     ownedMakeupIdSet,
     ownedMomoIdSet,
+    ownedPropIdSet,
     ownedEurekaColorIdSet,
     initialized: readonly(initialized),
     loading: readonly(loading),
@@ -561,16 +635,19 @@ export const useWardrobe = () => {
     isItemOwned,
     isMakeupOwned,
     isMomoOwned,
+    isPropOwned,
     isEurekaColorOwned,
     getOutfitProgress,
     getFullMakeupProgress,
     toggleItemOwned,
     toggleMakeupOwned,
     toggleMomoOwned,
+    togglePropOwned,
     markItemsOwned,
     markOutfitOwned,
     markMakeupsOwned,
     markMomoOwned,
+    markPropsOwned,
     markEurekaColorsOwned,
     toggleEurekaColorOwned,
     markWardrobeIdsOwned,

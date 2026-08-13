@@ -399,6 +399,7 @@
     ListAlt,
     PaintBrush,
     Paw,
+    Box,
     Times,
     CheckCircle,
     TimesCircle,
@@ -484,7 +485,7 @@
 
   type ItemListingPrimaryFilter =
     'type' | 'quality' | 'version' | 'style' | 'label' | 'source' | null
-  type CompendiumSection = 'outfits' | 'items' | 'momo' | 'makeups'
+  type CompendiumSection = 'outfits' | 'items' | 'momo' | 'makeups' | 'props'
   type IconSelectOption = SelectOption & { icon: Component }
   type BuildListingQueryOptions = {
     includeType?: boolean
@@ -497,6 +498,7 @@
   const resolveType = (value?: string | null) => {
     if (!value) return null
     if (value === 'all') return null
+    if (isListingMissingFilterValue(value)) return value
     if ((availableItemTypes as string[]).includes(value)) return value
     const seoType = resolveSeoItemTypeFromSlug(value)
     if (seoType && (availableItemTypes as string[]).includes(seoType)) {
@@ -511,9 +513,10 @@
   const availableVersions = computed(() =>
     getExactVersionsFromLocaleMessages(messages.value)
   )
-  const availableVersionFilters = computed(() =>
-    getVersionFilters(availableVersions.value)
-  )
+  const availableVersionFilters = computed(() => [
+    ...getVersionFilters(availableVersions.value),
+    LISTING_MISSING_FILTER_VALUE,
+  ])
   const availableObtains = computed(() =>
     getLocaleMessageNumericIds(messages.value, 'obtain')
   )
@@ -573,19 +576,30 @@
       })
       .map(({ label, value }) => ({ label, value }))
   })
-  const sourceTreeOptions = computed<TreeSelectOption[]>(() =>
-    createSourceTreeFilterOptions(obtainOptions.value, t, 'item')
-  )
+  const sourceTreeOptions = computed<TreeSelectOption[]>(() => [
+    ...createSourceTreeFilterOptions(obtainOptions.value, t, 'item'),
+    ...(SHOW_LISTING_MISSING_FILTER_OPTIONS
+      ? [
+          {
+            key: LISTING_MISSING_FILTER_VALUE,
+            label: t('compendium.missing_value'),
+            value: LISTING_MISSING_FILTER_VALUE,
+          },
+        ]
+      : []),
+  ])
 
-  const availableObtainValues = computed(() =>
-    obtainOptions.value.map((option) => option.value as string)
-  )
+  const availableObtainValues = computed(() => [
+    ...obtainOptions.value.map((option) => option.value as string),
+    LISTING_MISSING_FILTER_VALUE,
+  ])
 
   const availableStyles = STYLE_DEFINITIONS.map((style) => style.key)
   const availableLabels = TAG_DEFINITIONS.map((tag) => tag.key)
 
   const resolveStyle = (value?: string | null) => {
     if (!value) return null
+    if (isListingMissingFilterValue(value)) return value
     const normalized = normalizeTraitKey(value)
     if (normalized === 'all') return null
     if (availableStyles.includes(normalized)) return normalized
@@ -594,6 +608,7 @@
 
   const resolveLabel = (value?: string | null) => {
     if (!value) return null
+    if (isListingMissingFilterValue(value)) return value
     const normalized = normalizeTraitKey(value)
     if (normalized === 'all') return null
     if (availableLabels.includes(normalized)) return normalized
@@ -704,7 +719,11 @@
   )
 
   const activeTypeLabel = computed(() =>
-    typeFilter.value ? t(`type.${typeFilter.value}`) : null
+    isListingMissingFilterValue(typeFilter.value)
+      ? t('compendium.missing_value')
+      : typeFilter.value
+        ? t(`type.${typeFilter.value}`)
+        : null
   )
   const getPieceFilterLabel = (piece?: string | null) => {
     if (piece === 'outfit') return t('compendium.item_piece_filter.outfit')
@@ -715,6 +734,9 @@
   }
   const getVersionFilterLabel = (version?: string | null) => {
     if (!version) return null
+    if (isListingMissingFilterValue(version)) {
+      return t('compendium.missing_value')
+    }
     const key = `version.${version}`
     const translated = t(key)
     return translated !== key ? `${version} - ${translated}` : version
@@ -723,6 +745,9 @@
     quality ? `${quality}★` : null
   const getSourceFilterLabel = (source?: string | null) => {
     if (!source) return null
+    if (isListingMissingFilterValue(source)) {
+      return t('compendium.missing_value')
+    }
     const labelKey = resolveObtainGroupLabelKey(source)
     if (!labelKey) return source
     const translated = t(labelKey)
@@ -738,11 +763,17 @@
   }
   const getStyleFilterLabel = (style?: string | null) => {
     if (!style) return null
+    if (isListingMissingFilterValue(style)) {
+      return t('compendium.missing_value')
+    }
     const definition = STYLE_BY_KEY.get(style)
     return definition ? t(definition.i18nKey) : null
   }
   const getTagFilterLabel = (tag?: string | null) => {
     if (!tag) return null
+    if (isListingMissingFilterValue(tag)) {
+      return t('compendium.missing_value')
+    }
     const definition = TAG_BY_KEY.get(tag)
     return definition ? t(definition.i18nKey) : null
   }
@@ -858,7 +889,11 @@
         )
       ).length
   )
-  const supportsCategoryFilters = computed(() => !!typeFilter.value)
+  const supportsCategoryFilters = computed(
+    () =>
+      Boolean(typeFilter.value) &&
+      !isListingMissingFilterValue(typeFilter.value)
+  )
   const isCategoryFilterEnabled = computed(
     () => supportsCategoryFilters.value && categoryOptions.value.length > 0
   )
@@ -877,6 +912,7 @@
   const shouldFetchFacets = computed(
     () =>
       Boolean(typeFilter.value) &&
+      !isListingMissingFilterValue(typeFilter.value) &&
       (!!typeFilter.value || isAdvancedFiltersEnabled.value)
   )
   const hasFilters = computed(
@@ -1000,10 +1036,18 @@
           subcategory: supportsCategoryFilters.value
             ? subcategoryFilter.value
             : null,
-          version: versionFilter.value,
-          style: styleFilter.value,
-          label: labelFilter.value,
-          source: obtainFilter.value,
+          version: isListingMissingFilterValue(versionFilter.value)
+            ? null
+            : versionFilter.value,
+          style: isListingMissingFilterValue(styleFilter.value)
+            ? null
+            : styleFilter.value,
+          label: isListingMissingFilterValue(labelFilter.value)
+            ? null
+            : labelFilter.value,
+          source: isListingMissingFilterValue(obtainFilter.value)
+            ? null
+            : obtainFilter.value,
           ...activeAdvancedFilters.value,
         })
 
@@ -1172,6 +1216,7 @@
     { label: t('common.items'), value: 'items', icon: ListAlt },
     { label: t('common.makeups'), value: 'makeups', icon: PaintBrush },
     { label: t('common.momo'), value: 'momo', icon: Paw },
+    { label: t('common.props'), value: 'props', icon: Box },
   ])
   const renderCompendiumSectionOptionLabel = renderIconSelectOptionLabel
 
@@ -1840,20 +1885,31 @@
     const nextSection = value as CompendiumSection
     if (nextSection === 'items') return
 
+    if (nextSection === 'props') {
+      navigateTo(
+        localePath({
+          path: '/props',
+          query: buildCompendiumSwitchQuery('items', nextSection, {
+            quality: qualityFilter.value,
+            version: versionFilter.value,
+            source: obtainFilter.value,
+            wardrobe: wardrobeFilter.value,
+          }),
+        })
+      )
+      return
+    }
+
     if (nextSection === 'momo') {
       navigateTo(
         localePath({
           path: '/momo',
-          query: {
-            ...(qualityFilter.value !== null && {
-              quality: qualityFilter.value,
-            }),
-            ...(versionFilter.value && { version: versionFilter.value }),
-            ...(obtainFilter.value && { source: obtainFilter.value }),
-            ...(sourceDetailFilter.value && {
-              sourceDetail: sourceDetailFilter.value,
-            }),
-          },
+          query: buildCompendiumSwitchQuery('items', nextSection, {
+            quality: qualityFilter.value,
+            version: versionFilter.value,
+            source: obtainFilter.value,
+            wardrobe: wardrobeFilter.value,
+          }),
         })
       )
       return
@@ -2187,6 +2243,13 @@
       })
     }
 
+    if (SHOW_LISTING_MISSING_FILTER_OPTIONS) {
+      options.push({
+        label: t('compendium.missing_value'),
+        value: LISTING_MISSING_FILTER_VALUE,
+      })
+    }
+
     return options
   })
 
@@ -2213,13 +2276,27 @@
 
   const currentAvailableCategories = computed(() =>
     isCurrentFacetDataReady.value
-      ? (itemSearchFacets.value?.categories ?? [])
+      ? Array.from(
+          new Set([
+            ...(itemSearchFacets.value?.categories ?? []),
+            ...(SHOW_LISTING_MISSING_FILTER_OPTIONS
+              ? [ITEM_SEARCH_UNCATEGORIZED_VALUE]
+              : []),
+          ])
+        )
       : []
   )
 
   const currentAvailableSubcategories = computed(() =>
     isCurrentFacetDataReady.value
-      ? (itemSearchFacets.value?.subcategories ?? [])
+      ? Array.from(
+          new Set([
+            ...(itemSearchFacets.value?.subcategories ?? []),
+            ...(SHOW_LISTING_MISSING_FILTER_OPTIONS
+              ? [ITEM_SEARCH_UNCATEGORIZED_VALUE]
+              : []),
+          ])
+        )
       : []
   )
   const currentAdvancedFacetOptions = computed<ItemSearchAdvancedFacetMap>(
@@ -2301,7 +2378,6 @@
       ...advancedFilters.value,
     }
     let hasChanges = false
-
     ;(Object.keys(nextFilters) as ItemSearchAdvancedField[]).forEach(
       (field) => {
         const value = nextFilters[field]
@@ -2358,20 +2434,38 @@
   }
 
   const categoryOptions = computed<SelectOption[]>(() =>
-    sortItemSearchFacetValues(availableCategories.value).map((value) => ({
+    sortItemSearchFacetValues(
+      Array.from(
+        new Set([
+          ...availableCategories.value,
+          ...(SHOW_LISTING_MISSING_FILTER_OPTIONS
+            ? [ITEM_SEARCH_UNCATEGORIZED_VALUE]
+            : []),
+        ])
+      )
+    ).map((value) => ({
       label:
         value === ITEM_SEARCH_UNCATEGORIZED_VALUE
-          ? t('compendium.uncategorized')
+          ? t('compendium.missing_value')
           : translateFilterToken('category', value, typeFilter.value),
       value,
     }))
   )
 
   const subcategoryOptions = computed<SelectOption[]>(() =>
-    sortItemSearchFacetValues(availableSubcategories.value).map((value) => ({
+    sortItemSearchFacetValues(
+      Array.from(
+        new Set([
+          ...availableSubcategories.value,
+          ...(SHOW_LISTING_MISSING_FILTER_OPTIONS
+            ? [ITEM_SEARCH_UNCATEGORIZED_VALUE]
+            : []),
+        ])
+      )
+    ).map((value) => ({
       label:
         value === ITEM_SEARCH_UNCATEGORIZED_VALUE
-          ? t('compendium.uncategorized')
+          ? t('compendium.missing_value')
           : translateFilterToken('subcategory', value, typeFilter.value),
       value,
     }))
@@ -2381,7 +2475,7 @@
     return {
       label:
         normalizedValue === ITEM_SEARCH_UNCATEGORIZED_VALUE
-          ? t('compendium.uncategorized')
+          ? t('compendium.missing_value')
           : translateFilterToken('category', normalizedValue, typeFilter.value),
       value,
     }
@@ -2391,7 +2485,7 @@
     return {
       label:
         normalizedValue === ITEM_SEARCH_UNCATEGORIZED_VALUE
-          ? t('compendium.uncategorized')
+          ? t('compendium.missing_value')
           : translateFilterToken(
               'subcategory',
               normalizedValue,
@@ -2401,12 +2495,20 @@
     }
   }
 
-  const styleOptions = computed(() =>
-    STYLE_DEFINITIONS.map((style) => ({
+  const styleOptions = computed(() => [
+    ...STYLE_DEFINITIONS.map((style) => ({
       label: t(style.i18nKey),
       value: style.key,
-    }))
-  )
+    })),
+    ...(SHOW_LISTING_MISSING_FILTER_OPTIONS
+      ? [
+          {
+            label: t('compendium.missing_value'),
+            value: LISTING_MISSING_FILTER_VALUE,
+          },
+        ]
+      : []),
+  ])
 
   const pieceFilterOptions = computed<IconSelectOption[]>(() => [
     { label: t('common.all'), value: 'all', icon: DotCircle },
@@ -2422,18 +2524,36 @@
     },
   ])
 
-  const labelOptions = computed(() =>
-    TAG_DEFINITIONS.map((tag) => ({
+  const labelOptions = computed(() => [
+    ...TAG_DEFINITIONS.map((tag) => ({
       label: t(tag.i18nKey),
       value: tag.key,
-    }))
-  )
+    })),
+    ...(SHOW_LISTING_MISSING_FILTER_OPTIONS
+      ? [
+          {
+            label: t('compendium.missing_value'),
+            value: LISTING_MISSING_FILTER_VALUE,
+          },
+        ]
+      : []),
+  ])
 
   const versionOptions = computed<SelectOption[]>(() => {
-    return createVersionFilterOptions(
-      availableVersions.value,
-      (version) => getVersionFilterLabel(version) ?? version
-    )
+    return [
+      ...createVersionFilterOptions(
+        availableVersions.value,
+        (version) => getVersionFilterLabel(version) ?? version
+      ),
+      ...(SHOW_LISTING_MISSING_FILTER_OPTIONS
+        ? [
+            {
+              label: t('compendium.missing_value'),
+              value: LISTING_MISSING_FILTER_VALUE,
+            },
+          ]
+        : []),
+    ]
   })
   const renderVersionOptionLabel = (option: SelectOption) => {
     const label = String(option.label ?? option.value ?? '')

@@ -589,7 +589,7 @@
                   >
                     <div
                       class="absolute inset-0"
-                      :class="getSearchQualityOverlayClass(item.quality)"
+                      :style="getQualityOverlayStyle(item.quality)"
                     ></div>
                     <NuxtImg
                       v-if="item.imageSrc"
@@ -769,7 +769,7 @@
             ></div>
             <div
               class="absolute inset-0"
-              :class="getSearchQualityOverlayClass(activeResult.quality)"
+              :style="getQualityOverlayStyle(activeResult.quality)"
             ></div>
             <NuxtImg
               v-if="getResultImageSrc(activeResult)"
@@ -836,7 +836,7 @@
                 ></div>
                 <div
                   class="absolute inset-0"
-                  :class="getSearchQualityOverlayClass(activeResult.quality)"
+                  :style="getQualityOverlayStyle(activeResult.quality)"
                 ></div>
                 <NuxtImg
                   v-if="getResultImageSrc(activeResult)"
@@ -1056,9 +1056,7 @@
                     Boolean(luckyDisplayResult)
                   "
                   class="absolute inset-0"
-                  :class="
-                    getSearchQualityOverlayClass(luckyDisplayResult?.quality)
-                  "
+                  :style="getQualityOverlayStyle(luckyDisplayResult?.quality)"
                 ></div>
                 <NuxtImg
                   v-if="
@@ -1395,9 +1393,7 @@
                       Boolean(luckyDisplayResult)
                     "
                     class="absolute inset-0"
-                    :class="
-                      getSearchQualityOverlayClass(luckyDisplayResult?.quality)
-                    "
+                    :style="getQualityOverlayStyle(luckyDisplayResult?.quality)"
                   ></div>
                   <NuxtImg
                     v-if="
@@ -2494,19 +2490,6 @@
     })
 
     return tags
-  }
-
-  const getSearchQualityOverlayClass = (quality?: number | null) => {
-    switch (quality) {
-      case 5:
-        return 'bg-yellow-500/5'
-      case 4:
-        return 'bg-blue-500/5'
-      case 3:
-        return 'bg-green-500/5'
-      default:
-        return 'bg-gray-500/5'
-    }
   }
 
   const getSearchVersionDisplay = (obtainType: number | null) => {

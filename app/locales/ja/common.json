@@ -6,6 +6,8 @@
     "outfits": "セットコーデ",
     "item": "パーツ",
     "items": "パーツ",
+    "prop": "装飾品",
+    "props": "装飾品",
     "momo": "モモのマント",
     "momo_entry": "モモのマント",
     "makeup": "メイク",
@@ -113,6 +115,7 @@
     "outfit": "衣装図鑑",
     "outfit_detail": "衣装の詳細",
     "item": "アイテム図鑑",
+    "props": "装飾品図鑑",
     "lookbook": "ルックブックプレビュー",
     "explore": "さらに探索",
     "makeup": "メイク図鑑",
@@ -148,6 +151,7 @@
       "makeups": "インフィニティニキのすべてのメイクを閲覧できます。フルメイクと各メイクパーツを、部位、レア度、スタイル、バージョン、入手元で絞り込めます。",
       "outfit_detail": "品質、衣装ピース、進化とグローアップ、メイクアップ、ステータス、関連する共鳴バナーなど、{name} 衣装に関する詳細情報を表示します。",
       "items": "部位、品質、ステータスボーナス、関連する衣装やバナーのフィルターを使用して、すべての インフィニティニキ アイテムを参照します。すべてのアイテムを簡単に検索、比較、追跡します。",
+      "props": "品質、バージョン、入手元で絞り込みながら、インフィニティニキの装飾品の画像やバリエーションを閲覧・管理できます。",
       "lookbook": "Infinity Nikki の星彩の画集コードを、アイコンと図鑑リンク付きの共有可能なアイテムリストカードとしてプレビューします。",
       "momo": "品質、バージョン、入手元のフィルターを使用して、インフィニティニキに登場するすべてのモモのマントを、アイテム画像とあわせて一覧できます。",
       "momo_detail": "{name} のレア度、入手元、説明、プレビュー、アイコン画像などの詳細情報を表示します。",
@@ -403,7 +407,7 @@
       "all_owned": "一致する{count}件のアイテムをすべて所持済みにしますか？",
       "all_unowned": "一致する{count}件のアイテムをすべて未所持にしますか？",
       "f2p_basics": "このプロフィールで、常設のF2Pワードローブ項目{count}件を所持済みにしますか？",
-      "tracker_import": "共鳴記録から新しいワードローブ項目 {imported} 件をインポートしますか？ 合計 {found} 件（アイテム {foundItems} 件、メイク {foundMakeups} 件、モモのマント {foundMomo} 件）が見つかりました。",
+      "tracker_import": "共鳴記録から新しいワードローブ項目 {imported} 件をインポートしますか？ 合計 {found} 件（アイテム {foundItems} 件、メイク {foundMakeups} 件、モモのマント {foundMomo} 件、装飾品 {foundProps} 件）が見つかりました。",
       "outfit_unowned": "{count}件のコーデアイテムをすべて未所持にしますか？"
     },
     "error": {
@@ -575,7 +579,7 @@
       "import_failed": "ファイルのインポートに失敗しました",
       "pearpal_tracker_success": "Pearpal データは正常にインポートされました。",
       "pearpal_tracker_failed": "Pearpal データのインポートに失敗しました。",
-      "wardrobe_updated": "衣装{items}点、メイク{makeups}点、モモのマント{momo}点を追加しました。",
+      "wardrobe_updated": "衣装{items}点、メイク{makeups}点、モモのマント{momo}点、装飾品{props}点を追加しました。",
       "wardrobe_up_to_date": "ワードローブはすでに最新です。",
       "wardrobe_import_failed": "ワードローブのインポートに失敗しました。",
       "eurekas_updated": "祝福の光のカラーを{count}個追加しました。",
@@ -968,6 +972,8 @@
     "filter_style": "スタイルで絞り込む",
     "filter_label": "ラベルで絞り込む",
     "filter_obtain": "入手方法で絞り込む",
+    "momo_search_placeholder": "モモのマントを検索",
+    "prop_search_placeholder": "装飾品を検索",
     "item_piece_filter": {
       "outfit": "コーデパーツ",
       "individual": "単品パーツ"
@@ -988,6 +994,7 @@
     "advanced_filters_empty": "この部位で利用可能な詳細フィルターはありません。",
     "advanced_filter_placeholder": "{field}を選択",
     "uncategorized": "未分類",
+    "missing_value": "値なし",
     "search_field": {
       "category": "カテゴリ",
       "subcategory": "サブカテゴリ",

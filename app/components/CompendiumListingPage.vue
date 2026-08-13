@@ -269,7 +269,8 @@
               <div
                 v-for="index in 12"
                 :key="`preferences-placeholder-${index}`"
-                class="relative aspect-2/3 animate-pulse overflow-hidden rounded-lg bg-linear-to-b from-slate-100 to-slate-200 ring-1 ring-black/5 dark:from-slate-700 dark:to-slate-800 dark:ring-white/8"
+                class="relative animate-pulse overflow-hidden rounded-lg bg-linear-to-b from-slate-100 to-slate-200 ring-1 ring-black/5 dark:from-slate-700 dark:to-slate-800 dark:ring-white/8"
+                :class="skeletonAspectClass"
                 :style="getListingCardAnimationStyle(index - 1)"
               ></div>
             </div>
@@ -334,7 +335,8 @@
                 <div
                   v-for="(i, index) in pageSize"
                   :key="`skeleton-${i}`"
-                  class="relative aspect-2/3 animate-pulse overflow-hidden rounded-lg bg-linear-to-b from-slate-100 to-slate-200 ring-1 ring-black/5 dark:from-slate-700 dark:to-slate-800 dark:ring-white/8"
+                  class="relative animate-pulse overflow-hidden rounded-lg bg-linear-to-b from-slate-100 to-slate-200 ring-1 ring-black/5 dark:from-slate-700 dark:to-slate-800 dark:ring-white/8"
+                  :class="skeletonAspectClass"
                   :style="getListingCardAnimationStyle(index)"
                 ></div>
               </div>
@@ -414,11 +416,13 @@
       tierlistDisabled: boolean
       selectedCount: number
       showClearFilters?: boolean
+      skeletonAspectClass?: string
       entryKey?: (entry: unknown, index: number) => string | number
       markOwnedMenuOptions?: WardrobeBatchMenuOption[]
     }>(),
     {
       showClearFilters: false,
+      skeletonAspectClass: 'aspect-2/3',
       entryKey: undefined,
       markOwnedMenuOptions: () => [],
     }

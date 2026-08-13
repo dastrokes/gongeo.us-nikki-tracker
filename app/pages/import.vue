@@ -1461,6 +1461,7 @@
                   importedItems: 0,
                   importedMakeups: 0,
                   importedMomo: 0,
+                  importedProps: 0,
                 }
                 try {
                   inferredImport = await wardrobe.importOwnedItemsFromTracker()
@@ -1476,13 +1477,21 @@
                 const importedMakeups =
                   directImport.importedMakeups + inferredImport.importedMakeups
                 const importedMomo = inferredImport.importedMomo
+                const importedProps = inferredImport.importedProps
 
-                if (importedItems + importedMakeups + importedMomo > 0) {
+                if (
+                  importedItems +
+                    importedMakeups +
+                    importedMomo +
+                    importedProps >
+                  0
+                ) {
                   message.success(
                     t('import.messages.wardrobe_updated', {
                       items: importedItems,
                       makeups: importedMakeups,
                       momo: importedMomo,
+                      props: importedProps,
                     })
                   )
                 } else {

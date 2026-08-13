@@ -1,4 +1,4 @@
-const ITEM_SKETCH_CATALOG_PATH = '/catalog/sketches.json'
+const CATALOG_INDEX_MANIFEST_PATH = '/catalog/index.json'
 
 const itemSketchCatalog = shallowRef<ItemSketchCatalog | null>(null)
 let itemSketchCatalogLoadPromise: Promise<ItemSketchCatalog> | null = null
@@ -23,9 +23,15 @@ export const useItemSketchCatalog = () => {
     itemSketchCatalogLoadPromise = (async () => {
       const revision =
         useRuntimeConfig().public.catalogRevision || getGameVersion()
-      const payload = await $fetch<unknown>(
-        `${ITEM_SKETCH_CATALOG_PATH}?r=${encodeURIComponent(String(revision))}`
+      const manifest = await $fetch<CatalogIndexManifestResponse>(
+        `${CATALOG_INDEX_MANIFEST_PATH}?r=${encodeURIComponent(String(revision))}`
       )
+      const file = manifest.files?.sketches
+      if (!file?.path) {
+        throw new Error('Item sketch catalog file is unavailable')
+      }
+
+      const payload = await $fetch<unknown>(file.path)
 
       if (!isItemSketchCatalog(payload)) {
         throw new Error('Item sketch catalog payload is malformed')

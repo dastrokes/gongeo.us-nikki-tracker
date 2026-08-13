@@ -293,6 +293,7 @@
     ListAlt,
     PaintBrush,
     Paw,
+    Box,
     CheckCircle,
     Adjust,
     TimesCircle,
@@ -323,7 +324,7 @@
   type BuildCrossCompendiumQueryOptions = {
     includePage?: boolean
   }
-  type CompendiumSection = 'outfits' | 'items' | 'momo' | 'makeups'
+  type CompendiumSection = 'outfits' | 'items' | 'momo' | 'makeups' | 'props'
   type IconSelectOption = SelectOption & { icon: Component }
   type MakeupWardrobeFilter = 'all' | 'owned' | 'partial' | 'missing'
 
@@ -359,6 +360,7 @@
 
   const resolveSlot = (value?: string | null): MakeupSlot | null => {
     if (!value || value === 'all') return null
+    if (isListingMissingFilterValue(value)) return value as MakeupSlot
     if ((makeupItemTypes as readonly string[]).includes(value)) {
       return value as MakeupSlot
     }
@@ -374,28 +376,43 @@
   const availableVersions = computed(() =>
     getExactVersionsFromLocaleMessages(messages.value)
   )
-  const availableVersionFilters = computed(() =>
-    getVersionFilters(availableVersions.value)
-  )
+  const availableVersionFilters = computed(() => [
+    ...getVersionFilters(availableVersions.value),
+    LISTING_MISSING_FILTER_VALUE,
+  ])
   const availableObtains = computed(() =>
     getLocaleMessageNumericIds(messages.value, 'obtain')
   )
-  const obtainOptions = computed(() =>
-    createObtainFilterOptions(availableObtains.value, t, {
+  const obtainOptions = computed(() => [
+    ...createObtainFilterOptions(availableObtains.value, t, {
       includeGroup: isObtainGroupVisibleInMakeups,
       fallbackLabel: (id) => `Obtain ${id}`,
-    })
-  )
+    }),
+    ...(SHOW_LISTING_MISSING_FILTER_OPTIONS
+      ? [
+          {
+            label: t('compendium.missing_value'),
+            value: LISTING_MISSING_FILTER_VALUE,
+          },
+        ]
+      : []),
+  ])
   const sourceTreeOptions = computed<TreeSelectOption[]>(() =>
     createSourceTreeFilterOptions(obtainOptions.value, t, 'makeup')
   )
   const availableObtainValues = computed(() =>
-    obtainOptions.value.map((option) => option.value as string)
+    Array.from(
+      new Set([
+        ...obtainOptions.value.map((option) => option.value as string),
+        LISTING_MISSING_FILTER_VALUE,
+      ])
+    )
   )
 
   const availableStyles = STYLE_DEFINITIONS.map((style) => style.key)
   const resolveStyle = (value?: string | null) => {
     if (!value) return null
+    if (isListingMissingFilterValue(value)) return value
     const normalized = normalizeTraitKey(value)
     if (normalized === 'all') return null
     return availableStyles.includes(normalized) ? normalized : null
@@ -544,7 +561,11 @@
   )
 
   const activeSlotLabel = computed(() =>
-    slotFilter.value ? t(`type.${slotFilter.value}`) : t('common.makeups')
+    isListingMissingFilterValue(slotFilter.value)
+      ? t('compendium.missing_value')
+      : slotFilter.value
+        ? t(`type.${slotFilter.value}`)
+        : t('common.makeups')
   )
   const pageTitle = computed(() => {
     if (slotFilter.value) {
@@ -762,6 +783,7 @@
     { label: t('common.items'), value: 'items', icon: ListAlt },
     { label: t('common.makeups'), value: 'makeups', icon: PaintBrush },
     { label: t('common.momo'), value: 'momo', icon: Paw },
+    { label: t('common.props'), value: 'props', icon: Box },
   ])
   const renderIconSelectOptionLabel = (option: SelectOption) => {
     const { icon } = option as IconSelectOption
@@ -1053,17 +1075,31 @@
     const nextSection = value as CompendiumSection
     if (nextSection === 'makeups') return
 
+    if (nextSection === 'props') {
+      navigateTo(
+        localePath({
+          path: '/props',
+          query: buildCompendiumSwitchQuery('makeups', nextSection, {
+            quality: qualityFilter.value,
+            version: versionFilter.value,
+            source: obtainFilter.value,
+            wardrobe: wardrobeFilter.value,
+          }),
+        })
+      )
+      return
+    }
+
     if (nextSection === 'momo') {
       navigateTo(
         localePath({
           path: '/momo',
-          query: {
-            ...(qualityFilter.value !== null && {
-              quality: qualityFilter.value,
-            }),
-            ...(versionFilter.value && { version: versionFilter.value }),
-            ...(obtainFilter.value && { source: obtainFilter.value }),
-          },
+          query: buildCompendiumSwitchQuery('makeups', nextSection, {
+            quality: qualityFilter.value,
+            version: versionFilter.value,
+            source: obtainFilter.value,
+            wardrobe: wardrobeFilter.value,
+          }),
         })
       )
       return
@@ -1246,19 +1282,35 @@
     loadData()
   }
 
-  const slotOptions = computed<SelectOption[]>(() =>
-    makeupItemTypes.map((type) => ({
+  const slotOptions = computed<SelectOption[]>(() => [
+    ...makeupItemTypes.map((type) => ({
       label: t(`type.${type}`),
       value: type,
-    }))
-  )
+    })),
+    ...(SHOW_LISTING_MISSING_FILTER_OPTIONS
+      ? [
+          {
+            label: t('compendium.missing_value'),
+            value: LISTING_MISSING_FILTER_VALUE,
+          },
+        ]
+      : []),
+  ])
 
-  const styleOptions = computed(() =>
-    STYLE_DEFINITIONS.map((style) => ({
+  const styleOptions = computed(() => [
+    ...STYLE_DEFINITIONS.map((style) => ({
       label: t(style.i18nKey),
       value: style.key,
-    }))
-  )
+    })),
+    ...(SHOW_LISTING_MISSING_FILTER_OPTIONS
+      ? [
+          {
+            label: t('compendium.missing_value'),
+            value: LISTING_MISSING_FILTER_VALUE,
+          },
+        ]
+      : []),
+  ])
   const makeupKindFilterOptions = computed<IconSelectOption[]>(() => [
     { label: t('common.all'), value: 'all', icon: DotCircle },
     {
@@ -1272,13 +1324,21 @@
       icon: UserEdit,
     },
   ])
-  const versionOptions = computed<SelectOption[]>(() =>
-    createVersionFilterOptions(availableVersions.value, (version) => {
+  const versionOptions = computed<SelectOption[]>(() => [
+    ...createVersionFilterOptions(availableVersions.value, (version) => {
       const key = `version.${version}`
       const translated = t(key)
       return translated !== key ? `${version} - ${translated}` : version
-    })
-  )
+    }),
+    ...(SHOW_LISTING_MISSING_FILTER_OPTIONS
+      ? [
+          {
+            label: t('compendium.missing_value'),
+            value: LISTING_MISSING_FILTER_VALUE,
+          },
+        ]
+      : []),
+  ])
   const renderVersionOptionLabel = (option: SelectOption) => {
     const label = String(option.label ?? option.value ?? '')
     const isMajor = Boolean((option as { isMajor?: boolean }).isMajor)

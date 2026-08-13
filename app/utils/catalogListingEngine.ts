@@ -190,7 +190,9 @@ const matchesStyle = (
   const style = getStringFilter(filters, 'style')
   if (!style) return true
 
-  return resolveStyleKeyFromI18nKey(entry.style) === style
+  const entryStyle = resolveStyleKeyFromI18nKey(entry.style)
+  if (isListingMissingFilterValue(style)) return !entryStyle
+  return entryStyle === style
 }
 
 const matchesLabel = (
@@ -199,6 +201,7 @@ const matchesLabel = (
 ) => {
   const label = getStringFilter(filters, 'label')
   if (!label) return true
+  if (isListingMissingFilterValue(label)) return entry.labels.length === 0
 
   const definition = TAG_BY_KEY.get(label)
   const expected = definition?.i18nKey ?? label
@@ -213,6 +216,7 @@ const matchesVersion = (
   if (!version) return true
 
   const entryVersion = getVersionFromId(entry.obtain_type)
+  if (isListingMissingFilterValue(version)) return !entryVersion
   return entryVersion ? matchesVersionFilter(entryVersion, version) : false
 }
 
@@ -222,6 +226,13 @@ const matchesSource = (
 ) => {
   const source = getStringFilter(filters, 'source')
   if (!source) return true
+  if (isListingMissingFilterValue(source)) {
+    return (
+      entry.obtain_type === null ||
+      entry.obtain_type === undefined ||
+      !resolveObtainGroupKeyFromIds([entry.obtain_type])
+    )
+  }
 
   const sourceIds = resolveObtainIdsFromValue(source)
   return Boolean(
@@ -238,6 +249,9 @@ const matchesMomoVersion = (
   const version = getStringFilter(filters, 'version')
   if (!version) return true
 
+  if (isListingMissingFilterValue(version)) {
+    return isListingFieldMissing(entry.version)
+  }
   return entry.version ? matchesVersionFilter(entry.version, version) : false
 }
 
@@ -247,6 +261,13 @@ const matchesMomoSource = (
 ) => {
   const source = getStringFilter(filters, 'source')
   if (!source) return true
+  if (isListingMissingFilterValue(source)) {
+    return (
+      entry.obtain_type === null ||
+      entry.obtain_type === undefined ||
+      !resolveMomoSourceGroupKeyFromIds([entry.obtain_type])
+    )
+  }
 
   const sourceIds = resolveMomoSourceIdsFromValue(source)
   return Boolean(
@@ -314,7 +335,9 @@ const matchesItemStableFilters = (
   }
 
   const type = getStringFilter(filters, 'type')
-  return !type || item.type === type
+  if (!type) return true
+  if (isListingMissingFilterValue(type)) return isListingFieldMissing(item.type)
+  return item.type === type
 }
 
 const matchesItemAttributeFilters = (
@@ -860,7 +883,14 @@ const filterStaticMakeupIds = ({
       }
 
       const type = getStringFilter(query.filters, 'type')
-      if (type && makeup.type !== type) return false
+      if (
+        type &&
+        (isListingMissingFilterValue(type)
+          ? !isListingFieldMissing(makeup.type)
+          : makeup.type !== type)
+      ) {
+        return false
+      }
 
       return matchesMakeupVariationFilter(makeup, query.filters)
     }),
@@ -927,9 +957,18 @@ const filterStaticMomoIds = ({
   query: StaticCatalogListingQuery
   index: CatalogLocalIndex
 }) => {
+  const rawSearchIds = query.filters.searchIds
+  const searchIdSet = Array.isArray(rawSearchIds)
+    ? new Set(
+        rawSearchIds.filter(
+          (id): id is number => typeof id === 'number' && Number.isFinite(id)
+        )
+      )
+    : null
   const momoIds = index.momo
     .filter(
       (momo) =>
+        (searchIdSet === null || searchIdSet.has(momo.id)) &&
         matchesQuality(momo, query.filters) &&
         matchesMomoVersion(momo, query.filters) &&
         matchesMomoSource(momo, query.filters) &&

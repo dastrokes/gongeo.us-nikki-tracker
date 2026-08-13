@@ -1,5 +1,5 @@
 export type EntityMessageSection =
-  'banner' | 'item' | 'makeup' | 'momo' | 'outfit'
+  'banner' | 'item' | 'makeup' | 'momo' | 'outfit' | 'prop'
 
 export type EntityMessageDictionary = Record<string, unknown>
 
@@ -10,7 +10,7 @@ export type EntityNameMessageEntry = {
 }
 
 const ENTITY_NAME_KEY_PATTERN =
-  /^(banner|item|makeup|momo|outfit)\.(\d+)\.name$/
+  /^(banner|item|makeup|momo|outfit|prop)\.(\d+)\.name$/
 
 export const unwrapLocaleMessages = (
   messagesModule: unknown

@@ -15,6 +15,7 @@ dist/
 # Generated image assets
 public/images/outfits/
 public/images/items/
+public/images/props/
 public/images/momo/
 public/images/eurekas/
 

@@ -6,6 +6,8 @@
     "outfits": "Tenues",
     "item": "Pièce",
     "items": "Pièces",
+    "prop": "Décoration",
+    "props": "Décorations",
     "momo": "Capes de Momo",
     "momo_entry": "Cape de Momo",
     "makeup": "Maquillage",
@@ -113,6 +115,7 @@
     "outfit": "Recueil de tenues",
     "outfit_detail": "Détail de la tenue",
     "item": "Recueil d'articles",
+    "props": "Recueil de décorations",
     "lookbook": "Aperçu du lookbook",
     "explore": "Explorer davantage",
     "makeup": "Recueil de maquillages",
@@ -148,6 +151,7 @@
       "makeups": "Parcourez tous les maquillages d'Infinity Nikki, y compris les maquillages complets et les éléments individuels, avec des filtres par emplacement, qualité, style, version et source.",
       "outfit_detail": "Affichez des informations détaillées sur la tenue {name}, notamment la qualité, les pièces de la tenue, l'évolution et l'éclat, les maquillages, les statistiques et les bannières de résonance associées.",
       "items": "Parcourez tous les articles Infinity Nikki avec des filtres par emplacement, qualité, bonus de statistiques et tenues ou bannières associées. Trouvez, comparez et suivez facilement chaque article.",
+      "props": "Parcourez et suivez les décorations d'Infinity Nikki avec des filtres de qualité, de version et de source, ainsi que leurs illustrations et variantes.",
       "lookbook": "Prévisualisez un code Atlas stellaire Infinity Nikki sous forme de carte partageable avec liste d'articles, icônes et liens vers le compendium.",
       "momo": "Parcourez toutes les Capes de Momo d'Infinity Nikki avec des filtres par qualité, version et source, ainsi que l'illustration de l'objet dans un compendium dédié.",
       "momo_detail": "Affichez des informations détaillées sur {name}, notamment sa qualité, sa source, sa description, son aperçu et son icône.",
@@ -403,7 +407,7 @@
       "all_owned": "Marquer les {count} objets correspondants comme possédés ?",
       "all_unowned": "Marquer les {count} objets correspondants comme non possédés ?",
       "f2p_basics": "Marquer {count} entrées de garde-robe F2P disponibles en permanence comme possédées pour ce profil ?",
-      "tracker_import": "Importer {imported} nouvelles entrées de garde-robe depuis les données du tracker ? {found} au total trouvées : {foundItems} objets, {foundMakeups} entrées de maquillage et {foundMomo} capes de Momo.",
+      "tracker_import": "Importer {imported} nouvelles entrées de garde-robe depuis les données du tracker ? {found} au total trouvées : {foundItems} objets, {foundMakeups} entrées de maquillage, {foundMomo} capes de Momo et {foundProps} décorations.",
       "outfit_unowned": "Marquer les {count} objets de tenue comme non possédés ?"
     },
     "error": {
@@ -575,7 +579,7 @@
       "import_failed": "Échec de l'importation du fichier",
       "pearpal_tracker_success": "Données Pearpal importées avec succès !",
       "pearpal_tracker_failed": "Échec de l'importation des données Pearpal.",
-      "wardrobe_updated": "{items} vêtements, {makeups} maquillages et {momo} capes de Momo ajoutés.",
+      "wardrobe_updated": "{items} vêtements, {makeups} maquillages, {momo} capes de Momo et {props} décorations ajoutés.",
       "wardrobe_up_to_date": "La garde-robe est déjà à jour.",
       "wardrobe_import_failed": "Échec de l’importation de la garde-robe.",
       "eurekas_updated": "{count} couleurs d’Eurêka ajoutées.",
@@ -968,6 +972,8 @@
     "filter_style": "Filtrer par style",
     "filter_label": "Filtrer par étiquette",
     "filter_obtain": "Filtrer par source",
+    "momo_search_placeholder": "Rechercher des capes de Momo",
+    "prop_search_placeholder": "Rechercher des décorations",
     "item_piece_filter": {
       "outfit": "Pièces de tenue",
       "individual": "Pièces individuelles"
@@ -988,6 +994,7 @@
     "advanced_filters_empty": "Il n'y a pas de filtres avancés disponibles pour cet emplacement.",
     "advanced_filter_placeholder": "Sélectionner {field}",
     "uncategorized": "Non catégorisé",
+    "missing_value": "Valeur manquante",
     "search_field": {
       "category": "Catégorie",
       "subcategory": "Sous-catégorie",

@@ -543,17 +543,33 @@
       ? Math.round((completeCount.value / totalEurekas.value) * 100)
       : 0
   )
-  const positionOptions = computed(() =>
-    (['head', 'hands', 'feet'] as EurekaPosition[]).map((value) => ({
+  const positionOptions = computed(() => [
+    ...(['head', 'hands', 'feet'] as EurekaPosition[]).map((value) => ({
       label: t(`eurekas.positions.${value}`),
       value,
-    }))
-  )
-  const styleOptions = computed(() =>
-    (['elegant', 'fresh', 'sweet', 'sexy', 'cool'] as EurekaStyle[]).map(
+    })),
+    ...(SHOW_LISTING_MISSING_FILTER_OPTIONS
+      ? [
+          {
+            label: t('compendium.missing_value'),
+            value: LISTING_MISSING_FILTER_VALUE,
+          },
+        ]
+      : []),
+  ])
+  const styleOptions = computed(() => [
+    ...(['elegant', 'fresh', 'sweet', 'sexy', 'cool'] as EurekaStyle[]).map(
       (value) => ({ label: t(`style.${value}`), value })
-    )
-  )
+    ),
+    ...(SHOW_LISTING_MISSING_FILTER_OPTIONS
+      ? [
+          {
+            label: t('compendium.missing_value'),
+            value: LISTING_MISSING_FILTER_VALUE,
+          },
+        ]
+      : []),
+  ])
   const statusLabel = (status: EurekaOwnershipStatus) =>
     status === 'partial'
       ? t('wardrobe.filters.partial')
@@ -590,8 +606,14 @@
         (entry) =>
           (!needle || eurekaName(entry).toLocaleLowerCase().includes(needle)) &&
           (quality.value === null || entry.quality === quality.value) &&
-          (position.value === null || entry.position === position.value) &&
-          (style.value === null || entry.mainStyle === style.value) &&
+          (position.value === null ||
+            (isListingMissingFilterValue(position.value)
+              ? isListingFieldMissing(entry.position)
+              : entry.position === position.value)) &&
+          (style.value === null ||
+            (isListingMissingFilterValue(style.value)
+              ? isListingFieldMissing(entry.mainStyle)
+              : entry.mainStyle === style.value)) &&
           (ownershipStatus.value === null ||
             progressFor(entry).status === ownershipStatus.value)
       )

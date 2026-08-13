@@ -3,8 +3,10 @@ import { ENTITY_SLUG_DATA as ITEM_SLUG_DATA } from '../../data/entitySlugs/item'
 import { ENTITY_SLUG_DATA as MAKEUP_SLUG_DATA } from '../../data/entitySlugs/makeup'
 import { ENTITY_SLUG_DATA as MOMO_SLUG_DATA } from '../../data/entitySlugs/momo'
 import { ENTITY_SLUG_DATA as OUTFIT_SLUG_DATA } from '../../data/entitySlugs/outfit'
+import { ENTITY_SLUG_DATA as PROP_SLUG_DATA } from '../../data/entitySlugs/prop'
 
-export type EntitySlugType = 'banner' | 'item' | 'makeup' | 'momo' | 'outfit'
+export type EntitySlugType =
+  'banner' | 'item' | 'makeup' | 'momo' | 'outfit' | 'prop'
 
 const helpersByEntity = {
   banner: createEntitySlugHelpers('banners', BANNER_SLUG_DATA),
@@ -12,6 +14,7 @@ const helpersByEntity = {
   makeup: createEntitySlugHelpers('makeups', MAKEUP_SLUG_DATA),
   momo: createEntitySlugHelpers('momo', MOMO_SLUG_DATA),
   outfit: createEntitySlugHelpers('outfits', OUTFIT_SLUG_DATA),
+  prop: createEntitySlugHelpers('props', PROP_SLUG_DATA),
 }
 
 const isMakeupItemId = (id: number | string) =>

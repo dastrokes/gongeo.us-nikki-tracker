@@ -1,4 +1,5 @@
 export const RARITY_COLORS = {
+  6: '#a21caf', // fuchsia-700
   5: '#f59e0b', // amber-500
   4: '#0ea5e9', // sky-500
   3: '#14b8a6', // teal-500
@@ -6,6 +7,7 @@ export const RARITY_COLORS = {
 } as const
 
 const BG_COLORS = {
+  6: '#FDF4FF', // bg-fuchsia-50
   5: '#FFFBEB', // bg-amber-50
   4: '#EFF8FF', // bg-sky-50
   3: '#F0FDFA', // bg-teal-50
@@ -63,8 +65,8 @@ export const getQualityButtonTheme = (quality: number, active: boolean) => {
 /**
  * Returns a style object for a subtle quality-colored overlay
  */
-export const getQualityOverlayStyle = (quality: number) => {
-  const color = getQualityColor(quality)
+export const getQualityOverlayStyle = (quality?: number | null) => {
+  const color = getQualityColor(quality ?? 2)
   // ~10% opacity for a very subtle tint
   return {
     backgroundColor: `${color}1A`,
@@ -80,6 +82,8 @@ export const getQualityRingStyle = (quality: number) => {
 
 export const getQualityGradient = (quality: number) => {
   switch (quality) {
+    case 6:
+      return 'bg-linear-to-br from-fuchsia-50 to-fuchsia-200 ring-fuchsia-200/20 hover:ring-fuchsia-200/80 dark:from-fuchsia-900 dark:to-fuchsia-950 dark:ring-fuchsia-900/20 dark:hover:ring-fuchsia-900/80'
     case 5:
       return 'bg-linear-to-br from-amber-50 to-amber-200 ring-amber-200/20 hover:ring-amber-200/80 dark:from-amber-900 dark:to-amber-950 dark:ring-amber-900/20 dark:hover:ring-amber-900/80'
     case 4:

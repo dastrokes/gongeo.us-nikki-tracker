@@ -53,13 +53,26 @@
     </template>
 
     <template #filter-row>
-      <div class="grid grid-cols-2 gap-2 sm:grid-cols-2 xl:grid-cols-4">
+      <div class="grid grid-cols-2 gap-2 sm:grid-cols-6">
+        <n-input
+          v-model:value="searchQuery"
+          clearable
+          size="small"
+          class="col-span-2 min-w-0"
+          :placeholder="t('compendium.momo_search_placeholder')"
+          :aria-label="t('compendium.momo_search_placeholder')"
+        >
+          <template #prefix>
+            <n-icon><Search /></n-icon>
+          </template>
+        </n-input>
+
         <n-select
           v-model:value="versionFilter"
           :options="versionOptions"
           :render-label="renderVersionOptionLabel"
           size="small"
-          class="min-w-0"
+          class="min-w-0 sm:col-span-2"
           clearable
           filterable
           :show-checkmark="false"
@@ -70,7 +83,7 @@
           v-model:value="obtainFilter"
           :options="obtainOptions"
           size="small"
-          class="min-w-0"
+          class="min-w-0 sm:col-span-2"
           clearable
           filterable
           :show-checkmark="false"
@@ -209,9 +222,11 @@
     ListAlt,
     PaintBrush,
     Paw,
+    Box,
     CheckCircle,
     TimesCircle,
     DotCircle,
+    Search,
   } from '@vicons/fa'
   import { NIcon } from 'naive-ui'
   import type { SelectOption } from 'naive-ui'
@@ -246,22 +261,49 @@
   const qualityOptions = [5, 4, 3, 2] as const
   type MomoListingPrimaryFilter = 'version' | 'source' | null
   type MomoWardrobeFilter = 'all' | 'owned' | 'missing'
-  type CompendiumSection = 'outfits' | 'items' | 'momo' | 'makeups'
+  type CompendiumSection = 'outfits' | 'items' | 'momo' | 'makeups' | 'props'
   type IconSelectOption = SelectOption & { icon: Component }
   type BuildListingQueryOptions = {
     primaryFilter?: MomoListingPrimaryFilter
     includePage?: boolean
+    includeSearch?: boolean
   }
+
+  const resolveSearchQuery = (value: unknown) =>
+    String(Array.isArray(value) ? (value[0] ?? '') : (value ?? ''))
+  const searchQuery = ref(resolveSearchQuery(route.query.search))
 
   const messages = computed(
     () => getLocaleMessage(locale.value) as Record<string, string>
   )
+  const momoNameEntries = computed(() =>
+    getLocaleMessageNumericIds(messages.value, 'momo').flatMap((id) => {
+      const name = getLocaleMessageValue(messages.value, `momo.${id}.name`)
+      if (typeof name !== 'string') return []
+
+      return [
+        {
+          id,
+          normalizedName: name.toLocaleLowerCase(),
+        },
+      ]
+    })
+  )
+  const searchMatchingMomoIds = computed(() => {
+    const query = searchQuery.value.trim().toLocaleLowerCase()
+    if (!query) return null
+
+    return momoNameEntries.value
+      .filter((entry) => entry.normalizedName.includes(query))
+      .map((entry) => entry.id)
+  })
   const availableVersions = computed(() =>
     getExactVersionsFromLocaleMessages(messages.value)
   )
-  const availableVersionFilters = computed(() =>
-    getVersionFilters(availableVersions.value)
-  )
+  const availableVersionFilters = computed(() => [
+    ...getVersionFilters(availableVersions.value),
+    LISTING_MISSING_FILTER_VALUE,
+  ])
 
   const parsePage = (value: unknown) => {
     const rawValue = Array.isArray(value) ? value[0] : value
@@ -281,9 +323,24 @@
     return 'all'
   }
 
-  const obtainOptions = computed(() => createMomoSourceFilterOptions(t))
+  const obtainOptions = computed(() => [
+    ...createMomoSourceFilterOptions(t),
+    ...(SHOW_LISTING_MISSING_FILTER_OPTIONS
+      ? [
+          {
+            label: t('compendium.missing_value'),
+            value: LISTING_MISSING_FILTER_VALUE,
+          },
+        ]
+      : []),
+  ])
   const availableObtainValues = computed(() =>
-    obtainOptions.value.map((option) => option.value as string)
+    Array.from(
+      new Set([
+        ...obtainOptions.value.map((option) => option.value as string),
+        LISTING_MISSING_FILTER_VALUE,
+      ])
+    )
   )
 
   const resolveObtain = (value?: string | null) =>
@@ -344,12 +401,18 @@
 
   const getVersionFilterLabel = (version?: string | null) => {
     if (!version) return null
+    if (isListingMissingFilterValue(version)) {
+      return t('compendium.missing_value')
+    }
     const key = `version.${version}`
     const translated = t(key)
     return translated !== key ? `${version} - ${translated}` : version
   }
   const getSourceFilterLabel = (source?: string | null) => {
     if (!source) return null
+    if (isListingMissingFilterValue(source)) {
+      return t('compendium.missing_value')
+    }
     const labelKey = resolveMomoSourceGroupLabelKey(source)
     if (!labelKey) return source
     const translated = t(labelKey)
@@ -385,6 +448,7 @@
 
   const hasFilters = computed(
     () =>
+      searchQuery.value.trim().length > 0 ||
       qualityFilter.value !== null ||
       versionFilter.value !== null ||
       obtainFilter.value !== null ||
@@ -393,7 +457,7 @@
 
   const cacheKey = computed(
     () =>
-      `momo-${qualityFilter.value ?? 'all'}-${
+      `momo-${locale.value}-${searchQuery.value.trim()}-${qualityFilter.value ?? 'all'}-${
         versionFilter.value ?? 'all'
       }-${obtainFilter.value ?? 'all'}-${wardrobeFilter.value}-${
         activeRegionScope.value
@@ -414,6 +478,7 @@
     query: () => ({
       entity: 'momo',
       filters: {
+        searchIds: searchMatchingMomoIds.value,
         quality: qualityFilter.value,
         version: versionFilter.value,
         source: obtainFilter.value,
@@ -461,12 +526,14 @@
   const isTierlistDisabled = computed(
     () =>
       editMode.value ||
+      searchQuery.value.trim().length > 0 ||
       loading.value ||
       !!error.value ||
       totalItems.value > TIER_ENTRY_LIMIT
   )
   const selectionFilterKey = computed(() =>
     JSON.stringify({
+      search: searchQuery.value.trim(),
       quality: qualityFilter.value,
       version: versionFilter.value,
       obtain: obtainFilter.value,
@@ -479,6 +546,7 @@
     { label: t('common.items'), value: 'items', icon: ListAlt },
     { label: t('common.makeups'), value: 'makeups', icon: PaintBrush },
     { label: t('common.momo'), value: 'momo', icon: Paw },
+    { label: t('common.props'), value: 'props', icon: Box },
   ])
   const renderCompendiumSectionOptionLabel = (option: SelectOption) => {
     const { icon } = option as IconSelectOption
@@ -505,8 +573,11 @@
   }
   const buildListingQuery = ({
     includePage = true,
+    includeSearch = true,
     primaryFilter = null,
   }: BuildListingQueryOptions = {}) => ({
+    ...(includeSearch &&
+      searchQuery.value.trim() && { search: searchQuery.value.trim() }),
     ...(qualityFilter.value !== null && { quality: qualityFilter.value }),
     ...(primaryFilter !== 'version' &&
       versionFilter.value && { version: versionFilter.value }),
@@ -552,7 +623,12 @@
     navigateTo(
       localePath({
         path: `/${nextSection}`,
-        query: buildListingQuery({ includePage: false }),
+        query: buildCompendiumSwitchQuery('momo', nextSection, {
+          quality: qualityFilter.value,
+          version: versionFilter.value,
+          source: obtainFilter.value,
+          wardrobe: wardrobeFilter.value,
+        }),
       })
     )
   }
@@ -727,6 +803,9 @@
   watch(qualityFilter, () => {
     currentPage.value = 1
   })
+  watch(searchQuery, () => {
+    currentPage.value = 1
+  })
   watch(versionFilter, () => {
     currentPage.value = 1
   })
@@ -742,6 +821,15 @@
     }
   })
 
+  watch(
+    () => route.query.search,
+    () => {
+      const nextSearchQuery = resolveSearchQuery(route.query.search)
+      if (nextSearchQuery !== searchQuery.value) {
+        searchQuery.value = nextSearchQuery
+      }
+    }
+  )
   watch(
     () => route.query.quality,
     () => {
@@ -778,7 +866,14 @@
     }
   )
   watch(
-    [qualityFilter, versionFilter, obtainFilter, wardrobeFilter, currentPage],
+    [
+      searchQuery,
+      qualityFilter,
+      versionFilter,
+      obtainFilter,
+      wardrobeFilter,
+      currentPage,
+    ],
     () => {
       syncListingRoute()
     }
@@ -789,6 +884,7 @@
   })
 
   const clearFilters = () => {
+    searchQuery.value = ''
     qualityFilter.value = null
     versionFilter.value = null
     obtainFilter.value = null
@@ -806,12 +902,20 @@
     loadData()
   }
 
-  const versionOptions = computed(() =>
-    createVersionFilterOptions(
+  const versionOptions = computed(() => [
+    ...createVersionFilterOptions(
       availableVersions.value,
       (version) => getVersionFilterLabel(version) ?? version
-    )
-  )
+    ),
+    ...(SHOW_LISTING_MISSING_FILTER_OPTIONS
+      ? [
+          {
+            label: t('compendium.missing_value'),
+            value: LISTING_MISSING_FILTER_VALUE,
+          },
+        ]
+      : []),
+  ])
 
   const renderVersionOptionLabel = (option: {
     label?: string | number

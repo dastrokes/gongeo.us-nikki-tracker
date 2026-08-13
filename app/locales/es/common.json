@@ -6,6 +6,8 @@
     "outfits": "Atuendos",
     "item": "Pieza",
     "items": "Piezas",
+    "prop": "Decoración",
+    "props": "Decoraciones",
     "momo": "Capas de Momo",
     "momo_entry": "Capa de Momo",
     "makeup": "Maquillaje",
@@ -113,6 +115,7 @@
     "outfit": "Compendio de Conjuntos",
     "outfit_detail": "Detalle del Conjunto",
     "item": "Compendio de artículos",
+    "props": "Compendio de decoraciones",
     "lookbook": "Vista previa del lookbook",
     "explore": "Explorar más",
     "makeup": "Compendio de Maquillajes",
@@ -148,6 +151,7 @@
       "makeups": "Explora todos los maquillajes de Infinity Nikki, incluidos los maquillajes completos y las piezas individuales, con filtros por ranura, calidad, estilo, versión y fuente.",
       "outfit_detail": "Vea información detallada sobre el atuendo {name}, incluida la calidad, las piezas del atuendo, la evolución y el brillo, maquillajes, estadísticas y banners de resonancia relacionadas.",
       "items": "Explore todos los artículos Infinity Nikki con filtros por ranura, calidad, bonificaciones de estadísticas y atuendos o banners relacionados. Encuentre, compare y rastree cada artículo fácilmente.",
+      "props": "Explora y registra las decoraciones de Infinity Nikki con filtros de calidad, versión y fuente, además de imágenes y variantes.",
       "lookbook": "Visualiza un código de Atlas estelar de Infinity Nikki como una tarjeta compartible con lista de artículos, iconos y enlaces al compendio.",
       "momo": "Explora todas las Capas de Momo de Infinity Nikki con filtros por calidad, versión y origen, junto con ilustraciones de los artículos en un compendio dedicado.",
       "momo_detail": "Consulta información detallada sobre {name}, incluida la calidad, el origen, la descripción, la vista previa y el icono.",
@@ -403,7 +407,7 @@
       "all_owned": "¿Marcar los {count} objetos coincidentes como propios?",
       "all_unowned": "¿Marcar los {count} objetos coincidentes como no propios?",
       "f2p_basics": "¿Marcar {count} entradas de guardarropa F2P disponibles permanentemente como propias para este perfil?",
-      "tracker_import": "¿Importar {imported} entradas nuevas de guardarropa desde los datos del tracker? Se encontraron {found} en total: {foundItems} objetos, {foundMakeups} entradas de maquillaje y {foundMomo} capas de Momo.",
+      "tracker_import": "¿Importar {imported} entradas nuevas de guardarropa desde los datos del tracker? Se encontraron {found} en total: {foundItems} objetos, {foundMakeups} entradas de maquillaje, {foundMomo} capas de Momo y {foundProps} decoraciones.",
       "outfit_unowned": "¿Marcar los {count} objetos del atuendo como no propios?"
     },
     "error": {
@@ -575,7 +579,7 @@
       "import_failed": "No se pudo importar el archivo",
       "pearpal_tracker_success": "¡Los datos de Pearpal se importaron correctamente!",
       "pearpal_tracker_failed": "No se pudieron importar los datos de Pearpal.",
-      "wardrobe_updated": "Se añadieron {items} prendas, {makeups} maquillajes y {momo} capas de Momo.",
+      "wardrobe_updated": "Se añadieron {items} prendas, {makeups} maquillajes, {momo} capas de Momo y {props} decoraciones.",
       "wardrobe_up_to_date": "El guardarropa ya está actualizado.",
       "wardrobe_import_failed": "No se pudo importar el guardarropa.",
       "eurekas_updated": "Se añadieron {count} colores de Eureka.",
@@ -968,6 +972,8 @@
     "filter_style": "Filtrar por estilo",
     "filter_label": "Filtrar por etiqueta",
     "filter_obtain": "Filtrar por fuente",
+    "momo_search_placeholder": "Buscar capas de Momo",
+    "prop_search_placeholder": "Buscar decoraciones",
     "item_piece_filter": {
       "outfit": "Piezas de atuendo",
       "individual": "Piezas individuales"
@@ -988,6 +994,7 @@
     "advanced_filters_empty": "No hay filtros avanzados disponibles para esta ranura.",
     "advanced_filter_placeholder": "Seleccionar {field}",
     "uncategorized": "Sin categoría",
+    "missing_value": "Sin valor",
     "search_field": {
       "category": "Categoría",
       "subcategory": "Subcategoría",

@@ -238,6 +238,22 @@ export default defineNuxtConfig({
           quality: imageQuality,
         },
       },
+      squareLg: {
+        modifiers: {
+          width: 320,
+          height: 320,
+          format: transformedImageFormat,
+          quality: imageQuality,
+        },
+      },
+      squareSm: {
+        modifiers: {
+          width: 160,
+          height: 160,
+          format: transformedImageFormat,
+          quality: imageQuality,
+        },
+      },
       iconLg: {
         modifiers: {
           width: 120,

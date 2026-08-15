@@ -147,11 +147,11 @@
       "banner_detail": "Schau dir die {name} Resonanzbanner-Details an, einschließlich vorgestellter Outfits, Stück-Dropraten, Resonanz-Statistiken, Dauer, Evolutions-Info und Wiederholungsstatus.",
       "timeline": "Erkunde eine interaktive Zeitleiste von Infinity Nikki Resonanzbannern, wesentlichen Updates, Veröffentlichungszeitraum und Wiederholungen, um den Eventverlauf auf einen Blick zu verfolgen.",
       "tierlist": "Erstelle und teile eine Infinity Nikki Rangliste für Banner, Outfits und Stücke mit Drag-and-Drop Bewertung, Filtern und einfachem Bildexport.",
-      "outfits": "Durchsuche alle Infinity Nikki Outfits mit Filtern nach Qualität, Evolution und Verschönerung, Stil-Tags und Statuswerten. Schau dir die kompletten Outfit-Komponenten an und entdecke jedes Outfit.",
+      "outfits": "Durchsuche alle Infinity Nikki Outfits mit Filtern nach Qualität, Evolution, Verschönerung, Stil-Tags und Statuswerten. Schau dir die kompletten Outfit-Komponenten an und entdecke jedes Outfit.",
       "makeups": "Durchsuche alle Infinity Nikki Make-ups, einschließlich voller Make-ups und einzelner Make-up-Stücke, mit Filtern nach Slot, Qualität, Stil, Version und Herkunft.",
-      "outfit_detail": "Schau dir detaillierte Informationen über das Outfit {name} an, einschließlich Qualität, Outfit-Stücken, Evolution und Verschönerung, Make-up, Statuswerten und verwandten Resonanz-Bannern.",
+      "outfit_detail": "Schau dir detaillierte Informationen über das Outfit {name} an, einschließlich Qualität, Outfit-Stücken, Evolution und Verschönerung, Make-ups, Statuswerten und verwandten Resonanz-Bannern.",
       "items": "Durchsuche alle Infinity Nikki Stücke mit Filtern nach Slot, Qualität, Status-Boni und verwandten Outfits oder Bannern. Finde, vergleiche und verfolge jedes Stück ganz leicht.",
-      "props": "Durchsuche und verfolge Dekorationen in Infinity Nikki mit Filtern nach Qualität, Version und Herkunft sowie Bildern und Varianten.",
+      "props": "Durchsuche und verfolge Dekorationen in Infinity Nikki mit Filtern nach Qualität, Version und Herkunft sowie Artwork und Varianten.",
       "lookbook": "Schau dir die Vorschau eines Infinity Nikki Farb-Lookbook-Codes als teilbare Stücklisten-Karte mit Icons und Kompendium-Links an.",
       "momo": "Durchsuche alle Momos Mäntel in Infinity Nikki mit Filtern nach Qualität, Version und Herkunft und sieh dir Stück-Kunstwerke in einem eigenen Kompendium an.",
       "momo_detail": "Schau dir detaillierte Informationen über {name} an, einschließlich Qualität, Herkunft, Beschreibung, Vorschau und Stück-Artwork.",
@@ -211,7 +211,7 @@
       },
       "clear_cloud_success": "Cloud-Daten wurden erfolgreich gelöscht!",
       "clear_cloud_error": "Löschen der Cloud-Daten fehlgeschlagen.",
-      "clear_success": "Daten wurden erfolgreich exportiert!",
+      "clear_success": "Daten wurden erfolgreich gelöscht!",
       "profiles": {
         "active": "Aktiv",
         "delete_confirm": {

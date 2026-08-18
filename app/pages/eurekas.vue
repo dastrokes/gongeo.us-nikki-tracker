@@ -28,17 +28,16 @@
               <div class="text-xs font-medium text-sky-700 dark:text-sky-300">
                 {{ t('eurekas.progress.total_owned') }}
               </div>
-              <n-skeleton
-                v-if="loading"
-                text
-                width="72px"
-                class="mt-2"
-              />
-              <div
-                v-else
-                class="mt-1 text-2xl font-bold tabular-nums"
-              >
-                {{ totalOwnedColors }}/{{ totalColors }}
+              <div class="mt-1 h-8 text-2xl leading-8 font-bold tabular-nums">
+                <n-skeleton
+                  v-if="loading"
+                  width="7ch"
+                  height="100%"
+                  :sharp="false"
+                />
+                <template v-else>
+                  {{ totalOwnedColors }}/{{ totalColors }}
+                </template>
               </div>
               <div
                 class="mt-2 h-2 overflow-hidden rounded-full bg-sky-100 dark:bg-sky-900"
@@ -55,17 +54,16 @@
               >
                 {{ t('eurekas.progress.complete') }}
               </div>
-              <n-skeleton
-                v-if="loading"
-                text
-                width="72px"
-                class="mt-2"
-              />
-              <div
-                v-else
-                class="mt-1 text-2xl font-bold tabular-nums"
-              >
-                {{ completeCount }}/{{ totalEurekas }}
+              <div class="mt-1 h-8 text-2xl leading-8 font-bold tabular-nums">
+                <n-skeleton
+                  v-if="loading"
+                  width="7ch"
+                  height="100%"
+                  :sharp="false"
+                />
+                <template v-else>
+                  {{ completeCount }}/{{ totalEurekas }}
+                </template>
               </div>
               <div
                 class="mt-2 h-2 overflow-hidden rounded-full bg-emerald-100 dark:bg-emerald-900"
@@ -237,7 +235,7 @@
     </n-card>
 
     <n-alert
-      v-if="catalogError || wardrobeError"
+      v-if="!loading && (catalogError || wardrobeError)"
       type="error"
       :title="t('eurekas.load_failed')"
     >
@@ -267,29 +265,30 @@
           <div class="min-w-0 flex-1">
             <n-skeleton
               text
-              width="58%"
+              width="45%"
+              height="22px"
             />
-            <div class="mt-2 flex items-center gap-1.5">
+            <div class="mt-1 flex items-center gap-1.5">
               <n-skeleton
-                round
+                text
                 width="56px"
-                height="18px"
+                height="16px"
               />
               <n-skeleton
                 round
                 width="48px"
-                height="18px"
+                height="22px"
               />
               <n-skeleton
                 round
                 width="52px"
-                height="18px"
+                height="22px"
               />
             </div>
           </div>
           <n-skeleton
             round
-            width="46px"
+            width="36px"
             height="22px"
           />
         </div>

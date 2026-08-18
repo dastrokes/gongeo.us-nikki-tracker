@@ -45,12 +45,6 @@ const normalizeRequestedParts = (
   parts: readonly CatalogIndexPartKey[] = CATALOG_INDEX_PARTS
 ) => [...new Set(parts)]
 
-const getCatalogManifestPath = () => {
-  const revision = useRuntimeConfig().public.catalogRevision || getGameVersion()
-
-  return `${CATALOG_INDEX_MANIFEST_PATH}?r=${encodeURIComponent(String(revision))}`
-}
-
 const validateCatalogManifest = (manifest: CatalogIndexManifestResponse) => {
   const expectedVersion = getGameVersion()
   if (manifest.gameVersion !== expectedVersion) {
@@ -124,7 +118,7 @@ const loadCatalogManifest = async () => {
   catalogManifestLoadPromise = (async () => {
     try {
       const manifest = await $fetch<CatalogIndexManifestResponse>(
-        getCatalogManifestPath()
+        CATALOG_INDEX_MANIFEST_PATH
       )
 
       validateCatalogManifest(manifest)

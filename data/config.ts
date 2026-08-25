@@ -13,10 +13,6 @@ const limitedBannerRuns = Object.values(BANNER_DATA).flatMap((banner) =>
         ...run,
       }))
 )
-const latestLimitedBannerStart = limitedBannerRuns.reduce(
-  (latest, run) => (run.start > latest ? run.start : latest),
-  ''
-)
 const currentBannerGroups = new Map<
   string,
   {
@@ -25,12 +21,13 @@ const currentBannerGroups = new Map<
     bannerIds: number[]
   }
 >()
+const now = Date.now()
 
 for (const run of limitedBannerRuns) {
-  if (
-    run.start > latestLimitedBannerStart ||
-    run.end <= latestLimitedBannerStart
-  ) {
+  const startTime = new Date(`${run.start}T20:00:00Z`).getTime()
+  const endTime = new Date(`${run.end}T20:00:00Z`).getTime()
+
+  if (now < startTime || now >= endTime) {
     continue
   }
 

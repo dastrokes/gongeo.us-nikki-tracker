@@ -248,14 +248,39 @@
                   </n-tooltip>
                 </template>
               </n-switch>
-              <n-select
-                v-model:value="selectedBannerType"
-                :options="bannerTypeOptions"
-                :show-checkmark="false"
-                class="w-32"
-                size="small"
-                @update:value="updatePullsPerBannerChart"
-              />
+              <n-button-group class="min-w-max">
+                <n-button
+                  size="small"
+                  :type="selectedBannerType === 1 ? 'primary' : 'default'"
+                  class="min-w-10"
+                  :aria-pressed="selectedBannerType === 1"
+                  @click="setBannerType(1)"
+                >
+                  {{ t('common.all') }}
+                </n-button>
+                <n-button
+                  v-bind="bannerTypeButtonThemes.star5"
+                  size="small"
+                  :aria-pressed="selectedBannerType === 2"
+                  @click="setBannerType(2)"
+                >
+                  <span class="flex items-center gap-1">
+                    5
+                    <n-icon><Star /></n-icon>
+                  </span>
+                </n-button>
+                <n-button
+                  v-bind="bannerTypeButtonThemes.star4"
+                  size="small"
+                  :aria-pressed="selectedBannerType === 3"
+                  @click="setBannerType(3)"
+                >
+                  <span class="flex items-center gap-1">
+                    4
+                    <n-icon><Star /></n-icon>
+                  </span>
+                </n-button>
+              </n-button-group>
             </div>
             <n-button
               size="tiny"
@@ -559,6 +584,7 @@
     CalendarDay,
     CalendarAlt,
     ChartLine,
+    Star,
   } from '@vicons/fa'
 
   // Type definitions for ECharts formatter parameters
@@ -841,11 +867,15 @@
 
   const selectedBannerType = ref(1)
   const showAllBanners = ref(false)
-  const bannerTypeOptions = computed(() => [
-    { label: t('global.charts.all_banners'), value: 1 },
-    { label: t('global.charts.five_star_banners'), value: 2 },
-    { label: t('global.charts.four_star_banners'), value: 3 },
-  ])
+  const bannerTypeButtonThemes = computed(() => ({
+    star5: getQualityButtonTheme(5, selectedBannerType.value === 2),
+    star4: getQualityButtonTheme(4, selectedBannerType.value === 3),
+  }))
+
+  const setBannerType = (bannerType: 1 | 2 | 3) => {
+    selectedBannerType.value = bannerType
+    updatePullsPerBannerChart()
+  }
 
   // Create tree structure for first item distribution chart
   const firstItemTreeOptions = computed(() => {

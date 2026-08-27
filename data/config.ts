@@ -2,14 +2,17 @@ import { BANNER_DATA } from './banners'
 
 export const LATEST_BANNER_ID = 72
 
-export const IMPORT_PAGE_MAINTENANCE = false
+export const IMPORT_PAGE_MAINTENANCE = true
 
 const limitedBannerRuns = Object.values(BANNER_DATA).flatMap((banner) =>
   banner.bannerType === 1
     ? []
-    : banner.runs.map((run: BannerRun) => ({
+    : banner.runs.map((run: BannerRun, runIndex: number) => ({
         bannerId: banner.bannerId,
         bannerType: banner.bannerType,
+        runIndex,
+        startTime: new Date(`${run.start}T20:00:00Z`).getTime(),
+        endTime: new Date(`${run.end}T20:00:00Z`).getTime(),
         ...run,
       }))
 )
@@ -22,15 +25,37 @@ const currentBannerGroups = new Map<
   }
 >()
 const now = Date.now()
+const isActiveAt = (
+  run: (typeof limitedBannerRuns)[number],
+  timestamp: number
+) =>
+  Number.isFinite(run.startTime) &&
+  Number.isFinite(run.endTime) &&
+  timestamp >= run.startTime &&
+  timestamp < run.endTime
+const activeRuns = limitedBannerRuns.filter((run) => isActiveAt(run, now))
+const hasCurrentNewBanner = activeRuns.some((run) => run.runIndex === 0)
+const latestKnownNewRun = limitedBannerRuns
+  .filter(
+    (run) =>
+      run.runIndex === 0 &&
+      Number.isFinite(run.startTime) &&
+      Number.isFinite(run.endTime) &&
+      run.startTime <= now
+  )
+  .sort(
+    (left, right) =>
+      right.startTime - left.startTime || right.endTime - left.endTime
+  )[0]
+const referenceTime =
+  hasCurrentNewBanner || !latestKnownNewRun
+    ? now
+    : latestKnownNewRun.endTime - 1
+const displayedBannerRuns = limitedBannerRuns.filter((run) =>
+  isActiveAt(run, referenceTime)
+)
 
-for (const run of limitedBannerRuns) {
-  const startTime = new Date(`${run.start}T20:00:00Z`).getTime()
-  const endTime = new Date(`${run.end}T20:00:00Z`).getTime()
-
-  if (now < startTime || now >= endTime) {
-    continue
-  }
-
+for (const run of displayedBannerRuns) {
   const key = `${run.bannerType}:${run.end}`
   const group = currentBannerGroups.get(key)
   if (group) {

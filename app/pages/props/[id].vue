@@ -236,7 +236,7 @@
                   preset="squareSm"
                   fit="contain"
                   loading="lazy"
-                  sizes="140px"
+                  sizes="200px"
                 />
               </div>
               <p

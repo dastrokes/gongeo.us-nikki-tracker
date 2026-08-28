@@ -53,6 +53,7 @@
             :src="getImageSrc('itemIcon', itemId)"
             :alt="t(`item.${itemId}.name`, itemId)"
             preset="iconSm"
+            sizes="60px"
             class="size-10 rounded-md bg-gray-100 object-contain p-0.5 dark:bg-gray-800"
           />
         </div>

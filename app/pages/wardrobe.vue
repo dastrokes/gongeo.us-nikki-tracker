@@ -902,7 +902,7 @@
                         preset="iconSm"
                         fit="cover"
                         loading="lazy"
-                        sizes="32px"
+                        sizes="30px"
                       />
                       <div
                         class="shrink-0 text-xs font-semibold tracking-wider whitespace-nowrap text-sky-600 dark:text-sky-300"
@@ -1068,7 +1068,11 @@
                           :preset="entry.item.imagePreset"
                           fit="contain"
                           loading="lazy"
-                          sizes="72px"
+                          :sizes="
+                            entry.item.imagePreset.startsWith('icon')
+                              ? '60px'
+                              : '100px'
+                          "
                         />
                         <button
                           v-else
@@ -1118,7 +1122,7 @@
                     preset="iconSm"
                     fit="cover"
                     loading="lazy"
-                    sizes="32px"
+                    sizes="30px"
                   />
                   <div
                     class="shrink-0 text-xs font-semibold tracking-wider whitespace-nowrap text-sky-600 dark:text-sky-300"
@@ -1180,7 +1184,7 @@
                             preset="bannerHero"
                             fit="cover"
                             loading="lazy"
-                            sizes="240px"
+                            sizes="300px"
                           />
                         </div>
                         <div
@@ -1315,7 +1319,11 @@
                         :preset="entry.item.imagePreset"
                         fit="contain"
                         loading="lazy"
-                        sizes="64px"
+                        :sizes="
+                          entry.item.imagePreset.startsWith('icon')
+                            ? '60px'
+                            : '100px'
+                        "
                       />
                       <button
                         v-else

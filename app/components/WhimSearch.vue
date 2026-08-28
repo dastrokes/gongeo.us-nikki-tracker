@@ -73,6 +73,7 @@
                       :src="getImageSrc('itemIcon', activeSimilarSource.itemId)"
                       :alt="activeSimilarSource.itemName"
                       preset="iconSm"
+                      sizes="60px"
                       class="h-7 w-7 shrink-0 rounded-full object-cover"
                       loading="lazy"
                     />
@@ -219,6 +220,7 @@
                           :src="getImageSrc('bannerThumb', item.id)"
                           :alt="item.name"
                           preset="bannerThumb"
+                          sizes="100px"
                           class="h-8 w-16 shrink-0 rounded-md object-cover"
                         />
                         <NuxtImg
@@ -226,6 +228,7 @@
                           :src="getImageSrc(item.type, item.id)"
                           :alt="item.name"
                           preset="tallSm"
+                          sizes="50px"
                           class="h-10 w-7 shrink-0 rounded-md object-cover"
                         />
                         <span class="min-w-0">
@@ -493,7 +496,7 @@
                 class="mx-auto h-24 w-24 object-cover sm:h-32 sm:w-32"
                 preset="iconLg"
                 fit="cover"
-                sizes="160px sm:200px"
+                sizes="120px"
               />
             </template>
           </n-result>
@@ -525,7 +528,7 @@
                 class="mx-auto h-24 w-24 object-cover sm:h-32 sm:w-32"
                 preset="iconLg"
                 fit="cover"
-                sizes="160px sm:200px"
+                sizes="120px"
               />
             </template>
             <template #footer>
@@ -710,7 +713,7 @@
                     class="mx-auto h-24 w-24 object-cover sm:h-32 sm:w-32"
                     preset="iconLg"
                     fit="cover"
-                    sizes="160px sm:200px"
+                    sizes="120px"
                   />
                 </template>
               </n-result>

@@ -14,6 +14,7 @@
           <NuxtImg
             src="images/logo.webp"
             preset="iconSm"
+            sizes="60px"
             fit="cover"
             loading="eager"
             class="h-full w-full transition-transform duration-300 group-hover:scale-105"
@@ -242,7 +243,7 @@
                     ? 'object-cover object-top'
                     : 'object-cover object-center'
                 "
-                sizes="25vw lg:140px"
+                sizes="100px sm:200px"
               />
               <n-skeleton
                 v-else
@@ -550,6 +551,7 @@
               <LazyNuxtImg
                 :src="getImageSrc('outfit', featuredOutfitId)"
                 preset="tallSm"
+                sizes="100px"
                 quality="1"
                 fit="cover"
                 loading="lazy"

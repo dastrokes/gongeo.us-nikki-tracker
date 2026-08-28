@@ -2,28 +2,12 @@ import type { ShallowRef } from 'vue'
 
 type CatalogIndexStatus = 'idle' | 'loading' | 'ready' | 'error'
 
-const CATALOG_INDEX_MANIFEST_PATH = '/catalog/index.json'
-const CATALOG_INDEX_PARTS = [
-  'items',
-  'outfits',
-  'makeups',
-  'momo',
-  'eurekas',
-  'props',
-  'outfitItems',
-  'makeupItems',
-  'makeupOutfits',
-  'momoOutfits',
-] as const satisfies readonly CatalogIndexPartKey[]
-
 const catalogIndex = shallowRef<CatalogLocalIndex | null>(null)
 const itemDyes = shallowRef<ItemDyeCatalog | null>(null)
 const eurekas = shallowRef<EurekaCatalogEntry[]>([])
 const props = shallowRef<PropCatalogEntry[]>([])
-const catalogManifest = shallowRef<CatalogIndexManifestResponse | null>(null)
 const catalogIndexStatus = ref<CatalogIndexStatus>('idle')
 const catalogIndexError = ref<Error | null>(null)
-let catalogManifestLoadPromise: Promise<void> | null = null
 let itemDyesLoadPromise: Promise<ItemDyeCatalog> | null = null
 const catalogPartLoadPromises = new Map<CatalogIndexPartKey, Promise<void>>()
 const catalogLoadedParts = new Set<CatalogIndexPartKey>()
@@ -45,41 +29,6 @@ const normalizeRequestedParts = (
   parts: readonly CatalogIndexPartKey[] = CATALOG_INDEX_PARTS
 ) => [...new Set(parts)]
 
-const validateCatalogManifest = (manifest: CatalogIndexManifestResponse) => {
-  const expectedVersion = getGameVersion()
-  if (manifest.gameVersion !== expectedVersion) {
-    throw new Error(
-      `Catalog index version mismatch: expected ${expectedVersion}, got ${manifest.gameVersion}`
-    )
-  }
-
-  const hasLegacyPayload =
-    Array.isArray(manifest.items) &&
-    Array.isArray(manifest.outfits) &&
-    Array.isArray(manifest.makeups) &&
-    Array.isArray(manifest.momo) &&
-    !!manifest.outfitItems &&
-    typeof manifest.outfitItems === 'object'
-
-  if (hasLegacyPayload) return
-
-  if (!manifest.files || typeof manifest.files !== 'object') {
-    throw new Error('Catalog index manifest is malformed')
-  }
-
-  for (const part of CATALOG_INDEX_PARTS) {
-    const file = manifest.files[part]
-    if (
-      !file ||
-      typeof file.path !== 'string' ||
-      typeof file.hash !== 'string' ||
-      typeof file.bytes !== 'number'
-    ) {
-      throw new Error(`Catalog index manifest is missing ${part}`)
-    }
-  }
-}
-
 const rebuildCatalogLocalIndex = () => {
   catalogIndex.value = createCatalogLocalIndex({
     items: catalogPartData.items,
@@ -91,59 +40,6 @@ const rebuildCatalogLocalIndex = () => {
     makeupOutfits: catalogPartData.makeupOutfits,
     momoOutfits: catalogPartData.momoOutfits,
   })
-}
-
-const applyLegacyManifestPayload = (manifest: CatalogIndexManifestResponse) => {
-  catalogPartData.items = manifest.items ?? []
-  catalogPartData.outfits = manifest.outfits ?? []
-  catalogPartData.makeups = manifest.makeups ?? []
-  catalogPartData.momo = manifest.momo ?? []
-  eurekas.value = manifest.eurekas ?? []
-  props.value = manifest.props ?? []
-  catalogPartData.outfitItems = manifest.outfitItems ?? {}
-  catalogPartData.makeupItems = manifest.makeupItems ?? {}
-  catalogPartData.makeupOutfits = manifest.makeupOutfits ?? {}
-  catalogPartData.momoOutfits = manifest.momoOutfits ?? {}
-  CATALOG_INDEX_PARTS.forEach((part) => catalogLoadedParts.add(part))
-  rebuildCatalogLocalIndex()
-}
-
-const loadCatalogManifest = async () => {
-  if (catalogManifest.value) return
-  if (catalogManifestLoadPromise) return catalogManifestLoadPromise
-
-  catalogIndexStatus.value = 'loading'
-  catalogIndexError.value = null
-
-  catalogManifestLoadPromise = (async () => {
-    try {
-      const revision =
-        useRuntimeConfig().public.catalogRevision || getGameVersion()
-      const manifest = await $fetch<CatalogIndexManifestResponse>(
-        `${CATALOG_INDEX_MANIFEST_PATH}?r=${encodeURIComponent(String(revision))}`
-      )
-
-      validateCatalogManifest(manifest)
-      catalogManifest.value = manifest
-
-      if (!manifest.files) {
-        applyLegacyManifestPayload(manifest)
-      }
-    } catch (e) {
-      const normalizedError = toError(e, 'Failed to load catalog index')
-      catalogManifest.value = null
-      catalogIndex.value = null
-      eurekas.value = []
-      props.value = []
-      catalogIndexError.value = normalizedError
-      catalogIndexStatus.value = 'error'
-      throw normalizedError
-    } finally {
-      catalogManifestLoadPromise = null
-    }
-  })()
-
-  return catalogManifestLoadPromise
 }
 
 const validateCatalogPart = (part: CatalogIndexPartKey, value: unknown) => {
@@ -165,7 +61,7 @@ const loadCatalogPart = async (part: CatalogIndexPartKey) => {
   const existingPromise = catalogPartLoadPromises.get(part)
   if (existingPromise) return existingPromise
 
-  const manifest = catalogManifest.value
+  const manifest = useCatalogManifest().manifest.value
   const file = manifest?.files?.[part]
   if (!file) {
     throw new Error(`Catalog ${part} file is unavailable`)
@@ -200,8 +96,8 @@ const loadItemDyes = async (): Promise<ItemDyeCatalog> => {
   if (itemDyesLoadPromise) return itemDyesLoadPromise
 
   itemDyesLoadPromise = (async () => {
-    await loadCatalogManifest()
-    const file = catalogManifest.value?.files?.palettes
+    const manifest = await useCatalogManifest().load()
+    const file = manifest.files?.palettes
     if (!file) throw new Error('Catalog palettes file is unavailable')
 
     const decoded = decodeItemDyesPayload(await $fetch<unknown>(file.path))
@@ -227,7 +123,7 @@ const loadCatalogIndex = async (parts?: readonly CatalogIndexPartKey[]) => {
   catalogIndexError.value = null
 
   try {
-    await loadCatalogManifest()
+    await useCatalogManifest().load()
     await Promise.all(requestedParts.map((part) => loadCatalogPart(part)))
     catalogIndexStatus.value = 'ready'
   } catch (e) {

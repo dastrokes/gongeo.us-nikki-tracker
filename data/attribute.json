@@ -467,6 +467,11 @@
   {
     "field": "material",
     "itemType": null,
+    "value": "plush"
+  },
+  {
+    "field": "material",
+    "itemType": null,
     "value": "resin"
   },
   {
@@ -852,6 +857,11 @@
   {
     "field": "ornament",
     "itemType": null,
+    "value": "flag"
+  },
+  {
+    "field": "ornament",
+    "itemType": null,
     "value": "flower"
   },
   {
@@ -888,6 +898,21 @@
     "field": "ornament",
     "itemType": null,
     "value": "gemstone"
+  },
+  {
+    "field": "ornament",
+    "itemType": null,
+    "value": "goggles"
+  },
+  {
+    "field": "ornament",
+    "itemType": null,
+    "value": "halo"
+  },
+  {
+    "field": "ornament",
+    "itemType": null,
+    "value": "headphones"
   },
   {
     "field": "ornament",
@@ -1102,6 +1127,11 @@
   {
     "field": "ornament",
     "itemType": null,
+    "value": "ship_wheel"
+  },
+  {
+    "field": "ornament",
+    "itemType": null,
     "value": "snowflake"
   },
   {
@@ -1228,6 +1258,11 @@
     "field": "pattern",
     "itemType": null,
     "value": "abstract"
+  },
+  {
+    "field": "pattern",
+    "itemType": null,
+    "value": "anchor"
   },
   {
     "field": "pattern",
@@ -1803,6 +1838,11 @@
     "field": "structure",
     "itemType": null,
     "value": "floating"
+  },
+  {
+    "field": "structure",
+    "itemType": null,
+    "value": "folded"
   },
   {
     "field": "structure",
@@ -2628,6 +2668,11 @@
     "field": "category",
     "itemType": "headwear",
     "value": "helmet"
+  },
+  {
+    "field": "category",
+    "itemType": "neckwear",
+    "value": "binoculars"
   },
   {
     "field": "category",
@@ -3833,6 +3878,11 @@
     "field": "subcategory",
     "itemType": "neckwear",
     "value": "lei"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "neckwear",
+    "value": "pendant_choker"
   },
   {
     "field": "subcategory",

@@ -13,7 +13,7 @@ This app uses `Netlify-Cache-ID` as the purgeable cache identity for mutable cac
 | Momo detail                     | `momo-details`, `momo-detail-{id}`     |
 | Hashed catalog parts            | `catalog-assets`                       |
 | Lookbook                        | `lookbook`                             |
-| Stats                           | `stats`                                |
+| Stats                           | `stats`, `stats-banner-{id}`           |
 | Images                          | `images`                               |
 | Sitemaps                        | `sitemap`                              |
 
@@ -26,6 +26,8 @@ This app uses `Netlify-Cache-ID` as the purgeable cache identity for mutable cac
 - Catalog index release: no purge; the deploy invalidates `/catalog/index.json`.
 - Hashed catalog generation bug: purge `catalog-assets`.
 - Lookbook decoder/source change: purge `lookbook`.
+- One banner's stats change: purge `stats-banner-{id}`. This clears both
+  `/api/global/{id}` variants and, for the latest banner, `/api/global`.
 
 ## Locale Variants
 
@@ -38,17 +40,23 @@ The CLI loads `.env` and requires `NETLIFY_SITE_ID` plus `NETLIFY_AUTH_TOKEN`.
 One-off purge:
 
 ```powershell
-npm run cache:purge -- --tag item-search --tag item-detail-1020780298
+npm run purge -- --tag item-search --tag item-detail-1020780298
 ```
 
 Sitemap purge:
 
 ```powershell
-npm run cache:purge -- --tag sitemap
+npm run purge -- --tag sitemap
+```
+
+Single-banner stats purge (for example, `/api/global/72`):
+
+```powershell
+npm run purge -- --tag stats-banner-72
 ```
 
 Old identity cleanup after deploying this cache model:
 
 ```powershell
-npm run cache:purge -- --tag game --tag details --tag catalog
+npm run purge -- --tag game --tag details --tag catalog
 ```

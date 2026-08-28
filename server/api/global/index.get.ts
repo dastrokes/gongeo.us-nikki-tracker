@@ -45,6 +45,7 @@ export default defineCachedApiEventHandler(
   {
     cache: false,
     headers: {
+      cacheIds: [bannerStatsCacheId(LATEST_BANNER_ID)],
       varyHeaders: [GAME_VERSION_HEADER],
     },
     profile: 'stats',

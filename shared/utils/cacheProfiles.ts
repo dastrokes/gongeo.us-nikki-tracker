@@ -18,6 +18,7 @@ export const itemDetailCacheId = (id: string) => `item-detail-${id}`
 export const outfitDetailCacheId = (id: string) => `outfit-detail-${id}`
 export const makeupDetailCacheId = (id: string) => `makeup-detail-${id}`
 export const momoDetailCacheId = (id: string) => `momo-detail-${id}`
+export const bannerStatsCacheId = (id: number) => `stats-banner-${id}`
 
 const HEADER = {
   cache: 'cache-control',

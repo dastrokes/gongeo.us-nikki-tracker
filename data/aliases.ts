@@ -276,6 +276,7 @@ export const OUTFIT_SEARCH_ALIASES: OutfitSearchAliasMap = {
     10366: ['芭蕾套', ...ZH_ABILITY_ALIASES.spinningReflections],
     10243: ['下棋套', '围棋套'],
     10417: ['春幡套'],
+    10294: ['引蝶套', '香妃套'],
     10045: ZH_ABILITY_ALIASES.purification,
     10165: ZH_ABILITY_ALIASES.purification,
     10048: ZH_ABILITY_ALIASES.floating,

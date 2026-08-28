@@ -63,9 +63,14 @@ export default defineCachedApiEventHandler(
   },
   {
     cache: false,
-    headers: {
-      varyHeaders: [GAME_VERSION_HEADER],
-      varyQuery: true,
+    headers: (event) => {
+      const bannerId = Number.parseInt(getRouterParam(event, 'id') ?? '', 10)
+
+      return {
+        cacheIds: Number.isNaN(bannerId) ? [] : [bannerStatsCacheId(bannerId)],
+        varyHeaders: [GAME_VERSION_HEADER],
+        varyQuery: true,
+      }
     },
     profile: 'stats',
   }

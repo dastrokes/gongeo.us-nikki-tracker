@@ -552,7 +552,7 @@
                               :preset="tierCardImagePreset"
                               :fit="tierCardImageFit"
                               loading="lazy"
-                              :sizes="mode === 'banners' ? '200px' : '160px'"
+                              sizes="200px"
                             />
                           </div>
                         </template>
@@ -665,7 +665,7 @@
                           :preset="tierCardImagePreset"
                           :fit="tierCardImageFit"
                           loading="lazy"
-                          :sizes="mode === 'banners' ? '200px' : '160px'"
+                          sizes="200px"
                         />
                       </div>
                     </template>
@@ -794,7 +794,7 @@
                 class="mx-auto h-24 w-24 object-cover sm:h-32 sm:w-32"
                 preset="iconLg"
                 fit="cover"
-                sizes="160px sm:200px"
+                sizes="120px"
               />
             </template>
           </n-result>
@@ -878,7 +878,7 @@
                         :preset="tierCardImagePreset"
                         :fit="tierCardImageFit"
                         loading="lazy"
-                        :sizes="mode === 'banners' ? '200px' : '160px'"
+                        sizes="200px"
                       />
                     </div>
                   </button>
@@ -941,7 +941,7 @@
                   :preset="tierCardImagePreset"
                   :fit="tierCardImageFit"
                   loading="lazy"
-                  :sizes="mode === 'banners' ? '200px' : '160px'"
+                  sizes="200px"
                 />
               </div>
             </button>

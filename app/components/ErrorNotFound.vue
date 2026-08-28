@@ -13,7 +13,7 @@
           class="mx-auto h-24 w-24 object-cover sm:h-32 sm:w-32"
           preset="iconLg"
           fit="cover"
-          sizes="160px sm:200px"
+          sizes="120px"
         />
       </template>
       <template #footer>

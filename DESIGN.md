@@ -185,6 +185,9 @@ Use radius as a hierarchy, not a single universal value:
 - Preserve artwork aspect ratios and use intentional crops.
 - Use the existing icon library for UI actions; do not substitute emoji or text glyphs.
 - Decorative images use empty alternative text. Informative images use concise, localized alternative text.
+- Reuse image request widths across similar slots: 30px for tiny logos, 60/120px for icons, 50px for tiny search portraits, and 100/200px for cards and thumbnails. Large banners use 300/600px. Keep the existing preset aspect ratios and intentional crops.
+- Preserve meaningful mobile/desktop steps (for example `60px sm:120px`, `100px sm:200px`, and `300px sm:600px`); consolidate nearby sizes such as 64/72px or 120/128px rather than removing responsive sizing.
+- Give preset-based `NuxtImg` uses explicit pixel `sizes` so the 1x/2x candidates have real dimensions. Avoid unprefixed `vw` values, which can generate a zero-width candidate in the current image runtime. CSS controls display size independently of these request-size buckets.
 
 ## Responsive Behavior
 

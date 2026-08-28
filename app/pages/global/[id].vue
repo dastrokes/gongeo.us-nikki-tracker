@@ -102,7 +102,7 @@
                     class="h-12 w-24 rounded-md object-cover sm:h-14 sm:w-28"
                     preset="bannerThumb"
                     fit="cover"
-                    sizes="96px sm:112px"
+                    sizes="100px"
                   />
                 </NuxtLinkLocale>
               </template>

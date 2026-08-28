@@ -135,10 +135,10 @@
   })
   const imageSizes = computed(() => {
     if (isPreviewImage.value) {
-      return props.size === 'sm' ? '64px sm:80px' : '80px sm:120px'
+      return props.size === 'sm' ? '100px' : '100px sm:200px'
     }
 
-    return props.size === 'sm' ? '60px sm:80px' : '80px sm:120px'
+    return '60px sm:120px'
   })
 
   // Get item name from i18n

@@ -38,7 +38,7 @@
             preset="iconLg"
             fit="cover"
             loading="lazy"
-            sizes="80px sm:120px"
+            sizes="60px sm:120px"
           />
           <NuxtImg
             v-else
@@ -50,7 +50,7 @@
             fit="cover"
             loading="lazy"
             placeholder="/images/loading.webp"
-            sizes="80px sm:120px"
+            sizes="60px sm:120px"
           />
           <n-tag
             v-if="item.count > 0 && info"

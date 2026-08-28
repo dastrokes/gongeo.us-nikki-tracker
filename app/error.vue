@@ -12,7 +12,7 @@
           class="h-2/3 w-2/3 object-cover"
           preset="iconLg"
           fit="cover"
-          sizes="160px sm:200px"
+          sizes="120px"
         />
       </template>
       <template #footer>

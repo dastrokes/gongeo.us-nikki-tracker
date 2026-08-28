@@ -34,6 +34,7 @@
           <NuxtImg
             src="images/logo.webp"
             preset="iconSm"
+            sizes="30px"
             fit="cover"
             loading="lazy"
             :alt="t('navigation.title')"

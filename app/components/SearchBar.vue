@@ -209,6 +209,7 @@
                         <NuxtImg
                           :src="getImageSrc('bannerThumb', item.id)"
                           preset="bannerThumb"
+                          sizes="100px"
                           class="h-8 w-16 rounded-md object-cover shadow-xs ring-1 ring-black/5 dark:ring-white/10"
                           :alt="item.name"
                           loading="lazy"
@@ -218,6 +219,7 @@
                         <NuxtImg
                           :src="getImageSrc('outfit', item.id)"
                           preset="tallSm"
+                          sizes="50px"
                           class="h-10 w-7 rounded-md object-cover shadow-xs ring-1 ring-black/5 dark:ring-white/10"
                           :alt="item.name"
                           loading="lazy"
@@ -227,6 +229,7 @@
                         <NuxtImg
                           :src="getImageSrc('item', item.id)"
                           preset="tallSm"
+                          sizes="50px"
                           class="h-10 w-7 rounded-md object-cover shadow-xs ring-1 ring-black/5 dark:ring-white/10"
                           :alt="item.name"
                           loading="lazy"

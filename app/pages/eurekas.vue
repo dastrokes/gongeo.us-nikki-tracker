@@ -412,6 +412,7 @@
                   <NuxtImg
                     :src="getImageSrc('eureka', color.id)"
                     preset="iconLg"
+                    sizes="60px"
                     fit="contain"
                     loading="lazy"
                     :alt="colorName(color.colorType)"

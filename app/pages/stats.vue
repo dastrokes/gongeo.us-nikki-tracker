@@ -67,7 +67,7 @@
               class="mx-auto h-24 w-24 object-cover sm:h-32 sm:w-32"
               preset="iconLg"
               fit="cover"
-              sizes="160px sm:200px"
+              sizes="120px"
             />
           </template>
           <template #footer>
@@ -676,7 +676,7 @@
                   preset="iconLg"
                   fit="cover"
                   loading="lazy"
-                  sizes="128px"
+                  sizes="120px"
                 />
                 <div
                   class="relative z-10 mt-3 text-center text-xl font-bold sm:text-2xl"
@@ -911,6 +911,7 @@
                       <NuxtImg
                         src="images/logo.webp"
                         preset="iconSm"
+                        sizes="30px"
                         fit="cover"
                         loading="lazy"
                         :alt="$t('navigation.title')"
@@ -944,7 +945,7 @@
                   preset="iconLg"
                   fit="cover"
                   loading="lazy"
-                  sizes="128px"
+                  sizes="120px"
                 />
                 <div
                   class="relative z-10 mt-4 max-w-60 text-center text-2xl leading-[0.95] font-bold"
@@ -1183,6 +1184,7 @@
                     <NuxtImg
                       src="images/logo.webp"
                       preset="iconSm"
+                      sizes="30px"
                       fit="cover"
                       loading="lazy"
                       :alt="$t('navigation.title')"

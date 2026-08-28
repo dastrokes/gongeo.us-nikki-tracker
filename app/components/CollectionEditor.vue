@@ -58,7 +58,7 @@
                     fit="cover"
                     loading="lazy"
                     placeholder="/images/loading.webp"
-                    sizes="80px sm:120px"
+                    sizes="60px sm:120px"
                   />
                 </template>
                 <div class="text-center">

@@ -1215,7 +1215,8 @@
 
   const itemObtainType = computed(() => {
     if (!item.value) return null
-    return (item.value as ItemWithOutfits).obtain_type
+    const obtainType = (item.value as ItemWithOutfits).obtain_type
+    return obtainType && obtainType > 0 ? obtainType : null
   })
 
   if (import.meta.client) {

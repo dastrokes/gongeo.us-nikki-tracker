@@ -248,6 +248,7 @@ export const ITEM_SEARCH_SUBCATEGORY_PARENT_BY_TYPE = {
     bib_necklace: 'necklace',
     lariat_necklace: 'necklace',
     lei: 'necklace',
+    pendant_choker: 'choker',
     pendant_necklace: 'necklace',
     strand_necklace: 'necklace',
   },

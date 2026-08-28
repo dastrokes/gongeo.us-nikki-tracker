@@ -117,8 +117,10 @@ const loadCatalogManifest = async () => {
 
   catalogManifestLoadPromise = (async () => {
     try {
+      const revision =
+        useRuntimeConfig().public.catalogRevision || getGameVersion()
       const manifest = await $fetch<CatalogIndexManifestResponse>(
-        CATALOG_INDEX_MANIFEST_PATH
+        `${CATALOG_INDEX_MANIFEST_PATH}?r=${encodeURIComponent(String(revision))}`
       )
 
       validateCatalogManifest(manifest)

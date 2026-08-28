@@ -156,20 +156,21 @@
             class="w-full md:col-span-2 md:row-start-2 lg:col-span-1 lg:col-start-2 lg:row-start-1"
           >
             <div
-              class="flex h-2.5 overflow-hidden rounded-full bg-gray-200/70 dark:bg-gray-700/70"
+              class="flex h-3 overflow-hidden rounded-full bg-gray-200/70 dark:bg-gray-700/70"
             >
               <div
                 v-for="level in completionLevelStats"
                 :key="level.key"
                 class="transition-[filter,opacity] duration-150"
                 :class="[
-                  level.barClass,
+                  hoveredCompletionLevel !== null &&
+                  level.index >= hoveredCompletionLevel
+                    ? completionLevelStats[hoveredCompletionLevel]?.barClass
+                    : level.barClass,
                   hoveredCompletionLevel !== null &&
                   level.index < hoveredCompletionLevel
-                    ? 'opacity-20'
-                    : hoveredCompletionLevel !== null
-                      ? 'brightness-110 saturate-150'
-                      : '',
+                    ? 'opacity-5 contrast-50 grayscale'
+                    : '',
                 ]"
                 :style="{ width: level.width }"
               />
@@ -184,6 +185,7 @@
                 v-for="level in completionLevelStats"
                 :key="level.key"
                 tabindex="0"
+                :aria-label="`${level.label}: ${level.value.toLocaleString()} (${formatPercent(level.percentage)})`"
                 class="rounded-md border px-1 py-0.5 text-center transition-shadow outline-none focus-visible:ring-2 focus-visible:ring-current"
                 :class="level.cardClass"
                 @mouseenter="hoveredCompletionLevel = level.index"
@@ -201,7 +203,11 @@
                   class="text-xs font-semibold tabular-nums"
                   :class="level.textClass"
                 >
-                  {{ level.value.toLocaleString() }}
+                  {{
+                    hoveredCompletionLevel === level.index
+                      ? `${level.value.toLocaleString()} (${formatPercent(level.percentage)})`
+                      : level.value.toLocaleString()
+                  }}
                 </div>
               </div>
             </div>
@@ -845,6 +851,7 @@
         index,
         label: t(`banner.outfit.level.${index + 1}`),
         value,
+        percentage: value / levels.base,
         width: `${(Math.max(0, value - nextValue) / levels.base) * 100}%`,
         ...completionLevelStyles[key],
       }

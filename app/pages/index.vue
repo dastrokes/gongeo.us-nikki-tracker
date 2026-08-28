@@ -808,68 +808,26 @@
     ...banner.outfit5StarId,
     ...banner.outfit4StarId,
   ]) as OutfitKey[]
-  const catalogIndex = useCatalogIndex()
-  const { activeRegionScope } = useWardrobeSettings()
-  const compendiumPreviewIds = ref({
-    outfits: null as number | null,
-    items: null as number | null,
-    makeups: null as number | null,
-    momo: null as number | null,
-  })
-  let compendiumPreviewRequest = 0
+  const catalogManifest = useCatalogManifest()
+  const compendiumPreview = shallowRef<CatalogLandingPreviewSet | null>(null)
 
-  const loadCompendiumPreviewIds = async () => {
-    const request = ++compendiumPreviewRequest
+  const loadCompendiumPreview = async () => {
+    let manifest: CatalogIndexManifestResponse
 
     try {
-      await catalogIndex.load([
-        'items',
-        'outfits',
-        'outfitItems',
-        'makeups',
-        'momo',
-      ])
+      manifest = await catalogManifest.load()
     } catch {
       return
     }
 
-    if (request !== compendiumPreviewRequest) return
-
-    const index = catalogIndex.index.value
-    if (!index) return
-
-    const getFirstId = (
-      entity: 'item' | 'outfit' | 'makeup' | 'momo',
-      filters: Record<string, unknown>
-    ) =>
-      getLocalStaticCatalogListingMatchingIds({
-        query: {
-          entity,
-          filters,
-          page: 1,
-          pageSize: 1,
-          ownershipMode: 'all',
-          regionScope: activeRegionScope.value,
-        },
-        index,
-      }).ids[0] ?? null
-
-    compendiumPreviewIds.value = {
-      outfits: getFirstId('outfit', { variations: 'base' }),
-      items: getFirstId('item', { piece: 'all', variations: 'base' }),
-      makeups: getFirstId('makeup', {
-        kind: 'all',
-        variations: 'base',
-      }),
-      momo: getFirstId('momo', {}),
-    }
+    compendiumPreview.value = manifest.landingPreview
   }
 
   watch(
-    [shouldLoadCompendiumPreviews, activeRegionScope],
-    ([shouldLoad]) => {
+    shouldLoadCompendiumPreviews,
+    (shouldLoad) => {
       if (import.meta.client && shouldLoad) {
-        void loadCompendiumPreviewIds()
+        void loadCompendiumPreview()
       }
     },
     { immediate: true }
@@ -878,10 +836,10 @@
   const compendiumPreviewByKey = computed<
     Record<(typeof compendiumItems)[number]['key'], CompendiumPreview>
   >(() => {
-    const { outfits, items, makeups, momo } = compendiumPreviewIds.value
-    const makeup = makeups
-      ? catalogIndex.index.value?.makeupById.get(makeups)
-      : null
+    const outfits = compendiumPreview.value?.outfit ?? null
+    const items = compendiumPreview.value?.item ?? null
+    const makeups = compendiumPreview.value?.makeup ?? null
+    const momo = compendiumPreview.value?.momo ?? null
 
     return {
       outfits: {
@@ -901,7 +859,7 @@
         transparent: false,
       },
       makeups: {
-        imageType: makeup?.type === 'fullMakeup' ? 'fullMakeup' : 'item',
+        imageType: 'fullMakeup',
         imageId: makeups,
         imageAlt: makeups ? t(`makeup.${makeups}.name`) : t('common.makeups'),
         linkLabel: makeups ? t(`makeup.${makeups}.name`) : t('common.makeups'),

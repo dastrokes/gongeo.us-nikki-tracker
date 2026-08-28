@@ -33,18 +33,16 @@ export interface CatalogIndexFileReference {
   bytes: number
 }
 
+export interface CatalogLandingPreviewSet {
+  outfit: number
+  item: number
+  makeup: number
+  momo: number
+}
+
 export interface CatalogIndexManifestResponse {
   gameVersion: string
   generatedAt: string
-  files?: Record<CatalogIndexFileKey, CatalogIndexFileReference>
-  items?: ItemListEntry[]
-  outfits?: OutfitListEntry[]
-  makeups?: ItemListEntry[]
-  momo?: MomoListEntry[]
-  eurekas?: EurekaCatalogEntry[]
-  props?: PropCatalogEntry[]
-  outfitItems?: Record<string, number[]>
-  makeupItems?: Record<string, number[]>
-  makeupOutfits?: Record<string, number[]>
-  momoOutfits?: Record<string, number[]>
+  landingPreview: CatalogLandingPreviewSet
+  files: Record<CatalogIndexFileKey, CatalogIndexFileReference>
 }

@@ -61,6 +61,7 @@ export const ENTITY_SLUG_DATA = [
   [1160100104, 'momo-s-cloak-bone-wings'],
   [1160100105, 'momo-s-cloak-floral-oath'],
   [1160100107, 'momo-s-cloak-glimmer'],
+  [1160100108, 'momo-s-cloak-flower-fairy'],
   [1160100111, 'momo-s-cloak-radiant-wish'],
   [1160100112, 'momo-s-cloak-tide-s-hymn'],
   [1160100113, 'momo-s-cloak-glory'],
@@ -107,6 +108,7 @@ export const ENTITY_SLUG_DATA = [
   [1160100165, 'momo-s-cloak-muddlepaws'],
   [1160100166, 'momo-s-cloak-fortune-comes'],
   [1160100178, 'momo-s-cloak-flying'],
+  [1160100179, 'momo-s-cloak-bloomwoven'],
   [1160100180, 'momo-s-cloak-gallantry'],
   [1160100181, 'momo-s-cloak-night-owl'],
   [1160100185, 'momo-s-cloak-thousand-stars'],
@@ -120,5 +122,6 @@ export const ENTITY_SLUG_DATA = [
   [1160100226, 'momo-s-cloak-giant-sunflower'],
   [1160100237, 'momo-s-cloak-nectar'],
   [1160100238, 'momo-s-cloak-beaver'],
+  [1160100239, 'momo-s-cloak-heart-arrow'],
   [1162100136, 'momo-s-cloak-battle-will'],
 ] as const

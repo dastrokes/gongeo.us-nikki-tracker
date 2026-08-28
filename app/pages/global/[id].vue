@@ -132,6 +132,26 @@
           </div>
 
           <div
+            class="flex w-full flex-wrap items-center justify-end gap-2 md:col-start-2 md:row-start-1 lg:col-start-3"
+          >
+            <n-tree-select
+              v-if="scopeTreeOptions.length > 0"
+              v-model:value="selectedScopeValue"
+              v-model:expanded-keys="expandedScopeKeys"
+              :consistent-menu-width="false"
+              :options="scopeTreeOptions"
+              :override-default-node-click-behavior="overrideScopeNodeClick"
+              :render-label="renderScopeLabel"
+              filterable
+              :indent="16"
+              size="small"
+              class="w-full md:w-72"
+              @update:show="handleScopeDropdownShow"
+              @update:value="handleScopeSelect"
+            />
+          </div>
+
+          <div
             v-if="completionLevelStats.length"
             class="w-full md:col-span-2 md:row-start-2 lg:col-span-1 lg:col-start-2 lg:row-start-1"
           >
@@ -185,26 +205,6 @@
                 </div>
               </div>
             </div>
-          </div>
-
-          <div
-            class="flex w-full flex-wrap items-center justify-end gap-2 md:col-start-2 md:row-start-1 lg:col-start-3"
-          >
-            <n-tree-select
-              v-if="scopeTreeOptions.length > 0"
-              v-model:value="selectedScopeValue"
-              v-model:expanded-keys="expandedScopeKeys"
-              :consistent-menu-width="false"
-              :options="scopeTreeOptions"
-              :override-default-node-click-behavior="overrideScopeNodeClick"
-              :render-label="renderScopeLabel"
-              filterable
-              :indent="16"
-              size="small"
-              class="w-full md:w-72"
-              @update:show="handleScopeDropdownShow"
-              @update:value="handleScopeSelect"
-            />
           </div>
         </div>
       </n-card>
@@ -1049,10 +1049,8 @@
 
     return distribution?.length ?? 0
   })
-  const itemDistributionChartHeight = computed(() =>
-    isMobile.value
-      ? `${Math.max(320, selectedItemDistributionCount.value * 48 + 96)}px`
-      : '280px'
+  const itemDistributionChartHeight = computed(
+    () => `${Math.max(320, selectedItemDistributionCount.value * 48 + 96)}px`
   )
 
   const chartHeightClass = (chartId: ChartId) => ({
@@ -1060,10 +1058,12 @@
     'h-[calc(100vh-156px)] sm:h-[calc(100vh-172px)]':
       maximizedChart.value === chartId,
     'h-80': maximizedChart.value !== chartId && chartId === 'pullDistribution',
+    'h-[var(--item-distribution-height)] sm:h-[280px]':
+      maximizedChart.value !== chartId && chartId === 'itemDistribution',
   })
   const chartHeightStyle = (chartId: ChartId) =>
     maximizedChart.value !== chartId && chartId === 'itemDistribution'
-      ? { height: itemDistributionChartHeight.value }
+      ? { '--item-distribution-height': itemDistributionChartHeight.value }
       : undefined
 
   const toggleMaximize = (chartId: ChartId) => {

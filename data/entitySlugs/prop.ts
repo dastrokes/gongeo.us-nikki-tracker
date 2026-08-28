@@ -101,6 +101,12 @@ export const ENTITY_SLUG_DATA = [
   [1280010116, 'journey-in-a-suitcase'],
   [1280010118, 'rhythm-block'],
   [1280010119, 'childhood-dream-grabber'],
+  [1280010120, 'bom-bom-popcorn-trolley'],
+  [1280010121, 'moondew-blossoms'],
+  [1280010122, 'moondew-blossoms-radiance'],
+  [1280010123, 'forestlight-haven'],
+  [1280010124, 'perched-in-time'],
+  [1280010125, 'the-forest-s-reply'],
   [1280030001, 'flower-lantern'],
   [1280040001, 'luminous-bloom'],
 ] as const

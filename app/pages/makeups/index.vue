@@ -238,8 +238,15 @@
                 : [nameFadeStandardClass, 'p-3', 'pr-8']
             "
           >
+            <img
+              src="/images/fade.png"
+              alt=""
+              aria-hidden="true"
+              draggable="false"
+              class="pointer-events-none absolute inset-0 h-full w-full object-fill"
+            />
             <p
-              class="font-semibold text-white"
+              class="relative z-10 font-semibold text-white"
               :class="
                 isThumbnailView
                   ? 'line-clamp-2 w-full min-w-0 text-left text-[10px] leading-snug'
@@ -250,7 +257,7 @@
             </p>
             <div
               v-if="showEntryMeta && entry.styleLabel"
-              class="mt-1 flex flex-wrap gap-1"
+              class="relative z-10 mt-1 flex flex-wrap gap-1"
             >
               <n-tag
                 size="tiny"
@@ -264,7 +271,7 @@
             </div>
             <div
               v-if="showEntryMeta && entry.labelTags.length"
-              class="mt-1 flex flex-wrap gap-0.5"
+              class="relative z-10 mt-1 flex flex-wrap gap-0.5"
             >
               <n-tag
                 v-for="label in entry.labelTags"

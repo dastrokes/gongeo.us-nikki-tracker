@@ -37,6 +37,7 @@ const BASE_PATHS = [
   '/outfits',
   '/banners',
   '/tierlist',
+  '/create',
 ] as const
 
 const SEO_LIST_PATHS = [

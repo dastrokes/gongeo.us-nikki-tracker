@@ -205,8 +205,15 @@
                 : [propNameFadeStandardClass, 'p-2', 'pr-8']
             "
           >
+            <img
+              src="/images/fade.png"
+              alt=""
+              aria-hidden="true"
+              draggable="false"
+              class="pointer-events-none absolute inset-0 h-full w-full object-fill"
+            />
             <p
-              class="font-semibold text-white"
+              class="relative z-10 font-semibold text-white"
               :class="
                 isThumbnailView
                   ? 'line-clamp-2 w-full min-w-0 text-left text-[10px] leading-snug'
@@ -304,14 +311,12 @@
     pageSize,
     imageSizes,
     overlayCornerClasses,
+    nameFadeThumbnailClass: propNameFadeThumbnailClass,
+    nameFadeStandardClass: propNameFadeStandardClass,
   } = provideCompendiumListingView({ currentPage })
   const propImagePreset = computed(() =>
     isThumbnailView.value ? 'squareSm' : 'squareLg'
   )
-  const propNameFadeThumbnailClass =
-    "absolute inset-x-0 bottom-0 z-20 flex h-12 w-full flex-col justify-end bg-[url('/images/fade.png')] [background-size:100%_100%] bg-bottom bg-no-repeat px-1.5 pb-1"
-  const propNameFadeStandardClass =
-    "absolute right-0 bottom-0 left-0 z-20 flex h-20 flex-col justify-end bg-[url('/images/fade.png')] [background-size:100%_100%] bg-no-repeat"
   const searchQuery = ref(resolveStringQuery(route.query.search))
   const versionFilter = ref<string | null>(
     resolveVersionQuery(route.query.version)

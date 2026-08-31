@@ -198,8 +198,15 @@
                 : [nameFadeStandardClass, 'p-3', 'pr-8']
             "
           >
+            <img
+              src="/images/fade.png"
+              alt=""
+              aria-hidden="true"
+              draggable="false"
+              class="pointer-events-none absolute inset-0 h-full w-full object-fill"
+            />
             <p
-              class="font-semibold text-white"
+              class="relative z-10 font-semibold text-white"
               :class="
                 isThumbnailView
                   ? 'line-clamp-2 w-full min-w-0 text-left text-[10px] leading-snug'

@@ -613,6 +613,7 @@
     Envelope,
     Magic,
     PaintBrush,
+    Shapes,
     Paw,
     Box,
   } from '@vicons/fa'
@@ -703,6 +704,8 @@
           label: t('navigation.makeup'),
           icon: PaintBrush,
         },
+        { key: 'props', label: t('navigation.props'), icon: Box },
+
         { key: 'search', label: t('search_page.title'), icon: Search },
         {
           key: 'random',
@@ -714,7 +717,6 @@
           label: t('common.momo'),
           icon: Paw,
         },
-        { key: 'props', label: t('common.props'), icon: Box },
       ],
     },
     {
@@ -725,6 +727,11 @@
           key: 'tierlist',
           label: t('navigation.tierlist'),
           icon: SortAmountDown,
+        },
+        {
+          key: 'create',
+          label: t('navigation.creation_hub'),
+          icon: Shapes,
         },
         { key: 'lookbook', label: t('navigation.lookbook'), icon: Th },
         { key: 'quiz', label: t('quiz.title'), icon: PuzzlePiece },
@@ -852,13 +859,13 @@
   )
   const trackerMenuColumnKeys = new Set(['tracker', 'wardrobe', 'eurekas'])
   const trackerMenuSecondaryColumnKeys = ['stats', 'global', 'import']
-  const compendiumMenuColumnKeys = new Set(['outfits', 'items', 'makeups'])
-  const compendiumMenuSecondaryColumnKeys = [
-    'search',
-    'random',
-    'momo',
+  const compendiumMenuColumnKeys = new Set([
+    'outfits',
+    'items',
+    'makeups',
     'props',
-  ]
+  ])
+  const compendiumMenuSecondaryColumnKeys = ['search', 'random', 'momo']
 
   const openDesktopGroup = ref<string | null>(null)
   const mobileDrawerOpen = ref(false)

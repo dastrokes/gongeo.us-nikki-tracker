@@ -42,28 +42,42 @@
 
     <div
       v-if="showInfo && isThumbnailListing"
-      class="absolute inset-x-0 bottom-0 z-20 flex h-16 w-full flex-col justify-end bg-[url('/images/fade.png')] [background-size:100%_100%] bg-bottom bg-no-repeat px-1.5 pb-1"
+      class="absolute inset-x-0 bottom-0 z-20 flex h-10 w-full flex-col justify-end overflow-hidden px-1.5 pb-1 sm:h-12"
       :class="thumbnailMetaPaddingClass"
     >
+      <img
+        src="/images/fade.png"
+        alt=""
+        aria-hidden="true"
+        draggable="false"
+        class="pointer-events-none absolute inset-0 h-full w-full object-fill"
+      />
       <p
-        class="line-clamp-2 w-full min-w-0 text-left text-[10px] leading-snug font-semibold text-white"
+        class="relative z-10 line-clamp-2 w-full min-w-0 text-left text-[10px] leading-snug font-semibold text-white"
       >
         {{ name }}
       </p>
     </div>
     <div
       v-else-if="showInfo"
-      class="absolute right-0 bottom-0 left-0 z-20 flex h-28 flex-col justify-end bg-[url('/images/fade.png')] [background-size:100%_100%] bg-no-repeat"
+      class="absolute right-0 bottom-0 left-0 z-20 flex flex-col justify-end overflow-hidden"
       :class="metaPaddingClass"
     >
+      <img
+        src="/images/fade.png"
+        alt=""
+        aria-hidden="true"
+        draggable="false"
+        class="pointer-events-none absolute inset-0 h-full w-full object-fill"
+      />
       <p
-        class="line-clamp-2 text-xs leading-snug font-semibold text-white sm:text-sm"
+        class="relative z-10 line-clamp-2 text-xs leading-snug font-semibold text-white sm:text-sm"
       >
         {{ name }}
       </p>
       <div
         v-if="showMetaTags && styleLabel"
-        class="mt-1 hidden flex-wrap gap-1 sm:flex"
+        class="relative z-10 mt-1 hidden flex-wrap gap-1 sm:flex"
       >
         <n-tag
           size="tiny"
@@ -77,7 +91,7 @@
       </div>
       <div
         v-if="showMetaTags && normalizedLabels.length"
-        class="mt-1 hidden flex-wrap gap-0.5 sm:flex"
+        class="relative z-10 mt-1 hidden flex-wrap gap-0.5 sm:flex"
       >
         <n-tag
           v-for="label in normalizedLabels"
@@ -192,6 +206,7 @@
 
   const metaPaddingClass = computed(() => [
     props.meta === 'edit' || props.size === 'sm' ? 'p-2' : 'p-3',
+    props.size === 'sm' ? 'h-16 sm:h-20' : 'h-20 sm:h-24',
     'pr-8',
   ])
   const thumbnailMetaPaddingClass = 'pr-6'

@@ -59,10 +59,10 @@ export const useCompendiumListingView = (
   })
 
   const nameFadeThumbnailClass =
-    "absolute inset-x-0 bottom-0 z-20 flex h-16 w-full flex-col justify-end bg-[url('/images/fade.png')] [background-size:100%_100%] bg-bottom bg-no-repeat px-1.5 pb-1"
+    'absolute inset-x-0 bottom-0 z-20 flex h-10 w-full flex-col justify-end overflow-hidden px-1.5 pb-1 sm:h-12'
 
   const nameFadeStandardClass =
-    "absolute right-0 bottom-0 left-0 z-20 flex h-28 flex-col justify-end bg-[url('/images/fade.png')] [background-size:100%_100%] bg-no-repeat"
+    'absolute right-0 bottom-0 left-0 z-20 flex h-20 flex-col justify-end overflow-hidden sm:h-24'
 
   const setViewMode = (mode: ListingDisplayMode) => {
     if (viewMode.value === mode) return

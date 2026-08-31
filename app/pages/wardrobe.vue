@@ -823,7 +823,7 @@
               secondary
               @click="sharePickerOpen = true"
             >
-              {{ t('wardrobe.share.customize') }}
+              {{ t('common.customize') }}
             </n-button>
             <n-tooltip
               v-if="isHydrated && !isMobile"
@@ -1499,10 +1499,17 @@
                     </n-tag>
                   </div>
                   <div
-                    class="absolute right-0 bottom-0 left-0 z-20 bg-linear-to-t from-black/90 to-transparent p-3"
+                    class="absolute right-0 bottom-0 left-0 z-20 flex h-20 flex-col justify-end overflow-hidden p-3 sm:h-24"
                   >
+                    <img
+                      src="/images/fade.png"
+                      alt=""
+                      aria-hidden="true"
+                      draggable="false"
+                      class="pointer-events-none absolute inset-0 h-full w-full object-fill"
+                    />
                     <p
-                      class="line-clamp-2 text-xs font-semibold text-white sm:text-sm"
+                      class="relative z-10 line-clamp-2 text-xs font-semibold text-white sm:text-sm"
                     >
                       {{ candidate.name }}
                     </p>

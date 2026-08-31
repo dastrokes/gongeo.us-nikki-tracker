@@ -366,6 +366,7 @@ export default defineNuxtConfig({
             '/search',
             '/random',
             '/lookbook',
+            '/create',
           ],
           {
             headers: pageThemeQuery,
@@ -437,6 +438,7 @@ export default defineNuxtConfig({
         'fflate',
         'idb',
         'snappyjs',
+        'sortablejs',
         'fuse.js',
         'pinyin-pro',
       ],

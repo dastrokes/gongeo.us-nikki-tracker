@@ -933,7 +933,7 @@
       "custom_default_name": "Meine Vorlage",
       "save": "Speichern und verwenden",
       "share": "Vorlage teilen",
-      "share_description": "Jeder mit diesem Link kann deine Kategorien ansehen und verwenden. Outfit-Auswahlen werden nicht geteilt.",
+      "share_description": "Jeder mit diesem Link kann deine Kategorien ansehen und verwenden. Outfit-Auswahlen sind nicht einbegriffen.",
       "share_action": "Teilen",
       "link_copied": "Vorlagenlink kopiert.",
       "copy_fallback": "Der Link ist ausgewählt und kann kopiert werden.",
@@ -950,8 +950,8 @@
     "outfit_card": {
       "title": "Outfit-Karte",
       "description": "Wähle für jede Kategorie ein Outfit und erstelle eine Outfit-Karte im Neuner-Raster.",
-      "editor_description": "Fülle jede Kategorie mit einem Outfit, das zu deinem Geschmack passt.",
-      "clear": "Auswahl löschen",
+      "editor_description": "Fülle jede Kategorie mit einem Outfit, das deinem Geschmack entspricht.",
+      "clear": "Auswahlen löschen",
       "clear_confirm": "Alle Outfit-Auswahlen für diese Karte löschen?",
       "choose": "Outfit wählen",
       "change": "Outfit ändern",
@@ -963,12 +963,12 @@
       "prompts": [
         "Liebstes 5★",
         "Liebstes 4★",
-        "Bestes 4★ im 5★",
+        "Bestes 4★ in 5★",
         "Beste Einzelteile",
         "Am häufigsten getragen",
         "Am seltensten getragen",
         "Überspringen bereut",
-        "Bereuter Pull",
+        "Resonanz bereut",
         "Überraschungsfavorit"
       ]
     },

@@ -22,14 +22,14 @@
             class="h-full w-full object-contain"
           />
         </div>
-        <div class="min-w-0">
+        <div class="min-w-0 flex-1">
           <p
             class="text-[25px] leading-8 font-semibold tracking-wide text-slate-500"
           >
             gongeo.us · Infinity Nikki
           </p>
           <h2
-            class="truncate text-[48px] leading-[1.08] font-bold text-slate-900"
+            class="whitespace-nowrap text-[48px] leading-[1.12] font-bold text-slate-900"
           >
             {{ title || t('creation_hub.outfit_card.poster_title') }}
           </h2>

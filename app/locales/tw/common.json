@@ -513,7 +513,7 @@
       "step1": "點選\"複製程式碼\"按鈕並複製其中程式碼",
       "step2": "在瀏覽器中建立一個新書籤，命名為\"美鴨梨 Cookie\"",
       "step3": "編輯書籤的網址，將其替換為您剛複製的程式碼",
-      "step5_android_chrome": "在位址列中開始輸入您儲存的書籤名稱（Gongeous Cookie）",
+      "step5_android_chrome": "在位址列中開始輸入您儲存的書籤名稱（美鴨梨 Cookie）",
       "step5_android_chrome_2": "從建議中選擇書籤以執行它"
     },
     "console_steps": {

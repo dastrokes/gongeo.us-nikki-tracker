@@ -29,7 +29,7 @@
             gongeo.us · Infinity Nikki
           </p>
           <h2
-            class="whitespace-nowrap text-[48px] leading-[1.12] font-bold text-slate-900"
+            class="text-[48px] leading-[1.12] font-bold whitespace-nowrap text-slate-900"
           >
             {{ t('creation_hub.banner_ranking.poster_title') }}
           </h2>

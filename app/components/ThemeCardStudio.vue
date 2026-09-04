@@ -477,7 +477,7 @@
   const STORAGE_KEY = 'gongeous-studio-theme'
   const PAGE_SIZE = 30
   const limitedFiveOutfitIds = new Set<string>()
-  const limitedFourOutfitIds = new Set<string>()
+  const standaloneLimitedFourOutfitIds = new Set<string>()
   const companionFourOutfitIds = new Set<string>()
   const limitedOutfitIds = new Set<string>()
   for (const banner of Object.values(BANNER_DATA)) {
@@ -488,15 +488,17 @@
       }
       for (const id of banner.outfit4StarId) {
         companionFourOutfitIds.add(String(id))
-        limitedFourOutfitIds.add(String(id))
         limitedOutfitIds.add(String(id))
       }
     } else if (banner.bannerType === 3) {
       for (const id of banner.outfit4StarId) {
-        limitedFourOutfitIds.add(String(id))
+        standaloneLimitedFourOutfitIds.add(String(id))
         limitedOutfitIds.add(String(id))
       }
     }
+  }
+  for (const id of companionFourOutfitIds) {
+    standaloneLimitedFourOutfitIds.delete(id)
   }
   type NamedOutfit = OutfitListEntry & {
     name: string
@@ -640,7 +642,7 @@
     if (activeTemplateId.value !== 'default' || activeIndex.value == null)
       return null
     if (activeIndex.value === 0) return limitedFiveOutfitIds
-    if (activeIndex.value === 1) return limitedFourOutfitIds
+    if (activeIndex.value === 1) return standaloneLimitedFourOutfitIds
     if (activeIndex.value === 2) return companionFourOutfitIds
     return limitedOutfitIds
   })

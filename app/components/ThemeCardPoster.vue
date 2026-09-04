@@ -29,7 +29,7 @@
             gongeo.us · Infinity Nikki
           </p>
           <h2
-            class="whitespace-nowrap text-[48px] leading-[1.12] font-bold text-slate-900"
+            class="text-[48px] leading-[1.12] font-bold whitespace-nowrap text-slate-900"
           >
             {{ title || t('creation_hub.outfit_card.poster_title') }}
           </h2>

@@ -229,7 +229,7 @@ export const OUTFIT_SEARCH_ALIASES: OutfitSearchAliasMap = {
     10085: ZH_ABILITY_ALIASES.lyre,
     10313: ['吉他套', ...ZH_ABILITY_ALIASES.electricGuitar],
     10332: ['歌姬套', '偶像套'],
-    10250: ['女巫套', '白女巫', ...ZH_ABILITY_ALIASES.floating],
+    10250: ['女巫套', ...ZH_ABILITY_ALIASES.floating],
     10252: ['稻草人套'],
     10251: ['下雨套'],
     10258: ['浇水套', ...ZH_ABILITY_ALIASES.planting],

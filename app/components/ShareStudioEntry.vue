@@ -145,12 +145,13 @@
   const newestFiveStarOutfitIds = newestLimitedBanners.flatMap((banner) =>
     banner.bannerType === 2 ? banner.outfit5StarId : []
   )
-  const newestFourStarOutfitIds = newestLimitedBanners.flatMap(
-    (banner) => banner.outfit4StarId
-  )
   const newestCompanionOutfitIds = newestLimitedBanners.flatMap((banner) =>
     banner.bannerType === 2 ? banner.outfit4StarId : []
   )
+  const companionOutfitIdSet = new Set(newestCompanionOutfitIds.map(String))
+  const newestFourStarOutfitIds = newestLimitedBanners
+    .flatMap((banner) => (banner.bannerType === 3 ? banner.outfit4StarId : []))
+    .filter((id) => !companionOutfitIdSet.has(String(id)))
   const newestLimitedOutfitIds = newestLimitedBanners.flatMap((banner) => [
     ...banner.outfit5StarId,
     ...banner.outfit4StarId,

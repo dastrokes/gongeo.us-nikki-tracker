@@ -25,7 +25,6 @@
       "mermaid": "Sirena",
       "sheath": "Tubino",
       "shift": "A sacco",
-      "tiered": "A Balze",
       "trapeze": "Trapezio",
       "trumpet": "Tromba"
     },
@@ -358,7 +357,6 @@
       "circle": "A Ruota",
       "pencil": "A Tubino",
       "straight": "Dritta",
-      "tiered": "A Balze",
       "trumpet": "A Sirena/Tromba"
     },
     "sleeve_length": {

@@ -4,8 +4,7 @@ export const getImageProvider = () => {
   if (
     configuredProvider === 'ipx' ||
     configuredProvider === 'netlify' ||
-    configuredProvider === 'imagekit' ||
-    configuredProvider === 'cloudinary'
+    configuredProvider === 'imagekit'
   ) {
     return configuredProvider
   }
@@ -16,12 +15,11 @@ export const getImageProvider = () => {
 const cdnBaseUrl =
   process.env.NUXT_PUBLIC_IMAGE_CDN_BASE_URL || 'https://cdn.gongeo.us'
 
-type ImageProvider = 'ipx' | 'netlify' | 'imagekit' | 'cloudinary'
+type ImageProvider = 'ipx' | 'netlify' | 'imagekit'
 
 interface ImageRuntimeConfig {
   imageProvider?: unknown
   imagekitBaseUrl?: unknown
-  cloudinaryBaseUrl?: unknown
   cdnBaseUrl?: unknown
 }
 
@@ -86,12 +84,7 @@ export const getOgImageSrc = (
 
 export const getImagePreconnectHref = (publicConfig: ImageRuntimeConfig) => {
   const provider = publicConfig.imageProvider as ImageProvider | undefined
-  const baseUrl =
-    provider === 'cloudinary'
-      ? publicConfig.cloudinaryBaseUrl
-      : provider === 'imagekit'
-        ? publicConfig.imagekitBaseUrl
-        : null
+  const baseUrl = provider === 'imagekit' ? publicConfig.imagekitBaseUrl : null
 
   if (!baseUrl) return null
 
@@ -123,11 +116,7 @@ export const imageProvider = () => {
       return `${cdnBase}${path}`
     }
 
-    if (
-      provider === 'ipx' ||
-      provider === 'imagekit' ||
-      provider === 'cloudinary'
-    ) {
+    if (provider === 'ipx' || provider === 'imagekit') {
       return path
     }
 

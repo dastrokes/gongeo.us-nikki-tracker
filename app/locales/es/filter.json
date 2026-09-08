@@ -25,7 +25,6 @@
       "mermaid": "Sirena",
       "sheath": "Tubo/Vaina",
       "shift": "Recto",
-      "tiered": "Por Capas",
       "trapeze": "Trapecio",
       "trumpet": "Trompeta"
     },
@@ -358,7 +357,6 @@
       "circle": "Capa/Circular",
       "pencil": "Lápiz/Tubo",
       "straight": "Recta",
-      "tiered": "Por Capas",
       "trumpet": "Trompeta"
     },
     "sleeve_length": {

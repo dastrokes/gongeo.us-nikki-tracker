@@ -55,9 +55,6 @@ const sitemapLocaleSources: Record<
 )
 const imagekitBaseUrl =
   process.env.NUXT_PUBLIC_IMAGEKIT_BASE_URL || 'https://ik.imagekit.io/gongeous'
-const cloudinaryBaseUrl =
-  process.env.NUXT_PUBLIC_CLOUDINARY_BASE_URL ||
-  'https://res.cloudinary.com/gongeous/image/upload'
 const cdnBaseUrl =
   process.env.NUXT_PUBLIC_IMAGE_CDN_BASE_URL || 'https://cdn.gongeo.us'
 const activeImageProvider = getImageProvider()
@@ -189,7 +186,6 @@ export default defineNuxtConfig({
       siteUrl,
       catalogRevision,
       imagekitBaseUrl,
-      cloudinaryBaseUrl,
       cdnBaseUrl,
       imageProvider: activeImageProvider,
       adsenseEnabled: isAdSenseEnabled,
@@ -199,7 +195,7 @@ export default defineNuxtConfig({
   image: {
     dir: '../public',
     provider: nuxtImageProvider,
-    domains: [imagekitBaseUrl, cloudinaryBaseUrl, cdnBaseUrl],
+    domains: [imagekitBaseUrl, cdnBaseUrl],
     imagekit: {
       baseURL: imagekitBaseUrl,
     },

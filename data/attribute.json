@@ -137,11 +137,6 @@
   {
     "field": "dress_silhouette",
     "itemType": null,
-    "value": "tiered"
-  },
-  {
-    "field": "dress_silhouette",
-    "itemType": null,
     "value": "trapeze"
   },
   {
@@ -1613,11 +1608,6 @@
     "field": "skirt_silhouette",
     "itemType": null,
     "value": "straight"
-  },
-  {
-    "field": "skirt_silhouette",
-    "itemType": null,
-    "value": "tiered"
   },
   {
     "field": "skirt_silhouette",

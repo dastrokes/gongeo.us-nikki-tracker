@@ -3,13 +3,17 @@
     :show="show"
     placement="right"
     :width="drawerWidth"
-    class="top-14 h-[calc(100vh-3.5rem)]"
+    class="top-14 h-[calc(100dvh-3.5rem)]"
     :show-mask="false"
     :mask-closable="false"
     :on-mask-click="handleMaskClick"
     @update:show="emit('update:show', $event)"
   >
-    <n-drawer-content closable>
+    <n-drawer-content
+      closable
+      body-content-class="overscroll-y-contain"
+      body-content-style="-webkit-overflow-scrolling: touch"
+    >
       <template #header>
         <div class="flex items-center justify-between gap-3">
           <div class="flex min-w-0 items-center gap-2">
@@ -38,7 +42,10 @@
         </div>
       </template>
 
-      <div class="space-y-4">
+      <div
+        class="space-y-4"
+        style="padding-bottom: env(safe-area-inset-bottom)"
+      >
         <AdvancedFilterFields
           v-if="visibleFields.length > 0"
           :fields="visibleFields"

@@ -866,7 +866,7 @@
     Youtube,
   } from '@vicons/fa'
   import { BANNER_DATA } from '~~/data/banners'
-  import { IMPORT_PAGE_MAINTENANCE } from '~~/data/config'
+  import { isImportPageMaintenance } from '~~/data/config'
   import type { VNodeChild } from 'vue'
 
   const { t } = useI18n()
@@ -884,7 +884,10 @@
   const showYouTubeModal = ref(false)
   const showBilibiliModal = ref(false)
 
-  const isMaintenance = ref(IMPORT_PAGE_MAINTENANCE)
+  const maintenanceCheckTime = useNow({ interval: 30_000 })
+  const isMaintenance = computed(() =>
+    isImportPageMaintenance(maintenanceCheckTime.value.getTime())
+  )
 
   useSeoMeta({
     title: () =>

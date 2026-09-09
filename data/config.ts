@@ -2,7 +2,7 @@ import { BANNER_DATA } from './banners'
 
 export const LATEST_BANNER_ID = 73
 
-export const IMPORT_PAGE_MAINTENANCE = false
+export const IMPORT_PAGE_MAINTENANCE = true
 
 const limitedBannerRuns = Object.values(BANNER_DATA).flatMap((banner) =>
   banner.bannerType === 1

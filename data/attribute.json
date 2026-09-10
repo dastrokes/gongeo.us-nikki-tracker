@@ -1022,6 +1022,11 @@
   {
     "field": "ornament",
     "itemType": null,
+    "value": "picture_frame"
+  },
+  {
+    "field": "ornament",
+    "itemType": null,
     "value": "pin"
   },
   {
@@ -1198,6 +1203,11 @@
     "field": "ornament",
     "itemType": null,
     "value": "tie_clip"
+  },
+  {
+    "field": "ornament",
+    "itemType": null,
+    "value": "veil"
   },
   {
     "field": "ornament",
@@ -1488,6 +1498,11 @@
     "field": "pattern",
     "itemType": null,
     "value": "splatter"
+  },
+  {
+    "field": "pattern",
+    "itemType": null,
+    "value": "spot"
   },
   {
     "field": "pattern",
@@ -1918,6 +1933,11 @@
     "field": "structure",
     "itemType": null,
     "value": "patchwork"
+  },
+  {
+    "field": "structure",
+    "itemType": null,
+    "value": "peep_toe"
   },
   {
     "field": "structure",

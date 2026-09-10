@@ -866,7 +866,10 @@
     Youtube,
   } from '@vicons/fa'
   import { BANNER_DATA } from '~~/data/banners'
-  import { IMPORT_PAGE_MAINTENANCE } from '~~/data/config'
+  import {
+    CURRENT_FIRST_RUN_BANNER_IDS,
+    isImportPageMaintenance,
+  } from '~~/data/config'
   import type { VNodeChild } from 'vue'
 
   const { t } = useI18n()
@@ -884,7 +887,10 @@
   const showYouTubeModal = ref(false)
   const showBilibiliModal = ref(false)
 
-  const isMaintenance = ref(IMPORT_PAGE_MAINTENANCE)
+  const maintenanceCheckTime = useNow({ interval: 30_000 })
+  const isMaintenance = computed(() =>
+    isImportPageMaintenance(maintenanceCheckTime.value.getTime())
+  )
 
   useSeoMeta({
     title: () =>
@@ -1126,33 +1132,18 @@
       .sort((a, b) => b - a) // Sort by bannerId in descending order
   })
 
-  const newBannerIds = computed(() => {
-    const now = new Date()
-    return allBannerIds.value.filter((bannerId) => {
-      const banner = BANNER_DATA[bannerId]
-      if (!banner || !banner.runs || banner.runs.length === 0) return false
-
-      const currentRun = banner.runs[0] // Get the first run only
-      if (!currentRun) return false
-
-      return isBannerDateRangeActive(
-        currentRun.start,
-        currentRun.end,
-        now.getTime()
-      )
-    })
-  })
+  const currentBannerIds = computed(() => CURRENT_FIRST_RUN_BANNER_IDS)
 
   // Select current banners by default
   onMounted(() => {
     if (selectedBanners.value.length === 0) {
-      selectedBanners.value = newBannerIds.value.filter(
+      selectedBanners.value = currentBannerIds.value.filter(
         (bannerId) => BANNER_DATA[bannerId]?.bannerType !== 1
       )
     }
     if (selectedManualBanner.value === null) {
       selectedManualBanner.value =
-        newBannerIds.value[0] ?? allBannerIds.value[0] ?? null
+        currentBannerIds.value[0] ?? allBannerIds.value[0] ?? null
     }
   })
 
@@ -1209,7 +1200,7 @@
       if (value === 'all') {
         return allBannerIds.value
       } else if (value === 'current') {
-        return [...newBannerIds.value]
+        return [...currentBannerIds.value]
       } else if (value === 'limited') {
         return allBannerIds.value.filter((id) => id !== 1)
       } else if (value === 'permanent') {

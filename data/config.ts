@@ -4,38 +4,80 @@ export const LATEST_BANNER_ID = 73
 
 export const IMPORT_PAGE_MAINTENANCE = false
 
-const getMaintenanceStartTime = (date: string, isMidPatch: boolean) =>
-  new Date(`${date}T${isMidPatch ? '19:00:00' : '12:50:00'}-07:00`).getTime()
-const getMaintenanceEndTime = (date: string) =>
-  new Date(`${date}T20:00:00-07:00`).getTime()
+const MAINTENANCE_TIMES = {
+  major: '12:50:00',
+  midPatch: '19:00:00',
+  end: '20:00:00',
+} as const
+type MaintenanceSchedule = 'major' | 'midPatch'
 
-const scheduledBannerRuns = Object.values(BANNER_DATA).flatMap((banner) =>
+const getMaintenanceTime = (date: string, time: string) =>
+  new Date(`${date}T${time}-07:00`).getTime()
+const getMaintenanceStartTime = (date: string, schedule: MaintenanceSchedule) =>
+  getMaintenanceTime(date, MAINTENANCE_TIMES[schedule])
+const getMaintenanceEndTime = (date: string) =>
+  getMaintenanceTime(date, MAINTENANCE_TIMES.end)
+const getCanonicalBannerStartTime = (date: string) =>
+  new Date(`${date}T20:00:00Z`).getTime()
+const isMidPatchFourStarRun = (
+  bannerType: Banner['bannerType'],
+  run: BannerRun
+) => bannerType === 3 && run.version.endsWith('.2')
+const getBannerTransitionKey = (
+  bannerType: Banner['bannerType'],
+  date: string
+) => `${bannerType}:${date}`
+
+const bannerRuns = Object.values(BANNER_DATA).flatMap((banner) =>
   banner.bannerType === 1
     ? []
     : banner.runs.map((run: BannerRun, runIndex: number) => ({
         bannerId: banner.bannerId,
         bannerType: banner.bannerType,
         runIndex,
-        startTime: getMaintenanceStartTime(
-          run.start,
-          run.version.endsWith('.2')
-        ),
         ...run,
       }))
 )
+const majorMaintenanceDates = new Set(
+  bannerRuns
+    .filter(
+      (run) => run.runIndex === 0 && !isMidPatchFourStarRun(run.bannerType, run)
+    )
+    .map((run) => run.start)
+)
+const midPatchMaintenanceDates = new Set(
+  bannerRuns
+    .filter(
+      (run) => run.runIndex === 0 && isMidPatchFourStarRun(run.bannerType, run)
+    )
+    .map((run) => run.start)
+)
+const scheduledBannerRuns = bannerRuns.map((run) => ({
+  ...run,
+  startTime: majorMaintenanceDates.has(run.start)
+    ? getMaintenanceStartTime(run.start, 'major')
+    : run.bannerType === 3 && midPatchMaintenanceDates.has(run.start)
+      ? getMaintenanceStartTime(run.start, 'midPatch')
+      : getCanonicalBannerStartTime(run.start),
+}))
 const bannerTransitionTimes = new Map<string, number>()
 for (const run of scheduledBannerRuns) {
-  const transitionTime = bannerTransitionTimes.get(run.start)
+  const key = getBannerTransitionKey(run.bannerType, run.start)
+  const transitionTime = bannerTransitionTimes.get(key)
   if (transitionTime === undefined || run.startTime < transitionTime) {
-    bannerTransitionTimes.set(run.start, run.startTime)
+    bannerTransitionTimes.set(key, run.startTime)
   }
 }
-const scheduledMaintenanceWindows = [...bannerTransitionTimes].map(
-  ([date, startTime]) => ({
-    startTime: startTime - 10 * 60 * 1000,
+const scheduledMaintenanceWindows = [
+  ...[...majorMaintenanceDates].map((date) => ({
+    startTime: getMaintenanceStartTime(date, 'major') - 10 * 60 * 1000,
     endTime: getMaintenanceEndTime(date),
-  })
-)
+  })),
+  ...[...midPatchMaintenanceDates].map((date) => ({
+    startTime: getMaintenanceStartTime(date, 'midPatch') - 10 * 60 * 1000,
+    endTime: getMaintenanceEndTime(date),
+  })),
+]
 export const isImportPageMaintenance = (timestamp = Date.now()) =>
   IMPORT_PAGE_MAINTENANCE ||
   scheduledMaintenanceWindows.some(
@@ -44,8 +86,12 @@ export const isImportPageMaintenance = (timestamp = Date.now()) =>
 const limitedBannerRuns = scheduledBannerRuns.map((run) => ({
   ...run,
   endTime:
-    bannerTransitionTimes.get(run.end) ??
-    getMaintenanceStartTime(run.end, false),
+    bannerTransitionTimes.get(
+      getBannerTransitionKey(run.bannerType, run.end)
+    ) ??
+    (run.bannerType === 3 && run.version.endsWith('.1')
+      ? getMaintenanceStartTime(run.end, 'midPatch')
+      : getMaintenanceStartTime(run.end, 'major')),
 }))
 const currentBannerGroups = new Map<
   string,
@@ -98,6 +144,13 @@ const referenceTime =
 const displayedBannerRuns = limitedBannerRuns.filter((run) =>
   isActiveAt(run, referenceTime)
 )
+export const CURRENT_FIRST_RUN_BANNER_IDS = displayedBannerRuns
+  .filter((run) => run.runIndex === 0)
+  .sort(
+    (left, right) =>
+      left.bannerType - right.bannerType || left.bannerId - right.bannerId
+  )
+  .map((run) => run.bannerId)
 
 for (const run of displayedBannerRuns) {
   const key = `${run.bannerType}:${run.end}`

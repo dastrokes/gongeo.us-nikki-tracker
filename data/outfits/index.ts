@@ -106,7 +106,9 @@ import Outfit_10385 from './10385'
 import Outfit_10387 from './10387'
 import Outfit_10391 from './10391'
 import Outfit_10392 from './10392'
+import Outfit_10394 from './10394'
 import Outfit_10397 from './10397'
+import Outfit_10398 from './10398'
 import Outfit_10417 from './10417'
 
 const OUTFIT_DATA = {
@@ -218,7 +220,9 @@ const OUTFIT_DATA = {
   '10387': Outfit_10387,
   '10391': Outfit_10391,
   '10392': Outfit_10392,
+  '10394': Outfit_10394,
   '10397': Outfit_10397,
+  '10398': Outfit_10398,
   '10417': Outfit_10417,
 } as const
 

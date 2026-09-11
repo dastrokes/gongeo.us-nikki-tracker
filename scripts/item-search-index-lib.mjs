@@ -844,7 +844,7 @@ export const syncItemIndexToSupabase = async (argv = process.argv.slice(2)) => {
   }
 }
 
-const PINECONE_DOCUMENT_API_VERSION = '2026-01.alpha'
+const PINECONE_DOCUMENT_API_VERSION = '2026-07'
 const PINECONE_INFERENCE_API_VERSION = '2026-04'
 const PINECONE_EMBED_MODEL = 'multilingual-e5-large'
 const PINECONE_EMBED_BATCH_SIZE = 96
@@ -1127,7 +1127,7 @@ export const queryItemIndexPineconeSearch = async ({
     searchPineconeDocuments({
       host: PINECONE_SEARCH_HOST,
       namespace,
-      scoreBy: { type: 'text', field: 'text', query: normalizedQuery },
+      scoreBy: { type: 'text', fields: ['text'], query: normalizedQuery },
       topK: candidateLimit,
       filter,
     }),
@@ -1136,7 +1136,7 @@ export const queryItemIndexPineconeSearch = async ({
       namespace,
       scoreBy: {
         type: 'dense_vector',
-        field: 'embedding',
+        fields: ['embedding'],
         values: queryVector,
       },
       topK: candidateLimit,

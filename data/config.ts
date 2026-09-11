@@ -1,6 +1,6 @@
 import { BANNER_DATA } from './banners'
 
-export const LATEST_BANNER_ID = 73
+export const LATEST_BANNER_ID = 75
 
 export const IMPORT_PAGE_MAINTENANCE = false
 

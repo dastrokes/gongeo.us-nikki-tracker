@@ -4,10 +4,10 @@ type PineconeDocument = Record<string, unknown> & {
 }
 
 type PineconeScoreBy =
-  | { type: 'text'; field: string; query: string }
-  | { type: 'dense_vector'; field: string; values: number[] }
+  | { type: 'text'; fields: string[]; query: string }
+  | { type: 'dense_vector'; fields: [string]; values: number[] }
 
-const DOCUMENT_API_VERSION = '2026-01.alpha'
+const DOCUMENT_API_VERSION = '2026-07'
 const INFERENCE_API_VERSION = '2026-04'
 const EMBED_MODEL = 'multilingual-e5-large'
 const TRANSIENT_STATUS_CODES = new Set([408, 429, 500, 502, 503, 504])

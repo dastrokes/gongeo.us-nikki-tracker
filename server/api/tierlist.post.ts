@@ -93,18 +93,20 @@ export default defineEventHandler(async (event) => {
     const supabase = useSupabaseServerClient()
     const now = new Date().toISOString()
 
-    const { error } = await supabase.from('user_tierlists').upsert(
-      {
-        scope_type: scope.scopeType,
-        scope_filters: scope.scopeFilters,
-        voter_fingerprint: voterFingerprint,
-        tiers_json: tiers,
-        updated_at: now,
-      } as never,
-      {
-        onConflict: 'scope_type,scope_filters,voter_fingerprint',
-        ignoreDuplicates: false,
-      }
+    const { error } = await withSupabaseRetry(() =>
+      supabase.from('user_tierlists').upsert(
+        {
+          scope_type: scope.scopeType,
+          scope_filters: scope.scopeFilters,
+          voter_fingerprint: voterFingerprint,
+          tiers_json: tiers,
+          updated_at: now,
+        } as never,
+        {
+          onConflict: 'scope_type,scope_filters,voter_fingerprint',
+          ignoreDuplicates: false,
+        }
+      )
     )
 
     if (error) {

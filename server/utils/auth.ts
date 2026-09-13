@@ -91,7 +91,14 @@ export const getAuthenticatedUser = async (
   const {
     data: { user },
     error,
-  } = await supabase.auth.getUser(token)
+  } = await withSupabaseRetry(() => supabase.auth.getUser(token))
+
+  if (error && isTransientSupabaseError(error)) {
+    console.warn(
+      `Failed to verify authenticated user: ${toErrorMessage(error)}`
+    )
+    throw createUpstreamUnavailableError('authentication')
+  }
 
   if (error || !user) {
     return null

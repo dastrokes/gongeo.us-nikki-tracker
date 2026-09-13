@@ -59,10 +59,12 @@ export default defineEventHandler(async (event) => {
       throw createForbiddenError('invalid')
     }
 
-    const { error } = await supabase.from(targetTable).upsert(body as never, {
-      onConflict: 'uid,region,banner_id',
-      ignoreDuplicates: false,
-    })
+    const { error } = await withSupabaseRetry(() =>
+      supabase.from(targetTable).upsert(body as never, {
+        onConflict: 'uid,region,banner_id',
+        ignoreDuplicates: false,
+      })
+    )
 
     if (error) throw error
 

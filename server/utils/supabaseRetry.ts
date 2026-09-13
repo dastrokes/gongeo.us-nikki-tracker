@@ -27,7 +27,7 @@ const TRANSIENT_ERROR_HINTS = [
   'pgrstx00',
 ]
 
-const TRANSIENT_HTTP_STATUS_CODES = new Set([500, 502, 503, 504])
+const TRANSIENT_HTTP_STATUS_CODES = new Set([408, 500, 502, 503, 504, 520])
 
 const isTransientSupabaseErrorValue = (
   error: unknown,
@@ -77,6 +77,12 @@ const sleep = (ms: number) =>
     setTimeout(resolve, ms)
   })
 
+const getRetryDelay = (baseDelayMs: number, attempt: number): number => {
+  const exponentialDelay = baseDelayMs * Math.pow(2, attempt)
+  const jitterMultiplier = 0.75 + Math.random() * 0.5
+  return Math.round(exponentialDelay * jitterMultiplier)
+}
+
 export const withSupabaseRetry = async <T extends { error?: unknown }>(
   operation: () => PromiseLike<T> | T,
   options: { retries?: number; baseDelayMs?: number } = {}
@@ -90,7 +96,7 @@ export const withSupabaseRetry = async <T extends { error?: unknown }>(
       const result = await operation()
       if (result?.error && isTransientSupabaseError(result.error)) {
         if (attempt < retries) {
-          const delay = baseDelayMs * Math.pow(2, attempt)
+          const delay = getRetryDelay(baseDelayMs, attempt)
           attempt += 1
           await sleep(delay)
           continue
@@ -99,7 +105,7 @@ export const withSupabaseRetry = async <T extends { error?: unknown }>(
       return result
     } catch (error) {
       if (isTransientSupabaseError(error) && attempt < retries) {
-        const delay = baseDelayMs * Math.pow(2, attempt)
+        const delay = getRetryDelay(baseDelayMs, attempt)
         attempt += 1
         await sleep(delay)
         continue

@@ -87,7 +87,7 @@ export const useSupabaseItems = () => {
           },
           ignoreResponseError: true,
         }),
-        catalogIndex.load(['items', 'outfits']),
+        catalogIndex.load(['items', 'outfits', 'outfitItems']),
       ])
 
       if (isNotFoundResponse(response)) {
@@ -115,22 +115,26 @@ export const useSupabaseItems = () => {
         props: detail.props,
         description: detail.description,
         item_attributes: detail.item_attributes,
-        outfit_items: detail.related_outfits.flatMap((relatedOutfit) => {
-          const outfit = index.outfitById.get(relatedOutfit.id)
-          if (!outfit) return []
+        outfit_items: (index.outfitIdsByItemId.get(id) ?? []).flatMap(
+          (outfitId) => {
+            const outfit = index.outfitById.get(outfitId)
+            if (!outfit) return []
 
-          return [
-            {
-              outfits: {
-                ...toSupabaseOutfit(outfit),
-                outfit_items: relatedOutfit.item_ids.flatMap((itemId) => {
-                  const item = index.itemById.get(itemId)
-                  return item ? [{ items: toSupabaseItem(item) }] : []
-                }),
+            return [
+              {
+                outfits: {
+                  ...toSupabaseOutfit(outfit),
+                  outfit_items: (
+                    index.outfitItemsById.get(outfitId) ?? []
+                  ).flatMap((itemId) => {
+                    const item = index.itemById.get(itemId)
+                    return item ? [{ items: toSupabaseItem(item) }] : []
+                  }),
+                },
               },
-            },
-          ]
-        }),
+            ]
+          }
+        ),
       }
     } catch (e) {
       const normalizedError = toError(e, `Failed to fetch item ${id}`)

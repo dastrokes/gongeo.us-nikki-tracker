@@ -6,9 +6,6 @@ type OutfitTranslation = {
 type OutfitData = {
   id: number
   props?: Array<number | string> | null
-  outfit_items?: Array<{
-    item_id?: number | null
-  }> | null
 }
 
 export default defineCachedApiEventHandler(
@@ -24,11 +21,7 @@ export default defineCachedApiEventHandler(
 
     try {
       const { data, error: supabaseError } = await withSupabaseRetry(() =>
-        supabase
-          .from('outfits')
-          .select('id,props,outfit_items(item_id)')
-          .eq('id', id)
-          .single()
+        supabase.from('outfits').select('id,props').eq('id', id).single()
       )
 
       if (supabaseError) {
@@ -66,13 +59,6 @@ export default defineCachedApiEventHandler(
         props: outfit.props,
         description:
           translation?.description || enTranslation?.description || '',
-        item_ids: Array.from(
-          new Set(
-            (outfit.outfit_items ?? [])
-              .map((row) => row.item_id)
-              .filter((itemId): itemId is number => typeof itemId === 'number')
-          )
-        ),
       } satisfies OutfitDetailApiResponse
     } catch (error: unknown) {
       if (error && typeof error === 'object' && 'statusCode' in error) {

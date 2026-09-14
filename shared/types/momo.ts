@@ -18,6 +18,5 @@ export interface MomoDetailEntry extends MomoListEntry {
 
 export interface MomoDetailApiResponse {
   id: number
-  name?: string
   description: string
 }

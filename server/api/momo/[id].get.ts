@@ -1,6 +1,5 @@
 type MomoDetailTranslation = {
   language_code?: string | null
-  name?: string | null
   description?: string | null
 }
 
@@ -32,7 +31,7 @@ export default defineCachedApiEventHandler(
         await withSupabaseRetry(() =>
           supabase
             .from('momo_translations')
-            .select('language_code,name,description')
+            .select('language_code,description')
             .eq('momo_id', id)
             .in('language_code', translationCodes)
         )
@@ -52,7 +51,6 @@ export default defineCachedApiEventHandler(
 
       return {
         id: (data as { id: number }).id,
-        name: translation?.name || enTranslation?.name || `Momo's Cloak ${id}`,
         description:
           translation?.description || enTranslation?.description || '',
       } satisfies MomoDetailApiResponse

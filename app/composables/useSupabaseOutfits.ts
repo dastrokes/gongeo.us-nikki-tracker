@@ -42,6 +42,7 @@ export const useSupabaseOutfits = () => {
         catalogIndex.load([
           'items',
           'outfits',
+          'outfitItems',
           'makeups',
           'makeupItems',
           'makeupOutfits',
@@ -72,10 +73,12 @@ export const useSupabaseOutfits = () => {
         ...toSupabaseOutfit(catalogOutfit),
         props: detail.props,
         description: detail.description,
-        outfit_items: detail.item_ids.flatMap((itemId) => {
-          const item = index.itemById.get(itemId)
-          return item ? [{ items: toSupabaseItem(item) }] : []
-        }),
+        outfit_items: (index.outfitItemsById.get(id) ?? []).flatMap(
+          (itemId) => {
+            const item = index.itemById.get(itemId)
+            return item ? [{ items: toSupabaseItem(item) }] : []
+          }
+        ),
         makeup_outfits: (index.fullMakeupIdsByOutfitId.get(id) ?? []).flatMap(
           (fullMakeupId) => {
             const fullMakeup = index.makeupById.get(fullMakeupId)

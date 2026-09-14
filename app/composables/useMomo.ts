@@ -39,7 +39,6 @@ export const useMomo = () => {
 
       return {
         ...catalogMomo,
-        name: detail.name,
         description: detail.description,
         related_outfits: (index.outfitIdsByMomoId.get(id) ?? []).flatMap(
           (outfitId) => {

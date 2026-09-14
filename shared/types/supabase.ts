@@ -55,17 +55,12 @@ export interface ItemDetailApiResponse {
   props?: Array<number | string> | null
   description?: string
   item_attributes?: Omit<SupabaseItemAttributes, 'item_id' | 'item_type'> | null
-  related_outfits: Array<{
-    id: number
-    item_ids: number[]
-  }>
 }
 
 export interface OutfitDetailApiResponse {
   id: number
   props?: Array<number | string> | null
   description?: string
-  item_ids: number[]
 }
 
 export interface MakeupDetailApiResponse {

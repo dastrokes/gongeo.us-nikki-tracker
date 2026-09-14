@@ -3,7 +3,7 @@ import { createError } from 'h3'
 export const COMMUNITY_TIER_ENTRY_ID_MAX_LENGTH = 32
 
 const createBadRequestError = (message: string) =>
-  createError({ statusCode: 400, message })
+  createError({ statusCode: 400, statusMessage: message, message })
 
 const isRecord = (value: unknown): value is Record<string, unknown> =>
   typeof value === 'object' && value !== null && !Array.isArray(value)

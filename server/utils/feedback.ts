@@ -564,22 +564,14 @@ export const createFeedbackSuggestion = async ({
   }
 
   if (!insertedId) {
-    throw createError({
-      statusCode: 500,
-      statusMessage: 'Failed to create feedback suggestion',
-      message: 'Failed to create feedback suggestion',
-    })
+    throw createApiFailureError('create feedback suggestion')
   }
 
   await upsertFeedbackVote(insertedId, userId, 1)
 
   const createdSuggestion = await getFeedbackSuggestionById(insertedId)
   if (!createdSuggestion) {
-    throw createError({
-      statusCode: 500,
-      statusMessage: 'Failed to load feedback suggestion',
-      message: 'Failed to load feedback suggestion',
-    })
+    throw createApiFailureError('load feedback suggestion')
   }
 
   return {
@@ -633,11 +625,7 @@ export const updateFeedbackVote = async ({
 
   const updatedSuggestion = await getFeedbackSuggestionById(suggestionId)
   if (!updatedSuggestion) {
-    throw createError({
-      statusCode: 500,
-      statusMessage: 'Failed to load feedback suggestion',
-      message: 'Failed to load feedback suggestion',
-    })
+    throw createApiFailureError('load feedback suggestion')
   }
 
   return updatedSuggestion

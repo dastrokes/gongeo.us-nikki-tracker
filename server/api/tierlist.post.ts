@@ -26,12 +26,14 @@ const validEntryIdsByScopeType = {
 const createBadRequestError = (message: string) =>
   createError({
     statusCode: 400,
+    statusMessage: message,
     message,
   })
 
 const createForbiddenError = (message: string) =>
   createError({
     statusCode: 403,
+    statusMessage: message,
     message,
   })
 
@@ -129,10 +131,10 @@ export default defineEventHandler(async (event) => {
       throw error
     }
 
-    console.error('Failed to submit community tierlist:', error)
-    throw createError({
-      statusCode: 500,
-      message: 'Failed to submit community tierlist',
+    const operation = 'submit community tierlist'
+    console.error(`Failed to ${operation}:`, error)
+    throw createApiFailureError(operation, {
+      transient: isTransientSupabaseError(error),
     })
   }
 })

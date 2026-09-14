@@ -98,12 +98,13 @@ export default defineEventHandler(async (event) => {
       error,
       'Failed to submit feedback suggestion'
     )
+    const operation = 'submit feedback suggestion'
     if (isTransientSupabaseError(error)) {
-      console.warn(`Failed to submit feedback suggestion: ${message}`)
-      throw createUpstreamUnavailableError('feedback suggestion')
+      console.warn(`Failed to ${operation}: ${message}`)
+      throw createApiFailureError(operation, { transient: true })
     }
 
-    console.error(`Failed to submit feedback suggestion: ${message}`)
-    throw createInternalError('feedback suggestion')
+    console.error(`Failed to ${operation}: ${message}`)
+    throw createApiFailureError(operation)
   }
 })

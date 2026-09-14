@@ -29,6 +29,12 @@ const TRANSIENT_ERROR_HINTS = [
 
 const TRANSIENT_HTTP_STATUS_CODES = new Set([408, 500, 502, 503, 504, 520])
 
+const DEFAULT_RETRIES = 3
+const DEFAULT_BASE_DELAY_MS = 500
+const MAX_RETRY_DELAY_MS = 5000
+const RETRY_JITTER_MIN = 0.75
+const RETRY_JITTER_RANGE = 0.5
+
 const isTransientSupabaseErrorValue = (
   error: unknown,
   seen: WeakSet<object>
@@ -79,21 +85,33 @@ const sleep = (ms: number) =>
 
 const getRetryDelay = (baseDelayMs: number, attempt: number): number => {
   const exponentialDelay = baseDelayMs * Math.pow(2, attempt)
-  const jitterMultiplier = 0.75 + Math.random() * 0.5
-  return Math.round(exponentialDelay * jitterMultiplier)
+  const jitterMultiplier = RETRY_JITTER_MIN + Math.random() * RETRY_JITTER_RANGE
+  return Math.min(
+    Math.round(exponentialDelay * jitterMultiplier),
+    MAX_RETRY_DELAY_MS
+  )
+}
+
+// PostgREST builders expose retry(false); Auth and other promises pass through.
+// Keeping this here prevents SDK retries from stacking with our custom policy.
+const disableBuiltInRetry = <T>(operation: PromiseLike<T> | T) => {
+  const retry = (operation as { retry?: unknown } | null)?.retry
+  if (typeof retry !== 'function') return operation
+
+  return retry.call(operation, false) as PromiseLike<T>
 }
 
 export const withSupabaseRetry = async <T extends { error?: unknown }>(
   operation: () => PromiseLike<T> | T,
   options: { retries?: number; baseDelayMs?: number } = {}
 ): Promise<T> => {
-  const retries = options.retries ?? 2
-  const baseDelayMs = options.baseDelayMs ?? 150
+  const retries = options.retries ?? DEFAULT_RETRIES
+  const baseDelayMs = options.baseDelayMs ?? DEFAULT_BASE_DELAY_MS
   let attempt = 0
 
   while (true) {
     try {
-      const result = await operation()
+      const result = await disableBuiltInRetry(operation())
       if (result?.error && isTransientSupabaseError(result.error)) {
         if (attempt < retries) {
           const delay = getRetryDelay(baseDelayMs, attempt)

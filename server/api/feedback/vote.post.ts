@@ -48,16 +48,13 @@ export default defineEventHandler(async (event) => {
     }
 
     const message = toErrorMessage(error, 'Failed to update feedback vote')
+    const operation = 'update feedback vote'
     if (isTransientSupabaseError(error)) {
-      console.warn(`Failed to update feedback vote: ${message}`)
-      throw createUpstreamUnavailableError('feedback vote')
+      console.warn(`Failed to ${operation}: ${message}`)
+      throw createApiFailureError(operation, { transient: true })
     }
 
-    console.error(`Failed to update feedback vote: ${message}`)
-    throw createError({
-      statusCode: 500,
-      statusMessage: 'Failed to update feedback vote',
-      message: 'Failed to update feedback vote',
-    })
+    console.error(`Failed to ${operation}: ${message}`)
+    throw createApiFailureError(operation)
   }
 })

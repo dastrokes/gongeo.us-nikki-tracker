@@ -97,7 +97,9 @@ export const getAuthenticatedUser = async (
     console.warn(
       `Failed to verify authenticated user: ${toErrorMessage(error)}`
     )
-    throw createUpstreamUnavailableError('authentication')
+    throw createApiFailureError('verify authenticated user', {
+      transient: true,
+    })
   }
 
   if (error || !user) {

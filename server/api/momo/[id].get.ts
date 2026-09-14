@@ -3,6 +3,11 @@ type MomoDetailTranslation = {
   description?: string | null
 }
 
+type MomoData = {
+  id: number
+  momo_translations?: MomoDetailTranslation[] | null
+}
+
 export default defineCachedApiEventHandler(
   async (event) => {
     const id = Number(getRouterParam(event, 'id'))
@@ -15,8 +20,14 @@ export default defineCachedApiEventHandler(
     const supabase = useSupabaseDataClient()
 
     try {
+      const translationCodes = Array.from(new Set([languageCode, 'en']))
       const { data, error: supabaseError } = await withSupabaseRetry(() =>
-        supabase.from('momo').select('id').eq('id', id).single()
+        supabase
+          .from('momo')
+          .select('id,momo_translations(language_code,description)')
+          .eq('id', id)
+          .in('momo_translations.language_code', translationCodes)
+          .single()
       )
 
       if (supabaseError) {
@@ -26,22 +37,8 @@ export default defineCachedApiEventHandler(
         throw supabaseError
       }
 
-      const translationCodes = Array.from(new Set([languageCode, 'en']))
-      const { data: translationRows, error: translationError } =
-        await withSupabaseRetry(() =>
-          supabase
-            .from('momo_translations')
-            .select('language_code,description')
-            .eq('momo_id', id)
-            .in('language_code', translationCodes)
-        )
-
-      if (translationError) {
-        throw translationError
-      }
-
-      const translations =
-        (translationRows as MomoDetailTranslation[] | null) ?? []
+      const momo = data as MomoData
+      const translations = momo.momo_translations ?? []
       const translation = translations.find(
         (row) => row.language_code === languageCode
       )
@@ -50,7 +47,7 @@ export default defineCachedApiEventHandler(
       )
 
       return {
-        id: (data as { id: number }).id,
+        id: momo.id,
         description:
           translation?.description || enTranslation?.description || '',
       } satisfies MomoDetailApiResponse

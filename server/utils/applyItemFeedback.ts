@@ -369,11 +369,7 @@ const upsertPineconeRows = async (row: ItemAttributeRow) => {
   )
 
   if (!pineconeApiKey || !pineconeSearchHost) {
-    throw createError({
-      statusCode: 500,
-      statusMessage: 'Search index is not configured',
-      message: 'Search index is not configured',
-    })
+    throw createApiFailureError('update search index')
   }
 
   const catalog = await fetchItemCatalogRow(row.item_id)

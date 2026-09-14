@@ -60,16 +60,13 @@ export default defineEventHandler(async (event) => {
       error,
       'Failed to fetch viewer feedback state'
     )
+    const operation = 'fetch viewer feedback state'
     if (isTransientSupabaseError(error)) {
-      console.warn(`Failed to fetch viewer feedback state: ${message}`)
-      throw createUpstreamUnavailableError('feedback viewer state')
+      console.warn(`Failed to ${operation}: ${message}`)
+      throw createApiFailureError(operation, { transient: true })
     }
 
-    console.error(`Failed to fetch viewer feedback state: ${message}`)
-    throw createError({
-      statusCode: 500,
-      statusMessage: 'Failed to fetch viewer feedback state',
-      message: 'Failed to fetch viewer feedback state',
-    })
+    console.error(`Failed to ${operation}: ${message}`)
+    throw createApiFailureError(operation)
   }
 })

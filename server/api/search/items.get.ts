@@ -438,7 +438,9 @@ export default defineCachedApiEventHandler(
       console.error(
         `Failed to query search index namespace ${searchNamespace}: ${message}`
       )
-      const upstreamError = createUpstreamUnavailableError('search')
+      const upstreamError = createApiFailureError('query search index', {
+        transient: true,
+      })
       setResponseStatus(
         event,
         upstreamError.statusCode,

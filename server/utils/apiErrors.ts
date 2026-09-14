@@ -16,18 +16,25 @@ export const createNotFoundError = (resource: string) =>
     data: { code: 'NOT_FOUND' },
   })
 
-export const createInternalError = (resource: string) =>
-  createError({
-    statusCode: 500,
-    statusMessage: `Failed to fetch ${resource}`,
-    message: `Failed to fetch ${resource}`,
-    data: { code: 'INTERNAL_ERROR' },
+export const createApiFailureError = (
+  operation: string,
+  options: { transient?: boolean } = {}
+) => {
+  const transient = options.transient ?? false
+  const message = `Failed to ${operation}`
+
+  return createError({
+    statusCode: transient ? 503 : 500,
+    statusMessage: message,
+    message,
+    data: {
+      code: transient ? 'UPSTREAM_UNAVAILABLE' : 'INTERNAL_ERROR',
+    },
   })
+}
+
+export const createInternalError = (resource: string) =>
+  createApiFailureError(`fetch ${resource}`)
 
 export const createUpstreamUnavailableError = (resource: string) =>
-  createError({
-    statusCode: 503,
-    statusMessage: `${resource} upstream unavailable`,
-    message: `${resource} upstream unavailable`,
-    data: { code: 'UPSTREAM_UNAVAILABLE' },
-  })
+  createApiFailureError(`fetch ${resource}`, { transient: true })

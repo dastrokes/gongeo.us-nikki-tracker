@@ -1,6 +1,7 @@
 const createForbiddenError = (type?: string) =>
   createError({
     statusCode: 403,
+    statusMessage: type ? `Forbidden - ${type}` : 'Forbidden',
     message: type ? `Forbidden - ${type}` : 'Forbidden',
   })
 
@@ -51,6 +52,7 @@ export default defineEventHandler(async (event) => {
     if (!Array.isArray(body)) {
       throw createError({
         statusCode: 400,
+        statusMessage: 'Invalid request body - expected array of banner stats',
         message: 'Invalid request body - expected array of banner stats',
       })
     }
@@ -79,10 +81,10 @@ export default defineEventHandler(async (event) => {
       throw error
     }
 
-    console.error(`Failed to update banner stats:`, error)
-    throw createError({
-      statusCode: 500,
-      message: 'Failed to update banner stats',
+    const operation = 'update banner stats'
+    console.error(`Failed to ${operation}:`, error)
+    throw createApiFailureError(operation, {
+      transient: isTransientSupabaseError(error),
     })
   }
 })

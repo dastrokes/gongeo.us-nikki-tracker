@@ -6,6 +6,7 @@ type OutfitTranslation = {
 type OutfitData = {
   id: number
   props?: Array<number | string> | null
+  outfit_translations?: OutfitTranslation[] | null
 }
 
 export default defineCachedApiEventHandler(
@@ -20,8 +21,14 @@ export default defineCachedApiEventHandler(
     const supabase = useSupabaseDataClient()
 
     try {
+      const translationCodes = Array.from(new Set([languageCode, 'en']))
       const { data, error: supabaseError } = await withSupabaseRetry(() =>
-        supabase.from('outfits').select('id,props').eq('id', id).single()
+        supabase
+          .from('outfits')
+          .select('id,props,outfit_translations(description,language_code)')
+          .eq('id', id)
+          .in('outfit_translations.language_code', translationCodes)
+          .single()
       )
 
       if (supabaseError) {
@@ -32,21 +39,7 @@ export default defineCachedApiEventHandler(
       }
 
       const outfit = data as OutfitData
-      const translationCodes = Array.from(new Set([languageCode, 'en']))
-      const { data: translationRows, error: translationError } =
-        await withSupabaseRetry(() =>
-          supabase
-            .from('outfit_translations')
-            .select('description,language_code')
-            .eq('outfit_id', id)
-            .in('language_code', translationCodes)
-        )
-
-      if (translationError) {
-        throw translationError
-      }
-
-      const translations = (translationRows as OutfitTranslation[] | null) ?? []
+      const translations = outfit.outfit_translations ?? []
       const translation = translations.find(
         (row) => row.language_code === languageCode
       )

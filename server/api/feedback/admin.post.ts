@@ -85,11 +85,7 @@ export default defineEventHandler(async (event) => {
 
     const refreshedSuggestion = await getFeedbackSuggestionById(suggestionId)
     if (!refreshedSuggestion) {
-      throw createError({
-        statusCode: 500,
-        statusMessage: 'Failed to refresh feedback suggestion',
-        message: 'Failed to refresh feedback suggestion',
-      })
+      throw createApiFailureError('refresh feedback suggestion')
     }
 
     return {
@@ -106,15 +102,11 @@ export default defineEventHandler(async (event) => {
       throw error
     }
 
-    const message = toErrorMessage(
-      error,
-      'Failed to run feedback maintainer action'
-    )
-    console.error(`Failed to run feedback maintainer action: ${message}`)
-    throw createError({
-      statusCode: 500,
-      statusMessage: 'Failed to run feedback maintainer action',
-      message: 'Failed to run feedback maintainer action',
+    const operation = 'run feedback maintainer action'
+    const message = toErrorMessage(error, `Failed to ${operation}`)
+    console.error(`Failed to ${operation}: ${message}`)
+    throw createApiFailureError(operation, {
+      transient: isTransientSupabaseError(error),
     })
   } finally {
     maintainerActionInFlight = false

@@ -3,6 +3,11 @@ type MakeupTranslation = {
   language_code?: string | null
 }
 
+type MakeupData = {
+  id: number
+  makeup_translations?: MakeupTranslation[] | null
+}
+
 export default defineCachedApiEventHandler(
   async (event) => {
     const id = Number(getRouterParam(event, 'id'))
@@ -15,8 +20,14 @@ export default defineCachedApiEventHandler(
     const supabase = useSupabaseDataClient()
 
     try {
+      const translationCodes = Array.from(new Set([languageCode, 'en']))
       const { data, error } = await withSupabaseRetry(() =>
-        supabase.from('makeups').select('id').eq('id', id).single()
+        supabase
+          .from('makeups')
+          .select('id,makeup_translations(description,language_code)')
+          .eq('id', id)
+          .in('makeup_translations.language_code', translationCodes)
+          .single()
       )
 
       if (error) {
@@ -26,21 +37,8 @@ export default defineCachedApiEventHandler(
         throw error
       }
 
-      const translationCodes = Array.from(new Set([languageCode, 'en']))
-      const { data: translationRows, error: translationError } =
-        await withSupabaseRetry(() =>
-          supabase
-            .from('makeup_translations')
-            .select('description,language_code')
-            .eq('makeup_id', id)
-            .in('language_code', translationCodes)
-        )
-
-      if (translationError) {
-        throw translationError
-      }
-
-      const translations = (translationRows as MakeupTranslation[] | null) ?? []
+      const makeup = data as MakeupData
+      const translations = makeup.makeup_translations ?? []
       const translation = translations.find(
         (row) => row.language_code === languageCode
       )
@@ -49,7 +47,7 @@ export default defineCachedApiEventHandler(
       )
 
       return {
-        id: (data as { id: number }).id,
+        id: makeup.id,
         description:
           translation?.description || enTranslation?.description || '',
       } satisfies MakeupDetailApiResponse

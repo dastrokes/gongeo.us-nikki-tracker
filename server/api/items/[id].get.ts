@@ -13,6 +13,7 @@ type ItemData = {
   id: number
   props?: Array<number | string> | null
   item_attributes?: ItemAttributeRow | ItemAttributeRow[] | null
+  item_translations?: ItemTranslation[] | null
 }
 
 function compactItemSearchMetadata(
@@ -46,11 +47,15 @@ export default defineCachedApiEventHandler(
     const supabase = useSupabaseDataClient()
 
     try {
+      const translationCodes = Array.from(new Set([languageCode, 'en']))
       const { data, error: supabaseError } = await withSupabaseRetry(() =>
         supabase
           .from('items')
-          .select('id,props,item_attributes(category,subcategory,metadata)')
+          .select(
+            'id,props,item_attributes(category,subcategory,metadata),item_translations(description,language_code)'
+          )
           .eq('id', id)
+          .in('item_translations.language_code', translationCodes)
           .maybeSingle()
       )
 
@@ -80,21 +85,7 @@ export default defineCachedApiEventHandler(
           }
         : null
 
-      const translationCodes = Array.from(new Set([languageCode, 'en']))
-      const { data: translationRows, error: translationError } =
-        await withSupabaseRetry(() =>
-          supabase
-            .from('item_translations')
-            .select('description,language_code')
-            .eq('item_id', id)
-            .in('language_code', translationCodes)
-        )
-
-      if (translationError) {
-        throw translationError
-      }
-
-      const translations = (translationRows as ItemTranslation[] | null) ?? []
+      const translations = item.item_translations ?? []
       const translation = translations.find(
         (row) => row.language_code === languageCode
       )

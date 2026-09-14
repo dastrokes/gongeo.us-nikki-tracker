@@ -248,7 +248,9 @@ export default defineCachedApiEventHandler(
 
       const message = toErrorMessage(error, 'Failed to decode lookbook')
       console.error(`Failed to decode lookbook ${code}: ${message}`)
-      const upstreamError = createUpstreamUnavailableError('lookbook')
+      const upstreamError = createApiFailureError('decode lookbook', {
+        transient: true,
+      })
       setResponseStatus(
         event,
         upstreamError.statusCode,

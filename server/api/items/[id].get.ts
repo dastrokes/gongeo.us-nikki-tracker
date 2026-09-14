@@ -13,14 +13,6 @@ type ItemData = {
   id: number
   props?: Array<number | string> | null
   item_attributes?: ItemAttributeRow | ItemAttributeRow[] | null
-  outfit_items?: Array<{
-    outfit_id?: number | null
-    outfits?: {
-      outfit_items?: Array<{
-        item_id?: number | null
-      }> | null
-    } | null
-  }> | null
 }
 
 function compactItemSearchMetadata(
@@ -57,9 +49,7 @@ export default defineCachedApiEventHandler(
       const { data, error: supabaseError } = await withSupabaseRetry(() =>
         supabase
           .from('items')
-          .select(
-            'id,props,item_attributes(category,subcategory,metadata),outfit_items(outfit_id,outfits(outfit_items(item_id)))'
-          )
+          .select('id,props,item_attributes(category,subcategory,metadata)')
           .eq('id', id)
           .maybeSingle()
       )
@@ -118,26 +108,6 @@ export default defineCachedApiEventHandler(
         description:
           translation?.description || enTranslation?.description || '',
         item_attributes: itemAttributes,
-        related_outfits: (item.outfit_items ?? [])
-          .flatMap((relation) => {
-            if (typeof relation.outfit_id !== 'number') return []
-
-            return [
-              {
-                id: relation.outfit_id,
-                item_ids: Array.from(
-                  new Set(
-                    (relation.outfits?.outfit_items ?? [])
-                      .map((row) => row.item_id)
-                      .filter(
-                        (itemId): itemId is number => typeof itemId === 'number'
-                      )
-                  )
-                ),
-              },
-            ]
-          })
-          .sort((left, right) => left.id - right.id),
       } satisfies ItemDetailApiResponse
     } catch (error: unknown) {
       if (error && typeof error === 'object' && 'statusCode' in error) {

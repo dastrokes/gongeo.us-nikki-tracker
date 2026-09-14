@@ -29,6 +29,7 @@ export type CatalogLocalIndex = {
   momoById: Map<number, CatalogLocalMomo>
   momoGroupIdsById: Map<number, number[]>
   outfitItemsById: Map<number, number[]>
+  outfitIdsByItemId: Map<number, number[]>
   makeupItemsById: Map<number, number[]>
   fullMakeupIdsByMakeupId: Map<number, number[]>
   fullMakeupIdsByOutfitId: Map<number, number[]>
@@ -160,6 +161,7 @@ export const createCatalogLocalIndex = ({
     momoById: new Map(momoRows.map((momo) => [momo.id, momo])),
     momoGroupIdsById: buildEntityGroupIdsById(momoRows),
     outfitItemsById,
+    outfitIdsByItemId: invertRelations(outfitItemsById),
     makeupItemsById,
     fullMakeupIdsByMakeupId: invertRelations(makeupItemsById),
     fullMakeupIdsByOutfitId,

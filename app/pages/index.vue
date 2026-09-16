@@ -8,18 +8,22 @@
         <button
           type="button"
           :aria-label="$t('navigation.title')"
-          class="group flex h-12 w-12 shrink-0 cursor-help items-center justify-center rounded-2xl bg-white/75 p-2 shadow-[0_10px_26px_rgba(109,40,217,0.14)] ring-1 ring-purple-200/50 backdrop-blur-xs transition-transform duration-300 ease-out hover:-translate-y-0.5 active:scale-95 sm:h-16 sm:w-16 dark:bg-slate-900/60 dark:shadow-[0_8px_22px_rgba(0,0,0,0.3)] dark:ring-purple-800/20"
+          class="group h-12 w-12 shrink-0 cursor-help rounded-2xl focus-visible:ring-2 focus-visible:ring-purple-500/70 focus-visible:outline-hidden sm:h-16 sm:w-16"
           @click="handleHeroLogoClick"
         >
-          <NuxtImg
-            src="images/logo.webp"
-            preset="iconSm"
-            sizes="60px"
-            fit="cover"
-            loading="eager"
-            class="h-full w-full transition-transform duration-300 ease-out group-hover:scale-105"
-            :style="heroLogoStyle"
-          />
+          <span
+            class="flex h-full w-full items-center justify-center rounded-2xl bg-white/75 p-2 shadow-[0_10px_26px_rgba(109,40,217,0.14)] ring-1 ring-purple-200/50 backdrop-blur-xs transition-all duration-300 group-hover:-translate-y-0.5 group-active:translate-y-0 group-active:scale-95 motion-reduce:transform-none dark:bg-slate-900/60 dark:shadow-[0_8px_22px_rgba(0,0,0,0.3)] dark:ring-purple-800/20"
+          >
+            <NuxtImg
+              src="images/logo.webp"
+              preset="iconSm"
+              sizes="60px"
+              fit="cover"
+              loading="eager"
+              class="h-full w-full transition-transform duration-300 ease-out group-hover:scale-105"
+              :style="heroLogoStyle"
+            />
+          </span>
         </button>
         <div class="text-left">
           <p
@@ -43,32 +47,30 @@
         {{ $t('default.description') }}
       </p>
       <div class="flex flex-wrap items-center justify-center gap-4">
-        <n-button
-          type="primary"
-          size="large"
-          round
-          strong
-          class="after:animate-button-shimmer relative min-w-36 overflow-hidden shadow-[0_8px_20px_rgba(244,63,94,0.20)] transition-[transform,box-shadow] duration-300 ease-out after:absolute after:inset-y-0 after:-left-full after:w-[60%] after:bg-linear-to-r after:from-transparent after:via-white/18 after:to-transparent after:content-[''] hover:-translate-y-0.5 hover:shadow-[0_12px_26px_rgba(244,63,94,0.25)] focus-visible:ring-2 focus-visible:ring-rose-500/80 motion-reduce:transform-none motion-reduce:after:animate-none"
+        <button
+          type="button"
+          class="group h-10 min-w-36 cursor-pointer rounded-full focus-visible:ring-2 focus-visible:ring-rose-500/80 focus-visible:ring-offset-2 focus-visible:outline-hidden dark:focus-visible:ring-offset-slate-950"
           @click="navigateTo(localePath('/tracker'))"
         >
-          <template #icon>
+          <span
+            class="after:animate-button-shimmer relative flex h-full w-full items-center justify-center gap-2 overflow-hidden rounded-full bg-rose-500 px-5 text-sm font-semibold text-white shadow-[0_8px_20px_rgba(244,63,94,0.20)] transition-all duration-300 group-hover:-translate-y-0.5 group-hover:bg-rose-400 group-hover:shadow-[0_12px_26px_rgba(244,63,94,0.25)] group-active:translate-y-0 group-active:bg-rose-600 after:absolute after:inset-y-0 after:-left-full after:w-[60%] after:bg-linear-to-r after:from-transparent after:via-white/18 after:to-transparent after:content-[''] motion-reduce:transform-none motion-reduce:after:animate-none"
+          >
             <n-icon><Book /></n-icon>
-          </template>
-          {{ $t('default.your_data') }}
-        </n-button>
-        <n-button
-          type="primary"
-          size="large"
-          round
-          secondary
-          class="relative min-w-36 border border-rose-300/50 shadow-[0_6px_16px_rgba(244,63,94,0.12)] transition-[transform,box-shadow] duration-300 ease-out hover:-translate-y-0.5 hover:shadow-[0_10px_22px_rgba(244,63,94,0.18)] focus-visible:ring-2 focus-visible:ring-rose-500/80 motion-reduce:transform-none dark:border-rose-300/15"
+            <span>{{ $t('default.your_data') }}</span>
+          </span>
+        </button>
+        <button
+          type="button"
+          class="group h-10 min-w-36 cursor-pointer rounded-full focus-visible:ring-2 focus-visible:ring-rose-500/80 focus-visible:ring-offset-2 focus-visible:outline-hidden dark:focus-visible:ring-offset-slate-950"
           @click="navigateTo(localePath('/global'))"
         >
-          <template #icon>
+          <span
+            class="flex h-full w-full items-center justify-center gap-2 rounded-full border border-rose-300/50 bg-rose-50 px-5 text-sm font-semibold text-rose-600 shadow-[0_6px_16px_rgba(244,63,94,0.12)] transition-all duration-300 group-hover:-translate-y-0.5 group-hover:bg-rose-100 group-hover:shadow-[0_10px_22px_rgba(244,63,94,0.18)] group-active:translate-y-0 group-active:bg-rose-200 motion-reduce:transform-none dark:border-rose-300/15 dark:bg-rose-950/40 dark:text-rose-300 dark:group-hover:bg-rose-950/65"
+          >
             <n-icon><Globe /></n-icon>
-          </template>
-          {{ $t('navigation.global') }}
-        </n-button>
+            <span>{{ $t('navigation.global') }}</span>
+          </span>
+        </button>
       </div>
       <div
         class="mx-auto mt-6 grid max-w-md grid-cols-2 gap-2 sm:flex sm:max-w-full sm:flex-wrap sm:justify-center"
@@ -206,18 +208,22 @@
             <NuxtLinkLocale
               no-prefetch
               :to="column.path"
-              class="group flex min-h-20 flex-col items-center justify-center gap-1.5 rounded-lg border border-black/5 bg-white/70 px-1 py-2 text-center ring-1 ring-white/60 transition-[border-color,background-color,transform] duration-300 ease-out ring-inset hover:-translate-y-0.5 hover:border-rose-200 hover:bg-white focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden motion-reduce:transform-none sm:gap-2 sm:px-2 sm:py-3 md:min-h-0 lg:min-h-20 lg:flex-1 dark:border-white/8 dark:bg-slate-950/25 dark:ring-white/4 dark:hover:border-rose-300/20 dark:hover:bg-slate-900/45"
+              class="group min-h-20 rounded-lg text-center focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden md:min-h-0 lg:min-h-20 lg:flex-1"
             >
-              <n-icon
-                :size="24"
-                class="text-rose-500 transition-transform duration-300 ease-out group-hover:scale-105 motion-reduce:transform-none dark:text-rose-300"
-              >
-                <component :is="column.icon" />
-              </n-icon>
               <span
-                class="max-w-full truncate text-xs leading-tight font-semibold whitespace-nowrap text-slate-700 sm:text-sm dark:text-slate-200"
+                class="flex h-full min-h-20 flex-col items-center justify-center gap-1.5 rounded-lg border border-black/5 bg-white/70 px-1 py-2 ring-1 ring-white/60 transition-all duration-300 ring-inset group-hover:-translate-y-0.5 group-hover:border-rose-200 group-hover:bg-white motion-reduce:transform-none sm:gap-2 sm:px-2 sm:py-3 md:min-h-0 lg:min-h-20 dark:border-white/8 dark:bg-slate-950/25 dark:ring-white/4 dark:group-hover:border-rose-300/20 dark:group-hover:bg-slate-900/45"
               >
-                {{ $t(column.label) }}
+                <n-icon
+                  :size="24"
+                  class="text-rose-500 transition-transform duration-300 ease-out group-hover:scale-105 motion-reduce:transform-none dark:text-rose-300"
+                >
+                  <component :is="column.icon" />
+                </n-icon>
+                <span
+                  class="max-w-full truncate text-xs leading-tight font-semibold whitespace-nowrap text-slate-700 sm:text-sm dark:text-slate-200"
+                >
+                  {{ $t(column.label) }}
+                </span>
               </span>
             </NuxtLinkLocale>
 
@@ -278,47 +284,51 @@
           <!-- Eureka Tracker -->
           <NuxtLinkLocale
             no-prefetch
-            class="group relative order-4 flex h-36 w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl border border-black/5 bg-slate-50/70 ring-1 ring-white/60 transition-[background-color,border-color,transform] duration-300 ease-out ring-inset hover:-translate-y-0.5 hover:border-rose-200/70 hover:bg-white/80 focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden motion-reduce:transform-none lg:h-auto lg:min-h-28 dark:border-white/8 dark:bg-slate-950/30 dark:ring-white/4 dark:hover:border-rose-300/20 dark:hover:bg-slate-900/45"
+            class="group order-4 block h-36 w-full cursor-pointer rounded-xl focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden lg:h-auto lg:min-h-28"
             :to="'/eurekas'"
           >
             <div
-              v-if="shouldRenderFeatureAssets"
-              aria-hidden="true"
-              class="absolute inset-x-2 top-2 bottom-11 flex items-center justify-center gap-1.5 transition-transform duration-300 ease-out group-hover:-translate-y-0.5 group-hover:scale-[1.03] motion-reduce:transform-none"
+              class="relative flex h-full w-full items-center justify-center overflow-hidden rounded-xl border border-black/5 bg-slate-50/70 ring-1 ring-white/60 transition-all duration-300 ring-inset group-hover:-translate-y-0.5 group-hover:border-rose-200/70 group-hover:bg-white/80 group-hover:shadow-[0_8px_20px_rgba(244,63,94,0.12)] motion-reduce:transform-none dark:border-white/8 dark:bg-slate-950/30 dark:ring-white/4 dark:group-hover:border-rose-300/20 dark:group-hover:bg-slate-900/45"
             >
               <div
-                v-for="(variant, index) in eurekaPreviewVariants"
-                :key="`eureka-preview-${index}`"
-                class="flex size-14 items-center justify-center overflow-hidden rounded-lg border border-gray-200 bg-gray-50 shadow-xs dark:border-gray-700 dark:bg-gray-900"
+                v-if="shouldRenderFeatureAssets"
+                aria-hidden="true"
+                class="absolute inset-x-2 top-2 bottom-11 flex items-center justify-center gap-1.5 transition-transform duration-300 group-hover:scale-[1.03] motion-reduce:transform-none"
               >
-                <n-icon
-                  size="32"
-                  :class="variant.iconClass"
+                <div
+                  v-for="(variant, index) in eurekaPreviewVariants"
+                  :key="`eureka-preview-${index}`"
+                  class="flex size-14 items-center justify-center overflow-hidden rounded-lg border border-gray-200 bg-gray-50 shadow-xs dark:border-gray-700 dark:bg-gray-900"
                 >
-                  <SvgIcon
-                    name="sparkles"
-                    :gradient="variant.gradient"
-                  />
-                </n-icon>
+                  <n-icon
+                    size="32"
+                    :class="variant.iconClass"
+                  >
+                    <SvgIcon
+                      name="sparkles"
+                      :gradient="variant.gradient"
+                    />
+                  </n-icon>
+                </div>
               </div>
-            </div>
-            <div
-              v-else
-              class="absolute inset-x-2 top-2 bottom-11 flex items-center justify-center gap-1.5"
-            >
-              <n-skeleton
-                v-for="index in 3"
-                :key="`eureka-preview-skeleton-${index}`"
-                class="size-14 rounded-lg"
-              />
-            </div>
-
-            <div class="absolute right-2 bottom-2 left-2 z-10">
               <div
-                class="pointer-events-none flex w-full items-center justify-center gap-1 rounded-lg border border-slate-200/60 bg-white/90 px-3 py-1.5 text-sm font-semibold text-rose-600 shadow-none backdrop-blur-sm dark:border-white/8 dark:bg-slate-950/80 dark:text-rose-300"
+                v-else
+                class="absolute inset-x-2 top-2 bottom-11 flex items-center justify-center gap-1.5"
               >
-                <n-icon><SvgIcon name="sparkles" /></n-icon>
-                <span>{{ $t('navigation.eurekas') }}</span>
+                <n-skeleton
+                  v-for="index in 3"
+                  :key="`eureka-preview-skeleton-${index}`"
+                  class="size-14 rounded-lg"
+                />
+              </div>
+
+              <div class="absolute right-2 bottom-2 left-2 z-10">
+                <div
+                  class="pointer-events-none flex w-full items-center justify-center gap-1 rounded-lg border border-slate-200/60 bg-white/90 px-3 py-1.5 text-sm font-semibold text-rose-600 shadow-none backdrop-blur-sm dark:border-white/8 dark:bg-slate-950/80 dark:text-rose-300"
+                >
+                  <n-icon><SvgIcon name="sparkles" /></n-icon>
+                  <span>{{ $t('navigation.eurekas') }}</span>
+                </div>
               </div>
             </div>
           </NuxtLinkLocale>
@@ -326,59 +336,63 @@
           <!-- Lookbook Preview -->
           <NuxtLinkLocale
             no-prefetch
-            class="group relative order-5 flex h-36 w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl border border-black/5 bg-slate-50/70 ring-1 ring-white/60 transition-[background-color,border-color,transform] duration-300 ease-out ring-inset hover:-translate-y-0.5 hover:border-rose-200/70 hover:bg-white/80 focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden motion-reduce:transform-none lg:h-auto lg:min-h-28 dark:border-white/8 dark:bg-slate-950/30 dark:ring-white/4 dark:hover:border-rose-300/20 dark:hover:bg-slate-900/45"
+            class="group order-5 block h-36 w-full cursor-pointer rounded-xl focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden lg:h-auto lg:min-h-28"
             :to="'/lookbook'"
           >
             <div
-              v-if="shouldRenderFeatureAssets"
-              aria-hidden="true"
-              class="absolute inset-x-2 top-2 bottom-11 flex flex-col items-center justify-center gap-2 transition-transform duration-300 ease-out group-hover:-translate-y-0.5 motion-reduce:transform-none"
+              class="relative flex h-full w-full items-center justify-center overflow-hidden rounded-xl border border-black/5 bg-slate-50/70 ring-1 ring-white/60 transition-all duration-300 ring-inset group-hover:-translate-y-0.5 group-hover:border-rose-200/70 group-hover:bg-white/80 group-hover:shadow-[0_8px_20px_rgba(244,63,94,0.12)] motion-reduce:transform-none dark:border-white/8 dark:bg-slate-950/30 dark:ring-white/4 dark:group-hover:border-rose-300/20 dark:group-hover:bg-slate-900/45"
             >
               <div
-                class="flex h-6 w-[82%] items-center rounded-lg bg-white/90 px-2.5 shadow-xs ring-1 ring-black/5 dark:bg-slate-900/90 dark:ring-white/10"
+                v-if="shouldRenderFeatureAssets"
+                aria-hidden="true"
+                class="absolute inset-x-2 top-2 bottom-11 flex flex-col items-center justify-center gap-2"
               >
-                <span class="size-1.5 shrink-0 rounded-full bg-sky-400" />
-                <span
-                  class="ml-2 truncate font-mono text-[9px] font-semibold tracking-[0.16em] text-slate-500 dark:text-slate-300"
-                >
-                  gongeous#
-                </span>
-              </div>
-              <div class="flex flex-col gap-1.5">
                 <div
-                  v-for="(row, rowIndex) in lookbookPreviewRows"
-                  :key="`lookbook-preview-row-${rowIndex}`"
-                  class="flex gap-1.5"
+                  class="flex h-6 w-[82%] items-center rounded-lg bg-white/90 px-2.5 shadow-xs ring-1 ring-black/5 dark:bg-slate-900/90 dark:ring-white/10"
                 >
+                  <span class="size-1.5 shrink-0 rounded-full bg-sky-400" />
+                  <span
+                    class="ml-2 truncate font-mono text-[9px] font-semibold tracking-[0.16em] text-slate-500 dark:text-slate-300"
+                  >
+                    gongeous#
+                  </span>
+                </div>
+                <div class="flex flex-col gap-1.5">
                   <div
-                    v-for="(squareClass, squareIndex) in row"
-                    :key="`lookbook-preview-square-${rowIndex}-${squareIndex}`"
-                    class="size-4 rounded-[3px] shadow-xs"
-                    :class="squareClass"
+                    v-for="(row, rowIndex) in lookbookPreviewRows"
+                    :key="`lookbook-preview-row-${rowIndex}`"
+                    class="flex gap-1.5"
+                  >
+                    <div
+                      v-for="(squareClass, squareIndex) in row"
+                      :key="`lookbook-preview-square-${rowIndex}-${squareIndex}`"
+                      class="size-4 rounded-[3px] shadow-xs"
+                      :class="squareClass"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div
+                v-else
+                class="absolute inset-x-2 top-2 bottom-11 flex flex-col items-center justify-center gap-2"
+              >
+                <n-skeleton class="h-6 w-[82%] rounded-lg" />
+                <div class="grid grid-cols-5 gap-1.5">
+                  <n-skeleton
+                    v-for="index in 10"
+                    :key="`lookbook-preview-skeleton-${index}`"
+                    class="size-4 rounded-[3px]"
                   />
                 </div>
               </div>
-            </div>
-            <div
-              v-else
-              class="absolute inset-x-2 top-2 bottom-11 flex flex-col items-center justify-center gap-2"
-            >
-              <n-skeleton class="h-6 w-[82%] rounded-lg" />
-              <div class="grid grid-cols-5 gap-1.5">
-                <n-skeleton
-                  v-for="index in 10"
-                  :key="`lookbook-preview-skeleton-${index}`"
-                  class="size-4 rounded-[3px]"
-                />
-              </div>
-            </div>
 
-            <div class="absolute right-2 bottom-2 left-2 z-10">
-              <div
-                class="pointer-events-none flex w-full items-center justify-center gap-1 rounded-lg border border-slate-200/60 bg-white/90 px-3 py-1.5 text-sm font-semibold text-rose-600 shadow-none backdrop-blur-sm dark:border-white/8 dark:bg-slate-950/80 dark:text-rose-300"
-              >
-                <n-icon><Th /></n-icon>
-                <span>{{ $t('navigation.lookbook') }}</span>
+              <div class="absolute right-2 bottom-2 left-2 z-10">
+                <div
+                  class="pointer-events-none flex w-full items-center justify-center gap-1 rounded-lg border border-slate-200/60 bg-white/90 px-3 py-1.5 text-sm font-semibold text-rose-600 shadow-none backdrop-blur-sm dark:border-white/8 dark:bg-slate-950/80 dark:text-rose-300"
+                >
+                  <n-icon><Th /></n-icon>
+                  <span>{{ $t('navigation.lookbook') }}</span>
+                </div>
               </div>
             </div>
           </NuxtLinkLocale>
@@ -386,77 +400,81 @@
           <!-- Whim Search -->
           <NuxtLinkLocale
             no-prefetch
-            class="group relative order-1 flex h-36 w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl border border-black/5 bg-slate-50/70 ring-1 ring-white/60 transition-[background-color,border-color,transform] duration-300 ease-out ring-inset hover:-translate-y-0.5 hover:border-rose-200/70 hover:bg-white/80 focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden motion-reduce:transform-none lg:h-auto lg:min-h-28 dark:border-white/8 dark:bg-slate-950/30 dark:ring-white/4 dark:hover:border-rose-300/20 dark:hover:bg-slate-900/45"
+            class="group order-1 block h-36 w-full cursor-pointer rounded-xl focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden lg:h-auto lg:min-h-28"
             :to="'/search'"
           >
-            <!-- Decorative Search Interface Background -->
             <div
-              v-if="shouldRenderFeatureAssets"
-              class="absolute inset-0 flex flex-col items-center justify-start gap-1.5 pt-3 transition-transform duration-300 ease-out group-hover:-translate-y-0.5 motion-reduce:transform-none"
+              class="relative flex h-full w-full items-center justify-center overflow-hidden rounded-xl border border-black/5 bg-slate-50/70 ring-1 ring-white/60 transition-all duration-300 ring-inset group-hover:-translate-y-0.5 group-hover:border-rose-200/70 group-hover:bg-white/80 group-hover:shadow-[0_8px_20px_rgba(244,63,94,0.12)] motion-reduce:transform-none dark:border-white/8 dark:bg-slate-950/30 dark:ring-white/4 dark:group-hover:border-rose-300/20 dark:group-hover:bg-slate-900/45"
             >
-              <!-- Mini Searchbar -->
+              <!-- Decorative Search Interface Background -->
               <div
-                class="relative flex h-7 w-[80%] shrink-0 items-center overflow-hidden rounded-full bg-white shadow-xs ring-1 ring-black/5 dark:bg-slate-900 dark:ring-white/10"
+                v-if="shouldRenderFeatureAssets"
+                class="absolute inset-0 flex flex-col items-center justify-start gap-1.5 pt-3"
               >
-                <n-icon
-                  class="ml-2.5 shrink-0 text-rose-400"
-                  size="11"
-                  ><Search
-                /></n-icon>
+                <!-- Mini Searchbar -->
                 <div
-                  class="ml-2 h-1.5 w-1/4 rounded-full bg-slate-200 dark:bg-slate-700"
-                ></div>
-                <div class="ml-auto flex shrink-0 items-center gap-1 pr-1">
-                  <!-- Filter button -->
+                  class="relative flex h-7 w-[80%] shrink-0 items-center overflow-hidden rounded-full bg-white shadow-xs ring-1 ring-black/5 dark:bg-slate-900 dark:ring-white/10"
+                >
+                  <n-icon
+                    class="ml-2.5 shrink-0 text-rose-400"
+                    size="11"
+                    ><Search
+                  /></n-icon>
                   <div
-                    class="flex h-4 w-4 items-center justify-center rounded-full text-slate-400 dark:text-slate-500"
-                  >
-                    <n-icon size="8"><Filter /></n-icon>
-                  </div>
-                  <!-- Search button -->
-                  <div
-                    class="flex h-5 w-9 items-center justify-center rounded-full bg-rose-500 shadow-sm dark:bg-rose-600"
-                  >
-                    <div class="h-1 w-3.5 rounded-full bg-white/70"></div>
+                    class="ml-2 h-1.5 w-1/4 rounded-full bg-slate-200 dark:bg-slate-700"
+                  ></div>
+                  <div class="ml-auto flex shrink-0 items-center gap-1 pr-1">
+                    <!-- Filter button -->
+                    <div
+                      class="flex h-4 w-4 items-center justify-center rounded-full text-slate-400 dark:text-slate-500"
+                    >
+                      <n-icon size="8"><Filter /></n-icon>
+                    </div>
+                    <!-- Search button -->
+                    <div
+                      class="flex h-5 w-9 items-center justify-center rounded-full bg-rose-500 shadow-sm dark:bg-rose-600"
+                    >
+                      <div class="h-1 w-3.5 rounded-full bg-white/70"></div>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <!-- Mini Results Grid (Item Cards) -->
-              <div
-                class="grid h-[60%] shrink-0 grid-cols-6 gap-1.5 opacity-70 dark:opacity-80"
-              >
+                <!-- Mini Results Grid (Item Cards) -->
                 <div
-                  v-for="index in 18"
-                  :key="`mini-result-${index}`"
-                  class="h-6 w-4 rounded-[3px] shadow-xs"
-                  :class="
-                    ['bg-amber-500/80', 'bg-sky-500/80', 'bg-slate-500/80'][
-                      (index - 1) % 3
-                    ]
-                  "
-                ></div>
+                  class="grid h-[60%] shrink-0 grid-cols-6 gap-1.5 opacity-70 dark:opacity-80"
+                >
+                  <div
+                    v-for="index in 18"
+                    :key="`mini-result-${index}`"
+                    class="h-6 w-4 rounded-[3px] shadow-xs"
+                    :class="
+                      ['bg-amber-500/80', 'bg-sky-500/80', 'bg-slate-500/80'][
+                        (index - 1) % 3
+                      ]
+                    "
+                  ></div>
+                </div>
               </div>
-            </div>
-            <div
-              v-else
-              class="absolute inset-0 flex flex-col items-center justify-start gap-1.5 pt-3"
-            >
-              <n-skeleton class="h-7 w-[80%] shrink-0 rounded-full" />
-              <div class="grid grid-cols-6 gap-1.5 opacity-70">
-                <n-skeleton
-                  v-for="index in 18"
-                  :key="`search-preview-skeleton-${index}`"
-                  class="h-6 w-4 rounded-[3px]"
-                />
-              </div>
-            </div>
-
-            <div class="absolute right-2 bottom-2 left-2 z-10">
               <div
-                class="pointer-events-none flex w-full items-center justify-center gap-1 rounded-lg border border-slate-200/60 bg-white/90 px-3 py-1.5 text-sm font-semibold text-rose-600 shadow-none backdrop-blur-sm dark:border-white/8 dark:bg-slate-950/80 dark:text-rose-300"
+                v-else
+                class="absolute inset-0 flex flex-col items-center justify-start gap-1.5 pt-3"
               >
-                <n-icon><Search /></n-icon>
-                <span>{{ $t('search_page.title') }}</span>
+                <n-skeleton class="h-7 w-[80%] shrink-0 rounded-full" />
+                <div class="grid grid-cols-6 gap-1.5 opacity-70">
+                  <n-skeleton
+                    v-for="index in 18"
+                    :key="`search-preview-skeleton-${index}`"
+                    class="h-6 w-4 rounded-[3px]"
+                  />
+                </div>
+              </div>
+
+              <div class="absolute right-2 bottom-2 left-2 z-10">
+                <div
+                  class="pointer-events-none flex w-full items-center justify-center gap-1 rounded-lg border border-slate-200/60 bg-white/90 px-3 py-1.5 text-sm font-semibold text-rose-600 shadow-none backdrop-blur-sm dark:border-white/8 dark:bg-slate-950/80 dark:text-rose-300"
+                >
+                  <n-icon><Search /></n-icon>
+                  <span>{{ $t('search_page.title') }}</span>
+                </div>
               </div>
             </div>
           </NuxtLinkLocale>
@@ -464,29 +482,33 @@
           <!-- Whim-O-Matic -->
           <NuxtLinkLocale
             no-prefetch
-            class="group relative order-2 flex h-36 w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl border border-black/5 bg-slate-50/70 ring-1 ring-white/60 transition-[background-color,border-color,transform] duration-300 ease-out ring-inset hover:-translate-y-0.5 hover:border-rose-200/70 hover:bg-white/80 focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden motion-reduce:transform-none lg:h-auto lg:min-h-28 dark:border-white/8 dark:bg-slate-950/30 dark:ring-white/4 dark:hover:border-rose-300/20 dark:hover:bg-slate-900/45"
+            class="group order-2 block h-36 w-full cursor-pointer rounded-xl focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden lg:h-auto lg:min-h-28"
             :to="'/random'"
           >
-            <!-- GachaponMachineSvg bg -->
             <div
-              v-if="shouldRenderFeatureAssets"
-              class="absolute h-30 transition-transform duration-300 ease-out group-hover:-translate-y-0.5 group-hover:scale-[1.03] motion-reduce:transform-none"
+              class="relative flex h-full w-full items-center justify-center overflow-hidden rounded-xl border border-black/5 bg-slate-50/70 ring-1 ring-white/60 transition-all duration-300 ring-inset group-hover:-translate-y-0.5 group-hover:border-rose-200/70 group-hover:bg-white/80 group-hover:shadow-[0_8px_20px_rgba(244,63,94,0.12)] motion-reduce:transform-none dark:border-white/8 dark:bg-slate-950/30 dark:ring-white/4 dark:group-hover:border-rose-300/20 dark:group-hover:bg-slate-900/45"
             >
-              <LazyGachaponMachineSvg class="h-full w-full drop-shadow-sm" />
-            </div>
-            <div
-              v-else
-              class="absolute inset-x-3 top-2 bottom-11 flex items-center justify-center"
-            >
-              <n-skeleton class="h-24 w-16 rounded-2xl" />
-            </div>
-
-            <div class="absolute right-2 bottom-2 left-2 z-10">
+              <!-- GachaponMachineSvg bg -->
               <div
-                class="pointer-events-none flex w-full items-center justify-center gap-1 rounded-lg border border-slate-200/60 bg-white/90 px-3 py-1.5 text-sm font-semibold text-rose-600 shadow-none backdrop-blur-sm dark:border-white/8 dark:bg-slate-950/80 dark:text-rose-300"
+                v-if="shouldRenderFeatureAssets"
+                class="absolute h-30 transition-transform duration-300 group-hover:scale-[1.03] motion-reduce:transform-none"
               >
-                <n-icon><Magic /></n-icon>
-                <span>{{ $t('search_page.lucky_machine_title') }}</span>
+                <LazyGachaponMachineSvg class="h-full w-full drop-shadow-sm" />
+              </div>
+              <div
+                v-else
+                class="absolute inset-x-3 top-2 bottom-11 flex items-center justify-center"
+              >
+                <n-skeleton class="h-24 w-16 rounded-2xl" />
+              </div>
+
+              <div class="absolute right-2 bottom-2 left-2 z-10">
+                <div
+                  class="pointer-events-none flex w-full items-center justify-center gap-1 rounded-lg border border-slate-200/60 bg-white/90 px-3 py-1.5 text-sm font-semibold text-rose-600 shadow-none backdrop-blur-sm dark:border-white/8 dark:bg-slate-950/80 dark:text-rose-300"
+                >
+                  <n-icon><Magic /></n-icon>
+                  <span>{{ $t('search_page.lucky_machine_title') }}</span>
+                </div>
               </div>
             </div>
           </NuxtLinkLocale>
@@ -494,46 +516,50 @@
           <!-- Tier List Preview -->
           <NuxtLinkLocale
             no-prefetch
-            class="group relative order-3 flex h-36 w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl border border-black/5 bg-slate-50/70 ring-1 ring-white/60 transition-[background-color,border-color,transform] duration-300 ease-out ring-inset hover:-translate-y-0.5 hover:border-rose-200/70 hover:bg-white/80 focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden motion-reduce:transform-none lg:h-auto lg:min-h-28 dark:border-white/8 dark:bg-slate-950/30 dark:ring-white/4 dark:hover:border-rose-300/20 dark:hover:bg-slate-900/45"
+            class="group order-3 block h-36 w-full cursor-pointer rounded-xl focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden lg:h-auto lg:min-h-28"
             :to="'/tierlist'"
           >
             <div
-              v-if="shouldRenderFeatureAssets"
-              class="flex h-full flex-col gap-1.5 rounded-md p-2 backdrop-blur-[1px] transition-transform duration-300 ease-out group-hover:-translate-y-0.5 motion-reduce:transform-none"
+              class="relative flex h-full w-full items-center justify-center overflow-hidden rounded-xl border border-black/5 bg-slate-50/70 ring-1 ring-white/60 transition-all duration-300 ring-inset group-hover:-translate-y-0.5 group-hover:border-rose-200/70 group-hover:bg-white/80 group-hover:shadow-[0_8px_20px_rgba(244,63,94,0.12)] motion-reduce:transform-none dark:border-white/8 dark:bg-slate-950/30 dark:ring-white/4 dark:group-hover:border-rose-300/20 dark:group-hover:bg-slate-900/45"
             >
               <div
-                v-for="(row, rowIndex) in tierPreviewRows"
-                :key="`tier-preview-row-${rowIndex}`"
-                class="flex items-center"
+                v-if="shouldRenderFeatureAssets"
+                class="flex h-full flex-col gap-1.5 rounded-md p-2 backdrop-blur-[1px]"
               >
-                <div class="flex flex-1 gap-1.5">
-                  <div
-                    v-for="(chipClass, chipIndex) in row"
-                    :key="`tier-preview-chip-${rowIndex}-${chipIndex}`"
-                    class="h-4 w-4 shrink-0 rounded-[3px]"
-                    :class="chipClass"
+                <div
+                  v-for="(row, rowIndex) in tierPreviewRows"
+                  :key="`tier-preview-row-${rowIndex}`"
+                  class="flex items-center"
+                >
+                  <div class="flex flex-1 gap-1.5">
+                    <div
+                      v-for="(chipClass, chipIndex) in row"
+                      :key="`tier-preview-chip-${rowIndex}-${chipIndex}`"
+                      class="h-4 w-4 shrink-0 rounded-[3px]"
+                      :class="chipClass"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div
+                v-else
+                class="absolute inset-x-3 top-3 bottom-11 flex items-center justify-center"
+              >
+                <div class="grid grid-cols-5 gap-1.5">
+                  <n-skeleton
+                    v-for="index in 20"
+                    :key="`tier-preview-skeleton-${index}`"
+                    class="size-4 rounded-[3px]"
                   />
                 </div>
               </div>
-            </div>
-            <div
-              v-else
-              class="absolute inset-x-3 top-3 bottom-11 flex items-center justify-center"
-            >
-              <div class="grid grid-cols-5 gap-1.5">
-                <n-skeleton
-                  v-for="index in 20"
-                  :key="`tier-preview-skeleton-${index}`"
-                  class="size-4 rounded-[3px]"
-                />
-              </div>
-            </div>
-            <div class="absolute right-2 bottom-2 left-2">
-              <div
-                class="pointer-events-none flex w-full items-center justify-center gap-1 rounded-lg border border-slate-200/60 bg-white/90 px-3 py-1.5 text-sm font-semibold text-rose-600 shadow-none backdrop-blur-sm dark:border-white/8 dark:bg-slate-950/80 dark:text-rose-300"
-              >
-                <n-icon><SortAmountDown /></n-icon>
-                <span>{{ $t('navigation.tierlist') }}</span>
+              <div class="absolute right-2 bottom-2 left-2">
+                <div
+                  class="pointer-events-none flex w-full items-center justify-center gap-1 rounded-lg border border-slate-200/60 bg-white/90 px-3 py-1.5 text-sm font-semibold text-rose-600 shadow-none backdrop-blur-sm dark:border-white/8 dark:bg-slate-950/80 dark:text-rose-300"
+                >
+                  <n-icon><SortAmountDown /></n-icon>
+                  <span>{{ $t('navigation.tierlist') }}</span>
+                </div>
               </div>
             </div>
           </NuxtLinkLocale>
@@ -541,36 +567,40 @@
           <!-- Outfit Silhouette Quiz -->
           <NuxtLinkLocale
             no-prefetch
-            class="group relative order-6 flex h-36 w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl border border-black/5 bg-slate-50/70 ring-1 ring-white/60 transition-[background-color,border-color,transform] duration-300 ease-out ring-inset hover:-translate-y-0.5 hover:border-rose-200/70 hover:bg-white/80 focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden motion-reduce:transform-none lg:h-auto lg:min-h-28 dark:border-white/8 dark:bg-slate-950/30 dark:ring-white/4 dark:hover:border-rose-300/20 dark:hover:bg-slate-900/45"
+            class="group order-6 block h-36 w-full cursor-pointer rounded-xl focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden lg:h-auto lg:min-h-28"
             :to="'/quiz'"
           >
             <div
-              v-if="shouldRenderFeatureAssets"
-              class="mb-4 aspect-2/3 h-full shrink-0 p-1 transition-transform duration-300 ease-out group-hover:-translate-y-0.5 group-hover:scale-[1.03] motion-reduce:transform-none"
+              class="relative flex h-full w-full items-center justify-center overflow-hidden rounded-xl border border-black/5 bg-slate-50/70 ring-1 ring-white/60 transition-all duration-300 ring-inset group-hover:-translate-y-0.5 group-hover:border-rose-200/70 group-hover:bg-white/80 group-hover:shadow-[0_8px_20px_rgba(244,63,94,0.12)] motion-reduce:transform-none dark:border-white/8 dark:bg-slate-950/30 dark:ring-white/4 dark:group-hover:border-rose-300/20 dark:group-hover:bg-slate-900/45"
             >
-              <LazyNuxtImg
-                :src="getImageSrc('outfit', featuredOutfitId)"
-                preset="tallSm"
-                sizes="100px"
-                quality="1"
-                fit="cover"
-                loading="lazy"
-                class="h-full w-full max-w-full object-cover"
-                :style="silhouetteStyle"
-              />
-            </div>
-            <div
-              v-else
-              class="absolute inset-x-3 top-2 bottom-11 flex items-center justify-center"
-            >
-              <n-skeleton class="h-24 w-16 rounded-lg" />
-            </div>
-            <div class="absolute right-2 bottom-2 left-2">
               <div
-                class="pointer-events-none flex w-full items-center justify-center gap-1 rounded-lg border border-slate-200/60 bg-white/90 px-3 py-1.5 text-sm font-semibold text-rose-600 shadow-none backdrop-blur-sm dark:border-white/8 dark:bg-slate-950/80 dark:text-rose-300"
+                v-if="shouldRenderFeatureAssets"
+                class="mb-4 aspect-2/3 h-full shrink-0 p-1 transition-transform duration-300 group-hover:scale-[1.03] motion-reduce:transform-none"
               >
-                <n-icon><PuzzlePiece /></n-icon>
-                <span>{{ $t('quiz.title') }}</span>
+                <LazyNuxtImg
+                  :src="getImageSrc('outfit', featuredOutfitId)"
+                  preset="tallSm"
+                  sizes="100px"
+                  quality="1"
+                  fit="cover"
+                  loading="lazy"
+                  class="h-full w-full max-w-full object-cover"
+                  :style="silhouetteStyle"
+                />
+              </div>
+              <div
+                v-else
+                class="absolute inset-x-3 top-2 bottom-11 flex items-center justify-center"
+              >
+                <n-skeleton class="h-24 w-16 rounded-lg" />
+              </div>
+              <div class="absolute right-2 bottom-2 left-2">
+                <div
+                  class="pointer-events-none flex w-full items-center justify-center gap-1 rounded-lg border border-slate-200/60 bg-white/90 px-3 py-1.5 text-sm font-semibold text-rose-600 shadow-none backdrop-blur-sm dark:border-white/8 dark:bg-slate-950/80 dark:text-rose-300"
+                >
+                  <n-icon><PuzzlePiece /></n-icon>
+                  <span>{{ $t('quiz.title') }}</span>
+                </div>
               </div>
             </div>
           </NuxtLinkLocale>

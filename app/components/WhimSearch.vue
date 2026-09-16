@@ -315,31 +315,33 @@
               v-for="option in modeOptions"
               :key="option.mode"
               type="button"
-              :class="getModeCardClass(option.mode)"
+              class="group min-w-0 rounded-xl text-left focus-visible:ring-2 focus-visible:ring-rose-400 focus-visible:outline-hidden"
               :aria-current="option.mode === mode ? 'page' : undefined"
               @click="switchMode(option.mode)"
             >
-              <span :class="getModeIconClass(option.mode)">
-                <n-icon size="20">
-                  <Search v-if="option.mode === 'search'" />
-                  <Magic v-else />
-                </n-icon>
-              </span>
-              <span class="min-w-0 text-left">
-                <span
-                  :class="[
-                    'block text-sm leading-tight font-bold sm:text-base',
-                    option.mode === 'random'
-                      ? 'text-amber-500'
-                      : 'text-rose-500',
-                  ]"
-                >
-                  {{ option.title }}
+              <span :class="getModeCardClass(option.mode)">
+                <span :class="getModeIconClass(option.mode)">
+                  <n-icon size="20">
+                    <Search v-if="option.mode === 'search'" />
+                    <Magic v-else />
+                  </n-icon>
                 </span>
-                <span
-                  class="mt-0.5 block text-[11px] leading-snug font-semibold text-slate-500 sm:text-xs dark:text-slate-400"
-                >
-                  {{ option.description }}
+                <span class="min-w-0 text-left">
+                  <span
+                    :class="[
+                      'block text-sm leading-tight font-bold sm:text-base',
+                      option.mode === 'random'
+                        ? 'text-amber-500'
+                        : 'text-rose-500',
+                    ]"
+                  >
+                    {{ option.title }}
+                  </span>
+                  <span
+                    class="mt-0.5 block text-[11px] leading-snug font-semibold text-slate-500 sm:text-xs dark:text-slate-400"
+                  >
+                    {{ option.description }}
+                  </span>
                 </span>
               </span>
             </button>
@@ -1843,16 +1845,16 @@
       cardMode === 'random'
         ? isActive
           ? 'border-amber-300 bg-amber-50/60 shadow-amber-200/30 dark:border-amber-300/45 dark:bg-amber-950/30 dark:shadow-black/25'
-          : 'border-amber-200/60 bg-white/45 hover:border-amber-300/80 hover:bg-amber-50/40 dark:border-amber-400/20 dark:bg-slate-950/30 dark:shadow-black/10 dark:hover:border-amber-300/45 dark:hover:bg-amber-950/20 dark:hover:shadow-black/25'
+          : 'border-amber-200/60 bg-white/45 group-hover:border-amber-300/80 group-hover:bg-amber-50/40 dark:border-amber-400/20 dark:bg-slate-950/30 dark:shadow-black/10 dark:group-hover:border-amber-300/45 dark:group-hover:bg-amber-950/20 dark:group-hover:shadow-black/25'
         : isActive
           ? 'border-rose-300 bg-rose-50/60 shadow-rose-200/30 dark:border-rose-300/45 dark:bg-rose-950/30 dark:shadow-black/25'
-          : 'border-rose-200/60 bg-white/45 hover:border-rose-300/80 hover:bg-rose-50/40 dark:border-rose-400/20 dark:bg-slate-950/30 dark:shadow-black/10 dark:hover:border-rose-300/45 dark:hover:bg-rose-950/20 dark:hover:shadow-black/25'
+          : 'border-rose-200/60 bg-white/45 group-hover:border-rose-300/80 group-hover:bg-rose-50/40 dark:border-rose-400/20 dark:bg-slate-950/30 dark:shadow-black/10 dark:group-hover:border-rose-300/45 dark:group-hover:bg-rose-950/20 dark:group-hover:shadow-black/25'
 
     return [
-      'group flex min-h-16 items-center gap-2 rounded-xl border px-3 py-2.5 text-left shadow-sm backdrop-blur-md transition-all duration-300 focus:ring-2 focus:ring-rose-400 focus:outline-hidden sm:min-h-18 sm:gap-2.5 sm:px-3.5 sm:py-3',
+      'pointer-events-none flex min-h-16 w-full items-center gap-2 rounded-xl border px-3 py-2.5 text-left shadow-sm backdrop-blur-md transition-all duration-300 sm:min-h-18 sm:gap-2.5 sm:px-3.5 sm:py-3',
       isActive
         ? 'shadow-md dark:shadow-sm'
-        : 'shadow-slate-200/30 hover:-translate-y-0.5 hover:shadow-md dark:hover:-translate-y-px dark:hover:shadow-sm',
+        : 'shadow-slate-200/30 group-hover:-translate-y-0.5 group-hover:shadow-md motion-reduce:transform-none dark:group-hover:shadow-sm',
       accent,
     ]
   }

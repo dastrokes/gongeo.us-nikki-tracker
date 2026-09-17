@@ -174,7 +174,7 @@
     >
       <n-card
         size="small"
-        class="h-full rounded-xl p-0 shadow-none sm:p-2"
+        class="rounded-xl p-0 shadow-none sm:p-2 lg:h-full"
         content-class="lg:flex lg:h-full lg:flex-col"
       >
         <div class="mb-4 flex items-end justify-between gap-4">
@@ -208,10 +208,10 @@
             <NuxtLinkLocale
               no-prefetch
               :to="column.path"
-              class="group min-h-20 rounded-lg text-center focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden md:min-h-0 lg:min-h-20 lg:flex-1"
+              class="group block min-h-20 rounded-lg text-center focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden md:min-h-0 lg:min-h-20 lg:flex-1"
             >
               <span
-                class="flex h-full min-h-20 flex-col items-center justify-center gap-1.5 rounded-lg border border-black/5 bg-white/70 px-1 py-2 ring-1 ring-white/60 transition-all duration-300 ring-inset group-hover:-translate-y-0.5 group-hover:border-rose-200 group-hover:bg-white motion-reduce:transform-none sm:gap-2 sm:px-2 sm:py-3 md:min-h-0 lg:min-h-20 dark:border-white/8 dark:bg-slate-950/25 dark:ring-white/4 dark:group-hover:border-rose-300/20 dark:group-hover:bg-slate-900/45"
+                class="flex min-h-20 flex-col items-center justify-center gap-1.5 rounded-lg border border-black/5 bg-white/70 px-1 py-2 ring-1 ring-white/60 transition-all duration-300 ring-inset group-hover:-translate-y-0.5 group-hover:border-rose-200 group-hover:bg-white motion-reduce:transform-none sm:gap-2 sm:px-2 sm:py-3 md:h-full md:min-h-0 lg:min-h-20 dark:border-white/8 dark:bg-slate-950/25 dark:ring-white/4 dark:group-hover:border-rose-300/20 dark:group-hover:bg-slate-900/45"
               >
                 <n-icon
                   :size="24"
@@ -266,7 +266,7 @@
 
       <n-card
         size="small"
-        class="h-full rounded-xl p-0 shadow-none sm:p-2"
+        class="rounded-xl p-0 shadow-none sm:p-2 lg:h-full"
         content-class="lg:flex lg:h-full lg:flex-col"
       >
         <div class="mb-4">

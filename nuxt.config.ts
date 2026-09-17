@@ -278,6 +278,17 @@ export default defineNuxtConfig({
     },
   },
 
+  fonts: {
+    families: [
+      {
+        name: 'Outfit',
+        provider: 'google',
+        weights: ['400 700'],
+        styles: ['normal'],
+      },
+    ],
+  },
+
   echarts: {
     renderer: 'canvas',
     charts: ['BarChart', 'LineChart', 'CustomChart'],

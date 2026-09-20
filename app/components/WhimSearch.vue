@@ -1774,7 +1774,6 @@
   const { fetchItemById } = useSupabaseItems()
   const { getImageSrc } = imageProvider()
   const isDev = import.meta.dev
-  const gameVersionHeaders = getGameVersionRequestHeaders()
   const breakpoints = useBreakpoints(breakpointsTailwind)
   const isDesktopDetails = breakpoints.greaterOrEqual('xl')
   const mode = computed<SearchRouteMode>(() => props.routeMode)
@@ -3307,10 +3306,12 @@
       ...getCurrentSearchApiQuery(normalizedQuery),
     }
 
-    const response = await $fetch<SearchApiResponse>('/api/search/items', {
-      query: queryParams,
-      headers: gameVersionHeaders,
-    })
+    const response = await $fetch<SearchApiResponse>(
+      getDataApiUrl('/search/items'),
+      {
+        query: queryParams,
+      }
+    )
 
     return applyOwnershipScopeToHits(
       (response.data ?? []).filter(
@@ -3376,16 +3377,18 @@
       }
       activeSearch = search
 
-      const response = await $fetch<SearchApiResponse>('/api/search/items', {
-        query: {
-          id: String(itemId),
-          lang: locale.value,
-          limit: getSearchLimit() + 1,
-          ...getCurrentSearchApiQuery(''),
-        },
-        headers: gameVersionHeaders,
-        signal: search.controller.signal,
-      })
+      const response = await $fetch<SearchApiResponse>(
+        getDataApiUrl('/search/items'),
+        {
+          query: {
+            id: String(itemId),
+            lang: locale.value,
+            limit: getSearchLimit() + 1,
+            ...getCurrentSearchApiQuery(''),
+          },
+          signal: search.controller.signal,
+        }
+      )
 
       if (
         activeSearch !== search ||
@@ -3587,11 +3590,13 @@
         ...getCurrentSearchApiQuery(normalizedQuery),
       }
 
-      const response = await $fetch<SearchApiResponse>('/api/search/items', {
-        query: queryParams,
-        headers: gameVersionHeaders,
-        signal: search.controller.signal,
-      })
+      const response = await $fetch<SearchApiResponse>(
+        getDataApiUrl('/search/items'),
+        {
+          query: queryParams,
+          signal: search.controller.signal,
+        }
+      )
 
       if (activeSearch !== search) return
 

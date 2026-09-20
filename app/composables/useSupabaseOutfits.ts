@@ -21,7 +21,7 @@ export const useSupabaseOutfits = () => {
 
   /**
    * Fetch a single outfit by ID with its component items
-   * Uses edge-cached API route (1 hour cache)
+   * Uses the edge-cached content data API when configured.
    * @param id - The outfit ID to fetch
    * @returns Promise resolving to outfit with items or null if not found
    */
@@ -33,7 +33,7 @@ export const useSupabaseOutfits = () => {
 
     try {
       const [response] = await Promise.all([
-        $fetch.raw<OutfitDetailApiResponse>(`/api/outfits/${id}`, {
+        $fetch.raw<OutfitDetailApiResponse>(getDataApiUrl(`/outfits/${id}`), {
           params: {
             lang: locale.value,
           },

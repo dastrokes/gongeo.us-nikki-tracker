@@ -27,6 +27,7 @@ A fan-made web app for tracking Infinity Nikki resonance history, banner stats, 
 - [Pinia](https://pinia.vuejs.org/) - State management
 - [Nuxt i18n](https://i18n.nuxtjs.org/) - Internationalization
 - [Supabase](https://supabase.com/) - Backend and authentication
+- [Cloudflare Workers + D1](https://developers.cloudflare.com/d1/) - Public catalog data API
 - [ECharts](https://echarts.apache.org/) - Data visualization
 
 ## License

@@ -388,11 +388,16 @@ export default defineCachedApiEventHandler(
     const limit = normalizeLimit(query.limit)
     const filterResult = normalizeCatalogFilterResult(query)
 
-    if (
-      (!normalizedQuery && !recordId) ||
-      (!recordId && !filterResult.valid) ||
-      (recordId && !filterResult.valid)
-    ) {
+    if (!filterResult.valid) {
+      throw createError({
+        statusCode: 400,
+        statusMessage: 'Invalid search filters',
+        message: 'Invalid search filters',
+        data: { code: 'INVALID_QUERY' },
+      })
+    }
+
+    if (!normalizedQuery && !recordId) {
       return {
         query: '',
         total: 0,

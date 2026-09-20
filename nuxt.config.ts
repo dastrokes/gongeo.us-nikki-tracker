@@ -182,6 +182,7 @@ export default defineNuxtConfig({
       supabaseUrl: process.env.SUPABASE_DATABASE_URL,
       supabasePublishableKey: process.env.SUPABASE_PUBLISHABLE_KEY,
       supabaseDataUrl: process.env.SUPABASE_DATA_URL,
+      dataApiBaseUrl: process.env.NUXT_PUBLIC_DATA_API_BASE_URL || '',
       gongeousApiKey: process.env.GONGEOUS_API_KEY,
       siteUrl,
       catalogRevision,

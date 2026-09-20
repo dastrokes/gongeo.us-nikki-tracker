@@ -55,10 +55,9 @@ const fetchItemAttributeMatchingIds = async (
 
   try {
     const response = await $fetch<ItemAttributeMatchesResponse>(
-      '/api/items/attributes',
+      getDataApiUrl('/items/attributes'),
       {
         params: buildItemAttributeMatchParams(filters),
-        headers: getGameVersionRequestHeaders(),
       }
     )
 

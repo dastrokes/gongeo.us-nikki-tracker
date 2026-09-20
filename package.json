@@ -15,7 +15,7 @@
     "generate:og": "node ./scripts/generate-og-image.mjs",
     "preview": "nuxt preview",
     "sync": "node ./scripts/sync-global-banner-scopes.mjs",
-    "purge": "node scripts/purge-netlify-cache.mjs",
+    "purge": "node scripts/purge-cache.mjs",
     "postinstall": "nuxt prepare",
     "format": "prettier --write .",
     "prepare": "husky",

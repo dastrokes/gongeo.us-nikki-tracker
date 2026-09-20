@@ -45,6 +45,8 @@ const CDN_API_LONG =
   'public, durable, s-maxage=2592000, stale-while-revalidate=604800, stale-if-error=86400'
 const CDN_SEARCH =
   'public, durable, s-maxage=86400, stale-while-revalidate=86400, stale-if-error=3600'
+const CDN_ITEM_SEARCH =
+  'public, durable, s-maxage=2592000, stale-while-revalidate=604800, stale-if-error=86400'
 const THEME_VARY = `cookie=${THEME_COOKIE}`
 const THEME_QUERY_VARY = `${THEME_VARY},query`
 
@@ -142,9 +144,8 @@ const apiProfiles = {
     includeVersion: true,
   }),
   detail: createProfile(BROWSER_REVALIDATE, CDN_API_LONG),
-  search: createProfile(NO_STORE, CDN_SEARCH, {
+  search: createProfile(NO_STORE, CDN_ITEM_SEARCH, {
     cacheIds: [CACHE_TAGS.itemSearch],
-    includeVersion: true,
   }),
   lookbook: createProfile(NO_STORE, CDN_SEARCH, {
     cacheIds: [CACHE_TAGS.lookbook],

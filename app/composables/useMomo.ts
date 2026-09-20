@@ -10,7 +10,7 @@ export const useMomo = () => {
 
     try {
       const [response] = await Promise.all([
-        $fetch.raw<MomoDetailApiResponse>(`/api/momo/${id}`, {
+        $fetch.raw<MomoDetailApiResponse>(getDataApiUrl(`/momo/${id}`), {
           params: { lang: locale.value },
           ignoreResponseError: true,
         }),

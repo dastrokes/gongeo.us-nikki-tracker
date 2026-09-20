@@ -21,7 +21,6 @@ export const useSupabaseItems = () => {
   const catalogIndex = useCatalogIndex()
   const loading = ref(false)
   const error = ref<Error | null>(null)
-  const gameVersionHeader = getGameVersionRequestHeaders()
   const appendCanonicalFilterParam = (
     params: Record<string, string | number>,
     key: 'category' | 'subcategory' | 'style' | 'label' | 'version' | 'source',
@@ -71,7 +70,7 @@ export const useSupabaseItems = () => {
 
   /**
    * Fetch a single item by ID with its related outfits
-   * Uses edge-cached API route (1 hour cache)
+   * Uses the edge-cached content data API when configured.
    * @param id - The item ID to fetch
    * @returns Promise resolving to item with outfits or null if not found
    */
@@ -81,7 +80,7 @@ export const useSupabaseItems = () => {
 
     try {
       const [response] = await Promise.all([
-        $fetch.raw<ItemDetailApiResponse>(`/api/items/${id}`, {
+        $fetch.raw<ItemDetailApiResponse>(getDataApiUrl(`/items/${id}`), {
           params: {
             lang: locale.value,
           },
@@ -154,7 +153,7 @@ export const useSupabaseItems = () => {
 
     try {
       const [response] = await Promise.all([
-        $fetch.raw<MakeupDetailApiResponse>(`/api/makeups/${id}`, {
+        $fetch.raw<MakeupDetailApiResponse>(getDataApiUrl(`/makeups/${id}`), {
           params: {
             lang: locale.value,
           },
@@ -280,10 +279,10 @@ export const useSupabaseItems = () => {
 
       appendCanonicalFilterParam(params, 'source', source)
 
-      return await $fetch<ItemSearchFacetResponse>('/api/items/facets', {
-        params,
-        headers: gameVersionHeader,
-      })
+      return await $fetch<ItemSearchFacetResponse>(
+        getDataApiUrl('/items/facets'),
+        { params }
+      )
     } catch (e) {
       const normalizedError = toError(e, 'Failed to fetch item facets')
       error.value = normalizedError

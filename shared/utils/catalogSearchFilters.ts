@@ -31,7 +31,7 @@ const normalizeString = (value: unknown) => {
 
 const normalizeTrait = (value: unknown) => {
   const normalized = normalizeString(value)
-  return normalized ? normalized.toLowerCase().replace(/[\s-]+/g, '_') : null
+  return normalized ? normalized.toLowerCase().replace(/[_\s]+/g, '-') : null
 }
 
 const normalizeQuality = (value: unknown) => {

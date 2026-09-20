@@ -1,6 +1,6 @@
 # Cache Invalidation
 
-This app uses `Netlify-Cache-ID` as the purgeable cache identity for mutable cached responses. Stable deploy-scoped files, like `/catalog/index.json`, should not get a custom cache ID.
+The Nitro fallback uses `Netlify-Cache-ID`; the Cloudflare data API uses the equivalent `Cache-Tag`. Stable deploy-scoped files, like `/catalog/index.json`, should not get a custom cache ID.
 
 ## IDs
 
@@ -19,7 +19,8 @@ This app uses `Netlify-Cache-ID` as the purgeable cache identity for mutable cac
 
 ## Normal Purges
 
-- Item-search publish or feedback apply: purge `item-search` plus touched `item-detail-{id}`.
+- Approved searchable-attribute feedback: purge `item-search` plus touched `item-detail-{id}`.
+- Pinecone republish/reindex, taxonomy change, localized search-data change, search ranking/response deployment, or full catalog release: purge `item-search`.
 - Feedback queue and viewer APIs: no purge; these responses are always `no-store`.
 - Locale-only search publish: purge `item-search` only.
 - Detail response logic change: purge the broad detail ID, such as `item-details`.
@@ -33,11 +34,15 @@ This app uses `Netlify-Cache-ID` as the purgeable cache identity for mutable cac
 
 ## Locale Variants
 
-Localized detail and search APIs vary by query string, `X-Locale`, and `i18n_redirected`. Tracker clients should keep sending `lang`; the header and cookie are API fallbacks.
+Tracker clients always send `lang`. The Cloudflare search API requires it and includes it in the canonical cache identity. Retained Nitro routes may still resolve the locale header or cookie for older callers.
 
 ## Commands
 
 The CLI loads `.env` and requires `NETLIFY_SITE_ID` plus `NETLIFY_AUTH_TOKEN`.
+When `CLOUDFLARE_CACHE_PURGE_URL` and `CLOUDFLARE_CACHE_PURGE_TOKEN` are
+configured, Worker-owned catalog tags are also purged from the Cloudflare data
+API. Other tags remain Netlify-only. During the cutover, catalog tags are sent
+to both configured caches so the Nitro rollback routes do not retain stale data.
 
 One-off purge:
 

@@ -112,10 +112,28 @@
         </div>
         <div
           v-else-if="globalStatsStatus !== 'error'"
-          :style="{ height: communityFirstItemChartHeight }"
           class="flex flex-col justify-end"
+          :style="{ height: communityFirstItemSkeletonChartHeight }"
         >
-          <div class="grid flex-1 grid-cols-10 items-end gap-4 lg:gap-8">
+          <div
+            v-if="isMobile"
+            class="flex flex-1 flex-col justify-around gap-5 py-2"
+          >
+            <div
+              v-for="(width, index) in communityFirstItemSkeletonHeights"
+              :key="`community-first-item-mobile-skeleton-bar-${index}`"
+              class="flex h-7 min-w-0 items-center"
+            >
+              <n-skeleton
+                class="h-full rounded-md"
+                :style="{ width: `${width}%` }"
+              />
+            </div>
+          </div>
+          <div
+            v-else
+            class="grid flex-1 grid-cols-10 items-end gap-4 lg:gap-8"
+          >
             <div
               v-for="(height, index) in communityFirstItemSkeletonHeights"
               :key="`community-first-item-skeleton-bar-${index}`"
@@ -176,6 +194,8 @@
   const communityFirstItemSkeletonHeights = [
     80, 80, 80, 80, 60, 60, 60, 60, 40, 40,
   ] as const
+  const communityFirstItemMobileMinChartHeight =
+    communityFirstItemSkeletonHeights.length * 48 + 16
   const gameVersionHeaders = getGameVersionRequestHeaders()
 
   const fetchGlobalData = () =>
@@ -237,6 +257,12 @@
     return null
   })
 
+  const communityFirstItemSkeletonChartHeight = computed(() => {
+    if (!isMobile.value) return '240px'
+
+    return `${communityFirstItemMobileMinChartHeight}px`
+  })
+
   const communityFirstItemEntries = computed<FirstItemDistribution[string]>(
     () => {
       const banner = communityFirstItemBanner.value
@@ -283,7 +309,7 @@
     if (!isMobile.value) return '240px'
 
     return `${Math.max(
-      280,
+      communityFirstItemMobileMinChartHeight,
       communityFirstItemEntries.value.length * 48 + 16
     )}px`
   })

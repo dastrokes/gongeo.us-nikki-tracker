@@ -181,56 +181,61 @@
       content-class="p-2 sm:p-4"
     >
       <div
-        class="grid grid-cols-2 items-start gap-2 sm:flex sm:flex-wrap sm:items-center"
+        class="grid grid-cols-2 items-start gap-2 sm:flex sm:flex-col lg:grid lg:grid-cols-2 lg:items-center"
       >
-        <n-input
-          v-model:value="search"
-          size="small"
-          clearable
-          class="col-span-2 min-w-0 sm:w-64"
-          :placeholder="t('common.search')"
-        />
-        <CompendiumQualityFilter
-          v-model:value="quality"
-          :quality-options="[5, 4, 3]"
-        />
-        <n-select
-          v-model:value="position"
-          size="small"
-          clearable
-          class="min-w-0 sm:w-40"
-          :options="positionOptions"
-          :show-checkmark="false"
-          :placeholder="t('eurekas.filters.position')"
-        />
-        <n-select
-          v-model:value="style"
-          size="small"
-          clearable
-          class="min-w-0 sm:w-40"
-          :options="styleOptions"
-          :show-checkmark="false"
-          :placeholder="t('common.style')"
-        />
-        <n-select
-          v-model:value="ownershipStatus"
-          size="small"
-          clearable
-          class="min-w-0 sm:w-40"
-          :options="statusOptions"
-          :show-checkmark="false"
-          :placeholder="t('eurekas.filters.status')"
-        />
-        <n-button
-          v-if="hasFilters"
-          size="small"
-          tertiary
-          type="primary"
-          class="w-full font-medium sm:w-auto"
-          @click="clearFilters"
-        >
-          {{ t('common.clear') }}
-        </n-button>
+        <div class="contents sm:flex sm:w-full sm:items-center sm:gap-2">
+          <n-input
+            v-model:value="search"
+            size="small"
+            clearable
+            class="col-span-2 min-w-0 sm:flex-1"
+            :placeholder="t('common.search')"
+          />
+          <CompendiumQualityFilter
+            v-model:value="quality"
+            :quality-options="[5, 4, 3]"
+            class="shrink-0"
+          />
+          <n-button
+            v-if="hasFilters"
+            size="small"
+            tertiary
+            type="primary"
+            class="order-last col-span-2 w-full font-medium sm:order-none sm:w-auto sm:shrink-0"
+            @click="clearFilters"
+          >
+            {{ t('common.clear') }}
+          </n-button>
+        </div>
+        <div class="contents sm:grid sm:w-full sm:grid-cols-3 sm:gap-2">
+          <n-select
+            v-model:value="position"
+            size="small"
+            clearable
+            class="w-full min-w-0"
+            :options="positionOptions"
+            :show-checkmark="false"
+            :placeholder="t('eurekas.filters.position')"
+          />
+          <n-select
+            v-model:value="style"
+            size="small"
+            clearable
+            class="w-full min-w-0"
+            :options="styleOptions"
+            :show-checkmark="false"
+            :placeholder="t('common.style')"
+          />
+          <n-select
+            v-model:value="ownershipStatus"
+            size="small"
+            clearable
+            class="w-full min-w-0"
+            :options="statusOptions"
+            :show-checkmark="false"
+            :placeholder="t('eurekas.filters.status')"
+          />
+        </div>
       </div>
     </n-card>
 

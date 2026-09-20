@@ -284,7 +284,7 @@
           <!-- Eureka Tracker -->
           <NuxtLinkLocale
             no-prefetch
-            class="group order-4 block h-36 w-full cursor-pointer rounded-xl focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden lg:h-auto lg:min-h-28"
+            class="group order-4 block h-44 w-full cursor-pointer rounded-xl focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden lg:h-auto lg:min-h-44"
             :to="'/eurekas'"
           >
             <div
@@ -336,7 +336,7 @@
           <!-- Lookbook Preview -->
           <NuxtLinkLocale
             no-prefetch
-            class="group order-5 block h-36 w-full cursor-pointer rounded-xl focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden lg:h-auto lg:min-h-28"
+            class="group order-5 block h-44 w-full cursor-pointer rounded-xl focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden lg:h-auto lg:min-h-44"
             :to="'/lookbook'"
           >
             <div
@@ -377,12 +377,18 @@
                 class="absolute inset-x-2 top-2 bottom-11 flex flex-col items-center justify-center gap-2"
               >
                 <n-skeleton class="h-6 w-[82%] rounded-lg" />
-                <div class="grid grid-cols-5 gap-1.5">
-                  <n-skeleton
-                    v-for="index in 10"
-                    :key="`lookbook-preview-skeleton-${index}`"
-                    class="size-4 rounded-[3px]"
-                  />
+                <div class="flex flex-col gap-1.5">
+                  <div
+                    v-for="(row, rowIndex) in lookbookPreviewRows"
+                    :key="`lookbook-preview-skeleton-row-${rowIndex}`"
+                    class="flex gap-1.5"
+                  >
+                    <n-skeleton
+                      v-for="(_, squareIndex) in row"
+                      :key="`lookbook-preview-skeleton-${rowIndex}-${squareIndex}`"
+                      class="size-4 rounded-[3px]"
+                    />
+                  </div>
                 </div>
               </div>
 
@@ -400,7 +406,7 @@
           <!-- Whim Search -->
           <NuxtLinkLocale
             no-prefetch
-            class="group order-1 block h-36 w-full cursor-pointer rounded-xl focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden lg:h-auto lg:min-h-28"
+            class="group order-1 block h-44 w-full cursor-pointer rounded-xl focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden lg:h-auto lg:min-h-44"
             :to="'/search'"
           >
             <div
@@ -409,7 +415,7 @@
               <!-- Decorative Search Interface Background -->
               <div
                 v-if="shouldRenderFeatureAssets"
-                class="absolute inset-0 flex flex-col items-center justify-start gap-1.5 pt-3"
+                class="absolute inset-x-2 top-2 bottom-11 flex flex-col items-center justify-center gap-1.5"
               >
                 <!-- Mini Searchbar -->
                 <div
@@ -440,7 +446,7 @@
                 </div>
                 <!-- Mini Results Grid (Item Cards) -->
                 <div
-                  class="grid h-[60%] shrink-0 grid-cols-6 gap-1.5 opacity-70 dark:opacity-80"
+                  class="grid shrink-0 grid-cols-6 gap-1.5 opacity-70 dark:opacity-80"
                 >
                   <div
                     v-for="index in 18"
@@ -456,10 +462,10 @@
               </div>
               <div
                 v-else
-                class="absolute inset-0 flex flex-col items-center justify-start gap-1.5 pt-3"
+                class="absolute inset-x-2 top-2 bottom-11 flex flex-col items-center justify-center gap-1.5"
               >
                 <n-skeleton class="h-7 w-[80%] shrink-0 rounded-full" />
-                <div class="grid grid-cols-6 gap-1.5 opacity-70">
+                <div class="grid shrink-0 grid-cols-6 gap-1.5 opacity-70">
                   <n-skeleton
                     v-for="index in 18"
                     :key="`search-preview-skeleton-${index}`"
@@ -482,7 +488,7 @@
           <!-- Whim-O-Matic -->
           <NuxtLinkLocale
             no-prefetch
-            class="group order-2 block h-36 w-full cursor-pointer rounded-xl focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden lg:h-auto lg:min-h-28"
+            class="group order-2 block h-44 w-full cursor-pointer rounded-xl focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden lg:h-auto lg:min-h-44"
             :to="'/random'"
           >
             <div
@@ -491,15 +497,15 @@
               <!-- GachaponMachineSvg bg -->
               <div
                 v-if="shouldRenderFeatureAssets"
-                class="absolute h-30 transition-transform duration-300 group-hover:scale-[1.03] motion-reduce:transform-none"
+                class="absolute inset-x-2 top-2 bottom-11 flex items-center justify-center transition-transform duration-300 group-hover:scale-[1.03] motion-reduce:transform-none"
               >
-                <LazyGachaponMachineSvg class="h-full w-full drop-shadow-sm" />
+                <LazyGachaponMachineSvg class="h-30 w-24 drop-shadow-sm" />
               </div>
               <div
                 v-else
-                class="absolute inset-x-3 top-2 bottom-11 flex items-center justify-center"
+                class="absolute inset-x-2 top-2 bottom-11 flex items-center justify-center"
               >
-                <n-skeleton class="h-24 w-16 rounded-2xl" />
+                <n-skeleton class="h-30 w-24 rounded-2xl" />
               </div>
 
               <div class="absolute right-2 bottom-2 left-2 z-10">
@@ -516,7 +522,7 @@
           <!-- Tier List Preview -->
           <NuxtLinkLocale
             no-prefetch
-            class="group order-3 block h-36 w-full cursor-pointer rounded-xl focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden lg:h-auto lg:min-h-28"
+            class="group order-3 block h-44 w-full cursor-pointer rounded-xl focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden lg:h-auto lg:min-h-44"
             :to="'/tierlist'"
           >
             <div
@@ -524,33 +530,43 @@
             >
               <div
                 v-if="shouldRenderFeatureAssets"
-                class="flex h-full flex-col gap-1.5 rounded-md p-2 backdrop-blur-[1px]"
+                class="absolute inset-x-2 top-2 bottom-11 flex items-center justify-center rounded-md backdrop-blur-[1px]"
               >
-                <div
-                  v-for="(row, rowIndex) in tierPreviewRows"
-                  :key="`tier-preview-row-${rowIndex}`"
-                  class="flex items-center"
-                >
-                  <div class="flex flex-1 gap-1.5">
-                    <div
-                      v-for="(chipClass, chipIndex) in row"
-                      :key="`tier-preview-chip-${rowIndex}-${chipIndex}`"
-                      class="h-4 w-4 shrink-0 rounded-[3px]"
-                      :class="chipClass"
-                    />
+                <div class="flex flex-col gap-1">
+                  <div
+                    v-for="(row, rowIndex) in tierPreviewRows"
+                    :key="`tier-preview-row-${rowIndex}`"
+                    class="flex items-center"
+                  >
+                    <div class="flex gap-1.5">
+                      <div
+                        v-for="(chipClass, chipIndex) in row"
+                        :key="`tier-preview-chip-${rowIndex}-${chipIndex}`"
+                        class="h-4 w-4 shrink-0 rounded-[3px]"
+                        :class="chipClass"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
               <div
                 v-else
-                class="absolute inset-x-3 top-3 bottom-11 flex items-center justify-center"
+                class="absolute inset-x-2 top-2 bottom-11 flex items-center justify-center rounded-md"
               >
-                <div class="grid grid-cols-5 gap-1.5">
-                  <n-skeleton
-                    v-for="index in 20"
-                    :key="`tier-preview-skeleton-${index}`"
-                    class="size-4 rounded-[3px]"
-                  />
+                <div class="flex flex-col gap-1">
+                  <div
+                    v-for="(row, rowIndex) in tierPreviewRows"
+                    :key="`tier-preview-skeleton-row-${rowIndex}`"
+                    class="flex items-center"
+                  >
+                    <div class="flex gap-1.5">
+                      <n-skeleton
+                        v-for="(_, chipIndex) in row"
+                        :key="`tier-preview-skeleton-${rowIndex}-${chipIndex}`"
+                        class="size-4 shrink-0 rounded-[3px]"
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
               <div class="absolute right-2 bottom-2 left-2">
@@ -567,7 +583,7 @@
           <!-- Outfit Silhouette Quiz -->
           <NuxtLinkLocale
             no-prefetch
-            class="group order-6 block h-36 w-full cursor-pointer rounded-xl focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden lg:h-auto lg:min-h-28"
+            class="group order-6 block h-44 w-full cursor-pointer rounded-xl focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden lg:h-auto lg:min-h-44"
             :to="'/quiz'"
           >
             <div
@@ -575,24 +591,26 @@
             >
               <div
                 v-if="shouldRenderFeatureAssets"
-                class="mb-4 aspect-2/3 h-full shrink-0 p-1 transition-transform duration-300 group-hover:scale-[1.03] motion-reduce:transform-none"
+                class="absolute inset-x-0 top-0 bottom-3 flex items-center justify-center overflow-hidden transition-transform duration-300 group-hover:scale-[1.03] motion-reduce:transform-none"
               >
-                <LazyNuxtImg
-                  :src="getImageSrc('outfit', featuredOutfitId)"
-                  preset="tallSm"
-                  sizes="100px"
-                  quality="1"
-                  fit="cover"
-                  loading="lazy"
-                  class="h-full w-full max-w-full object-cover"
-                  :style="silhouetteStyle"
-                />
+                <div class="aspect-2/3 h-[calc(100%+10px)] shrink-0 p-1">
+                  <LazyNuxtImg
+                    :src="getImageSrc('outfit', featuredOutfitId)"
+                    preset="tallSm"
+                    sizes="100px"
+                    quality="1"
+                    fit="cover"
+                    loading="lazy"
+                    class="h-full w-full max-w-full object-cover"
+                    :style="silhouetteStyle"
+                  />
+                </div>
               </div>
               <div
                 v-else
-                class="absolute inset-x-3 top-2 bottom-11 flex items-center justify-center"
+                class="absolute inset-x-2 top-2 bottom-11 flex items-center justify-center"
               >
-                <n-skeleton class="h-24 w-16 rounded-lg" />
+                <n-skeleton class="h-30 w-24 rounded-2xl" />
               </div>
               <div class="absolute right-2 bottom-2 left-2">
                 <div
@@ -638,57 +656,99 @@
               <div
                 class="flex min-h-24 flex-col justify-center rounded-xl border border-black/5 bg-slate-50/70 p-4 ring-1 ring-white/60 ring-inset lg:flex-1 dark:border-white/8 dark:bg-slate-950/30 dark:ring-white/4"
               >
-                <div class="mb-1 flex h-5 items-center justify-center">
-                  <n-skeleton
-                    text
-                    round
-                    class="w-20"
-                  />
+                <div
+                  class="mb-1 flex items-center justify-center gap-1.5 text-sm font-medium text-gray-600 dark:text-gray-300"
+                >
+                  <n-icon
+                    size="14"
+                    class="text-rose-500 dark:text-rose-300"
+                  >
+                    <Star />
+                  </n-icon>
+                  {{ $t('common.stats.total_pulls') }}
                 </div>
                 <div
-                  class="flex min-h-7 items-center justify-center text-xl font-bold tabular-nums sm:min-h-8 sm:text-2xl"
+                  class="min-h-7 text-xl font-bold text-slate-900 tabular-nums sm:min-h-8 sm:text-2xl dark:text-white"
                 >
                   <n-skeleton
                     text
                     round
-                    class="w-24 sm:w-32"
+                    class="mx-auto w-24 sm:w-32"
                   />
                 </div>
               </div>
               <div
                 class="flex min-h-24 flex-col justify-center rounded-xl border border-black/5 bg-slate-50/70 p-4 ring-1 ring-white/60 ring-inset lg:flex-1 dark:border-white/8 dark:bg-slate-950/30 dark:ring-white/4"
               >
-                <div class="mb-1 flex h-5 items-center justify-center">
-                  <n-skeleton
-                    text
-                    round
-                    class="w-20"
-                  />
+                <div
+                  class="mb-1 flex items-center justify-center gap-1.5 text-sm font-medium text-gray-600 dark:text-gray-300"
+                >
+                  <n-icon
+                    size="14"
+                    class="text-rose-500 dark:text-rose-300"
+                  >
+                    <Users />
+                  </n-icon>
+                  {{ $t('global.stats.unique_users') }}
                 </div>
                 <div
-                  class="flex min-h-7 items-center justify-center text-xl font-bold tabular-nums sm:min-h-8 sm:text-2xl"
+                  class="min-h-7 text-xl font-bold text-slate-900 tabular-nums sm:min-h-8 sm:text-2xl dark:text-white"
                 >
                   <n-skeleton
                     text
                     round
-                    class="w-16 sm:w-20"
+                    class="mx-auto w-16 sm:w-20"
                   />
                 </div>
               </div>
             </div>
             <div class="flex justify-center">
-              <n-skeleton class="h-8 w-40 rounded-full lg:w-full" />
+              <n-button
+                type="primary"
+                quaternary
+                size="medium"
+                class="min-w-40 lg:w-full"
+                @click="navigateTo(localePath('/global'))"
+              >
+                <template #icon>
+                  <n-icon><ChartBar /></n-icon>
+                </template>
+                {{ $t('default.view_all_stats') }}
+              </n-button>
             </div>
           </div>
           <div
-            class="flex h-70 items-end gap-4 rounded-xl border border-black/5 bg-slate-50/70 p-2 ring-1 ring-white/60 ring-inset lg:h-60 lg:gap-8 lg:p-3 dark:border-white/8 dark:bg-slate-950/30 dark:ring-white/4"
+            class="rounded-xl border border-black/5 bg-slate-50/70 p-2 ring-1 ring-white/60 ring-inset lg:p-3 dark:border-white/8 dark:bg-slate-950/30 dark:ring-white/4"
           >
-            <n-skeleton
-              v-for="(height, index) in communityStatsSkeletonHeights"
-              :key="`community-stats-placeholder-${index}`"
-              class="flex-1 rounded-md"
-              :style="{ height: `${height}%` }"
-            />
+            <div
+              class="flex flex-col justify-end sm:hidden"
+              :style="{ height: communityStatsSkeletonMobileHeight }"
+            >
+              <div class="flex flex-1 flex-col justify-around gap-5 py-2">
+                <div
+                  v-for="(width, index) in communityStatsSkeletonHeights"
+                  :key="`community-stats-mobile-placeholder-${index}`"
+                  class="flex h-7 min-w-0 items-center"
+                >
+                  <n-skeleton
+                    class="h-full rounded-md"
+                    :style="{ width: `${width}%` }"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="hidden h-60 flex-col justify-end sm:flex">
+              <div class="grid flex-1 grid-cols-10 items-end gap-4 lg:gap-8">
+                <div
+                  v-for="(height, index) in communityStatsSkeletonHeights"
+                  :key="`community-stats-placeholder-${index}`"
+                  class="flex min-w-0 items-end"
+                  :style="{ height: `${height}%` }"
+                >
+                  <n-skeleton class="h-full w-full rounded-md" />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </n-card>
@@ -715,6 +775,9 @@
     PaintBrush,
     Paw,
     Th,
+    ChartBar,
+    Star,
+    Users,
   } from '@vicons/fa'
 
   const { t } = useI18n()
@@ -999,34 +1062,29 @@
     },
   ]
 
-  const lookbookPreviewRows = [
-    [
-      'bg-amber-500/80',
-      'bg-amber-500/80',
-      'bg-amber-500/80',
-      'bg-amber-500/80',
-      'bg-amber-500/80',
-    ],
-    [
-      'bg-sky-500/80',
-      'bg-sky-500/80',
-      'bg-sky-500/80',
-      'bg-sky-500/80',
-      'bg-sky-500/80',
-    ],
-    [
-      'bg-teal-500/80',
-      'bg-teal-500/80',
-      'bg-teal-500/80',
-      'bg-teal-500/80',
-      'bg-teal-500/80',
-    ],
+  const lookbookPreviewColors = [
+    'bg-amber-500/80',
+    'bg-sky-500/80',
+    'bg-teal-500/80',
   ] as const
+  const lookbookPreviewRows = Array.from({ length: 4 }, (_, rowIndex) =>
+    Array.from(
+      { length: 5 },
+      (_, columnIndex) =>
+        lookbookPreviewColors[
+          (rowIndex * 5 + columnIndex) % lookbookPreviewColors.length
+        ]
+    )
+  )
 
   // ── Community stats (from /api/global) ─────────
   const communityStatsSkeletonHeights = [
     80, 80, 80, 80, 60, 60, 60, 60, 40, 40,
   ] as const
+  const communityStatsSkeletonMobileHeight = `${Math.max(
+    280,
+    communityStatsSkeletonHeights.length * 48 + 16
+  )}px`
 
   // ── SEO ────────────────────────────────────────
   useSeoMeta({

@@ -177,8 +177,6 @@ export default defineNuxtConfig({
     supabaseDataSecretKey: process.env.SUPABASE_DATA_SECRET_KEY,
     pineconeApiKey: process.env.PINECONE_API_KEY,
     pineconeSearchHost: process.env.PINECONE_SEARCH_HOST,
-    cloudflareCatalogWriteUrl: process.env.CLOUDFLARE_CATALOG_WRITE_URL,
-    cloudflareDataToken: process.env.CLOUDFLARE_DATA_TOKEN,
 
     public: {
       supabaseUrl: process.env.SUPABASE_DATABASE_URL,

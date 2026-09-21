@@ -1,20 +1,20 @@
-# Data DB Reference (`mkvqvnlunfuyqrpbppiy`)
+# Legacy Content Supabase Reference (`mkvqvnlunfuyqrpbppiy`)
 
-Condensed schema reference for LLM/agent context.
+Condensed rollback reference for LLM/agent context. This project is not the catalog source of truth: Cloudflare D1 owns persisted catalog data, the Worker owns public catalog reads, and the processor owns releases. Keep this map only while the Nitro fallback and legacy bootstrap paths remain.
 
 Canonical source for detailed SQL/query behavior:
 
-- `C:\Users\dastrokes\Dev\git\gongeo.us-data-processor\scripts\create-schema.sql`
 - `C:\Users\dastrokes\Dev\git\gongeo.us-data-processor\docs\database-query-reference.md`
+- `C:\Users\dastrokes\Dev\git\gongeo.us-data-api\migrations\0001_initial.sql` (current D1 schema)
 
 ## Functions
 
-- `public.list_item_facets(...)` returns item facet groups/keys/values for the current filter selection.
-- `public.list_item_attribute_ids(...)` returns item IDs matching category, subcategory, and metadata filters.
+- `public.list_item_facets(...)` is retained only for the Nitro rollback path.
+- `public.list_item_attribute_ids(...)` is retained only for the Nitro rollback path.
 
-Catalog listing projections come from `public/catalog/`; detail routes query tables directly.
+Current catalog clients call `data.gongeo.us`; legacy Nitro detail routes query these tables only when the external data API is disabled.
 
-## Tables
+## Legacy tables
 
 ### `public.items`
 

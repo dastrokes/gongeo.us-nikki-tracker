@@ -4,14 +4,16 @@ Read this guide for server endpoints, caching, locale resolution, Supabase, SQL,
 
 ## Project boundaries
 
-- Main app and stats project `fimzdbqulflilnnopibz`: banner stats, global stats, tier-list data, and related user/stat endpoints.
-- Game content project `mkvqvnlunfuyqrpbppiy`: item and outfit details, item-search facets, attribute matches, and catalog/domain content.
+- Main app project `fimzdbqulflilnnopibz`: authentication, users, banner/global stats, tier lists, feedback suggestions/votes, and feedback workflow state.
+- Cloudflare D1 database `gongeous`: authoritative item, outfit, makeup, Momo, reviewed attribute, listing-filter, and content-revision data.
+- Hono Worker `data.gongeo.us`: public catalog details, facets, attribute matches, and Pinecone-backed item search.
+- Legacy content project `mkvqvnlunfuyqrpbppiy`: temporary Nitro rollback and bootstrap source only; do not add new catalog behavior here.
 - Main-project environment variables: `SUPABASE_DATABASE_URL`, `SUPABASE_PUBLISHABLE_KEY`, `SUPABASE_SECRET_KEY`.
-- Content-project environment variables: `SUPABASE_DATA_URL`, `SUPABASE_DATA_SECRET_KEY`.
+- Legacy content-project environment variables: `SUPABASE_DATA_URL`, `SUPABASE_DATA_SECRET_KEY`.
 - Main DB reference: `.supabase/main_db_reference.md`.
-- Content DB reference: `.supabase/data_db_reference.md`.
+- Legacy content DB reference: `.supabase/data_db_reference.md`.
 - Tracker-owned main DB SQL notes stay in `.supabase/`.
-- Detailed content-DB queries and functions belong in the sibling `gongeo.us-data-processor` project. Keep tracker reference markdown condensed.
+- D1 query/schema behavior belongs in the sibling data API and data processor projects. Keep tracker reference markdown condensed.
 - Reference files are non-executable maps. Verify risky behavior against code, schemas, or APIs.
 
 ## Supabase clients
@@ -36,4 +38,4 @@ Read this guide for server endpoints, caching, locale resolution, Supabase, SQL,
 - `server/utils/`: server-only helpers
 - `shared/utils/`: cross-runtime helpers
 - `shared/types/`: shared types
-- `.supabase/`: schemas, SQL notes, and condensed references
+- `.supabase/`: main-project schemas/SQL notes and condensed legacy references

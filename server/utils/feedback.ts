@@ -201,7 +201,7 @@ export const listFeedbackSuggestions = async ({
   page,
   pageSize = FEEDBACK_PAGE_SIZE,
 }: ListFeedbackOptions): Promise<FeedbackListResponse> => {
-  const supabase = useSupabaseDataClient()
+  const supabase = useSupabaseServerClient()
   const safePageSize = Math.max(1, Math.min(pageSize, 50))
   const safePage = Math.max(1, Math.floor(page))
   const from = (safePage - 1) * safePageSize
@@ -312,7 +312,7 @@ export const hasOpenFeedbackSuggestions = async ({
   entityType: FeedbackEntityType
   entityId: number
 }) => {
-  const supabase = useSupabaseDataClient()
+  const supabase = useSupabaseServerClient()
   const { count, error } = await withSupabaseRetry(() =>
     supabase
       .from('feedback_queue')
@@ -337,7 +337,7 @@ export const getFeedbackVotesForUser = async (
     return {}
   }
 
-  const supabase = useSupabaseDataClient()
+  const supabase = useSupabaseServerClient()
   const { data, error } = await withSupabaseRetry(() =>
     supabase
       .from('feedback_votes')
@@ -366,7 +366,7 @@ export const getFeedbackVotesForUser = async (
 }
 
 export const getFeedbackSuggestionById = async (id: string) => {
-  const supabase = useSupabaseDataClient()
+  const supabase = useSupabaseServerClient()
   const { data, error } = await withSupabaseRetry(() =>
     supabase.from('feedback_queue').select('*').eq('id', id).maybeSingle()
   )
@@ -481,7 +481,7 @@ const upsertFeedbackVote = async (
   userId: string,
   voteValue: FeedbackVoteValue
 ) => {
-  const supabase = useSupabaseDataClient()
+  const supabase = useSupabaseServerClient()
   const now = new Date().toISOString()
   const { error } = await withSupabaseRetry(() =>
     supabase.from('feedback_votes').upsert(
@@ -511,7 +511,7 @@ export const createFeedbackSuggestion = async ({
   changedFields,
   userId,
 }: CreateFeedbackSuggestionInput) => {
-  const supabase = useSupabaseDataClient()
+  const supabase = useSupabaseServerClient()
   const baseSignature = createSignature(
     stableSerializeFeedbackRecord(baseSnapshot)
   )
@@ -588,7 +588,7 @@ export const updateFeedbackVote = async ({
   userId: string
   vote: FeedbackVoteValue | null
 }) => {
-  const supabase = useSupabaseDataClient()
+  const supabase = useSupabaseServerClient()
   const suggestion = await getFeedbackSuggestionById(suggestionId)
 
   if (!suggestion) {
@@ -638,7 +638,7 @@ export const updateFeedbackSuggestionStatus = async ({
   suggestionId: string
   status: FeedbackSuggestionStatus
 }) => {
-  const supabase = useSupabaseDataClient()
+  const supabase = useSupabaseServerClient()
   const now = new Date().toISOString()
   const { error } = await withSupabaseRetry(() =>
     supabase

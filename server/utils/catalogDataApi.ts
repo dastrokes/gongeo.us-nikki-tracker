@@ -1,5 +1,6 @@
 type CatalogItemDetailResponse = {
   id?: unknown
+  message?: unknown
   item_attributes?: {
     category?: unknown
     subcategory?: unknown
@@ -19,29 +20,44 @@ export type CatalogFeedbackItem = {
 const isRecord = (value: unknown): value is Record<string, unknown> =>
   Boolean(value) && typeof value === 'object' && !Array.isArray(value)
 
-const getCatalogDataApiBaseUrl = () => {
-  const configured = useRuntimeConfig().public.dataApiBaseUrl
-  const baseUrl = typeof configured === 'string' ? configured.trim() : ''
-  if (!baseUrl) {
-    throw new Error('NUXT_PUBLIC_DATA_API_BASE_URL is required for feedback')
-  }
-  return baseUrl.replace(/\/+$/, '')
+const requireEnvironmentValue = (name: string) => {
+  const value = process.env[name]?.trim() ?? ''
+  if (!value) throw new Error(`${name} is required for feedback`)
+  return value
+}
+
+const getCatalogItemAdminUrl = (itemId: number) => {
+  const url = new URL(requireEnvironmentValue('CLOUDFLARE_CATALOG_WRITE_URL'))
+  url.pathname = `${url.pathname.replace(/\/+$/, '')}/${encodeURIComponent(String(itemId))}`
+  url.search = ''
+  url.hash = ''
+  return url
 }
 
 export const fetchCatalogItemForFeedback = async (
   itemId: number
 ): Promise<CatalogFeedbackItem | null> => {
-  const response = await fetch(
-    `${getCatalogDataApiBaseUrl()}/items/${encodeURIComponent(String(itemId))}?lang=en`,
-    { signal: AbortSignal.timeout(10_000) }
-  )
+  const response = await fetch(getCatalogItemAdminUrl(itemId), {
+    headers: {
+      Accept: 'application/json',
+      Authorization: `Bearer ${requireEnvironmentValue('CLOUDFLARE_DATA_TOKEN')}`,
+    },
+    signal: AbortSignal.timeout(10_000),
+  })
+  const payload = (await response.json().catch(() => null)) as
+    | CatalogItemDetailResponse
+    | null
 
   if (response.status === 404) return null
   if (!response.ok) {
-    throw new Error(`Catalog data API returned ${response.status}`)
+    const message =
+      payload && typeof payload.message === 'string'
+        ? `: ${payload.message}`
+        : ''
+    throw new Error(`Catalog data API returned ${response.status}${message}`)
   }
 
-  const payload = (await response.json()) as CatalogItemDetailResponse
+  if (!payload) throw new Error('Catalog data API returned invalid JSON')
   const id = Number(payload.id)
   if (!Number.isSafeInteger(id) || id !== itemId) {
     throw new Error('Catalog data API returned an invalid item')

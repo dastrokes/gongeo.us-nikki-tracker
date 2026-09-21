@@ -26,7 +26,8 @@
 - [Tailwind CSS](https://tailwindcss.com/) - 原子化 CSS 框架
 - [Pinia](https://pinia.vuejs.org/) - 状态管理
 - [Nuxt i18n](https://i18n.nuxtjs.org/) - 国际化
-- [Supabase](https://supabase.com/) - 后端与身份认证
+- [Supabase](https://supabase.com/) - 身份认证、用户、统计与反馈
+- [Cloudflare Workers + D1](https://developers.cloudflare.com/d1/) - 公共目录数据 API
 - [ECharts](https://echarts.apache.org/) - 数据可视化
 
 ## 许可

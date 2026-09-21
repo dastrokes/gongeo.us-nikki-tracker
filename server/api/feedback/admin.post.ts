@@ -1,7 +1,5 @@
 import { createError } from 'h3'
 
-let maintainerActionInFlight = false
-
 const createBadRequestError = (message: string) =>
   createError({
     statusCode: 400,
@@ -25,12 +23,6 @@ const normalizeAction = (value: unknown): FeedbackMaintainerAction => {
 }
 
 export default defineEventHandler(async (event) => {
-  if (maintainerActionInFlight) {
-    throw createConflictError('Another feedback maintainer action is running')
-  }
-
-  maintainerActionInFlight = true
-
   try {
     await requireItemSearchMaintainerUser(event)
     const body = (await readBody(event)) as FeedbackMaintainerActionRequest
@@ -61,6 +53,7 @@ export default defineEventHandler(async (event) => {
       await updateFeedbackSuggestionStatus({
         suggestionId,
         status: 'accepted',
+        expectedStatuses: ['open'],
       })
     } else if (action === 'reject') {
       if (suggestion.status !== 'open' && suggestion.status !== 'accepted') {
@@ -72,15 +65,44 @@ export default defineEventHandler(async (event) => {
       await updateFeedbackSuggestionStatus({
         suggestionId,
         status: 'rejected',
+        expectedStatuses: ['open', 'accepted'],
       })
     } else {
-      if (suggestion.status !== 'open' && suggestion.status !== 'accepted') {
-        throw createBadRequestError(
-          'Only open or accepted suggestions can be applied'
+      if (suggestion.status !== 'accepted') {
+        throw createBadRequestError('Only accepted suggestions can be applied')
+      }
+
+      const claim = await claimFeedbackSuggestionApply(suggestionId)
+      if (!claim) {
+        throw createConflictError(
+          'This suggestion is already being applied by another maintainer'
         )
       }
 
-      applyResult = await applyItemFeedback(suggestion)
+      try {
+        applyResult = await applyItemFeedback(
+          claim.suggestion,
+          claim.operationId
+        )
+        await completeFeedbackSuggestionApply({
+          suggestionId,
+          claimToken: claim.claimToken,
+        })
+      } catch (error) {
+        const message = toErrorMessage(error, 'Failed to apply feedback')
+        try {
+          await failFeedbackSuggestionApply({
+            suggestionId,
+            claimToken: claim.claimToken,
+            message,
+          })
+        } catch (claimError) {
+          console.error(
+            `Failed to record feedback apply failure: ${toErrorMessage(claimError, 'Unknown claim error')}`
+          )
+        }
+        throw error
+      }
     }
 
     const refreshedSuggestion = await getFeedbackSuggestionById(suggestionId)
@@ -108,7 +130,5 @@ export default defineEventHandler(async (event) => {
     throw createApiFailureError(operation, {
       transient: isTransientSupabaseError(error),
     })
-  } finally {
-    maintainerActionInFlight = false
   }
 })

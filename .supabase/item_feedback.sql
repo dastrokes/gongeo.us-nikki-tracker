@@ -1,4 +1,4 @@
-create extension if not exists pgcrypto;
+begin;
 
 create table if not exists public.feedback_suggestions (
   id uuid primary key default gen_random_uuid(),
@@ -10,14 +10,24 @@ create table if not exists public.feedback_suggestions (
   changed_fields text[] not null default '{}'::text[],
   status text not null default 'open'
     check (status in ('open', 'accepted', 'rejected', 'applied')),
-  user_id text not null,
+  user_id uuid references auth.users (id) on delete set null,
   created_at timestamptz not null default timezone('utc', now()),
   updated_at timestamptz not null default timezone('utc', now())
 );
 
+alter table public.feedback_suggestions
+  add column if not exists apply_operation_id text,
+  add column if not exists apply_claim_token uuid,
+  add column if not exists apply_claimed_at timestamptz,
+  add column if not exists apply_lease_expires_at timestamptz,
+  add column if not exists apply_attempt_count integer not null default 0,
+  add column if not exists apply_last_error text,
+  add column if not exists applied_at timestamptz;
+
 create table if not exists public.feedback_votes (
-  suggestion_id uuid not null references public.feedback_suggestions (id) on delete cascade,
-  user_id text not null,
+  suggestion_id uuid not null
+    references public.feedback_suggestions (id) on delete cascade,
+  user_id uuid not null references auth.users (id) on delete cascade,
   vote_value smallint not null check (vote_value in (-1, 1)),
   created_at timestamptz not null default timezone('utc', now()),
   updated_at timestamptz not null default timezone('utc', now()),
@@ -28,20 +38,75 @@ create index if not exists idx_feedback_suggestions_status_created
   on public.feedback_suggestions (status, created_at desc);
 
 create index if not exists idx_feedback_suggestions_entity_status
-  on public.feedback_suggestions (entity_type, entity_id, status, created_at desc);
+  on public.feedback_suggestions
+  (entity_type, entity_id, status, created_at desc);
 
 create index if not exists idx_feedback_suggestions_changed_fields
-  on public.feedback_suggestions
-  using gin (changed_fields);
+  on public.feedback_suggestions using gin (changed_fields);
 
 create unique index if not exists idx_feedback_suggestions_open_entity
   on public.feedback_suggestions (entity_type, entity_id)
   where status = 'open';
 
+create unique index if not exists idx_feedback_suggestions_apply_operation
+  on public.feedback_suggestions (apply_operation_id)
+  where apply_operation_id is not null;
+
 create index if not exists idx_feedback_votes_user
   on public.feedback_votes (user_id, updated_at desc);
 
-create or replace view public.feedback_queue as
+alter table public.feedback_suggestions enable row level security;
+alter table public.feedback_votes enable row level security;
+
+revoke all on table public.feedback_suggestions from public, anon, authenticated;
+revoke all on table public.feedback_votes from public, anon, authenticated;
+revoke all on table public.feedback_suggestions from service_role;
+revoke all on table public.feedback_votes from service_role;
+grant select, insert, update, delete on table public.feedback_suggestions
+  to service_role;
+grant select, insert, update, delete on table public.feedback_votes
+  to service_role;
+
+create or replace function public.claim_feedback_suggestion_apply(
+  p_suggestion_id uuid,
+  p_claim_token uuid,
+  p_lease_seconds integer default 300
+)
+returns setof public.feedback_suggestions
+language sql
+security invoker
+set search_path = ''
+as $$
+  update public.feedback_suggestions
+  set
+    apply_operation_id = coalesce(
+      apply_operation_id,
+      'feedback-apply-' || id::text
+    ),
+    apply_claim_token = p_claim_token,
+    apply_claimed_at = timezone('utc', now()),
+    apply_lease_expires_at = timezone('utc', now())
+      + make_interval(secs => least(greatest(p_lease_seconds, 30), 900)),
+    apply_attempt_count = apply_attempt_count + 1,
+    apply_last_error = null,
+    updated_at = timezone('utc', now())
+  where id = p_suggestion_id
+    and status = 'accepted'
+    and (
+      apply_lease_expires_at is null
+      or apply_lease_expires_at <= timezone('utc', now())
+      or apply_claim_token = p_claim_token
+    )
+  returning *;
+$$;
+
+revoke all on function public.claim_feedback_suggestion_apply(uuid, uuid, integer)
+  from public, anon, authenticated, service_role;
+grant execute on function public.claim_feedback_suggestion_apply(uuid, uuid, integer)
+  to service_role;
+
+create or replace view public.feedback_queue
+with (security_invoker = true) as
 select
   suggestion.id,
   suggestion.entity_type,
@@ -71,5 +136,10 @@ left join (
     count(*)::bigint as total_votes
   from public.feedback_votes vote
   group by vote.suggestion_id
-) totals
-  on totals.suggestion_id = suggestion.id;
+) totals on totals.suggestion_id = suggestion.id;
+
+revoke all on table public.feedback_queue from public, anon, authenticated;
+revoke all on table public.feedback_queue from service_role;
+grant select on table public.feedback_queue to service_role;
+
+commit;

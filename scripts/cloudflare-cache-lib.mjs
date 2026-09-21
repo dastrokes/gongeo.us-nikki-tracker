@@ -16,7 +16,7 @@ export const getCloudflareCatalogCacheTags = (tags) =>
 export async function purgeCloudflareCache({
   tags,
   url = process.env.CLOUDFLARE_CACHE_PURGE_URL,
-  token = process.env.CLOUDFLARE_CACHE_PURGE_TOKEN,
+  token = process.env.CLOUDFLARE_DATA_TOKEN,
   fetchFn = globalThis.fetch,
   batchSize = MAX_PURGE_TAGS,
 } = {}) {
@@ -30,7 +30,7 @@ export async function purgeCloudflareCache({
   }
   if (!purgeToken) {
     throw new Error(
-      'CLOUDFLARE_CACHE_PURGE_TOKEN is required to purge Cloudflare catalog cache'
+      'CLOUDFLARE_DATA_TOKEN is required to purge Cloudflare catalog cache'
     )
   }
   if (typeof fetchFn !== 'function') {

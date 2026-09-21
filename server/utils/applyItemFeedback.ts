@@ -10,58 +10,49 @@ import {
 } from '#shared/constants/itemSearchRegistry'
 
 type ItemAttributeRow = {
-  item_id: number
-  item_type: string
+  itemId: number
+  itemType: string
   category: string | null
   subcategory: string | null
   metadata: Record<string, string | string[]>
 }
 
-type ItemCatalogRow = {
-  quality?: number | null
-  style_key?: string | null
-  tags?: Array<number | string> | null
-  obtain_type?: number | null
-}
-
 type SearchNamespace = (typeof ITEM_SEARCH_SEARCH_NAMESPACES)[number]
-
-type PineconeUpsertRow = {
-  id: string
-  data: string
-  metadata: ItemSearchMetadata
-}
 
 type LocaleResources = {
   filter: Record<string, unknown>
   misc: Record<string, unknown>
 }
 
+type CatalogWriteResponse = {
+  operationId: string
+  itemId: number
+  revision: string
+  purgedTags: string[]
+  searchNamespaces: string[]
+  replayed: boolean
+}
+
 const LOCALE_RESOURCES = {
-  en: {
-    filter: enFilter,
-    misc: enMisc,
-  },
-  zh: {
-    filter: zhFilter,
-    misc: zhMisc,
-  },
+  en: { filter: enFilter, misc: enMisc },
+  zh: { filter: zhFilter, misc: zhMisc },
 } satisfies Record<SearchNamespace, LocaleResources>
 
 const isRecord = (value: unknown): value is Record<string, unknown> =>
   typeof value === 'object' && value !== null && !Array.isArray(value)
+
+const getErrorMessage = (value: unknown) =>
+  isRecord(value) && typeof value.message === 'string' ? value.message : null
 
 const getNestedString = (
   value: Record<string, unknown>,
   pathSegments: string[]
 ) => {
   let current: unknown = value
-
   for (const segment of pathSegments) {
     if (!isRecord(current)) return null
     current = current[segment]
   }
-
   return typeof current === 'string' ? current : null
 }
 
@@ -88,9 +79,6 @@ const toUniqueStrings = (values: unknown) =>
 
 const normalizeNullableToken = (value: unknown) =>
   typeof value === 'string' ? normalizeItemSearchTokenKey(value) || null : null
-
-const normalizeRuntimeConfigString = (value: unknown) =>
-  typeof value === 'string' && value.trim() ? value.trim() : ''
 
 const getLocalizedItemType = (namespace: SearchNamespace, itemType: string) =>
   getNestedString(LOCALE_RESOURCES[namespace].misc, [`type.${itemType}`]) ??
@@ -120,23 +108,6 @@ const getLocalizedFieldValue = ({
   )
 }
 
-const normalizeNumber = (value: unknown) => {
-  const parsed = Number(value)
-  return Number.isFinite(parsed) ? parsed : null
-}
-
-const normalizeNumberStringArray = (value: unknown) =>
-  Array.isArray(value)
-    ? Array.from(
-        new Set(
-          value
-            .map((entry) => normalizeNumber(entry))
-            .filter((entry): entry is number => entry !== null)
-            .map((entry) => String(entry))
-        )
-      )
-    : []
-
 const getMetadataFieldValues = (
   metadata: ItemSearchMetadata,
   field: ItemSearchField
@@ -158,70 +129,27 @@ const getMetadataFieldValues = (
   return typeof value === 'string' && value.trim() ? [value.trim()] : []
 }
 
-const applyCatalogSearchMetadata = (
-  metadata: ItemSearchMetadata,
-  catalog: ItemCatalogRow | null
-) => {
-  if (!catalog) return metadata
-
-  const metadataRecord = metadata as Record<string, unknown>
-  const quality = normalizeNumber(catalog.quality)
-  const styleKey =
-    typeof catalog.style_key === 'string' ? catalog.style_key.trim() : ''
-  const labelIds = normalizeNumberStringArray(catalog.tags)
-  const obtainType = normalizeNumber(catalog.obtain_type)
-
-  if (quality !== null) {
-    metadataRecord.quality = quality
-  }
-
-  if (styleKey) {
-    metadataRecord.style_key = styleKey
-  }
-
-  if (labelIds.length > 0) {
-    metadataRecord.label_ids = labelIds
-  }
-
-  if (obtainType !== null) {
-    metadataRecord.obtain_type = obtainType
-  }
-
-  return metadata
-}
-
-const buildSearchMetadata = (
-  row: ItemAttributeRow,
-  catalog: ItemCatalogRow | null = null
-): ItemSearchMetadata => {
+const buildSearchMetadata = (row: ItemAttributeRow): ItemSearchMetadata => {
   const metadata: ItemSearchMetadata = {
-    item_id: row.item_id,
-    item_type: row.item_type,
-    slot: row.item_type,
+    item_id: row.itemId,
+    item_type: row.itemType,
+    slot: row.itemType,
   }
   const metadataRecord = metadata as Record<string, unknown>
 
-  if (row.category) {
-    metadata.category = row.category
-  }
+  if (row.category) metadata.category = row.category
+  if (row.subcategory) metadata.subcategory = row.subcategory
 
-  if (row.subcategory) {
-    metadata.subcategory = row.subcategory
-  }
-
-  getItemSearchAdvancedFields(row.item_type).forEach((field) => {
+  getItemSearchAdvancedFields(row.itemType).forEach((field) => {
     const value = row.metadata[field]
     if (Array.isArray(value) && value.length > 0) {
       metadataRecord[field] = value
-      return
-    }
-
-    if (typeof value === 'string' && value.trim()) {
+    } else if (typeof value === 'string' && value.trim()) {
       metadataRecord[field] = value
     }
   })
 
-  return applyCatalogSearchMetadata(metadata, catalog)
+  return metadata
 }
 
 const buildLocalizedSearchText = (
@@ -240,33 +168,12 @@ const buildLocalizedSearchText = (
   for (const field of fields) {
     terms.push(
       ...getMetadataFieldValues(metadata, field).map((value) =>
-        getLocalizedFieldValue({
-          namespace,
-          itemType,
-          field,
-          value,
-        })
+        getLocalizedFieldValue({ namespace, itemType, field, value })
       )
     )
   }
 
   return toUniqueValues(terms).join(' ')
-}
-
-const buildSearchVectorUpsertRows = (
-  itemAttributeRow: ItemAttributeRow,
-  catalog: ItemCatalogRow | null = null
-) => {
-  const metadata = buildSearchMetadata(itemAttributeRow, catalog)
-
-  return ITEM_SEARCH_SEARCH_NAMESPACES.map((namespace) => ({
-    namespace,
-    row: {
-      id: String(itemAttributeRow.item_id),
-      data: buildLocalizedSearchText(metadata, namespace),
-      metadata: { ...metadata },
-    } satisfies PineconeUpsertRow,
-  }))
 }
 
 const buildItemAttributeRow = ({
@@ -283,19 +190,14 @@ const buildItemAttributeRow = ({
   changedFields: FeedbackSuggestion['changedFields']
 }): ItemAttributeRow => {
   const normalizedItemType = normalizeItemSearchItemType(itemType)
-  const baseSnapshot = normalizeItemTagFeedbackSnapshot(
-    metadata ?? {},
-    normalizedItemType
-  )
-  const normalizedPatch = normalizeItemTagFeedbackPatch(
-    patch,
-    normalizedItemType,
-    changedFields
-  )
   const snapshot = normalizeItemTagFeedbackSnapshot(
     {
-      ...baseSnapshot,
-      ...normalizedPatch,
+      ...normalizeItemTagFeedbackSnapshot(metadata ?? {}, normalizedItemType),
+      ...normalizeItemTagFeedbackPatch(
+        patch,
+        normalizedItemType,
+        changedFields
+      ),
     },
     normalizedItemType
   )
@@ -305,109 +207,76 @@ const buildItemAttributeRow = ({
     const value = snapshot[field]
     if (Array.isArray(value)) {
       const normalizedValues = toUniqueStrings(value)
-      if (normalizedValues.length > 0) {
-        rowMetadata[field] = normalizedValues
-      }
+      if (normalizedValues.length > 0) rowMetadata[field] = normalizedValues
       return
     }
-
     const normalizedValue = normalizeNullableToken(value)
-    if (normalizedValue) {
-      rowMetadata[field] = normalizedValue
-    }
+    if (normalizedValue) rowMetadata[field] = normalizedValue
   })
 
   return {
-    item_id: itemId,
-    item_type: normalizedItemType,
+    itemId,
+    itemType: normalizedItemType,
     category: normalizeNullableToken(snapshot.category),
     subcategory: normalizeNullableToken(snapshot.subcategory),
     metadata: rowMetadata,
   }
 }
 
-const upsertItemAttributeRow = async (row: ItemAttributeRow) => {
-  const supabase = useSupabaseDataClient()
-  const { error } = await withSupabaseRetry(() =>
-    supabase.from('item_attributes').upsert(row as never, {
-      onConflict: 'item_id',
-      ignoreDuplicates: false,
-    })
-  )
-
-  if (error) {
-    throw error
-  }
+const requireRuntimeConfigString = (value: unknown, name: string) => {
+  const normalized = typeof value === 'string' ? value.trim() : ''
+  if (!normalized) throw new Error(`${name} is required`)
+  return normalized
 }
 
-const fetchItemCatalogRow = async (
-  itemId: number
-): Promise<ItemCatalogRow | null> => {
-  const supabase = useSupabaseDataClient()
-  const { data, error } = await withSupabaseRetry(() =>
-    supabase
-      .from('items')
-      .select('quality,style_key,tags,obtain_type')
-      .eq('id', itemId)
-      .maybeSingle()
+const callCatalogWriteApi = async (
+  body: Record<string, unknown>
+): Promise<CatalogWriteResponse> => {
+  const config = useRuntimeConfig()
+  const url = requireRuntimeConfigString(
+    config.cloudflareCatalogWriteUrl,
+    'CLOUDFLARE_CATALOG_WRITE_URL'
   )
-
-  if (error) {
-    throw error
-  }
-
-  return data as ItemCatalogRow | null
-}
-
-const upsertPineconeRows = async (row: ItemAttributeRow) => {
-  const runtimeConfig = useRuntimeConfig()
-  const pineconeApiKey = normalizeRuntimeConfigString(
-    runtimeConfig.pineconeApiKey
+  const token = requireRuntimeConfigString(
+    config.cloudflareDataToken,
+    'CLOUDFLARE_DATA_TOKEN'
   )
-  const pineconeSearchHost = normalizeRuntimeConfigString(
-    runtimeConfig.pineconeSearchHost
-  )
-
-  if (!pineconeApiKey || !pineconeSearchHost) {
-    throw createApiFailureError('update search index')
-  }
-
-  const catalog = await fetchItemCatalogRow(row.item_id)
-  const searchRows = buildSearchVectorUpsertRows(row, catalog)
-  const embeddings = await embedPineconeTexts({
-    apiKey: pineconeApiKey,
-    texts: searchRows.map(({ row: vectorRow }) => vectorRow.data),
-    inputType: 'passage',
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(body),
+    signal: AbortSignal.timeout(30_000),
   })
-  const upsertedNamespaces: SearchNamespace[] = []
+  const payload = (await response.json().catch(() => null)) as
+    CatalogWriteResponse | { message?: unknown } | null
 
-  for (const [index, { namespace, row: vectorRow }] of searchRows.entries()) {
-    const embedding = embeddings[index]
-    if (!embedding) {
-      throw new Error(`Missing Pinecone embedding for namespace ${namespace}`)
-    }
-
-    await upsertPineconeDocuments({
-      apiKey: pineconeApiKey,
-      host: pineconeSearchHost,
-      namespace,
-      documents: [
-        {
-          _id: vectorRow.id,
-          text: vectorRow.data,
-          embedding,
-          ...vectorRow.metadata,
-        },
-      ],
+  if (!response.ok) {
+    const message = getErrorMessage(payload) ?? 'Catalog update failed'
+    throw createError({
+      statusCode: response.status === 409 ? 409 : 502,
+      statusMessage: message,
+      message,
     })
-    upsertedNamespaces.push(namespace)
   }
 
-  return upsertedNamespaces
+  if (
+    !payload ||
+    !('operationId' in payload) ||
+    typeof payload.operationId !== 'string' ||
+    !('itemId' in payload) ||
+    !Number.isSafeInteger(payload.itemId)
+  ) {
+    throw new Error('Catalog write API returned an invalid response')
+  }
+  return payload as CatalogWriteResponse
 }
 
 export const applyItemFeedback = async (
-  suggestion: FeedbackSuggestion
+  suggestion: FeedbackSuggestion,
+  operationId: string
 ): Promise<FeedbackMaintainerApplyResult> => {
   if (suggestion.entityType !== 'item') {
     throw createError({
@@ -425,7 +294,6 @@ export const applyItemFeedback = async (
       message: 'Feedback item not found',
     })
   }
-
   if (!isSupportedItemSearchItemType(sourceItem.itemType)) {
     throw createError({
       statusCode: 400,
@@ -434,41 +302,37 @@ export const applyItemFeedback = async (
     })
   }
 
-  const itemAttributeRow = buildItemAttributeRow({
+  const row = buildItemAttributeRow({
     itemId: sourceItem.entityId,
     itemType: sourceItem.itemType,
     metadata: sourceItem.metadata,
     patch: suggestion.proposedPatch,
     changedFields: suggestion.changedFields,
   })
-
-  await upsertItemAttributeRow(itemAttributeRow)
-  const searchNamespaces = await upsertPineconeRows(itemAttributeRow)
-  const applyId = `feedback-apply-${suggestion.id}`
-  const touchedItemIds = [itemAttributeRow.item_id]
-  let purgedCacheIds: string[]
-
-  try {
-    purgedCacheIds = await purgeNetlifyCacheIds([
-      CACHE_TAGS.itemSearch,
-      ...touchedItemIds.map((itemId) => itemDetailCacheId(String(itemId))),
+  const searchMetadata = buildSearchMetadata(row)
+  const searchTexts = Object.fromEntries(
+    ITEM_SEARCH_SEARCH_NAMESPACES.map((namespace) => [
+      namespace,
+      buildLocalizedSearchText(searchMetadata, namespace),
     ])
-  } catch (error: unknown) {
-    console.error(
-      `Failed to purge Netlify cache for ${applyId} items ${touchedItemIds.join(',')}: ${toErrorMessage(error, 'Unknown purge error')}`
-    )
-    throw error
-  }
+  )
 
-  await updateFeedbackSuggestionStatus({
+  const result = await callCatalogWriteApi({
+    operationId,
     suggestionId: suggestion.id,
-    status: 'applied',
+    itemId: suggestion.entityId,
+    baseSnapshot: suggestion.baseSnapshot,
+    proposedPatch: suggestion.proposedPatch,
+    changedFields: suggestion.changedFields,
+    searchTexts,
   })
 
   return {
-    applyId,
-    touchedItemIds,
-    purgedCacheIds,
-    searchNamespaces,
+    applyId: result.operationId,
+    touchedItemIds: [result.itemId],
+    purgedCacheTags: result.purgedTags,
+    searchNamespaces: result.searchNamespaces,
+    revision: result.revision,
+    replayed: result.replayed,
   }
 }

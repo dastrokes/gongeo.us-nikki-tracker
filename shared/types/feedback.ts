@@ -76,8 +76,10 @@ export interface FeedbackMaintainerActionRequest {
 export interface FeedbackMaintainerApplyResult {
   applyId: string
   touchedItemIds: number[]
-  purgedCacheIds: string[]
+  purgedCacheTags: string[]
   searchNamespaces: string[]
+  revision: string
+  replayed: boolean
 }
 
 export interface FeedbackMaintainerActionResponse {

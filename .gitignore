@@ -38,6 +38,10 @@ logs/
 .env.*
 !.env.example
 
+# Supabase CLI local state
+supabase/.branches/
+supabase/.temp/
+
 # Editor and OS files
 .DS_Store
 .fleet/

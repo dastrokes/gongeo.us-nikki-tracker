@@ -1,4 +1,4 @@
-import { createHash } from 'node:crypto'
+import { createHash, randomUUID } from 'node:crypto'
 
 import { createError } from 'h3'
 
@@ -18,37 +18,13 @@ type FeedbackSuggestionRow = {
   disagree_count?: number | string | null
   score?: number | string | null
   total_votes?: number | string | null
-}
-
-type FeedbackItemTypeRow = {
-  id?: number | string | null
-  type?: string | null
+  apply_operation_id?: string | null
+  apply_claim_token?: string | null
 }
 
 type FeedbackVoteRow = {
   suggestion_id?: string | null
   vote_value?: number | string | null
-}
-
-type FeedbackSourceItemRow = {
-  id?: number | string | null
-  type?: string | null
-  item_attributes?:
-    | {
-        item_id?: number | string | null
-        item_type?: string | null
-        category?: string | null
-        subcategory?: string | null
-        metadata?: Record<string, unknown> | null
-      }
-    | Array<{
-        item_id?: number | string | null
-        item_type?: string | null
-        category?: string | null
-        subcategory?: string | null
-        metadata?: Record<string, unknown> | null
-      }>
-    | null
 }
 
 export interface FeedbackSourceItem {
@@ -151,39 +127,14 @@ const mapSuggestionRow = (
 const attachSuggestionItemTypes = async (
   suggestions: FeedbackSuggestion[]
 ): Promise<FeedbackSuggestion[]> => {
-  const itemEntityIds = Array.from(
-    new Set(
-      suggestions
-        .filter((suggestion) => suggestion.entityType === 'item')
-        .map((suggestion) => suggestion.entityId)
-    )
-  )
-
-  if (itemEntityIds.length === 0) {
-    return suggestions
-  }
-
-  const supabase = useSupabaseDataClient()
-  const { data, error } = await withSupabaseRetry(() =>
-    supabase.from('items').select('id,type').in('id', itemEntityIds)
-  )
-
-  if (error) {
-    throw error
-  }
-
-  const itemTypeById = new Map<number, string | null>()
-  ;((data as FeedbackItemTypeRow[] | null) ?? []).forEach((row) => {
-    const entityId = normalizeEntityId(row.id)
-    if (entityId === null) return
-    itemTypeById.set(entityId, row.type?.trim() || null)
-  })
-
   return suggestions.map((suggestion) =>
     suggestion.entityType === 'item'
       ? {
           ...suggestion,
-          itemType: itemTypeById.get(suggestion.entityId) ?? null,
+          itemType: (() => {
+            const itemType = getItemType(suggestion.entityId)
+            return itemType === 'unknown' ? null : itemType
+          })(),
         }
       : suggestion
   )
@@ -389,45 +340,24 @@ export const getFeedbackSuggestionById = async (id: string) => {
 export const getFeedbackSourceItem = async (
   entityId: number
 ): Promise<FeedbackSourceItem | null> => {
-  const supabase = useSupabaseDataClient()
-  const { data, error } = await withSupabaseRetry(() =>
-    supabase
-      .from('items')
-      .select(
-        'id,type,item_attributes(item_id,item_type,category,subcategory,metadata)'
-      )
-      .eq('id', entityId)
-      .maybeSingle()
-  )
-
-  if (error) {
-    throw error
-  }
-
-  const row = (data as FeedbackSourceItemRow | null) ?? null
-  if (!row?.id || !row.type) return null
-
-  const entityValue = normalizeEntityId(row.id)
-  if (entityValue === null) return null
-
-  const rawAttributes = Array.isArray(row.item_attributes)
-    ? (row.item_attributes[0] ?? null)
-    : row.item_attributes
-
-  const metadata = rawAttributes
+  const row = await fetchCatalogItemForFeedback(entityId)
+  if (!row) return null
+  const itemType = getItemType(row.id)
+  if (itemType === 'unknown') return null
+  const metadata = row.itemAttributes
     ? hydrateItemSearchMetadata({
-        metadata: rawAttributes.metadata ?? null,
-        itemId: rawAttributes.item_id ?? entityValue,
-        itemType: rawAttributes.item_type ?? row.type,
-        category: rawAttributes.category ?? null,
-        subcategory: rawAttributes.subcategory ?? null,
+        metadata: row.itemAttributes.metadata,
+        itemId: row.id,
+        itemType,
+        category: row.itemAttributes.category,
+        subcategory: row.itemAttributes.subcategory,
       })
     : null
 
   return {
     entityType: 'item',
-    entityId: entityValue,
-    itemType: row.type,
+    entityId: row.id,
+    itemType,
     metadata,
   }
 }
@@ -634,23 +564,133 @@ export const updateFeedbackVote = async ({
 export const updateFeedbackSuggestionStatus = async ({
   suggestionId,
   status,
+  expectedStatuses,
 }: {
   suggestionId: string
   status: FeedbackSuggestionStatus
+  expectedStatuses?: FeedbackSuggestionStatus[]
 }) => {
   const supabase = useSupabaseServerClient()
   const now = new Date().toISOString()
-  const { error } = await withSupabaseRetry(() =>
-    supabase
+  const { data, error } = await withSupabaseRetry(() => {
+    let query = supabase
       .from('feedback_suggestions')
       .update({
         status,
         updated_at: now,
       } as never)
       .eq('id', suggestionId)
-  )
+
+    if (expectedStatuses?.length) {
+      query = query.in('status', expectedStatuses)
+    }
+    if (status === 'rejected') {
+      query = query.is('apply_claim_token', null)
+    }
+    return query.select('id').maybeSingle()
+  })
 
   if (error) {
     throw error
   }
+  if (!data) {
+    throw createError({
+      statusCode: 409,
+      statusMessage: 'Feedback suggestion changed; refresh and try again',
+      message: 'Feedback suggestion changed; refresh and try again',
+    })
+  }
+}
+
+export type ClaimedFeedbackSuggestion = {
+  suggestion: FeedbackSuggestion
+  operationId: string
+  claimToken: string
+}
+
+export const claimFeedbackSuggestionApply = async (
+  suggestionId: string
+): Promise<ClaimedFeedbackSuggestion | null> => {
+  const supabase = useSupabaseServerClient()
+  const claimToken = randomUUID()
+  const { data, error } = await withSupabaseRetry(() =>
+    supabase.rpc('claim_feedback_suggestion_apply', {
+      p_suggestion_id: suggestionId,
+      p_claim_token: claimToken,
+      p_lease_seconds: 300,
+    } as never)
+  )
+
+  if (error) throw error
+  const row = ((data as FeedbackSuggestionRow[] | null) ?? [])[0]
+  const suggestion = mapSuggestionRow(row)
+  const operationId = row?.apply_operation_id?.trim() ?? ''
+  if (!suggestion || !operationId || row?.apply_claim_token !== claimToken) {
+    return null
+  }
+
+  const [enrichedSuggestion] = await attachSuggestionItemTypes([suggestion])
+  return enrichedSuggestion
+    ? { suggestion: enrichedSuggestion, operationId, claimToken }
+    : null
+}
+
+export const completeFeedbackSuggestionApply = async ({
+  suggestionId,
+  claimToken,
+}: {
+  suggestionId: string
+  claimToken: string
+}) => {
+  const supabase = useSupabaseServerClient()
+  const now = new Date().toISOString()
+  const { data, error } = await withSupabaseRetry(() =>
+    supabase
+      .from('feedback_suggestions')
+      .update({
+        status: 'applied',
+        applied_at: now,
+        apply_claim_token: null,
+        apply_claimed_at: null,
+        apply_lease_expires_at: null,
+        apply_last_error: null,
+        updated_at: now,
+      } as never)
+      .eq('id', suggestionId)
+      .eq('status', 'accepted')
+      .eq('apply_claim_token', claimToken)
+      .select('id')
+      .maybeSingle()
+  )
+
+  if (error) throw error
+  if (!data) throw createApiFailureError('complete feedback apply claim')
+}
+
+export const failFeedbackSuggestionApply = async ({
+  suggestionId,
+  claimToken,
+  message,
+}: {
+  suggestionId: string
+  claimToken: string
+  message: string
+}) => {
+  const supabase = useSupabaseServerClient()
+  const { error } = await withSupabaseRetry(() =>
+    supabase
+      .from('feedback_suggestions')
+      .update({
+        apply_claim_token: null,
+        apply_claimed_at: null,
+        apply_lease_expires_at: null,
+        apply_last_error: message.slice(0, 2000),
+        updated_at: new Date().toISOString(),
+      } as never)
+      .eq('id', suggestionId)
+      .eq('status', 'accepted')
+      .eq('apply_claim_token', claimToken)
+  )
+
+  if (error) throw error
 }

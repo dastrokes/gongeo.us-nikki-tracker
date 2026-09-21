@@ -77,8 +77,7 @@ if (bannerIds.length > 0) {
 
 const cloudflareTags = getCloudflareCatalogCacheTags(tags)
 const cloudflareConfigured = Boolean(
-  process.env.CLOUDFLARE_CACHE_PURGE_URL ||
-  process.env.CLOUDFLARE_CACHE_PURGE_TOKEN
+  process.env.CLOUDFLARE_CACHE_PURGE_URL || process.env.CLOUDFLARE_DATA_TOKEN
 )
 const [netlifyResult, cloudflareResult] = await Promise.all([
   purgeNetlifyCache({ tags }),

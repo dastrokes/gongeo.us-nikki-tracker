@@ -39,7 +39,7 @@ Tracker clients always send `lang`. The Cloudflare search API requires it and in
 ## Commands
 
 The CLI loads `.env` and requires `NETLIFY_SITE_ID` plus `NETLIFY_AUTH_TOKEN`.
-When `CLOUDFLARE_CACHE_PURGE_URL` and `CLOUDFLARE_CACHE_PURGE_TOKEN` are
+When `CLOUDFLARE_CACHE_PURGE_URL` and `CLOUDFLARE_DATA_TOKEN` are
 configured, Worker-owned catalog tags are also purged from the Cloudflare data
 API. Other tags remain Netlify-only. During the cutover, catalog tags are sent
 to both configured caches so the Nitro rollback routes do not retain stale data.

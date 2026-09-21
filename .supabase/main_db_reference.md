@@ -68,6 +68,37 @@ Generator helpers may exist behind these refresh functions, but are not app or c
 - `updated_at timestamptz`
 - PK: `(scope_type, scope_filters, voter_fingerprint)`
 
+### `public.feedback_suggestions`
+
+- `id uuid` (PK)
+- `entity_type text` (allowed: `item|outfit`)
+- `entity_id bigint`
+- `base_snapshot jsonb`
+- `base_signature text`
+- `proposed_patch jsonb`
+- `changed_fields text[]`
+- `status text` (allowed: `open|accepted|rejected|applied`)
+- `apply_operation_id text` (nullable deterministic Worker operation ID)
+- `apply_claim_token uuid` (nullable active serverless lease owner)
+- `apply_claimed_at timestamptz`
+- `apply_lease_expires_at timestamptz`
+- `apply_attempt_count integer`
+- `apply_last_error text`
+- `applied_at timestamptz`
+- `user_id uuid` (nullable FK -> `auth.users.id`, `ON DELETE SET NULL`)
+- `created_at timestamptz`
+- `updated_at timestamptz`
+- RLS enabled; only `service_role` has table privileges
+
+### `public.feedback_votes`
+
+- `suggestion_id uuid` (PK part, FK -> `feedback_suggestions.id`, `ON DELETE CASCADE`)
+- `user_id uuid` (PK part, FK -> `auth.users.id`, `ON DELETE CASCADE`)
+- `vote_value smallint` (allowed: `-1|1`)
+- `created_at timestamptz`
+- `updated_at timestamptz`
+- RLS enabled; only `service_role` has table privileges
+
 ## Views
 
 ### `public.user_banner_stats_view`
@@ -76,6 +107,26 @@ Generator helpers may exist behind these refresh functions, but are not app or c
 - Join key: `(uid, region, banner_id)`.
 - Exposes derived `source_table` (`game` or `pearpal`).
 
+### `public.feedback_queue`
+
+- `security_invoker` view over suggestions and aggregated votes.
+- Exposes suggestion fields plus agree, disagree, score, and total-vote counts.
+- Only `service_role` has `SELECT`; browser roles have no privileges.
+
+## Feedback functions
+
+### `public.claim_feedback_suggestion_apply(uuid, uuid, integer)`
+
+- Atomically claims only an `accepted` suggestion whose prior lease is absent or expired.
+- Assigns the deterministic `feedback-apply-<suggestion-id>` operation ID, increments the attempt count, and grants a bounded 30–900 second lease.
+- `SECURITY INVOKER`; only `service_role` can execute it.
+
 ## Explicit Indexes in Reference Schema
 
 - `idx_user_global_stats_updated_at` on `public.user_global_stats(updated_at DESC)`
+- `idx_feedback_suggestions_status_created` on `(status, created_at DESC)`
+- `idx_feedback_suggestions_entity_status` on `(entity_type, entity_id, status, created_at DESC)`
+- `idx_feedback_suggestions_changed_fields` GIN on `changed_fields`
+- `idx_feedback_suggestions_open_entity` unique partial index on `(entity_type, entity_id)` where status is `open`
+- `idx_feedback_suggestions_apply_operation` unique partial index on `apply_operation_id` where non-null
+- `idx_feedback_votes_user` on `(user_id, updated_at DESC)`

@@ -1,6 +1,7 @@
 import { createHash, randomUUID } from 'node:crypto'
 
 import { createError } from 'h3'
+import { getItemType } from '../../app/utils/itemType'
 
 type FeedbackSuggestionRow = {
   id?: string | null

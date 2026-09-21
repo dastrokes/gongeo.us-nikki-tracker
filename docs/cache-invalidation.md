@@ -41,8 +41,9 @@ Tracker clients always send `lang`. The Cloudflare search API requires it and in
 The CLI loads `.env` and requires `NETLIFY_SITE_ID` plus `NETLIFY_AUTH_TOKEN`.
 When `CLOUDFLARE_CACHE_PURGE_URL` and `CLOUDFLARE_DATA_TOKEN` are
 configured, Worker-owned catalog tags are also purged from the Cloudflare data
-API. Other tags remain Netlify-only. During the cutover, catalog tags are sent
-to both configured caches so the Nitro rollback routes do not retain stale data.
+API. Other tags remain Netlify-only. While the Nitro rollback routes are
+retained, catalog tags are sent to both configured caches so they do not retain
+stale data.
 
 One-off purge:
 
@@ -65,12 +66,6 @@ npm run purge -- stats-banner-72
 If the Supabase refresh fails, the command stops without purging the cache, so
 the existing cached response remains available rather than exposing stale
 database output as freshly cached data.
-
-Old identity cleanup after deploying this cache model:
-
-```powershell
-npm run purge -- game details catalog
-```
 
 Positional tags avoid npm 11 consuming the reserved `--tag value` option. The
 equivalent `--tag=value` form is also supported.

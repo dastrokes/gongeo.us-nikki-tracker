@@ -1,150 +1,119 @@
-# Item Search Operations: Tracker
+# Item search operations
 
-`gongeo.us-nikki-tracker` owns item-search taxonomy, curated overrides, localization, Supabase/Pinecone publishing, the published local mirror, and cache invalidation. `gongeo.us-image-search` owns extraction and canonical JSONL generation.
+This document covers the maintained review, taxonomy, localization, and publication flow for item-search attributes.
 
-Use `$review-item-search-batches` for the cross-project batch review/correction workflow, taxonomy and metadata review rules, historical-normalizer audits, exact override validation, localization gates, and post-publish checks. This document covers tracker-owned operations only.
+## Ownership
 
-## Source of truth
+- `gongeo.us-image-search` owns extraction, normalization, and canonical item-attribute JSONL generation.
+- `gongeo.us-nikki-tracker` owns the registry, taxonomy, curated overrides, filter localization, and feedback UI/workflow.
+- `gongeo.us-data-processor` owns authoritative D1 and Pinecone publication.
+- `gongeo.us-data-api` serves D1-backed facets/attribute matches and Pinecone-backed semantic search.
+
+D1 is the persisted catalog source of truth. Do not publish new catalog state only to the secondary Supabase project.
+
+## Maintained tracker inputs
 
 - [data/item-search/registry.mjs](../data/item-search/registry.mjs): registered fields and scoped values.
 - [data/item-search/terms.json](../data/item-search/terms.json): canonical shared terms.
 - [data/item-search/taxonomy.json](../data/item-search/taxonomy.json): category/subcategory parent mappings.
-- `app/locales/<locale>/filter.json`: filter labels.
-- [scripts/item-search-registry-lib.mjs](../scripts/item-search-registry-lib.mjs): generated asset writer.
+- `app/locales/<locale>/filter.json`: localized filter labels.
+- `data/item-search/generated/overrides.json`: accepted complete-row corrections waiting to be incorporated into an authoritative publish.
 
-Operational state under `data/item-search/generated/` is gitignored and rebuildable:
-
-- `image-search-taxonomy.json`: export consumed by image-search.
-- `overrides.json`: accepted complete-row override snapshots plus `audit`.
-- `supabase/item-attributes.jsonl`: local mirror of published Supabase rows.
-- `reports/publish/latest.json` and `publish-*.json`: publish reports.
-- `reports/publish/staging/*.jsonl`: scoped staged publish rows.
+Generated files under `data/item-search/generated/` are rebuildable and ignored. The `supabase/item-attributes.jsonl` mirror and old publish reports describe the legacy publisher; they are not authoritative catalog backups.
 
 Canonical rows are `{ item_id, item_type, category, subcategory, metadata }`. Metadata must not repeat identity fields.
 
-## Operational scripts
+## Review and preparation
 
-- [scripts/generate_filters.mjs](../scripts/generate_filters.mjs): regenerate tracker constants, locale filter schemas, and the image-search taxonomy export.
-- [scripts/sync-item-search-terms-from-attributes.mjs](../scripts/sync-item-search-terms-from-attributes.mjs): dry-run or apply missing terms and taxonomy from a reviewed canonical artifact.
-- [scripts/item-search-publish.mjs](../scripts/item-search-publish.mjs): publish to Supabase and Pinecone, refresh the local mirror, invalidate caches, and write a report.
-- [scripts/refresh-item-search-local-copy.mjs](../scripts/refresh-item-search-local-copy.mjs): refresh the Supabase mirror without publishing.
-- [scripts/item-search-feedback.mjs](../scripts/item-search-feedback.mjs): list, promote, reject, or mark community suggestions applied.
+Use `$review-item-search-batches` for extraction audits, taxonomy/metadata review, historical-normalizer checks, and exact override validation. Its review and preparation rules remain useful; production publication follows the D1 flow below rather than its legacy Supabase publisher instructions.
 
-Keep these runtime scripts in tracker. Reusable read-only review and validation helpers live in `$review-item-search-batches`.
+Keep review and publication separate:
 
-## Registry and localization
+- Review reports findings without changing data.
+- Prepare writes only accepted corrections and required taxonomy/localization changes.
+- Publish requires explicit approval.
 
-Regenerate derived assets after registry, taxonomy, term, or locale-schema changes:
+For accepted new values, add reviewed native labels in every supported locale and keep each `filter.json` schema/key order aligned with English. Regenerate derived assets after registry, taxonomy, term, or locale-schema changes:
 
 ```powershell
 node scripts/generate_filters.mjs
 ```
 
-This writes:
-
-- `data/attribute.json`
-- `shared/constants/itemSearchRegistry.ts`
-- `shared/constants/itemSearchTaxonomy.ts`
-- `app/locales/*/filter.json`
-- `data/item-search/generated/image-search-taxonomy.json`
-
-Image-search validates that every registered subcategory has one registered parent and that removed subcategories have no stale mappings.
-
-Dry-run term/taxonomy changes before applying them:
+Dry-run registry changes against the reviewed full-catalog artifact:
 
 ```powershell
 node scripts/sync-item-search-terms-from-attributes.mjs --dry-run --item-attributes-path ../gongeo.us-image-search/index/item-attributes.jsonl
 ```
 
-Resolve synonyms, field ownership, parent conflicts, and ungrouped subcategories before running the command without `--dry-run`. Use `--prune` only with a reviewed full-catalog artifact.
-
-For accepted new values, add reviewed native labels in every supported locale and keep each `filter.json` schema/key order aligned with English. Skip locale edits when no new field/value ownership is introduced.
+Resolve synonyms, field ownership, parent conflicts, and ungrouped subcategories before applying changes. Use `--prune` only with a reviewed full-catalog artifact.
 
 ## Curated overrides
 
-Store complete canonical rows plus `audit` in `data/item-search/generated/overrides.json`. Merge existing curation and increment revision/timestamp once per accepted batch; do not edit the published mirror directly.
+Store complete canonical rows plus `audit` in `data/item-search/generated/overrides.json`. Treat it as an active correction queue:
 
-Use `$review-item-search-batches` to assert that pending override IDs equal the approved batch and to create a temporary fully overlaid artifact for registry dry-run. Preparation is not permission to publish.
+1. Remove semantically identical completed snapshots.
+2. Investigate every older entry that still differs from the current published state.
+3. Require every remaining field-level delta to be intentional.
+4. Require the pending IDs to equal the approved batch exactly.
 
-## Publish
-
-Required environment:
-
-- `SUPABASE_DATA_URL`
-- `SUPABASE_DATA_SECRET_KEY`
-- `PINECONE_API_KEY`
-- `PINECONE_SEARCH_HOST`
-- `NETLIFY_SITE_ID`
-- `NETLIFY_AUTH_TOKEN`
-
-Common scopes:
-
-- `full`: verified full-catalog artifact.
-- `types`: already type-filtered artifact.
-- `item-ids`: artifact containing exactly the requested IDs.
-- `refresh-only`: already scoped refresh artifact.
-- `locales-only`: republish Pinecone localization from the current mirror.
-- `feedback-selected`: promote and publish selected feedback.
-- `pending-overrides`: publish every accepted override that differs from the current mirror.
-
-For an approved curated batch:
+Create a full overlaid artifact for validation and publication:
 
 ```powershell
-node scripts/item-search-publish.mjs --scope pending-overrides
+node <skill>/scripts/check-prepared-overrides.mjs --expect <id1>,<id2> --overlay-output C:/tmp/item-search-prepared.jsonl
+node scripts/sync-item-search-terms-from-attributes.mjs --dry-run --item-attributes-path C:/tmp/item-search-prepared.jsonl
 ```
 
-For a verified full artifact:
+The overlay must start from a reviewed full-catalog artifact. Do not pass a partial batch to a complete-release publisher.
+
+## Authoritative publication
+
+From `gongeo.us-data-processor`:
+
+1. Export D1 and verify the export through an isolated local restore.
+2. Generate a dry-run publication plan using the full overlaid item-attribute artifact.
+3. Repeat `--replace-item-id <id>` for every approved reviewed-attribute replacement.
+4. Review the exact D1/Pinecone changes and required baseline revision.
+5. Apply only after explicit approval using that exact baseline revision.
+
+Example plan:
 
 ```powershell
-node scripts/item-search-publish.mjs --scope full --item-attributes-path ../gongeo.us-image-search/index/item-attributes.jsonl
+npm run publish:d1-authoritative -- --backup reports/d1-backups/gongeous-before-publish.sql --item-attributes C:/tmp/item-search-prepared.jsonl --replace-item-id <id> --output reports/d1-authoritative-plan.json
 ```
 
-For an already scoped small artifact:
+Example apply:
 
 ```powershell
-node scripts/item-search-publish.mjs --scope item-ids --item-id <id1> --item-id <id2> --item-attributes-path ../gongeo.us-image-search/index/item-attributes.jsonl
+npm run publish:d1-authoritative -- --backup reports/d1-backups/gongeous-before-publish.sql --item-attributes C:/tmp/item-search-prepared.jsonl --replace-item-id <id> --output reports/d1-authoritative-release.json --apply --expected-revision <revision-from-plan>
 ```
 
-Safety invariants:
+The processor validates D1 and both Pinecone namespaces, advances `content_state` only after validation, and purges affected detail/search cache tags. Verify the release report and then clear the applied override entries.
 
-- Publishing is allowed only after explicit user approval.
-- Every supplied row is published; `types`, `item-ids`, and `refresh-only` do not filter a larger file.
-- Every generated-artifact publish overlays matching canonical overrides before upload.
-- Use `pending-overrides` instead of a manual curated ID list.
-- Use `full` only with a verified full-catalog artifact.
-- `--help` is safe; unknown options fail before environment loading or network access.
+## Approved user feedback
 
-Successful publish writes Supabase, Pinecone `en` and `zh`, the refreshed local mirror, cache invalidation, and timestamped reports. Verify exact touched IDs, expected counts, empty `failedItems`, zero remaining pending overrides, and a clean registry dry-run.
+The normal accepted-feedback path is targeted rather than a full release:
 
-## Local mirror
+1. Main Supabase atomically claims the accepted suggestion.
+2. The tracker calls the Worker's protected targeted catalog endpoint.
+3. The Worker applies D1, updates Pinecone, advances the revision, and purges `item-detail-<id>` plus `item-search` idempotently.
+4. The tracker marks the suggestion applied only after the Worker succeeds.
 
-Refresh without publishing:
+Do not use the legacy Supabase item-search publisher for this path.
 
-```powershell
-node scripts/refresh-item-search-local-copy.mjs
-```
+## Legacy rollback tools
 
-Flags:
+The following scripts remain only while the secondary Supabase/Nitro rollback path exists:
 
-- `--output-root <path>`: alternate output directory.
-- `--page-size <n>`: Supabase pagination size.
+- `scripts/item-search-publish.mjs`
+- `scripts/refresh-item-search-local-copy.mjs`
+- the Supabase-backed modes in `scripts/item-search-feedback.mjs`
 
-Copy the refreshed mirror to image-search `manifest/item-attributes.jsonl` when manifest generation should skip already published IDs.
+They must not be used as the normal production catalog publisher. Remove them with the secondary content project in Phase 6.
 
-## Feedback
+## Current data flow
 
-```powershell
-node scripts/item-search-feedback.mjs
-node scripts/item-search-feedback.mjs promote --feedback-id <id> --maintainer <name>
-node scripts/item-search-feedback.mjs reject --feedback-id <id> --maintainer <name>
-```
-
-Statuses are `open`, `accepted`, `applied`, and `rejected`. Promotion merges the patch into overrides. Publishing normally marks accepted feedback applied after successful sync.
-
-## Data flow
-
-1. Tracker generates the shared taxonomy export.
-2. Image-search uses it during extraction and normalization.
-3. Image-search produces reviewed canonical rows.
-4. Tracker overlays accepted curation and publishes canonical rows.
-5. Tracker derives localized Pinecone records, refreshes the mirror, and invalidates caches.
+1. Tracker generates registry/taxonomy assets.
+2. Image-search extracts and normalizes reviewed canonical rows.
+3. Tracker overlays accepted curation and validates taxonomy/localization.
+4. The processor publishes the reviewed catalog to D1 and Pinecone.
+5. The Worker serves catalog/search requests and owns catalog cache invalidation.

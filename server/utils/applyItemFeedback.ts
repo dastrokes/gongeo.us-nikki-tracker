@@ -232,13 +232,12 @@ const requireRuntimeConfigString = (value: unknown, name: string) => {
 const callCatalogWriteApi = async (
   body: Record<string, unknown>
 ): Promise<CatalogWriteResponse> => {
-  const config = useRuntimeConfig()
   const url = requireRuntimeConfigString(
-    config.cloudflareCatalogWriteUrl,
+    process.env.CLOUDFLARE_CATALOG_WRITE_URL,
     'CLOUDFLARE_CATALOG_WRITE_URL'
   )
   const token = requireRuntimeConfigString(
-    config.cloudflareDataToken,
+    process.env.CLOUDFLARE_DATA_TOKEN,
     'CLOUDFLARE_DATA_TOKEN'
   )
   const response = await fetch(url, {

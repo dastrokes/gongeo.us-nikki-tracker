@@ -6,5 +6,9 @@ export const getDataApiUrl = (path: string) => {
       ? configuredBaseUrl.trim().replace(/\/+$/, '')
       : ''
 
-  return baseUrl ? `${baseUrl}${normalizedPath}` : `/api${normalizedPath}`
+  if (!baseUrl) return `/api${normalizedPath}`
+  const requestBaseUrl = normalizedPath.startsWith('/_internal/')
+    ? baseUrl.replace(/\/v1$/, '')
+    : baseUrl
+  return `${requestBaseUrl}${normalizedPath}`
 }

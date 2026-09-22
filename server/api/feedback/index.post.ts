@@ -8,6 +8,8 @@ import {
 type SubmitFeedbackBody = {
   entityType?: unknown
   entityId?: unknown
+  itemType?: unknown
+  baseSnapshot?: unknown
   proposedPatch?: unknown
 }
 
@@ -51,20 +53,29 @@ export default defineEventHandler(async (event) => {
       throw createBadRequestError('Feedback patch must be an object')
     }
 
-    const sourceItem = await getFeedbackSourceItem(Math.floor(entityId))
-    if (!sourceItem) {
-      throw createNotFoundError('feedback item')
-    }
-    if (!isSupportedItemSearchItemType(sourceItem.itemType)) {
+    const normalizedEntityId = Math.floor(entityId)
+    const itemType = getItemType(normalizedEntityId)
+    if (
+      !isSupportedItemSearchItemType(itemType) ||
+      body.itemType !== itemType
+    ) {
       throw createBadRequestError(
         'Feedback is not available for this item type'
       )
     }
 
     if (
+      !body.baseSnapshot ||
+      typeof body.baseSnapshot !== 'object' ||
+      Array.isArray(body.baseSnapshot)
+    ) {
+      throw createBadRequestError('Feedback base snapshot must be an object')
+    }
+
+    if (
       await hasOpenFeedbackSuggestions({
-        entityType: sourceItem.entityType,
-        entityId: sourceItem.entityId,
+        entityType: 'item',
+        entityId: normalizedEntityId,
       })
     ) {
       throw createError({
@@ -76,10 +87,10 @@ export default defineEventHandler(async (event) => {
 
     return await createFeedbackSuggestion(
       buildFeedbackCreationInput({
-        entityType: sourceItem.entityType,
-        entityId: sourceItem.entityId,
-        metadata: sourceItem.metadata,
-        itemType: sourceItem.itemType,
+        entityType: 'item',
+        entityId: normalizedEntityId,
+        baseSnapshot: body.baseSnapshot as Record<string, unknown>,
+        itemType,
         nextSnapshot: body.proposedPatch as Record<string, unknown>,
         userId: user.id,
       })

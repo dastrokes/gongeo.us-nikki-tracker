@@ -604,6 +604,8 @@
       await submitSuggestion({
         entityType: 'item',
         entityId: props.itemId,
+        itemType: resolvedItemType.value,
+        baseSnapshot: baseSnapshot.value,
         proposedPatch: draft.value,
       })
 

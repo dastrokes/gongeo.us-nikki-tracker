@@ -26,13 +26,6 @@ type FeedbackVoteRow = {
   vote_value?: number | string | null
 }
 
-export interface FeedbackSourceItem {
-  entityType: 'item'
-  entityId: number
-  itemType: string
-  metadata: ItemSearchMetadata | null
-}
-
 type ListFeedbackOptions = {
   entityType?: FeedbackEntityType | null
   entityId?: number | null
@@ -336,47 +329,25 @@ export const getFeedbackSuggestionById = async (id: string) => {
   return enrichedSuggestion ?? null
 }
 
-export const getFeedbackSourceItem = async (
-  entityId: number
-): Promise<FeedbackSourceItem | null> => {
-  const row = await fetchCatalogItemForFeedback(entityId)
-  if (!row) return null
-  const itemType = getItemType(row.id)
-  if (itemType === 'unknown') return null
-  const metadata = row.itemAttributes
-    ? hydrateItemSearchMetadata({
-        metadata: row.itemAttributes.metadata,
-        itemId: row.id,
-        itemType,
-        category: row.itemAttributes.category,
-        subcategory: row.itemAttributes.subcategory,
-      })
-    : null
-
-  return {
-    entityType: 'item',
-    entityId: row.id,
-    itemType,
-    metadata,
-  }
-}
-
 export const buildFeedbackCreationInput = ({
   entityType,
   entityId,
-  metadata,
+  baseSnapshot: rawBaseSnapshot,
   itemType,
   nextSnapshot,
   userId,
 }: {
   entityType: FeedbackEntityType
   entityId: number
-  metadata: ItemSearchMetadata | null
+  baseSnapshot: Record<string, unknown>
   itemType?: string | null
   nextSnapshot: Record<string, unknown>
   userId: string
 }): CreateFeedbackSuggestionInput => {
-  const baseSnapshot = createRawItemTagFeedbackSnapshot(metadata, itemType)
+  const baseSnapshot = normalizeItemTagFeedbackSnapshot(
+    rawBaseSnapshot,
+    itemType
+  )
   const normalizedNextSnapshot = normalizeItemTagFeedbackSnapshot(
     nextSnapshot,
     itemType

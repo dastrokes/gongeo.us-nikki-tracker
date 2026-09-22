@@ -36,7 +36,7 @@ export default defineEventHandler(async (event) => {
       })
     }
 
-    let applyResult: FeedbackMaintainerApplyResult | null = null
+    let catalogApply: FeedbackCatalogApplyRequest | null = null
 
     if (action === 'approve') {
       if (suggestion.status !== 'open') {
@@ -68,34 +68,16 @@ export default defineEventHandler(async (event) => {
         throw createBadRequestError('Only accepted suggestions can be applied')
       }
 
-      const sourceItem = await getFeedbackSourceItem(suggestion.entityId)
-      if (!sourceItem) {
-        throw createError({
-          statusCode: 404,
-          statusMessage: 'Feedback item not found',
-          message: 'Feedback item not found',
-        })
+      if (!suggestion.itemType) {
+        throw createBadRequestError('Unsupported item feedback type')
       }
-      if (!suggestion.itemType || suggestion.itemType !== sourceItem.itemType) {
-        throw createError({
-          statusCode: 409,
-          statusMessage: 'Feedback item type changed; refresh and try again',
-          message: 'Feedback item type changed; refresh and try again',
-        })
-      }
-
-      const currentSnapshot = createRawItemTagFeedbackSnapshot(
-        sourceItem.metadata,
-        sourceItem.itemType
-      )
-      applyResult = await applyCatalogFeedback({
+      catalogApply = createCatalogFeedbackApplyRequest({
         suggestion,
-        searchTexts: buildFeedbackApplySearchTexts(suggestion, currentSnapshot),
+        searchTexts: buildFeedbackApplySearchTexts(
+          suggestion,
+          suggestion.baseSnapshot
+        ),
       })
-
-      if (suggestion.status === 'accepted') {
-        await markFeedbackSuggestionApplied(suggestionId)
-      }
     }
 
     const refreshedSuggestion = await getFeedbackSuggestionById(suggestionId)
@@ -105,7 +87,8 @@ export default defineEventHandler(async (event) => {
 
     return {
       suggestion: refreshedSuggestion,
-      applyResult,
+      applyResult: null,
+      catalogApply,
     } satisfies FeedbackMaintainerActionResponse
   } catch (error) {
     if (

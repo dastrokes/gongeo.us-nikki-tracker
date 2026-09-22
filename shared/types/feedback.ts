@@ -82,7 +82,26 @@ export interface FeedbackMaintainerApplyResult {
   replayed: boolean
 }
 
+export interface FeedbackCatalogApplyBody {
+  operationId: string
+  baseSnapshot: ItemTagFeedbackSnapshot
+  proposedPatch: ItemTagFeedbackPatch
+  changedFields: ItemTagFeedbackField[]
+  searchTexts: Record<'en' | 'zh', string>
+}
+
+export interface FeedbackCatalogApplyRequest {
+  token: string
+  body: FeedbackCatalogApplyBody
+}
+
+export interface FeedbackMaintainerCompleteRequest {
+  suggestionId: string
+  applyResult: FeedbackMaintainerApplyResult
+}
+
 export interface FeedbackMaintainerActionResponse {
   suggestion: FeedbackSuggestion
   applyResult: FeedbackMaintainerApplyResult | null
+  catalogApply: FeedbackCatalogApplyRequest | null
 }

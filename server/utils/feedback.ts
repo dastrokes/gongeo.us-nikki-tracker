@@ -119,17 +119,37 @@ const mapSuggestionRow = (
 const attachSuggestionItemTypes = async (
   suggestions: FeedbackSuggestion[]
 ): Promise<FeedbackSuggestion[]> => {
-  return suggestions.map((suggestion) =>
-    suggestion.entityType === 'item'
-      ? {
-          ...suggestion,
-          itemType: (() => {
-            const itemType = getItemType(suggestion.entityId)
-            return itemType === 'unknown' ? null : itemType
-          })(),
-        }
-      : suggestion
-  )
+  return suggestions.map((suggestion) => {
+    if (suggestion.entityType !== 'item') {
+      return suggestion
+    }
+
+    const resolvedItemType = getItemType(suggestion.entityId)
+    const itemType = resolvedItemType === 'unknown' ? null : resolvedItemType
+    if (!itemType) {
+      return {
+        ...suggestion,
+        itemType,
+      }
+    }
+
+    const proposedPatch = normalizeItemTagFeedbackPatch(
+      suggestion.proposedPatch,
+      itemType,
+      suggestion.changedFields
+    )
+
+    return {
+      ...suggestion,
+      itemType,
+      baseSnapshot: normalizeItemTagFeedbackSnapshot(
+        suggestion.baseSnapshot,
+        itemType
+      ),
+      proposedPatch,
+      changedFields: Object.keys(proposedPatch) as ItemTagFeedbackField[],
+    }
+  })
 }
 
 export const listFeedbackSuggestions = async ({

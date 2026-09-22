@@ -2,6 +2,7 @@ import { createError } from 'h3'
 
 import {
   createFeedbackSuggestion,
+  getFeedbackItemType,
   hasOpenFeedbackSuggestions,
 } from '../../utils/feedback'
 
@@ -54,7 +55,7 @@ export default defineEventHandler(async (event) => {
     }
 
     const normalizedEntityId = Math.floor(entityId)
-    const itemType = getItemType(normalizedEntityId)
+    const itemType = getFeedbackItemType(normalizedEntityId)
     if (
       !isSupportedItemSearchItemType(itemType) ||
       body.itemType !== itemType

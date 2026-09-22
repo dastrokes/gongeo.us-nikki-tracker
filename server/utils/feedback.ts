@@ -3,6 +3,8 @@ import { createHash } from 'node:crypto'
 import { createError } from 'h3'
 import { getItemType } from '../../app/utils/itemType'
 
+export const getFeedbackItemType = (itemId: number) => getItemType(itemId)
+
 type FeedbackSuggestionRow = {
   id?: string | null
   entity_type?: string | null
@@ -124,7 +126,7 @@ const attachSuggestionItemTypes = async (
       return suggestion
     }
 
-    const resolvedItemType = getItemType(suggestion.entityId)
+    const resolvedItemType = getFeedbackItemType(suggestion.entityId)
     const itemType = resolvedItemType === 'unknown' ? null : resolvedItemType
     if (!itemType) {
       return {

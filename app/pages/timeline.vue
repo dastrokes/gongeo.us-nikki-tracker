@@ -1093,6 +1093,8 @@
         left: 10,
         right: 40,
         bottom: 60,
+        outerBoundsMode: 'same',
+        outerBoundsContain: 'axisLabel',
       },
       xAxis: {
         type: 'time',
@@ -1108,6 +1110,7 @@
         },
         axisLabel: {
           margin: 10,
+          hideOverlap: true,
           formatter: (value: number) =>
             axisLabelDateFormatter.value.format(new Date(value)),
         },

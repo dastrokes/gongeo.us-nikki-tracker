@@ -14,7 +14,6 @@ export type FeedbackScope = 'all' | 'mine'
 
 export type FeedbackVoteValue = -1 | 1
 export type FeedbackMaintainerAction = 'approve' | 'reject' | 'apply'
-export type FeedbackMaintainerReviewAction = 'approve' | 'reject'
 
 export type ItemTagFeedbackScalarField =
   'category' | 'subcategory' | ItemSearchAdvancedScalarField
@@ -71,7 +70,7 @@ export interface VoteFeedbackResponse {
 
 export interface FeedbackMaintainerActionRequest {
   suggestionId: string
-  action: FeedbackMaintainerReviewAction
+  action: FeedbackMaintainerAction
 }
 
 export interface FeedbackMaintainerApplyResult {
@@ -86,8 +85,4 @@ export interface FeedbackMaintainerApplyResult {
 export interface FeedbackMaintainerActionResponse {
   suggestion: FeedbackSuggestion
   applyResult: FeedbackMaintainerApplyResult | null
-}
-
-export interface FeedbackApplyResponse {
-  applyResult: FeedbackMaintainerApplyResult
 }

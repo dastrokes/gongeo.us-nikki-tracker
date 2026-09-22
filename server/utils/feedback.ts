@@ -597,3 +597,37 @@ export const updateFeedbackSuggestionStatus = async ({
     })
   }
 }
+
+export const markFeedbackSuggestionApplied = async (suggestionId: string) => {
+  const supabase = useSupabaseServerClient()
+  const { data, error } = await withSupabaseRetry(() =>
+    supabase
+      .from('feedback_suggestions')
+      .update({
+        status: 'applied',
+        updated_at: new Date().toISOString(),
+      } as never)
+      .eq('id', suggestionId)
+      .eq('status', 'accepted')
+      .select('id')
+      .maybeSingle()
+  )
+
+  if (error) {
+    throw error
+  }
+  if (data) {
+    return
+  }
+
+  const current = await getFeedbackSuggestionById(suggestionId)
+  if (current?.status === 'applied') {
+    return
+  }
+
+  throw createError({
+    statusCode: 409,
+    statusMessage: 'Feedback suggestion changed; refresh and try again',
+    message: 'Feedback suggestion changed; refresh and try again',
+  })
+}

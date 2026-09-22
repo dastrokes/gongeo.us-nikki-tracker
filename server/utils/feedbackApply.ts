@@ -1,7 +1,7 @@
-import enFilter from '../locales/en/filter.json'
-import enMisc from '../locales/en/misc.json'
-import zhFilter from '../locales/zh/filter.json'
-import zhMisc from '../locales/zh/misc.json'
+import enFilter from '../../app/locales/en/filter.json'
+import enMisc from '../../app/locales/en/misc.json'
+import zhFilter from '../../app/locales/zh/filter.json'
+import zhMisc from '../../app/locales/zh/misc.json'
 import { ITEM_SEARCH_SEARCH_NAMESPACES } from '#shared/constants/itemSearchRegistry'
 
 type SearchNamespace = (typeof ITEM_SEARCH_SEARCH_NAMESPACES)[number]

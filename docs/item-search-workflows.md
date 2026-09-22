@@ -93,10 +93,10 @@ The processor validates D1 and both Pinecone namespaces, advances `content_state
 
 The normal accepted-feedback path is targeted rather than a full release:
 
-1. Main Supabase atomically claims the accepted suggestion.
-2. The tracker calls the Worker's protected targeted catalog endpoint.
+1. The tracker authenticates the maintainer and loads the accepted suggestion from main Supabase.
+2. The tracker reads current D1 state, builds localized search text on the server, and calls the Worker's protected targeted catalog endpoint.
 3. The Worker applies D1, updates Pinecone, advances the revision, and purges `item-detail-<id>` plus `item-search` idempotently.
-4. The tracker marks the suggestion applied only after the Worker succeeds.
+4. The tracker conditionally marks the suggestion applied only after the Worker succeeds.
 
 Do not use the legacy Supabase item-search publisher for this path.
 

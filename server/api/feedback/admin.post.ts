@@ -8,7 +8,7 @@ const createBadRequestError = (message: string) =>
   })
 
 const normalizeAction = (value: unknown): FeedbackMaintainerAction => {
-  if (value === 'approve' || value === 'reject') {
+  if (value === 'approve' || value === 'reject' || value === 'apply') {
     return value
   }
 
@@ -36,6 +36,8 @@ export default defineEventHandler(async (event) => {
       })
     }
 
+    let applyResult: FeedbackMaintainerApplyResult | null = null
+
     if (action === 'approve') {
       if (suggestion.status !== 'open') {
         throw createBadRequestError('Only open suggestions can be approved')
@@ -46,7 +48,7 @@ export default defineEventHandler(async (event) => {
         status: 'accepted',
         expectedStatuses: ['open'],
       })
-    } else {
+    } else if (action === 'reject') {
       if (suggestion.status !== 'open' && suggestion.status !== 'accepted') {
         throw createBadRequestError(
           'Only open or accepted suggestions can be rejected'
@@ -58,6 +60,42 @@ export default defineEventHandler(async (event) => {
         status: 'rejected',
         expectedStatuses: ['open', 'accepted'],
       })
+    } else {
+      if (suggestion.entityType !== 'item') {
+        throw createBadRequestError('Only item feedback can be applied')
+      }
+      if (suggestion.status !== 'accepted' && suggestion.status !== 'applied') {
+        throw createBadRequestError('Only accepted suggestions can be applied')
+      }
+
+      const sourceItem = await getFeedbackSourceItem(suggestion.entityId)
+      if (!sourceItem) {
+        throw createError({
+          statusCode: 404,
+          statusMessage: 'Feedback item not found',
+          message: 'Feedback item not found',
+        })
+      }
+      if (!suggestion.itemType || suggestion.itemType !== sourceItem.itemType) {
+        throw createError({
+          statusCode: 409,
+          statusMessage: 'Feedback item type changed; refresh and try again',
+          message: 'Feedback item type changed; refresh and try again',
+        })
+      }
+
+      const currentSnapshot = createRawItemTagFeedbackSnapshot(
+        sourceItem.metadata,
+        sourceItem.itemType
+      )
+      applyResult = await applyCatalogFeedback({
+        suggestion,
+        searchTexts: buildFeedbackApplySearchTexts(suggestion, currentSnapshot),
+      })
+
+      if (suggestion.status === 'accepted') {
+        await markFeedbackSuggestionApplied(suggestionId)
+      }
     }
 
     const refreshedSuggestion = await getFeedbackSuggestionById(suggestionId)
@@ -67,7 +105,7 @@ export default defineEventHandler(async (event) => {
 
     return {
       suggestion: refreshedSuggestion,
-      applyResult: null,
+      applyResult,
     } satisfies FeedbackMaintainerActionResponse
   } catch (error) {
     if (

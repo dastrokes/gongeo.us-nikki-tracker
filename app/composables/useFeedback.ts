@@ -9,14 +9,6 @@ type FetchFeedbackParams = {
   page?: number
 }
 
-type FeedbackCatalogItem = {
-  item_attributes: {
-    category: string | null
-    subcategory: string | null
-    metadata: Record<string, unknown> | null
-  } | null
-}
-
 export const useFeedback = () => {
   const supabase = useSupabaseClient()
 
@@ -116,7 +108,7 @@ export const useFeedback = () => {
     action,
   }: {
     suggestionId: string
-    action: FeedbackMaintainerReviewAction
+    action: FeedbackMaintainerAction
   }) => {
     const headers = await requireAuthHeaders()
 
@@ -142,32 +134,11 @@ export const useFeedback = () => {
       action: 'reject',
     })
 
-  const applySuggestion = async (suggestion: FeedbackSuggestion) => {
-    const headers = await requireAuthHeaders()
-    const item = await $fetch<FeedbackCatalogItem>(
-      getDataApiUrl(`/items/${suggestion.entityId}`),
-      { params: { lang: 'en' } }
-    )
-    const currentSnapshot = {
-      ...(item.item_attributes?.metadata ?? {}),
-      category: item.item_attributes?.category ?? null,
-      subcategory: item.item_attributes?.subcategory ?? null,
-    }
-
-    return $fetch<FeedbackApplyResponse>(
-      getDataApiUrl(`/feedback/${encodeURIComponent(suggestion.id)}/apply`),
-      {
-        method: 'POST',
-        headers,
-        body: {
-          searchTexts: buildFeedbackApplySearchTexts(
-            suggestion,
-            currentSnapshot
-          ),
-        },
-      }
-    )
-  }
+  const applySuggestion = (suggestion: FeedbackSuggestion) =>
+    runMaintainerAction({
+      suggestionId: suggestion.id,
+      action: 'apply',
+    })
 
   return {
     applySuggestion,

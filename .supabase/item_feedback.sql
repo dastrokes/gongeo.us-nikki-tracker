@@ -15,15 +15,6 @@ create table if not exists public.feedback_suggestions (
   updated_at timestamptz not null default timezone('utc', now())
 );
 
-alter table public.feedback_suggestions
-  add column if not exists apply_operation_id text,
-  add column if not exists apply_claim_token uuid,
-  add column if not exists apply_claimed_at timestamptz,
-  add column if not exists apply_lease_expires_at timestamptz,
-  add column if not exists apply_attempt_count integer not null default 0,
-  add column if not exists apply_last_error text,
-  add column if not exists applied_at timestamptz;
-
 create table if not exists public.feedback_votes (
   suggestion_id uuid not null
     references public.feedback_suggestions (id) on delete cascade,
@@ -48,10 +39,6 @@ create unique index if not exists idx_feedback_suggestions_open_entity
   on public.feedback_suggestions (entity_type, entity_id)
   where status = 'open';
 
-create unique index if not exists idx_feedback_suggestions_apply_operation
-  on public.feedback_suggestions (apply_operation_id)
-  where apply_operation_id is not null;
-
 create index if not exists idx_feedback_votes_user
   on public.feedback_votes (user_id, updated_at desc);
 
@@ -65,44 +52,6 @@ revoke all on table public.feedback_votes from service_role;
 grant select, insert, update, delete on table public.feedback_suggestions
   to service_role;
 grant select, insert, update, delete on table public.feedback_votes
-  to service_role;
-
-create or replace function public.claim_feedback_suggestion_apply(
-  p_suggestion_id uuid,
-  p_claim_token uuid,
-  p_lease_seconds integer default 300
-)
-returns setof public.feedback_suggestions
-language sql
-security invoker
-set search_path = ''
-as $$
-  update public.feedback_suggestions
-  set
-    apply_operation_id = coalesce(
-      apply_operation_id,
-      'feedback-apply-' || id::text
-    ),
-    apply_claim_token = p_claim_token,
-    apply_claimed_at = timezone('utc', now()),
-    apply_lease_expires_at = timezone('utc', now())
-      + make_interval(secs => least(greatest(p_lease_seconds, 30), 900)),
-    apply_attempt_count = apply_attempt_count + 1,
-    apply_last_error = null,
-    updated_at = timezone('utc', now())
-  where id = p_suggestion_id
-    and status = 'accepted'
-    and (
-      apply_lease_expires_at is null
-      or apply_lease_expires_at <= timezone('utc', now())
-      or apply_claim_token = p_claim_token
-    )
-  returning *;
-$$;
-
-revoke all on function public.claim_feedback_suggestion_apply(uuid, uuid, integer)
-  from public, anon, authenticated, service_role;
-grant execute on function public.claim_feedback_suggestion_apply(uuid, uuid, integer)
   to service_role;
 
 create or replace view public.feedback_queue

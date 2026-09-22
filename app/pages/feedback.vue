@@ -671,7 +671,7 @@
         await rejectSuggestion(suggestion.id)
         message.success(t('feedback.reject_success'))
       } else {
-        await applySuggestion(suggestion.id)
+        await applySuggestion(suggestion)
         message.success(t('feedback.apply_success'))
       }
 

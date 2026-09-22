@@ -44,9 +44,9 @@ export const fetchCatalogItemForFeedback = async (
     },
     signal: AbortSignal.timeout(10_000),
   })
-  const payload = (await response.json().catch(() => null)) as
-    | CatalogItemDetailResponse
-    | null
+  const payload = (await response
+    .json()
+    .catch(() => null)) as CatalogItemDetailResponse | null
 
   if (response.status === 404) return null
   if (!response.ok) {

@@ -1,4 +1,4 @@
-import { createHash, randomUUID } from 'node:crypto'
+import { createHash } from 'node:crypto'
 
 import { createError } from 'h3'
 import { getItemType } from '../../app/utils/itemType'
@@ -19,8 +19,6 @@ type FeedbackSuggestionRow = {
   disagree_count?: number | string | null
   score?: number | string | null
   total_votes?: number | string | null
-  apply_operation_id?: string | null
-  apply_claim_token?: string | null
 }
 
 type FeedbackVoteRow = {
@@ -585,9 +583,6 @@ export const updateFeedbackSuggestionStatus = async ({
     if (expectedStatuses?.length) {
       query = query.in('status', expectedStatuses)
     }
-    if (status === 'rejected') {
-      query = query.is('apply_claim_token', null)
-    }
     return query.select('id').maybeSingle()
   })
 
@@ -601,97 +596,4 @@ export const updateFeedbackSuggestionStatus = async ({
       message: 'Feedback suggestion changed; refresh and try again',
     })
   }
-}
-
-export type ClaimedFeedbackSuggestion = {
-  suggestion: FeedbackSuggestion
-  operationId: string
-  claimToken: string
-}
-
-export const claimFeedbackSuggestionApply = async (
-  suggestionId: string
-): Promise<ClaimedFeedbackSuggestion | null> => {
-  const supabase = useSupabaseServerClient()
-  const claimToken = randomUUID()
-  const { data, error } = await withSupabaseRetry(() =>
-    supabase.rpc('claim_feedback_suggestion_apply', {
-      p_suggestion_id: suggestionId,
-      p_claim_token: claimToken,
-      p_lease_seconds: 300,
-    } as never)
-  )
-
-  if (error) throw error
-  const row = ((data as FeedbackSuggestionRow[] | null) ?? [])[0]
-  const suggestion = mapSuggestionRow(row)
-  const operationId = row?.apply_operation_id?.trim() ?? ''
-  if (!suggestion || !operationId || row?.apply_claim_token !== claimToken) {
-    return null
-  }
-
-  const [enrichedSuggestion] = await attachSuggestionItemTypes([suggestion])
-  return enrichedSuggestion
-    ? { suggestion: enrichedSuggestion, operationId, claimToken }
-    : null
-}
-
-export const completeFeedbackSuggestionApply = async ({
-  suggestionId,
-  claimToken,
-}: {
-  suggestionId: string
-  claimToken: string
-}) => {
-  const supabase = useSupabaseServerClient()
-  const now = new Date().toISOString()
-  const { data, error } = await withSupabaseRetry(() =>
-    supabase
-      .from('feedback_suggestions')
-      .update({
-        status: 'applied',
-        applied_at: now,
-        apply_claim_token: null,
-        apply_claimed_at: null,
-        apply_lease_expires_at: null,
-        apply_last_error: null,
-        updated_at: now,
-      } as never)
-      .eq('id', suggestionId)
-      .eq('status', 'accepted')
-      .eq('apply_claim_token', claimToken)
-      .select('id')
-      .maybeSingle()
-  )
-
-  if (error) throw error
-  if (!data) throw createApiFailureError('complete feedback apply claim')
-}
-
-export const failFeedbackSuggestionApply = async ({
-  suggestionId,
-  claimToken,
-  message,
-}: {
-  suggestionId: string
-  claimToken: string
-  message: string
-}) => {
-  const supabase = useSupabaseServerClient()
-  const { error } = await withSupabaseRetry(() =>
-    supabase
-      .from('feedback_suggestions')
-      .update({
-        apply_claim_token: null,
-        apply_claimed_at: null,
-        apply_lease_expires_at: null,
-        apply_last_error: message.slice(0, 2000),
-        updated_at: new Date().toISOString(),
-      } as never)
-      .eq('id', suggestionId)
-      .eq('status', 'accepted')
-      .eq('apply_claim_token', claimToken)
-  )
-
-  if (error) throw error
 }

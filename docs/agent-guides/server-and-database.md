@@ -7,9 +7,8 @@ Read this guide for server endpoints, caching, locale resolution, Supabase, SQL,
 - Main app project `fimzdbqulflilnnopibz`: authentication, users, banner/global stats, tier lists, feedback suggestions/votes, and feedback workflow state.
 - Cloudflare D1 database `gongeous`: authoritative item, outfit, makeup, Momo, reviewed attribute, listing-filter, and content-revision data.
 - Hono Worker `data.gongeo.us`: public catalog details, facets, attribute matches, and Pinecone-backed item search.
-- Legacy content project `mkvqvnlunfuyqrpbppiy`: temporary Nitro rollback and bootstrap source only; do not add new catalog behavior here.
+- Legacy content project `mkvqvnlunfuyqrpbppiy`: pending final backup and retirement; no tracker runtime request should use it.
 - Main-project environment variables: `SUPABASE_DATABASE_URL`, `SUPABASE_PUBLISHABLE_KEY`, `SUPABASE_SECRET_KEY`.
-- Legacy content-project environment variables: `SUPABASE_DATA_URL`, `SUPABASE_DATA_SECRET_KEY`.
 - Main DB reference: `.supabase/main_db_reference.md`.
 - Legacy content DB reference: `.supabase/data_db_reference.md`.
 - Tracker-owned main DB SQL notes stay in `.supabase/`.
@@ -19,7 +18,7 @@ Read this guide for server endpoints, caching, locale resolution, Supabase, SQL,
 ## Supabase clients
 
 - App/client code uses `useSupabaseClient` from `app/composables/useSupabaseClient.ts`.
-- Server code uses the auto-imported `useSupabaseServerClient` and `useSupabaseDataClient` from `server/utils/supabaseClient.ts`.
+- Server code uses the auto-imported `useSupabaseServerClient` from `server/utils/supabaseClient.ts`.
 - Server code must not import Supabase helpers from `app/composables`.
 - Use `withSupabaseRetry` and `isTransientSupabaseError` for transient Supabase or network failures.
 
@@ -30,7 +29,7 @@ Read this guide for server endpoints, caching, locale resolution, Supabase, SQL,
 - Include `getGameVersion()` in versioned cache keys.
 - Use factories in `server/utils/apiErrors.ts` for common 400, 404, 500, and 503 errors.
 - Normalize unknown errors with `toErrorMessage` before logging. Include relevant resource names and IDs in logs.
-- Localized detail routes resolve locale with `resolveLocaleCode` and support query `lang`, header `X-Locale`, and cookie `i18n_redirected`.
+- Catalog detail localization is handled by the Worker through an explicit `lang` query parameter.
 
 ## Relevant locations
 

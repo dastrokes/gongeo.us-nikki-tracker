@@ -94,7 +94,7 @@ The processor validates D1 and both Pinecone namespaces, advances `content_state
 The normal accepted-feedback path is targeted rather than a full release:
 
 1. The tracker authenticates the maintainer and loads the accepted suggestion from main Supabase.
-2. The tracker reads current D1 state, builds localized search text on the server, and calls the Worker's protected targeted catalog endpoint.
+2. The tracker reads current D1 state, builds localized search text on the server, and signs a short-lived, body-bound write ticket. The maintainer's browser relays the mutation to the Worker.
 3. The Worker applies D1, updates Pinecone, advances the revision, and purges `item-detail-<id>` plus `item-search` idempotently.
 4. The tracker conditionally marks the suggestion applied only after the Worker succeeds.
 
@@ -102,7 +102,7 @@ Do not use the legacy Supabase item-search publisher for this path.
 
 ## Legacy rollback tools
 
-The following scripts remain only while the secondary Supabase/Nitro rollback path exists:
+The following scripts remain only until the final secondary-Supabase backup and rollback retirement:
 
 - `scripts/item-search-publish.mjs`
 - `scripts/refresh-item-search-local-copy.mjs`

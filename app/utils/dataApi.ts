@@ -6,7 +6,11 @@ export const getDataApiUrl = (path: string) => {
       ? configuredBaseUrl.trim().replace(/\/+$/, '')
       : ''
 
-  if (!baseUrl) return `/api${normalizedPath}`
+  if (!baseUrl) {
+    throw new Error(
+      'NUXT_PUBLIC_DATA_API_BASE_URL is required for catalog requests'
+    )
+  }
   const requestBaseUrl = normalizedPath.startsWith('/_internal/')
     ? baseUrl.replace(/\/v1$/, '')
     : baseUrl

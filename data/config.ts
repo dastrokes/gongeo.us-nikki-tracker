@@ -19,10 +19,10 @@ const getMaintenanceEndTime = (date: string) =>
   getMaintenanceTime(date, MAINTENANCE_TIMES.end)
 const getCanonicalBannerStartTime = (date: string) =>
   new Date(`${date}T20:00:00Z`).getTime()
-const isMidPatchFourStarRun = (
+const isFirstHalfFourStarRun = (
   bannerType: Banner['bannerType'],
   run: BannerRun
-) => bannerType === 3 && run.version.endsWith('.2')
+) => bannerType === 3 && run.version.endsWith('.1')
 const getBannerTransitionKey = (
   bannerType: Banner['bannerType'],
   date: string
@@ -38,20 +38,14 @@ const bannerRuns = Object.values(BANNER_DATA).flatMap((banner) =>
         ...run,
       }))
 )
-const majorMaintenanceDates = new Set(
-  bannerRuns
-    .filter(
-      (run) => run.runIndex === 0 && !isMidPatchFourStarRun(run.bannerType, run)
-    )
-    .map((run) => run.start)
-)
-const midPatchMaintenanceDates = new Set(
-  bannerRuns
-    .filter(
-      (run) => run.runIndex === 0 && isMidPatchFourStarRun(run.bannerType, run)
-    )
-    .map((run) => run.start)
-)
+const majorMaintenanceDates = new Set([
+  ...bannerRuns.filter((run) => run.bannerType === 2).map((run) => run.end),
+])
+const midPatchMaintenanceDates = new Set([
+  ...bannerRuns
+    .filter((run) => isFirstHalfFourStarRun(run.bannerType, run))
+    .map((run) => run.end),
+])
 const scheduledBannerRuns = bannerRuns.map((run) => ({
   ...run,
   startTime: majorMaintenanceDates.has(run.start)
@@ -89,7 +83,7 @@ const limitedBannerRuns = scheduledBannerRuns.map((run) => ({
     bannerTransitionTimes.get(
       getBannerTransitionKey(run.bannerType, run.end)
     ) ??
-    (run.bannerType === 3 && run.version.endsWith('.1')
+    (isFirstHalfFourStarRun(run.bannerType, run)
       ? getMaintenanceStartTime(run.end, 'midPatch')
       : getMaintenanceStartTime(run.end, 'major')),
 }))

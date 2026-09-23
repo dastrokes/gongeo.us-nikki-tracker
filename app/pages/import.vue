@@ -1,7 +1,48 @@
 <template>
   <div class="mx-auto max-w-7xl space-y-2 sm:space-y-4">
     <n-card
-      v-if="!isMaintenance"
+      v-if="!maintenanceReady"
+      size="small"
+      class="rounded-xl p-0 sm:p-2"
+    >
+      <div
+        role="status"
+        aria-busy="true"
+        class="space-y-6 p-2 sm:p-4"
+      >
+        <span class="sr-only">{{ $t('common.loading') }}</span>
+        <div
+          aria-hidden="true"
+          class="ml-3 space-y-8 border-l border-slate-200 pl-7 dark:border-slate-700"
+        >
+          <div
+            v-for="step in 3"
+            :key="step"
+            class="relative space-y-3"
+          >
+            <n-skeleton
+              circle
+              width="24px"
+              height="24px"
+              class="absolute top-0 -left-10"
+            />
+            <n-skeleton
+              text
+              width="160px"
+              height="20px"
+            />
+            <n-skeleton
+              round
+              height="36px"
+              class="w-full max-w-80"
+            />
+          </div>
+        </div>
+      </div>
+    </n-card>
+
+    <n-card
+      v-else-if="!isMaintenance"
       size="small"
       class="rounded-xl p-0 sm:p-2"
     >
@@ -752,7 +793,7 @@
     </n-card>
 
     <n-card
-      v-if="isMaintenance"
+      v-else
       size="small"
       class="rounded-xl p-0 sm:p-2"
     >
@@ -868,6 +909,7 @@
   import { BANNER_DATA } from '~~/data/banners'
   import {
     CURRENT_FIRST_RUN_BANNER_IDS,
+    IMPORT_PAGE_MAINTENANCE,
     isImportPageMaintenance,
   } from '~~/data/config'
   import type { VNodeChild } from 'vue'
@@ -891,6 +933,11 @@
   const isMaintenance = computed(() =>
     isImportPageMaintenance(maintenanceCheckTime.value.getTime())
   )
+  const maintenanceReady = ref(IMPORT_PAGE_MAINTENANCE)
+
+  onMounted(() => {
+    maintenanceReady.value = true
+  })
 
   useSeoMeta({
     title: () =>

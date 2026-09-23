@@ -25,7 +25,7 @@ Canonical rows are `{ item_id, item_type, category, subcategory, metadata }`. Me
 
 ## Review and preparation
 
-Use `$review-item-search-batches` for extraction audits, taxonomy/metadata review, historical-normalizer checks, and exact override validation. Its review and preparation rules remain useful; production publication follows the D1 flow below rather than its legacy Supabase publisher instructions.
+Use `$game-data-update` for the four-project game-data workflow and its required item-search follow-up. Catalog publication does not require search attributes or Pinecone; this document covers the search work that can be completed later.
 
 Keep review and publication separate:
 
@@ -56,38 +56,46 @@ Store complete canonical rows plus `audit` in `data/item-search/generated/overri
 3. Require every remaining field-level delta to be intentional.
 4. Require the pending IDs to equal the approved batch exactly.
 
-Create a full overlaid artifact for validation and publication:
+Export a fresh D1 baseline and use its D1-derived `item-attributes.jsonl`
+as the published comparison. Create an overlaid reviewed artifact for validation
+and separate search publication:
 
 ```powershell
-node <skill>/scripts/check-prepared-overrides.mjs --expect <id1>,<id2> --overlay-output C:/tmp/item-search-prepared.jsonl
+node <skill>/scripts/check-prepared-overrides.mjs --published <D1-exported-item-attributes.jsonl> --attributes <reviewed-item-attributes.jsonl> --expect <id1>,<id2> --overlay-output C:/tmp/item-search-prepared.jsonl
 node scripts/sync-item-search-terms-from-attributes.mjs --dry-run --item-attributes-path C:/tmp/item-search-prepared.jsonl
 ```
 
-The overlay must start from a reviewed full-catalog artifact. Do not pass a partial batch to a complete-release publisher.
+The candidate may be a reviewed partial batch. Existing D1-approved rows are
+preserved unless their IDs are explicitly selected for replacement. Do not
+interpret IDs absent from a partial batch as deletions.
 
 ## Authoritative publication
 
 From `gongeo.us-data-processor`:
 
 1. Export D1 and verify the export through an isolated local restore.
-2. Generate a dry-run publication plan using the full overlaid item-attribute artifact.
+2. Generate a dry-run search publication plan using reviewed attribute JSONL,
+   or omit it for a Pinecone-only catch-up from D1.
 3. Repeat `--replace-item-id <id>` for every approved reviewed-attribute replacement.
-4. Review the exact D1/Pinecone changes and required baseline revision.
-5. Apply only after explicit approval using that exact baseline revision.
+4. Review the exact D1/Pinecone changes, source hash, and baseline revision.
+5. Apply only after separate explicit approval using that revision and hash.
 
 Example plan:
 
 ```powershell
-npm run publish:d1-authoritative -- --backup reports/d1-backups/gongeous-before-publish.sql --item-attributes C:/tmp/item-search-prepared.jsonl --replace-item-id <id> --output reports/d1-authoritative-plan.json
+npm run publish:search-attributes -- --backup reports/search-baseline.sql --item-attributes C:/tmp/item-search-prepared.jsonl --replace-item-id <id> --output reports/search-plan.json
 ```
 
 Example apply:
 
 ```powershell
-npm run publish:d1-authoritative -- --backup reports/d1-backups/gongeous-before-publish.sql --item-attributes C:/tmp/item-search-prepared.jsonl --replace-item-id <id> --output reports/d1-authoritative-release.json --apply --expected-revision <revision-from-plan>
+npm run publish:search-attributes -- --backup reports/search-baseline.sql --item-attributes C:/tmp/item-search-prepared.jsonl --replace-item-id <id> --output reports/search-release.json --apply --expected-revision <revision-from-plan> --expected-attributes-sha256 <sha256-from-plan>
 ```
 
-The processor validates D1 and both Pinecone namespaces, advances `content_state` only after validation, and purges affected detail/search cache tags. Verify the release report and then clear the applied override entries.
+The processor validates D1 and both Pinecone namespaces, advances
+`content_state` only after validation, and purges item-detail/search cache
+tags. Verify the report and D1-derived attributes before clearing completed
+override entries. A later accepted feedback apply requires a fresh baseline.
 
 ## Approved user feedback
 
@@ -115,5 +123,6 @@ They must not be used as the normal production catalog publisher. Remove them wi
 1. Tracker generates registry/taxonomy assets.
 2. Image-search extracts and normalizes reviewed canonical rows.
 3. Tracker overlays accepted curation and validates taxonomy/localization.
-4. The processor publishes the reviewed catalog to D1 and Pinecone.
+4. The processor separately publishes reviewed attributes to D1 and
+   reconciles Pinecone from D1-derived rows.
 5. The Worker serves catalog/search requests and owns catalog cache invalidation.

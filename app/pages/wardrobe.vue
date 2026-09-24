@@ -135,13 +135,13 @@
             block
             type="primary"
             class="h-9 justify-center"
-            @click="openWhimLogWardrobeImport"
+            @click="openWardrobeCompendium"
           >
             <template #icon>
-              <n-icon size="16"><Sync /></n-icon>
+              <n-icon size="16"><ListAlt /></n-icon>
             </template>
             <span class="truncate leading-normal">
-              {{ t('wardrobe.update_from_pearpal') }}
+              {{ t('common.view_compendium') }}
             </span>
           </n-button>
 
@@ -307,7 +307,7 @@
                 :depth="3"
                 class="block text-sm"
               >
-                {{ t('wardrobe.onboarding.import_description') }}
+                {{ t('wardrobe.empty_description') }}
               </n-text>
             </div>
             <n-tag
@@ -325,13 +325,13 @@
             block
             type="primary"
             class="h-10 justify-center"
-            @click="openWhimLogWardrobeImportFromOnboarding"
+            @click="openWardrobeCompendiumFromOnboarding"
           >
             <template #icon>
-              <n-icon size="16"><Sync /></n-icon>
+              <n-icon size="16"><ListAlt /></n-icon>
             </template>
             <span class="truncate leading-normal">
-              {{ t('wardrobe.update_from_pearpal') }}
+              {{ t('common.view_compendium') }}
             </span>
           </n-button>
 
@@ -510,7 +510,7 @@
     </n-alert>
 
     <n-alert
-      v-else-if="summaryError"
+      v-else-if="isHydrated && summaryError"
       type="error"
       :title="t('wardrobe.summary_unavailable')"
     >
@@ -2758,23 +2758,16 @@
     await importTrackerWardrobeEntries()
   }
 
-  const openWhimLogWardrobeImport = () =>
-    navigateTo({
-      path: localePath('/import'),
-      query: {
-        method: 'pearpal',
-        returnTo: 'wardrobe',
-      },
-    })
+  const openWardrobeCompendium = () => navigateTo(localePath('/items'))
 
   const applyOnboardingRegion = () => {
     setActiveRegionScope(onboardingRegionScope.value)
   }
 
-  const openWhimLogWardrobeImportFromOnboarding = () => {
+  const openWardrobeCompendiumFromOnboarding = () => {
     applyOnboardingRegion()
     completeOnboarding()
-    return openWhimLogWardrobeImport()
+    return openWardrobeCompendium()
   }
 
   const handleOnboardingNext = () => {
@@ -2927,15 +2920,9 @@
     isHydrated.value = true
     isShareLandscape.value = !isMobile.value
 
-    void loadSummary()
-    void catalogIndex.load([
-      'items',
-      'outfits',
-      'outfitItems',
-      'makeups',
-      'makeupItems',
-      'momo',
-    ])
+    void loadSummary().catch((error) => {
+      console.error('Wardrobe summary load failed:', error)
+    })
     void refreshTrackerImportPreview()
   })
 

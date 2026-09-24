@@ -7,16 +7,27 @@ export const useWardrobeSummary = (
   const { ownedItemIds, ownedMakeupIds, ownedMomoIds, mutationVersion } =
     useWardrobe()
   const { activeRegionScope } = useWardrobeSettings()
+  const loading = ref(true)
+  const loadError = shallowRef<Error | null>(null)
 
   const load = async () => {
-    await catalogIndex.load([
-      'items',
-      'outfits',
-      'outfitItems',
-      'makeups',
-      'makeupItems',
-      'momo',
-    ])
+    loading.value = true
+    loadError.value = null
+    try {
+      await catalogIndex.load([
+        'items',
+        'outfits',
+        'outfitItems',
+        'makeups',
+        'makeupItems',
+        'momo',
+      ])
+    } catch (error) {
+      loadError.value = toError(error, 'Failed to load wardrobe summary')
+      throw loadError.value
+    } finally {
+      loading.value = false
+    }
   }
 
   const summary = computed(() => {
@@ -37,8 +48,7 @@ export const useWardrobeSummary = (
   const ready = computed(
     () => catalogIndex.status.value === 'ready' && !!summary.value
   )
-  const loading = computed(() => catalogIndex.status.value === 'loading')
-  const error = computed(() => catalogIndex.error.value)
+  const error = computed(() => (ready.value ? null : loadError.value))
 
   watch(mutationVersion, () => {
     if (catalogIndex.status.value === 'idle') {

@@ -649,9 +649,6 @@
                       <n-checkbox v-model:checked="importPullHistory">
                         {{ $t('import.form.import_pull_history') }}
                       </n-checkbox>
-                      <n-checkbox v-model:checked="importWardrobeOwnership">
-                        {{ $t('import.form.import_wardrobe') }}
-                      </n-checkbox>
                       <n-checkbox v-model:checked="importEurekaOwnership">
                         {{ $t('import.form.import_eurekas') }}
                       </n-checkbox>
@@ -1106,7 +1103,8 @@
     importTarget !== 'wardrobe' && importTarget !== 'eurekas'
   )
   const submitGlobalStats = ref(importPullHistory.value)
-  const importWardrobeOwnership = ref(importTarget !== 'eurekas')
+  // Pearpal no longer returns clothes; keep the importer ready for its return.
+  const importWardrobeOwnership = ref(false)
   const importEurekaOwnership = ref(importTarget !== 'wardrobe')
   const importingPearpalWardrobe = ref(false)
   const importingPearpalEurekas = ref(false)
